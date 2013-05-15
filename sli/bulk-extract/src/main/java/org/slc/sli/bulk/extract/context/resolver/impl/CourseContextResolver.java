@@ -23,28 +23,22 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 
-/**
- * CourseOffering context resolver
- * 
- * @author ycao
- * 
- */
 @Component
-public class CourseOfferingContextResolver extends EdOrgRelatedReferrableResolver {
-   
-    public static final String COURSE_OFFERING_ID = "courseOfferingId";
+public class CourseContextResolver extends EdOrgRelatedReferrableResolver {
+    
+    public static final String COURSE_ID = "courseId";
 
     @Autowired
-    private SectionContextResolver sectionResolver;
+    private CourseOfferingContextResolver courseOfferingResolver;
 
     @Override
-    protected Set<String> getTransitiveAssociations(Entity entity) {
-        return getDirectTransitiveAssocitions(entity, EntityNames.SECTION, COURSE_OFFERING_ID, sectionResolver);
+    protected String getCollection() {
+        return EntityNames.COURSE;
     }
     
     @Override
-    protected String getCollection() {
-        return EntityNames.COURSE_OFFERING;
+    protected Set<String> getTransitiveAssociations(Entity entity) {
+        return getDirectTransitiveAssocitions(entity, EntityNames.COURSE_OFFERING, COURSE_ID, courseOfferingResolver);
     }
-    
+
 }

@@ -37,6 +37,7 @@ Scenario: Generate a bulk extract delta after day 0 ingestion
    And The "session" delta was extracted in the same format as the api
    And The "gradingPeriod" delta was extracted in the same format as the api
    And The "courseOffering" delta was extracted in the same format as the api
+   And The "course" delta was extracted in the same format as the api
    And The "program" delta was extracted in the same format as the api
    And The "studentProgramAssociation" delta was extracted in the same format as the api
    And The "staffProgramAssociation" delta was extracted in the same format as the api
@@ -69,7 +70,9 @@ Given I clean the bulk extract file system and database
        |  staffEducationOrganizationAssociation |
        |  teacher                               |
        |  teacherSchoolAssociation              |
+       |  course                                |
        |  courseOffering                        |
+       |  program                               |
        |  deleted                               |
      And I verify this "deleted" file should contains:
        | id                                                                                     | condition                             |
@@ -114,6 +117,25 @@ Given I clean the bulk extract file system and database
     And I verify this "courseOffering" file should contains:
       | id                                          | condition                                |
       | 48779c5fb806b8325ffbe4ceb0448bde1f5d8313_id | localCourseTitle = Ninth grade Advanced English |
+    # I belong to DAYBREAK, but I creepily followed the above courseOffering to HIGHWIND
+    And I verify this "course" file should contains:
+      | id                                          | condition                                |
+      | 2dad46540a82bd0ad17b7dbcbb6cbdd4fce2125d_id | uniqueCourseId = DAYBREAK21              |
+    # this course belongs to DAYBREAK, so should not show up here
+    And I verify this "course" file should not contains:
+      | id                                          | condition                                |
+      | 160cbcc9e293d45a11053f4d3bf6f4be8b70bac4_id |                                          |
+
+    # Since student 1 is valid for Highwind, these two should be included
+    And I verify this "program" file should contains:
+      | id                                          | condition                                |
+      | 004351714bfe0f6a34eb3f09a26fcbaf81645d1f_id | programType = Gifted and Talented        |
+      | 9cce6ea23864ee4870c8871e4c14ddecb6ab0fb0_id | programType = Gifted and Talented        |
+
+    # This one is just for Daybreak
+    And I verify this "program" file should not contains:
+      | id                                          | condition                                |
+      | 5449814bb2dbed641d914843fb17a87f6222ec82_id |                                          |
 
      And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
@@ -131,6 +153,8 @@ Given I clean the bulk extract file system and database
        |  teacherSchoolAssociation              |
        |  teacherSectionAssociation             |
        |  courseOffering                        |
+       |  course                                |
+       |  program                               |
        |  deleted                               |
    
      And I verify this "deleted" file should contains:
@@ -205,6 +229,16 @@ Given I clean the bulk extract file system and database
       | id                                          | condition                                |
       | 1c4d8ea0c38aab28c05b5b40e8cf71e79e455ea2_id | localCourseTitle = First grade modified course |
       | 48779c5fb806b8325ffbe4ceb0448bde1f5d8313_id | localCourseTitle = Ninth grade Advanced English |
+    And I verify this "course" file should contains:
+      | id                                          | condition                                |
+      | 2dad46540a82bd0ad17b7dbcbb6cbdd4fce2125d_id | uniqueCourseId = DAYBREAK21              |
+      | 160cbcc9e293d45a11053f4d3bf6f4be8b70bac4_id | uniqueCourseId = DAYBREAK1               |
+
+    And I verify this "program" file should contains:
+      | id                                          | condition                                |
+      | 004351714bfe0f6a34eb3f09a26fcbaf81645d1f_id | programType = Gifted and Talented        |
+      | 9cce6ea23864ee4870c8871e4c14ddecb6ab0fb0_id | programType = Gifted and Talented        |
+      | 5449814bb2dbed641d914843fb17a87f6222ec82_id | programType = Gifted and Talented        |
 
 Scenario: Generate a bulk extract in a different LEA
   Given I clean the bulk extract file system and database
@@ -499,6 +533,7 @@ Given I clean the bulk extract file system and database
         | 9bf3036428c40861238fdc820568fde53e658d88_idc3a6a4ed285c14f562f0e0b63e1357e061e337c6_id | entityType = studentParentAssociation |
         | 9bf3036428c40861238fdc820568fde53e658d88_id28af8b70a2f2e695fc25da04e0f8625115002556_id | entityType = studentParentAssociation |
 
+@shortcut
 Scenario: Create Student, course offering and section as SEA Admin, users from different LEAs requesting Delta extracts
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -513,6 +548,8 @@ Given I clean the bulk extract file system and database
     |  newCourseOffering             |  courseOffering             |  201         |
     |  newSection                    |  section                    |  201         |
     |  newStudentSectionAssociation  |  studentSectionAssociation  |  201         |
+    |  newHighwindStudent            |  staffStudent               |  201         |
+    |  HwStudentSchoolAssociation    |  studentSchoolAssociation   |  201         |
   #  |  newStudentAssessment          |  studentAssessment          |  201         |
   #  |  newGradebookEntry             |  gradebookEntry             |  201         |
   #  |  newGrade                      |  grade                      |  201         |
@@ -551,6 +588,29 @@ Given I clean the bulk extract file system and database
  # | 4030207003b03d055bba0b5019b31046164eff4e_id78468628f357b29599510341f08dfd3277d9471e_id | courseOfferingId = 38edd8479722ccf576313b4640708212841a5406_id |
  # | 4030207003b03d055bba0b5019b31046164eff4e_id78468628f357b29599510341f08dfd3277d9471e_id | schoolId = a13489364c2eb015c219172d561c62350f0453f3_id         |
   | 4030207003b03d055bba0b5019b31046164eff4e_id78468628f357b29599510341f08dfd3277d9471e_id | beginDate = 2013-08-27 |
+
+ Given the extract download directory is empty
+  When I request the latest bulk extract delta via API for "<IL-HIGHWIND>"
+   And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-HIGHWIND>" in "Midgar" contains a file for each of the following entities:
+        |  entityType                            |
+        |  student                               |
+        |  studentSchoolAssociation              |
+
+  And I log into "SDK Sample" with a token of "lstevenson", a "IT Administrator" for "IL-Highwind" in tenant "Midgar", that lasts for "300" seconds
+  And I verify this "student" file should contains:
+    | id                                          | condition                             |
+    | b8b0a8d439591b9e073e8f1115ff1cf1fd4125d6_id | entityType = student                  |
+    | b8b0a8d439591b9e073e8f1115ff1cf1fd4125d6_id | loginId = new-hw-student1@bazinga.org |
+    | b8b0a8d439591b9e073e8f1115ff1cf1fd4125d6_id | studentUniqueStateId = hwmin-1        |
+    | b8b0a8d439591b9e073e8f1115ff1cf1fd4125d6_id | sex = Female                          |
+    
+  And I verify this "studentSchoolAssociation" file should contains:
+    | id                                          | condition                             |
+    | d913396aef918602b8049027dbdce8826c054402_id | entityType = studentSchoolAssociation                    |
+    | d913396aef918602b8049027dbdce8826c054402_id | studentId = b8b0a8d439591b9e073e8f1115ff1cf1fd4125d6_id  |
+    | d913396aef918602b8049027dbdce8826c054402_id | schoolId = 1b5de2516221069fd8f690349ef0cc1cffbb6dca_id   |
+    | d913396aef918602b8049027dbdce8826c054402_id | exitWithdrawDate = 2014-05-22                            |
+    | d913396aef918602b8049027dbdce8826c054402_id | entryDate = 2013-08-27                                   |
 
 Scenario: Be a good neighbor and clean up before you leave
     Given I clean the bulk extract file system and database

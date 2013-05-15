@@ -29,11 +29,14 @@ import org.joda.time.DateTime;
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.Launcher;
 import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.lea.CourseExtractor;
+import org.slc.sli.bulk.extract.lea.CourseOfferingExtractor;
 import org.slc.sli.bulk.extract.lea.EdorgExtractor;
 import org.slc.sli.bulk.extract.lea.EntityExtract;
 import org.slc.sli.bulk.extract.lea.EntityToLeaCache;
 import org.slc.sli.bulk.extract.lea.LEAExtractFileMap;
 import org.slc.sli.bulk.extract.lea.LEAExtractorFactory;
+import org.slc.sli.bulk.extract.lea.SectionExtractor;
 import org.slc.sli.bulk.extract.lea.SessionExtractor;
 import org.slc.sli.bulk.extract.lea.StaffEdorgAssignmentExtractor;
 import org.slc.sli.bulk.extract.lea.StudentExtractor;
@@ -109,8 +112,8 @@ public class LocalEdOrgExtractor {
         genericExtractor.extractEntities(student.getParentCache());
 
         // Section
-        genericExtractor = factory.buildSectionExtractor(entityExtractor,leaToExtractFileMap,repository, student.getEntityCache(), edorgCache);
-        genericExtractor.extractEntities(null);
+        SectionExtractor sectionExtractor = factory.buildSectionExtractor(entityExtractor,leaToExtractFileMap,repository, student.getEntityCache(), edorgCache);
+        sectionExtractor.extractEntities(null);
 
         // Staff
         StaffEdorgAssignmentExtractor seaExtractor = factory.buildStaffAssociationExtractor(entityExtractor,
@@ -135,6 +138,12 @@ public class LocalEdOrgExtractor {
         
         genericExtractor = factory.buildCohortExtractor(entityExtractor, leaToExtractFileMap, repository);
         genericExtractor.extractEntities(edorgCache);
+        
+        CourseOfferingExtractor courseOfferingExtractor = factory.buildCourseOfferingExtractor(entityExtractor, leaToExtractFileMap, repository);
+        courseOfferingExtractor.extractEntities(edorgCache, sectionExtractor.getCourseOfferingCache());
+        
+        CourseExtractor courseExtractor = factory.buildCourseExtractor(entityExtractor, leaToExtractFileMap, repository);
+        courseExtractor.extractEntities(edorgCache, courseOfferingExtractor.getCourseCache());
         
         leaToExtractFileMap.closeFiles();
 

@@ -61,7 +61,11 @@ $APP_CONVERSION_MAP = {"19cca28d-7357-4044-8df9-caad4b1c8ee4" => "vavedra9ub",
 Transform /^<(.*?)>$/ do |human_readable_id|
   # entity id transforms
   id = "19cca28d-7357-4044-8df9-caad4b1c8ee4"               if human_readable_id == "app id"
+  id = "19cca28d-7357-4044-8df9-caad4b1c8ee4"               if human_readable_id == "app id daybreak"
+  id = "22c2a28d-7327-4444-8ff9-caad4b1c7aa3"               if human_readable_id == "app id highwind"
   id = "vavedRa9uB"                                         if human_readable_id == "client id"
+  id = "vavedRa9uB"                                         if human_readable_id == "client id daybreak"
+  id = "pavedz00ua"                                         if human_readable_id == "client id highwind"
   id = "1b223f577827204a1c7e9c851dba06bea6b031fe_id"        if human_readable_id == "IL-DAYBREAK"
   id = "99d527622dcb51c465c515c0636d17e085302d5e_id"        if human_readable_id == "IL-HIGHWIND"
   id = "54b4b51377cd941675958e6e81dce69df801bfe8_id"        if human_readable_id == "ed_org_to_lea2_id"
@@ -83,6 +87,11 @@ Given /^I trigger a bulk extract$/ do
   bulkExtractTrigger(TRIGGER_SCRIPT, JAR_FILE, PROPERTIES_FILE, KEYSTORE_FILE)
 end
 
+Given /^I trigger an extract for tenant "([^"]*)"$/ do |tenant|
+  options = " -t#{tenant}"
+  bulkExtractTrigger(TRIGGER_SCRIPT, JAR_FILE, PROPERTIES_FILE, KEYSTORE_FILE, options)
+end
+
 Given /^I trigger a delta extract$/ do
   options = " -d"
   bulkExtractTrigger(TRIGGER_SCRIPT, JAR_FILE, PROPERTIES_FILE, KEYSTORE_FILE, options)
@@ -92,6 +101,13 @@ Given /^the extraction zone is empty$/ do
   if (Dir.exists?(OUTPUT_DIRECTORY))
     puts OUTPUT_DIRECTORY
     FileUtils.rm_rf("#{OUTPUT_DIRECTORY}/.", secure: true)
+  end
+end
+
+Given /^the extract download directory is empty$/ do
+  if (Dir.exists?(OUTPUT_DIRECTORY + "decrypt"))
+    puts "decrypt dir is #{OUTPUT_DIRECTORY}decrypt"
+    FileUtils.rm_rf("#{OUTPUT_DIRECTORY}decrypt", secure: true)
   end
 end
 
@@ -229,7 +245,14 @@ When /^I execute cleanup script for tenant:"(.*?)", edorg:"(.*?)", date:"(.*?)",
     options += " -d#{date}"
   end
   if(!path.empty?)
-    abPath = File.expand_path(@parentDir + tenant + "/" +  path)
+    if path.include?('Daybreak') || path.include?('Sunset')
+      path_tenant = 'Midgar'
+    elsif path.include?('NY')
+      path_tenant = 'Hyrule'
+    else
+      path_tenant = tenant
+    end
+    abPath = File.expand_path(@parentDir + path_tenant + "/" +  path)
     options += " -f#{abPath}"
   end
   command  = "echo y | ruby #{CLEANUP_SCRIPT} #{options}"
@@ -386,6 +409,7 @@ When /^I log into "(.*?)" with a token of "(.*?)", a "(.*?)" for "(.*?)" in tena
 
   script_loc = File.dirname(__FILE__) + "/../../../../../../opstools/token-generator/generator.rb"
   out, status = Open3.capture2("ruby #{script_loc} -e #{expiration_in_seconds} -c #{client_id} -u #{user} -r \"#{role}\" -t \"#{tenant}\" -R \"#{realm}\"")
+  assert(out.include?("token is"), "Could not get a token for #{user} for realm #{realm}")
   match = /token is (.*)/.match(out)
   @sessionId = match[1]
   puts "The generated token is #{@sessionId}"
@@ -416,8 +440,7 @@ When /^I use an invalid tenant to trigger a bulk extract/ do
  #  command = command + " -tNoTenantForYou"
  #  puts "Running: #{command} "
  #  puts runShellCommand(command)
- options = " -tNoTenantForYou"
- bulkExtractTrigger(TRIGGER_SCRIPT, JAR_FILE, PROPERTIES_FILE, KEYSTORE_FILE, options)
+  step "I trigger an extract for tenant \"NoTenantForYou\""
 end
 
 When /^I request the latest bulk extract delta using the api$/ do
@@ -530,13 +553,11 @@ When /^I request latest delta via API for tenant "(.*?)", lea "(.*?)" with appId
 end
 
 When /^I store the URL for the latest delta for LEA "(.*?)"$/ do |lea|
-  puts "result body from previous API call is #{@res}"
   @delta_uri = JSON.parse(@res)
   @list_url  = @delta_uri["deltaLeas"][lea][0]["uri"]
   # @list_irl is in the format https://<url>/api/rest/v1.2/bulk/extract/<lea>/delta/<timestamp>
   # -> strip off everything before v1.2, store: /v1.2/bulk/extract/<lea>/delta/<timestamp>
   @list_url.match(/api\/rest\/v(.*?)\/(.*)$/)
-  puts "Bulk Extract Delta URI suffix: #{$2}"
   @list_uri = $2
   # Get the timestamp from the URL
   @list_url.match(/delta\/(.*)$/)
@@ -556,6 +577,7 @@ end
 
 When /^I download and decrypt the delta$/ do
   # Open the file, decrypt, and check against API
+  # The local download_path assumes sli/acceptance-tests/extract
   cleanDir(@download_path)
   download_path = streamBulkExtractFile(@download_path, @res.body)
   @decrypt_path = OUTPUT_DIRECTORY + "decrypt/" + @delta_file
@@ -564,11 +586,34 @@ When /^I download and decrypt the delta$/ do
 end
 
 When /^I generate and retrieve the bulk extract delta via API for "(.*?)"$/ do |lea|
-  step "I trigger a delta extract"
-  step "I log into \"SDK Sample\" with a token of \"jstevenson\", a \"Noldor\" for \"IL-Daybreak\" in tenant \"Midgar\", that lasts for \"300\" seconds"
-  step "I request latest delta via API for tenant \"Midgar\", lea \"#{lea}\" with appId \"<app id>\" clientId \"<client id>\""
+  #client_id = $APP_CONVERSION_MAP[app_id]
+  step "I trigger a delta extract" 
+  # Request path for IL-Daybreak Admins
+  if lea == "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
+    step "I log into \"SDK Sample\" with a token of \"jstevenson\", a \"Noldor\" for \"IL-Daybreak\" in tenant \"Midgar\", that lasts for \"300\" seconds"
+    step "I request latest delta via API for tenant \"Midgar\", lea \"#{lea}\" with appId \"<app id>\" clientId \"<client id>\""
+  # Request path for IL-Highwind Admins
+  elsif lea == "99d527622dcb51c465c515c0636d17e085302d5e_id"
+    step "I log into \"SDK Sample\" with a token of \"lstevenson\", a \"Noldor\" for \"IL-Highwind\" in tenant \"Midgar\", that lasts for \"300\" seconds"
+    step "I request latest delta via API for tenant \"Midgar\", lea \"#{lea}\" with appId \"<app id>\" clientId \"<client id>\""
+  # Catch invalid LEA
+  else 
+    assert(false, "Did not recognize that LEA, cannot request extract")
+  end
   step "I should receive a return code of 200"
   step "I download and decrypt the delta"
+end
+
+When /^I request the latest bulk extract delta via API for "(.*?)"$/ do |lea|
+  print "Logging in as lstevenson in IL-Highwind .. "
+  step "I log into \"SDK Sample\" with a token of \"lstevenson\", a \"Noldor\" for \"IL-Highwind\" in tenant \"Midgar\", that lasts for \"300\" seconds"
+  print "OK\nRequesting Delta via API .. "
+  step "I request latest delta via API for tenant \"Midgar\", lea \"#{lea}\" with appId \"<app id>\" clientId \"<client id>\""
+  print "OK\nVerifying return code 200 .. "
+  step "I should receive a return code of 200"
+  print "OK\nDownloading and decrypting delta tarfile .. "
+  step "I download and decrypt the delta"
+  print "OK"
 end
 
 When /^I run the bulk extract scheduler script$/ do
@@ -1386,6 +1431,43 @@ def prepareBody(verb, value, response_map)
             "birthDate" => "1998-10-22"
         }
       },
+      "newHighwindStudent" => {
+        "loginId" => "new-hw-student1@bazinga.org",
+        "sex" => "Female",
+        "entityType" => "student",
+        "race" => ["White"],
+        "languages" => ["English"],
+        "studentUniqueStateId" => "hwmin-1",
+        "profileThumbnail" => "1301 thumb",
+        "name" => {
+            "middleName" => "Beth",
+            "lastSurname" => "Markham",
+            "firstName" => "Caroline"
+        },
+        "address" => [{
+            "streetNumberName" => "128 Bit Road",
+            "postalCode" => "60611",
+            "stateAbbreviation" => "IL",
+            "addressType" => "Home",
+            "city" => "Chicago"
+        }],
+        "birthData" => {
+            "birthDate" => "1998-02-12"
+        }
+      },
+      "HwStudentSchoolAssociation" => {
+        "exitWithdrawDate" => "2014-05-22",
+        "entityType" => "studentSchoolAssociation",
+        "entryDate" => "2013-08-27",
+        "entryGradeLevel" => "Third grade",
+        "schoolYear" => "2013-2014",
+        "educationalPlans" => [],
+        "schoolChoiceTransfer" => false,
+        "entryType" => "Other",
+        "studentId" => "b8b0a8d439591b9e073e8f1115ff1cf1fd4125d6_id",
+        "repeatGradeIndicator" => false,
+        "schoolId" => "1b5de2516221069fd8f690349ef0cc1cffbb6dca_id",
+      },
       "newStudentSchoolAssociation" => {
         "exitWithdrawDate" => "2014-05-22",
         "entityType" => "studentSchoolAssociation",
@@ -1613,7 +1695,8 @@ def getSEAPublicRefField(entity)
 end
 
 def createCleanupFile(baseDir, tenant, edorg, app, date)
-  date = DateTime.parse(date).to_time
+  date = Time.parse(date)
+  date.gmtime
   dateString = date.strftime("%Y-%m-%d-%H-%M-%S")
   puts dateString
   return baseDir + "/" + tenant + "/" + edorg + "/" + edorg + "-" + app + "-" + dateString + ".tar"
