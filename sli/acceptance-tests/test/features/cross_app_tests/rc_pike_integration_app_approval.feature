@@ -293,7 +293,7 @@ And the extract contains a file for each of the following entities:
       # |  disciplineAction                      |
       |  educationOrganization                 |
       |  grade                                 |
-      # |  gradebookEntry                        |
+      |  gradebookEntry                        |
       |  gradingPeriod                         |
       # |  learningObjective                     |
       # |  learningStandard                      |
@@ -301,7 +301,7 @@ And the extract contains a file for each of the following entities:
       # |  program                               |
       |  reportCard                            |
       |  school                                |
-      # |  section                               |
+      |  section                               |
       |  session                               |
       |  staff                                 |
       |  staffCohortAssociation                |
@@ -317,11 +317,11 @@ And the extract contains a file for each of the following entities:
       |  studentProgramAssociation             |
       # |  studentGradebookEntry                 |
       |  studentSchoolAssociation              |
-      # |  studentSectionAssociation             |
+      |  studentSectionAssociation             |
       |  studentParentAssociation              |
       |  teacher                               |
       |  teacherSchoolAssociation              |
-      # |  teacherSectionAssociation             |
+      |  teacherSectionAssociation             |
 
 Scenario: App makes an api call to retrieve a bulk extract delta
 #Get a session to trigger a bulk extract
