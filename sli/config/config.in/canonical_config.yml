@@ -123,12 +123,6 @@ default:
         # Key substitutions
         sli.mongodb.keyencoding: \%:\%25,\\.:\%2E
 
-        # Ingestion Staging MongoDB options (used in ingestion to configure the datalayer)
-        sli.ingestion.staging.mongodb.database: is
-        sli.ingestion.staging.mongodb.host: localhost
-        sli.ingestion.staging.mongodb.port: 27017
-        sli.ingestion.staging.clearOnCompletion: true
-
         # Ingestion BatchJob MongoDB options (used in ingestion to configure the datalayer)
         sli.ingestion.batchjob.mongodb.database: ingestion_batch_job
         sli.ingestion.batchjob.mongodb.host: localhost
@@ -151,7 +145,6 @@ default:
   # Write concerns
 
         sli.ingestion.mongotemplate.writeConcern: SAFE
-        sli.ingestion.staging.mongotemplate.writeConcern: SAFE
         sli.default.mongotemplate.writeConcern: SAFE
 
     ingestion: &INGESTION-DEFAULT
@@ -201,17 +194,8 @@ default:
         sli.ingestion.tenant.loadDefaultTenants: true
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
-        sli.ingestion.cache.type: inmemory
-        sli.ingestion.cache.servers:
-        sli.ingestion.cache.opTimeout: 10
-
-        #Work Note Chunking Parameters
-        sli.ingestion.split.chunk.size: 500
-        sli.ingestion.split.threshold.percentage: 0.30
-
         #Reference Schema reference check
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
-
 
         #Used to limit the total number of errors or warnings being printed
         #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature
@@ -224,10 +208,6 @@ default:
         sli.ingestion.dataset.sample:
             small: [SmallSampleDataSet.zip]
             medium : [MediumSampleDataSet.zip]
-
-        # file processing
-        sli.ingestion.file.timeout: 600000
-        sli.ingestion.file.retryinterval: 30000
 
     dashboard: &DASHBOARD-DEFAULT
 
