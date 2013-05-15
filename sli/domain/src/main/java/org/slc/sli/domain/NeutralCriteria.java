@@ -31,6 +31,7 @@ public class NeutralCriteria {
     private String operator;
     private Object value;
     private boolean canBePrefixed;
+    private SearchType type = SearchType.REGULAR;
 
     public static final String CRITERIA_IN = "in";
     public static final String CRITERIA_REGEX = "=~";
@@ -42,10 +43,22 @@ public class NeutralCriteria {
     public static final String OPERATOR_EQUAL = "=";
     public static final String CRITERIA_EXISTS = "exists";
 
+    public enum SearchType {
+        REGULAR,
+        NUMERIC,
+        EXACT,
+        EXACT_NUMERIC;
+
+        public boolean isNumeric() {
+            return ( this == NUMERIC || this == EXACT_NUMERIC ) ? true : false;
+        }
+    }
+
     static final String[] SUPPORTED_COMPARISON_OPERATORS = new String[] { ">=", "<=", "!=", "=~", "=", "<", ">" };
-    
+
     public NeutralCriteria(String criteria) {
         this.canBePrefixed = true;
+        this.type = SearchType.REGULAR;
         for (String comparisonOperator : NeutralCriteria.SUPPORTED_COMPARISON_OPERATORS) {
             if (criteria.contains(comparisonOperator)) {
                 String[] keyAndValue = criteria.split(comparisonOperator);
@@ -72,6 +85,7 @@ public class NeutralCriteria {
         this.operator = newOperator;
         this.value = newValue;
         this.canBePrefixed = canBePrefixed;
+        this.type = SearchType.REGULAR;
     }
 
     @SuppressWarnings("PMD.UselessOverridingMethod")  // this is overridden because equals is also overridden
@@ -109,9 +123,9 @@ public class NeutralCriteria {
     }
 
     public void setCanBePrefixed(boolean canBePrefixed) {
-        this.canBePrefixed = canBePrefixed; 
+        this.canBePrefixed = canBePrefixed;
     }
-    
+
     @Override
     public String toString() {
         return this.key + " " + this.operator + " " + this.value
@@ -138,10 +152,19 @@ public class NeutralCriteria {
             boolean operatorsMatch = this.valuesMatch(this.operator, nc.operator);
             boolean valuesMatch = this.valuesMatch(this.value, nc.value);
             boolean prefixesMatch = (this.canBePrefixed == nc.canBePrefixed);
+            boolean typeMatch = ( this.getType() == nc.getType() );
 
-            return (keysMatch && operatorsMatch && valuesMatch && prefixesMatch);
+            return (keysMatch && operatorsMatch && valuesMatch && prefixesMatch && typeMatch);
         }
 
         return false;
+    }
+
+    public SearchType getType() {
+        return type;
+    }
+
+    public void setType(SearchType type) {
+        this.type = type;
     }
 }

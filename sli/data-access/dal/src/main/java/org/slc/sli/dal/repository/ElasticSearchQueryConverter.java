@@ -28,9 +28,10 @@ import org.elasticsearch.index.query.FilterBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.slc.sli.common.constants.ParameterConstants;
+import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 
@@ -100,8 +101,16 @@ public class ElasticSearchQueryConverter {
             @Override
             public QueryBuilder getQuery(NeutralCriteria criteria) {
                 if (Q.equals(criteria.getKey())) {
-                    return QueryBuilders.queryString(criteria.getValue().toString().trim().toLowerCase()).analyzeWildcard(true).analyzer("simple");
+                        String value = criteria.getValue().toString().trim().toLowerCase();
+                        if( !criteria.getType().isNumeric() ) {
+                            return QueryBuilders.queryString( value ).analyzeWildcard(true).analyzer("simple")
+                                    .defaultOperator( criteria.getType() == NeutralCriteria.SearchType.EXACT ?
+                                            QueryStringQueryBuilder.Operator.AND : QueryStringQueryBuilder.Operator.OR );
+                        } else {
+                            return buildRegexQuery( "_all", value);
+                        }
                 }
+
                 String value = (String)criteria.getValue();
                 // terms will work for not-analyzed fields and matchPhrase is for analyzed
                 BoolQueryBuilder shouldQuery = QueryBuilders.boolQuery();
@@ -152,13 +161,7 @@ public class ElasticSearchQueryConverter {
             }
             @Override
             public QueryBuilder getQuery(NeutralCriteria criteria) {
-                String value = "*" + ((String)criteria.getValue()).trim() + "*";
-                BoolQueryBuilder shouldQuery = QueryBuilders.boolQuery();
-                // wildcard will work for not-analyzed fields and queryString is for analyzed
-                shouldQuery.should(QueryBuilders.wildcardQuery(criteria.getKey(), value));
-                shouldQuery.should(QueryBuilders.queryString(value).field(criteria.getKey()));
-                shouldQuery.minimumNumberShouldMatch(1);
-                return shouldQuery;
+                return buildRegexQuery( criteria.getKey(), ((String)criteria.getValue()) );
             }
         });
 
@@ -176,6 +179,18 @@ public class ElasticSearchQueryConverter {
         return null;
     }
 
+    private QueryBuilder buildRegexQuery( String field, String searchValue) {
+        String value =  "*" + searchValue.trim();
+        if( !value.endsWith( "*")) {
+            value += "*";
+        }
+        BoolQueryBuilder shouldQuery = QueryBuilders.boolQuery();
+        // wildcard will work for not-analyzed fields and queryString is for analyzed
+        shouldQuery.should(QueryBuilders.wildcardQuery( field, value));
+        shouldQuery.should(QueryBuilders.queryString(value).field( field));
+        shouldQuery.minimumNumberShouldMatch(1);
+       return shouldQuery;
+    }
     /**
      * Build elasticsearch query
      *
