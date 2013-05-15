@@ -612,5 +612,13 @@ Given I clean the bulk extract file system and database
     | d913396aef918602b8049027dbdce8826c054402_id | exitWithdrawDate = 2014-05-22                            |
     | d913396aef918602b8049027dbdce8826c054402_id | entryDate = 2013-08-27                                   |
 
+Scenario: Test access to the api
+  Given I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  And I request latest delta via API for tenant "Midgar", lea "<IL-HIGHWIND>" with appId "<app id>" clientId "<client id>"
+  Then I should receive a return code of 403
+  Given I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Highwind" in tenant "Midgar", that lasts for "300" seconds
+  And I request latest delta via API for tenant "Midgar", lea "<IL-HIGHWIND>" with appId "<app id>" clientId "<client id>"
+  Then I should receive a return code of 200
+
 Scenario: Be a good neighbor and clean up before you leave
     Given I clean the bulk extract file system and database
