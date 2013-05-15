@@ -126,17 +126,6 @@ Given I clean the bulk extract file system and database
       | id                                          | condition                                |
       | 160cbcc9e293d45a11053f4d3bf6f4be8b70bac4_id |                                          |
 
-    # Since student 1 is valid for Highwind, these two should be included
-    And I verify this "program" file should contains:
-      | id                                          | condition                                |
-      | 004351714bfe0f6a34eb3f09a26fcbaf81645d1f_id | programType = Gifted and Talented        |
-      | 9cce6ea23864ee4870c8871e4c14ddecb6ab0fb0_id | programType = Gifted and Talented        |
-
-    # This one is just for Daybreak
-    And I verify this "program" file should not contains:
-      | id                                          | condition                                |
-      | 5449814bb2dbed641d914843fb17a87f6222ec82_id |                                          |
-
      And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
        |  attendance                            |
@@ -233,12 +222,6 @@ Given I clean the bulk extract file system and database
       | id                                          | condition                                |
       | 2dad46540a82bd0ad17b7dbcbb6cbdd4fce2125d_id | uniqueCourseId = DAYBREAK21              |
       | 160cbcc9e293d45a11053f4d3bf6f4be8b70bac4_id | uniqueCourseId = DAYBREAK1               |
-
-    And I verify this "program" file should contains:
-      | id                                          | condition                                |
-      | 004351714bfe0f6a34eb3f09a26fcbaf81645d1f_id | programType = Gifted and Talented        |
-      | 9cce6ea23864ee4870c8871e4c14ddecb6ab0fb0_id | programType = Gifted and Talented        |
-      | 5449814bb2dbed641d914843fb17a87f6222ec82_id | programType = Gifted and Talented        |
 
 Scenario: Generate a bulk extract in a different LEA
   Given I clean the bulk extract file system and database
