@@ -1,6 +1,136 @@
 <?xml version="1.0"?>
 <InterchangeStudentGrade xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
 xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentGrade.xsd">
+  <StudentCompetencyObjective>
+    <StudentCompetencyObjectiveId>SCO_KINDERGARTEN_STANDARD-SEA</StudentCompetencyObjectiveId>
+    <Objective>Attend KINDERGARTEN</Objective>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentCompetencyObjective>
+  <StudentCompetencyObjective>
+    <StudentCompetencyObjectiveId>SCO_FIRST_GRADE_STANDARD-SEA</StudentCompetencyObjectiveId>
+    <Objective>Attend FIRST_GRADE</Objective>
+    <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentCompetencyObjective>
+  <StudentCompetencyObjective>
+    <StudentCompetencyObjectiveId>SCO_SECOND_GRADE_STANDARD-SEA</StudentCompetencyObjectiveId>
+    <Objective>Attend SECOND_GRADE</Objective>
+    <ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentCompetencyObjective>
+  <StudentCompetencyObjective>
+    <StudentCompetencyObjectiveId>SCO_THIRD_GRADE_STANDARD-SEA</StudentCompetencyObjectiveId>
+    <Objective>Attend THIRD_GRADE</Objective>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentCompetencyObjective>
+  <StudentCompetencyObjective>
+    <StudentCompetencyObjectiveId>SCO_FOURTH_GRADE_STANDARD-SEA</StudentCompetencyObjectiveId>
+    <Objective>Attend FOURTH_GRADE</Objective>
+    <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentCompetencyObjective>
+  <StudentCompetencyObjective>
+    <StudentCompetencyObjectiveId>SCO_FIFTH_GRADE_STANDARD-SEA</StudentCompetencyObjectiveId>
+    <Objective>Attend FIFTH_GRADE</Objective>
+    <ObjectiveGradeLevel>Fifth grade</ObjectiveGradeLevel>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentCompetencyObjective>
+  <StudentCompetencyObjective>
+    <StudentCompetencyObjectiveId>SCO_SIXTH_GRADE_STANDARD-SEA</StudentCompetencyObjectiveId>
+    <Objective>Attend SIXTH_GRADE</Objective>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentCompetencyObjective>
+  <StudentCompetencyObjective>
+    <StudentCompetencyObjectiveId>SCO_SEVENTH_GRADE_STANDARD-SEA</StudentCompetencyObjectiveId>
+    <Objective>Attend SEVENTH_GRADE</Objective>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentCompetencyObjective>
+  <StudentCompetencyObjective>
+    <StudentCompetencyObjectiveId>SCO_EIGHTH_GRADE_STANDARD-SEA</StudentCompetencyObjectiveId>
+    <Objective>Attend EIGHTH_GRADE</Objective>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentCompetencyObjective>
+  <StudentCompetencyObjective>
+    <StudentCompetencyObjectiveId>SCO_NINTH_GRADE_STANDARD-SEA</StudentCompetencyObjectiveId>
+    <Objective>Attend NINTH_GRADE</Objective>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentCompetencyObjective>
+  <StudentCompetencyObjective>
+    <StudentCompetencyObjectiveId>SCO_TENTH_GRADE_STANDARD-SEA</StudentCompetencyObjectiveId>
+    <Objective>Attend TENTH_GRADE</Objective>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentCompetencyObjective>
+  <StudentCompetencyObjective>
+    <StudentCompetencyObjectiveId>SCO_ELEVENTH_GRADE_STANDARD-SEA</StudentCompetencyObjectiveId>
+    <Objective>Attend ELEVENTH_GRADE</Objective>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentCompetencyObjective>
+  <StudentCompetencyObjective>
+    <StudentCompetencyObjectiveId>SCO_TWELFTH_GRADE_STANDARD-SEA</StudentCompetencyObjectiveId>
+    <Objective>Attend TWELFTH_GRADE</Objective>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentCompetencyObjective>
   <GradebookEntry>
     <GradebookEntryType>Homework</GradebookEntryType>
     <DateAssigned>2013-08-27</DateAssigned>
@@ -16840,188 +16970,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
           </EducationalOrgIdentity>
         </EducationalOrgReference>
         <UniqueSectionCode>73</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </GradebookEntry>
-  <GradebookEntry>
-    <GradebookEntryType>Homework</GradebookEntryType>
-    <DateAssigned>2015-11-10</DateAssigned>
-    <SectionReference>
-      <SectionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueSectionCode>73</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </GradebookEntry>
-  <GradebookEntry>
-    <GradebookEntryType>Homework</GradebookEntryType>
-    <DateAssigned>2016-01-15</DateAssigned>
-    <SectionReference>
-      <SectionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueSectionCode>73</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </GradebookEntry>
-  <GradebookEntry>
-    <GradebookEntryType>Homework</GradebookEntryType>
-    <DateAssigned>2016-03-23</DateAssigned>
-    <SectionReference>
-      <SectionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueSectionCode>73</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </GradebookEntry>
-  <GradebookEntry>
-    <GradebookEntryType>Quiz</GradebookEntryType>
-    <DateAssigned>2016-06-01</DateAssigned>
-    <SectionReference>
-      <SectionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueSectionCode>73</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </GradebookEntry>
-  <GradebookEntry>
-    <GradebookEntryType>Homework</GradebookEntryType>
-    <DateAssigned>2015-09-04</DateAssigned>
-    <SectionReference>
-      <SectionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueSectionCode>74</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </GradebookEntry>
-  <GradebookEntry>
-    <GradebookEntryType>Homework</GradebookEntryType>
-    <DateAssigned>2015-10-13</DateAssigned>
-    <SectionReference>
-      <SectionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueSectionCode>74</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </GradebookEntry>
-  <GradebookEntry>
-    <GradebookEntryType>Homework</GradebookEntryType>
-    <DateAssigned>2015-11-19</DateAssigned>
-    <SectionReference>
-      <SectionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueSectionCode>74</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </GradebookEntry>
-  <GradebookEntry>
-    <GradebookEntryType>Homework</GradebookEntryType>
-    <DateAssigned>2015-12-28</DateAssigned>
-    <SectionReference>
-      <SectionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueSectionCode>74</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </GradebookEntry>
-  <GradebookEntry>
-    <GradebookEntryType>Homework</GradebookEntryType>
-    <DateAssigned>2016-02-03</DateAssigned>
-    <SectionReference>
-      <SectionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueSectionCode>74</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </GradebookEntry>
-  <GradebookEntry>
-    <GradebookEntryType>Homework</GradebookEntryType>
-    <DateAssigned>2016-03-11</DateAssigned>
-    <SectionReference>
-      <SectionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueSectionCode>74</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </GradebookEntry>
-  <GradebookEntry>
-    <GradebookEntryType>Homework</GradebookEntryType>
-    <DateAssigned>2016-04-19</DateAssigned>
-    <SectionReference>
-      <SectionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueSectionCode>74</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </GradebookEntry>
-  <GradebookEntry>
-    <GradebookEntryType>Quiz</GradebookEntryType>
-    <DateAssigned>2015-09-04</DateAssigned>
-    <SectionReference>
-      <SectionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueSectionCode>74</UniqueSectionCode>
-      </SectionIdentity>
-    </SectionReference>
-  </GradebookEntry>
-  <GradebookEntry>
-    <GradebookEntryType>Quiz</GradebookEntryType>
-    <DateAssigned>2016-01-18</DateAssigned>
-    <SectionReference>
-      <SectionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <UniqueSectionCode>74</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
   </GradebookEntry>
@@ -75141,6 +75089,188 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ReportCardReference>
     <SchoolYear>2015-2016</SchoolYear>
   </StudentAcademicRecord>
+  <GradebookEntry>
+    <GradebookEntryType>Homework</GradebookEntryType>
+    <DateAssigned>2015-11-10</DateAssigned>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>73</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </GradebookEntry>
+  <GradebookEntry>
+    <GradebookEntryType>Homework</GradebookEntryType>
+    <DateAssigned>2016-01-15</DateAssigned>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>73</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </GradebookEntry>
+  <GradebookEntry>
+    <GradebookEntryType>Homework</GradebookEntryType>
+    <DateAssigned>2016-03-23</DateAssigned>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>73</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </GradebookEntry>
+  <GradebookEntry>
+    <GradebookEntryType>Quiz</GradebookEntryType>
+    <DateAssigned>2016-06-01</DateAssigned>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>73</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </GradebookEntry>
+  <GradebookEntry>
+    <GradebookEntryType>Homework</GradebookEntryType>
+    <DateAssigned>2015-09-04</DateAssigned>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>74</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </GradebookEntry>
+  <GradebookEntry>
+    <GradebookEntryType>Homework</GradebookEntryType>
+    <DateAssigned>2015-10-13</DateAssigned>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>74</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </GradebookEntry>
+  <GradebookEntry>
+    <GradebookEntryType>Homework</GradebookEntryType>
+    <DateAssigned>2015-11-19</DateAssigned>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>74</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </GradebookEntry>
+  <GradebookEntry>
+    <GradebookEntryType>Homework</GradebookEntryType>
+    <DateAssigned>2015-12-28</DateAssigned>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>74</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </GradebookEntry>
+  <GradebookEntry>
+    <GradebookEntryType>Homework</GradebookEntryType>
+    <DateAssigned>2016-02-03</DateAssigned>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>74</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </GradebookEntry>
+  <GradebookEntry>
+    <GradebookEntryType>Homework</GradebookEntryType>
+    <DateAssigned>2016-03-11</DateAssigned>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>74</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </GradebookEntry>
+  <GradebookEntry>
+    <GradebookEntryType>Homework</GradebookEntryType>
+    <DateAssigned>2016-04-19</DateAssigned>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>74</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </GradebookEntry>
+  <GradebookEntry>
+    <GradebookEntryType>Quiz</GradebookEntryType>
+    <DateAssigned>2015-09-04</DateAssigned>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>74</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </GradebookEntry>
+  <GradebookEntry>
+    <GradebookEntryType>Quiz</GradebookEntryType>
+    <DateAssigned>2016-01-18</DateAssigned>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>74</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </GradebookEntry>
   <GradebookEntry>
     <GradebookEntryType>Homework</GradebookEntryType>
     <DateAssigned>2015-09-04</DateAssigned>

@@ -1203,7 +1203,7 @@ class WorldBuilder
   def create_sco_for_education_organization(ed_org_id)
     sco = []
     GradeLevelType::get_ordered_grades.each do |grade|
-      sco << {"id" => "#{grade}_#{ed_org_id}", "grade" => grade, "ed_org_id" => ed_org_id}
+      sco << {"id" => "SCO_#{grade}_#{ed_org_id}", "grade" => grade, "ed_org_id" => ed_org_id}
     end
     sco
   end
