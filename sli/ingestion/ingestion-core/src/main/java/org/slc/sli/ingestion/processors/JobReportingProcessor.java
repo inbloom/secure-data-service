@@ -93,9 +93,6 @@ public class JobReportingProcessor implements Processor {
     public static final String ERROR_FILE_TYPE = "error";
     public static final String WARNING_FILE_TYPE = "warn";
 
-    @Value("${sli.ingestion.staging.clearOnCompletion}")
-    private String clearOnCompletion;
-
     @Value("${sli.ingestion.topic.command}")
     private String commandTopicUri;
 

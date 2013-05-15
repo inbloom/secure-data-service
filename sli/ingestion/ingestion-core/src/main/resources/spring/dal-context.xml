@@ -18,17 +18,6 @@
     <property name="location" value="file:${sli.conf}" />
   </bean>
 
-  <!-- MONGODB CONFIG -->
-  <mongo:mongo id="stagingMongo" host="${sli.ingestion.staging.mongodb.host}" port="${sli.ingestion.staging.mongodb.port}">
-    <mongo:options connections-per-host="${sli.stagingmongodb.connections}" auto-connect-retry="true"
-      socket-timeout="600000" socket-keep-alive="true" />
-  </mongo:mongo>
-
-  <bean id="mongoDbStagingFactory" class="org.slc.sli.ingestion.dal.JobSpecificMongoDbFactory">
-    <constructor-arg ref="stagingMongo" />
-    <constructor-arg value="${sli.ingestion.staging.mongodb.database}" />
-  </bean>
-
   <util:map id="pii" key-type="java.lang.String" value-type="java.lang.Object"></util:map>
 
   <bean id="errorWriteConverter" class="org.slc.sli.ingestion.dal.ErrorWriteConverter">
