@@ -769,7 +769,7 @@ Then /^I verify the last delta bulk extract by app "(.*?)" for "(.*?)" in "(.*?)
     step "the extract contains a file for each of the following entities:", table
 end
 
-Then /^I verify this "(.*?)" file (should|should not) contains:$/ do |file_name, should, table|
+Then /^I verify this "(.*?)" file (should|should not) contain:$/ do |file_name, should, table|
     look_for = should.downcase == "should"
     json_file_name = @unpackDir + "/#{file_name}.json"
     exists = File.exists?(json_file_name)
@@ -1506,13 +1506,26 @@ def prepareBody(verb, value, response_map)
         "homeroomIndicator" => true,
         "repeatIdentifier" => "Repeated, counted in grade point average"
       },
+      "newGradebookEntry" => {
+        "gradingPeriodId" => "21b8ac38bf886e78a879cfdb973a9352f64d07b9_id",
+        "sectionId" => "4030207003b03d055bba0b5019b31046164eff4e_id",
+        "dateAssigned" => "2014-02-21",
+        "description" => "Gradebook Entry of type: Homework, assigned on: 2014-02-21",
+        "gradebookEntryType" => "Homework",
+        "entityType" => "gradebookEntry",
+        "learningObjectives" => ["f8323e42a3438c198f7d7b41336512b74155f3af_id",
+                               "d469f0079144395720985c432f6bd9475c5f5a28_id",
+                               "12ebed0aa9b9e0fc406278fb8184a9569dd71600_id",
+                               "ea27f2c3cd548cf82682a75e29182462da366912_id",
+                               "5b1d4e75f457644b1bd00f7ef05caafa605adaec_id"]
+      },
       "newStudentAssessment" => {
         "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
         "assessmentId" => "d1db0a2c9d30c0fabcbc4c7fc796701e0509b86b_id",
-        "administrationDate" => "2013-08-27",
+        "administrationDate" => "2013-09-24",
         "specialAccommodations" => ["Large Print"],
-        "administrationEndDate" => "2008-12-09",
-        "gradeLevelWhenAssessed" => "Eighth grade",
+        "administrationEndDate" => "2013-09-25",
+        "gradeLevelWhenAssessed" => "Eleventh grade",
         "performanceLevelDescriptors" => [
           [{
             "codeValue" => "30 code"
@@ -1613,9 +1626,6 @@ def prepareBody(verb, value, response_map)
           }
         }]
       },
-      "newGradebookEntry" => {
-
-      },
       "newGrade" => {
 
       },
@@ -1623,9 +1633,6 @@ def prepareBody(verb, value, response_map)
 
       },
       "newStudentAcademicRecord" => {
-
-      },
-      "newGradebookEntry" => {
 
       }
     },
@@ -1729,6 +1736,7 @@ def getEntityEndpoint(entity)
   entity_to_endpoint_map = {
       "courseOffering" => "courseOfferings",
       "educationOrganization" => "educationOrganizations",
+      "gradebookEntry" => "gradebookEntries",
       "invalidEntry" => "school",
       "newParentDad" => "parents",
       "newParentMom" => "parents",
@@ -1740,6 +1748,7 @@ def getEntityEndpoint(entity)
       "staffStudent" => "students",
       "student" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students",
       "newStudent" => "students",
+      "studentAssessment" => "studentAssessments",
       "studentSchoolAssociation" => "studentSchoolAssociations",
       "studentSectionAssociation" => "studentSectionAssociations",
       "studentParentAssociation" => "studentParentAssociations",

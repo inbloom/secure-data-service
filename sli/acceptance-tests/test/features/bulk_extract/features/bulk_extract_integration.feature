@@ -135,3 +135,10 @@ Scenario: Validate the Last-Modified header is in a valid http date format
     When the If-Unmodified-Since header field is set to "BEFORE"
     And I make a custom bulk extract API call
     Then I get back a response code of "412"
+
+Scenario: Verify the cleanup script correctly deletes the files and database entries
+  When I execute cleanup script for tenant:"Midgar", edorg:"", date:"", path:""
+  Then I should not see an extract for tenant "Midgar"
+
+Scenario: Leave an extract for following tests
+  Given I trigger a bulk extract
