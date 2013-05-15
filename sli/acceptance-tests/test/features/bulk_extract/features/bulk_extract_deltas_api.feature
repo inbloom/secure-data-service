@@ -37,6 +37,7 @@ Scenario: Generate a bulk extract delta after day 0 ingestion
    And The "session" delta was extracted in the same format as the api
    And The "gradingPeriod" delta was extracted in the same format as the api
    And The "courseOffering" delta was extracted in the same format as the api
+   And The "course" delta was extracted in the same format as the api
    And The "program" delta was extracted in the same format as the api
    And The "studentProgramAssociation" delta was extracted in the same format as the api
    And The "staffProgramAssociation" delta was extracted in the same format as the api
@@ -69,6 +70,7 @@ Given I clean the bulk extract file system and database
        |  staffEducationOrganizationAssociation |
        |  teacher                               |
        |  teacherSchoolAssociation              |
+       |  course                                |
        |  courseOffering                        |
        |  program                               |
        |  deleted                               |
@@ -115,6 +117,14 @@ Given I clean the bulk extract file system and database
     And I verify this "courseOffering" file should contains:
       | id                                          | condition                                |
       | 48779c5fb806b8325ffbe4ceb0448bde1f5d8313_id | localCourseTitle = Ninth grade Advanced English |
+    # I belong to DAYBREAK, but I creepily followed the above courseOffering to HIGHWIND
+    And I verify this "course" file should contains:
+      | id                                          | condition                                |
+      | 2dad46540a82bd0ad17b7dbcbb6cbdd4fce2125d_id | uniqueCourseId = DAYBREAK21              |
+    # this course belongs to DAYBREAK, so should not show up here
+    And I verify this "course" file should not contains:
+      | id                                          | condition                                |
+      | 160cbcc9e293d45a11053f4d3bf6f4be8b70bac4_id |                                          |
 
     # Since student 1 is valid for Highwind, these two should be included
     And I verify this "program" file should contains:
@@ -143,6 +153,7 @@ Given I clean the bulk extract file system and database
        |  teacherSchoolAssociation              |
        |  teacherSectionAssociation             |
        |  courseOffering                        |
+       |  course                                |
        |  program                               |
        |  deleted                               |
    
@@ -218,6 +229,10 @@ Given I clean the bulk extract file system and database
       | id                                          | condition                                |
       | 1c4d8ea0c38aab28c05b5b40e8cf71e79e455ea2_id | localCourseTitle = First grade modified course |
       | 48779c5fb806b8325ffbe4ceb0448bde1f5d8313_id | localCourseTitle = Ninth grade Advanced English |
+    And I verify this "course" file should contains:
+      | id                                          | condition                                |
+      | 2dad46540a82bd0ad17b7dbcbb6cbdd4fce2125d_id | uniqueCourseId = DAYBREAK21              |
+      | 160cbcc9e293d45a11053f4d3bf6f4be8b70bac4_id | uniqueCourseId = DAYBREAK1               |
 
     And I verify this "program" file should contains:
       | id                                          | condition                                |

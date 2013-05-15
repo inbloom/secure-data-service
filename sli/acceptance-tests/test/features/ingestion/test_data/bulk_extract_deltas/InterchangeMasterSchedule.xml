@@ -100,10 +100,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <CourseIdentity>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>21</UniqueCourseId>
+        <UniqueCourseId>DAYBREAK21</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
