@@ -99,6 +99,13 @@ Given /^the extraction zone is empty$/ do
   end
 end
 
+Given /^the extract download directory is empty$/ do
+  if (Dir.exists?(OUTPUT_DIRECTORY + "decrypt"))
+    puts "decrypt dir is #{OUTPUT_DIRECTORY}decrypt"
+    FileUtils.rm_rf("#{OUTPUT_DIRECTORY}decrypt", secure: true)
+  end
+end
+
 Given /^I have delta bulk extract files generated for today$/ do
   @pre_generated = "#{File.dirname(__FILE__)}/../../test_data/deltas/Midgar_delta_1.tar"
   bulk_delta_file_entry = {
@@ -390,8 +397,6 @@ When /^I log into "(.*?)" with a token of "(.*?)", a "(.*?)" for "(.*?)" in tena
 
   script_loc = File.dirname(__FILE__) + "/../../../../../../opstools/token-generator/generator.rb"
   out, status = Open3.capture2("ruby #{script_loc} -e #{expiration_in_seconds} -c #{client_id} -u #{user} -r \"#{role}\" -t \"#{tenant}\" -R \"#{realm}\"")
-  puts "out is #{out}"
-  puts "status is #{status}"
   assert(out.include?("token is"), "Could not get a token for #{user} for realm #{realm}")
   match = /token is (.*)/.match(out)
   @sessionId = match[1]
@@ -537,13 +542,11 @@ When /^I request latest delta via API for tenant "(.*?)", lea "(.*?)" with appId
 end
 
 When /^I store the URL for the latest delta for LEA "(.*?)"$/ do |lea|
-  puts "result body from previous API call is #{@res}"
   @delta_uri = JSON.parse(@res)
   @list_url  = @delta_uri["deltaLeas"][lea][0]["uri"]
   # @list_irl is in the format https://<url>/api/rest/v1.2/bulk/extract/<lea>/delta/<timestamp>
   # -> strip off everything before v1.2, store: /v1.2/bulk/extract/<lea>/delta/<timestamp>
   @list_url.match(/api\/rest\/v(.*?)\/(.*)$/)
-  puts "Bulk Extract Delta URI suffix: #{$2}"
   @list_uri = $2
   # Get the timestamp from the URL
   @list_url.match(/delta\/(.*)$/)
@@ -563,6 +566,7 @@ end
 
 When /^I download and decrypt the delta$/ do
   # Open the file, decrypt, and check against API
+  # The local download_path assumes sli/acceptance-tests/extract
   cleanDir(@download_path)
   download_path = streamBulkExtractFile(@download_path, @res.body)
   @decrypt_path = OUTPUT_DIRECTORY + "decrypt/" + @delta_file
@@ -593,7 +597,7 @@ When /^I request the latest bulk extract delta via API for "(.*?)"$/ do |lea|
   print "Logging in as lstevenson in IL-Highwind .. "
   step "I log into \"SDK Sample\" with a token of \"lstevenson\", a \"Noldor\" for \"IL-Highwind\" in tenant \"Midgar\", that lasts for \"300\" seconds"
   print "OK\nRequesting Delta via API .. "
-  step "I request latest delta via API for tenant \"Midgar\", lea \"#{lea}\" with appId \"<app id highwind>\" clientId \"<client id highwind>\""
+  step "I request latest delta via API for tenant \"Midgar\", lea \"#{lea}\" with appId \"<app id>\" clientId \"<client id>\""
   print "OK\nVerifying return code 200 .. "
   step "I should receive a return code of 200"
   print "OK\nDownloading and decrypting delta tarfile .. "

@@ -37,6 +37,9 @@ Scenario: Generate a bulk extract delta after day 0 ingestion
    And The "session" delta was extracted in the same format as the api
    And The "gradingPeriod" delta was extracted in the same format as the api
    And The "courseOffering" delta was extracted in the same format as the api
+   And The "program" delta was extracted in the same format as the api
+   And The "studentProgramAssociation" delta was extracted in the same format as the api
+   And The "staffProgramAssociation" delta was extracted in the same format as the api
 
 Scenario: Triggering deltas via ingestion
   All entities belong to lea1 which is IL-DAYBREAK, we should only see a delta file for lea1
@@ -552,18 +555,28 @@ Given I clean the bulk extract file system and database
  # | 4030207003b03d055bba0b5019b31046164eff4e_id78468628f357b29599510341f08dfd3277d9471e_id | schoolId = a13489364c2eb015c219172d561c62350f0453f3_id         |
   | 4030207003b03d055bba0b5019b31046164eff4e_id78468628f357b29599510341f08dfd3277d9471e_id | beginDate = 2013-08-27 |
 
- Given the extraction zone is empty
-  #When I log into "SDK Sample" with a token of "lstevenson", a "Noldor" for "IL-Highwind" in tenant "Midgar", that lasts for "300" seconds
+ Given the extract download directory is empty
   When I request the latest bulk extract delta via API for "<IL-HIGHWIND>"
    And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-HIGHWIND>" in "Midgar" contains a file for each of the following entities:
         |  entityType                            |
         |  student                               |
-        |  parent                                |
-        |  studentParentAssociation              |
         |  studentSchoolAssociation              |
-        |  courseOffering                        |
-        |  section                               |
-        |  studentSectionAssociation             |
+
+  And I log into "SDK Sample" with a token of "lstevenson", a "IT Administrator" for "IL-Highwind" in tenant "Midgar", that lasts for "300" seconds
+  And I verify this "student" file should contains:
+    | id                                          | condition                             |
+    | b8b0a8d439591b9e073e8f1115ff1cf1fd4125d6_id | entityType = student                  |
+    | b8b0a8d439591b9e073e8f1115ff1cf1fd4125d6_id | loginId = new-hw-student1@bazinga.org |
+    | b8b0a8d439591b9e073e8f1115ff1cf1fd4125d6_id | studentUniqueStateId = hwmin-1        |
+    | b8b0a8d439591b9e073e8f1115ff1cf1fd4125d6_id | sex = Female                          |
+    
+  And I verify this "studentSchoolAssociation" file should contains:
+    | id                                          | condition                             |
+    | d913396aef918602b8049027dbdce8826c054402_id | entityType = studentSchoolAssociation                    |
+    | d913396aef918602b8049027dbdce8826c054402_id | studentId = b8b0a8d439591b9e073e8f1115ff1cf1fd4125d6_id  |
+    | d913396aef918602b8049027dbdce8826c054402_id | schoolId = 1b5de2516221069fd8f690349ef0cc1cffbb6dca_id   |
+    | d913396aef918602b8049027dbdce8826c054402_id | exitWithdrawDate = 2014-05-22                            |
+    | d913396aef918602b8049027dbdce8826c054402_id | entryDate = 2013-08-27                                   |
 
 Scenario: Be a good neighbor and clean up before you leave
     Given I clean the bulk extract file system and database

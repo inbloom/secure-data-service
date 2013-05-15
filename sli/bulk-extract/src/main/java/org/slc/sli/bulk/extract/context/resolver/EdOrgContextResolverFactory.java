@@ -16,17 +16,13 @@
 
 package org.slc.sli.bulk.extract.context.resolver;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.bulk.extract.context.resolver.impl.CohortContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.CourseOfferingContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.EducationOrganizationContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.GradebookEntryContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.GradingPeriodContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.ParentContextResolver;
+import org.slc.sli.bulk.extract.context.resolver.impl.ProgramContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.SectionContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.SessionContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StaffTeacherContextResolver;
@@ -34,6 +30,10 @@ import org.slc.sli.bulk.extract.context.resolver.impl.StaffTeacherDirectRelatedC
 import org.slc.sli.bulk.extract.context.resolver.impl.StudentContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StudentDirectRelatedContextResolver;
 import org.slc.sli.common.constants.EntityNames;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Factory class for context resolvers, which are used to
@@ -89,6 +89,9 @@ public class EdOrgContextResolverFactory {
     @Autowired
     private CourseOfferingContextResolver courseOfferingResolver;
 
+    @Autowired
+    private ProgramContextResolver programContextResolver;
+    
     /**
      * find responsible resolver for this entity type
      * 
@@ -114,7 +117,8 @@ public class EdOrgContextResolverFactory {
                 || EntityNames.STUDENT_ACADEMIC_RECORD.equals(entityType)
                 || EntityNames.STUDENT_GRADEBOOK_ENTRY.equals(entityType)
                 || EntityNames.STUDENT_COHORT_ASSOCIATION.equals(entityType)
-                || EntityNames.ATTENDANCE.equals(entityType)) {
+                || EntityNames.ATTENDANCE.equals(entityType)
+                || EntityNames.STUDENT_PROGRAM_ASSOCIATION.equals(entityType)) {
             return studentDirectRelatedContextResolver;
         }
         
@@ -134,7 +138,8 @@ public class EdOrgContextResolverFactory {
         if (EntityNames.TEACHER_SCHOOL_ASSOCIATION.equals(entityType)
                 || EntityNames.TEACHER_SECTION_ASSOCIATION.equals(entityType)
                 || EntityNames.STAFF_ED_ORG_ASSOCIATION.equals(entityType)
-                || EntityNames.STAFF_COHORT_ASSOCIATION.equals(entityType)) {
+                || EntityNames.STAFF_COHORT_ASSOCIATION.equals(entityType)
+                || EntityNames.STAFF_PROGRAM_ASSOCIATION.equals(entityType)) {
             return staffTeacherRelatedResolver;
         }
 
@@ -156,6 +161,10 @@ public class EdOrgContextResolverFactory {
         
         if (EntityNames.COURSE_OFFERING.equals(entityType)) {
             return courseOfferingResolver;
+        }
+        
+        if (EntityNames.PROGRAM.equals(entityType)) {
+            return programContextResolver;
         }
 
         LOG.debug("unable to resolve entity type {}", entityType);
