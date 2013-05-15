@@ -78,7 +78,7 @@ class LearningStandard < BaseEntity
   end
 
   def self.build_learning_standards(count, subject, grade)
-    (1..count).collect{|x| LearningStandard.new("Generic Learning Standard #{x}", subject, grade)}
+    (1..count).collect{|x| LearningStandard.new("LS-#{x}-#{subject}-#{grade}", subject, grade)}
   end
 
   # define equality between two entities by iterating over instance variables and comparing each field for equality
