@@ -2,7 +2,6 @@
 <InterchangeStudentEnrollment xmlns="http://ed-fi.org/0100"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentEnrollment.xsd">
-  <!-- student-school associations for the 11th and 12th graders in high school -->
   <StudentSchoolAssociation>
     <StudentReference>
       <StudentIdentity>
