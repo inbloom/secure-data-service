@@ -41,7 +41,7 @@ Feature: As an API user, I want to be able to get a list authorized LEAs.
     When I make a call to the bulk extract end point "/bulk/extract/list"
     And I get back a response code of "200"
     Then there are 2 total number of delta links in the list
-    And I verify that the delta extract URLs are in time order
+    And I verify that the delta extract URLs are in time order, most recent first
 
   Scenario: No URL is returned if I am not associated with the SEA or top LEA
     Given I am a valid 'service' user with an authorized long-lived token "438e472e-a888-46d1-8087-0195f4e37089"
