@@ -16,6 +16,7 @@
 
 package org.slc.sli.bulk.extract.lea;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +36,7 @@ public class ExtractorHelper {
      * @param student
      * @return
      */
+    @SuppressWarnings("unchecked")
     public Set<String> fetchCurrentSchoolsFromStudent(Entity student) {
         if (dateHelper == null) {
             dateHelper = new DateHelper();
@@ -46,7 +48,7 @@ public class ExtractorHelper {
         }
         List<Map<String, Object>> schools = data.get("schools");
         for (Map<String, Object> school : schools) {
-            if (dateHelper.isFieldExpired(school, "exitWithdrawDate")) {
+             if (dateHelper.isFieldExpired(school, "exitWithdrawDate")) {
                 continue;
             }
             if (school.containsKey("edOrgs")) {
@@ -80,7 +82,7 @@ public class ExtractorHelper {
     }
     
     /**
-     * uses the date helper to tell us if the staff association is current or not
+     * uses the date helper to tell us if the entity is current or not
      * 
      * @param staffAssociation
      * @return
@@ -91,4 +93,15 @@ public class ExtractorHelper {
         }
         return !dateHelper.isFieldExpired(staffAssociation.getBody(), ParameterConstants.END_DATE);
     }
+    
+    public Map<String, String> buildSubToParentEdOrgCache(EntityToLeaCache edOrgCache) {
+    	Map<String, String> result = new HashMap<String, String>();
+    	for(String lea : edOrgCache.getEntityIds()) {
+    		for (String child : edOrgCache.getEntriesById(lea)) {
+    			result.put(child, lea);
+    		}
+    	}
+    	return result;
+    }
+
 }

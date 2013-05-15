@@ -285,28 +285,28 @@ And the extract contains a file for each of the following entities:
       |  entityType                            |
       # |  assessment                            |
       |  attendance                            |
-      # |  cohort                                |
-      # |  course                                |
+      |  cohort                                |
+      |  course                                |
       # |  courseTranscript                      |
-      # |  courseOffering                        |
+      |  courseOffering                        |
       # |  disciplineIncident                    |
       # |  disciplineAction                      |
       |  educationOrganization                 |
       |  grade                                 |
-      # |  gradebookEntry                        |
-      # |  gradingPeriod                         |
+      |  gradebookEntry                        |
+      |  gradingPeriod                         |
       # |  learningObjective                     |
       # |  learningStandard                      |
       |  parent                                |
       # |  program                               |
       |  reportCard                            |
       |  school                                |
-      # |  section                               |
-      # |  session                               |
+      |  section                               |
+      |  session                               |
       |  staff                                 |
-      # |  staffCohortAssociation                |
+      |  staffCohortAssociation                |
       |  staffEducationOrganizationAssociation |
-      # |  staffProgramAssociation               |
+      |  staffProgramAssociation               |
       |  student                               |
       |  studentAcademicRecord                 |
       |  studentAssessment                     |
@@ -317,11 +317,11 @@ And the extract contains a file for each of the following entities:
       |  studentProgramAssociation             |
       # |  studentGradebookEntry                 |
       |  studentSchoolAssociation              |
-      # |  studentSectionAssociation             |
+      |  studentSectionAssociation             |
       |  studentParentAssociation              |
       |  teacher                               |
       |  teacherSchoolAssociation              |
-      # |  teacherSectionAssociation             |
+      |  teacherSectionAssociation             |
 
 Scenario: App makes an api call to retrieve a bulk extract delta
 #Get a session to trigger a bulk extract
@@ -349,3 +349,7 @@ Given the pre-existing bulk extrac testing app key has been created
    |   deltaLeas  |  1    |
    And I request and download a "delta" extract file for the lea
    And there is a metadata file in the extract
+   And the extract contains a file for each of the following entities:
+   |  entityType                            |
+   |  educationOrganization                 |
+   |  school                                |

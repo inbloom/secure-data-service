@@ -54,8 +54,9 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
    |  teacher                               |
    |  teacherSchoolAssociation              |
    |  teacherSectionAssociation             |
-   
-   Scenario: Trigger a bulk extract on ingested data and retrieve the lea extract through the api
+
+  @LEA
+  Scenario: Trigger a bulk extract on ingested data and retrieve the lea extract through the api
       Given I trigger a bulk extract
 
       And I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
@@ -72,17 +73,17 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
       |  entityType                            | count |  id  | 
       #|  assessment                            |   |         |  
       |  attendance                            | 150 |         |
-      #|  cohort                                |   |         |
+      |  cohort                                |   5|         |
       #|  competencyLevelDescriptor             |   |         |
-      #|  course                                |   |         |
-      #|  courseOffering                        |   |         |
+      |  course                                |   95|         |
+      |  courseOffering                        |   95|         |
       #|  courseTranscript                      |   |         |
       #|  disciplineIncident                    |   |         |
       #|  disciplineAction                      |   |         |
       |  educationOrganization                 | 5 |          |
       |  grade                                 | 8 |         |
       #|  gradebookEntry                        |   |         |
-      #|  gradingPeriod                         |   |         |
+      |  gradingPeriod                         |  13 |         |
       #|  graduationPlan                        |   |         |
       #|  learningObjective                     |   |         |
       #|  learningStandard                      |   |         |
@@ -90,12 +91,12 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
       #|  program                               |   |         |
       |  reportCard                            | 4 |         |
       # |  school                                |   |        |
-      #|  section                               |   |         |
-      #|  session                               |   |         |
+      |  section                               | 97  |         |
+      |  session                               |  22 |         |
       |  staff                                 | 10 | 63d4be8a233db1fd14676f1535fa21fe4c5dd466_id |
-#      |  staffCohortAssociation                | 7 |         |
+      |  staffCohortAssociation                | 2 |         |
       |  staffEducationOrganizationAssociation | 10 | 346a3cc0939419b34283ec6cac2330e19a483f6f_id |
-      # |  staffProgramAssociation               | 7 |         |
+      |  staffProgramAssociation               | 6 |         |
       |  student                               | 156 |         |
       |  studentAcademicRecord                 | 234 |         |
       |  studentAssessment                     | 406 |         |
@@ -106,7 +107,7 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
       |  studentProgramAssociation             | 12 |         |
       #|  studentGradebookEntry                 |   |         |
       |  studentSchoolAssociation              | 334 |         |
-      #|  studentSectionAssociation             |   |         |
+      |  studentSectionAssociation             | 297  |         |
       |  studentParentAssociation              | 18 |         |
       |  teacher                               | 3 |         |
       |  teacherSchoolAssociation              | 3  |         |

@@ -5,4 +5,6 @@ if [ $# -lt 1 ] ; then
 fi
 rm -f manifest.json
 unzip -p /opt/datasets/$1 manifest.json | tee manifest.json
-ruby ../../../tools/odin/sli-verify.rb Midgar manifest.json | tee manifestCounts
+echo
+/home/jsingh/.rvm/rubies/ruby-1.9.3-p362/bin/ruby sli-verify.rb Midgar manifest.json
+rm -f manifest.json

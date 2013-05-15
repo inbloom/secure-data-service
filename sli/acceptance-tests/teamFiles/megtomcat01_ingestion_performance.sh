@@ -17,13 +17,10 @@ sh ingestDataset.sh $1 1
 sh ingestDataset.sh $1 2
 ./checkIngestedCounts.sh $1
 sh log_durations.sh $1
-sh ingestDataset.sh $3 3
-sh log_delete_duration.sh $3
-sh ingestDataset.sh purge.zip 4
-sh log_purge_duration.sh
-
-# No longer used
-# tail -16 megtomcat01_logs/auto_perf_results.log| ingestion-mailx  -s "Megatron Mini Slirp Performance Testing" Sliders-MegatronDev@wgen.net
+#sh ingestDataset.sh $3 3
+#sh log_delete_duration.sh $3
+#sh ingestDataset.sh purge.zip 4
+#sh log_purge_duration.sh
 
 # Send PDF report
 ./ingestion-report.py < megtomcat01_logs/auto_perf_results.log > message.txt
