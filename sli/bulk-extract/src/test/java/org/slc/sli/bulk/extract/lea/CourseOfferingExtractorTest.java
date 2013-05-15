@@ -75,8 +75,11 @@ public class CourseOfferingExtractorTest {
         Mockito.when(mockTransitiveEntity.getBody()).thenReturn(transitiveEntityBody);
         Mockito.when(mockTransitiveEntity.getEntityId()).thenReturn("courseOfferingId2");
         
-        Mockito.when(mockMap.getExtractFileForLea("edorgId1")).thenReturn(mockFile);
-        Mockito.when(mockEdorgCache.getEntriesById("edorgId1")).thenReturn(new HashSet<String>(Arrays.asList("edorgId1")));
+        mockEdorgCache = new EntityToLeaCache();
+        mockEdorgCache.addEntry("LEA", "edorgId1");
+        mockEdorgCache.addEntry("LEA", "edorgId2");
+        Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(mockFile);
+        
     }
     
     @Test
@@ -103,7 +106,7 @@ public class CourseOfferingExtractorTest {
     public void testExtractNoEntityBecauseOfLEAMiss() {
         Mockito.when(mockRepo.findEach(Mockito.eq("courseOffering"), Mockito.eq(new Query())))
                 .thenReturn(Arrays.asList(mockEntity).iterator());
-        Mockito.when(mockMap.getExtractFileForLea("edorgId1")).thenReturn(null);
+        Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(null);
         entityBody.put("schoolId", "edorgId1");
         extractor.extractEntities(mockEdorgCache, mockCourseOfferingCache);
         Mockito.verify(mockExtractor, Mockito.never()).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
@@ -127,7 +130,7 @@ public class CourseOfferingExtractorTest {
         Mockito.when(mockRepo.findEach(Mockito.eq("courseOffering"), Mockito.eq(new Query())))
         .thenReturn(Arrays.asList(mockEntity).iterator());
         Mockito.when(mockCourseOfferingCache.getEntriesById("courseOfferingId1"))
-                .thenReturn(new HashSet<String>(Arrays.asList("edorgId1")));
+                .thenReturn(new HashSet<String>(Arrays.asList("LEA")));
 
         extractor.extractEntities(mockEdorgCache, mockCourseOfferingCache);
         Mockito.verify(mockExtractor, Mockito.times(1)).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
@@ -143,8 +146,6 @@ public class CourseOfferingExtractorTest {
         
         Mockito.when(mockCourseOfferingCache.getEntriesById("courseOfferingId2"))
                 .thenReturn(new HashSet<String>(Arrays.asList("edorgId2")));
-        Mockito.when(mockMap.getExtractFileForLea("edorgId1")).thenReturn(mockFile);
-        Mockito.when(mockMap.getExtractFileForLea("edorgId2")).thenReturn(mockFile);
         extractor.extractEntities(mockEdorgCache, mockCourseOfferingCache);
         
         Mockito.verify(mockExtractor).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
@@ -158,14 +159,12 @@ public class CourseOfferingExtractorTest {
     @Test
     public void testTransitiveNoMatch() {
         entityBody.put("schoolId", "edorgId1");;
-        transitiveEntityBody.put("schoolId", "edorgId2");
+        transitiveEntityBody.put("schoolId", "edorgId3");
         Mockito.when(mockRepo.findEach(Mockito.eq("courseOffering"), Mockito.eq(new Query())))
                 .thenReturn(Arrays.asList(mockEntity, mockTransitiveEntity).iterator());
         
         Mockito.when(mockCourseOfferingCache.getEntriesById("courseId2"))
                 .thenReturn(new HashSet<String>(Arrays.asList("edorgId3")));
-        Mockito.when(mockMap.getExtractFileForLea("edorgId1")).thenReturn(mockFile);
-        Mockito.when(mockMap.getExtractFileForLea("edorgId2")).thenReturn(mockFile);
         extractor.extractEntities(mockEdorgCache, mockCourseOfferingCache);
         
         Mockito.verify(mockExtractor).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
@@ -176,15 +175,25 @@ public class CourseOfferingExtractorTest {
 
     @Test
     public void testCourseCache() {
+        entityBody = new HashMap<String, Object>();
+        entityBody.put("courseId", "courseId1");
         entityBody.put("schoolId", "edorgId1");
+        Mockito.when(mockEntity.getBody()).thenReturn(entityBody);
+        Mockito.when(mockEntity.getEntityId()).thenReturn("courseOfferingId1");
+        
+        transitiveEntityBody = new HashMap<String, Object>();
+        transitiveEntityBody.put("courseId", "courseId2");
         transitiveEntityBody.put("schoolId", "edorgId2");
+        Mockito.when(mockTransitiveEntity.getBody()).thenReturn(transitiveEntityBody);
+        Mockito.when(mockTransitiveEntity.getEntityId()).thenReturn("courseOfferingId2");
+        
+        mockEdorgCache.addEntry("LEA2", "edorgId2");
+        
         Mockito.when(mockRepo.findEach(Mockito.eq("courseOffering"), Mockito.eq(new Query())))
                 .thenReturn(Arrays.asList(mockEntity, mockTransitiveEntity).iterator());
-        
         Mockito.when(mockCourseOfferingCache.getEntriesById("courseOfferingId2"))
-                .thenReturn(new HashSet<String>(Arrays.asList("edorgId2", "edorgId3")));
-        Mockito.when(mockMap.getExtractFileForLea("edorgId1")).thenReturn(mockFile);
-        Mockito.when(mockMap.getExtractFileForLea("edorgId2")).thenReturn(mockFile);
+                .thenReturn(new HashSet<String>(Arrays.asList("LEA", "LEA2")));
+        
         extractor.extractEntities(mockEdorgCache, mockCourseOfferingCache);
         
         Mockito.verify(mockExtractor).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),

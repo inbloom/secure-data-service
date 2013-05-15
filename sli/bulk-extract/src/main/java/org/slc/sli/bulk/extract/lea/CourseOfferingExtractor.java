@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
@@ -40,18 +41,21 @@ public class CourseOfferingExtractor {
 
     
     public void extractEntities(EntityToLeaCache edorgCache, EntityToLeaCache courseOfferingCache) {
-        Iterator<Entity> cursor = repo.findEach("courseOffering", new Query());
+        Iterator<Entity> cursor = repo.findEach(EntityNames.COURSE_OFFERING, new Query());
         while (cursor.hasNext()) {
             Entity e = cursor.next();
             String courseOfferingId = e.getEntityId();
-            String courseOfferingsEdorgId = e.getBody().get(ParameterConstants.SCHOOL_ID).toString();
+            String schoolId = e.getBody().get(ParameterConstants.SCHOOL_ID).toString();
             String courseId = e.getBody().get(ParameterConstants.COURSE_ID).toString();
-            Set<String> leas = edorgCache.getEntriesById(courseOfferingsEdorgId);
-            Set<String> leas2 = courseOfferingCache.getEntriesById(courseOfferingId);
-            leas.addAll(leas2);
+            String leaForCourseOffering = edorgCache.leaFromEdorg(schoolId);
             
+            Set<String> leas = courseOfferingCache.getEntriesById(courseOfferingId);
+            if(!leas.contains(leaForCourseOffering)){
+                extractor.extractEntity(e, map.getExtractFileForLea(leaForCourseOffering), EntityNames.COURSE_OFFERING);
+                courseCache.addEntry(courseId, leaForCourseOffering);
+            }
             for (String lea : leas) {
-                extractor.extractEntity(e, map.getExtractFileForLea(lea), "courseOffering");
+                extractor.extractEntity(e, map.getExtractFileForLea(lea), EntityNames.COURSE_OFFERING);
                 courseCache.addEntry(courseId, lea);
             }
         }
