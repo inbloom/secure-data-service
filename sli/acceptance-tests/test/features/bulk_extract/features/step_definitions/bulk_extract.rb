@@ -87,6 +87,11 @@ Given /^I trigger a bulk extract$/ do
   bulkExtractTrigger(TRIGGER_SCRIPT, JAR_FILE, PROPERTIES_FILE, KEYSTORE_FILE)
 end
 
+Given /^I trigger an extract for tenant "([^"]*)"$/ do |tenant|
+  options = " -t#{tenant}"
+  bulkExtractTrigger(TRIGGER_SCRIPT, JAR_FILE, PROPERTIES_FILE, KEYSTORE_FILE, options)
+end
+
 Given /^I trigger a delta extract$/ do
   options = " -d"
   bulkExtractTrigger(TRIGGER_SCRIPT, JAR_FILE, PROPERTIES_FILE, KEYSTORE_FILE, options)
@@ -240,7 +245,8 @@ When /^I execute cleanup script for tenant:"(.*?)", edorg:"(.*?)", date:"(.*?)",
     options += " -d#{date}"
   end
   if(!path.empty?)
-    abPath = File.expand_path(@parentDir + tenant + "/" +  path)
+    path.include?('Daybreak') || path.include?('Sunset') ? path_tenant = 'Midgar' : path_tenant = 'Hyrule'
+    abPath = File.expand_path(@parentDir + path_tenant + "/" +  path)
     options += " -f#{abPath}"
   end
   command  = "echo y | ruby #{CLEANUP_SCRIPT} #{options}"
@@ -428,8 +434,7 @@ When /^I use an invalid tenant to trigger a bulk extract/ do
  #  command = command + " -tNoTenantForYou"
  #  puts "Running: #{command} "
  #  puts runShellCommand(command)
- options = " -tNoTenantForYou"
- bulkExtractTrigger(TRIGGER_SCRIPT, JAR_FILE, PROPERTIES_FILE, KEYSTORE_FILE, options)
+  step "I trigger an extract for tenant \"NoTenantForYou\""
 end
 
 When /^I request the latest bulk extract delta using the api$/ do

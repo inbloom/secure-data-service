@@ -61,9 +61,9 @@ public class CourseOfferingContextResolverTest {
     public void followSchoolId() {
         Entity courseOffering = buildCourseOffering();
         when(edorgResolver.findGoverningLEA("edorg123")).thenReturn(new HashSet<String>(Arrays.asList("lea1", "lea2")));
-        when(repo.findAll("section", new NeutralQuery(
+        when(repo.findEach("section", new NeutralQuery(
                 new NeutralCriteria("courseOfferingId", NeutralCriteria.OPERATOR_EQUAL, "courseOffering1"))))
-                .thenReturn(new ArrayList<Entity>());
+                .thenReturn(new ArrayList<Entity>().iterator());
         assertEquals(new HashSet<String>(Arrays.asList("lea1", "lea2")), underTest.findGoverningLEA(courseOffering));
     }
   
@@ -71,9 +71,9 @@ public class CourseOfferingContextResolverTest {
     public void followSections() {
         Entity courseOffering = buildCourseOffering();
         List<Entity> sections = buildSections();
-        when(repo.findAll("section", new NeutralQuery(
+        when(repo.findEach("section", new NeutralQuery(
                 new NeutralCriteria("courseOfferingId", NeutralCriteria.OPERATOR_EQUAL, "courseOffering1"))))
-                .thenReturn(sections);
+                .thenReturn(sections.iterator());
         when(edorgResolver.findGoverningLEA("edorg123")).thenReturn(new HashSet<String>());
         when(sectionResolver.findGoverningLEA(sections.get(0))).thenReturn(new HashSet<String>(Arrays.asList("lea3")));
         when(sectionResolver.findGoverningLEA(sections.get(1))).thenReturn(new HashSet<String>(Arrays.asList("lea3", "lea4")));
