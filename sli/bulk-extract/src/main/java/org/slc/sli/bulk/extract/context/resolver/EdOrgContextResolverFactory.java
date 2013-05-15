@@ -117,7 +117,8 @@ public class EdOrgContextResolverFactory {
                 || EntityNames.STUDENT_ACADEMIC_RECORD.equals(entityType)
                 || EntityNames.STUDENT_GRADEBOOK_ENTRY.equals(entityType)
                 || EntityNames.STUDENT_COHORT_ASSOCIATION.equals(entityType)
-                || EntityNames.ATTENDANCE.equals(entityType)) {
+                || EntityNames.ATTENDANCE.equals(entityType)
+                || EntityNames.STUDENT_PROGRAM_ASSOCIATION.equals(entityType)) {
             return studentDirectRelatedContextResolver;
         }
         
@@ -137,7 +138,8 @@ public class EdOrgContextResolverFactory {
         if (EntityNames.TEACHER_SCHOOL_ASSOCIATION.equals(entityType)
                 || EntityNames.TEACHER_SECTION_ASSOCIATION.equals(entityType)
                 || EntityNames.STAFF_ED_ORG_ASSOCIATION.equals(entityType)
-                || EntityNames.STAFF_COHORT_ASSOCIATION.equals(entityType)) {
+                || EntityNames.STAFF_COHORT_ASSOCIATION.equals(entityType)
+                || EntityNames.STAFF_PROGRAM_ASSOCIATION.equals(entityType)) {
             return staffTeacherRelatedResolver;
         }
 
