@@ -39,7 +39,7 @@
             <EmailAddress>Bennie.Cimmino@gmail.com</EmailAddress>
         </ElectronicMail>
         <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-        <Race/>
+        
         <EconomicDisadvantaged>false</EconomicDisadvantaged>
         <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
         <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -85,7 +85,7 @@
             <EmailAddress>rafaela_coleson@yahoo.com</EmailAddress>
         </ElectronicMail>
         <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
-        <Race/>
+        
         <EconomicDisadvantaged>false</EconomicDisadvantaged>
         <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
         <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -108,7 +108,7 @@
             <EmailAddress>ARchie_Forker@yahoo.com</EmailAddress>
         </ElectronicMail>
         <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
-        <Race/>
+        
         <EconomicDisadvantaged>true</EconomicDisadvantaged>
         <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
         <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
@@ -148,7 +148,7 @@
             <TelephoneNumber>847-724-9091</TelephoneNumber>
         </Telephone>
         <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
-        <Race/>
+        
         <EconomicDisadvantaged>false</EconomicDisadvantaged>
         <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
         <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -193,7 +193,7 @@
             <EmailAddress>malcolm.haehn@gmail.com</EmailAddress>
         </ElectronicMail>
         <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-        <Race/>
+        
         <EconomicDisadvantaged>false</EconomicDisadvantaged>
         <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
         <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
@@ -228,7 +228,7 @@
             <EmailAddress>garry.kinsel@gmail.com</EmailAddress>
         </ElectronicMail>
         <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-        <Race/>
+        
         <EconomicDisadvantaged>false</EconomicDisadvantaged>
         <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
         <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -275,7 +275,7 @@
             <EmailAddress>P.Lynds@yahoo.com</EmailAddress>
         </ElectronicMail>
         <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-        <Race/>
+        
         <EconomicDisadvantaged>false</EconomicDisadvantaged>
         <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
         <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -321,7 +321,7 @@
             <EmailAddress>Jayme_Mabee@gmail.com</EmailAddress>
         </ElectronicMail>
         <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-        <Race/>
+        
         <EconomicDisadvantaged>false</EconomicDisadvantaged>
         <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
         <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -361,7 +361,7 @@
             <TelephoneNumber>847-333-9848</TelephoneNumber>
         </Telephone>
         <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
-        <Race/>
+        
         <EconomicDisadvantaged>false</EconomicDisadvantaged>
         <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
         <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -407,7 +407,7 @@
             <EmailAddress>Alecia.Nakken@gmail.com</EmailAddress>
         </ElectronicMail>
         <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-        <Race/>
+        
         <EconomicDisadvantaged>false</EconomicDisadvantaged>
         <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
         <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -459,7 +459,7 @@
             <EmailAddress>D.Nemecek@gmail.com</EmailAddress>
         </ElectronicMail>
         <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-        <Race/>
+        
         <EconomicDisadvantaged>false</EconomicDisadvantaged>
         <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
         <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
@@ -491,7 +491,7 @@
             <EmailAddress>Dalia_Pingel@yahoo.com</EmailAddress>
         </ElectronicMail>
         <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-        <Race/>
+        
         <EconomicDisadvantaged>false</EconomicDisadvantaged>
         <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
         <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -540,7 +540,7 @@
             <EmailAddress>felipe.rafalski@yahoo.com</EmailAddress>
         </ElectronicMail>
         <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
-        <Race/>
+        
         <EconomicDisadvantaged>false</EconomicDisadvantaged>
         <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
         <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
@@ -578,7 +578,7 @@
             <EmailAddress>l.seip@yahoo.com</EmailAddress>
         </ElectronicMail>
         <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-        <Race/>
+        
         <EconomicDisadvantaged>false</EconomicDisadvantaged>
         <SchoolFoodServicesEligibility>Unknown</SchoolFoodServicesEligibility>
         <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
@@ -613,7 +613,7 @@
             <EmailAddress>rudolph.sennett@gmail.com</EmailAddress>
         </ElectronicMail>
         <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-        <Race/>
+        
         <EconomicDisadvantaged>false</EconomicDisadvantaged>
         <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
         <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -650,7 +650,7 @@
             <EmailAddress>vesta.smay@gmail.com</EmailAddress>
         </ElectronicMail>
         <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-        <Race/>
+        
         <EconomicDisadvantaged>false</EconomicDisadvantaged>
         <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
         <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -700,7 +700,7 @@
             <EmailAddress>domsmolka@gmail.com</EmailAddress>
         </ElectronicMail>
         <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-        <Race/>
+        
         <EconomicDisadvantaged>false</EconomicDisadvantaged>
         <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
         <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -748,7 +748,7 @@
             <EmailAddress>ti.troung@yahoo.com</EmailAddress>
         </ElectronicMail>
         <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-        <Race/>
+        
     </Student>
     <Student>
         <StudentUniqueStateId>100000018</StudentUniqueStateId>
@@ -779,7 +779,7 @@
             <EmailAddress>lvirga@gmail.com</EmailAddress>
         </ElectronicMail>
         <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
-        <Race/>
+        
         <EconomicDisadvantaged>false</EconomicDisadvantaged>
         <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
         <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -814,7 +814,7 @@
             <EmailAddress>maria_werner@gmail.com</EmailAddress>
         </ElectronicMail>
         <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
-        <Race/>
+        
         <EconomicDisadvantaged>false</EconomicDisadvantaged>
         <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
         <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -865,7 +865,7 @@
             <EmailAddress>s_zhou@gmail.com</EmailAddress>
         </ElectronicMail>
         <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-        <Race/>
+        
         <EconomicDisadvantaged>false</EconomicDisadvantaged>
         <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
         <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -917,7 +917,7 @@
             <EmailAddress>rod_zwolinski@gmail.com</EmailAddress>
         </ElectronicMail>
         <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-        <Race/>
+        
         <EconomicDisadvantaged>true</EconomicDisadvantaged>
         <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
         <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -969,7 +969,7 @@
             <EmailAddress>bsuzuki@gmail.com</EmailAddress>
         </ElectronicMail>
         <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-        <Race/>
+        
         <EconomicDisadvantaged>true</EconomicDisadvantaged>
         <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
         <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -1021,7 +1021,7 @@
             <EmailAddress>dshaw@gmail.com</EmailAddress>
         </ElectronicMail>
         <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-        <Race/>
+        
         <EconomicDisadvantaged>true</EconomicDisadvantaged>
         <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
         <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -1073,7 +1073,7 @@
             <EmailAddress>dduran@gmail.com</EmailAddress>
         </ElectronicMail>
         <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-        <Race/>
+        
         <EconomicDisadvantaged>true</EconomicDisadvantaged>
         <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
         <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -1113,7 +1113,7 @@
 			<TelephoneNumber>312-608-2213</TelephoneNumber>
 		</Telephone>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
@@ -1153,7 +1153,7 @@
 			<EmailAddress>a.ausiello@yahoo.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>true</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -1187,7 +1187,7 @@
 			<TelephoneNumber>312-230-0970</TelephoneNumber>
 		</Telephone>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -1237,7 +1237,7 @@
 			<EmailAddress>Rudy_Bedoya@yahoo.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>true</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
@@ -1258,7 +1258,7 @@
 			<TelephoneNumber>708-929-8507</TelephoneNumber>
 		</Telephone>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
@@ -1303,7 +1303,7 @@
 			<EmailAddress>D.Brisendine@gmail.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>true</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Unknown</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -1340,7 +1340,7 @@
 			<EmailAddress>f.cianciolo@yahoo.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
@@ -1385,7 +1385,7 @@
 			<EmailAddress>T.Cleaveland@gmail.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -1434,7 +1434,7 @@
 			<EmailAddress>Lyn_Consla@yahoo.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
@@ -1478,7 +1478,7 @@
 			<EmailAddress>Malcolm.Costillo@yahoo.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
@@ -1514,7 +1514,7 @@
 			<EmailAddress>Marco_Daughenbaugh@gmail.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -1552,7 +1552,7 @@
 			<EmailAddress>H.Franz@gmail.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
@@ -1580,7 +1580,7 @@
 			
 		</Address>
 		<HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -1614,7 +1614,7 @@
 			<TelephoneNumber>708-746-9663</TelephoneNumber>
 		</Telephone>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -1656,7 +1656,7 @@
 			<EmailAddress>Lettie_Hose@yahoo.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -1704,7 +1704,7 @@
 			<EmailAddress>D.Iskra@gmail.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -1743,7 +1743,7 @@
 			<TelephoneNumber>219-343-1565</TelephoneNumber>
 		</Telephone>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
@@ -1775,7 +1775,7 @@
 			<EmailAddress>Merry.Mccanse@gmail.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -1817,7 +1817,7 @@
 			<EmailAddress>Zoe@gmail.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -1860,7 +1860,7 @@
 			<EmailAddress>PrestonM@yahoo.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -1912,7 +1912,7 @@
 			<EmailAddress>Gerardo_Rounsaville@yahoo.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -1935,7 +1935,7 @@
             <EmailAddress>krudesill@gmail.com</EmailAddress>
         </ElectronicMail>
         <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-        <Race/>
+        
         <EconomicDisadvantaged>false</EconomicDisadvantaged>
         <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
         <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -1967,7 +1967,7 @@
             <EmailAddress>g.saltazor@gmail.com</EmailAddress>
         </ElectronicMail>
         <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-        <Race/>
+        
         <EconomicDisadvantaged>false</EconomicDisadvantaged>
         <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
         <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -1996,7 +1996,7 @@
 			<TelephoneNumber>262-875-4329</TelephoneNumber>
 		</Telephone>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -2014,7 +2014,7 @@
 			<BirthDate>1999-06-01</BirthDate>
 		</BirthData>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -2039,7 +2039,7 @@
 			<EmailAddress>m.sollars@gmail.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
@@ -2076,7 +2076,7 @@
 			<EmailAddress>L.Taite@yahoo.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -2115,7 +2115,7 @@
             <EmailAddress>Felipe.Wierzbicki@yahoo.com</EmailAddress>
         </ElectronicMail>
         <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-        <Race/>
+        
         <EconomicDisadvantaged>false</EconomicDisadvantaged>
         <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
         <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -2148,7 +2148,7 @@
 			<EmailAddress>dberdan@yahoo.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -2186,7 +2186,7 @@
 			<EmailAddress>Oma.Bevington@gmail.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -2225,7 +2225,7 @@
 			<EmailAddress>Vernell.Boseman@gmail.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -2268,7 +2268,7 @@
 			<EmailAddress>jcallejas@gmail.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -2291,7 +2291,7 @@
 			<EmailAddress>charla.christoff@yahoo.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -2332,7 +2332,7 @@
 			<TelephoneNumber>779-309-3470</TelephoneNumber>
 		</Telephone>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -2367,7 +2367,7 @@
 			<EmailAddress>Daniela_Cusimana@yahoo.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -2407,7 +2407,7 @@
 			<EmailAddress>odiego143@yahoo.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -2436,7 +2436,7 @@
 			<TelephoneNumber>331-428-7697</TelephoneNumber>
 		</Telephone>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -2464,7 +2464,7 @@
 			<EmailAddress>zlocust@yahoo.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -2517,7 +2517,7 @@
 			<EmailAddress>thegarry12@gmail.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -2571,7 +2571,7 @@
 			<EmailAddress>rmcwain@yahoo.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -2604,7 +2604,7 @@
 			<TelephoneNumber>219-570-8286</TelephoneNumber>
 		</Telephone>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -2646,7 +2646,7 @@
 			<EmailAddress>pmoench@gmail.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -2693,7 +2693,7 @@
 			<EmailAddress>lnagai@yahoo.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -2736,7 +2736,7 @@
 			<TelephoneNumber>708-299-1122</TelephoneNumber>
 		</Telephone>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -2760,7 +2760,7 @@
             <EmailAddress>c.ortiz@gmail.com</EmailAddress>
         </ElectronicMail>
         <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
-        <Race/>
+        
         <EconomicDisadvantaged>false</EconomicDisadvantaged>
         <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
         <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -2789,7 +2789,7 @@
 			<TelephoneNumber>331-272-2393</TelephoneNumber>
 		</Telephone>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>true</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -2821,7 +2821,7 @@
 			<EmailAddress>irudlong@gmail.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -2864,7 +2864,7 @@
 			<TelephoneNumber>773-189-6011</TelephoneNumber>
 		</Telephone>
 		<HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -2904,7 +2904,7 @@
 			<EmailAddress>gisela.trisdale@yahoo.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -2947,7 +2947,7 @@
 			<EmailAddress>stwining@gmail.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
@@ -2982,7 +2982,7 @@
 			
 		</Address>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
@@ -3016,7 +3016,7 @@
 			
 		</Address>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race/>
+		
 		<EconomicDisadvantaged>false</EconomicDisadvantaged>
 		<SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
 		<LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
@@ -3041,7 +3041,7 @@
             
         </Address>
         <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
-        <Race/>
+        
         <EconomicDisadvantaged>true</EconomicDisadvantaged>
         <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
         <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>

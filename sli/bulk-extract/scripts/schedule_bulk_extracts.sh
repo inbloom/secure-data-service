@@ -159,7 +159,12 @@ process_config_file() {
       then
         CRON_SCHED=`echo "${LINE[@]}" | awk '{print $1, $2, $3, $4, $5}'`
         TENANT_ID="${LINE[5]}"
-        CRON_LINE="${CRON_SCHED} ${BULK_EXTRACT_SCRIPT} ${OPTIONS} -t${TENANT_ID} >> ${LOGFILE} 2>&1"
+        DELTA="${LINE[6]}"
+        if [ "${DELTA}" = "delta" ]; then
+            CRON_LINE="${CRON_SCHED} ${BULK_EXTRACT_SCRIPT} ${OPTIONS} -t${TENANT_ID} -d >> ${LOGFILE} 2>&1"
+        else
+            CRON_LINE="${CRON_SCHED} ${BULK_EXTRACT_SCRIPT} ${OPTIONS} -t${TENANT_ID} >> ${LOGFILE} 2>&1"
+        fi
         echo "${CRON_LINE}" >> ${NEW_BE_CRONTAB_FILE}
       elif ( is_options_line "${LINE[@]}" )
       then

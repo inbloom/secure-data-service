@@ -1,0 +1,5 @@
+edfi-xml,AssessmentMetadata,InterchangeAssessmentMetadata.xml,b938e3ac34bf0a7a6b58c491285b48d1
+edfi-xml,Attendance,InterchangeAttendance.xml,986e7432e9fe97f239cb7708abd5585d
+edfi-xml,StudentEnrollment,InterchangeStudentEnrollment.xml,23ed28dd5166214207f527aa7f828411
+edfi-xml,StudentParent,InterchangeStudentParent.xml,c66f289e6c755bcf58424690c7f29e0b
+

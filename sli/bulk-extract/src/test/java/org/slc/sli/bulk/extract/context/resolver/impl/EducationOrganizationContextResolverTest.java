@@ -16,7 +16,10 @@
 package org.slc.sli.bulk.extract.context.resolver.impl;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -30,9 +33,12 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import org.slc.sli.bulk.extract.delta.DeltaEntityIterator;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.utils.EdOrgHierarchyHelper;
 
 /**
  * Unit test for the student context resolver
@@ -49,22 +55,35 @@ public class EducationOrganizationContextResolverTest {
     @Mock
     private Repository<Entity> repo;
     
+    @Mock
+    EdOrgHierarchyHelper helper;
+
+    Entity school = createSchool();
+    Entity level1 = createLevel1();
+    Entity level2 = createLevel2();
+
     @Before
     public void setup() {
         underTest.getCache().clear();
-        Entity school = createSchool();
-        Entity level1 = createLevel1();
-        Entity level2 = createLevel2();
         Entity sea = createSEA();
-        when(repo.findById(EntityNames.EDUCATION_ORGANIZATION, "school")).thenReturn(school);
-        when(repo.findById(EntityNames.EDUCATION_ORGANIZATION, "level1")).thenReturn(level1);
-        when(repo.findById(EntityNames.EDUCATION_ORGANIZATION, "level2")).thenReturn(level2);
-        when(repo.findById(EntityNames.EDUCATION_ORGANIZATION, "sea")).thenReturn(sea);
+        underTest.setHelper(helper);
+        when(repo.findOne(EntityNames.EDUCATION_ORGANIZATION, DeltaEntityIterator.buildQuery(underTest.getCollection(), "school"))).thenReturn(school);
+        when(repo.findOne(EntityNames.EDUCATION_ORGANIZATION, DeltaEntityIterator.buildQuery(underTest.getCollection(), "level1"))).thenReturn(level1);
+        when(repo.findOne(EntityNames.EDUCATION_ORGANIZATION, DeltaEntityIterator.buildQuery(underTest.getCollection(), "level2"))).thenReturn(level2);
+        when(repo.findOne(EntityNames.EDUCATION_ORGANIZATION, DeltaEntityIterator.buildQuery(underTest.getCollection(), "sea"))).thenReturn(sea);
+        when(helper.isSchool(school)).thenReturn(true);
+        when(helper.isLEA(level1)).thenReturn(true);
+        when(helper.isLEA(level2)).thenReturn(true);
+        when(helper.isSEA(sea)).thenReturn(true);
+
+        when(helper.getTopLEAOfEdOrg(school)).thenReturn(level2);
+        when(helper.getTopLEAOfEdOrg(level1)).thenReturn(level2);
+        when(helper.getTopLEAOfEdOrg(level2)).thenReturn(level2);
     }
     
     @Test
     public void testFindGoverningLEA() {
-        assertEquals(new HashSet<String>(Arrays.asList("level2")), underTest.findGoverningLEA(createSchool()));
+        assertEquals(new HashSet<String>(Arrays.asList("level2")), underTest.findGoverningLEA(school));
     }
     
     @Test
@@ -77,7 +96,7 @@ public class EducationOrganizationContextResolverTest {
         Set<String> leas = underTest.findGoverningLEA("school");
         Set<String> secondCall = underTest.findGoverningLEA("school");
         assertEquals(leas, secondCall);
-        verify(repo, times(1)).findById(EntityNames.EDUCATION_ORGANIZATION, "school");
+        verify(repo, times(1)).findOne(EntityNames.EDUCATION_ORGANIZATION, DeltaEntityIterator.buildQuery(underTest.getCollection(), "school"));
     }
     
     private Entity createSchool() {

@@ -56,4 +56,5 @@ class ContentStandardType
   ContentStandardType.define :SAT, "SAT"
   ContentStandardType.define :STATE_STANDARD, "State Standard"
   ContentStandardType.define :TEXAS_ESSENTIAL_KNOWLEDGE_AND_SKILLS, "Texas Essential Knowledge and Skills"
+  ContentStandardType.define :OTHER, "Other"
 end

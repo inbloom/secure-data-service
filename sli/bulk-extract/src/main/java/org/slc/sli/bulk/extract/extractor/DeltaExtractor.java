@@ -122,7 +122,7 @@ public class DeltaExtractor {
                         ExtractFile extractFile = getExtractFile(lea, tenant, deltaUptoTime, appsPerTopLEA.get(lea));
                         EntityExtractor.CollectionWrittenRecord record = getCollectionRecord(lea, delta.getType());
                         try {
-                            entityExtractor.write(delta.getEntity(), extractFile, record);
+                            entityExtractor.write(delta.getEntity(), extractFile, record, null);
                         } catch (IOException e) {
                             LOG.error("Error while extracting for " + lea, e);
                         }
@@ -202,20 +202,18 @@ public class DeltaExtractor {
         if (!appPerLeaCollectionRecords.containsKey(key)) {
             EntityExtractor.CollectionWrittenRecord collectionRecord = new EntityExtractor.CollectionWrittenRecord(type);
             appPerLeaCollectionRecords.put(key, collectionRecord);
-            return collectionRecord;
         }
 
         return appPerLeaCollectionRecords.get(key);
     }
 
     private ExtractFile getExtractFile(String lea, String tenant, DateTime deltaUptoTime, Set<String> appsForLEA) {
-        String key = lea;
         if (!appPerLeaExtractFiles.containsKey(lea)) {
             ExtractFile appPerLeaExtractFile = getExtractFilePerLEA(tenant, lea, deltaUptoTime, appsForLEA);
-            appPerLeaExtractFiles.put(key, appPerLeaExtractFile);
+            appPerLeaExtractFiles.put(lea, appPerLeaExtractFile);
         }
 
-        return appPerLeaExtractFiles.get(key);
+        return appPerLeaExtractFiles.get(lea);
     }
 
     /* filter out all non top level LEAs */

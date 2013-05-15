@@ -59,7 +59,7 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
     
     private static final Logger LOG = LoggerFactory.getLogger(DeltaEntityIterator.class);
     
-    @Value("${sli.bulk.extract.deltasBatchSize:100}")
+    @Value("${sli.bulk.extract.deltasBatchSize:1000}")
     private int batchSize;
     
     @Autowired
@@ -307,14 +307,37 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
         return workQueue.poll();
     }
     
-    NeutralQuery buildBatchQuery(String collection, Set<String> ids) {
+    /**
+     * build a batch query with embedded date if required
+     * 
+     * @param collection
+     * @param ids
+     * @return a query with embedded data added if required
+     */
+    public static NeutralQuery buildBatchQuery(String collection, Set<String> ids) {
         NeutralQuery q = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, ids));
+        return addEmbeddedQuery(collection, q);
+    }
+    
+    /**
+     * build a query with embedded date if required
+     * 
+     * @param collection
+     * @param id
+     * @return a query with embedded data added if required
+     */
+    public static NeutralQuery buildQuery(String collection, String id) {
+        NeutralQuery q = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, id));
+        return addEmbeddedQuery(collection, q);
+    }
+    
+    private static NeutralQuery addEmbeddedQuery(String collection, NeutralQuery q) {
         if (REQUIRED_EMBEDDED_FIELDS.containsKey(collection)) {
             q.setEmbeddedFields(REQUIRED_EMBEDDED_FIELDS.get(collection));
         }
         return q;
     }
-    
+
     @Override
     public void remove() {
         throw new UnsupportedOperationException();

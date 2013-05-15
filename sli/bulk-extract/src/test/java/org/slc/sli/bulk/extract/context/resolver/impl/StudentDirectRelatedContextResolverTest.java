@@ -50,7 +50,7 @@ public class StudentDirectRelatedContextResolverTest {
         MockitoAnnotations.initMocks(this);
         topLevelLEAs.add("lea1");
         topLevelLEAs.add("lea2");
-        when(studentResolver.getLEAsForStudentId("studentId123")).thenReturn(topLevelLEAs);
+        when(studentResolver.findGoverningLEA("studentId123")).thenReturn(topLevelLEAs);
     }
     
     @Test

@@ -29,11 +29,15 @@ import org.joda.time.DateTime;
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.Launcher;
 import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.lea.CourseExtractor;
+import org.slc.sli.bulk.extract.lea.CourseOfferingExtractor;
 import org.slc.sli.bulk.extract.lea.EdorgExtractor;
 import org.slc.sli.bulk.extract.lea.EntityExtract;
 import org.slc.sli.bulk.extract.lea.EntityToLeaCache;
 import org.slc.sli.bulk.extract.lea.LEAExtractFileMap;
 import org.slc.sli.bulk.extract.lea.LEAExtractorFactory;
+import org.slc.sli.bulk.extract.lea.SectionExtractor;
+import org.slc.sli.bulk.extract.lea.SessionExtractor;
 import org.slc.sli.bulk.extract.lea.StaffEdorgAssignmentExtractor;
 import org.slc.sli.bulk.extract.lea.StudentExtractor;
 import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
@@ -107,6 +111,10 @@ public class LocalEdOrgExtractor {
         genericExtractor = factory.buildParentExtractor(entityExtractor, leaToExtractFileMap, repository);
         genericExtractor.extractEntities(student.getParentCache());
 
+        // Section
+        SectionExtractor sectionExtractor = factory.buildSectionExtractor(entityExtractor,leaToExtractFileMap,repository, student.getEntityCache(), edorgCache);
+        sectionExtractor.extractEntities(null);
+
         // Staff
         StaffEdorgAssignmentExtractor seaExtractor = factory.buildStaffAssociationExtractor(entityExtractor,
                 leaToExtractFileMap, repository);
@@ -115,7 +123,28 @@ public class LocalEdOrgExtractor {
         genericExtractor.extractEntities(seaExtractor.getEntityCache());
         genericExtractor = factory.buildTeacherSchoolExtractor(entityExtractor, leaToExtractFileMap, repository);
         genericExtractor.extractEntities(seaExtractor.getEntityCache());
-
+        
+        //Session and gradingPeriod
+        SessionExtractor sessionExtractor = factory.buildSessionExtractor(entityExtractor, leaToExtractFileMap, repository);
+        sessionExtractor.extractEntities(edorgCache);
+        EntityExtract gradingPeriodExtractor = factory.buildGradingPeriodExtractor(entityExtractor, leaToExtractFileMap, repository);
+        gradingPeriodExtractor.extractEntities(sessionExtractor.getEntityToLeaCache());
+        
+        genericExtractor = factory.buildStaffProgramAssociationExtractor(entityExtractor, leaToExtractFileMap, repository);
+        genericExtractor.extractEntities(seaExtractor.getEntityCache());
+        
+        genericExtractor = factory.buildStaffCohortAssociationExtractor(entityExtractor, leaToExtractFileMap, repository);
+        genericExtractor.extractEntities(seaExtractor.getEntityCache());
+        
+        genericExtractor = factory.buildCohortExtractor(entityExtractor, leaToExtractFileMap, repository);
+        genericExtractor.extractEntities(edorgCache);
+        
+        CourseOfferingExtractor courseOfferingExtractor = factory.buildCourseOfferingExtractor(entityExtractor, leaToExtractFileMap, repository);
+        courseOfferingExtractor.extractEntities(edorgCache, sectionExtractor.getCourseOfferingCache());
+        
+        CourseExtractor courseExtractor = factory.buildCourseExtractor(entityExtractor, leaToExtractFileMap, repository);
+        courseExtractor.extractEntities(edorgCache, courseOfferingExtractor.getCourseCache());
+        
         leaToExtractFileMap.closeFiles();
 
         // TODO extract other entities
