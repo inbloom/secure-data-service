@@ -97,7 +97,9 @@ public class EntityExtractor{
     }
     
     public void extractEntity(Entity entity, ExtractFile archiveFile, String collectionName) {
-    	extractEntity(entity, archiveFile, collectionName, null);
+        if(archiveFile!=null){
+            extractEntity(entity, archiveFile, collectionName, null);
+        }
     }
 
 	/**
