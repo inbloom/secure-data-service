@@ -5,5 +5,5 @@ edfi-xml,StudentAssessment,InterchangeStudentAssessment.xml,2265e5a5808d5420923a
 edfi-xml,StudentParent,Parents.xml,19eb516e27b2be4bb0168e2cb14dea02
 edfi-xml,EducationOrganization,InterchangeEdOrg.xml,bafa6387318a96bc8aa9332f4ca27f82
 edfi-xml,MasterSchedule,InterchangeMasterSchedule.xml,a4551e0c3ad6df2064b069aeec521ca9
-edfi-xml,StaffAssociation,InterchangeStaffAssociation.xml,5ecdd6a652b210e8932b313bf7195213
+edfi-xml,StaffAssociation,InterchangeStaffAssociation.xml,1435086fd81c543bfc062d85f064c2ba
 edfi-xml,Attendance,Attendance.xml,2485deee94a3ae0d7ba78634eca9d8a2

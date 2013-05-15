@@ -37,6 +37,9 @@ Scenario: Generate a bulk extract delta after day 0 ingestion
    And The "session" delta was extracted in the same format as the api
    And The "gradingPeriod" delta was extracted in the same format as the api
    And The "courseOffering" delta was extracted in the same format as the api
+   And The "program" delta was extracted in the same format as the api
+   And The "studentProgramAssociation" delta was extracted in the same format as the api
+   And The "staffProgramAssociation" delta was extracted in the same format as the api
 
 Scenario: Triggering deltas via ingestion
   All entities belong to lea1 which is IL-DAYBREAK, we should only see a delta file for lea1
@@ -74,6 +77,7 @@ Given I clean the bulk extract file system and database
        | 54759a8d56aba10b1b300e66657cd6fcc3ca6ac9_id                                            | entityType = studentSchoolAssociation |
        | 1b4aa93f01d11ad51072f3992583861ed080f15c_id                                            | entityType = parent                   |
        | 908404e876dd56458385667fa383509035cd4312_idd14e4387521c768830def2c9dea95dd0bf7f8f9b_id | entityType = studentParentAssociation |
+       | 95147c130335e0656b0d8e9ab79622a22c3a3fab_id                                            | entityType = section                  |
 
      # Teacher 03 and related entities should be in both DAYBREAk and HIGHWIND
      And I verify this "teacher" file should contains:
@@ -135,6 +139,7 @@ Given I clean the bulk extract file system and database
        | 1b4aa93f01d11ad51072f3992583861ed080f15c_id | entityType = parent                      |
        | db9a7477390fb5de9d58350d1ce3c45ef8fcb0c6_id | entityType = student                     |
        | 908404e876dd56458385667fa383509035cd4312_idd14e4387521c768830def2c9dea95dd0bf7f8f9b_id | entityType = studentParentAssociation    |
+       | 95147c130335e0656b0d8e9ab79622a22c3a3fab_id                                            | entityType = section                     |
 
      And I verify this "student" file should contains: 
        #this is student 11, which has updated information
@@ -179,6 +184,10 @@ Given I clean the bulk extract file system and database
        | id                                          | condition                                |
        | cab9d548be3e51adf6ac00a4028e4f9f4f9e9cae_id | staffUniqueStateId = tech-0000000003     |
        | fe472294f0e40fd428b1a67b9765360004562bab_id | staffUniqueStateId = tech-0000000001     |
+     And I verify this "teacher" file should not contains:
+       # teacher 02 should not show up as we expired his staffEdorgAssociations 
+       | id                                          | condition                                |
+       | 631d712727054d49d706d5a3a7eb8faaad0cbeba_id |                                          |
      And I verify this "teacherSchoolAssociation" file should contains:
        | id                                          | condition                                |
        | c063086ce77b13c4e593ff8261024a6ef30e0a8d_id | teacherId = cab9d548be3e51adf6ac00a4028e4f9f4f9e9cae_id |
@@ -210,7 +219,7 @@ Scenario: Generate a bulk extract in a different LEA
    And I should not see a warning log file created
 
   When I trigger a delta extract
-   And I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+   And I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
    #And I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
    And I request latest delta via API for tenant "Midgar", lea "<IL-HIGHWIND>" with appId "<app id>" clientId "<client id>"
    And I should receive a return code of 200
@@ -518,7 +527,7 @@ Given I clean the bulk extract file system and database
         |  parent                                |
         |  studentParentAssociation              |
         |  studentSchoolAssociation              |
-      #  |  courseOffering                        |
+        |  courseOffering                        |
         |  section                               |
         |  studentSectionAssociation             |
       #  |  studentAssessment                   |

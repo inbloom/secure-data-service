@@ -43,13 +43,16 @@ import org.slc.sli.domain.Entity;
 public class SectionContextResolverTest {
     
     @InjectMocks
-    private SectionContextResolver underTest = new SectionContextResolver();
+    private StudentAssociationWalker walker = new StudentAssociationWalker();
     
     @Mock
     private EducationOrganizationContextResolver edOrgResolver;
     
     @Mock
     private StudentContextResolver studentResolver;
+    
+    @InjectMocks
+    private SectionContextResolver underTest = new SectionContextResolver(edOrgResolver, walker);
     
     @Test
     public void testSectionResolver() {
