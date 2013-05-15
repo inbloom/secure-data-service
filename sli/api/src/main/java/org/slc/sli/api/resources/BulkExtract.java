@@ -221,25 +221,36 @@ public class BulkExtract {
      * Stream a delta response.
      *
      * @param date the date of the delta
+     * @param edOrgId the uuid of the lea/sea to get delta extract for
      * @return A response with a delta extract file.
      * @throws Exception On Error
      */
     @GET
-    @Path("extract/{leaId}/delta/{date}")
+    @Path("extract/{edOrgId}/delta/{date}")
     @RightsAllowed({ Right.BULK_EXTRACT })
     public Response getDelta(@Context HttpServletRequest request, @Context HttpContext context,
-            @PathParam("leaId") String leaId, @PathParam("date") String date) {
+                             @PathParam("edOrgId") String edOrgId, @PathParam("date") String date) {
         if (deltasEnabled) {
-            LOG.info("Retrieving delta bulk extract for {}, at date {}", leaId, date);
-            if (leaId == null || leaId.isEmpty()) {
+            LOG.info("Retrieving delta bulk extract for {}, at date {}", edOrgId, date);
+            if (edOrgId == null || edOrgId.isEmpty()) {
                 throw new IllegalArgumentException("leaId cannot be missing");
             }
             if (date == null || date.isEmpty()) {
                 throw new IllegalArgumentException("date cannot be missing");
             }
+
             validateRequestCertificate(request);
-            appAuthHelper.checkApplicationAuthorization(leaId);
-            return getExtractResponse(context.getRequest(), date, leaId, false);
+
+            boolean isPublicData = false;
+            Entity entity = helper.byId(edOrgId);
+
+            if (helper.isSEA(entity)) {
+                isPublicData = true;
+                canAccessSEAExtract(entity);
+            } else {
+                canAccessLEAExtract(edOrgId);
+            }
+            return getExtractResponse(context.getRequest(), date, edOrgId, isPublicData);
         }
         return Response.status(404).build();
     }
@@ -273,7 +284,7 @@ public class BulkExtract {
      * @param leaId the LEA id
      */
     void canAccessLEAExtract(String leaId) {
-        if (!edorgValidator.validate(EntityNames.EDUCATION_ORGANIZATION, new HashSet<String>(Arrays.asList(leaId)))) {
+            if (!edorgValidator.validate(EntityNames.EDUCATION_ORGANIZATION, new HashSet<String>(Arrays.asList(leaId)))) {
                 throw new AccessDeniedException("User is not authorized to access this extract");
             }
         appAuthHelper.checkApplicationAuthorization(leaId);

@@ -16,48 +16,6 @@
 
 package org.slc.sli.api.resources;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
-import static org.junit.Assert.assertNull;
-import static org.mockito.Matchers.argThat;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.when;
-
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Type;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.security.Principal;
-import java.security.cert.X509Certificate;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.Cookie;
-import javax.ws.rs.core.EntityTag;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.PathSegment;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
-import javax.ws.rs.core.StreamingOutput;
-import javax.ws.rs.core.UriBuilder;
-import javax.ws.rs.core.Variant;
-
 import com.sun.jersey.api.Responses;
 import com.sun.jersey.api.core.ExtendedUriInfo;
 import com.sun.jersey.api.core.HttpContext;
@@ -66,7 +24,6 @@ import com.sun.jersey.api.core.HttpResponseContext;
 import com.sun.jersey.api.representation.Form;
 import com.sun.jersey.core.header.QualitySourceMediaType;
 import com.sun.jersey.core.spi.factory.ResponseImpl;
-
 import org.apache.commons.io.FileUtils;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
@@ -79,14 +36,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.security.ApplicationAuthorizationResource;
 import org.slc.sli.api.security.context.resolver.AppAuthHelper;
@@ -95,11 +44,38 @@ import org.slc.sli.api.security.context.validator.GenericToEdOrgValidator;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.encrypt.security.CertificateValidationHelper;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.*;
+import javax.ws.rs.core.Response.ResponseBuilder;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.security.Principal;
+import java.security.cert.X509Certificate;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.util.*;
+
+import static junit.framework.Assert.*;
+import static org.junit.Assert.assertNull;
+import static org.mockito.Matchers.argThat;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.when;
 
 /**
  * Test for support BulkExtract
@@ -363,6 +339,38 @@ public class BulkExtractTest {
         } finally {
             f.delete();
         }
+    }
+
+    @Test
+    public void testSEADelta() throws Exception {
+        String edOrgId = "Midvale";
+        Map<String, Object> edOrgBody = new HashMap<String, Object>();
+        List<String> orgCategory = new ArrayList<String>();
+        orgCategory.add("State Education Agency");
+        edOrgBody.put("organizationCategories", orgCategory);
+        Entity edOrg = new MongoEntity(EntityNames.EDUCATION_ORGANIZATION, edOrgId, edOrgBody, null);
+        when(edOrgHelper.byId(edOrgId)).thenReturn(edOrg);
+        when(edOrgHelper.isSEA(edOrg)).thenReturn(true);
+
+        DateTime d = ISODateTimeFormat.dateTime().parseDateTime("2013-05-14T11:00:00.000Z");
+        Date date = d.toDate();
+
+        mockBulkExtractEntity(date);
+        Mockito.when(edOrgHelper.getChildLEAsOfEdOrg(edOrg)).thenReturn(Arrays.asList("lea123"));
+        Set<String> lea = new HashSet<String>();
+        lea.add("lea123");
+        Mockito.when(mockValidator.validate(EntityNames.EDUCATION_ORGANIZATION, lea)).thenReturn(true);
+        Map<String, Object> authBody = new HashMap<String, Object>();
+        authBody.put("applicationId", "App1");
+        authBody.put(ApplicationAuthorizationResource.EDORG_IDS, Arrays.asList("lea123"));
+        Entity mockAppAuth = Mockito.mock(Entity.class);
+        Mockito.when(mockAppAuth.getBody()).thenReturn(authBody);
+        Mockito.when(mockMongoEntityRepository.findOne(eq("applicationAuthorization"), Mockito.any(NeutralQuery.class)))
+                .thenReturn(mockAppAuth);
+
+        Response res = bulkExtract.getDelta(req, CONTEXT, edOrgId, "2013-05-14T11:00:00.000Z");
+
+        assertEquals(200, res.getStatus());
     }
 
     private void mockAppAuth() {
