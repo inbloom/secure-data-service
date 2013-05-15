@@ -16,13 +16,17 @@
 package org.slc.sli.bulk.extract.context.resolver.impl;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.slc.sli.bulk.extract.context.resolver.ContextResolver;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 
 /**
  * Many entities have two path of associations to LEAs:
@@ -62,5 +66,28 @@ public abstract class EdOrgRelatedReferrableResolver extends ReferrableResolver 
      * @return set of LEA ids this entity belongs to
      */
     protected abstract Set<String> getTransitiveAssociations(Entity entity);
+    
+    /**
+     * helper method for retrieve direct associations
+     * 
+     * @param entity
+     * @param referredCollection
+     * @param referredField
+     * @param resolver
+     * @return set of LEAs
+     */
+    protected Set<String> getDirectTransitiveAssocitions(Entity entity, String referredCollection, String referredField, ContextResolver resolver) {
+        Set<String> leas = new HashSet<String>();
+        String id = entity.getEntityId();
+        if (id != null) {
+            Iterator<Entity> referred = getRepo().findEach(referredCollection,
+                    new NeutralQuery(new NeutralCriteria(referredField, NeutralCriteria.OPERATOR_EQUAL, id)));
+            while (referred.hasNext()) {
+                leas.addAll(resolver.findGoverningLEA(referred.next()));
+            }
+        }
+        
+        return leas;
+    }
 
 }

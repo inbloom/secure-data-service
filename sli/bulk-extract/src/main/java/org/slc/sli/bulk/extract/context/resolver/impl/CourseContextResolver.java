@@ -15,7 +15,6 @@
  */
 package org.slc.sli.bulk.extract.context.resolver.impl;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +22,6 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
 
 @Component
 public class CourseContextResolver extends EdOrgRelatedReferrableResolver {
@@ -41,18 +38,7 @@ public class CourseContextResolver extends EdOrgRelatedReferrableResolver {
     
     @Override
     protected Set<String> getTransitiveAssociations(Entity entity) {
-        Set<String> leas = new HashSet<String>();
-        // follow all the courseOfferings
-        String courseId = entity.getEntityId();
-        if (courseId != null) {
-            Iterable<Entity> courseOfferings = getRepo().findAll(EntityNames.COURSE_OFFERING,
-                    new NeutralQuery(new NeutralCriteria(COURSE_ID, NeutralCriteria.OPERATOR_EQUAL, courseId)));
-            for (Entity courseOffering : courseOfferings) {
-                leas.addAll(courseOfferingResolver.findGoverningLEA(courseOffering));
-            }
-        }
-
-        return leas;
+        return getDirectTransitiveAssocitions(entity, EntityNames.COURSE_OFFERING, COURSE_ID, courseOfferingResolver);
     }
 
 }
