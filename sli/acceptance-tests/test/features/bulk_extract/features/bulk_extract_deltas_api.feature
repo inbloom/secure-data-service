@@ -70,6 +70,7 @@ Given I clean the bulk extract file system and database
        |  teacher                               |
        |  teacherSchoolAssociation              |
        |  courseOffering                        |
+       |  program                               |
        |  deleted                               |
      And I verify this "deleted" file should contains:
        | id                                                                                     | condition                             |
@@ -115,6 +116,17 @@ Given I clean the bulk extract file system and database
       | id                                          | condition                                |
       | 48779c5fb806b8325ffbe4ceb0448bde1f5d8313_id | localCourseTitle = Ninth grade Advanced English |
 
+    # Since student 1 is valid for Highwind, these two should be included
+    And I verify this "program" file should contains:
+      | id                                          | condition                                |
+      | 004351714bfe0f6a34eb3f09a26fcbaf81645d1f_id | programType = Gifted and Talented        |
+      | 9cce6ea23864ee4870c8871e4c14ddecb6ab0fb0_id | programType = Gifted and Talented        |
+
+    # This one is just for Daybreak
+    And I verify this "program" file should not contains:
+      | id                                          | condition                                |
+      | 5449814bb2dbed641d914843fb17a87f6222ec82_id |                                          |
+
      And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
        |  attendance                            |
@@ -131,6 +143,7 @@ Given I clean the bulk extract file system and database
        |  teacherSchoolAssociation              |
        |  teacherSectionAssociation             |
        |  courseOffering                        |
+       |  program                               |
        |  deleted                               |
    
      And I verify this "deleted" file should contains:
@@ -205,6 +218,12 @@ Given I clean the bulk extract file system and database
       | id                                          | condition                                |
       | 1c4d8ea0c38aab28c05b5b40e8cf71e79e455ea2_id | localCourseTitle = First grade modified course |
       | 48779c5fb806b8325ffbe4ceb0448bde1f5d8313_id | localCourseTitle = Ninth grade Advanced English |
+
+    And I verify this "program" file should contains:
+      | id                                          | condition                                |
+      | 004351714bfe0f6a34eb3f09a26fcbaf81645d1f_id | programType = Gifted and Talented        |
+      | 9cce6ea23864ee4870c8871e4c14ddecb6ab0fb0_id | programType = Gifted and Talented        |
+      | 5449814bb2dbed641d914843fb17a87f6222ec82_id | programType = Gifted and Talented        |
 
 Scenario: Generate a bulk extract in a different LEA
   Given I clean the bulk extract file system and database
