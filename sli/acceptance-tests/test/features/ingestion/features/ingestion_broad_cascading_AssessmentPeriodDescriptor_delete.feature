@@ -108,7 +108,7 @@ Scenario: Delete Orphan AssessmentPeriodDescriptor with cascade = false
 	And I see that collections counts have changed as follows in tenant "Midgar"
         |collection                      |delta|
         |assessmentPeriodDescriptor      |   -1|
-       # |recordHash                      |   -1|
+        |recordHash                      |   -1|
 
 Scenario: Delete Orphan AssessmentPeriodDescriptor Ref with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -130,7 +130,7 @@ Scenario: Delete Orphan AssessmentPeriodDescriptor Ref with cascade = false
 	And I see that collections counts have changed as follows in tenant "Midgar"
         |collection                      |delta|
         |assessmentPeriodDescriptor      |   -1|
-       # |recordHash                      |   -1|
+        |recordHash                      |   -1|
 
 Scenario: Delete AssessmentPeriodDescriptor with cascade = false, force = true and log violations = true
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -158,7 +158,7 @@ Scenario: Delete AssessmentPeriodDescriptor with cascade = false, force = true a
 	And I see that collections counts have changed as follows in tenant "Midgar"
         |collection |delta|
         |assessmentPeriodDescriptor      |   -1|
-       # |recordHash                      |   -1|
+        |recordHash                      |   -1|
 
 Scenario: Delete AssessmentPeriodDescriptor Ref with cascade = false, force = true and log violations = true
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -186,5 +186,5 @@ Scenario: Delete AssessmentPeriodDescriptor Ref with cascade = false, force = tr
 	And I see that collections counts have changed as follows in tenant "Midgar"
         |collection |delta|
         |assessmentPeriodDescriptor      |   -1|
-       # |recordHash                      |   -1|
+        |recordHash                      |   -1|
 	

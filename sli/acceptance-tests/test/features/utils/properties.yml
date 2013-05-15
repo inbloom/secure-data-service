@@ -179,6 +179,9 @@ ci_idp_redirect_url: https://localhost:8080/simple-idp?realm=IL-Daybreak
 #developer2_sb_email_imap_registration_user_email:
 #developer2_sb_email_imap_registration_pass:
 
+#Bulk extract cleanup script
+bulk_extract_cleanup_script: "../bulk-extract/scripts/cleanup_bulk_extract.rb"
+
 ################# /e2e test properties #################################
 
 portal_server_address: http://local.slidev.org:7000

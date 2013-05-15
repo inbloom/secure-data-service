@@ -15,14 +15,9 @@
  */
 package org.slc.sli.bulk.extract.context.resolver.impl;
 
-import java.util.Collections;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import org.slc.sli.bulk.extract.context.resolver.ContextResolver;
-import org.slc.sli.domain.Entity;
 
 /**
  * This resolver can resolve an entity that is directly related to a student.
@@ -35,25 +30,19 @@ import org.slc.sli.domain.Entity;
  * 
  */
 @Component
-public class StudentDirectRelatedContextResolver implements ContextResolver {
+public class StudentDirectRelatedContextResolver extends RelatedContextResolver {
     
     @Autowired
-    private StudentContextResolver studentContextResolver;
-    
+    private ReferrableResolver studentContextResolver;
+
     private final static String STUDENT_ID = "studentId";
     
-    @Override
-    public Set<String> findGoverningLEA(Entity entity) {
-        if (entity.getBody() == null) {
-            return Collections.emptySet();
-        }
-        
-        String studentId = (String) entity.getBody().get(STUDENT_ID);
-        if (studentId == null) {
-            return Collections.emptySet();
-        }
-        
-        return studentContextResolver.getLEAsForStudentId(studentId);
+    protected ReferrableResolver getReferredResolver() {
+        return studentContextResolver;
+    }
+    
+    protected String getReferenceProperty(String entityType) {
+        return STUDENT_ID;
     }
     
 }

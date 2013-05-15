@@ -64,9 +64,8 @@ Scenario: Safe Delete Assessment Item from Student Assessment with Cascade = fal
     And I should see "CORE_0066" in the resulting error log file for "InterchangeStudentAssessment.xml"
    	And I should not see a warning log file created
 	And I see that collections counts have changed as follows in tenant "Midgar"
-	|collection                        |delta          |
-	|assessmentItem                         |         0|
-	#|recordHash                             |        -1|
+	|collection                        |delta       |
+	|assessmentItem                    |           0|
 
 
 Scenario: Safe Delete Assessment Item by Reference from Student Assessment with Cascade = false, Force = false
@@ -93,10 +92,9 @@ Scenario: Safe Delete Assessment Item by Reference from Student Assessment with 
     And I should see "CORE_0066" in the resulting error log file for "InterchangeStudentAssessment.xml"
    	And I should not see a warning log file created
 	And I see that collections counts have changed as follows in tenant "Midgar"
-	|collection                        |delta          |
-	|assessmentItem                         |         0|
-	#|recordHash                             |        -1|
-	
+	|collection                        |delta     |
+	|assessmentItem                    |         0|
+
 Scenario: Delete Orphan Assessment Item from Student Assessment with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -120,7 +118,7 @@ Scenario: Delete Orphan Assessment Item from Student Assessment with cascade = f
 	|assessment                             |        -1|   
 	|assessment<hollow>                     |        -1|
 #the body assessment is empty after deletion of assessmentItem, so it is deleted too.
-	#|recordHash                             |       -1|
+	|recordHash                             |       -1|
 	
 
 Scenario: Delete Orphan Assessment Item Reference from Student Assessment with cascade = false
@@ -145,8 +143,8 @@ Scenario: Delete Orphan Assessment Item Reference from Student Assessment with c
 	|assessmentItem                         |        -1|
 	|assessment                             |        -1|
 	|assessment<hollow>                     |        -1|
-	#|recordHash                             |       -1|
-	
+	|recordHash                             |        -1|
+
 Scenario: Delete Assessment Item from Student Assessment with default settings (Confirm that by default cascade = false, force = true and log violations = true)
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -171,11 +169,11 @@ Scenario: Delete Assessment Item from Student Assessment with default settings (
     And I should see "CORE_0066" in the resulting warning log file for "InterchangeStudentAssessment.xml"
     And I re-execute saved query "assessmentItem" to get "0" records
 	And I see that collections counts have changed as follows in tenant "Midgar"
-	|collection                        |delta          |
-	|assessmentItem                         |        -1|
-	#|recordHash                             |        -1|
+	|collection                        |delta     |
+	|assessmentItem                    |        -1|
+	|recordHash                        |        -1|
 
-	
+
 Scenario: Delete Assessment Item Reference from Student Assessment with default settings (Confirm that by default cascade = false, force = true and log violations = true)
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -200,6 +198,6 @@ Scenario: Delete Assessment Item Reference from Student Assessment with default 
     And I should see "CORE_0066" in the resulting warning log file for "InterchangeStudentAssessment.xml"
     And I re-execute saved query "assessmentItem" to get "0" records
 	And I see that collections counts have changed as follows in tenant "Midgar"
-	|collection                        |delta          |
-	|assessmentItem                         |        -1|
-	#|recordHash                             |        -1|
+	|collection                        |delta     |
+	|assessmentItem                    |        -1|
+	|recordHash                        |        -1|

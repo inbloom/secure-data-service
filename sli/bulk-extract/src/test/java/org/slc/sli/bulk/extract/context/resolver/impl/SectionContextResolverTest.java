@@ -15,8 +15,9 @@
  */
 package org.slc.sli.bulk.extract.context.resolver.impl;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -29,6 +30,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+
 import org.slc.sli.domain.Entity;
 
 /**
@@ -41,7 +43,7 @@ import org.slc.sli.domain.Entity;
 public class SectionContextResolverTest {
     
     @InjectMocks
-    private SectionContextResolver underTest = new SectionContextResolver();
+    private StudentAssociationWalker walker = new StudentAssociationWalker();
     
     @Mock
     private EducationOrganizationContextResolver edOrgResolver;
@@ -49,18 +51,22 @@ public class SectionContextResolverTest {
     @Mock
     private StudentContextResolver studentResolver;
     
+    @InjectMocks
+    private SectionContextResolver underTest = new SectionContextResolver(edOrgResolver, walker);
+    
     @Test
     public void testSectionResolver() {
         when(edOrgResolver.findGoverningLEA("osirisHigh")).thenReturn(
                 new HashSet<String>(Arrays.asList("OsirisSchoolDistrict")));
-        when(studentResolver.getLEAsForStudentId("river")).thenReturn(
+        when(studentResolver.findGoverningLEA("river")).thenReturn(
                 new HashSet<String>(Arrays.asList("OsirisSchoolDistrict", "Academy")));
-        when(studentResolver.getLEAsForStudentId("simon")).thenReturn(
+        when(studentResolver.findGoverningLEA("simon")).thenReturn(
                 new HashSet<String>(Arrays.asList("OsirisSchoolDistrict", "MedSchool")));
         Entity section = mock(Entity.class);
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("schoolId", "osirisHigh");
         when(section.getBody()).thenReturn(body);
+        when(section.getEntityId()).thenReturn("sectionId");
         Entity river = mock(Entity.class);
         Map<String, Object> riverBody = new HashMap<String, Object>();
         riverBody.put("studentId", "river");

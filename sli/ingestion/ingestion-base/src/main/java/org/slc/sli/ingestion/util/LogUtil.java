@@ -165,4 +165,32 @@ public class LogUtil {
         LogUtil.includeExceptionMessage = includeExceptionMessage;
     }
 
+    
+    /**
+     * Log live memory use.  Useful for ad hoc instrumenting of points in the code where memory use needs to
+     * be measured precisely.  Beware: THIS CALLS System.gc() !!
+     */
+    public static void logMem(Logger log, String prefix) {
+    	// Run gc() so we are left with nothing but live memory
+    	System.gc(); // NOPMD
+    	Runtime rt = Runtime.getRuntime();
+    	Long used = new Long( (rt.totalMemory() - rt.freeMemory()) / (1024 * 1024));
+    	log.info(prefix + " MemUsed: " + used.toString());
+    }
+    
+    /**
+     * Named trigger stubs for use with profiler.  These do nothing but log a given message.  Their value
+     * is mainly for use in setting up profiler triggers that cause a snapshot to get taken
+     * when called.
+     */
+    public static void profilerTrigger1(Logger log, String msg) {
+    	log.info("profilerTrigger1(); called");
+    }
+    public static void profilerTrigger2(Logger log, String msg) {
+    	log.info("profilerTrigger2(); called");
+    }
+    public static void profilerTrigger3(Logger log, String msg) {
+    	log.info("profilerTrigger3(); called");
+    }
+
 }

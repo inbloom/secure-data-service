@@ -43,7 +43,7 @@ Scenario: Delete Assessment Item from Assessment Metadata with cascade
 	And I should not see "58346902a070426a109f451129eeeb1268daed21_id406e5f1c9ff1339aaf93fc8f3fe21ff6fead0439_id" in the "Midgar" database
 	
 	#objectiveAssessment assessmentItem missing
-	
+
 Scenario: Safe Delete Assessment Item from Assessment Metadata with Cascade = false, Force = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -73,7 +73,6 @@ Scenario: Safe Delete Assessment Item from Assessment Metadata with Cascade = fa
 	And I see that collections counts have changed as follows in tenant "Midgar"
 	|collection                        |delta          |
 	|assessmentItem                         |         0|
-	#|recordHash                             |        -1|
 
 Scenario: Safe Delete Assessment Item by Reference from Assessment Metadata with Cascade = false, Force = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -104,8 +103,7 @@ Scenario: Safe Delete Assessment Item by Reference from Assessment Metadata with
 	And I see that collections counts have changed as follows in tenant "Midgar"
 	|collection                        |delta          |
 	|assessmentItem                         |         0|
-	#|recordHash                             |        -1|
-		
+
 
 Scenario: Delete Orphan Assessment Item from Assessment Metadata with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -130,7 +128,7 @@ Scenario: Delete Orphan Assessment Item from Assessment Metadata with cascade = 
 	|assessment                             |        -1|  
 	|assessment<hollow>                     |        -1|
 #the body assessment is empty after deletion of assessmentItem, so it is deleted too
-   #|recordHash                             |       -1|
+    |recordHash                             |       -1|
 	
 
 Scenario: Delete Orphan Assessment Item Reference from Assessment Metadata with cascade = false
@@ -155,9 +153,9 @@ Scenario: Delete Orphan Assessment Item Reference from Assessment Metadata with 
 	|assessmentItem                         |        -1|
 	|assessment                             |        -1|
 	|assessment<hollow>                     |        -1|
-	#|recordHash                             |       -1|
+	|recordHash                             |       -1|
 	
-	
+
 Scenario: Delete Assessment Item from Assessment Metadata with default settings (Confirm that by default cascade = false, force = true and log violations = true)
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -184,7 +182,7 @@ Scenario: Delete Assessment Item from Assessment Metadata with default settings 
 	And I see that collections counts have changed as follows in tenant "Midgar"
 	|collection                        |delta          |
 	|assessmentItem                         |        -1|
-	#|recordHash                             |        -1|
+	|recordHash                             |        -1|
 
 
 Scenario: Delete Assessment Item Reference from Assessment Metadata with default settings (Confirm that by default cascade = false, force = true and log violations = true)
@@ -213,4 +211,4 @@ Scenario: Delete Assessment Item Reference from Assessment Metadata with default
 	And I see that collections counts have changed as follows in tenant "Midgar"
 	|collection                        |delta          |
 	|assessmentItem                         |        -1|
-	#|recordHash                             |        -1|
+	|recordHash                             |        -1|

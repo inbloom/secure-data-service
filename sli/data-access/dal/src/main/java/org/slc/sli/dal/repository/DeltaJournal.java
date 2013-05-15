@@ -53,9 +53,9 @@ public class DeltaJournal {
 
     public static final String DELTA_COLLECTION = "deltas";
     
-    // in paged query, get upto 1000 items each time
-    public static final int DEFAULT_LIMIT = 1000;
-    public int limit = DEFAULT_LIMIT;
+    // in paged query, get upto 1000 items each time    
+    @Value("${sli.bulk.extract.delta.iterationSize:50000}")
+    public int limit = 1000;
 
     @Autowired
     @Qualifier("journalTemplate")
