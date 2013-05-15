@@ -54,11 +54,7 @@ class StudentCompetencyObjective < BaseEntity
     @objective_grade       = GradeLevelType.to_string(grade)
     @edorg_id              = edorg_id
 
-    optional { @description  = nil }
-  end
-
-  def self.build_sco(count, objective, grade, edorg_id)
-    (1..count).collect{|x| StudentCompetencyObjective.new("SCO #{grade} #{edorg_id} #{x}", objective, grade, edorg_id)}
+    #optional { @description  = "A descrpition of how awesome it is to achieve #{objective}" }
   end
 
   # define equality between two entities by iterating over instance variables and comparing each field for equality
