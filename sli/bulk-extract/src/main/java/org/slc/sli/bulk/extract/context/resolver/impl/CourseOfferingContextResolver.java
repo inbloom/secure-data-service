@@ -33,28 +33,17 @@ import org.slc.sli.domain.NeutralQuery;
  * 
  */
 @Component
-public class CourseOfferingContextResolver extends ReferrableResolver {
+public class CourseOfferingContextResolver extends EdOrgRelatedReferrableResolver {
    
-    public static final String SCHOOL_ID = "schoolId";
     public static final String COURSE_OFFERING_ID = "courseOfferingId";
 
     @Autowired
     private SectionContextResolver sectionResolver;
-    
-    @Autowired
-    private EducationOrganizationContextResolver edorgResolver;
 
     @Override
-    protected Set<String> resolve(Entity entity) {
-        /*
-         * Course should follow schoolId and all sections
-         * that has the courseOfferingId
-         */
-        Set<String> leas = new HashSet<String>();
-        String schoolId = (String) entity.getBody().get(SCHOOL_ID);
-        leas.addAll(edorgResolver.findGoverningLEA(schoolId));
-
+    protected Set<String> getTransitiveAssociations(Entity entity) {
         // follow all the sections
+        Set<String> leas = new HashSet<String>();
         String courseOfferingId = entity.getEntityId();
         if (courseOfferingId != null) {
             Iterable<Entity> sections = getRepo().findAll(EntityNames.SECTION,

@@ -16,50 +16,43 @@
 package org.slc.sli.bulk.extract.context.resolver.impl;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 
-/**
- * Context resolver for sections
- * 
- * @author nbrown
- * 
- */
 @Component
-public class SectionContextResolver extends EdOrgRelatedReferrableResolver {
-    private static final Logger LOG = LoggerFactory.getLogger(SectionContextResolver.class);
+public class CourseContextResolver extends EdOrgRelatedReferrableResolver {
     
-    @SuppressWarnings("unused")
-    private final EducationOrganizationContextResolver edOrgResolver;
+    public static final String COURSE_ID = "courseId";
 
-    private final StudentAssociationWalker walker;
-    
     @Autowired
-    public SectionContextResolver(EducationOrganizationContextResolver edOrgResolver, StudentAssociationWalker walker) {
-        this.edOrgResolver = edOrgResolver;
-        this.walker = walker;
-    }
-
-    @Override
-    protected Set<String> getTransitiveAssociations(Entity entity) {
-        Set<String> leas = new HashSet<String>();
-        List<Entity> studentAssociations = entity.getEmbeddedData().get("studentSectionAssociation");
-        LOG.debug("studentSectionAssociations being process for {} are {}", entity, studentAssociations);
-        leas.addAll(walker.walkStudentAssociations(studentAssociations));
-        return leas;
-    }
+    private CourseOfferingContextResolver courseOfferingResolver;
 
     @Override
     protected String getCollection() {
-        return EntityNames.SECTION;
+        return EntityNames.COURSE;
     }
     
+    @Override
+    protected Set<String> getTransitiveAssociations(Entity entity) {
+        Set<String> leas = new HashSet<String>();
+        // follow all the courseOfferings
+        String courseId = entity.getEntityId();
+        if (courseId != null) {
+            Iterable<Entity> courseOfferings = getRepo().findAll(EntityNames.COURSE_OFFERING,
+                    new NeutralQuery(new NeutralCriteria(COURSE_ID, NeutralCriteria.OPERATOR_EQUAL, courseId)));
+            for (Entity courseOffering : courseOfferings) {
+                leas.addAll(courseOfferingResolver.findGoverningLEA(courseOffering));
+            }
+        }
+
+        return leas;
+    }
+
 }
