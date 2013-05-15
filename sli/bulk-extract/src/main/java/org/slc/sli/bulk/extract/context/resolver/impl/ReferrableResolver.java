@@ -79,6 +79,10 @@ public abstract class ReferrableResolver implements ContextResolver {
      * @return the list of leas
      */
     public Set<String> findGoverningLEA(String id) {
+        if (id == null) {
+            return Collections.emptySet();
+        }
+
         if (getCache().containsKey(id)) {
             LOG.debug("got LEAs from cache for {}", id);
             return getCache().get(id);
