@@ -73,6 +73,7 @@ Given I clean the bulk extract file system and database
        |  course                                |
        |  courseOffering                        |
        |  program                               |
+       |  graduationPlan                        |
        |  deleted                               |
      And I verify this "deleted" file should contains:
        | id                                                                                     | condition                             |
@@ -137,6 +138,10 @@ Given I clean the bulk extract file system and database
       | id                                          | condition                                |
       | 5449814bb2dbed641d914843fb17a87f6222ec82_id |                                          |
 
+    And I verify this "graduationPlan" file should contains:
+      | id                                          | condition                                |
+      | ac907f298a74a5f200c78ecb372afb1e53cf15c3_id | graduationPlanType = Distinguished       |
+    
      And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
        |  attendance                            |
@@ -155,6 +160,7 @@ Given I clean the bulk extract file system and database
        |  courseOffering                        |
        |  course                                |
        |  program                               |
+       |  graduationPlan                        |
        |  deleted                               |
    
      And I verify this "deleted" file should contains:
@@ -239,6 +245,15 @@ Given I clean the bulk extract file system and database
       | 004351714bfe0f6a34eb3f09a26fcbaf81645d1f_id | programType = Gifted and Talented        |
       | 9cce6ea23864ee4870c8871e4c14ddecb6ab0fb0_id | programType = Gifted and Talented        |
       | 5449814bb2dbed641d914843fb17a87f6222ec82_id | programType = Gifted and Talented        |
+
+    And I verify this "graduationPlan" file should contains:
+      | id                                          | condition                                |
+      | 1af13424ea3a179e716468ff760255878ce20ec7_id | graduationPlanType = Distinguished       |
+
+   #this step is necesssary since there is no graduationPlan in day 0 delta, need to verify it's really the same
+   #format as API would return
+   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+   Then The "graduationPlan" delta was extracted in the same format as the api
 
 Scenario: Generate a bulk extract in a different LEA
   Given I clean the bulk extract file system and database

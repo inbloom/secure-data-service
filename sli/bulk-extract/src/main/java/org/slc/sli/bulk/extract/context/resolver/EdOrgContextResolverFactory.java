@@ -27,6 +27,7 @@ import org.slc.sli.bulk.extract.context.resolver.impl.CourseOfferingContextResol
 import org.slc.sli.bulk.extract.context.resolver.impl.EducationOrganizationContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.GradebookEntryContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.GradingPeriodContextResolver;
+import org.slc.sli.bulk.extract.context.resolver.impl.GraduationPlanContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.ParentContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.ProgramContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.SectionContextResolver;
@@ -97,6 +98,9 @@ public class EdOrgContextResolverFactory {
     @Autowired
     private ProgramContextResolver programContextResolver;
     
+    @Autowired
+    private GraduationPlanContextResolver graduationPlanResolver;
+
     /**
      * find responsible resolver for this entity type
      * 
@@ -174,6 +178,10 @@ public class EdOrgContextResolverFactory {
 
         if (EntityNames.PROGRAM.equals(entityType)) {
             return programContextResolver;
+        }
+        
+        if (EntityNames.GRADUATION_PLAN.equals(entityType)) {
+            return graduationPlanResolver;
         }
 
         LOG.debug("unable to resolve entity type {}", entityType);
