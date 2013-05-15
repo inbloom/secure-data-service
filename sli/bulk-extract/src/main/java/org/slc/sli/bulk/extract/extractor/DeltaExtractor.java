@@ -122,7 +122,7 @@ public class DeltaExtractor {
                         ExtractFile extractFile = getExtractFile(lea, tenant, deltaUptoTime, appsPerTopLEA.get(lea));
                         EntityExtractor.CollectionWrittenRecord record = getCollectionRecord(lea, delta.getType());
                         try {
-                            entityExtractor.write(delta.getEntity(), extractFile, record);
+                            entityExtractor.write(delta.getEntity(), extractFile, record, null);
                         } catch (IOException e) {
                             LOG.error("Error while extracting for " + lea, e);
                         }

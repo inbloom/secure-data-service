@@ -19,7 +19,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.slc.sli.bulk.extract.context.resolver.ContextResolver;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slf4j.Logger;
@@ -37,14 +36,18 @@ import org.springframework.stereotype.Component;
 public class SectionContextResolver extends ReferrableResolver {
     private static final Logger LOG = LoggerFactory.getLogger(SectionContextResolver.class);
     
-    @Autowired
-    private EducationOrganizationContextResolver edOrgResolver;
+    private final EducationOrganizationContextResolver edOrgResolver;
+    
+    private final StudentAssociationWalker walker;
     
     @Autowired
-    private StudentContextResolver studentResolver;
-    
+    public SectionContextResolver(EducationOrganizationContextResolver edOrgResolver, StudentAssociationWalker walker) {
+        this.edOrgResolver = edOrgResolver;
+        this.walker = walker;
+    }
+
     @Override
-    public Set<String> findGoverningLEA(Entity entity) {
+    protected Set<String> resolve(Entity entity) {
         String schoolId = (String) entity.getBody().get("schoolId");
         Set<String> leas = new HashSet<String>();
         if(schoolId == null) {
@@ -54,16 +57,7 @@ public class SectionContextResolver extends ReferrableResolver {
         }
         List<Entity> studentAssociations = entity.getEmbeddedData().get("studentSectionAssociation");
         LOG.debug("studentSectionAssociations being process for {} are {}", entity, studentAssociations);
-        if (studentAssociations != null) {
-            for(Entity studentAssociation: studentAssociations) {
-                String studentId = (String) studentAssociation.getBody().get("studentId");
-                if (studentId == null) {
-                    LOG.warn("Student Section association without a student id: {}", studentAssociation);
-                } else {
-                    leas.addAll(studentResolver.findGoverningLEA(studentId));
-                }
-            }
-        }
+        leas.addAll(walker.walkStudentAssociations(studentAssociations));
         return leas;
     }
 

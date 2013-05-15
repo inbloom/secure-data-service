@@ -77,143 +77,6 @@ Transform /^<(.*?)>$/ do |human_readable_id|
 end
 
 ############################################################
-# Scheduler
-############################################################
-Given /^the current crontab is empty$/ do
-    command = "crontab -l"
-    result = runShellCommand(command)
-    puts "Running: #{command} #{result}"
-    command = "crontab -r"
-    result = runShellCommand(command)
-    puts "Running: #{command} #{result}"
-    assert(result.length==0, "current crontab is not empty but #{result}")
-end
-
-Given /^the local bulk extract script path and the scheduling config path$/ do
-    assert(Dir.exists?(TRIGGER_SCRIPT_DIRECTORY), "Bulk Extract script directory #{TRIGGER_SCRIPT_DIRECTORY} does not exist")
-    @current_dir = Dir.pwd
-    is_jenkins = @current_dir.include?"jenkins"
-    puts "pwd: #{@current_dir}"
-    @trigger_script_path = TRIGGER_SCRIPT_DIRECTORY
-    @scheduling_config_path = File.dirname(__FILE__) + '/../../test_data/config/'
-
-    if !is_jenkins
-        @scheduling_config_path = File.dirname(__FILE__) + '/../../test_data/local/'
-    end
-
-    assert(Dir.exists?(@scheduling_config_path), "Bulk Extract scheduling config directory #{@scheduling_config_path} does not exist")
-
-    puts "bulk extract script path: #{@trigger_script_path}"
-    puts "bulk extract scheduling config path: #{@scheduling_config_path}"
-end
-
-Given /^I clean the bulk extract file system and database$/ do
-  steps "Given the extraction zone is empty"
-  steps "Given I have an empty delta collection"
-  steps "Given I have an empty bulk extract files collection"
-end
-
-Given /^There is no SEA for the tenant "(.*?)"$/ do |tenant|
-    @tenant_db = @conn.db(convertTenantIdToDbName(tenant))
-    collection = @tenant_db.collection('educationOrganization')
-    collection.remove({'body.organizationCategories' => 'State Education Agency'})
-end
-
-Given /^I get the SEA Id for the tenant "(.*?)"$/ do |tenant|
-    @tenant_db = @conn.db(convertTenantIdToDbName(tenant))
-    edOrgcollection = @tenant_db.collection('educationOrganization')
-    @seaId = edOrgcollection.find_one({'body.organizationCategories' => 'State Education Agency'})["_id"]
-    assert (@seaId != nil)
-    puts @seaId
-end
-
-Given /^none of the following entities reference the SEA:$/ do |table|
-    table.hashes.map do |row|
-        collection = @tenant_db.collection(row["entity"])
-        collection.remove({row["path"] => @seaId})
-    end
-end
-
-And /^I clean up the cron extraction zone$/ do
-    Dir.chdir
-    puts "pwd: #{Dir.pwd}"
-    if (Dir.exists?(CRON_OUTPUT_DIRECTORY))
-        FileUtils.rm_rf CRON_OUTPUT_DIRECTORY
-    end
-    assert(!Dir.exists?(CRON_OUTPUT_DIRECTORY), "cron output directory #{CRON_OUTPUT_DIRECTORY} does exist")
-    puts "CRON_OUTPUT_DIRECTORY: #{CRON_OUTPUT_DIRECTORY}"
-    Dir.chdir(@current_dir)
-end
-
-Then /^I run the bulk extract scheduler script$/ do
-    command  = "echo 'y' | #{SCHEDULER_SCRIPT} #{@trigger_script_path} #{@scheduling_config_path}"
-    result = runShellCommand(command)
-    puts "Running: #{command} #{result}"
-    raise "Result of bulk extract scheduler script should include Installed new crontab but was #{result}" if !result.include?"Installed new crontab"
-    command = "crontab -l"
-    result = runShellCommand(command)
-    Dir.chdir
-    puts "pwd: #{Dir.pwd}"
-end
-
-When /^I am willing to wait upto (\d+) seconds for the bulk extract scheduler cron job to start and complete$/ do |limit|
-    @maxTimeout = limit.to_i
-    puts "Waited timeout for #{limit.to_i} seconds"
-    intervalTime = 1
-    @maxTimeout ? @maxTimeout : @maxTimeout = 900
-    iters = (1.0*@maxTimeout/intervalTime).ceil
-    iters.times do |i|
-       if Dir.exists?(CRON_OUTPUT_DIRECTORY)
-          puts "Bulk extract scheduler cron job took approx. #{(i+1)*intervalTime} seconds to start and complete"
-          found = true
-          break
-       else
-          sleep(intervalTime)
-       end
-    end
-
-    assert(Dir.exists?(CRON_OUTPUT_DIRECTORY), "Timeout: cron job output directory #{CRON_OUTPUT_DIRECTORY} does not exist")
-
-    outdir = Dir.new(CRON_OUTPUT_DIRECTORY)
-    outdir.each do |filename|
-       puts "Bulk extracted file by cron job: #{filename}" if filename!="." && filename!=".."
-    end
-    Dir.chdir(@current_dir)
-end
-
-And /^I clear crontab$/ do
-    command = "crontab -r"
-    result = runShellCommand(command)
-    puts "Running: #{command} #{result}"
-    assert(result.length==0, "current crontab is not empty but #{result}")
-end
-
-When /^I execute cleanup script for tenant:"(.*?)", edorg:"(.*?)", date:"(.*?)", path:"(.*?)"$/ do |tenant, edorg, date, path|
-  @log = "cleanup/out.log"
-  puts CLEANUP_SCRIPT
-  options = "-t#{tenant} "
-  if(!edorg.empty?)
-    options += " -e#{edorg}"
-  end
-  if(!date.empty?)
-    options += " -d#{date}"
-  end
-  if(!path.empty?)
-    options += " -f#{path}"
-  end
-  command  = "echo y | ruby #{CLEANUP_SCRIPT} #{options}"
-  @cleanResult, result = Open3.capture2(command)
-  puts @cleanResult
-end
-
-And /^I should see error message$/ do
-  errorMessage = "FATAL:"
-  puts "HERRE I AM"
-  puts @cleanResult
-  assert(@cleanResult.to_s.include?(errorMessage), "Result of bulk extract cleanup script should include error message but was " + @cleanResult )
-end
-
-############################################################
 # Given
 ############################################################
 Given /^I trigger a bulk extract$/ do
@@ -273,15 +136,118 @@ Given /^the bulk extract files in the database are scrubbed/ do
   @coll.remove()
 end
 
-And /^I add all the test edorgs$/ do |table|
+Given /^I add all the test edorgs$/ do |table|
   table.hashes.map do |row|
     addTestEdorg(row["tenant"], row["Edorg"])
   end
 end
 
+Given /^I configurate the bulk extract scheduler script$/ do
+  assert(Dir.exists?(TRIGGER_SCRIPT_DIRECTORY), "Bulk Extract script directory #{TRIGGER_SCRIPT_DIRECTORY} does not exist")
+  @current_dir = Dir.pwd
+  is_jenkins = @current_dir.include?"jenkins"
+  puts "pwd: #{@current_dir}"
+  @trigger_script_path = TRIGGER_SCRIPT_DIRECTORY
+
+  is_jenkins ? config_path = File.dirname(__FILE__) + '/../../test_data/config/' :  config_path = File.dirname(__FILE__) + '/../../test_data/local/'
+  config_file = config_path + 'bulk_extract_scheduling.conf'
+  assert(File.exists?(config_file), "Bulk Extract scheduling config file #{config_file} does not exist")
+
+  config_contents = File.read(config_file)
+
+  current_time = Time.now
+  current_time.sec >= 55 ? cron_time = current_time + 120 : cron_time = current_time + 60
+  cron_time_string = cron_time.strftime("%M %H %-d %-m %w")
+
+  config_contents['* * * * *'] = cron_time_string
+
+  @scheduling_config_path = config_path + 'temp/'
+  FileUtils.makedirs(@scheduling_config_path)
+  new_config = @scheduling_config_path + File.basename(config_file)
+
+  File.open(new_config,'w') { |file| file.write(config_contents)}
+
+  puts "bulk extract script path: #{@trigger_script_path}"
+  puts "bulk extract scheduling config path: #{@scheduling_config_path}"
+end
+
+Given /^I clean the bulk extract file system and database$/ do
+  steps "Given the extraction zone is empty"
+  steps "Given I have an empty delta collection"
+  steps "Given I have an empty bulk extract files collection"
+end
+
+Given /^There is no SEA for the tenant "(.*?)"$/ do |tenant|
+  @tenant_db = @conn.db(convertTenantIdToDbName(tenant))
+  collection = @tenant_db.collection('educationOrganization')
+  collection.remove({'body.organizationCategories' => 'State Education Agency'})
+end
+
+Given /^I get the SEA Id for the tenant "(.*?)"$/ do |tenant|
+  @tenant_db = @conn.db(convertTenantIdToDbName(tenant))
+  edOrgcollection = @tenant_db.collection('educationOrganization')
+  @seaId = edOrgcollection.find_one({'body.organizationCategories' => 'State Education Agency'})["_id"]
+  assert (@seaId != nil)
+  puts @seaId
+end
+
+Given /^none of the following entities reference the SEA:$/ do |table|
+  table.hashes.map do |row|
+    collection = @tenant_db.collection(row["entity"])
+    collection.remove({row["path"] => @seaId})
+  end
+end
+
+Given /^I clean up the cron extraction zone$/ do
+  Dir.chdir
+  puts "pwd: #{Dir.pwd}"
+  if (Dir.exists?(CRON_OUTPUT_DIRECTORY))
+    FileUtils.rm_rf CRON_OUTPUT_DIRECTORY
+  end
+  assert(!Dir.exists?(CRON_OUTPUT_DIRECTORY), "cron output directory #{CRON_OUTPUT_DIRECTORY} does exist")
+  puts "CRON_OUTPUT_DIRECTORY: #{CRON_OUTPUT_DIRECTORY}"
+  Dir.chdir(@current_dir)
+end
+
 ############################################################
 # When
 ############################################################
+
+When /^I only remove bulk extract file for tenant:"(.*?)", edorg:"(.*?)", app:"(.*?)", date:"(.*?)"$/ do |tenant, edorg, app, date|
+  path = File.expand_path(createCleanupFile(@parentDir, tenant, edorg, app, date))
+  FileUtils.rm(path)
+end
+
+When /^I execute cleanup script for tenant:"(.*?)", edorg:"(.*?)", date:"(.*?)", path:"(.*?)"$/ do |tenant, edorg, date, path|
+  @log = "cleanup/out.log"
+  puts CLEANUP_SCRIPT
+  options = "-t#{tenant} "
+  if(!edorg.empty?)
+    options += " -e#{edorg}"
+  end
+  if(!date.empty?)
+    options += " -d#{date}"
+  end
+  if(!path.empty?)
+    abPath = File.expand_path(@parentDir + tenant + "/" +  path)
+    options += " -f#{abPath}"
+  end
+  command  = "echo y | ruby #{CLEANUP_SCRIPT} #{options}"
+  @cleanResult, result = Open3.capture2(command)
+  puts @cleanResult
+end
+
+When /^I should see error message$/ do
+  errorMessage = "FATAL:"
+  puts @cleanResult
+  assert(@cleanResult.to_s.include?(errorMessage), "Result of bulk extract cleanup script should include error message but was " + @cleanResult )
+end
+
+When /^I should see warning message$/ do
+  errorMessage = "1 files failed"
+  puts @cleanResult
+  assert(@cleanResult.to_s.include?(errorMessage), "Result of bulk extract cleanup script should include error message but was " + @cleanResult )
+end
 
 When /^I get the path to the extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
   getExtractInfoFromMongo(build_bulk_query(tenant,appId))
@@ -470,8 +436,10 @@ end
 
 When /^I POST and validate the following entities:$/ do |table|
   table.hashes.map do |api_params|
+    print "Posting #{api_params['type']} .. "
     step "I POST a \"#{api_params['entity']}\" of type \"#{api_params['type']}\""
     step "I should receive a return code of #{api_params['returnCode']}"
+    print "OK\n"
   end
 end
 
@@ -488,8 +456,10 @@ end
 
 When /^I PUT and validate the following entities:$/ do |table|
   table.hashes.map do |api_params|
+    print "Putting #{api_params['entity']} .."
     step "I PUT the \"#{api_params['field']}\" for a \"#{api_params['entity']}\" entity to \"#{api_params['value']}\""
     step "I should receive a return code of #{api_params['returnCode']}"
+    print "OK\n"
   end
 end
 
@@ -506,30 +476,12 @@ When /^I PUT the "(.*?)" for a "(.*?)" entity to "(.*?)"$/ do |field, entity, va
   assert(@res != nil, "Response from rest-client PUT is nil")
 end
 
-def updateApiPutField(body, field, value)
-  # Set the GET response body as body and edit the requested field
-  body["address"][0]["postalCode"] = value if field == "postalCode"
-  body["loginId"] = value if field == "loginId"
-  body["contactPriority"] = value.to_i if field == "contactPriority"
-  body["id"] = value if field == "missingEntity"
-  return body
-end
-
-def getEntityId(entity)
-  entity_to_id_map = {
-    "orphanEdorg" => "54b4b51377cd941675958e6e81dce69df801bfe8_id",
-    "IL-Daybreak" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id",
-    "IL-Highwind" => "99d527622dcb51c465c515c0636d17e085302d5e_id",
-    "District-5"  => "880572db916fa468fbee53a68918227e104c10f5_id",
-    "Daybreak Central High" => "a13489364c2eb015c219172d561c62350f0453f3_id"
-  }
-  return entity_to_id_map[entity]
-end
-
 When /^I PATCH and validate the following entities:$/ do |table|
   table.hashes.map do |api_params|
+    print "Patching #{api_params['entity']} .."
     step "I PATCH the \"#{api_params['field']}\" for a \"#{api_params['entity']}\" entity to \"#{api_params['value']}\""
     step "I should receive a return code of #{api_params['returnCode']}"
+    print "OK\n"
   end
 end
 
@@ -546,8 +498,10 @@ end
 
 When /^I DELETE and validate the following entities:$/ do |table|
   table.hashes.map do |api_params|
+    print "Deleting #{api_params['entity']} .."
     step "I DELETE an \"#{api_params['entity']}\" of id \"#{api_params['id']}\""
     step "I should receive a return code of #{api_params['returnCode']}"
+    print "OK\n"
   end
 end
 
@@ -555,68 +509,6 @@ When /^I DELETE an "(.*?)" of id "(.*?)"$/ do |entity, id|
   # Get the endpoint that corresponds to the desired entity
   endpoint = getEntityEndpoint(entity)
   restHttpDelete("/#{@api_version}/#{endpoint}/#{id}")
-end
-
-def getEntityEndpoint(entity)
-  entity_to_endpoint_map = {
-    "educationOrganization" => "educationOrganizations",
-    "invalidEntry" => "school",
-    "newParentDad" => "parents",
-    "newParentMom" => "parents",
-    "orphanEdorg" => "educationOrganizations",
-    "parent" => "parents",
-    "patchEdOrg" => "educationOrganizations",
-    "school" => "educationOrganizations",
-    "staffStudent" => "students",
-    "student" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students",
-    "newStudent" => "students",
-    "studentSchoolAssociation" => "studentSchoolAssociations",
-    "studentParentAssociation" => "studentParentAssociations",
-    "newStudentParentAssociation" => "studentParentAssociations",
-    "wrongSchoolURI" => "schoolz"
-  }
-  return entity_to_endpoint_map[entity]
-end
-
-def getEntityBodyFromApi(entity, api_version, verb)
-  return {entity=>nil} if verb == "POST"
-  entity_to_uri_map = {
-    "school" => "educationOrganizations/a13489364c2eb015c219172d561c62350f0453f3_id",
-    "educationOrganization" => "educationOrganizations",
-    "courseOffering" => "courseOfferings",
-    "newParentDad" => "parents/41f42690a7c8eb5b99637fade00fc72f599dab07_id",
-    "newParentMom" => "parents/41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id",
-    "orphanEdorg" => "educationOrganizations/54b4b51377cd941675958e6e81dce69df801bfe8_id",
-    "parent" => "parents",
-    "patchEdOrg" => "educationOrganizations/a13489364c2eb015c219172d561c62350f0453f3_id",
-    "section" => "sections",
-    "staffEducationOrganizationAssociation" => "staffEducationOrgAssignmentAssociations",
-    "staffProgramAssociation" => "staffProgramAssociations",
-    "staffStudent" => "students",
-    "student" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students",
-    "newStudent" => "students/9bf3036428c40861238fdc820568fde53e658d88_id",
-    "studentCohortAssocation" => "studentCohortAssociations",
-    "studentDisciplineIncidentAssociation" => "studentDisciplineIncidentAssociations",
-    "studentParentAssociation" => "students/9bf3036428c40861238fdc820568fde53e658d88_id/studentParentAssociations",
-    "newStudentParentAssociation" => "studentParentAssociations/9bf3036428c40861238fdc820568fde53e658d88_idc3a6a4ed285c14f562f0e0b63e1357e061e337c6_id",
-    "studentProgramAssociation" => "studentProgramAssociations",
-    "studentSchoolAssociation" => "studentSchoolAssociations",
-    "studentSectionAssociation" => "studentSectionAssociations",
-    "teacherSchoolAssociation" => "teacherSchoolAssociations",
-  }
-  # Perform GET request and verify we get a response and a response body
-  restHttpGet("/#{api_version}/#{entity_to_uri_map[entity]}")
-  assert(@res != nil, "Response from rest-client GET is nil")
-  assert(@res.body != nil, "Response body is nil")
-  # Make sure we actually hit the entity
-  puts "Ensuring the GET request returned 200"
-  step "I should receive a return code of 200"
-  puts "GET request: 200 (OK)"
-  # Store the response in an entity-specific response map
-  response_map = JSON.parse(@res)
-  # Fail if we do not find the entity in response body from GET request
-  assert(response_map != nil, "No response body for #{entity} returned by GET request")
-  return response_map
 end
 
 When /^I request latest delta via API for tenant "(.*?)", lea "(.*?)" with appId "(.*?)" clientId "(.*?)"$/ do |tenant, lea, app_id, client_id|
@@ -678,6 +570,19 @@ When /^I generate and retrieve the bulk extract delta via API for "(.*?)"$/ do |
   step "I should receive a return code of 200"
   step "I download and decrypt the delta"
 end
+
+When /^I run the bulk extract scheduler script$/ do
+  command  = "echo 'y' | #{SCHEDULER_SCRIPT} #{@trigger_script_path} #{@scheduling_config_path}"
+  result = runShellCommand(command)
+  puts "Running: #{command} #{result}"
+  raise "Result of bulk extract scheduler script should include Installed new crontab but was #{result}" if !result.include?"Installed new crontab"
+  command = "crontab -l"
+  result = runShellCommand(command)
+  Dir.chdir
+  puts "pwd: #{Dir.pwd}"
+end
+
+
 
 ############################################################
 # Then
@@ -853,9 +758,6 @@ Then /^I verify this "(.*?)" file (should|should not) contains:$/ do |file_name,
     end
 end
 
-
-
-
 Then /^I reingest the SEA so I can continue my other tests$/ do
   step "I am using local data store"
   step "I post \"deltas_update_sea.zip\" file as the payload of the ingestion job"
@@ -957,6 +859,7 @@ Then /^I have a fake bulk extract tar file for the following tenants and differe
 end
 
 Then /^I clean up the cleanup script test data$/ do
+  disable_NOTABLESCAN()
   Dir[@parentDir + "/**/*"].each do |item|
     path = File.expand_path(item)
     puts path
@@ -964,33 +867,92 @@ Then /^I clean up the cleanup script test data$/ do
     coll.remove({"body.path" => path})
   end
   FileUtils.rm_rf(@parentDir)
+  enable_NOTABLESCAN()
 end
 
 Then /^I should not see the following tenant bulk extract file:$/ do |table|
+  disable_NOTABLESCAN()
   table.hashes.map do |row|
     destFile = File.expand_path(createCleanupFile(@parentDir, row["tenant"], row["Edorg"], row["app"], row["date"]))
     assert(!File.exist?(destFile), "File " + destFile + " was not removed")
+    checkMongoQueryCounts("bulkExtractFiles",  {"body.path" => destFile}, 0)
   end
+  enable_NOTABLESCAN()
 end
 
 Then /^I should see the following tenant bulk extract file:$/ do |table|
+  disable_NOTABLESCAN()
   table.hashes.map do |row|
     destFile = File.expand_path(createCleanupFile(@parentDir, row["tenant"], row["Edorg"], row["app"], row["date"]))
-    assert(File.exist?(destFile), "File " + destFile + " was not removed")
+    assert(File.exist?(destFile), "File " + destFile + " was removed")
+    checkMongoQueryCounts("bulkExtractFiles",  {"body.path" => destFile}, 1)
   end
+  enable_NOTABLESCAN()
 end
 
 Then /^the following test tenant and edorg are clean:$/ do |table|
+  disable_NOTABLESCAN()
   table.hashes.map do |row|
     remove_edorg_from_mongo(row["Edorg"], row["tenant"])
   end
+  enable_NOTABLESCAN()
 end
 
-############################################################
-# Hooks
-############################################################
-After do
-  @conn.close if @conn != nil
+Then /^I am willing to wait up to (\d+) seconds for the bulk extract scheduler cron job to start and complete$/ do |limit|
+  @maxTimeout = limit.to_i
+  puts "Waited timeout for #{limit.to_i} seconds"
+  intervalTime = 1
+  @maxTimeout ? @maxTimeout : @maxTimeout = 900
+  iters = (1.0*@maxTimeout/intervalTime).ceil
+  iters.times do |i|
+    if Dir.exists?(CRON_OUTPUT_DIRECTORY)
+      puts "Bulk extract scheduler cron job took approx. #{(i+1)*intervalTime} seconds to start and complete"
+      found = true
+      break
+    else
+      sleep(intervalTime)
+    end
+  end
+
+  assert(Dir.exists?(CRON_OUTPUT_DIRECTORY), "Timeout: cron job output directory #{CRON_OUTPUT_DIRECTORY} does not exist")
+
+  outdir = Dir.new(CRON_OUTPUT_DIRECTORY)
+  outdir.each do |filename|
+    puts "Bulk extracted file by cron job: #{filename}" if filename!="." && filename!=".."
+  end
+  Dir.chdir(@current_dir)
+end
+
+Then /^I clean up the scheduler jobs/ do
+  config_file = @scheduling_config_path + 'bulk_extract_scheduling.conf'
+  File.delete(config_file) if File.exists? config_file
+
+  output, status = Open3.capture2('crontab -l')
+  assert(status.exitstatus == 0, 'Crontab listing could not be fetched')
+
+  puts 'Current crontab entries:'
+  puts output
+
+  new_cron = ''
+  output.each_line do |line|
+    new_cron += line unless line.include?('Bulk Extract scheduling') || line.include?('local_bulk_extract.sh')
+  end
+
+  puts 'New crontab entries:'
+  puts new_cron
+
+  cron_file = @scheduling_config_path + 'job.cron'
+
+  File.open(cron_file,'w') { |file| file.write(new_cron)}
+
+  output, status = Open3.capture2("cat #{cron_file} | crontab -")
+
+  assert(status.exitstatus == 0, 'Crontab could not be set')
+
+  puts output
+
+  File.delete(cron_file) if File.exists? cron_file
+
 end
 
 ############################################################
@@ -1425,11 +1387,11 @@ def prepareBody(verb, value, response_map)
         }
       },
       "newStudentSchoolAssociation" => {
-        "exitWithdrawDate" => "2014-06-02",
+        "exitWithdrawDate" => "2014-05-22",
         "entityType" => "studentSchoolAssociation",
-        "entryDate" => "2013-09-05",
-        "entryGradeLevel" => "Tenth grade",
-        "schoolYear" => "2012-2013",
+        "entryDate" => "2013-08-27",
+        "entryGradeLevel" => "Eleventh grade",
+        "schoolYear" => "2013-2014",
         "educationalPlans" => [],
         "schoolChoiceTransfer" => true,
         "entryType" => "Other",
@@ -1437,90 +1399,152 @@ def prepareBody(verb, value, response_map)
         "repeatGradeIndicator" => true,
         "schoolId" => "a13489364c2eb015c219172d561c62350f0453f3_id",
       },
-      "newStudent" => {
-        "loginId" => "new-student-1@bazinga.org",
-        "sex" => "Male",
-        "studentCharacteristics" => [{
-            "endDate" => "2013-04-01",
-            "beginDate" => "2013-03-11",
-            "designatedBy" => "Teacher",
-            "characteristic" => "Unschooled Refugee"
+      "newCourseOffering" => {
+        "schoolId" => "a13489364c2eb015c219172d561c62350f0453f3_id",
+        "sessionId" => "bfeaf9315f04797a41dbf1663d18ead6b6fb1309_id",
+        "courseId" => "06ccb498c620fdab155a6d70bcc4123b021fa60d_id",
+        "localCourseCode" => "101 English",
+        "localCourseTitle" => "Eleventh grade English"
+      },
+      "newSection" => {
+        "uniqueSectionCode" => "English00101",
+        "sequenceOfCourse" => 1,
+        "educationalEnvironment" => "Classroom",
+        "mediumOfInstruction" => "Face-to-face instruction",
+        "populationServed" => "Regular Students",
+        "schoolId" => "a13489364c2eb015c219172d561c62350f0453f3_id",
+        "sessionId" => "bfeaf9315f04797a41dbf1663d18ead6b6fb1309_id",
+        "courseOfferingId" => "38edd8479722ccf576313b4640708212841a5406_id"
+      },
+      "newStudentSectionAssociation" => {
+        "entityType" => "studentSectionAssociation",
+        "sectionId" => "4030207003b03d055bba0b5019b31046164eff4e_id",
+        "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+        "beginDate" => "2013-08-27",
+        "homeroomIndicator" => true,
+        "repeatIdentifier" => "Repeated, counted in grade point average"
+      },
+      "newStudentAssessment" => {
+        "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+        "assessmentId" => "d1db0a2c9d30c0fabcbc4c7fc796701e0509b86b_id",
+        "administrationDate" => "2013-08-27",
+        "specialAccommodations" => ["Large Print"],
+        "administrationEndDate" => "2008-12-09",
+        "gradeLevelWhenAssessed" => "Eighth grade",
+        "performanceLevelDescriptors" => [
+          [{
+            "codeValue" => "30 code"
+          }]
+        ],
+        "administrationEnvironment" => "Classroom",
+        "retestIndicator" => "Primary Administration",
+        "studentObjectiveAssessments" => [{
+          "entityType" => "studentAssessment",
+          "performanceLevelDescriptors" => [
+            [{
+              "codeValue" => "code1"
+            }]
+          ],
+          "scoreResults" => [{
+            "result" => "32",
+            "assessmentReportingMethod" => "Scale score"
+          }],
+          "objectiveAssessment" => {
+            "nomenclature" => "Nomenclature",
+            "identificationCode" => "2013-Eleventh grade Assessment 2.OA-0",
+            "percentOfAssessment" => 50,
+            "assessmentId" => "d1db0a2c9d30c0fabcbc4c7fc796701e0509b86b_id",
+            "assessmentPerformanceLevel" => [{
+              "performanceLevelDescriptor" => [{
+                "codeValue" => "code1"
+              }],
+              "assessmentReportingMethod" => "Number score",
+              "minimumScore" => 0,
+              "maximumScore" => 50
+            }],
+            "learningObjectives" => [
+              "1b0d13e233ef61ffafb613a8cc6930dfc0d29b92_id",
+              "8b6407c747e3de04c8e8365b1aa202f1dc3510c6_id",
+              "ea27f2c3cd548cf82682a75e29182462da366912_id",
+              "b2c4add05d75ba5144203d8dc3e1c5cb79b58c7b_id",
+              "f515c869a5b8507f7462dafd65c20710fc300182_id"
+            ],
+            "maxRawScore" => 50
+          }
         }],
-        "disabilities" => [{
-            "orderOfDisability" => 15,
-            "disability" => "Mental Retardation",
-            "disabilityDiagnosis" => "Diagnosis A"
+        "reasonNotTested" => "Not appropriate (ARD decision)",
+        "serialNumber" => "30 code",
+        "scoreResults" => [{
+          "result" => "32",
+          "assessmentReportingMethod" => "Scale score"
         }],
-        "hispanicLatinoEthnicity" => false,
-        "cohortYears" => [{
-            "schoolYear" => "2013-2014",
-            "cohortYearType" => "Fourth grade"
-        }],
-        "section504Disabilities" => ["Sensory Impairment"],
-        "oldEthnicity" => "Hispanic",
-        "entityType" => "student",
-        "race" => ["White"],
-        "programParticipations" => [{
-            "program" => "Bilingual Summer",
-            "endDate" => "2014-02-10",
-            "beginDate" => "2013-11-14",
-            "designatedBy" => "Teacher"
-        }],
-        "languages" => ["English"],
-        "studentUniqueStateId" => "101",
-        "profileThumbnail" => "101 thumb",
-        "name" => {
-            "middleName" => "Treble",
-            "lastSurname" => "Samsonite",
-            "firstName" => "Jimson"
+        "linguisticAccommodations" => ["Bilingual Dictionary"],
+        "administrationLanguage" => "English",
+        "studentAssessmentItems" => [{
+          "rawScoreResult" => 82,
+          "responseIndicator" => "Effective response",
+          "assessmentResponse" => "false",
+          "assessmentItemResult" => "Incorrect",
+          "assessmentItem" => {
+            "identificationCode" => "2013-Eleventh grade Assessment 2#1",
+            "assessmentId" => "d1db0a2c9d30c0fabcbc4c7fc796701e0509b86b_id",
+            "correctResponse" => "true",
+            "itemCategory" => "True-False",
+            "maxRawScore" => 10
+          }
+        }, {
+          "rawScoreResult" => 29,
+          "responseIndicator" => "Nonscorable response",
+          "assessmentResponse" => "false",
+          "assessmentItemResult" => "Correct",
+          "assessmentItem" => {
+              "identificationCode" => "2013-Eleventh grade Assessment 2#4",
+              "assessmentId" => "d1db0a2c9d30c0fabcbc4c7fc796701e0509b86b_id",
+              "correctResponse" => "false",
+              "itemCategory" => "True-False",
+              "maxRawScore" => 10
+          }
+        }, {
+          "rawScoreResult" => 58,
+          "responseIndicator" => "Nonscorable response",
+          "assessmentResponse" => "false",
+          "assessmentItemResult" => "Correct",
+          "assessmentItem" => {
+            "identificationCode" => "2013-Eleventh grade Assessment 2#2",
+            "assessmentId" => "d1db0a2c9d30c0fabcbc4c7fc796701e0509b86b_id",
+            "correctResponse" => "false",
+            "itemCategory" => "True-False",
+            "maxRawScore" => 10
+          }
         },
-        "birthData" => {
-            "birthDate" => "1999-11-10"
-        },
-        "otherName" => [{
-            "middleName" => "Camino",
-            "generationCodeSuffix" => "V",
-            "lastSurname" => "Duran",
-            "personalTitlePrefix" => "Mr",
-            "firstName" => "Roberto",
-            "otherNameType" => "Alias"
-        }],
-        "studentIndicators" => [{
-            "indicator" => "Indicator 3",
-            "indicatorName" => "Name 3",
-            "indicatorGroup" => "Group A",
-            "endDate" => "2013-07-12",
-            "beginDate" => "2012-06-15",
-            "designatedBy" => "Parent"
-        }],
-        "homeLanguages" => ["English"],
-        "learningStyles" => {
-            "visualLearning" => 38,
-            "auditoryLearning" => 24,
-            "tactileLearning" => 33
-        },
-        "limitedEnglishProficiency" => "NotLimited",
-        "studentIdentificationCode" => [{
-            "identificationCode" => "abcde",
-            "identificationSystem" => "Other",
-            "assigningOrganizationCode" => "Other"
-        }],
-        "address" => [{
-            "streetNumberName" => "512 Byte Street",
-            "postalCode" => "60601",
-            "stateAbbreviation" => "IL",
-            "addressType" => "Home",
-            "city" => "Chicago"
-        }],
-        "schoolFoodServicesEligibility" => "Full price",
-        "displacementStatus" => "Status BBB",
-        "electronicMail" => [{
-            "emailAddress" => "new-student-1@bazinga.org",
-            "emailAddressType" => "Home/Personal"
-        }],
-        "telephone" => [{
-            "telephoneNumber" => "(919)555-4510"
+        {
+          "rawScoreResult" => 16,
+          "responseIndicator" => "Ineffective response",
+          "assessmentResponse" => "false",
+          "assessmentItemResult" => "Incorrect",
+          "assessmentItem" => {
+            "identificationCode" => "2013-Eleventh grade Assessment 2#3",
+            "assessmentId" => "d1db0a2c9d30c0fabcbc4c7fc796701e0509b86b_id",
+            "correctResponse" => "true",
+            "itemCategory" => "True-False",
+            "maxRawScore" => 10
+          }
         }]
+      },
+      "newGradebookEntry" => {
+
+      },
+      "newGrade" => {
+
+      },
+      "newReportCard" => {
+
+      },
+      "newStudentAcademicRecord" => {
+
+      },
+      "newGradebookEntry" => {
+
       }
     },
     "PATCH" => {
@@ -1599,7 +1623,7 @@ def addFakeBEEntry(tenant, edorg, app, isDelta, isPublic, date, path)
   edorg_id = getEdorgId(tenant, edorg)
   query = {"type" => "bulkExtractEntity", "body" =>{"tenantId"=>tenant, "edorg" => edorg_id,
            "applicationId" => app, "isDelta" => isDelta, "isPublicData" => isPublic,
-           "path" => path, "date" => DateTime.parse(date).to_time.iso8601}}
+           "path" => path, "date" => Time.iso8601(date)}}
   sliDB = @conn.db("sli")
   coll = sliDB.collection('bulkExtractFiles')
   coll.insert(query)
@@ -1618,9 +1642,97 @@ def getEdorgId(tenant, edorg)
   return tenant + "-" + edorg
 end
 
-After('@scheduler') do
-  command = "crontab -r"
-  puts "blah blah blah"
-  result = runShellCommand(command)
-  puts "Running: #{command} #{result}"
+def getEntityEndpoint(entity)
+  entity_to_endpoint_map = {
+      "courseOffering" => "courseOfferings",
+      "educationOrganization" => "educationOrganizations",
+      "invalidEntry" => "school",
+      "newParentDad" => "parents",
+      "newParentMom" => "parents",
+      "orphanEdorg" => "educationOrganizations",
+      "parent" => "parents",
+      "patchEdOrg" => "educationOrganizations",
+      "school" => "educationOrganizations",
+      "section" => "sections",
+      "staffStudent" => "students",
+      "student" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students",
+      "newStudent" => "students",
+      "studentSchoolAssociation" => "studentSchoolAssociations",
+      "studentSectionAssociation" => "studentSectionAssociations",
+      "studentParentAssociation" => "studentParentAssociations",
+      "newStudentParentAssociation" => "studentParentAssociations",
+      "wrongSchoolURI" => "schoolz"
+  }
+  return entity_to_endpoint_map[entity]
 end
+
+def updateApiPutField(body, field, value)
+  # Set the GET response body as body and edit the requested field
+  body["address"][0]["postalCode"] = value if field == "postalCode"
+  body["loginId"] = value if field == "loginId"
+  body["contactPriority"] = value.to_i if field == "contactPriority"
+  body["id"] = value if field == "missingEntity"
+  return body
+end
+
+def getEntityId(entity)
+  entity_to_id_map = {
+      "orphanEdorg" => "54b4b51377cd941675958e6e81dce69df801bfe8_id",
+      "IL-Daybreak" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id",
+      "IL-Highwind" => "99d527622dcb51c465c515c0636d17e085302d5e_id",
+      "District-5"  => "880572db916fa468fbee53a68918227e104c10f5_id",
+      "Daybreak Central High" => "a13489364c2eb015c219172d561c62350f0453f3_id"
+  }
+  return entity_to_id_map[entity]
+end
+
+def getEntityBodyFromApi(entity, api_version, verb)
+  return {entity=>nil} if verb == "POST"
+  entity_to_uri_map = {
+      "school" => "educationOrganizations/a13489364c2eb015c219172d561c62350f0453f3_id",
+      "educationOrganization" => "educationOrganizations",
+      "newCourseOffering" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/courseOfferings",
+      "newParentDad" => "parents/41f42690a7c8eb5b99637fade00fc72f599dab07_id",
+      "newParentMom" => "parents/41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id",
+      "orphanEdorg" => "educationOrganizations/54b4b51377cd941675958e6e81dce69df801bfe8_id",
+      "parent" => "parents",
+      "patchEdOrg" => "educationOrganizations/a13489364c2eb015c219172d561c62350f0453f3_id",
+      "section" => "sections",
+      "newSection" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/sections",
+      "staffEducationOrganizationAssociation" => "staffEducationOrgAssignmentAssociations",
+      "staffProgramAssociation" => "staffProgramAssociations",
+      "staffStudent" => "students",
+      "student" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students",
+      "newStudent" => "students/9bf3036428c40861238fdc820568fde53e658d88_id",
+      "studentCohortAssocation" => "studentCohortAssociations",
+      "studentDisciplineIncidentAssociation" => "studentDisciplineIncidentAssociations",
+      "studentParentAssociation" => "students/9bf3036428c40861238fdc820568fde53e658d88_id/studentParentAssociations",
+      "newStudentParentAssociation" => "studentParentAssociations/9bf3036428c40861238fdc820568fde53e658d88_idc3a6a4ed285c14f562f0e0b63e1357e061e337c6_id",
+      "studentProgramAssociation" => "studentProgramAssociations",
+      "studentSchoolAssociation" => "studentSchoolAssociations",
+      "studentSectionAssociation" => "studentSectionAssociations",
+      "teacherSchoolAssociation" => "teacherSchoolAssociations",
+  }
+  # Perform GET request and verify we get a response and a response body
+  restHttpGet("/#{api_version}/#{entity_to_uri_map[entity]}")
+  assert(@res != nil, "Response from rest-client GET is nil")
+  assert(@res.body != nil, "Response body is nil")
+  # Make sure we actually hit the entity
+  puts "Ensuring the GET request returned 200"
+  step "I should receive a return code of 200"
+  puts "GET request: 200 (OK)"
+  # Store the response in an entity-specific response map
+  response_map = JSON.parse(@res)
+  # Fail if we do not find the entity in response body from GET request
+  assert(response_map != nil, "No response body for #{entity} returned by GET request")
+  return response_map
+end
+
+############################################################
+# After Hooks
+############################################################
+
+After do
+  @conn.close if @conn != nil
+end
+

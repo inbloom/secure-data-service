@@ -112,6 +112,11 @@ task :bulkExtractTlsTests do
   Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
 
+desc "Cleanup script Tests"
+task :bulkExtractCleanupTests do
+  runTests("test/features/bulk_extract/features/bulk_extract_cleanup_script.feature")
+end
+
 desc "API Bulk Extract Tests"
 task :bulkExtractApiTests do
   runTests("test/features/bulk_extract/features/bulk_extract_headers.feature")
@@ -141,6 +146,7 @@ task :bulkExtractTests => [:realmInit] do
   Rake::Task["bulkExtractNegativeTests"].execute
   Rake::Task["bulkExtractTlsTests"].execute
   Rake::Task["bulkExtractSEAPublicTest"].execute
+  Rake::Task["bulkExtractCleanupTests"].execute
   Rake::Task["bulkExtractCleanup"].execute
   displayFailureReport()
   if $SUCCESS
