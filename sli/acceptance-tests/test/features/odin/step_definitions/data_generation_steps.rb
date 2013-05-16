@@ -60,7 +60,7 @@ end
 When /^I generate the bulk extract data set in the (.*?) directory$/ do |gen_dir|
   @gen_path = "#{@odin_working_path}#{gen_dir}/"
   puts "Calling generate function for api testing scenario"
-  generate("api_2lea_testing")
+  generate("bulk_extract_testing")
 end
 
 When /^I zip generated data under filename (.*?) to the new (.*?) directory$/ do |zip_file, new_dir|
