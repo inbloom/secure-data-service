@@ -37,14 +37,10 @@ import org.slc.sli.domain.Entity;
 public class SectionContextResolver extends EdOrgRelatedReferrableResolver {
     private static final Logger LOG = LoggerFactory.getLogger(SectionContextResolver.class);
     
-    @SuppressWarnings("unused")
-    private final EducationOrganizationContextResolver edOrgResolver;
-
     private final StudentAssociationWalker walker;
     
     @Autowired
-    public SectionContextResolver(EducationOrganizationContextResolver edOrgResolver, StudentAssociationWalker walker) {
-        this.edOrgResolver = edOrgResolver;
+    public SectionContextResolver(StudentAssociationWalker walker) {
         this.walker = walker;
     }
 
