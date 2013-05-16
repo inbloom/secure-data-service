@@ -2,7 +2,11 @@
 
 Feature: BEEP will log security events for each request
 
-  Background: An authorized bulk extract user logs in and gets the information for the extract from a HEAD call
+Background:
+    Given the sli securityEvent collection is empty
+
+@wip
+Scenario: An authorized bulk extract user logs in and gets the information for the extract from a HEAD call
     Given I am using local data store
     And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     Given I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
@@ -19,3 +23,55 @@ Feature: BEEP will log security events for each request
       | collectionName              			   | expectedRecordCount | searchParameter     | searchValue                                 | searchType           |
       | staffEducationOrganizationAssociation   | 3                   | body.staffReference | e4320d0bef725998faa8579a987ada80f254e7be_id | string               |
     Then I trigger a delta extract
+
+Scenario: SecurityEvent is logged when a bulk extract after it's been triggered but is missing from the filesystem
+    Given the extraction zone is empty
+    And I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
+    And in my list of rights I have BULK_EXTRACT
+    When I make a call to the bulk extract end point "/bulk/extract/tenant"
+    Then I get back a response code of "404"
+    Then a security event matching "No bulk extract support for tenant: Midgar" should be in the sli db
+
+Scenario: SecurityEvent is logged when BE file is missing
+    Given the extraction zone is empty
+    And the bulk extract files in the database are scrubbed
+    And I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
+    And in my list of rights I have BULK_EXTRACT
+    When I make a call to the bulk extract end point "/bulk/extract/tenant"
+    Then I get back a response code of "404"
+    Then a security event matching "No bulk extract support for tenant: Midgar" should be in the sli db
+
+Scenario: Security Event is logged when access denied
+  Given I trigger a bulk extract
+  And I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
+  When I make a call to the bulk extract end point "/bulk/extract/tenant" using the certificate for app "pavedz00ua"
+  Then I get back a response code of "403"
+  Then a security event matching "Access Denied!" should be in the sli db
+
+Scenario: Security Event is logged client does not provide Cert
+  Given I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
+  When I make a call to the bulk extract end point "/bulk/extract/tenant" without a certificate
+  Then I get back a response code of "400"
+  Then a security event matching "App must provide client side X509 Certificate" should be in the sli db
+
+@wip
+Scenario: Security Event is logged when header preconditions are not met
+    Given I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
+    And in my list of rights I have BULK_EXTRACT
+    When I make a call retrieve the header for the bulk extract end point "/bulk/extract/tenant"
+    Then I get back a response code of "200"
+    Then I have all the information to make a custom bulk extract request
+    When the If-Unmodified-Since header field is set to "BEFORE"
+    And I make a custom bulk extract API call
+    Then I get back a response code of "412"
+
+@wip
+Scenario: Security Event is logged when range headers are incorrect
+    Given I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
+    And in my list of rights I have BULK_EXTRACT
+    When I make a call retrieve the header for the bulk extract end point "/bulk/extract/tenant"
+    Then I get back a response code of "200"
+    Then I have all the information to make a custom bulk extract request
+    When I prepare the custom headers for byte range from "past the end of the file" to "way past the end of the file"
+    And I make a custom bulk extract API call
+    Then I get back a response code of "416"
