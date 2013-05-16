@@ -309,7 +309,7 @@ public class FileResource {
             builder.entity(out);
             LOG.info("Retrieving bulk extract with method {}", 3);
         }
-        logSecurityEvent("Retrieving singlePartFileResponse, stream length=" + String.valueOf(r.length));
+        logSecurityEvent("Successful request for singlePartFileResponse, stream length=" + String.valueOf(r.length));
         return builder.build();
     }
 
@@ -357,7 +357,7 @@ public class FileResource {
                .header("Content-Type", "multipart/byteranges; boundary=" + MULTIPART_BOUNDARY)
                .header("Content-Length", String.valueOf(contentLength));
 
-        logSecurityEvent("Retrieving multiPartsFileResponse, stream length=" +  String.valueOf(contentLength));
+        logSecurityEvent("Successful request for multiPartsFileResponse, stream length=" +  String.valueOf(contentLength));
         return builder.build();
     }
 
