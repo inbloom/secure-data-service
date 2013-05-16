@@ -123,6 +123,7 @@ task :bulkExtractApiTests do
   runTests("test/features/bulk_extract/features/bulk_extract_partial_gets.feature")
   runTests("test/features/bulk_extract/features/bulk_extract_versions.feature")
   runTests("test/features/bulk_extract/features/bulk_extract_lea_list.feature")
+  runTests("test/features/bulk_extract/features/bulk_extract_security_event.feature")
   Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
 

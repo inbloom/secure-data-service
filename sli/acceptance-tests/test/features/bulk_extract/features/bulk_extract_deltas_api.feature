@@ -372,8 +372,8 @@ Given I clean the bulk extract file system and database
   When I POST and validate the following entities:
     |  entity                       |  type                      |  returnCode  |
     |  newEducationOrganization     |  educationOrganization     |  201         |
-    |  newMinStudent                |  staffStudent              |  201         |
-    |  newStudentSchoolAssociation  |  studentSchoolAssociation  |  201         |
+    |  newDaybreakStudent           |  staffStudent              |  201         |
+    |  DbStudentSchoolAssociation   |  studentSchoolAssociation  |  201         |
     |  newParentFather              |  parent                    |  201         |
     |  newParentMother              |  parent                    |  201         |
     |  newStudentFatherAssociation  |  studentParentAssociation  |  201         |
@@ -510,14 +510,16 @@ Given I clean the bulk extract file system and database
   And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
   And I verify "2" delta bulk extract files are generated for LEA "<IL-HIGHWIND>" in "Midgar"
 
+
+@shortcut
 Scenario: Create Student, course offering and section as SEA Admin, users from different LEAs requesting Delta extracts
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/json"  
  When I POST and validate the following entities:
     |  entity                        |  type                       |  returnCode  |
-    |  newMinStudent                 |  staffStudent               |  201         |
-    |  newStudentSchoolAssociation   |  studentSchoolAssociation   |  201         |
+    |  newDaybreakStudent            |  staffStudent               |  201         |
+    |  DbStudentSchoolAssociation    |  studentSchoolAssociation   |  201         |
     |  newParentFather               |  parent                     |  201         |
     |  newParentMother               |  parent                     |  201         |
     |  newStudentFatherAssociation   |  studentParentAssociation   |  201         |
@@ -620,12 +622,144 @@ Given I clean the bulk extract file system and database
     | b8b0a8d439591b9e073e8f1115ff1cf1fd4125d6_id | sex = Female                          |
     
   And I verify this "studentSchoolAssociation" file should contain:
-    | id                                          | condition                             |
+    | id                                          | condition                                                |
     | d913396aef918602b8049027dbdce8826c054402_id | entityType = studentSchoolAssociation                    |
     | d913396aef918602b8049027dbdce8826c054402_id | studentId = b8b0a8d439591b9e073e8f1115ff1cf1fd4125d6_id  |
     | d913396aef918602b8049027dbdce8826c054402_id | schoolId = 1b5de2516221069fd8f690349ef0cc1cffbb6dca_id   |
     | d913396aef918602b8049027dbdce8826c054402_id | exitWithdrawDate = 2014-05-22                            |
     | d913396aef918602b8049027dbdce8826c054402_id | entryDate = 2013-08-27                                   |
+
+
+@shortcut
+Scenario: Delete student and stuSchAssoc, re-post them, then delete just studentSchoolAssociations (leaving students), verify delete
+Given I clean the bulk extract file system and database
+  And I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  And format "application/json"  
+ # Delete both students and stSchAssoc
+ When I DELETE and validate the following entities:
+    |  entity                      |  id                                           |  returnCode  |
+    |  newStudent                  |  9bf3036428c40861238fdc820568fde53e658d88_id  |  204         |
+    |  newStudent                  |  b8b0a8d439591b9e073e8f1115ff1cf1fd4125d6_id  |  204         |
+ # Create one student (and studentSchoolAssociation) per edorg
+ And I POST and validate the following entities:
+    |  entity                        |  type                       |  returnCode  |
+    |  newDaybreakStudent            |  staffStudent               |  201         |
+    |  DbStudentSchoolAssociation    |  studentSchoolAssociation   |  201         |
+    |  newHighwindStudent            |  staffStudent               |  201         |
+    |  HwStudentSchoolAssociation    |  studentSchoolAssociation   |  201         |
+ # Delete the studentSchoolAssociations leaving the orphaned students
+  And I DELETE and validate the following entities:
+    |  entity                      |  id                                           |  returnCode  |
+    #|  newStudent                  |  9bf3036428c40861238fdc820568fde53e658d88_id  |  204         |
+    #|  newStudent                  |  b8b0a8d439591b9e073e8f1115ff1cf1fd4125d6_id  |  204         |
+    |  studentSchoolAssociation    |  cbfe3a47491fdff0432d5d4abca339735da9461d_id  |  204         |    
+    |  studentSchoolAssociation    |  d913396aef918602b8049027dbdce8826c054402_id  |  204         |
+
+ # Log in as jstevenson from Daybreak and request the delta via API for Daybreak
+ # Should only see 1 student delta, no deletes
+ When I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  And I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
+  And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
+    |  entityType                            |
+    |  deleted                               |
+
+  # Verify contents of delete file does not contain the student
+  And I verify this "deleted" file should not contain:
+    | id                                          | condition                             |
+    | 9bf3036428c40861238fdc820568fde53e658d88_id |                                       |
+  And I verify this "deleted" file should contain:
+    | id                                          | condition                             |
+    | cbfe3a47491fdff0432d5d4abca339735da9461d_id | entityType = studentSchoolAssociation |
+
+ # Now log in as lstevenson from Highwind and request the delta for Highwind
+ # Should only see 1 student delta, no deletes
+ Given the extract download directory is empty
+  When I request the latest bulk extract delta via API for "<IL-HIGHWIND>"
+   And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-HIGHWIND>" in "Midgar" contains a file for each of the following entities:
+    |  entityType                            |
+    |  deleted                               |
+
+  # Verify contents of delete file
+  And I log into "SDK Sample" with a token of "lstevenson", a "IT Administrator" for "IL-Highwind" in tenant "Midgar", that lasts for "300" seconds
+  And I verify this "deleted" file should not contain:
+    | id                                          | condition                             |
+    | b8b0a8d439591b9e073e8f1115ff1cf1fd4125d6_id |                                       |
+  And I verify this "deleted" file should contain:
+    | id                                          | condition                             |
+    | d913396aef918602b8049027dbdce8826c054402_id | entityType = studentSchoolAssociation |
+
+@shortcut
+Scenario: Create, delete, then re-create the same entity, verify 1 delta entry, no deletes
+Given I clean the bulk extract file system and database
+  And I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  And format "application/json"  
+ # Create one student in each lea, and matching studentSchoolAssociations
+ When I POST and validate the following entities:
+    |  entity                        |  type                       |  returnCode  |
+    #|  newDaybreakStudent            |  staffStudent               |  201         |
+    |  DbStudentSchoolAssociation    |  studentSchoolAssociation   |  201         |
+    #|  newHighwindStudent            |  staffStudent               |  201         |
+    |  HwStudentSchoolAssociation    |  studentSchoolAssociation   |  201         |
+ # Delete students and stSchoAssoc
+  And I DELETE and validate the following entities:
+    |  entity                   |  id                                           |  returnCode  |
+    |  studentSchoolAssociation |  cbfe3a47491fdff0432d5d4abca339735da9461d_id  |  204         |
+    |  studentSchoolAssociation |  d913396aef918602b8049027dbdce8826c054402_id  |  204         |
+    |  newStudent               |  9bf3036428c40861238fdc820568fde53e658d88_id  |  204         |
+    |  newStudent               |  b8b0a8d439591b9e073e8f1115ff1cf1fd4125d6_id  |  204         |
+
+ # Create one student in each lea, and matching studentSchoolAssociations
+ And I POST and validate the following entities:
+    |  entity                        |  type                       |  returnCode  |
+    |  newDaybreakStudent            |  staffStudent               |  201         |
+    |  DbStudentSchoolAssociation    |  studentSchoolAssociation   |  201         |
+    |  newHighwindStudent            |  staffStudent               |  201         |
+    |  HwStudentSchoolAssociation    |  studentSchoolAssociation   |  201         |
+
+ # Log in as jstevenson from Daybreak and request the delta via API for Daybreak
+ # Should only see 1 student, 1 studentSchoolAssoc delta, no deletes
+ When I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  And I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
+  And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
+    |  entityType                            |
+    |  student                               |
+    |  studentSchoolAssociation              |
+    |  deleted                               |
+  And I verify this "studentSchoolAssociation" file should contain:
+    | id                                          | condition                             |
+    | cbfe3a47491fdff0432d5d4abca339735da9461d_id | entityType = studentSchoolAssociation |  
+
+  And I verify this "student" file should contain:
+    | id                                          | condition                             |
+    | 9bf3036428c40861238fdc820568fde53e658d88_id | entityType = student                  |
+  # We should see deltes from the OTHER edOrg (Highwind), since they are spammed to all edorgs in a tenant
+  And I verify this "deleted" file should contain:
+    | id                                          | condition                             |
+    | b8b0a8d439591b9e073e8f1115ff1cf1fd4125d6_id | entityType = student                  |
+    | d913396aef918602b8049027dbdce8826c054402_id | entityType = studentSchoolAssociation |
+
+ # Now log in as lstevenson from Highwind and request the delta for Highwind
+ # Should only see 1 student delta, no deletes
+ Given the extract download directory is empty
+   And I request the latest bulk extract delta via API for "<IL-HIGHWIND>"
+   And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-HIGHWIND>" in "Midgar" contains a file for each of the following entities:
+    |  entityType                            |
+    |  student                               |
+    |  studentSchoolAssociation              |
+    |  deleted                               |
+  And I verify this "student" file should contain:
+    | id                                          | condition                             |
+    | b8b0a8d439591b9e073e8f1115ff1cf1fd4125d6_id | entityType = student                  |
+
+  And I verify this "studentSchoolAssociation" file should contain:
+    | id                                          | condition                                                |
+    | d913396aef918602b8049027dbdce8826c054402_id | entityType = studentSchoolAssociation                    |
+  # We should see the deltes from the OTHER edOrg, since they are spammed to all edorgs in a tenant
+  And I verify this "deleted" file should contain:
+    | id                                          | condition                             |
+    | cbfe3a47491fdff0432d5d4abca339735da9461d_id | entityType = studentSchoolAssociation |
+    | 9bf3036428c40861238fdc820568fde53e658d88_id | entityType = student                  |
+
 
 Scenario: Test access to the api
   Given I log into "SDK Sample" with a token of "lstevenson", a "Noldor" for "IL-Highwind" in tenant "Midgar", that lasts for "300" seconds
