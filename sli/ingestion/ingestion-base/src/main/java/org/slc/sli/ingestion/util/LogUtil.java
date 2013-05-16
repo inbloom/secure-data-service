@@ -172,7 +172,15 @@ public class LogUtil {
      */
     public static void logMem(Logger log, String prefix) {
     	// Run gc() so we are left with nothing but live memory
-    	System.gc(); // NOPMD
+    	
+    	// Sorry, you'll have to un-comment this out when using this facility ad-hoc and you want
+    	// log live object use only (otherwise it will log bloth live+garbage memory, which can
+    	// still be useful, and way faster, but will not really tell you where the leaks are.
+    	
+    	// The reason we cannot leave it in enabled is that FindBugs complains about it, and
+    	// we are still working on a way to disable the FindBugs check.
+    	
+    	// System.gc(); // NOPMD
     	Runtime rt = Runtime.getRuntime();
     	Long used = new Long( (rt.totalMemory() - rt.freeMemory()) / (1024 * 1024));
     	log.info(prefix + " MemUsed: " + used.toString());
