@@ -90,6 +90,6 @@ When zip file is scp to ingestion landing zone
   
 Then I should see following map of entry counts in the corresponding collections:
   | collectionName                           |              count|
-  | student                                  |                260|
+  | student                                  |                240|
   And I should not see an error log file created
   And I should not see a warning log file created
