@@ -229,18 +229,18 @@ Given /^the tenant "(.*?)" does not have any bulk extract apps for any of its ed
   disable_NOTABLESCAN()
   conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
   db = conn[DATABASE_NAME]
-  app_coll = db.collection("application")
-  apps = app_coll.find({"body.isBulkExtract" => true}).to_a
-  assert(apps.size > 0, "Could not find any bulk extract applications")
+  app_coll = db.collection('application')
+  apps = app_coll.find({'body.isBulkExtract' => true}).to_a
+  assert(apps.size > 0, 'Could not find any bulk extract applications')
 
   apps.each do |app|
-    app_id = app["_id"]
-    puts("The id for a bulk extract app is #{app_id}") if ENV['DEBUG']
+    app_id = app['_id']
+    puts("The id for a bulk extract app is #{app_id}") if $SLI_DEBUG
 
     db_tenant = conn[convertTenantIdToDbName(tenant)]
-    app_auth_coll = db_tenant.collection("applicationAuthorization")
+    app_auth_coll = db_tenant.collection('applicationAuthorization')
 
-    app_auth_coll.remove("body.applicationId" => app_id)
+    app_auth_coll.remove('body.applicationId' => app_id)
   end
   conn.close
   enable_NOTABLESCAN()
