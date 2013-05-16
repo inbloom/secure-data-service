@@ -52,6 +52,10 @@ public class NeutralCriteria {
         public boolean isNumeric() {
             return ( this == NUMERIC || this == EXACT_NUMERIC ) ? true : false;
         }
+
+        public boolean isExact() {
+            return ( this == EXACT || this == EXACT_NUMERIC );
+        }
     }
 
     static final String[] SUPPORTED_COMPARISON_OPERATORS = new String[] { ">=", "<=", "!=", "=~", "=", "<", ">" };

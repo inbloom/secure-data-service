@@ -33,6 +33,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralCriteria.SearchType;
 import org.slc.sli.domain.NeutralQuery;
 
 /**
@@ -107,7 +108,7 @@ public class ElasticSearchQueryConverter {
                                     .defaultOperator( criteria.getType() == NeutralCriteria.SearchType.EXACT ?
                                             QueryStringQueryBuilder.Operator.AND : QueryStringQueryBuilder.Operator.OR );
                         } else {
-                            return buildRegexQuery( "_all", value);
+                            return buildRegexQuery( "_all", value, criteria.getType());
                         }
                 }
 
@@ -161,7 +162,7 @@ public class ElasticSearchQueryConverter {
             }
             @Override
             public QueryBuilder getQuery(NeutralCriteria criteria) {
-                return buildRegexQuery( criteria.getKey(), ((String)criteria.getValue()) );
+                return buildRegexQuery( criteria.getKey(), ((String)criteria.getValue()), criteria.getType() );
             }
         });
 
@@ -179,15 +180,20 @@ public class ElasticSearchQueryConverter {
         return null;
     }
 
-    private QueryBuilder buildRegexQuery( String field, String searchValue) {
+    private QueryBuilder buildRegexQuery( String field, String searchValue, SearchType searchType) {
         String value =  "*" + searchValue.trim();
         if( !value.endsWith( "*")) {
             value += "*";
         }
         BoolQueryBuilder shouldQuery = QueryBuilders.boolQuery();
         // wildcard will work for not-analyzed fields and queryString is for analyzed
-        shouldQuery.should(QueryBuilders.wildcardQuery( field, value));
-        shouldQuery.should(QueryBuilders.queryString(value).field( field));
+        shouldQuery.should(QueryBuilders.wildcardQuery(field, value));
+        shouldQuery.should(QueryBuilders
+                .queryString(value)
+                .field(field)
+                .defaultOperator(
+                        searchType.isExact() ? QueryStringQueryBuilder.Operator.AND
+                                : QueryStringQueryBuilder.Operator.OR));
         shouldQuery.minimumNumberShouldMatch(1);
        return shouldQuery;
     }
