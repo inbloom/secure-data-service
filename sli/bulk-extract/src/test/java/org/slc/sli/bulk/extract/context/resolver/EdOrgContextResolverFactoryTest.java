@@ -43,6 +43,7 @@ public class EdOrgContextResolverFactoryTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
+        factory.init();
     }
 
     @Test
