@@ -90,14 +90,16 @@ public class EntityExtractor{
      */
     public void extractEntity(Entity entity, ExtractFile archiveFile, String collectionName, Predicate<Entity> filter) {
         try {
-            write(entity, archiveFile, new CollectionWrittenRecord(collectionName), filter);
+            if(archiveFile!=null){
+                write(entity, archiveFile, new CollectionWrittenRecord(collectionName), filter);
+            }
         } catch (IOException e) {
             LOG.error("Error while extracting from " + collectionName, e);
         }
     }
     
-    public void extractEntity(Entity entity, ExtractFile archiveFile, String collectionName) {
-    	extractEntity(entity, archiveFile, collectionName, null);
+    public void extractEntity(Entity entity, ExtractFile archiveFile, String collectionName) {  
+        extractEntity(entity, archiveFile, collectionName, null);
     }
 
 	/**
