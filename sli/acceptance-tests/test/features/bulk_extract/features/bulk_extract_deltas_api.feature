@@ -138,7 +138,7 @@ Given I clean the bulk extract file system and database
       | id                                          | condition                                |
       | 5449814bb2dbed641d914843fb17a87f6222ec82_id |                                          |
 
-    And I verify this "graduationPlan" file should contains:
+    And I verify this "graduationPlan" file should contain:
       | id                                          | condition                                |
       | ac907f298a74a5f200c78ecb372afb1e53cf15c3_id | graduationPlanType = Distinguished       |
     
@@ -246,7 +246,7 @@ Given I clean the bulk extract file system and database
       | 9cce6ea23864ee4870c8871e4c14ddecb6ab0fb0_id | programType = Gifted and Talented        |
       | 5449814bb2dbed641d914843fb17a87f6222ec82_id | programType = Gifted and Talented        |
 
-    And I verify this "graduationPlan" file should contains:
+    And I verify this "graduationPlan" file should contain:
       | id                                          | condition                                |
       | 1af13424ea3a179e716468ff760255878ce20ec7_id | graduationPlanType = Distinguished       |
 
