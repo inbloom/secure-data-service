@@ -121,6 +121,9 @@ public class BulkExtract {
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
 
+    @Autowired
+    private FileResource fileResource;
+
     private SLIPrincipal getPrincipal() {
         return (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
@@ -137,6 +140,8 @@ public class BulkExtract {
     public Response get(@Context HttpServletRequest request) throws Exception {
         LOG.info("Received request to stream sample bulk extract...");
 
+        logSecurityEvent(uri, "Received request to stream sample bulk extract");
+
         validateRequestCertificate(request);
 
         final InputStream is = this.getClass().getResourceAsStream("/bulkExtractSampleData/" + SAMPLED_FILE_NAME);
@@ -152,10 +157,10 @@ public class BulkExtract {
             }
         };
 
-        logSecurityEvent(uri, "Received request to stream sample bulk extract");
         ResponseBuilder builder = Response.ok(out);
         builder.header("content-disposition", "attachment; filename = " + SAMPLED_FILE_NAME);
         builder.header("last-modified", "Not Specified");
+        logSecurityEvent(uri, "Successful request to stream sample bulk extract");
         return builder.build();
     }
 
@@ -174,7 +179,7 @@ public class BulkExtract {
     @RightsAllowed({ Right.BULK_EXTRACT })
     public Response getLEAorSEAExtract(@Context HttpContext context, @Context HttpServletRequest request, @PathParam("edOrgId") String edOrgId) {
 
-
+        logSecurityEvent(uri, "Received request to stream Edorg data");
         if (edOrgId == null || edOrgId.isEmpty()) {
             logSecurityEvent(uri, "Failed request to stream SEA public data, missing edOrgId");
             throw new IllegalArgumentException("edOrgId cannot be missing");
@@ -187,11 +192,10 @@ public class BulkExtract {
         if (helper.isSEA(entity)) {
             isPublicData = true;
             canAccessSEAExtract(entity);
-            logSecurityEvent(uri, "Received request to stream SEA public data");
         } else {
             canAccessLEAExtract(edOrgId);
-            logSecurityEvent(uri, "Received request to stream LEA bulk extract data");
         }
+        logSecurityEvent(uri, "Successful request to stream Edorg data");
         return getExtractResponse(context.getRequest(), null, edOrgId, isPublicData);
     }
 
@@ -207,9 +211,10 @@ public class BulkExtract {
     @RightsAllowed({ Right.BULK_EXTRACT })
     public Response getLEAList(@Context HttpServletRequest request, @Context HttpContext context) throws Exception {
         info("Received request for list of links for all LEAs for this user/app");
+        logSecurityEvent(uri, "Received request for list of links for all LEAs for this user/app");
         validateRequestAndApplicationAuthorization(request);
 
-        logSecurityEvent(uri, "Received request for list of links for all LEAs for this user/app");
+        logSecurityEvent(uri, "Successful request for list of links for all LEAs for this user/app");
         return getLEAListResponse(context);
     }
 
@@ -224,11 +229,11 @@ public class BulkExtract {
     @RightsAllowed({ Right.BULK_EXTRACT })
     public Response getTenant(@Context HttpServletRequest request, @Context HttpContext context) throws Exception {
         info("Received request to stream tenant bulk extract...");
+        logSecurityEvent(uri, "Received request to stream tenant bulk extract");
         validateRequestCertificate(request);
 
         appAuthHelper.checkApplicationAuthorization(null);
 
-        logSecurityEvent(uri, "Received request to stream tenant bulk extract");
         return getExtractResponse(context.getRequest(), null, null, false);
     }
 
@@ -245,6 +250,7 @@ public class BulkExtract {
     @RightsAllowed({ Right.BULK_EXTRACT })
     public Response getDelta(@Context HttpServletRequest request, @Context HttpContext context,
                              @PathParam("edOrgId") String edOrgId, @PathParam("date") String date) {
+        logSecurityEvent(uri, "Received request to stream Edorg delta bulk extract data");
         if (deltasEnabled) {
             LOG.info("Retrieving delta bulk extract for {}, at date {}", edOrgId, date);
             if (edOrgId == null || edOrgId.isEmpty()) {
@@ -264,14 +270,14 @@ public class BulkExtract {
             if (helper.isSEA(entity)) {
                 isPublicData = true;
                 canAccessSEAExtract(entity);
-                logSecurityEvent(uri, "Received request to stream SEA public delta bulk extract data");
             } else {
                 canAccessLEAExtract(edOrgId);
-                logSecurityEvent(uri, "Received request to stream delta LEA bulk extract data");
             }
+
             return getExtractResponse(context.getRequest(), date, edOrgId, isPublicData);
 
         }
+        logSecurityEvent(uri, "Failed request for Edorg delta bulk extract data");
         return Response.status(404).build();
     }
 
@@ -352,8 +358,8 @@ public class BulkExtract {
             return Response.status(Status.NOT_FOUND).build();
         }
 
-        return FileResource.getFileResponse(req, bulkExtractFile,
-                bulkExtractFile.lastModified(), bulkExtractFileEntity.getLastModified());
+        return fileResource.getFileResponse(req, bulkExtractFile,
+                bulkExtractFile.lastModified(), bulkExtractFileEntity.getLastModified(), uri);
 
     }
 
@@ -376,7 +382,7 @@ public class BulkExtract {
             LOG.info("No authorized LEAs for application: {}", appId);
             return Response.status(Status.NOT_FOUND).build();
         }
-
+        logSecurityEvent(uri, "Successfully retrieved LEA list for " + appId);
         return assembleLEALinksResponse(context, appId, appAuthorizedUserLEAs);
     }
 
@@ -632,6 +638,11 @@ public class BulkExtract {
 
         this.validator.validateCertificate(certs[0], clientId);
     }
+
+    public void setFileResource(FileResource fileResource) {
+        this.fileResource = fileResource;
+    }
+
 
     void logSecurityEvent(UriInfo uriInfo, String message) {
         audit(securityEventBuilder.createSecurityEvent(BulkExtract.class.getName(),
