@@ -3,12 +3,13 @@ Feature: Check the bulk extractor on negative and edge cases
 Scenario: Run the bulk extractor on an unauthorized tenant
 	Given I am using local data store
 	Given I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
+    And the tenant "Hyrule" does not have any bulk extract apps for any of its education organizations
 	And I post "StoriedDataSet_NY.zip" file as the payload of the ingestion job
 	When zip file is scp to ingestion landing zone
 	And a batch job for file "StoriedDataSet_NY.zip" is completed in database
 	Then I should not see an error log file created
 	And I should not see a warning log file created
-	Given I trigger a bulk extract
+	Given I trigger an extract for tenant "Hyrule"
 	Then I should not see an extract for tenant "Hyrule"
 	
 Scenario: Try accessing the API's bulk extract endpoint with a user that doesn't have the proper rights
