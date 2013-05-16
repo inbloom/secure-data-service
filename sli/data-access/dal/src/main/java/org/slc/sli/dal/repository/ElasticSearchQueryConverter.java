@@ -28,7 +28,6 @@ import org.elasticsearch.index.query.FilterBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.index.query.QueryStringQueryBuilder;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.constants.ParameterConstants;
@@ -103,13 +102,15 @@ public class ElasticSearchQueryConverter {
             public QueryBuilder getQuery(NeutralCriteria criteria) {
                 if (Q.equals(criteria.getKey())) {
                         String value = criteria.getValue().toString().trim().toLowerCase();
-                        if( !criteria.getType().isNumeric() ) {
-                            return QueryBuilders.queryString( value ).analyzeWildcard(true).analyzer("simple")
-                                    .defaultOperator( criteria.getType() == NeutralCriteria.SearchType.EXACT ?
-                                            QueryStringQueryBuilder.Operator.AND : QueryStringQueryBuilder.Operator.OR );
+
+
+                        if( !criteria.getType().isNumeric() && !criteria.getType().isExact()) {
+                            return QueryBuilders.queryString( value ).analyzeWildcard(true).analyzer("simple");
+
                         } else {
                             return buildRegexQuery( "_all", value, criteria.getType());
                         }
+
                 }
 
                 String value = (String)criteria.getValue();
@@ -188,12 +189,13 @@ public class ElasticSearchQueryConverter {
         BoolQueryBuilder shouldQuery = QueryBuilders.boolQuery();
         // wildcard will work for not-analyzed fields and queryString is for analyzed
         shouldQuery.should(QueryBuilders.wildcardQuery(field, value));
+        if( searchType.isExact()) {
+                shouldQuery.should( QueryBuilders.matchPhraseQuery(field, searchValue));
+        } else {
         shouldQuery.should(QueryBuilders
                 .queryString(value)
-                .field(field)
-                .defaultOperator(
-                        searchType.isExact() ? QueryStringQueryBuilder.Operator.AND
-                                : QueryStringQueryBuilder.Operator.OR));
+                .field(field));
+        }
         shouldQuery.minimumNumberShouldMatch(1);
        return shouldQuery;
     }
