@@ -18,9 +18,11 @@ package org.slc.sli.bulk.extract.lea;
 
 import java.util.Iterator;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
@@ -31,14 +33,17 @@ public class YearlyTranscriptExtractor implements EntityExtract {
     private LEAExtractFileMap map;
     private Repository<Entity> repo;
     private LocalEdOrgExtractHelper localEdOrgExtractHelper;
+    private EntityToLeaCache studentAcademicRecordCache;
     
-    public YearlyTranscriptExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
+    public YearlyTranscriptExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo, 
+            LocalEdOrgExtractHelper localEdOrgExtractHelper, EntityToLeaCache studentAcademicRecordCache) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
         this.localEdOrgExtractHelper = localEdOrgExtractHelper;
+        this.studentAcademicRecordCache = studentAcademicRecordCache;    
     }
-
+    
     @Override
     public void extractEntities(EntityToLeaCache entityToEdorgCache) {
         localEdOrgExtractHelper.logSecurityEvent(map.getLeas(), "yearlyTranscript", this.getClass().getName());
@@ -48,12 +53,38 @@ public class YearlyTranscriptExtractor implements EntityExtract {
             Entity yearlyTranscript = yearlyTranscripts.next();
             String studentId = (String) yearlyTranscript.getBody().get(ParameterConstants.STUDENT_ID);
             Set<String> studentLeas = entityToEdorgCache.getEntriesById(studentId);
-            
+            Set<String> studentAcademicRecords = fetchStudentAcademicRecordsFromYearlyTranscript(yearlyTranscript);
             for (String lea : studentLeas) {
                 extractor.extractEntity(yearlyTranscript, map.getExtractFileForLea(lea), "yearlyTranscript");
+                
+                for (String studentAcademicRecord : studentAcademicRecords) {
+                    studentAcademicRecordCache.addEntry(studentAcademicRecord, lea);
+                }
             }
         }
         
     }
     
+    /**
+     * returns all parents of the student
+     * @param student
+     * @return
+     */
+    private Set<String> fetchStudentAcademicRecordsFromYearlyTranscript(Entity yearlyTranscript) {
+        Set<String> records = new TreeSet<String>();
+        if (yearlyTranscript.getEmbeddedData().containsKey(EntityNames.STUDENT_ACADEMIC_RECORD)) {
+            for (Entity sar : yearlyTranscript.getEmbeddedData().get(EntityNames.STUDENT_ACADEMIC_RECORD)) {
+                records.add(sar.getEntityId());
+            }
+        }
+        return records;
+    }
+    
+    /**
+     * Get the cache of studentAcademicRecordIds to a list of LEA IDs that these records were extracted to
+     * @return
+     */
+    public EntityToLeaCache getStudentAcademicRecordCache(){
+        return studentAcademicRecordCache;
+    }
 }

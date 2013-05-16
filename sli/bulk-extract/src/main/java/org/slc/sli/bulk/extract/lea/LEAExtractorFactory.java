@@ -46,7 +46,7 @@ public class LEAExtractorFactory {
     
     public EntityExtract buildYearlyTranscriptExtractor(EntityExtractor extractor, LEAExtractFileMap map,
             Repository<Entity> repo, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
-        return new YearlyTranscriptExtractor(extractor, map, repo, localEdOrgExtractHelper);
+        return new YearlyTranscriptExtractor(extractor, map, repo, localEdOrgExtractHelper, new EntityToLeaCache());
     }
     
     public EntityExtract buildParentExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
@@ -120,5 +120,10 @@ public class LEAExtractorFactory {
     public CourseOfferingExtractor buildCourseOfferingExtractor(EntityExtractor extractor, LEAExtractFileMap map,
             Repository<Entity> repo, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
         return new CourseOfferingExtractor(extractor, map, repo, localEdOrgExtractHelper);
+    }
+    
+    public CourseTranscriptExtractor buildCourseTranscriptExtractor(EntityExtractor extractor, LEAExtractFileMap map,
+            Repository<Entity> repo) {
+        return new CourseTranscriptExtractor(extractor, map, repo);
     }
 }
