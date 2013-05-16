@@ -1524,7 +1524,7 @@ def prepareBody(verb, value, response_map)
         "relation" => "Father",
         "contactPriority" => 3
       },
-      "newMinStudent" => {
+      "newDaybreakStudent" => {
         "loginId" => "new-student-min@bazinga.org",
         "sex" => "Male",
         "entityType" => "student",
@@ -1585,7 +1585,7 @@ def prepareBody(verb, value, response_map)
         "repeatGradeIndicator" => false,
         "schoolId" => "1b5de2516221069fd8f690349ef0cc1cffbb6dca_id",
       },
-      "newStudentSchoolAssociation" => {
+      "DbStudentSchoolAssociation" => {
         "exitWithdrawDate" => "2014-05-22",
         "entityType" => "studentSchoolAssociation",
         "entryDate" => "2013-08-27",
