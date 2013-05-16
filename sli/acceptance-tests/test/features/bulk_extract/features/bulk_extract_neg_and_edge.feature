@@ -44,6 +44,7 @@ Scenario: Run the bulk extractor on an empty database
 	Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
 	And all collections are empty
 	And the extraction zone is empty
+    And the bulk extract files in the database are scrubbed
 	And I trigger a bulk extract
 	When I retrieve the path to and decrypt the extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
 	And I verify that an extract tar file was created for the tenant "Midgar"
