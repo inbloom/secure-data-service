@@ -503,7 +503,7 @@ public class SearchResourceService {
             useValue = StringUtils.join(tokens, "* ");
         }
 
-        criteria.setValue(useValue + "* ");
+        criteria.setValue(useValue + "*");
         criteria.setType( qType );
     }
 
