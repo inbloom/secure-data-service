@@ -457,6 +457,7 @@ Given I clean the bulk extract file system and database
         | 9bf3036428c40861238fdc820568fde53e658d88_idc3a6a4ed285c14f562f0e0b63e1357e061e337c6_id | entityType = studentParentAssociation |
         | 9bf3036428c40861238fdc820568fde53e658d88_id28af8b70a2f2e695fc25da04e0f8625115002556_id | entityType = studentParentAssociation |
 
+
 Scenario: Update an existing edorg through the API, perform delta, call list endpoint, call API to download and verify delta
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -511,7 +512,6 @@ Given I clean the bulk extract file system and database
   And I verify "2" delta bulk extract files are generated for LEA "<IL-HIGHWIND>" in "Midgar"
 
 
-@shortcut
 Scenario: Create Student, course offering and section as SEA Admin, users from different LEAs requesting Delta extracts
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -542,14 +542,24 @@ Given I clean the bulk extract file system and database
         |  parent                                |
         |  studentParentAssociation              |
         |  studentSchoolAssociation              |
+        #|  course                              |
         |  courseOffering                        |
         |  section                               |
         |  studentSectionAssociation             |
         |  studentAssessment                   |
         |  gradebookEntry                      |
-      #  |  grade                               |
-      #  |  reportCard                          |
-      #  |  studentAcademicRecord               |
+        #|  staff                               |
+        #|  teacher                             |
+        #|  yearlyTranscript                    |
+        #|  attendance                          |
+        #|  cohort                              |
+        #|  session                             |
+        #|  gradingPeriod                       |
+        #|  program                             |
+        #|  graduationPlan                      |
+        #|  grade                               |
+        #|  reportCard                          |
+        #|  studentAcademicRecord               |
 
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And I verify this "student" file should contain:
@@ -630,7 +640,6 @@ Given I clean the bulk extract file system and database
     | d913396aef918602b8049027dbdce8826c054402_id | entryDate = 2013-08-27                                   |
 
 
-@shortcut
 Scenario: Delete student and stuSchAssoc, re-post them, then delete just studentSchoolAssociations (leaving students), verify delete
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
