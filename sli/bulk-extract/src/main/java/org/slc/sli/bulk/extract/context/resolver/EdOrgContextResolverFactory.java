@@ -16,6 +16,11 @@
 
 package org.slc.sli.bulk.extract.context.resolver;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.PostConstruct;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,7 +105,58 @@ public class EdOrgContextResolverFactory {
     
     @Autowired
     private GraduationPlanContextResolver graduationPlanResolver;
+    
+    private Map<String, ContextResolver> resolverMap = new HashMap<String, ContextResolver>();
 
+    @PostConstruct
+    void init() {
+        
+        resolverMap.put(EntityNames.EDUCATION_ORGANIZATION, edOrgContextResolver);
+
+        resolverMap.put(EntityNames.STUDENT, studentResolver);
+
+        resolverMap.put(EntityNames.STUDENT_SCHOOL_ASSOCIATION, studentDirectRelatedContextResolver);
+        resolverMap.put(EntityNames.STUDENT_ASSESSMENT, studentDirectRelatedContextResolver);
+        resolverMap.put(EntityNames.STUDENT_PARENT_ASSOCIATION, studentDirectRelatedContextResolver);
+        resolverMap.put(EntityNames.STUDENT_SECTION_ASSOCIATION, studentDirectRelatedContextResolver);
+        resolverMap.put(EntityNames.GRADE, studentDirectRelatedContextResolver);
+        resolverMap.put(EntityNames.REPORT_CARD, studentDirectRelatedContextResolver);
+        resolverMap.put(EntityNames.STUDENT_ACADEMIC_RECORD, studentDirectRelatedContextResolver);
+        resolverMap.put(EntityNames.STUDENT_GRADEBOOK_ENTRY, studentDirectRelatedContextResolver);
+        resolverMap.put(EntityNames.STUDENT_COHORT_ASSOCIATION, studentDirectRelatedContextResolver);
+        resolverMap.put(EntityNames.ATTENDANCE, studentDirectRelatedContextResolver);
+        resolverMap.put(EntityNames.STUDENT_PROGRAM_ASSOCIATION, studentDirectRelatedContextResolver);
+        
+        resolverMap.put(EntityNames.PARENT, parentResolver);
+        
+        resolverMap.put(EntityNames.SECTION, sectionResolver);
+        
+        resolverMap.put(EntityNames.TEACHER, staffTeacherResolver);
+        resolverMap.put(EntityNames.STAFF, staffTeacherResolver);
+        
+        resolverMap.put(EntityNames.TEACHER_SCHOOL_ASSOCIATION, staffTeacherRelatedResolver);
+        resolverMap.put(EntityNames.TEACHER_SECTION_ASSOCIATION, staffTeacherRelatedResolver);
+        resolverMap.put(EntityNames.STAFF_ED_ORG_ASSOCIATION, staffTeacherRelatedResolver);
+        resolverMap.put(EntityNames.STAFF_COHORT_ASSOCIATION, staffTeacherRelatedResolver);
+        resolverMap.put(EntityNames.STAFF_PROGRAM_ASSOCIATION, staffTeacherRelatedResolver);
+        
+        resolverMap.put(EntityNames.GRADEBOOK_ENTRY, gradebookEntryContextResolver);
+        
+        resolverMap.put(EntityNames.COHORT, cohortResolver);
+        
+        resolverMap.put(EntityNames.SESSION, sessionResolver);
+
+        resolverMap.put(EntityNames.GRADING_PERIOD, gradingPeriodResolver);
+        
+        resolverMap.put(EntityNames.COURSE_OFFERING, courseOfferingResolver);
+        
+        resolverMap.put(EntityNames.COURSE, courseResolver);
+        
+        resolverMap.put(EntityNames.PROGRAM, programContextResolver);
+        
+        resolverMap.put(EntityNames.GRADUATION_PLAN, graduationPlanResolver);
+    }
+    
     /**
      * find responsible resolver for this entity type
      * 
@@ -108,83 +164,6 @@ public class EdOrgContextResolverFactory {
      * @return context resolver for this entity type
      */
     public ContextResolver getResolver(String entityType) {
-        
-        if (EntityNames.EDUCATION_ORGANIZATION.equals(entityType)) {
-            return edOrgContextResolver;
-        }
-        
-        if (EntityNames.STUDENT.equals(entityType)) {
-            return studentResolver;
-        }
-        
-        if (EntityNames.STUDENT_SCHOOL_ASSOCIATION.equals(entityType)
-                || EntityNames.STUDENT_ASSESSMENT.equals(entityType)
-                || EntityNames.STUDENT_PARENT_ASSOCIATION.equals(entityType)
-                || EntityNames.STUDENT_SECTION_ASSOCIATION.equals(entityType)
-                || EntityNames.GRADE.equals(entityType)
-                || EntityNames.REPORT_CARD.equals(entityType)
-                || EntityNames.STUDENT_ACADEMIC_RECORD.equals(entityType)
-                || EntityNames.STUDENT_GRADEBOOK_ENTRY.equals(entityType)
-                || EntityNames.STUDENT_COHORT_ASSOCIATION.equals(entityType)
-                || EntityNames.ATTENDANCE.equals(entityType)
-                || EntityNames.STUDENT_PROGRAM_ASSOCIATION.equals(entityType)) {
-            return studentDirectRelatedContextResolver;
-        }
-        
-        if (EntityNames.PARENT.equals(entityType)) {
-            return parentResolver;
-        }
-        
-        if (EntityNames.SECTION.equals(entityType)) {
-            return sectionResolver;
-        }
-      
-        if (EntityNames.TEACHER.equals(entityType) 
-                || EntityNames.STAFF.equals(entityType)) {
-            return staffTeacherResolver;
-        }
-        
-        if (EntityNames.TEACHER_SCHOOL_ASSOCIATION.equals(entityType)
-                || EntityNames.TEACHER_SECTION_ASSOCIATION.equals(entityType)
-                || EntityNames.STAFF_ED_ORG_ASSOCIATION.equals(entityType)
-                || EntityNames.STAFF_COHORT_ASSOCIATION.equals(entityType)
-                || EntityNames.STAFF_PROGRAM_ASSOCIATION.equals(entityType)) {
-            return staffTeacherRelatedResolver;
-        }
-
-        if (EntityNames.GRADEBOOK_ENTRY.equals(entityType)) {
-            return gradebookEntryContextResolver;
-        }
-        
-        if (EntityNames.COHORT.equals(entityType)) {
-            return cohortResolver;
-        }
-        
-        if (EntityNames.SESSION.equals(entityType)) {
-            return sessionResolver;
-        }
-
-        if (EntityNames.GRADING_PERIOD.equals(entityType)) {
-            return gradingPeriodResolver;
-        }
-        
-        if (EntityNames.COURSE_OFFERING.equals(entityType)) {
-            return courseOfferingResolver;
-        }
-        
-        if (EntityNames.COURSE.equals(entityType)) {
-            return courseResolver;
-        }
-
-        if (EntityNames.PROGRAM.equals(entityType)) {
-            return programContextResolver;
-        }
-        
-        if (EntityNames.GRADUATION_PLAN.equals(entityType)) {
-            return graduationPlanResolver;
-        }
-
-        LOG.debug("unable to resolve entity type {}", entityType);
-        return null;
+        return resolverMap.get(entityType);
     }
 }
