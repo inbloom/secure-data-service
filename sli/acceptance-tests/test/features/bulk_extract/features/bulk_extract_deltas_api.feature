@@ -368,33 +368,100 @@ Scenario: Ingest SEA delete and verify both LEAs received the delete
 
     Then I reingest the SEA so I can continue my other tests
 
-Scenario: Create a new education organization through the API and perform delta
+Scenario: CREATE and verify deltas for private entities through API POST
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-  And format "application/vnd.slc+json"
- When I POST a "newEducationOrganization" of type "educationOrganization"
- Then I should receive a return code of 201   
- When I trigger a delta extract
-  And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>"
- Then I should see "2" bulk extract files
+  And format "application/json"
+ # CREATE parent entity via POST
+  When I POST and validate the following entities:
+    |  entity                       |  type                      |  returnCode  |
+    |  newEducationOrganization     |  educationOrganization     |  201         |
+    |  newMinStudent                |  staffStudent              |  201         |
+    |  newStudentSchoolAssociation  |  studentSchoolAssociation  |  201         |
+    |  newParentFather              |  parent                    |  201         |
+    |  newParentMother              |  parent                    |  201         |
+    |  newStudentFatherAssociation  |  studentParentAssociation  |  201         |
+    |  newStudentMotherAssociation  |  studentParentAssociation  |  201         |
+
+ When I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
+  And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
+  And I verify "0" delta bulk extract files are generated for LEA "<IL-HIGHWIND>" in "Midgar" 
+  And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+ Then The "student" delta was extracted in the same format as the api
+  And The "studentSchoolAssociation" delta was extracted in the same format as the api
+  And The "parent" delta was extracted in the same format as the api
+  And The "studentParentAssociation" delta was extracted in the same format as the api
   And The "educationOrganization" delta was extracted in the same format as the api
 
-Scenario: Update an existing education organization through the API and perform delta
-Given I clean the bulk extract file system and database
+ Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-  And format "application/json"   
- When I PUT the "postalCode" for a "school" entity to "11012"
- Then I should receive a return code of 204
- When I trigger a delta extract
-  And I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-  And I request latest delta via API for tenant "Midgar", lea "<IL-DAYBREAK>" with appId "<app id>" clientId "<client id>"
-  And I should receive a return code of 200
-  And I download and decrypt the delta
- Then I should see "2" bulk extract files
+  And format "application/json"
+ # UPDATE/UPSERT parent entity via PUT
+ When I PUT and validate the following entities:
+    |  field            |  entity                       |  value                           |  returnCode  |
+    |  loginId          |  newStudent                   |  super_student_you_rock@bazinga  |  204         |
+    |  loginId          |  newParentMom                 |  super_mom_you_rock@bazinga.com  |  204         |
+    |  loginId          |  newParentDad                 |  super_dad_good_job@bazinga.com  |  204         |
+    |  contactPriority  |  newStudentParentAssociation  |  1                               |  204         |
+    |  postalCode       |  school                       |  11012                           |  204         |
+
+ When I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
+  And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
+  And I verify "0" delta bulk extract files are generated for LEA "<IL-HIGHWIND>" in "Midgar" 
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  And The "student" delta was extracted in the same format as the api
+  And The "parent" delta was extracted in the same format as the api
+  And The "studentParentAssociation" delta was extracted in the same format as the api
   And The "educationOrganization" delta was extracted in the same format as the api
 
-Scenario: Update an existing education organization through the API and perform delta
+ Given I clean the bulk extract file system and database
+  And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  And format "application/json"
+
+ # UPDATE parent and parentStudentAssociation fields via PATCH 
+  When I PATCH and validate the following entities:
+    |  field            |  entity                       |  value                                 |  returnCode  |
+    |  postalCode       |  patchEdOrg                   |  11099                                 |  204         |
+    |  studentLoginId   |  newStudent                   |  average_student_youre_ok@bazinga.com  |  204         |
+    |  momLoginId       |  newParentMom                 |  average_mom_youre_ok@bazinga.com      |  204         |
+    |  dadLoginId       |  newParentDad                 |  average_dad_youre_ok@bazinga.com      |  204         |
+    |  contactPriority  |  newStudentParentAssociation  |  1                                     |  204         |
+
+ When I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
+  And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
+  And I verify "0" delta bulk extract files are generated for LEA "<IL-HIGHWIND>" in "Midgar" 
+  And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  And The "student" delta was extracted in the same format as the api
+  And The "parent" delta was extracted in the same format as the api
+  And The "studentParentAssociation" delta was extracted in the same format as the api
+  And The "educationOrganization" delta was extracted in the same format as the api
+  And The "school" delta was extracted in the same format as the api
+
+ # DELETE entities
+ Given I clean the bulk extract file system and database
+  And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  And format "application/json"
+ When I DELETE and validate the following entities:
+    |  entity        |  id                                           |  returnCode  |
+    |  newStudent    |  9bf3036428c40861238fdc820568fde53e658d88_id  |  204         |
+    |  newParentDad  |  41f42690a7c8eb5b99637fade00fc72f599dab07_id  |  204         |
+    |  newParentMom  |  41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id  |  204         |
+
+ When I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
+  And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
+        |  entityType                            |
+        |  deleted                               |
+  And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  And I verify this "deleted" file should contain:
+        | id                                          | condition                             |
+        | 9bf3036428c40861238fdc820568fde53e658d88_id | entityType = student                  |
+        | 41f42690a7c8eb5b99637fade00fc72f599dab07_id | entityType = parent                   |
+        | 41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id | entityType = parent                   |
+        | cbfe3a47491fdff0432d5d4abca339735da9461d_id | entityType = studentSchoolAssociation |
+        | 9bf3036428c40861238fdc820568fde53e658d88_idc3a6a4ed285c14f562f0e0b63e1357e061e337c6_id | entityType = studentParentAssociation |
+        | 9bf3036428c40861238fdc820568fde53e658d88_id28af8b70a2f2e695fc25da04e0f8625115002556_id | entityType = studentParentAssociation |
+
+Scenario: Update an existing edorg through the API, perform delta, call list endpoint, call API to download and verify delta
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/json"   
@@ -447,108 +514,6 @@ Given I clean the bulk extract file system and database
   And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
   And I verify "2" delta bulk extract files are generated for LEA "<IL-HIGHWIND>" in "Midgar"
 
-Scenario: Patch an existing school with API call, verify delta
-Given I clean the bulk extract file system and database
-  And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-  And format "application/json"  
- When I PATCH the "postalCode" for a "patchEdOrg" entity to "11099"
- Then I should receive a return code of 204
- When I trigger a delta extract
-  And I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-  And I request latest delta via API for tenant "Midgar", lea "<IL-DAYBREAK>" with appId "<app id>" clientId "<client id>"
-  And I should receive a return code of 200
-  And I download and decrypt the delta
- Then I should see "2" bulk extract files
-  And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-  And The "educationOrganization" delta was extracted in the same format as the api
-
-Scenario: CREATE and verify deltas for private entities through API POST
-Given I clean the bulk extract file system and database
-  And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-  And format "application/json"
- # CREATE parent entity via POST
-  When I POST and validate the following entities:
-    |  entity                       |  type                      |  returnCode  |
-    |  newMinStudent                |  staffStudent              |  201         |
-    |  newStudentSchoolAssociation  |  studentSchoolAssociation  |  201         |
-    |  newParentFather              |  parent                    |  201         |
-    |  newParentMother              |  parent                    |  201         |
-    |  newStudentFatherAssociation  |  studentParentAssociation  |  201         |
-    |  newStudentMotherAssociation  |  studentParentAssociation  |  201         |
-
- When I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
-  And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
-  And I verify "0" delta bulk extract files are generated for LEA "<IL-HIGHWIND>" in "Midgar" 
-  And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
- Then The "student" delta was extracted in the same format as the api
-  And The "studentSchoolAssociation" delta was extracted in the same format as the api
-  And The "parent" delta was extracted in the same format as the api
-  And The "studentParentAssociation" delta was extracted in the same format as the api
-
- Given I clean the bulk extract file system and database
-  And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-  And format "application/json"
- # UPDATE/UPSERT parent entity via PUT
- When I PUT and validate the following entities:
-    |  field            |  entity                       |  value                           |  returnCode  |
-    |  loginId          |  newStudent                   |  super_student_you_rock@bazinga  |  204         |
-    |  loginId          |  newParentMom                 |  super_mom_you_rock@bazinga.com  |  204         |
-    |  loginId          |  newParentDad                 |  super_dad_good_job@bazinga.com  |  204         |
-    |  contactPriority  |  newStudentParentAssociation  |  1                               |  204         |
-
- When I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
-  And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
-  And I verify "0" delta bulk extract files are generated for LEA "<IL-HIGHWIND>" in "Midgar" 
-  And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-  And The "student" delta was extracted in the same format as the api
-  And The "parent" delta was extracted in the same format as the api
-  And The "studentParentAssociation" delta was extracted in the same format as the api
-
- Given I clean the bulk extract file system and database
-  And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-  And format "application/json"
-
- # UPDATE parent and parentStudentAssociation fields via PATCH 
-  When I PATCH and validate the following entities:
-    |  field            |  entity                       |  value                                 |  returnCode  |
-    |  studentLoginId   |  newStudent                   |  average_student_youre_ok@bazinga.com  |  204         |
-    |  momLoginId       |  newParentMom                 |  average_mom_youre_ok@bazinga.com      |  204         |
-    |  dadLoginId       |  newParentDad                 |  average_dad_youre_ok@bazinga.com      |  204         |
-    |  contactPriority  |  newStudentParentAssociation  |  1                                     |  204         |
-
- When I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
-  And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
-  And I verify "0" delta bulk extract files are generated for LEA "<IL-HIGHWIND>" in "Midgar" 
-  And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-  And The "student" delta was extracted in the same format as the api
-  And The "parent" delta was extracted in the same format as the api
-  And The "studentParentAssociation" delta was extracted in the same format as the api
-
- # DELETE entities
- Given I clean the bulk extract file system and database
-  And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-  And format "application/json"
- When I DELETE and validate the following entities:
-    |  entity        |  id                                           |  returnCode  |
-    |  newStudent    |  9bf3036428c40861238fdc820568fde53e658d88_id  |  204         |
-    |  newParentDad  |  41f42690a7c8eb5b99637fade00fc72f599dab07_id  |  204         |
-    |  newParentMom  |  41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id  |  204         |
-
- When I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
-  And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
-        |  entityType                            |
-        |  deleted                               |
-  And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-  And I verify this "deleted" file should contain:
-        | id                                          | condition                             |
-        | 9bf3036428c40861238fdc820568fde53e658d88_id | entityType = student                  |
-        | 41f42690a7c8eb5b99637fade00fc72f599dab07_id | entityType = parent                   |
-        | 41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id | entityType = parent                   |
-        | cbfe3a47491fdff0432d5d4abca339735da9461d_id | entityType = studentSchoolAssociation |
-        | 9bf3036428c40861238fdc820568fde53e658d88_idc3a6a4ed285c14f562f0e0b63e1357e061e337c6_id | entityType = studentParentAssociation |
-        | 9bf3036428c40861238fdc820568fde53e658d88_id28af8b70a2f2e695fc25da04e0f8625115002556_id | entityType = studentParentAssociation |
-
-@shortcut
 Scenario: Create Student, course offering and section as SEA Admin, users from different LEAs requesting Delta extracts
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
