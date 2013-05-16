@@ -138,22 +138,22 @@ def check_args(argv)
         if (tenant != nil)
           raise(ArgumentError, "Illegal or wrongly included tenant argument")
         end
-        tenant = param[2..param.length - 1]
+        tenant = param[2..-1]
       when "-e"
         if ((edorg != nil) || (file != nil) || (param.length < 3))
           raise(ArgumentError, "Illegal or wrongly included edorg argument")
         end
-        edorg = param[2..param.length - 1]
+        edorg = param[2..-1]
       when "-d"
         if ((date != nil) || (file != nil) || (param.length < 3))
           raise(ArgumentError, "Illegal or wrongly included date argument")
         end
-        date = param[2..param.length - 1]
+        date = param[2..-1]
       when "-f"
         if ((file != nil) || (edorg != nil) || (date != nil) || (param.length < 3))
           raise(ArgumentError, "Illegal or wrongly included file argument")
         end
-        file = param[2..param.length - 1]
+        file = param[2..-1]
       else
         raise(ArgumentError, "Invalid argument(s)")
     end

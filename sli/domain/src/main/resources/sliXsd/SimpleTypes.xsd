@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified"
-	attributeFormDefault="qualified" xmlns:sli="http://slc-sli/ed-org/0.1">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:sli="http://slc-sli/ed-org/0.1" elementFormDefault="qualified" attributeFormDefault="qualified">
 	<!-- This file contains the simple types for the SLI database schema representation. -->
 	<xs:simpleType name="environmentType">
 		<xs:annotation>
@@ -193,9 +192,9 @@
 				address. </xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
-			<!--<xs:pattern value= "[0-9]{5}(-[0-9]{4})?" />-->
 			<xs:minLength value="1"/>
 			<xs:maxLength value="17"/>
+			<!--<xs:pattern value= "[0-9]{5}(-[0-9]{4})?" />-->
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="nameOfCounty">
@@ -219,9 +218,9 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
-			<!--<xs:pattern value= "[0-9]{5}" />-->
 			<xs:minLength value="3"/>
 			<xs:maxLength value="5"/>
+			<!--<xs:pattern value= "[0-9]{5}" />-->
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="countryCodeType">
@@ -487,9 +486,9 @@
 			<xs:documentation>The data type to specify latitude or longitude. </xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
-			<!--<xs:pattern value= "\d+(\.\d+)?" />-->
 			<xs:minLength value="1"/>
 			<xs:maxLength value="20"/>
+			<!--<xs:pattern value= "\d+(\.\d+)?" />-->
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="addressType">
@@ -513,9 +512,9 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
-			<!--<xs:pattern value= "(http(s)?://)?(.*\..*[^\.]+)+" />-->
 			<xs:minLength value="5"/>
 			<xs:maxLength value="80"/>
+			<!--<xs:pattern value= "(http(s)?://)?(.*\..*[^\.]+)+" />-->
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="operationalStatusType">
@@ -830,7 +829,9 @@
 	<xs:simpleType name="description">
 		<xs:annotation>
 			<xs:documentation>A detailed description of the entity. </xs:documentation>
-			<xs:appinfo> <sli:RelaxedBlacklist>true</sli:RelaxedBlacklist> </xs:appinfo>
+			<xs:appinfo>
+				<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:minLength value="1"/>
@@ -1297,9 +1298,9 @@
 				organization. </xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
-			<!--<xs:pattern value= ".*@.*\..*[^\.]" />-->
 			<xs:minLength value="7"/>
 			<xs:maxLength value="128"/>
+			<!--<xs:pattern value= ".*@.*\..*[^\.]" />-->
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="simpleName">
@@ -1349,7 +1350,9 @@
 		<xs:annotation>
 			<xs:documentation>A description of the type of academic distinctions earned by or
 				awarded to the individual. </xs:documentation>
-			<xs:appinfo> <sli:RelaxedBlacklist>true</sli:RelaxedBlacklist> </xs:appinfo>
+			<xs:appinfo>
+				<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:minLength value="1"/>
@@ -1461,7 +1464,9 @@
 		<xs:annotation>
 			<xs:documentation>The description of recognition given to the student for
 				accomplishments in a co-curricular, or extra-curricular activity.. </xs:documentation>
-			<xs:appinfo> <sli:RelaxedBlacklist>true</sli:RelaxedBlacklist> </xs:appinfo>
+			<xs:appinfo>
+				<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:minLength value="1"/>
@@ -2251,10 +2256,8 @@
 			<xs:enumeration value="Answers written directly in test booklet"/>
 			<xs:enumeration value="Assessment in native language"/>
 			<xs:enumeration value="Arithmetic table (math or science)"/>
-			<xs:enumeration
-				value="Assistive device that does not interfere with independent work of the student"/>
-			<xs:enumeration
-				value="Assistive device that does interfere with independent work of the student"/>
+			<xs:enumeration value="Assistive device that does not interfere with independent work of the student"/>
+			<xs:enumeration value="Assistive device that does interfere with independent work of the student"/>
 			<xs:enumeration value="Audiotape or CD"/>
 			<xs:enumeration value="Audio cassette player"/>
 			<xs:enumeration value="Braille writer, no thesaurus, spell- or grammar-checker"/>
@@ -2277,8 +2280,7 @@
 			<xs:enumeration value="Hospital/home testing"/>
 			<xs:enumeration value="Linguistic modification of test directions"/>
 			<xs:enumeration value="Magnification device"/>
-			<xs:enumeration
-				value="Manually coded English or American Sign Language to present test questions"/>
+			<xs:enumeration value="Manually coded English or American Sign Language to present test questions"/>
 			<xs:enumeration value="Math manipulatives (math or science)"/>
 			<xs:enumeration value="Modification of linguistic complexity"/>
 			<xs:enumeration value="Multiple test sessions"/>
@@ -2288,8 +2290,7 @@
 			<xs:enumeration value="Response dictated in American Sign Language"/>
 			<xs:enumeration value="Response in native language"/>
 			<xs:enumeration value="Scheduled extended time"/>
-			<xs:enumeration
-				value="Separate room with other English Learners under supervision of district employee"/>
+			<xs:enumeration value="Separate room with other English Learners under supervision of district employee"/>
 			<xs:enumeration value="Signer/sign language for instructions, ask questions"/>
 			<xs:enumeration value="Simplified language"/>
 			<xs:enumeration value="Small-group or individual administration"/>
@@ -2302,18 +2303,15 @@
 			<xs:enumeration value="Technological aid"/>
 			<xs:enumeration value="Test administrator marked / wrote test at student's direction"/>
 			<xs:enumeration value="Test adminstrator read questions aloud"/>
-			<xs:enumeration
-				value="Test administered at best time of day for student handwriting issues"/>
+			<xs:enumeration value="Test administered at best time of day for student handwriting issues"/>
 			<xs:enumeration value="Text changes in vocabulary"/>
 			<xs:enumeration value="Translation dictionary"/>
 			<xs:enumeration value="Verbalized problem-solving"/>
 			<xs:enumeration value="Video cassette"/>
 			<xs:enumeration value="Visual cues"/>
 			<xs:enumeration value="Word processor"/>
-			<xs:enumeration
-				value="Word processor / typewriter / computer with thesaurus / spell-checker / grammar-checker turned off"/>
-			<xs:enumeration
-				value="Word processor / typewriter / computer with thesaurus/ spell-checker/ grammar-checker enabled on essay response portion of test"/>
+			<xs:enumeration value="Word processor / typewriter / computer with thesaurus / spell-checker / grammar-checker turned off"/>
+			<xs:enumeration value="Word processor / typewriter / computer with thesaurus/ spell-checker/ grammar-checker enabled on essay response portion of test"/>
 			<xs:enumeration value="Unknown"/>
 			<xs:enumeration value="Other"/>
 		</xs:restriction>
@@ -2630,7 +2628,7 @@
 			<xs:enumeration value="Friend"/>
 			<xs:enumeration value="Granddaughter"/>
 			<xs:enumeration value="Grandfather"/>
-			<xs:enumeration value="Grandmother"/>			
+			<xs:enumeration value="Grandmother"/>
 			<xs:enumeration value="Grandparent"/>
 			<xs:enumeration value="Great Grandparent"/>
 			<xs:enumeration value="Grandson"/>
@@ -2683,18 +2681,14 @@
 			<xs:enumeration value="Died or is permanently incapacitated"/>
 			<xs:enumeration value="Discontinued schooling"/>
 			<xs:enumeration value="Graduated with a high school diploma"/>
-			<xs:enumeration
-				value="Received certificate of completion, modified diploma, or finished IEP requirements"/>
+			<xs:enumeration value="Received certificate of completion, modified diploma, or finished IEP requirements"/>
 			<xs:enumeration value="Program completion"/>
 			<xs:enumeration value="Reached maximum age"/>
 			<xs:enumeration value="No longer receiving special education"/>
 			<xs:enumeration value="Refused services"/>
-			<xs:enumeration
-				value="Transferred to another district or school, known to be continuing in program/service"/>
-			<xs:enumeration
-				value="Transferred to another district or school, not known to be continuing in program/service"/>
-			<xs:enumeration
-				value="Transferred to another district or school, known not to be continuing in program/service"/>
+			<xs:enumeration value="Transferred to another district or school, known to be continuing in program/service"/>
+			<xs:enumeration value="Transferred to another district or school, not known to be continuing in program/service"/>
+			<xs:enumeration value="Transferred to another district or school, known not to be continuing in program/service"/>
 			<xs:enumeration value="Suspended from school"/>
 			<xs:enumeration value="Discontinued schooling, special education only"/>
 			<xs:enumeration value="Discontinued schooling, not special education"/>
@@ -2985,21 +2979,14 @@
 		</xs:annotation>
 		<xs:restriction base="xs:token">
 			<xs:enumeration value="Transfer from a public school in the same local education agency"/>
-			<xs:enumeration
-				value="Transfer from a public school in a different local education agency in the same state"/>
+			<xs:enumeration value="Transfer from a public school in a different local education agency in the same state"/>
 			<xs:enumeration value="Transfer from a public school in a different state"/>
-			<xs:enumeration
-				value="Transfer from a private, non-religiously-affiliated school in the same local education agency"/>
-			<xs:enumeration
-				value="Transfer from a private, non-religiously-affiliated school in a different local education agency in the same state"/>
-			<xs:enumeration
-				value="Transfer from a private, non-religiously-affiliated school in a different state"/>
-			<xs:enumeration
-				value="Transfer from a private, religiously-affiliated school in the same local education agency"/>
-			<xs:enumeration
-				value="Transfer from a private, religiously-affiliated school in a different local education agency in the same state"/>
-			<xs:enumeration
-				value="Transfer from a private, religiously-affiliated school in a different state"/>
+			<xs:enumeration value="Transfer from a private, non-religiously-affiliated school in the same local education agency"/>
+			<xs:enumeration value="Transfer from a private, non-religiously-affiliated school in a different local education agency in the same state"/>
+			<xs:enumeration value="Transfer from a private, non-religiously-affiliated school in a different state"/>
+			<xs:enumeration value="Transfer from a private, religiously-affiliated school in the same local education agency"/>
+			<xs:enumeration value="Transfer from a private, religiously-affiliated school in a different local education agency in the same state"/>
+			<xs:enumeration value="Transfer from a private, religiously-affiliated school in a different state"/>
 			<xs:enumeration value="Transfer from a school outside of the country"/>
 			<xs:enumeration value="Transfer from an institution"/>
 			<xs:enumeration value="Transfer from a charter school"/>
@@ -3008,10 +2995,8 @@
 			<xs:enumeration value="Re-entry after a voluntary withdrawal"/>
 			<xs:enumeration value="Re-entry after an involuntary withdrawal"/>
 			<xs:enumeration value="Original entry into a United States school"/>
-			<xs:enumeration
-				value="Original entry into a United States school from a foreign country with no interruption in schooling"/>
-			<xs:enumeration
-				value="Original entry into a United States school from a foreign country with an interruption in schooling"/>
+			<xs:enumeration value="Original entry into a United States school from a foreign country with no interruption in schooling"/>
+			<xs:enumeration value="Original entry into a United States school from a foreign country with an interruption in schooling"/>
 			<xs:enumeration value="Next year school"/>
 			<xs:enumeration value="Other"/>
 		</xs:restriction>
@@ -3022,20 +3007,20 @@
 				educational institution. </xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
-			<xs:enumeration	value="Student is in a different public school in the same local education agency"/>
-			<xs:enumeration	value="Transferred to a public school in a different local education agency in the same state"/>
+			<xs:enumeration value="Student is in a different public school in the same local education agency"/>
+			<xs:enumeration value="Transferred to a public school in a different local education agency in the same state"/>
 			<xs:enumeration value="Transferred to a public school in a different state"/>
-			<xs:enumeration	value="Transferred to a private, non-religiously-affiliated school in the same local education agency"/>
-			<xs:enumeration	value="Transferred to a private, non-religiously-affiliated school in a different local education agency in the same state"/>
-			<xs:enumeration	value="Transferred to a private, non-religiously-affiliated school in a different state"/>
-			<xs:enumeration	value="Transferred to a private, religiously-affiliated school in the same local education agency"/>
-			<xs:enumeration	value="Transferred to a private, religiously-affiliated school in a different local education agency in the same state"/>
-			<xs:enumeration	value="Transferred to a private, religiously-affiliated school in a different state"/>
+			<xs:enumeration value="Transferred to a private, non-religiously-affiliated school in the same local education agency"/>
+			<xs:enumeration value="Transferred to a private, non-religiously-affiliated school in a different local education agency in the same state"/>
+			<xs:enumeration value="Transferred to a private, non-religiously-affiliated school in a different state"/>
+			<xs:enumeration value="Transferred to a private, religiously-affiliated school in the same local education agency"/>
+			<xs:enumeration value="Transferred to a private, religiously-affiliated school in a different local education agency in the same state"/>
+			<xs:enumeration value="Transferred to a private, religiously-affiliated school in a different state"/>
 			<xs:enumeration value="Transferred to a school outside of the country"/>
 			<xs:enumeration value="Transferred to an institution"/>
 			<xs:enumeration value="Transferred to home schooling"/>
 			<xs:enumeration value="Transferred to a charter school"/>
-			<xs:enumeration	value="Graduated with regular, advanced, International Baccalaureate, or other type of diploma"/>
+			<xs:enumeration value="Graduated with regular, advanced, International Baccalaureate, or other type of diploma"/>
 			<xs:enumeration value="Completed school with other credentials"/>
 			<xs:enumeration value="Died or is permanently incapacitated"/>
 			<xs:enumeration value="Withdrawn due to illness"/>
@@ -3043,16 +3028,16 @@
 			<xs:enumeration value="Reached maximum age for services"/>
 			<xs:enumeration value="Discontinued schooling"/>
 			<xs:enumeration value="Completed grade 12, but did not meet all graduation requirements"/>
-			<xs:enumeration	value="Enrolled in a postsecondary early admission program, eligible to return"/>
+			<xs:enumeration value="Enrolled in a postsecondary early admission program, eligible to return"/>
 			<xs:enumeration value="Not enrolled, unknown status"/>
-			<xs:enumeration	value="Student is in the same local education agency and receiving education services, but is not assigned to a particular school"/>
+			<xs:enumeration value="Student is in the same local education agency and receiving education services, but is not assigned to a particular school"/>
 			<xs:enumeration value="Enrolled in an adult education or training program"/>
 			<xs:enumeration value="Completed a state-recognized vocational education program"/>
 			<xs:enumeration value="Not enrolled, eligible to return"/>
 			<xs:enumeration value="Enrolled in a foreign exchange program, eligible to return"/>
-			<xs:enumeration	value="Withdrawn from school, under the age for compulsory attendance; eligible to return"/>
+			<xs:enumeration value="Withdrawn from school, under the age for compulsory attendance; eligible to return"/>
 			<xs:enumeration value="Exited"/>
-			<xs:enumeration	value="Student is in a charter school managed by the same local education agency"/>
+			<xs:enumeration value="Student is in a charter school managed by the same local education agency"/>
 			<xs:enumeration value="Completed with a state-recognized equivalency certificate"/>
 			<xs:enumeration value="Removed by Child Protective Services"/>
 			<xs:enumeration value="Transferred to a private school in the state"/>
@@ -3061,14 +3046,14 @@
 			<xs:enumeration value="Enrolled in University High School Diploma Program"/>
 			<xs:enumeration value="Court ordered to a GED program, has not earned a GED"/>
 			<xs:enumeration value="Incarcerated in a state jail or federal penitentiary as an adult"/>
-			<xs:enumeration	value="Graduated from another state under Interstate Compact on Educational Opportunity for Military Children"/>
+			<xs:enumeration value="Graduated from another state under Interstate Compact on Educational Opportunity for Military Children"/>
 			<xs:enumeration value="Dropout"/>
 			<xs:enumeration value="End of school year"/>
 			<xs:enumeration value="Invalid enrollment"/>
 			<xs:enumeration value="No show"/>
 			<xs:enumeration value="Ended enrollment for instructional reporting only"/>
 			<xs:enumeration value="Transferred to an approved GED program outside this district"/>
-			<xs:enumeration	value="Special education eligibility status determined or determination process stopped for any reason"/>
+			<xs:enumeration value="Special education eligibility status determined or determination process stopped for any reason"/>
 			<xs:enumeration value="Transferred to homebound instruction provided by this district"/>
 			<xs:enumeration value="Transferred to high school equivalency program"/>
 			<xs:enumeration value="Transferred to GED preparation program"/>
@@ -3341,8 +3326,7 @@
 			<xs:enumeration value="Student Withdrew From School"/>
 			<xs:enumeration value="School Year Ended"/>
 			<xs:enumeration value="Continuation Of Previous Year’s Disciplinary Action Assignment"/>
-			<xs:enumeration
-				value="Term Modified By Placement Program Due To Student Behavior While In The Placement"/>
+			<xs:enumeration value="Term Modified By Placement Program Due To Student Behavior While In The Placement"/>
 			<xs:enumeration value="Other"/>
 		</xs:restriction>
 	</xs:simpleType>
@@ -3389,8 +3373,8 @@
 		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:minLength value="1"/>
-			<!-- Is this correct? A UUID has 32 digits + 4 hyphens = 36 characters -->
 			<xs:maxLength value="43"/>
+			<!-- Is this correct? A UUID has 32 digits + 4 hyphens = 36 characters -->
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="agencyHierarchyType">
@@ -3399,6 +3383,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
-			<!--<xs:pattern value= ".*[^\.]" />--> </xs:restriction>
+			<!--<xs:pattern value= ".*[^\.]" />-->
+		</xs:restriction>
 	</xs:simpleType>
 </xs:schema>

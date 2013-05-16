@@ -73,6 +73,7 @@ Given I clean the bulk extract file system and database
        |  course                                |
        |  courseOffering                        |
        |  program                               |
+       |  graduationPlan                        |
        |  deleted                               |
      And I verify this "deleted" file should contain:
        | id                                                                                     | condition                             |
@@ -137,6 +138,10 @@ Given I clean the bulk extract file system and database
       | id                                          | condition                                |
       | 5449814bb2dbed641d914843fb17a87f6222ec82_id |                                          |
 
+    And I verify this "graduationPlan" file should contain:
+      | id                                          | condition                                |
+      | ac907f298a74a5f200c78ecb372afb1e53cf15c3_id | graduationPlanType = Distinguished       |
+    
      And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
        |  attendance                            |
@@ -155,6 +160,7 @@ Given I clean the bulk extract file system and database
        |  courseOffering                        |
        |  course                                |
        |  program                               |
+       |  graduationPlan                        |
        |  deleted                               |
    
      And I verify this "deleted" file should contain:
@@ -240,6 +246,15 @@ Given I clean the bulk extract file system and database
       | 9cce6ea23864ee4870c8871e4c14ddecb6ab0fb0_id | programType = Gifted and Talented        |
       | 5449814bb2dbed641d914843fb17a87f6222ec82_id | programType = Gifted and Talented        |
 
+    And I verify this "graduationPlan" file should contain:
+      | id                                          | condition                                |
+      | 1af13424ea3a179e716468ff760255878ce20ec7_id | graduationPlanType = Distinguished       |
+
+   #this step is necesssary since there is no graduationPlan in day 0 delta, need to verify it's really the same
+   #format as API would return
+   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+   Then The "graduationPlan" delta was extracted in the same format as the api
+
 Scenario: Generate a bulk extract in a different LEA
   Given I clean the bulk extract file system and database
     And I am using local data store
@@ -254,10 +269,8 @@ Scenario: Generate a bulk extract in a different LEA
 
   When I trigger a delta extract
    And I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-   #And I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
    And I request latest delta via API for tenant "Midgar", lea "<IL-HIGHWIND>" with appId "<app id>" clientId "<client id>"
    And I should receive a return code of 200
-   #And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "<app id>" for "<IL-HIGHWIND>"
    And I download and decrypt the delta
    Then I should see "2" bulk extract files
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -295,8 +308,6 @@ Scenario: Ingest education organization and perform delta
       And I verify "2" delta bulk extract files are generated for LEA "<IL-HIGHWIND>" in "Midgar"
       And I verify "2" delta bulk extract files are generated for LEA "<10 School District>" in "Midgar"
       And I verify "2" delta bulk extract files are generated for LEA "<11 School District>" in "Midgar"
-      # should see no delete file for lea 1
-      #And I verify the last delta bulk extract by app "22c2a28d-7327-4444-8ff9-caad4b1c7aa3" for "<IL-HIGHWIND>" in "Midgar" contains a file for each of the following entities:
       And the extract contains a file for each of the following entities:
         |  entityType                            |
         |  school                                |
@@ -617,12 +628,24 @@ Given I clean the bulk extract file system and database
     | d913396aef918602b8049027dbdce8826c054402_id | entryDate = 2013-08-27                                   |
 
 Scenario: Test access to the api
+  Given I log into "SDK Sample" with a token of "lstevenson", a "Noldor" for "IL-Highwind" in tenant "Midgar", that lasts for "300" seconds
+  And I request latest delta via API for tenant "Midgar", lea "<IL-HIGHWIND>" with appId "<app id>" clientId "<client id>"
+  Then I should receive a return code of 200
   Given I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And I request latest delta via API for tenant "Midgar", lea "<IL-HIGHWIND>" with appId "<app id>" clientId "<client id>"
   Then I should receive a return code of 403
-  Given I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Highwind" in tenant "Midgar", that lasts for "300" seconds
-  And I request latest delta via API for tenant "Midgar", lea "<IL-HIGHWIND>" with appId "<app id>" clientId "<client id>"
+  Given I log into "SDK Sample" with a token of "lstevenson", a "Noldor" for "IL-Highwind" in tenant "Midgar", that lasts for "300" seconds
+  And I request an unsecured latest delta via API for tenant "Midgar", lea "<IL-HIGHWIND>" with appId "<app id>"
+  Then I should receive a return code of 400
+  Given I log into "SDK Sample" with a token of "lstevenson", a "Noldor" for "IL-Highwind" in tenant "Midgar", that lasts for "300" seconds
+  And I request latest delta via API for tenant "Midgar", lea "<IL-HIGHWIND>" with appId "<app id>" clientId "pavedz00ua"
+  Then I should receive a return code of 403
+  Given I log into "Paved Z00" with a token of "lstevenson", a "Noldor" for "IL-Highwind" in tenant "Midgar", that lasts for "300" seconds
+  And I request latest delta via API for tenant "Midgar", lea "<IL-HIGHWIND>" with appId "<app id paved>" clientId "<client id paved>"
   Then I should receive a return code of 200
+  Given I log into "Paved Z00" with a token of "lstevenson", a "Noldor" for "IL-Highwind" in tenant "Midgar", that lasts for "300" seconds
+  And I request latest delta via API for tenant "Midgar", lea "<IL-DAYBREAK>" with appId "<app id paved>" clientId "<client id paved>"
+  Then I should receive a return code of 403
 
 Scenario: Be a good neighbor and clean up before you leave
     Given I clean the bulk extract file system and database

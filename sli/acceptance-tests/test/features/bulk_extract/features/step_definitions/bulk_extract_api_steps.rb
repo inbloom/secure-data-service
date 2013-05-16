@@ -34,6 +34,10 @@ When /^I make a call to the bulk extract end point "([^"]*)"$/ do |url|
   restTls(url)
 end
 
+When /^I make a call to the bulk extract end point "([^"]*)" without a certificate$/ do |url|
+  restHttpGet(url)
+end
+
 When /^I make a call to the bulk extract end point "(.*?)" using the certificate for app "(.*?)"$/ do |url, app|
   restTls(url, nil, @format, @sessionId, app)
 end
