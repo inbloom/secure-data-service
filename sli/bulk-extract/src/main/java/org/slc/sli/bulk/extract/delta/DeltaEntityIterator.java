@@ -198,6 +198,7 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
             if (resolver == null) {
                 // we have no resolver defined for this type, i.e. this type should not be
                 // extracted, do not waste resource to retrieve the mongo entity
+                LOG.debug("unable to resolve entity type {}", delta.get("c"));
                 continue;
             }
             
