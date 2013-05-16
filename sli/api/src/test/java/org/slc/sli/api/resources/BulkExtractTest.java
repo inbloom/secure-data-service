@@ -38,6 +38,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.security.ApplicationAuthorizationResource;
+import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.security.context.resolver.AppAuthHelper;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.validator.GenericToEdOrgValidator;
@@ -94,6 +95,8 @@ public class BulkExtractTest {
 
     @Autowired
     @InjectMocks
+    private BulkExtract bulkExtractToBeSpied;
+
     private BulkExtract bulkExtract;
 
     @Autowired
@@ -119,6 +122,10 @@ public class BulkExtractTest {
     @Mock
     private GenericToEdOrgValidator mockValidator;
 
+    @Autowired
+    @InjectMocks
+    private FileResource fileResource;
+
     private static final String PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAw1KLTcuf8OpvbHfwMJks\n" +
             "UAXbeaoVqZiK/CRhttWDmlMEs8AubXiSgZCekXeaUqefK544BOgeuNgQmMmo0pLy\n" +
             "j/GoGhf/bSZH2tsx1uKneCUm9Oq1g+juw5HmBa14H914tslvriFpJvN0b7q53Zey\n" +
@@ -132,9 +139,19 @@ public class BulkExtractTest {
         MockitoAnnotations.initMocks(this);
         Map<String, Object> appBody = new HashMap<String, Object>();
         appBody.put("isBulkExtract", true);
+
+        bulkExtract = Mockito.spy(bulkExtractToBeSpied);
+        Mockito.doNothing().when(bulkExtract).logSecurityEvent(Mockito.any(UriInfo.class), Mockito.anyString());
+
+        FileResource spyFileResource = Mockito.spy(fileResource);
+        Mockito.doNothing().when(spyFileResource).logSecurityEvent(Mockito.anyString());
+        bulkExtract.setFileResource(spyFileResource);
+
         when(mockValidator.validate(eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.any(Set.class))).thenReturn(true);
+
         // Hmm.. this needed?
         bulkExtract.setEdorgValidator(mockValidator);
+
         Entity mockEntity = Mockito.mock(Entity.class);
         when(mockEntity.getBody()).thenReturn(appBody);
         when(mockMongoEntityRepository.findOne(Mockito.eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
