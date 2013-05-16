@@ -15,11 +15,33 @@
  */
 package org.slc.sli.bulk.extract.extractor;
 
+import java.io.File;
+import java.security.PublicKey;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
 import org.joda.time.DateTime;
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.Launcher;
 import org.slc.sli.bulk.extract.files.ExtractFile;
-import org.slc.sli.bulk.extract.lea.*;
+import org.slc.sli.bulk.extract.lea.CourseExtractor;
+import org.slc.sli.bulk.extract.lea.CourseOfferingExtractor;
+import org.slc.sli.bulk.extract.lea.CourseTranscriptExtractor;
+import org.slc.sli.bulk.extract.lea.EdorgExtractor;
+import org.slc.sli.bulk.extract.lea.EntityExtract;
+import org.slc.sli.bulk.extract.lea.EntityToLeaCache;
+import org.slc.sli.bulk.extract.lea.LEAExtractFileMap;
+import org.slc.sli.bulk.extract.lea.LEAExtractorFactory;
+import org.slc.sli.bulk.extract.lea.SectionExtractor;
+import org.slc.sli.bulk.extract.lea.SessionExtractor;
+import org.slc.sli.bulk.extract.lea.StaffEdorgAssignmentExtractor;
+import org.slc.sli.bulk.extract.lea.StudentExtractor;
+import org.slc.sli.bulk.extract.lea.YearlyTranscriptExtractor;
 import org.slc.sli.bulk.extract.message.BEMessageCode;
 import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
 import org.slc.sli.bulk.extract.util.SecurityEventUtil;
@@ -31,11 +53,6 @@ import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.io.File;
-import java.security.PublicKey;
-import java.util.*;
-import java.util.Map.Entry;
 
 /**
  * Creates local ed org tarballs
@@ -102,8 +119,10 @@ public class LocalEdOrgExtractor {
         genericExtractor = factory.buildStudentAssessmentExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         genericExtractor.extractEntities(student.getEntityCache());
         
+        // Yearly Transcript
         genericExtractor = factory.buildYearlyTranscriptExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         genericExtractor.extractEntities(student.getEntityCache());
+        EntityToLeaCache studentAcademicRecordCache = ((YearlyTranscriptExtractor)genericExtractor).getStudentAcademicRecordCache();
         
         genericExtractor = factory.buildParentExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         genericExtractor.extractEntities(student.getParentCache());
@@ -145,9 +164,10 @@ public class LocalEdOrgExtractor {
         CourseExtractor courseExtractor = factory.buildCourseExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         courseExtractor.extractEntities(edorgCache, courseOfferingExtractor.getCourseCache());
         
+        CourseTranscriptExtractor courseTranscriptExtractor = factory.buildCourseTranscriptExtractor(entityExtractor, leaToExtractFileMap, repository);
+        courseTranscriptExtractor.extractEntities(edorgCache, courseOfferingExtractor.getCourseCache(), studentAcademicRecordCache);
+        
         leaToExtractFileMap.closeFiles();
-
-        // TODO extract other entities
 
         leaToExtractFileMap.buildManifestFiles(startTime);
         leaToExtractFileMap.archiveFiles();
