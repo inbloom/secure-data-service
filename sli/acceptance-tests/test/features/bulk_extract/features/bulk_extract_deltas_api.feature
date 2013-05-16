@@ -41,6 +41,9 @@ Scenario: Generate a bulk extract delta after day 0 ingestion
    And The "program" delta was extracted in the same format as the api
    And The "studentProgramAssociation" delta was extracted in the same format as the api
    And The "staffProgramAssociation" delta was extracted in the same format as the api
+   And The "studentDisciplineIncidentAssociation" delta was extracted in the same format as the api
+   And The "disciplineIncident" delta was extracted in the same format as the api
+   And The "disciplineAction" delta was extracted in the same format as the api
 
 Scenario: Triggering deltas via ingestion
   All entities belong to lea1 which is IL-DAYBREAK, we should only see a delta file for lea1
