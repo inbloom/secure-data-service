@@ -67,7 +67,7 @@ Feature: Security events are logged when bulk extract is run
       | securityEvent   |                     | body.logMessage         | Bulk Extract process started.                                                | string          |
 
   Scenario: Trigger a bulk extract on a tenant that doesn't have any authorized bulk extract apps
-    Given I am using preconfigured Ingestion Landing Zone for "Hyrule"
+    Given I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
     And all collections are empty
     And the tenant "Hyrule" does not have any bulk extract apps for any of its education organizations
     And I post "StoriedDataSet_NY.zip" file as the payload of the ingestion job
@@ -85,6 +85,21 @@ Feature: Security events are logged when bulk extract is run
       | collectionName              | count |
       | securityEvent               |       |
     #Add counts, and more log messages as we figure them out
+    And I check to find if record is in sli db collection:
+      | collectionName  | expectedRecordCount | searchParameter         | searchValue                                                                  | searchType      |
+      | securityEvent   |                     | body.appId              | Bulk Extract                                                                 | string          |
+      | securityEvent   |                     | body.logMessage         | Bulk Extract process started.                                                | string          |
+
+  Scenario: Trigger a bulk extract on a tenant that doesn't exit
+    Given the following collections are empty in sli datastore:
+      | collectionName              |
+      | securityEvent               |
+    And I use an invalid tenant to trigger a bulk extract
+  #Add a count to the following step once we know how many security events will be logged
+    Then I should see following map of entry counts in the corresponding sli db collections:
+      | collectionName              | count |
+      | securityEvent               |       |
+  #Add counts, and more log messages as we figure them out
     And I check to find if record is in sli db collection:
       | collectionName  | expectedRecordCount | searchParameter         | searchValue                                                                  | searchType      |
       | securityEvent   |                     | body.appId              | Bulk Extract                                                                 | string          |
