@@ -41,7 +41,6 @@ import static org.mockito.Mockito.when;
  */
 public class LoggerCarrierAspectTest {
 
-    private SecurityEventUtil securityEventUtil;
     private MongoRepository<Entity> mockedEntityRepository;
 
     /**
@@ -49,10 +48,7 @@ public class LoggerCarrierAspectTest {
      */
     @Before
     public void init() {
-        securityEventUtil = new SecurityEventUtil();
         mockedEntityRepository = mock(MongoRepository.class);
-        DBCollection mockedCollection = Mockito.mock(DBCollection.class);
-        DB mockedDB = Mockito.mock(DB.class);
         LoggerCarrierAspect.aspectOf().setEntityRepository(mockedEntityRepository);
     }
 
@@ -61,7 +57,7 @@ public class LoggerCarrierAspectTest {
      */
     @Test
     public void testAudit() {
-       audit(securityEventUtil.createSecurityEvent(this.getClass().getName(), "TestMessage", "Action", LogLevelType.TYPE_TRACE));
+       audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(), "TestMessage", "Action", LogLevelType.TYPE_TRACE));
        Mockito.verify(mockedEntityRepository, times(1)).create(any(String.class), any(Map.class), any(Map.class), any(String.class));
     }
 }

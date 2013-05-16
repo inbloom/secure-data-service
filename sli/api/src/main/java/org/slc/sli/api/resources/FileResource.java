@@ -119,7 +119,7 @@ public class FileResource {
 
         if (builder != null) {
             // evaluate fails
-            logSecurityEvent("Unable to parse bulk extract Last-Modified date into a HTTP-Date format");
+            logSecurityEvent("Bulk Extract request header preconditions failed");
             return builder.build();
         }
 

@@ -106,7 +106,6 @@ Scenario: Security Event is logged client does not provide Cert
   Then I get back a response code of "400"
   Then a security event matching "App must provide client side X509 Certificate" should be in the sli db
 
-@wip
 Scenario: Security Event is logged when header preconditions are not met
     Given I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
     And in my list of rights I have BULK_EXTRACT
@@ -116,8 +115,8 @@ Scenario: Security Event is logged when header preconditions are not met
     When the If-Unmodified-Since header field is set to "BEFORE"
     And I make a custom bulk extract API call
     Then I get back a response code of "412"
+    Then a security event matching "Bulk Extract request header preconditions failed" should be in the sli db
 
-@wip
 Scenario: Security Event is logged when range headers are incorrect
     Given I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
     And in my list of rights I have BULK_EXTRACT
@@ -127,3 +126,4 @@ Scenario: Security Event is logged when range headers are incorrect
     When I prepare the custom headers for byte range from "past the end of the file" to "way past the end of the file"
     And I make a custom bulk extract API call
     Then I get back a response code of "416"
+    Then a security event matching "If Range is not syntactically valid" should be in the sli db
