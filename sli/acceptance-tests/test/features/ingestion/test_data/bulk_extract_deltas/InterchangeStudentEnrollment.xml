@@ -167,4 +167,56 @@
     </GraduationPlanReference>
   </StudentSchoolAssociation>
  </Action>
+ <GraduationPlan>
+    <GraduationPlanType>Distinguished</GraduationPlanType>
+    <TotalCreditsRequired CreditConversion="0" CreditType="Semester hour credit">
+      <Credit>70</Credit>
+    </TotalCreditsRequired>
+    <CreditsBySubject>
+      <SubjectArea>Social Sciences and History</SubjectArea>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>12</Credit>
+      </Credits>
+    </CreditsBySubject>
+    <CreditsByCourse>
+      <CourseCode IdentificationSystem="CSSC course code" AssigningOrganizationCode="STANDARD-SEA">
+        <ID>English Language and Literature</ID>
+      </CourseCode>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>12</Credit>
+      </Credits>
+      <GradeLevel>Twelfth grade</GradeLevel>
+    </CreditsByCourse>
+    <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+        </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </GraduationPlan>
+  <GraduationPlan>
+    <GraduationPlanType>Distinguished</GraduationPlanType>
+    <TotalCreditsRequired CreditConversion="0" CreditType="Semester hour credit">
+      <Credit>100</Credit>
+    </TotalCreditsRequired>
+    <CreditsBySubject>
+      <SubjectArea>Social Sciences and History</SubjectArea>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>12</Credit>
+      </Credits>
+    </CreditsBySubject>
+    <CreditsByCourse>
+      <CourseCode IdentificationSystem="CSSC course code" AssigningOrganizationCode="STANDARD-SEA">
+        <ID>English Language and Literature</ID>
+      </CourseCode>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>12</Credit>
+      </Credits>
+      <GradeLevel>Twelfth grade</GradeLevel>
+    </CreditsByCourse>
+    <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>IL-HIGHWIND</StateOrganizationId>
+        </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </GraduationPlan>
 </InterchangeStudentEnrollment>
