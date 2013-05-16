@@ -195,7 +195,7 @@ public class BulkExtract {
         } else {
             canAccessLEAExtract(edOrgId);
         }
-        logSecurityEvent(uri, "Successful request to stream Edorg data");
+
         return getExtractResponse(context.getRequest(), null, edOrgId, isPublicData);
     }
 

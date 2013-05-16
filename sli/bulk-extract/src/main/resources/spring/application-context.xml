@@ -119,4 +119,6 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
     </bean>
 
     <bean id="secondaryReadRepository" name="secondaryRepo" class="org.slc.sli.bulk.extract.SecondaryReadRepository" parent="mongoEntityRepository"/>
+
+    <bean class="org.slc.sli.aspect.LoggerCarrierAspect" factory-method="aspectOf"/>
 </beans>
