@@ -5,7 +5,6 @@ Feature: BEEP will log security events for each request
 Background:
     Given the sli securityEvent collection is empty
 
-@wip
 Scenario: An authorized bulk extract user logs in and gets the information for the extract from a HEAD call
     Given I am using local data store
     And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
@@ -75,3 +74,6 @@ Scenario: Security Event is logged when range headers are incorrect
     When I prepare the custom headers for byte range from "past the end of the file" to "way past the end of the file"
     And I make a custom bulk extract API call
     Then I get back a response code of "416"
+=======
+   Scenario: Security Event is log when I retrieve Edorg data
+>>>>>>> 84256cb3c1c7e652aa0ffe1ba117c546df64aa90
