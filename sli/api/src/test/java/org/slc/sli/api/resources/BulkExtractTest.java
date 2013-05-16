@@ -122,6 +122,10 @@ public class BulkExtractTest {
     @Mock
     private GenericToEdOrgValidator mockValidator;
 
+    @Autowired
+    @InjectMocks
+    private FileResource fileResource;
+
     private static final String PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAw1KLTcuf8OpvbHfwMJks\n" +
             "UAXbeaoVqZiK/CRhttWDmlMEs8AubXiSgZCekXeaUqefK544BOgeuNgQmMmo0pLy\n" +
             "j/GoGhf/bSZH2tsx1uKneCUm9Oq1g+juw5HmBa14H914tslvriFpJvN0b7q53Zey\n" +
@@ -139,8 +143,12 @@ public class BulkExtractTest {
         bulkExtract = Mockito.spy(bulkExtractToBeSpied);
         Mockito.doNothing().when(bulkExtract).logSecurityEvent(Mockito.any(UriInfo.class), Mockito.anyString());
 
+        FileResource spyFileResource = Mockito.spy(fileResource);
+        Mockito.doNothing().when(spyFileResource).logSecurityEvent(Mockito.anyString());
+        bulkExtract.setFileResource(spyFileResource);
 
         when(mockValidator.validate(eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.any(Set.class))).thenReturn(true);
+
         // Hmm.. this needed?
         bulkExtract.setEdorgValidator(mockValidator);
 

@@ -121,6 +121,9 @@ public class BulkExtract {
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
 
+    @Autowired
+    private FileResource fileResource;
+
     private SLIPrincipal getPrincipal() {
         return (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
@@ -352,8 +355,8 @@ public class BulkExtract {
             return Response.status(Status.NOT_FOUND).build();
         }
 
-        return FileResource.getFileResponse(req, bulkExtractFile,
-                bulkExtractFile.lastModified(), bulkExtractFileEntity.getLastModified());
+        return fileResource.getFileResponse(req, bulkExtractFile,
+                bulkExtractFile.lastModified(), bulkExtractFileEntity.getLastModified(), uri);
 
     }
 
@@ -632,6 +635,11 @@ public class BulkExtract {
 
         this.validator.validateCertificate(certs[0], clientId);
     }
+
+    public void setFileResource(FileResource fileResource) {
+        this.fileResource = fileResource;
+    }
+
 
     void logSecurityEvent(UriInfo uriInfo, String message) {
         audit(securityEventBuilder.createSecurityEvent(BulkExtract.class.getName(),
