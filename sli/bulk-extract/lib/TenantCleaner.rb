@@ -63,31 +63,42 @@ class TenantCleaner
 
   def verifytenantName(tenantName)
     # Verify tenant name.
-    @tenantDbName = convertTenantIdToDbName(tenantName)
+    tenantDbName = convertTenantIdToDbName(tenantName)
     tenantDbs = @conn.database_names
-    if (!tenantDbs.include?(@tenantDbName))
-      raise(NameError, "Tenant " + tenantName + " does not exist in the database")
+    if (!tenantDbs.include?(tenantDbName))
+      puts "WARNING: Database for tenant " + tenantName + " does not exist"
+      @logger.warn "Database for tenant " + tenantName + " does not exist"
+      @tenantDb = nil
+    else
+      @tenantDb = @conn.db(tenantDbName)
     end
     @tenantBERecords = @beColl.find({"body.tenantId"=>tenantName})
     if (!@tenantBERecords.has_next?)
       raise(NameError, "Tenant " + tenantName + " does not have bulk extract files")
     end
-    @tenantDb = @conn.db(@tenantDbName)
     @tenant = tenantName
   end
 
   def verifyEdOrgName(edOrgName)
     # Verify Ed Org, if not null.
     if (edOrgName != nil)
-      edOrgColl = @tenantDb.collection('educationOrganization')
-      edOrgRecord = edOrgColl.find_one({"body.stateOrganizationId"=>edOrgName})
-      if (edOrgRecord == nil)
-        raise(NameError, "Tenant " + @tenant + " does not contain EdOrg " + edOrgName)
-      end
-      @edOrgId = edOrgRecord['_id']
-      @edOrgBERecords = @beColl.find({"body.tenantId"=>@tenant, "body.edorg"=>@edOrgId})
-      if (!@edOrgBERecords.has_next?)
-        raise(NameError, "Tenant " + @tenant + " does not have bulk extract files for EdOrg " + edOrgName)
+      if (@tenantDb != nil)
+        edOrgColl = @tenantDb.collection('educationOrganization')
+        edOrgRecord = edOrgColl.find_one({"body.stateOrganizationId"=>edOrgName})
+        if (edOrgRecord == nil)
+          puts "FATAL: Tenant " + @tenant + " does not contain EdOrg " + edOrgName
+          @logger.fatal "Tenant " + @tenant + " does not contain EdOrg " + edOrgName
+          raise(NameError, "Bulk extract files for EdOrg " + edOrgName + " for tenant " + @tenant + \
+                           " cannot be identified, if they exist")
+        end
+        @edOrgId = edOrgRecord['_id']
+        @edOrgBERecords = @beColl.find({"body.tenantId"=>@tenant, "body.edorg"=>@edOrgId})
+        if (!@edOrgBERecords.has_next?)
+          raise(NameError, "Tenant " + @tenant + " does not have bulk extract files for EdOrg " + edOrgName)
+        end
+      else
+        raise(NameError, "Bulk extract files for EdOrg " + edOrgName + " for tenant " + @tenant + \
+                         " cannot be identified, if they exist")
       end
     end
     @edOrg = edOrgName

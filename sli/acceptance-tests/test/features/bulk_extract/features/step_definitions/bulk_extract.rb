@@ -245,7 +245,13 @@ When /^I execute cleanup script for tenant:"(.*?)", edorg:"(.*?)", date:"(.*?)",
     options += " -d#{date}"
   end
   if(!path.empty?)
-    path.include?('Daybreak') || path.include?('Sunset') ? path_tenant = 'Midgar' : path_tenant = 'Hyrule'
+    if path.include?('Daybreak') || path.include?('Sunset')
+      path_tenant = 'Midgar'
+    elsif path.include?('NY')
+      path_tenant = 'Hyrule'
+    else
+      path_tenant = tenant
+    end
     abPath = File.expand_path(@parentDir + path_tenant + "/" +  path)
     options += " -f#{abPath}"
   end
@@ -480,6 +486,15 @@ When /^I PUT and validate the following entities:$/ do |table|
   end
 end
 
+def updateApiPutField(body, field, value)
+  # Set the GET response body as body and edit the requested field
+  body["address"][0]["postalCode"] = value if field == "postalCode"
+  body["loginId"] = value if field == "loginId"
+  body["contactPriority"] = value.to_i if field == "contactPriority"
+  body["id"] = value if field == "missingEntity"
+  return body
+end
+
 When /^I PUT the "(.*?)" for a "(.*?)" entity to "(.*?)"$/ do |field, entity, value|
   # Get the desired entity from mongo
   response_map = getEntityBodyFromApi(entity, @api_version, "PUT")
@@ -526,6 +541,85 @@ When /^I DELETE an "(.*?)" of id "(.*?)"$/ do |entity, id|
   # Get the endpoint that corresponds to the desired entity
   endpoint = getEntityEndpoint(entity)
   restHttpDelete("/#{@api_version}/#{endpoint}/#{id}")
+end
+
+def getEntityEndpoint(entity)
+  entity_to_endpoint_map = {
+      "courseOffering" => "courseOfferings",
+      "educationOrganization" => "educationOrganizations",
+      "gradebookEntry" => "gradebookEntries",
+      "invalidEntry" => "school",
+      "newParentDad" => "parents",
+      "newParentMom" => "parents",
+      "orphanEdorg" => "educationOrganizations",
+      "parent" => "parents",
+      "patchEdOrg" => "educationOrganizations",
+      "school" => "educationOrganizations",
+      "section" => "sections",
+      "staffStudent" => "students",
+      "student" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students",
+      "newStudent" => "students",
+      "studentAssessment" => "studentAssessments",
+      "studentSchoolAssociation" => "studentSchoolAssociations",
+      "studentSectionAssociation" => "studentSectionAssociations",
+      "studentParentAssociation" => "studentParentAssociations",
+      "newStudentParentAssociation" => "studentParentAssociations",
+      "wrongSchoolURI" => "schoolz"
+  }
+  return entity_to_endpoint_map[entity]
+end
+
+def getEntityId(entity)
+  entity_to_id_map = {
+      "orphanEdorg" => "54b4b51377cd941675958e6e81dce69df801bfe8_id",
+      "IL-Daybreak" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id",
+      "IL-Highwind" => "99d527622dcb51c465c515c0636d17e085302d5e_id",
+      "District-5"  => "880572db916fa468fbee53a68918227e104c10f5_id",
+      "Daybreak Central High" => "a13489364c2eb015c219172d561c62350f0453f3_id"
+  }
+  return entity_to_id_map[entity]
+end
+
+def getEntityBodyFromApi(entity, api_version, verb)
+  return {entity=>nil} if verb == "POST"
+  entity_to_uri_map = {
+      "school" => "educationOrganizations/a13489364c2eb015c219172d561c62350f0453f3_id",
+      "educationOrganization" => "educationOrganizations",
+      "newCourseOffering" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/courseOfferings",
+      "newParentDad" => "parents/41f42690a7c8eb5b99637fade00fc72f599dab07_id",
+      "newParentMom" => "parents/41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id",
+      "orphanEdorg" => "educationOrganizations/54b4b51377cd941675958e6e81dce69df801bfe8_id",
+      "parent" => "parents",
+      "patchEdOrg" => "educationOrganizations/a13489364c2eb015c219172d561c62350f0453f3_id",
+      "section" => "sections",
+      "newSection" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/sections",
+      "staffEducationOrganizationAssociation" => "staffEducationOrgAssignmentAssociations",
+      "staffProgramAssociation" => "staffProgramAssociations",
+      "staffStudent" => "students",
+      "student" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students",
+      "newStudent" => "students/9bf3036428c40861238fdc820568fde53e658d88_id",
+      "studentCohortAssocation" => "studentCohortAssociations",
+      "studentDisciplineIncidentAssociation" => "studentDisciplineIncidentAssociations",
+      "studentParentAssociation" => "students/9bf3036428c40861238fdc820568fde53e658d88_id/studentParentAssociations",
+      "newStudentParentAssociation" => "studentParentAssociations/9bf3036428c40861238fdc820568fde53e658d88_idc3a6a4ed285c14f562f0e0b63e1357e061e337c6_id",
+      "studentProgramAssociation" => "studentProgramAssociations",
+      "studentSchoolAssociation" => "studentSchoolAssociations",
+      "studentSectionAssociation" => "studentSectionAssociations",
+      "teacherSchoolAssociation" => "teacherSchoolAssociations",
+  }
+  # Perform GET request and verify we get a response and a response body
+  restHttpGet("/#{api_version}/#{entity_to_uri_map[entity]}")
+  assert(@res != nil, "Response from rest-client GET is nil")
+  assert(@res.body != nil, "Response body is nil")
+  # Make sure we actually hit the entity
+  puts "Ensuring the GET request returned 200"
+  step "I should receive a return code of 200"
+  puts "GET request: 200 (OK)"
+  # Store the response in an entity-specific response map
+  response_map = JSON.parse(@res)
+  # Fail if we do not find the entity in response body from GET request
+  assert(response_map != nil, "No response body for #{entity} returned by GET request")
+  return response_map
 end
 
 When /^I request latest delta via API for tenant "(.*?)", lea "(.*?)" with appId "(.*?)" clientId "(.*?)"$/ do |tenant, lea, app_id, client_id|
@@ -763,7 +857,7 @@ Then /^I verify the last delta bulk extract by app "(.*?)" for "(.*?)" in "(.*?)
     step "the extract contains a file for each of the following entities:", table
 end
 
-Then /^I verify this "(.*?)" file (should|should not) contains:$/ do |file_name, should, table|
+Then /^I verify this "(.*?)" file (should|should not) contain:$/ do |file_name, should, table|
     look_for = should.downcase == "should"
     json_file_name = @unpackDir + "/#{file_name}.json"
     exists = File.exists?(json_file_name)
@@ -1500,13 +1594,26 @@ def prepareBody(verb, value, response_map)
         "homeroomIndicator" => true,
         "repeatIdentifier" => "Repeated, counted in grade point average"
       },
+      "newGradebookEntry" => {
+        "gradingPeriodId" => "21b8ac38bf886e78a879cfdb973a9352f64d07b9_id",
+        "sectionId" => "4030207003b03d055bba0b5019b31046164eff4e_id",
+        "dateAssigned" => "2014-02-21",
+        "description" => "Gradebook Entry of type: Homework, assigned on: 2014-02-21",
+        "gradebookEntryType" => "Homework",
+        "entityType" => "gradebookEntry",
+        "learningObjectives" => ["f8323e42a3438c198f7d7b41336512b74155f3af_id",
+                               "d469f0079144395720985c432f6bd9475c5f5a28_id",
+                               "12ebed0aa9b9e0fc406278fb8184a9569dd71600_id",
+                               "ea27f2c3cd548cf82682a75e29182462da366912_id",
+                               "5b1d4e75f457644b1bd00f7ef05caafa605adaec_id"]
+      },
       "newStudentAssessment" => {
         "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
         "assessmentId" => "d1db0a2c9d30c0fabcbc4c7fc796701e0509b86b_id",
-        "administrationDate" => "2013-08-27",
+        "administrationDate" => "2013-09-24",
         "specialAccommodations" => ["Large Print"],
-        "administrationEndDate" => "2008-12-09",
-        "gradeLevelWhenAssessed" => "Eighth grade",
+        "administrationEndDate" => "2013-09-25",
+        "gradeLevelWhenAssessed" => "Eleventh grade",
         "performanceLevelDescriptors" => [
           [{
             "codeValue" => "30 code"
@@ -1607,9 +1714,6 @@ def prepareBody(verb, value, response_map)
           }
         }]
       },
-      "newGradebookEntry" => {
-
-      },
       "newGrade" => {
 
       },
@@ -1617,9 +1721,6 @@ def prepareBody(verb, value, response_map)
 
       },
       "newStudentAcademicRecord" => {
-
-      },
-      "newGradebookEntry" => {
 
       }
     },
@@ -1689,7 +1790,8 @@ def getSEAPublicRefField(entity)
 end
 
 def createCleanupFile(baseDir, tenant, edorg, app, date)
-  date = DateTime.parse(date).to_time
+  date = Time.parse(date)
+  date.gmtime
   dateString = date.strftime("%Y-%m-%d-%H-%M-%S")
   puts dateString
   return baseDir + "/" + tenant + "/" + edorg + "/" + edorg + "-" + app + "-" + dateString + ".tar"
@@ -1716,92 +1818,6 @@ end
 
 def getEdorgId(tenant, edorg)
   return tenant + "-" + edorg
-end
-
-def getEntityEndpoint(entity)
-  entity_to_endpoint_map = {
-      "courseOffering" => "courseOfferings",
-      "educationOrganization" => "educationOrganizations",
-      "invalidEntry" => "school",
-      "newParentDad" => "parents",
-      "newParentMom" => "parents",
-      "orphanEdorg" => "educationOrganizations",
-      "parent" => "parents",
-      "patchEdOrg" => "educationOrganizations",
-      "school" => "educationOrganizations",
-      "section" => "sections",
-      "staffStudent" => "students",
-      "student" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students",
-      "newStudent" => "students",
-      "studentSchoolAssociation" => "studentSchoolAssociations",
-      "studentSectionAssociation" => "studentSectionAssociations",
-      "studentParentAssociation" => "studentParentAssociations",
-      "newStudentParentAssociation" => "studentParentAssociations",
-      "wrongSchoolURI" => "schoolz"
-  }
-  return entity_to_endpoint_map[entity]
-end
-
-def updateApiPutField(body, field, value)
-  # Set the GET response body as body and edit the requested field
-  body["address"][0]["postalCode"] = value if field == "postalCode"
-  body["loginId"] = value if field == "loginId"
-  body["contactPriority"] = value.to_i if field == "contactPriority"
-  body["id"] = value if field == "missingEntity"
-  return body
-end
-
-def getEntityId(entity)
-  entity_to_id_map = {
-      "orphanEdorg" => "54b4b51377cd941675958e6e81dce69df801bfe8_id",
-      "IL-Daybreak" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id",
-      "IL-Highwind" => "99d527622dcb51c465c515c0636d17e085302d5e_id",
-      "District-5"  => "880572db916fa468fbee53a68918227e104c10f5_id",
-      "Daybreak Central High" => "a13489364c2eb015c219172d561c62350f0453f3_id"
-  }
-  return entity_to_id_map[entity]
-end
-
-def getEntityBodyFromApi(entity, api_version, verb)
-  return {entity=>nil} if verb == "POST"
-  entity_to_uri_map = {
-      "school" => "educationOrganizations/a13489364c2eb015c219172d561c62350f0453f3_id",
-      "educationOrganization" => "educationOrganizations",
-      "newCourseOffering" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/courseOfferings",
-      "newParentDad" => "parents/41f42690a7c8eb5b99637fade00fc72f599dab07_id",
-      "newParentMom" => "parents/41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id",
-      "orphanEdorg" => "educationOrganizations/54b4b51377cd941675958e6e81dce69df801bfe8_id",
-      "parent" => "parents",
-      "patchEdOrg" => "educationOrganizations/a13489364c2eb015c219172d561c62350f0453f3_id",
-      "section" => "sections",
-      "newSection" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/sections",
-      "staffEducationOrganizationAssociation" => "staffEducationOrgAssignmentAssociations",
-      "staffProgramAssociation" => "staffProgramAssociations",
-      "staffStudent" => "students",
-      "student" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students",
-      "newStudent" => "students/9bf3036428c40861238fdc820568fde53e658d88_id",
-      "studentCohortAssocation" => "studentCohortAssociations",
-      "studentDisciplineIncidentAssociation" => "studentDisciplineIncidentAssociations",
-      "studentParentAssociation" => "students/9bf3036428c40861238fdc820568fde53e658d88_id/studentParentAssociations",
-      "newStudentParentAssociation" => "studentParentAssociations/9bf3036428c40861238fdc820568fde53e658d88_idc3a6a4ed285c14f562f0e0b63e1357e061e337c6_id",
-      "studentProgramAssociation" => "studentProgramAssociations",
-      "studentSchoolAssociation" => "studentSchoolAssociations",
-      "studentSectionAssociation" => "studentSectionAssociations",
-      "teacherSchoolAssociation" => "teacherSchoolAssociations",
-  }
-  # Perform GET request and verify we get a response and a response body
-  restHttpGet("/#{api_version}/#{entity_to_uri_map[entity]}")
-  assert(@res != nil, "Response from rest-client GET is nil")
-  assert(@res.body != nil, "Response body is nil")
-  # Make sure we actually hit the entity
-  puts "Ensuring the GET request returned 200"
-  step "I should receive a return code of 200"
-  puts "GET request: 200 (OK)"
-  # Store the response in an entity-specific response map
-  response_map = JSON.parse(@res)
-  # Fail if we do not find the entity in response body from GET request
-  assert(response_map != nil, "No response body for #{entity} returned by GET request")
-  return response_map
 end
 
 ############################################################

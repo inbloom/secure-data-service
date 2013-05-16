@@ -132,7 +132,7 @@ def check_args(argv)
   edorg = nil
   date = nil
   file = nil
-  argv[0..argv.length - 1].each do |param|
+  argv.each do |param|
     case param[0..1]
       when "-t"
         if (tenant != nil)
