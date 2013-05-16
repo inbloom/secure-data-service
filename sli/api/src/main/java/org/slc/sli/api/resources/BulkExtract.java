@@ -328,8 +328,10 @@ public class BulkExtract {
         if (entity == null) {
             // return 404 if no bulk extract support for that tenant
             if (leaId != null) {
+                logSecurityEvent(uri, "No bulk extract support for lea: " + leaId);
                 LOG.info("No bulk extract support for lea: {}", leaId);
             } else {
+                logSecurityEvent(uri, "No bulk extract support for tenant: " + getPrincipal().getTenantId());
                 LOG.info("No bulk extract support for tenant: {}", getPrincipal().getTenantId());
             }
             return Response.status(Status.NOT_FOUND).build();
@@ -341,8 +343,10 @@ public class BulkExtract {
         if (!bulkExtractFile.exists()) {
             // return 404 if the bulk extract file is missing
             if (leaId != null) {
+                logSecurityEvent(uri, "No bulk extract support for lea: " + leaId);
                 LOG.info("No bulk extract file found for lea: {}", leaId);
             } else {
+                logSecurityEvent(uri, "No bulk extract support for tenant: " + getPrincipal().getTenantId());
                 LOG.info("No bulk extract file found for tenant: {}", getPrincipal().getTenantId());
             }
             return Response.status(Status.NOT_FOUND).build();
@@ -368,6 +372,7 @@ public class BulkExtract {
 
         List<String> appAuthorizedUserLEAs = getApplicationAuthorizedUserSLEAs(userDistricts, appId);
         if (appAuthorizedUserLEAs.size() == 0) {
+            logSecurityEvent(uri, "No authorized LEAs for application:" + appId);
             LOG.info("No authorized LEAs for application: {}", appId);
             return Response.status(Status.NOT_FOUND).build();
         }
@@ -621,13 +626,14 @@ public class BulkExtract {
         String clientId = auth.getClientAuthentication().getClientId();
 
         if (null == certs || certs.length < 1) {
+            logSecurityEvent(uri, "App must provide client side X509 Certificate");
             throw new IllegalArgumentException("App must provide client side X509 Certificate");
         }
 
         this.validator.validateCertificate(certs[0], clientId);
     }
 
-    private void logSecurityEvent(UriInfo uriInfo, String message) {
+    void logSecurityEvent(UriInfo uriInfo, String message) {
         audit(securityEventBuilder.createSecurityEvent(BulkExtract.class.getName(),
                 uri.getRequestUri(), message));
     }
