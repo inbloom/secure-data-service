@@ -91,11 +91,11 @@ Feature: As an bulk extract user, I will be able to cleanup bulk extract file wi
       |  Hyrule     |    a2    | 2013-03-08T14:07:43.870Z   |    NY-clean-test       |
 
   Scenario: Try cleaning up a specific bulk extract file for a tenant
-    When I execute cleanup script for tenant:"Midgar", edorg:"", date:"", path:"Daybreak-clean-test/Daybreak-clean-test-a1-2013-04-08-10-07-43.tar"
+    When I execute cleanup script for tenant:"Midgar", edorg:"", date:"", path:"Daybreak-clean-test/Daybreak-clean-test-a1-2013-04-08-14-07-43.tar"
     Then I should not see the following tenant bulk extract file:
       |  tenant     |    app   |          date              |    Edorg               |
       |  Midgar     |    a1    | 2013-04-08T14:07:43.870Z   |    Daybreak-clean-test |
-    When I execute cleanup script for tenant:"Midgar", edorg:"", date:"", path:"Daybreak-clean-test/Daybreak-clean-test-a1-2013-04-08-10-07-43.tar"
+    When I execute cleanup script for tenant:"Midgar", edorg:"", date:"", path:"Daybreak-clean-test/Daybreak-clean-test-a1-2013-04-08-14-07-43.tar"
     Then I should see error message
     When I only remove bulk extract file for tenant:"Midgar", edorg:"Sunset-clean-test", app:"a1", date:"2013-05-08T14:07:43.870Z"
     When I execute cleanup script for tenant:"Midgar", edorg:"Sunset-clean-test", date:"2013-05-08T14:07:43.870Z", path:""
@@ -112,11 +112,11 @@ Feature: As an bulk extract user, I will be able to cleanup bulk extract file wi
       |  Hyrule     |    a2    | 2013-03-08T14:07:43.870Z   |    NY-clean-test       |
 
   Scenario: I clean up all bulk extract file with incorrect input
-    When I execute cleanup script for tenant:"Midgar", edorg:"Daybreak-clean-test", date:"2013-04-08T14:07:43.870Z", path:"Daybreak-clean-test/Daybreak-clean-test-a1-2013-04-08-10-07-43.tar"
+    When I execute cleanup script for tenant:"Midgar", edorg:"Daybreak-clean-test", date:"2013-04-08T14:07:43.870Z", path:"Daybreak-clean-test/Daybreak-clean-test-a1-2013-04-08-14-07-43.tar"
     Then I should see error message
     When I execute cleanup script for tenant:"", edorg:"Daybreak-clean-test", date:"2013-04-08T14:07:43.870Z", path:"test-"
     Then I should see error message
-    When I execute cleanup script for tenant:"Hyrule", edorg:"", date:"", path:"Daybreak-clean-test/Daybreak-clean-test-a1-2013-04-08-10-07-43.tar"
+    When I execute cleanup script for tenant:"Hyrule", edorg:"", date:"", path:"Daybreak-clean-test/Daybreak-clean-test-a1-2013-04-08-14-07-43.tar"
     Then I should see error message
     And I should see the following tenant bulk extract file:
       |  tenant     |    app   |          date              |    Edorg               |

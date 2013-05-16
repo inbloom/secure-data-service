@@ -279,6 +279,11 @@ task :ingestionPropagatedTest do
   runTests("test/features/ingestion/features/ingestion_PropagatedDataSet.feature")
 end
 
+desc "Run Custom Enumerations Test"
+task :ingestionEnumerationsTest do
+  runTests("test/features/ingestion/features/ingestion_enumerations.feature")
+end
+
 desc "Run Ingestion Deletion Tests"
   task :ingestionDeletionTests => [
         :ingestBroadSetOfTypesAndExportData,
