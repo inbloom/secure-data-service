@@ -63,8 +63,8 @@ Transform /^<(.*?)>$/ do |human_readable_id|
   id = "19cca28d-7357-4044-8df9-caad4b1c8ee4"               if human_readable_id == "app id"
   id = "19cca28d-7357-4044-8df9-caad4b1c8ee4"               if human_readable_id == "app id daybreak"
   id = "22c2a28d-7327-4444-8ff9-caad4b1c7aa3"               if human_readable_id == "app id highwind"
-  id = "vavedRa9uB"                                         if human_readable_id == "client id"
-  id = "vavedRa9uB"                                         if human_readable_id == "client id daybreak"
+  id = "vavedra9ub"                                         if human_readable_id == "client id"
+  id = "vavedra9ub"                                         if human_readable_id == "client id daybreak"
   id = "pavedz00ua"                                         if human_readable_id == "client id highwind"
   id = "1b223f577827204a1c7e9c851dba06bea6b031fe_id"        if human_readable_id == "IL-DAYBREAK"
   id = "99d527622dcb51c465c515c0636d17e085302d5e_id"        if human_readable_id == "IL-HIGHWIND"
@@ -622,10 +622,20 @@ def getEntityBodyFromApi(entity, api_version, verb)
   return response_map
 end
 
+When /^I request an unsecured latest delta via API for tenant "(.*?)", lea "(.*?)" with appId "(.*?)"$/ do |tenant, lea, app_id |
+  @lea = lea
+  @app_id = app_id
+
+  query_opts = {sort: ["body.date", Mongo::DESCENDING], limit: 1}
+  # Get the edorg and timestamp from bulk extract collection in mongo
+  getExtractInfoFromMongo(build_bulk_query(tenant, app_id, lea, true), query_opts)
+  # Assemble the API URI and make API call
+  restHttpGet("/bulk/extract/#{lea}/delta/#{@timestamp}", 'application/x-tar', @sessionId)
+end
+
 When /^I request latest delta via API for tenant "(.*?)", lea "(.*?)" with appId "(.*?)" clientId "(.*?)"$/ do |tenant, lea, app_id, client_id|
   @lea = lea
   @app_id = app_id
-  @client_id ||= client_id
 
   query_opts = {sort: ["body.date", Mongo::DESCENDING], limit: 1}
   # Get the edorg and timestamp from bulk extract collection in mongo
@@ -637,7 +647,7 @@ When /^I request latest delta via API for tenant "(.*?)", lea "(.*?)" with appId
   @filePath = @fileDir + "/" + @delta_file
   @unpackDir = @fileDir
   # Assemble the API URI and make API call
-  restTls("/bulk/extract/#{lea}/delta/#{@timestamp}", nil, 'application/x-tar')
+  restTls("/bulk/extract/#{lea}/delta/#{@timestamp}", nil, 'application/x-tar', @sessionId, client_id)
 end
 
 When /^I store the URL for the latest delta for LEA "(.*?)"$/ do |lea|
