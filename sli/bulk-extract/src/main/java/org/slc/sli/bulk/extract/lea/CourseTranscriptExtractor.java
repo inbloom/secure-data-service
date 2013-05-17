@@ -18,6 +18,7 @@ package org.slc.sli.bulk.extract.lea;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
@@ -43,9 +44,9 @@ public class CourseTranscriptExtractor {
         Iterator<Entity> cursor = repo.findEach(EntityNames.COURSE_TRANSCRIPT, new Query());
         while (cursor.hasNext()) {
             Entity e = cursor.next();
-            String[] edorgReferences = (String[])e.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE);
+            List<String> edorgReferences = (List<String>)e.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE);
             String studentId = (String)e.getBody().get(ParameterConstants.STUDENT_ID);
-            String[] studentAcademicRecordReferences = (String[])e.getBody().get(ParameterConstants.STUDENT_ACADEMIC_RECORD_ID);
+            String studentAcademicRecordReference = (String)e.getBody().get(ParameterConstants.STUDENT_ACADEMIC_RECORD_ID);
             
             //add directly references edorgs
             Set<String> leaSet = new HashSet<String>();
@@ -59,10 +60,8 @@ public class CourseTranscriptExtractor {
             leaSet.addAll(studentCache.getEntriesById(studentId));
             
             //add the studentAcademicReferences
-            if(studentAcademicRecordReferences!=null) {
-                for ( String saf : studentAcademicRecordReferences ){
-                    leaSet.addAll(studentAcademicRecordCache.getEntriesById(saf));
-                }
+            if(studentAcademicRecordReference!=null) {
+                leaSet.addAll(studentAcademicRecordCache.getEntriesById(studentAcademicRecordReference));
             }
             
             //extract this entity for all of the referenced LEAs

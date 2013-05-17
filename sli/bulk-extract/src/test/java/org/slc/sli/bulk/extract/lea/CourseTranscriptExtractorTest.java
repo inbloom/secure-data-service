@@ -70,9 +70,12 @@ public class CourseTranscriptExtractorTest {
         extractor = new CourseTranscriptExtractor(mockExtractor, mockMap, mockRepo);
         
         entityBody = new HashMap<String, Object>();
+        entityBody.put(ParameterConstants.STUDENT_ACADEMIC_RECORD_ID, "sar1");
         Mockito.when(mockEntity.getBody()).thenReturn(entityBody);
         Mockito.when(mockEntity.getEntityId()).thenReturn("ct1");
+        
         transitiveEntityBody = new HashMap<String, Object>();
+        transitiveEntityBody.put(ParameterConstants.STUDENT_ACADEMIC_RECORD_ID, "sar2");
         Mockito.when(mockTransitiveEntity.getEntityId()).thenReturn("ct2");
         Mockito.when(mockTransitiveEntity.getBody()).thenReturn(transitiveEntityBody);
         
@@ -89,7 +92,7 @@ public class CourseTranscriptExtractorTest {
     public void testEdorgReferenced() {
         Mockito.when(mockRepo.findEach(Mockito.eq("courseTranscript"), Mockito.eq(new Query())))
                 .thenReturn(Arrays.asList(mockEntity).iterator());
-        entityBody.put(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, new String[]{"edorgId1"});
+        entityBody.put(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, Arrays.asList("edorgId1"));
         extractor.extractEntities(mockEdorgCache, mockStudentCache, mockStudentAcademicRecordCache);
         Mockito.verify(mockExtractor).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
                 Mockito.eq("courseTranscript"));
@@ -117,7 +120,6 @@ public class CourseTranscriptExtractorTest {
         
         Mockito.when(mockRepo.findEach(Mockito.eq("courseTranscript"), Mockito.eq(new Query())))
             .thenReturn(Arrays.asList(mockEntity).iterator());
-        entityBody.put(ParameterConstants.STUDENT_ACADEMIC_RECORD_ID, new String[]{"sar1"});
         extractor.extractEntities(mockEdorgCache, mockStudentCache, mockStudentAcademicRecordCache);
         Mockito.verify(mockExtractor).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
                 Mockito.eq("courseTranscript"));
@@ -127,7 +129,7 @@ public class CourseTranscriptExtractorTest {
     public void testWriteManyEntities() {
         Mockito.when(mockRepo.findEach(Mockito.eq("courseTranscript"), Mockito.eq(new Query())))
                 .thenReturn(Arrays.asList(mockEntity, mockEntity, mockEntity).iterator());
-        entityBody.put(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, new String[]{"edorgId1"});
+        entityBody.put(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, Arrays.asList("edorgId1"));
         extractor.extractEntities(mockEdorgCache, mockStudentCache, mockStudentAcademicRecordCache);
         Mockito.verify(mockExtractor, Mockito.times(3)).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
                 Mockito.eq("courseTranscript"));
@@ -137,8 +139,8 @@ public class CourseTranscriptExtractorTest {
     public void testThreeReferencesOneEntity() {
         Mockito.when(mockRepo.findEach(Mockito.eq("courseTranscript"), Mockito.eq(new Query())))
                 .thenReturn(Arrays.asList(mockEntity).iterator());
-        entityBody.put(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, new String[]{"edorgId1"});
-        entityBody.put(ParameterConstants.STUDENT_ACADEMIC_RECORD_ID, new String[]{"sar1"});
+        entityBody.put(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, Arrays.asList("edorgId1"));
+        
         entityBody.put(ParameterConstants.STUDENT_ID, "student1");
         Set<String> leas = new HashSet<String>();
         leas.add("LEA");
@@ -154,7 +156,7 @@ public class CourseTranscriptExtractorTest {
         Mockito.when(mockRepo.findEach(Mockito.eq("courseTranscript"), Mockito.eq(new Query())))
                 .thenReturn(Arrays.asList(mockEntity).iterator());
         Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(null);
-        entityBody.put(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, new String[]{"edorgId1"});
+        entityBody.put(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, Arrays.asList("edorgId1"));
         extractor.extractEntities(mockEdorgCache, mockStudentCache, mockStudentAcademicRecordCache);
         Mockito.verify(mockExtractor, Mockito.never()).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
                 Mockito.eq("courseTranscript"));
@@ -162,7 +164,7 @@ public class CourseTranscriptExtractorTest {
     
     @Test
     public void testExtractNoEntityBecauseOfIdMiss() {
-        entityBody.put(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, new String[]{"edorgId3"});
+        entityBody.put(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, Arrays.asList("edorgId3"));
         Mockito.when(mockRepo.findEach(Mockito.eq("courseTranscript"), Mockito.eq(new Query())))
                 .thenReturn(Arrays.asList(mockEntity).iterator());
         Mockito.when(mockMap.getExtractFileForLea("LEA-1")).thenReturn(mockFile);
