@@ -258,9 +258,10 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         } else if (containerDocumentAccessor.isContainerDocument(type)) {
             result = containerDocumentAccessor.update(type, id, newValues, collectionName);
         } else {
-            boolean updateLineage = EntityNames.EDUCATION_ORGANIZATION.equals(ENTITY_BASE_TYPE_MAP.get(type)) && newValues.containsKey(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE);
             result = super.patch(type, collectionName, id, newValues);
-            if (result && updateLineage) {
+            if (result
+                    && EntityNames.EDUCATION_ORGANIZATION.equals(ENTITY_BASE_TYPE_MAP.get(type))
+                    && newValues.containsKey(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE)) {
                 // TODO can be optimized to take an edOrg Id
                 updateAllSchoolLineage();
             }
@@ -333,10 +334,10 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             validator.validate(entity);
             validator.validateNaturalKeys(entity, true);
 
-            // Cache education organization lineage for schools
-            boolean updateLineage = entity.getType().equals(EntityNames.SCHOOL);
             result = super.insert(entity, collectionName);
-            if (result != null && updateLineage) {
+
+            // Update edOrg lineage cache for schools if needed
+            if (result != null && EntityNames.EDUCATION_ORGANIZATION.equals(collectionName)) {
                 // TODO can be optimized to take an edOrg Id
                 updateAllSchoolLineage();
             }
@@ -378,7 +379,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
                 Entity entity = new MongoEntity(record.getType(), null, record.getBody(), record.getMetaData());
                 keyEncoder.encodeEntityKey(entity);
-                if (!updateLineage && entity.getType().equals(EntityNames.SCHOOL)) {
+                if (!updateLineage && EntityNames.EDUCATION_ORGANIZATION.equals(collectionName)) {
                     updateLineage = true;
                 }
                 persist.add(entity);
@@ -1057,9 +1058,10 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         } else {
             result = super.update(collection, entity, null, isSuperdoc); // body);
 
-            // Update education organization lineage for schools
-            boolean updateLineage = entity.getType().equals(EntityNames.SCHOOL);
-            if (result && updateLineage) {
+            // update school lineage cache iff updating educationOrganization.parentEducationAgencyReference
+            if (result
+                    && collection.equals(EntityNames.EDUCATION_ORGANIZATION)
+                    && entity.getBody().containsKey(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE)) {
                 // TODO can be optimized to take an edOrg Id
                 updateAllSchoolLineage();
             }
@@ -1192,9 +1194,11 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
         boolean result = super.doUpdate(collectionName, neutralQuery, update);
 
-        // update metaData.edOrgs[] for educationOrganization type=school
-        if (result && collectionName.equals(EntityNames.EDUCATION_ORGANIZATION)) {
-            // don't know specifically what edOrgs were updated to refresh the school lineage for all
+        // update school lineage cache iff updating educationOrganization.parentEducationAgencyReference
+        if (result
+                && collectionName.equals(EntityNames.EDUCATION_ORGANIZATION)
+                && update.getUpdateObject().containsField("body." + ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE)) {
+            // don't know specifically what edOrgs were updated so refresh all school lineage
             return updateAllSchoolLineage();
         }
 
@@ -1290,6 +1294,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     @Override
     public Entity insert(Entity record, String collectionName) {
+        Entity result = null;
+
         if (journal != null) {
             journal.journal(record.getEntityId(), collectionName, false);
         }
@@ -1298,13 +1304,30 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         if (collectionName.equals(EntityNames.SCHOOL)) {
             record.getMetaData().put(SCHOOL_EDORG_LINEAGE, new ArrayList<String>(fetchLineage(record.getEntityId(), new HashSet<String>())));
         }
-        return super.insert(record, collectionName);
+
+        result = super.insert(record, collectionName);
+
+        // Update edOrg lineage cache for schools if needed
+        if (result != null && EntityNames.EDUCATION_ORGANIZATION.equals(collectionName)) {
+            // TODO can be optimized to take an edOrg Id
+            updateAllSchoolLineage();
+        }
+
+        return result;
     }
 
     @Override
     public WriteResult updateMulti(NeutralQuery query, Map<String, Object> update, String collectionName) {
-        // TODO update metaData.edOrgs[] for educationOrganization type=school
         WriteResult result = super.updateMulti(query, update, collectionName);
+
+        // update school lineage cache iff updating educationOrganization
+        // TODO possible optimization to check updates for parent ref changes
+        if (result != null
+                && collectionName.equals(EntityNames.EDUCATION_ORGANIZATION)) {
+            // don't know specifically what edOrgs were updated so refresh all school lineage
+            updateAllSchoolLineage();
+        }
+
         if (journal != null) {
             journal.journal(getIds(findAll(collectionName, query)), collectionName, false);
         }
