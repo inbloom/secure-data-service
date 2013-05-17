@@ -96,7 +96,11 @@ end
 
 if "--all" == dbname
   puts "Applying to all tenants..."
+  tenants = []
   $client['sli']['tenant'].find({}).each do |tenant|
+    tenants << tenant
+  end
+  tenants.each do |tenant|
     db = tenant['body']['dbName']
     name = tenant['body']['tenantId']
     migrate(db, name)
