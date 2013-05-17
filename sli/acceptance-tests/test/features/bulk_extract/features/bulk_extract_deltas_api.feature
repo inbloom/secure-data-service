@@ -77,6 +77,7 @@ Given I clean the bulk extract file system and database
        |  courseOffering                        |
        |  program                               |
        |  graduationPlan                        |
+       |  disciplineIncident                    |
        |  deleted                               |
      And I verify this "deleted" file should contain:
        | id                                                                                     | condition                             |
@@ -145,6 +146,17 @@ Given I clean the bulk extract file system and database
       | id                                          | condition                                |
       | ac907f298a74a5f200c78ecb372afb1e53cf15c3_id | graduationPlanType = Distinguished       |
     
+    # This incident involved student 1
+    And I verify this "disciplineIncident" file should contain:
+      | id                                          | condition                                |
+      | ededd91e0b8069fb040227ec0fdeb20ff1a257bc_id | reporterName = Upstanding Citizen        |
+
+    # These did not
+    And I verify this "disciplineIncident" file should not contain:
+      | id                                          | condition  |
+      | 8270a081d30b82a9ac40a324bde644aaee933c20_id |            |
+      | e6a01c4ee7768924c9e260c7ef5cea8d75088b89_id |            |
+
      And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
        |  attendance                            |
@@ -164,6 +176,7 @@ Given I clean the bulk extract file system and database
        |  course                                |
        |  program                               |
        |  graduationPlan                        |
+       |  disciplineIncident                    |
        |  deleted                               |
    
      And I verify this "deleted" file should contain:
@@ -252,6 +265,13 @@ Given I clean the bulk extract file system and database
     And I verify this "graduationPlan" file should contain:
       | id                                          | condition                                |
       | 1af13424ea3a179e716468ff760255878ce20ec7_id | graduationPlanType = Distinguished       |
+
+    And I verify this "disciplineIncident" file should contain:
+      | id                                          | condition                                |
+      | 8270a081d30b82a9ac40a324bde644aaee933c20_id | reporterName = Squealer                  |
+      | ededd91e0b8069fb040227ec0fdeb20ff1a257bc_id | reporterName = Upstanding Citizen        |
+      | e6a01c4ee7768924c9e260c7ef5cea8d75088b89_id | incidentIdentifier = orphan1             |
+
 
    #this step is necesssary since there is no graduationPlan in day 0 delta, need to verify it's really the same
    #format as API would return
