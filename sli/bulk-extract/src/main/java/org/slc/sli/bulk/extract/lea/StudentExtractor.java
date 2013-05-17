@@ -23,6 +23,9 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
+import org.slc.sli.bulk.extract.util.SecurityEventUtil;
+import org.slc.sli.common.util.logging.LogLevelType;
+import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
@@ -56,6 +59,11 @@ public class StudentExtractor implements EntityExtract {
      */
     @Override
     public void extractEntities(EntityToLeaCache entityToEdorgCache) {
+        for (String lea : map.getLeas()) {
+            SecurityEvent event = SecurityEventUtil.createSecurityEvent(this.getClass().getName(), "Extracting student data for top level LEA", "Student data extract initiated", LogLevelType.TYPE_INFO);
+            event.setTargetEdOrg(lea);
+            audit(event);
+        }
         Iterator<Entity> cursor = repo.findEach("student", new NeutralQuery());
         while (cursor.hasNext()) {
             Entity e = cursor.next();
