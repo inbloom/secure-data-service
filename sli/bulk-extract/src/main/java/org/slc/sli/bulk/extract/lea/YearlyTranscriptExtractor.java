@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
+import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
@@ -29,15 +30,18 @@ public class YearlyTranscriptExtractor implements EntityExtract {
     private EntityExtractor extractor;
     private LEAExtractFileMap map;
     private Repository<Entity> repo;
+    private LocalEdOrgExtractHelper localEdOrgExtractHelper;
     
-    public YearlyTranscriptExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo) {
+    public YearlyTranscriptExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
+        this.localEdOrgExtractHelper = localEdOrgExtractHelper;
     }
 
     @Override
     public void extractEntities(EntityToLeaCache entityToEdorgCache) {
+        localEdOrgExtractHelper.logSecurityEvent(map.getLeas(), "yearlyTranscript", this.getClass().getName());
         Iterator<Entity> yearlyTranscripts = repo.findEach("yearlyTranscript", new NeutralQuery());
         
         while (yearlyTranscripts.hasNext()) {

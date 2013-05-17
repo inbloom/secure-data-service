@@ -19,6 +19,7 @@ package org.slc.sli.bulk.extract.lea;
 import java.util.Iterator;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
+import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
@@ -33,18 +34,21 @@ public class StaffEdorgAssignmentExtractor implements EntityExtract {
     private Repository<Entity> repo;
     private ExtractorHelper extractorHelper;
     private EntityToLeaCache cache;
+    private LocalEdOrgExtractHelper localEdOrgExtractHelper;
     
     public StaffEdorgAssignmentExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo,
-            ExtractorHelper extractorHelper, EntityToLeaCache entityToLeaCache) {
+            ExtractorHelper extractorHelper, EntityToLeaCache entityToLeaCache, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
         this.extractorHelper = extractorHelper;
         this.cache = entityToLeaCache;
+        this.localEdOrgExtractHelper = localEdOrgExtractHelper;
     }
 
     @Override
     public void extractEntities(EntityToLeaCache entityToEdorgCache) {
+        localEdOrgExtractHelper.logSecurityEvent(map.getLeas(), EntityNames.STAFF_ED_ORG_ASSOCIATION, this.getClass().getName());
         Iterator<Entity> associations = repo.findEach(EntityNames.STAFF_ED_ORG_ASSOCIATION, new NeutralQuery());
         while (associations.hasNext()) {
             Entity association = associations.next();

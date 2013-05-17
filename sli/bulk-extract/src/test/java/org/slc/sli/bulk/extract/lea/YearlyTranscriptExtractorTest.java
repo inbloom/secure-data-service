@@ -24,6 +24,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
@@ -51,13 +52,16 @@ public class YearlyTranscriptExtractorTest {
     
     @Mock
     private Entity mockEntity;
+
+    @Mock
+    private LocalEdOrgExtractHelper mockLocalEdOrgExtractHelper;
     
     private Map<String, Object> entityBody;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        extractor = new YearlyTranscriptExtractor(mockExtractor, mockMap, mockRepo);
+        extractor = new YearlyTranscriptExtractor(mockExtractor, mockMap, mockRepo, mockLocalEdOrgExtractHelper);
         entityBody = new HashMap<String, Object>();
         Mockito.when(mockEntity.getBody()).thenReturn(entityBody);
         Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(mockFile);

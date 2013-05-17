@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
+import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
@@ -31,16 +32,19 @@ public class CourseOfferingExtractor {
     private LEAExtractFileMap map;
     private Repository<Entity> repo;
     private EntityToLeaCache courseCache;
+    private LocalEdOrgExtractHelper localEdOrgExtractHelper;
     
-    public CourseOfferingExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo) {
+    public CourseOfferingExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
         courseCache = new EntityToLeaCache();
+        this.localEdOrgExtractHelper = localEdOrgExtractHelper;
     }
 
     
     public void extractEntities(EntityToLeaCache edorgCache, EntityToLeaCache courseOfferingCache) {
+        localEdOrgExtractHelper.logSecurityEvent(map.getLeas(), EntityNames.COURSE_OFFERING, this.getClass().getName());
         Iterator<Entity> cursor = repo.findEach(EntityNames.COURSE_OFFERING, new Query());
         while (cursor.hasNext()) {
             Entity e = cursor.next();

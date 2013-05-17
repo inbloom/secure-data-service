@@ -31,6 +31,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
@@ -52,6 +53,9 @@ public class SessionAndGradingPeriodExtractorTest {
     private EntityToLeaCache mockCache;
     @Mock 
     private ExtractorHelper mockHelper;
+
+    @Mock
+    private LocalEdOrgExtractHelper mockLocalEdOrgExtractHelper;
     
     private SessionExtractor sessionExtractor;
     private GradingPeriodExtractor gradingPeriodExtractor;
@@ -59,8 +63,8 @@ public class SessionAndGradingPeriodExtractorTest {
     @Before
     public void setUp() {
     	MockitoAnnotations.initMocks(this);
-    	sessionExtractor =  new SessionExtractor(mockExtractor, mockMap, mockRepo, mockHelper, new EntityToLeaCache());
-    	gradingPeriodExtractor = new GradingPeriodExtractor(mockExtractor, mockMap, mockRepo);
+    	sessionExtractor =  new SessionExtractor(mockExtractor, mockMap, mockRepo, mockHelper, new EntityToLeaCache(), mockLocalEdOrgExtractHelper);
+    	gradingPeriodExtractor = new GradingPeriodExtractor(mockExtractor, mockMap, mockRepo, mockLocalEdOrgExtractHelper);
     }
     
     @Test

@@ -50,19 +50,19 @@ public class LEAExtractorFactoryTest {
     
     @Test
     public void testBuildAttendanceExtractor() {
-        Assert.assertTrue(factory.buildAttendanceExtractor(null, null, null, null) != null);
-        Assert.assertTrue(factory.buildAttendanceExtractor(null, null, null, null).getClass() == AttendanceExtractor.class);
+        Assert.assertTrue(factory.buildAttendanceExtractor(null, null, null, null, null) != null);
+        Assert.assertTrue(factory.buildAttendanceExtractor(null, null, null, null, null).getClass() == AttendanceExtractor.class);
     }
     
     @Test
     public void testBuildStudentExtractor() {
-        Assert.assertTrue(factory.buildStudentExtractor(null, null, null) != null);
-        Assert.assertTrue(factory.buildStudentExtractor(null, null, null).getClass() == StudentExtractor.class);
+        Assert.assertTrue(factory.buildStudentExtractor(null, null, null, null) != null);
+        Assert.assertTrue(factory.buildStudentExtractor(null, null, null, null).getClass() == StudentExtractor.class);
     }
     
     @Test
     public void testBuildStudentAssessmentExtractor() {
-        Assert.assertTrue(factory.buildStudentAssessmentExtractor(null, null, null) != null);
-        Assert.assertTrue(factory.buildStudentAssessmentExtractor(null, null, null).getClass() == StudentAssessmentExtractor.class);
+        Assert.assertTrue(factory.buildStudentAssessmentExtractor(null, null, null, null) != null);
+        Assert.assertTrue(factory.buildStudentAssessmentExtractor(null, null, null, null).getClass() == StudentAssessmentExtractor.class);
     }
 }

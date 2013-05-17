@@ -93,60 +93,66 @@ public class LocalEdOrgExtractor {
         }
         // 2. EXTRACT
         EntityToLeaCache edorgCache = buildEdOrgCache();
+
         EdorgExtractor edorg = factory.buildEdorgExtractor(entityExtractor, leaToExtractFileMap);
         edorg.extractEntities(edorgCache);
         
         // Student
-        StudentExtractor student = factory.buildStudentExtractor(entityExtractor, leaToExtractFileMap, repository);
+        StudentExtractor student = factory.buildStudentExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         student.extractEntities(null);
         
         EntityExtract genericExtractor = factory.buildAttendanceExtractor(entityExtractor, leaToExtractFileMap,
-                repository, student.getEntityCache());
+                repository, student.getEntityCache(), helper);
         genericExtractor.extractEntities(null);
+
         EntityExtract studentSchoolAssociation = factory.buildStudentSchoolAssociationExractor(entityExtractor,
-                leaToExtractFileMap, repository, student.getEntityCache());
+                leaToExtractFileMap, repository, student.getEntityCache(), helper);
         studentSchoolAssociation.extractEntities(null);
-        genericExtractor = factory.buildStudentAssessmentExtractor(entityExtractor, leaToExtractFileMap, repository);
+
+        genericExtractor = factory.buildStudentAssessmentExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         genericExtractor.extractEntities(student.getEntityCache());
         
-        genericExtractor = factory.buildYearlyTranscriptExtractor(entityExtractor, leaToExtractFileMap, repository);
+        genericExtractor = factory.buildYearlyTranscriptExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         genericExtractor.extractEntities(student.getEntityCache());
         
-        genericExtractor = factory.buildParentExtractor(entityExtractor, leaToExtractFileMap, repository);
+        genericExtractor = factory.buildParentExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         genericExtractor.extractEntities(student.getParentCache());
 
         // Section
-        SectionExtractor sectionExtractor = factory.buildSectionExtractor(entityExtractor,leaToExtractFileMap,repository, student.getEntityCache(), edorgCache);
+        SectionExtractor sectionExtractor = factory.buildSectionExtractor(entityExtractor,leaToExtractFileMap,repository, student.getEntityCache(), edorgCache, helper);
         sectionExtractor.extractEntities(null);
 
         // Staff
         StaffEdorgAssignmentExtractor seaExtractor = factory.buildStaffAssociationExtractor(entityExtractor,
-                leaToExtractFileMap, repository);
+                leaToExtractFileMap, repository, helper);
         seaExtractor.extractEntities(edorgCache);
-        genericExtractor = factory.buildStaffExtractor(entityExtractor, leaToExtractFileMap, repository);
+
+        genericExtractor = factory.buildStaffExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         genericExtractor.extractEntities(seaExtractor.getEntityCache());
-        genericExtractor = factory.buildTeacherSchoolExtractor(entityExtractor, leaToExtractFileMap, repository);
+
+        genericExtractor = factory.buildTeacherSchoolExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         genericExtractor.extractEntities(seaExtractor.getEntityCache());
         
         //Session and gradingPeriod
-        SessionExtractor sessionExtractor = factory.buildSessionExtractor(entityExtractor, leaToExtractFileMap, repository);
+        SessionExtractor sessionExtractor = factory.buildSessionExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         sessionExtractor.extractEntities(edorgCache);
-        EntityExtract gradingPeriodExtractor = factory.buildGradingPeriodExtractor(entityExtractor, leaToExtractFileMap, repository);
+
+        EntityExtract gradingPeriodExtractor = factory.buildGradingPeriodExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         gradingPeriodExtractor.extractEntities(sessionExtractor.getEntityToLeaCache());
         
-        genericExtractor = factory.buildStaffProgramAssociationExtractor(entityExtractor, leaToExtractFileMap, repository);
+        genericExtractor = factory.buildStaffProgramAssociationExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         genericExtractor.extractEntities(seaExtractor.getEntityCache());
         
-        genericExtractor = factory.buildStaffCohortAssociationExtractor(entityExtractor, leaToExtractFileMap, repository);
+        genericExtractor = factory.buildStaffCohortAssociationExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         genericExtractor.extractEntities(seaExtractor.getEntityCache());
         
-        genericExtractor = factory.buildCohortExtractor(entityExtractor, leaToExtractFileMap, repository);
+        genericExtractor = factory.buildCohortExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         genericExtractor.extractEntities(edorgCache);
         
-        CourseOfferingExtractor courseOfferingExtractor = factory.buildCourseOfferingExtractor(entityExtractor, leaToExtractFileMap, repository);
+        CourseOfferingExtractor courseOfferingExtractor = factory.buildCourseOfferingExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         courseOfferingExtractor.extractEntities(edorgCache, sectionExtractor.getCourseOfferingCache());
         
-        CourseExtractor courseExtractor = factory.buildCourseExtractor(entityExtractor, leaToExtractFileMap, repository);
+        CourseExtractor courseExtractor = factory.buildCourseExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         courseExtractor.extractEntities(edorgCache, courseOfferingExtractor.getCourseCache());
         
         leaToExtractFileMap.closeFiles();

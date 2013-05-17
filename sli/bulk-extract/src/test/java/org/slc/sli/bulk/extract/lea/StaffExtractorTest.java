@@ -28,6 +28,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
@@ -50,6 +51,8 @@ public class StaffExtractorTest {
     private Entity mockEntity;
     @Mock
     private ExtractFile mockFile;
+    @Mock
+    private LocalEdOrgExtractHelper mockLocalEdOrgExtractHelper;
     
     private Map<String, Object> entityBody;
     private EntityToLeaCache staffToLeaCache;
@@ -58,7 +61,7 @@ public class StaffExtractorTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         entityBody = new HashMap<String, Object>();
-        extractor = new StaffExtractor(mockExtractor, mockMap, mockRepo);
+        extractor = new StaffExtractor(mockExtractor, mockMap, mockRepo, mockLocalEdOrgExtractHelper);
         Mockito.when(mockEntity.getBody()).thenReturn(entityBody);
         staffToLeaCache = new EntityToLeaCache();
         staffToLeaCache.addEntry("Staff1", "LEA");
