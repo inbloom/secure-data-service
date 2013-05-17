@@ -16,46 +16,47 @@
 package org.slc.sli.bulk.extract.context.resolver.impl;
 
 import java.util.HashSet;
-import java.util.List;
+import java.util.Iterator;
 import java.util.Set;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
 
 /**
- * Context resolver for sections
+ * Context resolver for discipline incidents
  * 
  * @author nbrown
  * 
  */
 @Component
-public class SectionContextResolver extends EdOrgRelatedReferrableResolver {
-    private static final Logger LOG = LoggerFactory.getLogger(SectionContextResolver.class);
-    
-    private final StudentAssociationWalker walker;
+public class DisciplineIncidentContextResolver extends EdOrgRelatedReferrableResolver {
+    @Autowired
+    @Qualifier("secondaryRepo")
+    private Repository<Entity> repo;
     
     @Autowired
-    public SectionContextResolver(StudentAssociationWalker walker) {
-        this.walker = walker;
-    }
-
+    private StudentContextResolver studentResolver;
+    
     @Override
     protected Set<String> getTransitiveAssociations(Entity entity) {
         Set<String> leas = new HashSet<String>();
-        List<Entity> studentAssociations = entity.getEmbeddedData().get("studentSectionAssociation");
-        LOG.debug("studentSectionAssociations being process for {} are {}", entity, studentAssociations);
-        leas.addAll(walker.walkStudentAssociations(studentAssociations));
+        Iterator<Entity> students = repo.findEach(EntityNames.STUDENT,
+                Query.query(Criteria.where("studentDisciplineIncidentAssociation.body.disciplineIncidentId").is(entity.getEntityId())));
+        while (students.hasNext()) {
+            leas.addAll(studentResolver.findGoverningLEA(students.next()));
+        }
         return leas;
     }
-
+    
     @Override
     protected String getCollection() {
-        return EntityNames.SECTION;
+        return EntityNames.DISCIPLINE_INCIDENT;
     }
     
 }

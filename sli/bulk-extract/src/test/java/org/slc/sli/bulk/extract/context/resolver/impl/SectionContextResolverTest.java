@@ -52,7 +52,7 @@ public class SectionContextResolverTest {
     private StudentContextResolver studentResolver;
     
     @InjectMocks
-    private SectionContextResolver underTest = new SectionContextResolver(edOrgResolver, walker);
+    private SectionContextResolver underTest = new SectionContextResolver(walker);
     
     @Test
     public void testSectionResolver() {
