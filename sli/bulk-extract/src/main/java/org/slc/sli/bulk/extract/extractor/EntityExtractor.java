@@ -25,6 +25,8 @@ import java.util.Map;
 
 import org.slc.sli.bulk.extract.files.EntityWriterManager;
 import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.util.SecurityEventUtil;
+import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
@@ -59,6 +61,11 @@ public class EntityExtractor{
      *          Name of the entity to be extracted
      */
     public void extractEntities(ExtractFile archiveFile, String collectionName) {
+
+        audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
+                "Extracting " + collectionName + " for Edorg " + archiveFile.getEdorg(),
+                " Entity extraction", LogLevelType.TYPE_INFO));
+
         try {
             if (extractionQuery == null) {
                 extractionQuery = new NeutralQuery();
@@ -78,6 +85,9 @@ public class EntityExtractor{
                 LOG.info("Finished extracting " + collectionRecord.toString());
             }
         } catch (IOException e) {
+            audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
+                    "Error extracting " + collectionName + " for Edorg " + archiveFile.getEdorg(),
+                    " Entity extraction", LogLevelType.TYPE_INFO));
             LOG.error("Error while extracting from " + collectionName, e);
         }
     }

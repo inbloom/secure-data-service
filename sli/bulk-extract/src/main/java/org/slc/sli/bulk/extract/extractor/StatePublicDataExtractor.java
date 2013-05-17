@@ -117,6 +117,9 @@ public class StatePublicDataExtractor {
 
         extractFile.generateArchive();
 
+        audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
+                "Completed SEA public data extract",
+                seaId + " SEA public data extract", LogLevelType.TYPE_INFO));
         updateBulkExtractDb(seaId, extractFile);
     }
 

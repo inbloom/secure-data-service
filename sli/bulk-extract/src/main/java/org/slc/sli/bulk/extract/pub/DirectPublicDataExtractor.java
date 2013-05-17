@@ -45,10 +45,6 @@ public class DirectPublicDataExtractor implements PublicDataExtractor {
     public void extract(String edOrgid, ExtractFile file) {
 
         for (EdOrgPathDefinition definition : EdOrgPathDefinition.values()) {
-            audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
-                    "Extracting "+ definition.getEntityName() + " for SEA public data extract",
-                    edOrgid + " SEA public data extract", LogLevelType.TYPE_INFO));
-
             NeutralQuery query = new NeutralQuery(new NeutralCriteria(definition.getEdOrgRefField(),
                     NeutralCriteria.OPERATOR_EQUAL, edOrgid, false));
             extractor.setExtractionQuery(query);
