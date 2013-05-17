@@ -191,18 +191,6 @@ default:
         sli.ingestion.queue.landingZone.queueURI: activemq:queue:ingestion.landingZone
         sli.ingestion.queue.landingZone.concurrentConsumers: 1
 
-        # Symphony (maestro + pit) queue config
-        sli.ingestion.queue.maestro.queueURI: seda:IngestionMaestro
-        sli.ingestion.queue.maestro.consumerQueueURI: seda:IngestionMaestro
-        sli.ingestion.queue.maestro.concurrentConsumers: 1
-        sli.ingestion.queue.maestro.uriOptions:
-
-        # Pit (worker) nodes
-        sli.ingestion.queue.pit.queueURI: seda:IngestionPit
-        sli.ingestion.queue.pit.consumerQueueURI: seda:IngestionPit
-        sli.ingestion.queue.pit.concurrentConsumers: 30
-        sli.ingestion.queue.pit.uriOptions:
-
         # Xml file parser queue
         sli.ingestion.queue.parser.queueURI: seda:IngestionParser
         sli.ingestion.queue.parser.concurrentConsumers: 8
@@ -512,19 +500,6 @@ acceptance-tests:
         sli.ingestion.queue.workItem.queueURI: activemq:queue:IngestionWorkItemDemo
         sli.ingestion.queue.workItem.concurrentConsumers: 4
 
-
-        # TODO - need maestroPit queue config
-        # Symphony (maestro + pit) queue config
-        sli.ingestion.queue.maestro.queueURI: activemq:queue:IngestionMaestro
-        sli.ingestion.queue.maestro.consumerQueueURI: txActivemq:queue:IngestionMaestro
-        sli.ingestion.queue.maestro.concurrentConsumers: 1
-        sli.ingestion.queue.maestro.uriOptions: '&transferExchange=true'
-
-        # Pit (worker) nodes
-        sli.ingestion.queue.pit.queueURI: activemq:queue:IngestionPit
-        sli.ingestion.queue.pit.consumerQueueURI: txActivemq:queue:IngestionPit
-        sli.ingestion.queue.pit.concurrentConsumers: 30
-        sli.ingestion.queue.pit.uriOptions: '&transferExchange=true'
 
         # Xml file parser queue
         sli.ingestion.queue.parser.queueURI: activemq:queue:IngestionParser
@@ -1303,18 +1278,6 @@ team:
         sli.ingestion.queue.workItem.queueURI: activemq:queue:ingestion.workItem
         sli.ingestion.queue.workItem.concurrentConsumers: 4
 
-        # Symphony (maestro + pit) queue config
-        sli.ingestion.queue.maestro.queueURI: activemq:queue:ingestion.maestro
-        sli.ingestion.queue.maestro.consumerQueueURI: txActivemq:queue:ingestion.maestro
-        sli.ingestion.queue.maestro.concurrentConsumers: 1
-        sli.ingestion.queue.maestro.uriOptions: '&transferExchange=true'
-
-        # Pit (worker) nodes
-        sli.ingestion.queue.pit.queueURI: activemq:queue:ingestion.pit
-        sli.ingestion.queue.pit.consumerQueueURI: txActivemq:queue:ingestion.pit
-        sli.ingestion.queue.pit.concurrentConsumers: 30
-        sli.ingestion.queue.pit.uriOptions: '&transferExchange=true'
-
         #Xml file parser queue
         sli.ingestion.queue.parser.queueURI: activemq:queue:ingestion.parser
         sli.ingestion.queue.parser.concurrentConsumers: 8
@@ -1624,8 +1587,6 @@ nxteam:
         ## sli.ingestion.queue.workItem.host: {active_mq_host}
         sli.ingestion.queue.workItem.host: nxmaestro.slidev.org
         sli.ingestion.tenant.loadDefaultTenants: true
-        sli.ingestion.queue.maestro.concurrentConsumers: 1
-        sli.ingestion.queue.pit.concurrentConsumers: 30
         sli.ingestion.queue.parser.concurrentConsumers: 8
         sli.ingestion.cache.type: inmemory
         sli.ingestion.cache.opTimeout: 100

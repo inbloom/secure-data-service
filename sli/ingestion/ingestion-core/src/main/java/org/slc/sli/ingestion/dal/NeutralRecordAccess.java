@@ -16,7 +16,6 @@
 
 package org.slc.sli.ingestion.dal;
 
-import org.slc.sli.ingestion.IngestionStagedEntity;
 
 /**
  * Interface for access to NeutralRecords
@@ -29,10 +28,6 @@ public interface NeutralRecordAccess {
     long collectionCountForJob(String collectionNameAsStaged);
 
     long countCreationTimeWithinRange(String collectionName, long min, long max);
-
-    long getMaxCreationTimeForEntity(IngestionStagedEntity stagedEntity);
-
-    long getMinCreationTimeForEntity(IngestionStagedEntity stagedEntity);
 
     void cleanupJob(String batchJobId);
 
