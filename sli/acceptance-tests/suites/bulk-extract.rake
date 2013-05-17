@@ -77,6 +77,15 @@ task :bulkExtractIntegrationTest do
   Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
 
+desc "LEA Level Extract"
+task :bulkExtractLeasTests do
+  Rake::Task["ingestionBulkExtractLeas"].execute
+  allLeaAllowApp("SDK Sample")
+  authorizeEdorg("SDK Sample")
+  runTests("test/features/bulk_extract/features/bulk_extract_integration_lea.feature")
+  Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC  
+end
+
 desc "Deltas and Deletes"
 task :bulkExtractDeltasTest do
   runTests("test/features/bulk_extract/features/bulk_extract_ingestion.feature")
@@ -142,6 +151,7 @@ task :bulkExtractTests => [:realmInit] do
   Rake::Task["bulkExtractEdorgStaffTest"].execute
   Rake::Task["bulkExtractIntegrationTest"].execute
   Rake::Task["bulkExtractApiTests"].execute
+  Rake::Task["bulkExtractLeasTests"].execute
   Rake::Task["bulkExtractDeltasTest"].execute
   Rake::Task["bulkExtractSchedulerTest"].execute
   Rake::Task["bulkExtractNegativeTests"].execute
