@@ -78,6 +78,8 @@ Given I clean the bulk extract file system and database
        |  program                               |
        |  graduationPlan                        |
        |  disciplineIncident                    |
+       |  studentDisciplineIncidentAssociation  |
+       |  disciplineAction                      |
        |  deleted                               |
      And I verify this "deleted" file should contain:
        | id                                                                                     | condition                             |
@@ -157,6 +159,28 @@ Given I clean the bulk extract file system and database
       | 8270a081d30b82a9ac40a324bde644aaee933c20_id |            |
       | e6a01c4ee7768924c9e260c7ef5cea8d75088b89_id |            |
 
+    # This incident involved student 1
+    And I verify this "studentDisciplineIncidentAssociation" file should contain:
+      | id                                                                                     | condition                          |
+      | 908404e876dd56458385667fa383509035cd4312_id1ff4ecec0c9b4ef0e5dde0c3287af9871d519971_id | studentParticipationCode = Witness |
+
+    # These did not
+    And I verify this "studentDisciplineIncidentAssociation" file should not contain:
+      | id                                                                                     | condition  |
+      | db9a7477390fb5de9d58350d1ce3c45ef8fcb0c6_id7360a4e247645d9bd44de7fba62fc4094e8f5dc6_id |            |
+
+    And I verify this "disciplineAction" file should contain:
+      | id                                          | condition                          |
+      # This incident involved student 1 
+      | 58295e247c01aae77d6f494d28c6a0b4808d4248_id | actualDisciplineActionLength = 3   |
+      # This incident involved one of our schools 
+      | c78d1f951362ce558cb379cabc7491c6da339e58_id | actualDisciplineActionLength = 3   |
+
+    # This did not
+    And I verify this "disciplineAction" file should not contain:
+      | id                                          | condition  |
+      | d00dfdc3821fb8ea4f97147716afc2b153ceb5ba_id |            |
+
      And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
        |  attendance                            |
@@ -177,6 +201,8 @@ Given I clean the bulk extract file system and database
        |  program                               |
        |  graduationPlan                        |
        |  disciplineIncident                    |
+       |  studentDisciplineIncidentAssociation  |
+       |  disciplineAction                      |
        |  deleted                               |
    
      And I verify this "deleted" file should contain:
@@ -272,8 +298,18 @@ Given I clean the bulk extract file system and database
       | ededd91e0b8069fb040227ec0fdeb20ff1a257bc_id | reporterName = Upstanding Citizen        |
       | e6a01c4ee7768924c9e260c7ef5cea8d75088b89_id | incidentIdentifier = orphan1             |
 
+    And I verify this "studentDisciplineIncidentAssociation" file should contain:
+      | id                                                                                     | condition                          |
+      | 908404e876dd56458385667fa383509035cd4312_id1ff4ecec0c9b4ef0e5dde0c3287af9871d519971_id | studentParticipationCode = Witness |
+      | db9a7477390fb5de9d58350d1ce3c45ef8fcb0c6_id7360a4e247645d9bd44de7fba62fc4094e8f5dc6_id | studentParticipationCode = Witness |
 
-   #this step is necesssary since there is no graduationPlan in day 0 delta, need to verify it's really the same
+    And I verify this "disciplineAction" file should contain:
+      | id                                          | condition                            |
+      | 58295e247c01aae77d6f494d28c6a0b4808d4248_id | actualDisciplineActionLength = 3     |
+      | d00dfdc3821fb8ea4f97147716afc2b153ceb5ba_id | actualDisciplineActionLength = 2     |
+      | c78d1f951362ce558cb379cabc7491c6da339e58_id | actualDisciplineActionLength = 3     |
+
+  #this step is necesssary since there is no graduationPlan in day 0 delta, need to verify it's really the same
    #format as API would return
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
    Then The "graduationPlan" delta was extracted in the same format as the api
