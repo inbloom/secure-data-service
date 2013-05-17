@@ -47,6 +47,7 @@ import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.RetryMongoCommand;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
+import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -323,6 +324,55 @@ public class BatchJobMongoDA implements BatchJobDAO {
 
         };
         retry.executeOperation(numberOfRetries);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Set<IngestionStagedEntity> getStagedEntitiesForJob(String jobId) {
+        BasicDBObject query = new BasicDBObject();
+        query.put(JOB_ID, jobId);
+
+        DBObject entities = batchJobMongoTemplate.getCollection(STAGED_ENTITIES).findOne(query);
+        Map<String, Boolean> entitiesMap = (Map<String, Boolean>) entities.get(ENTITIES);
+
+        Set<IngestionStagedEntity> stagedEntities = new HashSet<IngestionStagedEntity>();
+        for (Map.Entry<String, Boolean> entityEntry : entitiesMap.entrySet()) {
+            // only return entitites that are not complete
+            if (!entityEntry.getValue()) {
+                stagedEntities.add(IngestionStagedEntity.createFromRecordType(entityEntry.getKey()));
+            }
+        }
+        return stagedEntities;
+    }
+
+    @Override
+    public void setStagedEntitiesForJob(Set<IngestionStagedEntity> stagedEntities, String jobId) {
+
+        Map<String, Boolean> entitiesMap = new HashMap<String, Boolean>(stagedEntities.size());
+        for (IngestionStagedEntity recordType : stagedEntities) {
+            entitiesMap.put(recordType.getCollectionNameAsStaged(), Boolean.FALSE);
+        }
+
+        try {
+            final BasicDBObject entities = new BasicDBObject();
+            entities.put(JOB_ID, jobId);
+            entities.put(ENTITIES, entitiesMap);
+
+            RetryMongoCommand retry = new RetryMongoCommand() {
+
+                @Override
+                public Object execute() {
+                    batchJobMongoTemplate.getCollection(STAGED_ENTITIES).insert(entities, WriteConcern.SAFE);
+                    return null;
+                }
+
+            };
+            retry.executeOperation(numberOfRetries);
+        } catch (MongoException me) {
+            if (me.getCode() == DUP_KEY_CODE) {
+                LOG.error("Error inserting entry for job to stageEntities collection. ", me);
+            }
+        }
     }
 
     @SuppressWarnings("unchecked")

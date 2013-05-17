@@ -25,6 +25,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
+import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.RecordHash;
@@ -87,6 +88,10 @@ public interface BatchJobDAO {
     boolean countDownLatch(String syncStage, String jobId, String recordType);
 
     void setPersistenceLatchCount(String jobId, String collectionNameAsStaged, int size);
+
+    Set<IngestionStagedEntity> getStagedEntitiesForJob(String jobId);
+
+    void setStagedEntitiesForJob(Set<IngestionStagedEntity> stagedEntities, String jobId);
 
     boolean removeAllPersistedStagedEntitiesFromJob(String jobId);
 

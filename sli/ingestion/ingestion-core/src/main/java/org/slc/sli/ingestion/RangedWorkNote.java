@@ -28,6 +28,7 @@ public class RangedWorkNote extends WorkNote implements Serializable {
 
     private static final long serialVersionUID = 7526472295622776147L;
 
+    private IngestionStagedEntity ingestionStagedEntity;
     private long startTime;
     private long endTime;
     private long recordsInRange;
@@ -41,10 +42,11 @@ public class RangedWorkNote extends WorkNote implements Serializable {
      * @param minimum
      * @param maximum
      */
-    public RangedWorkNote(String batchJobId,long startTime, long endTime,
+    public RangedWorkNote(String batchJobId, IngestionStagedEntity ingestionStagedEntity, long startTime, long endTime,
             long recordsInRange, int batchSize) {
         //We dont care about hasErrors field for RangeWorkNote
         super(batchJobId, false); //FIXME: Provide the tenantId
+        this.ingestionStagedEntity = ingestionStagedEntity;
         this.startTime = startTime;
         this.endTime = endTime;
         this.recordsInRange = recordsInRange;
@@ -55,28 +57,37 @@ public class RangedWorkNote extends WorkNote implements Serializable {
      * Create a simple WorkNote, note part of any batch.
      *
      * @param batchJobId
+     * @param ingestionStagedEntity
      * @return
      */
     public static RangedWorkNote createSimpleWorkNote(String batchJobId) {
         long now = System.currentTimeMillis();
-        return new RangedWorkNote(batchJobId, now, now, 0L, 0);
+        return new RangedWorkNote(batchJobId, null, now, now, 0L, 0);
     }
 
     /**
      * Create a WorkNote that is a part of a batch of WorkNotes.
      *
      * @param batchJobId
-
+     * @param ingestionStagedEntity
      * @param maximum
      * @param minimum
      * @param batchSize
      * @return
      */
-    public static RangedWorkNote createBatchedWorkNote(String batchJobId,
+    public static RangedWorkNote createBatchedWorkNote(String batchJobId, IngestionStagedEntity ingestionStagedEntity,
             long startTime, long endTime, long recordsInRage, int batchSize) {
-        return new RangedWorkNote(batchJobId,  startTime, endTime, recordsInRage, batchSize);
+        return new RangedWorkNote(batchJobId, ingestionStagedEntity, startTime, endTime, recordsInRage, batchSize);
     }
 
+    /**
+     * Gets the staged entity.
+     *
+     * @return staged entity to perform work on.
+     */
+    public IngestionStagedEntity getIngestionStagedEntity() {
+        return ingestionStagedEntity;
+    }
 
     /**
      * Gets the minimum value of the index [inclusive] to perform work on.
@@ -128,6 +139,7 @@ public class RangedWorkNote extends WorkNote implements Serializable {
         int result = super.hashCode();
         result = prime * result + batchSize;
         result = prime * result + (int) (endTime ^ (endTime >>> 32));
+        result = prime * result + ((ingestionStagedEntity == null) ? 0 : ingestionStagedEntity.hashCode());
         result = prime * result + (int) (recordsInRange ^ (recordsInRange >>> 32));
         result = prime * result + (int) (startTime ^ (startTime >>> 32));
         return result;
@@ -154,6 +166,13 @@ public class RangedWorkNote extends WorkNote implements Serializable {
         if (endTime != other.endTime) {
             return false;
         }
+        if (ingestionStagedEntity == null) {
+            if (other.ingestionStagedEntity != null) {
+                return false;
+            }
+        } else if (!ingestionStagedEntity.equals(other.ingestionStagedEntity)) {
+            return false;
+        }
         if (recordsInRange != other.recordsInRange) {
             return false;
         }
@@ -168,7 +187,7 @@ public class RangedWorkNote extends WorkNote implements Serializable {
      */
     @Override
     public String toString() {
-        return "WorkNote [startTime=" + startTime + ", endTime="
+        return "WorkNote [ingestionStagedEntity=" + ingestionStagedEntity + ", startTime=" + startTime + ", endTime="
                 + endTime + ", recordsInRange=" + recordsInRange + ", batchSize=" + batchSize + ", batchJobId="
                 + getBatchJobId() + "]";
     }

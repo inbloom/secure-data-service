@@ -79,11 +79,11 @@ public class UriInfoToApiQueryConverter {
             @Override
             public void convert(ApiQuery apiQuery, Object value) {
                 int limit = Integer.parseInt((String) value);
-
+                
                 if (limit < 0) {
                     throw new QueryParseException("Limit cannot be less than zero", (String) value);
                 }
-
+                
                 apiQuery.setLimit(limit);
             }
         });
@@ -93,11 +93,11 @@ public class UriInfoToApiQueryConverter {
             @Override
             public void convert(ApiQuery apiQuery, Object value) {
                 int offset = Integer.parseInt((String) value);
-
+                
                 if (offset < 0) {
                     throw new QueryParseException("Offset cannot be less than zero", (String) value);
                 }
-
+                
                 apiQuery.setOffset(offset);
             }
         });
@@ -140,7 +140,7 @@ public class UriInfoToApiQueryConverter {
     }
 
     public ApiQuery convert(ApiQuery apiQuery, URI requestURI) {
-        if (requestURI == null) {
+        if (requestURI == null) { 
             return apiQuery;
         }
 
@@ -148,7 +148,7 @@ public class UriInfoToApiQueryConverter {
     }
 
     public ApiQuery convert(ApiQuery apiQuery, UriInfo uriInfo) {
-        if (uriInfo == null) {
+        if (uriInfo == null) { 
             return apiQuery;
         }
 
@@ -169,7 +169,11 @@ public class UriInfoToApiQueryConverter {
                 for (String criteriaString : queryString.split("&")) {
                     String modifiedCriteriaString = URLDecoder.decode(criteriaString, "UTF-8");
                     NeutralCriteria neutralCriteria = new NeutralCriteria(modifiedCriteriaString);
-
+                    if (modifiedCriteriaString.matches("q=[0-9].*")) {
+                    			String value = (String) neutralCriteria.getValue();
+                    			value  = "\"" + value + "\"";
+                    			neutralCriteria.setValue(value);
+                    }                    						
                     NeutralCriteriaImplementation nci = this.reservedQueryKeywordImplementations.get(neutralCriteria.getKey());
                     if (nci == null) {
                         if (!neutralCriteria.getKey().equals("full-entities")
@@ -186,7 +190,7 @@ public class UriInfoToApiQueryConverter {
                 }
             } catch (RuntimeException re) {
                 error("error parsing query String {} {}", re.getMessage(), queryString);
-                throw (QueryParseException) new QueryParseException(re.getMessage(), queryString).initCause(re);
+                throw (QueryParseException) new QueryParseException(re.getMessage(), queryString).initCause(re); 
             } catch (UnsupportedEncodingException e) {
                 error("Unable to decode query string as UTF-8: {}", queryString);
                 throw (QueryParseException) new QueryParseException(e.getMessage(), queryString).initCause(e);

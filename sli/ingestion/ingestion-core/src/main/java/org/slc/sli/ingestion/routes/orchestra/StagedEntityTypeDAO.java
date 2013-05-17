@@ -14,31 +14,24 @@
  * limitations under the License.
  */
 
-package org.slc.sli.ingestion.dal;
+
+package org.slc.sli.ingestion.routes.orchestra;
+
+import java.util.Set;
 
 import org.slc.sli.ingestion.IngestionStagedEntity;
 
 /**
- * Interface for access to NeutralRecords
  *
  * @author dduran
  *
  */
-public interface NeutralRecordAccess {
+public interface StagedEntityTypeDAO {
 
-    long collectionCountForJob(String collectionNameAsStaged);
+    Set<IngestionStagedEntity> getStagedEntitiesForJob(String jobId);
 
-    long countCreationTimeWithinRange(String collectionName, long min, long max);
+    boolean removeStagedEntityForJob(IngestionStagedEntity stagedEntity, String jobId);
 
-    long getMaxCreationTimeForEntity(IngestionStagedEntity stagedEntity);
-
-    long getMinCreationTimeForEntity(IngestionStagedEntity stagedEntity);
-
-    void cleanupJob(String batchJobId);
-
-    /**
-     * Ensure that the underyling data store has the appropriate indexes.
-     */
-    void ensureIndexes();
+    void setStagedEntitiesForJob(Set<IngestionStagedEntity> stagedEntities, String jobId);
 
 }

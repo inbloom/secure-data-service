@@ -14,31 +14,28 @@
  * limitations under the License.
  */
 
-package org.slc.sli.ingestion.dal;
+
+package org.slc.sli.ingestion.routes.orchestra;
+
+import java.util.List;
 
 import org.slc.sli.ingestion.IngestionStagedEntity;
+import org.slc.sli.ingestion.RangedWorkNote;
 
 /**
- * Interface for access to NeutralRecords
+ * Strategy interface for splitting WorkNotes
  *
  * @author dduran
  *
  */
-public interface NeutralRecordAccess {
-
-    long collectionCountForJob(String collectionNameAsStaged);
-
-    long countCreationTimeWithinRange(String collectionName, long min, long max);
-
-    long getMaxCreationTimeForEntity(IngestionStagedEntity stagedEntity);
-
-    long getMinCreationTimeForEntity(IngestionStagedEntity stagedEntity);
-
-    void cleanupJob(String batchJobId);
+public interface SplitStrategy {
 
     /**
-     * Ensure that the underyling data store has the appropriate indexes.
+     * Splits out WorkNotes for the given IngestionStagedEntity and jobId
+     *
+     * @param stagedEntity
+     * @param jobId
+     * @return list of WorkNotes
      */
-    void ensureIndexes();
-
+    List<RangedWorkNote> splitForEntity(IngestionStagedEntity stagedEntity);
 }

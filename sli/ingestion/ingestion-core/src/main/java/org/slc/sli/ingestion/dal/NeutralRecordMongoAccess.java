@@ -27,6 +27,7 @@ import org.springframework.data.mongodb.core.query.Query;
 
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.ResourceWriter;
 import org.slc.sli.ingestion.util.MongoCommander;
@@ -93,6 +94,16 @@ public class NeutralRecordMongoAccess implements NeutralRecordAccess, ResourceWr
         query.addCriteria(new NeutralCriteria("creationTime", NeutralCriteria.CRITERIA_LT, max, false));
 
         return neutralRecordRepository.countForJob(collectionName, query);
+    }
+
+    @Override
+    public long getMaxCreationTimeForEntity(IngestionStagedEntity stagedEntity) {
+        return getCreationTimeForEntity(stagedEntity.getCollectionNameAsStaged(), Order.DESCENDING) + 1;
+    }
+
+    @Override
+    public long getMinCreationTimeForEntity(IngestionStagedEntity stagedEntity) {
+        return getCreationTimeForEntity(stagedEntity.getCollectionNameAsStaged(), Order.ASCENDING);
     }
 
     @Override

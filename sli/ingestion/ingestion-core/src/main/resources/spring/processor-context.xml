@@ -41,6 +41,10 @@
     <property name="recordLevelDeltaEnabledEntities" ref="recordLevelDeltaEnabledEntities" />
   </bean>
 
+  <bean id="stagingProcessor" class="org.slc.sli.ingestion.processors.StagingProcessor" parent="ingestionProcessor">
+    <property name="nrMongoStagingWriter" ref="neutralRecordMongoAccess" />
+  </bean>
+
   <bean id="xsdTypeProvider" class="org.slc.sli.ingestion.parser.impl.XsdTypeProvider">
     <property name="schemaFiles" value="classpath:edfiXsd-SLI/*.xsd" />
   </bean>
@@ -85,7 +89,15 @@
     <property name="recordLvlHashNeutralRecordTypes" ref="recordLevelDeltaEnabledEntities" />
   </bean>
 
+  <bean id="WorkNoteSplitter" class="org.slc.sli.ingestion.routes.orchestra.WorkNoteSplitter" />
+
   <bean id="ZipFileSplitter" class="org.slc.sli.ingestion.routes.orchestra.ZipFileSplitter" />
+
+  <bean id="stagedEntityTypeDAO" class="org.slc.sli.ingestion.routes.orchestra.InMemoryStagedEntityTypeDAO" />
+
+  <bean id="balancedTimestampSplitStrategy" class="org.slc.sli.ingestion.routes.orchestra.BalancedTimestampSplitStrategy">
+    <property name="neutralRecordAccess" ref="neutralRecordMongoAccess" />
+  </bean>
 
     <bean id="fileEntryLatch" class="org.slc.sli.ingestion.routes.orchestra.parsing.FileEntryLatch" >
         <property name="batchJobDAO" ref="batchJobMongoDA" />
