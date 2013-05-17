@@ -20,6 +20,8 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
+import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.springframework.data.mongodb.core.query.Query;
@@ -28,15 +30,18 @@ public class CohortExtractor implements EntityExtract {
     private EntityExtractor extractor;
     private LEAExtractFileMap map;
     private Repository<Entity> repo;
+    private LocalEdOrgExtractHelper localEdOrgExtractHelper;
     
-    public CohortExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo) {
+    public CohortExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
+        this.localEdOrgExtractHelper = localEdOrgExtractHelper;
     }
 
     @Override
     public void extractEntities(EntityToLeaCache entityToEdorgCache) {
+        localEdOrgExtractHelper.logSecurityEvent(map.getLeas(), "cohort", this.getClass().getName());
         Iterator<Entity> cursor = repo.findEach("cohort", new Query());
         while (cursor.hasNext()) {
             Entity e = cursor.next();

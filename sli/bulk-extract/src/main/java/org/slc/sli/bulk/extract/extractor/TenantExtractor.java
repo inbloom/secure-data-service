@@ -15,13 +15,6 @@
  */
 package org.slc.sli.bulk.extract.extractor;
 
-import org.joda.time.DateTime;
-import org.slc.sli.bulk.extract.BulkExtractMongoDA;
-import org.slc.sli.bulk.extract.files.ExtractFile;
-import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.io.IOException;
 import java.security.PublicKey;
@@ -30,13 +23,23 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.slc.sli.bulk.extract.BulkExtractMongoDA;
+import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
+import org.slc.sli.bulk.extract.util.SecurityEventUtil;
+import org.slc.sli.common.util.logging.LogLevelType;
+
 /**
  * Bulk extractor to extract data for a tenant.
  *
  * @author tke
  *
  */
-public class TenantExtractor{
+public class TenantExtractor {
 
     private static final Logger LOG = LoggerFactory.getLogger(TenantExtractor.class);
 
@@ -50,19 +53,26 @@ public class TenantExtractor{
 
     /**
      * Extract all the entities from a tenant.
+     *
      * @param tenant
-     *          TenantId
+     *            TenantId
      * @param extractFile
-     *          Extract archive file
+     *            Extract archive file
      * @param startTime
-     *          start time stamp
+     *            start time stamp
      */
     public void execute(String tenant, ExtractFile extractFile, DateTime startTime) {
         Set<String> uniqueCollections = new HashSet<String>(entitiesToCollections.values());
 
+        audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
+                "Beginning tenant-level bulk extract", "Tenant full extract", LogLevelType.TYPE_INFO));
+
         Map<String, PublicKey> clientKeys = bulkExtractMongoDA.getAppPublicKeys();
-        if(clientKeys == null || clientKeys.isEmpty()) {
+        if (clientKeys == null || clientKeys.isEmpty()) {
             LOG.info("No authorized application to extract data.");
+            audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
+                    "No authorized application to extract data " + tenant,
+                    tenant + " full extract", LogLevelType.TYPE_INFO));
             return;
         }
         extractFile.setClientKeys(clientKeys);
@@ -76,21 +86,35 @@ public class TenantExtractor{
             metaDataFile.generateMetaFile(startTime);
         } catch (IOException e) {
             LOG.error("Error creating metadata file: {}", e.getMessage());
+            audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
+                    "Error creating metadata file: " + e.getMessage(), "Tenant full extract",
+                    LogLevelType.TYPE_ERROR));
         }
 
         try {
             extractFile.generateArchive();
         } catch (Exception e) {
             LOG.error("Error generating archive file: {}", e.getMessage());
+            audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
+                    "Error generating archive file: " + e.getMessage(), "Tenant full extract",
+                    LogLevelType.TYPE_ERROR));
         }
 
-        for(Entry<String, File> archiveFile : extractFile.getArchiveFiles().entrySet()) {
-            bulkExtractMongoDA.updateDBRecord(tenant, archiveFile.getValue().getAbsolutePath(), archiveFile.getKey(), startTime.toDate(), false, null, false);
+        for (Entry<String, File> archiveFile : extractFile.getArchiveFiles().entrySet()) {
+            bulkExtractMongoDA.updateDBRecord(tenant, archiveFile.getValue().getAbsolutePath(),
+                    archiveFile.getKey(), startTime.toDate(), false, null, false);
+            audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
+                    "Created archive file for app " + archiveFile.getKey(), archiveFile.getValue().getAbsolutePath(),
+                    LogLevelType.TYPE_INFO, archiveFile.getKey()));
         }
+
+        audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
+                "Completed tenant-level bulk extract", "Tenant full extract", LogLevelType.TYPE_INFO));
     }
 
     /**
      * get bulkExtractMongoDA.
+     *
      * @return bulkExtractMongoDA
      */
     public BulkExtractMongoDA getBulkExtractMongoDA() {
@@ -99,7 +123,9 @@ public class TenantExtractor{
 
     /**
      * set bulkExtractMongoDA.
-     * @param bulkExtractMongoDA bulk extractMongoDA
+     *
+     * @param bulkExtractMongoDA
+     *            bulk extractMongoDA
      */
     public void setBulkExtractMongoDA(BulkExtractMongoDA bulkExtractMongoDA) {
         this.bulkExtractMongoDA = bulkExtractMongoDA;
@@ -107,7 +133,9 @@ public class TenantExtractor{
 
     /**
      * Set entities to collections map.
-     * @param entitiesToCollections to collections map
+     *
+     * @param entitiesToCollections
+     *            to collections map
      */
     public void setEntitiesToCollections(Map<String, String> entitiesToCollections) {
         this.entitiesToCollections = entitiesToCollections;
@@ -115,6 +143,7 @@ public class TenantExtractor{
 
     /**
      * get entity extractor.
+     *
      * @return entity extractor
      */
     public EntityExtractor getEntityExtractor() {
@@ -123,7 +152,9 @@ public class TenantExtractor{
 
     /**
      * set entity extractor.
-     * @param entityExtractor entity extractor
+     *
+     * @param entityExtractor
+     *            entity extractor
      */
     public void setEntityExtractor(EntityExtractor entityExtractor) {
         this.entityExtractor = entityExtractor;

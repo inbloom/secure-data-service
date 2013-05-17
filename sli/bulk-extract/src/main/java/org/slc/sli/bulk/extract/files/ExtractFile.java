@@ -40,11 +40,13 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.joda.time.DateTime;
+import org.slc.sli.bulk.extract.util.SecurityEventUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
 import org.slc.sli.bulk.extract.files.writer.JsonFileWriter;
+import org.slc.sli.common.util.logging.LogLevelType;
 
 /**
  * Extract's archive file class.
@@ -143,6 +145,9 @@ public class ExtractFile {
 
         try {
             for(String app : clientKeys.keySet()){
+                audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
+                        "Generating archive for app " + app,
+                        edorg, LogLevelType.TYPE_INFO, app));
                 multiOutputStream.addStream(getAppStream(app));
             }
 
@@ -157,6 +162,10 @@ public class ExtractFile {
                 }
             }
         } catch (Exception e) {
+            audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
+                    "Failed writing to tar file ",
+                    edorg, LogLevelType.TYPE_INFO));
+
             LOG.error("Error writing to tar file: {}", e.getMessage());
             success = false;
             for(File archiveFile : archiveFiles.values()){
