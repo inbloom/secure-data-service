@@ -19,6 +19,8 @@ package org.slc.sli.bulk.extract.pub;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.util.EdOrgPathDefinition;
+import org.slc.sli.bulk.extract.util.SecurityEventUtil;
+import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 
@@ -43,6 +45,10 @@ public class DirectPublicDataExtractor implements PublicDataExtractor {
     public void extract(String edOrgid, ExtractFile file) {
 
         for (EdOrgPathDefinition definition : EdOrgPathDefinition.values()) {
+            audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
+                    "Extracting "+ definition.getEntityName() + " for SEA public data extract",
+                    edOrgid + " SEA public data extract", LogLevelType.TYPE_INFO));
+
             NeutralQuery query = new NeutralQuery(new NeutralCriteria(definition.getEdOrgRefField(),
                     NeutralCriteria.OPERATOR_EQUAL, edOrgid, false));
             extractor.setExtractionQuery(query);

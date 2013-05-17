@@ -25,6 +25,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.joda.time.DateTime;
+import org.slc.sli.bulk.extract.util.SecurityEventUtil;
+import org.slc.sli.common.util.logging.LogLevelType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,15 +83,27 @@ public class StatePublicDataExtractor {
         String seaId = retrieveSEAId();
 
         if(seaId == null) {
+            audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
+                    "Unable to trigger SEA public data extract for " + seaId,
+                    seaId + " SEA public data extract", LogLevelType.TYPE_ERROR));
             LOG.error("Unable to trigger extract for the tenant");
             return;
         }
 
+        audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
+                "Beginning SEA public data extract",
+                seaId + " SEA public data extract", LogLevelType.TYPE_INFO));
+
+
         Map<String, PublicKey> clientKeys = bulkExtractMongoDA.getAppPublicKeys();
         if(clientKeys == null || clientKeys.isEmpty()) {
+            audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
+                    "No authorized application to extract data",
+                    seaId + " SEA public data extract", LogLevelType.TYPE_INFO));
             LOG.info("No authorized application to extract data.");
             return;
         }
+
         ExtractFile extractFile = createExtractFile(tenantDirectory, seaId, clientKeys);
 
         extractPublicData(seaId, extractFile);
@@ -129,11 +143,17 @@ public class StatePublicDataExtractor {
         final Iterable<Entity> entities = entityRepository.findAll(EntityNames.EDUCATION_ORGANIZATION, query);
 
         if (entities == null || !entities.iterator().hasNext()) {
+            audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
+                    "No SEA is available for the tenant",
+                    TenantContext.getTenantId(), LogLevelType.TYPE_ERROR));
             LOG.error("No SEA is available for the tenant");
         } else {
             Iterator<Entity> iterator = entities.iterator();
             Entity seaEntity = iterator.next();
             if (iterator.hasNext()) {
+                audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
+                        "More than one SEA is found for the tenant",
+                        TenantContext.getTenantId(), LogLevelType.TYPE_ERROR));
                 LOG.error("More than one SEA is found for the tenant");
             } else {
                 seaId = seaEntity.getEntityId();
