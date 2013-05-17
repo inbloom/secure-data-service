@@ -100,7 +100,7 @@ public class BulkExtract {
     @Autowired
     private Repository<Entity> mongoEntityRepository;
 
-    @Value("${sli.bulk.extract.deltasEnabled:false}")
+    @Value("${sli.bulk.extract.deltasEnabled:true}")
     private boolean deltasEnabled;
 
     @Autowired

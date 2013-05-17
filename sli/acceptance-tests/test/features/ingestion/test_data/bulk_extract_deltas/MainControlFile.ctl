@@ -7,3 +7,4 @@ edfi-xml,EducationOrganization,InterchangeEdOrg.xml,e309f2d0d46196c3e8ddec7d1bac
 edfi-xml,MasterSchedule,InterchangeMasterSchedule.xml,fa6a941daa75b75dc5dd4cd29d867ca9
 edfi-xml,StaffAssociation,InterchangeStaffAssociation.xml,1435086fd81c543bfc062d85f064c2ba
 edfi-xml,Attendance,Attendance.xml,8770bfc7908c00295c342e06c2af2a31
+edfi-xml,StudentDiscipline,InterchangeStudentDiscipline.xml,19567327a3979d35ee88b58590d47598

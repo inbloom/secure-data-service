@@ -28,6 +28,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
@@ -48,6 +49,8 @@ public class StaffCohortAssociationExtractorTest {
     private Entity mockEntity;
     @Mock
     private ExtractFile mockFile;
+    @Mock
+    private LocalEdOrgExtractHelper mockLocalEdOrgExtractHelper;
     
     private Map<String, Object> entityBody;
     private EntityToLeaCache staffToLeaCache;
@@ -57,7 +60,7 @@ public class StaffCohortAssociationExtractorTest {
         MockitoAnnotations.initMocks(this);
         entityBody = new HashMap<String, Object>();
         entityBody.put(ParameterConstants.STAFF_ID, "Staff1");
-        extractor = new StaffCohortAssociationExtractor(mockExtractor, mockMap, mockRepo);
+        extractor = new StaffCohortAssociationExtractor(mockExtractor, mockMap, mockRepo, mockLocalEdOrgExtractHelper);
         Mockito.when(mockEntity.getBody()).thenReturn(entityBody);
         staffToLeaCache = new EntityToLeaCache();
         staffToLeaCache.addEntry("Staff1", "LEA");

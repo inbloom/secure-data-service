@@ -29,6 +29,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
@@ -50,7 +51,9 @@ public class AttendanceExtractorTest {
     private LEAExtractFileMap mockMap;
     @Mock
     private ExtractFile mockFile;
-    
+    @Mock
+    private LocalEdOrgExtractHelper mockLocalEdOrgExtractHelper;
+
     @Mock
     private Entity mockEntity;
     
@@ -60,7 +63,7 @@ public class AttendanceExtractorTest {
     public void setUp() {
         entityBody = new HashMap<String, Object>();
         MockitoAnnotations.initMocks(this);
-        extractor = new AttendanceExtractor(mockExtractor, mockMap, mockRepo, mockHelper, mockCache);
+        extractor = new AttendanceExtractor(mockExtractor, mockMap, mockRepo, mockHelper, mockCache, mockLocalEdOrgExtractHelper);
         
         Mockito.when(mockEntity.getBody()).thenReturn(entityBody);
         Mockito.when(mockCache.getEntriesById("student")).thenReturn(new HashSet<String>(Arrays.asList("LEA")));

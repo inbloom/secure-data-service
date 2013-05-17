@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
+import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
@@ -37,19 +38,22 @@ public class SessionExtractor implements EntityExtract {
     private LEAExtractFileMap map;
     private EntityToLeaCache cache;
     private ExtractorHelper helper;
+    private LocalEdOrgExtractHelper localEdOrgExtractHelper;
 
 
 	public SessionExtractor(EntityExtractor extractor,  LEAExtractFileMap map, Repository<Entity> repo, 
-			ExtractorHelper helper, EntityToLeaCache entityToLeaCache) {
+			ExtractorHelper helper, EntityToLeaCache entityToLeaCache, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
 		this.extractor = extractor;
 		this.repo = repo;
         this.map = map;
         this.cache = entityToLeaCache;
         this.helper = helper;
+        this.localEdOrgExtractHelper = localEdOrgExtractHelper;
 	}
 
 	@Override
 	public void extractEntities(EntityToLeaCache entityToEdorgCache) {
+        localEdOrgExtractHelper.logSecurityEvent(map.getLeas(), EntityNames.SESSION, this.getClass().getName());
 		Map<String, String> schoolToLea = helper.buildSubToParentEdOrgCache(entityToEdorgCache);
 		Iterator<Entity> sessions = repo.findEach(EntityNames.SESSION, new Query());
 		while(sessions.hasNext()) {

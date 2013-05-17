@@ -50,15 +50,36 @@ public class SecurityEventUtil {
      * @param logLevel
      *            log level of the security event message
      *
-     * @return SecurityEvent
-     *            new SecurityEvent associated with parameters
+     * @return SecurityEvent new SecurityEvent associated with parameters
      */
     public static SecurityEvent createSecurityEvent(String loggingClass, String logMessage,
             String actionDesc, LogLevelType logLevel) {
+        return createSecurityEvent(loggingClass, logMessage, actionDesc, logLevel, null);
+    }
+
+    /**
+     * Utility method to create a security event object.
+     *
+     * @param loggingClass
+     *            name of the originating class
+     * @param logMessage
+     *            security event log message
+     * @param actionDesc
+     *            description of action being performed
+     * @param logLevel
+     *            log level of the security event message
+     * @param appId
+     *            application id being extracted
+     *
+     * @return SecurityEvent new SecurityEvent associated with parameters
+     */
+    public static SecurityEvent createSecurityEvent(String loggingClass, String logMessage,
+            String actionDesc, LogLevelType logLevel, String appId) {
         SecurityEvent event = new SecurityEvent();
 
+        String seAppId = (appId == null) ? "BulkExtract" : "BulkExtract#" + appId;
         event.setTenantId(TenantContext.getTenantId());
-        event.setAppId("BulkExtract");
+        event.setAppId(seAppId);
         event.setActionUri(actionDesc);
         event.setTimeStamp(new Date());
         event.setProcessNameOrId(ManagementFactory.getRuntimeMXBean().getName());

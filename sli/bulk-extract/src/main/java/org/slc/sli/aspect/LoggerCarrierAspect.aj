@@ -39,9 +39,8 @@ public aspect LoggerCarrierAspect {
     private Repository<Entity> entityRepository;
 
     public void LoggerCarrier.audit(SecurityEvent event) {
-        LOG.info(event.toString());
         Repository<Entity> mer= LoggerCarrierAspect.aspectOf().getEntityRepository();
-        if(mer != null) {
+        if (mer != null) {
             Map<String, Object> metadata = new HashMap<String, Object>();
             metadata.put("tenantId", event.getTenantId());
             mer.create("securityEvent", event.getProperties(), metadata, "securityEvent");

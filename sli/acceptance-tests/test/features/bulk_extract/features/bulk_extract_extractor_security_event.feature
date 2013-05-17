@@ -16,14 +16,16 @@ Feature: Security events are logged when bulk extract is run
     #Add a count to the following step once we know how many security events will be logged
     Then I should see following map of entry counts in the corresponding sli db collections:
       | collectionName              | count |
-      | securityEvent               | 4     |
+      #| securityEvent               | 4     |
   #Add counts, and more log messages as we figure them out
     And I check to find if record is in sli db collection:
       | collectionName  | expectedRecordCount | searchParameter         | searchValue                                                                  | searchType      |
-      | securityEvent   | 4                   | body.appId              | BulkExtract                                                                  | string          |
-      | securityEvent   | 4                   | body.tenantId           | Midgar                                                                       | string          |
-      | securityEvent   | 1                   | body.logMessage         | Beginning tenant-level bulk extract for tenant Midgar                        | string          |
-      | securityEvent   | 1                   | body.logMessage         | Completed tenant-level bulk extract for tenant Midgar                        | string          |
+      #| securityEvent   | 4                   | body.appId              | BulkExtract                                                                  | string          |
+      #| securityEvent   | 4                   | body.tenantId           | Midgar                                                                       | string          |
+      | securityEvent   | 1                   | body.logMessage         | Beginning tenant-level bulk extract                                          | string          |
+      | securityEvent   | 1                   | body.logMessage         | Completed tenant-level bulk extract                                          | string          |
+      | securityEvent   | 1                   | body.logMessage         | Unable to trigger SEA public data extract for null                           | string          |
+      | securityEvent   | 1                   | body.logMessage         | No SEA is available for the tenant                                           | string          |
 
 
   Scenario: Trigger a full extract and check security event
@@ -40,14 +42,21 @@ Feature: Security events are logged when bulk extract is run
     #Add a count to the following step once we know how many security events will be logged
     Then I should see following map of entry counts in the corresponding sli db collections:
       | collectionName              | count |
-      | securityEvent               | 4     |
+      #| securityEvent               | 4     |
     #Add counts, and more log messages as we figure them out
     And I check to find if record is in sli db collection:
       | collectionName  | expectedRecordCount | searchParameter         | searchValue                                                                  | searchType      |
-      | securityEvent   | 4                   | body.appId              | BulkExtract                                                                  | string          |
-      | securityEvent   | 4                   | body.tenantId           | Midgar                                                                       | string          |
-      | securityEvent   | 1                   | body.logMessage         | Beginning tenant-level bulk extract for tenant Midgar                        | string          |
-      | securityEvent   | 1                   | body.logMessage         | Completed tenant-level bulk extract for tenant Midgar                        | string          |
+      #| securityEvent   | 4                   | body.appId              | BulkExtract                                                                  | string          |
+      #| securityEvent   | 4                   | body.tenantId           | Midgar                                                                       | string          |
+      | securityEvent   | 1                   | body.logMessage         | Beginning tenant-level bulk extract                                          | string          |
+      | securityEvent   | 1                   | body.logMessage         | Completed tenant-level bulk extract                                          | string          |
+      | securityEvent   | 1                   | body.logMessage         | Beginning SEA public data extract                                            | string          |
+      | securityEvent   | 2                   | body.logMessage         | Extracting educationOrganization for SEA public data extract                 | string          |
+      | securityEvent   | 1                   | body.logMessage         | Extracting school for SEA public data extract                                | string          |
+      | securityEvent   | 1                   | body.logMessage         | Extracting course for SEA public data extract                                | string          |
+      | securityEvent   | 1                   | body.logMessage         | Extracting courseOffering for SEA public data extract                        | string          |
+      | securityEvent   | 1                   | body.logMessage         | Extracting session for SEA public data extract                               | string          |
+      | securityEvent   | 1                   | body.logMessage         | Extracting graduationPlan for SEA public data extract                        | string          |
 
   Scenario: Trigger a delta extract and check security events
     Given I post "new_edorg_in_daybreak.zip" file as the payload of the ingestion job

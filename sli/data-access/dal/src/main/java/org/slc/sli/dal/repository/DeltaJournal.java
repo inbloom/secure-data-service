@@ -25,6 +25,7 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -44,12 +45,15 @@ import org.slc.sli.common.util.tenantdb.TenantContext;
  *
  */
 @Component
-public class DeltaJournal {
+public class DeltaJournal implements InitializingBean {
 
     private static final Logger LOG = LoggerFactory.getLogger(DeltaJournal.class);
 
-    @Value("${sli.bulk.extract.deltasEnabled:false}")
-    private boolean isEnabled;
+    @Value("${sli.bulk.extract.deltasEnabled:true}")
+    private boolean deltasEnabled;
+    
+    @Value("${sli.sandbox.enabled}")
+    private boolean isSandbox;
 
     public static final String DELTA_COLLECTION = "deltas";
     
@@ -60,9 +64,16 @@ public class DeltaJournal {
     @Autowired
     @Qualifier("journalTemplate")
     private MongoTemplate template;
+    
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        if (isSandbox) {
+            deltasEnabled = false;
+        }
+    }
 
     public void journal(List<String> ids, String collection, boolean isDelete) {
-        if (isEnabled) {
+        if (deltasEnabled) {
             long now = new Date().getTime();
             Update update = new Update();
             update.set("t", now);
