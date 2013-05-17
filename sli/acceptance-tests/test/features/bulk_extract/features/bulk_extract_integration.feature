@@ -55,7 +55,8 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
    |  teacherSchoolAssociation              |
    |  teacherSectionAssociation             |
 
-    Scenario: Un-Authorized user cannot use the endpoint
+
+Scenario: Un-Authorized user cannot use the endpoint
         Given I am logged in using "linda.kim" "balrogs" to realm "IL"
         When I make a call to the bulk extract end point "/bulk/extract/tenant"
         Then I should receive a return code of 403   
