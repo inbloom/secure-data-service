@@ -63,7 +63,7 @@ public class EntityExtractor{
     public void extractEntities(ExtractFile archiveFile, String collectionName) {
 
         audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
-                "Extracting " + collectionName + " for Edorg " + archiveFile.getEdorg(),
+                "Extracting " + collectionName,
                 " Entity extraction", LogLevelType.TYPE_INFO));
 
         try {
@@ -86,7 +86,7 @@ public class EntityExtractor{
             }
         } catch (IOException e) {
             audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
-                    "Error extracting " + collectionName + " for Edorg " + archiveFile.getEdorg(),
+                    "Error extracting " + collectionName,
                     " Entity extraction", LogLevelType.TYPE_INFO));
             LOG.error("Error while extracting from " + collectionName, e);
         }
