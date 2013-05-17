@@ -87,7 +87,9 @@ public class EntityRepositoryTest {
         neutralQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, schoolId));
         Entity school = repository.findOne(EntityNames.EDUCATION_ORGANIZATION, neutralQuery);
         ArrayList<String> edOrgs = (ArrayList<String>) school.getMetaData().get("edOrgs");
-        if (!expectedEdOrgs.containsAll(new HashSet<String>(edOrgs))) {
+        if (edOrgs == null) {
+            return expectedEdOrgs.isEmpty();
+        } else if (!expectedEdOrgs.containsAll(new HashSet<String>(edOrgs))) {
             System.out.println("School edOrg lineage incorrect. Expected " + expectedEdOrgs + ", got " + edOrgs);
             return false;
         }
@@ -126,16 +128,43 @@ public class EntityRepositoryTest {
         expectedEdOrgs.add(sea.getEntityId());
         assertTrue("After updating school parent ref expected edOrgs not found in lineage.", schoolLineageContains(school.getEntityId(), expectedEdOrgs));
 
+        // Patch LEA parent ref to remove SEA
+//        query = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, school.getEntityId()));
+//        update = new Update().set("body." + ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE, lea.getEntityId());
+//        repository.doUpdate(EntityNames.EDUCATION_ORGANIZATION, query, update);
+//        expectedEdOrgs.add(lea.getEntityId());
+//        expectedEdOrgs.add(sea.getEntityId());
+//        assertTrue("After updating school parent ref expected edOrgs not found in lineage.", schoolLineageContains(school.getEntityId(), expectedEdOrgs));
+
         // Delete LEA - no change to lineage
         repository.delete(EntityNames.EDUCATION_ORGANIZATION, lea.getEntityId());
         assertTrue("After deleting lea expected edOrgs not found in lineage.", schoolLineageContains(school.getEntityId(), expectedEdOrgs));
 
-        // Re-add LEA
-        Entity readdedLea = createEducationOrganizationEntity("lea1", "localEducationAgency", "Local Education Agency", sea.getEntityId());
-        assertTrue("After adding LEA expected edOrgs not found in lineage.", schoolLineageContains(school.getEntityId(), expectedEdOrgs));
+        // Insert LEA with no parent ref to SEA
+        lea.getBody().remove(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE);
+        Entity insertedLea = ((MongoEntityRepository)repository).insert(lea, EntityNames.EDUCATION_ORGANIZATION);
+        expectedEdOrgs.remove(sea.getEntityId());
+        assertTrue("After re-adding LEA with no parent ref expected edOrgs not found in lineage.", schoolLineageContains(school.getEntityId(), expectedEdOrgs));
+
+        clearSchoolLineage(school.getEntityId());
+        // Create an unrelated entity type and make sure school lineage isn't recalculated
+        repository.create("student", buildTestStudentEntity());
+        assertTrue("After adding a student lineage school lineage should not change.", schoolLineageContains(school.getEntityId(), new HashSet<String>()));
+
+        // Update an edOrg non-parent-ref and make sure school lineage isn't recalculated
+        query = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, school.getEntityId()));
+        update = new Update().set("body.nameOfInstitution", "updatedName");
+        repository.doUpdate(EntityNames.EDUCATION_ORGANIZATION, query, update);
+        assertTrue("After updating an LEA non-parent ref should not change school lineage.", schoolLineageContains(school.getEntityId(), new HashSet<String>()));
 
         mongoTemplate.getCollection(EntityNames.EDUCATION_ORGANIZATION).drop();
 
+    }
+
+    private void clearSchoolLineage(String schoolId) {
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, schoolId));
+        Update update = new Update().unset("metaData.edOrgs");
+        repository.doUpdate(EntityNames.EDUCATION_ORGANIZATION, query, update);
     }
 
     private Entity createEducationOrganizationEntity(String stateOrgId, String type, String organizationCategory, String parentRef) {
@@ -164,6 +193,7 @@ public class EntityRepositoryTest {
         if (parentRef != null) {
             body.put(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE, parentRef);
         }
+        body.put("nameOfInstitution", stateOrgId + "Name");
         body.put(ParameterConstants.STATE_ORGANIZATION_ID, stateOrgId);
         return repository.create(type, body, EntityNames.EDUCATION_ORGANIZATION);
     }
@@ -265,15 +295,15 @@ public class EntityRepositoryTest {
             boolean leafDataOnly,int expectedNObjects, int expectedDepth,
             CascadeResult.Status expectedStatus,
             CascadeResultError.ErrorType expectedErrorType, CascadeResultError.ErrorType expectedWarningType) {
-        System.out.println("Testing safeDelete: ");
-        System.out.println("   entity type             : " + entityType);
-        System.out.println("   override id             : " + overridingId);
-        System.out.println("   cascade                 : " + cascade);
-        System.out.println("   dryrun                  : " + dryrun);
-        System.out.println("   maxObjects              : " + maxObjects);
-        System.out.println("   leaf data only          : " + leafDataOnly);
-        System.out.println("   expected affected count : " + expectedNObjects);
-        System.out.println("   expected depth          : " + expectedDepth);
+//        System.out.println("Testing safeDelete: ");
+//        System.out.println("   entity type             : " + entityType);
+//        System.out.println("   override id             : " + overridingId);
+//        System.out.println("   cascade                 : " + cascade);
+//        System.out.println("   dryrun                  : " + dryrun);
+//        System.out.println("   maxObjects              : " + maxObjects);
+//        System.out.println("   leaf data only          : " + leafDataOnly);
+//        System.out.println("   expected affected count : " + expectedNObjects);
+//        System.out.println("   expected depth          : " + expectedDepth);
 
         CascadeResult result = null;
         String idToDelete = prepareSafeDeleteGradingPeriodData(leafDataOnly);
@@ -299,9 +329,9 @@ public class EntityRepositoryTest {
             }
         }
 
-        for (CascadeResultError error : result.getErrors()) {
-            System.out.println(error);
-        }
+//        for (CascadeResultError error : result.getErrors()) {
+//            System.out.println(error);
+//        }
 
         // check for at least one instance of the expected warning type
         boolean warningMatchFound = false;
@@ -317,9 +347,9 @@ public class EntityRepositoryTest {
             }
         }
 
-        for(CascadeResultError warning : result.getWarnings()) {
-            System.out.println(warning);
-        }
+//        for(CascadeResultError warning : result.getWarnings()) {
+//            System.out.println(warning);
+//        }
 
         //   verify expected results
         assertEquals(expectedNObjects, result.getnObjects());
