@@ -65,8 +65,7 @@ public class TenantExtractor {
         Set<String> uniqueCollections = new HashSet<String>(entitiesToCollections.values());
 
         audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
-                "Beginning tenant-level bulk extract for tenant " + tenant, tenant
-                        + " full extract", LogLevelType.TYPE_INFO));
+                "Beginning tenant-level bulk extract", "Tenant full extract", LogLevelType.TYPE_INFO));
 
         Map<String, PublicKey> clientKeys = bulkExtractMongoDA.getAppPublicKeys();
         if (clientKeys == null || clientKeys.isEmpty()) {
@@ -88,7 +87,7 @@ public class TenantExtractor {
         } catch (IOException e) {
             LOG.error("Error creating metadata file: {}", e.getMessage());
             audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
-                    "Error creating metadata file: " + e.getMessage(), tenant + " full extract",
+                    "Error creating metadata file: " + e.getMessage(), "Tenant full extract",
                     LogLevelType.TYPE_ERROR));
         }
 
@@ -97,7 +96,7 @@ public class TenantExtractor {
         } catch (Exception e) {
             LOG.error("Error generating archive file: {}", e.getMessage());
             audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
-                    "Error generating archive file: " + e.getMessage(), tenant + " full extract",
+                    "Error generating archive file: " + e.getMessage(), "Tenant full extract",
                     LogLevelType.TYPE_ERROR));
         }
 
@@ -105,14 +104,12 @@ public class TenantExtractor {
             bulkExtractMongoDA.updateDBRecord(tenant, archiveFile.getValue().getAbsolutePath(),
                     archiveFile.getKey(), startTime.toDate(), false, null, false);
             audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
-                    "Created archive file " + archiveFile.getValue().getAbsolutePath()
-                            + " for app " + archiveFile.getKey(), tenant + " full extract",
-                    LogLevelType.TYPE_INFO));
+                    "Created archive file for app " + archiveFile.getKey(), archiveFile.getValue().getAbsolutePath(),
+                    LogLevelType.TYPE_INFO, archiveFile.getKey()));
         }
 
         audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
-                "Completed tenant-level bulk extract for tenant " + tenant, tenant
-                        + " full extract", LogLevelType.TYPE_INFO));
+                "Completed tenant-level bulk extract", "Tenant full extract", LogLevelType.TYPE_INFO));
     }
 
     /**
