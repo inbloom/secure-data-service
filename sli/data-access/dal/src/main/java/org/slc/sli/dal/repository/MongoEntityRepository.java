@@ -44,6 +44,8 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.util.datetime.DateTimeUtil;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
@@ -82,6 +84,9 @@ import org.slc.sli.validation.schema.SchemaReferencesMetaData;
 
 public class MongoEntityRepository extends MongoRepository<Entity> implements InitializingBean,
         ValidationWithoutNaturalKeys {
+
+
+    public static final String SCHOOL_EDORG_LINEAGE = "edOrgs";
 
     private static final int DEL_LOG_IDENT = 4;
 
@@ -253,7 +258,12 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         } else if (containerDocumentAccessor.isContainerDocument(type)) {
             result = containerDocumentAccessor.update(type, id, newValues, collectionName);
         } else {
+            boolean updateLineage = EntityNames.EDUCATION_ORGANIZATION.equals(ENTITY_BASE_TYPE_MAP.get(type)) && newValues.containsKey(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE);
             result = super.patch(type, collectionName, id, newValues);
+            if (result && updateLineage) {
+                // TODO can be optimized to take an edOrg Id
+                updateAllSchoolLineage();
+            }
         }
 
         if (result && denormalizer.isDenormalizedDoc(collectionName)) {
@@ -322,8 +332,14 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             }
             validator.validate(entity);
             validator.validateNaturalKeys(entity, true);
-            result = super.insert(entity, collectionName);
 
+            // Cache education organization lineage for schools
+            boolean updateLineage = entity.getType().equals(EntityNames.SCHOOL);
+            result = super.insert(entity, collectionName);
+            if (result != null && updateLineage) {
+                // TODO can be optimized to take an edOrg Id
+                updateAllSchoolLineage();
+            }
         }
         if (denormalizer.isDenormalizedDoc(collectionName)) {
             denormalizer.denormalization(collectionName).create(entity);
@@ -356,15 +372,24 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             results = records;
         } else {
             List<Entity> persist = new ArrayList<Entity>();
+            boolean updateLineage = false;
 
             for (Entity record : records) {
 
                 Entity entity = new MongoEntity(record.getType(), null, record.getBody(), record.getMetaData());
                 keyEncoder.encodeEntityKey(entity);
+                if (!updateLineage && entity.getType().equals(EntityNames.SCHOOL)) {
+                    updateLineage = true;
+                }
                 persist.add(entity);
             }
 
             results = super.insert(persist, collectionName);
+
+            if (updateLineage) {
+                // TODO can be optimized to take a set of edOrg Ids
+                updateAllSchoolLineage();
+            }
 
             if (denormalizer.isDenormalizedDoc(collectionName)) {
                 denormalizer.denormalization(collectionName).insert(records);
@@ -1031,6 +1056,14 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             result = !containerDocumentAccessor.update(entity).isEmpty();
         } else {
             result = super.update(collection, entity, null, isSuperdoc); // body);
+
+            // Update education organization lineage for schools
+            boolean updateLineage = entity.getType().equals(EntityNames.SCHOOL);
+            if (result && updateLineage) {
+                // TODO can be optimized to take an edOrg Id
+                updateAllSchoolLineage();
+            }
+
         }
         if (journal != null) {
             journal.journal(entity.getEntityId(), collection, false);
@@ -1156,7 +1189,16 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             Query query = this.getQueryConverter().convert(collectionName, neutralQuery);
             return subDocs.subDoc(collectionName).doUpdate(query, update);
         }
-        return super.doUpdate(collectionName, neutralQuery, update);
+
+        boolean result = super.doUpdate(collectionName, neutralQuery, update);
+
+        // update metaData.edOrgs[] for educationOrganization type=school
+        if (result && collectionName.equals(EntityNames.EDUCATION_ORGANIZATION)) {
+            // don't know specifically what edOrgs were updated to refresh the school lineage for all
+            return updateAllSchoolLineage();
+        }
+
+        return result;
     }
 
     @Override
@@ -1198,7 +1240,13 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     public Entity findAndUpdate(String collectionName, NeutralQuery neutralQuery, Update update) {
         Query query = this.getQueryConverter().convert(collectionName, neutralQuery);
         FindAndModifyOptions options = new FindAndModifyOptions();
-        return template.findAndModify(query, update, options, getRecordClass(), collectionName);
+        Entity result = template.findAndModify(query, update, options, getRecordClass(), collectionName);
+
+        if (result != null && collectionName.equals(EntityNames.EDUCATION_ORGANIZATION)) {
+            updateAllSchoolLineage();
+        }
+
+        return result;
     }
 
     private Query addEmbededFields(Query query, Set<String> embededFields) {
@@ -1245,16 +1293,85 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         if (journal != null) {
             journal.journal(record.getEntityId(), collectionName, false);
         }
+
+        // Cache education organization lineage for schools
+        if (collectionName.equals(EntityNames.SCHOOL)) {
+            record.getMetaData().put(SCHOOL_EDORG_LINEAGE, new ArrayList<String>(fetchLineage(record.getEntityId(), new HashSet<String>())));
+        }
         return super.insert(record, collectionName);
     }
 
     @Override
     public WriteResult updateMulti(NeutralQuery query, Map<String, Object> update, String collectionName) {
+        // TODO update metaData.edOrgs[] for educationOrganization type=school
         WriteResult result = super.updateMulti(query, update, collectionName);
         if (journal != null) {
             journal.journal(getIds(findAll(collectionName, query)), collectionName, false);
         }
         return result;
+    }
+
+    /**
+     * Fetches the education organization lineage for the specified education organization id.
+     * Use
+     * sparingly, as this will recurse up the education organization hierarchy.
+     *
+     * @param id
+     *            Education Organization for which the lineage must be assembled.
+     * @return Set of parent education organization ids.
+     */
+    private Set<String> fetchLineage(String id, Set<String> parentsSoFar) {
+        Set<String> parents = new HashSet<String>(parentsSoFar);
+        if (id != null) {
+            Entity edOrg = template.findOne(new Query().addCriteria(Criteria.where("_id").is(id)), Entity.class,
+                    EntityNames.EDUCATION_ORGANIZATION);
+            if (edOrg != null) {
+                parents.add(id);
+                Map<String, Object> body = edOrg.getBody();
+                if (body.containsKey(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE)) {
+                    String myParent = (String) body.get(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE);
+                    if (!parents.contains(myParent)) {
+                        parents.addAll(fetchLineage(myParent, parents));
+                    }
+                }
+            }
+        }
+        return parents;
+    }
+
+    // TODO add Set of edOrgs parameter to limit school documents needing recalc
+    private boolean updateAllSchoolLineage() {
+        boolean result = true;
+        NeutralQuery query = new NeutralQuery();
+        query.addCriteria(new NeutralCriteria("type", NeutralCriteria.OPERATOR_EQUAL, EntityNames.SCHOOL, false));
+        Iterator<Entity> schools = this.findEach(EntityNames.EDUCATION_ORGANIZATION, query);
+        while (schools.hasNext()) {
+            if (!updateSchoolLineage(schools.next().getEntityId())) {
+                result = false;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Updates the cached education organization hierarchy for the specified school
+     *
+     * @param schoolId
+     * @return whether the update succeeded
+     */
+    private boolean updateSchoolLineage(String schoolId) {
+        try {
+            NeutralQuery query = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, schoolId));
+
+            Update update = new Update();
+            update.set("metaData.edOrgs", new ArrayList<String>(fetchLineage(schoolId, new HashSet<String>())));
+            super.doUpdate(EntityNames.EDUCATION_ORGANIZATION, query, update);
+        } catch (RuntimeException e) {
+            LOG.error("Failed to update educational organization lineage for school with Id " + schoolId
+                    + ". " + e.getMessage() + ".  Related data will not be visible.  Re-ingestion required.");
+            throw e;
+        }
+        return true;
     }
 
 }
