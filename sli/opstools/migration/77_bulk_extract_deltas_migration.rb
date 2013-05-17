@@ -78,6 +78,10 @@ def shard(collection)
   puts "Done"
 end
 
+def clean_deltas(db)
+  $client[db]['deltas'].drop()
+end
+
 def migrate(db, name = nil)
   name ||= db
   if INDEX_ONLY.nil?
@@ -85,6 +89,7 @@ def migrate(db, name = nil)
   else
     puts "Indexing: #{db}"
   end
+  clean_deltas(db)
   $client[db]['deltas'].create_index({"t" => Mongo::ASCENDING, "_id" => Mongo::ASCENDING})
   shard("#{db}.deltas") if INDEX_ONLY.nil?
 end

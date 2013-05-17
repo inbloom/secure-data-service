@@ -19,6 +19,7 @@ package org.slc.sli.bulk.extract.lea;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.util.SecurityEventUtil;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.domain.NeutralCriteria;
@@ -42,7 +43,7 @@ public class EdorgExtractor implements EntityExtract {
     @Override
     public void extractEntities(EntityToLeaCache entityToEdorgCache) {
         for (String lea : new HashSet<String>(entityToEdorgCache.getEntityIds())) {
-            SecurityEvent event = SecurityEventUtil.createSecurityEvent(this.getClass().getName(), "Extracting edOrg data for top level LEA" , "EdOrg data extract initiated", LogLevelType.TYPE_INFO);
+            SecurityEvent event = SecurityEventUtil.createSecurityEvent(this.getClass().getName(), "Accessing database to read from " + EntityNames.EDUCATION_ORGANIZATION, "EdOrg data extract initiated", LogLevelType.TYPE_INFO);
             event.setTargetEdOrg(lea);
             audit(event);
             ExtractFile extractFile = map.getExtractFileForLea(lea);

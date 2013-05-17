@@ -27,6 +27,8 @@ import org.slc.sli.bulk.extract.extractor.LocalEdOrgExtractor;
 import org.slc.sli.bulk.extract.extractor.StatePublicDataExtractor;
 import org.slc.sli.bulk.extract.extractor.TenantExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.util.SecurityEventUtil;
+import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory;
 import org.slc.sli.domain.Entity;
@@ -64,6 +66,10 @@ public class Launcher {
      *          Tenant for which extract has been initiated
      */
     public void execute(String tenant, boolean isDelta) {
+        audit(SecurityEventUtil.createSecurityEvent(Launcher.class.getName(),
+                "Beginning bulk extract execution",
+                "Bulk extract execution", LogLevelType.TYPE_INFO));
+
         Entity tenantEntity = bulkExtractMongoDA.getTenant(tenant);
         if (tenantEntity != null) {
             DateTime startTime = new DateTime();
@@ -84,6 +90,9 @@ public class Launcher {
                 statePublicDataExtractor.execute(tenant, getTenantDirectory(tenant), startTime);
             }
         } else {
+            audit(SecurityEventUtil.createSecurityEvent(Launcher.class.getName(),
+                    "A bulk extract is not being initiated for the tenant " + tenant + " because the tenant has not been onboarded",
+                    "Bulk extract execution", LogLevelType.TYPE_ERROR));
             LOG.error("A bulk extract is not being initiated for the tenant {} because the tenant has not been onboarded.", tenant);
         }
     }
@@ -151,7 +160,7 @@ public class Launcher {
         if (args.length == 2) {
             isDelta = Boolean.parseBoolean(args[1]);
         }
-    
+
         main.execute(tenantId, isDelta);
 
     }
