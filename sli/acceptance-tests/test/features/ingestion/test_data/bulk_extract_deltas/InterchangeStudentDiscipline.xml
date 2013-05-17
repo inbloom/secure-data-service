@@ -85,4 +85,46 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </StaffIdentity>
     </StaffReference>
   </DisciplineIncident>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>6#1</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Witness</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE1</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>2</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>1#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Witness</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE1</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
 </InterchangeStudentDiscipline>
