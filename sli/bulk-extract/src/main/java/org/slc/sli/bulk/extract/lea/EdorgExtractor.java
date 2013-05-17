@@ -16,13 +16,16 @@
 
 package org.slc.sli.bulk.extract.lea;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.util.SecurityEventUtil;
+import org.slc.sli.common.util.logging.LogLevelType;
+import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+
+import java.util.ArrayList;
+import java.util.HashSet;
 
 public class EdorgExtractor implements EntityExtract {
     private LEAExtractFileMap map;
@@ -39,6 +42,9 @@ public class EdorgExtractor implements EntityExtract {
     @Override
     public void extractEntities(EntityToLeaCache entityToEdorgCache) {
         for (String lea : new HashSet<String>(entityToEdorgCache.getEntityIds())) {
+            SecurityEvent event = SecurityEventUtil.createSecurityEvent(this.getClass().getName(), "Extracting edOrg data for top level LEA" , "EdOrg data extract initiated", LogLevelType.TYPE_INFO);
+            event.setTargetEdOrg(lea);
+            audit(event);
             ExtractFile extractFile = map.getExtractFileForLea(lea);
             NeutralQuery query = new NeutralQuery(new NeutralCriteria("_id",
                     NeutralCriteria.CRITERIA_IN, new ArrayList<String>(entityToEdorgCache.getEntriesById(lea))));

@@ -41,6 +41,8 @@ import org.slc.sli.bulk.extract.lea.SessionExtractor;
 import org.slc.sli.bulk.extract.lea.StaffEdorgAssignmentExtractor;
 import org.slc.sli.bulk.extract.lea.StudentExtractor;
 import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
+import org.slc.sli.bulk.extract.util.SecurityEventUtil;
+import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
@@ -80,6 +82,8 @@ public class LocalEdOrgExtractor {
         TenantContext.setTenantId(tenant);
         this.tenantDirectory = tenantDirectory;
         this.startTime = startTime;
+
+        audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(), "Beginning LEA-level bulk extract", "LEA level extract initiated", LogLevelType.TYPE_INFO));
 
         if (factory == null) {
             factory = new LEAExtractorFactory();
