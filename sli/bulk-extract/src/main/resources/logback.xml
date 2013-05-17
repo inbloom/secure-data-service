@@ -19,10 +19,24 @@
             <layout class="org.slc.sli.common.util.logging.CommonPatternLayout" />
         </encoder>
     </appender>
+    <appender name="SECURITY_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${sli.bulk.extract.log.path}/Security.log</File>
+        <Append>true</Append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${sli.bulk.extract.log.path}/Security-%d{yyyy-MM-dd}.log</fileNamePattern>
+        </rollingPolicy>
+        <encoder>
+            <Pattern>%d - %msg%n
+            </Pattern>
+        </encoder>
+    </appender>
 	<root level="INFO">
 		<appender-ref ref="FILE"/>
 		<appender-ref ref="STDOUT"/>
 	</root>
 	
     <logger name="org.slc.sli" level="${sli.bulk.extract.log.level}" />
+    <logger name="SecurityMonitor" level="INFO">
+        <appender-ref ref="SECURITY_FILE" />
+    </logger>
 </configuration>

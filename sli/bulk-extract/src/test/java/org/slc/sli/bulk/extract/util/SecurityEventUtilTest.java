@@ -15,7 +15,6 @@
  */
 package org.slc.sli.bulk.extract.util;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.SecurityEvent;
@@ -30,22 +29,14 @@ import static org.junit.Assert.assertEquals;
  */
 public class SecurityEventUtilTest {
 
-    private SecurityEventUtil securityEventUtil;
 
-    /**
-     * Initialization method for the test class.
-     */
-    @Before
-    public void init() {
-        securityEventUtil = new SecurityEventUtil();
-    }
 
     /**
      * Test that the security even object is created as expected.
      */
     @Test
     public void testSEValues() {
-        SecurityEvent event = securityEventUtil.createSecurityEvent("class", "Test security event message", "Action Description", LogLevelType.TYPE_INFO);
+        SecurityEvent event = SecurityEventUtil.createSecurityEvent("class", "Test security event message", "Action Description", LogLevelType.TYPE_INFO);
         assertEquals("BulkExtract", event.getAppId());
         String processName = ManagementFactory.getRuntimeMXBean().getName();
         assertEquals(processName, event.getProcessNameOrId());
