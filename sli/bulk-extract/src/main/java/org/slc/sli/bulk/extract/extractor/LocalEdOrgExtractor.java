@@ -15,40 +15,26 @@
  */
 package org.slc.sli.bulk.extract.extractor;
 
-import java.io.File;
-import java.security.PublicKey;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
 import org.joda.time.DateTime;
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.Launcher;
 import org.slc.sli.bulk.extract.files.ExtractFile;
-import org.slc.sli.bulk.extract.lea.CourseExtractor;
-import org.slc.sli.bulk.extract.lea.CourseOfferingExtractor;
-import org.slc.sli.bulk.extract.lea.EdorgExtractor;
-import org.slc.sli.bulk.extract.lea.EntityExtract;
-import org.slc.sli.bulk.extract.lea.EntityToLeaCache;
-import org.slc.sli.bulk.extract.lea.LEAExtractFileMap;
-import org.slc.sli.bulk.extract.lea.LEAExtractorFactory;
-import org.slc.sli.bulk.extract.lea.SectionExtractor;
-import org.slc.sli.bulk.extract.lea.SessionExtractor;
-import org.slc.sli.bulk.extract.lea.StaffEdorgAssignmentExtractor;
-import org.slc.sli.bulk.extract.lea.StudentExtractor;
+import org.slc.sli.bulk.extract.lea.*;
 import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
 import org.slc.sli.bulk.extract.util.SecurityEventUtil;
 import org.slc.sli.common.util.logging.LogLevelType;
+import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.io.File;
+import java.security.PublicKey;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * Creates local ed org tarballs
@@ -83,7 +69,7 @@ public class LocalEdOrgExtractor {
         this.tenantDirectory = tenantDirectory;
         this.startTime = startTime;
 
-        audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(), "Beginning LEA-level bulk extract", "LEA level extract initiated", LogLevelType.TYPE_INFO));
+        audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(), "Beginning LEA level bulk extract", "LEA level extract initiated", LogLevelType.TYPE_INFO));
 
         if (factory == null) {
             factory = new LEAExtractorFactory();
@@ -166,6 +152,7 @@ public class LocalEdOrgExtractor {
         updateBulkExtractDb(tenant, startTime);
         LOG.info("Finished LEA based extract in: {} seconds",
                 (new DateTime().getMillis() - this.startTime.getMillis()) / 1000);
+        audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(), "Finished LEA level bulk extract", "Marks the end of LEA level extract", LogLevelType.TYPE_INFO));
     }
 
     private void updateBulkExtractDb(String tenant, DateTime startTime) {
@@ -178,6 +165,9 @@ public class LocalEdOrgExtractor {
                 for (String app : apps) {
                     bulkExtractMongoDA.updateDBRecord(tenant, archiveFile.getValue().getAbsolutePath(), app,
                             startTime.toDate(), false, lea, false);
+                    SecurityEvent event = SecurityEventUtil.createSecurityEvent(this.getClass().getName(), "Storing LEA extract file information", archiveFile.getValue().getAbsolutePath(), LogLevelType.TYPE_INFO, app);
+                    event.setTargetEdOrg(lea);
+                    audit(event);
                 }
             }
         }
