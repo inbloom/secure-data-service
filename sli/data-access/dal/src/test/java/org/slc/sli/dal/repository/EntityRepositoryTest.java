@@ -24,9 +24,12 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -44,9 +47,12 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.AccessibilityCheck;
 import org.slc.sli.domain.CascadeResult;
@@ -75,6 +81,92 @@ public class EntityRepositoryTest {
 
     @Resource(name = "mongoEntityRepository")
     private Repository<Entity> repository;
+
+    boolean schoolLineageContains(String schoolId, Set<String> expectedEdOrgs) {
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, schoolId));
+        Entity school = repository.findOne(EntityNames.EDUCATION_ORGANIZATION, neutralQuery);
+        ArrayList<String> edOrgs = (ArrayList<String>) school.getMetaData().get("edOrgs");
+        if (!expectedEdOrgs.containsAll(new HashSet<String>(edOrgs))) {
+            System.out.println("School edOrg lineage incorrect. Expected " + expectedEdOrgs + ", got " + edOrgs);
+            return false;
+        }
+        return true;
+    }
+
+    @Test
+    public void testSchoolLineage() {
+        NeutralQuery query = null;
+
+        repository.deleteAll(EntityNames.EDUCATION_ORGANIZATION, null);
+
+        DBObject indexKeys = new BasicDBObject("body." + ParameterConstants.STATE_ORGANIZATION_ID, 1);
+        mongoTemplate.getCollection(EntityNames.EDUCATION_ORGANIZATION).ensureIndex(indexKeys);
+        mongoTemplate.getCollection(EntityNames.EDUCATION_ORGANIZATION).ensureIndex(new BasicDBObject("metaData.edOrgs", 1), new BasicDBObject("sparse", true));
+
+        // Add a school
+        Entity school = createEducationOrganizationEntity("school1", "school", "School", null);
+        Set<String> expectedEdOrgs = new HashSet();
+        expectedEdOrgs.add(school.getEntityId());
+        assertTrue("School not found in lineage.", schoolLineageContains(school.getEntityId(), expectedEdOrgs));
+
+        // Add an SEA
+        Entity sea = createEducationOrganizationEntity("sea1", "stateEducationAgency", "State Education Agency", null);
+        assertTrue("After adding SEA expected edOrgs not found in lineage.", schoolLineageContains(school.getEntityId(), expectedEdOrgs));
+
+        // Add an LEA
+        Entity lea = createEducationOrganizationEntity("lea1", "localEducationAgency", "Local Education Agency", sea.getEntityId());
+        assertTrue("After adding LEA expected edOrgs not found in lineage.", schoolLineageContains(school.getEntityId(), expectedEdOrgs));
+
+        // Update School parent ref to LEA
+        query = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, school.getEntityId()));
+        Update update = new Update().set("body." + ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE, lea.getEntityId());
+        repository.doUpdate(EntityNames.EDUCATION_ORGANIZATION, query, update);
+        expectedEdOrgs.add(lea.getEntityId());
+        expectedEdOrgs.add(sea.getEntityId());
+        assertTrue("After updating school parent ref expected edOrgs not found in lineage.", schoolLineageContains(school.getEntityId(), expectedEdOrgs));
+
+        // Delete LEA - no change to lineage
+        repository.delete(EntityNames.EDUCATION_ORGANIZATION, lea.getEntityId());
+        assertTrue("After deleting lea expected edOrgs not found in lineage.", schoolLineageContains(school.getEntityId(), expectedEdOrgs));
+
+        // Re-add LEA
+        Entity readdedLea = createEducationOrganizationEntity("lea1", "localEducationAgency", "Local Education Agency", sea.getEntityId());
+        assertTrue("After adding LEA expected edOrgs not found in lineage.", schoolLineageContains(school.getEntityId(), expectedEdOrgs));
+
+        mongoTemplate.getCollection(EntityNames.EDUCATION_ORGANIZATION).drop();
+
+    }
+
+    private Entity createEducationOrganizationEntity(String stateOrgId, String type, String organizationCategory, String parentRef) {
+        Random rand = new Random();
+        Map<String, Object> body = new HashMap<String, Object>();
+        List<Map<String, String>> addresses = new ArrayList<Map<String, String>>();
+        Map<String, String> address = new HashMap<String, String>();
+        List<String> organizationCategories = new ArrayList<String>();
+
+        /*
+     	    <xs:enumeration value="State Education Agency" />
+			<xs:enumeration value="Education Service Center" />
+			<xs:enumeration value="Local Education Agency" />
+			<xs:enumeration value="School" />
+         */
+        organizationCategories.add(organizationCategory);
+        body.put(ParameterConstants.ORGANIZATION_CATEGORIES, organizationCategories);
+
+        address.put("streetNumberName", rand.nextInt(100) + " Hill Street");
+        address.put("city", "My City");
+        address.put("stateAbbreviation", "IL");
+        address.put("postalCode", "1235");
+        addresses.add(address);
+        body.put("address", addresses);
+
+        if (parentRef != null) {
+            body.put(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE, parentRef);
+        }
+        body.put(ParameterConstants.STATE_ORGANIZATION_ID, stateOrgId);
+        return repository.create(type, body, EntityNames.EDUCATION_ORGANIZATION);
+    }
 
     @Test
     public void testDeleteAll() {
