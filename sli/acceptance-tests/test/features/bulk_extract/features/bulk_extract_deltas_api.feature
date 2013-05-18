@@ -594,9 +594,18 @@ Given I clean the bulk extract file system and database
     |  HwStudentSchoolAssociation    |  studentSchoolAssociation   |  201         |
     |  newStudentAssessment          |  studentAssessment          |  201         |
     |  newGradebookEntry             |  gradebookEntry             |  201         |
-  #  |  newGrade                      |  grade                      |  201         |
-  #  |  newReportCard                 |  reportCard                 |  201         |
-  #  |  newStudentAcademicRecord      |  studentAcademicRecord      |  201         |
+    |  newStaff                      |  staff                      |  201         |
+    #|  teacher                             |
+    #|  yearlyTranscript                    |
+    #|  attendance                          |
+    #|  cohort                              |
+    #|  session                             |
+    #|  gradingPeriod                       |
+    #|  program                             |
+    #|  graduationPlan                      |
+    #|  newGrade                      |  grade                      |  201         |
+    #|  newReportCard                 |  reportCard                 |  201         |
+    #|  newStudentAcademicRecord      |  studentAcademicRecord      |  201         |
 
  When I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
