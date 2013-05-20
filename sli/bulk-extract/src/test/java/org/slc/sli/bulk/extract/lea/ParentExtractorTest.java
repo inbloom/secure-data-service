@@ -27,6 +27,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
@@ -50,10 +51,13 @@ public class ParentExtractorTest {
     @Mock
     private Entity mockEntity;
 
+    @Mock
+    private LocalEdOrgExtractHelper mockLocalEdOrgExtractHelper;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        extractor = new ParentExtractor(mockExtractor, mockMap, mockRepo);
+        extractor = new ParentExtractor(mockExtractor, mockMap, mockRepo, mockLocalEdOrgExtractHelper);
         Mockito.when(mockEntity.getEntityId()).thenReturn("parent");
         Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(mockFile);
         Mockito.when(mockParentCache.getEntriesById("parent")).thenReturn(new HashSet<String>(Arrays.asList("LEA")));

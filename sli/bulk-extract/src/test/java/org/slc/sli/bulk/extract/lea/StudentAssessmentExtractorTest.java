@@ -17,11 +17,6 @@
 package org.slc.sli.bulk.extract.lea;
 
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -29,12 +24,17 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.data.mongodb.core.query.Query;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 
 public class StudentAssessmentExtractorTest {
     
@@ -55,12 +55,15 @@ public class StudentAssessmentExtractorTest {
     @Mock
     private Entity mockEntity;
 
+    @Mock
+    private LocalEdOrgExtractHelper mockHelper;
+
     private Map<String, Object> entityBody;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        extractor = new StudentAssessmentExtractor(mockExtractor, mockMap, mockRepo);
+        extractor = new StudentAssessmentExtractor(mockExtractor, mockMap, mockRepo, mockHelper);
         entityBody = new HashMap<String, Object>();
         Mockito.when(mockEntity.getBody()).thenReturn(entityBody);
         Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(mockFile);

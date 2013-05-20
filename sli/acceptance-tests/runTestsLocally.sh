@@ -27,9 +27,16 @@ if [ -z ${1} ]; then
 else
    if [ ${1} == "run" ]; then
        export RUN=true
+   elif [[ ${1} =~ ^-DVERSION.*$ ]]; then
+       export BUILD_VERSION="${1}"
+       export TESTS_TO_RUN="integrationTests"
    else
        export TESTS_TO_RUN=${1}
    fi
+fi
+
+if [[ ${2} =~ ^-DVERSION.*$ ]]; then
+   export BUILD_VERSION="${2}"
 fi
 
 echo "Starting rails apps..."
@@ -45,10 +52,10 @@ cd ${SLI_ROOT}/acceptance-tests
 
 if [ -z ${RUN} ]; then
     echo "Running integration tests"
-    mvn integration-test
+    mvn integration-test "$BUILD_VERSION"
 else
     echo "Starting web applications"
-    mvn cargo:run
+    mvn cargo:run "$BUILD_VERSION"
 fi
 
 echo "Stopping rails apps..."

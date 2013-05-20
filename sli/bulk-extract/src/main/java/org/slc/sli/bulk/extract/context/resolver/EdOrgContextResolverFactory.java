@@ -29,6 +29,8 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.bulk.extract.context.resolver.impl.CohortContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.CourseContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.CourseOfferingContextResolver;
+import org.slc.sli.bulk.extract.context.resolver.impl.DisciplineActionContextResolver;
+import org.slc.sli.bulk.extract.context.resolver.impl.DisciplineIncidentContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.EducationOrganizationContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.GradebookEntryContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.GradingPeriodContextResolver;
@@ -106,6 +108,13 @@ public class EdOrgContextResolverFactory {
     @Autowired
     private GraduationPlanContextResolver graduationPlanResolver;
     
+    @Autowired
+    private DisciplineIncidentContextResolver disciplineIncidentResolver;
+    
+    @Autowired
+    private DisciplineActionContextResolver disciplineActionResolver;
+    
+    
     private Map<String, ContextResolver> resolverMap = new HashMap<String, ContextResolver>();
 
     @PostConstruct
@@ -126,6 +135,7 @@ public class EdOrgContextResolverFactory {
         resolverMap.put(EntityNames.STUDENT_COHORT_ASSOCIATION, studentDirectRelatedContextResolver);
         resolverMap.put(EntityNames.ATTENDANCE, studentDirectRelatedContextResolver);
         resolverMap.put(EntityNames.STUDENT_PROGRAM_ASSOCIATION, studentDirectRelatedContextResolver);
+        resolverMap.put(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, studentDirectRelatedContextResolver);
         
         resolverMap.put(EntityNames.PARENT, parentResolver);
         
@@ -155,6 +165,11 @@ public class EdOrgContextResolverFactory {
         resolverMap.put(EntityNames.PROGRAM, programContextResolver);
         
         resolverMap.put(EntityNames.GRADUATION_PLAN, graduationPlanResolver);
+        
+        resolverMap.put(EntityNames.DISCIPLINE_INCIDENT, disciplineIncidentResolver);
+        resolverMap.put(EntityNames.DISCIPLINE_ACTION, disciplineActionResolver);
+        
+        LOG.debug("Resolver map is {}", resolverMap);
     }
     
     /**

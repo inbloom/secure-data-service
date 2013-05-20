@@ -118,65 +118,65 @@ public class LocalEdOrgExtractorTest {
         Mockito.when(mockFactory.buildEdorgExtractor(entityExtractor, mockExtractMap)).thenReturn(mockExtractor);
         Mockito.when(
                 mockFactory.buildStudentExtractor(Mockito.eq(entityExtractor), Mockito.eq(mockExtractMap),
-                        Mockito.any(Repository.class))).thenReturn(mockStudent);
+                        Mockito.any(Repository.class), Mockito.any(LocalEdOrgExtractHelper.class))).thenReturn(mockStudent);
         Mockito.when(
                 mockFactory.buildAttendanceExtractor(Mockito.eq(entityExtractor), Mockito.eq(mockExtractMap),
-                        Mockito.any(Repository.class), Mockito.any(EntityToLeaCache.class))).thenReturn(mockExtract);
+                        Mockito.any(Repository.class), Mockito.any(EntityToLeaCache.class), Mockito.any(LocalEdOrgExtractHelper.class))).thenReturn(mockExtract);
         Mockito.when(
                 mockFactory.buildStudentSchoolAssociationExractor(Mockito.eq(entityExtractor), Mockito.eq(mockExtractMap),
-                        Mockito.any(Repository.class), Mockito.any(EntityToLeaCache.class))).thenReturn(mockSsa);
+                        Mockito.any(Repository.class), Mockito.any(EntityToLeaCache.class), Mockito.any(LocalEdOrgExtractHelper.class))).thenReturn(mockSsa);
         
         Mockito.when(
                 mockFactory.buildStaffAssociationExtractor(Mockito.eq(entityExtractor), Mockito.eq(mockExtractMap),
-                        Mockito.any(Repository.class))).thenReturn(
+                        Mockito.any(Repository.class), Mockito.any(LocalEdOrgExtractHelper.class))).thenReturn(
                 mockSeaExtractor);
         
         Mockito.when(
                 mockFactory.buildStaffExtractor(Mockito.eq(entityExtractor), Mockito.eq(mockExtractMap),
-                        Mockito.any(Repository.class))).thenReturn(mockExtract);
+                        Mockito.any(Repository.class), Mockito.any(LocalEdOrgExtractHelper.class))).thenReturn(mockExtract);
         Mockito.when(
                 mockFactory.buildTeacherSchoolExtractor(Mockito.eq(entityExtractor), Mockito.eq(mockExtractMap),
-                        Mockito.any(Repository.class))).thenReturn(mockExtract);
+                        Mockito.any(Repository.class), Mockito.any(LocalEdOrgExtractHelper.class))).thenReturn(mockExtract);
         
         Mockito.when(
                 mockFactory.buildStudentAssessmentExtractor(Mockito.eq(entityExtractor), Mockito.eq(mockExtractMap),
-                        Mockito.any(Repository.class))).thenReturn(mockExtract);
+                        Mockito.any(Repository.class), Mockito.any(LocalEdOrgExtractHelper.class))).thenReturn(mockExtract);
         
         Mockito.when(
                 mockFactory.buildYearlyTranscriptExtractor(Mockito.eq(entityExtractor), Mockito.eq(mockExtractMap),
-                        Mockito.any(Repository.class))).thenReturn(mockExtract);
+                        Mockito.any(Repository.class), Mockito.any(LocalEdOrgExtractHelper.class))).thenReturn(mockExtract);
         Mockito.when(
                 mockFactory.buildParentExtractor(Mockito.eq(entityExtractor), Mockito.eq(mockExtractMap),
-                        Mockito.any(Repository.class))).thenReturn(mockExtract);
+                        Mockito.any(Repository.class), Mockito.any(LocalEdOrgExtractHelper.class))).thenReturn(mockExtract);
         Mockito.when(
         		mockFactory.buildSessionExtractor(Mockito.eq(entityExtractor), Mockito.eq(mockExtractMap), 
-        				Mockito.any(Repository.class))).thenReturn(mockSessionExtractor);
+        				Mockito.any(Repository.class), Mockito.any(LocalEdOrgExtractHelper.class))).thenReturn(mockSessionExtractor);
         Mockito.when(
         		mockFactory.buildGradingPeriodExtractor(Mockito.eq(entityExtractor), Mockito.eq(mockExtractMap), 
-        				Mockito.any(Repository.class))).thenReturn(mockExtract);
+        				Mockito.any(Repository.class), Mockito.any(LocalEdOrgExtractHelper.class))).thenReturn(mockExtract);
 
         Mockito.when(
                 mockFactory.buildStaffProgramAssociationExtractor(Mockito.eq(entityExtractor), Mockito.eq(mockExtractMap),
-                        Mockito.any(Repository.class))).thenReturn(mockExtract);
+                        Mockito.any(Repository.class), Mockito.any(LocalEdOrgExtractHelper.class))).thenReturn(mockExtract);
         
         Mockito.when(
                 mockFactory.buildStaffCohortAssociationExtractor(Mockito.eq(entityExtractor), Mockito.eq(mockExtractMap),
-                        Mockito.any(Repository.class))).thenReturn(mockExtract);
+                        Mockito.any(Repository.class), Mockito.any(LocalEdOrgExtractHelper.class))).thenReturn(mockExtract);
 
         Mockito.when(
                 mockFactory.buildCohortExtractor(Mockito.eq(entityExtractor), Mockito.eq(mockExtractMap),
-                        Mockito.any(Repository.class))).thenReturn(mockExtract);
+                        Mockito.any(Repository.class), Mockito.any(LocalEdOrgExtractHelper.class))).thenReturn(mockExtract);
 
         Mockito.when(mockFactory.buildSectionExtractor(Mockito.eq(entityExtractor), Mockito.eq(mockExtractMap),Mockito.any(Repository.class),
-                Mockito.any(EntityToLeaCache.class), Mockito.any(EntityToLeaCache.class))).thenReturn(sectionExtractor);
+                Mockito.any(EntityToLeaCache.class), Mockito.any(EntityToLeaCache.class), Mockito.any(LocalEdOrgExtractHelper.class))).thenReturn(sectionExtractor);
         
         Mockito.when(
                 mockFactory.buildCourseExtractor(Mockito.eq(entityExtractor), Mockito.eq(mockExtractMap),
-                        Mockito.any(Repository.class))).thenReturn(courseExtract);
+                        Mockito.any(Repository.class), Mockito.any(LocalEdOrgExtractHelper.class))).thenReturn(courseExtract);
 
         Mockito.when(
                 mockFactory.buildCourseOfferingExtractor(Mockito.eq(entityExtractor), Mockito.eq(mockExtractMap),
-                        Mockito.any(Repository.class))).thenReturn(courseOfferingExtract);
+                        Mockito.any(Repository.class), Mockito.any(LocalEdOrgExtractHelper.class))).thenReturn(courseOfferingExtract);
 
     }
     

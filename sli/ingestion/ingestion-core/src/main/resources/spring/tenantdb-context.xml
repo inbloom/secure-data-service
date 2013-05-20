@@ -22,6 +22,7 @@
     <value>attendance</value>
     <value>cohort</value>
     <value>courseSectionAssociation</value>
+    <value>deltas</value>
     <value>disciplineAction</value>
     <value>disciplineIncident</value>
     <value>educationOrganizationAssociation</value>

@@ -20,6 +20,7 @@ require_relative '../../../apiV1/utils/api_utils.rb'
 require_relative '../../../ingestion/features/step_definitions/clean_database.rb'
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../odin/step_definitions/data_generation_steps.rb'
+require_relative '../../../security/step_definitions/securityevent_util_steps.rb'
 require 'zip/zip'
 require 'archive/tar/minitar'
 require 'zlib'
@@ -64,11 +65,9 @@ $GLOBAL_VARIABLE_MAP = {}
 Transform /^<(.*?)>$/ do |human_readable_id|
   # entity id transforms
   id = "19cca28d-7357-4044-8df9-caad4b1c8ee4"               if human_readable_id == "app id"
-  id = "19cca28d-7357-4044-8df9-caad4b1c8ee4"               if human_readable_id == "app id daybreak"
-  id = "22c2a28d-7327-4444-8ff9-caad4b1c7aa3"               if human_readable_id == "app id highwind"
-  id = "vavedRa9uB"                                         if human_readable_id == "client id"
-  id = "vavedRa9uB"                                         if human_readable_id == "client id daybreak"
-  id = "pavedz00ua"                                         if human_readable_id == "client id highwind"
+  id = "22c2a28d-7327-4444-8ff9-caad4b1c7aa3"               if human_readable_id == "app id paved"
+  id = "vavedra9ub"                                         if human_readable_id == "client id"
+  id = "pavedz00ua"                                         if human_readable_id == "client id paved"
   id = "1b223f577827204a1c7e9c851dba06bea6b031fe_id"        if human_readable_id == "IL-DAYBREAK"
   id = "99d527622dcb51c465c515c0636d17e085302d5e_id"        if human_readable_id == "IL-HIGHWIND"
   id = "54b4b51377cd941675958e6e81dce69df801bfe8_id"        if human_readable_id == "ed_org_to_lea2_id"
@@ -226,6 +225,27 @@ Given /^I clean up the cron extraction zone$/ do
   assert(!Dir.exists?(CRON_OUTPUT_DIRECTORY), "cron output directory #{CRON_OUTPUT_DIRECTORY} does exist")
   puts "CRON_OUTPUT_DIRECTORY: #{CRON_OUTPUT_DIRECTORY}"
   Dir.chdir(@current_dir)
+end
+
+Given /^the tenant "(.*?)" does not have any bulk extract apps for any of its education organizations$/ do |tenant|
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
+  db = conn[DATABASE_NAME]
+  app_coll = db.collection('application')
+  apps = app_coll.find({'body.isBulkExtract' => true}).to_a
+  assert(apps.size > 0, 'Could not find any bulk extract applications')
+
+  apps.each do |app|
+    app_id = app['_id']
+    puts("The id for a bulk extract app is #{app_id}") if $SLI_DEBUG
+
+    db_tenant = conn[convertTenantIdToDbName(tenant)]
+    app_auth_coll = db_tenant.collection('applicationAuthorization')
+
+    app_auth_coll.remove('body.applicationId' => app_id)
+  end
+  conn.close
+  enable_NOTABLESCAN()
 end
 
 ############################################################
@@ -625,10 +645,20 @@ def getEntityBodyFromApi(entity, api_version, verb)
   return response_map
 end
 
+When /^I request an unsecured latest delta via API for tenant "(.*?)", lea "(.*?)" with appId "(.*?)"$/ do |tenant, lea, app_id |
+  @lea = lea
+  @app_id = app_id
+
+  query_opts = {sort: ["body.date", Mongo::DESCENDING], limit: 1}
+  # Get the edorg and timestamp from bulk extract collection in mongo
+  getExtractInfoFromMongo(build_bulk_query(tenant, app_id, lea, true), query_opts)
+  # Assemble the API URI and make API call
+  restHttpGet("/bulk/extract/#{lea}/delta/#{@timestamp}", 'application/x-tar', @sessionId)
+end
+
 When /^I request latest delta via API for tenant "(.*?)", lea "(.*?)" with appId "(.*?)" clientId "(.*?)"$/ do |tenant, lea, app_id, client_id|
   @lea = lea
   @app_id = app_id
-  @client_id ||= client_id
 
   query_opts = {sort: ["body.date", Mongo::DESCENDING], limit: 1}
   # Get the edorg and timestamp from bulk extract collection in mongo
@@ -640,7 +670,7 @@ When /^I request latest delta via API for tenant "(.*?)", lea "(.*?)" with appId
   @filePath = @fileDir + "/" + @delta_file
   @unpackDir = @fileDir
   # Assemble the API URI and make API call
-  restTls("/bulk/extract/#{lea}/delta/#{@timestamp}", nil, 'application/x-tar')
+  restTls("/bulk/extract/#{lea}/delta/#{@timestamp}", nil, 'application/x-tar', @sessionId, client_id)
 end
 
 When /^I store the URL for the latest delta for LEA "(.*?)"$/ do |lea|
@@ -1608,7 +1638,7 @@ def prepareBody(verb, value, response_map)
         "relation" => "Father",
         "contactPriority" => 3
       },
-      "newMinStudent" => {
+      "newDaybreakStudent" => {
         "loginId" => "new-student-min@bazinga.org",
         "sex" => "Male",
         "entityType" => "student",
@@ -1669,7 +1699,7 @@ def prepareBody(verb, value, response_map)
         "repeatGradeIndicator" => false,
         "schoolId" => "1b5de2516221069fd8f690349ef0cc1cffbb6dca_id",
       },
-      "newStudentSchoolAssociation" => {
+      "DbStudentSchoolAssociation" => {
         "exitWithdrawDate" => "2014-05-22",
         "entityType" => "studentSchoolAssociation",
         "entryDate" => "2013-08-27",
