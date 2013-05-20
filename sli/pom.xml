@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.slc.sli</groupId>
     <artifactId>sli</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>${VERSION_NUMBER}</version>
     <packaging>pom</packaging>
     <name>SLI</name>
     <description>Shared Learning Infrastructure</description>
@@ -14,6 +14,10 @@
         <url>https://git.slidev.org/sli/sli</url>
     </scm>
     <properties>
+        <!-- Release process -->
+        <VERSION_NUMBER>1.0-SNAPSHOT</VERSION_NUMBER>
+        <isRelease>true</isRelease>
+        <!-- End of Release process-->
         <java.version>1.6</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <lifecycle.mapping.version>1.0.0</lifecycle.mapping.version>
@@ -133,7 +137,9 @@
         <profile>
             <id>local</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <property>
+                    <name>!environment.type</name>
+                </property>
             </activation>
             <properties>
                 <sli.env>local</sli.env>
@@ -144,6 +150,12 @@
         <!-- Remote dev/demo database profile -->
         <profile>
             <id>dev</id>
+            <activation>
+                <property>
+                    <name>environment.type</name>
+                    <value>DEV</value>
+                </property>
+            </activation>
             <properties>
                 <sli.env>dev</sli.env>
                 <sli.encryption.keyStore>${sli.home}/data-access/dal/keyStore/ciKeyStore.jks</sli.encryption.keyStore>
@@ -153,6 +165,12 @@
         <!-- Profile to use during continuous integration -->
         <profile>
             <id>ci</id>
+            <activation>
+                <property>
+                    <name>environment.type</name>
+                    <value>CI</value>
+                </property>
+            </activation>
             <properties>
                 <sli.env>ci</sli.env>
                 <sli.encryption.keyStore>${sli.home}/data-access/dal/keyStore/ciKeyStore.jks</sli.encryption.keyStore>
@@ -162,6 +180,12 @@
         <!-- Profile to use to deploy to stable build environment (currently devopenam2.slidev.org) -->
         <profile>
             <id>devapp1</id>
+            <activation>
+                <property>
+                    <name>environment.type</name>
+                    <value>DEVAPP1</value>
+                </property>
+            </activation>
             <properties>
                 <sli.env>devapp1</sli.env>
                 <sli.encryption.keyStore>${sli.home}/data-access/dal/keyStore/ciKeyStore.jks</sli.encryption.keyStore>
@@ -171,6 +195,12 @@
         <!-- Profile to use to deploy to acceptance test build environment -->
         <profile>
             <id>acceptance-tests</id>
+            <activation>
+                <property>
+                    <name>environment.type</name>
+                    <value>AT</value>
+                </property>
+            </activation>
             <properties>
                 <sli.env>acceptance-tests</sli.env>
                 <!-- Use the ci keystore for now, we can always changes this later if necessary -->
@@ -181,6 +211,12 @@
         <!-- Profile to use to deploy to acceptance test build environment -->
         <profile>
             <id>nxbuild2</id>
+            <activation>
+                <property>
+                    <name>environment.type</name>
+                    <value>NXBUILD2</value>
+                </property>
+            </activation>
             <properties>
                 <sli.env>nxbuild2</sli.env>
                 <!-- Use the ci keystore for now, we can always changes this later if necessary -->
@@ -190,6 +226,12 @@
         </profile>
         <profile>
             <id>team</id>
+            <activation>
+                <property>
+                    <name>environment.type</name>
+                    <value>TEAM</value>
+                </property>
+            </activation>
             <properties>
                 <sli.env>team</sli.env>
                 <!-- Use the ci keystore for now, we can always changes this later if necessary -->
@@ -199,6 +241,12 @@
         </profile>
         <profile>
             <id>sandbox</id>
+            <activation>
+                <property>
+                    <name>environment.type</name>
+                    <value>SANDBOX</value>
+                </property>
+            </activation>
             <properties>
                 <sli.env>sandbox</sli.env>
                 <!-- <sli.encryption.keyStore>${sli.home}/data-access/dal/keyStore/ciKeyStore.jks</sli.encryption.keyStore>
@@ -209,6 +257,17 @@
         </profile>
         <!-- Add additional profiles here. For example: integration, production,
       multishard, ... -->
+        <profile>
+            <id>snapshot-deploy-url-override</id>
+            <activation>
+                <property>
+                    <name>!VERSION_NUMBER</name>
+                </property>
+            </activation>
+            <properties>
+                <isRelease>false</isRelease>
+            </properties>
+        </profile>
     </profiles>
     <modules>
         <module>modeling</module>
@@ -1208,10 +1267,95 @@
                             </resources>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>replace-pom-placeholder</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <resources>
+                                <resource>
+                                  <directory>${basedir}</directory>
+                                    <includes>
+                                            <include>pom.xml</include>
+                                    </includes>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                          <outputDirectory>${project.build.directory}/pom-install-deploy-fix</outputDirectory>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
-
-
+            <plugin>
+                <artifactId>maven-install-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>overwrite-pom</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <packaging>pom</packaging>
+                            <file>target/pom-install-deploy-fix/pom.xml</file>
+                            <pomFile>target/pom-install-deploy-fix/pom.xml</pomFile>
+                            <version>${VERSION_NUMBER}</version>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>overwrite-pom</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>deploy-file</goal>
+                        </goals>
+                        <configuration>
+                            <packaging>pom</packaging>
+                            <file>target/pom-install-deploy-fix/pom.xml</file>
+                            <pomFile>target/pom-install-deploy-fix/pom.xml</pomFile>
+                            <version>${VERSION_NUMBER}</version>
+                            <updateReleaseInfo>${isRelease}</updateReleaseInfo>
+                            <uniqueVersion>${isRelease}</uniqueVersion>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestSection>
+                            <name>Specification</name>
+                            <manifestEntries>
+                                <Title>${project.name}</Title>
+                                <Build-Version>${VERSION_NUMBER}</Build-Version>
+                            </manifestEntries>
+                        </manifestSection>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestSection>
+                            <name>Specification</name>
+                            <manifestEntries>
+                                <Title>${project.name}</Title>
+                                <Build-Version>${VERSION_NUMBER}</Build-Version>
+                            </manifestEntries>
+                        </manifestSection>
+                    </archive>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
     <reporting>

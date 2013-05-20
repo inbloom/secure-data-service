@@ -24,6 +24,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.joda.time.DateTime;
+import org.slc.sli.bulk.extract.message.BEMessageCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,6 +33,7 @@ import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
 import org.slc.sli.bulk.extract.util.SecurityEventUtil;
 import org.slc.sli.common.util.logging.LogLevelType;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Bulk extractor to extract data for a tenant.
@@ -51,6 +53,9 @@ public class TenantExtractor {
 
     private ManifestFile metaDataFile;
 
+    @Autowired
+    private SecurityEventUtil securityEventUtil;
+
     /**
      * Extract all the entities from a tenant.
      *
@@ -64,15 +69,14 @@ public class TenantExtractor {
     public void execute(String tenant, ExtractFile extractFile, DateTime startTime) {
         Set<String> uniqueCollections = new HashSet<String>(entitiesToCollections.values());
 
-        audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
-                "Beginning tenant-level bulk extract", "Tenant full extract", LogLevelType.TYPE_INFO));
+        audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
+                "Tenant full extract", LogLevelType.TYPE_INFO, BEMessageCode.BE_SE_CODE_0003));
 
         Map<String, PublicKey> clientKeys = bulkExtractMongoDA.getAppPublicKeys();
         if (clientKeys == null || clientKeys.isEmpty()) {
             LOG.info("No authorized application to extract data.");
-            audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
-                    "No authorized application to extract data " + tenant,
-                    tenant + " full extract", LogLevelType.TYPE_INFO));
+            audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
+                    tenant + " full extract", LogLevelType.TYPE_INFO, BEMessageCode.BE_SE_CODE_0004, tenant));
             return;
         }
         extractFile.setClientKeys(clientKeys);
@@ -86,26 +90,25 @@ public class TenantExtractor {
             metaDataFile.generateMetaFile(startTime);
         } catch (IOException e) {
             LOG.error("Error creating metadata file: {}", e.getMessage());
-            audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
-                    "Error creating metadata file: " + e.getMessage(), "Tenant full extract",
-                    LogLevelType.TYPE_ERROR));
+            audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
+                  "Tenant full extract", LogLevelType.TYPE_ERROR, BEMessageCode.BE_SE_CODE_0005, e.getMessage()));
         }
 
         try {
             extractFile.generateArchive();
         } catch (Exception e) {
             LOG.error("Error generating archive file: {}", e.getMessage());
-            audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
-                    "Error generating archive file: " + e.getMessage(), "Tenant full extract",
-                    LogLevelType.TYPE_ERROR));
+            audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
+                     "Tenant full extract", LogLevelType.TYPE_ERROR,
+                    BEMessageCode.BE_SE_CODE_0006, e.getMessage()));
         }
 
         for (Entry<String, File> archiveFile : extractFile.getArchiveFiles().entrySet()) {
             bulkExtractMongoDA.updateDBRecord(tenant, archiveFile.getValue().getAbsolutePath(),
                     archiveFile.getKey(), startTime.toDate(), false, null, false);
-            audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
-                    "Created archive file for app " + archiveFile.getKey(), archiveFile.getValue().getAbsolutePath(),
-                    LogLevelType.TYPE_INFO, archiveFile.getKey()));
+            audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
+                    archiveFile.getValue().getAbsolutePath(), LogLevelType.TYPE_INFO,
+                    archiveFile.getKey(), BEMessageCode.BE_SE_CODE_0007));
         }
 
         audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
@@ -158,5 +161,14 @@ public class TenantExtractor {
      */
     public void setEntityExtractor(EntityExtractor entityExtractor) {
         this.entityExtractor = entityExtractor;
+    }
+
+    /**
+     * set securityEventUtil.
+     * @param securityEventUtil
+     *          securityEventUtil
+     */
+    public void setSecurityEventUtil(SecurityEventUtil securityEventUtil) {
+        this.securityEventUtil = securityEventUtil;
     }
 }
