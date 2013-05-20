@@ -115,16 +115,18 @@ public class DeltaExtractor {
 
     public void execute(String tenant, DateTime deltaUptoTime, String baseDirectory) {
 
-        TenantContext.setTenantId(tenant);
-
         audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
                 "Beginning delta-level bulk extract up to date " + DATE_TIME_FORMATTER.print(deltaUptoTime),
                 "Delta extract up to date " + DATE_TIME_FORMATTER.print(deltaUptoTime), LogLevelType.TYPE_INFO));
 
+        TenantContext.setTenantId(tenant);
         Map<String, Set<String>> appsPerTopLEA = reverse(filter(helper.getBulkExtractLEAsPerApp()));
         deltaEntityIterator.init(tenant, deltaUptoTime);
         while (deltaEntityIterator.hasNext()) {
             DeltaRecord delta = deltaEntityIterator.next();
+//            audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
+//                    "Beginning delta extract for entity " + delta.getEntity().getType(),
+//                    delta.getEntity().getType(), LogLevelType.TYPE_INFO));
             if (delta.getOp() == Operation.UPDATE) {
                 if (delta.isSpamDelete()) {
                     spamDeletes(delta, delta.getBelongsToLEA(), tenant, deltaUptoTime,
@@ -133,6 +135,9 @@ public class DeltaExtractor {
                 for (String lea : delta.getBelongsToLEA()) {
                     // we have apps for this lea
                     if (appsPerTopLEA.containsKey(lea)) {
+//                        audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
+//                                "Beginning LEA delta extract for entity " + delta.getEntity().getType() +" and LEA " + lea,
+//                                delta.getEntity().getType() + "#" + lea, LogLevelType.TYPE_INFO));
                         ExtractFile extractFile = getExtractFile(lea, tenant, deltaUptoTime,
                                 appsPerTopLEA.get(lea));
                         EntityExtractor.CollectionWrittenRecord record = getCollectionRecord(lea,
