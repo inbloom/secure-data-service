@@ -18,10 +18,14 @@ package org.slc.sli.dal.repository;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,29 +55,38 @@ public class DeltaJournal implements InitializingBean {
 
     @Value("${sli.bulk.extract.deltasEnabled:true}")
     private boolean deltasEnabled;
-    
+
     @Value("${sli.sandbox.enabled}")
     private boolean isSandbox;
 
     public static final String DELTA_COLLECTION = "deltas";
-    
-    // in paged query, get upto 1000 items each time    
+
+    // in paged query, get upto 1000 items each time
     @Value("${sli.bulk.extract.delta.iterationSize:50000}")
-    public int limit = 1000;
+    private int limit = 1000;
 
     @Autowired
     @Qualifier("journalTemplate")
     private MongoTemplate template;
-    
+
+    private final Map<String, String> subdocCollectionsToCollapse = new HashMap<String, String>();
+
     @Override
     public void afterPropertiesSet() throws Exception {
         if (isSandbox) {
             deltasEnabled = false;
         }
+        subdocCollectionsToCollapse.put("assessmentItem", "assessment");
+        subdocCollectionsToCollapse.put("objectiveAssessment", "assessment");
+        subdocCollectionsToCollapse.put("studentAssessmentItem", "studentAssessment");
+        subdocCollectionsToCollapse.put("studentObjectiveAssessment", "studentAssessment");
     }
 
-    public void journal(List<String> ids, String collection, boolean isDelete) {
+    public void journal(Collection<String> ids, String collection, boolean isDelete) {
         if (deltasEnabled) {
+            if(subdocCollectionsToCollapse.containsKey(collection)){
+                journalCollapsedSubDocs(ids, collection);
+            }
             long now = new Date().getTime();
             Update update = new Update();
             update.set("t", now);
@@ -93,6 +106,15 @@ public class DeltaJournal implements InitializingBean {
         journal(Arrays.asList(id), collection, isDelete);
     }
 
+    public void journalCollapsedSubDocs(Collection<String> ids, String collection){
+        LOG.debug("journaling {} to {}", ids, subdocCollectionsToCollapse.get(collection));
+        Set<String> newIds = new HashSet<String>();
+        for(String id: ids){
+            newIds.add(id.split("_id")[0]+"_id");
+        }
+        journal(newIds, subdocCollectionsToCollapse.get(collection), false);
+    }
+
     /*
      * a range querying paging iterator on the delta collections.
      */
@@ -106,7 +128,7 @@ public class DeltaJournal implements InitializingBean {
             public boolean hasNext() {
                 return currMark < deltas.size();
             }
-            
+
             @Override
             public Map<String, Object> next() {
                 Map<String, Object> nextDelta = deltas.get(currMark++);
@@ -116,24 +138,24 @@ public class DeltaJournal implements InitializingBean {
                 }
                 return nextDelta;
             }
-            
+
             @Override
             public void remove() {
                 throw new UnsupportedOperationException();
             }
-            
+
             private List<Map<String, Object>> findNextBatchOfDeltas(long lastBatchEndTime, String lastBatchId) {
                 TenantContext.setIsSystemCall(false);
                 return find(buildDeltaQuery(lastBatchEndTime, end, lastBatchId, limit));
             }
-            
+
             @SuppressWarnings("unchecked")
             private List<Map<String, Object>> find(Query query) {
                 @SuppressWarnings("rawtypes")
                 List res = template.find(query, Map.class, DELTA_COLLECTION);
-                return (List<Map<String, Object>>) res;
+                return res;
             }
-            
+
             private Query buildDeltaQuery(long lastDeltaTime, long uptoTime, String lastBatchId, int limit) {
                 Criteria timeElasped;
                 if (lastBatchId == null) {
@@ -151,11 +173,11 @@ public class DeltaJournal implements InitializingBean {
             }
         };
     }
-    
+
     /**
      * Remove all delta journal entries with a "t" value less than the specified
      * time for the tenant
-     * 
+     *
      * @param cleanUptoTime
      *            epoch
      * @param tenant
@@ -167,6 +189,22 @@ public class DeltaJournal implements InitializingBean {
         TenantContext.setIsSystemCall(false);
         Criteria beforeTime = where("t").lt(cleanUptoTime);
         template.remove(Query.query(beforeTime), DELTA_COLLECTION);
+    }
+
+    protected boolean isDeltasEnabled() {
+        return deltasEnabled;
+    }
+
+    protected void setDeltasEnabled(boolean deltasEnabled) {
+        this.deltasEnabled = deltasEnabled;
+    }
+
+    protected int getLimit() {
+        return limit;
+    }
+
+    protected void setLimit(int limit) {
+        this.limit = limit;
     }
 
 }
