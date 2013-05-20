@@ -57,7 +57,12 @@ public class LoggerCarrierAspectTest {
      */
     @Test
     public void testAudit() {
-       audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(), "TestMessage", "Action", LogLevelType.TYPE_TRACE));
+       SecurityEvent securityEvent = new SecurityEvent();
+       securityEvent.setClassName(this.getClass().getName());
+       securityEvent.setLogMessage("Test Message");
+       securityEvent.setLogLevel(LogLevelType.TYPE_TRACE);
+
+       audit(securityEvent);
        Mockito.verify(mockedEntityRepository, times(1)).create(any(String.class), any(Map.class), any(Map.class), any(String.class));
     }
 }

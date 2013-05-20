@@ -82,7 +82,7 @@ public class Launcher {
                 TenantContext.setTenantId(tenant);
                 extractFile = new ExtractFile(getTenantDirectory(tenant),
                     getArchiveName(tenant, startTime.toDate()),
-                    bulkExtractMongoDA.getAppPublicKeys());
+                    bulkExtractMongoDA.getAppPublicKeys(), securityEventUtil);
 
                 LOG.info("Starting tenant based extract...");
                 tenantExtractor.execute(tenant, extractFile, startTime);

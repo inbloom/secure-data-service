@@ -44,6 +44,8 @@ public enum BEMessageCode {
     BE_SE_CODE_0019,
     BE_SE_CODE_0020,
     BE_SE_CODE_0021,
+    BE_SE_CODE_0022,
+    BE_SE_CODE_0023,
     BE_SE_CODE_0024,
     BE_SE_CODE_0025;
 
