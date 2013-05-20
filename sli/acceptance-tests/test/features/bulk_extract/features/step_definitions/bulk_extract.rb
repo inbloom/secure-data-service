@@ -53,6 +53,9 @@ CLEANUP_SCRIPT = File.expand_path(PropLoader.getProps['bulk_extract_cleanup_scri
 $APP_CONVERSION_MAP = {"19cca28d-7357-4044-8df9-caad4b1c8ee4" => "vavedra9ub",
                        "22c2a28d-7327-4444-8ff9-caad4b1c7aa3" => "pavedz00ua" 
                       }
+#Don't hate me, help me find a better solution...
+#BTW, I got "Riley Approved" 
+$GLOBAL_VARIABLE_MAP = {}
 
 ############################################################
 # Transform
@@ -859,16 +862,7 @@ end
 
 Then /^I verify this "(.*?)" file (should|should not) contain:$/ do |file_name, should, table|
     look_for = should.downcase == "should"
-    json_file_name = @unpackDir + "/#{file_name}.json"
-    exists = File.exists?(json_file_name)
-    unless exists
-      exists = File.exists?(json_file_name+".gz")
-      assert(exists, "Cannot find #{file_name}.json.gz file in extracts")
-      `gunzip -c #{json_file_name}.gz > #{json_file_name}`
-    end
-    json = JSON.parse(File.read("#{json_file_name}"))
-
-    json_map = to_map(json)
+    json_map = to_map(get_json_from_file(file_name))
     table.hashes.map do |entity|
         id = entity['id']
         json_entities = json_map[id]
@@ -1088,10 +1082,129 @@ Then /^I clean up the scheduler jobs/ do
 
 end
 
+Then /^I save some IDs from all the extract files to "(.*?)" so I can delete them later$/ do |variable| 
+  id_map = $GLOBAL_VARIABLE_MAP[variable]
+  id_map ||= {} 
+  sample_size = 10 
+  skip_types = ["deleted"]
+  [@fileDir, @unpackDir].each do |dir|
+    if File.exists? dir 
+      Dir.entries(dir).each { |f| 
+        if matched = f.match(/(.*).json.gz/) 
+          next unless skip_types.find_index(matched[1]).nil?
+          Zlib::GzipReader.open("#{dir}/#{f}") { |extracts|
+            extracted = JSON.parse(extracts.read)
+            (extracted.shuffle.take(sample_size)).each { |extractRecord|
+                id_map[matched[1]] ||= []
+                id_map[matched[1]] << extractRecord["id"]
+            }
+          }
+        end
+      }
+    end
+  end
+  $GLOBAL_VARIABLE_MAP[variable] = id_map
+end
+
+Then /^I delete one random entity from the my saved "(.*?)" except for:$/ do |variable, table|
+  id_map = $GLOBAL_VARIABLE_MAP[variable]
+  assert(!id_map.nil?, "Did you run the day 0 ingestion step to populate the IDs that I need to delete?")
+  exceptions = []
+  table.hashes.map do |row|
+    exceptions << row["type"]
+  end
+  db_name = convertTenantIdToDbName('Midgar') 
+  saved_for_later = []
+  deleted = []
+  # loop through the sample IDs we saved for each entity type, and as soon
+  # as one delete went through, good enough...
+  id_map.each_pair { |type, ids|
+    next unless exceptions.find_index(type).nil?
+    # delete those things last, since there are other entities hang off them
+    saved_for_later << [type, ids] if type == "student" || type == "teacher" || type == "staff"
+    deleted << delete_loop(type, ids, db_name)
+  }
+
+  saved_for_later.each { |pair|
+    deleted << delete_loop(pair[0], pair[1], db_name) 
+  }
+
+  $GLOBAL_VARIABLE_MAP[variable] = deleted
+end
+
+Then /^I verify this delete file contains one single delete from all types in "(.*?)" except:$/ do |variable, table|
+  deleted = $GLOBAL_VARIABLE_MAP[variable]
+  puts deleted
+  exceptions = []
+  table.hashes.map do |row|
+    exceptions << row["entityType"]
+  end
+
+  json_map = to_map(get_json_from_file("deleted"))
+  deleted.each { |entry|
+    type = entry[0]
+    id = entry[1]
+    in_delete_file = json_map[id]
+    assert(!in_delete_file.nil?, "delete file does not contain #{type} #{id}") 
+  }
+end
+
 ############################################################
 # Functions
 ############################################################
+def delete_loop(type, ids, db)
+  endpoint = get_entity_endpoint(type)
+  success = false
+  conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
+  sliDb = conn.db(db)
+  coll = sliDb.collection("deltas")
+  while (!success && id = ids.pop) do
+    restHttpDelete("/v1/#{endpoint}/#{id}")
+    if (@res.code == 204) 
+      success = true
+      deleted_id = [type, id]
+    elsif (@res.code == 404)
+      # It's possible this entity has been cascadingly deleted
+      # so let's take a look at the delta collection and make sure
+      # it's really deleted
+      query = {}
+      query["_id"] = id
+      query["c"] = case type
+                   when "teacher"
+                       "staff"
+                   when "school"
+                       "educationOrganization"
+                   else
+                       type
+                   end
+      query["d"] = {"$exists"=>1}
+      assertWithPolling("can not find any delta on #{type} #{id}", 3) {!coll.find_one(query).nil?}
+      item = coll.find_one(query)
+      if item["u"].nil? || item["d"] >= item["u"]
+        deleted_id = [item["c"], item["_id"]]
+        success = true 
+      end
+    end
+  end 
+  assert(success, "Failed to delete any entities for #{type}")
+  conn.close if conn != nil
+  deleted_id
+end
 
+def get_entity_endpoint(type)
+  case type
+    when "gradebookEntry"
+      "gradebookEntries"
+    when "staff"
+      "staff"
+    when "staffEducationOrganizationAssociation"
+      "staffEducationOrgAssignmentAssociations"
+    when "studentGradebookEntry"
+      "studentGradebookEntries"
+    else
+      type+"s"
+  end
+end
 
 # checks the map for field that has a value.  If it encounters and array, it'll iterate over it's contents.
 # e.g. find_value_in_map(attendance_entity, "attendanceEvent.reason", "test")
@@ -1820,6 +1933,17 @@ def getEdorgId(tenant, edorg)
   return tenant + "-" + edorg
 end
 
+def get_json_from_file(file_name)
+    json_file_name = @unpackDir + "/#{file_name}.json"
+    exists = File.exists?(json_file_name)
+    unless exists
+      exists = File.exists?(json_file_name+".gz")
+      assert(exists, "Cannot find #{file_name}.json.gz file in extracts")
+      `gunzip -c #{json_file_name}.gz > #{json_file_name}`
+    end
+    json = JSON.parse(File.read("#{json_file_name}"))
+    json
+end
 ############################################################
 # After Hooks
 ############################################################

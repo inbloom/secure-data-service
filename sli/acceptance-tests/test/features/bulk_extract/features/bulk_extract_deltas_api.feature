@@ -41,6 +41,7 @@ Scenario: Generate a bulk extract delta after day 0 ingestion
    And The "program" delta was extracted in the same format as the api
    And The "studentProgramAssociation" delta was extracted in the same format as the api
    And The "staffProgramAssociation" delta was extracted in the same format as the api
+   And I save some IDs from all the extract files to "delete_candidate" so I can delete them later
 
 Scenario: Triggering deltas via ingestion
   All entities belong to lea1 which is IL-DAYBREAK, we should only see a delta file for lea1
@@ -162,6 +163,7 @@ Given I clean the bulk extract file system and database
        |  program                               |
        |  graduationPlan                        |
        |  deleted                               |
+     And I save some IDs from all the extract files to "delete_candidate" so I can delete them later
    
      And I verify this "deleted" file should contain:
        | id                                          | condition                                |
@@ -185,7 +187,7 @@ Given I clean the bulk extract file system and database
        | id                                          | condition                                |
        | 68c4855bf0bdcc850a883d88fdf953b9657fe255_id | exitWithdrawDate = 2014-05-31            |
      And I verify this "studentSchoolAssociation" file should not contain:
-       #this is an expired association, should not show up
+       #this is an association on a expired student 12, should not show up
        | id                                          | condition                                |
        | a13489364c2eb015c219172d561c62350f0453f3_id |                                          |
 
@@ -209,7 +211,7 @@ Given I clean the bulk extract file system and database
        | id                                          | condition                                |
        | 95cc5d67f3b653eb3e2f0641c429cf2006dc2646_id | uniqueSectionCode = 2                    |
   
-     # Both Teacher 01 and 03 should be in DAYBREAk
+     # Both Teacher 01 and 03 should be in DAYBREAK
      And I verify this "teacher" file should contain:
        | id                                          | condition                                |
        | cab9d548be3e51adf6ac00a4028e4f9f4f9e9cae_id | staffUniqueStateId = tech-0000000003     |
@@ -638,6 +640,21 @@ Scenario: Test access to the api
   Given I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Highwind" in tenant "Midgar", that lasts for "300" seconds
   And I request latest delta via API for tenant "Midgar", lea "<IL-HIGHWIND>" with appId "<app id>" clientId "<client id>"
   Then I should receive a return code of 200
+
+Scenario: Test delete deltes
+  Given I clean the bulk extract file system and database
+  And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  And I delete one random entity from the my saved "delete_candidate" except for:
+    | type                  |
+    | educationOrganization |
+  When I trigger a delta extract
+  Then I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
+       |  entityType                            |
+       |  deleted                               |
+       # apparently some operation in this delete touched edorg in a denormalized way
+       | educationOrganization                  |
+  And I verify this delete file contains one single delete from all types in "delete_candidate" except:
+        |  entityType  |
 
 Scenario: Be a good neighbor and clean up before you leave
     Given I clean the bulk extract file system and database
