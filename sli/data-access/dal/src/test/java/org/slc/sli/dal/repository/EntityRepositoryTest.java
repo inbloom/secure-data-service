@@ -120,7 +120,7 @@ public class EntityRepositoryTest {
         Entity lea = createEducationOrganizationEntity("lea1", "localEducationAgency", "Local Education Agency", sea.getEntityId());
         assertTrue("After adding LEA expected edOrgs not found in lineage.", schoolLineageContains(school.getEntityId(), expectedEdOrgs));
 
-        // Update School parent ref to LEA
+        // DoUpdate School parent ref to LEA
         query = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, school.getEntityId()));
         Update update = new Update().set("body." + ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE, lea.getEntityId());
         repository.doUpdate(EntityNames.EDUCATION_ORGANIZATION, query, update);
@@ -128,13 +128,17 @@ public class EntityRepositoryTest {
         expectedEdOrgs.add(sea.getEntityId());
         assertTrue("After updating school parent ref expected edOrgs not found in lineage.", schoolLineageContains(school.getEntityId(), expectedEdOrgs));
 
-        // Patch LEA parent ref to remove SEA
-//        query = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, school.getEntityId()));
-//        update = new Update().set("body." + ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE, lea.getEntityId());
-//        repository.doUpdate(EntityNames.EDUCATION_ORGANIZATION, query, update);
-//        expectedEdOrgs.add(lea.getEntityId());
-//        expectedEdOrgs.add(sea.getEntityId());
-//        assertTrue("After updating school parent ref expected edOrgs not found in lineage.", schoolLineageContains(school.getEntityId(), expectedEdOrgs));
+        // Patch LEA parent ref to an undefined id
+        Map<String, Object> newValues = new HashMap<String, Object>();
+        newValues.put(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE, "undefinedId");
+        repository.patch("localEducationEntity", EntityNames.EDUCATION_ORGANIZATION, lea.getEntityId(), newValues);
+        expectedEdOrgs.remove(sea.getEntityId());
+        assertTrue("After updating school parent ref expected edOrgs not found in lineage.", schoolLineageContains(school.getEntityId(), expectedEdOrgs));
+
+        // Update LEA to set parent ref back to SEA
+        repository.update(EntityNames.EDUCATION_ORGANIZATION, lea, false);
+        expectedEdOrgs.add(sea.getEntityId());
+        assertTrue("After updating school parent ref expected edOrgs not found in lineage.", schoolLineageContains(school.getEntityId(), expectedEdOrgs));
 
         // Delete LEA - no change to lineage
         repository.delete(EntityNames.EDUCATION_ORGANIZATION, lea.getEntityId());
@@ -151,7 +155,7 @@ public class EntityRepositoryTest {
         repository.create("student", buildTestStudentEntity());
         assertTrue("After adding a student lineage school lineage should not change.", schoolLineageContains(school.getEntityId(), new HashSet<String>()));
 
-        // Update an edOrg non-parent-ref and make sure school lineage isn't recalculated
+        // DoUpdate an edOrg non-parent-ref and make sure school lineage isn't recalculated
         query = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, school.getEntityId()));
         update = new Update().set("body.nameOfInstitution", "updatedName");
         repository.doUpdate(EntityNames.EDUCATION_ORGANIZATION, query, update);

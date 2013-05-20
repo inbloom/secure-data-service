@@ -1246,7 +1246,9 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         FindAndModifyOptions options = new FindAndModifyOptions();
         Entity result = template.findAndModify(query, update, options, getRecordClass(), collectionName);
 
-        if (result != null && collectionName.equals(EntityNames.EDUCATION_ORGANIZATION)) {
+        if (result != null
+                && collectionName.equals(EntityNames.EDUCATION_ORGANIZATION)
+                && update.getUpdateObject().containsField("body." + ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE)) {
             updateAllSchoolLineage();
         }
 
