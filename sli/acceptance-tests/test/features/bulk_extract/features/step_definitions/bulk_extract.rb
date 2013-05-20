@@ -579,6 +579,9 @@ def getEntityEndpoint(entity)
       "patchEdOrg" => "educationOrganizations",
       "school" => "educationOrganizations",
       "section" => "sections",
+      "staff" => "staff",
+      "newStaff" => "staff",
+      "staffEducationOrganizationAssociation" => "staffEducationOrgAssignmentAssociations",
       "staffStudent" => "students",
       "student" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students",
       "newStudent" => "students",
@@ -587,6 +590,9 @@ def getEntityEndpoint(entity)
       "studentSectionAssociation" => "studentSectionAssociations",
       "studentParentAssociation" => "studentParentAssociations",
       "newStudentParentAssociation" => "studentParentAssociations",
+      "teacher" => "teachers",
+      "newTeacher" => "teachers",
+      "teacherSchoolAssociation" => "teacherSchoolAssociations",
       "wrongSchoolURI" => "schoolz"
   }
   return entity_to_endpoint_map[entity]
@@ -1582,6 +1588,157 @@ def prepareBody(verb, value, response_map)
                     "nameOfCounty" => "Whoami"
                     ],
           "parentEducationAgencyReference" => "ffffffffffffffffffffffffffffffffffffffff_id"
+      },
+      "newStaff" => {
+        "loginId" => "new-staff-1@fakemail.com",
+        "otherName" => [{
+            "middleName" => "Groban",
+            "generationCodeSuffix" => "II",
+            "lastSurname" => "Tome",
+            "personalTitlePrefix" => "Mrs",
+            "firstName" => "Marisa",
+            "otherNameType" => "Nickname"
+        }],
+        "sex" => "Female",
+        "staffUniqueStateId" => "new-staff-1",
+        "hispanicLatinoEthnicity" => false,
+        "oldEthnicity" => "Black, Not Of Hispanic Origin",
+        "yearsOfPriorTeachingExperience" => 12,
+        "entityType" => "staff",
+        "race" => ["White"],
+        "yearsOfPriorProfessionalExperience" => 2,
+        "address" => [{
+            "streetNumberName" => "411 Pesci Ct",
+            "postalCode" => "60601",
+            "stateAbbreviation" => "IL",
+            "addressType" => "Home",
+            "city" => "Chicago"
+        }],
+        "name" => {
+            "middleName" => "Cheryl",
+            "lastSurname" => "Thome",
+            "firstName" => "Marissa"
+        },
+        "electronicMail" => [{
+            "emailAddress" => "new-staff-1@fakemail.com",
+            "emailAddressType" => "Home/Personal"
+        }],
+        "highestLevelOfEducationCompleted" => "Bachelor's",
+        "credentials" => [{
+            "credentialField" => [{
+                "description" => "Mathematics"
+            }],
+            "level" => "All Level (Grade Level PK-12)",
+            "teachingCredentialBasis" => "5-year bachelor's degree",
+            "teachingCredentialType" => "Master",
+            "credentialType" => "Endorsement",
+            "credentialExpirationDate" => "2017-06-24",
+            "credentialIssuanceDate" => "2000-09-22"
+        }],
+        "birthDate" => "1972-01-18",
+        "telephone" => [{
+            "primaryTelephoneNumberIndicator" => true,
+            "telephoneNumber" => "(060)555-3642",
+            "telephoneNumberType" => "Unlisted"
+        }],
+        "staffIdentificationCode" => [{
+            "identificationSystem" => "Health Record",
+            "ID" => "17502"
+        }]
+      },
+      "newStaffDaybreakAssociation" => { 
+        "staffClassification" => "LEA Administrative Support Staff",
+        "educationOrganizationReference" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id",
+        "positionTitle" => "IT Administrator",
+        "staffReference" => "e9f3401e0a034e20bb17663dd7d18ece6c4166b5_id",
+        "endDate" => "2014-05-22",
+        "entityType" => "staffEducationOrganizationAssociation",
+        "beginDate" => "2013-08-28"
+      },
+      "newStaffHighwindAssociation" => { 
+        "staffClassification" => "LEA Administrative Support Staff",
+        "educationOrganizationReference" => "99d527622dcb51c465c515c0636d17e085302d5e_id",
+        "positionTitle" => "IT Administrator",
+        "staffReference" => "e9f3401e0a034e20bb17663dd7d18ece6c4166b5_id",
+        "endDate" => "2014-05-22",
+        "entityType" => "staffEducationOrganizationAssociation",
+        "beginDate" => "2013-08-28"
+      },
+      "newTeacherEdorgAssociation" => {
+        "staffClassification" => "Teacher",
+        "educationOrganizationReference" => "a13489364c2eb015c219172d561c62350f0453f3_id",
+        "positionTitle" => "IT Administrator",
+        "staffReference" => "2472b775b1607b66941d9fb6177863f144c5ceae_id",
+        "endDate" => "2014-05-22",
+        "entityType" => "staffEducationOrganizationAssociation",
+        "beginDate" => "2013-08-26"
+      },
+      "newTeacher" => {
+        "loginId" => "new-teacher-1@fakemail.com",
+        "otherName" => [{
+            "middleName" => "Geraldo",
+            "generationCodeSuffix" => "II",
+            "lastSurname" => "Robbespierre",
+            "personalTitlePrefix" => "Mr",
+            "firstName" => "Marc",
+            "otherNameType" => "Other Name"
+        }],
+        "sex" => "Male",
+        "staffUniqueStateId" => "new-teacher-1",
+        "hispanicLatinoEthnicity" => false,
+        "highlyQualifiedTeacher" => true,
+        "oldEthnicity" => "Black, Not Of Hispanic Origin",
+        "yearsOfPriorTeachingExperience" => 9,
+        "entityType" => "teacher",
+        "race" => ["Black - African American"],
+        "yearsOfPriorProfessionalExperience" => 10,
+        "address" => [{
+            "streetNumberName" => "10 South Street",
+            "postalCode" => "60601",
+            "stateAbbreviation" => "IL",
+            "addressType" => "Home",
+            "city" => "Chicago"
+        }],
+        "teacherUniqueStateId" => "new-teacher-1",
+        "name" => {
+            "middleName" => "Mervin",
+            "lastSurname" => "Maroni",
+            "firstName" => "Marcos"
+        },
+        "electronicMail" => [{
+            "emailAddress" => "new-teacher-1@fakemail.com",
+            "emailAddressType" => "Home/Personal"
+        }],
+        "highestLevelOfEducationCompleted" => "No Degree",
+        "credentials" => [{
+            "credentialField" => [{
+                "description" => "Physics"
+            }],
+            "level" => "Elementary (Grade Level PK-5)",
+            "teachingCredentialBasis" => "Met state testing requirement",
+            "teachingCredentialType" => "Provisional",
+            "credentialType" => "Registration",
+            "credentialExpirationDate" => "2017-10-27",
+            "credentialIssuanceDate" => "2007-07-02"
+        }],
+        "birthDate" => "1962-09-30",
+        "telephone" => [{
+            "primaryTelephoneNumberIndicator" => true,
+            "telephoneNumber" => "(319)555-1789",
+            "telephoneNumberType" => "Emergency 2"
+        }],
+        "staffIdentificationCode" => [{
+            "identificationSystem" => "Health Record",
+            "ID" => "18511"
+        }]
+      },
+      "newTeacherSchoolAssociation" => {
+        "academicSubjects" => ["Transportation, Distribution and Logistics"],
+        "schoolId" => "a13489364c2eb015c219172d561c62350f0453f3_id",
+        "entityType" => "teacherSchoolAssociation",
+        "programAssignment" => "Regular Education",
+        "teacherId" => "2472b775b1607b66941d9fb6177863f144c5ceae_id",
+        "instructionalGradeLevels" => ["Adult Education"]
       },
       "newParentMother" => {
         "entityType" => "parent",
