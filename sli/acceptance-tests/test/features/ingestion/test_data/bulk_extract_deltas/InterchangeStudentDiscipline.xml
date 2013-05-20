@@ -85,4 +85,176 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </StaffIdentity>
     </StaffReference>
   </DisciplineIncident>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>6#1</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Witness</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE1</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>2</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>1#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Witness</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE1</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <DisciplineAction>
+    <DisciplineActionIdentifier>8#1,1</DisciplineActionIdentifier>
+    <Disciplines>
+      <CodeValue>DI0</CodeValue>
+    </Disciplines>
+    <DisciplineDate>2014-03-08</DisciplineDate>
+    <DisciplineActionLength>5</DisciplineActionLength>
+    <ActualDisciplineActionLength>3</ActualDisciplineActionLength>
+    <DisciplineActionLengthDifferenceReason>Other</DisciplineActionLengthDifferenceReason>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>8#1</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000003</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000006</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <ResponsibilitySchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ResponsibilitySchoolReference>
+    <AssignmentSchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </AssignmentSchoolReference>
+  </DisciplineAction>
+  <DisciplineAction>
+    <DisciplineActionIdentifier>1#0,2</DisciplineActionIdentifier>
+    <Disciplines>
+      <CodeValue>DI1</CodeValue>
+    </Disciplines>
+    <DisciplineDate>2014-05-19</DisciplineDate>
+    <DisciplineActionLength>4</DisciplineActionLength>
+    <ActualDisciplineActionLength>2</ActualDisciplineActionLength>
+    <DisciplineActionLengthDifferenceReason>No Difference</DisciplineActionLengthDifferenceReason>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>2</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>1#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>stff-0000000048</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <ResponsibilitySchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ResponsibilitySchoolReference>
+    <AssignmentSchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </AssignmentSchoolReference>
+  </DisciplineAction>
+  <DisciplineAction>
+    <DisciplineActionIdentifier>1#1,2</DisciplineActionIdentifier>
+    <Disciplines>
+      <CodeValue>DI2</CodeValue>
+    </Disciplines>
+    <DisciplineDate>2014-03-06</DisciplineDate>
+    <DisciplineActionLength>5</DisciplineActionLength>
+    <ActualDisciplineActionLength>3</ActualDisciplineActionLength>
+    <DisciplineActionLengthDifferenceReason>Other</DisciplineActionLengthDifferenceReason>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>2</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>1#1</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000003</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000005</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <ResponsibilitySchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ResponsibilitySchoolReference>
+    <AssignmentSchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Highwind Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </AssignmentSchoolReference>
+  </DisciplineAction>
 </InterchangeStudentDiscipline>
