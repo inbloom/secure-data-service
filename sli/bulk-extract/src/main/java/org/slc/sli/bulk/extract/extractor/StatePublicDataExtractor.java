@@ -88,8 +88,8 @@ public class StatePublicDataExtractor {
 
         if(seaId == null) {
             audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
-                    seaId + " SEA public data extract", LogLevelType.TYPE_ERROR,
-                    BEMessageCode.BE_SE_CODE_0012, seaId));
+                    "SEA public data extract", LogLevelType.TYPE_ERROR,
+                    BEMessageCode.BE_SE_CODE_0012));
             LOG.error("Unable to trigger extract for the tenant");
             return;
         }
@@ -101,7 +101,7 @@ public class StatePublicDataExtractor {
         Map<String, PublicKey> clientKeys = bulkExtractMongoDA.getAppPublicKeys();
         if(clientKeys == null || clientKeys.isEmpty()) {
             audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
-                    seaId + " SEA public data extract", LogLevelType.TYPE_INFO,
+                    "SEA public data extract", LogLevelType.TYPE_INFO,
                     BEMessageCode.BE_SE_CODE_0014));
             LOG.info("No authorized application to extract data.");
             return;
@@ -149,14 +149,14 @@ public class StatePublicDataExtractor {
 
         if (entities == null || !entities.iterator().hasNext()) {
             audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
-                    TenantContext.getTenantId(), LogLevelType.TYPE_ERROR, BEMessageCode.BE_SE_CODE_0016));
+                    "SEA public data extract", LogLevelType.TYPE_ERROR, BEMessageCode.BE_SE_CODE_0016));
             LOG.error("No SEA is available for the tenant");
         } else {
             Iterator<Entity> iterator = entities.iterator();
             Entity seaEntity = iterator.next();
             if (iterator.hasNext()) {
                 audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
-                        TenantContext.getTenantId(), LogLevelType.TYPE_ERROR, BEMessageCode.BE_SE_CODE_0017));
+                        "SEA public data extract", LogLevelType.TYPE_ERROR, BEMessageCode.BE_SE_CODE_0017));
                 LOG.error("More than one SEA is found for the tenant");
             } else {
                 seaId = seaEntity.getEntityId();

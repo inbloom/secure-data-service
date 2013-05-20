@@ -76,7 +76,7 @@ public class TenantExtractor {
         if (clientKeys == null || clientKeys.isEmpty()) {
             LOG.info("No authorized application to extract data.");
             audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
-                    tenant + " full extract", LogLevelType.TYPE_INFO, BEMessageCode.BE_SE_CODE_0004, tenant));
+                    "Tenant full extract", LogLevelType.TYPE_INFO, BEMessageCode.BE_SE_CODE_0004, tenant));
             return;
         }
         extractFile.setClientKeys(clientKeys);
