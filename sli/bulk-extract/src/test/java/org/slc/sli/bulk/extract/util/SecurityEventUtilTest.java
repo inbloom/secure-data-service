@@ -16,8 +16,14 @@
 package org.slc.sli.bulk.extract.util;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.slc.sli.bulk.extract.message.BEMessageCode;
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.SecurityEvent;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.lang.management.ManagementFactory;
 
@@ -27,19 +33,34 @@ import static org.junit.Assert.assertEquals;
  * JUnit test for the SecurityEventUtil class.
  * @author npandey
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class SecurityEventUtilTest {
 
-
+     @Autowired
+     private SecurityEventUtil securityEventUtil;
 
     /**
      * Test that the security even object is created as expected.
      */
     @Test
     public void testSEValues() {
-        SecurityEvent event = SecurityEventUtil.createSecurityEvent("class", "Test security event message", "Action Description", LogLevelType.TYPE_INFO);
+        SecurityEventUtil spyObject = Mockito.spy(securityEventUtil);
+
+        SecurityEvent event = spyObject.createSecurityEvent("class", "Action Description", LogLevelType.TYPE_INFO, BEMessageCode.BE_SE_CODE_0001);
+        String appId = null;
+        Mockito.verify(spyObject, Mockito.atMost(1)).createSecurityEvent(Mockito.anyString(), Mockito.anyString(), Mockito.eq(LogLevelType.TYPE_INFO), Mockito.eq(appId), Mockito.eq(BEMessageCode.BE_SE_CODE_0001));
         assertEquals("BulkExtract", event.getAppId());
         String processName = ManagementFactory.getRuntimeMXBean().getName();
         assertEquals(processName, event.getProcessNameOrId());
         assertEquals(null, event.getTargetEdOrg());
+    }
+
+    /**
+     * Set securityEventUtil.
+     * @param securityEventUtil the securityEventUtil to set
+     */
+    public void setSecurityEventUtil(SecurityEventUtil securityEventUtil) {
+        this.securityEventUtil = securityEventUtil;
     }
 }

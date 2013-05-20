@@ -15,29 +15,8 @@
  */
 package org.slc.sli.bulk.extract.files;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.security.KeyFactory;
-import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.PKCS8EncodedKeySpec;
-import java.security.spec.X509EncodedKeySpec;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.crypto.Cipher;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
-
 import junit.framework.Assert;
 import junitx.util.PrivateAccessor;
-
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
@@ -47,8 +26,27 @@ import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
 import org.slc.sli.bulk.extract.files.writer.JsonFileWriter;
+import org.slc.sli.bulk.extract.message.BEMessageCode;
+import org.slc.sli.bulk.extract.util.SecurityEventUtil;
+import org.slc.sli.common.util.logging.LogLevelType;
+import org.slc.sli.common.util.logging.SecurityEvent;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.security.KeyFactory;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
+import java.util.*;
+
 /**
  * JUnit tests for ArchivedExtractFile class.
  * @author npandey
@@ -86,10 +84,16 @@ public class ExtractFileTest {
 		X509EncodedKeySpec spec = new X509EncodedKeySpec(Base64.decodeBase64(PUBLIC_KEY));
 		KeyFactory kf = KeyFactory.getInstance("RSA");
 		PublicKey publicKey = kf.generatePublic(spec);
-        
+
+        SecurityEventUtil securityEventUtil = Mockito.mock(SecurityEventUtil.class);
+        SecurityEvent event = createSE();
+        Mockito.when(securityEventUtil.createSecurityEvent(Mockito.anyString(), Mockito.anyString(), Mockito.eq(LogLevelType.TYPE_INFO), Mockito.anyString(), Mockito.any(BEMessageCode.class), Mockito.anyString())).thenReturn(event);
+        Mockito.when(securityEventUtil.createSecurityEvent(Mockito.anyString(), Mockito.anyString(), Mockito.eq(LogLevelType.TYPE_ERROR), Mockito.any(BEMessageCode.class))).thenReturn(event);
+
         appKey.put(testApp, publicKey);
-        archiveFile = new ExtractFile(new File("./"), FILE_NAME, clientKeys);
+        archiveFile = new ExtractFile(new File("./"), FILE_NAME, clientKeys, securityEventUtil);
         archiveFile.setClientKeys(appKey);
+        archiveFile.setSecurityEventUtil(securityEventUtil);
 
         File parentDir = (File) PrivateAccessor.getField(archiveFile, "tempDir");
 
@@ -182,6 +186,15 @@ public class ExtractFileTest {
 
         return decryptedTar;
 
+    }
+
+    private SecurityEvent createSE() {
+        SecurityEvent securityEvent = new SecurityEvent();
+        securityEvent.setClassName(this.getClass().getName());
+        securityEvent.setLogMessage("Test Message");
+        securityEvent.setLogLevel(LogLevelType.TYPE_TRACE);
+
+        return securityEvent;
     }
 
 }

@@ -186,7 +186,7 @@ public class StatePublicDataExtractor {
      */
     protected ExtractFile createExtractFile(File tenantDirectory, String seaId, Map<String, PublicKey> clientKeys) {
         return new ExtractFile(tenantDirectory, Launcher.getArchiveName(seaId,
-                startTime.toDate()), clientKeys);
+                startTime.toDate()), clientKeys, securityEventUtil);
     }
 
     /**
