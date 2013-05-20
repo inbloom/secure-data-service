@@ -29,7 +29,11 @@ public enum BEMessageCode {
     BE_SE_CODE_0004,
     BE_SE_CODE_0005,
     BE_SE_CODE_0006,
-    BE_SE_CODE_0007;
+    BE_SE_CODE_0007,
+    BE_SE_CODE_0008,
+    BE_SE_CODE_0009,
+    BE_SE_CODE_0010,
+    BE_SE_CODE_0011;
 
     public String getCode() {
         return this.name();

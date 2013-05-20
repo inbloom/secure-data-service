@@ -28,8 +28,8 @@ import java.util.Map;
 
 public class LEAExtractorFactory {
     
-    public EdorgExtractor buildEdorgExtractor(EntityExtractor extractor, LEAExtractFileMap map) {
-        return new EdorgExtractor(extractor, map);
+    public EdorgExtractor buildEdorgExtractor(EntityExtractor extractor, LEAExtractFileMap map, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
+        return new EdorgExtractor(extractor, map, localEdOrgExtractHelper);
     }
     
     public StudentExtractor buildStudentExtractor(EntityExtractor extractor, LEAExtractFileMap map,

@@ -115,7 +115,7 @@ public class LocalEdOrgExtractorTest {
         SectionExtractor sectionExtractor = Mockito.mock(SectionExtractor.class);
         CourseExtractor courseExtract = Mockito.mock(CourseExtractor.class);
         CourseOfferingExtractor courseOfferingExtract = Mockito.mock(CourseOfferingExtractor.class);
-        Mockito.when(mockFactory.buildEdorgExtractor(entityExtractor, mockExtractMap)).thenReturn(mockExtractor);
+        Mockito.when(mockFactory.buildEdorgExtractor(entityExtractor, mockExtractMap, helper)).thenReturn(mockExtractor);
         Mockito.when(
                 mockFactory.buildStudentExtractor(Mockito.eq(entityExtractor), Mockito.eq(mockExtractMap),
                         Mockito.any(Repository.class), Mockito.any(LocalEdOrgExtractHelper.class))).thenReturn(mockStudent);
@@ -234,7 +234,7 @@ public class LocalEdOrgExtractorTest {
         File tenantDir = Mockito.mock(File.class);
         DateTime time = new DateTime();
         extractor.execute("Midgar", tenantDir, time);
-        Mockito.verify(mockFactory, Mockito.times(1)).buildEdorgExtractor(entityExtractor, mockExtractMap);
+        Mockito.verify(mockFactory, Mockito.times(1)).buildEdorgExtractor(entityExtractor, mockExtractMap, helper);
         Mockito.verify(mockExtractMap, Mockito.times(1)).archiveFiles();
         Mockito.verify(mockExtractMap, Mockito.times(1)).buildManifestFiles(time);
         Mockito.verify(mockExtractMap, Mockito.times(1)).closeFiles();
