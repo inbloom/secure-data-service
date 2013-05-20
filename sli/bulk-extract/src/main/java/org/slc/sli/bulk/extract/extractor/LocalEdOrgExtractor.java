@@ -183,7 +183,7 @@ public class LocalEdOrgExtractor {
         Map<String, PublicKey> appPublicKeys = bulkExtractMongoDA.getAppPublicKeys();
         for (String lea : helper.getBulkExtractLEAs()) {
             ExtractFile file = factory.buildLEAExtractFile(tenantDirectory.getAbsolutePath(), lea,
-                    getArchiveName(lea, startTime.toDate()), appPublicKeys);
+                    getArchiveName(lea, startTime.toDate()), appPublicKeys, securityEventUtil);
             edOrgToLEAExtract.put(lea, file);
             for (String child : helper.getChildEdOrgs(Arrays.asList(lea))) {
                 edOrgToLEAExtract.put(child, file);
