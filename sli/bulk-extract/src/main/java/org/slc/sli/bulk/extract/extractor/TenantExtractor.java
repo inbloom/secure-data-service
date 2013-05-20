@@ -108,8 +108,9 @@ public class TenantExtractor {
                     archiveFile.getKey(), startTime.toDate(), false, null, false);
         }
 
-        audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
-                "Completed tenant-level bulk extract", "Tenant full extract", LogLevelType.TYPE_INFO));
+        audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
+               "Tenant full extract", LogLevelType.TYPE_INFO,
+                BEMessageCode.BE_SE_CODE_0018));
     }
 
     /**
