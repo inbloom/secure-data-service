@@ -24,7 +24,12 @@ package org.slc.sli.bulk.extract.message;
 public enum BEMessageCode {
 
     BE_SE_CODE_0001,
-    BE_SE_CODE_0002;
+    BE_SE_CODE_0002,
+    BE_SE_CODE_0003,
+    BE_SE_CODE_0004,
+    BE_SE_CODE_0005,
+    BE_SE_CODE_0006,
+    BE_SE_CODE_0007;
 
     public String getCode() {
         return this.name();
