@@ -305,7 +305,7 @@ public class DeltaExtractor {
             appKeyMap.putAll(bulkExtractMongoDA.getClientIdAndPublicKey(appId, edorgList));
         }
         ExtractFile extractFile = new ExtractFile(getTenantDirectory(tenant), getArchiveName(edorg,
-                startTime.toDate()), appKeyMap);
+                startTime.toDate()), appKeyMap, securityEventUtil);
         extractFile.setEdorg(edorg);
         return extractFile;
     }

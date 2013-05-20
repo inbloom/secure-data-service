@@ -93,7 +93,6 @@ public class ExtractFileTest {
         appKey.put(testApp, publicKey);
         archiveFile = new ExtractFile(new File("./"), FILE_NAME, clientKeys, securityEventUtil);
         archiveFile.setClientKeys(appKey);
-        archiveFile.setSecurityEventUtil(securityEventUtil);
 
         File parentDir = (File) PrivateAccessor.getField(archiveFile, "tempDir");
 
