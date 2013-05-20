@@ -1162,7 +1162,12 @@ Then /^I delete one random entity from the my saved "(.*?)" except for:$/ do |va
   $GLOBAL_VARIABLE_MAP[variable] = deleted
 end
 
-Then /^I verify this delete file contains one single delete from all types in "(.*?)" except:$/ do |variable, table|
+Then /^I verify this delete file by app "(.*?)" for "(.*?)" contains one single delete from all types in "(.*?)" except:$/ do |appId, lea, variable, table|
+  opts = {sort: ["body.date", Mongo::DESCENDING], limit: 1}
+  getExtractInfoFromMongo(build_bulk_query("Midgar", appId, lea, true), opts)
+  openDecryptedFile(appId)
+  Minitar.unpack(@filePath, @unpackDir)
+
   deleted = $GLOBAL_VARIABLE_MAP[variable]
   puts deleted
   exceptions = []
