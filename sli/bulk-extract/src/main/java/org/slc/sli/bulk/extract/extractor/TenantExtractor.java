@@ -106,9 +106,6 @@ public class TenantExtractor {
         for (Entry<String, File> archiveFile : extractFile.getArchiveFiles().entrySet()) {
             bulkExtractMongoDA.updateDBRecord(tenant, archiveFile.getValue().getAbsolutePath(),
                     archiveFile.getKey(), startTime.toDate(), false, null, false);
-            audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
-                    archiveFile.getValue().getAbsolutePath(), LogLevelType.TYPE_INFO,
-                    archiveFile.getKey(), BEMessageCode.BE_SE_CODE_0007));
         }
 
         audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
