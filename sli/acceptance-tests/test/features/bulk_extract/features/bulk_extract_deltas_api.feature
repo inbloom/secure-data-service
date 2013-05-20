@@ -44,6 +44,7 @@ Scenario: Generate a bulk extract delta after day 0 ingestion
    And The "studentDisciplineIncidentAssociation" delta was extracted in the same format as the api
    And The "disciplineIncident" delta was extracted in the same format as the api
    And The "disciplineAction" delta was extracted in the same format as the api
+   And I save some IDs from all the extract files to "delete_candidate" so I can delete them later
 
 Scenario: Triggering deltas via ingestion
   All entities belong to lea1 which is IL-DAYBREAK, we should only see a delta file for lea1
@@ -181,6 +182,16 @@ Given I clean the bulk extract file system and database
       | id                                          | condition  |
       | d00dfdc3821fb8ea4f97147716afc2b153ceb5ba_id |            |
 
+    # This assessment was for student 1
+    And I verify this "studentAssessment" file should contain:
+      | id                                          | condition                          |
+      | 065f155b876c2dc15b6b319fa6f23834d05115b7_id | scoreResults.result = 92           |
+
+    # This was not
+    And I verify this "studentAssessment" file should not contain:
+      | id                                          | condition  |
+      | e458bacc2f3d2b89acb8b22e0de45b7e0f8506cf_id |            |
+
      And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
        |  attendance                            |
@@ -204,6 +215,7 @@ Given I clean the bulk extract file system and database
        |  studentDisciplineIncidentAssociation  |
        |  disciplineAction                      |
        |  deleted                               |
+     And I save some IDs from all the extract files to "delete_candidate" so I can delete them later
    
      And I verify this "deleted" file should contain:
        | id                                          | condition                                |
@@ -227,7 +239,7 @@ Given I clean the bulk extract file system and database
        | id                                          | condition                                |
        | 68c4855bf0bdcc850a883d88fdf953b9657fe255_id | exitWithdrawDate = 2014-05-31            |
      And I verify this "studentSchoolAssociation" file should not contain:
-       #this is an expired association, should not show up
+       #this is an association on a expired student 12, should not show up
        | id                                          | condition                                |
        | a13489364c2eb015c219172d561c62350f0453f3_id |                                          |
 
@@ -236,8 +248,9 @@ Given I clean the bulk extract file system and database
        | 6620fcd37d1095005a67dc330e591279577aede7_id | letterGradeEarned = A                    |
 
      And I verify this "studentAssessment" file should contain:
-       | id                                          | condition                                |
-       | 065f155b876c2dc15b6b319fa6f23834d05115b7_id | scoreResults.result = 92                 |
+       | id                                          | condition                                 |
+       | 065f155b876c2dc15b6b319fa6f23834d05115b7_id | scoreResults.result = 92                  |
+       | e458bacc2f3d2b89acb8b22e0de45b7e0f8506cf_id | studentAssessmentItems.rawScoreResult = 7 |
 
      And I verify this "parent" file should contain:
        | id                                          | condition                                                    |
@@ -251,7 +264,7 @@ Given I clean the bulk extract file system and database
        | id                                          | condition                                |
        | 95cc5d67f3b653eb3e2f0641c429cf2006dc2646_id | uniqueSectionCode = 2                    |
   
-     # Both Teacher 01 and 03 should be in DAYBREAk
+     # Both Teacher 01 and 03 should be in DAYBREAK
      And I verify this "teacher" file should contain:
        | id                                          | condition                                |
        | cab9d548be3e51adf6ac00a4028e4f9f4f9e9cae_id | staffUniqueStateId = tech-0000000003     |
@@ -308,6 +321,7 @@ Given I clean the bulk extract file system and database
       | 58295e247c01aae77d6f494d28c6a0b4808d4248_id | actualDisciplineActionLength = 3     |
       | d00dfdc3821fb8ea4f97147716afc2b153ceb5ba_id | actualDisciplineActionLength = 2     |
       | c78d1f951362ce558cb379cabc7491c6da339e58_id | actualDisciplineActionLength = 3     |
+
 
   #this step is necesssary since there is no graduationPlan in day 0 delta, need to verify it's really the same
    #format as API would return
@@ -853,6 +867,17 @@ Scenario: Test access to the api
   Given I log into "Paved Z00" with a token of "lstevenson", a "Noldor" for "IL-Highwind" in tenant "Midgar", that lasts for "300" seconds
   And I request latest delta via API for tenant "Midgar", lea "<IL-DAYBREAK>" with appId "<app id paved>" clientId "<client id paved>"
   Then I should receive a return code of 403
+
+Scenario: Test delete deltes
+  Given I clean the bulk extract file system and database
+    And I have an empty delta collection
+  And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  And I delete one random entity from the my saved "delete_candidate" except for:
+    | type                  |
+    | educationOrganization |
+  When I trigger a delta extract
+  And I verify this delete file by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" contains one single delete from all types in "delete_candidate" except:
+        |  entityType  |
 
 Scenario: Be a good neighbor and clean up before you leave
     Given I clean the bulk extract file system and database
