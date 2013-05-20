@@ -31,6 +31,7 @@ import java.util.Set;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
+import org.slc.sli.bulk.extract.message.BEMessageCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,6 +104,9 @@ public class DeltaExtractor {
     @Qualifier("secondaryRepo")
     Repository<Entity> repo;
 
+    @Autowired
+    private SecurityEventUtil securityEventUtil;
+
     Set<String> subdocs = EmbeddedDocumentRelations.getSubDocuments();
 
     @Value("${sli.bulk.extract.output.directory:extract}")
@@ -117,9 +121,9 @@ public class DeltaExtractor {
 
         TenantContext.setTenantId(tenant);
 
-        audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
-                "Beginning delta-level bulk extract up to date " + DATE_TIME_FORMATTER.print(deltaUptoTime),
-                "Delta extract up to date " + DATE_TIME_FORMATTER.print(deltaUptoTime), LogLevelType.TYPE_INFO));
+        audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
+                "Delta extract up to date " + DATE_TIME_FORMATTER.print(deltaUptoTime), LogLevelType.TYPE_INFO,
+                BEMessageCode.BE_SE_CODE_0019, DATE_TIME_FORMATTER.print(deltaUptoTime)));
 
         Map<String, Set<String>> appsPerTopLEA = reverse(filter(helper.getBulkExtractLEAsPerApp()));
         deltaEntityIterator.init(tenant, deltaUptoTime);
@@ -141,10 +145,10 @@ public class DeltaExtractor {
                             entityExtractor.write(delta.getEntity(), extractFile, record, null);
                         } catch (IOException e) {
                             LOG.error("Error while extracting for " + lea, e);
-                            audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
-                                    "Error while extracting for type " + delta.getEntity().getType() + " and LEA "+ lea
-                                    + ": " + e.getMessage(), "Delta extract up to date " + DATE_TIME_FORMATTER.print(deltaUptoTime)
-                                    + " for type " + delta.getEntity().getType() + " and LEA "+ lea, LogLevelType.TYPE_INFO));
+                            audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
+                                     "Delta extract up to date " + DATE_TIME_FORMATTER.print(deltaUptoTime)
+                                    + " for type " + delta.getEntity().getType() + " and LEA "+ lea, LogLevelType.TYPE_ERROR,
+                                    BEMessageCode.BE_SE_CODE_0020, delta.getEntity().getType(), lea, e.getMessage()));
                         }
                     }
                 }
@@ -157,9 +161,9 @@ public class DeltaExtractor {
         finalizeExtraction(tenant, deltaUptoTime);
         logEntityCounts();
 
-        audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
-                "Completed delta-level bulk extract up to date " + DATE_TIME_FORMATTER.print(deltaUptoTime),
-                "Delta extract up to date " + DATE_TIME_FORMATTER.print(deltaUptoTime), LogLevelType.TYPE_INFO));
+        audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
+                "Delta extract up to date " + DATE_TIME_FORMATTER.print(deltaUptoTime), LogLevelType.TYPE_INFO,
+                BEMessageCode.BE_SE_CODE_0021, DATE_TIME_FORMATTER.print(deltaUptoTime)));
     }
 
     private void logEntityCounts() {
@@ -326,5 +330,15 @@ public class DeltaExtractor {
      */
     public void setBaseDirectory(String baseDirectory) {
         this.baseDirectory = baseDirectory;
+    }
+
+    /**
+     * Set securityEventUtil.
+     *
+     * @param securityEventUtil
+     *          securityEventUtil
+     */
+    public void setSecurityEventUtil(SecurityEventUtil securityEventUtil) {
+        this.securityEventUtil = securityEventUtil;
     }
 }
