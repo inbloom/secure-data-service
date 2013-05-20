@@ -10,6 +10,7 @@
       <outputDirectory>/</outputDirectory>
       <includes>
         <include>/scripts/cleanup_bulk_extract.rb</include>
+        <include>/scripts/Gemfile</include>
         <include>/lib/TenantCleaner.rb</include>
         <include>/config/bulk_extract_cleanup.yml</include>
       </includes>
