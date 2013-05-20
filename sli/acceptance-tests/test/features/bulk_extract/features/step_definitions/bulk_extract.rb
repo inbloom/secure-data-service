@@ -569,6 +569,8 @@ end
 def getEntityEndpoint(entity)
   entity_to_endpoint_map = {
       "courseOffering" => "courseOfferings",
+      "seaCourse" => "educationOrganizations/884daa27d806c2d725bc469b273d840493f84b4d_id/courses",
+      "course" => "courses",
       "educationOrganization" => "educationOrganizations",
       "gradebookEntry" => "gradebookEntries",
       "invalidEntry" => "school",
@@ -2018,6 +2020,33 @@ def prepareBody(verb, value, response_map)
             "maxRawScore" => 10
           }
         }]
+      },
+      "newDaybreakCourse" => {
+        "courseDefinedBy" => "National Organization",
+        "courseDescription" => "this is a course for Sixth grade",
+        "courseLevelCharacteristics" => ["Core Subject"],
+        "dateCourseAdopted" => "2012-06-19",
+        "highSchoolCourseRequirement" => false,
+        "uniqueCourseId" => "new-science-1",
+        "entityType" => "course",
+        "courseCode" => [{
+            "identificationSystem" => "School course code",
+            "ID" => "new-science-1"
+        }],
+        "gradesOffered" => ["Sixth grade"],
+        "maximumAvailableCredit" => {
+            "credit" => 3.0
+        },
+        "minimumAvailableCredit" => {
+            "credit" => 3.0
+        },
+        "subjectArea" => "Critical Reading",
+        "courseLevel" => "Basic or remedial",
+        "courseTitle" => "Sixth grade Science",
+        "numberOfParts" => 1,
+        "schoolId" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id",
+        "courseGPAApplicability" => "Weighted",
+        "careerPathway" => "Arts, A/V Technology and Communications"
       },
       "newGrade" => {
 

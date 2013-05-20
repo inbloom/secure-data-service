@@ -600,7 +600,8 @@ Given I clean the bulk extract file system and database
     |  DbStudentSchoolAssociation    |  studentSchoolAssociation              |  201         |
     |  newParentFather               |  parent                                |  201         |
     |  newParentMother               |  parent                                |  201         |
-    |  newStudentFatherAssociation   |  studentParentAssociation              |  201         |
+    |  newStudentFatherAssociation   |  studentParentAssociation              |  201         |  
+    |  newDaybreakCourse             |  course                                |  201         |
     |  newCourseOffering             |  courseOffering                        |  201         |
     |  newSection                    |  section                               |  201         |
     |  newStudentSectionAssociation  |  studentSectionAssociation             |  201         |
@@ -629,6 +630,7 @@ Given I clean the bulk extract file system and database
   And I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
   And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
         |  entityType                            |
+        |  course                                |
         |  courseOffering                        |
         |  gradebookEntry                        |
         |  parent                                |
@@ -639,7 +641,6 @@ Given I clean the bulk extract file system and database
         |  studentAssessment                     |
         |  studentParentAssociation              |
         |  studentSchoolAssociation              |
-        #|  course                              |
         |  studentSectionAssociation             |
         |  teacher                               |
         |  teacherSchoolAssociation              |
@@ -729,6 +730,9 @@ Given I clean the bulk extract file system and database
   And I verify this "teacherSchoolAssociation" file should contain:
     | id                                          | condition                                                   |
     | 7a2d5a958cfda9905812c3a9f38c07ac4e8899b0_id | entityType = teacherSchoolAssociation                       |
+  And I verify this "course" file should contain:
+    | id                                          | condition                                                   |
+    | 877e4934a96612529535581d2e0f909c5288131a_id | entityType = course                                         |
     
  Given the extract download directory is empty
   When I request the latest bulk extract delta via API for "<IL-HIGHWIND>"
