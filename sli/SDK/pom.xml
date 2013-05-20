@@ -21,6 +21,11 @@
     <maven.release.version>2.2</maven.release.version>
     <maven.compiler.version>2.3.2</maven.compiler.version>
     <maven.surefire.version>2.10</maven.surefire.version>
+    <maven.resources.version>2.6</maven.resources.version>
+    <maven.deploy.version>2.7</maven.deploy.version>
+    <maven.war.version>2.3</maven.war.version>
+    <maven.jar.version>2.4</maven.jar.version>
+    <maven.install.version>2.4</maven.install.version>
     <junit.version>4.9</junit.version>
     <jaxrs-api>2.0-m09</jaxrs-api>
     <jersey-client>2.0-m05-1</jersey-client>
@@ -54,6 +59,32 @@
             <target>${java.version}</target>
             <encoding>${project.build.sourceEncoding}</encoding>
           </configuration>
+        </plugin>
+
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-resources-plugin</artifactId>
+            <version>${maven.resources.version}</version>
+        </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-deploy-plugin</artifactId>
+            <version>${maven.deploy.version}</version>
+        </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>${maven.war.version}</version>
+        </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <version>${maven.jar.version}</version>
+        </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-install-plugin</artifactId>
+            <version>${maven.install.version}</version>
         </plugin>
 
         <plugin>

@@ -32,7 +32,6 @@ public enum BEMessageCode {
     BE_SE_CODE_0007,
     BE_SE_CODE_0008,
     BE_SE_CODE_0009,
-    BE_SE_CODE_0010,
     BE_SE_CODE_0011,
     BE_SE_CODE_0012,
     BE_SE_CODE_0013,

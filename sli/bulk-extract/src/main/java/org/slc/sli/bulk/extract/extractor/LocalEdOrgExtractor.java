@@ -169,9 +169,6 @@ public class LocalEdOrgExtractor {
                 for (String app : apps) {
                     bulkExtractMongoDA.updateDBRecord(tenant, archiveFile.getValue().getAbsolutePath(), app,
                             startTime.toDate(), false, lea, false);
-                    SecurityEvent event = securityEventUtil.createSecurityEvent(this.getClass().getName(), archiveFile.getValue().getAbsolutePath(), LogLevelType.TYPE_INFO, app, BEMessageCode.BE_SE_CODE_0010);
-                    event.setTargetEdOrg(lea);
-                    audit(event);
                 }
             }
         }

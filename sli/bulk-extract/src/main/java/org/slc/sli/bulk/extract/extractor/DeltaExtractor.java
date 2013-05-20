@@ -15,30 +15,9 @@
  */
 package org.slc.sli.bulk.extract.extractor;
 
-import java.io.File;
-import java.io.IOException;
-import java.security.PublicKey;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
-import org.slc.sli.bulk.extract.message.BEMessageCode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.Launcher;
 import org.slc.sli.bulk.extract.context.resolver.TypeResolver;
@@ -49,16 +28,30 @@ import org.slc.sli.bulk.extract.delta.DeltaEntityIterator.Operation;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor.CollectionWrittenRecord;
 import org.slc.sli.bulk.extract.files.EntityWriterManager;
 import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.message.BEMessageCode;
 import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
 import org.slc.sli.bulk.extract.util.SecurityEventUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.util.logging.LogLevelType;
+import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import java.io.File;
+import java.io.IOException;
+import java.security.PublicKey;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * This class should be concerned about how to generate the delta files per LEA
@@ -122,7 +115,7 @@ public class DeltaExtractor {
         TenantContext.setTenantId(tenant);
 
         audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
-                "Delta extract up to date " + DATE_TIME_FORMATTER.print(deltaUptoTime), LogLevelType.TYPE_INFO,
+                "Delta Extract Initiation", LogLevelType.TYPE_INFO,
                 BEMessageCode.BE_SE_CODE_0019, DATE_TIME_FORMATTER.print(deltaUptoTime)));
 
         Map<String, Set<String>> appsPerTopLEA = reverse(filter(helper.getBulkExtractLEAsPerApp()));
@@ -145,10 +138,10 @@ public class DeltaExtractor {
                             entityExtractor.write(delta.getEntity(), extractFile, record, null);
                         } catch (IOException e) {
                             LOG.error("Error while extracting for " + lea, e);
-                            audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
-                                     "Delta extract up to date " + DATE_TIME_FORMATTER.print(deltaUptoTime)
-                                    + " for type " + delta.getEntity().getType() + " and LEA "+ lea, LogLevelType.TYPE_ERROR,
-                                    BEMessageCode.BE_SE_CODE_0020, delta.getEntity().getType(), lea, e.getMessage()));
+                            SecurityEvent event = securityEventUtil.createSecurityEvent(this.getClass().getName(), "Delta Extract for LEA", LogLevelType.TYPE_ERROR,
+                                    BEMessageCode.BE_SE_CODE_0020, delta.getEntity().getType(), lea, e.getMessage());
+                            event.setTargetEdOrg(lea);
+                            audit(event);
                         }
                     }
                 }
@@ -162,7 +155,7 @@ public class DeltaExtractor {
         logEntityCounts();
 
         audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
-                "Delta extract up to date " + DATE_TIME_FORMATTER.print(deltaUptoTime), LogLevelType.TYPE_INFO,
+                "Delta Extract Finished", LogLevelType.TYPE_INFO,
                 BEMessageCode.BE_SE_CODE_0021, DATE_TIME_FORMATTER.print(deltaUptoTime)));
     }
 
