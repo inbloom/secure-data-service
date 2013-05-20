@@ -128,7 +128,7 @@ Feature: Security events are logged when bulk extract is run
       | securityEvent   | 2                   | body.tenantId           | Hyrule                                                                       | string          |
       | securityEvent   | 1                   | body.logMessage         | Beginning tenant-level bulk extract for tenant Hyrule                        | string          |
       | securityEvent   | 1                   | body.logMessage         | No authorized application to extract data Midgar                             | string          |
-@wip
+
   Scenario: Trigger a bulk extract on a tenant that doesn't exit
     Given the following collections are empty in sli datastore:
       | collectionName              |
@@ -137,9 +137,9 @@ Feature: Security events are logged when bulk extract is run
   #Add a count to the following step once we know how many security events will be logged
     Then I should see following map of entry counts in the corresponding sli db collections:
       | collectionName              | count |
-      | securityEvent               |       |
+      | securityEvent               |   2   |
   #Add counts, and more log messages as we figure them out
     And I check to find if record is in sli db collection:
       | collectionName  | expectedRecordCount | searchParameter         | searchValue                                                                  | searchType      |
-      | securityEvent   |                     | body.appId              | BulkExtract                                                                  | string          |
-      | securityEvent   |                     | body.logMessage         | Bulk Extract process started.                                                | string          |
+      | securityEvent   |         1           | body.logMessage         | A bulk extract is not being initiated for the tenant NoTenantForYou because the tenant has not been onboarded | string          |
+      | securityEvent   | 1                   | body.logMessage         | Beginning bulk extract execution                            | string          |
