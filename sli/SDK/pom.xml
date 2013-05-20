@@ -4,7 +4,7 @@
 
   <groupId>org.slc.sli</groupId>
   <artifactId>SDK</artifactId>
-  <version>${VERSION_NUMBER}</version>
+  <version>1.0-SNAPSHOT</version>
 
   <packaging>pom</packaging>
   <name>SDK</name>
@@ -227,7 +227,7 @@
                     <packaging>pom</packaging>
                     <file>target/pom-install-deploy-fix/pom.xml</file>
                     <pomFile>target/pom-install-deploy-fix/pom.xml</pomFile>
-                    <version>${VERSION_NUMBER}</version>
+                    <version>1.0-SNAPSHOT</version>
                 </configuration>
             </execution>
         </executions>
@@ -246,7 +246,7 @@
                     <packaging>pom</packaging>
                     <file>target/pom-install-deploy-fix/pom.xml</file>
                     <pomFile>target/pom-install-deploy-fix/pom.xml</pomFile>
-                    <version>${VERSION_NUMBER}</version>
+                    <version>1.0-SNAPSHOT</version>
                     <updateReleaseInfo>${isRelease}</updateReleaseInfo>
                     <uniqueVersion>${isRelease}</uniqueVersion>
                 </configuration>

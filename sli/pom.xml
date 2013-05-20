@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.slc.sli</groupId>
     <artifactId>sli</artifactId>
-    <version>${VERSION_NUMBER}</version>
+    <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>SLI</name>
     <description>Shared Learning Infrastructure</description>
@@ -1187,7 +1187,7 @@
                         <goals>
                             <goal>exec</goal>
                         </goals>
-                        <phase>copy-resources</phase>
+                        <phase>compile</phase>
                         <configuration>
                             <executable>ruby</executable>
                             <arguments>
@@ -1203,7 +1203,7 @@
                         <goals>
                             <goal>exec</goal>
                         </goals>
-                        <phase>copy-resources</phase>
+                        <phase>compile</phase>
                         <configuration>
                             <executable>ruby</executable>
                             <arguments>

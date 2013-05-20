@@ -19,7 +19,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
-  <version>${VERSION_NUMBER}</version>
+  <version>1.0-SNAPSHOT</version>
   <groupId>org.slc.sli</groupId>
   <artifactId>sli</artifactId>
   <packaging>pom</packaging>
@@ -217,7 +217,7 @@
                     <packaging>pom</packaging>
                     <file>target/pom-install-deploy-fix/pom.xml</file>
                     <pomFile>target/pom-install-deploy-fix/pom.xml</pomFile>
-                    <version>${VERSION_NUMBER}</version>
+                    <version>1.0-SNAPSHOT</version>
                 </configuration>
             </execution>
         </executions>
@@ -236,7 +236,7 @@
                     <packaging>pom</packaging>
                     <file>target/pom-install-deploy-fix/pom.xml</file>
                     <pomFile>target/pom-install-deploy-fix/pom.xml</pomFile>
-                    <version>${VERSION_NUMBER}</version>
+                    <version>1.0-SNAPSHOT</version>
                     <updateReleaseInfo>${isRelease}</updateReleaseInfo>
                     <uniqueVersion>${isRelease}</uniqueVersion>
                 </configuration>
