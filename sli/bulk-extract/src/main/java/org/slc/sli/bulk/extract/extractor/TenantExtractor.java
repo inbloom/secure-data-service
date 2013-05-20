@@ -162,4 +162,13 @@ public class TenantExtractor {
     public void setEntityExtractor(EntityExtractor entityExtractor) {
         this.entityExtractor = entityExtractor;
     }
+
+    /**
+     * set securityEventUtil.
+     * @param securityEventUtil
+     *          securityEventUtil
+     */
+    public void setSecurityEventUtil(SecurityEventUtil securityEventUtil) {
+        this.securityEventUtil = securityEventUtil;
+    }
 }
