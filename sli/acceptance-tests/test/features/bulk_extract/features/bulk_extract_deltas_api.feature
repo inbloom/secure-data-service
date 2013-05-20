@@ -182,6 +182,16 @@ Given I clean the bulk extract file system and database
       | id                                          | condition  |
       | d00dfdc3821fb8ea4f97147716afc2b153ceb5ba_id |            |
 
+    # This assessment was for student 1
+    And I verify this "studentAssessment" file should contain:
+      | id                                          | condition                          |
+      | 065f155b876c2dc15b6b319fa6f23834d05115b7_id | scoreResults.result = 92           |
+
+    # This was not
+    And I verify this "studentAssessment" file should not contain:
+      | id                                          | condition  |
+      | e458bacc2f3d2b89acb8b22e0de45b7e0f8506cf_id |            |
+
      And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
        |  attendance                            |
@@ -238,8 +248,9 @@ Given I clean the bulk extract file system and database
        | 6620fcd37d1095005a67dc330e591279577aede7_id | letterGradeEarned = A                    |
 
      And I verify this "studentAssessment" file should contain:
-       | id                                          | condition                                |
-       | 065f155b876c2dc15b6b319fa6f23834d05115b7_id | scoreResults.result = 92                 |
+       | id                                          | condition                                 |
+       | 065f155b876c2dc15b6b319fa6f23834d05115b7_id | scoreResults.result = 92                  |
+       | e458bacc2f3d2b89acb8b22e0de45b7e0f8506cf_id | studentAssessmentItems.rawScoreResult = 7 |
 
      And I verify this "parent" file should contain:
        | id                                          | condition                                                    |
@@ -310,6 +321,7 @@ Given I clean the bulk extract file system and database
       | 58295e247c01aae77d6f494d28c6a0b4808d4248_id | actualDisciplineActionLength = 3     |
       | d00dfdc3821fb8ea4f97147716afc2b153ceb5ba_id | actualDisciplineActionLength = 2     |
       | c78d1f951362ce558cb379cabc7491c6da339e58_id | actualDisciplineActionLength = 3     |
+
 
   #this step is necesssary since there is no graduationPlan in day 0 delta, need to verify it's really the same
    #format as API would return
