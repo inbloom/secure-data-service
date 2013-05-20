@@ -21,7 +21,7 @@ Feature: Security events are logged when bulk extract is run
       | securityEvent   | 1                   | body.logMessage         | Beginning bulk extract execution                                             | string          |
       | securityEvent   | 1                   | body.logMessage         | Beginning tenant-level bulk extract                                          | string          |
       | securityEvent   | 1                   | body.logMessage         | Completed tenant-level bulk extract                                          | string          |
-      | securityEvent   | 1                   | body.logMessage         | Unable to trigger SEA public data extract for null                           | string          |
+      | securityEvent   | 1                   | body.logMessage         | Unable to trigger SEA public data extract                                    | string          |
       | securityEvent   | 1                   | body.logMessage         | No SEA is available for the tenant                                           | string          |
 
   Scenario: Trigger a full extract and check security event
