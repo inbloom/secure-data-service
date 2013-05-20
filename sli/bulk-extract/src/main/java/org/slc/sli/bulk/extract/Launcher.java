@@ -27,7 +27,6 @@ import org.slc.sli.bulk.extract.extractor.LocalEdOrgExtractor;
 import org.slc.sli.bulk.extract.extractor.StatePublicDataExtractor;
 import org.slc.sli.bulk.extract.extractor.TenantExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
-import org.slc.sli.bulk.extract.message.BEMessageCode;
 import org.slc.sli.bulk.extract.util.SecurityEventUtil;
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.tenantdb.TenantContext;
@@ -58,9 +57,6 @@ public class Launcher {
     private LocalEdOrgExtractor localEdOrgExtractor;
 
     @Autowired
-    private SecurityEventUtil securityEventUtil;
-
-    @Autowired
     private StatePublicDataExtractor statePublicDataExtractor;
 
     /**
@@ -70,7 +66,9 @@ public class Launcher {
      *          Tenant for which extract has been initiated
      */
     public void execute(String tenant, boolean isDelta) {
-        audit(securityEventUtil.createSecurityEvent(Launcher.class.getName(), "Bulk extract execution", LogLevelType.TYPE_INFO, BEMessageCode.BE_SE_CODE_0001));
+        audit(SecurityEventUtil.createSecurityEvent(Launcher.class.getName(),
+                "Beginning bulk extract execution",
+                "Bulk extract execution", LogLevelType.TYPE_INFO));
 
         Entity tenantEntity = bulkExtractMongoDA.getTenant(tenant);
         if (tenantEntity != null) {
@@ -92,7 +90,9 @@ public class Launcher {
                 statePublicDataExtractor.execute(tenant, getTenantDirectory(tenant), startTime);
             }
         } else {
-            audit(securityEventUtil.createSecurityEvent(Launcher.class.getName(), "Bulk extract execution", LogLevelType.TYPE_ERROR, BEMessageCode.BE_SE_CODE_0002, tenant));
+            audit(SecurityEventUtil.createSecurityEvent(Launcher.class.getName(),
+                    "A bulk extract is not being initiated for the tenant " + tenant + " because the tenant has not been onboarded",
+                    "Bulk extract execution", LogLevelType.TYPE_ERROR));
             LOG.error("A bulk extract is not being initiated for the tenant {} because the tenant has not been onboarded.", tenant);
         }
     }
@@ -189,13 +189,5 @@ public class Launcher {
      */
     public void setBulkExtractMongoDA(BulkExtractMongoDA bulkExtractMongoDA) {
         this.bulkExtractMongoDA = bulkExtractMongoDA;
-    }
-
-    /**
-     * Set securityEventUtil.
-     * @param securityEventUtil the securityEventUtil to set
-     */
-    public void setSecurityEventUtil(SecurityEventUtil securityEventUtil) {
-        this.securityEventUtil = securityEventUtil;
     }
 }
