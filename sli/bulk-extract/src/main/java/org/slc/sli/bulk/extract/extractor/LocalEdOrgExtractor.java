@@ -20,6 +20,7 @@ import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.Launcher;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.lea.*;
+import org.slc.sli.bulk.extract.message.BEMessageCode;
 import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
 import org.slc.sli.bulk.extract.util.SecurityEventUtil;
 import org.slc.sli.common.util.logging.LogLevelType;
@@ -53,6 +54,9 @@ public class LocalEdOrgExtractor {
     private BulkExtractMongoDA bulkExtractMongoDA;
     private LEAExtractorFactory factory;
 
+    @Autowired
+    private SecurityEventUtil securityEventUtil;
+
     private File tenantDirectory;
     private DateTime startTime;
 
@@ -69,7 +73,7 @@ public class LocalEdOrgExtractor {
         this.tenantDirectory = tenantDirectory;
         this.startTime = startTime;
 
-        audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(), "Beginning LEA level bulk extract", "LEA level extract initiated", LogLevelType.TYPE_INFO));
+        audit(securityEventUtil.createSecurityEvent(this.getClass().getName(), "LEA level extract initiated", LogLevelType.TYPE_INFO, BEMessageCode.BE_SE_CODE_0008));
 
         if (factory == null) {
             factory = new LEAExtractorFactory();
@@ -80,7 +84,7 @@ public class LocalEdOrgExtractor {
         // 2. EXTRACT
         EntityToLeaCache edorgCache = buildEdOrgCache();
 
-        EdorgExtractor edorg = factory.buildEdorgExtractor(entityExtractor, leaToExtractFileMap);
+        EdorgExtractor edorg = factory.buildEdorgExtractor(entityExtractor, leaToExtractFileMap, helper);
         edorg.extractEntities(edorgCache);
         
         // Student
@@ -152,7 +156,7 @@ public class LocalEdOrgExtractor {
         updateBulkExtractDb(tenant, startTime);
         LOG.info("Finished LEA based extract in: {} seconds",
                 (new DateTime().getMillis() - this.startTime.getMillis()) / 1000);
-        audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(), "Finished LEA level bulk extract", "Marks the end of LEA level extract", LogLevelType.TYPE_INFO));
+        audit(securityEventUtil.createSecurityEvent(this.getClass().getName(), "Marks the end of LEA level extract", LogLevelType.TYPE_INFO, BEMessageCode.BE_SE_CODE_0009));
     }
 
     private void updateBulkExtractDb(String tenant, DateTime startTime) {
@@ -165,7 +169,7 @@ public class LocalEdOrgExtractor {
                 for (String app : apps) {
                     bulkExtractMongoDA.updateDBRecord(tenant, archiveFile.getValue().getAbsolutePath(), app,
                             startTime.toDate(), false, lea, false);
-                    SecurityEvent event = SecurityEventUtil.createSecurityEvent(this.getClass().getName(), "Storing LEA extract file information", archiveFile.getValue().getAbsolutePath(), LogLevelType.TYPE_INFO, app);
+                    SecurityEvent event = securityEventUtil.createSecurityEvent(this.getClass().getName(), archiveFile.getValue().getAbsolutePath(), LogLevelType.TYPE_INFO, app, BEMessageCode.BE_SE_CODE_0010);
                     event.setTargetEdOrg(lea);
                     audit(event);
                 }
@@ -274,5 +278,13 @@ public class LocalEdOrgExtractor {
     
     public void setLeaToExtractMap(LEAExtractFileMap map) {
         this.leaToExtractFileMap = map;
+    }
+
+    /**
+     * Set securityEventUtil.
+     * @param securityEventUtil the securityEventUtil to set
+     */
+    public void setSecurityEventUtil(SecurityEventUtil securityEventUtil) {
+        this.securityEventUtil = securityEventUtil;
     }
 }
