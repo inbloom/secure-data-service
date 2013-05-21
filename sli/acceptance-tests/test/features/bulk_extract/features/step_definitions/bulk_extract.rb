@@ -588,12 +588,14 @@ def getEntityEndpoint(entity)
       "section" => "sections",
       "staff" => "staff",
       "newStaff" => "staff",
+      "staffCohortAssociation" => "staffCohortAssociations",
       "staffEducationOrganizationAssociation" => "staffEducationOrgAssignmentAssociations",
       "staffStudent" => "students",
       "student" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students",
       "newStudent" => "students",
       "studentAcademicRecord" => "studentAcademicRecords",
       "studentAssessment" => "studentAssessments",
+      "studentCohortAssociation" => "studentCohortAssociations",
       "studentSchoolAssociation" => "studentSchoolAssociations",
       "studentSectionAssociation" => "studentSectionAssociations",
       "studentParentAssociation" => "studentParentAssociations",
@@ -2141,8 +2143,7 @@ def prepareBody(verb, value, response_map)
         }]
       },
       "newCohort" => {
-        "programId" => ["9e25ad901ee8b54f4a21e8ef4eff5b0d3fa3264e_id"],
-        "academicSubject" => "Critical Awesomeness Training",
+        "academicSubject" => "Communication and Audio/Visual Technology",
         "cohortType" => "Extracurricular Activity",
         "cohortScope" => "School",
         "educationOrgId" => "a13489364c2eb015c219172d561c62350f0453f3_id",
@@ -2152,15 +2153,15 @@ def prepareBody(verb, value, response_map)
       },
       "newStaffCohortAssociation" => {
         "staffId" => "2472b775b1607b66941d9fb6177863f144c5ceae_id",
-        "cohortId" => "f95269af-cb73-4694-7919-201211130010_id",
+        "cohortId" => "cb99a7df36fadf8885b62003c442add9504b3cbd_id",
         "beginDate" => "2013-01-15",
         "endDate" => "2014-03-29",
         "studentRecordAccess" => true
       },
       "newStudentCohortAssociation" => {
         "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
-        "cohortId" => "b408d88e-8fd5-11e1-86ec-0021701f543f_id",
-        "beginDate" => "2013-02-29",
+        "cohortId" => "cb99a7df36fadf8885b62003c442add9504b3cbd_id",
+        "beginDate" => "2013-01-25",
         "endDate" => "2014-03-29"
       }
     },

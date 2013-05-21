@@ -592,7 +592,7 @@ Given I clean the bulk extract file system and database
   And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
   And I verify "2" delta bulk extract files are generated for LEA "<IL-HIGHWIND>" in "Midgar"
 
-@shortcut
+
 Scenario: Create Student, course offering and section as SEA Admin, users from different LEAs requesting Delta extracts
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -758,16 +758,18 @@ Given I clean the bulk extract file system and database
     | 95b973e29368712e2090fcad34d90fffb20aa9c4_id | schoolId = a13489364c2eb015c219172d561c62350f0453f3_id   |
   And I verify this "cohort" file should contain:
     | id                                          | condition                                                |
-    | 95b973e29368712e2090fcad34d90fffb20aa9c4_id | entityType = cohort                                      |
-    | 95b973e29368712e2090fcad34d90fffb20aa9c4_id | studentId = 9bf3036428c40861238fdc820568fde53e658d88_id  |
+    | cb99a7df36fadf8885b62003c442add9504b3cbd_id | entityType = cohort                                      |
+    | cb99a7df36fadf8885b62003c442add9504b3cbd_id | cohortIdentifier = new-cohort-1                          |
   And I verify this "staffCohortAssociation" file should contain:
     | id                                          | condition                                                |
-    | 95b973e29368712e2090fcad34d90fffb20aa9c4_id | entityType = staffCohortAssociation                      |
-    | 95b973e29368712e2090fcad34d90fffb20aa9c4_id | staffId = 9bf3036428c40861238fdc820568fde53e658d88_id    |
+    | 5e7d5f12cefbcb749069f2e5db63c1003df3c917_id | entityType = staffCohortAssociation                      |
+    | 5e7d5f12cefbcb749069f2e5db63c1003df3c917_id | staffId = 2472b775b1607b66941d9fb6177863f144c5ceae_id    |
+    | 5e7d5f12cefbcb749069f2e5db63c1003df3c917_id | cohortId = cb99a7df36fadf8885b62003c442add9504b3cbd_id   |
   And I verify this "studentCohortAssociation" file should contain:
     | id                                          | condition                                                |
-    | 95b973e29368712e2090fcad34d90fffb20aa9c4_id | entityType = studentCohortAssociation                    |
-    | 95b973e29368712e2090fcad34d90fffb20aa9c4_id | studentId = 9bf3036428c40861238fdc820568fde53e658d88_id  |
+    | 9bf3036428c40861238fdc820568fde53e658d88_idfa64547520fbfcbc8646a7a0bb3a52f76e4f4d21_id | entityType = studentCohortAssociation                   |
+    | 9bf3036428c40861238fdc820568fde53e658d88_idfa64547520fbfcbc8646a7a0bb3a52f76e4f4d21_id | cohortId = cb99a7df36fadf8885b62003c442add9504b3cbd_id  |
+    | 9bf3036428c40861238fdc820568fde53e658d88_idfa64547520fbfcbc8646a7a0bb3a52f76e4f4d21_id | studentId = 9bf3036428c40861238fdc820568fde53e658d88_id |
 
  Given the extract download directory is empty
   When I request the latest bulk extract delta via API for "<IL-HIGHWIND>"
@@ -802,7 +804,7 @@ Given I clean the bulk extract file system and database
     | f44b0a272ba009b9668151070806e132f9e38364_id | staffReference = e9f3401e0a034e20bb17663dd7d18ece6c4166b5_id                 |  
     | f44b0a272ba009b9668151070806e132f9e38364_id | educationOrganizationReference = 99d527622dcb51c465c515c0636d17e085302d5e_id |
 
-@wip
+
 Scenario: Delete student and stuSchAssoc, re-post them, then delete just studentSchoolAssociations (leaving students), verify delete
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -861,7 +863,7 @@ Given I clean the bulk extract file system and database
     | d913396aef918602b8049027dbdce8826c054402_id | entityType = studentSchoolAssociation |
 
 
-@wip
+
 Scenario: Create, delete, then re-create the same entity, verify 1 delta entry, no deletes
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -933,7 +935,7 @@ Given I clean the bulk extract file system and database
     | cbfe3a47491fdff0432d5d4abca339735da9461d_id | entityType = studentSchoolAssociation |
     | 9bf3036428c40861238fdc820568fde53e658d88_id | entityType = student                  |
 
-@wip
+
 Scenario: Test access to the api
   Given I log into "SDK Sample" with a token of "lstevenson", a "Noldor" for "IL-Highwind" in tenant "Midgar", that lasts for "300" seconds
   And I request latest delta via API for tenant "Midgar", lea "<IL-HIGHWIND>" with appId "<app id>" clientId "<client id>"
@@ -954,7 +956,7 @@ Scenario: Test access to the api
   And I request latest delta via API for tenant "Midgar", lea "<IL-DAYBREAK>" with appId "<app id paved>" clientId "<client id paved>"
   Then I should receive a return code of 403
 
-@wip
+
 Scenario: Test delete deltes
   Given I clean the bulk extract file system and database
     And I have an empty delta collection
@@ -966,6 +968,6 @@ Scenario: Test delete deltes
   And I verify this delete file by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" contains one single delete from all types in "delete_candidate" except:
         |  entityType  |
 
-@wip
+
 Scenario: Be a good neighbor and clean up before you leave
     Given I clean the bulk extract file system and database
