@@ -615,16 +615,16 @@ Given I clean the bulk extract file system and database
     |  newTeacher                    |  teacher                               |  201         |
     |  newTeacherEdorgAssociation    |  staffEducationOrganizationAssociation |  201         |
     |  newTeacherSchoolAssociation   |  teacherSchoolAssociation              |  201         |
-    #|  yearlyTranscript                    |
+    |  newGrade                      |  grade                                 |  201         |
+    #|  newReportCard                 |  reportCard                            |  201         |
+    #|  newStudentAcademicRecord      |  studentAcademicRecord                 |  201         |
+    #|  newYearlyTranscript           |  yearlyTranscrpit                      |  201         |
     #|  attendance                          |
     #|  cohort                              |
     #|  session                             |
     #|  gradingPeriod                       |
     #|  program                             |
     #|  graduationPlan                      |
-    #|  newGrade                      |  grade                      |  201         |
-    #|  newReportCard                 |  reportCard                 |  201         |
-    #|  newStudentAcademicRecord      |  studentAcademicRecord      |  201         |
 
  When I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
@@ -644,6 +644,9 @@ Given I clean the bulk extract file system and database
         |  studentSectionAssociation             |
         |  teacher                               |
         |  teacherSchoolAssociation              |
+        |  grade                               |
+        #|  reportCard                          |
+        #|  studentAcademicRecord               |
         #|  yearlyTranscript                    |
         #|  attendance                          |
         #|  cohort                              |
@@ -651,9 +654,7 @@ Given I clean the bulk extract file system and database
         #|  gradingPeriod                       |
         #|  program                             |
         #|  graduationPlan                      |
-        #|  grade                               |
-        #|  reportCard                          |
-        #|  studentAcademicRecord               |
+
 
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And I verify this "student" file should contain:
@@ -733,6 +734,9 @@ Given I clean the bulk extract file system and database
   And I verify this "course" file should contain:
     | id                                          | condition                                                   |
     | 877e4934a96612529535581d2e0f909c5288131a_id | entityType = course                                         |
+  And I verify this "grade" file should contain:
+    | id                                          | condition                                                   |
+    | 877e4934a96612529535581d2e0f909c5288131a_id | entityType = grade                                          |
     
  Given the extract download directory is empty
   When I request the latest bulk extract delta via API for "<IL-HIGHWIND>"

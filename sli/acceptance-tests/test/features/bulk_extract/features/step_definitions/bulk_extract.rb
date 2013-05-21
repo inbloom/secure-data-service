@@ -573,12 +573,14 @@ def getEntityEndpoint(entity)
       "course" => "courses",
       "educationOrganization" => "educationOrganizations",
       "gradebookEntry" => "gradebookEntries",
+      "grade" => "grades",
       "invalidEntry" => "school",
       "newParentDad" => "parents",
       "newParentMom" => "parents",
       "orphanEdorg" => "educationOrganizations",
       "parent" => "parents",
       "patchEdOrg" => "educationOrganizations",
+      "reportCard" => "reportCards",
       "school" => "educationOrganizations",
       "section" => "sections",
       "staff" => "staff",
@@ -587,6 +589,7 @@ def getEntityEndpoint(entity)
       "staffStudent" => "students",
       "student" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students",
       "newStudent" => "students",
+      "studentAcademicRecord" => "studentAcademicRecords",
       "studentAssessment" => "studentAssessments",
       "studentSchoolAssociation" => "studentSchoolAssociations",
       "studentSectionAssociation" => "studentSectionAssociations",
@@ -595,7 +598,8 @@ def getEntityEndpoint(entity)
       "teacher" => "teachers",
       "newTeacher" => "teachers",
       "teacherSchoolAssociation" => "teacherSchoolAssociations",
-      "wrongSchoolURI" => "schoolz"
+      "wrongSchoolURI" => "schoolz",
+      "yearlyTranscript" => "yearlyTranscripts"
   }
   return entity_to_endpoint_map[entity]
 end
@@ -2049,12 +2053,24 @@ def prepareBody(verb, value, response_map)
         "careerPathway" => "Arts, A/V Technology and Communications"
       },
       "newGrade" => {
-
+        "schoolYear" => "2013-2014",
+        "studentSectionAssociationId" => "4030207003b03d055bba0b5019b31046164eff4e_id78468628f357b29599510341f08dfd3277d9471e_id",
+        "sectionId" => "4030207003b03d055bba0b5019b31046164eff4e_id",
+        "letterGradeEarned" => "A",
+        "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+        "numericGradeEarned" => 96,
+        "gradeType" => "Final",
+        "performanceBaseConversion" => "Advanced",
+        "entityType" => "grade",
+        "diagnosticStatement" => "Student has Advanced understanding of subject."
       },
       "newReportCard" => {
 
       },
       "newStudentAcademicRecord" => {
+
+      },
+      "newYearlyTranscript" => {
 
       }
     },
