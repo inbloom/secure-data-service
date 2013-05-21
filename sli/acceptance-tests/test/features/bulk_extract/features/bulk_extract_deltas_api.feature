@@ -615,7 +615,7 @@ Given I clean the bulk extract file system and database
     |  newTeacherEdorgAssociation    |  staffEducationOrganizationAssociation |  201         |
     |  newTeacherSchoolAssociation   |  teacherSchoolAssociation              |  201         |
     |  newGrade                      |  grade                                 |  201         |
-    #|  newReportCard                 |  reportCard                            |  201         |
+    |  newReportCard                 |  reportCard                            |  201         |
     #|  newStudentAcademicRecord      |  studentAcademicRecord                 |  201         |
     #|  attendance                          |
     #|  cohort                              |
@@ -642,8 +642,8 @@ Given I clean the bulk extract file system and database
         |  studentSectionAssociation             |
         |  teacher                               |
         |  teacherSchoolAssociation              |
-        |  grade                               |
-        #|  reportCard                          |
+        |  grade                                 |
+        |  reportCard                            |
         #|  studentAcademicRecord               |
         #|  attendance                          |
         #|  cohort                              |
@@ -735,7 +735,11 @@ Given I clean the bulk extract file system and database
     | id                                          | condition                                                   |
     | 1417cec726dc51d43172568a9c332ee1712d73d4_idcd83575df61656c7d8aebb690ae0bb3ff129a857_id | entityType = grade |
     | 1417cec726dc51d43172568a9c332ee1712d73d4_idcd83575df61656c7d8aebb690ae0bb3ff129a857_id | sectionId = 4030207003b03d055bba0b5019b31046164eff4e_id |
-    
+  And I verify this "reportCard" file should contain:
+    | id                                                                                     | condition               |
+    | 1417cec726dc51d43172568a9c332ee1712d73d4_id77bc827b90835ef0df42154428ac3153f0ddc746_id | entityType = reportCard |
+    | 1417cec726dc51d43172568a9c332ee1712d73d4_id77bc827b90835ef0df42154428ac3153f0ddc746_id | studentId = 9bf3036428c40861238fdc820568fde53e658d88_id |
+
  Given the extract download directory is empty
   When I request the latest bulk extract delta via API for "<IL-HIGHWIND>"
    And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-HIGHWIND>" in "Midgar" contains a file for each of the following entities:
@@ -826,7 +830,6 @@ Given I clean the bulk extract file system and database
   And I verify this "deleted" file should contain:
     | id                                          | condition                             |
     | d913396aef918602b8049027dbdce8826c054402_id | entityType = studentSchoolAssociation |
-
 
 Scenario: Create, delete, then re-create the same entity, verify 1 delta entry, no deletes
 Given I clean the bulk extract file system and database
