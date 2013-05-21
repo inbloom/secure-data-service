@@ -815,14 +815,14 @@
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
-			<xs:restriction base="Program">
+			<xs:extension base="ComplexObjectType">
 				<xs:sequence>
-					<xs:element name="ProgramId" type="ProgramId"/>
+					<xs:element name="ProgramId" type="SLC-ProgramId"/>
 					<xs:element name="ProgramType" type="ProgramType"/>
 					<xs:element name="ProgramSponsor" type="ProgramSponsorType" minOccurs="0"/>
 					<xs:element name="Services" type="ServiceDescriptorType" minOccurs="0" maxOccurs="unbounded"/>
 				</xs:sequence>
-			</xs:restriction>
+			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="SLC-ReportCard">
@@ -1021,8 +1021,8 @@
 					<xs:element name="SchoolFoodServicesEligibility" type="SchoolFoodServicesEligibilityType" minOccurs="0"/>
 					<xs:element name="StudentCharacteristics" type="StudentCharacteristic" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="LimitedEnglishProficiency" type="LimitedEnglishProficiencyType" minOccurs="0"/>
-					<xs:element name="Languages" type="LanguagesType" minOccurs="0"/>
-					<xs:element name="HomeLanguages" type="LanguagesType" minOccurs="0"/>
+					<xs:element name="Languages" type="SLC-LanguagesType" minOccurs="0"/>
+					<xs:element name="HomeLanguages" type="SLC-LanguagesType" minOccurs="0"/>
 					<xs:element name="Disabilities" type="Disability" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="Section504Disabilities" type="Section504DisabilitiesType" minOccurs="0"/>
 					<xs:element name="DisplacementStatus" type="DisplacementStatusType" minOccurs="0"/>
@@ -1096,7 +1096,7 @@
 					<xs:element name="AdministrationDate" type="xs:date"/>
 					<xs:element name="AdministrationEndDate" type="xs:date" minOccurs="0"/>
 					<xs:element name="SerialNumber" type="IdentificationCode" minOccurs="0"/>
-					<xs:element name="AdministrationLanguage" type="LanguageItemType" minOccurs="0"/>
+					<xs:element name="AdministrationLanguage" type="SLC-LanguageItemType" minOccurs="0"/>
 					<xs:element name="AdministrationEnvironment" type="AdministrationEnvironmentType" minOccurs="0"/>
 					<xs:element name="SpecialAccommodations" type="SpecialAccommodationsType" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="LinguisticAccommodations" type="LinguisticAccommodationsType" minOccurs="0" maxOccurs="unbounded"/>
@@ -2415,7 +2415,7 @@
 			<xs:documentation>Changed to contain only ProgramId.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="ProgramId" type="ProgramId">
+			<xs:element name="ProgramId" type="SLC-ProgramId">
 				<xs:annotation>
 					<xs:appinfo>
 						<sli:keyFieldName>programId</sli:keyFieldName>
@@ -3432,6 +3432,14 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
+    <xs:complexType name="SLC-LanguagesType">
+		<xs:annotation>
+			<xs:documentation>Language the individual uses to communicate.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Language" type="SLC-LanguageItemType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
 	<xs:complexType name="SLC-RaceType">
 		<xs:annotation>
 			<xs:documentation>The general racial category which most clearly reflects the individual's recognition of his or her community or with which the individual most identifies.
@@ -4148,6 +4156,24 @@
 			<xs:enumeration value="Other"/>
 		</xs:restriction>
 	</xs:simpleType>
+	<xs:simpleType name="SLC-LanguageItemType">
+		<xs:annotation>
+			<xs:documentation>The item(s) denoting language(s) spoken or written.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="75"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SLC-ProgramId">
+		<xs:annotation>
+			<xs:documentation>A unique number or alphanumeric code assigned to a program by a school, school system, a state, or other agency or entity.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="60"/>
+		</xs:restriction>
+	</xs:simpleType>    
 	<xs:simpleType name="SLC-RelationType">
 		<xs:annotation>
 			<xs:documentation>The nature of an individual's relationship to a student.</xs:documentation>
