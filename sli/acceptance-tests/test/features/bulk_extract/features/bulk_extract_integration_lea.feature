@@ -18,11 +18,11 @@
       |  entityType                            | count |  id  | 
       #|  assessment                            |   |         |  
       |  attendance                            | 148 | a9605e685b48f1762236070db165cfe50961c058_id |
-      |  cohort                                |   4 | f25bd34b5500f039c4fcbcdb1c1eccfc9b878bb5_id |
+      |  cohort                                |   1 | f25bd34b5500f039c4fcbcdb1c1eccfc9b878bb5_id |
       #|  competencyLevelDescriptor             |   |         |
       |  course                                |   95| c2af0428d5c803fb3e908fdea10ae624c2f5abe4_id |
       |  courseOffering                        |   95| 42d2d4e0616ed8a94894aa78be9f15e5cafa3eb7_id |
-      #|  courseTranscript                      |   |         |
+      |  courseTranscript                      |  196| f93d8f8678c4bcbebe1c8b118d12cda004025304_id |
       #|  disciplineIncident                    |   |         |
       #|  disciplineAction                      |   |         |
       |  educationOrganization                 | 4 | 2fe47c8e78a65ee51a72628c170673c35c4bd85a_id |
