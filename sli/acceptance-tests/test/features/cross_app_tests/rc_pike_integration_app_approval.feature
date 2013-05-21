@@ -287,7 +287,7 @@ And the extract contains a file for each of the following entities:
       |  attendance                            |
       |  cohort                                |
       |  course                                |
-      # |  courseTranscript                      |
+      |  courseTranscript                      |
       |  courseOffering                        |
       # |  disciplineIncident                    |
       # |  disciplineAction                      |
