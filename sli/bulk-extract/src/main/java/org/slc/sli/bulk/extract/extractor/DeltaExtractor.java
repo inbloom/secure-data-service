@@ -161,12 +161,12 @@ public class DeltaExtractor {
             }
         }
 
-        finalizeExtraction(tenant, deltaUptoTime);
         logEntityCounts();
 
         audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
                 "Delta Extract Finished", LogLevelType.TYPE_INFO,
                 BEMessageCode.BE_SE_CODE_0021, DATE_TIME_FORMATTER.print(deltaUptoTime)));
+        finalizeExtraction(tenant, deltaUptoTime);
     }
 
     private void logEntityCounts() {
