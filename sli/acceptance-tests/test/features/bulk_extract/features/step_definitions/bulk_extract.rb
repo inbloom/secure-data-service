@@ -571,10 +571,12 @@ def getEntityEndpoint(entity)
       "attendance" => "attendances",
       "courseOffering" => "courseOfferings",
       "seaCourse" => "educationOrganizations/884daa27d806c2d725bc469b273d840493f84b4d_id/courses",
+      "cohort" => "cohorts",
       "course" => "courses",
       "educationOrganization" => "educationOrganizations",
       "gradebookEntry" => "gradebookEntries",
       "grade" => "grades",
+      "gradingPeriod" => "gradingPeriods",
       "invalidEntry" => "school",
       "newParentDad" => "parents",
       "newParentMom" => "parents",
@@ -2138,6 +2140,29 @@ def prepareBody(verb, value, response_map)
           }]
         }]
       },
+      "newCohort" => {
+        "programId" => ["9e25ad901ee8b54f4a21e8ef4eff5b0d3fa3264e_id"],
+        "academicSubject" => "Critical Awesomeness Training",
+        "cohortType" => "Extracurricular Activity",
+        "cohortScope" => "School",
+        "educationOrgId" => "a13489364c2eb015c219172d561c62350f0453f3_id",
+        "entityType" => "cohort",
+        "cohortDescription" => "New Cohort 1 at Edorg Daybreak Central High",
+        "cohortIdentifier" => "new-cohort-1"
+      },
+      "newStaffCohortAssociation" => {
+        "staffId" => "2472b775b1607b66941d9fb6177863f144c5ceae_id",
+        "cohortId" => "f95269af-cb73-4694-7919-201211130010_id",
+        "beginDate" => "2013-01-15",
+        "endDate" => "2014-03-29",
+        "studentRecordAccess" => true
+      },
+      "newStudentCohortAssociation" => {
+        "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+        "cohortId" => "b408d88e-8fd5-11e1-86ec-0021701f543f_id",
+        "beginDate" => "2013-02-29",
+        "endDate" => "2014-03-29"
+      }
     },
     "PATCH" => {
       "postalCode" => {
