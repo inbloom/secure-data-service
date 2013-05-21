@@ -38,7 +38,6 @@ Scenario: Generate a bulk extract delta after day 0 ingestion
    And The "gradingPeriod" delta was extracted in the same format as the api
    And The "courseOffering" delta was extracted in the same format as the api
    And The "course" delta was extracted in the same format as the api
-   And The "program" delta was extracted in the same format as the api
    And The "studentProgramAssociation" delta was extracted in the same format as the api
    And The "staffProgramAssociation" delta was extracted in the same format as the api
    And The "studentDisciplineIncidentAssociation" delta was extracted in the same format as the api
@@ -76,7 +75,6 @@ Given I clean the bulk extract file system and database
        |  teacherSchoolAssociation              |
        |  course                                |
        |  courseOffering                        |
-       |  program                               |
        |  graduationPlan                        |
        |  disciplineIncident                    |
        |  studentDisciplineIncidentAssociation  |
@@ -133,17 +131,6 @@ Given I clean the bulk extract file system and database
     And I verify this "course" file should not contain:
       | id                                          | condition                                |
       | 160cbcc9e293d45a11053f4d3bf6f4be8b70bac4_id |                                          |
-
-    # Since student 1 is valid for Highwind, these two should be included
-    And I verify this "program" file should contain:
-      | id                                          | condition                                |
-      | 004351714bfe0f6a34eb3f09a26fcbaf81645d1f_id | programType = Gifted and Talented        |
-      | 9cce6ea23864ee4870c8871e4c14ddecb6ab0fb0_id | programType = Gifted and Talented        |
-
-    # This one is just for Daybreak
-    And I verify this "program" file should not contain:
-      | id                                          | condition                                |
-      | 5449814bb2dbed641d914843fb17a87f6222ec82_id |                                          |
 
     And I verify this "graduationPlan" file should contain:
       | id                                          | condition                                |
@@ -209,7 +196,6 @@ Given I clean the bulk extract file system and database
        |  teacherSectionAssociation             |
        |  courseOffering                        |
        |  course                                |
-       |  program                               |
        |  graduationPlan                        |
        |  disciplineIncident                    |
        |  studentDisciplineIncidentAssociation  |
@@ -294,12 +280,6 @@ Given I clean the bulk extract file system and database
       | id                                          | condition                                |
       | 2dad46540a82bd0ad17b7dbcbb6cbdd4fce2125d_id | uniqueCourseId = DAYBREAK21              |
       | 160cbcc9e293d45a11053f4d3bf6f4be8b70bac4_id | uniqueCourseId = DAYBREAK1               |
-
-    And I verify this "program" file should contain:
-      | id                                          | condition                                |
-      | 004351714bfe0f6a34eb3f09a26fcbaf81645d1f_id | programType = Gifted and Talented        |
-      | 9cce6ea23864ee4870c8871e4c14ddecb6ab0fb0_id | programType = Gifted and Talented        |
-      | 5449814bb2dbed641d914843fb17a87f6222ec82_id | programType = Gifted and Talented        |
 
     And I verify this "graduationPlan" file should contain:
       | id                                          | condition                                |
