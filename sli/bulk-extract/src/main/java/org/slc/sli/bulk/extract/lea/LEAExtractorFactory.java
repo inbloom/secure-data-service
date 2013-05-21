@@ -126,4 +126,9 @@ public class LEAExtractorFactory {
             Repository<Entity> repo) {
         return new CourseTranscriptExtractor(extractor, map, repo);
     }
+    
+    public EntityExtract buildStudentGradebookEntryExtractor(EntityExtractor extractor, LEAExtractFileMap map,
+            Repository<Entity> repo, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
+        return new StudentGradebookEntryExtractor(extractor, map, repo, localEdOrgExtractHelper);
+    }
 }
