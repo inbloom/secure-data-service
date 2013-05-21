@@ -52,7 +52,7 @@
       |  studentProgramAssociation             | 12 | 9be61921ddf0bcd3d58fb99d4e9c454ef5707eb7_id2139ed90ad4b4a9e7d66f47a996fb343a07cde39_id |
       #|  studentGradebookEntry                 |   |         |
       |  studentSchoolAssociation              | 332 | 849a010012a384e4ba33c6bb5014a4707e7072c9_id |
-      |  studentSectionAssociation             | 297 | 42d78c37610b0110d8cf80d7afb4e556884550e1_ide371ef980b66ae592795248d685d60a16e73e726_id |
+      |  studentSectionAssociation             | 294 | 42d78c37610b0110d8cf80d7afb4e556884550e1_ide371ef980b66ae592795248d685d60a16e73e726_id |
       |  studentParentAssociation              | 18 | 9be61921ddf0bcd3d58fb99d4e9c454ef5707eb7_id5ba0c1c2a60e24e0b01a66d6d68892f16ba29b01_id |
       |  teacher                               | 3 | ac8ff205a6cbb248c761083ac692802a0709e4b1_id |
       |  teacherSchoolAssociation              | 3  | 7c6f6301ed520d8d0606ed525044143e900d456b_id |
