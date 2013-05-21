@@ -2086,10 +2086,35 @@ def prepareBody(verb, value, response_map)
         "numberOfDaysAbsent" => 1.0
       },
       "newStudentAcademicRecord" => {
+        "gradeValueQualifier" => "90-100%=A, 80-90%=B",
+        "projectedGraduationDate" => "2013-08-18",
+        "academicHonors" => [{
+            "honorAwardDate" => "2000-07-28",
+            "honorsDescription" => "Honor Desc BBB",
+            "academicHonorsType" => "Scholarships",
 
-      },
-      "newYearlyTranscript" => {
-
+        }],
+        "cumulativeCreditsEarned" => {
+            "credit" => 3.0
+        },
+        "reportCards" => ["1417cec726dc51d43172568a9c332ee1712d73d4_id77bc827b90835ef0df42154428ac3153f0ddc746_id"],
+        "entityType" => "studentAcademicRecord",
+        "schoolYear" => "2013-2014",
+        "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+        "sessionId" => "bfeaf9315f04797a41dbf1663d18ead6b6fb1309_id",
+        "classRanking" => {
+            "classRankingDate" => "2013-10-19",
+            "percentageRanking" => 99,
+            "totalNumberInClass" => 8,
+            "classRank" => 10
+        },
+        "cumulativeGradePointAverage" => 3.8,
+        "recognitions" => [{
+            "recognitionType" => "Other",
+            "recognitionAwardDate" => "2013-10-25",
+            "recognitionDescription" => "Recognition Desc BBB"
+        }],
+        "cumulativeGradePointsEarned" => 0.0
       }
     },
     "PATCH" => {

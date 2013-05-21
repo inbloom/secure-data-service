@@ -616,7 +616,7 @@ Given I clean the bulk extract file system and database
     |  newTeacherSchoolAssociation   |  teacherSchoolAssociation              |  201         |
     |  newGrade                      |  grade                                 |  201         |
     |  newReportCard                 |  reportCard                            |  201         |
-    #|  newStudentAcademicRecord      |  studentAcademicRecord                 |  201         |
+    |  newStudentAcademicRecord      |  studentAcademicRecord                 |  201         |
     #|  attendance                          |
     #|  cohort                              |
     #|  session                             |
@@ -644,7 +644,7 @@ Given I clean the bulk extract file system and database
         |  teacherSchoolAssociation              |
         |  grade                                 |
         |  reportCard                            |
-        #|  studentAcademicRecord               |
+        |  studentAcademicRecord                 |
         #|  attendance                          |
         #|  cohort                              |
         #|  session                             |
@@ -739,6 +739,10 @@ Given I clean the bulk extract file system and database
     | id                                                                                     | condition               |
     | 1417cec726dc51d43172568a9c332ee1712d73d4_id77bc827b90835ef0df42154428ac3153f0ddc746_id | entityType = reportCard |
     | 1417cec726dc51d43172568a9c332ee1712d73d4_id77bc827b90835ef0df42154428ac3153f0ddc746_id | studentId = 9bf3036428c40861238fdc820568fde53e658d88_id |
+  And I verify this "studentAcademicRecord" file should contain:
+    | id                                                                                     | condition                          |
+    | 1417cec726dc51d43172568a9c332ee1712d73d4_idb2b773084845209865762830ceb1721ebb1101ef_id | entityType = studentAcademicRecord |
+    | 1417cec726dc51d43172568a9c332ee1712d73d4_idb2b773084845209865762830ceb1721ebb1101ef_id | studentId = 9bf3036428c40861238fdc820568fde53e658d88_id |
 
  Given the extract download directory is empty
   When I request the latest bulk extract delta via API for "<IL-HIGHWIND>"
@@ -831,6 +835,8 @@ Given I clean the bulk extract file system and database
     | id                                          | condition                             |
     | d913396aef918602b8049027dbdce8826c054402_id | entityType = studentSchoolAssociation |
 
+
+
 Scenario: Create, delete, then re-create the same entity, verify 1 delta entry, no deletes
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -903,6 +909,7 @@ Given I clean the bulk extract file system and database
     | 9bf3036428c40861238fdc820568fde53e658d88_id | entityType = student                  |
 
 
+
 Scenario: Test access to the api
   Given I log into "SDK Sample" with a token of "lstevenson", a "Noldor" for "IL-Highwind" in tenant "Midgar", that lasts for "300" seconds
   And I request latest delta via API for tenant "Midgar", lea "<IL-HIGHWIND>" with appId "<app id>" clientId "<client id>"
@@ -924,6 +931,7 @@ Scenario: Test access to the api
   Then I should receive a return code of 403
 
 
+
 Scenario: Test delete deltes
   Given I clean the bulk extract file system and database
     And I have an empty delta collection
@@ -934,6 +942,7 @@ Scenario: Test delete deltes
   When I trigger a delta extract
   And I verify this delete file by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" contains one single delete from all types in "delete_candidate" except:
         |  entityType  |
+
 
 
 Scenario: Be a good neighbor and clean up before you leave
