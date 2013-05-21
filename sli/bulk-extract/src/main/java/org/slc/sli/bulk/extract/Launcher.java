@@ -27,6 +27,9 @@ import org.slc.sli.bulk.extract.extractor.LocalEdOrgExtractor;
 import org.slc.sli.bulk.extract.extractor.StatePublicDataExtractor;
 import org.slc.sli.bulk.extract.extractor.TenantExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.message.BEMessageCode;
+import org.slc.sli.bulk.extract.util.SecurityEventUtil;
+import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory;
 import org.slc.sli.domain.Entity;
@@ -55,6 +58,9 @@ public class Launcher {
     private LocalEdOrgExtractor localEdOrgExtractor;
 
     @Autowired
+    private SecurityEventUtil securityEventUtil;
+
+    @Autowired
     private StatePublicDataExtractor statePublicDataExtractor;
 
     /**
@@ -64,6 +70,8 @@ public class Launcher {
      *          Tenant for which extract has been initiated
      */
     public void execute(String tenant, boolean isDelta) {
+        audit(securityEventUtil.createSecurityEvent(Launcher.class.getName(), "Bulk extract execution", LogLevelType.TYPE_INFO, BEMessageCode.BE_SE_CODE_0001));
+
         Entity tenantEntity = bulkExtractMongoDA.getTenant(tenant);
         if (tenantEntity != null) {
             DateTime startTime = new DateTime();
@@ -74,7 +82,7 @@ public class Launcher {
                 TenantContext.setTenantId(tenant);
                 extractFile = new ExtractFile(getTenantDirectory(tenant),
                     getArchiveName(tenant, startTime.toDate()),
-                    bulkExtractMongoDA.getAppPublicKeys());
+                    bulkExtractMongoDA.getAppPublicKeys(), securityEventUtil);
 
                 LOG.info("Starting tenant based extract...");
                 tenantExtractor.execute(tenant, extractFile, startTime);
@@ -84,6 +92,7 @@ public class Launcher {
                 statePublicDataExtractor.execute(tenant, getTenantDirectory(tenant), startTime);
             }
         } else {
+            audit(securityEventUtil.createSecurityEvent(Launcher.class.getName(), "Bulk extract execution", LogLevelType.TYPE_ERROR, BEMessageCode.BE_SE_CODE_0002, tenant));
             LOG.error("A bulk extract is not being initiated for the tenant {} because the tenant has not been onboarded.", tenant);
         }
     }
@@ -151,7 +160,7 @@ public class Launcher {
         if (args.length == 2) {
             isDelta = Boolean.parseBoolean(args[1]);
         }
-    
+
         main.execute(tenantId, isDelta);
 
     }
@@ -180,5 +189,13 @@ public class Launcher {
      */
     public void setBulkExtractMongoDA(BulkExtractMongoDA bulkExtractMongoDA) {
         this.bulkExtractMongoDA = bulkExtractMongoDA;
+    }
+
+    /**
+     * Set securityEventUtil.
+     * @param securityEventUtil the securityEventUtil to set
+     */
+    public void setSecurityEventUtil(SecurityEventUtil securityEventUtil) {
+        this.securityEventUtil = securityEventUtil;
     }
 }

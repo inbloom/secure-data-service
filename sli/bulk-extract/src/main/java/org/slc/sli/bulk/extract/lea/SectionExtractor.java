@@ -18,6 +18,8 @@ package org.slc.sli.bulk.extract.lea;
 import com.google.common.base.Predicate;
 import org.slc.sli.bulk.extract.BulkExtractEntity;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
+import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
@@ -38,31 +40,40 @@ public class SectionExtractor implements EntityExtract {
     private final EntityToLeaCache edorgCache;
     private final EntityToLeaCache courseOfferingCache = new EntityToLeaCache();
     private final EntityToLeaCache ssaCache = new EntityToLeaCache();
+    private final LocalEdOrgExtractHelper localEdOrgExtractHelper;
 
 
-    public SectionExtractor(EntityExtractor entityExtractor, LEAExtractFileMap leaToExtractFileMap, Repository<Entity> repository, EntityToLeaCache studentCache, EntityToLeaCache edorgCache) {
+    public SectionExtractor(EntityExtractor entityExtractor, LEAExtractFileMap leaToExtractFileMap, Repository<Entity> repository, EntityToLeaCache studentCache, EntityToLeaCache edorgCache, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
 
         this.entityExtractor = entityExtractor;
         this.leaToExtractFileMap = leaToExtractFileMap;
         this.repository = repository;
         this.studentCache = studentCache;
         this.edorgCache = edorgCache;
+        this.localEdOrgExtractHelper = localEdOrgExtractHelper;
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public void extractEntities(EntityToLeaCache entityToEdorgCache) {
+        localEdOrgExtractHelper.logSecurityEvent(leaToExtractFileMap.getLeas(), EntityNames.SECTION, this.getClass().getName());
         Iterator<Entity> sections = this.repository.findEach("section", new NeutralQuery());
 
         while (sections.hasNext()) {
             Entity section = sections.next();
-            String lea = this.edorgCache.leaFromEdorg((String) section.getBody().get("schoolId"));
+            final String lea = this.edorgCache.leaFromEdorg((String) section.getBody().get("schoolId"));
 
             if (null != lea) {  // Edorgs way
                 extract(section, lea, new Predicate<Entity>() {
                     @Override
                     public boolean apply(Entity input) {
-                        return true;
+                        boolean shouldExtract = true;
+                        String studentId = (String) input.getBody().get("studentId");
+                        if (studentId != null) {    // Validate that referenced student is visible to given lea
+                            shouldExtract = studentCache.getEntriesById(studentId).contains(lea);
+                        }
+
+                        return shouldExtract;
                     }
                 });
 

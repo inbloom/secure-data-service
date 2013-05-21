@@ -80,7 +80,7 @@ public class ExtractorHelper {
         }
         return parents;
     }
-    
+
     /**
      * uses the date helper to tell us if the entity is current or not
      * 

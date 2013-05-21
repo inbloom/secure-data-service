@@ -28,6 +28,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
@@ -53,6 +54,8 @@ public class StaffEdorgAssignmentExtractorTest {
     private Entity mockEntity;
     @Mock
     private ExtractFile mockFile;
+    @Mock
+    private LocalEdOrgExtractHelper mockLocalEdOrgExtractHelper;
 
     private Map<String, Object> entityBody;
     private EntityToLeaCache edorgToLeaCache;
@@ -61,7 +64,7 @@ public class StaffEdorgAssignmentExtractorTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         entityBody = new HashMap<String, Object>();
-        extractor = new StaffEdorgAssignmentExtractor(mockExtractor, mockMap, mockRepo, mockExtractorHelper, mockCache);
+        extractor = new StaffEdorgAssignmentExtractor(mockExtractor, mockMap, mockRepo, mockExtractorHelper, mockCache, mockLocalEdOrgExtractHelper);
         Mockito.when(mockEntity.getBody()).thenReturn(entityBody);
         edorgToLeaCache = new EntityToLeaCache();
         edorgToLeaCache.addEntry("LEA", "School1");

@@ -93,8 +93,8 @@ class TenantCleaner
   ##########
 
   def getConfigProperties()
-    absParentDirname = File.expand_path('..', File.absolute_path(File.dirname($PROGRAM_NAME)))
-    properties = YAML::load_file(absParentDirname + '/config/bulk_extract_cleanup.yml')
+    absParentDirname = File.expand_path('../..', __FILE__)
+    properties = YAML::load_file(File.expand_path('../../config/bulk_extract_cleanup.yml', __FILE__))
     @dbHost = properties['bulk_extract_host']
     @dbPort = properties['bulk_extract_port']
     @dbName = properties['sli_database_name']

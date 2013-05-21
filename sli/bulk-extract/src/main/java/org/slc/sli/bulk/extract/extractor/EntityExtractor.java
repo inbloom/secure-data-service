@@ -25,6 +25,9 @@ import java.util.Map;
 
 import org.slc.sli.bulk.extract.files.EntityWriterManager;
 import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.message.BEMessageCode;
+import org.slc.sli.bulk.extract.util.SecurityEventUtil;
+import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
@@ -32,6 +35,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Predicate;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 /**
@@ -50,6 +54,9 @@ public class EntityExtractor{
 
     private NeutralQuery extractionQuery;
 
+    @Autowired
+    private SecurityEventUtil securityEventUtil;
+
     /**
      * extract all the records of entity.
      *
@@ -59,6 +66,11 @@ public class EntityExtractor{
      *          Name of the entity to be extracted
      */
     public void extractEntities(ExtractFile archiveFile, String collectionName) {
+
+        audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
+                " Entity extraction", LogLevelType.TYPE_INFO,
+                BEMessageCode.BE_SE_CODE_0024, collectionName));
+
         try {
             if (extractionQuery == null) {
                 extractionQuery = new NeutralQuery();
@@ -78,6 +90,9 @@ public class EntityExtractor{
                 LOG.info("Finished extracting " + collectionRecord.toString());
             }
         } catch (IOException e) {
+            audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
+                    " Entity extraction", LogLevelType.TYPE_ERROR,
+                    BEMessageCode.BE_SE_CODE_0025, collectionName));
             LOG.error("Error while extracting from " + collectionName, e);
         }
     }

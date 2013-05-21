@@ -54,6 +54,9 @@ CLEANUP_SCRIPT = File.expand_path(PropLoader.getProps['bulk_extract_cleanup_scri
 $APP_CONVERSION_MAP = {"19cca28d-7357-4044-8df9-caad4b1c8ee4" => "vavedra9ub",
                        "22c2a28d-7327-4444-8ff9-caad4b1c7aa3" => "pavedz00ua" 
                       }
+#Don't hate me, help me find a better solution...
+#BTW, I got "Riley Approved" 
+$GLOBAL_VARIABLE_MAP = {}
 
 ############################################################
 # Transform
@@ -566,6 +569,8 @@ end
 def getEntityEndpoint(entity)
   entity_to_endpoint_map = {
       "courseOffering" => "courseOfferings",
+      "seaCourse" => "educationOrganizations/884daa27d806c2d725bc469b273d840493f84b4d_id/courses",
+      "course" => "courses",
       "educationOrganization" => "educationOrganizations",
       "gradebookEntry" => "gradebookEntries",
       "invalidEntry" => "school",
@@ -576,6 +581,9 @@ def getEntityEndpoint(entity)
       "patchEdOrg" => "educationOrganizations",
       "school" => "educationOrganizations",
       "section" => "sections",
+      "staff" => "staff",
+      "newStaff" => "staff",
+      "staffEducationOrganizationAssociation" => "staffEducationOrgAssignmentAssociations",
       "staffStudent" => "students",
       "student" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students",
       "newStudent" => "students",
@@ -584,6 +592,9 @@ def getEntityEndpoint(entity)
       "studentSectionAssociation" => "studentSectionAssociations",
       "studentParentAssociation" => "studentParentAssociations",
       "newStudentParentAssociation" => "studentParentAssociations",
+      "teacher" => "teachers",
+      "newTeacher" => "teachers",
+      "teacherSchoolAssociation" => "teacherSchoolAssociations",
       "wrongSchoolURI" => "schoolz"
   }
   return entity_to_endpoint_map[entity]
@@ -889,16 +900,7 @@ end
 
 Then /^I verify this "(.*?)" file (should|should not) contain:$/ do |file_name, should, table|
     look_for = should.downcase == "should"
-    json_file_name = @unpackDir + "/#{file_name}.json"
-    exists = File.exists?(json_file_name)
-    unless exists
-      exists = File.exists?(json_file_name+".gz")
-      assert(exists, "Cannot find #{file_name}.json.gz file in extracts")
-      `gunzip -c #{json_file_name}.gz > #{json_file_name}`
-    end
-    json = JSON.parse(File.read("#{json_file_name}"))
-
-    json_map = to_map(json)
+    json_map = to_map(get_json_from_file(file_name))
     table.hashes.map do |entity|
         id = entity['id']
         json_entities = json_map[id]
@@ -1118,10 +1120,134 @@ Then /^I clean up the scheduler jobs/ do
 
 end
 
+Then /^I save some IDs from all the extract files to "(.*?)" so I can delete them later$/ do |variable| 
+  id_map = $GLOBAL_VARIABLE_MAP[variable]
+  id_map ||= {} 
+  sample_size = 10 
+  skip_types = ["deleted"]
+  [@fileDir, @unpackDir].each do |dir|
+    if File.exists? dir 
+      Dir.entries(dir).each { |f| 
+        if matched = f.match(/(.*).json.gz/) 
+          next unless skip_types.find_index(matched[1]).nil?
+          Zlib::GzipReader.open("#{dir}/#{f}") { |extracts|
+            extracted = JSON.parse(extracts.read)
+            (extracted.shuffle.take(sample_size)).each { |extractRecord|
+                id_map[matched[1]] ||= []
+                id_map[matched[1]] << extractRecord["id"]
+            }
+          }
+        end
+      }
+    end
+  end
+  $GLOBAL_VARIABLE_MAP[variable] = id_map
+end
+
+Then /^I delete one random entity from the my saved "(.*?)" except for:$/ do |variable, table|
+  id_map = $GLOBAL_VARIABLE_MAP[variable]
+  assert(!id_map.nil?, "Did you run the day 0 ingestion step to populate the IDs that I need to delete?")
+  exceptions = []
+  table.hashes.map do |row|
+    exceptions << row["type"]
+  end
+  db_name = convertTenantIdToDbName('Midgar') 
+  saved_for_later = []
+  deleted = []
+  # loop through the sample IDs we saved for each entity type, and as soon
+  # as one delete went through, good enough...
+  id_map.each_pair { |type, ids|
+    next unless exceptions.find_index(type).nil?
+    # delete those things last, since there are other entities hang off them
+    saved_for_later << [type, ids] if type == "student" || type == "teacher" || type == "staff"
+    deleted << delete_loop(type, ids, db_name)
+  }
+
+  saved_for_later.each { |pair|
+    deleted << delete_loop(pair[0], pair[1], db_name) 
+  }
+
+  $GLOBAL_VARIABLE_MAP[variable] = deleted
+end
+
+Then /^I verify this delete file by app "(.*?)" for "(.*?)" contains one single delete from all types in "(.*?)" except:$/ do |appId, lea, variable, table|
+  opts = {sort: ["body.date", Mongo::DESCENDING], limit: 1}
+  getExtractInfoFromMongo(build_bulk_query("Midgar", appId, lea, true), opts)
+  openDecryptedFile(appId)
+  Minitar.unpack(@filePath, @unpackDir)
+
+  deleted = $GLOBAL_VARIABLE_MAP[variable]
+  puts deleted
+  exceptions = []
+  table.hashes.map do |row|
+    exceptions << row["entityType"]
+  end
+
+  json_map = to_map(get_json_from_file("deleted"))
+  deleted.each { |entry|
+    type = entry[0]
+    id = entry[1]
+    in_delete_file = json_map[id]
+    assert(!in_delete_file.nil?, "delete file does not contain #{type} #{id}") 
+  }
+end
+
 ############################################################
 # Functions
 ############################################################
+def delete_loop(type, ids, db)
+  endpoint = get_entity_endpoint(type)
+  success = false
+  conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
+  sliDb = conn.db(db)
+  coll = sliDb.collection("deltas")
+  while (!success && id = ids.pop) do
+    restHttpDelete("/v1/#{endpoint}/#{id}")
+    if (@res.code == 204) 
+      success = true
+      deleted_id = [type, id]
+    elsif (@res.code == 404)
+      # It's possible this entity has been cascadingly deleted
+      # so let's take a look at the delta collection and make sure
+      # it's really deleted
+      query = {}
+      query["_id"] = id
+      query["c"] = case type
+                   when "teacher"
+                       "staff"
+                   when "school"
+                       "educationOrganization"
+                   else
+                       type
+                   end
+      query["d"] = {"$exists"=>1}
+      assertWithPolling("can not find any delta on #{type} #{id}", 3) {!coll.find_one(query).nil?}
+      item = coll.find_one(query)
+      if item["u"].nil? || item["d"] >= item["u"]
+        deleted_id = [item["c"], item["_id"]]
+        success = true 
+      end
+    end
+  end 
+  assert(success, "Failed to delete any entities for #{type}")
+  conn.close if conn != nil
+  deleted_id
+end
 
+def get_entity_endpoint(type)
+  case type
+    when "gradebookEntry"
+      "gradebookEntries"
+    when "staff"
+      "staff"
+    when "staffEducationOrganizationAssociation"
+      "staffEducationOrgAssignmentAssociations"
+    when "studentGradebookEntry"
+      "studentGradebookEntries"
+    else
+      type+"s"
+  end
+end
 
 # checks the map for field that has a value.  If it encounters and array, it'll iterate over it's contents.
 # e.g. find_value_in_map(attendance_entity, "attendanceEvent.reason", "test")
@@ -1465,6 +1591,157 @@ def prepareBody(verb, value, response_map)
                     ],
           "parentEducationAgencyReference" => "ffffffffffffffffffffffffffffffffffffffff_id"
       },
+      "newStaff" => {
+        "loginId" => "new-staff-1@fakemail.com",
+        "otherName" => [{
+            "middleName" => "Groban",
+            "generationCodeSuffix" => "II",
+            "lastSurname" => "Tome",
+            "personalTitlePrefix" => "Mrs",
+            "firstName" => "Marisa",
+            "otherNameType" => "Nickname"
+        }],
+        "sex" => "Female",
+        "staffUniqueStateId" => "new-staff-1",
+        "hispanicLatinoEthnicity" => false,
+        "oldEthnicity" => "Black, Not Of Hispanic Origin",
+        "yearsOfPriorTeachingExperience" => 12,
+        "entityType" => "staff",
+        "race" => ["White"],
+        "yearsOfPriorProfessionalExperience" => 2,
+        "address" => [{
+            "streetNumberName" => "411 Pesci Ct",
+            "postalCode" => "60601",
+            "stateAbbreviation" => "IL",
+            "addressType" => "Home",
+            "city" => "Chicago"
+        }],
+        "name" => {
+            "middleName" => "Cheryl",
+            "lastSurname" => "Thome",
+            "firstName" => "Marissa"
+        },
+        "electronicMail" => [{
+            "emailAddress" => "new-staff-1@fakemail.com",
+            "emailAddressType" => "Home/Personal"
+        }],
+        "highestLevelOfEducationCompleted" => "Bachelor's",
+        "credentials" => [{
+            "credentialField" => [{
+                "description" => "Mathematics"
+            }],
+            "level" => "All Level (Grade Level PK-12)",
+            "teachingCredentialBasis" => "5-year bachelor's degree",
+            "teachingCredentialType" => "Master",
+            "credentialType" => "Endorsement",
+            "credentialExpirationDate" => "2017-06-24",
+            "credentialIssuanceDate" => "2000-09-22"
+        }],
+        "birthDate" => "1972-01-18",
+        "telephone" => [{
+            "primaryTelephoneNumberIndicator" => true,
+            "telephoneNumber" => "(060)555-3642",
+            "telephoneNumberType" => "Unlisted"
+        }],
+        "staffIdentificationCode" => [{
+            "identificationSystem" => "Health Record",
+            "ID" => "17502"
+        }]
+      },
+      "newStaffDaybreakAssociation" => { 
+        "staffClassification" => "LEA Administrative Support Staff",
+        "educationOrganizationReference" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id",
+        "positionTitle" => "IT Administrator",
+        "staffReference" => "e9f3401e0a034e20bb17663dd7d18ece6c4166b5_id",
+        "endDate" => "2014-05-22",
+        "entityType" => "staffEducationOrganizationAssociation",
+        "beginDate" => "2013-08-28"
+      },
+      "newStaffHighwindAssociation" => { 
+        "staffClassification" => "LEA Administrative Support Staff",
+        "educationOrganizationReference" => "99d527622dcb51c465c515c0636d17e085302d5e_id",
+        "positionTitle" => "IT Administrator",
+        "staffReference" => "e9f3401e0a034e20bb17663dd7d18ece6c4166b5_id",
+        "endDate" => "2014-05-22",
+        "entityType" => "staffEducationOrganizationAssociation",
+        "beginDate" => "2013-08-28"
+      },
+      "newTeacherEdorgAssociation" => {
+        "staffClassification" => "Teacher",
+        "educationOrganizationReference" => "a13489364c2eb015c219172d561c62350f0453f3_id",
+        "positionTitle" => "IT Administrator",
+        "staffReference" => "2472b775b1607b66941d9fb6177863f144c5ceae_id",
+        "endDate" => "2014-05-22",
+        "entityType" => "staffEducationOrganizationAssociation",
+        "beginDate" => "2013-08-26"
+      },
+      "newTeacher" => {
+        "loginId" => "new-teacher-1@fakemail.com",
+        "otherName" => [{
+            "middleName" => "Geraldo",
+            "generationCodeSuffix" => "II",
+            "lastSurname" => "Robbespierre",
+            "personalTitlePrefix" => "Mr",
+            "firstName" => "Marc",
+            "otherNameType" => "Other Name"
+        }],
+        "sex" => "Male",
+        "staffUniqueStateId" => "new-teacher-1",
+        "hispanicLatinoEthnicity" => false,
+        "highlyQualifiedTeacher" => true,
+        "oldEthnicity" => "Black, Not Of Hispanic Origin",
+        "yearsOfPriorTeachingExperience" => 9,
+        "entityType" => "teacher",
+        "race" => ["Black - African American"],
+        "yearsOfPriorProfessionalExperience" => 10,
+        "address" => [{
+            "streetNumberName" => "10 South Street",
+            "postalCode" => "60601",
+            "stateAbbreviation" => "IL",
+            "addressType" => "Home",
+            "city" => "Chicago"
+        }],
+        "teacherUniqueStateId" => "new-teacher-1",
+        "name" => {
+            "middleName" => "Mervin",
+            "lastSurname" => "Maroni",
+            "firstName" => "Marcos"
+        },
+        "electronicMail" => [{
+            "emailAddress" => "new-teacher-1@fakemail.com",
+            "emailAddressType" => "Home/Personal"
+        }],
+        "highestLevelOfEducationCompleted" => "No Degree",
+        "credentials" => [{
+            "credentialField" => [{
+                "description" => "Physics"
+            }],
+            "level" => "Elementary (Grade Level PK-5)",
+            "teachingCredentialBasis" => "Met state testing requirement",
+            "teachingCredentialType" => "Provisional",
+            "credentialType" => "Registration",
+            "credentialExpirationDate" => "2017-10-27",
+            "credentialIssuanceDate" => "2007-07-02"
+        }],
+        "birthDate" => "1962-09-30",
+        "telephone" => [{
+            "primaryTelephoneNumberIndicator" => true,
+            "telephoneNumber" => "(319)555-1789",
+            "telephoneNumberType" => "Emergency 2"
+        }],
+        "staffIdentificationCode" => [{
+            "identificationSystem" => "Health Record",
+            "ID" => "18511"
+        }]
+      },
+      "newTeacherSchoolAssociation" => {
+        "academicSubjects" => ["Transportation, Distribution and Logistics"],
+        "schoolId" => "a13489364c2eb015c219172d561c62350f0453f3_id",
+        "entityType" => "teacherSchoolAssociation",
+        "programAssignment" => "Regular Education",
+        "teacherId" => "2472b775b1607b66941d9fb6177863f144c5ceae_id",
+        "instructionalGradeLevels" => ["Adult Education"]
+      },
       "newParentMother" => {
         "entityType" => "parent",
         "parentUniqueStateId" => "new-mom-1",
@@ -1744,6 +2021,33 @@ def prepareBody(verb, value, response_map)
           }
         }]
       },
+      "newDaybreakCourse" => {
+        "courseDefinedBy" => "National Organization",
+        "courseDescription" => "this is a course for Sixth grade",
+        "courseLevelCharacteristics" => ["Core Subject"],
+        "dateCourseAdopted" => "2012-06-19",
+        "highSchoolCourseRequirement" => false,
+        "uniqueCourseId" => "new-science-1",
+        "entityType" => "course",
+        "courseCode" => [{
+            "identificationSystem" => "School course code",
+            "ID" => "new-science-1"
+        }],
+        "gradesOffered" => ["Sixth grade"],
+        "maximumAvailableCredit" => {
+            "credit" => 3.0
+        },
+        "minimumAvailableCredit" => {
+            "credit" => 3.0
+        },
+        "subjectArea" => "Critical Reading",
+        "courseLevel" => "Basic or remedial",
+        "courseTitle" => "Sixth grade Science",
+        "numberOfParts" => 1,
+        "schoolId" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id",
+        "courseGPAApplicability" => "Weighted",
+        "careerPathway" => "Arts, A/V Technology and Communications"
+      },
       "newGrade" => {
 
       },
@@ -1850,6 +2154,17 @@ def getEdorgId(tenant, edorg)
   return tenant + "-" + edorg
 end
 
+def get_json_from_file(file_name)
+    json_file_name = @unpackDir + "/#{file_name}.json"
+    exists = File.exists?(json_file_name)
+    unless exists
+      exists = File.exists?(json_file_name+".gz")
+      assert(exists, "Cannot find #{file_name}.json.gz file in extracts")
+      `gunzip -c #{json_file_name}.gz > #{json_file_name}`
+    end
+    json = JSON.parse(File.read("#{json_file_name}"))
+    json
+end
 ############################################################
 # After Hooks
 ############################################################
