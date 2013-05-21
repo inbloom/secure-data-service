@@ -931,7 +931,7 @@ Scenario: Test access to the api
   Then I should receive a return code of 403
 
 
-
+@wip
 Scenario: Test delete deltes
   Given I clean the bulk extract file system and database
     And I have an empty delta collection
