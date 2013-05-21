@@ -61,13 +61,19 @@ public class SectionExtractor implements EntityExtract {
 
         while (sections.hasNext()) {
             Entity section = sections.next();
-            String lea = this.edorgCache.leaFromEdorg((String) section.getBody().get("schoolId"));
+            final String lea = this.edorgCache.leaFromEdorg((String) section.getBody().get("schoolId"));
 
             if (null != lea) {  // Edorgs way
                 extract(section, lea, new Predicate<Entity>() {
                     @Override
                     public boolean apply(Entity input) {
-                        return true;
+                        boolean shouldExtract = true;
+                        String studentId = (String) input.getBody().get("studentId");
+                        if (studentId != null) {    // Validate that referenced student is visible to given lea
+                            shouldExtract = studentCache.getEntriesById(studentId).contains(lea);
+                        }
+
+                        return shouldExtract;
                     }
                 });
 
