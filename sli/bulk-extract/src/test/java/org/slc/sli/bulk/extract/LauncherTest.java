@@ -24,7 +24,11 @@ import org.slc.sli.bulk.extract.extractor.LocalEdOrgExtractor;
 import org.slc.sli.bulk.extract.extractor.StatePublicDataExtractor;
 import org.slc.sli.bulk.extract.extractor.TenantExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.util.SecurityEventUtil;
 import org.slc.sli.domain.Entity;
+import org.springframework.context.MessageSource;
+
+import java.util.Locale;
 
 /**
  * JUnit test for Launcher class.
@@ -38,6 +42,7 @@ public class LauncherTest {
     TenantExtractor tenantExtractor;
     LocalEdOrgExtractor localEdOrgExtractor;
     private StatePublicDataExtractor statePublicDataExtractor;
+    private SecurityEventUtil securityEventUtil;
 
     Entity testTenantEntity = TestUtils.makeDummyEntity("tenant", "testTenant", null);
 
@@ -53,12 +58,18 @@ public class LauncherTest {
         tenantExtractor = Mockito.mock(TenantExtractor.class);
         localEdOrgExtractor = Mockito.mock(LocalEdOrgExtractor.class);
         statePublicDataExtractor = Mockito.mock(StatePublicDataExtractor.class);
-        launcher.setBulkExtractMongoDA(bulkExtractMongoDA);
 
+        MessageSource messageSource = Mockito.mock(MessageSource.class);
+        securityEventUtil = new SecurityEventUtil();
+        securityEventUtil.setMessageSource(messageSource);
+        Mockito.when(messageSource.getMessage(Mockito.anyString(), Mockito.any(Object[].class), Mockito.anyString(), Mockito.any(Locale.class))).thenReturn("TestMessage");
+
+        launcher.setBulkExtractMongoDA(bulkExtractMongoDA);
         launcher.setTenantExtractor(tenantExtractor);
         launcher.setLocalEdOrgExtractor(localEdOrgExtractor);
         launcher.setStatePublicDataExtractor(statePublicDataExtractor);
         launcher.setBaseDirectory("./");
+        launcher.setSecurityEventUtil(securityEventUtil);
     }
 
     /**
