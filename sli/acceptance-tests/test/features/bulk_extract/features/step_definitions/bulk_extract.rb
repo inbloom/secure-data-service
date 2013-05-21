@@ -1202,7 +1202,15 @@ def delete_loop(type, ids, db)
   sliDb = conn.db(db)
   coll = sliDb.collection("deltas")
   while (!success && id = ids.pop) do
-    restHttpDelete("/v1/#{endpoint}/#{id}")
+    5.times {
+        begin
+            restHttpDelete("/v1/#{endpoint}/#{id}")
+            break
+        rescue RestClient::RequestTimeout
+            puts "Timed out while trying to delete #{type} #{id}"
+        end
+    }
+
     if (@res.code == 204) 
       success = true
       deleted_id = [type, id]
