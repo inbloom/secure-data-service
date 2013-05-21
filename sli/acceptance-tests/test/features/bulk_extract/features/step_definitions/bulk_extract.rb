@@ -568,6 +568,7 @@ end
 
 def getEntityEndpoint(entity)
   entity_to_endpoint_map = {
+      "attendance" => "attendances",
       "courseOffering" => "courseOfferings",
       "seaCourse" => "educationOrganizations/884daa27d806c2d725bc469b273d840493f84b4d_id/courses",
       "course" => "courses",
@@ -2115,7 +2116,28 @@ def prepareBody(verb, value, response_map)
             "recognitionDescription" => "Recognition Desc BBB"
         }],
         "cumulativeGradePointsEarned" => 0.0
-      }
+      },
+      "newAttendanceEvent" => {
+        "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+        "schoolId" => "a13489364c2eb015c219172d561c62350f0453f3_id",
+        "entityType" => "attendance",
+        "schoolYearAttendance" => [{
+          "schoolYear" => "2013-2014",
+          "attendanceEvent" => [{
+            "reason" => "Missed school bus",
+            "event" => "Tardy",
+            "date" => "2013-08-30"
+          }, {
+            "reason" => "Excused: sick",
+            "event" => "Excused Absence",
+            "date" => "2013-12-19"
+          }, {
+            "reason" => "Missed school bus",
+            "event" => "Tardy",
+            "date" => "2014-05-19"
+          }]
+        }]
+      },
     },
     "PATCH" => {
       "postalCode" => {
