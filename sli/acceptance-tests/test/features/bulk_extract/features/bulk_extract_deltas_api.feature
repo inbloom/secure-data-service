@@ -535,6 +535,7 @@ Given I clean the bulk extract file system and database
     |  9bf3036428c40861238fdc820568fde53e658d88_idc3a6a4ed285c14f562f0e0b63e1357e061e337c6_id | entityType = studentParentAssociation |
     |  9bf3036428c40861238fdc820568fde53e658d88_id28af8b70a2f2e695fc25da04e0f8625115002556_id | entityType = studentParentAssociation |
 
+
 Scenario: Update an existing edorg through the API, perform delta, call list endpoint, call API to download and verify delta
  Given I clean the bulk extract file system and database
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -562,6 +563,7 @@ Scenario: Update an existing edorg through the API, perform delta, call list end
   And The "educationOrganization" delta was extracted in the same format as the api
   And The "school" delta was extracted in the same format as the api
 
+
 Scenario: Update an existing edOrg with invalid API call, verify no delta created
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -570,6 +572,7 @@ Given I clean the bulk extract file system and database
  Then I should receive a return code of 404
   And deltas collection should have "0" records
 
+
 Scenario: Create an invalid edOrg with the API, verify no delta created
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -577,6 +580,7 @@ Given I clean the bulk extract file system and database
  When I POST a "invalidEducationOrganization" of type "educationOrganization"
  Then I should receive a return code of 403   
   And deltas collection should have "0" records
+
 
 Scenario: As SEA Admin, delete an existing school with API call, verify delta
 Given I clean the bulk extract file system and database
@@ -617,7 +621,7 @@ Given I clean the bulk extract file system and database
     |  newGrade                      |  grade                                 |  201         |
     |  newReportCard                 |  reportCard                            |  201         |
     |  newStudentAcademicRecord      |  studentAcademicRecord                 |  201         |
-    #|  attendance                          |
+    |  newAttendanceEvent            |  attendance                            |  201         |
     #|  cohort                              |
     #|  session                             |
     #|  gradingPeriod                       |
@@ -645,7 +649,7 @@ Given I clean the bulk extract file system and database
         |  grade                                 |
         |  reportCard                            |
         |  studentAcademicRecord                 |
-        #|  attendance                          |
+        |  attendance                            |
         #|  cohort                              |
         #|  session                             |
         #|  gradingPeriod                       |
@@ -743,6 +747,11 @@ Given I clean the bulk extract file system and database
     | id                                                                                     | condition                          |
     | 1417cec726dc51d43172568a9c332ee1712d73d4_idb2b773084845209865762830ceb1721ebb1101ef_id | entityType = studentAcademicRecord |
     | 1417cec726dc51d43172568a9c332ee1712d73d4_idb2b773084845209865762830ceb1721ebb1101ef_id | studentId = 9bf3036428c40861238fdc820568fde53e658d88_id |
+  And I verify this "attendance" file should contain:
+    | id                                          | condition                                                |
+    | 95b973e29368712e2090fcad34d90fffb20aa9c4_id | entityType = attendance                                  |
+    | 95b973e29368712e2090fcad34d90fffb20aa9c4_id | studentId = 9bf3036428c40861238fdc820568fde53e658d88_id  |
+    | 95b973e29368712e2090fcad34d90fffb20aa9c4_id | schoolId = a13489364c2eb015c219172d561c62350f0453f3_id   |
 
  Given the extract download directory is empty
   When I request the latest bulk extract delta via API for "<IL-HIGHWIND>"
@@ -909,7 +918,6 @@ Given I clean the bulk extract file system and database
     | 9bf3036428c40861238fdc820568fde53e658d88_id | entityType = student                  |
 
 
-
 Scenario: Test access to the api
   Given I log into "SDK Sample" with a token of "lstevenson", a "Noldor" for "IL-Highwind" in tenant "Midgar", that lasts for "300" seconds
   And I request latest delta via API for tenant "Midgar", lea "<IL-HIGHWIND>" with appId "<app id>" clientId "<client id>"
@@ -931,7 +939,6 @@ Scenario: Test access to the api
   Then I should receive a return code of 403
 
 
-
 Scenario: Test delete deltes
   Given I clean the bulk extract file system and database
     And I have an empty delta collection
@@ -942,7 +949,6 @@ Scenario: Test delete deltes
   When I trigger a delta extract
   And I verify this delete file by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" contains one single delete from all types in "delete_candidate" except:
         |  entityType  |
-
 
 
 Scenario: Be a good neighbor and clean up before you leave
