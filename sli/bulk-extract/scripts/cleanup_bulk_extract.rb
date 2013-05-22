@@ -24,7 +24,7 @@ limitations under the License.
 require 'yaml'
 require 'logger'
 
-require File.expand_path('..', File.absolute_path(File.dirname($PROGRAM_NAME))) + '/lib/TenantCleaner.rb'
+require File.expand_path('../../lib/TenantCleaner.rb', __FILE__)
 
 # Create logger.
 begin
@@ -32,8 +32,7 @@ begin
                "ERROR" => Logger::ERROR, "FATAL" => Logger::FATAL, "UNKNOWN" => Logger::UNKNOWN}
 
   # Get configuration properties.
-  absParentDirname = File.expand_path('..', File.absolute_path(File.dirname($PROGRAM_NAME)))
-  properties = YAML::load_file(absParentDirname + '/config/bulk_extract_cleanup.yml')
+  properties = YAML::load_file(File.expand_path('../../config/bulk_extract_cleanup.yml', __FILE__))
 
   # Get logger properties 
   LOG_FILE_PATHNAME = properties['log_file_pathname']

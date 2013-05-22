@@ -38,14 +38,14 @@ public class LEAExtractorFactoryTest {
     
     @Test
     public void testBuildEdorgExtractor() {
-        Assert.assertTrue(factory.buildEdorgExtractor(null, null) != null);
-        Assert.assertTrue(factory.buildEdorgExtractor(null, null).getClass() == EdorgExtractor.class);
+        Assert.assertTrue(factory.buildEdorgExtractor(null, null, null) != null);
+        Assert.assertTrue(factory.buildEdorgExtractor(null, null, null).getClass() == EdorgExtractor.class);
     }
     
     @Test
     public void testBuildExtractFile() {
-        Assert.assertTrue(factory.buildLEAExtractFile("bloop", "Bleep", "BLOO BLOO", null) != null);
-        Assert.assertTrue(factory.buildLEAExtractFile("bloop", "Bleep", "BLOOB BLOO", null).getClass() == ExtractFile.class);
+        Assert.assertTrue(factory.buildLEAExtractFile("bloop", "Bleep", "BLOO BLOO", null, null) != null);
+        Assert.assertTrue(factory.buildLEAExtractFile("bloop", "Bleep", "BLOOB BLOO", null, null).getClass() == ExtractFile.class);
     }
     
     @Test

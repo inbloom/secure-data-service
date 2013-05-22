@@ -13,33 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.slc.sli.bulk.extract.aspect;
-
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mockito;
-import org.slc.sli.aspect.LoggerCarrierAspect;
-import org.slc.sli.bulk.extract.util.SecurityEventUtil;
-import org.slc.sli.common.util.logging.LogLevelType;
-import org.slc.sli.common.util.logging.SecurityEvent;
-import org.slc.sli.dal.repository.MongoRepository;
-import org.slc.sli.dal.template.MongoEntityTemplate;
-import org.slc.sli.domain.Entity;
-
-import java.util.Map;
+package org.slc.sli.bulk.extract;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.when;
+import static org.slc.sli.bulk.extract.LogUtil.audit;
+
+import java.util.Map;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mockito;
+import org.slc.sli.common.util.logging.LogLevelType;
+import org.slc.sli.common.util.logging.SecurityEvent;
+import org.slc.sli.dal.repository.MongoRepository;
+import org.slc.sli.domain.Entity;
 
 /**
  * Test class for LoggerCarrierAspect.
  * @author npandey
  */
-public class LoggerCarrierAspectTest {
+public class LogUtilTest {
 
     private MongoRepository<Entity> mockedEntityRepository;
 
@@ -49,7 +44,7 @@ public class LoggerCarrierAspectTest {
     @Before
     public void init() {
         mockedEntityRepository = mock(MongoRepository.class);
-        LoggerCarrierAspect.aspectOf().setEntityRepository(mockedEntityRepository);
+        LogUtil.setEntityRepository(mockedEntityRepository);
     }
 
     /**
@@ -57,7 +52,12 @@ public class LoggerCarrierAspectTest {
      */
     @Test
     public void testAudit() {
-       audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(), "TestMessage", "Action", LogLevelType.TYPE_TRACE));
+       SecurityEvent securityEvent = new SecurityEvent();
+       securityEvent.setClassName(this.getClass().getName());
+       securityEvent.setLogMessage("Test Message");
+       securityEvent.setLogLevel(LogLevelType.TYPE_TRACE);
+
+       audit(securityEvent);
        Mockito.verify(mockedEntityRepository, times(1)).create(any(String.class), any(Map.class), any(Map.class), any(String.class));
     }
 }

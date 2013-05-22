@@ -19,6 +19,7 @@ package org.slc.sli.bulk.extract.lea;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
+import org.slc.sli.bulk.extract.util.SecurityEventUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 
@@ -28,8 +29,8 @@ import java.util.Map;
 
 public class LEAExtractorFactory {
     
-    public EdorgExtractor buildEdorgExtractor(EntityExtractor extractor, LEAExtractFileMap map) {
-        return new EdorgExtractor(extractor, map);
+    public EdorgExtractor buildEdorgExtractor(EntityExtractor extractor, LEAExtractFileMap map, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
+        return new EdorgExtractor(extractor, map, localEdOrgExtractHelper);
     }
     
     public StudentExtractor buildStudentExtractor(EntityExtractor extractor, LEAExtractFileMap map,
@@ -45,7 +46,7 @@ public class LEAExtractorFactory {
     
     public EntityExtract buildYearlyTranscriptExtractor(EntityExtractor extractor, LEAExtractFileMap map,
             Repository<Entity> repo, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
-        return new YearlyTranscriptExtractor(extractor, map, repo, localEdOrgExtractHelper);
+        return new YearlyTranscriptExtractor(extractor, map, repo, localEdOrgExtractHelper, new EntityToLeaCache());
     }
     
     public EntityExtract buildParentExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
@@ -86,10 +87,10 @@ public class LEAExtractorFactory {
     }
 
     public ExtractFile buildLEAExtractFile(String path, String lea, String archiveName,
-            Map<String, PublicKey> appPublicKeys) {
+            Map<String, PublicKey> appPublicKeys, SecurityEventUtil securityEventUtil) {
         File leaDirectory = new File(path, lea);
         leaDirectory.mkdirs();
-        return new ExtractFile(leaDirectory, archiveName, appPublicKeys);
+        return new ExtractFile(leaDirectory, archiveName, appPublicKeys, securityEventUtil);
     }
     
     public EntityExtract buildCohortExtractor(EntityExtractor extractor, LEAExtractFileMap map,
@@ -119,5 +120,15 @@ public class LEAExtractorFactory {
     public CourseOfferingExtractor buildCourseOfferingExtractor(EntityExtractor extractor, LEAExtractFileMap map,
             Repository<Entity> repo, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
         return new CourseOfferingExtractor(extractor, map, repo, localEdOrgExtractHelper);
+    }
+    
+    public CourseTranscriptExtractor buildCourseTranscriptExtractor(EntityExtractor extractor, LEAExtractFileMap map,
+            Repository<Entity> repo) {
+        return new CourseTranscriptExtractor(extractor, map, repo);
+    }
+    
+    public EntityExtract buildStudentGradebookEntryExtractor(EntityExtractor extractor, LEAExtractFileMap map,
+            Repository<Entity> repo, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
+        return new StudentGradebookEntryExtractor(extractor, map, repo, localEdOrgExtractHelper);
     }
 }

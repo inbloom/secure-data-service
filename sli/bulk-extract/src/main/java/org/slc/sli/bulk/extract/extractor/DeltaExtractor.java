@@ -15,6 +15,8 @@
  */
 package org.slc.sli.bulk.extract.extractor;
 
+import static org.slc.sli.bulk.extract.LogUtil.audit;
+
 import java.io.File;
 import java.io.IOException;
 import java.security.PublicKey;
@@ -31,13 +33,6 @@ import java.util.Set;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.Launcher;
 import org.slc.sli.bulk.extract.context.resolver.TypeResolver;
@@ -48,16 +43,24 @@ import org.slc.sli.bulk.extract.delta.DeltaEntityIterator.Operation;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor.CollectionWrittenRecord;
 import org.slc.sli.bulk.extract.files.EntityWriterManager;
 import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.message.BEMessageCode;
 import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
 import org.slc.sli.bulk.extract.util.SecurityEventUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.util.logging.LogLevelType;
+import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  * This class should be concerned about how to generate the delta files per LEA
@@ -103,6 +106,9 @@ public class DeltaExtractor {
     @Qualifier("secondaryRepo")
     Repository<Entity> repo;
 
+    @Autowired
+    private SecurityEventUtil securityEventUtil;
+
     Set<String> subdocs = EmbeddedDocumentRelations.getSubDocuments();
 
     @Value("${sli.bulk.extract.output.directory:extract}")
@@ -117,9 +123,9 @@ public class DeltaExtractor {
 
         TenantContext.setTenantId(tenant);
 
-        audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
-                "Beginning delta-level bulk extract up to date " + DATE_TIME_FORMATTER.print(deltaUptoTime),
-                "Delta extract up to date " + DATE_TIME_FORMATTER.print(deltaUptoTime), LogLevelType.TYPE_INFO));
+        audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
+                "Delta Extract Initiation", LogLevelType.TYPE_INFO,
+                BEMessageCode.BE_SE_CODE_0019, DATE_TIME_FORMATTER.print(deltaUptoTime)));
 
         Map<String, Set<String>> appsPerTopLEA = reverse(filter(helper.getBulkExtractLEAsPerApp()));
         deltaEntityIterator.init(tenant, deltaUptoTime);
@@ -141,10 +147,11 @@ public class DeltaExtractor {
                             entityExtractor.write(delta.getEntity(), extractFile, record, null);
                         } catch (IOException e) {
                             LOG.error("Error while extracting for " + lea, e);
-                            audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
-                                    "Error while extracting for type " + delta.getEntity().getType() + " and LEA "+ lea
-                                    + ": " + e.getMessage(), "Delta extract up to date " + DATE_TIME_FORMATTER.print(deltaUptoTime)
-                                    + " for type " + delta.getEntity().getType() + " and LEA "+ lea, LogLevelType.TYPE_INFO));
+                            SecurityEvent event = securityEventUtil.createSecurityEvent(this.getClass().getName(), "Delta Extract for LEA", LogLevelType.TYPE_ERROR,
+                                    BEMessageCode.BE_SE_CODE_0020, delta.getEntity().getType(), lea, e.getMessage());
+                            event.setTargetEdOrg(lea);
+                            audit(event);
+                            throw new RuntimeException("Delta extraction failed, quitting without clearing delta collections...", e);
                         }
                     }
                 }
@@ -154,12 +161,12 @@ public class DeltaExtractor {
             }
         }
 
-        finalizeExtraction(tenant, deltaUptoTime);
         logEntityCounts();
 
-        audit(SecurityEventUtil.createSecurityEvent(this.getClass().getName(),
-                "Completed delta-level bulk extract up to date " + DATE_TIME_FORMATTER.print(deltaUptoTime),
-                "Delta extract up to date " + DATE_TIME_FORMATTER.print(deltaUptoTime), LogLevelType.TYPE_INFO));
+        audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
+                "Delta Extract Finished", LogLevelType.TYPE_INFO,
+                BEMessageCode.BE_SE_CODE_0021, DATE_TIME_FORMATTER.print(deltaUptoTime)));
+        finalizeExtraction(tenant, deltaUptoTime);
     }
 
     private void logEntityCounts() {
@@ -301,7 +308,7 @@ public class DeltaExtractor {
             appKeyMap.putAll(bulkExtractMongoDA.getClientIdAndPublicKey(appId, edorgList));
         }
         ExtractFile extractFile = new ExtractFile(getTenantDirectory(tenant), getArchiveName(edorg,
-                startTime.toDate()), appKeyMap);
+                startTime.toDate()), appKeyMap, securityEventUtil);
         extractFile.setEdorg(edorg);
         return extractFile;
     }
@@ -326,5 +333,15 @@ public class DeltaExtractor {
      */
     public void setBaseDirectory(String baseDirectory) {
         this.baseDirectory = baseDirectory;
+    }
+
+    /**
+     * Set securityEventUtil.
+     *
+     * @param securityEventUtil
+     *          securityEventUtil
+     */
+    public void setSecurityEventUtil(SecurityEventUtil securityEventUtil) {
+        this.securityEventUtil = securityEventUtil;
     }
 }

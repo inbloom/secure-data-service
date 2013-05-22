@@ -1,5 +1,8 @@
 package org.slc.sli.bulk.extract.util;
 
+import static org.slc.sli.bulk.extract.LogUtil.audit;
+
+import org.slc.sli.bulk.extract.message.BEMessageCode;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.util.logging.LogLevelType;
@@ -26,6 +29,9 @@ public class LocalEdOrgExtractHelper {
     @Autowired
     @Qualifier("secondaryRepo")
     Repository<Entity> repository;
+
+    @Autowired
+    private SecurityEventUtil securityEventUtil;
 
     private static final String STATE_EDUCATION_AGENCY = "State Education Agency";
 
@@ -144,11 +150,19 @@ public class LocalEdOrgExtractHelper {
      */
     public void logSecurityEvent(Set<String> leas, String entityName, String className) {
         for (String lea : leas) {
-            SecurityEvent event = SecurityEventUtil.createSecurityEvent(className, "Extracting " + entityName + " for LEA extract", entityName + " data extract initiated for LEA", LogLevelType.TYPE_INFO);
+            SecurityEvent event = securityEventUtil.createSecurityEvent(className, entityName + " data extract initiated for LEA", LogLevelType.TYPE_INFO, BEMessageCode.BE_SE_CODE_0011, entityName);
             event.setTargetEdOrg(lea);
             audit(event);
         }
 
+    }
+
+    /**
+     * Set securityEventUtil.
+     * @param securityEventUtil the securityEventUtil to set
+     */
+    public void setSecurityEventUtil(SecurityEventUtil securityEventUtil) {
+        this.securityEventUtil = securityEventUtil;
     }
 
 }
