@@ -571,10 +571,12 @@ def getEntityEndpoint(entity)
       "attendance" => "attendances",
       "courseOffering" => "courseOfferings",
       "seaCourse" => "educationOrganizations/884daa27d806c2d725bc469b273d840493f84b4d_id/courses",
+      "cohort" => "cohorts",
       "course" => "courses",
       "educationOrganization" => "educationOrganizations",
       "gradebookEntry" => "gradebookEntries",
       "grade" => "grades",
+      "gradingPeriod" => "gradingPeriods",
       "invalidEntry" => "school",
       "newParentDad" => "parents",
       "newParentMom" => "parents",
@@ -586,12 +588,14 @@ def getEntityEndpoint(entity)
       "section" => "sections",
       "staff" => "staff",
       "newStaff" => "staff",
+      "staffCohortAssociation" => "staffCohortAssociations",
       "staffEducationOrganizationAssociation" => "staffEducationOrgAssignmentAssociations",
       "staffStudent" => "students",
       "student" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students",
       "newStudent" => "students",
       "studentAcademicRecord" => "studentAcademicRecords",
       "studentAssessment" => "studentAssessments",
+      "studentCohortAssociation" => "studentCohortAssociations",
       "studentSchoolAssociation" => "studentSchoolAssociations",
       "studentSectionAssociation" => "studentSectionAssociations",
       "studentParentAssociation" => "studentParentAssociations",
@@ -2138,6 +2142,28 @@ def prepareBody(verb, value, response_map)
           }]
         }]
       },
+      "newCohort" => {
+        "academicSubject" => "Communication and Audio/Visual Technology",
+        "cohortType" => "Extracurricular Activity",
+        "cohortScope" => "School",
+        "educationOrgId" => "a13489364c2eb015c219172d561c62350f0453f3_id",
+        "entityType" => "cohort",
+        "cohortDescription" => "New Cohort 1 at Edorg Daybreak Central High",
+        "cohortIdentifier" => "new-cohort-1"
+      },
+      "newStaffCohortAssociation" => {
+        "staffId" => "2472b775b1607b66941d9fb6177863f144c5ceae_id",
+        "cohortId" => "cb99a7df36fadf8885b62003c442add9504b3cbd_id",
+        "beginDate" => "2013-01-15",
+        "endDate" => "2014-03-29",
+        "studentRecordAccess" => true
+      },
+      "newStudentCohortAssociation" => {
+        "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+        "cohortId" => "cb99a7df36fadf8885b62003c442add9504b3cbd_id",
+        "beginDate" => "2013-01-25",
+        "endDate" => "2014-03-29"
+      }
     },
     "PATCH" => {
       "postalCode" => {
