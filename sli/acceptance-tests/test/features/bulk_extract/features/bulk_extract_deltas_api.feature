@@ -936,7 +936,7 @@ Scenario: Test access to the api
   And I request latest delta via API for tenant "Midgar", lea "<IL-DAYBREAK>" with appId "<app id paved>" clientId "<client id paved>"
   Then I should receive a return code of 403
 
-
+@wip
 Scenario: Test delete deltes
   Given I clean the bulk extract file system and database
     And I have an empty delta collection
