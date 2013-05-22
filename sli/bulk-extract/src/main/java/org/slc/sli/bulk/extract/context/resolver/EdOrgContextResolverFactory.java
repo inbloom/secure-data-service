@@ -36,7 +36,6 @@ import org.slc.sli.bulk.extract.context.resolver.impl.GradebookEntryContextResol
 import org.slc.sli.bulk.extract.context.resolver.impl.GradingPeriodContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.GraduationPlanContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.ParentContextResolver;
-import org.slc.sli.bulk.extract.context.resolver.impl.ProgramContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.SectionContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.SessionContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StaffTeacherContextResolver;
@@ -103,9 +102,6 @@ public class EdOrgContextResolverFactory {
     private CourseContextResolver courseResolver;
 
     @Autowired
-    private ProgramContextResolver programContextResolver;
-    
-    @Autowired
     private GraduationPlanContextResolver graduationPlanResolver;
     
     @Autowired
@@ -161,8 +157,6 @@ public class EdOrgContextResolverFactory {
         resolverMap.put(EntityNames.COURSE_OFFERING, courseOfferingResolver);
         
         resolverMap.put(EntityNames.COURSE, courseResolver);
-        
-        resolverMap.put(EntityNames.PROGRAM, programContextResolver);
         
         resolverMap.put(EntityNames.GRADUATION_PLAN, graduationPlanResolver);
         

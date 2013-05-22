@@ -13,74 +13,82 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.slc.sli.bulk.extract;
 
-package org.slc.sli.aspect;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
-import org.slc.sli.common.util.logging.SecurityEvent;
-import org.slc.sli.common.util.logging.LoggerCarrier;
-
-import java.util.HashMap;
-import java.util.Map;
-
-public aspect LoggerCarrierAspect {
-    declare parents : (org.slc.sli.bulk.extract..* && !java.lang.Enum+)  implements LoggerCarrier;
-
+/**
+ * fake aspect being converted to a static method
+ * 
+ * @author not nbrown
+ * 
+ */
+@Component
+public class LogUtil {
+    
     private static final Logger LOG = LoggerFactory.getLogger("SecurityMonitor");
-
+    
+    private static Repository<Entity> entityRepository;
+    
     @Autowired
-    @Qualifier("secondaryRepo")
-    private Repository<Entity> entityRepository;
-
-    public void LoggerCarrier.audit(SecurityEvent event) {
-        Repository<Entity> mer= LoggerCarrierAspect.aspectOf().getEntityRepository();
-        if (mer != null) {
+    public LogUtil(@Qualifier("secondaryRepo") Repository<Entity> repo) {
+        // yes, I know assigning a static variable in a constructor is evil, but it is less evil
+        // than aspects
+        setEntityRepository(repo);
+    }
+    
+    public static void audit(SecurityEvent event) {
+        if (entityRepository != null) {
             Map<String, Object> metadata = new HashMap<String, Object>();
             metadata.put("tenantId", event.getTenantId());
-            mer.create("securityEvent", event.getProperties(), metadata, "securityEvent");
+            entityRepository.create("securityEvent", event.getProperties(), metadata, "securityEvent");
         } else {
             LOG.error("Could not log SecurityEvent to the database.");
         }
-
+        
         switch (event.getLogLevel()) {
             case TYPE_DEBUG:
                 LOG.debug(event.toString());
                 break;
-
+            
             case TYPE_WARN:
                 LOG.warn(event.toString());
                 break;
-
+            
             case TYPE_INFO:
                 LOG.info(event.toString());
                 break;
-
+            
             case TYPE_ERROR:
                 LOG.error(event.toString());
                 break;
-
+            
             case TYPE_TRACE:
                 LOG.trace(event.toString());
                 break;
-
+            
             default:
                 LOG.info(event.toString());
                 break;
         }
-
+        
     }
-
-    public Repository<Entity> getEntityRepository() {
+    
+    public static Repository<Entity> getEntityRepository() {
         return entityRepository;
     }
-
-    public void setEntityRepository(Repository<Entity> entityRepository) {
-        this.entityRepository = entityRepository;
+    
+    public static void setEntityRepository(Repository<Entity> entityRepository) {
+        LogUtil.entityRepository = entityRepository;
     }
 }

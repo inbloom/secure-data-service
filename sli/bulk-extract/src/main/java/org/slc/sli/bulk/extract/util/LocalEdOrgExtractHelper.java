@@ -1,5 +1,7 @@
 package org.slc.sli.bulk.extract.util;
 
+import static org.slc.sli.bulk.extract.LogUtil.audit;
+
 import org.slc.sli.bulk.extract.message.BEMessageCode;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;

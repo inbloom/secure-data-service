@@ -15,6 +15,8 @@
  */
 package org.slc.sli.bulk.extract.extractor;
 
+import static org.slc.sli.bulk.extract.LogUtil.audit;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.MessageFormat;

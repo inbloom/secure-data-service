@@ -15,6 +15,8 @@
  */
 package org.slc.sli.bulk.extract.files;
 
+import static org.slc.sli.bulk.extract.LogUtil.audit;
+
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;

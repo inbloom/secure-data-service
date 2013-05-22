@@ -38,7 +38,6 @@ Scenario: Generate a bulk extract delta after day 0 ingestion
    And The "gradingPeriod" delta was extracted in the same format as the api
    And The "courseOffering" delta was extracted in the same format as the api
    And The "course" delta was extracted in the same format as the api
-   And The "program" delta was extracted in the same format as the api
    And The "studentProgramAssociation" delta was extracted in the same format as the api
    And The "staffProgramAssociation" delta was extracted in the same format as the api
    And The "studentDisciplineIncidentAssociation" delta was extracted in the same format as the api
@@ -76,7 +75,6 @@ Given I clean the bulk extract file system and database
        |  teacherSchoolAssociation              |
        |  course                                |
        |  courseOffering                        |
-       |  program                               |
        |  graduationPlan                        |
        |  disciplineIncident                    |
        |  studentDisciplineIncidentAssociation  |
@@ -133,17 +131,6 @@ Given I clean the bulk extract file system and database
     And I verify this "course" file should not contain:
       | id                                          | condition                                |
       | 160cbcc9e293d45a11053f4d3bf6f4be8b70bac4_id |                                          |
-
-    # Since student 1 is valid for Highwind, these two should be included
-    And I verify this "program" file should contain:
-      | id                                          | condition                                |
-      | 004351714bfe0f6a34eb3f09a26fcbaf81645d1f_id | programType = Gifted and Talented        |
-      | 9cce6ea23864ee4870c8871e4c14ddecb6ab0fb0_id | programType = Gifted and Talented        |
-
-    # This one is just for Daybreak
-    And I verify this "program" file should not contain:
-      | id                                          | condition                                |
-      | 5449814bb2dbed641d914843fb17a87f6222ec82_id |                                          |
 
     And I verify this "graduationPlan" file should contain:
       | id                                          | condition                                |
@@ -209,7 +196,6 @@ Given I clean the bulk extract file system and database
        |  teacherSectionAssociation             |
        |  courseOffering                        |
        |  course                                |
-       |  program                               |
        |  graduationPlan                        |
        |  disciplineIncident                    |
        |  studentDisciplineIncidentAssociation  |
@@ -294,12 +280,6 @@ Given I clean the bulk extract file system and database
       | id                                          | condition                                |
       | 2dad46540a82bd0ad17b7dbcbb6cbdd4fce2125d_id | uniqueCourseId = DAYBREAK21              |
       | 160cbcc9e293d45a11053f4d3bf6f4be8b70bac4_id | uniqueCourseId = DAYBREAK1               |
-
-    And I verify this "program" file should contain:
-      | id                                          | condition                                |
-      | 004351714bfe0f6a34eb3f09a26fcbaf81645d1f_id | programType = Gifted and Talented        |
-      | 9cce6ea23864ee4870c8871e4c14ddecb6ab0fb0_id | programType = Gifted and Talented        |
-      | 5449814bb2dbed641d914843fb17a87f6222ec82_id | programType = Gifted and Talented        |
 
     And I verify this "graduationPlan" file should contain:
       | id                                          | condition                                |
@@ -622,7 +602,9 @@ Given I clean the bulk extract file system and database
     |  newReportCard                 |  reportCard                            |  201         |
     |  newStudentAcademicRecord      |  studentAcademicRecord                 |  201         |
     |  newAttendanceEvent            |  attendance                            |  201         |
-    #|  cohort                              |
+    |  newCohort                     |  cohort                                |  201         |
+    |  newStaffCohortAssociation     |  staffCohortAssociation                |  201         |
+    |  newStudentCohortAssociation   |  studentCohortAssociation              |  201         |
     #|  session                             |
     #|  gradingPeriod                       |
     #|  program                             |
@@ -650,7 +632,9 @@ Given I clean the bulk extract file system and database
         |  reportCard                            |
         |  studentAcademicRecord                 |
         |  attendance                            |
-        #|  cohort                              |
+        |  cohort                                |
+        |  staffCohortAssociation                |
+        |  studentCohortAssociation              |
         #|  session                             |
         #|  gradingPeriod                       |
         #|  program                             |
@@ -752,6 +736,20 @@ Given I clean the bulk extract file system and database
     | 95b973e29368712e2090fcad34d90fffb20aa9c4_id | entityType = attendance                                  |
     | 95b973e29368712e2090fcad34d90fffb20aa9c4_id | studentId = 9bf3036428c40861238fdc820568fde53e658d88_id  |
     | 95b973e29368712e2090fcad34d90fffb20aa9c4_id | schoolId = a13489364c2eb015c219172d561c62350f0453f3_id   |
+  And I verify this "cohort" file should contain:
+    | id                                          | condition                                                |
+    | cb99a7df36fadf8885b62003c442add9504b3cbd_id | entityType = cohort                                      |
+    | cb99a7df36fadf8885b62003c442add9504b3cbd_id | cohortIdentifier = new-cohort-1                          |
+  And I verify this "staffCohortAssociation" file should contain:
+    | id                                          | condition                                                |
+    | 5e7d5f12cefbcb749069f2e5db63c1003df3c917_id | entityType = staffCohortAssociation                      |
+    | 5e7d5f12cefbcb749069f2e5db63c1003df3c917_id | staffId = 2472b775b1607b66941d9fb6177863f144c5ceae_id    |
+    | 5e7d5f12cefbcb749069f2e5db63c1003df3c917_id | cohortId = cb99a7df36fadf8885b62003c442add9504b3cbd_id   |
+  And I verify this "studentCohortAssociation" file should contain:
+    | id                                          | condition                                                |
+    | 9bf3036428c40861238fdc820568fde53e658d88_idfa64547520fbfcbc8646a7a0bb3a52f76e4f4d21_id | entityType = studentCohortAssociation                   |
+    | 9bf3036428c40861238fdc820568fde53e658d88_idfa64547520fbfcbc8646a7a0bb3a52f76e4f4d21_id | cohortId = cb99a7df36fadf8885b62003c442add9504b3cbd_id  |
+    | 9bf3036428c40861238fdc820568fde53e658d88_idfa64547520fbfcbc8646a7a0bb3a52f76e4f4d21_id | studentId = 9bf3036428c40861238fdc820568fde53e658d88_id |
 
  Given the extract download directory is empty
   When I request the latest bulk extract delta via API for "<IL-HIGHWIND>"
