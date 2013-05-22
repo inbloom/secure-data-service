@@ -128,6 +128,7 @@ public class LocalEdOrgExtractorTest {
         CourseOfferingExtractor courseOfferingExtract = Mockito.mock(CourseOfferingExtractor.class);
         CourseTranscriptExtractor courseTranscriptExtract = Mockito.mock(CourseTranscriptExtractor.class);
 
+        Mockito.when(sectionExtractor.getSsaCache()).thenReturn(new EntityToLeaCache());
         Mockito.when(mockFactory.buildEdorgExtractor(Mockito.eq(entityExtractor), Mockito.any(LEAExtractFileMap.class),
                 Mockito.eq(helper))).thenReturn(mockExtractor);
 
@@ -201,7 +202,7 @@ public class LocalEdOrgExtractorTest {
                 mockFactory.buildStudentGradebookEntryExtractor(Mockito.eq(entityExtractor), Mockito.any(LEAExtractFileMap.class),
                         Mockito.any(Repository.class), Mockito.any(LocalEdOrgExtractHelper.class))).thenReturn(mockExtract);
         Mockito.when(
-        		mockFactory.buildStudentCompetencyExtractor(Mockito.eq(entityExtractor),  Mockito.eq(mockExtractMap), Mockito.any(Repository.class))).thenReturn(mockExtract);
+        		mockFactory.buildStudentCompetencyExtractor(Mockito.eq(entityExtractor),  Mockito.any(LEAExtractFileMap.class), Mockito.any(Repository.class))).thenReturn(mockExtract);
     }
 
     /**
