@@ -40,6 +40,7 @@ import org.slc.sli.bulk.extract.lea.CourseTranscriptExtractor;
 import org.slc.sli.bulk.extract.lea.EdorgExtractor;
 import org.slc.sli.bulk.extract.lea.EntityExtract;
 import org.slc.sli.bulk.extract.lea.EntityToLeaCache;
+import org.slc.sli.bulk.extract.lea.GraduationPlanExtractor;
 import org.slc.sli.bulk.extract.lea.LEAExtractFileMap;
 import org.slc.sli.bulk.extract.lea.LEAExtractorFactory;
 import org.slc.sli.bulk.extract.lea.SectionExtractor;
@@ -176,6 +177,9 @@ public class LocalEdOrgExtractor {
         CourseTranscriptExtractor courseTranscriptExtractor = factory.buildCourseTranscriptExtractor(entityExtractor, leaToExtractFileMap, repository);
         courseTranscriptExtractor.extractEntities(edorgCache, courseOfferingExtractor.getCourseCache(), studentAcademicRecordCache);
 
+        GraduationPlanExtractor graduationPlanExtractor = factory.buildGraduationPlanExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
+        graduationPlanExtractor.extractEntities(edorgCache, student.getGraduationPlanCache());
+        
         leaToExtractFileMap.closeFiles();
 
         leaToExtractFileMap.buildManifestFiles(startTime);

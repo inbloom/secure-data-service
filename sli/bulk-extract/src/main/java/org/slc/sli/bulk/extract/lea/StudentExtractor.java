@@ -24,10 +24,7 @@ import java.util.Set;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
-import org.slc.sli.bulk.extract.util.SecurityEventUtil;
 import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.util.logging.LogLevelType;
-import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
@@ -42,19 +39,22 @@ public class StudentExtractor implements EntityExtract {
     private Repository<Entity> repo;
     private EntityToLeaCache studentCache;
     private EntityToLeaCache parentCache;
+    private EntityToLeaCache graduationPlanCache;
     private LocalEdOrgExtractHelper localEdOrgExtractHelper;
 
     
     private ExtractorHelper helper;
 
     public StudentExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo,
-            ExtractorHelper helper, EntityToLeaCache studentCache, EntityToLeaCache parentCache, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
+            ExtractorHelper helper, EntityToLeaCache studentCache, EntityToLeaCache parentCache, 
+            EntityToLeaCache graduationPlanCache, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
         this.helper = helper;
         this.studentCache = studentCache;
         this.parentCache = parentCache;
+        this.graduationPlanCache = graduationPlanCache;
         this.localEdOrgExtractHelper = localEdOrgExtractHelper;
     }
 
@@ -69,6 +69,7 @@ public class StudentExtractor implements EntityExtract {
             Entity e = cursor.next();
             Set<String> schools = helper.fetchCurrentSchoolsFromStudent(e);
             Iterable<String> parents = helper.fetchCurrentParentsFromStudent(e);
+            Iterable<String> graduationPlanIds = helper.fetchGraduationPlanIdsFromStudent(e);
             for (String lea : map.getLeas()) {
                 if (schools.contains(lea)) {
                     // Write
@@ -80,7 +81,10 @@ public class StudentExtractor implements EntityExtract {
                     for (String parent : parents) {
                         parentCache.addEntry(parent, lea);
                     }
-
+                    
+                    for (String graduationPlanId : graduationPlanIds) {
+                        graduationPlanCache.addEntry(graduationPlanId, lea);
+                    }
                 }
             }
         }
@@ -97,6 +101,10 @@ public class StudentExtractor implements EntityExtract {
     
     public EntityToLeaCache getParentCache() {
         return parentCache;
+    }
+    
+    public EntityToLeaCache getGraduationPlanCache() {
+        return graduationPlanCache;
     }
 
 
