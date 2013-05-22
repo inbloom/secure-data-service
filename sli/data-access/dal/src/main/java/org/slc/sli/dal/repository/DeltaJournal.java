@@ -61,9 +61,9 @@ public class DeltaJournal implements InitializingBean {
 
     public static final String DELTA_COLLECTION = "deltas";
 
-    // in paged query, get upto 1000 items each time
+    // in paged query, get upto 50000 items each time
     @Value("${sli.bulk.extract.delta.iterationSize:50000}")
-    private int limit = 1000;
+    private int limit = 50000;
 
     @Autowired
     @Qualifier("journalTemplate")
@@ -83,7 +83,7 @@ public class DeltaJournal implements InitializingBean {
     }
 
     public void journal(Collection<String> ids, String collection, boolean isDelete) {
-        if (deltasEnabled) {
+        if (deltasEnabled && !TenantContext.isSystemCall()) {
             if(subdocCollectionsToCollapse.containsKey(collection)){
                 journalCollapsedSubDocs(ids, collection);
             }

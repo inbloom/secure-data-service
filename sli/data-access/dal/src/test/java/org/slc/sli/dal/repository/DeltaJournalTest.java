@@ -20,6 +20,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.argThat;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -39,6 +40,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -121,6 +123,14 @@ public class DeltaJournalTest {
             count++;
         }
         assertTrue(count == 5);
+    }
+    
+    @Test
+    public void testIgnoredOnSystemCall() {
+        TenantContext.setIsSystemCall(true);
+        deltaJournal.journal("test", "userSession", false);
+        verify(template, never()).upsert(any(Query.class), any(Update.class), anyString());
+        TenantContext.setIsSystemCall(false);
     }
 
     @Test
