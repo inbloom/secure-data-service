@@ -568,26 +568,34 @@ end
 
 def getEntityEndpoint(entity)
   entity_to_endpoint_map = {
+      "attendance" => "attendances",
       "courseOffering" => "courseOfferings",
       "seaCourse" => "educationOrganizations/884daa27d806c2d725bc469b273d840493f84b4d_id/courses",
+      "cohort" => "cohorts",
       "course" => "courses",
       "educationOrganization" => "educationOrganizations",
       "gradebookEntry" => "gradebookEntries",
+      "grade" => "grades",
+      "gradingPeriod" => "gradingPeriods",
       "invalidEntry" => "school",
       "newParentDad" => "parents",
       "newParentMom" => "parents",
       "orphanEdorg" => "educationOrganizations",
       "parent" => "parents",
       "patchEdOrg" => "educationOrganizations",
+      "reportCard" => "reportCards",
       "school" => "educationOrganizations",
       "section" => "sections",
       "staff" => "staff",
       "newStaff" => "staff",
+      "staffCohortAssociation" => "staffCohortAssociations",
       "staffEducationOrganizationAssociation" => "staffEducationOrgAssignmentAssociations",
       "staffStudent" => "students",
       "student" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students",
       "newStudent" => "students",
+      "studentAcademicRecord" => "studentAcademicRecords",
       "studentAssessment" => "studentAssessments",
+      "studentCohortAssociation" => "studentCohortAssociations",
       "studentSchoolAssociation" => "studentSchoolAssociations",
       "studentSectionAssociation" => "studentSectionAssociations",
       "studentParentAssociation" => "studentParentAssociations",
@@ -595,7 +603,8 @@ def getEntityEndpoint(entity)
       "teacher" => "teachers",
       "newTeacher" => "teachers",
       "teacherSchoolAssociation" => "teacherSchoolAssociations",
-      "wrongSchoolURI" => "schoolz"
+      "wrongSchoolURI" => "schoolz",
+      "yearlyTranscript" => "yearlyTranscripts"
   }
   return entity_to_endpoint_map[entity]
 end
@@ -1202,7 +1211,15 @@ def delete_loop(type, ids, db)
   sliDb = conn.db(db)
   coll = sliDb.collection("deltas")
   while (!success && id = ids.pop) do
-    restHttpDelete("/v1/#{endpoint}/#{id}")
+    5.times {
+        begin
+            restHttpDelete("/v1/#{endpoint}/#{id}")
+            break
+        rescue RestClient::RequestTimeout
+            puts "Timed out while trying to delete #{type} #{id}"
+        end
+    }
+
     if (@res.code == 204) 
       success = true
       deleted_id = [type, id]
@@ -2049,13 +2066,103 @@ def prepareBody(verb, value, response_map)
         "careerPathway" => "Arts, A/V Technology and Communications"
       },
       "newGrade" => {
-
+        "schoolYear" => "2013-2014",
+        "studentSectionAssociationId" => "4030207003b03d055bba0b5019b31046164eff4e_id78468628f357b29599510341f08dfd3277d9471e_id",
+        "sectionId" => "4030207003b03d055bba0b5019b31046164eff4e_id",
+        "letterGradeEarned" => "A",
+        "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+        "numericGradeEarned" => 96,
+        "gradeType" => "Final",
+        "performanceBaseConversion" => "Advanced",
+        "entityType" => "grade",
+        "diagnosticStatement" => "Student has Advanced understanding of subject."
       },
       "newReportCard" => {
-
+        "gpaGivenGradingPeriod" => 4.0,
+        "numberOfDaysTardy" => 5,
+        "entityType" => "reportCard",
+        "studentCompetencyId" => ["0b60ada34879ae92d702b8deba8ffa4b0304bd4f_id", "a2d49222a65539f8658a53262619ccd743eadeaa_id", "85d510ed1e6a021582511f2ea3f593cc215a2f03_id", "efbac13e68205e055e0b62dcb688db655d1f1993_id", "add666959932195cb58f6bb23a04cdf9c4f33b80_id", "269a5ed956c61131644b852007c25938d5e52dbe_id", "d378378182c655ddcd807c4ea8a6f1dd9856bc54_id", "55418b178d1b94246aa85dce397c96a064d8b131_id", "a257d6fbe7da025ed044246cbd26b5a4d3e7980d_id", "97d5881972febe96ff3b8898c517b86862b846a6_id", "9b878efa5294c11cd28b34ff8b261eaf0721d1cb_id", "e3eb0b9c4d81d2d05f73fe812f1448f6b154e788_id", "18da02af03074e79c38178da6af667fb92b765f0_id", "84cac53e0dba7443a1d38296006c2298b61b3f27_id", "a98d764081246bcc505d16597e46932651f71388_id", "36c93cc301c35a053dbc527b9ff95470bf941b3c_id", "43b22d9ccd4ee38fa414cac155295b5f3a0497d7_id", "df625d78063c3a19427f31582cc01ce45e4926bc_id", "5a606626e43fd425f4c2795fa59fc558b02d9e96_id", "3d490c9268eb505c2019f393019c45c0a860f19d_id"],
+        "schoolYear" => "2013-2014",
+        "gradingPeriodId" => "21b8ac38bf886e78a879cfdb973a9352f64d07b9_id",
+        "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+        "gpaCumulative" => 3.8,
+        "numberOfDaysInAttendance" => 137.0,
+        "grades" => ["1417cec726dc51d43172568a9c332ee1712d73d4_idcd83575df61656c7d8aebb690ae0bb3ff129a857_id"],
+        "numberOfDaysAbsent" => 1.0
       },
       "newStudentAcademicRecord" => {
+        "gradeValueQualifier" => "90-100%=A, 80-90%=B",
+        "projectedGraduationDate" => "2013-08-18",
+        "academicHonors" => [{
+            "honorAwardDate" => "2000-07-28",
+            "honorsDescription" => "Honor Desc BBB",
+            "academicHonorsType" => "Scholarships",
 
+        }],
+        "cumulativeCreditsEarned" => {
+            "credit" => 3.0
+        },
+        "reportCards" => ["1417cec726dc51d43172568a9c332ee1712d73d4_id77bc827b90835ef0df42154428ac3153f0ddc746_id"],
+        "entityType" => "studentAcademicRecord",
+        "schoolYear" => "2013-2014",
+        "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+        "sessionId" => "bfeaf9315f04797a41dbf1663d18ead6b6fb1309_id",
+        "classRanking" => {
+            "classRankingDate" => "2013-10-19",
+            "percentageRanking" => 99,
+            "totalNumberInClass" => 8,
+            "classRank" => 10
+        },
+        "cumulativeGradePointAverage" => 3.8,
+        "recognitions" => [{
+            "recognitionType" => "Other",
+            "recognitionAwardDate" => "2013-10-25",
+            "recognitionDescription" => "Recognition Desc BBB"
+        }],
+        "cumulativeGradePointsEarned" => 0.0
+      },
+      "newAttendanceEvent" => {
+        "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+        "schoolId" => "a13489364c2eb015c219172d561c62350f0453f3_id",
+        "entityType" => "attendance",
+        "schoolYearAttendance" => [{
+          "schoolYear" => "2013-2014",
+          "attendanceEvent" => [{
+            "reason" => "Missed school bus",
+            "event" => "Tardy",
+            "date" => "2013-08-30"
+          }, {
+            "reason" => "Excused: sick",
+            "event" => "Excused Absence",
+            "date" => "2013-12-19"
+          }, {
+            "reason" => "Missed school bus",
+            "event" => "Tardy",
+            "date" => "2014-05-19"
+          }]
+        }]
+      },
+      "newCohort" => {
+        "academicSubject" => "Communication and Audio/Visual Technology",
+        "cohortType" => "Extracurricular Activity",
+        "cohortScope" => "School",
+        "educationOrgId" => "a13489364c2eb015c219172d561c62350f0453f3_id",
+        "entityType" => "cohort",
+        "cohortDescription" => "New Cohort 1 at Edorg Daybreak Central High",
+        "cohortIdentifier" => "new-cohort-1"
+      },
+      "newStaffCohortAssociation" => {
+        "staffId" => "2472b775b1607b66941d9fb6177863f144c5ceae_id",
+        "cohortId" => "cb99a7df36fadf8885b62003c442add9504b3cbd_id",
+        "beginDate" => "2013-01-15",
+        "endDate" => "2014-03-29",
+        "studentRecordAccess" => true
+      },
+      "newStudentCohortAssociation" => {
+        "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+        "cohortId" => "cb99a7df36fadf8885b62003c442add9504b3cbd_id",
+        "beginDate" => "2013-01-25",
+        "endDate" => "2014-03-29"
       }
     },
     "PATCH" => {

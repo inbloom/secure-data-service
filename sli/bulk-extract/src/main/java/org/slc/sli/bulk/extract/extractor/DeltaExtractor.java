@@ -15,6 +15,21 @@
  */
 package org.slc.sli.bulk.extract.extractor;
 
+import static org.slc.sli.bulk.extract.LogUtil.audit;
+
+import java.io.File;
+import java.io.IOException;
+import java.security.PublicKey;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
@@ -46,12 +61,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
-import java.io.File;
-import java.io.IOException;
-import java.security.PublicKey;
-import java.util.*;
-import java.util.Map.Entry;
 
 /**
  * This class should be concerned about how to generate the delta files per LEA
@@ -142,6 +151,7 @@ public class DeltaExtractor {
                                     BEMessageCode.BE_SE_CODE_0020, delta.getEntity().getType(), lea, e.getMessage());
                             event.setTargetEdOrg(lea);
                             audit(event);
+                            throw new RuntimeException("Delta extraction failed, quitting without clearing delta collections...", e);
                         }
                     }
                 }
@@ -151,12 +161,12 @@ public class DeltaExtractor {
             }
         }
 
-        finalizeExtraction(tenant, deltaUptoTime);
         logEntityCounts();
 
         audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
                 "Delta Extract Finished", LogLevelType.TYPE_INFO,
                 BEMessageCode.BE_SE_CODE_0021, DATE_TIME_FORMATTER.print(deltaUptoTime)));
+        finalizeExtraction(tenant, deltaUptoTime);
     }
 
     private void logEntityCounts() {
