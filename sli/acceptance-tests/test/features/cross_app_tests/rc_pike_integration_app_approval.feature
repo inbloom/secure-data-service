@@ -315,7 +315,7 @@ And the extract contains a file for each of the following entities:
       # |  studentCompetencyObjective            |
       |  studentDisciplineIncidentAssociation  |
       |  studentProgramAssociation             |
-      # |  studentGradebookEntry                 |
+      |  studentGradebookEntry                 |
       |  studentSchoolAssociation              |
       |  studentSectionAssociation             |
       |  studentParentAssociation              |
