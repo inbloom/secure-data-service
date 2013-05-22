@@ -46,7 +46,7 @@
       |  studentAcademicRecord                 | 230 | 0ae33a43b05f2be4b9c8af13788ae0b0448370ef_id5dc5dba7a0a4a5dbeefaf195726a5fbc7be98d70_id |
       |  studentAssessment                     | 400 | 2854a67ed0375d5b038caef2b4b39856d15b6d58_id |
       |  studentCohortAssociation              | 12 | 9be61921ddf0bcd3d58fb99d4e9c454ef5707eb7_idc62d5fe5dcbcb399ec33abe02dccba23b8a16eb6_id |
-      #|  studentCompetency                     |   |         |
+      |  studentCompetency                     | 59  |         |
       #|  studentCompetencyObjective            |   |         |
       |  studentDisciplineIncidentAssociation  |  8 | 9be61921ddf0bcd3d58fb99d4e9c454ef5707eb7_idd41740c1b17aff2baea21a76ed0dc809af1ebf13_id |
       |  studentProgramAssociation             | 12 | 9be61921ddf0bcd3d58fb99d4e9c454ef5707eb7_id2139ed90ad4b4a9e7d66f47a996fb343a07cde39_id |

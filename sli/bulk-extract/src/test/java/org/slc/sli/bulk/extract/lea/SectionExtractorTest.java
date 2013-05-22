@@ -122,16 +122,17 @@ public class SectionExtractorTest {
             @Override
             @SuppressWarnings("unchecked")
             public Entity apply(Entity input) {
-                List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-                Map<String, Object> entity = new HashMap<String, Object>();
-                entity.put("_id",SSA.get(0));
-                entity.put("body", new HashMap<String, Object>());
-                ((Map<String, Object>) entity.get("body")).put("studentId", STUDENTS.get(1));
-                list.add(entity);
+                List<Entity> list = new ArrayList<Entity>();
+                Entity ssaEntity = Mockito.mock(Entity.class);
+                Mockito.when(ssaEntity.getEntityId()).thenReturn(SSA.get(0));
+                Map<String, Object> body = new HashMap<String, Object>();
+                body.put("studentId", STUDENTS.get(1));
+                Mockito.when(ssaEntity.getBody()).thenReturn(body);
+                list.add(ssaEntity);
 
-                Map<String, List<Map<String, Object>>> map = new HashMap<String, List<Map<String, Object>>>();
+                Map<String, List<Entity>> map = new HashMap<String, List<Entity>>();
                 map.put("studentSectionAssociation", list);
-                Mockito.when(input.getDenormalizedData()).thenReturn(map);
+                Mockito.when(input.getEmbeddedData()).thenReturn(map);
 
                 return input;
             }

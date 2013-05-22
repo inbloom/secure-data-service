@@ -48,6 +48,7 @@ import org.slc.sli.bulk.extract.lea.LEAExtractorFactory;
 import org.slc.sli.bulk.extract.lea.SectionExtractor;
 import org.slc.sli.bulk.extract.lea.SessionExtractor;
 import org.slc.sli.bulk.extract.lea.StaffEdorgAssignmentExtractor;
+import org.slc.sli.bulk.extract.lea.StudentCompetencyExtractor;
 import org.slc.sli.bulk.extract.lea.StudentExtractor;
 import org.slc.sli.bulk.extract.lea.StudentSchoolAssociationExtractor;
 import org.slc.sli.bulk.extract.lea.YearlyTranscriptExtractor;
@@ -191,6 +192,8 @@ public class LocalEdOrgExtractorTest {
         Mockito.when(
                 mockFactory.buildStudentGradebookEntryExtractor(Mockito.eq(entityExtractor), Mockito.eq(mockExtractMap),
                         Mockito.any(Repository.class), Mockito.any(LocalEdOrgExtractHelper.class))).thenReturn(mockExtract);
+        Mockito.when(
+        		mockFactory.buildStudentCompetencyExtractor(Mockito.eq(entityExtractor),  Mockito.eq(mockExtractMap), Mockito.any(Repository.class))).thenReturn(mockExtract);
     }
     
     /**
