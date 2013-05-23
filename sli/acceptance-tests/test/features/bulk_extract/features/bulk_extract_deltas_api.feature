@@ -38,6 +38,7 @@ Scenario: Generate a bulk extract delta after day 0 ingestion
    And The "gradingPeriod" delta was extracted in the same format as the api
    And The "courseOffering" delta was extracted in the same format as the api
    And The "course" delta was extracted in the same format as the api
+   And The "courseTranscript" delta was extracted in the same format as the api
    And The "studentProgramAssociation" delta was extracted in the same format as the api
    And The "staffProgramAssociation" delta was extracted in the same format as the api
    And The "studentDisciplineIncidentAssociation" delta was extracted in the same format as the api

@@ -28,23 +28,24 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 
 /**
- * Resolver for studentCompetency
+ * Course Transcript resolver
  * 
  * @author ycao
  * 
  */
 @Component
-public class StudentCompetencyContextResolver implements ContextResolver {
-
-    public static final String STUDENT_SECTION_ASSOCIATION_ID = "studentSectionAssociationId";
+public class CourseTranscriptContextResolver implements ContextResolver {
+    
+    public static final String ED_ORG_REFERENCE = "educationOrganizationReference";
+    public static final String STUDENT_ACADEMIC_RECORD_ID = "studentAcademicRecordId";
     public static final String STUDENT_ID = "studentId";
 
     @Autowired
-    StudentContextResolver studentResolver;
-    
-    @Autowired
     @Qualifier("secondaryRepo")
     private Repository<Entity> repo;
+    
+    @Autowired
+    StudentContextResolver studentResolver;
 
     @Override
     public Set<String> findGoverningLEA(Entity entity) {
@@ -52,20 +53,24 @@ public class StudentCompetencyContextResolver implements ContextResolver {
             return Collections.emptySet();
         }
         
-        String studentSectionAssociationId = (String) entity.getBody().get(STUDENT_SECTION_ASSOCIATION_ID);
-        if (studentSectionAssociationId == null) {
-            return Collections.emptySet();
-        }
-        
-        Entity studentSectionAssociation = repo.findById(EntityNames.STUDENT_SECTION_ASSOCIATION, studentSectionAssociationId);
-        
-        if (studentSectionAssociation == null) {
-            return Collections.emptySet();
+        // This studentId MUST be the same as the studentId on studentAcademicRecord
+        String studentId = (String) entity.getBody().get(STUDENT_ID);
+        if (studentId == null) {
+            // okay studentId is null, must go through studentAcademicRecord to find the studentId
+            String studentAcademicRecordId = (String) entity.getBody().get(STUDENT_ACADEMIC_RECORD_ID);
+            if (studentAcademicRecordId != null) {
+                Entity studentAcademicRecord = repo.findById(EntityNames.STUDENT_ACADEMIC_RECORD, studentAcademicRecordId);
+                if (studentAcademicRecord != null) {
+                    studentId = (String) studentAcademicRecord.getBody().get(STUDENT_ID);
+                }
+            }
         }
 
-        String studentId = (String) studentSectionAssociation.getBody().get(STUDENT_ID);
-
-        return studentResolver.findGoverningLEA(studentId);
+        if (studentId != null) {
+            return studentResolver.findGoverningLEA(studentId);
+        }
+        
+        return Collections.emptySet();
     }
     
 }
