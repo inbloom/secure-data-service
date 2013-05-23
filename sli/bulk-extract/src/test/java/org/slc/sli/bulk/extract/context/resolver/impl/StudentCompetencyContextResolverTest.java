@@ -34,8 +34,6 @@ import org.mockito.MockitoAnnotations;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
 public class StudentCompetencyContextResolverTest {
@@ -64,8 +62,7 @@ public class StudentCompetencyContextResolverTest {
     
     public void shouldFollowStudent() {
         Entity studentCompetency = buildStudentCompetency();
-        NeutralQuery query = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, "association123"));
-        when(repo.findOne(EntityNames.STUDENT_SECTION_ASSOCIATION, query)).thenReturn(buildStudentSectionAssociation());
+        when(repo.findById(EntityNames.STUDENT_SECTION_ASSOCIATION, "association123")).thenReturn(buildStudentSectionAssociation());
         Set<String> topLeas = new HashSet<String>(Arrays.asList("lea1", "lea2"));
         when(studentResolver.findGoverningLEA("student123")).thenReturn(topLeas);
         
