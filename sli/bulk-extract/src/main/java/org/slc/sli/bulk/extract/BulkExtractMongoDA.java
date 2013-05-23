@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.query.Query;
@@ -223,5 +224,16 @@ public class BulkExtractMongoDA {
 		this.certHelper = certHelper;
 	}
 
-
+    public Map<String, List> getEdOrgLineages() {
+        Map<String, List> edOrgLineages = new HashMap<String, List>();
+        NeutralQuery query = new NeutralQuery();
+        query.setIncludeFields(Lists.newArrayList("_id", "metaData.edOrgs"));
+        Iterable<Entity> edOrgs = entityRepository.findAll("educationOrganization", query);
+        if(edOrgs != null) {
+            for(Entity edOrg:edOrgs) {
+               edOrgLineages.put(edOrg.getEntityId(), (List<String>)edOrg.getMetaData().get("edOrgs"));
+            }
+        }
+        return edOrgLineages;
+    }
 }

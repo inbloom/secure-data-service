@@ -16,10 +16,10 @@
 
 package org.slc.sli.bulk.extract.pub;
 
+import java.util.List;
+
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.util.List;
 
 /**
  * The the PublicDataFactory
@@ -32,6 +32,12 @@ public class PublicDataFactoryTest {
     public void testBuildPublicEdOrgExtract() {
         Assert.assertTrue(factory.buildDirectPublicDataExtract(null) != null);
         Assert.assertTrue(factory.buildDirectPublicDataExtract(null).getClass() == DirectPublicDataExtractor.class);
+    }
+
+    @Test
+    public void buildUnfilteredPublicDataExtractor() {
+        Assert.assertTrue(factory.buildUnfilteredPublicDataExtractor(null) != null);
+        Assert.assertTrue(factory.buildUnfilteredPublicDataExtractor(null).getClass() == UnfilteredPublicDataExtractor.class);
     }
 
     @Test
