@@ -63,10 +63,9 @@ public class ExtractorHelper{
              if (dateHelper.isFieldExpired(school, "exitWithdrawDate")) {
                 continue;
             }
-            if (school.containsKey("edOrgs")) {
-                //List<String> edorgs = (List<String>) school.get("edOrgs");
-                String id = (String)school.get("_id");
-                List<String> lineages = localEdOrgExtractHelper.getEdOrgLineages().get(id);
+            String id = (String)school.get("_id");
+            List<String> lineages = localEdOrgExtractHelper.getEdOrgLineages().get(id);
+            if(lineages != null) {
                 studentSchools.addAll(lineages);
             }
         }
@@ -118,4 +117,11 @@ public class ExtractorHelper{
     	return result;
     }
 
+    public LocalEdOrgExtractHelper getLocalEdOrgExtractHelper() {
+        return localEdOrgExtractHelper;
+    }
+
+    public void setLocalEdOrgExtractHelper(LocalEdOrgExtractHelper localEdOrgExtractHelper) {
+        this.localEdOrgExtractHelper = localEdOrgExtractHelper;
+    }
 }

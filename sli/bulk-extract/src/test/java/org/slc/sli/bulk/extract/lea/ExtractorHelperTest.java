@@ -21,11 +21,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.collect.ImmutableMap;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.util.datetime.DateHelper;
@@ -36,10 +38,13 @@ public class ExtractorHelperTest {
     private ExtractorHelper helper;
     private Entity mockEntity;
     private DateHelper mockHelper;
+    private LocalEdOrgExtractHelper localEdOrgExtractHelper;
 
     @Before
     public void setUp() {
+        localEdOrgExtractHelper = Mockito.mock(LocalEdOrgExtractHelper.class);
         helper = new ExtractorHelper();
+        helper.setLocalEdOrgExtractHelper(localEdOrgExtractHelper);
         mockEntity = Mockito.mock(Entity.class);
         mockHelper = Mockito.mock(DateHelper.class);
         helper.setDateHelper(mockHelper);
@@ -56,13 +61,22 @@ public class ExtractorHelperTest {
      */
     @Test
     public void testExpiredSchools() {
+        Map<String, List> lineages = ImmutableMap.of(
+                "school1", (List)Arrays.asList(),
+                "school2", (List)Arrays.asList(),
+                "school3", (List)Arrays.asList("Proudhon", "Bakunin", "Kropotkin")
+        );
+        Mockito.when(localEdOrgExtractHelper.getEdOrgLineages()).thenReturn(lineages);
+
         helper.setDateHelper(null);
         Map<String, List<Map<String, Object>>> denormalized = new HashMap<String, List<Map<String, Object>>>();
         Map<String, Object> school = new HashMap<String, Object>();
         school.put("exitWithdrawDate", "1848-05-21");
+        school.put("_id", "school1");
 
         Map<String, Object> school2 = new HashMap<String, Object>();
         school2.put("exitWithdrawDate", "1945-05-09");
+        school2.put("_id", "school2");
 
         denormalized.put("schools", Arrays.asList(school, school2));
         
@@ -71,8 +85,8 @@ public class ExtractorHelperTest {
         Assert.assertTrue("No schools should be returned", helper.fetchCurrentSchoolsFromStudent(student).size() == 0);
         
         Map<String, Object> school3 = new HashMap<String, Object>();
+        school3.put("_id", "school3");
         school3.put("exitWithdrawDate", "2048-05-09");
-        school3.put("edOrgs", Arrays.asList("Proudhon", "Bakunin", "Kropotkin"));
 
         denormalized.put("schools", Arrays.asList(school, school2, school3));
         Assert.assertTrue("There should be one school", helper.fetchCurrentSchoolsFromStudent(student).size() == 3);        
@@ -83,27 +97,24 @@ public class ExtractorHelperTest {
 
         Map<String, List<Map<String, Object>>> denormalized = Mockito.mock(Map.class);
         Map<String, Object> school = Mockito.mock(Map.class);
+        Mockito.when(school.get("_id")).thenReturn("school1");
         List<Map<String, Object>> schools = Arrays.asList(school);
+
+
         List<String> edorgs = Arrays.asList("One", "Two", "Three");
+        Map<String, List> lineages = ImmutableMap.of(  "school1", (List)edorgs);
+        Mockito.when(localEdOrgExtractHelper.getEdOrgLineages()).thenReturn(lineages);
 
         // No denormalized data
         Assert.assertTrue(helper.fetchCurrentSchoolsFromStudent(mockEntity).size() == 0);
 
-        // No items in data
+        // No school in schools
         Mockito.when(mockEntity.getDenormalizedData()).thenReturn(denormalized);
         Assert.assertTrue(helper.fetchCurrentSchoolsFromStudent(mockEntity).size() == 0);
 
-        // No edorgs in the schools
+        // One school in schools
         Mockito.when(denormalized.get("schools")).thenReturn(schools);
         Mockito.when(denormalized.containsKey("schools")).thenReturn(true);
-        Assert.assertTrue(helper.fetchCurrentSchoolsFromStudent(mockEntity).size() == 0);
-
-        Mockito.when(school.get("edOrgs")).thenReturn(edorgs);
-        Mockito.when(school.containsKey("edOrgs")).thenReturn(false);
-        Assert.assertTrue(helper.fetchCurrentSchoolsFromStudent(mockEntity).size() == 0);
-
-        Mockito.when(school.get("edOrgs")).thenReturn(edorgs);
-        Mockito.when(school.containsKey("edOrgs")).thenReturn(true);
         Assert.assertTrue(helper.fetchCurrentSchoolsFromStudent(mockEntity).size() == edorgs.size());
 
         // Date checking
@@ -111,7 +122,7 @@ public class ExtractorHelperTest {
         Assert.assertTrue(helper.fetchCurrentSchoolsFromStudent(mockEntity).size() == 0);
 
         Mockito.when(mockHelper.isFieldExpired(school, "exitWithdrawDate")).thenReturn(false);
-        Assert.assertTrue(helper.fetchCurrentSchoolsFromStudent(mockEntity).size() == edorgs.size());
+        Assert.assertTrue(helper.fetchCurrentSchoolsFromStudent(mockEntity).size() == 3);
     }
 
     @Test
