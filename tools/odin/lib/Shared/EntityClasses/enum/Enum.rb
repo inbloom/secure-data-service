@@ -84,5 +84,9 @@ module Enum
     def to_symbol(value)
       get_key(value)
     end
+
+    def index(key)
+      @hash.keys.index key
+    end
   end
 end
