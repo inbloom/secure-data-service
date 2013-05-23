@@ -28,7 +28,8 @@ public enum EdOrgPathDefinition {
     COURSE("course", "body.schoolId"),
     COURSE_OFFERING("courseOffering", "body.schoolId"),
     SESSION("session", "body.schoolId"),
-    GRADUATION_PLAN("graduationPlan", "body.educationOrganizationId");
+    GRADUATION_PLAN("graduationPlan", "body.educationOrganizationId"),
+    GRADING_PERIOD("gradingPeriod", "body.gradingPeriodIdentity.schoolId");
 
     private final String entityName;
     private final String edOrgRefField;

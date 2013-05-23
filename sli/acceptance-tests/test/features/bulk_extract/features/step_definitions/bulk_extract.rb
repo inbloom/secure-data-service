@@ -953,7 +953,7 @@ Then /^I ingested "(.*?)" dataset$/ do |dataset|
   step "I should not see an error log file created"
 end
 
-Then /^the "(.*?)" has the correct number of SEA public data records$/ do |entity|
+Then /^the "(.*?)" has the correct number of SEA public data records "(.*?)"$/ do |entity, field|
   disable_NOTABLESCAN()
 
 	@tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
@@ -962,8 +962,7 @@ Then /^the "(.*?)" has the correct number of SEA public data records$/ do |entit
 
   puts "Comparing SEA " + @SEA_id
 
-  query_field = "body." + getSEAPublicRefField(entity)
-  query = {}
+  query_field = "body." + field
   collection = entity
   count = 0
 
@@ -990,8 +989,8 @@ Then /^the "(.*?)" has the correct number of SEA public data records$/ do |entit
  enable_NOTABLESCAN()
 end
 
-Then /^I verify that the "(.*?)" reference an SEA only$/ do |entity|
-  query_field = getSEAPublicRefField(entity)
+Then /^I verify that the "(.*?)" reference an SEA only "(.*?)"$/ do |entity, query|
+  query_field = query.split(".")
   Zlib::GzipReader.open(@unpackDir + "/" + entity + ".json.gz") { |extractFile|
     records = JSON.parse(extractFile.read)
     records.each do |record|
@@ -1000,7 +999,13 @@ Then /^I verify that the "(.*?)" reference an SEA only$/ do |entity|
           next
         end
       end
-      assert(record[query_field] == @SEA_id, "Incorrect reference " + record[query_field] + " expected " + @SEA_id)
+
+      field = record
+      query_field.each do |key|
+        field = field[key]
+      end
+
+      assert(field == @SEA_id, "Incorrect reference " + field + " expected " + @SEA_id)
     end
   }
 end
@@ -2215,19 +2220,6 @@ def build_bulk_query(tenant, appId, lea=nil, delta=false, publicData=false)
   query = {"body.tenantId"=>tenant, "body.applicationId" => appId, "body.isDelta" => delta, "body.isPublicData" => publicData}
   query.merge!({"body.edorg"=>lea}) unless lea.nil?
   query
-end
-
-def getSEAPublicRefField(entity)
-  query_field = ""
-  case entity
-  when "school","educationOrganization"
-    query_field = "parentEducationAgencyReference"
-  when "course","courseOffering", "session"#, "gradingPeriod"
-      query_field = "schoolId"
-  when "graduationPlan"
-      query_field = "educationOrganizationId"
-  end
-  return query_field
 end
 
 def createCleanupFile(baseDir, tenant, edorg, app, date)
