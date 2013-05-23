@@ -82,14 +82,14 @@ public class EntityRepositoryTest {
     @Resource(name = "mongoEntityRepository")
     private Repository<Entity> repository;
 
-    boolean schoolLineageContains(String schoolId, Set<String> expectedEdOrgs) {
+    boolean schoolLineageIs(String schoolId, Set<String> expectedEdOrgs) {
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, schoolId));
         Entity school = repository.findOne(EntityNames.EDUCATION_ORGANIZATION, neutralQuery);
         ArrayList<String> edOrgs = (ArrayList<String>) school.getMetaData().get("edOrgs");
         if (edOrgs == null) {
             return expectedEdOrgs.isEmpty();
-        } else if (!expectedEdOrgs.containsAll(new HashSet<String>(edOrgs))) {
+        } else if (!expectedEdOrgs.equals(new HashSet<String>(edOrgs))) {
             System.out.println("School edOrg lineage incorrect. Expected " + expectedEdOrgs + ", got " + edOrgs);
             return false;
         }
@@ -110,65 +110,76 @@ public class EntityRepositoryTest {
         Entity school = createEducationOrganizationEntity("school1", "school", "School", null);
         Set<String> expectedEdOrgs = new HashSet();
         expectedEdOrgs.add(school.getEntityId());
-        assertTrue("School not found in lineage.", schoolLineageContains(school.getEntityId(), expectedEdOrgs));
+        assertTrue("School not found in lineage.", schoolLineageIs(school.getEntityId(), expectedEdOrgs));
 
         // Add an SEA
         Entity sea = createEducationOrganizationEntity("sea1", "stateEducationAgency", "State Education Agency", null);
-        assertTrue("After adding SEA expected edOrgs not found in lineage.", schoolLineageContains(school.getEntityId(), expectedEdOrgs));
+        assertTrue("After adding SEA expected edOrgs not found in lineage.", schoolLineageIs(school.getEntityId(), expectedEdOrgs));
 
         // Add an LEA
         Entity lea = createEducationOrganizationEntity("lea1", "localEducationAgency", "Local Education Agency", sea.getEntityId());
-        assertTrue("After adding LEA expected edOrgs not found in lineage.", schoolLineageContains(school.getEntityId(), expectedEdOrgs));
+        assertTrue("After adding LEA expected edOrgs not found in lineage.", schoolLineageIs(school.getEntityId(), expectedEdOrgs));
 
-        // DoUpdate School parent ref to LEA
+        // doUpdate School parent ref to LEA
         query = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, school.getEntityId()));
         Update update = new Update().set("body." + ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE, lea.getEntityId());
         repository.doUpdate(EntityNames.EDUCATION_ORGANIZATION, query, update);
         expectedEdOrgs.add(lea.getEntityId());
         expectedEdOrgs.add(sea.getEntityId());
-        assertTrue("After updating school parent ref expected edOrgs not found in lineage.", schoolLineageContains(school.getEntityId(), expectedEdOrgs));
+        assertTrue("After updating school parent ref expected edOrgs not found in lineage.", schoolLineageIs(school.getEntityId(), expectedEdOrgs));
 
         // Patch LEA parent ref to an undefined id
         Map<String, Object> newValues = new HashMap<String, Object>();
         newValues.put(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE, "undefinedId");
         repository.patch("localEducationEntity", EntityNames.EDUCATION_ORGANIZATION, lea.getEntityId(), newValues);
         expectedEdOrgs.remove(sea.getEntityId());
-        assertTrue("After updating school parent ref expected edOrgs not found in lineage.", schoolLineageContains(school.getEntityId(), expectedEdOrgs));
+        assertTrue("After updating school parent ref expected edOrgs not found in lineage.", schoolLineageIs(school.getEntityId(), expectedEdOrgs));
 
         // Update LEA to set parent ref back to SEA
         repository.update(EntityNames.EDUCATION_ORGANIZATION, lea, false);
         expectedEdOrgs.add(sea.getEntityId());
-        assertTrue("After updating school parent ref expected edOrgs not found in lineage.", schoolLineageContains(school.getEntityId(), expectedEdOrgs));
+        assertTrue("After updating school parent ref expected edOrgs not found in lineage.", schoolLineageIs(school.getEntityId(), expectedEdOrgs));
 
-        // Delete LEA - no change to lineage
+        // Delete LEA - lineage should be recalculated
         repository.delete(EntityNames.EDUCATION_ORGANIZATION, lea.getEntityId());
-        assertTrue("After deleting lea expected edOrgs not found in lineage.", schoolLineageContains(school.getEntityId(), expectedEdOrgs));
+        expectedEdOrgs.remove(lea.getEntityId());
+        expectedEdOrgs.remove(sea.getEntityId());
+        assertTrue("After deleting lea expected edOrgs not found in lineage.", schoolLineageIs(school.getEntityId(), expectedEdOrgs));
 
         // Insert LEA with no parent ref to SEA
         lea.getBody().remove(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE);
         Entity insertedLea = ((MongoEntityRepository)repository).insert(lea, EntityNames.EDUCATION_ORGANIZATION);
-        expectedEdOrgs.remove(sea.getEntityId());
-        assertTrue("After re-adding LEA with no parent ref expected edOrgs not found in lineage.", schoolLineageContains(school.getEntityId(), expectedEdOrgs));
+        expectedEdOrgs.add(lea.getEntityId());
+        assertTrue("After re-adding LEA with no parent ref expected edOrgs not found in lineage.", schoolLineageIs(school.getEntityId(), expectedEdOrgs));
 
-        clearSchoolLineage(school.getEntityId());
+        // findAndUpdate School parent ref to SEA
+        query = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, school.getEntityId()));
+        update = new Update().set("body." + ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE, sea.getEntityId());
+        repository.findAndUpdate(EntityNames.EDUCATION_ORGANIZATION, query, update);
+        expectedEdOrgs.remove(lea.getEntityId());
+        expectedEdOrgs.add(sea.getEntityId());
+        assertTrue("After updating school parent ref to SEA, expected edOrgs not found in lineage.", schoolLineageIs(school.getEntityId(), expectedEdOrgs));
+
+        // Clear lineage for negative tests
+        clearSchoolLineage(school);
+
         // Create an unrelated entity type and make sure school lineage isn't recalculated
         repository.create("student", buildTestStudentEntity());
-        assertTrue("After adding a student lineage school lineage should not change.", schoolLineageContains(school.getEntityId(), new HashSet<String>()));
+        assertTrue("After adding a student lineage school lineage should not change.", schoolLineageIs(school.getEntityId(), new HashSet<String>()));
 
-        // DoUpdate an edOrg non-parent-ref and make sure school lineage isn't recalculated
-        query = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, school.getEntityId()));
-        update = new Update().set("body.nameOfInstitution", "updatedName");
-        repository.doUpdate(EntityNames.EDUCATION_ORGANIZATION, query, update);
-        assertTrue("After updating an LEA non-parent ref should not change school lineage.", schoolLineageContains(school.getEntityId(), new HashSet<String>()));
+        // Patch an edOrg non-parent-ref and make sure school lineage isn't recalculated
+        newValues = new HashMap<String, Object>();
+        newValues.put("body.nameOfInstitution", "updatedName");
+        repository.patch("school", EntityNames.EDUCATION_ORGANIZATION, school.getEntityId(), newValues);
+        assertTrue("Updating a school non-parent ref should not change school lineage.", schoolLineageIs(school.getEntityId(), new HashSet<String>()));
 
         mongoTemplate.getCollection(EntityNames.EDUCATION_ORGANIZATION).drop();
 
     }
 
-    private void clearSchoolLineage(String schoolId) {
-        NeutralQuery query = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, schoolId));
-        Update update = new Update().unset("metaData.edOrgs");
-        repository.doUpdate(EntityNames.EDUCATION_ORGANIZATION, query, update);
+    private void clearSchoolLineage(Entity school) {
+        school.getMetaData().remove("edOrgs");
+        repository.update(EntityNames.EDUCATION_ORGANIZATION, school, false);
     }
 
     private Entity createEducationOrganizationEntity(String stateOrgId, String type, String organizationCategory, String parentRef) {

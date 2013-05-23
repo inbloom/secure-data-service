@@ -86,9 +86,9 @@ Scenario: Delete LEA with cascade = false and force = true, log violations = tru
 	  Then there exist "2" "session" records like below in "Midgar" tenant. And I save this query as "session"
 	   |field                                                           |value                                                |
 	   |body.schoolId          										 |1b223f577827204a1c7e9c851dba06bea6b031fe_id         |
-	  Then there exist "10" "student" records like below in "Midgar" tenant. And I save this query as "student"
+	  Then there exist "3" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "schoolLineage"
 	   |field                                                           |value                                                |
-	   |schools.edOrgs                                                  |1b223f577827204a1c7e9c851dba06bea6b031fe_id          |
+	   |metaData.edOrgs                                                 |1b223f577827204a1c7e9c851dba06bea6b031fe_id          |
     And I save the collection counts in "Midgar" tenant
 	  And I post "ForceLEADelete.zip" file as the payload of the ingestion job
 	  When zip file is scp to ingestion landing zone
@@ -104,7 +104,7 @@ Scenario: Delete LEA with cascade = false and force = true, log violations = tru
   	And I should see "CORE_0066" in the resulting warning log file for "InterchangeEducationOrganization.xml"
 	  And I re-execute saved query "educationOrganization" to get "0" records
 	  And I re-execute saved query "parentEducationOrganizationAgencyReference" to get "3" records
-#	  And I re-execute saved query "student" to get "0" records
+	  And I re-execute saved query "schoolLineage" to get "0" records
 	  And I re-execute saved query "session" to get "2" records
     And I re-execute saved query "gradingPeriod" to get "14" records
 	  And I see that collections counts have changed as follows in tenant "Midgar"
@@ -130,12 +130,12 @@ Scenario: Delete LEA Ref with cascade = false and force = true, log violations =
   	Then there exist "14" "gradingPeriod" records like below in "Midgar" tenant. And I save this query as "gradingPeriod"
 	   |field                                                           |value                                               |
 	   |body.gradingPeriodIdentity.schoolId                             |1b223f577827204a1c7e9c851dba06bea6b031fe_id         |
-	  Then there exist "2" "session" records like below in "Midgar" tenant. And I save this query as "session"
+	Then there exist "2" "session" records like below in "Midgar" tenant. And I save this query as "session"
 	   |field                                                           |value                                                |
 	   |body.schoolId          										 |1b223f577827204a1c7e9c851dba06bea6b031fe_id         |
-   	Then there exist "10" "student" records like below in "Midgar" tenant. And I save this query as "student"
+   	Then there exist "3" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "schoolLineage"
 	   |field                                                           |value                                                |
-	   |schools.edOrgs                                                  |1b223f577827204a1c7e9c851dba06bea6b031fe_id          |
+	   |metaData.edOrgs                                                 |1b223f577827204a1c7e9c851dba06bea6b031fe_id          |
     And I save the collection counts in "Midgar" tenant
    	And I post "ForceLEARefDelete.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
@@ -151,7 +151,7 @@ Scenario: Delete LEA Ref with cascade = false and force = true, log violations =
 	  And I should see "CORE_0066" in the resulting warning log file for "InterchangeEducationOrganization.xml"
 	  And I re-execute saved query "educationOrganization" to get "0" records
 	  And I re-execute saved query "parentEducationOrganizationAgencyReference" to get "3" records
-#	  And I re-execute saved query "student" to get "0" records
+	  And I re-execute saved query "schoolLineage" to get "0" records
 	  And I re-execute saved query "session" to get "2" records
     And I re-execute saved query "gradingPeriod" to get "14" records
 	  And I see that collections counts have changed as follows in tenant "Midgar"

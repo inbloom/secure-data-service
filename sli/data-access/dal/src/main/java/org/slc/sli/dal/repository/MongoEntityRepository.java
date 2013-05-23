@@ -260,7 +260,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         } else {
             result = super.patch(type, collectionName, id, newValues);
             if (result
-                    && EntityNames.EDUCATION_ORGANIZATION.equals(ENTITY_BASE_TYPE_MAP.get(type))
+                    && EntityNames.EDUCATION_ORGANIZATION.equals(collectionName)
                     && newValues.containsKey(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE)) {
                 // TODO can be optimized to take an edOrg Id
                 updateAllSchoolLineage();
@@ -891,6 +891,13 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             else {
             	result = super.delete(collectionName, id);
             }
+
+            // update school lineage cache iff updating educationOrganization.parentEducationAgencyReference
+            if (result
+                    && collectionName.equals(EntityNames.EDUCATION_ORGANIZATION)) {
+                // TODO can be optimized to take an edOrg Id
+                updateAllSchoolLineage();
+            }
         }
 
         if (result && journal != null) {
@@ -1196,8 +1203,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
         // update school lineage cache iff updating educationOrganization.parentEducationAgencyReference
         if (result
-                && collectionName.equals(EntityNames.EDUCATION_ORGANIZATION)
-                && update.getUpdateObject().containsField("body." + ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE)) {
+                && collectionName.equals(EntityNames.EDUCATION_ORGANIZATION)) {
             // don't know specifically what edOrgs were updated so refresh all school lineage
             return updateAllSchoolLineage();
         }
@@ -1215,6 +1221,12 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             subDocs.subDoc(collectionName).deleteAll(query);
         } else {
             super.deleteAll(collectionName, neutralQuery);
+
+            // update school lineage cache iff updating educationOrganization.parentEducationAgencyReference
+            if (collectionName.equals(EntityNames.EDUCATION_ORGANIZATION)) {
+                // TODO can be optimized to take an edOrg Id
+                updateAllSchoolLineage();
+            }
         }
     }
 
@@ -1247,8 +1259,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         Entity result = template.findAndModify(query, update, options, getRecordClass(), collectionName);
 
         if (result != null
-                && collectionName.equals(EntityNames.EDUCATION_ORGANIZATION)
-                && update.getUpdateObject().containsField("body." + ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE)) {
+                && collectionName.equals(EntityNames.EDUCATION_ORGANIZATION)) {
             updateAllSchoolLineage();
         }
 
