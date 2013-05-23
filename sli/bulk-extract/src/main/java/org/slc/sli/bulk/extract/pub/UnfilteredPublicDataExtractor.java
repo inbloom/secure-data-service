@@ -31,11 +31,6 @@ public class UnfilteredPublicDataExtractor implements PublicDataExtractor {
     private EntityExtractor extractor;
 
     private List<String> unfilteredEntities = Arrays.asList(
-            "assessment",
-            "learningObjective",
-            "learningStandard",
-            "competencyLevelDescriptor",
-            "studentCompetencyObjective",
             "program");
 
     /**
