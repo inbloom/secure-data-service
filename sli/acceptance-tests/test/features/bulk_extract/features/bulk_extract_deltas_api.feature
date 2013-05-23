@@ -6,6 +6,7 @@ Scenario: Initialize security trust store for Bulk Extract application and LEAs
     And The bulk extract app has been approved for "Midgar-DAYBREAK" with client id "<clientId>"
     And The X509 cert "cert" has been installed in the trust store and aliased
 
+@shortcut
 Scenario: Generate a bulk extract delta after day 0 ingestion
   When I trigger a delta extract
    And I request the latest bulk extract delta using the api
@@ -44,8 +45,22 @@ Scenario: Generate a bulk extract delta after day 0 ingestion
    And The "disciplineIncident" delta was extracted in the same format as the api
    And The "disciplineAction" delta was extracted in the same format as the api
    And The "studentCompetency" delta was extracted in the same format as the api
-   And I save some IDs from all the extract files to "delete_candidate" so I can delete them later
 
+  Given I trigger a bulk extract
+   When I set the header format to "application/x-tar"
+   Then I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+   When I make lea bulk extract API call for lea "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
+    And the return code is 200 I get expected tar downloaded
+   Then I check the http response headers
+   When I decrypt and save the full extract
+    And I verify that an extract tar file was created for the tenant "Midgar"
+    And there is a metadata file in the extract
+
+   Then each record in the full extract is present and matches the delta extract
+
+   #And I save some IDs from all the extract files to "delete_candidate" so I can delete them later
+
+@wip
 Scenario: Triggering deltas via ingestion
   All entities belong to lea1 which is IL-DAYBREAK, we should only see a delta file for lea1
   and only a delete file is generated for lea2.
@@ -310,6 +325,7 @@ Given I clean the bulk extract file system and database
    Then The "graduationPlan" delta was extracted in the same format as the api
 
 
+@wip
 Scenario: Generate a bulk extract in a different LEA
   Given I clean the bulk extract file system and database
     And I am using local data store
@@ -333,6 +349,7 @@ Scenario: Generate a bulk extract in a different LEA
    And The "educationOrganization" entity with id "<ed_org_to_lea2_id>" should belong to LEA with id "<IL-HIGHWIND>" 
 
 
+@wip
 Scenario: Ingest education organization and perform delta   
   Given I clean the bulk extract file system and database
     And I am using local data store
@@ -381,6 +398,7 @@ Scenario: Ingest education organization and perform delta
           | 54b4b51377cd941675958e6e81dce69df801bfe8_id | entityType = school                   |
 
 
+@wip
 Scenario: Ingest SEA update and verify no deltas generated
   Given I clean the bulk extract file system and database
     And I am using local data store
@@ -397,6 +415,7 @@ Scenario: Ingest SEA update and verify no deltas generated
   Then there should be no deltas in mongo
 
 
+@wip
 Scenario: Ingest SEA delete and verify both LEAs received the delete
   Given I clean the bulk extract file system and database
     And I ingested "deltas_delete_sea.zip" dataset
@@ -423,6 +442,7 @@ Scenario: Ingest SEA delete and verify both LEAs received the delete
     Then I reingest the SEA so I can continue my other tests
 
 
+@wip
 Scenario: CREATE and verify deltas for private entities through API POST
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -517,6 +537,7 @@ Given I clean the bulk extract file system and database
     |  9bf3036428c40861238fdc820568fde53e658d88_id28af8b70a2f2e695fc25da04e0f8625115002556_id | entityType = studentParentAssociation |
 
 
+@wip
 Scenario: Update an existing edorg through the API, perform delta, call list endpoint, call API to download and verify delta
  Given I clean the bulk extract file system and database
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -545,6 +566,7 @@ Scenario: Update an existing edorg through the API, perform delta, call list end
   And The "school" delta was extracted in the same format as the api
 
 
+@wip
 Scenario: Update an existing edOrg with invalid API call, verify no delta created
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -554,6 +576,7 @@ Given I clean the bulk extract file system and database
   And deltas collection should have "0" records
 
 
+@wip
 Scenario: Create an invalid edOrg with the API, verify no delta created
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -563,6 +586,7 @@ Given I clean the bulk extract file system and database
   And deltas collection should have "0" records
 
 
+@wip
 Scenario: As SEA Admin, delete an existing school with API call, verify delta
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -574,6 +598,7 @@ Given I clean the bulk extract file system and database
   And I verify "2" delta bulk extract files are generated for LEA "<IL-HIGHWIND>" in "Midgar"
 
 
+@wip
 Scenario: Create Student, course offering and section as SEA Admin, users from different LEAs requesting Delta extracts
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -786,6 +811,7 @@ Given I clean the bulk extract file system and database
     | f44b0a272ba009b9668151070806e132f9e38364_id | educationOrganizationReference = 99d527622dcb51c465c515c0636d17e085302d5e_id |
 
 
+@wip
 Scenario: Delete student and stuSchAssoc, re-post them, then delete just studentSchoolAssociations (leaving students), verify delete
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -845,6 +871,7 @@ Given I clean the bulk extract file system and database
 
 
 
+@wip
 Scenario: Create, delete, then re-create the same entity, verify 1 delta entry, no deletes
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -917,6 +944,7 @@ Given I clean the bulk extract file system and database
     | 9bf3036428c40861238fdc820568fde53e658d88_id | entityType = student                  |
 
 
+@wip
 Scenario: Test access to the api
   Given I log into "SDK Sample" with a token of "lstevenson", a "Noldor" for "IL-Highwind" in tenant "Midgar", that lasts for "300" seconds
   And I request latest delta via API for tenant "Midgar", lea "<IL-HIGHWIND>" with appId "<app id>" clientId "<client id>"
@@ -950,5 +978,6 @@ Scenario: Test delete deltes
         |  entityType  |
 
 
+@wip
 Scenario: Be a good neighbor and clean up before you leave
     Given I clean the bulk extract file system and database
