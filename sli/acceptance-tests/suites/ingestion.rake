@@ -75,10 +75,6 @@ task :ingestionXsdValidationTest do
   runTests("test/features/ingestion/features/xsd_validation.feature")
 end
 
-desc "Run Index Validation Test" 
-task :ingestionIndexValidationTest do 
-  runTests("test/features/ingestion/features/ingestion_index_validation.feature") 
-end
 
 desc "Run Ingestion Ignore ID Reference Resolution Test"
 task :ingestionIgnoreIDRefsTest do
@@ -99,10 +95,6 @@ end
 desc "Run Ingestion Database Performance Tests"
 task :ingestionMongoDBPerformanceTest do
   runTests("test/features/ingestion/features/ingestion_mongo_performance.feature")
-end
-
-desc "Run Ingestion Index Tests"
-task :ingestionIndexTest do
 end
 
 desc "Run Ingestion Parallel Job Tests"
@@ -286,7 +278,7 @@ end
 
 desc "Run Ingestion Deletion Tests"
   task :ingestionDeletionTests => [
-        :ingestBroadSetOfTypesAndExportData,
+        #:ingestBroadSetOfTypesAndExportData,
         :ingestionSuperStudentDelete,
         :ingestionSuperSectionDelete,
         :ingestionSuperAssessmentDelete,
