@@ -23,13 +23,25 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.util.datetime.DateHelper;
 import org.slc.sli.domain.Entity;
-public class ExtractorHelper {
-    
+public class ExtractorHelper{
+
+    public ExtractorHelper() {
+        //LocalEdOrgExtractHelper is optional
+    }
+
+    public ExtractorHelper(LocalEdOrgExtractHelper localEdOrgExtractHelper) {
+        this.localEdOrgExtractHelper = localEdOrgExtractHelper;
+    }
+
     private DateHelper dateHelper;
+
+    private LocalEdOrgExtractHelper localEdOrgExtractHelper;
+
 
     /**
      * returns all current schools of the student
@@ -52,8 +64,10 @@ public class ExtractorHelper {
                 continue;
             }
             if (school.containsKey("edOrgs")) {
-                List<String> edorgs = (List<String>) school.get("edOrgs");
-                studentSchools.addAll(edorgs);
+                //List<String> edorgs = (List<String>) school.get("edOrgs");
+                String id = (String)school.get("_id");
+                List<String> lineages = localEdOrgExtractHelper.getEdOrgLineages().get(id);
+                studentSchools.addAll(lineages);
             }
         }
         return studentSchools;
