@@ -15,16 +15,7 @@
  */
 package org.slc.sli.bulk.extract.extractor;
 
-import java.io.File;
-import java.io.IOException;
-import java.security.PublicKey;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import junit.framework.Assert;
-
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,18 +24,25 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.io.File;
+import java.io.IOException;
+import java.security.PublicKey;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * JUnit test for StatePublicDataExtractor.
@@ -189,8 +187,12 @@ public class StatePublicDataExtractorTest {
      * Test valid case when all pre conditions are met.
      */
     @Test
-    public void testValidExecutionConditions() {
+    public void testValidExecutionConditions() throws Exception {
         StatePublicDataExtractor extractor = Mockito.spy(statePublicDataExtractor);
+        ExtractFile file = Mockito.mock(ExtractFile.class);
+        ManifestFile meta = Mockito.mock(ManifestFile.class);
+        Mockito.when(file.getManifestFile()).thenReturn(meta);
+        Mockito.doReturn(file).when(extractor).createExtractFile(Mockito.any(File.class), Mockito.anyString(), Mockito.anyMap());
         String seaId = "123_id";
         Map<String, PublicKey> clientKeys = new HashMap<String, PublicKey>();
         PublicKey key = Mockito.mock(PublicKey.class);

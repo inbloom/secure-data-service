@@ -18,12 +18,15 @@ package org.slc.sli.bulk.extract.lea;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.message.BEMessageCode;
+import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
 import org.slc.sli.bulk.extract.util.SecurityEventUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -31,10 +34,15 @@ import java.util.HashSet;
 public class EdorgExtractor implements EntityExtract {
     private LEAExtractFileMap map;
     private EntityExtractor extractor;
+    private LocalEdOrgExtractHelper localEdOrgExtractHelper;
+
+    @Autowired
+    private SecurityEventUtil securityEventUtil;
     
-    public EdorgExtractor(EntityExtractor extractor, LEAExtractFileMap map) {
+    public EdorgExtractor(EntityExtractor extractor, LEAExtractFileMap map, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
         this.extractor = extractor;
         this.map = map;
+        this.localEdOrgExtractHelper = localEdOrgExtractHelper;
     }
 
     /* (non-Javadoc)
@@ -42,16 +50,22 @@ public class EdorgExtractor implements EntityExtract {
      */
     @Override
     public void extractEntities(EntityToLeaCache entityToEdorgCache) {
+        localEdOrgExtractHelper.logSecurityEvent(map.getLeas(), EntityNames.EDUCATION_ORGANIZATION, this.getClass().getName());
         for (String lea : new HashSet<String>(entityToEdorgCache.getEntityIds())) {
-            SecurityEvent event = SecurityEventUtil.createSecurityEvent(this.getClass().getName(), "Accessing database to read from " + EntityNames.EDUCATION_ORGANIZATION, "EdOrg data extract initiated", LogLevelType.TYPE_INFO);
-            event.setTargetEdOrg(lea);
-            audit(event);
             ExtractFile extractFile = map.getExtractFileForLea(lea);
             NeutralQuery query = new NeutralQuery(new NeutralCriteria("_id",
                     NeutralCriteria.CRITERIA_IN, new ArrayList<String>(entityToEdorgCache.getEntriesById(lea))));
             extractor.setExtractionQuery(query);
             extractor.extractEntities(extractFile, "educationOrganization");
         }
+    }
+
+    /**
+     * Set securityEventUtil.
+     * @param securityEventUtil the securityEventUtil to set
+     */
+    public void setSecurityEventUtil(SecurityEventUtil securityEventUtil) {
+        this.securityEventUtil = securityEventUtil;
     }
 
 }

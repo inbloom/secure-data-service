@@ -121,5 +121,5 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 
     <bean id="secondaryReadRepository" name="secondaryRepo" class="org.slc.sli.bulk.extract.SecondaryReadRepository" parent="mongoEntityRepository"/>
 
-    <bean class="org.slc.sli.aspect.LoggerCarrierAspect" factory-method="aspectOf"/>
+    <bean class="org.slc.sli.bulk.extract.LogUtil"/>
 </beans>

@@ -15,24 +15,31 @@
  */
 package org.slc.sli.bulk.extract.lea;
 
-import com.google.common.base.Predicate;
-import org.slc.sli.bulk.extract.BulkExtractEntity;
-import org.slc.sli.bulk.extract.extractor.EntityExtractor;
-import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
-
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.slc.sli.bulk.extract.BulkExtractEntity;
+import org.slc.sli.bulk.extract.extractor.EntityExtractor;
+import org.slc.sli.bulk.extract.extractor.LocalEdOrgExtractor;
+import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Predicate;
+
 /**
  * @author dkornishev
  */
 public class SectionExtractor implements EntityExtract {
+    private static final Logger LOG = LoggerFactory.getLogger(LocalEdOrgExtractor.class);
+
+	
     private final EntityExtractor entityExtractor;
     private final LEAExtractFileMap leaToExtractFileMap;
     private final Repository<Entity> repository;
@@ -61,24 +68,30 @@ public class SectionExtractor implements EntityExtract {
 
         while (sections.hasNext()) {
             Entity section = sections.next();
-            String lea = this.edorgCache.leaFromEdorg((String) section.getBody().get("schoolId"));
+            final String lea = this.edorgCache.leaFromEdorg((String) section.getBody().get("schoolId"));
 
             if (null != lea) {  // Edorgs way
                 extract(section, lea, new Predicate<Entity>() {
                     @Override
                     public boolean apply(Entity input) {
-                        return true;
+                        boolean shouldExtract = true;
+                        String studentId = (String) input.getBody().get("studentId");
+                        if (studentId != null) {    // Validate that referenced student is visible to given lea
+                            shouldExtract = studentCache.getEntriesById(studentId).contains(lea);
+                        }
+
+                        return shouldExtract;
                     }
                 });
 
             } else {    // Student way
-                List<Map<String, Object>> assocs = section.getDenormalizedData().get("studentSectionAssociation");
+                List<Entity> assocs = section.getEmbeddedData().get("studentSectionAssociation");
 
                 if (null != assocs) {
 
-                    for (Map<String, Object> assoc : assocs) {
-                        Map<String, String> body = (Map<String, String>) assoc.get("body");
-                        final String studentId = body.get("studentId");
+                    for (Entity assoc : assocs) {
+                        Map<String, Object> body =  assoc.getBody();
+                        final String studentId = (String) body.get("studentId");
                         Set<String> leas = this.studentCache.getEntriesById(studentId);
                         for (String lea2 : leas) {
                             Predicate<Entity> filter = new Predicate<Entity>() {
@@ -105,12 +118,17 @@ public class SectionExtractor implements EntityExtract {
         this.entityExtractor.extractEntity(section, this.leaToExtractFileMap.getExtractFileForLea(lea), "section", filter);
         this.courseOfferingCache.addEntry((String) section.getBody().get("courseOfferingId"), lea);
 
-        List<Map<String, Object>> ssas = section.getDenormalizedData().get("studentSectionAssociation");
+        List<Entity> ssas = section.getEmbeddedData().get("studentSectionAssociation");
 
+        LOG.info("SSAs is {}", ssas);
+        LOG.info("Embedded data is {}", section.getEmbeddedData());
         if (null != ssas) {
-            for (Map<String, Object> ssa : ssas) {
-                if (filter.apply(new BulkExtractEntity((Map<String, Object>) ssa.get("body"), (String) ssa.get("_id")))) {
-                    this.ssaCache.addEntry((String) ssa.get("_id"), lea);
+        	LOG.info("SSAs size is {}", ssas.size());
+            for (Entity ssa : ssas) {
+                if (filter.apply(ssa)) {
+                	LOG.info("ssa Body is {} and entityId is {}", ssa.getBody(), ssa.getEntityId());
+                    this.ssaCache.addEntry((String) ssa.getEntityId(), lea);
+                    LOG.info("Now the SSA cache size is {}", this.ssaCache.getEntityIds().size());
                 }
             }
         }

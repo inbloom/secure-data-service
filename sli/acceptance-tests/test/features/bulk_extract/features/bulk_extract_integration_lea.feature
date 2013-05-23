@@ -18,11 +18,11 @@
       |  entityType                            | count |  id  | 
       #|  assessment                            |   |         |  
       |  attendance                            | 148 | a9605e685b48f1762236070db165cfe50961c058_id |
-      |  cohort                                |   4 | f25bd34b5500f039c4fcbcdb1c1eccfc9b878bb5_id |
+      |  cohort                                |   1 | f25bd34b5500f039c4fcbcdb1c1eccfc9b878bb5_id |
       #|  competencyLevelDescriptor             |   |         |
       |  course                                |   95| c2af0428d5c803fb3e908fdea10ae624c2f5abe4_id |
       |  courseOffering                        |   95| 42d2d4e0616ed8a94894aa78be9f15e5cafa3eb7_id |
-      #|  courseTranscript                      |   |         |
+      |  courseTranscript                      |  196| f93d8f8678c4bcbebe1c8b118d12cda004025304_id |
       #|  disciplineIncident                    |   |         |
       #|  disciplineAction                      |   |         |
       |  educationOrganization                 | 4 | 2fe47c8e78a65ee51a72628c170673c35c4bd85a_id |
@@ -46,13 +46,13 @@
       |  studentAcademicRecord                 | 230 | 0ae33a43b05f2be4b9c8af13788ae0b0448370ef_id5dc5dba7a0a4a5dbeefaf195726a5fbc7be98d70_id |
       |  studentAssessment                     | 400 | 2854a67ed0375d5b038caef2b4b39856d15b6d58_id |
       |  studentCohortAssociation              | 12 | 9be61921ddf0bcd3d58fb99d4e9c454ef5707eb7_idc62d5fe5dcbcb399ec33abe02dccba23b8a16eb6_id |
-      #|  studentCompetency                     |   |         |
+      |  studentCompetency                     | 59  |  08aad024bc436c450c1dd457beadefe4de0ba3ae_id       |
       #|  studentCompetencyObjective            |   |         |
       |  studentDisciplineIncidentAssociation  |  8 | 9be61921ddf0bcd3d58fb99d4e9c454ef5707eb7_idd41740c1b17aff2baea21a76ed0dc809af1ebf13_id |
       |  studentProgramAssociation             | 12 | 9be61921ddf0bcd3d58fb99d4e9c454ef5707eb7_id2139ed90ad4b4a9e7d66f47a996fb343a07cde39_id |
-      #|  studentGradebookEntry                 |   |         |
+      |  studentGradebookEntry                 | 624 | b444b2aabe4eed054c6f1258d44ae4d8721ae855_id |
       |  studentSchoolAssociation              | 332 | 849a010012a384e4ba33c6bb5014a4707e7072c9_id |
-      |  studentSectionAssociation             | 297 | 8a4b9bcd2ca43c5209fd7ab0e1f61dafd1a4f4a2_id0520e4417d1336b95b52e77d24ec90dfa2282185_id |
+      |  studentSectionAssociation             | 294 | 42d78c37610b0110d8cf80d7afb4e556884550e1_ide371ef980b66ae592795248d685d60a16e73e726_id |
       |  studentParentAssociation              | 18 | 9be61921ddf0bcd3d58fb99d4e9c454ef5707eb7_id5ba0c1c2a60e24e0b01a66d6d68892f16ba29b01_id |
       |  teacher                               | 3 | ac8ff205a6cbb248c761083ac692802a0709e4b1_id |
       |  teacherSchoolAssociation              | 3  | 7c6f6301ed520d8d0606ed525044143e900d456b_id |

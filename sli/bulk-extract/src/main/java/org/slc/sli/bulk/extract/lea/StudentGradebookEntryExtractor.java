@@ -17,37 +17,44 @@
 package org.slc.sli.bulk.extract.lea;
 
 import java.util.Iterator;
+import java.util.Set;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.data.mongodb.core.query.Query;
 
-public class CohortExtractor implements EntityExtract {
+public class StudentGradebookEntryExtractor implements EntityExtract {
     private EntityExtractor extractor;
     private LEAExtractFileMap map;
     private Repository<Entity> repo;
     private LocalEdOrgExtractHelper localEdOrgExtractHelper;
     
-    public CohortExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
+    public StudentGradebookEntryExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo,
+            LocalEdOrgExtractHelper localEdOrgExtractHelper) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
         this.localEdOrgExtractHelper = localEdOrgExtractHelper;
     }
-
+    
     @Override
-    public void extractEntities(EntityToLeaCache edorgCache) {
-        localEdOrgExtractHelper.logSecurityEvent(map.getLeas(), EntityNames.COHORT, this.getClass().getName());
-        Iterator<Entity> cursor = repo.findEach(EntityNames.COHORT, new Query());
-        while (cursor.hasNext()) {
-            Entity e = cursor.next();
-            String edorgId = e.getBody().get("educationOrgId").toString();
-            String leaForCohort = edorgCache.leaFromEdorg(edorgId);
-            extractor.extractEntity(e, map.getExtractFileForLea(leaForCohort), EntityNames.COHORT);
+    public void extractEntities(EntityToLeaCache entityToEdorgCache) {
+        localEdOrgExtractHelper.logSecurityEvent(map.getLeas(), EntityNames.STUDENT_GRADEBOOK_ENTRY, this.getClass().getName());
+        Iterator<Entity> studentGradebookEntries = repo.findEach(EntityNames.STUDENT_GRADEBOOK_ENTRY, new NeutralQuery());
+        
+        while (studentGradebookEntries.hasNext()) {
+            Entity studentGradebookEntry = studentGradebookEntries.next();
+            String studentId = (String) studentGradebookEntry.getBody().get(ParameterConstants.STUDENT_ID);
+            Set<String> studentLeas = entityToEdorgCache.getEntriesById(studentId);
+            for (String lea : studentLeas) {
+                extractor.extractEntity(studentGradebookEntry, map.getExtractFileForLea(lea), EntityNames.STUDENT_GRADEBOOK_ENTRY);
+            }
         }
+        
     }
     
 }

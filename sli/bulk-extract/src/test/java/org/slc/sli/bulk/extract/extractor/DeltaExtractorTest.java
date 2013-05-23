@@ -32,6 +32,7 @@ import java.util.Set;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -52,9 +53,15 @@ import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.Repository;
 
 import com.google.common.base.Predicate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class DeltaExtractorTest {
-    
+
+    @Autowired
     @InjectMocks
     DeltaExtractor extractor = new DeltaExtractor();
 
