@@ -949,11 +949,7 @@ Then /^I verify this "(.*?)" file (should|should not) contain:$/ do |file_name, 
 end
 
 Then /^each record in the full extract is present and matches the delta extract$/ do
-  puts "DEBUG: deltaDir is #{@deltaDir}"
-  puts Dir.entries(@deltaDir)
   @fileDir = Dir.pwd + "/extract/unpack"
-  puts "DEBUG: fileDir is #{@fileDir}"
-  puts Dir.entries(@fileDir)
   # loop through the list of files in delta directory
   Dir.entries(@deltaDir).each do |deltaFile|
     next if !deltaFile.include?("gz")
@@ -962,30 +958,22 @@ Then /^each record in the full extract is present and matches the delta extract$
     deltaUnzip = Zlib::GzipReader.open(@deltaDir + "/" + deltaFile)
     deltaRecords = JSON.parse(deltaUnzip.read)
     
-    # load the corresponding full extract file
-    #puts "DEBUG: fullExtractFile is #{@fileDir + "/" + deltaFile}"
-    # unzip the full extract
+    # load and unzip the corresponding full extract file
     fullExtractUnzip = Zlib::GzipReader.open(@fileDir + "/" + deltaFile)
     fullExtractRecords = JSON.parse(fullExtractUnzip.read)
     puts "DEBUG: deltaRecords count is #{deltaRecords.length}"
     puts "DEBUG: fullExtractRecords count is #{fullExtractRecords.length}"
 
-    # Make sure there are the same number of records in each file
+    # TODO: Uncomment this assert when the duplicate fix is pushed
     #assert(deltaRecords.length == fullExtractRecords.length, "The number of records do not match. Deltas: #{deltaRecords.length}, Full Extract: #{fullExtractRecords.length}")
     
-    # search for each delta record in the full extract file
-    found = false
-    deltaHash = {}
     # Put delta records in a hashmap for searching
+    deltaHash = {}
     deltaRecords.each do |deltaRecord|
       deltaHash[deltaRecord["id"]] = deltaRecord
     end
     # Loop through fullExtract records and try to find match in deltaHash
-    pamplemousse = 0
     fullExtractRecords.each do |extractRecord|
-      #puts (pamplemousse += 1)
-      #puts "extractRecord is #{extractRecord}"
-      #puts "DEBUG: deltaRecord is #{deltaHash[extractRecord["id"]]}"
       assert(extractRecord == deltaHash[extractRecord["id"]], "Could not find deltaRecord that corresponds to #{extractRecord}")
     end
   end
