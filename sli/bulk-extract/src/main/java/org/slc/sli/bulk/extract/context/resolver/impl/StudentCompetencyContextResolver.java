@@ -15,7 +15,7 @@
  */
 package org.slc.sli.bulk.extract.context.resolver.impl;
 
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +25,6 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.bulk.extract.context.resolver.ContextResolver;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
 /**
@@ -50,21 +48,19 @@ public class StudentCompetencyContextResolver implements ContextResolver {
 
     @Override
     public Set<String> findGoverningLEA(Entity entity) {
-        Set<String> leas = new HashSet<String>();
         if (entity == null) {
-            return leas;
+            return Collections.emptySet();
         }
         
         String studentSectionAssociationId = (String) entity.getBody().get(STUDENT_SECTION_ASSOCIATION_ID);
         if (studentSectionAssociationId == null) {
-            return leas;
+            return Collections.emptySet();
         }
         
-        Entity studentSectionAssociation = repo.findOne(EntityNames.STUDENT_SECTION_ASSOCIATION,
-                new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, studentSectionAssociationId)));
+        Entity studentSectionAssociation = repo.findById(EntityNames.STUDENT_SECTION_ASSOCIATION, studentSectionAssociationId);
         
         if (studentSectionAssociation == null) {
-            return leas;
+            return Collections.emptySet();
         }
 
         String studentId = (String) studentSectionAssociation.getBody().get(STUDENT_ID);
