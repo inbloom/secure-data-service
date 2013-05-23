@@ -16,22 +16,24 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import org.joda.time.DateTime;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
-import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.security.context.resolver.EdOrgHelper;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 
 /**
  * Validates the context of a staff member to see the requested set of students. Returns true if the
@@ -45,6 +47,9 @@ public class StaffToStudentValidator extends AbstractContextValidator {
 
     @Autowired
     private GenericToCohortValidator cohortValidator;
+
+    @Autowired
+    private EdOrgHelper edorgHelper;
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
@@ -135,6 +140,12 @@ public class StaffToStudentValidator extends AbstractContextValidator {
     }
 
     private Set<String> getStudentsEdOrgs(Entity studentEntity) {
+        return new HashSet< String> ( edorgHelper.getDirectSchoolsLineage( studentEntity, true));
+
+    }
+
+    //to be deleted
+    private Set<String> getStudentsEdOrgs(Entity studentEntity, boolean obsolete) {
         Set<String> edOrgs = new HashSet<String>();
         Map<String, List<Map<String, Object>>> denormalized = studentEntity.getDenormalizedData();
         List<Map<String, Object>> schools = denormalized.get("schools");
