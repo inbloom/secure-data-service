@@ -15,6 +15,11 @@ limitations under the License.
 }}
 {{#entity}}
   <LearningObjective>
+    {{#learning_objective_id}}
+    <LearningObjectiveId>
+      <IdentificationCode>{{learning_objective_id}}</IdentificationCode>
+    </LearningObjectiveId>
+    {{/learning_objective_id}}
     <Objective>{{objective}}</Objective>
     {{#description}}
     <Description>{{description}}</Description>
@@ -24,7 +29,7 @@ limitations under the License.
     {{#learning_standards}}
     <LearningStandardReference>
       <LearningStandardIdentity>
-        <IdentificationCode>{{code}}</IdentificationCode>
+        <IdentificationCode>{{.}}</IdentificationCode>
       </LearningStandardIdentity>
     </LearningStandardReference>
     {{/learning_standards}}
