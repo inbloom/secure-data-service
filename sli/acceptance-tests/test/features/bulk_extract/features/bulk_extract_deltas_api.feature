@@ -5,7 +5,7 @@ Scenario: Initialize security trust store for Bulk Extract application and LEAs
     And the bulk extract files in the database are scrubbed
     And The bulk extract app has been approved for "Midgar-DAYBREAK" with client id "<clientId>"
     And The X509 cert "cert" has been installed in the trust store and aliased
-
+    
 Scenario: Generate a bulk extract delta after day 0 ingestion
   When I trigger a delta extract
    And I request the latest bulk extract delta using the api
@@ -46,7 +46,7 @@ Scenario: Generate a bulk extract delta after day 0 ingestion
    And The "disciplineAction" delta was extracted in the same format as the api
    And The "studentCompetency" delta was extracted in the same format as the api
    And I save some IDs from all the extract files to "delete_candidate" so I can delete them later
-
+    
 Scenario: Triggering deltas via ingestion
   All entities belong to lea1 which is IL-DAYBREAK, we should only see a delta file for lea1
   and only a delete file is generated for lea2.
@@ -205,6 +205,7 @@ Given I clean the bulk extract file system and database
        |  teacherSchoolAssociation              |
        |  teacherSectionAssociation             |
        |  courseOffering                        |
+       |  courseTranscript                      |
        |  course                                |
        |  graduationPlan                        |
        |  disciplineIncident                    |
@@ -290,6 +291,12 @@ Given I clean the bulk extract file system and database
       | id                                          | condition                                |
       | 2dad46540a82bd0ad17b7dbcbb6cbdd4fce2125d_id | uniqueCourseId = DAYBREAK21              |
       | 160cbcc9e293d45a11053f4d3bf6f4be8b70bac4_id | uniqueCourseId = DAYBREAK1               |
+
+    # This course transcript has a direct edorg reference to IL-HIGHWIND, but belongs to a student
+    # only in IL-DAYBREAK, so it only shows up in IL-DAYBREAK
+    And I verify this "courseTranscript" file should contain:
+      | id                                          | condition                                |
+      | adbd098e947690550c7c7bda7bd04d0e76f3d715_id | studentId = 9be61921ddf0bcd3d58fb99d4e9c454ef5707eb7_id |
 
     And I verify this "graduationPlan" file should contain:
       | id                                          | condition                                |
