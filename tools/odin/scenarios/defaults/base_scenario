@@ -165,6 +165,8 @@ DISCIPLINE_OPTIONS: [
 #learning objectives
 NUM_LEARNING_OBJECTIVES_PER_SUBJECT_AND_GRADE: 5
 
+LEARNING_STANDARDS_PER_OBJECTIVE: 2
+
 COMPETENCY_LEVEL_DESCRIPTORS: [
   { code_value: "Incompetent", description: "Student does not understand anything", performance_base_conversion: "Well Below Basic" },
   { code_value: "Barely Competent", description: "Student understands some basic", performance_base_conversion: "Basic" },

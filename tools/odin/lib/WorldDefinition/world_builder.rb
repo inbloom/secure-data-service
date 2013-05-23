@@ -1285,6 +1285,9 @@ class WorldBuilder
       AcademicSubjectType.get_academic_subjects(grade).each {|academic_subject|
         LearningObjective.build_learning_objectives((@scenarioYAML["NUM_LEARNING_OBJECTIVES_PER_SUBJECT_AND_GRADE"] or 2), academic_subject, grade).each {|learning_objective|
           @queue.push_work_order learning_objective
+          LearningStandard.build_learning_standards((@scenarioYAML["LEARNING_STANDARDS_PER_OBJECTIVE"] or 0), academic_subject, grade).each {|standard|
+            @queue.push_work_order standard
+          }
         }
       }
     }
