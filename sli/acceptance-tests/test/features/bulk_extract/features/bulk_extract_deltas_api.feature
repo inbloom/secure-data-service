@@ -38,11 +38,13 @@ Scenario: Generate a bulk extract delta after day 0 ingestion
    And The "gradingPeriod" delta was extracted in the same format as the api
    And The "courseOffering" delta was extracted in the same format as the api
    And The "course" delta was extracted in the same format as the api
+   And The "courseTranscript" delta was extracted in the same format as the api
    And The "studentProgramAssociation" delta was extracted in the same format as the api
    And The "staffProgramAssociation" delta was extracted in the same format as the api
    And The "studentDisciplineIncidentAssociation" delta was extracted in the same format as the api
    And The "disciplineIncident" delta was extracted in the same format as the api
    And The "disciplineAction" delta was extracted in the same format as the api
+   And The "studentCompetency" delta was extracted in the same format as the api
    And I save some IDs from all the extract files to "delete_candidate" so I can delete them later
 
 Scenario: Triggering deltas via ingestion
@@ -79,6 +81,7 @@ Given I clean the bulk extract file system and database
        |  disciplineIncident                    |
        |  studentDisciplineIncidentAssociation  |
        |  disciplineAction                      |
+       |  studentCompetency                     |
        |  deleted                               |
      And I verify this "deleted" file should contain:
        | id                                                                                     | condition                             |
@@ -179,6 +182,12 @@ Given I clean the bulk extract file system and database
       | id                                          | condition  |
       | e458bacc2f3d2b89acb8b22e0de45b7e0f8506cf_id |            |
 
+    # this studentCompetency followed student 1 
+    And I verify this "studentCompetency" file should contain: 
+      | id                                          | condition  |
+      | 568836d2bc382136c46356c2dbfeb51758ead1ff_id | diagnosticStatement = Student has Advanced understanding of subject. |
+
+     # DAYBREAK stuff now
      And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
        |  attendance                            |
@@ -189,6 +198,7 @@ Given I clean the bulk extract file system and database
        |  studentGradebookEntry                 |
        |  studentSchoolAssociation              | 
        |  studentParentAssociation              |
+       |  studentCompetency                     |
        |  staff                                 |
        |  staffEducationOrganizationAssociation |
        |  teacher                               |
@@ -302,6 +312,9 @@ Given I clean the bulk extract file system and database
       | d00dfdc3821fb8ea4f97147716afc2b153ceb5ba_id | actualDisciplineActionLength = 2     |
       | c78d1f951362ce558cb379cabc7491c6da339e58_id | actualDisciplineActionLength = 3     |
 
+    And I verify this "studentCompetency" file should contain: 
+      | id                                          | condition  |
+      | 568836d2bc382136c46356c2dbfeb51758ead1ff_id | diagnosticStatement = Student has Advanced understanding of subject. |
 
   #this step is necesssary since there is no graduationPlan in day 0 delta, need to verify it's really the same
    #format as API would return

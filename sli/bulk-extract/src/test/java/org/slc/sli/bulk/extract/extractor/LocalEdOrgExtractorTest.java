@@ -20,17 +20,6 @@
 package org.slc.sli.bulk.extract.extractor;
 
 
-import java.io.File;
-import java.io.IOException;
-import java.security.PublicKey;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.io.FileUtils;
 import org.joda.time.DateTime;
 import org.junit.After;
@@ -39,30 +28,10 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
-import org.slc.sli.bulk.extract.lea.CourseExtractor;
-import org.slc.sli.bulk.extract.lea.CourseOfferingExtractor;
-import org.slc.sli.bulk.extract.lea.CourseTranscriptExtractor;
-import org.slc.sli.bulk.extract.lea.EdorgExtractor;
-import org.slc.sli.bulk.extract.lea.EntityExtract;
-import org.slc.sli.bulk.extract.lea.EntityToLeaCache;
-import org.slc.sli.bulk.extract.lea.GradingPeriodExtractor;
-import org.slc.sli.bulk.extract.lea.GraduationPlanExtractor;
-import org.slc.sli.bulk.extract.lea.LEAExtractFileMap;
-import org.slc.sli.bulk.extract.lea.LEAExtractorFactory;
-import org.slc.sli.bulk.extract.lea.SectionExtractor;
-import org.slc.sli.bulk.extract.lea.SessionExtractor;
-import org.slc.sli.bulk.extract.lea.StaffEdorgAssignmentExtractor;
-import org.slc.sli.bulk.extract.lea.StudentCompetencyExtractor;
-import org.slc.sli.bulk.extract.lea.StudentExtractor;
-import org.slc.sli.bulk.extract.lea.StudentSchoolAssociationExtractor;
-import org.slc.sli.bulk.extract.lea.YearlyTranscriptExtractor;
+import org.slc.sli.bulk.extract.lea.*;
 import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
 import org.slc.sli.bulk.extract.util.SecurityEventUtil;
 import org.slc.sli.common.constants.EntityNames;
@@ -71,11 +40,20 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.io.File;
+import java.io.IOException;
+import java.security.PublicKey;
+import java.util.*;
 
 /**
  * Tests LocalEdOrgExtractorTest
  *
  */
+@SuppressWarnings("unchecked")
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class LocalEdOrgExtractorTest {
@@ -130,6 +108,7 @@ public class LocalEdOrgExtractorTest {
         CourseOfferingExtractor courseOfferingExtract = Mockito.mock(CourseOfferingExtractor.class);
         CourseTranscriptExtractor courseTranscriptExtract = Mockito.mock(CourseTranscriptExtractor.class);
         GraduationPlanExtractor graduationPlanExtractor = Mockito.mock(GraduationPlanExtractor.class);
+        DisciplineExtractor discipline = Mockito.mock(DisciplineExtractor.class);
 
         Mockito.when(mockSsa.getGraduationPlanCache()).thenReturn(new EntityToLeaCache());
         Mockito.when(sectionExtractor.getSsaCache()).thenReturn(new EntityToLeaCache());
@@ -212,6 +191,10 @@ public class LocalEdOrgExtractorTest {
         Mockito.when(
                 mockFactory.buildGraduationPlanExtractor(Mockito.eq(entityExtractor), Mockito.any(LEAExtractFileMap.class),
                         Mockito.any(Repository.class), Mockito.any(LocalEdOrgExtractHelper.class))).thenReturn(graduationPlanExtractor);
+
+        Mockito.when(mockFactory.buildDisciplineExtractor(Mockito.eq(entityExtractor), Mockito.any(LEAExtractFileMap.class), Mockito.any(Repository.class),
+                Mockito.any(EntityToLeaCache.class), Mockito.any(EntityToLeaCache.class))).thenReturn(discipline);
+
     }
 
     /**

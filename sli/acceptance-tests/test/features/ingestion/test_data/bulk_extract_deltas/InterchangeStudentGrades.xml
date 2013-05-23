@@ -43,4 +43,37 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </GradebookEntryIdentity>
     </GradebookEntryReference>
   </StudentGradebookEntry>
+  <StudentCompetency>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>Generic Learning Objective 1</Objective>
+        <AcademicSubject>Science</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevel>
+       <CodeValue>Very Competent</CodeValue>
+    </CompetencyLevel>
+    <DiagnosticStatement>Student has Advanced understanding of subject.</DiagnosticStatement>
+    <StudentSectionAssociationReference>
+      <StudentSectionAssociationIdentity>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>1</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <SectionReference>
+          <SectionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <UniqueSectionCode>2</UniqueSectionCode>
+          </SectionIdentity>
+        </SectionReference>
+        <BeginDate>2013-08-26</BeginDate>
+      </StudentSectionAssociationIdentity>
+    </StudentSectionAssociationReference>
+  </StudentCompetency>
 </InterchangeStudentGrade>

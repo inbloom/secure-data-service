@@ -20,16 +20,20 @@ require_relative 'baseEntity'
 class AssessmentItem < BaseEntity
 
   attr_accessor :id, :identificationCode, :itemCategory, :maxRawScore, :correctResponse,
-                :assessmentTitle, :assessment, :gradeLevelAssessed
+                :assessmentTitle, :assessment, :gradeLevelAssessed, :learningStandardReference, :academicSubject
   def initialize(id, assessment)
     @id = id
+    @rand = Random.new(id)
     @assessment = assessment.id
-    @assessmentTitle =assessment.id
+    @assessmentTitle = assessment.id
     @gradeLevelAssessed = assessment.gradeLevelAssessed
+    @academicSubject = assessment.academicSubject
     @identificationCode = "#{@assessmentTitle}##{id}"
     @itemCategory = "True-False"
     @maxRawScore = 10
     @correctResponse = id.odd?
+    @learningStandardReference = choose(LearningStandard.learning_standard_ids(
+      @@scenario["NUM_LEARNING_STANDARDS_PER_SUBJECT_AND_GRADE"], assessment.subject, assessment.grade))
   end
 
 end

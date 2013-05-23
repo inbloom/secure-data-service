@@ -289,8 +289,8 @@ And the extract contains a file for each of the following entities:
       |  course                                |
       |  courseTranscript                      |
       |  courseOffering                        |
-      # |  disciplineIncident                    |
-      # |  disciplineAction                      |
+      |  disciplineIncident                    |
+      |  disciplineAction                      |
       |  educationOrganization                 |
       |  grade                                 |
       |  gradebookEntry                        |

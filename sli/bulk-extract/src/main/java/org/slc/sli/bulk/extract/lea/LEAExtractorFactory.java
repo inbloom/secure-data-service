@@ -135,9 +135,12 @@ public class LEAExtractorFactory {
     public EntityExtract buildStudentCompetencyExtractor(EntityExtractor entityExtractor, LEAExtractFileMap leaToExtractFileMap, Repository<Entity> repository) {
     	return new StudentCompetencyExtractor(entityExtractor, leaToExtractFileMap, repository);
     }
-    
+
     public GraduationPlanExtractor buildGraduationPlanExtractor(EntityExtractor extractor, LEAExtractFileMap map,
             Repository<Entity> repo, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
         return new GraduationPlanExtractor(extractor, map, repo, localEdOrgExtractHelper);
+
+    public EntityExtract buildDisciplineExtractor(EntityExtractor entityExtractor, LEAExtractFileMap leaToExtractFileMap, Repository<Entity> repository, EntityToLeaCache edorgCache, EntityToLeaCache entityCache) {
+        return new DisciplineExtractor(entityExtractor, leaToExtractFileMap, repository, entityCache, edorgCache);
     }
 }
