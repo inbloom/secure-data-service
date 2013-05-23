@@ -55,6 +55,7 @@ public class PublicDataFactory {
     public List<PublicDataExtractor> buildAllPublicDataExtracts(EntityExtractor extractor) {
         List<PublicDataExtractor> list = new ArrayList<PublicDataExtractor>();
         list.add(buildDirectPublicDataExtract(extractor));
+        list.add(buildUnfilteredPublicDataExtractor(extractor));
         return list;
 
     }
