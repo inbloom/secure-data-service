@@ -19,6 +19,7 @@ limitations under the License.
 require_relative 'assessment_item'
 require_relative 'baseEntity'
 require_relative "enum/GradeLevelType.rb"
+require_relative "enum/AcademicSubjectType.rb"
 require_relative 'objective_assessment.rb'
 
 # creates an assessment
@@ -26,15 +27,18 @@ class Assessment < BaseEntity
 
   attr_accessor :id, :assessmentTitle, :assessmentIdentificationCode, :year_of, :gradeLevelAssessed,
     :assessmentFamilyReference, :assessment_items, :all_objective_assessments, :referenced_objective_assessments, :all_items,
-    :assessmentPeriod
+    :assessmentPeriod, :academicSubject, :subject, :grade
 
   def initialize(id, year_of = 2012, gradeLevelAssessed = :UNGRADED, num_items = 0, assessmentFamilyReference = nil, assessmentPeriodDescriptor = nil, num_objectives = 2)
     @id = id
     @rand = Random.new(int_value(@id))
     @year_of = year_of
+    @grade = gradeLevelAssessed
     @gradeLevelAssessed = GradeLevelType.to_string(gradeLevelAssessed)
     @assessmentTitle = @id
     @assessmentIdentificationCode = { code: @id, assessmentIdentificationSystemType: 'State' }
+    @subject = choose((AcademicSubjectType.get_academic_subjects(@grade) or []))
+    @academicSubject = AcademicSubjectType.to_string(@subject)
 
     @all_items = (1..num_items).map{|i| AssessmentItem.new(i, self)}
     @assessment_items = @@scenario['ASSESSMENT_ITEMS_IN_OBJECTIVE_ASSESSMENT'] ? [] : @all_items

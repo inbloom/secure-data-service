@@ -37,6 +37,17 @@ public class PublicDataFactory {
     }
 
     /**
+     * Builds a UnfilteredPublicDataExtractor instance.
+     *
+     * @param extractor the extractor
+     *
+     * @return the new UnfilteredPublicDataExtractor instance
+     */
+    public PublicDataExtractor buildUnfilteredPublicDataExtractor(EntityExtractor extractor) {
+        return new UnfilteredPublicDataExtractor(extractor);
+    }
+
+    /**
      * Build all instances of a PublicDataExtractor.
      * @param extractor the extractor
      * @return all PublicDataExtractor instances
