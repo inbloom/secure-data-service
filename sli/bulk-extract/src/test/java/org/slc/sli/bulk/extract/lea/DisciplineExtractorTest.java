@@ -62,7 +62,7 @@ public class DisciplineExtractorTest {
 
         disc = new DisciplineExtractor(ex, leaMap, repo, studentCache, edorgCache);
 
-        Mockito.when(repo.findEach(Mockito.eq("disciplineIncident"), Mockito.any(NeutralQuery.class))).thenReturn(Collections.<Entity>emptyListIterator());
+        Mockito.when(repo.findEach(Mockito.eq("disciplineIncident"), Mockito.any(NeutralQuery.class))).thenReturn(Collections.<Entity>emptyList().iterator());
     }
 
     @Test
