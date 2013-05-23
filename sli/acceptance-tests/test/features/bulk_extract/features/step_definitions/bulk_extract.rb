@@ -953,6 +953,7 @@ Then /^each record in the full extract is present and matches the delta extract$
   # loop through the list of files in delta directory
   Dir.entries(@deltaDir).each do |deltaFile|
     next if !deltaFile.include?("gz")
+    next if deltaFile.include?("deleted")
     puts "DEBUG: Current delta file is #{deltaFile}"
     # unzip the delta file
     deltaUnzip = Zlib::GzipReader.open(@deltaDir + "/" + deltaFile)
