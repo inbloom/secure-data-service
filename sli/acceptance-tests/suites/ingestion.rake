@@ -278,11 +278,11 @@ end
 
 desc "Run Ingestion Deletion Tests"
   task :ingestionDeletionTests => [
-        #:ingestBroadSetOfTypesAndExportData,
+        :ingestBroadSetOfTypesAndExportData,
         :ingestionSuperStudentDelete,
         :ingestionSuperSectionDelete,
         :ingestionSuperAssessmentDelete,
-	    :ingestionSuperStudentAssessmentDelete,
+	      :ingestionSuperStudentAssessmentDelete,
         :multipleForceDeletesTest,
         :multipleOrphansDeleteTest,
         :errorsOnUnsupportedDeleteRequestsTest,
