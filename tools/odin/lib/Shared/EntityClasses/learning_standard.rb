@@ -76,7 +76,11 @@ class LearningStandard < BaseEntity
   end
 
   def self.build_learning_standards(count, subject, grade)
-    (1..count).collect{|x| LearningStandard.new("#{x}-#{AcademicSubjectType.index(subject)}-#{GradeLevelType.index(grade)}", subject, grade)}
+    learning_standard_ids(count, subject, grade).map{|id| LearningStandard.new(id, subject, grade) }
+  end
+
+  def self.learning_standard_ids(count, subject, grade)
+    (1..count).collect{|x| "#{x}-#{AcademicSubjectType.index(subject)}-#{GradeLevelType.index(grade)}"}
   end
 
   # define equality between two entities by iterating over instance variables and comparing each field for equality
