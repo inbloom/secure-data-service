@@ -40,6 +40,7 @@ import org.slc.sli.bulk.extract.context.resolver.impl.SectionContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.SessionContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StaffTeacherContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StaffTeacherDirectRelatedContextResolver;
+import org.slc.sli.bulk.extract.context.resolver.impl.StudentCompetencyContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StudentContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StudentDirectRelatedContextResolver;
 import org.slc.sli.common.constants.EntityNames;
@@ -110,6 +111,8 @@ public class EdOrgContextResolverFactory {
     @Autowired
     private DisciplineActionContextResolver disciplineActionResolver;
     
+    @Autowired
+    private StudentCompetencyContextResolver studentCompetencyResolver;
     
     private Map<String, ContextResolver> resolverMap = new HashMap<String, ContextResolver>();
 
@@ -163,6 +166,8 @@ public class EdOrgContextResolverFactory {
         resolverMap.put(EntityNames.DISCIPLINE_INCIDENT, disciplineIncidentResolver);
         resolverMap.put(EntityNames.DISCIPLINE_ACTION, disciplineActionResolver);
         
+        resolverMap.put(EntityNames.STUDENT_COMPETENCY, studentCompetencyResolver);
+
         LOG.debug("Resolver map is {}", resolverMap);
     }
     

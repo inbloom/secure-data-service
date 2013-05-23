@@ -43,6 +43,7 @@ Scenario: Generate a bulk extract delta after day 0 ingestion
    And The "studentDisciplineIncidentAssociation" delta was extracted in the same format as the api
    And The "disciplineIncident" delta was extracted in the same format as the api
    And The "disciplineAction" delta was extracted in the same format as the api
+   And The "studentCompetency" delta was extracted in the same format as the api
    And I save some IDs from all the extract files to "delete_candidate" so I can delete them later
 
 Scenario: Triggering deltas via ingestion
