@@ -16,16 +16,16 @@
 
 package org.slc.sli.bulk.extract.lea;
 
+import java.io.File;
+import java.security.PublicKey;
+import java.util.Map;
+
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
 import org.slc.sli.bulk.extract.util.SecurityEventUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
-
-import java.io.File;
-import java.security.PublicKey;
-import java.util.Map;
 
 public class LEAExtractorFactory {
     
@@ -130,5 +130,9 @@ public class LEAExtractorFactory {
     public EntityExtract buildStudentGradebookEntryExtractor(EntityExtractor extractor, LEAExtractFileMap map,
             Repository<Entity> repo, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
         return new StudentGradebookEntryExtractor(extractor, map, repo, localEdOrgExtractHelper);
+    }
+    
+    public EntityExtract buildStudentCompetencyExtractor(EntityExtractor entityExtractor, LEAExtractFileMap leaToExtractFileMap, Repository<Entity> repository) {
+    	return new StudentCompetencyExtractor(entityExtractor, leaToExtractFileMap, repository);
     }
 }
