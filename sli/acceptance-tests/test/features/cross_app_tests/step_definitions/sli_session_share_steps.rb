@@ -30,12 +30,20 @@ Given /^I was redirected to the realmchooser page$/ do
 end
     
 Given /^I see the realm selector I authenticate to "([^"]*)"$/ do |arg1|
-if (@driver.title.index("Choose your realm") != nil)
-  step "I selected the realm \"#{arg1}\""
-else
-  puts "Realm Selector page was skipped."
+  if (@driver.title.index("Choose your realm") != nil)
+    step "I selected the realm \"#{arg1}\""
+  else
+    puts "Realm Selector page was skipped."
+  end
 end
 
+Given /^I see the realm selector I authenticate to the developer realm$/ do
+  realm=PropLoader.getProps['developer_realm']
+  if (@driver.title.index("Choose your realm") != nil)
+    step "I selected the realm \"#{realm}\""
+  else
+    puts "Realm Selector page was skipped."
+  end
 end
 
 Given /^I selected the realm "([^"]*)"$/ do |arg1|

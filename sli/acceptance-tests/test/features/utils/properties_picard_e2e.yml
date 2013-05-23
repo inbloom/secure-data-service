@@ -154,6 +154,7 @@ ci_idp_redirect_url: https://picard-sidp.slidev.org/sliidp?realm=RCTestTenant
 
 ssh_user: jenkins@rcingest01.picard
 extract_to_directory: /jenkins
+developer_realm: "inBloom App Developer"
 
 ################# /e2e test properties #################################
 

@@ -59,6 +59,7 @@ Scenario: Generate a bulk extract delta after day 0 ingestion
    Then each record in the full extract is present and matches the delta extract
    #And I save some IDs from all the extract files to "delete_candidate" so I can delete them later
 
+
 Scenario: Triggering deltas via ingestion
   All entities belong to lea1 which is IL-DAYBREAK, we should only see a delta file for lea1
   and only a delete file is generated for lea2.
@@ -187,12 +188,12 @@ Given I clean the bulk extract file system and database
     # This assessment was for student 1
     And I verify this "studentAssessment" file should contain:
       | id                                          | condition                          |
-      | 065f155b876c2dc15b6b319fa6f23834d05115b7_id | scoreResults.result = 92           |
+      | 86154dd301695c9219d0525569a922a0144b8d17_id | scoreResults.result = 92           |
 
     # This was not
     And I verify this "studentAssessment" file should not contain:
       | id                                          | condition  |
-      | e458bacc2f3d2b89acb8b22e0de45b7e0f8506cf_id |            |
+      | 779b30733dbfacbaed769fae944dfec3fa5196e0_id |            |
 
     # this studentCompetency followed student 1 
     And I verify this "studentCompetency" file should contain: 
@@ -217,6 +218,7 @@ Given I clean the bulk extract file system and database
        |  teacherSchoolAssociation              |
        |  teacherSectionAssociation             |
        |  courseOffering                        |
+       |  courseTranscript                      |
        |  course                                |
        |  graduationPlan                        |
        |  disciplineIncident                    |
@@ -257,8 +259,8 @@ Given I clean the bulk extract file system and database
 
      And I verify this "studentAssessment" file should contain:
        | id                                          | condition                                 |
-       | 065f155b876c2dc15b6b319fa6f23834d05115b7_id | scoreResults.result = 92                  |
-       | e458bacc2f3d2b89acb8b22e0de45b7e0f8506cf_id | studentAssessmentItems.rawScoreResult = 7 |
+       | 86154dd301695c9219d0525569a922a0144b8d17_id | scoreResults.result = 92                  |
+       | 779b30733dbfacbaed769fae944dfec3fa5196e0_id | studentAssessmentItems.rawScoreResult = 7 |
 
      And I verify this "parent" file should contain:
        | id                                          | condition                                                    |
@@ -302,6 +304,12 @@ Given I clean the bulk extract file system and database
       | id                                          | condition                                |
       | 2dad46540a82bd0ad17b7dbcbb6cbdd4fce2125d_id | uniqueCourseId = DAYBREAK21              |
       | 160cbcc9e293d45a11053f4d3bf6f4be8b70bac4_id | uniqueCourseId = DAYBREAK1               |
+
+    # This course transcript has a direct edorg reference to IL-HIGHWIND, but belongs to a student
+    # only in IL-DAYBREAK, so it only shows up in IL-DAYBREAK
+    And I verify this "courseTranscript" file should contain:
+      | id                                          | condition                                |
+      | adbd098e947690550c7c7bda7bd04d0e76f3d715_id | studentId = 9be61921ddf0bcd3d58fb99d4e9c454ef5707eb7_id |
 
     And I verify this "graduationPlan" file should contain:
       | id                                          | condition                                |
@@ -709,11 +717,11 @@ Given I clean the bulk extract file system and database
     | 4030207003b03d055bba0b5019b31046164eff4e_id78468628f357b29599510341f08dfd3277d9471e_id | beginDate = 2013-08-27                                   |
   And I verify this "studentAssessment" file should contain:
     | id                                          | condition                                                   |
-    | 06d9f34280a62a49fe2c4e0acc8e1472284e9047_id | entityType = studentAssessment                              |
-    | 06d9f34280a62a49fe2c4e0acc8e1472284e9047_id | administrationDate = 2013-09-24                             |
-    | 06d9f34280a62a49fe2c4e0acc8e1472284e9047_id | assessmentId = d1db0a2c9d30c0fabcbc4c7fc796701e0509b86b_id  |
-    | 06d9f34280a62a49fe2c4e0acc8e1472284e9047_id | gradeLevelWhenAssessed = Eleventh grade                     |
-    | 06d9f34280a62a49fe2c4e0acc8e1472284e9047_id | studentId = 9bf3036428c40861238fdc820568fde53e658d88_id     |
+    | d4a8b25254af09fe3dd772a2149aa6b45fa6b170_id | entityType = studentAssessment                              |
+    | d4a8b25254af09fe3dd772a2149aa6b45fa6b170_id | administrationDate = 2013-09-24                             |
+    | d4a8b25254af09fe3dd772a2149aa6b45fa6b170_id | assessmentId = 8e6fceafe05daef1da589a1709ee278ba51d337a_id  |
+    | d4a8b25254af09fe3dd772a2149aa6b45fa6b170_id | gradeLevelWhenAssessed = Eleventh grade                     |
+    | d4a8b25254af09fe3dd772a2149aa6b45fa6b170_id | studentId = 9bf3036428c40861238fdc820568fde53e658d88_id     |
   And I verify this "gradebookEntry" file should contain:
     | id                                                                                     | condition                                                      |
     | 4030207003b03d055bba0b5019b31046164eff4e_id383ee846e68a3f539a0a64a651ab2078dedbb6f3_id | entityType = gradebookEntry                                    |

@@ -1985,7 +1985,7 @@ def prepareBody(verb, value, response_map)
       },
       "newStudentAssessment" => {
         "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
-        "assessmentId" => "d1db0a2c9d30c0fabcbc4c7fc796701e0509b86b_id",
+        "assessmentId" => "8e6fceafe05daef1da589a1709ee278ba51d337a_id",
         "administrationDate" => "2013-09-24",
         "specialAccommodations" => ["Large Print"],
         "administrationEndDate" => "2013-09-25",
@@ -2012,7 +2012,7 @@ def prepareBody(verb, value, response_map)
             "nomenclature" => "Nomenclature",
             "identificationCode" => "2013-Eleventh grade Assessment 2.OA-0",
             "percentOfAssessment" => 50,
-            "assessmentId" => "d1db0a2c9d30c0fabcbc4c7fc796701e0509b86b_id",
+            "assessmentId" => "8e6fceafe05daef1da589a1709ee278ba51d337a_id",
             "assessmentPerformanceLevel" => [{
               "performanceLevelDescriptor" => [{
                 "codeValue" => "code1"
@@ -2046,7 +2046,7 @@ def prepareBody(verb, value, response_map)
           "assessmentItemResult" => "Incorrect",
           "assessmentItem" => {
             "identificationCode" => "2013-Eleventh grade Assessment 2#1",
-            "assessmentId" => "d1db0a2c9d30c0fabcbc4c7fc796701e0509b86b_id",
+            "assessmentId" => "8e6fceafe05daef1da589a1709ee278ba51d337a_id",
             "correctResponse" => "true",
             "itemCategory" => "True-False",
             "maxRawScore" => 10
@@ -2058,7 +2058,7 @@ def prepareBody(verb, value, response_map)
           "assessmentItemResult" => "Correct",
           "assessmentItem" => {
               "identificationCode" => "2013-Eleventh grade Assessment 2#4",
-              "assessmentId" => "d1db0a2c9d30c0fabcbc4c7fc796701e0509b86b_id",
+              "assessmentId" => "8e6fceafe05daef1da589a1709ee278ba51d337a_id",
               "correctResponse" => "false",
               "itemCategory" => "True-False",
               "maxRawScore" => 10
@@ -2070,7 +2070,7 @@ def prepareBody(verb, value, response_map)
           "assessmentItemResult" => "Correct",
           "assessmentItem" => {
             "identificationCode" => "2013-Eleventh grade Assessment 2#2",
-            "assessmentId" => "d1db0a2c9d30c0fabcbc4c7fc796701e0509b86b_id",
+            "assessmentId" => "8e6fceafe05daef1da589a1709ee278ba51d337a_id",
             "correctResponse" => "false",
             "itemCategory" => "True-False",
             "maxRawScore" => 10
@@ -2083,7 +2083,7 @@ def prepareBody(verb, value, response_map)
           "assessmentItemResult" => "Incorrect",
           "assessmentItem" => {
             "identificationCode" => "2013-Eleventh grade Assessment 2#3",
-            "assessmentId" => "d1db0a2c9d30c0fabcbc4c7fc796701e0509b86b_id",
+            "assessmentId" => "8e6fceafe05daef1da589a1709ee278ba51d337a_id",
             "correctResponse" => "true",
             "itemCategory" => "True-False",
             "maxRawScore" => 10
