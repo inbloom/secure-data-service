@@ -174,32 +174,4 @@ public class ExtractorHelperTest {
     	Assert.assertEquals("lea-3", result.get("school-6"));
     }
     
-    @Test
-    public void testFetchGraduationPlansFromStudentNullChecks() {
-
-        Map<String, List<Entity>> embeddedData = new HashMap<String, List<Entity>>();
-
-        // No denormalized data
-        Assert.assertTrue(helper.fetchGraduationPlanIdsFromStudent(mockEntity).size() == 0);
-
-        // No items in data
-        Mockito.when(mockEntity.getEmbeddedData()).thenReturn(embeddedData);
-        Assert.assertTrue(helper.fetchGraduationPlanIdsFromStudent(mockEntity).size() == 0);
-
-        // contains parent associations
-        Entity ssa1 = Mockito.mock(Entity.class);
-        Entity ssa2 = Mockito.mock(Entity.class);
-        Map<String, Object> body = Mockito.mock(Map.class);
-        Map<String, Object> body2 = Mockito.mock(Map.class);
-        Mockito.when(ssa1.getBody()).thenReturn(body);
-        Mockito.when(ssa2.getBody()).thenReturn(body2);
-        
-        List<Entity> ssas = Arrays.asList(ssa1, ssa2);
-        embeddedData.put(EntityNames.STUDENT_SCHOOL_ASSOCIATION, ssas);
-        Assert.assertTrue(helper.fetchGraduationPlanIdsFromStudent(mockEntity).size() == 0);
-
-        Mockito.when(body.get(Mockito.eq(ParameterConstants.GRADUATION_PLAN_ID))).thenReturn("GraduationPlanId123");
-        Mockito.when(body2.get(Mockito.eq(ParameterConstants.GRADUATION_PLAN_ID))).thenReturn("GraduationPlanId456");
-        Assert.assertTrue(helper.fetchGraduationPlanIdsFromStudent(mockEntity).size() == 2);
-    }
 }

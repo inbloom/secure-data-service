@@ -81,19 +81,6 @@ public class ExtractorHelper {
         return parents;
     }
 
-    public Set<String> fetchGraduationPlanIdsFromStudent(Entity student) {
-        Set<String> graduationPlans = new TreeSet<String>();
-        if (student.getEmbeddedData().containsKey(EntityNames.STUDENT_SCHOOL_ASSOCIATION)) {
-            for (Entity assoc : student.getEmbeddedData().get(EntityNames.STUDENT_SCHOOL_ASSOCIATION)) {
-                String graduationPlanId = (String) assoc.getBody().get(ParameterConstants.GRADUATION_PLAN_ID);
-                if (graduationPlanId != null) {
-                    graduationPlans.add(graduationPlanId);
-                }
-            }
-        }
-        return graduationPlans;
-    }
-    
     /**
      * uses the date helper to tell us if the entity is current or not
      * 
