@@ -32,16 +32,13 @@ Scenario: As an bulk extract user, I want to be able to get the state public ent
       |  graduationPlan                        |
       |  school                                |
       |  session                               |
-<<<<<<< HEAD
       |  assessment                            |
       |  learningObjective                     |
       |  learningStandard                      |
       |  competencyLevelDescriptor             |
       |  studentCompetencyObjective            |
       |  program                               |
-=======
       |  gradingPeriod                         |
->>>>>>> f89f54a7d1d67675a36a9c6557e756420b0e5e46
 
 Scenario Outline: Extract should have all the valid data for the SEA
     When I retrieve the path to and decrypt the SEA public data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
@@ -74,16 +71,13 @@ Scenario: As a valid user get SEA public data extract using BEEP
       |  graduationPlan                        |
       |  school                                |
       |  session                               |
-<<<<<<< HEAD
       |  assessment                            |
       |  learningObjective                     |
       |  learningStandard                      |
       |  competencyLevelDescriptor             |
       |  studentCompetencyObjective            |
       |  program                               |
-=======
       |  gradingPeriod                         |
->>>>>>> f89f54a7d1d67675a36a9c6557e756420b0e5e46
 
 Scenario Outline: Extract received through the API should have all the valid data for the SEA
     When I know where the extracted tar is for tenant "Midgar"
