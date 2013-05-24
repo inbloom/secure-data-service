@@ -203,10 +203,6 @@ public class LocalEdOrgExtractor {
             ExtractFile file = factory.buildLEAExtractFile(tenantDirectory.getAbsolutePath(), lea,
                     getArchiveName(lea, startTime.toDate()), appPublicKeys, securityEventUtil);
             edOrgToLEAExtract.put(lea, file);
-            for (String child : helper.getChildEdOrgs(Arrays.asList(lea))) {
-                edOrgToLEAExtract.put(child, file);
-            }
-
         }
         return edOrgToLEAExtract;
     }
