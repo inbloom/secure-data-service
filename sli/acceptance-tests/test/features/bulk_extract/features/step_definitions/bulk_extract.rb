@@ -248,6 +248,39 @@ Given /^the tenant "(.*?)" does not have any bulk extract apps for any of its ed
   enable_NOTABLESCAN()
 end
 
+Given /^all LEAs in "([^"]*)" are authorized for "([^"]*)"/ do |tenant, application|
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
+  db = conn[DATABASE_NAME]
+  app_coll = db.collection('application')
+  apps = app_coll.find({'body.name' => application}).to_a
+  assert(apps.size > 0, "Could not find any application with the name #{application}")
+  assert(apps.size == 1, "Found multiple applications with the name #{application}")
+
+  app_id = apps[0][id]
+  puts("The id for a #{application} is #{app_id}") if $SLI_DEBUG
+
+  db_tenant = conn[convertTenantIdToDbName(tenant)]
+  app_auth_coll = db_tenant.collection('applicationAuthorization')
+  ed_org_coll = db_tenant.collection('educationOrganization')
+
+  needed_ed_orgs = []
+  ed_org_coll.find({'type' => 'localEducationAgency'}).each do |edorg|
+    needed_ed_orgs.push(edorg['_id'])
+  end
+
+  app_auth_coll.remove('body.applicationId' => app_id)
+  new_app_auth = {'_id' => "2012ls-#{SecureRandom.uuid}", 'body' => {'applicationId' => app_id, 'edorgs' => needed_ed_orgs}, 'metaData' => {'tenantId' => tenant}}
+  app_auth_coll.insert(new_app_auth)
+
+  needed_ed_orgs.each do |edorg|
+    app_coll.update({'_id' => app_id}, {'$push' => {'body.authorized_ed_orgs' => edorg}})
+  end
+
+  conn.close
+  enable_NOTABLESCAN()
+end
+
 ############################################################
 # When
 ############################################################
