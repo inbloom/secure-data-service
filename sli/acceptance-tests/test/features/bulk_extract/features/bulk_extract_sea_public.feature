@@ -1,5 +1,5 @@
 @RALLY_US5660
-
+@RALLY_US5589
 
 Feature: As an bulk extract user, I want to be able to get the state public entities
 
@@ -15,7 +15,7 @@ Scenario: As a valid user unsuccessful attempt to get SEA public data extract us
     Then I get back a response code of "404"
 
 Scenario: As an bulk extract user, I want to be able to get the state public entities
-  	Given the extraction zone is empty
+    Given the extraction zone is empty
     And the bulk extract files in the database are scrubbed
     And The bulk extract app has been approved for "Midgar-DAYBREAK" with client id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
     Then I remove the edorg with id "IL-Test" from the "Midgar" database
@@ -44,7 +44,6 @@ Scenario Outline: Extract should have all the valid data for the SEA
     When I retrieve the path to and decrypt the SEA public data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
   Then the "<entity>" has the correct number of SEA public data records "<field>"
   And I verify that the "<entity>" reference an SEA only "<field>"
-
     Examples:
       | entity                         |    field                                |
       |  course                        |    schoolId                             |
@@ -54,6 +53,20 @@ Scenario Outline: Extract should have all the valid data for the SEA
       |  school                        |    parentEducationAgencyReference       |
       |  session                       |    schoolId                             |
       |  gradingPeriod                 |    gradingPeriodIdentity.schoolId       |
+   
+Scenario Outline: Extract should have all public tenant data for certain entities
+    When I retrieve the path to and decrypt the SEA public data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
+   And a the correct number of "<entity>" was extracted from the database
+   And a "<entity>" was extracted with all the correct fields
+
+   Examples:
+      | entity                                 |
+      |  assessment                            |
+      |  learningObjective                     |
+      |  learningStandard                      |
+      |  competencyLevelDescriptor             |
+      |  studentCompetencyObjective            |
+      |  program                               |
 
 Scenario: As a valid user get SEA public data extract using BEEP
     Given in my list of rights I have BULK_EXTRACT
@@ -83,7 +96,6 @@ Scenario Outline: Extract received through the API should have all the valid dat
     When I know where the extracted tar is for tenant "Midgar"
     Then the "<entity>" has the correct number of SEA public data records "<field>"
     And I verify that the "<entity>" reference an SEA only "<field>"
-
   Examples:
     | entity                         |    field                                |
     |  course                        |    schoolId                             |
@@ -93,6 +105,19 @@ Scenario Outline: Extract received through the API should have all the valid dat
     |  school                        |    parentEducationAgencyReference       |
     |  session                       |    schoolId                             |
     |  gradingPeriod                 |    gradingPeriodIdentity.schoolId       |
+
+Scenario Outline: Extract received through the API should have all the valid tenant public data
+    When I know where the extracted tar is for tenant "Midgar"
+   And a the correct number of "<entity>" was extracted from the database
+   And a "<entity>" was extracted with all the correct fields
+   Examples:
+      | entity                                 |
+      |  assessment                            |
+      |  learningObjective                     |
+      |  learningStandard                      |
+      |  competencyLevelDescriptor             |
+      |  studentCompetencyObjective            |
+      |  program                               |
 
 
 Scenario: As a valid user get SEA public data delta extract using BEEP
@@ -174,14 +199,25 @@ Scenario: None of the public entities reference the SEA
       | entity                                 | path                                   |
       |  course                                | body.schoolId                          |
       |  courseOffering                        | body.schoolId                          |
-      |  educationOrganization                 | _id                                    |
       |  educationOrganization                 | body.parentEducationAgencyReference    |
       |  graduationPlan                        | body.educationOrganizationId           |
       |  school                                | body.parentEducationAgencyReference    |
       |  session                               | body.schoolId                          |
       |  gradingPeriod                         | body.gradingPeriodIdentity.schoolId    |
     Then I trigger a bulk extract
-    Then I should see "0" bulk extract SEA-public data file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
+    Then I should see "1" bulk extract SEA-public data file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
+    When I retrieve the path to and decrypt the SEA public data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
+    And I verify that an extract tar file was created for the tenant "Midgar"
+    And there is a metadata file in the extract
+    And the extract contains a file for each of the following entities:
+      |  entityType                            |
+      |  assessment                            |
+      |  learningObjective                     |
+      |  learningStandard                      |
+      |  competencyLevelDescriptor             |
+      |  studentCompetencyObjective            |
+      |  program                               |
+      |  educationOrganization                 |
 
 Scenario: No SEA is available for the tenant
    Given the extraction zone is empty
@@ -193,3 +229,4 @@ Scenario: No SEA is available for the tenant
 
 Scenario: Clean up the SEA public data in the database
     Given all collections are empty
+
