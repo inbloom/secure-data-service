@@ -30,7 +30,6 @@ sh log_durations.sh $1
     -a raw_data.txt \
     Sliders-megatron@wgen.net \
     okrook@wgen.net \
-    rborde@wgen.net \
     rmiller@wgen.net \
     cwilson@contractor.wgen.net \
     rfarris@wgen.net \
