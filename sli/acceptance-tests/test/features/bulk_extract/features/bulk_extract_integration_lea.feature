@@ -56,4 +56,4 @@
       |  studentParentAssociation              | 9 | 9be61921ddf0bcd3d58fb99d4e9c454ef5707eb7_id5ba0c1c2a60e24e0b01a66d6d68892f16ba29b01_id |
       |  teacher                               | 3 | ac8ff205a6cbb248c761083ac692802a0709e4b1_id |
       |  teacherSchoolAssociation              | 3  | 7c6f6301ed520d8d0606ed525044143e900d456b_id |
-      |  teacherSectionAssociation             | 101 | 8a4b9bcd2ca43c5209fd7ab0e1f61dafd1a4f4a2_id173e9047fcb1f753b83e69ccfce4c8f68844ffb4_id |
+      |  teacherSectionAssociation             | 11 | 8a4b9bcd2ca43c5209fd7ab0e1f61dafd1a4f4a2_id173e9047fcb1f753b83e69ccfce4c8f68844ffb4_id |
