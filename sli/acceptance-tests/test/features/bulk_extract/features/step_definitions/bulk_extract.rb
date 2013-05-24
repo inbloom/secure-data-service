@@ -478,6 +478,7 @@ When /^I untar and decrypt the "(.*?)" delta tarfile for tenant "(.*?)" and appI
   openDecryptedFile(appId)
   @fileDir = OUTPUT_DIRECTORY if data_store == "API"
   untar(@fileDir)
+  @deltaDir = @fileDir
 end
 
 When /^I POST and validate the following entities:$/ do |table|
@@ -723,6 +724,17 @@ When /^I download and decrypt the delta$/ do
   untar(@decrypt_path)
 end
 
+When /^I decrypt and save the full extract$/ do
+  @filePath = "extract/extract.tar"
+  @unpackDir = File.dirname(@filePath) + '/unpack'
+  if (!File.exists?("extract"))
+      FileUtils.mkdir("extract")
+  end
+
+  step "the response is decrypted"
+  File.open(@filePath, 'w') {|f| f.write(@plain) }
+end
+
 When /^I generate and retrieve the bulk extract delta via API for "(.*?)"$/ do |lea|
   #client_id = $APP_CONVERSION_MAP[app_id]
   step "I trigger a delta extract" 
@@ -765,6 +777,10 @@ When /^I run the bulk extract scheduler script$/ do
   puts "pwd: #{Dir.pwd}"
 end
 
+When /^I set the header format to "(.*?)"$/ do |format|
+  puts "DEBUG: format is #{format}"
+  @format = format
+end
 
 
 ############################################################
@@ -932,6 +948,38 @@ Then /^I verify this "(.*?)" file (should|should not) contain:$/ do |file_name, 
     end
 end
 
+Then /^each record in the full extract is present and matches the delta extract$/ do
+  @fileDir = Dir.pwd + "/extract/unpack"
+  # loop through the list of files in delta directory
+  Dir.entries(@deltaDir).each do |deltaFile|
+    next if !deltaFile.include?("gz")
+    next if deltaFile.include?("deleted")
+    puts "DEBUG: Current delta file is #{deltaFile}"
+    # unzip the delta file
+    deltaUnzip = Zlib::GzipReader.open(@deltaDir + "/" + deltaFile)
+    deltaRecords = JSON.parse(deltaUnzip.read)
+    
+    # load and unzip the corresponding full extract file
+    fullExtractUnzip = Zlib::GzipReader.open(@fileDir + "/" + deltaFile)
+    fullExtractRecords = JSON.parse(fullExtractUnzip.read)
+    puts "DEBUG: deltaRecords count is #{deltaRecords.length}"
+    puts "DEBUG: fullExtractRecords count is #{fullExtractRecords.length}"
+
+    # TODO: Uncomment this assert when the duplicate fix is pushed
+    #assert(deltaRecords.length == fullExtractRecords.length, "The number of records do not match. Deltas: #{deltaRecords.length}, Full Extract: #{fullExtractRecords.length}")
+    
+    # Put delta records in a hashmap for searching
+    deltaHash = {}
+    deltaRecords.each do |deltaRecord|
+      deltaHash[deltaRecord["id"]] = deltaRecord
+    end
+    # Loop through fullExtract records and try to find match in deltaHash
+    fullExtractRecords.each do |extractRecord|
+      assert(extractRecord == deltaHash[extractRecord["id"]], "Could not find deltaRecord that corresponds to #{extractRecord}")
+    end
+  end
+end
+
 Then /^I reingest the SEA so I can continue my other tests$/ do
   step "I am using local data store"
   step "I post \"deltas_update_sea.zip\" file as the payload of the ingestion job"
@@ -953,7 +1001,7 @@ Then /^I ingested "(.*?)" dataset$/ do |dataset|
   step "I should not see an error log file created"
 end
 
-Then /^the "(.*?)" has the correct number of SEA public data records$/ do |entity|
+Then /^the "(.*?)" has the correct number of SEA public data records "(.*?)"$/ do |entity, field|
   disable_NOTABLESCAN()
 
 	@tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
@@ -962,8 +1010,7 @@ Then /^the "(.*?)" has the correct number of SEA public data records$/ do |entit
 
   puts "Comparing SEA " + @SEA_id
 
-  query_field = "body." + getSEAPublicRefField(entity)
-  query = {}
+  query_field = "body." + field
   collection = entity
   count = 0
 
@@ -990,8 +1037,8 @@ Then /^the "(.*?)" has the correct number of SEA public data records$/ do |entit
  enable_NOTABLESCAN()
 end
 
-Then /^I verify that the "(.*?)" reference an SEA only$/ do |entity|
-  query_field = getSEAPublicRefField(entity)
+Then /^I verify that the "(.*?)" reference an SEA only "(.*?)"$/ do |entity, query|
+  query_field = query.split(".")
   Zlib::GzipReader.open(@unpackDir + "/" + entity + ".json.gz") { |extractFile|
     records = JSON.parse(extractFile.read)
     records.each do |record|
@@ -1000,7 +1047,13 @@ Then /^I verify that the "(.*?)" reference an SEA only$/ do |entity|
           next
         end
       end
-      assert(record[query_field] == @SEA_id, "Incorrect reference " + record[query_field] + " expected " + @SEA_id)
+
+      field = record
+      query_field.each do |key|
+        field = field[key]
+      end
+
+      assert(field == @SEA_id, "Incorrect reference " + field + " expected " + @SEA_id)
     end
   }
 end
@@ -1933,7 +1986,7 @@ def prepareBody(verb, value, response_map)
       },
       "newStudentAssessment" => {
         "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
-        "assessmentId" => "d1db0a2c9d30c0fabcbc4c7fc796701e0509b86b_id",
+        "assessmentId" => "8e6fceafe05daef1da589a1709ee278ba51d337a_id",
         "administrationDate" => "2013-09-24",
         "specialAccommodations" => ["Large Print"],
         "administrationEndDate" => "2013-09-25",
@@ -1960,7 +2013,7 @@ def prepareBody(verb, value, response_map)
             "nomenclature" => "Nomenclature",
             "identificationCode" => "2013-Eleventh grade Assessment 2.OA-0",
             "percentOfAssessment" => 50,
-            "assessmentId" => "d1db0a2c9d30c0fabcbc4c7fc796701e0509b86b_id",
+            "assessmentId" => "8e6fceafe05daef1da589a1709ee278ba51d337a_id",
             "assessmentPerformanceLevel" => [{
               "performanceLevelDescriptor" => [{
                 "codeValue" => "code1"
@@ -1994,7 +2047,7 @@ def prepareBody(verb, value, response_map)
           "assessmentItemResult" => "Incorrect",
           "assessmentItem" => {
             "identificationCode" => "2013-Eleventh grade Assessment 2#1",
-            "assessmentId" => "d1db0a2c9d30c0fabcbc4c7fc796701e0509b86b_id",
+            "assessmentId" => "8e6fceafe05daef1da589a1709ee278ba51d337a_id",
             "correctResponse" => "true",
             "itemCategory" => "True-False",
             "maxRawScore" => 10
@@ -2006,7 +2059,7 @@ def prepareBody(verb, value, response_map)
           "assessmentItemResult" => "Correct",
           "assessmentItem" => {
               "identificationCode" => "2013-Eleventh grade Assessment 2#4",
-              "assessmentId" => "d1db0a2c9d30c0fabcbc4c7fc796701e0509b86b_id",
+              "assessmentId" => "8e6fceafe05daef1da589a1709ee278ba51d337a_id",
               "correctResponse" => "false",
               "itemCategory" => "True-False",
               "maxRawScore" => 10
@@ -2018,7 +2071,7 @@ def prepareBody(verb, value, response_map)
           "assessmentItemResult" => "Correct",
           "assessmentItem" => {
             "identificationCode" => "2013-Eleventh grade Assessment 2#2",
-            "assessmentId" => "d1db0a2c9d30c0fabcbc4c7fc796701e0509b86b_id",
+            "assessmentId" => "8e6fceafe05daef1da589a1709ee278ba51d337a_id",
             "correctResponse" => "false",
             "itemCategory" => "True-False",
             "maxRawScore" => 10
@@ -2031,7 +2084,7 @@ def prepareBody(verb, value, response_map)
           "assessmentItemResult" => "Incorrect",
           "assessmentItem" => {
             "identificationCode" => "2013-Eleventh grade Assessment 2#3",
-            "assessmentId" => "d1db0a2c9d30c0fabcbc4c7fc796701e0509b86b_id",
+            "assessmentId" => "8e6fceafe05daef1da589a1709ee278ba51d337a_id",
             "correctResponse" => "true",
             "itemCategory" => "True-False",
             "maxRawScore" => 10
@@ -2215,19 +2268,6 @@ def build_bulk_query(tenant, appId, lea=nil, delta=false, publicData=false)
   query = {"body.tenantId"=>tenant, "body.applicationId" => appId, "body.isDelta" => delta, "body.isPublicData" => publicData}
   query.merge!({"body.edorg"=>lea}) unless lea.nil?
   query
-end
-
-def getSEAPublicRefField(entity)
-  query_field = ""
-  case entity
-  when "school","educationOrganization"
-    query_field = "parentEducationAgencyReference"
-  when "course","courseOffering", "session"#, "gradingPeriod"
-      query_field = "schoolId"
-  when "graduationPlan"
-      query_field = "educationOrganizationId"
-  end
-  return query_field
 end
 
 def createCleanupFile(baseDir, tenant, edorg, app, date)

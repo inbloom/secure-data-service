@@ -93,7 +93,6 @@ public class StudentExtractorTest {
         Mockito.verify(mockExtractor).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class),
                 Mockito.eq("student"));
         Mockito.verify(parentCache, Mockito.times(2)).addEntry(Mockito.any(String.class), Mockito.eq("LEA"));
-
     }
     
     @Test
