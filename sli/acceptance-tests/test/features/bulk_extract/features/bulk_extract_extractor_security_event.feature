@@ -89,13 +89,13 @@ Feature: Security events are logged when bulk extract is run
     And I trigger a delta extract
     Then I should see following map of entry counts in the corresponding sli db collections:
       | collectionName             | count |
-      | securityEvent              | 4     |
+      | securityEvent              | 5     |
     And I check to find if record is in sli db collection:
       | collectionName  | expectedRecordCount | searchParameter         | searchValue                                                                  | searchType      |
       | securityEvent   | 1                   | body.logMessage         | Beginning bulk extract execution                                             | string          |
       | securityEvent   | 2                   | body.className          | org.slc.sli.bulk.extract.extractor.DeltaExtractor                            | string          |
       | securityEvent   | 1                   | body.logMessage         | Generating archive for app 19cca28d-7357-4044-8df9-caad4b1c8ee4              | string          |
-      | securityEvent   | 0                   | body.logMessage         | Generating archive for app 22c2a28d-7327-4444-8ff9-caad4b1c7aa3              | string          |
+      | securityEvent   | 1                   | body.logMessage         | Generating archive for app 22c2a28d-7327-4444-8ff9-caad4b1c7aa3              | string          |
 
 
   Scenario: Trigger a bulk extract on a tenant that doesn't have any authorized bulk extract apps
