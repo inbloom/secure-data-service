@@ -886,8 +886,6 @@ Given I clean the bulk extract file system and database
     |  entity                        |  type                       |  returnCode  |
     |  newDaybreakStudent            |  staffStudent               |  201         |
     |  DbStudentSchoolAssociation    |  studentSchoolAssociation   |  201         |
-    |  newHighwindStudent            |  staffStudent               |  201         |
-    |  HwStudentSchoolAssociation    |  studentSchoolAssociation   |  201         |
  # Delete both students and stSchAssoc
  When I DELETE and validate the following entities:
     |  entity                      |  id                                           |  returnCode  |
