@@ -57,23 +57,23 @@ Feature: Security events are logged when bulk extract is run
       #LEA Extract
       | securityEvent   | 1                   | body.logMessage         | Finished LEA level bulk extract                                              | string          |
       | securityEvent   | 1                   | body.logMessage         | Beginning LEA level bulk extract                                             | string          |
-      | securityEvent   | 5                   | body.logMessage         | Extracting educationOrganization for LEA extract                             | string          |
-      | securityEvent   | 5                   | body.logMessage         | Extracting attendance for LEA extract                                        | string          |
-      | securityEvent   | 5                   | body.logMessage         | Extracting cohort for LEA extract                                            | string          |
-      | securityEvent   | 5                   | body.logMessage         | Extracting courseOffering for LEA extract                                    | string          |
-      | securityEvent   | 5                   | body.logMessage         | Extracting gradingPeriod for LEA extract                                     | string          |
-      | securityEvent   | 5                   | body.logMessage         | Extracting parent for LEA extract                                            | string          |
-      | securityEvent   | 5                   | body.logMessage         | Extracting section for LEA extract                                           | string          |
-      | securityEvent   | 5                   | body.logMessage         | Extracting session for LEA extract                                           | string          |
-      | securityEvent   | 5                   | body.logMessage         | Extracting staff for LEA extract                                             | string          |
-      | securityEvent   | 5                   | body.logMessage         | Extracting staffCohortAssociation for LEA extract                            | string          |
-      | securityEvent   | 5                   | body.logMessage         | Extracting staffEducationOrganizationAssociation for LEA extract             | string          |
-      | securityEvent   | 5                   | body.logMessage         | Extracting staffProgramAssociation for LEA extract                           | string          |
-      | securityEvent   | 5                   | body.logMessage         | Extracting student for LEA extract                                           | string          |
-      | securityEvent   | 5                   | body.logMessage         | Extracting studentAssessment for LEA extract                                 | string          |
-      | securityEvent   | 5                   | body.logMessage         | Extracting studentSchoolAssociation for LEA extract                          | string          |
-      | securityEvent   | 5                   | body.logMessage         | Extracting teacherSchoolAssociation for LEA extract                          | string          |
-      | securityEvent   | 5                   | body.logMessage         | Extracting yearlyTranscript for LEA extract                                  | string          |
+      | securityEvent   | 1                   | body.logMessage         | Extracting educationOrganization for LEA extract                             | string          |
+      | securityEvent   | 1                   | body.logMessage         | Extracting attendance for LEA extract                                        | string          |
+      | securityEvent   | 1                   | body.logMessage         | Extracting cohort for LEA extract                                            | string          |
+      | securityEvent   | 1                   | body.logMessage         | Extracting courseOffering for LEA extract                                    | string          |
+      | securityEvent   | 1                   | body.logMessage         | Extracting gradingPeriod for LEA extract                                     | string          |
+      | securityEvent   | 1                   | body.logMessage         | Extracting parent for LEA extract                                            | string          |
+      | securityEvent   | 1                   | body.logMessage         | Extracting section for LEA extract                                           | string          |
+      | securityEvent   | 1                   | body.logMessage         | Extracting session for LEA extract                                           | string          |
+      | securityEvent   | 1                   | body.logMessage         | Extracting staff for LEA extract                                             | string          |
+      | securityEvent   | 1                   | body.logMessage         | Extracting staffCohortAssociation for LEA extract                            | string          |
+      | securityEvent   | 1                   | body.logMessage         | Extracting staffEducationOrganizationAssociation for LEA extract             | string          |
+      | securityEvent   | 1                   | body.logMessage         | Extracting staffProgramAssociation for LEA extract                           | string          |
+      | securityEvent   | 1                   | body.logMessage         | Extracting student for LEA extract                                           | string          |
+      | securityEvent   | 1                   | body.logMessage         | Extracting studentAssessment for LEA extract                                 | string          |
+      | securityEvent   | 1                   | body.logMessage         | Extracting studentSchoolAssociation for LEA extract                          | string          |
+      | securityEvent   | 1                   | body.logMessage         | Extracting teacherSchoolAssociation for LEA extract                          | string          |
+      | securityEvent   | 1                   | body.logMessage         | Extracting yearlyTranscript for LEA extract                                  | string          |
 
 
   Scenario: Trigger a delta extract and check security events
@@ -89,13 +89,12 @@ Feature: Security events are logged when bulk extract is run
     And I trigger a delta extract
     Then I should see following map of entry counts in the corresponding sli db collections:
       | collectionName             | count |
-      | securityEvent              | 5     |
+      | securityEvent              | 4     |
     And I check to find if record is in sli db collection:
       | collectionName  | expectedRecordCount | searchParameter         | searchValue                                                                  | searchType      |
       | securityEvent   | 1                   | body.logMessage         | Beginning bulk extract execution                                             | string          |
       | securityEvent   | 2                   | body.className          | org.slc.sli.bulk.extract.extractor.DeltaExtractor                            | string          |
       | securityEvent   | 1                   | body.logMessage         | Generating archive for app 19cca28d-7357-4044-8df9-caad4b1c8ee4              | string          |
-      | securityEvent   | 1                   | body.logMessage         | Generating archive for app 22c2a28d-7327-4444-8ff9-caad4b1c7aa3              | string          |
 
 
   Scenario: Trigger a bulk extract on a tenant that doesn't have any authorized bulk extract apps
