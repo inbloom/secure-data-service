@@ -43,20 +43,8 @@ public class PublicDataFactory {
      *
      * @return the new UnfilteredPublicDataExtractor instance
      */
-    public PublicDataExtractor buildUnfilteredPublicDataExtractor(EntityExtractor extractor) {
+    public UnfilteredPublicDataExtractor buildUnfilteredPublicDataExtractor(EntityExtractor extractor) {
         return new UnfilteredPublicDataExtractor(extractor);
     }
 
-    /**
-     * Build all instances of a PublicDataExtractor.
-     * @param extractor the extractor
-     * @return all PublicDataExtractor instances
-     */
-    public List<PublicDataExtractor> buildAllPublicDataExtracts(EntityExtractor extractor) {
-        List<PublicDataExtractor> list = new ArrayList<PublicDataExtractor>();
-        list.add(buildDirectPublicDataExtract(extractor));
-        list.add(buildUnfilteredPublicDataExtractor(extractor));
-        return list;
-
-    }
 }
