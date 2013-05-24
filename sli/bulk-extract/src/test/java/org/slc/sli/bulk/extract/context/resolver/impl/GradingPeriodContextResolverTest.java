@@ -55,7 +55,7 @@ public class GradingPeriodContextResolverTest {
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("gradingPeriodIdentity", gradingPeriodIdentity);
         when(gradingPeriod.getBody()).thenReturn(body);
-        assertEquals(new HashSet<String>(Arrays.asList("OsirisSchoolDistrict")), underTest.findGoverningLEA(gradingPeriod));
+        assertEquals(new HashSet<String>(Arrays.asList("OsirisSchoolDistrict")), underTest.findGoverningEdOrgs(gradingPeriod));
 
     }
 

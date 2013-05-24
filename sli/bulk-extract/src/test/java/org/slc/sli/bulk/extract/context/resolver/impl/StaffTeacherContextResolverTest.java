@@ -66,7 +66,7 @@ public class StaffTeacherContextResolverTest {
         Entity staff = buildStaffEntity();
         NeutralQuery q = resolver.buildStaffEdorgQuery(staff.getEntityId());
         when(repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, q)).thenReturn(buildExpiredAssociations());
-        assertTrue(resolver.findGoverningLEA(staff).size() == 0);
+        assertTrue(resolver.findGoverningEdOrgs(staff).size() == 0);
     }
     
     @Test
@@ -80,10 +80,10 @@ public class StaffTeacherContextResolverTest {
         Set<String> lea2 = new HashSet<String>(Arrays.asList("lea2"));
         when(edOrgResolver.findGoverningLEA("edorg" + tomorrow)).thenReturn(lea1);
         when(edOrgResolver.findGoverningLEA("edorg" + dayAfterTomorrow)).thenReturn(lea2);
-        System.out.println(resolver.findGoverningLEA(staff));
-        assertTrue(resolver.findGoverningLEA(staff).size() == 2);
+        System.out.println(resolver.findGoverningEdOrgs(staff));
+        assertTrue(resolver.findGoverningEdOrgs(staff).size() == 2);
         Set<String> all = new HashSet<String>(Arrays.asList("lea1", "lea2"));
-        assertEquals(all, resolver.findGoverningLEA(staff));
+        assertEquals(all, resolver.findGoverningEdOrgs(staff));
     }
     
     private Iterable<Entity> buildCurrentAssociations() {

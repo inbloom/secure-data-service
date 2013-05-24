@@ -47,6 +47,7 @@ import org.slc.sli.bulk.extract.message.BEMessageCode;
 import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
 import org.slc.sli.bulk.extract.util.SecurityEventUtil;
 import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.SecurityEvent;
@@ -114,7 +115,7 @@ public class DeltaExtractor {
     @Value("${sli.bulk.extract.output.directory:extract}")
     private String baseDirectory;
 
-    private Map<String, ExtractFile> appPerLeaExtractFiles = new HashMap<String, ExtractFile>();
+    private Map<String, ExtractFile> appPerEdOrgExtractFiles = new HashMap<String, ExtractFile>();
     private Map<String, EntityExtractor.CollectionWrittenRecord> appPerLeaCollectionRecords = new HashMap<String, EntityExtractor.CollectionWrittenRecord>();
 
     public static final DateTimeFormatter DATE_TIME_FORMATTER = ISODateTimeFormat.dateTime();
@@ -127,29 +128,29 @@ public class DeltaExtractor {
                 "Delta Extract Initiation", LogLevelType.TYPE_INFO,
                 BEMessageCode.BE_SE_CODE_0019, DATE_TIME_FORMATTER.print(deltaUptoTime)));
 
-        Map<String, Set<String>> appsPerTopLEA = reverse(filter(helper.getBulkExtractLEAsPerApp()));
+        Map<String, Set<String>> appsPerEdOrg = addAppsPerSEA(reverse(filter(helper.getBulkExtractLEAsPerApp())));
         deltaEntityIterator.init(tenant, deltaUptoTime);
         while (deltaEntityIterator.hasNext()) {
             DeltaRecord delta = deltaEntityIterator.next();
             if (delta.getOp() == Operation.UPDATE) {
                 if (delta.isSpamDelete()) {
-                    spamDeletes(delta, delta.getBelongsToLEA(), tenant, deltaUptoTime,
-                            appsPerTopLEA);
+                    spamDeletes(delta, delta.getBelongsToEdOrgs(), tenant, deltaUptoTime,
+                            appsPerEdOrg);
                 }
-                for (String lea : delta.getBelongsToLEA()) {
-                    // we have apps for this lea
-                    if (appsPerTopLEA.containsKey(lea)) {
-                        ExtractFile extractFile = getExtractFile(lea, tenant, deltaUptoTime,
-                                appsPerTopLEA.get(lea));
-                        EntityExtractor.CollectionWrittenRecord record = getCollectionRecord(lea,
+                for (String edOrg : delta.getBelongsToEdOrgs()) {
+                    // we have apps for this edOrg
+                    if (appsPerEdOrg.containsKey(edOrg)) {
+                        ExtractFile extractFile = getExtractFile(edOrg, tenant, deltaUptoTime,
+                                appsPerEdOrg.get(edOrg));
+                        EntityExtractor.CollectionWrittenRecord record = getCollectionRecord(edOrg,
                                 delta.getType());
                         try {
                             entityExtractor.write(delta.getEntity(), extractFile, record, null);
                         } catch (IOException e) {
-                            LOG.error("Error while extracting for " + lea, e);
-                            SecurityEvent event = securityEventUtil.createSecurityEvent(this.getClass().getName(), "Delta Extract for LEA", LogLevelType.TYPE_ERROR,
-                                    BEMessageCode.BE_SE_CODE_0020, delta.getEntity().getType(), lea, e.getMessage());
-                            event.setTargetEdOrg(lea);
+                            LOG.error("Error while extracting for " + edOrg, e);
+                            SecurityEvent event = securityEventUtil.createSecurityEvent(this.getClass().getName(), "Delta Extract for education organization", LogLevelType.TYPE_ERROR,
+                                    BEMessageCode.BE_SE_CODE_0020, delta.getEntity().getType(), edOrg, e.getMessage());
+                            event.setTargetEdOrg(edOrg);
                             audit(event);
                             throw new RuntimeException("Delta extraction failed, quitting without clearing delta collections...", e);
                         }
@@ -157,7 +158,7 @@ public class DeltaExtractor {
                 }
             } else if (delta.getOp() == Operation.DELETE) {
                 spamDeletes(delta, Collections.<String> emptySet(), tenant, deltaUptoTime,
-                        appsPerTopLEA);
+                        appsPerEdOrg);
             }
         }
 
@@ -178,8 +179,8 @@ public class DeltaExtractor {
     }
 
     private void spamDeletes(DeltaRecord delta, Set<String> exceptions, String tenant,
-            DateTime deltaUptoTime, Map<String, Set<String>> appsPerLEA) {
-        for (Map.Entry<String, Set<String>> entry : appsPerLEA.entrySet()) {
+            DateTime deltaUptoTime, Map<String, Set<String>> appsPerEdOrg) {
+        for (Map.Entry<String, Set<String>> entry : appsPerEdOrg.entrySet()) {
             String lea = entry.getKey();
 
             if (exceptions.contains(lea)) {
@@ -216,7 +217,7 @@ public class DeltaExtractor {
     // rerun it if we decided to
     private void finalizeExtraction(String tenant, DateTime startTime) {
         boolean allSuccessful = true;
-        for (ExtractFile extractFile : appPerLeaExtractFiles.values()) {
+        for (ExtractFile extractFile : appPerEdOrgExtractFiles.values()) {
             extractFile.closeWriters();
             boolean success = extractFile.finalizeExtraction(startTime);
 
@@ -251,15 +252,15 @@ public class DeltaExtractor {
         return appPerLeaCollectionRecords.get(key);
     }
 
-    private ExtractFile getExtractFile(String lea, String tenant, DateTime deltaUptoTime,
-            Set<String> appsForLEA) {
-        if (!appPerLeaExtractFiles.containsKey(lea)) {
-            ExtractFile appPerLeaExtractFile = getExtractFilePerLEA(tenant, lea, deltaUptoTime,
-                    appsForLEA);
-            appPerLeaExtractFiles.put(lea, appPerLeaExtractFile);
+    private ExtractFile getExtractFile(String edOrg, String tenant, DateTime deltaUptoTime,
+            Set<String> appsForEdOrg) {
+        if (!appPerEdOrgExtractFiles.containsKey(edOrg)) {
+            ExtractFile appPerEdOrgExtractFile = getExtractFilePerEdOrg(tenant, edOrg, deltaUptoTime,
+                    appsForEdOrg);
+            appPerEdOrgExtractFiles.put(edOrg, appPerEdOrgExtractFile);
         }
 
-        return appPerLeaExtractFiles.get(lea);
+        return appPerEdOrgExtractFiles.get(edOrg);
     }
 
     /* filter out all non top level LEAs */
@@ -270,7 +271,7 @@ public class DeltaExtractor {
             Set<String> topLEA = new HashSet<String>();
             for (String edorg : entry.getValue()) {
                 Entity edorgEntity = repo.findById(EntityNames.EDUCATION_ORGANIZATION, edorg);
-                topLEA.addAll(edorgContextResolver.findGoverningLEA(edorgEntity));
+                topLEA.addAll(edorgContextResolver.findGoverningEdOrgs(edorgEntity));
             }
             entry.getValue().retainAll(topLEA);
             result.put(app, entry.getValue());
@@ -295,16 +296,16 @@ public class DeltaExtractor {
     }
 
     /**
-     * Given the tenant, appId, the LEA id been extracted and a timestamp, give
+     * Given the tenant, appId, the education organization id being extracted and a timestamp, give
      * me an extractFile for this combo
      *
      * @param
      */
-    public ExtractFile getExtractFilePerLEA(String tenant, String edorg, DateTime startTime,
-            Set<String> appsForLEA) {
+    public ExtractFile getExtractFilePerEdOrg(String tenant, String edorg, DateTime startTime,
+                                              Set<String> appsForEdOrg) {
         List<String> edorgList = Arrays.asList(edorg);
         Map<String, PublicKey> appKeyMap = new HashMap<String, PublicKey>();
-        for (String appId : appsForLEA) {
+        for (String appId : appsForEdOrg) {
             appKeyMap.putAll(bulkExtractMongoDA.getClientIdAndPublicKey(appId, edorgList));
         }
         ExtractFile extractFile = new ExtractFile(getTenantDirectory(tenant), getArchiveName(edorg,
@@ -323,6 +324,39 @@ public class DeltaExtractor {
                 TenantAwareMongoDbFactory.getTenantDatabaseName(tenant));
         tenantDirectory.mkdirs();
         return tenantDirectory;
+    }
+
+    private Map<String, Set<String>> addAppsPerSEA(Map<String, Set<String>> appsPerTopLevelLEA) {
+        if (appsPerTopLevelLEA == null || appsPerTopLevelLEA.isEmpty()) {
+            return Collections.EMPTY_MAP;
+        }
+        appsPerTopLevelLEA.putAll(getBulkExtractAppsPerSEA(appsPerTopLevelLEA));
+        return appsPerTopLevelLEA;
+    }
+
+    /**
+     * Populates a map of BE enabled apps per SEA from a map of BE apps per top level LEA
+     *
+     * @return a set of the SEA ids that need a bulk extract per app
+     */
+    private Map<String, Set<String>> getBulkExtractAppsPerSEA(Map<String, Set<String>> appsPerTopLevelLEA) {
+        Map<String, Set<String>> appsPerSEA = new HashMap<String, Set<String>>();
+        for (String leaId : appsPerTopLevelLEA.keySet()) {
+            Entity lea = repo.findById(EntityNames.EDUCATION_ORGANIZATION, leaId);
+            if (lea != null && lea.getBody() != null) {
+                // performance hack assumes the top-level LEA entities parent refs are the SEAs
+                String seaId = (String) lea.getBody().get(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE);
+                if (seaId == null) {
+                    continue;
+                }
+                if (!appsPerSEA.containsKey(seaId)) {
+                    appsPerSEA.put(seaId, appsPerTopLevelLEA.get(leaId));
+                } else {
+                    appsPerSEA.get(seaId).addAll(appsPerTopLevelLEA.get(leaId));
+                }
+            }
+        }
+        return appsPerSEA;
     }
 
     /**

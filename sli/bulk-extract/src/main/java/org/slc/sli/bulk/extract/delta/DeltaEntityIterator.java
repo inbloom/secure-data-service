@@ -278,14 +278,14 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
                     continue;
                 }
 
-                Set<String> topLevelGoverningLEA = resolver.findGoverningLEA(entity);
+                Set<String> governingEdOrgs = resolver.findGoverningEdOrgs(entity);
                 if (!KEEP_DENORMALIZED.contains(entity.getType())) {
                     entity.getDenormalizedData().clear();
                     entity.getEmbeddedData().clear();
                 }
                 
-                if (topLevelGoverningLEA != null && !topLevelGoverningLEA.isEmpty()) {
-                    workQueue.add(new DeltaRecord(entity, topLevelGoverningLEA, Operation.UPDATE, spamDelete,
+                if (governingEdOrgs != null && !governingEdOrgs.isEmpty()) {
+                    workQueue.add(new DeltaRecord(entity, governingEdOrgs, Operation.UPDATE, spamDelete,
                             batchedCollection));
                 } else {
                     LOG.debug(String.format("Can not resolve the governing lea for entity: %s", entity.getEntityId()));
@@ -358,14 +358,14 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
     public static class DeltaRecord {
         
         private Entity entity;
-        private Set<String> belongsToLEA;
+        private Set<String> belongsToEdOrgs;
         private Operation op;
         private boolean spamDelete;
         private String type;
         
-        public DeltaRecord(Entity entity, Set<String> belongsToLEA, Operation op, boolean spamDelete, String type) {
+        public DeltaRecord(Entity entity, Set<String> belongsToEdOrgs, Operation op, boolean spamDelete, String type) {
             this.entity = entity;
-            this.belongsToLEA = belongsToLEA;
+            this.belongsToEdOrgs = belongsToEdOrgs;
             this.op = op;
             this.spamDelete = spamDelete;
             this.type = type;
@@ -375,8 +375,8 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
             return entity;
         }
         
-        public Set<String> getBelongsToLEA() {
-            return belongsToLEA;
+        public Set<String> getBelongsToEdOrgs() {
+            return belongsToEdOrgs;
         }
         
         public Operation getOp() {

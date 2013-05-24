@@ -45,13 +45,13 @@ public class ParentContextResolver implements ContextResolver {
     private StudentContextResolver studentResolver;
     
     @Override
-    public Set<String> findGoverningLEA(Entity entity) {
+    public Set<String> findGoverningEdOrgs(Entity entity) {
         Set<String> leas = new HashSet<String>();
         Iterator<Entity> kids = repo.findEach("student",
                 Query.query(Criteria.where("studentParentAssociation.body.parentId").is(entity.getEntityId())));
         while(kids.hasNext()) {
             Entity kid = kids.next();
-            leas.addAll(studentResolver.findGoverningLEA(kid));
+            leas.addAll(studentResolver.findGoverningEdOrgs(kid));
         }
         return leas;
     }

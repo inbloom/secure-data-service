@@ -83,7 +83,7 @@ public class EducationOrganizationContextResolverTest {
     
     @Test
     public void testFindGoverningLEA() {
-        assertEquals(new HashSet<String>(Arrays.asList("level2")), underTest.findGoverningLEA(school));
+        assertEquals(new HashSet<String>(Arrays.asList("level2")), underTest.findGoverningEdOrgs(school));
     }
     
     @Test

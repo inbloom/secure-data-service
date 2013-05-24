@@ -68,7 +68,7 @@ public class StudentContextResolverTest {
     @Test
     public void testFindGoverningLEA() {
         assertEquals(new HashSet<String>(Arrays.asList("edOrg1", "edOrg2", "edOrg3")),
-                underTest.findGoverningLEA(buildTestStudent()));
+                underTest.findGoverningEdOrgs(buildTestStudent()));
     }
     
     @Test
@@ -121,9 +121,9 @@ public class StudentContextResolverTest {
     @Test
     public void testCache() {
         Entity testEntity = buildTestStudent();
-        Set<String> fromEntity1 = underTest.findGoverningLEA(testEntity);
+        Set<String> fromEntity1 = underTest.findGoverningEdOrgs(testEntity);
         Set<String> fromId = underTest.findGoverningLEA("testStudent");
-        Set<String> fromEntity2 = underTest.findGoverningLEA(testEntity);
+        Set<String> fromEntity2 = underTest.findGoverningEdOrgs(testEntity);
         assertEquals(fromEntity1, fromId);
         assertEquals(fromEntity2, fromId);
     }

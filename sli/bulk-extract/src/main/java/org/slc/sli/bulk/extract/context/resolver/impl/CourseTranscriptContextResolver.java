@@ -48,7 +48,7 @@ public class CourseTranscriptContextResolver implements ContextResolver {
     StudentContextResolver studentResolver;
 
     @Override
-    public Set<String> findGoverningLEA(Entity entity) {
+    public Set<String> findGoverningEdOrgs(Entity entity) {
         if (entity == null) {
             return Collections.emptySet();
         }

@@ -35,6 +35,6 @@ public interface ContextResolver {
      *            entity
      * @return a set of Strings which are IDs of the top level LEA
      */
-    public Set<String> findGoverningLEA(Entity entity);
+    public Set<String> findGoverningEdOrgs(Entity entity);
     
 }

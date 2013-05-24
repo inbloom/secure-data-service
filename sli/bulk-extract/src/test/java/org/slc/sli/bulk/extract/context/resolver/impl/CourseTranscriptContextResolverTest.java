@@ -62,20 +62,20 @@ public class CourseTranscriptContextResolverTest {
         Entity courseTranscript = buildCourseTranscript();
         courseTranscript.getBody().remove(STUDENT_ID);
         courseTranscript.getBody().remove(STUDENT_ACADEMIC_RECORD_ID);
-        assertEquals(Collections.emptySet(), underTest.findGoverningLEA(courseTranscript));
+        assertEquals(Collections.emptySet(), underTest.findGoverningEdOrgs(courseTranscript));
     }
     
     @Test
     public void followStudentId() {
         Entity courseTranscript = buildCourseTranscript();
-        assertEquals(new HashSet<String>(Arrays.asList("toplea2")), underTest.findGoverningLEA(courseTranscript));
+        assertEquals(new HashSet<String>(Arrays.asList("toplea2")), underTest.findGoverningEdOrgs(courseTranscript));
     }
     
     @Test
     public void noStudentIdFollowAcademicRecord() {
         Entity courseTranscript = buildCourseTranscript();
         courseTranscript.getBody().remove(STUDENT_ID);
-        assertEquals(new HashSet<String>(Arrays.asList("toplea2")), underTest.findGoverningLEA(courseTranscript));
+        assertEquals(new HashSet<String>(Arrays.asList("toplea2")), underTest.findGoverningEdOrgs(courseTranscript));
     }
 
     private Entity buildCourseTranscript() {

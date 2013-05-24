@@ -49,7 +49,7 @@ public class DisciplineActionContextResolver implements ContextResolver {
     private StudentContextResolver studentResolver;
     
     @Override
-    public Set<String> findGoverningLEA(Entity entity) {
+    public Set<String> findGoverningEdOrgs(Entity entity) {
         String responsibleSchool = (String) entity.getBody().get("responsibilitySchoolId");
         String assignmentSchool = (String) entity.getBody().get("assignmentSchoolId");
         Set<String> leas = new HashSet<String>();

@@ -56,7 +56,7 @@ public class StudentDirectRelatedContextResolverTest {
     @Test
     public void entityWithNoStudentIdCannotBeResolved() {
         Entity e = new MongoEntity("type", "id", new HashMap<String, Object>(), new HashMap<String, Object>());
-        Set<String> leas = resolver.findGoverningLEA(e);
+        Set<String> leas = resolver.findGoverningEdOrgs(e);
         assertTrue(leas.size() == 0);
     }
 
@@ -65,7 +65,7 @@ public class StudentDirectRelatedContextResolverTest {
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("studentId", "studentId123");
         Entity e = new MongoEntity("type", "id", body, new HashMap<String, Object>());
-        Set<String> leas = resolver.findGoverningLEA(e);
+        Set<String> leas = resolver.findGoverningEdOrgs(e);
         assertTrue(leas.size() == 2);
         assertTrue(leas.contains("lea1"));
         assertTrue(leas.contains("lea2"));

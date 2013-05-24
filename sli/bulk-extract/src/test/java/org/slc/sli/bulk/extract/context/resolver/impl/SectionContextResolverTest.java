@@ -79,7 +79,7 @@ public class SectionContextResolverTest {
         subdocs.put("studentSectionAssociation", Arrays.asList(river, simon));
         when(section.getEmbeddedData()).thenReturn(subdocs);
         assertEquals(new HashSet<String>(Arrays.asList("OsirisSchoolDistrict", "Academy", "MedSchool")),
-                underTest.findGoverningLEA(section));
+                underTest.findGoverningEdOrgs(section));
     }
     
 }

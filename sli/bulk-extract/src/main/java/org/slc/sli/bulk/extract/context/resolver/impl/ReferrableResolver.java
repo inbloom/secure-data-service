@@ -55,7 +55,7 @@ public abstract class ReferrableResolver implements ContextResolver {
      *            entity
      * @return a set of Strings which are IDs of the top level LEA
      */
-    public Set<String> findGoverningLEA(Entity entity) {
+    public Set<String> findGoverningEdOrgs(Entity entity) {
         if (entity == null || entity.getEntityId() == null) {
             return Collections.emptySet();
         }
@@ -90,7 +90,7 @@ public abstract class ReferrableResolver implements ContextResolver {
 
         Entity entity = getRepo().findOne(getCollection(), DeltaEntityIterator.buildQuery(getCollection(), id));
         if (entity != null) {
-            return findGoverningLEA(entity);
+            return findGoverningEdOrgs(entity);
         }
         
         return Collections.emptySet();
