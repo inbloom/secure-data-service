@@ -817,44 +817,52 @@ Given I clean the bulk extract file system and database
     | f44b0a272ba009b9668151070806e132f9e38364_id | staffReference = e9f3401e0a034e20bb17663dd7d18ece6c4166b5_id                 |  
     | f44b0a272ba009b9668151070806e132f9e38364_id | educationOrganizationReference = 99d527622dcb51c465c515c0636d17e085302d5e_id |
  
-  # Now delete the recently added entities and check the delete file
+  # Now delete the recently added entities and check the delete file  
+  Given I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   When I DELETE and validate the following entities:
     |  entity                     |  id                                           |  returnCode  |
     |  attendance                 |  95b973e29368712e2090fcad34d90fffb20aa9c4_id  |  204         |
-    |  courseOffering             |  38edd8479722ccf576313b4640708212841a5406_id  |  204         |
     |  studentAssessment          |  d4a8b25254af09fe3dd772a2149aa6b45fa6b170_id  |  204         |
-    |  teacherSchoolAssociation   |  7a2d5a958cfda9905812c3a9f38c07ac4e8899b0_id  |  204         |
     |  staffCohortAssociation     |  5e7d5f12cefbcb749069f2e5db63c1003df3c917_id  |  204         |
-    |  staffEducationOrganizationAssociation  |  afef1537920d10e093a8d301efbb463e364f8079_id  |  204         |
     |  gradebookEntry             |  4030207003b03d055bba0b5019b31046164eff4e_id383ee846e68a3f539a0a64a651ab2078dedbb6f3_id  |  204         |
     |  grade                      |  1417cec726dc51d43172568a9c332ee1712d73d4_idcd83575df61656c7d8aebb690ae0bb3ff129a857_id  |  204         |
     |  reportCard                 |  1417cec726dc51d43172568a9c332ee1712d73d4_id77bc827b90835ef0df42154428ac3153f0ddc746_id  |  204         |
     |  studentAcademicRecord      |  1417cec726dc51d43172568a9c332ee1712d73d4_idb2b773084845209865762830ceb1721ebb1101ef_id  |  204         |
     |  studentCohortAssociation   |  9bf3036428c40861238fdc820568fde53e658d88_idfa64547520fbfcbc8646a7a0bb3a52f76e4f4d21_id  |  204         |
-    |  studentParentAssociation   |  9bf3036428c40861238fdc820568fde53e658d88_id28af8b70a2f2e695fc25da04e0f8625115002556_id  |  204         |
+    #|  studentParentAssociation   |  9bf3036428c40861238fdc820568fde53e658d88_id28af8b70a2f2e695fc25da04e0f8625115002556_id  |  204         |
     |  studentSectionAssociation  |  4030207003b03d055bba0b5019b31046164eff4e_id78468628f357b29599510341f08dfd3277d9471e_id  |  204         |
     |  cohort                     |  cb99a7df36fadf8885b62003c442add9504b3cbd_id  |  204         |
-    |  course                     |  877e4934a96612529535581d2e0f909c5288131a_id  |  204         |
     |  section                    |  4030207003b03d055bba0b5019b31046164eff4e_id  |  204         |
+    |  courseOffering             |  38edd8479722ccf576313b4640708212841a5406_id  |  204         |
+    |  course                     |  877e4934a96612529535581d2e0f909c5288131a_id  |  204         |
     |  staff                      |  e9f3401e0a034e20bb17663dd7d18ece6c4166b5_id  |  204         |
+    #|  staffEducationOrganizationAssociation  |  afef1537920d10e093a8d301efbb463e364f8079_id  |  204         |
+    |  teacherSchoolAssociation   |  7a2d5a958cfda9905812c3a9f38c07ac4e8899b0_id  |  204         |
     |  teacher                    |  2472b775b1607b66941d9fb6177863f144c5ceae_id  |  204         |
     |  newParentMom               |  41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id  |  204         |
     |  newParentDad               |  41f42690a7c8eb5b99637fade00fc72f599dab07_id  |  204         |
     |  studentSchoolAssociation   |  cbfe3a47491fdff0432d5d4abca339735da9461d_id  |  204         |
     |  newStudent                 |  9bf3036428c40861238fdc820568fde53e658d88_id  |  204         |
+ 
+ Given the extraction zone is empty
+  When I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+   And I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
+   And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
+        |  entityType                            |
+        |  deleted                               |  
   And I verify this "deleted" file should contain:
     | id                                          | condition                                |
     | 95b973e29368712e2090fcad34d90fffb20aa9c4_id | entityType = attendance                  |
     | cb99a7df36fadf8885b62003c442add9504b3cbd_id | entityType = cohort                      |
     | 877e4934a96612529535581d2e0f909c5288131a_id | entityType = course                      |
     | 38edd8479722ccf576313b4640708212841a5406_id | entityType = courseOffering              |
-    | 41f42690a7c8eb5b99637fade00fc72f599dab07_id | entityType = newParentDad                |
-    | 41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id | entityType = newParentMom                |
+    | 41f42690a7c8eb5b99637fade00fc72f599dab07_id | entityType = parent                      |
+    | 41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id | entityType = parent                      |
     | 4030207003b03d055bba0b5019b31046164eff4e_id | entityType = section                     |
     | 5e7d5f12cefbcb749069f2e5db63c1003df3c917_id | entityType = staffCohortAssociation      |
     | afef1537920d10e093a8d301efbb463e364f8079_id | entityType = staffEducationOrganizationAssociation |
     | e9f3401e0a034e20bb17663dd7d18ece6c4166b5_id | entityType = staff                       |
-    | 9bf3036428c40861238fdc820568fde53e658d88_id | entityType = newStudent                  |
+    | 9bf3036428c40861238fdc820568fde53e658d88_id | entityType = student                     |
     | d4a8b25254af09fe3dd772a2149aa6b45fa6b170_id | entityType = studentAssessment           |
     | cbfe3a47491fdff0432d5d4abca339735da9461d_id | entityType = studentSchoolAssociation    |
     | 2472b775b1607b66941d9fb6177863f144c5ceae_id | entityType = teacher                     |

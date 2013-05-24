@@ -318,7 +318,7 @@ public class LocalEdOrgExtractorTest {
         extractor.execute("Midgar", tenantDir, time);
 
         Mockito.verify(helper, Mockito.times(3)).getBulkExtractLEAs();
-        Mockito.verify(helper, Mockito.times(8)).getChildEdOrgs(Mockito.any(List.class));
+        Mockito.verify(helper, Mockito.times(4)).getChildEdOrgs(Mockito.any(List.class));
         Mockito.verify(mockMongo, Mockito.times(6)).updateDBRecord(Mockito.eq("Midgar"), Mockito.any(String.class), Mockito.any(String.class),
                 Mockito.any(Date.class), Mockito.eq(false), Mockito.any(String.class), Mockito.eq(false));
 
