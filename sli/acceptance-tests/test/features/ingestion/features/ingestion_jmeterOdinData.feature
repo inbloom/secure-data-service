@@ -2,9 +2,9 @@
 Feature: Odin Data Set Ingestion Correctness and Fidelity
   Background: I have a landing zone route configured
     Given I am using odin data store
+    And I am using preconfigured Ingestion Landing Zone
 
   Scenario: Post Odin Sample Data Set
-    Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the tenant database for "Midgar" does not exist
     And I post "OdinSampleDataSet.zip" file as the payload of the ingestion job
     And the following collections are empty in datastore:
@@ -63,5 +63,5 @@ Feature: Odin Data Set Ingestion Correctness and Fidelity
     When zip file is scp to ingestion landing zone
     And a batch job for file "OdinSampleDataSet.zip" is completed in database
     #Then  I should see "Processed 202109 records." in the resulting batch job file
-      Then I should not see an error log file created
-      And I should not see a warning log file created
+    Then I should not see an error log file created
+    And I should not see a warning log file created
