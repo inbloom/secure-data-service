@@ -2,9 +2,9 @@
 Feature: Odin Data Set Ingestion Correctness and Fidelity
   Background: I have a landing zone route configured
     Given I am using odin data store
-    And I am using preconfigured Ingestion Landing Zone
 
   Scenario: Post Odin Sample Data Set
+    Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the tenant database for "Midgar" does not exist
     And I post "OdinSampleDataSet.zip" file as the payload of the ingestion job
     And the following collections are empty in datastore:
