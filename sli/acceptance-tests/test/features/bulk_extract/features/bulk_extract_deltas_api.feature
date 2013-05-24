@@ -1054,18 +1054,5 @@ Scenario: Test access to the api
   Then I should receive a return code of 403
 
 
-@wip
-Scenario: Test delete deltes
-  Given I clean the bulk extract file system and database
-    And I have an empty delta collection
-  And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-  And I delete one random entity from the my saved "delete_candidate" except for:
-    | type                  |
-    | educationOrganization |
-  When I trigger a delta extract
-  And I verify this delete file by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" contains one single delete from all types in "delete_candidate" except:
-        |  entityType  |
-
-
 Scenario: Be a good neighbor and clean up before you leave
     Given I clean the bulk extract file system and database
