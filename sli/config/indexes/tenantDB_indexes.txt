@@ -180,7 +180,7 @@ student,false,false,body.studentUniqueStateId:1
 session,false,false,body.gradingPeriodReference:1
 
 # BE Deltas collection
-deltas,false,t:1,_id:1
+deltas,false,false,t:1,_id:1
 
 # Natural Keys
 # US4388
