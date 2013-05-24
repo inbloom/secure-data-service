@@ -150,6 +150,7 @@ ci_idp_redirect_url: https://pike-sidp.slidev.org/sliidp?realm=RCTestTenant
 
 ssh_user: jenkins@rcingest01.pike
 extract_to_directory: /jenkins
+developer_realm: "inBloom App Developer"
 
 
 ################# /e2e test properties #################################
