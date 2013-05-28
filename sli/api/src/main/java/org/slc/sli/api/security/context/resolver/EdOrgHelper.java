@@ -89,9 +89,7 @@ public class EdOrgHelper {
      */
     public List<String> getDistricts(Entity user) {
         Set<String> directAssoc = getDirectEdorgs(user);
-        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN,
-                directAssoc, false));
-        return getDistrictsAndSEAIfRequested(query, false);
+        return getDistrictsAndSEAIfRequested(directAssoc, false);
     }
 
     /**
@@ -107,9 +105,7 @@ public class EdOrgHelper {
      */
     public List<String> getDistrictsAndSEA(Entity user) {
         Set<String> directAssoc = getDirectEdorgs(user);
-        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN,
-                directAssoc, false));
-        return getDistrictsAndSEAIfRequested(query, true);
+        return getDistrictsAndSEAIfRequested(directAssoc, true);
     }
 
     /**
@@ -121,9 +117,7 @@ public class EdOrgHelper {
      *         organizations belong to.
      */
     public List<String> getDistricts(Set<String> edOrgs) {
-        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN,
-                edOrgs, false));
-        return getDistrictsAndSEAIfRequested(query, false);
+        return getDistrictsAndSEAIfRequested(edOrgs, false);
     }
 
     /**
@@ -132,12 +126,14 @@ public class EdOrgHelper {
      * If an SEA is encountered, this is any LEA directly below the SEA, including the SEA.
      * If an LEA is encountered, this is the top-most LEA, i.e. the LEA directly associated with the SEA.
      *
-     * @param query - Query for obtaining EdOrgs
+     * @param edOrgs - EdOrgs to search
      * @param includeSEA - Determines whether to include the SEA
      *
      * @return - List of entity IDs
      */
-    private List<String> getDistrictsAndSEAIfRequested(NeutralQuery query, boolean includeSEA) {
+    private List<String> getDistrictsAndSEAIfRequested(Set<String> edOrgs, boolean includeSEA) {
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN,
+                edOrgs, false));
         Set<String> entities = new HashSet<String>();
         for (Entity entity : repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query)) {
             if (helper.isLEA(entity)) {
