@@ -62,10 +62,15 @@ import org.slc.sli.domain.NeutralQuery;
         DirtiesContextTestExecutionListener.class })
 public class StaffToStudentValidatorTest {
 
-    private static final String ED_ORG_ID = "111";
     private static final String STAFF_ID = "1";
     private static final Boolean IS_EXPIRED = true;
     private static final Boolean NOT_EXPIRED = false;
+    private static final int N_TEST_EDORGS = 200;
+    private Entity edOrg = null;
+    private String ED_ORG_ID;
+    private String ED_ORG_ID_2;
+    private String DERP;
+    private String [] edorgArray = new String[N_TEST_EDORGS];
 
     @Autowired
     private StaffToStudentValidator validator;
@@ -90,6 +95,15 @@ public class StaffToStudentValidatorTest {
         String user = "fake staff";
         String fullName = "Fake Staff";
         List<String> roles = Arrays.asList(SecureRoleRightAccessImpl.LEADER);
+        edOrg = helper.generateSchoolEdOrg(null);
+        ED_ORG_ID = edOrg.getEntityId();
+
+        ED_ORG_ID_2 =  helper.generateSchoolEdOrg(null).getEntityId();
+        DERP =  helper.generateSchoolEdOrg(null).getEntityId();
+
+        for ( int i = 0; i < N_TEST_EDORGS; i++ ) {
+            edorgArray[ i ] = helper.generateSchoolEdOrg(null).getEntityId();
+        }
 
         Entity entity = Mockito.mock(Entity.class);
         Mockito.when(entity.getType()).thenReturn("staff");
@@ -110,6 +124,7 @@ public class StaffToStudentValidatorTest {
         mockRepo.deleteAll(EntityNames.STUDENT_SCHOOL_ASSOCIATION, new NeutralQuery());
         mockRepo.deleteAll(EntityNames.STUDENT_COHORT_ASSOCIATION, new NeutralQuery());
         mockRepo.deleteAll(EntityNames.STUDENT_PROGRAM_ASSOCIATION, new NeutralQuery());
+        mockRepo.deleteAll(EntityNames.EDUCATION_ORGANIZATION, new NeutralQuery());
         SecurityContextHolder.clearContext();
         mockProgramValidator = null;
         mockCohortValidator = null;
@@ -127,10 +142,10 @@ public class StaffToStudentValidatorTest {
 
 
     @Test
-    @Ignore
     public void testCanGetAccessThroughSingleValidAssociation() throws Exception {
+
         helper.generateStaffEdorg(STAFF_ID, ED_ORG_ID, NOT_EXPIRED);
-        String studentId = helper.generateStudentAndStudentSchoolAssociation("2", ED_ORG_ID, NOT_EXPIRED);
+        String studentId = helper.generateStudentAndStudentSchoolAssociation("2", edOrg.getEntityId(), NOT_EXPIRED);
         studentIds.add(studentId);
         assertTrue(validator.validate(EntityNames.STUDENT, studentIds));
     }
@@ -138,7 +153,7 @@ public class StaffToStudentValidatorTest {
     @Test
     public void testCanNotGetAccessThroughInvalidAssociation() throws Exception {
         helper.generateStaffEdorg(STAFF_ID, ED_ORG_ID, NOT_EXPIRED);
-        String studentId = helper.generateStudentAndStudentSchoolAssociation("2", "222", NOT_EXPIRED);
+        String studentId = helper.generateStudentAndStudentSchoolAssociation("2", ED_ORG_ID_2, NOT_EXPIRED);
         studentIds.add(studentId);
         assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
     }
@@ -155,13 +170,13 @@ public class StaffToStudentValidatorTest {
     @Ignore
     public void testCanGetAccessThroughManyStudents() throws Exception {
         for (int i = 0; i < 100; ++i) {
-            helper.generateStaffEdorg(STAFF_ID, String.valueOf(i), NOT_EXPIRED);
+            helper.generateStaffEdorg(STAFF_ID, edorgArray[ i ], NOT_EXPIRED);
         }
 
         for (int i = 0; i < 100; ++i) {
             for (int j = -1; j > -31; --j) {
                 String studentId = helper.generateStudentAndStudentSchoolAssociation(String.valueOf(j),
-                        String.valueOf(i), NOT_EXPIRED);
+                        edorgArray[ i ], NOT_EXPIRED);
                 studentIds.add(studentId);
             }
         }
@@ -172,13 +187,13 @@ public class StaffToStudentValidatorTest {
     @Test
     public void testCanNotGetAccessThroughManyStudents() throws Exception {
         for (int i = 100; i < 200; ++i) {
-            helper.generateStaffEdorg(STAFF_ID, String.valueOf(i), NOT_EXPIRED);
+            helper.generateStaffEdorg(STAFF_ID, edorgArray[ i ], NOT_EXPIRED);
         }
 
         for (int i = 0; i < 100; ++i) {
             for (int j = -1; j > -31; --j) {
                 String studentId = helper.generateStudentAndStudentSchoolAssociation(String.valueOf(j),
-                        String.valueOf(i), NOT_EXPIRED);
+                        edorgArray[ i ], NOT_EXPIRED);
                 studentIds.add(studentId);
             }
         }
@@ -188,17 +203,19 @@ public class StaffToStudentValidatorTest {
     @Test
     public void testCanNotGetAccessThroughManyStudentsWithOneFailure() throws Exception {
         for (int i = 0; i < 100; ++i) {
-            helper.generateStaffEdorg(STAFF_ID, String.valueOf(i), NOT_EXPIRED);
+            helper.generateStaffEdorg(STAFF_ID, edorgArray[ i ], NOT_EXPIRED);
         }
 
         for (int i = 0; i < 100; ++i) {
             for (int j = -1; j > -31; --j) {
                 String studentId = helper.generateStudentAndStudentSchoolAssociation(String.valueOf(j),
-                        String.valueOf(i), NOT_EXPIRED);
+                        edorgArray[ i ], NOT_EXPIRED);
                 studentIds.add(studentId);
             }
         }
-        String studentId = helper.generateStudentAndStudentSchoolAssociation("-32", "101", NOT_EXPIRED);
+
+        String anotherEdOrg = helper.generateSchoolEdOrg(null).getEntityId();
+        String studentId = helper.generateStudentAndStudentSchoolAssociation("-32", anotherEdOrg, NOT_EXPIRED);
         studentIds.add(studentId);
         assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
     }
@@ -218,7 +235,7 @@ public class StaffToStudentValidatorTest {
 
     public void testCanGetAccessThroughProgram() {
         Mockito.when(mockProgramValidator.validate(Mockito.eq(EntityNames.PROGRAM), Mockito.anySet())).thenReturn(true);
-        helper.generateStaffEdorg(STAFF_ID, "DERP", NOT_EXPIRED);
+        helper.generateStaffEdorg(STAFF_ID, DERP, NOT_EXPIRED);
         for (int j = -1; j > -31; --j) {
             String studentId = helper.generateStudentAndStudentSchoolAssociation(String.valueOf(j), ED_ORG_ID,
                     NOT_EXPIRED);
@@ -232,7 +249,7 @@ public class StaffToStudentValidatorTest {
     @Test
     public void testCanGetAccessThroughCohort() {
         Mockito.when(mockCohortValidator.validate(Mockito.eq(EntityNames.COHORT), Mockito.anySet())).thenReturn(true);
-        helper.generateStaffEdorg(STAFF_ID, "DERP", NOT_EXPIRED);
+        helper.generateStaffEdorg(STAFF_ID, DERP, NOT_EXPIRED);
         for (int j = -1; j > -31; --j) {
             String studentId = helper.generateStudentAndStudentSchoolAssociation(String.valueOf(j), ED_ORG_ID,
                     NOT_EXPIRED);
@@ -246,7 +263,7 @@ public class StaffToStudentValidatorTest {
     @Test
     public void testCanNotGetAccessThroughExpiredCohort() {
         Mockito.when(mockCohortValidator.validate(Mockito.eq(EntityNames.COHORT), Mockito.anySet())).thenReturn(false);
-        helper.generateStaffEdorg(STAFF_ID, "DERP", NOT_EXPIRED);
+        helper.generateStaffEdorg(STAFF_ID, DERP, NOT_EXPIRED);
         for (int j = -1; j > -31; --j) {
             String studentId = helper.generateStudentAndStudentSchoolAssociation(String.valueOf(j), ED_ORG_ID,
                     NOT_EXPIRED);
@@ -260,13 +277,13 @@ public class StaffToStudentValidatorTest {
     @Test
     public void testCanNotGetAccessThroughExpiredProgram() {
     	Mockito.when(mockProgramValidator.validate(Mockito.eq(EntityNames.PROGRAM), Mockito.anySet())).thenReturn(false);
-        helper.generateStaffEdorg(STAFF_ID, "DERP", NOT_EXPIRED);
+        helper.generateStaffEdorg(STAFF_ID, DERP, NOT_EXPIRED);
         for (int j = -1; j > -31; --j) {
             String studentId = helper.generateStudentAndStudentSchoolAssociation(String.valueOf(j), ED_ORG_ID,
                     NOT_EXPIRED);
             studentIds.add(studentId);
         }
-        helper.generateStudentProgram("Merp", "Derp", true);
+        helper.generateStudentProgram("Merp", DERP, true);
         studentIds.add("Merp");
         assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
     }
@@ -274,7 +291,7 @@ public class StaffToStudentValidatorTest {
     @Test
     public void testCanNotGetAccessThroughInvalidProgram() {
     	Mockito.when(mockProgramValidator.validate(Mockito.eq(EntityNames.PROGRAM), Mockito.anySet())).thenReturn(false);
-        helper.generateStaffEdorg(STAFF_ID, "DERP", NOT_EXPIRED);
+        helper.generateStaffEdorg(STAFF_ID, DERP, NOT_EXPIRED);
         for (int j = -1; j > -31; --j) {
             String studentId = helper.generateStudentAndStudentSchoolAssociation(String.valueOf(j), ED_ORG_ID,
                     NOT_EXPIRED);
@@ -289,7 +306,7 @@ public class StaffToStudentValidatorTest {
     public void testCanNotGetAccessThroughInvalidCohort() {
         Mockito.when(
                 mockCohortValidator.validate(Mockito.eq(EntityNames.COHORT), Mockito.anySet())).thenReturn(false);
-        helper.generateStaffEdorg(STAFF_ID, "DERP", NOT_EXPIRED);
+        helper.generateStaffEdorg(STAFF_ID, DERP, NOT_EXPIRED);
         for (int j = -1; j > -31; --j) {
             String studentId = helper.generateStudentAndStudentSchoolAssociation(String.valueOf(j), ED_ORG_ID,
                     NOT_EXPIRED);
