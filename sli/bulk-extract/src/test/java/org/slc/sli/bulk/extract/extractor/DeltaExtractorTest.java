@@ -17,6 +17,7 @@ package org.slc.sli.bulk.extract.extractor;
 
 import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -29,14 +30,16 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.base.Predicate;
+
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.context.resolver.TypeResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.EducationOrganizationContextResolver;
@@ -45,26 +48,19 @@ import org.slc.sli.bulk.extract.delta.DeltaEntityIterator.DeltaRecord;
 import org.slc.sli.bulk.extract.files.EntityWriterManager;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
+import org.slc.sli.bulk.extract.message.BEMessageCode;
 import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
+import org.slc.sli.bulk.extract.util.SecurityEventUtil;
 import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.common.util.logging.LogLevelType;
+import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.Repository;
 
-import com.google.common.base.Predicate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class DeltaExtractorTest {
 
-    private static final String SEAID = "seaId";
-
-    @Autowired
     @InjectMocks
     DeltaExtractor extractor = new DeltaExtractor();
 
@@ -100,8 +96,9 @@ public class DeltaExtractorTest {
     
     @Mock
     ManifestFile metaDataFile;
-
-    // There is one SEA. Lea1 and lea2 directly reference it.
+    
+    @Mock
+    SecurityEventUtil securityEventUtil;
 
     // There are two top level LEAs that have apps authorized, lea1 and lea2.
     // app1 is authorized for both lea1 and lea2
@@ -113,14 +110,14 @@ public class DeltaExtractorTest {
     // --> lea2 should generate an delete event
     // 1 write calls and 1 writeDelete call
     
-    // second is a delete event in lea2
+    // second is an delete event in lea2
     // --> lea1 should generate an delete event
     // --> lea2 should generate an delete event
     // 2 writeDelete calls
     
     // 3 writeDeletes <--> however since educationOrganization contains both
-    // school and educationOrganization, we must spam delete in both exported collections
-    // which results in 10 writeDelete calls
+    // school and educationOrganization, we must spam delete in both collections
+    // which results 6 writeDelete calls
 
     @Before
     public void setUp() throws Exception {
@@ -134,16 +131,15 @@ public class DeltaExtractorTest {
         repo = Mockito.mock(MongoEntityRepository.class);
         extractFile = Mockito.mock(ExtractFile.class);
         metaDataFile = Mockito.mock(ManifestFile.class);
+        securityEventUtil = Mockito.mock(SecurityEventUtil.class);
         
         MockitoAnnotations.initMocks(this);
         
         Map<String, Set<String>> appsToLEA = buildAppToLEAMap();
         when(helper.getBulkExtractLEAsPerApp()).thenReturn(appsToLEA);
-        Entity SEA = buildEdorgEntity(SEAID);
-        Entity LEA1 = buildEdorgEntity("lea1", SEAID);
-        Entity LEA2 = buildEdorgEntity("lea2", SEAID);
-        Entity LEA3 = buildEdorgEntity("lea3", "lea1");
-        when(repo.findById(EntityNames.EDUCATION_ORGANIZATION, SEAID)).thenReturn(SEA);
+        Entity LEA1 = buildEdorgEntity("lea1");
+        Entity LEA2 = buildEdorgEntity("lea2");
+        Entity LEA3 = buildEdorgEntity("lea3");
         when(repo.findById(EntityNames.EDUCATION_ORGANIZATION, "lea1")).thenReturn(LEA1);
         when(repo.findById(EntityNames.EDUCATION_ORGANIZATION, "lea2")).thenReturn(LEA2);
         when(repo.findById(EntityNames.EDUCATION_ORGANIZATION, "lea3")).thenReturn(LEA3);
@@ -157,6 +153,10 @@ public class DeltaExtractorTest {
         
         when(typeResolver.resolveType("educationOrganization")).thenReturn(new HashSet<String>(Arrays.asList("school", "educationOrganization")));
         when(extractFile.getManifestFile()).thenReturn(metaDataFile);
+        SecurityEvent event = new SecurityEvent();
+        event.setLogLevel(LogLevelType.TYPE_INFO);
+        when(securityEventUtil.createSecurityEvent(anyString(), anyString(), any(LogLevelType.class), any(BEMessageCode.class), anyString())).thenReturn(event);
+
         // when(leaExtractor.getExtractFilePerAppPerLEA(anyString(), anyString(), anyString(),
         // any(DateTime.class), anyBoolean())).thenReturn(extractFile);
 
@@ -168,6 +168,13 @@ public class DeltaExtractorTest {
         return update;
     }
 
+    private DeltaRecord buildPurgeRecord() {
+        MongoEntity purge = new MongoEntity("purge", null, new HashMap<String, Object>(), null);
+        DeltaEntityIterator.DeltaRecord res = new DeltaEntityIterator.DeltaRecord(purge,
+               null, DeltaEntityIterator.Operation.PURGE, false, "purge");
+        return res;
+    }
+
     private DeltaRecord buildDeleteRecord() {
         DeltaEntityIterator.DeltaRecord delete = new DeltaEntityIterator.DeltaRecord(buildEdorgEntity("lea2"),
                 new HashSet<String>(Arrays.asList("lea2")), DeltaEntityIterator.Operation.DELETE, false, "educationOrganization");
@@ -175,15 +182,7 @@ public class DeltaExtractorTest {
     }
 
     private Entity buildEdorgEntity(String id) {
-        return buildEdorgEntity(id, null);
-    }
-
-    private Entity buildEdorgEntity(String id, String parentId) {
-        Map<String, Object> body = new HashMap<String, Object>();
-        if (parentId != null) {
-            body.put(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE, parentId);
-        }
-        return new MongoEntity("educationOrganization", id, body, null);
+        return new MongoEntity("educationOrganization", id, new HashMap<String, Object>(), null);
     }
 
     private Map<String, Set<String>> buildAppToLEAMap() {
@@ -201,12 +200,22 @@ public class DeltaExtractorTest {
         extractor.execute("Midgar", new DateTime(), "");
         try {
             verify(entityExtractor, times(1)).write(any(Entity.class), any(ExtractFile.class), any(EntityExtractor.CollectionWrittenRecord.class), (Predicate) Mockito.isNull());
-            verify(entityWriteManager, times(10)).writeDelete(any(Entity.class), any(ExtractFile.class));
+            verify(entityWriteManager, times(6)).writeDelete(any(Entity.class), any(ExtractFile.class));
         } catch (FileNotFoundException e) {
             fail("should never throw exceptions in mocks");
         } catch (IOException e) {
             fail("should never throw exceptions in mocks");
         }
+    }
+
+    @Test
+    public void testPurge() {
+        when(deltaEntityIterator.hasNext()).thenReturn(true, false);
+        when(deltaEntityIterator.next()).thenReturn(buildPurgeRecord());
+
+        extractor.execute("Midgar", new DateTime(), "");
+
+        verify(entityWriteManager, times(2)).writeDelete(any(Entity.class), any(ExtractFile.class));
     }
     
 }

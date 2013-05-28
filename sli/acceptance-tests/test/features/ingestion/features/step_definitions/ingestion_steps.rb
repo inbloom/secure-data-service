@@ -1320,6 +1320,14 @@ Given /^the log directory contains "([^"]*)" file$/ do |logfile|
   assert(fileExist == true, logfile + 'missing')
 end
 
+Given /^I successfully ingest "([^"]*)"/ do |zipfile|
+  steps "I post \"#{zipfile}\" file as the payload of the ingestion job"
+  steps 'zip file is scp to ingestion landing zone'
+  steps "a batch job for file \"#{zipfile}\" is completed in database"
+  steps 'I should not see an error log file created'
+  steps 'I should not see a warning log file created'
+end
+
 ############################################################
 # STEPS: WHEN
 ############################################################

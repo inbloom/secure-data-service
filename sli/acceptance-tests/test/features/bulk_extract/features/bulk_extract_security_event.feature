@@ -23,7 +23,7 @@ Scenario: An authorized bulk extract user logs in and gets the information for t
       | staffEducationOrganizationAssociation   | 3                   | body.staffReference | e4320d0bef725998faa8579a987ada80f254e7be_id | string               |
     Then I trigger a delta extract
 
-  Scenario: Security Event is log when I retrieve LEA data
+  Scenario: Security Event is logged when I retrieve LEA data
     Given in my list of rights I have BULK_EXTRACT
     When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
     When I make a call to the bulk extract end point "/bulk/extract/1b223f577827204a1c7e9c851dba06bea6b031fe_id"
@@ -31,7 +31,7 @@ Scenario: An authorized bulk extract user logs in and gets the information for t
     Then a security event matching "Received request to stream Edorg data" should be in the sli db
     Then a security event matching "Successful request for singlePartFileResponse" should be in the sli db
 
-  Scenario: Security Event is log when I retrieve SEA data
+  Scenario: Security Event is logged when I retrieve SEA data
     Given in my list of rights I have BULK_EXTRACT
     When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
     When I make a call to the bulk extract end point "/bulk/extract/b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id"
@@ -39,7 +39,7 @@ Scenario: An authorized bulk extract user logs in and gets the information for t
     Then a security event matching "Received request to stream Edorg data" should be in the sli db
     Then a security event matching "Successful request for singlePartFileResponse" should be in the sli db
 
-  Scenario: Security Event is log when I retrieve tenant data
+  Scenario: Security Event is logged when I retrieve tenant data
     Given in my list of rights I have BULK_EXTRACT
     When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
     When I make a call to the bulk extract end point "/bulk/extract/tenant"
@@ -47,15 +47,15 @@ Scenario: An authorized bulk extract user logs in and gets the information for t
     Then a security event matching "Received request to stream tenant bulk extract" should be in the sli db
     Then a security event matching "Successful request for singlePartFileResponse" should be in the sli db
 
-  Scenario: Security Event is log when I retrieve LEA list
+  Scenario: Security Event is logged when I retrieve SEA/LEA list
     Given in my list of rights I have BULK_EXTRACT
     When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
     When I make a call to the bulk extract end point "/bulk/extract/list"
     When I get back a response code of "200"
-    Then a security event matching "Received request for list of links for all LEAs for this user/app" should be in the sli db
-    Then a security event matching "Successful request for list of links for all LEAs for this user/app" should be in the sli db
+    Then a security event matching "Received request for list of links for all SEAs and LEAs for this user/app" should be in the sli db
+    Then a security event matching "Successful request for list of links for all SEAs and LEAs for this user/app" should be in the sli db
 
-  Scenario: Security Event is log when I retrieve BE delta data
+  Scenario: Security Event is logged when I retrieve BE delta data
     Given in my list of rights I have BULK_EXTRACT
     When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
     When I request latest delta via API for tenant "Midgar", lea "<IL-DAYBREAK>" with appId "<app id>" clientId "<client id>"
@@ -63,7 +63,7 @@ Scenario: An authorized bulk extract user logs in and gets the information for t
     Then a security event matching "Received request to stream Edorg delta bulk extract data" should be in the sli db
     Then a security event matching "Successful request for singlePartFileResponse" should be in the sli db
 
-  Scenario: Security Event is log when I retrieve partial tenant BE files
+  Scenario: Security Event is logged when I retrieve partial tenant BE files
     Given in my list of rights I have BULK_EXTRACT
     When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
     And I delete the previous tar file if it exists
