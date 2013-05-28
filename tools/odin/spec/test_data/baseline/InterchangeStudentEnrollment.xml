@@ -45,9 +45,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryDate>2012-08-27</EntryDate>
+    <EntryDate>2013-08-27</EntryDate>
     <EntryGradeLevel>Ninth grade</EntryGradeLevel>
-    <ExitWithdrawDate>2013-05-23</ExitWithdrawDate>
+    <ExitWithdrawDate>2014-05-23</ExitWithdrawDate>
     <GraduationPlanReference>
       <GraduationPlanIdentity>
         <GraduationPlanType>Minimum</GraduationPlanType>
@@ -70,9 +70,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryDate>2013-09-05</EntryDate>
+    <EntryDate>2014-09-05</EntryDate>
     <EntryGradeLevel>Tenth grade</EntryGradeLevel>
-    <ExitWithdrawDate>2014-06-02</ExitWithdrawDate>
+    <ExitWithdrawDate>2015-06-02</ExitWithdrawDate>
     <GraduationPlanReference>
       <GraduationPlanIdentity>
         <GraduationPlanType>Minimum</GraduationPlanType>
@@ -95,9 +95,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryDate>2014-09-04</EntryDate>
+    <EntryDate>2015-09-04</EntryDate>
     <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
-    <ExitWithdrawDate>2015-06-01</ExitWithdrawDate>
+    <ExitWithdrawDate>2016-06-01</ExitWithdrawDate>
     <GraduationPlanReference>
       <GraduationPlanIdentity>
         <GraduationPlanType>Minimum</GraduationPlanType>
@@ -120,9 +120,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryDate>2012-08-27</EntryDate>
+    <EntryDate>2013-08-27</EntryDate>
     <EntryGradeLevel>Sixth grade</EntryGradeLevel>
-    <ExitWithdrawDate>2013-05-23</ExitWithdrawDate>
+    <ExitWithdrawDate>2014-05-23</ExitWithdrawDate>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -135,9 +135,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryDate>2013-09-05</EntryDate>
+    <EntryDate>2014-09-05</EntryDate>
     <EntryGradeLevel>Seventh grade</EntryGradeLevel>
-    <ExitWithdrawDate>2014-06-02</ExitWithdrawDate>
+    <ExitWithdrawDate>2015-06-02</ExitWithdrawDate>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -150,9 +150,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryDate>2014-09-04</EntryDate>
+    <EntryDate>2015-09-04</EntryDate>
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
-    <ExitWithdrawDate>2015-06-01</ExitWithdrawDate>
+    <ExitWithdrawDate>2016-06-01</ExitWithdrawDate>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -165,9 +165,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryDate>2012-08-27</EntryDate>
+    <EntryDate>2013-08-27</EntryDate>
     <EntryGradeLevel>Seventh grade</EntryGradeLevel>
-    <ExitWithdrawDate>2013-05-23</ExitWithdrawDate>
+    <ExitWithdrawDate>2014-05-23</ExitWithdrawDate>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -180,9 +180,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryDate>2013-09-05</EntryDate>
+    <EntryDate>2014-09-05</EntryDate>
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
-    <ExitWithdrawDate>2014-06-02</ExitWithdrawDate>
+    <ExitWithdrawDate>2015-06-02</ExitWithdrawDate>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -195,9 +195,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryDate>2014-09-04</EntryDate>
+    <EntryDate>2015-09-04</EntryDate>
     <EntryGradeLevel>Ninth grade</EntryGradeLevel>
-    <ExitWithdrawDate>2015-06-01</ExitWithdrawDate>
+    <ExitWithdrawDate>2016-06-01</ExitWithdrawDate>
     <GraduationPlanReference>
       <GraduationPlanIdentity>
         <GraduationPlanType>Distinguished</GraduationPlanType>
@@ -220,9 +220,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryDate>2012-08-27</EntryDate>
+    <EntryDate>2013-08-27</EntryDate>
     <EntryGradeLevel>Eighth grade</EntryGradeLevel>
-    <ExitWithdrawDate>2013-05-23</ExitWithdrawDate>
+    <ExitWithdrawDate>2014-05-23</ExitWithdrawDate>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -235,9 +235,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryDate>2013-09-05</EntryDate>
+    <EntryDate>2014-09-05</EntryDate>
     <EntryGradeLevel>Ninth grade</EntryGradeLevel>
-    <ExitWithdrawDate>2014-06-02</ExitWithdrawDate>
+    <ExitWithdrawDate>2015-06-02</ExitWithdrawDate>
     <GraduationPlanReference>
       <GraduationPlanIdentity>
         <GraduationPlanType>Minimum</GraduationPlanType>
@@ -260,9 +260,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryDate>2014-09-04</EntryDate>
+    <EntryDate>2015-09-04</EntryDate>
     <EntryGradeLevel>Tenth grade</EntryGradeLevel>
-    <ExitWithdrawDate>2015-06-01</ExitWithdrawDate>
+    <ExitWithdrawDate>2016-06-01</ExitWithdrawDate>
     <GraduationPlanReference>
       <GraduationPlanIdentity>
         <GraduationPlanType>Minimum</GraduationPlanType>
@@ -285,9 +285,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryDate>2012-08-27</EntryDate>
+    <EntryDate>2013-08-27</EntryDate>
     <EntryGradeLevel>Kindergarten</EntryGradeLevel>
-    <ExitWithdrawDate>2013-05-23</ExitWithdrawDate>
+    <ExitWithdrawDate>2014-05-23</ExitWithdrawDate>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -300,9 +300,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryDate>2013-09-05</EntryDate>
+    <EntryDate>2014-09-05</EntryDate>
     <EntryGradeLevel>First grade</EntryGradeLevel>
-    <ExitWithdrawDate>2014-06-02</ExitWithdrawDate>
+    <ExitWithdrawDate>2015-06-02</ExitWithdrawDate>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -315,9 +315,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryDate>2014-09-04</EntryDate>
+    <EntryDate>2015-09-04</EntryDate>
     <EntryGradeLevel>Second grade</EntryGradeLevel>
-    <ExitWithdrawDate>2015-06-01</ExitWithdrawDate>
+    <ExitWithdrawDate>2016-06-01</ExitWithdrawDate>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -330,9 +330,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryDate>2012-08-27</EntryDate>
+    <EntryDate>2013-08-27</EntryDate>
     <EntryGradeLevel>First grade</EntryGradeLevel>
-    <ExitWithdrawDate>2013-05-23</ExitWithdrawDate>
+    <ExitWithdrawDate>2014-05-23</ExitWithdrawDate>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -345,9 +345,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryDate>2013-09-05</EntryDate>
+    <EntryDate>2014-09-05</EntryDate>
     <EntryGradeLevel>Second grade</EntryGradeLevel>
-    <ExitWithdrawDate>2014-06-02</ExitWithdrawDate>
+    <ExitWithdrawDate>2015-06-02</ExitWithdrawDate>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -360,9 +360,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryDate>2014-09-04</EntryDate>
+    <EntryDate>2015-09-04</EntryDate>
     <EntryGradeLevel>Third grade</EntryGradeLevel>
-    <ExitWithdrawDate>2015-06-01</ExitWithdrawDate>
+    <ExitWithdrawDate>2016-06-01</ExitWithdrawDate>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -375,9 +375,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryDate>2012-08-27</EntryDate>
+    <EntryDate>2013-08-27</EntryDate>
     <EntryGradeLevel>Second grade</EntryGradeLevel>
-    <ExitWithdrawDate>2013-05-23</ExitWithdrawDate>
+    <ExitWithdrawDate>2014-05-23</ExitWithdrawDate>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -390,9 +390,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryDate>2013-09-05</EntryDate>
+    <EntryDate>2014-09-05</EntryDate>
     <EntryGradeLevel>Third grade</EntryGradeLevel>
-    <ExitWithdrawDate>2014-06-02</ExitWithdrawDate>
+    <ExitWithdrawDate>2015-06-02</ExitWithdrawDate>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -405,9 +405,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryDate>2014-09-04</EntryDate>
+    <EntryDate>2015-09-04</EntryDate>
     <EntryGradeLevel>Fourth grade</EntryGradeLevel>
-    <ExitWithdrawDate>2015-06-01</ExitWithdrawDate>
+    <ExitWithdrawDate>2016-06-01</ExitWithdrawDate>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -420,9 +420,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryDate>2012-08-27</EntryDate>
+    <EntryDate>2013-08-27</EntryDate>
     <EntryGradeLevel>Third grade</EntryGradeLevel>
-    <ExitWithdrawDate>2013-05-23</ExitWithdrawDate>
+    <ExitWithdrawDate>2014-05-23</ExitWithdrawDate>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -435,9 +435,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryDate>2013-09-05</EntryDate>
+    <EntryDate>2014-09-05</EntryDate>
     <EntryGradeLevel>Fourth grade</EntryGradeLevel>
-    <ExitWithdrawDate>2014-06-02</ExitWithdrawDate>
+    <ExitWithdrawDate>2015-06-02</ExitWithdrawDate>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -450,9 +450,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryDate>2014-09-04</EntryDate>
+    <EntryDate>2015-09-04</EntryDate>
     <EntryGradeLevel>Fifth grade</EntryGradeLevel>
-    <ExitWithdrawDate>2015-06-01</ExitWithdrawDate>
+    <ExitWithdrawDate>2016-06-01</ExitWithdrawDate>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -465,9 +465,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryDate>2012-08-27</EntryDate>
+    <EntryDate>2013-08-27</EntryDate>
     <EntryGradeLevel>Fourth grade</EntryGradeLevel>
-    <ExitWithdrawDate>2013-05-23</ExitWithdrawDate>
+    <ExitWithdrawDate>2014-05-23</ExitWithdrawDate>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -480,9 +480,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryDate>2013-09-05</EntryDate>
+    <EntryDate>2014-09-05</EntryDate>
     <EntryGradeLevel>Fifth grade</EntryGradeLevel>
-    <ExitWithdrawDate>2014-06-02</ExitWithdrawDate>
+    <ExitWithdrawDate>2015-06-02</ExitWithdrawDate>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -495,9 +495,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryDate>2014-09-04</EntryDate>
+    <EntryDate>2015-09-04</EntryDate>
     <EntryGradeLevel>Sixth grade</EntryGradeLevel>
-    <ExitWithdrawDate>2015-06-01</ExitWithdrawDate>
+    <ExitWithdrawDate>2016-06-01</ExitWithdrawDate>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -510,9 +510,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryDate>2012-08-27</EntryDate>
+    <EntryDate>2013-08-27</EntryDate>
     <EntryGradeLevel>Fifth grade</EntryGradeLevel>
-    <ExitWithdrawDate>2013-05-23</ExitWithdrawDate>
+    <ExitWithdrawDate>2014-05-23</ExitWithdrawDate>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -525,9 +525,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryDate>2013-09-05</EntryDate>
+    <EntryDate>2014-09-05</EntryDate>
     <EntryGradeLevel>Sixth grade</EntryGradeLevel>
-    <ExitWithdrawDate>2014-06-02</ExitWithdrawDate>
+    <ExitWithdrawDate>2015-06-02</ExitWithdrawDate>
   </StudentSchoolAssociation>
   <StudentSchoolAssociation>
     <StudentReference>
@@ -540,9 +540,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
-    <EntryDate>2014-09-04</EntryDate>
+    <EntryDate>2015-09-04</EntryDate>
     <EntryGradeLevel>Seventh grade</EntryGradeLevel>
-    <ExitWithdrawDate>2015-06-01</ExitWithdrawDate>
+    <ExitWithdrawDate>2016-06-01</ExitWithdrawDate>
   </StudentSchoolAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -560,7 +560,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2012-08-27</BeginDate>
+    <BeginDate>2013-08-27</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -578,7 +578,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2012-08-27</BeginDate>
+    <BeginDate>2013-08-27</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -596,7 +596,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>3</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2012-08-27</BeginDate>
+    <BeginDate>2013-08-27</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -614,7 +614,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>4</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2012-08-27</BeginDate>
+    <BeginDate>2013-08-27</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -632,7 +632,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>5</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2013-09-05</BeginDate>
+    <BeginDate>2014-09-05</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -650,7 +650,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2013-09-05</BeginDate>
+    <BeginDate>2014-09-05</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -668,7 +668,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>7</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2013-09-05</BeginDate>
+    <BeginDate>2014-09-05</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -686,7 +686,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>8</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2013-09-05</BeginDate>
+    <BeginDate>2014-09-05</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -704,7 +704,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>13</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2014-09-04</BeginDate>
+    <BeginDate>2015-09-04</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -722,7 +722,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>14</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2014-09-04</BeginDate>
+    <BeginDate>2015-09-04</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -740,7 +740,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>15</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2014-09-04</BeginDate>
+    <BeginDate>2015-09-04</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -758,7 +758,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>16</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2014-09-04</BeginDate>
+    <BeginDate>2015-09-04</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -776,7 +776,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>25</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2012-08-27</BeginDate>
+    <BeginDate>2013-08-27</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -794,7 +794,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>26</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2012-08-27</BeginDate>
+    <BeginDate>2013-08-27</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -812,7 +812,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>27</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2012-08-27</BeginDate>
+    <BeginDate>2013-08-27</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -830,7 +830,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>28</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2012-08-27</BeginDate>
+    <BeginDate>2013-08-27</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -848,7 +848,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>41</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2013-09-05</BeginDate>
+    <BeginDate>2014-09-05</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -866,7 +866,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>42</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2013-09-05</BeginDate>
+    <BeginDate>2014-09-05</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -884,7 +884,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>43</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2013-09-05</BeginDate>
+    <BeginDate>2014-09-05</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -902,7 +902,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>44</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2013-09-05</BeginDate>
+    <BeginDate>2014-09-05</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -920,7 +920,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>49</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2014-09-04</BeginDate>
+    <BeginDate>2015-09-04</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -938,7 +938,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>50</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2014-09-04</BeginDate>
+    <BeginDate>2015-09-04</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -956,7 +956,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>51</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2014-09-04</BeginDate>
+    <BeginDate>2015-09-04</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -974,7 +974,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>52</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2014-09-04</BeginDate>
+    <BeginDate>2015-09-04</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -992,7 +992,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>29</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2012-08-27</BeginDate>
+    <BeginDate>2013-08-27</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1010,7 +1010,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>30</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2012-08-27</BeginDate>
+    <BeginDate>2013-08-27</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1028,7 +1028,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>31</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2012-08-27</BeginDate>
+    <BeginDate>2013-08-27</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1046,7 +1046,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>32</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2012-08-27</BeginDate>
+    <BeginDate>2013-08-27</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1064,7 +1064,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>37</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2013-09-05</BeginDate>
+    <BeginDate>2014-09-05</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1082,7 +1082,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2013-09-05</BeginDate>
+    <BeginDate>2014-09-05</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1100,7 +1100,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>39</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2013-09-05</BeginDate>
+    <BeginDate>2014-09-05</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1118,7 +1118,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>40</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2013-09-05</BeginDate>
+    <BeginDate>2014-09-05</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1136,7 +1136,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>21</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2014-09-04</BeginDate>
+    <BeginDate>2015-09-04</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1154,7 +1154,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>22</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2014-09-04</BeginDate>
+    <BeginDate>2015-09-04</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1172,7 +1172,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>23</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2014-09-04</BeginDate>
+    <BeginDate>2015-09-04</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1190,7 +1190,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>24</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2014-09-04</BeginDate>
+    <BeginDate>2015-09-04</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1208,7 +1208,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>33</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2012-08-27</BeginDate>
+    <BeginDate>2013-08-27</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1226,7 +1226,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>34</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2012-08-27</BeginDate>
+    <BeginDate>2013-08-27</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1244,7 +1244,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>35</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2012-08-27</BeginDate>
+    <BeginDate>2013-08-27</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1262,7 +1262,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>36</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2012-08-27</BeginDate>
+    <BeginDate>2013-08-27</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1280,7 +1280,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>9</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2013-09-05</BeginDate>
+    <BeginDate>2014-09-05</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1298,7 +1298,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2013-09-05</BeginDate>
+    <BeginDate>2014-09-05</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1316,7 +1316,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>11</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2013-09-05</BeginDate>
+    <BeginDate>2014-09-05</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1334,7 +1334,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>12</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2013-09-05</BeginDate>
+    <BeginDate>2014-09-05</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1352,7 +1352,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>17</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2014-09-04</BeginDate>
+    <BeginDate>2015-09-04</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1370,7 +1370,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>18</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2014-09-04</BeginDate>
+    <BeginDate>2015-09-04</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1388,7 +1388,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>19</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2014-09-04</BeginDate>
+    <BeginDate>2015-09-04</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1406,7 +1406,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>20</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2014-09-04</BeginDate>
+    <BeginDate>2015-09-04</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1424,7 +1424,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>61</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2012-08-27</BeginDate>
+    <BeginDate>2013-08-27</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1442,7 +1442,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>71</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2013-09-05</BeginDate>
+    <BeginDate>2014-09-05</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1460,7 +1460,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>75</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2014-09-04</BeginDate>
+    <BeginDate>2015-09-04</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1478,7 +1478,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>62</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2012-08-27</BeginDate>
+    <BeginDate>2013-08-27</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1496,7 +1496,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>70</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2013-09-05</BeginDate>
+    <BeginDate>2014-09-05</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1514,7 +1514,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>74</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2014-09-04</BeginDate>
+    <BeginDate>2015-09-04</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1532,7 +1532,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>63</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2012-08-27</BeginDate>
+    <BeginDate>2013-08-27</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1550,7 +1550,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>69</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2013-09-05</BeginDate>
+    <BeginDate>2014-09-05</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1568,7 +1568,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>73</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2014-09-04</BeginDate>
+    <BeginDate>2015-09-04</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1586,7 +1586,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>64</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2012-08-27</BeginDate>
+    <BeginDate>2013-08-27</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1604,7 +1604,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>68</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2013-09-05</BeginDate>
+    <BeginDate>2014-09-05</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1622,7 +1622,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>72</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2014-09-04</BeginDate>
+    <BeginDate>2015-09-04</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1640,7 +1640,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>65</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2012-08-27</BeginDate>
+    <BeginDate>2013-08-27</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1658,7 +1658,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>67</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2013-09-05</BeginDate>
+    <BeginDate>2014-09-05</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1676,7 +1676,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>57</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2014-09-04</BeginDate>
+    <BeginDate>2015-09-04</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1694,7 +1694,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>58</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2014-09-04</BeginDate>
+    <BeginDate>2015-09-04</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1712,7 +1712,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>59</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2014-09-04</BeginDate>
+    <BeginDate>2015-09-04</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1730,7 +1730,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>60</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2014-09-04</BeginDate>
+    <BeginDate>2015-09-04</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1748,7 +1748,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>66</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2012-08-27</BeginDate>
+    <BeginDate>2013-08-27</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1766,7 +1766,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>45</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2013-09-05</BeginDate>
+    <BeginDate>2014-09-05</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1784,7 +1784,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>46</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2013-09-05</BeginDate>
+    <BeginDate>2014-09-05</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1802,7 +1802,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>47</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2013-09-05</BeginDate>
+    <BeginDate>2014-09-05</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1820,7 +1820,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>48</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2013-09-05</BeginDate>
+    <BeginDate>2014-09-05</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1838,7 +1838,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>53</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2014-09-04</BeginDate>
+    <BeginDate>2015-09-04</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1856,7 +1856,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>54</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2014-09-04</BeginDate>
+    <BeginDate>2015-09-04</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1874,7 +1874,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>55</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2014-09-04</BeginDate>
+    <BeginDate>2015-09-04</BeginDate>
   </StudentSectionAssociation>
   <StudentSectionAssociation>
     <StudentReference>
@@ -1892,6 +1892,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <UniqueSectionCode>56</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
-    <BeginDate>2014-09-04</BeginDate>
+    <BeginDate>2015-09-04</BeginDate>
   </StudentSectionAssociation>
 </InterchangeStudentEnrollment>
