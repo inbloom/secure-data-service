@@ -86,6 +86,21 @@ public class SmooksEdFi2SLITransformerTest {
         Assert.assertEquals("Test String", result.get(0).getBody().get("field1"));
     }
 
+    @Test
+    public void testEncoding() {
+        NeutralRecord directlyMapped = new NeutralRecord();
+        directlyMapped.setRecordType("directEntity");
+        directlyMapped.setAttributeField("field2", "Test&String");
+        ReportStats reportStats = new SimpleReportStats();
+
+        List<? extends Entity> result = transformer.transform(directlyMapped,
+                new DummyMessageReport(), reportStats);
+
+        Assert.assertNotNull(result);
+        Assert.assertEquals(1, result.size());
+        Assert.assertEquals("Test&String", result.get(0).getBody().get("field1"));
+    }
+
     @SuppressWarnings("unchecked")
     @Test
     public void testAssessmentMapping() {
