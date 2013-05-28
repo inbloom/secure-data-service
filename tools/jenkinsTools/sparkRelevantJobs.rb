@@ -60,7 +60,7 @@ require 'rest-client'
   "sli/dashboard/src" => ["dashboard"],
   "sli/databrowser" => ["databrowser"],
   "sli/search-indexer" => ["search-indexer"],
-  "tools/odin" => ["odin", "jmeter"]
+  "tools/odin" => ["odin", "odin-api", "jmeter"]
 }
 
 @testIdToUrlMap = {
