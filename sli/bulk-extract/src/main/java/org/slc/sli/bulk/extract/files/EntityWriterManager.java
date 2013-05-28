@@ -50,12 +50,12 @@ public class EntityWriterManager {
     }
     
     /**
-     * Write all delete event to a single file
+     * Write all delete/purge event to a single delete file
      * 
      * @param entity
      * @param archiveFile
      */
-    public void writeDelete(Entity entity, ExtractFile archiveFile) {
+    public void writeDeleteFile(Entity entity, ExtractFile archiveFile) {
         EntityWriter defaultWriter = writers.getDefault();
         defaultWriter.write(entity, archiveFile.getDataFileEntry(DELETE));
     }

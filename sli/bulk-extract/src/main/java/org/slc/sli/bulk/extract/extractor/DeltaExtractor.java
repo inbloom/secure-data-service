@@ -208,7 +208,7 @@ public class DeltaExtractor {
                 if (!subdocs.contains(type) || entity.getEntityId().length() == lea.length() * 2) {
                     Entity e = new MongoEntity(type, entity.getEntityId(),
                             new HashMap<String, Object>(), null);
-                    entityWriteManager.writeDelete(e, extractFile);
+                    entityWriteManager.writeDeleteFile(e, extractFile);
                 }
             }
         }
@@ -230,7 +230,7 @@ public class DeltaExtractor {
             Entity purgeEntity = new MongoEntity(DeltaJournal.PURGE, null, new HashMap<String, Object>(), null);
             purgeEntity.getBody().put(DATE_FIELD, DATE_TIME_FORMATTER.print(date));
 
-            entityWriteManager.writeDelete(purgeEntity, extractFile);
+            entityWriteManager.writeDeleteFile(purgeEntity, extractFile);
         }
     }
 

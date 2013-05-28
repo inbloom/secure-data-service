@@ -200,7 +200,7 @@ public class DeltaExtractorTest {
         extractor.execute("Midgar", new DateTime(), "");
         try {
             verify(entityExtractor, times(1)).write(any(Entity.class), any(ExtractFile.class), any(EntityExtractor.CollectionWrittenRecord.class), (Predicate) Mockito.isNull());
-            verify(entityWriteManager, times(6)).writeDelete(any(Entity.class), any(ExtractFile.class));
+            verify(entityWriteManager, times(6)).writeDeleteFile(any(Entity.class), any(ExtractFile.class));
         } catch (FileNotFoundException e) {
             fail("should never throw exceptions in mocks");
         } catch (IOException e) {
@@ -215,7 +215,7 @@ public class DeltaExtractorTest {
 
         extractor.execute("Midgar", new DateTime(), "");
 
-        verify(entityWriteManager, times(2)).writeDelete(any(Entity.class), any(ExtractFile.class));
+        verify(entityWriteManager, times(2)).writeDeleteFile(any(Entity.class), any(ExtractFile.class));
     }
     
 }
