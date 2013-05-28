@@ -1000,7 +1000,7 @@ Then /^each record in the full extract is present and matches the delta extract$
     puts "DEBUG: fullExtractRecords count is #{fullExtractRecords.length}"
 
     # TODO: Uncomment this assert when the duplicate fix is pushed
-    #assert(deltaRecords.length == fullExtractRecords.length, "The number of records do not match. Deltas: #{deltaRecords.length}, Full Extract: #{fullExtractRecords.length}")
+    assert(deltaRecords.length == fullExtractRecords.length, "The number of records do not match. Deltas: #{deltaRecords.length}, Full Extract: #{fullExtractRecords.length}")
     
     # Put delta records in a hashmap for searching
     deltaHash = {}
