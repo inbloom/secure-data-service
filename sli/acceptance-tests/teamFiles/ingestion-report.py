@@ -4,6 +4,7 @@ import re
 import fileinput
 import pprint
 import StringIO
+from math import ceil
 from pychart import *
 
 def main():
@@ -15,6 +16,7 @@ def main():
                "68k_26M": 26464524,
              }
     raw_data = ""
+    max_y = 0
     for line in fileinput.input():
         expr_str = r'odin_76_canonical_(.+)\.zip - Day (.+) run took (.+) seconds, starting at ([^\s]+) and .*CompletedSuccessfully'
         expr = re.compile(expr_str)
@@ -24,7 +26,8 @@ def main():
         raw_data += line
         [ dataset, mode, secs, start ] = mres.groups()
         rps = counts[dataset] / int(secs)
-        
+        if rps > max_y:
+            max_y = rps
         skey = (dataset, mode)
         if not series.has_key(skey):
             series[skey] = []
@@ -50,8 +53,10 @@ def main():
     
     # Prepare chart area
     xaxis = axis.X(label=date_summary, format="%d")
-    yaxis = axis.Y(label="Records//sec", tic_interval=250, format="%d")
-    ar = area.T(loc=(-200, -200), size=(400,400), x_axis = xaxis, y_axis = yaxis, y_range=(0,2000))
+    y_tic_interval = 250
+    y_axis_max = int( float(y_tic_interval) * ceil(max_y / float(y_tic_interval)) )
+    yaxis = axis.Y(label="Records//sec", tic_interval=y_tic_interval, format="%d")
+    ar = area.T(loc=(-200, -200), size=(400,400), x_axis = xaxis, y_axis = yaxis, y_range=(0,y_axis_max))
 
     for pair, points in sorted(series.items()):
         name = " Day".join(pair)

@@ -33,6 +33,13 @@ import java.util.Set;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.Launcher;
 import org.slc.sli.bulk.extract.context.resolver.TypeResolver;
@@ -51,16 +58,11 @@ import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.dal.repository.DeltaJournal;
 import org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 /**
  * This class should be concerned about how to generate the delta files per LEA
@@ -158,6 +160,8 @@ public class DeltaExtractor {
             } else if (delta.getOp() == Operation.DELETE) {
                 spamDeletes(delta, Collections.<String> emptySet(), tenant, deltaUptoTime,
                         appsPerTopLEA);
+            } else if (delta.getOp() == Operation.PURGE) {
+                logPurge(delta, Collections.<String> emptySet(), tenant, deltaUptoTime, appsPerTopLEA);
             }
         }
 
@@ -188,14 +192,10 @@ public class DeltaExtractor {
 
             ExtractFile extractFile = getExtractFile(lea, tenant, deltaUptoTime, entry.getValue());
             // for some entities we have to spam delete the same id in two
-            // collections
-            // since we cannot reliably retrieve the "type". For example,
-            // teacher/staff
-            // edorg/school, if the entity has been deleted, all we know if it a
-            // staff
-            // or edorg, but it may be stored as teacher or school in vendor db,
-            // so
-            // we must spam delete the id in both teacher/staff or edorg/school
+            // collections since we cannot reliably retrieve the "type". For example,
+            // teacher/staff or edorg/school, if the entity has been deleted, all we know
+            // if it a staff or edorg, but it may be stored as teacher or school in vendor
+            // db, so we must spam delete the id in both teacher/staff or edorg/school
             // collection
             Entity entity = delta.getEntity();
             Set<String> types = typeResolver.resolveType(entity.getType());
@@ -208,6 +208,26 @@ public class DeltaExtractor {
                     entityWriteManager.writeDelete(e, extractFile);
                 }
             }
+        }
+    }
+
+    private void logPurge(DeltaRecord delta, Set<String> exceptions, String tenant,
+                             DateTime deltaUptoTime, Map<String, Set<String>> appsPerLEA) {
+        for (Map.Entry<String, Set<String>> entry : appsPerLEA.entrySet()) {
+            String lea = entry.getKey();
+
+            if (exceptions.contains(lea)) {
+                continue;
+            }
+
+            ExtractFile extractFile = getExtractFile(lea, tenant, deltaUptoTime, entry.getValue());
+
+            DateTime date =  new DateTime((Long)delta.getEntity().getBody().get("t"));
+
+            Entity purgeEntity = new MongoEntity(DeltaJournal.PURGE, null, new HashMap<String, Object>(), null);
+            purgeEntity.getBody().put("date", DATE_TIME_FORMATTER.print(date));
+
+            entityWriteManager.writeDelete(purgeEntity, extractFile);
         }
     }
 

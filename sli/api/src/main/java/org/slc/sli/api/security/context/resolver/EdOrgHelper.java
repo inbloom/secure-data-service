@@ -69,22 +69,23 @@ public class EdOrgHelper {
     protected EntityOwnershipValidator ownership;
 
     private EdOrgHierarchyHelper helper;
-    
+
     @PostConstruct
     public void init() {
         helper = new EdOrgHierarchyHelper(repo);
     }
 
     /**
-     * Determine the district of the user.
+     * Determine the districts of the user.
      *
      * If the user is directly associated with an SEA, this is any LEA directly below the SEA. If
      * the user is directly
      * associated with an LEA, this is the top-most LEA i.e. the LEA directly associated with the
      * SEA.
      *
-     * @param user
-     * @return a list of entity IDs
+     * @param user - User entity
+     *
+     * @return - List of entity IDs
      */
     public List<String> getDistricts(Entity user) {
         Set<String> directAssoc = getDirectEdorgs(user);
@@ -98,6 +99,35 @@ public class EdOrgHelper {
                 entities.add(helper.getTopLEAOfEdOrg(entity).getEntityId());
             } else { // isSEA
                 entities.addAll(getChildLEAsOfEdOrg(entity));
+            }
+        }
+        return new ArrayList<String>(entities);
+    }
+
+    /**
+     * Determine the districts, including the SEA, of the user.
+     *
+     * If the user is directly associated with an SEA, this is any LEA directly below the SEA, including the SEA.
+     * If the user is directly associated with an LEA, this is the top-most LEA,
+     * i.e. the LEA directly associated with the SEA.
+     *
+     * @param user - User entity
+     *
+     * @return - List of entity IDs
+     */
+    public List<String> getDistrictsAndSEA(Entity user) {
+        Set<String> directAssoc = getDirectEdorgs(user);
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN,
+                directAssoc, false));
+        Set<String> entities = new HashSet<String>();
+        for (Entity entity : repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query)) {
+            if (helper.isLEA(entity)) {
+                entities.add(helper.getTopLEAOfEdOrg(entity).getEntityId());
+            } else if (helper.isSchool(entity)) {
+                entities.add(helper.getTopLEAOfEdOrg(entity).getEntityId());
+            } else { // isSEA
+                entities.addAll(getChildLEAsOfEdOrg(entity));
+                entities.add(entity.getEntityId());
             }
         }
         return new ArrayList<String>(entities);
