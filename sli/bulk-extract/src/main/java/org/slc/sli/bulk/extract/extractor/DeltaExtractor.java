@@ -33,6 +33,13 @@ import java.util.Set;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.Launcher;
 import org.slc.sli.bulk.extract.context.resolver.TypeResolver;
@@ -56,12 +63,6 @@ import org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 /**
  * This class should be concerned about how to generate the delta files per LEA
@@ -119,6 +120,9 @@ public class DeltaExtractor {
     private Map<String, EntityExtractor.CollectionWrittenRecord> appPerLeaCollectionRecords = new HashMap<String, EntityExtractor.CollectionWrittenRecord>();
 
     public static final DateTimeFormatter DATE_TIME_FORMATTER = ISODateTimeFormat.dateTime();
+
+    public static final String DATE_FIELD = "date";
+    public static final String TIME_FIELD = "t";
 
     public void execute(String tenant, DateTime deltaUptoTime, String baseDirectory) {
 
@@ -191,14 +195,10 @@ public class DeltaExtractor {
 
             ExtractFile extractFile = getExtractFile(lea, tenant, deltaUptoTime, entry.getValue());
             // for some entities we have to spam delete the same id in two
-            // collections
-            // since we cannot reliably retrieve the "type". For example,
-            // teacher/staff
-            // edorg/school, if the entity has been deleted, all we know if it a
-            // staff
-            // or edorg, but it may be stored as teacher or school in vendor db,
-            // so
-            // we must spam delete the id in both teacher/staff or edorg/school
+            // collections since we cannot reliably retrieve the "type". For example,
+            // teacher/staff or edorg/school, if the entity has been deleted, all we know
+            // if it a staff or edorg, but it may be stored as teacher or school in vendor
+            // db, so we must spam delete the id in both teacher/staff or edorg/school
             // collection
             Entity entity = delta.getEntity();
             Set<String> types = typeResolver.resolveType(entity.getType());
@@ -225,10 +225,10 @@ public class DeltaExtractor {
 
             ExtractFile extractFile = getExtractFile(lea, tenant, deltaUptoTime, entry.getValue());
 
-            DateTime date =  new DateTime((Long)delta.getEntity().getBody().get("t"));
+            DateTime date =  new DateTime((Long)delta.getEntity().getBody().get(TIME_FIELD));
 
             Entity purgeEntity = new MongoEntity(DeltaJournal.PURGE, null, new HashMap<String, Object>(), null);
-            purgeEntity.getBody().put("date", DATE_TIME_FORMATTER.print(date));
+            purgeEntity.getBody().put(DATE_FIELD, DATE_TIME_FORMATTER.print(date));
 
             entityWriteManager.writeDelete(purgeEntity, extractFile);
         }

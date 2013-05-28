@@ -17,6 +17,7 @@ package org.slc.sli.dal.repository;
 
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -66,7 +67,7 @@ public class DeltaJournal implements InitializingBean {
 
     // in paged query, get upto 50000 items each time
     @Value("${sli.bulk.extract.delta.iterationSize:50000}")
-    private int limit = 50000;
+    private int limit;
 
     @Autowired
     @Qualifier("journalTemplate")
@@ -134,6 +135,7 @@ public class DeltaJournal implements InitializingBean {
         update.set("t", timeOfPurge);
         update.set("c", PURGE);
 
+        TenantContext.setIsSystemCall(false);
         template.upsert(Query.query(where("_id").is(id)), update, DELTA_COLLECTION);
     }
 
@@ -209,8 +211,26 @@ public class DeltaJournal implements InitializingBean {
             TenantContext.setTenantId(tenant);
         }
         TenantContext.setIsSystemCall(false);
-        Criteria beforeTime = where("t").lt(cleanUptoTime);
-        template.remove(Query.query(beforeTime), DELTA_COLLECTION);
+
+        // remove in batches
+        Query beforeWithLimit = new Query(where("t").lt(cleanUptoTime)).limit(limit);
+        beforeWithLimit.fields().include("_id");
+        
+        @SuppressWarnings("rawtypes")
+        List<Map> deltas;
+        do {
+            deltas = template.find(beforeWithLimit, Map.class, DELTA_COLLECTION);
+            List<String> idsToRemove = new ArrayList<String>(deltas.size());
+            for (Map<String, Object> delta : deltas) {
+                idsToRemove.add((String) delta.get("_id"));
+            }
+
+            if (!idsToRemove.isEmpty()) {
+                Query removeIds = new Query(where("_id").in(idsToRemove));
+                template.remove(removeIds, DELTA_COLLECTION);
+                LOG.debug("Removing delta records in batch size: {}", idsToRemove.size());
+            }
+        } while (!deltas.isEmpty());
     }
 
     protected boolean isDeltasEnabled() {
