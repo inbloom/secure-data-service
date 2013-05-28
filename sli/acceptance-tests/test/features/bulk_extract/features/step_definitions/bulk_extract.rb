@@ -257,7 +257,7 @@ Given /^all LEAs in "([^"]*)" are authorized for "([^"]*)"/ do |tenant, applicat
   assert(apps.size > 0, "Could not find any application with the name #{application}")
   assert(apps.size == 1, "Found multiple applications with the name #{application}")
 
-  app_id = apps[0][id]
+  app_id = apps[0]['_id']
   puts("The id for a #{application} is #{app_id}") if $SLI_DEBUG
 
   db_tenant = conn[convertTenantIdToDbName(tenant)]
@@ -1286,6 +1286,10 @@ Then /^I verify this delete file by app "(.*?)" for "(.*?)" contains one single 
     in_delete_file = json_map[id]
     assert(!in_delete_file.nil?, "delete file does not contain #{type} #{id}") 
   }
+end
+
+Then /^the delete file in the newest delta extract should have one purge entry/ do
+
 end
 
 ############################################################
