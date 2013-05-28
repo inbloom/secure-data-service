@@ -38,13 +38,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.context.EntityOwnershipValidator;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 
 /**
@@ -283,8 +283,18 @@ public class EdOrgHelperTest {
         setContext(staff4, Arrays.asList(SecureRoleRightAccessImpl.IT_ADMINISTRATOR));
         List<String> leas = helper.getDistricts(staff4);
         assertTrue("staff4 must see lea1", leas.contains(lea1.getEntityId()));
-        assertTrue("staff4 must lea4", leas.contains(lea4.getEntityId()));
+        assertTrue("staff4 must see lea4", leas.contains(lea4.getEntityId()));
         assertEquals("staff4 must only see two districts", 2, leas.size());
+    }
+
+    @Test
+    public void testStaff4WithSea() {
+        setContext(staff4, Arrays.asList(SecureRoleRightAccessImpl.IT_ADMINISTRATOR));
+        List<String> edOrgs = helper.getDistrictsAndSEA(staff4);
+        assertTrue("staff4 must see lea1", edOrgs.contains(lea1.getEntityId()));
+        assertTrue("staff4 must see lea4", edOrgs.contains(lea4.getEntityId()));
+        assertTrue("staff4 must see sea1", edOrgs.contains(sea1.getEntityId()));
+        assertEquals("staff4 must only see two districts and one SEA", 3, edOrgs.size());
     }
 
     @Test

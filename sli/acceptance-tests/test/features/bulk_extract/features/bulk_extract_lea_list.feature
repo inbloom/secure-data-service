@@ -27,8 +27,8 @@ Feature: As an API user, I want to be able to get a list authorized LEAs.
 	|   fieldName  | count |
 	|   fullLeas   |  1    |
 	|   deltaLeas  |  1    |
-#	|   fullSea    |  1    |
-#	|   deltaSea   |  1    |
+	|   fullSea    |  1    |
+	|   deltaSea   |  0    |
 	And I make a head request with each returned URL
 
   Scenario: Validate that the delta extracts are in time order, most recent first
