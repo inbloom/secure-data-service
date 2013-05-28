@@ -44,7 +44,7 @@
         <jb:value property="creditConversion" data="attributes CumulativeCreditsEarned a_CreditConversion" decoder="Double" />
     </jb:bean>
 
-    <jb:bean beanId="CumulativeCreditsAttempted" class="java.util.HashMap" createOnElement="attributes cumulativeCreditsAttempted">
+    <jb:bean beanId="CumulativeCreditsAttempted" class="java.util.HashMap" createOnElement="attributes CumulativeCreditsAttempted">
         <jb:value property="credit" data="attributes CumulativeCreditsAttempted Credit _value" decoder="Double" />
         <jb:value property="creditType" data="attributes CumulativeCreditsAttempted a_CreditType" />
         <jb:value property="creditConversion" data="attributes CumulativeCreditsAttempted a_CreditConversion" decoder="Double" />
