@@ -12,10 +12,10 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.data.mongodb.core.query.Query;
 
 public class StudentSchoolAssociationExtractorTest {
 	
@@ -29,12 +29,14 @@ public class StudentSchoolAssociationExtractorTest {
     private EntityToLeaCache mockCache;
     @Mock
 	private Repository<Entity> mockRepo;
+    @Mock
+    private LocalEdOrgExtractHelper mockLocalEdOrgExtractHelper;
 
 	@Before
 	public void setUp() {
         MockitoAnnotations.initMocks(this);
         Mockito.when(mockMap.getLeas()).thenReturn(new HashSet<String>(Arrays.asList("LEA")));
-        ssaExtractor = new StudentSchoolAssociationExtractor(mockExtractor, mockMap, mockRepo, mockCache);
+        ssaExtractor = new StudentSchoolAssociationExtractor(mockExtractor, mockMap, mockRepo, mockCache, mockLocalEdOrgExtractHelper);
 	}
 	
 	@Test

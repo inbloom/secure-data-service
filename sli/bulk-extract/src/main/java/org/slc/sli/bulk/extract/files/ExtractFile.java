@@ -15,36 +15,31 @@
  */
 package org.slc.sli.bulk.extract.files;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.PublicKey;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.CipherOutputStream;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.KeyGenerator;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.SecretKey;
+import static org.slc.sli.bulk.extract.LogUtil.audit;
 
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
 import org.slc.sli.bulk.extract.files.writer.JsonFileWriter;
+import org.slc.sli.bulk.extract.message.BEMessageCode;
+import org.slc.sli.bulk.extract.util.SecurityEventUtil;
+import org.slc.sli.common.util.logging.LogLevelType;
+import org.slc.sli.common.util.logging.SecurityEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.crypto.*;
+import java.io.*;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * Extract's archive file class.
@@ -63,6 +58,8 @@ public class ExtractFile {
     private File parentDir;
     private String archiveName;
 
+    private SecurityEventUtil securityEventUtil;
+
 
     private Map<String, PublicKey> clientKeys = null;
 
@@ -80,12 +77,13 @@ public class ExtractFile {
      * @param clientKeys
      *          Map from application ID to public keys.
      */
-    public ExtractFile(File parentDir, String archiveName, Map<String, PublicKey> clientKeys) {
+    public ExtractFile(File parentDir, String archiveName, Map<String, PublicKey> clientKeys, SecurityEventUtil securityEventUtil) {
         this.parentDir = parentDir;
         this.archiveName = archiveName;
         this.clientKeys = clientKeys;
         this.tempDir = new File(parentDir, UUID.randomUUID().toString());
         this.tempDir.mkdir();
+        this.securityEventUtil = securityEventUtil;
     }
 
     /**
@@ -143,6 +141,9 @@ public class ExtractFile {
 
         try {
             for(String app : clientKeys.keySet()){
+                SecurityEvent event = securityEventUtil.createSecurityEvent(this.getClass().getName(), "Writing extract file to the file system", LogLevelType.TYPE_INFO, app, BEMessageCode.BE_SE_CODE_0022, app);
+                event.setTargetEdOrg(edorg);
+                audit(event);
                 multiOutputStream.addStream(getAppStream(app));
             }
 
@@ -157,6 +158,10 @@ public class ExtractFile {
                 }
             }
         } catch (Exception e) {
+            SecurityEvent event = securityEventUtil.createSecurityEvent(this.getClass().getName(), "Writing extract file to the file system", LogLevelType.TYPE_ERROR, BEMessageCode.BE_SE_CODE_0023);
+            event.setTargetEdOrg(edorg);
+            audit(event);
+
             LOG.error("Error writing to tar file: {}", e.getMessage());
             success = false;
             for(File archiveFile : archiveFiles.values()){

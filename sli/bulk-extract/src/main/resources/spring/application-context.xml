@@ -11,6 +11,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
     <import resource="classpath:/spring/validation.xml" />
     <import resource="classpath:/spring/db.xml" />
     <import resource="classpath:/spring/writer-context.xml" />
+    <import resource="classpath:/spring/be-message-context.xml" />
     
     <context:component-scan base-package="org.slc.sli.common.util.uuid" />
     <context:component-scan base-package="org.slc.sli.common.util.datetime" />
@@ -119,4 +120,6 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
     </bean>
 
     <bean id="secondaryReadRepository" name="secondaryRepo" class="org.slc.sli.bulk.extract.SecondaryReadRepository" parent="mongoEntityRepository"/>
+
+    <bean class="org.slc.sli.bulk.extract.LogUtil"/>
 </beans>

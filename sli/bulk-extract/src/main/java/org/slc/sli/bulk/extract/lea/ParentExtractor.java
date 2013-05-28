@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
+import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
@@ -30,15 +31,18 @@ public class ParentExtractor implements EntityExtract {
     private EntityExtractor extractor;
     private LEAExtractFileMap map;
     private Repository<Entity> repo;
+    private LocalEdOrgExtractHelper localEdOrgExtractHelper;
     
-    public ParentExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo) {
+    public ParentExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
+        this.localEdOrgExtractHelper = localEdOrgExtractHelper;
     }
 
     @Override
     public void extractEntities(EntityToLeaCache entityToEdorgCache) {
+        localEdOrgExtractHelper.logSecurityEvent(map.getLeas(), EntityNames.PARENT, this.getClass().getName());
         Iterator<Entity> parents = repo.findEach(EntityNames.PARENT, new NeutralQuery());
         Set<String> validParents = entityToEdorgCache.getEntityIds();
         while (parents.hasNext()) {

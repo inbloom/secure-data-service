@@ -17,10 +17,10 @@ sh ingestDataset.sh $1 1
 sh ingestDataset.sh $1 2
 ./checkIngestedCounts.sh $1
 sh log_durations.sh $1
-sh ingestDataset.sh $3 3
-sh log_delete_duration.sh $3
-sh ingestDataset.sh purge.zip 4
-sh log_purge_duration.sh
+#sh ingestDataset.sh $3 3
+#sh log_delete_duration.sh $3
+#sh ingestDataset.sh purge.zip 4
+#sh log_purge_duration.sh
 
 # Send PDF report
 ./ingestion-report.py < megtomcat01_logs/auto_perf_results.log > message.txt
@@ -30,7 +30,6 @@ sh log_purge_duration.sh
     -a raw_data.txt \
     Sliders-megatron@wgen.net \
     okrook@wgen.net \
-    rborde@wgen.net \
     rmiller@wgen.net \
     cwilson@contractor.wgen.net \
     rfarris@wgen.net \

@@ -16,6 +16,8 @@
 
 package org.slc.sli.bulk.extract;
 
+import static org.slc.sli.bulk.extract.LogUtil.audit;
+
 import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -27,6 +29,9 @@ import org.slc.sli.bulk.extract.extractor.LocalEdOrgExtractor;
 import org.slc.sli.bulk.extract.extractor.StatePublicDataExtractor;
 import org.slc.sli.bulk.extract.extractor.TenantExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.message.BEMessageCode;
+import org.slc.sli.bulk.extract.util.SecurityEventUtil;
+import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory;
 import org.slc.sli.domain.Entity;
@@ -35,35 +40,42 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 /**
  * Bulk extract launcher.
- *
+ * 
  * @author tke
- *
+ * 
  */
 public class Launcher {
     private static final String USAGE = "Usage: bulk-extract <tenant> [isDelta]";
     private static final Logger LOG = LoggerFactory.getLogger(Launcher.class);
-
+    
     private String baseDirectory;
     private TenantExtractor tenantExtractor;
     @Autowired
     private DeltaExtractor deltaExtractor;
-
+    
     private BulkExtractMongoDA bulkExtractMongoDA;
-
+    
     private LocalEdOrgExtractor localEdOrgExtractor;
-
+    
+    @Autowired
+    private SecurityEventUtil securityEventUtil;
+    
     @Autowired
     private StatePublicDataExtractor statePublicDataExtractor;
-
+    
     /**
      * Actually execute the extraction.
-     *
+     * 
      * @param tenant
-     *          Tenant for which extract has been initiated
+     *            Tenant for which extract has been initiated
      */
     public void execute(String tenant, boolean isDelta) {
+        audit(securityEventUtil.createSecurityEvent(Launcher.class.getName(), "Bulk extract execution",
+                LogLevelType.TYPE_INFO, BEMessageCode.BE_SE_CODE_0001));
+        
         Entity tenantEntity = bulkExtractMongoDA.getTenant(tenant);
         if (tenantEntity != null) {
             DateTime startTime = new DateTime();
@@ -72,10 +84,9 @@ public class Launcher {
             } else {
                 ExtractFile extractFile = null;
                 TenantContext.setTenantId(tenant);
-                extractFile = new ExtractFile(getTenantDirectory(tenant),
-                    getArchiveName(tenant, startTime.toDate()),
-                    bulkExtractMongoDA.getAppPublicKeys());
-
+                extractFile = new ExtractFile(getTenantDirectory(tenant), getArchiveName(tenant, startTime.toDate()),
+                        bulkExtractMongoDA.getAppPublicKeys(), securityEventUtil);
+                
                 LOG.info("Starting tenant based extract...");
                 tenantExtractor.execute(tenant, extractFile, startTime);
                 LOG.info("Starting LEA Based extract...");
@@ -84,57 +95,65 @@ public class Launcher {
                 statePublicDataExtractor.execute(tenant, getTenantDirectory(tenant), startTime);
             }
         } else {
-            LOG.error("A bulk extract is not being initiated for the tenant {} because the tenant has not been onboarded.", tenant);
+            audit(securityEventUtil.createSecurityEvent(Launcher.class.getName(), "Bulk extract execution",
+                    LogLevelType.TYPE_ERROR, BEMessageCode.BE_SE_CODE_0002, tenant));
+            LOG.error(
+                    "A bulk extract is not being initiated for the tenant {} because the tenant has not been onboarded.",
+                    tenant);
         }
     }
-
+    
     // those two methods should be moved to localEdOrgExtractor once we switched to
     // LEA level extract, for now it's duplicated in both classes.
     public static String getArchiveName(String tenant, Date startTime) {
         return tenant + "-" + getTimeStamp(startTime);
     }
-
+    
     private File getTenantDirectory(String tenant) {
         File tenantDirectory = new File(baseDirectory, TenantAwareMongoDbFactory.getTenantDatabaseName(tenant));
         tenantDirectory.mkdirs();
         return tenantDirectory;
     }
-
+    
     /**
      * Change the timestamp into our own format.
+     * 
      * @param date
-     *      Timestamp
+     *            Timestamp
      * @return
-     *      returns the formatted timestamp
+     *         returns the formatted timestamp
      */
     public static String getTimeStamp(Date date) {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH-mm-ss");
         String timeStamp = df.format(date);
         return timeStamp;
     }
-
+    
     /**
      * Set base dir.
+     * 
      * @param baseDirectory
-     *          Base directory of all bulk extract processes
+     *            Base directory of all bulk extract processes
      */
     public void setBaseDirectory(String baseDirectory) {
         this.baseDirectory = baseDirectory;
     }
-
+    
     /**
      * Set tenant extractor.
+     * 
      * @param tenantExtractor
-     *          TenantExtractor object
+     *            TenantExtractor object
      */
-    public void setTenantExtractor(TenantExtractor tenantExtractor){
+    public void setTenantExtractor(TenantExtractor tenantExtractor) {
         this.tenantExtractor = tenantExtractor;
     }
-
+    
     /**
      * Main entry point.
+     * 
      * @param args
-     *      input arguments
+     *            input arguments
      */
     public static void main(String[] args) {
         if (args.length < 1) {
@@ -143,42 +162,57 @@ public class Launcher {
         }
         
         ApplicationContext context = new ClassPathXmlApplicationContext("spring/application-context.xml");
-
+        
         Launcher main = context.getBean(Launcher.class);
-    
+        
         String tenantId = args[0];
         boolean isDelta = false;
         if (args.length == 2) {
             isDelta = Boolean.parseBoolean(args[1]);
         }
-    
+        
         main.execute(tenantId, isDelta);
-
+        
     }
-
+    
     public void setLocalEdOrgExtractor(LocalEdOrgExtractor localEdOrgExtractor) {
         this.localEdOrgExtractor = localEdOrgExtractor;
     }
-
+    
     public LocalEdOrgExtractor getLocalEdOrgExtractor() {
         return localEdOrgExtractor;
     }
-
+    
     public void setStatePublicDataExtractor(StatePublicDataExtractor statePublicDataExtractor) {
         this.statePublicDataExtractor = statePublicDataExtractor;
     }
-
-    /** Get bulkExtractMongoDA.
+    
+    /**
+     * Get bulkExtractMongoDA.
+     * 
      * @return the bulkExtractMongoDA
      */
     public BulkExtractMongoDA getBulkExtractMongoDA() {
         return bulkExtractMongoDA;
     }
-
-    /**Set bulkExtractMongoDA.
-     * @param bulkExtractMongoDA the bulkExtractMongoDA to set
+    
+    /**
+     * Set bulkExtractMongoDA.
+     * 
+     * @param bulkExtractMongoDA
+     *            the bulkExtractMongoDA to set
      */
     public void setBulkExtractMongoDA(BulkExtractMongoDA bulkExtractMongoDA) {
         this.bulkExtractMongoDA = bulkExtractMongoDA;
+    }
+    
+    /**
+     * Set securityEventUtil.
+     * 
+     * @param securityEventUtil
+     *            the securityEventUtil to set
+     */
+    public void setSecurityEventUtil(SecurityEventUtil securityEventUtil) {
+        this.securityEventUtil = securityEventUtil;
     }
 }

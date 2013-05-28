@@ -45,10 +45,7 @@ require_relative 'enum/GradeLevelType'
 class LearningStandard < BaseEntity
 
   # required fields
-  attr_accessor :learning_standard_id            # maps to 'Objective'
-  attr_accessor :content_standard
-  attr_accessor :grade_level
-  attr_accessor :subject_area
+  attr_accessor :learning_standard_id, :content_standard, :description
 
   # optional fields
   attr_accessor :course_title
@@ -57,28 +54,33 @@ class LearningStandard < BaseEntity
   attr_accessor :subject
   attr_accessor :grade
 
-  def initialize(standard, subject, grade, learning_standards = [], learning_objectives = [])
-    @rand                  = Random.new((standard + AcademicSubjectType.to_string(subject) + GradeLevelType.to_string(grade)).size)
+  def initialize(standard, subject, grade)
+    @rand = Random.new((standard + AcademicSubjectType.to_string(subject) + GradeLevelType.to_string(grade)).size)
     @learning_standard_id  = standard
-    @description           = "This is a description for learning standard #{learning_standard_id}"
-    @subject_area          = subject
-    @grade_level           = grade
+    @description = "This is a description for learning standard #{learning_standard_id}"
+    @subject = subject
+    @grade = grade
+    @content_standard = "LEA Standard"
 
     optional { @course_title  = nil }
   end
 
   # maps to required field 'SubjectArea'
   def subject_area
-    AcademicSubjectType.to_string(subject)
+    AcademicSubjectType.to_string(@subject)
   end
 
   # maps to required field 'GradeLevel'
   def grade_level
-    GradeLevelType.to_string(grade)
+    GradeLevelType.to_string(@grade)
   end
 
   def self.build_learning_standards(count, subject, grade)
-    (1..count).collect{|x| LearningStandard.new("Generic Learning Standard #{x}", subject, grade)}
+    learning_standard_ids(count, subject, grade).map{|id| LearningStandard.new(id, subject, grade) }
+  end
+
+  def self.learning_standard_ids(count, subject, grade)
+    (1..count).collect{|x| "#{x}-#{AcademicSubjectType.index(subject)}-#{GradeLevelType.index(grade)}"}
   end
 
   # define equality between two entities by iterating over instance variables and comparing each field for equality

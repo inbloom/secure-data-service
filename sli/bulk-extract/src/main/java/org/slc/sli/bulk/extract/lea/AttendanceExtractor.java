@@ -20,6 +20,8 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
+import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
@@ -31,18 +33,21 @@ public class AttendanceExtractor implements EntityExtract {
     private Repository<Entity> repo;
     private ExtractorHelper helper;
     private EntityToLeaCache studentCache;
+    private LocalEdOrgExtractHelper localEdOrgExtractHelper;
     
     public AttendanceExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo,
-            ExtractorHelper extractorHelper, EntityToLeaCache studentCache) {
+            ExtractorHelper extractorHelper, EntityToLeaCache studentCache, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
         this.helper = extractorHelper;
         this.studentCache = studentCache;
+        this.localEdOrgExtractHelper = localEdOrgExtractHelper;
     }
 
     @Override
     public void extractEntities(EntityToLeaCache entityToEdorgCache) {
+        localEdOrgExtractHelper.logSecurityEvent(map.getLeas(), EntityNames.ATTENDANCE, this.getClass().getName());
         Iterator<Entity> attendances = repo.findEach("attendance", new NeutralQuery());
         while (attendances.hasNext()) {
             Entity attendance = attendances.next();

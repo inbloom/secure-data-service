@@ -44,7 +44,7 @@ And I click on log out
 
 Scenario: App developer creates new Bulk Extract App
 When I navigate to the Portal home page
-When I see the realm selector I authenticate to "inBloom App Developer"
+When I see the realm selector I authenticate to the developer realm
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "<DEVELOPER_EMAIL>" "<DEVELOPER_EMAIL_PASS>" for the "Simple" login page    
 Then I should be on Portal home page
@@ -71,7 +71,7 @@ And I click on log out
 
 Scenario: App developer enables Bulk Extract App
 When I navigate to the Portal home page
-When I see the realm selector I authenticate to "inBloom App Developer"
+When I see the realm selector I authenticate to the developer realm
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "<DEVELOPER_EMAIL>" "<DEVELOPER_EMAIL_PASS>" for the "Simple" login page    
 Then I should be on Portal home page
@@ -286,14 +286,14 @@ And the extract contains a file for each of the following entities:
       # |  assessment                            |
       |  attendance                            |
       |  cohort                                |
-      # |  course                                |
-      # |  courseTranscript                      |
-      # |  courseOffering                        |
-      # |  disciplineIncident                    |
-      # |  disciplineAction                      |
+      |  course                                |
+      |  courseTranscript                      |
+      |  courseOffering                        |
+      |  disciplineIncident                    |
+      |  disciplineAction                      |
       |  educationOrganization                 |
       |  grade                                 |
-      # |  gradebookEntry                        |
+      |  gradebookEntry                        |
       |  gradingPeriod                         |
       # |  learningObjective                     |
       # |  learningStandard                      |
@@ -301,12 +301,12 @@ And the extract contains a file for each of the following entities:
       # |  program                               |
       |  reportCard                            |
       |  school                                |
-      # |  section                               |
+      |  section                               |
       |  session                               |
       |  staff                                 |
       |  staffCohortAssociation                |
       |  staffEducationOrganizationAssociation |
-      # |  staffProgramAssociation               |
+      |  staffProgramAssociation               |
       |  student                               |
       |  studentAcademicRecord                 |
       |  studentAssessment                     |
@@ -315,13 +315,13 @@ And the extract contains a file for each of the following entities:
       # |  studentCompetencyObjective            |
       |  studentDisciplineIncidentAssociation  |
       |  studentProgramAssociation             |
-      # |  studentGradebookEntry                 |
+      |  studentGradebookEntry                 |
       |  studentSchoolAssociation              |
-      # |  studentSectionAssociation             |
+      |  studentSectionAssociation             |
       |  studentParentAssociation              |
       |  teacher                               |
       |  teacherSchoolAssociation              |
-      # |  teacherSectionAssociation             |
+      |  teacherSectionAssociation             |
 
 Scenario: App makes an api call to retrieve a bulk extract delta
 #Get a session to trigger a bulk extract

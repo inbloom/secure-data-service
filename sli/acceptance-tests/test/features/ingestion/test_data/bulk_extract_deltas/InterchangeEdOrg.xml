@@ -38,4 +38,188 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </EducationalOrgIdentity>
     </LocalEducationAgencyReference>
   </School>
+  <Program>
+    <ProgramId>137</ProgramId>
+    <ProgramType>Gifted and Talented</ProgramType>
+    <ProgramSponsor>State Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:135</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>102</ProgramId>
+    <ProgramType>Gifted and Talented</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:102</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>108</ProgramId>
+    <ProgramType>Gifted and Talented</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>srv:103</CodeValue>
+    </Services>
+  </Program>
+  <Course>
+    <CourseTitle>Ninth grade Advanced English</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>DAYBREAK21</ID>
+    </CourseCode>
+    <CourseLevel>Honors</CourseLevel>
+    <CourseLevelCharacteristics>
+    <CourseLevelCharacteristic>Magnet</CourseLevelCharacteristic>
+    </CourseLevelCharacteristics>
+    <GradesOffered>
+    <GradeLevel>Ninth grade</GradeLevel>
+    </GradesOffered>
+    <SubjectArea>Reading</SubjectArea>
+    <CourseDescription>this is a course for Ninth grade</CourseDescription>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <CourseGPAApplicability>Not Applicable</CourseGPAApplicability>
+    <CourseDefinedBy>LEA</CourseDefinedBy>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <CareerPathway>Arts, A/V Technology and Communications</CareerPathway>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevels>
+    <CodeValue>Incompetent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Barely Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Very Competent</CodeValue>
+    </CompetencyLevels>
+    <UniqueCourseId>DAYBREAK21</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>Seventh grade English</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="School course code">
+      <ID>DAYBREAK1</ID>
+    </CourseCode>
+    <CourseLevel>Honors</CourseLevel>
+    <CourseLevelCharacteristics>
+    <CourseLevelCharacteristic>Magnet</CourseLevelCharacteristic>
+    </CourseLevelCharacteristics>
+    <GradesOffered>
+    <GradeLevel>Ninth grade</GradeLevel>
+    </GradesOffered>
+    <SubjectArea>Reading</SubjectArea>
+    <CourseDescription>this is a course for Seventh grade</CourseDescription>
+    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <CourseGPAApplicability>Not Applicable</CourseGPAApplicability>
+    <CourseDefinedBy>LEA</CourseDefinedBy>
+    <MinimumAvailableCredit>
+      <Credit>3</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>3</Credit>
+    </MaximumAvailableCredit>
+    <CareerPathway>Arts, A/V Technology and Communications</CareerPathway>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <CompetencyLevels>
+    <CodeValue>Incompetent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Barely Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Competent</CodeValue>
+    </CompetencyLevels>
+    <CompetencyLevels>
+    <CodeValue>Very Competent</CodeValue>
+    </CompetencyLevels>
+    <UniqueCourseId>DAYBREAK1</UniqueCourseId>
+  </Course>
 </InterchangeEducationOrganization>

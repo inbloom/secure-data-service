@@ -80,7 +80,7 @@ import org.slc.sli.ingestion.validation.indexes.TenantDBIndexValidator;
  *
  */
 @Component
-public class ControlFilePreProcessor implements Processor, InitializingBean {
+public class ControlFilePreProcessor implements Processor {
 
     private static final Logger LOG = LoggerFactory.getLogger(ControlFilePreProcessor.class);
 
@@ -108,17 +108,8 @@ public class ControlFilePreProcessor implements Processor, InitializingBean {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    @Value("${sli.bulk.extract.deltasEnabled:false}")
-    private boolean deltasEnabled;
-
     private enum TenantStatus {TENANT_READY, TENANT_NOT_READY, TENANT_SPINUP_FAILED}
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        if (deltasEnabled) {
-            shardCollections.add("deltas");
-        }
-    }
 
     /**
      * @see org.apache.camel.Processor#process(org.apache.camel.Exchange)
@@ -244,11 +235,7 @@ public class ControlFilePreProcessor implements Processor, InitializingBean {
 
         LOG.info("Running tenant indexing script for tenant: {} db: {}", tenantId, dbName);
         boolean result = MongoCommander.ensureIndexes(INDEX_SCRIPT, dbName, batchJobDAO.getMongoTemplate()) == null;
-        if (deltasEnabled) {
-            result &= (MongoCommander.ensureIndexes(new HashSet<String>(Arrays.asList("deltas,false,t:1,_id:1")), dbName,
-                    batchJobDAO.getMongoTemplate()) == null);
-        }
-
+        
         LOG.info("Running tenant presplit script for tenant: {} db: {}", tenantId, dbName);
         result &= MongoCommander.preSplit(shardCollections, dbName, batchJobDAO.getMongoTemplate()) == null;
 

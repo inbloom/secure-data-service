@@ -34,6 +34,10 @@ When /^I make a call to the bulk extract end point "([^"]*)"$/ do |url|
   restTls(url)
 end
 
+When /^I make a call to the bulk extract end point "([^"]*)" without a certificate$/ do |url|
+  restHttpGet(url)
+end
+
 When /^I make a call to the bulk extract end point "(.*?)" using the certificate for app "(.*?)"$/ do |url, app|
   restTls(url, nil, @format, @sessionId, app)
 end
@@ -543,7 +547,7 @@ When /^I make a head request with each returned URL$/ do
   end
 end
 
-Then /^I verify that the delta extract URLs are in time order/ do
+Then /^I verify that the delta extract URLs are in time order, most recent first/ do
   hash_body = JSON.parse(@res.body)
   timestamps = Array.new
   puts 'Timestamps in deltas:'

@@ -33,6 +33,7 @@ set -e
 git fetch
 git checkout $branch
 git pull
+git log | head -1
 #cp /opt/megatron/sli/sli/acceptance-tests/test/data/teamData/megtomcat01_application_fixture.json /opt/megatron/sli/sli/acceptance-tests/test/data/application_fixture.json
 #cp /opt/megatron/sli/sli/acceptance-tests/test/data/teamData/megtomcat01_realm_fixture.json /opt/megatron/sli/sli/acceptance-tests/test/data/realm_fixture.json
 #cp /opt/megatron/sli/sli/acceptance-tests/test/data/teamData/megtomcat01_securityEvent_fixture.json /opt/megatron/sli/sli/acceptance-tests/test/data/securityEvent_fixture.json

@@ -23,6 +23,8 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
+import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
@@ -37,18 +39,21 @@ public class StudentExtractor implements EntityExtract {
     private Repository<Entity> repo;
     private EntityToLeaCache studentCache;
     private EntityToLeaCache parentCache;
+    private LocalEdOrgExtractHelper localEdOrgExtractHelper;
 
     
     private ExtractorHelper helper;
 
     public StudentExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo,
-            ExtractorHelper helper, EntityToLeaCache studentCache, EntityToLeaCache parentCache) {
+                            ExtractorHelper helper, EntityToLeaCache studentCache, EntityToLeaCache parentCache,
+                            LocalEdOrgExtractHelper localEdOrgExtractHelper) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
         this.helper = helper;
         this.studentCache = studentCache;
         this.parentCache = parentCache;
+        this.localEdOrgExtractHelper = localEdOrgExtractHelper;
     }
 
     /* (non-Javadoc)
@@ -56,6 +61,7 @@ public class StudentExtractor implements EntityExtract {
      */
     @Override
     public void extractEntities(EntityToLeaCache entityToEdorgCache) {
+        localEdOrgExtractHelper.logSecurityEvent(map.getLeas(), EntityNames.STUDENT, this.getClass().getName());
         Iterator<Entity> cursor = repo.findEach("student", new NeutralQuery());
         while (cursor.hasNext()) {
             Entity e = cursor.next();
@@ -72,7 +78,6 @@ public class StudentExtractor implements EntityExtract {
                     for (String parent : parents) {
                         parentCache.addEntry(parent, lea);
                     }
-
                 }
             }
         }
@@ -90,6 +95,5 @@ public class StudentExtractor implements EntityExtract {
     public EntityToLeaCache getParentCache() {
         return parentCache;
     }
-
 
 }

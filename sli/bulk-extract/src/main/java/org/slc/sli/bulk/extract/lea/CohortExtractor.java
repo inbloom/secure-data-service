@@ -17,9 +17,10 @@
 package org.slc.sli.bulk.extract.lea;
 
 import java.util.Iterator;
-import java.util.Set;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
+import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.springframework.data.mongodb.core.query.Query;
@@ -28,22 +29,24 @@ public class CohortExtractor implements EntityExtract {
     private EntityExtractor extractor;
     private LEAExtractFileMap map;
     private Repository<Entity> repo;
+    private LocalEdOrgExtractHelper localEdOrgExtractHelper;
     
-    public CohortExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo) {
+    public CohortExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
+        this.localEdOrgExtractHelper = localEdOrgExtractHelper;
     }
 
     @Override
-    public void extractEntities(EntityToLeaCache entityToEdorgCache) {
-        Iterator<Entity> cursor = repo.findEach("cohort", new Query());
+    public void extractEntities(EntityToLeaCache edorgCache) {
+        localEdOrgExtractHelper.logSecurityEvent(map.getLeas(), EntityNames.COHORT, this.getClass().getName());
+        Iterator<Entity> cursor = repo.findEach(EntityNames.COHORT, new Query());
         while (cursor.hasNext()) {
             Entity e = cursor.next();
-            Set<String> leas = entityToEdorgCache.getEntriesById(e.getBody().get("educationOrgId").toString());
-            for (String lea : leas) {
-                extractor.extractEntity(e, map.getExtractFileForLea(lea), "cohort");
-            }
+            String edorgId = e.getBody().get("educationOrgId").toString();
+            String leaForCohort = edorgCache.leaFromEdorg(edorgId);
+            extractor.extractEntity(e, map.getExtractFileForLea(leaForCohort), EntityNames.COHORT);
         }
     }
     

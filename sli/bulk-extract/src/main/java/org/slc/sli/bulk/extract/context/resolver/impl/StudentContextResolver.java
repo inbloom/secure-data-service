@@ -52,12 +52,8 @@ public class StudentContextResolver extends ReferrableResolver {
     
 
     @Override
-    public Set<String> findGoverningLEA(Entity entity) {
+    public Set<String> resolve(Entity entity) {
         Set<String> leas = new HashSet<String>();
-        if (getCache().containsKey(entity.getEntityId())) {
-            LOG.debug("got LEAs from cache for {}", entity);
-            return getCache().get(entity.getEntityId());
-        }
 
         List<Map<String, Object>> schools = entity.getDenormalizedData().get("schools");
         if (schools != null) {
@@ -75,7 +71,7 @@ public class StudentContextResolver extends ReferrableResolver {
                 }
             }
         }
-        getCache().put(entity.getEntityId(), leas);
+
         return leas;
     }
 

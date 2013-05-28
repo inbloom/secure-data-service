@@ -1,7 +1,12 @@
 package org.slc.sli.bulk.extract.util;
 
+import static org.slc.sli.bulk.extract.LogUtil.audit;
+
+import org.slc.sli.bulk.extract.message.BEMessageCode;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.common.util.logging.LogLevelType;
+import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -11,12 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Utils to extract LEAs
@@ -29,6 +29,9 @@ public class LocalEdOrgExtractHelper {
     @Autowired
     @Qualifier("secondaryRepo")
     Repository<Entity> repository;
+
+    @Autowired
+    private SecurityEventUtil securityEventUtil;
 
     private static final String STATE_EDUCATION_AGENCY = "State Education Agency";
 
@@ -134,6 +137,32 @@ public class LocalEdOrgExtractHelper {
             children.addAll(getChildEdOrgs(children));
         }
         return children;
+    }
+
+    /**
+     * Log security events when an extract is initiated for each LEA
+     * @param leas
+     *          list of LEAs
+     * @param entityName
+     *          name of the entity being extracted
+     * @param className
+     *          name of the class from where extract was initiated
+     */
+    public void logSecurityEvent(Set<String> leas, String entityName, String className) {
+        for (String lea : leas) {
+            SecurityEvent event = securityEventUtil.createSecurityEvent(className, entityName + " data extract initiated for LEA", LogLevelType.TYPE_INFO, BEMessageCode.BE_SE_CODE_0011, entityName);
+            event.setTargetEdOrg(lea);
+            audit(event);
+        }
+
+    }
+
+    /**
+     * Set securityEventUtil.
+     * @param securityEventUtil the securityEventUtil to set
+     */
+    public void setSecurityEventUtil(SecurityEventUtil securityEventUtil) {
+        this.securityEventUtil = securityEventUtil;
     }
 
 }

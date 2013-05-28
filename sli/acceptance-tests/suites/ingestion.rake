@@ -284,6 +284,11 @@ task :ingestionPropagatedTest do
   runTests("test/features/ingestion/features/ingestion_PropagatedDataSet.feature")
 end
 
+desc "Run Custom Enumerations Test"
+task :ingestionEnumerationsTest do
+  runTests("test/features/ingestion/features/ingestion_enumerations.feature")
+end
+
 desc "Run Ingestion Deletion Tests"
   task :ingestionDeletionTests => [
         :ingestBroadSetOfTypesAndExportData,
@@ -634,6 +639,11 @@ end
 
 task :ingestionSuperStudentAssessmentDelete do
   runTests("test/features/ingestion/features/ingestion_super_studentAssessment_delete.feature")
+end
+
+desc "Ingest Bulk Extract LEA dataset"
+task :ingestionBulkExtractLeas do
+  runTests("test/features/ingestion/features/ingestion_BulkExtractLeas.feature")
 end
 
 ############################################################

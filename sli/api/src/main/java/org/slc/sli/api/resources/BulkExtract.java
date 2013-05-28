@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
 import java.security.cert.X509Certificate;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -51,6 +52,7 @@ import com.sun.jersey.api.core.HttpRequestContext;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
+import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,7 +100,7 @@ public class BulkExtract {
     @Autowired
     private Repository<Entity> mongoEntityRepository;
 
-    @Value("${sli.bulk.extract.deltasEnabled:false}")
+    @Value("${sli.bulk.extract.deltasEnabled:true}")
     private boolean deltasEnabled;
 
     @Autowired
@@ -112,6 +114,15 @@ public class BulkExtract {
 
     @Autowired
     private CertificateValidationHelper validator;
+
+    @Context
+    private UriInfo uri;
+
+    @Autowired
+    private SecurityEventBuilder securityEventBuilder;
+
+    @Autowired
+    private FileResource fileResource;
 
     private SLIPrincipal getPrincipal() {
         return (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -128,6 +139,8 @@ public class BulkExtract {
     @RightsAllowed({ Right.BULK_EXTRACT })
     public Response get(@Context HttpServletRequest request) throws Exception {
         LOG.info("Received request to stream sample bulk extract...");
+
+        logSecurityEvent(uri, "Received request to stream sample bulk extract");
 
         validateRequestCertificate(request);
 
@@ -147,42 +160,43 @@ public class BulkExtract {
         ResponseBuilder builder = Response.ok(out);
         builder.header("content-disposition", "attachment; filename = " + SAMPLED_FILE_NAME);
         builder.header("last-modified", "Not Specified");
+        logSecurityEvent(uri, "Successful request to stream sample bulk extract");
         return builder.build();
     }
 
     /**
      * Send an LEA extract or a SEA public data extract
      *
-     * @param lea
+     * @param edOrgId
      *            The uuid of the lea/sea to get the extract
      * @return
-     *         A response with a lea tar file
+     *         A response with a lea/sea tar file
      * @throws Exception
      *             On Error
      */
     @GET
-    @Path("extract/{leaId}")
+    @Path("extract/{edOrgId}")
     @RightsAllowed({ Right.BULK_EXTRACT })
-    public Response getLEAorSEAExtract(@Context HttpContext context, @Context HttpServletRequest request, @PathParam("leaId") String leaId) {
+    public Response getLEAorSEAExtract(@Context HttpContext context, @Context HttpServletRequest request, @PathParam("edOrgId") String edOrgId) {
 
-        if (leaId == null || leaId.isEmpty()) {
-            throw new IllegalArgumentException("leaId cannot be missing");
+        logSecurityEvent(uri, "Received request to stream Edorg data");
+        if (edOrgId == null || edOrgId.isEmpty()) {
+            logSecurityEvent(uri, "Failed request to stream SEA public data, missing edOrgId");
+            throw new IllegalArgumentException("edOrgId cannot be missing");
         }
         validateRequestCertificate(request);
 
-        Entity entity = helper.byId(leaId);
-        boolean isSEA = entity != null && helper.isSEA(entity);
-        if (isSEA) {
-            return getSEAExtractResponse(context.getRequest(), entity, leaId);
+        boolean isPublicData = false;
+        Entity entity = helper.byId(edOrgId);
+
+        if (helper.isSEA(entity)) {
+            isPublicData = true;
+            canAccessSEAExtract(entity);
+        } else {
+            canAccessLEAExtract(edOrgId);
         }
 
-        if (!edorgValidator.validate(EntityNames.EDUCATION_ORGANIZATION, new HashSet<String>(Arrays.asList(leaId)))) {
-            throw new AccessDeniedException("User is not authorized access this extract");
-        }
-
-        appAuthHelper.checkApplicationAuthorization(leaId);
-
-        return getExtractResponse(context.getRequest(), null, leaId, false);
+        return getExtractResponse(context.getRequest(), null, edOrgId, isPublicData);
     }
 
     /**
@@ -197,8 +211,10 @@ public class BulkExtract {
     @RightsAllowed({ Right.BULK_EXTRACT })
     public Response getLEAList(@Context HttpServletRequest request, @Context HttpContext context) throws Exception {
         info("Received request for list of links for all LEAs for this user/app");
+        logSecurityEvent(uri, "Received request for list of links for all LEAs for this user/app");
         validateRequestAndApplicationAuthorization(request);
 
+        logSecurityEvent(uri, "Successful request for list of links for all LEAs for this user/app");
         return getLEAListResponse(context);
     }
 
@@ -213,6 +229,7 @@ public class BulkExtract {
     @RightsAllowed({ Right.BULK_EXTRACT })
     public Response getTenant(@Context HttpServletRequest request, @Context HttpContext context) throws Exception {
         info("Received request to stream tenant bulk extract...");
+        logSecurityEvent(uri, "Received request to stream tenant bulk extract");
         validateRequestCertificate(request);
 
         appAuthHelper.checkApplicationAuthorization(null);
@@ -224,58 +241,79 @@ public class BulkExtract {
      * Stream a delta response.
      *
      * @param date the date of the delta
+     * @param edOrgId the uuid of the lea/sea to get delta extract for
      * @return A response with a delta extract file.
      * @throws Exception On Error
      */
     @GET
-    @Path("extract/{leaId}/delta/{date}")
+    @Path("extract/{edOrgId}/delta/{date}")
     @RightsAllowed({ Right.BULK_EXTRACT })
     public Response getDelta(@Context HttpServletRequest request, @Context HttpContext context,
-            @PathParam("leaId") String leaId, @PathParam("date") String date) {
+                             @PathParam("edOrgId") String edOrgId, @PathParam("date") String date) {
+        logSecurityEvent(uri, "Received request to stream Edorg delta bulk extract data");
         if (deltasEnabled) {
-            LOG.info("Retrieving delta bulk extract for {}, at date {}", leaId, date);
-            if (leaId == null || leaId.isEmpty()) {
+            LOG.info("Retrieving delta bulk extract for {}, at date {}", edOrgId, date);
+            if (edOrgId == null || edOrgId.isEmpty()) {
+                logSecurityEvent(uri, "Failed delta request, missing leadId");
                 throw new IllegalArgumentException("leaId cannot be missing");
             }
             if (date == null || date.isEmpty()) {
+                logSecurityEvent(uri, "Failed delta request, missing date");
                 throw new IllegalArgumentException("date cannot be missing");
             }
+
             validateRequestCertificate(request);
-            appAuthHelper.checkApplicationAuthorization(leaId);
-            return getExtractResponse(context.getRequest(), date, leaId, false);
+
+            boolean isPublicData = false;
+            Entity entity = helper.byId(edOrgId);
+
+            if (helper.isSEA(entity)) {
+                isPublicData = true;
+                canAccessSEAExtract(entity);
+            } else {
+                canAccessLEAExtract(edOrgId);
+            }
+
+            return getExtractResponse(context.getRequest(), date, edOrgId, isPublicData);
+
         }
+        logSecurityEvent(uri, "Failed request for Edorg delta bulk extract data");
         return Response.status(404).build();
     }
 
     /**
-     * Get the SEA public bulk extract response
+     * Validate if the user can access SEA extract
      *
-     * @param req       the http request context
      * @param seaEntity the SEA Entity
-     * @param seaId     the SEA id
-     * @return the jax-rs response to send back.
      */
-    Response getSEAExtractResponse(final HttpRequestContext req, final Entity seaEntity, final String seaId) {
+    void canAccessSEAExtract(final Entity seaEntity) {
 
-        boolean leaFound = false;
-        for (String edorgId : helper.getChildLEAsOfEdOrg(seaEntity)) {
-            LOG.debug("Checking leaId: {} for seaId: {}",edorgId,seaId);
-            if (edorgValidator.validate(EntityNames.EDUCATION_ORGANIZATION, new HashSet<String>(Arrays.asList(edorgId)))) {
+        boolean approvedLEAExists = false;
+        for (String leaId : helper.getChildLEAsOfEdOrg(seaEntity)) {
+            LOG.debug("Checking lea: {} for sea: {}", leaId, seaEntity.getEntityId());
                 try {
-                    appAuthHelper.checkApplicationAuthorization(edorgId);
-                    leaFound = true;
+                    canAccessLEAExtract(leaId);
+                    approvedLEAExists = true;
                     break;
                 } catch (AccessDeniedException e) {
-                    leaFound = false;
+                    approvedLEAExists = false;
                 }
+        }
+        if (!approvedLEAExists) {
+            throw new AccessDeniedException("User is not authorized to access SEA public extract");
+        }
+    }
+
+    /**
+     * Validate if the user can access LEA extract
+     *
+     * @param leaId the LEA id
+     */
+    void canAccessLEAExtract(String leaId) {
+            if (!edorgValidator.validate(EntityNames.EDUCATION_ORGANIZATION, new HashSet<String>(Arrays.asList(leaId)))) {
+                throw new AccessDeniedException("User is not authorized to access this extract");
             }
-        }
-
-        if (!leaFound) {
-            throw new AccessDeniedException("User is not authorized access SEA public extract");
-        }
-
-        return getExtractResponse(req, null, seaId, true);
+        appAuthHelper.checkApplicationAuthorization(leaId);
     }
 
     /**
@@ -296,8 +334,10 @@ public class BulkExtract {
         if (entity == null) {
             // return 404 if no bulk extract support for that tenant
             if (leaId != null) {
+                logSecurityEvent(uri, "No bulk extract support for lea: " + leaId);
                 LOG.info("No bulk extract support for lea: {}", leaId);
             } else {
+                logSecurityEvent(uri, "No bulk extract support for tenant: " + getPrincipal().getTenantId());
                 LOG.info("No bulk extract support for tenant: {}", getPrincipal().getTenantId());
             }
             return Response.status(Status.NOT_FOUND).build();
@@ -309,15 +349,17 @@ public class BulkExtract {
         if (!bulkExtractFile.exists()) {
             // return 404 if the bulk extract file is missing
             if (leaId != null) {
+                logSecurityEvent(uri, "No bulk extract support for lea: " + leaId);
                 LOG.info("No bulk extract file found for lea: {}", leaId);
             } else {
+                logSecurityEvent(uri, "No bulk extract support for tenant: " + getPrincipal().getTenantId());
                 LOG.info("No bulk extract file found for tenant: {}", getPrincipal().getTenantId());
             }
             return Response.status(Status.NOT_FOUND).build();
         }
 
-        return FileResource.getFileResponse(req, bulkExtractFile,
-                bulkExtractFile.lastModified(), bulkExtractFileEntity.getLastModified());
+        return fileResource.getFileResponse(req, bulkExtractFile,
+                bulkExtractFile.lastModified(), bulkExtractFileEntity.getLastModified(), uri);
 
     }
 
@@ -336,10 +378,11 @@ public class BulkExtract {
 
         List<String> appAuthorizedUserLEAs = getApplicationAuthorizedUserSLEAs(userDistricts, appId);
         if (appAuthorizedUserLEAs.size() == 0) {
+            logSecurityEvent(uri, "No authorized LEAs for application:" + appId);
             LOG.info("No authorized LEAs for application: {}", appId);
             return Response.status(Status.NOT_FOUND).build();
         }
-
+        logSecurityEvent(uri, "Successfully retrieved LEA list for " + appId);
         return assembleLEALinksResponse(context, appId, appAuthorizedUserLEAs);
     }
 
@@ -589,10 +632,21 @@ public class BulkExtract {
         String clientId = auth.getClientAuthentication().getClientId();
 
         if (null == certs || certs.length < 1) {
+            logSecurityEvent(uri, "App must provide client side X509 Certificate");
             throw new IllegalArgumentException("App must provide client side X509 Certificate");
         }
 
         this.validator.validateCertificate(certs[0], clientId);
+    }
+
+    public void setFileResource(FileResource fileResource) {
+        this.fileResource = fileResource;
+    }
+
+
+    void logSecurityEvent(UriInfo uriInfo, String message) {
+        audit(securityEventBuilder.createSecurityEvent(BulkExtract.class.getName(),
+                uri.getRequestUri(), message));
     }
 
 }

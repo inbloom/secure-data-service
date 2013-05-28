@@ -40,7 +40,7 @@ public class GradingPeriodContextResolver extends RelatedContextResolver {
     
     @Override
     protected String getReferredId(String type, Map<String, Object> body) {
-        LOG.info("getting referredId for {}", body);
+        LOG.debug("getting referredId for {}", body);
         @SuppressWarnings("unchecked")
         Map<String, Object> identity = (Map<String, Object>) body.get("gradingPeriodIdentity");
         if (identity == null) {

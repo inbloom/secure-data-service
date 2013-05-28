@@ -15,6 +15,8 @@
  */
 package org.slc.sli.bulk.extract.extractor;
 
+import static org.slc.sli.bulk.extract.LogUtil.audit;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.MessageFormat;
@@ -25,11 +27,17 @@ import java.util.Map;
 
 import org.slc.sli.bulk.extract.files.EntityWriterManager;
 import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.message.BEMessageCode;
+import org.slc.sli.bulk.extract.util.SecurityEventUtil;
+import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Predicate;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 /**
@@ -48,6 +56,9 @@ public class EntityExtractor{
 
     private NeutralQuery extractionQuery;
 
+    @Autowired
+    private SecurityEventUtil securityEventUtil;
+
     /**
      * extract all the records of entity.
      *
@@ -57,6 +68,11 @@ public class EntityExtractor{
      *          Name of the entity to be extracted
      */
     public void extractEntities(ExtractFile archiveFile, String collectionName) {
+
+        audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
+                " Entity extraction", LogLevelType.TYPE_INFO,
+                BEMessageCode.BE_SE_CODE_0024, collectionName));
+
         try {
             if (extractionQuery == null) {
                 extractionQuery = new NeutralQuery();
@@ -69,13 +85,16 @@ public class EntityExtractor{
                 while (cursor.hasNext()) {
                     Entity entity = cursor.next();
 
-                    write(entity, archiveFile, collectionRecord);
+                    write(entity, archiveFile, collectionRecord, null);
 
                 }
 
                 LOG.info("Finished extracting " + collectionRecord.toString());
             }
         } catch (IOException e) {
+            audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
+                    " Entity extraction", LogLevelType.TYPE_ERROR,
+                    BEMessageCode.BE_SE_CODE_0025, collectionName));
             LOG.error("Error while extracting from " + collectionName, e);
         }
     }
@@ -86,15 +105,21 @@ public class EntityExtractor{
      * @param archiveFile
      * @param collectionName
      */
-    public void extractEntity(Entity entity, ExtractFile archiveFile, String collectionName) {
+    public void extractEntity(Entity entity, ExtractFile archiveFile, String collectionName, Predicate<Entity> filter) {
         try {
-            write(entity, archiveFile, new CollectionWrittenRecord(collectionName));
+            if(archiveFile!=null){
+                write(entity, archiveFile, new CollectionWrittenRecord(collectionName), filter);
+            }
         } catch (IOException e) {
             LOG.error("Error while extracting from " + collectionName, e);
         }
     }
+    
+    public void extractEntity(Entity entity, ExtractFile archiveFile, String collectionName) {  
+        extractEntity(entity, archiveFile, collectionName, null);
+    }
 
-    /**
+	/**
      * Writes an entity to a file.
      * @param entity entity
      * @param archiveFile archiveFile
@@ -102,15 +127,15 @@ public class EntityExtractor{
      * @throws FileNotFoundException FileNotFoundException
      * @throws IOException IOException
      */
-    public void write(Entity entity, ExtractFile archiveFile, CollectionWrittenRecord collectionRecord)
+    public void write(Entity entity, ExtractFile archiveFile, CollectionWrittenRecord collectionRecord, Predicate<Entity> filter)
             throws FileNotFoundException, IOException {
         writer.write(entity, archiveFile);
         collectionRecord.incrementNumberOfEntitiesWritten();
         //Write subdocs
-        writeEmbeddedDocs(entity.getEmbeddedData(), archiveFile, collectionRecord);
+        writeEmbeddedDocs(entity.getEmbeddedData(), archiveFile, collectionRecord, filter);
 
         //Write container data
-        writeEmbeddedDocs(entity.getContainerData(), archiveFile, collectionRecord);
+        writeEmbeddedDocs(entity.getContainerData(), archiveFile, collectionRecord, filter);
     }
 
 
@@ -122,10 +147,10 @@ public class EntityExtractor{
      * @param collectionRecord collectionRecord
      */
     private void writeEmbeddedDocs(Map<String, List<Entity>> docs, ExtractFile archiveFile,
-            CollectionWrittenRecord collectionRecord) throws FileNotFoundException, IOException {
+            CollectionWrittenRecord collectionRecord, Predicate<Entity> filter) throws FileNotFoundException, IOException {
         for (String docName : docs.keySet()) {
                 for (Entity doc : docs.get(docName)) {
-                    if(doc != null) {
+                    if (doc != null && (filter == null || filter.apply(doc))) {
                         writer.write(doc, archiveFile);
                     } else {
                         LOG.warn("Embedded Doc {} has null value", docName);
