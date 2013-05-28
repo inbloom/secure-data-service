@@ -103,7 +103,7 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
     }
     
     public enum Operation {
-        UPDATE, DELETE
+        UPDATE, DELETE, PURGE
     }
     
     public void init(String tenant, DateTime deltaUptoTime) {
@@ -194,6 +194,12 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
             }
             
             String collection = (String) delta.get("c");
+
+            if (collection.equals(DeltaJournal.PURGE)) {
+                Entity purge = new MongoEntity(collection, id, delta, null);
+                return new DeltaRecord(purge, null, Operation.PURGE, false, collection);
+            }
+
             ContextResolver resolver = resolverFactory.getResolver((String) delta.get("c"));
             if (resolver == null) {
                 // we have no resolver defined for this type, i.e. this type should not be

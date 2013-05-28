@@ -127,6 +127,12 @@ task :bulkExtractSecurityEventTests do
   Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
 
+desc "Delta extract after a purge"
+task :bulkExtractDeltaPurgeTests do
+  runTests("test/features/bulk_extract/features/bulk_extract_delta_purge.feature")
+  Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
+end
+
 desc "Cleanup script Tests"
 task :bulkExtractCleanupTests do
   runTests("test/features/bulk_extract/features/bulk_extract_cleanup_script.feature")

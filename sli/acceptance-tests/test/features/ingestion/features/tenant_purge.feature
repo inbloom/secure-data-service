@@ -48,6 +48,7 @@ When I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
       | student                     | 0     |
       | educationOrganization       | 8     |
       | applicationAuthorization    | 14    |
+      | deltas                      | 1     |
    And the following collections counts are the same:
      | collectionName           |
      | application              |
@@ -99,6 +100,7 @@ When I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
       | student                     | 0     |
       | applicationAuthorization    | 0     |
       | educationOrganization       | 0     |
+      | deltas                      | 1     |
    And the following collections counts are the same:
      | collectionName           |
      | application              |
