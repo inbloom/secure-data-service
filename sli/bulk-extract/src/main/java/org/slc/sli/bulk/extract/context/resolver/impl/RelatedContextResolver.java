@@ -45,7 +45,7 @@ public abstract class RelatedContextResolver implements ContextResolver {
             return Collections.emptySet();
         }
         
-        return getReferredResolver().findGoverningLEA(referredId);
+        return getReferredResolver().findGoverningEdOrgs(referredId);
     }
     
     protected String getReferredId(String type, Map<String, Object> body) {

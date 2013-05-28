@@ -49,7 +49,7 @@ public abstract class ReferrableResolver implements ContextResolver {
     }
     
     /**
-     * Return a list of LEAs IDs given the entity
+     * Return a list of edOrg IDs that have ownership of the given entity
      * 
      * @param an
      *            entity
@@ -61,7 +61,7 @@ public abstract class ReferrableResolver implements ContextResolver {
         }
         String id = entity.getEntityId();
         if (getCache().containsKey(id)) {
-            LOG.debug("got LEAs from cache for {}", entity);
+            LOG.debug("got edOrgs from cache for {}", entity);
             return getCache().get(id);
         }
         
@@ -72,19 +72,19 @@ public abstract class ReferrableResolver implements ContextResolver {
     }
     
     /**
-     * Find the governing LEAs based on the id
+     * Find the governing edOrgs based on the id
      * 
      * @param id
      *            the id of the entity to look up
-     * @return the list of leas
+     * @return the list of edOrgs
      */
-    public Set<String> findGoverningLEA(String id) {
+    public Set<String> findGoverningEdOrgs(String id) {
         if (id == null) {
             return Collections.emptySet();
         }
 
         if (getCache().containsKey(id)) {
-            LOG.debug("got LEAs from cache for {}", id);
+            LOG.debug("got edOrgs from cache for {}", id);
             return getCache().get(id);
         }
 

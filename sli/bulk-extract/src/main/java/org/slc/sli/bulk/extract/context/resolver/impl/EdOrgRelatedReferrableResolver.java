@@ -51,7 +51,7 @@ public abstract class EdOrgRelatedReferrableResolver extends ReferrableResolver 
         if (schoolId == null) {
             LOG.warn("Entity found without a school id: {}", entity);
         } else {
-            leas.addAll(edorgResolver.findGoverningLEA(schoolId));
+            leas.addAll(edorgResolver.findGoverningEdOrgs(schoolId));
         }
         
         leas.addAll(getTransitiveAssociations(entity));

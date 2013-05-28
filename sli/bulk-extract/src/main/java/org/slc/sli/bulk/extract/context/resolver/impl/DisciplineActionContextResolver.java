@@ -53,12 +53,12 @@ public class DisciplineActionContextResolver implements ContextResolver {
         String responsibleSchool = (String) entity.getBody().get("responsibilitySchoolId");
         String assignmentSchool = (String) entity.getBody().get("assignmentSchoolId");
         Set<String> leas = new HashSet<String>();
-        leas.addAll(edOrgResolver.findGoverningLEA(responsibleSchool));
-        leas.addAll(edOrgResolver.findGoverningLEA(assignmentSchool));
+        leas.addAll(edOrgResolver.findGoverningEdOrgs(responsibleSchool));
+        leas.addAll(edOrgResolver.findGoverningEdOrgs(assignmentSchool));
         @SuppressWarnings("unchecked")
         List<String> studentIds = (List<String>) entity.getBody().get("studentId");
         for(String studentId: studentIds){
-            leas.addAll(studentResolver.findGoverningLEA(studentId));
+            leas.addAll(studentResolver.findGoverningEdOrgs(studentId));
         }
         return leas;
     }

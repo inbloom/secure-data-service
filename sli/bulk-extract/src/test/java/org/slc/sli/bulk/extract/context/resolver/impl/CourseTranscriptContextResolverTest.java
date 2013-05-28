@@ -52,7 +52,7 @@ public class CourseTranscriptContextResolverTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        when(studentResolver.findGoverningLEA("student1")).thenReturn(new HashSet<String>(Arrays.asList("toplea2")));
+        when(studentResolver.findGoverningEdOrgs("student1")).thenReturn(new HashSet<String>(Arrays.asList("toplea2")));
         when(repo.findById(EntityNames.STUDENT_ACADEMIC_RECORD, "studentacademicrecord1")).thenReturn(buildStudentAcademicRecord());
     }
     

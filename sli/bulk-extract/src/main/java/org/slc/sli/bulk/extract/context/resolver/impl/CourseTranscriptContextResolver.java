@@ -67,7 +67,7 @@ public class CourseTranscriptContextResolver implements ContextResolver {
         }
 
         if (studentId != null) {
-            return studentResolver.findGoverningLEA(studentId);
+            return studentResolver.findGoverningEdOrgs(studentId);
         }
         
         return Collections.emptySet();

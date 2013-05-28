@@ -47,7 +47,7 @@ public class GradingPeriodContextResolverTest {
     
     @Test
     public void testGradingPeriodResolver() {
-        when(edOrgResolver.findGoverningLEA("osirisHigh")).thenReturn(
+        when(edOrgResolver.findGoverningEdOrgs("osirisHigh")).thenReturn(
                 new HashSet<String>(Arrays.asList("OsirisSchoolDistrict")));
         Entity gradingPeriod = mock(Entity.class);
         Map<String, Object> gradingPeriodIdentity = new HashMap<String, Object>();

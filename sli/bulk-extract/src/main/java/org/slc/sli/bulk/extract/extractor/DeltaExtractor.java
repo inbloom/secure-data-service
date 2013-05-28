@@ -186,13 +186,13 @@ public class DeltaExtractor {
     private void spamDeletes(DeltaRecord delta, Set<String> exceptions, String tenant,
             DateTime deltaUptoTime, Map<String, Set<String>> appsPerEdOrg) {
         for (Map.Entry<String, Set<String>> entry : appsPerEdOrg.entrySet()) {
-            String lea = entry.getKey();
+            String edOrg = entry.getKey();
 
-            if (exceptions.contains(lea)) {
+            if (exceptions.contains(edOrg)) {
                 continue;
             }
 
-            ExtractFile extractFile = getExtractFile(lea, tenant, deltaUptoTime, entry.getValue());
+            ExtractFile extractFile = getExtractFile(edOrg, tenant, deltaUptoTime, entry.getValue());
             // for some entities we have to spam delete the same id in two
             // collections since we cannot reliably retrieve the "type". For example,
             // teacher/staff or edorg/school, if the entity has been deleted, all we know
@@ -204,7 +204,7 @@ public class DeltaExtractor {
             for (String type : types) {
                 // filter out obvious subdocs that don't make sense...
                 // a subdoc must have an id that is double the normal id size
-                if (!subdocs.contains(type) || entity.getEntityId().length() == lea.length() * 2) {
+                if (!subdocs.contains(type) || entity.getEntityId().length() == edOrg.length() * 2) {
                     Entity e = new MongoEntity(type, entity.getEntityId(),
                             new HashMap<String, Object>(), null);
                     entityWriteManager.writeDelete(e, extractFile);
