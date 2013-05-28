@@ -37,6 +37,9 @@ Feature: List a purge as a single event in the delta extract
     And I verify this "deleted" file should contain:
       | id                                               | condition                             |
       | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id      | entityType = educationOrganization    |
+    And I verify this "deleted" file should not contain:
+      | id                                               | condition                             |
+      | 352e8570bd1116d11a72755b987902440045d346_id      |                                       |
 
   Scenario: Do a complete purge, reingest, authorize app, and delta extract should have a purge event
     Given I successfully ingest "TenantPurge.zip"
