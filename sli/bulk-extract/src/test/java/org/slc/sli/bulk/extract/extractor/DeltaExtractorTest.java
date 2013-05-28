@@ -168,6 +168,13 @@ public class DeltaExtractorTest {
         return update;
     }
 
+    private DeltaRecord buildPurgeRecord() {
+        MongoEntity purge = new MongoEntity("purge", null, new HashMap<String, Object>(), null);
+        DeltaEntityIterator.DeltaRecord res = new DeltaEntityIterator.DeltaRecord(purge,
+               null, DeltaEntityIterator.Operation.PURGE, false, "purge");
+        return res;
+    }
+
     private DeltaRecord buildDeleteRecord() {
         DeltaEntityIterator.DeltaRecord delete = new DeltaEntityIterator.DeltaRecord(buildEdorgEntity("lea2"),
                 new HashSet<String>(Arrays.asList("lea2")), DeltaEntityIterator.Operation.DELETE, false, "educationOrganization");
@@ -199,6 +206,16 @@ public class DeltaExtractorTest {
         } catch (IOException e) {
             fail("should never throw exceptions in mocks");
         }
+    }
+
+    @Test
+    public void testPurge() {
+        when(deltaEntityIterator.hasNext()).thenReturn(true, false);
+        when(deltaEntityIterator.next()).thenReturn(buildPurgeRecord());
+
+        extractor.execute("Midgar", new DateTime(), "");
+
+        verify(entityWriteManager, times(2)).writeDelete(any(Entity.class), any(ExtractFile.class));
     }
     
 }

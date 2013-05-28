@@ -91,6 +91,7 @@ public class DeltaEntityIteratorTest {
         List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
         results.add(buildDelta("update_id", DeltaEntityIterator.Operation.UPDATE));
         results.add(buildDelta("delete_id", DeltaEntityIterator.Operation.DELETE));
+        results.add(buildDelta("purge_id", Operation.PURGE));
         return results;
     }
 
@@ -98,7 +99,11 @@ public class DeltaEntityIteratorTest {
         Map<String, Object> res = new HashMap<String, Object>();
         res.put("_id", id);
         long now = new DateTime().getMillis();
-        res.put("c", "educationOrganization");
+        if(op != Operation.PURGE) {
+            res.put("c", "educationOrganization");
+        } else {
+            res.put("c", "purge");
+        }
         if (op == Operation.DELETE) {
             res.put("d", now);
         } else if (op == Operation.UPDATE) {
@@ -123,7 +128,7 @@ public class DeltaEntityIteratorTest {
         List<String> lists = Arrays.asList("LEA1", "LEA2");
         Set<String> governingLEAs = new HashSet<String>(lists);
         iterator.init("Midgar", new DateTime());
-        // should have two delta records
+        // should have three delta records
         int count = 0;
         while (iterator.hasNext()) {
             count++;
@@ -137,9 +142,13 @@ public class DeltaEntityIteratorTest {
                 assertEquals(null, record.getBelongsToLEA());
                 assertFalse(record.isSpamDelete());
                 assertEquals(DeltaEntityIterator.Operation.DELETE, record.getOp());
+            } else if(count == 3) {
+                assertEquals(null, record.getBelongsToLEA());
+                assertFalse(record.isSpamDelete());
+                assertEquals(Operation.PURGE, record.getOp());
             }
         }
-        assertTrue(count == 2);
+        assertTrue(count == 3);
     }
     
     @Test(expected = UnsupportedOperationException.class)
