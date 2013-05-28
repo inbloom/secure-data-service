@@ -51,6 +51,7 @@ import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.dal.repository.DeltaJournal;
 import org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
@@ -158,6 +159,8 @@ public class DeltaExtractor {
             } else if (delta.getOp() == Operation.DELETE) {
                 spamDeletes(delta, Collections.<String> emptySet(), tenant, deltaUptoTime,
                         appsPerTopLEA);
+            } else if (delta.getOp() == Operation.PURGE) {
+                logPurge(delta, Collections.<String> emptySet(), tenant, deltaUptoTime, appsPerTopLEA);
             }
         }
 
@@ -208,6 +211,26 @@ public class DeltaExtractor {
                     entityWriteManager.writeDelete(e, extractFile);
                 }
             }
+        }
+    }
+
+    private void logPurge(DeltaRecord delta, Set<String> exceptions, String tenant,
+                             DateTime deltaUptoTime, Map<String, Set<String>> appsPerLEA) {
+        for (Map.Entry<String, Set<String>> entry : appsPerLEA.entrySet()) {
+            String lea = entry.getKey();
+
+            if (exceptions.contains(lea)) {
+                continue;
+            }
+
+            ExtractFile extractFile = getExtractFile(lea, tenant, deltaUptoTime, entry.getValue());
+
+            DateTime date =  new DateTime((Long)delta.getEntity().getBody().get("t"));
+
+            Entity purgeEntity = new MongoEntity(DeltaJournal.PURGE, null, new HashMap<String, Object>(), null);
+            purgeEntity.getBody().put("date", DATE_TIME_FORMATTER.print(date));
+
+            entityWriteManager.writeDelete(purgeEntity, extractFile);
         }
     }
 
