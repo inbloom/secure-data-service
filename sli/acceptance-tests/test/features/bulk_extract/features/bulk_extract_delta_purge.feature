@@ -12,21 +12,53 @@ Feature: List a purge as a single event in the delta extract
     And I successfully ingest "StoriedDataSet_IL_Daybreak.zip"
 
   Scenario: The delta extract has a single event for a purge
-    Given I successfully ingest "TenantPurgeKeepEdOrgs.zip"
+    Given I trigger a bulk extract
+    And I successfully ingest "TenantPurgeKeepEdOrgs.zip"
     And I trigger a delta extract
-    Then the delete file in the newest delta extract should have one purge entry
+    When I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
+      |  entityType                            |
+      |  deleted                               |
+    Then the delete file in the delta extract should have one purge entry
 
-    #Replace the zips in the following to actual files that deletes an edorg
-    Given I successfully ingest "BroadSchoolDelete.zip"
+    Given I successfully ingest "TenantPurgeKeepEdOrgs.zip"
+    And I successfully ingest "DeleteDaybreakElementary.zip"
+    And the following collections are empty in batch job datastore:
+      | collectionName |
+      | newBatchJob    |
     And I successfully ingest "TenantPurgeKeepEdOrgs.zip"
     And I successfully ingest "DeleteDaybreakJuniorHigh.zip"
-    And I successfully ingest "TenantPurgeKeepEdOrgs.zip"
+    And the extraction zone is empty
+    And the bulk extract files in the database are scrubbed
     And I trigger a delta extract
-    Then the delete file in the newest delta extract should have one purge entry
+    When I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
+      |  entityType                            |
+      |  deleted                               |
+    Then the delete file in the delta extract should have one purge entry
+    And I verify this "deleted" file should contain:
+      | id                                               | condition                             |
+      | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id      | entityType = educationOrganization    |
 
   Scenario: Do a complete purge, reingest, authorize app, and delta extract should have a purge event
     Given I successfully ingest "TenantPurge.zip"
     And I successfully ingest "StoriedDataSet_IL_Sunset.zip"
     And all LEAs in "Midgar" are authorized for "SDK Sample"
     And I trigger a delta extract
-    Then the delete file in the newest delta extract should have one purge entry
+    When I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-SUNSET>" in "Midgar" contains a file for each of the following entities:
+      |  entityType                            |
+      |  student                               |
+      |  studentSchoolAssociation              |
+      |  studentSectionAssociation             |
+      |  school                                |
+      |  section                               |
+      |  session                               |
+      |  educationOrganization                 |
+      |  staff                                 |
+      |  staffEducationOrganizationAssociation |
+      |  teacher                               |
+      |  teacherSchoolAssociation              |
+      |  teacherSectionAssociation             |
+      |  course                                |
+      |  courseOffering                        |
+      |  gradingPeriod                         |
+      |  deleted                               |
+    Then the delete file in the delta extract should have one purge entry
