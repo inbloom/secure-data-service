@@ -31,6 +31,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Date;
 
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
@@ -41,6 +42,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -54,6 +56,9 @@ public class DeltaJournalTest {
     @Mock
     private MongoTemplate template;
 
+    @Mock
+    private UUIDGeneratorStrategy uuidGeneratorStrategy;
+
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Before
     public void setUp() throws Exception {
@@ -65,6 +70,7 @@ public class DeltaJournalTest {
         List<Map> thirdBatch = buildThirdBatch();
         when(template.find(any(Query.class), (Class<Map>) any(), anyString())).thenReturn(firstBatch)
                 .thenReturn(secondBatch).thenReturn(thirdBatch).thenReturn(new ArrayList());
+        when(uuidGeneratorStrategy.generateId()).thenReturn("123_id");
         deltaJournal.setDeltasEnabled(true);
         deltaJournal.afterPropertiesSet();
     }
@@ -155,6 +161,37 @@ public class DeltaJournalTest {
         };
         verify(template).upsert(eq(q1), argThat(updateMatcher), eq("deltas"));
         verify(template).upsert(eq(q2), argThat(updateMatcher), eq("deltas"));
+    }
+
+    @Test
+    public void testJournalPurge() {
+        final long time = new Date().getTime();
+
+        deltaJournal.journalPurge(time);
+
+        Update update = new Update();
+        update.set("t", time);
+        update.set("c", "purge");
+
+        BaseMatcher<Update> updateMatcher = new BaseMatcher<Update>() {
+
+            @Override
+            public boolean matches(Object arg0) {
+                @SuppressWarnings("unchecked")
+                Map<String, Object> o = (Map<String, Object>) ((Update) arg0).getUpdateObject().get("$set");
+                if (o.get("c").equals("purge") && o.get("t").equals(time)) {
+                   return true;
+                }
+                return  false;
+            }
+
+            @Override
+            public void describeTo(Description arg0) {
+                arg0.appendText("Update with 'c' set to 'purge' and 't' set to time of purge");
+            }
+        };
+
+        verify(template, Mockito.times(1)).upsert(Mockito.any(Query.class), argThat(updateMatcher), Mockito.eq("deltas"));
     }
 
 }

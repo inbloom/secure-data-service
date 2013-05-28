@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -61,6 +62,8 @@ public class DeltaJournal implements InitializingBean {
 
     public static final String DELTA_COLLECTION = "deltas";
 
+    public static final String PURGE = "purge";
+
     // in paged query, get upto 50000 items each time
     @Value("${sli.bulk.extract.delta.iterationSize:50000}")
     private int limit = 50000;
@@ -68,6 +71,10 @@ public class DeltaJournal implements InitializingBean {
     @Autowired
     @Qualifier("journalTemplate")
     private MongoTemplate template;
+
+    @Autowired
+    @Qualifier("shardType1UUIDGeneratorStrategy")
+    private UUIDGeneratorStrategy uuidGeneratorStrategy;
 
     private final Map<String, String> subdocCollectionsToCollapse = new HashMap<String, String>();
 
@@ -113,6 +120,21 @@ public class DeltaJournal implements InitializingBean {
             newIds.add(id.split("_id")[0]+"_id");
         }
         journal(newIds, subdocCollectionsToCollapse.get(collection), false);
+    }
+
+    /**
+     * Record a purge event in the delta journal
+     * @param timeOfPurge
+     *          start time of purge
+     */
+    public void journalPurge(long timeOfPurge) {
+        String id = uuidGeneratorStrategy.generateId();
+
+        Update update = new Update();
+        update.set("t", timeOfPurge);
+        update.set("c", PURGE);
+
+        template.upsert(Query.query(where("_id").is(id)), update, DELTA_COLLECTION);
     }
 
     /*
