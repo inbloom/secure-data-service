@@ -1032,7 +1032,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         } else {
             result = super.update(collection, entity, null, isSuperdoc); // body);
         }
-        if (journal != null) {
+        if (result && journal != null) {
             journal.journal(entity.getEntityId(), collection, false);
         }
         return result;

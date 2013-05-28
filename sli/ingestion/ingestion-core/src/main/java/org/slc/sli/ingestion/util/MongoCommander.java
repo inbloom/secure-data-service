@@ -16,6 +16,7 @@
 package org.slc.sli.ingestion.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
@@ -287,59 +288,60 @@ public final class MongoCommander {
                 return sresult;
             }
         }
-        return preSplitRecordHash(dbName, mongoTemplate);
+        return preSplitBinCollections(dbName, mongoTemplate);
     }
 
-    private static String preSplitRecordHash(String dbName,  MongoTemplate mongoTemplate) {
+    private static String preSplitBinCollections(String dbName,  MongoTemplate mongoTemplate) {
         DB dbConn = mongoTemplate.getDb().getSisterDB("admin");
         List<String> shards = getShards(dbConn);
         if (shards != null && shards.size() > 0) {
             int numShards = shards.size();
-            LOG.info("Shard count = {}. Setting up sharding config for recordHash!", numShards);
-            String collection = dbName + "." + "recordHash";
-            DBObject shardColl = new BasicDBObject();
-            shardColl.put("shardCollection", collection);
-            shardColl.put("key", new BasicDBObject(ID, 1));
-            CommandResult result = dbConn.command(shardColl);
-            if (!result.ok()) {
-                LOG.error("Error enabling shard'ing on recordHash: {}", result.getErrorMessage());
-               return result.getErrorMessage();
-            }
-
-            int charOffset = 256 / numShards;
-            List<byte[]> shardPoints = new ArrayList<byte[]>();
-            shardPoints.add(null);
-            for (int shard = 1; shard < numShards; shard++) {
-                String splitString = Integer.toHexString(charOffset * shard);
-                if (splitString.length() < 2) {
-                    splitString = "0" + splitString;
-                }
-
-                splitString = splitString + STR_0X38;
-                byte[] splitPoint = RecordHash.hex2Binary(splitString);
-                shardPoints.add(splitPoint);
-                LOG.info("Adding recordHash splitPoint [" + RecordHash.binary2Hex(splitPoint) + "]");
-
-                DBObject splitCmd = new BasicDBObject();
-                splitCmd.put("split", collection);
-                splitCmd.put("middle", new BasicDBObject(ID, splitPoint));
-                result = dbConn.command(splitCmd);
+            List<String> collections = Arrays.asList("recordHash", "deltas");
+            for (String collectionName: collections) {
+                LOG.info("Shard count = {}. Setting up sharding config for {}!", numShards, collectionName);
+                String collection = dbName + "." + collectionName;
+                DBObject shardColl = new BasicDBObject();
+                shardColl.put("shardCollection", collection);
+                shardColl.put("key", new BasicDBObject(ID, 1));
+                CommandResult result = dbConn.command(shardColl);
                 if (!result.ok()) {
-                    LOG.error("Error splitting chunk in recordHash: {}", result.getErrorMessage());
+                    LOG.error("Error enabling shard'ing on recordHash: {}", result.getErrorMessage());
                     return result.getErrorMessage();
                 }
-            }
+                int charOffset = 256 / numShards;
+                List<byte[]> shardPoints = new ArrayList<byte[]>();
+                shardPoints.add(null);
+                for (int shard = 1; shard < numShards; shard++) {
+                    String splitString = Integer.toHexString(charOffset * shard);
+                    if (splitString.length() < 2) {
+                        splitString = "0" + splitString;
+                    }
 
-            for (int index = 0; index < numShards; index++) {
-                DBObject moveCommand = new BasicDBObject();
-                moveCommand.put("moveChunk", collection);
-                moveCommand.put("find", new BasicDBObject(ID, index == 0 ? "$minkey" : shardPoints.get(index)));
-                moveCommand.put("to", shards.get(index));
-                result = dbConn.command(moveCommand);
-                if (!result.ok()) {
-                    if (!result.getErrorMessage().equals("that chunk is already on that shard")) {
-                        LOG.error("Error moving chunk in recordHash: {}", result.getErrorMessage());
+                    splitString = splitString + STR_0X38;
+                    byte[] splitPoint = RecordHash.hex2Binary(splitString);
+                    shardPoints.add(splitPoint);
+                    LOG.info("Adding recordHash splitPoint [" + RecordHash.binary2Hex(splitPoint) + "]");
+
+                    DBObject splitCmd = new BasicDBObject();
+                    splitCmd.put("split", collection);
+                    splitCmd.put("middle", new BasicDBObject(ID, splitPoint));
+                    result = dbConn.command(splitCmd);
+                    if (!result.ok()) {
+                        LOG.error("Error splitting chunk in recordHash: {}", result.getErrorMessage());
                         return result.getErrorMessage();
+                    }
+                }
+                for (int index = 0; index < numShards; index++) {
+                    DBObject moveCommand = new BasicDBObject();
+                    moveCommand.put("moveChunk", collection);
+                    moveCommand.put("find", new BasicDBObject(ID, index == 0 ? "$minkey" : shardPoints.get(index)));
+                    moveCommand.put("to", shards.get(index));
+                    result = dbConn.command(moveCommand);
+                    if (!result.ok()) {
+                        if (!result.getErrorMessage().equals("that chunk is already on that shard")) {
+                            LOG.error("Error moving chunk in recordHash: {}", result.getErrorMessage());
+                            return result.getErrorMessage();
+                        }
                     }
                 }
             }

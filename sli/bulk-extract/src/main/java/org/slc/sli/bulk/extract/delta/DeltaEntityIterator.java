@@ -178,6 +178,7 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
         // populate the id lists so we can do query in batch
         while (deltaCursor.hasNext()) {
             Map<String, Object> delta = deltaCursor.next();
+            LOG.debug("Processing delta {}", delta);
             long deletedTime = -1;
             long updatedTime = -1;
             
@@ -188,7 +189,8 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
                 updatedTime = (Long) delta.get("u");
             }
             
-            String id = (String) delta.get("_id");
+            Object idObject = delta.get("_id");
+            String id = idObject instanceof byte[] ? DeltaJournal.getStringId((byte[]) idObject) : idObject.toString();
             if ("null".equals(id) || id == null) {
                 continue;
             }
