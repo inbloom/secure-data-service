@@ -24,10 +24,7 @@ import java.util.Set;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
-import org.slc.sli.bulk.extract.util.SecurityEventUtil;
 import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.util.logging.LogLevelType;
-import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
@@ -48,7 +45,8 @@ public class StudentExtractor implements EntityExtract {
     private ExtractorHelper helper;
 
     public StudentExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo,
-            ExtractorHelper helper, EntityToLeaCache studentCache, EntityToLeaCache parentCache, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
+                            ExtractorHelper helper, EntityToLeaCache studentCache, EntityToLeaCache parentCache,
+                            LocalEdOrgExtractHelper localEdOrgExtractHelper) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
@@ -80,7 +78,6 @@ public class StudentExtractor implements EntityExtract {
                     for (String parent : parents) {
                         parentCache.addEntry(parent, lea);
                     }
-
                 }
             }
         }
@@ -98,6 +95,5 @@ public class StudentExtractor implements EntityExtract {
     public EntityToLeaCache getParentCache() {
         return parentCache;
     }
-
 
 }

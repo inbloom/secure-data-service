@@ -73,7 +73,7 @@ public class LEAExtractorFactory {
         return new AttendanceExtractor(extractor, map, repo, new ExtractorHelper(), studentCache, localEdOrgExtractHelper);
     }
     
-    public EntityExtract buildStudentSchoolAssociationExractor(EntityExtractor extractor, LEAExtractFileMap map,
+    public StudentSchoolAssociationExtractor buildStudentSchoolAssociationExtractor(EntityExtractor extractor, LEAExtractFileMap map,
             Repository<Entity> repo, EntityToLeaCache studentCache, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
         return new StudentSchoolAssociationExtractor(extractor, map, repo, studentCache, localEdOrgExtractHelper);
     }
@@ -134,6 +134,11 @@ public class LEAExtractorFactory {
     
     public EntityExtract buildStudentCompetencyExtractor(EntityExtractor entityExtractor, LEAExtractFileMap leaToExtractFileMap, Repository<Entity> repository) {
     	return new StudentCompetencyExtractor(entityExtractor, leaToExtractFileMap, repository);
+    }
+
+    public GraduationPlanExtractor buildGraduationPlanExtractor(EntityExtractor extractor, LEAExtractFileMap map,
+            Repository<Entity> repo, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
+        return new GraduationPlanExtractor(extractor, map, repo, localEdOrgExtractHelper);
     }
 
     public EntityExtract buildDisciplineExtractor(EntityExtractor entityExtractor, LEAExtractFileMap leaToExtractFileMap, Repository<Entity> repository, EntityToLeaCache edorgCache, EntityToLeaCache entityCache) {

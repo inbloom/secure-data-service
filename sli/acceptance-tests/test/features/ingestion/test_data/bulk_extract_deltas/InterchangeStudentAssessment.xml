@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <InterchangeStudentAssessment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentAssessment.xsd">
   <StudentAssessment>
-    <AdministrationDate>2012-02-28</AdministrationDate>
+    <AdministrationDate>2013-08-28</AdministrationDate>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Classroom</AdministrationEnvironment>
     <RetestIndicator>Primary Administration</RetestIndicator>
@@ -15,7 +15,8 @@
     </StudentReference>
     <AssessmentReference>
       <AssessmentIdentity>
-        <AssessmentTitle>2012-Ninth grade Assessment 1</AssessmentTitle>
+        <AssessmentTitle>2013-Ninth grade Assessment 1</AssessmentTitle>
+        <AcademicSubject>English Language and Literature</AcademicSubject>
         <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
       </AssessmentIdentity>
     </AssessmentReference>
@@ -36,6 +37,7 @@
             <AssessmentReference>
                 <AssessmentIdentity>
                     <AssessmentTitle>2013-Ninth grade Assessment 1</AssessmentTitle>
+                    <AcademicSubject>English Language and Literature</AcademicSubject>
                     <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
                 </AssessmentIdentity>
             </AssessmentReference>

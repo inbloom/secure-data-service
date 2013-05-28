@@ -36,10 +36,10 @@ require 'logger'
           end
         else
           if migrated_data.has_key?("metaData")
-            edOrg_json["metaData"].merge!(Hash["edOrgs" => edOrg_json["_id"]])
+            edOrg_json["metaData"].merge!(Hash["edOrgs" => [edOrg_json["_id"]]])
           #edge case where no metaData
           else
-            edOrg_json["metaData"] = Hash["edOrgs" => edOrg_json["_id"]]
+            edOrg_json["metaData"] = Hash["edOrgs" => [edOrg_json["_id"]]]
           end
         end
       end

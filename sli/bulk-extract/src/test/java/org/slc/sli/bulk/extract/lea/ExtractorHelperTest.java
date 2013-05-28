@@ -183,8 +183,6 @@ public class ExtractorHelperTest {
     	Assert.assertEquals("lea-2", result.get("school-4"));
     	Assert.assertEquals("lea-2", result.get("school-5"));
     	Assert.assertEquals("lea-3", result.get("school-6"));
-
-
-
     }
+    
 }
