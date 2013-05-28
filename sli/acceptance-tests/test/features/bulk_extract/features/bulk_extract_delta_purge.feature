@@ -17,9 +17,9 @@ Feature: List a purge as a single event in the delta extract
     Then the delete file in the newest delta extract should have one purge entry
 
     #Replace the zips in the following to actual files that deletes an edorg
-    Given I successfully ingest "DeleteAnEdorg.zip"
+    Given I successfully ingest "BroadSchoolDelete.zip"
     And I successfully ingest "TenantPurgeKeepEdOrgs.zip"
-    And I successfully ingest "DeleteAnotherEdorg.zip"
+    And I successfully ingest "DeleteDaybreakJuniorHigh.zip"
     And I successfully ingest "TenantPurgeKeepEdOrgs.zip"
     And I trigger a delta extract
     Then the delete file in the newest delta extract should have one purge entry
