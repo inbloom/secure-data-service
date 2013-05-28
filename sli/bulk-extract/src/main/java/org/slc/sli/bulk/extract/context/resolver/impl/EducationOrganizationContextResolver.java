@@ -43,18 +43,19 @@ public class EducationOrganizationContextResolver extends ReferrableResolver {
 
     @Override
     protected Set<String> resolve(Entity entity) {
-        LOG.debug("finding governing LEA of {}", entity);
+        LOG.debug("finding governing edOrg of {}", entity);
         Set<String> results = new HashSet<String>();
 
-        if (!(helper.isLEA(entity) || helper.isSchool(entity))) {
-            // SEA is not supported
-            return results;
+        if (helper.isLEA(entity) || helper.isSchool(entity)) {
+            Entity topLevelLEA = helper.getTopLEAOfEdOrg(entity);
+            if (topLevelLEA != null) {
+                results.add(topLevelLEA.getEntityId());
+            }
+        } else if (helper.isSEA(entity)) {
+            // Governing edOrg of an SEA is itself
+            results.add(entity.getEntityId());
         }
 
-        Entity topLevelLEA = helper.getTopLEAOfEdOrg(entity);
-        if (topLevelLEA != null) {
-            results.add(topLevelLEA.getEntityId());
-        }
         return results;
     }
     

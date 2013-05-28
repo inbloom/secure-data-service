@@ -413,22 +413,6 @@ Scenario: Ingest education organization and perform delta
           | 54b4b51377cd941675958e6e81dce69df801bfe8_id | entityType = school                   |
 
 
-Scenario: Ingest SEA update and verify no deltas generated
-  Given I clean the bulk extract file system and database
-    And I am using local data store
-    And I post "deltas_update_sea.zip" file as the payload of the ingestion job
-
-  When the landing zone for tenant "Midgar" edOrg "Daybreak" is reinitialized
-   And zip file is scp to ingestion landing zone
-   And a batch job for file "deltas_update_sea.zip" is completed in database
-   And a batch job log has been created 
-  Then I should not see an error log file created
-   And I should not see a warning log file created
-
-  When I trigger a delta extract
-  Then there should be no deltas in mongo
-
-
 Scenario: Ingest SEA delete and verify both LEAs received the delete
   Given I clean the bulk extract file system and database
     And I ingested "deltas_delete_sea.zip" dataset

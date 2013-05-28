@@ -65,10 +65,10 @@ public abstract class ReferrableResolver implements ContextResolver {
             return getCache().get(id);
         }
         
-        Set<String> leas = resolve(entity);
+        Set<String> edOrgs = resolve(entity);
 
-        getCache().put(id, leas);
-        return leas;
+        getCache().put(id, edOrgs);
+        return edOrgs;
     }
     
     /**

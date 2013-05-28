@@ -82,15 +82,20 @@ public class EducationOrganizationContextResolverTest {
     }
     
     @Test
-    public void testFindGoverningLEA() {
+    public void testFindGoverningEdOrgs() {
         assertEquals(new HashSet<String>(Arrays.asList("level2")), underTest.findGoverningEdOrgs(school));
     }
-    
+
     @Test
-    public void testFindGoverningLEAForId() {
+    public void testFindGoverningEdOrgsForId() {
         assertEquals(new HashSet<String>(Arrays.asList("level2")), underTest.findGoverningEdOrgs("school"));
     }
-    
+
+    @Test
+    public void testFindGoverningEdOrgsForSEA() {
+        assertEquals(new HashSet<String>(Arrays.asList("sea")), underTest.findGoverningEdOrgs("sea"));
+    }
+
     @Test
     public void testCache() {
         Set<String> leas = underTest.findGoverningEdOrgs("school");
