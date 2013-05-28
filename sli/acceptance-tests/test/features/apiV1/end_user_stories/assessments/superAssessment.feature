@@ -58,10 +58,10 @@ Given I am a valid teacher "cgray" with password "cgray1234"
     And the response field "administrationLanguage" should be "English"
     And the response field "administrationEnvironment" should be "Classroom"
     And the response field "retestIndicator" should be "Primary Administration"
-    And the response field "<SOA.scoreResults.result>" should be "68"
-    And the response field "<SOA.OA.identificationCode>" should be "2012-Eleventh grade Assessment 2.OA-0"
+    And the response field "<SOA.scoreResults.result>" should be "81"
+    And the response field "<SOA.OA.identificationCode>" should be "2013-Twelfth grade Assessment 2.OA-0"
     And I sort the studentAssessmentItems
-    And the response field "<SAI.AI.identificationCode>" should be "2012-Eleventh grade Assessment 2#1"
+    And the response field "<SAI.AI.identificationCode>" should be "2013-Twelfth grade Assessment 2#1"
     And I should extract the student reference from studentAssessment
     And I should extract the assessment reference from studentAssessment
 
@@ -100,7 +100,7 @@ Given I am a valid teacher "cgray" with password "cgray1234"
     And the response field "assessmentPeriodDescriptor.description" should be "<assessment period descriptor>"
     And the response field "assessmentPeriodDescriptor.codeValue" should be "<APD.codeValue>"
     And the response field "entityType" should be "assessment"
-    And the response field "gradeLevelAssessed" should be "Eleventh grade"
+    And the response field "gradeLevelAssessed" should be "Twelfth grade"
     And the response field "assessmentTitle" should be "<assessment 1>"
     And I extract all the "assessment" links
 
@@ -109,15 +109,15 @@ Given I am a valid teacher "cgray" with password "cgray1234"
 
   When I navigate to GET "/v1/search/assessments?q=Sixth"
     Then I should have a list of 4 "assessment" entities
-    When I navigate to GET "/v1/search/assessments?assessmentTitle=2012-Sixth%20grade%20Assessment%202"
+    When I navigate to GET "/v1/search/assessments?assessmentTitle=2013-Sixth%20grade%20Assessment%202"
     Then I should have a list of 1 "assessment" entities
-    And the offset response field "assessmentTitle" should be "2012-Sixth grade Assessment 2"
+    And the offset response field "assessmentTitle" should be "2013-Sixth grade Assessment 2"
     And the offset response field "gradeLevelAssessed" should be "Sixth grade"
-    And the offset response field "<AIC.ID>" should be "2012-Sixth grade Assessment 2"
+    And the offset response field "<AIC.ID>" should be "2013-Sixth grade Assessment 2"
     And the offset response field "<AIC.identificationSystem>" should be "State"
-    And the offset response field "assessmentPeriodDescriptor.description" should be "Beginning of Year 2012-2013 for Sixth grade"
-    And the offset response field "assessmentPeriodDescriptor.codeValue" should be "BOY-6-2012"
-    And the offset response field "assessmentFamilyHierarchyName" should be "2012 Standard.2012 Sixth grade Standard"
+    And the offset response field "assessmentPeriodDescriptor.description" should be "Beginning of Year 2013-2014 for Sixth grade"
+    And the offset response field "assessmentPeriodDescriptor.codeValue" should be "BOY-6-2013"
+    And the offset response field "assessmentFamilyHierarchyName" should be "2013 Standard.2013 Sixth grade Standard"
 
   When I navigate to GET "/v1/search/assessments?q=sub"
     Then I should have a list of 50 "assessment" entities
