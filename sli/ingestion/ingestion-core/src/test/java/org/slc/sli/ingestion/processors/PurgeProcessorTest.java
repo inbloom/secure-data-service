@@ -32,6 +32,7 @@ import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.slc.sli.dal.repository.DeltaJournal;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 
@@ -61,6 +62,9 @@ public class PurgeProcessorTest {
     @Mock
     private MongoTemplate mongoTemplate;
 
+    @Mock
+    private DeltaJournal deltaJournal;
+
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
@@ -70,6 +74,8 @@ public class PurgeProcessorTest {
         purgeProcessor.setBatchJobDAO(mockBatchJobDAO);
         purgeProcessor.setMongoTemplate(mongoTemplate);
         purgeProcessor.setSandboxEnabled(false);
+        purgeProcessor.setDeltaJournal(deltaJournal);
+        purgeProcessor.setDeltasEnabled(true);
 
     }
 
@@ -141,6 +147,7 @@ public class PurgeProcessorTest {
         purgeProcessor.process(ex);
 
         Mockito.verify(studentCollection, Mockito.atLeast(2)).remove(Mockito.any(DBObject.class));
+        Mockito.verify(deltaJournal, Mockito.times(1)).journalPurge(Mockito.anyLong());
     }
 
     @Test

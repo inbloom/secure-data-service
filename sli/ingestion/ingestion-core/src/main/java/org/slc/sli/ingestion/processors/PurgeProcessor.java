@@ -22,6 +22,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.Date;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCursor;
@@ -29,8 +30,11 @@ import com.mongodb.DBObject;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.slc.sli.dal.repository.DeltaJournal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 
@@ -80,6 +84,12 @@ public class PurgeProcessor implements Processor {
 
     private int purgeBatchSize;
 
+    @Autowired
+    private DeltaJournal deltaJournal;
+
+    @Value("${sli.bulk.extract.deltasEnabled:true}")
+    private boolean deltasEnabled;
+
     @Override
     public void process(Exchange exchange) throws Exception {
 
@@ -121,6 +131,8 @@ public class PurgeProcessor implements Processor {
 
         Query searchTenantId = new Query();
 
+        long startTime = new Date().getTime();
+
         TenantContext.setIsSystemCall(false);
         Set<String> collectionNames = mongoTemplate.getCollectionNames();
 
@@ -148,6 +160,14 @@ public class PurgeProcessor implements Processor {
 
         exchange.setProperty("purge.complete", "Purge process completed successfully.");
         LOGGER.info("Purge process complete.");
+        reportPurgeEvent(startTime);
+
+    }
+
+    private void reportPurgeEvent(long startTime) {
+        if(deltasEnabled) {
+            deltaJournal.journalPurge(startTime);
+        }
 
     }
 
@@ -274,5 +294,13 @@ public class PurgeProcessor implements Processor {
 
     public void setPurgeBatchSize(int purgeBatchSize) {
         this.purgeBatchSize = purgeBatchSize;
+    }
+
+    public void setDeltaJournal(DeltaJournal deltaJournal) {
+       this.deltaJournal = deltaJournal;
+    }
+
+    public void setDeltasEnabled(boolean deltasEnabled) {
+        this.deltasEnabled = deltasEnabled;
     }
 }
