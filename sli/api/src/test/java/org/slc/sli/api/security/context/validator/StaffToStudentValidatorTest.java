@@ -167,10 +167,10 @@ public class StaffToStudentValidatorTest {
     }
 
     @Test
-    @Ignore
     public void testCanGetAccessThroughManyStudents() throws Exception {
         for (int i = 0; i < 100; ++i) {
             helper.generateStaffEdorg(STAFF_ID, edorgArray[ i ], NOT_EXPIRED);
+            injector.addToAuthorizingEdOrgs( edorgArray[ i  ] );
         }
 
         for (int i = 0; i < 100; ++i) {
@@ -188,6 +188,7 @@ public class StaffToStudentValidatorTest {
     public void testCanNotGetAccessThroughManyStudents() throws Exception {
         for (int i = 100; i < 200; ++i) {
             helper.generateStaffEdorg(STAFF_ID, edorgArray[ i ], NOT_EXPIRED);
+            injector.addToAuthorizingEdOrgs( edorgArray[ i  ] );
         }
 
         for (int i = 0; i < 100; ++i) {
@@ -204,6 +205,7 @@ public class StaffToStudentValidatorTest {
     public void testCanNotGetAccessThroughManyStudentsWithOneFailure() throws Exception {
         for (int i = 0; i < 100; ++i) {
             helper.generateStaffEdorg(STAFF_ID, edorgArray[ i ], NOT_EXPIRED);
+            injector.addToAuthorizingEdOrgs( edorgArray[ i  ] );
         }
 
         for (int i = 0; i < 100; ++i) {
