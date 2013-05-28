@@ -21,8 +21,10 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.argThat;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.data.mongodb.core.query.Criteria.where;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,11 +42,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+
+import org.slc.sli.common.util.tenantdb.TenantContext;
 
 public class DeltaJournalTest {
 
@@ -155,6 +158,27 @@ public class DeltaJournalTest {
         };
         verify(template).upsert(eq(q1), argThat(updateMatcher), eq("deltas"));
         verify(template).upsert(eq(q2), argThat(updateMatcher), eq("deltas"));
+    }
+    
+    @Test
+    public void testRemove() {
+        deltaJournal.setLimit(2);
+        deltaJournal.removeDeltaJournals("Midgar", 100);
+        Query removeIds = new Query(where("_id").in(getIds(buildFirstBatch())));
+        verify(template, times(1)).remove(removeIds, "deltas");
+        removeIds = new Query(where("_id").in(getIds(buildSecondBatch())));
+        verify(template, times(1)).remove(removeIds, "deltas");
+        removeIds = new Query(where("_id").in(getIds(buildThirdBatch())));
+        verify(template, times(1)).remove(removeIds, "deltas");
+    }
+
+    @SuppressWarnings("rawtypes")
+    private List<String> getIds(List<Map> batch) {
+        List<String> res = new ArrayList<String>();
+        for (Map<String, Object> item : batch) {
+            res.add((String) item.get("_id"));
+        }
+        return res;
     }
 
 }
