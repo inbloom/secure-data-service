@@ -620,6 +620,7 @@ def getEntityEndpoint(entity)
       "reportCard" => "reportCards",
       "school" => "educationOrganizations",
       "section" => "sections",
+      "session" => "sessions",
       "staff" => "staff",
       "newStaff" => "staff",
       "staffCohortAssociation" => "staffCohortAssociations",
@@ -2249,6 +2250,28 @@ def prepareBody(verb, value, response_map)
         "cohortId" => "cb99a7df36fadf8885b62003c442add9504b3cbd_id",
         "beginDate" => "2013-01-25",
         "endDate" => "2014-03-29"
+      },
+      "DbGradingPeriod" => {
+        "endDate" => "2015-05-29",
+        "gradingPeriodIdentity" => {
+            "schoolYear" => "2014-2015",
+            "gradingPeriod" => "End of Year",
+            "schoolId" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
+        },
+        "entityType" => "gradingPeriod",
+        "beginDate" => "2014-09-02",
+        "totalInstructionalDays" => 180
+      },
+      "DbSession" => {
+        "schoolYear" => "2014-2015",
+        "sessionName" => "2014-2015 Year Round session: IL-DAYBREAK",
+        "term" => "Year Round",
+        "gradingPeriodReference" => ["1dae9e8450e2e77dd0b06dee3fd928c1bfda4d49_id"],
+        "endDate" => "2015-05-29",
+        "schoolId" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id",
+        "entityType" => "session",
+        "beginDate" => "2014-09-02",
+        "totalInstructionalDays" => 180
       }
     },
     "PATCH" => {
