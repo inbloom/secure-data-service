@@ -62,14 +62,14 @@ def updateAllSchoolLineage(dbName)
    @school_collection = @entity_collection.find({"type" => "school"})
 
    @school_collection.find.each do |row|
-       puts updateSchoolLineage(row, dbName)
+       updateSchoolLineage(row, dbName)
    end
 end
 
 # Update Student and EducationOrganization Collection
 def updateDB(dbName)
-    puts updateAllSchoolLineage(dbName)
-    puts updateStudentEdOrgs(dbName)
+    updateAllSchoolLineage(dbName)
+    updateStudentEdOrgs(dbName)
 end
 
 # Check if database exist
@@ -87,7 +87,7 @@ def main(argv)
         	if name == "admin" || name == "config" || name == "ingestion_batch_job" || name == "sli"
             	puts "<--- ignore " + name + "--->"
        		else
-            	puts updateDB(name)
+            	updateDB(name)
         	end
         end
         puts "<--- done. --->"
@@ -96,7 +96,7 @@ def main(argv)
 
 	for dbName in dbNames	
     	if dbCheck(dbName) == true
-      		puts updateDB(dbName)
+      		updateDB(dbName)
     	else
       		puts "<--- db Name does not exist, please check --->"
    		end
