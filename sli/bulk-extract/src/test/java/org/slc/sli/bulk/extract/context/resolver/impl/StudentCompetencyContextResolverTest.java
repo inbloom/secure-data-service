@@ -64,7 +64,7 @@ public class StudentCompetencyContextResolverTest {
         Entity studentCompetency = buildStudentCompetency();
         when(repo.findById(EntityNames.STUDENT_SECTION_ASSOCIATION, "association123")).thenReturn(buildStudentSectionAssociation());
         Set<String> topLeas = new HashSet<String>(Arrays.asList("lea1", "lea2"));
-        when(studentResolver.findGoverningLEA("student123")).thenReturn(topLeas);
+        when(studentResolver.findGoverningEdOrgs("student123")).thenReturn(topLeas);
         
         assertEquals(topLeas, underTest.findGoverningEdOrgs(studentCompetency));
     }

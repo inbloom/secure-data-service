@@ -60,7 +60,7 @@ public class CourseOfferingContextResolverTest {
     @Test
     public void followSchoolId() {
         Entity courseOffering = buildCourseOffering();
-        when(edorgResolver.findGoverningLEA("edorg123")).thenReturn(new HashSet<String>(Arrays.asList("lea1", "lea2")));
+        when(edorgResolver.findGoverningEdOrgs("edorg123")).thenReturn(new HashSet<String>(Arrays.asList("lea1", "lea2")));
         when(repo.findEach("section", new NeutralQuery(
                 new NeutralCriteria("courseOfferingId", NeutralCriteria.OPERATOR_EQUAL, "courseOffering1"))))
                 .thenReturn(new ArrayList<Entity>().iterator());
@@ -74,7 +74,7 @@ public class CourseOfferingContextResolverTest {
         when(repo.findEach("section", new NeutralQuery(
                 new NeutralCriteria("courseOfferingId", NeutralCriteria.OPERATOR_EQUAL, "courseOffering1"))))
                 .thenReturn(sections.iterator());
-        when(edorgResolver.findGoverningLEA("edorg123")).thenReturn(new HashSet<String>());
+        when(edorgResolver.findGoverningEdOrgs("edorg123")).thenReturn(new HashSet<String>());
         when(sectionResolver.findGoverningEdOrgs(sections.get(0))).thenReturn(new HashSet<String>(Arrays.asList("lea3")));
         when(sectionResolver.findGoverningEdOrgs(sections.get(1))).thenReturn(new HashSet<String>(Arrays.asList("lea3", "lea4")));
         

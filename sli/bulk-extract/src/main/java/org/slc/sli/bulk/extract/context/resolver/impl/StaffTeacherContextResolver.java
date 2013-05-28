@@ -63,7 +63,7 @@ public class StaffTeacherContextResolver extends ReferrableResolver {
             if (!dateHelper.isFieldExpired(association.getBody(), END_DATE)) {
                 String edorgReference = (String) association.getBody().get(EDORG_REFERENCE);
                 if (edorgReference != null) {
-                    leas.addAll(edOrgResolver.findGoverningLEA(edorgReference));
+                    leas.addAll(edOrgResolver.findGoverningEdOrgs(edorgReference));
                 }
             }
         }
