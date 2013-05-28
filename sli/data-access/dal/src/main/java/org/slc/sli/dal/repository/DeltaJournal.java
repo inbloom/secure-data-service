@@ -135,6 +135,7 @@ public class DeltaJournal implements InitializingBean {
         update.set("t", timeOfPurge);
         update.set("c", PURGE);
 
+        TenantContext.setIsSystemCall(false);
         template.upsert(Query.query(where("_id").is(id)), update, DELTA_COLLECTION);
     }
 

@@ -194,10 +194,6 @@ public class DeltaJournalTest {
 
         deltaJournal.journalPurge(time);
 
-        Update update = new Update();
-        update.set("t", time);
-        update.set("c", "purge");
-
         BaseMatcher<Update> updateMatcher = new BaseMatcher<Update>() {
 
             @Override
