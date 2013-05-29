@@ -1078,23 +1078,16 @@ Then /^I verify that the "(.*?)" reference an SEA only "(.*?)"$/ do |entity, que
   Zlib::GzipReader.open(@unpackDir + "/" + entity + ".json.gz") { |extractFile|
     records = JSON.parse(extractFile.read)
     records.each do |record|
-      if(entity == "educationOrganization")
-        if(record["organizationCategories"][0] == "State Education Agency")
-          next
-        end
-      end
+      next if entity == 'educationOrganization' && record['organizationCategories'][0] == 'State Education Agency'
 
       field = record
       query_field.each do |key|
         field = field[key]
       end
 
-      if(isIndependentEntity(entity))
-        if(field == nil)
-          next
-        end
-      end
-      assert(field == @SEA_id, "Incorrect reference " + field + " expected " + @SEA_id)
+      next if isIndependentEntity(entity) && field == nil
+
+      assert(field == @SEA_id, 'Incorrect reference ' + field + ' expected ' + @SEA_id)
     end
   }
 end
@@ -1105,11 +1098,7 @@ Then /^I verify that (\d+) "(.*?)" does not contain the reference field "(.*?)"$
   Zlib::GzipReader.open(@unpackDir + "/" + entity + ".json.gz") { |extractFile|
     records = JSON.parse(extractFile.read)
     records.each do |record|
-      if(entity == "educationOrganization" || entity == "school")
-        if(record["organizationCategories"][0] == "State Education Agency")
-          next
-        end
-      end
+      next if (entity == "educationOrganization" || entity == "school") && (record["organizationCategories"][0] == "State Education Agency")
 
       field = record
       query_field.each do |key|
