@@ -48,13 +48,13 @@ public class PublicDataFactory {
     }
 
     /**
-     * Builds an IndependentPublicDataExtractor instance.
+     * Builds an DirectAndIndependentPublicDataExtractor instance.
      * @param extractor the extractor
      *
-     * @return an IndependentPublicDataExtractor instance
+     * @return an DirectAndIndependentPublicDataExtractor instance
      */
     public PublicDataExtractor buildIndependentPublicDataExtractor(EntityExtractor extractor) {
-        return new IndependentPublicDataExtractor(extractor);
+        return new DirectAndIndependentPublicDataExtractor(extractor);
     }
 
     /**
