@@ -26,30 +26,32 @@ import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.util.PublicEntityDefinition;
 
 /**
- * Test DirectPublicExtractor
- * @author ablum
+ * Test IndependentPublicDataExtractor
+ * @author tke
  */
-public class DirectPublicExtractorTest {
+public class IndependentPublicExtractorTest {
+
+    private IndependentPublicDataExtractor publicDataExtractor;
 
     @Mock
     private EntityExtractor extractor;
+
     @Mock
     private ExtractFile file;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
+        publicDataExtractor = new IndependentPublicDataExtractor(extractor);
     }
 
     @Test
-    public void testExtractEducationOrganization() {
-        new DirectPublicDataExtractor(extractor).extract("SEA", file);
-
-        for (PublicEntityDefinition definition : PublicEntityDefinition.directReferencedEntities()) {
+    public void testExtract() {
+        publicDataExtractor.extract(file);
+        for (PublicEntityDefinition definition : PublicEntityDefinition.independentEntities()) {
             Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, definition.getEntityName());
         }
-
-
     }
+
 
 }

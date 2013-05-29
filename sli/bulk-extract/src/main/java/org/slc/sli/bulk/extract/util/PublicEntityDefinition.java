@@ -78,4 +78,12 @@ public enum PublicEntityDefinition {
     public static List<PublicEntityDefinition> unFilteredEntities() {
         return Arrays.asList(ASSESSMENT, LEARNING_OBJECTIVE, LEARNING_STANDARD, COMPETENCY_LEVEL_DESCRIPTOR, STUDENT_COMPETENCY_OBJECTIVE, PROGRAM);
     }
+
+    /**
+     * returns the entities which doesn't have reference to SEA
+     * @return
+     */
+    public static List<PublicEntityDefinition> independentEntities() {
+        return Arrays.asList(GRADUATION_PLAN);
+    }
 }
