@@ -44,6 +44,7 @@ import org.slc.sli.bulk.extract.context.resolver.impl.StaffTeacherDirectRelatedC
 import org.slc.sli.bulk.extract.context.resolver.impl.StudentCompetencyContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StudentContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StudentDirectRelatedContextResolver;
+import org.slc.sli.bulk.extract.context.resolver.impl.SimpleEntityTypeContextResolver;
 import org.slc.sli.common.constants.EntityNames;
 
 /**
@@ -118,6 +119,8 @@ public class EdOrgContextResolverFactory {
     @Autowired
     private CourseTranscriptContextResolver courseTranscriptResolver;
 
+    private SimpleEntityTypeContextResolver simpleEntityTypeContextResolver;
+    
     private Map<String, ContextResolver> resolverMap = new HashMap<String, ContextResolver>();
 
     @PostConstruct
@@ -172,7 +175,13 @@ public class EdOrgContextResolverFactory {
         resolverMap.put(EntityNames.DISCIPLINE_INCIDENT, disciplineIncidentResolver);
         resolverMap.put(EntityNames.DISCIPLINE_ACTION, disciplineActionResolver);
         
-        resolverMap.put(EntityNames.STUDENT_COMPETENCY, studentCompetencyResolver);
+        resolverMap.put(EntityNames.STUDENT_COMPETENCY, studentCompetencyResolver); 
+        
+        resolverMap.put(EntityNames.LEARNING_OBJECTIVE, simpleEntityTypeContextResolver); 
+        resolverMap.put(EntityNames.LEARNING_STANDARD, simpleEntityTypeContextResolver);
+        resolverMap.put(EntityNames.COMPETENCY_LEVEL_DESCRIPTOR, simpleEntityTypeContextResolver);
+        resolverMap.put(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, simpleEntityTypeContextResolver);
+        resolverMap.put(EntityNames.PROGRAM, simpleEntityTypeContextResolver);
 
         LOG.debug("Resolver map is {}", resolverMap);
     }

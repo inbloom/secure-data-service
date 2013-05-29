@@ -193,11 +193,20 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
                 continue;
             }
             
+            
+            
+            
             String collection = (String) delta.get("c");
+
 
             if (collection.equals(DeltaJournal.PURGE)) {
                 Entity purge = new MongoEntity(collection, id, delta, null);
                 return new DeltaRecord(purge, null, Operation.PURGE, false, collection);
+            }
+           
+            if(collection != null && collection.equals("program")){
+            	int i = 10;
+            	i++;
             }
 
             ContextResolver resolver = resolverFactory.getResolver((String) delta.get("c"));
