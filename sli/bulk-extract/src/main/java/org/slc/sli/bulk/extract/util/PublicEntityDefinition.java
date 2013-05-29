@@ -26,8 +26,6 @@ import java.util.List;
 public enum PublicEntityDefinition {
 
     STATE_EDUCATION_AGENCY("educationOrganization", "_id"),
-    LOCAL_EDUCATION_AGENCY("educationOrganization", "body.parentEducationAgencyReference"),
-    SCHOOL("school", "body.parentEducationAgencyReference"),
     COURSE("course", "body.schoolId"),
     COURSE_OFFERING("courseOffering", "body.schoolId"),
     SESSION("session", "body.schoolId"),
@@ -70,7 +68,7 @@ public enum PublicEntityDefinition {
      * @return
      */
     public static List<PublicEntityDefinition> directReferencedEntities() {
-        return Arrays.asList(STATE_EDUCATION_AGENCY, LOCAL_EDUCATION_AGENCY, SCHOOL, COURSE, COURSE_OFFERING, SESSION, GRADUATION_PLAN, GRADING_PERIOD);
+        return Arrays.asList(STATE_EDUCATION_AGENCY, COURSE, COURSE_OFFERING, SESSION, GRADUATION_PLAN, GRADING_PERIOD);
     }
 
     /**

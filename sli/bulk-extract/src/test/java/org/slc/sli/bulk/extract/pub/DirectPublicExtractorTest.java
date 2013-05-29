@@ -44,15 +44,11 @@ public class DirectPublicExtractorTest {
     @Test
     public void testExtractEducationOrganization() {
         new DirectPublicDataExtractor(extractor).extract("SEA", file);
-        int count;
+
         for (PublicEntityDefinition definition : PublicEntityDefinition.directReferencedEntities()) {
-            if(definition.getEntityName().equals("educationOrganization")) {
-                count = 2;
-            } else {
-                count = 1;
-            }
-            Mockito.verify(extractor, Mockito.times(count)).extractEntities(file, definition.getEntityName());
+            Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, definition.getEntityName());
         }
+
 
     }
 
