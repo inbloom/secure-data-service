@@ -618,6 +618,7 @@ def getEntityEndpoint(entity)
       "orphanEdorg" => "educationOrganizations",
       "parent" => "parents",
       "patchEdOrg" => "educationOrganizations",
+      "program" => "programs",
       "reportCard" => "reportCards",
       "school" => "educationOrganizations",
       "section" => "sections",
@@ -635,6 +636,7 @@ def getEntityEndpoint(entity)
       "studentSchoolAssociation" => "studentSchoolAssociations",
       "studentSectionAssociation" => "studentSectionAssociations",
       "studentParentAssociation" => "studentParentAssociations",
+      "studentProgramAssociation" => "studentProgramAssociations",
       "newStudentParentAssociation" => "studentParentAssociations",
       "teacher" => "teachers",
       "newTeacher" => "teachers",
@@ -1078,23 +1080,16 @@ Then /^I verify that the "(.*?)" reference an SEA only "(.*?)"$/ do |entity, que
   Zlib::GzipReader.open(@unpackDir + "/" + entity + ".json.gz") { |extractFile|
     records = JSON.parse(extractFile.read)
     records.each do |record|
-      if(entity == "educationOrganization")
-        if(record["organizationCategories"][0] == "State Education Agency")
-          next
-        end
-      end
+      next if entity == 'educationOrganization' && record['organizationCategories'][0] == 'State Education Agency'
 
       field = record
       query_field.each do |key|
         field = field[key]
       end
 
-      if(isIndependentEntity(entity))
-        if(field == nil)
-          next
-        end
-      end
-      assert(field == @SEA_id, "Incorrect reference " + field + " expected " + @SEA_id)
+      next if isIndependentEntity(entity) && field == nil
+
+      assert(field == @SEA_id, 'Incorrect reference ' + field + ' expected ' + @SEA_id)
     end
   }
 end
@@ -1105,11 +1100,7 @@ Then /^I verify that (\d+) "(.*?)" does not contain the reference field "(.*?)"$
   Zlib::GzipReader.open(@unpackDir + "/" + entity + ".json.gz") { |extractFile|
     records = JSON.parse(extractFile.read)
     records.each do |record|
-      if(entity == "educationOrganization" || entity == "school")
-        if(record["organizationCategories"][0] == "State Education Agency")
-          next
-        end
-      end
+      next if (entity == "educationOrganization" || entity == "school") && (record["organizationCategories"][0] == "State Education Agency")
 
       field = record
       query_field.each do |key|
@@ -2309,6 +2300,45 @@ def prepareBody(verb, value, response_map)
         "entityType" => "session",
         "beginDate" => "2014-09-02",
         "totalInstructionalDays" => 180
+      },
+      "newProgram" => {
+        "services" => [
+            [{"codeValue" => "srv:136"}]
+        ],
+        "programId" => "12345",
+        "programSponsor" => "State Education Agency",
+        "entityType" => "program",
+        "programType" => "Regular Education"
+      },
+      "newStudentProgramAssociation" => {
+        "services" => [
+          [{"description" => "Reading Intervention"}]
+        ],
+        "programId" => "0ee2b448980b720b722706ec29a1492d95560798_id",
+        "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+        "endDate" => "2014-05-22",
+        "reasonExited" => "Reached maximum age",
+        "entityType" => "studentProgramAssociation",
+        "beginDate" => "2013-08-26",
+        "educationOrganizationId" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
+      },
+      "newStaffProgramAssociation" => {
+
+      },
+      "newStudentCompetency" => {
+
+      },
+      "newDisciplineIncident" => {
+
+      },
+      "newDisciplineAction" => {
+
+      },
+      "newStudentDiscIncidentAssoc" => {
+
+      },
+      "newGraduationPlan" => {
+
       }
     },
     "PATCH" => {
