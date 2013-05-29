@@ -845,14 +845,12 @@ Given I clean the bulk extract file system and database
     |  reportCard                 |  1417cec726dc51d43172568a9c332ee1712d73d4_id77bc827b90835ef0df42154428ac3153f0ddc746_id  |  204         |
     |  studentAcademicRecord      |  1417cec726dc51d43172568a9c332ee1712d73d4_idb2b773084845209865762830ceb1721ebb1101ef_id  |  204         |
     |  studentCohortAssociation   |  9bf3036428c40861238fdc820568fde53e658d88_idfa64547520fbfcbc8646a7a0bb3a52f76e4f4d21_id  |  204         |
-    #|  studentParentAssociation   |  9bf3036428c40861238fdc820568fde53e658d88_id28af8b70a2f2e695fc25da04e0f8625115002556_id  |  204         |
     |  studentSectionAssociation  |  4030207003b03d055bba0b5019b31046164eff4e_id78468628f357b29599510341f08dfd3277d9471e_id  |  204         |
     |  cohort                     |  cb99a7df36fadf8885b62003c442add9504b3cbd_id  |  204         |
     |  section                    |  4030207003b03d055bba0b5019b31046164eff4e_id  |  204         |
     |  courseOffering             |  38edd8479722ccf576313b4640708212841a5406_id  |  204         |
     |  course                     |  877e4934a96612529535581d2e0f909c5288131a_id  |  204         |
     |  staff                      |  e9f3401e0a034e20bb17663dd7d18ece6c4166b5_id  |  204         |
-    #|  staffEducationOrganizationAssociation  |  afef1537920d10e093a8d301efbb463e364f8079_id  |  204         |
     |  teacherSchoolAssociation   |  7a2d5a958cfda9905812c3a9f38c07ac4e8899b0_id  |  204         |
     |  teacher                    |  2472b775b1607b66941d9fb6177863f144c5ceae_id  |  204         |
     |  newParentMom               |  41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id  |  204         |
@@ -921,8 +919,6 @@ Given I clean the bulk extract file system and database
  # Delete the studentSchoolAssociations leaving the orphaned students
   And I DELETE and validate the following entities:
     |  entity                      |  id                                           |  returnCode  |
-    #|  newStudent                  |  9bf3036428c40861238fdc820568fde53e658d88_id  |  204         |
-    #|  newStudent                  |  b8b0a8d439591b9e073e8f1115ff1cf1fd4125d6_id  |  204         |
     |  studentSchoolAssociation    |  cbfe3a47491fdff0432d5d4abca339735da9461d_id  |  204         |    
     |  studentSchoolAssociation    |  d913396aef918602b8049027dbdce8826c054402_id  |  204         |
 
@@ -968,9 +964,7 @@ Given I clean the bulk extract file system and database
  # Create one student in each lea, and matching studentSchoolAssociations
  When I POST and validate the following entities:
     |  entity                        |  type                       |  returnCode  |
-    #|  newDaybreakStudent            |  staffStudent               |  201         |
     |  DbStudentSchoolAssociation    |  studentSchoolAssociation   |  201         |
-    #|  newHighwindStudent            |  staffStudent               |  201         |
     |  HwStudentSchoolAssociation    |  studentSchoolAssociation   |  201         |
  # Delete students and stSchoAssoc
   And I DELETE and validate the following entities:
