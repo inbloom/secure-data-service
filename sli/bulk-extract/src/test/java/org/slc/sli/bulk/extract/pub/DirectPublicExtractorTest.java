@@ -39,11 +39,12 @@ public class DirectPublicExtractorTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
+        Mockito.when(file.getEdorg()).thenReturn("SEA");
     }
 
     @Test
     public void testExtractEducationOrganization() {
-        new DirectPublicDataExtractor(extractor).extract("SEA", file);
+        new DirectPublicDataExtractor(extractor).extract(file);
 
         for (PublicEntityDefinition definition : PublicEntityDefinition.directReferencedEntities()) {
             Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, definition.getEntityName());

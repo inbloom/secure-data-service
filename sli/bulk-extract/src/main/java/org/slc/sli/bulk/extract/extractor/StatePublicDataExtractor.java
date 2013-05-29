@@ -113,7 +113,7 @@ public class StatePublicDataExtractor {
 
         ExtractFile extractFile = createExtractFile(tenantDirectory, seaId, clientKeys);
 
-        extractPublicData(seaId, extractFile);
+        extractPublicData(extractFile);
 
         extractFile.closeWriters();
         try {
@@ -131,18 +131,12 @@ public class StatePublicDataExtractor {
 
     /**
      * Extract the public data for the SEA.
-     * @param seaId the ID of the SEA to extract
      * @param extractFile the extract file to extract to
      */
-    protected void extractPublicData(String seaId, ExtractFile extractFile) {
-        PublicDataExtractor direct = factory.buildDirectPublicDataExtract(extractor);
-        direct.extract(seaId, extractFile);
-
-        UnfilteredPublicDataExtractor unfiltered = factory.buildUnfilteredPublicDataExtractor(extractor);
-        unfiltered.extract(extractFile);
-
-        IndependentPublicDataExtractor independent = factory.buildIndependentPublicDataExtractor(extractor);
-        independent.extract(extractFile);
+    protected void extractPublicData(ExtractFile extractFile) {
+        for (PublicDataExtractor data : factory.buildAllPublicDataExtracts(extractor)) {
+            data.extract(extractFile);
+        }
     }
 
     /**
@@ -194,8 +188,10 @@ public class StatePublicDataExtractor {
      * @return an extract file instance.
      */
     protected ExtractFile createExtractFile(File tenantDirectory, String seaId, Map<String, PublicKey> clientKeys) {
-        return new ExtractFile(tenantDirectory, Launcher.getArchiveName(seaId,
+        ExtractFile file = new ExtractFile(tenantDirectory, Launcher.getArchiveName(seaId,
                 startTime.toDate()), clientKeys, securityEventUtil);
+        file.setEdorg(seaId);
+        return file;
     }
 
     /**
