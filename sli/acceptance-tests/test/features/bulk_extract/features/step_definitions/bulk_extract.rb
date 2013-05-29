@@ -70,6 +70,7 @@ Transform /^<(.*?)>$/ do |human_readable_id|
   id = "pavedz00ua"                                         if human_readable_id == "client id paved"
   id = "1b223f577827204a1c7e9c851dba06bea6b031fe_id"        if human_readable_id == "IL-DAYBREAK"
   id = "99d527622dcb51c465c515c0636d17e085302d5e_id"        if human_readable_id == "IL-HIGHWIND"
+  id = "067098399bb1feee5efe7cfbe91bb34fa352f9a5_id"        if human_readable_id == "IL-SUNSET"
   id = "54b4b51377cd941675958e6e81dce69df801bfe8_id"        if human_readable_id == "ed_org_to_lea2_id"
   id = "880572db916fa468fbee53a68918227e104c10f5_id"        if human_readable_id == "lea2_id"
   id = "1b223f577827204a1c7e9c851dba06bea6b031fe_id"        if human_readable_id == "lea1_id"
@@ -1288,8 +1289,11 @@ Then /^I verify this delete file by app "(.*?)" for "(.*?)" contains one single 
   }
 end
 
-Then /^the delete file in the newest delta extract should have one purge entry/ do
-
+Then /^the delete file in the delta extract should have one purge entry/ do
+  json = get_json_from_file('deleted')
+  count = 0
+  json.each {|entry| count += 1 if entry['entityType'] == 'purge'}
+  assert(count == 1, 'An incorrect number of purge entries was found in the delete file.')
 end
 
 ############################################################

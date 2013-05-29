@@ -12,8 +12,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>66</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2012-08-27</BeginDate>
-    <EndDate>2013-05-23</EndDate>
+    <BeginDate>2013-08-27</BeginDate>
+    <EndDate>2014-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
@@ -31,8 +31,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>67</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2012-08-27</BeginDate>
-    <EndDate>2013-05-23</EndDate>
+    <BeginDate>2013-08-27</BeginDate>
+    <EndDate>2014-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
@@ -50,8 +50,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>53</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2012-08-27</BeginDate>
-    <EndDate>2013-05-23</EndDate>
+    <BeginDate>2013-08-27</BeginDate>
+    <EndDate>2014-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
@@ -69,8 +69,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>44</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2013-09-05</BeginDate>
-    <EndDate>2014-06-02</EndDate>
+    <BeginDate>2014-09-05</BeginDate>
+    <EndDate>2015-06-02</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
@@ -88,8 +88,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>47</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2013-09-05</BeginDate>
-    <EndDate>2014-06-02</EndDate>
+    <BeginDate>2014-09-05</BeginDate>
+    <EndDate>2015-06-02</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
@@ -107,8 +107,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>59</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2013-09-05</BeginDate>
-    <EndDate>2014-06-02</EndDate>
+    <BeginDate>2014-09-05</BeginDate>
+    <EndDate>2015-06-02</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
@@ -126,8 +126,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>70</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2013-09-05</BeginDate>
-    <EndDate>2014-06-02</EndDate>
+    <BeginDate>2014-09-05</BeginDate>
+    <EndDate>2015-06-02</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
@@ -145,8 +145,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>47</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2014-09-04</BeginDate>
-    <EndDate>2015-06-01</EndDate>
+    <BeginDate>2015-09-04</BeginDate>
+    <EndDate>2016-06-01</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
@@ -164,8 +164,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>44</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2014-09-04</BeginDate>
-    <EndDate>2015-06-01</EndDate>
+    <BeginDate>2015-09-04</BeginDate>
+    <EndDate>2016-06-01</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
@@ -183,8 +183,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>53</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2014-09-04</BeginDate>
-    <EndDate>2015-06-01</EndDate>
+    <BeginDate>2015-09-04</BeginDate>
+    <EndDate>2016-06-01</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
@@ -202,8 +202,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>27</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2012-08-27</BeginDate>
-    <EndDate>2013-05-23</EndDate>
+    <BeginDate>2013-08-27</BeginDate>
+    <EndDate>2014-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -221,8 +221,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>22</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2012-08-27</BeginDate>
-    <EndDate>2013-05-23</EndDate>
+    <BeginDate>2013-08-27</BeginDate>
+    <EndDate>2014-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -240,8 +240,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>70</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2012-08-27</BeginDate>
-    <EndDate>2013-05-23</EndDate>
+    <BeginDate>2013-08-27</BeginDate>
+    <EndDate>2014-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
@@ -259,8 +259,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>28</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2013-09-05</BeginDate>
-    <EndDate>2014-06-02</EndDate>
+    <BeginDate>2014-09-05</BeginDate>
+    <EndDate>2015-06-02</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -278,8 +278,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>16</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2013-09-05</BeginDate>
-    <EndDate>2014-06-02</EndDate>
+    <BeginDate>2014-09-05</BeginDate>
+    <EndDate>2015-06-02</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -297,8 +297,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>58</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2013-09-05</BeginDate>
-    <EndDate>2014-06-02</EndDate>
+    <BeginDate>2014-09-05</BeginDate>
+    <EndDate>2015-06-02</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
@@ -316,8 +316,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>69</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2013-09-05</BeginDate>
-    <EndDate>2014-06-02</EndDate>
+    <BeginDate>2014-09-05</BeginDate>
+    <EndDate>2015-06-02</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
@@ -335,8 +335,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>59</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2014-09-04</BeginDate>
-    <EndDate>2015-06-01</EndDate>
+    <BeginDate>2015-09-04</BeginDate>
+    <EndDate>2016-06-01</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
@@ -354,8 +354,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>57</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2014-09-04</BeginDate>
-    <EndDate>2015-06-01</EndDate>
+    <BeginDate>2015-09-04</BeginDate>
+    <EndDate>2016-06-01</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
@@ -373,8 +373,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>23</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2012-08-27</BeginDate>
-    <EndDate>2013-05-23</EndDate>
+    <BeginDate>2013-08-27</BeginDate>
+    <EndDate>2014-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -392,8 +392,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>27</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2012-08-27</BeginDate>
-    <EndDate>2013-05-23</EndDate>
+    <BeginDate>2013-08-27</BeginDate>
+    <EndDate>2014-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -411,8 +411,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>51</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2012-08-27</BeginDate>
-    <EndDate>2013-05-23</EndDate>
+    <BeginDate>2013-08-27</BeginDate>
+    <EndDate>2014-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
@@ -430,8 +430,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>56</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2012-08-27</BeginDate>
-    <EndDate>2013-05-23</EndDate>
+    <BeginDate>2013-08-27</BeginDate>
+    <EndDate>2014-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
@@ -449,8 +449,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>50</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2012-08-27</BeginDate>
-    <EndDate>2013-05-23</EndDate>
+    <BeginDate>2013-08-27</BeginDate>
+    <EndDate>2014-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
@@ -468,8 +468,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>27</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2013-09-05</BeginDate>
-    <EndDate>2014-06-02</EndDate>
+    <BeginDate>2014-09-05</BeginDate>
+    <EndDate>2015-06-02</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -487,8 +487,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>70</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2013-09-05</BeginDate>
-    <EndDate>2014-06-02</EndDate>
+    <BeginDate>2014-09-05</BeginDate>
+    <EndDate>2015-06-02</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
@@ -506,8 +506,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>40</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2014-09-04</BeginDate>
-    <EndDate>2015-06-01</EndDate>
+    <BeginDate>2015-09-04</BeginDate>
+    <EndDate>2016-06-01</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
@@ -525,8 +525,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>68</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2014-09-04</BeginDate>
-    <EndDate>2015-06-01</EndDate>
+    <BeginDate>2015-09-04</BeginDate>
+    <EndDate>2016-06-01</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
@@ -544,8 +544,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>26</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2012-08-27</BeginDate>
-    <EndDate>2013-05-23</EndDate>
+    <BeginDate>2013-08-27</BeginDate>
+    <EndDate>2014-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -563,8 +563,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>66</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2012-08-27</BeginDate>
-    <EndDate>2013-05-23</EndDate>
+    <BeginDate>2013-08-27</BeginDate>
+    <EndDate>2014-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
@@ -582,8 +582,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>53</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2012-08-27</BeginDate>
-    <EndDate>2013-05-23</EndDate>
+    <BeginDate>2013-08-27</BeginDate>
+    <EndDate>2014-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
@@ -601,8 +601,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>70</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2012-08-27</BeginDate>
-    <EndDate>2013-05-23</EndDate>
+    <BeginDate>2013-08-27</BeginDate>
+    <EndDate>2014-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
@@ -620,8 +620,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>54</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2013-09-05</BeginDate>
-    <EndDate>2014-06-02</EndDate>
+    <BeginDate>2014-09-05</BeginDate>
+    <EndDate>2015-06-02</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
@@ -639,8 +639,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>59</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2013-09-05</BeginDate>
-    <EndDate>2014-06-02</EndDate>
+    <BeginDate>2014-09-05</BeginDate>
+    <EndDate>2015-06-02</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
@@ -658,8 +658,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>50</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2014-09-04</BeginDate>
-    <EndDate>2015-06-01</EndDate>
+    <BeginDate>2015-09-04</BeginDate>
+    <EndDate>2016-06-01</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
@@ -677,8 +677,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>56</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2014-09-04</BeginDate>
-    <EndDate>2015-06-01</EndDate>
+    <BeginDate>2015-09-04</BeginDate>
+    <EndDate>2016-06-01</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
@@ -696,8 +696,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>1</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2012-08-27</BeginDate>
-    <EndDate>2013-05-23</EndDate>
+    <BeginDate>2013-08-27</BeginDate>
+    <EndDate>2014-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
@@ -715,8 +715,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>4</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2012-08-27</BeginDate>
-    <EndDate>2013-05-23</EndDate>
+    <BeginDate>2013-08-27</BeginDate>
+    <EndDate>2014-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
@@ -734,8 +734,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>68</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2012-08-27</BeginDate>
-    <EndDate>2013-05-23</EndDate>
+    <BeginDate>2013-08-27</BeginDate>
+    <EndDate>2014-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
@@ -753,8 +753,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>51</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2012-08-27</BeginDate>
-    <EndDate>2013-05-23</EndDate>
+    <BeginDate>2013-08-27</BeginDate>
+    <EndDate>2014-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
@@ -772,8 +772,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>3</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2013-09-05</BeginDate>
-    <EndDate>2014-06-02</EndDate>
+    <BeginDate>2014-09-05</BeginDate>
+    <EndDate>2015-06-02</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
@@ -791,8 +791,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>7</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2013-09-05</BeginDate>
-    <EndDate>2014-06-02</EndDate>
+    <BeginDate>2014-09-05</BeginDate>
+    <EndDate>2015-06-02</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
@@ -810,8 +810,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>55</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2013-09-05</BeginDate>
-    <EndDate>2014-06-02</EndDate>
+    <BeginDate>2014-09-05</BeginDate>
+    <EndDate>2015-06-02</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
@@ -829,8 +829,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>68</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2013-09-05</BeginDate>
-    <EndDate>2014-06-02</EndDate>
+    <BeginDate>2014-09-05</BeginDate>
+    <EndDate>2015-06-02</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
@@ -848,8 +848,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>7</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2014-09-04</BeginDate>
-    <EndDate>2015-06-01</EndDate>
+    <BeginDate>2015-09-04</BeginDate>
+    <EndDate>2016-06-01</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
@@ -867,8 +867,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>9</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2014-09-04</BeginDate>
-    <EndDate>2015-06-01</EndDate>
+    <BeginDate>2015-09-04</BeginDate>
+    <EndDate>2016-06-01</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
@@ -886,8 +886,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>54</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2014-09-04</BeginDate>
-    <EndDate>2015-06-01</EndDate>
+    <BeginDate>2015-09-04</BeginDate>
+    <EndDate>2016-06-01</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
@@ -905,8 +905,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>4</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2012-08-27</BeginDate>
-    <EndDate>2013-05-23</EndDate>
+    <BeginDate>2013-08-27</BeginDate>
+    <EndDate>2014-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
@@ -924,8 +924,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>54</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2012-08-27</BeginDate>
-    <EndDate>2013-05-23</EndDate>
+    <BeginDate>2013-08-27</BeginDate>
+    <EndDate>2014-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
@@ -943,8 +943,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>68</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2012-08-27</BeginDate>
-    <EndDate>2013-05-23</EndDate>
+    <BeginDate>2013-08-27</BeginDate>
+    <EndDate>2014-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
@@ -962,8 +962,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>11</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2013-09-05</BeginDate>
-    <EndDate>2014-06-02</EndDate>
+    <BeginDate>2014-09-05</BeginDate>
+    <EndDate>2015-06-02</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
@@ -981,8 +981,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>54</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2013-09-05</BeginDate>
-    <EndDate>2014-06-02</EndDate>
+    <BeginDate>2014-09-05</BeginDate>
+    <EndDate>2015-06-02</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
@@ -1000,8 +1000,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>5</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2014-09-04</BeginDate>
-    <EndDate>2015-06-01</EndDate>
+    <BeginDate>2015-09-04</BeginDate>
+    <EndDate>2016-06-01</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
@@ -1019,8 +1019,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>58</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2014-09-04</BeginDate>
-    <EndDate>2015-06-01</EndDate>
+    <BeginDate>2015-09-04</BeginDate>
+    <EndDate>2016-06-01</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
@@ -1038,8 +1038,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>11</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2012-08-27</BeginDate>
-    <EndDate>2013-05-23</EndDate>
+    <BeginDate>2013-08-27</BeginDate>
+    <EndDate>2014-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
@@ -1057,8 +1057,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>7</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2012-08-27</BeginDate>
-    <EndDate>2013-05-23</EndDate>
+    <BeginDate>2013-08-27</BeginDate>
+    <EndDate>2014-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
@@ -1076,8 +1076,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>55</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2012-08-27</BeginDate>
-    <EndDate>2013-05-23</EndDate>
+    <BeginDate>2013-08-27</BeginDate>
+    <EndDate>2014-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
@@ -1095,8 +1095,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>52</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2012-08-27</BeginDate>
-    <EndDate>2013-05-23</EndDate>
+    <BeginDate>2013-08-27</BeginDate>
+    <EndDate>2014-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
@@ -1114,8 +1114,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>2</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2013-09-05</BeginDate>
-    <EndDate>2014-06-02</EndDate>
+    <BeginDate>2014-09-05</BeginDate>
+    <EndDate>2015-06-02</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
@@ -1133,8 +1133,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>11</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2013-09-05</BeginDate>
-    <EndDate>2014-06-02</EndDate>
+    <BeginDate>2014-09-05</BeginDate>
+    <EndDate>2015-06-02</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
@@ -1152,8 +1152,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>54</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2013-09-05</BeginDate>
-    <EndDate>2014-06-02</EndDate>
+    <BeginDate>2014-09-05</BeginDate>
+    <EndDate>2015-06-02</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
@@ -1171,8 +1171,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>8</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2014-09-04</BeginDate>
-    <EndDate>2015-06-01</EndDate>
+    <BeginDate>2015-09-04</BeginDate>
+    <EndDate>2016-06-01</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
@@ -1190,8 +1190,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>7</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2014-09-04</BeginDate>
-    <EndDate>2015-06-01</EndDate>
+    <BeginDate>2015-09-04</BeginDate>
+    <EndDate>2016-06-01</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
@@ -1209,8 +1209,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>59</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2014-09-04</BeginDate>
-    <EndDate>2015-06-01</EndDate>
+    <BeginDate>2015-09-04</BeginDate>
+    <EndDate>2016-06-01</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
@@ -1228,8 +1228,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>70</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2014-09-04</BeginDate>
-    <EndDate>2015-06-01</EndDate>
+    <BeginDate>2015-09-04</BeginDate>
+    <EndDate>2016-06-01</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
@@ -1247,8 +1247,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>51</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2012-08-27</BeginDate>
-    <EndDate>2013-05-23</EndDate>
+    <BeginDate>2013-08-27</BeginDate>
+    <EndDate>2014-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
@@ -1266,8 +1266,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>69</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2013-09-05</BeginDate>
-    <EndDate>2014-06-02</EndDate>
+    <BeginDate>2014-09-05</BeginDate>
+    <EndDate>2015-06-02</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
@@ -1285,8 +1285,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>1</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2014-09-04</BeginDate>
-    <EndDate>2015-06-01</EndDate>
+    <BeginDate>2015-09-04</BeginDate>
+    <EndDate>2016-06-01</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
@@ -1304,8 +1304,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>10</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2014-09-04</BeginDate>
-    <EndDate>2015-06-01</EndDate>
+    <BeginDate>2015-09-04</BeginDate>
+    <EndDate>2016-06-01</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
@@ -1323,8 +1323,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>50</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2014-09-04</BeginDate>
-    <EndDate>2015-06-01</EndDate>
+    <BeginDate>2015-09-04</BeginDate>
+    <EndDate>2016-06-01</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
@@ -1342,8 +1342,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>66</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2014-09-04</BeginDate>
-    <EndDate>2015-06-01</EndDate>
+    <BeginDate>2015-09-04</BeginDate>
+    <EndDate>2016-06-01</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
@@ -1361,8 +1361,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>59</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2014-09-04</BeginDate>
-    <EndDate>2015-06-01</EndDate>
+    <BeginDate>2015-09-04</BeginDate>
+    <EndDate>2016-06-01</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
@@ -1380,8 +1380,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>52</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2012-08-27</BeginDate>
-    <EndDate>2013-05-23</EndDate>
+    <BeginDate>2013-08-27</BeginDate>
+    <EndDate>2014-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
@@ -1399,8 +1399,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>66</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2012-08-27</BeginDate>
-    <EndDate>2013-05-23</EndDate>
+    <BeginDate>2013-08-27</BeginDate>
+    <EndDate>2014-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
@@ -1418,8 +1418,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>54</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2012-08-27</BeginDate>
-    <EndDate>2013-05-23</EndDate>
+    <BeginDate>2013-08-27</BeginDate>
+    <EndDate>2014-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
@@ -1437,8 +1437,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>4</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2013-09-05</BeginDate>
-    <EndDate>2014-06-02</EndDate>
+    <BeginDate>2014-09-05</BeginDate>
+    <EndDate>2015-06-02</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
@@ -1456,8 +1456,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>69</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2013-09-05</BeginDate>
-    <EndDate>2014-06-02</EndDate>
+    <BeginDate>2014-09-05</BeginDate>
+    <EndDate>2015-06-02</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
@@ -1475,8 +1475,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>22</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2014-09-04</BeginDate>
-    <EndDate>2015-06-01</EndDate>
+    <BeginDate>2015-09-04</BeginDate>
+    <EndDate>2016-06-01</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -1494,8 +1494,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>19</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2014-09-04</BeginDate>
-    <EndDate>2015-06-01</EndDate>
+    <BeginDate>2015-09-04</BeginDate>
+    <EndDate>2016-06-01</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -1513,8 +1513,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>58</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2014-09-04</BeginDate>
-    <EndDate>2015-06-01</EndDate>
+    <BeginDate>2015-09-04</BeginDate>
+    <EndDate>2016-06-01</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
@@ -1532,8 +1532,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>68</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2012-08-27</BeginDate>
-    <EndDate>2013-05-23</EndDate>
+    <BeginDate>2013-08-27</BeginDate>
+    <EndDate>2014-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
@@ -1551,8 +1551,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>54</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2012-08-27</BeginDate>
-    <EndDate>2013-05-23</EndDate>
+    <BeginDate>2013-08-27</BeginDate>
+    <EndDate>2014-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
@@ -1570,8 +1570,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>21</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2013-09-05</BeginDate>
-    <EndDate>2014-06-02</EndDate>
+    <BeginDate>2014-09-05</BeginDate>
+    <EndDate>2015-06-02</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -1589,8 +1589,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>52</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2013-09-05</BeginDate>
-    <EndDate>2014-06-02</EndDate>
+    <BeginDate>2014-09-05</BeginDate>
+    <EndDate>2015-06-02</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
@@ -1608,8 +1608,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>58</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2013-09-05</BeginDate>
-    <EndDate>2014-06-02</EndDate>
+    <BeginDate>2014-09-05</BeginDate>
+    <EndDate>2015-06-02</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
@@ -1627,8 +1627,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>70</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2013-09-05</BeginDate>
-    <EndDate>2014-06-02</EndDate>
+    <BeginDate>2014-09-05</BeginDate>
+    <EndDate>2015-06-02</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
@@ -1646,8 +1646,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>30</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2014-09-04</BeginDate>
-    <EndDate>2015-06-01</EndDate>
+    <BeginDate>2015-09-04</BeginDate>
+    <EndDate>2016-06-01</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -1665,8 +1665,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>58</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2014-09-04</BeginDate>
-    <EndDate>2015-06-01</EndDate>
+    <BeginDate>2015-09-04</BeginDate>
+    <EndDate>2016-06-01</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>

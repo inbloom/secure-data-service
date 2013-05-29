@@ -122,6 +122,9 @@ public class DeltaExtractor {
 
     public static final DateTimeFormatter DATE_TIME_FORMATTER = ISODateTimeFormat.dateTime();
 
+    public static final String DATE_FIELD = "date";
+    public static final String TIME_FIELD = "t";
+
     public void execute(String tenant, DateTime deltaUptoTime, String baseDirectory) {
 
         TenantContext.setTenantId(tenant);
@@ -207,7 +210,7 @@ public class DeltaExtractor {
                 if (!subdocs.contains(type) || entity.getEntityId().length() == edOrg.length() * 2) {
                     Entity e = new MongoEntity(type, entity.getEntityId(),
                             new HashMap<String, Object>(), null);
-                    entityWriteManager.writeDelete(e, extractFile);
+                    entityWriteManager.writeDeleteFile(e, extractFile);
                 }
             }
         }
@@ -224,12 +227,12 @@ public class DeltaExtractor {
 
             ExtractFile extractFile = getExtractFile(lea, tenant, deltaUptoTime, entry.getValue());
 
-            DateTime date =  new DateTime((Long)delta.getEntity().getBody().get("t"));
+            DateTime date =  new DateTime((Long)delta.getEntity().getBody().get(TIME_FIELD));
 
             Entity purgeEntity = new MongoEntity(DeltaJournal.PURGE, null, new HashMap<String, Object>(), null);
-            purgeEntity.getBody().put("date", DATE_TIME_FORMATTER.print(date));
+            purgeEntity.getBody().put(DATE_FIELD, DATE_TIME_FORMATTER.print(date));
 
-            entityWriteManager.writeDelete(purgeEntity, extractFile);
+            entityWriteManager.writeDeleteFile(purgeEntity, extractFile);
         }
     }
 

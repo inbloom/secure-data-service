@@ -109,7 +109,7 @@ describe "WorldBuilder" do
       end
       it "education organization calendar interchange will contain the correct number of calendar dates" do
         # Calendar dates are not part of the world, they are created as work orders directly.
-        @queue.count(CalendarDate).should eq(580)
+        @queue.count(CalendarDate).should eq(581)
       end
       it "master schedule interchange will contain the correct number of course offerings" do
         # Course offerings are not part of the world, they are created as work orders directly.
