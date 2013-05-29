@@ -83,6 +83,10 @@ Transform /^<(.*?)>$/ do |human_readable_id|
   id
 end
 
+Transform /^(-?\d+)$/ do |number|
+  Integer(number)
+end
+
 ############################################################
 # Given
 ############################################################
@@ -546,9 +550,9 @@ end
 
 def updateApiPutField(body, field, value)
   # Set the GET response body as body and edit the requested field
-  body["address"][0]["postalCode"] = value if field == "postalCode"
+  body["address"][0]["postalCode"] = value.to_s if field == "postalCode"
   body["loginId"] = value if field == "loginId"
-  body["contactPriority"] = value.to_i if field == "contactPriority"
+  body["contactPriority"] = value if field == "contactPriority"
   body["id"] = value if field == "missingEntity"
   return body
 end
@@ -1110,7 +1114,7 @@ Then /^I verify that (\d+) "(.*?)" does not contain the reference field "(.*?)"$
     end
   }
 
-  assert(count == Integer(total), "Incorrect number of #{entity} with no EdOrg references. Expected: #{total}, Actual: #{count}")
+  assert(count == total, "Incorrect number of #{entity} with no EdOrg references. Expected: #{total}, Actual: #{count}")
 end
 
 Then /^I verify that extract does not contain a file for the following entities:$/ do |table|
@@ -1181,7 +1185,7 @@ Then /^the following test tenant and edorg are clean:$/ do |table|
 end
 
 Then /^I am willing to wait up to (\d+) seconds for the bulk extract scheduler cron job to start and complete$/ do |limit|
-  @maxTimeout = limit.to_i
+  @maxTimeout = limit
   puts "Waited timeout for #{limit.to_i} seconds"
   intervalTime = 1
   @maxTimeout ? @maxTimeout : @maxTimeout = 900
@@ -2343,7 +2347,7 @@ def prepareBody(verb, value, response_map)
     },
     "PATCH" => {
       "postalCode" => {
-        "address"=>[{"postalCode"=>value,
+        "address"=>[{"postalCode"=>value.to_s,
                     "nameOfCounty"=>"Wake",
                     "streetNumberName"=>"111 Ave A",
                     "stateAbbreviation"=>"IL",
@@ -2352,7 +2356,7 @@ def prepareBody(verb, value, response_map)
                    }]
       },
       "contactPriority" => {
-        "contactPriority" => value.to_i
+        "contactPriority" => value
       },
       "studentLoginId" => {
         "loginId" => value,

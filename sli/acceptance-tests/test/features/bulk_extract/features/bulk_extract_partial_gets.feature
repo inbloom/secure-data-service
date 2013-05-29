@@ -11,7 +11,7 @@ Background: An authorized bulk extract user logs in and gets the information for
     Then I have all the information to make a custom bulk extract request
  
  Scenario: Get the extract file with consecutive range calls
-    When I prepare the custom headers for byte range from "0" to "halfway"
+    When I prepare the custom headers for byte range from "the beginning" to "halfway"
     And I make a custom bulk extract API call
     Then I get back a response code of "206"
     And the content length in response header is correct
@@ -39,7 +39,7 @@ Background: An authorized bulk extract user logs in and gets the information for
     And I see that the combined file matches the tar file
 
  Scenario: Get the extract file by making overlapping range calls
-    When I prepare the custom headers for byte range from "0" to "halfway"
+    When I prepare the custom headers for byte range from "the beginning" to "halfway"
     And I make a custom bulk extract API call
     Then I get back a response code of "206"
     And the content length in response header is correct
@@ -68,7 +68,7 @@ Background: An authorized bulk extract user logs in and gets the information for
     And I verify I do not have the complete file
 
  Scenario: Make invalid and incomplete range calls
-    When I prepare the custom headers for byte range from "0" to "past the end of the file"
+    When I prepare the custom headers for byte range from "the beginning" to "past the end of the file"
     And I make a custom bulk extract API call
     Then I get back a response code of "200"
     And the content length in response header is correct
