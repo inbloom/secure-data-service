@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import junit.framework.Assert;
+import org.mockito.Mockito;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -103,10 +104,7 @@ public class StaffToParentValidatorTest {
         body.put("organizationCategories", Arrays.asList("School"));
         body.put("parentEducationAgencyReference", lea1.getEntityId());
         school1 = repo.create("educationOrganization", body);
-        Map<String,Object> meta = new HashMap<String,Object>();
-        meta.put( "edOrgs", Arrays.asList(lea1.getEntityId(), school1.getEntityId()));
-
-       // Mockito.when( school1.getMetaData()).thenReturn(meta);
+        school1.getMetaData().put( "edOrgs", Arrays.asList(lea1.getEntityId(), school1.getEntityId()));
 
         body.put("organizationCategories", Arrays.asList("School"));
         body.put("parentEducationAgencyReference", lea1.getEntityId());
@@ -120,28 +118,21 @@ public class StaffToParentValidatorTest {
         body = new HashMap<String, Object>();
         student1 = repo.create("student", body);
         Map<String, Object> schoolData = new HashMap<String, Object>();
-//        schoolData.put("edOrgs", Arrays.asList(lea1.getEntityId(), school1.getEntityId()));
         student1.getDenormalizedData().put("schools", Arrays.asList(schoolData));
 
 
         body = new HashMap<String, Object>();
         student2 = repo.create("student", body);
-        schoolData = new HashMap<String, Object>();
-//        schoolData.put("edOrgs", Arrays.asList(lea1.getEntityId(), school2.getEntityId()));
-//        student2.getDenormalizedData().put("schools", Arrays.asList(schoolData));
+        student2.getDenormalizedData().put("schools", Arrays.asList(schoolData));
 
         body = new HashMap<String, Object>();
         student3 = repo.create("student", body);
-        schoolData = new HashMap<String, Object>();
-//        schoolData.put("edOrgs", Arrays.asList(lea1.getEntityId(), school1.getEntityId()));
-//        student3.getDenormalizedData().put("schools", Arrays.asList(schoolData));
+        student3.getDenormalizedData().put("schools", Arrays.asList(schoolData));
 
 
         body = new HashMap<String, Object>();
         student4 = repo.create("student", body);
-        schoolData = new HashMap<String, Object>();
- //       schoolData.put("edOrgs", Arrays.asList(lea1.getEntityId(), school2.getEntityId()));
- //       student4.getDenormalizedData().put("schools", Arrays.asList(schoolData));
+        student4.getDenormalizedData().put("schools", Arrays.asList(schoolData));
 
         body = new HashMap<String, Object>();
         body.put("schoolId", school1.getEntityId());
@@ -215,10 +206,8 @@ public class StaffToParentValidatorTest {
     }
 
     @Test
-    @Ignore
     public void testValidAssociationsForStaff1() {
         setupCurrentUser(staff1);
-        System.out.println( "Parent14 " +parent1.getEntityId()  );
         Assert.assertTrue("Must validate11" + parent1.getEntityId(), validator.validate(EntityNames.PARENT, new HashSet<String>(Arrays.asList(parent1.getEntityId()))));
         Assert.assertTrue("Must validate12", validator.validate(EntityNames.PARENT, new HashSet<String>(Arrays.asList(parent2.getEntityId()))));
         Assert.assertTrue("Must validate13", validator.validate(EntityNames.PARENT, new HashSet<String>(
