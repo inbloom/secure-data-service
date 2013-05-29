@@ -536,8 +536,27 @@ When /^I make a head request with each returned URL$/ do
     step "the return code is 200 I get expected tar downloaded"
   end
 
+  hash_body['fullSea'].each do |seaId, link|
+    puts "Checking full extracts for SEA #{seaId}"
+    puts link
+    uri = link['uri']
+    puts "Link: #{uri}"
+    restHttpHeadFullURL(uri)
+    step "the return code is 200 I get expected tar downloaded"
+  end
+
   hash_body['deltaLeas'].each do |leaId, link_list|
     puts "Checking delta extracts for LEA #{leaId}"
+    link_list.each do |link|
+      uri = link["uri"]
+      puts "Link: #{uri}"
+      restHttpHeadFullURL(uri)
+      step "the return code is 200 I get expected tar downloaded"
+    end
+  end
+
+    hash_body['deltaSea'].each do |seaId, link_list|
+    puts "Checking delta extracts for SEA #{seaId}"
     link_list.each do |link|
       uri = link["uri"]
       puts "Link: #{uri}"
