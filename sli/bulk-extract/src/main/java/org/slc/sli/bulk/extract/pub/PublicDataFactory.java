@@ -47,4 +47,14 @@ public class PublicDataFactory {
         return new UnfilteredPublicDataExtractor(extractor);
     }
 
+    /**
+     * Builds an IndependentPublicDataExtractor instance.
+     * @param extractor the extractor
+     *
+     * @return an IndependentPublicDataExtractor instance
+     */
+    public IndependentPublicDataExtractor buildIndependentPublicDataExtractor(EntityExtractor extractor) {
+        return new IndependentPublicDataExtractor(extractor);
+    }
+
 }

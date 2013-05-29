@@ -1,5 +1,6 @@
 @RALLY_US5660
 @RALLY_US5589
+@RALLY_US5753
 
 Feature: As an bulk extract user, I want to be able to get the state public entities
 
@@ -30,7 +31,6 @@ Scenario: As an bulk extract user, I want to be able to get the state public ent
       |  courseOffering                        |
       |  educationOrganization                 |
       |  graduationPlan                        |
-      |  school                                |
       |  session                               |
       |  assessment                            |
       |  learningObjective                     |
@@ -50,10 +50,16 @@ Scenario Outline: Extract should have all the valid data for the SEA
       |  courseOffering                |    schoolId                             |
       |  educationOrganization         |    parentEducationAgencyReference       |
       |  graduationPlan                |    educationOrganizationId              |
-      |  school                        |    parentEducationAgencyReference       |
       |  session                       |    schoolId                             |
       |  gradingPeriod                 |    gradingPeriodIdentity.schoolId       |
-   
+
+Scenario Outline: Extract should contain independent entities that do not reference any EdOrg
+    When I retrieve the path to and decrypt the SEA public data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
+   Then I verify that <count> "<entity>" does not contain the reference field "<field>"
+  Examples:
+      |count                   | entity                         | field                       |
+      | 2                      | graduationPlan                 | educationOrganizationId     |
+
 Scenario Outline: Extract should have all public tenant data for certain entities
     When I retrieve the path to and decrypt the SEA public data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
    And a the correct number of "<entity>" was extracted from the database
@@ -82,7 +88,6 @@ Scenario: As a valid user get SEA public data extract using BEEP
       |  courseOffering                        |
       |  educationOrganization                 |
       |  graduationPlan                        |
-      |  school                                |
       |  session                               |
       |  assessment                            |
       |  learningObjective                     |
@@ -102,7 +107,6 @@ Scenario Outline: Extract received through the API should have all the valid dat
     |  courseOffering                |    schoolId                             |
     |  educationOrganization         |    parentEducationAgencyReference       |
     |  graduationPlan                |    educationOrganizationId              |
-    |  school                        |    parentEducationAgencyReference       |
     |  session                       |    schoolId                             |
     |  gradingPeriod                 |    gradingPeriodIdentity.schoolId       |
 
@@ -201,7 +205,6 @@ Scenario: None of the public entities reference the SEA
       |  courseOffering                        | body.schoolId                          |
       |  educationOrganization                 | body.parentEducationAgencyReference    |
       |  graduationPlan                        | body.educationOrganizationId           |
-      |  school                                | body.parentEducationAgencyReference    |
       |  session                               | body.schoolId                          |
       |  gradingPeriod                         | body.gradingPeriodIdentity.schoolId    |
     Then I trigger a bulk extract
@@ -214,6 +217,7 @@ Scenario: None of the public entities reference the SEA
       |  assessment                            |
       |  learningObjective                     |
       |  learningStandard                      |
+      |  graduationPlan                        |
       |  competencyLevelDescriptor             |
       |  studentCompetencyObjective            |
       |  program                               |

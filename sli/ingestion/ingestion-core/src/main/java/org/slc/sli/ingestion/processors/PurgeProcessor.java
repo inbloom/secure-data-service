@@ -166,6 +166,7 @@ public class PurgeProcessor implements Processor {
 
     private void reportPurgeEvent(long startTime) {
         if(deltasEnabled) {
+            LOGGER.debug("Recording purge event in the delta journal");
             deltaJournal.journalPurge(startTime);
         }
 
