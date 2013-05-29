@@ -1049,23 +1049,24 @@ Then /^the "(.*?)" has the correct number of SEA public data records "(.*?)"$/ d
   collection = entity
   count = 0
 
-  query = {query_field => @SEA_id}
+  if(isIndependentEntity(entity))
+    query = {"$or" => [{query_field => @SEA_id}, {query_field => {"$exists" => false}}]}
+  else
+    query = {query_field => @SEA_id}
+  end
 
   case entity
   when "educationOrganization"
     #adding 1 because SEA is not part of the this mongo query
     count = 1
-  when "school"
-    collection = "educationOrganization"
-    query["type"] = "school"
   else
+      count += @tenantDb.collection(collection).find(query).count()
   end
-
-  count += @tenantDb.collection(collection).find(query).count()
 
 	Zlib::GzipReader.open(@unpackDir + "/" + entity + ".json.gz") { |extractFile|
     records = JSON.parse(extractFile.read)
     puts records
+
     puts "\nCounts Expected: " + count.to_s + " Actual: " + records.size.to_s + "\n"
     assert(records.size == count,"Counts off Expected: " + count.to_s + " Actual: " + records.size.to_s)
   }
@@ -1074,6 +1075,33 @@ end
 
 Then /^I verify that the "(.*?)" reference an SEA only "(.*?)"$/ do |entity, query|
   query_field = query.split(".")
+  Zlib::GzipReader.open(@unpackDir + "/" + entity + ".json.gz") { |extractFile|
+    records = JSON.parse(extractFile.read)
+    records.each do |record|
+      if(entity == "educationOrganization")
+        if(record["organizationCategories"][0] == "State Education Agency")
+          next
+        end
+      end
+
+      field = record
+      query_field.each do |key|
+        field = field[key]
+      end
+
+      if(isIndependentEntity(entity))
+        if(field == nil)
+          next
+        end
+      end
+      assert(field == @SEA_id, "Incorrect reference " + field + " expected " + @SEA_id)
+    end
+  }
+end
+
+Then /^I verify that (\d+) "(.*?)" does not contain the reference field "(.*?)"$/ do |total, entity, query|
+  query_field = query.split(".")
+  count = 0
   Zlib::GzipReader.open(@unpackDir + "/" + entity + ".json.gz") { |extractFile|
     records = JSON.parse(extractFile.read)
     records.each do |record|
@@ -1087,10 +1115,11 @@ Then /^I verify that the "(.*?)" reference an SEA only "(.*?)"$/ do |entity, que
       query_field.each do |key|
         field = field[key]
       end
-
-      assert(field == @SEA_id, "Incorrect reference " + field + " expected " + @SEA_id)
+      count += 1 if (field ==nil) 
     end
   }
+
+  assert(count == Integer(total), "Incorrect number of #{entity} with no EdOrg references. Expected: #{total}, Actual: #{count}")
 end
 
 Then /^I verify that extract does not contain a file for the following entities:$/ do |table|
@@ -2363,6 +2392,16 @@ end
 
 def getEdorgId(tenant, edorg)
   return tenant + "-" + edorg
+end
+
+def isIndependentEntity(entity)
+  independentEntities = {}
+  independentEntities["graduationPlan"] = true
+
+  if(independentEntities[entity] != nil)
+    return true;
+  end
+  return false
 end
 
 def get_json_from_file(file_name)
