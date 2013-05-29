@@ -2000,16 +2000,27 @@
 			<xs:enumeration value="Other"/>
 		</xs:restriction>
 	</xs:simpleType>
-	<xs:simpleType name="languageItemType">
-		<xs:annotation>
-			<xs:documentation>The item(s) denoting language(s) spoken or written.
-			</xs:documentation>
-		</xs:annotation>
+    <xs:simpleType name="languageIdentificationSystemType">
+        <xs:annotation>
+            <xs:documentation>The standard used to identify the language,
+                preferably one of the ISO 639 standard lists.
+            </xs:documentation>
+        </xs:annotation>
         <xs:restriction base="xs:string">
-			<xs:minLength value="1"/>
-			<xs:maxLength value="75"/>
-		</xs:restriction>
-	</xs:simpleType>
+            <xs:minLength value="1"/>
+            <xs:maxLength value="60"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="languageType">
+        <xs:annotation>
+            <xs:documentation>The item(s) denoting language(s) spoken or written.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="75"/>
+        </xs:restriction>
+    </xs:simpleType>
 	<xs:simpleType name="leaveEventCategoryType">
 		<xs:annotation>
 			<xs:documentation>A code describing the type of the leave event. </xs:documentation>
