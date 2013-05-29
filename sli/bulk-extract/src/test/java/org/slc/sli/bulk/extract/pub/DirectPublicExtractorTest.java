@@ -23,6 +23,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.util.PublicEntityDefinition;
 
 /**
  * Test DirectPublicExtractor
@@ -43,12 +44,15 @@ public class DirectPublicExtractorTest {
     @Test
     public void testExtractEducationOrganization() {
         new DirectPublicDataExtractor(extractor).extract("SEA", file);
-        Mockito.verify(extractor, Mockito.times(2)).extractEntities(file, "educationOrganization");
-        Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, "school");
-        Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, "course");
-        Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, "courseOffering");
-        Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, "session");
-        Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, "graduationPlan");
+        int count;
+        for (PublicEntityDefinition definition : PublicEntityDefinition.directReferencedEntities()) {
+            if(definition.getEntityName().equals("educationOrganization")) {
+                count = 2;
+            } else {
+                count = 1;
+            }
+            Mockito.verify(extractor, Mockito.times(count)).extractEntities(file, definition.getEntityName());
+        }
 
     }
 
