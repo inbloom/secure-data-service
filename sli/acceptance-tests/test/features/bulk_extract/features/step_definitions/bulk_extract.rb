@@ -1089,6 +1089,29 @@ Then /^I verify that the "(.*?)" reference an SEA only "(.*?)"$/ do |entity, que
   }
 end
 
+Then /^I verify that "(.*?)" "(.*?)" does not contain the reference field "(.*?)"$/ do |total, entity, query|
+  query_field = query.split(".")
+  count = 0;
+  Zlib::GzipReader.open(@unpackDir + "/" + entity + ".json.gz") { |extractFile|
+    records = JSON.parse(extractFile.read)
+    records.each do |record|
+      if(entity == "educationOrganization" || entity == "school")
+        if(record["organizationCategories"][0] == "State Education Agency")
+          next
+        end
+      end
+
+      field = record
+      query_field.each do |key|
+        field = field[key]
+      end
+      count += 1 if (field ==nil) 
+    end
+  }
+
+  assert(count == total, "Incorrect number of #{entity} with no EdOrg references. Expected: #{total}, Actual: #{count}")
+end
+
 Then /^I verify that extract does not contain a file for the following entities:$/ do |table|
   table.hashes.map do |row|
     exists = File.exists?(@unpackDir + "/" + row["entity"] + ".json.gz")
