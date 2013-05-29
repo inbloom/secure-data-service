@@ -13,24 +13,29 @@ require 'mongo'
 # Migration Script
 ############################################################
 
-INGESTION_DB = "localhost"
+HOST = "localhost"
 INGESTION_DB_PORT = "27017"
 
-@conn = Mongo::Connection.new(INGESTION_DB, INGESTION_DB_PORT)
+SCHOOL_FIELD = "schools"
+EDORGS_FIELD = "edOrgs"
+METADATA_FIELD = "metaData"
+PARENT_FIELD = "parentEducationAgencyReference"
+
+@conn = Mongo::Connection.new(HOST, INGESTION_DB_PORT)
 
 def updateStudentEdOrgs(dbName)
    @db = @conn[dbName]
    @student_collection = @db["student"]
    @student_collection.find.each do |row|
         schools = Array.new
-        schools = row["schools"]
+        schools = row[SCHOOL_FIELD]
         if(schools)
           schools.each do |school|
               edOrgs = Hash.new
-              edOrgs = school["edOrgs"]
-              school.delete("edOrgs")
+              edOrgs = school[EDORGS_FIELD]
+              school.delete(EDORGS_FIELD)
           end
-          @student_collection.update({"_id" => row["_id"]},{"$set" => {"schools" => schools}})
+          @student_collection.update({"_id" => row["_id"]},{"$set" => {SCHOOL_FIELD => schools}})
         end
    end
 end
@@ -46,7 +51,7 @@ def updateSchoolLineage(school, dbName)
       @entity = @entity_collection.find_one({"_id" => parentId})
       if @entity != nil
         parents.push(parentId)
-        parentId = @entity["body"]["parentEducationAgencyReference"]
+        parentId = @entity["body"][PARENT_FIELD]
       else
         parentId = nil
       end
@@ -62,14 +67,19 @@ def updateAllSchoolLineage(dbName)
    @school_collection = @entity_collection.find({"type" => "school"})
 
    @school_collection.find.each do |row|
-       updateSchoolLineage(row, dbName)
+       puts updateSchoolLineage(row, dbName)
    end
 end
 
 # Update Student and EducationOrganization Collection
 def updateDB(dbName)
+  if dbCheck(dbName) == true
     updateAllSchoolLineage(dbName)
     updateStudentEdOrgs(dbName)
+  else
+    puts "    " + " db [" + dbName + "]  does not exist, please check"
+    exit
+  end
 end
 
 # Check if database exist
@@ -81,27 +91,34 @@ end
 # Main driver
 def main(argv)
 	dbNames = argv
-	puts dbNames
 	if 0==dbNames.length
-    	@conn.database_names.each do |name|
-        	if name == "admin" || name == "config" || name == "ingestion_batch_job" || name == "sli"
-            	puts "<--- ignore " + name + "--->"
-       		else
-            	updateDB(name)
-        	end
-        end
-        puts "<--- done. --->"
-        return
+    puts "--------------------------------------------------------------------------------------------"
+    puts "| Databases on server '" + HOST + "':"
+    @conn.database_names.each do |name|
+      puts "|    " + name
+    end
+      puts "--------------------------------------------------------------------------------------------"
+      puts "| To migrate on student and educationOrganization collection, give argument(s) as follows:\n"
+      puts "|     all                                     Migrate all databases\n"
+      puts "|     [<dbname1>,<dbname2>...]                Migrate only database in the list\n"
+      puts "--------------------------------------------------------------------------------------------"
+      return
     end
 
-	for dbName in dbNames	
-    	if dbCheck(dbName) == true
-      		updateDB(dbName)
-    	else
-      		puts "<--- db Name does not exist, please check --->"
-   		end
-   	end   	
-   	puts "<--- done. --->"
+  if 1==dbNames.length
+    if dbNames[0].casecmp("all") == 0
+      @conn.database_names.each do |name|
+        updateDB(name)
+      end
+      puts "    " + "All done."
+      return
+    end
+  end
+
+	for dbName in dbNames
+    updateDB(dbName)
+  end
+  puts "    " + "All done."
 end
 
 # Run it
