@@ -23,10 +23,10 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 
 /**
- * PublicData Extractor which extracts entities that doesn't have edorg reference in the tenant.
+ * PublicData Extractor which extracts entities that have edorg reference to SEA and dont have edorg reference in the tenant.
  * @author tke
  */
-public class IndependentPublicDataExtractor implements PublicDataExtractor{
+public class DirectAndIndependentPublicDataExtractor implements PublicDataExtractor{
 
     private EntityExtractor extractor;
 
@@ -35,15 +35,20 @@ public class IndependentPublicDataExtractor implements PublicDataExtractor{
      *
      * @param extractor - the entity extractor
      */
-    public IndependentPublicDataExtractor(EntityExtractor extractor) {
+    public DirectAndIndependentPublicDataExtractor(EntityExtractor extractor) {
         this.extractor = extractor;
     }
 
    @Override
     public void extract(ExtractFile file) {
         for (PublicEntityDefinition definition : PublicEntityDefinition.independentEntities()) {
-            NeutralQuery query = new NeutralQuery(new NeutralCriteria(definition.getEdOrgRefField(),
-                    NeutralCriteria.CRITERIA_EXISTS, false, false));
+            NeutralQuery query = new NeutralQuery();
+            query.addOrQuery(new NeutralQuery(new NeutralCriteria(definition.getEdOrgRefField(),
+                    NeutralCriteria.CRITERIA_EXISTS, false, false)));
+
+            query.addOrQuery(new NeutralQuery(new NeutralCriteria(definition.getEdOrgRefField(),
+                    NeutralCriteria.OPERATOR_EQUAL, file.getEdorg(), false)));
+
             extractor.setExtractionQuery(query);
             extractor.extractEntities(file, definition.getEntityName());
         }

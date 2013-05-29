@@ -45,7 +45,7 @@ public class PublicDataFactoryTest {
     @Test
     public void buildIndependentPublicDataExtractor() {
         Assert.assertTrue(factory.buildIndependentPublicDataExtractor(null) != null);
-        Assert.assertTrue(factory.buildIndependentPublicDataExtractor(null).getClass() == IndependentPublicDataExtractor.class);
+        Assert.assertTrue(factory.buildIndependentPublicDataExtractor(null).getClass() == DirectAndIndependentPublicDataExtractor.class);
         PublicDataExtractor dpdExtr = factory.buildUnfilteredPublicDataExtractor(null);
     }
 
@@ -56,7 +56,7 @@ public class PublicDataFactoryTest {
         Assert.assertEquals(extractors.size(), 3);
         Assert.assertTrue(extractors.get(0).getClass() == DirectPublicDataExtractor.class);
         Assert.assertTrue(extractors.get(1).getClass() == UnfilteredPublicDataExtractor.class);
-        Assert.assertTrue(extractors.get(2).getClass() == IndependentPublicDataExtractor.class);
+        Assert.assertTrue(extractors.get(2).getClass() == DirectAndIndependentPublicDataExtractor.class);
 
     }
 

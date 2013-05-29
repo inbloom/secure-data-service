@@ -28,8 +28,6 @@ import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.slc.sli.bulk.extract.message.BEMessageCode;
-import org.slc.sli.bulk.extract.pub.IndependentPublicDataExtractor;
-import org.slc.sli.bulk.extract.pub.UnfilteredPublicDataExtractor;
 import org.slc.sli.bulk.extract.util.SecurityEventUtil;
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slf4j.Logger;
