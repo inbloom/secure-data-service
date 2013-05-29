@@ -70,27 +70,13 @@ public class StaffToSubStudentEntityValidator extends AbstractContextValidator {
         if (entities != null) {
             for (Entity entity : entities) {
                 Map<String, Object> body = entity.getBody();
-                if (entityType.equals(EntityNames.STUDENT_SCHOOL_ASSOCIATION) && body.containsKey("exitWithdrawDate")) {
-                    if (isLhsBeforeRhs(getNowMinusGracePeriod(), getDateTime((String) body.get("exitWithdrawDate")))) {
-                        students.add((String) body.get(ParameterConstants.STUDENT_ID));
-                    }
-                } else if (entityType.equals(EntityNames.STUDENT_SECTION_ASSOCIATION) && body.containsKey("endDate")) {
-                    if (isLhsBeforeRhs(getNowMinusGracePeriod(), getDateTime((String) body.get("endDate")))) {
-                        students.add((String) body.get(ParameterConstants.STUDENT_ID));
-                    }
-                } else {
-                    Object studentInfo = body.get(ParameterConstants.STUDENT_ID);
-                    if (studentInfo instanceof Collection) {    //e.g. BasicDBList
-                        students.addAll((Collection) studentInfo);
-                    } else if (studentInfo instanceof String) {
-                        students.add((String) studentInfo);
-                    }
+                Object studentInfo = body.get(ParameterConstants.STUDENT_ID);
+                if (studentInfo instanceof Collection) {    //e.g. BasicDBList
+                    students.addAll((Collection) studentInfo);
+                } else if (studentInfo instanceof String) {
+                    students.add((String) studentInfo);
                 }
             }
-        }
-
-        if (students.size() != ids.size()) {
-            return false;
         }
 
         return validator.validate(EntityNames.STUDENT, students);
