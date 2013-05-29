@@ -26,7 +26,7 @@ import org.slc.sli.domain.NeutralQuery;
  * PublicData Extractor which extracts entities that doesn't have edorg reference in the tenant.
  * @author tke
  */
-public class IndependentPublicDataExtractor{
+public class IndependentPublicDataExtractor implements PublicDataExtractor{
 
     private EntityExtractor extractor;
 
@@ -39,10 +39,7 @@ public class IndependentPublicDataExtractor{
         this.extractor = extractor;
     }
 
-    /**
-     * Extracts tenant wide data for the specified entities.
-     * @param file the file to extract to
-     */
+   @Override
     public void extract(ExtractFile file) {
         for (PublicEntityDefinition definition : PublicEntityDefinition.independentEntities()) {
             NeutralQuery query = new NeutralQuery(new NeutralCriteria(definition.getEdOrgRefField(),
