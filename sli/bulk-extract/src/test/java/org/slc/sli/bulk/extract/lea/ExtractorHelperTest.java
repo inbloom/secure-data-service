@@ -82,14 +82,14 @@ public class ExtractorHelperTest {
         
         Entity student = Mockito.mock(Entity.class);
         Mockito.when(student.getDenormalizedData()).thenReturn(denormalized);
-        Assert.assertTrue("No schools should be returned", helper.fetchCurrentSchoolsFromStudent(student).size() == 0);
+        Assert.assertTrue("No schools should be returned", helper.fetchCurrentSchoolsForStudent(student).size() == 0);
         
         Map<String, Object> school3 = new HashMap<String, Object>();
         school3.put("_id", "school3");
         school3.put("exitWithdrawDate", "2048-05-09");
 
         denormalized.put("schools", Arrays.asList(school, school2, school3));
-        Assert.assertTrue("There should be one school", helper.fetchCurrentSchoolsFromStudent(student).size() == 3);        
+        Assert.assertTrue("There should be one school", helper.fetchCurrentSchoolsForStudent(student).size() == 3);
     }
 
     @Test
@@ -106,23 +106,23 @@ public class ExtractorHelperTest {
         Mockito.when(localEdOrgExtractHelper.getEdOrgLineages()).thenReturn(lineages);
 
         // No denormalized data
-        Assert.assertTrue(helper.fetchCurrentSchoolsFromStudent(mockEntity).size() == 0);
+        Assert.assertTrue(helper.fetchCurrentSchoolsForStudent(mockEntity).size() == 0);
 
         // No school in schools
         Mockito.when(mockEntity.getDenormalizedData()).thenReturn(denormalized);
-        Assert.assertTrue(helper.fetchCurrentSchoolsFromStudent(mockEntity).size() == 0);
+        Assert.assertTrue(helper.fetchCurrentSchoolsForStudent(mockEntity).size() == 0);
 
         // One school in schools
         Mockito.when(denormalized.get("schools")).thenReturn(schools);
         Mockito.when(denormalized.containsKey("schools")).thenReturn(true);
-        Assert.assertTrue(helper.fetchCurrentSchoolsFromStudent(mockEntity).size() == edorgs.size());
+        Assert.assertTrue(helper.fetchCurrentSchoolsForStudent(mockEntity).size() == edorgs.size());
 
         // Date checking
         Mockito.when(mockHelper.isFieldExpired(school, "exitWithdrawDate")).thenReturn(true);
-        Assert.assertTrue(helper.fetchCurrentSchoolsFromStudent(mockEntity).size() == 0);
+        Assert.assertTrue(helper.fetchCurrentSchoolsForStudent(mockEntity).size() == 0);
 
         Mockito.when(mockHelper.isFieldExpired(school, "exitWithdrawDate")).thenReturn(false);
-        Assert.assertTrue(helper.fetchCurrentSchoolsFromStudent(mockEntity).size() == 3);
+        Assert.assertTrue(helper.fetchCurrentSchoolsForStudent(mockEntity).size() == 3);
     }
 
     @Test
