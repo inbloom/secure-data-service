@@ -311,7 +311,7 @@ And the extract contains a file for each of the following entities:
       |  studentAcademicRecord                 |
       |  studentAssessment                     |
       |  studentCohortAssociation              |
-      # |  studentCompetency                     |
+      |  studentCompetency                     |
       # |  studentCompetencyObjective            |
       |  studentDisciplineIncidentAssociation  |
       |  studentProgramAssociation             |
