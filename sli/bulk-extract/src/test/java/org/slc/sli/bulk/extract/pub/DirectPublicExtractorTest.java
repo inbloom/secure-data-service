@@ -43,8 +43,7 @@ public class DirectPublicExtractorTest {
     @Test
     public void testExtractEducationOrganization() {
         new DirectPublicDataExtractor(extractor).extract("SEA", file);
-        Mockito.verify(extractor, Mockito.times(2)).extractEntities(file, "educationOrganization");
-        Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, "school");
+        Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, "educationOrganization");
         Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, "course");
         Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, "courseOffering");
         Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, "session");

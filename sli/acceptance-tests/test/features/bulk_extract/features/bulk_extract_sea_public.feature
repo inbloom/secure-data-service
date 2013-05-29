@@ -30,7 +30,6 @@ Scenario: As an bulk extract user, I want to be able to get the state public ent
       |  courseOffering                        |
       |  educationOrganization                 |
       |  graduationPlan                        |
-      |  school                                |
       |  session                               |
       |  assessment                            |
       |  learningObjective                     |
@@ -50,7 +49,6 @@ Scenario Outline: Extract should have all the valid data for the SEA
       |  courseOffering                |    schoolId                             |
       |  educationOrganization         |    parentEducationAgencyReference       |
       |  graduationPlan                |    educationOrganizationId              |
-      |  school                        |    parentEducationAgencyReference       |
       |  session                       |    schoolId                             |
       |  gradingPeriod                 |    gradingPeriodIdentity.schoolId       |
    
@@ -82,7 +80,6 @@ Scenario: As a valid user get SEA public data extract using BEEP
       |  courseOffering                        |
       |  educationOrganization                 |
       |  graduationPlan                        |
-      |  school                                |
       |  session                               |
       |  assessment                            |
       |  learningObjective                     |
@@ -102,7 +99,6 @@ Scenario Outline: Extract received through the API should have all the valid dat
     |  courseOffering                |    schoolId                             |
     |  educationOrganization         |    parentEducationAgencyReference       |
     |  graduationPlan                |    educationOrganizationId              |
-    |  school                        |    parentEducationAgencyReference       |
     |  session                       |    schoolId                             |
     |  gradingPeriod                 |    gradingPeriodIdentity.schoolId       |
 
@@ -201,7 +197,6 @@ Scenario: None of the public entities reference the SEA
       |  courseOffering                        | body.schoolId                          |
       |  educationOrganization                 | body.parentEducationAgencyReference    |
       |  graduationPlan                        | body.educationOrganizationId           |
-      |  school                                | body.parentEducationAgencyReference    |
       |  session                               | body.schoolId                          |
       |  gradingPeriod                         | body.gradingPeriodIdentity.schoolId    |
     Then I trigger a bulk extract

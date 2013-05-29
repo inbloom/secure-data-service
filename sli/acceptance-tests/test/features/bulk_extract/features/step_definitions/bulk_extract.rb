@@ -1055,13 +1055,9 @@ Then /^the "(.*?)" has the correct number of SEA public data records "(.*?)"$/ d
   when "educationOrganization"
     #adding 1 because SEA is not part of the this mongo query
     count = 1
-  when "school"
-    collection = "educationOrganization"
-    query["type"] = "school"
   else
+      count += @tenantDb.collection(collection).find(query).count()
   end
-
-  count += @tenantDb.collection(collection).find(query).count()
 
 	Zlib::GzipReader.open(@unpackDir + "/" + entity + ".json.gz") { |extractFile|
     records = JSON.parse(extractFile.read)
@@ -1077,7 +1073,7 @@ Then /^I verify that the "(.*?)" reference an SEA only "(.*?)"$/ do |entity, que
   Zlib::GzipReader.open(@unpackDir + "/" + entity + ".json.gz") { |extractFile|
     records = JSON.parse(extractFile.read)
     records.each do |record|
-      if(entity == "educationOrganization" || entity == "school")
+      if(entity == "educationOrganization")
         if(record["organizationCategories"][0] == "State Education Agency")
           next
         end
