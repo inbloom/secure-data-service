@@ -76,31 +76,36 @@ public class EdOrgHelper {
     }
 
     /**
-     * Determine the district of the user.
+     * Determine the districts of the user.
      *
      * If the user is directly associated with an SEA, this is any LEA directly below the SEA. If
      * the user is directly
      * associated with an LEA, this is the top-most LEA i.e. the LEA directly associated with the
      * SEA.
      *
-     * @param user
-     * @return a list of entity IDs
+     * @param user - User entity
+     *
+     * @return - List of entity IDs
      */
     public List<String> getDistricts(Entity user) {
         Set<String> directAssoc = getDirectEdorgs(user);
-        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN,
-                directAssoc, false));
-        Set<String> entities = new HashSet<String>();
-        for (Entity entity : repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query)) {
-            if (helper.isLEA(entity)) {
-                entities.add(helper.getTopLEAOfEdOrg(entity).getEntityId());
-            } else if (helper.isSchool(entity)) {
-                entities.add(helper.getTopLEAOfEdOrg(entity).getEntityId());
-            } else { // isSEA
-                entities.addAll(getChildLEAsOfEdOrg(entity));
-            }
-        }
-        return new ArrayList<String>(entities);
+        return getDistrictsAndSEAIfRequested(directAssoc, false);
+    }
+
+    /**
+     * Determine the districts, including the SEA, of the user.
+     *
+     * If the user is directly associated with an SEA, this is any LEA directly below the SEA, including the SEA.
+     * If the user is directly associated with an LEA, this is the top-most LEA,
+     * i.e. the LEA directly associated with the SEA.
+     *
+     * @param user - User entity
+     *
+     * @return - List of entity IDs
+     */
+    public List<String> getDistrictsAndSEA(Entity user) {
+        Set<String> directAssoc = getDirectEdorgs(user);
+        return getDistrictsAndSEAIfRequested(directAssoc, true);
     }
 
     /**
@@ -112,6 +117,21 @@ public class EdOrgHelper {
      *         organizations belong to.
      */
     public List<String> getDistricts(Set<String> edOrgs) {
+        return getDistrictsAndSEAIfRequested(edOrgs, false);
+    }
+
+    /**
+     * Determine the districts, including the SEA, if requested, based upon the query.
+     *
+     * If an SEA is encountered, this is any LEA directly below the SEA, including the SEA.
+     * If an LEA is encountered, this is the top-most LEA, i.e. the LEA directly associated with the SEA.
+     *
+     * @param edOrgs - EdOrgs to search
+     * @param includeSEA - Determines whether to include the SEA
+     *
+     * @return - List of entity IDs
+     */
+    private List<String> getDistrictsAndSEAIfRequested(Set<String> edOrgs, boolean includeSEA) {
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN,
                 edOrgs, false));
         Set<String> entities = new HashSet<String>();
@@ -122,6 +142,9 @@ public class EdOrgHelper {
                 entities.add(helper.getTopLEAOfEdOrg(entity).getEntityId());
             } else { // isSEA
                 entities.addAll(getChildLEAsOfEdOrg(entity));
+                if (includeSEA) {
+                    entities.add(entity.getEntityId());
+                }
             }
         }
         return new ArrayList<String>(entities);

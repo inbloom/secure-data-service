@@ -45,30 +45,11 @@ public class DirectPublicExtractorTest {
         new DirectPublicDataExtractor(extractor).extract("SEA", file);
         Mockito.verify(extractor, Mockito.times(2)).extractEntities(file, "educationOrganization");
         Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, "school");
-        
-    }
-
-    @Test
-    public void testExtractCourse() {
-        new DirectPublicDataExtractor(extractor).extract("SEA", file);
         Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, "course");
-    }
-
-    @Test
-    public void testExtractCourseOffering() {
-        new DirectPublicDataExtractor(extractor).extract("SEA", file);
         Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, "courseOffering");
-    }
-
-    @Test
-    public void testExtractSession() {
-        new DirectPublicDataExtractor(extractor).extract("SEA", file);
         Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, "session");
+        Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, "graduationPlan");
+
     }
 
-    @Test
-    public void testExtractGraduationPlan() {
-        new DirectPublicDataExtractor(extractor).extract("SEA", file);
-        Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, "graduationPlan");
-    }
 }

@@ -28,6 +28,7 @@ import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.slc.sli.bulk.extract.message.BEMessageCode;
+import org.slc.sli.bulk.extract.pub.UnfilteredPublicDataExtractor;
 import org.slc.sli.bulk.extract.util.SecurityEventUtil;
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slf4j.Logger;
@@ -133,9 +134,11 @@ public class StatePublicDataExtractor {
      * @param extractFile the extract file to extract to
      */
     protected void extractPublicData(String seaId, ExtractFile extractFile) {
-        for (PublicDataExtractor data : factory.buildAllPublicDataExtracts(extractor)) {
-            data.extract(seaId, extractFile);
-        }
+        PublicDataExtractor direct = factory.buildDirectPublicDataExtract(extractor);
+        direct.extract(seaId, extractFile);
+
+        UnfilteredPublicDataExtractor unfiltered = factory.buildUnfilteredPublicDataExtractor(extractor);
+        unfiltered.extract(extractFile);
     }
 
     /**

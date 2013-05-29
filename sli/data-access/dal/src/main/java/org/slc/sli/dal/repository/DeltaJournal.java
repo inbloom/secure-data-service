@@ -17,6 +17,7 @@ package org.slc.sli.dal.repository;
 
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -27,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -61,13 +63,19 @@ public class DeltaJournal implements InitializingBean {
 
     public static final String DELTA_COLLECTION = "deltas";
 
+    public static final String PURGE = "purge";
+
     // in paged query, get upto 50000 items each time
     @Value("${sli.bulk.extract.delta.iterationSize:50000}")
-    private int limit = 50000;
+    private int limit;
 
     @Autowired
     @Qualifier("journalTemplate")
     private MongoTemplate template;
+
+    @Autowired
+    @Qualifier("shardType1UUIDGeneratorStrategy")
+    private UUIDGeneratorStrategy uuidGeneratorStrategy;
 
     private final Map<String, String> subdocCollectionsToCollapse = new HashMap<String, String>();
 
@@ -113,6 +121,22 @@ public class DeltaJournal implements InitializingBean {
             newIds.add(id.split("_id")[0]+"_id");
         }
         journal(newIds, subdocCollectionsToCollapse.get(collection), false);
+    }
+
+    /**
+     * Record a purge event in the delta journal
+     * @param timeOfPurge
+     *          start time of purge
+     */
+    public void journalPurge(long timeOfPurge) {
+        String id = uuidGeneratorStrategy.generateId();
+
+        Update update = new Update();
+        update.set("t", timeOfPurge);
+        update.set("c", PURGE);
+
+        TenantContext.setIsSystemCall(false);
+        template.upsert(Query.query(where("_id").is(id)), update, DELTA_COLLECTION);
     }
 
     /*
@@ -187,8 +211,26 @@ public class DeltaJournal implements InitializingBean {
             TenantContext.setTenantId(tenant);
         }
         TenantContext.setIsSystemCall(false);
-        Criteria beforeTime = where("t").lt(cleanUptoTime);
-        template.remove(Query.query(beforeTime), DELTA_COLLECTION);
+
+        // remove in batches
+        Query beforeWithLimit = new Query(where("t").lt(cleanUptoTime)).limit(limit);
+        beforeWithLimit.fields().include("_id");
+        
+        @SuppressWarnings("rawtypes")
+        List<Map> deltas;
+        do {
+            deltas = template.find(beforeWithLimit, Map.class, DELTA_COLLECTION);
+            List<String> idsToRemove = new ArrayList<String>(deltas.size());
+            for (Map<String, Object> delta : deltas) {
+                idsToRemove.add((String) delta.get("_id"));
+            }
+
+            if (!idsToRemove.isEmpty()) {
+                Query removeIds = new Query(where("_id").in(idsToRemove));
+                template.remove(removeIds, DELTA_COLLECTION);
+                LOG.debug("Removing delta records in batch size: {}", idsToRemove.size());
+            }
+        } while (!deltas.isEmpty());
     }
 
     protected boolean isDeltasEnabled() {

@@ -21,8 +21,10 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.argThat;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.data.mongodb.core.query.Criteria.where;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,6 +33,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Date;
 
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
@@ -41,10 +44,13 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+
+import org.slc.sli.common.util.tenantdb.TenantContext;
 
 public class DeltaJournalTest {
 
@@ -53,6 +59,9 @@ public class DeltaJournalTest {
 
     @Mock
     private MongoTemplate template;
+
+    @Mock
+    private UUIDGeneratorStrategy uuidGeneratorStrategy;
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Before
@@ -65,6 +74,7 @@ public class DeltaJournalTest {
         List<Map> thirdBatch = buildThirdBatch();
         when(template.find(any(Query.class), (Class<Map>) any(), anyString())).thenReturn(firstBatch)
                 .thenReturn(secondBatch).thenReturn(thirdBatch).thenReturn(new ArrayList());
+        when(uuidGeneratorStrategy.generateId()).thenReturn("123_id");
         deltaJournal.setDeltasEnabled(true);
         deltaJournal.afterPropertiesSet();
     }
@@ -155,6 +165,54 @@ public class DeltaJournalTest {
         };
         verify(template).upsert(eq(q1), argThat(updateMatcher), eq("deltas"));
         verify(template).upsert(eq(q2), argThat(updateMatcher), eq("deltas"));
+    }
+    
+    @Test
+    public void testRemove() {
+        deltaJournal.setLimit(2);
+        deltaJournal.removeDeltaJournals("Midgar", 100);
+        Query removeIds = new Query(where("_id").in(getIds(buildFirstBatch())));
+        verify(template, times(1)).remove(removeIds, "deltas");
+        removeIds = new Query(where("_id").in(getIds(buildSecondBatch())));
+        verify(template, times(1)).remove(removeIds, "deltas");
+        removeIds = new Query(where("_id").in(getIds(buildThirdBatch())));
+        verify(template, times(1)).remove(removeIds, "deltas");
+    }
+
+    @SuppressWarnings("rawtypes")
+    private List<String> getIds(List<Map> batch) {
+        List<String> res = new ArrayList<String>();
+        for (Map<String, Object> item : batch) {
+            res.add((String) item.get("_id"));
+        }
+        return res;
+    }
+
+    @Test
+    public void testJournalPurge() {
+        final long time = new Date().getTime();
+
+        deltaJournal.journalPurge(time);
+
+        BaseMatcher<Update> updateMatcher = new BaseMatcher<Update>() {
+
+            @Override
+            public boolean matches(Object arg0) {
+                @SuppressWarnings("unchecked")
+                Map<String, Object> o = (Map<String, Object>) ((Update) arg0).getUpdateObject().get("$set");
+                if (o.get("c").equals("purge") && o.get("t").equals(time)) {
+                   return true;
+                }
+                return  false;
+            }
+
+            @Override
+            public void describeTo(Description arg0) {
+                arg0.appendText("Update with 'c' set to 'purge' and 't' set to time of purge");
+            }
+        };
+
+        verify(template, Mockito.times(1)).upsert(Mockito.any(Query.class), argThat(updateMatcher), Mockito.eq("deltas"));
     }
 
 }

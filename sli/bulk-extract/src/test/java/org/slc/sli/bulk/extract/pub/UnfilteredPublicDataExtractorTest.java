@@ -46,39 +46,15 @@ public class UnfilteredPublicDataExtractorTest {
     }
 
     @Test
-    public void testExtractAssessment() {
-        publicDataExtractor.extract("SEA", file);
+    public void testExtract() {
+        publicDataExtractor.extract(file);
         Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, "assessment");
-    }
-
-    @Test
-    public void testExtractLearningObjective() {
-        publicDataExtractor.extract("SEA", file);
         Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, "learningObjective");
-    }
-
-    @Test
-    public void testExtractLearningStandard() {
-        publicDataExtractor.extract("SEA", file);
         Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, "learningStandard");
-    }
-
-    @Test
-    public void testExtractCompetencyLevelDescriptor() {
-        publicDataExtractor.extract("SEA", file);
         Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, "competencyLevelDescriptor");
-    }
-
-    @Test
-    public void testExtractStudentCompetencyObjective() {
-        publicDataExtractor.extract("SEA", file);
         Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, "studentCompetencyObjective");
-    }
-
-    @Test
-    public void testExtractProgram() {
-        publicDataExtractor.extract("SEA", file);
         Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, "program");
     }
+
 
 }
