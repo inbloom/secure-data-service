@@ -103,6 +103,7 @@ class WorldBuilder
     create_assessments(begin_year, num_years)
     create_descriptors
     create_learning_objectives
+    #update_schools_with_students
     create_work_orders
   end
 
@@ -166,6 +167,7 @@ class WorldBuilder
     if num_high_school_students > 0
         num_schools   = create_schools("high", num_schools, num_high_school_students)
     end
+
     num_districts = update_schools_with_districts(num_schools)
     update_districts_with_states(num_districts)
 
@@ -292,6 +294,16 @@ class WorldBuilder
     students_per_grade
   end
 
+  def update_schools_with_students()
+    
+    @world[school] << {"id" => district_id,
+          "parent" => nil,
+          "sessions" => [],
+          "staff" => create_staff_for_local_education_agency(members),
+          "programs" => create_programs_for_education_organization("leas", :LOCAL_EDUCATION_AGENCY)
+        }
+  end
+
   # updates the populated edOrgs arrays for elementary, middle, and high schools by determining how many schools are to be
   # contained in a given district (looks at yaml configuration file for average number of schools per district and threshold),
   # and then actually going and updating the schools to reference back to newly created local education agencies
@@ -401,6 +413,22 @@ class WorldBuilder
     return staff, teachers
   end
 
+  #TODO: Delete
+  def create_students_for_school(members)
+    students = []
+    if !members.nil? and members.size > 0
+      members.each do |member|
+        # skip this entry if its not a Student --> handled in 'create_staff' method
+        next if ["Educator", "IT Administrator", "Leader", "Aggregate Viewer"].include? member[:role]
+
+        #@num_students += 1
+        students << {"id" => member[:student_id], "name" => member[:name]}
+      end
+    end
+    
+    return students
+  end
+    
   # returns the list of default state education agency roles
   def get_default_state_education_agency_roles
     [:COUNSELOR, :INSTRUCTIONAL_COORDINATOR, :SPECIALIST_CONSULTANT, :STUDENT_SUPPORT_SERVICES_STAFF, :SUPERINTENDENT]
@@ -432,7 +460,7 @@ class WorldBuilder
     if !required.nil? and required.size > 0
       required.each do |member|
         # skip this entry if its an Educator --> handled in 'create_teachers' method
-        next if member[:role] == "Educator"
+        next if ["Student", "Educator"].include? member[:role]
 
         @num_staff_members += 1
         members << {"id" => member[:staff_id], "role" => member[:role], "name" => member[:name]}
@@ -460,7 +488,7 @@ class WorldBuilder
     if !required.nil? and required.size > 0
       required.each do |member|
         # skip this entry if its not an Educator --> handled in 'create_staff' method
-        next if member[:role] != "Educator"
+        next if ["Student", "IT Administrator", "Leader", "Aggregate Viewer"].include? member[:role]
 
         @num_teachers += 1
         teachers << {"id" => member[:staff_id], "name" => member[:name]}

@@ -26,6 +26,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -362,27 +363,35 @@ public class BulkExtract {
 
     }
 
-
     /**
-     * Get the SEA/LEA list response
+     * Get the SEA/LEA list response.
      *
-     * @param context  the http request context
-     * @return the jax-rs response to send back.
+     * @param context - the http request context
+     * @return - the jax-rs response to send back
      */
     Response getSLEAListResponse(final HttpContext context) {
 
-        List<String> userDistricts = retrieveUserAssociatedSLEAs();
+        List<String> userDistricts = retrieveUserAssociatedLEAs();
 
         String appId = appAuthHelper.getApplicationId();
 
-        List<String> appAuthorizedUserSLEAs = getApplicationAuthorizedUserSLEAs(userDistricts, appId);
-        if (appAuthorizedUserSLEAs.size() == 0) {
-            logSecurityEvent(uri, "No authorized SEAs or LEAs for application:" + appId);
-            LOG.info("No authorized SEAs or LEAs for application: {}", appId);
+        List<String> appAuthorizedUserLEAs = getApplicationAuthorizedUserLEAs(userDistricts, appId);
+        if (appAuthorizedUserLEAs.size() == 0) {
+            logSecurityEvent(uri, "No authorized LEAs for application:" + appId);
+            LOG.info("No authorized LEAs for application: {}", appId);
             return Response.status(Status.NOT_FOUND).build();
         }
+
+        List<String> authorizedUserSLEAs = new LinkedList<String>();
+        authorizedUserSLEAs.addAll(appAuthorizedUserLEAs);
+        Entity lea = helper.byId(appAuthorizedUserLEAs.get(0));  // First LEA is as good as any.
+        String seaId = helper.getSEAOfEdOrg(lea);
+        if (seaId != null) {
+            authorizedUserSLEAs.add(seaId);
+        }
+
         logSecurityEvent(uri, "Successfully retrieved SEA/LEA list for " + appId);
-        return assembleSLEALinksResponse(context, appId, appAuthorizedUserSLEAs);
+        return assembleSLEALinksResponse(context, appId, authorizedUserSLEAs);
     }
 
     /**
@@ -398,8 +407,8 @@ public class BulkExtract {
      * @return the jax-rs response to send back.
      */
     @SuppressWarnings("unchecked")
-    private Response assembleSLEALinksResponse(final HttpContext context, final String appId, final List<String> appAuthorizedUserSLEAs) {
-        EntityBody list = assembleSLEALinks(context, appId, appAuthorizedUserSLEAs);
+    private Response assembleSLEALinksResponse(final HttpContext context, final String appId, final List<String> authorizedUserSLEAs) {
+        EntityBody list = assembleSLEALinks(context, appId, authorizedUserSLEAs);
 
         ResponseBuilder builder = Response.ok(list);
         builder.header("content-type", MediaType.APPLICATION_JSON + "; charset=utf-8");
@@ -419,7 +428,7 @@ public class BulkExtract {
      *
      * @return the jax-rs response to send back.
      */
-    private EntityBody assembleSLEALinks(final HttpContext context, final String appId, final List<String> appAuthorizedUserSLEAs) {
+    private EntityBody assembleSLEALinks(final HttpContext context, final String appId, final List<String> authorizedUserSLEAs) {
         EntityBody list = new EntityBody();
 
         UriInfo uriInfo = context.getUriInfo();
@@ -429,7 +438,7 @@ public class BulkExtract {
         Map<String, Map<String, String>> seaFullLinks = new HashMap<String, Map<String, String>>();
         Map<String, Set<Map<String, String>>> seaDeltaLinks = new HashMap<String, Set<Map<String, String>>>();
 
-        for (String edOrgId : appAuthorizedUserSLEAs) {
+        for (String edOrgId : authorizedUserSLEAs) {
             Map<String, String> fullLink = new HashMap<String, String>();
             Set<Map<String, String>> deltaLinks = newDeltaLinkSet();
             Iterable<Entity> edOrgFileEntities = getEdOrgBulkExtractEntities(appId, edOrgId);
@@ -575,15 +584,15 @@ public class BulkExtract {
         appAuthHelper.checkApplicationAuthorization(null);
     }
 
-    private List<String> retrieveUserAssociatedSLEAs() throws AccessDeniedException {
-        List<String> userDistricts = helper.getDistrictsAndSEA(getPrincipal().getEntity());
+    private List<String> retrieveUserAssociatedLEAs() throws AccessDeniedException {
+        List<String> userDistricts = helper.getDistricts(getPrincipal().getEntity());
         if (userDistricts.size() == 0) {
             throw new AccessDeniedException("User is not authorized for a list of available SEA/LEA extracts");
         }
         return userDistricts;
     }
 
-    private List<String> getApplicationAuthorizedUserSLEAs(List<String> userDistrics, String appId) {
+    private List<String> getApplicationAuthorizedUserLEAs(List<String> userDistrics, String appId) {
         List<String> appAuthorizedEdorgIds = appAuthHelper.getApplicationAuthorizationEdorgIds(appId);
         appAuthorizedEdorgIds.retainAll(userDistrics);
         return appAuthorizedEdorgIds;

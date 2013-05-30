@@ -89,49 +89,20 @@ public class EdOrgHelper {
      */
     public List<String> getDistricts(Entity user) {
         Set<String> directAssoc = getDirectEdorgs(user);
-        return getDistrictsAndSEAIfRequested(directAssoc, false);
+        return getDistricts(directAssoc);
     }
 
     /**
-     * Determine the districts, including the SEA, of the user.
+     * Determine the districts based upon the EdOrgs supplied.
      *
-     * If the user is directly associated with an SEA, this is any LEA directly below the SEA, including the SEA.
-     * If the user is directly associated with an LEA, this is the top-most LEA,
-     * i.e. the LEA directly associated with the SEA.
-     *
-     * @param user - User entity
-     *
-     * @return - List of entity IDs
-     */
-    public List<String> getDistrictsAndSEA(Entity user) {
-        Set<String> directAssoc = getDirectEdorgs(user);
-        return getDistrictsAndSEAIfRequested(directAssoc, true);
-    }
-
-    /**
-     * Determines the districts that the set of education organization ids belong to.
-     *
-     * @param edOrgs
-     *            Set of education organization ids.
-     * @return List representing unique Set of district ids that the specified education
-     *         organizations belong to.
-     */
-    public List<String> getDistricts(Set<String> edOrgs) {
-        return getDistrictsAndSEAIfRequested(edOrgs, false);
-    }
-
-    /**
-     * Determine the districts, including the SEA, if requested, based upon the query.
-     *
-     * If an SEA is encountered, this is any LEA directly below the SEA, including the SEA.
-     * If an LEA is encountered, this is the top-most LEA, i.e. the LEA directly associated with the SEA.
+     * If an SEA is encountered, this is any LEA directly below the SEA.
+     * If an LEA or school is encountered, this is the top-most LEA, i.e. the LEA directly associated with the SEA.
      *
      * @param edOrgs - EdOrgs to search
-     * @param includeSEA - Determines whether to include the SEA
      *
-     * @return - List of entity IDs
+     * @return - List of district entity IDs
      */
-    private List<String> getDistrictsAndSEAIfRequested(Set<String> edOrgs, boolean includeSEA) {
+    public List<String> getDistricts(Set<String> edOrgs) {
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN,
                 edOrgs, false));
         Set<String> entities = new HashSet<String>();
@@ -142,14 +113,18 @@ public class EdOrgHelper {
                 entities.add(helper.getTopLEAOfEdOrg(entity).getEntityId());
             } else { // isSEA
                 entities.addAll(getChildLEAsOfEdOrg(entity));
-                if (includeSEA) {
-                    entities.add(entity.getEntityId());
-                }
             }
         }
         return new ArrayList<String>(entities);
     }
 
+    /**
+     * Get a list of the direct child LEAs of an EdOrg.
+     *
+     * @param edorgEntity - EdOrg from which to get child LEAs
+     *
+     * @return - List of the EdOrg's child LEAs
+     */
     public List<String> getChildLEAsOfEdOrg(Entity edorgEntity) {
         List<String> toReturn = new ArrayList<String>();
         NeutralQuery query = new NeutralQuery(0);
@@ -157,7 +132,6 @@ public class EdOrgHelper {
         for (Entity entity : repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query)) {
             if (helper.isLEA(entity)) {
                 toReturn.add(entity.getEntityId());
-
             }
         }
 
@@ -165,12 +139,13 @@ public class EdOrgHelper {
     }
 
     /**
-     * Get an ordered list of the parents of an edorg.
+     * Get an ordered list of the parents of an EdOrg.
      *
-     * The order of the list starts with the direct parent of the edorg and ends with the SEA
+     * The order of the list starts with the direct parent of the EdOrg and ends with the SEA
      *
-     * @param edOrg
-     * @return
+     * @param edOrg - EdOrg from which to get parents
+     *
+     * @return - Hierarchical list of the EdOrg's parents
      */
 
 
@@ -197,6 +172,17 @@ public class EdOrgHelper {
     public boolean isSEA(Entity entity) {
         // passing through
         return helper.isSEA(entity);
+    }
+
+    /**
+     * Given an edorg entity, returns the SEA to which it belongs
+     *
+     * @param entity
+     *
+     * @return SEA
+     */
+    public String getSEAOfEdOrg(Entity entity) {
+        return helper.getSEAOfEdOrg(entity);
     }
 
     /**
