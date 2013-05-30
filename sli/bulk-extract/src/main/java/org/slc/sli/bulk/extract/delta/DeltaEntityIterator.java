@@ -204,11 +204,6 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
                 return new DeltaRecord(purge, null, Operation.PURGE, false, collection);
             }
            
-            if(collection != null && collection.equals("program")){
-            	int i = 10;
-            	i++;
-            }
-
             ContextResolver resolver = resolverFactory.getResolver((String) delta.get("c"));
             if (resolver == null) {
                 // we have no resolver defined for this type, i.e. this type should not be
