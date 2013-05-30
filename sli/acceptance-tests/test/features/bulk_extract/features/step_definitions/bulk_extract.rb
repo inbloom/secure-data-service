@@ -83,8 +83,8 @@ Transform /^<(.*?)>$/ do |human_readable_id|
   id
 end
 
-Transform /^(-?\d+)$/ do |number|
-  Integer(number)
+Transform /^#(-?\d+)$/ do |number|
+  number.to_i
 end
 
 ############################################################
@@ -552,7 +552,7 @@ def updateApiPutField(body, field, value)
   # Set the GET response body as body and edit the requested field
   body["address"][0]["postalCode"] = value.to_s if field == "postalCode"
   body["loginId"] = value if field == "loginId"
-  body["contactPriority"] = value if field == "contactPriority"
+  body["contactPriority"] = value.to_i if field == "contactPriority"
   body["id"] = value if field == "missingEntity"
   return body
 end
@@ -1098,7 +1098,7 @@ Then /^I verify that the "(.*?)" reference an SEA only "(.*?)"$/ do |entity, que
   }
 end
 
-Then /^I verify that (\d+) "(.*?)" does not contain the reference field "(.*?)"$/ do |total, entity, query|
+Then /^I verify that ([^ ]*?) "(.*?)" does not contain the reference field "(.*?)"$/ do |total, entity, query|
   query_field = query.split(".")
   count = 0
   Zlib::GzipReader.open(@unpackDir + "/" + entity + ".json.gz") { |extractFile|
@@ -1184,7 +1184,7 @@ Then /^the following test tenant and edorg are clean:$/ do |table|
   enable_NOTABLESCAN()
 end
 
-Then /^I am willing to wait up to (\d+) seconds for the bulk extract scheduler cron job to start and complete$/ do |limit|
+Then /^I am willing to wait up to ([^ ]*) seconds for the bulk extract scheduler cron job to start and complete$/ do |limit|
   @maxTimeout = limit
   puts "Waited timeout for #{limit.to_i} seconds"
   intervalTime = 1
@@ -2356,7 +2356,7 @@ def prepareBody(verb, value, response_map)
                    }]
       },
       "contactPriority" => {
-        "contactPriority" => value
+        "contactPriority" => value.to_i
       },
       "studentLoginId" => {
         "loginId" => value,
