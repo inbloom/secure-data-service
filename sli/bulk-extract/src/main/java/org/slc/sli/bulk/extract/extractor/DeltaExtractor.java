@@ -33,8 +33,10 @@ import java.util.Set;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
+import org.slc.sli.domain.utils.EdOrgHierarchyHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -77,7 +79,7 @@ import org.slc.sli.domain.Repository;
  *
  */
 @Component
-public class DeltaExtractor {
+public class DeltaExtractor implements InitializingBean{
 
     private static final Logger LOG = LoggerFactory.getLogger(DeltaExtractor.class);
 
@@ -124,6 +126,22 @@ public class DeltaExtractor {
 
     public static final String DATE_FIELD = "date";
     public static final String TIME_FIELD = "t";
+
+    private EdOrgHierarchyHelper edOrgHelper;
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        edOrgHelper =  new EdOrgHierarchyHelper(repo);
+    }
+
+    private boolean isSea(String edOrgId) {
+        Entity edOrg = repo.findById("educationOrganization", edOrgId);
+        if(edOrg != null && edOrgHelper.isSEA(edOrg)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     public void execute(String tenant, DateTime deltaUptoTime, String baseDirectory) {
 
@@ -249,7 +267,7 @@ public class DeltaExtractor {
                 for (Entry<String, File> archiveFile : extractFile.getArchiveFiles().entrySet()) {
                     bulkExtractMongoDA.updateDBRecord(tenant, archiveFile.getValue()
                             .getAbsolutePath(), archiveFile.getKey(), startTime.toDate(), true,
-                            extractFile.getEdorg(), false);
+                            extractFile.getEdorg(), isSea(extractFile.getEdorg()));
                 }
             }
             allSuccessful &= success;
