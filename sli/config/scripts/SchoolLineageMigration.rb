@@ -21,10 +21,8 @@ EDORGS_FIELD = "edOrgs"
 METADATA_FIELD = "metaData"
 PARENT_FIELD = "parentEducationAgencyReference"
 
-@conn = Mongo::Connection.new(HOST, INGESTION_DB_PORT)
-
-def updateStudentEdOrgs(dbName)
-   @db = @conn[dbName]
+def updateStudentEdOrgs(dbName, conn)
+   @db = conn[dbName]
    @student_collection = @db["student"]
    @student_collection.find.each do |row|
         schools = Array.new
@@ -40,8 +38,8 @@ def updateStudentEdOrgs(dbName)
    end
 end
 
-def updateSchoolLineage(school, dbName)
-   @db = @conn[dbName]
+def updateSchoolLineage(school, dbName, conn)
+   @db = conn[dbName]
    @entity_collection = @db["educationOrganization"]
 
    parents = Array.new
@@ -61,21 +59,25 @@ def updateSchoolLineage(school, dbName)
 end
 
 # Calculate and update Lineage for all schools
-def updateAllSchoolLineage(dbName)
-   @db = @conn[dbName]
+def updateAllSchoolLineage(dbName, conn)
+   @db = conn[dbName]
    @entity_collection = @db["educationOrganization"]
    @school_collection = @entity_collection.find({"type" => "school"})
 
    @school_collection.find.each do |row|
-       puts updateSchoolLineage(row, dbName)
+       puts "---------------------------------------"
+       puts dbName
+       puts row 
+       puts "---------------------------------------"       
+       puts updateSchoolLineage(row, dbName, conn)     
    end
 end
 
 # Update Student and EducationOrganization Collection
-def updateDB(dbName)
-  if dbCheck(dbName) == true
-    updateAllSchoolLineage(dbName)
-    updateStudentEdOrgs(dbName)
+def updateDB(dbName, conn)
+  if dbCheck(dbName, conn) == true
+    updateAllSchoolLineage(dbName, conn)
+    updateStudentEdOrgs(dbName, conn)
   else
     puts "    " + " db [" + dbName + "]  does not exist, please check"
     exit
@@ -83,13 +85,14 @@ def updateDB(dbName)
 end
 
 # Check if database exist
-def dbCheck(dbName)
-    names =  @conn.database_names
+def dbCheck(dbName, conn)
+    names =  conn.database_names
     return names.include? dbName
 end
 
 # Main driver
 def main(argv)
+    @conn = Mongo::Connection.new(HOST, INGESTION_DB_PORT)
 	dbNames = argv
 	if 0==dbNames.length
     puts "--------------------------------------------------------------------------------------------"
@@ -108,7 +111,7 @@ def main(argv)
   if 1==dbNames.length
     if dbNames[0].casecmp("all") == 0
       @conn.database_names.each do |name|
-        updateDB(name)
+        updateDB(name, @conn)
       end
       puts "    " + "All done."
       return
@@ -116,7 +119,7 @@ def main(argv)
   end
 
 	for dbName in dbNames
-    updateDB(dbName)
+    updateDB(dbName, @conn)
   end
   puts "    " + "All done."
 end
