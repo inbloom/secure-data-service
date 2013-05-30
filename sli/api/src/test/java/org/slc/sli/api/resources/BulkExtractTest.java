@@ -576,7 +576,7 @@ public class BulkExtractTest {
 
     @SuppressWarnings("unchecked")
     @Test()
-    public void testGetSetSEAOrLEAListEmpty() throws Exception {
+    public void testGetSetSEAAndLEAListEmpty() throws Exception {
         injector.setEducatorContext();
         mockApplicationEntity();
         Mockito.when(edOrgHelper.getDistricts(Mockito.any(Entity.class))).thenReturn(Arrays.asList("123"));

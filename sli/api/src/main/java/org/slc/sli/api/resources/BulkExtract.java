@@ -384,7 +384,7 @@ public class BulkExtract {
 
         List<String> authorizedUserSLEAs = new LinkedList<String>();
         authorizedUserSLEAs.addAll(appAuthorizedUserLEAs);
-        Entity lea = helper.byId(appAuthorizedUserLEAs.get(0));
+        Entity lea = helper.byId(appAuthorizedUserLEAs.get(0));  // First LEA is as good as any.
         String seaId = helper.getSEAOfEdOrg(lea);
         if (seaId != null) {
             authorizedUserSLEAs.add(seaId);
