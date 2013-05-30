@@ -88,9 +88,9 @@ Scenario: Safe Delete Assessment Item by Reference from Assessment Metadata with
 	|field                                                           |value                                                                                          |
 	|studentAssessmentItem.body.assessmentItemId                     |58346902a070426a109f451129eeeb1268daed21_id406e5f1c9ff1339aaf93fc8f3fe21ff6fead0439_id          |
 	And I save the collection counts in "Midgar" tenant
-    And I post "SafeAssessmentItemRefFromAssessmentMetadataInterchangeDelete.zip" file as the payload of the ingestion job
+    And I post "SafeAssessmentItemDelete.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
-    And a batch job for file "SafeAssessmentItemRefFromAssessmentMetadataInterchangeDelete.zip" is completed in database
+    And a batch job for file "SafeAssessmentItemDelete.zip" is completed in database
     And I should see "records deleted successfully: 0" in the resulting batch job file
     And I should see "records failed processing: 1" in the resulting batch job file
 	And I should see "Not all records were processed completely due to errors." in the resulting batch job file
@@ -199,9 +199,9 @@ Scenario: Delete Assessment Item Reference from Assessment Metadata with default
 	|field                                                           |value                                                                                          |
 	|studentAssessmentItem.body.assessmentItemId                     |58346902a070426a109f451129eeeb1268daed21_id406e5f1c9ff1339aaf93fc8f3fe21ff6fead0439_id          |
 	And I save the collection counts in "Midgar" tenant
-    And I post "ForceAssessmentItemRefFromAssessmentMetadataInterchangeDelete.zip" file as the payload of the ingestion job
+    And I post "ForceAssessmentItemDelete.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
-    And a batch job for file "ForceAssessmentItemRefFromAssessmentMetadataInterchangeDelete.zip" is completed in database
+    And a batch job for file "ForceAssessmentItemDelete.zip" is completed in database
     And I should see "Processed 1 records." in the resulting batch job file
     And I should see "records deleted successfully: 1" in the resulting batch job file
     And I should see "records failed processing: 0" in the resulting batch job file
