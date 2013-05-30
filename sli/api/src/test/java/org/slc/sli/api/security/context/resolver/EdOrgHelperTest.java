@@ -288,16 +288,6 @@ public class EdOrgHelperTest {
     }
 
     @Test
-    public void testStaff4WithSea() {
-        setContext(staff4, Arrays.asList(SecureRoleRightAccessImpl.IT_ADMINISTRATOR));
-        List<String> edOrgs = helper.getDistrictsAndSEA(staff4);
-        assertTrue("staff4 must see lea1", edOrgs.contains(lea1.getEntityId()));
-        assertTrue("staff4 must see lea4", edOrgs.contains(lea4.getEntityId()));
-        assertTrue("staff4 must see sea1", edOrgs.contains(sea1.getEntityId()));
-        assertEquals("staff4 must only see two districts and one SEA", 3, edOrgs.size());
-    }
-
-    @Test
     public void testTeacher1() {
         setContext(teacher1, Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR));
         List<String> leas = helper.getDistricts(teacher1);
