@@ -917,8 +917,9 @@ Then I should see following map of entry counts in the corresponding collections
      | staffProgramAssociation     | 1                   | body.beginDate              | 2011-06-01              | string               |
      | staffProgramAssociation     | 2                   | body.beginDate              | 2011-06-02              | string               |
      | staffProgramAssociation     | 9                   | body.endDate                | 2012-02-15              | string               |
-     | student                     | 1                   | body.languages              | Non-enumerative language| string               |
-     | studentAcademicRecord         | 104                 | body.cumulativeCreditsAttempted.credit| 5.0                       | double              |
+     | student                     | 1                   | body.languages.language     | Non-enumerative language| string               |
+     | student                     | 1                   | body.languages.identificationSystem| ISO 639          | string               |
+     | studentAcademicRecord       | 104                 | body.cumulativeCreditsAttempted.credit| 5.0           | double               |
      | studentAssessment | 11                  | studentAssessmentItem.body.assessmentResponse                             | False                       | string |
      | studentAssessment | 25                  | studentAssessmentItem.body.assessmentResponse                             | True                        | string |
   Then there are "25" counts of "studentObjectiveAssessment" that reference ("objectiveAssessment" with attribute "body.identificationCode" equals "ACT-English-Rhetorical")

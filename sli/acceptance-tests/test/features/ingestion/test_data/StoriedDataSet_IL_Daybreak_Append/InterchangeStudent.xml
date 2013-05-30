@@ -43,7 +43,7 @@
         <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
         <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
         <Languages>
-            <Language>Non-enumerative language</Language>
+            <Language IdentificationSystem="ISO 639">Non-enumerative language</Language>
         </Languages>
         <Section504Disabilities/>
     </Student>

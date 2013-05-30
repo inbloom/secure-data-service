@@ -14,7 +14,11 @@
   },
   "AdministrationLanguage":
   {
-    "_value":"Spanish"
+     "a_IdentificationSystem":"ISO 639",
+     "Language":
+     {
+     "_value":"Spanish"
+     }
   },
   "AdministrationEnvironment":
   {
