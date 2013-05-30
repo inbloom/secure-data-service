@@ -68,7 +68,7 @@ public enum PublicEntityDefinition {
      * @return
      */
     public static List<PublicEntityDefinition> directReferencedEntities() {
-        return Arrays.asList(STATE_EDUCATION_AGENCY, COURSE, COURSE_OFFERING, SESSION, GRADUATION_PLAN, GRADING_PERIOD);
+        return Arrays.asList(STATE_EDUCATION_AGENCY, COURSE, COURSE_OFFERING, SESSION, GRADING_PERIOD);
     }
 
     /**

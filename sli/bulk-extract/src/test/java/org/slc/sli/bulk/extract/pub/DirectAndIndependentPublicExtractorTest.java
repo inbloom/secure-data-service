@@ -26,12 +26,12 @@ import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.util.PublicEntityDefinition;
 
 /**
- * Test IndependentPublicDataExtractor
+ * Test DirectAndIndependentPublicDataExtractor
  * @author tke
  */
-public class IndependentPublicExtractorTest {
+public class DirectAndIndependentPublicExtractorTest {
 
-    private IndependentPublicDataExtractor publicDataExtractor;
+    private DirectAndIndependentPublicDataExtractor publicDataExtractor;
 
     @Mock
     private EntityExtractor extractor;
@@ -42,7 +42,7 @@ public class IndependentPublicExtractorTest {
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        publicDataExtractor = new IndependentPublicDataExtractor(extractor);
+        publicDataExtractor = new DirectAndIndependentPublicDataExtractor(extractor);
     }
 
     @Test

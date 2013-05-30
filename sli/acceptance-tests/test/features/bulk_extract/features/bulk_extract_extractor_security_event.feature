@@ -30,6 +30,8 @@ Feature: Security events are logged when bulk extract is run
     And a batch job for file "StoriedDataSet_IL_Daybreak.zip" is completed in database
     Then I should not see an error log file created
     And I should not see a warning log file created
+    And all LEAs in "Midgar" are authorized for "SDK Sample"
+    And all LEAs in "Midgar" are authorized for "Paved Z00"
 
     Given the following collections are empty in sli datastore:
       | collectionName              |
@@ -37,7 +39,7 @@ Feature: Security events are logged when bulk extract is run
     And I trigger a bulk extract
     Then I should see following map of entry counts in the corresponding sli db collections:
       | collectionName              | count |
-      | securityEvent               | 77   |
+      | securityEvent               | 76   |
     And I check to find if record is in sli db collection:
       | collectionName  | expectedRecordCount | searchParameter         | searchValue                                                                  | searchType      |
       | securityEvent   | 1                   | body.logMessage         | Beginning bulk extract execution                                             | string          |
@@ -52,7 +54,7 @@ Feature: Security events are logged when bulk extract is run
       | securityEvent   | 2                   | body.logMessage         | Extracting course                                                            | string          |
       | securityEvent   | 2                   | body.logMessage         | Extracting courseOffering                                                    | string          |
       | securityEvent   | 2                   | body.logMessage         | Extracting session                                                           | string          |
-      | securityEvent   | 3                   | body.logMessage         | Extracting graduationPlan                                                    | string          |
+      | securityEvent   | 2                   | body.logMessage         | Extracting graduationPlan                                                    | string          |
       #LEA Extract
       | securityEvent   | 1                   | body.logMessage         | Finished LEA level bulk extract                                              | string          |
       | securityEvent   | 1                   | body.logMessage         | Beginning LEA level bulk extract                                             | string          |

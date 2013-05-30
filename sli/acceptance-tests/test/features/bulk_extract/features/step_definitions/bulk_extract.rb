@@ -83,6 +83,10 @@ Transform /^<(.*?)>$/ do |human_readable_id|
   id
 end
 
+Transform /^#(-?\d+)$/ do |number|
+  number.to_i
+end
+
 ############################################################
 # Given
 ############################################################
@@ -546,7 +550,7 @@ end
 
 def updateApiPutField(body, field, value)
   # Set the GET response body as body and edit the requested field
-  body["address"][0]["postalCode"] = value if field == "postalCode"
+  body["address"][0]["postalCode"] = value.to_s if field == "postalCode"
   body["loginId"] = value if field == "loginId"
   body["contactPriority"] = value.to_i if field == "contactPriority"
   body["id"] = value if field == "missingEntity"
@@ -618,6 +622,7 @@ def getEntityEndpoint(entity)
       "orphanEdorg" => "educationOrganizations",
       "parent" => "parents",
       "patchEdOrg" => "educationOrganizations",
+      "program" => "programs",
       "reportCard" => "reportCards",
       "school" => "educationOrganizations",
       "section" => "sections",
@@ -635,6 +640,7 @@ def getEntityEndpoint(entity)
       "studentSchoolAssociation" => "studentSchoolAssociations",
       "studentSectionAssociation" => "studentSectionAssociations",
       "studentParentAssociation" => "studentParentAssociations",
+      "studentProgramAssociation" => "studentProgramAssociations",
       "newStudentParentAssociation" => "studentParentAssociations",
       "teacher" => "teachers",
       "newTeacher" => "teachers",
@@ -1092,7 +1098,7 @@ Then /^I verify that the "(.*?)" reference an SEA only "(.*?)"$/ do |entity, que
   }
 end
 
-Then /^I verify that (\d+) "(.*?)" does not contain the reference field "(.*?)"$/ do |total, entity, query|
+Then /^I verify that ([^ ]*?) "(.*?)" does not contain the reference field "(.*?)"$/ do |total, entity, query|
   query_field = query.split(".")
   count = 0
   Zlib::GzipReader.open(@unpackDir + "/" + entity + ".json.gz") { |extractFile|
@@ -1108,7 +1114,7 @@ Then /^I verify that (\d+) "(.*?)" does not contain the reference field "(.*?)"$
     end
   }
 
-  assert(count == Integer(total), "Incorrect number of #{entity} with no EdOrg references. Expected: #{total}, Actual: #{count}")
+  assert(count == total, "Incorrect number of #{entity} with no EdOrg references. Expected: #{total}, Actual: #{count}")
 end
 
 Then /^I verify that extract does not contain a file for the following entities:$/ do |table|
@@ -1178,8 +1184,8 @@ Then /^the following test tenant and edorg are clean:$/ do |table|
   enable_NOTABLESCAN()
 end
 
-Then /^I am willing to wait up to (\d+) seconds for the bulk extract scheduler cron job to start and complete$/ do |limit|
-  @maxTimeout = limit.to_i
+Then /^I am willing to wait up to ([^ ]*) seconds for the bulk extract scheduler cron job to start and complete$/ do |limit|
+  @maxTimeout = limit
   puts "Waited timeout for #{limit.to_i} seconds"
   intervalTime = 1
   @maxTimeout ? @maxTimeout : @maxTimeout = 900
@@ -2298,11 +2304,50 @@ def prepareBody(verb, value, response_map)
         "entityType" => "session",
         "beginDate" => "2014-09-02",
         "totalInstructionalDays" => 180
+      },
+      "newProgram" => {
+        "services" => [
+            [{"codeValue" => "srv:136"}]
+        ],
+        "programId" => "12345",
+        "programSponsor" => "State Education Agency",
+        "entityType" => "program",
+        "programType" => "Regular Education"
+      },
+      "newStudentProgramAssociation" => {
+        "services" => [
+          [{"description" => "Reading Intervention"}]
+        ],
+        "programId" => "0ee2b448980b720b722706ec29a1492d95560798_id",
+        "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+        "endDate" => "2014-05-22",
+        "reasonExited" => "Reached maximum age",
+        "entityType" => "studentProgramAssociation",
+        "beginDate" => "2013-08-26",
+        "educationOrganizationId" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
+      },
+      "newStaffProgramAssociation" => {
+
+      },
+      "newStudentCompetency" => {
+
+      },
+      "newDisciplineIncident" => {
+
+      },
+      "newDisciplineAction" => {
+
+      },
+      "newStudentDiscIncidentAssoc" => {
+
+      },
+      "newGraduationPlan" => {
+
       }
     },
     "PATCH" => {
       "postalCode" => {
-        "address"=>[{"postalCode"=>value,
+        "address"=>[{"postalCode"=>value.to_s,
                     "nameOfCounty"=>"Wake",
                     "streetNumberName"=>"111 Ave A",
                     "stateAbbreviation"=>"IL",

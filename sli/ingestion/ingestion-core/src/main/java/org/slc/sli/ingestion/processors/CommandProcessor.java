@@ -40,7 +40,6 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.aspect.MongoTrackingAspect;
 import org.slc.sli.ingestion.aspect.StageTrackingAspect;
-import org.slc.sli.ingestion.cache.CacheProvider;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 
@@ -63,9 +62,6 @@ public class CommandProcessor {
     @Autowired
     private BatchJobDAO batchJobDAO;
 
-    @Autowired
-    private CacheProvider cacheProvider;
-
     @Handler
     public void processCommand(Exchange exch) throws Exception {
         String command = exch.getIn().getBody().toString();
@@ -76,7 +72,6 @@ public class CommandProcessor {
 
             LOG.info("Clearing cache at job completion.");
 
-            cacheProvider.flush();
 
             dumpAspectTrackers(chunks);
 

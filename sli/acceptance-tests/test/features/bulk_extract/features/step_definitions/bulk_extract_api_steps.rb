@@ -92,6 +92,9 @@ end
 
 When /^I prepare the custom headers for byte range from "(.*?)" to "(.*?)"$/ do |initial, to|
   case initial
+    when 'the beginning'
+      @byte_offset = 0
+      initial = @byte_offset.to_s
     when 'where I left off'
       @byte_offset = @byte_end + 1
       initial = @byte_offset.to_s
