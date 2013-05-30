@@ -13,7 +13,7 @@ task :bulkExtractSchedulerTest do
   runTests("test/features/bulk_extract/features/bulk_extract_scheduler.feature")
 end
 
-desc "Cleanuo the extracts"
+desc "Cleanup the extracts"
 task :bulkExtractCleanup do
   runTests("test/features/bulk_extract/features/bulk_extract_cleanup.feature")
 end
@@ -45,7 +45,7 @@ task :bulkExtractStudentTest do
   Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
 
-desc "Verify simple entities (those that are not sup or superdoced) are extracted correctly"
+desc "Verify simple entities (those that are not sub or superdoced) are extracted correctly"
 task :bulkExtractSimpleEntitiesTest do
   Rake::Task["bulkExtractTriggerTest"].execute if TRIGGER_NEW_EXTRACT
   runTests("test/features/bulk_extract/features/bulk_extract_simple_entities.feature")
