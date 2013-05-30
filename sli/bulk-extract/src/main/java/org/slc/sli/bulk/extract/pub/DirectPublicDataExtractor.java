@@ -39,10 +39,10 @@ public class DirectPublicDataExtractor implements PublicDataExtractor {
     }
 
     @Override
-    public void extract(String edOrgId, ExtractFile file) {
+    public void extract(ExtractFile file) {
         for (PublicEntityDefinition definition : PublicEntityDefinition.directReferencedEntities()) {
             NeutralQuery query = new NeutralQuery(new NeutralCriteria(definition.getEdOrgRefField(),
-                    NeutralCriteria.OPERATOR_EQUAL, edOrgId, false));
+                    NeutralCriteria.OPERATOR_EQUAL, file.getEdorg(), false));
             extractor.setExtractionQuery(query);
             extractor.extractEntities(file, definition.getEntityName());
         }
