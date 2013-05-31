@@ -103,7 +103,6 @@ class WorldBuilder
     create_assessments(begin_year, num_years)
     create_descriptors
     create_learning_objectives
-    #update_schools_with_students(["elementary", "middle", "high"])
     create_work_orders
   end
 
@@ -113,13 +112,14 @@ class WorldBuilder
   def compute_grade_breakdown(num_students)
     students_so_far = 0
     GradeLevelType::get_ordered_grades.each do |grade|
+      #catalog_students_this_grade = get_num_catalog_students_this_grade(grade)
       num_students_this_grade = get_num_students_per_grade(num_students)
-
-      num_students_this_grade = 0  if students_so_far >= num_students
+      num_students_this_grade = 0 if students_so_far >= num_students
       num_students_this_grade = 0 if @scenarioYAML["AVERAGE_ELEMENTARY_SCHOOL_NUM_STUDENTS"] == 0 and GradeLevelType.is_elementary_school_grade(grade)
       num_students_this_grade = 0 if @scenarioYAML["AVERAGE_MIDDLE_SCHOOL_NUM_STUDENTS"] == 0 and GradeLevelType.is_middle_school_grade(grade)
       num_students_this_grade = 0 if @scenarioYAML["AVERAGE_HIGH_SCHOOL_NUM_STUDENTS"] == 0 and GradeLevelType.is_high_school_grade(grade)
       num_students_this_grade = num_students - students_so_far if grade == :TWELFTH_GRADE and num_students_this_grade != 0
+      # Modify the number of students for this grade based on the student catalog
       @breakdown[grade]       = num_students_this_grade
 
       puts "Grade #{grade} : students #{num_students_this_grade}"
@@ -143,6 +143,23 @@ class WorldBuilder
     end
 
     ((random_on_interval(min, max) / 100) * num_students).round
+  end
+
+  def get_num_catalog_students_this_grade(grade)
+    counter = 0 
+    @pre_requisites.each do |ed_org_type, ed_org|
+      ed_org.keys.each do |school|
+        #skip if this school has no students
+        next if ed_org[school]["students"].nil?
+        ed_org[school]["students"].each do |student|
+          if grade == StudentWorkOrder.get_grade_symbol(student[:begin_grade])
+            counter += 1 
+            @log.info "#{student[:name]}'s grade matches, decrementing #{grade} counter"
+          end
+        end
+      end
+    end
+    return counter
   end
 
   # Uses the breakdown hash to bucketize number of students according to type of school
@@ -242,13 +259,17 @@ class WorldBuilder
 
       school_id, members = @pre_requisites[index].shift if @pre_requisites[index].size > 0
       # Set the parent edOrg based on catalog, or keep nil and dump school into first LEA in list
-      puts "DEBUG: school_id is #{school_id}"
-      puts "DEBUG: member is #{members}"
       begin_year = @scenarioYAML["BEGIN_YEAR"]
       num_years  = @scenarioYAML["NUMBER_OF_YEARS"]
       
-      if members != {}
-        parent = members["staff"][0][:parent]
+      if members != []
+        puts "DEBUG: member is #{members}"
+        if members["staff"].nil?
+           parent = nil 
+        else
+          parent = members["staff"][0][:parent]
+        end
+        puts "DEBUG: parent is #{parent}"
         catalog_students = members["students"]
       else
         parent = nil
@@ -275,7 +296,6 @@ class WorldBuilder
         school["courses"] = create_courses(school_id)
       end
       @world[tag] << school
-      puts "DEBUG: school is #{school.inspect}"
     end
     school_counter
   end

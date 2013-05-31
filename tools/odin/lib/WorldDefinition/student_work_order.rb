@@ -52,7 +52,6 @@ class StudentWorkOrderFactory
       initial_year = years.first
       initial_grade_breakdown = students[initial_year]
       initial_grade_breakdown.each{|grade, num_students|
-        puts "DEBUG: Grade is #{grade}"
         (1..num_students).each{ |_|
           student_id = @next_id += 1
           plan       = generate_plan(edOrg, grade)
@@ -64,29 +63,22 @@ class StudentWorkOrderFactory
 
   def add_student_catalog_work_orders(edOrg, yielder)
     students_per_year = edOrg['catalog_students']
-    puts "DEBUG: students_per_year set to #{students_per_year}"
-    puts "DEBUG: student in work_order is set to #{students_per_year.inspect}"
-    #years = students.keys.sort
-    #puts "DEBUG: years is #{years}"
-    #initial_year = years.first
-    #puts "DEBUG: initial_year is #{initial_year}"
     students_per_year.map{|initial_year, students|
-      puts "DEBUG: students is set to #{students}"
       unless students.nil?
         students.each{|student|
-          puts "DEBUG: student set to #{student}"
-          puts "DEBUG: initial_year is set to #{initial_year}"
           grade      = StudentWorkOrder.get_grade_symbol(student[:begin_grade])
           student_id = student[:student_id]
+          name       = student[:name]
           plan       = generate_plan(edOrg, grade)
-          push_work_order(yielder, student_id, grade, initial_year, plan)         
+          push_work_order(yielder, student_id, name, grade, initial_year, plan)         
         }
       end
     }
   end
 
-  def push_work_order(yielder, student_id, grade, initial_year, plan)
+  def push_work_order(yielder, student_id, name=nil, grade, initial_year, plan)
     yielder.yield StudentWorkOrder.new(student_id,
+                                       name: name,
                                        scenario: @scenario, 
                                        initial_grade: grade, 
                                        initial_year: initial_year,
@@ -167,8 +159,8 @@ class StudentWorkOrder
     @int_id = @id 
     @int_id = Digest::MD5.hexdigest(@id).to_i * 12345 if id.kind_of?(String)
     @rand = Random.new(@int_id)
+    @name = opts[:name]
     @initial_grade = (opts[:initial_grade] or :KINDERGARTEN)
-    puts "initial_grade is #{@initial_grade}"
     @initial_year = (opts[:initial_year] or 2011)
     @birth_day_after = Date.new(@initial_year - find_age(@initial_grade), 9, 1)
     @scenario = (opts[:scenario] or Scenario.new({}))
@@ -183,7 +175,7 @@ class StudentWorkOrder
   end
 
   def build
-    student = Student.new(@id, @birth_day_after)
+    student = Student.new(@id, @int_id, @birth_day_after, @name)
     [student] + per_year_info + parents(student)
   end
 
@@ -344,7 +336,7 @@ class StudentWorkOrder
   end
 
   def academic_record(report_card, session)
-    StudentAcademicRecord.new(@id, session, report_card)
+    StudentAcademicRecord.new(@id, @int_id, session, report_card)
   end
 
   def addDisciplineEntities(section_id, school_id, session, year)
@@ -456,7 +448,7 @@ class StudentWorkOrder
           end_date = start_date + times_taken -1
           (start_date..end_date).map{ |date|
 
-           studentAssessment = StudentAssessment.new(@id, assessment, date, @rand)
+           studentAssessment = StudentAssessment.new(@id, @int_id, assessment, date, @rand)
            if assessment.referenced_objective_assessments.nil? == false
              objectiveAssessmentRef = assessment.referenced_objective_assessments[0]
              @student_objective_assessments << StudentObjectiveAssessment.new(studentAssessment,objectiveAssessmentRef)
@@ -471,7 +463,7 @@ class StudentWorkOrder
   def generate_student_assessment_items(student_assessments)
     student_assessments.map{|sa|
       sa.assessment.all_items.map{|item|
-        StudentAssessmentItem.new(sa.studentId.odd?, sa, item)
+        StudentAssessmentItem.new(sa.studentIntId.odd?, sa, item)
       }
     }.flatten
   end
@@ -487,7 +479,6 @@ class StudentWorkOrder
   end
 
   def find_age(grade)
-    puts "DEBUG: grade is #{grade}"
     5 + GradeLevelType.get_ordered_grades.index(grade)
   end
 

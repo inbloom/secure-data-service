@@ -30,11 +30,13 @@ class Student < BaseEntity
                 :displacementStatus, :programParticipations, :learningStyles,
                 :cohortYears, :studentIndicators
                 
-  def initialize(id, year_of, name = nil)
+  def initialize(id, int_id, year_of, name = nil)
     @id = id
-    id = Digest::MD5.hexdigest(id).to_i * 12345 if id.kind_of?(String)
+    @int_id = int_id
     @year_of = year_of
-    @rand = Random.new(id)
+    @rand = Random.new(@int_id)
+    # check for presence of a student name from catalog
+    @firstName, @lastName = name.split(" ") if !name.nil?
     buildStudent
 
     optional {@studentIdentificationCode = {
@@ -225,9 +227,9 @@ class Student < BaseEntity
   def buildStudent
     @sex = choose(BaseEntity.demographics['sex'])
     @prefix = sex == "Male?" ? "Mr" : "Ms"
-    @firstName = choose(sex == "Male" ? BaseEntity.demographics['maleNames'] : BaseEntity.demographics['femaleNames'])
+    @firstName ||= choose(sex == "Male" ? BaseEntity.demographics['maleNames'] : BaseEntity.demographics['femaleNames'])
     @middleName = choose(sex == "Male" ? BaseEntity.demographics['maleNames'] : BaseEntity.demographics['femaleNames'])
-    @lastName = choose(BaseEntity.demographics['lastNames'])
+    @lastName ||= choose(BaseEntity.demographics['lastNames'])
     @suffix = wChoose(BaseEntity.demographics['nameSuffix']) == "Jr" ? "Jr" : nil
     @birthDay = (@year_of + @rand.rand(365)).to_s
     @email = @rand.rand(10000).to_s + BaseEntity.demographics['emailSuffix']
