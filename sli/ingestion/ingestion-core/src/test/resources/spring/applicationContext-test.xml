@@ -108,10 +108,19 @@
     <property name="transformer" ref="smooksEdFi2SLITransformer" />
     <property name="defaultEntityPersistHandler" ref="entityPersistHandler" />
     <property name="entityPersistTypeMap" ref="entityPersistTypeMap" />
+    <property name="neutralRecordReadConverter" ref="neutralRecordReadConverter" />
     <property name="recordLvlHashNeutralRecordTypes" ref="recordLevelDeltaEnabledEntities" />
   </bean>
 
+  <bean id="WorkNoteSplitter" class="org.slc.sli.ingestion.routes.orchestra.WorkNoteSplitter" />
   <bean id="ZipFileSplitter" class="org.slc.sli.ingestion.routes.orchestra.ZipFileSplitter" />
+  <bean id="stagedEntityTypeDAO" class="org.slc.sli.ingestion.routes.orchestra.InMemoryStagedEntityTypeDAO" />
+
+  <bean id="dummyNeutralRecordAccess" class="org.slc.sli.ingestion.routes.orchestra.BalancedTimestampSplitStrategyTest.DummyNeutralRecordAccess" />
+  <bean id="balancedTimestampSplitStrategy" class="org.slc.sli.ingestion.routes.orchestra.BalancedTimestampSplitStrategy">
+    <property name="neutralRecordAccess" ref="dummyNeutralRecordAccess" />
+  </bean>
+
   <util:set id="testIndexes" set-class="java.util.TreeSet">
     <!-- (collection,unique,indexKeys ...) -->
     <!-- creationTime indexes for all collections -->

@@ -1,5 +1,5 @@
 #comments
 
-assessment,false,false,creationTime:1
-assessmentFamily,false,false,creationTime:1
-assessmentItem,false,false,creationTime:1
+assessment,false,creationTime:1
+assessmentFamily,false,creationTime:1
+assessmentItem,false,creationTime:1

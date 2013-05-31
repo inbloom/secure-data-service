@@ -23,7 +23,7 @@ import java.util.Set;
 /**
  * Parser to parse the indexes we define in the index file.
  * It is a simple format as:
- * collection,uniqueness,sparse,key1:order,key2:order...
+ * collection,uniqueness,key1:order,key2:order...
  *
  * @author tke
  *
@@ -52,21 +52,18 @@ public class IndexSliFormatParser implements IndexParser<Set<String>> {
 
         String[] indexTokens = indexEntry.split(",");
 
-        if (indexTokens.length < 4) {
-            throw new IllegalStateException("Expected at least 4 tokens for index config definition: "
+        if (indexTokens.length < 3) {
+            throw new IllegalStateException("Expected at least 3 tokens for index config definition: "
                     + indexEntry);
         }
 
         String collection = indexTokens[0];
         boolean unique = Boolean.parseBoolean(indexTokens[1]);
-        boolean sparse = Boolean.parseBoolean(indexTokens[2]);        
 
         mongoIndex.setCollection(collection);
         mongoIndex.setUnique(unique);
-        mongoIndex.setSparse(sparse);
 
-
-        for (int i = 3; i < indexTokens.length; i++) {
+        for (int i = 2; i < indexTokens.length; i++) {
             String [] index = indexTokens[i].split(":");
 
             //default order of the index
@@ -92,7 +89,7 @@ public class IndexSliFormatParser implements IndexParser<Set<String>> {
             return false;
         }
         String[] indexTokens = line.split(",");
-        if (indexTokens.length < 4) {
+        if (indexTokens.length < 3) {
             return false;
         }
         return true;

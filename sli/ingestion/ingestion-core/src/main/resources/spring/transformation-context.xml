@@ -299,6 +299,11 @@
     <property name="smooksConfigs" ref="smooksConfigs" />
   </bean>
 
+  <bean id="transformationFactory" class="org.slc.sli.ingestion.transformation.TransformationFactory">
+    <property name="transformationStrategySuffix" value="TransformationStrategy" />
+    <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
+  </bean>
+
   <bean id="entityConfigurationsFactory" class="org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory">
     <property name="searchPath" value="classpath:smooksEdFi2SLI/" />
   </bean>
