@@ -22,6 +22,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.joda.time.DateTime;
+import org.slc.sli.bulk.extract.files.metadata.ErrorFile;
 import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
 import org.slc.sli.bulk.extract.files.writer.JsonFileWriter;
 import org.slc.sli.bulk.extract.message.BEMessageCode;
@@ -53,8 +54,8 @@ public class ExtractFile {
     private Map<String, File> archiveFiles = new HashMap<String, File>();
     private Map<String, JsonFileWriter> dataFiles = new HashMap<String, JsonFileWriter>();
     private ManifestFile manifestFile;
+    private ErrorFile errorFile;
     private String edorg;
-
     private File parentDir;
     private String archiveName;
 
@@ -84,6 +85,7 @@ public class ExtractFile {
         this.tempDir = new File(parentDir, UUID.randomUUID().toString());
         this.tempDir.mkdir();
         this.securityEventUtil = securityEventUtil;
+        this.errorFile = new ErrorFile(parentDir);
     }
 
     /**
@@ -125,6 +127,15 @@ public class ExtractFile {
         this.manifestFile = manifestFile;
         return manifestFile;
     }
+    
+    
+    /**
+     * Return the error logger used to report errors in the extract.
+     */
+    public ErrorFile getErrorLogger() {
+        return this.errorFile;
+    }
+    
 
     /**
      * Generates the archive file for the extract.
@@ -150,6 +161,10 @@ public class ExtractFile {
             tarArchiveOutputStream = new TarArchiveOutputStream(multiOutputStream);
 
             archiveFile(tarArchiveOutputStream, manifestFile.getFile());
+            File errors = errorFile.getFile();
+            if (errors != null) {
+                archiveFile(tarArchiveOutputStream, errors);
+            }
             for (JsonFileWriter dataFile : dataFiles.values()) {
                 File df = dataFile.getFile();
 

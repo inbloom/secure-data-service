@@ -57,10 +57,6 @@ TEACHERS_PER_SECTION: 1
 # Staff Catalog location
 STAFF_CATALOG: scenarios/staff.json
 
-# Student Catalog location
-STUDENT_CATALOG:
-#STUDENT_CATALOG: scenarios/student.json
-
 # Teacher to Section mapping
 MAX_SECTIONS_PER_TEACHER: {'elementary': 1, 'middle': 3, 'high': 5}
 TEACHERS_PER_SECTION: 1

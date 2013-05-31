@@ -19,10 +19,12 @@ import java.io.IOException;
 
 import junit.framework.Assert;
 
+import org.codehaus.jackson.JsonProcessingException;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import org.slc.sli.bulk.extract.files.metadata.ErrorFile;
 import org.slc.sli.bulk.extract.treatment.Treatment;
 import org.slc.sli.domain.Entity;
 
@@ -54,9 +56,10 @@ public class EntityWriterTest {
     @Test
     public void testWrite() {
         JsonFileWriter file = Mockito.mock(JsonFileWriter.class);
+        ErrorFile errorFile = Mockito.mock(ErrorFile.class);
         Entity entity = Mockito.mock(Entity.class);
 
-        Entity check = writer.write(entity, file);
+        Entity check = writer.write(entity, file, errorFile);
 
         Assert.assertEquals(treatedEntity, check);
         try {
@@ -64,6 +67,22 @@ public class EntityWriterTest {
         } catch (IOException e) {
             Assert.fail();
         }
+    }
+    
+    @Test
+    public void testIOException() throws IOException {
+        JsonFileWriter file = Mockito.mock(JsonFileWriter.class);
+        Mockito.doThrow(new IOException("Mock IOException")).when(file).write(Mockito.any(Entity.class));
+        ErrorFile errorFile = Mockito.mock(ErrorFile.class);
+        Entity entity = Mockito.mock(Entity.class);
+        Mockito.when(entity.getType()).thenReturn("MOCK_ENTITY_TYPE");
+
+        writer.write(entity, file, errorFile);
+        Mockito.verify(errorFile).logEntityError(entity);
+        
+        Mockito.doThrow(Mockito.mock(JsonProcessingException.class)).when(file).write(Mockito.any(Entity.class));
+        writer.write(entity, file, errorFile);
+        Mockito.verify(errorFile, Mockito.times(2)).logEntityError(entity); // twice because we're reusing the mocked logger.
     }
 
 }

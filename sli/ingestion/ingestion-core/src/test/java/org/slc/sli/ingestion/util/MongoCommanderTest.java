@@ -69,17 +69,17 @@ public class MongoCommanderTest {
         shardCollections.add("assessmentFamily");
         shardCollections.add("assessmentItem");
 
-        collectionOrder.put("assessment", 2);
-        collectionOrder.put("assessmentFamily", 3);
-        collectionOrder.put("assessmentItem", 1);
+        collectionOrder.put("assessment", 3);
+        collectionOrder.put("assessmentFamily", 1);
+        collectionOrder.put("assessmentItem", 2);
 
         collectionIns.put("assessment", assessmentCollection);
         collectionIns.put("assessmentFamily", assessmentFamilyCollection);
         collectionIns.put("assessmentItem", assessmentItem);
 
-        indexes.add("assessment,false,false,creationTime");
-        indexes.add("assessmentFamily,false,false,creationTime");
-        indexes.add("assessmentItem,false,false,creationTime");
+        indexes.add("assessment,false,creationTime");
+        indexes.add("assessmentFamily,false,creationTime");
+        indexes.add("assessmentItem,false,creationTime");
 
         Mockito.when(mockedMongoTemplate.getDb()).thenReturn(db);
         Mockito.when(db.getName()).thenReturn(dbName);
@@ -112,7 +112,6 @@ public class MongoCommanderTest {
         DBObject options = new BasicDBObject();
         options.put("name", "idx_" + indexOrder);
         options.put("unique", false);
-        options.put("sparse", false);
         options.put("ns", ns);
 
         return options;

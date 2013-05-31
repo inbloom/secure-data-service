@@ -23,25 +23,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.util.datetime.DateHelper;
 import org.slc.sli.domain.Entity;
-public class ExtractorHelper{
-
-    public ExtractorHelper() {
-        //LocalEdOrgExtractHelper is optional
-    }
-
-    public ExtractorHelper(LocalEdOrgExtractHelper localEdOrgExtractHelper) {
-        this.localEdOrgExtractHelper = localEdOrgExtractHelper;
-    }
-
+public class ExtractorHelper {
+    
     private DateHelper dateHelper;
-
-    private LocalEdOrgExtractHelper localEdOrgExtractHelper;
-
 
     /**
      * returns all current schools of the student
@@ -49,7 +37,7 @@ public class ExtractorHelper{
      * @return
      */
     @SuppressWarnings("unchecked")
-    public Set<String>fetchCurrentSchoolsForStudent(Entity student) {
+    public Set<String> fetchCurrentSchoolsFromStudent(Entity student) {
         if (dateHelper == null) {
             dateHelper = new DateHelper();
         }
@@ -63,10 +51,9 @@ public class ExtractorHelper{
              if (dateHelper.isFieldExpired(school, "exitWithdrawDate")) {
                 continue;
             }
-            String id = (String)school.get("_id");
-            List<String> lineages = localEdOrgExtractHelper.getEdOrgLineages().get(id);
-            if(lineages != null) {
-                studentSchools.addAll(lineages);
+            if (school.containsKey("edOrgs")) {
+                List<String> edorgs = (List<String>) school.get("edOrgs");
+                studentSchools.addAll(edorgs);
             }
         }
         return studentSchools;
@@ -117,11 +104,4 @@ public class ExtractorHelper{
     	return result;
     }
 
-    public LocalEdOrgExtractHelper getLocalEdOrgExtractHelper() {
-        return localEdOrgExtractHelper;
-    }
-
-    public void setLocalEdOrgExtractHelper(LocalEdOrgExtractHelper localEdOrgExtractHelper) {
-        this.localEdOrgExtractHelper = localEdOrgExtractHelper;
-    }
 }
