@@ -7,7 +7,6 @@ Feature: As an API user, I want to be able to get a list of links available to t
 	And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     Given I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
 
-  @wip
   Scenario: Get the URL I should use to get the latest full and delta bulk extract for a given LEA
     Given I clean the bulk extract file system and database
     And I post "StoriedDataSet_IL_Daybreak.zip" file as the payload of the ingestion job
@@ -29,7 +28,7 @@ Feature: As an API user, I want to be able to get a list of links available to t
 	|   fullLeas   |  1    |
 	|   deltaLeas  |  1    |
 	|   fullSea    |  1    |
-	|   deltaSea   |  1    |
+	#|   deltaSea   |  0    |
 	And I make a head request with each returned URL
 
 Scenario: Login as a user not directly associated with the SEA, SEA extract should be in the list
