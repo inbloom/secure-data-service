@@ -39,29 +39,29 @@ import org.slc.sli.bulk.extract.context.resolver.impl.GraduationPlanContextResol
 import org.slc.sli.bulk.extract.context.resolver.impl.ParentContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.SectionContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.SessionContextResolver;
+import org.slc.sli.bulk.extract.context.resolver.impl.SimpleEntityTypeContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StaffTeacherContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StaffTeacherDirectRelatedContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StudentCompetencyContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StudentContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.StudentDirectRelatedContextResolver;
-import org.slc.sli.bulk.extract.context.resolver.impl.SimpleEntityTypeContextResolver;
 import org.slc.sli.common.constants.EntityNames;
 
 /**
  * Factory class for context resolvers, which are used to
  * enforce business visibility rule as in determines which
  * LEAs own the entity
- * 
+ *
  * @author ycao
- * 
+ *
  */
 @Component
 public class EdOrgContextResolverFactory {
     private static final Logger LOG = LoggerFactory.getLogger(EdOrgContextResolverFactory.class);
-      
+
     @Autowired
     private EducationOrganizationContextResolver edOrgContextResolver;
-    
+
     /**
      * Two things must in common for a entity to be a student direct related entity:
      * 1. the entity must have a "body.studentId" field
@@ -70,19 +70,19 @@ public class EdOrgContextResolverFactory {
      */
     @Autowired
     private StudentDirectRelatedContextResolver studentDirectRelatedContextResolver;
-    
+
     @Autowired
     private StudentContextResolver studentResolver;
-    
+
     @Autowired
     private ParentContextResolver parentResolver;
-    
+
     @Autowired
     private SectionContextResolver sectionResolver;
-    
+
     @Autowired
     private StaffTeacherContextResolver staffTeacherResolver;
-    
+
     @Autowired
     private StaffTeacherDirectRelatedContextResolver staffTeacherRelatedResolver;
 
@@ -91,41 +91,42 @@ public class EdOrgContextResolverFactory {
 
     @Autowired
     private CohortContextResolver cohortResolver;
-    
+
     @Autowired
     private SessionContextResolver sessionResolver;
-    
+
     @Autowired
     private GradingPeriodContextResolver gradingPeriodResolver;
-    
+
     @Autowired
     private CourseOfferingContextResolver courseOfferingResolver;
-    
+
     @Autowired
     private CourseContextResolver courseResolver;
 
     @Autowired
     private GraduationPlanContextResolver graduationPlanResolver;
-    
+
     @Autowired
     private DisciplineIncidentContextResolver disciplineIncidentResolver;
-    
+
     @Autowired
     private DisciplineActionContextResolver disciplineActionResolver;
-    
+
     @Autowired
     private StudentCompetencyContextResolver studentCompetencyResolver;
-    
+
     @Autowired
     private CourseTranscriptContextResolver courseTranscriptResolver;
 
+    @Autowired
     private SimpleEntityTypeContextResolver simpleEntityTypeContextResolver;
-    
+
     private Map<String, ContextResolver> resolverMap = new HashMap<String, ContextResolver>();
 
     @PostConstruct
     void init() {
-        
+
         resolverMap.put(EntityNames.EDUCATION_ORGANIZATION, edOrgContextResolver);
 
         resolverMap.put(EntityNames.STUDENT, studentResolver);
@@ -142,42 +143,42 @@ public class EdOrgContextResolverFactory {
         resolverMap.put(EntityNames.ATTENDANCE, studentDirectRelatedContextResolver);
         resolverMap.put(EntityNames.STUDENT_PROGRAM_ASSOCIATION, studentDirectRelatedContextResolver);
         resolverMap.put(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, studentDirectRelatedContextResolver);
-        
+
         resolverMap.put(EntityNames.PARENT, parentResolver);
-        
+
         resolverMap.put(EntityNames.SECTION, sectionResolver);
-        
+
         resolverMap.put(EntityNames.TEACHER, staffTeacherResolver);
         resolverMap.put(EntityNames.STAFF, staffTeacherResolver);
-        
+
         resolverMap.put(EntityNames.TEACHER_SCHOOL_ASSOCIATION, staffTeacherRelatedResolver);
         resolverMap.put(EntityNames.TEACHER_SECTION_ASSOCIATION, staffTeacherRelatedResolver);
         resolverMap.put(EntityNames.STAFF_ED_ORG_ASSOCIATION, staffTeacherRelatedResolver);
         resolverMap.put(EntityNames.STAFF_COHORT_ASSOCIATION, staffTeacherRelatedResolver);
         resolverMap.put(EntityNames.STAFF_PROGRAM_ASSOCIATION, staffTeacherRelatedResolver);
-        
+
         resolverMap.put(EntityNames.GRADEBOOK_ENTRY, gradebookEntryContextResolver);
-        
+
         resolverMap.put(EntityNames.COHORT, cohortResolver);
-        
+
         resolverMap.put(EntityNames.SESSION, sessionResolver);
 
         resolverMap.put(EntityNames.GRADING_PERIOD, gradingPeriodResolver);
-        
+
         resolverMap.put(EntityNames.COURSE_OFFERING, courseOfferingResolver);
-        
+
         resolverMap.put(EntityNames.COURSE, courseResolver);
-        
+
         resolverMap.put(EntityNames.COURSE_TRANSCRIPT, courseTranscriptResolver);
 
         resolverMap.put(EntityNames.GRADUATION_PLAN, graduationPlanResolver);
-        
+
         resolverMap.put(EntityNames.DISCIPLINE_INCIDENT, disciplineIncidentResolver);
         resolverMap.put(EntityNames.DISCIPLINE_ACTION, disciplineActionResolver);
-        
-        resolverMap.put(EntityNames.STUDENT_COMPETENCY, studentCompetencyResolver); 
-        
-        resolverMap.put(EntityNames.LEARNING_OBJECTIVE, simpleEntityTypeContextResolver); 
+
+        resolverMap.put(EntityNames.STUDENT_COMPETENCY, studentCompetencyResolver);
+
+        resolverMap.put(EntityNames.LEARNING_OBJECTIVE, simpleEntityTypeContextResolver);
         resolverMap.put(EntityNames.LEARNING_STANDARD, simpleEntityTypeContextResolver);
         resolverMap.put(EntityNames.COMPETENCY_LEVEL_DESCRIPTOR, simpleEntityTypeContextResolver);
         resolverMap.put(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, simpleEntityTypeContextResolver);
@@ -185,10 +186,10 @@ public class EdOrgContextResolverFactory {
 
         LOG.debug("Resolver map is {}", resolverMap);
     }
-    
+
     /**
      * find responsible resolver for this entity type
-     * 
+     *
      * @param entityType
      * @return context resolver for this entity type
      */
