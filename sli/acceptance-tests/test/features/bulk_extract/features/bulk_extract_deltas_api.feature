@@ -58,6 +58,7 @@ Scenario: Generate a bulk extract delta after day 0 ingestion
    Then each record in the full extract is present and matches the delta extract
    #And I save some IDs from all the extract files to "delete_candidate" so I can delete them later
 
+@wip
 Scenario: Generate a SEA bulk extract delta after day 1 ingestion
     When I trigger a delta extract
      And I request the latest bulk extract delta using the api
