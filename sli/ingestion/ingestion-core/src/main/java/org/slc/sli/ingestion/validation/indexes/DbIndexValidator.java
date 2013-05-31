@@ -77,16 +77,11 @@ public class DbIndexValidator implements Validator<DB> {
             for (DBObject dbObject : indexList) {
                 DBObject keyObj = (DBObject) dbObject.get("key");
                 Object uniqueField = dbObject.get("unique");
-                Object sparseField = dbObject.get("sparse");
                 boolean unique = false;
-                boolean sparse = false;
-                if (sparseField != null) {
-                	sparse = Boolean.parseBoolean(sparseField.toString());
-                }
                 if (uniqueField != null) {
                     unique = Boolean.parseBoolean(uniqueField.toString());
                 }
-                dbIndexes.add(new MongoIndex(collectionName, unique, keyObj, sparse));
+                dbIndexes.add(new MongoIndex(collectionName, unique, keyObj));
             }
         }
         return dbIndexes;

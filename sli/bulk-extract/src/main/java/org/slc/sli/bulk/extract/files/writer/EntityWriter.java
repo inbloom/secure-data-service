@@ -21,6 +21,7 @@ import org.codehaus.jackson.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.slc.sli.bulk.extract.files.metadata.ErrorFile;
 import org.slc.sli.bulk.extract.treatment.Treatment;
 import org.slc.sli.domain.Entity;
 
@@ -48,14 +49,16 @@ public class EntityWriter {
      * @param file file
      * @return entity
      */
-    public Entity write(Entity entity, JsonFileWriter file) {
+    public Entity write(Entity entity, JsonFileWriter file, ErrorFile errors) {
         Entity treated = applicator.apply(entity);
         try {
             file.write(treated);
         } catch (JsonProcessingException e) {
             LOG.error("Error while extracting from " + entity.getType(), e);
+            errors.logEntityError(entity);
         } catch (IOException e) {
             LOG.error("Error while extracting from " + entity.getType(), e);
+            errors.logEntityError(entity);
         }
 
         return treated;

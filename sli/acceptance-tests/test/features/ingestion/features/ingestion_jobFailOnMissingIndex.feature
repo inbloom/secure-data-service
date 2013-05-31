@@ -16,7 +16,7 @@ Feature: Missing Index Alert
       | section                                    | body.schoolId               |
       | student                                    | body.studentUniqueStateId   |
       | teacherSchoolAssociation                   | body.schoolId               |
-   Then I remove the following indexes in the corresponding collections:
+    Then I remove the following indexes in the corresponding collections:
       | collectionName                             | index                       |
       | section                                    | body.schoolId               |
       | student                                    | body.studentUniqueStateId   |
@@ -29,8 +29,7 @@ Feature: Missing Index Alert
     And I should not see a warning log file created
     When the tenant indexes are applied to the tenant "Midgar"
     #And the old files are removed from the "Midgar-Daybreak" landing zone
-
-   And the landing zone is reinitialized
+    And the landing zone is reinitialized
     And I post "TinyDataSet.zip" file as the payload of the ingestion job
     And zip file is scp to ingestion landing zone with name "TinyDataSet3.zip"
     And a batch job for file "TinyDataSet3.zip" is completed in database
