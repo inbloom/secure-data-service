@@ -1824,7 +1824,9 @@ def prepareBody(verb, value, response_map)
         "sex" => "Male",
         "entityType" => "student",
         "race" => ["White"],
-        "languages" => ["English"],
+        "languages" => [{
+            "language" => "English"
+        }],
         "studentUniqueStateId" => "nsmin-1",
         "profileThumbnail" => "1201 thumb",
         "name" => {
@@ -1848,7 +1850,9 @@ def prepareBody(verb, value, response_map)
         "sex" => "Female",
         "entityType" => "student",
         "race" => ["White"],
-        "languages" => ["English"],
+        "languages" => [{
+            "language" => "English"
+        }],
         "studentUniqueStateId" => "hwmin-1",
         "profileThumbnail" => "1301 thumb",
         "name" => {
@@ -1986,7 +1990,9 @@ def prepareBody(verb, value, response_map)
           "assessmentReportingMethod" => "Scale score"
         }],
         "linguisticAccommodations" => ["Bilingual Dictionary"],
-        "administrationLanguage" => "English",
+        "administrationLanguage" => {
+           "language" => "English"
+        },
         "studentAssessmentItems" => [{
           "rawScoreResult" => 82,
           "responseIndicator" => "Effective response",
