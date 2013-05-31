@@ -20,14 +20,13 @@
 package org.slc.sli.bulk.extract.lea;
 
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
-import org.slc.sli.bulk.extract.util.SecurityEventUtil;
 import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.util.logging.LogLevelType;
-import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
@@ -44,11 +43,13 @@ public class StudentExtractor implements EntityExtract {
     private EntityToLeaCache parentCache;
     private LocalEdOrgExtractHelper localEdOrgExtractHelper;
 
-    
     private ExtractorHelper helper;
 
+    private EntityToLeaCache diCache = new EntityToLeaCache();
+
     public StudentExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo,
-            ExtractorHelper helper, EntityToLeaCache studentCache, EntityToLeaCache parentCache, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
+                            ExtractorHelper helper, EntityToLeaCache studentCache, EntityToLeaCache parentCache,
+                            LocalEdOrgExtractHelper localEdOrgExtractHelper) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
@@ -80,6 +81,23 @@ public class StudentExtractor implements EntityExtract {
                     for (String parent : parents) {
                         parentCache.addEntry(parent, lea);
                     }
+                }
+            }
+
+            List<Entity> sdias =  e.getEmbeddedData().get("studentDisciplineIncidentAssociation");
+
+            if(sdias != null) {
+                for(Entity sdia : sdias) {
+                    String did = (String) sdia.getBody().get("disciplineIncidentId");
+                    Set<String> leas = studentCache.getEntriesById(e.getEntityId());
+
+                    if(leas != null) {
+                        for(String lea : leas) {
+                            diCache.addEntry(did, lea);
+                        }
+                    } else {
+                        diCache.addEntry(did, "marker");    // adding a marker that this DI is referenced by a student
+                    }
 
                 }
             }
@@ -99,5 +117,7 @@ public class StudentExtractor implements EntityExtract {
         return parentCache;
     }
 
-
+    public EntityToLeaCache getDiCache() {
+        return diCache;
+    }
 }

@@ -1,6 +1,6 @@
 @RALLY_US5594
 
-Feature: As an API user, I want to be able to get a list authorized LEAs.
+Feature: As an API user, I want to be able to get a list of links available to the user.
 
   Background: An authorized bulk extract user logs in and gets the information for the extract from a HEAD call
 	Given I am using local data store
@@ -27,9 +27,21 @@ Feature: As an API user, I want to be able to get a list authorized LEAs.
 	|   fieldName  | count |
 	|   fullLeas   |  1    |
 	|   deltaLeas  |  1    |
-#	|   fullSea    |  1    |
-#	|   deltaSea   |  1    |
+	|   fullSea    |  1    |
+	#|   deltaSea   |  0    |
 	And I make a head request with each returned URL
+
+Scenario: Login as a user not directly associated with the SEA, SEA extract should be in the list
+  Then I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  When I make a call to the bulk extract end point "/v1.1/bulk/extract/list"
+  When I get back a response code of "200"
+  When the number of returned URLs is correct:
+  |   fieldName  | count |
+  |   fullLeas   |  1    |
+  |   deltaLeas  |  1    |
+  |   fullSea    |  1    |
+  #|   deltaSea   |  0    |
+  And I make a head request with each returned URL
 
   Scenario: Validate that the delta extracts are in time order, most recent first
     Given I post "new_edorg_in_daybreak.zip" file as the payload of the ingestion job

@@ -1803,6 +1803,16 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <EntryDate>2009-09-01</EntryDate>
     <EntryGradeLevel>Kindergarten</EntryGradeLevel>
     <ExitWithdrawDate>2010-07-31</ExitWithdrawDate>
+    <GraduationPlanReference>
+      <GraduationPlanIdentity>
+        <GraduationPlanType>Minimum</GraduationPlanType>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+              <StateOrganizationId>4</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </GraduationPlanIdentity>
+    </GraduationPlanReference>
   </StudentSchoolAssociation>
   <StudentSectionAssociation>
     <StudentReference>

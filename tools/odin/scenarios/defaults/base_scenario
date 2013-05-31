@@ -1,6 +1,6 @@
 # Base set of configuration parameters required to run ODIN
 STUDENT_COUNT: 1
-BEGIN_YEAR: 2012
+BEGIN_YEAR: 2013
 NUMBER_OF_YEARS: 3
 
 # Select the output of the ODIN tool
@@ -164,6 +164,8 @@ DISCIPLINE_OPTIONS: [
 
 #learning objectives
 NUM_LEARNING_OBJECTIVES_PER_SUBJECT_AND_GRADE: 5
+
+NUM_LEARNING_STANDARDS_PER_SUBJECT_AND_GRADE: 10
 
 COMPETENCY_LEVEL_DESCRIPTORS: [
   { code_value: "Incompetent", description: "Student does not understand anything", performance_base_conversion: "Well Below Basic" },

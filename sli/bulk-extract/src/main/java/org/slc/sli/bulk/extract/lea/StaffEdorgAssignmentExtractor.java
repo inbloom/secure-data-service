@@ -16,8 +16,8 @@
 
 package org.slc.sli.bulk.extract.lea;
 
-import java.util.Iterator;
-
+import com.google.common.base.Function;
+import org.apache.commons.lang3.tuple.Pair;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
@@ -25,19 +25,21 @@ import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.data.mongodb.core.query.Query;
+
+import java.util.Iterator;
+import java.util.Set;
 
 public class StaffEdorgAssignmentExtractor implements EntityExtract {
-    
+
     private EntityExtractor extractor;
     private LEAExtractFileMap map;
     private Repository<Entity> repo;
     private ExtractorHelper extractorHelper;
     private EntityToLeaCache cache;
     private LocalEdOrgExtractHelper localEdOrgExtractHelper;
-    
+
     public StaffEdorgAssignmentExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo,
-            ExtractorHelper extractorHelper, EntityToLeaCache entityToLeaCache, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
+                                         ExtractorHelper extractorHelper, EntityToLeaCache entityToLeaCache, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
@@ -49,29 +51,44 @@ public class StaffEdorgAssignmentExtractor implements EntityExtract {
     @Override
     public void extractEntities(EntityToLeaCache entityToEdorgCache) {
         localEdOrgExtractHelper.logSecurityEvent(map.getLeas(), EntityNames.STAFF_ED_ORG_ASSOCIATION, this.getClass().getName());
+        doIterate(entityToEdorgCache, new Function<Pair<String, Entity>, Boolean>() {
+            @Override
+            public Boolean apply(Pair<String, Entity> input) {
+                cache.addEntry((String) input.getRight().getBody().get(ParameterConstants.STAFF_REFERENCE), input.getLeft());
+                return true;
+            }
+        });
+
+        doIterate(entityToEdorgCache, new Function<Pair<String, Entity>, Boolean>() {
+            @Override
+            public Boolean apply(Pair<String, Entity> input) {
+
+                Entity e = input.getRight();
+                Set<String> leas = cache.getEntriesById((String) e.getBody().get(ParameterConstants.STAFF_REFERENCE));
+
+                for (String lea : leas) {
+                    extractor.extractEntity(e, map.getExtractFileForLea(lea), EntityNames.STAFF_ED_ORG_ASSOCIATION);
+                }
+
+                return true;
+            }
+        });
+    }
+
+    private void doIterate(EntityToLeaCache entityToEdorgCache, Function<Pair<String, Entity>, Boolean> func) {
         Iterator<Entity> associations = repo.findEach(EntityNames.STAFF_ED_ORG_ASSOCIATION, new NeutralQuery());
         while (associations.hasNext()) {
             Entity association = associations.next();
             if (!extractorHelper.isStaffAssociationCurrent(association)) {
                 continue;
             }
-            for (String lea : entityToEdorgCache.getEntityIds()) {
-                String edorg = (String) association.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE);
-                if (entityToEdorgCache.getEntriesById(lea).contains(edorg)) {
-                    // Write it
-                    extractor.extractEntity(association, map.getExtractFileForLea(lea),
-                            EntityNames.STAFF_ED_ORG_ASSOCIATION);
-                    
-                    // Cache it
-                    cache.addEntry((String) association.getBody().get(ParameterConstants.STAFF_REFERENCE), lea);
-                }
-            }
+            String edorg = (String) association.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE);
+            String lea = entityToEdorgCache.leaFromEdorg(edorg);
 
-
+            func.apply(Pair.of(lea, association));
         }
-        
     }
-    
+
     public EntityToLeaCache getEntityCache() {
         return this.cache;
     }

@@ -25,8 +25,7 @@ public interface PublicDataExtractor {
 
     /**
      * Extracts public data based on an EdOrg.
-     * @param edOrgid the EdOrgId of the EdOrg the public data belongs to
      * @param file the file to write the extracted data
      */
-    public abstract void extract(String edOrgid, ExtractFile file);
+    public abstract void extract(ExtractFile file);
 }

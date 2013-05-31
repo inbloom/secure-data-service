@@ -125,7 +125,7 @@ Feature: As an SLI application, I want to return the right order of entities.
       |studentDisciplineIncidentAssociations  |0c2756fd-6a30-4010-af79-488d6ef2735a_id20120613-8d5a-c796-76e3-d77d5d497e6c_id|714c1304-8a04-4e23-b043-4ad80eb60992_id0e26de6c-225b-9f67-8621-5113ad50a03b_id|
 #      |studentParentAssociations              |74cf790e-84c4-4322-84b8-fca7206f1085_iddd69083f-a053-4819-a3cd-a162cdc627d7_id|5738d251-dd0b-4734-9ea6-417ac9320a15_idc5aa1969-492a-5150-8479-71bfc4d57f1e_id| - Get a 404 when accessing a parent where you get a 403 for accessing their student
       |studentProgramAssociations             |891faebe-bc84-4e0c-b7f3-195637cd981e_idb3f63ae6-8fd5-11e1-86ec-0021701f543f_id|9b00720f-1341-4e1a-b0d0-34ef1671ec87_id052f9397-db72-4c3d-bb6d-0626c00a3694_id|
-      |studentSchoolAssociations              |f4cd9ac2-8f68-42a7-a886-977e4a194c0c|03af9c21-43c0-4d2d-bac6-96cf3290a6f4| 
+      |studentSchoolAssociations              |f4cd9ac2-8f68-42a7-a886-977e4a194c0c|6a683cad-65d8-42be-8a14-ee708140f955|
       |teacherSchoolAssociations              |9d4e4031-3a5d-4965-98b9-257ff887a774|1a72521b-7bed-890a-d574-1d729a379528|
       |teacherSectionAssociations             |706ee3be-0dae-4e98-9525-f564e05aa388_id29d58f86-5fab-4926-a9e2-e4076fe27bb3_id|58c9ef19-c172-4798-8e6e-c73e68ffb5a3_id12f25c0f-75d7-4e45-8f36-af1bcc342871_id|
 

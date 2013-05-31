@@ -22,6 +22,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import org.slc.sli.bulk.extract.files.metadata.ErrorFile;
 import org.slc.sli.bulk.extract.files.writer.JsonFileWriter;
 import org.slc.sli.bulk.extract.files.writer.EntityWriter;
 import org.slc.sli.bulk.extract.util.DefaultHashMap;
@@ -78,8 +79,8 @@ public class EntityWriterManagerTest {
 
         writer.write(entity, archiveFile);
 
-        Mockito.verify(jsonWriter1, Mockito.times(1)).write(Mockito.any(Entity.class), Mockito.any(JsonFileWriter.class));
-        Mockito.verify(jsonWriter2, Mockito.times(1)).write(Mockito.any(Entity.class), Mockito.any(JsonFileWriter.class));
+        Mockito.verify(jsonWriter1, Mockito.times(1)).write(Mockito.any(Entity.class), Mockito.any(JsonFileWriter.class), Mockito.any(ErrorFile.class));
+        Mockito.verify(jsonWriter2, Mockito.times(1)).write(Mockito.any(Entity.class), Mockito.any(JsonFileWriter.class), Mockito.any(ErrorFile.class));
 
     }
 
@@ -95,9 +96,9 @@ public class EntityWriterManagerTest {
         Mockito.when(entity.getType()).thenReturn("student");
 
         writer.write(entity, archiveFile);
-        Mockito.verify(defaultWriter, Mockito.times(1)).write(Mockito.any(Entity.class), Mockito.any(JsonFileWriter.class));
-        Mockito.verify(jsonWriter1, Mockito.times(0)).write(Mockito.any(Entity.class), Mockito.any(JsonFileWriter.class));
-        Mockito.verify(jsonWriter2, Mockito.times(0)).write(Mockito.any(Entity.class), Mockito.any(JsonFileWriter.class));
+        Mockito.verify(defaultWriter, Mockito.times(1)).write(Mockito.any(Entity.class), Mockito.any(JsonFileWriter.class), Mockito.any(ErrorFile.class));
+        Mockito.verify(jsonWriter1, Mockito.times(0)).write(Mockito.any(Entity.class), Mockito.any(JsonFileWriter.class), Mockito.any(ErrorFile.class));
+        Mockito.verify(jsonWriter2, Mockito.times(0)).write(Mockito.any(Entity.class), Mockito.any(JsonFileWriter.class), Mockito.any(ErrorFile.class));
 
     }
 }

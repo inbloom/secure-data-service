@@ -1,6 +1,6 @@
 =begin
 
-Copyright 2012-2013 inBloom, Inc. and its affiliates.
+Copyright 2013-2014 inBloom, Inc. and its affiliates.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -46,15 +46,15 @@ Transform /^<(.*?)>$/ do |human_readable_id|
   # The zeroes mean that field is an array, and we are taking the first element in it
   # These dot-delmited strings are passed to fieldExtract, which recursively
   # walks the response body and ultimately returns the field we desire
-  id = "true"                                                  if human_readable_id == "correct response"
+  id = "false"                                                 if human_readable_id == "correct response"
   id = "code1"                                                 if human_readable_id == "code value"
   id = "True-False"                                            if human_readable_id == "item category"
   id = "Number score"                                          if human_readable_id == "reporting method"
-  id = "BOY-11-2012"                                           if human_readable_id == "APD.codeValue"
-  id = "2012-Eleventh grade Assessment 2"                       if human_readable_id == "assessment 1"
-  id = "2012-Eleventh grade Assessment 2#1"                     if human_readable_id == "assessment item 1"
-  id = "2012-Eleventh grade Assessment 2.OA-0"                  if human_readable_id == "objective assessment"
-  id = "2012-Eleventh grade Assessment 2.OA-0 Sub"              if human_readable_id == "sub objective assessment"
+  id = "BOY-11-2013"                                           if human_readable_id == "APD.codeValue"
+  id = "2013-Eleventh grade Assessment 2"                      if human_readable_id == "assessment 1"
+  id = "2013-Eleventh grade Assessment 2#2"                    if human_readable_id == "assessment item 1"
+  id = "2013-Eleventh grade Assessment 2.OA-1"                 if human_readable_id == "objective assessment"
+  id = "2013-Eleventh grade Assessment 2.OA-1 Sub"             if human_readable_id == "sub objective assessment"
   id = "objectiveAssessment.0.maxRawScore"                     if human_readable_id == "OA.maxRawScore"
   id = "objectiveAssessment.0.nomenclature"                    if human_readable_id == "OA.nomenclature"
   id = "objectiveAssessment.0.identificationCode"              if human_readable_id == "OA.identificationCode"
@@ -64,9 +64,9 @@ Transform /^<(.*?)>$/ do |human_readable_id|
   id = "assessmentIdentificationCode.0.identificationSystem"   if human_readable_id == "AIC.identificationSystem"
   
   # Assessment Family Hierarchy
-  id = "2012 Standard.2012 Eleventh grade Standard"             if human_readable_id == "assessment family hierarchy"
+  id = "2013 Standard.2013 Eleventh grade Standard"             if human_readable_id == "assessment family hierarchy"
   # Assessment Period Descriptor
-  id = "Beginning of Year 2012-2013 for Eleventh grade"         if human_readable_id == "assessment period descriptor"
+  id = "Beginning of Year 2013-2014 for Eleventh grade"         if human_readable_id == "assessment period descriptor"
 
   # Search endpoints
   id = "assessmentIdentificationCode.0.ID"                     if human_readable_id == "search.assessment.ID"

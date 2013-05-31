@@ -6,6 +6,7 @@ Scenario: Initialize security trust store for Bulk Extract application and LEAs
     And The bulk extract app has been approved for "Midgar-DAYBREAK" with client id "<clientId>"
     And The X509 cert "cert" has been installed in the trust store and aliased
 
+
 Scenario: Generate a bulk extract delta after day 0 ingestion
   When I trigger a delta extract
    And I request the latest bulk extract delta using the api
@@ -38,12 +39,26 @@ Scenario: Generate a bulk extract delta after day 0 ingestion
    And The "gradingPeriod" delta was extracted in the same format as the api
    And The "courseOffering" delta was extracted in the same format as the api
    And The "course" delta was extracted in the same format as the api
+   And The "courseTranscript" delta was extracted in the same format as the api
    And The "studentProgramAssociation" delta was extracted in the same format as the api
    And The "staffProgramAssociation" delta was extracted in the same format as the api
    And The "studentDisciplineIncidentAssociation" delta was extracted in the same format as the api
    And The "disciplineIncident" delta was extracted in the same format as the api
    And The "disciplineAction" delta was extracted in the same format as the api
-   And I save some IDs from all the extract files to "delete_candidate" so I can delete them later
+   And The "studentCompetency" delta was extracted in the same format as the api
+
+  Given I trigger a bulk extract
+   When I set the header format to "application/x-tar"
+   Then I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+   When I make lea bulk extract API call for lea "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
+    And the return code is 200 I get expected tar downloaded
+   Then I check the http response headers
+   When I decrypt and save the full extract
+    And I verify that an extract tar file was created for the tenant "Midgar"
+    And there is a metadata file in the extract
+   Then each record in the full extract is present and matches the delta extract
+   #And I save some IDs from all the extract files to "delete_candidate" so I can delete them later
+
 
 Scenario: Triggering deltas via ingestion
   All entities belong to lea1 which is IL-DAYBREAK, we should only see a delta file for lea1
@@ -79,6 +94,7 @@ Given I clean the bulk extract file system and database
        |  disciplineIncident                    |
        |  studentDisciplineIncidentAssociation  |
        |  disciplineAction                      |
+       |  studentCompetency                     |
        |  deleted                               |
      And I verify this "deleted" file should contain:
        | id                                                                                     | condition                             |
@@ -172,13 +188,19 @@ Given I clean the bulk extract file system and database
     # This assessment was for student 1
     And I verify this "studentAssessment" file should contain:
       | id                                          | condition                          |
-      | 065f155b876c2dc15b6b319fa6f23834d05115b7_id | scoreResults.result = 92           |
+      | 86154dd301695c9219d0525569a922a0144b8d17_id | scoreResults.result = 92           |
 
     # This was not
     And I verify this "studentAssessment" file should not contain:
       | id                                          | condition  |
-      | e458bacc2f3d2b89acb8b22e0de45b7e0f8506cf_id |            |
+      | 779b30733dbfacbaed769fae944dfec3fa5196e0_id |            |
 
+    # this studentCompetency followed student 1 
+    And I verify this "studentCompetency" file should contain: 
+      | id                                          | condition  |
+      | 568836d2bc382136c46356c2dbfeb51758ead1ff_id | diagnosticStatement = Student has Advanced understanding of subject. |
+
+     # DAYBREAK stuff now
      And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
        |  attendance                            |
@@ -189,12 +211,14 @@ Given I clean the bulk extract file system and database
        |  studentGradebookEntry                 |
        |  studentSchoolAssociation              | 
        |  studentParentAssociation              |
+       |  studentCompetency                     |
        |  staff                                 |
        |  staffEducationOrganizationAssociation |
        |  teacher                               |
        |  teacherSchoolAssociation              |
        |  teacherSectionAssociation             |
        |  courseOffering                        |
+       |  courseTranscript                      |
        |  course                                |
        |  graduationPlan                        |
        |  disciplineIncident                    |
@@ -235,8 +259,8 @@ Given I clean the bulk extract file system and database
 
      And I verify this "studentAssessment" file should contain:
        | id                                          | condition                                 |
-       | 065f155b876c2dc15b6b319fa6f23834d05115b7_id | scoreResults.result = 92                  |
-       | e458bacc2f3d2b89acb8b22e0de45b7e0f8506cf_id | studentAssessmentItems.rawScoreResult = 7 |
+       | 86154dd301695c9219d0525569a922a0144b8d17_id | scoreResults.result = 92                  |
+       | 779b30733dbfacbaed769fae944dfec3fa5196e0_id | studentAssessmentItems.rawScoreResult = 7 |
 
      And I verify this "parent" file should contain:
        | id                                          | condition                                                    |
@@ -281,6 +305,12 @@ Given I clean the bulk extract file system and database
       | 2dad46540a82bd0ad17b7dbcbb6cbdd4fce2125d_id | uniqueCourseId = DAYBREAK21              |
       | 160cbcc9e293d45a11053f4d3bf6f4be8b70bac4_id | uniqueCourseId = DAYBREAK1               |
 
+    # This course transcript has a direct edorg reference to IL-HIGHWIND, but belongs to a student
+    # only in IL-DAYBREAK, so it only shows up in IL-DAYBREAK
+    And I verify this "courseTranscript" file should contain:
+      | id                                          | condition                                |
+      | adbd098e947690550c7c7bda7bd04d0e76f3d715_id | studentId = 9be61921ddf0bcd3d58fb99d4e9c454ef5707eb7_id |
+
     And I verify this "graduationPlan" file should contain:
       | id                                          | condition                                |
       | 1af13424ea3a179e716468ff760255878ce20ec7_id | graduationPlanType = Distinguished       |
@@ -302,11 +332,15 @@ Given I clean the bulk extract file system and database
       | d00dfdc3821fb8ea4f97147716afc2b153ceb5ba_id | actualDisciplineActionLength = 2     |
       | c78d1f951362ce558cb379cabc7491c6da339e58_id | actualDisciplineActionLength = 3     |
 
+    And I verify this "studentCompetency" file should contain: 
+      | id                                          | condition  |
+      | 568836d2bc382136c46356c2dbfeb51758ead1ff_id | diagnosticStatement = Student has Advanced understanding of subject. |
 
   #this step is necesssary since there is no graduationPlan in day 0 delta, need to verify it's really the same
    #format as API would return
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
    Then The "graduationPlan" delta was extracted in the same format as the api
+
 
 
 Scenario: Generate a bulk extract in a different LEA
@@ -396,6 +430,7 @@ Scenario: Ingest SEA update and verify no deltas generated
   Then there should be no deltas in mongo
 
 
+
 Scenario: Ingest SEA delete and verify both LEAs received the delete
   Given I clean the bulk extract file system and database
     And I ingested "deltas_delete_sea.zip" dataset
@@ -420,6 +455,7 @@ Scenario: Ingest SEA delete and verify both LEAs received the delete
           | 884daa27d806c2d725bc469b273d840493f84b4d_id | entityType = school                   |
 
     Then I reingest the SEA so I can continue my other tests
+
 
 
 Scenario: CREATE and verify deltas for private entities through API POST
@@ -516,6 +552,7 @@ Given I clean the bulk extract file system and database
     |  9bf3036428c40861238fdc820568fde53e658d88_id28af8b70a2f2e695fc25da04e0f8625115002556_id | entityType = studentParentAssociation |
 
 
+
 Scenario: Update an existing edorg through the API, perform delta, call list endpoint, call API to download and verify delta
  Given I clean the bulk extract file system and database
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -572,74 +609,84 @@ Given I clean the bulk extract file system and database
   And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
   And I verify "2" delta bulk extract files are generated for LEA "<IL-HIGHWIND>" in "Midgar"
 
-
+@shortcut
 Scenario: Create Student, course offering and section as SEA Admin, users from different LEAs requesting Delta extracts
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/json"  
  When I POST and validate the following entities:
-    |  entity                        |  type                                  |  returnCode  |
-    |  newDaybreakStudent            |  staffStudent                          |  201         |
-    |  DbStudentSchoolAssociation    |  studentSchoolAssociation              |  201         |
-    |  newParentFather               |  parent                                |  201         |
-    |  newParentMother               |  parent                                |  201         |
-    |  newStudentFatherAssociation   |  studentParentAssociation              |  201         |  
-    |  newDaybreakCourse             |  course                                |  201         |
-    |  newCourseOffering             |  courseOffering                        |  201         |
-    |  newSection                    |  section                               |  201         |
-    |  newStudentSectionAssociation  |  studentSectionAssociation             |  201         |
-    |  newHighwindStudent            |  staffStudent                          |  201         |
-    |  HwStudentSchoolAssociation    |  studentSchoolAssociation              |  201         |
-    |  newStudentAssessment          |  studentAssessment                     |  201         |
-    |  newGradebookEntry             |  gradebookEntry                        |  201         |
-    |  newStaff                      |  staff                                 |  201         |
-    |  newStaffDaybreakAssociation   |  staffEducationOrganizationAssociation |  201         |
-    |  newStaffHighwindAssociation   |  staffEducationOrganizationAssociation |  201         |
-    |  newTeacher                    |  teacher                               |  201         |
-    |  newTeacherEdorgAssociation    |  staffEducationOrganizationAssociation |  201         |
-    |  newTeacherSchoolAssociation   |  teacherSchoolAssociation              |  201         |
-    |  newGrade                      |  grade                                 |  201         |
-    |  newReportCard                 |  reportCard                            |  201         |
-    |  newStudentAcademicRecord      |  studentAcademicRecord                 |  201         |
-    |  newAttendanceEvent            |  attendance                            |  201         |
-    |  newCohort                     |  cohort                                |  201         |
-    |  newStaffCohortAssociation     |  staffCohortAssociation                |  201         |
-    |  newStudentCohortAssociation   |  studentCohortAssociation              |  201         |
-    #|  session                             |
-    #|  gradingPeriod                       |
-    #|  program                             |
-    #|  graduationPlan                      |
+    | entity                         |  type                                  |  returnCode  |
+    | newDaybreakStudent             |  staffStudent                          |  201         |
+    | DbStudentSchoolAssociation     |  studentSchoolAssociation              |  201         |
+    | newParentFather                |  parent                                |  201         |
+    | newParentMother                |  parent                                |  201         |
+    | newStudentFatherAssociation    |  studentParentAssociation              |  201         |  
+    | newDaybreakCourse              |  course                                |  201         |
+    | newCourseOffering              |  courseOffering                        |  201         |
+    | newSection                     |  section                               |  201         |
+    | newStudentSectionAssociation   |  studentSectionAssociation             |  201         |
+    | newHighwindStudent             |  staffStudent                          |  201         |
+    | HwStudentSchoolAssociation     |  studentSchoolAssociation              |  201         |
+    | newStudentAssessment           |  studentAssessment                     |  201         |
+    | newGradebookEntry              |  gradebookEntry                        |  201         |
+    | newStaff                       |  staff                                 |  201         |
+    | newStaffDaybreakAssociation    |  staffEducationOrganizationAssociation |  201         |
+    | newStaffHighwindAssociation    |  staffEducationOrganizationAssociation |  201         |
+    | newTeacher                     |  teacher                               |  201         |
+    | newTeacherEdorgAssociation     |  staffEducationOrganizationAssociation |  201         |
+    | newTeacherSchoolAssociation    |  teacherSchoolAssociation              |  201         |
+    | newGrade                       |  grade                                 |  201         |
+    | newReportCard                  |  reportCard                            |  201         |
+    | newStudentAcademicRecord       |  studentAcademicRecord                 |  201         |
+    | newAttendanceEvent             |  attendance                            |  201         |
+    | newCohort                      |  cohort                                |  201         |
+    | newStaffCohortAssociation      |  staffCohortAssociation                |  201         |
+    | newStudentCohortAssociation    |  studentCohortAssociation              |  201         |
+    | DbGradingPeriod                |  gradingPeriod                         |  201         |
+    | DbSession                      |  session                               |  201         |
+    | newProgram                     |  program                               |  201         | 
+    | newStudentProgramAssociation   |  studentProgramAssociation             |  201         | 
+    #| newStaffProgramAssociation     |  staffProgramAssociation               |  201         | 
+    #| newStudentCompetency           |  studentCompetency                     |  201         |
+    #| newDisciplineIncident          |  disciplineIncident                    |  201         |
+    #| newDisciplineAction            |  disciplineAction                      |  201         |
+    #| newStudentDiscIncidentAssoc    |  studentDisciplineIncidentAssociation  |  201         |
+    #| newGraduationPlan              |  graduationPlan                        |  201         |
 
  When I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
   And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
         |  entityType                            |
+        |  attendance                            |
+        |  cohort                                |
         |  course                                |
         |  courseOffering                        |
+        |  grade                                 |
         |  gradebookEntry                        |
+        |  gradingPeriod                         |
         |  parent                                |
+        |  reportCard                            |
         |  section                               |
+        |  session                               |
         |  staff                                 |
+        |  staffCohortAssociation                |
         |  staffEducationOrganizationAssociation |
         |  student                               |
+        |  studentAcademicRecord                 |
         |  studentAssessment                     |
+        |  studentCohortAssociation              |
         |  studentParentAssociation              |
         |  studentSchoolAssociation              |
         |  studentSectionAssociation             |
         |  teacher                               |
         |  teacherSchoolAssociation              |
-        |  grade                                 |
-        |  reportCard                            |
-        |  studentAcademicRecord                 |
-        |  attendance                            |
-        |  cohort                                |
-        |  staffCohortAssociation                |
-        |  studentCohortAssociation              |
-        #|  session                             |
-        #|  gradingPeriod                       |
-        #|  program                             |
-        #|  graduationPlan                      |
-
+        |  studentProgramAssociation             | 
+        #| newStaffProgramAssociation             | 
+        #| newStudentCompetency                   |
+        #| newDisciplineIncident                  |
+        #| newDisciplineAction                    |
+        #| newStudentDiscIncidentAssoc            |
+        #|  graduationPlan                        |
 
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And I verify this "student" file should contain:
@@ -669,6 +716,12 @@ Given I clean the bulk extract file system and database
     | 4030207003b03d055bba0b5019b31046164eff4e_id | sessionId = bfeaf9315f04797a41dbf1663d18ead6b6fb1309_id        |
     | 4030207003b03d055bba0b5019b31046164eff4e_id | courseOfferingId = 38edd8479722ccf576313b4640708212841a5406_id |
     | 4030207003b03d055bba0b5019b31046164eff4e_id | schoolId = a13489364c2eb015c219172d561c62350f0453f3_id         |
+  And I verify this "gradingPeriod" file should contain:
+    | id                                          | condition                                                      |
+    | 1dae9e8450e2e77dd0b06dee3fd928c1bfda4d49_id | entityType = gradingPeriod                                     |  
+  And I verify this "session" file should contain:
+    | id                                          | condition                                                      |
+    | 227097db8525f4631d873837754633daf8bfcb22_id | entityType = session                                           |
   And I verify this "studentSchoolAssociation" file should contain:
     | id                                          | condition                                                |
     | cbfe3a47491fdff0432d5d4abca339735da9461d_id | entityType = studentSchoolAssociation                    |
@@ -684,11 +737,11 @@ Given I clean the bulk extract file system and database
     | 4030207003b03d055bba0b5019b31046164eff4e_id78468628f357b29599510341f08dfd3277d9471e_id | beginDate = 2013-08-27                                   |
   And I verify this "studentAssessment" file should contain:
     | id                                          | condition                                                   |
-    | 06d9f34280a62a49fe2c4e0acc8e1472284e9047_id | entityType = studentAssessment                              |
-    | 06d9f34280a62a49fe2c4e0acc8e1472284e9047_id | administrationDate = 2013-09-24                             |
-    | 06d9f34280a62a49fe2c4e0acc8e1472284e9047_id | assessmentId = d1db0a2c9d30c0fabcbc4c7fc796701e0509b86b_id  |
-    | 06d9f34280a62a49fe2c4e0acc8e1472284e9047_id | gradeLevelWhenAssessed = Eleventh grade                     |
-    | 06d9f34280a62a49fe2c4e0acc8e1472284e9047_id | studentId = 9bf3036428c40861238fdc820568fde53e658d88_id     |
+    | d4a8b25254af09fe3dd772a2149aa6b45fa6b170_id | entityType = studentAssessment                              |
+    | d4a8b25254af09fe3dd772a2149aa6b45fa6b170_id | administrationDate = 2013-09-24                             |
+    | d4a8b25254af09fe3dd772a2149aa6b45fa6b170_id | assessmentId = 8e6fceafe05daef1da589a1709ee278ba51d337a_id  |
+    | d4a8b25254af09fe3dd772a2149aa6b45fa6b170_id | gradeLevelWhenAssessed = Eleventh grade                     |
+    | d4a8b25254af09fe3dd772a2149aa6b45fa6b170_id | studentId = 9bf3036428c40861238fdc820568fde53e658d88_id     |
   And I verify this "gradebookEntry" file should contain:
     | id                                                                                     | condition                                                      |
     | 4030207003b03d055bba0b5019b31046164eff4e_id383ee846e68a3f539a0a64a651ab2078dedbb6f3_id | entityType = gradebookEntry                                    |
@@ -750,6 +803,10 @@ Given I clean the bulk extract file system and database
     | 9bf3036428c40861238fdc820568fde53e658d88_idfa64547520fbfcbc8646a7a0bb3a52f76e4f4d21_id | entityType = studentCohortAssociation                   |
     | 9bf3036428c40861238fdc820568fde53e658d88_idfa64547520fbfcbc8646a7a0bb3a52f76e4f4d21_id | cohortId = cb99a7df36fadf8885b62003c442add9504b3cbd_id  |
     | 9bf3036428c40861238fdc820568fde53e658d88_idfa64547520fbfcbc8646a7a0bb3a52f76e4f4d21_id | studentId = 9bf3036428c40861238fdc820568fde53e658d88_id |
+  And I verify this "studentProgramAssociation" file should contain:
+    | id                                          | condition                                                |
+    | 9bf3036428c40861238fdc820568fde53e658d88_id38025c314f0972d09cd982ffe58c7d8d2b59d23d_id | entityType = studentProgramAssociation                  |  
+    | 9bf3036428c40861238fdc820568fde53e658d88_id38025c314f0972d09cd982ffe58c7d8d2b59d23d_id | educationOrganizationId = 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
 
  Given the extract download directory is empty
   When I request the latest bulk extract delta via API for "<IL-HIGHWIND>"
@@ -783,12 +840,80 @@ Given I clean the bulk extract file system and database
     | afef1537920d10e093a8d301efbb463e364f8079_id | educationOrganizationReference = 1b223f577827204a1c7e9c851dba06bea6b031fe_id |  
     | f44b0a272ba009b9668151070806e132f9e38364_id | staffReference = e9f3401e0a034e20bb17663dd7d18ece6c4166b5_id                 |  
     | f44b0a272ba009b9668151070806e132f9e38364_id | educationOrganizationReference = 99d527622dcb51c465c515c0636d17e085302d5e_id |
+ 
+  # Now delete the recently added entities and check the delete file  
+  Given I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  When I DELETE and validate the following entities:
+    |  entity                     |  id                                           |  returnCode  |
+    |  attendance                 |  95b973e29368712e2090fcad34d90fffb20aa9c4_id  |  204         |
+    |  studentAssessment          |  d4a8b25254af09fe3dd772a2149aa6b45fa6b170_id  |  204         |
+    |  staffCohortAssociation     |  5e7d5f12cefbcb749069f2e5db63c1003df3c917_id  |  204         |
+    |  gradebookEntry             |  4030207003b03d055bba0b5019b31046164eff4e_id383ee846e68a3f539a0a64a651ab2078dedbb6f3_id  |  204         |
+    |  grade                      |  1417cec726dc51d43172568a9c332ee1712d73d4_idcd83575df61656c7d8aebb690ae0bb3ff129a857_id  |  204         |
+    |  reportCard                 |  1417cec726dc51d43172568a9c332ee1712d73d4_id77bc827b90835ef0df42154428ac3153f0ddc746_id  |  204         |
+    |  studentAcademicRecord      |  1417cec726dc51d43172568a9c332ee1712d73d4_idb2b773084845209865762830ceb1721ebb1101ef_id  |  204         |
+    |  studentCohortAssociation   |  9bf3036428c40861238fdc820568fde53e658d88_idfa64547520fbfcbc8646a7a0bb3a52f76e4f4d21_id  |  204         |
+    |  studentProgramAssociation  |  9bf3036428c40861238fdc820568fde53e658d88_id38025c314f0972d09cd982ffe58c7d8d2b59d23d_id  |  204         |
+    |  studentSectionAssociation  |  4030207003b03d055bba0b5019b31046164eff4e_id78468628f357b29599510341f08dfd3277d9471e_id  |  204         |
+    |  cohort                     |  cb99a7df36fadf8885b62003c442add9504b3cbd_id  |  204         |
+    |  section                    |  4030207003b03d055bba0b5019b31046164eff4e_id  |  204         |
+    |  courseOffering             |  38edd8479722ccf576313b4640708212841a5406_id  |  204         |
+    |  course                     |  877e4934a96612529535581d2e0f909c5288131a_id  |  204         |
+    |  staff                      |  e9f3401e0a034e20bb17663dd7d18ece6c4166b5_id  |  204         |
+    |  teacherSchoolAssociation   |  7a2d5a958cfda9905812c3a9f38c07ac4e8899b0_id  |  204         |
+    |  teacher                    |  2472b775b1607b66941d9fb6177863f144c5ceae_id  |  204         |
+    |  newParentMom               |  41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id  |  204         |
+    |  newParentDad               |  41f42690a7c8eb5b99637fade00fc72f599dab07_id  |  204         |
+    |  studentSchoolAssociation   |  cbfe3a47491fdff0432d5d4abca339735da9461d_id  |  204         |
+    |  newStudent                 |  9bf3036428c40861238fdc820568fde53e658d88_id  |  204         |
+    |  session                    |  227097db8525f4631d873837754633daf8bfcb22_id  |  204         |
+    |  gradingPeriod              |  1dae9e8450e2e77dd0b06dee3fd928c1bfda4d49_id  |  204         |
+
+ Given the extraction zone is empty
+  When I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+   And I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
+   And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
+        |  entityType                            |
+        |  deleted                               |  
+  And I verify this "deleted" file should contain:
+    | id                                          | condition                                |
+    | 95b973e29368712e2090fcad34d90fffb20aa9c4_id | entityType = attendance                  |
+    | cb99a7df36fadf8885b62003c442add9504b3cbd_id | entityType = cohort                      |
+    | 877e4934a96612529535581d2e0f909c5288131a_id | entityType = course                      |
+    | 38edd8479722ccf576313b4640708212841a5406_id | entityType = courseOffering              |
+    | 1dae9e8450e2e77dd0b06dee3fd928c1bfda4d49_id | entityType = gradingPeriod               |
+    | 41f42690a7c8eb5b99637fade00fc72f599dab07_id | entityType = parent                      |
+    | 41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id | entityType = parent                      |
+    | 4030207003b03d055bba0b5019b31046164eff4e_id | entityType = section                     |
+    | 227097db8525f4631d873837754633daf8bfcb22_id | entityType = session                     |
+    | 5e7d5f12cefbcb749069f2e5db63c1003df3c917_id | entityType = staffCohortAssociation      |
+    | afef1537920d10e093a8d301efbb463e364f8079_id | entityType = staffEducationOrganizationAssociation |
+    | e9f3401e0a034e20bb17663dd7d18ece6c4166b5_id | entityType = staff                       |
+    | 9bf3036428c40861238fdc820568fde53e658d88_id | entityType = student                     |
+    | d4a8b25254af09fe3dd772a2149aa6b45fa6b170_id | entityType = studentAssessment           |
+    | cbfe3a47491fdff0432d5d4abca339735da9461d_id | entityType = studentSchoolAssociation    |
+    | 2472b775b1607b66941d9fb6177863f144c5ceae_id | entityType = teacher                     |
+    | 7a2d5a958cfda9905812c3a9f38c07ac4e8899b0_id | entityType = teacherSchoolAssociation    |
+    | 4030207003b03d055bba0b5019b31046164eff4e_id383ee846e68a3f539a0a64a651ab2078dedbb6f3_id | entityType = gradebookEntry            |
+    | 1417cec726dc51d43172568a9c332ee1712d73d4_idcd83575df61656c7d8aebb690ae0bb3ff129a857_id | entityType = grade                     |
+    | 1417cec726dc51d43172568a9c332ee1712d73d4_id77bc827b90835ef0df42154428ac3153f0ddc746_id | entityType = reportCard                |
+    | 1417cec726dc51d43172568a9c332ee1712d73d4_idb2b773084845209865762830ceb1721ebb1101ef_id | entityType = studentAcademicRecord     |
+    | 9bf3036428c40861238fdc820568fde53e658d88_idfa64547520fbfcbc8646a7a0bb3a52f76e4f4d21_id | entityType = studentCohortAssociation  |
+    | 9bf3036428c40861238fdc820568fde53e658d88_id28af8b70a2f2e695fc25da04e0f8625115002556_id | entityType = studentParentAssociation  |
+    | 9bf3036428c40861238fdc820568fde53e658d88_id38025c314f0972d09cd982ffe58c7d8d2b59d23d_id | entityType = studentProgramAssociation |
+    | 4030207003b03d055bba0b5019b31046164eff4e_id78468628f357b29599510341f08dfd3277d9471e_id | entityType = studentSectionAssociation |
+
 
 
 Scenario: Delete student and stuSchAssoc, re-post them, then delete just studentSchoolAssociations (leaving students), verify delete
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/json"  
+ # Create one student (and studentSchoolAssociation) per edorg
+ And I POST and validate the following entities:
+    |  entity                        |  type                       |  returnCode  |
+    |  newDaybreakStudent            |  staffStudent               |  201         |
+    |  DbStudentSchoolAssociation    |  studentSchoolAssociation   |  201         |
  # Delete both students and stSchAssoc
  When I DELETE and validate the following entities:
     |  entity                      |  id                                           |  returnCode  |
@@ -804,8 +929,6 @@ Given I clean the bulk extract file system and database
  # Delete the studentSchoolAssociations leaving the orphaned students
   And I DELETE and validate the following entities:
     |  entity                      |  id                                           |  returnCode  |
-    #|  newStudent                  |  9bf3036428c40861238fdc820568fde53e658d88_id  |  204         |
-    #|  newStudent                  |  b8b0a8d439591b9e073e8f1115ff1cf1fd4125d6_id  |  204         |
     |  studentSchoolAssociation    |  cbfe3a47491fdff0432d5d4abca339735da9461d_id  |  204         |    
     |  studentSchoolAssociation    |  d913396aef918602b8049027dbdce8826c054402_id  |  204         |
 
@@ -851,9 +974,7 @@ Given I clean the bulk extract file system and database
  # Create one student in each lea, and matching studentSchoolAssociations
  When I POST and validate the following entities:
     |  entity                        |  type                       |  returnCode  |
-    #|  newDaybreakStudent            |  staffStudent               |  201         |
     |  DbStudentSchoolAssociation    |  studentSchoolAssociation   |  201         |
-    #|  newHighwindStudent            |  staffStudent               |  201         |
     |  HwStudentSchoolAssociation    |  studentSchoolAssociation   |  201         |
  # Delete students and stSchoAssoc
   And I DELETE and validate the following entities:
@@ -935,18 +1056,6 @@ Scenario: Test access to the api
   Given I log into "Paved Z00" with a token of "lstevenson", a "Noldor" for "IL-Highwind" in tenant "Midgar", that lasts for "300" seconds
   And I request latest delta via API for tenant "Midgar", lea "<IL-DAYBREAK>" with appId "<app id paved>" clientId "<client id paved>"
   Then I should receive a return code of 403
-
-@wip
-Scenario: Test delete deltes
-  Given I clean the bulk extract file system and database
-    And I have an empty delta collection
-  And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-  And I delete one random entity from the my saved "delete_candidate" except for:
-    | type                  |
-    | educationOrganization |
-  When I trigger a delta extract
-  And I verify this delete file by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" contains one single delete from all types in "delete_candidate" except:
-        |  entityType  |
 
 
 Scenario: Be a good neighbor and clean up before you leave

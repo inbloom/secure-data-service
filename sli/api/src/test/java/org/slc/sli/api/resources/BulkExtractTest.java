@@ -16,6 +16,50 @@
 
 package org.slc.sli.api.resources;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
+import static org.junit.Assert.assertNull;
+import static org.mockito.Matchers.argThat;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.when;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.security.Principal;
+import java.security.cert.X509Certificate;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Cookie;
+import javax.ws.rs.core.EntityTag;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.PathSegment;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
+import javax.ws.rs.core.StreamingOutput;
+import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.Variant;
+
 import com.sun.jersey.api.Responses;
 import com.sun.jersey.api.core.ExtendedUriInfo;
 import com.sun.jersey.api.core.HttpContext;
@@ -24,6 +68,7 @@ import com.sun.jersey.api.core.HttpResponseContext;
 import com.sun.jersey.api.representation.Form;
 import com.sun.jersey.core.header.QualitySourceMediaType;
 import com.sun.jersey.core.spi.factory.ResponseImpl;
+
 import org.apache.commons.io.FileUtils;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
@@ -36,16 +81,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.security.ApplicationAuthorizationResource;
-import org.slc.sli.api.security.SecurityEventBuilder;
-import org.slc.sli.api.security.context.resolver.AppAuthHelper;
-import org.slc.sli.api.security.context.resolver.EdOrgHelper;
-import org.slc.sli.api.security.context.validator.GenericToEdOrgValidator;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.encrypt.security.CertificateValidationHelper;
-import org.slc.sli.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.test.context.ContextConfiguration;
@@ -54,29 +89,19 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.*;
-import javax.ws.rs.core.Response.ResponseBuilder;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Type;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.security.Principal;
-import java.security.cert.X509Certificate;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.util.*;
-
-import static junit.framework.Assert.*;
-import static org.junit.Assert.assertNull;
-import static org.mockito.Matchers.argThat;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.when;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.security.ApplicationAuthorizationResource;
+import org.slc.sli.api.security.context.resolver.AppAuthHelper;
+import org.slc.sli.api.security.context.resolver.EdOrgHelper;
+import org.slc.sli.api.security.context.validator.GenericToEdOrgValidator;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.encrypt.security.CertificateValidationHelper;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * Test for support BulkExtract
@@ -524,19 +549,19 @@ public class BulkExtractTest {
     }
 
     @Test(expected = AccessDeniedException.class)
-    public void testGetLEAListFalseAppAuth() throws Exception {
+    public void testGetSLEAListFalseAppAuth() throws Exception {
         injector.setEducatorContext();
         // No BE Field
         Entity mockEntity = mockApplicationEntity();
         mockEntity.getBody().put("isBulkExtract", false);
-        bulkExtract.getLEAList(req, CONTEXT);
+        bulkExtract.getSEAOrLEAList(req, CONTEXT);
     }
 
     @Test(expected = AccessDeniedException.class)
-    public void testGetLEAListCheckUserAssociatedLEAsFailure() throws Exception {
+    public void testGetSLEAListCheckUserAssociatedSLEAsFailure() throws Exception {
         injector.setEducatorContext();
         mockApplicationEntity();
-        bulkExtract.getLEAList(req, CONTEXT);
+        bulkExtract.getSEAOrLEAList(req, CONTEXT);
     }
 
     @Test()
@@ -545,13 +570,13 @@ public class BulkExtractTest {
         mockApplicationEntity();
         Mockito.when(edOrgHelper.getDistricts(Mockito.any(Entity.class))).thenReturn(Arrays.asList("123"));
 
-        Response res = bulkExtract.getLEAList(req, CONTEXT);
+        Response res = bulkExtract.getSEAOrLEAList(req, CONTEXT);
         assertEquals(404, res.getStatus());
     }
 
     @SuppressWarnings("unchecked")
     @Test()
-    public void testGetLEAListEmpty() throws Exception {
+    public void testGetSetSEAAndLEAListEmpty() throws Exception {
         injector.setEducatorContext();
         mockApplicationEntity();
         Mockito.when(edOrgHelper.getDistricts(Mockito.any(Entity.class))).thenReturn(Arrays.asList("123"));
@@ -564,28 +589,40 @@ public class BulkExtractTest {
         Mockito.when(mockMongoEntityRepository.findAll(Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
             .thenReturn(new ArrayList<Entity>());
 
-        Response res = bulkExtract.getLEAList(req, CONTEXT);
+        Response res = bulkExtract.getSEAOrLEAList(req, CONTEXT);
         assertEquals(200, res.getStatus());
         EntityBody list = (EntityBody) res.getEntity();
-        assertNotNull("LEA links list should not be null", list);
+        assertNotNull("Links list should not be null", list);
         Map<String, Map<String, String>> fullLeas = (Map<String, Map<String, String>>) list.get("fullLeas");
         assertTrue("LEA full extract list should be empty", fullLeas.isEmpty());
         Map<String, Map<String, String>> deltaLeas = (Map<String, Map<String, String>>) list.get("deltaLeas");
         assertTrue("LEA delta extract list should be empty", deltaLeas.isEmpty());
+        Map<String, Map<String, String>> fullSeas = (Map<String, Map<String, String>>) list.get("fullSea");
+        assertTrue("SEA full extract list should be empty", fullSeas.isEmpty());
+        Map<String, Map<String, String>> deltaSeas = (Map<String, Map<String, String>>) list.get("deltaSea");
+        assertTrue("SEA delta extract list should be empty", deltaSeas.isEmpty());
     }
 
     @SuppressWarnings("unchecked")
     @Test()
-    public void testGetLEAListSuccess() throws Exception {
+    public void testGetSEAAndLEAListSuccess() throws Exception {
         injector.setEducatorContext();
         mockApplicationEntity();
-        Mockito.when(edOrgHelper.getDistricts(Mockito.any(Entity.class))).thenReturn(Arrays.asList("123"));
+        List<String> LEAs = Arrays.asList("LEA1");
+        Entity mockSEAEntity = Mockito.mock(Entity.class);
+        Mockito.when(edOrgHelper.byId("SEA1")).thenReturn(mockSEAEntity);
+        Mockito.when(edOrgHelper.isSEA(mockSEAEntity)).thenReturn(true);
+        Entity mockLEAEntity = Mockito.mock(Entity.class);
+        Mockito.when(edOrgHelper.byId("LEA1")).thenReturn(mockLEAEntity);
+        Mockito.when(edOrgHelper.isSEA(mockLEAEntity)).thenReturn(false);
+        Mockito.when(edOrgHelper.getSEAOfEdOrg(mockLEAEntity)).thenReturn("SEA1");
+        Mockito.when(edOrgHelper.getDistricts(Mockito.any(Entity.class))).thenReturn(LEAs);
         Entity mockAppAuthEntity = Mockito.mock(Entity.class);
         Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(ApplicationAuthorizationResource.RESOURCE_NAME), Mockito.any(NeutralQuery.class)))
             .thenReturn(mockAppAuthEntity);
         Map<String, Object> body = new HashMap<String, Object>();
         Mockito.when(mockAppAuthEntity.getBody()).thenReturn(body);
-        body.put(ApplicationAuthorizationResource.EDORG_IDS, Arrays.asList("123"));
+        body.put(ApplicationAuthorizationResource.EDORG_IDS, LEAs);
 
         Entity fullBulkExtractEntity = mockBulkExtractEntity(null);
         Date deltaTime1 = new Date(1000000000000L);
@@ -594,32 +631,47 @@ public class BulkExtractTest {
         String timeStamp2 = ISODateTimeFormat.dateTime().print(new DateTime(deltaTime2));
         Entity deltaBulkExtractEntity1 = mockBulkExtractEntity(deltaTime1);
         Entity deltaBulkExtractEntity2 = mockBulkExtractEntity(deltaTime2);
-        List<Entity> leas = new ArrayList<Entity>();
-        leas.add(fullBulkExtractEntity);
-        leas.add(0, deltaBulkExtractEntity1);  // Add in ascending time order,
-        leas.add(1, deltaBulkExtractEntity2);  // to assure forward chronology.
+        List<Entity> edOrgs = new ArrayList<Entity>();
+        edOrgs.add(fullBulkExtractEntity);
+        edOrgs.add(0, deltaBulkExtractEntity1);  // Add in ascending time order,
+        edOrgs.add(1, deltaBulkExtractEntity2);  // to assure forward chronology.
         Mockito.when(mockMongoEntityRepository.findAll(Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
-            .thenReturn(leas);
+            .thenReturn(edOrgs);
 
-        Response res = bulkExtract.getLEAList(req, CONTEXT);
+        Response res = bulkExtract.getSEAOrLEAList(req, CONTEXT);
         assertEquals(200, res.getStatus());
         EntityBody list = (EntityBody) res.getEntity();
-        assertNotNull("LEA links list should not be null", list);
+        assertNotNull("Links list should not be null", list);
         Map<String, Map<String, String>> fullLeas = (Map<String, Map<String, String>>) list.get("fullLeas");
         assertEquals("There should be one LEA full extract link", 1, fullLeas.size());
-        assertEquals("Mismatched URI for full extract of LEA \"123\"", URI_PATH + "/bulk/extract/123", fullLeas.get("123").get("uri"));
+        assertEquals("Mismatched URI for full extract of LEA \"123\"", URI_PATH + "/bulk/extract/LEA1", fullLeas.get("LEA1").get("uri"));
         Map<String, Map<String, String>> deltaLeas = (Map<String, Map<String, String>>) list.get("deltaLeas");
         assertEquals("There should be one LEA delta extract link list", 1, deltaLeas.size());
-        Set<Map<String, String>> deltaLinks = (Set<Map<String, String>>) deltaLeas.get("123");
-        assertEquals("There should be two LEA delta extract links for LEA \"123\"", 2, deltaLinks.size());
-        Map<String, String> deltaLink1 = (Map<String, String>) deltaLinks.toArray()[0];
-        assertEquals("Mismatched delta extraction date for LEA \"123\"", timeStamp2, deltaLink1.get("timestamp"));
-        assertEquals("Mismatched URI for delta extract for LEA \"123\"", URI_PATH + "/bulk/extract/123/delta/" + timeStamp2, deltaLink1.get("uri"));
-        Map<String, String> deltaLink2 = (Map<String, String>) deltaLinks.toArray()[1];
-        assertEquals("Mismatched delta extraction date for LEA \"123\"", timeStamp1, deltaLink2.get("timestamp"));
-        assertEquals("Mismatched URI for delta extract for LEA \"123\"", URI_PATH + "/bulk/extract/123/delta/" + timeStamp1, deltaLink2.get("uri"));
-        assertEquals("Delta links are not in timestamp order", 1, ISODateTimeFormat.dateTime().parseDateTime(deltaLink1.get("timestamp"))
-                .compareTo(ISODateTimeFormat.dateTime().parseDateTime(deltaLink2.get("timestamp"))));
+        Set<Map<String, String>> leaDeltaLinks = (Set<Map<String, String>>) deltaLeas.get("LEA1");
+        assertEquals("There should be two LEA delta extract links for LEA \"LEA1\"", 2, leaDeltaLinks.size());
+        Map<String, String> leaDeltaLink1 = (Map<String, String>) leaDeltaLinks.toArray()[0];
+        assertEquals("Mismatched delta extraction date for LEA \"LEA1\"", timeStamp2, leaDeltaLink1.get("timestamp"));
+        assertEquals("Mismatched URI for delta extract for LEA \"LEA1\"", URI_PATH + "/bulk/extract/LEA1/delta/" + timeStamp2, leaDeltaLink1.get("uri"));
+        Map<String, String> leaDeltaLink2 = (Map<String, String>) leaDeltaLinks.toArray()[1];
+        assertEquals("Mismatched delta extraction date for LEA \"LEA1\"", timeStamp1, leaDeltaLink2.get("timestamp"));
+        assertEquals("Mismatched URI for delta extract for LEA \"LEA1\"", URI_PATH + "/bulk/extract/LEA1/delta/" + timeStamp1, leaDeltaLink2.get("uri"));
+        assertEquals("Delta links are not in timestamp order", 1, ISODateTimeFormat.dateTime().parseDateTime(leaDeltaLink1.get("timestamp"))
+                .compareTo(ISODateTimeFormat.dateTime().parseDateTime(leaDeltaLink2.get("timestamp"))));
+        Map<String, Map<String, String>> fullSeas = (Map<String, Map<String, String>>) list.get("fullSea");
+        assertEquals("There should be one SEA full extract link", 1, fullSeas.size());
+        assertEquals("Mismatched URI for full extract of SEA \"SEA1\"", URI_PATH + "/bulk/extract/SEA1", fullSeas.get("SEA1").get("uri"));
+        Map<String, Map<String, String>> deltaSeas = (Map<String, Map<String, String>>) list.get("deltaSea");
+        assertEquals("There should be one SEA delta extract link list", 1, deltaSeas.size());
+        Set<Map<String, String>> seaDeltaLinks = (Set<Map<String, String>>) deltaSeas.get("SEA1");
+        assertEquals("There should be two SEA delta extract links for SEA \"SEA1\"", 2, seaDeltaLinks.size());
+        Map<String, String> seaDeltaLink1 = (Map<String, String>) seaDeltaLinks.toArray()[0];
+        assertEquals("Mismatched delta extraction date for SEA \"SEA1\"", timeStamp2, seaDeltaLink1.get("timestamp"));
+        assertEquals("Mismatched URI for delta extract for SEA \"SEA1\"", URI_PATH + "/bulk/extract/SEA1/delta/" + timeStamp2, seaDeltaLink1.get("uri"));
+        Map<String, String> seaDeltaLink2 = (Map<String, String>) seaDeltaLinks.toArray()[1];
+        assertEquals("Mismatched delta extraction date for SEA \"SEA1\"", timeStamp1, seaDeltaLink2.get("timestamp"));
+        assertEquals("Mismatched URI for delta extract for SEA \"SEA1\"", URI_PATH + "/bulk/extract/SEA1/delta/" + timeStamp1, seaDeltaLink2.get("uri"));
+        assertEquals("Delta links are not in timestamp order", 1, ISODateTimeFormat.dateTime().parseDateTime(seaDeltaLink1.get("timestamp"))
+                .compareTo(ISODateTimeFormat.dateTime().parseDateTime(seaDeltaLink2.get("timestamp"))));
     }
 
     @SuppressWarnings("unchecked")
@@ -641,10 +693,14 @@ public class BulkExtractTest {
         Mockito.when(mockMongoEntityRepository.findAll(Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
             .thenReturn(leas);
 
-        Response res = bulkExtract.getLEAList(req, CONTEXT);
+        Response res = bulkExtract.getSEAOrLEAList(req, CONTEXT);
         assertEquals(200, res.getStatus());
         EntityBody list = (EntityBody) res.getEntity();
-        assertNotNull("LEA links list should not be null", list);
+        assertNotNull("Links list should not be null", list);
+        Map<String, Map<String, String>> fullSeas = (Map<String, Map<String, String>>) list.get("fullSea");
+        assertTrue("SEA full extract link list should be empty", fullSeas.isEmpty());
+        Map<String, Map<String, String>> deltaSeas = (Map<String, Map<String, String>>) list.get("deltaSea");
+        assertTrue("SEA delta extract link list should be empty", deltaSeas.isEmpty());
         Map<String, Map<String, String>> fullLeas = (Map<String, Map<String, String>>) list.get("fullLeas");
         assertEquals("There should be one LEA full extract link", 1, fullLeas.size());
         assertEquals("Mismatched URI for full extract of LEA \"123\"", URI_PATH + "/bulk/extract/123", fullLeas.get("123").get("uri"));
@@ -677,10 +733,14 @@ public class BulkExtractTest {
         Mockito.when(mockMongoEntityRepository.findAll(Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
             .thenReturn(leas);
 
-        Response res = bulkExtract.getLEAList(req, CONTEXT);
+        Response res = bulkExtract.getSEAOrLEAList(req, CONTEXT);
         assertEquals(200, res.getStatus());
         EntityBody list = (EntityBody) res.getEntity();
-        assertNotNull("LEA links list should not be null", list);
+        assertNotNull("Links list should not be null", list);
+        Map<String, Map<String, String>> fullSeas = (Map<String, Map<String, String>>) list.get("fullSea");
+        assertTrue("SEA full extract link list should be empty", fullSeas.isEmpty());
+        Map<String, Map<String, String>> deltaSeas = (Map<String, Map<String, String>>) list.get("deltaSea");
+        assertTrue("SEA delta extract link list should be empty", deltaSeas.isEmpty());
         Map<String, Map<String, String>> fullLeas = (Map<String, Map<String, String>>) list.get("fullLeas");
         assertTrue("LEA full extract link list should be empty", fullLeas.isEmpty());
         Map<String, Map<String, String>> deltaLeas = (Map<String, Map<String, String>>) list.get("deltaLeas");
