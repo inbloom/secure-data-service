@@ -103,7 +103,7 @@ class WorldBuilder
     create_assessments(begin_year, num_years)
     create_descriptors
     create_learning_objectives
-    #update_schools_with_students
+    #update_schools_with_students(["elementary", "middle", "high"])
     create_work_orders
   end
 
@@ -242,16 +242,23 @@ class WorldBuilder
 
       school_id, members = @pre_requisites[index].shift if @pre_requisites[index].size > 0
       # Set the parent edOrg based on catalog, or keep nil and dump school into first LEA in list
-      if members != []
-        parent = members[0][:parent]
+      puts "DEBUG: school_id is #{school_id}"
+      puts "DEBUG: member is #{members}"
+      begin_year = @scenarioYAML["BEGIN_YEAR"]
+      num_years  = @scenarioYAML["NUMBER_OF_YEARS"]
+      
+      if members != {}
+        parent = members["staff"][0][:parent]
+        catalog_students = members["students"]
       else
         parent = nil
       end
       # remember the school's state organization id if it's a String --> pop off later when creating education organizations
       @schools << school_id if school_id.kind_of? String
 
-      staff, teachers    = create_staff_and_teachers_for_school(members)
-      begin_year         = @scenarioYAML["BEGIN_YEAR"]
+
+
+      staff, teachers, students    = create_staff_and_teachers_for_school(members)
 
       school = {
         "id" => school_id,
@@ -260,6 +267,7 @@ class WorldBuilder
         "staff" => staff,
         "teachers" => teachers,
         "offerings" => {},
+        "catalog_students" => {begin_year => catalog_students},
         "students" => {begin_year => assemble_students_into_waves(tag, current_students)},
         "programs" => create_programs_for_education_organization(tag, :SCHOOL),
       }
@@ -267,6 +275,7 @@ class WorldBuilder
         school["courses"] = create_courses(school_id)
       end
       @world[tag] << school
+      puts "DEBUG: school is #{school.inspect}"
     end
     school_counter
   end
@@ -292,16 +301,6 @@ class WorldBuilder
     students_per_grade = Hash[*grades.zip([num_students/num_grades].cycle(num_grades)).flatten]
     (0..(num_students % num_grades)-1).each{|i| students_per_grade[grades[i]] += 1 }
     students_per_grade
-  end
-
-  def update_schools_with_students()
-    
-    @world[school] << {"id" => district_id,
-          "parent" => nil,
-          "sessions" => [],
-          "staff" => create_staff_for_local_education_agency(members),
-          "programs" => create_programs_for_education_organization("leas", :LOCAL_EDUCATION_AGENCY)
-        }
   end
 
   # updates the populated edOrgs arrays for elementary, middle, and high schools by determining how many schools are to be
@@ -458,7 +457,7 @@ class WorldBuilder
   def create_staff_for_education_organization(roles, required)
     members = []
     if !required.nil? and required.size > 0
-      required.each do |member|
+      required["staff"].each do |member|
         # skip this entry if its an Educator --> handled in 'create_teachers' method
         next if ["Student", "Educator"].include? member[:role]
 
@@ -482,11 +481,34 @@ class WorldBuilder
     members
   end
 
+  def create_students_for_education_organization(school_types)
+    @log.info "updating #{school_types} schools to include inherited students"
+    school_types.each do |index|
+      puts "index is #{index}"
+      puts "School is #{@world[index][0]['id']}"
+
+      @world[index].each do |school|
+        puts "DEBUG: school is #{school}"
+        school["students"] = get_students_from_catalog(index, school)
+        puts "Students for school #{@world[index][school]['id']} are #{@world[index][school]['students']}"
+      end
+    end
+  end
+
+  def get_students_from_catalog(required)
+    students = []
+    puts "DEBUG: iterating through @pre_requisites set to #{@pre_requisites}"
+    @pre_requisites[school_type][school]["students"].each do |student|
+      students << {"id" => student[:student_id], "name" => student[:name]}
+    end
+    return students
+  end
+
   # creates teachers (ahead of time) based on required pre-requisites
   def create_teachers_for_education_organization(required)
     teachers = []
     if !required.nil? and required.size > 0
-      required.each do |member|
+      required["staff"].each do |member|
         # skip this entry if its not an Educator --> handled in 'create_staff' method
         next if ["Student", "IT Administrator", "Leader", "Aggregate Viewer"].include? member[:role]
 
@@ -1273,6 +1295,7 @@ class WorldBuilder
   def create_work_orders_using_factories(section_factory, student_factory, type, yielder)
     @world[type].each { |school|
       section_factory.generate_sections_with_teachers(school, type, yielder)
+      student_factory.add_student_catalog_work_orders(school, yielder)
       student_factory.generate_work_orders(school, yielder)
     }
   end

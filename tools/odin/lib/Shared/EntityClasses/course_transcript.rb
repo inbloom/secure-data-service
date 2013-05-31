@@ -27,13 +27,14 @@ class CourseTranscript < BaseEntity
     :session, :grade_level, :final_letter_grade, :final_numeric_grade, :course_ed_org_id,
     :method_credit_earned, :course_repeat_code, :credits_attempted, :additional_credits_earned, :school_year
 
-  def initialize(student_id, school_id, course_id, session, grade, final_grade = nil, result = "Pass", credits_earned = 3)
+  def initialize(student_id, student_int_id, school_id, course_id, session, grade, final_grade = nil, result = "Pass", credits_earned = 3)
     @student_id = student_id
+    @student_int_id = student_int_id
     @ed_org_id = school_id
     @result = result
     @credits_earned = credits_earned
     @course_id = DataUtility.get_course_unique_id course_id
-    @rand = Random.new(@student_id ^ @course_id)
+    @rand = Random.new(@student_int_id ^ @course_id)
     @course_ed_org_id = (@@scenario['COURSES_ON_SEA'] && session['edOrgId']) || school_id
     @session = session
     @school_year = session['year'].to_s + "-" + (session['year'] + 1).to_s

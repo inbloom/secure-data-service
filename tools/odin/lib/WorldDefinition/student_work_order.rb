@@ -52,24 +52,52 @@ class StudentWorkOrderFactory
       initial_year = years.first
       initial_grade_breakdown = students[initial_year]
       initial_grade_breakdown.each{|grade, num_students|
+        puts "DEBUG: Grade is #{grade}"
         (1..num_students).each{ |_|
           student_id = @next_id += 1
           plan       = generate_plan(edOrg, grade)
-          yielder.yield StudentWorkOrder.new(student_id, scenario: @scenario, 
-                                             initial_grade: grade, 
-                                             initial_year: initial_year,
-                                             plan: plan,
-                                             assessment_factory: @assessment_factory,
-                                             attendance_factory: @attendance_factory,
-                                             gradebook_factory: @gradebook_entry_factory,
-                                             graduation_plans: @graduation_plans,
-                                             section_factory: @section_factory,
-                                             program_id_count: @program_id_count)
+          push_work_order(yielder, student_id, grade, initial_year, plan)       
         }
       }
     end
   end
 
+  def add_student_catalog_work_orders(edOrg, yielder)
+    students_per_year = edOrg['catalog_students']
+    puts "DEBUG: students_per_year set to #{students_per_year}"
+    puts "DEBUG: student in work_order is set to #{students_per_year.inspect}"
+    #years = students.keys.sort
+    #puts "DEBUG: years is #{years}"
+    #initial_year = years.first
+    #puts "DEBUG: initial_year is #{initial_year}"
+    students_per_year.map{|initial_year, students|
+      puts "DEBUG: students is set to #{students}"
+      unless students.nil?
+        students.each{|student|
+          puts "DEBUG: student set to #{student}"
+          puts "DEBUG: initial_year is set to #{initial_year}"
+          grade      = StudentWorkOrder.get_grade_symbol(student[:begin_grade])
+          student_id = student[:student_id]
+          plan       = generate_plan(edOrg, grade)
+          push_work_order(yielder, student_id, grade, initial_year, plan)         
+        }
+      end
+    }
+  end
+
+  def push_work_order(yielder, student_id, grade, initial_year, plan)
+    yielder.yield StudentWorkOrder.new(student_id,
+                                       scenario: @scenario, 
+                                       initial_grade: grade, 
+                                       initial_year: initial_year,
+                                       plan: plan,
+                                       assessment_factory: @assessment_factory,
+                                       attendance_factory: @attendance_factory,
+                                       gradebook_factory: @gradebook_entry_factory,
+                                       graduation_plans: @graduation_plans,
+                                       section_factory: @section_factory,
+                                       program_id_count: @program_id_count)
+  end
   # generate plan for student with specified id
   # -> plan starts at education organization (edOrg) in the specified grade
   # -> begin year is looked up using @scenario instance variable
@@ -129,15 +157,18 @@ end
 
 # student work order represents all data to be genreated for a given student
 class StudentWorkOrder
-  attr_accessor :id, :edOrg, :birth_day_after, :initial_grade, :initial_year
+  attr_accessor :id, :int_id, :edOrg, :birth_day_after, :initial_grade, :initial_year
 
   def initialize(id, opts = {})
     $stdout.sync = true
     @log         = Logger.new($stdout)
 
     @id = id
-    @rand = Random.new(@id)
+    @int_id = @id 
+    @int_id = Digest::MD5.hexdigest(@id).to_i * 12345 if id.kind_of?(String)
+    @rand = Random.new(@int_id)
     @initial_grade = (opts[:initial_grade] or :KINDERGARTEN)
+    puts "initial_grade is #{@initial_grade}"
     @initial_year = (opts[:initial_year] or 2011)
     @birth_day_after = Date.new(@initial_year - find_age(@initial_grade), 9, 1)
     @scenario = (opts[:scenario] or Scenario.new({}))
@@ -240,6 +271,14 @@ class StudentWorkOrder
       end_date   = session['interval'].get_end_date
       holidays   = session['interval'].get_holidays
 
+      # This teriffic hack is in place because if the student id is not an int, 
+      # all the shorcut math hacks that use @id crap out.
+      if @id.kind_of?(String)
+        id = Digest::MD5.hexdigest(@id).to_i * 12345 
+      else
+        id = @id
+      end
+
       rval << StudentSchoolAssociation.new(@id, school_id, begin_date, grade, graduation_plan(type), end_date)
 
       unless @section_factory.nil?
@@ -252,12 +291,12 @@ class StudentWorkOrder
           code_values = [1, 2, 3] if code_values.empty?
           sections.each{|course_offering, available_sections|
             sections_per_student = DataUtility.rand_float_to_int(@rand, @scenario['HACK_SECTIONS_PER_STUDENT'] || 1)
-            @student_section_association[@id] ||= []
+            @student_section_association[id] ||= []
             for sps in 1..sections_per_student
-              section    = available_sections[@id % available_sections.count]
+              section    = available_sections[@int_id % available_sections.count]
               section_id = DataUtility.get_unique_section_id(section[:id])
               student_section_association = StudentSectionAssociation.new(@id, section_id, school_id, begin_date, end_date, grade)
-              @student_section_association[@id] << student_section_association
+              @student_section_association[id] << student_section_association
               rval       << student_section_association
               unless @gradebook_factory.nil? or section[:gbe].nil?
                 grades = {}
@@ -283,7 +322,7 @@ class StudentWorkOrder
               academic_subject = academic_subjects[section[:id] % academic_subjects.size]
               num_objectives = (@scenario["NUM_LEARNING_OBJECTIVES_PER_SUBJECT_AND_GRADE"] or 2)
               LearningObjective.build_learning_objectives(num_objectives, academic_subject, grade).each {|learning_objective|
-                student_competency = StudentCompetency.new(code_values[(section[:id] + @id) % code_values.size], learning_objective, student_section_association)
+                student_competency = StudentCompetency.new(code_values[(section[:id] + @int_id) % code_values.size], learning_objective, student_section_association)
                 student_competencies << student_competency
                 rval << student_competency
               }
@@ -301,7 +340,7 @@ class StudentWorkOrder
   end
 
   def course_transcript(school_id, session, course_id, grade, final_grade)
-    CourseTranscript.new(@id, school_id, course_id, session, grade, final_grade)
+    CourseTranscript.new(@id, @int_id, school_id, course_id, session, grade, final_grade)
   end
 
   def academic_record(report_card, session)
@@ -395,7 +434,7 @@ class StudentWorkOrder
 
   def graduation_plan(school_type)
     if school_type == :high
-      @graduation_plans[@id % @graduation_plans.size] unless @graduation_plans.nil?
+      @graduation_plans[@int_id % @graduation_plans.size] unless @graduation_plans.nil?
     end
   end
 
@@ -448,6 +487,39 @@ class StudentWorkOrder
   end
 
   def find_age(grade)
+    puts "DEBUG: grade is #{grade}"
     5 + GradeLevelType.get_ordered_grades.index(grade)
   end
+
+  def self.get_grade_symbol(grade)
+    case grade
+    when "Kindergarten"
+      :KINDERGARTEN
+    when "First grade"
+      :FIRST_GRADE
+    when "Second grade"
+      :SECOND_GRADE
+    when "Third grade"
+      :THIRD_GRADE
+    when "Fourth grade"
+      :FOURTH_GRADE
+    when "Fifth grade"
+      :FIFTH_GRADE
+    when "Sixth grade"
+      :SIXTH_GRADE
+    when "Seventh grade"
+      :SEVENTH_GRADE
+    when "Eighth grade"
+      :EIGHTH_GRADE
+    when "Ninth grade"
+      :NINTH_GRADE
+    when "Tenth grade"
+      :TENTH_GRADE
+    when "Eleventh grade"
+      :ELEVENTH_GRADE
+    when "Twelfth grade"
+      :TWELFTH_GRADE
+    end
+  end
+
 end

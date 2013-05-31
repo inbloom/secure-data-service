@@ -30,10 +30,11 @@ class Student < BaseEntity
                 :displacementStatus, :programParticipations, :learningStyles,
                 :cohortYears, :studentIndicators
                 
-  def initialize(id, year_of)
+  def initialize(id, year_of, name = nil)
     @id = id
+    id = Digest::MD5.hexdigest(id).to_i * 12345 if id.kind_of?(String)
     @year_of = year_of
-    @rand = Random.new(@id)
+    @rand = Random.new(id)
     buildStudent
 
     optional {@studentIdentificationCode = {
@@ -241,6 +242,13 @@ class Student < BaseEntity
     @limitedEnglish = wChoose(BaseEntity.demographics['limitedEnglish'])
     @disability = wChoose(BaseEntity.demographics['disability'])
     @schoolFood = wChoose(BaseEntity.demographics['schoolFood'])
+  end
+
+  def parse_name(name)
+    parsed = name.split(' ')
+    if parsed.size == 2
+      return parsed[0], parsed[1]
+    end
   end
 
 end

@@ -87,6 +87,7 @@ class Odin
     
     # load pre-requisites for scenario (specified in yaml)
     pre_requisites = PreRequisiteBuilder.new(scenarioYAML)
+    puts "DEBUG: pre_requisites is set to #{pre_requisites.get}"
     display_pre_requisites_before_world_building(pre_requisites.get)
 
     # create a snapshot of the world
@@ -129,10 +130,14 @@ class Odin
     @log.info "Pre-requisites for world building:"
     pre_requisites.each do |type,edOrgs|
       @log.info "#{type.inspect}:"
-      edOrgs.each do |organization_id, staff_members|
+      edOrgs.each do |organization_id, members|
         @log.info "education organization: #{organization_id}"
-        staff_members.each do |member|
+        next if members["staff"].nil?
+        members["staff"].each do |member|
           @log.info " -> staff unique state id: #{member[:staff_id]} (#{member[:name]}) has role: #{member[:role]}" if !member[:staff_id].nil?
+        end
+        next if members["students"].nil?
+        members["students"].each do |member|
           @log.info " -> student unique state id: #{member[:student_id]} (#{member[:name]}) has role: #{member[:role]}" if !member[:student_id].nil?
         end
       end
@@ -151,11 +156,16 @@ class Odin
           displayed_title = true
         end
         @log.info "#{type.inspect}:"
-        edOrgs.each do |organization_id, staff_members|
-          @log.info "education organization: #{organization_id}"
-          staff_members.each do |member|
+        edOrgs.each do |organization_id, members|
+          @log.info "education organization: #{organization_id}"         
+          next if members["staff"].nil?
+          members["staff"].each do |member|
             @log.info " -> staff unique state id: #{member[:staff_id]} (#{member[:name]}) with role: #{member[:role]}"
           end
+          next if members["students"].nil?
+          members["students"].each do |member|
+            @log.info " -> staff unique state id: #{member[:student_id]} (#{member[:name]}) with role: #{member[:role]}"
+          end          
         end
       end
     end

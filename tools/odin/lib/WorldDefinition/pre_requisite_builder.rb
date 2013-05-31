@@ -73,20 +73,22 @@ class PreRequisiteBuilder
             association = edOrg["association"]              
             if !association.nil? and association.size > 0
               if !member["userId"].nil? and member["userId"].size > 0
-                @pre_requisites[type][association] = [] if @pre_requisites[type][association].nil?
+                @pre_requisites[type][association] = {} if @pre_requisites[type][association].nil?
                 # Add the staff catalog
                 if catalog_type == "staff"
-                  @pre_requisites[type][association] << {:staff_id => member["userId"],
+                  @pre_requisites[type][association]["staff"] ||= []
+                  @pre_requisites[type][association]["staff"] << {:staff_id => member["userId"],
                                                          :name => member["name"],
                                                          :role => edOrg["role"],
                                                          :parent => edOrg["parent"]}
                 # Add the student catalog
                 elsif catalog_type == "student"
-                  @pre_requisites[type][association] << {:student_id => member["userId"],
-                                                         :susid => member["studentUniqueStateId"],
+                  @pre_requisites[type][association]["students"] ||= []
+                  @pre_requisites[type][association]["students"] << {:student_id => member["userId"],
                                                          :name => member["name"],
                                                          :role => edOrg["role"],
-                                                         :sections => edOrg["sections"]}
+                                                         :sections => edOrg["sections"],
+                                                         :begin_grade => edOrg["grade"]}
                 end
               else
                 @log.warn "Failed to add staff member from staff catalog due to nil or empty user id."
