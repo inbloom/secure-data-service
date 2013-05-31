@@ -96,26 +96,5 @@
     "name": "Jack Jackson",
     "role": "Aggregate Viewer",
     "association": "IL-DAYBREAK"
-  },
-  {
-    "userId": "800000025",
-    "type": "student",
-    "name": "Matt Sollars",
-    "role": "Student",
-    "association": "East Daybreak Junior High"
-  },
-  {
-    "userId": "100000017",
-    "type": "student",
-    "name": "Mi-Ha Tran",
-    "role": "Student",
-    "association": "South Daybreak Elementary"
-  },
-  {
-    "userId": "900000016",
-    "type": "student",
-    "name": "Carmen Ortiz",
-    "role": "Student",
-    "association": "Daybreak Central High"
   }
 ]
