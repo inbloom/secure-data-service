@@ -40,7 +40,7 @@ public class ErrorFile {
     }
     
     protected void writeErrorFile(PrintWriter out) {
-        out.println("Errors occured during generation of the extract.");
+        out.println("Errors occured during generation of the extract.  Please obtain the latest successful extract.");
         out.println();
         for (String type : entityToErrorCounts.keySet()) {
             out.printf("%d errors occurred for entity type %s\n", entityToErrorCounts.get(type).getValue(), type);
