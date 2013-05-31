@@ -63,19 +63,24 @@
         <jb:value property="addressType" data="attributes Address element a_AddressType" />
         <jb:value property="streetNumberName" data="attributes Address element StreetNumberName _value" />
         <jb:value property="apartmentRoomSuiteNumber" data="attributes Address element ApartmentRoomSuiteNumber _value" />
+        <jb:wiring property="addressLine" beanIdRef="AddressLines" />
         <jb:value property="buildingSiteNumber" data="attributes Address element BuildingSiteNumber _value" />
         <jb:value property="city" data="attributes Address element City _value" />
         <jb:value property="stateAbbreviation" data="attributes Address element StateAbbreviation _value" />
         <jb:value property="postalCode" data="attributes Address element PostalCode _value" />
         <jb:value property="nameOfCounty" data="attributes Address element NameOfCounty _value" />
         <jb:value property="countyFIPSCode" data="attributes Address element CountyFIPSCode _value" />
-        <jb:value property="countryCode" data="attributes Address element CountryCode _value" />
+        <jb:value property="countryCode" data="attributes Address element Country _value" />
         <jb:value property="latitude" data="attributes Address element Latitude _value" />
         <jb:value property="longitude" data="attributes Address element Longitude _value" />
         <jb:value property="openDate" data="attributes Address element BeginDate _value" />
         <jb:value property="closeDate" data="attributes Address element EndDate _value" />
     </jb:bean>
 
+    <jb:bean beanId="AddressLines" class="java.util.ArrayList" createOnElement="attributes Address element AddressLine">
+       <jb:value data="attributes Address element AddressLine element _value" />
+    </jb:bean>
+    
     <jb:bean beanId="Telephones" class="java.util.ArrayList"  createOnElement="attributes">
         <jb:wiring beanIdRef="Telephone" />
     </jb:bean>

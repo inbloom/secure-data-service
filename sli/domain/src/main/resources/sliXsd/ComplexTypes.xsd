@@ -6371,7 +6371,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="streetNumberName">
+			<xs:element name="streetNumberName" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The street number and street name or post office
 						box number of
@@ -6412,7 +6412,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="city" type="city">
+			<xs:element name="city" type="city" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The name of the city in which an address is
 						located.
@@ -6423,7 +6423,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="stateAbbreviation" type="stateAbbreviationType">
+			<xs:element name="stateAbbreviation" type="stateAbbreviationType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The abbreviation for the state (within the United
 						States) or
@@ -6435,7 +6435,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="postalCode" type="postalCode">
+			<xs:element name="postalCode" type="postalCode" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The five or nine digit zip code or overseas
 						postal code
@@ -6483,6 +6483,16 @@
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
+			</xs:element>
+			<xs:element name="addressLine" type="AddressLine" maxOccurs="unbounded" minOccurs="0">
+					<xs:annotation>
+							<xs:documentation>Any number of address lines associated with an international address.</xs:documentation>
+					<xs:appinfo>
+						<sli:PersonallyIdentifiableInfo>true</sli:PersonallyIdentifiableInfo>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+					</xs:appinfo>
+					</xs:annotation>
 			</xs:element>
 			<xs:element minOccurs="0" name="countryCode" type="countryCodeType">
 				<xs:annotation>
