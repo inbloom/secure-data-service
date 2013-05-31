@@ -124,7 +124,7 @@ Scenario Outline: Extract received through the API should have all the valid ten
       |  program                               |
 
 
-@wip
+
 Scenario: As a valid user get SEA public data delta extract using BEEP
   Given in my list of rights I have BULK_EXTRACT
   When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
