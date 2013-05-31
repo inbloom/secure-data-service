@@ -4,39 +4,33 @@ def indexTenantDb(host,dbName)
   
   dbConn = Mongo::Connection.new(host)
   db = dbConn.db(dbName)
- 
+
   indexCount = 0;
   file = File.new(TENANTDB_INDEX_FILE, "r")
     while (line = file.gets)
-    
+
       tokens = line.chomp.split(',')
 
-      if(line.chr != '#' && tokens.size >= 4)
+      if(line.chr != '#' && tokens.size >= 3)
         collectionName =  tokens[0]
 
         #convert string to boolean
-        if(tokens[1] == "true")          
+        if(tokens[1] == "true")
           unique = true
-        elsif(tokens[1] == "false")         
+        elsif(tokens[1] == "false")
           unique = false
-        end
-        
-         if(tokens[2] == "true")
-            sparse = true
-        elsif(tokens[2] == "false")
-            sparse = false
         end
 
         keys = Array.new
-        for itr in 3 ... tokens.size
+        for itr in 2 ... tokens.size
           key = Array.new
           key[0] = tokens[itr].split(':').first
           key[1] = tokens[itr].split(':').last.to_i
-          keys[itr-3] = key
+          keys[itr-2] = key
         end
 
         indexCount = indexCount + 1
-        applyIndex(db,collectionName,unique,sparse,keys, indexCount)
+        applyIndex(db,collectionName,unique,keys, indexCount)
 
       else
         # "Comment or Invalid Line"
@@ -50,9 +44,9 @@ rescue => err
 end
 
 
-def applyIndex(db,collectionName,unique,sparse,keys,indexCount)
+def applyIndex(db,collectionName,unique,keys, indexCount)
   collection = db[collectionName]
-  collection.create_index(keys,:unique => unique,:sparse => sparse, :name => "idx"+indexCount.to_s)
+  collection.create_index(keys, :unique => unique, :name => "idx"+indexCount.to_s)
 end
 
 if __FILE__ == $0

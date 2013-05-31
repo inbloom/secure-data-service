@@ -135,7 +135,7 @@ public abstract class IngestionProcessor<T extends WorkNote, S> implements Proce
     }
 
     private NewBatchJob getJob(WorkNote work) {
-        NewBatchJob job = getBatchJobDAO().findBatchJobById(work.getBatchJobId());
+        NewBatchJob job = batchJobDAO.findBatchJobById(work.getBatchJobId());
 
         initTenantContext(job);
 

@@ -68,7 +68,7 @@ public class StudentExtractor implements EntityExtract {
         Iterator<Entity> cursor = repo.findEach("student", new NeutralQuery());
         while (cursor.hasNext()) {
             Entity e = cursor.next();
-            Set<String> schools = helper.fetchCurrentSchoolsForStudent(e);
+            Set<String> schools = helper.fetchCurrentSchoolsFromStudent(e);
             Iterable<String> parents = helper.fetchCurrentParentsFromStudent(e);
             for (String lea : map.getLeas()) {
                 if (schools.contains(lea)) {

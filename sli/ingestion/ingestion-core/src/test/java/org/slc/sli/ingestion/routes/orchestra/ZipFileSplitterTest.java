@@ -29,6 +29,7 @@ import org.mockito.Mockito;
 import org.slc.sli.ingestion.ControlFileWorkNote;
 import org.slc.sli.ingestion.FileEntryWorkNote;
 import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.dal.NeutralRecordAccess;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -44,6 +45,7 @@ public class ZipFileSplitterTest {
     ControlFileWorkNote controlFileWorkNote = Mockito.mock(ControlFileWorkNote.class);
     ControlFile controlFile = Mockito.mock(ControlFile.class);
     NewBatchJob newBatchJob = Mockito.mock(NewBatchJob.class);
+    private NeutralRecordAccess neutralRecordMongoAccess = Mockito.mock(NeutralRecordAccess.class);
     private String jobId = "111111111-222222222-33333333-444444444";
 
     @Test
@@ -63,13 +65,16 @@ public class ZipFileSplitterTest {
 
         Mockito.doCallRealMethod().when(zipFileSplitter).splitZipFile(exchange);
         Mockito.doCallRealMethod().when(zipFileSplitter).setBatchJobDAO(Matchers.any(BatchJobDAO.class));
+        Mockito.doCallRealMethod().when(zipFileSplitter).setNeutralRecordMongoAccess(neutralRecordMongoAccess);
         Mockito.when(batchJobDAO.createFileLatch(Matchers.anyString(), Matchers.any(List.class))).thenReturn(true);
         Mockito.when(batchJobDAO.findBatchJobById(Matchers.anyString())).thenReturn(newBatchJob);
         Mockito.when(newBatchJob.getFiles()).thenReturn(files);
 
         zipFileSplitter.setBatchJobDAO(batchJobDAO);
+        zipFileSplitter.setNeutralRecordMongoAccess(neutralRecordMongoAccess);
         List<FileEntryWorkNote> res = zipFileSplitter.splitZipFile(exchange);
 
+        Mockito.verify(neutralRecordMongoAccess, Mockito.times(1)).ensureIndexes();
 
         Assert.assertEquals(res.size(), 2);
     }

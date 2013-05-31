@@ -843,6 +843,7 @@ task :ingestionTests => [
         :ingestionOfflineSimpleTest,
         :ingestionBatchJobTest,
         :ingestionIgnoreIDRefsTest,
+        :ingestionIndexTest,
         :ingestionTenantTest,
         :ingestionBlacklistValidationTests,
         :ingestionXXETest,

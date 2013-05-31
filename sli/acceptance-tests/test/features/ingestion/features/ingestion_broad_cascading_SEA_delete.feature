@@ -27,9 +27,9 @@ Scenario: Delete SEA with cascade
 	Then there exist "136" "staffEducationOrganizationAssociation" records like below in "Midgar" tenant. And I save this query as "staffEducationOrganizationAssociation"
 	|field                                                           |value                                                |
 	|body.educationOrganizationReference                             |884daa27d806c2d725bc469b273d840493f84b4d_id          |
-	Then there exist "3" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "school"
+	Then there exist " 10" "student" records like below in "Midgar" tenant. And I save this query as "student"
 	|field                                                           |value                                                |
-	|metaData.edOrgs                                                 |884daa27d806c2d725bc469b273d840493f84b4d_id          |
+	|schools.edOrgs                                                  |884daa27d806c2d725bc469b273d840493f84b4d_id          |
     And I save the collection counts in "Midgar" tenant
 	And I post "BroadSEADelete.zip" file as the payload of the ingestion job
 	When zip file is scp to ingestion landing zone
@@ -44,7 +44,7 @@ Scenario: Delete SEA with cascade
     And I should not see an error log file created
 	And I should not see a warning log file created
 	And I re-execute saved query "educationOrganization" to get "0" records
-	And I re-execute saved query "school" to get "0" records
+	And I re-execute saved query "student" to get "0" records
 	And I re-execute saved query "staffEducationOrganizationAssociation" to get "0" records
     And I re-execute saved query "program" to get "0" records
 	And I re-execute saved query "graduationPlan" to get "0" records
@@ -73,9 +73,9 @@ Scenario: Delete SEA with cascade = false and force = false, log violations = tr
 	Then there exist "136" "staffEducationOrganizationAssociation" records like below in "Midgar" tenant. And I save this query as "staffEducationOrganizationAssociation"
 	|field                                                           |value                                                |
 	|body.educationOrganizationReference                             |884daa27d806c2d725bc469b273d840493f84b4d_id          |
-	Then there exist "3" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "schoolLineage"
+	Then there exist " 10" "student" records like below in "Midgar" tenant. And I save this query as "student"
 	|field                                                           |value                                                |
-	|metaData.edOrgs                                                 |884daa27d806c2d725bc469b273d840493f84b4d_id          |
+	|schools.edOrgs                                                  |884daa27d806c2d725bc469b273d840493f84b4d_id          |
     And I save the collection counts in "Midgar" tenant
 	And I post "SafeSEADelete.zip" file as the payload of the ingestion job
 	When zip file is scp to ingestion landing zone
@@ -86,11 +86,11 @@ Scenario: Delete SEA with cascade = false and force = false, log violations = tr
 	And I should see "records failed processing: 1" in the resulting batch job file
 	And I should see "records not considered for processing: 0" in the resulting batch job file
 	And I should see "Processed 1 records." in the resulting batch job file
-    And I should not see a warning log file created
+  And I should not see a warning log file created
 	And I should see "CORE_0066" in the resulting error log file for "InterchangeEducationOrganization.xml"
 	And I re-execute saved query "educationOrganization" to get "1" records
 	And I re-execute saved query "parentEducationOrganizationAgencyReference" to get "2" records
-	And I re-execute saved query "schoolLineage" to get "3" records
+	And I re-execute saved query "student" to get "10" records
 	And I re-execute saved query "staffEducationOrganizationAssociation" to get "136" records
     And I re-execute saved query "graduationPlan" to get "3" records
 	And I see that collections counts have changed as follows in tenant "Midgar"
@@ -116,7 +116,7 @@ Scenario: Delete Orphan SEA with cascade = false and force = false
 	And I should see "records not considered for processing: 0" in the resulting batch job file
 	And I should see "All records processed successfully." in the resulting batch job file
 	And I should see "Processed 1 records." in the resulting batch job file
-    And I should not see an error log file created
+  And I should not see an error log file created
 	And I should not see a warning log file created
 	And I re-execute saved query "educationOrganization" to get "0" records
 	And I see that collections counts have changed as follows in tenant "Midgar"
@@ -132,7 +132,7 @@ Scenario: Delete Orphan SEA Ref with cascade = false and force = false
 	Then there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "educationOrganization"
 	|field                                                           |value                                                |
 	|_id                                                             |79789f01d8debe0db2691ac3c726b7a6f91ea160_id          |
-    And I save the collection counts in "Midgar" tenant
+  And I save the collection counts in "Midgar" tenant
 	And I post "OrphanSEARefDelete.zip" file as the payload of the ingestion job
 	When zip file is scp to ingestion landing zone
     And a batch job for file "OrphanSEARefDelete.zip" is completed in database
@@ -143,7 +143,7 @@ Scenario: Delete Orphan SEA Ref with cascade = false and force = false
 	And I should see "records not considered for processing: 0" in the resulting batch job file
 	And I should see "All records processed successfully." in the resulting batch job file
 	And I should see "Processed 1 records." in the resulting batch job file
-    And I should not see an error log file created
+  And I should not see an error log file created
 	And I should not see a warning log file created
 	And I re-execute saved query "educationOrganization" to get "0" records
 	And I see that collections counts have changed as follows in tenant "Midgar"
@@ -168,9 +168,9 @@ Scenario: Delete SEA with cascade = false and force = true, log violations = tru
 	Then there exist "136" "staffEducationOrganizationAssociation" records like below in "Midgar" tenant. And I save this query as "staffEducationOrganizationAssociation"
 	|field                                                           |value                                                |
 	|body.educationOrganizationReference                             |884daa27d806c2d725bc469b273d840493f84b4d_id          |
-	Then there exist "3" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "schoolLineage"
+	Then there exist " 10" "student" records like below in "Midgar" tenant. And I save this query as "student"
 	|field                                                           |value                                                |
-	|metaData.edOrgs                                                 |884daa27d806c2d725bc469b273d840493f84b4d_id          |
+	|schools.edOrgs                                                  |884daa27d806c2d725bc469b273d840493f84b4d_id          |
     And I save the collection counts in "Midgar" tenant
 	And I post "ForceSEADelete.zip" file as the payload of the ingestion job
 	When zip file is scp to ingestion landing zone
@@ -186,7 +186,7 @@ Scenario: Delete SEA with cascade = false and force = true, log violations = tru
 	And I should see "CORE_0066" in the resulting warning log file for "InterchangeEducationOrganization.xml"
 	And I re-execute saved query "educationOrganization" to get "0" records
 	And I re-execute saved query "parentEducationOrganizationAgencyReference" to get "2" records
-	And I re-execute saved query "schoolLineage" to get "0" records
+#	And I re-execute saved query "student" to get "0" records
 	And I re-execute saved query "staffEducationOrganizationAssociation" to get "136" records
     And I re-execute saved query "graduationPlan" to get "3" records
 	And I see that collections counts have changed as follows in tenant "Midgar"
@@ -213,9 +213,9 @@ Scenario: Delete SEA Ref with cascade = false and force = true, log violations =
 	Then there exist "136" "staffEducationOrganizationAssociation" records like below in "Midgar" tenant. And I save this query as "staffEducationOrganizationAssociation"
 	|field                                                           |value                                                |
 	|body.educationOrganizationReference                             |884daa27d806c2d725bc469b273d840493f84b4d_id          |
-	Then there exist "3" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "schoolLineage"
+	Then there exist " 10" "student" records like below in "Midgar" tenant. And I save this query as "student"
 	|field                                                           |value                                                |
-	|metaData.edOrgs                                                 |884daa27d806c2d725bc469b273d840493f84b4d_id          |
+	|schools.edOrgs                                                  |884daa27d806c2d725bc469b273d840493f84b4d_id          |
     And I save the collection counts in "Midgar" tenant
 	And I post "ForceSEARefDelete.zip" file as the payload of the ingestion job
 	When zip file is scp to ingestion landing zone
@@ -231,7 +231,7 @@ Scenario: Delete SEA Ref with cascade = false and force = true, log violations =
 	And I should see "CORE_0066" in the resulting warning log file for "InterchangeEducationOrganization.xml"
 	And I re-execute saved query "educationOrganization" to get "0" records
 	And I re-execute saved query "parentEducationOrganizationAgencyReference" to get "2" records
-	And I re-execute saved query "schoolLineage" to get "0" records
+#	And I re-execute saved query "student" to get "0" records
 	And I re-execute saved query "staffEducationOrganizationAssociation" to get "136" records
     And I re-execute saved query "graduationPlan" to get "3" records
 	And I see that collections counts have changed as follows in tenant "Midgar"
