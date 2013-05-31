@@ -49,6 +49,7 @@ public class ErrorFileTest {
         assertNotNull(result);
         
         String errorString = FileUtils.readFileToString(result);
+        
         assertTrue(errorString.contains("2 errors occurred for entity type TYPE0\n"));
         assertTrue(errorString.contains("1 errors occurred for entity type TYPE1\n"));
         assertTrue(errorString.contains("1 errors occurred for entity type TYPE2\n"));
