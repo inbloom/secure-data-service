@@ -23,12 +23,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import com.google.common.collect.Lists;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.mongodb.core.query.Query;
 
-import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.encrypt.security.CertificateValidationHelper;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
@@ -225,19 +223,5 @@ public class BulkExtractMongoDA {
 		this.certHelper = certHelper;
 	}
 
-    public Map<String, List> getEdOrgLineages() {
-        Map<String, List> edOrgLineages = new HashMap<String, List>();
-        NeutralQuery query = new NeutralQuery();
-        query.setIncludeFields(Lists.newArrayList("_id", "metaData.edOrgs"));
-        Iterable<Entity> edOrgs = entityRepository.findAll("educationOrganization", query);
-        if(edOrgs != null) {
-            for(Entity edOrg:edOrgs) {
-                if( edOrg.getMetaData().containsKey(ParameterConstants.EDORGS_ARRAY) &&
-                        edOrg.getMetaData().get( ParameterConstants.EDORGS_ARRAY) instanceof List ) {
-                    edOrgLineages.put(edOrg.getEntityId(), (List<String>)edOrg.getMetaData().get(ParameterConstants.EDORGS_ARRAY));
-                }
-            }
-        }
-        return edOrgLineages;
-    }
+
 }

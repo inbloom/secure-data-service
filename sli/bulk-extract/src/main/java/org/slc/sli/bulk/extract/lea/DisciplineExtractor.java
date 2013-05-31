@@ -23,7 +23,10 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -46,15 +49,21 @@ public class DisciplineExtractor implements EntityExtract {
 
     @Override
     @SuppressWarnings("unchecked")
-    public void extractEntities(EntityToLeaCache entityToEdorgCache) {
-        extract(EntityNames.DISCIPLINE_INCIDENT, "schoolId", new Function<Entity, Set<String>>() {
+    public void extractEntities(final EntityToLeaCache diCache) {
+        extract(EntityNames.DISCIPLINE_INCIDENT, new Function<Entity, Set<String>>() {
             @Override
             public Set<String> apply(Entity input) {
-                return Collections.emptySet();
+                Set<String> leas = diCache.getEntriesById(input.getEntityId());
+
+                if (leas.isEmpty()) {
+                   leas.add(edorgCache.leaFromEdorg((String) input.getBody().get("schoolId")));
+                }
+
+                return leas;
             }
         });
 
-        extract(EntityNames.DISCIPLINE_ACTION, "responsibilitySchoolId", new Function<Entity, Set<String>>() {
+        extract(EntityNames.DISCIPLINE_ACTION, new Function<Entity, Set<String>>() {
             @Override
             public Set<String> apply(Entity input) {
                 Set<String> leas = new HashSet<String>();
@@ -71,16 +80,16 @@ public class DisciplineExtractor implements EntityExtract {
 
     }
 
-    private void extract(String entityType, String fieldName, Function<Entity, Set<String>> moreLeas) {
+    private void extract(String entityType, Function<Entity, Set<String>> moreLeas) {
         Iterator<Entity> it = this.repository.findEach(entityType, new NeutralQuery());
 
         while (it.hasNext()) {
             Entity e = it.next();
 
             Set<String> leas = new HashSet<String>();
-            leas.add(this.edorgCache.leaFromEdorg((String) e.getBody().get(fieldName)));
             leas.addAll(moreLeas.apply(e));
 
+            leas.remove("marker");
             for (String lea : leas) {
                 this.entityExtractor.extractEntity(e, this.leaToExtractFileMap.getExtractFileForLea(lea), entityType);
             }

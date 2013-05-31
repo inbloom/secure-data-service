@@ -1,8 +1,8 @@
 package org.slc.sli.bulk.extract.util;
 
 import static org.slc.sli.bulk.extract.LogUtil.audit;
+
 import org.slc.sli.bulk.extract.message.BEMessageCode;
-import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.util.logging.LogLevelType;
@@ -12,7 +12,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -23,7 +22,7 @@ import java.util.*;
  * Utils to extract LEAs
  */
 @Component
-public class LocalEdOrgExtractHelper implements InitializingBean {
+public class LocalEdOrgExtractHelper {
 
     private Set<String> extractLEAs;
 
@@ -34,17 +33,7 @@ public class LocalEdOrgExtractHelper implements InitializingBean {
     @Autowired
     private SecurityEventUtil securityEventUtil;
 
-    @Autowired
-    private BulkExtractMongoDA bulkExtractMongoDA;
-
-    private Map<String, List> edOrgLineages;
-
     private static final String STATE_EDUCATION_AGENCY = "State Education Agency";
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        edOrgLineages = bulkExtractMongoDA.getEdOrgLineages();
-    }
 
     /**
      * Returns all top level LEAs that will be extracted in the tenant
@@ -176,12 +165,4 @@ public class LocalEdOrgExtractHelper implements InitializingBean {
         this.securityEventUtil = securityEventUtil;
     }
 
-
-    public Map<String, List> getEdOrgLineages() {
-        return edOrgLineages;
-    }
-
-    public void setEdOrgLineages(Map<String, List> edOrgLineages) {
-        this.edOrgLineages = edOrgLineages;
-    }
 }

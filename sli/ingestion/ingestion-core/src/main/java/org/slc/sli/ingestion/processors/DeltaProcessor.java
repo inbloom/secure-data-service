@@ -34,9 +34,7 @@ import org.slc.sli.ingestion.delta.SliDeltaManager;
 import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.RecordHash;
-import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.reporting.ReportStats;
-import org.slc.sli.ingestion.routes.IngestionRouteBuilder;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 
 /**
@@ -76,8 +74,6 @@ public class DeltaProcessor extends IngestionProcessor<NeutralRecordWorkNote, Re
 
                 exchange.getIn().setBody(args.workNote);
             }
-
-            exchange.getIn().setHeader(IngestionRouteBuilder.INGESTION_MESSAGE_TYPE, MessageType.PERSIST_REQUEST.name());
         }
     }
 

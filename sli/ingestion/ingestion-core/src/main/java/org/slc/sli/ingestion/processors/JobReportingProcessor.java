@@ -57,6 +57,7 @@ import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -93,11 +94,17 @@ public class JobReportingProcessor implements Processor {
     public static final String ERROR_FILE_TYPE = "error";
     public static final String WARNING_FILE_TYPE = "warn";
 
+    @Value("${sli.ingestion.staging.clearOnCompletion}")
+    private String clearOnCompletion;
+
     @Value("${sli.ingestion.topic.command}")
     private String commandTopicUri;
 
     @Autowired
     private BatchJobDAO batchJobDAO;
+
+    @Autowired
+    private NeutralRecordMongoAccess neutralRecordMongoAccess;
 
     @Value("${sli.ingestion.errorsCountPerInterchange}")
     private int errorsCountPerInterchange;
@@ -519,9 +526,12 @@ public class JobReportingProcessor implements Processor {
         if (job != null) {
             BatchJobUtils.completeStageAndJob(stage, job);
             batchJobDAO.saveBatchJob(job);
+            batchJobDAO.cleanUpWorkNoteLatchAndStagedEntites(job.getId());
             broadcastFlushStats(exchange, workNote);
             cleanUpLZ(job);
         }
+
+        cleanupStagingDatabase(workNote);
 
         TenantContext.setJobId(null);
     }
@@ -557,6 +567,18 @@ public class JobReportingProcessor implements Processor {
         event.setRoles(userRoles);
         event.setLogMessage(message);
         audit(event);
+    }
+
+    private void cleanupStagingDatabase(WorkNote workNote) {
+        if ("true".equals(clearOnCompletion)) {
+
+            neutralRecordMongoAccess.cleanupJob(workNote.getBatchJobId());
+
+            LOG.info("Successfully deleted all staged records for batch job: {}", workNote.getBatchJobId());
+        } else {
+            LOG.info("Not deleting staged records for batch job: {} --> clear on completion flag is set to FALSE",
+                    workNote.getBatchJobId());
+        }
     }
 
     /**

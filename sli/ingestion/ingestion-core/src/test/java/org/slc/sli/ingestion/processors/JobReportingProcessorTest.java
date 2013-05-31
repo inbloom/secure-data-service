@@ -47,6 +47,8 @@ import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.RangedWorkNote;
+import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
+import org.slc.sli.ingestion.dal.NeutralRecordRepository;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -87,6 +89,9 @@ public class JobReportingProcessorTest {
 
     @Mock
     private BatchJobDAO mockedBatchJobDAO;
+
+    @Mock
+    private NeutralRecordMongoAccess mockedNeutralRecordMongoAccess;
 
     private static File tmpDir = new File(TEMP_DIR);
 
@@ -161,6 +166,9 @@ public class JobReportingProcessorTest {
         Mockito.when(
                 mockedBatchJobDAO.getBatchJobErrors(Matchers.eq(BATCHJOBID), Matchers.eq(RESOURCEID),
                         Matchers.eq(FaultType.TYPE_WARNING), Matchers.anyInt())).thenReturn(fakeErrorIterable);
+
+        NeutralRecordRepository mockedNeutralRecordRepository = Mockito.mock(NeutralRecordRepository.class);
+        Mockito.when(mockedNeutralRecordMongoAccess.getRecordRepository()).thenReturn(mockedNeutralRecordRepository);
 
         // create exchange
         Exchange exchange = new DefaultExchange(new DefaultCamelContext());

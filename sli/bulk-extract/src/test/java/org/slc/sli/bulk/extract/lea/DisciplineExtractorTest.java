@@ -25,7 +25,10 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -37,15 +40,15 @@ public class DisciplineExtractorTest {
     private static final List<String> SSA = Arrays.asList("phenomenology");
     private static final String LEA = "HUZZAH";
     private static final String LEA2 = "PIPEC";
+    private static final String DI_ID = "ALLE";
     private EntityExtractor ex;
-    private Repository<Entity> repo;
     private DisciplineExtractor disc;
 
     @Before
     @SuppressWarnings("unchecked")
     public void setUp() throws Exception {
 
-        repo = Mockito.mock(Repository.class);
+        Repository<Entity> repo = Mockito.mock(Repository.class);
 
         ex = Mockito.mock(EntityExtractor.class);
 
@@ -60,18 +63,35 @@ public class DisciplineExtractorTest {
         EntityToLeaCache edorgCache = new EntityToLeaCache();
         edorgCache.addEntry(LEA, EDORGS.get(0));
 
-        disc = new DisciplineExtractor(ex, leaMap, repo, studentCache, edorgCache);
+        List<Entity> list = Arrays.asList(createDisciplineAction());
+        Mockito.when(repo.findEach(Mockito.eq("disciplineAction"), Mockito.any(NeutralQuery.class))).thenReturn(list.listIterator(0));
 
-        Mockito.when(repo.findEach(Mockito.eq("disciplineIncident"), Mockito.any(NeutralQuery.class))).thenReturn(Collections.<Entity>emptyList().iterator());
+        Entity e = createDisciplineIncident();
+        Entity e2 = createDisciplineIncident();
+        Mockito.when(repo.findEach(Mockito.eq("disciplineIncident"), Mockito.any(NeutralQuery.class))).thenReturn(Arrays.asList(e, e2).listIterator(0));
+
+        disc = new DisciplineExtractor(ex, leaMap, repo, studentCache, edorgCache);
     }
 
     @Test
-    public void testExtractEntities() throws Exception {
-        List<Entity> list = Arrays.asList(createDisciplineAction());
-        Mockito.when(repo.findEach(Mockito.eq("disciplineAction"), Mockito.any(NeutralQuery.class))).thenReturn(list.iterator());
+    public void testExtractDisciplineIncident() {
 
-        disc.extractEntities(null);
-        Mockito.verify(ex,Mockito.times(3)).extractEntity(Mockito.any(Entity.class),Mockito.any(ExtractFile.class),Mockito.eq("disciplineAction"));
+        EntityToLeaCache diCache = new EntityToLeaCache();
+        diCache.addEntry("marker", LEA2);
+        diCache.addEntry(DI_ID, LEA2);
+        disc.extractEntities(diCache);
+        Mockito.verify(ex, Mockito.times(2)).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.eq("disciplineIncident"));
+        Mockito.verify(ex, Mockito.times(2)).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.eq("disciplineAction"));
+    }
+
+
+    private Entity createDisciplineIncident() {
+        Entity e = Mockito.mock(Entity.class);
+
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put("schoolId", LEA);
+        Mockito.when(e.getBody()).thenReturn(body);
+        return e;
     }
 
     private Entity createDisciplineAction() {
@@ -79,6 +99,7 @@ public class DisciplineExtractorTest {
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("studentId", STUDENTS);
         Mockito.when(e.getBody()).thenReturn(body);
+        Mockito.when(e.getEntityId()).thenReturn(DI_ID);
 
         return e;
     }
