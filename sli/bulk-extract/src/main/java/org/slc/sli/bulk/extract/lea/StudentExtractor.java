@@ -95,6 +95,8 @@ public class StudentExtractor implements EntityExtract {
                         for(String lea : leas) {
                             diCache.addEntry(did, lea);
                         }
+                    } else {
+                        diCache.addEntry(did, "marker");    // adding a marker that this DI is referenced by a student
                     }
 
                 }
