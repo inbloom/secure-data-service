@@ -20,6 +20,8 @@
 package org.slc.sli.bulk.extract.lea;
 
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
@@ -41,8 +43,9 @@ public class StudentExtractor implements EntityExtract {
     private EntityToLeaCache parentCache;
     private LocalEdOrgExtractHelper localEdOrgExtractHelper;
 
-    
     private ExtractorHelper helper;
+
+    private EntityToLeaCache diCache = new EntityToLeaCache();
 
     public StudentExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo,
                             ExtractorHelper helper, EntityToLeaCache studentCache, EntityToLeaCache parentCache,
@@ -80,6 +83,22 @@ public class StudentExtractor implements EntityExtract {
                     }
                 }
             }
+
+            List<Entity> sdias =  e.getEmbeddedData().get("studentDisciplineIncidentAssociation");
+
+            if(sdias != null) {
+                for(Entity sdia : sdias) {
+                    String did = (String) sdia.getBody().get("disciplineIncidentId");
+                    Set<String> leas = studentCache.getEntriesById(e.getEntityId());
+
+                    if(leas != null) {
+                        for(String lea : leas) {
+                            diCache.addEntry(did, lea);
+                        }
+                    }
+
+                }
+            }
         }
         
     }
@@ -96,4 +115,7 @@ public class StudentExtractor implements EntityExtract {
         return parentCache;
     }
 
+    public EntityToLeaCache getDiCache() {
+        return diCache;
+    }
 }
