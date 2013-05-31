@@ -29,23 +29,13 @@ public class MongoIndex {
     private String collection;
     private boolean unique;
     private IndexObject keys;
-    private boolean sparse;
-    
+
     public MongoIndex(String collection, boolean unique, DBObject keys) {
         this.collection = collection;
         this.unique = unique;
         this.keys = new IndexObject(keys);
     }
 
-    public MongoIndex(String collection, boolean unique, DBObject keys, boolean sparse) {
-        this.collection = collection;
-        this.unique = unique;
-        this.keys = new IndexObject(keys);
-        this.sparse = sparse;
-    }
-
-    
-    
     /**
      * constructor has been provided
      */
@@ -77,13 +67,6 @@ public class MongoIndex {
         this.keys = keys;
     }
 
-    public boolean isSparse() {
-    	return sparse;
-    }
-    
-    public void setSparse(boolean sparse) {
-    	this.sparse = sparse;
-    }
     /*
      * (non-Javadoc)
      *
@@ -96,7 +79,6 @@ public class MongoIndex {
         result = prime * result + ((collection == null) ? 0 : collection.hashCode());
         result = prime * result + ((keys == null) ? 0 : keys.hashCode());
         result = prime * result + (unique ? 1231 : 1237);
-        result = prime * result + (sparse ? 1231 : 1237);
         return result;
     }
 
@@ -134,9 +116,6 @@ public class MongoIndex {
         if (unique != other.unique) {
             return false;
         }
-		if (sparse != other.sparse) {
-			return false;
-		}
         return true;
     }
 }

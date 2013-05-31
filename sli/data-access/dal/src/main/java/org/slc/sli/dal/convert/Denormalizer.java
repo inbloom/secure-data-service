@@ -298,7 +298,39 @@ public class Denormalizer {
                 }
             }
 
+            if (denormalizedIdKey.equals("schoolId")) {
+                dbObj.put("edOrgs", new ArrayList<String>(fetchLineage(internalId, new HashSet<String>())));
+            }
+
             return dbObj;
+        }
+
+        /**
+         * Fetches the education organization lineage for the specified education organization id.
+         * Use
+         * sparingly, as this will recurse up the education organization hierarchy.
+         *
+         * @param id
+         *            Education Organization for which the lineage must be assembled.
+         * @return Set of parent education organization ids.
+         */
+        private Set<String> fetchLineage(String id, Set<String> parentsSoFar) {
+            Set<String> parents = new HashSet<String>(parentsSoFar);
+            if (id != null) {
+                Entity edOrg = template.findOne(new Query().addCriteria(Criteria.where("_id").is(id)), Entity.class,
+                        EDUCATION_ORGANIZATION);
+                if (edOrg != null) {
+                    parents.add(id);
+                    Map<String, Object> body = edOrg.getBody();
+                    if (body.containsKey(PARENT_REFERENCE)) {
+                        String myParent = (String) body.get(PARENT_REFERENCE);
+                        if (!parents.contains(myParent)) {
+                            parents.addAll(fetchLineage(myParent, parents));
+                        }
+                    }
+                }
+            }
+            return parents;
         }
 
         private boolean doUpdate(DBObject parentQuery, List<Entity> entities) {

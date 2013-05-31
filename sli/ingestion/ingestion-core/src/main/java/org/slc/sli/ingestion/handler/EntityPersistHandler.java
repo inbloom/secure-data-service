@@ -235,13 +235,12 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
      */
     private List<Entity> persist(List<SimpleEntity> entities, AbstractMessageReport report, ReportStats reportStats) {
         List<Entity> failed = new ArrayList<Entity>();
-        HashMap<String, ArrayList<Entity>> queued = new HashMap<String, ArrayList<Entity>>();
+        List<Entity> queued = new ArrayList<Entity>();
         Map<List<Object>, SimpleEntity> memory = new HashMap<List<Object>, SimpleEntity>();
+        String collectionName = getCollectionName(entities.get(0));
+        EntityConfig entityConfig = entityConfigurations.getEntityConfiguration(entities.get(0).getType());
 
         for (SimpleEntity entity : entities) {
-            String collectionName = getCollectionName(entity.getType());
-
-            EntityConfig entityConfig = entityConfigurations.getEntityConfiguration(entity.getType());
 
             if (entity.getAction().doDelete()) {
                 CascadeResult result = delete(entity);
@@ -268,32 +267,27 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             try {
                 validator.validate(entity);
                 addTimestamps(entity);
-                if (!queued.containsKey(entity.getType())) {
-                    queued.put(entity.getType(),new ArrayList<Entity>());
-                }
-                queued.get(entity.getType()).add(entity);
+                queued.add(entity);
             } catch (EntityValidationException e) {
                 reportErrors(e.getValidationErrors(), entity, report, reportStats, new ElementSourceImpl(entity));
                 failed.add(entity);
             }
         }
 
-        for (String entityType : queued.keySet()) {
-            LOG.info("Bulk insert of {} queued records into collection: {}", new Object[]{queued.get(entityType).size(),
-                    entityType});
-            try {
-                entityRepository.insert(queued.get(entityType), getCollectionName(entityType));
-            } catch (Exception e) {
-                // Assuming there would NOT be DuplicateKeyException at this point.
-                // Because "queued" only contains new records(with no Id), and we don't have unique
-                // indexes
-                LOG.warn("Bulk insert failed --> Performing upsert for each record that was queued.");
+        try {
+            LOG.info("Bulk insert of {} queued records into collection: {}", new Object[] { queued.size(),
+                    collectionName });
+            entityRepository.insert(queued, collectionName);
+        } catch (Exception e) {
+            // Assuming there would NOT be DuplicateKeyException at this point.
+            // Because "queued" only contains new records(with no Id), and we don't have unique
+            // indexes
+            LOG.warn("Bulk insert failed --> Performing upsert for each record that was queued.");
 
-                // Try to do individual upsert again for other exceptions
-                for (Entity entity : queued.get(entityType)) {
-                    SimpleEntity simpleEntity = (SimpleEntity) entity;
-                    update(getCollectionName(entityType), entity, failed, report, reportStats, new ElementSourceImpl(simpleEntity));
-                }
+            // Try to do individual upsert again for other exceptions
+            for (Entity entity : queued) {
+                SimpleEntity simpleEntity = (SimpleEntity) entity;
+                update(collectionName, entity, failed, report, reportStats, new ElementSourceImpl(simpleEntity));
             }
         }
 
@@ -361,9 +355,9 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         }
     }
 
-    private String getCollectionName(String entityType) {
+    private String getCollectionName(Entity entity) {
         String collectionName = null;
-        NeutralSchema schema = schemaRepository.getSchema(entityType);
+        NeutralSchema schema = schemaRepository.getSchema(entity.getType());
         if (schema != null) {
             AppInfo appInfo = schema.getAppInfo();
             if (appInfo != null) {

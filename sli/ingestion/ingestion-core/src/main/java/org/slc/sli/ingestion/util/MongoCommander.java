@@ -106,7 +106,6 @@ public final class MongoCommander {
         DBObject options = new BasicDBObject();
         options.put("name", "idx_" + indexOrder);
         options.put("unique", index.isUnique());
-        options.put("sparse", index.isSparse());
         options.put("ns", dbConn.getCollection(index.getCollection()).getFullName());
 
         try {

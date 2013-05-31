@@ -33,8 +33,10 @@ Then I should see following map of entry counts in the corresponding batch job d
   | newBatchJob    | 1                   | stages.stageName               | ZipFileProcessor                       | string     |
   | newBatchJob    | 1                   | stages.stageName               | ControlFilePreProcessor                | string     |
   | newBatchJob    | 1                   | stages.stageName               | ControlFileProcessor                   | string     |
+  | newBatchJob    | 1                   | stages.stageName               | OrchestrationStages                    | string     |
   | newBatchJob    | 1                   | stages.stageName               | DeltaProcessor                         | string     |
   | newBatchJob    | 1                   | stages.stageName               | EdFiParserProcessor                    | string     |
+  | newBatchJob    | 1                   | stages.stageName               | StagingProcessor                       | string     |
   | newBatchJob    | 1                   | stages.stageName               | JobReportingProcessor                  | string     |
   | newBatchJob    | 1                   | stages.0.status                | finished                               | string     |
   | newBatchJob    | 1                   | stages.1.status                | finished                               | string     |
@@ -44,6 +46,7 @@ Then I should see following map of entry counts in the corresponding batch job d
   | newBatchJob    | 1                   | stages.5.status                | finished                               | string     |
   | newBatchJob    | 1                   | stages.6.status                | finished                               | string     |
   | newBatchJob    | 1                   | stages.7.status                | finished                               | string     |
+  | newBatchJob    | 1                   | stages.8.status                | finished                               | string     |
   #resources
   | newBatchJob    | 1                   | resourceEntries.0.resourceId     | BatchJob.zip                         | string     |
   | newBatchJob    | 1                   | resourceEntries.0.resourceFormat | zip-file                             | string     |

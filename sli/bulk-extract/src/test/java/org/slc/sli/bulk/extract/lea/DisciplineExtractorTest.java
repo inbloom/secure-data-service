@@ -81,7 +81,7 @@ public class DisciplineExtractorTest {
         diCache.addEntry(DI_ID, LEA2);
         disc.extractEntities(diCache);
         Mockito.verify(ex, Mockito.times(2)).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.eq("disciplineIncident"));
-        Mockito.verify(ex, Mockito.times(3)).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.eq("disciplineAction"));
+        Mockito.verify(ex, Mockito.times(2)).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class), Mockito.eq("disciplineAction"));
     }
 
 

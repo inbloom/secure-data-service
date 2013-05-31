@@ -47,6 +47,7 @@ import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.RetryMongoCommand;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
+import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -72,9 +73,16 @@ public class BatchJobMongoDA implements BatchJobDAO {
     private static final String BATCHJOBID_FIELDNAME = "batchJobId";
     private static final String RESOURCE_ID_FIELD = "resourceId";
     private static final String SEVERITY_FIELD = "severity";
+    private static final String TRANSFORMATION_LATCH = "transformationLatch";
+    private static final String PERSISTENCE_LATCH = "persistenceLatch";
+    private static final String STAGED_ENTITIES = "stagedEntities";
     private static final String RECORD_HASH = "recordHash";
+    private static final String RECORD_HASH_TENANT_FIELD = "t";
     private static final String JOB_ID = "jobId";
     private static final String STAGE_NAME = "stageName";
+    private static final String SYNC_STAGE = "syncStage";
+    private static final String COUNT = "count";
+    private static final String ENTITIES = "entities";
     private static final int DUP_KEY_CODE = 11000;
     private static final String FILE_ENTRY_LATCH = "fileEntryLatch";
     private static final String FILES = "files";
@@ -83,6 +91,8 @@ public class BatchJobMongoDA implements BatchJobDAO {
     private int numberOfRetries;
 
     private MongoTemplate batchJobMongoTemplate;
+
+    private MongoTemplate batchJobHashCacheMongoTemplate;
 
     private MongoTemplate sliMongo;
 
@@ -163,8 +173,300 @@ public class BatchJobMongoDA implements BatchJobDAO {
                 BATCHJOB_ERROR_COLLECTION);
     }
 
+    @Override
+    public boolean createTransformationLatch(String jobId, String recordType, int count) {
+        try {
+
+            final BasicDBObject latchObject = new BasicDBObject();
+            latchObject.put(JOB_ID, jobId);
+            latchObject.put(SYNC_STAGE, MessageType.DATA_TRANSFORMATION.name());
+            latchObject.put("recordType", recordType);
+            latchObject.put(COUNT, count);
+
+            RetryMongoCommand retry = new RetryMongoCommand() {
+
+                @Override
+                public Object execute() {
+                    batchJobMongoTemplate.getCollection(TRANSFORMATION_LATCH).insert(latchObject, WriteConcern.SAFE);
+                    return null;
+                }
+
+            };
+            retry.executeOperation(numberOfRetries);
+
+        } catch (MongoException me) {
+            if (me.getCode() == DUP_KEY_CODE) {
+                LOG.debug(me.getMessage());
+            }
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean createPersistanceLatch(List<Map<String, Object>> defaultPersistenceLatch, String jobId) {
+        try {
+            final BasicDBObject latchObject = new BasicDBObject();
+            latchObject.put(JOB_ID, jobId);
+            latchObject.put(SYNC_STAGE, MessageType.PERSIST_REQUEST.name());
+            latchObject.put(ENTITIES, defaultPersistenceLatch);
+
+            RetryMongoCommand retry = new RetryMongoCommand() {
+
+                @Override
+                public Object execute() {
+                    batchJobMongoTemplate.getCollection(PERSISTENCE_LATCH).insert(latchObject, WriteConcern.SAFE);
+                    return null;
+                }
+
+            };
+
+            retry.executeOperation(numberOfRetries);
+
+        } catch (MongoException me) {
+            if (me.getCode() == DUP_KEY_CODE) {
+                LOG.debug(me.getMessage());
+            }
+            return false;
+        }
+        return true;
+
+    }
+
+    @Override
+    public boolean countDownLatch(String syncStage, String jobId, String recordType) {
+        if (syncStage.equals(MessageType.DATA_TRANSFORMATION.name())) {
+            return countDownTransformationLatch(jobId, recordType);
+        } else {
+            return countDownPersistenceLatches(jobId, recordType);
+        }
+    }
+
+    private boolean countDownTransformationLatch(String jobId, String recordType) {
+
+        final BasicDBObject query = new BasicDBObject();
+        query.put(JOB_ID, jobId);
+        query.put(SYNC_STAGE, MessageType.DATA_TRANSFORMATION.name());
+        query.put("recordType", recordType);
+
+        BasicDBObject decrementCount = new BasicDBObject(COUNT, -1);
+        final BasicDBObject update = new BasicDBObject("$inc", decrementCount);
+
+        RetryMongoCommand retry = new RetryMongoCommand() {
+
+            @Override
+            public Object execute() {
+
+                return batchJobMongoTemplate.getCollection(TRANSFORMATION_LATCH).findAndModify(query, null, null,
+                        false, update, true, false);
+            }
+
+        };
+        DBObject latchObject = (DBObject) retry.executeOperation(numberOfRetries);
+
+        return (Integer) latchObject.get(COUNT) <= 0;
+    }
+
+    @SuppressWarnings("unchecked")
+    private boolean countDownPersistenceLatches(String jobId, String recordType) {
+
+        final BasicDBObject query = new BasicDBObject();
+        query.put(JOB_ID, jobId);
+        query.put(SYNC_STAGE, MessageType.PERSIST_REQUEST.name());
+        query.put("entities.type", recordType);
+
+        BasicDBObject decrementCount = new BasicDBObject("entities.$.count", -1);
+        final BasicDBObject update = new BasicDBObject("$inc", decrementCount);
+
+        RetryMongoCommand retry = new RetryMongoCommand() {
+
+            @Override
+            public Object execute() {
+
+                return batchJobMongoTemplate.getCollection(PERSISTENCE_LATCH).findAndModify(query, null, null, false,
+                        update, true, false);
+            }
+
+        };
+        DBObject latchObject = (DBObject) retry.executeOperation(numberOfRetries);
+
+        List<Map<String, Object>> entities = (List<Map<String, Object>>) latchObject.get(ENTITIES);
+
+        boolean isEmpty = true;
+
+        for (Map<String, Object> entityMap : entities) {
+            int count = (Integer) entityMap.get(COUNT);
+            if (count > 0) {
+                isEmpty = false;
+            }
+        }
+        return isEmpty;
+    }
+
+    @Override
+    public void setPersistenceLatchCount(String jobId, String collectionNameAsStaged, int size) {
+        final BasicDBObject query = new BasicDBObject();
+        query.put(JOB_ID, jobId);
+        query.put(SYNC_STAGE, MessageType.PERSIST_REQUEST.name());
+        query.put("entities.type", collectionNameAsStaged);
+
+        BasicDBObject decrementCount = new BasicDBObject("entities.$.count", size);
+        final BasicDBObject update = new BasicDBObject("$set", decrementCount);
+
+        RetryMongoCommand retry = new RetryMongoCommand() {
+
+            @Override
+            public Object execute() {
+
+                return batchJobMongoTemplate.getCollection(PERSISTENCE_LATCH).findAndModify(query, null, null, false,
+                        update, true, false);
+            }
+
+        };
+        retry.executeOperation(numberOfRetries);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Set<IngestionStagedEntity> getStagedEntitiesForJob(String jobId) {
+        BasicDBObject query = new BasicDBObject();
+        query.put(JOB_ID, jobId);
+
+        DBObject entities = batchJobMongoTemplate.getCollection(STAGED_ENTITIES).findOne(query);
+        Map<String, Boolean> entitiesMap = (Map<String, Boolean>) entities.get(ENTITIES);
+
+        Set<IngestionStagedEntity> stagedEntities = new HashSet<IngestionStagedEntity>();
+        for (Map.Entry<String, Boolean> entityEntry : entitiesMap.entrySet()) {
+            // only return entitites that are not complete
+            if (!entityEntry.getValue()) {
+                stagedEntities.add(IngestionStagedEntity.createFromRecordType(entityEntry.getKey()));
+            }
+        }
+        return stagedEntities;
+    }
+
+    @Override
+    public void setStagedEntitiesForJob(Set<IngestionStagedEntity> stagedEntities, String jobId) {
+
+        Map<String, Boolean> entitiesMap = new HashMap<String, Boolean>(stagedEntities.size());
+        for (IngestionStagedEntity recordType : stagedEntities) {
+            entitiesMap.put(recordType.getCollectionNameAsStaged(), Boolean.FALSE);
+        }
+
+        try {
+            final BasicDBObject entities = new BasicDBObject();
+            entities.put(JOB_ID, jobId);
+            entities.put(ENTITIES, entitiesMap);
+
+            RetryMongoCommand retry = new RetryMongoCommand() {
+
+                @Override
+                public Object execute() {
+                    batchJobMongoTemplate.getCollection(STAGED_ENTITIES).insert(entities, WriteConcern.SAFE);
+                    return null;
+                }
+
+            };
+            retry.executeOperation(numberOfRetries);
+        } catch (MongoException me) {
+            if (me.getCode() == DUP_KEY_CODE) {
+                LOG.error("Error inserting entry for job to stageEntities collection. ", me);
+            }
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public boolean removeAllPersistedStagedEntitiesFromJob(String jobId) {
+        DBCursor cursor = getWorkNoteLatchesForStage(jobId, MessageType.PERSIST_REQUEST.name());
+        boolean isEmpty = false;
+
+        while (cursor.hasNext()) {
+            DBObject latch = cursor.next();
+            List<Map<String, Object>> entities = (List<Map<String, Object>>) latch.get(ENTITIES);
+            for (Map<String, Object> entityMap : entities) {
+                isEmpty = markStagedEntityComplete((String) entityMap.get("type"), jobId);
+            }
+        }
+
+        return isEmpty;
+    }
+
+    /**
+     * Mark the staged entity for the provided record type as complete for this job.
+     *
+     * @param recordType
+     * @param jobId
+     * @return True, if all staged entities are complete for this job as a result of this operation.
+     */
+    @SuppressWarnings("unchecked")
+    protected boolean markStagedEntityComplete(String recordType, String jobId) {
+
+        final BasicDBObject query = new BasicDBObject();
+        query.put(JOB_ID, jobId);
+
+        BasicDBObject setEntityComplete = new BasicDBObject("entities." + recordType, Boolean.TRUE);
+        final BasicDBObject update = new BasicDBObject("$set", setEntityComplete);
+        RetryMongoCommand retry = new RetryMongoCommand() {
+
+            @Override
+            public Object execute() {
+
+                return batchJobMongoTemplate.getCollection(STAGED_ENTITIES).findAndModify(query, null, null, false,
+                        update, true, false);
+            }
+
+        };
+
+        DBObject dbStagedEntities = (DBObject) retry.executeOperation(numberOfRetries);
+
+        // return whether all staged entities now complete
+        Map<String, Boolean> entitiesMap = (Map<String, Boolean>) dbStagedEntities.get(ENTITIES);
+        for (Map.Entry<String, Boolean> entityEntry : entitiesMap.entrySet()) {
+            if (!entityEntry.getValue()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private DBCursor getWorkNoteLatchesForStage(String jobId, String syncStage) {
+
+        BasicDBObject ref = new BasicDBObject();
+        ref.put(JOB_ID, jobId);
+        ref.put(SYNC_STAGE, syncStage);
+
+        DBCursor cursor;
+
+        if (syncStage.equals(MessageType.DATA_TRANSFORMATION.name())) {
+            cursor = batchJobMongoTemplate.getCollection(TRANSFORMATION_LATCH).find(ref);
+        } else {
+            cursor = batchJobMongoTemplate.getCollection(PERSISTENCE_LATCH).find(ref);
+        }
+
+        return cursor;
+
+    }
+
+    @Override
+    public void cleanUpWorkNoteLatchAndStagedEntites(String jobId) {
+        BasicDBObject dbObj = new BasicDBObject();
+        dbObj.put(JOB_ID, jobId);
+        batchJobMongoTemplate.getCollection(TRANSFORMATION_LATCH).remove(dbObj);
+        batchJobMongoTemplate.getCollection(PERSISTENCE_LATCH).remove(dbObj);
+        batchJobMongoTemplate.getCollection(STAGED_ENTITIES).remove(dbObj);
+    }
+
     public void setBatchJobMongoTemplate(MongoTemplate mongoTemplate) {
         this.batchJobMongoTemplate = mongoTemplate;
+    }
+
+    public void setBatchJobHashCacheMongoTemplate(MongoTemplate batchJobHashCacheMongoTemplate) {
+        this.batchJobHashCacheMongoTemplate = batchJobHashCacheMongoTemplate;
+    }
+
+    public void setNumberOfRetries(int numberOfRetries) {
+        this.numberOfRetries = numberOfRetries;
     }
 
     public MongoTemplate getSliMongo() {
@@ -358,5 +660,6 @@ public class BatchJobMongoDA implements BatchJobDAO {
         // TODO Auto-generated method stub
 
     }
+
 
 }

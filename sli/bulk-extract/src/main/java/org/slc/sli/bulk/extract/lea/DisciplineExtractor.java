@@ -74,8 +74,6 @@ public class DisciplineExtractor implements EntityExtract {
                     leas.addAll(studentCache.getEntriesById(student));
                 }
 
-                leas.add(edorgCache.leaFromEdorg((String) input.getBody().get("responsibilitySchoolId")));
-
                 return leas;
             }
         });
