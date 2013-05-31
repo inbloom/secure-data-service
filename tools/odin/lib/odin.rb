@@ -86,13 +86,13 @@ class Odin
     start = Time.now
     
     # load pre-requisites for scenario (specified in yaml)
-    pre_requisites = PreRequisiteBuilder.load_pre_requisites(scenarioYAML)
-    display_pre_requisites_before_world_building(pre_requisites)
+    pre_requisites = PreRequisiteBuilder.new(scenarioYAML)
+    display_pre_requisites_before_world_building(pre_requisites.get)
 
     # create a snapshot of the world
-    edOrgs = WorldBuilder.new(prng, scenarioYAML, @workOrderQueue, pre_requisites).build
+    edOrgs = WorldBuilder.new(prng, scenarioYAML, @workOrderQueue, pre_requisites.get).build
     display_world_summary(edOrgs)
-    display_pre_requisites_after_world_building(pre_requisites)
+    display_pre_requisites_after_world_building(pre_requisites.get)
 
     writer.display_entity_counts
 
@@ -132,7 +132,8 @@ class Odin
       edOrgs.each do |organization_id, staff_members|
         @log.info "education organization: #{organization_id}"
         staff_members.each do |member|
-          @log.info " -> staff unique state id: #{member[:staff_id]} (#{member[:name]}) has role: #{member[:role]}"
+          @log.info " -> staff unique state id: #{member[:staff_id]} (#{member[:name]}) has role: #{member[:role]}" if !member[:staff_id].nil?
+          @log.info " -> student unique state id: #{member[:student_id]} (#{member[:name]}) has role: #{member[:role]}" if !member[:student_id].nil?
         end
       end
     end

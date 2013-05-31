@@ -30,6 +30,8 @@ Feature: Security events are logged when bulk extract is run
     And a batch job for file "StoriedDataSet_IL_Daybreak.zip" is completed in database
     Then I should not see an error log file created
     And I should not see a warning log file created
+    And all LEAs in "Midgar" are authorized for "SDK Sample"
+    And all LEAs in "Midgar" are authorized for "Paved Z00"
 
     Given the following collections are empty in sli datastore:
       | collectionName              |

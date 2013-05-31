@@ -20,7 +20,7 @@ import static org.junit.Assert.assertFalse;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.slc.sli.ingestion.util.NeutralRecordUtils.getByPath;
+
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,7 +41,7 @@ import org.slc.sli.ingestion.ActionVerb;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.util.NeutralRecordUtils;
+
 
 /**
  * Tests for PersistenceProcessor
