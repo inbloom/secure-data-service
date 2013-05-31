@@ -360,7 +360,7 @@ Given the pre-existing bulk extrac testing app key has been created
    And there is no bulk extract files in the local directory 
  
   Then I get the id for the edorg "IL-DAYBREAK"
-  When I PATCH the postalCode for the edorg entity to 11999
+  When I PATCH the postalCode for the lea entity to 11999
   Then I should receive a return code of 204
   When the operator triggers a delta for the production tenant
    #And I make a call to the bulk extract end point "/v1.1/bulk/extract/list"
@@ -391,7 +391,7 @@ Scenario: App makes an api call to retrieve a bulk extract delta for the SEA
   And there is no bulk extract files in the local directory
 
   Then I get the id for the edorg "STANDARD-SEA"
-  When I PATCH the postalCode for the edorg entity to 11999
+  When I PATCH the postalCode for the current edorg entity to 11999
   Then I should receive a return code of 204
   When the operator triggers a delta for the production tenant
   And I make a call to the bulk extract end point "/v1.1/bulk/extract/list" using the certificate for app "picard"

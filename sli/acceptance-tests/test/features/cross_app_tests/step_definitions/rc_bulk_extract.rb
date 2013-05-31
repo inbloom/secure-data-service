@@ -67,7 +67,7 @@ When /^I store the URL for the latest delta for the (LEA|SEA)$/ do |edorg|
   @encryptFilePath = @download_path
 end
 
-When /^I PATCH the postalCode for the edorg entity to 11999$/ do
+When /^I PATCH the postalCode for the lea entity to 11999$/ do
   restHttpGet("/v1/educationOrganizations/#{@lea}/schools")
   puts "result from '/v1/educationOrganizations/#{@lea}/schools' is #{@res}"
   assert(@res.code == 200, "Response from GET '/v1/educationOrganizations/#{@lea}/schools' is #{@res.code}, expected 200")
@@ -88,6 +88,22 @@ When /^I PATCH the postalCode for the edorg entity to 11999$/ do
   @format = "application/json"
   puts "PATCHing body #{patch_body} to /v1/educationOrganizations/#{school_id}"
   restHttpPatch("/v1/educationOrganizations/#{school_id}", prepareData(@format, patch_body), @format)
+  puts @res
+  assert(@res != nil, "Patch failed: Received no response from API.")
+end
+
+When /^I PATCH the postalCode for the current edorg entity to 11999$/ do
+  patch_body = {
+      "address" => [{"postalCode" => "11999",
+                     "nameOfCounty" => "Wake",
+                     "streetNumberName" => "111 Ave A",
+                     "stateAbbreviation" => "IL",
+                     "addressType" => "Physical",
+                     "city" => "Chicago"}]
+  }
+  @format = "application/json"
+  puts "PATCHing body #{patch_body} to /v1/educationOrganizations/#{@lea}"
+  restHttpPatch("/v1/educationOrganizations/#{@lea}", prepareData(@format, patch_body), @format)
   puts @res
   assert(@res != nil, "Patch failed: Received no response from API.")
 end

@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                               xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-AssessmentMetadata.xsd">
+    <Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="false">
+        <LearningObjective>
+            <LearningObjectiveId>
+                <IdentificationCode>Generic Learning Objective 1</IdentificationCode>
+            </LearningObjectiveId>
+            <Objective>Generic Learning Objective 1</Objective>
+            <Description>Generic Learning Objective 1 for grade: Kindergarten in subject: Mathematics</Description>
+            <AcademicSubject>Mathematics</AcademicSubject>
+            <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+            <LearningStandardReference>
+                <LearningStandardIdentity>
+                    <IdentificationCode>1-18-9</IdentificationCode>
+                </LearningStandardIdentity>
+            </LearningStandardReference>
+            <LearningStandardReference>
+                <LearningStandardIdentity>
+                    <IdentificationCode>2-18-9</IdentificationCode>
+                </LearningStandardIdentity>
+            </LearningStandardReference>
+            <LearningStandardReference>
+                <LearningStandardIdentity>
+                    <IdentificationCode>3-18-9</IdentificationCode>
+                </LearningStandardIdentity>
+            </LearningStandardReference>
+            <LearningStandardReference>
+                <LearningStandardIdentity>
+                    <IdentificationCode>4-18-9</IdentificationCode>
+                </LearningStandardIdentity>
+            </LearningStandardReference>
+            <LearningStandardReference>
+                <LearningStandardIdentity>
+                    <IdentificationCode>5-18-9</IdentificationCode>
+                </LearningStandardIdentity>
+            </LearningStandardReference>
+            <LearningStandardReference>
+                <LearningStandardIdentity>
+                    <IdentificationCode>6-18-9</IdentificationCode>
+                </LearningStandardIdentity>
+            </LearningStandardReference>
+            <LearningStandardReference>
+                <LearningStandardIdentity>
+                    <IdentificationCode>7-18-9</IdentificationCode>
+                </LearningStandardIdentity>
+            </LearningStandardReference>
+            <LearningStandardReference>
+                <LearningStandardIdentity>
+                    <IdentificationCode>8-18-9</IdentificationCode>
+                </LearningStandardIdentity>
+            </LearningStandardReference>
+            <LearningStandardReference>
+                <LearningStandardIdentity>
+                    <IdentificationCode>9-18-9</IdentificationCode>
+                </LearningStandardIdentity>
+            </LearningStandardReference>
+            <LearningStandardReference>
+                <LearningStandardIdentity>
+                    <IdentificationCode>10-18-9</IdentificationCode>
+                </LearningStandardIdentity>
+            </LearningStandardReference>
+        </LearningObjective>
+        <LearningStandard>
+            <LearningStandardId>
+                <IdentificationCode>1-18-9</IdentificationCode>
+            </LearningStandardId>
+            <Description>This is a description for learning standard 1-18-9</Description>
+            <ContentStandard>LEA Standard</ContentStandard>
+            <GradeLevel>Kindergarten</GradeLevel>
+            <SubjectArea>Mathematics</SubjectArea>
+        </LearningStandard>
+
+    </Action>
+</InterchangeAssessmentMetadata>
