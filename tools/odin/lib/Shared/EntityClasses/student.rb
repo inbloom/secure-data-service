@@ -21,7 +21,7 @@ require_relative 'baseEntity'
 # creates student
 class Student < BaseEntity
 
-  attr_accessor :id, :year_of, :rand, :sex, :firstName, :middleName, :lastName, :suffix,
+  attr_accessor :id, :int_id, :year_of, :rand, :sex, :firstName, :middleName, :lastName, :suffix,
                 :birthDay, :email, :loginId, :address, :city, :state, :postalCode, :race, :hispanicLatino,
                 :economicDisadvantaged, :limitedEnglish, :disability, :schoolFood,
                 :studentIdentificationCode, :otherName, :telephone, :profileThumbnail,

@@ -263,13 +263,11 @@ class WorldBuilder
       num_years  = @scenarioYAML["NUMBER_OF_YEARS"]
       
       if members != []
-        puts "DEBUG: member is #{members}"
         if members["staff"].nil?
            parent = nil 
         else
           parent = members["staff"][0][:parent]
         end
-        puts "DEBUG: parent is #{parent}"
         catalog_students = members["students"]
       else
         parent = nil
@@ -508,7 +506,6 @@ class WorldBuilder
       puts "School is #{@world[index][0]['id']}"
 
       @world[index].each do |school|
-        puts "DEBUG: school is #{school}"
         school["students"] = get_students_from_catalog(index, school)
         puts "Students for school #{@world[index][school]['id']} are #{@world[index][school]['students']}"
       end
@@ -517,7 +514,6 @@ class WorldBuilder
 
   def get_students_from_catalog(required)
     students = []
-    puts "DEBUG: iterating through @pre_requisites set to #{@pre_requisites}"
     @pre_requisites[school_type][school]["students"].each do |student|
       students << {"id" => student[:student_id], "name" => student[:name]}
     end

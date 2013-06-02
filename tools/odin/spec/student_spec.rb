@@ -22,7 +22,7 @@ describe "Student" do
   context "create a new instance of Student" do
     let(:id) {41}
     let(:birthday) {Date.new(2000, 9, 1)}
-    let(:student) {Student.new(id, birthday)}
+    let(:student) {Student.new(id, id, birthday)}
     
     it "Can access the init objects of the student_builder instance" do
       student.id.should eq(41)
@@ -108,7 +108,7 @@ def distributionTester(inMethod, tracer, lo, hi, iters)
   i = 0
   hit = 0
   (0..iters).each{|i|
-    s = Student.new(i, Date.new(2000, 9, 1))
+    s = Student.new(i, i, Date.new(2000, 9, 1))
     if s.method(inMethod).call == tracer
       hit += 1
     end

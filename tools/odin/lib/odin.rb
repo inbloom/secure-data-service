@@ -87,7 +87,6 @@ class Odin
     
     # load pre-requisites for scenario (specified in yaml)
     pre_requisites = PreRequisiteBuilder.new(scenarioYAML)
-    puts "DEBUG: pre_requisites is set to #{pre_requisites.get}"
     display_pre_requisites_before_world_building(pre_requisites.get)
 
     # create a snapshot of the world
