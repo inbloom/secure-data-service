@@ -378,6 +378,7 @@ When /^the extract contains a file for each of the following entities:$/ do |tab
   Minitar.unpack(@filePath, @unpackDir)
 
 	table.hashes.map do |entity|
+	puts entity.to_s
     exists = File.exists?(@unpackDir + "/" +entity['entityType'] + ".json.gz")
     assert(exists, "Cannot find #{entity['entityType']}.json file in extracts")
 	end
@@ -974,6 +975,14 @@ end
 Then /^I verify the last delta bulk extract by app "(.*?)" for "(.*?)" in "(.*?)" contains a file for each of the following entities:$/ do |appId, lea, tenant, table|
     opts = {sort: ["body.date", Mongo::DESCENDING], limit: 1}
     getExtractInfoFromMongo(build_bulk_query(tenant, appId, lea, true), opts)
+    openDecryptedFile(appId)
+
+    step "the extract contains a file for each of the following entities:", table
+end
+
+Then /^I verify the last SEA delta bulk extract by app "(.*?)" for "(.*?)" in "(.*?)" contains a file for each of the following entities:$/ do |appId, lea, tenant, table|
+    opts = {sort: ["body.date", Mongo::DESCENDING], limit: 1}
+    getExtractInfoFromMongo(build_bulk_query(tenant, appId, lea, true, true), opts)
     openDecryptedFile(appId)
 
     step "the extract contains a file for each of the following entities:", table

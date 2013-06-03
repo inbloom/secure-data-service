@@ -96,19 +96,21 @@ Scenario: Triggering deltas via ingestion
       And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
       And I verify "2" delta bulk extract files are generated for LEA "<IL-HIGHWIND>" in "Midgar"
       And I verify "2" delta bulk extract files are generated for LEA "<STANDARD-SEA>" in "Midgar"
-     #When I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+     When I verify the last SEA delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
        #|  learningObjective                     |
        #|  learningStandard                      |
        #|  competencyLevelDescriptor             |
        #|  studentCompetencyObjective            |
-       #|  program                               |
-     #And I verify this "deleted" file should contain:
-       #| id                                                                                     | condition                             |
-       #| 8621a1a8d32dde3cf200697f22368a0f92f0fb92_id                                            | entityType = learningObjective                  |
-       #| 4a6402c02ea016736280ac88d202d71a81058171_id                                            | entityType = learningStandard |
-       #| d82250f49dbe4facb59af2f88fe746f70948405d_id                                            | entityType = competencyLevelDescriptor                   |
+       |  entityType                            |
+       |  program                               |
+       |  deleted                               |
+     And I verify this "deleted" file should contain:
+       | id                                                                                     | condition                             |
+       | 8621a1a8d32dde3cf200697f22368a0f92f0fb92_id                                            | entityType = learningObjective                  |
+       | 4a6402c02ea016736280ac88d202d71a81058171_id                                            | entityType = learningStandard |
+       | d82250f49dbe4facb59af2f88fe746f70948405d_id                                            | entityType = competencyLevelDescriptor                   |
        #| x                                                                                      | entityType = studentCompetencyObjective |
-       #| ebfc74d85dfcdcb7e5ddc93a6af2952801f9436e_id                                            | entityType = program                  |
+       | ebfc74d85dfcdcb7e5ddc93a6af2952801f9436e_id                                            | entityType = program                  |
 
      When I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-HIGHWIND>" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
