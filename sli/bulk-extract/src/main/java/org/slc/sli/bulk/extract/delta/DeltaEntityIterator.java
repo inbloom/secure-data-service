@@ -79,6 +79,7 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
     private long lastDeltaTime;
 
     private final static Map<String, List<String>> REQUIRED_EMBEDDED_FIELDS;
+    private final static Set<String> DELTA_SEA_UNSUPPORTED;
 
     private final static Set<String> KEEP_DENORMALIZED = Collections.unmodifiableSet(new HashSet<String>(Arrays
             .asList("assessment", "studentAssessment")));
@@ -95,11 +96,15 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
 
     static {
         Map<String, List<String>> requiredDenormalizedFields = new HashMap<String, List<String>>();
+        Set<String> deltaSEAUnSupported = new HashSet<String>(Arrays.asList("course", "graduationPlan", "staff", "staffEducationOrganizationAssociation", "staffProgramAssociation",
+               "assessment", "objectiveAssessment", "assessmentPeriodDescriptor", "assessmentFamily"));
         requiredDenormalizedFields.put("student", Arrays.asList("schools"));
         requiredDenormalizedFields.put("section", Arrays.asList("studentSectionAssociation"));
         requiredDenormalizedFields.put("studentAssessment",
                 Arrays.asList("studentAssessmentItem", "studentObjectiveAssessment"));
         REQUIRED_EMBEDDED_FIELDS = Collections.unmodifiableMap(requiredDenormalizedFields);
+        DELTA_SEA_UNSUPPORTED = Collections.unmodifiableSet( deltaSEAUnSupported);
+
     }
 
     public enum Operation {
@@ -195,8 +200,12 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
 
 
 
-
             String collection = (String) delta.get("c");
+
+            if( DELTA_SEA_UNSUPPORTED.contains( collection )) {
+                LOG.debug("Delta bulk-extracts is not currently supported for {}", collection );
+                continue;
+            }
 
 
             if (collection.equals(DeltaJournal.PURGE)) {
