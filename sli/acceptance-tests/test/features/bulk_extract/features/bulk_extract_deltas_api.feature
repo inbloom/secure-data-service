@@ -682,7 +682,7 @@ Given I clean the bulk extract file system and database
         |  teacherSchoolAssociation              |
         |  studentProgramAssociation             | 
         #| newStaffProgramAssociation             | 
-        |  StudentCompetency                     |
+        |  studentCompetency                     |
         #| newDisciplineIncident                  |
         #| newDisciplineAction                    |
         #| newStudentDiscIncidentAssoc            |
