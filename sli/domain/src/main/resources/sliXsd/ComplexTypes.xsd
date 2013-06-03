@@ -6493,7 +6493,7 @@
 					</xs:appinfo>
 					</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs="0" name="countryCode" type="countryCodeType">
+			<xs:element minOccurs="0" name="country" type="countryType">
 				<xs:annotation>
 					<xs:documentation>The unique two character International
 						Organization for
@@ -9043,7 +9043,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs="0" name="countryOfBirthCode" type="countryType">
+			<xs:element minOccurs="0" name="countryOfBirthCode" type="countryCodeType">
 				<xs:annotation>
 					<xs:documentation>The unique two digit International Organization
 						for

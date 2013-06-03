@@ -232,7 +232,7 @@
 			<xs:maxLength value="150"/>
 		</xs:restriction>
 	</xs:simpleType>
-	<xs:simpleType name="countryCodeType">
+	<xs:simpleType name="countryType">
 		<xs:annotation>
 			<xs:documentation>The names of countries. (Note: A list of countries and codes is
 				currently maintained and updated by the ISO as ISO 3166 on its website:
@@ -490,7 +490,7 @@
 			<xs:enumeration value="ZIMBABWE"/>
 		</xs:restriction>		
 	</xs:simpleType>
-   <xs:simpleType name="countryType">
+   <xs:simpleType name="countryCodeType">
 		<xs:annotation>
 			<xs:documentation>The names of countries. (Note: A list of countries
 				and codes is currently maintained and updated by the ISO as ISO 3166

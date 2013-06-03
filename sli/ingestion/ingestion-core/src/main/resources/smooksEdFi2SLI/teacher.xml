@@ -90,7 +90,7 @@
         <jb:value property="postalCode " data="attributes Address element PostalCode _value" />
         <jb:value property="nameOfCounty " data="attributes Address element NameOfCounty _value" />
         <jb:value property="countyFIPSCode " data="attributes Address element CountyFIPSCode _value" />
-        <jb:value property="countryCode " data="attributes Address element Country _value" />
+        <jb:value property="country " data="attributes Address element Country _value" />
         <jb:value property="latitude" data="attributes Address element Latitude _value" />
         <jb:value property="longitude" data="attributes Address element Longitude _value" />
         <jb:value property="openDate" data="attributes Address element BeginDate _value" />
