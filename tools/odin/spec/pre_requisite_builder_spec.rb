@@ -30,50 +30,48 @@ describe "Pre-Requisite Builder" do
   end
 
   describe "--> retrieving symbol for pre-requisite hash" do
+    prq = PreRequisiteBuilder.new(@scenarioYAML)
     it "--> will get :seas when 'State Education Agency' is specified" do
-      PreRequisiteBuilder.get_symbol_using_type('State Education Agency').should eq(:seas)
+      prq.get_symbol_using_type('State Education Agency').should eq(:seas)
     end
 
     it "--> will get :leas when 'Local Education Agency' is specified" do
-      PreRequisiteBuilder.get_symbol_using_type('Local Education Agency').should eq(:leas)
+      prq.get_symbol_using_type('Local Education Agency').should eq(:leas)
     end
 
     it "--> will get :elementary when 'Elementary School' is specified" do
-      PreRequisiteBuilder.get_symbol_using_type('Elementary School').should eq(:elementary)
+      prq.get_symbol_using_type('Elementary School').should eq(:elementary)
     end
 
     it "--> will get :middle when 'Middle School' is specified" do
-      PreRequisiteBuilder.get_symbol_using_type('Middle School').should eq(:middle)
+      prq.get_symbol_using_type('Middle School').should eq(:middle)
     end
 
     it "--> will get :high when 'High School' is specified" do
-      PreRequisiteBuilder.get_symbol_using_type('High School').should eq(:high)
+      prq.get_symbol_using_type('High School').should eq(:high)
     end
 
     it "--> will return nil when an un-recognized value is specified" do
-      PreRequisiteBuilder.get_symbol_using_type('Secondary School').should be_nil
+      prq.get_symbol_using_type('Secondary School').should be_nil
     end
   end
 
   describe "--> handles edge cases" do
-    it "--> will handle nil input" do
-      PreRequisiteBuilder.load_pre_requisites(nil).should be_nil
-    end
 
     it "--> will handle missing yaml property" do
       @scenarioYAML["STAFF_CATALOG"] = nil
-      pre_requisites = PreRequisiteBuilder.load_pre_requisites(@scenarioYAML)
-      pre_requisites.each do |type, edOrgs|
+      pre_requisites = PreRequisiteBuilder.new(@scenarioYAML)
+      pre_requisites.get.each do |type, edOrgs|
         edOrgs.should be_empty
       end
     end
 
     it "--> will handle malformed json" do
       @scenarioYAML["STAFF_CATALOG"] = "spec/test_data/invalid/staff.json"
-      pre_requisites = PreRequisiteBuilder.load_pre_requisites(@scenarioYAML)
-      pre_requisites.each do |type, edOrgs|
+      pre_requisites = PreRequisiteBuilder.new(@scenarioYAML)
+      pre_requisites.get.each do |type, edOrgs|
         edOrgs.should be_empty if type != :high
-        edOrgs.should eq({"Daybreak Central High"=>[{:staff_id=>"cgray", :name=>"Charles Gray", :role=>"Educator", :parent=>nil}]}) if type == :high
+        edOrgs.should eq({"Daybreak Central High"=>{"staff"=>[{:staff_id=>"cgray", :name=>"Charles Gray", :role=>"Educator", :parent=>nil}]}}) if type == :high
       end
     end
   end
