@@ -77,7 +77,6 @@ module Enum
     # -> returns nil if the Symbol doesn't exist
     def to_string(key)
       unless key.nil?
-        #puts "DEBUG: key is #{key}"
         const_get(key)
       end
     end

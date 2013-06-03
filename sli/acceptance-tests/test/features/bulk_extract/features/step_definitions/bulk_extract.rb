@@ -43,7 +43,6 @@ JAR_FILE = PropLoader.getProps['bulk_extract_jar_loc']
 DATABASE_NAME = PropLoader.getProps['sli_database_name']
 DATABASE_HOST = PropLoader.getProps['bulk_extract_db']
 DATABASE_PORT = PropLoader.getProps['bulk_extract_port']
-INDEPENDENT_ENTITIES = ['graduationPlan']
 ENCRYPTED_ENTITIES = ['student', 'parent']
 COMBINED_ENTITIES = ['assessment', 'studentAssessment']
 COMBINED_SUB_ENTITIES = ['assessmentItem','objectiveAssessment','studentAssessmentItems','studentObjectiveAssessments']
@@ -513,6 +512,21 @@ When /^I untar and decrypt the "(.*?)" delta tarfile for tenant "(.*?)" and appI
   sleep 1
   opts = {sort: ["body.date", Mongo::DESCENDING], limit: 1}
   getExtractInfoFromMongo(build_bulk_query(tenant, appId, lea, true), opts)
+
+  openDecryptedFile(appId)
+  @fileDir = OUTPUT_DIRECTORY if data_store == "API"
+  untar(@fileDir)
+  @deltaDir = @fileDir
+end
+
+When /^I untar and decrypt the "(.*?)" SEA delta tarfile for tenant "(.*?)" and appId "(.*?)" for "(.*?)"$/ do |data_store, tenant, appId, lea|
+  sleep 1
+  opts = {sort: ["body.date", Mongo::DESCENDING], limit: 1}
+  puts "edOrg: " + lea
+  query = build_bulk_query(tenant, appId, lea, true, true)
+  puts "query: " + query.to_s
+  puts "options: " + opts.to_s
+  getExtractInfoFromMongo(query, opts)
 
   openDecryptedFile(appId)
   @fileDir = OUTPUT_DIRECTORY if data_store == "API"
@@ -1056,7 +1070,7 @@ Then /^the "(.*?)" has the correct number of SEA public data records "(.*?)"$/ d
   collection = entity
   count = 0
 
-  if INDEPENDENT_ENTITIES.include? entity
+  if(isIndependentEntity(entity))
     query = {"$or" => [{query_field => @SEA_id}, {query_field => {"$exists" => false}}]}
   else
     query = {query_field => @SEA_id}
@@ -1092,7 +1106,7 @@ Then /^I verify that the "(.*?)" reference an SEA only "(.*?)"$/ do |entity, que
         field = field[key]
       end
 
-      next if INDEPENDENT_ENTITIES.include?(entity) && field == nil
+      next if isIndependentEntity(entity) && field == nil
 
       assert(field == @SEA_id, 'Incorrect reference ' + field + ' expected ' + @SEA_id)
     end
@@ -1439,8 +1453,10 @@ def getExtractInfoFromMongo(query, query_opts={})
   @conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
   @sliDb = @conn.db(DATABASE_NAME)
   @coll = @sliDb.collection("bulkExtractFiles")
-
+  puts query.to_s
+  puts query_opts.to_s
   match = @coll.find_one(query, query_opts)
+  puts "match: " + match.to_s
   assert(match !=nil, "Database was not updated with bulk extract file location")
 
   edorg = match['body']['edorg'] || ""
@@ -2427,6 +2443,16 @@ end
 
 def getEdorgId(tenant, edorg)
   return tenant + "-" + edorg
+end
+
+def isIndependentEntity(entity)
+  independentEntities = {}
+  independentEntities["graduationPlan"] = true
+
+  if(independentEntities[entity] != nil)
+    return true;
+  end
+  return false
 end
 
 def get_json_from_file(file_name)

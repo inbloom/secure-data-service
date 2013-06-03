@@ -19,16 +19,15 @@ limitations under the License.
 require_relative 'baseEntity.rb'
 
 class StudentAssessment < BaseEntity
-  attr_accessor :studentId, :studentIntId, :assessment, :date, :score,
+  attr_accessor :studentId, :assessment, :date, :score,
                 :administrationEndDate, :serialNumber, :specialAccommodations,
                 :linguisticAccommodations, :reasonNotTested,
                 :gradeLevelWhenAssessed, :performanceLevels
   
   
-  def initialize(student_id, student_int_id, assessment, date, rand = nil)
-    @rand = Random.new(student_int_id.hash)
+  def initialize(student_id, assessment, date, rand = nil)
+    @rand = Random.new(student_id.hash)
     @studentId = student_id
-    @studentIntId = student_int_id
     @assessment = assessment
     @date = date.to_s
     @score = rand.rand(100) unless rand.nil?

@@ -5,8 +5,8 @@ Scenario: Initialize security trust store for Bulk Extract application and LEAs
     And the bulk extract files in the database are scrubbed
     And The bulk extract app has been approved for "Midgar-DAYBREAK" with client id "<clientId>"
     And The X509 cert "cert" has been installed in the trust store and aliased
-
-Scenario: Generate a bulk extract delta after day 0 ingestion
+@wip
+Scenario: Generate a bulk extract delta after day 1 ingestion
   When I trigger a delta extract
    And I request the latest bulk extract delta using the api
    And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>"
@@ -58,19 +58,18 @@ Scenario: Generate a bulk extract delta after day 0 ingestion
    Then each record in the full extract is present and matches the delta extract
    #And I save some IDs from all the extract files to "delete_candidate" so I can delete them later
 
-@wip
 Scenario: Generate a SEA bulk extract delta after day 1 ingestion
     When I trigger a delta extract
      And I request the latest bulk extract delta using the api
-     And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>"
-    #Then I should see "20" bulk extract files
+     And I untar and decrypt the "inBloom" SEA delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>"
+    #Then I should see "22" bulk extract files
      And I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
     Then The "educationOrganization" delta was extracted in the same format as the api
-    #And The "learningObjective" delta was extracted in the same format as the api
-    #And The "learningStandard" delta was extracted in the same format as the api
-    #And The "competencyLevelDescriptor" delta was extracted in the same format as the api
+    And The "learningObjective" delta was extracted in the same format as the api
+    And The "learningStandard" delta was extracted in the same format as the api
+    And The "competencyLevelDescriptor" delta was extracted in the same format as the api
     #And The "studentCompetencyObjective" delta was extracted in the same format as the api
-    #And The "program" delta was extracted in the same format as the api
+    And The "program" delta was extracted in the same format as the api
 
   #Given I trigger a bulk extract
    #When I set the header format to "application/x-tar"

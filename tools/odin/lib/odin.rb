@@ -86,13 +86,13 @@ class Odin
     start = Time.now
     
     # load pre-requisites for scenario (specified in yaml)
-    pre_requisites = PreRequisiteBuilder.new(scenarioYAML)
-    display_pre_requisites_before_world_building(pre_requisites.get)
+    pre_requisites = PreRequisiteBuilder.load_pre_requisites(scenarioYAML)
+    display_pre_requisites_before_world_building(pre_requisites)
 
     # create a snapshot of the world
-    edOrgs = WorldBuilder.new(prng, scenarioYAML, @workOrderQueue, pre_requisites.get).build
+    edOrgs = WorldBuilder.new(prng, scenarioYAML, @workOrderQueue, pre_requisites).build
     display_world_summary(edOrgs)
-    display_pre_requisites_after_world_building(pre_requisites.get)
+    display_pre_requisites_after_world_building(pre_requisites)
 
     writer.display_entity_counts
 
@@ -129,15 +129,10 @@ class Odin
     @log.info "Pre-requisites for world building:"
     pre_requisites.each do |type,edOrgs|
       @log.info "#{type.inspect}:"
-      edOrgs.each do |organization_id, members|
+      edOrgs.each do |organization_id, staff_members|
         @log.info "education organization: #{organization_id}"
-        next if members["staff"].nil?
-        members["staff"].each do |member|
-          @log.info " -> staff unique state id: #{member[:staff_id]} (#{member[:name]}) has role: #{member[:role]}" if !member[:staff_id].nil?
-        end
-        next if members["students"].nil?
-        members["students"].each do |member|
-          @log.info " -> student unique state id: #{member[:student_id]} (#{member[:name]}) has role: #{member[:role]}" if !member[:student_id].nil?
+        staff_members.each do |member|
+          @log.info " -> staff unique state id: #{member[:staff_id]} (#{member[:name]}) has role: #{member[:role]}"
         end
       end
     end
@@ -155,16 +150,11 @@ class Odin
           displayed_title = true
         end
         @log.info "#{type.inspect}:"
-        edOrgs.each do |organization_id, members|
-          @log.info "education organization: #{organization_id}"         
-          next if members["staff"].nil?
-          members["staff"].each do |member|
+        edOrgs.each do |organization_id, staff_members|
+          @log.info "education organization: #{organization_id}"
+          staff_members.each do |member|
             @log.info " -> staff unique state id: #{member[:staff_id]} (#{member[:name]}) with role: #{member[:role]}"
           end
-          next if members["students"].nil?
-          members["students"].each do |member|
-            @log.info " -> staff unique state id: #{member[:student_id]} (#{member[:name]}) with role: #{member[:role]}"
-          end          
         end
       end
     end
