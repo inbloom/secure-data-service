@@ -58,7 +58,7 @@ Given I am a valid teacher "cgray" with password "cgray1234"
     And the response field "administrationLanguage.language" should be "English"
     And the response field "administrationEnvironment" should be "Classroom"
     And the response field "retestIndicator" should be "Primary Administration"
-    And the response field "<SOA.scoreResults.result>" should be "32"
+    And the response field "<SOA.scoreResults.result>" should be "77"
     And the response field "<SOA.OA.identificationCode>" should be "2013-Eleventh grade Assessment 2.OA-0"
     And I sort the studentAssessmentItems
     And the response field "<SAI.AI.identificationCode>" should be "2013-Eleventh grade Assessment 2#1"
