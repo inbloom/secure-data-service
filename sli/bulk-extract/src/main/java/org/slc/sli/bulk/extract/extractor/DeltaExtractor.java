@@ -18,7 +18,6 @@ package org.slc.sli.bulk.extract.extractor;
 import static org.slc.sli.bulk.extract.LogUtil.audit;
 
 import java.io.File;
-import java.io.IOException;
 import java.security.PublicKey;
 import java.util.Arrays;
 import java.util.Collections;
@@ -59,7 +58,6 @@ import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.util.logging.LogLevelType;
-import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.repository.DeltaJournal;
 import org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory;
