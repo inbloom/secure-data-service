@@ -401,7 +401,9 @@ class WorldBuilder
     @world["seas"] << {"id" => state_id,
       "courses" => (@scenarioYAML['COURSES_ON_SEA'] && create_courses(state_id)),
       "staff" => create_staff_for_state_education_agency(members),
-      "programs" => create_programs_for_education_organization("seas", :STATE_EDUCATION_AGENCY)}
+      "programs" => create_programs_for_education_organization("seas", :STATE_EDUCATION_AGENCY),
+      "studentCompetencyObjectives" => create_sco_for_education_organization(state_id)
+    }
 
     @world["leas"].each { |edOrg| edOrg["parent"] = state_id }
     @queue.push_work_order GraduationPlanFactory.new(state_id, @scenarioYAML)
@@ -895,6 +897,7 @@ class WorldBuilder
 
       create_course_work_orders(ed_org_id, edOrg["courses"] || [])
       create_program_work_orders(edOrg["programs"])
+      create_sco_work_orders(edOrg["studentCompetencyObjectives"])
     end
 
     # write local education agencies
@@ -1195,6 +1198,21 @@ class WorldBuilder
     grading_periods = []
     grading_periods << {"type" => :END_OF_YEAR, "year" => year, "interval" => interval, "ed_org_id" => ed_org_id}
     grading_periods
+  end
+
+  def create_sco_for_education_organization(ed_org_id)
+    sco = []
+    GradeLevelType::get_ordered_grades.each do |grade|
+      sco << {"id" => "SCO_#{grade}_#{ed_org_id}", "grade" => grade, "ed_org_id" => ed_org_id}
+    end
+    sco
+  end
+
+  def create_sco_work_orders(scos)
+    scos.each do |sco|
+      work_item = {:type => StudentCompetencyObjective, :id => sco["id"], :grade => sco["grade"], :ed_org_id => sco["ed_org_id"]}
+      @queue.push_work_order(work_item)
+    end
   end
 
   # creates courses at the state education agency by populating a 'course catalog'

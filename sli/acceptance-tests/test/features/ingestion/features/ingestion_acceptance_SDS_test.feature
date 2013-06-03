@@ -814,7 +814,7 @@ Then I should see following map of entry counts in the corresponding collections
      | disciplineIncident                   | 5     |
      | gradebookEntry                       | 13    |
      | parent                               | 12    |
-     | program                              | 4     |
+     | program                              | 5     |
      | staffProgramAssociation              | 16    |
      | student                              | 185   |
      | studentAcademicRecord                | 121   |
@@ -898,9 +898,10 @@ Then I should see following map of entry counts in the corresponding collections
      | program                     | 1                   | body.programId              | ACC-TEST-PROG-2         | string               |
      | program                     | 1                   | body.programId              | ACC-TEST-PROG-3         | string               |
      | program                     | 1                   | body.programId              | ACC-TEST-PROG-4         | string               |
+     | program                     | 1                   | body.programId              | ACC-TEST-PROG-5-SIXTY-CHARACTER-PROGRAM-ID-XXXXXXXXXXXXXXXXX| string               |
      | program                     | 1                   | body.programSponsor         | State Education Agency  | string               |
-     | program                     | 1                   | body.programType            | Remedial Education      | string               |
-     | program                     | 3                   | body.programSponsor         | Local Education Agency  | string               |
+     | program                     | 2                   | body.programType            | Remedial Education      | string               |
+     | program                     | 4                   | body.programSponsor         | Local Education Agency  | string               |
      | program                     | 3                   | body.programType            | Regular Education       | string               |
      | staffCohortAssociation      | 1                   | body.beginDate              | 2011-01-01              | string               |
      | staffCohortAssociation      | 1                   | body.beginDate              | 2012-02-15              | string               |
@@ -916,7 +917,9 @@ Then I should see following map of entry counts in the corresponding collections
      | staffProgramAssociation     | 1                   | body.beginDate              | 2011-06-01              | string               |
      | staffProgramAssociation     | 2                   | body.beginDate              | 2011-06-02              | string               |
      | staffProgramAssociation     | 9                   | body.endDate                | 2012-02-15              | string               |
-     | studentAcademicRecord         | 104                 | body.cumulativeCreditsAttempted.credit| 5.0                       | double              |
+     | student                     | 1                   | body.languages.language     | Non-enumerative language| string               |
+     | student                     | 1                   | body.languages.identificationSystem| ISO 639          | string               |
+     | studentAcademicRecord       | 104                 | body.cumulativeCreditsAttempted.credit| 5.0           | double               |
      | studentAssessment | 11                  | studentAssessmentItem.body.assessmentResponse                             | False                       | string |
      | studentAssessment | 25                  | studentAssessmentItem.body.assessmentResponse                             | True                        | string |
   Then there are "25" counts of "studentObjectiveAssessment" that reference ("objectiveAssessment" with attribute "body.identificationCode" equals "ACT-English-Rhetorical")
@@ -972,9 +975,9 @@ Then I should see following map of entry counts in the corresponding collections
   And the field "body.maxRawScore" has value "5"
   When I find a record in "studentAssessment" under "studentAssessmentItem" where "body.assessmentItemId" is "d50118aaad960b54a8b2afc7268d01d13842cb58_idbc774073db0cbd89322970083ee065c02c6a034d_id"
   Then "body.assessmentItemId" contains a reference to a "assessmentItem" where "body.identificationCode" is "AssessmentItem-3"
-  And I should see "Processed 161 records." in the resulting batch job file
-  And I should see "Program2.xml records considered for processing: 4" in the resulting batch job file
-  And I should see "Program2.xml records ingested successfully: 4" in the resulting batch job file
+  And I should see "Processed 162 records." in the resulting batch job file
+  And I should see "Program2.xml records considered for processing: 5" in the resulting batch job file
+  And I should see "Program2.xml records ingested successfully: 5" in the resulting batch job file
   And I should see "Program2.xml records failed processing: 0" in the resulting batch job file
   And I should see "Cohort2.xml records considered for processing: 1" in the resulting batch job file
   And I should see "Cohort2.xml records ingested successfully: 1" in the resulting batch job file
