@@ -829,6 +829,7 @@ task :ingestionTests => [
         :ingestionJobFailOnMissingIndexTest,
         :ingestionDbSpinupTest,
         :ingestionDupDetectTest,
+        :ingestionInternationalAddressTests,
         :ingestionAcceptanceSdsTest,
         :ingestionConcurrentTenantTest,
         :ingestionLearningObjectiveTest,
