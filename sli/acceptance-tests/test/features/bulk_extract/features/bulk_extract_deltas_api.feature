@@ -6,7 +6,7 @@ Scenario: Initialize security trust store for Bulk Extract application and LEAs
     And The bulk extract app has been approved for "Midgar-DAYBREAK" with client id "<clientId>"
     And The X509 cert "cert" has been installed in the trust store and aliased
 
-Scenario: Generate a bulk extract delta after day 0 ingestion
+Scenario: Generate a bulk extract delta after day 1 ingestion
   When I trigger a delta extract
    And I request the latest bulk extract delta using the api
    And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>"
@@ -58,19 +58,18 @@ Scenario: Generate a bulk extract delta after day 0 ingestion
    Then each record in the full extract is present and matches the delta extract
    #And I save some IDs from all the extract files to "delete_candidate" so I can delete them later
 
-@wip
 Scenario: Generate a SEA bulk extract delta after day 1 ingestion
     When I trigger a delta extract
      And I request the latest bulk extract delta using the api
-     And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>"
-    #Then I should see "20" bulk extract files
+     And I untar and decrypt the "inBloom" SEA delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>"
+    #Then I should see "22" bulk extract files
      And I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
     Then The "educationOrganization" delta was extracted in the same format as the api
-    #And The "learningObjective" delta was extracted in the same format as the api
-    #And The "learningStandard" delta was extracted in the same format as the api
-    #And The "competencyLevelDescriptor" delta was extracted in the same format as the api
+    And The "learningObjective" delta was extracted in the same format as the api
+    And The "learningStandard" delta was extracted in the same format as the api
+    And The "competencyLevelDescriptor" delta was extracted in the same format as the api
     #And The "studentCompetencyObjective" delta was extracted in the same format as the api
-    #And The "program" delta was extracted in the same format as the api
+    And The "program" delta was extracted in the same format as the api
 
   #Given I trigger a bulk extract
    #When I set the header format to "application/x-tar"
@@ -97,19 +96,21 @@ Scenario: Triggering deltas via ingestion
       And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
       And I verify "2" delta bulk extract files are generated for LEA "<IL-HIGHWIND>" in "Midgar"
       And I verify "2" delta bulk extract files are generated for LEA "<STANDARD-SEA>" in "Midgar"
-     #When I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+     When I verify the last SEA delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
        #|  learningObjective                     |
        #|  learningStandard                      |
        #|  competencyLevelDescriptor             |
        #|  studentCompetencyObjective            |
-       #|  program                               |
-     #And I verify this "deleted" file should contain:
-       #| id                                                                                     | condition                             |
-       #| 8621a1a8d32dde3cf200697f22368a0f92f0fb92_id                                            | entityType = learningObjective                  |
-       #| 4a6402c02ea016736280ac88d202d71a81058171_id                                            | entityType = learningStandard |
-       #| d82250f49dbe4facb59af2f88fe746f70948405d_id                                            | entityType = competencyLevelDescriptor                   |
+       |  entityType                            |
+       |  program                               |
+       |  deleted                               |
+     And I verify this "deleted" file should contain:
+       | id                                                                                     | condition                             |
+       | 8621a1a8d32dde3cf200697f22368a0f92f0fb92_id                                            | entityType = learningObjective                  |
+       | 4a6402c02ea016736280ac88d202d71a81058171_id                                            | entityType = learningStandard |
+       | d82250f49dbe4facb59af2f88fe746f70948405d_id                                            | entityType = competencyLevelDescriptor                   |
        #| x                                                                                      | entityType = studentCompetencyObjective |
-       #| ebfc74d85dfcdcb7e5ddc93a6af2952801f9436e_id                                            | entityType = program                  |
+       | ebfc74d85dfcdcb7e5ddc93a6af2952801f9436e_id                                            | entityType = program                  |
 
      When I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-HIGHWIND>" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |

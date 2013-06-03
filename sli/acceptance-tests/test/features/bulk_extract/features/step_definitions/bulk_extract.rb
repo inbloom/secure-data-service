@@ -379,6 +379,7 @@ When /^the extract contains a file for each of the following entities:$/ do |tab
   Minitar.unpack(@filePath, @unpackDir)
 
 	table.hashes.map do |entity|
+	puts entity.to_s
     exists = File.exists?(@unpackDir + "/" +entity['entityType'] + ".json.gz")
     assert(exists, "Cannot find #{entity['entityType']}.json file in extracts")
 	end
@@ -513,6 +514,21 @@ When /^I untar and decrypt the "(.*?)" delta tarfile for tenant "(.*?)" and appI
   sleep 1
   opts = {sort: ["body.date", Mongo::DESCENDING], limit: 1}
   getExtractInfoFromMongo(build_bulk_query(tenant, appId, lea, true), opts)
+
+  openDecryptedFile(appId)
+  @fileDir = OUTPUT_DIRECTORY if data_store == "API"
+  untar(@fileDir)
+  @deltaDir = @fileDir
+end
+
+When /^I untar and decrypt the "(.*?)" SEA delta tarfile for tenant "(.*?)" and appId "(.*?)" for "(.*?)"$/ do |data_store, tenant, appId, lea|
+  sleep 1
+  opts = {sort: ["body.date", Mongo::DESCENDING], limit: 1}
+  puts "edOrg: " + lea
+  query = build_bulk_query(tenant, appId, lea, true, true)
+  puts "query: " + query.to_s
+  puts "options: " + opts.to_s
+  getExtractInfoFromMongo(query, opts)
 
   openDecryptedFile(appId)
   @fileDir = OUTPUT_DIRECTORY if data_store == "API"
@@ -961,6 +977,14 @@ end
 Then /^I verify the last delta bulk extract by app "(.*?)" for "(.*?)" in "(.*?)" contains a file for each of the following entities:$/ do |appId, lea, tenant, table|
     opts = {sort: ["body.date", Mongo::DESCENDING], limit: 1}
     getExtractInfoFromMongo(build_bulk_query(tenant, appId, lea, true), opts)
+    openDecryptedFile(appId)
+
+    step "the extract contains a file for each of the following entities:", table
+end
+
+Then /^I verify the last SEA delta bulk extract by app "(.*?)" for "(.*?)" in "(.*?)" contains a file for each of the following entities:$/ do |appId, lea, tenant, table|
+    opts = {sort: ["body.date", Mongo::DESCENDING], limit: 1}
+    getExtractInfoFromMongo(build_bulk_query(tenant, appId, lea, true, true), opts)
     openDecryptedFile(appId)
 
     step "the extract contains a file for each of the following entities:", table
@@ -1440,8 +1464,10 @@ def getExtractInfoFromMongo(query, query_opts={})
   @conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
   @sliDb = @conn.db(DATABASE_NAME)
   @coll = @sliDb.collection("bulkExtractFiles")
-
+  puts query.to_s
+  puts query_opts.to_s
   match = @coll.find_one(query, query_opts)
+  puts "match: " + match.to_s
   assert(match !=nil, "Database was not updated with bulk extract file location")
 
   edorg = match['body']['edorg'] || ""
