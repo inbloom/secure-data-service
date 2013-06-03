@@ -42,11 +42,7 @@ public class FullSuperDoc {
     }
 
     public static boolean isFullSuperdoc(Entity entity) {
-        return isFullSuperdoc(entity.getType());
-    }
-
-    public static boolean isFullSuperdoc(String entityType) {
-        return FULL_ENTITIES.containsKey(entityType);
+        return FULL_ENTITIES.containsKey(entity.getType());
     }
 
 }
