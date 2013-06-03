@@ -50,6 +50,6 @@ public class RoleInitializerTest {
 
     @Test
     public void testAllRolesCreated() throws Exception {
-        assertTrue(roleInitializer.buildRoles("myRealmId") == 5);
+        assertTrue(roleInitializer.buildRoles("myRealmId") == 4);
     }
 }

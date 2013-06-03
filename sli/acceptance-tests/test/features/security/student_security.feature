@@ -1,4 +1,4 @@
-@student
+@wip @student
 Feature: Student access to system
 
   Scenario Outline: User has access to public/global entities
