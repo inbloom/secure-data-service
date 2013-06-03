@@ -106,15 +106,15 @@ public class DeltaEntityIteratorTest {
     
     private List<Map<String, Object>> buildDeltaCollections() {
         List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
-        results.add(buildDelta(DeltaJournal.getByteId(UPDATE_ID), DeltaEntityIterator.Operation.UPDATE));
-        results.add(buildDelta(DeltaJournal.getByteId(DELETE_ID), DeltaEntityIterator.Operation.DELETE));
-        results.add(buildDelta(DeltaJournal.getByteId(PURGE_ID), Operation.PURGE));
+        results.add(buildDelta(UPDATE_ID, DeltaEntityIterator.Operation.UPDATE));
+        results.add(buildDelta(DELETE_ID, DeltaEntityIterator.Operation.DELETE));
+        results.add(buildDelta(PURGE_ID, Operation.PURGE));
         return results;
     }
 
-    private Map<String, Object> buildDelta(byte[] id, Operation op) {
+    private Map<String, Object> buildDelta(String id, Operation op) {
         Map<String, Object> res = new HashMap<String, Object>();
-        res.put("_id", id);
+        res.put("_id", DeltaJournal.getByteId(id));
         long now = new DateTime().getMillis();
         if(op != Operation.PURGE) {
             res.put("c", "educationOrganization");
@@ -128,6 +128,7 @@ public class DeltaEntityIteratorTest {
             res.put("d", now - 1000);
             res.put("u", now);
         }
+        res.put("i", id);
         res.put("t", now);
         return res;
     }

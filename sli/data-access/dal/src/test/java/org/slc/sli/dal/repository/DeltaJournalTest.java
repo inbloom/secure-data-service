@@ -15,6 +15,7 @@
  */
 package org.slc.sli.dal.repository;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -135,7 +136,7 @@ public class DeltaJournalTest {
         }
         assertTrue(count == 5);
     }
-    
+
     @Test
     public void testIgnoredOnSystemCall() {
         TenantContext.setIsSystemCall(true);
@@ -190,8 +191,8 @@ public class DeltaJournalTest {
                 Query q = (Query) arg0;
                 Map<String, Object> inClause = (Map<String, Object>) q.getQueryObject().get("_id");
                 List<byte[]> idClause = (List<byte[]>) inClause.get("$in");
-                for(int i = 0; i < ids.size(); i++) {
-                    if(!Hex.encodeHexString(ids.get(i)).equals(Hex.encodeHexString(idClause.get(i)))) {
+                for (int i = 0; i < ids.size(); i++) {
+                    if (!Hex.encodeHexString(ids.get(i)).equals(Hex.encodeHexString(idClause.get(i)))) {
                         return false;
                     }
                 }
@@ -242,4 +243,10 @@ public class DeltaJournalTest {
                 Mockito.eq("deltas"));
     }
 
+    @Test
+    public void testGetByteId() throws DecoderException {
+        String id = "1234567890123456789012345678901234567890";
+        assertEquals(id, Hex.encodeHexString(DeltaJournal.getByteId(id+"_id")));
+        assertEquals(id, Hex.encodeHexString(DeltaJournal.getByteId("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_id" + id+"_id")));
+    }
 }

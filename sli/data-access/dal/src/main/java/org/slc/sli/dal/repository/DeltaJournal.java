@@ -108,6 +108,7 @@ public class DeltaJournal implements InitializingBean {
             }
             for (String id : ids) {
                 byte[] idbytes = getByteId(id);
+                update.set("i", id);
                 template.upsert(Query.query(where("_id").is(idbytes)), update, DELTA_COLLECTION);
             }
         }
@@ -115,19 +116,11 @@ public class DeltaJournal implements InitializingBean {
 
     public static byte[] getByteId(String id) {
         try {
-            return Hex.decodeHex(id.replaceAll("_id", "").toCharArray());
+            int idLength = id.length();
+            return Hex.decodeHex(id.substring(idLength - 43, idLength - 3).toCharArray());
         } catch (DecoderException e) {
             return id.getBytes();
         }
-    }
-
-    public static String getStringId(byte[] id) {
-        String stringId = Hex.encodeHexString(id) + "_id";
-        //add back in _id for subdocs
-        if(stringId.length() > 43){
-            return stringId.substring(0, 40) + "_id" + stringId.substring(40);
-        }
-        return stringId;
     }
 
     public void journal(String id, String collection, boolean isDelete) {

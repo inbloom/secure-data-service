@@ -189,8 +189,7 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
                 updatedTime = (Long) delta.get("u");
             }
             
-            Object idObject = delta.get("_id");
-            String id = idObject instanceof byte[] ? DeltaJournal.getStringId((byte[]) idObject) : idObject.toString();
+            String id = (String) (delta.containsKey("i") ? delta.get("i") : delta.get("_id"));
             if ("null".equals(id) || id == null) {
                 continue;
             }
