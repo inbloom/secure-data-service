@@ -519,6 +519,21 @@ When /^I untar and decrypt the "(.*?)" delta tarfile for tenant "(.*?)" and appI
   @deltaDir = @fileDir
 end
 
+When /^I untar and decrypt the "(.*?)" SEA delta tarfile for tenant "(.*?)" and appId "(.*?)" for "(.*?)"$/ do |data_store, tenant, appId, lea|
+  sleep 1
+  opts = {sort: ["body.date", Mongo::DESCENDING], limit: 1}
+  puts "edOrg: " + lea
+  query = build_bulk_query(tenant, appId, lea, true, true)
+  puts "query: " + query.to_s
+  puts "options: " + opts.to_s
+  getExtractInfoFromMongo(query, opts)
+
+  openDecryptedFile(appId)
+  @fileDir = OUTPUT_DIRECTORY if data_store == "API"
+  untar(@fileDir)
+  @deltaDir = @fileDir
+end
+
 When /^I POST and validate the following entities:$/ do |table|
   table.hashes.map do |api_params|
     print "Posting #{api_params['type']} .. "
@@ -1438,8 +1453,10 @@ def getExtractInfoFromMongo(query, query_opts={})
   @conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
   @sliDb = @conn.db(DATABASE_NAME)
   @coll = @sliDb.collection("bulkExtractFiles")
-
+  puts query.to_s
+  puts query_opts.to_s
   match = @coll.find_one(query, query_opts)
+  puts "match: " + match.to_s
   assert(match !=nil, "Database was not updated with bulk extract file location")
 
   edorg = match['body']['edorg'] || ""
