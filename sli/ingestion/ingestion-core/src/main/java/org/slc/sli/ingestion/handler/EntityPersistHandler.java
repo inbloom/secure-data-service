@@ -26,6 +26,7 @@ import java.util.Map;
 import com.mongodb.MongoException;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.slc.sli.domain.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -38,10 +39,6 @@ import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.datetime.DateTimeUtil;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
-import org.slc.sli.domain.CascadeResult;
-import org.slc.sli.domain.CascadeResultError;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.ActionVerb;
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.model.RecordHash;
@@ -279,20 +276,29 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         }
 
         for (String entityType : queued.keySet()) {
-            LOG.info("Bulk insert of {} queued records into collection: {}", new Object[]{queued.get(entityType).size(),
-                    entityType});
-            try {
-                entityRepository.insert(queued.get(entityType), getCollectionName(entityType));
-            } catch (Exception e) {
-                // Assuming there would NOT be DuplicateKeyException at this point.
-                // Because "queued" only contains new records(with no Id), and we don't have unique
-                // indexes
-                LOG.warn("Bulk insert failed --> Performing upsert for each record that was queued.");
-
-                // Try to do individual upsert again for other exceptions
+            if (FullSuperDoc.isFullSuperdoc(entityType)) {
+                // for superdocs do NOT bulk insert since there is an intermittent mongos bug reporting errors
+                // which can lead to superdoc inserts failing silently
                 for (Entity entity : queued.get(entityType)) {
                     SimpleEntity simpleEntity = (SimpleEntity) entity;
                     update(getCollectionName(entityType), entity, failed, report, reportStats, new ElementSourceImpl(simpleEntity));
+                }
+            } else {
+                LOG.info("Bulk insert of {} queued records into collection: {}", new Object[]{queued.get(entityType).size(),
+                        entityType});
+                try {
+                    entityRepository.insert(queued.get(entityType), getCollectionName(entityType));
+                } catch (Exception e) {
+                    // Assuming there would NOT be DuplicateKeyException at this point.
+                    // Because "queued" only contains new records(with no Id), and we don't have unique
+                    // indexes
+                    LOG.warn("Bulk insert failed --> Performing upsert for each record that was queued.");
+
+                    // Try to do individual upsert again for other exceptions
+                    for (Entity entity : queued.get(entityType)) {
+                        SimpleEntity simpleEntity = (SimpleEntity) entity;
+                        update(getCollectionName(entityType), entity, failed, report, reportStats, new ElementSourceImpl(simpleEntity));
+                    }
                 }
             }
         }
