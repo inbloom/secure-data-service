@@ -117,8 +117,13 @@ public class DeltaJournal implements InitializingBean {
     public static byte[] getByteId(String id) {
         try {
             int idLength = id.length();
+            if(idLength < 43) {
+                LOG.error("Short ID encountered: {}", id);
+                return id.getBytes();
+            }
             return Hex.decodeHex(id.substring(idLength - 43, idLength - 3).toCharArray());
         } catch (DecoderException e) {
+            LOG.error("Decoder exception while decoding {}", id, e);
             return id.getBytes();
         }
     }
