@@ -37,6 +37,11 @@ task :ingestionNegativeTests do
   runTests("test/features/ingestion/features/ingestion_ChecksumError.feature")
 end
 
+desc "Run International Address Test"
+task :ingestionInternationalAddressTests do
+  runTests("test/features/ingestion/features/ingestion_InternationalAddress.feature")
+end
+
 desc "Run Ingestion Smooks Verification Tests"
 task :ingestionSmooksVerificationTests do
   runTests("test/features/ingestion/features/smooks_verification.feature")
