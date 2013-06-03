@@ -223,7 +223,7 @@
 			<!--<xs:pattern value= "[0-9]{5}" />-->
 		</xs:restriction>
 	</xs:simpleType>
-	<xs:simpleType name="AddressLine">
+	<xs:simpleType name="addressLine">
 		<xs:annotation>
 			<xs:documentation>A line of an address.</xs:documentation>
 		</xs:annotation>

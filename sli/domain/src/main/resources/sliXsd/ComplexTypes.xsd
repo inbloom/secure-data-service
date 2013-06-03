@@ -6484,7 +6484,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="addressLine" type="AddressLine" maxOccurs="unbounded" minOccurs="0">
+			<xs:element  maxOccurs="unbounded" minOccurs="0" name="addressLine" type="addressLine">
 					<xs:annotation>
 							<xs:documentation>Any number of address lines associated with an international address.</xs:documentation>
 					<xs:appinfo>
