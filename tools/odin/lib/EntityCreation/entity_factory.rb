@@ -87,6 +87,9 @@ class EntityFactory
         when [GradebookEntry]
           rval << GradebookEntry.new(work_order[:gbe_type], work_order[:date_assigned], work_order[:section], work_order[:description], work_order[:grading_period],  work_order[:learning_objectives])
 
+        when [StudentCompetencyObjective]
+          rval << StudentCompetencyObjective.new(work_order[:id], "Attend #{work_order[:grade]}", work_order[:grade], work_order[:ed_org_id])
+
         else
           puts "factory not found for #{work_order}"
       end

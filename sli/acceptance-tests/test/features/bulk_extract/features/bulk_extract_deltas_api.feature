@@ -647,7 +647,7 @@ Given I clean the bulk extract file system and database
     | newProgram                     |  program                               |  201         | 
     | newStudentProgramAssociation   |  studentProgramAssociation             |  201         | 
     #| newStaffProgramAssociation     |  staffProgramAssociation               |  201         | 
-    #| newStudentCompetency           |  studentCompetency                     |  201         |
+    | newStudentCompetency           |  studentCompetency                     |  201         |
     #| newDisciplineIncident          |  disciplineIncident                    |  201         |
     #| newDisciplineAction            |  disciplineAction                      |  201         |
     #| newStudentDiscIncidentAssoc    |  studentDisciplineIncidentAssociation  |  201         |
@@ -682,7 +682,7 @@ Given I clean the bulk extract file system and database
         |  teacherSchoolAssociation              |
         |  studentProgramAssociation             | 
         #| newStaffProgramAssociation             | 
-        #| newStudentCompetency                   |
+        |  studentCompetency                     |
         #| newDisciplineIncident                  |
         #| newDisciplineAction                    |
         #| newStudentDiscIncidentAssoc            |
@@ -891,6 +891,7 @@ Given I clean the bulk extract file system and database
     | e9f3401e0a034e20bb17663dd7d18ece6c4166b5_id | entityType = staff                       |
     | 9bf3036428c40861238fdc820568fde53e658d88_id | entityType = student                     |
     | d4a8b25254af09fe3dd772a2149aa6b45fa6b170_id | entityType = studentAssessment           |
+    | 6a74f51699a7554f89865e004695913aee277117_id | entityType = studentCompetency           |
     | cbfe3a47491fdff0432d5d4abca339735da9461d_id | entityType = studentSchoolAssociation    |
     | 2472b775b1607b66941d9fb6177863f144c5ceae_id | entityType = teacher                     |
     | 7a2d5a958cfda9905812c3a9f38c07ac4e8899b0_id | entityType = teacherSchoolAssociation    |
