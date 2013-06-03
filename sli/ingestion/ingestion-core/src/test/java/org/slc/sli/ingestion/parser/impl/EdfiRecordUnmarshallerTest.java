@@ -133,7 +133,7 @@ public class EdfiRecordUnmarshallerTest {
     }
 
 //    This should be uncommented once DE2873 has been fixed
-//    @Test(expected = XmlParseException.class)
+    @Test(expected = XmlParseException.class)
     public void testRejectIfTagIsNotClosed2() throws Throwable {
         rejectRecord("parser/InterchangeStudentParent/StudentHasOneTagNotClosed2.xml",
                 "edfiXsd-SLI/SLI-Interchange-StudentParent.xsd");
