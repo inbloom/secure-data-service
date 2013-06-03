@@ -21,7 +21,7 @@ require_relative 'baseEntity'
 # creates student
 class Student < BaseEntity
 
-  attr_accessor :id, :int_id, :year_of, :rand, :sex, :firstName, :middleName, :lastName, :suffix,
+  attr_accessor :id, :year_of, :rand, :sex, :firstName, :middleName, :lastName, :suffix,
                 :birthDay, :email, :loginId, :address, :city, :state, :postalCode, :race, :hispanicLatino,
                 :economicDisadvantaged, :limitedEnglish, :disability, :schoolFood,
                 :studentIdentificationCode, :otherName, :telephone, :profileThumbnail,
@@ -30,13 +30,10 @@ class Student < BaseEntity
                 :displacementStatus, :programParticipations, :learningStyles,
                 :cohortYears, :studentIndicators
                 
-  def initialize(id, int_id, year_of, name = nil)
+  def initialize(id, year_of)
     @id = id
-    @int_id = int_id
     @year_of = year_of
-    @rand = Random.new(@int_id)
-    # check for presence of a student name from catalog
-    @firstName, @lastName = name.split(" ") if !name.nil?
+    @rand = Random.new(@id)
     buildStudent
 
     optional {@studentIdentificationCode = {
@@ -227,9 +224,9 @@ class Student < BaseEntity
   def buildStudent
     @sex = choose(BaseEntity.demographics['sex'])
     @prefix = sex == "Male?" ? "Mr" : "Ms"
-    @firstName ||= choose(sex == "Male" ? BaseEntity.demographics['maleNames'] : BaseEntity.demographics['femaleNames'])
+    @firstName = choose(sex == "Male" ? BaseEntity.demographics['maleNames'] : BaseEntity.demographics['femaleNames'])
     @middleName = choose(sex == "Male" ? BaseEntity.demographics['maleNames'] : BaseEntity.demographics['femaleNames'])
-    @lastName ||= choose(BaseEntity.demographics['lastNames'])
+    @lastName = choose(BaseEntity.demographics['lastNames'])
     @suffix = wChoose(BaseEntity.demographics['nameSuffix']) == "Jr" ? "Jr" : nil
     @birthDay = (@year_of + @rand.rand(365)).to_s
     @email = @rand.rand(10000).to_s + BaseEntity.demographics['emailSuffix']
@@ -244,13 +241,6 @@ class Student < BaseEntity
     @limitedEnglish = wChoose(BaseEntity.demographics['limitedEnglish'])
     @disability = wChoose(BaseEntity.demographics['disability'])
     @schoolFood = wChoose(BaseEntity.demographics['schoolFood'])
-  end
-
-  def parse_name(name)
-    parsed = name.split(' ')
-    if parsed.size == 2
-      return parsed[0], parsed[1]
-    end
   end
 
 end

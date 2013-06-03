@@ -23,7 +23,7 @@ Scenario: Ingestion of Student-Orphans(Entities referring to missing student) co
     |studentProgramAssociation.body.programId             |0064dd5bb3bffd47e93b023585e6591c018ee697_id                                |
     |section._id                                          |2c77a1e5896b8ea9504e91e324c199e95130878d_id                                |
     |body.studentUniqueStateId                            |1                                                                          |
-    |body.languages.language                              |Nepali                                                                     |
+    |body.languages                                       |Nepali                                                                     |
     |body.learningStyles.auditoryLearning                 |int(8)                                                                     |
     |body.learningStyles.tactileLearning                  |int(27)                                                                    |
     |body.learningStyles.visualLearning                   |int(24)                                                                    |

@@ -43,7 +43,6 @@ JAR_FILE = PropLoader.getProps['bulk_extract_jar_loc']
 DATABASE_NAME = PropLoader.getProps['sli_database_name']
 DATABASE_HOST = PropLoader.getProps['bulk_extract_db']
 DATABASE_PORT = PropLoader.getProps['bulk_extract_port']
-INDEPENDENT_ENTITIES = ['graduationPlan']
 ENCRYPTED_ENTITIES = ['student', 'parent']
 COMBINED_ENTITIES = ['assessment', 'studentAssessment']
 COMBINED_SUB_ENTITIES = ['assessmentItem','objectiveAssessment','studentAssessmentItems','studentObjectiveAssessments']
@@ -1071,7 +1070,7 @@ Then /^the "(.*?)" has the correct number of SEA public data records "(.*?)"$/ d
   collection = entity
   count = 0
 
-  if INDEPENDENT_ENTITIES.include? entity
+  if(isIndependentEntity(entity))
     query = {"$or" => [{query_field => @SEA_id}, {query_field => {"$exists" => false}}]}
   else
     query = {query_field => @SEA_id}
@@ -1107,7 +1106,7 @@ Then /^I verify that the "(.*?)" reference an SEA only "(.*?)"$/ do |entity, que
         field = field[key]
       end
 
-      next if INDEPENDENT_ENTITIES.include?(entity) && field == nil
+      next if isIndependentEntity(entity) && field == nil
 
       assert(field == @SEA_id, 'Incorrect reference ' + field + ' expected ' + @SEA_id)
     end
@@ -1961,9 +1960,7 @@ def prepareBody(verb, value, response_map)
         "sex" => "Male",
         "entityType" => "student",
         "race" => ["White"],
-        "languages" => [{
-            "language" => "English"
-        }],
+        "languages" => ["English"],
         "studentUniqueStateId" => "nsmin-1",
         "profileThumbnail" => "1201 thumb",
         "name" => {
@@ -1987,9 +1984,7 @@ def prepareBody(verb, value, response_map)
         "sex" => "Female",
         "entityType" => "student",
         "race" => ["White"],
-        "languages" => [{
-            "language" => "English"
-        }],
+        "languages" => ["English"],
         "studentUniqueStateId" => "hwmin-1",
         "profileThumbnail" => "1301 thumb",
         "name" => {
@@ -2127,9 +2122,7 @@ def prepareBody(verb, value, response_map)
           "assessmentReportingMethod" => "Scale score"
         }],
         "linguisticAccommodations" => ["Bilingual Dictionary"],
-        "administrationLanguage" => {
-           "language" => "English"
-        },
+        "administrationLanguage" => "English",
         "studentAssessmentItems" => [{
           "rawScoreResult" => 82,
           "responseIndicator" => "Effective response",
@@ -2450,6 +2443,16 @@ end
 
 def getEdorgId(tenant, edorg)
   return tenant + "-" + edorg
+end
+
+def isIndependentEntity(entity)
+  independentEntities = {}
+  independentEntities["graduationPlan"] = true
+
+  if(independentEntities[entity] != nil)
+    return true;
+  end
+  return false
 end
 
 def get_json_from_file(file_name)

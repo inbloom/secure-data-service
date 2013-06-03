@@ -25,12 +25,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import com.google.common.base.Predicate;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.slc.sli.bulk.extract.files.EntityWriterManager;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.message.BEMessageCode;
@@ -39,6 +33,11 @@ import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Predicate;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 /**
@@ -74,22 +73,29 @@ public class EntityExtractor{
                 " Entity extraction", LogLevelType.TYPE_INFO,
                 BEMessageCode.BE_SE_CODE_0024, collectionName));
 
-        if (extractionQuery == null) {
-            extractionQuery = new NeutralQuery();
-        }
-        Iterator<Entity> cursor = entityRepository.findEach(collectionName, extractionQuery);
-        if (cursor.hasNext()) {
-            LOG.info("Extracting from " + collectionName);
-            CollectionWrittenRecord collectionRecord = new CollectionWrittenRecord(collectionName);
-
-            while (cursor.hasNext()) {
-                Entity entity = cursor.next();
-
-                write(entity, archiveFile, collectionRecord, null);
-
+        try {
+            if (extractionQuery == null) {
+                extractionQuery = new NeutralQuery();
             }
+            Iterator<Entity> cursor = entityRepository.findEach(collectionName, extractionQuery);
+            if (cursor.hasNext()) {
+                LOG.info("Extracting from " + collectionName);
+                CollectionWrittenRecord collectionRecord = new CollectionWrittenRecord(collectionName);
 
-            LOG.info("Finished extracting " + collectionRecord.toString());
+                while (cursor.hasNext()) {
+                    Entity entity = cursor.next();
+
+                    write(entity, archiveFile, collectionRecord, null);
+
+                }
+
+                LOG.info("Finished extracting " + collectionRecord.toString());
+            }
+        } catch (IOException e) {
+            audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),
+                    " Entity extraction", LogLevelType.TYPE_ERROR,
+                    BEMessageCode.BE_SE_CODE_0025, collectionName));
+            LOG.error("Error while extracting from " + collectionName, e);
         }
     }
     
@@ -100,8 +106,12 @@ public class EntityExtractor{
      * @param collectionName
      */
     public void extractEntity(Entity entity, ExtractFile archiveFile, String collectionName, Predicate<Entity> filter) {
-        if (archiveFile != null) {
-            write(entity, archiveFile, new CollectionWrittenRecord(collectionName), filter);
+        try {
+            if(archiveFile!=null){
+                write(entity, archiveFile, new CollectionWrittenRecord(collectionName), filter);
+            }
+        } catch (IOException e) {
+            LOG.error("Error while extracting from " + collectionName, e);
         }
     }
     
@@ -117,7 +127,8 @@ public class EntityExtractor{
      * @throws FileNotFoundException FileNotFoundException
      * @throws IOException IOException
      */
-    public void write(Entity entity, ExtractFile archiveFile, CollectionWrittenRecord collectionRecord, Predicate<Entity> filter) {
+    public void write(Entity entity, ExtractFile archiveFile, CollectionWrittenRecord collectionRecord, Predicate<Entity> filter)
+            throws FileNotFoundException, IOException {
         writer.write(entity, archiveFile);
         collectionRecord.incrementNumberOfEntitiesWritten();
         //Write subdocs
@@ -136,7 +147,7 @@ public class EntityExtractor{
      * @param collectionRecord collectionRecord
      */
     private void writeEmbeddedDocs(Map<String, List<Entity>> docs, ExtractFile archiveFile,
-            CollectionWrittenRecord collectionRecord, Predicate<Entity> filter) {
+            CollectionWrittenRecord collectionRecord, Predicate<Entity> filter) throws FileNotFoundException, IOException {
         for (String docName : docs.keySet()) {
                 for (Entity doc : docs.get(docName)) {
                     if (doc != null && (filter == null || filter.apply(doc))) {

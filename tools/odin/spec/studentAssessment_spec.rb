@@ -25,7 +25,7 @@ describe "StudentAssessmentGenerator" do
   let(:generator) {StudentAssessmentGenerator.new(scenario, output)}
   let(:assessment) {FactoryGirl.build(:assessment)}
   let(:assessment_item) {FactoryGirl.build(:assessment_item)}
-  let(:student_assessment) {StudentAssessment.new("student42", 42, assessment, Date.new(2012, 12, 21))}
+  let(:student_assessment) {StudentAssessment.new("student42", assessment, Date.new(2012, 12, 21))}
   let(:student_assessment_item) {StudentAssessmentItem.new(true, student_assessment, assessment_item)}
   describe "<<" do
     it "will output a Student Assessment to edfi" do

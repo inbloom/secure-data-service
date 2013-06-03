@@ -3172,7 +3172,8 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs="unbounded" minOccurs="0" name="homeLanguages" type="languageItemType">
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="homeLanguages"
+				type="languageItemType">
 				<xs:annotation>
 					<xs:documentation>The language or dialect routinely spoken in an
 						individual's home. This language or dialect may or may not be an
@@ -9908,37 +9909,6 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-
-    <xs:complexType name="languageItemType">
-        <xs:annotation>
-            <xs:documentation>The set of elements that capture relevant data
-                regarding language capabilities.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="language" type="languageType">
-                <xs:annotation>
-                    <xs:documentation>The item(s) denoting language(s) spoken or written.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-            <xs:element minOccurs="0" name="identificationSystem" type="languageIdentificationSystemType">
-                <xs:annotation>
-                    <xs:documentation>The standard used to identify the language,
-                        preferably one of the ISO 639 standard lists.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
-        </xs:sequence>
-    </xs:complexType>
 
 	<xs:complexType name="home">
 		<xs:annotation>

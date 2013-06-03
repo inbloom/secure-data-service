@@ -139,9 +139,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
               }
           ],
           "languages" => [
-              {
-              "language" => "English"
-              }
+              "English"
           ],
           "studentUniqueStateId" => "530425896",
           "name" => {
@@ -168,9 +166,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
               }
           ],
           "homeLanguages" => [
-              {
-              "language" => "English"
-              }
+              "English"
           ],
           "learningStyles" => {
               "visualLearning" => 33,

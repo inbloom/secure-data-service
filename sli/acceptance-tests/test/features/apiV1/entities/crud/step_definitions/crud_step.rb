@@ -380,9 +380,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
 
   "studentAssessment" => {
       "administrationDate" => "2001-08-28",
-      "administrationLanguage" => {
-         "language" => "English"
-        },
+      "administrationLanguage" => "English",
       "studentId" => "274f4c71-1984-4607-8c6f-0a91db2d240a_id",
       "assessmentId" => "cc0a56b97a0c58c01fbd9e960c05e542c3755336_id",
       "scoreResults" => [

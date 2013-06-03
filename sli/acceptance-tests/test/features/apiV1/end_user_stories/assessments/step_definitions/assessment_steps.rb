@@ -230,6 +230,7 @@ When /^filter by "([^"]*)" = "([^"]*)"$/ do |key, value|
 end
 
 When /^I submit the sorting and pagination request$/ do
+  puts "\nAPI Call is: #{@filterSortPaginationHref}"
   step "I navigate to GET \"#{@filterSortPaginationHref}\""
   assert(@result != nil, "Response contains no data")
 end

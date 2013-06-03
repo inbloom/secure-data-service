@@ -59,7 +59,7 @@ Scenario: Assessment and StudentAssessment Verification
        | studentAssessment.0.body.administrationDate                                                  | 2011-05-01                            | string               |
        | studentAssessment.0.body.administrationEndDate                                               | 2011-05-01                            | string               |
        | studentAssessment.0.body.serialNumber                                                        | 0                                     | string               |
-       | studentAssessment.0.body.administrationLanguage.language                                     | English                               | string               |
+       | studentAssessment.0.body.administrationLanguage                                              | English                               | string               |
        | studentAssessment.0.body.administrationEnvironment                                           | Testing Center                        | string               |
        | studentAssessment.0.body.specialAccommodations.0                                             | Extra time                            | string               |
        | studentAssessment.0.body.specialAccommodations.1                                             | Dyslexia Bundled                      | string               |

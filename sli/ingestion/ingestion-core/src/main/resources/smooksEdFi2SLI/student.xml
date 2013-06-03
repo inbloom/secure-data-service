@@ -143,21 +143,13 @@
         <jb:value property="endDate" data="attributes StudentCharacteristics element EndDate _value" />
         <jb:value property="designatedBy" data="attributes StudentCharacteristics element DesignatedBy _value" />
     </jb:bean>
-
+    
     <jb:bean beanId="Languages" class="java.util.ArrayList"  createOnElement="attributes Languages">
-        <jb:wiring beanIdRef="Language" />
+        <jb:value data="attributes Languages Language element _value" />
     </jb:bean>
-    <jb:bean beanId="Language" class="java.util.HashMap" createOnElement="attributes Languages Language element">
-        <jb:value property="language" data="attributes Languages Language element _value" />
-        <jb:value property="identificationSystem" data="attributes Languages Language element a_IdentificationSystem" />
-    </jb:bean>
-
+    
     <jb:bean beanId="HomeLanguages" class="java.util.ArrayList"  createOnElement="attributes HomeLanguages">
-        <jb:wiring beanIdRef="HomeLanguage" />
-    </jb:bean>
-    <jb:bean beanId="HomeLanguage" class="java.util.HashMap" createOnElement="attributes HomeLanguages Language element">
-        <jb:value property="language" data="attributes HomeLanguages Language element _value" />
-        <jb:value property="identificationSystem" data="attributes HomeLanguages Language element a_IdentificationSystem" />
+        <jb:value data="attributes HomeLanguages Language element _value" />
     </jb:bean>
     
     <jb:bean beanId="Disabilities" class="java.util.ArrayList"  createOnElement="attributes Disabilities">

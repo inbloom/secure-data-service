@@ -26,8 +26,8 @@ class StudentAcademicRecord < BaseEntity
                 :recognitions, :projectedGraduationDate, :sessionCreditsEarned,
                 :sessionCreditsAttempted, :sessionGradePointsEarned
 
-  def initialize(student_id, student_int_id, session, report_card)
-    @rand = Random.new(student_int_id)
+  def initialize(student_id, session, report_card)
+    @rand = Random.new(student_id)
     @student_id = student_id
     @session = session
     @report_card = report_card

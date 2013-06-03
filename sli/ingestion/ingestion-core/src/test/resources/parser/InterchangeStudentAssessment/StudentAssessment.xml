@@ -5,7 +5,7 @@
     <AdministrationDate>2006-05-04</AdministrationDate>
     <AdministrationEndDate>2006-05-04</AdministrationEndDate>
     <SerialNumber>SerialNumber1</SerialNumber>
-    <AdministrationLanguage IdentificationSystem="ISO 639">Spanish</AdministrationLanguage>
+    <AdministrationLanguage>Spanish</AdministrationLanguage>
     <AdministrationEnvironment>Classroom</AdministrationEnvironment>
     <SpecialAccommodations>
       <SpecialAccommodation>Presentation</SpecialAccommodation>

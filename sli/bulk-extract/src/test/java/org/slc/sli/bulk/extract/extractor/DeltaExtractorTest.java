@@ -15,12 +15,15 @@
  */
 package org.slc.sli.bulk.extract.extractor;
 
+import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -195,8 +198,14 @@ public class DeltaExtractorTest {
     @Test
     public void test() {
         extractor.execute("Midgar", new DateTime(), "");
-        verify(entityExtractor, times(1)).write(any(Entity.class), any(ExtractFile.class), any(EntityExtractor.CollectionWrittenRecord.class), (Predicate) Mockito.isNull());
-        verify(entityWriteManager, times(6)).writeDeleteFile(any(Entity.class), any(ExtractFile.class));
+        try {
+            verify(entityExtractor, times(1)).write(any(Entity.class), any(ExtractFile.class), any(EntityExtractor.CollectionWrittenRecord.class), (Predicate) Mockito.isNull());
+            verify(entityWriteManager, times(6)).writeDeleteFile(any(Entity.class), any(ExtractFile.class));
+        } catch (FileNotFoundException e) {
+            fail("should never throw exceptions in mocks");
+        } catch (IOException e) {
+            fail("should never throw exceptions in mocks");
+        }
     }
 
     @Test

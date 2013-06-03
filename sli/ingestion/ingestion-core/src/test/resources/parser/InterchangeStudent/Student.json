@@ -391,17 +391,14 @@
       }
     }
   ],
-  "Languages":[
+  "Languages":{
+    "Language":[
       {
-      "a_IdentificationSystem":"ISO 639",
-      "Language":{
         "_value":"Kickapoo"
-        }
       },
       {
-      "Language":{
         "_value":"Sindhi"
-        }
       }
     ]
+  }
 }
