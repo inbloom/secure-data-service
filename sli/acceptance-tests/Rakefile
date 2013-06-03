@@ -837,6 +837,7 @@ task :ingestionTests => [
         :ingestionCommonCoreTest,
         :ingestionEncryptionTests,
         :ingestionPropagatedTest,
+        :ingestionInternationalAddressTests,
         :ingestionidNamespaceTest,
         :ingestionSmooksVerificationTests,
         :ingestionXsdValidationTest,

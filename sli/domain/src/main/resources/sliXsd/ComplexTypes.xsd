@@ -6488,7 +6488,6 @@
 					<xs:annotation>
 							<xs:documentation>Any number of address lines associated with an international address.</xs:documentation>
 					<xs:appinfo>
-						<sli:PersonallyIdentifiableInfo>true</sli:PersonallyIdentifiableInfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
@@ -9044,7 +9043,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element minOccurs="0" name="countryOfBirthCode" type="countryCodeType">
+			<xs:element minOccurs="0" name="countryOfBirthCode" type="countryType">
 				<xs:annotation>
 					<xs:documentation>The unique two digit International Organization
 						for
