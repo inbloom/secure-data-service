@@ -56,6 +56,11 @@ public class EducationOrganizationContextResolver extends ReferrableResolver {
             results.add(entity.getEntityId());
         }
 
+        Entity topLevelLEA = helper.getTopLEAOfEdOrg(entity);
+        if (topLevelLEA != null) {
+            results.add(topLevelLEA.getEntityId());
+        }
+        LOG.debug("Results are {}", results);
         return results;
     }
     
