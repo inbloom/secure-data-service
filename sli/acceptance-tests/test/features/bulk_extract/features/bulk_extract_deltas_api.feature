@@ -59,17 +59,14 @@ Scenario: Generate a bulk extract delta after day 1 ingestion
    #And I save some IDs from all the extract files to "delete_candidate" so I can delete them later
 
 Scenario: Generate a SEA bulk extract delta after day 1 ingestion
-    When I trigger a delta extract
-     And I request the latest bulk extract delta using the api
-     And I untar and decrypt the "inBloom" public delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>"
-#    Then I should see "22" bulk extract files
+    When I untar and decrypt the "inBloom" public delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>"
      And I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
     Then The "educationOrganization" delta was extracted in the same format as the api
-    And The "learningObjective" delta was extracted in the same format as the api
-    And The "learningStandard" delta was extracted in the same format as the api
-    And The "competencyLevelDescriptor" delta was extracted in the same format as the api
-    And The "studentCompetencyObjective" delta was extracted in the same format as the api
-    And The "program" delta was extracted in the same format as the api
+     And The "learningObjective" delta was extracted in the same format as the api
+     And The "learningStandard" delta was extracted in the same format as the api
+     And The "competencyLevelDescriptor" delta was extracted in the same format as the api
+     And The "studentCompetencyObjective" delta was extracted in the same format as the api
+     And The "program" delta was extracted in the same format as the api
 
   Given I trigger a bulk extract
    When I set the header format to "application/x-tar"
@@ -909,6 +906,7 @@ Given I clean the bulk extract file system and database
     |  newStudent                 |  9bf3036428c40861238fdc820568fde53e658d88_id  |  204         |
     |  session                    |  227097db8525f4631d873837754633daf8bfcb22_id  |  204         |
     |  gradingPeriod              |  1dae9e8450e2e77dd0b06dee3fd928c1bfda4d49_id  |  204         |
+    |  program                    |  0ee2b448980b720b722706ec29a1492d95560798_id  |  204         |
 
  Given the extraction zone is empty
   When I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -945,6 +943,14 @@ Given I clean the bulk extract file system and database
     | 9bf3036428c40861238fdc820568fde53e658d88_id38025c314f0972d09cd982ffe58c7d8d2b59d23d_id | entityType = studentProgramAssociation |
     | 4030207003b03d055bba0b5019b31046164eff4e_id78468628f357b29599510341f08dfd3277d9471e_id | entityType = studentSectionAssociation |
 
+  When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+   And I generate and retrieve the bulk extract delta via API for "<STANDARD-SEA>"
+  Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+       |  entityType                            |
+       |  deleted                               |
+  And I verify this "deleted" file should contain:
+       | id                                          | condition                                |
+       | 0ee2b448980b720b722706ec29a1492d95560798_id | entityType = program                     |
 
 Scenario: Delete student and stuSchAssoc, re-post them, then delete just studentSchoolAssociations (leaving students), verify delete
 Given I clean the bulk extract file system and database
