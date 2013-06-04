@@ -81,7 +81,6 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
     And I verify that an extract tar file was created for the tenant "Midgar"
     And there is a metadata file in the extract
    Then each record in the full extract is present and matches the delta extract
-   And I save some IDs from all the extract files to "delete_candidate" so I can delete them later
 
 Scenario: Triggering deltas via ingestion
   All entities belong to lea1 which is IL-DAYBREAK, we should only see a delta file for lea1
