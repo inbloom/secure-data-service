@@ -139,4 +139,15 @@
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
     </StudentCompetencyObjective>
+        <StudentCompetencyObjective>
+        <StudentCompetencyObjectiveId>SCO_K-1</StudentCompetencyObjectiveId>
+        <Objective>Phonemic Awareness</Objective>
+        <Description>Added description to test Delta after day N bulk extract</Description>
+        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+    </StudentCompetencyObjective>
 </InterchangeStudentGrade>

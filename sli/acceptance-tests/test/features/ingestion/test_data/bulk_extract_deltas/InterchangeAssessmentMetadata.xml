@@ -10,6 +10,24 @@
         <GradeLevel>Kindergarten</GradeLevel>
         <SubjectArea>Mathematics</SubjectArea>
     </LearningStandard>
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>3-28-10</IdentificationCode>
+        </LearningStandardId>
+        <Description>This is an updated description for learning standard 3-28-10 to test Deltas after day N bulk extract</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Third grade</GradeLevel>
+        <SubjectArea>Reading</SubjectArea>
+    </LearningStandard>
+    <LearningObjective>
+        <LearningObjectiveId>
+            <IdentificationCode>Generic Learning Objective 3</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>Generic Learning Objective 3</Objective>
+        <Description>This an added description to test Deltas after day N bulk extract</Description>
+        <AcademicSubject>Social Sciences and History</AcademicSubject>
+        <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+    </LearningObjective>      
     <LearningObjective>
         <LearningObjectiveId>
             <IdentificationCode>Generic Learning Objective 2</IdentificationCode>

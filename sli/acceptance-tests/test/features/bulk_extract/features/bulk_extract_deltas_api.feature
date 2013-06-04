@@ -114,18 +114,23 @@ Scenario: Triggering deltas via ingestion
      And I verify this "learningObjective" file should contain:
        | id                                          | condition                                |
        | a2b6a9f6ec88b4524c13064b335c0e078395e658_id | description = This an added description to test Deltas |
+       | 37ef3e293a03e51005f570a6311028b5cef4ae62_id | description = This an added description to test Deltas after day N bulk extract |
      And I verify this "learningStandard" file should contain:
        | id                                          | condition                                                                                |
        | bf9877afdcb1bb388334047c66b46daf83252534_id | description = This is an updated description for learning standard 2-18-9 to test Deltas |
+       | 4525bee7ed0e97497b709046d16ac3dce17ef44c_id | description = This is an updated description for learning standard 3-28-10 to test Deltas after day N bulk extract |
      And I verify this "competencyLevelDescriptor" file should contain:
        | id                                          | condition                                                        |
        | c91ae4718903d20289607c3c4335759e652ad569_id | description = Student understands almost everything in subject   |
+       | 858d9050b7e27c7e0ba6159b6b7dff2907fbd3b1_id | description = Student understands some basic                     |
      And I verify this "studentCompetencyObjective" file should contain:
        | id                                          | condition                                     |
        | 5a564cbaa1059014fafd97c24971c5088c1fbffb_id | description = Added description to test Delta |
+       | b37239e32fdda69caae3bd0bd30dbe95d5edef89_id | description = Added description to test Delta after day N bulk extract |
      And I verify this "program" file should contain:
        | id                                          | condition                                |
        | 9cce6ea23864ee4870c8871e4c14ddecb6ab0fb0_id | programType = Adult/Continuing Education |
+       | 15e6efc585c0aa09097c0a7f6e114fecabc6e6ec_id | programType = Gifted and Talented |
      And I verify this "educationOrganization" file should contain:
        | id                                          | condition                      |
        | 884daa27d806c2d725bc469b273d840493f84b4d_id | webSite = www.STANDARD-SEA.net |
