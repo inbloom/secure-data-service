@@ -131,6 +131,7 @@ public class DeltaExtractor implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         edOrgHelper = new EdOrgHierarchyHelper(repo);
+    // this is supposed to go away once all the Delta-SEA stories played out
         Set<String> deltaSEAUnSupported = new HashSet<String>(Arrays.asList("course", "graduationPlan", "staff",
                 "staffEducationOrganizationAssociation", "staffProgramAssociation", "assessment",
                 "objectiveAssessment", "assessmentPeriodDescriptor", "assessmentFamily"));
@@ -138,7 +139,8 @@ public class DeltaExtractor implements InitializingBean {
 
     }
 
-    private boolean isSea(String edOrgId) {
+    //made public so it can be used in unit tests
+    public boolean isSea(String edOrgId) {
         Entity edOrg = repo.findById(EntityNames.EDUCATION_ORGANIZATION, edOrgId);
         return edOrg != null && edOrgHelper.isSEA(edOrg);
     }
