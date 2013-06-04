@@ -55,6 +55,7 @@ import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.utils.EdOrgHierarchyHelper;
 
 public class DeltaExtractorTest {
 
@@ -63,55 +64,58 @@ public class DeltaExtractorTest {
 
     @Mock
     DeltaEntityIterator deltaEntityIterator;
-    
+
     @Mock
     LocalEdOrgExtractor leaExtractor;
 
     @Mock
     LocalEdOrgExtractHelper helper;
-    
+
     @Mock
     EntityExtractor entityExtractor;
-    
+
     @Mock
     BulkExtractMongoDA bulkExtractMongoDA;
-    
+
     @Mock
     EntityWriterManager entityWriteManager;
-    
+
     @Mock
     TypeResolver typeResolver;
-    
+
+    @Mock
+    EdOrgHierarchyHelper edOrgHelper;
+
     @Mock
     EducationOrganizationContextResolver edorgContextResolver;
-    
+
     @Mock
     Repository<Entity> repo;
-    
+
     @Mock
     ExtractFile extractFile;
-    
+
     @Mock
     ManifestFile metaDataFile;
-    
+
     @Mock
     SecurityEventUtil securityEventUtil;
 
     // There are two top level LEAs that have apps authorized, lea1 and lea2.
     // app1 is authorized for both lea1 and lea2
     // app2 is authorized for lea2 only
-    
+
     // two delta records
     // first is an update event in lea1 with a spam delete request
     // --> lea1 should generate an update event (with both apps)
     // --> lea2 should generate an delete event
     // 1 write calls and 1 writeDelete call
-    
+
     // second is an delete event in lea2
     // --> lea1 should generate an delete event
     // --> lea2 should generate an delete event
     // 2 writeDelete calls
-    
+
     // 3 writeDeletes <--> however since educationOrganization contains both
     // school and educationOrganization, we must spam delete in both collections
     // which results 6 writeDelete calls
@@ -129,9 +133,10 @@ public class DeltaExtractorTest {
         extractFile = Mockito.mock(ExtractFile.class);
         metaDataFile = Mockito.mock(ManifestFile.class);
         securityEventUtil = Mockito.mock(SecurityEventUtil.class);
-        
+        edOrgHelper = Mockito.mock( EdOrgHierarchyHelper.class);
+
         MockitoAnnotations.initMocks(this);
-        
+
         Map<String, Set<String>> appsToLEA = buildAppToLEAMap();
         when(helper.getBulkExtractLEAsPerApp()).thenReturn(appsToLEA);
         Entity LEA1 = buildEdorgEntity("lea1");
@@ -140,27 +145,31 @@ public class DeltaExtractorTest {
         when(repo.findById(EntityNames.EDUCATION_ORGANIZATION, "lea1")).thenReturn(LEA1);
         when(repo.findById(EntityNames.EDUCATION_ORGANIZATION, "lea2")).thenReturn(LEA2);
         when(repo.findById(EntityNames.EDUCATION_ORGANIZATION, "lea3")).thenReturn(LEA3);
-        
+
         when(edorgContextResolver.findGoverningEdOrgs(LEA1)).thenReturn(new HashSet<String>(Arrays.asList("lea1")));
         when(edorgContextResolver.findGoverningEdOrgs(LEA2)).thenReturn(new HashSet<String>(Arrays.asList("lea2")));
         when(edorgContextResolver.findGoverningEdOrgs(LEA3)).thenReturn(new HashSet<String>(Arrays.asList("lea1")));
-        
+
         when(deltaEntityIterator.hasNext()).thenReturn(true, true, false);
         when(deltaEntityIterator.next()).thenReturn(buildUpdateRecord(), buildDeleteRecord());
-        
+
+
         when(typeResolver.resolveType("educationOrganization")).thenReturn(new HashSet<String>(Arrays.asList("school", "educationOrganization")));
         when(extractFile.getManifestFile()).thenReturn(metaDataFile);
         SecurityEvent event = new SecurityEvent();
         event.setLogLevel(LogLevelType.TYPE_INFO);
         when(securityEventUtil.createSecurityEvent(anyString(), anyString(), any(LogLevelType.class), any(BEMessageCode.class), anyString())).thenReturn(event);
+        when(extractor.isSea("lea1")).thenReturn(false);
+        when(extractor.isSea("lea2")).thenReturn(false);
+        when(extractor.isSea("lea3")).thenReturn(false);
 
         // when(leaExtractor.getExtractFilePerAppPerLEA(anyString(), anyString(), anyString(),
         // any(DateTime.class), anyBoolean())).thenReturn(extractFile);
 
     }
-    
+
     private DeltaRecord buildUpdateRecord() {
-        DeltaEntityIterator.DeltaRecord update = new DeltaEntityIterator.DeltaRecord(buildEdorgEntity("lea1"), 
+        DeltaEntityIterator.DeltaRecord update = new DeltaEntityIterator.DeltaRecord(buildEdorgEntity("lea1"),
                 new HashSet<String>(Arrays.asList("lea1")), DeltaEntityIterator.Operation.UPDATE, true, "educationOrganization");
         return update;
     }
@@ -208,5 +217,5 @@ public class DeltaExtractorTest {
 
         verify(entityWriteManager, times(2)).writeDeleteFile(any(Entity.class), any(ExtractFile.class));
     }
-    
+
 }
