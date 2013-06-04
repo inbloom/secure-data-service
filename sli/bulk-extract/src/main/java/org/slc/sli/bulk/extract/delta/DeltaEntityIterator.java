@@ -49,7 +49,7 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
 /**
- * This class provides ways to interact with the delta collection
+ * This class provides ways to interact with the delta collection.
  *
  * @author ycao
  *
@@ -79,10 +79,9 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
     private long lastDeltaTime;
 
     private final static Map<String, List<String>> REQUIRED_EMBEDDED_FIELDS;
-    private final static Set<String> DELTA_SEA_UNSUPPORTED;
 
-    private final static Set<String> KEEP_DENORMALIZED = Collections.unmodifiableSet(new HashSet<String>(Arrays
-            .asList("assessment", "studentAssessment")));
+    private final static Set<String> KEEP_DENORMALIZED = Collections.unmodifiableSet(new HashSet<String>(Arrays.asList(
+            "assessment", "studentAssessment")));
 
     // the Map<String, Boolean> is a map of entityId:isSpamDelete, must record the
     // spamDelete information before it's lost
@@ -96,14 +95,11 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
 
     static {
         Map<String, List<String>> requiredDenormalizedFields = new HashMap<String, List<String>>();
-        Set<String> deltaSEAUnSupported = new HashSet<String>(Arrays.asList("course", "graduationPlan", "staff", "staffEducationOrganizationAssociation", "staffProgramAssociation",
-               "assessment", "objectiveAssessment", "assessmentPeriodDescriptor", "assessmentFamily"));
         requiredDenormalizedFields.put("student", Arrays.asList("schools"));
         requiredDenormalizedFields.put("section", Arrays.asList("studentSectionAssociation"));
         requiredDenormalizedFields.put("studentAssessment",
                 Arrays.asList("studentAssessmentItem", "studentObjectiveAssessment"));
         REQUIRED_EMBEDDED_FIELDS = Collections.unmodifiableMap(requiredDenormalizedFields);
-        DELTA_SEA_UNSUPPORTED = Collections.unmodifiableSet( deltaSEAUnSupported);
 
     }
 
@@ -193,21 +189,13 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
             if (delta.containsKey("u")) {
                 updatedTime = (Long) delta.get("u");
             }
-            
+
             String id = (String) (delta.containsKey("i") ? delta.get("i") : delta.get("_id"));
             if ("null".equals(id) || id == null) {
                 continue;
             }
 
-
-
             String collection = (String) delta.get("c");
-
-            if( DELTA_SEA_UNSUPPORTED.contains( collection )) {
-                LOG.debug("Delta bulk-extracts is not currently supported for {}", collection );
-                continue;
-            }
-
 
             if (collection.equals(DeltaJournal.PURGE)) {
                 Entity purge = new MongoEntity(collection, id, delta, null);
@@ -319,7 +307,8 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
             }
 
             if (!ids.isEmpty()) {
-                LOG.warn("Entity IDs were in deltas collection, but was not in the result of findAll query from " + batchedCollection + ": " + ids );
+                LOG.warn("Entity IDs were in deltas collection, but was not in the result of findAll query from "
+                        + batchedCollection + ": " + ids);
                 // those ids are most likely been deleted as well...
                 for (String id : ids.keySet()) {
                     Entity deleted = new MongoEntity(batchedCollection, id, null, null);
