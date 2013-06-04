@@ -71,17 +71,17 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
     And The "studentCompetencyObjective" delta was extracted in the same format as the api
     And The "program" delta was extracted in the same format as the api
 
-  #Given I trigger a bulk extract
-   #When I set the header format to "application/x-tar"
-   #Then I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
-   #When I make lea bulk extract API call for lea "884daa27d806c2d725bc469b273d840493f84b4d_id"
-    #And the return code is 200 I get expected tar downloaded
-   #Then I check the http response headers
-   #When I decrypt and save the full extract
-    #And I verify that an extract tar file was created for the tenant "Midgar"
-    #And there is a metadata file in the extract
-   #Then each record in the full extract is present and matches the delta extract
-   #And I save some IDs from all the extract files to "delete_candidate" so I can delete them later
+  Given I trigger a bulk extract
+   When I set the header format to "application/x-tar"
+   Then I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+   When I make lea bulk extract API call for lea "884daa27d806c2d725bc469b273d840493f84b4d_id"
+    And the return code is 200 I get expected tar downloaded
+   Then I check the http response headers
+   When I decrypt and save the full extract
+    And I verify that an extract tar file was created for the tenant "Midgar"
+    And there is a metadata file in the extract
+   Then each record in the full extract is present and matches the delta extract
+   And I save some IDs from all the extract files to "delete_candidate" so I can delete them later
 
 Scenario: Triggering deltas via ingestion
   All entities belong to lea1 which is IL-DAYBREAK, we should only see a delta file for lea1
