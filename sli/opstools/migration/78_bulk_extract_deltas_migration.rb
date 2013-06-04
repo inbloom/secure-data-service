@@ -63,10 +63,7 @@ def shard(collection)
     end
   end
   mids = (1..15).map{|i| BSON::Binary.new(i.to_s(16)+"00000000000000000000000000000000000000")}
-  mids.each{ |m| 
-    puts "moving chunk with mid #{m}"
-    db.command({:split => collection, :middle => {'_id' => m}})
-  }
+  mids.each{ |m| db.command({:split => collection, :middle => {'_id' => m}}) }
   shards = db.command({listShards: 1})['shards'].cycle
   (["$minkey"] + mids).each{ |m| 
     begin
