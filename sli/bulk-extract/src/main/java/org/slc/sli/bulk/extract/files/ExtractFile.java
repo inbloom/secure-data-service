@@ -371,7 +371,7 @@ public class ExtractFile {
         this.edorg = edorg;
     }
 
-    public boolean isSEA() {
+    public boolean getIsSEA() {
         return isSEA;
     }
 
