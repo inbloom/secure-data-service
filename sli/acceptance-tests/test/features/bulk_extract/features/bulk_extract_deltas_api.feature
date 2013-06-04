@@ -62,13 +62,13 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
     When I trigger a delta extract
      And I request the latest bulk extract delta using the api
      And I untar and decrypt the "inBloom" SEA delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>"
-    #Then I should see "22" bulk extract files
+    Then I should see "22" bulk extract files
      And I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
     Then The "educationOrganization" delta was extracted in the same format as the api
     And The "learningObjective" delta was extracted in the same format as the api
     And The "learningStandard" delta was extracted in the same format as the api
     And The "competencyLevelDescriptor" delta was extracted in the same format as the api
-    #And The "studentCompetencyObjective" delta was extracted in the same format as the api
+    And The "studentCompetencyObjective" delta was extracted in the same format as the api
     And The "program" delta was extracted in the same format as the api
 
   #Given I trigger a bulk extract
@@ -97,21 +97,39 @@ Scenario: Triggering deltas via ingestion
       And I verify "2" delta bulk extract files are generated for LEA "<IL-HIGHWIND>" in "Midgar"
       And I verify "2" delta bulk extract files are generated for LEA "<STANDARD-SEA>" in "Midgar"
      When I verify the last SEA delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
-       #|  learningObjective                     |
-       #|  learningStandard                      |
-       #|  competencyLevelDescriptor             |
-       #|  studentCompetencyObjective            |
        |  entityType                            |
+       |  learningObjective                     |
+       |  learningStandard                      |
+       |  competencyLevelDescriptor             |
+       |  studentCompetencyObjective            |
        |  program                               |
+       |  educationOrganization                 |
        |  deleted                               |
      And I verify this "deleted" file should contain:
-       | id                                                                                     | condition                             |
-       | 8621a1a8d32dde3cf200697f22368a0f92f0fb92_id                                            | entityType = learningObjective                  |
-       | 4a6402c02ea016736280ac88d202d71a81058171_id                                            | entityType = learningStandard |
-       | d82250f49dbe4facb59af2f88fe746f70948405d_id                                            | entityType = competencyLevelDescriptor                   |
-       #| x                                                                                      | entityType = studentCompetencyObjective |
-       | ebfc74d85dfcdcb7e5ddc93a6af2952801f9436e_id                                            | entityType = program                  |
-
+       | id                                           | condition                               |
+       | 8621a1a8d32dde3cf200697f22368a0f92f0fb92_id  | entityType = learningObjective          |
+       | 4a6402c02ea016736280ac88d202d71a81058171_id  | entityType = learningStandard           |
+       | d82250f49dbe4facb59af2f88fe746f70948405d_id  | entityType = competencyLevelDescriptor  |
+       | edcd730acd29f74a5adcb4123b183001a3513853_id  | entityType = studentCompetencyObjective |
+       | ebfc74d85dfcdcb7e5ddc93a6af2952801f9436e_id  | entityType = program                    |
+     And I verify this "learningObjective" file should contain:
+       | id                                          | condition                                |
+       | a2b6a9f6ec88b4524c13064b335c0e078395e658_id | description = This an added description to test Deltas |
+     And I verify this "learningStandard" file should contain:
+       | id                                          | condition                                                                                |
+       | bf9877afdcb1bb388334047c66b46daf83252534_id | description = This is an updated description for learning standard 2-18-9 to test Deltas |
+     And I verify this "competencyLevelDescriptor" file should contain:
+       | id                                          | condition                                                        |
+       | c91ae4718903d20289607c3c4335759e652ad569_id | description = Student understands almost everything in subject   |
+     And I verify this "studentCompetencyObjective" file should contain:
+       | id                                          | condition                                     |
+       | 5a564cbaa1059014fafd97c24971c5088c1fbffb_id | description = Added description to test Delta |
+     And I verify this "program" file should contain:
+       | id                                          | condition                                |
+       | 9cce6ea23864ee4870c8871e4c14ddecb6ab0fb0_id | programType = Adult/Continuing Education |
+     And I verify this "educationOrganization" file should contain:
+       | id                                          | condition                      |
+       | 884daa27d806c2d725bc469b273d840493f84b4d_id | webSite = www.STANDARD-SEA.net |
      When I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-HIGHWIND>" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
        |  attendance                            |
