@@ -7,16 +7,16 @@
         <PerformanceBaseConversion>Advanced</PerformanceBaseConversion>
     </CompetencyLevelDescriptor>
         <CompetencyLevelDescriptor>
-        <CodeValue>Barely Competent</CodeValue>
-        <Description>Student understands some basic</Description>
+        <CodeValue>Cannot Competent</CodeValue>
+        <Description>Student does not understand anything</Description>
         <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     </CompetencyLevelDescriptor>
     <Program>
-        <ProgramId>138</ProgramId>
+        <ProgramId>731</ProgramId>
         <ProgramType>Gifted and Talented</ProgramType>
         <ProgramSponsor>State Education Agency</ProgramSponsor>
         <Services>
-            <CodeValue>services:138</CodeValue>
+            <CodeValue>services:731</CodeValue>
         </Services>
     </Program>
     <Program>
