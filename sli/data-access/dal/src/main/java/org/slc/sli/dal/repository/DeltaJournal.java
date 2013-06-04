@@ -28,7 +28,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
+import org.apache.commons.codec.DecoderException;
+import org.apache.commons.codec.binary.Hex;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -43,6 +44,7 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 
 /**
  * Provides journaling of entity updates for delta processing
@@ -92,7 +94,7 @@ public class DeltaJournal implements InitializingBean {
 
     public void journal(Collection<String> ids, String collection, boolean isDelete) {
         if (deltasEnabled && !TenantContext.isSystemCall()) {
-            if(subdocCollectionsToCollapse.containsKey(collection)){
+            if (subdocCollectionsToCollapse.containsKey(collection)) {
                 journalCollapsedSubDocs(ids, collection);
             }
             long now = new Date().getTime();
@@ -105,8 +107,24 @@ public class DeltaJournal implements InitializingBean {
                 update.set("u", now);
             }
             for (String id : ids) {
-                template.upsert(Query.query(where("_id").is(id)), update, DELTA_COLLECTION);
+                byte[] idbytes = getByteId(id);
+                update.set("i", id);
+                template.upsert(Query.query(where("_id").is(idbytes)), update, DELTA_COLLECTION);
             }
+        }
+    }
+
+    public static byte[] getByteId(String id) {
+        try {
+            int idLength = id.length();
+            if(idLength < 43) {
+                LOG.error("Short ID encountered: {}", id);
+                return id.getBytes();
+            }
+            return Hex.decodeHex(id.substring(idLength - 43, idLength - 3).toCharArray());
+        } catch (DecoderException e) {
+            LOG.error("Decoder exception while decoding {}", id, e);
+            return id.getBytes();
         }
     }
 
@@ -114,11 +132,11 @@ public class DeltaJournal implements InitializingBean {
         journal(Arrays.asList(id), collection, isDelete);
     }
 
-    public void journalCollapsedSubDocs(Collection<String> ids, String collection){
+    public void journalCollapsedSubDocs(Collection<String> ids, String collection) {
         LOG.debug("journaling {} to {}", ids, subdocCollectionsToCollapse.get(collection));
         Set<String> newIds = new HashSet<String>();
-        for(String id: ids){
-            newIds.add(id.split("_id")[0]+"_id");
+        for (String id : ids) {
+            newIds.add(id.split("_id")[0] + "_id");
         }
         journal(newIds, subdocCollectionsToCollapse.get(collection), false);
     }
@@ -157,7 +175,7 @@ public class DeltaJournal implements InitializingBean {
             public Map<String, Object> next() {
                 Map<String, Object> nextDelta = deltas.get(currMark++);
                 if (currMark >= deltas.size()) {
-                    deltas = findNextBatchOfDeltas((Long) nextDelta.get("t"), (String) nextDelta.get("_id"));
+                    deltas = findNextBatchOfDeltas((Long) nextDelta.get("t"), nextDelta.get("_id"));
                     currMark = 0;
                 }
                 return nextDelta;
@@ -168,7 +186,7 @@ public class DeltaJournal implements InitializingBean {
                 throw new UnsupportedOperationException();
             }
 
-            private List<Map<String, Object>> findNextBatchOfDeltas(long lastBatchEndTime, String lastBatchId) {
+            private List<Map<String, Object>> findNextBatchOfDeltas(long lastBatchEndTime, Object lastBatchId) {
                 TenantContext.setIsSystemCall(false);
                 return find(buildDeltaQuery(lastBatchEndTime, end, lastBatchId, limit));
             }
@@ -180,7 +198,7 @@ public class DeltaJournal implements InitializingBean {
                 return res;
             }
 
-            private Query buildDeltaQuery(long lastDeltaTime, long uptoTime, String lastBatchId, int limit) {
+            private Query buildDeltaQuery(long lastDeltaTime, long uptoTime, Object lastBatchId, int limit) {
                 Criteria timeElasped;
                 if (lastBatchId == null) {
                     // first time, include everything from the lastDeltaTime
@@ -188,7 +206,8 @@ public class DeltaJournal implements InitializingBean {
                 } else {
                     // get everything that's in next time slot plus everything that are equal to
                     // lastDeltaTime, but after the batch id
-                    timeElasped = new Criteria().orOperator(where("t").is(lastDeltaTime).andOperator(where("_id").gt(lastBatchId)),
+                    timeElasped = new Criteria().orOperator(
+                            where("t").is(lastDeltaTime).andOperator(where("_id").gt(lastBatchId)),
                             where("t").gt(lastDeltaTime).lt(uptoTime));
                 }
                 Query q = Query.query(timeElasped).limit(limit);
@@ -215,14 +234,14 @@ public class DeltaJournal implements InitializingBean {
         // remove in batches
         Query beforeWithLimit = new Query(where("t").lt(cleanUptoTime)).limit(limit);
         beforeWithLimit.fields().include("_id");
-        
+
         @SuppressWarnings("rawtypes")
         List<Map> deltas;
         do {
             deltas = template.find(beforeWithLimit, Map.class, DELTA_COLLECTION);
-            List<String> idsToRemove = new ArrayList<String>(deltas.size());
+            List<byte[]> idsToRemove = new ArrayList<byte[]>(deltas.size());
             for (Map<String, Object> delta : deltas) {
-                idsToRemove.add((String) delta.get("_id"));
+                idsToRemove.add((byte[]) delta.get("_id"));
             }
 
             if (!idsToRemove.isEmpty()) {

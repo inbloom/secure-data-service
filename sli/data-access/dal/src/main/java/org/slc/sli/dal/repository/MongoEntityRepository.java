@@ -1084,7 +1084,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             }
 
         }
-        if (journal != null) {
+        if (result && journal != null) {
             journal.journal(entity.getEntityId(), collection, false);
         }
         return result;

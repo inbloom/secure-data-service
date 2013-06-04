@@ -78,14 +78,16 @@ public class APITrackingAspect {
     }
 
     // !call(* java.util..*.*(..))
-    @After("call(* *..*.*(..)) && !call(* java.lang..*.*(..)) && !call(* java.util..*.*(..)) && !call(* org.slc.sli.dal.MongoStat(..)) && !within(org.slc..*.APITrackingAspect) && !within(org..*Test) && !within(org..*MongoPerfRepository)")
+    //@After("call(* *..*.*(..)) && !call(* java.lang..*.*(..)) && !call(* java.util..*.*(..)) && !call(* org.slc.sli.dal.MongoStat(..)) && !within(org.slc..*.APITrackingAspect)
+    // && !within(org..*Test) && !within(org..*MongoPerfRepository)")
     public void trackAPIEnd(JoinPoint pjp) throws Throwable {
         if (Boolean.valueOf(apiCallTracking)) {
             callTracker.addEvent("e", pjp.getSignature().getDeclaringTypeName() + "." + pjp.getSignature().getName(), System.nanoTime(), null);
         }
     }
 
-    @Before("call(* *..*.*(..)) && !call(* java.lang..*.*(..)) && !call(* java.util..*.*(..)) && !call(* org.slc.sli.dal.MongoStat(..)) && !this(org.slc.sli.api.perf.APITrackingAspect) && !within(org.slc..*.APITrackingAspect) && !within(org..*Test) && !within(org..*MongoPerfRepository)")
+    //@Before("call(* *..*.*(..)) && !call(* java.lang..*.*(..)) && !call(* java.util..*.*(..)) && !call(* org.slc.sli.dal.MongoStat(..)) && !this(org.slc.sli.api.perf" +
+    //        ".APITrackingAspect) && !within(org.slc..*.APITrackingAspect) && !within(org..*Test) && !within(org..*MongoPerfRepository)")
     public void trackAPIStart(JoinPoint pjp) throws Throwable {
         if (Boolean.valueOf(apiCallTracking)) {
             List<String> args = getArgs(pjp);
