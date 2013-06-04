@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeEducationOrganization xmlns="http://ed-fi.org/0100">
+
+  <Program id="New-Program_1">
+    <ProgramId>New-Program_1</ProgramId>
+    <ProgramType>Regular Education</ProgramType>
+    <ProgramSponsor>State Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>Service 2</CodeValue>
+    </Services>
+  </Program>
+
+</InterchangeEducationOrganization>

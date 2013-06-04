@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentGrade xmlns="http://ed-fi.org/0100">
+
+  <CompetencyLevelDescriptor id="CLD_1">
+    <CodeValue>Competency_1</CodeValue>
+    <Description>Competency Level 1 Desciptor Description</Description>
+    <PerformanceBaseConversion>Advanced</PerformanceBaseConversion>
+  </CompetencyLevelDescriptor>
+
+  <StudentCompetencyObjective id="SCO_1">
+    <StudentCompetencyObjectiveId>SCO_1</StudentCompetencyObjectiveId>
+    <Objective>Student Competency Objective 1</Objective>
+    <Description>Student Competency Objective 1 Description</Description>
+    <ObjectiveGradeLevel>Other</ObjectiveGradeLevel>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentCompetencyObjective>
+
+</InterchangeStudentGrade>
