@@ -647,6 +647,7 @@ def getEntityEndpoint(entity)
       "newTeacher" => "teachers",
       "teacherSchoolAssociation" => "teacherSchoolAssociations",
       "wrongSchoolURI" => "schoolz",
+      "studentCompetency" => "studentCompetencies",
       "yearlyTranscript" => "yearlyTranscripts"
   }
   return entity_to_endpoint_map[entity]
@@ -1944,7 +1945,9 @@ def prepareBody(verb, value, response_map)
         "sex" => "Male",
         "entityType" => "student",
         "race" => ["White"],
-        "languages" => ["English"],
+        "languages" => [{
+            "language" => "English"
+        }],
         "studentUniqueStateId" => "nsmin-1",
         "profileThumbnail" => "1201 thumb",
         "name" => {
@@ -1968,7 +1971,9 @@ def prepareBody(verb, value, response_map)
         "sex" => "Female",
         "entityType" => "student",
         "race" => ["White"],
-        "languages" => ["English"],
+        "languages" => [{
+            "language" => "English"
+        }],
         "studentUniqueStateId" => "hwmin-1",
         "profileThumbnail" => "1301 thumb",
         "name" => {
@@ -2106,7 +2111,9 @@ def prepareBody(verb, value, response_map)
           "assessmentReportingMethod" => "Scale score"
         }],
         "linguisticAccommodations" => ["Bilingual Dictionary"],
-        "administrationLanguage" => "English",
+        "administrationLanguage" => {
+           "language" => "English"
+        },
         "studentAssessmentItems" => [{
           "rawScoreResult" => 82,
           "responseIndicator" => "Effective response",
@@ -2331,7 +2338,10 @@ def prepareBody(verb, value, response_map)
 
       },
       "newStudentCompetency" => {
-
+        "competencyLevel" => { "codeValue" => "Barely Competent" },
+        "objectiveId" => { "learningObjectiveId" => "c9b6e99895327de1b01f29ced552f6a3515d8455_id" },
+        "diagnosticStatement" => "passed with flying colors",
+        "studentSectionAssociationId" => "4030207003b03d055bba0b5019b31046164eff4e_id78468628f357b29599510341f08dfd3277d9471e_id",
       },
       "newDisciplineIncident" => {
 
@@ -2440,6 +2450,7 @@ def get_json_from_file(file_name)
     json = JSON.parse(File.read("#{json_file_name}"))
     json
 end
+
 ############################################################
 # After Hooks
 ############################################################

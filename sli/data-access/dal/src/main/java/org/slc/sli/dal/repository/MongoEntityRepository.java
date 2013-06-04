@@ -32,6 +32,7 @@ import com.mongodb.DBObject;
 import com.mongodb.WriteResult;
 
 import org.apache.commons.lang.StringUtils;
+import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -356,6 +357,19 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     public List<Entity> insert(List<Entity> records, String collectionName) {
         List<Entity> results;
 
+        // TODO this is a kludge around mongodb JIRA 6802. Remove when migration to mongo 2.4+ happens
+        // For superdocs upsert rather than bulk insert since there is an intermittent mongos bug reporting errors
+        // which can lead to superdoc bulk inserts failing silently
+        if (EmbeddedDocumentRelations.isParentDoc(collectionName)) {
+            results = new ArrayList<Entity>();
+            for (Entity entity : records) {
+                if (update(collectionName, entity, false)) {
+                    results.add(entity);
+                }
+            }
+            return results;
+        }
+
         for (Entity entity : records) {
             this.schemaVersionValidatorProvider.getSliSchemaVersionValidator().insertVersionInformation(entity);
         }
@@ -373,15 +387,11 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             results = records;
         } else {
             List<Entity> persist = new ArrayList<Entity>();
-            boolean updateLineage = false;
+            boolean updateLineage = EntityNames.EDUCATION_ORGANIZATION.equals(collectionName);
 
             for (Entity record : records) {
-
                 Entity entity = new MongoEntity(record.getType(), null, record.getBody(), record.getMetaData());
                 keyEncoder.encodeEntityKey(entity);
-                if (!updateLineage && EntityNames.EDUCATION_ORGANIZATION.equals(collectionName)) {
-                    updateLineage = true;
-                }
                 persist.add(entity);
             }
 

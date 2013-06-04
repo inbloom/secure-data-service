@@ -66,8 +66,9 @@ class StudentWorkOrderFactory
     students_per_year.map{|initial_year, students|
       unless students.nil?
         students.each{|student|
-          grade      = StudentWorkOrder.get_grade_symbol(student[:begin_grade])
           student_id = student[:student_id]
+          grade      = StudentWorkOrder.get_grade_symbol(student[:begin_grade])
+          raise "Student catalog entry for #{student_id} failed: #{student[:begin_grade]} is not a valid grade." if grade == nil
           name       = student[:name]
           plan       = generate_plan(edOrg, grade)
           push_work_order(yielder, student_id, name, grade, initial_year, plan)         
