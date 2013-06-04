@@ -745,6 +745,23 @@ When /^I request latest delta via API for tenant "(.*?)", lea "(.*?)" with appId
   restTls("/bulk/extract/#{lea}/delta/#{@timestamp}", nil, 'application/x-tar', @sessionId, client_id)
 end
 
+When /^I request latest public delta via API for tenant "(.*?)", lea "(.*?)" with appId "(.*?)" clientId "(.*?)"$/ do |tenant, lea, app_id, client_id|
+  @lea = lea
+  @app_id = app_id
+
+  query_opts = {sort: ["body.date", Mongo::DESCENDING], limit: 1}
+  # Get the edorg and timestamp from bulk extract collection in mongo
+  getExtractInfoFromMongo(build_bulk_query(tenant, app_id, lea, true, true), query_opts)
+  # Set the download path to stream the delta file from API
+  @delta_file = "delta_#{lea}_#{@timestamp}.tar"
+  @download_path = OUTPUT_DIRECTORY + @delta_file
+  @fileDir = OUTPUT_DIRECTORY + "decrypt"
+  @filePath = @fileDir + "/" + @delta_file
+  @unpackDir = @fileDir
+  # Assemble the API URI and make API call
+  restTls("/bulk/extract/#{lea}/delta/#{@timestamp}", nil, 'application/x-tar', @sessionId, client_id)
+end
+
 When /^I store the URL for the latest delta for LEA "(.*?)"$/ do |lea|
   @delta_uri = JSON.parse(@res)
   @list_url  = @delta_uri["deltaLeas"][lea][0]["uri"]
@@ -800,6 +817,9 @@ When /^I generate and retrieve the bulk extract delta via API for "(.*?)"$/ do |
   elsif lea == "99d527622dcb51c465c515c0636d17e085302d5e_id"
     step "I log into \"SDK Sample\" with a token of \"lstevenson\", a \"Noldor\" for \"IL-Highwind\" in tenant \"Midgar\", that lasts for \"300\" seconds"
     step "I request latest delta via API for tenant \"Midgar\", lea \"#{lea}\" with appId \"<app id>\" clientId \"<client id>\""
+  elsif lea == "884daa27d806c2d725bc469b273d840493f84b4d_id"
+    step "I log into \"SDK Sample\" with a token of \"rrogers\", a \"Noldor\" for \"IL-Daybreak\" in tenant \"Midgar\", that lasts for \"300\" seconds"
+    step "I request latest public delta via API for tenant \"Midgar\", lea \"#{lea}\" with appId \"<app id>\" clientId \"<client id>\""
   # Catch invalid LEA
   else 
     assert(false, "Did not recognize that LEA, cannot request extract")

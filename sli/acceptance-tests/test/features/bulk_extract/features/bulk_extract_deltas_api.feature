@@ -684,6 +684,16 @@ Given I clean the bulk extract file system and database
     #| newStudentDiscIncidentAssoc    |  studentDisciplineIncidentAssociation  |  201         |
     #| newGraduationPlan              |  graduationPlan                        |  201         |
 
+ When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  And I generate and retrieve the bulk extract delta via API for "<STANDARD-SEA>"
+  And I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+        |  entityType                            |
+        |  program                               |
+  And I verify this "program" file should contain:
+        | id                                          | condition                                |
+        | 0ee2b448980b720b722706ec29a1492d95560798_id | programType = Regular Education          |
+        | 0ee2b448980b720b722706ec29a1492d95560798_id | programId = 12345                        |
+
  When I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
   And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
