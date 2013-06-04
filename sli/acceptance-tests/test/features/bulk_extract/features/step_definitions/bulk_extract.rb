@@ -520,7 +520,7 @@ When /^I untar and decrypt the "(.*?)" delta tarfile for tenant "(.*?)" and appI
   @deltaDir = @fileDir
 end
 
-When /^I untar and decrypt the "(.*?)" SEA delta tarfile for tenant "(.*?)" and appId "(.*?)" for "(.*?)"$/ do |data_store, tenant, appId, lea|
+When /^I untar and decrypt the "(.*?)" public delta tarfile for tenant "(.*?)" and appId "(.*?)" for "(.*?)"$/ do |data_store, tenant, appId, lea|
   sleep 1
   opts = {sort: ["body.date", Mongo::DESCENDING], limit: 1}
   query = build_bulk_query(tenant, appId, lea, true, true)
@@ -977,7 +977,7 @@ Then /^I verify the last delta bulk extract by app "(.*?)" for "(.*?)" in "(.*?)
     step "the extract contains a file for each of the following entities:", table
 end
 
-Then /^I verify the last SEA delta bulk extract by app "(.*?)" for "(.*?)" in "(.*?)" contains a file for each of the following entities:$/ do |appId, lea, tenant, table|
+Then /^I verify the last public delta bulk extract by app "(.*?)" for "(.*?)" in "(.*?)" contains a file for each of the following entities:$/ do |appId, lea, tenant, table|
     opts = {sort: ["body.date", Mongo::DESCENDING], limit: 1}
     getExtractInfoFromMongo(build_bulk_query(tenant, appId, lea, true, true), opts)
     openDecryptedFile(appId)
