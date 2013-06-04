@@ -33,7 +33,7 @@ import java.util.Set;
 public class EmbeddedDocumentRelations {
 
     private static final Map<String, Parent> SUBDOC_TO_PARENT;
-    private static Set<String> parents;
+    private static Set<String> subDocParentEntityTypes;
     private static final Map<String, Denormalization> DENORMALIZATIONS;
     private static Set<String> denormalizationByEntityAndKey;
     private static final Map<String, String> DENORMALIZATION_CACHED_ENTITY;
@@ -73,9 +73,9 @@ public class EmbeddedDocumentRelations {
         map.put("studentAssessmentItem", new Parent("studentAssessment", "studentAssessmentId"));
         SUBDOC_TO_PARENT = Collections.unmodifiableMap(map);
 
-        parents = new HashSet<String>();
+        subDocParentEntityTypes = new HashSet<String>();
         for (Map.Entry<String, Parent> entry : SUBDOC_TO_PARENT.entrySet()) {
-            parents.add(entry.getValue().getParentEntityType());
+            subDocParentEntityTypes.add(entry.getValue().getParentEntityType());
         }
 
         denormalizationByEntityAndKey = new HashSet<String>();
@@ -115,8 +115,8 @@ public class EmbeddedDocumentRelations {
         return SUBDOC_TO_PARENT.get(entityType);
     }
 
-    public static boolean isParentDoc(String entityType) {
-        return parents.contains(entityType);
+    public static boolean isSubDocParentEntityType(String entityType) {
+        return subDocParentEntityTypes.contains(entityType);
     }
 
     public static Set<String> getDenormalizedDocuments() {
