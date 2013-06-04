@@ -132,9 +132,9 @@ public class DeltaExtractor implements InitializingBean {
     public void afterPropertiesSet() throws Exception {
         edOrgHelper = new EdOrgHierarchyHelper(repo);
     // this is supposed to go away once all the Delta-SEA stories played out
-        Set<String> deltaSEAUnSupported = new HashSet<String>(Arrays.asList("course", "graduationPlan", "staff",
-                "staffEducationOrganizationAssociation", "staffProgramAssociation", "assessment",
-                "objectiveAssessment", "assessmentPeriodDescriptor", "assessmentFamily"));
+        Set<String> deltaSEAUnSupported = new HashSet<String>(Arrays.asList(  "assessment","assessmentFamily",
+                "assessmentPeriodDescriptor", "course","graduationPlan","objectiveAssessment","staff",
+                "staffEducationOrganizationAssociation", "staffProgramAssociation"));
         deltaSEAUnsupported = Collections.unmodifiableSet(deltaSEAUnSupported);
 
     }
@@ -165,10 +165,10 @@ public class DeltaExtractor implements InitializingBean {
                     if (appsPerEdOrg.containsKey(edOrg)) {
                         ExtractFile extractFile = getExtractFile(edOrg, tenant, deltaUptoTime, appsPerEdOrg.get(edOrg));
                         EntityExtractor.CollectionWrittenRecord record = getCollectionRecord(edOrg, delta.getType());
-                        if (extractFile.isSEA() && deltaSEAUnsupported.contains(delta.getType())) {
-                            LOG.debug("Delta bulk-extracts is not currently supported for {}", delta.getType());
-                            continue;
-                        }
+                        if ( !isSupportedType( extractFile.getIsSEA(), delta.getType())) {
+                           LOG.debug("Delta bulk-extracts is not currently supported for {}", delta.getType());
+                           continue;
+                         }
                         entityExtractor.write(delta.getEntity(), extractFile, record, null);
 
                     }
@@ -186,6 +186,11 @@ public class DeltaExtractor implements InitializingBean {
         audit(securityEventUtil.createSecurityEvent(this.getClass().getName(), "Delta Extract Finished",
                 LogLevelType.TYPE_INFO, BEMessageCode.BE_SE_CODE_0021, DATE_TIME_FORMATTER.print(deltaUptoTime)));
         finalizeExtraction(tenant, deltaUptoTime);
+    }
+
+    private boolean isSupportedType( boolean isPublic, String entityType ) {
+
+        return isPublic && deltaSEAUnsupported.contains( entityType ) ? false : true;
     }
 
     private void logEntityCounts() {
