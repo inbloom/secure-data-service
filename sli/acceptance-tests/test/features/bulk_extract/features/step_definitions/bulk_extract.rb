@@ -1433,7 +1433,9 @@ def bulkExtractTrigger(trigger_script, jar_file, properties_file, keystore_file,
   end
   command = command + options
   puts "Running: #{command}"
-  puts runShellCommand(command)
+  result = `#{command}`
+  puts result
+  assert($?.exitstatus == 0, "Nonzero exit code from bulk extract: #{$?.exitstatus}")
 end
 
 def getExtractInfoFromMongo(query, query_opts={})
