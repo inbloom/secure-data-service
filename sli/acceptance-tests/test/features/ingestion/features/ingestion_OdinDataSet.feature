@@ -109,11 +109,7 @@ Scenario: Verify entities in student were ingested correctly: Populated Database
      | student                     | 3                   | schools.entryGradeLevel                  | Sixth grade                                   | string               |
      | student                     | 1                   | schools.entryGradeLevel                  | Kindergarten                                  | string               |
      | student                     | 3                   | schools.entryGradeLevel                  | Ninth grade                                   | string               |     
-     | student                     | 6                   | schools.edOrgs                           | 352e8570bd1116d11a72755b987902440045d346_id   | string               |   
-     | student                     | 5                   | schools.edOrgs                           | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id   | string               |   
-     | student                     | 3                   | schools.edOrgs                           | a13489364c2eb015c219172d561c62350f0453f3_id   | string               |   
-     | student                     | 10                  | schools.edOrgs                           | 1b223f577827204a1c7e9c851dba06bea6b031fe_id   | string               |   
-     | student                     | 1                   | _id                                      | 9e54047cbfeeee26fed86b0667e98286a2b72791_id   | string               |   
+     | student                     | 1                   | _id                                      | 9e54047cbfeeee26fed86b0667e98286a2b72791_id   | string               |
      | studentParentAssociation    | 2                   | body.studentId                           | 9e54047cbfeeee26fed86b0667e98286a2b72791_id   | string               |
 
 Scenario: Verify specific staff document for Rebecca Braverman ingested correctly: Populated Database

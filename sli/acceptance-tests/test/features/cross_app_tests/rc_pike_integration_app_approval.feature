@@ -378,6 +378,13 @@ Given the pre-existing bulk extrac testing app key has been created
    |  educationOrganization                 |
    |  school                                |
 
+Scenario: Ingestion user ingests additional public entities
+  Given a landing zone
+  And I drop the file "NewSimplePublicEntities.zip" into the landingzone
+  And I check for the file "job-NewSimplePublicEntities*.log" every "30" seconds for "600" seconds
+  Then I should not see an error log file created
+  And I should not see a warning log file created
+
 Scenario: App makes an api call to retrieve a bulk extract delta for the SEA
   #Get a session to trigger a bulk extract
   Given the pre-existing bulk extrac testing app key has been created
@@ -399,10 +406,14 @@ Scenario: App makes an api call to retrieve a bulk extract delta for the SEA
   And I store the URL for the latest delta for the SEA
   And the number of returned URLs is correct:
     |   fieldName  | count |
-    |   fullLeas   |  1    |
-    |   deltaLeas  |  1    |
+    |   deltaSea   |  1    |
   And I request and download a "delta" extract file for the edorg
   And there is a metadata file in the extract
   And the extract contains a file for each of the following entities:
     |  entityType                            |
     |  educationOrganization                 |
+    |  competencyLevelDescriptor             |
+    |  studentCompetencyObjective            |
+    |  learningObjective                     |
+    |  learningStandard                      |
+    |  program                               |

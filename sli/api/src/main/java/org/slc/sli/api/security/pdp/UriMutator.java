@@ -322,6 +322,8 @@ public class UriMutator {
                 mutated.setPath(String.format("/search/%s", baseEntity));
             } else  if (PathConstants.STUDENT_COMPETENCY_OBJECTIVES.equals(baseEntity)) {
                 mutated.setPath(String.format("/educationOrganizations/%s/studentCompetencyObjectives", StringUtils.join(edOrgHelper.getDirectEdorgs(user), ",")));
+            } else if (ResourceNames.HOME.equals(baseEntity)) {
+                mutated.setPath("/home");
             } else {
                 throw new IllegalArgumentException("Not supported yet...");
             }

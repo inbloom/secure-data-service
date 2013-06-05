@@ -446,6 +446,7 @@ public class MockRepo implements Repository<Entity> {
         final Map<String, List<Map<String, Object>>> clonedDenormalization = new HashMap<String, List<Map<String, Object>>>(
                 denormalized);
         final String id = generateId();
+        final BasicBSONObject meta = new BasicBSONObject();
 
         Entity newEntity = new Entity() {
             @Override
@@ -455,7 +456,7 @@ public class MockRepo implements Repository<Entity> {
 
             @Override
             public Map<String, Object> getMetaData() {
-                return new BasicBSONObject();
+                return meta;
             }
 
             @Override
