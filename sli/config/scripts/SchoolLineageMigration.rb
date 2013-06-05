@@ -13,15 +13,15 @@ require 'mongo'
 # Migration Script
 ############################################################
 
-HOST = "localhost"
-INGESTION_DB_PORT = "27017"
+@conn = nil
+host = 'localhost'
+port = '27017'
 
 SCHOOL_FIELD = "schools"
 EDORGS_FIELD = "edOrgs"
 METADATA_FIELD = "metaData"
 PARENT_FIELD = "parentEducationAgencyReference"
 
-@conn = Mongo::Connection.new(HOST, INGESTION_DB_PORT)
 
 def updateStudentEdOrgs(dbName)
    @db = @conn[dbName]
@@ -88,34 +88,66 @@ def dbCheck(dbName)
     return names.include? dbName
 end
 
+# Example: this_script.rb --all host:myhost.com port:12345
+#          this_script.rb host:myhost.com port:12345 db1 db2 db3
+#
+def parseArgs(argv)
+
+  result = { "all" => false, "mongo_host" => "localhost", "mongo_port" => 27017, "dbNames" => [] }
+
+  for arg in argv
+    if arg == "--all"
+      result["all"] = true
+    elsif arg.include?(":")
+      host_port = arg.split(':')
+      result["mongo_host"] = host_port[0]
+      result["mongo_port"] = host_port[1]
+    else
+      result["dbNames"] << arg
+    end
+  end
+  return result
+end
+
 # Main driver
 def main(argv)
-	dbNames = argv
-	if 0==dbNames.length
-    puts "--------------------------------------------------------------------------------------------"
-    puts "| Databases on server '" + HOST + "':"
-    @conn.database_names.each do |name|
-      puts "|    " + name
-    end
-      puts "--------------------------------------------------------------------------------------------"
-      puts "| To migrate on student and educationOrganization collection, give argument(s) as follows:\n"
-      puts "|     all                                     Migrate all databases\n"
-      puts "|     [<dbname1>,<dbname2>...]                Migrate only database in the list\n"
-      puts "--------------------------------------------------------------------------------------------"
-      return
-    end
+  params = parseArgs(argv)
 
-  if 1==dbNames.length
-    if dbNames[0].casecmp("all") == 0
-      @conn.database_names.each do |name|
-        updateDB(name)
+	dbNames = params["dbNames"]
+  @conn = Mongo::Connection.new(params["mongo_host"], params["mongo_port"])
+
+	if ( 0==dbNames.length and not params["all"] ) or ( dbNames.length >= 1 and params["all"] )
+    puts "--------------------------------------------------------------------------------------------"
+    puts "| Databases on server '" + params["mongo_host"] + "':"
+    tenants = []
+    @conn['sli']['tenant'].find({}).each do |tenant|
+      tenants << tenant
+    end
+    for tenant in tenants
+      puts "|    " + tenant['body']['tenantId'] + " " + tenant['body']['dbName']
+    end
+    puts "--------------------------------------------------------------------------------------------"
+    puts "| To migrate on student and educationOrganization collection, give argument(s) as follows:\n"
+    puts "|     --all                                     Migrate against all tenant dbs\n"
+    puts "|     [<dbname1>,<dbname2>...]                  Migrate only database in the list\n"
+    puts "|    myhost:myport                              hostname and port defaults to localhost:27017"
+    puts "--------------------------------------------------------------------------------------------"
+    return
+  end
+
+
+  if params["all"]
+    @conn['sli']['tenant'].find({}).each do |tenant|
+      tenants << tenant
+    end
+      for tenant in tenants
+        updateDB(tenant['body']['dbName'])
       end
       puts "    " + "All done."
       return
-    end
   end
 
-	for dbName in dbNames
+  for dbName in dbNames
     updateDB(dbName)
   end
   puts "    " + "All done."
