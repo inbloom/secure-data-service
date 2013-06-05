@@ -119,6 +119,13 @@ Given /^the extract download directory is empty$/ do
   end
 end
 
+Given /^the unpack directory is empty$/ do
+  if (Dir.exists?(@unpackDir))
+    puts "unpack dir is #{@unpackDir}"
+    FileUtils.rm_rf("#{@unpackDir}", secure: true)
+  end
+end
+
 Given /^I have delta bulk extract files generated for today$/ do
   @pre_generated = "#{File.dirname(__FILE__)}/../../test_data/deltas/Midgar_delta_1.tar"
   bulk_delta_file_entry = {
@@ -635,6 +642,7 @@ def getEntityEndpoint(entity)
       "parent" => "parents",
       "patchEdOrg" => "educationOrganizations",
       "program" => "programs",
+      "patchProgram" => "programs",
       "reportCard" => "reportCards",
       "school" => "educationOrganizations",
       "section" => "sections",
@@ -701,6 +709,7 @@ def getEntityBodyFromApi(entity, api_version, verb)
       "studentSchoolAssociation" => "studentSchoolAssociations",
       "studentSectionAssociation" => "studentSectionAssociations",
       "teacherSchoolAssociation" => "teacherSchoolAssociations",
+      "patchProgram" => "programs/0ee2b448980b720b722706ec29a1492d95560798_id",
   }
   # Perform GET request and verify we get a response and a response body
   restHttpGet("/#{api_version}/#{entity_to_uri_map[entity]}")
@@ -2415,6 +2424,9 @@ def prepareBody(verb, value, response_map)
       },
       "dadLoginId" => {
           "loginId" => value
+      },
+      "patchProgramType" => {
+          "programType" => value
       },
       "studentParentName" => {
         "name" => {
