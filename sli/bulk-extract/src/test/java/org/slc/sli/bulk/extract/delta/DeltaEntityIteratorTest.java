@@ -114,7 +114,8 @@ public class DeltaEntityIteratorTest {
 
     private Map<String, Object> buildDelta(String id, Operation op) {
         Map<String, Object> res = new HashMap<String, Object>();
-        res.put("_id", DeltaJournal.getByteId(id));
+        List<byte[]> byteId = DeltaJournal.getByteId(id);
+        res.put("_id", byteId.get(0));
         long now = new DateTime().getMillis();
         if(op != Operation.PURGE) {
             res.put("c", "educationOrganization");
@@ -128,7 +129,6 @@ public class DeltaEntityIteratorTest {
             res.put("d", now - 1000);
             res.put("u", now);
         }
-        res.put("i", id);
         res.put("t", now);
         return res;
     }

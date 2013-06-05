@@ -107,24 +107,54 @@ public class DeltaJournal implements InitializingBean {
                 update.set("u", now);
             }
             for (String id : ids) {
-                byte[] idbytes = getByteId(id);
-                update.set("i", id);
-                template.upsert(Query.query(where("_id").is(idbytes)), update, DELTA_COLLECTION);
+                List<byte[]> idbytes = getByteId(id);
+                if(idbytes.size() > 1) {
+                    update.set("i", idbytes.subList(1, idbytes.size()));
+                }
+                template.upsert(Query.query(where("_id").is(idbytes.get(0))), update, DELTA_COLLECTION);
             }
         }
     }
 
-    public static byte[] getByteId(String id) {
+    public static List<byte[]> getByteId(String id) {
         try {
+            List<byte[]> result = new ArrayList<byte[]>();
             int idLength = id.length();
             if(idLength < 43) {
                 LOG.error("Short ID encountered: {}", id);
-                return id.getBytes();
+                return Arrays.asList(id.getBytes());
             }
-            return Hex.decodeHex(id.substring(idLength - 43, idLength - 3).toCharArray());
+            for(String idPart: id.split("_id")){
+                if(!idPart.isEmpty()){
+                    result.add(0, Hex.decodeHex(idPart.toCharArray()));
+                }
+            }
+            return result;
         } catch (DecoderException e) {
             LOG.error("Decoder exception while decoding {}", id, e);
-            return id.getBytes();
+            return Arrays.asList(id.getBytes());
+        }
+    }
+
+    public static String getEntityId(Map<String, Object> deltaRecord) {
+        Object deltaId = deltaRecord.get("_id");
+        if(deltaId instanceof String){
+            //legacy case, where the delta and entity used the same id
+            return (String) deltaId;
+        } else if (deltaId instanceof byte[]) {
+            StringBuilder id = new StringBuilder("");
+            @SuppressWarnings("unchecked")
+            List<byte[]> parts = (List<byte[]>) deltaRecord.get("i");
+            if (parts != null) {
+                for (byte[] part : parts) {
+                    id.insert(0, Hex.encodeHexString(part) + "_id");
+                }
+            }
+            id.append(Hex.encodeHexString((byte[]) deltaId) + "_id");
+            return id.toString();
+        }
+        else {
+            throw new IllegalArgumentException("Illegal id: " + deltaId);
         }
     }
 

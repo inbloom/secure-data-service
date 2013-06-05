@@ -190,7 +190,7 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
                 updatedTime = (Long) delta.get("u");
             }
 
-            String id = (String) (delta.containsKey("i") ? delta.get("i") : delta.get("_id"));
+            String id = DeltaJournal.getEntityId(delta);
             if ("null".equals(id) || id == null) {
                 continue;
             }
