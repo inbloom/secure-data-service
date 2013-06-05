@@ -2189,41 +2189,11 @@
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="staffClassificationType">
-		<xs:annotation>
-			<xs:documentation>An individual's title of employment, official status or rank.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:restriction base="xs:token">
-			<xs:enumeration value="Art Therapist"/>
-			<xs:enumeration value="Athletic Trainer"/>
-			<xs:enumeration value="Assistant Principal"/>
-			<xs:enumeration value="Assistant Superintendent"/>
-			<xs:enumeration value="Certified Interpreter"/>
-			<xs:enumeration value="Counselor"/>
-			<xs:enumeration value="High School Counselor"/>
-			<xs:enumeration value="Instructional Coordinator"/>
-			<xs:enumeration value="Instructional Aide"/>
-			<xs:enumeration value="Librarians/Media Specialists"/>
-			<xs:enumeration value="LEA Administrator"/>
-			<xs:enumeration value="LEA Specialist"/>
-			<xs:enumeration value="LEA System Administrator"/>
-			<xs:enumeration value="LEA Administrative Support Staff"/>
-			<xs:enumeration value="Librarian"/>
-			<xs:enumeration value="Principal"/>
-			<xs:enumeration value="Physical Therapist"/>
-			<xs:enumeration value="Teacher"/>
-			<xs:enumeration value="Other"/>
-			<xs:enumeration value="Superintendent"/>
-			<xs:enumeration value="School Nurse"/>
-			<xs:enumeration value="Specialist/Consultant"/>
-			<xs:enumeration value="School Administrator"/>
-			<xs:enumeration value="School Administrative Support Staff"/>
-			<xs:enumeration value="Student Support Services Staff"/>
-			<xs:enumeration value="School Leader"/>
-			<xs:enumeration value="School Specialist"/>
-			<xs:enumeration value="Substitute Teacher"/>
-		</xs:restriction>
-	</xs:simpleType>
+        <xs:annotation>
+            <xs:documentation>An individual's title of employment, official status or rank.  This field designates the individual's custom role name within a particular EdOrg, which defines their CRUD rights to access entity data within that EdOrg.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string" />
+    </xs:simpleType>
 	<xs:simpleType name="staffIdentificationSystemType">
 		<xs:annotation>
 			<xs:documentation>A coding scheme that is used for identification and record-keeping

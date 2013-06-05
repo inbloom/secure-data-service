@@ -1286,7 +1286,7 @@
 		<xs:sequence>
 			<xs:element name="StaffReference" type="SLC-StaffReferenceType"/>
 			<xs:element name="EducationOrganizationReference" type="SLC-EducationalOrgReferenceType"/>
-			<xs:element name="StaffClassification" type="StaffClassificationType"/>
+			<xs:element name="StaffClassification" type="SLC-StaffClassificationType"/>
 			<xs:element name="PositionTitle" type="PositionTitle" minOccurs="0"/>
 			<xs:element name="BeginDate" type="xs:date"/>
 			<xs:element name="EndDate" type="xs:date" minOccurs="0"/>
@@ -2546,6 +2546,12 @@
 			<xs:element name="SessionIdentity" type="SLC-SessionIdentityType"/>
 		</xs:sequence>
 	</xs:complexType>
+    <xs:simpleType name="SLC-StaffClassificationType">
+        <xs:annotation>
+            <xs:documentation>An individual's title of employment, official status or rank.  This field designates the individual's custom role name within a particular EdOrg, which defines their CRUD rights to access entity data within that EdOrg.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string" />
+    </xs:simpleType>
 	<xs:complexType name="SLC-StaffIdentityType">
 		<xs:annotation>
 			<xs:documentation>Changed to use only a required StaffUniqueStateId.</xs:documentation>
