@@ -273,7 +273,7 @@ Then /^the Leader, Educator, Aggregate Viewer and IT Administrator roles are now
   sleep 2
 
   # Seach for two occurances of each of the default roles as elements of <td>s, one being client role other being default role 
-  ["Educator","Leader","Aggregate Viewer","IT Administrator"].each do |role|
+  ["Educator","Leader","Aggregate Viewer","IT Administrator", "Student"].each do |role|
     results = @driver.find_elements(:xpath, "//td/div[text()='#{role}']")
     moreResults = @driver.find_elements(:xpath, "//td/div/span[text()='#{role}']")
     assert(results.size + moreResults.size == 2, webdriverDebugMessage(@driver,"Found unexpected occurences of role "+role+", expected 2 found "+results.size.to_s))
