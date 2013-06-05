@@ -111,15 +111,15 @@ Scenario: Triggering deltas via ingestion
      And I verify this "learningObjective" file should contain:
        | id                                          | condition                                |
        | a2b6a9f6ec88b4524c13064b335c0e078395e658_id | description = This an added description to test Deltas |
-       | 37ef3e293a03e51005f570a6311028b5cef4ae62_id | description = This an added description to test Deltas after day N bulk extract |
+       | 984cd6d4d235b3d1f306042a69bbc8a67075bf9f_id | description = This an added description to test Deltas after day N bulk extract |
      And I verify this "learningStandard" file should contain:
        | id                                          | condition                                                                                |
        | bf9877afdcb1bb388334047c66b46daf83252534_id | description = This is an updated description for learning standard 2-18-9 to test Deltas |
-       | 4525bee7ed0e97497b709046d16ac3dce17ef44c_id | description = This is an updated description for learning standard 3-28-10 to test Deltas after day N bulk extract |
+       | c36b6ac46187cd637208ea8d48dc5efdd6d8ecb9_id | description = This is an updated description for learning standard 3-28-22 to test Deltas after day N bulk extract |
      And I verify this "competencyLevelDescriptor" file should contain:
        | id                                          | condition                                                        |
        | c91ae4718903d20289607c3c4335759e652ad569_id | description = Student understands almost everything in subject   |
-       | 858d9050b7e27c7e0ba6159b6b7dff2907fbd3b1_id | description = Student understands some basic                     |
+       | dfa61631e5a2198d090c6276effebf3bd83cffce_id | description = Student does not understand anything               |
      And I verify this "studentCompetencyObjective" file should contain:
        | id                                          | condition                                     |
        | 5a564cbaa1059014fafd97c24971c5088c1fbffb_id | description = Added description to test Delta |
@@ -127,7 +127,7 @@ Scenario: Triggering deltas via ingestion
      And I verify this "program" file should contain:
        | id                                          | condition                                |
        | 9cce6ea23864ee4870c8871e4c14ddecb6ab0fb0_id | programType = Adult/Continuing Education |
-       | 15e6efc585c0aa09097c0a7f6e114fecabc6e6ec_id | programType = Gifted and Talented |
+       | b3cb28bf5c7e1e43a0901d51c2ec0967e5e079a7_id | programType = Gifted and Talented |
      And I verify this "educationOrganization" file should contain:
        | id                                          | condition                      |
        | 884daa27d806c2d725bc469b273d840493f84b4d_id | webSite = www.STANDARD-SEA.net |
