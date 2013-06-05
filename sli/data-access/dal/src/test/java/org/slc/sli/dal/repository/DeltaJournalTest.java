@@ -246,7 +246,27 @@ public class DeltaJournalTest {
     @Test
     public void testGetByteId() throws DecoderException {
         String id = "1234567890123456789012345678901234567890";
-        assertEquals(id, Hex.encodeHexString(DeltaJournal.getByteId(id+"_id")));
-        assertEquals(id, Hex.encodeHexString(DeltaJournal.getByteId("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa_id" + id+"_id")));
+        String superid = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+        String extraid = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
+        assertEquals(id, Hex.encodeHexString(DeltaJournal.getByteId(id + "_id").get(0)));
+        assertEquals(id, Hex.encodeHexString(DeltaJournal.getByteId(superid + "_id" + id + "_id").get(0)));
+        assertEquals(superid, Hex.encodeHexString(DeltaJournal.getByteId(superid + "_id" + id + "_id").get(1)));
+        assertEquals(superid, Hex.encodeHexString(DeltaJournal.getByteId(extraid + "_id" + superid + "_id" + id + "_id").get(1)));
+        assertEquals(extraid, Hex.encodeHexString(DeltaJournal.getByteId(extraid + "_id" + superid + "_id" + id + "_id").get(2)));
+    }
+
+    @Test
+    public void testGetEntityId() throws DecoderException {
+        String id = "1234567890123456789012345678901234567890";
+        String superid = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+        String extraid = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
+        Map<String, Object> delta = new HashMap<String, Object>();
+        delta.put("_id", Hex.decodeHex(id.toCharArray()));
+        assertEquals(id + "_id", DeltaJournal.getEntityId(delta));
+        delta.put("i", Arrays.asList(Hex.decodeHex(superid.toCharArray())));
+        assertEquals(superid + "_id" + id + "_id", DeltaJournal.getEntityId(delta));
+        delta.put("i", Arrays.asList(Hex.decodeHex(superid.toCharArray()), Hex.decodeHex(extraid.toCharArray())));
+        assertEquals(extraid + "_id" + superid + "_id" + id + "_id", DeltaJournal.getEntityId(delta));
+
     }
 }
