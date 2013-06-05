@@ -199,11 +199,13 @@ public class ParameterConstants {
     public static final String STATE_ORGANIZATION_ID = "stateOrganizationId";
 
     public static final String TEACHER_REFERENCE = "teacherReference";
-    
+
     /**
      * Entity field names
      */
     public static final String ASSESSMENT_FAMILY_HIERARCHY = "assessmentFamilyHierarchyName";
     public static final String ASSESSMENT_FAMILY_TITLE = "assessmentFamilyTitle";
     public static final String ORGANIZATION_CATEGORIES = "organizationCategories";
+
+    public static final String EDORGS_ARRAY = "edOrgs";
 }

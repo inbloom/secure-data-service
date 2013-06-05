@@ -147,6 +147,9 @@ public class EdOrgHelper {
      *
      * @return - Hierarchical list of the EdOrg's parents
      */
+
+
+
     public List<String> getParentEdOrgs(final Entity edOrg) {
         List<String> toReturn = new ArrayList<String>();
 
@@ -189,6 +192,10 @@ public class EdOrgHelper {
      * @return
      */
     public List<String> getDirectSchools(Entity principal) {
+        return getDirectSchoolsLineage( principal, false );
+    }
+
+    public List<String> getDirectSchoolsLineage(Entity principal, boolean getLineage) {
         Set<String> ids = getDirectEdorgs(principal);
         Iterable<Entity> edorgs = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, new NeutralQuery(
                 new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids, false)));
@@ -197,12 +204,28 @@ public class EdOrgHelper {
         for (Entity e : edorgs) {
             if (helper.isSchool(e)) {
                 schools.add(e.getEntityId());
+                if (getLineage) {
+                    schools.addAll(extractEdorgFromMeta(e));
+                }
             }
         }
 
         return schools;
     }
 
+    @SuppressWarnings("unchecked")
+    private Set<String> extractEdorgFromMeta( Entity e) {
+        Set<String> edOrgs = new HashSet<String>();
+        Map<String,Object> meta = e.getMetaData();
+
+        if( meta == null || !meta.containsKey( ParameterConstants.EDORGS_ARRAY )) {
+            return edOrgs;
+        }
+
+        edOrgs.addAll( (Collection<? extends String>) meta.get( ParameterConstants.EDORGS_ARRAY  ));
+
+        return edOrgs;
+    }
     /**
      * Recursively returns the list of all child edorgs
      *
@@ -342,6 +365,7 @@ public class EdOrgHelper {
         return new HashSet<String>();
     }
 
+
     /**
      * Get directly associated education organizations for the specified principal, not filtered by
      * data ownership.
@@ -399,6 +423,8 @@ public class EdOrgHelper {
         }
         return edOrgIds;
     }
+
+
 
     /**
      * Set the entity ownership validator (used primarily for unit testing).

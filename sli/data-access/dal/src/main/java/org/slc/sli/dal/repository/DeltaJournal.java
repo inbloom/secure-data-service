@@ -239,9 +239,9 @@ public class DeltaJournal implements InitializingBean {
         List<Map> deltas;
         do {
             deltas = template.find(beforeWithLimit, Map.class, DELTA_COLLECTION);
-            List<byte[]> idsToRemove = new ArrayList<byte[]>(deltas.size());
+            List<Object> idsToRemove = new ArrayList<Object>(deltas.size());
             for (Map<String, Object> delta : deltas) {
-                idsToRemove.add((byte[]) delta.get("_id"));
+                idsToRemove.add(delta.get("_id"));
             }
 
             if (!idsToRemove.isEmpty()) {

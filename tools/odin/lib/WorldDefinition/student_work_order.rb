@@ -55,7 +55,7 @@ class StudentWorkOrderFactory
         (1..num_students).each{ |_|
           student_id = @next_id += 1
           plan       = generate_plan(edOrg, grade)
-          push_work_order(yielder, student_id, grade, initial_year, plan)       
+          create_work_order(yielder, student_id, grade, initial_year, plan)       
         }
       }
     end
@@ -71,13 +71,13 @@ class StudentWorkOrderFactory
           raise "Student catalog entry for #{student_id} failed: #{student[:begin_grade]} is not a valid grade." if grade == nil
           name       = student[:name]
           plan       = generate_plan(edOrg, grade)
-          push_work_order(yielder, student_id, name, grade, initial_year, plan)         
+          create_work_order(yielder, student_id, name, grade, initial_year, plan)         
         }
       end
     }
   end
 
-  def push_work_order(yielder, student_id, name=nil, grade, initial_year, plan)
+  def create_work_order(yielder, student_id, name=nil, grade, initial_year, plan)
     yielder.yield StudentWorkOrder.new(student_id,
                                        name: name,
                                        scenario: @scenario, 
