@@ -103,7 +103,7 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
     }
     
     public enum Operation {
-        UPDATE, DELETE
+        UPDATE, DELETE, PURGE
     }
     
     public void init(String tenant, DateTime deltaUptoTime) {
@@ -178,6 +178,7 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
         // populate the id lists so we can do query in batch
         while (deltaCursor.hasNext()) {
             Map<String, Object> delta = deltaCursor.next();
+            LOG.debug("Processing delta {}", delta);
             long deletedTime = -1;
             long updatedTime = -1;
             
@@ -188,12 +189,18 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
                 updatedTime = (Long) delta.get("u");
             }
             
-            String id = (String) delta.get("_id");
+            String id = (String) (delta.containsKey("i") ? delta.get("i") : delta.get("_id"));
             if ("null".equals(id) || id == null) {
                 continue;
             }
             
             String collection = (String) delta.get("c");
+
+            if (collection.equals(DeltaJournal.PURGE)) {
+                Entity purge = new MongoEntity(collection, id, delta, null);
+                return new DeltaRecord(purge, null, Operation.PURGE, false, collection);
+            }
+
             ContextResolver resolver = resolverFactory.getResolver((String) delta.get("c"));
             if (resolver == null) {
                 // we have no resolver defined for this type, i.e. this type should not be

@@ -71,7 +71,7 @@ public class StudentExtractorTest {
     public void testOneExtractedEntity() {
         Entity e = Mockito.mock(Entity.class);
         Mockito.when(mockRepo.findEach(Mockito.eq("student"), Mockito.eq(new NeutralQuery()))).thenReturn(Arrays.asList(e).iterator());
-        Mockito.when(helper.fetchCurrentSchoolsFromStudent(Mockito.any(Entity.class))).thenReturn(
+        Mockito.when(helper.fetchCurrentSchoolsForStudent(Mockito.any(Entity.class))).thenReturn(
                 new HashSet<String>(Arrays.asList("LEA")));
         extractor.extractEntities(null);
         Mockito.verify(mockExtractor).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class),
@@ -84,7 +84,7 @@ public class StudentExtractorTest {
         Entity e = Mockito.mock(Entity.class);
         Mockito.when(mockRepo.findEach(Mockito.eq("student"), Mockito.eq(new NeutralQuery()))).thenReturn(
                 Arrays.asList(e).iterator());
-        Mockito.when(helper.fetchCurrentSchoolsFromStudent(Mockito.any(Entity.class))).thenReturn(
+        Mockito.when(helper.fetchCurrentSchoolsForStudent(Mockito.any(Entity.class))).thenReturn(
                 new HashSet<String>(Arrays.asList("LEA")));
         Mockito.when(helper.fetchCurrentParentsFromStudent(Mockito.any(Entity.class))).thenReturn(
                 new HashSet<String>(Arrays.asList("Parent1", "Parent2")));
@@ -100,7 +100,7 @@ public class StudentExtractorTest {
         Entity e = Mockito.mock(Entity.class);
         Mockito.when(mockRepo.findEach(Mockito.eq("student"), Mockito.eq(new NeutralQuery()))).thenReturn(
                 Arrays.asList(e, e, e).iterator());
-        Mockito.when(helper.fetchCurrentSchoolsFromStudent(Mockito.any(Entity.class))).thenReturn(
+        Mockito.when(helper.fetchCurrentSchoolsForStudent(Mockito.any(Entity.class))).thenReturn(
                 new HashSet<String>(Arrays.asList("LEA")));
         extractor.extractEntities(null);
         Mockito.verify(mockExtractor, Mockito.times(3)).extractEntity(Mockito.any(Entity.class),
@@ -113,13 +113,13 @@ public class StudentExtractorTest {
         Entity e = Mockito.mock(Entity.class);
         Mockito.when(mockRepo.findEach(Mockito.eq("student"), Mockito.eq(new NeutralQuery()))).thenReturn(
                 Arrays.asList(e).iterator());
-        Mockito.when(helper.fetchCurrentSchoolsFromStudent(Mockito.any(Entity.class))).thenReturn(
+        Mockito.when(helper.fetchCurrentSchoolsForStudent(Mockito.any(Entity.class))).thenReturn(
                 new HashSet<String>(Arrays.asList("LEA2")));
         extractor.extractEntities(null);
         Mockito.verify(mockExtractor, Mockito.never()).extractEntity(Mockito.any(Entity.class),
                 Mockito.any(ExtractFile.class), Mockito.eq("student"));
         // No Edorgs
-        Mockito.when(helper.fetchCurrentSchoolsFromStudent(Mockito.any(Entity.class)))
+        Mockito.when(helper.fetchCurrentSchoolsForStudent(Mockito.any(Entity.class)))
                 .thenReturn(new HashSet<String>());
         extractor.extractEntities(null);
         Mockito.verify(mockExtractor, Mockito.never()).extractEntity(Mockito.any(Entity.class),

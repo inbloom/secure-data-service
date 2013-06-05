@@ -24,10 +24,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import junit.framework.Assert;
-import org.mockito.Mockito;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -156,7 +154,6 @@ public class StaffToParentValidatorTest {
 
         body = new HashMap<String, Object>();
         parent1 = repo.create("parent", body);
-        System.out.println( "Parent11 " +parent1.getEntityId()  );
 
         body = new HashMap<String, Object>();
         parent2 = repo.create("parent", body);
@@ -168,13 +165,11 @@ public class StaffToParentValidatorTest {
         body.put("parentId", parent1.getEntityId());
         body.put("studentId", student1.getEntityId());
         repo.create(EntityNames.STUDENT_PARENT_ASSOCIATION, body);
-        System.out.println( "Parent " +parent1.getEntityId() + " Student " + student1.getEntityId() );
 
         body = new HashMap<String, Object>();
         body.put("parentId", parent2.getEntityId());
         body.put("studentId", student2.getEntityId());
         repo.create(EntityNames.STUDENT_PARENT_ASSOCIATION, body);
-        System.out.println( "Parent12 " +parent1.getEntityId()  );
 
         body = new HashMap<String, Object>();
         body.put("parentId", parent3.getEntityId());
@@ -185,7 +180,7 @@ public class StaffToParentValidatorTest {
         body.put("parentId", parent3.getEntityId());
         body.put("studentId", student4.getEntityId());
         repo.create(EntityNames.STUDENT_PARENT_ASSOCIATION, body);
-        System.out.println( "Parent13 " +parent1.getEntityId()  );
+
 
     }
 

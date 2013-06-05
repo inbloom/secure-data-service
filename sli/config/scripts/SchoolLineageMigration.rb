@@ -19,6 +19,7 @@ SCHOOL_FIELD = "schools"
 EDORGS_FIELD = "edOrgs"
 METADATA_FIELD = "metaData"
 PARENT_FIELD = "parentEducationAgencyReference"
+
 STUDENT_COLLECTION = "student"
 EDORG_COLLECTION = "educationOrganization"
 

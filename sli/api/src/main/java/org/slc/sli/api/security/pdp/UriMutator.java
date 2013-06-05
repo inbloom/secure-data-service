@@ -292,9 +292,42 @@ public class UriMutator {
             mutatedPathAndParameters = mutateTeacherRequest(segments, queryParameters, user);
         } else if (isStaff(user)) {
             mutatedPathAndParameters = mutateStaffRequest(segments, queryParameters, user);
+        } else if(isStudent(user)) {
+            mutatedPathAndParameters = mutateStudentRequest(stringifyPathSegments(segments), queryParameters, user);
         }
 
         return mutatedPathAndParameters;
+    }
+
+    private MutatedContainer mutateStudentRequest(List<String> segmentStrings, String queryParameters, Entity user) {
+        MutatedContainer mutated = new MutatedContainer();
+        mutated.setQueryParameters(queryParameters != null ? queryParameters : "");
+
+        if (segmentStrings.size() == 2) {
+            String baseEntity = segmentStrings.get(1);
+
+            if (PathConstants.COURSES.equals(baseEntity)) {
+                mutated.setPath(String.format("/schools/%s/courses", StringUtils.join(edOrgHelper.getDirectEdorgs(user), ",")));
+            } else if(Arrays.asList(PathConstants.SCHOOLS, PathConstants.EDUCATION_ORGANIZATIONS).contains(baseEntity)) {
+                mutated.setPath(String.format("/schools/%s", StringUtils.join(edOrgHelper.getDirectEdorgs(user), ",")));
+            } else  if (PathConstants.COURSE_OFFERINGS.equals(baseEntity)) {
+                mutated.setPath(String.format("/schools/%s/courseOfferings", StringUtils.join(edOrgHelper.getDirectEdorgs(user), ",")));
+            } else  if (PathConstants.SESSIONS.equals(baseEntity)) {
+                mutated.setPath(String.format("/schools/%s/sessions", StringUtils.join(edOrgHelper.getDirectEdorgs(user), ",")));
+            } else  if (PathConstants.GRADING_PERIODS.equals(baseEntity)) {
+                mutated.setPath(String.format("/schools/%s/sessions/gradingPeriods", StringUtils.join(edOrgHelper.getDirectEdorgs(user), ",")));
+            } else  if (PathConstants.GRADUATION_PLANS.equals(baseEntity)) {
+                mutated.setPath(String.format("/schools/%s/graduationPlans", StringUtils.join(edOrgHelper.getDirectEdorgs(user), ",")));
+            } else if(Arrays.asList(PathConstants.LEARNING_STANDARDS, PathConstants.LEARNING_OBJECTIVES).contains(baseEntity)) {
+                mutated.setPath(String.format("/search/%s", baseEntity));
+            } else  if (PathConstants.STUDENT_COMPETENCY_OBJECTIVES.equals(baseEntity)) {
+                mutated.setPath(String.format("/educationOrganizations/%s/studentCompetencyObjectives", StringUtils.join(edOrgHelper.getDirectEdorgs(user), ",")));
+            } else {
+                throw new IllegalArgumentException("Not supported yet...");
+            }
+        }
+
+        return mutated;
     }
 
     private MutatedContainer mutateTeacherRequest(List<PathSegment> segments, String queryParameters, Entity user) {
@@ -838,6 +871,8 @@ public class UriMutator {
             return this.mutateBaseUriForTeacher(resource, mutated.getQueryParameters(), user);
         } else if (mutated.getPath() == null && isStaff(user)) {
             return this.mutateBaseUriForStaff(resource, mutated.getQueryParameters(), user, mutated.getQueryParameters());
+        } else if (mutated.getPath() == null && isStudent(user)) {
+            return this.mutateStudentRequest(Arrays.<String>asList(version, resource),mutated.getQueryParameters(), user);
         } else {
             return mutated;
         }
@@ -884,6 +919,11 @@ public class UriMutator {
     private boolean isStaff(Entity principal) {
         return principal.getType().equals(EntityNames.STAFF);
     }
+
+    private boolean isStudent(Entity principal) {
+        return principal.getType().equals(EntityNames.STUDENT);
+    }
+
 
     private MutatedContainer formQueryBasedOnParameter(String path, String parameters, String parameter) {
         MutatedContainer mutated = new MutatedContainer();

@@ -24,6 +24,7 @@ import org.mockito.MockitoAnnotations;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.util.PublicEntityDefinition;
 
 /**
  * Test UnfilteredPublicDataExtractor
@@ -46,39 +47,12 @@ public class UnfilteredPublicDataExtractorTest {
     }
 
     @Test
-    public void testExtractAssessment() {
-        publicDataExtractor.extract("SEA", file);
-        Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, "assessment");
+    public void testExtract() {
+        publicDataExtractor.extract(file);
+        for (PublicEntityDefinition definition : PublicEntityDefinition.unFilteredEntities()) {
+            Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, definition.getEntityName());
+        }
     }
 
-    @Test
-    public void testExtractLearningObjective() {
-        publicDataExtractor.extract("SEA", file);
-        Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, "learningObjective");
-    }
-
-    @Test
-    public void testExtractLearningStandard() {
-        publicDataExtractor.extract("SEA", file);
-        Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, "learningStandard");
-    }
-
-    @Test
-    public void testExtractCompetencyLevelDescriptor() {
-        publicDataExtractor.extract("SEA", file);
-        Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, "competencyLevelDescriptor");
-    }
-
-    @Test
-    public void testExtractStudentCompetencyObjective() {
-        publicDataExtractor.extract("SEA", file);
-        Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, "studentCompetencyObjective");
-    }
-
-    @Test
-    public void testExtractProgram() {
-        publicDataExtractor.extract("SEA", file);
-        Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, "program");
-    }
 
 }

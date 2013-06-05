@@ -50,26 +50,26 @@ public class EntityWriterManager {
     }
     
     /**
-     * Write all delete event to a single file
+     * Write all delete/purge event to a single delete file
      * 
      * @param entity
      * @param archiveFile
      */
-    public void writeDelete(Entity entity, ExtractFile archiveFile) {
+    public void writeDeleteFile(Entity entity, ExtractFile archiveFile) {
         EntityWriter defaultWriter = writers.getDefault();
-        defaultWriter.write(entity, archiveFile.getDataFileEntry(DELETE));
+        defaultWriter.write(entity, archiveFile.getDataFileEntry(DELETE), archiveFile.getErrorLogger());
     }
 
     private void writeEntityFile(Entity entity, ExtractFile archiveFile) {
         if(entities.containsKey(entity.getType())) {
-            writers.getValue(entity.getType()).write(entity, archiveFile.getDataFileEntry(entity.getType()));
+            writers.getValue(entity.getType()).write(entity, archiveFile.getDataFileEntry(entity.getType()), archiveFile.getErrorLogger());
         }
     }
 
     private void writerCollectionFile(Entity entity, ExtractFile archiveFile) {
         if (multiFileEntities.containsKey(entity.getType())) {
             String otherFileName = multiFileEntities.get(entity.getType());
-            writers.getValue(otherFileName).write(entity, archiveFile.getDataFileEntry(otherFileName));
+            writers.getValue(otherFileName).write(entity, archiveFile.getDataFileEntry(otherFileName), archiveFile.getErrorLogger());
         }
     }
 

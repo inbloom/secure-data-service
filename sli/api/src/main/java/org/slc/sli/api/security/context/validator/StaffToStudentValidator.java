@@ -144,33 +144,6 @@ public class StaffToStudentValidator extends AbstractContextValidator {
 
     }
 
-    //to be deleted
-    private Set<String> getStudentsEdOrgs(Entity studentEntity, boolean obsolete) {
-        Set<String> edOrgs = new HashSet<String>();
-        Map<String, List<Map<String, Object>>> denormalized = studentEntity.getDenormalizedData();
-        List<Map<String, Object>> schools = denormalized.get("schools");
-        if (schools != null) {
-            for (Map<String, Object> school : schools) {
-                if (school.containsKey("exitWithdrawDate")) {
-                    DateTime exitWithdrawDate = getDateTime((String) school.get("exitWithdrawDate"));
-                    if (!isLhsBeforeRhs(getNowMinusGracePeriod(), exitWithdrawDate)) {
-                        continue;
-                    }
-                }
-
-                if (school.containsKey("edOrgs")) {
-                    @SuppressWarnings("unchecked")
-                    List<String> schoolIds = (List<String>) school.get("edOrgs");
-                    edOrgs.addAll(schoolIds);
-                } else {
-                    String schoolId = (String) school.get("_id");
-                    edOrgs.add(schoolId);
-                }
-            }
-        }
-        return edOrgs;
-    }
-
     private Iterable<Entity> getStudentEntitiesFromIds(Collection<String> studentIds) {
         NeutralQuery studentQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
                 NeutralCriteria.CRITERIA_IN, new ArrayList<String>(studentIds)));

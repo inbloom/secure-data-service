@@ -16,27 +16,19 @@
 
 package org.slc.sli.bulk.extract.pub;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.util.PublicEntityDefinition;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 
 /**
  * PublicData Extractor which extracts all entities of belonging to a tenant.
  * @author tshewchuk
  */
-public class UnfilteredPublicDataExtractor implements PublicDataExtractor {
+public class UnfilteredPublicDataExtractor implements PublicDataExtractor{
 
     private EntityExtractor extractor;
-
-    private List<String> unfilteredEntities = Arrays.asList(
-            "assessment",
-            "learningObjective",
-            "learningStandard",
-            "competencyLevelDescriptor",
-            "studentCompetencyObjective",
-            "program");
 
     /**
      * Constructor.
@@ -48,16 +40,9 @@ public class UnfilteredPublicDataExtractor implements PublicDataExtractor {
     }
 
     @Override
-    public void extract(String edOrgid, ExtractFile file) {
-
-        extractor.setExtractionQuery(null);
-        for (String entity : unfilteredEntities) {
-            extractor.extractEntities(file, entity);
+    public void extract(ExtractFile file) {
+        for (PublicEntityDefinition entity : PublicEntityDefinition.unFilteredEntities()) {
+            extractor.extractEntities(file, entity.getEntityName());
         }
      }
-
-    public List<String> getUnfilteredEntities() {
-        return unfilteredEntities;
-    }
-
 }

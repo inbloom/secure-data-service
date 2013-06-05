@@ -20,13 +20,13 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URI;
 import java.security.cert.X509Certificate;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -52,7 +52,6 @@ import com.sun.jersey.api.core.HttpRequestContext;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
-import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +65,7 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.security.context.resolver.AppAuthHelper;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.validator.GenericToEdOrgValidator;
@@ -209,13 +209,13 @@ public class BulkExtract {
     @GET
     @Path("extract/list")
     @RightsAllowed({ Right.BULK_EXTRACT })
-    public Response getLEAList(@Context HttpServletRequest request, @Context HttpContext context) throws Exception {
-        info("Received request for list of links for all LEAs for this user/app");
-        logSecurityEvent(uri, "Received request for list of links for all LEAs for this user/app");
+    public Response getSEAOrLEAList(@Context HttpServletRequest request, @Context HttpContext context) throws Exception {
+        info("Received request for list of links for all SEAs and LEAs for this user/app");
+        logSecurityEvent(uri, "Received request for list of links for all SEAs and LEAs for this user/app");
         validateRequestAndApplicationAuthorization(request);
 
-        logSecurityEvent(uri, "Successful request for list of links for all LEAs for this user/app");
-        return getLEAListResponse(context);
+        logSecurityEvent(uri, "Successful request for list of links for all SEAs and LEAs for this user/app");
+        return getSLEAListResponse(context);
     }
 
     /**
@@ -363,44 +363,52 @@ public class BulkExtract {
 
     }
 
-
     /**
-     * Get the LEA list response
+     * Get the SEA/LEA list response.
      *
-     * @param context  the http request context
-     * @return the jax-rs response to send back.
+     * @param context - the http request context
+     * @return - the jax-rs response to send back
      */
-    Response getLEAListResponse(final HttpContext context) {
+    Response getSLEAListResponse(final HttpContext context) {
 
-        List<String> userDistricts = retrieveUserAssociatedSLEAs();
+        List<String> userDistricts = retrieveUserAssociatedLEAs();
 
         String appId = appAuthHelper.getApplicationId();
 
-        List<String> appAuthorizedUserLEAs = getApplicationAuthorizedUserSLEAs(userDistricts, appId);
+        List<String> appAuthorizedUserLEAs = getApplicationAuthorizedUserLEAs(userDistricts, appId);
         if (appAuthorizedUserLEAs.size() == 0) {
             logSecurityEvent(uri, "No authorized LEAs for application:" + appId);
             LOG.info("No authorized LEAs for application: {}", appId);
             return Response.status(Status.NOT_FOUND).build();
         }
-        logSecurityEvent(uri, "Successfully retrieved LEA list for " + appId);
-        return assembleLEALinksResponse(context, appId, appAuthorizedUserLEAs);
+
+        List<String> authorizedUserSLEAs = new LinkedList<String>();
+        authorizedUserSLEAs.addAll(appAuthorizedUserLEAs);
+        Entity lea = helper.byId(appAuthorizedUserLEAs.get(0));  // First LEA is as good as any.
+        String seaId = helper.getSEAOfEdOrg(lea);
+        if (seaId != null) {
+            authorizedUserSLEAs.add(seaId);
+        }
+
+        logSecurityEvent(uri, "Successfully retrieved SEA/LEA list for " + appId);
+        return assembleSLEALinksResponse(context, appId, authorizedUserSLEAs);
     }
 
     /**
-     * Assemble the LEA HATEOAS links response.
+     * Assemble the SEA/LEA HATEOAS links response.
      *
      * @param context
      *        Original HTTP Request Context.
      * @param appId
      *        Authorized application ID.
-     * @param appAuthorizedUserLEAs
-     *        List of LEAs authorized to use and authorizing the specified application.
+     * @param appAuthorizedUserSLEAs
+     *        List of SEAs and LEAs authorized to use and authorizing the specified application.
      *
      * @return the jax-rs response to send back.
      */
     @SuppressWarnings("unchecked")
-    private Response assembleLEALinksResponse(final HttpContext context, final String appId, final List<String> appAuthorizedUserLEAs) {
-        EntityBody list = assembleLEALinks(context, appId, appAuthorizedUserLEAs);
+    private Response assembleSLEALinksResponse(final HttpContext context, final String appId, final List<String> authorizedUserSLEAs) {
+        EntityBody list = assembleSLEALinks(context, appId, authorizedUserSLEAs);
 
         ResponseBuilder builder = Response.ok(list);
         builder.header("content-type", MediaType.APPLICATION_JSON + "; charset=utf-8");
@@ -409,40 +417,53 @@ public class BulkExtract {
     }
 
     /**
-     * Assemble the LEA HATEOAS links entity body.
+     * Assemble the SEA/LEA HATEOAS links entity body.
      *
      * @param context
      *        Original HTTP Request Context.
      * @param appId
      *        Authorized application ID.
-     * @param appAuthorizedUserLEAs
-     *        List of LEAs authorized to use and authorizing the specified application.
+     * @param appAuthorizedUserSLEAs
+     *        List of SEAs and LEAs authorized to use and authorizing the specified application.
      *
      * @return the jax-rs response to send back.
      */
-    private EntityBody assembleLEALinks(final HttpContext context, final String appId, final List<String> appAuthorizedUserLEAs) {
+    private EntityBody assembleSLEALinks(final HttpContext context, final String appId, final List<String> authorizedUserSLEAs) {
         EntityBody list = new EntityBody();
 
         UriInfo uriInfo = context.getUriInfo();
         String linkBase = ResourceUtil.getURI(uriInfo, ResourceUtil.getApiVersion(uriInfo)).toString() + "/bulk/extract/";
         Map<String, Map<String, String>> leaFullLinks = new HashMap<String, Map<String, String>>();
         Map<String, Set<Map<String, String>>> leaDeltaLinks = new HashMap<String, Set<Map<String, String>>>();
+        Map<String, Map<String, String>> seaFullLinks = new HashMap<String, Map<String, String>>();
+        Map<String, Set<Map<String, String>>> seaDeltaLinks = new HashMap<String, Set<Map<String, String>>>();
 
-        for (String leaId : appAuthorizedUserLEAs) {
+        for (String edOrgId : authorizedUserSLEAs) {
             Map<String, String> fullLink = new HashMap<String, String>();
             Set<Map<String, String>> deltaLinks = newDeltaLinkSet();
-            Iterable<Entity> leaFileEntities = getLEABulkExtractEntities(appId, leaId);
-            if (leaFileEntities.iterator().hasNext()) {
-                addLinks(linkBase + leaId, leaFileEntities, fullLink, deltaLinks);
+            Iterable<Entity> edOrgFileEntities = getEdOrgBulkExtractEntities(appId, edOrgId);
+            if (edOrgFileEntities.iterator().hasNext()) {
+                addLinks(linkBase + edOrgId, edOrgFileEntities, fullLink, deltaLinks);
+                Entity entity = helper.byId(edOrgId);
                 if (!fullLink.isEmpty()) {
-                    leaFullLinks.put(leaId, fullLink);
+                    if (helper.isSEA(entity)) {
+                        seaFullLinks.put(edOrgId, fullLink);
+                    } else {
+                        leaFullLinks.put(edOrgId, fullLink);
+                    }
                 }
                 if (!deltaLinks.isEmpty()) {
-                    leaDeltaLinks.put(leaId, deltaLinks);
+                    if (helper.isSEA(entity)) {
+                        seaDeltaLinks.put(edOrgId, deltaLinks);
+                    } else {
+                        leaDeltaLinks.put(edOrgId, deltaLinks);
+                    }
                 }
             }
         }
 
+        list.put("fullSea", seaFullLinks);
+        list.put("deltaSea", seaDeltaLinks);
         list.put("fullLeas", leaFullLinks);
         list.put("deltaLeas", leaDeltaLinks);
 
@@ -450,7 +471,7 @@ public class BulkExtract {
     }
 
     /**
-     * Create the delta links list for an LEA.
+     * Create the delta links list for an SEA/LEA.
      *
      * return - Empty set to hold delta links for an LEA, sorted in reverse chronological order.
      */
@@ -465,22 +486,24 @@ public class BulkExtract {
     }
 
     /**
-     * Create the full and delta links for each specified LEA.
+     * Create the full and delta links for each specified SEA or LEA.
      *
-     * @param leaFullLinks - Set of LEA full links.
-     * @param leaDeltaLinks - Set of LEA delta links.
+     * @param linkBase - Base name of SEA or LEA links.
+     * @param edOrgFileEntities - All eligible SEA or LEA entities.
+     * @param fullLink - SEA or LEA full link.
+     * @param deltaLinks - Set of SEA or LEA delta links.
      */
-    private void addLinks(final String leaLinkBase, final Iterable<Entity> leaFileEntities,
+    private void addLinks(final String linkBase, final Iterable<Entity> edOrgFileEntities,
             final Map<String, String> fullLink, Set<Map<String, String>> deltaLinks) {
-        for (Entity leaFileEntity : leaFileEntities) {
+        for (Entity edOrgFileEntity : edOrgFileEntities) {
             Map<String, String> deltaLink = new HashMap<String, String>();
-            String timeStamp = getTimestamp(leaFileEntity);
-            if (Boolean.TRUE.equals(leaFileEntity.getBody().get("isDelta"))) {
-                deltaLink.put("uri", leaLinkBase + "/delta/" + timeStamp);
+            String timeStamp = getTimestamp(edOrgFileEntity);
+            if (Boolean.TRUE.equals(edOrgFileEntity.getBody().get("isDelta"))) {
+                deltaLink.put("uri", linkBase + "/delta/" + timeStamp);
                 deltaLink.put("timestamp", timeStamp);
                 deltaLinks.add(deltaLink);
-            } else {  // Assume only one full extract per LEA.
-                fullLink.put("uri", leaLinkBase);
+            } else {  // Assume only one full extract per SEA or LEA.
+                fullLink.put("uri", linkBase);
                 fullLink.put("timestamp", timeStamp);
             }
         }
@@ -499,16 +522,17 @@ public class BulkExtract {
     }
 
     /**
-     * Get the bulk extract file
+     * Get all the bulk extract entities for a particular App and EdOrg.
      *
-     * @param deltaDate the date of the delta, or null to retrieve a full extract
-     * @param appId
-     * @return
+     * @param appId -  The application id
+     * @param edOrgId - The EdOrg id.
+     *
+     * @return - All bulk extract entities for the App and EdOrg
      */
-    private Iterable<Entity> getLEABulkExtractEntities(String appId, String leaId) {
+    private Iterable<Entity> getEdOrgBulkExtractEntities(String appId, String edOrgId) {
         NeutralQuery query = new NeutralQuery(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL,
                 getPrincipal().getTenantId()));
-        query.addCriteria(new NeutralCriteria("edorg", NeutralCriteria.OPERATOR_EQUAL, leaId));
+        query.addCriteria(new NeutralCriteria("edorg", NeutralCriteria.OPERATOR_EQUAL, edOrgId));
         query.addCriteria(new NeutralCriteria("applicationId", NeutralCriteria.OPERATOR_EQUAL, appId));
         debug("Bulk Extract query is {}", query);
         Iterable<Entity> entities = mongoEntityRepository.findAll(BULK_EXTRACT_FILES, query);
@@ -560,15 +584,15 @@ public class BulkExtract {
         appAuthHelper.checkApplicationAuthorization(null);
     }
 
-    private List<String> retrieveUserAssociatedSLEAs() throws AccessDeniedException {
+    private List<String> retrieveUserAssociatedLEAs() throws AccessDeniedException {
         List<String> userDistricts = helper.getDistricts(getPrincipal().getEntity());
         if (userDistricts.size() == 0) {
-            throw new AccessDeniedException("User is not authorized for a list of available LEAs extracts");
+            throw new AccessDeniedException("User is not authorized for a list of available SEA/LEA extracts");
         }
         return userDistricts;
     }
 
-    private List<String> getApplicationAuthorizedUserSLEAs(List<String> userDistrics, String appId) {
+    private List<String> getApplicationAuthorizedUserLEAs(List<String> userDistrics, String appId) {
         List<String> appAuthorizedEdorgIds = appAuthHelper.getApplicationAuthorizationEdorgIds(appId);
         appAuthorizedEdorgIds.retainAll(userDistrics);
         return appAuthorizedEdorgIds;

@@ -49,7 +49,7 @@ public class ExtractorHelper{
      * @return
      */
     @SuppressWarnings("unchecked")
-    public Set<String> fetchCurrentSchoolsFromStudent(Entity student) {
+    public Set<String>fetchCurrentSchoolsForStudent(Entity student) {
         if (dateHelper == null) {
             dateHelper = new DateHelper();
         }

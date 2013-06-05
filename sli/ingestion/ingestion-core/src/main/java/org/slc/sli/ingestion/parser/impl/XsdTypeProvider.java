@@ -124,7 +124,10 @@ public class XsdTypeProvider implements TypeProvider {
     private void parseComplexTypes(Document doc) {
         Iterable<Element> complexTypes = doc.getDescendants(Filters.element(COMPLEX_TYPE, XS_NAMESPACE));
         for (Element e : complexTypes) {
-            this.complexTypes.put(e.getAttributeValue(NAME), e);
+            String attrV = e.getAttributeValue(NAME);
+            if (attrV != null) {
+                this.complexTypes.put(attrV, e);
+            }
         }
         buildXsdElementsMap(doc, typeMap);
     }

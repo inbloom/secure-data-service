@@ -43,6 +43,7 @@ JAR_FILE = PropLoader.getProps['bulk_extract_jar_loc']
 DATABASE_NAME = PropLoader.getProps['sli_database_name']
 DATABASE_HOST = PropLoader.getProps['bulk_extract_db']
 DATABASE_PORT = PropLoader.getProps['bulk_extract_port']
+INDEPENDENT_ENTITIES = ['graduationPlan']
 ENCRYPTED_ENTITIES = ['student', 'parent']
 COMBINED_ENTITIES = ['assessment', 'studentAssessment']
 COMBINED_SUB_ENTITIES = ['assessmentItem','objectiveAssessment','studentAssessmentItems','studentObjectiveAssessments']
@@ -70,6 +71,7 @@ Transform /^<(.*?)>$/ do |human_readable_id|
   id = "pavedz00ua"                                         if human_readable_id == "client id paved"
   id = "1b223f577827204a1c7e9c851dba06bea6b031fe_id"        if human_readable_id == "IL-DAYBREAK"
   id = "99d527622dcb51c465c515c0636d17e085302d5e_id"        if human_readable_id == "IL-HIGHWIND"
+  id = "067098399bb1feee5efe7cfbe91bb34fa352f9a5_id"        if human_readable_id == "IL-SUNSET"
   id = "54b4b51377cd941675958e6e81dce69df801bfe8_id"        if human_readable_id == "ed_org_to_lea2_id"
   id = "880572db916fa468fbee53a68918227e104c10f5_id"        if human_readable_id == "lea2_id"
   id = "1b223f577827204a1c7e9c851dba06bea6b031fe_id"        if human_readable_id == "lea1_id"
@@ -80,6 +82,10 @@ Transform /^<(.*?)>$/ do |human_readable_id|
   id = "c67b5565b3b6475bae9e042c96cb0b9db6b37b29_id"        if human_readable_id == "10 School District"
 
   id
+end
+
+Transform /^#(-?\d+)$/ do |number|
+  number.to_i
 end
 
 ############################################################
@@ -244,6 +250,39 @@ Given /^the tenant "(.*?)" does not have any bulk extract apps for any of its ed
 
     app_auth_coll.remove('body.applicationId' => app_id)
   end
+  conn.close
+  enable_NOTABLESCAN()
+end
+
+Given /^all LEAs in "([^"]*)" are authorized for "([^"]*)"/ do |tenant, application|
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
+  db = conn[DATABASE_NAME]
+  app_coll = db.collection('application')
+  apps = app_coll.find({'body.name' => application}).to_a
+  assert(apps.size > 0, "Could not find any application with the name #{application}")
+  assert(apps.size == 1, "Found multiple applications with the name #{application}")
+
+  app_id = apps[0]['_id']
+  puts("The id for a #{application} is #{app_id}") if $SLI_DEBUG
+
+  db_tenant = conn[convertTenantIdToDbName(tenant)]
+  app_auth_coll = db_tenant.collection('applicationAuthorization')
+  ed_org_coll = db_tenant.collection('educationOrganization')
+
+  needed_ed_orgs = []
+  ed_org_coll.find({'type' => 'localEducationAgency'}).each do |edorg|
+    needed_ed_orgs.push(edorg['_id'])
+  end
+
+  app_auth_coll.remove('body.applicationId' => app_id)
+  new_app_auth = {'_id' => "2012ls-#{SecureRandom.uuid}", 'body' => {'applicationId' => app_id, 'edorgs' => needed_ed_orgs}, 'metaData' => {'tenantId' => tenant}}
+  app_auth_coll.insert(new_app_auth)
+
+  needed_ed_orgs.each do |edorg|
+    app_coll.update({'_id' => app_id}, {'$push' => {'body.authorized_ed_orgs' => edorg}})
+  end
+
   conn.close
   enable_NOTABLESCAN()
 end
@@ -512,7 +551,7 @@ end
 
 def updateApiPutField(body, field, value)
   # Set the GET response body as body and edit the requested field
-  body["address"][0]["postalCode"] = value if field == "postalCode"
+  body["address"][0]["postalCode"] = value.to_s if field == "postalCode"
   body["loginId"] = value if field == "loginId"
   body["contactPriority"] = value.to_i if field == "contactPriority"
   body["id"] = value if field == "missingEntity"
@@ -584,9 +623,11 @@ def getEntityEndpoint(entity)
       "orphanEdorg" => "educationOrganizations",
       "parent" => "parents",
       "patchEdOrg" => "educationOrganizations",
+      "program" => "programs",
       "reportCard" => "reportCards",
       "school" => "educationOrganizations",
       "section" => "sections",
+      "session" => "sessions",
       "staff" => "staff",
       "newStaff" => "staff",
       "staffCohortAssociation" => "staffCohortAssociations",
@@ -600,11 +641,13 @@ def getEntityEndpoint(entity)
       "studentSchoolAssociation" => "studentSchoolAssociations",
       "studentSectionAssociation" => "studentSectionAssociations",
       "studentParentAssociation" => "studentParentAssociations",
+      "studentProgramAssociation" => "studentProgramAssociations",
       "newStudentParentAssociation" => "studentParentAssociations",
       "teacher" => "teachers",
       "newTeacher" => "teachers",
       "teacherSchoolAssociation" => "teacherSchoolAssociations",
       "wrongSchoolURI" => "schoolz",
+      "studentCompetency" => "studentCompetencies",
       "yearlyTranscript" => "yearlyTranscripts"
   }
   return entity_to_endpoint_map[entity]
@@ -966,7 +1009,7 @@ Then /^each record in the full extract is present and matches the delta extract$
     puts "DEBUG: fullExtractRecords count is #{fullExtractRecords.length}"
 
     # TODO: Uncomment this assert when the duplicate fix is pushed
-    #assert(deltaRecords.length == fullExtractRecords.length, "The number of records do not match. Deltas: #{deltaRecords.length}, Full Extract: #{fullExtractRecords.length}")
+    assert(deltaRecords.length == fullExtractRecords.length, "The number of records do not match. Deltas: #{deltaRecords.length}, Full Extract: #{fullExtractRecords.length}")
     
     # Put delta records in a hashmap for searching
     deltaHash = {}
@@ -1014,23 +1057,24 @@ Then /^the "(.*?)" has the correct number of SEA public data records "(.*?)"$/ d
   collection = entity
   count = 0
 
-  query = {query_field => @SEA_id}
+  if INDEPENDENT_ENTITIES.include? entity
+    query = {"$or" => [{query_field => @SEA_id}, {query_field => {"$exists" => false}}]}
+  else
+    query = {query_field => @SEA_id}
+  end
 
   case entity
   when "educationOrganization"
     #adding 1 because SEA is not part of the this mongo query
     count = 1
-  when "school"
-    collection = "educationOrganization"
-    query["type"] = "school"
   else
+      count += @tenantDb.collection(collection).find(query).count()
   end
-
-  count += @tenantDb.collection(collection).find(query).count()
 
 	Zlib::GzipReader.open(@unpackDir + "/" + entity + ".json.gz") { |extractFile|
     records = JSON.parse(extractFile.read)
     puts records
+
     puts "\nCounts Expected: " + count.to_s + " Actual: " + records.size.to_s + "\n"
     assert(records.size == count,"Counts off Expected: " + count.to_s + " Actual: " + records.size.to_s)
   }
@@ -1042,20 +1086,37 @@ Then /^I verify that the "(.*?)" reference an SEA only "(.*?)"$/ do |entity, que
   Zlib::GzipReader.open(@unpackDir + "/" + entity + ".json.gz") { |extractFile|
     records = JSON.parse(extractFile.read)
     records.each do |record|
-      if(entity == "educationOrganization" || entity == "school")
-        if(record["organizationCategories"][0] == "State Education Agency")
-          next
-        end
-      end
+      next if entity == 'educationOrganization' && record['organizationCategories'][0] == 'State Education Agency'
 
       field = record
       query_field.each do |key|
         field = field[key]
       end
 
-      assert(field == @SEA_id, "Incorrect reference " + field + " expected " + @SEA_id)
+      next if INDEPENDENT_ENTITIES.include?(entity) && field == nil
+
+      assert(field == @SEA_id, 'Incorrect reference ' + field + ' expected ' + @SEA_id)
     end
   }
+end
+
+Then /^I verify that ([^ ]*?) "(.*?)" does not contain the reference field "(.*?)"$/ do |total, entity, query|
+  query_field = query.split(".")
+  count = 0
+  Zlib::GzipReader.open(@unpackDir + "/" + entity + ".json.gz") { |extractFile|
+    records = JSON.parse(extractFile.read)
+    records.each do |record|
+      next if (entity == "educationOrganization" || entity == "school") && (record["organizationCategories"][0] == "State Education Agency")
+
+      field = record
+      query_field.each do |key|
+        field = field[key]
+      end
+      count += 1 if (field ==nil) 
+    end
+  }
+
+  assert(count == total, "Incorrect number of #{entity} with no EdOrg references. Expected: #{total}, Actual: #{count}")
 end
 
 Then /^I verify that extract does not contain a file for the following entities:$/ do |table|
@@ -1125,8 +1186,8 @@ Then /^the following test tenant and edorg are clean:$/ do |table|
   enable_NOTABLESCAN()
 end
 
-Then /^I am willing to wait up to (\d+) seconds for the bulk extract scheduler cron job to start and complete$/ do |limit|
-  @maxTimeout = limit.to_i
+Then /^I am willing to wait up to ([^ ]*) seconds for the bulk extract scheduler cron job to start and complete$/ do |limit|
+  @maxTimeout = limit
   puts "Waited timeout for #{limit.to_i} seconds"
   intervalTime = 1
   @maxTimeout ? @maxTimeout : @maxTimeout = 900
@@ -1252,6 +1313,13 @@ Then /^I verify this delete file by app "(.*?)" for "(.*?)" contains one single 
     in_delete_file = json_map[id]
     assert(!in_delete_file.nil?, "delete file does not contain #{type} #{id}") 
   }
+end
+
+Then /^the delete file in the delta extract should have one purge entry/ do
+  json = get_json_from_file('deleted')
+  count = 0
+  json.each {|entry| count += 1 if entry['entityType'] == 'purge'}
+  assert(count == 1, 'An incorrect number of purge entries was found in the delete file.')
 end
 
 ############################################################
@@ -1877,7 +1945,9 @@ def prepareBody(verb, value, response_map)
         "sex" => "Male",
         "entityType" => "student",
         "race" => ["White"],
-        "languages" => ["English"],
+        "languages" => [{
+            "language" => "English"
+        }],
         "studentUniqueStateId" => "nsmin-1",
         "profileThumbnail" => "1201 thumb",
         "name" => {
@@ -1901,7 +1971,9 @@ def prepareBody(verb, value, response_map)
         "sex" => "Female",
         "entityType" => "student",
         "race" => ["White"],
-        "languages" => ["English"],
+        "languages" => [{
+            "language" => "English"
+        }],
         "studentUniqueStateId" => "hwmin-1",
         "profileThumbnail" => "1301 thumb",
         "name" => {
@@ -2039,7 +2111,9 @@ def prepareBody(verb, value, response_map)
           "assessmentReportingMethod" => "Scale score"
         }],
         "linguisticAccommodations" => ["Bilingual Dictionary"],
-        "administrationLanguage" => "English",
+        "administrationLanguage" => {
+           "language" => "English"
+        },
         "studentAssessmentItems" => [{
           "rawScoreResult" => 82,
           "responseIndicator" => "Effective response",
@@ -2216,11 +2290,75 @@ def prepareBody(verb, value, response_map)
         "cohortId" => "cb99a7df36fadf8885b62003c442add9504b3cbd_id",
         "beginDate" => "2013-01-25",
         "endDate" => "2014-03-29"
+      },
+      "DbGradingPeriod" => {
+        "endDate" => "2015-05-29",
+        "gradingPeriodIdentity" => {
+            "schoolYear" => "2014-2015",
+            "gradingPeriod" => "End of Year",
+            "schoolId" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
+        },
+        "entityType" => "gradingPeriod",
+        "beginDate" => "2014-09-02",
+        "totalInstructionalDays" => 180
+      },
+      "DbSession" => {
+        "schoolYear" => "2014-2015",
+        "sessionName" => "2014-2015 Year Round session: IL-DAYBREAK",
+        "term" => "Year Round",
+        "gradingPeriodReference" => ["1dae9e8450e2e77dd0b06dee3fd928c1bfda4d49_id"],
+        "endDate" => "2015-05-29",
+        "schoolId" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id",
+        "entityType" => "session",
+        "beginDate" => "2014-09-02",
+        "totalInstructionalDays" => 180
+      },
+      "newProgram" => {
+        "services" => [
+            [{"codeValue" => "srv:136"}]
+        ],
+        "programId" => "12345",
+        "programSponsor" => "State Education Agency",
+        "entityType" => "program",
+        "programType" => "Regular Education"
+      },
+      "newStudentProgramAssociation" => {
+        "services" => [
+          [{"description" => "Reading Intervention"}]
+        ],
+        "programId" => "0ee2b448980b720b722706ec29a1492d95560798_id",
+        "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+        "endDate" => "2014-05-22",
+        "reasonExited" => "Reached maximum age",
+        "entityType" => "studentProgramAssociation",
+        "beginDate" => "2013-08-26",
+        "educationOrganizationId" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
+      },
+      "newStaffProgramAssociation" => {
+
+      },
+      "newStudentCompetency" => {
+        "competencyLevel" => { "codeValue" => "Barely Competent" },
+        "objectiveId" => { "learningObjectiveId" => "c9b6e99895327de1b01f29ced552f6a3515d8455_id" },
+        "diagnosticStatement" => "passed with flying colors",
+        "studentSectionAssociationId" => "4030207003b03d055bba0b5019b31046164eff4e_id78468628f357b29599510341f08dfd3277d9471e_id",
+      },
+      "newDisciplineIncident" => {
+
+      },
+      "newDisciplineAction" => {
+
+      },
+      "newStudentDiscIncidentAssoc" => {
+
+      },
+      "newGraduationPlan" => {
+
       }
     },
     "PATCH" => {
       "postalCode" => {
-        "address"=>[{"postalCode"=>value,
+        "address"=>[{"postalCode"=>value.to_s,
                     "nameOfCounty"=>"Wake",
                     "streetNumberName"=>"111 Ave A",
                     "stateAbbreviation"=>"IL",
@@ -2312,6 +2450,7 @@ def get_json_from_file(file_name)
     json = JSON.parse(File.read("#{json_file_name}"))
     json
 end
+
 ############################################################
 # After Hooks
 ############################################################

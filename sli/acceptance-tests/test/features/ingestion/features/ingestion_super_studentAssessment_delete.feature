@@ -26,7 +26,7 @@ Scenario: Ingestion of StudentAssessment-Orphans(Entities referring to missing S
     |body.gradeLevelWhenAssessed                          |Grade 13                                   |
     |body.administrationEnvironment                       |Classroom                                  |
     |body.reasonNotTested                                 |Absent                                     |
-    |body.administrationLanguage                          |English                                    |
+    |body.administrationLanguage.language                 |English                                    |
     And I read the following entity in "Midgar" tenant and save it as "hollowStudentAssessment"
     | collection                                          | field                       |      value                                  |
     | studentAssessment                                    | _id                        |02c2c55fa1ecd2f47091d3f4df61bd6b525e6524_id   |
