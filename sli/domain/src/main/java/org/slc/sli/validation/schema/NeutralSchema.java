@@ -171,7 +171,7 @@ public abstract class NeutralSchema {
 
     }
 
-    protected void inheritAnnotations(AppInfo parentInfo) {
+    public void inheritAnnotations(AppInfo parentInfo) {
         // Nothing to inherit.
         if (parentInfo == null || parentInfo.getValues().isEmpty()) {
             return;
