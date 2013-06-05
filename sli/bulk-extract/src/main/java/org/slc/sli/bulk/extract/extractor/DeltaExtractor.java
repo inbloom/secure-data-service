@@ -219,6 +219,11 @@ public class DeltaExtractor implements InitializingBean {
             Entity entity = delta.getEntity();
             Set<String> types = typeResolver.resolveType(entity.getType());
             for (String type : types) {
+             // This should go away soon...
+                if ( !isSupportedType( extractFile.getIsSEA(), type)) {
+                    LOG.debug("Delta bulk-extracts is not currently supported for {}", type);
+                    continue;
+                  }
                 // filter out obvious subdocs that don't make sense...
                 // a subdoc must have an id that is double the normal id size
                 if (!subdocs.contains(type) || entity.getEntityId().length() == edOrg.length() * 2) {
