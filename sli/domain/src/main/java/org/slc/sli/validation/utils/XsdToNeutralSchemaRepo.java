@@ -715,6 +715,13 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
                 // Update Neutral Schema Field
                 complexSchema.addField(elementName, elementSchema);
 
+                //DE840 address.addressLines were not being encrypted
+                for(Map.Entry<String, NeutralSchema> entry:elementSchema.getFields().entrySet()) {
+                    String fieldName = entry.getKey();
+                    NeutralSchema fieldSchema = entry.getValue();
+                    fieldSchema.inheritAnnotations(complexSchema.getAppInfo());
+                }
+
             } else if (particle instanceof XmlSchemaSequence) {
                 XmlSchemaSequence schemaSequence = (XmlSchemaSequence) particle;
                 for (int i = 0; i < schemaSequence.getItems().getCount(); i++) {
