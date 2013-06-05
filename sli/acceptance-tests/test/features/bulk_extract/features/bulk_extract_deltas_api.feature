@@ -111,7 +111,7 @@ Scenario: Triggering deltas via ingestion
      And I verify this "learningObjective" file should contain:
        | id                                          | condition                                |
        | a2b6a9f6ec88b4524c13064b335c0e078395e658_id | description = This an added description to test Deltas |
-       | 3fb49d2583cc599731abd5cd4d0e607dd110dd8c_id | description = This an added description to test Deltas after day N bulk extract |
+       | 984cd6d4d235b3d1f306042a69bbc8a67075bf9f_id | description = This an added description to test Deltas after day N bulk extract |
      And I verify this "learningStandard" file should contain:
        | id                                          | condition                                                                                |
        | bf9877afdcb1bb388334047c66b46daf83252534_id | description = This is an updated description for learning standard 2-18-9 to test Deltas |

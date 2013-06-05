@@ -21,12 +21,12 @@
     </LearningStandard>
     <LearningObjective>
         <LearningObjectiveId>
-            <IdentificationCode>Generic Learning Objective XII</IdentificationCode>
+            <IdentificationCode>Generic Learning Objective XIII</IdentificationCode>
         </LearningObjectiveId>
-        <Objective>Generic Learning Objective XII</Objective>
+        <Objective>Generic Learning Objective XIII</Objective>
         <Description>This an added description to test Deltas after day N bulk extract</Description>
         <AcademicSubject>Social Sciences and History</AcademicSubject>
-        <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+        <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
     </LearningObjective>      
     <LearningObjective>
         <LearningObjectiveId>
