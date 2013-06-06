@@ -39,6 +39,7 @@ sh log_durations.sh $1
 ./check_data_profile.sh $1
 if [ $? -eq 1 ]; then
     DATA_PROFILE_DIFF="/opt/ingestion/data_profiles/${1}.diff"
+    echo "Data profile change detected. Mailing $DATA_PROFILE_DIFF."
     /usr/local/bin/ingestion-mailx \
         -s "Megatron Mini Slirp Data Profile Change for $1" \
         Sliders-megatron@wgen.net \
