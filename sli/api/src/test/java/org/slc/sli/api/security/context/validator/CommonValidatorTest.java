@@ -42,10 +42,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 
@@ -90,6 +90,7 @@ public class CommonValidatorTest {
         ignored.add(EntityNames.REALM);
         ignored.add(EntityNames.STUDENT_OBJECTIVE_ASSESSMENT);
         ignored.add(EntityNames.SEARCH);
+        ignored.add(EntityNames.CALENDAR_DATE);
 
         globalEntities.add(EntityNames.ASSESSMENT);
         globalEntities.add(EntityNames.COMPETENCY_LEVEL_DESCRIPTOR);
