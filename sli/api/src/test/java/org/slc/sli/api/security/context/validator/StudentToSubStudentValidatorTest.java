@@ -38,6 +38,10 @@ public class StudentToSubStudentValidatorTest extends TestCase {
     Entity student2;
     Entity attendance1;
     Entity attendance2;
+    Entity studentAcademicRecord1;
+    Entity studentAcademicRecord2;
+    
+    
 
     @SuppressWarnings("unchecked")
     @Before
@@ -48,6 +52,9 @@ public class StudentToSubStudentValidatorTest extends TestCase {
 
         attendance1 = helper.generateAttendance(student1.getEntityId(), school.getEntityId());
         attendance2 = helper.generateAttendance(student2.getEntityId(), school.getEntityId());
+        studentAcademicRecord1 = helper.generateStudentAcademicRecord(student1.getEntityId());
+        studentAcademicRecord2 = helper.generateStudentAcademicRecord(student2.getEntityId());        
+        
     }
 
     @Test
@@ -57,7 +64,6 @@ public class StudentToSubStudentValidatorTest extends TestCase {
         assertFalse(validator.canValidate(EntityNames.STUDENT_ASSESSMENT, false));
         assertFalse(validator.canValidate(EntityNames.STUDENT_ACADEMIC_RECORD, true));
         assertFalse(validator.canValidate(EntityNames.STUDENT_ACADEMIC_RECORD, false));
-
         //injector.setStudentContext();
 
     }

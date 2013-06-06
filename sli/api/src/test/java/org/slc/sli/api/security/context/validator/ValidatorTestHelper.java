@@ -403,6 +403,12 @@ public class ValidatorTestHelper {
         parent.put(ParameterConstants.STUDENT_ID, studentId);
         return repo.create(EntityNames.STUDENT_PARENT_ASSOCIATION, parent);
     }
+    
+    public Entity generateStudentAcademicRecord(String studentId) {
+        Map<String, Object> studentAcademicRecord = new HashMap<String, Object>();
+        studentAcademicRecord.put(ParameterConstants.STUDENT_ID, studentId);
+        return repo.create(EntityNames.STUDENT_ACADEMIC_RECORD, studentAcademicRecord);
+    }
 
     protected void setUpTeacherContext() {
         String user = "fake staff";
