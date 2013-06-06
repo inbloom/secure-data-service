@@ -766,7 +766,7 @@ task :dashboardTests => [
         :dashboardStudentProfileTests,
         :dashboardAttendance,
         :dashboardStudentHistoricalDataTests,
-        :dashboardStudentContactInfoLiveTests,
+
         :dashboardStudentGradebookEntryTests,
         :dashboardHTMLEscapeTests,
         :dashboardQunitTests] do
