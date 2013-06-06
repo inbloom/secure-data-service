@@ -73,4 +73,5 @@ public final class EntityNames {
     public static final String TEACHER = "teacher";
     public static final String TEACHER_SCHOOL_ASSOCIATION = "teacherSchoolAssociation";
     public static final String TEACHER_SECTION_ASSOCIATION = "teacherSectionAssociation";
+    public static final String CALENDAR_DATE = "calendarDate";
 }

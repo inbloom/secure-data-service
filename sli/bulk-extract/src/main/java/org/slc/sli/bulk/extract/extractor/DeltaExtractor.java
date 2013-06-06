@@ -126,15 +126,15 @@ public class DeltaExtractor implements InitializingBean {
     public static final String TIME_FIELD = "t";
 
     private EdOrgHierarchyHelper edOrgHelper;
-    private static Set<String> deltaSEAsupported;
+    private static Set<String> deltaSEASupported;
 
     @Override
     public void afterPropertiesSet() throws Exception {
         edOrgHelper = new EdOrgHierarchyHelper(repo);
     // this is supposed to go away once all the Delta-SEA stories played out
-        Set<String> deltaSEASupported = new HashSet<String>(Arrays.asList(  "competencyLevelDescriptor", "educationOrganization", "learningObjective",
+        Set<String> deltaSEALocal = new HashSet<String>(Arrays.asList(  "calendarDate", "competencyLevelDescriptor", "educationOrganization", "learningObjective",
                 "learningStandard", "program", "studentCompetencyObjective"));
-        deltaSEAsupported = Collections.unmodifiableSet(deltaSEASupported);
+        deltaSEASupported = Collections.unmodifiableSet(deltaSEALocal);
 
     }
 
@@ -189,7 +189,7 @@ public class DeltaExtractor implements InitializingBean {
 
     private boolean isSupportedType( boolean isPublic, String entityType ) {
 
-        return ( !isPublic || deltaSEAsupported.contains( entityType )) ? true : false;
+        return ( !isPublic || deltaSEASupported.contains( entityType )) ? true : false;
     }
 
     private void logEntityCounts() {

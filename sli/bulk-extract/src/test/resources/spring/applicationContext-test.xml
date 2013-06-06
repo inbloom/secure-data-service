@@ -32,6 +32,7 @@
         <entry key="assessmentFamily" value="assessmentFamily" />
         <entry key="assessmentPeriodDescriptor" value="assessmentPeriodDescriptor" />
         <entry key="attendance" value="attendance" />
+	<entry key="calendarDate" value="calendarDate" />
         <entry key="cohort" value="cohort" />
         <entry key="competencyLevelDescriptor" value="competencyLevelDescriptor" />
         <entry key="course" value="course" />

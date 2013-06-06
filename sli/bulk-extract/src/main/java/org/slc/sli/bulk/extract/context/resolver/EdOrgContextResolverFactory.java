@@ -183,6 +183,7 @@ public class EdOrgContextResolverFactory {
         resolverMap.put(EntityNames.COMPETENCY_LEVEL_DESCRIPTOR, simpleEntityTypeContextResolver);
         resolverMap.put(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, simpleEntityTypeContextResolver);
         resolverMap.put(EntityNames.PROGRAM, simpleEntityTypeContextResolver);
+        resolverMap.put(EntityNames.CALENDAR_DATE, simpleEntityTypeContextResolver);
 
         LOG.debug("Resolver map is {}", resolverMap);
     }
