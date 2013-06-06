@@ -33,7 +33,7 @@ public class StudentToParentValidator extends AbstractContextValidator {
     
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return isStudent() && EntityNames.PARENT.equals(entityType);
+        return isStudent() && EntityNames.PARENT.equals(entityType) && !isTransitive;
     }
 
     @Override

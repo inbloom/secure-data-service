@@ -51,6 +51,7 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
     public static final String LEADER = "Leader";
     public static final String AGGREGATOR = "Aggregate Viewer";
     public static final String IT_ADMINISTRATOR = "IT Administrator";
+    public static final String STUDENT = "Student";
 
     public static final String LEA_ADMINISTRATOR = "LEA Administrator";
     public static final String SEA_ADMINISTRATOR = "SEA Administrator";
