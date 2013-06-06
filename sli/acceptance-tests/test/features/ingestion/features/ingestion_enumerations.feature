@@ -47,18 +47,18 @@ Then I should see following map of entry counts in the corresponding collections
        | disciplineIncident          | 1                   | body.secondaryBehaviors.behaviorCategory| Other                     | string               |
        | educationOrganization       | 1                   | body.schoolCategories                  | Other                      | string               |
        | grade                       | 1                   | body.gradeType                         | Other                      | string               |
-       | section                     | 1                   | body.educationEnvironment              | Other                      | string               |
+       | section                     | 1                   | body.educationalEnvironment            | Other                      | string               |
        | session                     | 1                   | body.term                              | Term 4                     | string               |
        | student                     | 1                   | studentParentAssociation.body.relation | Grandmother                | string               |
        | studentAssessment           | 1                   | body.administrationEnvironment         | Other                      | string               |
-#       | studentAssessmentItem       | 1                   | body.assessmentItemResult              | Did not meet standard      | string               |
+       | studentAssessment           | 1                   | studentAssessmentItem.body.assessmentItemResult|Did not meet standard| string               |
        | studentSchoolAssociation    | 1                   | body.exitWithdrawType                  | End of walk-in enrollment  | string               |  
     And I find a record in "student" with "body.studentUniqueStateId" equal to "100000000"
     And the field "body.birthData.stateOfBirthAbbreviation" with value "FM" is encrypted
     And the field "body.birthData.countryOfBirthCode" with value "SS" is encrypted
               
 
-    And I should see "Processed 5 records." in the resulting batch job file
+    And I should see "Processed 13 records." in the resulting batch job file
     And I should not see an error log file created
     And I should not see a warning log file created
 

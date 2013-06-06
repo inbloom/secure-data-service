@@ -699,6 +699,7 @@
 			<xs:enumeration value="SC" />
 			<xs:enumeration value="SL" />
 			<xs:enumeration value="SG" />
+            <xs:enumeration value="SS" />
 			<xs:enumeration value="SX" />
 			<xs:enumeration value="SK" />
 			<xs:enumeration value="SI" />
