@@ -22,7 +22,7 @@ public class StudentToSubStudentValidator extends AbstractContextValidator {
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return SUB_STUDENT_ENTITIES.contains(entityType) && isStudent();
+        return SUB_STUDENT_ENTITIES.contains(entityType) && isStudentOrParent();
     }
 
     @Override
