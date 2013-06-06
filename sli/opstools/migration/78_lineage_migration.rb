@@ -2,10 +2,12 @@
 
 # Move Schools.edOrgs fields from Student Collection to EducationOrganization Collection
 
-# Usage: SchoolLineageMigration.rb [<database>]. 
-
-# With no database, lists all the databases.
-# With a database argument, shows collections in that database
+# Run this script with no arguments to see usage:
+#
+#   ruby 78_lineage_migration.rb
+#
+# You can give one or more tenant IDs whose databases will be migrated, or "--all"
+# for all tenants.  Also you can optionally give the MongoDB host/port.
 
 require 'mongo'
 
@@ -135,7 +137,7 @@ def main(argv)
     puts "|\n"
     puts "|     --all                                     Migrate against all tenant dbs\n"
     puts "|       --OR--\n"
-    puts "|     <tenant1> [<tenant2> ...]                 Migrate only database(s) in the list\n"
+    puts "|     <tenant1> [<tenant2> ...]                 Migrate only database(s) for the given tenant(s)\n"
     puts "|\n"
     puts "|    myhost:myport                              Optional hostname and port defaults to localhost:27017"
     puts "--------------------------------------------------------------------------------------------"
