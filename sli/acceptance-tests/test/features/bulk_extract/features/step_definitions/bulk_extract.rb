@@ -75,7 +75,7 @@ Transform /^<(.*?)>$/ do |human_readable_id|
   id = "54b4b51377cd941675958e6e81dce69df801bfe8_id"        if human_readable_id == "ed_org_to_lea2_id"
   id = "880572db916fa468fbee53a68918227e104c10f5_id"        if human_readable_id == "lea2_id"
   id = "1b223f577827204a1c7e9c851dba06bea6b031fe_id"        if human_readable_id == "lea1_id"
-  id = "884daa27d806c2d725bc469b273d840493f84b4d_id"        if human_readable_id == "sea_id"
+  id = "884daa27d806c2d725bc469b273d840493f84b4d_id"        if human_readable_id == "STANDARD-SEA"
   id = "352e8570bd1116d11a72755b987902440045d346_id"        if human_readable_id == "IL-DAYBREAK school"
   id = "a96ce0a91830333ce68e235a6ad4dc26b414eb9e_id"        if human_readable_id == "Orphaned School"
   id = "02bdd6bf0fd5f761e6fc316ca6c763d4bb96c055_id"        if human_readable_id == "11 School District"
@@ -116,6 +116,13 @@ Given /^the extract download directory is empty$/ do
   if (Dir.exists?(OUTPUT_DIRECTORY + "decrypt"))
     puts "decrypt dir is #{OUTPUT_DIRECTORY}decrypt"
     FileUtils.rm_rf("#{OUTPUT_DIRECTORY}decrypt", secure: true)
+  end
+end
+
+Given /^the unpack directory is empty$/ do
+  if (Dir.exists?(@unpackDir))
+    puts "unpack dir is #{@unpackDir}"
+    FileUtils.rm_rf("#{@unpackDir}", secure: true)
   end
 end
 
@@ -520,6 +527,17 @@ When /^I untar and decrypt the "(.*?)" delta tarfile for tenant "(.*?)" and appI
   @deltaDir = @fileDir
 end
 
+When /^I untar and decrypt the "(.*?)" public delta tarfile for tenant "(.*?)" and appId "(.*?)" for "(.*?)"$/ do |data_store, tenant, appId, lea|
+  sleep 1
+  opts = {sort: ["body.date", Mongo::DESCENDING], limit: 1}
+  query = build_bulk_query(tenant, appId, lea, true, true)
+  getExtractInfoFromMongo(query, opts)
+  openDecryptedFile(appId)
+  @fileDir = OUTPUT_DIRECTORY if data_store == "API"
+  untar(@fileDir)
+  @deltaDir = @fileDir
+end
+
 When /^I POST and validate the following entities:$/ do |table|
   table.hashes.map do |api_params|
     print "Posting #{api_params['type']} .. "
@@ -624,6 +642,7 @@ def getEntityEndpoint(entity)
       "parent" => "parents",
       "patchEdOrg" => "educationOrganizations",
       "program" => "programs",
+      "patchProgram" => "programs",
       "reportCard" => "reportCards",
       "school" => "educationOrganizations",
       "section" => "sections",
@@ -690,6 +709,7 @@ def getEntityBodyFromApi(entity, api_version, verb)
       "studentSchoolAssociation" => "studentSchoolAssociations",
       "studentSectionAssociation" => "studentSectionAssociations",
       "teacherSchoolAssociation" => "teacherSchoolAssociations",
+      "patchProgram" => "programs/0ee2b448980b720b722706ec29a1492d95560798_id",
   }
   # Perform GET request and verify we get a response and a response body
   restHttpGet("/#{api_version}/#{entity_to_uri_map[entity]}")
@@ -724,6 +744,23 @@ When /^I request latest delta via API for tenant "(.*?)", lea "(.*?)" with appId
   query_opts = {sort: ["body.date", Mongo::DESCENDING], limit: 1}
   # Get the edorg and timestamp from bulk extract collection in mongo
   getExtractInfoFromMongo(build_bulk_query(tenant, app_id, lea, true), query_opts)
+  # Set the download path to stream the delta file from API
+  @delta_file = "delta_#{lea}_#{@timestamp}.tar"
+  @download_path = OUTPUT_DIRECTORY + @delta_file
+  @fileDir = OUTPUT_DIRECTORY + "decrypt"
+  @filePath = @fileDir + "/" + @delta_file
+  @unpackDir = @fileDir
+  # Assemble the API URI and make API call
+  restTls("/bulk/extract/#{lea}/delta/#{@timestamp}", nil, 'application/x-tar', @sessionId, client_id)
+end
+
+When /^I request latest public delta via API for tenant "(.*?)", lea "(.*?)" with appId "(.*?)" clientId "(.*?)"$/ do |tenant, lea, app_id, client_id|
+  @lea = lea
+  @app_id = app_id
+
+  query_opts = {sort: ["body.date", Mongo::DESCENDING], limit: 1}
+  # Get the edorg and timestamp from bulk extract collection in mongo
+  getExtractInfoFromMongo(build_bulk_query(tenant, app_id, lea, true, true), query_opts)
   # Set the download path to stream the delta file from API
   @delta_file = "delta_#{lea}_#{@timestamp}.tar"
   @download_path = OUTPUT_DIRECTORY + @delta_file
@@ -789,6 +826,9 @@ When /^I generate and retrieve the bulk extract delta via API for "(.*?)"$/ do |
   elsif lea == "99d527622dcb51c465c515c0636d17e085302d5e_id"
     step "I log into \"SDK Sample\" with a token of \"lstevenson\", a \"Noldor\" for \"IL-Highwind\" in tenant \"Midgar\", that lasts for \"300\" seconds"
     step "I request latest delta via API for tenant \"Midgar\", lea \"#{lea}\" with appId \"<app id>\" clientId \"<client id>\""
+  elsif lea == "884daa27d806c2d725bc469b273d840493f84b4d_id"
+    step "I log into \"SDK Sample\" with a token of \"rrogers\", a \"Noldor\" for \"IL-Daybreak\" in tenant \"Midgar\", that lasts for \"300\" seconds"
+    step "I request latest public delta via API for tenant \"Midgar\", lea \"#{lea}\" with appId \"<app id>\" clientId \"<client id>\""
   # Catch invalid LEA
   else 
     assert(false, "Did not recognize that LEA, cannot request extract")
@@ -963,6 +1003,13 @@ Then /^I verify the last delta bulk extract by app "(.*?)" for "(.*?)" in "(.*?)
     getExtractInfoFromMongo(build_bulk_query(tenant, appId, lea, true), opts)
     openDecryptedFile(appId)
 
+    step "the extract contains a file for each of the following entities:", table
+end
+
+Then /^I verify the last public delta bulk extract by app "(.*?)" for "(.*?)" in "(.*?)" contains a file for each of the following entities:$/ do |appId, lea, tenant, table|
+    opts = {sort: ["body.date", Mongo::DESCENDING], limit: 1}
+    getExtractInfoFromMongo(build_bulk_query(tenant, appId, lea, true, true), opts)
+    openDecryptedFile(appId)
     step "the extract contains a file for each of the following entities:", table
 end
 
@@ -1442,7 +1489,6 @@ def getExtractInfoFromMongo(query, query_opts={})
   @conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
   @sliDb = @conn.db(DATABASE_NAME)
   @coll = @sliDb.collection("bulkExtractFiles")
-
   match = @coll.find_one(query, query_opts)
   assert(match !=nil, "Database was not updated with bulk extract file location")
 
@@ -2380,6 +2426,9 @@ def prepareBody(verb, value, response_map)
       },
       "dadLoginId" => {
           "loginId" => value
+      },
+      "patchProgramType" => {
+          "programType" => value
       },
       "studentParentName" => {
         "name" => {

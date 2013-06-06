@@ -51,7 +51,7 @@ public abstract class EdOrgRelatedReferrableResolver extends ReferrableResolver 
         if (schoolId == null) {
             LOG.warn("Entity found without a school id: {}", entity);
         } else {
-            leas.addAll(edorgResolver.findGoverningLEA(schoolId));
+            leas.addAll(edorgResolver.findGoverningEdOrgs(schoolId));
         }
         
         leas.addAll(getTransitiveAssociations(entity));
@@ -83,7 +83,7 @@ public abstract class EdOrgRelatedReferrableResolver extends ReferrableResolver 
             Iterator<Entity> referred = getRepo().findEach(referredCollection,
                     new NeutralQuery(new NeutralCriteria(referredField, NeutralCriteria.OPERATOR_EQUAL, id)));
             while (referred.hasNext()) {
-                leas.addAll(resolver.findGoverningLEA(referred.next()));
+                leas.addAll(resolver.findGoverningEdOrgs(referred.next()));
             }
         }
         

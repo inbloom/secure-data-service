@@ -47,7 +47,7 @@ public class GradingPeriodContextResolverTest {
     
     @Test
     public void testGradingPeriodResolver() {
-        when(edOrgResolver.findGoverningLEA("osirisHigh")).thenReturn(
+        when(edOrgResolver.findGoverningEdOrgs("osirisHigh")).thenReturn(
                 new HashSet<String>(Arrays.asList("OsirisSchoolDistrict")));
         Entity gradingPeriod = mock(Entity.class);
         Map<String, Object> gradingPeriodIdentity = new HashMap<String, Object>();
@@ -55,7 +55,7 @@ public class GradingPeriodContextResolverTest {
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("gradingPeriodIdentity", gradingPeriodIdentity);
         when(gradingPeriod.getBody()).thenReturn(body);
-        assertEquals(new HashSet<String>(Arrays.asList("OsirisSchoolDistrict")), underTest.findGoverningLEA(gradingPeriod));
+        assertEquals(new HashSet<String>(Arrays.asList("OsirisSchoolDistrict")), underTest.findGoverningEdOrgs(gradingPeriod));
 
     }
 

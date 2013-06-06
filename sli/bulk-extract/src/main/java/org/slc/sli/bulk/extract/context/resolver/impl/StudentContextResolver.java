@@ -61,7 +61,7 @@ public class StudentContextResolver extends ReferrableResolver {
                 try {
                     if (!dateHelper.isFieldExpired(school, EXIT_WITHDRAW_DATE)) {
                         String schoolId = (String) school.get("_id");
-                        Set<String> edOrgs = edOrgResolver.findGoverningLEA(schoolId);
+                        Set<String> edOrgs = edOrgResolver.findGoverningEdOrgs(schoolId);
                         if (edOrgs != null) {
                             leas.addAll(edOrgs);
                         }

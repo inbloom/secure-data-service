@@ -17,11 +17,34 @@ package org.slc.sli.bulk.extract.files;
 
 import static org.slc.sli.bulk.extract.LogUtil.audit;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.CipherOutputStream;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.KeyGenerator;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.slc.sli.bulk.extract.files.metadata.ErrorFile;
 import org.slc.sli.bulk.extract.files.metadata.ManifestFile;
 import org.slc.sli.bulk.extract.files.writer.JsonFileWriter;
@@ -29,18 +52,6 @@ import org.slc.sli.bulk.extract.message.BEMessageCode;
 import org.slc.sli.bulk.extract.util.SecurityEventUtil;
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.SecurityEvent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import javax.crypto.*;
-import java.io.*;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.PublicKey;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 /**
  * Extract's archive file class.
@@ -56,6 +67,7 @@ public class ExtractFile {
     private ManifestFile manifestFile;
     private ErrorFile errorFile;
     private String edorg;
+    private boolean isSEA;
     private File parentDir;
     private String archiveName;
 
@@ -79,6 +91,15 @@ public class ExtractFile {
      *          Map from application ID to public keys.
      */
     public ExtractFile(File parentDir, String archiveName, Map<String, PublicKey> clientKeys, SecurityEventUtil securityEventUtil) {
+        init( parentDir, archiveName, clientKeys, securityEventUtil, false);
+    }
+
+    public ExtractFile(File parentDir, String archiveName, Map<String, PublicKey> clientKeys, SecurityEventUtil securityEventUtil, boolean isSEA) {
+        init( parentDir, archiveName, clientKeys, securityEventUtil, isSEA);
+    }
+
+    private void init(File parentDir, String archiveName, Map<String, PublicKey> clientKeys, SecurityEventUtil securityEventUtil, boolean isSEA) {
+        this.isSEA = isSEA;
         this.parentDir = parentDir;
         this.archiveName = archiveName;
         this.clientKeys = clientKeys;
@@ -127,15 +148,15 @@ public class ExtractFile {
         this.manifestFile = manifestFile;
         return manifestFile;
     }
-    
-    
+
+
     /**
      * Return the error logger used to report errors in the extract.
      */
     public ErrorFile getErrorLogger() {
         return this.errorFile;
     }
-    
+
 
     /**
      * Generates the archive file for the extract.
@@ -186,13 +207,13 @@ public class ExtractFile {
             IOUtils.closeQuietly(tarArchiveOutputStream);
             FileUtils.deleteQuietly(tempDir);
         }
-        
+
         return success;
     }
 
     /**
      * Generate the metadata file and create the tarball.
-     * 
+     *
      * @param startTime
      *          Date Time of the extract
      * @return
@@ -207,14 +228,14 @@ public class ExtractFile {
             success = false;
             LOG.error("Error creating metadata file: {}", e.getMessage());
         }
-        
+
         try {
             success = success && this.generateArchive();
         } catch (Exception e) {
             success = false;
             LOG.error("Error generating archive file: {}", e.getMessage());
         }
-        
+
         return success;
     }
 
@@ -333,7 +354,7 @@ public class ExtractFile {
 
     /**
      * Get the edorg.
-     * 
+     *
      * @return the education organization this extractFile is responsible
      */
     public String getEdorg() {
@@ -342,11 +363,16 @@ public class ExtractFile {
 
     /**
      * Set the edorg.
-     * 
+     *
      * @param edorg
      *            Education organization this extractFile is responsible
      */
     public void setEdorg(String edorg) {
         this.edorg = edorg;
     }
+
+    public boolean getIsSEA() {
+        return isSEA;
+    }
+
 }

@@ -50,13 +50,13 @@ public class StudentDirectRelatedContextResolverTest {
         MockitoAnnotations.initMocks(this);
         topLevelLEAs.add("lea1");
         topLevelLEAs.add("lea2");
-        when(studentResolver.findGoverningLEA("studentId123")).thenReturn(topLevelLEAs);
+        when(studentResolver.findGoverningEdOrgs("studentId123")).thenReturn(topLevelLEAs);
     }
     
     @Test
     public void entityWithNoStudentIdCannotBeResolved() {
         Entity e = new MongoEntity("type", "id", new HashMap<String, Object>(), new HashMap<String, Object>());
-        Set<String> leas = resolver.findGoverningLEA(e);
+        Set<String> leas = resolver.findGoverningEdOrgs(e);
         assertTrue(leas.size() == 0);
     }
 
@@ -65,7 +65,7 @@ public class StudentDirectRelatedContextResolverTest {
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("studentId", "studentId123");
         Entity e = new MongoEntity("type", "id", body, new HashMap<String, Object>());
-        Set<String> leas = resolver.findGoverningLEA(e);
+        Set<String> leas = resolver.findGoverningEdOrgs(e);
         assertTrue(leas.size() == 2);
         assertTrue(leas.contains("lea1"));
         assertTrue(leas.contains("lea2"));

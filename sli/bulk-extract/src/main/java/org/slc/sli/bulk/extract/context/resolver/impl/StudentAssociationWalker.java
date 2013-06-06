@@ -46,7 +46,7 @@ public class StudentAssociationWalker {
                 if (studentId == null) {
                     LOG.warn("Student Section association without a student id: {}", studentAssociation);
                 } else {
-                    leas.addAll(studentResolver.findGoverningLEA(studentId));
+                    leas.addAll(studentResolver.findGoverningEdOrgs(studentId));
                 }
             }
         }

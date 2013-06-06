@@ -56,11 +56,11 @@ public class SectionContextResolverTest {
     
     @Test
     public void testSectionResolver() {
-        when(edOrgResolver.findGoverningLEA("osirisHigh")).thenReturn(
+        when(edOrgResolver.findGoverningEdOrgs("osirisHigh")).thenReturn(
                 new HashSet<String>(Arrays.asList("OsirisSchoolDistrict")));
-        when(studentResolver.findGoverningLEA("river")).thenReturn(
+        when(studentResolver.findGoverningEdOrgs("river")).thenReturn(
                 new HashSet<String>(Arrays.asList("OsirisSchoolDistrict", "Academy")));
-        when(studentResolver.findGoverningLEA("simon")).thenReturn(
+        when(studentResolver.findGoverningEdOrgs("simon")).thenReturn(
                 new HashSet<String>(Arrays.asList("OsirisSchoolDistrict", "MedSchool")));
         Entity section = mock(Entity.class);
         Map<String, Object> body = new HashMap<String, Object>();
@@ -79,7 +79,7 @@ public class SectionContextResolverTest {
         subdocs.put("studentSectionAssociation", Arrays.asList(river, simon));
         when(section.getEmbeddedData()).thenReturn(subdocs);
         assertEquals(new HashSet<String>(Arrays.asList("OsirisSchoolDistrict", "Academy", "MedSchool")),
-                underTest.findGoverningLEA(section));
+                underTest.findGoverningEdOrgs(section));
     }
     
 }

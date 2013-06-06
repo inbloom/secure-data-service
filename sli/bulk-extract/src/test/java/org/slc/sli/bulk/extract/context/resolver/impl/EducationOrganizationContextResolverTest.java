@@ -82,19 +82,24 @@ public class EducationOrganizationContextResolverTest {
     }
     
     @Test
-    public void testFindGoverningLEA() {
-        assertEquals(new HashSet<String>(Arrays.asList("level2")), underTest.findGoverningLEA(school));
+    public void testFindGoverningEdOrgs() {
+        assertEquals(new HashSet<String>(Arrays.asList("level2")), underTest.findGoverningEdOrgs(school));
     }
-    
+
     @Test
-    public void testFindGoverningLEAForId() {
-        assertEquals(new HashSet<String>(Arrays.asList("level2")), underTest.findGoverningLEA("school"));
+    public void testFindGoverningEdOrgsForId() {
+        assertEquals(new HashSet<String>(Arrays.asList("level2")), underTest.findGoverningEdOrgs("school"));
     }
-    
+
+    @Test
+    public void testFindGoverningEdOrgsForSEA() {
+        assertEquals(new HashSet<String>(Arrays.asList("sea")), underTest.findGoverningEdOrgs("sea"));
+    }
+
     @Test
     public void testCache() {
-        Set<String> leas = underTest.findGoverningLEA("school");
-        Set<String> secondCall = underTest.findGoverningLEA("school");
+        Set<String> leas = underTest.findGoverningEdOrgs("school");
+        Set<String> secondCall = underTest.findGoverningEdOrgs("school");
         assertEquals(leas, secondCall);
         verify(repo, times(1)).findOne(EntityNames.EDUCATION_ORGANIZATION, DeltaEntityIterator.buildQuery(underTest.getCollection(), "school"));
     }

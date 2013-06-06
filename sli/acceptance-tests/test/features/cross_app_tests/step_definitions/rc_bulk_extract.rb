@@ -46,10 +46,11 @@ When /^the operator triggers a delta for the production tenant$/ do
     executeShellCommand("ssh #{SSH_USER} sudo #{command}")
 end
 
-When /^I store the URL for the latest delta for the LEA$/ do
+When /^I store the URL for the latest delta for the (LEA|SEA)$/ do |edorg|
+  edorg == 'LEA' ? delta = 'deltaLeas' : delta = 'deltaSea'
   puts "result body from previous API call is #{@res}"
   @delta_uri = JSON.parse(@res)
-  @list_url  = @delta_uri["deltaLeas"][@lea][0]["uri"]
+  @list_url  = @delta_uri[delta][@lea][0]["uri"]
   # @list_irl is in the format https://<url>/api/rest/v1.2/bulk/extract/<lea>/delta/<timestamp>
   # -> strip off everything before v1.2, store: bulk/extract/<lea>/delta/<timestamp>
   @list_url.match(/api\/rest\/v(.*?)\/(.*)$/)
@@ -87,6 +88,22 @@ When /^I PATCH the postalCode for the lea entity to 11999$/ do
   @format = "application/json"
   puts "PATCHing body #{patch_body} to /v1/educationOrganizations/#{school_id}"
   restHttpPatch("/v1/educationOrganizations/#{school_id}", prepareData(@format, patch_body), @format)
+  puts @res
+  assert(@res != nil, "Patch failed: Received no response from API.")
+end
+
+When /^I PATCH the postalCode for the current edorg entity to 11999$/ do
+  patch_body = {
+      "address" => [{"postalCode" => "11999",
+                     "nameOfCounty" => "Wake",
+                     "streetNumberName" => "111 Ave A",
+                     "stateAbbreviation" => "IL",
+                     "addressType" => "Physical",
+                     "city" => "Chicago"}]
+  }
+  @format = "application/json"
+  puts "PATCHing body #{patch_body} to /v1/educationOrganizations/#{@lea}"
+  restHttpPatch("/v1/educationOrganizations/#{@lea}", prepareData(@format, patch_body), @format)
   puts @res
   assert(@res != nil, "Patch failed: Received no response from API.")
 end

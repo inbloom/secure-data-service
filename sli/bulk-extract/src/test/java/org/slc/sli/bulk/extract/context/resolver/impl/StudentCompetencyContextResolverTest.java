@@ -57,16 +57,16 @@ public class StudentCompetencyContextResolverTest {
         Entity studentCompetency = buildStudentCompetency();
         studentCompetency.getBody().remove(StudentCompetencyContextResolver.STUDENT_SECTION_ASSOCIATION_ID);
         
-        assertEquals(Collections.<String> emptySet(), underTest.findGoverningLEA(studentCompetency));
+        assertEquals(Collections.<String> emptySet(), underTest.findGoverningEdOrgs(studentCompetency));
     }
     
     public void shouldFollowStudent() {
         Entity studentCompetency = buildStudentCompetency();
         when(repo.findById(EntityNames.STUDENT_SECTION_ASSOCIATION, "association123")).thenReturn(buildStudentSectionAssociation());
         Set<String> topLeas = new HashSet<String>(Arrays.asList("lea1", "lea2"));
-        when(studentResolver.findGoverningLEA("student123")).thenReturn(topLeas);
+        when(studentResolver.findGoverningEdOrgs("student123")).thenReturn(topLeas);
         
-        assertEquals(topLeas, underTest.findGoverningLEA(studentCompetency));
+        assertEquals(topLeas, underTest.findGoverningEdOrgs(studentCompetency));
     }
     
     private Entity buildStudentSectionAssociation() {
