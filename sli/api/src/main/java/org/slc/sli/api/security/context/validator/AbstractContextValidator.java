@@ -178,6 +178,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
      *
      * @return True if user is of type 'student', false otherwise.
      */
+
     protected boolean isStudent() {
         return EntityNames.STUDENT.equals(SecurityUtil.getSLIPrincipal().getEntity().getType());
     }
