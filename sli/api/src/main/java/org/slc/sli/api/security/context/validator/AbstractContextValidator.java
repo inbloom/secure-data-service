@@ -163,6 +163,10 @@ public abstract class AbstractContextValidator implements IContextValidator {
         return EntityNames.TEACHER.equals(SecurityUtil.getSLIPrincipal().getEntity().getType());
     }
 
+    protected boolean isStudent() {
+        return EntityNames.STUDENT.equals(SecurityUtil.getSLIPrincipal().getEntity().getType());
+    }
+
     public boolean isFieldExpired(Map<String, Object> body, String fieldName, boolean useGracePeriod) {
         return dateHelper.isFieldExpired(body, fieldName, useGracePeriod);
     }
