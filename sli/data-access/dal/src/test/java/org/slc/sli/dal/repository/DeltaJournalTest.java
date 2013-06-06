@@ -15,6 +15,7 @@
  */
 package org.slc.sli.dal.repository;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -24,33 +25,34 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.data.mongodb.core.query.Criteria.where;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Date;
 
+import org.apache.commons.codec.DecoderException;
+import org.apache.commons.codec.binary.Hex;
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
+import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 
 public class DeltaJournalTest {
 
@@ -80,9 +82,9 @@ public class DeltaJournalTest {
     }
 
     @SuppressWarnings("rawtypes")
-    private List<Map> buildThirdBatch() {
+    private List<Map> buildThirdBatch() throws DecoderException {
         Map<String, Object> e = new HashMap<String, Object>();
-        e.put("_id", "e");
+        e.put("_id", Hex.decodeHex("ee".toCharArray()));
         e.put("t", 3L);
 
         List<Map> res = new LinkedList<Map>();
@@ -92,12 +94,12 @@ public class DeltaJournalTest {
     }
 
     @SuppressWarnings("rawtypes")
-    private List<Map> buildSecondBatch() {
+    private List<Map> buildSecondBatch() throws DecoderException {
         Map<String, Object> c = new HashMap<String, Object>();
-        c.put("_id", "c");
+        c.put("_id", Hex.decodeHex("cc".toCharArray()));
         c.put("t", 2L);
         Map<String, Object> d = new HashMap<String, Object>();
-        d.put("_id", "d");
+        d.put("_id", Hex.decodeHex("dd".toCharArray()));
         d.put("t", 2L);
 
         List<Map> res = new LinkedList<Map>();
@@ -108,12 +110,12 @@ public class DeltaJournalTest {
     }
 
     @SuppressWarnings("rawtypes")
-    private List<Map> buildFirstBatch() {
+    private List<Map> buildFirstBatch() throws DecoderException {
         Map<String, Object> a = new HashMap<String, Object>();
-        a.put("_id", "a");
+        a.put("_id", Hex.decodeHex("aa".toCharArray()));
         a.put("t", 1L);
         Map<String, Object> b = new HashMap<String, Object>();
-        b.put("_id", "b");
+        b.put("_id", Hex.decodeHex("bb".toCharArray()));
         b.put("t", 2L);
 
         List<Map> res = new LinkedList<Map>();
@@ -134,7 +136,7 @@ public class DeltaJournalTest {
         }
         assertTrue(count == 5);
     }
-    
+
     @Test
     public void testIgnoredOnSystemCall() {
         TenantContext.setIsSystemCall(true);
@@ -144,11 +146,15 @@ public class DeltaJournalTest {
     }
 
     @Test
-    public void testJournalCollapsedSubDocs() {
-        deltaJournal.journal(Arrays.asList("assessment_idAssessmentItem1_id", "assessment_idAssessmentItem2_id",
-                "assessment2_idAssessmentItem_id"), "assessmentItem", false);
-        Query q1 = Query.query(Criteria.where("_id").is("assessment_id"));
-        Query q2 = Query.query(Criteria.where("_id").is("assessment2_id"));
+    public void testJournalCollapsedSubDocs() throws DecoderException {
+        String assessment1id = "1234567890123456789012345678901234567890";
+        String assessment2id = "1234567890123456789012345678901234567892";
+        deltaJournal.journal(
+                Arrays.asList(assessment1id + "_id1234567890123456789012345678901234567891_id", assessment1id
+                        + "_id1234567890123456789012345678901234567892_id", assessment2id
+                        + "_id1234567890123456789012345678901234567891_id"), "assessmentItem", false);
+        Query q1 = Query.query(Criteria.where("_id").is(Hex.decodeHex(assessment1id.toCharArray())));
+        Query q2 = Query.query(Criteria.where("_id").is(Hex.decodeHex(assessment2id.toCharArray())));
         BaseMatcher<Update> updateMatcher = new BaseMatcher<Update>() {
 
             @Override
@@ -166,24 +172,45 @@ public class DeltaJournalTest {
         verify(template).upsert(eq(q1), argThat(updateMatcher), eq("deltas"));
         verify(template).upsert(eq(q2), argThat(updateMatcher), eq("deltas"));
     }
-    
+
     @Test
-    public void testRemove() {
+    public void testRemove() throws DecoderException {
         deltaJournal.setLimit(2);
         deltaJournal.removeDeltaJournals("Midgar", 100);
-        Query removeIds = new Query(where("_id").in(getIds(buildFirstBatch())));
-        verify(template, times(1)).remove(removeIds, "deltas");
-        removeIds = new Query(where("_id").in(getIds(buildSecondBatch())));
-        verify(template, times(1)).remove(removeIds, "deltas");
-        removeIds = new Query(where("_id").in(getIds(buildThirdBatch())));
-        verify(template, times(1)).remove(removeIds, "deltas");
+        verify(template, times(1)).remove(argThat(buildQueryMatcher(getIds(buildFirstBatch()))), eq("deltas"));
+        verify(template, times(1)).remove(argThat(buildQueryMatcher(getIds(buildSecondBatch()))), eq("deltas"));
+        verify(template, times(1)).remove(argThat(buildQueryMatcher(getIds(buildThirdBatch()))), eq("deltas"));
+    }
+
+    @SuppressWarnings("unchecked")
+    private Matcher<Query> buildQueryMatcher(final List<byte[]> ids) {
+        return new BaseMatcher<Query>() {
+
+            @Override
+            public boolean matches(Object arg0) {
+                Query q = (Query) arg0;
+                Map<String, Object> inClause = (Map<String, Object>) q.getQueryObject().get("_id");
+                List<byte[]> idClause = (List<byte[]>) inClause.get("$in");
+                for (int i = 0; i < ids.size(); i++) {
+                    if (!Hex.encodeHexString(ids.get(i)).equals(Hex.encodeHexString(idClause.get(i)))) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+            @Override
+            public void describeTo(Description arg0) {
+                arg0.appendText("Query matching ids: " + ids);
+            }
+        };
     }
 
     @SuppressWarnings("rawtypes")
-    private List<String> getIds(List<Map> batch) {
-        List<String> res = new ArrayList<String>();
+    private List<byte[]> getIds(List<Map> batch) {
+        List<byte[]> res = new ArrayList<byte[]>();
         for (Map<String, Object> item : batch) {
-            res.add((String) item.get("_id"));
+            res.add((byte[]) item.get("_id"));
         }
         return res;
     }
@@ -201,9 +228,9 @@ public class DeltaJournalTest {
                 @SuppressWarnings("unchecked")
                 Map<String, Object> o = (Map<String, Object>) ((Update) arg0).getUpdateObject().get("$set");
                 if (o.get("c").equals("purge") && o.get("t").equals(time)) {
-                   return true;
+                    return true;
                 }
-                return  false;
+                return false;
             }
 
             @Override
@@ -212,7 +239,34 @@ public class DeltaJournalTest {
             }
         };
 
-        verify(template, Mockito.times(1)).upsert(Mockito.any(Query.class), argThat(updateMatcher), Mockito.eq("deltas"));
+        verify(template, Mockito.times(1)).upsert(Mockito.any(Query.class), argThat(updateMatcher),
+                Mockito.eq("deltas"));
     }
 
+    @Test
+    public void testGetByteId() throws DecoderException {
+        String id = "1234567890123456789012345678901234567890";
+        String superid = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+        String extraid = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
+        assertEquals(id, Hex.encodeHexString(DeltaJournal.getByteId(id + "_id").get(0)));
+        assertEquals(id, Hex.encodeHexString(DeltaJournal.getByteId(superid + "_id" + id + "_id").get(0)));
+        assertEquals(superid, Hex.encodeHexString(DeltaJournal.getByteId(superid + "_id" + id + "_id").get(1)));
+        assertEquals(superid, Hex.encodeHexString(DeltaJournal.getByteId(extraid + "_id" + superid + "_id" + id + "_id").get(1)));
+        assertEquals(extraid, Hex.encodeHexString(DeltaJournal.getByteId(extraid + "_id" + superid + "_id" + id + "_id").get(2)));
+    }
+
+    @Test
+    public void testGetEntityId() throws DecoderException {
+        String id = "1234567890123456789012345678901234567890";
+        String superid = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+        String extraid = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
+        Map<String, Object> delta = new HashMap<String, Object>();
+        delta.put("_id", Hex.decodeHex(id.toCharArray()));
+        assertEquals(id + "_id", DeltaJournal.getEntityId(delta));
+        delta.put("i", Arrays.asList(Hex.decodeHex(superid.toCharArray())));
+        assertEquals(superid + "_id" + id + "_id", DeltaJournal.getEntityId(delta));
+        delta.put("i", Arrays.asList(Hex.decodeHex(superid.toCharArray()), Hex.decodeHex(extraid.toCharArray())));
+        assertEquals(extraid + "_id" + superid + "_id" + id + "_id", DeltaJournal.getEntityId(delta));
+
+    }
 }

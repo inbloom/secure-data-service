@@ -45,7 +45,7 @@ Feature: List a purge as a single event in the delta extract
     And I successfully ingest "StoriedDataSet_IL_Sunset.zip"
     And all LEAs in "Midgar" are authorized for "SDK Sample"
     And I trigger a delta extract
-    When I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-SUNSET>" in "Midgar" contains a file for each of the following entities:
+    When I verify the last delta bulk extract by app "<app id>" for "<IL-SUNSET>" in "Midgar" contains a file for each of the following entities:
       |  entityType                            |
       |  student                               |
       |  studentSchoolAssociation              |

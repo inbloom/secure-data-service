@@ -18,7 +18,6 @@ package org.slc.sli.bulk.extract.extractor;
 import static org.slc.sli.bulk.extract.LogUtil.audit;
 
 import java.io.File;
-import java.io.IOException;
 import java.security.PublicKey;
 import java.util.Arrays;
 import java.util.Collections;
@@ -56,7 +55,6 @@ import org.slc.sli.bulk.extract.util.SecurityEventUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.util.logging.LogLevelType;
-import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.repository.DeltaJournal;
 import org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory;
@@ -148,16 +146,8 @@ public class DeltaExtractor {
                                 appsPerTopLEA.get(lea));
                         EntityExtractor.CollectionWrittenRecord record = getCollectionRecord(lea,
                                 delta.getType());
-                        try {
-                            entityExtractor.write(delta.getEntity(), extractFile, record, null);
-                        } catch (IOException e) {
-                            LOG.error("Error while extracting for " + lea, e);
-                            SecurityEvent event = securityEventUtil.createSecurityEvent(this.getClass().getName(), "Delta Extract for LEA", LogLevelType.TYPE_ERROR,
-                                    BEMessageCode.BE_SE_CODE_0020, delta.getEntity().getType(), lea, e.getMessage());
-                            event.setTargetEdOrg(lea);
-                            audit(event);
-                            throw new RuntimeException("Delta extraction failed, quitting without clearing delta collections...", e);
-                        }
+                        entityExtractor.write(delta.getEntity(), extractFile, record, null);
+
                     }
                 }
             } else if (delta.getOp() == Operation.DELETE) {

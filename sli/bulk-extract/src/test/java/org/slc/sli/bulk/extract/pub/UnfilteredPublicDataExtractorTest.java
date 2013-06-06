@@ -24,6 +24,7 @@ import org.mockito.MockitoAnnotations;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
+import org.slc.sli.bulk.extract.util.PublicEntityDefinition;
 
 /**
  * Test UnfilteredPublicDataExtractor
@@ -48,12 +49,9 @@ public class UnfilteredPublicDataExtractorTest {
     @Test
     public void testExtract() {
         publicDataExtractor.extract(file);
-        Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, "assessment");
-        Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, "learningObjective");
-        Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, "learningStandard");
-        Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, "competencyLevelDescriptor");
-        Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, "studentCompetencyObjective");
-        Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, "program");
+        for (PublicEntityDefinition definition : PublicEntityDefinition.unFilteredEntities()) {
+            Mockito.verify(extractor, Mockito.times(1)).extractEntities(file, definition.getEntityName());
+        }
     }
 
 

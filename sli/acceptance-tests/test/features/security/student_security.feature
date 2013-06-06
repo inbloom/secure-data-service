@@ -36,3 +36,19 @@ Feature: Student access to system
     | studentDisciplineIncidentAssociations   | e0e99028-6360-4247-ae48-d3bb3ecb606a_id0e26de6c-225b-9f67-8e23-5113ad50a03b_id |
     | teacherSchoolAssociations               | 1a72521b-7bed-890a-d574-1d729a379528                                           |
     | teacherSectionAssociations              | 706ee3be-0dae-4e98-9525-f564e05aa388_id29d58f86-5fab-4926-a9e2-e4076fe27bb3_id |
+
+  Scenario Outline: Student cannot traverse to protected data through public entities
+    Given I am logged in using "carmen.ortiz" "carmen.ortiz1234" to realm "IL-Student"
+    When I navigate to GET "/v1/<Entity>/<ids>/<path>"
+    Then I should receive a return code of 403
+  Examples:
+    | Entity                      | ids                                         | path                                            |
+    | schools                     | 888b2e17-0edb-4251-958b-8ac65093c9d3        | studentSchoolAssociations/students              |
+    | educationOrganizations      | d66fb6fd-691d-fde1-7f5f-efed78f7e1dc        | staffEducationOrgAssignmentAssociations         |
+    | programs                    | 242b5d92-e69a-416e-b964-6ceb8756fd33_id     | studentProgramAssociations/students             |
+    | courses                     | 43ee8275-de7b-4a02-8ecb-21d25a45db36        | courseTranscripts                               |
+    | sessions                    | 8f391db1-dea5-4ace-becb-1f638f5a3f29        | studentAcademicRecords                          |
+    | sections                    | b905a02e-30f7-43b7-94d5-58047985c00f        | studentSectionAssociations/students/attendances |
+    | gradingPeriods              | b40a7eb5-dd74-4666-a5b9-5c3f4425f130        | reportCards                                     |
+    | assessments                 | 25d9d83d11cfa02c687d4ca91e92969261a43d2d_id | studentAssessments                              |
+    | learningObjectives          | dd9165f2-65fe-6d27-a8ec-bdc5f47757b7        | studentCompetencies                             |

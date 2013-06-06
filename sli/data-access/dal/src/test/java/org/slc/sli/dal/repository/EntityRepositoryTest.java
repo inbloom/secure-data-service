@@ -24,9 +24,12 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -44,9 +47,12 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.AccessibilityCheck;
 import org.slc.sli.domain.CascadeResult;
@@ -75,6 +81,137 @@ public class EntityRepositoryTest {
 
     @Resource(name = "mongoEntityRepository")
     private Repository<Entity> repository;
+
+    boolean schoolLineageIs(String schoolId, Set<String> expectedEdOrgs) {
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, schoolId));
+        Entity school = repository.findOne(EntityNames.EDUCATION_ORGANIZATION, neutralQuery);
+        ArrayList<String> edOrgs = (ArrayList<String>) school.getMetaData().get("edOrgs");
+        if (edOrgs == null) {
+            return expectedEdOrgs.isEmpty();
+        } else if (!expectedEdOrgs.equals(new HashSet<String>(edOrgs))) {
+            System.out.println("School edOrg lineage incorrect. Expected " + expectedEdOrgs + ", got " + edOrgs);
+            return false;
+        }
+        return true;
+    }
+
+    @Test
+    public void testSchoolLineage() {
+        NeutralQuery query = null;
+
+        repository.deleteAll(EntityNames.EDUCATION_ORGANIZATION, null);
+
+        DBObject indexKeys = new BasicDBObject("body." + ParameterConstants.STATE_ORGANIZATION_ID, 1);
+        mongoTemplate.getCollection(EntityNames.EDUCATION_ORGANIZATION).ensureIndex(indexKeys);
+        mongoTemplate.getCollection(EntityNames.EDUCATION_ORGANIZATION).ensureIndex(new BasicDBObject("metaData.edOrgs", 1), new BasicDBObject("sparse", true));
+
+        // Add a school
+        Entity school = createEducationOrganizationEntity("school1", "school", "School", null);
+        Set<String> expectedEdOrgs = new HashSet();
+        expectedEdOrgs.add(school.getEntityId());
+        assertTrue("School not found in lineage.", schoolLineageIs(school.getEntityId(), expectedEdOrgs));
+
+        // Add an SEA
+        Entity sea = createEducationOrganizationEntity("sea1", "stateEducationAgency", "State Education Agency", null);
+        assertTrue("After adding SEA expected edOrgs not found in lineage.", schoolLineageIs(school.getEntityId(), expectedEdOrgs));
+
+        // Add an LEA
+        Entity lea = createEducationOrganizationEntity("lea1", "localEducationAgency", "Local Education Agency", sea.getEntityId());
+        assertTrue("After adding LEA expected edOrgs not found in lineage.", schoolLineageIs(school.getEntityId(), expectedEdOrgs));
+
+        // doUpdate School parent ref to LEA
+        query = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, school.getEntityId()));
+        Update update = new Update().set("body." + ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE, lea.getEntityId());
+        repository.doUpdate(EntityNames.EDUCATION_ORGANIZATION, query, update);
+        expectedEdOrgs.add(lea.getEntityId());
+        expectedEdOrgs.add(sea.getEntityId());
+        assertTrue("After updating school parent ref expected edOrgs not found in lineage.", schoolLineageIs(school.getEntityId(), expectedEdOrgs));
+
+        // Patch LEA parent ref to an undefined id
+        Map<String, Object> newValues = new HashMap<String, Object>();
+        newValues.put(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE, "undefinedId");
+        repository.patch("localEducationEntity", EntityNames.EDUCATION_ORGANIZATION, lea.getEntityId(), newValues);
+        expectedEdOrgs.remove(sea.getEntityId());
+        assertTrue("After updating school parent ref expected edOrgs not found in lineage.", schoolLineageIs(school.getEntityId(), expectedEdOrgs));
+
+        // Update LEA to set parent ref back to SEA
+        repository.update(EntityNames.EDUCATION_ORGANIZATION, lea, false);
+        expectedEdOrgs.add(sea.getEntityId());
+        assertTrue("After updating school parent ref expected edOrgs not found in lineage.", schoolLineageIs(school.getEntityId(), expectedEdOrgs));
+
+        // Delete LEA - lineage should be recalculated
+        repository.delete(EntityNames.EDUCATION_ORGANIZATION, lea.getEntityId());
+        expectedEdOrgs.remove(lea.getEntityId());
+        expectedEdOrgs.remove(sea.getEntityId());
+        assertTrue("After deleting lea expected edOrgs not found in lineage.", schoolLineageIs(school.getEntityId(), expectedEdOrgs));
+
+        // Insert LEA with no parent ref to SEA
+        lea.getBody().remove(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE);
+        Entity insertedLea = ((MongoEntityRepository)repository).insert(lea, EntityNames.EDUCATION_ORGANIZATION);
+        expectedEdOrgs.add(lea.getEntityId());
+        assertTrue("After re-adding LEA with no parent ref expected edOrgs not found in lineage.", schoolLineageIs(school.getEntityId(), expectedEdOrgs));
+
+        // findAndUpdate School parent ref to SEA
+        query = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, school.getEntityId()));
+        update = new Update().set("body." + ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE, sea.getEntityId());
+        repository.findAndUpdate(EntityNames.EDUCATION_ORGANIZATION, query, update);
+        expectedEdOrgs.remove(lea.getEntityId());
+        expectedEdOrgs.add(sea.getEntityId());
+        assertTrue("After updating school parent ref to SEA, expected edOrgs not found in lineage.", schoolLineageIs(school.getEntityId(), expectedEdOrgs));
+
+        // Clear lineage for negative tests
+        clearSchoolLineage(school);
+
+        // Create an unrelated entity type and make sure school lineage isn't recalculated
+        repository.create("student", buildTestStudentEntity());
+        assertTrue("After adding a student lineage school lineage should not change.", schoolLineageIs(school.getEntityId(), new HashSet<String>()));
+
+        // Patch an edOrg non-parent-ref and make sure school lineage isn't recalculated
+        newValues = new HashMap<String, Object>();
+        newValues.put("body.nameOfInstitution", "updatedName");
+        repository.patch("school", EntityNames.EDUCATION_ORGANIZATION, school.getEntityId(), newValues);
+        assertTrue("Updating a school non-parent ref should not change school lineage.", schoolLineageIs(school.getEntityId(), new HashSet<String>()));
+
+        mongoTemplate.getCollection(EntityNames.EDUCATION_ORGANIZATION).drop();
+
+    }
+
+    private void clearSchoolLineage(Entity school) {
+        school.getMetaData().remove("edOrgs");
+        repository.update(EntityNames.EDUCATION_ORGANIZATION, school, false);
+    }
+
+    private Entity createEducationOrganizationEntity(String stateOrgId, String type, String organizationCategory, String parentRef) {
+        Random rand = new Random();
+        Map<String, Object> body = new HashMap<String, Object>();
+        List<Map<String, String>> addresses = new ArrayList<Map<String, String>>();
+        Map<String, String> address = new HashMap<String, String>();
+        List<String> organizationCategories = new ArrayList<String>();
+
+        /*
+     	    <xs:enumeration value="State Education Agency" />
+			<xs:enumeration value="Education Service Center" />
+			<xs:enumeration value="Local Education Agency" />
+			<xs:enumeration value="School" />
+         */
+        organizationCategories.add(organizationCategory);
+        body.put(ParameterConstants.ORGANIZATION_CATEGORIES, organizationCategories);
+
+        address.put("streetNumberName", rand.nextInt(100) + " Hill Street");
+        address.put("city", "My City");
+        address.put("stateAbbreviation", "IL");
+        address.put("postalCode", "1235");
+        addresses.add(address);
+        body.put("address", addresses);
+
+        if (parentRef != null) {
+            body.put(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE, parentRef);
+        }
+        body.put("nameOfInstitution", stateOrgId + "Name");
+        body.put(ParameterConstants.STATE_ORGANIZATION_ID, stateOrgId);
+        return repository.create(type, body, EntityNames.EDUCATION_ORGANIZATION);
+    }
 
     @Test
     public void testDeleteAll() {
@@ -173,15 +310,15 @@ public class EntityRepositoryTest {
             boolean leafDataOnly,int expectedNObjects, int expectedDepth,
             CascadeResult.Status expectedStatus,
             CascadeResultError.ErrorType expectedErrorType, CascadeResultError.ErrorType expectedWarningType) {
-        System.out.println("Testing safeDelete: ");
-        System.out.println("   entity type             : " + entityType);
-        System.out.println("   override id             : " + overridingId);
-        System.out.println("   cascade                 : " + cascade);
-        System.out.println("   dryrun                  : " + dryrun);
-        System.out.println("   maxObjects              : " + maxObjects);
-        System.out.println("   leaf data only          : " + leafDataOnly);
-        System.out.println("   expected affected count : " + expectedNObjects);
-        System.out.println("   expected depth          : " + expectedDepth);
+//        System.out.println("Testing safeDelete: ");
+//        System.out.println("   entity type             : " + entityType);
+//        System.out.println("   override id             : " + overridingId);
+//        System.out.println("   cascade                 : " + cascade);
+//        System.out.println("   dryrun                  : " + dryrun);
+//        System.out.println("   maxObjects              : " + maxObjects);
+//        System.out.println("   leaf data only          : " + leafDataOnly);
+//        System.out.println("   expected affected count : " + expectedNObjects);
+//        System.out.println("   expected depth          : " + expectedDepth);
 
         CascadeResult result = null;
         String idToDelete = prepareSafeDeleteGradingPeriodData(leafDataOnly);
@@ -207,9 +344,9 @@ public class EntityRepositoryTest {
             }
         }
 
-        for (CascadeResultError error : result.getErrors()) {
-            System.out.println(error);
-        }
+//        for (CascadeResultError error : result.getErrors()) {
+//            System.out.println(error);
+//        }
 
         // check for at least one instance of the expected warning type
         boolean warningMatchFound = false;
@@ -225,9 +362,9 @@ public class EntityRepositoryTest {
             }
         }
 
-        for(CascadeResultError warning : result.getWarnings()) {
-            System.out.println(warning);
-        }
+//        for(CascadeResultError warning : result.getWarnings()) {
+//            System.out.println(warning);
+//        }
 
         //   verify expected results
         assertEquals(expectedNObjects, result.getnObjects());

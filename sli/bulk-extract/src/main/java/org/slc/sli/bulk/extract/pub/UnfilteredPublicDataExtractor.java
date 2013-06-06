@@ -26,7 +26,7 @@ import org.slc.sli.domain.NeutralQuery;
  * PublicData Extractor which extracts all entities of belonging to a tenant.
  * @author tshewchuk
  */
-public class UnfilteredPublicDataExtractor {
+public class UnfilteredPublicDataExtractor implements PublicDataExtractor{
 
     private EntityExtractor extractor;
 
@@ -39,10 +39,7 @@ public class UnfilteredPublicDataExtractor {
         this.extractor = extractor;
     }
 
-    /**
-     * Extracts tenant wide data for the specified entities.
-     * @param file the file to extract to
-     */
+    @Override
     public void extract(ExtractFile file) {
         for (PublicEntityDefinition entity : PublicEntityDefinition.unFilteredEntities()) {
             extractor.extractEntities(file, entity.getEntityName());

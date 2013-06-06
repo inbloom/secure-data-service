@@ -609,7 +609,7 @@ Given I clean the bulk extract file system and database
   And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
   And I verify "2" delta bulk extract files are generated for LEA "<IL-HIGHWIND>" in "Midgar"
 
-
+@shortcut
 Scenario: Create Student, course offering and section as SEA Admin, users from different LEAs requesting Delta extracts
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -644,14 +644,14 @@ Given I clean the bulk extract file system and database
     | newStudentCohortAssociation    |  studentCohortAssociation              |  201         |
     | DbGradingPeriod                |  gradingPeriod                         |  201         |
     | DbSession                      |  session                               |  201         |
-    #| program                        |  program                               |  201         | 
-    #| newStudentProgramAssociation   |  studentProgramAssociation             |  201         | 
+    | newProgram                     |  program                               |  201         | 
+    | newStudentProgramAssociation   |  studentProgramAssociation             |  201         | 
     #| newStaffProgramAssociation     |  staffProgramAssociation               |  201         | 
-    #| studentCompetency              |  studentCompetency                     |  201         |
-    #| disciplineIncident             |  disciplineIncident                    |  201         |
-    #| disciplineAction               |  disciplineAction                      |  201         |
-    #| studentDisciplineIncidentAssoc |  studentDisciplineIncidentAssociation  |  201         |
-    #| graduationPlan                 |  graduationPlan                        |  201         |
+    | newStudentCompetency           |  studentCompetency                     |  201         |
+    #| newDisciplineIncident          |  disciplineIncident                    |  201         |
+    #| newDisciplineAction            |  disciplineAction                      |  201         |
+    #| newStudentDiscIncidentAssoc    |  studentDisciplineIncidentAssociation  |  201         |
+    #| newGraduationPlan              |  graduationPlan                        |  201         |
 
  When I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
@@ -680,9 +680,13 @@ Given I clean the bulk extract file system and database
         |  studentSectionAssociation             |
         |  teacher                               |
         |  teacherSchoolAssociation              |
-        #|  program                             |
-        #|  graduationPlan                      |
-
+        |  studentProgramAssociation             | 
+        #| newStaffProgramAssociation             | 
+        |  studentCompetency                     |
+        #| newDisciplineIncident                  |
+        #| newDisciplineAction                    |
+        #| newStudentDiscIncidentAssoc            |
+        #|  graduationPlan                        |
 
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And I verify this "student" file should contain:
@@ -799,6 +803,10 @@ Given I clean the bulk extract file system and database
     | 9bf3036428c40861238fdc820568fde53e658d88_idfa64547520fbfcbc8646a7a0bb3a52f76e4f4d21_id | entityType = studentCohortAssociation                   |
     | 9bf3036428c40861238fdc820568fde53e658d88_idfa64547520fbfcbc8646a7a0bb3a52f76e4f4d21_id | cohortId = cb99a7df36fadf8885b62003c442add9504b3cbd_id  |
     | 9bf3036428c40861238fdc820568fde53e658d88_idfa64547520fbfcbc8646a7a0bb3a52f76e4f4d21_id | studentId = 9bf3036428c40861238fdc820568fde53e658d88_id |
+  And I verify this "studentProgramAssociation" file should contain:
+    | id                                          | condition                                                |
+    | 9bf3036428c40861238fdc820568fde53e658d88_id38025c314f0972d09cd982ffe58c7d8d2b59d23d_id | entityType = studentProgramAssociation                  |  
+    | 9bf3036428c40861238fdc820568fde53e658d88_id38025c314f0972d09cd982ffe58c7d8d2b59d23d_id | educationOrganizationId = 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
 
  Given the extract download directory is empty
   When I request the latest bulk extract delta via API for "<IL-HIGHWIND>"
@@ -845,14 +853,13 @@ Given I clean the bulk extract file system and database
     |  reportCard                 |  1417cec726dc51d43172568a9c332ee1712d73d4_id77bc827b90835ef0df42154428ac3153f0ddc746_id  |  204         |
     |  studentAcademicRecord      |  1417cec726dc51d43172568a9c332ee1712d73d4_idb2b773084845209865762830ceb1721ebb1101ef_id  |  204         |
     |  studentCohortAssociation   |  9bf3036428c40861238fdc820568fde53e658d88_idfa64547520fbfcbc8646a7a0bb3a52f76e4f4d21_id  |  204         |
-    #|  studentParentAssociation   |  9bf3036428c40861238fdc820568fde53e658d88_id28af8b70a2f2e695fc25da04e0f8625115002556_id  |  204         |
+    |  studentProgramAssociation  |  9bf3036428c40861238fdc820568fde53e658d88_id38025c314f0972d09cd982ffe58c7d8d2b59d23d_id  |  204         |
     |  studentSectionAssociation  |  4030207003b03d055bba0b5019b31046164eff4e_id78468628f357b29599510341f08dfd3277d9471e_id  |  204         |
     |  cohort                     |  cb99a7df36fadf8885b62003c442add9504b3cbd_id  |  204         |
     |  section                    |  4030207003b03d055bba0b5019b31046164eff4e_id  |  204         |
     |  courseOffering             |  38edd8479722ccf576313b4640708212841a5406_id  |  204         |
     |  course                     |  877e4934a96612529535581d2e0f909c5288131a_id  |  204         |
     |  staff                      |  e9f3401e0a034e20bb17663dd7d18ece6c4166b5_id  |  204         |
-    #|  staffEducationOrganizationAssociation  |  afef1537920d10e093a8d301efbb463e364f8079_id  |  204         |
     |  teacherSchoolAssociation   |  7a2d5a958cfda9905812c3a9f38c07ac4e8899b0_id  |  204         |
     |  teacher                    |  2472b775b1607b66941d9fb6177863f144c5ceae_id  |  204         |
     |  newParentMom               |  41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id  |  204         |
@@ -884,6 +891,7 @@ Given I clean the bulk extract file system and database
     | e9f3401e0a034e20bb17663dd7d18ece6c4166b5_id | entityType = staff                       |
     | 9bf3036428c40861238fdc820568fde53e658d88_id | entityType = student                     |
     | d4a8b25254af09fe3dd772a2149aa6b45fa6b170_id | entityType = studentAssessment           |
+    | 6a74f51699a7554f89865e004695913aee277117_id | entityType = studentCompetency           |
     | cbfe3a47491fdff0432d5d4abca339735da9461d_id | entityType = studentSchoolAssociation    |
     | 2472b775b1607b66941d9fb6177863f144c5ceae_id | entityType = teacher                     |
     | 7a2d5a958cfda9905812c3a9f38c07ac4e8899b0_id | entityType = teacherSchoolAssociation    |
@@ -893,6 +901,7 @@ Given I clean the bulk extract file system and database
     | 1417cec726dc51d43172568a9c332ee1712d73d4_idb2b773084845209865762830ceb1721ebb1101ef_id | entityType = studentAcademicRecord     |
     | 9bf3036428c40861238fdc820568fde53e658d88_idfa64547520fbfcbc8646a7a0bb3a52f76e4f4d21_id | entityType = studentCohortAssociation  |
     | 9bf3036428c40861238fdc820568fde53e658d88_id28af8b70a2f2e695fc25da04e0f8625115002556_id | entityType = studentParentAssociation  |
+    | 9bf3036428c40861238fdc820568fde53e658d88_id38025c314f0972d09cd982ffe58c7d8d2b59d23d_id | entityType = studentProgramAssociation |
     | 4030207003b03d055bba0b5019b31046164eff4e_id78468628f357b29599510341f08dfd3277d9471e_id | entityType = studentSectionAssociation |
 
 
@@ -921,8 +930,6 @@ Given I clean the bulk extract file system and database
  # Delete the studentSchoolAssociations leaving the orphaned students
   And I DELETE and validate the following entities:
     |  entity                      |  id                                           |  returnCode  |
-    #|  newStudent                  |  9bf3036428c40861238fdc820568fde53e658d88_id  |  204         |
-    #|  newStudent                  |  b8b0a8d439591b9e073e8f1115ff1cf1fd4125d6_id  |  204         |
     |  studentSchoolAssociation    |  cbfe3a47491fdff0432d5d4abca339735da9461d_id  |  204         |    
     |  studentSchoolAssociation    |  d913396aef918602b8049027dbdce8826c054402_id  |  204         |
 
@@ -968,9 +975,7 @@ Given I clean the bulk extract file system and database
  # Create one student in each lea, and matching studentSchoolAssociations
  When I POST and validate the following entities:
     |  entity                        |  type                       |  returnCode  |
-    #|  newDaybreakStudent            |  staffStudent               |  201         |
     |  DbStudentSchoolAssociation    |  studentSchoolAssociation   |  201         |
-    #|  newHighwindStudent            |  staffStudent               |  201         |
     |  HwStudentSchoolAssociation    |  studentSchoolAssociation   |  201         |
  # Delete students and stSchoAssoc
   And I DELETE and validate the following entities:

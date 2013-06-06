@@ -52,11 +52,13 @@ Scenario Outline: Extract should have all the valid data for the SEA
       |  graduationPlan                |    educationOrganizationId              |
       |  session                       |    schoolId                             |
       |  gradingPeriod                 |    gradingPeriodIdentity.schoolId       |
-   
-@wip
-Scenario: Extract should contain graduationPlans that do not reference any EdOrg
+
+Scenario Outline: Extract should contain independent entities that do not reference any EdOrg
     When I retrieve the path to and decrypt the SEA public data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
-   Then I verify that "1" "graduationPlan" does not contain the reference field "educationOrganizationId"
+   Then I verify that <count> "<entity>" does not contain the reference field "<field>"
+  Examples:
+      |count                    | entity                         | field                       |
+      | #2                      | graduationPlan                 | educationOrganizationId     |
 
 Scenario Outline: Extract should have all public tenant data for certain entities
     When I retrieve the path to and decrypt the SEA public data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
@@ -215,6 +217,7 @@ Scenario: None of the public entities reference the SEA
       |  assessment                            |
       |  learningObjective                     |
       |  learningStandard                      |
+      |  graduationPlan                        |
       |  competencyLevelDescriptor             |
       |  studentCompetencyObjective            |
       |  program                               |

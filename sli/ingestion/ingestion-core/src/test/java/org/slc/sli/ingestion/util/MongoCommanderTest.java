@@ -69,17 +69,17 @@ public class MongoCommanderTest {
         shardCollections.add("assessmentFamily");
         shardCollections.add("assessmentItem");
 
-        collectionOrder.put("assessment", 3);
-        collectionOrder.put("assessmentFamily", 1);
-        collectionOrder.put("assessmentItem", 2);
+        collectionOrder.put("assessment", 2);
+        collectionOrder.put("assessmentFamily", 3);
+        collectionOrder.put("assessmentItem", 1);
 
         collectionIns.put("assessment", assessmentCollection);
         collectionIns.put("assessmentFamily", assessmentFamilyCollection);
         collectionIns.put("assessmentItem", assessmentItem);
 
-        indexes.add("assessment,false,creationTime");
-        indexes.add("assessmentFamily,false,creationTime");
-        indexes.add("assessmentItem,false,creationTime");
+        indexes.add("assessment,false,false,creationTime");
+        indexes.add("assessmentFamily,false,false,creationTime");
+        indexes.add("assessmentItem,false,false,creationTime");
 
         Mockito.when(mockedMongoTemplate.getDb()).thenReturn(db);
         Mockito.when(db.getName()).thenReturn(dbName);
@@ -112,6 +112,7 @@ public class MongoCommanderTest {
         DBObject options = new BasicDBObject();
         options.put("name", "idx_" + indexOrder);
         options.put("unique", false);
+        options.put("sparse", false);
         options.put("ns", ns);
 
         return options;
@@ -164,7 +165,7 @@ public class MongoCommanderTest {
         Mockito.verify(db, Mockito.times(1)).command(new BasicDBObject("enableSharding", dbName));
         Mockito.verify(db, Mockito.times(2)).command(new BasicDBObject("listShards", 1));
         //Verify total number of mongo command calls
-        Mockito.verify(db, Mockito.times(11)).command(Matchers.any(DBObject.class));
+        Mockito.verify(db, Mockito.times(13)).command(Matchers.any(DBObject.class));
 
         //For setBalancerState
         Mockito.verify(settings, Mockito.times(1)).update(Matchers.any(DBObject.class), Matchers.any(DBObject.class), Matchers.eq(true), Matchers.eq(false));

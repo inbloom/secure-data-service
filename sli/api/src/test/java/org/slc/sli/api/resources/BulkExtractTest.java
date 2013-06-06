@@ -568,7 +568,7 @@ public class BulkExtractTest {
     public void testGetLEAListNoUserAssociatedLEAs() throws Exception {
         injector.setEducatorContext();
         mockApplicationEntity();
-        Mockito.when(edOrgHelper.getDistrictsAndSEA(Mockito.any(Entity.class))).thenReturn(Arrays.asList("123"));
+        Mockito.when(edOrgHelper.getDistricts(Mockito.any(Entity.class))).thenReturn(Arrays.asList("123"));
 
         Response res = bulkExtract.getSEAOrLEAList(req, CONTEXT);
         assertEquals(404, res.getStatus());
@@ -576,10 +576,10 @@ public class BulkExtractTest {
 
     @SuppressWarnings("unchecked")
     @Test()
-    public void testGetSLEAListEmpty() throws Exception {
+    public void testGetSetSEAAndLEAListEmpty() throws Exception {
         injector.setEducatorContext();
         mockApplicationEntity();
-        Mockito.when(edOrgHelper.getDistrictsAndSEA(Mockito.any(Entity.class))).thenReturn(Arrays.asList("123"));
+        Mockito.when(edOrgHelper.getDistricts(Mockito.any(Entity.class))).thenReturn(Arrays.asList("123"));
         Entity mockAppAuthEntity = Mockito.mock(Entity.class);
         Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(ApplicationAuthorizationResource.RESOURCE_NAME), Mockito.any(NeutralQuery.class)))
             .thenReturn(mockAppAuthEntity);
@@ -605,23 +605,24 @@ public class BulkExtractTest {
 
     @SuppressWarnings("unchecked")
     @Test()
-    public void testGetSLEAListSuccess() throws Exception {
+    public void testGetSEAAndLEAListSuccess() throws Exception {
         injector.setEducatorContext();
         mockApplicationEntity();
-        List<String> SLEAs = Arrays.asList("SEA1", "LEA1");
+        List<String> LEAs = Arrays.asList("LEA1");
         Entity mockSEAEntity = Mockito.mock(Entity.class);
         Mockito.when(edOrgHelper.byId("SEA1")).thenReturn(mockSEAEntity);
         Mockito.when(edOrgHelper.isSEA(mockSEAEntity)).thenReturn(true);
         Entity mockLEAEntity = Mockito.mock(Entity.class);
         Mockito.when(edOrgHelper.byId("LEA1")).thenReturn(mockLEAEntity);
         Mockito.when(edOrgHelper.isSEA(mockLEAEntity)).thenReturn(false);
-        Mockito.when(edOrgHelper.getDistrictsAndSEA(Mockito.any(Entity.class))).thenReturn(SLEAs);
+        Mockito.when(edOrgHelper.getSEAOfEdOrg(mockLEAEntity)).thenReturn("SEA1");
+        Mockito.when(edOrgHelper.getDistricts(Mockito.any(Entity.class))).thenReturn(LEAs);
         Entity mockAppAuthEntity = Mockito.mock(Entity.class);
         Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(ApplicationAuthorizationResource.RESOURCE_NAME), Mockito.any(NeutralQuery.class)))
             .thenReturn(mockAppAuthEntity);
         Map<String, Object> body = new HashMap<String, Object>();
         Mockito.when(mockAppAuthEntity.getBody()).thenReturn(body);
-        body.put(ApplicationAuthorizationResource.EDORG_IDS, SLEAs);
+        body.put(ApplicationAuthorizationResource.EDORG_IDS, LEAs);
 
         Entity fullBulkExtractEntity = mockBulkExtractEntity(null);
         Date deltaTime1 = new Date(1000000000000L);
@@ -675,66 +676,10 @@ public class BulkExtractTest {
 
     @SuppressWarnings("unchecked")
     @Test()
-    public void testGetJustSEAListSuccess() throws Exception {
-        injector.setEducatorContext();
-        mockApplicationEntity();
-        List<String> SLEAs = Arrays.asList("SEA1");
-        Entity mockSEAEntity = Mockito.mock(Entity.class);
-        Mockito.when(edOrgHelper.byId("SEA1")).thenReturn(mockSEAEntity);
-        Mockito.when(edOrgHelper.isSEA(mockSEAEntity)).thenReturn(true);
-        Mockito.when(edOrgHelper.getDistrictsAndSEA(Mockito.any(Entity.class))).thenReturn(SLEAs);
-        Entity mockAppAuthEntity = Mockito.mock(Entity.class);
-        Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(ApplicationAuthorizationResource.RESOURCE_NAME), Mockito.any(NeutralQuery.class)))
-            .thenReturn(mockAppAuthEntity);
-        Map<String, Object> body = new HashMap<String, Object>();
-        Mockito.when(mockAppAuthEntity.getBody()).thenReturn(body);
-        body.put(ApplicationAuthorizationResource.EDORG_IDS, SLEAs);
-
-        Entity fullBulkExtractEntity = mockBulkExtractEntity(null);
-        Date deltaTime1 = new Date(1000000000000L);
-        String timeStamp1 = ISODateTimeFormat.dateTime().print(new DateTime(deltaTime1));
-        Date deltaTime2 = new Date(2000000000000L);
-        String timeStamp2 = ISODateTimeFormat.dateTime().print(new DateTime(deltaTime2));
-        Entity deltaBulkExtractEntity1 = mockBulkExtractEntity(deltaTime1);
-        Entity deltaBulkExtractEntity2 = mockBulkExtractEntity(deltaTime2);
-        List<Entity> edOrgs = new ArrayList<Entity>();
-        edOrgs.add(fullBulkExtractEntity);
-        edOrgs.add(0, deltaBulkExtractEntity1);  // Add in ascending time order,
-        edOrgs.add(1, deltaBulkExtractEntity2);  // to assure forward chronology.
-        Mockito.when(mockMongoEntityRepository.findAll(Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
-            .thenReturn(edOrgs);
-
-        Response res = bulkExtract.getSEAOrLEAList(req, CONTEXT);
-        assertEquals(200, res.getStatus());
-        EntityBody list = (EntityBody) res.getEntity();
-        assertNotNull("Links list should not be null", list);
-        Map<String, Map<String, String>> fullSeas = (Map<String, Map<String, String>>) list.get("fullSea");
-        assertEquals("There should be one SEA full extract link", 1, fullSeas.size());
-        assertEquals("Mismatched URI for full extract of SEA \"SEA1\"", URI_PATH + "/bulk/extract/SEA1", fullSeas.get("SEA1").get("uri"));
-        Map<String, Map<String, String>> deltaSeas = (Map<String, Map<String, String>>) list.get("deltaSea");
-        assertEquals("There should be one SEA delta extract link list", 1, deltaSeas.size());
-        Set<Map<String, String>> seaDeltaLinks = (Set<Map<String, String>>) deltaSeas.get("SEA1");
-        assertEquals("There should be two SEA delta extract links for SEA \"SEA1\"", 2, seaDeltaLinks.size());
-        Map<String, String> seaDeltaLink1 = (Map<String, String>) seaDeltaLinks.toArray()[0];
-        assertEquals("Mismatched delta extraction date for SEA \"SEA1\"", timeStamp2, seaDeltaLink1.get("timestamp"));
-        assertEquals("Mismatched URI for delta extract for SEA \"SEA1\"", URI_PATH + "/bulk/extract/SEA1/delta/" + timeStamp2, seaDeltaLink1.get("uri"));
-        Map<String, String> seaDeltaLink2 = (Map<String, String>) seaDeltaLinks.toArray()[1];
-        assertEquals("Mismatched delta extraction date for SEA \"SEA1\"", timeStamp1, seaDeltaLink2.get("timestamp"));
-        assertEquals("Mismatched URI for delta extract for SEA \"SEA1\"", URI_PATH + "/bulk/extract/SEA1/delta/" + timeStamp1, seaDeltaLink2.get("uri"));
-        assertEquals("Delta links are not in timestamp order", 1, ISODateTimeFormat.dateTime().parseDateTime(seaDeltaLink1.get("timestamp"))
-                .compareTo(ISODateTimeFormat.dateTime().parseDateTime(seaDeltaLink2.get("timestamp"))));
-        Map<String, Map<String, String>> fullLeas = (Map<String, Map<String, String>>) list.get("fullLeas");
-        assertTrue("LEA full extract link list should be empty", fullLeas.isEmpty());
-        Map<String, Map<String, String>> deltaLeas = (Map<String, Map<String, String>>) list.get("deltaLeas");
-        assertTrue("LEA delta extract link list should be empty", deltaLeas.isEmpty());
-    }
-
-    @SuppressWarnings("unchecked")
-    @Test()
     public void testGetJustFullLEAListSuccess() throws Exception {
         injector.setEducatorContext();
         mockApplicationEntity();
-        Mockito.when(edOrgHelper.getDistrictsAndSEA(Mockito.any(Entity.class))).thenReturn(Arrays.asList("123"));
+        Mockito.when(edOrgHelper.getDistricts(Mockito.any(Entity.class))).thenReturn(Arrays.asList("123"));
         Entity mockAppAuthEntity = Mockito.mock(Entity.class);
         Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(ApplicationAuthorizationResource.RESOURCE_NAME), Mockito.any(NeutralQuery.class)))
             .thenReturn(mockAppAuthEntity);
@@ -768,7 +713,7 @@ public class BulkExtractTest {
     public void testGetJustDeltaLEAListSuccess() throws Exception {
         injector.setEducatorContext();
         mockApplicationEntity();
-        Mockito.when(edOrgHelper.getDistrictsAndSEA(Mockito.any(Entity.class))).thenReturn(Arrays.asList("123"));
+        Mockito.when(edOrgHelper.getDistricts(Mockito.any(Entity.class))).thenReturn(Arrays.asList("123"));
         Entity mockAppAuthEntity = Mockito.mock(Entity.class);
         Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(ApplicationAuthorizationResource.RESOURCE_NAME), Mockito.any(NeutralQuery.class)))
             .thenReturn(mockAppAuthEntity);
