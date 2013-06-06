@@ -18,29 +18,7 @@
     <property name="location" value="file:${sli.conf}" />
   </bean>
 
-  <!-- MONGODB CONFIG -->
-  <mongo:mongo id="stagingMongo" host="${sli.ingestion.staging.mongodb.host}" port="${sli.ingestion.staging.mongodb.port}">
-    <mongo:options connections-per-host="${sli.stagingmongodb.connections}" auto-connect-retry="true"
-      socket-timeout="600000" socket-keep-alive="true" />
-  </mongo:mongo>
-
-  <bean id="mongoDbStagingFactory" class="org.slc.sli.ingestion.dal.JobSpecificMongoDbFactory">
-    <constructor-arg ref="stagingMongo" />
-    <constructor-arg value="${sli.ingestion.staging.mongodb.database}" />
-  </bean>
-
   <util:map id="pii" key-type="java.lang.String" value-type="java.lang.Object"></util:map>
-
-  <bean id="stagingEntityEncryption" class="org.slc.sli.ingestion.dal.StagingEntityEncryption">
-    <property name="entityConfigFactory" ref="entityConfigurationsFactory" />
-  </bean>
-
-  <bean id="neutralRecordWriteConverter" class="org.slc.sli.ingestion.dal.NeutralRecordWriteConverter">
-    <property name="stagingEncryptor" ref="stagingEntityEncryption" />
-  </bean>
-  <bean id="neutralRecordReadConverter" class="org.slc.sli.ingestion.dal.NeutralRecordReadConverter">
-    <property name="stagingEncryptor" ref="stagingEntityEncryption" />
-  </bean>
 
   <bean id="errorWriteConverter" class="org.slc.sli.ingestion.dal.ErrorWriteConverter">
     <property name="encryptor" ref="entityEncryption" />
@@ -49,27 +27,7 @@
     <property name="encryptor" ref="entityEncryption" />
   </bean>
 
-  <mongo:mapping-converter id="neutralRecordMappingConverter" base-package="org.slc.sli.ingestion.dal"
-    db-factory-ref="mongoDbStagingFactory">
-    <mongo:custom-converters>
-      <mongo:converter ref="neutralRecordReadConverter" />
-      <mongo:converter ref="neutralRecordWriteConverter" />
-    </mongo:custom-converters>
-  </mongo:mapping-converter>
-
-
-  <bean id="neutralRecordMongoTemplate" class="org.slc.sli.dal.template.MongoEntityTemplate" depends-on="mongoTrackingAspect">
-    <constructor-arg type="org.springframework.data.mongodb.MongoDbFactory" ref="mongoDbStagingFactory" />
-    <constructor-arg type="org.springframework.data.mongodb.core.convert.MongoConverter" ref="neutralRecordMappingConverter" />
-  </bean>
-
-  <bean id="neutralRecordRepository" class="org.slc.sli.ingestion.dal.NeutralRecordRepository">
-    <property name="template" ref="neutralRecordMongoTemplate" />
-    <property name="idConverter" ref="mongoIdConverter" />
-  </bean>
-
   <context:component-scan base-package="org.slc.sli.ingestion.dal" />
-
 
   <!-- MONGODB BATCHJOB CONFIG -->
   <mongo:mongo id="batchJobMongo" host="${sli.ingestion.batchjob.mongodb.host}" port="${sli.ingestion.batchjob.mongodb.port}">
@@ -106,7 +64,6 @@
 
   <bean id="batchJobMongoDA" class="org.slc.sli.ingestion.model.da.BatchJobMongoDA">
     <property name="batchJobMongoTemplate" ref="batchJobMongoTemplate" />
-    <property name="batchJobHashCacheMongoTemplate" ref="batchJobHashCacheMongoTemplate" />
     <property name="sliMongo" ref="mongoTemplate" />
   </bean>
 
@@ -195,10 +152,5 @@
     </value>
     <value>studentSchoolAssociation,false,body.studentId</value>
   </util:set>
-
-  <bean id="neutralRecordMongoAccess" class="org.slc.sli.ingestion.dal.NeutralRecordMongoAccess">
-    <property name="neutralRecordRepository" ref="neutralRecordRepository" />
-    <property name="stagingIndexes" ref="stagingIndexes" />
-  </bean>
 
 </beans>

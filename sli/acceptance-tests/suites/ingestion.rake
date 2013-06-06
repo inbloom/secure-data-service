@@ -37,6 +37,11 @@ task :ingestionNegativeTests do
   runTests("test/features/ingestion/features/ingestion_ChecksumError.feature")
 end
 
+desc "Run International Address Test"
+task :ingestionInternationalAddressTests do
+  runTests("test/features/ingestion/features/ingestion_InternationalAddress.feature")
+end
+
 desc "Run Ingestion Smooks Verification Tests"
 task :ingestionSmooksVerificationTests do
   runTests("test/features/ingestion/features/smooks_verification.feature")
@@ -75,10 +80,6 @@ task :ingestionXsdValidationTest do
   runTests("test/features/ingestion/features/xsd_validation.feature")
 end
 
-desc "Run Index Validation Test" 
-task :ingestionIndexValidationTest do 
-  runTests("test/features/ingestion/features/ingestion_index_validation.feature") 
-end
 
 desc "Run Ingestion Ignore ID Reference Resolution Test"
 task :ingestionIgnoreIDRefsTest do
@@ -99,10 +100,6 @@ end
 desc "Run Ingestion Database Performance Tests"
 task :ingestionMongoDBPerformanceTest do
   runTests("test/features/ingestion/features/ingestion_mongo_performance.feature")
-end
-
-desc "Run Ingestion Index Tests"
-task :ingestionIndexTest do
 end
 
 desc "Run Ingestion Parallel Job Tests"
@@ -295,7 +292,7 @@ desc "Run Ingestion Deletion Tests"
         :ingestionSuperStudentDelete,
         :ingestionSuperSectionDelete,
         :ingestionSuperAssessmentDelete,
-	    :ingestionSuperStudentAssessmentDelete,
+	      :ingestionSuperStudentAssessmentDelete,
         :multipleForceDeletesTest,
         :multipleOrphansDeleteTest,
         :errorsOnUnsupportedDeleteRequestsTest,

@@ -276,10 +276,10 @@ And the extract contains a file for each of the following entities:
    Then I should receive a json response containing my authorization code
    When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
    Then I should receive a json response containing my authorization token
-   Then I get the id for the lea "IL-DAYBREAK"
+   Then I get the id for the edorg "IL-DAYBREAK"
    #Get bulk extract tar file
    Then there is no bulk extract files in the local directory
-   And I request and download a "bulk" extract file for the lea
+   And I request and download a "bulk" extract file for the edorg
    And there is a metadata file in the extract
    And the extract contains a file for each of the following entities:
       |  entityType                            |
@@ -311,7 +311,7 @@ And the extract contains a file for each of the following entities:
       |  studentAcademicRecord                 |
       |  studentAssessment                     |
       |  studentCohortAssociation              |
-      # |  studentCompetency                     |
+      |  studentCompetency                     |
       # |  studentCompetencyObjective            |
       |  studentDisciplineIncidentAssociation  |
       |  studentProgramAssociation             |
@@ -322,6 +322,30 @@ And the extract contains a file for each of the following entities:
       |  teacher                               |
       |  teacherSchoolAssociation              |
       |  teacherSectionAssociation             |
+
+Scenario: App makes an api call to retrieve a SEA public data bulk extract
+   #Get a session to trigger a bulk extract
+   Given the pre-existing bulk extrac testing app key has been created
+   When I navigate to the API authorization endpoint with my client ID
+   When I select "Daybreak Test Realm" and click go
+   And I was redirected to the "Simple" IDP Login page
+   When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
+   Then I should receive a json response containing my authorization code
+   When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
+   Then I should receive a json response containing my authorization token
+   Then I get the id for the edorg "STANDARD-SEA"
+   #Get bulk extract tar file
+   Then there is no bulk extract files in the local directory
+   And I request and download a "bulk" extract file for the edorg
+   And there is a metadata file in the extract
+   And the extract contains a file for each of the following entities:
+      |  entityType                            |
+      |  assessment                            |
+      |  educationOrganization                 |
+      |  learningObjective                     |
+      |  learningStandard                      |
+      |  program                               |
+      |  studentCompetencyObjective            |
 
 Scenario: App makes an api call to retrieve a bulk extract delta
 #Get a session to trigger a bulk extract
@@ -335,7 +359,7 @@ Given the pre-existing bulk extrac testing app key has been created
   Then I should receive a json response containing my authorization token
    And there is no bulk extract files in the local directory 
  
-  Then I get the id for the lea "IL-DAYBREAK"
+  Then I get the id for the edorg "IL-DAYBREAK"
   When I PATCH the postalCode for the lea entity to 11999
   Then I should receive a return code of 204
   When the operator triggers a delta for the production tenant
@@ -347,7 +371,7 @@ Given the pre-existing bulk extrac testing app key has been created
    |   fieldName  | count |
    |   fullLeas   |  1    |
    |   deltaLeas  |  1    |
-   And I request and download a "delta" extract file for the lea
+   And I request and download a "delta" extract file for the edorg
    And there is a metadata file in the extract
    And the extract contains a file for each of the following entities:
    |  entityType                            |

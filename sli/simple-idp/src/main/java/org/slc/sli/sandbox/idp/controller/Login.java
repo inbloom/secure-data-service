@@ -367,6 +367,7 @@ public class Login {
             if(defaultUser!=null){
                 impersonationUser.setUserId(defaultUser.getUserId());
                 impersonationUser.setRoles(Arrays.asList(defaultUser.getRole()));
+                impersonationUser.getAttributes().put("userType", defaultUser.getType());
             }
         }
 

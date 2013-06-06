@@ -92,7 +92,7 @@ public class StatePublicDataExtractorTest {
 
         extractor.execute("tenant", new File("temp"), new DateTime());
 
-        Mockito.verify(extractor, Mockito.atLeastOnce()).extractPublicData(Mockito.anyString(), Mockito.any(ExtractFile.class));
+        Mockito.verify(extractor, Mockito.atLeastOnce()).extractPublicData(Mockito.any(ExtractFile.class));
         Mockito.verify(file, Mockito.times(1)).getManifestFile();
         Mockito.verify(file, Mockito.times(1)).closeWriters();
         Mockito.verify(file, Mockito.times(1)).generateArchive();
@@ -165,7 +165,7 @@ public class StatePublicDataExtractorTest {
         extractor.execute("tenant", new File("temp"), new DateTime());
 
         Mockito.verify(bulkExtractMongoDA, Mockito.never()).getAppPublicKeys();
-        Mockito.verify(extractor, Mockito.never()).extractPublicData(Mockito.anyString(), Mockito.any(ExtractFile.class));
+        Mockito.verify(extractor, Mockito.never()).extractPublicData(Mockito.any(ExtractFile.class));
     }
 
     /**
@@ -180,7 +180,7 @@ public class StatePublicDataExtractorTest {
 
         extractor.execute("tenant", new File("temp"), new DateTime());
 
-        Mockito.verify(extractor, Mockito.never()).extractPublicData(Mockito.anyString(), Mockito.any(ExtractFile.class));
+        Mockito.verify(extractor, Mockito.never()).extractPublicData(Mockito.any(ExtractFile.class));
     }
 
     /**
@@ -203,7 +203,7 @@ public class StatePublicDataExtractorTest {
 
         extractor.execute("tenant", new File("temp"), new DateTime());
 
-        Mockito.verify(extractor, Mockito.atLeastOnce()).extractPublicData(Mockito.anyString(), Mockito.any(ExtractFile.class));
+        Mockito.verify(extractor, Mockito.atLeastOnce()).extractPublicData(Mockito.any(ExtractFile.class));
     }
 
 

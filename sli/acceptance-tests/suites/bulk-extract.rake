@@ -6,23 +6,19 @@ CLEAN_EXTRACT_LOC = true
 TRIGGER_NEW_EXTRACT = true
 
 ############################################################
-# Bulk Extract Scheduler
+# Bulk Extract
 ############################################################
 desc "Test the Bulk Extract Scheduler"
 task :bulkExtractSchedulerTest do
   runTests("test/features/bulk_extract/features/bulk_extract_scheduler.feature")
 end
 
-
-############################################################
-# Bulk Extract
-############################################################
-desc "Trigger ingestion and extract of the ingestion"
+desc "Cleanup the extracts"
 task :bulkExtractCleanup do
   runTests("test/features/bulk_extract/features/bulk_extract_cleanup.feature")
 end
 
-desc "Trigger ingestion and extract of the ingestion"
+desc "Ingest data to setup other tests"
 task :bulkExtractSetup do
   Rake::Task["bulkExtractCleanup"].execute
   Rake::Task["ingestionSmokeTests"].execute 
@@ -30,47 +26,47 @@ task :bulkExtractSetup do
 
 end
 
-desc "Trigger ingestion and extract of the ingestion"
+desc "Trigger bulk extract and verify students are extracted correctly"
 task :bulkExtractSmokeTests do
   Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC      
   Rake::Task["bulkExtractTriggerTest"].execute
   Rake::Task["bulkExtractStudentTest"].execute  
 end
 
-desc "Trigger ingestion and extract of the ingestion"
+desc "Trigger bulk extract"
 task :bulkExtractTriggerTest do
   runTests("test/features/bulk_extract/features/bulk_extract.feature")
 end
 
-desc "Trigger ingestion and extract of the ingestion"
+desc "Verify students are extracted correctly (used in bulk extract smoke)"
 task :bulkExtractStudentTest do
   Rake::Task["bulkExtractTriggerTest"].execute if TRIGGER_NEW_EXTRACT
   runTests("test/features/bulk_extract/features/bulk_extract_student.feature")
   Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
 
-desc "Trigger ingestion and extract of the ingestion"
+desc "Verify simple entities (those that are not sub or superdoced) are extracted correctly"
 task :bulkExtractSimpleEntitiesTest do
   Rake::Task["bulkExtractTriggerTest"].execute if TRIGGER_NEW_EXTRACT
   runTests("test/features/bulk_extract/features/bulk_extract_simple_entities.feature")
   Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
 
-desc "Trigger ingestion and extract of the ingestion"
+desc "Verify Staff, teacher, edorg, and school entities are extracted correctly"
 task :bulkExtractEdorgStaffTest do
   Rake::Task["bulkExtractTriggerTest"].execute if TRIGGER_NEW_EXTRACT
   runTests("test/features/bulk_extract/features/bulk_extract_edorg_staff.feature")
   Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
 
-desc "Trigger ingestion and extract of the ingestion"
+desc "Verify Super and subdoc entities are extracted correctly"
 task :bulkExtractSuperdocTest do
   Rake::Task["bulkExtractTriggerTest"].execute if TRIGGER_NEW_EXTRACT
   runTests("test/features/bulk_extract/features/bulk_extract_superdoc.feature")
   Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
 
-desc "Trigger ingestion and extract of the ingestion"
+desc "Trigger bulk extract and retrieve the extract through the API"
 task :bulkExtractIntegrationTest do
   #Rake::Task["bulkExtractSetup"].execute if TRIGGER_NEW_EXTRACT
   runTests("test/features/bulk_extract/features/bulk_extract_integration.feature")
@@ -127,6 +123,12 @@ task :bulkExtractSecurityEventTests do
   Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
 
+desc "Delta extract after a purge"
+task :bulkExtractDeltaPurgeTests do
+  runTests("test/features/bulk_extract/features/bulk_extract_delta_purge.feature")
+  Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
+end
+
 desc "Cleanup script Tests"
 task :bulkExtractCleanupTests do
   runTests("test/features/bulk_extract/features/bulk_extract_cleanup_script.feature")
@@ -137,12 +139,12 @@ task :bulkExtractApiTests do
   runTests("test/features/bulk_extract/features/bulk_extract_headers.feature")
   runTests("test/features/bulk_extract/features/bulk_extract_partial_gets.feature")
   runTests("test/features/bulk_extract/features/bulk_extract_versions.feature")
-  runTests("test/features/bulk_extract/features/bulk_extract_lea_list.feature")
+  runTests("test/features/bulk_extract/features/bulk_extract_list.feature")
   runTests("test/features/bulk_extract/features/bulk_extract_security_event.feature")
   Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
 
-desc "Run RC E2E Tests in Production mode"
+desc "Run the full suite of Bulk Extract Tests"
 task :bulkExtractTests => [:realmInit] do
   CLEAN_EXTRACT_LOC = false
   TRIGGER_NEW_EXTRACT = false
@@ -165,6 +167,7 @@ task :bulkExtractTests => [:realmInit] do
   Rake::Task["bulkExtractSEAPublicTest"].execute
   Rake::Task["bulkExtractCleanupTests"].execute
   Rake::Task["bulkExtractSecurityEventTests"].execute
+  Rake::Task["bulkExtractDeltaPurgeTests"].execute
   Rake::Task["bulkExtractCleanup"].execute
   displayFailureReport()
   if $SUCCESS

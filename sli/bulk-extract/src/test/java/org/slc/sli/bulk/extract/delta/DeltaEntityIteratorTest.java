@@ -15,11 +15,8 @@
  */
 package org.slc.sli.bulk.extract.delta;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.anyLong;
-import static org.mockito.Matchers.anyString;
+import static org.junit.Assert.*;
+import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -30,6 +27,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.hamcrest.BaseMatcher;
+import org.hamcrest.Description;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,7 +36,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-
 import org.slc.sli.bulk.extract.context.resolver.ContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.EdOrgContextResolverFactory;
 import org.slc.sli.bulk.extract.delta.DeltaEntityIterator.DeltaRecord;
@@ -46,10 +44,15 @@ import org.slc.sli.dal.repository.DeltaJournal;
 import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
 public class DeltaEntityIteratorTest {
     
+    private static final String UPDATE_ID = "1234567890123456789012345678901234567890_id";
+    private static final String DELETE_ID = "1234567890123456789012345678901234567891_id";
+    private static final String PURGE_ID = "1234567890123456789012345678901234567892_id";
+
     @InjectMocks
     DeltaEntityIterator iterator = new DeltaEntityIterator();
 
@@ -78,27 +81,47 @@ public class DeltaEntityIteratorTest {
         MockitoAnnotations.initMocks(this);
        
         List<Map<String, Object>> deltaEntities = buildDeltaCollections();
-        Set<String> ids = new HashSet<String>(Arrays.asList("update_id"));
+        final Set<String> ids = new HashSet<String>(Arrays.asList(UPDATE_ID));
         List<Entity> edorgList = new ArrayList<Entity>();
-        edorgList.add(buildEdorgEntity("update_id"));
+        edorgList.add(buildEdorgEntity(UPDATE_ID));
         
         when(deltaJournal.findDeltaRecordBetween(anyLong(), anyLong())).thenReturn(deltaEntities.iterator());
-        when(repo.findAll("educationOrganization", iterator.buildBatchQuery("educationOrganization", ids))).thenReturn(edorgList);
+        when(repo.findAll(eq("educationOrganization"), argThat(new BaseMatcher<NeutralQuery>() {
+
+            @Override
+            public boolean matches(Object item) {
+                NeutralQuery matching = DeltaEntityIterator.buildBatchQuery("educationOrganization", ids);
+                NeutralQuery other = (NeutralQuery) item;
+                return matching.getCriteria().equals(other.getCriteria());
+            }
+
+            @Override
+            public void describeTo(Description description) {
+                // TODO Auto-generated method stub
+                
+            }
+        }))).thenReturn(edorgList);
         when(resolverFactory.getResolver(anyString())).thenReturn(testResolver);
     }
     
     private List<Map<String, Object>> buildDeltaCollections() {
         List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
-        results.add(buildDelta("update_id", DeltaEntityIterator.Operation.UPDATE));
-        results.add(buildDelta("delete_id", DeltaEntityIterator.Operation.DELETE));
+        results.add(buildDelta(UPDATE_ID, DeltaEntityIterator.Operation.UPDATE));
+        results.add(buildDelta(DELETE_ID, DeltaEntityIterator.Operation.DELETE));
+        results.add(buildDelta(PURGE_ID, Operation.PURGE));
         return results;
     }
 
     private Map<String, Object> buildDelta(String id, Operation op) {
         Map<String, Object> res = new HashMap<String, Object>();
-        res.put("_id", id);
+        List<byte[]> byteId = DeltaJournal.getByteId(id);
+        res.put("_id", byteId.get(0));
         long now = new DateTime().getMillis();
-        res.put("c", "educationOrganization");
+        if(op != Operation.PURGE) {
+            res.put("c", "educationOrganization");
+        } else {
+            res.put("c", "purge");
+        }
         if (op == Operation.DELETE) {
             res.put("d", now);
         } else if (op == Operation.UPDATE) {
@@ -123,7 +146,7 @@ public class DeltaEntityIteratorTest {
         List<String> lists = Arrays.asList("LEA1", "LEA2");
         Set<String> governingLEAs = new HashSet<String>(lists);
         iterator.init("Midgar", new DateTime());
-        // should have two delta records
+        // should have three delta records
         int count = 0;
         while (iterator.hasNext()) {
             count++;
@@ -137,9 +160,13 @@ public class DeltaEntityIteratorTest {
                 assertEquals(null, record.getBelongsToLEA());
                 assertFalse(record.isSpamDelete());
                 assertEquals(DeltaEntityIterator.Operation.DELETE, record.getOp());
+            } else if(count == 3) {
+                assertEquals(null, record.getBelongsToLEA());
+                assertFalse(record.isSpamDelete());
+                assertEquals(Operation.PURGE, record.getOp());
             }
         }
-        assertTrue(count == 2);
+        assertTrue(count == 3);
     }
     
     @Test(expected = UnsupportedOperationException.class)

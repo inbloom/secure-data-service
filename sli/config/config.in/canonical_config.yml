@@ -126,12 +126,6 @@ default:
         # Key substitutions
         sli.mongodb.keyencoding: \%:\%25,\\.:\%2E
 
-        # Ingestion Staging MongoDB options (used in ingestion to configure the datalayer)
-        sli.ingestion.staging.mongodb.database: is
-        sli.ingestion.staging.mongodb.host: localhost
-        sli.ingestion.staging.mongodb.port: 27017
-        sli.ingestion.staging.clearOnCompletion: true
-
         # Ingestion BatchJob MongoDB options (used in ingestion to configure the datalayer)
         sli.ingestion.batchjob.mongodb.database: ingestion_batch_job
         sli.ingestion.batchjob.mongodb.host: localhost
@@ -154,7 +148,6 @@ default:
   # Write concerns
 
         sli.ingestion.mongotemplate.writeConcern: SAFE
-        sli.ingestion.staging.mongotemplate.writeConcern: SAFE
         sli.default.mongotemplate.writeConcern: SAFE
 
     ingestion: &INGESTION-DEFAULT
@@ -195,18 +188,6 @@ default:
         sli.ingestion.queue.landingZone.queueURI: activemq:queue:ingestion.landingZone
         sli.ingestion.queue.landingZone.concurrentConsumers: 1
 
-        # Symphony (maestro + pit) queue config
-        sli.ingestion.queue.maestro.queueURI: seda:IngestionMaestro
-        sli.ingestion.queue.maestro.consumerQueueURI: seda:IngestionMaestro
-        sli.ingestion.queue.maestro.concurrentConsumers: 1
-        sli.ingestion.queue.maestro.uriOptions:
-
-        # Pit (worker) nodes
-        sli.ingestion.queue.pit.queueURI: seda:IngestionPit
-        sli.ingestion.queue.pit.consumerQueueURI: seda:IngestionPit
-        sli.ingestion.queue.pit.concurrentConsumers: 30
-        sli.ingestion.queue.pit.uriOptions:
-
         # Xml file parser queue
         sli.ingestion.queue.parser.queueURI: seda:IngestionParser
         sli.ingestion.queue.parser.concurrentConsumers: 8
@@ -220,17 +201,8 @@ default:
         sli.ingestion.tenant.loadDefaultTenants: true
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
-        sli.ingestion.cache.type: inmemory
-        sli.ingestion.cache.servers:
-        sli.ingestion.cache.opTimeout: 10
-
-        #Work Note Chunking Parameters
-        sli.ingestion.split.chunk.size: 500
-        sli.ingestion.split.threshold.percentage: 0.30
-
         #Reference Schema reference check
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
-
 
         #Used to limit the total number of errors or warnings being printed
         #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature
@@ -243,10 +215,6 @@ default:
         sli.ingestion.dataset.sample:
             small: [SmallSampleDataSet.zip]
             medium : [MediumSampleDataSet.zip]
-
-        # file processing
-        sli.ingestion.file.timeout: 600000
-        sli.ingestion.file.retryinterval: 30000
 
     dashboard: &DASHBOARD-DEFAULT
 
@@ -516,19 +484,6 @@ acceptance-tests:
         sli.ingestion.queue.workItem.queueURI: activemq:queue:IngestionWorkItemDemo
         sli.ingestion.queue.workItem.concurrentConsumers: 4
 
-
-        # TODO - need maestroPit queue config
-        # Symphony (maestro + pit) queue config
-        sli.ingestion.queue.maestro.queueURI: activemq:queue:IngestionMaestro
-        sli.ingestion.queue.maestro.consumerQueueURI: txActivemq:queue:IngestionMaestro
-        sli.ingestion.queue.maestro.concurrentConsumers: 1
-        sli.ingestion.queue.maestro.uriOptions: '&transferExchange=true'
-
-        # Pit (worker) nodes
-        sli.ingestion.queue.pit.queueURI: activemq:queue:IngestionPit
-        sli.ingestion.queue.pit.consumerQueueURI: txActivemq:queue:IngestionPit
-        sli.ingestion.queue.pit.concurrentConsumers: 30
-        sli.ingestion.queue.pit.uriOptions: '&transferExchange=true'
 
         # Xml file parser queue
         sli.ingestion.queue.parser.queueURI: activemq:queue:IngestionParser
@@ -1307,18 +1262,6 @@ team:
         sli.ingestion.queue.workItem.queueURI: activemq:queue:ingestion.workItem
         sli.ingestion.queue.workItem.concurrentConsumers: 4
 
-        # Symphony (maestro + pit) queue config
-        sli.ingestion.queue.maestro.queueURI: activemq:queue:ingestion.maestro
-        sli.ingestion.queue.maestro.consumerQueueURI: txActivemq:queue:ingestion.maestro
-        sli.ingestion.queue.maestro.concurrentConsumers: 1
-        sli.ingestion.queue.maestro.uriOptions: '&transferExchange=true'
-
-        # Pit (worker) nodes
-        sli.ingestion.queue.pit.queueURI: activemq:queue:ingestion.pit
-        sli.ingestion.queue.pit.consumerQueueURI: txActivemq:queue:ingestion.pit
-        sli.ingestion.queue.pit.concurrentConsumers: 30
-        sli.ingestion.queue.pit.uriOptions: '&transferExchange=true'
-
         #Xml file parser queue
         sli.ingestion.queue.parser.queueURI: activemq:queue:ingestion.parser
         sli.ingestion.queue.parser.concurrentConsumers: 8
@@ -1628,8 +1571,6 @@ nxteam:
         ## sli.ingestion.queue.workItem.host: {active_mq_host}
         sli.ingestion.queue.workItem.host: nxmaestro.slidev.org
         sli.ingestion.tenant.loadDefaultTenants: true
-        sli.ingestion.queue.maestro.concurrentConsumers: 1
-        sli.ingestion.queue.pit.concurrentConsumers: 30
         sli.ingestion.queue.parser.concurrentConsumers: 8
         sli.ingestion.cache.type: inmemory
         sli.ingestion.cache.opTimeout: 100

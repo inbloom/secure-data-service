@@ -56,6 +56,7 @@ public abstract class ReferrableResolver implements ContextResolver {
      * @return a set of Strings which are IDs of the top level LEA
      */
     public Set<String> findGoverningLEA(Entity entity) {
+        LOG.debug("resolving {}", entity);
         if (entity == null || entity.getEntityId() == null) {
             return Collections.emptySet();
         }

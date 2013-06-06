@@ -18,7 +18,6 @@ package org.slc.sli.bulk.extract.extractor;
 import static org.slc.sli.bulk.extract.LogUtil.audit;
 
 import java.io.File;
-import java.io.IOException;
 import java.security.PublicKey;
 import java.util.Arrays;
 import java.util.Collections;
@@ -33,6 +32,13 @@ import java.util.Set;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.Launcher;
 import org.slc.sli.bulk.extract.context.resolver.TypeResolver;
@@ -49,18 +55,12 @@ import org.slc.sli.bulk.extract.util.SecurityEventUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.util.logging.LogLevelType;
-import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.dal.repository.DeltaJournal;
 import org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 /**
  * This class should be concerned about how to generate the delta files per LEA
@@ -119,6 +119,9 @@ public class DeltaExtractor {
 
     public static final DateTimeFormatter DATE_TIME_FORMATTER = ISODateTimeFormat.dateTime();
 
+    public static final String DATE_FIELD = "date";
+    public static final String TIME_FIELD = "t";
+
     public void execute(String tenant, DateTime deltaUptoTime, String baseDirectory) {
 
         TenantContext.setTenantId(tenant);
@@ -143,21 +146,15 @@ public class DeltaExtractor {
                                 appsPerTopLEA.get(lea));
                         EntityExtractor.CollectionWrittenRecord record = getCollectionRecord(lea,
                                 delta.getType());
-                        try {
-                            entityExtractor.write(delta.getEntity(), extractFile, record, null);
-                        } catch (IOException e) {
-                            LOG.error("Error while extracting for " + lea, e);
-                            SecurityEvent event = securityEventUtil.createSecurityEvent(this.getClass().getName(), "Delta Extract for LEA", LogLevelType.TYPE_ERROR,
-                                    BEMessageCode.BE_SE_CODE_0020, delta.getEntity().getType(), lea, e.getMessage());
-                            event.setTargetEdOrg(lea);
-                            audit(event);
-                            throw new RuntimeException("Delta extraction failed, quitting without clearing delta collections...", e);
-                        }
+                        entityExtractor.write(delta.getEntity(), extractFile, record, null);
+
                     }
                 }
             } else if (delta.getOp() == Operation.DELETE) {
                 spamDeletes(delta, Collections.<String> emptySet(), tenant, deltaUptoTime,
                         appsPerTopLEA);
+            } else if (delta.getOp() == Operation.PURGE) {
+                logPurge(delta, Collections.<String> emptySet(), tenant, deltaUptoTime, appsPerTopLEA);
             }
         }
 
@@ -188,14 +185,10 @@ public class DeltaExtractor {
 
             ExtractFile extractFile = getExtractFile(lea, tenant, deltaUptoTime, entry.getValue());
             // for some entities we have to spam delete the same id in two
-            // collections
-            // since we cannot reliably retrieve the "type". For example,
-            // teacher/staff
-            // edorg/school, if the entity has been deleted, all we know if it a
-            // staff
-            // or edorg, but it may be stored as teacher or school in vendor db,
-            // so
-            // we must spam delete the id in both teacher/staff or edorg/school
+            // collections since we cannot reliably retrieve the "type". For example,
+            // teacher/staff or edorg/school, if the entity has been deleted, all we know
+            // if it a staff or edorg, but it may be stored as teacher or school in vendor
+            // db, so we must spam delete the id in both teacher/staff or edorg/school
             // collection
             Entity entity = delta.getEntity();
             Set<String> types = typeResolver.resolveType(entity.getType());
@@ -205,9 +198,29 @@ public class DeltaExtractor {
                 if (!subdocs.contains(type) || entity.getEntityId().length() == lea.length() * 2) {
                     Entity e = new MongoEntity(type, entity.getEntityId(),
                             new HashMap<String, Object>(), null);
-                    entityWriteManager.writeDelete(e, extractFile);
+                    entityWriteManager.writeDeleteFile(e, extractFile);
                 }
             }
+        }
+    }
+
+    private void logPurge(DeltaRecord delta, Set<String> exceptions, String tenant,
+                             DateTime deltaUptoTime, Map<String, Set<String>> appsPerLEA) {
+        for (Map.Entry<String, Set<String>> entry : appsPerLEA.entrySet()) {
+            String lea = entry.getKey();
+
+            if (exceptions.contains(lea)) {
+                continue;
+            }
+
+            ExtractFile extractFile = getExtractFile(lea, tenant, deltaUptoTime, entry.getValue());
+
+            DateTime date =  new DateTime((Long)delta.getEntity().getBody().get(TIME_FIELD));
+
+            Entity purgeEntity = new MongoEntity(DeltaJournal.PURGE, null, new HashMap<String, Object>(), null);
+            purgeEntity.getBody().put(DATE_FIELD, DATE_TIME_FORMATTER.print(date));
+
+            entityWriteManager.writeDeleteFile(purgeEntity, extractFile);
         }
     }
 

@@ -28,7 +28,6 @@ import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.slc.sli.bulk.extract.message.BEMessageCode;
-import org.slc.sli.bulk.extract.pub.UnfilteredPublicDataExtractor;
 import org.slc.sli.bulk.extract.util.SecurityEventUtil;
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slf4j.Logger;
@@ -112,7 +111,7 @@ public class StatePublicDataExtractor {
 
         ExtractFile extractFile = createExtractFile(tenantDirectory, seaId, clientKeys);
 
-        extractPublicData(seaId, extractFile);
+        extractPublicData(extractFile);
 
         extractFile.closeWriters();
         try {
@@ -130,15 +129,12 @@ public class StatePublicDataExtractor {
 
     /**
      * Extract the public data for the SEA.
-     * @param seaId the ID of the SEA to extract
      * @param extractFile the extract file to extract to
      */
-    protected void extractPublicData(String seaId, ExtractFile extractFile) {
-        PublicDataExtractor direct = factory.buildDirectPublicDataExtract(extractor);
-        direct.extract(seaId, extractFile);
-
-        UnfilteredPublicDataExtractor unfiltered = factory.buildUnfilteredPublicDataExtractor(extractor);
-        unfiltered.extract(extractFile);
+    protected void extractPublicData(ExtractFile extractFile) {
+        for (PublicDataExtractor data : factory.buildAllPublicDataExtracts(extractor)) {
+            data.extract(extractFile);
+        }
     }
 
     /**
@@ -190,8 +186,10 @@ public class StatePublicDataExtractor {
      * @return an extract file instance.
      */
     protected ExtractFile createExtractFile(File tenantDirectory, String seaId, Map<String, PublicKey> clientKeys) {
-        return new ExtractFile(tenantDirectory, Launcher.getArchiveName(seaId,
+        ExtractFile file = new ExtractFile(tenantDirectory, Launcher.getArchiveName(seaId,
                 startTime.toDate()), clientKeys, securityEventUtil);
+        file.setEdorg(seaId);
+        return file;
     }
 
     /**
