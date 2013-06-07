@@ -437,6 +437,7 @@ When /^a the correct number of "(.*?)" was extracted from the database$/ do |col
     end
 	end
 
+
 	Zlib::GzipReader.open(@unpackDir + "/" + collection + ".json.gz") { |extractFile|
     records = JSON.parse(extractFile.read)
     puts "\nCounts Expected: " + count.to_s + " Actual: " + records.size.to_s + "\n"
@@ -1615,6 +1616,8 @@ def compareToApi(collection, collFile, sample_size=10)
     #Make API call and get JSON for the collection
     @format = "application/vnd.slc+json"
     restHttpGet("/v1/#{uri}/#{id}")
+
+    puts "\n\n FROM API " + uri + "\n"
     assert(@res != nil, "Response from rest-client GET is nil")
     assert(@res.code != 404, "Response from rest-client GET is not 200 (Got a #{@res.code})")
     if @res.code == 200

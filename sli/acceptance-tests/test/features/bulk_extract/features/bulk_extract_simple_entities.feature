@@ -11,6 +11,7 @@ Scenario Outline: Verify simple entities were correctly extracted
 	Examples:
     | entity                                | user       | role             | realm       | tenant | appId                                |
     | attendance                            | jstevenson | IT Administrator | IL-Daybreak | Midgar | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
+	| calendarDate                          | jstevenson | IT Administrator | IL-Daybreak | Midgar | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
 	| competencyLevelDescriptor             | jstevenson | IT Administrator | IL-Daybreak | Midgar | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
 	| course                                | jstevenson | IT Administrator | IL-Daybreak | Midgar | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
 	| courseOffering                        | jstevenson | IT Administrator | IL-Daybreak | Midgar | 19cca28d-7357-4044-8df9-caad4b1c8ee4 |
