@@ -318,7 +318,7 @@ public class SamlFederationResource {
             throw new AccessDeniedException("Invalid user. No roles specified for user.");
         }
 
-        if(isAdminRealm || isDevRealm) {
+        if(!(isAdminRealm || isDevRealm)) {
             Set<String> smalRoleSet = new HashSet<String>(roles);
             matchRoles(attributes.getFirst("userId"), smalRoleSet);
         }
