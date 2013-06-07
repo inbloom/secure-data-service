@@ -134,7 +134,7 @@ describe "DataWriter" do
 
       it "will store a staff education organization assignment association in-memory when handling call to create one" do
         @writer.get_entity_count(StaffEducationOrgAssignmentAssociation).should eq(0)
-        @writer << StaffEducationOrgAssignmentAssociation.new(1, 1, :PRINCIPAL, "title", Date.new(2009, 9, 4))
+        @writer << StaffEducationOrgAssignmentAssociation.new(1, 1, "principal", :PRINCIPAL, Date.new(2009, 9, 4))
         @writer.get_entity_count(StaffEducationOrgAssignmentAssociation).should_not be_nil
         @writer.get_entity_count(StaffEducationOrgAssignmentAssociation).should eq(1)
       end

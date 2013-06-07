@@ -32,7 +32,7 @@ describe 'StaffAssociationInterchangeGenerator' do
     @generator.start
     @generator << Staff.new(1, 1969)
     @generator << Staff.new("cgray", 1973, "Charles Gray")
-    @generator << StaffEducationOrgAssignmentAssociation.new(1, 1, :PRINCIPAL, "Principal", Date.new(2009, 9, 4))
+    @generator << StaffEducationOrgAssignmentAssociation.new(1, 1, "Principal", :PRINCIPAL, Date.new(2009, 9, 4))
     @generator << Teacher.new(1, 1974)
     @generator << Teacher.new("linda.kim", 1972, "Linda Kim")
     @generator << TeacherSchoolAssociation.new("linda.kim", 2, :REGULAR_EDUCATION, [:EIGHTH_GRADE], [:SCIENCE])
