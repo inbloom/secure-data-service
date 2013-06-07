@@ -89,7 +89,7 @@ And the list of address includes
 """
 9857 Kingsborough 2nd Walk
 Toronto, WA A1B 2C3
-CA
+CANADA
 """
 
 @wip
