@@ -3025,6 +3025,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3041,6 +3042,7 @@
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
                             <sli:allowedBy>READ_STUDENT_DATA</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3058,6 +3060,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3074,6 +3077,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3092,6 +3096,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3109,6 +3114,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3126,6 +3132,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3146,6 +3153,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3161,6 +3169,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3182,6 +3191,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3204,6 +3214,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3223,6 +3234,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3240,6 +3252,7 @@
                     <xs:appinfo>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_RESTRICTED</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_RESTRICTED</sli:allowedBy>
@@ -3259,6 +3272,7 @@
                     <xs:appinfo>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_RESTRICTED</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
@@ -3284,6 +3298,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3303,6 +3318,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3317,6 +3333,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3333,6 +3350,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3349,6 +3367,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3366,6 +3385,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3386,6 +3406,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3402,6 +3423,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3418,6 +3440,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3436,6 +3459,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3455,6 +3479,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -9245,7 +9270,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_GENERIC</sli:allowedBy><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -9261,7 +9286,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_GENERIC</sli:allowedBy><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -9279,7 +9304,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_GENERIC</sli:allowedBy><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -9290,7 +9315,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_GENERIC</sli:allowedBy><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -9302,7 +9327,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_GENERIC</sli:allowedBy><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -9313,7 +9338,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_GENERIC</sli:allowedBy><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>

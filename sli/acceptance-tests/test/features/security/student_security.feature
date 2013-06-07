@@ -37,6 +37,7 @@ Feature: Student access to system
     | teacherSchoolAssociations               | 1a72521b-7bed-890a-d574-1d729a379528                                           |
     | teacherSectionAssociations              | 706ee3be-0dae-4e98-9525-f564e05aa388_id29d58f86-5fab-4926-a9e2-e4076fe27bb3_id |
 
+@wip
   Scenario Outline: Student cannot traverse to protected data through public entities
     Given I am logged in using "carmen.ortiz" "carmen.ortiz1234" to realm "IL-Student"
     When I navigate to GET "/v1/<Entity>/<ids>/<path>"
