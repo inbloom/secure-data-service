@@ -1,6 +1,7 @@
 @RALLY_US5660
 @RALLY_US5589
 @RALLY_US5753
+@RALLY_US5781
 
 Feature: As an bulk extract user, I want to be able to get the state public entities
 
@@ -75,6 +76,7 @@ Scenario Outline: Extract should have all public tenant data for certain entitie
       |  competencyLevelDescriptor             |
       |  studentCompetencyObjective            |
       |  program                               |
+      |  calendarDate                          |
 
 Scenario: As a valid user get SEA public data extract using BEEP
     Given in my list of rights I have BULK_EXTRACT
@@ -86,6 +88,7 @@ Scenario: As a valid user get SEA public data extract using BEEP
     And there is a metadata file in the extract
     And the extract contains a file for each of the following entities:
       |  entityType                            |
+	  |  calendarDate                          |
       |  course                                |
       |  courseOffering                        |
       |  educationOrganization                 |
@@ -121,6 +124,7 @@ Scenario Outline: Extract received through the API should have all the valid ten
    Examples:
       | entity                                 |
       |  assessment                            |
+	  |  calendarDate                          |
       |  learningObjective                     |
       |  learningStandard                      |
       |  competencyLevelDescriptor             |
@@ -221,6 +225,7 @@ Scenario: None of the public entities reference the SEA
     And the extract contains a file for each of the following entities:
       |  entityType                            |
       |  assessment                            |
+      |  calendarDate                          |
       |  learningObjective                     |
       |  learningStandard                      |
       |  graduationPlan                        |
