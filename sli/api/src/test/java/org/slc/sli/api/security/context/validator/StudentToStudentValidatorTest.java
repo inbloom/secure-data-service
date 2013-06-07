@@ -72,4 +72,9 @@ public class StudentToStudentValidatorTest {
         assertFalse(underTest.validate("student", new HashSet<String>(Arrays.asList("simonTam"))));
     }
 
+    @Test
+    public void testHeterogeneousList() {
+        assertFalse(underTest.validate("student", new HashSet<String>(Arrays.asList("simonTam", "riverTam"))));
+    }
+
 }
