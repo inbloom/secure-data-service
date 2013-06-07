@@ -318,9 +318,13 @@ public class SamlFederationResource {
             throw new AccessDeniedException("Invalid user. No roles specified for user.");
         }
 
-        if(!(isAdminRealm || isDevRealm)) {
+        if(!(isAdminRealm || isDevRealm) && principal.getUserType().equals(EntityNames.STAFF)) {
             Set<String> smalRoleSet = new HashSet<String>(roles);
-            matchRoles(attributes.getFirst("userId"), smalRoleSet);
+            Set<String> matchedRoles = matchRoles(principal.getEntity().getEntityId(), smalRoleSet, new Date());
+            if(matchedRoles == null || matchedRoles.isEmpty()) {
+                error("Attempted login by a user that did not include any valid roles in the SAML Assertion.");
+                throw new AccessDeniedException("Invalid user. No valid roles specified for user.");
+            }
         }
 
         principal.setRealm(realm.getEntityId());
@@ -537,20 +541,6 @@ public class SamlFederationResource {
         return true;
     }
 
-    protected Set<String> matchRoles(String staffUniqueStateId, Set<String> smalRoleSet) {
-        Entity staff = getStaff(staffUniqueStateId);
-        Set<String> matchedRoles = null;
-
-        if(staff != null) {
-            matchedRoles = matchRoles(staff.getEntityId(), smalRoleSet, new Date());
-        }
-        if(matchedRoles == null || matchedRoles.isEmpty()) {
-            error("Attempted login by a user that did not include any valid roles in the SAML Assertion.");
-            throw new AccessDeniedException("Invalid user. No valid roles specified for user.");
-        }
-        return matchedRoles;
-    }
-
     protected Set<String> matchRoles(String staffId, Set<String> smalRoleSet, Date expirationDate) {
         Set<String> seoaRoles = new HashSet<String>();
 
@@ -594,13 +584,6 @@ public class SamlFederationResource {
         }
 
         return seoaRoles;
-    }
-
-    private Entity getStaff(String staffUniqueStateId) {
-        NeutralQuery staffQuery = new NeutralQuery();
-        staffQuery.addCriteria(new NeutralCriteria(ParameterConstants.STAFF_UNIQUE_STATE_ID, NeutralCriteria.OPERATOR_EQUAL, staffUniqueStateId));
-
-        return repo.findOne(EntityNames.STAFF, staffQuery);
     }
 
     Repository getRepository() {
