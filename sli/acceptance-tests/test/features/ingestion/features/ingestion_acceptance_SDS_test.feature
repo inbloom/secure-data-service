@@ -458,10 +458,10 @@ Scenario: Verify deterministic ids generated: Clean Database
     | studentAcademicRecord                | 3d7e898167fe27b1fa393f979a5f6bf89e6dcc04_id2c10dec5f74762e0fcdd0ba8d547d9b9f4f34b57_id | body.studentId                       | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id |
     | studentAcademicRecord                | 3d7e898167fe27b1fa393f979a5f6bf89e6dcc04_id2c10dec5f74762e0fcdd0ba8d547d9b9f4f34b57_id | body.sessionId                       | a2f899c4b31e2dc11a5a5ab202d4590bb0a33c8b_id |
 # staffEducationOrganizationAssociation
-    | staffEducationOrganizationAssociation | 5a000d037de00063995e84fdc3d0f91d9afb4b65_id | body.staffReference                 | e4320d0bef725998faa8579a987ada80f254e7be_id |
-    | staffEducationOrganizationAssociation | 5a000d037de00063995e84fdc3d0f91d9afb4b65_id | body.educationOrganizationReference | b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id |
-    | staffEducationOrganizationAssociation | 5a000d037de00063995e84fdc3d0f91d9afb4b65_id | body.staffClassification            | LEA System Administrator                       |
-    | staffEducationOrganizationAssociation | 5a000d037de00063995e84fdc3d0f91d9afb4b65_id | body.beginDate                      | 1967-08-13                           |
+    | staffEducationOrganizationAssociation | 28da81592931f98be1708f72249e9c99a6a0157e_id | body.staffReference                 | e4320d0bef725998faa8579a987ada80f254e7be_id |
+    | staffEducationOrganizationAssociation | 28da81592931f98be1708f72249e9c99a6a0157e_id | body.educationOrganizationReference | b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id |
+    | staffEducationOrganizationAssociation | 28da81592931f98be1708f72249e9c99a6a0157e_id | body.staffClassification            | IT Administrator                            |
+    | staffEducationOrganizationAssociation | 28da81592931f98be1708f72249e9c99a6a0157e_id | body.beginDate                      | 1967-08-13                           |
      | studentDisciplineIncidentAssociation | 6578f984876bbf6f884c1be2ef415dbf4441db89_ide2449a1a6d0e37f388ce871d066a4705aabac16c_id | body.studentId              | 6578f984876bbf6f884c1be2ef415dbf4441db89_id |
      | studentDisciplineIncidentAssociation | 6578f984876bbf6f884c1be2ef415dbf4441db89_ide2449a1a6d0e37f388ce871d066a4705aabac16c_id | body.disciplineIncidentId    | 71c6e7baacd2d0367a04c056fa365a468dead7b4_id |
 # staffProgramAssociation
@@ -540,7 +540,7 @@ Scenario: Verify references were resolved correctly
     | graduationPlan                       | 7f5c42b2ff7edf0bfa0b877eab43df47985cd99c_id                       | body.educationOrganizationId          | educationOrganization            |
     | section                              | 92451eba2195a4cffcb0b55fe6d6ac8b13faa9ad_id                       | body.schoolId                               | educationOrganization            |
     | session                              | 1e217f65c48cda4f5009cb1518cb33ddd51637e0_id                       | body.schoolId                             | educationOrganization            |
-  | staffEducationOrganizationAssociation| 5a000d037de00063995e84fdc3d0f91d9afb4b65_id                       | body.educationOrganizationReference       | educationOrganization            |
+  | staffEducationOrganizationAssociation| 28da81592931f98be1708f72249e9c99a6a0157e_id                       | body.educationOrganizationReference       | educationOrganization            |
     | studentCompetencyObjective           | 85aa230afd51cfbe761c883bc7694ebb0ba2f867_id                       | body.educationOrganizationId              | educationOrganization            |
     | studentProgramAssociation            | 067198fd6da91e1aa8d67e28e850f224d6851713_idcf81759eafe33b0f1280caa1ea1922fc578ef9c7_id  | body.educationOrganizationId          | educationOrganization            |
   | studentSchoolAssociation             | b0fa95fe87c80a76598fdedd181cce8044c44f0f_id                       | body.schoolId                       | educationOrganization              |
@@ -585,7 +585,7 @@ Scenario: Verify references were resolved correctly
   | disciplineAction                      | 70b8c1f4b77823bf5ede69389e13b0487f32e720_id                        | body.staffId                           | staff                     |
   | disciplineIncident          | 950c9f3ec3c8866d10794a7c053d7745c80f6b91_id                      | body.staffId                 | staff                     |
   | staffCohortAssociation                | 77d027fa7ebb00aac5b2887c9ffc2f1a19b8d8cd_id                        | body.staffId                             | staff                     |
-  | staffEducationOrganizationAssociation | 5a000d037de00063995e84fdc3d0f91d9afb4b65_id                        | body.staffReference                      | staff                     |
+  | staffEducationOrganizationAssociation | 28da81592931f98be1708f72249e9c99a6a0157e_id                        | body.staffReference                      | staff                     |
   | staffProgramAssociation               | 1c0ea205ed43afc88096ce626f22bd07a30d2729_id                        | body.staffId                             | staff                     |
   | teacherSchoolAssociation              | 68bd8fc5cd433b27d98b8b73dd94e8e0d932c22c_id                        | body.teacherId                           | staff                     |
     | teacherSectionAssociation             | 135963f2abd3320ae508546fbff31f37e10b949e_id107eb8696c809b0bce7431b362b49c32a46ea72f_id | body.teacherId                     | staff                     |

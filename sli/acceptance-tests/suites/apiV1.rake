@@ -284,9 +284,19 @@ task :apiOdinGenerate do
   runTests("test/features/odin/generate_api_data.feature")
 end
 
+desc "Run Odin API Student Data Generation Task"
+task :apiOdinSecurityGenerate do
+  runTests("test/features/odin/generate_api_security_data.feature")
+end
+
 desc "Run API Odin Ingestion Tests"
 task :apiOdinIngestion do
   runTests("test/features/ingestion/features/ingestion_OdinAPIData.feature")
+end
+
+desc "Run API Odin Ingestion Tests"
+task :apiOdinSecurityIngestion do
+  runTests("test/features/ingestion/features/ingestion_OdinSecurityData.feature")
 end
 
 desc "Run API Odin Super Assessment Tests"
@@ -300,6 +310,20 @@ desc "Run API Odin Assessment Search Tests"
 task :apiOdinSearchAssessment do
   Rake::Task["runSearchBulkExtract"].execute
   runTests("test/features/apiV1/end_user_stories/assessments/searchAssessment.feature")
+end
+
+desc "Run API Odin Integration Tests"
+task :apiOdinStudentLogin do
+# This is to extract assessment, learningStandard, etc. into Elastic Search
+  allLeaAllowApp("Mobile App")
+  authorizeEdorg("Mobile App")
+  Rake::Task["runSearchBulkExtract"].execute
+  runTests("test/features/apiV1/integration/studentLogin.feature")
+end
+
+desc "Run contextual roles acceptance tests"
+task :apiContextualRolesTests => [:realmInit, :importSandboxData] do
+    runTests("test/features/apiV1/contextual_roles/matchRoles.feature")
 end
 
 ############################################################

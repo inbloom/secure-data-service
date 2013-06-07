@@ -30,12 +30,7 @@ Feature: Student access to system
     | Entity                                  | ids                                                                            |
     | disciplineIncidents                     | 0e26de79-222a-5e67-9201-5113ad50a03b                                           |
     | disciplineActions                       | db7f1d4b-9689-b2f4-9281-d88d65999423                                           |
-    | staffCohortAssociations                 | 8fef446f-fc63-15f9-8606-0b85086c07d8                                           |
-    | staffEducationOrgAssignmentAssociations | 05e3de47-9e41-c048-a572-3eb4c7ee9095                                           |
-    | staffProgramAssociations                | 04223945-b773-425c-8173-af090a960603                                           |
     | studentDisciplineIncidentAssociations   | e0e99028-6360-4247-ae48-d3bb3ecb606a_id0e26de6c-225b-9f67-8e23-5113ad50a03b_id |
-    | teacherSchoolAssociations               | 1a72521b-7bed-890a-d574-1d729a379528                                           |
-    | teacherSectionAssociations              | 706ee3be-0dae-4e98-9525-f564e05aa388_id29d58f86-5fab-4926-a9e2-e4076fe27bb3_id |
 
   Scenario Outline: Student cannot traverse to protected data through public entities
     Given I am logged in using "carmen.ortiz" "carmen.ortiz1234" to realm "IL-Student"

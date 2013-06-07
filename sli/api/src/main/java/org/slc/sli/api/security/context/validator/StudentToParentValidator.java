@@ -16,21 +16,18 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import org.slc.sli.api.security.context.PagingRepositoryDelegate;
-import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.domain.Entity;
+import java.util.Set;
+
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
-import java.util.Set;
+import org.slc.sli.common.constants.EntityNames;
 
 /**
  * User: dkornishev
  */
 @Component
 public class StudentToParentValidator extends AbstractContextValidator {
-    
+
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
         return isStudent() && EntityNames.PARENT.equals(entityType) && !isTransitive;

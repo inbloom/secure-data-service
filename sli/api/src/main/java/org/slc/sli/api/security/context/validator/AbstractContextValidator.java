@@ -25,6 +25,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.util.SecurityUtil;
@@ -35,8 +38,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 
 /**
  * Abstract class that all context validators must extend.
@@ -180,7 +181,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
      */
 
     protected boolean isStudent() {
-        return EntityNames.STUDENT.equals(SecurityUtil.getSLIPrincipal().getEntity().getType());
+        return SecurityUtil.isStudent();
     }
 
     public boolean isFieldExpired(Map<String, Object> body, String fieldName, boolean useGracePeriod) {

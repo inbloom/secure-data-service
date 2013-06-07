@@ -284,8 +284,8 @@ class SectionWorkOrderFactory
         state_org_id = ed_org_id
       end
 
-      classification = :TEACHER
-      title          = "Educator"
+      classification = "Educator"
+      title          = :TEACHER
       interval       = session["interval"]
       begin_date     = interval.get_begin_date
       end_date       = interval.get_end_date

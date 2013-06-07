@@ -16,28 +16,26 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.common.constants.EntityNames;
+import java.util.Set;
+
 import org.springframework.stereotype.Component;
 
-import java.util.Set;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.constants.EntityNames;
 
 /**
  * User: dkornishev
  */
 @Component
-public class StudentToStudentValidator extends AbstractContextValidator {
-    @Override
-    public boolean canValidate(String entityType, boolean isTransitive) {
-        return isStudent() && EntityNames.STUDENT.equals(entityType) && !isTransitive;
+public class StudentToStudentValidator extends BasicValidator {
+
+    public StudentToStudentValidator() {
+        super(false, EntityNames.STUDENT, EntityNames.STUDENT);
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
-        if (!areParametersValid(EntityNames.STUDENT, entityType, ids)) {
-            return false;
-        }
-
+    protected boolean doValidate(Set<String> ids) {
         return ids.size() == 1 && ids.contains(SecurityUtil.getSLIPrincipal().getEntity().getEntityId());
     }
+
 }

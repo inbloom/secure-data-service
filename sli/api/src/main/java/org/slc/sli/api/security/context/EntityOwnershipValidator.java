@@ -188,9 +188,8 @@ public class EntityOwnershipValidator {
             return true;
         }
 
-        if (entity.getType().equals(EntityNames.PROGRAM)) {
-            // explicitly check for requested program and return true --> programs don't fit model
-            // for entity ownership
+        if (Arrays.asList(EntityNames.PROGRAM, EntityNames.SESSION).contains(entity.getType())) {
+            //  Some entities are just cannot be pnwed
             return true;
         }
 
