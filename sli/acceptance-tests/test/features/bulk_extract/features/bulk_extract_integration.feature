@@ -1,4 +1,4 @@
-Feature: A bulk extract is triggered, retrived through the api, and validated
+Feature: A bulk extract is triggered, retrieved through the api, and validated
 
 Scenario: Trigger a bulk extract on ingested data and retrieve the extract through the api
    Given I trigger a bulk extract

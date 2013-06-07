@@ -10,7 +10,7 @@ Scenario: Trigger a bulk extract on ingested data
    |  entityType                            |
    |  assessment                            |
    |  attendance                            |
-   |  calendarDate			    |
+   |  calendarDate			                |
    |  cohort                                |
    |  competencyLevelDescriptor             |
    |  course                                |
