@@ -426,11 +426,11 @@ public class LoginTest {
                 "Test 2 Dataset"));
         Mockito.when(defaultUserService.getAvailableDatasets()).thenReturn(datasets);
         List<DefaultUser> test1Users = Arrays.asList(
-                new DefaultUser("user1", "Teacher", "User One", "role1", "school1"), new DefaultUser("user2", "Staff",
-                        "User Two", "role2", "SEA"));
+                new DefaultUser("user1", "Teacher", "User One", Arrays.asList("role1"), "school1"), new DefaultUser("user2", "Staff",
+                        "User Two", Arrays.asList("role2"), "SEA"));
         Mockito.when(defaultUserService.getUsers("test1")).thenReturn(test1Users);
-        List<DefaultUser> test2Users = Arrays.asList(new DefaultUser("user3", "Teacher", "User Three", "role1",
-                "school2"), new DefaultUser("user4", "Staff", "User Four", "role3", "LEA"));
+        List<DefaultUser> test2Users = Arrays.asList(new DefaultUser("user3", "Teacher", "User Three", Arrays.asList("role1"),
+                "school2"), new DefaultUser("user4", "Staff", "User Four", Arrays.asList("role3"), "LEA"));
         Mockito.when(defaultUserService.getUsers("test2")).thenReturn(test2Users);
 
         List<String> roles = Arrays.asList("role1", "role2");
@@ -483,11 +483,11 @@ public class LoginTest {
                 "Test 2 Dataset"));
         Mockito.when(defaultUserService.getAvailableDatasets()).thenReturn(datasets);
         List<DefaultUser> test1Users = Arrays.asList(
-                new DefaultUser("user1", "Teacher", "User One", "role1", "school1"), new DefaultUser("user2", "Staff",
-                        "User Two", "role2", "SEA"));
+                new DefaultUser("user1", "Teacher", "User One", Arrays.asList("role1"), "school1"), new DefaultUser("user2", "Staff",
+                        "User Two", Arrays.asList("role2"), "SEA"));
         Mockito.when(defaultUserService.getUsers("test1")).thenReturn(test1Users);
-        List<DefaultUser> test2Users = Arrays.asList(new DefaultUser("user3", "Teacher", "User Three", "role1",
-                "school2"), new DefaultUser("user4", "Staff", "User Four", "role3", "LEA"));
+        List<DefaultUser> test2Users = Arrays.asList(new DefaultUser("user3", "Teacher", "User Three", Arrays.asList("role1"),
+                "school2"), new DefaultUser("user4", "Staff", "User Four", Arrays.asList("role3"), "LEA"));
         Mockito.when(defaultUserService.getUsers("test2")).thenReturn(test2Users);
 
         List<String> roles = Arrays.asList("role1", "role2");
@@ -607,7 +607,7 @@ public class LoginTest {
                 loginService.buildAssertion(Mockito.eq("dataset"), Mockito.eq(roles), Mockito.anyMap(),
                         Mockito.eq(reqInfo))).thenReturn(samlResponse);
 
-        DefaultUser defaultUser = new DefaultUser("dataset", "Teacher", "Dataset User", "role1", "school");
+        DefaultUser defaultUser = new DefaultUser("dataset", "Teacher", "Dataset User", Arrays.asList("role1"), "school");
         Mockito.when(defaultUserService.getUser("dataset", "datasetUserId")).thenReturn(defaultUser);
 
         ModelAndView mov = loginController.impersonate("SAMLRequest", "SLIAdmin", "impersonate", roles, null, null,
