@@ -1041,8 +1041,10 @@ end
 
 Then /^each record in the full extract is present and matches the delta extract$/ do
   @fileDir = Dir.pwd + "/extract/unpack"
+                                                  
   # loop through the list of files in delta directory
   Dir.entries(@deltaDir).each do |deltaFile|
+        
     next if !deltaFile.include?("gz")
     next if deltaFile.include?("deleted")
     puts "DEBUG: Current delta file is #{deltaFile}"
@@ -1617,7 +1619,6 @@ def compareToApi(collection, collFile, sample_size=10)
     @format = "application/vnd.slc+json"
     restHttpGet("/v1/#{uri}/#{id}")
 
-    puts "\n\n FROM API " + uri + "\n"
     assert(@res != nil, "Response from rest-client GET is nil")
     assert(@res.code != 404, "Response from rest-client GET is not 200 (Got a #{@res.code})")
     if @res.code == 200

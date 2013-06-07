@@ -46,6 +46,7 @@ Scenario: Generate a bulk extract delta after day 1 ingestion
    And The "disciplineAction" delta was extracted in the same format as the api
    And The "studentCompetency" delta was extracted in the same format as the api
 
+
   Given I trigger a bulk extract
    When I set the header format to "application/x-tar"
    Then I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -67,7 +68,7 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
      And The "competencyLevelDescriptor" delta was extracted in the same format as the api
      And The "studentCompetencyObjective" delta was extracted in the same format as the api
      And The "program" delta was extracted in the same format as the api
-
+ 
   Given I trigger a bulk extract
    When I set the header format to "application/x-tar"
    Then I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -77,7 +78,11 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
    When I decrypt and save the full extract
     And I verify that an extract tar file was created for the tenant "Midgar"
     And there is a metadata file in the extract
+
+
    #uncomment when calendarDate appears in both extracts
+
+
    #Then each record in the full extract is present and matches the delta extract
 
   Scenario: Ingesting SEA (Non Odin) entities
@@ -109,8 +114,10 @@ Scenario: Triggering deltas via ingestion
   1 is added to LEA2, so its stuff should go in there as well
   SEA - one of each of the 5 simple entities are deleted
      Given I clean the bulk extract file system and database
+	  And I ingest "bulk_extract_SEA_calendarDates.zip"
       And I ingest "bulk_extract_deltas.zip"
       And I ingest "SEAGradingPeriodDelete.zip"
+
      When I trigger a delta extract
       And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
       And I verify "2" delta bulk extract files are generated for LEA "<IL-HIGHWIND>" in "Midgar"
@@ -123,6 +130,7 @@ Scenario: Triggering deltas via ingestion
        |  studentCompetencyObjective            |
        |  program                               |
        |  educationOrganization                 |
+       |  calendarDate                          |
        |  deleted                               |
      And I verify this "deleted" file should contain:
        | id                                           | condition                               |
@@ -307,18 +315,31 @@ Scenario: Triggering deltas via ingestion
        |  disciplineIncident                    |
        |  studentDisciplineIncidentAssociation  |
        |  disciplineAction                      |
-       |  deleted                               |
+       #us5781 delta lea
+        #|  calendarDate                         |
+        |  deleted                              |
      And I save some IDs from all the extract files to "delete_candidate" so I can delete them later
 
      And I verify this "deleted" file should contain:
        | id                                          | condition                                |
-       | 54759a8d56aba10b1b300e66657cd6fcc3ca6ac9_id | entityType = studentSchoolAssociation |
+       | 54759a8d56aba10b1b300e66657cd6fcc3ca6ac9_id | entityType = studentSchoolAssociation    |
        | 1b4aa93f01d11ad51072f3992583861ed080f15c_id | entityType = parent                      |
        | db9a7477390fb5de9d58350d1ce3c45ef8fcb0c6_id | entityType = student                     |
        | 908404e876dd56458385667fa383509035cd4312_idd14e4387521c768830def2c9dea95dd0bf7f8f9b_id | entityType = studentParentAssociation    |
        | 95147c130335e0656b0d8e9ab79622a22c3a3fab_id                                            | entityType = section                     |
 
-     And I verify this "student" file should contain:
+       #us5781 delta lea
+       #| b43a7313ed0eaf7a6e71389b5cc64eb9e0ca0f2a_id | entityType =calendarDate                 |
+ 
+ 	   #this create calendarDate
+       #| 356a441384ea905a4e01d5acebb25f7c42b7e0bd_id | body.date = 2022-06-04                   |
+      #And I verify this "calendarDate" file should contain: 
+       #this is calendarDate IL-DAYBREAK, which has updated information
+       #| id                                          | condition                                |
+       #| 314b6e5f4d1f365891a1189767b7d2953d11ee46_id | body.calendarEvent = Instructional day   |
+       #| 356a441384ea905a4e01d5acebb25f7c42b7e0bd_id | body.date = 2022-06-04                   |
+              
+     And I verify this "student" file should contain: 
        #this is student 11, which has updated information
        | id                                          | condition                                |
        | 9be61921ddf0bcd3d58fb99d4e9c454ef5707eb7_id | studentUniqueStateId = 11                |
@@ -715,6 +736,7 @@ Given I clean the bulk extract file system and database
   And I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
         |  entityType                            |
         |  program                               |
+        
   And I verify this "program" file should contain:
         | id                                          | condition                                |
         | 0ee2b448980b720b722706ec29a1492d95560798_id | programType = Regular Education          |
@@ -736,7 +758,6 @@ Given I clean the bulk extract file system and database
          | id                                          | condition                                |
          | 0ee2b448980b720b722706ec29a1492d95560798_id | programType = Adult/Continuing Education |
          | 0ee2b448980b720b722706ec29a1492d95560798_id | programId = 12345                        |
-
  When I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
   And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
@@ -1058,7 +1079,7 @@ Given I clean the bulk extract file system and database
     | id                                          | condition                             |
     | d913396aef918602b8049027dbdce8826c054402_id | entityType = studentSchoolAssociation |
 
-
+Scenario: Delete student and stuSchAssoc, re-post them, then delete just studentSchoolAssociations (leaving students), verify delete
 Scenario: Create, delete, then re-create the same entity, verify 1 delta entry, no deletes
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
