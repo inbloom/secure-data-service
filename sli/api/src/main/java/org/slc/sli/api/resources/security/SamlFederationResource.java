@@ -318,18 +318,10 @@ public class SamlFederationResource {
             throw new AccessDeniedException("Invalid user. No roles specified for user.");
         }
 
-
-        Set<String> roleSet = new HashSet<String>(roles);
-        Entity staff = getStaff(attributes.getFirst("userId"));
-        Set<String> matchedRoles = null;
-        if(staff != null) {
-            matchedRoles = matchRoles(staff.getEntityId(), roleSet, new Date());
+        if(isAdminRealm || isDevRealm) {
+            Set<String> smalRoleSet = new HashSet<String>(roles);
+            matchRoles(attributes.getFirst("userId"), smalRoleSet);
         }
-        if(matchedRoles == null || matchedRoles.isEmpty()) {
-            error("Attempted login by a user that did not include any valid roles in the SAML Assertion.");
-            throw new AccessDeniedException("Invalid user. No valid roles specified for user.");
-        }
-
 
         principal.setRealm(realm.getEntityId());
         principal.setEdOrg(attributes.getFirst("edOrg"));
@@ -545,7 +537,21 @@ public class SamlFederationResource {
         return true;
     }
 
-    protected Set<String> matchRoles(String staffId, Set<String> roleSet, Date date) {
+    protected Set<String> matchRoles(String staffUniqueStateId, Set<String> smalRoleSet) {
+        Entity staff = getStaff(staffUniqueStateId);
+        Set<String> matchedRoles = null;
+
+        if(staff != null) {
+            matchedRoles = matchRoles(staff.getEntityId(), smalRoleSet, new Date());
+        }
+        if(matchedRoles == null || matchedRoles.isEmpty()) {
+            error("Attempted login by a user that did not include any valid roles in the SAML Assertion.");
+            throw new AccessDeniedException("Invalid user. No valid roles specified for user.");
+        }
+        return matchedRoles;
+    }
+
+    protected Set<String> matchRoles(String staffId, Set<String> smalRoleSet, Date expirationDate) {
         Set<String> seoaRoles = new HashSet<String>();
 
         if (staffId == null) {
@@ -558,13 +564,13 @@ public class SamlFederationResource {
         Iterable<Entity> SEOAEntities = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, SEOAQuery);
 
         if(SEOAEntities.iterator().hasNext()) {
-            seoaRoles = filterRoles(SEOAEntities, roleSet, date);
+            seoaRoles = filterRoles(SEOAEntities, smalRoleSet, expirationDate);
         }
 
         return seoaRoles;
     }
 
-    private Set<String> filterRoles(Iterable<Entity> SEOAEntities, Set<String> roleSet, Date date) {
+    private Set<String> filterRoles(Iterable<Entity> SEOAEntities, Set<String> smalRoleSet, Date expirationDate) {
         Set<String> seoaRoles = new HashSet<String>();
 
         for(Entity seoa : SEOAEntities) {
@@ -578,9 +584,9 @@ public class SamlFederationResource {
                     continue;
                 }
             }
-            if(endDate == null || endDate.after(date) || endDate.equals(date)) {
+            if(endDate == null || endDate.after(expirationDate) || endDate.equals(expirationDate)) {
                 String role = (String) seoa.getBody().get(ParameterConstants.STAFF_EDORG_ASSOC_STAFF_CLASSIFICATION);
-                if(!roleSet.contains(role)) {
+                if(!smalRoleSet.contains(role)) {
                     continue;
                 }
                 seoaRoles.add(role);
