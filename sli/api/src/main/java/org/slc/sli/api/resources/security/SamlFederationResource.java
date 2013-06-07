@@ -323,7 +323,7 @@ public class SamlFederationResource {
         Entity staff = getStaff(attributes.getFirst("userId"));
         Set<String> matchedRoles = null;
         if(staff != null) {
-            matchRoles(staff.getEntityId(), roleSet, new Date());
+            matchedRoles = matchRoles(staff.getEntityId(), roleSet, new Date());
         }
         if(matchedRoles == null || matchedRoles.isEmpty()) {
             error("Attempted login by a user that did not include any valid roles in the SAML Assertion.");
@@ -545,7 +545,7 @@ public class SamlFederationResource {
         return true;
     }
 
-    Set<String> matchRoles(String staffId, Set<String> roleSet, Date date) {
+    protected Set<String> matchRoles(String staffId, Set<String> roleSet, Date date) {
         Set<String> seoaRoles = new HashSet<String>();
 
         if (staffId == null) {
