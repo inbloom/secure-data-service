@@ -833,6 +833,7 @@ task :ingestionTests => [
         :ingestionAcceptanceSdsTest,
         :ingestionConcurrentTenantTest,
         :ingestionLearningObjectiveTest,
+        :ingestionSeoaa,
         :ingestionNegativeTests,
         :ingestionAttendanceTests,
         :ingestionCommonCoreTest,

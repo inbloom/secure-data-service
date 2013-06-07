@@ -10,7 +10,7 @@
                 "city" : "San Francisco",
                 "stateAbbreviation" : "CA",
                 "postalCode" : "94713",
-                "countryCode" : "US",
+
                 "addressType" : "Mailing"
             }
         ],
