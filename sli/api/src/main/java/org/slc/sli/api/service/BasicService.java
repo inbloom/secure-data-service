@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -40,10 +39,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.BasicDefinitionStore;
 import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.api.constants.PathConstants;
-import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.CallingApplicationInfoProvider;
 import org.slc.sli.api.security.SLIPrincipal;
@@ -51,6 +47,8 @@ import org.slc.sli.api.security.context.ContextValidator;
 import org.slc.sli.api.security.schema.SchemaDataProvider;
 import org.slc.sli.api.security.service.SecurityCriteria;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.AccessibilityCheck;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
@@ -62,7 +60,6 @@ import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
-import org.slc.sli.validation.ValidationError.ErrorType;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -162,7 +159,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
         return results;
     }
 
-    
+
     @Override
     public String create(EntityBody content) {
         checkAccess(false, false, content);
@@ -557,14 +554,14 @@ public class BasicService implements EntityService, AccessibilityCheck {
             debug("Field {} is referencing {}", fieldName, entityType);
             @SuppressWarnings("unchecked")
             List<String> ids = value instanceof List ? (List<String>) value : Arrays.asList((String) value);
-            
+
             EntityDefinition def = definitionStore.lookupByEntityType(entityType);
             if (def == null) {
                 debug("Invalid reference field: {} does not have an entity definition registered", fieldName);
                 ValidationError error = new ValidationError(ValidationError.ErrorType.INVALID_FIELD_NAME, fieldName, value, null);
                 throw new EntityValidationException(null, null, Arrays.asList(error));
             }
-            
+
             try {
                 contextValidator.validateContextToEntities(def, ids, true);
             } catch (AccessDeniedException e) {
@@ -722,19 +719,21 @@ public class BasicService implements EntityService, AccessibilityCheck {
         SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
         String selfId = principal.getEntity().getEntityId();
         String type = defn.getType();
-        if (selfId.equals(entityId)) {
-            return true;
-        } else if (EntityNames.STAFF_ED_ORG_ASSOCIATION.equals(type)) {
-            Entity entity = repo.findById(defn.getStoredCollectionName(), entityId);
-            if (entity != null) {
-                Map<String, Object> body = entity.getBody();
-                return selfId.equals(body.get(ParameterConstants.STAFF_REFERENCE));
-            }
-        } else if (EntityNames.TEACHER_SCHOOL_ASSOCIATION.equals(type)) {
-            Entity entity = repo.findById(defn.getStoredCollectionName(), entityId);
-            if (entity != null) {
-                Map<String, Object> body = entity.getBody();
-                return selfId.equals(body.get(ParameterConstants.TEACHER_ID));
+        if (selfId != null) {
+            if (selfId.equals(entityId)) {
+                return true;
+            } else if (EntityNames.STAFF_ED_ORG_ASSOCIATION.equals(type)) {
+                Entity entity = repo.findById(defn.getStoredCollectionName(), entityId);
+                if (entity != null) {
+                    Map<String, Object> body = entity.getBody();
+                    return selfId.equals(body.get(ParameterConstants.STAFF_REFERENCE));
+                }
+            } else if (EntityNames.TEACHER_SCHOOL_ASSOCIATION.equals(type)) {
+                Entity entity = repo.findById(defn.getStoredCollectionName(), entityId);
+                if (entity != null) {
+                    Map<String, Object> body = entity.getBody();
+                    return selfId.equals(body.get(ParameterConstants.TEACHER_ID));
+                }
             }
         }
         return false;
@@ -774,7 +773,13 @@ public class BasicService implements EntityService, AccessibilityCheck {
      * @param eb
      */
     private void filterFields(Map<String, Object> eb) {
-        filterFields(eb, "");
+        Collection<GrantedAuthority> auths = new HashSet<GrantedAuthority>();
+        auths.addAll(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+        SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
+        if(isSelf((String) eb.get("id"))) {
+            auths.addAll(principal.getSelfRights());
+        }
+        filterFields(eb, auths, "");
         complexFilter(eb);
     }
 
@@ -821,10 +826,8 @@ public class BasicService implements EntityService, AccessibilityCheck {
      * @param eb
      */
     @SuppressWarnings("unchecked")
-    private void filterFields(Map<String, Object> eb, String prefix) {
+    private void filterFields(Map<String, Object> eb, Collection<GrantedAuthority> auths, String prefix) {
 
-        Collection<GrantedAuthority> auths = new HashSet<GrantedAuthority>();
-        auths.addAll(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
 
         if (!auths.contains(Right.FULL_ACCESS)) {
 
@@ -836,14 +839,10 @@ public class BasicService implements EntityService, AccessibilityCheck {
                 String fieldPath = prefix + fieldName;
                 Set<Right> neededRights = getNeededRights(fieldPath);
 
-                SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
-                if(isSelf((String) eb.get("id"))) {
-                    auths.addAll(principal.getSelfRights());
-                }
                 if (!neededRights.isEmpty() && !intersection(auths, neededRights)) {
                     toRemove.add(fieldName);
                 } else if (value instanceof Map) {
-                    filterFields((Map<String, Object>) value, prefix + "." + fieldName + ".");
+                    filterFields((Map<String, Object>) value, auths, prefix + "." + fieldName + ".");
                 }
             }
 
@@ -1046,11 +1045,11 @@ public class BasicService implements EntityService, AccessibilityCheck {
     public boolean collectionExists(String collection) {
         return getRepo().collectionExists(collection);
     }
-    
+
     private void injectSecurity(NeutralQuery nq) {
         SLIPrincipal prince = SecurityUtil.getSLIPrincipal();
         List<NeutralQuery> obligations = prince.getObligation(this.collectionName);
-        
+
         for (NeutralQuery obligation : obligations) {
             nq.addOrQuery(obligation);
         }
