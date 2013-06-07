@@ -406,6 +406,7 @@ Scenario: App makes an api call to retrieve a bulk extract delta for the SEA
   When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
   Then I should receive a json response containing my authorization token
   And there is no bulk extract files in the local directory
+  And I get the id for the edorg "STANDARD-SEA"
 
   When the operator triggers a delta for the production tenant
   And I make a call to the bulk extract end point "/v1.1/bulk/extract/list" using the certificate for app "picard"
