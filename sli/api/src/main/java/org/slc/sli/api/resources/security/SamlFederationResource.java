@@ -23,12 +23,15 @@ import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.HashSet;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -45,11 +48,11 @@ import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.io.IOUtils;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.elasticsearch.search.query.FromParseElement;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -128,6 +131,8 @@ public class SamlFederationResource {
 
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
+
+    public static SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
 
     @SuppressWarnings("unused")
     @PostConstruct
@@ -312,6 +317,19 @@ public class SamlFederationResource {
             error("Attempted login by a user that did not include any roles in the SAML Assertion.");
             throw new AccessDeniedException("Invalid user. No roles specified for user.");
         }
+
+
+        Set<String> roleSet = new HashSet<String>(roles);
+        Entity staff = getStaff(attributes.getFirst("userId"));
+        Set<String> matchedRoles = null;
+        if(staff != null) {
+            matchRoles(staff.getEntityId(), roleSet, new Date());
+        }
+        if(matchedRoles == null || matchedRoles.isEmpty()) {
+            error("Attempted login by a user that did not include any valid roles in the SAML Assertion.");
+            throw new AccessDeniedException("Invalid user. No valid roles specified for user.");
+        }
+
 
         principal.setRealm(realm.getEntityId());
         principal.setEdOrg(attributes.getFirst("edOrg"));
@@ -527,4 +545,59 @@ public class SamlFederationResource {
         return true;
     }
 
+    Set<String> matchRoles(String staffId, Set<String> roleSet, Date date) {
+        Set<String> seoaRoles = new HashSet<String>();
+
+        if (staffId == null) {
+            return seoaRoles;
+        }
+
+        NeutralQuery SEOAQuery = new NeutralQuery();
+        SEOAQuery.addCriteria(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE, NeutralCriteria.OPERATOR_EQUAL, staffId));
+
+        Iterable<Entity> SEOAEntities = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, SEOAQuery);
+
+        if(SEOAEntities.iterator().hasNext()) {
+            seoaRoles = filterRoles(SEOAEntities, roleSet, date);
+        }
+
+        return seoaRoles;
+    }
+
+    private Set<String> filterRoles(Iterable<Entity> SEOAEntities, Set<String> roleSet, Date date) {
+        Set<String> seoaRoles = new HashSet<String>();
+
+        for(Entity seoa : SEOAEntities) {
+            Date endDate = null;
+            String seoaEndDate = (String) seoa.getBody().get(ParameterConstants.STAFF_EDORG_ASSOC_END_DATE);
+            if(seoaEndDate != null) {
+                try {
+                    endDate = ft.parse(seoaEndDate);
+                } catch (ParseException e) {
+                    info("Failed to parse date from staffEducationOrganizationAssociation {}", seoa.getEntityId());
+                    continue;
+                }
+            }
+            if(endDate == null || endDate.after(date) || endDate.equals(date)) {
+                String role = (String) seoa.getBody().get(ParameterConstants.STAFF_EDORG_ASSOC_STAFF_CLASSIFICATION);
+                if(!roleSet.contains(role)) {
+                    continue;
+                }
+                seoaRoles.add(role);
+            }
+        }
+
+        return seoaRoles;
+    }
+
+    private Entity getStaff(String staffUniqueStateId) {
+        NeutralQuery staffQuery = new NeutralQuery();
+        staffQuery.addCriteria(new NeutralCriteria(ParameterConstants.STAFF_UNIQUE_STATE_ID, NeutralCriteria.OPERATOR_EQUAL, staffUniqueStateId));
+
+        return repo.findOne(EntityNames.STAFF, staffQuery);
+    }
+
+    Repository getRepository() {
+        return repo;
+    }
 }
