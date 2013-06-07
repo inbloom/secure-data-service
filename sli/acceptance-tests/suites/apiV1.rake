@@ -321,6 +321,11 @@ task :apiOdinStudentLogin do
   runTests("test/features/apiV1/integration/studentLogin.feature")
 end
 
+desc "Run contextual roles acceptance tests"
+task :apiContextualRolesTests => [:realmInit, :importSandboxData] do
+    runTests("test/features/apiV1/contextual_roles/matchRoles.feature")
+end
+
 ############################################################
 # API V1 tests end
 ############################################################

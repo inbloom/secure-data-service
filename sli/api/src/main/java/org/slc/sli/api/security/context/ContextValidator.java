@@ -89,7 +89,7 @@ public class ContextValidator implements ApplicationContextAware {
             EntityNames.SECTION,
             EntityNames.SESSION,
             EntityNames.STUDENT_COMPETENCY_OBJECTIVE));
-
+    
     private List<IContextValidator> validators;
 
     @Autowired
@@ -97,8 +97,12 @@ public class ContextValidator implements ApplicationContextAware {
 
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
+
     @Autowired
     private EntityOwnershipValidator ownership;
+    
+    @Autowired
+    private StudentAccessValidator studentAccessValidator;
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -107,17 +111,49 @@ public class ContextValidator implements ApplicationContextAware {
     }
 
     public void validateContextToUri(ContainerRequest request, SLIPrincipal principal) {
+        if (isUrlBlocked(request.getPathSegments())) {
+            throw new AccessDeniedException(String.format("url %s is not accessible.", request.getAbsolutePath().toString()));
+        }
         validateUserHasContextToRequestedEntities(request, principal);
     }
 
-    private void validateUserHasContextToRequestedEntities(ContainerRequest request, SLIPrincipal principal) {
+    // white list student accessible URL. Can't do it in validateUserHasContextToRequestedEntity
+    // because we must also block some url that only has 2 segment, i.e.
+    // disciplineActions/disciplineIncidents
+    private boolean isUrlBlocked(List<PathSegment> pathSegments) {
+        if (SecurityUtil.isStudent()) {
+            List<PathSegment> segs = cleanEmptySegments(pathSegments);
+            List<String> paths = new ArrayList<String>();
+            
+            if (segs.size() < 2) {
+                // only have api version??
+                return true;
+            }
+            
+            for (int i = 1; i < segs.size(); ++i) {
+                paths.add(segs.get(i).getPath());
+            }
 
-        List<PathSegment> segs = request.getPathSegments();
-        for (Iterator<PathSegment> i = segs.iterator(); i.hasNext();) {
+            return !studentAccessValidator.isAllowed(paths);
+        }
+        
+        return false;
+    }
+
+    private List<PathSegment> cleanEmptySegments(List<PathSegment> pathSegments) {
+        for (Iterator<PathSegment> i = pathSegments.iterator(); i.hasNext();) {
             if (i.next().getPath().isEmpty()) {
                 i.remove();
             }
         }
+
+        return pathSegments;
+    }
+    
+    private void validateUserHasContextToRequestedEntities(ContainerRequest request, SLIPrincipal principal) {
+        
+        List<PathSegment> segs = request.getPathSegments();
+        segs = cleanEmptySegments(segs);
 
         if (segs.size() < 3) {
             return;
@@ -288,4 +324,5 @@ public class ContextValidator implements ApplicationContextAware {
     public boolean isGlobalEntity(String type) {
         return GLOBAL_ENTITIES.contains(type);
     }
+    
 }

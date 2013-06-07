@@ -88,7 +88,6 @@ Scenario: As a valid user get SEA public data extract using BEEP
     And there is a metadata file in the extract
     And the extract contains a file for each of the following entities:
       |  entityType                            |
-	  |  calendarDate                          |
       |  course                                |
       |  courseOffering                        |
       |  educationOrganization                 |
