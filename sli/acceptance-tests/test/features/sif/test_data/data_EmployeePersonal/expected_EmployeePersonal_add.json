@@ -10,7 +10,7 @@
                 "city" : "Chicago",
                 "stateAbbreviation" : "IL",
                 "postalCode" : "60660",
-                "countryCode" : "US",
+
                 "addressType" : "Mailing"
             }
         ],

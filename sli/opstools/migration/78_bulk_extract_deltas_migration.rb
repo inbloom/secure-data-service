@@ -40,6 +40,7 @@ dbname = ARGV[0]
 
 host = 'localhost'
 port = '27017'
+INDEX_ONLY = false
 
 ARGV[1..ARGV.size].each do |arg|
   host, port = arg.split(":") if arg.include? ':'
@@ -82,8 +83,11 @@ def clean_deltas(db)
 end
 
 def migrate(db)
-  `mongoexport -d #{db} -c deltas > deltas.tmp`
-  if INDEX_ONLY.nil?
+  res = `mongoexport -d #{db} -c deltas > deltas.tmp`
+  unless $?.exitstatus == 0
+    raise "Cannot export deltas for #{db}: #{res}"
+  end
+  unless INDEX_ONLY
     puts "Indexing and sharding: #{db}"
   else
     puts "Indexing: #{db}"
@@ -91,11 +95,14 @@ def migrate(db)
   begin
     clean_deltas(db)
     $client[db]['deltas'].create_index({"t" => Mongo::ASCENDING, "_id" => Mongo::ASCENDING})
-    shard("#{db}.deltas") if INDEX_ONLY.nil?
+    shard("#{db}.deltas") unless INDEX_ONLY
   rescue Exception => e
     puts "unable to migrate #{db} due to #{e}"
   end
-  `mongoimport -d #{db} -c deltas < deltas.tmp`
+  res = `mongoimport -d #{db} -c deltas < deltas.tmp`
+  unless $?.exitstatus == 0
+    raise "Cannot import deltas for #{db}: #{res}"
+  end
   `rm deltas.tmp`
 end
 

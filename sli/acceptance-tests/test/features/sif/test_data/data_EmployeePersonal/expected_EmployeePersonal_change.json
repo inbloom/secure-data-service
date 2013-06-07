@@ -10,7 +10,7 @@
                 "city" : "Brooklyn",
                 "stateAbbreviation" : "NY",
                 "postalCode" : "11239",
-                "countryCode" : "US",
+
                 "addressType" : "Mailing"
             }
         ],
