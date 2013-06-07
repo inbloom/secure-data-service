@@ -302,6 +302,11 @@ task :apiOdinSearchAssessment do
   runTests("test/features/apiV1/end_user_stories/assessments/searchAssessment.feature")
 end
 
+desc "Run contextual roles acceptance tests"
+task :apiContextualRolesTests => [:realmInit, :importSandboxData] do
+    runTests("test/features/apiV1/contextual_roles/matchRoles.feature")
+end
+
 ############################################################
 # API V1 tests end
 ############################################################
