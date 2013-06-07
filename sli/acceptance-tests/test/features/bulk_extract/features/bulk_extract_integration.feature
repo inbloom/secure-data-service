@@ -15,6 +15,7 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
    |  entityType                            |
    |  assessment                            |              
    |  attendance                            |
+   |  calendarDate                          |
    |  cohort                                |
    |  competencyLevelDescriptor             |
    |  course                                |
