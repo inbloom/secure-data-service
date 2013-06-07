@@ -21,19 +21,14 @@ require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../utils/selenium_common.rb'
 
 Given /^the testing device app key has been created$/ do
-  #@oauthClientId = "EGbI4LaLaL"
-  #@oauthClientSecret = "iGdeAGCugi4VwZNtMJR062nNKjB7gRKUjSB0AcZqpn8Beeee"
-  #@oauthRedirectURI = "http://device"
-
-  @oauthClientId = "vavedRa9uB"
-  @oauthClientSecret = "phEdAchetESedRewatRegeQeradeC5tUStEXeCa6UJ3JefuC"
-  @oauthRedirectURI = "https://localhost:8080/sample/callback"
+  @oauthClientId = "EGbI4LaLaL"
+  @oauthClientSecret = "iGdeAGCugi4VwZNtMJR062nNKjB7gRKUjSB0AcZqpn8Beeee"
+  @oauthRedirectURI = "http://device"
 end
 
 Given /^I log in to realm "(.*?)" using simple-idp as student "(.*?)" with password "(.*?)"$/ do |realm, user, pass|
   step "the testing device app key has been created"
   step "I have an open web browser"
-  #step "I navigated to the Data Browser Home URL"
   step "I navigate to the API authorization endpoint with my client ID"
   step "I was redirected to the Realm page"
   step "I choose realm \"#{realm}\" in the drop\-down list"
@@ -133,7 +128,6 @@ end
 Then /^I should be able to use the token to make valid API calls$/ do
   restHttpGet("/system/session/check", "application/json")
   assert(@res != nil, "Response from rest-client GET is nil")
-  assert(@res != nil, "Response is nil")
   data = JSON.parse(@res.body)
   assert(data != nil, "Response body is nil")
   assert(data['authenticated'] == true,

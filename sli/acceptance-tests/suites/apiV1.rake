@@ -315,8 +315,8 @@ end
 desc "Run API Odin Integration Tests"
 task :apiOdinStudentLogin do
 # This is to extract assessment, learningStandard, etc. into Elastic Search
-  allLeaAllowApp("SDK Sample")
-  authorizeEdorg("SDK Sample")
+  allLeaAllowApp("Mobile App")
+  authorizeEdorg("Mobile App")
   Rake::Task["runSearchBulkExtract"].execute
   runTests("test/features/apiV1/integration/studentLogin.feature")
 end
