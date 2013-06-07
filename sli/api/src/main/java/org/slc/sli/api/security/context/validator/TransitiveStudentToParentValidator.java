@@ -16,34 +16,27 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import java.util.List;
+import java.util.Set;
+
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.springframework.stereotype.Component;
-
-import java.util.List;
-import java.util.Set;
 
 /**
  * User: dkornishev
  */
 @Component
-public class TransitiveStudentToParentValidator extends AbstractContextValidator {
-    
-    @Override
-    public boolean canValidate(String entityType, boolean isTransitive) {
-        return isStudent() && EntityNames.PARENT.equals(entityType) && isTransitive;
+public class TransitiveStudentToParentValidator extends BasicValidator {
+
+    public TransitiveStudentToParentValidator() {
+        super(true, EntityNames.STUDENT, EntityNames.PARENT);
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
-
-        if (!areParametersValid(EntityNames.PARENT, entityType, ids)) {
-            return false;
-        }
-
+    protected boolean doValidate(Set<String> ids) {
         Entity e = SecurityUtil.getSLIPrincipal().getEntity();
 
         List<Entity> spas = e.getEmbeddedData().get("studentParentAssociation");
@@ -57,4 +50,5 @@ public class TransitiveStudentToParentValidator extends AbstractContextValidator
 
         return ids.isEmpty();
     }
+
 }
