@@ -10,7 +10,7 @@ Scenario: As an bulk extract user, I want to initialize my database with test da
     And a batch job log has been created
     Then I should see following map of entry counts in the corresponding collections:
       | collectionName                           |              count|
-      | calendarDate                             |                821|
+      | calendarDate                             |                556|
       | course                                   |                  6|
       | courseOffering                           |                  6|
       | educationOrganization                    |                  5|
