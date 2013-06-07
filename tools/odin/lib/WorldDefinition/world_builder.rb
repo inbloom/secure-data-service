@@ -23,7 +23,7 @@ require_relative '../Shared/EntityClasses/enum/GradeLevelType.rb'
 require_relative '../Shared/EntityClasses/enum/GradingPeriodType.rb'
 require_relative '../Shared/EntityClasses/enum/ProgramSponsorType.rb'
 require_relative '../Shared/EntityClasses/enum/ProgramType.rb'
-require_relative '../Shared/EntityClasses/enum/StaffClassificationType.rb'
+require_relative '../Shared/EntityClasses/enum/Roles.rb'
 require_relative '../Shared/data_utility.rb'
 require_relative '../Shared/date_interval.rb'
 require_relative '../Shared/date_utility.rb'
@@ -484,7 +484,7 @@ class WorldBuilder
         @num_staff_members += 1
         members << {"id" => member[:staff_id], "role" => member[:role], "name" => member[:name]}
         for index in (0..(roles.size - 1)) do
-          if StaffClassificationType.to_string(roles[index]) == member[:role]
+          if Roles.to_string(roles[index]) == member[:role]
             @log.info "Removing role: #{member[:role]} from default roles --> specified by member in staff catalog."
             roles.delete_at(index)
             break
@@ -1082,11 +1082,11 @@ class WorldBuilder
   def create_staff_ed_org_associations_for_sessions(sessions, offset, member, ed_org_id, type)
     if (!@scenarioYAML["HACK_NO_STAFF_EDORG_ASSOCIATIONS_EXCEPT_SEA"] || (type == "seas")) && !sessions.nil? and sessions.size > 0
       sessions.each do |session|
-        title = member["role"]
-        if StaffClassificationType.to_symbol(title).nil?
-          classification = get_staff_classification_for_ed_org_type(type)
+        classification = member["role"]
+        if Roles.to_symbol(classification).nil?
+          title = get_position_for_ed_org_type(type)
         else
-          classification = StaffClassificationType.to_symbol(title)
+          title = Roles.to_symbol(classification)
         end
 
         if ed_org_id.kind_of? Integer
@@ -1137,7 +1137,7 @@ class WorldBuilder
   end
 
   # based on the education organization type (state education agecy, local education agency, or school), choose a staff classification type
-  def get_staff_classification_for_ed_org_type(type)
+  def get_position_for_ed_org_type(type)
     return DataUtility.select_random_from_options(@prng, get_default_state_education_agency_roles) if type == "seas"
     return DataUtility.select_random_from_options(@prng, get_default_local_education_agency_roles) if type == "leas"
     return DataUtility.select_random_from_options(@prng, get_default_school_roles)

@@ -1253,128 +1253,168 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="parent">
-		<xs:annotation>
-			<xs:documentation>
-				This entity represents a parent or guardian of a
-				student, such as mother, father, or caretaker.
-			</xs:documentation>
-			<xs:appinfo>
-				<sli:CollectionType>parent</sli:CollectionType>
-				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
-				<sli:schemaVersion>1</sli:schemaVersion>
-			</xs:appinfo>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="parentUniqueStateId" type="uniqueStateIdentifier">
-				<xs:annotation>
-					<xs:documentation>
-						A unique number or alphanumeric code assigned to
-						a person.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:naturalKey>true</sli:naturalKey>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="name" type="name">
-				<xs:annotation>
-					<xs:documentation>Full legal name of the person.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:PersonallyIdentifiableInfo>true
-						</sli:PersonallyIdentifiableInfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element maxOccurs="unbounded" minOccurs="0" name="otherName" type="otherName">
-				<xs:annotation>
-					<xs:documentation>
-						Other names (e.g., alias, nickname, previous
-						legal name) associated with a person.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:PersonallyIdentifiableInfo>true
-						</sli:PersonallyIdentifiableInfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element minOccurs="0" name="sex" type="sexType">
-				<xs:annotation>
-					<xs:documentation>A person's gender.</xs:documentation>
-					<xs:appinfo>
-						<sli:PersonallyIdentifiableInfo>true
-						</sli:PersonallyIdentifiableInfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element maxOccurs="unbounded" minOccurs="0" name="address" type="address">
-				<xs:annotation>
-					<xs:documentation>Parent's address, if different from student
-						address.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:PersonallyIdentifiableInfo>true
-						</sli:PersonallyIdentifiableInfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element maxOccurs="unbounded" minOccurs="0" name="telephone" type="telephone">
-				<xs:annotation>
-					<xs:documentation>
-						The 10-digit telephone number, including the
-						area
-						code, for the person.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:PersonallyIdentifiableInfo>true
-						</sli:PersonallyIdentifiableInfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element maxOccurs="unbounded" minOccurs="0" name="electronicMail"
-				type="electronicMail">
-				<xs:annotation>
-					<xs:documentation>
-						The numbers, letters, and symbols used to
-						identify an electronic mail (e-mail) user within
-						the network to
-						which the individual or organization belongs.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:PersonallyIdentifiableInfo>true
-						</sli:PersonallyIdentifiableInfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element minOccurs="0" name="loginId" type="identificationCode">
-				<xs:annotation>
-					<xs:documentation>
-						The login ID for the user; used for security
-						access control interface.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
+    <xs:complexType name="parent">
+        <xs:annotation>
+            <xs:documentation>
+                This entity represents a parent or guardian of a
+                student, such as mother, father, or caretaker.
+            </xs:documentation>
+            <xs:appinfo>
+                <sli:CollectionType>parent</sli:CollectionType>
+                <sli:applyNaturalKeys>true</sli:applyNaturalKeys>
+                <sli:schemaVersion>1</sli:schemaVersion>
+            </xs:appinfo>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="parentUniqueStateId" type="uniqueStateIdentifier">
+                <xs:annotation>
+                    <xs:documentation>
+                        A unique number or alphanumeric code assigned to
+                        a person.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:naturalKey>true</sli:naturalKey>
+                        <sli:WriteEnforcement>
+                            <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                        </sli:WriteEnforcement>
+                        <sli:ReadEnforcement>
+                            <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_STUDENT_DATA</sli:allowedBy>
+                        </sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="name" type="name">
+                <xs:annotation>
+                    <xs:documentation>Full legal name of the person.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:PersonallyIdentifiableInfo>true
+                        </sli:PersonallyIdentifiableInfo>
+                        <sli:WriteEnforcement>
+                            <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                        </sli:WriteEnforcement>
+                        <sli:ReadEnforcement>
+                            <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_STUDENT_DATA</sli:allowedBy>
+                        </sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="otherName" type="otherName">
+                <xs:annotation>
+                    <xs:documentation>
+                        Other names (e.g., alias, nickname, previous
+                        legal name) associated with a person.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:PersonallyIdentifiableInfo>true
+                        </sli:PersonallyIdentifiableInfo>
+                        <sli:WriteEnforcement>
+                            <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                        </sli:WriteEnforcement>
+                        <sli:ReadEnforcement>
+                            <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_STUDENT_DATA</sli:allowedBy>
+                        </sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" name="sex" type="sexType">
+                <xs:annotation>
+                    <xs:documentation>A person's gender.</xs:documentation>
+                    <xs:appinfo>
+                        <sli:PersonallyIdentifiableInfo>true
+                        </sli:PersonallyIdentifiableInfo>
+                        <sli:WriteEnforcement>
+                            <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                        </sli:WriteEnforcement>
+                        <sli:ReadEnforcement>
+                            <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_STUDENT_DATA</sli:allowedBy>
+                        </sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="address" type="address">
+                <xs:annotation>
+                    <xs:documentation>Parent's address, if different from student
+                        address.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:PersonallyIdentifiableInfo>true
+                        </sli:PersonallyIdentifiableInfo>
+                        <sli:WriteEnforcement>
+                            <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                        </sli:WriteEnforcement>
+                        <sli:ReadEnforcement>
+                            <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_STUDENT_DATA</sli:allowedBy>
+                        </sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="telephone" type="telephone">
+                <xs:annotation>
+                    <xs:documentation>
+                        The 10-digit telephone number, including the
+                        area
+                        code, for the person.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:PersonallyIdentifiableInfo>true
+                        </sli:PersonallyIdentifiableInfo>
+                        <sli:WriteEnforcement>
+                            <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                        </sli:WriteEnforcement>
+                        <sli:ReadEnforcement>
+                            <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_STUDENT_DATA</sli:allowedBy>
+                        </sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="electronicMail"
+                        type="electronicMail">
+                <xs:annotation>
+                    <xs:documentation>
+                        The numbers, letters, and symbols used to
+                        identify an electronic mail (e-mail) user within
+                        the network to
+                        which the individual or organization belongs.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:PersonallyIdentifiableInfo>true
+                        </sli:PersonallyIdentifiableInfo>
+                        <sli:WriteEnforcement>
+                            <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                        </sli:WriteEnforcement>
+                        <sli:ReadEnforcement>
+                            <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_STUDENT_DATA</sli:allowedBy>
+                        </sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" name="loginId" type="identificationCode">
+                <xs:annotation>
+                    <xs:documentation>
+                        The login ID for the user; used for security
+                        access control interface.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:WriteEnforcement>
+                            <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                        </sli:WriteEnforcement>
+                        <sli:ReadEnforcement>
+                            <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_STUDENT_DATA</sli:allowedBy>
+                        </sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
 
 	<xs:complexType name="performanceLevelDescriptor">
 		<xs:annotation>
@@ -2985,6 +3025,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3001,6 +3042,7 @@
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
                             <sli:allowedBy>READ_STUDENT_DATA</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3018,6 +3060,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3034,6 +3077,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3052,6 +3096,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3069,6 +3114,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3086,6 +3132,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3106,6 +3153,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3121,6 +3169,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3142,6 +3191,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3164,6 +3214,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3183,6 +3234,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3200,6 +3252,7 @@
                     <xs:appinfo>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_RESTRICTED</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_RESTRICTED</sli:allowedBy>
@@ -3219,6 +3272,7 @@
                     <xs:appinfo>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_RESTRICTED</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
@@ -3244,6 +3298,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3263,6 +3318,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3277,6 +3333,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3293,6 +3350,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3309,6 +3367,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3326,6 +3385,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3346,6 +3406,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3362,6 +3423,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3378,6 +3440,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3396,6 +3459,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3415,6 +3479,7 @@
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -9205,7 +9270,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_GENERIC</sli:allowedBy><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -9221,7 +9286,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_GENERIC</sli:allowedBy><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -9239,7 +9304,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_GENERIC</sli:allowedBy><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -9250,7 +9315,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_GENERIC</sli:allowedBy><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -9262,7 +9327,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_GENERIC</sli:allowedBy><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -9273,7 +9338,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_GENERIC</sli:allowedBy><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>

@@ -33,6 +33,12 @@ end
 ############################################################
 # STEPS: WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN
 ############################################################
+When /^I generate the "(.*?)" data set in the "(.*?)" directory$/ do |data_set, gen_dir|
+  @gen_path = "#{@odin_working_path}#{gen_dir}/"
+  puts "Calling generate function for #{data_set} scenario"
+  generate(data_set)
+end
+
 When /^I generate the 10 student data set with optional fields on in the (.*?) directory$/ do |gen_dir|
   @gen_path = "#{@odin_working_path}#{gen_dir}/"
   puts "Calling generate function for 10 students scenario"

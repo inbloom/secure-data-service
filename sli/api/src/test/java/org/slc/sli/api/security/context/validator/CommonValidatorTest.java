@@ -31,6 +31,7 @@ import junit.framework.Assert;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,75 +116,23 @@ public class CommonValidatorTest {
     @Test
     public void verifyNumberOfStaffValidatorsForEachEntity() throws Exception {
         setupCurrentUser(new MongoEntity("staff", new HashMap<String, Object>()));
-        List<String> entities = getEntityNames();
-        for (String entity : entities) {
-            // skip entities that don't require staff --> entity validation
-            if (ignored.contains(entity)) {
-                continue;
-            }
-
-            for (Boolean isTransitive : Arrays.asList(true, false)) {
-
-                int numValidators = 0;
-                for (IContextValidator validator : validators) {
-                    if (validator.canValidate(entity, isTransitive)) {
-                        numValidators++;
-                    }
-                }
-
-                if (numValidators != 1) {
-                    messages.add("Incorrect number of validators found for entity: " + entity + " [transitive: "
-                            + isTransitive + "], (expected:1, actual:" + numValidators + "). ");
-                }
-            }
-        }
-
-        if (messages.size() > 0) {
-            StringBuilder builder = new StringBuilder();
-            for (String message : messages) {
-                builder.append(message);
-            }
-            Assert.fail(builder.toString());
-        }
+        validateValidators();
     }
 
     @Test
     public void verifyNumberOfTeacherValidatorsForEachEntity() throws Exception {
         setupCurrentUser(new MongoEntity("teacher", new HashMap<String, Object>()));
-        List<String> entities = getEntityNames();
-        for (String entity : entities) {
-            // skip entities that don't require staff --> entity validation
-            if (ignored.contains(entity)) {
-                continue;
-            }
-
-            for (Boolean isTransitive : Arrays.asList(true, false)) {
-
-                int numValidators = 0;
-                for (IContextValidator validator : validators) {
-                    if (validator.canValidate(entity, isTransitive)) {
-                        numValidators++;
-                        if (numValidators > 1) {
-                            System.out.println(validator);
-                        }
-                    }
-                }
-
-                if (numValidators != 1) {
-                    messages.add("Incorrect number of validators found for entity: " + entity + " [transitive: "
-                            + isTransitive + "], (expected:1, actual:" + numValidators + "). ");
-                }
-            }
-        }
-
-        if (messages.size() > 0) {
-            StringBuilder builder = new StringBuilder();
-            for (String message : messages) {
-                builder.append(message);
-            }
-            Assert.fail(builder.toString());
-        }
+        validateValidators();
     }
+
+    @Test
+    @Ignore
+    public void verifyNumberOfStudentValidatorsForEachEntity() throws Exception {
+        MongoEntity student = new MongoEntity("student", new HashMap<String, Object>());
+        injector.setCustomContext("Studentious","Stendarious","Myrran",Arrays.asList(SecureRoleRightAccessImpl.STUDENT),student,"High Elves");
+        validateValidators();
+    }
+
 
     /**
      * Validate that an {@link IllegalArgumentException} is thrown when the entity type is null
@@ -341,4 +290,36 @@ public class CommonValidatorTest {
         return entityNames;
     }
 
+    private void validateValidators() throws Exception {
+        List<String> entities = getEntityNames();
+        for (String entity : entities) {
+            // skip entities that don't require staff --> entity validation
+            if (ignored.contains(entity)) {
+                continue;
+            }
+
+            for (Boolean isTransitive : Arrays.asList(true, false)) {
+
+                int numValidators = 0;
+                for (IContextValidator validator : validators) {
+                    if (validator.canValidate(entity, isTransitive)) {
+                        numValidators++;
+                    }
+                }
+
+                if (numValidators != 1) {
+                    messages.add("Incorrect number of validators found for entity: " + entity + " [transitive: "
+                            + isTransitive + "], (expected:1, actual:" + numValidators + "). \n");
+                }
+            }
+        }
+
+        if (messages.size() > 0) {
+            StringBuilder builder = new StringBuilder();
+            for (String message : messages) {
+                builder.append(message);
+            }
+            Assert.fail(builder.toString());
+        }
+    }
 }
