@@ -20,14 +20,16 @@ DIFF_OUTPUT_FILE="${PROFILE_STORAGE_DIR}/${dataset}.diff"
 # Generate new data profile
 $PROFILER $DB > $CUR_DATA_PROF_FILE
 
+result=0
+
 # Compare with previous
 if [ -f $BASELINE_DATA_PROF_FILE ]; then
     diff $BASELINE_DATA_PROF_FILE $CUR_DATA_PROF_FILE > $DIFF_OUTPUT_FILE
+    result=$?
 else
     # the first time for a dataset just create a baseline file
     mv -f $CUR_DATA_PROF_FILE $BASELINE_DATA_PROF_FILE
 fi
-result=$?
 
 # Clean up
 if [ $result -eq 0 ]; then
