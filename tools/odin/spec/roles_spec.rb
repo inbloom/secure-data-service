@@ -16,32 +16,32 @@ limitations under the License.
 
 =end
 
-require_relative "../lib/Shared/EntityClasses/enum/StaffClassificationType.rb"
+require_relative "../lib/Shared/EntityClasses/enum/Roles.rb"
 
-# specifications for staff classification type functions
-describe "StaffClassificationType" do
-  describe "Correctly translates staff classification types into strings" do
+# specifications for role functions
+describe "Roles" do
+  describe "Correctly translates roles into strings" do
     describe "--> symbol that identifies Leader (doesn't exist)" do
       it "will return nil" do
-        StaffClassificationType.to_string(:LEADER).should be_nil
+        Roles.to_string(:JANITOR).should be_nil
       end
     end
     describe "--> symbol that identifies Principal (exists)" do
       it "will return the string representation for Principal" do
-        StaffClassificationType.to_string(:PRINCIPAL).should match("Principal")
+        Roles.to_string(:PRINCIPAL).should match("Principal")
       end
     end
   end
 
-  describe "Correctly translates strings into staff classification types" do
+  describe "Correctly translates strings into roles" do
     describe "--> string that identifies Leader (doesn't exist)" do
       it "will return nil" do
-        StaffClassificationType.to_symbol("Leader").should be_nil
+        Roles.to_symbol("Janitor").should be_nil
       end
     end
     describe "--> string that identifies Principal" do
-      it "will return the staff classification type for Principal" do
-        StaffClassificationType.to_symbol("Principal").should eq(:PRINCIPAL)
+      it "will return the role for Principal" do
+        Roles.to_symbol("Principal").should eq(:PRINCIPAL)
       end
     end
   end  
