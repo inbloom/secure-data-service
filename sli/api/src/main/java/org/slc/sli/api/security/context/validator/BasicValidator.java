@@ -13,28 +13,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.slc.sli.api.security.context.validator;
 
 import java.util.Set;
 
-import org.springframework.stereotype.Component;
-
-import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.api.util.SecurityUtil;
 
 /**
- * User: dkornishev
+ * Abstract class to do common functionality
+ *
+ * @author nbrown
+ *
  */
-@Component
-public class StudentToParentValidator extends AbstractContextValidator {
+public abstract class BasicValidator extends AbstractContextValidator {
+    private final boolean transitiveValidator;
+    private final String type;
+    private final String userType;
+
+    public BasicValidator(boolean transitiveValidator, String userType, String type) {
+        this.transitiveValidator = transitiveValidator;
+        this.type = type;
+        this.userType = userType;
+    }
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return isStudent() && EntityNames.PARENT.equals(entityType) && !isTransitive;
+        return userType.equals(SecurityUtil.getSLIPrincipal().getEntity().getType()) && type.equals(entityType)
+                && isTransitive == transitiveValidator;
     }
 
     @Override
     public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
-        return false;   //  Would open potential for accessing siblings
+        if (!areParametersValid(type, entityType, ids)) {
+            return false;
+        }
+
+        return doValidate(ids);
     }
+
+    protected abstract boolean doValidate(Set<String> ids);
+
 }
