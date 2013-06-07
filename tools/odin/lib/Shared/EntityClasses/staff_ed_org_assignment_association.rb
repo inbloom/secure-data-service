@@ -17,8 +17,8 @@ limitations under the License.
 =end
 
 require_relative '../data_utility.rb'
+require_relative 'enum/Roles.rb'
 require_relative 'baseEntity.rb'
-require_relative 'enum/StaffClassificationType.rb'
 
 # creates staff education organization assignment association
 class StaffEducationOrgAssignmentAssociation < BaseEntity
@@ -33,8 +33,8 @@ class StaffEducationOrgAssignmentAssociation < BaseEntity
     end
     
     @ed_org_id      = ed_org_id
-    @classification = StaffClassificationType.to_string(classification)
-    @title          = title
+    @classification = classification
+    @title          = Roles.to_string(title)
     @begin_date     = begin_date.to_s
     if end_date.nil? == false
       @end_date       = end_date.to_s

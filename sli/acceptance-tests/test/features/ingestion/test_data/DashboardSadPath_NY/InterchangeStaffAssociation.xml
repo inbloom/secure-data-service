@@ -44,7 +44,7 @@
 				<StateOrganizationId>1000000112</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>Teacher</StaffClassification>
+		<StaffClassification>Educator</StaffClassification>
 		<BeginDate>2007-07-07</BeginDate>
 	</StaffEducationOrgAssignmentAssociation>
 	<!--Al Gibbs IT Support (IT Administrator) Dawn Elementary School-->
@@ -103,7 +103,7 @@
 				<StateOrganizationId>1000000122</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>School Administrative Support Staff</StaffClassification>
+		<StaffClassification>IT Administrator</StaffClassification>
 		<PositionTitle>IT Support</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>2013-08-13</EndDate>
