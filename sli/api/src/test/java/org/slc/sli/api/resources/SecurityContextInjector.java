@@ -17,13 +17,7 @@
 
 package org.slc.sli.api.resources;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import org.mockito.Mockito;
 import org.slc.sli.api.init.RoleInitializer;
@@ -304,6 +298,15 @@ public class SecurityContextInjector {
         SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
         principal.setRoles(roles);
         principal.setSelfRights(Arrays.asList(new GrantedAuthority[]{ Right.READ_RESTRICTED}));
+        setSecurityContext(principal, false);
+    }
+
+    public void setStudentContext(Entity entity) {
+        List<String> roles = Arrays.asList(SecureRoleRightAccessImpl.STUDENT);
+
+        SLIPrincipal principal = buildPrincipal("Studious", "Estudiando", DEFAULT_REALM_ID, roles, entity);
+        principal.setRoles(roles);
+        principal.setSelfRights(Arrays.asList(new GrantedAuthority[]{ Right.READ_GENERIC}));
         setSecurityContext(principal, false);
     }
 

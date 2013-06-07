@@ -381,9 +381,19 @@ Given the pre-existing bulk extrac testing app key has been created
 Scenario: Ingestion user ingests additional public entities
   Given a landing zone
   And I drop the file "NewSimplePublicEntities.zip" into the landingzone
-  And I check for the file "job-NewSimplePublicEntities*.log" every "30" seconds for "600" seconds
+  And I check for the file "job-NewSimplePublicEntities*.log" every "6" seconds for "120" seconds
   Then I should not see an error log file created
   And I should not see a warning log file created
+
+Scenario: SEA admin makes an api call to PATCH the SEA
+  Given the pre-existing bulk extrac testing app key has been created
+  When I navigate to the API authorization endpoint with my client ID
+  And I select "Daybreak Test Realm" and click go
+  And I was redirected to the "Simple" IDP Login page
+  When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
+  Then I get the id for the edorg "STANDARD-SEA"
+  When I PATCH the postalCode for the current edorg entity to 11999
+  Then I should receive a return code of 204
 
 Scenario: App makes an api call to retrieve a bulk extract delta for the SEA
   #Get a session to trigger a bulk extract
@@ -391,15 +401,12 @@ Scenario: App makes an api call to retrieve a bulk extract delta for the SEA
   When I navigate to the API authorization endpoint with my client ID
   And I select "Daybreak Test Realm" and click go
   And I was redirected to the "Simple" IDP Login page
-  When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
+  When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
   Then I should receive a json response containing my authorization code
   When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
   Then I should receive a json response containing my authorization token
   And there is no bulk extract files in the local directory
 
-  Then I get the id for the edorg "STANDARD-SEA"
-  When I PATCH the postalCode for the current edorg entity to 11999
-  Then I should receive a return code of 204
   When the operator triggers a delta for the production tenant
   And I make a call to the bulk extract end point "/v1.1/bulk/extract/list" using the certificate for app "picard"
   And I get back a response code of "200"
