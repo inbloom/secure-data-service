@@ -65,17 +65,13 @@ public class DefaultUsersServiceTest {
         DefaultUser rrogers = users.get(1);
         assertEquals("linda.kim", lindaKim.getUserId());
         assertEquals("Linda Kim", lindaKim.getName());
-        assertNotNull(lindaKim.getRoles());
-        assertEquals(1, lindaKim.getRoles().size());
-        assertEquals("Educator", lindaKim.getRoles().get(0));
+        assertEquals("Educator", lindaKim.getRole());
         assertEquals("school", lindaKim.getAssociation());
         assertEquals("Teacher", lindaKim.getType());
 
         assertEquals("rrogers", rrogers.getUserId());
         assertEquals("Rick Rogers", rrogers.getName());
-        assertNotNull(rrogers.getRoles());
-        assertEquals(1, rrogers.getRoles().size());
-        assertEquals("IT Administrator", rrogers.getRoles().get(0));
+        assertEquals("IT Administrator", rrogers.getRole());
         assertEquals("sea", rrogers.getAssociation());
         assertEquals("Staff", rrogers.getType());
     }
