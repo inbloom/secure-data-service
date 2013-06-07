@@ -81,14 +81,25 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
    #Then each record in the full extract is present and matches the delta extract
 
   Scenario: Ingesting SEA (Non Odin) entities
-    And I ingest "SEAGradingPeriod.zip"
+    When I ingest "SEAGradingPeriod.zip"
+    And the extraction zone is empty
+    When I trigger a delta extract
+    When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+      |  entityType                            |
+      |  gradingPeriod                         |
+      |  calendarDate                          |
+    And I verify this "gradingPeriod" file should contain:
+      | id                                          | condition                                |
+      | aec59707feac8e68d9d4b780bef5547e934297dc_id | totalInstructionalDays = 180             |
+    And I ingest "SEAGradingPeriodUpdate.zip"
+    And the extraction zone is empty
     When I trigger a delta extract
     When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
       |  entityType                            |
       |  gradingPeriod                         |
     And I verify this "gradingPeriod" file should contain:
       | id                                          | condition                                |
-      | aec59707feac8e68d9d4b780bef5547e934297dc_id | beginDate = 2013-08-26                   |
+      | aec59707feac8e68d9d4b780bef5547e934297dc_id | totalInstructionalDays = 190             |
 
 Scenario: Triggering deltas via ingestion
   All entities belong to lea1 which is IL-DAYBREAK, we should only see a delta file for lea1
