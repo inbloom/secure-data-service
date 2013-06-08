@@ -9,9 +9,9 @@
     <description>Shared Learning Infrastructure</description>
     <url>http://sli.wgen.net</url>
     <scm>
-        <connection>scm:git:git@git.slidev.org:sli/sli.git</connection>
-        <developerConnection>scm:git:git@git.slidev.org:sli/sli.git</developerConnection>
-        <url>https://git.slidev.org/sli/sli</url>
+        <connection>scm:git:git@github.com:inbloomdev/datastore.git</connection>
+        <developerConnection>scm:git:git@github.com:inbloomdev/datastore.git</developerConnection>
+        <url>https://github.com/inbloomdev/datastore</url>
     </scm>
     <properties>
         <!-- Release process -->
