@@ -84,6 +84,25 @@ end
 
 
 #############################################################################################
+# Database Steps
+#############################################################################################
+
+When /^the SEOAAs have been updated in the database$/ do
+  conn = Mongo::Connection.new(PropLoader.getProps['DB_HOST'], PropLoader.getProps['DB_PORT'])
+  tenantName = 'Midgar'
+  dbTenant = conn.db(convertTenantIdToDbName(tenantName))
+  staffColl = dbTenant.collection("staff")
+  cgrayId = staffColl.find_one({"body.staffUniqueStateId" => "cgray"})["_id"]
+  rbravermanId = staffColl.find_one({"body.staffUniqueStateId" => "rbraverman"})["_id"]
+  seoaaColl = dbTenant.collection("staffEducationOrganizationAssociation")
+  seoaaColl.update({"body.staffReference" => cgrayId}, {"$set" => {"body.endDate" => "2008-07-07"}}, {:multi => true})
+  seoaaColl.update({"body.staffReference" => rbravermanId}, {"$set" => {"body.staffClassification" => "Janitor"}}, {:multi => true})
+end
+
+#############################################################################################
+
+
+#############################################################################################
 # API Steps
 #############################################################################################
 
