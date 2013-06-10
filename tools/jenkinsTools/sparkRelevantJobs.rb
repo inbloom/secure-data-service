@@ -35,6 +35,7 @@ require 'rest-client'
   "sli/acceptance-tests/test/features/databrowser" => ["databrowser"],
   "sli/acceptance-tests/test/features/dash" => ["dashboard"],
   "sli/acceptance-tests/test/features/odin" => ["odin", "jmeter"],
+  "sli/acceptance-tests/test/features/apiV1/contextual_roles" => ["contextual-role"],    
   "sli/acceptance-tests/test/features/ingestion/features/ingestion_dashboardSadPath.feature" => ["ingestion", "dashboard"],
   "sli/acceptance-tests/test/features/ingestion/test_data/DashboardSadPath_IL_Daybreak" => ["ingestion", "dashboard"],
   "sli/acceptance-tests/test/features/ingestion/test_data/DashboardSadPath_IL_Sunset" => ["ingestion", "dashboard"],
@@ -49,10 +50,10 @@ require 'rest-client'
   "sli/acceptance-tests/suites/bulk-extract.rake" => ["bulk-extract"],
   "sli/acceptance-tests/suites/ingestion.rake" => ["ingestion"],
   "sli/acceptance-tests/suites/dashboard.rake" => ["dashboard"],
-  "sli/api/" => ["api", "odin-api", "search-indexer", "jmeter", "admin", "sdk", "bulk-extract"],
-  "sli/simple-idp" => ["api", "odin-api", "admin", "sdk"],
+  "sli/api/" => ["api", "odin-api", "search-indexer", "jmeter", "admin", "sdk", "bulk-extract", "databrowser", "contextual-role"],
+  "sli/simple-idp" => ["api", "odin-api", "admin", "sdk", "contextual-role"],
   "sli/SDK" => ["admin", "dashboard", "sdk"],
-  "sli/data-access" => ["api", "odin-api", "ingestion", "bulk-extract"],
+  "sli/data-access" => ["api", "odin-api", "ingestion", "bulk-extract", "contextual-role"],
   "sli/domain" => ["api", "odin-api", "ingestion", "bulk-extract"],
   "sli/bulk-extract" => ["bulk-extract"],
   "sli/ingestion/ingestion-core" => ["ingestion", "odin"],
@@ -77,7 +78,8 @@ require 'rest-client'
   "odin" => "#{@jenkinsHostname}:8080/view/Components/job/Odin-DataGeneration-Tests/buildWithParameters",
   "jmeter" => "#{@jenkinsHostname}:8080/view/Components/job/NTS%20JMeter%20API%20Performance/buildWithParameters",
   "odin-api" => "#{@jenkinsHostname}:8080/view/Components/job/API_Odin_Tests/buildWithParameters",
-  "bulk-extract" => "#{@jenkinsHostname}:8080/view/Components/job/Bulk-Extract%20Tests/buildWithParameters"
+  "bulk-extract" => "#{@jenkinsHostname}:8080/view/Components/job/Bulk-Extract%20Tests/buildWithParameters",
+  "contextual-role" => "#{@jenkinsHostname}:8080/view/Components/job/API_Contextual_Roles/buildWithParameters"
 }
 
 ################## Helpers and Input Parsing ###########################
