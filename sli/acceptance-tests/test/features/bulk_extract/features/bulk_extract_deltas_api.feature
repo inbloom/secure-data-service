@@ -69,7 +69,7 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
      And The "competencyLevelDescriptor" delta was extracted in the same format as the api
      And The "studentCompetencyObjective" delta was extracted in the same format as the api
      And The "program" delta was extracted in the same format as the api
- 
+
   Given I trigger a bulk extract
    When I set the header format to "application/x-tar"
    Then I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -347,16 +347,16 @@ Scenario: Triggering deltas via ingestion
 
        #us5781 delta lea
        #| b43a7313ed0eaf7a6e71389b5cc64eb9e0ca0f2a_id | entityType =calendarDate                 |
- 
+
  	   #this create calendarDate
        #| 356a441384ea905a4e01d5acebb25f7c42b7e0bd_id | body.date = 2022-06-04                   |
-      #And I verify this "calendarDate" file should contain: 
+      #And I verify this "calendarDate" file should contain:
        #this is calendarDate IL-DAYBREAK, which has updated information
        #| id                                          | condition                                |
        #| 314b6e5f4d1f365891a1189767b7d2953d11ee46_id | body.calendarEvent = Instructional day   |
        #| 356a441384ea905a4e01d5acebb25f7c42b7e0bd_id | body.date = 2022-06-04                   |
-              
-     And I verify this "student" file should contain: 
+
+     And I verify this "student" file should contain:
        #this is student 11, which has updated information
        | id                                          | condition                                |
        | 9be61921ddf0bcd3d58fb99d4e9c454ef5707eb7_id | studentUniqueStateId = 11                |
@@ -747,23 +747,52 @@ Given I clean the bulk extract file system and database
     #| newDisciplineAction            |  disciplineAction                      |  201         |
     #| newStudentDiscIncidentAssoc    |  studentDisciplineIncidentAssociation  |  201         |
     #| newGraduationPlan              |  graduationPlan                        |  201         |
+    | newGradingPeriod               |  gradingPeriod                         |  201         |
+    | newLearningObjective           |  learningObjective                     |  201         |
+    | newLearningStandard            |  learningStandard                      |  201         |
+    | newCompetencyLevelDescriptor   |  competencyLevelDescriptor             |  201         |
+    | newStudentCompetencyObjective  |  studentCompetencyObjective            |  201         |
 
  When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And I generate and retrieve the bulk extract delta via API for "<STANDARD-SEA>"
   And I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
         |  entityType                            |
         |  program                               |
-        
+        |  gradingPeriod                         |
+        |  learningObjective                     |
+        |  learningStandard                      |
+        |  competencyLevelDescriptor             |
+        |  studentCompetencyObjective            |
   And I verify this "program" file should contain:
         | id                                          | condition                                |
         | 0ee2b448980b720b722706ec29a1492d95560798_id | programType = Regular Education          |
         | 0ee2b448980b720b722706ec29a1492d95560798_id | programId = 12345                        |
+  And I verify this "gradingPeriod" file should contain:
+        | id                                          | condition                                |
+        | 8feb483ade5d7b3b45c1e4b4a50d00302cba4548_id | endDate = 2014-05-22                     |
+  And I verify this "learningObjective" file should contain:
+        | id                                          | condition                                |
+        | bc2dd61ff2234eb25835dbebe22d674c8a10e963_id | description = Description                |
+  And I verify this "learningStandard" file should contain:
+        | id                                          | condition                                |
+        | 1bd6fea0e8b8ac6a8fe87a8530effbced0df9318_id | description = Description                |
+  And I verify this "competencyLevelDescriptor" file should contain:
+        | id                                          | condition                                |
+        | ceddd8ec0ee71c1f4f64218e00581e9b27c0fffb_id | description = Description                |
+  And I verify this "studentCompetencyObjective" file should contain:
+        | id                                          | condition                                |
+        | ef680988e7c411cdb5438ded373512cd59cbfa7b_id | description = Description                |
 
  When I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/json"
  Then I PATCH and validate the following entities:
-        |  field            |  entity                       |  value                                 |  returnCode  |
-        |  patchProgramType |  patchProgram                 |  Adult/Continuing Education            |  204         |
+        |  field                |  entity                          |  value                                 |  returnCode  |
+        |  patchProgramType     |  patchProgram                    |  Adult/Continuing Education            |  204         |
+        |  patchEndDate         |  patchGradingPeriod              |  2015-07-01                            |  204         |
+        |  patchDescription     |  patchLearningObjective          |  Patched description                   |  204         |
+        |  patchDescription     |  patchLearningStandard           |  Patched description                   |  204         |
+        |  patchDescription     |  patchCompetencyLevelDescriptor  |  Patched description                   |  204         |
+        |  patchDescription     |  patchStudentCompetencyObjective |  Patched description                   |  204         |
 
  Given the unpack directory is empty
  When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -771,10 +800,31 @@ Given I clean the bulk extract file system and database
    And I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
          |  entityType                            |
          |  program                               |
+         |  gradingPeriod                         |
+         |  learningObjective                     |
+         |  learningStandard                      |
+         |  competencyLevelDescriptor             |
+         |  studentCompetencyObjective            |
    And I verify this "program" file should contain:
          | id                                          | condition                                |
          | 0ee2b448980b720b722706ec29a1492d95560798_id | programType = Adult/Continuing Education |
          | 0ee2b448980b720b722706ec29a1492d95560798_id | programId = 12345                        |
+  And I verify this "gradingPeriod" file should contain:
+        | id                                          | condition                                |
+        | 8feb483ade5d7b3b45c1e4b4a50d00302cba4548_id | endDate = 2015-07-01                     |
+  And I verify this "learningObjective" file should contain:
+        | id                                          | condition                                |
+        | bc2dd61ff2234eb25835dbebe22d674c8a10e963_id | description = Patched description          |
+  And I verify this "learningStandard" file should contain:
+        | id                                          | condition                                |
+        | 1bd6fea0e8b8ac6a8fe87a8530effbced0df9318_id | description = Patched description          |
+  And I verify this "competencyLevelDescriptor" file should contain:
+        | id                                          | condition                                |
+        | ceddd8ec0ee71c1f4f64218e00581e9b27c0fffb_id | description = Patched description          |
+  And I verify this "studentCompetencyObjective" file should contain:
+        | id                                          | condition                                |
+        | ef680988e7c411cdb5438ded373512cd59cbfa7b_id | description = Patched description          |
+
  When I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
   And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
@@ -992,6 +1042,11 @@ Given I clean the bulk extract file system and database
     |  session                    |  227097db8525f4631d873837754633daf8bfcb22_id  |  204         |
     |  gradingPeriod              |  1dae9e8450e2e77dd0b06dee3fd928c1bfda4d49_id  |  204         |
     |  program                    |  0ee2b448980b720b722706ec29a1492d95560798_id  |  204         |
+    |  gradingPeriod              |  8feb483ade5d7b3b45c1e4b4a50d00302cba4548_id  |  204         |
+    |  learningObjective          |  bc2dd61ff2234eb25835dbebe22d674c8a10e963_id  |  204         |
+    |  learningStandard           |  1bd6fea0e8b8ac6a8fe87a8530effbced0df9318_id  |  204         |
+    |  competencyLevelDescriptor  |  ceddd8ec0ee71c1f4f64218e00581e9b27c0fffb_id  |  204         |
+    |  studentCompetencyObjective |  ef680988e7c411cdb5438ded373512cd59cbfa7b_id  |  204         |
 
  Given the extraction zone is empty
   When I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -1036,6 +1091,11 @@ Given I clean the bulk extract file system and database
   And I verify this "deleted" file should contain:
        | id                                          | condition                                |
        | 0ee2b448980b720b722706ec29a1492d95560798_id | entityType = program                     |
+       | 8feb483ade5d7b3b45c1e4b4a50d00302cba4548_id | entityType = gradingPeriod               |
+       | bc2dd61ff2234eb25835dbebe22d674c8a10e963_id | entityType = learningObjective           |
+       | 1bd6fea0e8b8ac6a8fe87a8530effbced0df9318_id | entityType = learningStandard            |
+       | ceddd8ec0ee71c1f4f64218e00581e9b27c0fffb_id | entityType = competencyLevelDescriptor   |
+       | ef680988e7c411cdb5438ded373512cd59cbfa7b_id | entityType = studentCompetencyObjective  |
 
 Scenario: Delete student and stuSchAssoc, re-post them, then delete just studentSchoolAssociations (leaving students), verify delete
 Given I clean the bulk extract file system and database

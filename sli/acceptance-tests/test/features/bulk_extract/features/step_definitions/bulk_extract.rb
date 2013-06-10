@@ -631,12 +631,19 @@ def getEntityEndpoint(entity)
       "courseOffering" => "courseOfferings",
       "seaCourse" => "educationOrganizations/884daa27d806c2d725bc469b273d840493f84b4d_id/courses",
       "cohort" => "cohorts",
+      "competencyLevelDescriptor" => "competencyLevelDescriptor",
+      "patchCompetencyLevelDescriptor" => "competencyLevelDescriptor",
       "course" => "courses",
       "educationOrganization" => "educationOrganizations",
       "gradebookEntry" => "gradebookEntries",
       "grade" => "grades",
       "gradingPeriod" => "gradingPeriods",
+      "patchGradingPeriod" => "gradingPeriods",
       "invalidEntry" => "school",
+      "learningStandard" => "learningStandards",
+      "patchLearningStandard" => "learningStandards",
+      "learningObjective" => "learningObjectives",
+      "patchLearningObjective" => "learningObjectives",
       "newParentDad" => "parents",
       "newParentMom" => "parents",
       "orphanEdorg" => "educationOrganizations",
@@ -658,6 +665,8 @@ def getEntityEndpoint(entity)
       "studentAcademicRecord" => "studentAcademicRecords",
       "studentAssessment" => "studentAssessments",
       "studentCohortAssociation" => "studentCohortAssociations",
+      "studentCompetencyObjective" => "studentCompetencyObjectives",
+      "patchStudentCompetencyObjective" => "studentCompetencyObjectives",
       "studentSchoolAssociation" => "studentSchoolAssociations",
       "studentSectionAssociation" => "studentSectionAssociations",
       "studentParentAssociation" => "studentParentAssociations",
@@ -711,6 +720,11 @@ def getEntityBodyFromApi(entity, api_version, verb)
       "studentSectionAssociation" => "studentSectionAssociations",
       "teacherSchoolAssociation" => "teacherSchoolAssociations",
       "patchProgram" => "programs/0ee2b448980b720b722706ec29a1492d95560798_id",
+      "patchGradingPeriod" => "gradingPeriods/8feb483ade5d7b3b45c1e4b4a50d00302cba4548_id",
+      "patchLearningObjective" => "learningObjectives/bc2dd61ff2234eb25835dbebe22d674c8a10e963_id",
+      "patchLearningStandard" => "learningStandards/1bd6fea0e8b8ac6a8fe87a8530effbced0df9318_id",
+      "patchCompetencyLevelDescriptor" => "competencyLevelDescriptor/ceddd8ec0ee71c1f4f64218e00581e9b27c0fffb_id",
+      "patchStudentCompetencyObjective" => "studentCompetencyObjectives/ef680988e7c411cdb5438ded373512cd59cbfa7b_id"
   }
   # Perform GET request and verify we get a response and a response body
   restHttpGet("/#{api_version}/#{entity_to_uri_map[entity]}")
@@ -1041,10 +1055,10 @@ end
 
 Then /^each record in the full extract is present and matches the delta extract$/ do
   @fileDir = Dir.pwd + "/extract/unpack"
-                                                  
+
   # loop through the list of files in delta directory
   Dir.entries(@deltaDir).each do |deltaFile|
-        
+
     next if !deltaFile.include?("gz")
     next if deltaFile.include?("deleted")
     puts "DEBUG: Current delta file is #{deltaFile}"
@@ -2406,6 +2420,43 @@ def prepareBody(verb, value, response_map)
       },
       "newGraduationPlan" => {
 
+      },
+      "newGradingPeriod" => {
+        "endDate"=>"2014-05-22",
+        "gradingPeriodIdentity"=>{
+            "schoolYear"=>"2013-2014",
+            "gradingPeriod"=>"End of Year",
+            "schoolId"=>"884daa27d806c2d725bc469b273d840493f84b4d_id"
+        },
+        "entityType"=>"gradingPeriod",
+        "beginDate"=>"2013-07-20",
+        "totalInstructionalDays"=>180
+      },
+      "newLearningObjective" => {
+        "objectiveGradeLevel" => "Fourth grade",
+        "objective" => "New Generic Learning Objective 1",
+        "academicSubject" => "Writing",
+        "description" => "Description"
+      },
+      "newLearningStandard" => {
+        "subjectArea" => "Science",
+        "courseTitle" => "Science",
+        "contentStandard" => "State Standard",
+        "description" => "Description",
+        "learningStandardId" => { "identificationCode" => "NEW-LS-GK-1" },
+        "gradeLevel" => "Kindergarten"
+      },
+      "newCompetencyLevelDescriptor" => {
+        "description" => "Description",
+        "codeValue" => "NEW-CLD-CodeValue",
+        "performanceBaseConversion" => "Advanced"
+      },
+      "newStudentCompetencyObjective" => {
+        "objectiveGradeLevel" => "Kindergarten",
+        "objective" => "Phonemic Awareness",
+        "studentCompetencyObjectiveId" => "NEW-JS-K-1",
+        "description" => "Description",
+        "educationOrganizationId" => "884daa27d806c2d725bc469b273d840493f84b4d_id"
       }
     },
     "PATCH" => {
@@ -2433,6 +2484,12 @@ def prepareBody(verb, value, response_map)
       },
       "patchProgramType" => {
           "programType" => value
+      },
+      "patchEndDate" => {
+          "endDate" => value
+      },
+      "patchDescription" => {
+          "description" => value
       },
       "studentParentName" => {
         "name" => {
