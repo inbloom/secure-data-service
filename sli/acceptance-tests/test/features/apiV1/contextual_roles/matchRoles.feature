@@ -4,10 +4,11 @@ Feature: Match IDP roles with the ingested inBloom Roles during Authentication
          so that they are assigned correct roles by the inBloom system.
 
 Background: 
-  Given I have an open web browser
-  And the testing device app key has been created
-#  And I ingest the file SEOAA_Data.zip
+#  Given I have an open web browser
+#  And the testing device app key has been created
+#  And the SEOAAs have been updated in the database
 
+@wip
 Scenario: As a staff member, I can log in and see data for myself, if my roles match
   When I navigate to the API authorization endpoint with my client ID
   Then I select "Illinois Daybreak School District 4529" from the dropdown and click go

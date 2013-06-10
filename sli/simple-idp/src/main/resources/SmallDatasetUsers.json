@@ -3,119 +3,119 @@
     "userId": "cgray",
     "type": "staff",
     "name": "Charles Gray",
-    "roles": ["Educator"],
+    "role": "Educator",
     "association": "Daybreak Central High"
   },
   {
     "userId": "linda.kim",
     "type": "staff",
     "name": "Linda Kim",
-    "roles": ["Educator"],
+    "role": "Educator",
     "association": "East Daybreak Junior High"
   },
   {
     "userId": "rbraverman",
     "type": "staff",
     "name": "Rebecca Braverman",
-    "roles": ["Educator"],
+    "role": "Educator",
     "association": "South Daybreak Elementary"
   },
   {
     "userId": "demo",
     "type": "staff",
     "name": "Johnny Admin",
-    "roles": ["IT Administrator"],
+    "role": "IT Administrator",
     "association": "IL-DAYBREAK"
   },
   {
     "userId": "sampleUser",
     "type": "staff",
     "name": "Billy Admin",
-    "roles": ["IT Administrator"],
+    "role": "IT Administrator",
     "association": ""
   },
   {
     "userId": "mgonzales",
     "type": "staff",
     "name": "Maria Gonzales",
-    "roles": ["Leader"],
+    "role": "Leader",
     "association": "South Daybreak Elementary"
   },
   {
     "userId": "akopel",
     "type": "staff",
     "name": "Amy Kopel",
-    "roles": ["IT Administrator"],
+    "role": "IT Administrator",
     "association": "South Daybreak Elementary"
   },
   {
     "userId": "msmith",
     "type": "staff",
     "name": "Mary Smith",
-    "roles": ["Aggregate Viewer"],
+    "role": "Aggregate Viewer",
     "association": "South Daybreak Elementary"
   },
   {
     "userId": "ckoch",
     "type": "staff",
     "name": "Christopher Koch",
-    "roles": ["Leader"],
+    "role": "Leader",
     "association": "STANDARD-SEA"
   },
   {
     "userId": "rrogers",
     "type": "staff",
     "name": "Rick Rogers",
-    "roles": ["IT Administrator"],
+    "role": "IT Administrator",
     "association": "STANDARD-SEA"
   },
   {
     "userId": "mjohnson",
     "type": "staff",
     "name": "Michael Johnson",
-    "roles": ["Aggregate Viewer"],
+    "role": "Aggregate Viewer",
     "association": "STANDARD-SEA"
   },
   {
     "userId": "sbantu",
     "type": "staff",
     "name": "Susan Bantu",
-    "roles": ["Leader"],
+    "role": "Leader",
     "association": "IL-DAYBREAK"
   },
   {
     "userId": "jstevenson",
     "type": "staff",
     "name": "James Stevenson",
-    "roles": ["IT Administrator"],
+    "role": "IT Administrator",
     "association": "IL-DAYBREAK"
   },
   {
     "userId": "jjackson",
     "type": "staff",
     "name": "Jack Jackson",
-    "roles": ["Aggregate Viewer"],
+    "role": "Aggregate Viewer",
     "association": "IL-DAYBREAK"
   },
   {
     "userId": "800000025",
     "type": "student",
     "name": "Matt Sollars",
-    "roles": ["Student"],
+    "role": "Student",
     "association": "East Daybreak Junior High"
   },
   {
     "userId": "100000017",
     "type": "student",
     "name": "Mi-Ha Tran",
-    "roles": ["Student"],
+    "role": "Student",
     "association": "South Daybreak Elementary"
   },
   {
     "userId": "900000016",
     "type": "student",
     "name": "Carmen Ortiz",
-    "roles": ["Student"],
+    "role": "Student",
     "association": "Daybreak Central High"
   }
 ]
