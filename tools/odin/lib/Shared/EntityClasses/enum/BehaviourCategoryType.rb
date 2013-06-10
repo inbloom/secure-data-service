@@ -18,8 +18,8 @@ limitations under the License.
 
 require_relative 'Enum.rb'
 
-# Enumerates the types of behaviour categories. From Ed-Fi-Core.xsd:
-# <xs:simpleType name="BehaviorCategoryType">
+# Enumerates the types of behaviour categories. From SLI-Ed-Fi-Core.xsd:
+# <xs:simpleType name="SLC-BehaviorCategoryType">
 #   <xs:annotation>
 #     <xs:documentation>Enumeration items defining the categories of behavior coded for use in describing an incident.</xs:documentation>
 #   </xs:annotation>
@@ -28,6 +28,7 @@ require_relative 'Enum.rb'
 #     <xs:enumeration value="State Offense"/>
 #     <xs:enumeration value="School Violation"/>
 #     <xs:enumeration value="School Code of Conduct"/>
+#     <xs:enumeration value="Other"/>
 #   </xs:restriction>
 # </xs:simpleType>
 class BehaviourCategoryType
@@ -37,4 +38,5 @@ class BehaviourCategoryType
   BehaviourCategoryType.define :SCHOOL_VIOLATION, "School Violation"
   BehaviourCategoryType.define :STATE_LAW_CRIME, "State Law Crime"
   BehaviourCategoryType.define :STATE_OFFENSE, "State Offense"
+  BehaviourCategoryType.define :OTHER, "Other"
 end

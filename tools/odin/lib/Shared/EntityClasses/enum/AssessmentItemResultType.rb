@@ -18,8 +18,8 @@ limitations under the License.
 
 require_relative 'Enum.rb'
 
-# Enumerates the types of assessment item results. From Ed-Fi-Core.xsd:
-# <xs:simpleType name="AssessmentItemResultType">
+# Enumerates the types of assessment item results. From SLI-Ed-Fi-Core.xsd:
+# <xs:simpleType name="SLC-AssessmentItemResultType">
 #   <xs:annotation>
 #     <xs:documentation>The analyzed result of a student's response to an assessment item.. For example:
 #     Correct
@@ -32,6 +32,7 @@ require_relative 'Enum.rb'
 #     <xs:enumeration value="Correct"/>
 #     <xs:enumeration value="Incorrect"/>
 #     <xs:enumeration value="Met standard"/>
+#     <xs:enumeration value="Did not meet standard"/>
 #   </xs:restriction>
 # </xs:simpleType>
 class AssessmentItemResultType
@@ -40,4 +41,5 @@ class AssessmentItemResultType
   AssessmentItemResultType.define :CORRECT, "Correct"
   AssessmentItemResultType.define :INCORRECT, "Incorrect"
   AssessmentItemResultType.define :MET_STANDARD, "Met standard"
+  AssessmentItemResultType.define :DID_NOT_MEET_STANDARD, "Did not meet standard"
 end

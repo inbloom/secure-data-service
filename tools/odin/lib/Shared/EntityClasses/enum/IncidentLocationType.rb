@@ -18,8 +18,8 @@ limitations under the License.
 
 require_relative 'Enum.rb'
 
-# Enumerates the types of incident locations. From Ed-Fi-Core.xsd:
-# <xs:simpleType name="IncidentLocationType">
+# Enumerates the types of incident locations. From SLI-Ed-Fi-Core.xsd:
+# <xs:simpleType name="SLC-IncidentLocationType">
 #   <xs:annotation>
 #     <xs:documentation>Identifies where the incident occurred and whether or not it occurred on school.</xs:documentation>
 #   </xs:annotation>
@@ -47,6 +47,7 @@ require_relative 'Enum.rb'
 #     <xs:enumeration value="Off-School at other school district facility"/>
 #     <xs:enumeration value="Online"/>
 #     <xs:enumeration value="Unknown"/>
+#     <xs:enumeration value="Other"/>
 #   </xs:restriction>
 # </xs:simpleType>
 class IncidentLocationType
@@ -75,4 +76,5 @@ class IncidentLocationType
   IncidentLocationType.define :STADIUM, "Stadium"
   IncidentLocationType.define :UNKNOWN, "Unknown"
   IncidentLocationType.define :WALKING_TO_OR_FROM_SCHOOL, "Walking to or from school"
+  IncidentLocationType.define :OTHER, "Other"
 end
