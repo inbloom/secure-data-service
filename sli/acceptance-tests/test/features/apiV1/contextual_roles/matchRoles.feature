@@ -4,11 +4,10 @@ Feature: Match IDP roles with the ingested inBloom Roles during Authentication
          so that they are assigned correct roles by the inBloom system.
 
 Background: 
-#  Given I have an open web browser
-#  And the testing device app key has been created
-#  And the SEOAAs have been updated in the database
+  Given I have an open web browser
+  And the testing device app key has been created
+  And the SEOAAs have been updated in the database
 
-@wip
 Scenario: As a staff member, I can log in and see data for myself, if my roles match
   When I navigate to the API authorization endpoint with my client ID
   Then I select "Illinois Daybreak School District 4529" from the dropdown and click go
@@ -24,15 +23,13 @@ Scenario: As a staff member, I can log in and see data for myself, if my roles m
       Then I should get and store the link named "self"
       And I should extract the "teachers" id from the "self" URI
 
-@wip
-Scenario: As a staff member, I cannot log in, if my role is expired
+Scenario: As a staff member, I cannot log in, if my roles are expired
   When I navigate to the API authorization endpoint with my client ID
   Then I select "Illinois Daybreak School District 4529" from the dropdown and click go
     And I was redirected to the "Simple" IDP Login page
     And I submit the credentials "cgray" "cgray1234" for the "Simple" login page
       Then I should receive a response page with http error code 403
 
-@wip
 Scenario: As a staff member, I cannot log in, if my roles do not match
   When I navigate to the API authorization endpoint with my client ID
   Then I select "Illinois Daybreak School District 4529" from the dropdown and click go
