@@ -14,16 +14,17 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.domain.Entity;
 
 
 /**
@@ -100,7 +101,7 @@ public class GenericToCohortValidatorTest {
 		Set<String> cohortIds = new HashSet<String>();
 		List<String> successes = new ArrayList<String>();
 		for (String desc : descs) {
-			if(Math.random()>0.5) {
+            if (desc.endsWith("y")) {
 				cohortIds.add(this.generateCohort(USER_ID, desc));
 			}
 			else {
