@@ -562,6 +562,25 @@ public class SamlFederationResource {
         return seoaRoles;
     }
 
+    /**
+     * Builds a map of the users roles for each associated edorg.
+     * @param seoas set of seoa entities
+     * @return a map of edorg to roles
+     */
+    protected Map<String, Set<String>> buildEdOrgContextualRoles(Set<Entity> seoas) {
+        Map<String, Set<String>> edOrgRoles = new HashMap<String, Set<String>>();
+        if (seoas != null) {
+            for (Entity seoa : seoas) {
+                String edOrgId = (String) seoa.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE);
+                if (edOrgRoles.get(edOrgId) == null) {
+                    edOrgRoles.put(edOrgId, new HashSet<String>());
+                }
+                edOrgRoles.get(edOrgId).add((String) seoa.getBody().get(ParameterConstants.STAFF_EDORG_ASSOC_STAFF_CLASSIFICATION));
+            }
+        }
+        return edOrgRoles;
+    }
+
     private Set<String> filterRoles(Iterable<Entity> SEOAEntities, Set<String> samlRoleSet, Date expirationDate) {
         Set<String> seoaRoles = new HashSet<String>();
 

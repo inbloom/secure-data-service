@@ -36,9 +36,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.test.context.ContextConfiguration;
@@ -50,7 +48,6 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.domain.Repository;
 
 /**
  * Unit tests for the Saml Federation Resource class.
@@ -136,6 +133,41 @@ public class SamlFederationResourceTest {
         return seoa;
     }
 
+    @Test
+    public void testBuildEdOrgContextualRoles () {
+        Set<Entity> seoas = new HashSet<Entity>();
+        seoas.add(createSEOA("LEA1", "IT Admin"));
+        seoas.add(createSEOA("LEA1", "Educator"));
+
+        seoas.add(createSEOA("LEA2", "Educator"));
+        seoas.add(createSEOA("LEA2", "Educator"));
+
+        Map<String, Set<String>> edOrgRoles = resource.buildEdOrgContextualRoles(seoas);
+
+        Assert.assertNotNull(edOrgRoles);
+        Assert.assertEquals(2,edOrgRoles.size());
+
+        Set<String> edOrg1Roles = edOrgRoles.get("LEA1");
+        Assert.assertNotNull(edOrg1Roles);
+        Assert.assertEquals(2, edOrg1Roles.size());
+        Assert.assertTrue(edOrg1Roles.contains("IT Admin"));
+        Assert.assertTrue(edOrg1Roles.contains("Educator"));
+
+        Set<String> edOrg2Roles = edOrgRoles.get("LEA2");
+        Assert.assertNotNull(edOrg2Roles);
+        Assert.assertEquals(1, edOrg2Roles.size());
+        Assert.assertTrue(edOrg2Roles.contains("Educator"));
+
+    }
+
+    @Test
+    public void testInvalidEdOrgRoles() {
+        Map<String, Set<String>> edOrgRoles = resource.buildEdOrgContextualRoles(null);
+
+        Assert.assertNotNull(edOrgRoles);
+        Assert.assertEquals(0,edOrgRoles.size());
+    }
+
     private Entity setupSEOAs() {
         Repository repo = resource.getRepository();
         Map<String, Object> staff = new HashMap<String, Object>();
@@ -155,6 +187,16 @@ public class SamlFederationResourceTest {
         repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, createSEOA("terminator", "edorg2", staffEntity.getEntityId(), null));
 
         return staffEntity;
+    }
+
+    private Entity createSEOA(String edorgId, String staffClassification) {
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put(ParameterConstants.STAFF_EDORG_ASSOC_STAFF_CLASSIFICATION, staffClassification);
+        body.put(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, edorgId);
+        body.put(ParameterConstants.STAFF_REFERENCE, "staff1");
+
+        return new MongoEntity(EntityNames.STAFF_ED_ORG_ASSOCIATION, "0", body, null);
+
     }
 
 }
