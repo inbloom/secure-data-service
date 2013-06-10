@@ -391,7 +391,10 @@ Scenario: SEA admin makes an api call to PATCH the SEA
   And I select "Daybreak Test Realm" and click go
   And I was redirected to the "Simple" IDP Login page
   When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
-  Then I get the id for the edorg "STANDARD-SEA"
+  Then I should receive a json response containing my authorization code
+  When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
+  Then I should receive a json response containing my authorization token
+  And I get the id for the edorg "STANDARD-SEA"
   When I PATCH the postalCode for the current edorg entity to 11999
   Then I should receive a return code of 204
 

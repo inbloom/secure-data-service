@@ -18,8 +18,8 @@ limitations under the License.
 
 require_relative 'Enum.rb'
 
-# Enumeration for types of schools. From Ed-Fi-Core.xsd:
-# <xs:simpleType name="SchoolCategoryItemType">
+# Enumeration for types of schools. From SLI-Ed-Fi-Core.xsd:
+# <xs:simpleType name="SLC-SchoolCategoryItemType">
 #   <xs:annotation>
 #     <xs:documentation>The category of school. For example: High School, Middle School, Elementary School</xs:documentation>
 #   </xs:annotation>
@@ -37,6 +37,7 @@ require_relative 'Enum.rb'
 #     <xs:enumeration value="Preschool/early childhood"/>
 #     <xs:enumeration value="Primary School"/>
 #     <xs:enumeration value="Intermediate School"/>
+#     <xs:enumeration value="Other"/>
 #   </xs:restriction>
 # </xs:simpleType>
 class SchoolCategory
@@ -54,4 +55,5 @@ class SchoolCategory
   SchoolCategory.define :PRIMARY, "Primary School"
   SchoolCategory.define :SECONDARY, "SecondarySchool"
   SchoolCategory.define :UNGRADED, "Ungraded"
+  SchoolCategory.define :OTHER, "Other"
 end

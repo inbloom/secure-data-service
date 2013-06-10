@@ -273,7 +273,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
         Set<String> matching = new HashSet<String>();
 
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
-                NeutralCriteria.OPERATOR_EQUAL, ids));
+                NeutralCriteria.CRITERIA_IN, ids));
         Iterable<Entity> entities = getRepo().findAll(type, query);
         if (entities != null) {
             for (Entity entity : entities) {

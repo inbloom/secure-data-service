@@ -318,14 +318,16 @@ public class SamlFederationResource {
             throw new AccessDeniedException("Invalid user. No roles specified for user.");
         }
 
+        /*
         if(!(isAdminRealm || isDevRealm) && principal.getUserType().equals(EntityNames.STAFF)) {
-            Set<String> smalRoleSet = new HashSet<String>(roles);
-            Set<String> matchedRoles = matchRoles(principal.getEntity().getEntityId(), smalRoleSet, new Date());
+            Set<String> samlRoleSet = new HashSet<String>(roles);
+            Set<String> matchedRoles = matchRoles(principal.getEntity().getEntityId(), samlRoleSet, new Date());
             if(matchedRoles == null || matchedRoles.isEmpty()) {
                 error("Attempted login by a user that did not include any valid roles in the SAML Assertion.");
                 throw new AccessDeniedException("Invalid user. No valid roles specified for user.");
             }
         }
+        */
 
         principal.setRealm(realm.getEntityId());
         principal.setEdOrg(attributes.getFirst("edOrg"));
@@ -541,7 +543,7 @@ public class SamlFederationResource {
         return true;
     }
 
-    protected Set<String> matchRoles(String staffId, Set<String> smalRoleSet, Date expirationDate) {
+    protected Set<String> matchRoles(String staffId, Set<String>smalRoleSet, Date expirationDate) {
         Set<String> seoaRoles = new HashSet<String>();
 
         if (staffId == null) {
@@ -560,7 +562,7 @@ public class SamlFederationResource {
         return seoaRoles;
     }
 
-    private Set<String> filterRoles(Iterable<Entity> SEOAEntities, Set<String> smalRoleSet, Date expirationDate) {
+    private Set<String> filterRoles(Iterable<Entity> SEOAEntities, Set<String> samlRoleSet, Date expirationDate) {
         Set<String> seoaRoles = new HashSet<String>();
 
         for(Entity seoa : SEOAEntities) {
@@ -576,10 +578,9 @@ public class SamlFederationResource {
             }
             if(endDate == null || endDate.after(expirationDate) || endDate.equals(expirationDate)) {
                 String role = (String) seoa.getBody().get(ParameterConstants.STAFF_EDORG_ASSOC_STAFF_CLASSIFICATION);
-                if(!smalRoleSet.contains(role)) {
-                    continue;
+                if(samlRoleSet.contains(role)) {
+                    seoaRoles.add(role);
                 }
-                seoaRoles.add(role);
             }
         }
 

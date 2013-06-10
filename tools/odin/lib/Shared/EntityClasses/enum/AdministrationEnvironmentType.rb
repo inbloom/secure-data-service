@@ -18,8 +18,8 @@ limitations under the License.
 
 require_relative 'Enum.rb'
 
-# Enumerates the types of administration environments. From Ed-Fi-Core.xsd:
-# <xs:simpleType name="AdministrationEnvironmentType">
+# Enumerates the types of administration environments. From SLI-Ed-Fi-Core.xsd:
+# <xs:simpleType name="SLC-AdministrationEnvironmentType">
 #   <xs:annotation>
 #     <xs:documentation>The environment in which the test was administered.  For example:
 #     Electronic
@@ -32,6 +32,7 @@ require_relative 'Enum.rb'
 #     <xs:enumeration value="Classroom"/>
 #     <xs:enumeration value="School"/>
 #     <xs:enumeration value="Testing Center"/>
+#     <xs:enumeration value="Other"/>
 #   </xs:restriction>
 # </xs:simpleType>
 class AdministrationEnvironmentType
@@ -40,4 +41,5 @@ class AdministrationEnvironmentType
   AdministrationEnvironmentType.define :CLASSROOM, "Classroom"
   AdministrationEnvironmentType.define :SCHOOL, "School"
   AdministrationEnvironmentType.define :TESTING_CENTER, "Testing Center"
+  AdministrationEnvironmentType.define :OTHER, "Other"
 end

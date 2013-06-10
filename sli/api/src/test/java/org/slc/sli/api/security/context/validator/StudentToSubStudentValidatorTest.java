@@ -16,6 +16,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+import java.util.Arrays;
+import java.util.HashSet;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
@@ -59,12 +62,45 @@ public class StudentToSubStudentValidatorTest extends TestCase {
 
     @Test
     public void testCanValidate() {
-        injector.setEducatorContext();
-        assertFalse(validator.canValidate(EntityNames.STUDENT_ASSESSMENT, true));
-        assertFalse(validator.canValidate(EntityNames.STUDENT_ASSESSMENT, false));
-        assertFalse(validator.canValidate(EntityNames.STUDENT_ACADEMIC_RECORD, true));
-        assertFalse(validator.canValidate(EntityNames.STUDENT_ACADEMIC_RECORD, false));
-        //injector.setStudentContext();
+        injector.setStudentContext(student1);
+        assertTrue(validator.canValidate(EntityNames.ATTENDANCE, true));
+        assertTrue(validator.canValidate(EntityNames.ATTENDANCE, false));
+        assertTrue(validator.canValidate(EntityNames.STUDENT_ASSESSMENT, true));
+        assertTrue(validator.canValidate(EntityNames.STUDENT_ASSESSMENT, false));
+        assertTrue(validator.canValidate(EntityNames.STUDENT_GRADEBOOK_ENTRY, true));
+        assertTrue(validator.canValidate(EntityNames.STUDENT_GRADEBOOK_ENTRY, false));
+        assertTrue(validator.canValidate(EntityNames.GRADE, true));
+        assertTrue(validator.canValidate(EntityNames.GRADE, false));
+        assertTrue(validator.canValidate(EntityNames.STUDENT_ACADEMIC_RECORD, true));
+        assertTrue(validator.canValidate(EntityNames.STUDENT_ACADEMIC_RECORD, false));
+        assertTrue(validator.canValidate(EntityNames.REPORT_CARD, true));
+        assertTrue(validator.canValidate(EntityNames.REPORT_CARD, false));
 
+        assertFalse(validator.canValidate(EntityNames.STUDENT, false));
+        assertFalse(validator.canValidate(EntityNames.PARENT, true));
+        assertFalse(validator.canValidate(EntityNames.EDUCATION_ORGANIZATION, false));
+        assertFalse(validator.canValidate(EntityNames.STAFF, true));
+        assertFalse(validator.canValidate(EntityNames.DISCIPLINE_ACTION, false));
+        assertFalse(validator.canValidate(EntityNames.GRADUATION_PLAN, true));
+        assertFalse(validator.canValidate(EntityNames.PROGRAM, true));
     }
+
+    @Test
+    public void testValidateSingleEntity() {
+        injector.setStudentContext(student1);
+        assertTrue(validator.validate(EntityNames.ATTENDANCE, new HashSet<String>(Arrays.asList(attendance1.getEntityId()))));
+        assertTrue(validator.validate(EntityNames.STUDENT_ACADEMIC_RECORD, new HashSet<String>(Arrays.asList(studentAcademicRecord1.getEntityId()))));
+
+        injector.setStudentContext(student2);
+        assertTrue(validator.validate(EntityNames.ATTENDANCE, new HashSet<String>(Arrays.asList(attendance2.getEntityId()))));
+        assertTrue(validator.validate(EntityNames.STUDENT_ACADEMIC_RECORD, new HashSet<String>(Arrays.asList(studentAcademicRecord2.getEntityId()))));
+    }
+
+    @Test
+    public void testValidateNegativeHeterogeneousList() {
+        injector.setStudentContext(student1);
+        assertFalse(validator.validate(EntityNames.ATTENDANCE, new HashSet<String>(Arrays.asList(attendance1.getEntityId(),attendance2.getEntityId()))));
+        assertFalse(validator.validate(EntityNames.STUDENT_ACADEMIC_RECORD, new HashSet<String>(Arrays.asList(studentAcademicRecord1.getEntityId(), studentAcademicRecord2.getEntityId()))));
+    }
+
 }
