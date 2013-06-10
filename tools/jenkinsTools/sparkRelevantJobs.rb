@@ -49,7 +49,7 @@ require 'rest-client'
   "sli/acceptance-tests/suites/bulk-extract.rake" => ["bulk-extract"],
   "sli/acceptance-tests/suites/ingestion.rake" => ["ingestion"],
   "sli/acceptance-tests/suites/dashboard.rake" => ["dashboard"],
-  "sli/api/" => ["api", "odin-api", "search-indexer", "jmeter", "admin", "sdk", "bulk-extract"],
+  "sli/api/" => ["api", "odin-api", "search-indexer", "jmeter", "admin", "sdk", "bulk-extract", "databrowser"],
   "sli/simple-idp" => ["api", "odin-api", "admin", "sdk"],
   "sli/SDK" => ["admin", "dashboard", "sdk"],
   "sli/data-access" => ["api", "odin-api", "ingestion", "bulk-extract"],
