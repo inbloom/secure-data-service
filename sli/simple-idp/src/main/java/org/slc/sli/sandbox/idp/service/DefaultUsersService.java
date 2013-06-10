@@ -118,7 +118,7 @@ public class DefaultUsersService {
                 String userId = jsonUser.getString("userId");
                 String name = jsonUser.getString("name");
                 String type = jsonUser.getString("type");
-                List<String> role = jsonRoleToList(jsonUser);
+                String role = jsonUser.getString("role");
                 String association = jsonUser.getString("association");
                 DefaultUser user = new DefaultUser(userId, type, name, role, association);
                 users.add(user);
@@ -129,15 +129,6 @@ public class DefaultUsersService {
             LOG.error("JSONException building list of default sample dataset users", e);
         }
         return users;
-    }
-
-    private List<String> jsonRoleToList(JSONObject jsonUser) throws JSONException {
-        List<String> role = new ArrayList<String>();
-        JSONArray array = jsonUser.getJSONArray("roles");
-        for(int j = 0 ; j < array.length() ; j++){
-            role.add(array.getString(j));
-        }
-        return role;
     }
 
     private String readFile(String file) throws IOException {
@@ -186,14 +177,13 @@ public class DefaultUsersService {
      * DefaultUser information.
      */
     public static class DefaultUser {
-        private String userId, type, name, association;
-        private List<String> roles;
+        private String userId, type, name, role, association;
 
-        public DefaultUser(String userId, String type, String name, List<String> roles, String association) {
+        public DefaultUser(String userId, String type, String name, String role, String association) {
             this.userId = userId;
             this.type = type;
             this.name = name;
-            this.roles = roles;
+            this.role = role;
             this.association = association;
         }
 
@@ -209,8 +199,8 @@ public class DefaultUsersService {
             return type;
         }
 
-        public List<String> getRoles() {
-            return roles;
+        public String getRole() {
+            return role;
         }
 
         public String getAssociation() {
