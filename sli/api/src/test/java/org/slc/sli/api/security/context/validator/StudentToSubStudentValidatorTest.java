@@ -75,6 +75,8 @@ public class StudentToSubStudentValidatorTest extends TestCase {
         assertTrue(validator.canValidate(EntityNames.STUDENT_ACADEMIC_RECORD, false));
         assertTrue(validator.canValidate(EntityNames.REPORT_CARD, true));
         assertTrue(validator.canValidate(EntityNames.REPORT_CARD, false));
+        assertTrue(validator.canValidate(EntityNames.STUDENT_SCHOOL_ASSOCIATION, true));
+        assertTrue(validator.canValidate(EntityNames.STUDENT_SCHOOL_ASSOCIATION, false));
 
         assertFalse(validator.canValidate(EntityNames.STUDENT, false));
         assertFalse(validator.canValidate(EntityNames.PARENT, true));
