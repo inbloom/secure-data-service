@@ -2,4 +2,3 @@ edfi-xml,AssessmentMetadata,InterchangeAssessmentMetadata.xml,b938e3ac34bf0a7a6b
 edfi-xml,Attendance,InterchangeAttendance.xml,02d3082058485e34a276c51b921379f0
 edfi-xml,StudentEnrollment,InterchangeStudentEnrollment.xml,23ed28dd5166214207f527aa7f828411
 edfi-xml,StudentParent,InterchangeStudentParent.xml,c66f289e6c755bcf58424690c7f29e0b
-

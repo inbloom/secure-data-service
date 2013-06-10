@@ -49,49 +49,49 @@ public abstract class ReferrableResolver implements ContextResolver {
     }
     
     /**
-     * Return a list of LEAs IDs given the entity
+     * Return a list of edOrg IDs that have ownership of the given entity
      * 
      * @param an
      *            entity
      * @return a set of Strings which are IDs of the top level LEA
      */
-    public Set<String> findGoverningLEA(Entity entity) {
+    public Set<String> findGoverningEdOrgs(Entity entity) {
         LOG.debug("resolving {}", entity);
         if (entity == null || entity.getEntityId() == null) {
             return Collections.emptySet();
         }
         String id = entity.getEntityId();
         if (getCache().containsKey(id)) {
-            LOG.debug("got LEAs from cache for {}", entity);
+            LOG.debug("got edOrgs from cache for {}", entity);
             return getCache().get(id);
         }
         
-        Set<String> leas = resolve(entity);
+        Set<String> edOrgs = resolve(entity);
 
-        getCache().put(id, leas);
-        return leas;
+        getCache().put(id, edOrgs);
+        return edOrgs;
     }
     
     /**
-     * Find the governing LEAs based on the id
+     * Find the governing edOrgs based on the id
      * 
      * @param id
      *            the id of the entity to look up
-     * @return the list of leas
+     * @return the list of edOrgs
      */
-    public Set<String> findGoverningLEA(String id) {
+    public Set<String> findGoverningEdOrgs(String id) {
         if (id == null) {
             return Collections.emptySet();
         }
 
         if (getCache().containsKey(id)) {
-            LOG.debug("got LEAs from cache for {}", id);
+            LOG.debug("got edOrgs from cache for {}", id);
             return getCache().get(id);
         }
 
         Entity entity = getRepo().findOne(getCollection(), DeltaEntityIterator.buildQuery(getCollection(), id));
         if (entity != null) {
-            return findGoverningLEA(entity);
+            return findGoverningEdOrgs(entity);
         }
         
         return Collections.emptySet();

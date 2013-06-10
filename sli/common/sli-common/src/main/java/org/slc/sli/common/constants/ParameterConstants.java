@@ -208,4 +208,7 @@ public class ParameterConstants {
     public static final String ORGANIZATION_CATEGORIES = "organizationCategories";
 
     public static final String EDORGS_ARRAY = "edOrgs";
+
+    public static final String STAFF_EDORG_ASSOC_STAFF_CLASSIFICATION = "staffClassification";
+    public static final String STAFF_EDORG_ASSOC_END_DATE = "endDate";
 }

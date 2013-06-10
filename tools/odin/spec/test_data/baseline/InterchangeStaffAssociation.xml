@@ -1412,8 +1412,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Student Support Services Staff</StaffClassification>
-    <PositionTitle>Leader</PositionTitle>
+    <StaffClassification>Leader</StaffClassification>
+    <PositionTitle>Student Support Services Staff</PositionTitle>
     <BeginDate>2013-07-28</BeginDate>
     <EndDate>2014-06-22</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -1428,8 +1428,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Instructional Coordinator</StaffClassification>
-    <PositionTitle>Leader</PositionTitle>
+    <StaffClassification>Leader</StaffClassification>
+    <PositionTitle>Instructional Coordinator</PositionTitle>
     <BeginDate>2014-08-06</BeginDate>
     <EndDate>2015-07-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -1444,8 +1444,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Specialist/Consultant</StaffClassification>
-    <PositionTitle>Leader</PositionTitle>
+    <StaffClassification>Leader</StaffClassification>
+    <PositionTitle>Specialist/Consultant</PositionTitle>
     <BeginDate>2015-08-05</BeginDate>
     <EndDate>2016-07-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -1460,8 +1460,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Student Support Services Staff</StaffClassification>
-    <PositionTitle>IT Administrator</PositionTitle>
+    <StaffClassification>IT Administrator</StaffClassification>
+    <PositionTitle>Student Support Services Staff</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -1476,8 +1476,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Superintendent</StaffClassification>
-    <PositionTitle>IT Administrator</PositionTitle>
+    <StaffClassification>IT Administrator</StaffClassification>
+    <PositionTitle>Superintendent</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -1492,8 +1492,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Student Support Services Staff</StaffClassification>
-    <PositionTitle>IT Administrator</PositionTitle>
+    <StaffClassification>IT Administrator</StaffClassification>
+    <PositionTitle>Student Support Services Staff</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -1508,8 +1508,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Superintendent</StaffClassification>
-    <PositionTitle>Aggregate Viewer</PositionTitle>
+    <StaffClassification>Aggregate Viewer</StaffClassification>
+    <PositionTitle>Superintendent</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -1524,8 +1524,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Superintendent</StaffClassification>
-    <PositionTitle>Aggregate Viewer</PositionTitle>
+    <StaffClassification>Aggregate Viewer</StaffClassification>
+    <PositionTitle>Superintendent</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -1540,8 +1540,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Instructional Coordinator</StaffClassification>
-    <PositionTitle>Aggregate Viewer</PositionTitle>
+    <StaffClassification>Aggregate Viewer</StaffClassification>
+    <PositionTitle>Instructional Coordinator</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -1556,8 +1556,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Student Support Services Staff</StaffClassification>
-    <PositionTitle>COUNSELOR</PositionTitle>
+    <StaffClassification>COUNSELOR</StaffClassification>
+    <PositionTitle>Student Support Services Staff</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -1572,8 +1572,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Specialist/Consultant</StaffClassification>
-    <PositionTitle>COUNSELOR</PositionTitle>
+    <StaffClassification>COUNSELOR</StaffClassification>
+    <PositionTitle>Specialist/Consultant</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -1588,8 +1588,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Superintendent</StaffClassification>
-    <PositionTitle>COUNSELOR</PositionTitle>
+    <StaffClassification>COUNSELOR</StaffClassification>
+    <PositionTitle>Superintendent</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -1604,8 +1604,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Specialist/Consultant</StaffClassification>
-    <PositionTitle>INSTRUCTIONAL_COORDINATOR</PositionTitle>
+    <StaffClassification>INSTRUCTIONAL_COORDINATOR</StaffClassification>
+    <PositionTitle>Specialist/Consultant</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -1620,8 +1620,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Superintendent</StaffClassification>
-    <PositionTitle>INSTRUCTIONAL_COORDINATOR</PositionTitle>
+    <StaffClassification>INSTRUCTIONAL_COORDINATOR</StaffClassification>
+    <PositionTitle>Superintendent</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -1636,8 +1636,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Superintendent</StaffClassification>
-    <PositionTitle>INSTRUCTIONAL_COORDINATOR</PositionTitle>
+    <StaffClassification>INSTRUCTIONAL_COORDINATOR</StaffClassification>
+    <PositionTitle>Superintendent</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -1652,8 +1652,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Specialist/Consultant</StaffClassification>
-    <PositionTitle>SPECIALIST_CONSULTANT</PositionTitle>
+    <StaffClassification>SPECIALIST_CONSULTANT</StaffClassification>
+    <PositionTitle>Specialist/Consultant</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -1668,8 +1668,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Specialist/Consultant</StaffClassification>
-    <PositionTitle>SPECIALIST_CONSULTANT</PositionTitle>
+    <StaffClassification>SPECIALIST_CONSULTANT</StaffClassification>
+    <PositionTitle>Specialist/Consultant</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -1684,8 +1684,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Specialist/Consultant</StaffClassification>
-    <PositionTitle>SPECIALIST_CONSULTANT</PositionTitle>
+    <StaffClassification>SPECIALIST_CONSULTANT</StaffClassification>
+    <PositionTitle>Specialist/Consultant</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -1700,8 +1700,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Student Support Services Staff</StaffClassification>
-    <PositionTitle>STUDENT_SUPPORT_SERVICES_STAFF</PositionTitle>
+    <StaffClassification>STUDENT_SUPPORT_SERVICES_STAFF</StaffClassification>
+    <PositionTitle>Student Support Services Staff</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -1716,8 +1716,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Superintendent</StaffClassification>
-    <PositionTitle>STUDENT_SUPPORT_SERVICES_STAFF</PositionTitle>
+    <StaffClassification>STUDENT_SUPPORT_SERVICES_STAFF</StaffClassification>
+    <PositionTitle>Superintendent</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -1732,8 +1732,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Superintendent</StaffClassification>
-    <PositionTitle>STUDENT_SUPPORT_SERVICES_STAFF</PositionTitle>
+    <StaffClassification>STUDENT_SUPPORT_SERVICES_STAFF</StaffClassification>
+    <PositionTitle>Superintendent</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -1748,8 +1748,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Instructional Coordinator</StaffClassification>
-    <PositionTitle>SUPERINTENDENT</PositionTitle>
+    <StaffClassification>SUPERINTENDENT</StaffClassification>
+    <PositionTitle>Instructional Coordinator</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -1764,8 +1764,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Superintendent</StaffClassification>
-    <PositionTitle>SUPERINTENDENT</PositionTitle>
+    <StaffClassification>SUPERINTENDENT</StaffClassification>
+    <PositionTitle>Superintendent</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -1780,8 +1780,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Instructional Coordinator</StaffClassification>
-    <PositionTitle>SUPERINTENDENT</PositionTitle>
+    <StaffClassification>SUPERINTENDENT</StaffClassification>
+    <PositionTitle>Instructional Coordinator</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -1796,8 +1796,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Assistant Superintendent</StaffClassification>
-    <PositionTitle>IT Administrator</PositionTitle>
+    <StaffClassification>IT Administrator</StaffClassification>
+    <PositionTitle>Assistant Superintendent</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -1812,8 +1812,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>LEA System Administrator</StaffClassification>
-    <PositionTitle>IT Administrator</PositionTitle>
+    <StaffClassification>IT Administrator</StaffClassification>
+    <PositionTitle>LEA System Administrator</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -1828,8 +1828,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>LEA Administrator</StaffClassification>
-    <PositionTitle>IT Administrator</PositionTitle>
+    <StaffClassification>IT Administrator</StaffClassification>
+    <PositionTitle>LEA Administrator</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -1844,8 +1844,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>LEA Administrative Support Staff</StaffClassification>
-    <PositionTitle>IT Administrator</PositionTitle>
+    <StaffClassification>IT Administrator</StaffClassification>
+    <PositionTitle>LEA Administrative Support Staff</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -1860,8 +1860,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>LEA Specialist</StaffClassification>
-    <PositionTitle>IT Administrator</PositionTitle>
+    <StaffClassification>IT Administrator</StaffClassification>
+    <PositionTitle>LEA Specialist</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -1876,8 +1876,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>LEA System Administrator</StaffClassification>
-    <PositionTitle>IT Administrator</PositionTitle>
+    <StaffClassification>IT Administrator</StaffClassification>
+    <PositionTitle>LEA System Administrator</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -1892,8 +1892,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>LEA Administrator</StaffClassification>
-    <PositionTitle>Leader</PositionTitle>
+    <StaffClassification>Leader</StaffClassification>
+    <PositionTitle>LEA Administrator</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -1908,8 +1908,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Assistant Superintendent</StaffClassification>
-    <PositionTitle>Leader</PositionTitle>
+    <StaffClassification>Leader</StaffClassification>
+    <PositionTitle>Assistant Superintendent</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -1924,8 +1924,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>LEA Administrator</StaffClassification>
-    <PositionTitle>Leader</PositionTitle>
+    <StaffClassification>Leader</StaffClassification>
+    <PositionTitle>LEA Administrator</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -1940,8 +1940,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Assistant Superintendent</StaffClassification>
-    <PositionTitle>IT Administrator</PositionTitle>
+    <StaffClassification>IT Administrator</StaffClassification>
+    <PositionTitle>Assistant Superintendent</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -1956,8 +1956,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>LEA Administrator</StaffClassification>
-    <PositionTitle>IT Administrator</PositionTitle>
+    <StaffClassification>IT Administrator</StaffClassification>
+    <PositionTitle>LEA Administrator</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -1972,8 +1972,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>LEA Specialist</StaffClassification>
-    <PositionTitle>IT Administrator</PositionTitle>
+    <StaffClassification>IT Administrator</StaffClassification>
+    <PositionTitle>LEA Specialist</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -1988,8 +1988,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>LEA System Administrator</StaffClassification>
-    <PositionTitle>Aggregate Viewer</PositionTitle>
+    <StaffClassification>Aggregate Viewer</StaffClassification>
+    <PositionTitle>LEA System Administrator</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2004,8 +2004,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>LEA Specialist</StaffClassification>
-    <PositionTitle>Aggregate Viewer</PositionTitle>
+    <StaffClassification>Aggregate Viewer</StaffClassification>
+    <PositionTitle>LEA Specialist</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2020,8 +2020,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>LEA Administrator</StaffClassification>
-    <PositionTitle>Aggregate Viewer</PositionTitle>
+    <StaffClassification>Aggregate Viewer</StaffClassification>
+    <PositionTitle>LEA Administrator</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2036,8 +2036,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>LEA Specialist</StaffClassification>
-    <PositionTitle>ASSISTANT_SUPERINTENDENT</PositionTitle>
+    <StaffClassification>ASSISTANT_SUPERINTENDENT</StaffClassification>
+    <PositionTitle>LEA Specialist</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2052,8 +2052,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>LEA Administrator</StaffClassification>
-    <PositionTitle>ASSISTANT_SUPERINTENDENT</PositionTitle>
+    <StaffClassification>ASSISTANT_SUPERINTENDENT</StaffClassification>
+    <PositionTitle>LEA Administrator</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2068,8 +2068,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>LEA Specialist</StaffClassification>
-    <PositionTitle>ASSISTANT_SUPERINTENDENT</PositionTitle>
+    <StaffClassification>ASSISTANT_SUPERINTENDENT</StaffClassification>
+    <PositionTitle>LEA Specialist</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2084,8 +2084,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>LEA System Administrator</StaffClassification>
-    <PositionTitle>LEA_ADMINISTRATIVE_SUPPORT_STAFF</PositionTitle>
+    <StaffClassification>LEA_ADMINISTRATIVE_SUPPORT_STAFF</StaffClassification>
+    <PositionTitle>LEA System Administrator</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2100,8 +2100,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Assistant Superintendent</StaffClassification>
-    <PositionTitle>LEA_ADMINISTRATIVE_SUPPORT_STAFF</PositionTitle>
+    <StaffClassification>LEA_ADMINISTRATIVE_SUPPORT_STAFF</StaffClassification>
+    <PositionTitle>Assistant Superintendent</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2116,8 +2116,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>LEA Specialist</StaffClassification>
-    <PositionTitle>LEA_ADMINISTRATIVE_SUPPORT_STAFF</PositionTitle>
+    <StaffClassification>LEA_ADMINISTRATIVE_SUPPORT_STAFF</StaffClassification>
+    <PositionTitle>LEA Specialist</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2132,8 +2132,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>LEA System Administrator</StaffClassification>
-    <PositionTitle>LEA_ADMINISTRATOR</PositionTitle>
+    <StaffClassification>LEA_ADMINISTRATOR</StaffClassification>
+    <PositionTitle>LEA System Administrator</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2148,8 +2148,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Assistant Superintendent</StaffClassification>
-    <PositionTitle>LEA_ADMINISTRATOR</PositionTitle>
+    <StaffClassification>LEA_ADMINISTRATOR</StaffClassification>
+    <PositionTitle>Assistant Superintendent</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2164,8 +2164,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Assistant Superintendent</StaffClassification>
-    <PositionTitle>LEA_ADMINISTRATOR</PositionTitle>
+    <StaffClassification>LEA_ADMINISTRATOR</StaffClassification>
+    <PositionTitle>Assistant Superintendent</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2180,8 +2180,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Assistant Superintendent</StaffClassification>
-    <PositionTitle>LEA_SPECIALIST</PositionTitle>
+    <StaffClassification>LEA_SPECIALIST</StaffClassification>
+    <PositionTitle>Assistant Superintendent</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2196,8 +2196,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Assistant Superintendent</StaffClassification>
-    <PositionTitle>LEA_SPECIALIST</PositionTitle>
+    <StaffClassification>LEA_SPECIALIST</StaffClassification>
+    <PositionTitle>Assistant Superintendent</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2212,8 +2212,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>LEA Specialist</StaffClassification>
-    <PositionTitle>LEA_SPECIALIST</PositionTitle>
+    <StaffClassification>LEA_SPECIALIST</StaffClassification>
+    <PositionTitle>LEA Specialist</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2228,8 +2228,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>LEA Administrative Support Staff</StaffClassification>
-    <PositionTitle>LEA_SYSTEM_ADMINISTRATOR</PositionTitle>
+    <StaffClassification>LEA_SYSTEM_ADMINISTRATOR</StaffClassification>
+    <PositionTitle>LEA Administrative Support Staff</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2244,8 +2244,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>LEA Administrative Support Staff</StaffClassification>
-    <PositionTitle>LEA_SYSTEM_ADMINISTRATOR</PositionTitle>
+    <StaffClassification>LEA_SYSTEM_ADMINISTRATOR</StaffClassification>
+    <PositionTitle>LEA Administrative Support Staff</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2260,8 +2260,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>LEA System Administrator</StaffClassification>
-    <PositionTitle>LEA_SYSTEM_ADMINISTRATOR</PositionTitle>
+    <StaffClassification>LEA_SYSTEM_ADMINISTRATOR</StaffClassification>
+    <PositionTitle>LEA System Administrator</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2276,8 +2276,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>5</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>LEA Specialist</StaffClassification>
-    <PositionTitle>ASSISTANT_SUPERINTENDENT</PositionTitle>
+    <StaffClassification>ASSISTANT_SUPERINTENDENT</StaffClassification>
+    <PositionTitle>LEA Specialist</PositionTitle>
     <BeginDate>2013-08-30</BeginDate>
     <EndDate>2014-05-28</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2292,8 +2292,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>5</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>LEA System Administrator</StaffClassification>
-    <PositionTitle>ASSISTANT_SUPERINTENDENT</PositionTitle>
+    <StaffClassification>ASSISTANT_SUPERINTENDENT</StaffClassification>
+    <PositionTitle>LEA System Administrator</PositionTitle>
     <BeginDate>2014-08-29</BeginDate>
     <EndDate>2015-05-27</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2308,8 +2308,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>5</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>LEA Administrator</StaffClassification>
-    <PositionTitle>ASSISTANT_SUPERINTENDENT</PositionTitle>
+    <StaffClassification>ASSISTANT_SUPERINTENDENT</StaffClassification>
+    <PositionTitle>LEA Administrator</PositionTitle>
     <BeginDate>2015-09-09</BeginDate>
     <EndDate>2016-06-03</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2324,8 +2324,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>5</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>LEA Administrative Support Staff</StaffClassification>
-    <PositionTitle>LEA_ADMINISTRATIVE_SUPPORT_STAFF</PositionTitle>
+    <StaffClassification>LEA_ADMINISTRATIVE_SUPPORT_STAFF</StaffClassification>
+    <PositionTitle>LEA Administrative Support Staff</PositionTitle>
     <BeginDate>2013-08-30</BeginDate>
     <EndDate>2014-05-28</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2340,8 +2340,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>5</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>LEA Administrative Support Staff</StaffClassification>
-    <PositionTitle>LEA_ADMINISTRATIVE_SUPPORT_STAFF</PositionTitle>
+    <StaffClassification>LEA_ADMINISTRATIVE_SUPPORT_STAFF</StaffClassification>
+    <PositionTitle>LEA Administrative Support Staff</PositionTitle>
     <BeginDate>2014-08-29</BeginDate>
     <EndDate>2015-05-27</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2356,8 +2356,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>5</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>LEA Specialist</StaffClassification>
-    <PositionTitle>LEA_ADMINISTRATIVE_SUPPORT_STAFF</PositionTitle>
+    <StaffClassification>LEA_ADMINISTRATIVE_SUPPORT_STAFF</StaffClassification>
+    <PositionTitle>LEA Specialist</PositionTitle>
     <BeginDate>2015-09-09</BeginDate>
     <EndDate>2016-06-03</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2372,8 +2372,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>5</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>LEA Administrative Support Staff</StaffClassification>
-    <PositionTitle>LEA_ADMINISTRATOR</PositionTitle>
+    <StaffClassification>LEA_ADMINISTRATOR</StaffClassification>
+    <PositionTitle>LEA Administrative Support Staff</PositionTitle>
     <BeginDate>2013-08-30</BeginDate>
     <EndDate>2014-05-28</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2388,8 +2388,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>5</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>LEA Administrator</StaffClassification>
-    <PositionTitle>LEA_ADMINISTRATOR</PositionTitle>
+    <StaffClassification>LEA_ADMINISTRATOR</StaffClassification>
+    <PositionTitle>LEA Administrator</PositionTitle>
     <BeginDate>2014-08-29</BeginDate>
     <EndDate>2015-05-27</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2404,8 +2404,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>5</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>LEA Administrative Support Staff</StaffClassification>
-    <PositionTitle>LEA_ADMINISTRATOR</PositionTitle>
+    <StaffClassification>LEA_ADMINISTRATOR</StaffClassification>
+    <PositionTitle>LEA Administrative Support Staff</PositionTitle>
     <BeginDate>2015-09-09</BeginDate>
     <EndDate>2016-06-03</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2420,8 +2420,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>5</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>LEA Specialist</StaffClassification>
-    <PositionTitle>LEA_SPECIALIST</PositionTitle>
+    <StaffClassification>LEA_SPECIALIST</StaffClassification>
+    <PositionTitle>LEA Specialist</PositionTitle>
     <BeginDate>2013-08-30</BeginDate>
     <EndDate>2014-05-28</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2436,8 +2436,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>5</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>LEA Specialist</StaffClassification>
-    <PositionTitle>LEA_SPECIALIST</PositionTitle>
+    <StaffClassification>LEA_SPECIALIST</StaffClassification>
+    <PositionTitle>LEA Specialist</PositionTitle>
     <BeginDate>2014-08-29</BeginDate>
     <EndDate>2015-05-27</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2452,8 +2452,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>5</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>LEA Administrator</StaffClassification>
-    <PositionTitle>LEA_SPECIALIST</PositionTitle>
+    <StaffClassification>LEA_SPECIALIST</StaffClassification>
+    <PositionTitle>LEA Administrator</PositionTitle>
     <BeginDate>2015-09-09</BeginDate>
     <EndDate>2016-06-03</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2468,8 +2468,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>5</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Assistant Superintendent</StaffClassification>
-    <PositionTitle>LEA_SYSTEM_ADMINISTRATOR</PositionTitle>
+    <StaffClassification>LEA_SYSTEM_ADMINISTRATOR</StaffClassification>
+    <PositionTitle>Assistant Superintendent</PositionTitle>
     <BeginDate>2013-08-30</BeginDate>
     <EndDate>2014-05-28</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2484,8 +2484,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>5</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>LEA System Administrator</StaffClassification>
-    <PositionTitle>LEA_SYSTEM_ADMINISTRATOR</PositionTitle>
+    <StaffClassification>LEA_SYSTEM_ADMINISTRATOR</StaffClassification>
+    <PositionTitle>LEA System Administrator</PositionTitle>
     <BeginDate>2014-08-29</BeginDate>
     <EndDate>2015-05-27</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2500,8 +2500,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>5</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>LEA System Administrator</StaffClassification>
-    <PositionTitle>LEA_SYSTEM_ADMINISTRATOR</PositionTitle>
+    <StaffClassification>LEA_SYSTEM_ADMINISTRATOR</StaffClassification>
+    <PositionTitle>LEA System Administrator</PositionTitle>
     <BeginDate>2015-09-09</BeginDate>
     <EndDate>2016-06-03</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2516,8 +2516,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>School Nurse</StaffClassification>
-    <PositionTitle>Leader</PositionTitle>
+    <StaffClassification>Leader</StaffClassification>
+    <PositionTitle>School Nurse</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2532,8 +2532,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>High School Counselor</StaffClassification>
-    <PositionTitle>Leader</PositionTitle>
+    <StaffClassification>Leader</StaffClassification>
+    <PositionTitle>High School Counselor</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2548,8 +2548,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Instructional Aide</StaffClassification>
-    <PositionTitle>Leader</PositionTitle>
+    <StaffClassification>Leader</StaffClassification>
+    <PositionTitle>Instructional Aide</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2564,8 +2564,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>School Nurse</StaffClassification>
-    <PositionTitle>IT Administrator</PositionTitle>
+    <StaffClassification>IT Administrator</StaffClassification>
+    <PositionTitle>School Nurse</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2580,8 +2580,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Instructional Aide</StaffClassification>
-    <PositionTitle>IT Administrator</PositionTitle>
+    <StaffClassification>IT Administrator</StaffClassification>
+    <PositionTitle>Instructional Aide</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2596,8 +2596,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>High School Counselor</StaffClassification>
-    <PositionTitle>IT Administrator</PositionTitle>
+    <StaffClassification>IT Administrator</StaffClassification>
+    <PositionTitle>High School Counselor</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2612,8 +2612,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Instructional Aide</StaffClassification>
-    <PositionTitle>Aggregate Viewer</PositionTitle>
+    <StaffClassification>Aggregate Viewer</StaffClassification>
+    <PositionTitle>Instructional Aide</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2628,8 +2628,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Instructional Aide</StaffClassification>
-    <PositionTitle>Aggregate Viewer</PositionTitle>
+    <StaffClassification>Aggregate Viewer</StaffClassification>
+    <PositionTitle>Instructional Aide</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2644,8 +2644,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Assistant Principal</StaffClassification>
-    <PositionTitle>Aggregate Viewer</PositionTitle>
+    <StaffClassification>Aggregate Viewer</StaffClassification>
+    <PositionTitle>Assistant Principal</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2660,8 +2660,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Instructional Aide</StaffClassification>
-    <PositionTitle>ASSISTANT_PRINCIPAL</PositionTitle>
+    <StaffClassification>ASSISTANT_PRINCIPAL</StaffClassification>
+    <PositionTitle>Instructional Aide</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2676,8 +2676,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>School Administrator</StaffClassification>
-    <PositionTitle>ASSISTANT_PRINCIPAL</PositionTitle>
+    <StaffClassification>ASSISTANT_PRINCIPAL</StaffClassification>
+    <PositionTitle>School Administrator</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2692,8 +2692,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Instructional Aide</StaffClassification>
-    <PositionTitle>ASSISTANT_PRINCIPAL</PositionTitle>
+    <StaffClassification>ASSISTANT_PRINCIPAL</StaffClassification>
+    <PositionTitle>Instructional Aide</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2708,8 +2708,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>High School Counselor</StaffClassification>
-    <PositionTitle>ATHLETIC_TRAINER</PositionTitle>
+    <StaffClassification>ATHLETIC_TRAINER</StaffClassification>
+    <PositionTitle>High School Counselor</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2724,8 +2724,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Assistant Principal</StaffClassification>
-    <PositionTitle>ATHLETIC_TRAINER</PositionTitle>
+    <StaffClassification>ATHLETIC_TRAINER</StaffClassification>
+    <PositionTitle>Assistant Principal</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2740,8 +2740,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>High School Counselor</StaffClassification>
-    <PositionTitle>ATHLETIC_TRAINER</PositionTitle>
+    <StaffClassification>ATHLETIC_TRAINER</StaffClassification>
+    <PositionTitle>High School Counselor</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2756,8 +2756,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>High School Counselor</StaffClassification>
-    <PositionTitle>HIGH_SCHOOL_COUNSELOR</PositionTitle>
+    <StaffClassification>HIGH_SCHOOL_COUNSELOR</StaffClassification>
+    <PositionTitle>High School Counselor</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2772,8 +2772,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Librarian</StaffClassification>
-    <PositionTitle>HIGH_SCHOOL_COUNSELOR</PositionTitle>
+    <StaffClassification>HIGH_SCHOOL_COUNSELOR</StaffClassification>
+    <PositionTitle>Librarian</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2788,8 +2788,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Instructional Aide</StaffClassification>
-    <PositionTitle>HIGH_SCHOOL_COUNSELOR</PositionTitle>
+    <StaffClassification>HIGH_SCHOOL_COUNSELOR</StaffClassification>
+    <PositionTitle>Instructional Aide</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2804,8 +2804,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Librarian</StaffClassification>
-    <PositionTitle>INSTRUCTIONAL_AIDE</PositionTitle>
+    <StaffClassification>INSTRUCTIONAL_AIDE</StaffClassification>
+    <PositionTitle>Librarian</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2820,8 +2820,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>High School Counselor</StaffClassification>
-    <PositionTitle>INSTRUCTIONAL_AIDE</PositionTitle>
+    <StaffClassification>INSTRUCTIONAL_AIDE</StaffClassification>
+    <PositionTitle>High School Counselor</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2836,8 +2836,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Librarian</StaffClassification>
-    <PositionTitle>INSTRUCTIONAL_AIDE</PositionTitle>
+    <StaffClassification>INSTRUCTIONAL_AIDE</StaffClassification>
+    <PositionTitle>Librarian</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2852,8 +2852,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Athletic Trainer</StaffClassification>
-    <PositionTitle>LIBRARIAN</PositionTitle>
+    <StaffClassification>LIBRARIAN</StaffClassification>
+    <PositionTitle>Athletic Trainer</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2868,8 +2868,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Athletic Trainer</StaffClassification>
-    <PositionTitle>LIBRARIAN</PositionTitle>
+    <StaffClassification>LIBRARIAN</StaffClassification>
+    <PositionTitle>Athletic Trainer</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2884,8 +2884,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Instructional Aide</StaffClassification>
-    <PositionTitle>LIBRARIAN</PositionTitle>
+    <StaffClassification>LIBRARIAN</StaffClassification>
+    <PositionTitle>Instructional Aide</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2900,8 +2900,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Librarian</StaffClassification>
-    <PositionTitle>PRINCIPAL</PositionTitle>
+    <StaffClassification>PRINCIPAL</StaffClassification>
+    <PositionTitle>Librarian</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2916,8 +2916,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Librarian</StaffClassification>
-    <PositionTitle>PRINCIPAL</PositionTitle>
+    <StaffClassification>PRINCIPAL</StaffClassification>
+    <PositionTitle>Librarian</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2932,8 +2932,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Instructional Aide</StaffClassification>
-    <PositionTitle>PRINCIPAL</PositionTitle>
+    <StaffClassification>PRINCIPAL</StaffClassification>
+    <PositionTitle>Instructional Aide</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2948,8 +2948,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>High School Counselor</StaffClassification>
-    <PositionTitle>SCHOOL_ADMINISTRATOR</PositionTitle>
+    <StaffClassification>SCHOOL_ADMINISTRATOR</StaffClassification>
+    <PositionTitle>High School Counselor</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2964,8 +2964,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Principal</StaffClassification>
-    <PositionTitle>SCHOOL_ADMINISTRATOR</PositionTitle>
+    <StaffClassification>SCHOOL_ADMINISTRATOR</StaffClassification>
+    <PositionTitle>Principal</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2980,8 +2980,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>School Administrator</StaffClassification>
-    <PositionTitle>SCHOOL_ADMINISTRATOR</PositionTitle>
+    <StaffClassification>SCHOOL_ADMINISTRATOR</StaffClassification>
+    <PositionTitle>School Administrator</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -2996,8 +2996,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Athletic Trainer</StaffClassification>
-    <PositionTitle>SCHOOL_NURSE</PositionTitle>
+    <StaffClassification>SCHOOL_NURSE</StaffClassification>
+    <PositionTitle>Athletic Trainer</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3012,8 +3012,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Athletic Trainer</StaffClassification>
-    <PositionTitle>SCHOOL_NURSE</PositionTitle>
+    <StaffClassification>SCHOOL_NURSE</StaffClassification>
+    <PositionTitle>Athletic Trainer</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3028,8 +3028,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>High School Counselor</StaffClassification>
-    <PositionTitle>SCHOOL_NURSE</PositionTitle>
+    <StaffClassification>SCHOOL_NURSE</StaffClassification>
+    <PositionTitle>High School Counselor</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3044,8 +3044,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Principal</StaffClassification>
-    <PositionTitle>ASSISTANT_PRINCIPAL</PositionTitle>
+    <StaffClassification>ASSISTANT_PRINCIPAL</StaffClassification>
+    <PositionTitle>Principal</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3060,8 +3060,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Athletic Trainer</StaffClassification>
-    <PositionTitle>ASSISTANT_PRINCIPAL</PositionTitle>
+    <StaffClassification>ASSISTANT_PRINCIPAL</StaffClassification>
+    <PositionTitle>Athletic Trainer</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3076,8 +3076,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Assistant Principal</StaffClassification>
-    <PositionTitle>ASSISTANT_PRINCIPAL</PositionTitle>
+    <StaffClassification>ASSISTANT_PRINCIPAL</StaffClassification>
+    <PositionTitle>Assistant Principal</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3092,8 +3092,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Athletic Trainer</StaffClassification>
-    <PositionTitle>ATHLETIC_TRAINER</PositionTitle>
+    <StaffClassification>ATHLETIC_TRAINER</StaffClassification>
+    <PositionTitle>Athletic Trainer</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3108,8 +3108,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>School Administrator</StaffClassification>
-    <PositionTitle>ATHLETIC_TRAINER</PositionTitle>
+    <StaffClassification>ATHLETIC_TRAINER</StaffClassification>
+    <PositionTitle>School Administrator</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3124,8 +3124,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Principal</StaffClassification>
-    <PositionTitle>ATHLETIC_TRAINER</PositionTitle>
+    <StaffClassification>ATHLETIC_TRAINER</StaffClassification>
+    <PositionTitle>Principal</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3140,8 +3140,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Assistant Principal</StaffClassification>
-    <PositionTitle>HIGH_SCHOOL_COUNSELOR</PositionTitle>
+    <StaffClassification>HIGH_SCHOOL_COUNSELOR</StaffClassification>
+    <PositionTitle>Assistant Principal</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3156,8 +3156,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Librarian</StaffClassification>
-    <PositionTitle>HIGH_SCHOOL_COUNSELOR</PositionTitle>
+    <StaffClassification>HIGH_SCHOOL_COUNSELOR</StaffClassification>
+    <PositionTitle>Librarian</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3172,8 +3172,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Librarian</StaffClassification>
-    <PositionTitle>HIGH_SCHOOL_COUNSELOR</PositionTitle>
+    <StaffClassification>HIGH_SCHOOL_COUNSELOR</StaffClassification>
+    <PositionTitle>Librarian</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3188,8 +3188,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Librarian</StaffClassification>
-    <PositionTitle>INSTRUCTIONAL_AIDE</PositionTitle>
+    <StaffClassification>INSTRUCTIONAL_AIDE</StaffClassification>
+    <PositionTitle>Librarian</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3204,8 +3204,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>High School Counselor</StaffClassification>
-    <PositionTitle>INSTRUCTIONAL_AIDE</PositionTitle>
+    <StaffClassification>INSTRUCTIONAL_AIDE</StaffClassification>
+    <PositionTitle>High School Counselor</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3220,8 +3220,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Principal</StaffClassification>
-    <PositionTitle>INSTRUCTIONAL_AIDE</PositionTitle>
+    <StaffClassification>INSTRUCTIONAL_AIDE</StaffClassification>
+    <PositionTitle>Principal</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3236,8 +3236,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>High School Counselor</StaffClassification>
-    <PositionTitle>LIBRARIAN</PositionTitle>
+    <StaffClassification>LIBRARIAN</StaffClassification>
+    <PositionTitle>High School Counselor</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3252,8 +3252,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>School Nurse</StaffClassification>
-    <PositionTitle>LIBRARIAN</PositionTitle>
+    <StaffClassification>LIBRARIAN</StaffClassification>
+    <PositionTitle>School Nurse</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3268,8 +3268,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Librarian</StaffClassification>
-    <PositionTitle>LIBRARIAN</PositionTitle>
+    <StaffClassification>LIBRARIAN</StaffClassification>
+    <PositionTitle>Librarian</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3284,8 +3284,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Principal</StaffClassification>
-    <PositionTitle>PRINCIPAL</PositionTitle>
+    <StaffClassification>PRINCIPAL</StaffClassification>
+    <PositionTitle>Principal</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3300,8 +3300,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Athletic Trainer</StaffClassification>
-    <PositionTitle>PRINCIPAL</PositionTitle>
+    <StaffClassification>PRINCIPAL</StaffClassification>
+    <PositionTitle>Athletic Trainer</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3316,8 +3316,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>School Nurse</StaffClassification>
-    <PositionTitle>PRINCIPAL</PositionTitle>
+    <StaffClassification>PRINCIPAL</StaffClassification>
+    <PositionTitle>School Nurse</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3332,8 +3332,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Principal</StaffClassification>
-    <PositionTitle>SCHOOL_ADMINISTRATOR</PositionTitle>
+    <StaffClassification>SCHOOL_ADMINISTRATOR</StaffClassification>
+    <PositionTitle>Principal</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3348,8 +3348,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>High School Counselor</StaffClassification>
-    <PositionTitle>SCHOOL_ADMINISTRATOR</PositionTitle>
+    <StaffClassification>SCHOOL_ADMINISTRATOR</StaffClassification>
+    <PositionTitle>High School Counselor</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3364,8 +3364,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Instructional Aide</StaffClassification>
-    <PositionTitle>SCHOOL_ADMINISTRATOR</PositionTitle>
+    <StaffClassification>SCHOOL_ADMINISTRATOR</StaffClassification>
+    <PositionTitle>Instructional Aide</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3380,8 +3380,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Assistant Principal</StaffClassification>
-    <PositionTitle>SCHOOL_NURSE</PositionTitle>
+    <StaffClassification>SCHOOL_NURSE</StaffClassification>
+    <PositionTitle>Assistant Principal</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3396,8 +3396,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Instructional Aide</StaffClassification>
-    <PositionTitle>SCHOOL_NURSE</PositionTitle>
+    <StaffClassification>SCHOOL_NURSE</StaffClassification>
+    <PositionTitle>Instructional Aide</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3412,8 +3412,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>High School Counselor</StaffClassification>
-    <PositionTitle>SCHOOL_NURSE</PositionTitle>
+    <StaffClassification>SCHOOL_NURSE</StaffClassification>
+    <PositionTitle>High School Counselor</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3428,8 +3428,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Athletic Trainer</StaffClassification>
-    <PositionTitle>ASSISTANT_PRINCIPAL</PositionTitle>
+    <StaffClassification>ASSISTANT_PRINCIPAL</StaffClassification>
+    <PositionTitle>Athletic Trainer</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3444,8 +3444,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Principal</StaffClassification>
-    <PositionTitle>ASSISTANT_PRINCIPAL</PositionTitle>
+    <StaffClassification>ASSISTANT_PRINCIPAL</StaffClassification>
+    <PositionTitle>Principal</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3460,8 +3460,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Assistant Principal</StaffClassification>
-    <PositionTitle>ASSISTANT_PRINCIPAL</PositionTitle>
+    <StaffClassification>ASSISTANT_PRINCIPAL</StaffClassification>
+    <PositionTitle>Assistant Principal</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3476,8 +3476,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Principal</StaffClassification>
-    <PositionTitle>ATHLETIC_TRAINER</PositionTitle>
+    <StaffClassification>ATHLETIC_TRAINER</StaffClassification>
+    <PositionTitle>Principal</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3492,8 +3492,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Instructional Aide</StaffClassification>
-    <PositionTitle>ATHLETIC_TRAINER</PositionTitle>
+    <StaffClassification>ATHLETIC_TRAINER</StaffClassification>
+    <PositionTitle>Instructional Aide</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3508,8 +3508,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Principal</StaffClassification>
-    <PositionTitle>ATHLETIC_TRAINER</PositionTitle>
+    <StaffClassification>ATHLETIC_TRAINER</StaffClassification>
+    <PositionTitle>Principal</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3524,8 +3524,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Assistant Principal</StaffClassification>
-    <PositionTitle>HIGH_SCHOOL_COUNSELOR</PositionTitle>
+    <StaffClassification>HIGH_SCHOOL_COUNSELOR</StaffClassification>
+    <PositionTitle>Assistant Principal</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3540,8 +3540,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Instructional Aide</StaffClassification>
-    <PositionTitle>HIGH_SCHOOL_COUNSELOR</PositionTitle>
+    <StaffClassification>HIGH_SCHOOL_COUNSELOR</StaffClassification>
+    <PositionTitle>Instructional Aide</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3556,8 +3556,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Instructional Aide</StaffClassification>
-    <PositionTitle>HIGH_SCHOOL_COUNSELOR</PositionTitle>
+    <StaffClassification>HIGH_SCHOOL_COUNSELOR</StaffClassification>
+    <PositionTitle>Instructional Aide</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3572,8 +3572,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Librarian</StaffClassification>
-    <PositionTitle>INSTRUCTIONAL_AIDE</PositionTitle>
+    <StaffClassification>INSTRUCTIONAL_AIDE</StaffClassification>
+    <PositionTitle>Librarian</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3588,8 +3588,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>School Administrator</StaffClassification>
-    <PositionTitle>INSTRUCTIONAL_AIDE</PositionTitle>
+    <StaffClassification>INSTRUCTIONAL_AIDE</StaffClassification>
+    <PositionTitle>School Administrator</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3604,8 +3604,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Principal</StaffClassification>
-    <PositionTitle>INSTRUCTIONAL_AIDE</PositionTitle>
+    <StaffClassification>INSTRUCTIONAL_AIDE</StaffClassification>
+    <PositionTitle>Principal</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3620,8 +3620,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>High School Counselor</StaffClassification>
-    <PositionTitle>LIBRARIAN</PositionTitle>
+    <StaffClassification>LIBRARIAN</StaffClassification>
+    <PositionTitle>High School Counselor</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3636,8 +3636,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Athletic Trainer</StaffClassification>
-    <PositionTitle>LIBRARIAN</PositionTitle>
+    <StaffClassification>LIBRARIAN</StaffClassification>
+    <PositionTitle>Athletic Trainer</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3652,8 +3652,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>School Nurse</StaffClassification>
-    <PositionTitle>LIBRARIAN</PositionTitle>
+    <StaffClassification>LIBRARIAN</StaffClassification>
+    <PositionTitle>School Nurse</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3668,8 +3668,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Assistant Principal</StaffClassification>
-    <PositionTitle>PRINCIPAL</PositionTitle>
+    <StaffClassification>PRINCIPAL</StaffClassification>
+    <PositionTitle>Assistant Principal</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3684,8 +3684,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>School Nurse</StaffClassification>
-    <PositionTitle>PRINCIPAL</PositionTitle>
+    <StaffClassification>PRINCIPAL</StaffClassification>
+    <PositionTitle>School Nurse</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3700,8 +3700,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Librarian</StaffClassification>
-    <PositionTitle>PRINCIPAL</PositionTitle>
+    <StaffClassification>PRINCIPAL</StaffClassification>
+    <PositionTitle>Librarian</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3716,8 +3716,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Librarian</StaffClassification>
-    <PositionTitle>SCHOOL_ADMINISTRATOR</PositionTitle>
+    <StaffClassification>SCHOOL_ADMINISTRATOR</StaffClassification>
+    <PositionTitle>Librarian</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3732,8 +3732,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Assistant Principal</StaffClassification>
-    <PositionTitle>SCHOOL_ADMINISTRATOR</PositionTitle>
+    <StaffClassification>SCHOOL_ADMINISTRATOR</StaffClassification>
+    <PositionTitle>Assistant Principal</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3748,8 +3748,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Athletic Trainer</StaffClassification>
-    <PositionTitle>SCHOOL_ADMINISTRATOR</PositionTitle>
+    <StaffClassification>SCHOOL_ADMINISTRATOR</StaffClassification>
+    <PositionTitle>Athletic Trainer</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3764,8 +3764,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>High School Counselor</StaffClassification>
-    <PositionTitle>SCHOOL_NURSE</PositionTitle>
+    <StaffClassification>SCHOOL_NURSE</StaffClassification>
+    <PositionTitle>High School Counselor</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3780,8 +3780,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Athletic Trainer</StaffClassification>
-    <PositionTitle>SCHOOL_NURSE</PositionTitle>
+    <StaffClassification>SCHOOL_NURSE</StaffClassification>
+    <PositionTitle>Athletic Trainer</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3796,8 +3796,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Athletic Trainer</StaffClassification>
-    <PositionTitle>SCHOOL_NURSE</PositionTitle>
+    <StaffClassification>SCHOOL_NURSE</StaffClassification>
+    <PositionTitle>Athletic Trainer</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3812,8 +3812,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Teacher</StaffClassification>
-    <PositionTitle>Educator</PositionTitle>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3828,8 +3828,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Teacher</StaffClassification>
-    <PositionTitle>Educator</PositionTitle>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3844,8 +3844,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Teacher</StaffClassification>
-    <PositionTitle>Educator</PositionTitle>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
     <BeginDate>2014-09-05</BeginDate>
     <EndDate>2015-06-02</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3860,8 +3860,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Teacher</StaffClassification>
-    <PositionTitle>Educator</PositionTitle>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3876,8 +3876,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Teacher</StaffClassification>
-    <PositionTitle>Educator</PositionTitle>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3892,8 +3892,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Teacher</StaffClassification>
-    <PositionTitle>Educator</PositionTitle>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3908,8 +3908,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Teacher</StaffClassification>
-    <PositionTitle>Educator</PositionTitle>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3924,8 +3924,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Teacher</StaffClassification>
-    <PositionTitle>Educator</PositionTitle>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3940,8 +3940,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Teacher</StaffClassification>
-    <PositionTitle>Educator</PositionTitle>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3956,8 +3956,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Teacher</StaffClassification>
-    <PositionTitle>Educator</PositionTitle>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3972,8 +3972,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Teacher</StaffClassification>
-    <PositionTitle>Educator</PositionTitle>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -3988,8 +3988,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Teacher</StaffClassification>
-    <PositionTitle>Educator</PositionTitle>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -4004,8 +4004,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Teacher</StaffClassification>
-    <PositionTitle>Educator</PositionTitle>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
     <BeginDate>2015-09-04</BeginDate>
     <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -4020,8 +4020,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Teacher</StaffClassification>
-    <PositionTitle>Educator</PositionTitle>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -4036,8 +4036,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Teacher</StaffClassification>
-    <PositionTitle>Educator</PositionTitle>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -4052,8 +4052,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Teacher</StaffClassification>
-    <PositionTitle>Educator</PositionTitle>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -4068,8 +4068,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Teacher</StaffClassification>
-    <PositionTitle>Educator</PositionTitle>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -4084,8 +4084,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Teacher</StaffClassification>
-    <PositionTitle>Educator</PositionTitle>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>
@@ -4100,8 +4100,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <StaffClassification>Teacher</StaffClassification>
-    <PositionTitle>Educator</PositionTitle>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
   </StaffEducationOrgAssignmentAssociation>

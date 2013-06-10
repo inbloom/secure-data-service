@@ -132,7 +132,7 @@ $entityData = {
     "staffEducationOrganizationAssociation" => {
         "staffReference" => "04f708bc-928b-420d-a440-f1592a5d1073",
         "educationOrganizationReference" => "92d6d5a0-852c-45f4-907a-912752831772",
-        "staffClassification" => "Counselor",
+        "staffClassification" => "English Teacher",
         "beginDate" => "2011-01-13"
     },
     "staffProgramAssociation" => {

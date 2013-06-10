@@ -101,7 +101,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     Examples:
       | ASSOC TYPE                             | ASSOC URI                                | UPDATE FIELD             | OLD VALUE              | NEW VALUE              | USER       | PASSWORD    |
       # Staff - Rick Rogers
-      | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | beginDate                | 2011-01-13             | 2011-02-15             | rrogers    | rrogers1234 |
+      | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | staffClassification      | English Teacher        | Counselor              | rrogers    | rrogers1234 |
       | studentCohortAssociation               | studentCohortAssociations                | beginDate                | 2012-02-29             | 2011-12-01             | rrogers    | rrogers1234 |
       | teacherSchoolAssociation               | teacherSchoolAssociations                | programAssignment        | Special Education      | Regular Education      | rrogers    | rrogers1234 |
       # Teacher - Charles Gray (IT Admin)

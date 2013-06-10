@@ -25,6 +25,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.util.SecurityUtil;
@@ -35,8 +38,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 
 /**
  * Abstract class that all context validators must extend.
@@ -163,6 +164,26 @@ public abstract class AbstractContextValidator implements IContextValidator {
         return EntityNames.TEACHER.equals(SecurityUtil.getSLIPrincipal().getEntity().getType());
     }
 
+    /**
+     * Determines if the user is of type 'student' or of 'parent'.
+     *
+     * @return True if user is of type 'student' or 'parent', false otherwise.
+     */
+    protected boolean isStudentOrParent() {
+        // Just return for students now, later we can add funcitonality for parents also
+        return isStudent()/* || isParent() */;
+    }
+
+    /**
+     * Determines if the user is of type 'student'.
+     *
+     * @return True if user is of type 'student', false otherwise.
+     */
+
+    protected boolean isStudent() {
+        return SecurityUtil.isStudent();
+    }
+
     public boolean isFieldExpired(Map<String, Object> body, String fieldName, boolean useGracePeriod) {
         return dateHelper.isFieldExpired(body, fieldName, useGracePeriod);
     }
@@ -198,6 +219,20 @@ public abstract class AbstractContextValidator implements IContextValidator {
         descendants.addAll(ancestors);
         return descendants;
 
+    }
+
+    /**
+     * Returns the list of student IDs associated to a student or parent actor,
+     * or empty set otherwise
+     * @return the list of student IDs associated to a student or parent actor, empty set otherwise
+     */
+    protected Set<String> getDirectStudentIds() {
+        if (isStudent()) {
+            return new HashSet<String>(Arrays.asList(SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
+        }
+        // else if parent
+        // else
+        return new HashSet<String>();
     }
 
     protected Set<String> getStaffCurrentAssociatedEdOrgs() {
@@ -238,7 +273,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
         Set<String> matching = new HashSet<String>();
 
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
-                NeutralCriteria.OPERATOR_EQUAL, ids));
+                NeutralCriteria.CRITERIA_IN, ids));
         Iterable<Entity> entities = getRepo().findAll(type, query);
         if (entities != null) {
             for (Entity entity : entities) {

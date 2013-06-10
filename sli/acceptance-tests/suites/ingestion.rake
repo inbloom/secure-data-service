@@ -643,6 +643,10 @@ task :ingestionBulkExtractLeas do
   runTests("test/features/ingestion/features/ingestion_BulkExtractLeas.feature")
 end
 
+task :ingestionSeoaa do
+  runTests("test/features/ingestion/features/seoaa.feature")
+end
+
 ############################################################
 # Ingestion tests end
 ############################################################

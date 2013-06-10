@@ -68,7 +68,7 @@ public class StudentContextResolverTest {
     @Test
     public void testFindGoverningLEA() {
         assertEquals(new HashSet<String>(Arrays.asList("edOrg1", "edOrg2", "edOrg3")),
-                underTest.findGoverningLEA(buildTestStudent()));
+                underTest.findGoverningEdOrgs(buildTestStudent()));
     }
     
     @Test
@@ -76,7 +76,7 @@ public class StudentContextResolverTest {
         Entity testStudent = buildTestStudent();
         when(repo.findOne("student", buildQuery("42"))).thenReturn(testStudent);
         assertEquals(new HashSet<String>(Arrays.asList("edOrg1", "edOrg2", "edOrg3")),
-                underTest.findGoverningLEA("42"));
+                underTest.findGoverningEdOrgs("42"));
     }
     
     @SuppressWarnings("unchecked")
@@ -89,21 +89,21 @@ public class StudentContextResolverTest {
         oldSchool.put("_id", "oldSchool");
         oldSchool.put("entryDate", today.minusMonths(15).toString(format));
         oldSchool.put("exitWithdrawDate", today.minusMonths(3).toString(format));
-        when(edOrgResolver.findGoverningLEA("oldSchool")).thenReturn(new HashSet<String>(Arrays.asList("badEdOrg")));
+        when(edOrgResolver.findGoverningEdOrgs("oldSchool")).thenReturn(new HashSet<String>(Arrays.asList("badEdOrg")));
         Map<String, Object> currentSchool = new HashMap<String, Object>();
         currentSchool.put("_id", "currentSchool");
         currentSchool.put("entryDate", today.minusMonths(3).toString(format));
         currentSchool.put("exitWithdrawDate", today.plusMonths(9).toString(format));
-        when(edOrgResolver.findGoverningLEA("currentSchool")).thenReturn(new HashSet<String>(Arrays.asList("edOrg1")));
+        when(edOrgResolver.findGoverningEdOrgs("currentSchool")).thenReturn(new HashSet<String>(Arrays.asList("edOrg1")));
         Map<String, Object> futureSchool = new HashMap<String, Object>();
         futureSchool.put("_id", "futureSchool");
         futureSchool.put("entryDate", today.plusMonths(9).toString(format));
         futureSchool.put("exitWithdrawDate", today.plusMonths(21).toString(format));
-        when(edOrgResolver.findGoverningLEA("futureSchool")).thenReturn(new HashSet<String>(Arrays.asList("edOrg2")));
+        when(edOrgResolver.findGoverningEdOrgs("futureSchool")).thenReturn(new HashSet<String>(Arrays.asList("edOrg2")));
         Map<String, Object> unboundedSchool = new HashMap<String, Object>();
         unboundedSchool.put("_id", "unboundedSchool");
         unboundedSchool.put("entryDate", today.minusMonths(15).toString(format));
-        when(edOrgResolver.findGoverningLEA("unboundedSchool")).thenReturn(new HashSet<String>(Arrays.asList("edOrg3")));
+        when(edOrgResolver.findGoverningEdOrgs("unboundedSchool")).thenReturn(new HashSet<String>(Arrays.asList("edOrg3")));
         Map<String, List<Map<String, Object>>> denormalized = new HashMap<String, List<Map<String, Object>>>();
         denormalized.put("schools", Arrays.asList(oldSchool, currentSchool, futureSchool, unboundedSchool));
         Entity testStudent = mock(Entity.class);
@@ -121,9 +121,9 @@ public class StudentContextResolverTest {
     @Test
     public void testCache() {
         Entity testEntity = buildTestStudent();
-        Set<String> fromEntity1 = underTest.findGoverningLEA(testEntity);
-        Set<String> fromId = underTest.findGoverningLEA("testStudent");
-        Set<String> fromEntity2 = underTest.findGoverningLEA(testEntity);
+        Set<String> fromEntity1 = underTest.findGoverningEdOrgs(testEntity);
+        Set<String> fromId = underTest.findGoverningEdOrgs("testStudent");
+        Set<String> fromEntity2 = underTest.findGoverningEdOrgs(testEntity);
         assertEquals(fromEntity1, fromId);
         assertEquals(fromEntity2, fromId);
     }

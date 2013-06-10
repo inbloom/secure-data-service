@@ -1,4 +1,4 @@
-Feature: Retrived through the api a generated delta bulk extract file, and validate the file
+Feature: Retrieved through the api a generated delta bulk extract file, and validate the file
 
 Scenario: Initialize security trust store for Bulk Extract application and LEAs
   Given the extraction zone is empty
@@ -6,12 +6,11 @@ Scenario: Initialize security trust store for Bulk Extract application and LEAs
     And The bulk extract app has been approved for "Midgar-DAYBREAK" with client id "<clientId>"
     And The X509 cert "cert" has been installed in the trust store and aliased
 
-
-Scenario: Generate a bulk extract delta after day 0 ingestion
+Scenario: Generate a bulk extract delta after day 1 ingestion
   When I trigger a delta extract
    And I request the latest bulk extract delta using the api
    And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>"
-  Then I should see "8" bulk extract files
+  Then I should see "10" bulk extract files
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   Then The "educationOrganization" delta was extracted in the same format as the api
    And The "parent" delta was extracted in the same format as the api
@@ -59,6 +58,26 @@ Scenario: Generate a bulk extract delta after day 0 ingestion
    Then each record in the full extract is present and matches the delta extract
    #And I save some IDs from all the extract files to "delete_candidate" so I can delete them later
 
+Scenario: Generate a SEA bulk extract delta after day 1 ingestion
+    When I untar and decrypt the "inBloom" public delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>"
+     And I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+    Then The "educationOrganization" delta was extracted in the same format as the api
+     And The "learningObjective" delta was extracted in the same format as the api
+     And The "learningStandard" delta was extracted in the same format as the api
+     And The "competencyLevelDescriptor" delta was extracted in the same format as the api
+     And The "studentCompetencyObjective" delta was extracted in the same format as the api
+     And The "program" delta was extracted in the same format as the api
+
+  Given I trigger a bulk extract
+   When I set the header format to "application/x-tar"
+   Then I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+   When I make lea bulk extract API call for lea "884daa27d806c2d725bc469b273d840493f84b4d_id"
+    And the return code is 200 I get expected tar downloaded
+   Then I check the http response headers
+   When I decrypt and save the full extract
+    And I verify that an extract tar file was created for the tenant "Midgar"
+    And there is a metadata file in the extract
+   Then each record in the full extract is present and matches the delta extract
 
 Scenario: Triggering deltas via ingestion
   All entities belong to lea1 which is IL-DAYBREAK, we should only see a delta file for lea1
@@ -66,12 +85,52 @@ Scenario: Triggering deltas via ingestion
   Updated two students, 1 and 12, 12 lost contextual resolution to LEA1, so it should not appear
   in the extract file.  
   1 is added to LEA2, so its stuff should go in there as well
-Given I clean the bulk extract file system and database
-  And I am using local data store
-  And I ingest "bulk_extract_deltas.zip"
-  When I trigger a delta extract
-     And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar" 
-     And I verify "2" delta bulk extract files are generated for LEA "<IL-HIGHWIND>" in "Midgar" 
+  SEA - one of each of the 5 simple entities are deleted
+     Given I clean the bulk extract file system and database
+      And I ingest "bulk_extract_deltas.zip"
+     When I trigger a delta extract
+      And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
+      And I verify "2" delta bulk extract files are generated for LEA "<IL-HIGHWIND>" in "Midgar"
+      And I verify "2" delta bulk extract files are generated for LEA "<STANDARD-SEA>" in "Midgar"
+     When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+       |  entityType                            |
+       |  learningObjective                     |
+       |  learningStandard                      |
+       |  competencyLevelDescriptor             |
+       |  studentCompetencyObjective            |
+       |  program                               |
+       |  educationOrganization                 |
+       |  deleted                               |
+     And I verify this "deleted" file should contain:
+       | id                                           | condition                               |
+       | 8621a1a8d32dde3cf200697f22368a0f92f0fb92_id  | entityType = learningObjective          |
+       | 4a6402c02ea016736280ac88d202d71a81058171_id  | entityType = learningStandard           |
+       | d82250f49dbe4facb59af2f88fe746f70948405d_id  | entityType = competencyLevelDescriptor  |
+       | edcd730acd29f74a5adcb4123b183001a3513853_id  | entityType = studentCompetencyObjective |
+       | ebfc74d85dfcdcb7e5ddc93a6af2952801f9436e_id  | entityType = program                    |
+     And I verify this "learningObjective" file should contain:
+       | id                                          | condition                                |
+       | a2b6a9f6ec88b4524c13064b335c0e078395e658_id | description = This an added description to test Deltas |
+       | 984cd6d4d235b3d1f306042a69bbc8a67075bf9f_id | description = This an added description to test Deltas after day N bulk extract |
+     And I verify this "learningStandard" file should contain:
+       | id                                          | condition                                                                                |
+       | bf9877afdcb1bb388334047c66b46daf83252534_id | description = This is an updated description for learning standard 2-18-9 to test Deltas |
+       | c36b6ac46187cd637208ea8d48dc5efdd6d8ecb9_id | description = This is an updated description for learning standard 3-28-22 to test Deltas after day N bulk extract |
+     And I verify this "competencyLevelDescriptor" file should contain:
+       | id                                          | condition                                                        |
+       | c91ae4718903d20289607c3c4335759e652ad569_id | description = Student understands almost everything in subject   |
+       | dfa61631e5a2198d090c6276effebf3bd83cffce_id | description = Student does not understand anything               |
+     And I verify this "studentCompetencyObjective" file should contain:
+       | id                                          | condition                                     |
+       | 5a564cbaa1059014fafd97c24971c5088c1fbffb_id | description = Added description to test Delta |
+       | b37239e32fdda69caae3bd0bd30dbe95d5edef89_id | description = Added description to test Delta after day N bulk extract |
+     And I verify this "program" file should contain:
+       | id                                          | condition                                |
+       | 9cce6ea23864ee4870c8871e4c14ddecb6ab0fb0_id | programType = Adult/Continuing Education |
+       | b3cb28bf5c7e1e43a0901d51c2ec0967e5e079a7_id | programType = Gifted and Talented |
+     And I verify this "educationOrganization" file should contain:
+       | id                                          | condition                      |
+       | 884daa27d806c2d725bc469b273d840493f84b4d_id | webSite = www.STANDARD-SEA.net |
      When I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-HIGHWIND>" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
        |  attendance                            |
@@ -341,8 +400,6 @@ Given I clean the bulk extract file system and database
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
    Then The "graduationPlan" delta was extracted in the same format as the api
 
-
-
 Scenario: Generate a bulk extract in a different LEA
   Given I clean the bulk extract file system and database
     And I am using local data store
@@ -365,8 +422,7 @@ Scenario: Generate a bulk extract in a different LEA
    And The "educationOrganization" delta was extracted in the same format as the api
    And The "educationOrganization" entity with id "<ed_org_to_lea2_id>" should belong to LEA with id "<IL-HIGHWIND>" 
 
-
-Scenario: Ingest education organization and perform delta   
+Scenario: Ingest education organization and perform delta
   Given I clean the bulk extract file system and database
     And I am using local data store
     And I post "deltas_new_edorg.zip" file as the payload of the ingestion job
@@ -413,24 +469,6 @@ Scenario: Ingest education organization and perform delta
           | id                                          | condition                             |
           | 54b4b51377cd941675958e6e81dce69df801bfe8_id | entityType = school                   |
 
-
-Scenario: Ingest SEA update and verify no deltas generated
-  Given I clean the bulk extract file system and database
-    And I am using local data store
-    And I post "deltas_update_sea.zip" file as the payload of the ingestion job
-
-  When the landing zone for tenant "Midgar" edOrg "Daybreak" is reinitialized
-   And zip file is scp to ingestion landing zone
-   And a batch job for file "deltas_update_sea.zip" is completed in database
-   And a batch job log has been created 
-  Then I should not see an error log file created
-   And I should not see a warning log file created
-
-  When I trigger a delta extract
-  Then there should be no deltas in mongo
-
-
-
 Scenario: Ingest SEA delete and verify both LEAs received the delete
   Given I clean the bulk extract file system and database
     And I ingested "deltas_delete_sea.zip" dataset
@@ -455,7 +493,6 @@ Scenario: Ingest SEA delete and verify both LEAs received the delete
           | 884daa27d806c2d725bc469b273d840493f84b4d_id | entityType = school                   |
 
     Then I reingest the SEA so I can continue my other tests
-
 
 
 Scenario: CREATE and verify deltas for private entities through API POST
@@ -552,7 +589,6 @@ Given I clean the bulk extract file system and database
     |  9bf3036428c40861238fdc820568fde53e658d88_id28af8b70a2f2e695fc25da04e0f8625115002556_id | entityType = studentParentAssociation |
 
 
-
 Scenario: Update an existing edorg through the API, perform delta, call list endpoint, call API to download and verify delta
  Given I clean the bulk extract file system and database
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -580,7 +616,6 @@ Scenario: Update an existing edorg through the API, perform delta, call list end
   And The "educationOrganization" delta was extracted in the same format as the api
   And The "school" delta was extracted in the same format as the api
 
-
 Scenario: Update an existing edOrg with invalid API call, verify no delta created
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -589,7 +624,6 @@ Given I clean the bulk extract file system and database
  Then I should receive a return code of 404
   And deltas collection should have "0" records
 
-
 Scenario: Create an invalid edOrg with the API, verify no delta created
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -597,7 +631,6 @@ Given I clean the bulk extract file system and database
  When I POST a "invalidEducationOrganization" of type "educationOrganization"
  Then I should receive a return code of 403   
   And deltas collection should have "0" records
-
 
 Scenario: As SEA Admin, delete an existing school with API call, verify delta
 Given I clean the bulk extract file system and database
@@ -652,6 +685,33 @@ Given I clean the bulk extract file system and database
     #| newDisciplineAction            |  disciplineAction                      |  201         |
     #| newStudentDiscIncidentAssoc    |  studentDisciplineIncidentAssociation  |  201         |
     #| newGraduationPlan              |  graduationPlan                        |  201         |
+
+ When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  And I generate and retrieve the bulk extract delta via API for "<STANDARD-SEA>"
+  And I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+        |  entityType                            |
+        |  program                               |
+  And I verify this "program" file should contain:
+        | id                                          | condition                                |
+        | 0ee2b448980b720b722706ec29a1492d95560798_id | programType = Regular Education          |
+        | 0ee2b448980b720b722706ec29a1492d95560798_id | programId = 12345                        |
+
+ When I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  And format "application/json"
+ Then I PATCH and validate the following entities:
+        |  field            |  entity                       |  value                                 |  returnCode  |
+        |  patchProgramType |  patchProgram                 |  Adult/Continuing Education            |  204         |
+
+ Given the unpack directory is empty
+ When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+   And I generate and retrieve the bulk extract delta via API for "<STANDARD-SEA>"
+   And I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+         |  entityType                            |
+         |  program                               |
+   And I verify this "program" file should contain:
+         | id                                          | condition                                |
+         | 0ee2b448980b720b722706ec29a1492d95560798_id | programType = Adult/Continuing Education |
+         | 0ee2b448980b720b722706ec29a1492d95560798_id | programId = 12345                        |
 
  When I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
@@ -868,6 +928,7 @@ Given I clean the bulk extract file system and database
     |  newStudent                 |  9bf3036428c40861238fdc820568fde53e658d88_id  |  204         |
     |  session                    |  227097db8525f4631d873837754633daf8bfcb22_id  |  204         |
     |  gradingPeriod              |  1dae9e8450e2e77dd0b06dee3fd928c1bfda4d49_id  |  204         |
+    |  program                    |  0ee2b448980b720b722706ec29a1492d95560798_id  |  204         |
 
  Given the extraction zone is empty
   When I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -904,7 +965,14 @@ Given I clean the bulk extract file system and database
     | 9bf3036428c40861238fdc820568fde53e658d88_id38025c314f0972d09cd982ffe58c7d8d2b59d23d_id | entityType = studentProgramAssociation |
     | 4030207003b03d055bba0b5019b31046164eff4e_id78468628f357b29599510341f08dfd3277d9471e_id | entityType = studentSectionAssociation |
 
-
+  When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+   And I generate and retrieve the bulk extract delta via API for "<STANDARD-SEA>"
+  Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+       |  entityType                            |
+       |  deleted                               |
+  And I verify this "deleted" file should contain:
+       | id                                          | condition                                |
+       | 0ee2b448980b720b722706ec29a1492d95560798_id | entityType = program                     |
 
 Scenario: Delete student and stuSchAssoc, re-post them, then delete just studentSchoolAssociations (leaving students), verify delete
 Given I clean the bulk extract file system and database
@@ -965,7 +1033,6 @@ Given I clean the bulk extract file system and database
   And I verify this "deleted" file should contain:
     | id                                          | condition                             |
     | d913396aef918602b8049027dbdce8826c054402_id | entityType = studentSchoolAssociation |
-
 
 
 Scenario: Create, delete, then re-create the same entity, verify 1 delta entry, no deletes
@@ -1037,7 +1104,6 @@ Given I clean the bulk extract file system and database
     | cbfe3a47491fdff0432d5d4abca339735da9461d_id | entityType = studentSchoolAssociation |
     | 9bf3036428c40861238fdc820568fde53e658d88_id | entityType = student                  |
 
-
 Scenario: Test access to the api
   Given I log into "SDK Sample" with a token of "lstevenson", a "Noldor" for "IL-Highwind" in tenant "Midgar", that lasts for "300" seconds
   And I request latest delta via API for tenant "Midgar", lea "<IL-HIGHWIND>" with appId "<app id>" clientId "<client id>"
@@ -1057,7 +1123,6 @@ Scenario: Test access to the api
   Given I log into "Paved Z00" with a token of "lstevenson", a "Noldor" for "IL-Highwind" in tenant "Midgar", that lasts for "300" seconds
   And I request latest delta via API for tenant "Midgar", lea "<IL-DAYBREAK>" with appId "<app id paved>" clientId "<client id paved>"
   Then I should receive a return code of 403
-
 
 Scenario: Be a good neighbor and clean up before you leave
     Given I clean the bulk extract file system and database

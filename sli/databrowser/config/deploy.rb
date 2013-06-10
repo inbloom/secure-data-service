@@ -24,7 +24,7 @@ set :stages, %w(integration, deployment)
 working_dir = "sli/databrowser"
 
 set :application, "Identity Management Admin Tool"
-set :repository,  "git@git.slidev.org:sli/sli.git"
+set :repository,  "git@github.com:inbloomdev/datastore.git"
 set :bundle_gemfile, "#{working_dir}/Gemfile"
 set :keep_releases, 2
 

@@ -2660,7 +2660,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../../sli/edfi-schema/s
 <StateOrganizationId>CAP0</StateOrganizationId>
 </EducationalOrgIdentity>
 </EducationOrganizationReference>
-<StaffClassification>Specialist/Consultant</StaffClassification>
+<StaffClassification>Leader</StaffClassification>
 <PositionTitle>Superintendent</PositionTitle>
 <BeginDate>2012-01-01</BeginDate>
 <EndDate>2012-12-31</EndDate>
@@ -2676,7 +2676,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../../sli/edfi-schema/s
 <StateOrganizationId>CAP0</StateOrganizationId>
 </EducationalOrgIdentity>
 </EducationOrganizationReference>
-<StaffClassification>Specialist/Consultant</StaffClassification>
+<StaffClassification>Leader</StaffClassification>
 <BeginDate>2012-01-01</BeginDate>
 </StaffEducationOrgAssignmentAssociation>
 <StaffEducationOrgAssignmentAssociation>
@@ -2690,7 +2690,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../../sli/edfi-schema/s
 <StateOrganizationId>CAP1</StateOrganizationId>
 </EducationalOrgIdentity>
 </EducationOrganizationReference>
-<StaffClassification>Specialist/Consultant</StaffClassification>
+<StaffClassification>Leader</StaffClassification>
 <BeginDate>2012-01-01</BeginDate>
 </StaffEducationOrgAssignmentAssociation>
 <StaffEducationOrgAssignmentAssociation>
@@ -2704,7 +2704,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../../sli/edfi-schema/s
 <StateOrganizationId>CAP1</StateOrganizationId>
 </EducationalOrgIdentity>
 </EducationOrganizationReference>
-<StaffClassification>Specialist/Consultant</StaffClassification>
+<StaffClassification>Leader</StaffClassification>
 <BeginDate>2012-01-01</BeginDate>
 </StaffEducationOrgAssignmentAssociation>
 <StaffProgramAssociation>

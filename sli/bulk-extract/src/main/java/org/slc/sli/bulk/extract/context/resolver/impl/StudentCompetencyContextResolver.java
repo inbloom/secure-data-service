@@ -47,7 +47,7 @@ public class StudentCompetencyContextResolver implements ContextResolver {
     private Repository<Entity> repo;
 
     @Override
-    public Set<String> findGoverningLEA(Entity entity) {
+    public Set<String> findGoverningEdOrgs(Entity entity) {
         if (entity == null) {
             return Collections.emptySet();
         }
@@ -65,7 +65,7 @@ public class StudentCompetencyContextResolver implements ContextResolver {
 
         String studentId = (String) studentSectionAssociation.getBody().get(STUDENT_ID);
 
-        return studentResolver.findGoverningLEA(studentId);
+        return studentResolver.findGoverningEdOrgs(studentId);
     }
     
 }

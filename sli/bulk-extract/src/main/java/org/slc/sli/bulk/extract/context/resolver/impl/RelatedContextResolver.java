@@ -35,7 +35,7 @@ public abstract class RelatedContextResolver implements ContextResolver {
     }
     
     @Override
-    public Set<String> findGoverningLEA(Entity entity) {
+    public Set<String> findGoverningEdOrgs(Entity entity) {
         if (entity.getBody() == null) {
             return Collections.emptySet();
         }
@@ -45,7 +45,7 @@ public abstract class RelatedContextResolver implements ContextResolver {
             return Collections.emptySet();
         }
         
-        return getReferredResolver().findGoverningLEA(referredId);
+        return getReferredResolver().findGoverningEdOrgs(referredId);
     }
     
     protected String getReferredId(String type, Map<String, Object> body) {

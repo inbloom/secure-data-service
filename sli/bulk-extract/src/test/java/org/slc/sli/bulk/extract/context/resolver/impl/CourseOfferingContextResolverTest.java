@@ -60,11 +60,11 @@ public class CourseOfferingContextResolverTest {
     @Test
     public void followSchoolId() {
         Entity courseOffering = buildCourseOffering();
-        when(edorgResolver.findGoverningLEA("edorg123")).thenReturn(new HashSet<String>(Arrays.asList("lea1", "lea2")));
+        when(edorgResolver.findGoverningEdOrgs("edorg123")).thenReturn(new HashSet<String>(Arrays.asList("lea1", "lea2")));
         when(repo.findEach("section", new NeutralQuery(
                 new NeutralCriteria("courseOfferingId", NeutralCriteria.OPERATOR_EQUAL, "courseOffering1"))))
                 .thenReturn(new ArrayList<Entity>().iterator());
-        assertEquals(new HashSet<String>(Arrays.asList("lea1", "lea2")), underTest.findGoverningLEA(courseOffering));
+        assertEquals(new HashSet<String>(Arrays.asList("lea1", "lea2")), underTest.findGoverningEdOrgs(courseOffering));
     }
   
     @Test
@@ -74,11 +74,11 @@ public class CourseOfferingContextResolverTest {
         when(repo.findEach("section", new NeutralQuery(
                 new NeutralCriteria("courseOfferingId", NeutralCriteria.OPERATOR_EQUAL, "courseOffering1"))))
                 .thenReturn(sections.iterator());
-        when(edorgResolver.findGoverningLEA("edorg123")).thenReturn(new HashSet<String>());
-        when(sectionResolver.findGoverningLEA(sections.get(0))).thenReturn(new HashSet<String>(Arrays.asList("lea3")));
-        when(sectionResolver.findGoverningLEA(sections.get(1))).thenReturn(new HashSet<String>(Arrays.asList("lea3", "lea4")));
+        when(edorgResolver.findGoverningEdOrgs("edorg123")).thenReturn(new HashSet<String>());
+        when(sectionResolver.findGoverningEdOrgs(sections.get(0))).thenReturn(new HashSet<String>(Arrays.asList("lea3")));
+        when(sectionResolver.findGoverningEdOrgs(sections.get(1))).thenReturn(new HashSet<String>(Arrays.asList("lea3", "lea4")));
         
-        assertEquals(new HashSet<String>(Arrays.asList("lea3", "lea4")), underTest.findGoverningLEA(courseOffering));
+        assertEquals(new HashSet<String>(Arrays.asList("lea3", "lea4")), underTest.findGoverningEdOrgs(courseOffering));
     }
     
     private List<Entity> buildSections() {

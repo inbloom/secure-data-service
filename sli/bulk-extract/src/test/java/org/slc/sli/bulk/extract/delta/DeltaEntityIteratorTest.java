@@ -67,7 +67,7 @@ public class DeltaEntityIteratorTest {
 
     ContextResolver testResolver = new ContextResolver() {
         @Override
-        public Set<String> findGoverningLEA(Entity entity) {
+        public Set<String> findGoverningEdOrgs(Entity entity) {
             List<String> lists = Arrays.asList("LEA1", "LEA2");
             return new HashSet<String>(lists);
         }
@@ -153,15 +153,15 @@ public class DeltaEntityIteratorTest {
             DeltaRecord record = iterator.next();
             if (count == 1) {
                 // first one is a spam delete update record
-                assertEquals(governingLEAs, record.getBelongsToLEA());
+                assertEquals(governingLEAs, record.getBelongsToEdOrgs());
                 assertTrue(record.isSpamDelete());
                 assertEquals(DeltaEntityIterator.Operation.UPDATE, record.getOp());
             } else if (count == 2) {
-                assertEquals(null, record.getBelongsToLEA());
+                assertEquals(null, record.getBelongsToEdOrgs());
                 assertFalse(record.isSpamDelete());
                 assertEquals(DeltaEntityIterator.Operation.DELETE, record.getOp());
             } else if(count == 3) {
-                assertEquals(null, record.getBelongsToLEA());
+                assertEquals(null, record.getBelongsToEdOrgs());
                 assertFalse(record.isSpamDelete());
                 assertEquals(Operation.PURGE, record.getOp());
             }

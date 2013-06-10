@@ -49,7 +49,7 @@ public class DisciplineIncidentContextResolver extends EdOrgRelatedReferrableRes
         Iterator<Entity> students = repo.findEach(EntityNames.STUDENT,
                 Query.query(Criteria.where("studentDisciplineIncidentAssociation.body.disciplineIncidentId").is(entity.getEntityId())));
         while (students.hasNext()) {
-            leas.addAll(studentResolver.findGoverningLEA(students.next()));
+            leas.addAll(studentResolver.findGoverningEdOrgs(students.next()));
         }
         return leas;
     }
