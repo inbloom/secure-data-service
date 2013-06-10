@@ -19,8 +19,8 @@ limitations under the License.
 require_relative 'Enum.rb'
 
 # Enumerates the types of school terms available.
-# From Ed-Fi-Core.xsd:
-# <xs:simpleType name="TermType">
+# From SLI-Ed-Fi-Core.xsd:
+# <xs:simpleType name="SLC-TermType">
 #   <xs:annotation>
 #     <xs:documentation>The type of the session during the school year (e.g., Fall Semester).</xs:documentation>
 #   </xs:annotation>
@@ -33,6 +33,15 @@ require_relative 'Enum.rb'
 #     <xs:enumeration value="Third Trimester"/>
 #     <xs:enumeration value="Year Round"/>
 #     <xs:enumeration value="MiniTerm"/>
+#     <xs:enumeration value="Term 0"/>
+#     <xs:enumeration value="Term 1"/>
+#     <xs:enumeration value="Term 2"/>
+#     <xs:enumeration value="Term 3"/>
+#     <xs:enumeration value="Term 4"/>
+#     <xs:enumeration value="Term 5"/>
+#     <xs:enumeration value="Term 6"/>
+#     <xs:enumeration value="Term 7"/>
+#     <xs:enumeration value="Term 8"/>
 #   </xs:restriction>
 # </xs:simpleType>
 class SchoolTerm
@@ -46,4 +55,13 @@ class SchoolTerm
   SchoolTerm.define :SUMMER_SEMESTER, "Summer Semester"
   SchoolTerm.define :THIRD_TRIMESTER, "Third Trimester"
   SchoolTerm.define :YEAR_ROUND, "Year Round"
+  SchoolTerm.define :TERM_0, "Term 0"
+  SchoolTerm.define :TERM_1, "Term 1"
+  SchoolTerm.define :TERM_2, "Term 2"
+  SchoolTerm.define :TERM_3, "Term 3"
+  SchoolTerm.define :TERM_4, "Term 4"
+  SchoolTerm.define :TERM_5, "Term 5"
+  SchoolTerm.define :TERM_6, "Term 6"
+  SchoolTerm.define :TERM_7, "Term 7"
+  SchoolTerm.define :TERM_8, "Term 8"
 end
