@@ -31,14 +31,14 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Matchers;
 import org.mockito.Mockito;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.test.context.ContextConfiguration;
@@ -49,8 +49,8 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.domain.Repository;
 
 /**
  * Unit tests for the Saml Federation Resource class.
@@ -104,6 +104,7 @@ public class SamlFederationResourceTest {
     }
 
     @Test
+    //@Ignore
     public void matchRoleTest() throws ParseException {
         Set<String> samlRoles = new HashSet<String>();
         samlRoles.add("teacher");
@@ -112,11 +113,17 @@ public class SamlFederationResourceTest {
         samlRoles.add("terminator");
         samlRoles.add("nobody");
 
-        Date testDate = ft.parse("08/04/2012 11:49:00 AM");
+        Date now = new Date();
 
-        Entity staff = setupSEOAs();
+        Entity staff = getStaff();
 
-        Set<String> matchedRoles = resource.matchRoles(staff.getEntityId(), samlRoles, testDate);
+        Set<Entity> edorgs = setupSEOAs(staff.getEntityId(), now.getTime());
+
+        EdOrgHelper edorgHelper = Mockito.mock(EdOrgHelper.class);
+
+        Mockito.when(edorgHelper.locateDirectEdorgs((Entity) Matchers.any(), Matchers.eq(false))).thenReturn(edorgs);
+
+        Set<String> matchedRoles = resource.matchRoles(staff, samlRoles);
         Set<String> expectedRoles = new HashSet<String>();
         expectedRoles.add("teacher");
         expectedRoles.add("principal");
@@ -136,8 +143,45 @@ public class SamlFederationResourceTest {
         return seoa;
     }
 
-    private Entity setupSEOAs() {
+    @Test
+    public void testBuildEdOrgContextualRoles () {
+        Set<Entity> seoas = new HashSet<Entity>();
+        seoas.add(createSEOA("LEA1", "IT Admin"));
+        seoas.add(createSEOA("LEA1", "Educator"));
+
+        seoas.add(createSEOA("LEA2", "Educator"));
+        seoas.add(createSEOA("LEA2", "Educator"));
+
+        Map<String, Set<String>> edOrgRoles = resource.buildEdOrgContextualRoles(seoas);
+
+        Assert.assertNotNull(edOrgRoles);
+        Assert.assertEquals(2,edOrgRoles.size());
+
+        Set<String> edOrg1Roles = edOrgRoles.get("LEA1");
+        Assert.assertNotNull(edOrg1Roles);
+        Assert.assertEquals(2, edOrg1Roles.size());
+        Assert.assertTrue(edOrg1Roles.contains("IT Admin"));
+        Assert.assertTrue(edOrg1Roles.contains("Educator"));
+
+        Set<String> edOrg2Roles = edOrgRoles.get("LEA2");
+        Assert.assertNotNull(edOrg2Roles);
+        Assert.assertEquals(1, edOrg2Roles.size());
+        Assert.assertTrue(edOrg2Roles.contains("Educator"));
+
+    }
+
+    @Test
+    public void testInvalidEdOrgRoles() {
+        Map<String, Set<String>> edOrgRoles = resource.buildEdOrgContextualRoles(null);
+
+        Assert.assertNotNull(edOrgRoles);
+        Assert.assertEquals(0,edOrgRoles.size());
+    }
+
+
+    private Entity getStaff() {
         Repository repo = resource.getRepository();
+
         Map<String, Object> staff = new HashMap<String, Object>();
         staff.put("staffUniqueStateId", testStaffId);
         repo.create(EntityNames.STAFF, staff);
@@ -146,15 +190,48 @@ public class SamlFederationResourceTest {
         staffQuery.addCriteria(new NeutralCriteria(ParameterConstants.STAFF_UNIQUE_STATE_ID, NeutralCriteria.OPERATOR_EQUAL, testStaffId));
 
         Entity staffEntity = (Entity)repo.findOne("staff", staffQuery);
-        repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, createSEOA("teacher", "edorg1", staffEntity.getEntityId(), "2012-08-04"));
-        repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, createSEOA("admin", "edorg1", staffEntity.getEntityId(), "2011-08-04"));
-        repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, createSEOA("teacher", "edorg1", staffEntity.getEntityId(), "2012-08-05"));
-        repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, createSEOA("principal", "edorg2", staffEntity.getEntityId(), "2013-08-04"));
-        repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, createSEOA("prophet", "edorg2", staffEntity.getEntityId(), "2013-08-04"));
-        repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, createSEOA("nobody", "edorg2", staffEntity.getEntityId(), "201308-04"));
-        repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, createSEOA("terminator", "edorg2", staffEntity.getEntityId(), null));
 
         return staffEntity;
     }
 
+    private Entity createSEOA(String edorgId, String staffClassification) {
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put(ParameterConstants.STAFF_EDORG_ASSOC_STAFF_CLASSIFICATION, staffClassification);
+        body.put(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, edorgId);
+        body.put(ParameterConstants.STAFF_REFERENCE, "staff1");
+
+        return new MongoEntity(EntityNames.STAFF_ED_ORG_ASSOCIATION, "0", body, null);
+
+    }
+
+    private Set<Entity>  setupSEOAs(String staffId, long time) {
+        Repository repo = resource.getRepository();
+        Set<Entity> res = new HashSet<Entity>();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
+        Date date = new Date(time);
+        long milSecInAYear = 31557600000L;
+        long milSecInADay = 86400000L;
+
+        String dateString = df.format(date);
+
+        res.add((Entity) repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, createSEOA("teacher", "edorg1", staffId, dateString)));
+
+        date = new Date(time - milSecInAYear);
+        dateString = df.format(date);
+        res.add((Entity) repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, createSEOA("admin", "edorg1", staffId, dateString)));
+
+        date = new Date(time + milSecInADay);
+        dateString = df.format(date);
+        res.add((Entity) repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, createSEOA("teacher", "edorg1", staffId, dateString)));
+
+        date = new Date(time + milSecInAYear);
+        dateString = df.format(date);
+        res.add((Entity) repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, createSEOA("principal", "edorg2", staffId, dateString)));
+        res.add((Entity) repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, createSEOA("prophet", "edorg2", staffId, dateString)));
+
+        res.add((Entity) repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, createSEOA("terminator", "edorg2", staffId, null)));
+
+        return res;
+    }
 }
