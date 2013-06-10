@@ -56,8 +56,7 @@ Scenario: Generate a bulk extract delta after day 1 ingestion
    When I decrypt and save the full extract
     And I verify that an extract tar file was created for the tenant "Midgar"
     And there is a metadata file in the extract
-   #uncomment next line when calendarDate appears in both extracts
-   #Then each record in the full extract is present and matches the delta extract
+    #Then each record in the full extract is present and matches the delta extract
    #And I save some IDs from all the extract files to "delete_candidate" so I can delete them later
 
 Scenario: Generate a SEA bulk extract delta after day 1 ingestion
@@ -312,28 +311,23 @@ Scenario: Triggering deltas via ingestion
        |  disciplineIncident                    |
        |  studentDisciplineIncidentAssociation  |
        |  disciplineAction                      |
-       |  calendarDate                         |
-       |  deleted                              |
+       |  calendarDate                          |
+       |  deleted                               |
      And I save some IDs from all the extract files to "delete_candidate" so I can delete them later
 
      And I verify this "deleted" file should contain:
        | id                                          | condition                                |
+       | b43a7313ed0eaf7a6e71389b5cc64eb9e0ca0f2a_id | entityType = calendarDate                |
        | 54759a8d56aba10b1b300e66657cd6fcc3ca6ac9_id | entityType = studentSchoolAssociation    |
        | 1b4aa93f01d11ad51072f3992583861ed080f15c_id | entityType = parent                      |
        | db9a7477390fb5de9d58350d1ce3c45ef8fcb0c6_id | entityType = student                     |
        | 908404e876dd56458385667fa383509035cd4312_idd14e4387521c768830def2c9dea95dd0bf7f8f9b_id | entityType = studentParentAssociation    |
        | 95147c130335e0656b0d8e9ab79622a22c3a3fab_id                                            | entityType = section                     |
-
-       #us5781 delta lea
-       #| b43a7313ed0eaf7a6e71389b5cc64eb9e0ca0f2a_id | entityType =calendarDate                 |
- 
- 	   #this create calendarDate
-       #| 356a441384ea905a4e01d5acebb25f7c42b7e0bd_id | body.date = 2022-06-04                   |
-      #And I verify this "calendarDate" file should contain: 
-       #this is calendarDate IL-DAYBREAK, which has updated information
-       #| id                                          | condition                                |
-       #| 314b6e5f4d1f365891a1189767b7d2953d11ee46_id | body.calendarEvent = Instructional day   |
-       #| 356a441384ea905a4e01d5acebb25f7c42b7e0bd_id | body.date = 2022-06-04                   |
+      
+       And I verify this "calendarDate" file should contain: 
+        | id                                          | condition                                |
+        | eab8ffa631837241c27316f4cd034b8e014821a3_id | calendarEvent = Instructional day   |
+        | 356a441384ea905a4e01d5acebb25f7c42b7e0bd_id | date = 2022-06-04                   |
               
      And I verify this "student" file should contain: 
        #this is student 11, which has updated information
