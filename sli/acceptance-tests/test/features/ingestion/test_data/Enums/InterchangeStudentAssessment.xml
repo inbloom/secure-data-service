@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2012 sp1 (x64) (http://www.altova.com) by Peter Backes (Wireless Generation) -->
+<InterchangeStudentAssessment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+     xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentAssessment.xsd">
+     <StudentAssessment>
+          <AdministrationDate>2011-05-01</AdministrationDate>
+          <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+          <SerialNumber>5</SerialNumber>
+          <AdministrationLanguage IdentificationSystem="ISO 639">English</AdministrationLanguage>
+          <AdministrationEnvironment>Other</AdministrationEnvironment>
+          <LinguisticAccommodations>
+               <LinguisticAccommodation>Other</LinguisticAccommodation>
+          </LinguisticAccommodations>
+          <RetestIndicator>Primary Administration</RetestIndicator>
+          <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+          <PerformanceLevels>
+               <Description>Extremely well qualified</Description>
+          </PerformanceLevels>
+          <StudentReference>
+               <StudentIdentity>
+                    <StudentUniqueStateId>900000001</StudentUniqueStateId>
+               </StudentIdentity>
+          </StudentReference>
+          <AssessmentReference>
+               <AssessmentIdentity>
+                    <AssessmentTitle>English Language and Composition</AssessmentTitle>
+                    <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                    <Version>1</Version>
+               </AssessmentIdentity>
+          </AssessmentReference>
+     </StudentAssessment>
+     <StudentAssessmentItem>
+          <AssessmentResponse>True</AssessmentResponse>
+          <AssessmentItemResult>Did not meet standard</AssessmentItemResult>
+          <RawScoreResult>5</RawScoreResult>
+          <StudentAssessmentReference>
+               <StudentAssessmentIdentity>
+                    <AdministrationDate>2011-05-01</AdministrationDate>
+                    <StudentReference>
+                         <StudentIdentity>
+                              <StudentUniqueStateId>900000001</StudentUniqueStateId>
+                         </StudentIdentity>
+                    </StudentReference>
+                    <AssessmentReference>
+                         <AssessmentIdentity>
+                              <AssessmentTitle>English Language and Composition</AssessmentTitle>
+                              <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                              <Version>1</Version>
+                         </AssessmentIdentity>
+                    </AssessmentReference>
+               </StudentAssessmentIdentity>
+          </StudentAssessmentReference>
+          <AssessmentItemReference>
+               <AssessmentItemIdentity>
+                    <AssessmentItemIdentificationCode>AssessmentItem-2</AssessmentItemIdentificationCode>
+               </AssessmentItemIdentity>
+          </AssessmentItemReference>
+     </StudentAssessmentItem>
+</InterchangeStudentAssessment>
