@@ -68,6 +68,13 @@ public class StudentAccessValidator {
     static {
         // THREE PARTS
         Map<String, Set<String>> threeParts = new HashMap<String, Set<String>>();
+        
+        // system
+        Set<String> systemAllowedThreeParts = new HashSet<String>();
+        systemAllowedThreeParts.add("session");
+        systemAllowedThreeParts.add("debug");
+        threeParts.put("system", systemAllowedThreeParts);
+        
         // sessions
         Set<String> sessionsAllowedThreeParts = new HashSet<String>();
         sessionsAllowedThreeParts.add(ResourceNames.COURSE_OFFERINGS);
@@ -207,6 +214,11 @@ public class StudentAccessValidator {
         }
         
         String baseEntity = paths.get(0);
+        
+        if (paths.size() == 1 && baseEntity.equals("home")) {
+            // student can access /home
+            return true;
+        }
         
         if (paths.size() == 2) {
             // two parts are always allowed
