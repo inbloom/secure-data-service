@@ -111,16 +111,19 @@ public class ContextValidator implements ApplicationContextAware {
     }
 
     public void validateContextToUri(ContainerRequest request, SLIPrincipal principal) {
-        if (isUrlBlocked(request.getPathSegments())) {
-            throw new AccessDeniedException(String.format("url %s is not accessible.", request.getAbsolutePath().toString()));
-        }
         validateUserHasContextToRequestedEntities(request, principal);
     }
 
-    // white list student accessible URL. Can't do it in validateUserHasContextToRequestedEntity
-    // because we must also block some url that only has 2 segment, i.e.
-    // disciplineActions/disciplineIncidents
-    private boolean isUrlBlocked(List<PathSegment> pathSegments) {
+    /**
+     * white list student accessible URL. Can't do it in validateUserHasContextToRequestedEntity
+     * because we must also block some url that only has 2 segment, i.e.
+     * disciplineActions/disciplineIncidents
+     * 
+     * @param path
+     *            segments
+     * @return if url is accessible to students principals
+     */
+    public boolean isUrlBlocked(List<PathSegment> pathSegments) {
         if (SecurityUtil.isStudent()) {
             List<PathSegment> segs = cleanEmptySegments(pathSegments);
             List<String> paths = new ArrayList<String>();

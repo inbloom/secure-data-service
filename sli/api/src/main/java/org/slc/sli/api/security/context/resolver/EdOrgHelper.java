@@ -385,19 +385,35 @@ public class EdOrgHelper {
     }
 
     /**
-     * Get current education organizations for the specified staff member.
+     * Get current education organizations association for the specified staff member.
      */
-    private Set<String> getStaffDirectlyAssociatedEdorgs(Entity staff, boolean filterByOwnership) {
-        Set<String> edorgs = new HashSet<String>();
+    public Set<Entity> locateSEOAs(String staffId, boolean filterByOwnership) {
+        Set<Entity> edorgs = new HashSet<Entity>();
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE,
-                NeutralCriteria.OPERATOR_EQUAL, staff.getEntityId()));
+                NeutralCriteria.OPERATOR_EQUAL, staffId));
         Iterable<Entity> associations = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, basicQuery);
         for (Entity association : associations) {
             if (!filterByOwnership || ownership.canAccess(association)) {
                 if (!dateHelper.isFieldExpired(association.getBody(), ParameterConstants.END_DATE, false)) {
-                    edorgs.add((String) association.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE));
+                    edorgs.add(association);
                 }
             }
+        }
+        return edorgs;
+    }
+
+    /**
+     * Get current education organizations for the specified staff member.
+     */
+    private Set<String> getStaffDirectlyAssociatedEdorgs(Entity staff, boolean filterByOwnership) {
+        Set<String> edorgs = new HashSet<String>();
+
+        Iterable<Entity> associations = locateSEOAs(staff.getEntityId(), filterByOwnership);
+
+        for (Entity association : associations) {
+
+            edorgs.add((String) association.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE));
+
         }
         return edorgs;
     }
