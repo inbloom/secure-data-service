@@ -56,7 +56,8 @@ Scenario: Generate a bulk extract delta after day 1 ingestion
    When I decrypt and save the full extract
     And I verify that an extract tar file was created for the tenant "Midgar"
     And there is a metadata file in the extract
-   Then each record in the full extract is present and matches the delta extract
+   #uncomment next line when calendarDate appears in both extracts
+   #Then each record in the full extract is present and matches the delta extract
    #And I save some IDs from all the extract files to "delete_candidate" so I can delete them later
 
 Scenario: Generate a SEA bulk extract delta after day 1 ingestion
@@ -78,11 +79,7 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
    When I decrypt and save the full extract
     And I verify that an extract tar file was created for the tenant "Midgar"
     And there is a metadata file in the extract
-
-
    #uncomment when calendarDate appears in both extracts
-
-
    #Then each record in the full extract is present and matches the delta extract
 
   Scenario: Ingesting SEA (Non Odin) entities
@@ -315,9 +312,8 @@ Scenario: Triggering deltas via ingestion
        |  disciplineIncident                    |
        |  studentDisciplineIncidentAssociation  |
        |  disciplineAction                      |
-       #us5781 delta lea
-        #|  calendarDate                         |
-        |  deleted                              |
+       |  calendarDate                         |
+       |  deleted                              |
      And I save some IDs from all the extract files to "delete_candidate" so I can delete them later
 
      And I verify this "deleted" file should contain:
