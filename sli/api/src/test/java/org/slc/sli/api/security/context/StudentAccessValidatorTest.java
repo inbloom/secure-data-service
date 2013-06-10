@@ -64,5 +64,16 @@ public class StudentAccessValidatorTest {
         List<String> paths = Arrays.asList("anything", "id123");
         assertTrue(underTest.isAllowed(paths));
     }
+    
+    @Test
+    public void testAccessToHome() {
+        assertTrue(underTest.isAllowed(Arrays.asList("home")));
+    }
+    
+    @Test
+    public void testAccessToSystem() {
+        assertTrue(underTest.isAllowed(Arrays.asList("system", "session")));
+        assertTrue(underTest.isAllowed(Arrays.asList("system", "session", "debug")));
+    }
 
 }
