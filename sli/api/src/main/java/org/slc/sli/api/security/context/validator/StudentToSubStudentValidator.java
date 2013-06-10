@@ -17,6 +17,7 @@ public class StudentToSubStudentValidator extends AbstractContextValidator {
             EntityNames.STUDENT_ACADEMIC_RECORD,
             EntityNames.STUDENT_ASSESSMENT,
             EntityNames.STUDENT_GRADEBOOK_ENTRY,
+            EntityNames.STUDENT_SCHOOL_ASSOCIATION,
             EntityNames.GRADE,
             EntityNames.REPORT_CARD));
 
