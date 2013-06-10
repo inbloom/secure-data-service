@@ -8,12 +8,6 @@
         "type": "High School",
         "association": "Daybreak Central High",
         "parent" : "IL-DAYBREAK"
-      },
-      {
-        "role": "Educator",
-        "type": "High School",
-        "association": "Sunset Central High School",
-        "parent" : "IL-DAYBREAK"
       }
     ]
   },
@@ -60,11 +54,6 @@
         "role": "IT Administrator",
         "type": "Local Education Agency",
         "association": "IL-DAYBREAK"
-      },
-      {
-        "role": "IT Administrator",
-        "type": "Local Education Agency",
-        "association": "IL-HIGHWIND"
       }
     ]
   },
@@ -188,12 +177,6 @@
       {
         "role": "Educator",
         "type": "High School",
-        "association": "Highwind Southern High",
-        "parent": "IL-HIGHWIND"
-      },
-      {
-        "role": "Educator",
-        "type": "High School",
         "association": "Highwind Central High School",
         "parent": "IL-HIGHWIND"
       }
@@ -232,28 +215,6 @@
         "type": "Elementary School",
         "association": "South Highwind Elementary",
         "parent": "IL-HIGHWIND"
-      }
-    ]
-  },
-  {
-    "userId": "demo",
-    "name": "Kenny Admin",
-    "edOrgs": [
-      {
-        "role": "IT Administrator",
-        "type": "Local Education Agency",
-        "association": "IL-HIGHWIND"
-      }
-    ]
-  },
-  {
-    "userId": "sampleUser",
-    "name": "Craig Admin",
-    "edOrgs": [
-      {
-        "role": "IT Administrator",
-        "type": "Local Education Agency",
-        "association": "IL-HIGHWIND"
       }
     ]
   },
@@ -299,17 +260,6 @@
     "edOrgs": [
       {
         "role": "IT Administrator",
-        "type": "Local Education Agency",
-        "association": "IL-HIGHWIND"
-      }
-    ]
-  },
-  {
-    "userId": "jjackson",
-    "name": "Jack Jackson",
-    "edOrgs": [
-      {
-        "role": "Aggregate Viewer",
         "type": "Local Education Agency",
         "association": "IL-HIGHWIND"
       }
