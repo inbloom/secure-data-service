@@ -67,7 +67,7 @@ public class MongoUserLocator implements UserLocator {
             neutralQuery.setOffset(0);
             neutralQuery.setLimit(1);
             user.setEntity(repo.findOne(EntityNames.STUDENT, neutralQuery));
-        } else {
+        } else if (userType == null || EntityNames.STAFF.equals(userType)){
 
             NeutralQuery neutralQuery = new NeutralQuery();
             neutralQuery.setOffset(0);
