@@ -326,7 +326,7 @@ public class SamlFederationResource {
         if(!(isAdminRealm || isDevRealm) &&
                 (principal.getUserType() == null || principal.getUserType().equals(EntityNames.STAFF))) {
             Set<String> samlRoleSet = new HashSet<String>(roles);
-            Set<String> matchedRoles = matchRoles(principal.getEntity(), samlRoleSet);
+            Set<String> matchedRoles = matchRoles(principal.getEntity().getEntityId(), samlRoleSet);
             if(matchedRoles == null || matchedRoles.isEmpty()) {
                 error("Attempted login by a user that did not include any valid roles in the SAML Assertion.");
                 throw new AccessDeniedException("Invalid user. No valid roles specified for user.");
@@ -549,20 +549,20 @@ public class SamlFederationResource {
         return true;
     }
 
-    protected Set<String> matchRoles(Entity staff, Set<String>smalRoleSet) {
+    protected Set<String> matchRoles(String staffId, Set<String>smalRoleSet) {
         Set<String> seoaRoles = new HashSet<String>();
 
-        if (staff == null) {
+        if (staffId == null) {
             return seoaRoles;
         }
 
-        Set<Entity> edorgs = edorgHelper.locateDirectEdorgs(staff, false);
-        if (edorgs.size() == 0) {
+        Set<Entity> associations = edorgHelper.locateSEOAs(staffId, false);
+        if (associations.size() == 0) {
             throw new AccessDeniedException("User is not currently associated to a school/edorg");
         }
 
-        if(edorgs.iterator().hasNext()) {
-            seoaRoles = filterRoles(edorgs, smalRoleSet);
+        if(associations.iterator().hasNext()) {
+            seoaRoles = filterRoles(associations, smalRoleSet);
         }
 
         return seoaRoles;

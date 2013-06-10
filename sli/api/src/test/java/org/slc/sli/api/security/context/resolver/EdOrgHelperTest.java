@@ -20,17 +20,17 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -312,6 +312,19 @@ public class EdOrgHelperTest {
     }
 
     @Test
+    public void testTeacher3LocateSEOAs() {
+
+        NeutralQuery staffQuery = new NeutralQuery();
+        staffQuery.addCriteria(new NeutralCriteria(ParameterConstants.STAFF_UNIQUE_STATE_ID, NeutralCriteria.OPERATOR_EQUAL, teacher3.getEntityId()));
+        repo.deleteAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, staffQuery);
+        Date now = new Date();
+        setupSEOAs(repo, now.getTime(), teacher3, school3.getEntityId());
+
+        Set<Entity> associations = helper.locateSEOAs(teacher3.getEntityId(), false);
+        assertTrue("teacher3 should have 3 valid associations", associations.size() == 3);
+    }
+
+    @Test
     public void testParents() {
         List<String> edorgs = helper.getParentEdOrgs(school3);
         assertEquals(sea1.getEntityId(), edorgs.get(3));
@@ -353,4 +366,44 @@ public class EdOrgHelperTest {
         assertFalse("student3 should not see school2", edorgs.contains(school2.getEntityId()));
         assertTrue("student3 should see school3", edorgs.contains(school3.getEntityId()));
     }
+
+    Map<String, Object> createSEOA(String edorg, String staff, String endDate) {
+        Map<String, Object> seoa = new HashMap<String, Object>();
+        seoa.put(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, edorg);
+        seoa.put(ParameterConstants.STAFF_REFERENCE, staff);
+        if(endDate != null)
+            seoa.put(ParameterConstants.STAFF_EDORG_ASSOC_END_DATE, endDate);
+
+        return seoa;
+    }
+
+
+    private void setupSEOAs(Repository repo, long time, Entity staffEntity, String edorg) {
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
+        Date date = new Date(time);
+        long milSecInAYear = 31557600000L;
+        long milSecInADay = 86400000L;
+
+        String dateString = df.format(date);
+
+        repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, createSEOA(edorg, staffEntity.getEntityId(), dateString));
+
+        date = new Date(time - milSecInAYear);
+        dateString = df.format(date);
+        repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, createSEOA(edorg, staffEntity.getEntityId(), dateString));
+
+        date = new Date(time + milSecInADay);
+        dateString = df.format(date);
+        repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, createSEOA( edorg, staffEntity.getEntityId(), dateString));
+
+        date = new Date(time + milSecInAYear);
+        dateString = df.format(date);
+        repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, createSEOA(edorg, staffEntity.getEntityId(), dateString));
+
+        repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, createSEOA(edorg, staffEntity.getEntityId(), null));
+
+    }
+
 }
