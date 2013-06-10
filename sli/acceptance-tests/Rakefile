@@ -599,7 +599,7 @@ end
 # 'raise' exception logic below.  Rake will exit immediately if you raise an exception
 # before all the tests complete and will show incomplete results
 desc "Run API/Security Acceptances Tests"
-task :apiAndSecurityTests => [:apiV1Tests, :apiSuperDocTests, :securityTests, :migrationTests, :provisioningTests, :onboardingTests, :apiMegaTests, :v1SecurityEventTests, :runAssmtSearchIndexer ] do
+task :apiAndSecurityTests => [:apiV1Tests, :apiSuperDocTests, :securityTests, :userAdminCrudTests, :migrationTests, :provisioningTests, :onboardingTests, :apiMegaTests, :v1SecurityEventTests, :runAssmtSearchIndexer ] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -607,6 +607,17 @@ task :apiAndSecurityTests => [:apiV1Tests, :apiSuperDocTests, :securityTests, :m
     raise "Tests have failed"
   end
 end
+
+desc "Run API/Security Acceptances Tests without LDAP"
+task :apiSecurityNoLdapTests => [:apiV1Tests, :apiSuperDocTests, :securityTests, :migrationTests, :provisioningTests, :onboardingTests, :apiMegaTests, :v1SecurityEventTests, :runAssmtSearchIndexer ] do
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+
 
 desc "Run all sandbox tests"
 task :sandboxTests => [:realmInit, :simpleIdpSandboxTests, :apiSandboxTests, :adminSandboxTests] do
@@ -647,7 +658,6 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1SingleStudentViewTests,
                      :v1BlacklistValidationTests,
                      :v1XMLTests,
-                     :userAdminCrudTests,
                      :v1CommaSeparatedListOrderTests,
                      :v1SelectorTests,
                      :longLivedSessionTests,
