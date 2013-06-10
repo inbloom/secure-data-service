@@ -131,7 +131,6 @@ Scenario Outline: Extract received through the API should have all the valid ten
       |  program                               |
 
 
-
 Scenario: As a valid user get SEA public data delta extract using BEEP
   Given in my list of rights I have BULK_EXTRACT
   When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -201,12 +200,13 @@ Scenario: One of the entity doesn't reference the SEA
   | entity                                 |
   |  course                                |
 
-
-Scenario: None of the public entities reference the SEA
+Scenario: Where the public entity has no edOrg reference, verify the entity is still extracted for the SEA
     Given the extraction zone is empty
     And the bulk extract files in the database are scrubbed
     And The bulk extract app has been approved for "Midgar-DAYBREAK" with client id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
     And I get the SEA Id for the tenant "Midgar"
+    #removes entries from the collection referencing SEA
+    # not possible to have calenderDate with blank edOrg, those with SEA go to SEA, those not associated to SEA go to LEA
     And none of the following entities reference the SEA:
       | entity                                 | path                                   |
       |  course                                | body.schoolId                          |
@@ -224,7 +224,6 @@ Scenario: None of the public entities reference the SEA
     And the extract contains a file for each of the following entities:
       |  entityType                            |
       |  assessment                            |
-      |  calendarDate                          |
       |  learningObjective                     |
       |  learningStandard                      |
       |  graduationPlan                        |
