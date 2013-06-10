@@ -125,9 +125,9 @@ public class SamlFederationResourceTest {
 
         EdOrgHelper edorgHelper = Mockito.mock(EdOrgHelper.class);
 
-        Mockito.when(edorgHelper.locateDirectEdorgs((Entity) Matchers.any(), Matchers.eq(false))).thenReturn(edorgs);
+        Mockito.when(edorgHelper.locateSEOAs(Matchers.anyString(), Matchers.eq(false))).thenReturn(edorgs);
 
-        Set<String> matchedRoles = resource.matchRoles(staff, samlRoles);
+        Set<String> matchedRoles = resource.matchRoles(staff.getEntityId(), samlRoles);
         Set<String> expectedRoles = new HashSet<String>();
         expectedRoles.add("teacher");
         expectedRoles.add("principal");
