@@ -81,7 +81,28 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
    #uncomment when calendarDate appears in both extracts
    #Then each record in the full extract is present and matches the delta extract
 
-  Scenario: Ingesting SEA (Non Odin) entities
+ Scenario: Ingesting SEA (Non Odin) entities - Session
+    When I ingest "SEASession.zip"
+    And the extraction zone is empty
+    When I trigger a delta extract
+    When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+      |  entityType                            |
+      |  session                               |
+      |  calendarDate                          |
+    And I verify this "session" file should contain:
+      | id                                          | condition                                |
+      | 3d809925e89e28202cbaa76ddfaca40f52124dd3_id | totalInstructionalDays = 40              |
+    And I ingest "SEASessionUpdate.zip"
+    And the extraction zone is empty
+    When I trigger a delta extract
+    When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+      |  entityType                            |
+      |  session                         |
+    And I verify this "session" file should contain:
+      | id                                          | condition                                |
+      | 3d809925e89e28202cbaa76ddfaca40f52124dd3_id | totalInstructionalDays = 45              |
+
+  Scenario: Ingesting SEA (Non Odin) entities - Grading Period
     When I ingest "SEAGradingPeriod.zip"
     And the extraction zone is empty
     When I trigger a delta extract
@@ -753,6 +774,7 @@ Given I clean the bulk extract file system and database
   And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
         |  entityType                            |
         |  attendance                            |
+  #      |  calendarDate                          |
         |  cohort                                |
         |  course                                |
         |  courseOffering                        |
@@ -1069,7 +1091,7 @@ Given I clean the bulk extract file system and database
     | id                                          | condition                             |
     | d913396aef918602b8049027dbdce8826c054402_id | entityType = studentSchoolAssociation |
 
-Scenario: Delete student and stuSchAssoc, re-post them, then delete just studentSchoolAssociations (leaving students), verify delete
+
 Scenario: Create, delete, then re-create the same entity, verify 1 delta entry, no deletes
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
