@@ -162,11 +162,11 @@ public class StudentAccessValidator {
         studentSectionAssociationsAllowedThreeParts.add(ResourceNames.STUDENTS);
         threeParts.put(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, studentSectionAssociationsAllowedThreeParts);
 
-        // studentSectionAssociations
+        // studentCohortAssociations
         Set<String> studentCohortAssociationsAllowedThreeParts = new HashSet<String>();
         studentCohortAssociationsAllowedThreeParts.add(ResourceNames.COHORTS);
         studentCohortAssociationsAllowedThreeParts.add(ResourceNames.STUDENTS);
-        threeParts.put(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, studentCompetenciesAllowedThreeParts);
+        threeParts.put(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, studentCohortAssociationsAllowedThreeParts);
 
         THREE_PART_ALLOWED = Collections.unmodifiableMap(threeParts);
         
