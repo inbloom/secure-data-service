@@ -16,27 +16,6 @@
 
 package org.slc.sli.api.service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.config.BasicDefinitionStore;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.PathConstants;
@@ -49,17 +28,20 @@ import org.slc.sli.api.security.service.SecurityCriteria;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
-import org.slc.sli.domain.AccessibilityCheck;
-import org.slc.sli.domain.CalculatedData;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.FullSuperDoc;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.QueryParseException;
-import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.*;
 import org.slc.sli.domain.enums.Right;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+
+import java.util.*;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -73,34 +55,27 @@ import org.slc.sli.validation.ValidationError;
 public class BasicService implements EntityService, AccessibilityCheck {
 
     private static final String ADMIN_SPHERE = "Admin";
-
     private static final int MAX_RESULT_SIZE = 0;
-
     private static final String CUSTOM_ENTITY_COLLECTION = "custom_entities";
     private static final String CUSTOM_ENTITY_CLIENT_ID = "clientId";
     private static final String CUSTOM_ENTITY_ENTITY_ID = "entityId";
-
+    private static final List<String> STUDENT_SELF = Arrays.asList(EntityNames.STUDENT_PROGRAM_ASSOCIATION, EntityNames.STUDENT_COHORT_ASSOCIATION,
+            EntityNames.STUDENT_SECTION_ASSOCIATION);
     private String collectionName;
     private List<Treatment> treatments;
     private EntityDefinition defn;
-
     private Repository<Entity> repo;
     @Autowired
     @Qualifier("validationRepo")
     private Repository<Entity> securityRepo;
-
     @Autowired
     private ContextValidator contextValidator;
-
     @Autowired
     private SchemaDataProvider provider;
-
     @Autowired
     private CallingApplicationInfoProvider clientInfo;
-
     @Autowired
     private BasicDefinitionStore definitionStore;
-
     @Autowired
     private CustomEntityValidator customEntityValidator;
 
@@ -125,7 +100,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
     @Override
     public List<String> create(List<EntityBody> content) {
         List<String> entityIds = new ArrayList<String>();
-        for(EntityBody entityBody: content) {
+        for (EntityBody entityBody : content) {
             entityIds.add(create(entityBody));
         }
         if (entityIds.size() != content.size()) {
@@ -139,8 +114,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
     /**
      * Retrieves an entity from the data store with certain fields added/removed.
      *
-     * @param neutralQuery
-     *            all parameters to be included in query
+     * @param neutralQuery all parameters to be included in query
      * @return the body of the entity
      */
     @Override
@@ -159,7 +133,6 @@ public class BasicService implements EntityService, AccessibilityCheck {
         return results;
     }
 
-
     @Override
     public String create(EntityBody content) {
         checkAccess(false, false, content);
@@ -167,7 +140,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
         checkReferences(content);
 
         List<String> entityIds = new ArrayList<String>();
-       sanitizeEntityBody(content);
+        sanitizeEntityBody(content);
         // ideally we should validate everything first before actually persisting
         Entity entity = getRepo().create(defn.getType(), content, createMetadata(), collectionName);
         if (entity != null) {
@@ -212,7 +185,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
             throw new EntityNotFoundException(entityId);
         }
         Set<Right> rights = provider.getAllFieldRights(defn.getType(), isRead);
-        if (rights.equals(new HashSet<Right>(Arrays.asList(Right.ANONYMOUS_ACCESS))))  {
+        if (rights.equals(new HashSet<Right>(Arrays.asList(Right.ANONYMOUS_ACCESS)))) {
             // Check that target entity is accessible to the actor
             if (entityId != null && !isEntityAllowed(entityId, collectionName, defn.getType())) {
                 throw new AccessDeniedException("No association between the user and target entity");
@@ -227,14 +200,13 @@ public class BasicService implements EntityService, AccessibilityCheck {
      * @see org.slc.sli.domain.AccessibilityCheck#accessibilityCheck(java.lang.String)
      */
     @Override
-	public boolean accessibilityCheck(String id) {
-    	try {
-    		checkAccess(false, id, null);
-    	}
-    	catch( AccessDeniedException e) {
-    		return false;
-    	}
-    	return true;
+    public boolean accessibilityCheck(String id) {
+        try {
+            checkAccess(false, id, null);
+        } catch (AccessDeniedException e) {
+            return false;
+        }
+        return true;
     }
 
     // This will be replaced by a call to:
@@ -455,8 +427,8 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
         String clientId = getClientId();
 
-        debug("Reading custom entity: entity={}, entityId={}, clientId={}", new Object[] {
-                getEntityDefinition().getType(), id, clientId });
+        debug("Reading custom entity: entity={}, entityId={}, clientId={}", new Object[]{
+                getEntityDefinition().getType(), id, clientId});
 
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_CLIENT_ID, "=", clientId, false));
@@ -488,8 +460,8 @@ public class BasicService implements EntityService, AccessibilityCheck {
         }
 
         boolean deleted = getRepo().delete(CUSTOM_ENTITY_COLLECTION, entity.getEntityId());
-        debug("Deleting custom entity: entity={}, entityId={}, clientId={}, deleted?={}", new Object[] {
-                getEntityDefinition().getType(), id, clientId, String.valueOf(deleted) });
+        debug("Deleting custom entity: entity={}, entityId={}, clientId={}, deleted?={}", new Object[]{
+                getEntityDefinition().getType(), id, clientId, String.valueOf(deleted)});
     }
 
     @Override
@@ -506,7 +478,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
         if (entity != null && entity.getBody().equals(customEntity)) {
             debug("No change detected to custom entity, ignoring update: entity={}, entityId={}, clientId={}",
-                    new Object[] { getEntityDefinition().getType(), id, clientId });
+                    new Object[]{getEntityDefinition().getType(), id, clientId});
 
             return;
         }
@@ -521,15 +493,15 @@ public class BasicService implements EntityService, AccessibilityCheck {
         EntityBody clonedEntity = new EntityBody(customEntity);
 
         if (entity != null) {
-            debug("Overwriting existing custom entity: entity={}, entityId={}, clientId={}", new Object[] {
-                    getEntityDefinition().getType(), id, clientId });
+            debug("Overwriting existing custom entity: entity={}, entityId={}, clientId={}", new Object[]{
+                    getEntityDefinition().getType(), id, clientId});
             entity.getBody().clear();
             entity.getBody().putAll(clonedEntity);
             // custom entity is not superdoc
             getRepo().update(CUSTOM_ENTITY_COLLECTION, entity, false);
         } else {
-            debug("Creating new custom entity: entity={}, entityId={}, clientId={}", new Object[] {
-                    getEntityDefinition().getType(), id, clientId });
+            debug("Creating new custom entity: entity={}, entityId={}, clientId={}", new Object[]{
+                    getEntityDefinition().getType(), id, clientId});
             EntityBody metaData = new EntityBody();
 
             SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
@@ -613,7 +585,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
             toReturn = treatment.toExposed(toReturn, defn, entity);
         }
 
-            filterFields(toReturn);
+        filterFields(toReturn);
 
         return toReturn;
     }
@@ -637,8 +609,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
      * exists so that
      * authorization/context can be checked.
      *
-     * @param sourceId
-     *            ID that was deleted, where anything else with that ID should also be deleted
+     * @param sourceId ID that was deleted, where anything else with that ID should also be deleted
      */
     private void cascadeDelete(String sourceId) {
         // loop for every EntityDefinition that references the deleted entity's type
@@ -679,8 +650,8 @@ public class BasicService implements EntityService, AccessibilityCheck {
                         }
                     }
                 } catch (AccessDeniedException ade) {
-                    debug("No {} have {}={}", new Object[] { referencingEntity.getResourceName(), referenceField,
-                            sourceId });
+                    debug("No {} have {}={}", new Object[]{referencingEntity.getResourceName(), referenceField,
+                            sourceId});
                 }
             }
         }
@@ -708,7 +679,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
                 if (criteria.getOperator().equals(NeutralCriteria.CRITERIA_IN) && value.size() == 1) {
                     isSelf = isSelf(value.get(0));
                 }
-            } catch(ClassCastException e) {
+            } catch (ClassCastException e) {
                 debug("The value of the criteria was not a list");
             }
         }
@@ -734,6 +705,11 @@ public class BasicService implements EntityService, AccessibilityCheck {
                     Map<String, Object> body = entity.getBody();
                     return selfId.equals(body.get(ParameterConstants.TEACHER_ID));
                 }
+            } else if (SecurityUtil.isStudent() && STUDENT_SELF.contains(type)) {
+                Entity entity = repo.findById(defn.getStoredCollectionName(), entityId);
+                if (entity != null) {
+                    return selfId.equals(entity.getBody().get(ParameterConstants.STUDENT_ID));
+                }
             }
         }
         return false;
@@ -742,8 +718,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
     /**
      * Checks to see if the entity id is allowed by security
      *
-     * @param entityId
-     *            The id to check
+     * @param entityId The id to check
      * @return
      */
     private boolean isEntityAllowed(String entityId, String collectionName, String toType) {
@@ -776,7 +751,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
         Collection<GrantedAuthority> auths = new HashSet<GrantedAuthority>();
         auths.addAll(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
         SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
-        if(isSelf((String) eb.get("id"))) {
+        if (isSelf((String) eb.get("id"))) {
             auths.addAll(principal.getSelfRights());
         }
         filterFields(eb, auths, "");
@@ -797,7 +772,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
             List<Map<String, Object>> telephones = (List<Map<String, Object>>) eb.get(telephone);
             if (telephones != null) {
 
-                for (Iterator<Map<String, Object>> it = telephones.iterator(); it.hasNext();) {
+                for (Iterator<Map<String, Object>> it = telephones.iterator(); it.hasNext(); ) {
                     if (!work.equals(it.next().get(telephoneNumberType))) {
                         it.remove();
                     }
@@ -809,7 +784,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
             List<Map<String, Object>> emails = (List<Map<String, Object>>) eb.get(electronicMail);
             if (emails != null) {
 
-                for (Iterator<Map<String, Object>> it = emails.iterator(); it.hasNext();) {
+                for (Iterator<Map<String, Object>> it = emails.iterator(); it.hasNext(); ) {
                     if (!work.equals(it.next().get(emailAddressType))) {
                         it.remove();
                     }
@@ -855,8 +830,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
     /**
      * Returns the needed right for a field by examining the schema
      *
-     * @param fieldPath
-     *            The field name
+     * @param fieldPath The field name
      * @return
      */
     protected Set<Right> getNeededRights(String fieldPath) {
@@ -872,8 +846,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
     /**
      * Checks query params for access restrictions
      *
-     * @param query
-     *            The query to check
+     * @param query The query to check
      */
     protected void checkFieldAccess(NeutralQuery query, boolean isSelf) {
 
@@ -891,7 +864,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
                     Set<Right> neededRights = getNeededRights(criteria.getKey());
 
                     if (!neededRights.isEmpty() && !intersection(auths, neededRights)) {
-                    	debug("Denied user searching on field {}", criteria.getKey());
+                        debug("Denied user searching on field {}", criteria.getKey());
                         throw new QueryParseException("Cannot search on restricted field", criteria.getKey());
                     }
                 }
@@ -903,10 +876,8 @@ public class BasicService implements EntityService, AccessibilityCheck {
      * Determines if there is an intersection of a single needed right within the user's collection
      * of granted authorities.
      *
-     * @param authorities
-     *            User's collection of granted authorities.
-     * @param neededRights
-     *            Set of rights needed for accessing a given field.
+     * @param authorities  User's collection of granted authorities.
+     * @param neededRights Set of rights needed for accessing a given field.
      * @return True if the user can access the field, false otherwise.
      */
     protected boolean intersection(Collection<GrantedAuthority> authorities, Set<Right> neededRights) {
@@ -924,10 +895,8 @@ public class BasicService implements EntityService, AccessibilityCheck {
      * Determines if there is a union of all needed rights with the user's collection of granted
      * authorities.
      *
-     * @param authorities
-     *            User's collection of granted authorities.
-     * @param neededRights
-     *            Set of rights needed for accessing a given field.
+     * @param authorities  User's collection of granted authorities.
+     * @param neededRights Set of rights needed for accessing a given field.
      * @return True if the user can access the field, false otherwise.
      */
     protected boolean union(Collection<GrantedAuthority> authorities, Set<Right> neededRights) {
@@ -944,8 +913,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
     /**
      * Figures out if writing to restricted fields
      *
-     * @param eb
-     *            data currently being passed in
+     * @param eb data currently being passed in
      * @return WRITE_RESTRICTED if restricted fields are being written, WRITE_GENERAL otherwise
      */
     @SuppressWarnings("unchecked")
@@ -954,28 +922,28 @@ public class BasicService implements EntityService, AccessibilityCheck {
         if (ADMIN_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
             toReturn.add(Right.ADMIN_ACCESS);
         } else {
-			for (Map.Entry<String, Object> entry : eb.entrySet()) {
-				String fieldName = entry.getKey();
-				Object value = entry.getValue();
+            for (Map.Entry<String, Object> entry : eb.entrySet()) {
+                String fieldName = entry.getKey();
+                Object value = entry.getValue();
 
-				List<Object> list = null;
-				if (value instanceof List) {
-					list = (List<Object>) value;
-				} else {
-					list = Collections.singletonList(value);
-				}
+                List<Object> list = null;
+                if (value instanceof List) {
+                    list = (List<Object>) value;
+                } else {
+                    list = Collections.singletonList(value);
+                }
 
-				for (Object obj : list) {
-					String fieldPath = prefix + fieldName;
-					Set<Right> neededRights = provider.getRequiredWriteLevels(defn.getType(), fieldPath);
-					if (neededRights.isEmpty() && obj instanceof Map) {
-						neededRights.addAll(determineWriteAccess((Map<String, Object>) obj, prefix + "." + fieldName + "."));	// Mixing recursion and iteration, very bad
-					}
-					debug("Field {} requires {}", fieldPath, neededRights);
-					toReturn.addAll(neededRights);
-				}
-			}
-		}
+                for (Object obj : list) {
+                    String fieldPath = prefix + fieldName;
+                    Set<Right> neededRights = provider.getRequiredWriteLevels(defn.getType(), fieldPath);
+                    if (neededRights.isEmpty() && obj instanceof Map) {
+                        neededRights.addAll(determineWriteAccess((Map<String, Object>) obj, prefix + "." + fieldName + "."));    // Mixing recursion and iteration, very bad
+                    }
+                    debug("Field {} requires {}", fieldPath, neededRights);
+                    toReturn.addAll(neededRights);
+                }
+            }
+        }
 
         return toReturn;
     }
