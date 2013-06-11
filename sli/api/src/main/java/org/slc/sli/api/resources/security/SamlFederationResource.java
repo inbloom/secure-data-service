@@ -23,15 +23,14 @@ import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.HashSet;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -52,7 +51,6 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.slc.sli.common.constants.ParameterConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -61,7 +59,6 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 
-import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.representation.CustomStatus;
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
@@ -73,6 +70,8 @@ import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.security.roles.Role;
 import org.slc.sli.api.security.saml.SamlAttributeTransformer;
 import org.slc.sli.api.security.saml.SamlHelper;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.common.util.tenantdb.TenantContext;
@@ -327,9 +326,9 @@ public class SamlFederationResource {
                 (principal.getUserType() == null || principal.getUserType().equals(EntityNames.STAFF))) {
             Set<String> samlRoleSet = new HashSet<String>(roles);
             Set<String> matchedRoles = matchRoles(principal.getEntity().getEntityId(), samlRoleSet);
-            if(matchedRoles == null || matchedRoles.isEmpty()) {
+            if (matchedRoles.isEmpty()) {
                 error("Attempted login by a user that did not include any valid roles in the SAML Assertion.");
-                throw new AccessDeniedException("Invalid user. No valid roles specified for user.");
+                throw new AccessDeniedException("Invalid user.  No valid roles specified for user.");
             }
         }
 
@@ -556,9 +555,10 @@ public class SamlFederationResource {
             return seoaRoles;
         }
 
-        Set<Entity> associations = edorgHelper.locateSEOAs(staffId, false);
+        Set<Entity> associations = edorgHelper.locateNonExpiredSEOAs(staffId);
         if (associations.size() == 0) {
-            throw new AccessDeniedException("User is not currently associated to a school/edorg");
+            error("Attempted login by a user that did not include any current valid roles in the SAML Assertion.");
+            throw new AccessDeniedException("Invalid user.  User is not currently associated with any school/edorg");
         }
 
         if(associations.iterator().hasNext()) {

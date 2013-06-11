@@ -313,7 +313,7 @@ task :apiOdinSearchAssessment do
 end
 
 desc "Run API Odin Integration Tests"
-task :apiOdinStudentLogin do
+task :apiOdinStudentLogin => [:realmInit] do
 # This is to extract assessment, learningStandard, etc. into Elastic Search
   allLeaAllowApp("Mobile App")
   authorizeEdorg("Mobile App")
@@ -323,7 +323,8 @@ end
 
 desc "Run contextual roles acceptance tests"
 task :apiContextualRolesTests => [:realmInit, :importSandboxData] do
-    runTests("test/features/apiV1/contextual_roles/matchRoles.feature")
+  setFixture("staffEducationOrganizationAssociation", "staffEducationOrganizationAssociation_fixture_contextual_roles.json")
+  runTests("test/features/apiV1/contextual_roles/matchRoles.feature")
 end
 
 ############################################################

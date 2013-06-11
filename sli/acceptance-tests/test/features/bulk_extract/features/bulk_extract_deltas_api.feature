@@ -178,6 +178,13 @@ Scenario: Triggering deltas via ingestion
        | edcd730acd29f74a5adcb4123b183001a3513853_id  | entityType = studentCompetencyObjective |
        | ebfc74d85dfcdcb7e5ddc93a6af2952801f9436e_id  | entityType = program                    |
        | aec59707feac8e68d9d4b780bef5547e934297dc_id  | entityType = gradingPeriod              |
+       #| 78f5ed2b6ce039539f34ef1889af712816aec6f7_id  | entityType = calendarDate               |
+       
+       #And I verify this "calendarDate" file should contain: 
+        #| id                                          | condition                                |
+        #| f34a74910eca77b0d344e1611f89156d84d0a40d_id | calendarEvent = Instructional day        |
+        #| c8d46187efd4476ccbf1442fd11abb4fc990b269_id | calendarEvent = Holiday                  |
+             
      And I verify this "learningObjective" file should contain:
        | id                                          | condition                                |
        | a2b6a9f6ec88b4524c13064b335c0e078395e658_id | description = This an added description to test Deltas |
@@ -767,6 +774,7 @@ Given I clean the bulk extract file system and database
     | newLearningStandard            |  learningStandard                      |  201         |
     | newCompetencyLevelDescriptor   |  competencyLevelDescriptor             |  201         |
     | newStudentCompetencyObjective  |  studentCompetencyObjective            |  201         |
+    | newSession                     |  session                               |  201         |
 
  When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And I generate and retrieve the bulk extract delta via API for "<STANDARD-SEA>"
@@ -778,6 +786,7 @@ Given I clean the bulk extract file system and database
         |  learningStandard                      |
         |  competencyLevelDescriptor             |
         |  studentCompetencyObjective            |
+        |  session            |
   And I verify this "program" file should contain:
         | id                                          | condition                                |
         | 0ee2b448980b720b722706ec29a1492d95560798_id | programType = Regular Education          |
@@ -797,6 +806,9 @@ Given I clean the bulk extract file system and database
   And I verify this "studentCompetencyObjective" file should contain:
         | id                                          | condition                                |
         | ef680988e7c411cdb5438ded373512cd59cbfa7b_id | description = Description                |
+  And I verify this "session" file should contain:
+        | id                                          | condition                                |
+        | fe6e1a162e6f6825830d78d72cb55498afaedcd3_id | endDate = 2015-06-11                |
 
  When I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/json"
@@ -808,6 +820,7 @@ Given I clean the bulk extract file system and database
         |  patchDescription     |  patchLearningStandard           |  Patched description                   |  204         |
         |  patchDescription     |  patchCompetencyLevelDescriptor  |  Patched description                   |  204         |
         |  patchDescription     |  patchStudentCompetencyObjective |  Patched description                   |  204         |
+        |  patchEndDate         |  patchSession                    |  2015-06-12                            |  204         |
 
  Given the unpack directory is empty
  When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -820,6 +833,7 @@ Given I clean the bulk extract file system and database
          |  learningStandard                      |
          |  competencyLevelDescriptor             |
          |  studentCompetencyObjective            |
+         |  session                               |
    And I verify this "program" file should contain:
          | id                                          | condition                                |
          | 0ee2b448980b720b722706ec29a1492d95560798_id | programType = Adult/Continuing Education |
@@ -839,6 +853,9 @@ Given I clean the bulk extract file system and database
   And I verify this "studentCompetencyObjective" file should contain:
         | id                                          | condition                                |
         | ef680988e7c411cdb5438ded373512cd59cbfa7b_id | description = Patched description          |
+  And I verify this "session" file should contain:
+        | id                                          | condition                                |
+        | fe6e1a162e6f6825830d78d72cb55498afaedcd3_id | endDate = 2015-06-12                     |
 
  When I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
@@ -1062,6 +1079,7 @@ Given I clean the bulk extract file system and database
     |  learningStandard           |  1bd6fea0e8b8ac6a8fe87a8530effbced0df9318_id  |  204         |
     |  competencyLevelDescriptor  |  ceddd8ec0ee71c1f4f64218e00581e9b27c0fffb_id  |  204         |
     |  studentCompetencyObjective |  ef680988e7c411cdb5438ded373512cd59cbfa7b_id  |  204         |
+    |  session                    |  fe6e1a162e6f6825830d78d72cb55498afaedcd3_id  |  204         |
 
  Given the extraction zone is empty
   When I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds

@@ -655,6 +655,7 @@ def getEntityEndpoint(entity)
       "school" => "educationOrganizations",
       "section" => "sections",
       "session" => "sessions",
+      "patchSession" => "sessions",
       "staff" => "staff",
       "newStaff" => "staff",
       "staffCohortAssociation" => "staffCohortAssociations",
@@ -724,7 +725,8 @@ def getEntityBodyFromApi(entity, api_version, verb)
       "patchLearningObjective" => "learningObjectives/bc2dd61ff2234eb25835dbebe22d674c8a10e963_id",
       "patchLearningStandard" => "learningStandards/1bd6fea0e8b8ac6a8fe87a8530effbced0df9318_id",
       "patchCompetencyLevelDescriptor" => "competencyLevelDescriptor/ceddd8ec0ee71c1f4f64218e00581e9b27c0fffb_id",
-      "patchStudentCompetencyObjective" => "studentCompetencyObjectives/ef680988e7c411cdb5438ded373512cd59cbfa7b_id"
+      "patchStudentCompetencyObjective" => "studentCompetencyObjectives/ef680988e7c411cdb5438ded373512cd59cbfa7b_id",
+      "patchSession" => "sessions/fe6e1a162e6f6825830d78d72cb55498afaedcd3_id"
   }
   # Perform GET request and verify we get a response and a response body
   restHttpGet("/#{api_version}/#{entity_to_uri_map[entity]}")
@@ -2420,6 +2422,16 @@ def prepareBody(verb, value, response_map)
       },
       "newGraduationPlan" => {
 
+      },
+      "newSession" => {
+        "schoolYear" => "2014-2015",
+        "sessionName" => "New SEA session",
+        "term" => "Year Round",
+        "gradingPeriodReference" => ["1dae9e8450e2e77dd0b06dee3fd928c1bfda4d49_id"],
+        "endDate" => "2015-06-11",
+        "schoolId" => "884daa27d806c2d725bc469b273d840493f84b4d_id",
+        "beginDate" => "2014-08-12",
+        "totalInstructionalDays" => 180
       },
       "newGradingPeriod" => {
         "endDate"=>"2014-05-22",

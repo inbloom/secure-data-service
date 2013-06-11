@@ -12,6 +12,16 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </EducationalOrgIdentity>
     </EducationOrgReference>
   </CalendarDate>
+  
+     <CalendarDate>
+    <Date>2023-06-05</Date>
+    <CalendarEvent>Instructional day</CalendarEvent>
+    <EducationOrgReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrgReference>
+  </CalendarDate>
 
 </Action>
 </InterchangeEducationOrgCalendar>
