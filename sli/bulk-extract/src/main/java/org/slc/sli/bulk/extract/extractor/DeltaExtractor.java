@@ -133,7 +133,7 @@ public class DeltaExtractor implements InitializingBean {
         edOrgHelper = new EdOrgHierarchyHelper(repo);
     // this is supposed to go away once all the Delta-SEA stories played out
         Set<String> deltaSEALocal = new HashSet<String>(Arrays.asList(  "calendarDate", "competencyLevelDescriptor", "educationOrganization", "learningObjective",
-                "learningStandard", "program", "studentCompetencyObjective", "gradingPeriod", "session"));
+                "learningStandard", "program", "studentCompetencyObjective", "gradingPeriod", "session", "course", "courseOffering"));
         deltaSEASupported = Collections.unmodifiableSet(deltaSEALocal);
 
     }
