@@ -178,13 +178,6 @@ Scenario: Triggering deltas via ingestion
        | edcd730acd29f74a5adcb4123b183001a3513853_id  | entityType = studentCompetencyObjective |
        | ebfc74d85dfcdcb7e5ddc93a6af2952801f9436e_id  | entityType = program                    |
        | aec59707feac8e68d9d4b780bef5547e934297dc_id  | entityType = gradingPeriod              |
-       #| 78f5ed2b6ce039539f34ef1889af712816aec6f7_id  | entityType = calendarDate               |
-       
-       #And I verify this "calendarDate" file should contain: 
-        #| id                                          | condition                                |
-        #| f34a74910eca77b0d344e1611f89156d84d0a40d_id | calendarEvent = Instructional day        |
-        #| c8d46187efd4476ccbf1442fd11abb4fc990b269_id | calendarEvent = Holiday                  |
-             
      And I verify this "learningObjective" file should contain:
        | id                                          | condition                                |
        | a2b6a9f6ec88b4524c13064b335c0e078395e658_id | description = This an added description to test Deltas |

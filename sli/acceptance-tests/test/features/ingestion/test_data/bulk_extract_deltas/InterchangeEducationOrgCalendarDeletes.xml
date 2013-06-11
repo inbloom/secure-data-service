@@ -12,8 +12,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </EducationalOrgIdentity>
     </EducationOrgReference>
   </CalendarDate>
-  
-
 
 </Action>
 </InterchangeEducationOrgCalendar>
