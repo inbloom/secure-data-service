@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.HashSet;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
@@ -52,6 +53,7 @@ public class CalendarDateExtractor implements EntityExtract {
 	@Override
 	public void extractEntities(EntityToLeaCache entityToEdorgCache) {
 		Set<String> LEAs = map.getLeas();
+		Set<String> edOrgSeen = new HashSet<String>();
         localEdOrgExtractHelper.logSecurityEvent(LEAs, EntityNames.CALENDAR_DATE, this.getClass().getName());
 		Map<String, String> schoolToLea = helper.buildSubToParentEdOrgCache(entityToEdorgCache);
 		Iterator<Entity> calendarDates = repo.findEach(EntityNames.CALENDAR_DATE, new Query());
@@ -75,7 +77,11 @@ public class CalendarDateExtractor implements EntityExtract {
 				}
 			}
 			if (lea == null) {
-				LOG.warn("There is no LEA for edOrg {}", edOrgId);
+				// Warn about it, but only once
+				if ( !edOrgSeen.contains(edOrgId) ) {
+					LOG.warn("There is no LEA for edOrg {}", edOrgId);
+					edOrgSeen.add(edOrgId);
+				}
 				continue;
 			}
 			extractor.extractEntity(calendarDate, map.getExtractFileForLea(lea), EntityNames.CALENDAR_DATE);
