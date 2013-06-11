@@ -96,7 +96,7 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
     When I trigger a delta extract
     When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
       |  entityType                            |
-      |  session                         |
+      |  session                               |
     And I verify this "session" file should contain:
       | id                                          | condition                                |
       | 3d809925e89e28202cbaa76ddfaca40f52124dd3_id | totalInstructionalDays = 45              |
@@ -107,7 +107,8 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
     When I trigger a delta extract
     When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
       |  entityType                            |
-      |  course                               |
+      |  course                                |
+      |  courseOffering                        |
     And I verify this "course" file should contain:
       | id                                          | condition                                |
       | a71ea7489a86103bddd7459c25c83b7e7c5da875_id | courseTitle = Sixth grade English        |
@@ -116,7 +117,7 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
     When I trigger a delta extract
     When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
       |  entityType                            |
-      |  course                         |
+      |  course                                |
     And I verify this "course" file should contain:
       | id                                          | condition                                |
       | a71ea7489a86103bddd7459c25c83b7e7c5da875_id | courseTitle = Seventh grade English      |
