@@ -70,7 +70,7 @@ When zip file is scp to ingestion landing zone
      | assessmentFamily                         |                 66|
      | assessmentPeriodDescriptor               |                 28|
      | attendance                               |                172|
-     | calendarDate                             |                943|
+     | calendarDate                             |                950|
      | cohort                                   |                 12|
      | competencyLevelDescriptor                |                  4|
      | course                                   |                129|
@@ -78,7 +78,7 @@ When zip file is scp to ingestion landing zone
      | courseSectionAssociation                 |                  0|
      | disciplineAction                         |                259|
      | disciplineIncident                       |                138|
-     | educationOrganization                    |                  9|
+     | educationOrganization                    |                 11|
      | educationOrganizationAssociation         |                  0|
      | educationOrganizationSchoolAssociation   |                  0|
      | grade                                    |                260|
@@ -89,7 +89,7 @@ When zip file is scp to ingestion landing zone
      | learningStandard                         |               1499|
      | parent                                   |                109|
      | program                                  |                 64|
-     | recordHash                               |              26710|
+     | recordHash                               |              26719|
      | reportCard                               |                 99|
      | schoolSessionAssociation                 |                  0|
      | section                                  |                165|
