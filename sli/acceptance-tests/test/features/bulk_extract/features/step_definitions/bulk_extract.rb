@@ -629,11 +629,13 @@ def getEntityEndpoint(entity)
   entity_to_endpoint_map = {
       "attendance" => "attendances",
       "courseOffering" => "courseOfferings",
+      "patchSEACourseOffering" => "courseOfferings",
       "seaCourse" => "educationOrganizations/884daa27d806c2d725bc469b273d840493f84b4d_id/courses",
       "cohort" => "cohorts",
       "competencyLevelDescriptor" => "competencyLevelDescriptor",
       "patchCompetencyLevelDescriptor" => "competencyLevelDescriptor",
       "course" => "courses",
+      "patchSEACourse" => "courses",
       "educationOrganization" => "educationOrganizations",
       "gradebookEntry" => "gradebookEntries",
       "grade" => "grades",
@@ -726,7 +728,9 @@ def getEntityBodyFromApi(entity, api_version, verb)
       "patchLearningStandard" => "learningStandards/1bd6fea0e8b8ac6a8fe87a8530effbced0df9318_id",
       "patchCompetencyLevelDescriptor" => "competencyLevelDescriptor/ceddd8ec0ee71c1f4f64218e00581e9b27c0fffb_id",
       "patchStudentCompetencyObjective" => "studentCompetencyObjectives/ef680988e7c411cdb5438ded373512cd59cbfa7b_id",
-      "patchSession" => "sessions/fe6e1a162e6f6825830d78d72cb55498afaedcd3_id"
+      "patchSession" => "sessions/fe6e1a162e6f6825830d78d72cb55498afaedcd3_id",
+      "patchSEACourse" => "courses/494d4c8281ec78c7d8634afb683d39f6afdc5b85_id",
+      "patchSEACourseOffering" => "courseOfferings/0fee7a7aba9a96388ef628b7e3e5e5ea60a142a7_id"
   }
   # Perform GET request and verify we get a response and a response body
   restHttpGet("/#{api_version}/#{entity_to_uri_map[entity]}")
@@ -2469,6 +2473,24 @@ def prepareBody(verb, value, response_map)
         "studentCompetencyObjectiveId" => "NEW-JS-K-1",
         "description" => "Description",
         "educationOrganizationId" => "884daa27d806c2d725bc469b273d840493f84b4d_id"
+      },
+      "newSEACourse" => {
+        "courseDescription" => "new SEA course",
+        "uniqueCourseId" => "new-sea-1",
+        "courseCode" => [{
+            "identificationSystem" => "School course code",
+            "ID" => "new-science-1"
+        }],
+        "courseTitle" => "Sixth grade Science",
+        "numberOfParts" => 1,
+        "schoolId" => "884daa27d806c2d725bc469b273d840493f84b4d_id"
+      },
+      "newSEACourseOffering" => {
+        "schoolId" => "884daa27d806c2d725bc469b273d840493f84b4d_id",
+        "sessionId" => "bfeaf9315f04797a41dbf1663d18ead6b6fb1309_id",
+        "courseId" => "877e4934a96612529535581d2e0f909c5288131a_id",
+        "localCourseCode" => "101 English",
+        "localCourseTitle" => "New SEA English"
       }
     },
     "PATCH" => {
@@ -2502,6 +2524,12 @@ def prepareBody(verb, value, response_map)
       },
       "patchDescription" => {
           "description" => value
+      },
+      "patchCourseDesc" => {
+          "courseDescription" => value
+      },
+      "patchCourseId" => {
+          "courseId" => value
       },
       "studentParentName" => {
         "name" => {
