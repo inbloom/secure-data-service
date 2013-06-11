@@ -17,9 +17,6 @@ limitations under the License.
 =end
 
 require "selenium-webdriver"
-require 'json'
-require 'mongo'
-require 'rest-client'
 
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../utils/selenium_common.rb'
@@ -78,25 +75,6 @@ Then /^I should be able to use the token to make valid API calls$/ do
   assert(data != nil, "Response body is nil")
   assert(data['authenticated'] == true,
   "Session debug context 'authentication.authenticated' is not true")
-end
-
-#############################################################################################
-
-
-#############################################################################################
-# Database Steps
-#############################################################################################
-
-When /^the SEOAAs have been updated in the database$/ do
-  conn = Mongo::Connection.new(PropLoader.getProps['DB_HOST'], PropLoader.getProps['DB_PORT'])
-  tenantName = 'Midgar'
-  dbTenant = conn.db(convertTenantIdToDbName(tenantName))
-  staffColl = dbTenant.collection("staff")
-  cgrayId = staffColl.find_one({"body.staffUniqueStateId" => "cgray"})["_id"]
-  rbravermanId = staffColl.find_one({"body.staffUniqueStateId" => "rbraverman"})["_id"]
-  seoaaColl = dbTenant.collection("staffEducationOrganizationAssociation")
-  seoaaColl.update({"body.staffReference" => cgrayId}, {"$set" => {"body.endDate" => "2008-07-07"}}, {:multi => true})
-  seoaaColl.update({"body.staffReference" => rbravermanId}, {"$set" => {"body.staffClassification" => "Janitor"}}, {:multi => true})
 end
 
 #############################################################################################

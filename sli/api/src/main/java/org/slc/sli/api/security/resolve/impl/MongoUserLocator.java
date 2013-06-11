@@ -67,7 +67,7 @@ public class MongoUserLocator implements UserLocator {
             neutralQuery.setOffset(0);
             neutralQuery.setLimit(1);
             user.setEntity(repo.findOne(EntityNames.STUDENT, neutralQuery));
-        } else {
+        } else if (isStaff(userType)){
 
             NeutralQuery neutralQuery = new NeutralQuery();
             neutralQuery.setOffset(0);
@@ -98,6 +98,10 @@ public class MongoUserLocator implements UserLocator {
         }
 
         return user;
+    }
+
+    private boolean isStaff(String userType) {
+        return userType == null || userType.isEmpty() || EntityNames.STAFF.equals(userType);
     }
 
     /**

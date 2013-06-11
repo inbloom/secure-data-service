@@ -385,19 +385,55 @@ public class EdOrgHelper {
     }
 
     /**
+     * Get all the valid StaffEdorg associations.
+     * @param staffId
+     *      The staffId the SEOAs belong to.
+     * @param filterByOwnership
+     *      flag to check ownership
+     * @return
+     */
+    public Set<Entity> locateValidSEOAs(String staffId, boolean filterByOwnership) {
+        Set<Entity> validAssociations = new HashSet<Entity>();
+        Iterable<Entity> associations = locateNonExpiredSEOAs(staffId);
+        for (Entity association : associations) {
+            if (!filterByOwnership || ownership.canAccess(association)) {
+                validAssociations.add(association);
+            }
+        }
+        return validAssociations;
+    }
+
+    /**
+     * Get all non expired StaffEdorg associations.
+     * @param staffId
+     *      The staffId the SEOAs belong to.
+     * @return
+     */
+    public Set<Entity> locateNonExpiredSEOAs(String staffId) {
+        Set<Entity> validAssociations = new HashSet<Entity>();
+        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE,
+                NeutralCriteria.OPERATOR_EQUAL, staffId));
+        Iterable<Entity> associations = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, basicQuery);
+        for (Entity association : associations) {
+            if (!dateHelper.isFieldExpired(association.getBody(), ParameterConstants.END_DATE, false)) {
+                validAssociations.add(association);
+            }
+        }
+        return validAssociations;
+    }
+
+    /**
      * Get current education organizations for the specified staff member.
      */
     private Set<String> getStaffDirectlyAssociatedEdorgs(Entity staff, boolean filterByOwnership) {
         Set<String> edorgs = new HashSet<String>();
-        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE,
-                NeutralCriteria.OPERATOR_EQUAL, staff.getEntityId()));
-        Iterable<Entity> associations = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, basicQuery);
+
+        Iterable<Entity> associations = locateValidSEOAs(staff.getEntityId(), filterByOwnership);
+
         for (Entity association : associations) {
-            if (!filterByOwnership || ownership.canAccess(association)) {
-                if (!dateHelper.isFieldExpired(association.getBody(), ParameterConstants.END_DATE, false)) {
-                    edorgs.add((String) association.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE));
-                }
-            }
+
+            edorgs.add((String) association.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE));
+
         }
         return edorgs;
     }

@@ -75,6 +75,18 @@ public class StudentAccessValidator {
         systemAllowedThreeParts.add("debug");
         threeParts.put("system", systemAllowedThreeParts);
         
+        // assessments
+        Set<String> assessmentsAllowedThreeParts = new HashSet<String>();
+        assessmentsAllowedThreeParts.add(ResourceNames.LEARNINGOBJECTIVES);
+        assessmentsAllowedThreeParts.add(ResourceNames.LEARNINGSTANDARDS);
+        threeParts.put(ResourceNames.ASSESSMENTS, assessmentsAllowedThreeParts);
+
+        // sections
+        Set<String> sectionsAllowedThreeParts = new HashSet<String>();
+        sectionsAllowedThreeParts.add(ResourceNames.GRADEBOOK_ENTRIES);
+        sectionsAllowedThreeParts.add(ResourceNames.STUDENT_SECTION_ASSOCIATIONS);
+        threeParts.put(ResourceNames.SECTIONS, sectionsAllowedThreeParts);
+
         // sessions
         Set<String> sessionsAllowedThreeParts = new HashSet<String>();
         sessionsAllowedThreeParts.add(ResourceNames.COURSE_OFFERINGS);
@@ -86,6 +98,7 @@ public class StudentAccessValidator {
         schoolsAllowedThreeParts.add(ResourceNames.COURSE_OFFERINGS);
         schoolsAllowedThreeParts.add(ResourceNames.COURSES);
         schoolsAllowedThreeParts.add(ResourceNames.SESSIONS);
+        schoolsAllowedThreeParts.add(ResourceNames.SECTIONS);
         schoolsAllowedThreeParts.add(ResourceNames.GRADUATION_PLANS);
         threeParts.put(ResourceNames.SCHOOLS, schoolsAllowedThreeParts);
 
@@ -102,6 +115,18 @@ public class StudentAccessValidator {
         Set<String> courseTranscriptsAllowedThreeParts = new HashSet<String>();
         courseTranscriptsAllowedThreeParts.add(ResourceNames.COURSES);
         threeParts.put(ResourceNames.COURSE_TRANSCRIPTS, courseTranscriptsAllowedThreeParts);
+        
+        // courses
+        Set<String> coursesAllowedThreeParts = new HashSet<String>();
+        coursesAllowedThreeParts.add(ResourceNames.COURSE_OFFERINGS);
+        threeParts.put(ResourceNames.COURSES, coursesAllowedThreeParts);
+
+        // courseOfferings
+        Set<String> courseOfferingsAllowedThreeParts = new HashSet<String>();
+        courseOfferingsAllowedThreeParts.add(ResourceNames.COURSES);
+        courseOfferingsAllowedThreeParts.add(ResourceNames.SECTIONS);
+        courseOfferingsAllowedThreeParts.add(ResourceNames.SESSIONS);
+        threeParts.put(ResourceNames.COURSE_OFFERINGS, courseOfferingsAllowedThreeParts);
 
         // studentCompetencies 
         Set<String> studentCompetenciesAllowedThreeParts = new HashSet<String>();
@@ -131,6 +156,7 @@ public class StudentAccessValidator {
         studentsAllowedThreeParts.add(ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS);
         studentsAllowedThreeParts.add(ResourceNames.STUDENT_COHORT_ASSOCIATIONS);
         studentsAllowedThreeParts.add(ResourceNames.STUDENT_GRADEBOOK_ENTRIES);
+        studentsAllowedThreeParts.add(ResourceNames.YEARLY_ATTENDANCES);
         threeParts.put(ResourceNames.STUDENTS, studentsAllowedThreeParts);
 
         // learningObjectives
@@ -162,18 +188,35 @@ public class StudentAccessValidator {
         studentSectionAssociationsAllowedThreeParts.add(ResourceNames.STUDENTS);
         threeParts.put(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, studentSectionAssociationsAllowedThreeParts);
 
+        // studentCohortAssociations
+        Set<String> studentCohortAssociationsAllowedThreeParts = new HashSet<String>();
+        studentCohortAssociationsAllowedThreeParts.add(ResourceNames.COHORTS);
+        studentCohortAssociationsAllowedThreeParts.add(ResourceNames.STUDENTS);
+        threeParts.put(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, studentCohortAssociationsAllowedThreeParts);
+
         THREE_PART_ALLOWED = Collections.unmodifiableMap(threeParts);
         
         // FOUR PARTS
         Map<String, Set<List<String>>> fourParts = new HashMap<String, Set<List<String>>>();
+        // courses
+        Set<List<String>> coursesAllowedFourParts = new HashSet<List<String>>();
+        coursesAllowedFourParts.add(Arrays.asList(ResourceNames.COURSE_OFFERINGS, ResourceNames.SESSIONS));
+        fourParts.put(ResourceNames.COURSES, coursesAllowedFourParts);
+
         // sessions
         Set<List<String>> sessionsAllowedFourParts = new HashSet<List<String>>();
         sessionsAllowedFourParts.add(Arrays.asList(ResourceNames.COURSE_OFFERINGS, ResourceNames.COURSES));
         fourParts.put(ResourceNames.SESSIONS, sessionsAllowedFourParts);
         
+        // sections
+        Set<List<String>> sectionsAllowedFourParts = new HashSet<List<String>>();
+        sectionsAllowedFourParts.add(Arrays.asList(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, ResourceNames.STUDENTS));
+        fourParts.put(ResourceNames.SECTIONS, sectionsAllowedFourParts);
+
         // schools
         Set<List<String>> schoolsAllowedFourParts = new HashSet<List<String>>();
         schoolsAllowedFourParts.add(Arrays.asList(ResourceNames.SESSIONS, ResourceNames.GRADING_PERIODS));
+        schoolsAllowedFourParts.add(Arrays.asList(ResourceNames.COURSE_OFFERINGS, ResourceNames.COURSES));
         fourParts.put(ResourceNames.SCHOOLS, schoolsAllowedFourParts);
 
         // students
