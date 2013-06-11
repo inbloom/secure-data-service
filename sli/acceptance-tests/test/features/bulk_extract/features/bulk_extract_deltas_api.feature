@@ -861,7 +861,7 @@ Given I clean the bulk extract file system and database
   And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
         |  entityType                            |
         |  attendance                            |
-        |  calendarDate                          |
+       # |  calendarDate                          |
         |  cohort                                |
         |  course                                |
         |  courseOffering                        |
