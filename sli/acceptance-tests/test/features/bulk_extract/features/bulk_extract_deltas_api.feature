@@ -102,6 +102,7 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
       | id                                          | condition                                |
       | 3d809925e89e28202cbaa76ddfaca40f52124dd3_id | totalInstructionalDays = 45              |
 
+
   Scenario: Ingesting SEA (Non Odin) entities - Course
     When I ingest "SEACourse.zip"
     And the extraction zone is empty
@@ -144,6 +145,27 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
     And I verify this "gradingPeriod" file should contain:
       | id                                          | condition                                |
       | aec59707feac8e68d9d4b780bef5547e934297dc_id | totalInstructionalDays = 190             |
+
+  @wip
+  Scenario: Ingesting SEA (Non Odin) entities - GraduationPlan
+    When I ingest "SEAGraduationPlan.zip"
+    And the extraction zone is empty
+    When I trigger a delta extract
+    When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+      |  entityType                            |
+      |  graduationPlan                        |
+    And I verify this "graduationPlan" file should contain:
+      | id                                          | condition                                |
+      | 22411ee1066db57f4a8424f8285bc1d82fae1560_id | GraduationPlanType = Distinguished       |
+    And I ingest "SEAGraduationPlanUpdate.zip"
+    And the extraction zone is empty
+    When I trigger a delta extract
+    When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+      |  entityType                            |
+      |  graduationPlan                        |
+    And I verify this "graduationPlan" file should contain:
+      | id                                          | condition                                |
+      | 22411ee1066db57f4a8424f8285bc1d82fae1560_id | GraduationPlanType = Standard            |
 
 Scenario: Triggering deltas via ingestion
   All entities belong to lea1 which is IL-DAYBREAK, we should only see a delta file for lea1
