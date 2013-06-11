@@ -4,11 +4,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="false">
 
   <CalendarDate>
-    <Date>2023-06-04</Date>
-    <CalendarEvent>Instructional day</CalendarEvent>
+    <Date>2014-03-21</Date>
+    <CalendarEvent>Holiday</CalendarEvent>
     <EducationOrgReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrgReference>
   </CalendarDate>
