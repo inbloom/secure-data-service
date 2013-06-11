@@ -555,7 +555,7 @@ public class SamlFederationResource {
             return seoaRoles;
         }
 
-        Set<Entity> associations = edorgHelper.locateSEOAs(staffId, false);
+        Set<Entity> associations = edorgHelper.locateNonExpiredSEOAs(staffId);
         if (associations.size() == 0) {
             error("Attempted login by a user that did not include any current valid roles in the SAML Assertion.");
             throw new AccessDeniedException("Invalid user.  User is not currently associated with any school/edorg");
