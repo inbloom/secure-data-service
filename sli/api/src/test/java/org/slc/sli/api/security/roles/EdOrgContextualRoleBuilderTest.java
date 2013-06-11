@@ -92,7 +92,7 @@ public class EdOrgContextualRoleBuilderTest {
         edOrg2RolesSet.add(createRole("Educator"));
         Mockito.when(resolver.mapRoles(tenant, realmId, Arrays.asList("Educator"), false)).thenReturn(edOrg2RolesSet);
 
-        Mockito.when(edorgHelper.locateSEOAs(staffId, false)).thenReturn(seoas);
+        Mockito.when(edorgHelper.locateNonExpiredSEOAs(staffId)).thenReturn(seoas);
         Map<String, List<String>> edOrgRoles = edOrgRoleBuilder.buildValidStaffRoles(realmId, staffId,tenant, samlRoles);
 
         Assert.assertNotNull(edOrgRoles);
@@ -121,7 +121,7 @@ public class EdOrgContextualRoleBuilderTest {
 
         Mockito.when(resolver.mapRoles(tenant, realmId, Arrays.asList("Educator", "IT Admin"), false)).thenReturn(edOrg1RolesSet);
 
-        Mockito.when(edorgHelper.locateSEOAs(staffId, false)).thenReturn(seoas);
+        Mockito.when(edorgHelper.locateNonExpiredSEOAs(staffId)).thenReturn(seoas);
         Map<String, List<String>> edOrgRoles = edOrgRoleBuilder.buildValidStaffRoles(realmId, staffId,tenant, samlRoles);
 
         Assert.assertNotNull(edOrgRoles);
@@ -136,7 +136,7 @@ public class EdOrgContextualRoleBuilderTest {
     @Test
     (expected = AccessDeniedException.class)
     public void testInvalidEdOrgRoles() {
-        Mockito.when(edorgHelper.locateSEOAs(Mockito.anyString(), Mockito.anyBoolean())).thenReturn(new HashSet<Entity>());
+        Mockito.when(edorgHelper.locateNonExpiredSEOAs(Mockito.anyString())).thenReturn(new HashSet<Entity>());
 
         Map<String, List<String>> edOrgRoles = edOrgRoleBuilder.buildValidStaffRoles(realmId, staffId, tenant, samlRoles);
 
@@ -153,7 +153,7 @@ public class EdOrgContextualRoleBuilderTest {
 
         seoas.add(createSEOA("LEA2", "Random Role2"));
 
-        Mockito.when(edorgHelper.locateSEOAs(Mockito.anyString(), Mockito.anyBoolean())).thenReturn(seoas);
+        Mockito.when(edorgHelper.locateNonExpiredSEOAs(Mockito.anyString())).thenReturn(seoas);
 
         Map<String, List<String>> edOrgRoles = edOrgRoleBuilder.buildValidStaffRoles(realmId, staffId, tenant, samlRoles);
 
@@ -168,7 +168,7 @@ public class EdOrgContextualRoleBuilderTest {
         seoas.add(createSEOA("LEA1", "Educator"));
         seoas.add(createSEOA("LEA2", "Educator"));
 
-        Mockito.when(edorgHelper.locateSEOAs(Mockito.anyString(), Mockito.anyBoolean())).thenReturn(seoas);
+        Mockito.when(edorgHelper.locateNonExpiredSEOAs(Mockito.anyString())).thenReturn(seoas);
 
         Map<String, List<String>> edOrgRoles = edOrgRoleBuilder.buildValidStaffRoles(realmId, staffId, tenant, new ArrayList<String>());
 

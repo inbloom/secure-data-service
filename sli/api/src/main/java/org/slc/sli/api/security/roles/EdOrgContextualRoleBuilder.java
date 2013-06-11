@@ -49,10 +49,11 @@ public class EdOrgContextualRoleBuilder {
     public Map<String, List<String>> buildValidStaffRoles(String realmId, String staffId, String tenant, List<String> roles) {
         Set<String> samlRoleSet = new HashSet<String>(roles);
 
-        Set<Entity> staffEdOrgAssoc = edorgHelper.locateSEOAs(staffId, false);
+        Set<Entity> staffEdOrgAssoc = edorgHelper.locateNonExpiredSEOAs(staffId);
 
         if (staffEdOrgAssoc.size() == 0) {
-            throw new AccessDeniedException("User is not currently associated to a school/edorg");
+            error("Attempted login by a user that did not include any current valid roles in the SAML Assertion.");
+            throw new AccessDeniedException("Invalid user.  User is not currently associated with any school/edorg");
         }
 
         Map<String, List<String>> sliEdOrgRoleMap = buildEdOrgContextualRoles(staffEdOrgAssoc, samlRoleSet);

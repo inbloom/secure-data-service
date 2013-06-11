@@ -323,7 +323,8 @@ end
 
 desc "Run contextual roles acceptance tests"
 task :apiContextualRolesTests => [:realmInit, :importSandboxData] do
-    runTests("test/features/apiV1/contextual_roles/matchRoles.feature")
+  setFixture("staffEducationOrganizationAssociation", "staffEducationOrganizationAssociation_fixture_contextual_roles.json")
+  runTests("test/features/apiV1/contextual_roles/matchRoles.feature")
 end
 
 ############################################################

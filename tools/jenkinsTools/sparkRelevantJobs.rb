@@ -79,7 +79,7 @@ require 'rest-client'
   "jmeter" => "#{@jenkinsHostname}:8080/view/Components/job/NTS%20JMeter%20API%20Performance/buildWithParameters",
   "odin-api" => "#{@jenkinsHostname}:8080/view/Components/job/API_Odin_Tests/buildWithParameters",
   "bulk-extract" => "#{@jenkinsHostname}:8080/view/Components/job/Bulk-Extract%20Tests/buildWithParameters",
-  "contextual-role" => "#{@jenkinsHostname}:8080/view/Components/job/API_Contextual_Roles/buildWithParameter"
+  "contextual-role" => "#{@jenkinsHostname}:8080/view/Components/job/API_Contextual_Roles/buildWithParameters"
 }
 
 ################## Helpers and Input Parsing ###########################

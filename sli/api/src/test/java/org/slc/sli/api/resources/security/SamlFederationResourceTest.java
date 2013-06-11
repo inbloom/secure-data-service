@@ -100,6 +100,4 @@ public class SamlFederationResourceTest {
         resource.consume(postData, uriInfo);
     }
 
-
-
 }
