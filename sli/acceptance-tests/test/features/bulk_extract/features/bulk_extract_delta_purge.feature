@@ -62,6 +62,5 @@ Feature: List a purge as a single event in the delta extract
       |  course                                |
       |  courseOffering                        |
       |  gradingPeriod                         |
-      |  calendarDate                          |
       |  deleted                               |
     Then the delete file in the delta extract should have one purge entry
