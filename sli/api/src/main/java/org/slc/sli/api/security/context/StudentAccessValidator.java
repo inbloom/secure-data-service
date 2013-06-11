@@ -251,6 +251,10 @@ public class StudentAccessValidator {
         if (paths == null || paths.isEmpty()) {
             return false;
         }
+
+        if (isDisiplineRelated(paths)) {
+            return false;
+        }
         
         if (isDisiplineRelated(paths)) {
             return false;
@@ -269,6 +273,10 @@ public class StudentAccessValidator {
         }
 
         if (paths.size() == 3) {
+        	if (paths.get(2).equals(ResourceNames.CUSTOM)) {
+        		//custom endpoints always allowed
+        		return true;
+        	}      	     	
             return THREE_PART_ALLOWED.get(baseEntity) != null
                     && THREE_PART_ALLOWED.get(baseEntity).contains(paths.get(2));
         }
