@@ -156,6 +156,7 @@ task :rcDeleteLDAPUsers do
       puts e.message
       puts e.backtrace.inspect
       puts "Error:  Deleting #{email} from LDAP failed"
+      puts "Host: #{PropLoader.getProps['ldap_hostname']} Port: #{PropLoader.getProps['ldap_port']}"
     end
   end
 end

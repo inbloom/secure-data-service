@@ -150,30 +150,42 @@ public class BasicService implements EntityService, AccessibilityCheck {
         return entity.getEntityId();
     }
 
+    /**
+     * Validates that user roles allow access to fields
+     * @param isRead whether operation is "read" or "write"
+     * @param isSelf whether operation is being done in "self" context
+     * @param content item under inspection
+     */
     private void checkAccess(boolean isRead, boolean isSelf, EntityBody content) {
         SecurityUtil.ensureAuthenticated();
         Set<Right> neededRights = new HashSet<Right>();
 
-        if (isRead || content == null) {
-            neededRights.addAll(provider.getAllFieldRights(defn.getType(), isRead));
-        } else {
-            neededRights.addAll(determineWriteAccess(content, ""));
-        }
         Collection<GrantedAuthority> auths = getAuths(isSelf);
 
-        if (ADMIN_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
-            neededRights = new HashSet<Right>(Arrays.asList(Right.ADMIN_ACCESS));
-        }
-
+        boolean allow = false;
         if (auths.contains(Right.FULL_ACCESS)) {
             debug("User has full access");
-        } else if (neededRights.isEmpty()) {
-            debug("User is granted access because there are no needed rights.");
-        } else if (isRead && intersection(auths, neededRights)) {
-            debug("User is performing READ and has at least one of the needed rights: {}", neededRights);
-        } else if (!isRead && union(auths, neededRights)) {
-            debug("User is performing WRITE and has all of the needed rights: {}", neededRights);
+            allow = true;
+        } else if (ADMIN_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
+            neededRights = new HashSet<Right>(Arrays.asList(Right.ADMIN_ACCESS));
+            allow = intersection(auths, neededRights);
+        } else if (!isRead) {
+            debug("Evaluating rights for write...");
+            if (content == null) {
+                neededRights.addAll(provider.getAllFieldRights(defn.getType(), isRead));
+                allow = intersection(auths, neededRights);
+            } else {
+                allow = determineWriteAccess(content, "", auths);
+            }
+        } else if (isRead) {
+            debug("Evaluating rights for read...");
+            neededRights.addAll(provider.getAllFieldRights(defn.getType(), isRead));
+            allow = intersection(auths, neededRights);
         } else {
+            throw new IllegalStateException("Unknown security validation path for Read/Write/Admin");
+        }
+
+        if (!allow) {
             throw new AccessDeniedException("Insufficient Privileges");
         }
     }
@@ -881,14 +893,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
      * @return True if the user can access the field, false otherwise.
      */
     protected boolean intersection(Collection<GrantedAuthority> authorities, Set<Right> neededRights) {
-        boolean intersects = false;
-        for (GrantedAuthority authority : authorities) {
-            if (neededRights.contains(authority)) {
-                intersects = true;
-                break;
-            }
-        }
-        return intersects;
+        return neededRights.isEmpty() || !Collections.disjoint(authorities, neededRights);
     }
 
     /**
@@ -910,18 +915,11 @@ public class BasicService implements EntityService, AccessibilityCheck {
         return union;
     }
 
-    /**
-     * Figures out if writing to restricted fields
-     *
-     * @param eb data currently being passed in
-     * @return WRITE_RESTRICTED if restricted fields are being written, WRITE_GENERAL otherwise
-     */
     @SuppressWarnings("unchecked")
-    private Set<Right> determineWriteAccess(Map<String, Object> eb, String prefix) {
-        Set<Right> toReturn = new HashSet<Right>();
-        if (ADMIN_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
-            toReturn.add(Right.ADMIN_ACCESS);
-        } else {
+    private boolean determineWriteAccess(Map<String, Object> eb, String prefix, Collection<GrantedAuthority> auths) {
+
+        boolean allow = true;
+        if (!ADMIN_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
             for (Map.Entry<String, Object> entry : eb.entrySet()) {
                 String fieldName = entry.getKey();
                 Object value = entry.getValue();
@@ -936,16 +934,23 @@ public class BasicService implements EntityService, AccessibilityCheck {
                 for (Object obj : list) {
                     String fieldPath = prefix + fieldName;
                     Set<Right> neededRights = provider.getRequiredWriteLevels(defn.getType(), fieldPath);
-                    if (neededRights.isEmpty() && obj instanceof Map) {
-                        neededRights.addAll(determineWriteAccess((Map<String, Object>) obj, prefix + "." + fieldName + "."));    // Mixing recursion and iteration, very bad
-                    }
+
                     debug("Field {} requires {}", fieldPath, neededRights);
-                    toReturn.addAll(neededRights);
+
+                    if (neededRights.isEmpty() && obj instanceof Map) {
+                        allow &= determineWriteAccess((Map<String, Object>) obj, prefix + "." + fieldName + ".", auths);    // Mixing recursion and iteration, very bad
+                    } else {
+                        if (!intersection(auths, neededRights)) {
+                            allow = false;
+                            break;
+                        }
+                    }
+
                 }
             }
         }
 
-        return toReturn;
+        return allow;
     }
 
     /**
