@@ -34,6 +34,26 @@
     </StateEducationAgencyReference>
   </LocalEducationAgency>
 
+    <LocalEducationAgency>
+        <StateOrganizationId>IL-DAYBREAK-SUB-LEA</StateOrganizationId>
+        <NameOfInstitution>Daybreak School District 4529A</NameOfInstitution>
+        <OrganizationCategories>
+            <OrganizationCategory>Local Education Agency</OrganizationCategory>
+        </OrganizationCategories>
+        <Address>
+            <StreetNumberName>123 Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>00000</PostalCode>
+        </Address>
+        <LEACategory>Independent</LEACategory>
+        <LocalEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </LocalEducationAgencyReference>
+    </LocalEducationAgency>
+
   <School>
     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
     <EducationOrgIdentificationCode IdentificationSystem="School">
@@ -70,6 +90,43 @@
       </EducationalOrgIdentity>
     </LocalEducationAgencyReference>
   </School>
+
+    <School>
+        <StateOrganizationId>Sub LEA Elementary</StateOrganizationId>
+        <EducationOrgIdentificationCode IdentificationSystem="School">
+            <ID>Sub LEA Elementary</ID>
+        </EducationOrgIdentificationCode>
+        <NameOfInstitution>Sub LEA Elementary</NameOfInstitution>
+        <OrganizationCategories>
+            <OrganizationCategory>School</OrganizationCategory>
+        </OrganizationCategories>
+        <Address AddressType="Physical">
+            <StreetNumberName>111 Ave A</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>11011</PostalCode>
+            <NameOfCounty>Wake</NameOfCounty>
+        </Address>
+        <Telephone InstitutionTelephoneNumberType="Main">
+            <TelephoneNumber>(917)-555-0212</TelephoneNumber>
+        </Telephone>
+        <GradesOffered>
+            <GradeLevel>Kindergarten</GradeLevel>
+            <GradeLevel>First grade</GradeLevel>
+            <GradeLevel>Second grade</GradeLevel>
+            <GradeLevel>Third grade</GradeLevel>
+            <GradeLevel>Fourth grade</GradeLevel>
+            <GradeLevel>Fifth grade</GradeLevel>
+        </GradesOffered>
+        <SchoolCategories>
+            <SchoolCategory>Elementary School</SchoolCategory>
+        </SchoolCategories>
+        <LocalEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK-SUB-LEA</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </LocalEducationAgencyReference>
+    </School>
   <School>
     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
     <EducationOrgIdentificationCode IdentificationSystem="School">

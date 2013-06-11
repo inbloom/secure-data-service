@@ -52,6 +52,7 @@ public class SLIPrincipal implements Principal, Serializable {
     private String tenantId;
     private String sessionId;
     private List<String> roles;
+    private Map<String, List<String>> edOrgRoles;
     private String edOrgId;
     private boolean adminUser;
     private String firstName;
@@ -139,6 +140,14 @@ public class SLIPrincipal implements Principal, Serializable {
 
     public void setRoles(List<String> roles) {
         this.roles = roles;
+    }
+
+    public Map<String, List<String>> getEdOrgRoles() {
+        return edOrgRoles;
+    }
+
+    public void setEdOrgRoles(Map<String, List<String>> edOrgRoles) {
+        this.edOrgRoles = edOrgRoles;
     }
 
     public String getAdminRealm() {

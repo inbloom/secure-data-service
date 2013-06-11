@@ -320,7 +320,7 @@ public class EdOrgHelperTest {
         Date now = new Date();
         setupSEOAs(repo, now.getTime(), teacher3, school3.getEntityId());
 
-        Set<Entity> associations = helper.locateSEOAs(teacher3.getEntityId(), false);
+        Set<Entity> associations = helper.locateNonExpiredSEOAs(teacher3.getEntityId());
         assertTrue("teacher3 should have 3 valid associations", associations.size() == 3);
     }
 
