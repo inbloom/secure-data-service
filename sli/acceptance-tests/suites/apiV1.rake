@@ -313,7 +313,7 @@ task :apiOdinSearchAssessment do
 end
 
 desc "Run API Odin Integration Tests"
-task :apiOdinStudentLogin do
+task :apiOdinStudentLogin => [:realmInit] do
 # This is to extract assessment, learningStandard, etc. into Elastic Search
   allLeaAllowApp("Mobile App")
   authorizeEdorg("Mobile App")

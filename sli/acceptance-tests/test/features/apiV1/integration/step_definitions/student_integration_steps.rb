@@ -263,16 +263,50 @@ end
 Then /^I should get and store the "(.*?)" link named "(.*?)"$/ do |context, mylink|
   @result = JSON.parse(@res.body)
   assert(@result != nil, "Response contains no data")
-  found = false
   if !@result.nil? && !@result.empty?
+    found = false
     @result["links"].each do |link|
       if link["rel"] == mylink
         found = true
-        entityHashPush(context, mylink)
+        entityHashPush(context, mylink, link["href"])
+        puts "DEBUG: @entityMap[#{context}][#{mylink}] is #{@entityMap[context][mylink]}"
       end
     end
   end
   assert(found, "Could not find the link #{mylink} in the URI Response: #{@result}")
+end
+
+Then /^I should validate all the HATEOS links$/ do
+  @result = JSON.parse(@res.body)
+  assert(@result != nil, "Response contains no data")
+  puts "DEBUG: Token is #{@sessionId}"
+  if !@result.empty?
+    @result["links"].each do |link|
+      link["href"].match("/api/rest/v1\.[0-9]/(.*?)$")
+      uri = $1
+      assert(uri != nil, "Did not find a link for #{link["rel"]} => #{link["href"]}" )
+      puts "DEBUG: Validating #{link["rel"]}"
+      step "I navigate to GET \"/v1/#{uri}\""
+      if link["rel"] == "custom"
+        assert(@res.code == 404, "Return code was not expected: #{@res.code} but expected 404")
+      else 
+        puts "DEBUG: return code for #{link["rel"]} is #{@res.code}"
+        #step "I should receive a return code of 200"
+      end
+      #puts "DEBUG: 200 OK"
+    end
+  else
+    assert(false, "Empty response from API call, expected HATEOS links in response body.")
+  end
+end
+
+Then /^I should GET a return code of "(.*?)" for all the "(.*?)" links$/ do |rc, userType|
+  # Strip out the first part of each URI to pass to GET method
+  @entityMap[userType].each
+  uris = something
+
+  step "I navigate to GET '/v1/#{uri}'"
+  step "I should receive a return code of #{rc}"
 end
 
 Then /^I should get and store the "(.*?)" from the response body$/ do |field|
@@ -312,7 +346,7 @@ Then /^the response field "(.*?)" should be the number "(.*?)"$/ do |field, valu
 end
 
 Then /^I should extract the "(.*?)" id from the "(.*?)" URI$/ do |entity, link|
-  value = @entityMap["teacher"][link].match(/#{resource}\/(.*?_id)/)
+  value = @entityMap[entity][link].match(/#{resource}\/(.*?_id)/)
   entityHashPush(entity, "id", $1)
 end
 
@@ -515,8 +549,12 @@ end
 
 # Build the entity hash map
 def entityHashPush(entity, key, value)
-  @entityMap[entity] = Hash.new unless defined? @entityMap[entity]
-  @entityMap[entity][key] = value
+  @entityMap = Hash.new unless defined? @entityMap
+  #@entityMap[entity] = Hash.new unless defined? @entityMap[entity]
+  puts "DEBUG: entity is #{entity}, key is #{key}"
+  #@entityMap[entity][key] = Hash.new unless defined? @entityMap[entity][key]
+  
+  @entityMap[entity] = {key => value}
 end
 
 def getTeacherSchools()
