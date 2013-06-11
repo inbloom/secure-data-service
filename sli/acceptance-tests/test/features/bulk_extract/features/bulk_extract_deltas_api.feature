@@ -56,7 +56,7 @@ Scenario: Generate a bulk extract delta after day 1 ingestion
    When I decrypt and save the full extract
     And I verify that an extract tar file was created for the tenant "Midgar"
     And there is a metadata file in the extract
-    #Then each record in the full extract is present and matches the delta extract
+    Then each record in the full extract is present and matches the delta extract
    #And I save some IDs from all the extract files to "delete_candidate" so I can delete them later
 
 Scenario: Generate a SEA bulk extract delta after day 1 ingestion
@@ -179,10 +179,10 @@ Scenario: Triggering deltas via ingestion
        | aec59707feac8e68d9d4b780bef5547e934297dc_id  | entityType = gradingPeriod              |
        | 78f5ed2b6ce039539f34ef1889af712816aec6f7_id  | entityType = calendarDate               |
        
-       #And I verify this "calendarDate" file should contain: 
-        #| id                                          | condition                                |
-        #| f34a74910eca77b0d344e1611f89156d84d0a40d_id | calendarEvent = Instructional day        |
-        #| c8d46187efd4476ccbf1442fd11abb4fc990b269_id | calendarEvent = Holiday                  |
+       And I verify this "calendarDate" file should contain: 
+        | id                                          | condition                                |
+        | f34a74910eca77b0d344e1611f89156d84d0a40d_id | calendarEvent = Holiday        |
+        | c8d46187efd4476ccbf1442fd11abb4fc990b269_id | calendarEvent = Holiday                  |
              
      And I verify this "learningObjective" file should contain:
        | id                                          | condition                                |
