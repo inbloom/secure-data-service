@@ -78,8 +78,7 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
    When I decrypt and save the full extract
     And I verify that an extract tar file was created for the tenant "Midgar"
     And there is a metadata file in the extract
-   #uncomment when calendarDate appears in both extracts
-   #Then each record in the full extract is present and matches the delta extract
+   Then each record in the full extract is present and matches the delta extract
 
  Scenario: Ingesting SEA (Non Odin) entities - Session
     When I ingest "SEASession.zip"
@@ -178,7 +177,7 @@ Scenario: Triggering deltas via ingestion
        | edcd730acd29f74a5adcb4123b183001a3513853_id  | entityType = studentCompetencyObjective |
        | ebfc74d85dfcdcb7e5ddc93a6af2952801f9436e_id  | entityType = program                    |
        | aec59707feac8e68d9d4b780bef5547e934297dc_id  | entityType = gradingPeriod              |
-       #| 78f5ed2b6ce039539f34ef1889af712816aec6f7_id  | entityType = calendarDate               |
+       | 78f5ed2b6ce039539f34ef1889af712816aec6f7_id  | entityType = calendarDate               |
        
        #And I verify this "calendarDate" file should contain: 
         #| id                                          | condition                                |
@@ -862,7 +861,7 @@ Given I clean the bulk extract file system and database
   And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
         |  entityType                            |
         |  attendance                            |
-  #      |  calendarDate                          |
+        |  calendarDate                          |
         |  cohort                                |
         |  course                                |
         |  courseOffering                        |
