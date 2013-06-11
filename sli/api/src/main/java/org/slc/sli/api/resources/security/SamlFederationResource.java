@@ -52,6 +52,7 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.slc.sli.api.security.roles.EdOrgContextualRoleBuilder;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -135,6 +136,9 @@ public class SamlFederationResource {
 
     @Autowired
     private EdOrgHelper edorgHelper;
+
+    @Autowired
+    private EdOrgContextualRoleBuilder edOrgRoleBuilder;
 
     public static SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -325,12 +329,8 @@ public class SamlFederationResource {
 
         if(!(isAdminRealm || isDevRealm) &&
                 (principal.getUserType() == null || principal.getUserType().equals(EntityNames.STAFF))) {
-            Set<String> samlRoleSet = new HashSet<String>(roles);
-            Set<String> matchedRoles = matchRoles(principal.getEntity().getEntityId(), samlRoleSet);
-            if(matchedRoles == null || matchedRoles.isEmpty()) {
-                error("Attempted login by a user that did not include any valid roles in the SAML Assertion.");
-                throw new AccessDeniedException("Invalid user. No valid roles specified for user.");
-            }
+            Map<String, List<String>> sliEdOrgRoleMap = edOrgRoleBuilder.buildValidStaffRoles(realm.getEntityId(), principal.getEntity().getEntityId(), tenant, roles);
+            principal.setEdOrgRoles(sliEdOrgRoleMap);
         }
 
 
@@ -348,6 +348,7 @@ public class SamlFederationResource {
             throw new AccessDeniedException("User is not associated with realm.");
         }
 
+        //F262: Update this to only store roles for non staff users
         Set<Role> sliRoleSet = resolver.mapRoles(tenant, realm.getEntityId(), roles, isAdminRealm);
         List<String> sliRoleList = new ArrayList<String>();
         boolean isAdminUser = true;
@@ -358,6 +359,7 @@ public class SamlFederationResource {
                 break;
             }
         }
+
         principal.setRoles(sliRoleList);
         principal.setAdminUser(isAdminUser);
         principal.setAdminRealmAuthenticated(isAdminRealm || isDevRealm);
@@ -472,6 +474,7 @@ public class SamlFederationResource {
         }
     }
 
+
     private void generateSamlValidationError(String message) {
         error(message);
         throw new AccessDeniedException("Authorization could not be verified.");
@@ -547,57 +550,6 @@ public class SamlFederationResource {
             }
         }
         return true;
-    }
-
-    protected Set<String> matchRoles(String staffId, Set<String>smalRoleSet) {
-        Set<String> seoaRoles = new HashSet<String>();
-
-        if (staffId == null) {
-            return seoaRoles;
-        }
-
-        Set<Entity> associations = edorgHelper.locateSEOAs(staffId, false);
-        if (associations.size() == 0) {
-            throw new AccessDeniedException("User is not currently associated to a school/edorg");
-        }
-
-        if(associations.iterator().hasNext()) {
-            seoaRoles = filterRoles(associations, smalRoleSet);
-        }
-
-        return seoaRoles;
-    }
-
-    /**
-     * Builds a map of the users roles for each associated edorg.
-     * @param seoas set of seoa entities
-     * @return a map of edorg to roles
-     */
-    protected Map<String, Set<String>> buildEdOrgContextualRoles(Set<Entity> seoas) {
-        Map<String, Set<String>> edOrgRoles = new HashMap<String, Set<String>>();
-        if (seoas != null) {
-            for (Entity seoa : seoas) {
-                String edOrgId = (String) seoa.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE);
-                if (edOrgRoles.get(edOrgId) == null) {
-                    edOrgRoles.put(edOrgId, new HashSet<String>());
-                }
-                edOrgRoles.get(edOrgId).add((String) seoa.getBody().get(ParameterConstants.STAFF_EDORG_ASSOC_STAFF_CLASSIFICATION));
-            }
-        }
-        return edOrgRoles;
-    }
-
-    private Set<String> filterRoles(Iterable<Entity> SEOAEntities, Set<String> samlRoleSet) {
-        Set<String> seoaRoles = new HashSet<String>();
-
-        for(Entity seoa : SEOAEntities) {
-            String role = (String) seoa.getBody().get(ParameterConstants.STAFF_EDORG_ASSOC_STAFF_CLASSIFICATION);
-            if(samlRoleSet.contains(role)) {
-                seoaRoles.add(role);
-            }
-        }
-
-        return seoaRoles;
     }
 
     Repository getRepository() {
