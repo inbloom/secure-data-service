@@ -359,6 +359,17 @@ public class UriMutator {
             } else {
                 throw new IllegalArgumentException("Not supported yet...");
             }
+        } else if (segmentStrings.size() == 4) {
+            String baseEntity = segmentStrings.get(1);
+            String thirdPart = segmentStrings.get(3);
+
+            if (baseEntity.equals(PathConstants.STUDENT_SECTION_ASSOCIATIONS)) {
+                if (thirdPart.equals(PathConstants.GRADES)) {
+                    mutated.setPath(String.format("/students/%s/studentSectionAssociations/grades", StringUtils.join(getStudentIds(user))));
+                } else if (thirdPart.equals(PathConstants.STUDENT_COMPETENCIES)) {
+                    mutated.setPath(String.format("/students/%s/studentSectionAssociations/studentCompetencies", StringUtils.join(getStudentIds(user))));
+                }
+            }
         }
 
         return mutated;
