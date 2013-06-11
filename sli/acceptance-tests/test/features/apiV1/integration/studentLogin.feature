@@ -11,9 +11,11 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as student "msollars" with password "msollars1234"
     And format "application/json"
     When I navigate to GET "/v1/home"
-    Then I should get and store the "student" link named "self"
-    And I should extract the "student" id from the "self" URI
-
+    Then I should validate all the HATEOS links
+     #And I should GET a return code of "200" for all the "student" links
+    #And I should extract the "student" id from the "self" URI
+  @wip
+  Scenario: I check the contest of specific api endpoints
     When I navigate to GET "/students/<my student id>"
     Then the response body "id" should match my "student" "id"
     And the response field "entityType" should be "teacher"
