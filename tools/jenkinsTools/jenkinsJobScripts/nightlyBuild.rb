@@ -22,6 +22,10 @@ puts "But ignoring #{@sli_nightly_job} and Portal nightly as well"
 def get_jobs(url)
   uri = URI.parse(url + "api/json")
   http = Net::HTTP.new(uri.host, uri.port)
+  if uri.scheme == 'https'
+    http.use_ssl = true
+    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+  end
   req = Net::HTTP::Get.new(uri.request_uri)
   req.basic_auth 'jenkinsapi_user', 'test1234'
   response = http.request(req)
