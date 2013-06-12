@@ -24,6 +24,7 @@ require 'rexml/document'
 include REXML
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../utils/api_utils.rb'
+require_relative '../../../bulk_extract/features/step_definitions/bulk_extract.rb'
 
 Transform /^<(.*?)>$/ do |human_readable_id|
   # teacher hash transforms
@@ -62,6 +63,11 @@ Transform /^<(.*?)>$/ do |human_readable_id|
   # The zeroes mean that field is an array, and we are taking the first element in it
   # These dot-delmited strings are passed to fieldExtract, which recursively
   # walks the response body and ultimately returns the field we desire
+  #
+  # Student Domain
+  id = "studentUniqueStateId"                                  if human_readable_id == "studentUniqueStateId"
+  #
+  # Assessment Domain
   id = "false"                                                 if human_readable_id == "correct response"
   id = "code1"                                                 if human_readable_id == "code value"
   id = "True-False"                                            if human_readable_id == "item category"
@@ -212,16 +218,24 @@ Given /^I am a valid SEA\/LEA end user "([^"]*)" with password "([^"]*)"$/ do |u
 end
 
 Given /^I have a Role attribute returned from the "([^"]*)"$/ do |arg1|
-# No code needed, this is done during the IDP configuration
+  # No code needed, this is done during the IDP configuration
+end
+
+Given /^I am accessing data about myself, "(.*?)"$/ do |arg1|
+  # No code needed, this is an explanation step
 end
 
 Given /^the role attribute equals "([^"]*)"$/ do |arg1|
-# No code needed, this is done during the IDP configuration
+  # No code needed, this is done during the IDP configuration
 end
 
-Given /^I am authenticated on "([^"]*)"$/ do |arg1|
+Given /^I am authenticated on "(.*?)"$/ do |arg1|
   idpRealmLogin(@user, @passwd, arg1)
   assert(@sessionId != nil, "Session returned was nil")
+end
+
+Given /^I am using api version "(.*?)"$/ do |version|
+  @api_version = version
 end
 
 ###############################################################################
@@ -256,6 +270,27 @@ When /^I follow the links for assessment$/ do
   raise "That entity has no links" if @result["links"].nil?
   @links = @result["links"]
 end
+
+When /^I verify the following response body fields in "(.*?)":$/ do |uri, table|
+  step "I navigate to GET \"/#{@api_version}#{uri}\""
+  table.hashes.map do |row|
+    puts "Checking #{row['field']} is set to #{row['value']}" if $SLI_DEBUG
+    step "the response field \"#{row['field']}\" should be \"#{row['value']}\""
+  end
+end
+
+When /^I validate I have access to entities via the API access pattern "(.*?)":$/ do |uri, table| 
+  table.hashes.map do |row|
+    print "Verifying I get a 200 response from #{row["entity"]}/#{row["id"]} .. "
+    uri = uri.gsub("Entity", row["entity"])
+    uri = uri.gsub("Id", row["id"])
+    puts "Calling GET to #{uri}" if $SLI_DEBUG
+    step "I navigate to GET \"#{uri}\""
+    step "I should receive a return code of 200"
+    print "OK\n"
+  end
+end
+
 
 ###############################################################################
 # THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN
@@ -329,7 +364,7 @@ Then /^the response field "(.*?)" should be "(.*?)"$/ do |field, value|
   # dig the value for that field out of a potentially
   # dot-delimited response-body structure
   # ex: field=body.name.firstName, @result=[json response body]
-  puts @result
+  puts @result if $SLI_DEBUG
   result = fieldExtract(field, @result) 
   assert(result.to_s == value, "Unexpected response: expected #{value}, found #{result}")  
 end
@@ -588,4 +623,13 @@ def studentArray(value)
 end
 
 
-
+Then(/^I PATCH entities and check return code$/) do |table|
+  @format = 'application/json'
+  table.hashes.map do |params|
+    data = {}
+    data[params['Field']]='onward'
+    restHttpPatch("/#{@api_version}/#{params['Endpoint']}/#{params['Id']}", data)
+    assert(@res != nil, "Response from rest-client PATCH is nil")
+    assert(@res.code == params['ReturnCode'].to_i, "Response code should be #{params['ReturnCode']}, not #{@res.code}")
+  end
+end

@@ -1770,7 +1770,37 @@ def prepareBody(verb, value, response_map)
   field_data = {
     "GET" => response_map,
     "POST" => {
-      "newEducationOrganization" => {
+        "newAssessment" => {
+            "nomenclature" => "Nomenclature",
+            "identificationCode" => "2013-First grade Assessment 1.OA-1 Sub",
+            "percentOfAssessment" => 50,
+            "assessmentItemRefs" => [
+                "8e47092935b521fb6aba9fdec94a4f961f04cd45_id45d9971816ec629ae4f5317639f6ad67629f8e6c_id",
+                "8e47092935b521fb6aba9fdec94a4f961f04cd45_id3d8a30344f8180e851802ea2e29039eca200fbac_id"
+            ],
+            "assessmentId" => "8e47092935b521fb6aba9fdec94a4f961f04cd45_id",
+            "assessmentPerformanceLevel" => [
+                {
+                    "performanceLevelDescriptor" => [
+                        {
+                            "codeValue" => "code1"
+                        }
+                    ],
+                    "assessmentReportingMethod" => "Number score",
+                    "minimumScore" => 0,
+                    "maximumScore" => 50
+                }
+            ],
+            "learningObjectives" => [
+                "18f258460004b33fa9c1249b8c9ed3bd33c41645_id",
+                "c19a0f38f598ba8d6d8b7968efd1861f754dcc04_id",
+                "43ebe40d85cb70c4dc00ed94ee9f68cfae0c5d1a_id",
+                "ff84d3d1c6594847234ab13f8cc8bcd2a45bb75d_id",
+                "8f8b1ff4fd3459d3ab1bc54c9deb3581820e0bac_id"
+            ],
+            "maxRawScore" => 50
+        },
+        "newEducationOrganization" => {
         "organizationCategories" => ["School"],
         "stateOrganizationId" => "SomeUniqueSchoolDistrict-2422883",
         "nameOfInstitution" => "Gotham City School District",

@@ -15,43 +15,45 @@
  */
 package org.slc.sli.api.security.context.validator;
 
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.api.util.SecurityUtil;
-import org.springframework.stereotype.Component;
-
 import java.util.Arrays;
 import java.util.Set;
 
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.constants.EntityNames;
+
 /**
  * Resolves which staff any generic entity can access.
- * 
+ *
  * @author kmyers
  *
  */
 @Component
-public class GenericToStaffValidator extends AbstractContextValidator {
-    
+public class StaffTeacherToStaffTeacherValidator extends AbstractContextValidator {
+
     @Override
-    //Validates both teacher to staff and staff to staff and teacher to teacher
+    // Validates both teacher to staff and staff to staff and teacher to teacher
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return !isTransitive && (EntityNames.STAFF.equals(entityType) || 
-                (isTeacher() && EntityNames.TEACHER.equals(entityType)));
+        return !isTransitive
+                && ((isTeacher() || isStaff()) && (EntityNames.STAFF.equals(entityType)) || (isTeacher() && EntityNames.TEACHER
+                        .equals(entityType)));
     }
-    
+
     @Override
     public boolean validate(String entityName, Set<String> staffIds) throws IllegalStateException {
         if (!areParametersValid(Arrays.asList(EntityNames.STAFF, EntityNames.TEACHER), entityName, staffIds)) {
             return false;
         }
-        
+
         if (staffIds.size() > 1) {
             return false;
         }
-        
+
         String myself = SecurityUtil.principalId();
-        
-        //will only be one staffId in the list
+
+        // will only be one staffId in the list
         return staffIds.contains(myself);
-        
+
     }
 }
