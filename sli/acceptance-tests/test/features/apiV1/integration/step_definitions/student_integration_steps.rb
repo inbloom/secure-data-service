@@ -623,4 +623,13 @@ def studentArray(value)
 end
 
 
-
+Then(/^I PATCH entities and check return code$/) do |table|
+  @format = 'application/json'
+  table.hashes.map do |params|
+    data = {}
+    data[params['Field']]='onward'
+    restHttpPatch("/#{@api_version}/#{params['Endpoint']}/#{params['Id']}", data)
+    assert(@res != nil, "Response from rest-client PATCH is nil")
+    assert(@res.code == params['ReturnCode'].to_i, "Response code should be #{params['ReturnCode']}, not #{@res.code}")
+  end
+end
