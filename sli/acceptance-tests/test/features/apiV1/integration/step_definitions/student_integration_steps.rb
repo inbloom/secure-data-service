@@ -271,9 +271,10 @@ When /^I follow the links for assessment$/ do
   @links = @result["links"]
 end
 
-Given /^I verify the following response body fields in "(.*?)"$/ do |uri, table|
+When /^I verify the following response body fields in "(.*?)":$/ do |uri, table|
+  step "I navigate to GET \"/#{@api_version}#{uri}\""
   table.hashes.map do |row|
-    step "I navigate to GET #{uri}"
+    puts "Checking #{row['field']} is set to #{row['value']}" if $SLI_DEBUG
     step "the response field \"#{row['field']}\" should be \"#{row['value']}\""
   end
 end
@@ -350,7 +351,7 @@ Then /^the response field "(.*?)" should be "(.*?)"$/ do |field, value|
   # dig the value for that field out of a potentially
   # dot-delimited response-body structure
   # ex: field=body.name.firstName, @result=[json response body]
-  puts @result
+  puts @result if $SLI_DEBUG
   result = fieldExtract(field, @result) 
   assert(result.to_s == value, "Unexpected response: expected #{value}, found #{result}")  
 end

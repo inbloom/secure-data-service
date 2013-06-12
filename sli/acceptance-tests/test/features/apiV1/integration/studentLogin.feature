@@ -5,6 +5,7 @@ Feature: As a student or staff I want to use apps that access the inBloom API
 
   Background: None
 
+
   Scenario: As a student, for my section, I want to get the most recent Math assessment
   # Log in via simple-idp and authenticate student credentials
     Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "student.m.sollars" with password "student.m.sollars1234"
@@ -12,22 +13,45 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     When I navigate to GET "/v1/home"
     Then I should validate all the HATEOS links
 
-  @wip
   Scenario: I check the response body fields of specific student API endpoints
   Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "student.m.sollars" with password "student.m.sollars1234"
     And format "application/json"
+    And I am using api version "v1"
     And I am accessing data about myself, "matt.sollars"
    When I verify the following response body fields in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id":
-    | field                                       | value                                       |
-    | id                                          | 067198fd6da91e1aa8d67e28e850f224d6851713_id |
-    | entityType                                  | student                                     |
-    | <studentUniqueStateId>                      | 800000025                                   |
-    | entityType                                  | student                                     |
-    | entityType                                  | student                                     |
-    | entityType                                  | student                                     |
-    | entityType                                  | student                                     |
-    | entityType                                  | student                                     |
-    | entityType                                  | student                                     |
+    | field                                                 | value                                       |
+    | id                                                    | 067198fd6da91e1aa8d67e28e850f224d6851713_id |
+    | entityType                                            | student                                     |
+    | studentUniqueStateId                                  | 800000025                                   |
+    | sex                                                   | Female                                      |
+    | oldEthnicity                                          | White, Not Of Hispanic Origin               |
+    | profileThumbnail                                      | 800000025 thumb                             |
+    | limitedEnglishProficiency                             | NotLimited                                  |
+    | schoolFoodServicesEligibility                         | Full price                                  |
+    | displacementStatus                                    | Status BBB                                  |
+    | hispanicLatinoEthnicity                               | false                                       |
+    #| studentCharacteristics.beginDate                      | 20013-04-20                                 |
+    | name.firstName                                        | Matt                                        |
+    | name.middleName                                       | Aida                                        |
+    | name.lastSurname                                      | Sollars                                     |
+    | studentIdentificationCode.0.identificationCode        | abcde                                       |
+    | studentIdentificationCode.0.identificationSystem      | District                                    |
+    | studentIdentificationCode.0.assigningOrganizationCode | School                                      |
+    | address.0.streetNumberName                            | 707 Elm Street                              |
+    | electronicMail.0.emailAddress                         | 4859@fakemail.com                           |
+    | telephone.0.telephoneNumber                           | (115)555-5072                               |
+    | homeLanguages.0.language                              | Cambodian (Khmer)                           |
+    | studentIndicators.0.indicator                         | Indicator 1                                 |
+    | otherName.0.lastSurname                               | Charles                                     |
+    | languages.0.language                                  | Norwegian                                   |
+    | programParticipations.0.program                       | Adult/Continuing Education                  |
+    | section504Disabilities.0                              | Sensory Impairment                          |
+    | cohortYears.0.schoolYear                              | 2011-2012                                   |
+    | race.0                                                | Black - African American                    |
+    | disabilities.0.disability                             | Deaf-Blindness                              |
+    | studentCharacteristics.0.endDate                      | 2014-08-01                                  |
+    | studentCharacteristics.0.designatedBy                 | Teacher                                     |
+    | studentCharacteristics.0.characteristic               | Unaccompanied Youth                         |
 
   @student_public
   Scenario: Student cannot POST public entities
@@ -41,6 +65,9 @@ Feature: As a student or staff I want to use apps that access the inBloom API
 
   @wip
   Scenario: Student cannot POST private entities
+  Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "student.m.sollars" with password "student.m.sollars1234"
+    And format "application/json"
+    And I am using api version "v1"
    When I POST and validate the following entities:
     | entity                         |  type                                  |  returnCode  |
     | newDaybreakStudent             |  staffStudent                          |  403         |
@@ -176,7 +203,7 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     And the offset response field "<OA.identificationCode>" should be "2013-Sixth grade Assessment 2.OA-0"
     And the offset response field "<OA.OAS.AI.identificationCode>" should be "2013-Sixth grade Assessment 2#1"
 
-  @student
+
   Scenario Outline: Student has access to stuff
     Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "student.m.sollars" with password "student.m.sollars1234"
     And format "application/json"
