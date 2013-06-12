@@ -47,6 +47,10 @@ end
 
 url_base = @view
 actual_jobs = get_jobs url_base
+if actual_jobs.size == 0
+  puts "No jobs found to check.  Something is misconfigured."
+  exit(1)
+end
 success = true
 actual_jobs.each  do |job| 
   puts "Checking #{job}"
