@@ -6,7 +6,6 @@ Feature: As a student or staff I want to use apps that access the inBloom API
   Background: None
 
   Scenario: As a student, for my section, I want to get the most recent Math assessment
-
   # Log in via simple-idp and authenticate student credentials
     Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "student.m.sollars" with password "student.m.sollars1234"
     And format "application/json"
@@ -15,9 +14,39 @@ Feature: As a student or staff I want to use apps that access the inBloom API
 
   @wip
   Scenario: I check the response body fields of specific student API endpoints
-  When I verify the following response body fields in /students/:
-    | uri                                         | condition                                |
-    | 54759a8d56aba10b1b300e66657cd6fcc3ca6ac9_id | entityType = studentSchoolAssociation |
+  Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "student.m.sollars" with password "student.m.sollars1234"
+    And format "application/json"
+    And I am accessing data about myself, "matt.sollars"
+   When I verify the following response body fields in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id":
+    | field                                       | value                                       |
+    | id                                          | 067198fd6da91e1aa8d67e28e850f224d6851713_id |
+    | entityType                                  | student                                     |
+    | <studentUniqueStateId>                      | 800000025                                   |
+    | entityType                                  | student                                     |
+    | entityType                                  | student                                     |
+    | entityType                                  | student                                     |
+    | entityType                                  | student                                     |
+    | entityType                                  | student                                     |
+    | entityType                                  | student                                     |
+
+  @student_public
+  Scenario: Student cannot POST public entities
+  Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "student.m.sollars" with password "student.m.sollars1234"
+    And format "application/json"
+    And I am using api version "v1"
+    When I POST and validate the following entities:
+    | entity                         |  type                                  |  returnCode  |
+    | newProgram                     |  program                               |  403         |
+
+
+  @wip
+  Scenario: Student cannot POST private entities
+   When I POST and validate the following entities:
+    | entity                         |  type                                  |  returnCode  |
+    | newDaybreakStudent             |  staffStudent                          |  403         |
+
+  @wip
+  Scenario: DIS IS CRAP
     When I navigate to GET "/students/<my student id>"
     Then the response body "id" should match my "student" "id"
     And the response field "entityType" should be "teacher"
@@ -29,9 +58,6 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     And I should get and store the link named "getSchools"
     And I should get and store the link named "getStaffEducationOrgAssignmentAssociations"
     And I should get and store the link named "getEducationOrganizations"
-
-    When I follow the HATEOS link named "<getTeacherSectionAssociations>"
-    Then I should extract the "sectionId" from the response body to a list
 
     When I navigate to GET "/sections/<teacher section>"
     Then I should have a list of 12 "section" entities
