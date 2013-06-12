@@ -53,6 +53,15 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     | studentCharacteristics.0.designatedBy                 | Teacher                                     |
     | studentCharacteristics.0.characteristic               | Unaccompanied Youth                         |
 
+  @wip
+  Scenario: Student should NOT have access to certain fields in API entity response bodies
+    Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "student.m.sollars" with password "student.m.sollars1234"
+    And format "application/json"
+    And I am using api version "v1"
+    And I am accessing data about myself, "matt.sollars"
+   When I verify the following response body fields are NOT visible in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id":
+    | field                                                 | value                                       |
+    | id                                                    | 067198fd6da91e1aa8d67e28e850f224d6851713_id |
 
   @student_public
   Scenario: Student cannot POST public entities
@@ -216,13 +225,15 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     And the offset response field "<OA.OAS.AI.identificationCode>" should be "2013-Sixth grade Assessment 2#1"
 
 
-  Scenario Outline: Student has access to stuff
-    Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "student.m.sollars" with password "student.m.sollars1234"
-    And format "application/json"
-    When I navigate to GET "/v1/<Entity>/<Ids>"
-    Then I should receive a return code of 200
-  Examples:
-    | Entity                    | Ids                                                                                                                                                                           |
-    | students                  | 067198fd6da91e1aa8d67e28e850f224d6851713_id                                                                                                                                   |
-    | parents                   | 5f8989384287747b1960d16edd95ff2bb318e3bd_id,7f5b783a051b72820eab5f8188c45ade72869f0f_id                                                                                       |
-    | studentParentAssociations | 067198fd6da91e1aa8d67e28e850f224d6851713_idc43bbfa3df05d4fd2d78a9edfee8fd63fbcf495a_id,067198fd6da91e1aa8d67e28e850f224d6851713_ide2f8c24b3e1ab8ead6e134d661a464d0f90e4c8e_id |
+Scenario: Student has access to entities via API entpoints
+Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "student.m.sollars" with password "student.m.sollars1234"
+  And format "application/json"
+  And I am using api version "v1"
+ When I validate I have access to entities via the API access pattern "/v1/Entity/Id":
+    | entity                    | id                                          |
+    | students                  | 067198fd6da91e1aa8d67e28e850f224d6851713_id |
+    | parents                   | 5f8989384287747b1960d16edd95ff2bb318e3bd_id |
+    | parents                   | 7f5b783a051b72820eab5f8188c45ade72869f0f_id |
+    | studentParentAssociations | 067198fd6da91e1aa8d67e28e850f224d6851713_idc43bbfa3df05d4fd2d78a9edfee8fd63fbcf495a_id |
+    | studentParentAssociations | 067198fd6da91e1aa8d67e28e850f224d6851713_ide2f8c24b3e1ab8ead6e134d661a464d0f90e4c8e_id |
+

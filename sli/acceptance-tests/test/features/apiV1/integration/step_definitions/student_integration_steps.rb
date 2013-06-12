@@ -279,6 +279,18 @@ When /^I verify the following response body fields in "(.*?)":$/ do |uri, table|
   end
 end
 
+When /^I validate I have access to entities via the API access pattern "(.*?)":$/ do |uri, table| 
+  table.hashes.map do |row|
+    print "Verifying entity #{row["entity"]} matches #{row["id"]} .. "
+    uri.gsub("Entity", row["entity"])
+    uri.gsub("Id", row["id"])
+    step "I navigate to GET \"/#{@api_version}#{uri}\""
+    step "I should receive a return code of 200"
+    print "OK\n"
+  end
+end
+
+
 ###############################################################################
 # THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN
 ###############################################################################
