@@ -146,7 +146,9 @@ class LDAPStorage
     }
 
     # enable SSL if n
+    puts "XXXXXXXX DEBUG:  #{use_ssl}"
     if use_ssl
+      puts "XXXXXXXXX DEBUG USING TLS"
       @ldap_conf[:encryption] = {    :method => :simple_tls    }
     end
 
