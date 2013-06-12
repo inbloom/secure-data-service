@@ -156,7 +156,7 @@ task :rcDeleteLDAPUsers do
       puts e.message
       puts e.backtrace.inspect
       puts "Error:  Deleting #{email} from LDAP failed"
-      puts "Host: #{PropLoader.getProps['ldap_hostname']} Port: #{PropLoader.getProps['ldap_port']}"
+      puts "Host: #{PropLoader.getProps['ldap_hostname']} Port: #{PropLoader.getProps['ldap_port']} Use SSL: #{PropLoader.getProps['ldap_use_ssl']}"
     end
   end
 end
@@ -173,6 +173,7 @@ task :rcDeleteSandboxLDAPUsers do
       puts e.message
       puts e.backtrace.inspect
       puts "Error:  Deleting #{email} from LDAP failed"
+      puts "Host: #{PropLoader.getProps['ldap_hostname']} Port: #{PropLoader.getProps['ldap_port']} Use SSL: #{PropLoader.getProps['ldap_use_ssl']}"
     end
   end
 end
