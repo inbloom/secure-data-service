@@ -15,6 +15,7 @@
  */
 package org.slc.sli.api.security.context;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -256,10 +257,6 @@ public class StudentAccessValidator {
             return false;
         }
         
-        if (isDisiplineRelated(paths)) {
-            return false;
-        }
-        
         String baseEntity = paths.get(0);
         
         if (paths.size() == 1 && baseEntity.equals("home")) {
@@ -300,4 +297,23 @@ public class StudentAccessValidator {
         return false;
     }
 
+    // this default scope method is used to generate a list of whitelisted url for easy validation
+    // in scripts
+    List<String> getAllWhiteLists() {
+        List<String> allLists = new ArrayList<String>();
+        for (Map.Entry<String, Set<String>> entry : THREE_PART_ALLOWED.entrySet()) {
+           for (String s : entry.getValue()) {
+                allLists.add(String.format("/%s/{id}/%s", entry.getKey(), s));
+           } 
+        }
+        
+        for (Map.Entry<String, Set<List<String>>> entry : FOUR_PART_ALLOWED.entrySet()) {
+            for (List<String> list : entry.getValue()) {
+                allLists.add(String.format("/%s/{id}/%s/%s", entry.getKey(), list.get(0), list.get(1)));
+            }
+        }
+        
+        Collections.sort(allLists);
+        return allLists;
+    }
 }
