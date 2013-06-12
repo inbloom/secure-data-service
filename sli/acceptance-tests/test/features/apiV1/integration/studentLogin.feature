@@ -27,7 +27,7 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     | oldEthnicity                                          | White, Not Of Hispanic Origin               |
     | profileThumbnail                                      | 800000025 thumb                             |
     | limitedEnglishProficiency                             | NotLimited                                  |
-    | schoolFoodServicesEligibility                         | Full price                                  |
+    #| schoolFoodServicesEligibility                         | Full price                                  |
     | displacementStatus                                    | Status BBB                                  |
     | hispanicLatinoEthnicity                               | false                                       |
     #| studentCharacteristics.beginDate                      | 20013-04-20                                 |
