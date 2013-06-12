@@ -20,6 +20,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | section                               |
         | section                               |
         | session                               |
+        | student                               |        
         | studentAssessment                     |
         | studentSchoolAssociation              |      
   When zip file is scp to ingestion landing zone
@@ -51,6 +52,7 @@ Then I should see following map of entry counts in the corresponding collections
        | session                     | 1                   | body.term                              | Term 4                     | string               |
        | student                     | 1                   | studentParentAssociation.body.relation | Grandmother                | string               |
        | studentAssessment           | 1                   | body.administrationEnvironment         | Other                      | string               |
+       | studentAssessment           | 1                   | body.linguisticAccommodations          | Other                      | string               |
        | studentAssessment           | 1                   | studentAssessmentItem.body.assessmentItemResult|Did not meet standard| string               |
        | studentSchoolAssociation    | 1                   | body.exitWithdrawType                  | End of walk-in enrollment  | string               |  
     And I find a record in "student" with "body.studentUniqueStateId" equal to "100000000"
