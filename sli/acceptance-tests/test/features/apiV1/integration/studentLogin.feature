@@ -242,18 +242,7 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     And the offset response field "assessmentPeriodDescriptor.codeValue" should be "BOY-6-2013"
     And the offset response field "<OA.identificationCode>" should be "2013-Sixth grade Assessment 2.OA-0"
     And the offset response field "<OA.OAS.AI.identificationCode>" should be "2013-Sixth grade Assessment 2#1"
-
-  @student
-  Scenario Outline: Student has access to stuff
-    Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "student.m.sollars" with password "student.m.sollars1234"
-    And format "application/json"
-    When I navigate to GET "/v1/<Entity>/<Ids>"
-    Then I should receive a return code of 200
-  Examples:
-    | Entity                    | Ids                                                                                                                                                                           |
-    | students                  | 067198fd6da91e1aa8d67e28e850f224d6851713_id                                                                                                                                   |
-    | parents                   | 5f8989384287747b1960d16edd95ff2bb318e3bd_id,7f5b783a051b72820eab5f8188c45ade72869f0f_id                                                                                       |
-    | studentParentAssociations | 067198fd6da91e1aa8d67e28e850f224d6851713_idc43bbfa3df05d4fd2d78a9edfee8fd63fbcf495a_id,067198fd6da91e1aa8d67e28e850f224d6851713_ide2f8c24b3e1ab8ead6e134d661a464d0f90e4c8e_id |
+    
 
    @wip
    Scenario: Verify Rewrites for Base Level entities for Students
