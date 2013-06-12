@@ -85,7 +85,7 @@ studentPartials = {
 publicEntities = ["assessment", "learningObjective", "learningStandard", "school", "educationOrganization"]
 
 # extract event information
-f = File.open("/Users/dkornishev/Documents/git/sli/sli/domain/target/classes/sliXsd/ComplexTypes.xsd")
+f = File.open("/Users/dkornishev/Documents/git/sli/sli/domain/src/main/resources/sliXsd/ComplexTypes.xsd")
 doc = REXML::Document.new(f)
 
 doc.elements.each('//xs:element') do |elem|

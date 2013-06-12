@@ -33,6 +33,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.BasicDefinitionStore;
@@ -354,6 +355,12 @@ public class UriMutator {
                 mutated.setPath(String.format("/students/%s/studentSchoolAssociations", StringUtils.join(getStudentIds(user))));
             } else if (PathConstants.STUDENT_SECTION_ASSOCIATIONS.equals(baseEntity)) {
                 mutated.setPath(String.format("/students/%s/studentSectionAssociations", StringUtils.join(getStudentIds(user))));
+            } else if (PathConstants.DISCIPLINE_ACTIONS.equals(baseEntity)) {
+                throw new AccessDeniedException("Students do not have access to discipline actions.");
+            } else if (PathConstants.DISCIPLINE_INCIDENTS.equals(baseEntity)) {
+            	throw new AccessDeniedException("Students do not have access to discipline incidents.");
+            } else if (PathConstants.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS.equals(baseEntity)) {
+            	throw new AccessDeniedException("Students do not have access to discipline incident associations.");
             } else if (ResourceNames.HOME.equals(baseEntity)) {
                 mutated.setPath("/home");
             } else {

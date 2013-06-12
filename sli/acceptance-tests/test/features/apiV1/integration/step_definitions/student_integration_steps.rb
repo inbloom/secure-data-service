@@ -24,6 +24,7 @@ require 'rexml/document'
 include REXML
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../utils/api_utils.rb'
+require_relative '../../../bulk_extract/features/step_definitions/bulk_extract.rb'
 
 Transform /^<(.*?)>$/ do |human_readable_id|
   # teacher hash transforms
@@ -62,6 +63,11 @@ Transform /^<(.*?)>$/ do |human_readable_id|
   # The zeroes mean that field is an array, and we are taking the first element in it
   # These dot-delmited strings are passed to fieldExtract, which recursively
   # walks the response body and ultimately returns the field we desire
+  #
+  # Student Domain
+  id = "studentUniqueStateId"                                  if human_readable_id == "studentUniqueStateId"
+  #
+  # Assessment Domain
   id = "false"                                                 if human_readable_id == "correct response"
   id = "code1"                                                 if human_readable_id == "code value"
   id = "True-False"                                            if human_readable_id == "item category"
@@ -212,16 +218,24 @@ Given /^I am a valid SEA\/LEA end user "([^"]*)" with password "([^"]*)"$/ do |u
 end
 
 Given /^I have a Role attribute returned from the "([^"]*)"$/ do |arg1|
-# No code needed, this is done during the IDP configuration
+  # No code needed, this is done during the IDP configuration
+end
+
+Given /^I am accessing data about myself, "(.*?)"$/ do |arg1|
+  # No code needed, this is an explanation step
 end
 
 Given /^the role attribute equals "([^"]*)"$/ do |arg1|
-# No code needed, this is done during the IDP configuration
+  # No code needed, this is done during the IDP configuration
 end
 
-Given /^I am authenticated on "([^"]*)"$/ do |arg1|
+Given /^I am authenticated on "(.*?)"$/ do |arg1|
   idpRealmLogin(@user, @passwd, arg1)
   assert(@sessionId != nil, "Session returned was nil")
+end
+
+Given /^I am using api version "(.*?)"$/ do |version|
+  @api_version = version
 end
 
 ###############################################################################
@@ -257,6 +271,13 @@ When /^I follow the links for assessment$/ do
   @links = @result["links"]
 end
 
+Given /^I verify the following response body fields in "(.*?)"$/ do |uri, table|
+  table.hashes.map do |row|
+    step "I navigate to GET #{uri}"
+    step "the response field \"#{row['field']}\" should be \"#{row['value']}\""
+  end
+end
+
 ###############################################################################
 # THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN
 ###############################################################################
@@ -290,7 +311,7 @@ Then /^I should validate all the HATEOS links$/ do
       if link["rel"] == "custom"
         assert(@res.code == 404, "Return code was not expected: #{@res.code} but expected 404")
       else 
-        puts "DEBUG: return code for #{link["rel"]} is #{@res.code}"
+        puts "DEBUG: return code for #{link["rel"]} is #{@res.code}\nURL is #{link["href"]}"
         #step "I should receive a return code of 200"
       end
       #puts "DEBUG: 200 OK"
