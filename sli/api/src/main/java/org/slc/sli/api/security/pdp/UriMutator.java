@@ -976,12 +976,12 @@ public class UriMutator {
         return principal.getType().equals(EntityNames.STUDENT);
     }
 
-    private Set<String> getStudentIds(Entity principal) {
+    private String getStudentIds(Entity principal) {
         Set<String> studentIds = new HashSet<String>();
         if (isStudent(principal)) {
             studentIds.add(principal.getEntityId());
         }
-        return studentIds;
+        return studentIds.toString().replace("[", "").replace("]", "");
     }
 
 
