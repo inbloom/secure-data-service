@@ -14,7 +14,7 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     Then I should validate all the HATEOS links
 
   Scenario: I check the response body fields of specific student API endpoints
-  Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "student.m.sollars" with password "student.m.sollars1234"
+    Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "student.m.sollars" with password "student.m.sollars1234"
     And format "application/json"
     And I am using api version "v1"
     And I am accessing data about myself, "matt.sollars"
@@ -53,24 +53,36 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     | studentCharacteristics.0.designatedBy                 | Teacher                                     |
     | studentCharacteristics.0.characteristic               | Unaccompanied Youth                         |
 
+
   @student_public
   Scenario: Student cannot POST public entities
-  Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "student.m.sollars" with password "student.m.sollars1234"
+    Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "student.m.sollars" with password "student.m.sollars1234"
     And format "application/json"
     And I am using api version "v1"
     When I POST and validate the following entities:
-    | entity                         |  type                                  |  returnCode  |
-    | newProgram                     |  program                               |  403         |
-
+      | entity                        | type                       | returnCode |
+      | newProgram                    | program                    | 403        |
+      | newSection                    | section                    | 403        |
+      | newLearningObjective          | learningObjective          | 403        |
+      | newLearningStandard           | learningStandard           | 403        |
+      | newCourseOffering             | courseOffering             | 403        |
+      | newCompetencyLevelDescriptor  | competencyLevelDescriptor  | 403        |
+      | newSession                    | session                    | 403        |
+      | newSEACourse                  | course                     | 403        |
+      | newSEACourseOffering          | courseOffering             | 403        |
+      | newStudentCompetencyObjective | studentCompetencyObjective | 403        |
+      | newEducationOrganization      | educationOrganization      | 403        |
+      | newGradingPeriod              | gradingPeriod              | 403        |
+      | newAssessment                 | assessment                 | 403        |
 
   @wip
   Scenario: Student cannot POST private entities
   Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "student.m.sollars" with password "student.m.sollars1234"
     And format "application/json"
     And I am using api version "v1"
-   When I POST and validate the following entities:
-    | entity                         |  type                                  |  returnCode  |
-    | newDaybreakStudent             |  staffStudent                          |  403         |
+    When I POST and validate the following entities:
+      | entity             | type         | returnCode |
+      | newDaybreakStudent | staffStudent | 403        |
 
   @wip
   Scenario: DIS IS CRAP
