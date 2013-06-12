@@ -8,14 +8,16 @@ Feature: As a student or staff I want to use apps that access the inBloom API
   Scenario: As a student, for my section, I want to get the most recent Math assessment
 
   # Log in via simple-idp and authenticate student credentials
-    Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as student "msollars" with password "msollars1234"
+    Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "student.m.sollars" with password "student.m.sollars1234"
     And format "application/json"
     When I navigate to GET "/v1/home"
     Then I should validate all the HATEOS links
-     #And I should GET a return code of "200" for all the "student" links
-    #And I should extract the "student" id from the "self" URI
+
   @wip
-  Scenario: I check the contest of specific api endpoints
+  Scenario: I check the response body fields of specific student API endpoints
+  When I verify the following response body fields in /students/:
+    | uri                                         | condition                                |
+    | 54759a8d56aba10b1b300e66657cd6fcc3ca6ac9_id | entityType = studentSchoolAssociation |
     When I navigate to GET "/students/<my student id>"
     Then the response body "id" should match my "student" "id"
     And the response field "entityType" should be "teacher"
@@ -150,12 +152,12 @@ Feature: As a student or staff I want to use apps that access the inBloom API
 
   @student
   Scenario Outline: Student has access to stuff
-    Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as student "msollars" with password "msollars1234"
+    Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "student.m.sollars" with password "student.m.sollars1234"
     And format "application/json"
     When I navigate to GET "/v1/<Entity>/<Ids>"
     Then I should receive a return code of 200
   Examples:
     | Entity                    | Ids                                                                                                                                                                           |
-    | students                  | 306404b837fd630ea53bc11391dd57985db5e48c_id                                                                                                                                   |
-    | parents                   | a4ae754c75f6a59b13f5ecb7464c29bc0370fa56_id,4122df03e56fd8296006c55b1fb5a3a16d484726_id                                                                                       |
-    | studentParentAssociations | 306404b837fd630ea53bc11391dd57985db5e48c_id1f8f744fbc0329f653c4b32a3e60d86cfb7f0264_id,306404b837fd630ea53bc11391dd57985db5e48c_id06820ec0ebba76b11bd39f3460dc862199399b1e_id |
+    | students                  | 067198fd6da91e1aa8d67e28e850f224d6851713_id                                                                                                                                   |
+    | parents                   | 5f8989384287747b1960d16edd95ff2bb318e3bd_id,7f5b783a051b72820eab5f8188c45ade72869f0f_id                                                                                       |
+    | studentParentAssociations | 067198fd6da91e1aa8d67e28e850f224d6851713_idc43bbfa3df05d4fd2d78a9edfee8fd63fbcf495a_id,067198fd6da91e1aa8d67e28e850f224d6851713_ide2f8c24b3e1ab8ead6e134d661a464d0f90e4c8e_id |

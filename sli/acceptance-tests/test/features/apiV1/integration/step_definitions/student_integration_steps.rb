@@ -290,7 +290,7 @@ Then /^I should validate all the HATEOS links$/ do
       if link["rel"] == "custom"
         assert(@res.code == 404, "Return code was not expected: #{@res.code} but expected 404")
       else 
-        puts "DEBUG: return code for #{link["rel"]} is #{@res.code}"
+        puts "DEBUG: return code for #{link["rel"]} is #{@res.code}\nURL is #{link["href"]}"
         #step "I should receive a return code of 200"
       end
       #puts "DEBUG: 200 OK"
