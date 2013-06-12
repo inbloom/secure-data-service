@@ -16,57 +16,68 @@ def createNode (name, value)
   e
 end
 
+REGULAR_CONTEXT_RIGHT = "STUDENT_DATA"
+SELF_CONTEXT_RIGHT = "GENERIC"
+
 studentEntities = ['studentAssessment', 'studentObjectiveAssessment', 'reportCard', 'studentAcademicRecord', 'courseTranscript', 'gradebookEntry', 'grade', 'gradebookEntry',
                    'studentGradebookEntry', 'studentSchoolAssociation', 'cohort', 'studentAssessmentItem', 'attendance', 'studentCompetency']
 
 studentPartials = {
     'staffCohortAssociation' => Proc.new { |fieldName|
       if ['staffId', 'cohortId'].include? fieldName
-        "STUDENT_DATA"
+        REGULAR_CONTEXT_RIGHT
       else
         :NOOP
       end },
     'staffProgramAssociation' => Proc.new { |fieldName|
       if ['staffId', 'programId'].include? fieldName
-        "STUDENT_DATA"
+        REGULAR_CONTEXT_RIGHT
       else
         :NOOP
       end },
     'teacherSectionAssociation' => Proc.new { |fieldName|
       if ['teacherId', 'sectionId'].include? fieldName
-        "STUDENT_DATA"
+        REGULAR_CONTEXT_RIGHT
       else
         :NOOP
       end },
     'teacherSchoolAssociation' => Proc.new { |fieldName|
       if ['teacherId', 'schoolId'].include? fieldName
-        "STUDENT_DATA"
+        REGULAR_CONTEXT_RIGHT
       else
         :NOOP
       end },
     'staffEducationOrganizationAssociation' => Proc.new { |fieldName|
       if ['staffReference ', 'educationOrganizationReference'].include? fieldName
-        "STUDENT_DATA"
+        REGULAR_CONTEXT_RIGHT
       else
         :NOOP
       end },
+    'student' => Proc.new { |fieldName|
+      if ['name'].include? fieldName
+        REGULAR_CONTEXT_RIGHT
+      elsif ['economicDisadvantaged','schoolFoodServicesEligibility'].include? fieldName
+        "PROTECTED"
+      else
+        SELF_CONTEXT_RIGHT
+      end },
     'studentCohortAssociation' => Proc.new { |fieldName|
       if ['studentId', 'cohortId'].include? fieldName
-        "STUDENT_DATA"
+        REGULAR_CONTEXT_RIGHT
       else
-        "GENERIC"
+        SELF_CONTEXT_RIGHT
       end },
     'studentProgramAssociation' => Proc.new { |fieldName|
       if ['studentId', 'programId'].include? fieldName
-        "STUDENT_DATA"
+        REGULAR_CONTEXT_RIGHT
       else
-        "GENERIC"
+        SELF_CONTEXT_RIGHT
       end },
     'studentSectionAssociation' => Proc.new { |fieldName|
       if ['studentId', 'sectionId'].include? fieldName
-        "STUDENT_DATA"
+        REGULAR_CONTEXT_RIGHT
       else
-        "GENERIC"
+        SELF_CONTEXT_RIGHT
       end },
 }
 
@@ -74,7 +85,7 @@ studentPartials = {
 publicEntities = ["assessment", "learningObjective", "learningStandard", "school", "educationOrganization"]
 
 # extract event information
-f = File.open("/Users/dkornishev/Documents/git/sli/sli/domain/target/classes/sliXsd/ComplexTypes.xsd")
+f = File.open("/Users/dkornishev/Documents/git/sli/sli/domain/src/main/resources/sliXsd/ComplexTypes.xsd")
 doc = REXML::Document.new(f)
 
 doc.elements.each('//xs:element') do |elem|
@@ -128,12 +139,12 @@ doc.elements.each('//xs:element') do |elem|
     right = studentPartials[typeName].call(fieldName)
     puts "Partial entity for student access: #{typeName}.#{fieldName} -> #{right}"
 
-    if appinfo.get_elements("sli:ReadEnforcement[sli:allowedBy='#{right}']").empty?
+    if appinfo.get_elements("sli:ReadEnforcement[sli:allowedBy='READ_#{right}']").empty?
       e = createNode 'sli:allowedBy', "READ_#{right}"
       appinfo.get_elements("sli:ReadEnforcement")[0].add_element e
     end
 
-    if appinfo.get_elements("sli:WriteEnforcement[sli:allowedBy='#{right}']").empty?
+    if appinfo.get_elements("sli:WriteEnforcement[sli:allowedBy='WRITE_#{right}']").empty?
       e = createNode 'sli:allowedBy', "WRITE_#{right}"
       appinfo.get_elements("sli:WriteEnforcement")[0].add_element e
     end
