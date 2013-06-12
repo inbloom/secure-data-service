@@ -36,6 +36,7 @@ def get_jobs(url)
   matches.delete_if {|j| j == @sli_nightly_job}
   portal_nightly_job = @sli_nightly_job.gsub("-SLI-", "-Portal-")
   matches.delete_if {|j| j == portal_nightly_job}
+  matches.delete_if {|j| j.include? "view"}
 end
 
 def job_successful(job_url)
