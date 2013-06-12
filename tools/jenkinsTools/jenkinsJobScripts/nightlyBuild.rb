@@ -41,6 +41,10 @@ end
 def job_successful(job_url)
   uri = URI.parse(job_url + "lastBuild/api/json")
   http = Net::HTTP.new(uri.host, uri.port)
+  if uri.scheme == 'https'
+    http.use_ssl = true
+    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+  end
   req = Net::HTTP::Get.new(uri.request_uri)
   req.basic_auth 'jenkinsapi_user', 'test1234'
   response = http.request(req)
