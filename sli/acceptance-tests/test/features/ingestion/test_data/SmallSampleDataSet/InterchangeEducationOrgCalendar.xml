@@ -5,7 +5,16 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../domain/src/main/resources/edfiXsd/Interchange-EducationOrgCalendar.xsd ">
 	<!-- CalendarDates for the 2010-2011 school year -->
-	<CalendarDate>
+    <CalendarDate>
+        <Date>2009-08-01</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+        <EducationOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrgReference>
+    </CalendarDate>
+    <CalendarDate>
 		<Date>2010-08-23</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
