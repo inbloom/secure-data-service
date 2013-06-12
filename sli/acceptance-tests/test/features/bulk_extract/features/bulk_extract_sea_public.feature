@@ -1,6 +1,7 @@
 @RALLY_US5660
 @RALLY_US5589
 @RALLY_US5753
+@RALLY_US5781
 
 Feature: As an bulk extract user, I want to be able to get the state public entities
 
@@ -39,6 +40,7 @@ Scenario: As an bulk extract user, I want to be able to get the state public ent
       |  studentCompetencyObjective            |
       |  program                               |
       |  gradingPeriod                         |
+      |  calendarDate                          |
 
 Scenario Outline: Extract should have all the valid data for the SEA
     When I retrieve the path to and decrypt the SEA public data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
@@ -52,6 +54,7 @@ Scenario Outline: Extract should have all the valid data for the SEA
       |  graduationPlan                |    educationOrganizationId              |
       |  session                       |    schoolId                             |
       |  gradingPeriod                 |    gradingPeriodIdentity.schoolId       |
+      |  calendarDate                  |    educationOrganizationId              |
 
 Scenario Outline: Extract should contain independent entities that do not reference any EdOrg
     When I retrieve the path to and decrypt the SEA public data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
@@ -73,6 +76,7 @@ Scenario Outline: Extract should have all public tenant data for certain entitie
       |  competencyLevelDescriptor             |
       |  studentCompetencyObjective            |
       |  program                               |
+      |  calendarDate                          |
 
 Scenario: As a valid user get SEA public data extract using BEEP
     Given in my list of rights I have BULK_EXTRACT
@@ -96,6 +100,7 @@ Scenario: As a valid user get SEA public data extract using BEEP
       |  studentCompetencyObjective            |
       |  program                               |
       |  gradingPeriod                         |
+      |  calendarDate                          |
 
 Scenario Outline: Extract received through the API should have all the valid data for the SEA
     When I know where the extracted tar is for tenant "Midgar"
@@ -109,6 +114,7 @@ Scenario Outline: Extract received through the API should have all the valid dat
     |  graduationPlan                |    educationOrganizationId              |
     |  session                       |    schoolId                             |
     |  gradingPeriod                 |    gradingPeriodIdentity.schoolId       |
+    |  calendarDate                  |    educationOrganizationId              |
 
 Scenario Outline: Extract received through the API should have all the valid tenant public data
     When I know where the extracted tar is for tenant "Midgar"
@@ -117,12 +123,12 @@ Scenario Outline: Extract received through the API should have all the valid ten
    Examples:
       | entity                                 |
       |  assessment                            |
+	  |  calendarDate                          |
       |  learningObjective                     |
       |  learningStandard                      |
       |  competencyLevelDescriptor             |
       |  studentCompetencyObjective            |
       |  program                               |
-
 
 
 Scenario: As a valid user get SEA public data delta extract using BEEP
@@ -194,12 +200,13 @@ Scenario: One of the entity doesn't reference the SEA
   | entity                                 |
   |  course                                |
 
-
-Scenario: None of the public entities reference the SEA
+Scenario: Where the public entity has no edOrg reference, verify the entity is still extracted for the SEA
     Given the extraction zone is empty
     And the bulk extract files in the database are scrubbed
     And The bulk extract app has been approved for "Midgar-DAYBREAK" with client id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
     And I get the SEA Id for the tenant "Midgar"
+    #removes entries from the collection referencing SEA
+    # not possible to have calenderDate with blank edOrg, those with SEA go to SEA, those not associated to SEA go to LEA
     And none of the following entities reference the SEA:
       | entity                                 | path                                   |
       |  course                                | body.schoolId                          |
@@ -208,6 +215,7 @@ Scenario: None of the public entities reference the SEA
       |  graduationPlan                        | body.educationOrganizationId           |
       |  session                               | body.schoolId                          |
       |  gradingPeriod                         | body.gradingPeriodIdentity.schoolId    |
+      |  calendarDate                          | body.educationOrganizationId           |
     Then I trigger a bulk extract
     Then I should see "1" bulk extract SEA-public data file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
     When I retrieve the path to and decrypt the SEA public data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"

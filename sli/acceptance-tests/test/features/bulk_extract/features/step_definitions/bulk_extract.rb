@@ -437,6 +437,7 @@ When /^a the correct number of "(.*?)" was extracted from the database$/ do |col
     end
 	end
 
+
 	Zlib::GzipReader.open(@unpackDir + "/" + collection + ".json.gz") { |extractFile|
     records = JSON.parse(extractFile.read)
     puts "\nCounts Expected: " + count.to_s + " Actual: " + records.size.to_s + "\n"
@@ -628,14 +629,23 @@ def getEntityEndpoint(entity)
   entity_to_endpoint_map = {
       "attendance" => "attendances",
       "courseOffering" => "courseOfferings",
+      "patchSEACourseOffering" => "courseOfferings",
       "seaCourse" => "educationOrganizations/884daa27d806c2d725bc469b273d840493f84b4d_id/courses",
       "cohort" => "cohorts",
+      "competencyLevelDescriptor" => "competencyLevelDescriptor",
+      "patchCompetencyLevelDescriptor" => "competencyLevelDescriptor",
       "course" => "courses",
+      "patchSEACourse" => "courses",
       "educationOrganization" => "educationOrganizations",
       "gradebookEntry" => "gradebookEntries",
       "grade" => "grades",
       "gradingPeriod" => "gradingPeriods",
+      "patchGradingPeriod" => "gradingPeriods",
       "invalidEntry" => "school",
+      "learningStandard" => "learningStandards",
+      "patchLearningStandard" => "learningStandards",
+      "learningObjective" => "learningObjectives",
+      "patchLearningObjective" => "learningObjectives",
       "newParentDad" => "parents",
       "newParentMom" => "parents",
       "orphanEdorg" => "educationOrganizations",
@@ -647,6 +657,7 @@ def getEntityEndpoint(entity)
       "school" => "educationOrganizations",
       "section" => "sections",
       "session" => "sessions",
+      "patchSession" => "sessions",
       "staff" => "staff",
       "newStaff" => "staff",
       "staffCohortAssociation" => "staffCohortAssociations",
@@ -657,6 +668,8 @@ def getEntityEndpoint(entity)
       "studentAcademicRecord" => "studentAcademicRecords",
       "studentAssessment" => "studentAssessments",
       "studentCohortAssociation" => "studentCohortAssociations",
+      "studentCompetencyObjective" => "studentCompetencyObjectives",
+      "patchStudentCompetencyObjective" => "studentCompetencyObjectives",
       "studentSchoolAssociation" => "studentSchoolAssociations",
       "studentSectionAssociation" => "studentSectionAssociations",
       "studentParentAssociation" => "studentParentAssociations",
@@ -710,6 +723,14 @@ def getEntityBodyFromApi(entity, api_version, verb)
       "studentSectionAssociation" => "studentSectionAssociations",
       "teacherSchoolAssociation" => "teacherSchoolAssociations",
       "patchProgram" => "programs/0ee2b448980b720b722706ec29a1492d95560798_id",
+      "patchGradingPeriod" => "gradingPeriods/8feb483ade5d7b3b45c1e4b4a50d00302cba4548_id",
+      "patchLearningObjective" => "learningObjectives/bc2dd61ff2234eb25835dbebe22d674c8a10e963_id",
+      "patchLearningStandard" => "learningStandards/1bd6fea0e8b8ac6a8fe87a8530effbced0df9318_id",
+      "patchCompetencyLevelDescriptor" => "competencyLevelDescriptor/ceddd8ec0ee71c1f4f64218e00581e9b27c0fffb_id",
+      "patchStudentCompetencyObjective" => "studentCompetencyObjectives/ef680988e7c411cdb5438ded373512cd59cbfa7b_id",
+      "patchSession" => "sessions/fe6e1a162e6f6825830d78d72cb55498afaedcd3_id",
+      "patchSEACourse" => "courses/494d4c8281ec78c7d8634afb683d39f6afdc5b85_id",
+      "patchSEACourseOffering" => "courseOfferings/0fee7a7aba9a96388ef628b7e3e5e5ea60a142a7_id"
   }
   # Perform GET request and verify we get a response and a response body
   restHttpGet("/#{api_version}/#{entity_to_uri_map[entity]}")
@@ -1040,8 +1061,10 @@ end
 
 Then /^each record in the full extract is present and matches the delta extract$/ do
   @fileDir = Dir.pwd + "/extract/unpack"
+
   # loop through the list of files in delta directory
   Dir.entries(@deltaDir).each do |deltaFile|
+
     next if !deltaFile.include?("gz")
     next if deltaFile.include?("deleted")
     puts "DEBUG: Current delta file is #{deltaFile}"
@@ -1615,6 +1638,7 @@ def compareToApi(collection, collFile, sample_size=10)
     #Make API call and get JSON for the collection
     @format = "application/vnd.slc+json"
     restHttpGet("/v1/#{uri}/#{id}")
+
     assert(@res != nil, "Response from rest-client GET is nil")
     assert(@res.code != 404, "Response from rest-client GET is not 200 (Got a #{@res.code})")
     if @res.code == 200
@@ -2402,6 +2426,71 @@ def prepareBody(verb, value, response_map)
       },
       "newGraduationPlan" => {
 
+      },
+      "newSession" => {
+        "schoolYear" => "2014-2015",
+        "sessionName" => "New SEA session",
+        "term" => "Year Round",
+        "gradingPeriodReference" => ["1dae9e8450e2e77dd0b06dee3fd928c1bfda4d49_id"],
+        "endDate" => "2015-06-11",
+        "schoolId" => "884daa27d806c2d725bc469b273d840493f84b4d_id",
+        "beginDate" => "2014-08-12",
+        "totalInstructionalDays" => 180
+      },
+      "newGradingPeriod" => {
+        "endDate"=>"2014-05-22",
+        "gradingPeriodIdentity"=>{
+            "schoolYear"=>"2013-2014",
+            "gradingPeriod"=>"End of Year",
+            "schoolId"=>"884daa27d806c2d725bc469b273d840493f84b4d_id"
+        },
+        "entityType"=>"gradingPeriod",
+        "beginDate"=>"2013-07-20",
+        "totalInstructionalDays"=>180
+      },
+      "newLearningObjective" => {
+        "objectiveGradeLevel" => "Fourth grade",
+        "objective" => "New Generic Learning Objective 1",
+        "academicSubject" => "Writing",
+        "description" => "Description"
+      },
+      "newLearningStandard" => {
+        "subjectArea" => "Science",
+        "courseTitle" => "Science",
+        "contentStandard" => "State Standard",
+        "description" => "Description",
+        "learningStandardId" => { "identificationCode" => "NEW-LS-GK-1" },
+        "gradeLevel" => "Kindergarten"
+      },
+      "newCompetencyLevelDescriptor" => {
+        "description" => "Description",
+        "codeValue" => "NEW-CLD-CodeValue",
+        "performanceBaseConversion" => "Advanced"
+      },
+      "newStudentCompetencyObjective" => {
+        "objectiveGradeLevel" => "Kindergarten",
+        "objective" => "Phonemic Awareness",
+        "studentCompetencyObjectiveId" => "NEW-JS-K-1",
+        "description" => "Description",
+        "educationOrganizationId" => "884daa27d806c2d725bc469b273d840493f84b4d_id"
+      },
+      "newSEACourse" => {
+        "courseDescription" => "new SEA course",
+        "uniqueCourseId" => "new-sea-1",
+        "courseCode" => [{
+            "identificationSystem" => "School course code",
+            "ID" => "new-science-1"
+        }],
+        "courseTitle" => "Sixth grade Science",
+        "numberOfParts" => 1,
+        "schoolId" => "884daa27d806c2d725bc469b273d840493f84b4d_id"
+      },
+      "newSEACourseOffering" => {
+        "schoolId" => "884daa27d806c2d725bc469b273d840493f84b4d_id",
+        "sessionId" => "bfeaf9315f04797a41dbf1663d18ead6b6fb1309_id",
+        "courseId" => "877e4934a96612529535581d2e0f909c5288131a_id",
+        "localCourseCode" => "101 English",
+        "localCourseTitle" => "New SEA English"
       }
     },
     "PATCH" => {
@@ -2429,6 +2518,18 @@ def prepareBody(verb, value, response_map)
       },
       "patchProgramType" => {
           "programType" => value
+      },
+      "patchEndDate" => {
+          "endDate" => value
+      },
+      "patchDescription" => {
+          "description" => value
+      },
+      "patchCourseDesc" => {
+          "courseDescription" => value
+      },
+      "patchCourseId" => {
+          "courseId" => value
       },
       "studentParentName" => {
         "name" => {

@@ -17,25 +17,31 @@
 
 package org.slc.sli.api.security.resolve.impl;
 
+import static org.junit.Assert.assertTrue;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.*;
+import org.mockito.InjectMocks;
+import org.mockito.Matchers;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
-import org.slc.sli.api.security.roles.Role;
-import org.slc.sli.api.security.roles.RoleRightAccess;
-import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.stereotype.Component;
-
-import java.util.*;
-
-import static org.junit.Assert.assertTrue;
 
 /**
  * MongoUserLocatorTest
@@ -48,7 +54,7 @@ public class MongoUserLocatorTest {
 
     @InjectMocks
     MongoUserLocator locator = new MongoUserLocator();
-    
+
     @Mock
     Repository<Entity> mockRepo;
 
@@ -60,7 +66,7 @@ public class MongoUserLocatorTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        Mockito.when(mockRepo.findOne(Matchers.eq(EntityNames.STUDENT), (NeutralQuery)Matchers.any())).thenReturn(getEntity("student"));
+        Mockito.when(mockRepo.findOne(Matchers.eq(EntityNames.STUDENT), (NeutralQuery)Matchers.any(), Matchers.anyBoolean())).thenReturn(getEntity("student"));
         Mockito.when(mockRepo.findAll(Matchers.eq(EntityNames.STAFF), (NeutralQuery) Matchers.any())).thenReturn(Arrays.asList(getEntity("staff")));
 
     }
@@ -106,7 +112,7 @@ public class MongoUserLocatorTest {
         assertTrue(principal.getEntity() != null);
         assertTrue(principal.getEntity().getType().equals("user"));
     }
-   
+
     private Map<String, Object> getBody() {
         Map<String, Object> body = new HashMap<String, Object>();
         //really nothing need to be built at this moment

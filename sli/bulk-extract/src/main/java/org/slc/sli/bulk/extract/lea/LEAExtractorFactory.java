@@ -82,6 +82,10 @@ public class LEAExtractorFactory {
     	return new SessionExtractor(extractor, map, repo, new ExtractorHelper(), new EntityToLeaCache(), localEdOrgExtractHelper);
     }
     
+    public CalendarDateExtractor buildCalendarDateExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
+    	return new CalendarDateExtractor(extractor, map, repo, new ExtractorHelper(), new EntityToLeaCache(), localEdOrgExtractHelper);
+    }
+    
     public EntityExtract buildGradingPeriodExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
     	return new GradingPeriodExtractor(extractor, map, repo, localEdOrgExtractHelper);
     }
