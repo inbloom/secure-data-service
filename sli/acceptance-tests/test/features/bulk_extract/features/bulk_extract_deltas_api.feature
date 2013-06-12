@@ -146,7 +146,7 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
       | id                                          | condition                                |
       | aec59707feac8e68d9d4b780bef5547e934297dc_id | totalInstructionalDays = 190             |
 
-  @wip
+
   Scenario: Ingesting SEA (Non Odin) entities - GraduationPlan
     When I ingest "SEAGraduationPlan.zip"
     And the extraction zone is empty
@@ -156,7 +156,7 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
       |  graduationPlan                        |
     And I verify this "graduationPlan" file should contain:
       | id                                          | condition                                |
-      | 22411ee1066db57f4a8424f8285bc1d82fae1560_id | GraduationPlanType = Distinguished       |
+      | 22411ee1066db57f4a8424f8285bc1d82fae1560_id | graduationPlanType = Distinguished       |
     And I ingest "SEAGraduationPlanUpdate.zip"
     And the extraction zone is empty
     When I trigger a delta extract
@@ -165,7 +165,7 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
       |  graduationPlan                        |
     And I verify this "graduationPlan" file should contain:
       | id                                          | condition                                |
-      | 22411ee1066db57f4a8424f8285bc1d82fae1560_id | GraduationPlanType = Standard            |
+      | 7f6e03f2a01f0f74258a1b0d8796be5eaf289f0a_id | graduationPlanType = Standard            |
 
 Scenario: Triggering deltas via ingestion
   All entities belong to lea1 which is IL-DAYBREAK, we should only see a delta file for lea1
