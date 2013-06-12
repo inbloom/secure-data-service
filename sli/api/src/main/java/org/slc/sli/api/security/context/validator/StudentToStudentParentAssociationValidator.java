@@ -1,15 +1,12 @@
 package org.slc.sli.api.security.context.validator;
 
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
-
-import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
+import org.springframework.stereotype.Component;
 
 /**
  * User: rzingle
