@@ -15,6 +15,9 @@ Feature: As a student or staff I want to use apps that access the inBloom API
 
   @wip
   Scenario: I check the response body fields of specific student API endpoints
+  When I verify the following response body fields in /students/:
+    | uri                                         | condition                                |
+    | 54759a8d56aba10b1b300e66657cd6fcc3ca6ac9_id | entityType = studentSchoolAssociation |
     When I navigate to GET "/students/<my student id>"
     Then the response body "id" should match my "student" "id"
     And the response field "entityType" should be "teacher"
