@@ -12,12 +12,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.domain.Entity;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -34,11 +35,12 @@ public class StudentToStudentParentAssociationValidatorTest {
     private ValidatorTestHelper helper;
     
     
-    private List<Entity> spas = Arrays.asList(helper.generateStudentParentAssoc("studentID1", "parentID1"), 
-            helper.generateStudentParentAssoc("studentID2", "parentID2"));
+    private List<Entity> spas;
     
     @Before
     public void setUp() {
+        spas = Arrays.asList(helper.generateStudentParentAssoc("studentID1", "parentID1"),
+                helper.generateStudentParentAssoc("studentID2", "parentID2"));
         Entity student = Mockito.mock(Entity.class);
         Map<String, List<Entity>> value = new HashMap<String, List<Entity>>();
         String key = "studentParentAssociation";
