@@ -989,8 +989,8 @@
             </xs:documentation>
         </xs:annotation>
         <xs:sequence>
-            <xs:element name='eventName' type='xs:string'></xs:element>
-            <xs:element name='eventType' type='xs:string'></xs:element>
+            <xs:element name='eventName' type='xs:string'/>
+            <xs:element name='eventType' type='xs:string'/>
         </xs:sequence>
     </xs:complexType>
 
@@ -2744,9 +2744,11 @@
                         <sli:associationKey>true</sli:associationKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_STUDENT_DATA</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -2762,9 +2764,11 @@
                         <sli:associationKey>true</sli:associationKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_STUDENT_DATA</sli:allowedBy>
                         </sli:ReadEnforcement>
                         <sli:associatedDatedCollection>studentCohortAssociation</sli:associatedDatedCollection>
                         <sli:associatedDatedCollection>staffCohortAssociation</sli:associatedDatedCollection>
@@ -2870,9 +2874,11 @@
                         <sli:associationKey>true</sli:associationKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_STUDENT_DATA</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3036,9 +3042,11 @@
                         <sli:associationKey>true</sli:associationKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_STUDENT_DATA</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -3053,9 +3061,11 @@
                         <sli:associationKey>true</sli:associationKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_STUDENT_DATA</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -4189,6 +4199,7 @@
                         <sli:naturalKey>true</sli:naturalKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -4209,6 +4220,7 @@
                         <sli:naturalKey>true</sli:naturalKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -4235,6 +4247,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -4260,6 +4273,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -4282,6 +4296,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -4317,6 +4332,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -4345,6 +4361,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -4364,6 +4381,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -4381,6 +4399,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -4400,6 +4419,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -4417,6 +4437,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -4433,6 +4454,7 @@
                         <sli:ReferenceType>reportCard</sli:ReferenceType>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -4451,6 +4473,7 @@
                         <sli:naturalKey>true</sli:naturalKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -4485,6 +4508,7 @@
                         <sli:naturalKey>true</sli:naturalKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -4502,6 +4526,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -4519,6 +4544,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -4535,6 +4561,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -4555,6 +4582,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -4583,6 +4611,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -4606,6 +4635,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -4625,6 +4655,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -4649,6 +4680,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -4666,6 +4698,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -4681,6 +4714,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -4697,6 +4731,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -4713,6 +4748,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -4730,6 +4766,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -4749,6 +4786,7 @@
                         <sli:associationKey>true</sli:associationKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -4768,6 +4806,7 @@
                         <sli:associationKey>true</sli:associationKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -4805,6 +4844,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -4827,6 +4867,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -4848,6 +4889,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -4864,6 +4906,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -4882,6 +4925,7 @@
                         <sli:naturalKey>true</sli:naturalKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -4901,6 +4945,7 @@
                         <sli:associationKey>true</sli:associationKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -5119,9 +5164,11 @@
                         <sli:associationKey>true</sli:associationKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_STUDENT_DATA</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -5137,9 +5184,11 @@
                         <sli:associationKey>true</sli:associationKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_STUDENT_DATA</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -5155,9 +5204,11 @@
                         <sli:naturalKey>true</sli:naturalKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_GENERIC</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                         <sli:beginDate>yes</sli:beginDate>
                     </xs:appinfo>
@@ -5173,9 +5224,11 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_GENERIC</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                         <sli:endDate>yes</sli:endDate>
                     </xs:appinfo>
@@ -5522,6 +5575,7 @@
                         <sli:associationKey>true</sli:associationKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -5540,6 +5594,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -5556,6 +5611,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -5575,6 +5631,7 @@
                         <sli:associationKey>true</sli:associationKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -5826,9 +5883,11 @@
                         <sli:associationKey>true</sli:associationKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_STUDENT_DATA</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -5843,9 +5902,11 @@
                         <sli:associationKey>true</sli:associationKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_STUDENT_DATA</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -5859,9 +5920,11 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_GENERIC</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -5875,9 +5938,11 @@
                         <sli:naturalKey>true</sli:naturalKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_GENERIC</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                         <sli:beginDate>yes</sli:beginDate>
                     </xs:appinfo>
@@ -5893,9 +5958,11 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_GENERIC</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                         <sli:endDate>yes</sli:endDate>
                     </xs:appinfo>
@@ -5910,9 +5977,11 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_GENERIC</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -5929,9 +5998,11 @@
                         <sli:naturalKey>true</sli:naturalKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_GENERIC</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -5961,9 +6032,11 @@
                         <sli:associationKey>true</sli:associationKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_STUDENT_DATA</sli:allowedBy>
                             <sli:allowedBy>READ_STUDENT_DATA</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
@@ -5979,9 +6052,11 @@
                         <sli:associationKey>true</sli:associationKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_STUDENT_DATA</sli:allowedBy>
                             <sli:allowedBy>READ_STUDENT_DATA</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
@@ -5997,9 +6072,11 @@
                         <sli:naturalKey>true</sli:naturalKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_GENERIC</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                             <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                         <sli:beginDate>yes</sli:beginDate>
@@ -6015,9 +6092,11 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_GENERIC</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                             <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                         <sli:endDate>yes</sli:endDate>
@@ -6032,9 +6111,11 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_GENERIC</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                             <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
@@ -6053,9 +6134,11 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_GENERIC</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                             <sli:allowedBy>READ_GENERIC</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
@@ -6086,6 +6169,7 @@
                         <sli:associationKey>true</sli:associationKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -6103,6 +6187,7 @@
                         <sli:associationKey>true</sli:associationKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -6118,6 +6203,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -6136,6 +6222,7 @@
                         <sli:naturalKey>true</sli:naturalKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -6157,6 +6244,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -6174,6 +6262,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -6193,6 +6282,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -6208,6 +6298,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -6230,6 +6321,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -6254,6 +6346,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -6272,6 +6365,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -6291,6 +6385,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -6309,6 +6404,7 @@
                         <sli:ReferenceType>graduationPlan</sli:ReferenceType>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -6349,6 +6445,7 @@
                         <sli:naturalKey>true</sli:naturalKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -6365,6 +6462,7 @@
                         <sli:ReferenceType>student</sli:ReferenceType>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -6381,6 +6479,7 @@
                         <sli:ReferenceType>section</sli:ReferenceType>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -6398,6 +6497,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -6416,6 +6516,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -6439,6 +6540,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -6457,6 +6559,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -6475,6 +6578,7 @@
                         <sli:naturalKey>true</sli:naturalKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -6691,6 +6795,7 @@
                         <sli:naturalKey>true</sli:naturalKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -6707,6 +6812,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -6723,6 +6829,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -6740,6 +6847,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -6755,6 +6863,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -6771,6 +6880,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -6787,6 +6897,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -6808,6 +6919,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -6826,6 +6938,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -6844,6 +6957,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -6860,6 +6974,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -6876,6 +6991,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -6894,6 +7010,7 @@
                         <sli:naturalKey>true</sli:naturalKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -6911,6 +7028,7 @@
                         <sli:ReferenceType>educationOrganization</sli:ReferenceType>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -6929,6 +7047,7 @@
                         <sli:naturalKey>true</sli:naturalKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -6946,6 +7065,7 @@
                         <sli:ReferenceType>student</sli:ReferenceType>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -7036,9 +7156,11 @@
                         <sli:associationKey>true</sli:associationKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_STUDENT_DATA</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -7053,9 +7175,11 @@
                         <sli:associationKey>true</sli:associationKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_STUDENT_DATA</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -7141,9 +7265,11 @@
                         <sli:associationKey>true</sli:associationKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_STUDENT_DATA</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -7158,9 +7284,11 @@
                         <sli:associationKey>true</sli:associationKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>READ_STUDENT_DATA</sli:allowedBy>
                         </sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
@@ -9475,6 +9603,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -9498,6 +9627,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -9516,6 +9646,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -9532,6 +9663,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -9548,6 +9680,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -9565,6 +9698,7 @@
                         <sli:ReferenceType>studentSectionAssociation</sli:ReferenceType>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -9583,6 +9717,7 @@
                         <sli:naturalKey>true</sli:naturalKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -9601,6 +9736,7 @@
                         <sli:naturalKey>true</sli:naturalKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -9618,6 +9754,7 @@
                         <sli:naturalKey>true</sli:naturalKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -9632,6 +9769,7 @@
                         <sli:naturalKey>true</sli:naturalKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -9676,6 +9814,7 @@
                         <sli:naturalKey>true</sli:naturalKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -9693,6 +9832,7 @@
                         <sli:naturalKey>true</sli:naturalKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -9713,6 +9853,7 @@
                         <sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -9730,6 +9871,7 @@
                         <sli:naturalKey>true</sli:naturalKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -9746,6 +9888,7 @@
                         <sli:ReferenceType>gradingPeriod</sli:ReferenceType>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -9763,6 +9906,7 @@
                         <sli:ReferenceType>learningStandard</sli:ReferenceType>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -9780,6 +9924,7 @@
                         <sli:ReferenceType>learningObjective</sli:ReferenceType>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -10191,6 +10336,7 @@
                         <sli:naturalKey>true</sli:naturalKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -10207,6 +10353,7 @@
                         <sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -10224,6 +10371,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -10241,6 +10389,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -10258,6 +10407,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -10277,6 +10427,7 @@
                         <sli:naturalKey>true</sli:naturalKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -10295,6 +10446,7 @@
                         <sli:ReferenceType>program</sli:ReferenceType>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -10890,6 +11042,7 @@
                         <sli:naturalKey>true</sli:naturalKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -10908,6 +11061,7 @@
                         <sli:naturalKey>true</sli:naturalKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -10925,6 +11079,7 @@
                         <sli:naturalKey>true</sli:naturalKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -11946,6 +12101,7 @@
                         <sli:ReferenceType>grade</sli:ReferenceType>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -11963,6 +12119,7 @@
                         <sli:ReferenceType>studentCompetency</sli:ReferenceType>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -11979,6 +12136,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -11996,6 +12154,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -12012,6 +12171,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -12033,6 +12193,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -12054,6 +12215,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -12077,6 +12239,7 @@
                         <sli:naturalKey>true</sli:naturalKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -12095,6 +12258,7 @@
                         <sli:naturalKey>true</sli:naturalKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -12109,6 +12273,7 @@
                         <sli:naturalKey>true</sli:naturalKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -12362,6 +12527,7 @@
                         <sli:naturalKey>true</sli:naturalKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -12379,6 +12545,7 @@
                         <sli:naturalKey>true</sli:naturalKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -12395,6 +12562,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -12413,6 +12581,7 @@
                         <sli:naturalKey>true</sli:naturalKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>

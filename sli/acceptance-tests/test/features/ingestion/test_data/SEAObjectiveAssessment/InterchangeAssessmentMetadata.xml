@@ -1,0 +1,25 @@
+<InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+    xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-AssessmentMetadata.xsd">
+    <ObjectiveAssessment>
+        <IdentificationCode>ACT-Science</IdentificationCode>
+        <MaxRawScore>36</MaxRawScore>
+        <AssessmentReference>
+            <AssessmentIdentity>
+                <AssessmentTitle>ACT</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+        </AssessmentReference>
+    </ObjectiveAssessment>
+    <ObjectiveAssessment>
+        <IdentificationCode>ACT-Writing</IdentificationCode>
+        <MaxRawScore>12</MaxRawScore>
+        <AssessmentReference>
+            <AssessmentIdentity>
+                <AssessmentTitle>ACT</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+        </AssessmentReference>
+    </ObjectiveAssessment>
+</InterchangeAssessmentMetadata>

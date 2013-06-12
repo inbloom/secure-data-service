@@ -27,11 +27,20 @@ import org.slc.sli.api.util.SecurityUtil;
  */
 public abstract class BasicValidator extends AbstractContextValidator {
     private final boolean transitiveValidator;
+    private final boolean careAboutTransitive;
     private final String type;
     private final String userType;
 
     public BasicValidator(boolean transitiveValidator, String userType, String type) {
         this.transitiveValidator = transitiveValidator;
+        this.careAboutTransitive = true;
+        this.type = type;
+        this.userType = userType;
+    }
+
+    public BasicValidator(String userType, String type) {
+        this.transitiveValidator = false;
+        this.careAboutTransitive = false;
         this.type = type;
         this.userType = userType;
     }
@@ -39,7 +48,7 @@ public abstract class BasicValidator extends AbstractContextValidator {
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
         return userType.equals(SecurityUtil.getSLIPrincipal().getEntity().getType()) && type.equals(entityType)
-                && isTransitive == transitiveValidator;
+                && (!careAboutTransitive || isTransitive == transitiveValidator);
     }
 
     @Override

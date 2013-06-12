@@ -75,7 +75,7 @@ public class EdOrgContextualRoleBuilderTest {
         samlRoles.add("nobody");
     }
 
-    @Ignore
+    @Test
     public void testBuildEdOrgContextualRoles () {
         Set<Entity> seoas = new HashSet<Entity>();
         seoas.add(createSEOA("LEA1", "IT Admin"));
@@ -88,6 +88,7 @@ public class EdOrgContextualRoleBuilderTest {
         edOrg1RolesSet.add(createRole("Educator"));
         edOrg1RolesSet.add(createRole("IT Admin"));
         Mockito.when(resolver.mapRoles(tenant, realmId, Arrays.asList("Educator", "IT Admin"), false)).thenReturn(edOrg1RolesSet);
+        Mockito.when(resolver.mapRoles(tenant, realmId, Arrays.asList("IT Admin", "Educator"), false)).thenReturn(edOrg1RolesSet);
 
         Set<Role> edOrg2RolesSet = new HashSet<Role>();
         edOrg2RolesSet.add(createRole("Educator"));
