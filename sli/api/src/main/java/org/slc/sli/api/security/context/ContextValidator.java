@@ -119,8 +119,7 @@ public class ContextValidator implements ApplicationContextAware {
      * because we must also block some url that only has 2 segment, i.e.
      * disciplineActions/disciplineIncidents
      * 
-     * @param path
-     *            segments
+     * @param pathSegments
      * @return if url is accessible to students principals
      */
     public boolean isUrlBlocked(List<PathSegment> pathSegments) {
