@@ -32,13 +32,13 @@ public class StudentToStudentParentAssociationValidatorTest {
     
     @Autowired
     private ValidatorTestHelper helper;
-    
-    
-    private List<Entity> spas = Arrays.asList(helper.generateStudentParentAssoc("studentID1", "parentID1"), 
-            helper.generateStudentParentAssoc("studentID2", "parentID2"));
+      
+    private List<Entity> spas = null;
     
     @Before
     public void setUp() {
+        spas = Arrays.asList(helper.generateStudentParentAssoc("studentID1", "parentID1"), 
+        helper.generateStudentParentAssoc("studentID2", "parentID2"));
         Entity student = Mockito.mock(Entity.class);
         Map<String, List<Entity>> value = new HashMap<String, List<Entity>>();
         String key = "studentParentAssociation";
