@@ -15,6 +15,8 @@
  */
 package org.slc.sli.api.security.context.validator;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.stereotype.Component;
@@ -22,21 +24,23 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.common.constants.EntityNames;
 
 /**
- * Student and parent has context to every section in the tenant, as sections are Global entities.
+ * A public global validator for student to access public entities.
  * 
  */
 @Component
-public class TransitiveStudentToSectionValidator extends AbstractContextValidator {
+public class TransitiveStudentToGlobalValidator extends AbstractContextValidator {
     
+    // Student and parent has context to every section in the tenant, as sections are Global
+    // entities.
+    private static final Set<String> GLOBAL_ACCESS_ALL = new HashSet<String>(Arrays.asList(EntityNames.SECTION));
+
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return isTransitive && EntityNames.SECTION.equals(entityType) && isStudent();
+        return isTransitive && GLOBAL_ACCESS_ALL.contains(entityType) && isStudent();
     }
     
     @Override
     public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
-        // Student and parent has context to every section in the tenant, as sections are Global
-        // entities.
         return true;
     }
     
