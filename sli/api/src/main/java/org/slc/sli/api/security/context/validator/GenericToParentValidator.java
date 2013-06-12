@@ -15,20 +15,21 @@
  */
 package org.slc.sli.api.security.context.validator;
 
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.api.security.context.ContextValidator;
-import org.slc.sli.api.security.context.PagingRepositoryDelegate;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.security.context.ContextValidator;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 
 /**
  *  A generic validator to handle both student-parent and teacher-parent.
@@ -47,7 +48,7 @@ public class GenericToParentValidator extends AbstractContextValidator {
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return EntityNames.PARENT.equals(entityType);
+        return (isStaff() || isTeacher()) && EntityNames.PARENT.equals(entityType);
     }
 
     @Override
