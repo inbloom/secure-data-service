@@ -366,7 +366,12 @@ Then /^the response field "(.*?)" should be "(.*?)"$/ do |field, value|
   # ex: field=body.name.firstName, @result=[json response body]
   puts @result if $SLI_DEBUG
   result = fieldExtract(field, @result) 
-  assert(result.to_s == value, "Unexpected response: expected #{value}, found #{result}")  
+  if (result.to_s != value)
+    puts "#{startRed}Result for #{field} was #{result.to_s}#{colorReset}"
+    assert(false, "Unexpected result for field #{field}, should be #{value}.")
+  else
+    puts "Result for #{field} was #{result.to_s}"
+  end
 end
 
 Then /^the offset response field "([^"]*)" should be "([^"]*)"$/ do |field, value|
@@ -624,12 +629,25 @@ end
 
 
 Then(/^I PATCH entities and check return code$/) do |table|
+  # Strings for ANSI Color codes
+  startRed = "\e[31m"
+  colorReset = "\e[0m"
+
+  success = true
   @format = 'application/json'
   table.hashes.map do |params|
+    uri = "#{params['Endpoint']}/#{params['Id']}"
     data = {}
     data[params['Field']]='onward'
-    restHttpPatch("/#{@api_version}/#{params['Endpoint']}/#{params['Id']}", data)
+    restHttpPatch("/#{@api_version}/#{uri}", data)
+    #Verify the return code
     assert(@res != nil, "Response from rest-client PATCH is nil")
-    assert(@res.code == params['ReturnCode'].to_i, "Response code should be #{params['ReturnCode']}, not #{@res.code}")
+    if (@res == nil) || (@res.code != 403)
+      success = false
+      puts "#{startRed}Return code for URI: #{uri} was #{@res.code}#{colorReset}"
+    else
+      puts "Return code for URI: #{uri} was #{@res.code}"
+    end
   end
+  assert(success, "Response code was unexpected, see logs above.")
 end
