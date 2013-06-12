@@ -281,10 +281,11 @@ end
 
 When /^I validate I have access to entities via the API access pattern "(.*?)":$/ do |uri, table| 
   table.hashes.map do |row|
-    print "Verifying entity #{row["entity"]} matches #{row["id"]} .. "
-    uri.gsub("Entity", row["entity"])
-    uri.gsub("Id", row["id"])
-    step "I navigate to GET \"/#{@api_version}#{uri}\""
+    print "Verifying I get a 200 response from #{row["entity"]}/#{row["id"]} .. "
+    uri = uri.gsub("Entity", row["entity"])
+    uri = uri.gsub("Id", row["id"])
+    puts "Calling GET to #{uri}" if $SLI_DEBUG
+    step "I navigate to GET \"#{uri}\""
     step "I should receive a return code of 200"
     print "OK\n"
   end
