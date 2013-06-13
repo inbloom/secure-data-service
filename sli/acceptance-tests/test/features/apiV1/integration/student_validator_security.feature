@@ -7,10 +7,10 @@ Scenario: Validators return proper return codes on multi-ID requests
   And format "application/json"
   When I make API calls for multiple IDs in accordance to the following table:
     | Path                             | GoodId                                                                                 | BadId                                       |
-    | /attendances/@ids                |                                                                                        |                                             |
-    | /cohorts/@ids                    |                                                                                        |                                             |
-    | /courseTranscripts/@ids          |                                                                                        |                                             |
-    | /gradebookEntries/@ids           |                                                                                        |                                             |
+    | /attendances/@ids                | 69a338d4c77f47dbb0edb12878c751bde7622505_id                                            |
+    | /cohorts/@ids                    | 271a8d3a18ae2d80599dc55a0abaaeb8527ff10f_id                                            |                                             |
+    | /courseTranscripts/@ids          | a2cc843e5bc38898c50960008110e029ece8e609_id                                            |
+    | /gradebookEntries/@ids           |                                                                                         |                                             |
     | /grades/@ids                     |                                                                                        |                                             |
     | /graduationPlans/@ids            |                                                                                        |                                             |
     | /parents/@ids                    |                                                                                        |                                             |
@@ -18,7 +18,7 @@ Scenario: Validators return proper return codes on multi-ID requests
     | /staff/@ids                      |                                                                                        |                                             |
     | /studentAcademicRecords/@ids     |                                                                                        |                                             |
     | /studentAssessments/@ids         |                                                                                        |                                             |
-    | /studentCohortAssociations/@ids  |                                                                                        |                                             |
+    | /studentCohortAssociations/@ids  | fdd8ee3ee44133f489e47d2cae109e886b041382_idb8b99293f159daade6bf392d41c604d7ebcf88fd_id |                                             |
     | /studentCompetencies/@ids        |                                                                                        |                                             |
     | /studentGradebookEntries/@ids    |                                                                                        |                                             |
     | /studentParentAssociations/@ids  | 92164cd19ebdbe17cfdcd0e1d177877cdc9a40ef_idf2f0a1ddc141a58169b3c586e78ae6ba8d44e8ee_id |                                             |
