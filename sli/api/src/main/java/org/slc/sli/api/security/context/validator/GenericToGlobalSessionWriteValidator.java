@@ -33,7 +33,7 @@ public class GenericToGlobalSessionWriteValidator extends AbstractContextValidat
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return isTransitive && EntityNames.SESSION.equals(entityType);
+        return isTransitive && EntityNames.SESSION.equals(entityType) && !isStudent();
     }
 
     @Override
