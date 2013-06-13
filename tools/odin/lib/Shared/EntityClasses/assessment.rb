@@ -27,7 +27,8 @@ class Assessment < BaseEntity
 
   attr_accessor :id, :assessmentTitle, :assessmentIdentificationCode, :year_of, :gradeLevelAssessed,
     :assessmentFamilyReference, :assessment_items, :all_objective_assessments, :referenced_objective_assessments, :all_items,
-    :assessmentPeriod, :academicSubject, :subject, :grade
+    :assessmentPeriod, :academicSubject, :subject, :grade, :assessmentCategory, :lowestGradeLevelAssessed, :contentStandard,
+    :assessmentForm, :version, :revisionDate, :maxRawScore, :nomenclature
 
   def initialize(id, year_of = 2012, gradeLevelAssessed = :UNGRADED, num_items = 0, assessmentFamilyReference = nil, assessmentPeriodDescriptor = nil, num_objectives = 2)
     @id = id
@@ -54,6 +55,15 @@ class Assessment < BaseEntity
 
     @assessmentPeriod = (assessmentPeriodDescriptor.nil? ? [] : [assessmentPeriodDescriptor])
     @assessmentFamilyReference = assessmentFamilyReference
+    optional {
+      @assessmentCategory = "Performance assessment" 
+      @lowestGradeLevelAssessed = @gradeLevelAssessed
+      @contentStandard = "State Standard"
+      @assessmentForm = "Form"
+      @revisionDate = Date.new(year_of)
+      @maxRawScore = 100
+      @nomenclature = "Nomenclature"
+    }
   end
 
 end
