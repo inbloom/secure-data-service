@@ -62,7 +62,7 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     When I DELETE and validate the following entities:
     | entity                              | id                                          | returnCode  |
    #| These entities do not exist         | I should get a return code of               | 404         |
-    | assessment                          | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
+    | assessment                          | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 404         |
     | assessments/id/learningObjectives   | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
     | assessments/id/learningStandards    | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
     | courseOfferings/id/courses          | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
@@ -74,9 +74,9 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     | courseOffering                      | doesnotexist177dd0b06dee3fd928c1bfda4d49_id | 404         |
     | gradingPeriod                       | doesnotexist177dd0b06dee3fd928c1bfda4d49_id | 404         |
     | program                             | doesnotexist177dd0b06dee3fd928c1bfda4d49_id | 404         |
-    | learningObjective                   | doesnotexist177dd0b06dee3fd928c1bfda4d49_id | 403         |
-    | learningStandard                    | doesnotexist177dd0b06dee3fd928c1bfda4d49_id | 403         |
-    | section                             | doesnotexist177dd0b06dee3fd928c1bfda4d49_id | 403         |
+    | learningObjective                   | doesnotexist177dd0b06dee3fd928c1bfda4d49_id | 404         |
+    | learningStandard                    | doesnotexist177dd0b06dee3fd928c1bfda4d49_id | 404         |
+    | section                             | doesnotexist177dd0b06dee3fd928c1bfda4d49_id | 404         |
     | session                             | doesnotexist177dd0b06dee3fd928c1bfda4d49_id | 404         |
     #| These entities do exist             | I should get a return code of               | 403         |
     #| course                              | 877e4934a96612529535581d2e0f909c5288131a_id | 403         |
