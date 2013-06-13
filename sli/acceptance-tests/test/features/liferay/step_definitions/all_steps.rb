@@ -152,7 +152,7 @@ end
 
 Then /^I switch to the iframe$/ do
   wait = Selenium::WebDriver::Wait.new(:timeout => 60)
-  wait.until{(isIframePresent() != nil}
+  wait.until{isIframePresent() != nil}
 end
 
 Then /^I exit out of the iframe$/ do
