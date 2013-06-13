@@ -34,7 +34,7 @@ Background:
          | assessmentFamily                         |                 38|
          | assessmentPeriodDescriptor               |                  2|
          | attendance                               |                 75|
-         | calendarDate                             |                557|
+         | calendarDate                             |                558|
          | cohort                                   |                  3|
          | competencyLevelDescriptor                |                  0|
          | course                                   |                 95|
@@ -53,7 +53,7 @@ Background:
          | learningStandard                         |               1499|
          | parent                                   |                  9|
          | program                                  |                  2|
-         | recordHash                               |              10096|
+         | recordHash                               |              10097|
          | reportCard                               |                  2|
          | schoolSessionAssociation                 |                  0|
          | section                                  |                 97|

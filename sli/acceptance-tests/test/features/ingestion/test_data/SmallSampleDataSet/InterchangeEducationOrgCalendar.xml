@@ -15,6 +15,15 @@
         </EducationOrgReference>
     </CalendarDate>
     <CalendarDate>
+        <Date>2009-08-02</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+        <EducationOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrgReference>
+    </CalendarDate>
+    <CalendarDate>
 		<Date>2010-08-23</Date>
 		<CalendarEvent>Instructional day</CalendarEvent>
 		<EducationOrgReference>
