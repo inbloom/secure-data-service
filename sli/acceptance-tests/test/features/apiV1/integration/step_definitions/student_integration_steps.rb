@@ -271,12 +271,26 @@ When /^I follow the links for assessment$/ do
   @links = @result["links"]
 end
 
-Given /^I verify the following response body fields in "(.*?)"$/ do |uri, table|
+When /^I verify the following response body fields in "(.*?)":$/ do |uri, table|
+  step "I navigate to GET \"/#{@api_version}#{uri}\""
   table.hashes.map do |row|
-    step "I navigate to GET #{uri}"
+    puts "Checking #{row['field']} is set to #{row['value']}" if $SLI_DEBUG
     step "the response field \"#{row['field']}\" should be \"#{row['value']}\""
   end
 end
+
+When /^I validate I have access to entities via the API access pattern "(.*?)":$/ do |uri, table| 
+  table.hashes.map do |row|
+    print "Verifying I get a 200 response from #{row["entity"]}/#{row["id"]} .. "
+    uri = uri.gsub("Entity", row["entity"])
+    uri = uri.gsub("Id", row["id"])
+    puts "Calling GET to #{uri}" if $SLI_DEBUG
+    step "I navigate to GET \"#{uri}\""
+    step "I should receive a return code of 200"
+    print "OK\n"
+  end
+end
+
 
 ###############################################################################
 # THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN
@@ -350,9 +364,14 @@ Then /^the response field "(.*?)" should be "(.*?)"$/ do |field, value|
   # dig the value for that field out of a potentially
   # dot-delimited response-body structure
   # ex: field=body.name.firstName, @result=[json response body]
-  puts @result
+  puts @result if $SLI_DEBUG
   result = fieldExtract(field, @result) 
-  assert(result.to_s == value, "Unexpected response: expected #{value}, found #{result}")  
+  if (result.to_s != value)
+    puts "#{startRed}Result for #{field} was #{result.to_s}#{colorReset}"
+    assert(false, "Unexpected result for field #{field}, should be #{value}.")
+  else
+    puts "Result for #{field} was #{result.to_s}"
+  end
 end
 
 Then /^the offset response field "([^"]*)" should be "([^"]*)"$/ do |field, value|
@@ -609,4 +628,26 @@ def studentArray(value)
 end
 
 
+Then(/^I PATCH entities and check return code$/) do |table|
+  # Strings for ANSI Color codes
+  startRed = "\e[31m"
+  colorReset = "\e[0m"
 
+  success = true
+  @format = 'application/json'
+  table.hashes.map do |params|
+    uri = "#{params['Endpoint']}/#{params['Id']}"
+    data = {}
+    data[params['Field']]='onward'
+    restHttpPatch("/#{@api_version}/#{uri}", data)
+    #Verify the return code
+    assert(@res != nil, "Response from rest-client PATCH is nil")
+    if (@res == nil) || (@res.code != 403)
+      success = false
+      puts "#{startRed}Return code for URI: #{uri} was #{@res.code}#{colorReset}"
+    else
+      puts "Return code for URI: #{uri} was #{@res.code}"
+    end
+  end
+  assert(success, "Response code was unexpected, see logs above.")
+end

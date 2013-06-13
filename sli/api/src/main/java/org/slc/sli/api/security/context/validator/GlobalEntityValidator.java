@@ -30,7 +30,7 @@ public class GlobalEntityValidator extends AbstractContextValidator {
 
 	@Override
 	public boolean canValidate(String entityType, boolean isTransitive) {
-		return isTransitive && isGlobalWrite(entityType);
+		return isTransitive && isGlobalWrite(entityType) && !isStudentOrParent();
 	}
 
 	@Override
