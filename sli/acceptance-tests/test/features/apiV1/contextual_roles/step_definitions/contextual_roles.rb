@@ -44,8 +44,9 @@ After do
         else
           coll.update(mongo_change[:query], {'$unset' => {mongo_change[:field] => 1}})
         end
-
       end
+      conn.close
+      enable_NOTABLESCAN()
     end
   end
 end
@@ -57,7 +58,6 @@ end
 def update_mongo(tenant, collection, query, field, remove = true, value = nil)
 #Note: value is ignored if remove is true (It doesn't matter what the field contains if you're removing it)
 
-  disable_NOTABLESCAN()
   conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
   db = conn[tenant]
   coll = db.collection(collection)
@@ -92,12 +92,10 @@ def update_mongo(tenant, collection, query, field, remove = true, value = nil)
   end
 
   conn.close
-  enable_NOTABLESCAN()
 
 end
 
 def remove_from_mongo(tenant, collection, query)
-  disable_NOTABLESCAN()
   conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
   db = conn[tenant]
   coll = db.collection(collection)
@@ -114,6 +112,7 @@ def remove_from_mongo(tenant, collection, query)
     (@mongo_changes ||= []) << entry
 
   end
+  conn.close
 
 end
 
@@ -243,6 +242,14 @@ Given /^I import the odin-local-setup application and realm data$/ do
     puts "\b\bDEBUG: We are setting CI environment app auth data"
     Dir.chdir(@ci_realm_store_path)
     `sh ci-jmeter-realm.sh`
+    disable_NOTABLESCAN()
+    conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+    db = conn['sli']
+    coll = db.collection('realm')
+    coll.update({'_id' => '45b02cb0-1bad-4606-a936-094331bd47fe'}, {'$set' => {'body.idp.id' => PropLoader.getProps['ci_idp_redirect_url']}})
+    coll.update({'_id' => '45b02cb0-1bad-4606-a936-094331bd47fe'}, {'$set' => {'body.idp.redirectEndpoint' => PropLoader.getProps['ci_idp_redirect_url']}})
+    conn.close
+    enable_NOTABLESCAN()
     # Drop in local specific app-auth fixture data
   elsif app_server == "local"
     puts "\b\bDEBUG: We are setting LOCAL environment app auth data"
@@ -252,6 +259,14 @@ Given /^I import the odin-local-setup application and realm data$/ do
     puts "\n\nWARNING: No App server context set, assuming CI environment.."
     Dir.chdir(@ci_realm_store_path)
     `sh ci-jmeter-realm.sh`
+    disable_NOTABLESCAN()
+    conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+    db = conn['sli']
+    coll = db.collection('realm')
+    coll.update({'_id' => '45b02cb0-1bad-4606-a936-094331bd47fe'}, {'$set' => {'body.idp.id' => PropLoader.getProps['ci_idp_redirect_url']}})
+    coll.update({'_id' => '45b02cb0-1bad-4606-a936-094331bd47fe'}, {'$set' => {'body.idp.redirectEndpoint' => PropLoader.getProps['ci_idp_redirect_url']}})
+    conn.close
+    enable_NOTABLESCAN()
   end
   # restore back current dir
   Dir.chdir(current_dir)
