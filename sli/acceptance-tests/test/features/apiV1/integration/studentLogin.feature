@@ -63,6 +63,40 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     | 0.sex                                                 | Male                                        |
     | 0.telephone.0.telephoneNumber                         | (512)555-2418                               |
     | 1.parentUniqueStateId                                 | 800000025-mom                               |
+  #Fields in assessment domain
+  When I verify the following response body fields exist in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/studentAssessments":
+    | field                                                                           |
+    | 0.administrationDate                                                            |
+    | 0.administrationEndDate                                                         |
+    | 0.administrationEnvironment                                                     |
+    | 0.administrationLanguage.language                                               |
+    | 0.administrationLanguage.identificationSystem                                   |
+    | 0.gradeLevelWhenAssessed                                                        |
+    | 0.linguisticAccommodations.0                                                    |
+    | 0.performanceLevelDescriptors.0.0.codeValue                                     |
+    | 0.reasonNotTested                                                               |
+    | 0.retestIndicator                                                               |
+    | 0.scoreResults.0.result                                                         |
+    | 0.scoreResults.0.assessmentReportingMethod                                      |
+    | 0.serialNumber                                                                  |
+    | 0.specialAccommodations                                                         |
+    | 0.studentAssessmentItems.0.assessmentItem.correctResponse                       |
+    | 0.studentAssessmentItems.0.assessmentItem.identificationCode                    |
+    | 0.studentAssessmentItems.0.assessmentItem.itemCategory                          |
+    | 0.studentAssessmentItems.0.assessmentItem.maxRawScore                           |
+    | 0.studentAssessmentItems.0.assessmentItem.nomenclature                          |
+    | 0.studentAssessmentItems.0.assessmentItem.learningStandards                     |
+    | 0.studentAssessmentItems.0.assessmentItemResult                                 |
+    | 0.studentAssessmentItems.0.assessmentResponse                                   |
+    | 0.studentAssessmentItems.0.rawScoreResult                                       |
+    | 0.studentAssessmentItems.0.responseIndicator                                    |
+    | 0.studentAssessmentItems.0.responseIndicator                                    |
+    | 0.studentObjectiveAssessments.0.objectiveAssessment.assessmentPerformanceLevel  |
+    | 0.studentObjectiveAssessments.0.objectiveAssessment.identificationCode          |
+    | 0.studentObjectiveAssessments.0.objectiveAssessment.maxRawScore                 |
+    | 0.studentObjectiveAssessments.0.objectiveAssessment.nomenclature                |
+    | 0.studentObjectiveAssessments.0.objectiveAssessment.percentOfAssessment         |
+    | 0.studentObjectiveAssessments.0.objectiveAssessment.learningObjectives          |
 
   @wip
   Scenario: Student should NOT have access to certain fields in API entity response bodies
