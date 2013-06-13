@@ -1,0 +1,115 @@
+[
+  {
+    "userId": "sbantu",
+    "name": "Susan Bantu",
+    "edOrgs": [
+      {
+        "role": "Leader",
+        "type": "High School",
+        "association": "Daybreak Central High",
+        "parent" : "IL-DAYBREAK"
+      },
+      {
+        "role": "Leader",
+        "type": "High School",
+        "association": "Daybreak Bayside High",
+        "parent" : "IL-DAYBREAK"
+      }
+    ]
+  },
+  {
+    "userId": "linda.kim",
+    "name": "Linda Kim",
+    "edOrgs": [
+      {
+        "role": "Educator",
+        "type": "High School",
+        "association": "Daybreak Central High",
+        "parent" : "IL-DAYBREAK"
+      },
+      {
+        "role": "Educator",
+        "type": "High School",
+        "association": "East Daybreak High",
+        "parent" : "IL-DAYBREAK"
+      },
+      {
+        "role": "Educator",
+        "type": "High School",
+        "association": "Daybreak Bayside High",
+        "parent" : "IL-DAYBREAK"
+      }
+    ]
+  },
+  {
+    "userId": "rbraverman",
+    "name": "Rebecca Braverman",
+    "edOrgs": [
+      {
+        "role": "Educator",
+        "type": "High School",
+        "association": "Daybreak Central High",
+        "parent" : "IL-DAYBREAK"
+      },
+      {
+        "role": "Leader",
+        "type": "High School",
+        "association": "East Daybreak High",
+        "parent" : "IL-DAYBREAK"
+      }
+    ]
+  },
+  {
+    "userId": "mgonzales",
+    "name": "Maria Gonzales",
+    "edOrgs": [
+      {
+        "role": "Leader",
+        "type": "High School",
+        "association": "Daybreak Central High",
+        "parent" : "IL-DAYBREAK"
+      }
+    ]
+  },
+  {
+    "userId": "cgray",
+    "name": "Charles Gray",
+    "edOrgs": [
+      {
+        "role": "Educator",
+        "type": "High School",
+        "association": "Daybreak Central High",
+        "parent" : "IL-DAYBREAK"
+      },
+      {
+        "role": "Educator",
+        "type": "High School",
+        "association": "East Daybreak High",
+        "parent" : "IL-DAYBREAK"
+      }
+    ]
+  },
+  {
+    "userId": "msmith",
+    "name": "Mary Smith",
+    "edOrgs": [
+      {
+        "role": "Aggregate Viewer",
+        "type": "High School",
+        "association": "Daybreak Bayside High",
+        "parent" : "IL-DAYBREAK"
+      }
+    ]
+  },
+  {
+    "userId": "jstevenson",
+    "name": "James Stevenson",
+    "edOrgs": [
+      {
+        "role": "IT Administrator",
+        "type": "Local Education Agency",
+        "association": "IL-DAYBREAK"
+      }
+    ]
+  }
+]

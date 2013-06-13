@@ -16,10 +16,164 @@ limitations under the License.
 
 =end
 
-require "selenium-webdriver"
+require 'selenium-webdriver'
+require 'mongo'
 
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../utils/selenium_common.rb'
+
+DATABASE_HOST = PropLoader.getProps['ingestion_db']
+DATABASE_PORT = PropLoader.getProps['ingestion_db_port']
+
+#############################################################################################
+# After Steps
+#############################################################################################
+
+After do
+  unless @mongo_changes.nil?
+    @mongo_changes.reverse_each do |mongo_change|
+      disable_NOTABLESCAN()
+      conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+      db = conn[mongo_change[:tenant]]
+      coll = db.collection(mongo_change[:collection])
+      if mongo_change[:operation] == 'remove'
+        coll.save(mongo_change[:value])
+      elsif mongo_change[:operation] == 'update'
+        if mongo_change[:found]
+          coll.update(mongo_change[:query], {'$set' => {mongo_change[:field] => mongo_change[:value]}})
+        else
+          coll.update(mongo_change[:query], {'$unset' => {mongo_change[:field] => 1}})
+        end
+
+      end
+    end
+  end
+end
+
+#############################################################################################
+# Mongo Steps
+#############################################################################################
+
+def update_mongo(tenant, collection, query, field, remove = true, value = nil)
+#Note: value is ignored if remove is true (It doesn't matter what the field contains if you're removing it)
+
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  db = conn[tenant]
+  coll = db.collection(collection)
+  entity = coll.find_one(query)
+  entity_iter = entity
+  field_list = field.split('.')
+  found = true
+  field_list.each do |field_entry|
+    unless entity_iter.has_key? field_entry
+      found = false
+      break
+    end
+    entity_iter = entity_iter[field_entry]
+  end
+  if !(remove) || found
+    entry = {:operation => 'update',
+             :tenant => tenant,
+             :collection => collection,
+             :query => query,
+             :field => field,
+             :remove => remove,
+             :found => found,
+             :value => entity_iter,
+             :new => value
+    }
+    if remove
+      coll.update(query, {'$unset' => {field => 1}})
+    else
+      coll.update(query, {'$set' => {field => value}})
+    end
+    (@mongo_changes ||= []) << entry
+  end
+
+  conn.close
+  enable_NOTABLESCAN()
+
+end
+
+def remove_from_mongo(tenant, collection, query)
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  db = conn[tenant]
+  coll = db.collection(collection)
+  entity = coll.find_one(query)
+  if entity
+    entry = {:operation => 'remove',
+             :tenant => tenant,
+             :collection => collection,
+             :query => query,
+             :value => entity
+    }
+    coll.remove(query)
+
+    (@mongo_changes ||= []) << entry
+
+  end
+
+end
+
+
+Given /^I (remove|expire) all SEOA expiration dates for "([^"]*)" in tenant "([^"]*)"$/ do | function, staff, tenant|
+  tenant = convertTenantIdToDbName tenant
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  db = conn[tenant]
+  staff_coll = db.collection('staff')
+  staff_id = staff_coll.find_one({'body.staffUniqueStateId' => staff})['_id']
+  seoa_coll = db.collection('staffEducationOrganizationAssociation')
+  seoas = seoa_coll.find({'body.staffReference' => staff_id}).to_a
+  remove = (function == 'remove')
+  seoas.each do |seoa|
+    query = { '_id' => seoa['_id']}
+    update_mongo(tenant, 'staffEducationOrganizationAssociation', query, 'body.endDate', remove, '2000-01-01')
+  end
+
+  conn.close
+  enable_NOTABLESCAN()
+end
+
+Given /^I modify all SEOA staff classifications for "([^"]*)" in tenant "([^"]*)" to "([^"]*)"$/ do |staff, tenant, value|
+  tenant = convertTenantIdToDbName tenant
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  db = conn[tenant]
+  staff_coll = db.collection('staff')
+  staff_id = staff_coll.find_one({'body.staffUniqueStateId' => staff})['_id']
+  seoa_coll = db.collection('staffEducationOrganizationAssociation')
+  seoas = seoa_coll.find({'body.staffReference' => staff_id}).to_a
+  seoas.each do |seoa|
+    query = { '_id' => seoa['_id']}
+    update_mongo(tenant, 'staffEducationOrganizationAssociation', query, 'body.staffClassification', false, value)
+  end
+
+  conn.close
+  enable_NOTABLESCAN()
+
+end
+
+Given /^I remove all SEOAs for "([^"]*)" in tenant "([^"]*)"/ do |staff, tenant|
+  tenant = convertTenantIdToDbName tenant
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  db = conn[tenant]
+  staff_coll = db.collection('staff')
+  staff_id = staff_coll.find_one({'body.staffUniqueStateId' => staff})['_id']
+  seoa_coll = db.collection('staffEducationOrganizationAssociation')
+  seoas = seoa_coll.find({'body.staffReference' => staff_id}).to_a
+  seoas.each do |seoa|
+    query = { '_id' => seoa['_id']}
+    remove_from_mongo(tenant, 'staffEducationOrganizationAssociation', query)
+  end
+
+  conn.close
+  enable_NOTABLESCAN()
+
+end
 
 #############################################################################################
 # OAUTH Steps
@@ -75,6 +229,32 @@ Then /^I should be able to use the token to make valid API calls$/ do
   assert(data != nil, "Response body is nil")
   assert(data['authenticated'] == true,
   "Session debug context 'authentication.authenticated' is not true")
+end
+
+Given /^I import the odin-local-setup application and realm data$/ do
+  @ci_realm_store_path = File.dirname(__FILE__) + '/../../../../../../../tools/jmeter/odin-ci/'
+  @local_realm_store_path = File.dirname(__FILE__) + '/../../../../../../../tools/jmeter/odin-local-setup/'
+  #get current working dir
+  current_dir = Dir.getwd
+  # Get current server environment (ci or local) from properties.yml
+  app_server = PropLoader.getProps['app_bootstrap_server']
+  # Drop in ci specific app-auth fixture data
+  if app_server == "ci"
+    puts "\b\bDEBUG: We are setting CI environment app auth data"
+    Dir.chdir(@ci_realm_store_path)
+    `sh ci-jmeter-realm.sh`
+    # Drop in local specific app-auth fixture data
+  elsif app_server == "local"
+    puts "\b\bDEBUG: We are setting LOCAL environment app auth data"
+    Dir.chdir(@local_realm_store_path)
+    `sh local-jmeter-realm.sh`
+  else
+    puts "\n\nWARNING: No App server context set, assuming CI environment.."
+    Dir.chdir(@ci_realm_store_path)
+    `sh ci-jmeter-realm.sh`
+  end
+  # restore back current dir
+  Dir.chdir(current_dir)
 end
 
 #############################################################################################

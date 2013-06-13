@@ -3,13 +3,14 @@ Feature: Match IDP roles with the ingested inBloom Roles during Authentication
          As an EdOrg Admin, I would like my users to authenticate against the edOrg+roles that I ingested,
          so that they are assigned correct roles by the inBloom system.
 
-Background: 
-  Given I have an open web browser
-  And the testing device app key has been created
+Background:
+  Given the testing device app key has been created
+  And I import the odin-local-setup application and realm data
+  And I have an open web browser
 
 Scenario: As a staff member, I can log in and see data for myself, if at least one role with no end date matches
+  Given I remove all SEOA expiration dates for "linda.kim" in tenant "Midgar"
   When I navigate to the API authorization endpoint with my client ID
-  Then I select "Illinois Daybreak School District 4529" from the dropdown and click go
     And I was redirected to the "Simple" IDP Login page
     And I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
       Then I should receive a json response containing my authorization code
@@ -24,7 +25,6 @@ Scenario: As a staff member, I can log in and see data for myself, if at least o
 
 Scenario: As a staff member, I can log in and see data for myself, if at least one role with valid end date matches
   When I navigate to the API authorization endpoint with my client ID
-  Then I select "Illinois Daybreak School District 4529" from the dropdown and click go
     And I was redirected to the "Simple" IDP Login page
     And I submit the credentials "mgonzales" "mgonzales1234" for the "Simple" login page
       Then I should receive a json response containing my authorization code
@@ -38,22 +38,22 @@ Scenario: As a staff member, I can log in and see data for myself, if at least o
       And I should extract the "staff" id from the "self" URI
 
 Scenario: As a staff member, I cannot log in, if all of my roles are expired
+  Given I expire all SEOA expiration dates for "cgray" in tenant "Midgar"
   When I navigate to the API authorization endpoint with my client ID
-  Then I select "Illinois Daybreak School District 4529" from the dropdown and click go
     And I was redirected to the "Simple" IDP Login page
     And I submit the credentials "cgray" "cgray1234" for the "Simple" login page
       Then I should receive a response page with http error code 403
 
 Scenario: As a staff member, I cannot log in, if none of my roles match
+  Given I modify all SEOA staff classifications for "rbraverman" in tenant "Midgar" to "IT Administrator"
   When I navigate to the API authorization endpoint with my client ID
-  Then I select "Illinois Daybreak School District 4529" from the dropdown and click go
     And I was redirected to the "Simple" IDP Login page
     And I submit the credentials "rbraverman" "rbraverman1234" for the "Simple" login page
       Then I should receive a response page with http error code 403
 
 Scenario: As a staff member, I cannot log in, if I have no roles in the database
+  Given I remove all SEOAs for "msmith" in tenant "Midgar"
   When I navigate to the API authorization endpoint with my client ID
-  Then I select "Illinois Daybreak School District 4529" from the dropdown and click go
     And I was redirected to the "Simple" IDP Login page
     And I submit the credentials "msmith" "msmith1234" for the "Simple" login page
       Then I should receive a response page with http error code 403
