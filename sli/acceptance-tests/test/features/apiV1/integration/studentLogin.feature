@@ -63,6 +63,40 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     | 0.sex                                                 | Male                                        |
     | 0.telephone.0.telephoneNumber                         | (512)555-2418                               |
     | 1.parentUniqueStateId                                 | 800000025-mom                               |
+  #Fields in assessment domain
+  When I verify the following response body fields exist in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/studentAssessments":
+    | field                                                                           |
+    | 0.administrationDate                                                            |
+    | 0.administrationEndDate                                                         |
+    | 0.administrationEnvironment                                                     |
+    | 0.administrationLanguage.language                                               |
+    | 0.administrationLanguage.identificationSystem                                   |
+    | 0.gradeLevelWhenAssessed                                                        |
+    | 0.linguisticAccommodations.0                                                    |
+    | 0.performanceLevelDescriptors.0.0.codeValue                                     |
+    | 0.reasonNotTested                                                               |
+    | 0.retestIndicator                                                               |
+    | 0.scoreResults.0.result                                                         |
+    | 0.scoreResults.0.assessmentReportingMethod                                      |
+    | 0.serialNumber                                                                  |
+    | 0.specialAccommodations                                                         |
+    | 0.studentAssessmentItems.0.assessmentItem.correctResponse                       |
+    | 0.studentAssessmentItems.0.assessmentItem.identificationCode                    |
+    | 0.studentAssessmentItems.0.assessmentItem.itemCategory                          |
+    | 0.studentAssessmentItems.0.assessmentItem.maxRawScore                           |
+    | 0.studentAssessmentItems.0.assessmentItem.nomenclature                          |
+    | 0.studentAssessmentItems.0.assessmentItem.learningStandards                     |
+    | 0.studentAssessmentItems.0.assessmentItemResult                                 |
+    | 0.studentAssessmentItems.0.assessmentResponse                                   |
+    | 0.studentAssessmentItems.0.rawScoreResult                                       |
+    | 0.studentAssessmentItems.0.responseIndicator                                    |
+    | 0.studentAssessmentItems.0.responseIndicator                                    |
+    | 0.studentObjectiveAssessments.0.objectiveAssessment.assessmentPerformanceLevel  |
+    | 0.studentObjectiveAssessments.0.objectiveAssessment.identificationCode          |
+    | 0.studentObjectiveAssessments.0.objectiveAssessment.maxRawScore                 |
+    | 0.studentObjectiveAssessments.0.objectiveAssessment.nomenclature                |
+    | 0.studentObjectiveAssessments.0.objectiveAssessment.percentOfAssessment         |
+    | 0.studentObjectiveAssessments.0.objectiveAssessment.learningObjectives          |
 
   @wip
   Scenario: Student should NOT have access to certain fields in API entity response bodies
@@ -74,57 +108,8 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     | field                                                 | value                                       |
     | id                                                    | 067198fd6da91e1aa8d67e28e850f224d6851713_id |
 
-  @student_public
-  Scenario: Student cannot POST public entities
-    Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "student.m.sollars" with password "student.m.sollars1234"
-    And format "application/json"
-    And I am using api version "v1"
-    When I POST and validate the following entities:
-      | entity                        | type                       | returnCode |
-      | newProgram                    | program                    | 403        |
-      | newSection                    | section                    | 403        |
-      | newLearningObjective          | learningObjective          | 403        |
-      | newLearningStandard           | learningStandard           | 403        |
-      | newCourseOffering             | courseOffering             | 403        |
-      | newCompetencyLevelDescriptor  | competencyLevelDescriptor  | 403        |
-      | newSession                    | session                    | 403        |
-      | newSEACourse                  | course                     | 403        |
-      | newStudentCompetencyObjective | studentCompetencyObjective | 403        |
-      | newEducationOrganization      | educationOrganization      | 403        |
-      | newGradingPeriod              | gradingPeriod              | 403        |
-      | newAssessment                 | assessment                 | 403        |
-
-  @student_patch
-  Scenario: Student cannot PATCH public entities
-    Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "student.m.sollars" with password "student.m.sollars1234"
-    And format "application/json"
-    And I am using api version "v1"
-    Then I PATCH entities and check return code
-      | Endpoint                    | Id                                          | Field                  | ReturnCode |
-      | programs                    | 36980b1432275aae32437bb367fb3b66c5efc90e_id | programType            | 403        |
-      | sections                    | 8d9ad6c3b870e8775016fff99fbd9c74920de8d5_id | repeatIdentifier       | 403        |
-      | learningObjectives          | a39aa7089c0e0b8a271ed7caad97b8d319f7d236_id | academicSubject        | 403        |
-      | learningStandards           | c772fbb0f9b9210d1f2a1bfcd53018b205c46da6_id | subjectArea            | 403        |
-      | courseOfferings             | 7e2dc97f5868cf7fe5ec8a279facd9574b29af6a_id | localCourseTitle       | 403        |
-      | competencyLevelDescriptor   | c91ae4718903d20289607c3c4335759e652ad569_id | description            | 403        |
-      | sessions                    | 3327329ef80b7419a48521818d65743234d6e5fb_id | sessionName            | 403        |
-      | courses                     | d875eac3c6117f5448437c192ac1ea7c3cc977dd_id | courseDescription      | 403        |
-      | studentCompetencyObjectives | b7080a7f753939752b693bca21fe60375d15587e_id | objective              | 403        |
-      | educationOrganizations      | 1b223f577827204a1c7e9c851dba06bea6b031fe_id | shortNameOfInstitution | 403        |
-      | gradingPeriods              | 5db742ef357941df75afdfcdf78b12191d5898ef_id | endDate                | 403        |
-      | assessments                 | 8e47092935b521fb6aba9fdec94a4f961f04cd45_id | identificationCode     | 403        |
-
   @wip
-  Scenario: Student cannot POST private entities
-    Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "student.m.sollars" with password "student.m.sollars1234"
-    And format "application/json"
-    And I am using api version "v1"
-    When I POST and validate the following entities:
-      | entity             | type         | returnCode |
-      | newDaybreakStudent | staffStudent | 403        |
-
-  @wip
-  Scenario: DIS IS CRAP
+  Scenario: THIS STEP IS ONLY A TEMPLATE FOR STEP DEF IMPLEMENTATION. IT WILL GO AWAY STOP ASKING ME ABOUT IT. MARK.
     When I navigate to GET "/students/<my student id>"
     Then the response body "id" should match my "student" "id"
     And the response field "entityType" should be "teacher"
@@ -253,57 +238,6 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     And the offset response field "assessmentPeriodDescriptor.codeValue" should be "BOY-6-2013"
     And the offset response field "<OA.identificationCode>" should be "2013-Sixth grade Assessment 2.OA-0"
     And the offset response field "<OA.OAS.AI.identificationCode>" should be "2013-Sixth grade Assessment 2#1"
-    
-
-   @wip
-   Scenario: Verify Rewrites for Base Level entities for Students
-     Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "cegray" with password "cegray1234"
-     And my contextual access is defined by the table:
-       | Context                | Ids                                         |
-       | educationOrganizations | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
-       | schools                | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
-       | sections               | fb23953d3b55349847fe558e4909a265fab3b6a0_id,ac4aede7e0113d1c003f3da487fc079e124f129d_id,02ffe06e27e313e46e852c1a457ecb25af2cd950_id,6b687d24b9a2b10c664e2248bd8e689a482e47e2_id |
-       | students               | 92164cd19ebdbe17cfdcd0e1d177877cdc9a40ef_id |
-     And format "application/json"
-     When I navigate to the base level URI <Entity> I should see the rewrite in the format of <URI>:
-       | Entity                       | URI                                                                            |
-       | /assessments                 | /search/assessments                                                            |
-       | /attendances                 | /students/@ids/attendances                                                     |
-       | /cohorts                     | /students/@ids/studentCohortAssociations/cohorts                               |
-       | /competencyLevelDescriptor   | /search/competencyLevelDescriptor                                              |
-       | /courseOfferings             | /schools/@ids/courseOfferings                                                  |
-       | /courses                     | /schools/@ids/courseOfferings/courses                                          |
-       | /courseTranscripts           | /students/@ids/studentAcademicRecords/courseTranscripts                        |
-       | /educationOrganizations      | /schools/@ids                                                                  |
-       | /gradebookEntries            | /sections/@ids/gradebookEntries                                                |
-       | /grades                      | /students/@ids/studentSectionAssociations/grades                               |
-       | /gradingPeriods              | /schools/@ids/sessions/gradingPeriods                                          |
-       | /graduationPlans             | /schools/@ids/graduationPlans                                                  |
-       | /learningObjectives          | /search/learningObjectives                                                     |
-       | /learningStandards           | /search/learningStandards                                                      |
-       | /parents                     | /students/@ids/studentParentAssociations/parents                               |
-       | /programs                    | /students/@ids/studentProgramAssociations/programs                             |
-       | /reportCards                 | /students/@ids/reportCards                                                     |
-       | /schools                     | /schools/@ids                                                                  |
-       | /sections                    | /sections/@ids                                                                 |
-       | /sessions                    | /schools/@ids/sessions                                                         |
-       | /staff                       | /educationOrganizations/@ids/staffEducationOrgAssignmentAssociations           |
-       | /studentAcademicRecords      | /students/@ids/studentAcademicRecords                                          |
-       | /studentAssessments          | /students/@ids/studentAssessments                                              |
-       | /studentCohortAssociations   | /students/@ids/studentCohortAssociations                                       |
-       | /studentCompetencies         | /students/@ids/studentSectionAssociations/studentCompetencies                  |
-       | /studentCompetencyObjectives | /educationOrganizations/@ids/studentCompetencyObjectives                       |
-       | /studentGradebookEntries     | /students/@ids/studentGradebookEntries                                         |
-       | /studentParentAssociations   | /students/@ids/studentParentAssociations                                       |
-       | /studentProgramAssociations  | /students/@ids/studentProgramAssociations                                      |
-       | /students                    | /sections/@ids/studentSectionAssociations/students                             |
-       | /studentSchoolAssociations   | /students/@ids/studentSchoolAssociations                                       |
-       | /studentSectionAssociations  | /students/@ids/studentSectionAssociations                                      |
-       | /teachers                    | /sections/@ids/teacherSectionAssociations/teachers                             |
-       | /teacherSchoolAssociations   | /schools/@ids/teacherSchoolAssociations                                        |
-       | /teacherSectionAssociations  | /sections/@ids/teacherSectionAssociations                                      |
-       | /yearlyAttendances           | /students/@ids/yearlyAttendances                                               |
-
 
 Scenario: Student has access to entities via API entpoints
 Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "student.m.sollars" with password "student.m.sollars1234"

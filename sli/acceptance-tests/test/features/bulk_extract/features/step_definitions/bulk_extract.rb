@@ -615,7 +615,7 @@ When /^I DELETE and validate the following entities:$/ do |table|
     print "Deleting #{api_params['entity']} .."
     step "I DELETE an \"#{api_params['entity']}\" of id \"#{api_params['id']}\""
     step "I should receive a return code of #{api_params['returnCode']}"
-    print "OK\n"
+    print " OK (Received expected RetCode: #{api_params['returnCode']})\n"
   end
 end
 
@@ -631,6 +631,11 @@ def getEntityEndpoint(entity)
       "assessment" => "assessments",
       "patchAssessment" => "assessments",
       "courseOffering" => "courseOfferings",
+      "courseOfferings/id/courses" => "courseOfferings/0fee7a7aba9a96388ef628b7e3e5e5ea60a142a7_id/courses",
+      "courseOfferings/id/sections" => "courseOfferings/0fee7a7aba9a96388ef628b7e3e5e5ea60a142a7_id/sections",
+      "courseOfferings/id/sessions" => "courseOfferings/0fee7a7aba9a96388ef628b7e3e5e5ea60a142a7_id/sessions",
+      "courses/id/courseOfferings" => "courses/7f3baa1a1f553809c6539671f08714aed6ec8b0c_id/courseOfferings",
+      "courses/id/courseOfferings/sessions" => "courses/7f3baa1a1f553809c6539671f08714aed6ec8b0c_id/courseOfferings/sessions",
       "patchSEACourseOffering" => "courseOfferings",
       "seaCourse" => "educationOrganizations/884daa27d806c2d725bc469b273d840493f84b4d_id/courses",
       "cohort" => "cohorts",

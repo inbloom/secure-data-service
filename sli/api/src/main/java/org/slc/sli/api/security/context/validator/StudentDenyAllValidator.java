@@ -24,10 +24,26 @@ public class StudentDenyAllValidator extends AbstractContextValidator {
             EntityNames.TEACHER_SCHOOL_ASSOCIATION,
             EntityNames.TEACHER_SECTION_ASSOCIATION ));
 
+    protected static final Set<String> GLOBAL_ENTITIES = new HashSet<String>(Arrays.asList(
+            EntityNames.PROGRAM,
+            EntityNames.SECTION,
+            EntityNames.LEARNING_OBJECTIVE,
+            EntityNames.LEARNING_STANDARD,
+            EntityNames.COURSE_OFFERING,
+            EntityNames.COMPETENCY_LEVEL_DESCRIPTOR,
+            EntityNames.SESSION,
+            EntityNames.COURSE,
+            EntityNames.STUDENT_COMPETENCY_OBJECTIVE,
+            EntityNames.EDUCATION_ORGANIZATION,
+            EntityNames.SCHOOL,
+            EntityNames.GRADING_PERIOD,
+            EntityNames.ASSESSMENT
+            ));
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return isStudentOrParent() && STUDENT_DENIED_ENTITIES.contains(entityType);
+        return isStudentOrParent()
+                && (STUDENT_DENIED_ENTITIES.contains(entityType) || (isTransitive && GLOBAL_ENTITIES.contains(entityType)));
     }
 
     @Override
