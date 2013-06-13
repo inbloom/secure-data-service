@@ -8,14 +8,13 @@ Scenario: Validators return proper return codes on multi-ID requests
   When I make API calls for multiple IDs in accordance to the following table:
     | Path                             | GoodId                                                                                 | BadId                                                                                  |
     | /attendances/@ids                | 69a338d4c77f47dbb0edb12878c751bde7622505_id                                            | cd14890af69207e6d9433f0962107eb0c96a1748_id                                            |
-    | /cohorts/@ids                    | 271a8d3a18ae2d80599dc55a0abaaeb8527ff10f_id                                            |                                                                                        |
+    | /cohorts/@ids                    | 271a8d3a18ae2d80599dc55a0abaaeb8527ff10f_id                                            | 72c0402e82f3a67db019d7736d423cc4a214db87_id                                            |
     | /courseTranscripts/@ids          | a2cc843e5bc38898c50960008110e029ece8e609_id                                            | 59f8b2b15cb04b2cd47db666d46802aca5836c1e_id                                            |
     | /gradebookEntries/@ids           | 527f07a98f7f05c56c17a07cbbeac7eb1fa1d4db_id9de343d4f87b71ca48f226aafb77601f59fb95c3_id | ac4aede7e0113d1c003f3da487fc079e124f129d_id26c51914b1974dfd8104dad40ee78f4c10324851_id |
-    | /grades/@ids                     | e1ddd4b5c0c531a734135ecd461b33cab842c18c_id071ab91f682dde1c9eb3e4b241e26285cac6ad0a_id |                                             |
-    | /graduationPlans/@ids            | 7f6e03f2a01f0f74258a1b0d8796be5eaf289f0a_id                                            |                                             |
-    | /parents/@ids                    | 2d6638adf22232b9af30b03ce9e84e707f4cf501_id                                            |                                             |
-    | /reportCards/@ids                | e1ddd4b5c0c531a734135ecd461b33cab842c18c_id4775da5abb4e0b99e6f6f57239c5739b6f4299e4_id |                                             |
-    | /staff/@ids                      | e19386ee6534460293d35cc7ab9b8547e145205a_id                                            |                                             |
+    | /grades/@ids                     | e1ddd4b5c0c531a734135ecd461b33cab842c18c_id071ab91f682dde1c9eb3e4b241e26285cac6ad0a_id | 2f38a01d3ce555cfcdc637aa02d3596de1e27574_iddada47c4856a17e3ab73ec1b57878176c15c06bd_id |
+    | /parents/@ids                    | 2d6638adf22232b9af30b03ce9e84e707f4cf501_id                                            | ac9d23542b310939801dec4d29cfddda7765353b_id                                            |
+    | /reportCards/@ids                | e1ddd4b5c0c531a734135ecd461b33cab842c18c_id4775da5abb4e0b99e6f6f57239c5739b6f4299e4_id | 2f38a01d3ce555cfcdc637aa02d3596de1e27574_id4bb80f36a4d118b118abb5d807ce01fa41f5086f_id |
+#    | /staff/@ids                      | e19386ee6534460293d35cc7ab9b8547e145205a_id                                            | 6757c28005c30748f3bbda02882bf59bc81e0d71_id                                            |
     | /studentAcademicRecords/@ids     | e1ddd4b5c0c531a734135ecd461b33cab842c18c_id074f8af9afa35d4bb10ea7cd17794174563c7509_id | 2f38a01d3ce555cfcdc637aa02d3596de1e27574_id51a05e3fc152d6180c97370b1cdc4de367b1dce7_id |
     | /studentAssessments/@ids         | 87e0d1641f5a3e89a97a7ae3e13be346b321ee0a_id                                            | b42851a6c1fc6ed59ee1ef050cea20691a4d3267_id                                            |
     | /studentCohortAssociations/@ids  | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id8f048847deda45718db8abba32518b55f0006ec1_id | fdd8ee3ee44133f489e47d2cae109e886b041382_idb8b99293f159daade6bf392d41c604d7ebcf88fd_id |
