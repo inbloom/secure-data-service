@@ -1,8 +1,8 @@
 require 'jenkins_api_client'
 
 
-@client = JenkinsApi::Client.new(:server_ip => 'jenkins.slidev.org',
-     :server_port => '8080', :username => 'jenkinsapi_user', :password => 'test1234')
+@client = JenkinsApi::Client.new(:server_url => 'https://jenkins.slidev.org',
+     :server_port => '443', :username => 'jenkinsapi_user', :password => 'test1234')
 
 def get_jobs(view_name)
   @client.view.list_jobs(view_name)
