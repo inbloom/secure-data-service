@@ -329,6 +329,8 @@ task :apiOdinStudentLogin => [:realmInit] do
   authorizeEdorg("Mobile App")
   Rake::Task["runSearchBulkExtract"].execute
   runTests("test/features/apiV1/integration/studentLogin.feature")
+  runTests("test/features/apiV1/integration/student_path_security.feature")
+  runTests("test/features/apiV1/integration/student_crud_operations.feature")
 end
 
 desc "Run contextual roles acceptance tests"
