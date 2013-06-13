@@ -1,7 +1,6 @@
 @RALLY_5765
 Feature: Use the APi to successfully get student data while having roles over many schools
 
-  @wip
   Background: Setup for the tests
     Given I have an open web browser
     And the testing device app key has been created
