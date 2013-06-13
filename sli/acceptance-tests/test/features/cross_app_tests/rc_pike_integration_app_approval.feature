@@ -286,7 +286,7 @@ And the extract contains a file for each of the following entities:
       |  entityType                            |
       # |  assessment                            |
       |  attendance                            |
-      #|  calendarDate                          |
+      |  calendarDate                          |
       |  cohort                                |
       |  course                                |
       |  courseTranscript                      |
