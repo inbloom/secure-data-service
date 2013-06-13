@@ -331,6 +331,7 @@ task :apiOdinStudentLogin => [:realmInit] do
   runTests("test/features/apiV1/integration/studentLogin.feature")
   runTests("test/features/apiV1/integration/student_path_security.feature")
   runTests("test/features/apiV1/integration/student_validator_security.feature")
+  runTests("test/features/apiV1/integration/student_crud_operations.feature")
 end
 
 desc "Run contextual roles acceptance tests"
