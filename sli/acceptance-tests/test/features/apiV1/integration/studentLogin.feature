@@ -74,57 +74,8 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     | field                                                 | value                                       |
     | id                                                    | 067198fd6da91e1aa8d67e28e850f224d6851713_id |
 
-  @student_public
-  Scenario: Student cannot POST public entities
-    Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "student.m.sollars" with password "student.m.sollars1234"
-    And format "application/json"
-    And I am using api version "v1"
-    When I POST and validate the following entities:
-      | entity                        | type                       | returnCode |
-      | newProgram                    | program                    | 403        |
-      | newSection                    | section                    | 403        |
-      | newLearningObjective          | learningObjective          | 403        |
-      | newLearningStandard           | learningStandard           | 403        |
-      | newCourseOffering             | courseOffering             | 403        |
-      | newCompetencyLevelDescriptor  | competencyLevelDescriptor  | 403        |
-      | newSession                    | session                    | 403        |
-      | newSEACourse                  | course                     | 403        |
-      | newStudentCompetencyObjective | studentCompetencyObjective | 403        |
-      | newEducationOrganization      | educationOrganization      | 403        |
-      | newGradingPeriod              | gradingPeriod              | 403        |
-      | newAssessment                 | assessment                 | 403        |
-
-  @student_patch
-  Scenario: Student cannot PATCH public entities
-    Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "student.m.sollars" with password "student.m.sollars1234"
-    And format "application/json"
-    And I am using api version "v1"
-    Then I PATCH entities and check return code
-      | Endpoint                    | Id                                          | Field                  | ReturnCode |
-      | programs                    | 36980b1432275aae32437bb367fb3b66c5efc90e_id | programType            | 403        |
-      | sections                    | 8d9ad6c3b870e8775016fff99fbd9c74920de8d5_id | repeatIdentifier       | 403        |
-      | learningObjectives          | a39aa7089c0e0b8a271ed7caad97b8d319f7d236_id | academicSubject        | 403        |
-      | learningStandards           | c772fbb0f9b9210d1f2a1bfcd53018b205c46da6_id | subjectArea            | 403        |
-      | courseOfferings             | 7e2dc97f5868cf7fe5ec8a279facd9574b29af6a_id | localCourseTitle       | 403        |
-      | competencyLevelDescriptor   | c91ae4718903d20289607c3c4335759e652ad569_id | description            | 403        |
-      | sessions                    | 3327329ef80b7419a48521818d65743234d6e5fb_id | sessionName            | 403        |
-      | courses                     | d875eac3c6117f5448437c192ac1ea7c3cc977dd_id | courseDescription      | 403        |
-      | studentCompetencyObjectives | b7080a7f753939752b693bca21fe60375d15587e_id | objective              | 403        |
-      | educationOrganizations      | 1b223f577827204a1c7e9c851dba06bea6b031fe_id | shortNameOfInstitution | 403        |
-      | gradingPeriods              | 5db742ef357941df75afdfcdf78b12191d5898ef_id | endDate                | 403        |
-      | assessments                 | 8e47092935b521fb6aba9fdec94a4f961f04cd45_id | identificationCode     | 403        |
-
   @wip
-  Scenario: Student cannot POST private entities
-    Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "student.m.sollars" with password "student.m.sollars1234"
-    And format "application/json"
-    And I am using api version "v1"
-    When I POST and validate the following entities:
-      | entity             | type         | returnCode |
-      | newDaybreakStudent | staffStudent | 403        |
-
-  @wip
-  Scenario: DIS IS CRAP
+  Scenario: THIS STEP IS ONLY A TEMPLATE FOR STEP DEF IMPLEMENTATION. IT WILL GO AWAY STOP ASKING ME ABOUT IT. MARK.
     When I navigate to GET "/students/<my student id>"
     Then the response body "id" should match my "student" "id"
     And the response field "entityType" should be "teacher"
