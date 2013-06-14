@@ -757,6 +757,7 @@ Given I clean the bulk extract file system and database
  # An entry for "entity" must be defined in bulk_extract.rb:prepareBody:field_data["POST"]
  # An entry for "type" must be defined in bulk_extract.rb:getEntityEndpoint:entity_to_endpoint_map
  # Note that "entity" is passed as "field", and "type" passed as "entity" when the underlying POST step is called for each table entry
+ # Note if you get a 409 after adding an entity, it may have duplicate natural keys of a pre-existing entity
     | entity                         |  type                                  |  returnCode  |
     | newDaybreakStudent             |  staffStudent                          |  201         |
     | DbStudentSchoolAssociation     |  studentSchoolAssociation              |  201         |
@@ -793,7 +794,7 @@ Given I clean the bulk extract file system and database
     #| newDisciplineIncident          |  disciplineIncident                    |  201         |
     #| newDisciplineAction            |  disciplineAction                      |  201         |
     #| newStudentDiscIncidentAssoc    |  studentDisciplineIncidentAssociation  |  201         |
-    #| newGraduationPlan              |  graduationPlan                        |  201         |
+    | newGraduationPlan              |  graduationPlan                        |  201         |
     | newGradingPeriod               |  gradingPeriod                         |  201         |
     | newLearningObjective           |  learningObjective                     |  201         |
     | newLearningStandard            |  learningStandard                      |  201         |
@@ -818,6 +819,7 @@ Given I clean the bulk extract file system and database
         |  course                                |
         |  courseOffering                        |
         |  assessment                            |
+        |  graduationPlan                        |
   And I verify this "program" file should contain:
         | id                                          | condition                                |
         | 0ee2b448980b720b722706ec29a1492d95560798_id | programType = Regular Education          |
@@ -849,12 +851,15 @@ Given I clean the bulk extract file system and database
   And I verify this "assessment" file should contain:
         | id                                          | condition                                |
         | 8d58352d180e00da82998cf29048593927a25c8e_id | contentStandard = State Standard |
+  And I verify this "graduationPlan" file should contain:
+        | id                                          | condition                                |
+        | a77cdbececc81173aa76a34c05f9aeb44126a64d_id | individualPlan = false |
 
  When I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/json"
  Then I PATCH and validate the following entities:
  # "field" values must be defined in bulk_extract.rb:prepareBody:field_data["PATCH"]
- # "entity" values must be defined in bulk_extract.rb:getEntityBodyFromApi:entity_to_uri_map
+ # "entity" values must be defined in bulk_extract.rb:getEntityBodyFromApi:entity_to_uri_map and in bulk_extract.rb:getEntityEndpoint:entity_to_endpoint_map
  # Note if "value" is empty in this table, the patched field will be set to the string "value"
         |  field                |  entity                          |  value                                       |  returnCode  |
         |  patchProgramType     |  patchProgram                    |  Adult/Continuing Education                  |  204         |
@@ -867,6 +872,7 @@ Given I clean the bulk extract file system and database
         |  patchCourseDesc      |  patchSEACourse                  |  Patched description                         |  204         |
         |  patchCourseId        |  patchSEACourseOffering          |  06ccb498c620fdab155a6d70bcc4123b021fa60d_id |  204         |
         |  patchContentStd      |  patchAssessment                 |  National Standard                           |  204         |
+        |  patchIndividualPlan  |  patchGraduationPlan             |  true                                        |  204         |
 
  Given the unpack directory is empty
  When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -883,6 +889,7 @@ Given I clean the bulk extract file system and database
         |  course                                |
         |  courseOffering                        |
         |  assessment                            |
+        |  graduationPlan                        |
    And I verify this "program" file should contain:
         | id                                          | condition                                |
         | 0ee2b448980b720b722706ec29a1492d95560798_id | programType = Adult/Continuing Education |
@@ -914,6 +921,9 @@ Given I clean the bulk extract file system and database
   And I verify this "assessment" file should contain:
         | id                                          | condition                                              |
         | 8d58352d180e00da82998cf29048593927a25c8e_id | contentStandard = National Standard                |
+  And I verify this "graduationPlan" file should contain:
+        | id                                          | condition                                |
+        | a77cdbececc81173aa76a34c05f9aeb44126a64d_id | individualPlan = true |
 
  When I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
@@ -1140,6 +1150,7 @@ Given I clean the bulk extract file system and database
     |  course                     |  494d4c8281ec78c7d8634afb683d39f6afdc5b85_id  |  204         |
     |  courseOffering             |  0fee7a7aba9a96388ef628b7e3e5e5ea60a142a7_id  |  204         |
     |  assessment                 |  8d58352d180e00da82998cf29048593927a25c8e_id  |  204         |
+    |  graduationPlan             |  a77cdbececc81173aa76a34c05f9aeb44126a64d_id  |  204         |
 
  Given the extraction zone is empty
   When I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -1193,6 +1204,7 @@ Given I clean the bulk extract file system and database
        | 494d4c8281ec78c7d8634afb683d39f6afdc5b85_id | entityType = course                      |
        | 0fee7a7aba9a96388ef628b7e3e5e5ea60a142a7_id | entityType = courseOffering              |
        | 8d58352d180e00da82998cf29048593927a25c8e_id | entityType = assessment                  |
+       | a77cdbececc81173aa76a34c05f9aeb44126a64d_id | entityType = graduationPlan              |
 
 Scenario: Delete student and stuSchAssoc, re-post them, then delete just studentSchoolAssociations (leaving students), verify delete
 Given I clean the bulk extract file system and database
