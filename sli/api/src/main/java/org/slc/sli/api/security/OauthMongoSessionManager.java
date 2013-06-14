@@ -448,12 +448,13 @@ public class OauthMongoSessionManager implements OauthSessionManager {
      * @param principal - The principal.
      */
     private void addEdOrgRightsToPrincipal(Set<String> authorizingEdOrgs, SLIPrincipal principal) {
-        for (String authorizingEdOrg : authorizingEdOrgs) {
-            if (principal.getEdOrgRoles().containsKey(authorizingEdOrg)) {
+        Set<String> edOrgs = (authorizingEdOrgs == null) ? principal.getEdOrgRoles().keySet() : authorizingEdOrgs;
+        for (String edOrg : edOrgs) {
+            if (principal.getEdOrgRoles().containsKey(edOrg)) {
                 Collection<GrantedAuthority> edorgAuthorities = resolveAuthorities(principal.getTenantId(),
-                        principal.getRealm(), principal.getEdOrgRoles().get(authorizingEdOrg),
+                        principal.getRealm(), principal.getEdOrgRoles().get(edOrg),
                         principal.isAdminRealmAuthenticated(), false);
-                principal.getEdOrgRights().put(authorizingEdOrg, edorgAuthorities);
+                principal.getEdOrgRights().put(edOrg, edorgAuthorities);
             }
         }
     }
