@@ -26,6 +26,19 @@ DATABASE_HOST = PropLoader.getProps['ingestion_db']
 DATABASE_PORT = PropLoader.getProps['ingestion_db_port']
 
 #############################################################################################
+# Transform
+#############################################################################################
+
+Transform /^<(.*?)>$/ do |human_readable_id|
+  id = "/v1/students/5246832bf178dea013797aa14e57dcfbea46b17a_id"         if human_readable_id == "carmen.ortiz URI"
+  id = "/v1/students/aee5235923f795ae2eeff4e8197624244e754885_id"         if human_readable_id == "lashawn.taite URI"
+  id = "/v1/students/153df715388ff1b2293fc8b2f3828816bc2d3c1f_id"         if human_readable_id == "matt.sollars URI"
+
+  id
+end
+
+
+#############################################################################################
 # After Steps
 #############################################################################################
 
@@ -37,7 +50,7 @@ After do
       db = conn[mongo_change[:tenant]]
       coll = db.collection(mongo_change[:collection])
       if mongo_change[:operation] == 'remove'
-        coll.save(mongo_change[:value])
+        coll.insert(mongo_change[:value])
       elsif mongo_change[:operation] == 'update'
         if mongo_change[:found]
           coll.update(mongo_change[:query], {'$set' => {mongo_change[:field] => mongo_change[:value]}})
@@ -55,7 +68,7 @@ end
 # Mongo Steps
 #############################################################################################
 
-def update_mongo(tenant, collection, query, field, remove = true, value = nil)
+def update_mongo(tenant, collection, query, field, remove, value = nil)
 #Note: value is ignored if remove is true (It doesn't matter what the field contains if you're removing it)
 
   conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
@@ -65,12 +78,18 @@ def update_mongo(tenant, collection, query, field, remove = true, value = nil)
   entity_iter = entity
   field_list = field.split('.')
   found = true
-  field_list.each do |field_entry|
-    unless entity_iter.has_key? field_entry
-      found = false
-      break
+  if field_list.size > 1
+    field_list.each do |field_entry|
+      if entity_iter.is_a? Array
+        field_entry = field_entry.to_i
+      else
+        unless entity_iter.has_key? field_entry
+          found = false
+          break
+        end
+      end
+      entity_iter = entity_iter[field_entry]
     end
-    entity_iter = entity_iter[field_entry]
   end
   if !(remove) || found
     entry = {:operation => 'update',
@@ -173,6 +192,64 @@ Given /^I remove all SEOAs for "([^"]*)" in tenant "([^"]*)"/ do |staff, tenant|
   enable_NOTABLESCAN()
 
 end
+Given /^the following student section associations in ([^ ]*) are set correctly$/ do |tenant, table|
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  tenant_hash = convertTenantIdToDbName(tenant)
+  db = conn[tenant_hash]
+  student_coll = db.collection('student')
+  staff_coll = db.collection('staff')
+  section_coll = db.collection('section')
+  edorg_coll = db.collection('educationOrganization')
+
+  table.hashes.map do |row|
+    add = (row['enrolledInAnySection?'] == 'yes')
+    student_id = student_coll.find_one({'body.studentUniqueStateId' => row['student']})['_id']
+    teacher_id = staff_coll.find_one({'body.staffUniqueStateId' => row['teacher']})['_id']
+    edorg_id = edorg_coll.find_one({'body.stateOrganizationId' => row['edorg']})['_id']
+
+    sections = section_coll.find({'body.schoolId' => edorg_id,
+                                  'teacherSectionAssociation.body.teacherId' => teacher_id,
+                                  'studentSectionAssociation.body.studentId' => student_id}).to_a
+
+    found = (sections.size > 0)
+
+    if !found && add
+      section = section_coll.find_one({'body.schoolId' => edorg_id,
+                                          'teacherSectionAssociation.body.teacherId' => teacher_id},
+                                      {:fields => ['_id', 'studentSectionAssociation']})
+      query = { '_id' => section['_id']}
+      entry = {
+                '_id'       => "#{section['_id']}#{SecureRandom.uuid}",
+                'body'      => {
+                            'type'              => 'studentSectionAssociation',
+                            'sectionId'         => section['_id'],
+                            'studentId'         => student_id,
+                            'homeroomIndicator' => section['studentSectionAssociation'][0]['body']['homeroomIndicator'],
+                            'repeatIdentifier'  => section['studentSectionAssociation'][0]['body']['repeatIdentifier'],
+                            'beginDate'         => section['studentSectionAssociation'][0]['body']['beginDate'],
+                            'endDate'           => section['studentSectionAssociation'][0]['body']['endDate']
+                                },
+                'metaData'  => section['studentSectionAssociation'][0]['metaData']
+              }
+      (value = section['studentSectionAssociation']) << entry
+      update_mongo(tenant_hash, 'section', query, 'studentSectionAssociation', false, value)
+    elsif found && !add
+      sections.each do |section|
+        query = { '_id' => section['_id']}
+        value = section['studentSectionAssociation']
+        value.delete_if {|entry| entry['body']['studentId'] == student_id}
+        update_mongo(tenant_hash, 'section', query, 'studentSectionAssociation', false, value)
+      end
+    end
+
+
+  end
+
+  conn.close
+  enable_NOTABLESCAN()
+end
+
 
 #############################################################################################
 # OAUTH Steps
