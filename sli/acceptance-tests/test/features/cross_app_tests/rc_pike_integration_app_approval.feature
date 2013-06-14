@@ -286,6 +286,7 @@ And the extract contains a file for each of the following entities:
       |  entityType                            |
       # |  assessment                            |
       |  attendance                            |
+      |  calendarDate                          |
       |  cohort                                |
       |  course                                |
       |  courseTranscript                      |
@@ -347,6 +348,7 @@ Scenario: App makes an api call to retrieve a SEA public data bulk extract
       |  learningStandard                      |
       |  program                               |
       |  studentCompetencyObjective            |
+      |  calendarDate                          |
 
 Scenario: App makes an api call to retrieve a bulk extract delta
 #Get a session to trigger a bulk extract
@@ -429,3 +431,4 @@ Scenario: App makes an api call to retrieve a bulk extract delta for the SEA
     |  learningObjective                     |
     |  learningStandard                      |
     |  program                               |
+    |  calendarDate                          |

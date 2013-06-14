@@ -15,41 +15,47 @@
  */
 package org.slc.sli.api.security.context.validator;
 
-import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.domain.Entity;
 
 /**
- * validate courseTranscripts for students both transitively and
- * non-transitively
+ * validate cohorts both transitively and non-transitively for a student
  * 
  * @author ycao
  * 
  */
 @Component
-public class StudentToCourseTranscriptValidator extends BasicValidator {
+public class StudentToCohortValidator extends BasicValidator {
     
-    @Autowired
-    StudentToSubStudentValidator studentToSubValidator;
-    
-    public StudentToCourseTranscriptValidator() {
-        super(EntityNames.STUDENT, EntityNames.COURSE_TRANSCRIPT);
+    public StudentToCohortValidator() {
+        super(EntityNames.STUDENT, EntityNames.COHORT);
     }
 
     @Override
     protected boolean doValidate(Set<String> ids) {
+        Entity myself = SecurityUtil.getSLIPrincipal().getEntity();
+        if (myself == null || myself.getEmbeddedData() == null) {
+            // not sure how this can happen
+            return false;
+        }
         
-        // Get the Student IDs on the things we want to see, compare with the IDs of yourself
-        Set<String> studentAcademicRecordIds = new HashSet<String>(
-                getIdsContainedInFieldOnEntities(EntityNames.COURSE_TRANSCRIPT, new ArrayList<String>(ids), ParameterConstants.STUDENT_ACADEMIC_RECORD_ID));
+        List<Entity> studentCohortAssociations = myself.getEmbeddedData().get(EntityNames.STUDENT_COHORT_ASSOCIATION);
+        Set<String> myCohorts = new HashSet<String>();
+        for (Entity myCohortAssociation : studentCohortAssociations) {
+            if (myCohortAssociation.getBody() != null) {
+                myCohorts.add((String) myCohortAssociation.getBody().get(ParameterConstants.COHORT_ID));
+            }
+        }
         
-        return studentToSubValidator.validate(EntityNames.STUDENT_ACADEMIC_RECORD, studentAcademicRecordIds);
+        return myCohorts.containsAll(ids);
     }
     
 }

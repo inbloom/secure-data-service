@@ -19,7 +19,7 @@ Feature: Ingestion
                  | assessmentFamily                         |                 38|
                  | assessmentPeriodDescriptor               |                  2|
                  | attendance                               |                 75|
-                 | calendarDate                             |                556|
+                 | calendarDate                             |                558|
                  | cohort                                   |                  3|
                  | competencyLevelDescriptor                |                  0|
                  | course                                   |                 95|
@@ -38,7 +38,7 @@ Feature: Ingestion
                  | learningStandard                         |               1499|
                  | parent                                   |                  9|
                  | program                                  |                  2|
-                 | recordHash                               |              10095|
+                 | recordHash                               |              10097|
                  | reportCard                               |                  2|
                  | schoolSessionAssociation                 |                  0|
                  | section                                  |                 97|
