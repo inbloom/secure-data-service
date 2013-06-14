@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.slc.sli.api.security.roles;
 
 import java.util.Arrays;
@@ -48,7 +49,7 @@ public class EntityEdOrgRightBuilder {
     public Collection<GrantedAuthority> buildEntityEdOrgRights(final Map<String, Collection<GrantedAuthority>> edOrgRights, final Entity entity) {
         Collection<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
 
-        Set<String> edorgs = edOrgOwnershipArbiter.determineEdorgs(Arrays.asList(entity), entity.getType());
+        Set<String> edorgs = edOrgOwnershipArbiter.determineHierarchicalEdorgs(Arrays.asList(entity), entity.getType());
         edorgs.retainAll(edOrgRights.keySet());
 
         if (edorgs.isEmpty()) {

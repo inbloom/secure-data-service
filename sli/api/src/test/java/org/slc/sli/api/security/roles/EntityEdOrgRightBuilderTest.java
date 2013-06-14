@@ -1,3 +1,19 @@
+/*
+ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.slc.sli.api.security.roles;
 
 import java.util.Arrays;
@@ -62,6 +78,7 @@ public class EntityEdOrgRightBuilderTest {
         edOrgRights = createEdOrgRights();
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testBuildEntityEdOrgRights() {
 
@@ -74,7 +91,7 @@ public class EntityEdOrgRightBuilderTest {
         Entity entity = Mockito.mock(Entity.class);
         Mockito.when(entity.getType()).thenReturn("student");
 
-        Mockito.when(edOrgOwnershipArbiter.determineEdorgs(Matchers.anyList(), Matchers.anyString())).thenReturn(edOrgs);
+        Mockito.when(edOrgOwnershipArbiter.determineHierarchicalEdorgs(Matchers.anyList(), Matchers.anyString())).thenReturn(edOrgs);
 
         Collection<GrantedAuthority> grantedAuthorities = entityEdOrgRightBuilder.buildEntityEdOrgRights(edOrgRights, entity);
 
@@ -89,6 +106,7 @@ public class EntityEdOrgRightBuilderTest {
         Assert.assertFalse(grantedAuthorities.contains(AGGREGATE_WRITE));
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testBuildEntityEdOrgRightsWithNoEntityEdOrgs() {
         EdOrgOwnershipArbiter edOrgOwnershipArbiter = Mockito.mock(EdOrgOwnershipArbiter.class);
@@ -98,13 +116,14 @@ public class EntityEdOrgRightBuilderTest {
         Entity entity = Mockito.mock(Entity.class);
         Mockito.when(entity.getType()).thenReturn("student");
 
-        Mockito.when(edOrgOwnershipArbiter.determineEdorgs(Matchers.anyList(), Matchers.anyString())).thenReturn(new HashSet<String>());
+        Mockito.when(edOrgOwnershipArbiter.determineHierarchicalEdorgs(Matchers.anyList(), Matchers.anyString())).thenReturn(new HashSet<String>());
 
         Collection<GrantedAuthority> grantedAuthorities = entityEdOrgRightBuilder.buildEntityEdOrgRights(edOrgRights, entity);
 
         Assert.assertTrue(grantedAuthorities.isEmpty());
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testBuildEntityEdOrgRightsWithNoEntityEdOrgsNoMatchingEdOrgs() {
         EdOrgOwnershipArbiter edOrgOwnershipArbiter = Mockito.mock(EdOrgOwnershipArbiter.class);
@@ -118,7 +137,7 @@ public class EntityEdOrgRightBuilderTest {
         Entity entity = Mockito.mock(Entity.class);
         Mockito.when(entity.getType()).thenReturn("student");
 
-        Mockito.when(edOrgOwnershipArbiter.determineEdorgs(Matchers.anyList(), Matchers.anyString())).thenReturn(edOrgs);
+        Mockito.when(edOrgOwnershipArbiter.determineHierarchicalEdorgs(Matchers.anyList(), Matchers.anyString())).thenReturn(edOrgs);
 
         Collection<GrantedAuthority> grantedAuthorities = entityEdOrgRightBuilder.buildEntityEdOrgRights(edOrgRights, entity);
 
