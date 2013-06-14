@@ -76,6 +76,7 @@ public class StudentAccessValidator {
         systemAllowedThreeParts.add("debug");
         systemAllowedThreeParts.add("check");
         systemAllowedThreeParts.add("logout");
+        systemAllowedThreeParts.add("email");
         threeParts.put("system", systemAllowedThreeParts);
         
         // assessments
