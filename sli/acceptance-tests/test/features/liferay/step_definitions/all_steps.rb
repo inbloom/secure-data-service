@@ -152,7 +152,7 @@ end
 
 Then /^I switch to the iframe$/ do
   wait = Selenium::WebDriver::Wait.new(:timeout => 60)
-  wait.until{(iframe = isIframePresent()) != nil}
+  wait.until{isIframePresent() != nil}
 end
 
 Then /^I exit out of the iframe$/ do
@@ -182,8 +182,8 @@ end
 def isIframePresent()
   #TODO figure out how to determine when page is loaded instead of using sleep
   sleep 2
-  @driver.switch_to.default_content
   begin
+    @driver.switch_to.default_content
     iframe = @driver.find_element(:tag_name, "iframe")
     puts "iframe found"
     @driver.switch_to.frame(iframe.attribute('id'))
@@ -194,7 +194,6 @@ def isIframePresent()
     return iframe
   rescue
     puts "iframe not fully loaded yet"
-    @driver.switch_to.default_content
     return nil
   end
 end
