@@ -20,7 +20,7 @@ REGULAR_CONTEXT_RIGHT = "STUDENT_DATA"
 SELF_CONTEXT_RIGHT = "GENERIC"
 
 studentEntities = ['studentAssessment', 'studentObjectiveAssessment', 'reportCard', 'studentAcademicRecord', 'courseTranscript', 'gradebookEntry', 'grade', 'gradebookEntry',
-                   'studentGradebookEntry', 'studentSchoolAssociation', 'cohort', 'studentAssessmentItem', 'attendance', 'studentCompetency']
+                   'studentGradebookEntry', 'studentSchoolAssociation', 'cohort', 'studentAssessmentItem', 'attendance', 'studentCompetency', 'studentParentAssociation']
 
 studentPartials = {
     'staffCohortAssociation' => Proc.new { |fieldName|
@@ -85,7 +85,7 @@ studentPartials = {
 publicEntities = ["assessment", "learningObjective", "learningStandard", "school", "educationOrganization"]
 
 # extract event information
-f = File.open("/Users/dkornishev/Documents/git/sli/sli/domain/src/main/resources/sliXsd/ComplexTypes.xsd")
+f = File.open("../../domain/src/main/resources/sliXsd/ComplexTypes.xsd")
 doc = REXML::Document.new(f)
 
 doc.elements.each('//xs:element') do |elem|

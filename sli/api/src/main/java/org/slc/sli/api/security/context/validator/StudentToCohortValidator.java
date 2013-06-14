@@ -48,6 +48,11 @@ public class StudentToCohortValidator extends BasicValidator {
         }
         
         List<Entity> studentCohortAssociations = myself.getEmbeddedData().get(EntityNames.STUDENT_COHORT_ASSOCIATION);
+
+        if (studentCohortAssociations == null) {
+            return false;
+        }
+
         Set<String> myCohorts = new HashSet<String>();
         for (Entity myCohortAssociation : studentCohortAssociations) {
             if (myCohortAssociation.getBody() != null) {
