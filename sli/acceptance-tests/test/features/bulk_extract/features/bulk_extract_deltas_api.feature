@@ -113,15 +113,23 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
     And I verify this "course" file should contain:
       | id                                          | condition                                |
       | a71ea7489a86103bddd7459c25c83b7e7c5da875_id | courseTitle = Sixth grade English        |
+    And I verify this "courseOffering" file should contain:
+      | id                                          | condition                                |
+      | eba54e12a1a8ce4c09a4ce2863fe080ee05a42e0_id | localCourseTitle = Sixth grade English   |    
+    And I wait for user input
     And I ingest "SEACourseUpdate.zip"
     And the extraction zone is empty
     When I trigger a delta extract
     When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
       |  entityType                            |
       |  course                                |
+      |  courseOffering                        |
     And I verify this "course" file should contain:
       | id                                          | condition                                |
       | a71ea7489a86103bddd7459c25c83b7e7c5da875_id | courseTitle = Seventh grade English      |
+    And I verify this "courseOffering" file should contain:
+      | id                                          | condition                                |
+      | eba54e12a1a8ce4c09a4ce2863fe080ee05a42e0_id | localCourseTitle = Seventh grade English   |  
 
 
   Scenario: Ingesting SEA (Non Odin) entities - Grading Period
