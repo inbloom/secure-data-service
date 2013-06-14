@@ -69,6 +69,7 @@ public class EntityEdOrgRightBuilderTest {
         edOrgs.add("edOrg1");
         edOrgs.add("edOrg2");
         edOrgs.add("edOrg3");
+        edOrgs.add("edOrg4");
 
         Entity entity = Mockito.mock(Entity.class);
         Mockito.when(entity.getType()).thenReturn("student");
@@ -77,6 +78,7 @@ public class EntityEdOrgRightBuilderTest {
 
         Collection<GrantedAuthority> grantedAuthorities = entityEdOrgRightBuilder.buildEntityEdOrgRights(edOrgRights, entity);
 
+        Assert.assertEquals(5, grantedAuthorities.size());
         Assert.assertTrue(grantedAuthorities.contains(READ_PUBLIC));
         Assert.assertTrue(grantedAuthorities.contains(READ_GENERAL));
         Assert.assertTrue(grantedAuthorities.contains(READ_RESTRICTED));
@@ -110,8 +112,8 @@ public class EntityEdOrgRightBuilderTest {
 
         Set<String> edOrgs = new HashSet<String>();
         edOrgs.add("edOrg1");
-        edOrgs.add("edOrg5");
         edOrgs.add("edOrg6");
+        edOrgs.add("edOrg7");
 
         Entity entity = Mockito.mock(Entity.class);
         Mockito.when(entity.getType()).thenReturn("student");
@@ -127,14 +129,17 @@ public class EntityEdOrgRightBuilderTest {
     private Map<String, Collection<GrantedAuthority>> createEdOrgRights() {
         Map<String, Collection<GrantedAuthority>> edOrgRights = new HashMap<String, Collection<GrantedAuthority>>();
         Collection<GrantedAuthority> authorities2 = new HashSet<GrantedAuthority>(Arrays.asList(READ_PUBLIC,
-                READ_GENERAL, WRITE_GENERAL));
+                READ_GENERAL, READ_RESTRICTED, WRITE_GENERAL));
         Collection<GrantedAuthority> authorities3 = new HashSet<GrantedAuthority>(Arrays.asList(READ_RESTRICTED,
                 WRITE_RESTRICTED));
         Collection<GrantedAuthority> authorities4 = new HashSet<GrantedAuthority>(Arrays.asList(READ_PUBLIC,
+                WRITE_GENERAL));
+        Collection<GrantedAuthority> authorities5 = new HashSet<GrantedAuthority>(Arrays.asList(READ_PUBLIC,
                 AGGREGATE_READ, WRITE_PUBLIC, AGGREGATE_WRITE));
         edOrgRights.put("edOrg2", authorities2);
         edOrgRights.put("edOrg3", authorities3);
         edOrgRights.put("edOrg4", authorities4);
+        edOrgRights.put("edOrg5", authorities5);
 
         return edOrgRights;
     }

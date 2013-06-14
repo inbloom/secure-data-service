@@ -16,9 +16,19 @@
 
 package org.slc.sli.api.security.oauth;
 
+import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.matches;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import junit.framework.Assert;
 
@@ -27,12 +37,16 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 import org.slc.sli.api.security.OauthMongoSessionManager;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
@@ -53,15 +67,31 @@ import org.slc.sli.domain.Repository;
 public class OauthMongoSessionManagerTest {
 
     private static final String SESSION_COLLECTION = "userSession";
+    private static final String TENANT_ID = "Midgar";
+    private static final String REALM_ID = "Middle Earth";
 
-    OauthMongoSessionManager sessionManager;
+    OauthMongoSessionManager sessionManager = new OauthMongoSessionManager();
+
+    private RolesToRightsResolver resolver;
+
     Repository<Entity> repo;
+
+    private final GrantedAuthority READ_PUBLIC = new GrantedAuthorityImpl("READ_PUBLIC");
+    private final GrantedAuthority READ_GENERAL = new GrantedAuthorityImpl("READ_GENERAL");
+    private final GrantedAuthority READ_RESTRICTED = new GrantedAuthorityImpl("READ_RESTRICTED");
+    private final GrantedAuthority AGGREGATE_READ = new GrantedAuthorityImpl("AGGREGATE_READ");
+    private final GrantedAuthority WRITE_PUBLIC = new GrantedAuthorityImpl("WRITE_PUBLIC");
+    private final GrantedAuthority WRITE_GENERAL = new GrantedAuthorityImpl("WRITE_GENERAL");
+    private final GrantedAuthority WRITE_RESTRICTED = new GrantedAuthorityImpl("WRITE_RESTRICTED");
+    private final GrantedAuthority AGGREGATE_WRITE = new GrantedAuthorityImpl("AGGREGATE_WRITE");
 
     @SuppressWarnings("unchecked")
     @Before
     public void setup() {
         sessionManager = new OauthMongoSessionManager();
+
         repo = Mockito.mock(Repository.class);
+        resolver = Mockito.mock(RolesToRightsResolver.class);
 
         // 1343219547095 --> date when test was made (7/25/2012 8:32am)
         // 1449935940000 --> date used by long-lived sessions
@@ -114,4 +144,47 @@ public class OauthMongoSessionManagerTest {
     public void testSessionPurge() {
         Assert.assertEquals("Should return true", true, sessionManager.purgeExpiredSessions());
     }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testAddEdOrgRightsToPrincipal() throws SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, NoSuchFieldException {
+        SLIPrincipal principal = new SLIPrincipal();
+        Map<String, List<String>> edOrgRoles = new HashMap<String, List<String>>();
+        List<String> edOrgRoles1 = new LinkedList<String>(Arrays.asList("Gym Teacher", "Science Teacher", "Principal"));
+        List<String> edOrgRoles2 = new LinkedList<String>(Arrays.asList("Counselor", "Gym Teacher", "Principal"));
+        List<String> edOrgRoles3 = new LinkedList<String>(Arrays.asList("Science Teacher", "Reading Aide"));
+        edOrgRoles.put("edOrg1", edOrgRoles1);
+        edOrgRoles.put("edOrg2", edOrgRoles2);
+        edOrgRoles.put("edOrg3", edOrgRoles3);
+        principal.setEdOrgRoles(edOrgRoles);
+        principal.setTenantId(TENANT_ID);
+        principal.setRealm(REALM_ID);
+        principal.setAdminRealmAuthenticated(false);
+
+        Set<GrantedAuthority> authorities1 = new HashSet<GrantedAuthority>(Arrays.asList(READ_PUBLIC,
+                READ_GENERAL, WRITE_GENERAL));
+        Set<GrantedAuthority> authorities2 = new HashSet<GrantedAuthority>(Arrays.asList(READ_RESTRICTED,
+                WRITE_RESTRICTED));
+        Set<GrantedAuthority> authorities3 = new HashSet<GrantedAuthority>(Arrays.asList(READ_PUBLIC,
+                AGGREGATE_READ, WRITE_PUBLIC, AGGREGATE_WRITE));
+        Mockito.when(resolver.resolveRoles(matches(TENANT_ID), matches(REALM_ID), eq(edOrgRoles1), eq(false), eq(false))).thenReturn(authorities1);
+        Mockito.when(resolver.resolveRoles(matches(TENANT_ID), matches(REALM_ID), eq(edOrgRoles2), eq(false), eq(false))).thenReturn(authorities2);
+        Mockito.when(resolver.resolveRoles(matches(TENANT_ID), matches(REALM_ID), eq(edOrgRoles3), eq(false), eq(false))).thenReturn(authorities3);
+
+        Assert.assertTrue(principal.getEdOrgRights().isEmpty());
+
+        Field field = OauthMongoSessionManager.class.getDeclaredField("resolver");
+        field.setAccessible(true);
+        field.set(sessionManager, resolver);
+
+        Method method = OauthMongoSessionManager.class.getDeclaredMethod("addEdOrgRightsToPrincipal", SLIPrincipal.class);
+        method.setAccessible(true);
+        method.invoke(sessionManager, principal);
+
+        Assert.assertEquals(3, principal.getEdOrgRights().size());
+        Assert.assertTrue(principal.getEdOrgRights().get("edOrg1").equals(authorities1));
+        Assert.assertTrue(principal.getEdOrgRights().get("edOrg2").equals(authorities2));
+        Assert.assertTrue(principal.getEdOrgRights().get("edOrg3").equals(authorities3));
+    }
+
 }

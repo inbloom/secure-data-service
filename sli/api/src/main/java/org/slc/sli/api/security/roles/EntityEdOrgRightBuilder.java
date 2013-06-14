@@ -45,7 +45,7 @@ public class EntityEdOrgRightBuilder {
      *
      * @return - The set of all the user's access rights to the entity
      */
-    public Collection<GrantedAuthority> buildEntityEdOrgRights(Map<String, Collection<GrantedAuthority>> edOrgRights, Entity entity) {
+    public Collection<GrantedAuthority> buildEntityEdOrgRights(final Map<String, Collection<GrantedAuthority>> edOrgRights, final Entity entity) {
         Collection<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
 
         Set<String> edorgs = edOrgOwnershipArbiter.determineEdorgs(Arrays.asList(entity), entity.getType());
