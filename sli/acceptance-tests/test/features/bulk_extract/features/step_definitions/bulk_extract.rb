@@ -654,6 +654,7 @@ def getEntityEndpoint(entity)
       "gradebookEntry" => "gradebookEntries",
       "grade" => "grades",
       "gradingPeriod" => "gradingPeriods",
+      "graduationPlan" => "graduationPlans",
       "patchGradingPeriod" => "gradingPeriods",
       "invalidEntry" => "school",
       "learningObjectives/id/childLearningObjectives" => "learningObjectives/18f258460004b33fa9c1249b8c9ed3bd33c41645_id/childLearningObjectives",

@@ -107,12 +107,39 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     | course                | 7f3baa1a1f553809c6539671f08714aed6ec8b0c_id | 403         |
     | educationOrganization | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id | 403         |
     | gradingPeriod         | 21b8ac38bf886e78a879cfdb973a9352f64d07b9_id | 403         |
+    | graduationPlan        | 7f6e03f2a01f0f74258a1b0d8796be5eaf289f0a_id | 403         |
     | learningObjective     | 735a9b42268fbe4a5be61124034be656249759dd_id | 403         |
     | learningStandard      | 7a9dc734146e8deff33b53a4e645e6b7cfd2c167_id | 403         |
     | program               | de7da21b8c7f020cc66a438d3cd13eb32ba41cb0_id | 403         |
     | schools               | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id | 403         |
     | section               | d4254efaa82daacfce951763bcd5e9e2352ac073_id | 403         |
     | session               | bfeaf9315f04797a41dbf1663d18ead6b6fb1309_id | 403         |
+    When I DELETE and validate the following entities:
+    | entity                              | id                                          | returnCode  |
+   #| These entities dont exist in mongo  | Non-transitive endpoints should return a    | 403         |    
+    | assessments/id/learningObjectives   | 735a9b42268fbe4a5be61124034be656249759dd_id | 403         |
+    | assessments/id/learningStandards    | 7a9dc734146e8deff33b53a4e645e6b7cfd2c167_id | 403         |
+    | courseOfferings/id/courses          | 7f3baa1a1f553809c6539671f08714aed6ec8b0c_id | 403         |
+    | courseOfferings/id/sections         | d4254efaa82daacfce951763bcd5e9e2352ac073_id | 403         |
+    | courseOfferings/id/sessions         | bfeaf9315f04797a41dbf1663d18ead6b6fb1309_id | 403         |
+    | courses/id/courseOfferings          | 514196bf10482bbfa307c023360692ef4c8f87db_id | 403         |
+    | courses/id/courseOfferings/sessions | bfeaf9315f04797a41dbf1663d18ead6b6fb1309_id | 403         |
+    | educationOrganizations/id/courses   | 7f3baa1a1f553809c6539671f08714aed6ec8b0c_id | 403         |
+    | educationOrganizations/id/educationOrganizations  | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id | 403 |
+    | educationOrganizations/id/graduationPlans         | 7f6e03f2a01f0f74258a1b0d8796be5eaf289f0a_id | 403 |
+    | educationOrganizations/id/studentCompetencyObjectives | b7080a7f753939752b693bca21fe60375d15587e_id | 403 |
+    | educationOrganizations/id/schools   | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id | 403         |
+    | learningObjectives/id/childLearningObjectives     | 735a9b42268fbe4a5be61124034be656249759dd_id | 403 |
+    | learningObjectives/id/learningStandards           | 7a9dc734146e8deff33b53a4e645e6b7cfd2c167_id | 403 |
+    | learningObjectives/id/parentLearningObjectives    | 735a9b42268fbe4a5be61124034be656249759dd_id | 403 |
+    | schools/id/courseOfferings          | 514196bf10482bbfa307c023360692ef4c8f87db_id | 403         |
+    | schools/id/courses                  | 7f3baa1a1f553809c6539671f08714aed6ec8b0c_id | 403         |
+    | schools/id/sections                 | d4254efaa82daacfce951763bcd5e9e2352ac073_id | 403         |
+    | schools/id/sessions                 | bfeaf9315f04797a41dbf1663d18ead6b6fb1309_id | 403         |
+    | schools/id/sessions/gradingPeriods  | 21b8ac38bf886e78a879cfdb973a9352f64d07b9_id | 403         |
+    | sessions/id/courseOfferings         | 514196bf10482bbfa307c023360692ef4c8f87db_id | 403         |
+    | sessions/id/courseOfferings/courses | 7f3baa1a1f553809c6539671f08714aed6ec8b0c_id | 403         |
+    | sessions/id/sections                | d4254efaa82daacfce951763bcd5e9e2352ac073_id | 403         |
 
   @wip @student_delete
   Scenario: Student cannot DELETE private entities
