@@ -60,33 +60,59 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     And format "application/json"
     And I am using api version "v1"
     When I DELETE and validate the following entities:
+    | entity                | id                                          | returnCode  |
+   #| Dont exist in mongo   | Transitive endpoints should return a        | 404         |
+    | assessment            | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 404         |
+    | courseOffering        | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 404         |
+    | course                | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 404         |
+    | educationOrganization | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 404         |
+    | gradingPeriod         | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 404         |
+    | learningObjective     | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 404         |
+    | learningStandard      | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 404         |
+    | program               | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 404         |
+    | schools               | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 404         |
+    | section               | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 404         |
+    | session               | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 404         |
+    When I DELETE and validate the following entities:
     | entity                              | id                                          | returnCode  |
-   #| These entities do not exist         | I should get a return code of               | 404         |
-    | assessment                          | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 404         |
+   #| These entities dont exist in mongo  | Non-transitive endpoints should return a    | 403         |    
     | assessments/id/learningObjectives   | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
     | assessments/id/learningStandards    | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
     | courseOfferings/id/courses          | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
     | courseOfferings/id/sections         | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
     | courseOfferings/id/sessions         | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
-    | course                              | doesnotexist177dd0b06dee3fd928c1bfda4d49_id | 404         |
     | courses/id/courseOfferings          | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
     | courses/id/courseOfferings/sessions | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
-    | courseOffering                      | doesnotexist177dd0b06dee3fd928c1bfda4d49_id | 404         |
-    | gradingPeriod                       | doesnotexist177dd0b06dee3fd928c1bfda4d49_id | 404         |
-    | program                             | doesnotexist177dd0b06dee3fd928c1bfda4d49_id | 404         |
-    | learningObjective                   | doesnotexist177dd0b06dee3fd928c1bfda4d49_id | 404         |
-    | learningStandard                    | doesnotexist177dd0b06dee3fd928c1bfda4d49_id | 404         |
-    | section                             | doesnotexist177dd0b06dee3fd928c1bfda4d49_id | 404         |
-    | session                             | doesnotexist177dd0b06dee3fd928c1bfda4d49_id | 404         |
-    #| These entities do exist             | I should get a return code of               | 403         |
-    #| course                              | 877e4934a96612529535581d2e0f909c5288131a_id | 403         |
-    #| courseOffering                      | 38edd8479722ccf576313b4640708212841a5406_id | 403         |
-    #| gradingPeriod                       | 1dae9e8450e2e77dd0b06dee3fd928c1bfda4d49_id | 403         |
-    #| program                             | 0ee2b448980b720b722706ec29a1492d95560798_id | 403         |
-    #| learningObjective                   | bc2dd61ff2234eb25835dbebe22d674c8a10e963_id | 403         |
-    #| learningStandard                    | 1bd6fea0e8b8ac6a8fe87a8530effbced0df9318_id | 403         |
-    #| section                             | 4030207003b03d055bba0b5019b31046164eff4e_id | 403         |
-    #| session                             | fe6e1a162e6f6825830d78d72cb55498afaedcd3_id | 403         |
+    | educationOrganizations/id/courses   | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
+    | educationOrganizations/id/educationOrganizations  | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403 |
+    | educationOrganizations/id/graduationPlans         | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403 |
+    | educationOrganizations/id/studentCompetencyObjectives | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403 |
+    | educationOrganizations/id/schools   | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
+    | learningObjectives/id/childLearningObjectives     | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403 |
+    | learningObjectives/id/learningStandards           | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403 |
+    | learningObjectives/id/parentLearningObjectives    | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403 |
+    | schools/id/courseOfferings          | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
+    | schools/id/courses                  | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
+    | schools/id/sections                 | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
+    | schools/id/sessions                 | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
+    | schools/id/sessions/gradingPeriods  | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
+    | sessions/id/courseOfferings         | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
+    | sessions/id/courseOfferings/courses | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
+    | sessions/id/sections                | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
+    When I DELETE and validate the following entities:    
+    | entity                | id                                          | returnCode  |
+   #| Do exist in mongo     | Transitive endpoints should return a        | 403         |
+    | assessment            | 235e448a14cc25ac0ede32bf35e9a798bf2cbc1d_id | 403         |
+    | courseOffering        | 514196bf10482bbfa307c023360692ef4c8f87db_id | 403         |
+    | course                | 7f3baa1a1f553809c6539671f08714aed6ec8b0c_id | 403         |
+    | educationOrganization | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id | 403         |
+    | gradingPeriod         | 21b8ac38bf886e78a879cfdb973a9352f64d07b9_id | 403         |
+    | learningObjective     | 735a9b42268fbe4a5be61124034be656249759dd_id | 403         |
+    | learningStandard      | 7a9dc734146e8deff33b53a4e645e6b7cfd2c167_id | 403         |
+    | program               | de7da21b8c7f020cc66a438d3cd13eb32ba41cb0_id | 403         |
+    | schools               | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id | 403         |
+    | section               | d4254efaa82daacfce951763bcd5e9e2352ac073_id | 403         |
+    | session               | bfeaf9315f04797a41dbf1663d18ead6b6fb1309_id | 403         |
 
   @wip @student_delete
   Scenario: Student cannot DELETE private entities
@@ -95,28 +121,29 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     And format "application/json"
     And I am using api version "v1"
     | entity                     | id                                          | returnCode  |
-    | attendance                 | 95b973e29368712e2090fcad34d90fffb20aa9c4_id | 204         |
-    | cohort                     | cb99a7df36fadf8885b62003c442add9504b3cbd_id | 204         |
-    | competencyLevelDescriptor  | ceddd8ec0ee71c1f4f64218e00581e9b27c0fffb_id | 204         |
-    | disciplineActions          | ceddd8ec0ee71c1f4f64218e00581e9b27c0fffb_id | 204         |
-    | disciplineIncidents        | ceddd8ec0ee71c1f4f64218e00581e9b27c0fffb_id | 204         |
-    | competencyLevelDescriptor  | ceddd8ec0ee71c1f4f64218e00581e9b27c0fffb_id | 204         |
-    | competencyLevelDescriptor  | ceddd8ec0ee71c1f4f64218e00581e9b27c0fffb_id | 204         |
-    | competencyLevelDescriptor  | ceddd8ec0ee71c1f4f64218e00581e9b27c0fffb_id | 204         |
-    | grade                      | 1417cec726dc51d43172568a9c332ee1712d73d4_idcd83575df61656c7d8aebb690ae0bb3ff129a857_id | 204 |
-    | gradebookEntry             | 4030207003b03d055bba0b5019b31046164eff4e_id383ee846e68a3f539a0a64a651ab2078dedbb6f3_id | 204 |
-    | parent                     |                                             | 403         |
-    | reportCard                 | 1417cec726dc51d43172568a9c332ee1712d73d4_id77bc827b90835ef0df42154428ac3153f0ddc746_id | 204 |
-    | staff                      | e9f3401e0a034e20bb17663dd7d18ece6c4166b5_id | 204         |
-    | staffCohortAssociation     | 5e7d5f12cefbcb749069f2e5db63c1003df3c917_id | 204         |
-    | student                    | ceddd8ec0ee71c1f4f64218e00581e9b27c0fffb_id | 403         |
-    | studentAcademicRecord      | 1417cec726dc51d43172568a9c332ee1712d73d4_idb2b773084845209865762830ceb1721ebb1101ef_id | 204 |
-    | studentAssessment          | d4a8b25254af09fe3dd772a2149aa6b45fa6b170_id | 204         |
-    | studentCohortAssociation   | 9bf3036428c40861238fdc820568fde53e658d88_idfa64547520fbfcbc8646a7a0bb3a52f76e4f4d21_id | 204 |
-    | studentCompetencyObjective | ef680988e7c411cdb5438ded373512cd59cbfa7b_id | 204         |
-    | studentProgramAssociation  | 9bf3036428c40861238fdc820568fde53e658d88_id38025c314f0972d09cd982ffe58c7d8d2b59d23d_id | 204 |
-    | studentSchoolAssociation   | cbfe3a47491fdff0432d5d4abca339735da9461d_id | 204         |
+    #| attendance                 | 95b973e29368712e2090fcad34d90fffb20aa9c4_id | 204         |
+    #| cohort                     | cb99a7df36fadf8885b62003c442add9504b3cbd_id | 204         |
+    #| competencyLevelDescriptor  | ceddd8ec0ee71c1f4f64218e00581e9b27c0fffb_id | 204         |
+    #| disciplineActions          | ceddd8ec0ee71c1f4f64218e00581e9b27c0fffb_id | 204         |
+    #| disciplineIncidents        | ceddd8ec0ee71c1f4f64218e00581e9b27c0fffb_id | 204         |
+    #| competencyLevelDescriptor  | ceddd8ec0ee71c1f4f64218e00581e9b27c0fffb_id | 204         |
+    #| competencyLevelDescriptor  | ceddd8ec0ee71c1f4f64218e00581e9b27c0fffb_id | 204         |
+    #| competencyLevelDescriptor  | ceddd8ec0ee71c1f4f64218e00581e9b27c0fffb_id | 204         |
+    #| grade                      | 1417cec726dc51d43172568a9c332ee1712d73d4_idcd83575df61656c7d8aebb690ae0bb3ff129a857_id | 204 |
+    | gradebookEntry             | d4254efaa82daacfce951763bcd5e9e2352ac073_id53d7969bbd7fa2eab718eea517f04ce3b514607e_id | 204 |
+    #| parent                     |                                             | 403         |
+    #| reportCard                 | 1417cec726dc51d43172568a9c332ee1712d73d4_id77bc827b90835ef0df42154428ac3153f0ddc746_id | 204 |
+    #| staff                      | e9f3401e0a034e20bb17663dd7d18ece6c4166b5_id | 204         |
+    #| staffCohortAssociation     | 5e7d5f12cefbcb749069f2e5db63c1003df3c917_id | 204         |
+    | student                    | 067198fd6da91e1aa8d67e28e850f224d6851713_id | 403         |
+    | student                    | aea1153839c7923a4d70ca9f5859dbc0895d629f_id | 403         |
+    #| studentAcademicRecord      | 1417cec726dc51d43172568a9c332ee1712d73d4_idb2b773084845209865762830ceb1721ebb1101ef_id | 204 |
+    | studentAssessment          | 97918c8339c1e56bbef6cb4ce0c1164e9fec1c92_id | 204         |
+    | studentCohortAssociation   | fd4dc88802e121be5b03923edb6b41ce0aae244b_id741b884e5578c1b8326d20ab112e3046313f296d_id | 204 |
+    | studentCompetencyObjective | b7080a7f753939752b693bca21fe60375d15587e_id | 204         |
+    | studentProgramAssociation  | 067198fd6da91e1aa8d67e28e850f224d6851713_id598e72efb94e91340f04feff220b0896efbc40f8_id | 204 |
+    | studentSchoolAssociation   | d6f92cdbb1711b41a3246f81c65c94d0f95abb63_id | 204         |
     | studentSectionAssociation  | 4030207003b03d055bba0b5019b31046164eff4e_id78468628f357b29599510341f08dfd3277d9471e_id | 204 |
-    | teacher                    | 2472b775b1607b66941d9fb6177863f144c5ceae_id |  204        |
-    | teacherSchoolAssociation   | 7a2d5a958cfda9905812c3a9f38c07ac4e8899b0_id |  204        |
+    #| teacher                    | 2472b775b1607b66941d9fb6177863f144c5ceae_id |  204        |
+    #| teacherSchoolAssociation   | 7a2d5a958cfda9905812c3a9f38c07ac4e8899b0_id |  204        |
 
