@@ -10,8 +10,8 @@ Feature:  RC Integration Tests - Test Student Login
   Background:
     Given I have an open web browser
 
-  Scenario: App developer enables Students to use databrowser so they can see login and see data.
-  #Installed App
+  Scenario: App developer impersonates a student and views data in the databrowser
+  # Make the Student role Admin so students can use databro
     When I navigate to the Portal home page
     And I was redirected to the "Simple" IDP Login page
     When I submit the credentials "<DEVELOPER_SB_EMAIL>" "<DEVELOPER_SB_EMAIL_PASS>" for the "Simple" login page
@@ -29,15 +29,17 @@ Feature:  RC Integration Tests - Test Student Login
     And the group "Student" has the admin role box checked
     And I exit out of the iframe
     And I click on log out
-#    Then I should be redirected to the impersonation page
-#    And I should see that I "<DEVELOPER_SB_EMAIL>" am logged in
-#    And I want to select "800000025" from the "SmallDatasetUsers" in automatic mode
-#    Then I should be on Portal home page
-#    And I click on Admin
-#    Then I should be on the admin page
+
+# Login as a student a take a look at some stuff.
+    Then I should be redirected to the impersonation page
+    And I should see that I "<DEVELOPER_SB_EMAIL>" am logged in
+    And I want to select "800000025" from the "SmallDatasetUsers" in automatic mode
+    Then I should be on Portal home page
+    And I click on Admin
+    Then I should be on the admin page
 #    And under System Tools, I click on "inBloom Data Browser"
 #    Then I should be redirected to the Data Browser home page
-#    And I should see the name "Matt Sollars" on the page
+#    And I should see the name "Matt Sollars, Jr" on the page
 #    Then I should click on the Home link and be redirected back
 #    And I have navigated to the "Me" page of the Data Browser
 #    Then I am redirected to the particular entity Detail View
