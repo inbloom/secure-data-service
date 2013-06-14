@@ -152,8 +152,9 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
     /**
      * Validates that user roles allow access to fields
-     * @param isRead whether operation is "read" or "write"
-     * @param isSelf whether operation is being done in "self" context
+     *
+     * @param isRead  whether operation is "read" or "write"
+     * @param isSelf  whether operation is being done in "self" context
      * @param content item under inspection
      */
     private void checkAccess(boolean isRead, boolean isSelf, EntityBody content) {
@@ -815,27 +816,20 @@ public class BasicService implements EntityService, AccessibilityCheck {
     @SuppressWarnings("unchecked")
     private void filterFields(Map<String, Object> eb, Collection<GrantedAuthority> auths, String prefix) {
 
-
         if (!auths.contains(Right.FULL_ACCESS)) {
 
             List<String> toRemove = new LinkedList<String>();
-            for (Map.Entry<String, Object> entry : eb.entrySet()) {
-                String fieldName = entry.getKey();
-                Object value = entry.getValue();
 
-                String fieldPath = prefix + fieldName;
-                Set<Right> neededRights = getNeededRights(fieldPath);
+            for (Iterator<Map.Entry<String, Object>> it = eb.entrySet().iterator(); it.hasNext();) {
+                String fieldName = it.next().getKey();
+
+                Set<Right> neededRights = getNeededRights(prefix + fieldName);
 
                 if (!neededRights.isEmpty() && !intersection(auths, neededRights)) {
-                    toRemove.add(fieldName);
-                } else if (value instanceof Map) {
-                    filterFields((Map<String, Object>) value, auths, prefix + "." + fieldName + ".");
+                    it.remove();
                 }
             }
 
-            for (String fieldName : toRemove) {
-                eb.remove(fieldName);
-            }
         }
     }
 
