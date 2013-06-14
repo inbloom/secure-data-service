@@ -330,13 +330,15 @@ public class UriMutator {
             } else if (PathConstants.COHORTS.equals(baseEntity)) {
                 mutated.setPath(String.format("/students/%s/studentCohortAssociations/cohorts", StringUtils.join(getStudentIds(user))));
             } else if (PathConstants.COURSE_TRANSCRIPTS.equals(baseEntity)) {
-                mutated.setPath(String.format("/students/%s/studentAcademicRecords/courseTranscript", StringUtils.join(getStudentIds(user))));
+                mutated.setPath(String.format("/students/%s/studentAcademicRecords/courseTranscripts", StringUtils.join(getStudentIds(user))));
             } else if (PathConstants.GRADES.equals(baseEntity)) {
                 mutated.setPath(String.format("/students/%s/studentSectionAssociations/grades", StringUtils.join(getStudentIds(user))));
             } else if (PathConstants.PARENTS.equals(baseEntity)) {
                 mutated.setPath(String.format("/students/%s/studentParentAssociations/parents", StringUtils.join(getStudentIds(user))));
             } else if (PathConstants.PROGRAMS.equals(baseEntity)) {
                 mutated.setPath(String.format("/students/%s/studentProgramAssociations/programs", StringUtils.join(getStudentIds(user))));
+            } else if (PathConstants.SECTIONS.equals(baseEntity)) {
+                mutated.setPath(String.format("/students/%s/studentSectionAssociations/sections", StringUtils.join(getStudentIds(user))));
             } else if (PathConstants.REPORT_CARDS.equals(baseEntity)) {
                 mutated.setPath(String.format("/students/%s/reportCards", StringUtils.join(getStudentIds(user))));
             } else if (PathConstants.STUDENT_ACADEMIC_RECORDS.equals(baseEntity)) {
@@ -363,6 +365,8 @@ public class UriMutator {
             	throw new AccessDeniedException("Students do not have access to discipline incident associations.");
             } else if (ResourceNames.HOME.equals(baseEntity)) {
                 mutated.setPath("/home");
+            } else if (ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS.equals(baseEntity)) {
+                mutated.setPath("/search/"+baseEntity);
             } else {
                 throw new IllegalArgumentException("Not supported yet...");
             }

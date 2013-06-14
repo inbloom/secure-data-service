@@ -622,4 +622,11 @@ public class OauthMongoSessionManager implements OauthSessionManager {
 
         return minutes > configMinutes;
     }
+
+    public void setAppValidator(ApplicationAuthorizationValidator appValidator) {
+        this.appValidator = appValidator;
+    }
+    public void setLocator(UserLocator locator) {
+        this.locator = locator;
+    }
 }
