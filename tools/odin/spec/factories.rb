@@ -51,7 +51,7 @@ FactoryGirl.define do
   
   factory :assessment do
   
-    initialize_with { new(52, Date.new(2012, 11, 2)) }
+    initialize_with { new(52, 2012) }
     assessmentTitle "SAT II - US History"
     gradeLevelAssessed "Twelfth grade"
   end
