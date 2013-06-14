@@ -74,6 +74,8 @@ public class StudentAccessValidator {
         Set<String> systemAllowedThreeParts = new HashSet<String>();
         systemAllowedThreeParts.add("session");
         systemAllowedThreeParts.add("debug");
+        systemAllowedThreeParts.add("check");
+        systemAllowedThreeParts.add("logout");
         threeParts.put("system", systemAllowedThreeParts);
         
         // assessments
@@ -85,7 +87,7 @@ public class StudentAccessValidator {
         // sections
         Set<String> sectionsAllowedThreeParts = new HashSet<String>();
         sectionsAllowedThreeParts.add(ResourceNames.GRADEBOOK_ENTRIES);
-        sectionsAllowedThreeParts.add(ResourceNames.STUDENT_SECTION_ASSOCIATIONS);
+        //  sectionsAllowedThreeParts.add(ResourceNames.STUDENT_SECTION_ASSOCIATIONS);
         threeParts.put(ResourceNames.SECTIONS, sectionsAllowedThreeParts);
 
         // sessions

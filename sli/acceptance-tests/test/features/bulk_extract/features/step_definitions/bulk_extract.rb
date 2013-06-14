@@ -615,7 +615,7 @@ When /^I DELETE and validate the following entities:$/ do |table|
     print "Deleting #{api_params['entity']} .."
     step "I DELETE an \"#{api_params['entity']}\" of id \"#{api_params['id']}\""
     step "I should receive a return code of #{api_params['returnCode']}"
-    print "OK\n"
+    print " OK (Received expected RetCode: #{api_params['returnCode']})\n"
   end
 end
 
@@ -628,7 +628,16 @@ end
 def getEntityEndpoint(entity)
   entity_to_endpoint_map = {
       "attendance" => "attendances",
+      "assessment" => "assessments",
+      "assessments/id/learningObjectives" => "assessments/235e448a14cc25ac0ede32bf35e9a798bf2cbc1d_id/learningObjectives",
+      "assessments/id/learningStandards" => "assessments/235e448a14cc25ac0ede32bf35e9a798bf2cbc1d_id/learningStandards",
+      "patchAssessment" => "assessments",
       "courseOffering" => "courseOfferings",
+      "courseOfferings/id/courses" => "courseOfferings/0fee7a7aba9a96388ef628b7e3e5e5ea60a142a7_id/courses",
+      "courseOfferings/id/sections" => "courseOfferings/0fee7a7aba9a96388ef628b7e3e5e5ea60a142a7_id/sections",
+      "courseOfferings/id/sessions" => "courseOfferings/0fee7a7aba9a96388ef628b7e3e5e5ea60a142a7_id/sessions",
+      "courses/id/courseOfferings" => "courses/7f3baa1a1f553809c6539671f08714aed6ec8b0c_id/courseOfferings",
+      "courses/id/courseOfferings/sessions" => "courses/7f3baa1a1f553809c6539671f08714aed6ec8b0c_id/courseOfferings/sessions",
       "patchSEACourseOffering" => "courseOfferings",
       "seaCourse" => "educationOrganizations/884daa27d806c2d725bc469b273d840493f84b4d_id/courses",
       "cohort" => "cohorts",
@@ -637,11 +646,22 @@ def getEntityEndpoint(entity)
       "course" => "courses",
       "patchSEACourse" => "courses",
       "educationOrganization" => "educationOrganizations",
+      "educationOrganizations/id/courses" => "educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/courses",
+      "educationOrganizations/id/educationOrganizations" => "educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/educationOrganizations",
+      "educationOrganizations/id/graduationPlans" => "educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/graduationPlans",
+      "educationOrganizations/id/schools" => "educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/schools",
+      "educationOrganizations/id/studentCompetencyObjectives" => "educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/studentCompetencyObjectives",
       "gradebookEntry" => "gradebookEntries",
       "grade" => "grades",
       "gradingPeriod" => "gradingPeriods",
+      "graduationPlan" => "graduationPlans",
       "patchGradingPeriod" => "gradingPeriods",
+      "graduationPlan" => "graduationPlans",
+      "patchGraduationPlan" => "graduationPlans",
       "invalidEntry" => "school",
+      "learningObjectives/id/childLearningObjectives" => "learningObjectives/18f258460004b33fa9c1249b8c9ed3bd33c41645_id/childLearningObjectives",
+      "learningObjectives/id/learningStandards" => "learningObjectives/18f258460004b33fa9c1249b8c9ed3bd33c41645_id/learningStandards",
+      "learningObjectives/id/parentLearningObjectives" => "learningObjectives/18f258460004b33fa9c1249b8c9ed3bd33c41645_id/parentLearningObjectives",
       "learningStandard" => "learningStandards",
       "patchLearningStandard" => "learningStandards",
       "learningObjective" => "learningObjectives",
@@ -655,8 +675,17 @@ def getEntityEndpoint(entity)
       "patchProgram" => "programs",
       "reportCard" => "reportCards",
       "school" => "educationOrganizations",
+      "schools" => "schools",
+      "schools/id/courseOfferings" => "schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/courseOfferings",
+      "schools/id/courses" => "schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/courses",
+      "schools/id/sections" => "schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/courses",
+      "schools/id/sessions" => "schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/courses",
+      "schools/id/sessions/gradingPeriods" => "schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/sessions/gradingPeriods",
       "section" => "sections",
       "session" => "sessions",
+      "sessions/id/courseOfferings" => "sessions/fe6e1a162e6f6825830d78d72cb55498afaedcd3_id/courseOfferings",
+      "sessions/id/courseOfferings/courses" => "sessions/fe6e1a162e6f6825830d78d72cb55498afaedcd3_id/courseOfferings/courses",
+      "sessions/id/sections" => "sessions/fe6e1a162e6f6825830d78d72cb55498afaedcd3_id/sections",
       "patchSession" => "sessions",
       "staff" => "staff",
       "newStaff" => "staff",
@@ -730,7 +759,9 @@ def getEntityBodyFromApi(entity, api_version, verb)
       "patchStudentCompetencyObjective" => "studentCompetencyObjectives/ef680988e7c411cdb5438ded373512cd59cbfa7b_id",
       "patchSession" => "sessions/fe6e1a162e6f6825830d78d72cb55498afaedcd3_id",
       "patchSEACourse" => "courses/494d4c8281ec78c7d8634afb683d39f6afdc5b85_id",
-      "patchSEACourseOffering" => "courseOfferings/0fee7a7aba9a96388ef628b7e3e5e5ea60a142a7_id"
+      "patchSEACourseOffering" => "courseOfferings/0fee7a7aba9a96388ef628b7e3e5e5ea60a142a7_id",
+      "patchAssessment" => "assessments/8d58352d180e00da82998cf29048593927a25c8e_id",
+      "patchGraduationPlan" => "graduationPlans/a77cdbececc81173aa76a34c05f9aeb44126a64d_id"
   }
   # Perform GET request and verify we get a response and a response body
   restHttpGet("/#{api_version}/#{entity_to_uri_map[entity]}")
@@ -2454,9 +2485,6 @@ def prepareBody(verb, value, response_map)
       "newStudentDiscIncidentAssoc" => {
 
       },
-      "newGraduationPlan" => {
-
-      },
       "newSession" => {
         "schoolYear" => "2014-2015",
         "sessionName" => "New SEA session",
@@ -2521,6 +2549,34 @@ def prepareBody(verb, value, response_map)
         "courseId" => "877e4934a96612529535581d2e0f909c5288131a_id",
         "localCourseCode" => "101 English",
         "localCourseTitle" => "New SEA English"
+      },
+      "newAssessment" => {
+        "assessmentIdentificationCode" => [
+            { "identificationSystem" => "State", "ID" => "New Assessment 1" }
+        ],
+        "assessmentTitle" => "New Assessment Title 1",
+        "gradeLevelAssessed" => "Eighth grade",
+        "academicSubject" => "English",
+        "version" => 2,
+        "contentStandard" => "State Standard"
+      },
+      "newGraduationPlan" => {
+        "creditsBySubject" => [{
+            "subjectArea" => "English",
+            "credits" => {
+                "creditConversion" => 0,
+                "creditType" => "Semester hour credit",
+                "credit" => 6
+             }
+        }],
+        "individualPlan" => false,
+        "graduationPlanType" => "Recommended",
+        "educationOrganizationId" => "884daa27d806c2d725bc469b273d840493f84b4d_id",
+        "totalCreditsRequired" => {
+            "creditConversion" => 0,
+            "creditType" => "Semester hour credit",
+            "credit" => 32
+        }
       }
     },
     "PATCH" => {
@@ -2560,6 +2616,12 @@ def prepareBody(verb, value, response_map)
       },
       "patchCourseId" => {
           "courseId" => value
+      },
+      "patchContentStd" => {
+          "contentStandard" => value
+      },
+      "patchIndividualPlan" => {
+          "individualPlan" => value
       },
       "studentParentName" => {
         "name" => {

@@ -28,6 +28,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
@@ -65,6 +66,9 @@ public class EdOrgOwnershipArbiterTest {
 
     @Mock
     private PagingRepositoryDelegate<Entity> repo;
+
+    @Mock
+    private EdOrgHelper helper;
 
     @Autowired
     private EntityDefinitionStore store;
@@ -266,6 +270,26 @@ public class EdOrgOwnershipArbiterTest {
 
         Assert.assertNull(edorgIds);
 
+
+    }
+
+    @Test
+    public void testHierarchicalEdOrgs() {
+        Entity edorg1 = createEntity(EntityNames.SCHOOL, "edorg1", new HashMap<String, Object>());
+
+        Mockito.when(repo.findAll(Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.any(NeutralQuery.class))).thenReturn( Arrays.asList(edorg1));
+        Mockito.when(helper.getParentEdOrgs(edorg1)).thenReturn(Arrays.asList("edorg1Parent1", "edorg1Parent2"));
+
+        Map<String, Object> attendanceBody = new HashMap<String, Object>();
+        attendanceBody.put(ParameterConstants.SCHOOL_ID, "edorg1");
+        Entity attendance = createEntity(EntityNames.ATTENDANCE, "attendance1", attendanceBody);
+
+        Set<String> edorgIds = arbiter.determineHierarchicalEdorgs(Arrays.asList(attendance), EntityNames.ATTENDANCE);
+
+        Assert.assertEquals(3, edorgIds.size());
+        Assert.assertTrue(edorgIds.contains("edorg1"));
+        Assert.assertTrue(edorgIds.contains("edorg1Parent1"));
+        Assert.assertTrue(edorgIds.contains("edorg1Parent2"));
 
     }
 

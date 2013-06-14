@@ -1,8 +1,7 @@
-
 require 'jenkins_api_client'
 
-@client = JenkinsApi::Client.new(:server_ip => 'jenkins.slidev.org',
-     :server_port => '8080', :username => 'jenkinsapi_user', :password => 'test1234')
+@client = JenkinsApi::Client.new(:server_url => 'https://jenkins.slidev.org',
+     :server_port => '443', :username => 'jenkinsapi_user', :password => 'test1234')
 
 def create_view(new_view_name)
   @client.view.create(new_view_name, "listview")
@@ -21,6 +20,7 @@ def copy_view(copy_from, copy_to)
       @client.job.create(new_job_name, new_job_xml)
       puts "#{new_job_name} created"
     
+      # this won't work until Jenkins is upgraded
       #@client.view.add_job(new_view_name, new_job_name)  
       #puts "job: #{new_job_name} added to view: new_view_name"
     end
@@ -38,7 +38,7 @@ if ARGV.length != 2
   exit(1)
 end
 
-existing_suffix = ARG[0]
-new_suffix = ARG[1]
+existing_suffix = ARGV[0]
+new_suffix = ARGV[1]
 create_view("CI#{new_suffix}")
 copy_view(existing_suffix, new_suffix)

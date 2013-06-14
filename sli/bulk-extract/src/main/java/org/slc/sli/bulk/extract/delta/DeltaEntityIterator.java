@@ -29,6 +29,7 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
+import com.google.common.collect.Iterables;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -373,13 +374,60 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
         for (int i = 0; i < entitiesToAdd.size(); ++i) {
             String collection = entitiesToAdd.get(i).keySet().iterator().next();
             String key = entitiesToAdd.get(i).get(collection);
-            
-            Iterable<Entity> entities = repo.findAll(collection, buildBatchQuery(collection, entity.getEntityId(), key));
+
+            //TODO::Refactor to be more readable -ldalgado
+            Iterable<Entity> entities = null;
+            if(batchedCollection.equals("assessmentFamily") && collection.equals("assessment")) {
+                entities = getAssessmentsForAssessmentFamily(entity.getEntityId());
+            } else {
+                entities = repo.findAll(collection, buildBatchQuery(collection, entity.getEntityId(), key));
+            }
             for ( Entity e : entities ) {
-                addToQueue(new DeltaRecord(e, governingEdOrgs, Operation.UPDATE, false, batchedCollection), collection);
+                addToQueue(new DeltaRecord(e, governingEdOrgs, Operation.UPDATE, false, collection), collection);
             }
         }
         
+    }
+
+    /**
+     * Given an assessmentFamily Id, return all assessment Entities that reference the assessmentFamily
+     * directly (via body.assessmentFamilyReference) or
+     * indirectly (via body.assessmentFamilyReference -> assessmentFamily.body.assessmentFamilyReference...->..body.assessmentFamilyReference
+     *
+     * @param afId
+     * @return
+     */
+    private Iterable<Entity> getAssessmentsForAssessmentFamily(String afId) {
+        Set<String> allRelated = new HashSet<String>();
+        getAssessmentFamilyHierarchy(afId, allRelated);
+        Iterable<Entity> assessments = Collections.EMPTY_LIST;
+        if(allRelated != null && !allRelated.isEmpty()) {
+            NeutralQuery q = new NeutralQuery(new NeutralCriteria("assessmentFamilyReference", NeutralCriteria.CRITERIA_IN, allRelated));
+            assessments = repo.findAll("assessment", q);
+        }
+        return assessments;
+    }
+
+    /**
+     *  An assessmentFamily object can refer another assessmentFamily object via body.assessmentFamilyReference
+     *  Given an assessmentFamily Id, return the set of assessmentFamily Ids that are connected via body.assessmentFamilyReference
+     *
+     * @param afId
+     * @param allRelated OUT parameter
+     */
+    private void getAssessmentFamilyHierarchy(String afId, Set <String> allRelated) {
+        if(afId == null || afId.trim().equals("") || allRelated.contains(afId)) {
+            return;
+        } else {
+            allRelated.add(afId);
+            NeutralQuery q = new NeutralQuery(new NeutralCriteria("assessmentFamilyReference", NeutralCriteria.OPERATOR_EQUAL, afId));
+            Iterable<Entity> entities = repo.findAll("assessmentFamily", q);
+            if( entities != null) {
+                for (Entity e : entities) {
+                    getAssessmentFamilyHierarchy(e.getEntityId(), allRelated);
+                }
+            }
+        }
     }
 
     /**

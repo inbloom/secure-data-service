@@ -1,39 +1,23 @@
 @RALLY_5765
 Feature: Use the APi to successfully get student data while having roles over many schools
 
-  @wip
   Background: Setup for the tests
-    Given I have an open web browser
-    And the testing device app key has been created
-# Setup students and staff correctly. The following dependencies as an example
-#
-# School-A
-#----------
-# Leader: Staff-A
-# Educator: Staff-B
-# Educator: Staff-C
-# Student: Student-A (in Staff-B's section)
-# Student: Student-A (in Staff-C's section)
-# Student: Student-B (in Staff-C's section)
-#
-# School-B
-#---------
-# Leader: Staff-A
-# Educator: Staff-B
-# Student: Student-A (in Staff-B's section)
-#
-# School-C
-#---------
-# Leader: Staff-C
-# Educator: Staff-B
-# Student: Student-B (in Staff-B's section)
-# Student: Student-C (in Staff-B's section)
-
+    Given the testing device app key has been created
+    And I import the odin-local-setup application and realm data
+    And I have an open web browser
+    And the following student section associations in Midgar are set correctly
+    | student         | teacher              | edorg                 | enrolledInAnySection? |
+    | carmen.ortiz    | linda.kim            | Daybreak Central High | yes                   |
+    | carmen.ortiz    | rbraverman           | Daybreak Central High | yes                   |
+    | lashawn.taite   | linda.kim            | Daybreak Central High | no                    |
+    | lashawn.taite   | rbraverman           | Daybreak Central High | yes                   |
+    | carmen.ortiz    | linda.kim            | Daybreak Bayside High | yes                   |
+    | lashawn.taite   | linda.kim            | East Daybreak High    | yes                   |
+    | matt.sollars    | linda.kim            | East Daybreak High    | yes                   |
 
   @wip
   Scenario Outline: Get a student's data using various staff-student combination
     When I navigate to the API authorization endpoint with my client ID
-    Then I select "Illinois Daybreak School District 4529" from the dropdown and click go
     And I was redirected to the "Simple" IDP Login page
     And I submit the credentials "<staff>" "<password>" for the "Simple" login page
     Then I should receive a json response containing my authorization code
@@ -43,14 +27,14 @@ Feature: Use the APi to successfully get student data while having roles over ma
 
     Given format "application/json"
     When I navigate to GET "<student's URI>"
-    Then I should receive a return code of 204
+    Then I should receive a return code of 200
 
     Examples:
     | staff       | password                  | student's URI           |
-    | <Staff-B>   | <Staff-B's password>      | <student-A URI>         |
-    | <Staff-B>   | <Staff-B's password>      | <student-B URI>         |
-#    | <Staff-C>   | <Staff-C's password>      | <student-A URI>         |
-#    | <Staff-C>   | <Staff-C's password>      | <student-C URI>         |
-#    | <Staff-C>   | <Staff-C's password>      | <student-B URI>         |
-    | <Staff-A>   | <Staff-A's password>      | <student-B URI>         |
-    | <Staff-A>   | <Staff-A's password>      | <student-A URI>         |
+    | linda.kim   | linda.kim1234             | <carmen.ortiz URI>      |
+    | linda.kim   | linda.kim1234             | <lashawn.taite URI>     |
+#    | rbraverman  | rbraverman1234            | <carmen.ortiz URI>      |
+#    | rbraverman  | rbraverman1234            | <matt.sollars URI>      |
+#    | rbraverman  | rbraverman1234            | <lashawn.taite URI>     |
+    | sbantu      | sbantu1234                | <lashawn.taite URI>     |
+    | sbantu      | sbantu1234                | <carmen.ortiz URI>      |

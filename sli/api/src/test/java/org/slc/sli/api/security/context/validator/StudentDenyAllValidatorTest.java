@@ -51,8 +51,10 @@ public class StudentDenyAllValidatorTest extends TestCase {
         assertTrue(validator.canValidate(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, false));
 
         assertFalse(validator.canValidate(EntityNames.STUDENT, true));
-        assertFalse(validator.canValidate(EntityNames.PROGRAM, true));
         assertFalse(validator.canValidate(EntityNames.STUDENT_GRADEBOOK_ENTRY, false));
+        
+        assertTrue(validator.canValidate(EntityNames.PROGRAM, true));
+        assertFalse(validator.canValidate(EntityNames.PROGRAM, false));
     }
 
     @Test

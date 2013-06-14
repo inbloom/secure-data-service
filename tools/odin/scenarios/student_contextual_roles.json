@@ -1,0 +1,50 @@
+[
+  {
+    "userId": "matt.sollars",
+    "name": "Matt Sollars",
+    "edOrgs": [
+      {
+        "role": "Student",
+        "type": "High School",
+        "association": "East Daybreak High",
+        "grade": "Tenth grade"
+      }
+    ]
+  },
+  {
+    "userId": "carmen.ortiz",
+    "name": "Carmen Ortiz",
+    "edOrgs": [
+      {
+        "role": "Student",
+        "type": "High School",
+        "association": "Daybreak Central High",
+        "grade": "Ninth grade"
+      },
+      {
+        "role": "Student",
+        "type": "High School",
+        "association": "Daybreak Bayside High",
+        "grade": "Ninth grade"
+      }
+    ]
+  },
+  {
+    "userId": "lashawn.taite",
+    "name": "Lashawn Taite",
+    "edOrgs": [
+      {
+        "role": "Student",
+        "type": "High School",
+        "association": "Daybreak Central High",
+        "grade": "Tenth grade"
+      },
+      {
+        "role": "Student",
+        "type": "High School",
+        "association": "East Daybreak High",
+        "grade": "Tenth grade"
+      }
+    ]
+  }
+]
