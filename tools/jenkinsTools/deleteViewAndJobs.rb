@@ -29,5 +29,5 @@ end
 
 view_name = ARGV[0]
 jobs = get_jobs(view_name)
-delete_jobs(query)
+delete_jobs(jobs)
 delete_view(view_name)

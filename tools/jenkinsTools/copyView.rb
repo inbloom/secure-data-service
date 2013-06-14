@@ -38,7 +38,7 @@ if ARGV.length != 2
   exit(1)
 end
 
-existing_suffix = ARG[0]
-new_suffix = ARG[1]
+existing_suffix = ARGV[0]
+new_suffix = ARGV[1]
 create_view("CI#{new_suffix}")
 copy_view(existing_suffix, new_suffix)
