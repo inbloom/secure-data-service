@@ -35,6 +35,7 @@ sh log_durations.sh $1
     rfarris@wgen.net \
     < message.txt
 
+set +e
 # Check for data profile changes in the db
 ./check_data_profile.sh $1
 if [ $? -eq 1 ]; then
