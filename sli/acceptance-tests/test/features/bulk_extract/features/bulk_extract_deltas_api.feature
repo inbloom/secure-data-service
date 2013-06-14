@@ -5,6 +5,9 @@ Scenario: Initialize security trust store for Bulk Extract application and LEAs
     And the bulk extract files in the database are scrubbed
     And The bulk extract app has been approved for "Midgar-DAYBREAK" with client id "<clientId>"
     And The X509 cert "cert" has been installed in the trust store and aliased
+#    And the following collections are empty in sli datastore:
+        #| collectionName              |
+        #| securityEvent               |
 
 Scenario: Generate a bulk extract delta after day 1 ingestion
   When I trigger a delta extract
@@ -46,7 +49,6 @@ Scenario: Generate a bulk extract delta after day 1 ingestion
    And The "disciplineAction" delta was extracted in the same format as the api
    And The "studentCompetency" delta was extracted in the same format as the api
 
-
   Given I trigger a bulk extract
    When I set the header format to "application/x-tar"
    Then I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -68,6 +70,13 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
      And The "competencyLevelDescriptor" delta was extracted in the same format as the api
      And The "studentCompetencyObjective" delta was extracted in the same format as the api
      And The "program" delta was extracted in the same format as the api
+    # Then I should see following map of entry counts in the corresponding sli db collections:
+          #| collectionName             | count |
+          #| securityEvent              | 167   |
+     #And I check to find if record is in sli db collection:
+          #| collectionName  | expectedRecordCount | searchParameter         | searchValue                                                                  | searchType      |
+          #| securityEvent   | 4                   | targetEdOrg             | 884daa27d806c2d725bc469b273d840493f84b4d_id                                             | string          |
+          #| securityEvent   | 2                   | body.className          | org.slc.sli.bulk.extract.extractor.DeltaExtractor                            | string          |
 
   Given I trigger a bulk extract
    When I set the header format to "application/x-tar"
@@ -177,7 +186,9 @@ Scenario: Triggering deltas via ingestion
 	  And I ingest "bulk_extract_SEA_calendarDates.zip"
       And I ingest "bulk_extract_deltas.zip"
       And I ingest "SEAGradingPeriodDelete.zip"
-
+#      And the following collections are empty in sli datastore:
+          #| collectionName              |
+          #| securityEvent               |
      When I trigger a delta extract
       And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
       And I verify "2" delta bulk extract files are generated for LEA "<IL-HIGHWIND>" in "Midgar"
@@ -261,6 +272,13 @@ Scenario: Triggering deltas via ingestion
        | 1b4aa93f01d11ad51072f3992583861ed080f15c_id                                            | entityType = parent                   |
        | 908404e876dd56458385667fa383509035cd4312_idd14e4387521c768830def2c9dea95dd0bf7f8f9b_id | entityType = studentParentAssociation |
        | 95147c130335e0656b0d8e9ab79622a22c3a3fab_id                                            | entityType = section                  |
+     #And I should see following map of entry counts in the corresponding sli db collections:
+          # | collectionName             | count |
+          # | securityEvent              | 170   |
+    # And I check to find if record is in sli db collection:
+           #| collectionName  | expectedRecordCount | searchParameter         | searchValue                                                                  | searchType      |
+           #| securityEvent   | 4                   | targetEdOrg             | 884daa27d806c2d725bc469b273d840493f84b4d_id                                  | string          |
+           #| securityEvent   | 2                   | body.className          | org.slc.sli.bulk.extract.extractor.DeltaExtractor                            | string          |
 
      # Teacher 03 and related entities should be in both DAYBREAk and HIGHWIND
      And I verify this "teacher" file should contain:
