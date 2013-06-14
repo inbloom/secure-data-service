@@ -15,6 +15,7 @@
  */
 package org.slc.sli.api.security.context;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -73,6 +74,8 @@ public class StudentAccessValidator {
         Set<String> systemAllowedThreeParts = new HashSet<String>();
         systemAllowedThreeParts.add("session");
         systemAllowedThreeParts.add("debug");
+        systemAllowedThreeParts.add("check");
+        systemAllowedThreeParts.add("logout");
         threeParts.put("system", systemAllowedThreeParts);
         
         // assessments
@@ -84,7 +87,7 @@ public class StudentAccessValidator {
         // sections
         Set<String> sectionsAllowedThreeParts = new HashSet<String>();
         sectionsAllowedThreeParts.add(ResourceNames.GRADEBOOK_ENTRIES);
-        sectionsAllowedThreeParts.add(ResourceNames.STUDENT_SECTION_ASSOCIATIONS);
+        //  sectionsAllowedThreeParts.add(ResourceNames.STUDENT_SECTION_ASSOCIATIONS);
         threeParts.put(ResourceNames.SECTIONS, sectionsAllowedThreeParts);
 
         // sessions
@@ -210,7 +213,7 @@ public class StudentAccessValidator {
         
         // sections
         Set<List<String>> sectionsAllowedFourParts = new HashSet<List<String>>();
-        sectionsAllowedFourParts.add(Arrays.asList(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, ResourceNames.STUDENTS));
+        // sectionsAllowedFourParts.add(Arrays.asList(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, ResourceNames.STUDENTS));
         fourParts.put(ResourceNames.SECTIONS, sectionsAllowedFourParts);
 
         // schools
@@ -251,7 +254,7 @@ public class StudentAccessValidator {
         if (paths == null || paths.isEmpty()) {
             return false;
         }
-        
+
         if (isDisiplineRelated(paths)) {
             return false;
         }
@@ -269,6 +272,10 @@ public class StudentAccessValidator {
         }
 
         if (paths.size() == 3) {
+        	if (paths.get(2).equals(ResourceNames.CUSTOM)) {
+        		//custom endpoints always allowed
+        		return true;
+        	}      	     	
             return THREE_PART_ALLOWED.get(baseEntity) != null
                     && THREE_PART_ALLOWED.get(baseEntity).contains(paths.get(2));
         }
@@ -292,4 +299,23 @@ public class StudentAccessValidator {
         return false;
     }
 
+    // this default scope method is used to generate a list of whitelisted url for easy validation
+    // in scripts
+    List<String> getAllWhiteLists() {
+        List<String> allLists = new ArrayList<String>();
+        for (Map.Entry<String, Set<String>> entry : THREE_PART_ALLOWED.entrySet()) {
+           for (String s : entry.getValue()) {
+                allLists.add(String.format("/%s/{id}/%s", entry.getKey(), s));
+           } 
+        }
+        
+        for (Map.Entry<String, Set<List<String>>> entry : FOUR_PART_ALLOWED.entrySet()) {
+            for (List<String> list : entry.getValue()) {
+                allLists.add(String.format("/%s/{id}/%s/%s", entry.getKey(), list.get(0), list.get(1)));
+            }
+        }
+        
+        Collections.sort(allLists);
+        return allLists;
+    }
 }

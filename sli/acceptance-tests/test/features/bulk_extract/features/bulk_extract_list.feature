@@ -28,7 +28,7 @@ Feature: As an API user, I want to be able to get a list of links available to t
 	|   fullLeas   |  1    |
 	|   deltaLeas  |  1    |
 	|   fullSea    |  1    |
-	#|   deltaSea   |  0    |
+	|   deltaSea   |  1    |
 	And I make a head request with each returned URL
 
 Scenario: Login as a user not directly associated with the SEA, SEA extract should be in the list
@@ -40,7 +40,7 @@ Scenario: Login as a user not directly associated with the SEA, SEA extract shou
   |   fullLeas   |  1    |
   |   deltaLeas  |  1    |
   |   fullSea    |  1    |
-  #|   deltaSea   |  0    |
+  |   deltaSea   |  1    |
   And I make a head request with each returned URL
 
   Scenario: Validate that the delta extracts are in time order, most recent first

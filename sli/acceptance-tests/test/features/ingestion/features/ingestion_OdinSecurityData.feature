@@ -64,7 +64,7 @@ And a batch job for file "OdinSampleDataSet.zip" is completed in database
 
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
-     | student                                  |                261|
+     | student                                  |                264|
     And I should not see an error log file created
 	And I should not see a warning log file created
 

@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.bulk.extract.context.resolver.impl.CalendarDateContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.CohortContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.CourseContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.impl.CourseOfferingContextResolver;
@@ -79,6 +80,9 @@ public class EdOrgContextResolverFactory {
 
     @Autowired
     private SectionContextResolver sectionResolver;
+    
+    @Autowired
+    private CalendarDateContextResolver calendarDateResolver;
 
     @Autowired
     private StaffTeacherContextResolver staffTeacherResolver;
@@ -182,7 +186,12 @@ public class EdOrgContextResolverFactory {
         resolverMap.put(EntityNames.LEARNING_STANDARD, simpleEntityTypeContextResolver);
         resolverMap.put(EntityNames.COMPETENCY_LEVEL_DESCRIPTOR, simpleEntityTypeContextResolver);
         resolverMap.put(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, simpleEntityTypeContextResolver);
+        resolverMap.put(EntityNames.ASSESSMENT_FAMILY, simpleEntityTypeContextResolver);
+        resolverMap.put(EntityNames.ASSESSMENT, simpleEntityTypeContextResolver);
+        resolverMap.put(EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR, simpleEntityTypeContextResolver);
+        resolverMap.put(EntityNames.OBJECTIVE_ASSESSMENT, simpleEntityTypeContextResolver);
         resolverMap.put(EntityNames.PROGRAM, simpleEntityTypeContextResolver);
+        resolverMap.put(EntityNames.CALENDAR_DATE, calendarDateResolver);
 
         LOG.debug("Resolver map is {}", resolverMap);
     }

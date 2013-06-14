@@ -289,6 +289,11 @@ task :apiOdinSecurityGenerate do
   runTests("test/features/odin/generate_api_security_data.feature")
 end
 
+desc "Run ODIN API Contextual Roles Data Generation Task"
+task :apiOdinContextualRolesGenerate do
+  runTests("test/features/odin/generate_api_contextual_roles.feature")
+end
+
 desc "Run API Odin Ingestion Tests"
 task :apiOdinIngestion do
   runTests("test/features/ingestion/features/ingestion_OdinAPIData.feature")
@@ -297,6 +302,11 @@ end
 desc "Run API Odin Ingestion Tests"
 task :apiOdinSecurityIngestion do
   runTests("test/features/ingestion/features/ingestion_OdinSecurityData.feature")
+end
+
+desc "Run API Odin Ingestion Test"
+task :apiOdinContextualRolesIngestion do
+  runTests("test/features/ingestion/features/ingestion_OdinContextualRoles.feature")
 end
 
 desc "Run API Odin Super Assessment Tests"
@@ -319,12 +329,15 @@ task :apiOdinStudentLogin => [:realmInit] do
   authorizeEdorg("Mobile App")
   Rake::Task["runSearchBulkExtract"].execute
   runTests("test/features/apiV1/integration/studentLogin.feature")
+  runTests("test/features/apiV1/integration/student_path_security.feature")
+  runTests("test/features/apiV1/integration/student_validator_security.feature")
+  runTests("test/features/apiV1/integration/student_crud_operations.feature")
 end
 
 desc "Run contextual roles acceptance tests"
-task :apiContextualRolesTests => [:realmInit, :importSandboxData] do
-  setFixture("staffEducationOrganizationAssociation", "staffEducationOrganizationAssociation_fixture_contextual_roles.json")
-  runTests("test/features/apiV1/contextual_roles/matchRoles.feature")
+task :apiContextualRolesTests => [:apiOdinContextualRolesGenerate, :apiOdinContextualRolesIngestion] do
+#  setFixture("staffEducationOrganizationAssociation", "staffEducationOrganizationAssociation_fixture_contextual_roles.json")
+  runTests("test/features/apiV1/contextual_roles")
 end
 
 ############################################################

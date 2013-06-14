@@ -68,6 +68,8 @@ educationOrganization,false,true,metaData.edOrgs:1
 educationOrganization,false,false,body.parentEducationAgencyReference:1
 # Used in cascade delete
 educationOrganization,false,false,body.programReference:1
+# Look up calendarDate by edOrg Id (e.g. for extract filtering)
+calendarDate,false,false,body.educationOrganizationId:1
 
 # Used in cascade delete
 gradingPeriod,false,false,body.gradingPeriodIdentity.schoolId:1

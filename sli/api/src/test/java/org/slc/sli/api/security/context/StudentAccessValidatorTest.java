@@ -74,6 +74,8 @@ public class StudentAccessValidatorTest {
     public void testAccessToSystem() {
         assertTrue(underTest.isAllowed(Arrays.asList("system", "session")));
         assertTrue(underTest.isAllowed(Arrays.asList("system", "session", "debug")));
+        assertTrue(underTest.isAllowed(Arrays.asList("system", "session", "check")));
+        assertTrue(underTest.isAllowed(Arrays.asList("system", "session", "logout")));
     }
 
 }

@@ -171,6 +171,9 @@ public class LocalEdOrgExtractor {
         GraduationPlanExtractor graduationPlanExtractor = factory.buildGraduationPlanExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
         graduationPlanExtractor.extractEntities(edorgCache, studentSchoolAssociation.getGraduationPlanCache());
         
+        CalendarDateExtractor calendarDateExtractor = factory.buildCalendarDateExtractor(entityExtractor, leaToExtractFileMap, repository, helper);
+        calendarDateExtractor.extractEntities(edorgCache);
+        
         leaToExtractFileMap.closeFiles();
 
         leaToExtractFileMap.buildManifestFiles(startTime);

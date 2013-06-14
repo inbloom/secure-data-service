@@ -31,6 +31,7 @@ public enum PublicEntityDefinition {
     SESSION("session", "body.schoolId"),
     GRADUATION_PLAN("graduationPlan", "body.educationOrganizationId"),
     GRADING_PERIOD("gradingPeriod", "body.gradingPeriodIdentity.schoolId"),
+    CALENDAR_DATE("calendarDate", "body.educationOrganizationId"),
 
     ASSESSMENT("assessment", null),
     LEARNING_OBJECTIVE("learningObjective", null),
@@ -68,7 +69,7 @@ public enum PublicEntityDefinition {
      * @return
      */
     public static List<PublicEntityDefinition> directReferencedEntities() {
-        return Arrays.asList(STATE_EDUCATION_AGENCY, COURSE, COURSE_OFFERING, SESSION, GRADING_PERIOD);
+        return Arrays.asList(STATE_EDUCATION_AGENCY, COURSE, COURSE_OFFERING, SESSION, GRADING_PERIOD, CALENDAR_DATE);
     }
 
     /**

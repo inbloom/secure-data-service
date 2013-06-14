@@ -1,0 +1,2 @@
+edfi-xml,EducationOrganization,InterchangeEducationOrganization.xml,3029798f374e3219699e4e665dc155d9
+edfi-xml,MasterSchedule,InterchangeMasterSchedule.xml,6e7a41b772b89c3a6df843b0add14db0
