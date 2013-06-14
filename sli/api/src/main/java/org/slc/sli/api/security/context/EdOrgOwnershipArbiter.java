@@ -18,11 +18,13 @@ package org.slc.sli.api.security.context;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.utils.EdOrgHierarchyHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
@@ -42,6 +44,9 @@ public class EdOrgOwnershipArbiter {
 
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
+
+    @Autowired
+    private EdOrgHelper helper;
 
     private static class Reference {
         // R2L = Right hand side entity contains reference to entity on left hand side
@@ -154,13 +159,43 @@ public class EdOrgOwnershipArbiter {
      * @return a Set of edorg IDs
      */
     public Set<String> determineEdorgs(Iterable<Entity> entities, String entityType) {
-        Set<String> edorgs = new HashSet<String>();
+       Set<String> edorgs = new HashSet<String>();
+
+       for (Entity entity : findEdorgs(entities, entityType)) {
+           edorgs.add(entity.getEntityId());
+       }
+
+        return edorgs;
+    }
+
+    /**
+     * Look up the edorgs that can access the given entities.
+     *
+     * @param entities
+     * @param entityType
+     * @return a Set of edorg IDs
+     */
+    public Set<String> determineHierarchicalEdorgs(Iterable<Entity> entities, String entityType) {
+        Set<String> hierarchicalEdorgs = new HashSet<String>();
+
+        List<Entity> edorgs = findEdorgs(entities, entityType);
+
+        for (Entity edorg : edorgs) {
+            hierarchicalEdorgs.add(edorg.getEntityId());
+            hierarchicalEdorgs.addAll(helper.getParentEdOrgs(edorg));
+        }
+
+        return hierarchicalEdorgs;
+    }
+
+    private List<Entity> findEdorgs(Iterable<Entity> entities, String entityType) {
+        List<Entity> edorgs = new ArrayList<Entity>();
         debug("checking ownership for entities of type: {}", entityType);
 
         if (isEducationOrganization(entityType)) {
             // No need to do an actual mongo lookup since we have the IDs we need
             for (Entity entity : entities) {
-                edorgs.add(entity.getEntityId());
+                edorgs.add(entity);
             }
         } else {
             Reference ref = typeToReference.get(entityType);
@@ -185,7 +220,7 @@ public class EdOrgOwnershipArbiter {
                 Iterable<Entity> ents = repo.findAll(collectionName, new NeutralQuery(new NeutralCriteria(critField,
                         NeutralCriteria.OPERATOR_EQUAL, critValue)));
                 if (ents.iterator().hasNext()) {
-                    Set<String> toAdd = determineEdorgs(ents, collectionName);
+                    List<Entity> toAdd = findEdorgs(ents, collectionName);
                     edorgs.addAll(toAdd);
                 } else {
                     throw new AccessDeniedException("Could not find a matching " + collectionName + " where "
