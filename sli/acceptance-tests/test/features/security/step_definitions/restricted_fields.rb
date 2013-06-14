@@ -38,3 +38,17 @@ When /^I make an API call to update the student "([^\"]*)"$/ do |arg1|
   restHttpPut(student_uri, @result.to_json, "application/json")
   assert(@res != nil, "Response from rest-client PUT is nil")
 end
+
+Then /^field "(.*?)" should exist in the response$/ do |arg1|
+  assert(@res != nil, "Response Body was Nil!")
+  result = JSON.parse(@res.body)
+  assert(result != nil, "Response Body was not JSON!")
+  assert(result[arg1] != nil, "Could not find field #{arg1} in JSON response")
+end
+
+Then /^field "(.*?)" should not be visible$/ do |arg1|
+  assert(@res != nil, "Response Body was Nil!")
+  result = JSON.parse(@res.body)
+  assert(result != nil, "Response Body was not JSON!")
+  assert(result[arg1] == nil, "Found field #{arg1} in JSON response when was expecting to not find it")
+end

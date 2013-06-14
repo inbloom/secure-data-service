@@ -2,54 +2,63 @@
 Feature: Path Based Security for Student Authentication
   I want to verify that URI paths that don't make sense for students to access are denied or rewritten
 
+Scenario: Check un-versioned URIs work for student
+  Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "cegray" with password "cegray1234"
+  When I make requests to both the versioned and un-versioned URI "/system/session/check"
+  Then both responses should be identical in return code and body
+  When I make requests to both the versioned and un-versioned URI "/system/session/debug"
+  Then both responses should be identical in return code and body
+  When I navigate to GET "/system/session/logout"
+  Then any future API request should result in a 401 response code
+
   @wip
-  Scenario: Verify Rewrites for Base Level entities for Students
-    Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "cegray" with password "cegray1234"
-    And my contextual access is defined by the table:
-      | Context                | Ids                                                                                                                                                                             |
-      | educationOrganizations | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id                                                                                                                                     |
-      | schools                | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id                                                                                                                                     |
-      | sections               | fb23953d3b55349847fe558e4909a265fab3b6a0_id,ac4aede7e0113d1c003f3da487fc079e124f129d_id,02ffe06e27e313e46e852c1a457ecb25af2cd950_id,6b687d24b9a2b10c664e2248bd8e689a482e47e2_id |
-      | students               | 92164cd19ebdbe17cfdcd0e1d177877cdc9a40ef_id                                                                                                                                     |
-    And format "application/json"
-    When I navigate to the base level URI <Entity> I should see the rewrite in the format of <URI>:
-  | Entity                       | URI                                                                            |
-  | /assessments                 | /students/@ids/studentAssessments/assessments                                  |
-  | /attendances                 | /students/@ids/attendances                                                     |
-  | /cohorts                     | /students/@ids/studentCohortAssociations/cohorts                               |
-  | /competencyLevelDescriptor   | /search/competencyLevelDescriptor                                              |
-  | /courseOfferings             | /schools/@ids/courseOfferings                                                  |
-  | /courses                     | /schools/@ids/courses                                                          |
-  | /courseTranscripts           | /students/@ids/courseTranscripts                        |
-  | /educationOrganizations      | /schools/@ids                                                                  |
-  #| /gradebookEntries            | /sections/@ids/gradebookEntries                                                |
-  #| /grades                      | /students/@ids/studentSectionAssociations/grades                               |
-  | /gradingPeriods              | /schools/@ids/sessions/gradingPeriods                                          |
-  | /graduationPlans             | /schools/@ids/graduationPlans                                                  |
-  | /learningObjectives          | /search/learningObjectives                                                     |
-  | /learningStandards           | /search/learningStandards                                                      |
-  #| /parents                     | /students/@ids/studentParentAssociations/parents                               |
-  | /programs                    | /students/@ids/studentProgramAssociations/programs                             |
-  #| /reportCards                 | /students/@ids/reportCards                                                     |
-  | /schools                     | /schools/@ids                                                                  |
-  | /sections                    | /student/@ids/studentSectionAssociations/sections                              |
-  | /sessions                    | /schools/@ids/sessions                                                         |
-  #| /staff                       | /educationOrganizations/@ids/staffEducationOrgAssignmentAssociations           |
-  #| /studentAcademicRecords      | /students/@ids/studentAcademicRecords                                          |
-  #| /studentAssessments          | /students/@ids/studentAssessments                                              |
-  #| /studentCohortAssociations   | /students/@ids/studentCohortAssociations                                       |
-  #| /studentCompetencies         | /students/@ids/studentSectionAssociations/studentCompetencies                  |
-  | /studentCompetencyObjectives | /educationOrganizations/@ids/studentCompetencyObjectives                       |
-#| /studentGradebookEntries     | /students/@ids/studentGradebookEntries                                         |
-#| /studentParentAssociations   | /students/@ids/studentParentAssociations                                       |
-#| /studentProgramAssociations  | /students/@ids/studentProgramAssociations                                      |
-#| /students                    | /sections/@ids/studentSectionAssociations/students                             |
-#| /studentSchoolAssociations   | /students/@ids/studentSchoolAssociations                                       |
-#| /studentSectionAssociations  | /students/@ids/studentSectionAssociations                                      |
-#| /teachers                    | /sections/@ids/teacherSectionAssociations/teachers                             |
-#| /teacherSchoolAssociations   | /schools/@ids/teacherSchoolAssociations                                        |
-#| /teacherSectionAssociations  | /sections/@ids/teacherSectionAssociations                                      |
-#| /yearlyAttendances           | /students/@ids/yearlyAttendances                                               |
+Scenario: Verify Rewrites for Base Level entities for Students
+  Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "cegray" with password "cegray1234"
+  And my contextual access is defined by the table:
+    | Context                | Ids                                         |
+    | educationOrganizations | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
+    | schools                | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
+    | sections               | fb23953d3b55349847fe558e4909a265fab3b6a0_id,ac4aede7e0113d1c003f3da487fc079e124f129d_id,02ffe06e27e313e46e852c1a457ecb25af2cd950_id,6b687d24b9a2b10c664e2248bd8e689a482e47e2_id |
+    | students               | 92164cd19ebdbe17cfdcd0e1d177877cdc9a40ef_id |
+  And format "application/json"
+  When I navigate to the base level URI <Entity> I should see the rewrite in the format of <URI>:
+    | Entity                       | URI                                                                            |
+    | /assessments                 | /search/assessments                                                            |
+    | /attendances                 | /students/@ids/attendances                                                     |
+    | /cohorts                     | /students/@ids/studentCohortAssociations/cohorts                               |
+    | /competencyLevelDescriptor   | /search/competencyLevelDescriptor                                              |
+    | /courseOfferings             | /schools/@ids/courseOfferings                                                  |
+    | /courses                     | /schools/@ids/courseOfferings/courses                                          |
+    | /courseTranscripts           | /students/@ids/studentAcademicRecords/courseTranscripts                        |
+    | /educationOrganizations      | /schools/@ids                                                                  |
+    | /gradebookEntries            | /sections/@ids/gradebookEntries                                                |
+    | /grades                      | /students/@ids/studentSectionAssociations/grades                               |
+    | /gradingPeriods              | /schools/@ids/sessions/gradingPeriods                                          |
+    | /graduationPlans             | /schools/@ids/graduationPlans                                                  |
+    | /learningObjectives          | /search/learningObjectives                                                     |
+    | /learningStandards           | /search/learningStandards                                                      |
+    | /parents                     | /students/@ids/studentParentAssociations/parents                               |
+    | /programs                    | /students/@ids/studentProgramAssociations/programs                             |
+    | /reportCards                 | /students/@ids/reportCards                                                     |
+    | /schools                     | /schools/@ids                                                                  |
+    | /sections                    | /sections/@ids                                                                 |
+    | /sessions                    | /schools/@ids/sessions                                                         |
+    | /staff                       | /educationOrganizations/@ids/staffEducationOrgAssignmentAssociations           |
+    | /studentAcademicRecords      | /students/@ids/studentAcademicRecords                                          |
+    | /studentAssessments          | /students/@ids/studentAssessments                                              |
+    | /studentCohortAssociations   | /students/@ids/studentCohortAssociations                                       |
+    | /studentCompetencies         | /students/@ids/studentSectionAssociations/studentCompetencies                  |
+    | /studentCompetencyObjectives | /educationOrganizations/@ids/studentCompetencyObjectives                       |
+    | /studentGradebookEntries     | /students/@ids/studentGradebookEntries                                         |
+    | /studentParentAssociations   | /students/@ids/studentParentAssociations                                       |
+    | /studentProgramAssociations  | /students/@ids/studentProgramAssociations                                      |
+    | /students                    | /sections/@ids/studentSectionAssociations/students                             |
+    | /studentSchoolAssociations   | /students/@ids/studentSchoolAssociations                                       |
+    | /studentSectionAssociations  | /students/@ids/studentSectionAssociations                                      |
+    | /teachers                    | /sections/@ids/teacherSectionAssociations/teachers                             |
+    | /teacherSchoolAssociations   | /schools/@ids/teacherSchoolAssociations                                        |
+    | /teacherSectionAssociations  | /sections/@ids/teacherSectionAssociations                                      |
+    | /yearlyAttendances           | /students/@ids/yearlyAttendances                                               |
 
   Scenario: Verify Blacklist for Student URI paths
     Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "cegray" with password "cegray1234"
