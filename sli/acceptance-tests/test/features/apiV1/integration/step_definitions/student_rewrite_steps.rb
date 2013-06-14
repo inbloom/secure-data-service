@@ -54,10 +54,11 @@ When /^I navigate to the base level URI <Entity> I should see the rewrite in the
     end
     executedPath = @res.raw_headers.to_hash()["x-executedpath"][0]
     if (executedPath.include? row["URI"])
-      puts "Rewrite for Base Entity #{row["Entity"]} was URI: #{executedPath}"
+      puts "\e[32mRewrite #{row["Entity"]} -> #{executedPath}\e[0m"
     else
       success = false
-      puts "#{startRed}Rewrite for Base Entity #{row["Entity"]} was URI: #{executedPath}#{colorReset}"
+      puts "#{startRed}Wrong rewrite: #{row["Entity"]} -> #{executedPath}#{colorReset}"
+      puts "\e[32mExpected: #{row["URI"]}\e[0m"
     end
   end
   assert(success, "Rewrite Expectations failed, see above logs for specific failure(s)")
