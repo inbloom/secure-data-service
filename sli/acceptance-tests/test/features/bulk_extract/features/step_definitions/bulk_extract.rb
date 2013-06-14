@@ -629,6 +629,8 @@ def getEntityEndpoint(entity)
   entity_to_endpoint_map = {
       "attendance" => "attendances",
       "assessment" => "assessments",
+      "assessments/id/learningObjectives" => "assessments/235e448a14cc25ac0ede32bf35e9a798bf2cbc1d_id/learningObjectives",
+      "assessments/id/learningStandards" => "assessments/235e448a14cc25ac0ede32bf35e9a798bf2cbc1d_id/learningStandards",
       "patchAssessment" => "assessments",
       "courseOffering" => "courseOfferings",
       "courseOfferings/id/courses" => "courseOfferings/0fee7a7aba9a96388ef628b7e3e5e5ea60a142a7_id/courses",

@@ -100,20 +100,19 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     | sessions/id/courseOfferings/courses | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
     | sessions/id/sections                | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
     When I DELETE and validate the following entities:    
-    | These entities do exist in mongo    | I should get a return code of               | 403         |
     | entity                | id                                          | returnCode  |
-   #| Dont exist in mongo   | Transitive endpoints should return a        | 404         |
-    | assessment            | 235e448a14cc25ac0ede32bf35e9a798bf2cbc1d_id | 404         |
-    | courseOffering        | 514196bf10482bbfa307c023360692ef4c8f87db_id | 404         |
-    | course                | 7f3baa1a1f553809c6539671f08714aed6ec8b0c_id | 404         |
-    | educationOrganization | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id | 404         |
-    | gradingPeriod         | 21b8ac38bf886e78a879cfdb973a9352f64d07b9_id | 404         |
-    | learningObjective     | a23b3b5546c0abdff108da9fd23b1018ef7d6c20_id | 404         |
-    | learningStandard      | 7a9dc734146e8deff33b53a4e645e6b7cfd2c167_id | 404         |
-    | program               | de7da21b8c7f020cc66a438d3cd13eb32ba41cb0_id | 404         |
-    | schools               | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id | 404         |
-    | section               | d4254efaa82daacfce951763bcd5e9e2352ac073_id | 404         |
-    | session               | bfeaf9315f04797a41dbf1663d18ead6b6fb1309_id | 404         |
+   #| Do exist in mongo     | Transitive endpoints should return a        | 403         |
+    | assessment            | 235e448a14cc25ac0ede32bf35e9a798bf2cbc1d_id | 403         |
+    | courseOffering        | 514196bf10482bbfa307c023360692ef4c8f87db_id | 403         |
+    | course                | 7f3baa1a1f553809c6539671f08714aed6ec8b0c_id | 403         |
+    | educationOrganization | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id | 403         |
+    | gradingPeriod         | 21b8ac38bf886e78a879cfdb973a9352f64d07b9_id | 403         |
+    | learningObjective     | 735a9b42268fbe4a5be61124034be656249759dd_id | 403         |
+    | learningStandard      | 7a9dc734146e8deff33b53a4e645e6b7cfd2c167_id | 403         |
+    | program               | de7da21b8c7f020cc66a438d3cd13eb32ba41cb0_id | 403         |
+    | schools               | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id | 403         |
+    | section               | d4254efaa82daacfce951763bcd5e9e2352ac073_id | 403         |
+    | session               | bfeaf9315f04797a41dbf1663d18ead6b6fb1309_id | 403         |
 
   @wip @student_delete
   Scenario: Student cannot DELETE private entities
@@ -138,13 +137,13 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     #| staffCohortAssociation     | 5e7d5f12cefbcb749069f2e5db63c1003df3c917_id | 204         |
     | student                    | 067198fd6da91e1aa8d67e28e850f224d6851713_id | 403         |
     | student                    | aea1153839c7923a4d70ca9f5859dbc0895d629f_id | 403         |
-    | studentAcademicRecord      | 1417cec726dc51d43172568a9c332ee1712d73d4_idb2b773084845209865762830ceb1721ebb1101ef_id | 204 |
+    #| studentAcademicRecord      | 1417cec726dc51d43172568a9c332ee1712d73d4_idb2b773084845209865762830ceb1721ebb1101ef_id | 204 |
     | studentAssessment          | 97918c8339c1e56bbef6cb4ce0c1164e9fec1c92_id | 204         |
-    | studentCohortAssociation   | 9bf3036428c40861238fdc820568fde53e658d88_idfa64547520fbfcbc8646a7a0bb3a52f76e4f4d21_id | 204 |
-    | studentCompetencyObjective | ef680988e7c411cdb5438ded373512cd59cbfa7b_id | 204         |
+    | studentCohortAssociation   | fd4dc88802e121be5b03923edb6b41ce0aae244b_id741b884e5578c1b8326d20ab112e3046313f296d_id | 204 |
+    | studentCompetencyObjective | b7080a7f753939752b693bca21fe60375d15587e_id | 204         |
     | studentProgramAssociation  | 067198fd6da91e1aa8d67e28e850f224d6851713_id598e72efb94e91340f04feff220b0896efbc40f8_id | 204 |
-    | studentSchoolAssociation   | cbfe3a47491fdff0432d5d4abca339735da9461d_id | 204         |
+    | studentSchoolAssociation   | d6f92cdbb1711b41a3246f81c65c94d0f95abb63_id | 204         |
     | studentSectionAssociation  | 4030207003b03d055bba0b5019b31046164eff4e_id78468628f357b29599510341f08dfd3277d9471e_id | 204 |
-    | teacher                    | 2472b775b1607b66941d9fb6177863f144c5ceae_id |  204        |
-    | teacherSchoolAssociation   | 7a2d5a958cfda9905812c3a9f38c07ac4e8899b0_id |  204        |
+    #| teacher                    | 2472b775b1607b66941d9fb6177863f144c5ceae_id |  204        |
+    #| teacherSchoolAssociation   | 7a2d5a958cfda9905812c3a9f38c07ac4e8899b0_id |  204        |
 
