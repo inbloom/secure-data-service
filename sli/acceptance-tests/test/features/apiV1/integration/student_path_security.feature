@@ -2,7 +2,16 @@
 Feature: Path Based Security for Student Authentication
   I want to verify that URI paths that don't make sense for students to access are denied or rewritten
 
-@wip
+Scenario: Check un-versioned URIs work for student
+  Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "cegray" with password "cegray1234"
+  When I make requests to both the versioned and un-versioned URI "/system/session/check"
+  Then both responses should be identical in return code and body
+  When I make requests to both the versioned and un-versioned URI "/system/session/debug"
+  Then both responses should be identical in return code and body
+  When I navigate to GET "/system/session/logout"
+  Then any future API request should result in a 401 response code
+
+  @wip
 Scenario: Verify Rewrites for Base Level entities for Students
   Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "cegray" with password "cegray1234"
   And my contextual access is defined by the table:
