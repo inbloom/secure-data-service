@@ -83,6 +83,7 @@ public class SLIPrincipal implements Principal, Serializable {
         // Empty default constructor is used in various places.
         authorizingEdOrgs = new HashSet<String>();
         obligations = new HashMap<String, List<NeutralQuery>>();
+        edOrgRoles = new HashMap<String, List<String>>();
         edOrgRights = new HashMap<String, Collection<GrantedAuthority>>();
     }
 
