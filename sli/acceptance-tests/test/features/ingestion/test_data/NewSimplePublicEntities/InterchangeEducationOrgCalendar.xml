@@ -7,7 +7,7 @@
         <CalendarEvent>Instructional day</CalendarEvent>
         <EducationOrgReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>IL</StateOrganizationId>
+                <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrgReference>
     </CalendarDate>
