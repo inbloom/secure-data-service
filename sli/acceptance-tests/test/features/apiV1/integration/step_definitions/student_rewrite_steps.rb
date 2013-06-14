@@ -60,5 +60,28 @@ When /^I navigate to the base level URI <Entity> I should see the rewrite in the
       puts "#{startRed}Rewrite for Base Entity #{row["Entity"]} was URI: #{executedPath}#{colorReset}"
     end
   end
-  assert(success, "Rewrite Expectations failed, see above for failure(s)")
+  assert(success, "Rewrite Expectations failed, see above logs for specific failure(s)")
+end
+
+When /^I navigate to the the URI <Path> I should be denied:$/ do |table|
+  # table is a Cucumber::Ast::Table
+
+  # Strings for ANSI Color codes
+  startRed = "\e[31m"
+  colorReset = "\e[0m"
+
+  success = true
+  table.hashes.each do |row|
+    # Make the API Request
+    restHttpGet("/v1#{row["Path"]}")
+
+    #Verify the return code
+    if (@res.code != 403)
+      success = false
+      puts "#{startRed}Return code for URI: #{row["Path"]} was #{@res.code}#{colorReset}"
+    else
+      puts "Return code for URI: #{row["Path"]} was #{@res.code}"
+    end
+  end
+  assert(success, "Blacklisting Expectations failed, see above logs for specific failure(s)")
 end

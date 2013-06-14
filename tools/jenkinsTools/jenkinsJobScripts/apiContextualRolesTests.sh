@@ -16,7 +16,7 @@ export DISPLAY=:6.0
 cd $WORKSPACE/sli/acceptance-tests
 export LANG=en_US.UTF-8
 bundle install --deployment
-bundle exec rake FORCE_COLOR=true app_bootstrap_server=ci api_server_url=https://$NODE_NAME.slidev.org api_server_url=https://$NODE_NAME.slidev.org api_ssl_server_url=https://$NODE_NAME.slidev.org:8443 apiContextualRolesTests TOGGLE_TABLESCANS=true
+bundle exec rake FORCE_COLOR=true app_bootstrap_server=ci api_server_url=https://$NODE_NAME.slidev.org api_server_url=https://$NODE_NAME.slidev.org api_ssl_server_url=https://$NODE_NAME.slidev.org:8443 ci_idp_redirect_url=https://$NODE_NAME.slidev.org/simple-idp?realm=IL-Daybreak apiContextualRolesTests TOGGLE_TABLESCANS=true
 
 EXITCODE=$?
 

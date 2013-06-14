@@ -151,7 +151,7 @@ Then /^under My Applications, I see the following apps: "(.*?)"$/ do |apps|
 end
 
 Then /^I switch to the iframe$/ do
-  wait = Selenium::WebDriver::Wait.new(:timeout => 20)
+  wait = Selenium::WebDriver::Wait.new(:timeout => 60)
   wait.until{(iframe = isIframePresent()) != nil}
 end
 
