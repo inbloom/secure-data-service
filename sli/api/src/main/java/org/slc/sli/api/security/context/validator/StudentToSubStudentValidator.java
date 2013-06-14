@@ -45,7 +45,7 @@ public class StudentToSubStudentValidator extends AbstractContextValidator {
 
     @Override
     public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
-        if (!areParametersValid(SUB_ENTITIES_OF_STUDENT, entityType, ids)) {
+        if (!areParametersValid(SUB_STUDENT_ENTITIES, entityType, ids)) {
             return false;
         }
 

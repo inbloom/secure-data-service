@@ -290,6 +290,7 @@ def restHttpGet(id, format = @format, sessionId = @sessionId)
   puts "GET urlHeader: #{urlHeader}" if $SLI_DEBUG
   @res = RestClient.get(urlHeader[:url], urlHeader[:headers]){|response, request, result| response }
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
+  return @res
 end
 
 def restHttpCustomHeadersGet(id, customHeaders, format = @format, sessionId = @sessionId)

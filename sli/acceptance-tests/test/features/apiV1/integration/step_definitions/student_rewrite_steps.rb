@@ -26,6 +26,32 @@ Given /^my contextual access is defined by the table:$/ do |table|
   end
 end
 
+When /^I make requests to both the versioned and un\-versioned URI "(.*?)"$/ do |uri|
+  @res_unversion = restHttpGet(uri)
+  @res_version = restHttpGet("/v1#{uri}")
+end
+
+Then /^both responses should be identical in return code and body$/ do
+  # First validate both requests have responses
+  assert(@res_version != nil, "Versioned response was Nil!")
+  assert(@res_unversion != nil, "Versioned response was Nil!")
+
+  #Then Check for same return code
+  puts "Response code: #{@res_version.code}"
+  assert(@res_unversion.code == @res_version.code, "Response Codes differed: Versioned Return Code:#{@res_version.code}, Unversioned Return Code:#{@res_unversion.code}")
+
+  #Then check for same body (Headers will be different since the requested path is different)
+  puts "Response body: #{@res_version.body}"
+  assert(@res_version.body == @res_unversion.body, "Response Bodies differed: Versioned Body:#{@res_version.body}, Unversioned Body:#{@res_unversion.body}")
+end
+
+Then /^any future API request should result in a (\d+) response code$/ do |code|
+  ["/system/session/debug","/v1/students","/v1/assessments"].each do |uri|
+    restHttpGet(uri)
+    assert(@res.code == code.to_i, "Response for #{uri} was #{@res.code} but expected #{code}")
+  end
+end
+
 When /^I navigate to the base level URI <Entity> I should see the rewrite in the format of <URI>:$/ do |table|
   # table is a Cucumber::Ast::Table
 
@@ -60,5 +86,28 @@ When /^I navigate to the base level URI <Entity> I should see the rewrite in the
       puts "#{startRed}Rewrite for Base Entity #{row["Entity"]} was URI: #{executedPath}#{colorReset}"
     end
   end
-  assert(success, "Rewrite Expectations failed, see above for failure(s)")
+  assert(success, "Rewrite Expectations failed, see above logs for specific failure(s)")
+end
+
+When /^I navigate to the the URI <Path> I should be denied:$/ do |table|
+  # table is a Cucumber::Ast::Table
+
+  # Strings for ANSI Color codes
+  startRed = "\e[31m"
+  colorReset = "\e[0m"
+
+  success = true
+  table.hashes.each do |row|
+    # Make the API Request
+    restHttpGet("/v1#{row["Path"]}")
+
+    #Verify the return code
+    if (@res.code != 403)
+      success = false
+      puts "#{startRed}Return code for URI: #{row["Path"]} was #{@res.code}#{colorReset}"
+    else
+      puts "Return code for URI: #{row["Path"]} was #{@res.code}"
+    end
+  end
+  assert(success, "Blacklisting Expectations failed, see above logs for specific failure(s)")
 end
