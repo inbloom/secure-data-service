@@ -68,3 +68,12 @@ Examples:
 |"section"                   |
 |"session"                   |
 |"studentCompetencyObjective"|
+
+  Scenario: Field level filtering on shared super-types (like address)
+    Given I am logged in using "cgray" "cgray" to realm "IL"
+    When I navigate to GET "/v1/schools/6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
+    Then field "address" should exist in the response
+    When I navigate to GET "/v1/staff/e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b"
+    Then field "address" should exist in the response
+    When I navigate to GET "/v1/staff/e9ca4497-e1e5-4fc4-ac7b-24badbad998b"
+    Then field "address" should not be visible

@@ -26,6 +26,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -48,12 +49,12 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedA
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.cache.SessionCache;
-import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.security.oauth.ApplicationAuthorizationValidator;
 import org.slc.sli.api.security.oauth.OAuthAccessException;
 import org.slc.sli.api.security.oauth.OAuthAccessException.OAuthError;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.resolve.UserLocator;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.util.datetime.DateTimeUtil;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
@@ -374,13 +375,16 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                             principal.setSelfRights(selfAuthorities);
                             debug("Granted self rights - {}", selfAuthorities);
 
+                            // TODO: Once F262 is completed, do this only if (principal.isAdminRealmAuthenticated()).
                             Collection<GrantedAuthority> authorities = resolveAuthorities(principal.getTenantId(),
                                     principal.getRealm(), principal.getRoles(), principal.isAdminRealmAuthenticated(),
                                     false);
                             debug("Granted regular rights - {}", authorities);
+
                             if (!principal.isAdminRealmAuthenticated()) {
-                                principal.setAuthorizingEdOrgs(appValidator.getAuthorizingEdOrgsForApp(token
-                                        .getClientId()));
+                                Set<String> authorizingEdOrgs = appValidator.getAuthorizingEdOrgsForApp(token.getClientId());
+                                principal.setAuthorizingEdOrgs(authorizingEdOrgs);
+                                addEdOrgRightsToPrincipal(authorizingEdOrgs, principal);
                             }
                             PreAuthenticatedAuthenticationToken userToken = new PreAuthenticatedAuthenticationToken(
                                     principal, accessToken, authorities);
@@ -434,6 +438,24 @@ public class OauthMongoSessionManager implements OauthSessionManager {
             return accessToken;
         } else {
             return null;
+        }
+    }
+
+    /**
+     * Adds to the principal's edorg-rights map.
+     *
+     * @param authorizingEdOrgs - All EdOrgs to which principal has access in this session.
+     * @param principal - The principal.
+     */
+    private void addEdOrgRightsToPrincipal(Set<String> authorizingEdOrgs, SLIPrincipal principal) {
+        Set<String> edOrgs = (authorizingEdOrgs == null) ? principal.getEdOrgRoles().keySet() : authorizingEdOrgs;
+        for (String edOrg : edOrgs) {
+            if (principal.getEdOrgRoles().containsKey(edOrg)) {
+                Collection<GrantedAuthority> edorgAuthorities = resolveAuthorities(principal.getTenantId(),
+                        principal.getRealm(), principal.getEdOrgRoles().get(edOrg),
+                        principal.isAdminRealmAuthenticated(), false);
+                principal.getEdOrgRights().put(edOrg, edorgAuthorities);
+            }
         }
     }
 
@@ -599,5 +621,12 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         long configMinutes = this.hardLogout / 60000;
 
         return minutes > configMinutes;
+    }
+
+    public void setAppValidator(ApplicationAuthorizationValidator appValidator) {
+        this.appValidator = appValidator;
+    }
+    public void setLocator(UserLocator locator) {
+        this.locator = locator;
     }
 }

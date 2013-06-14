@@ -33,7 +33,7 @@ public class GenericToGlobalStudentCompObjectWriteValidator extends AbstractCont
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return isTransitive && EntityNames.STUDENT_COMPETENCY_OBJECTIVE.equals(entityType);
+        return isTransitive && EntityNames.STUDENT_COMPETENCY_OBJECTIVE.equals(entityType) && !isStudent();
     }
 
     @Override

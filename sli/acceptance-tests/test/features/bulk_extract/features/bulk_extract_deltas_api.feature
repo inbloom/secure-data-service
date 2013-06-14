@@ -46,7 +46,6 @@ Scenario: Generate a bulk extract delta after day 1 ingestion
    And The "disciplineAction" delta was extracted in the same format as the api
    And The "studentCompetency" delta was extracted in the same format as the api
 
-
   Given I trigger a bulk extract
    When I set the header format to "application/x-tar"
    Then I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -177,7 +176,6 @@ Scenario: Triggering deltas via ingestion
 	  And I ingest "bulk_extract_SEA_calendarDates.zip"
       And I ingest "bulk_extract_deltas.zip"
       And I ingest "SEAGradingPeriodDelete.zip"
-
      When I trigger a delta extract
       And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
       And I verify "2" delta bulk extract files are generated for LEA "<IL-HIGHWIND>" in "Midgar"
@@ -1355,6 +1353,27 @@ Scenario: Test access to the api
   Given I log into "Paved Z00" with a token of "lstevenson", a "Noldor" for "IL-Highwind" in tenant "Midgar", that lasts for "300" seconds
   And I request latest delta via API for tenant "Midgar", lea "<IL-DAYBREAK>" with appId "<app id paved>" clientId "<client id paved>"
   Then I should receive a return code of 403
+
+Scenario: Trigger a SEA delta extract and check security events
+   Given I ingest "bulk_extract_sea_delta_security_event.zip"
+   And the following collections are empty in sli datastore:
+     | collectionName              |
+     | securityEvent               |
+   And I trigger a delta extract
+   Then I should see following map of entry counts in the corresponding sli db collections:
+     | collectionName             | count |
+     | securityEvent              | 5     |
+  And I check to find if record is in sli db collection:
+     | collectionName  | expectedRecordCount | searchParameter         | searchValue                                                                  | searchType      |
+     | securityEvent   | 1                   | body.logMessage         | Beginning bulk extract execution                                             | string          |
+     | securityEvent   | 2                   | body.className          | org.slc.sli.bulk.extract.extractor.DeltaExtractor                            | string          |
+     | securityEvent   | 1                   | body.actionUri          | Bulk extract execution                                                       | string          |
+     | securityEvent   | 1                   | body.actionUri          | Delta Extract Initiation                                                     | string          |
+     | securityEvent   | 1                   | body.actionUri          | Delta Extract Finished                                                       | string          |
+     | securityEvent   | 2                   | body.actionUri          | Writing extract file to the file system                                      | string          |
+     | securityEvent   | 1                   | body.logMessage         | Generating archive for app 19cca28d-7357-4044-8df9-caad4b1c8ee4              | string          |
+     | securityEvent   | 1                   | body.logMessage         | Generating archive for app 22c2a28d-7327-4444-8ff9-caad4b1c7aa3              | string          |
+     | securityEvent   | 2                   | body.targetEdOrg        | 884daa27d806c2d725bc469b273d840493f84b4d_id                                  | string          |
 
 Scenario: Be a good neighbor and clean up before you leave
     Given I clean the bulk extract file system and database

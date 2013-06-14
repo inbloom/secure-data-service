@@ -615,7 +615,7 @@ When /^I DELETE and validate the following entities:$/ do |table|
     print "Deleting #{api_params['entity']} .."
     step "I DELETE an \"#{api_params['entity']}\" of id \"#{api_params['id']}\""
     step "I should receive a return code of #{api_params['returnCode']}"
-    print "OK\n"
+    print " OK (Received expected RetCode: #{api_params['returnCode']})\n"
   end
 end
 
@@ -629,8 +629,15 @@ def getEntityEndpoint(entity)
   entity_to_endpoint_map = {
       "attendance" => "attendances",
       "assessment" => "assessments",
+      "assessments/id/learningObjectives" => "assessments/235e448a14cc25ac0ede32bf35e9a798bf2cbc1d_id/learningObjectives",
+      "assessments/id/learningStandards" => "assessments/235e448a14cc25ac0ede32bf35e9a798bf2cbc1d_id/learningStandards",
       "patchAssessment" => "assessments",
       "courseOffering" => "courseOfferings",
+      "courseOfferings/id/courses" => "courseOfferings/0fee7a7aba9a96388ef628b7e3e5e5ea60a142a7_id/courses",
+      "courseOfferings/id/sections" => "courseOfferings/0fee7a7aba9a96388ef628b7e3e5e5ea60a142a7_id/sections",
+      "courseOfferings/id/sessions" => "courseOfferings/0fee7a7aba9a96388ef628b7e3e5e5ea60a142a7_id/sessions",
+      "courses/id/courseOfferings" => "courses/7f3baa1a1f553809c6539671f08714aed6ec8b0c_id/courseOfferings",
+      "courses/id/courseOfferings/sessions" => "courses/7f3baa1a1f553809c6539671f08714aed6ec8b0c_id/courseOfferings/sessions",
       "patchSEACourseOffering" => "courseOfferings",
       "seaCourse" => "educationOrganizations/884daa27d806c2d725bc469b273d840493f84b4d_id/courses",
       "cohort" => "cohorts",
@@ -639,13 +646,22 @@ def getEntityEndpoint(entity)
       "course" => "courses",
       "patchSEACourse" => "courses",
       "educationOrganization" => "educationOrganizations",
+      "educationOrganizations/id/courses" => "educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/courses",
+      "educationOrganizations/id/educationOrganizations" => "educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/educationOrganizations",
+      "educationOrganizations/id/graduationPlans" => "educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/graduationPlans",
+      "educationOrganizations/id/schools" => "educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/schools",
+      "educationOrganizations/id/studentCompetencyObjectives" => "educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/studentCompetencyObjectives",
       "gradebookEntry" => "gradebookEntries",
       "grade" => "grades",
       "gradingPeriod" => "gradingPeriods",
+      "graduationPlan" => "graduationPlans",
       "patchGradingPeriod" => "gradingPeriods",
       "graduationPlan" => "graduationPlans",
       "patchGraduationPlan" => "graduationPlans",
       "invalidEntry" => "school",
+      "learningObjectives/id/childLearningObjectives" => "learningObjectives/18f258460004b33fa9c1249b8c9ed3bd33c41645_id/childLearningObjectives",
+      "learningObjectives/id/learningStandards" => "learningObjectives/18f258460004b33fa9c1249b8c9ed3bd33c41645_id/learningStandards",
+      "learningObjectives/id/parentLearningObjectives" => "learningObjectives/18f258460004b33fa9c1249b8c9ed3bd33c41645_id/parentLearningObjectives",
       "learningStandard" => "learningStandards",
       "patchLearningStandard" => "learningStandards",
       "learningObjective" => "learningObjectives",
@@ -659,8 +675,17 @@ def getEntityEndpoint(entity)
       "patchProgram" => "programs",
       "reportCard" => "reportCards",
       "school" => "educationOrganizations",
+      "schools" => "schools",
+      "schools/id/courseOfferings" => "schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/courseOfferings",
+      "schools/id/courses" => "schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/courses",
+      "schools/id/sections" => "schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/courses",
+      "schools/id/sessions" => "schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/courses",
+      "schools/id/sessions/gradingPeriods" => "schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/sessions/gradingPeriods",
       "section" => "sections",
       "session" => "sessions",
+      "sessions/id/courseOfferings" => "sessions/fe6e1a162e6f6825830d78d72cb55498afaedcd3_id/courseOfferings",
+      "sessions/id/courseOfferings/courses" => "sessions/fe6e1a162e6f6825830d78d72cb55498afaedcd3_id/courseOfferings/courses",
+      "sessions/id/sections" => "sessions/fe6e1a162e6f6825830d78d72cb55498afaedcd3_id/sections",
       "patchSession" => "sessions",
       "staff" => "staff",
       "newStaff" => "staff",
