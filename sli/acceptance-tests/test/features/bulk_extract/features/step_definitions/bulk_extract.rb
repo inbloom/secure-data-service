@@ -629,8 +629,7 @@ def getEntityEndpoint(entity)
   entity_to_endpoint_map = {
       "attendance" => "attendances",
       "assessment" => "assessments",
-      "assessments/id/learningObjectives" => "assessments/8e6fceafe05daef1da589a1709ee278ba51d337a_id/learningObjectives",
-      "assessments/id/learningStandards" => "assessments/8e6fceafe05daef1da589a1709ee278ba51d337a_id/learningStandards",
+      "patchAssessment" => "assessments",
       "courseOffering" => "courseOfferings",
       "courseOfferings/id/courses" => "courseOfferings/0fee7a7aba9a96388ef628b7e3e5e5ea60a142a7_id/courses",
       "courseOfferings/id/sections" => "courseOfferings/0fee7a7aba9a96388ef628b7e3e5e5ea60a142a7_id/sections",
@@ -755,7 +754,8 @@ def getEntityBodyFromApi(entity, api_version, verb)
       "patchStudentCompetencyObjective" => "studentCompetencyObjectives/ef680988e7c411cdb5438ded373512cd59cbfa7b_id",
       "patchSession" => "sessions/fe6e1a162e6f6825830d78d72cb55498afaedcd3_id",
       "patchSEACourse" => "courses/494d4c8281ec78c7d8634afb683d39f6afdc5b85_id",
-      "patchSEACourseOffering" => "courseOfferings/0fee7a7aba9a96388ef628b7e3e5e5ea60a142a7_id"
+      "patchSEACourseOffering" => "courseOfferings/0fee7a7aba9a96388ef628b7e3e5e5ea60a142a7_id",
+      "patchAssessment" => "assessments/8d58352d180e00da82998cf29048593927a25c8e_id"
   }
   # Perform GET request and verify we get a response and a response body
   restHttpGet("/#{api_version}/#{entity_to_uri_map[entity]}")
@@ -2546,6 +2546,16 @@ def prepareBody(verb, value, response_map)
         "courseId" => "877e4934a96612529535581d2e0f909c5288131a_id",
         "localCourseCode" => "101 English",
         "localCourseTitle" => "New SEA English"
+      },
+      "newAssessment" => {
+        "assessmentIdentificationCode" => [
+            { "identificationSystem" => "State", "ID" => "New Assessment 1" }
+        ],
+        "assessmentTitle" => "New Assessment Title 1",
+        "gradeLevelAssessed" => "Eighth grade",
+        "academicSubject" => "English",
+        "version" => 2,
+        "contentStandard" => "State Standard"
       }
     },
     "PATCH" => {
@@ -2585,6 +2595,9 @@ def prepareBody(verb, value, response_map)
       },
       "patchCourseId" => {
           "courseId" => value
+      },
+      "patchContentStd" => {
+          "contentStandard" => value
       },
       "studentParentName" => {
         "name" => {

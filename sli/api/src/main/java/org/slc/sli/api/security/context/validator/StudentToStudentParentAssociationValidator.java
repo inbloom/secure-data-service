@@ -9,10 +9,13 @@ import org.slc.sli.domain.Entity;
 import org.springframework.stereotype.Component;
 
 /**
+ * Validates if an SLIPrincipal who is a Student can see the given student parent associations.
+ * Returns true if the student can see ALL of the associations (i.e. they are studentParentAssociations
+ * embedded in the given student), and false otherwise.
+ * 
  * User: rzingle
  */
 @Component
-
 public class StudentToStudentParentAssociationValidator extends AbstractContextValidator {
 
     @Override
