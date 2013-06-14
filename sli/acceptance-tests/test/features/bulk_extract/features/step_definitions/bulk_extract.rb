@@ -656,6 +656,8 @@ def getEntityEndpoint(entity)
       "gradingPeriod" => "gradingPeriods",
       "graduationPlan" => "graduationPlans",
       "patchGradingPeriod" => "gradingPeriods",
+      "graduationPlan" => "graduationPlans",
+      "patchGraduationPlan" => "graduationPlans",
       "invalidEntry" => "school",
       "learningObjectives/id/childLearningObjectives" => "learningObjectives/18f258460004b33fa9c1249b8c9ed3bd33c41645_id/childLearningObjectives",
       "learningObjectives/id/learningStandards" => "learningObjectives/18f258460004b33fa9c1249b8c9ed3bd33c41645_id/learningStandards",
@@ -758,7 +760,8 @@ def getEntityBodyFromApi(entity, api_version, verb)
       "patchSession" => "sessions/fe6e1a162e6f6825830d78d72cb55498afaedcd3_id",
       "patchSEACourse" => "courses/494d4c8281ec78c7d8634afb683d39f6afdc5b85_id",
       "patchSEACourseOffering" => "courseOfferings/0fee7a7aba9a96388ef628b7e3e5e5ea60a142a7_id",
-      "patchAssessment" => "assessments/8d58352d180e00da82998cf29048593927a25c8e_id"
+      "patchAssessment" => "assessments/8d58352d180e00da82998cf29048593927a25c8e_id",
+      "patchGraduationPlan" => "graduationPlans/a77cdbececc81173aa76a34c05f9aeb44126a64d_id"
   }
   # Perform GET request and verify we get a response and a response body
   restHttpGet("/#{api_version}/#{entity_to_uri_map[entity]}")
@@ -2482,9 +2485,6 @@ def prepareBody(verb, value, response_map)
       "newStudentDiscIncidentAssoc" => {
 
       },
-      "newGraduationPlan" => {
-
-      },
       "newSession" => {
         "schoolYear" => "2014-2015",
         "sessionName" => "New SEA session",
@@ -2559,6 +2559,24 @@ def prepareBody(verb, value, response_map)
         "academicSubject" => "English",
         "version" => 2,
         "contentStandard" => "State Standard"
+      },
+      "newGraduationPlan" => {
+        "creditsBySubject" => [{
+            "subjectArea" => "English",
+            "credits" => {
+                "creditConversion" => 0,
+                "creditType" => "Semester hour credit",
+                "credit" => 6
+             }
+        }],
+        "individualPlan" => false,
+        "graduationPlanType" => "Recommended",
+        "educationOrganizationId" => "884daa27d806c2d725bc469b273d840493f84b4d_id",
+        "totalCreditsRequired" => {
+            "creditConversion" => 0,
+            "creditType" => "Semester hour credit",
+            "credit" => 32
+        }
       }
     },
     "PATCH" => {
@@ -2601,6 +2619,9 @@ def prepareBody(verb, value, response_map)
       },
       "patchContentStd" => {
           "contentStandard" => value
+      },
+      "patchIndividualPlan" => {
+          "individualPlan" => value
       },
       "studentParentName" => {
         "name" => {
