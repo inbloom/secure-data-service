@@ -143,12 +143,12 @@ Feature: As a student or staff I want to use apps that access the inBloom API
 
   @wip @student_delete
   Scenario: Student cannot DELETE private entities
-   When I DELETE and validate the following entities:
     Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "student.m.sollars" with password "student.m.sollars1234"
     And format "application/json"
     And I am using api version "v1"
+   When I DELETE and validate the following entities:
     | entity                     | id                                          | returnCode  |
-    #| attendance                 | 95b973e29368712e2090fcad34d90fffb20aa9c4_id | 204         |
+    | attendance                 | fb7b5e0d6cebb8e9e35c8700270882f9c4adb49c_id | 204         |
     #| cohort                     | cb99a7df36fadf8885b62003c442add9504b3cbd_id | 204         |
     #| competencyLevelDescriptor  | ceddd8ec0ee71c1f4f64218e00581e9b27c0fffb_id | 204         |
     #| disciplineActions          | ceddd8ec0ee71c1f4f64218e00581e9b27c0fffb_id | 204         |
