@@ -141,7 +141,7 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     | sessions/id/courseOfferings/courses | 7f3baa1a1f553809c6539671f08714aed6ec8b0c_id | 403         |
     | sessions/id/sections                | d4254efaa82daacfce951763bcd5e9e2352ac073_id | 403         |
 
-  @wip @student_delete
+  @student_delete
   Scenario: Student cannot DELETE private entities
    Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "student.m.sollars" with password "student.m.sollars1234"
      And format "application/json"
@@ -159,6 +159,7 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     | grade                      | 5aaf89278b7226f668f46509403d86a2b5968978_id499df300dd95152e5e40726488125ee207016b94_id | 403 |
     | gradebookEntry             | d4254efaa82daacfce951763bcd5e9e2352ac073_id53d7969bbd7fa2eab718eea517f04ce3b514607e_id | 403 |
     | parent                     | 5f8989384287747b1960d16edd95ff2bb318e3bd_id | 403         |
+    | parent                     | ea649b2220d73ec57eb2e92589c3049d44d102f7_id | 403         |
     | reportCard                 | 5aaf89278b7226f668f46509403d86a2b5968978_id5e62cc6e16e50a390f535867c196ab8c55bbaa0a_id | 403 |
     | staff                      | e27fc445699aa38246a09373e6aeaa96981ea921_id | 403         |
     | staffCohortAssociation     | b52e80c63bc0cf25056d7b94ce0c06b8301ffe6f_id | 403         |
@@ -174,3 +175,16 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     | teacher                    | e27fc445699aa38246a09373e6aeaa96981ea921_id |  403        |
     | teacherSchoolAssociation   | ed203daeec95d7ae4ee11ccd21d98f8387866587_id |  403        |
 
+  @student_delete @shortcut
+  Scenario: Student cannot DELETE private entities
+   Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "carmen.ortiz" with password "carmen.ortiz1234"
+     And format "application/json"
+     And I am using api version "v1"
+    When I DELETE and validate the following entities:
+    | entity                               | id                                          | returnCode  |
+    | disciplineAction                     | b9f5cf7f5ae7edc709173b53c204ee9e990e9525_id | 403         |
+    | disciplineAction                     | e753d650f9300167a9956dc0704b773edf3dbad6_id | 403         |
+    | disciplineIncident                   | 3cde56c808c8d9df7865c8f9aa950ac22f9eba36_id | 403         |
+    | disciplineIncident                   | ccc1eb03dc0b67c556608ad0d6f1542d7f0e81ac_id | 403         |
+    | studentDisciplineIncidentAssociation | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id450692cd9f909a63b617b7dd101a01e3bbff3f44_id | 403 |
+    | studentDisciplineIncidentAssociation | a4d90e3162518c142a353f96b3aedaf2ab72d06d_id01dc169cd9d703e96e8134219ac4bb798082f524_id | 403 |
