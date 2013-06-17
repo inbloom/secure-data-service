@@ -727,158 +727,275 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AssessmentPeriodDescriptor>
     <CodeValue>BOY-0-2013</CodeValue>
     <Description>Beginning of Year 2013-2014 for Kindergarten</Description>
+    <ShortDescription>BOY-2013</ShortDescription>
+    <BeginDate>2013-08-01</BeginDate>
+    <EndDate>2013-12-31</EndDate>
   </AssessmentPeriodDescriptor>
   <AssessmentPeriodDescriptor>
     <CodeValue>BOY-1-2013</CodeValue>
     <Description>Beginning of Year 2013-2014 for First grade</Description>
+    <ShortDescription>BOY-2013</ShortDescription>
+    <BeginDate>2013-08-01</BeginDate>
+    <EndDate>2013-12-31</EndDate>
   </AssessmentPeriodDescriptor>
   <AssessmentPeriodDescriptor>
     <CodeValue>BOY-2-2013</CodeValue>
     <Description>Beginning of Year 2013-2014 for Second grade</Description>
+    <ShortDescription>BOY-2013</ShortDescription>
+    <BeginDate>2013-08-01</BeginDate>
+    <EndDate>2013-12-31</EndDate>
   </AssessmentPeriodDescriptor>
   <AssessmentPeriodDescriptor>
     <CodeValue>BOY-3-2013</CodeValue>
     <Description>Beginning of Year 2013-2014 for Third grade</Description>
+    <ShortDescription>BOY-2013</ShortDescription>
+    <BeginDate>2013-08-01</BeginDate>
+    <EndDate>2013-12-31</EndDate>
   </AssessmentPeriodDescriptor>
   <AssessmentPeriodDescriptor>
     <CodeValue>BOY-4-2013</CodeValue>
     <Description>Beginning of Year 2013-2014 for Fourth grade</Description>
+    <ShortDescription>BOY-2013</ShortDescription>
+    <BeginDate>2013-08-01</BeginDate>
+    <EndDate>2013-12-31</EndDate>
   </AssessmentPeriodDescriptor>
   <AssessmentPeriodDescriptor>
     <CodeValue>BOY-5-2013</CodeValue>
     <Description>Beginning of Year 2013-2014 for Fifth grade</Description>
+    <ShortDescription>BOY-2013</ShortDescription>
+    <BeginDate>2013-08-01</BeginDate>
+    <EndDate>2013-12-31</EndDate>
   </AssessmentPeriodDescriptor>
   <AssessmentPeriodDescriptor>
     <CodeValue>BOY-6-2013</CodeValue>
     <Description>Beginning of Year 2013-2014 for Sixth grade</Description>
+    <ShortDescription>BOY-2013</ShortDescription>
+    <BeginDate>2013-08-01</BeginDate>
+    <EndDate>2013-12-31</EndDate>
   </AssessmentPeriodDescriptor>
   <AssessmentPeriodDescriptor>
     <CodeValue>BOY-7-2013</CodeValue>
     <Description>Beginning of Year 2013-2014 for Seventh grade</Description>
+    <ShortDescription>BOY-2013</ShortDescription>
+    <BeginDate>2013-08-01</BeginDate>
+    <EndDate>2013-12-31</EndDate>
   </AssessmentPeriodDescriptor>
   <AssessmentPeriodDescriptor>
     <CodeValue>BOY-8-2013</CodeValue>
     <Description>Beginning of Year 2013-2014 for Eighth grade</Description>
+    <ShortDescription>BOY-2013</ShortDescription>
+    <BeginDate>2013-08-01</BeginDate>
+    <EndDate>2013-12-31</EndDate>
   </AssessmentPeriodDescriptor>
   <AssessmentPeriodDescriptor>
     <CodeValue>BOY-9-2013</CodeValue>
     <Description>Beginning of Year 2013-2014 for Ninth grade</Description>
+    <ShortDescription>BOY-2013</ShortDescription>
+    <BeginDate>2013-08-01</BeginDate>
+    <EndDate>2013-12-31</EndDate>
   </AssessmentPeriodDescriptor>
   <AssessmentPeriodDescriptor>
     <CodeValue>BOY-10-2013</CodeValue>
     <Description>Beginning of Year 2013-2014 for Tenth grade</Description>
+    <ShortDescription>BOY-2013</ShortDescription>
+    <BeginDate>2013-08-01</BeginDate>
+    <EndDate>2013-12-31</EndDate>
   </AssessmentPeriodDescriptor>
   <AssessmentPeriodDescriptor>
     <CodeValue>BOY-11-2013</CodeValue>
     <Description>Beginning of Year 2013-2014 for Eleventh grade</Description>
+    <ShortDescription>BOY-2013</ShortDescription>
+    <BeginDate>2013-08-01</BeginDate>
+    <EndDate>2013-12-31</EndDate>
   </AssessmentPeriodDescriptor>
   <AssessmentPeriodDescriptor>
     <CodeValue>BOY-12-2013</CodeValue>
     <Description>Beginning of Year 2013-2014 for Twelfth grade</Description>
+    <ShortDescription>BOY-2013</ShortDescription>
+    <BeginDate>2013-08-01</BeginDate>
+    <EndDate>2013-12-31</EndDate>
   </AssessmentPeriodDescriptor>
   <AssessmentPeriodDescriptor>
     <CodeValue>BOY-0-2014</CodeValue>
     <Description>Beginning of Year 2014-2015 for Kindergarten</Description>
+    <ShortDescription>BOY-2014</ShortDescription>
+    <BeginDate>2014-08-01</BeginDate>
+    <EndDate>2014-12-31</EndDate>
   </AssessmentPeriodDescriptor>
   <AssessmentPeriodDescriptor>
     <CodeValue>BOY-1-2014</CodeValue>
     <Description>Beginning of Year 2014-2015 for First grade</Description>
+    <ShortDescription>BOY-2014</ShortDescription>
+    <BeginDate>2014-08-01</BeginDate>
+    <EndDate>2014-12-31</EndDate>
   </AssessmentPeriodDescriptor>
   <AssessmentPeriodDescriptor>
     <CodeValue>BOY-2-2014</CodeValue>
     <Description>Beginning of Year 2014-2015 for Second grade</Description>
+    <ShortDescription>BOY-2014</ShortDescription>
+    <BeginDate>2014-08-01</BeginDate>
+    <EndDate>2014-12-31</EndDate>
   </AssessmentPeriodDescriptor>
   <AssessmentPeriodDescriptor>
     <CodeValue>BOY-3-2014</CodeValue>
     <Description>Beginning of Year 2014-2015 for Third grade</Description>
+    <ShortDescription>BOY-2014</ShortDescription>
+    <BeginDate>2014-08-01</BeginDate>
+    <EndDate>2014-12-31</EndDate>
   </AssessmentPeriodDescriptor>
   <AssessmentPeriodDescriptor>
     <CodeValue>BOY-4-2014</CodeValue>
     <Description>Beginning of Year 2014-2015 for Fourth grade</Description>
+    <ShortDescription>BOY-2014</ShortDescription>
+    <BeginDate>2014-08-01</BeginDate>
+    <EndDate>2014-12-31</EndDate>
   </AssessmentPeriodDescriptor>
   <AssessmentPeriodDescriptor>
     <CodeValue>BOY-5-2014</CodeValue>
     <Description>Beginning of Year 2014-2015 for Fifth grade</Description>
+    <ShortDescription>BOY-2014</ShortDescription>
+    <BeginDate>2014-08-01</BeginDate>
+    <EndDate>2014-12-31</EndDate>
   </AssessmentPeriodDescriptor>
   <AssessmentPeriodDescriptor>
     <CodeValue>BOY-6-2014</CodeValue>
     <Description>Beginning of Year 2014-2015 for Sixth grade</Description>
+    <ShortDescription>BOY-2014</ShortDescription>
+    <BeginDate>2014-08-01</BeginDate>
+    <EndDate>2014-12-31</EndDate>
   </AssessmentPeriodDescriptor>
   <AssessmentPeriodDescriptor>
     <CodeValue>BOY-7-2014</CodeValue>
     <Description>Beginning of Year 2014-2015 for Seventh grade</Description>
+    <ShortDescription>BOY-2014</ShortDescription>
+    <BeginDate>2014-08-01</BeginDate>
+    <EndDate>2014-12-31</EndDate>
   </AssessmentPeriodDescriptor>
   <AssessmentPeriodDescriptor>
     <CodeValue>BOY-8-2014</CodeValue>
     <Description>Beginning of Year 2014-2015 for Eighth grade</Description>
+    <ShortDescription>BOY-2014</ShortDescription>
+    <BeginDate>2014-08-01</BeginDate>
+    <EndDate>2014-12-31</EndDate>
   </AssessmentPeriodDescriptor>
   <AssessmentPeriodDescriptor>
     <CodeValue>BOY-9-2014</CodeValue>
     <Description>Beginning of Year 2014-2015 for Ninth grade</Description>
+    <ShortDescription>BOY-2014</ShortDescription>
+    <BeginDate>2014-08-01</BeginDate>
+    <EndDate>2014-12-31</EndDate>
   </AssessmentPeriodDescriptor>
   <AssessmentPeriodDescriptor>
     <CodeValue>BOY-10-2014</CodeValue>
     <Description>Beginning of Year 2014-2015 for Tenth grade</Description>
+    <ShortDescription>BOY-2014</ShortDescription>
+    <BeginDate>2014-08-01</BeginDate>
+    <EndDate>2014-12-31</EndDate>
   </AssessmentPeriodDescriptor>
   <AssessmentPeriodDescriptor>
     <CodeValue>BOY-11-2014</CodeValue>
     <Description>Beginning of Year 2014-2015 for Eleventh grade</Description>
+    <ShortDescription>BOY-2014</ShortDescription>
+    <BeginDate>2014-08-01</BeginDate>
+    <EndDate>2014-12-31</EndDate>
   </AssessmentPeriodDescriptor>
   <AssessmentPeriodDescriptor>
     <CodeValue>BOY-12-2014</CodeValue>
     <Description>Beginning of Year 2014-2015 for Twelfth grade</Description>
+    <ShortDescription>BOY-2014</ShortDescription>
+    <BeginDate>2014-08-01</BeginDate>
+    <EndDate>2014-12-31</EndDate>
   </AssessmentPeriodDescriptor>
   <AssessmentPeriodDescriptor>
     <CodeValue>BOY-0-2015</CodeValue>
     <Description>Beginning of Year 2015-2016 for Kindergarten</Description>
+    <ShortDescription>BOY-2015</ShortDescription>
+    <BeginDate>2015-08-01</BeginDate>
+    <EndDate>2015-12-31</EndDate>
   </AssessmentPeriodDescriptor>
   <AssessmentPeriodDescriptor>
     <CodeValue>BOY-1-2015</CodeValue>
     <Description>Beginning of Year 2015-2016 for First grade</Description>
+    <ShortDescription>BOY-2015</ShortDescription>
+    <BeginDate>2015-08-01</BeginDate>
+    <EndDate>2015-12-31</EndDate>
   </AssessmentPeriodDescriptor>
   <AssessmentPeriodDescriptor>
     <CodeValue>BOY-2-2015</CodeValue>
     <Description>Beginning of Year 2015-2016 for Second grade</Description>
+    <ShortDescription>BOY-2015</ShortDescription>
+    <BeginDate>2015-08-01</BeginDate>
+    <EndDate>2015-12-31</EndDate>
   </AssessmentPeriodDescriptor>
   <AssessmentPeriodDescriptor>
     <CodeValue>BOY-3-2015</CodeValue>
     <Description>Beginning of Year 2015-2016 for Third grade</Description>
+    <ShortDescription>BOY-2015</ShortDescription>
+    <BeginDate>2015-08-01</BeginDate>
+    <EndDate>2015-12-31</EndDate>
   </AssessmentPeriodDescriptor>
   <AssessmentPeriodDescriptor>
     <CodeValue>BOY-4-2015</CodeValue>
     <Description>Beginning of Year 2015-2016 for Fourth grade</Description>
+    <ShortDescription>BOY-2015</ShortDescription>
+    <BeginDate>2015-08-01</BeginDate>
+    <EndDate>2015-12-31</EndDate>
   </AssessmentPeriodDescriptor>
   <AssessmentPeriodDescriptor>
     <CodeValue>BOY-5-2015</CodeValue>
     <Description>Beginning of Year 2015-2016 for Fifth grade</Description>
+    <ShortDescription>BOY-2015</ShortDescription>
+    <BeginDate>2015-08-01</BeginDate>
+    <EndDate>2015-12-31</EndDate>
   </AssessmentPeriodDescriptor>
   <AssessmentPeriodDescriptor>
     <CodeValue>BOY-6-2015</CodeValue>
     <Description>Beginning of Year 2015-2016 for Sixth grade</Description>
+    <ShortDescription>BOY-2015</ShortDescription>
+    <BeginDate>2015-08-01</BeginDate>
+    <EndDate>2015-12-31</EndDate>
   </AssessmentPeriodDescriptor>
   <AssessmentPeriodDescriptor>
     <CodeValue>BOY-7-2015</CodeValue>
     <Description>Beginning of Year 2015-2016 for Seventh grade</Description>
+    <ShortDescription>BOY-2015</ShortDescription>
+    <BeginDate>2015-08-01</BeginDate>
+    <EndDate>2015-12-31</EndDate>
   </AssessmentPeriodDescriptor>
   <AssessmentPeriodDescriptor>
     <CodeValue>BOY-8-2015</CodeValue>
     <Description>Beginning of Year 2015-2016 for Eighth grade</Description>
+    <ShortDescription>BOY-2015</ShortDescription>
+    <BeginDate>2015-08-01</BeginDate>
+    <EndDate>2015-12-31</EndDate>
   </AssessmentPeriodDescriptor>
   <AssessmentPeriodDescriptor>
     <CodeValue>BOY-9-2015</CodeValue>
     <Description>Beginning of Year 2015-2016 for Ninth grade</Description>
+    <ShortDescription>BOY-2015</ShortDescription>
+    <BeginDate>2015-08-01</BeginDate>
+    <EndDate>2015-12-31</EndDate>
   </AssessmentPeriodDescriptor>
   <AssessmentPeriodDescriptor>
     <CodeValue>BOY-10-2015</CodeValue>
     <Description>Beginning of Year 2015-2016 for Tenth grade</Description>
+    <ShortDescription>BOY-2015</ShortDescription>
+    <BeginDate>2015-08-01</BeginDate>
+    <EndDate>2015-12-31</EndDate>
   </AssessmentPeriodDescriptor>
   <AssessmentPeriodDescriptor>
     <CodeValue>BOY-11-2015</CodeValue>
     <Description>Beginning of Year 2015-2016 for Eleventh grade</Description>
+    <ShortDescription>BOY-2015</ShortDescription>
+    <BeginDate>2015-08-01</BeginDate>
+    <EndDate>2015-12-31</EndDate>
   </AssessmentPeriodDescriptor>
   <AssessmentPeriodDescriptor>
     <CodeValue>BOY-12-2015</CodeValue>
     <Description>Beginning of Year 2015-2016 for Twelfth grade</Description>
+    <ShortDescription>BOY-2015</ShortDescription>
+    <BeginDate>2015-08-01</BeginDate>
+    <EndDate>2015-12-31</EndDate>
   </AssessmentPeriodDescriptor>
 <Assessment>
     <AssessmentTitle>2013-Kindergarten Assessment 1</AssessmentTitle>
