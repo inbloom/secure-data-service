@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.NeutralQuery;
 
@@ -221,4 +222,5 @@ public interface EntityService {
      */
     public boolean collectionExists(String collection);
 
+    public Iterable<EntityBody> listOnContextualRoles(NeutralQuery neutralQuery);
 }

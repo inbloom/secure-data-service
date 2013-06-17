@@ -8,6 +8,10 @@ Scenario: Check un-versioned URIs work for student
   Then both responses should be identical in return code and body
   When I make requests to both the versioned and un-versioned URI "/system/session/debug"
   Then both responses should be identical in return code and body
+  When I navigate to GET "/v1/system/support/email"
+  Then I should receive a return code of 200
+  When I navigate to GET "/userapps"
+  Then I should receive a return code of 200
   When I navigate to GET "/system/session/logout"
   Then any future API request should result in a 401 response code
 

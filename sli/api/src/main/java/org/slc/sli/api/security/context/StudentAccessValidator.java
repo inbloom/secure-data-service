@@ -262,32 +262,25 @@ public class StudentAccessValidator {
         
         String baseEntity = paths.get(0);
         
-        if (paths.size() == 1 && baseEntity.equals("home")) {
-            // student can access /home
-            return true;
+        switch (paths.size()) {
+            case 1:
+                return baseEntity.equals("home");
+            case 2:
+                return true;
+            case 3:
+                if (paths.get(2).equals(ResourceNames.CUSTOM)) {
+                    // custom endpoints always allowed
+                    return true;
+                }
+                return THREE_PART_ALLOWED.get(baseEntity) != null
+                        && THREE_PART_ALLOWED.get(baseEntity).contains(paths.get(2));
+            case 4:
+                List<String> subUrl = Arrays.asList(paths.get(2), paths.get(3));
+                return FOUR_PART_ALLOWED.get(baseEntity) != null
+                        && FOUR_PART_ALLOWED.get(baseEntity).contains(subUrl);
+            default:
+                return false;
         }
-        
-        if (paths.size() == 2) {
-            // two parts are always allowed
-            return true;
-        }
-
-        if (paths.size() == 3) {
-        	if (paths.get(2).equals(ResourceNames.CUSTOM)) {
-        		//custom endpoints always allowed
-        		return true;
-        	}      	     	
-            return THREE_PART_ALLOWED.get(baseEntity) != null
-                    && THREE_PART_ALLOWED.get(baseEntity).contains(paths.get(2));
-        }
-        
-        if (paths.size() == 4) {
-            List<String> subUrl = Arrays.asList(paths.get(2), paths.get(3));
-            return FOUR_PART_ALLOWED.get(baseEntity) != null
-                    && FOUR_PART_ALLOWED.get(baseEntity).contains(subUrl);
-        }
-        
-        return false;
     }
     
     private boolean isDisiplineRelated(List<String> paths) {
