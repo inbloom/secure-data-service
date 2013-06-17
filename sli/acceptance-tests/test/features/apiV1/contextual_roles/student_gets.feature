@@ -8,15 +8,16 @@ Feature: Use the APi to successfully get student data while having roles over ma
 
   @wip
   Scenario Outline: Get a student's data using various staff-student combination
-    Given the following student section associations in Midgar are set correctly
+    Given the only SEOA for "rbraverman" is as a "Educator" in "District 9"
+    And the following student section associations in Midgar are set correctly
       | student         | teacher              | edorg                 | enrolledInAnySection? |
       | carmen.ortiz    | linda.kim            | Daybreak Central High | yes                   |
-      #| carmen.ortiz    | rbraverman           | District 9            | yes                   |
+      | carmen.ortiz    | rbraverman           | Daybreak Central High | yes                   |
       | lashawn.taite   | linda.kim            | Daybreak Central High | no                    |
-      #| lashawn.taite   | rbraverman           | Daybreak Central High | yes                   |
       | carmen.ortiz    | linda.kim            | Daybreak Bayside High | yes                   |
-      | mu.mcneill    | linda.kim              | Daybreak Bayside High | yes                   |
-      #| matt.sollars    | rbraverman           | District 9            | yes                   |
+      | nate.dedrick    | linda.kim            | Daybreak Bayside High | yes                   |
+      | mu.mcneill      | linda.kim            | Daybreak Bayside High | yes                   |
+      | matt.sollars    | rbraverman           | East Daybreak High    | yes                   |
     When I navigate to the API authorization endpoint with my client ID
     And I was redirected to the "Simple" IDP Login page
     And I submit the credentials "<staff>" "<password>" for the "Simple" login page
@@ -34,8 +35,8 @@ Feature: Use the APi to successfully get student data while having roles over ma
     | linda.kim   | linda.kim1234             | <carmen.ortiz URI>      |
     #| sbantu      | sbantu1234                | <lashawn.taite URI>     |
     | sbantu      | sbantu1234                | <matt.sollars URI>      |
-    #| rbraverman  | rbraverman1234            | <matt.sollars URI>      |
-    #| rbraverman  | rbraverman1234            | <carmen.ortiz URI>     |
+    | rbraverman  | rbraverman1234            | <matt.sollars URI>      |
+    | rbraverman  | rbraverman1234            | <carmen.ortiz URI>     |
     | jstevenson  | jstevenson1234            | <matt.sollars URI>      |
     | jstevenson  | jstevenson1234            | <carmen.ortiz URI>     |
     | jstevenson  | jstevenson1234            | <lashawn.taite URI>     |
@@ -46,7 +47,7 @@ Feature: Use the APi to successfully get student data while having roles over ma
     | linda.kim   | linda.kim1234             | <carmen.ortiz URI>     |
     | linda.kim   | linda.kim1234             | <bert.jakeman URI>      |
     | linda.kim   | linda.kim1234             | <nate.dedrick URI>      |
-    #| linda.kim   | linda.kim1234             | <mu.mcneill URI>        |
+    | linda.kim   | linda.kim1234             | <mu.mcneill URI>        |
 
   @wip
   Scenario: Staff with multiple roles in edOrg hierarchy
