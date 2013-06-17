@@ -28,7 +28,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.slc.sli.common.constants.EntityNames;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
@@ -240,11 +239,6 @@ public class SLIPrincipal implements Principal, Serializable {
 
     public boolean isAdminUser() {
         return adminUser;
-    }
-
-
-    public boolean isStaffUser() {
-        return (userType == null || userType.isEmpty() || EntityNames.STAFF.equals(userType)) && !isAdminUser();
     }
 
     public String getFirstName() {

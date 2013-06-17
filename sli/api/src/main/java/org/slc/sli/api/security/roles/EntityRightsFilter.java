@@ -64,7 +64,7 @@ public class EntityRightsFilter {
         return toReturn;
     }
 
-    protected EntityBody createBody(Entity entity, List<Treatment> treatments, EntityDefinition defn) {
+    private EntityBody createBody(Entity entity, List<Treatment> treatments, EntityDefinition defn) {
         EntityBody toReturn = new EntityBody(entity.getBody());
 
         for (Treatment treatment : treatments) {
@@ -79,7 +79,7 @@ public class EntityRightsFilter {
         return toReturn;
     }
 
-    protected void complexFilter(EntityBody entityBody, Collection<GrantedAuthority> auths, String entityType) {
+    private void complexFilter(EntityBody entityBody, Collection<GrantedAuthority> auths, String entityType) {
 
         if (!auths.contains(Right.READ_RESTRICTED) && entityType.equals(EntityNames.STAFF)) {
             final String work = "Work";
@@ -116,7 +116,7 @@ public class EntityRightsFilter {
     }
 
     @SuppressWarnings("unchecked")
-    protected void filterFields(EntityBody entityBody, Collection<GrantedAuthority> auths, String prefix, String entityType) {
+    private void filterFields(EntityBody entityBody, Collection<GrantedAuthority> auths, String prefix, String entityType) {
 
         if (!auths.contains(Right.FULL_ACCESS)) {
 
@@ -131,6 +131,7 @@ public class EntityRightsFilter {
                     it.remove();
                 }
             }
+
         }
     }
 }

@@ -37,7 +37,6 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.api.constants.ResourceConstants;
@@ -156,12 +155,11 @@ public class DefaultResourceService implements ResourceService {
                 try {
                     finalResults = logicalEntity.getEntities(apiQuery, resource.getResourceType());
                 } catch (UnsupportedSelectorException e) {
-                 // US5765: Temporarily disabled the new logic
-                    /*SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
-                    if (ids.size() == 1  && definition.getType().equals(EntityNames.STUDENT) && principal.isStaffUser()) {
+                 /* US5765: Temporarily disabled the new logic
+                    if (ids.size() == 1  && definition.getType().equals(EntityNames.STUDENT)) {
                         finalResults = (List<EntityBody>) definition.getService().listOnContextualRoles(apiQuery);
                     } else {
-                      */
+                   */
                         finalResults = (List<EntityBody>) definition.getService().list(apiQuery);
                     //}
                 }
