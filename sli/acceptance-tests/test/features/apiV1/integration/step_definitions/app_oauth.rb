@@ -26,7 +26,7 @@ Given /^the testing device app key has been created$/ do
   @oauthRedirectURI = "http://device"
 end
 
-Given /^I log in to realm "(.*?)" using simple-idp as student "(.*?)" with password "(.*?)"$/ do |realm, user, pass|
+Given /^I log in to realm "(.*?)" using simple-idp as "(.*?)" "(.*?)" with password "(.*?)"$/ do |realm, user_type, user, pass|
   step "the testing device app key has been created"
   step "I have an open web browser"
   step "I navigate to the API authorization endpoint with my client ID"

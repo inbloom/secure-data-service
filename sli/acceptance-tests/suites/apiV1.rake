@@ -309,11 +309,13 @@ task :apiOdinContextualRolesIngestion do
   runTests("test/features/ingestion/features/ingestion_OdinContextualRoles.feature")
 end
 
-desc "Run API Odin Super Assessment Tests"
+desc "Run API Odin Assessment Integration Tests"
 task :apiOdinSuperAssessment do
+  allLeaAllowApp("Mobile App")
+  authorizeEdorg("Mobile App")
 # This is to extract assessment, learningStandard, etc. into Elastic Search  
   Rake::Task["runSearchBulkExtract"].execute
-  runTests("test/features/apiV1/end_user_stories/assessments/superAssessment.feature")
+  runTests("test/features/apiV1/integration/super_assessment.feature")
 end
 
 desc "Run API Odin Assessment Search Tests"
@@ -322,9 +324,8 @@ task :apiOdinSearchAssessment do
   runTests("test/features/apiV1/end_user_stories/assessments/searchAssessment.feature")
 end
 
-desc "Run API Odin Integration Tests"
+desc "Run API Odin Student Integration Tests"
 task :apiOdinStudentLogin => [:realmInit] do
-# This is to extract assessment, learningStandard, etc. into Elastic Search
   allLeaAllowApp("Mobile App")
   authorizeEdorg("Mobile App")
   Rake::Task["runSearchBulkExtract"].execute
