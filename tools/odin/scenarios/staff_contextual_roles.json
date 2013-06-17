@@ -1,19 +1,24 @@
 [
   {
+    "userId": "jstevenson",
+    "name": "James Stevenson",
+    "edOrgs": [
+      {
+        "role": "IT Administrator",
+        "type": "State Education Agency",
+        "association": "IL-DAYBREAK"
+      }
+    ]
+  },
+  {
     "userId": "sbantu",
     "name": "Susan Bantu",
     "edOrgs": [
       {
         "role": "Leader",
         "type": "High School",
-        "association": "Daybreak Central High",
-        "parent" : "IL-DAYBREAK"
-      },
-      {
-        "role": "Leader",
-        "type": "High School",
-        "association": "Daybreak Bayside High",
-        "parent" : "IL-DAYBREAK"
+        "association": "East Daybreak High",
+        "parent" : "District 9"
       }
     ]
   },
@@ -25,19 +30,13 @@
         "role": "Educator",
         "type": "High School",
         "association": "Daybreak Central High",
-        "parent" : "IL-DAYBREAK"
-      },
-      {
-        "role": "Educator",
-        "type": "High School",
-        "association": "East Daybreak High",
-        "parent" : "IL-DAYBREAK"
+        "parent" : "District 9"
       },
       {
         "role": "Educator",
         "type": "High School",
         "association": "Daybreak Bayside High",
-        "parent" : "IL-DAYBREAK"
+        "parent" : "District 31"
       }
     ]
   },
@@ -47,14 +46,8 @@
     "edOrgs": [
       {
         "role": "Educator",
-        "type": "High School",
-        "association": "Daybreak Central High",
-        "parent" : "IL-DAYBREAK"
-      },
-      {
-        "role": "Leader",
-        "type": "High School",
-        "association": "East Daybreak High",
+        "type": "Local Education Agency",
+        "association": "District 9",
         "parent" : "IL-DAYBREAK"
       }
     ]
@@ -65,50 +58,45 @@
     "edOrgs": [
       {
         "role": "Leader",
-        "type": "High School",
-        "association": "Daybreak Central High",
+        "type": "Local Education Agency",
+        "association": "District 31",
         "parent" : "IL-DAYBREAK"
       }
     ]
   },
   {
-    "userId": "cgray",
-    "name": "Charles Gray",
+    "userId": "jmacey",
+    "name": "Jyrki Macey",
     "edOrgs": [
       {
-        "role": "Educator",
-        "type": "High School",
-        "association": "Daybreak Central High",
+        "role": "Leader",
+        "type": "Local Education Agency",
+        "association": "District 9",
         "parent" : "IL-DAYBREAK"
       },
       {
         "role": "Educator",
         "type": "High School",
         "association": "East Daybreak High",
-        "parent" : "IL-DAYBREAK"
+        "parent" : "District 9"
       }
     ]
   },
   {
-    "userId": "msmith",
-    "name": "Mary Smith",
+    "userId": "rbelding",
+    "name": "Richard Belding",
     "edOrgs": [
       {
-        "role": "Aggregate Viewer",
+        "role": "Educator",
         "type": "High School",
-        "association": "Daybreak Bayside High",
-        "parent" : "IL-DAYBREAK"
-      }
-    ]
-  },
-  {
-    "userId": "jstevenson",
-    "name": "James Stevenson",
-    "edOrgs": [
+        "association": "Daybreak Central High",
+        "parent" : "District 9"
+      },
       {
-        "role": "IT Administrator",
-        "type": "Local Education Agency",
-        "association": "IL-DAYBREAK"
+        "role": "Leader",
+        "type": "High School",
+        "association": "East Daybreak High",
+        "parent" : "District 9"
       }
     ]
   }

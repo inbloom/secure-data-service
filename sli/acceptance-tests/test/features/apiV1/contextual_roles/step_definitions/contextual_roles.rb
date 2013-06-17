@@ -133,7 +133,6 @@ def remove_from_mongo(tenant, collection, query)
 
 end
 
-
 Given /^I (remove|expire) all SEOA expiration dates for "([^"]*)" in tenant "([^"]*)"$/ do | function, staff, tenant|
   tenant = convertTenantIdToDbName tenant
   disable_NOTABLESCAN()
@@ -240,7 +239,7 @@ Given /^the following student section associations in ([^ ]*) are set correctly$
     if !found && add
       section = section_coll.find_one({'body.schoolId' => edorg_id,
                                        'teacherSectionAssociation.body.teacherId' => teacher_id},
-                                      {:fields => ['_id', 'studentSectionAssociation']})
+                                      {:fields => %w(_id studentSectionAssociation)})
       query = { '_id' => section['_id']}
       entry = {
                 '_id'       => "#{section['_id']}#{SecureRandom.uuid}",
@@ -330,6 +329,60 @@ Then /^I should be able to use the token to make valid API calls$/ do
   "Session debug context 'authentication.authenticated' is not true")
 end
 
+def all_lea_allow_app_for_tenant(app_name, tenant_name)
+  sleep 1
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(PropLoader.getProps['DB_HOST'], PropLoader.getProps['DB_PORT'])
+  db = conn[PropLoader.getProps['api_database_name']]
+  app_coll = db.collection("application")
+  app = app_coll.find_one({"body.name" => app_name})
+  raise "ERROR: Could not find an application named #{app_name}" if app.nil?
+
+  app_id = app["_id"]
+
+  db_tenant = conn[convertTenantIdToDbName(tenant_name)]
+  app_auth_coll = db_tenant.collection("applicationAuthorization")
+  ed_org_coll = db_tenant.collection("educationOrganization")
+
+  needed_ed_orgs = []
+  ed_org_coll.find().each do |edorg|
+    needed_ed_orgs.push(edorg["_id"])
+  end
+
+  app_auth_coll.remove("body.applicationId" => app_id)
+  new_app_auth = {"_id" => "2012ls-#{SecureRandom.uuid}", "body" => {"applicationId" => app_id, "edorgs" => needed_ed_orgs}, "metaData" => {"tenantId" => tenant_name}}
+  app_auth_coll.insert(new_app_auth)
+  conn.close
+  enable_NOTABLESCAN()
+end
+
+def authorize_edorg_for_tenant(app_name, tenant_name)
+  #sleep 1
+  puts "Entered authorizeEdorg" if ENV['DEBUG']
+  disable_NOTABLESCAN()
+  puts "Getting mongo cursor" if ENV['DEBUG']
+  conn = Mongo::Connection.new(PropLoader.getProps['DB_HOST'], PropLoader.getProps['DB_PORT'])
+  puts "Setting into the sli db" if ENV['DEBUG']
+  db = conn[PropLoader.getProps['api_database_name']]
+  puts "Setting into the application collection" if ENV['DEBUG']
+  app_coll = db.collection("application")
+  puts "Finding the application with name #{app_name}" if ENV['DEBUG']
+  app_id = app_coll.find_one({"body.name" => app_name})["_id"]
+  puts("The app #{app_name} id is #{app_id}") if ENV['DEBUG']
+
+  db_tenant = conn[convertTenantIdToDbName(tenant_name)]
+  app_auth_coll = db_tenant.collection("applicationAuthorization")
+
+  puts("The app #{app_name} id is #{app_id}")
+  needed_ed_orgs = app_auth_coll.find_one({"body.applicationId" => app_id})["body"]["edorgs"]
+  needed_ed_orgs.each do |edorg|
+    app_coll.update({"_id" => app_id}, {"$push" => {"body.authorized_ed_orgs" => edorg}})
+  end
+
+  conn.close
+  enable_NOTABLESCAN()
+end
+
 Given /^I import the odin-local-setup application and realm data$/ do
   @ci_realm_store_path = File.dirname(__FILE__) + '/../../../../../../../tools/jmeter/odin-ci/'
   @local_realm_store_path = File.dirname(__FILE__) + '/../../../../../../../tools/jmeter/odin-local-setup/'
@@ -368,6 +421,8 @@ Given /^I import the odin-local-setup application and realm data$/ do
     conn.close
     enable_NOTABLESCAN()
   end
+  all_lea_allow_app_for_tenant('Mobile App', 'Midgar')
+  authorize_edorg_for_tenant('Mobile App', 'Midgar')
   # restore back current dir
   Dir.chdir(current_dir)
 end
