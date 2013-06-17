@@ -382,7 +382,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
 
                             if (!principal.isAdminRealmAuthenticated()) {
                                 principal.setAuthorizingEdOrgs(appValidator.getAuthorizingEdOrgsForApp(token.getClientId()));
-                                addEdOrgRightsToPrincipal(principal);
+                                principal.setEdOrgRights(generateEdOrgRightsMap(principal));
                             }
                             PreAuthenticatedAuthenticationToken userToken = new PreAuthenticatedAuthenticationToken(
                                     principal, accessToken, authorities);
@@ -440,16 +440,21 @@ public class OauthMongoSessionManager implements OauthSessionManager {
     }
 
     /**
-     * Adds to the principal's edorg-rights map.
+     * Generates the principal's edorg-rights map.
      *
-     * @param principal - The principal.
+     * @param principal - The principal
+     *
+     * @return - Generated edorg-rights map for principal
      */
-    private void addEdOrgRightsToPrincipal(SLIPrincipal principal) {
+    private Map<String, Collection<GrantedAuthority>> generateEdOrgRightsMap(SLIPrincipal principal) {
+        Map<String, Collection<GrantedAuthority>> edOrgRights = new HashMap<String, Collection<GrantedAuthority>>();
         for (String edOrg : principal.getEdOrgRoles().keySet()) {
             Collection<GrantedAuthority> edorgAuthorities = resolveAuthorities(principal.getTenantId(), principal.getRealm(),
                     principal.getEdOrgRoles().get(edOrg), principal.isAdminRealmAuthenticated(), false);
-            principal.getEdOrgRights().put(edOrg, edorgAuthorities);
+            edOrgRights.put(edOrg, edorgAuthorities);
         }
+
+        return edOrgRights;
     }
 
     /**

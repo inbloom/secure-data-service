@@ -25,6 +25,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -215,8 +216,9 @@ public class OauthMongoSessionManagerTest {
         Assert.assertEquals("Should return true", true, sessionManager.purgeExpiredSessions());
     }
 
+    @SuppressWarnings("unchecked")
     @Test
-    public void testAddEdOrgRightsToPrincipal() throws SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, NoSuchFieldException {
+    public void testGenerateEdOrgRightsMap() throws SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, NoSuchFieldException {
         SLIPrincipal principal = new SLIPrincipal();
         Map<String, List<String>> edOrgRoles = new HashMap<String, List<String>>();
         List<String> edOrgRoles1 = new LinkedList<String>(Arrays.asList("Gym Teacher", "Science Teacher", "Principal"));
@@ -240,20 +242,18 @@ public class OauthMongoSessionManagerTest {
         Mockito.when(resolver.resolveRoles(matches(TENANT_ID), matches(REALM_ID), eq(edOrgRoles2), eq(false), eq(false))).thenReturn(authorities2);
         Mockito.when(resolver.resolveRoles(matches(TENANT_ID), matches(REALM_ID), eq(edOrgRoles3), eq(false), eq(false))).thenReturn(authorities3);
 
-        Assert.assertTrue(principal.getEdOrgRights().isEmpty());
-
         Field field = OauthMongoSessionManager.class.getDeclaredField("resolver");
         field.setAccessible(true);
         field.set(sessionManager, resolver);
 
-        Method method = OauthMongoSessionManager.class.getDeclaredMethod("addEdOrgRightsToPrincipal", SLIPrincipal.class);
+        Method method = OauthMongoSessionManager.class.getDeclaredMethod("generateEdOrgRightsMap", SLIPrincipal.class);
         method.setAccessible(true);
-        method.invoke(sessionManager, principal);
+        Map<String, Collection<GrantedAuthority>> edOrgRights = (Map<String, Collection<GrantedAuthority>>) method.invoke(sessionManager, principal);
 
-        Assert.assertEquals(3, principal.getEdOrgRights().size());
-        Assert.assertTrue(principal.getEdOrgRights().get("edOrg1").equals(authorities1));
-        Assert.assertTrue(principal.getEdOrgRights().get("edOrg2").equals(authorities2));
-        Assert.assertTrue(principal.getEdOrgRights().get("edOrg3").equals(authorities3));
+        Assert.assertEquals(3, edOrgRights.size());
+        Assert.assertTrue(edOrgRights.get("edOrg1").equals(authorities1));
+        Assert.assertTrue(edOrgRights.get("edOrg2").equals(authorities2));
+        Assert.assertTrue(edOrgRights.get("edOrg3").equals(authorities3));
     }
 
     @Test
