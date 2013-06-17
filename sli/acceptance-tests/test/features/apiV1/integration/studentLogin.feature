@@ -105,10 +105,6 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     | 0.assessmentFamilyHierarchyName                                                    |
     | 0.assessmentForm                                                                   |
     | 0.assessmentIdentificationCode                                                     |
-    #| 0.assessmentPerformanceLevel.assessmentReportingMethod                             |
-    #| 0.assessmentPerformanceLevel.maximumScore                                          |
-    #| 0.assessmentPerformanceLevel.minimumScore                                          |
-    #| 0.assessmentPerformanceLevel.performanceLevelDescriptor                            |
     | 0.assessmentPeriodDescriptor.beginDate                                             |
     | 0.assessmentPeriodDescriptor.codeValue                                             |
     | 0.assessmentPeriodDescriptor.description                                           |
@@ -126,6 +122,10 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     | 0.objectiveAssessment.0.nomenclature                                               |
     | 0.objectiveAssessment.0.percentOfAssessment                                        |
     | 0.objectiveAssessment.0.learningObjectives                                         |
+    | 0.objectiveAssessment.0.assessmentPerformanceLevel.0.assessmentReportingMethod                             |
+    | 0.objectiveAssessment.0.assessmentPerformanceLevel.0.maximumScore                                          |
+    | 0.objectiveAssessment.0.assessmentPerformanceLevel.0.minimumScore                                          |
+    | 0.objectiveAssessment.0.assessmentPerformanceLevel.0.performanceLevelDescriptor                            |
     | 0.objectiveAssessment.0.objectiveAssessments.0.identificationCode                                         |
     | 0.objectiveAssessment.0.objectiveAssessments.0.assessmentItem.0.correctResponse    |
     | 0.objectiveAssessment.0.objectiveAssessments.0.assessmentItem.0.identificationCode |
