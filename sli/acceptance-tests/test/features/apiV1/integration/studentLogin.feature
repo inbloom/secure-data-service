@@ -109,11 +109,11 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     #| 0.assessmentPerformanceLevel.maximumScore                                          |
     #| 0.assessmentPerformanceLevel.minimumScore                                          |
     #| 0.assessmentPerformanceLevel.performanceLevelDescriptor                            |
-    #| 0.assessmentPeriodDescriptor.beginDate                                             |
-    #| 0.assessmentPeriodDescriptor.codeValue                                             |
-    #| 0.assessmentPeriodDescriptor.description                                           |
-    #| 0.assessmentPeriodDescriptor.endDate                                               |
-    #| 0.assessmentPeriodDescriptor.shortDescription                                      |
+    | 0.assessmentPeriodDescriptor.beginDate                                             |
+    | 0.assessmentPeriodDescriptor.codeValue                                             |
+    | 0.assessmentPeriodDescriptor.description                                           |
+    | 0.assessmentPeriodDescriptor.endDate                                               |
+    | 0.assessmentPeriodDescriptor.shortDescription                                      |
     | 0.assessmentTitle                                                                  |
     | 0.contentStandard                                                                  |
     | 0.gradeLevelAssessed                                                               |

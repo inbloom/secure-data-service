@@ -5,18 +5,18 @@ Feature: Use the APi to successfully get student data while having roles over ma
     Given the testing device app key has been created
     And I import the odin-local-setup application and realm data
     And I have an open web browser
-    And the following student section associations in Midgar are set correctly
-    | student         | teacher              | edorg                 | enrolledInAnySection? |
-    | carmen.ortiz    | linda.kim            | Daybreak Central High | yes                   |
-    | carmen.ortiz    | rbraverman           | Daybreak Central High | yes                   |
-    | lashawn.taite   | linda.kim            | Daybreak Central High | no                    |
-    | lashawn.taite   | rbraverman           | Daybreak Central High | yes                   |
-    | carmen.ortiz    | linda.kim            | Daybreak Bayside High | yes                   |
-    | lashawn.taite   | linda.kim            | East Daybreak High    | yes                   |
-    | matt.sollars    | linda.kim            | East Daybreak High    | yes                   |
 
   @wip
   Scenario Outline: Get a student's data using various staff-student combination
+    Given the following student section associations in Midgar are set correctly
+      | student         | teacher              | edorg                 | enrolledInAnySection? |
+      | carmen.ortiz    | linda.kim            | Daybreak Central High | yes                   |
+      | carmen.ortiz    | rbraverman           | Daybreak Central High | yes                   |
+      | lashawn.taite   | linda.kim            | Daybreak Central High | no                    |
+      | lashawn.taite   | rbraverman           | Daybreak Central High | yes                   |
+      | carmen.ortiz    | linda.kim            | Daybreak Bayside High | yes                   |
+      | lashawn.taite   | linda.kim            | East Daybreak High    | yes                   |
+      | matt.sollars    | linda.kim            | East Daybreak High    | yes                   |
     When I navigate to the API authorization endpoint with my client ID
     And I was redirected to the "Simple" IDP Login page
     And I submit the credentials "<staff>" "<password>" for the "Simple" login page
