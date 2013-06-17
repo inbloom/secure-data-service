@@ -175,8 +175,8 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     | teacher                    | e27fc445699aa38246a09373e6aeaa96981ea921_id |  403        |
     | teacherSchoolAssociation   | ed203daeec95d7ae4ee11ccd21d98f8387866587_id |  403        |
 
-  @student_delete @shortcut
-  Scenario: Student cannot DELETE private entities
+  @student_delete
+  Scenario: Student cannot DELETE Restricted private entities
    Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "carmen.ortiz" with password "carmen.ortiz1234"
      And format "application/json"
      And I am using api version "v1"

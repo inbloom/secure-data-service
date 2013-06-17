@@ -290,6 +290,17 @@ When /^I verify the following response body fields exist in "(.*?)":$/ do |uri, 
   end
 end
 
+When /^I verify the following response body fields do not exist in "(.*?)":$/ do |uri, table|
+  step "I navigate to GET \"/#{@api_version}#{uri}\""
+  puts "api result is #{@result}" if $SLI_DEBUG
+  table.hashes.map do |row|
+    field = row['field']
+    puts "Checking #{field} exists" if $SLI_DEBUG
+    result = fieldExtract(field, @result)
+    assert(result.nil?, "Invalid Access: User has access to field #{field} but should not")
+  end
+end
+
 When /^I validate I have access to entities via the API access pattern "(.*?)":$/ do |uri, table| 
   table.hashes.map do |row|
     print "Verifying I get a 200 response from #{row["entity"]}/#{row["id"]} .. "

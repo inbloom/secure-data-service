@@ -152,15 +152,16 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     | learningStandardId.identificationCode      |
     | subjectArea                                |
 
-  @wip
+  @student_blacklist
   Scenario: Student should NOT have access to certain fields in API entity response bodies
     Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
     And format "application/json"
     And I am using api version "v1"
     And I am accessing data about myself, "matt.sollars"
-   When I verify the following response body fields are NOT visible in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id":
-    | field                                                 | value                                       |
-    | id                                                    | 067198fd6da91e1aa8d67e28e850f224d6851713_id |
+   Then I verify the following response body fields do not exist in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id":
+    | field                         |
+    | economicDisadvantaged         |
+    | schoolFoodServicesEligibility |
 
   @student_public
   Scenario: Student cannot POST public entities
