@@ -103,6 +103,18 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
     When I ingest "SEASession.zip"
     And the extraction zone is empty
     When I trigger a delta extract
+    And Only the following extracts exists for edOrg "<STANDARD-SEA>" in tenant "Midgar"
+      |   session           |
+      |   calendarDate      |
+    And There should not be any of the following extracts for edOrg "<IL-DAYBREAK>" in tenant "Midgar"
+      |   session           |
+      |   calendarDate      |
+    And There should not be any of the following extracts for edOrg "<IL-HIGHWIND>" in tenant "Midgar"
+      |   session           |
+      |   calendarDate      |
+    And There should not be any of the following extracts for edOrg "<IL-SUNSET>" in tenant "Midgar"
+      |   session           |
+      |   calendarDate      |
     When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
       |  entityType                            |
       |  session                               |
@@ -126,6 +138,18 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
     When I ingest "SEACourse.zip"
     And the extraction zone is empty
     When I trigger a delta extract
+    And Only the following extracts exists for edOrg "<STANDARD-SEA>" in tenant "Midgar"
+      |   course              |
+      |   courseOffering      |
+#    And There should not be any of the following extracts for edOrg "<IL-DAYBREAK>" in tenant "Midgar"
+#      |   course              |
+#      |   courseOffering      |
+#    And There should not be any of the following extracts for edOrg "<IL-HIGHWIND>" in tenant "Midgar"
+#      |   course              |
+#      |   courseOffering      |
+#    And There should not be any of the following extracts for edOrg "<IL-SUNSET>" in tenant "Midgar"
+#      |   course              |
+#      |   courseOffering      |
     When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
       |  entityType                            |
       |  course                                |
@@ -189,6 +213,14 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
     When I ingest "SEAGraduationPlan.zip"
     And the extraction zone is empty
     When I trigger a delta extract
+    And Only the following extracts exists for edOrg "<STANDARD-SEA>" in tenant "Midgar"
+      |   graduationPlan     |
+    And There should not be any of the following extracts for edOrg "<IL-DAYBREAK>" in tenant "Midgar"
+      |   graduationPlan     |
+    And There should not be any of the following extracts for edOrg "<IL-HIGHWIND>" in tenant "Midgar"
+      |   graduationPlan     |
+    And There should not be any of the following extracts for edOrg "<IL-SUNSET>" in tenant "Midgar"
+      |   graduationPlan     |
     When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
       |  entityType                            |
       |  graduationPlan                        |
