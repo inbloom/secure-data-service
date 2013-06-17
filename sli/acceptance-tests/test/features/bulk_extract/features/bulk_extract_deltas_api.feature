@@ -135,7 +135,7 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
       | a71ea7489a86103bddd7459c25c83b7e7c5da875_id | courseTitle = Sixth grade English        |
     And I verify this "courseOffering" file should contain:
       | id                                          | condition                                |
-      | eba54e12a1a8ce4c09a4ce2863fe080ee05a42e0_id | localCourseTitle = Sixth grade English   |    
+      | eba54e12a1a8ce4c09a4ce2863fe080ee05a42e0_id | localCourseTitle = Sixth grade English   |
     And I ingest "SEACourseUpdate.zip"
     And the extraction zone is empty
     When I trigger a delta extract
@@ -155,6 +155,18 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
     When I ingest "SEAGradingPeriod.zip"
     And the extraction zone is empty
     When I trigger a delta extract
+    And Only the following extracts exists for edOrg "<STANDARD-SEA>" in tenant "Midgar"
+      |   gradingPeriod     |
+      |   calendarDate      |
+    And There should not be any of the following extracts for edOrg "<IL-DAYBREAK>" in tenant "Midgar"
+      |   gradingPeriod     |
+      |   calendarDate      |
+    And There should not be any of the following extracts for edOrg "<IL-HIGHWIND>" in tenant "Midgar"
+      |   gradingPeriod     |
+      |   calendarDate      |
+    And There should not be any of the following extracts for edOrg "<IL-SUNSET>" in tenant "Midgar"
+      |   gradingPeriod     |
+      |   calendarDate      |
     When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
       |  entityType                            |
       |  gradingPeriod                         |
@@ -234,13 +246,13 @@ Scenario: Triggering deltas via ingestion
        | id                                          | condition                                                    |
        # update assessmentFamily(parent) expected generated 1 joson file of Assessment, 26 in total of assessment
        | 2777fe8b68767df7b7ab36768938daa576b5765b_id | assessmentTitle = 2013-Eighth grade Assessment 1             |
-     
+
        # create assessmentFamily and assessment
        |41741ad11fa4c777e397faa0bf36546f27cdb5a8_id | assessmentFamilyHierarchyName = 2015 Standard.2015 First grade Standard  |
        |41741ad11fa4c777e397faa0bf36546f27cdb5a8_id | assessmentIdentificationCode.ID = 2015-First Grade Assessment 2 BKC      |
        #update assessment (child)
 	   |8b7e6ce92009e03e3760e798a5f6a3d7c5e134ae_id | assessmentIdentificationCode.ID = 2013-Kindergarten Assessment 2 BKU     |
-	   
+
        And I verify this "calendarDate" file should contain:
         | id                                          | condition                                |
         | f34a74910eca77b0d344e1611f89156d84d0a40d_id | calendarEvent = Holiday        |

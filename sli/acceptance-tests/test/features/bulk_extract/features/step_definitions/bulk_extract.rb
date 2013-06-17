@@ -27,6 +27,8 @@ require 'zlib'
 require 'open3'
 require 'openssl'
 require 'time'
+require 'digest/sha1'
+require 'set'
 include Archive::Tar
 
 SCHEDULER_SCRIPT = File.expand_path(PropLoader.getProps['bulk_extract_scheduler_script'])
@@ -1068,6 +1070,51 @@ Then /^I verify the last public delta bulk extract by app "(.*?)" for "(.*?)" in
     step "the extract contains a file for each of the following entities:", table
 end
 
+
+def getExtractsForEdOrg(tenant, edOrg)
+  tenantId           = Digest::SHA1.hexdigest tenant
+  tenantExtractPath  = "#{OUTPUT_DIRECTORY}#{tenantId}"
+  tenantTarList      = Dir.glob "#{tenantExtractPath}/*.tar"
+
+  computedJsons = []
+  tenantTarList.each {|tenantTarListItem|
+    if  tenantTarListItem =~ /\/(.{36,36})-#{edOrg}.*.tar/
+      appId = $1
+      encryptedTenantTarFile = File.open(tenantTarListItem, 'rb') { |f| f.read}
+      decryptedTenantTarStr  = decryptFile(encryptedTenantTarFile, $APP_CONVERSION_MAP[appId])
+      decryptedTenantTarFile = StringIO.new(decryptedTenantTarStr);
+      Minitar::Input.open(decryptedTenantTarFile) do |inp|
+        inp.each do |entry|
+          tarComponent = entry.full_name
+          if tarComponent =~  /(.*).json.gz/
+            jsonFile = $1
+            computedJsons << jsonFile
+          end
+        end
+      end
+    end
+  }
+  return computedJsons
+end
+
+And /^Only the following extracts exists for edOrg "(.*?)" in tenant "(.*?)"/ do |edOrg, tenant, table|
+     allowedJsons  = table.raw.flatten
+     computedJsons = getExtractsForEdOrg(tenant, edOrg)
+     set1 = Set.new allowedJsons
+     set2 = Set.new computedJsons
+     symetricDiff = set1 ^ set2  #symmetric difference
+     assert(symetricDiff.size == 0, "Expected #{set1.to_a.join(',')}, Found #{set2.to_a.join(',')} in extract for #{edOrg}")
+end
+
+And /^There should not be any of the following extracts for edOrg "(.*?)" in tenant "(.*?)"/ do |edOrg, tenant, table|
+  unAllowedJsons  = table.raw.flatten
+  computedJsons = getExtractsForEdOrg(tenant, edOrg)
+  set1 = Set.new unAllowedJsons
+  set2 = Set.new computedJsons
+  intersect = set1 & set2
+  assert(intersect.size == 0, "Found #{set2.to_a.join(',')} in extract for #{edOrg}. None of #{set1.to_a.join(',')} should occur.")
+end
+
 Then /^I verify this "(.*?)" file (should|should not) contain:$/ do |file_name, should, table|
     look_for = should.downcase == "should"
     json_map = to_map(get_json_from_file(file_name))
@@ -1721,6 +1768,7 @@ def decryptFile(file, client_id)
     puts("Plain text length is #{@plain.length}")
     puts "length #{@res.body.length}" if @res != nil
   end
+  @plain   #return @plain
 end
 
 def untar(filePath)
