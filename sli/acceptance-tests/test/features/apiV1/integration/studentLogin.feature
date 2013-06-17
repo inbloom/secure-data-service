@@ -5,8 +5,7 @@ Feature: As a student or staff I want to use apps that access the inBloom API
 
   Background: None
 
-
-  Scenario: As a student, for my section, I want to get the most recent Math assessment
+  Scenario: As a student, I want access to my data to use educational apps
   # Log in via simple-idp and authenticate student credentials
     Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
     And format "application/json"

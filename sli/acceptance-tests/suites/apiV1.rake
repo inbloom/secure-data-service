@@ -310,12 +310,13 @@ task :apiOdinContextualRolesIngestion do
 end
 
 desc "Run API Odin Assessment Integration Tests"
-task :apiOdinSuperAssessment do
+task :apiOdinSuperAssessment => [:realmInit] do
   allLeaAllowApp("Mobile App")
   authorizeEdorg("Mobile App")
 # This is to extract assessment, learningStandard, etc. into Elastic Search  
   Rake::Task["runSearchBulkExtract"].execute
   runTests("test/features/apiV1/integration/super_assessment.feature")
+  runTests("test/features/apiV1/integration/search_assessment.feature")
 end
 
 desc "Run API Odin Assessment Search Tests"
