@@ -8,20 +8,20 @@ common: &common
     # update me when password policy changes
     password_policy: ["password must satisfy password policy"]
     support_email: support@slidev.org
-    redirect_slc_url: http://www.slcedu.org
+    redirect_slc_url: http://www.inbloom.org
     email_sender_name_user_reg_app: Administrator
     email_sender_address_user_reg_app: noreply@slidev.org
     admin_realm: Shared Learning Collaborative
     reset_password_lifespan: 86400
-    app_dev_documentation_link: http://dev.slcedu.org/getting-started
-    devslc_url: http://dev.slcedu.org
+    app_dev_documentation_link: http://inbloom.org/getting-started
+    devslc_url: http://inbloom.org
 
 sandbox: &sandbox
     is_sandbox: true
     auto_approve: true
     maximum_user_count: 500
-    app_dev_documentation_link: http://dev.slcedu.org/getting-started/sandbox
-    sample_data_url: http://dev.slcedu.org
+    app_dev_documentation_link: http://www.inbloom.org/for-developers/sandbox
+    sample_data_url: http://inbloom.org
 
 ldap_default: &ldap_default
     ldap_host: ldap.slidev.org

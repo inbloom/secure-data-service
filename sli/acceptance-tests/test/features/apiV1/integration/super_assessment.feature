@@ -7,56 +7,55 @@ Background: None
 Scenario: As a teacher, for my section, I want to get the most recent Math assessment
 
 # Log in via simple-idp and authenticate teacher credentials   
-Given I log in using simple-idp as student "cgray" with password "cgray1234"
-      
-  Given format "application/json"
-    When I navigate to GET "/v1/home"
-      Then I should get and store the link named "self"
-      And I should extract the "teachers" id from the "self" URI
+  Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "teacher" "cgray" with password "cgray1234"
+    And format "application/json"
+    
+  When I navigate to GET "/v1/home"
+    Then I should get and store the "teacher" link named "self"
+     And I should extract the "teacher" id from the "self" URI
   
   When I navigate to GET "/teachers/<teacher id>"
-    Then the response body "id" should match my teacher "id"
+    Then the response body "id" should match my "teacher" "id"
       And the response field "entityType" should be "teacher"
       And the response field "name.lastSurname" should be "Gray"
       And I should receive a link named "self" with URI "/teachers/<teacher id>"
-      And I should get and store the link named "getTeacherSectionAssociations"
-      And I should get and store the link named "getSections"
-      And I should get and store the link named "getTeacherSchoolAssociations"
-      And I should get and store the link named "getSchools"
-      And I should get and store the link named "getStaffEducationOrgAssignmentAssociations"
-      And I should get and store the link named "getEducationOrganizations" 
+      And I should get and store the "teacher" link named "getTeacherSectionAssociations"
+      And I should get and store the "teacher" link named "getSections"
+      And I should get and store the "teacher" link named "getTeacherSchoolAssociations"
+      And I should get and store the "teacher" link named "getSchools"
+      And I should get and store the "teacher" link named "getStaffEducationOrgAssignmentAssociations"
+      And I should get and store the "teacher" link named "getEducationOrganizations" 
 
-  When I follow the HATEOS link named "<getTeacherSectionAssociations>" 
+  #When I follow the HATEOS link named "<getTeacherSectionAssociations>"
+  When I validate the "teacher" HATEOS link for "getTeacherSectionAssociations"
     Then I should extract the "sectionId" from the response body to a list
 
   When I navigate to GET "/sections/<teacher section>"
     Then I should have a list of 12 "section" entities
 
   When I make a GET request to URI "/sections/@id/studentSectionAssociations/students/studentAssessments"
-    Then I should have a list of 42 "studentAssessment" entities
+    Then I should have a list of 36 "studentAssessment" entities
     And I should extract the "id" from the response body to a list and save to "studentAssessments"
 
   When I navigate to GET "/v1/studentAssessments"
-    Then I should have a list of 50 "studentAssessment" entities
+    Then I should have a list of 36 "studentAssessment" entities
     And I store the studentAssessments
     
   When I navigate to GET "/studentAssessments/<student assessment>"
-    Then I should extract the "studentAssessment" id from the "self" URI
     And the response field "entityType" should be "studentAssessment"
     And the response field "administrationLanguage.language" should be "English"
     And the response field "administrationEnvironment" should be "Classroom"
     And the response field "retestIndicator" should be "Primary Administration"
-    And the response field "<SOA.scoreResults.result>" should be "77"
-    And the response field "<SOA.OA.identificationCode>" should be "2013-Eleventh grade Assessment 2.OA-0"
+    And the response field "<SOA.scoreResults.result>" should be "26"
+    And the response field "<SOA.OA.identificationCode>" should be "2013-Tenth grade Assessment 2.OA-0"
     And I sort the studentAssessmentItems
-    And the response field "<SAI.AI.identificationCode>" should be "2013-Eleventh grade Assessment 2#1"
+    And the response field "<SAI.AI.identificationCode>" should be "2013-Tenth grade Assessment 2#1"
     And I should extract the student reference from studentAssessment
     And I should extract the assessment reference from studentAssessment
 
 # /assessments/{id}
 # assessment: d12f6eb0f1a2bc260a738db6c61ea5515badc1cb_id
   When I navigate to GET "/assessments/<assessment>"
-    Then I should extract the "assessment" id from the "self" URI
     And the response field "<AIC.identificationSystem>" should be "State"
     And the response field "<AIC.ID>" should be "<assessment 1>"
     And the response field "<OA.nomenclature>" should be "Nomenclature"
@@ -88,7 +87,7 @@ Given I log in using simple-idp as student "cgray" with password "cgray1234"
     And the response field "assessmentPeriodDescriptor.description" should be "<assessment period descriptor>"
     And the response field "assessmentPeriodDescriptor.codeValue" should be "<APD.codeValue>"
     And the response field "entityType" should be "assessment"
-    And the response field "gradeLevelAssessed" should be "Eleventh grade"
+    And the response field "gradeLevelAssessed" should be "Tenth grade"
     And the response field "assessmentTitle" should be "<assessment 1>"
     And I extract all the "assessment" links
 
@@ -96,7 +95,7 @@ Given I log in using simple-idp as student "cgray" with password "cgray1234"
     Then I should validate the "objectiveAssessment.0.learningObjectives" from "assessment" links map to learningObjectives
 
   When I navigate to GET "/v1/search/assessments?q=Sixth"
-    Then I should have a list of 4 "assessment" entities
+    Then I should have a list of 2 "assessment" entities
     When I navigate to GET "/v1/search/assessments?assessmentTitle=2013-Sixth%20grade%20Assessment%202"
     Then I should have a list of 1 "assessment" entities
     And the offset response field "assessmentTitle" should be "2013-Sixth grade Assessment 2"
@@ -108,10 +107,10 @@ Given I log in using simple-idp as student "cgray" with password "cgray1234"
     And the offset response field "assessmentFamilyHierarchyName" should be "2013 Standard.2013 Sixth grade Standard"
 
   When I navigate to GET "/v1/search/assessments?q=sub"
-    Then I should have a list of 50 "assessment" entities
+    Then I should have a list of 26 "assessment" entities
 
   When I navigate to GET "/v1/search/assessments?q=2014-ninth%20grade%20assessment%201&limit=100"
-    Then I should have a list of 52 "assessment" entities
+    Then I should have a list of 26 "assessment" entities
 
   When I navigate to GET "/v1/search/assessments?assessmentTitle=2013-Sixth%20grade%20Assessment%201"
     Then I should have a list of 1 "assessment" entities

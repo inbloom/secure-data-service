@@ -221,7 +221,8 @@ public class StudentAccessValidator {
         // schools
         Set<List<String>> schoolsAllowedFourParts = new HashSet<List<String>>();
         schoolsAllowedFourParts.add(Arrays.asList(ResourceNames.SESSIONS, ResourceNames.GRADING_PERIODS));
-        schoolsAllowedFourParts.add(Arrays.asList(ResourceNames.COURSE_OFFERINGS, ResourceNames.COURSES));
+        // schoolsAllowedFourParts.add(Arrays.asList(ResourceNames.COURSE_OFFERINGS,
+        // ResourceNames.COURSES));
         fourParts.put(ResourceNames.SCHOOLS, schoolsAllowedFourParts);
 
         // students
@@ -233,7 +234,8 @@ public class StudentAccessValidator {
         studentsAllowedFourParts.add(Arrays.asList(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, ResourceNames.SECTIONS));
         studentsAllowedFourParts.add(Arrays.asList(ResourceNames.COURSE_TRANSCRIPTS, ResourceNames.COURSES));
         studentsAllowedFourParts.add(Arrays.asList(ResourceNames.STUDENT_ASSESSMENTS, ResourceNames.ASSESSMENTS));
-        studentsAllowedFourParts.add(Arrays.asList(ResourceNames.STUDENT_ACADEMIC_RECORDS, ResourceNames.COURSE_TRANSCRIPTS));
+        // studentsAllowedFourParts.add(Arrays.asList(ResourceNames.STUDENT_ACADEMIC_RECORDS,
+        // ResourceNames.COURSE_TRANSCRIPTS));
         fourParts.put(ResourceNames.STUDENTS, studentsAllowedFourParts);
 
         FOUR_PART_ALLOWED = Collections.unmodifiableMap(fourParts);
@@ -261,32 +263,25 @@ public class StudentAccessValidator {
         
         String baseEntity = paths.get(0);
         
-        if (paths.size() == 1 && baseEntity.equals("home")) {
-            // student can access /home
-            return true;
+        switch (paths.size()) {
+            case 1:
+                return baseEntity.equals("home");
+            case 2:
+                return true;
+            case 3:
+                if (paths.get(2).equals(ResourceNames.CUSTOM)) {
+                    // custom endpoints always allowed
+                    return true;
+                }
+                return THREE_PART_ALLOWED.get(baseEntity) != null
+                        && THREE_PART_ALLOWED.get(baseEntity).contains(paths.get(2));
+            case 4:
+                List<String> subUrl = Arrays.asList(paths.get(2), paths.get(3));
+                return FOUR_PART_ALLOWED.get(baseEntity) != null
+                        && FOUR_PART_ALLOWED.get(baseEntity).contains(subUrl);
+            default:
+                return false;
         }
-        
-        if (paths.size() == 2) {
-            // two parts are always allowed
-            return true;
-        }
-
-        if (paths.size() == 3) {
-        	if (paths.get(2).equals(ResourceNames.CUSTOM)) {
-        		//custom endpoints always allowed
-        		return true;
-        	}      	     	
-            return THREE_PART_ALLOWED.get(baseEntity) != null
-                    && THREE_PART_ALLOWED.get(baseEntity).contains(paths.get(2));
-        }
-        
-        if (paths.size() == 4) {
-            List<String> subUrl = Arrays.asList(paths.get(2), paths.get(3));
-            return FOUR_PART_ALLOWED.get(baseEntity) != null
-                    && FOUR_PART_ALLOWED.get(baseEntity).contains(subUrl);
-        }
-        
-        return false;
     }
     
     private boolean isDisiplineRelated(List<String> paths) {

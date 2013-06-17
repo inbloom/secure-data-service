@@ -3,7 +3,7 @@ Feature: Verify integrety of Student Validation Logic
   I want to make damn sure that student validation logic is working as intended, and that others do not break it.
 
 Scenario: Validators return proper return codes on multi-ID requests
-  Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "carmen.ortiz" with password "carmen.ortiz1234"
+  Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "carmen.ortiz" with password "carmen.ortiz1234"
   And format "application/json"
   When I make API calls for multiple IDs in accordance to the following table:
     | Path                             | GoodId                                                                                 | BadId                                                                                  |

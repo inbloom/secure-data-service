@@ -7,7 +7,7 @@ Feature: As a student or staff I want to use apps that access the inBloom API
 
   @student_public
   Scenario: Student cannot POST public entities
-    Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "student.m.sollars" with password "student.m.sollars1234"
+    Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
     And format "application/json"
     And I am using api version "v1"
     When I POST and validate the following entities:
@@ -27,7 +27,7 @@ Feature: As a student or staff I want to use apps that access the inBloom API
 
   @student_patch
   Scenario: Student cannot PATCH public entities
-    Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "student.m.sollars" with password "student.m.sollars1234"
+    Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
     And format "application/json"
     And I am using api version "v1"
     Then I PATCH entities and check return code
@@ -47,7 +47,7 @@ Feature: As a student or staff I want to use apps that access the inBloom API
 
   @wip
   Scenario: Student cannot POST private entities
-    Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "student.m.sollars" with password "student.m.sollars1234"
+    Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
     And format "application/json"
     And I am using api version "v1"
     When I POST and validate the following entities:
@@ -56,7 +56,7 @@ Feature: As a student or staff I want to use apps that access the inBloom API
 
   @student_delete
   Scenario: Student cannot DELETE public entities
-   Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "student.m.sollars" with password "student.m.sollars1234"
+   Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
     And format "application/json"
     And I am using api version "v1"
     When I DELETE and validate the following entities:
@@ -143,7 +143,7 @@ Feature: As a student or staff I want to use apps that access the inBloom API
 
   @student_delete
   Scenario: Student cannot DELETE private entities
-   Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "student.m.sollars" with password "student.m.sollars1234"
+   Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
      And format "application/json"
      And I am using api version "v1"
     When I DELETE and validate the following entities:
@@ -177,7 +177,7 @@ Feature: As a student or staff I want to use apps that access the inBloom API
 
   @student_delete @shortcut
   Scenario: Student cannot DELETE private entities
-   Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "carmen.ortiz" with password "carmen.ortiz1234"
+   Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "carmen.ortiz" with password "carmen.ortiz1234"
      And format "application/json"
      And I am using api version "v1"
     When I DELETE and validate the following entities:
