@@ -78,18 +78,16 @@ def update_mongo(tenant, collection, query, field, remove, value = nil)
   entity_iter = entity
   field_list = field.split('.')
   found = true
-  if field_list.size > 1
-    field_list.each do |field_entry|
-      if entity_iter.is_a? Array
-        field_entry = field_entry.to_i
-      else
-        unless entity_iter.has_key? field_entry
-          found = false
-          break
-        end
+  field_list.each do |field_entry|
+    if entity_iter.is_a? Array
+      field_entry = field_entry.to_i
+    else
+      unless entity_iter.has_key? field_entry
+        found = false
+        break
       end
-      entity_iter = entity_iter[field_entry]
     end
+    entity_iter = entity_iter[field_entry]
   end
   if !(remove) || found
     entry = {:operation => 'update',
@@ -241,7 +239,7 @@ Given /^the following student section associations in ([^ ]*) are set correctly$
 
     if !found && add
       section = section_coll.find_one({'body.schoolId' => edorg_id,
-                                          'teacherSectionAssociation.body.teacherId' => teacher_id},
+                                       'teacherSectionAssociation.body.teacherId' => teacher_id},
                                       {:fields => ['_id', 'studentSectionAssociation']})
       query = { '_id' => section['_id']}
       entry = {
