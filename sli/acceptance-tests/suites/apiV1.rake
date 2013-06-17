@@ -309,11 +309,14 @@ task :apiOdinContextualRolesIngestion do
   runTests("test/features/ingestion/features/ingestion_OdinContextualRoles.feature")
 end
 
-desc "Run API Odin Super Assessment Tests"
-task :apiOdinSuperAssessment do
+desc "Run API Odin Assessment Integration Tests"
+task :apiOdinSuperAssessment => [:realmInit] do
+  allLeaAllowApp("Mobile App")
+  authorizeEdorg("Mobile App")
 # This is to extract assessment, learningStandard, etc. into Elastic Search  
   Rake::Task["runSearchBulkExtract"].execute
-  runTests("test/features/apiV1/end_user_stories/assessments/superAssessment.feature")
+  runTests("test/features/apiV1/integration/super_assessment.feature")
+  runTests("test/features/apiV1/integration/search_assessment.feature")
 end
 
 desc "Run API Odin Assessment Search Tests"
@@ -322,9 +325,8 @@ task :apiOdinSearchAssessment do
   runTests("test/features/apiV1/end_user_stories/assessments/searchAssessment.feature")
 end
 
-desc "Run API Odin Integration Tests"
+desc "Run API Odin Student Integration Tests"
 task :apiOdinStudentLogin => [:realmInit] do
-# This is to extract assessment, learningStandard, etc. into Elastic Search
   allLeaAllowApp("Mobile App")
   authorizeEdorg("Mobile App")
   Rake::Task["runSearchBulkExtract"].execute
@@ -338,6 +340,11 @@ desc "Run contextual roles acceptance tests"
 task :apiContextualRolesTests => [:apiOdinContextualRolesGenerate, :apiOdinContextualRolesIngestion] do
 #  setFixture("staffEducationOrganizationAssociation", "staffEducationOrganizationAssociation_fixture_contextual_roles.json")
   runTests("test/features/apiV1/contextual_roles")
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
 end
 
 ############################################################
