@@ -136,7 +136,6 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
     And I verify this "courseOffering" file should contain:
       | id                                          | condition                                |
       | eba54e12a1a8ce4c09a4ce2863fe080ee05a42e0_id | localCourseTitle = Sixth grade English   |    
-    And I wait for user input
     And I ingest "SEACourseUpdate.zip"
     And the extraction zone is empty
     When I trigger a delta extract
@@ -149,7 +148,7 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
       | a71ea7489a86103bddd7459c25c83b7e7c5da875_id | courseTitle = Seventh grade English      |
     And I verify this "courseOffering" file should contain:
       | id                                          | condition                                |
-      | eba54e12a1a8ce4c09a4ce2863fe080ee05a42e0_id | localCourseTitle = Seventh grade English   |  
+      | eba54e12a1a8ce4c09a4ce2863fe080ee05a42e0_id | localCourseTitle = Seventh grade English |
 
 
   Scenario: Ingesting SEA (Non Odin) entities - Grading Period
