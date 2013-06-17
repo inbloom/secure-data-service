@@ -64,7 +64,7 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     | 0.telephone.0.telephoneNumber                         | (512)555-2418                               |
     | 1.parentUniqueStateId                                 | 800000025-mom                               |
   #Fields in assessment domain
-  When I verify the following response body fields exist in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/studentAssessments":
+  Then I verify the following response body fields exist in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/studentAssessments":
     | field                                                                           |
     | 0.administrationDate                                                            |
     | 0.administrationEndDate                                                         |
@@ -98,7 +98,7 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     | 0.studentObjectiveAssessments.0.objectiveAssessment.percentOfAssessment         |
     | 0.studentObjectiveAssessments.0.objectiveAssessment.learningObjectives          |
 
-  When I verify the following response body fields exist in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/studentAssessments/assessments":
+  Then I verify the following response body fields exist in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/studentAssessments/assessments":
     | field                                                                              |
     | 0.academicSubject                                                                  |
     | 0.assessmentCategory                                                               |
@@ -126,6 +126,7 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     | 0.objectiveAssessment.0.nomenclature                                               |
     | 0.objectiveAssessment.0.percentOfAssessment                                        |
     | 0.objectiveAssessment.0.learningObjectives                                         |
+    | 0.objectiveAssessment.0.objectiveAssessments.0.identificationCode                                         |
     | 0.objectiveAssessment.0.objectiveAssessments.0.assessmentItem.0.correctResponse    |
     | 0.objectiveAssessment.0.objectiveAssessments.0.assessmentItem.0.identificationCode |
     | 0.objectiveAssessment.0.objectiveAssessments.0.assessmentItem.0.itemCategory       |
@@ -134,6 +135,23 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     | 0.objectiveAssessment.0.objectiveAssessments.0.assessmentItem.0.learningStandards  |
     | 0.revisionDate                                                                     |
     #| 0.version                                                                          |
+  Then I verify the following response body fields exist in "/learningObjectives?limit=1":
+    | field                                        |
+    | 0.academicSubject                            |
+    | 0.description                                |
+    | 0.learningObjectiveId.contentStandardName    |
+    | 0.learningObjectiveId.identificationCode     |
+    | 0.objective                                  |
+    | 0.objectiveGradeLevel                        |
+  Then I verify the following response body fields exist in "/learningStandards/c772fbb0f9b9210d1f2a1bfcd53018b205c46da6_id":
+    | field                                        |
+    | contentStandard                            |
+    #| courseTitle                                |
+    | description                                |
+    | gradeLevel                                 |
+    | learningStandardId.contentStandardName     |
+    | learningStandardId.identificationCode      |
+    | subjectArea                                |
 
   @wip
   Scenario: Student should NOT have access to certain fields in API entity response bodies

@@ -26,7 +26,6 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -382,9 +381,8 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                             debug("Granted regular rights - {}", authorities);
 
                             if (!principal.isAdminRealmAuthenticated()) {
-                                Set<String> authorizingEdOrgs = appValidator.getAuthorizingEdOrgsForApp(token.getClientId());
-                                principal.setAuthorizingEdOrgs(authorizingEdOrgs);
-                                addEdOrgRightsToPrincipal(authorizingEdOrgs, principal);
+                                principal.setAuthorizingEdOrgs(appValidator.getAuthorizingEdOrgsForApp(token.getClientId()));
+                                addEdOrgRightsToPrincipal(principal);
                             }
                             PreAuthenticatedAuthenticationToken userToken = new PreAuthenticatedAuthenticationToken(
                                     principal, accessToken, authorities);
@@ -444,18 +442,13 @@ public class OauthMongoSessionManager implements OauthSessionManager {
     /**
      * Adds to the principal's edorg-rights map.
      *
-     * @param authorizingEdOrgs - All EdOrgs to which principal has access in this session.
      * @param principal - The principal.
      */
-    private void addEdOrgRightsToPrincipal(Set<String> authorizingEdOrgs, SLIPrincipal principal) {
-        Set<String> edOrgs = (authorizingEdOrgs == null) ? principal.getEdOrgRoles().keySet() : authorizingEdOrgs;
-        for (String edOrg : edOrgs) {
-            if (principal.getEdOrgRoles().containsKey(edOrg)) {
-                Collection<GrantedAuthority> edorgAuthorities = resolveAuthorities(principal.getTenantId(),
-                        principal.getRealm(), principal.getEdOrgRoles().get(edOrg),
-                        principal.isAdminRealmAuthenticated(), false);
-                principal.getEdOrgRights().put(edOrg, edorgAuthorities);
-            }
+    private void addEdOrgRightsToPrincipal(SLIPrincipal principal) {
+        for (String edOrg : principal.getEdOrgRoles().keySet()) {
+            Collection<GrantedAuthority> edorgAuthorities = resolveAuthorities(principal.getTenantId(), principal.getRealm(),
+                    principal.getEdOrgRoles().get(edOrg), principal.isAdminRealmAuthenticated(), false);
+            principal.getEdOrgRights().put(edOrg, edorgAuthorities);
         }
     }
 

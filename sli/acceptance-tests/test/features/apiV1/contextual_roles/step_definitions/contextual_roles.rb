@@ -192,6 +192,31 @@ Given /^I remove all SEOAs for "([^"]*)" in tenant "([^"]*)"/ do |staff, tenant|
   enable_NOTABLESCAN()
 
 end
+
+Given /^I remove the SEOA with role "Leader" for staff "jmacey" in "District 9"$/ do |role, staff, edOrg|
+  tenant = convertTenantIdToDbName tenant
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  db = conn[tenant]
+
+  staff_coll = db.collection('staff')
+  staff_id = staff_coll.find_one({'body.staffUniqueStateId' => staff})['_id']
+
+  edOrg_coll = db.collection('educationOrganization')
+  edOrg_id = edOrg_coll.find_one({'body.stateOrganizationId' => edOrg})['_id']
+
+
+  seoa_coll = db.collection('staffEducationOrganizationAssociation')
+  seoas = seoa_coll.find({'body.staffReference' => staff_id, 'body.educationOrganizationReference' => edOrg_id, 'staffClassification' => role}).to_a
+  seoas.each do |seoa|
+    query = { '_id' => seoa['_id']}
+    remove_from_mongo(tenant, 'staffEducationOrganizationAssociation', query)
+  end
+
+  conn.close
+  enable_NOTABLESCAN()
+
+end
 Given /^the following student section associations in ([^ ]*) are set correctly$/ do |tenant, table|
   disable_NOTABLESCAN()
   conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)

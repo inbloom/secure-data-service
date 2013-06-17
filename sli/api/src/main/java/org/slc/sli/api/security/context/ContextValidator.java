@@ -28,6 +28,7 @@ import javax.ws.rs.core.PathSegment;
 
 import com.sun.jersey.spi.container.ContainerRequest;
 
+import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -123,15 +124,15 @@ public class ContextValidator implements ApplicationContextAware {
      * @return if url is accessible to students principals
      */
     public boolean isUrlBlocked(List<PathSegment> pathSegments) {
+        List<PathSegment> segs = cleanEmptySegments(pathSegments);
+
+        if (isSystemCall(segs)) {
+            // do not block system calls
+            return false;
+        }
+
         if (SecurityUtil.isStudent()) {
-            List<PathSegment> segs = cleanEmptySegments(pathSegments);
             List<String> paths = new ArrayList<String>();
-            
-            if (segs.size() < 2) {
-                // only have api version??
-                return true;
-            }
-            
             for (int i = 1; i < segs.size(); ++i) {
                 paths.add(segs.get(i).getPath());
             }
@@ -139,6 +140,30 @@ public class ContextValidator implements ApplicationContextAware {
             return !studentAccessValidator.isAllowed(paths);
         }
         
+        return false;
+    }
+
+    private boolean isSystemCall(List<PathSegment> pathSegments) {
+        /**
+         * assuming all resource endpoints are versioned
+         */
+        if (pathSegments == null || pathSegments.size() == 0) {
+            // /api/rest/ root access?
+            return false;
+        }
+        
+        // all data model resources are versioned
+        if (isVersionString(pathSegments.get(0).getPath())) {
+            return false;
+        }
+        
+        return true;
+    }
+    
+    private boolean isVersionString(String path) {
+        if (path != null && path.startsWith("v")) {
+            return NumberUtils.isNumber(path.substring(1));
+        }
         return false;
     }
 
