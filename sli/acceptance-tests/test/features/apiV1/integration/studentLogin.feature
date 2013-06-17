@@ -62,7 +62,12 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     | 0.sex                                                 | Male                                        |
     | 0.telephone.0.telephoneNumber                         | (512)555-2418                               |
     | 1.parentUniqueStateId                                 | 800000025-mom                               |
-  #Fields in assessment domain
+
+  Scenario: I check the response body fields of assessment domain endpoints
+    Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
+    And format "application/json"
+    And I am using api version "v1"
+    And I am accessing data about myself, "matt.sollars"
   Then I verify the following response body fields exist in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/studentAssessments":
     | field                                                                           |
     | 0.administrationDate                                                            |
@@ -121,11 +126,11 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     | 0.objectiveAssessment.0.nomenclature                                               |
     | 0.objectiveAssessment.0.percentOfAssessment                                        |
     | 0.objectiveAssessment.0.learningObjectives                                         |
-    | 0.objectiveAssessment.0.assessmentPerformanceLevel.0.assessmentReportingMethod                             |
-    | 0.objectiveAssessment.0.assessmentPerformanceLevel.0.maximumScore                                          |
-    | 0.objectiveAssessment.0.assessmentPerformanceLevel.0.minimumScore                                          |
-    | 0.objectiveAssessment.0.assessmentPerformanceLevel.0.performanceLevelDescriptor                            |
-    | 0.objectiveAssessment.0.objectiveAssessments.0.identificationCode                                         |
+    | 0.objectiveAssessment.0.assessmentPerformanceLevel.0.assessmentReportingMethod     |
+    | 0.objectiveAssessment.0.assessmentPerformanceLevel.0.maximumScore                  |
+    | 0.objectiveAssessment.0.assessmentPerformanceLevel.0.minimumScore                  |
+    | 0.objectiveAssessment.0.assessmentPerformanceLevel.0.performanceLevelDescriptor    |
+    | 0.objectiveAssessment.0.objectiveAssessments.0.identificationCode                  |
     | 0.objectiveAssessment.0.objectiveAssessments.0.assessmentItem.0.correctResponse    |
     | 0.objectiveAssessment.0.objectiveAssessments.0.assessmentItem.0.identificationCode |
     | 0.objectiveAssessment.0.objectiveAssessments.0.assessmentItem.0.itemCategory       |
@@ -151,6 +156,110 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     | learningStandardId.contentStandardName     |
     | learningStandardId.identificationCode      |
     | subjectArea                                |
+
+  Scenario: I check the response body fields of edOrg endpoints
+    Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
+    And format "application/json"
+    And I am using api version "v1"
+    And I am accessing data about myself, "matt.sollars"
+   Then I verify the following response body fields exist in "/schools/a13489364c2eb015c219172d561c62350f0453f3_id":
+    | field                                |
+    | administrativeFundingControl         |
+    | charterStatus                        |
+    | gradesOffered                        |
+    | magnetSpecialProgramEmphasisSchool   |
+    | schoolCategories                     |
+    | schoolType                           |
+    | titleIPartASchoolDesignation         |
+
+   Then I verify the following response body fields exist in "/educationOrganizations/884daa27d806c2d725bc469b273d840493f84b4d_id/courses":
+    | field                                |
+    | 0.careerPathway                      |
+    | 0.courseCode.0.identificationSystem  |
+    | 0.courseCode.0.ID                    |
+    | 0.courseDefinedBy                    |
+    | 0.courseDescription                  |
+    | 0.courseGPAApplicability             |
+    | 0.courseTitle                        |
+    | 0.dateCourseAdopted                  |
+    | 0.gradesOffered                      |
+    | 0.highSchoolCourseRequirement        |
+    | 0.maximumAvailableCredit.credit      |
+    | 0.minimumAvailableCredit.credit      |
+    | 0.numberOfParts                      |
+    | 0.subjectArea                        |
+    | 0.uniqueCourseId                     |
+   Then I verify the following response body fields exist in "/schools/a13489364c2eb015c219172d561c62350f0453f3_id/courseOfferings":
+    | field               |
+    | 0.localCourseCode   |
+    | 0.localCourseTitle  |
+   Then I verify the following response body fields exist in "/educationOrganizations/1b223f577827204a1c7e9c851dba06bea6b031fe_id/sessions":
+    | field                    |
+    | 0.beginDate              |
+    | 0.endDate                |
+    | 0.schoolYear             |
+    | 0.sessionName            |
+    | 0.term                   |
+    | 0.totalInstructionalDays |
+   Then I verify the following response body fields exist in "/gradingPeriods/5db742ef357941df75afdfcdf78b12191d5898ef_id":
+    | field                                   |
+    | beginDate                             |
+    | endDate                               |
+    | gradingPeriodIdentity.schoolYear      |
+    | gradingPeriodIdentity.gradingPeriod   |
+    | gradingPeriodIdentity.schoolId        |
+  Then I verify the following response body fields exist in "/educationOrganizations/884daa27d806c2d725bc469b273d840493f84b4d_id/graduationPlans":
+    | field                                                           |
+    | 0.creditsByCourse.0.courseCode.0.identificationSystem           |
+    | 0.creditsByCourse.0.courseCode.0.ID                             |
+    | 0.creditsByCourse.0.courseCode.0.assigningOrganizationCode      |
+    | 0.creditsByCourse.0.credits.credit                              |
+    | 0.creditsByCourse.0.credits.creditConversion                    |
+    | 0.creditsByCourse.0.credits.creditType                          |
+    | 0.creditsByCourse.0.gradeLevel                                  |
+    | 0.creditsBySubject.0.credits.credit                             |
+    | 0.creditsBySubject.0.credits.creditConversion                   |
+    | 0.creditsBySubject.0.credits.creditType                         |
+    | 0.creditsBySubject.0.subjectArea                                |
+    | 0.graduationPlanType                                            |
+    | 0.individualPlan                                                |
+    | 0.totalCreditsRequired                                          |
+   Then I verify the following response body fields exist in "/competencyLevelDescriptor/c91ae4718903d20289607c3c4335759e652ad569_id":
+    | field                      |
+    | codeValue                  |
+    | description                |
+    | performanceBaseConversion  |
+   Then I verify the following response body fields exist in "/educationOrganizations/884daa27d806c2d725bc469b273d840493f84b4d_id/studentCompetencyObjectives":
+    | field                            |
+    | 0.objective                      |
+    | 0.objectiveGradeLevel            |
+    | 0.studentCompetencyObjectiveId   |
+
+  Scenario: I check the response body fields of programs
+    Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
+    And format "application/json"
+    And I am using api version "v1"
+    And I am accessing data about myself, "matt.sollars"
+  Then I verify the following response body fields exist in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/studentProgramAssociations/programs":
+    | field                       |
+    | 0.programId                 |
+    | 0.programSponsor            |
+    | 0.programType               |
+    | 0.services.0.0.codeValue    |
+
+  Scenario: I check the response body fields of sections
+    Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
+    And format "application/json"
+    And I am using api version "v1"
+    And I am accessing data about myself, "matt.sollars"
+  Then I verify the following response body fields exist in "/sections/ad923365bab2453cfd4a4388c6b2c236cb570c7e_id":
+    | field                  |
+    | availableCredit        |
+    | educationalEnvironment |
+    | mediumOfInstruction    |
+    | populationServed       |
+    | sequenceOfCourse       |
+    | uniqueSectionCode      |
 
   @student_blacklist
   Scenario: Student should NOT have access to certain fields in API entity response bodies
