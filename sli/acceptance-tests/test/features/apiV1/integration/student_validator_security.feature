@@ -1,4 +1,4 @@
-@wip @student_validator
+@student_validator
 Feature: Verify integrety of Student Validation Logic
   I want to make damn sure that student validation logic is working as intended, and that others do not break it.
 

@@ -5761,10 +5761,10 @@
                         <sli:associationKey>true</sli:associationKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
-                        </sli:WriteEnforcement>
+                        <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy></sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
-                        </sli:ReadEnforcement>
+                        <sli:allowedBy>READ_STUDENT_DATA</sli:allowedBy></sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
@@ -5778,10 +5778,10 @@
                         <sli:associationKey>true</sli:associationKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
-                        </sli:WriteEnforcement>
+                        <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy></sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
-                        </sli:ReadEnforcement>
+                        <sli:allowedBy>READ_STUDENT_DATA</sli:allowedBy></sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
@@ -5796,10 +5796,10 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
-                        </sli:WriteEnforcement>
+                        <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy></sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
-                        </sli:ReadEnforcement>
+                        <sli:allowedBy>READ_STUDENT_DATA</sli:allowedBy></sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
@@ -5812,10 +5812,10 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
-                        </sli:WriteEnforcement>
+                        <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy></sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
-                        </sli:ReadEnforcement>
+                        <sli:allowedBy>READ_STUDENT_DATA</sli:allowedBy></sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
@@ -5828,10 +5828,10 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
-                        </sli:WriteEnforcement>
+                        <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy></sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
-                        </sli:ReadEnforcement>
+                        <sli:allowedBy>READ_STUDENT_DATA</sli:allowedBy></sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
@@ -5844,10 +5844,10 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
-                        </sli:WriteEnforcement>
+                        <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy></sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
-                        </sli:ReadEnforcement>
+                        <sli:allowedBy>READ_STUDENT_DATA</sli:allowedBy></sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
@@ -5860,10 +5860,10 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
-                        </sli:WriteEnforcement>
+                        <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy></sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
-                        </sli:ReadEnforcement>
+                        <sli:allowedBy>READ_STUDENT_DATA</sli:allowedBy></sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
@@ -5878,10 +5878,10 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
-                        </sli:WriteEnforcement>
+                        <sli:allowedBy>WRITE_STUDENT_DATA</sli:allowedBy></sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
-                        </sli:ReadEnforcement>
+                        <sli:allowedBy>READ_STUDENT_DATA</sli:allowedBy></sli:ReadEnforcement>
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
