@@ -23,8 +23,12 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.CallingApplicationInfoProvider;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextValidator;
+import org.slc.sli.api.security.roles.EntityEdOrgRightBuilder;
+import org.slc.sli.api.security.roles.EntityRightsFilter;
+import org.slc.sli.api.security.roles.RightAccessValidator;
 import org.slc.sli.api.security.schema.SchemaDataProvider;
 import org.slc.sli.api.security.service.SecurityCriteria;
+import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
@@ -78,6 +82,12 @@ public class BasicService implements EntityService, AccessibilityCheck {
     private BasicDefinitionStore definitionStore;
     @Autowired
     private CustomEntityValidator customEntityValidator;
+
+    @Autowired
+    private RightAccessValidator rightAccessValidator;
+
+    @Autowired
+    private EntityRightsFilter entityRightsFilter;
 
     public BasicService(String collectionName, List<Treatment> treatments, Repository<Entity> repo) {
         this.collectionName = collectionName;
@@ -407,6 +417,30 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
         for (Entity entity : entities) {
             results.add(makeEntityBody(entity));
+        }
+
+        if (results.isEmpty()) {
+            return noEntitiesFound(neutralQuery);
+        }
+
+        return results;
+    }
+
+
+    @Override
+    public Iterable<EntityBody> listOnContextualRoles(NeutralQuery neutralQuery) {
+        boolean isSelf = isSelf(neutralQuery);
+
+        injectSecurity(neutralQuery);
+        Collection<Entity> entities = (Collection<Entity>) repo.findAll(collectionName, neutralQuery);
+
+        List<EntityBody> results = new ArrayList<EntityBody>();
+
+        for (Entity entity : entities) {
+            rightAccessValidator.checkAccess(true, isSelf, entity, defn.getType());
+            rightAccessValidator.checkFieldAccess(neutralQuery, isSelf, entity, defn.getType());
+
+            results.add(entityRightsFilter.makeEntityBody(entity, treatments, defn));
         }
 
         if (results.isEmpty()) {
