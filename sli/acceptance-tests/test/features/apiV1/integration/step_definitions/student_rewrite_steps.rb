@@ -72,20 +72,36 @@ When /^I navigate to the base level URI <Entity> I should see the rewrite in the
       puts "Return code for URI: #{row["Entity"]} was #{@res.code}"
     end
 
-    #Verify the rewrite
+    #Verify the general path of the rewrite
+    expectedPath = row["URI"].gsub("@ids", "[^/]+")
+    actualPath = @res.raw_headers.to_hash()["x-executedpath"][0]
+    if (actualPath.match(expectedPath))
+      puts "\e[32mRewrite #{row["Entity"]} -> #{actualPath}\e[0m"
+    else
+      success = false
+      puts "#{startRed}Wrong rewrite: #{row["Entity"]} -> #{actualPath}#{colorReset}"
+      puts "\e[32mExpected: #{row["URI"]}\e[0m"
+    end
+
+    #Verify the IDs inserted into the rewrite
     if (row["URI"].include? "@ids")
       row["URI"].match("/(.+)/@ids.*")
       context = $1
-      row["URI"].gsub!("@ids", @context[context])
+      expectedIds = @context[context].split(",")
+      idsString = actualPath.match("v1[^/]*/[^/]*/([^/]*)/?")[1]
+      #idsString = $2
+      actualIds = idsString.split(",")
+
+      id_set = Set.new expectedIds
+      id_set.merge actualIds
+      if (id_set.size == expectedIds.size)
+        puts "Embedded IDs for #{row["Entity"]} Matched expectations"
+      else
+        success = false
+        puts "#{startRed}IDs in rewrite Incorrect, Expected IDs:#{expectedIds} Actual IDs: #{actualIds}#{colorReset}"
+      end
     end
-    executedPath = @res.raw_headers.to_hash()["x-executedpath"][0]
-    if (executedPath.include? row["URI"])
-      puts "\e[32mRewrite #{row["Entity"]} -> #{executedPath}\e[0m"
-    else
-      success = false
-      puts "#{startRed}Wrong rewrite: #{row["Entity"]} -> #{executedPath}#{colorReset}"
-      puts "\e[32mExpected: #{row["URI"]}\e[0m"
-    end
+
   end
   assert(success, "Rewrite Expectations failed, see above logs for specific failure(s)")
 end

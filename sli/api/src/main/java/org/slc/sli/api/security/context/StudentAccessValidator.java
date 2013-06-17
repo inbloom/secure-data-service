@@ -215,6 +215,7 @@ public class StudentAccessValidator {
         // sections
         Set<List<String>> sectionsAllowedFourParts = new HashSet<List<String>>();
         //sectionsAllowedFourParts.add(Arrays.asList(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, ResourceNames.STUDENTS));
+        sectionsAllowedFourParts.add(Arrays.asList(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, ResourceNames.GRADEBOOK_ENTRIES));
         fourParts.put(ResourceNames.SECTIONS, sectionsAllowedFourParts);
 
         // schools
@@ -230,8 +231,6 @@ public class StudentAccessValidator {
         studentsAllowedFourParts.add(Arrays.asList(ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS, ResourceNames.PROGRAMS));
         studentsAllowedFourParts.add(Arrays.asList(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, ResourceNames.SCHOOLS));
         studentsAllowedFourParts.add(Arrays.asList(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, ResourceNames.SECTIONS));
-        studentsAllowedFourParts.add(Arrays.asList(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, ResourceNames.GRADES));
-        studentsAllowedFourParts.add(Arrays.asList(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, ResourceNames.STUDENT_COMPETENCIES));
         studentsAllowedFourParts.add(Arrays.asList(ResourceNames.COURSE_TRANSCRIPTS, ResourceNames.COURSES));
         studentsAllowedFourParts.add(Arrays.asList(ResourceNames.STUDENT_ASSESSMENTS, ResourceNames.ASSESSMENTS));
         studentsAllowedFourParts.add(Arrays.asList(ResourceNames.STUDENT_ACADEMIC_RECORDS, ResourceNames.COURSE_TRANSCRIPTS));

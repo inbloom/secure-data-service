@@ -15,7 +15,6 @@ Scenario: Check un-versioned URIs work for student
   When I navigate to GET "/system/session/logout"
   Then any future API request should result in a 401 response code
 
-  @wip
 Scenario: Verify Rewrites for Base Level entities for Students
   Given I log in to realm "Illinois Daybreak Students" using simple-idp as student "cegray" with password "cegray1234"
   And my contextual access is defined by the table:
@@ -24,19 +23,20 @@ Scenario: Verify Rewrites for Base Level entities for Students
     | schools                | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
     | sections               | fb23953d3b55349847fe558e4909a265fab3b6a0_id,ac4aede7e0113d1c003f3da487fc079e124f129d_id,02ffe06e27e313e46e852c1a457ecb25af2cd950_id,6b687d24b9a2b10c664e2248bd8e689a482e47e2_id |
     | students               | 92164cd19ebdbe17cfdcd0e1d177877cdc9a40ef_id |
+    | studentAcademicRecords | 2f38a01d3ce555cfcdc637aa02d3596de1e27574_id51a05e3fc152d6180c97370b1cdc4de367b1dce7_id |
   And format "application/json"
   When I navigate to the base level URI <Entity> I should see the rewrite in the format of <URI>:
     | Entity                       | URI                                                                            |
-    | /assessments                 | /search/assessments                                                            |
+    | /assessments                 | /students/@ids/studentAssessments/assessments                                  |
     | /attendances                 | /students/@ids/attendances                                                     |
     | /cohorts                     | /students/@ids/studentCohortAssociations/cohorts                               |
     | /competencyLevelDescriptor   | /search/competencyLevelDescriptor                                              |
     | /courseOfferings             | /schools/@ids/courseOfferings                                                  |
-    | /courses                     | /schools/@ids/courseOfferings/courses                                          |
-    | /courseTranscripts           | /students/@ids/studentAcademicRecords/courseTranscripts                        |
+    | /courses                     | /schools/@ids/courses                                                          |
+    | /courseTranscripts           | /studentAcademicRecords/@ids/courseTranscripts                                 |
     | /educationOrganizations      | /schools/@ids                                                                  |
     | /gradebookEntries            | /sections/@ids/gradebookEntries                                                |
-    | /grades                      | /students/@ids/studentSectionAssociations/grades                               |
+    #| /grades                      | /students/@ids/studentSectionAssociations/grades                               |
     | /gradingPeriods              | /schools/@ids/sessions/gradingPeriods                                          |
     | /graduationPlans             | /schools/@ids/graduationPlans                                                  |
     | /learningObjectives          | /search/learningObjectives                                                     |
@@ -45,13 +45,16 @@ Scenario: Verify Rewrites for Base Level entities for Students
     | /programs                    | /students/@ids/studentProgramAssociations/programs                             |
     | /reportCards                 | /students/@ids/reportCards                                                     |
     | /schools                     | /schools/@ids                                                                  |
-    | /sections                    | /sections/@ids                                                                 |
+    | /sections                    | /students/@ids/studentSectionAssociations/sections                             |
     | /sessions                    | /schools/@ids/sessions                                                         |
-    | /staff                       | /educationOrganizations/@ids/staffEducationOrgAssignmentAssociations           |
+#    | /staff                       | /educationOrganizations/@ids/staffEducationOrgAssignmentAssociations           |
+#    | /staffCohortAssociations     | /educationOrganizations/@ids/staffEducationOrgAssignmentAssociations           |
+#    | /staffEducationOrgAssignmentAssociations | /educationOrganizations/@ids/staffEducationOrgAssignmentAssociations           |
+#    | /staffProgramAssociations    | /educationOrganizations/@ids/staffEducationOrgAssignmentAssociations           |
     | /studentAcademicRecords      | /students/@ids/studentAcademicRecords                                          |
     | /studentAssessments          | /students/@ids/studentAssessments                                              |
     | /studentCohortAssociations   | /students/@ids/studentCohortAssociations                                       |
-    | /studentCompetencies         | /students/@ids/studentSectionAssociations/studentCompetencies                  |
+    #| /studentCompetencies         | /students/@ids/studentSectionAssociations/studentCompetencies                  |
     | /studentCompetencyObjectives | /educationOrganizations/@ids/studentCompetencyObjectives                       |
     | /studentGradebookEntries     | /students/@ids/studentGradebookEntries                                         |
     | /studentParentAssociations   | /students/@ids/studentParentAssociations                                       |
@@ -59,9 +62,9 @@ Scenario: Verify Rewrites for Base Level entities for Students
     | /students                    | /sections/@ids/studentSectionAssociations/students                             |
     | /studentSchoolAssociations   | /students/@ids/studentSchoolAssociations                                       |
     | /studentSectionAssociations  | /students/@ids/studentSectionAssociations                                      |
-    | /teachers                    | /sections/@ids/teacherSectionAssociations/teachers                             |
-    | /teacherSchoolAssociations   | /schools/@ids/teacherSchoolAssociations                                        |
-    | /teacherSectionAssociations  | /sections/@ids/teacherSectionAssociations                                      |
+#    | /teachers                    | /sections/@ids/teacherSectionAssociations/teachers                             |
+#    | /teacherSchoolAssociations   | /schools/@ids/teacherSchoolAssociations                                        |
+#    | /teacherSectionAssociations  | /sections/@ids/teacherSectionAssociations                                      |
     | /yearlyAttendances           | /students/@ids/yearlyAttendances                                               |
 
   Scenario: Verify Blacklist for Student URI paths
