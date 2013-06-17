@@ -59,7 +59,7 @@ Scenario: Verify Rewrites for Base Level entities for Students
     | /studentGradebookEntries     | /students/@ids/studentGradebookEntries                                         |
     | /studentParentAssociations   | /students/@ids/studentParentAssociations                                       |
     | /studentProgramAssociations  | /students/@ids/studentProgramAssociations                                      |
-    | /students                    | /sections/@ids/studentSectionAssociations/students                             |
+    #| /students                    | /sections/@ids/studentSectionAssociations/students                             |
     | /studentSchoolAssociations   | /students/@ids/studentSchoolAssociations                                       |
     | /studentSectionAssociations  | /students/@ids/studentSectionAssociations                                      |
 #    | /teachers                    | /sections/@ids/teacherSectionAssociations/teachers                             |
