@@ -2494,8 +2494,6 @@ end
 
 When /^verify that "([^"]*)" is (equal|unequal) to "([^"]*)"$/ do |arg1, equal_or_unequal, arg2|
   @entity.each do |ent|
-    puts "#{arg1}: #{getValueAtIndex(ent,arg1)}" if $SLI_DEBUG
-    puts "#{arg2}: #{getValueAtIndex(ent,arg2)}" if $SLI_DEBUG
     if equal_or_unequal == "equal"
       assert(getValueAtIndex(ent,arg1) == getValueAtIndex(ent,arg2), "#{arg1} is not equal to #{arg2}")
     else
