@@ -217,6 +217,38 @@ Given /^I remove the SEOA with role "Leader" for staff "jmacey" in "District 9"$
   enable_NOTABLESCAN()
 
 end
+
+Given /^the only SEOA for "([^"]*)" is as a "([^"]*)" in "([^"]*)"$/ do |staff, role, edorg|
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  db_tenant = convertTenantIdToDbName 'Midgar'
+  db = conn[db_tenant]
+
+  staff_coll = db.collection('staff')
+  staff_id = staff_coll.find_one({'body.staffUniqueStateId' => staff})['_id']
+
+  edorg_coll = db.collection('educationOrganization')
+  edorg_id = edorg_coll.find_one({'body.stateOrganizationId' => edorg})['_id']
+
+
+  seoa_coll = db.collection('staffEducationOrganizationAssociation')
+  seoas = seoa_coll.find({'body.staffReference' => staff_id}).to_a
+  first = true
+  seoas.each do |seoa|
+    query = { '_id' => seoa['_id']}
+    if first
+      update_mongo(db_tenant, 'staffEducationOrganizationAssociation', query, 'body.educationOrganizationReference', false, edorg_id)
+      update_mongo(db_tenant, 'staffEducationOrganizationAssociation', query, 'body.staffClassification', false, role)
+    else
+      remove_from_mongo(db_tenant, 'staffEducationOrganizationAssociation', query)
+    end
+    first = false
+  end
+
+  conn.close
+  enable_NOTABLESCAN()
+end
+
 Given /^the following student section associations in ([^ ]*) are set correctly$/ do |tenant, table|
   disable_NOTABLESCAN()
   conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
@@ -274,7 +306,6 @@ Given /^the following student section associations in ([^ ]*) are set correctly$
   conn.close
   enable_NOTABLESCAN()
 end
-
 
 #############################################################################################
 # OAUTH Steps

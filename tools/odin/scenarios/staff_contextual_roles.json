@@ -46,9 +46,15 @@
     "edOrgs": [
       {
         "role": "Educator",
-        "type": "Local Education Agency",
-        "association": "District 9",
-        "parent" : "IL-DAYBREAK"
+        "type": "High School",
+        "association": "Daybreak Central High",
+        "parent" : "District 9"
+      },
+      {
+        "role": "Educator",
+        "type": "High School",
+        "association": "East Daybreak High",
+        "parent" : "District 9"
       }
     ]
   },
@@ -66,7 +72,7 @@
   },
   {
     "userId": "jmacey",
-    "name": "Jyrki Macey",
+    "name": "Javier Macey",
     "edOrgs": [
       {
         "role": "Leader",
