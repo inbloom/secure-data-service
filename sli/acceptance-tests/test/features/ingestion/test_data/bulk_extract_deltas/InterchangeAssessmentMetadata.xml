@@ -87,4 +87,112 @@
             </LearningStandardIdentity>
         </LearningStandardReference>
     </LearningObjective>
+    
+    <AssessmentFamily>
+    	<AssessmentFamilyTitle>2013 Standard</AssessmentFamilyTitle>
+    	<AssessmentFamilyIdentificationCode IdentificationSystem="State">
+        	<ID>2013 Standard BKU</ID>
+    	</AssessmentFamilyIdentificationCode>
+    	<Version>1</Version>
+	</AssessmentFamily>
+	
+
+<!-- test assessment will be created -->
+ <Assessment>
+    <AssessmentTitle>2015-First grade Assessment 2 BKC</AssessmentTitle>
+    <AssessmentIdentificationCode IdentificationSystem="State">
+        <ID>2015-First Grade Assessment 2 BKC</ID>
+    </AssessmentIdentificationCode>
+    <AcademicSubject>Writing</AcademicSubject>
+    <GradeLevelAssessed>First grade</GradeLevelAssessed>    
+    <AssessmentFamilyReference>
+        <AssessmentFamilyIdentity>
+            <AssessmentFamilyTitle>2015 First grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
+        </AssessmentFamilyIdentity>
+    </AssessmentFamilyReference>    
+</Assessment>
+
+<AssessmentFamily>
+    <AssessmentFamilyTitle>2015 Standard</AssessmentFamilyTitle>
+    <AssessmentFamilyIdentificationCode IdentificationSystem="State">
+        <ID>2015 Standard</ID>
+    </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
+</AssessmentFamily>
+
+<AssessmentFamily>
+    <AssessmentFamilyTitle>2015 First grade Standard</AssessmentFamilyTitle>
+    <AssessmentFamilyIdentificationCode IdentificationSystem="State">
+        <ID>2015 Standard</ID>
+    </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
+    <AssessmentFamilyReference>
+       <AssessmentFamilyIdentity>
+          <AssessmentFamilyTitle>2015 Standard</AssessmentFamilyTitle>
+          <Version>1</Version>
+        </AssessmentFamilyIdentity>
+    </AssessmentFamilyReference>    
+</AssessmentFamily>
+
+<!-- update assessment  -->
+
+<Assessment>
+    <AssessmentTitle>2013-Kindergarten Assessment 2</AssessmentTitle>
+    <AssessmentIdentificationCode IdentificationSystem="State">
+        <ID>2013-Kindergarten Assessment 2 BKU</ID>
+    </AssessmentIdentificationCode>
+    <AssessmentCategory>Performance assessment</AssessmentCategory>
+    <AcademicSubject>Writing</AcademicSubject>
+    <GradeLevelAssessed>Kindergarten</GradeLevelAssessed>
+    <LowestGradeLevelAssessed>Kindergarten</LowestGradeLevelAssessed>
+    <ContentStandard>State Standard</ContentStandard>
+    <AssessmentForm>Form</AssessmentForm>
+    <RevisionDate>2013-01-01</RevisionDate>
+    <MaxRawScore>100</MaxRawScore>
+    <Nomenclature>Nomenclature</Nomenclature>
+    <AssessmentPeriod>
+        <AssessmentPeriodDescriptorIdentity>
+            <AssessmentPeriodDescriptorCodeValue>BOY-0-2013</AssessmentPeriodDescriptorCodeValue>
+        </AssessmentPeriodDescriptorIdentity>
+    </AssessmentPeriod>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Kindergarten Assessment 2#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Kindergarten Assessment 2#2</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Kindergarten Assessment 2#3</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Kindergarten Assessment 2#4</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    <ObjectiveAssessmentReference>
+        <ObjectiveAssessmentIdentity>
+            <ObjectiveAssessmentIdentificationCode>2013-Kindergarten Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
+        </ObjectiveAssessmentIdentity>
+    </ObjectiveAssessmentReference>
+    <ObjectiveAssessmentReference>
+        <ObjectiveAssessmentIdentity>
+            <ObjectiveAssessmentIdentificationCode>2013-Kindergarten Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+        </ObjectiveAssessmentIdentity>
+    </ObjectiveAssessmentReference>
+    <AssessmentFamilyReference>
+        <AssessmentFamilyIdentity>
+            <AssessmentFamilyTitle>2013 Kindergarten Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
+        </AssessmentFamilyIdentity>
+    </AssessmentFamilyReference>
+</Assessment>
+	
+	
 </InterchangeAssessmentMetadata>

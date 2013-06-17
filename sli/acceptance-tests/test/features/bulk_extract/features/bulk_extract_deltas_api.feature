@@ -210,6 +210,7 @@ Scenario: Triggering deltas via ingestion
       And I verify "2" delta bulk extract files are generated for LEA "<STANDARD-SEA>" in "Midgar"
      When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
+       |  assessment                            |
        |  learningObjective                     |
        |  learningStandard                      |
        |  competencyLevelDescriptor             |
@@ -220,6 +221,7 @@ Scenario: Triggering deltas via ingestion
        |  deleted                               |
      And I verify this "deleted" file should contain:
        | id                                           | condition                               |
+       #| 8621a1a8d32dde3cf200697f22368a0f92f0fb92_id  | entityType = assessment                 |
        | 8621a1a8d32dde3cf200697f22368a0f92f0fb92_id  | entityType = learningObjective          |
        | 4a6402c02ea016736280ac88d202d71a81058171_id  | entityType = learningStandard           |
        | d82250f49dbe4facb59af2f88fe746f70948405d_id  | entityType = competencyLevelDescriptor  |
@@ -228,6 +230,17 @@ Scenario: Triggering deltas via ingestion
        | aec59707feac8e68d9d4b780bef5547e934297dc_id  | entityType = gradingPeriod              |
        | 78f5ed2b6ce039539f34ef1889af712816aec6f7_id  | entityType = calendarDate               |
 
+      And I verify this "assessment" file should contain:
+       | id                                          | condition                                                    |
+       # update assessmentFamily(parent) expected generated 1 joson file of Assessment, 26 in total of assessment
+       | 2777fe8b68767df7b7ab36768938daa576b5765b_id | assessmentTitle = 2013-Eighth grade Assessment 1             |
+     
+       # create assessmentFamily and assessment
+       |41741ad11fa4c777e397faa0bf36546f27cdb5a8_id | assessmentFamilyHierarchyName = 2015 Standard.2015 First grade Standard  |
+       |41741ad11fa4c777e397faa0bf36546f27cdb5a8_id | assessmentIdentificationCode.ID = 2015-First Grade Assessment 2 BKC      |
+       #update assessment (child)
+	   |8b7e6ce92009e03e3760e798a5f6a3d7c5e134ae_id | assessmentIdentificationCode.ID = 2013-Kindergarten Assessment 2 BKU     |
+	   
        And I verify this "calendarDate" file should contain:
         | id                                          | condition                                |
         | f34a74910eca77b0d344e1611f89156d84d0a40d_id | calendarEvent = Holiday        |
