@@ -37,7 +37,6 @@ import java.util.*;
  */
 @Component
 public class EntityRightsFilter {
-
     @Autowired
     RightAccessValidator rightAccessValidator;
 
@@ -91,25 +90,21 @@ public class EntityRightsFilter {
             @SuppressWarnings("unchecked")
             List<Map<String, Object>> telephones = (List<Map<String, Object>>) entityBody.get(telephone);
             if (telephones != null) {
-
                 for (Iterator<Map<String, Object>> it = telephones.iterator(); it.hasNext(); ) {
                     if (!work.equals(it.next().get(telephoneNumberType))) {
                         it.remove();
                     }
                 }
-
             }
 
             @SuppressWarnings("unchecked")
             List<Map<String, Object>> emails = (List<Map<String, Object>>) entityBody.get(electronicMail);
             if (emails != null) {
-
                 for (Iterator<Map<String, Object>> it = emails.iterator(); it.hasNext(); ) {
                     if (!work.equals(it.next().get(emailAddressType))) {
                         it.remove();
                     }
                 }
-
             }
 
         }
@@ -133,4 +128,9 @@ public class EntityRightsFilter {
             }
         }
     }
+
+    public void setRightAccessValidator(RightAccessValidator rightAccessValidator) {
+        this.rightAccessValidator = rightAccessValidator;
+    }
+
 }
