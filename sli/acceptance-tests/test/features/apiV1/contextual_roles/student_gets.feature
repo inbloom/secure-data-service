@@ -34,7 +34,7 @@ Feature: Use the APi to successfully get student data while having roles over ma
     Examples:
     | staff       | password                  | student's URI           |
     | linda.kim   | linda.kim1234             | <carmen.ortiz URI>      |
-    #| sbantu      | sbantu1234                | <lashawn.taite URI>     |
+    | sbantu      | sbantu1234                | <lashawn.taite URI>     |
     | sbantu      | sbantu1234                | <matt.sollars URI>      |
     | rbraverman  | rbraverman1234            | <matt.sollars URI>      |
     | rbraverman  | rbraverman1234            | <carmen.ortiz URI>     |
@@ -68,7 +68,7 @@ Feature: Use the APi to successfully get student data while having roles over ma
     Then I should receive a return code of 200
     #When I navigate to GET "<carmen.ortiz URI>"
     #Then I should receive a return code of 200
-    #When I navigate to GET "<mu.mcneil URI>"
+    #When I navigate to GET "<mu.mcneill URI>"
     #Then I should receive a return code of 200
 
     Given I remove the SEOA with role "Leader" for staff "jmacey" in "District 9"
@@ -80,7 +80,7 @@ Feature: Use the APi to successfully get student data while having roles over ma
     Given format "application/json"
     When I navigate to GET "<carmen.ortiz URI>"
     Then I should receive a return code of 403
-    When I navigate to GET "<mu.mcneil URI>"
+    When I navigate to GET "<mu.mcneill URI>"
     Then I should receive a return code of 403
 
   @wip
@@ -96,30 +96,26 @@ Feature: Use the APi to successfully get student data while having roles over ma
     Given format "application/json"
     #When I navigate to GET "<matt.sollars URI>"
     #Then I should receive a return code of 200
+    When I navigate to GET "<carmen.ortiz URI>"
+    Then I should receive a return code of 200
     When I navigate to GET "<lashawn.taite URI>"
     Then I should receive a return code of 200
 
+    Given I remove the teacherSectionAssociation for "rbelding"
 
+    Given format "application/json"
+    #When I navigate to GET "<matt.sollars URI>"
+    #Then I should receive a return code of 200
+    When I navigate to GET "<lashawn.taite URI>"
+    Then I should receive a return code of 200
     Given format "application/json"
     When I navigate to GET "<carmen.ortiz URI>"
     Then I should receive a return code of 403
     When I navigate to GET "<mu.mcneill URI>"
     Then I should receive a return code of 403
 
-    Given the following student section associations in Midgar are set correctly
-      | student         | teacher              | edorg                 | enrolledInAnySection? |
-      | carmen.ortiz    | rbelding             | Daybreak Central High | yes                   |
-
-    Given format "application/json"
-    When I navigate to GET "<matt.sollars URI>"
-    Then I should receive a return code of 200
-    When I navigate to GET "<carmen.ortiz URI>"
-    Then I should receive a return code of 200
-    When I navigate to GET "<lashawn.taite URI>"
-    Then I should receive a return code of 200
-
   @wip
-  Scenario: Staff can not access data above its edOrg
+  Scenario: Leader can access restricted data
     When I navigate to the API authorization endpoint with my client ID
     And I was redirected to the "Simple" IDP Login page
     And I submit the credentials "sbantu" "sbantu1234" for the "Simple" login page
@@ -129,8 +125,9 @@ Feature: Use the APi to successfully get student data while having roles over ma
     And I should be able to use the token to make valid API calls
 
     Given format "application/json"
-    When I navigate to GET "<yishai.sokoll URI>"
-    Then I should receive a return code of 403
+    When I navigate to GET "<matt.sollars URI>"
+    Then I should receive a return code of 200
+    And the response should have restricted student data
 
   @wip
   Scenario: Student belongs to schools in different LEAs
@@ -151,9 +148,3 @@ Feature: Use the APi to successfully get student data while having roles over ma
     Given format "application/json"
     When I navigate to GET "<bert.jakeman URI>"
     Then I should receive a return code of 403
-
-
-
-
-
-
