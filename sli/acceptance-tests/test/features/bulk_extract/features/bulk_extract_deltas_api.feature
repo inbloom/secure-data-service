@@ -303,20 +303,16 @@ Scenario: Triggering deltas via ingestion
 	   | e8c930772a34becb630760ea019491294bd900b4_id | assessmentPeriodDescriptor.description = Beginning of Year 2013-2014 for Seventh grade BKU|
 	   #created AssessessmentPeriodDescriptor
 	   | 789660a15ff1f7588050018d581a77e0002e8120_id | assessmentTitle = 2017-First grade Assessment 2 BKC|
-	   #delete AssessessmentPeriodDescriptor
+	   #delete AssessessmentPeriodDescriptor	   
 
-	   #| f0ffa2e21cf1fc400527ac2ba63c20e4a620815c_id | assessmentPeriodDescriptor = null |
-	   #| b3a9994c8006a7e4c086b02e59e034146f053f77_id | assessmentPeriodDescriptor = null |
-	   
-
-
-	   | f0ffa2e21cf1fc400527ac2ba63c20e4a620815c_id | assessmentPeriodDescriptor = null |
-	   | b3a9994c8006a7e4c086b02e59e034146f053f77_id | assessmentPeriodDescriptor = null |
+	   #And I verify this "assessment" file should contain:	
+	   #| f0ffa2e21cf1fc400527ac2ba63c20e4a620815c_id | assessmentPeriodDescriptor = "" |
+	   #| b3a9994c8006a7e4c086b02e59e034146f053f77_id | assessmentPeriodDescriptor = "" |
 	   
 
        And I verify this "calendarDate" file should contain:
         | id                                          | condition                                |
-        | f34a74910eca77b0d344e1611f89156d84d0a40d_id | calendarEvent = Holiday        |
+        | f34a74910eca77b0d344e1611f89156d84d0a40d_id | calendarEvent = Holiday                  |
         | c8d46187efd4476ccbf1442fd11abb4fc990b269_id | calendarEvent = Holiday                  |
 
      And I verify this "learningObjective" file should contain:
