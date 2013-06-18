@@ -197,6 +197,12 @@
   </AssessmentPeriodDescriptor>
 
 
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-12-2013</CodeValue>
+    <Description>Beginning of Year 2013-2014 for Twelfth grade</Description>
+  </AssessmentPeriodDescriptor>
+
+
 <AssessmentFamily>
     <AssessmentFamilyTitle>2013 Tenth grade Standard</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
