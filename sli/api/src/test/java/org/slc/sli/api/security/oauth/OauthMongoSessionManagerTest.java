@@ -256,6 +256,45 @@ public class OauthMongoSessionManagerTest {
         Assert.assertTrue(edOrgRights.get("edOrg3").equals(authorities3));
     }
 
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testGenerateEdOrgRightsMapWithEmptyRoles() throws SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, NoSuchFieldException {
+        SLIPrincipal principal = new SLIPrincipal();
+        principal.setTenantId(TENANT_ID);
+        principal.setRealm(REALM_ID);
+        principal.setAdminRealmAuthenticated(false);
+
+        Field field = OauthMongoSessionManager.class.getDeclaredField("resolver");
+        field.setAccessible(true);
+        field.set(sessionManager, resolver);
+
+        Method method = OauthMongoSessionManager.class.getDeclaredMethod("generateEdOrgRightsMap", SLIPrincipal.class);
+        method.setAccessible(true);
+        Map<String, Collection<GrantedAuthority>> edOrgRights = (Map<String, Collection<GrantedAuthority>>) method.invoke(sessionManager, principal);
+
+        Assert.assertTrue(edOrgRights.isEmpty());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testGenerateEdOrgRightsMapWithNullRoles() throws SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, NoSuchFieldException {
+        SLIPrincipal principal = new SLIPrincipal();
+        principal.setTenantId(TENANT_ID);
+        principal.setRealm(REALM_ID);
+        principal.setAdminRealmAuthenticated(false);
+        principal.setEdOrgRoles(null);
+
+        Field field = OauthMongoSessionManager.class.getDeclaredField("resolver");
+        field.setAccessible(true);
+        field.set(sessionManager, resolver);
+
+        Method method = OauthMongoSessionManager.class.getDeclaredMethod("generateEdOrgRightsMap", SLIPrincipal.class);
+        method.setAccessible(true);
+        Map<String, Collection<GrantedAuthority>> edOrgRights = (Map<String, Collection<GrantedAuthority>>) method.invoke(sessionManager, principal);
+
+        Assert.assertTrue(edOrgRights.isEmpty());
+    }
+
     @Test
     public void testVerify() throws OAuthAccessException {
         Pair<String, String> credentials = new ImmutablePair<String, String>(CLIENT_ID, CLIENT_SECRETE);

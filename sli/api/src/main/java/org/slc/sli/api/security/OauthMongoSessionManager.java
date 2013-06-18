@@ -380,9 +380,13 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                                     false);
                             debug("Granted regular rights - {}", authorities);
 
+                            // Generate EdOrg-Rights map for principal, if staff.
+                            if (principal.getUserType() == null || principal.getUserType().equals(EntityNames.STAFF)) {
+                                principal.setEdOrgRights(generateEdOrgRightsMap(principal));
+                            }
+
                             if (!principal.isAdminRealmAuthenticated()) {
                                 principal.setAuthorizingEdOrgs(appValidator.getAuthorizingEdOrgsForApp(token.getClientId()));
-                                principal.setEdOrgRights(generateEdOrgRightsMap(principal));
                             }
                             PreAuthenticatedAuthenticationToken userToken = new PreAuthenticatedAuthenticationToken(
                                     principal, accessToken, authorities);
@@ -448,10 +452,12 @@ public class OauthMongoSessionManager implements OauthSessionManager {
      */
     private Map<String, Collection<GrantedAuthority>> generateEdOrgRightsMap(SLIPrincipal principal) {
         Map<String, Collection<GrantedAuthority>> edOrgRights = new HashMap<String, Collection<GrantedAuthority>>();
-        for (String edOrg : principal.getEdOrgRoles().keySet()) {
-            Collection<GrantedAuthority> edorgAuthorities = resolveAuthorities(principal.getTenantId(), principal.getRealm(),
-                    principal.getEdOrgRoles().get(edOrg), principal.isAdminRealmAuthenticated(), false);
-            edOrgRights.put(edOrg, edorgAuthorities);
+        if (principal.getEdOrgRoles() != null) {
+            for (String edOrg : principal.getEdOrgRoles().keySet()) {
+                Collection<GrantedAuthority> edorgAuthorities = resolveAuthorities(principal.getTenantId(), principal.getRealm(),
+                        principal.getEdOrgRoles().get(edOrg), principal.isAdminRealmAuthenticated(), false);
+                edOrgRights.put(edOrg, edorgAuthorities);
+            }
         }
 
         return edOrgRights;
