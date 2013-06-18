@@ -3,7 +3,7 @@
 xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-MasterSchedule.xsd">
  <CourseOffering>
     <LocalCourseCode>9</LocalCourseCode>
-    <LocalCourseTitle>Sixth grade English</LocalCourseTitle>
+    <LocalCourseTitle>Seventh grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>

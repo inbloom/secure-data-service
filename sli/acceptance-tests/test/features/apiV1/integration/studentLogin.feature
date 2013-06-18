@@ -261,6 +261,81 @@ Feature: As a student or staff I want to use apps that access the inBloom API
       | sequenceOfCourse       |
       | uniqueSectionCode      |
 
+  Scenario: I check the response body fields of attendance data
+    Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
+    And format "application/json"
+    And I am using api version "v1"
+    And I am accessing data about myself, "matt.sollars"
+  Then I verify the following response body fields exist in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/attendances":
+    | field                                               |
+    | 0.schoolYearAttendance.0.schoolYear                 |
+    | 0.schoolYearAttendance.0.attendanceEvent.0.date     |
+    | 0.schoolYearAttendance.0.attendanceEvent.0.event    |
+    | 0.schoolYearAttendance.0.attendanceEvent.0.reason   |
+  Then I verify the following response body fields exist in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/yearlyAttendances":
+    | field                        |
+    | 0.attendanceEvent.0.date     |
+    | 0.attendanceEvent.0.event    |
+    | 0.attendanceEvent.0.reason   |
+    | 0.schoolYear                 |
+
+  Scenario: I check the response body fields of grade data
+    Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
+    And format "application/json"
+    And I am using api version "v1"
+    And I am accessing data about myself, "matt.sollars"
+  Then I verify the following response body fields exist in "/studentSectionAssociations/d4254efaa82daacfce951763bcd5e9e2352ac073_idfb1483255c8a58711bc419525f14b7f7ad82e8d4_id/grades":
+    | field                         |
+    | 0.diagnosticStatement         |
+    | 0.gradeType                   |
+    | 0.letterGradeEarned           |
+    | 0.numericGradeEarned          |
+    | 0.performanceBaseConversion   |
+    | 0.schoolYear                  |
+  Then I verify the following response body fields exist in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/studentGradebookEntries":
+    | field                         |
+    | 0.dateFulfilled               |
+    | 0.diagnosticStatement         |
+    | 0.letterGradeEarned           |
+    | 0.numericGradeEarned          |
+  Then I verify the following response body fields exist in "/studentAcademicRecords/5aaf89278b7226f668f46509403d86a2b5968978_idf686ca38e2c6acd3eeb149ba351c6da21930e096_id/courseTranscripts":
+    | field                                             |
+    | 0.additionalCreditsEarned.0.additionalCreditType  |
+    | 0.additionalCreditsEarned.0.credit                |
+    | 0.courseAttemptResult                             |
+    | 0.creditsAttempted                                |
+    | 0.creditsEarned                                   |
+    | 0.finalLetterGradeEarned                          |
+    | 0.finalNumericGradeEarned                         |
+    | 0.gradeLevelWhenTaken                             |
+    | 0.gradeType                                       |
+    | 0.methodCreditEarned                              |
+  Then I verify the following response body fields exist in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/studentAcademicRecords":
+    | field                                      |
+    | 0.academicHonors.0.academicHonorsType      |
+    | 0.academicHonors.0.honorAwardDate          |
+    | 0.academicHonors.0.honorsDescription       |
+    | 0.classRanking.classRank                   |
+    | 0.classRanking.classRankingDate            |
+    | 0.classRanking.percentageRanking           |
+    | 0.classRanking.totalNumberInClass          |
+    | 0.cumulativeCreditsAttempted               |
+    | 0.cumulativeCreditsEarned                  |
+    | 0.gradeValueQualifier                      |
+    | 0.projectedGraduationDate                  |
+    | 0.recognitions.0.recognitionAwardDate      |
+    | 0.recognitions.0.recognitionDescription    |
+    | 0.recognitions.0.recognitionType           |
+    | 0.schoolYear                               |
+  Then I verify the following response body fields exist in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/reportCards":
+    | field                       |
+    | 0.gpaCumulative             |
+    | 0.gpaGivenGradingPeriod     |
+    | 0.numberOfDaysAbsent        |
+    | 0.numberOfDaysInAttendance  |
+    | 0.numberOfDaysTardy         |
+    | 0.schoolYear                |
+
   @student_blacklist
   Scenario: Student should NOT have access to certain fields in API entity response bodies
     Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
