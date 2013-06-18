@@ -305,10 +305,10 @@ Scenario: Triggering deltas via ingestion
 	   | 789660a15ff1f7588050018d581a77e0002e8120_id | assessmentTitle = 2017-First grade Assessment 2 BKC|
 	   #delete AssessessmentPeriodDescriptor	   
 
-	   #And I verify this "assessment" file should contain:	
-	   #| f0ffa2e21cf1fc400527ac2ba63c20e4a620815c_id | assessmentPeriodDescriptor = "" |
-	   #| b3a9994c8006a7e4c086b02e59e034146f053f77_id | assessmentPeriodDescriptor = "" |
-	   
+	   And the "assessment" file should not contain a field
+	     | id                                          | field                          |
+         | f0ffa2e21cf1fc400527ac2ba63c20e4a620815c_id | assessmentPeriodDescriptor     |
+         | b3a9994c8006a7e4c086b02e59e034146f053f77_id | assessmentPeriodDescriptor     |
 
        And I verify this "calendarDate" file should contain:
         | id                                          | condition                                |
