@@ -68,15 +68,15 @@ Transform /^<(.*?)>$/ do |human_readable_id|
   id = "studentUniqueStateId"                                  if human_readable_id == "studentUniqueStateId"
   #
   # Assessment Domain
-  id = "false"                                                 if human_readable_id == "correct response"
+  id = "true"                                                  if human_readable_id == "correct response"
   id = "code1"                                                 if human_readable_id == "code value"
   id = "True-False"                                            if human_readable_id == "item category"
   id = "Number score"                                          if human_readable_id == "reporting method"
-  id = "BOY-11-2013"                                           if human_readable_id == "APD.codeValue"
-  id = "2013-Eleventh grade Assessment 2"                      if human_readable_id == "assessment 1"
-  id = "2013-Eleventh grade Assessment 2#2"                    if human_readable_id == "assessment item 1"
-  id = "2013-Eleventh grade Assessment 2.OA-1"                 if human_readable_id == "objective assessment"
-  id = "2013-Eleventh grade Assessment 2.OA-1 Sub"             if human_readable_id == "sub objective assessment"
+  id = "BOY-10-2013"                                           if human_readable_id == "APD.codeValue"
+  id = "2013-Tenth grade Assessment 2"                         if human_readable_id == "assessment 1"
+  id = "2013-Tenth grade Assessment 2#1"                       if human_readable_id == "assessment item 1"
+  id = "2013-Tenth grade Assessment 2.OA-0"                    if human_readable_id == "objective assessment"
+  id = "2013-Tenth grade Assessment 2.OA-0 Sub"                if human_readable_id == "sub objective assessment"
   id = "objectiveAssessment.0.maxRawScore"                     if human_readable_id == "OA.maxRawScore"
   id = "objectiveAssessment.0.nomenclature"                    if human_readable_id == "OA.nomenclature"
   id = "objectiveAssessment.0.identificationCode"              if human_readable_id == "OA.identificationCode"
@@ -86,9 +86,9 @@ Transform /^<(.*?)>$/ do |human_readable_id|
   id = "assessmentIdentificationCode.0.identificationSystem"   if human_readable_id == "AIC.identificationSystem"
   
   # Assessment Family Hierarchy
-  id = "2013 Standard.2013 Eleventh grade Standard"             if human_readable_id == "assessment family hierarchy"
+  id = "2013 Standard.2013 Tenth grade Standard"             if human_readable_id == "assessment family hierarchy"
   # Assessment Period Descriptor
-  id = "Beginning of Year 2013-2014 for Eleventh grade"         if human_readable_id == "assessment period descriptor"
+  id = "Beginning of Year 2013-2014 for Tenth grade"         if human_readable_id == "assessment period descriptor"
 
   # Search endpoints
   id = "assessmentIdentificationCode.0.ID"                     if human_readable_id == "search.assessment.ID"
@@ -290,6 +290,17 @@ When /^I verify the following response body fields exist in "(.*?)":$/ do |uri, 
   end
 end
 
+When /^I verify the following response body fields do not exist in "(.*?)":$/ do |uri, table|
+  step "I navigate to GET \"/#{@api_version}#{uri}\""
+  puts "api result is #{@result}" if $SLI_DEBUG
+  table.hashes.map do |row|
+    field = row['field']
+    puts "Checking #{field} exists" if $SLI_DEBUG
+    result = fieldExtract(field, @result)
+    assert(result.nil?, "Invalid Access: User has access to field #{field} but should not")
+  end
+end
+
 When /^I validate I have access to entities via the API access pattern "(.*?)":$/ do |uri, table| 
   table.hashes.map do |row|
     print "Verifying I get a 200 response from #{row["entity"]}/#{row["id"]} .. "
@@ -300,6 +311,11 @@ When /^I validate I have access to entities via the API access pattern "(.*?)":$
     step "I should receive a return code of 200"
     print "OK\n"
   end
+end
+
+When /^I validate the "(.*?)" HATEOS link for "(.*?)"$/ do |entity, key|
+  uri = @entityMap[entity.to_s][key.to_s]
+  step "I follow the HATEOS link named \"#{uri}\""
 end
 
 
@@ -331,7 +347,6 @@ Then /^I should validate all the HATEOS links$/ do
       link["href"].match("/api/rest/v1\.[0-9]/(.*?)$")
       uri = $1
       assert(uri != nil, "Did not find a link for #{link["rel"]} => #{link["href"]}" )
-      puts "DEBUG: Validating #{link["rel"]}"
       step "I navigate to GET \"/v1/#{uri}\""
       if link["rel"] == "custom"
         assert(@res.code == 404, "Return code was not expected: #{@res.code} but expected 404")
@@ -371,6 +386,8 @@ Then /^I sort the studentAssessmentItems$/ do
 end
 
 Then /^the response field "(.*?)" should be "(.*?)"$/ do |field, value|
+  startRed = "\e[31m"
+  colorReset = "\e[0m"
   #puts "\n\nDEBUG: @result[#{field}]=#{@result[field]}\n"
   # dig the value for that field out of a potentially
   # dot-delimited response-body structure
@@ -397,7 +414,8 @@ Then /^the response field "(.*?)" should be the number "(.*?)"$/ do |field, valu
 end
 
 Then /^I should extract the "(.*?)" id from the "(.*?)" URI$/ do |entity, link|
-  value = @entityMap[entity][link].match(/#{resource}\/(.*?_id)/)
+  puts "DEBUG: entity link is #{@entityMap[entity][link]}"
+  value = @entityMap[entity][link].match(/#{entity}s\/(.*?_id)/)
   entityHashPush(entity, "id", $1)
 end
 
@@ -431,13 +449,13 @@ end
 Then /^I store the studentAssessments$/ do
   #puts "\n\nDEBUG: Storing #{@result.length} studentAssessments"
   ids = Array.new
-
   @result.each do |studentAssessment|
     ids << studentAssessment["id"]
     entityHashPush("teacher", studentAssessment["id"], studentAssessment)
   end
   # Push the list of studentAsessment hash keys to a list in @entityMap["teacher"]
   ids.sort!
+  puts "DEBUG: ids are #{ids.inspect}"
   entityHashPush("teacher", "studentAssessments", ids)
 end
 
@@ -600,12 +618,9 @@ end
 
 # Build the entity hash map
 def entityHashPush(entity, key, value)
-  @entityMap = Hash.new unless defined? @entityMap
-  #@entityMap[entity] = Hash.new unless defined? @entityMap[entity]
-  puts "DEBUG: entity is #{entity}, key is #{key}"
-  #@entityMap[entity][key] = Hash.new unless defined? @entityMap[entity][key]
-  
-  @entityMap[entity] = {key => value}
+  @entityMap = {} unless @entityMap != nil
+  @entityMap[entity] = {} unless @entityMap[entity] != nil  
+  @entityMap[entity][key] = value
 end
 
 def getTeacherSchools()

@@ -37,11 +37,10 @@ Feature:  RC Integration Tests - Test Student Login
     Then I should be on Portal home page
     And I click on Admin
     Then I should be on the admin page
-#    And under System Tools, I click on "inBloom Data Browser"
-#    Then I should be redirected to the Data Browser home page
-#    And I should see the name "Matt Sollars, Jr" on the page
-#    Then I should click on the Home link and be redirected back
-#    And I have navigated to the "Me" page of the Data Browser
-#    Then I am redirected to the particular entity Detail View
-#    When I click and go back to Home
-#    Then I log out of Databrowser
+    And under System Tools, I click on "inBloom Data Browser"
+    Then I should be redirected to the Data Browser home page
+    And I should see the name "Matt Sollars Jr" on the page
+    And I have navigated to the "Me" page of the Data Browser
+    Then I can see my "Gender" is "Male"
+    Then I can see my "StudentUniqueStateId" is "800000025"
+    Then I log out of Databrowser
