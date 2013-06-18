@@ -128,6 +128,73 @@
     </AssessmentFamilyReference>
 </Assessment>
 
+<ObjectiveAssessment>
+  <IdentificationCode>2013-Fourth grade Assessment 2.OA-0</IdentificationCode>
+  <MaxRawScore>50</MaxRawScore>
+  <AssessmentPerformanceLevel>
+    <PerformanceLevel>
+      <CodeValue>code1</CodeValue>
+      <PerformanceLevelMet>true</PerformanceLevelMet>
+    </PerformanceLevel>
+    <AssessmentReportingMethod>Number score</AssessmentReportingMethod>
+    <MinimumScore>0</MinimumScore>
+    <MaximumScore>50</MaximumScore>
+  </AssessmentPerformanceLevel>
+  <PercentOfAssessment>50</PercentOfAssessment>
+  <Nomenclature>Nomenclature</Nomenclature>
+  <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+      <Objective>Generic Learning Objective 1</Objective>
+      <AcademicSubject>Writing</AcademicSubject>
+      <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+  </LearningObjectiveReference>
+  <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+      <Objective>Generic Learning Objective 2</Objective>
+      <AcademicSubject>Writing</AcademicSubject>
+      <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+  </LearningObjectiveReference>
+  <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+      <Objective>Generic Learning Objective 3</Objective>
+      <AcademicSubject>Writing</AcademicSubject>
+      <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+  </LearningObjectiveReference>
+  <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+      <Objective>Generic Learning Objective 4</Objective>
+      <AcademicSubject>Writing</AcademicSubject>
+      <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+  </LearningObjectiveReference>
+  <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+      <Objective>Generic Learning Objective 5</Objective>
+      <AcademicSubject>Writing</AcademicSubject>
+      <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+  </LearningObjectiveReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2013-Fourth grade Assessment 2.OA-0 Sub</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2013-Fourth grade Assessment 2</AssessmentTitle>
+          <AcademicSubject>Science</AcademicSubject>
+          <GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</ObjectiveAssessment>
+
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-12-2013</CodeValue>
+    <Description>Beginning of Year 2013-2014 for Twelfth grade</Description>
+  </AssessmentPeriodDescriptor>
 
 
 
