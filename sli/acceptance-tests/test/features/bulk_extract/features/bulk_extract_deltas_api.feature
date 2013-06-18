@@ -283,7 +283,7 @@ Scenario: Triggering deltas via ingestion
        | aec59707feac8e68d9d4b780bef5547e934297dc_id  | entityType = gradingPeriod              |
        | 78f5ed2b6ce039539f34ef1889af712816aec6f7_id  | entityType = calendarDate               |
        | a60af241e154436d3a996e544fb886381edc490a_id0ce66f5d6973ecc7182bbad99e3f9a314aed3168_id | entityType = objectiveAssessment        |
-	   | 10c6591286b369aac8764612c9803079bc61aa6a_id  | entityType = assessmentPeriodDescriptor |
+#	   | 10c6591286b369aac8764612c9803079bc61aa6a_id  | entityType = assessmentPeriodDescriptor |
 
     And I verify this "assessment" file should contain:
        | id                                          | condition                                                    |
