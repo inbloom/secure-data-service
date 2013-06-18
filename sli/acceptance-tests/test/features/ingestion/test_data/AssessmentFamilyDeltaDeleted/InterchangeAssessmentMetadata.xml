@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
+  <Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="false">
+    <AssessmentFamily>
+    <AssessmentFamilyTitle>READ 2.0</AssessmentFamilyTitle>
+        <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+            <ID>READ 2.0 Updated</ID> <!-- changed from ingestion/test_data/AssessmentFamilyDelta -->
+        </AssessmentFamilyIdentificationCode>
+    </AssessmentFamily>
+
+    <AssessmentFamily>
+        <AssessmentFamilyTitle>READ 2.0 Grade 1</AssessmentFamilyTitle>
+        <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+            <ID>READ 2.0 Grade 1</ID>
+        </AssessmentFamilyIdentificationCode>
+        <AssessmentFamilyReference>
+            <AssessmentFamilyIdentity>
+                <AssessmentFamilyTitle>READ 2.0 Updated</AssessmentFamilyTitle> <!-- changed from ingestion/test_data/AssessmentFamilyDelta -->
+            </AssessmentFamilyIdentity>
+        </AssessmentFamilyReference>
+    </AssessmentFamily>
+
+  </Action>
+</InterchangeAssessmentMetadata>
