@@ -141,15 +141,15 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
     And Only the following extracts exists for edOrg "<STANDARD-SEA>" in tenant "Midgar"
       |   course              |
       |   courseOffering      |
-#    And There should not be any of the following extracts for edOrg "<IL-DAYBREAK>" in tenant "Midgar"
-#      |   course              |
-#      |   courseOffering      |
-#    And There should not be any of the following extracts for edOrg "<IL-HIGHWIND>" in tenant "Midgar"
-#      |   course              |
-#      |   courseOffering      |
-#    And There should not be any of the following extracts for edOrg "<IL-SUNSET>" in tenant "Midgar"
-#      |   course              |
-#      |   courseOffering      |
+    And There should not be any of the following extracts for edOrg "<IL-DAYBREAK>" in tenant "Midgar"
+      # Note course exists here due to a reference to a courseOffering related to this LEA
+      |   courseOffering      |
+    And There should not be any of the following extracts for edOrg "<IL-HIGHWIND>" in tenant "Midgar"
+      # Note course exists here due to a reference to a courseOffering related to this LEA
+      |   courseOffering      |
+    And There should not be any of the following extracts for edOrg "<IL-SUNSET>" in tenant "Midgar"
+      |   course              |
+      |   courseOffering      |
     When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
       |  entityType                            |
       |  course                                |
@@ -288,26 +288,27 @@ Scenario: Triggering deltas via ingestion
        |41741ad11fa4c777e397faa0bf36546f27cdb5a8_id | assessmentIdentificationCode.ID = 2015-First Grade Assessment 2 BKC      |
        #update assessment (child)
 	   |8b7e6ce92009e03e3760e798a5f6a3d7c5e134ae_id | assessmentIdentificationCode.ID = 2013-Kindergarten Assessment 2 BKU     |
-	   #delete assessmentFamily                
-	   #|124057675fa0903e905f0377bbc0450aacc7edab_id |           |
 
 	   #update objectiveAssessment 
 	   |2c53daf31299947bc83fa5637ea502f16b715a60_id | objectiveAssessment.objectiveAssessments.nomenclature= Nomenclature BKU  |
 	   #create objectiveAssessment
 	   |d6be71fd4ede46095c1efd7281e9f96cd75b1798_id | assessmentTitle = 2016-Kindergarten Assessment 1                         |
-	   #delete objectiveAssessment, when delete finish, we should remove it
-	   #|a60af241e154436d3a996e544fb886381edc490a_id |                            |
 	   
 	   #update AssessessmentPeriodDescriptor
 	   | e8c930772a34becb630760ea019491294bd900b4_id | assessmentPeriodDescriptor.description = Beginning of Year 2013-2014 for Seventh grade BKU|
 	   #created AssessessmentPeriodDescriptor
 	   | 789660a15ff1f7588050018d581a77e0002e8120_id | assessmentTitle = 2017-First grade Assessment 2 BKC|
-	   #delete AssessessmentPeriodDescriptor	   
-	   And I verify this "assessment" file should not contain:
-	   | id                                          | condition                       |	
-	   #| f0ffa2e21cf1fc400527ac2ba63c20e4a620815c_id |                                 |
-	   #| b3a9994c8006a7e4c086b02e59e034146f053f77_id |                                 |
 	   
+	   #delete AssessessmentPeriodDescriptor	   
+	   And the "assessment" file should not contain a field
+	     | id                                          | field                          |
+         | f0ffa2e21cf1fc400527ac2ba63c20e4a620815c_id | assessmentPeriodDescriptor     |
+         | b3a9994c8006a7e4c086b02e59e034146f053f77_id | assessmentPeriodDescriptor     |
+        #delete objectiveAssessment, when delete finish, we should remove it
+	    #|a60af241e154436d3a996e544fb886381edc490a_id |                            |
+        #delete assessmentFamily                
+	    #|124057675fa0903e905f0377bbc0450aacc7edab_id |  assessmentFamilyReference         |
+         
 
        And I verify this "calendarDate" file should contain:
         | id                                          | condition                                |
