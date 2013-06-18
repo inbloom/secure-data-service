@@ -141,15 +141,15 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
     And Only the following extracts exists for edOrg "<STANDARD-SEA>" in tenant "Midgar"
       |   course              |
       |   courseOffering      |
-#    And There should not be any of the following extracts for edOrg "<IL-DAYBREAK>" in tenant "Midgar"
-#      |   course              |
-#      |   courseOffering      |
-#    And There should not be any of the following extracts for edOrg "<IL-HIGHWIND>" in tenant "Midgar"
-#      |   course              |
-#      |   courseOffering      |
-#    And There should not be any of the following extracts for edOrg "<IL-SUNSET>" in tenant "Midgar"
-#      |   course              |
-#      |   courseOffering      |
+    And There should not be any of the following extracts for edOrg "<IL-DAYBREAK>" in tenant "Midgar"
+      # Note course exists here due to a reference to a courseOffering related to this LEA
+      |   courseOffering      |
+    And There should not be any of the following extracts for edOrg "<IL-HIGHWIND>" in tenant "Midgar"
+      # Note course exists here due to a reference to a courseOffering related to this LEA
+      |   courseOffering      |
+    And There should not be any of the following extracts for edOrg "<IL-SUNSET>" in tenant "Midgar"
+      |   course              |
+      |   courseOffering      |
     When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
       |  entityType                            |
       |  course                                |
