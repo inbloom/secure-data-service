@@ -2637,7 +2637,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="StaffClassification" type="StaffClassificationType">
+			<xs:element name="StaffClassification" type="SLC-StaffClassificationType">
 				<xs:annotation>
 					<xs:appinfo>
 						<sli:keyFieldName>staffClassification</sli:keyFieldName>
