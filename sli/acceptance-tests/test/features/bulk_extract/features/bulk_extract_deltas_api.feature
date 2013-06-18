@@ -108,6 +108,27 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
       | id                                          | condition                                |
       | f8a8f68c8aed779c2e8c3f9174e5b05e880e9a9d_id | assessmentTitle = READ 2.0 Grade 1 BOY   |
 
+
+  Scenario: SEA Assessment Delete Test
+    And I ingest "AssessmentDelta.zip"
+    And the extraction zone is empty
+    When I trigger a delta extract
+    When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+      |  entityType                            |
+      |  assessment                               |
+    And I verify this "assessment" file should contain:
+      | id                                          | condition                                |
+      | f8a8f68c8aed779c2e8c3f9174e5b05e880e9a9d_id | assessmentTitle = READ 2.0 Grade 1 BOY        |
+    And I ingest "AssessmentDeltaDelete.zip"
+    And the extraction zone is empty
+    When I trigger a delta extract
+    When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+      |  entityType                            |
+      |  deleted                               |
+    And I verify this "deleted" file should contain:
+      | id                                          | condition                                |
+      | f8a8f68c8aed779c2e8c3f9174e5b05e880e9a9d_id | entityType = assessment                  |
+
  Scenario: Ingesting SEA (Non Odin) entities - Session
     When I ingest "SEASession.zip"
     And the extraction zone is empty
@@ -315,9 +336,9 @@ Scenario: Triggering deltas via ingestion
          | b3a9994c8006a7e4c086b02e59e034146f053f77_id | assessmentPeriodDescriptor     |
         #delete objectiveAssessment, when delete finish, we should remove it
 	    #|a60af241e154436d3a996e544fb886381edc490a_id |                            |
-        #delete assessmentFamily                
+        #delete assessmentFamily
 	    #|124057675fa0903e905f0377bbc0450aacc7edab_id |  assessmentFamilyReference         |
-         
+
 
        And I verify this "calendarDate" file should contain:
         | id                                          | condition                                |
