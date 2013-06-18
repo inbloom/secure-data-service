@@ -34,7 +34,7 @@ When /^I make API calls for multiple IDs in accordance to the following table:$/
     restHttpGet("/v1#{row["Path"].gsub("@ids",row["GoodId"])}")
 
     #Verify the return code
-    if (@res.code != 200)
+    if (@res.code != 200 || !validate_id_presence(@res))
       success = false
       puts "#{startRed}Expected 200 Return code for URI: #{row["Path"]} was #{@res.code}#{colorReset}"
     else
@@ -81,4 +81,18 @@ end
 
 When /^I request both IDs, I should be denied$/ do
   # Explainitory step, doesn't actually do what it says, it gets done as part of a previous step
+end
+
+def validate_id_presence(res)
+  id = nil
+  return false if res == nil
+  data = JSON.parse(res.body)
+  return false if data == nil
+  if data.is_a? Array
+    id = data[0]["id"]
+  end
+  if data.is_a? Hash
+    id = data["id"]
+  end
+  return id != nil
 end
