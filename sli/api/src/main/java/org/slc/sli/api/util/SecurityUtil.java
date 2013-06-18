@@ -228,6 +228,12 @@ public class SecurityUtil {
         return principal != null && EntityNames.STUDENT.equals(principal.getEntity().getType());
     }
 
+    public static boolean isStaffUser() {
+        SLIPrincipal principal = getSLIPrincipal();
+        String userType = principal.getUserType();
+        return (userType == null || userType.isEmpty() || EntityNames.STAFF.equals(userType)) && !principal.isAdminUser();
+    }
+
     /**
      * Encapsulates the SecurityUtil static methods, enabling them to be mocked out for testing.
      * Add more as you need them.

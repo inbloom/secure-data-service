@@ -16,7 +16,9 @@
 
 package org.slc.sli.api.security.context.resolver;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.slc.sli.api.security.context.validator.StudentValidatorHelper;
 import org.slc.sli.domain.Entity;
@@ -43,4 +45,18 @@ public class SectionHelper {
     }
 
 
+    public List<String> getStudentsSections(Entity student) {
+        // Throw exception if calling this function as a non-student
+        if (!"student".equals(student.getType())) {
+            throw new IllegalArgumentException("Cannot get a student's sections if not a student");
+        }
+
+        List<Map<String, Object>> sections = student.getDenormalizedData().get("section");
+        List<String> sectionIds = new ArrayList<String>();
+        for (Map<String, Object> section : sections) {
+            sectionIds.add( (String) section.get("_id"));
+        }
+
+        return sectionIds;
+    }
 }
