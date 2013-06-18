@@ -292,13 +292,26 @@ Scenario: Triggering deltas via ingestion
 	   #create objectiveAssessment
 	   |d6be71fd4ede46095c1efd7281e9f96cd75b1798_id | assessmentTitle = 2016-Kindergarten Assessment 1                         |
 	   
+
+	   #update objectiveAssessment 
+	   |2c53daf31299947bc83fa5637ea502f16b715a60_id | objectiveAssessment.objectiveAssessments.nomenclature= Nomenclature BKU  |
+	   #create objectiveAssessment
+	   |d6be71fd4ede46095c1efd7281e9f96cd75b1798_id | assessmentTitle = 2016-Kindergarten Assessment 1                         |
+	   
+
 	   #update AssessessmentPeriodDescriptor
 	   | e8c930772a34becb630760ea019491294bd900b4_id | assessmentPeriodDescriptor.description = Beginning of Year 2013-2014 for Seventh grade BKU|
 	   #created AssessessmentPeriodDescriptor
 	   | 789660a15ff1f7588050018d581a77e0002e8120_id | assessmentTitle = 2017-First grade Assessment 2 BKC|
 	   #delete AssessessmentPeriodDescriptor
+
 	   #| f0ffa2e21cf1fc400527ac2ba63c20e4a620815c_id | assessmentPeriodDescriptor = null |
 	   #| b3a9994c8006a7e4c086b02e59e034146f053f77_id | assessmentPeriodDescriptor = null |
+	   
+
+
+	   | f0ffa2e21cf1fc400527ac2ba63c20e4a620815c_id | assessmentPeriodDescriptor = null |
+	   | b3a9994c8006a7e4c086b02e59e034146f053f77_id | assessmentPeriodDescriptor = null |
 	   
 
        And I verify this "calendarDate" file should contain:
