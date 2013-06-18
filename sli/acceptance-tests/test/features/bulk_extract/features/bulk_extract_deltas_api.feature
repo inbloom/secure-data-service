@@ -274,7 +274,8 @@ Scenario: Triggering deltas via ingestion
        |  deleted                               |
      And I verify this "deleted" file should contain:
        | id                                           | condition                               |
-       #| 8621a1a8d32dde3cf200697f22368a0f92f0fb92_id  | entityType = assessment                |
+       #delete assessment, when delete finish, we should remove it
+       #| 49059b5a8c8c3e11649995bb4ca4275b0afe5f58_id  | entityType = assessment                 |
        | 8621a1a8d32dde3cf200697f22368a0f92f0fb92_id  | entityType = learningObjective          |
        | 4a6402c02ea016736280ac88d202d71a81058171_id  | entityType = learningStandard           |
        | d82250f49dbe4facb59af2f88fe746f70948405d_id  | entityType = competencyLevelDescriptor  |
@@ -282,6 +283,7 @@ Scenario: Triggering deltas via ingestion
        | ebfc74d85dfcdcb7e5ddc93a6af2952801f9436e_id  | entityType = program                    |
        | aec59707feac8e68d9d4b780bef5547e934297dc_id  | entityType = gradingPeriod              |
        | 78f5ed2b6ce039539f34ef1889af712816aec6f7_id  | entityType = calendarDate               |
+       #this should not in deleted file, when delete finish, we should remove it
        | a60af241e154436d3a996e544fb886381edc490a_id0ce66f5d6973ecc7182bbad99e3f9a314aed3168_id | entityType = objectiveAssessment        |
 #	   | 10c6591286b369aac8764612c9803079bc61aa6a_id  | entityType = assessmentPeriodDescriptor |
 
@@ -301,23 +303,21 @@ Scenario: Triggering deltas via ingestion
 	   #create objectiveAssessment
 	   |d6be71fd4ede46095c1efd7281e9f96cd75b1798_id | assessmentTitle = 2016-Kindergarten Assessment 1                         |
 
-
-	   #update objectiveAssessment
-	   |2c53daf31299947bc83fa5637ea502f16b715a60_id | objectiveAssessment.objectiveAssessments.nomenclature= Nomenclature BKU  |
-	   #create objectiveAssessment
-	   |d6be71fd4ede46095c1efd7281e9f96cd75b1798_id | assessmentTitle = 2016-Kindergarten Assessment 1                         |
-
-
 	   #update AssessessmentPeriodDescriptor
 	   | e8c930772a34becb630760ea019491294bd900b4_id | assessmentPeriodDescriptor.description = Beginning of Year 2013-2014 for Seventh grade BKU|
 	   #created AssessessmentPeriodDescriptor
 	   | 789660a15ff1f7588050018d581a77e0002e8120_id | assessmentTitle = 2017-First grade Assessment 2 BKC|
-	   #delete AssessessmentPeriodDescriptor
 
+	   #delete AssessessmentPeriodDescriptor
 	   And the "assessment" file should not contain a field
 	     | id                                          | field                          |
          | f0ffa2e21cf1fc400527ac2ba63c20e4a620815c_id | assessmentPeriodDescriptor     |
          | b3a9994c8006a7e4c086b02e59e034146f053f77_id | assessmentPeriodDescriptor     |
+        #delete objectiveAssessment, when delete finish, we should remove it
+	    #|a60af241e154436d3a996e544fb886381edc490a_id |                            |
+        #delete assessmentFamily                
+	    #|124057675fa0903e905f0377bbc0450aacc7edab_id |  assessmentFamilyReference         |
+         
 
        And I verify this "calendarDate" file should contain:
         | id                                          | condition                                |
