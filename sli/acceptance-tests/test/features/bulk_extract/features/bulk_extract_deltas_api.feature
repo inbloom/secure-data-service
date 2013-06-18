@@ -623,6 +623,22 @@ Scenario: Triggering deltas via ingestion
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
    Then The "graduationPlan" delta was extracted in the same format as the api
 
+Scenario: Ingest an update to AssessmentPeriodDescriptor and output only affected assessments
+  Given I clean the bulk extract file system and database
+    And I ingest "StoriedDataSet_IL_Daybreak.zip"
+    And I trigger a delta extract
+    And I ingest "AssessmentPeriodDescriptorUpdate.zip"
+    And I trigger a delta extract
+   When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+      |  entityType                            |
+      |  assessment                            |
+   And I verify this "assessment" file should contain:
+     | id                                          | condition                |
+     | f8a8f68c8aed779c2e8c3f9174e5b05e880e9a9d_id | entityType = assessment  |
+   And I verify this "assessment" file should not contain:
+     | id                                          | condition                |
+     | fe472294f0e40fd428b1a67b9765360004562bab_id |                          |
+
 Scenario: Generate a bulk extract in a different LEA
   Given I clean the bulk extract file system and database
     And I am using local data store
