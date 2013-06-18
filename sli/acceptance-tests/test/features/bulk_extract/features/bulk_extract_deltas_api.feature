@@ -141,15 +141,15 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
     And Only the following extracts exists for edOrg "<STANDARD-SEA>" in tenant "Midgar"
       |   course              |
       |   courseOffering      |
-#    And There should not be any of the following extracts for edOrg "<IL-DAYBREAK>" in tenant "Midgar"
-#      |   course              |
-#      |   courseOffering      |
-#    And There should not be any of the following extracts for edOrg "<IL-HIGHWIND>" in tenant "Midgar"
-#      |   course              |
-#      |   courseOffering      |
-#    And There should not be any of the following extracts for edOrg "<IL-SUNSET>" in tenant "Midgar"
-#      |   course              |
-#      |   courseOffering      |
+    And There should not be any of the following extracts for edOrg "<IL-DAYBREAK>" in tenant "Midgar"
+      # Note course exists here due to a reference to a courseOffering related to this LEA
+      |   courseOffering      |
+    And There should not be any of the following extracts for edOrg "<IL-HIGHWIND>" in tenant "Midgar"
+      # Note course exists here due to a reference to a courseOffering related to this LEA
+      |   courseOffering      |
+    And There should not be any of the following extracts for edOrg "<IL-SUNSET>" in tenant "Midgar"
+      |   course              |
+      |   courseOffering      |
     When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
       |  entityType                            |
       |  course                                |
@@ -305,10 +305,10 @@ Scenario: Triggering deltas via ingestion
 	   | 789660a15ff1f7588050018d581a77e0002e8120_id | assessmentTitle = 2017-First grade Assessment 2 BKC|
 	   #delete AssessessmentPeriodDescriptor	   
 
-	   #And I verify this "assessment" file should contain:	
-	   #| f0ffa2e21cf1fc400527ac2ba63c20e4a620815c_id | assessmentPeriodDescriptor = "" |
-	   #| b3a9994c8006a7e4c086b02e59e034146f053f77_id | assessmentPeriodDescriptor = "" |
-	   
+	   And the "assessment" file should not contain a field
+	     | id                                          | field                          |
+         | f0ffa2e21cf1fc400527ac2ba63c20e4a620815c_id | assessmentPeriodDescriptor     |
+         | b3a9994c8006a7e4c086b02e59e034146f053f77_id | assessmentPeriodDescriptor     |
 
        And I verify this "calendarDate" file should contain:
         | id                                          | condition                                |

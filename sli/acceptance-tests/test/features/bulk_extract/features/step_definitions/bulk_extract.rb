@@ -109,7 +109,7 @@ end
 
 Given /^the extraction zone is empty$/ do
   if (Dir.exists?(OUTPUT_DIRECTORY))
-    puts OUTPUT_DIRECTORY
+    puts "#{OUTPUT_DIRECTORY} cleaned"
     FileUtils.rm_rf("#{OUTPUT_DIRECTORY}/.", secure: true)
   end
 end
@@ -1136,6 +1136,19 @@ Then /^I verify this "(.*?)" file (should|should not) contain:$/ do |file_name, 
             assert(success, "can't find an entity with id #{id} that matches #{entity['condition']}")
         else
             assert(!success, "found an entity with id #{id} that matches #{entity['condition']}, we should not have this entity")
+        end
+    end
+end
+
+Then /^the "(.*?)" file (should|should not) contain a field$/ do |file_name, should, table|
+    look_for = should.downcase == "should"
+    json_map = to_map(get_json_from_file(file_name))
+    table.hashes.map do |entity|
+        id = entity['id']
+        field = entity['field']
+        json_entities = json_map[id]
+        json_entities.each do |json_entity|
+          assert(json_entity[field].nil?, "Does contain a #{field.to_s} in #{file_name.to_s} with id: #{id.to_s}")
         end
     end
 end
