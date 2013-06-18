@@ -146,12 +146,13 @@ public class StudentAccessValidator {
         // studentAssessments
         Set<String> studentAssessmentsAllowedThreeParts = new HashSet<String>();
         studentAssessmentsAllowedThreeParts.add(ResourceNames.ASSESSMENTS);
+        studentAssessmentsAllowedThreeParts.add(ResourceNames.STUDENTS);
         threeParts.put(ResourceNames.STUDENT_ASSESSMENTS, studentAssessmentsAllowedThreeParts);
 
         // students
         Set<String> studentsAllowedThreeParts = new HashSet<String>();
         studentsAllowedThreeParts.add(ResourceNames.ATTENDANCES);
-        studentsAllowedThreeParts.add(ResourceNames.COURSE_TRANSCRIPTS);
+        //studentsAllowedThreeParts.add(ResourceNames.COURSE_TRANSCRIPTS);
         studentsAllowedThreeParts.add(ResourceNames.REPORT_CARDS);
         studentsAllowedThreeParts.add(ResourceNames.STUDENT_ACADEMIC_RECORDS);
         studentsAllowedThreeParts.add(ResourceNames.STUDENT_ASSESSMENTS);
@@ -174,11 +175,13 @@ public class StudentAccessValidator {
         // studentParentAssociations
         Set<String> studentParentAssociationsAllowedThreeParts = new HashSet<String>();
         studentParentAssociationsAllowedThreeParts.add(ResourceNames.PARENTS);
+        studentParentAssociationsAllowedThreeParts.add(ResourceNames.STUDENTS);
         threeParts.put(ResourceNames.STUDENT_PARENT_ASSOCIATIONS, studentParentAssociationsAllowedThreeParts);
 
         // studentSchoolAssociations
         Set<String> studentSchoolAssociationsAllowedThreeParts = new HashSet<String>();
         studentSchoolAssociationsAllowedThreeParts.add(ResourceNames.SCHOOLS);
+        studentSchoolAssociationsAllowedThreeParts.add(ResourceNames.STUDENTS);
         threeParts.put(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, studentSchoolAssociationsAllowedThreeParts);
 
         // studentProgramAssociations
@@ -241,7 +244,7 @@ public class StudentAccessValidator {
         studentsAllowedFourParts.add(Arrays.asList(ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS, ResourceNames.PROGRAMS));
         studentsAllowedFourParts.add(Arrays.asList(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, ResourceNames.SCHOOLS));
         studentsAllowedFourParts.add(Arrays.asList(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, ResourceNames.SECTIONS));
-        studentsAllowedFourParts.add(Arrays.asList(ResourceNames.COURSE_TRANSCRIPTS, ResourceNames.COURSES));
+        //studentsAllowedFourParts.add(Arrays.asList(ResourceNames.COURSE_TRANSCRIPTS, ResourceNames.COURSES));
         studentsAllowedFourParts.add(Arrays.asList(ResourceNames.STUDENT_ASSESSMENTS, ResourceNames.ASSESSMENTS));
         // studentsAllowedFourParts.add(Arrays.asList(ResourceNames.STUDENT_ACADEMIC_RECORDS,
         // ResourceNames.COURSE_TRANSCRIPTS));
