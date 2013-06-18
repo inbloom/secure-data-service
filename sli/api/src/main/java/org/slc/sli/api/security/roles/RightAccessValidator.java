@@ -139,7 +139,7 @@ public class RightAccessValidator {
 
         SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
 
-        if (principal.isAdminRealmAuthenticated() || !principal.isStaffUser()) {
+        if (principal.isAdminRealmAuthenticated() || !SecurityUtil.isStaffUser()) {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             auths.addAll(auth.getAuthorities());
         } else {

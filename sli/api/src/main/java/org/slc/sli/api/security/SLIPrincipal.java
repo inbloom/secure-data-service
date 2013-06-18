@@ -242,11 +242,6 @@ public class SLIPrincipal implements Principal, Serializable {
         return adminUser;
     }
 
-
-    public boolean isStaffUser() {
-        return (userType == null || userType.isEmpty() || EntityNames.STAFF.equals(userType)) && !isAdminUser();
-    }
-
     public String getFirstName() {
         return firstName;
     }
