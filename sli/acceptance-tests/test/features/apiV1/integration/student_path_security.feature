@@ -24,6 +24,7 @@ Scenario: Verify Rewrites for Base Level entities for Students
     | sections               | fb23953d3b55349847fe558e4909a265fab3b6a0_id,ac4aede7e0113d1c003f3da487fc079e124f129d_id,02ffe06e27e313e46e852c1a457ecb25af2cd950_id,6b687d24b9a2b10c664e2248bd8e689a482e47e2_id |
     | students               | 92164cd19ebdbe17cfdcd0e1d177877cdc9a40ef_id |
     | studentAcademicRecords | 2f38a01d3ce555cfcdc637aa02d3596de1e27574_id51a05e3fc152d6180c97370b1cdc4de367b1dce7_id |
+    | studentSectionAssociations | 6b687d24b9a2b10c664e2248bd8e689a482e47e2_id2de59b0cfdaaccf05ddf3e859f27ddb6bdc9cce3_id,02ffe06e27e313e46e852c1a457ecb25af2cd950_idcb8fc2af6666f098527ca978f8d17bd077482eb7_id,ac4aede7e0113d1c003f3da487fc079e124f129d_id15a455cda83953c6b554947ae75fd00d61589500_id,fb23953d3b55349847fe558e4909a265fab3b6a0_id80bf0f16742f93d53228bb4c5d9626be3028d7ea_id |
   And format "application/json"
   When I navigate to the base level URI <Entity> I should see the rewrite in the format of <URI>:
     | Entity                       | URI                                                                            |
@@ -36,7 +37,7 @@ Scenario: Verify Rewrites for Base Level entities for Students
     | /courseTranscripts           | /studentAcademicRecords/@ids/courseTranscripts                                 |
     | /educationOrganizations      | /schools/@ids                                                                  |
     | /gradebookEntries            | /sections/@ids/gradebookEntries                                                |
-    #| /grades                      | /students/@ids/studentSectionAssociations/grades                               |
+    | /grades                      | /studentSectionAssociations/@ids/grades                                        |
     | /gradingPeriods              | /schools/@ids/sessions/gradingPeriods                                          |
     | /graduationPlans             | /schools/@ids/graduationPlans                                                  |
     | /learningObjectives          | /search/learningObjectives                                                     |
@@ -54,7 +55,7 @@ Scenario: Verify Rewrites for Base Level entities for Students
     | /studentAcademicRecords      | /students/@ids/studentAcademicRecords                                          |
     | /studentAssessments          | /students/@ids/studentAssessments                                              |
     | /studentCohortAssociations   | /students/@ids/studentCohortAssociations                                       |
-    #| /studentCompetencies         | /students/@ids/studentSectionAssociations/studentCompetencies                  |
+    | /studentCompetencies         | /studentSectionAssociations/@ids/studentCompetencies                           |
     | /studentCompetencyObjectives | /educationOrganizations/@ids/studentCompetencyObjectives                       |
     | /studentGradebookEntries     | /students/@ids/studentGradebookEntries                                         |
     | /studentParentAssociations   | /students/@ids/studentParentAssociations                                       |
@@ -80,7 +81,6 @@ Scenario: Verify Rewrites for Base Level entities for Students
       | /disciplineIncidents/9196736538ed47a9a565201eeda04fda31d9d671_id/studentDisciplineIncidentAssociations                                            |
       | /disciplineIncidents/9196736538ed47a9a565201eeda04fda31d9d671_id/studentDisciplineIncidentAssociations/students                                   |
       | /educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/cohorts                                                                       |
-      | /educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/sessions                                                                      |
       | /gradebookEntries/ac4aede7e0113d1c003f3da487fc079e124f129d_id26c51914b1974dfd8104dad40ee78f4c10324851_id/studentGradebookEntries                  |
       | /gradingPeriods/21b8ac38bf886e78a879cfdb973a9352f64d07b9_id/grades                                                                                |
       | /gradingPeriods/21b8ac38bf886e78a879cfdb973a9352f64d07b9_id/reportCards                                                                           |
