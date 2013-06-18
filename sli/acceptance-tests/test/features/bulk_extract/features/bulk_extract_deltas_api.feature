@@ -313,11 +313,12 @@ Scenario: Triggering deltas via ingestion
 	     | id                                          | field                          |
          | f0ffa2e21cf1fc400527ac2ba63c20e4a620815c_id | assessmentPeriodDescriptor     |
          | b3a9994c8006a7e4c086b02e59e034146f053f77_id | assessmentPeriodDescriptor     |
-        #delete objectiveAssessment, when delete finish, we should remove it
-	    #|a60af241e154436d3a996e544fb886381edc490a_id |                            |
         #delete assessmentFamily                
 	    #|124057675fa0903e905f0377bbc0450aacc7edab_id |  assessmentFamilyReference         |
-         
+	    
+	    And I verify this "assessment" file should not contain:
+	    #delete objectiveAssessment, when delete finish, we should remove it
+	    #|a60af241e154436d3a996e544fb886381edc490a_id  |  identificationCode = 2013-Fourth grade Assessment 2.OA-0  |
 
        And I verify this "calendarDate" file should contain:
         | id                                          | condition                                |
