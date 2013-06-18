@@ -13,6 +13,7 @@ Feature: Use the APi to successfully get student data while having roles over ma
       | student         | teacher              | edorg                 | enrolledInAnySection? |
       | carmen.ortiz    | linda.kim            | Daybreak Central High | yes                   |
       | carmen.ortiz    | rbraverman           | Daybreak Central High | yes                   |
+      | bert.jakeman    | linda.kim            | Daybreak Central High | yes                   |
       | lashawn.taite   | linda.kim            | Daybreak Central High | no                    |
       | carmen.ortiz    | linda.kim            | Daybreak Bayside High | yes                   |
       | nate.dedrick    | linda.kim            | Daybreak Bayside High | yes                   |
@@ -30,25 +31,26 @@ Feature: Use the APi to successfully get student data while having roles over ma
     Given format "application/json"
     When I navigate to GET "<student's URI>"
     Then I should receive a return code of 200
+    And the response should have general student data
+    And the response <should see restricted?> have restricted student data
 
     Examples:
-    | staff       | password                  | student's URI           |
-    | linda.kim   | linda.kim1234             | <carmen.ortiz URI>      |
-    #| sbantu      | sbantu1234                | <lashawn.taite URI>     |
-    | sbantu      | sbantu1234                | <matt.sollars URI>      |
-    | rbraverman  | rbraverman1234            | <matt.sollars URI>      |
-    | rbraverman  | rbraverman1234            | <carmen.ortiz URI>     |
-    | jstevenson  | jstevenson1234            | <matt.sollars URI>      |
-    | jstevenson  | jstevenson1234            | <carmen.ortiz URI>     |
-    | jstevenson  | jstevenson1234            | <lashawn.taite URI>     |
-    #| jstevenson  | jstevenson1234            | <yishai.sokoll URI>     |
-    | jstevenson  | jstevenson1234            | <bert.jakeman URI>      |
-    | jstevenson  | jstevenson1234            | <nate.dedrick URI>      |
-    | jstevenson  | jstevenson1234            | <mu.mcneill URI>        |
-    | linda.kim   | linda.kim1234             | <carmen.ortiz URI>     |
-    | linda.kim   | linda.kim1234             | <bert.jakeman URI>      |
-    | linda.kim   | linda.kim1234             | <nate.dedrick URI>      |
-    | linda.kim   | linda.kim1234             | <mu.mcneill URI>        |
+    | staff       | password                  | student's URI           | should see restricted? |
+    | sbantu      | sbantu1234                | <lashawn.taite URI>     | should                 |
+    | sbantu      | sbantu1234                | <matt.sollars URI>      | should                 |
+    | rbraverman  | rbraverman1234            | <matt.sollars URI>      | should not             |
+    | rbraverman  | rbraverman1234            | <carmen.ortiz URI>      | should not             |
+    | jstevenson  | jstevenson1234            | <matt.sollars URI>      | should                 |
+    | jstevenson  | jstevenson1234            | <carmen.ortiz URI>      | should                 |
+    | jstevenson  | jstevenson1234            | <lashawn.taite URI>     | should                 |
+    #| jstevenson  | jstevenson1234            | <yishai.sokoll URI>     | should                 |
+    | jstevenson  | jstevenson1234            | <bert.jakeman URI>      | should                 |
+    | jstevenson  | jstevenson1234            | <nate.dedrick URI>      | should                 |
+    | jstevenson  | jstevenson1234            | <mu.mcneill URI>        | should                 |
+    | linda.kim   | linda.kim1234             | <carmen.ortiz URI>      | should not             |
+    | linda.kim   | linda.kim1234             | <bert.jakeman URI>      | should not             |
+    | linda.kim   | linda.kim1234             | <nate.dedrick URI>      | should not             |
+    | linda.kim   | linda.kim1234             | <mu.mcneill URI>        | should not             |
 
   @wip
   Scenario: Staff with multiple roles in edOrg hierarchy
@@ -68,7 +70,7 @@ Feature: Use the APi to successfully get student data while having roles over ma
     Then I should receive a return code of 200
     #When I navigate to GET "<carmen.ortiz URI>"
     #Then I should receive a return code of 200
-    #When I navigate to GET "<mu.mcneil URI>"
+    #When I navigate to GET "<mu.mcneill URI>"
     #Then I should receive a return code of 200
 
     Given I remove the SEOA with role "Leader" for staff "jmacey" in "District 9"
@@ -80,7 +82,7 @@ Feature: Use the APi to successfully get student data while having roles over ma
     Given format "application/json"
     When I navigate to GET "<carmen.ortiz URI>"
     Then I should receive a return code of 403
-    When I navigate to GET "<mu.mcneil URI>"
+    When I navigate to GET "<mu.mcneill URI>"
     Then I should receive a return code of 403
 
   @wip
@@ -96,30 +98,26 @@ Feature: Use the APi to successfully get student data while having roles over ma
     Given format "application/json"
     #When I navigate to GET "<matt.sollars URI>"
     #Then I should receive a return code of 200
+    When I navigate to GET "<carmen.ortiz URI>"
+    Then I should receive a return code of 200
     When I navigate to GET "<lashawn.taite URI>"
     Then I should receive a return code of 200
 
+    Given I remove the teacherSectionAssociation for "rbelding"
 
+    Given format "application/json"
+    #When I navigate to GET "<matt.sollars URI>"
+    #Then I should receive a return code of 200
+    When I navigate to GET "<lashawn.taite URI>"
+    Then I should receive a return code of 200
     Given format "application/json"
     When I navigate to GET "<carmen.ortiz URI>"
     Then I should receive a return code of 403
     When I navigate to GET "<mu.mcneill URI>"
     Then I should receive a return code of 403
 
-    Given the following student section associations in Midgar are set correctly
-      | student         | teacher              | edorg                 | enrolledInAnySection? |
-      | carmen.ortiz    | rbelding             | Daybreak Central High | yes                   |
-
-    Given format "application/json"
-    When I navigate to GET "<matt.sollars URI>"
-    Then I should receive a return code of 200
-    When I navigate to GET "<carmen.ortiz URI>"
-    Then I should receive a return code of 200
-    When I navigate to GET "<lashawn.taite URI>"
-    Then I should receive a return code of 200
-
   @wip
-  Scenario: Staff can not access data above its edOrg
+  Scenario: Leader can access restricted data
     When I navigate to the API authorization endpoint with my client ID
     And I was redirected to the "Simple" IDP Login page
     And I submit the credentials "sbantu" "sbantu1234" for the "Simple" login page
@@ -129,8 +127,9 @@ Feature: Use the APi to successfully get student data while having roles over ma
     And I should be able to use the token to make valid API calls
 
     Given format "application/json"
-    When I navigate to GET "<yishai.sokoll URI>"
-    Then I should receive a return code of 403
+    When I navigate to GET "<matt.sollars URI>"
+    Then I should receive a return code of 200
+    And the response should have restricted student data
 
   @wip
   Scenario: Student belongs to schools in different LEAs
@@ -151,9 +150,3 @@ Feature: Use the APi to successfully get student data while having roles over ma
     Given format "application/json"
     When I navigate to GET "<bert.jakeman URI>"
     Then I should receive a return code of 403
-
-
-
-
-
-

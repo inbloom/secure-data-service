@@ -81,7 +81,6 @@ Scenario: Verify Rewrites for Base Level entities for Students
       | /disciplineIncidents/9196736538ed47a9a565201eeda04fda31d9d671_id/studentDisciplineIncidentAssociations                                            |
       | /disciplineIncidents/9196736538ed47a9a565201eeda04fda31d9d671_id/studentDisciplineIncidentAssociations/students                                   |
       | /educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/cohorts                                                                       |
-      | /educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/sessions                                                                      |
       | /gradebookEntries/ac4aede7e0113d1c003f3da487fc079e124f129d_id26c51914b1974dfd8104dad40ee78f4c10324851_id/studentGradebookEntries                  |
       | /gradingPeriods/21b8ac38bf886e78a879cfdb973a9352f64d07b9_id/grades                                                                                |
       | /gradingPeriods/21b8ac38bf886e78a879cfdb973a9352f64d07b9_id/reportCards                                                                           |

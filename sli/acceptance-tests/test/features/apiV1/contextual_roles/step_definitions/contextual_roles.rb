@@ -193,8 +193,8 @@ Given /^I remove all SEOAs for "([^"]*)" in tenant "([^"]*)"/ do |staff, tenant|
 
 end
 
-Given /^I remove the SEOA with role "Leader" for staff "jmacey" in "District 9"$/ do |role, staff, edOrg|
-  tenant = convertTenantIdToDbName tenant
+Given /^I remove the SEOA with role "([^"]*)" for staff "([^"]*)" in "([^"]*)"$/ do |role, staff, edOrg|
+  tenant = convertTenantIdToDbName 'Midgar'
   disable_NOTABLESCAN()
   conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
   db = conn[tenant]
@@ -216,6 +216,25 @@ Given /^I remove the SEOA with role "Leader" for staff "jmacey" in "District 9"$
   conn.close
   enable_NOTABLESCAN()
 
+end
+
+Given /^I remove the teacherSectionAssociation for "([^"]*)"$/ do |staff|
+  tenant = convertTenantIdToDbName 'Midgar'
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  db = conn[tenant]
+
+  staff_coll = db.collection('staff')
+  staff_id = staff_coll.find_one({'body.staffUniqueStateId' => staff})['_id']
+
+  query = {'teacherSectionAssociation.body.teacherId' => staff_id}
+
+  section_coll = db.collection('section')
+  noOfRecords = section_coll.find(query).count.to_i
+
+  for i in 0..(noOfRecords -1)
+      update_mongo(tenant, "section", query, "teacherSectionAssociation",true)
+  end
 end
 
 Given /^the only SEOA for "([^"]*)" is as a "([^"]*)" in "([^"]*)"$/ do |staff, role, edorg|
@@ -486,6 +505,32 @@ end
 Then /^I should extract the "(.*?)" id from the "(.*?)" URI$/ do |resource, link|
   value = @teacher[link].match(/#{resource}\/(.*?_id)/)
   teacherHashPush("id", $1)
+end
+
+Then /^the response (should|should not) have restricted student data$/ do |function|
+  apiRecord = JSON.parse(@res.body)
+  assert(apiRecord != nil, "Result of JSON parsing is nil")
+  if function == 'should'
+    assert(apiRecord.has_key?("schoolFoodServicesEligibility") == true, "Restricted field not found")
+  else
+    assert(apiRecord.has_key?("schoolFoodServicesEligibility") == false, "Restricted field found")
+  end
+end
+
+Then /^the response (should|should not) have general student data$/ do |function|
+  apiRecord = JSON.parse(@res.body)
+  assert(apiRecord != nil, "Result of JSON parsing is nil")
+  if function == 'should'
+    assert(apiRecord.has_key?("studentUniqueStateId") == true, "General field studentUniqueStateId not found")
+    assert(apiRecord.has_key?("name") == true, "General field name not found")
+    assert(apiRecord.has_key?("birthData") == true, "General field birthData not found")
+    assert(apiRecord.has_key?("hispanicLatinoEthnicity") == true, "General field hispanicLatinoEthnicity not found")
+  else
+    assert(apiRecord.has_key?("studentUniqueStateId") == false, "General field studentUniqueStateId found")
+    assert(apiRecord.has_key?("name") == true, "General field name  found")
+    assert(apiRecord.has_key?("birthData") == true, "General field birthData found")
+    assert(apiRecord.has_key?("hispanicLatinoEthnicity") == true, "General field hispanicLatinoEthnicity found")
+  end
 end
 
 
