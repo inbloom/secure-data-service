@@ -75,7 +75,7 @@ public class StaffTeacherContextResolver extends ReferrableResolver {
                
                 Entity edOrg = getRepo().findById(EntityNames.EDUCATION_ORGANIZATION, edorgReference);
 
-                if(edOrgHelper.isSEA(edOrg))
+                if(edOrg==null || edOrgHelper.isSEA(edOrg))
                 {
                 	return leas;
                 }
