@@ -27,7 +27,6 @@ import org.slc.sli.domain.QueryParseException;
 import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -56,7 +55,7 @@ public class RightAccessValidator {
      * @param isSelf  whether operation is being done in "self" context
      * @param entity item under inspection
      */
-    public void checkAccess(boolean isRead, boolean isSelf, Entity entity, String entityType) {
+    public void checkAccess(boolean isRead, boolean isSelf, Entity entity) {
         SecurityUtil.ensureAuthenticated();
         Set<Right> neededRights = new HashSet<Right>();
 
@@ -66,20 +65,20 @@ public class RightAccessValidator {
         if (auths.contains(Right.FULL_ACCESS)) {
             debug("User has full access");
             allow = true;
-        } else if (ADMIN_SPHERE.equals(provider.getDataSphere(entityType))) {
+        } else if (ADMIN_SPHERE.equals(provider.getDataSphere(entity.getType()))) {
             neededRights = new HashSet<Right>(Arrays.asList(Right.ADMIN_ACCESS));
             allow = intersection(auths, neededRights);
         } else if (!isRead) {
             debug("Evaluating rights for write...");
             if (entity == null) {
-                neededRights.addAll(provider.getAllFieldRights(entityType, isRead));
+                neededRights.addAll(provider.getAllFieldRights(entity.getType(), isRead));
                 allow = intersection(auths, neededRights);
             } else {
-                allow = determineWriteAccess(entity.getBody(), "", auths, entityType);
+                allow = determineWriteAccess(entity.getBody(), "", auths, entity.getType());
             }
         } else if (isRead) {
             debug("Evaluating rights for read...");
-            neededRights.addAll(provider.getAllFieldRights(entityType, isRead));
+            neededRights.addAll(provider.getAllFieldRights(entity.getType(), isRead));
             allow = intersection(auths, neededRights);
         } else {
             throw new IllegalStateException("Unknown security validation path for Read/Write/Admin");
@@ -97,7 +96,7 @@ public class RightAccessValidator {
      * @param isSelf  whether operation is being done in "self" context
      * @param entity item under inspection
      */
-    public void checkFieldAccess(NeutralQuery query, boolean isSelf, Entity entity, String entityType) {
+    public void checkFieldAccess(NeutralQuery query, boolean isSelf, Entity entity) {
 
         if (query != null) {
             // get the authorities
@@ -110,7 +109,7 @@ public class RightAccessValidator {
             if (!auths.contains(Right.FULL_ACCESS) && !auths.contains(Right.ANONYMOUS_ACCESS)) {
                 for (NeutralCriteria criteria : query.getCriteria()) {
                     // get the needed rights for the field
-                    Set<Right> neededRights = getNeededRights(criteria.getKey(), entityType);
+                    Set<Right> neededRights = getNeededRights(criteria.getKey(), entity.getType());
 
                     if (!neededRights.isEmpty() && !intersection(auths, neededRights)) {
                         debug("Denied user searching on field {}", criteria.getKey());
@@ -137,17 +136,11 @@ public class RightAccessValidator {
             auths.addAll(principal.getSelfRights());
         }
 
-        SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
-
-        if (principal.isAdminRealmAuthenticated() || !principal.isStaffUser()) {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            auths.addAll(auth.getAuthorities());
+        if(entity == null) {
+            debug("No authority for null");
         } else {
-            if (entity == null) {
-                debug("No authority for null");
-            } else {
-                auths.addAll(entityEdOrgRightBuilder.buildEntityEdOrgRights(principal.getEdOrgRights(), entity));
-            }
+            SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
+            auths.addAll(entityEdOrgRightBuilder.buildEntityEdOrgRights(principal.getEdOrgRights(), entity));
         }
 
         return auths;

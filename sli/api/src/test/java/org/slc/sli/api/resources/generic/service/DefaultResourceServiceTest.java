@@ -28,11 +28,6 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
@@ -70,9 +65,6 @@ public class DefaultResourceServiceTest {
 
     @Autowired
     private EntityDefinitionStore entityDefs;
-
-    @Autowired
-    private Repository mockRepo;
 
     private Resource resource = null;
     private URI requestURI;
@@ -113,16 +105,11 @@ public class DefaultResourceServiceTest {
     @Test
     public void testUpdate() {
         // create one entity
-        String studentId = resourceService.postEntity(resource, new EntityBody(createTestEntity()));
-        mockRepo.createWithRetries(EntityNames.EDUCATION_ORGANIZATION, SecurityContextInjector.ED_ORG_ID, new HashMap<String, Object>(),
-                new HashMap<String, Object>(), EntityNames.EDUCATION_ORGANIZATION, 1);
+        String id = resourceService.postEntity(resource, new EntityBody(createTestEntity()));
 
-        //resourceService.postEntity(resource, new EntityBody(createStudentSchoolAssociation(studentId, SecurityContextInjector.ED_ORG_ID)));
-        mockRepo.create(EntityNames.STUDENT_SCHOOL_ASSOCIATION, createStudentSchoolAssociation(studentId, SecurityContextInjector.ED_ORG_ID));
+        resourceService.putEntity(resource, id, new EntityBody(createTestUpdateEntity()));
 
-        resourceService.putEntity(resource, studentId, new EntityBody(createTestUpdateEntity()));
-
-        ServiceResponse response = resourceService.getEntitiesByIds(resource, studentId, requestURI);
+        ServiceResponse response = resourceService.getEntitiesByIds(resource, id, requestURI);
 
         List<EntityBody> entities = response.getEntityBodyList();
         assertNotNull("Should return an entity", entities);
@@ -135,16 +122,11 @@ public class DefaultResourceServiceTest {
     @Test
     public void testPatch() {
         // create one entity
-        String studentId = resourceService.postEntity(resource, new EntityBody(createTestEntity()));
-        mockRepo.createWithRetries(EntityNames.EDUCATION_ORGANIZATION, SecurityContextInjector.ED_ORG_ID, new HashMap<String, Object>(),
-                new HashMap<String, Object>(), EntityNames.EDUCATION_ORGANIZATION, 1);
+        String id = resourceService.postEntity(resource, new EntityBody(createTestEntity()));
 
-        //resourceService.postEntity(resource, new EntityBody(createStudentSchoolAssociation(studentId, SecurityContextInjector.ED_ORG_ID)));
-        mockRepo.create(EntityNames.STUDENT_SCHOOL_ASSOCIATION, createStudentSchoolAssociation(studentId, SecurityContextInjector.ED_ORG_ID));
+        resourceService.patchEntity(resource, id, new EntityBody(createTestPatchEntity()));
 
-        resourceService.patchEntity(resource, studentId, new EntityBody(createTestPatchEntity()));
-
-        ServiceResponse response = resourceService.getEntitiesByIds(resource, studentId, requestURI);
+        ServiceResponse response = resourceService.getEntitiesByIds(resource, id, requestURI);
 
         List<EntityBody> entities = response.getEntityBodyList();
         assertNotNull("Should return an entity", entities);
@@ -290,18 +272,5 @@ public class DefaultResourceServiceTest {
         entity.put("sex", "Female");
         entity.put("studentUniqueStateId", 5678);
         return entity;
-    }
-
-    private Map<String, String> createStudentSchoolAssociation(String studentId, String schoolId) {
-        Map<String, String> entity = new HashMap<String, String>();
-        entity.put(ParameterConstants.STUDENT_ID, studentId);
-        entity.put(ParameterConstants.SCHOOL_ID, schoolId);
-        return  entity;
-    }
-
-    private Map<String, String> createEdorg(String edorgId) {
-        Map<String, String> entity = new HashMap<String, String>();
-        entity.put(ParameterConstants.STATE_ORGANIZATION_ID, edorgId);
-        return  entity;
     }
 }

@@ -437,8 +437,8 @@ public class BasicService implements EntityService, AccessibilityCheck {
         List<EntityBody> results = new ArrayList<EntityBody>();
 
         for (Entity entity : entities) {
-            rightAccessValidator.checkAccess(true, isSelf, entity, defn.getType());
-            rightAccessValidator.checkFieldAccess(neutralQuery, isSelf, entity, defn.getType());
+            rightAccessValidator.checkAccess(true, isSelf, entity);
+            rightAccessValidator.checkFieldAccess(neutralQuery, isSelf, entity);
 
             results.add(entityRightsFilter.makeEntityBody(entity, treatments, defn));
         }

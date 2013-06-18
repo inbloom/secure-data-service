@@ -330,9 +330,11 @@ public class UriMutator {
             } else if (PathConstants.COHORTS.equals(baseEntity)) {
                 mutated.setPath(String.format("/students/%s/studentCohortAssociations/cohorts", StringUtils.join(getStudentIds(user))));
             } else if (PathConstants.COURSE_TRANSCRIPTS.equals(baseEntity)) {
-                mutated.setPath(String.format("/students/%s/studentAcademicRecords/courseTranscripts", StringUtils.join(getStudentIds(user))));
+                mutated.setPath(String.format("/students/%s/courseTranscripts", StringUtils.join(getStudentIds(user))));
             } else if (PathConstants.GRADES.equals(baseEntity)) {
                 mutated.setPath(String.format("/students/%s/studentSectionAssociations/grades", StringUtils.join(getStudentIds(user))));
+            } else if (PathConstants.GRADEBOOK_ENTRIES.equals(baseEntity)) {
+                mutated.setPath(String.format("/sections/%s/gradebookEntries", StringUtils.join(getSectionIds(user))));
             } else if (PathConstants.PARENTS.equals(baseEntity)) {
                 mutated.setPath(String.format("/students/%s/studentParentAssociations/parents", StringUtils.join(getStudentIds(user))));
             } else if (PathConstants.PROGRAMS.equals(baseEntity)) {
@@ -341,8 +343,12 @@ public class UriMutator {
                 mutated.setPath(String.format("/students/%s/studentSectionAssociations/sections", StringUtils.join(getStudentIds(user))));
             } else if (PathConstants.REPORT_CARDS.equals(baseEntity)) {
                 mutated.setPath(String.format("/students/%s/reportCards", StringUtils.join(getStudentIds(user))));
+            } else if (PathConstants.STUDENTS.equals(baseEntity)) {
+                mutated.setPath(String.format("/sections/%s/studentSectionAssociations/students", StringUtils.join(getSectionIds(user))));
             } else if (PathConstants.STUDENT_ACADEMIC_RECORDS.equals(baseEntity)) {
                 mutated.setPath(String.format("/students/%s/studentAcademicRecords", StringUtils.join(getStudentIds(user))));
+            } else if (PathConstants.STUDENT_ASSESSMENTS.equals(baseEntity)) {
+                mutated.setPath(String.format("/students/%s/studentAssessments", StringUtils.join(getStudentIds(user))));
             } else if (PathConstants.STUDENT_COHORT_ASSOCIATIONS.equals(baseEntity)) {
                 mutated.setPath(String.format("/students/%s/studentCohortAssociations", StringUtils.join(getStudentIds(user))));
             } else if (PathConstants.STUDENT_COMPETENCIES.equals(baseEntity)) {
@@ -357,6 +363,8 @@ public class UriMutator {
                 mutated.setPath(String.format("/students/%s/studentSchoolAssociations", StringUtils.join(getStudentIds(user))));
             } else if (PathConstants.STUDENT_SECTION_ASSOCIATIONS.equals(baseEntity)) {
                 mutated.setPath(String.format("/students/%s/studentSectionAssociations", StringUtils.join(getStudentIds(user))));
+            } else if (PathConstants.YEARLY_ATTENDANCES.equals(baseEntity)) {
+                mutated.setPath(String.format("/students/%s/yearlyAttendances", StringUtils.join(getStudentIds(user))));
             } else if (PathConstants.DISCIPLINE_ACTIONS.equals(baseEntity)) {
                 throw new AccessDeniedException("Students do not have access to discipline actions.");
             } else if (PathConstants.DISCIPLINE_INCIDENTS.equals(baseEntity)) {
@@ -370,19 +378,7 @@ public class UriMutator {
             } else {
                 throw new IllegalArgumentException("Not supported yet...");
             }
-        } else if (segmentStrings.size() == 4) {
-            String baseEntity = segmentStrings.get(1);
-            String thirdPart = segmentStrings.get(3);
-
-            if (baseEntity.equals(PathConstants.STUDENT_SECTION_ASSOCIATIONS)) {
-                if (thirdPart.equals(PathConstants.GRADES)) {
-                    mutated.setPath(String.format("/students/%s/studentSectionAssociations/grades", StringUtils.join(getStudentIds(user))));
-                } else if (thirdPart.equals(PathConstants.STUDENT_COMPETENCIES)) {
-                    mutated.setPath(String.format("/students/%s/studentSectionAssociations/studentCompetencies", StringUtils.join(getStudentIds(user))));
-                }
-            }
         }
-
         return mutated;
     }
 
@@ -985,7 +981,11 @@ public class UriMutator {
         if (isStudent(principal)) {
             studentIds.add(principal.getEntityId());
         }
-        return studentIds.toString().replace("[", "").replace("]", "");
+        return studentIds.toString().trim().replace("[", "").replace("]", "").replace(" ", "");
+    }
+
+    private String getSectionIds(Entity principal) {
+        return sectionHelper.getStudentsSections(principal).toString().replace("[", "").replace("]", "").replace(" ", "");
     }
 
 
