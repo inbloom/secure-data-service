@@ -332,7 +332,7 @@ public class UriMutator {
             } else if (PathConstants.COURSE_TRANSCRIPTS.equals(baseEntity)) {
                 mutated.setPath(String.format("/students/%s/courseTranscripts", StringUtils.join(getStudentIds(user))));
             } else if (PathConstants.GRADES.equals(baseEntity)) {
-                mutated.setPath(String.format("/students/%s/studentSectionAssociations/grades", StringUtils.join(getStudentIds(user))));
+                mutated.setPath(String.format("/studentSectionAssociations/%s/grades", StringUtils.join(getStudentSectionAssocIds(user))));
             } else if (PathConstants.GRADEBOOK_ENTRIES.equals(baseEntity)) {
                 mutated.setPath(String.format("/sections/%s/gradebookEntries", StringUtils.join(getSectionIds(user))));
             } else if (PathConstants.PARENTS.equals(baseEntity)) {
@@ -352,7 +352,7 @@ public class UriMutator {
             } else if (PathConstants.STUDENT_COHORT_ASSOCIATIONS.equals(baseEntity)) {
                 mutated.setPath(String.format("/students/%s/studentCohortAssociations", StringUtils.join(getStudentIds(user))));
             } else if (PathConstants.STUDENT_COMPETENCIES.equals(baseEntity)) {
-                mutated.setPath(String.format("/students/%s/studentSectionAssociations/studentCompetencies", StringUtils.join(getStudentIds(user))));
+                mutated.setPath(String.format("/studentSectionAssociations/%s/studentCompetencies", StringUtils.join(getStudentSectionAssocIds(user))));
             } else if (PathConstants.STUDENT_GRADEBOOK_ENTRIES.equals(baseEntity)) {
                 mutated.setPath(String.format("/students/%s/studentGradebookEntries", StringUtils.join(getStudentIds(user))));
             } else if (PathConstants.STUDENT_PARENT_ASSOCIATIONS.equals(baseEntity)) {
@@ -981,13 +981,25 @@ public class UriMutator {
         if (isStudent(principal)) {
             studentIds.add(principal.getEntityId());
         }
-        return studentIds.toString().trim().replace("[", "").replace("]", "").replace(" ", "");
+        return studentIds.toString().replace("[", "").replace("]", "").replace(" ", "");
     }
 
     private String getSectionIds(Entity principal) {
         return sectionHelper.getStudentsSections(principal).toString().replace("[", "").replace("]", "").replace(" ", "");
     }
 
+    private String getStudentSectionAssocIds(Entity principal) {
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.STUDENT_ID, NeutralCriteria.OPERATOR_EQUAL, principal.getEntityId()));
+        List<String> ssaIds = new ArrayList<String>();
+
+        Iterable<String> allIds = repo.findAllIds(EntityNames.STUDENT_SECTION_ASSOCIATION, query);
+
+        for (String ssaId : allIds) {
+            ssaIds.add(ssaId);
+        }
+
+        return ssaIds.toString().replace("[", "").replace("]", "").replace(" ", "");
+    }
 
     private MutatedContainer formQueryBasedOnParameter(String path, String parameters, String parameter) {
         MutatedContainer mutated = new MutatedContainer();

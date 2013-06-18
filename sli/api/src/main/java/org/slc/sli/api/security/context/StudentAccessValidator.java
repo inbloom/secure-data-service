@@ -188,8 +188,10 @@ public class StudentAccessValidator {
 
         // studentSectionAssociations
         Set<String> studentSectionAssociationsAllowedThreeParts = new HashSet<String>();
+        studentSectionAssociationsAllowedThreeParts.add(ResourceNames.GRADES);
         studentSectionAssociationsAllowedThreeParts.add(ResourceNames.SECTIONS);
         studentSectionAssociationsAllowedThreeParts.add(ResourceNames.STUDENTS);
+        studentSectionAssociationsAllowedThreeParts.add(ResourceNames.STUDENT_COMPETENCIES);
         threeParts.put(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, studentSectionAssociationsAllowedThreeParts);
 
         // studentCohortAssociations
