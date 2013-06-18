@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.slc.sli.common.constants.EntityNames;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
