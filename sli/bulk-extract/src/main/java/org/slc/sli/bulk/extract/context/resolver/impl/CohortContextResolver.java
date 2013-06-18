@@ -70,7 +70,7 @@ public class CohortContextResolver extends ReferrableResolver {
 		Entity edOrg = getRepo().findById(EntityNames.EDUCATION_ORGANIZATION,
 				edorgReference);
 
-		if (edOrg==null || edOrgHelper.isSEA(edOrg)) {
+		if (edOrgHelper.isSEA(edOrg)) {
 			return leas;
 		}
 		if (edorgReference != null) {
