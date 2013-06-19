@@ -16,8 +16,8 @@ def createNode (name, value)
   e
 end
 
-REGULAR_CONTEXT_RIGHT = "STUDENT_DATA"
-SELF_CONTEXT_RIGHT = "GENERIC"
+REGULAR_CONTEXT_RIGHT = "STUDENT_GENERAL"
+SELF_CONTEXT_RIGHT = "STUDENT_OWNED"
 
 studentEntities = ['studentAssessment', 'studentObjectiveAssessment', 'reportCard', 'studentAcademicRecord', 'courseTranscript', 'gradebookEntry', 'grade', 'gradebookEntry',
                    'studentGradebookEntry', 'studentSchoolAssociation', 'cohort', 'studentAssessmentItem', 'attendance', 'studentCompetency', 'studentParentAssociation']
@@ -78,7 +78,7 @@ studentPartials = {
         REGULAR_CONTEXT_RIGHT
       else
         SELF_CONTEXT_RIGHT
-      end },
+      end }
 }
 
 
