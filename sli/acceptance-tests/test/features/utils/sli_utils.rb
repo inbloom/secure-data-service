@@ -786,7 +786,8 @@ def retryOnFailure(naptime = 2, retries = 5, &block)
     rescue SystemExit, Interrupt
       raise
     rescue Exception => e
-      if attempts < retries
+      if attempts >= retries
+        puts "Failed #{attempts} times, giving up"
         raise e
       else
         puts e

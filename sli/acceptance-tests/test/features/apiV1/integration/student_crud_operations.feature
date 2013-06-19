@@ -36,13 +36,13 @@ Feature: As a student or staff I want to use apps that access the inBloom API
       | sections                    | 8d9ad6c3b870e8775016fff99fbd9c74920de8d5_id | repeatIdentifier       | 403        |
       | learningObjectives          | a39aa7089c0e0b8a271ed7caad97b8d319f7d236_id | academicSubject        | 403        |
       | learningStandards           | c772fbb0f9b9210d1f2a1bfcd53018b205c46da6_id | subjectArea            | 403        |
-      | courseOfferings             | 7e2dc97f5868cf7fe5ec8a279facd9574b29af6a_id | localCourseTitle       | 403        |
+      | courseOfferings             | 4e22b4b0aac3310de7f4b789d5a31e5e2bd792ec_id | localCourseTitle       | 403        |
       | competencyLevelDescriptor   | c91ae4718903d20289607c3c4335759e652ad569_id | description            | 403        |
       | sessions                    | 3327329ef80b7419a48521818d65743234d6e5fb_id | sessionName            | 403        |
       | courses                     | d875eac3c6117f5448437c192ac1ea7c3cc977dd_id | courseDescription      | 403        |
       | studentCompetencyObjectives | b7080a7f753939752b693bca21fe60375d15587e_id | objective              | 403        |
       | educationOrganizations      | 1b223f577827204a1c7e9c851dba06bea6b031fe_id | shortNameOfInstitution | 403        |
-      | gradingPeriods              | 5db742ef357941df75afdfcdf78b12191d5898ef_id | endDate                | 403        |
+      | gradingPeriods              | e71e876487c72d1c1c0e9f7fa413815706e7f422_id | endDate                | 403        |
       | assessments                 | 8e47092935b521fb6aba9fdec94a4f961f04cd45_id | identificationCode     | 403        |
 
   @wip
@@ -103,16 +103,16 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     | entity                | id                                          | returnCode  |
    #| Do exist in mongo     | Transitive endpoints should return a        | 403         |
     | assessment            | 235e448a14cc25ac0ede32bf35e9a798bf2cbc1d_id | 403         |
-    | courseOffering        | 514196bf10482bbfa307c023360692ef4c8f87db_id | 403         |
+    | courseOffering        | 4e22b4b0aac3310de7f4b789d5a31e5e2bd792ec_id | 403         |
     | course                | 7f3baa1a1f553809c6539671f08714aed6ec8b0c_id | 403         |
     | educationOrganization | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id | 403         |
-    | gradingPeriod         | 21b8ac38bf886e78a879cfdb973a9352f64d07b9_id | 403         |
+    | gradingPeriod         | e71e876487c72d1c1c0e9f7fa413815706e7f422_id | 403         |
     | graduationPlan        | 7f6e03f2a01f0f74258a1b0d8796be5eaf289f0a_id | 403         |
     | learningObjective     | 735a9b42268fbe4a5be61124034be656249759dd_id | 403         |
     | learningStandard      | 7a9dc734146e8deff33b53a4e645e6b7cfd2c167_id | 403         |
     | program               | de7da21b8c7f020cc66a438d3cd13eb32ba41cb0_id | 403         |
     | schools               | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id | 403         |
-    | section               | d4254efaa82daacfce951763bcd5e9e2352ac073_id | 403         |
+    | section               | 2982f5d3840b0a46bf152c7b7243c0db8dda694f_id | 403         |
     | session               | bfeaf9315f04797a41dbf1663d18ead6b6fb1309_id | 403         |
     When I DELETE and validate the following entities:
     | entity                              | id                                          | returnCode  |
@@ -120,7 +120,7 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     | assessments/id/learningObjectives   | 735a9b42268fbe4a5be61124034be656249759dd_id | 403         |
     | assessments/id/learningStandards    | 7a9dc734146e8deff33b53a4e645e6b7cfd2c167_id | 403         |
     | courseOfferings/id/courses          | 7f3baa1a1f553809c6539671f08714aed6ec8b0c_id | 403         |
-    | courseOfferings/id/sections         | d4254efaa82daacfce951763bcd5e9e2352ac073_id | 403         |
+    | courseOfferings/id/sections         | 2982f5d3840b0a46bf152c7b7243c0db8dda694f_id | 403         |
     | courseOfferings/id/sessions         | bfeaf9315f04797a41dbf1663d18ead6b6fb1309_id | 403         |
     | courses/id/courseOfferings          | 514196bf10482bbfa307c023360692ef4c8f87db_id | 403         |
     | courses/id/courseOfferings/sessions | bfeaf9315f04797a41dbf1663d18ead6b6fb1309_id | 403         |
@@ -134,12 +134,12 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     | learningObjectives/id/parentLearningObjectives    | 735a9b42268fbe4a5be61124034be656249759dd_id | 403 |
     | schools/id/courseOfferings          | 514196bf10482bbfa307c023360692ef4c8f87db_id | 403         |
     | schools/id/courses                  | 7f3baa1a1f553809c6539671f08714aed6ec8b0c_id | 403         |
-    | schools/id/sections                 | d4254efaa82daacfce951763bcd5e9e2352ac073_id | 403         |
+    | schools/id/sections                 | 2982f5d3840b0a46bf152c7b7243c0db8dda694f_id | 403         |
     | schools/id/sessions                 | bfeaf9315f04797a41dbf1663d18ead6b6fb1309_id | 403         |
     | schools/id/sessions/gradingPeriods  | 21b8ac38bf886e78a879cfdb973a9352f64d07b9_id | 403         |
     | sessions/id/courseOfferings         | 514196bf10482bbfa307c023360692ef4c8f87db_id | 403         |
     | sessions/id/courseOfferings/courses | 7f3baa1a1f553809c6539671f08714aed6ec8b0c_id | 403         |
-    | sessions/id/sections                | d4254efaa82daacfce951763bcd5e9e2352ac073_id | 403         |
+    | sessions/id/sections                | 2982f5d3840b0a46bf152c7b7243c0db8dda694f_id | 403         |
 
   @student_delete
   Scenario: Student cannot DELETE private entities
@@ -156,35 +156,36 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     #| competencyLevelDescriptor  | ceddd8ec0ee71c1f4f64218e00581e9b27c0fffb_id | 403         |
     #| competencyLevelDescriptor  | ceddd8ec0ee71c1f4f64218e00581e9b27c0fffb_id | 403         |
     #| competencyLevelDescriptor  | ceddd8ec0ee71c1f4f64218e00581e9b27c0fffb_id | 403         |
-    | grade                      | 5aaf89278b7226f668f46509403d86a2b5968978_id499df300dd95152e5e40726488125ee207016b94_id | 403 |
-    | gradebookEntry             | d4254efaa82daacfce951763bcd5e9e2352ac073_id53d7969bbd7fa2eab718eea517f04ce3b514607e_id | 403 |
+    | grade                      | 5aaf89278b7226f668f46509403d86a2b5968978_id9a437b8ade601e7ea50d146c9f91ec6745313c01_id | 403 |
+    | gradebookEntry             | 2982f5d3840b0a46bf152c7b7243c0db8dda694f_ida861d8326b3144fe12262cae42b27b979d368dbe_id | 403 |
     | parent                     | 5f8989384287747b1960d16edd95ff2bb318e3bd_id | 403         |
     | parent                     | ea649b2220d73ec57eb2e92589c3049d44d102f7_id | 403         |
-    | reportCard                 | 5aaf89278b7226f668f46509403d86a2b5968978_id5e62cc6e16e50a390f535867c196ab8c55bbaa0a_id | 403 |
+    | reportCard                 | 5aaf89278b7226f668f46509403d86a2b5968978_id2f2b79c129330d6f371439c9d63988abf8fffd05_id | 403 |
     | staff                      | e27fc445699aa38246a09373e6aeaa96981ea921_id | 403         |
-    | staffCohortAssociation     | b52e80c63bc0cf25056d7b94ce0c06b8301ffe6f_id | 403         |
+    | staffCohortAssociation     | fa564a95b4924364f8d43c3e75b4463bb42c0a31_id | 403         |
     | student                    | 067198fd6da91e1aa8d67e28e850f224d6851713_id | 403         |
     | student                    | aea1153839c7923a4d70ca9f5859dbc0895d629f_id | 403         |
     | studentAcademicRecord      | 5aaf89278b7226f668f46509403d86a2b5968978_idf686ca38e2c6acd3eeb149ba351c6da21930e096_id | 403 |
-    | studentAssessment          | 97918c8339c1e56bbef6cb4ce0c1164e9fec1c92_id | 403         |
-    | studentCohortAssociation   | fd4dc88802e121be5b03923edb6b41ce0aae244b_id741b884e5578c1b8326d20ab112e3046313f296d_id | 403 |
+    | studentAssessment          | efaff117aa1656323dd225d70fc97501b393a7a6_id | 403         |
+    | studentCohortAssociation   | 067198fd6da91e1aa8d67e28e850f224d6851713_id35a7d3e403fa4702ee6db8cac8719eebf28a3e7e_id | 403 |
     | studentCompetencyObjective | b7080a7f753939752b693bca21fe60375d15587e_id | 403         |
-    | studentProgramAssociation  | 067198fd6da91e1aa8d67e28e850f224d6851713_id598e72efb94e91340f04feff220b0896efbc40f8_id | 403 |
-    | studentSchoolAssociation   | d6f92cdbb1711b41a3246f81c65c94d0f95abb63_id | 403         |
-    | studentSectionAssociation  | d4254efaa82daacfce951763bcd5e9e2352ac073_idfb1483255c8a58711bc419525f14b7f7ad82e8d4_id | 403 |
-    | teacher                    | e27fc445699aa38246a09373e6aeaa96981ea921_id |  403        |
-    | teacherSchoolAssociation   | ed203daeec95d7ae4ee11ccd21d98f8387866587_id |  403        |
+    | studentProgramAssociation  | 067198fd6da91e1aa8d67e28e850f224d6851713_id1564ad795bbfa929b2deb7b06386ad60f50c84fc_id | 403 |
+    | studentSchoolAssociation   | 139f77e73ae5f1970c5d884d4d2b90367361d1f6_id | 403         |
+    | studentSectionAssociation  | 2982f5d3840b0a46bf152c7b7243c0db8dda694f_id06f4aa0f6d84ae7ab290709fc348754cbd232cb5_id | 403 |
+    | teacher                    | 8b6a31734ed43040f8a171d5d85e39176c543f22_id |  403        |
+    | teacherSectionAssociation  | 2982f5d3840b0a46bf152c7b7243c0db8dda694f_idc3c6577c5e222d9575e6ebed2d280fe30fa1fd97_id | 403 |
+    | teacherSchoolAssociation   | 079552a19e8f011d8c3d7ae4747148bbd9bc1e9a_id |  403        |
 
   @student_delete
   Scenario: Student cannot DELETE Restricted private entities
-   Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "carmen.ortiz" with password "carmen.ortiz1234"
+   Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
      And format "application/json"
      And I am using api version "v1"
     When I DELETE and validate the following entities:
     | entity                               | id                                          | returnCode  |
-    | disciplineAction                     | b9f5cf7f5ae7edc709173b53c204ee9e990e9525_id | 403         |
-    | disciplineAction                     | e753d650f9300167a9956dc0704b773edf3dbad6_id | 403         |
-    | disciplineIncident                   | 3cde56c808c8d9df7865c8f9aa950ac22f9eba36_id | 403         |
-    | disciplineIncident                   | ccc1eb03dc0b67c556608ad0d6f1542d7f0e81ac_id | 403         |
-    | studentDisciplineIncidentAssociation | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id450692cd9f909a63b617b7dd101a01e3bbff3f44_id | 403 |
-    | studentDisciplineIncidentAssociation | a4d90e3162518c142a353f96b3aedaf2ab72d06d_id01dc169cd9d703e96e8134219ac4bb798082f524_id | 403 |
+    | disciplineAction                     | abf2058b5a6fca25845a02df37d3ec1ab0b4c17d_id | 403         |
+    | disciplineAction                     | 8c64b0b28cc48c9b12b303a36eeb6e9e067b0892_id | 403         |
+    | disciplineIncident                   | 10829163dfd39c1830394a1ffde09a77c11ae065_id | 403         |
+    | disciplineIncident                   | 84bea3a3c04d6be8935c8f057e8f3c080c0faf36_id | 403         |
+    | studentDisciplineIncidentAssociation | 067198fd6da91e1aa8d67e28e850f224d6851713_idcc5123a629dee85e5f64ef188c1c33f2ffd6c210_id | 403 |
+    | studentDisciplineIncidentAssociation | 908404e876dd56458385667fa383509035cd4312_id33a1c7ee086d4c488531652ab4a99cf0b6bd619d_id | 403 |

@@ -122,7 +122,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
         // I don't get why the validateContextToUri is only called on write request
         // but because I don't understand, and security is sensitive, I am block
         // certain urls explicitly...
-        if (contextValidator.isUrlBlocked(request.getPathSegments())) {
+        if (contextValidator.isUrlBlocked(request)) {
             throw new AccessDeniedException(String.format("url %s is not accessible.", request.getAbsolutePath().toString()));
         }
 
