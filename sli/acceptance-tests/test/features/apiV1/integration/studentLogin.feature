@@ -201,7 +201,7 @@ Feature: As a student or staff I want to use apps that access the inBloom API
       | 0.sessionName            |
       | 0.term                   |
       | 0.totalInstructionalDays |
-    Then I verify the following response body fields exist in "/gradingPeriods/5db742ef357941df75afdfcdf78b12191d5898ef_id":
+    Then I verify the following response body fields exist in "/gradingPeriods/e71e876487c72d1c1c0e9f7fa413815706e7f422_id":
       | field                               |
       | beginDate                           |
       | endDate                             |
@@ -252,7 +252,7 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     And format "application/json"
     And I am using api version "v1"
     And I am accessing data about myself, "matt.sollars"
-    Then I verify the following response body fields exist in "/sections/ad923365bab2453cfd4a4388c6b2c236cb570c7e_id":
+    Then I verify the following response body fields exist in "/sections/24cdeb47d5ccfee1536dd8f6a8951baea76b82f3_id":
       | field                  |
       | availableCredit        |
       | educationalEnvironment |
@@ -284,7 +284,7 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     And format "application/json"
     And I am using api version "v1"
     And I am accessing data about myself, "matt.sollars"
-  Then I verify the following response body fields exist in "/studentSectionAssociations/d4254efaa82daacfce951763bcd5e9e2352ac073_idfb1483255c8a58711bc419525f14b7f7ad82e8d4_id/grades":
+  Then I verify the following response body fields exist in "/studentSectionAssociations/24cdeb47d5ccfee1536dd8f6a8951baea76b82f3_id33ee33e252908a2e95eb8d0b4f85f96ffd4b0bae_id/grades":
     | field                         |
     | 0.diagnosticStatement         |
     | 0.gradeType                   |
