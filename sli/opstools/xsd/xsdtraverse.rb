@@ -124,15 +124,15 @@ doc.elements.each('//xs:element') do |elem|
   fieldName = elem.attribute('name').to_s
   if studentEntities.include? type.attribute("name").to_s
 
-    if appinfo.get_elements("sli:ReadEnforcement[sli:allowedBy='READ_STUDENT_DATA']").empty?
+    if appinfo.get_elements("sli:ReadEnforcement[sli:allowedBy='READ_STUDENT_GENERAL']").empty?
       puts "modifying #{typeName}.#{fieldName}"
-      e = createNode 'sli:allowedBy', 'READ_STUDENT_DATA'
+      e = createNode 'sli:allowedBy', 'READ_STUDENT_GENERAL'
       appinfo.get_elements("sli:ReadEnforcement")[0].add_element e
     end
 
-    if appinfo.get_elements("sli:WriteEnforcement[sli:allowedBy='WRITE_STUDENT_DATA']").empty?
+    if appinfo.get_elements("sli:WriteEnforcement[sli:allowedBy='WRITE_STUDENT_GENERAL']").empty?
       puts "modifying #{typeName}.#{fieldName}"
-      e = createNode 'sli:allowedBy', 'WRITE_STUDENT_DATA'
+      e = createNode 'sli:allowedBy', 'WRITE_STUDENT_GENERAL'
       appinfo.get_elements("sli:WriteEnforcement")[0].add_element e
     end
   elsif studentPartials.has_key? typeName and studentPartials[typeName].call(fieldName) != :NOOP
