@@ -44,7 +44,6 @@ end
 #############################################################################################
 # After Steps
 #############################################################################################
-
 After do
   unless @mongo_changes.nil?
     @mongo_changes.reverse_each do |mongo_change|
@@ -60,13 +59,16 @@ After do
         else
           coll.update(mongo_change[:query], {'$unset' => {mongo_change[:field] => 1}})
         end
+      elsif mongo_change[:operation] == 'add'
+        entity = mongo_change[:entity]
+        query = {'_id' => entity['_id']}
+        coll.remove(query)
       end
       conn.close
       enable_NOTABLESCAN()
     end
   end
 end
-
 #############################################################################################
 # Mongo Steps
 #############################################################################################
@@ -113,6 +115,21 @@ def update_mongo(tenant, collection, query, field, remove, value = nil)
 
   conn.close
 
+end
+
+def add_to_mongo(tenant, collection, entity)
+  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  db = conn[tenant]
+  coll = db.collection(collection)
+  entry = {:operation => 'add',
+           :tenant => tenant,
+           :collection => collection,
+           :entity => entity
+  }
+
+  coll.insert(entity)
+  (@mongo_changes ||= []) << entry
+  conn.close
 end
 
 def remove_from_mongo(tenant, collection, query)
@@ -207,7 +224,7 @@ Given /^I remove the SEOA with role "([^"]*)" for staff "([^"]*)" in "([^"]*)"$/
 
 
   seoa_coll = db.collection('staffEducationOrganizationAssociation')
-  seoas = seoa_coll.find({'body.staffReference' => staff_id, 'body.educationOrganizationReference' => edOrg_id, 'staffClassification' => role}).to_a
+  seoas = seoa_coll.find({'body.staffReference' => staff_id, 'body.educationOrganizationReference' => edOrg_id, 'body.staffClassification' => role}).to_a
   seoas.each do |seoa|
     query = { '_id' => seoa['_id']}
     remove_from_mongo(tenant, 'staffEducationOrganizationAssociation', query)
@@ -266,6 +283,25 @@ Given /^the only SEOA for "([^"]*)" is as a "([^"]*)" in "([^"]*)"$/ do |staff, 
 
   conn.close
   enable_NOTABLESCAN()
+end
+
+Given /^I add a SEOA for "([^"]*)" in "([^"]*)" as a "([^"]*)"$/ do |staff, edOrg, role|
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  db_tenant = convertTenantIdToDbName 'Midgar'
+  db = conn[db_tenant]
+
+  staff_coll = db.collection('staff')
+  staff_id = staff_coll.find_one({'body.staffUniqueStateId' => staff})['_id']
+
+  edorg_coll = db.collection('educationOrganization')
+  edorg_id = edorg_coll.find_one({'body.stateOrganizationId' => edOrg})['_id']
+
+  seoa = {'_id' => '8a3419da-1c75-45b5-874f-49ec61eg403', 'type' => 'staffEducationOrganizationAssociation',
+          'body' => {'staffClassification' => role, 'educationOrganizationReference' => edorg_id, 'staffReference' => staff_id}}
+
+  add_to_mongo(db_tenant, 'staffEducationOrganizationAssociation', seoa)
+  conn.close
 end
 
 Given /^the following student section associations in ([^ ]*) are set correctly$/ do |tenant, table|
