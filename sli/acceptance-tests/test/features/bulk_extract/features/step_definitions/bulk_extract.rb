@@ -109,7 +109,7 @@ end
 
 Given /^the extraction zone is empty$/ do
   if (Dir.exists?(OUTPUT_DIRECTORY))
-    puts OUTPUT_DIRECTORY
+    puts "#{OUTPUT_DIRECTORY} cleaned"
     FileUtils.rm_rf("#{OUTPUT_DIRECTORY}/.", secure: true)
   end
 end
@@ -635,9 +635,9 @@ def getEntityEndpoint(entity)
       "assessments/id/learningStandards" => "assessments/235e448a14cc25ac0ede32bf35e9a798bf2cbc1d_id/learningStandards",
       "patchAssessment" => "assessments",
       "courseOffering" => "courseOfferings",
-      "courseOfferings/id/courses" => "courseOfferings/0fee7a7aba9a96388ef628b7e3e5e5ea60a142a7_id/courses",
-      "courseOfferings/id/sections" => "courseOfferings/0fee7a7aba9a96388ef628b7e3e5e5ea60a142a7_id/sections",
-      "courseOfferings/id/sessions" => "courseOfferings/0fee7a7aba9a96388ef628b7e3e5e5ea60a142a7_id/sessions",
+      "courseOfferings/id/courses" => "courseOfferings/4e22b4b0aac3310de7f4b789d5a31e5e2bd792ec_id/courses",
+      "courseOfferings/id/sections" => "courseOfferings/4e22b4b0aac3310de7f4b789d5a31e5e2bd792ec_id/sections",
+      "courseOfferings/id/sessions" => "courseOfferings/4e22b4b0aac3310de7f4b789d5a31e5e2bd792ec_id/sessions",
       "courses/id/courseOfferings" => "courses/7f3baa1a1f553809c6539671f08714aed6ec8b0c_id/courseOfferings",
       "courses/id/courseOfferings/sessions" => "courses/7f3baa1a1f553809c6539671f08714aed6ec8b0c_id/courseOfferings/sessions",
       "patchSEACourseOffering" => "courseOfferings",
@@ -712,6 +712,7 @@ def getEntityEndpoint(entity)
       "teacher" => "teachers",
       "newTeacher" => "teachers",
       "teacherSchoolAssociation" => "teacherSchoolAssociations",
+      "teacherSectionAssociation" => "teacherSectionAssociations",
       "wrongSchoolURI" => "schoolz",
       "studentCompetency" => "studentCompetencies",
       "yearlyTranscript" => "yearlyTranscripts"
@@ -1136,6 +1137,19 @@ Then /^I verify this "(.*?)" file (should|should not) contain:$/ do |file_name, 
             assert(success, "can't find an entity with id #{id} that matches #{entity['condition']}")
         else
             assert(!success, "found an entity with id #{id} that matches #{entity['condition']}, we should not have this entity")
+        end
+    end
+end
+
+Then /^the "(.*?)" file (should|should not) contain a field$/ do |file_name, should, table|
+    look_for = should.downcase == "should"
+    json_map = to_map(get_json_from_file(file_name))
+    table.hashes.map do |entity|
+        id = entity['id']
+        field = entity['field']
+        json_entities = json_map[id]
+        json_entities.each do |json_entity|
+          assert(json_entity[field].nil?, "Does contain a #{field.to_s} in #{file_name.to_s} with id: #{id.to_s}")
         end
     end
 end

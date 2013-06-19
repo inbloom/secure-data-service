@@ -38,13 +38,13 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.BasicDefinitionStore;
 import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.security.context.ResponseTooLargeException;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.resolver.SectionHelper;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -330,7 +330,7 @@ public class UriMutator {
             } else if (PathConstants.COHORTS.equals(baseEntity)) {
                 mutated.setPath(String.format("/students/%s/studentCohortAssociations/cohorts", StringUtils.join(getStudentIds(user))));
             } else if (PathConstants.COURSE_TRANSCRIPTS.equals(baseEntity)) {
-                mutated.setPath(String.format("/students/%s/courseTranscripts", StringUtils.join(getStudentIds(user))));
+                mutated.setPath(String.format("/studentAcademicRecords/%s/courseTranscripts", StringUtils.join(getStudentAcademicRecordsIds(user))));
             } else if (PathConstants.GRADES.equals(baseEntity)) {
                 mutated.setPath(String.format("/studentSectionAssociations/%s/grades", StringUtils.join(getStudentSectionAssocIds(user))));
             } else if (PathConstants.GRADEBOOK_ENTRIES.equals(baseEntity)) {
@@ -381,6 +381,7 @@ public class UriMutator {
         }
         return mutated;
     }
+
 
     private MutatedContainer mutateTeacherRequest(List<PathSegment> segments, String queryParameters, Entity user) {
         MutatedContainer mutated = new MutatedContainer();
@@ -983,22 +984,30 @@ public class UriMutator {
         }
         return studentIds.toString().replace("[", "").replace("]", "").replace(" ", "");
     }
+    
+    private String getStudentAcademicRecordsIds(Entity principal) {
+        return getStudentRelatedRecords(principal, EntityNames.STUDENT_ACADEMIC_RECORD).toString().replace("[", "").replace("]", "").replace(" ", "");
+    }
+
+    private String getStudentSectionAssocIds(Entity principal) {
+        return getStudentRelatedRecords(principal, EntityNames.STUDENT_SECTION_ASSOCIATION).toString().replace("[", "").replace("]", "").replace(" ", "");
+    }
 
     private String getSectionIds(Entity principal) {
         return sectionHelper.getStudentsSections(principal).toString().replace("[", "").replace("]", "").replace(" ", "");
     }
 
-    private String getStudentSectionAssocIds(Entity principal) {
+    private List<String> getStudentRelatedRecords(Entity principal, String entityType) {
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.STUDENT_ID, NeutralCriteria.OPERATOR_EQUAL, principal.getEntityId()));
-        List<String> ssaIds = new ArrayList<String>();
+        List<String> recordIds = new ArrayList<String>();
 
-        Iterable<String> allIds = repo.findAllIds(EntityNames.STUDENT_SECTION_ASSOCIATION, query);
+        Iterable<String> allIds = repo.findAllIds(entityType, query);
 
-        for (String ssaId : allIds) {
-            ssaIds.add(ssaId);
+        for (String recordId : allIds) {
+            recordIds.add(recordId);
         }
-
-        return ssaIds.toString().replace("[", "").replace("]", "").replace(" ", "");
+        
+        return recordIds;
     }
 
     private MutatedContainer formQueryBasedOnParameter(String path, String parameters, String parameter) {

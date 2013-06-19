@@ -119,7 +119,7 @@ describe "WorldBuilder" do
         @queue.count(Staff).should eq(34)
       end
       it "staff association interchange will contain the correct number of staff education organization assignment associations" do
-        @queue.count(StaffEducationOrgAssignmentAssociation).should eq(120)
+        @queue.count(StaffEducationOrgAssignmentAssociation).should eq(149)
       end
 
       it "grade wide assessment work orders will be created for each grade and year" do

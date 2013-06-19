@@ -201,7 +201,7 @@ Feature: As a student or staff I want to use apps that access the inBloom API
       | 0.sessionName            |
       | 0.term                   |
       | 0.totalInstructionalDays |
-    Then I verify the following response body fields exist in "/gradingPeriods/5db742ef357941df75afdfcdf78b12191d5898ef_id":
+    Then I verify the following response body fields exist in "/gradingPeriods/e71e876487c72d1c1c0e9f7fa413815706e7f422_id":
       | field                               |
       | beginDate                           |
       | endDate                             |
@@ -252,7 +252,7 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     And format "application/json"
     And I am using api version "v1"
     And I am accessing data about myself, "matt.sollars"
-    Then I verify the following response body fields exist in "/sections/ad923365bab2453cfd4a4388c6b2c236cb570c7e_id":
+    Then I verify the following response body fields exist in "/sections/24cdeb47d5ccfee1536dd8f6a8951baea76b82f3_id":
       | field                  |
       | availableCredit        |
       | educationalEnvironment |
@@ -260,6 +260,81 @@ Feature: As a student or staff I want to use apps that access the inBloom API
       | populationServed       |
       | sequenceOfCourse       |
       | uniqueSectionCode      |
+
+  Scenario: I check the response body fields of attendance data
+    Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
+    And format "application/json"
+    And I am using api version "v1"
+    And I am accessing data about myself, "matt.sollars"
+  Then I verify the following response body fields exist in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/attendances":
+    | field                                               |
+    | 0.schoolYearAttendance.0.schoolYear                 |
+    | 0.schoolYearAttendance.0.attendanceEvent.0.date     |
+    | 0.schoolYearAttendance.0.attendanceEvent.0.event    |
+    | 0.schoolYearAttendance.0.attendanceEvent.0.reason   |
+  Then I verify the following response body fields exist in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/yearlyAttendances":
+    | field                        |
+    | 0.attendanceEvent.0.date     |
+    | 0.attendanceEvent.0.event    |
+    | 0.attendanceEvent.0.reason   |
+    | 0.schoolYear                 |
+
+  Scenario: I check the response body fields of grade data
+    Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
+    And format "application/json"
+    And I am using api version "v1"
+    And I am accessing data about myself, "matt.sollars"
+  Then I verify the following response body fields exist in "/studentSectionAssociations/24cdeb47d5ccfee1536dd8f6a8951baea76b82f3_id33ee33e252908a2e95eb8d0b4f85f96ffd4b0bae_id/grades":
+    | field                         |
+    | 0.diagnosticStatement         |
+    | 0.gradeType                   |
+    | 0.letterGradeEarned           |
+    | 0.numericGradeEarned          |
+    | 0.performanceBaseConversion   |
+    | 0.schoolYear                  |
+  Then I verify the following response body fields exist in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/studentGradebookEntries":
+    | field                         |
+    | 0.dateFulfilled               |
+    | 0.diagnosticStatement         |
+    | 0.letterGradeEarned           |
+    | 0.numericGradeEarned          |
+  Then I verify the following response body fields exist in "/studentAcademicRecords/5aaf89278b7226f668f46509403d86a2b5968978_idf686ca38e2c6acd3eeb149ba351c6da21930e096_id/courseTranscripts":
+    | field                                             |
+    | 0.additionalCreditsEarned.0.additionalCreditType  |
+    | 0.additionalCreditsEarned.0.credit                |
+    | 0.courseAttemptResult                             |
+    | 0.creditsAttempted                                |
+    | 0.creditsEarned                                   |
+    | 0.finalLetterGradeEarned                          |
+    | 0.finalNumericGradeEarned                         |
+    | 0.gradeLevelWhenTaken                             |
+    | 0.gradeType                                       |
+    | 0.methodCreditEarned                              |
+  Then I verify the following response body fields exist in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/studentAcademicRecords":
+    | field                                      |
+    | 0.academicHonors.0.academicHonorsType      |
+    | 0.academicHonors.0.honorAwardDate          |
+    | 0.academicHonors.0.honorsDescription       |
+    | 0.classRanking.classRank                   |
+    | 0.classRanking.classRankingDate            |
+    | 0.classRanking.percentageRanking           |
+    | 0.classRanking.totalNumberInClass          |
+    | 0.cumulativeCreditsAttempted               |
+    | 0.cumulativeCreditsEarned                  |
+    | 0.gradeValueQualifier                      |
+    | 0.projectedGraduationDate                  |
+    | 0.recognitions.0.recognitionAwardDate      |
+    | 0.recognitions.0.recognitionDescription    |
+    | 0.recognitions.0.recognitionType           |
+    | 0.schoolYear                               |
+  Then I verify the following response body fields exist in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/reportCards":
+    | field                       |
+    | 0.gpaCumulative             |
+    | 0.gpaGivenGradingPeriod     |
+    | 0.numberOfDaysAbsent        |
+    | 0.numberOfDaysInAttendance  |
+    | 0.numberOfDaysTardy         |
+    | 0.schoolYear                |
 
   @student_blacklist
   Scenario: Student should NOT have access to certain fields in API entity response bodies
@@ -303,13 +378,13 @@ Feature: As a student or staff I want to use apps that access the inBloom API
       | sections                    | 8d9ad6c3b870e8775016fff99fbd9c74920de8d5_id | repeatIdentifier       | 403        |
       | learningObjectives          | a39aa7089c0e0b8a271ed7caad97b8d319f7d236_id | academicSubject        | 403        |
       | learningStandards           | c772fbb0f9b9210d1f2a1bfcd53018b205c46da6_id | subjectArea            | 403        |
-      | courseOfferings             | 7e2dc97f5868cf7fe5ec8a279facd9574b29af6a_id | localCourseTitle       | 403        |
+      | courseOfferings             | 4e22b4b0aac3310de7f4b789d5a31e5e2bd792ec_id | localCourseTitle       | 403        |
       | competencyLevelDescriptor   | c91ae4718903d20289607c3c4335759e652ad569_id | description            | 403        |
       | sessions                    | 3327329ef80b7419a48521818d65743234d6e5fb_id | sessionName            | 403        |
       | courses                     | d875eac3c6117f5448437c192ac1ea7c3cc977dd_id | courseDescription      | 403        |
       | studentCompetencyObjectives | b7080a7f753939752b693bca21fe60375d15587e_id | objective              | 403        |
       | educationOrganizations      | 1b223f577827204a1c7e9c851dba06bea6b031fe_id | shortNameOfInstitution | 403        |
-      | gradingPeriods              | 5db742ef357941df75afdfcdf78b12191d5898ef_id | endDate                | 403        |
+      | gradingPeriods              | e71e876487c72d1c1c0e9f7fa413815706e7f422_id | endDate                | 403        |
       | assessments                 | 8e47092935b521fb6aba9fdec94a4f961f04cd45_id | identificationCode     | 403        |
 
   @wip

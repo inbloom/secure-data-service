@@ -21,10 +21,10 @@ Scenario: Verify Rewrites for Base Level entities for Students
     | Context                | Ids                                         |
     | educationOrganizations | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
     | schools                | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
-    | sections               | fb23953d3b55349847fe558e4909a265fab3b6a0_id,ac4aede7e0113d1c003f3da487fc079e124f129d_id,02ffe06e27e313e46e852c1a457ecb25af2cd950_id,6b687d24b9a2b10c664e2248bd8e689a482e47e2_id |
+    | sections               | 88bb1ad61323121c4939db296f4d444094ad5563_id,e963c47cc117e076735bcfed4a3bbac748a820e5_id,2143ef735a74796f1bbc2462e10ff9ba36de9919_id,9226b1f7fcf2e3b14d12f59c69e1a9d693f51247_id,5acb9a7f01a06c393cf60416ddbc0f8238b8c7d0_id,248f27c61d78ee9fed5a7a77edcb172d2dff2324_id,e1af27afcaba9691bdb1cbc1baa30fe75b8c300c_id,82d6d79602c102c8223cb381ba43c3678efa9f2c_id |
     | students               | 92164cd19ebdbe17cfdcd0e1d177877cdc9a40ef_id |
-    | studentAcademicRecords | 2f38a01d3ce555cfcdc637aa02d3596de1e27574_id51a05e3fc152d6180c97370b1cdc4de367b1dce7_id |
-    | studentSectionAssociations | 6b687d24b9a2b10c664e2248bd8e689a482e47e2_id2de59b0cfdaaccf05ddf3e859f27ddb6bdc9cce3_id,02ffe06e27e313e46e852c1a457ecb25af2cd950_idcb8fc2af6666f098527ca978f8d17bd077482eb7_id,ac4aede7e0113d1c003f3da487fc079e124f129d_id15a455cda83953c6b554947ae75fd00d61589500_id,fb23953d3b55349847fe558e4909a265fab3b6a0_id80bf0f16742f93d53228bb4c5d9626be3028d7ea_id |
+    | studentAcademicRecords | 29aeeb86490afdf1f9685216582d4410a0b9c380_id3e6ae27c427e4c3213eae1f77c0263a001312b33_id,2f38a01d3ce555cfcdc637aa02d3596de1e27574_id51a05e3fc152d6180c97370b1cdc4de367b1dce7_id |
+    | studentSectionAssociations | 248f27c61d78ee9fed5a7a77edcb172d2dff2324_id2adcbbde16d2ae5b34d8818c2aab718aa3de9415_id,5acb9a7f01a06c393cf60416ddbc0f8238b8c7d0_id4834473e3acf9705b0caf734594922c91147a360_id,2143ef735a74796f1bbc2462e10ff9ba36de9919_idf43bed4dea431b12e2f4a75ed35252354567253b_id,88bb1ad61323121c4939db296f4d444094ad5563_id786e763a5ffa777305dc1a0cfa3f62dfb278f593_id,82d6d79602c102c8223cb381ba43c3678efa9f2c_id5e4eccb4dd848815aede7e71d83f5f43ce4a4732_id,e1af27afcaba9691bdb1cbc1baa30fe75b8c300c_id749b53e759c6cb0d13782c3189fb40a6bef0a64b_id,9226b1f7fcf2e3b14d12f59c69e1a9d693f51247_id4cb16d3e1882ba13516ad727d35ee83a85e63c44_id,e963c47cc117e076735bcfed4a3bbac748a820e5_idc80d29e01100af98af4e4aefd4ab80c6c4e45793_id |
   And format "application/json"
   When I navigate to the base level URI <Entity> I should see the rewrite in the format of <URI>:
     | Entity                       | URI                                                                            |
@@ -144,3 +144,6 @@ Scenario: Verify Rewrites for Base Level entities for Students
       | /teachers/1b8c3849be3ac8c3b1a7442aab1b00d1dcfa299c_id/teacherSchoolAssociations/schools                                                           |
       | /teachers/1b8c3849be3ac8c3b1a7442aab1b00d1dcfa299c_id/teacherSectionAssociations                                                                  |
       | /teachers/1b8c3849be3ac8c3b1a7442aab1b00d1dcfa299c_id/teacherSectionAssociations/sections                                                         |
+      #Temporary
+      | /students/92164cd19ebdbe17cfdcd0e1d177877cdc9a40ef_id/courseTranscripts                                                                           |
+      | /students/92164cd19ebdbe17cfdcd0e1d177877cdc9a40ef_id/courseTranscripts/courses                                                                   |
