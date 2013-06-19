@@ -222,8 +222,10 @@ end
 
 Then /^the group "([^"]*)" no longer appears on the page$/ do |arg1|
   lower_timeout_for_same_page_validation
-  groups = @driver.find_elements(:xpath, "//div[text()='#{arg1}']")
-  assert(groups.size == 0, "Found group named #{arg1} on page")
+  retryOnFailure() do
+    groups = @driver.find_elements(:xpath, "//div[text()='#{arg1}']")
+    assert(groups.size == 0, "Found group named #{arg1} on page")
+  end
   reset_timeouts_to_default
 end
 
