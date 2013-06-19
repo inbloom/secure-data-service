@@ -623,6 +623,7 @@ Scenario: Triggering deltas via ingestion
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
    Then The "graduationPlan" delta was extracted in the same format as the api
 
+@wip
 Scenario: Ingest an update to AssessmentPeriodDescriptor and output only affected assessments
   Given I clean the bulk extract file system and database
     And I ingest "StoriedDataSet_IL_Daybreak.zip"
