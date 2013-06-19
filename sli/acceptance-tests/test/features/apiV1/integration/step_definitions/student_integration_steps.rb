@@ -68,15 +68,15 @@ Transform /^<(.*?)>$/ do |human_readable_id|
   id = "studentUniqueStateId"                                  if human_readable_id == "studentUniqueStateId"
   #
   # Assessment Domain
-  id = "true"                                                  if human_readable_id == "correct response"
+  id = "false"                                                 if human_readable_id == "correct response"
   id = "code1"                                                 if human_readable_id == "code value"
   id = "True-False"                                            if human_readable_id == "item category"
   id = "Number score"                                          if human_readable_id == "reporting method"
-  id = "BOY-10-2013"                                           if human_readable_id == "APD.codeValue"
-  id = "2013-Tenth grade Assessment 2"                         if human_readable_id == "assessment 1"
-  id = "2013-Tenth grade Assessment 2#1"                       if human_readable_id == "assessment item 1"
-  id = "2013-Tenth grade Assessment 2.OA-0"                    if human_readable_id == "objective assessment"
-  id = "2013-Tenth grade Assessment 2.OA-0 Sub"                if human_readable_id == "sub objective assessment"
+  id = "BOY-12-2013"                                           if human_readable_id == "APD.codeValue"
+  id = "2013-Twelfth grade Assessment 1"                       if human_readable_id == "assessment 1"
+  id = "2013-Twelfth grade Assessment 1#2"                     if human_readable_id == "assessment item 1"
+  id = "2013-Twelfth grade Assessment 1.OA-1"                  if human_readable_id == "objective assessment"
+  id = "2013-Twelfth grade Assessment 1.OA-1 Sub"              if human_readable_id == "sub objective assessment"
   id = "objectiveAssessment.0.maxRawScore"                     if human_readable_id == "OA.maxRawScore"
   id = "objectiveAssessment.0.nomenclature"                    if human_readable_id == "OA.nomenclature"
   id = "objectiveAssessment.0.identificationCode"              if human_readable_id == "OA.identificationCode"
@@ -86,9 +86,9 @@ Transform /^<(.*?)>$/ do |human_readable_id|
   id = "assessmentIdentificationCode.0.identificationSystem"   if human_readable_id == "AIC.identificationSystem"
   
   # Assessment Family Hierarchy
-  id = "2013 Standard.2013 Tenth grade Standard"             if human_readable_id == "assessment family hierarchy"
+  id = "2013 Standard.2013 Twelfth grade Standard"             if human_readable_id == "assessment family hierarchy"
   # Assessment Period Descriptor
-  id = "Beginning of Year 2013-2014 for Tenth grade"         if human_readable_id == "assessment period descriptor"
+  id = "Beginning of Year 2013-2014 for Twelfth grade"         if human_readable_id == "assessment period descriptor"
 
   # Search endpoints
   id = "assessmentIdentificationCode.0.ID"                     if human_readable_id == "search.assessment.ID"
@@ -310,6 +310,53 @@ When /^I validate I have access to entities via the API access pattern "(.*?)":$
     step "I navigate to GET \"#{uri}\""
     step "I should receive a return code of 200"
     print "OK\n"
+  end
+end
+
+When /^I validate the allowed association entities via API "(.*?)":$/ do |uri, table|
+  startRed = "\e[31m"
+  colorReset = "\e[0m"
+
+  print "Verifying I get a 200 response from #{uri} .. "
+  puts "Calling GET to #{uri}" if $SLI_DEBUG
+  step "I navigate to GET \"#{uri}\""
+  step "I should receive a return code of 200"
+  print "OK\n"
+
+  print "Verifying the number of entities returned matches the expected count .. "
+  @result = JSON.parse(@res.body)
+  response_ids = @result.collect{|res| res["id"]}
+  expected_ids = table.hashes.collect{|row| row["id"]}
+  assert(response_ids.length == expected_ids.length, "Found #{response_ids.length}, expected #{expected_ids.length}")
+  success = true
+  print "OK\n"
+
+  table.hashes.map do |row|
+    result = @result.detect{|res| res["id"] == row["id"]}
+    if result.nil?
+      success = false
+      print "#{startRed}Looking for Entity: #{row["id"]}#{colorReset}\n"
+    else
+      print "Looking for Entity: #{row["id"]}\n" 
+    end
+  end
+  assert(success, "Did not find one or more expected entities")
+end
+
+When /^I validate that I am denied access to restricted endpoints via API:$/ do |table|
+  startRed = "\e[31m"
+  colorReset = "\e[0m"
+  success = true
+
+  table.hashes.map do |row|
+    step "I navigate to GET \"#{row['uri']}\""
+    if @res.code != row['rc'].to_i
+      print "#{startRed}Verifying I get a #{row['rc']} response from #{row['uri']}#{colorReset}"
+      success = false
+    else
+      print "Verifying I get a #{row['rc']} response from #{row['uri']}"
+    end
+    assert(success, "Received an unexpected http return code..")
   end
 end
 

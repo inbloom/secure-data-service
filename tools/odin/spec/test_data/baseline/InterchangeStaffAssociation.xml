@@ -3852,6 +3852,38 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffEducationOrgAssignmentAssociation>
     <StaffReference>
       <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000001</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
+    <BeginDate>2014-09-05</BeginDate>
+    <EndDate>2015-06-02</EndDate>
+  </StaffEducationOrgAssignmentAssociation>
+  <StaffEducationOrgAssignmentAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000002</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
+    <BeginDate>2014-09-05</BeginDate>
+    <EndDate>2015-06-02</EndDate>
+  </StaffEducationOrgAssignmentAssociation>
+  <StaffEducationOrgAssignmentAssociation>
+    <StaffReference>
+      <StaffIdentity>
         <StaffUniqueStateId>tech-0000000003</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
@@ -3869,6 +3901,54 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <StaffReference>
       <StaffIdentity>
         <StaffUniqueStateId>tech-0000000004</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
+    <BeginDate>2015-09-04</BeginDate>
+    <EndDate>2016-06-01</EndDate>
+  </StaffEducationOrgAssignmentAssociation>
+  <StaffEducationOrgAssignmentAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>cgray</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
+    <BeginDate>2015-09-04</BeginDate>
+    <EndDate>2016-06-01</EndDate>
+  </StaffEducationOrgAssignmentAssociation>
+  <StaffEducationOrgAssignmentAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000001</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
+    <BeginDate>2015-09-04</BeginDate>
+    <EndDate>2016-06-01</EndDate>
+  </StaffEducationOrgAssignmentAssociation>
+  <StaffEducationOrgAssignmentAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000002</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <EducationOrganizationReference>
@@ -3980,6 +4060,134 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffEducationOrgAssignmentAssociation>
     <StaffReference>
       <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000008</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
+    <BeginDate>2014-09-05</BeginDate>
+    <EndDate>2015-06-02</EndDate>
+  </StaffEducationOrgAssignmentAssociation>
+  <StaffEducationOrgAssignmentAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000009</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
+    <BeginDate>2014-09-05</BeginDate>
+    <EndDate>2015-06-02</EndDate>
+  </StaffEducationOrgAssignmentAssociation>
+  <StaffEducationOrgAssignmentAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000006</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
+    <BeginDate>2014-09-05</BeginDate>
+    <EndDate>2015-06-02</EndDate>
+  </StaffEducationOrgAssignmentAssociation>
+  <StaffEducationOrgAssignmentAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000007</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
+    <BeginDate>2014-09-05</BeginDate>
+    <EndDate>2015-06-02</EndDate>
+  </StaffEducationOrgAssignmentAssociation>
+  <StaffEducationOrgAssignmentAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>linda.kim</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
+    <BeginDate>2014-09-05</BeginDate>
+    <EndDate>2015-06-02</EndDate>
+  </StaffEducationOrgAssignmentAssociation>
+  <StaffEducationOrgAssignmentAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000005</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
+    <BeginDate>2014-09-05</BeginDate>
+    <EndDate>2015-06-02</EndDate>
+  </StaffEducationOrgAssignmentAssociation>
+  <StaffEducationOrgAssignmentAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000008</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
+    <BeginDate>2015-09-04</BeginDate>
+    <EndDate>2016-06-01</EndDate>
+  </StaffEducationOrgAssignmentAssociation>
+  <StaffEducationOrgAssignmentAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000009</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
+    <BeginDate>2015-09-04</BeginDate>
+    <EndDate>2016-06-01</EndDate>
+  </StaffEducationOrgAssignmentAssociation>
+  <StaffEducationOrgAssignmentAssociation>
+    <StaffReference>
+      <StaffIdentity>
         <StaffUniqueStateId>tech-0000000010</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
@@ -3997,6 +4205,70 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <StaffReference>
       <StaffIdentity>
         <StaffUniqueStateId>tech-0000000011</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
+    <BeginDate>2015-09-04</BeginDate>
+    <EndDate>2016-06-01</EndDate>
+  </StaffEducationOrgAssignmentAssociation>
+  <StaffEducationOrgAssignmentAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000006</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
+    <BeginDate>2015-09-04</BeginDate>
+    <EndDate>2016-06-01</EndDate>
+  </StaffEducationOrgAssignmentAssociation>
+  <StaffEducationOrgAssignmentAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000007</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
+    <BeginDate>2015-09-04</BeginDate>
+    <EndDate>2016-06-01</EndDate>
+  </StaffEducationOrgAssignmentAssociation>
+  <StaffEducationOrgAssignmentAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>linda.kim</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
+    <BeginDate>2015-09-04</BeginDate>
+    <EndDate>2016-06-01</EndDate>
+  </StaffEducationOrgAssignmentAssociation>
+  <StaffEducationOrgAssignmentAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000005</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <EducationOrganizationReference>
@@ -4104,6 +4376,150 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <PositionTitle>Teacher</PositionTitle>
     <BeginDate>2013-08-27</BeginDate>
     <EndDate>2014-05-23</EndDate>
+  </StaffEducationOrgAssignmentAssociation>
+  <StaffEducationOrgAssignmentAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000016</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
+    <BeginDate>2014-09-05</BeginDate>
+    <EndDate>2015-06-02</EndDate>
+  </StaffEducationOrgAssignmentAssociation>
+  <StaffEducationOrgAssignmentAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000015</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
+    <BeginDate>2014-09-05</BeginDate>
+    <EndDate>2015-06-02</EndDate>
+  </StaffEducationOrgAssignmentAssociation>
+  <StaffEducationOrgAssignmentAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000014</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
+    <BeginDate>2014-09-05</BeginDate>
+    <EndDate>2015-06-02</EndDate>
+  </StaffEducationOrgAssignmentAssociation>
+  <StaffEducationOrgAssignmentAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000013</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
+    <BeginDate>2014-09-05</BeginDate>
+    <EndDate>2015-06-02</EndDate>
+  </StaffEducationOrgAssignmentAssociation>
+  <StaffEducationOrgAssignmentAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000012</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
+    <BeginDate>2014-09-05</BeginDate>
+    <EndDate>2015-06-02</EndDate>
+  </StaffEducationOrgAssignmentAssociation>
+  <StaffEducationOrgAssignmentAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000016</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
+    <BeginDate>2015-09-04</BeginDate>
+    <EndDate>2016-06-01</EndDate>
+  </StaffEducationOrgAssignmentAssociation>
+  <StaffEducationOrgAssignmentAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000015</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
+    <BeginDate>2015-09-04</BeginDate>
+    <EndDate>2016-06-01</EndDate>
+  </StaffEducationOrgAssignmentAssociation>
+  <StaffEducationOrgAssignmentAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000014</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
+    <BeginDate>2015-09-04</BeginDate>
+    <EndDate>2016-06-01</EndDate>
+  </StaffEducationOrgAssignmentAssociation>
+  <StaffEducationOrgAssignmentAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000013</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
+    <BeginDate>2015-09-04</BeginDate>
+    <EndDate>2016-06-01</EndDate>
   </StaffEducationOrgAssignmentAssociation>
   <StaffProgramAssociation>
     <StaffReference>

@@ -201,7 +201,7 @@ Feature: As a student or staff I want to use apps that access the inBloom API
       | 0.sessionName            |
       | 0.term                   |
       | 0.totalInstructionalDays |
-    Then I verify the following response body fields exist in "/gradingPeriods/5db742ef357941df75afdfcdf78b12191d5898ef_id":
+    Then I verify the following response body fields exist in "/gradingPeriods/e71e876487c72d1c1c0e9f7fa413815706e7f422_id":
       | field                               |
       | beginDate                           |
       | endDate                             |
@@ -252,7 +252,7 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     And format "application/json"
     And I am using api version "v1"
     And I am accessing data about myself, "matt.sollars"
-    Then I verify the following response body fields exist in "/sections/ad923365bab2453cfd4a4388c6b2c236cb570c7e_id":
+    Then I verify the following response body fields exist in "/sections/24cdeb47d5ccfee1536dd8f6a8951baea76b82f3_id":
       | field                  |
       | availableCredit        |
       | educationalEnvironment |
@@ -284,7 +284,7 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     And format "application/json"
     And I am using api version "v1"
     And I am accessing data about myself, "matt.sollars"
-  Then I verify the following response body fields exist in "/studentSectionAssociations/d4254efaa82daacfce951763bcd5e9e2352ac073_idfb1483255c8a58711bc419525f14b7f7ad82e8d4_id/grades":
+  Then I verify the following response body fields exist in "/studentSectionAssociations/24cdeb47d5ccfee1536dd8f6a8951baea76b82f3_id33ee33e252908a2e95eb8d0b4f85f96ffd4b0bae_id/grades":
     | field                         |
     | 0.diagnosticStatement         |
     | 0.gradeType                   |
@@ -378,13 +378,13 @@ Feature: As a student or staff I want to use apps that access the inBloom API
       | sections                    | 8d9ad6c3b870e8775016fff99fbd9c74920de8d5_id | repeatIdentifier       | 403        |
       | learningObjectives          | a39aa7089c0e0b8a271ed7caad97b8d319f7d236_id | academicSubject        | 403        |
       | learningStandards           | c772fbb0f9b9210d1f2a1bfcd53018b205c46da6_id | subjectArea            | 403        |
-      | courseOfferings             | 7e2dc97f5868cf7fe5ec8a279facd9574b29af6a_id | localCourseTitle       | 403        |
+      | courseOfferings             | 4e22b4b0aac3310de7f4b789d5a31e5e2bd792ec_id | localCourseTitle       | 403        |
       | competencyLevelDescriptor   | c91ae4718903d20289607c3c4335759e652ad569_id | description            | 403        |
       | sessions                    | 3327329ef80b7419a48521818d65743234d6e5fb_id | sessionName            | 403        |
       | courses                     | d875eac3c6117f5448437c192ac1ea7c3cc977dd_id | courseDescription      | 403        |
       | studentCompetencyObjectives | b7080a7f753939752b693bca21fe60375d15587e_id | objective              | 403        |
       | educationOrganizations      | 1b223f577827204a1c7e9c851dba06bea6b031fe_id | shortNameOfInstitution | 403        |
-      | gradingPeriods              | 5db742ef357941df75afdfcdf78b12191d5898ef_id | endDate                | 403        |
+      | gradingPeriods              | e71e876487c72d1c1c0e9f7fa413815706e7f422_id | endDate                | 403        |
       | assessments                 | 8e47092935b521fb6aba9fdec94a4f961f04cd45_id | identificationCode     | 403        |
 
   @wip
