@@ -3,6 +3,7 @@
 xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentEnrollment.xsd">
   <GraduationPlan>
     <GraduationPlanType>Distinguished</GraduationPlanType>
+    <IndividualPlan>false</IndividualPlan>
     <TotalCreditsRequired CreditConversion="0" CreditType="Semester hour credit">
       <Credit>54</Credit>
     </TotalCreditsRequired>
@@ -14,6 +15,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </GraduationPlan>
   <GraduationPlan>
     <GraduationPlanType>Minimum</GraduationPlanType>
+    <IndividualPlan>false</IndividualPlan>
     <TotalCreditsRequired CreditConversion="0" CreditType="Semester hour credit">
       <Credit>36</Credit>
     </TotalCreditsRequired>
@@ -25,6 +27,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </GraduationPlan>
   <GraduationPlan>
     <GraduationPlanType>Standard</GraduationPlanType>
+    <IndividualPlan>false</IndividualPlan>
     <TotalCreditsRequired CreditConversion="0" CreditType="Semester hour credit">
       <Credit>48</Credit>
     </TotalCreditsRequired>

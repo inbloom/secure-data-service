@@ -21,7 +21,8 @@ require_relative "baseEntity.rb"
 # creates student grade book entry
 class StudentGradebookEntry < BaseEntity
 
-  attr_accessor :date_fulfilled, :letter_grade_earned, :numeric_grade_earned, :student_section_association, :gradebook_entry
+  attr_accessor :date_fulfilled, :letter_grade_earned, :numeric_grade_earned, :student_section_association, :gradebook_entry,
+    :diagnostic
   
   def initialize(date_fulfilled, letter_grade_earned, numeric_grade_earned, student_section_association, gradebook_entry)
     @date_fulfilled              = date_fulfilled
@@ -29,5 +30,6 @@ class StudentGradebookEntry < BaseEntity
     @numeric_grade_earned        = numeric_grade_earned
     @student_section_association = student_section_association
     @gradebook_entry             = gradebook_entry
+    @diagnostic = "Diagnostic Statement"
   end
 end

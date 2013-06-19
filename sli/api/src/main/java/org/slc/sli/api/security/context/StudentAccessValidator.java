@@ -24,6 +24,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.ws.rs.core.PathSegment;
+
+import com.sun.jersey.spi.container.ContainerRequest;
+
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.ResourceNames;
@@ -32,28 +36,28 @@ import org.slc.sli.common.constants.EntityNames;
 /**
  * This class encapsulates access rules (URL wise)
  * for a student principal
- * 
+ *
  * @author ycao
- * 
+ *
  */
 @Component
 public class StudentAccessValidator {
-    
+
     /**
      * this validator can only validates url in the format of /{entityType}/{id}/{subEntityType}
-     * 
+     *
      * i.e. /sections/{id}/studentSectionAssociations
      */
     private static final Map<String, Set<String>> THREE_PART_ALLOWED;
-    
+
     /**
      * this validator can only validates url in the format of
      * /{entityType}/{id}/{subEntityType}/{subsubentityType}
-     * 
+     *
      * i.e. /schools/{id}/teacherSchoolAssociations/teachers
      */
     private static final Map<String, Set<List<String>>> FOUR_PART_ALLOWED;
-    
+
     /**
      * discipline related entities
      */
@@ -69,7 +73,7 @@ public class StudentAccessValidator {
     static {
         // THREE PARTS
         Map<String, Set<String>> threeParts = new HashMap<String, Set<String>>();
-        
+
         // system
         Set<String> systemAllowedThreeParts = new HashSet<String>();
         systemAllowedThreeParts.add("session");
@@ -78,7 +82,7 @@ public class StudentAccessValidator {
         systemAllowedThreeParts.add("logout");
         systemAllowedThreeParts.add("email");
         threeParts.put("system", systemAllowedThreeParts);
-        
+
         // assessments
         Set<String> assessmentsAllowedThreeParts = new HashSet<String>();
         assessmentsAllowedThreeParts.add(ResourceNames.LEARNINGOBJECTIVES);
@@ -96,7 +100,7 @@ public class StudentAccessValidator {
         sessionsAllowedThreeParts.add(ResourceNames.COURSE_OFFERINGS);
         sessionsAllowedThreeParts.add(ResourceNames.SECTIONS);
         threeParts.put(ResourceNames.SESSIONS, sessionsAllowedThreeParts);
-        
+
         // schools
         Set<String> schoolsAllowedThreeParts = new HashSet<String>();
         schoolsAllowedThreeParts.add(ResourceNames.COURSE_OFFERINGS);
@@ -113,13 +117,14 @@ public class StudentAccessValidator {
         edOrgsAllowedThreeParts.add(ResourceNames.EDUCATION_ORGANIZATIONS);
         edOrgsAllowedThreeParts.add(ResourceNames.GRADUATION_PLANS);
         edOrgsAllowedThreeParts.add(ResourceNames.SCHOOLS);
+        edOrgsAllowedThreeParts.add(ResourceNames.SESSIONS);
         threeParts.put(ResourceNames.EDUCATION_ORGANIZATIONS, edOrgsAllowedThreeParts);
 
-        // courseTranscripts 
+        // courseTranscripts
         Set<String> courseTranscriptsAllowedThreeParts = new HashSet<String>();
         courseTranscriptsAllowedThreeParts.add(ResourceNames.COURSES);
         threeParts.put(ResourceNames.COURSE_TRANSCRIPTS, courseTranscriptsAllowedThreeParts);
-        
+
         // courses
         Set<String> coursesAllowedThreeParts = new HashSet<String>();
         coursesAllowedThreeParts.add(ResourceNames.COURSE_OFFERINGS);
@@ -132,25 +137,26 @@ public class StudentAccessValidator {
         courseOfferingsAllowedThreeParts.add(ResourceNames.SESSIONS);
         threeParts.put(ResourceNames.COURSE_OFFERINGS, courseOfferingsAllowedThreeParts);
 
-        // studentCompetencies 
+        // studentCompetencies
         Set<String> studentCompetenciesAllowedThreeParts = new HashSet<String>();
         studentCompetenciesAllowedThreeParts.add(ResourceNames.REPORT_CARDS);
         threeParts.put(ResourceNames.STUDENT_COMPETENCIES, studentCompetenciesAllowedThreeParts);
 
-        // studentAcademicRecords 
+        // studentAcademicRecords
         Set<String> studentAcademicRecordsAllowedThreeParts = new HashSet<String>();
         studentAcademicRecordsAllowedThreeParts.add(ResourceNames.COURSE_TRANSCRIPTS);
         threeParts.put(ResourceNames.STUDENT_ACADEMIC_RECORDS, studentAcademicRecordsAllowedThreeParts);
 
-        // studentAssessments 
+        // studentAssessments
         Set<String> studentAssessmentsAllowedThreeParts = new HashSet<String>();
         studentAssessmentsAllowedThreeParts.add(ResourceNames.ASSESSMENTS);
+        studentAssessmentsAllowedThreeParts.add(ResourceNames.STUDENTS);
         threeParts.put(ResourceNames.STUDENT_ASSESSMENTS, studentAssessmentsAllowedThreeParts);
 
         // students
         Set<String> studentsAllowedThreeParts = new HashSet<String>();
         studentsAllowedThreeParts.add(ResourceNames.ATTENDANCES);
-        studentsAllowedThreeParts.add(ResourceNames.COURSE_TRANSCRIPTS);
+        //studentsAllowedThreeParts.add(ResourceNames.COURSE_TRANSCRIPTS);
         studentsAllowedThreeParts.add(ResourceNames.REPORT_CARDS);
         studentsAllowedThreeParts.add(ResourceNames.STUDENT_ACADEMIC_RECORDS);
         studentsAllowedThreeParts.add(ResourceNames.STUDENT_ASSESSMENTS);
@@ -173,11 +179,13 @@ public class StudentAccessValidator {
         // studentParentAssociations
         Set<String> studentParentAssociationsAllowedThreeParts = new HashSet<String>();
         studentParentAssociationsAllowedThreeParts.add(ResourceNames.PARENTS);
+        studentParentAssociationsAllowedThreeParts.add(ResourceNames.STUDENTS);
         threeParts.put(ResourceNames.STUDENT_PARENT_ASSOCIATIONS, studentParentAssociationsAllowedThreeParts);
-        
+
         // studentSchoolAssociations
         Set<String> studentSchoolAssociationsAllowedThreeParts = new HashSet<String>();
         studentSchoolAssociationsAllowedThreeParts.add(ResourceNames.SCHOOLS);
+        studentSchoolAssociationsAllowedThreeParts.add(ResourceNames.STUDENTS);
         threeParts.put(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, studentSchoolAssociationsAllowedThreeParts);
 
         // studentProgramAssociations
@@ -201,7 +209,7 @@ public class StudentAccessValidator {
         threeParts.put(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, studentCohortAssociationsAllowedThreeParts);
 
         THREE_PART_ALLOWED = Collections.unmodifiableMap(threeParts);
-        
+
         // FOUR PARTS
         Map<String, Set<List<String>>> fourParts = new HashMap<String, Set<List<String>>>();
         // courses
@@ -213,12 +221,18 @@ public class StudentAccessValidator {
         Set<List<String>> sessionsAllowedFourParts = new HashSet<List<String>>();
         sessionsAllowedFourParts.add(Arrays.asList(ResourceNames.COURSE_OFFERINGS, ResourceNames.COURSES));
         fourParts.put(ResourceNames.SESSIONS, sessionsAllowedFourParts);
-        
+
         // sections
         Set<List<String>> sectionsAllowedFourParts = new HashSet<List<String>>();
         //sectionsAllowedFourParts.add(Arrays.asList(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, ResourceNames.STUDENTS));
         sectionsAllowedFourParts.add(Arrays.asList(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, ResourceNames.GRADEBOOK_ENTRIES));
         fourParts.put(ResourceNames.SECTIONS, sectionsAllowedFourParts);
+
+        // edorgs
+        Set<List<String>> edOrgsAllowedFourParts = new HashSet<List<String>>();
+        edOrgsAllowedFourParts.add(Arrays.asList(ResourceNames.SESSIONS, ResourceNames.GRADING_PERIODS));
+        edOrgsAllowedFourParts.add(Arrays.asList(ResourceNames.COURSE_OFFERINGS, ResourceNames.COURSES));
+        fourParts.put(ResourceNames.EDUCATION_ORGANIZATIONS, edOrgsAllowedFourParts);
 
         // schools
         Set<List<String>> schoolsAllowedFourParts = new HashSet<List<String>>();
@@ -234,7 +248,7 @@ public class StudentAccessValidator {
         studentsAllowedFourParts.add(Arrays.asList(ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS, ResourceNames.PROGRAMS));
         studentsAllowedFourParts.add(Arrays.asList(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, ResourceNames.SCHOOLS));
         studentsAllowedFourParts.add(Arrays.asList(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, ResourceNames.SECTIONS));
-        studentsAllowedFourParts.add(Arrays.asList(ResourceNames.COURSE_TRANSCRIPTS, ResourceNames.COURSES));
+        //studentsAllowedFourParts.add(Arrays.asList(ResourceNames.COURSE_TRANSCRIPTS, ResourceNames.COURSES));
         studentsAllowedFourParts.add(Arrays.asList(ResourceNames.STUDENT_ASSESSMENTS, ResourceNames.ASSESSMENTS));
         // studentsAllowedFourParts.add(Arrays.asList(ResourceNames.STUDENT_ACADEMIC_RECORDS,
         // ResourceNames.COURSE_TRANSCRIPTS));
@@ -242,32 +256,40 @@ public class StudentAccessValidator {
 
         FOUR_PART_ALLOWED = Collections.unmodifiableMap(fourParts);
     }
-    
+
 
     /**
      * check if a path can be accessed according to stored business rules
-     * 
+     *
      * the path passed in must be preprocessed so it doesn't contain empty
      * segments or the api version
-     * 
+     *
      * @param paths
      *            i.e. sections/{id}/studentSectionAssociations
      * @return true if accessible by student
      */
-    public boolean isAllowed(List<String> paths) {
-        if (paths == null || paths.isEmpty()) {
+    public boolean isAllowed(ContainerRequest request) {
+        List<PathSegment> segs = request.getPathSegments();
+        List<String> paths = new ArrayList<String>();
+        
+        // first one is version, system calls (unversioned) have been handled elsewhere
+        for (int i = 1; i < request.getPathSegments().size(); ++i) {
+            paths.add(segs.get(i).getPath());
+        }
+
+        if (paths.isEmpty()) {
             return false;
         }
 
         if (isDisiplineRelated(paths)) {
             return false;
         }
-        
+
         String baseEntity = paths.get(0);
-        
+
         switch (paths.size()) {
             case 1:
-                return baseEntity.equals("home");
+                return baseEntity.equals("home") || !request.getQueryParameters().isEmpty();
             case 2:
                 return true;
             case 3:
@@ -285,7 +307,7 @@ public class StudentAccessValidator {
                 return false;
         }
     }
-    
+
     private boolean isDisiplineRelated(List<String> paths) {
         for (String s : paths) {
             if (DISCIPLINE_RELATED.contains(s)) {
@@ -303,15 +325,15 @@ public class StudentAccessValidator {
         for (Map.Entry<String, Set<String>> entry : THREE_PART_ALLOWED.entrySet()) {
            for (String s : entry.getValue()) {
                 allLists.add(String.format("/%s/{id}/%s", entry.getKey(), s));
-           } 
+           }
         }
-        
+
         for (Map.Entry<String, Set<List<String>>> entry : FOUR_PART_ALLOWED.entrySet()) {
             for (List<String> list : entry.getValue()) {
                 allLists.add(String.format("/%s/{id}/%s/%s", entry.getKey(), list.get(0), list.get(1)));
             }
         }
-        
+
         Collections.sort(allLists);
         return allLists;
     }

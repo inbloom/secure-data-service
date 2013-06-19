@@ -123,8 +123,8 @@ public class ContextValidator implements ApplicationContextAware {
      * @param pathSegments
      * @return if url is accessible to students principals
      */
-    public boolean isUrlBlocked(List<PathSegment> pathSegments) {
-        List<PathSegment> segs = cleanEmptySegments(pathSegments);
+    public boolean isUrlBlocked(ContainerRequest request) {
+        List<PathSegment> segs = cleanEmptySegments(request.getPathSegments());
 
         if (isSystemCall(segs)) {
             // do not block system calls
@@ -132,12 +132,7 @@ public class ContextValidator implements ApplicationContextAware {
         }
 
         if (SecurityUtil.isStudent()) {
-            List<String> paths = new ArrayList<String>();
-            for (int i = 1; i < segs.size(); ++i) {
-                paths.add(segs.get(i).getPath());
-            }
-
-            return !studentAccessValidator.isAllowed(paths);
+            return !studentAccessValidator.isAllowed(request);
         }
         
         return false;

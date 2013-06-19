@@ -126,17 +126,12 @@ public class DeltaExtractor implements InitializingBean {
     public static final String TIME_FIELD = "t";
 
     private EdOrgHierarchyHelper edOrgHelper;
-    private static Set<String> deltaSEASupported;
 
     @Override
     public void afterPropertiesSet() throws Exception {
         edOrgHelper = new EdOrgHierarchyHelper(repo);
         // this is supposed to go away once all the Delta-SEA stories played out
-        Set<String> deltaSEALocal = new HashSet<String>(Arrays.asList("calendarDate", "competencyLevelDescriptor",
-                "educationOrganization", "learningObjective", "learningStandard", "program",
-						      "studentCompetencyObjective", "gradingPeriod", "session", "course", "courseOffering", "graduationPlan", "assessment",
-                "objectiveAssessment", "assessmentPeriodDescriptor", "assessmentFamily"));
-        deltaSEASupported = Collections.unmodifiableSet(deltaSEALocal);
+
 
     }
 
@@ -166,10 +161,6 @@ public class DeltaExtractor implements InitializingBean {
                     if (appsPerEdOrg.containsKey(edOrg)) {
                         ExtractFile extractFile = getExtractFile(edOrg, tenant, deltaUptoTime, appsPerEdOrg.get(edOrg));
                         EntityExtractor.CollectionWrittenRecord record = getCollectionRecord(edOrg, delta.getType());
-                        if ( !isSupportedType( extractFile.getIsSEA(), delta.getType())) {
-                           LOG.debug("Delta bulk-extracts is not currently supported for {}", delta.getType());
-                           continue;
-                         }
                         entityExtractor.write(delta.getEntity(), extractFile, record, null);
 
                     }
@@ -189,10 +180,6 @@ public class DeltaExtractor implements InitializingBean {
         finalizeExtraction(tenant, deltaUptoTime);
     }
 
-    private boolean isSupportedType( boolean isPublic, String entityType ) {
-
-        return ( !isPublic || deltaSEASupported.contains( entityType )) ? true : false;
-    }
 
     private void logEntityCounts() {
         for (Map.Entry<String, EntityExtractor.CollectionWrittenRecord> entry : appPerLeaCollectionRecords.entrySet()) {
@@ -220,11 +207,6 @@ public class DeltaExtractor implements InitializingBean {
             Entity entity = delta.getEntity();
             Set<String> types = typeResolver.resolveType(entity.getType());
             for (String type : types) {
-             // This should go away soon...
-                if ( !isSupportedType( extractFile.getIsSEA(), type)) {
-                    LOG.debug("Delta bulk-extracts is not currently supported for {}", type);
-                    continue;
-                  }
                 // filter out obvious subdocs that don't make sense...
                 // a subdoc must have an id that is double the normal id size
                 if (!subdocs.contains(type) || entity.getEntityId().length() == edOrg.length() * 2) {
