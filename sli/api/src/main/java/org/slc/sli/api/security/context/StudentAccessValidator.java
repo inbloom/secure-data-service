@@ -261,20 +261,24 @@ public class StudentAccessValidator {
     /**
      * check if a path can be accessed according to stored business rules
      *
-     * the path passed in must be preprocessed so it doesn't contain empty
-     * segments or the api version
-     *
-     * @param paths
-     *            i.e. sections/{id}/studentSectionAssociations
+     * @param ContainerRequest request 
      * @return true if accessible by student
      */
     public boolean isAllowed(ContainerRequest request) {
+        if (request == null) {
+            return false;
+        }
         List<PathSegment> segs = request.getPathSegments();
         List<String> paths = new ArrayList<String>();
         
-        // first one is version, system calls (unversioned) have been handled elsewhere
-        for (int i = 1; i < request.getPathSegments().size(); ++i) {
-            paths.add(segs.get(i).getPath());
+        // first one is version, system calls (un-versioned) have been handled elsewhere
+        for (int i = 1; i < segs.size(); ++i) {
+            if (segs.get(i) != null) {
+                String path = segs.get(i).getPath();
+                if (path != null && !path.isEmpty()) {
+                    paths.add(segs.get(i).getPath());
+                }
+            }
         }
 
         if (paths.isEmpty()) {
