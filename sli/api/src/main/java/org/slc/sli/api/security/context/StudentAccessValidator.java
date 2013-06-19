@@ -265,7 +265,7 @@ public class StudentAccessValidator {
      * @return true if accessible by student
      */
     public boolean isAllowed(ContainerRequest request) {
-        if (request == null) {
+        if (request == null || request.getPathSegments() == null) {
             return false;
         }
         List<PathSegment> segs = request.getPathSegments();
