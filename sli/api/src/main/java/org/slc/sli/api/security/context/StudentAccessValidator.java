@@ -24,6 +24,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.ws.rs.core.PathSegment;
+
+import com.sun.jersey.spi.container.ContainerRequest;
+
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.ResourceNames;
@@ -264,8 +268,16 @@ public class StudentAccessValidator {
      *            i.e. sections/{id}/studentSectionAssociations
      * @return true if accessible by student
      */
-    public boolean isAllowed(List<String> paths) {
-        if (paths == null || paths.isEmpty()) {
+    public boolean isAllowed(ContainerRequest request) {
+        List<PathSegment> segs = request.getPathSegments();
+        List<String> paths = new ArrayList<String>();
+        
+        // first one is version, system calls (unversioned) have been handled elsewhere
+        for (int i = 1; i < request.getPathSegments().size(); ++i) {
+            paths.add(segs.get(i).getPath());
+        }
+
+        if (paths.isEmpty()) {
             return false;
         }
 
@@ -277,7 +289,7 @@ public class StudentAccessValidator {
 
         switch (paths.size()) {
             case 1:
-                return baseEntity.equals("home");
+                return baseEntity.equals("home") || !request.getQueryParameters().isEmpty();
             case 2:
                 return true;
             case 3:

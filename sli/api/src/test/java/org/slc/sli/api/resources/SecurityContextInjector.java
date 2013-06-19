@@ -311,7 +311,7 @@ public class SecurityContextInjector {
 
         SLIPrincipal principal = buildPrincipal("Studious", "Estudiando", DEFAULT_REALM_ID, roles, entity, ED_ORG_ID, new HashMap<String, Collection<GrantedAuthority>>());
         principal.setRoles(roles);
-        principal.setSelfRights(Arrays.asList(new GrantedAuthority[]{ Right.READ_GENERIC}));
+        principal.setSelfRights(Arrays.asList(new GrantedAuthority[]{ Right.READ_STUDENT_OWNED}));
         setSecurityContext(principal, false);
     }
 
