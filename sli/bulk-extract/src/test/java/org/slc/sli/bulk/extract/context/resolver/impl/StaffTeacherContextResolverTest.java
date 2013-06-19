@@ -39,6 +39,7 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.utils.EdOrgHierarchyHelper;
 
 public class StaffTeacherContextResolverTest {
     
@@ -52,6 +53,10 @@ public class StaffTeacherContextResolverTest {
     
     @Mock
     private EducationOrganizationContextResolver edOrgResolver;
+    
+    @Mock
+    private EdOrgHierarchyHelper edOrgHelper;
+    
 
     @Before
     public void setUp() throws Exception {
@@ -60,7 +65,7 @@ public class StaffTeacherContextResolverTest {
         MockitoAnnotations.initMocks(this);
         resolver.setDateHelper(dateHelper);
     }
-    
+
     @Test
     public void expiredStaffDoNotShowup() {
         Entity staff = buildStaffEntity();

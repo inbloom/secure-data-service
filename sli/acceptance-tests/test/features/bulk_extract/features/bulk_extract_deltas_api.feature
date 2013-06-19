@@ -79,10 +79,42 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
     And there is a metadata file in the extract
    Then each record in the full extract is present and matches the delta extract
 
+  Scenario: Ingesting SEA (Non Odin) entities - AssessmentFamily
+    When I ingest "AssessmentFamilyDelta.zip"
+    And the extraction zone is empty
+    When I trigger a delta extract
+    When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+      |  entityType                            |
+      |  assessment                            |
+    And I verify this "assessment" file should contain:
+      | id                                          | condition                                |
+      | f8a8f68c8aed779c2e8c3f9174e5b05e880e9a9d_id | assessmentTitle = READ 2.0 Grade 1 BOY   |
+    And I ingest "AssessmentFamilyDeltaUpdated.zip"
+    And the extraction zone is empty
+    When I trigger a delta extract
+    When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+      |  entityType                            |
+      |  assessment                            |
+    And I verify this "assessment" file should contain:
+      | id                                          | condition                                |
+      | f8a8f68c8aed779c2e8c3f9174e5b05e880e9a9d_id | assessmentTitle = READ 2.0 Grade 1 BOY   |
+
  Scenario: Ingesting SEA (Non Odin) entities - Session
     When I ingest "SEASession.zip"
     And the extraction zone is empty
     When I trigger a delta extract
+    And Only the following extracts exists for edOrg "<STANDARD-SEA>" in tenant "Midgar"
+      |   session           |
+      |   calendarDate      |
+    And There should not be any of the following extracts for edOrg "<IL-DAYBREAK>" in tenant "Midgar"
+      |   session           |
+      |   calendarDate      |
+    And There should not be any of the following extracts for edOrg "<IL-HIGHWIND>" in tenant "Midgar"
+      |   session           |
+      |   calendarDate      |
+    And There should not be any of the following extracts for edOrg "<IL-SUNSET>" in tenant "Midgar"
+      |   session           |
+      |   calendarDate      |
     When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
       |  entityType                            |
       |  session                               |
@@ -101,8 +133,34 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
       | 3d809925e89e28202cbaa76ddfaca40f52124dd3_id | totalInstructionalDays = 45              |
 
 
+
   Scenario: Ingesting SEA (Non Odin) entities - Course
     When I ingest "SEACourse.zip"
+    And the extraction zone is empty
+    When I trigger a delta extract
+    And Only the following extracts exists for edOrg "<STANDARD-SEA>" in tenant "Midgar"
+      |   course              |
+      |   courseOffering      |
+    And There should not be any of the following extracts for edOrg "<IL-DAYBREAK>" in tenant "Midgar"
+      # Note course exists here due to a reference to a courseOffering related to this LEA
+      |   courseOffering      |
+    And There should not be any of the following extracts for edOrg "<IL-HIGHWIND>" in tenant "Midgar"
+      # Note course exists here due to a reference to a courseOffering related to this LEA
+      |   courseOffering      |
+    And There should not be any of the following extracts for edOrg "<IL-SUNSET>" in tenant "Midgar"
+      |   course              |
+      |   courseOffering      |
+    When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+      |  entityType                            |
+      |  course                                |
+      |  courseOffering                        |
+    And I verify this "course" file should contain:
+      | id                                          | condition                                |
+      | a71ea7489a86103bddd7459c25c83b7e7c5da875_id | courseTitle = Sixth grade English        |
+    And I verify this "courseOffering" file should contain:
+      | id                                          | condition                                |
+      | eba54e12a1a8ce4c09a4ce2863fe080ee05a42e0_id | localCourseTitle = Sixth grade English   |
+    And I ingest "SEACourseUpdate.zip"
     And the extraction zone is empty
     When I trigger a delta extract
     When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
@@ -111,22 +169,28 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
       |  courseOffering                        |
     And I verify this "course" file should contain:
       | id                                          | condition                                |
-      | a71ea7489a86103bddd7459c25c83b7e7c5da875_id | courseTitle = Sixth grade English        |
-    And I ingest "SEACourseUpdate.zip"
-    And the extraction zone is empty
-    When I trigger a delta extract
-    When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
-      |  entityType                            |
-      |  course                                |
-    And I verify this "course" file should contain:
-      | id                                          | condition                                |
       | a71ea7489a86103bddd7459c25c83b7e7c5da875_id | courseTitle = Seventh grade English      |
+    And I verify this "courseOffering" file should contain:
+      | id                                          | condition                                |
+      | eba54e12a1a8ce4c09a4ce2863fe080ee05a42e0_id | localCourseTitle = Seventh grade English |
 
 
   Scenario: Ingesting SEA (Non Odin) entities - Grading Period
     When I ingest "SEAGradingPeriod.zip"
     And the extraction zone is empty
     When I trigger a delta extract
+    And Only the following extracts exists for edOrg "<STANDARD-SEA>" in tenant "Midgar"
+      |   gradingPeriod     |
+      |   calendarDate      |
+    And There should not be any of the following extracts for edOrg "<IL-DAYBREAK>" in tenant "Midgar"
+      |   gradingPeriod     |
+      |   calendarDate      |
+    And There should not be any of the following extracts for edOrg "<IL-HIGHWIND>" in tenant "Midgar"
+      |   gradingPeriod     |
+      |   calendarDate      |
+    And There should not be any of the following extracts for edOrg "<IL-SUNSET>" in tenant "Midgar"
+      |   gradingPeriod     |
+      |   calendarDate      |
     When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
       |  entityType                            |
       |  gradingPeriod                         |
@@ -149,6 +213,14 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
     When I ingest "SEAGraduationPlan.zip"
     And the extraction zone is empty
     When I trigger a delta extract
+    And Only the following extracts exists for edOrg "<STANDARD-SEA>" in tenant "Midgar"
+      |   graduationPlan     |
+    And There should not be any of the following extracts for edOrg "<IL-DAYBREAK>" in tenant "Midgar"
+      |   graduationPlan     |
+    And There should not be any of the following extracts for edOrg "<IL-HIGHWIND>" in tenant "Midgar"
+      |   graduationPlan     |
+    And There should not be any of the following extracts for edOrg "<IL-SUNSET>" in tenant "Midgar"
+      |   graduationPlan     |
     When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
       |  entityType                            |
       |  graduationPlan                        |
@@ -169,7 +241,7 @@ Scenario: Triggering deltas via ingestion
   All entities belong to lea1 which is IL-DAYBREAK, we should only see a delta file for lea1
   and only a delete file is generated for lea2.
   Updated two students, 1 and 12, 12 lost contextual resolution to LEA1, so it should not appear
-  in the extract file.  
+  in the extract file.
   1 is added to LEA2, so its stuff should go in there as well
   SEA - one of each of the 5 simple entities are deleted
      Given I clean the bulk extract file system and database
@@ -182,6 +254,7 @@ Scenario: Triggering deltas via ingestion
       And I verify "2" delta bulk extract files are generated for LEA "<STANDARD-SEA>" in "Midgar"
      When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
+       |  assessment                            |
        |  learningObjective                     |
        |  learningStandard                      |
        |  competencyLevelDescriptor             |
@@ -192,6 +265,7 @@ Scenario: Triggering deltas via ingestion
        |  deleted                               |
      And I verify this "deleted" file should contain:
        | id                                           | condition                               |
+       #| 8621a1a8d32dde3cf200697f22368a0f92f0fb92_id  | entityType = assessment                |
        | 8621a1a8d32dde3cf200697f22368a0f92f0fb92_id  | entityType = learningObjective          |
        | 4a6402c02ea016736280ac88d202d71a81058171_id  | entityType = learningStandard           |
        | d82250f49dbe4facb59af2f88fe746f70948405d_id  | entityType = competencyLevelDescriptor  |
@@ -199,12 +273,48 @@ Scenario: Triggering deltas via ingestion
        | ebfc74d85dfcdcb7e5ddc93a6af2952801f9436e_id  | entityType = program                    |
        | aec59707feac8e68d9d4b780bef5547e934297dc_id  | entityType = gradingPeriod              |
        | 78f5ed2b6ce039539f34ef1889af712816aec6f7_id  | entityType = calendarDate               |
-       
-       And I verify this "calendarDate" file should contain: 
+       | a60af241e154436d3a996e544fb886381edc490a_id0ce66f5d6973ecc7182bbad99e3f9a314aed3168_id | entityType = objectiveAssessment        |
+	   | 10c6591286b369aac8764612c9803079bc61aa6a_id  | entityType = assessmentPeriodDescriptor |
+	   	                                                             
+      And I verify this "assessment" file should contain:
+       | id                                          | condition                                                    |
+       # update assessmentFamily(parent) expected generated 1 joson file of Assessment, 26 in total of assessment
+       | 2777fe8b68767df7b7ab36768938daa576b5765b_id | assessmentTitle = 2013-Eighth grade Assessment 1             |
+
+       # create assessmentFamily and assessment
+       |41741ad11fa4c777e397faa0bf36546f27cdb5a8_id | assessmentFamilyHierarchyName = 2015 Standard.2015 First grade Standard  |
+       |41741ad11fa4c777e397faa0bf36546f27cdb5a8_id | assessmentIdentificationCode.ID = 2015-First Grade Assessment 2 BKC      |
+       #update assessment (child)
+	   |8b7e6ce92009e03e3760e798a5f6a3d7c5e134ae_id | assessmentIdentificationCode.ID = 2013-Kindergarten Assessment 2 BKU     |
+
+	   #update objectiveAssessment 
+	   |2c53daf31299947bc83fa5637ea502f16b715a60_id | objectiveAssessment.objectiveAssessments.nomenclature= Nomenclature BKU  |
+	   #create objectiveAssessment
+	   |d6be71fd4ede46095c1efd7281e9f96cd75b1798_id | assessmentTitle = 2016-Kindergarten Assessment 1                         |
+	   
+
+	   #update objectiveAssessment 
+	   |2c53daf31299947bc83fa5637ea502f16b715a60_id | objectiveAssessment.objectiveAssessments.nomenclature= Nomenclature BKU  |
+	   #create objectiveAssessment
+	   |d6be71fd4ede46095c1efd7281e9f96cd75b1798_id | assessmentTitle = 2016-Kindergarten Assessment 1                         |
+	   
+
+	   #update AssessessmentPeriodDescriptor
+	   | e8c930772a34becb630760ea019491294bd900b4_id | assessmentPeriodDescriptor.description = Beginning of Year 2013-2014 for Seventh grade BKU|
+	   #created AssessessmentPeriodDescriptor
+	   | 789660a15ff1f7588050018d581a77e0002e8120_id | assessmentTitle = 2017-First grade Assessment 2 BKC|
+	   #delete AssessessmentPeriodDescriptor	   
+
+	   And the "assessment" file should not contain a field
+	     | id                                          | field                          |
+         | f0ffa2e21cf1fc400527ac2ba63c20e4a620815c_id | assessmentPeriodDescriptor     |
+         | b3a9994c8006a7e4c086b02e59e034146f053f77_id | assessmentPeriodDescriptor     |
+
+       And I verify this "calendarDate" file should contain:
         | id                                          | condition                                |
-        | f34a74910eca77b0d344e1611f89156d84d0a40d_id | calendarEvent = Holiday        |
+        | f34a74910eca77b0d344e1611f89156d84d0a40d_id | calendarEvent = Holiday                  |
         | c8d46187efd4476ccbf1442fd11abb4fc990b269_id | calendarEvent = Holiday                  |
-             
+
      And I verify this "learningObjective" file should contain:
        | id                                          | condition                                |
        | a2b6a9f6ec88b4524c13064b335c0e078395e658_id | description = This an added description to test Deltas |
@@ -392,12 +502,12 @@ Scenario: Triggering deltas via ingestion
        | db9a7477390fb5de9d58350d1ce3c45ef8fcb0c6_id | entityType = student                     |
        | 908404e876dd56458385667fa383509035cd4312_idd14e4387521c768830def2c9dea95dd0bf7f8f9b_id | entityType = studentParentAssociation    |
        | 95147c130335e0656b0d8e9ab79622a22c3a3fab_id                                            | entityType = section                     |
-      
-       And I verify this "calendarDate" file should contain: 
+
+       And I verify this "calendarDate" file should contain:
         | id                                          | condition                                |
         | eab8ffa631837241c27316f4cd034b8e014821a3_id | calendarEvent = Instructional day   |
         | 356a441384ea905a4e01d5acebb25f7c42b7e0bd_id | date = 2022-06-04                   |
-              
+
      And I verify this "student" file should contain:
        #this is student 11, which has updated information
        | id                                          | condition                                |
@@ -755,6 +865,7 @@ Given I clean the bulk extract file system and database
  # An entry for "entity" must be defined in bulk_extract.rb:prepareBody:field_data["POST"]
  # An entry for "type" must be defined in bulk_extract.rb:getEntityEndpoint:entity_to_endpoint_map
  # Note that "entity" is passed as "field", and "type" passed as "entity" when the underlying POST step is called for each table entry
+ # Note if you get a 409 after adding an entity, it may have duplicate natural keys of a pre-existing entity
     | entity                         |  type                                  |  returnCode  |
     | newDaybreakStudent             |  staffStudent                          |  201         |
     | DbStudentSchoolAssociation     |  studentSchoolAssociation              |  201         |
@@ -791,7 +902,7 @@ Given I clean the bulk extract file system and database
     #| newDisciplineIncident          |  disciplineIncident                    |  201         |
     #| newDisciplineAction            |  disciplineAction                      |  201         |
     #| newStudentDiscIncidentAssoc    |  studentDisciplineIncidentAssociation  |  201         |
-    #| newGraduationPlan              |  graduationPlan                        |  201         |
+    | newGraduationPlan              |  graduationPlan                        |  201         |
     | newGradingPeriod               |  gradingPeriod                         |  201         |
     | newLearningObjective           |  learningObjective                     |  201         |
     | newLearningStandard            |  learningStandard                      |  201         |
@@ -816,6 +927,7 @@ Given I clean the bulk extract file system and database
         |  course                                |
         |  courseOffering                        |
         |  assessment                            |
+        |  graduationPlan                        |
   And I verify this "program" file should contain:
         | id                                          | condition                                |
         | 0ee2b448980b720b722706ec29a1492d95560798_id | programType = Regular Education          |
@@ -847,12 +959,15 @@ Given I clean the bulk extract file system and database
   And I verify this "assessment" file should contain:
         | id                                          | condition                                |
         | 8d58352d180e00da82998cf29048593927a25c8e_id | contentStandard = State Standard |
+  And I verify this "graduationPlan" file should contain:
+        | id                                          | condition                                |
+        | a77cdbececc81173aa76a34c05f9aeb44126a64d_id | individualPlan = false |
 
  When I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/json"
  Then I PATCH and validate the following entities:
  # "field" values must be defined in bulk_extract.rb:prepareBody:field_data["PATCH"]
- # "entity" values must be defined in bulk_extract.rb:getEntityBodyFromApi:entity_to_uri_map
+ # "entity" values must be defined in bulk_extract.rb:getEntityBodyFromApi:entity_to_uri_map and in bulk_extract.rb:getEntityEndpoint:entity_to_endpoint_map
  # Note if "value" is empty in this table, the patched field will be set to the string "value"
         |  field                |  entity                          |  value                                       |  returnCode  |
         |  patchProgramType     |  patchProgram                    |  Adult/Continuing Education                  |  204         |
@@ -865,6 +980,7 @@ Given I clean the bulk extract file system and database
         |  patchCourseDesc      |  patchSEACourse                  |  Patched description                         |  204         |
         |  patchCourseId        |  patchSEACourseOffering          |  06ccb498c620fdab155a6d70bcc4123b021fa60d_id |  204         |
         |  patchContentStd      |  patchAssessment                 |  National Standard                           |  204         |
+        |  patchIndividualPlan  |  patchGraduationPlan             |  true                                        |  204         |
 
  Given the unpack directory is empty
  When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -881,6 +997,7 @@ Given I clean the bulk extract file system and database
         |  course                                |
         |  courseOffering                        |
         |  assessment                            |
+        |  graduationPlan                        |
    And I verify this "program" file should contain:
         | id                                          | condition                                |
         | 0ee2b448980b720b722706ec29a1492d95560798_id | programType = Adult/Continuing Education |
@@ -912,6 +1029,9 @@ Given I clean the bulk extract file system and database
   And I verify this "assessment" file should contain:
         | id                                          | condition                                              |
         | 8d58352d180e00da82998cf29048593927a25c8e_id | contentStandard = National Standard                |
+  And I verify this "graduationPlan" file should contain:
+        | id                                          | condition                                |
+        | a77cdbececc81173aa76a34c05f9aeb44126a64d_id | individualPlan = true |
 
  When I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
@@ -1138,6 +1258,7 @@ Given I clean the bulk extract file system and database
     |  course                     |  494d4c8281ec78c7d8634afb683d39f6afdc5b85_id  |  204         |
     |  courseOffering             |  0fee7a7aba9a96388ef628b7e3e5e5ea60a142a7_id  |  204         |
     |  assessment                 |  8d58352d180e00da82998cf29048593927a25c8e_id  |  204         |
+    |  graduationPlan             |  a77cdbececc81173aa76a34c05f9aeb44126a64d_id  |  204         |
 
  Given the extraction zone is empty
   When I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -1191,6 +1312,7 @@ Given I clean the bulk extract file system and database
        | 494d4c8281ec78c7d8634afb683d39f6afdc5b85_id | entityType = course                      |
        | 0fee7a7aba9a96388ef628b7e3e5e5ea60a142a7_id | entityType = courseOffering              |
        | 8d58352d180e00da82998cf29048593927a25c8e_id | entityType = assessment                  |
+       | a77cdbececc81173aa76a34c05f9aeb44126a64d_id | entityType = graduationPlan              |
 
 Scenario: Delete student and stuSchAssoc, re-post them, then delete just studentSchoolAssociations (leaving students), verify delete
 Given I clean the bulk extract file system and database

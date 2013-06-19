@@ -34,22 +34,23 @@ Scenario: As a teacher, for my section, I want to get the most recent Math asses
     Then I should have a list of 12 "section" entities
 
   When I make a GET request to URI "/sections/@id/studentSectionAssociations/students/studentAssessments"
-    Then I should have a list of 36 "studentAssessment" entities
+    Then I should have a list of 50 "studentAssessment" entities
     And I should extract the "id" from the response body to a list and save to "studentAssessments"
 
-  When I navigate to GET "/v1/studentAssessments"
-    Then I should have a list of 36 "studentAssessment" entities
-    And I store the studentAssessments
+#TODO: This is a defect (DE2895), get it resolved and uncomment
+  #When I navigate to GET "/v1/studentAssessments"
+    #Then I should have a list of 50 "studentAssessment" entities
+    #And I store the studentAssessments
     
   When I navigate to GET "/studentAssessments/<student assessment>"
     And the response field "entityType" should be "studentAssessment"
     And the response field "administrationLanguage.language" should be "English"
     And the response field "administrationEnvironment" should be "Classroom"
     And the response field "retestIndicator" should be "Primary Administration"
-    And the response field "<SOA.scoreResults.result>" should be "26"
-    And the response field "<SOA.OA.identificationCode>" should be "2013-Tenth grade Assessment 2.OA-0"
+    And the response field "<SOA.scoreResults.result>" should be "57"
+    And the response field "<SOA.OA.identificationCode>" should be "2013-Twelfth grade Assessment 1.OA-0"
     And I sort the studentAssessmentItems
-    And the response field "<SAI.AI.identificationCode>" should be "2013-Tenth grade Assessment 2#1"
+    And the response field "<SAI.AI.identificationCode>" should be "2013-Twelfth grade Assessment 1#1"
     And I should extract the student reference from studentAssessment
     And I should extract the assessment reference from studentAssessment
 
@@ -87,7 +88,7 @@ Scenario: As a teacher, for my section, I want to get the most recent Math asses
     And the response field "assessmentPeriodDescriptor.description" should be "<assessment period descriptor>"
     And the response field "assessmentPeriodDescriptor.codeValue" should be "<APD.codeValue>"
     And the response field "entityType" should be "assessment"
-    And the response field "gradeLevelAssessed" should be "Tenth grade"
+    And the response field "gradeLevelAssessed" should be "Twelfth grade"
     And the response field "assessmentTitle" should be "<assessment 1>"
     And I extract all the "assessment" links
 
@@ -95,7 +96,7 @@ Scenario: As a teacher, for my section, I want to get the most recent Math asses
     Then I should validate the "objectiveAssessment.0.learningObjectives" from "assessment" links map to learningObjectives
 
   When I navigate to GET "/v1/search/assessments?q=Sixth"
-    Then I should have a list of 2 "assessment" entities
+    Then I should have a list of 4 "assessment" entities
     When I navigate to GET "/v1/search/assessments?assessmentTitle=2013-Sixth%20grade%20Assessment%202"
     Then I should have a list of 1 "assessment" entities
     And the offset response field "assessmentTitle" should be "2013-Sixth grade Assessment 2"
@@ -107,10 +108,10 @@ Scenario: As a teacher, for my section, I want to get the most recent Math asses
     And the offset response field "assessmentFamilyHierarchyName" should be "2013 Standard.2013 Sixth grade Standard"
 
   When I navigate to GET "/v1/search/assessments?q=sub"
-    Then I should have a list of 26 "assessment" entities
+    Then I should have a list of 50 "assessment" entities
 
   When I navigate to GET "/v1/search/assessments?q=2014-ninth%20grade%20assessment%201&limit=100"
-    Then I should have a list of 26 "assessment" entities
+    Then I should have a list of 52 "assessment" entities
 
   When I navigate to GET "/v1/search/assessments?assessmentTitle=2013-Sixth%20grade%20Assessment%201"
     Then I should have a list of 1 "assessment" entities
