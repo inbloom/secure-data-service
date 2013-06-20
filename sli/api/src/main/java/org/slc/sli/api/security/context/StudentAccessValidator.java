@@ -282,15 +282,8 @@ public class StudentAccessValidator {
         // sections
         Set<List<String>> sectionsAllowedFourParts = new HashSet<List<String>>();
         sectionsAllowedFourParts.add(Arrays.asList(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, ResourceNames.STUDENTS));
-        sectionsAllowedFourParts.add(Arrays.asList(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, ResourceNames.GRADEBOOK_ENTRIES));
         sectionsAllowedFourParts.add(Arrays.asList(ResourceNames.TEACHER_SECTION_ASSOCIATIONS, ResourceNames.TEACHERS));
         fourParts.put(ResourceNames.SECTIONS, sectionsAllowedFourParts);
-
-        // edorgs
-        Set<List<String>> edOrgsAllowedFourParts = new HashSet<List<String>>();
-        edOrgsAllowedFourParts.add(Arrays.asList(ResourceNames.SESSIONS, ResourceNames.GRADING_PERIODS));
-        edOrgsAllowedFourParts.add(Arrays.asList(ResourceNames.COURSE_OFFERINGS, ResourceNames.COURSES));
-        fourParts.put(ResourceNames.EDUCATION_ORGANIZATIONS, edOrgsAllowedFourParts);
 
         // programs
         Set<List<String>> programsAllowedFourParts = new HashSet<List<String>>();
