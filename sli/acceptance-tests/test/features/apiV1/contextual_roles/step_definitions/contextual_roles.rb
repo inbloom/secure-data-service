@@ -44,6 +44,8 @@ end
 #############################################################################################
 # After Steps
 #############################################################################################
+
+#Undo changes made by update_mongo, remove_from_mongo, and add_to_mongo after the scenario ends
 After do
   unless @mongo_changes.nil?
     @mongo_changes.reverse_each do |mongo_change|
@@ -72,6 +74,11 @@ end
 #############################################################################################
 # Mongo Steps
 #############################################################################################
+
+#The following three methods (update_mongo, remove_from_mongo, add_to_mongo) are singleton operators.
+#They also keep a record of the changes they made so that they can be reverted after the scenario is done
+#Note: tenant is the database name and query is a query that'd uniquely identify an entity
+#      (Generally, a query like {'_id' => id} is enough)
 
 def update_mongo(tenant, collection, query, field, remove, value = nil)
 #Note: value is ignored if remove is true (It doesn't matter what the field contains if you're removing it)
@@ -211,7 +218,7 @@ Given /^I remove all SEOAs for "([^"]*)" in tenant "([^"]*)"/ do |staff, tenant|
 end
 
 Given /^I remove the SEOA with role "([^"]*)" for staff "([^"]*)" in "([^"]*)"$/ do |role, staff, edOrg|
-  tenant = convertTenantIdToDbName 'Midgar'
+  tenant = convertTenantIdToDbName @tenant
   disable_NOTABLESCAN()
   conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
   db = conn[tenant]
@@ -236,7 +243,7 @@ Given /^I remove the SEOA with role "([^"]*)" for staff "([^"]*)" in "([^"]*)"$/
 end
 
 Given /^I remove the teacherSectionAssociation for "([^"]*)"$/ do |staff|
-  tenant = convertTenantIdToDbName 'Midgar'
+  tenant = convertTenantIdToDbName @tenant
   disable_NOTABLESCAN()
   conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
   db = conn[tenant]
@@ -244,20 +251,22 @@ Given /^I remove the teacherSectionAssociation for "([^"]*)"$/ do |staff|
   staff_coll = db.collection('staff')
   staff_id = staff_coll.find_one({'body.staffUniqueStateId' => staff})['_id']
 
-  query = {'teacherSectionAssociation.body.teacherId' => staff_id}
-
   section_coll = db.collection('section')
-  noOfRecords = section_coll.find(query).count.to_i
+  sections = section_coll.find({'teacherSectionAssociation.body.teacherId' => staff_id}).count.to_a
 
-  for i in 0..(noOfRecords -1)
-      update_mongo(tenant, "section", query, "teacherSectionAssociation",true)
+  sections.each do |section|
+    query = {'_id' => section['_id']}
+    update_mongo(tenant, "section", query, "teacherSectionAssociation",true)
   end
+
+  conn.close
+  enable_NOTABLESCAN()
 end
 
 Given /^the only SEOA for "([^"]*)" is as a "([^"]*)" in "([^"]*)"$/ do |staff, role, edorg|
   disable_NOTABLESCAN()
   conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
-  db_tenant = convertTenantIdToDbName 'Midgar'
+  db_tenant = convertTenantIdToDbName @tenant
   db = conn[db_tenant]
 
   staff_coll = db.collection('staff')
@@ -288,7 +297,7 @@ end
 Given /^I add a SEOA for "([^"]*)" in "([^"]*)" as a "([^"]*)"$/ do |staff, edOrg, role|
   disable_NOTABLESCAN()
   conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
-  db_tenant = convertTenantIdToDbName 'Midgar'
+  db_tenant = convertTenantIdToDbName @tenant
   db = conn[db_tenant]
 
   staff_coll = db.collection('staff')
@@ -302,6 +311,7 @@ Given /^I add a SEOA for "([^"]*)" in "([^"]*)" as a "([^"]*)"$/ do |staff, edOr
 
   add_to_mongo(db_tenant, 'staffEducationOrganizationAssociation', seoa)
   conn.close
+  enable_NOTABLESCAN()
 end
 
 Given /^the following student section associations in ([^ ]*) are set correctly$/ do |tenant, table|
@@ -357,6 +367,29 @@ Given /^the following student section associations in ([^ ]*) are set correctly$
 
 
   end
+
+  conn.close
+  enable_NOTABLESCAN()
+end
+
+Given /^"([^"]*)" is not associated with any (program|cohort) that belongs to "([^"]*)"$/ do |student, collection, staff|
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  db_name = convertTenantIdToDbName(@tenant)
+  db = conn[db_name]
+  student_coll = db.collection('student')
+  staff_coll = db.collection('staff')
+  association_coll = db.collection("staff#{collection.capitalize}Association")
+
+  student = student_coll.find_one({'body.studentUniqueStateId' => student})
+  staff_id = staff_coll.find_one({'body.staffUniqueStateId' => staff})['_id']
+
+  staff_entities = association_coll.find({'body.staffId' => staff_id}, {:fields => %w(_id)}).to_a
+
+  query = { '_id' => student['_id']}
+  value = student["student#{collection.capitalize}Association"]
+  value.delete_if {|entry| staff_entities.include?({'_id' => entry['body']["#{collection}Id"] }) }
+  update_mongo(db_name, 'student', query, 'studentSectionAssociation', false, value)
 
   conn.close
   enable_NOTABLESCAN()
@@ -472,7 +505,7 @@ def authorize_edorg_for_tenant(app_name, tenant_name)
   enable_NOTABLESCAN()
 end
 
-Given /^I import the odin-local-setup application and realm data$/ do
+Given /^I import the odin setup application and realm data$/ do
   @ci_realm_store_path = File.dirname(__FILE__) + '/../../../../../../../tools/jmeter/odin-ci/'
   @local_realm_store_path = File.dirname(__FILE__) + '/../../../../../../../tools/jmeter/odin-local-setup/'
   #get current working dir
