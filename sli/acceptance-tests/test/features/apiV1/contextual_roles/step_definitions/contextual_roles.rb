@@ -510,8 +510,9 @@ Given /^I import the odin-local-setup application and realm data$/ do
     conn.close
     enable_NOTABLESCAN()
   end
-  all_lea_allow_app_for_tenant('Mobile App', 'Midgar')
-  authorize_edorg_for_tenant('Mobile App', 'Midgar')
+  @tenant = 'Midgar'
+  all_lea_allow_app_for_tenant('Mobile App', @tenant)
+  authorize_edorg_for_tenant('Mobile App', @tenant)
   # restore back current dir
   Dir.chdir(current_dir)
 end
@@ -546,27 +547,20 @@ end
 Then /^the response (should|should not) have restricted student data$/ do |function|
   apiRecord = JSON.parse(@res.body)
   assert(apiRecord != nil, "Result of JSON parsing is nil")
-  if function == 'should'
-    assert(apiRecord.has_key?("schoolFoodServicesEligibility") == true, "Restricted field not found")
-  else
-    assert(apiRecord.has_key?("schoolFoodServicesEligibility") == false, "Restricted field found")
-  end
+  should = (function == 'should')
+  negative = 'not ' if should
+  assert(apiRecord.has_key?("schoolFoodServicesEligibility") == should, "Restricted field #{negative}found")
 end
 
 Then /^the response (should|should not) have general student data$/ do |function|
   apiRecord = JSON.parse(@res.body)
   assert(apiRecord != nil, "Result of JSON parsing is nil")
-  if function == 'should'
-    assert(apiRecord.has_key?("studentUniqueStateId") == true, "General field studentUniqueStateId not found")
-    assert(apiRecord.has_key?("name") == true, "General field name not found")
-    assert(apiRecord.has_key?("birthData") == true, "General field birthData not found")
-    assert(apiRecord.has_key?("hispanicLatinoEthnicity") == true, "General field hispanicLatinoEthnicity not found")
-  else
-    assert(apiRecord.has_key?("studentUniqueStateId") == false, "General field studentUniqueStateId found")
-    assert(apiRecord.has_key?("name") == true, "General field name  found")
-    assert(apiRecord.has_key?("birthData") == true, "General field birthData found")
-    assert(apiRecord.has_key?("hispanicLatinoEthnicity") == true, "General field hispanicLatinoEthnicity found")
-  end
+  should = (function == 'should')
+  negative = 'not ' if should
+  assert(apiRecord.has_key?("studentUniqueStateId") == should, "General field studentUniqueStateId #{negative}found")
+  assert(apiRecord.has_key?("name") == should, "General field name #{negative}found")
+  assert(apiRecord.has_key?("birthData") == should, "General field birthData #{negative}found")
+  assert(apiRecord.has_key?("hispanicLatinoEthnicity") == should, "General field hispanicLatinoEthnicity #{negative}found")
 end
 
 

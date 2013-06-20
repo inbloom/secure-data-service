@@ -123,5 +123,17 @@
         "parent" : "District 9"
       }
     ]
+  },
+  {
+    "userId": "xbell",
+    "name": "Xavier Bell",
+    "edOrgs": [
+      {
+        "role": "Aggregate Viewer",
+        "type": "Local Education Agency",
+        "association": "District 31",
+        "parent" : "IL-DAYBREAK"
+      }
+    ]
   }
 ]

@@ -1,4 +1,4 @@
-@RALLY_5765
+@RALLY_US5765
 Feature: Use the APi to successfully get student data while having roles over many schools
 
   Background: Setup for the tests
@@ -219,4 +219,18 @@ Feature: Use the APi to successfully get student data while having roles over ma
 
     Given format "application/json"
     When I navigate to GET "<bert.jakeman URI>"
+    Then I should receive a return code of 403
+
+  @wip
+  Scenario: User gets data based on roles in SEOA, even if user has more roles defined in IDP
+    When I navigate to the API authorization endpoint with my client ID
+    And I was redirected to the "Simple" IDP Login page
+    And I submit the credentials "xbell" "xbell1234" for the "Simple" login page
+    Then I should receive a json response containing my authorization code
+    When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
+    Then I should receive a json response containing my authorization token
+    And I should be able to use the token to make valid API calls
+
+    Given format "application/json"
+    When I navigate to GET "<carmen.ortiz URI>"
     Then I should receive a return code of 403
