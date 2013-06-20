@@ -713,24 +713,30 @@ public class BasicService implements EntityService, AccessibilityCheck {
         }
     }
 
-    private boolean isSelf(NeutralQuery query) {
-        boolean isSelf = false;
+    protected boolean isSelf(NeutralQuery query) {
 
         //This checks if they're querying for a self entity.  It's overly convoluted because going to
         //resourcename/<ID> calls this method instead of calling get(String id)
         List<NeutralCriteria> allTheCriteria = query.getCriteria();
-        if (allTheCriteria.size() == 1) {
-            NeutralCriteria criteria = allTheCriteria.get(0);
-            try {
-                List<String> value = (List<String>) criteria.getValue();
-                if (criteria.getOperator().equals(NeutralCriteria.CRITERIA_IN) && value.size() == 1) {
-                    isSelf = isSelf(value.get(0));
-                }
-            } catch (ClassCastException e) {
-                debug("The value of the criteria was not a list");
+        for (NeutralQuery orQuery: query.getOrQueries()) {
+            if(!isSelf(orQuery)) {
+                return false;
             }
         }
-        return isSelf;
+        for(NeutralCriteria criteria: allTheCriteria) {
+            if (criteria.getOperator().equals(NeutralCriteria.CRITERIA_IN) && criteria.getValue() instanceof List) {
+                // key IN [{self id}]
+                List<?> value = (List<?>) criteria.getValue();
+                if (value.size() == 1 && isSelf(value.get(0).toString())) {
+                    return true;
+                }
+            } else if (criteria.getOperator().equals(NeutralCriteria.OPERATOR_EQUAL) && criteria.getValue() instanceof String) {
+                if (isSelf((String) criteria.getValue())){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private boolean isSelf(String entityId) {

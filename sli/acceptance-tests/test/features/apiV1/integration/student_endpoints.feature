@@ -49,9 +49,20 @@ Given I log in to realm "Illinois Daybreak Students" using simple-idp as "studen
     | id                                          |
     | 139f77e73ae5f1970c5d884d4d2b90367361d1f6_id |
     | ec8b76883033432dc83b97e71fbc5bf881b4ccbb_id |
-  When I validate that I am denied access to restricted endpoints via API:
-    | uri                                                                                   | rc  |
-    | /v1/sections/e9b81633cba273dc9cc567d7f0f76a1c070c150d_id/studentSectionAssociations   | 403 |
-    | /v1/sections/57277fceb3592d0c8f3faadcdd824690bc2b2586_id/studentSectionAssociations   | 403 |
-    | /v1/programs/2e19c13bd3b303c5e7a292883cd9e487a6e5eccd_id/studentProgramAssociations   | 403 |
-    | /v1/cohorts/b4f9ddccc4c5c47a00541ee7c6d67fcb287316ce_id/studentCohortAssociations     | 403 |
+
+  Scenario: I check the response to uris with query parameters
+    Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
+    And format "application/json"
+    And I am using api version "v1"
+    And I am accessing data about myself, "matt.sollars"
+    Then I verify the following response body fields in "/schools?parentEducationAgencyReference=1b223f577827204a1c7e9c851dba06bea6b031fe_id&sortBy=stateOrganizationId":
+      | field                                                 | value                                       |
+      | 0.stateOrganizationId                                 | Daybreak Central High                       |
+      | 1.stateOrganizationId                                 | East Daybreak Junior High                   |
+      | 2.stateOrganizationId                                 | South Daybreak Elementary                   |
+    Then I verify the following response body fields in "/schools?parentEducationAgencyReference=1b223f577827204a1c7e9c851dba06bea6b031fe_id&sortBy=stateOrganizationId&limit=1&offset=1":
+      | field                                                 | value                                       |
+      | 0.stateOrganizationId                                 | East Daybreak Junior High                   |
+    Then I verify the following response body fields in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/studentSectionAssociations?beginDate=2013-09-09&sortBy=beginDate":
+      | field                                                 | value                                       |
+      | 0.beginDate                                           | 2013-09-09                                  |

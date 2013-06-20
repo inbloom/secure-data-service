@@ -241,7 +241,11 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
             boolean spamDelete = false;
             if (deletedTime > updatedTime) {
                 Entity deleted = new MongoEntity(collection, id, null, null);
-                deleteQueue.add(new DeltaRecord(deleted, null, Operation.DELETE, false, collection));
+                if(DEPENDENT_MAP.containsKey(collection)) {
+                    addDependencies(collection, deleted, resolver.findGoverningEdOrgs(deleted));
+                } else {
+                    deleteQueue.add(new DeltaRecord(deleted, null, Operation.DELETE, false, collection));
+                }
                 if (deleteQueue.size() >= batchSize) {
                     workQueue = deleteQueue;
                     deleteQueue = new LinkedList<DeltaRecord>();
