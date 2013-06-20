@@ -30,6 +30,7 @@ import javax.xml.bind.DatatypeConverter;
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerRequestFilter;
 
+import org.slc.sli.common.constants.EntityNames;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -143,7 +144,12 @@ public class PreProcessFilter implements ContainerRequestFilter {
             
             String base = request.getPathSegments().get(1).getPath();
             String assoc = request.getPathSegments().get(3).getPath();
-            
+
+            if (CONTEXTERS.contains(base)) {
+                info("Skipping date-based obligation injection because association {} is base level URI", base);
+                return;
+            }
+
             if(base.equals(ResourceNames.PROGRAMS) || base.equals(ResourceNames.COHORTS)) {
                 if(assoc.equals(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS) || assoc.equals(ResourceNames.STAFF_COHORT_ASSOCIATIONS)) {
                     prince.setStudentAccessFlag(false);

@@ -15,17 +15,22 @@
  */
 package org.slc.sli.api.security.context.validator;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
+import java.util.*;
 
+/**
+ * Note that this class differs from StudentToStudentSectionAssociationValidator
+ * in that StudentCohortAssociation and StudentProgramAssociation are denormalized on student
+ * while StudentSectionAssociation is denormalized on section
+ */
 @Component
 public class StudentToStudentAssociationValidator extends AbstractContextValidator{
 
@@ -33,13 +38,12 @@ public class StudentToStudentAssociationValidator extends AbstractContextValidat
     private TransitiveStudentToStudentValidator studentValidator;
 
     protected static final Set<String> STUDENT_ASSOCIATIONS = new HashSet<String>(Arrays.asList(
-            EntityNames.STUDENT_SECTION_ASSOCIATION,
             EntityNames.STUDENT_COHORT_ASSOCIATION,
             EntityNames.STUDENT_PROGRAM_ASSOCIATION));
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return isStudentOrParent() && STUDENT_ASSOCIATIONS.contains(entityType);
+        return isStudent() && STUDENT_ASSOCIATIONS.contains(entityType);
     }
 
     @Override
@@ -48,10 +52,38 @@ public class StudentToStudentAssociationValidator extends AbstractContextValidat
             return false;
         }
 
-        // Get the Student IDs on the things we want to see,
-        // then call the transitive student validator to see if you have access to those students
-        Set<String> studentIds = new HashSet<String>(getIdsContainedInFieldOnEntities(entityType, new ArrayList<String>(ids), ParameterConstants.STUDENT_ID));
+        Set<String> otherStudentIds = new HashSet<String>();
+        Set<String> toValidateIds = new HashSet<String>(ids);
 
-        return studentValidator.validate(EntityNames.STUDENT, studentIds);
+        // First, cross off associations that point back to yourself utilizing superdocs
+        Entity self = SecurityUtil.getSLIPrincipal().getEntity();
+        List<Entity> associations = self.getEmbeddedData().get(entityType);
+        for(Entity assoc : associations) {
+            if (ids.contains(assoc.getEntityId())) {
+                // Entities denormalized onto the student should have the same ID as the student
+                toValidateIds.remove(assoc.getEntityId());
+            }
+        }
+
+        // Return now if all the requested IDs have been validated
+        if (toValidateIds.isEmpty()) {
+            return true;
+        }
+
+        // Now, find the student IDs on the other remaining requested IDs and validate them
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, toValidateIds));
+        for(Entity association : repo.findAll(entityType, query)) {
+            Map<String, Object>body = association.getBody();
+            if (!isFieldExpired(body, ParameterConstants.END_DATE, false)) {
+                otherStudentIds.add((String) body.get(ParameterConstants.STUDENT_ID));
+            } else {
+                // We cannot see Associations for other students if they are expired
+                return false;
+            }
+        }
+
+        // Validate the other students you found (you should have at least one,
+        // if you don't, the student validator will return false if passed in an empty list)
+        return studentValidator.validate(EntityNames.STUDENT, otherStudentIds);
     }
 }

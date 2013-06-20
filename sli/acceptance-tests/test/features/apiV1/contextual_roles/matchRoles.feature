@@ -5,7 +5,7 @@ Feature: Match IDP roles with the ingested inBloom Roles during Authentication
 
 Background:
   Given the testing device app key has been created
-  And I import the odin-local-setup application and realm data
+  And I import the odin setup application and realm data
   And I have an open web browser
 
 Scenario: As a staff member, I can log in and see data for myself, if at least one role with valid end date matches
