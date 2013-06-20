@@ -844,6 +844,7 @@ desc "Run Ingestion Acceptances Tests"
 task :ingestionTests => [
         :loadDefaultIngestionTenants,
         :IngestionIndexValidationTest,
+        :corruptZip,
         :ingestionDeletionTests,
         :ingestionTenantPurgeTests,
         :ingestionJobFailOnMissingIndexTest,
@@ -908,21 +909,27 @@ desc "Run Normal Priority Emma Ingestion Acceptances Tests"
     task :normalPriority => [
         :loadDefaultIngestionTenants,
         :IngestionIndexValidationTest,
+        :corruptZip,
+        :ingestionDeletionTests,
+        :ingestionTenantPurgeTests,
+        :ingestionJobFailOnMissingIndexTest,
         :ingestionDbSpinupTest,
+        :ingestionDupDetectTest,
+        :ingestionInternationalAddressTests,
         :ingestionAcceptanceSdsTest,
         :ingestionConcurrentTenantTest,
         :ingestionLearningObjectiveTest,
+        :ingestionSeoaa,
         :ingestionNegativeTests,
         :ingestionAttendanceTests,
         :ingestionCommonCoreTest,
         :ingestionEncryptionTests,
+        :ingestionPropagatedTest,
         :ingestionidNamespaceTest,
         :ingestionSmooksVerificationTests,
         :ingestionXsdValidationTest,
         :ingestionBatchJobTest,
         :ingestionIgnoreIDRefsTest,
-        :ingestionTenantPurgeTests,
-        :ingestionIndexTest,
         :ingestionTenantTest,
         :ingestionBlacklistValidationTests,
         :ingestionXXETest,
@@ -940,7 +947,8 @@ desc "Run Normal Priority Emma Ingestion Acceptances Tests"
         :ingestionErrorWarnCountTest,
         :ingestionRevertDataTest,
         :ingestionUniqueSectionCodeTest,
-        :ingestionDupDetectTest] do
+        :ingestionSecurityEventTest
+    ] do
 end
 
 desc "Run Emma Ingestion Acceptances Tests"
