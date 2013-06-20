@@ -18,6 +18,7 @@ package org.slc.sli.api.security.pdp;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -43,8 +44,10 @@ import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.security.context.ResponseTooLargeException;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.resolver.SectionHelper;
+import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.common.util.datetime.DateHelper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -75,6 +78,9 @@ public class UriMutator {
 
     @Autowired
     private BasicDefinitionStore definitionStore;
+    
+    @Autowired
+    private DateHelper dateHelper;
 
     private Map<String, MutateInfo> teacherSectionMutations;
 
@@ -343,6 +349,12 @@ public class UriMutator {
                 mutated.setPath(String.format("/students/%s/studentSectionAssociations/sections", StringUtils.join(getStudentIds(user))));
             } else if (PathConstants.REPORT_CARDS.equals(baseEntity)) {
                 mutated.setPath(String.format("/students/%s/reportCards", StringUtils.join(getStudentIds(user))));
+            } else if (PathConstants.TEACHERS.equals(baseEntity)) {
+                mutated.setPath(String.format("/sections/%s/teacherSectionAssociations/teachers", StringUtils.join(getSectionIds(user))));
+            } else if (PathConstants.STAFF.equals(baseEntity)) {
+                mutated.setPath(String.format("/educationOrganizations/%s/staffEducationOrgAssignmentAssociations/staff", StringUtils.join(edOrgHelper.getDirectEdorgs(user), ",")));
+            } else if (PathConstants.STAFF_COHORT_ASSOCIATIONS.equals(baseEntity)) {
+                mutated.setPath(String.format("/cohorts/%s/staffCohortAssociations", StringUtils.join(getCohortIds(user))));
             } else if (PathConstants.STUDENTS.equals(baseEntity)) {
                 mutated.setPath(String.format("/sections/%s/studentSectionAssociations/students", StringUtils.join(getSectionIds(user))));
             } else if (PathConstants.STUDENT_ACADEMIC_RECORDS.equals(baseEntity)) {
@@ -982,19 +994,46 @@ public class UriMutator {
         if (isStudent(principal)) {
             studentIds.add(principal.getEntityId());
         }
-        return studentIds.toString().replace("[", "").replace("]", "").replace(" ", "");
+        return removeBrackets(studentIds.toString());
     }
     
     private String getStudentAcademicRecordsIds(Entity principal) {
-        return getStudentRelatedRecords(principal, EntityNames.STUDENT_ACADEMIC_RECORD).toString().replace("[", "").replace("]", "").replace(" ", "");
+        return removeBrackets(getStudentRelatedRecords(principal, EntityNames.STUDENT_ACADEMIC_RECORD).toString());
     }
 
     private String getStudentSectionAssocIds(Entity principal) {
-        return getStudentRelatedRecords(principal, EntityNames.STUDENT_SECTION_ASSOCIATION).toString().replace("[", "").replace("]", "").replace(" ", "");
+        return removeBrackets(getStudentRelatedRecords(principal, EntityNames.STUDENT_SECTION_ASSOCIATION).toString());
     }
 
     private String getSectionIds(Entity principal) {
-        return sectionHelper.getStudentsSections(principal).toString().replace("[", "").replace("]", "").replace(" ", "");
+        return removeBrackets(sectionHelper.getStudentsSections(principal).toString());
+    }
+
+    private String getCohortIds(Entity principal) {
+        Set<String> cohortsId = new HashSet<String>();
+        if (isStudent(principal)) {
+            Map<String, List<Entity>> myEmbeddedData = principal.getEmbeddedData();
+            List<Entity> myCohorts = myEmbeddedData == null ? Collections.<Entity> emptyList() : myEmbeddedData.get(EntityNames.STUDENT_COHORT_ASSOCIATION);
+            if (myCohorts == null || myCohorts.isEmpty()) {
+                throw new EntityNotFoundException("No association to any cohorts");
+            }
+            
+            for (Entity cohortAssociation : myCohorts) {
+                if (!dateHelper.isFieldExpired(cohortAssociation.getBody(), ParameterConstants.END_DATE)) {
+                    cohortsId.add((String) cohortAssociation.getBody().get(ParameterConstants.COHORT_ID));
+                }
+            }
+        }
+        
+        if (cohortsId.isEmpty()) {
+            throw new EntityNotFoundException("No association to any cohorts");
+        }
+        
+        return removeBrackets(cohortsId.toString());
+    }
+
+    private String removeBrackets(String s) {
+        return s.replace("[", "").replace("]", "").replace(" ", "");
     }
 
     private List<String> getStudentRelatedRecords(Entity principal, String entityType) {
