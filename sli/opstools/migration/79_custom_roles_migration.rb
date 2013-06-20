@@ -12,8 +12,8 @@ databases.each do |dbName|
       :groupTitle => "Student",
       :isAdminRole => false,
       :names => ['Student'],
-      :rights => ['READ_PUBLIC', 'READ_NAME'],
-      :selfRights => ['READ_GENERIC'],
+      :rights => ['READ_PUBLIC', 'READ_STUDENT_GENERAL'],
+      :selfRights => ['READ_STUDENT_OWNED'],
       :customRights => []
   }}
   }, {:multi => true})
