@@ -3,7 +3,7 @@ Feature: Use the APi to successfully get student data while having roles over ma
 
   Background: Setup for the tests
     Given the testing device app key has been created
-    And I import the odin-local-setup application and realm data
+    And I import the odin setup application and realm data
     And I have an open web browser
 
   @wip
@@ -123,7 +123,9 @@ Feature: Use the APi to successfully get student data while having roles over ma
     And the following student section associations in Midgar are set correctly
       | student         | teacher              | edorg                 | enrolledInAnySection? |
       | carmen.ortiz    | rbelding             | Daybreak Central High | yes                   |
-      | lashawn.taite   | rbelding             | Daybreak Central High | no                   |
+      | lashawn.taite   | rbelding             | Daybreak Central High | no                    |
+    And "lashawn.taite" is not associated with any program that belongs to "rbelding"
+    And "lashawn.taite" is not associated with any cohort that belongs to "rbelding"
 
     Given format "application/json"
     #When I navigate to GET "<matt.sollars URI>"
@@ -131,7 +133,7 @@ Feature: Use the APi to successfully get student data while having roles over ma
     When I navigate to GET "<carmen.ortiz URI>"
     Then I should receive a return code of 200
     And the response should have general student data
-    And the response should not have restricted student data
+    #And the response should not have restricted student data
     When I navigate to GET "<lashawn.taite URI>"
     Then I should receive a return code of 403
 
