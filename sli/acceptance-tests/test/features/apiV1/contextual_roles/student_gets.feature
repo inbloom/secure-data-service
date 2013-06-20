@@ -149,21 +149,6 @@ Feature: Use the APi to successfully get student data while having roles over ma
     Then I should receive a return code of 403
 
   @wip
-  Scenario: Leader can access restricted data
-    When I navigate to the API authorization endpoint with my client ID
-    And I was redirected to the "Simple" IDP Login page
-    And I submit the credentials "sbantu" "sbantu1234" for the "Simple" login page
-    Then I should receive a json response containing my authorization code
-    When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
-    Then I should receive a json response containing my authorization token
-    And I should be able to use the token to make valid API calls
-
-    Given format "application/json"
-    When I navigate to GET "<matt.sollars URI>"
-    Then I should receive a return code of 200
-    And the response should have restricted student data
-
-  @wip
   Scenario: Aggregate Viewer can not access student data
     When I navigate to the API authorization endpoint with my client ID
     And I was redirected to the "Simple" IDP Login page
