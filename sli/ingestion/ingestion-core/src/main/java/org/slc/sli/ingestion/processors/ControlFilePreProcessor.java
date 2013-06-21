@@ -276,7 +276,7 @@ public class ControlFilePreProcessor implements Processor {
      *            String representing current batch job id.
      * @param exception
      *            Exception thrown during control file parsing.
-     * @param controlFileName
+     * @param reportStats
      */
     private void handleExceptions(Exchange exchange, String batchJobId, Exception exception, ReportStats reportStats,
             Source source) {
