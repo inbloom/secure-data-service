@@ -15,9 +15,6 @@
  */
 package org.slc.sli.api.security.context.validator;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.slc.sli.api.util.SecurityUtil;
@@ -31,39 +28,32 @@ import org.slc.sli.api.util.SecurityUtil;
 public abstract class BasicValidator extends AbstractContextValidator {
     private final boolean transitiveValidator;
     private final boolean careAboutTransitive;
-    private final Set<String> types;
+    private final String type;
     private final String userType;
 
     public BasicValidator(boolean transitiveValidator, String userType, String type) {
         this.transitiveValidator = transitiveValidator;
         this.careAboutTransitive = true;
-        this.types = new HashSet<String>(Arrays.asList(type));
-        this.userType = userType;
-    }
-
-    public BasicValidator(boolean transitiveValidator, String userType, List<String> types) {
-        this.transitiveValidator = transitiveValidator;
-        this.careAboutTransitive = true;
-        this.types = new HashSet<String>(types);
+        this.type = type;
         this.userType = userType;
     }
 
     public BasicValidator(String userType, String type) {
         this.transitiveValidator = false;
         this.careAboutTransitive = false;
-        this.types = new HashSet<String>(Arrays.asList(type));
+        this.type = type;
         this.userType = userType;
     }
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return userType.equals(SecurityUtil.getSLIPrincipal().getEntity().getType()) && types.contains(entityType)
+        return userType.equals(SecurityUtil.getSLIPrincipal().getEntity().getType()) && type.equals(entityType)
                 && (!careAboutTransitive || isTransitive == transitiveValidator);
     }
 
     @Override
     public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
-        if (!areParametersValid(types, entityType, ids)) {
+        if (!areParametersValid(type, entityType, ids)) {
             return false;
         }
 

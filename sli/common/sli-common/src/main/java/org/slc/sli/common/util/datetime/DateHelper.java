@@ -16,20 +16,19 @@
 
 package org.slc.sli.common.util.datetime;
 
-import java.util.Map;
-
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Component;
+
+import java.util.Map;
 
 @Component
 public class DateHelper {
     @Value("${sli.security.gracePeriod}")
     private String gracePeriod;
-    private final static DateTimeFormatter FMT = DateTimeFormat.forPattern("yyyy-MM-dd");
+    private DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd");
 
     public String getFilterDate(boolean useGracePeriod) {
         DateTime date = null;
@@ -39,7 +38,7 @@ public class DateHelper {
             date = DateTime.now();
 
         }
-        return date.toString(FMT);
+        return date.toString(fmt);
     }
 
     public DateTime getNowMinusGracePeriod() {
@@ -55,7 +54,7 @@ public class DateHelper {
     public boolean isFieldExpired(Map<String, Object> body, String fieldName, boolean useGracePeriod) {
         boolean expired = false;
         if (null != body.get(fieldName)) {
-            DateTime expire = DateTime.parse((String) body.get(fieldName), FMT);
+            DateTime expire = DateTime.parse((String) body.get(fieldName), fmt);
             DateTime now = DateTime.now();
 
             if (useGracePeriod) {
@@ -87,12 +86,8 @@ public class DateHelper {
      *
      * @return
      */
-    public static DateTimeFormatter getDateTimeFormat() {
-        return FMT;
-    }
-
-    public static Criteria getExpiredCriteria() {
-        return Criteria.where("body.endDate").gte(DateTime.now().toString(getDateTimeFormat()));
+    public DateTimeFormatter getDateTimeFormat() {
+        return fmt;
     }
 
 }
