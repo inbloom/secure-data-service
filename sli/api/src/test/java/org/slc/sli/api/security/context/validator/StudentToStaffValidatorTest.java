@@ -55,6 +55,8 @@ public class StudentToStaffValidatorTest {
         Map<String, List<Entity>> subDocs = new HashMap<String, List<Entity>>();
         subDocs.put("studentProgramAssociation",
                 Arrays.asList(makeStudentProgram("program1"), makeStudentProgram("program2")));
+        subDocs.put("studentCohortAssociation",
+                Arrays.asList(makeStudentCohort("cohort1"), makeStudentCohort("cohort2")));
         when(e.getEmbeddedData()).thenReturn(subDocs);
         underTest.setRepo(repo);
     }
@@ -68,6 +70,17 @@ public class StudentToStaffValidatorTest {
         when(repo.findEach(eq("staffProgramAssociation"), any(Query.class))).thenReturn(staffProgramList);
         assertEquals(new HashSet<String>(Arrays.asList("staff1", "staff2", "staff3")),
                 underTest.filterConnectedViaProgram(new HashSet<String>(staffIds), e));
+    }
+
+    @Test
+    public void testFilterConnectedViaCohort() {
+        List<String> staffIds = Arrays.asList("staff1", "staff2", "staff3", "staff4");
+        Iterator<Entity> staffCohortList = Arrays.asList(makeStaffCohort("staff1", "cohort1"),
+                makeStaffCohort("staff1", "cohort2"), makeStaffCohort("staff2", "cohort1"),
+                makeStaffCohort("staff3", "cohort3")).iterator();
+        when(repo.findEach(eq("staffCohortAssociation"), any(Query.class))).thenReturn(staffCohortList);
+        assertEquals(new HashSet<String>(Arrays.asList("staff1", "staff2", "staff3")),
+                underTest.filterConnectedViaCohort(new HashSet<String>(staffIds), e));
     }
 
     private Entity makeStaffProgram(String staffId, String programId) {
@@ -86,6 +99,24 @@ public class StudentToStaffValidatorTest {
         body.put("programId", id);
         when(spa.getBody()).thenReturn(body);
         return spa;
+    }
+
+    private Entity makeStaffCohort(String staffId, String programId) {
+        Entity sca = mock(Entity.class);
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put("cohortId", programId);
+        body.put("staffId", staffId);
+        when(sca.getBody()).thenReturn(body);
+        return sca;
+
+    }
+
+    private Entity makeStudentCohort(String id) {
+        Entity sca = mock(Entity.class);
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put("cohortId", id);
+        when(sca.getBody()).thenReturn(body);
+        return sca;
     }
 
 }
