@@ -48,11 +48,10 @@ Given I log in to realm "Illinois Daybreak Students" using simple-idp as "studen
   And format "application/json"
   And I am using api version "v1" 
   # Cohorts
-  When I validate the allowed association entities via API "/cohorts/b4f9ddccc4c5c47a00541ee7c6d67fcb287316ce_id/staffCohortAssociations":
+  When I validate the current allowed association entities via API "/cohorts/b4f9ddccc4c5c47a00541ee7c6d67fcb287316ce_id/staffCohortAssociations":
     | id                                                                                     |
     | 57277fceb3592d0c8f3faadcdd824690bc2b2586_id6e94350a7db678fd3f8fddb521a2a117728c832a_id |
-   And I validate the association is not expired
-   
+
   When I validate the allowed association entities via API "/cohorts/b4f9ddccc4c5c47a00541ee7c6d67fcb287316ce_id/staffCohortAssociations/staff":
     | id                                                                                     |
     | 067198fd6da91e1aa8d67e28e850f224d6851713_id6f14f627d36449fd4ac6d98198c621f7eee82bc5_id |
