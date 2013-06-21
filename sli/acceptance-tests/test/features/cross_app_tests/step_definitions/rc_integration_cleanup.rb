@@ -41,8 +41,8 @@ Given /^I have a connection to Mongo$/ do
   port5 = PropLoader.getProps['rcapi02_port']
   @conn2 = Mongo::Connection.new(host, port2) if port2
   @conn3 = Mongo::Connection.new(host, port3) if port3
-  #@conn4 = Mongo::Connection.new(host, port4) if port4
-  #@conn5 = Mongo::Connection.new(host, port5) if port5
+  @conn4 = Mongo::Connection.new(host, port4) if port4
+  @conn5 = Mongo::Connection.new(host, port5) if port5
 end
 
 ###############################################################################
