@@ -16,11 +16,7 @@
 
 package org.slc.sli.ingestion.processors;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -199,14 +195,10 @@ public class JobReportingProcessor implements Processor {
     private void writeBatchJobReportFile(Exchange exchange, NewBatchJob job, boolean hasErrors) {
 
         PrintWriter jobReportWriter = null;
-        FileLock lock = null;
-        FileChannel channel = null;
         try {
             File file = getLogFile(job);
-            FileOutputStream outputStream = new FileOutputStream(file);
-            channel = outputStream.getChannel();
-            lock = channel.lock();
-            jobReportWriter = new PrintWriter(outputStream, true);
+            BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(file), 65536);
+            jobReportWriter = new PrintWriter(outputStream);
 
             writeInfoLine(jobReportWriter, "jobId: " + job.getId());
 
@@ -236,7 +228,7 @@ public class JobReportingProcessor implements Processor {
         } catch (IOException e) {
             LOG.error("Unable to write report file for: {}", job.getId());
         } finally {
-            cleanupWriterAndLocks(jobReportWriter, lock, channel);
+            cleanupWriterAndLocks(jobReportWriter);
         }
     }
 
@@ -280,6 +272,7 @@ public class JobReportingProcessor implements Processor {
             } catch (IOException e) {
                 LOG.error("Unable to write error file for: {}", job.getId(), e);
             } finally {
+                errorWriter.flush();
                 IOUtils.closeQuietly(errorWriter);
             }
             return true;
@@ -296,7 +289,7 @@ public class JobReportingProcessor implements Processor {
             errorFileName = type + "." + resource.getResourceId() + "-" + job.getId() + ".log";
         }
 
-        return new PrintWriter(new FileWriter(createFile(job, errorFileName)));
+        return new PrintWriter(new BufferedOutputStream(new FileOutputStream(createFile(job, errorFileName)), 65536));
     }
 
     /**
@@ -495,23 +488,10 @@ public class JobReportingProcessor implements Processor {
         jobReportWriter.println();
     }
 
-    private void cleanupWriterAndLocks(PrintWriter jobReportWriter, FileLock lock, FileChannel channel) {
+    private void cleanupWriterAndLocks(PrintWriter jobReportWriter) {
         if (jobReportWriter != null) {
+            jobReportWriter.flush();
             jobReportWriter.close();
-        }
-        if (lock != null && lock.isValid()) {
-            try {
-                lock.release();
-            } catch (IOException e) {
-                LOG.error("unable to release FileLock.", e);
-            }
-        }
-        if (channel != null) {
-            try {
-                channel.close();
-            } catch (IOException e) {
-                LOG.error("unable to close FileChannel.", e);
-            }
         }
     }
 
