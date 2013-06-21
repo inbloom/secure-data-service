@@ -19,6 +19,7 @@ package org.slc.sli.api.security.roles;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.slc.sli.domain.enums.Right;
@@ -28,20 +29,29 @@ import org.springframework.security.core.GrantedAuthority;
  * A simple class to encapsulate a role
  */
 public class Role {
-    private String name;
+    private String groupTitle;
+    private List<String> name;
     private Set<GrantedAuthority> rights = new HashSet<GrantedAuthority>();
     private Set<GrantedAuthority> selfRights = new HashSet<GrantedAuthority>();
     private boolean admin = false;
 
-    public Role(String name) {
+    public Role(List<String> name) {
         this.name = name;
     }
 
-    public String getName() {
+    public String getGroupTitle() {
+        return groupTitle;
+    }
+
+    public void setGroupTitle(String groupTitle) {
+        this.groupTitle = groupTitle;
+    }
+
+    public List<String> getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(List<String> name) {
         this.name = name;
     }
 

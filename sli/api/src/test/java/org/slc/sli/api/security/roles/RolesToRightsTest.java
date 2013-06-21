@@ -103,7 +103,7 @@ public class RolesToRightsTest {
     }
     
     private Role buildRole() {
-        return RoleBuilder.makeRole(SecureRoleRightAccessImpl.EDUCATOR).addRight(Right.AGGREGATE_READ).build();
+        return RoleBuilder.makeRole(Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR)).addRight(Right.AGGREGATE_READ).build();
     }
     
     @Test

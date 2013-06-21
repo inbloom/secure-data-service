@@ -189,7 +189,7 @@ public class EdOrgContextualRoleBuilderTest {
     }
 
     private Role createRole(String roleName) {
-        RoleBuilder rb = RoleBuilder.makeRole(roleName);
+        RoleBuilder rb = RoleBuilder.makeRole(Arrays.asList(roleName));
         return rb.build();
     }
 }
