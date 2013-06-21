@@ -131,16 +131,18 @@ Then /^I will drop the whole database$/ do
 end
 
 Then /^I flush all mongos instances$/ do
-  [@conn, @conn2, @conn3, @conn4, @conn5].each do | mon |
-    if mon != nil
-      begin
+  # if one connection is to a mongos, then they all should be.
+  if @conn['admin'].command({:serverStatus => true})['process'] == 'mongos'
+    step "I have a connection to Mongo"
+    [@conn, @conn2, @conn3, @conn4, @conn5].each do |mon|
+      if mon != nil
         result = mon['admin'].command({:flushRouterConfig => true})
         puts "Flushed #{mon.host_port} with result: #{result}"
-      rescue Mongo::OperationFailure => e
-        # There's has to be other some way to detect between mongos and mongod other than trying and catching failures...
-        puts "Failed to flushRouterConfig on #{mon.host_port}.  This is totally ok if the test was run on an unsharded mongo."
       end
     end
+    step "I close all open Mongo connections"
+  else
+    puts "Not running against mongos. Skipping."
   end
 end
 
