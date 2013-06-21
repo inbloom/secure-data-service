@@ -132,7 +132,7 @@ $(document).ready(function() {
 						<div class="controls">
 						<select id="${dataset.key}" name="userList" class="input-xlarge userList" onchange="">
 							<c:forEach items='<%=request.getAttribute(((Dataset)pageContext.getAttribute("dataset")).getKey())%>' var="user">
-	                              	 <option value="${user.userId}">${user.name} - ${user.role} at ${user.association}</option>
+                                <option value="${user.userId}">${user.name} - ${fn:replace(fn:replace(user.roles,"]" , ""), "[", "")} at ${user.association}</option>
 							</c:forEach>
 						</select>
 						</div>
