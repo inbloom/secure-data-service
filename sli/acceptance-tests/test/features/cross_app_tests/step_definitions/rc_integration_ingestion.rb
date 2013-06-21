@@ -203,7 +203,7 @@ Given /^I check for the file "(.*?)" every "(.*?)" seconds for "(.*?)" seconds$/
   total = Integer(arg3)
   until ((waited > total) || result)
     # todo: what doesn't this 'puts' flush??
-    puts "checking for file " + target.to_s + " waited " + waited.to_s
+    STDOUT.puts "checking for file " + target.to_s + " waited " + waited.to_s
     result = lzContainsFile(target, @landing_zone_path, @lz_url, @lz_username, @lz_password, @lz_port_number)
     sleep checkInterval
     waited += checkInterval
