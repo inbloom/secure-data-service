@@ -210,19 +210,6 @@ Scenario: Post a Zip File containing a control file with extra file item entry
     Then I should see "BASE_0001" in the resulting error log file
     And I should see "Processed 0 records." in the resulting batch job file
 
-Scenario: Post a Zip File containing a control file with checksum error
-    Given I post "ChecksumError.zip" zip file with folder as the payload of the ingestion job
-    And the following collections are empty in datastore:
-        | collectionName                          |
-        | student                                 |
-    When zip file is scp to ingestion landing zone
-    And a batch job for file "ChecksumError.zip" is completed in database
-    Then I should see following map of entry counts in the corresponding collections:
-        | collectionName                          | count     |
-        | student                                 | 0         |
-    Then I should see "BASE_0006" in the resulting error log file
-    And I should see "Processed 0 records." in the resulting batch job file
-
 Scenario: Post a zip file with bad control file
   Given I post "BadCtlFile.zip" file as the payload of the ingestion job
   When zip file is scp to ingestion landing zone
