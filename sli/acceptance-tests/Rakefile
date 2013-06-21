@@ -684,7 +684,7 @@ task :apiOdinTests => [:apiOdinPrep, :apiOdinSuperAssessment, :apiOdinStudentLog
 end
 
 desc "Run API Security Tests using Odin ingested data"
-task :apiOdinStudentTests => [:apiOdinProp, :apiOdinStudentLogin] do
+task :apiOdinStudentTests => [:apiOdinPrep, :apiOdinStudentLogin] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
