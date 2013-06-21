@@ -15,8 +15,21 @@
  */
 package org.slc.sli.api.security.roles;
 
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.representation.EntityBody;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.schema.SchemaDataProvider;
 import org.slc.sli.api.util.SecurityUtil;
@@ -25,14 +38,6 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.QueryParseException;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-
-import java.util.*;
 
 /** Class to validate if the context has the right to access the entity.
  *
@@ -146,7 +151,14 @@ public class RightAccessValidator {
             if (entity == null) {
                 debug("No authority for null");
             } else {
-                auths.addAll(entityEdOrgRightBuilder.buildEntityEdOrgRights(principal.getEdOrgRights(), entity));
+                if (SecurityUtil.principalId().equals(entity.getMetaData().get("createdBy"))
+                        && "true".equals(entity.getMetaData().get("isOrphaned"))) {
+                    // Orphaned entities created by the principal are handled the same as before.
+                    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                    auths.addAll(auth.getAuthorities());
+                } else {
+                    auths.addAll(entityEdOrgRightBuilder.buildEntityEdOrgRights(principal.getEdOrgRights(), entity));
+                }
             }
         }
 
