@@ -72,13 +72,10 @@
         <bean class="org.slc.sli.ingestion.landingzone.validation.FilePresenceValidator" />
         <bean class="org.slc.sli.ingestion.landingzone.validation.FileFormatValidator" />
         <bean class="org.slc.sli.ingestion.landingzone.validation.FileTypeValidator" />
-        <bean class="org.slc.sli.ingestion.landingzone.validation.ChecksumValidator" />
       </list>
     </property>
   </bean>
 
   <bean id="zipFileValidator" class="org.slc.sli.ingestion.landingzone.validation.ZipFileValidator" />
-
-  <bean id="checksumValidator" class="org.slc.sli.ingestion.landingzone.validation.ChecksumValidator" />
 
 </beans>

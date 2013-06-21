@@ -19,6 +19,7 @@ require_relative 'spec_helper'
 require_relative '../lib/WorldDefinition/world_builder.rb'
 require_relative '../lib/OutputGeneration/XmlDataWriter.rb'
 require_relative '../lib/Shared/util.rb'
+require_relative '../lib/Shared/data_utility.rb'
 require_relative '../lib/EntityCreation/work_order_queue.rb'
 require_relative '../lib/OutputGeneration/DataWriter.rb'
 require_relative '../lib/EntityCreation/entity_factory.rb'
@@ -228,6 +229,20 @@ describe "WorldBuilder" do
       end
       it "will generate each of the competency level descriptors" do
         @queue.count(CompetencyLevelDescriptor).should eq 4
+      end
+      it "will generate cohorts and staffCohortAssociations that map to valid staff" do
+        @queue.count(StaffCohortAssociation).should eq 54
+        staff_ids = []
+        @queue.get_work_orders(Staff).each do |staff|
+          if staff[:id].is_a?(Integer)
+            id = DataUtility.get_staff_unique_state_id(staff[:id])
+          else
+            id = staff[:id]
+          end
+          staff_ids << id
+        end
+        @queue.get_work_orders(StaffCohortAssociation).each do |sca_work_order|
+        end
       end
     end
   end

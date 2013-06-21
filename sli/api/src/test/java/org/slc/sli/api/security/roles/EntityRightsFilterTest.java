@@ -149,33 +149,6 @@ public class EntityRightsFilterTest {
     }
 
     @Test
-    public void testCreateBody() {
-        Treatment treatment1 = Mockito.mock(Treatment.class);
-        Treatment treatment2 = Mockito.mock(Treatment.class);
-
-        List<Treatment> treatments = new ArrayList<Treatment>();
-        treatments.add(treatment1);
-        treatments.add(treatment2);
-
-        Collection<GrantedAuthority> auths = new HashSet<GrantedAuthority>();
-        auths.add(Right.READ_GENERAL);
-
-        Entity student = createStudentEntity(EntityNames.STUDENT, STUDENT_ID);
-
-        EntityBody sb = new EntityBody(student.getBody());
-        Mockito.when(treatment1.toExposed(Matchers.any(EntityBody.class), Matchers.any(EntityDefinition.class), Matchers.any(Entity.class))).thenReturn(sb);
-        Mockito.when(treatment2.toExposed(Matchers.any(EntityBody.class), Matchers.any(EntityDefinition.class), Matchers.any(Entity.class))).thenReturn(sb);
-
-
-        EntityDefinition definition = Mockito.mock(EntityDefinition.class);
-
-        entityRightsFilter.createBody(student, treatments, definition);
-
-        Mockito.verify(treatment1, Mockito.times(1)).toExposed(Matchers.any(EntityBody.class), Matchers.any(EntityDefinition.class), Matchers.any(Entity.class));
-        Mockito.verify(treatment2, Mockito.times(1)).toExposed(Matchers.any(EntityBody.class), Matchers.any(EntityDefinition.class), Matchers.any(Entity.class));
-    }
-
-    @Test
     public void testMakeEntityBody() {
         Treatment treatment1 = Mockito.mock(Treatment.class);
         Treatment treatment2 = Mockito.mock(Treatment.class);
@@ -197,8 +170,9 @@ public class EntityRightsFilterTest {
         Mockito.when(treatment2.toExposed(Matchers.any(EntityBody.class), Matchers.any(EntityDefinition.class), Matchers.any(Entity.class))).thenReturn(sb, staffBody);
 
         EntityDefinition definition = Mockito.mock(EntityDefinition.class);
+        Mockito.when(definition.getType()).thenReturn("student");
 
-        EntityBody res = entityRightsFilter.makeEntityBody(student, treatments, definition);
+        EntityBody res = entityRightsFilter.makeEntityBody(student, treatments, definition, false);
         Assert.assertNotNull(res);
         List<EntityBody> ssa = (List<EntityBody>) res.get("studentSchoolAssociation");
         Assert.assertNotNull(ssa);

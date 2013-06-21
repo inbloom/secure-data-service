@@ -54,7 +54,7 @@ import org.slc.sli.ingestion.reporting.Source;
 public class ValidationControllerTest {
 
     final String controlFileName = "test/MainControlFile.ctl";
-    final String invalidControlFile = "test/MainControlFileCheckSumError.ctl";
+    final String invalidControlFile = "test/MainControlFileBadType.ctl";
     final String zipFileName = "zipFile/Session1.zip";
     @Autowired
     private ValidationController validationController;

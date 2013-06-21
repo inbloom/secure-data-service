@@ -20,6 +20,7 @@ require 'digest/sha1'
 require_relative '../../../utils/sli_utils.rb'
 
 $TAR_FILE_NAME = "Final.tar"
+LEA_DAYBREAK_ID_VAL = '1b223f577827204a1c7e9c851dba06bea6b031fe_id'
 
 Given /^I am a valid 'service' user with an authorized long\-lived token "(.*?)"$/ do |token|
   @sessionId=token
@@ -55,7 +56,7 @@ When /^I make lea bulk extract API call for lea "(.*?)"$/ do |arg1|
 end
 
 When /^I make a custom bulk extract API call$/ do
-  restHttpCustomHeadersGet("/bulk/extract/tenant", @customHeaders)
+  restHttpCustomHeadersGet("/bulk/extract/#{LEA_DAYBREAK_ID_VAL}", @customHeaders)
 end
 
 When /^I make a concurrent ranged bulk extract API call and store the results$/ do
@@ -77,7 +78,7 @@ end
 
 def bulk_extract_api_range_call(range)
   @customHeaders = makeCustomHeader(range)
-  return restHttpCustomHeadersGet('/bulk/extract/tenant', @customHeaders)
+  return restHttpCustomHeadersGet("/bulk/extract/#{LEA_DAYBREAK_ID_VAL}", @customHeaders)
 end
 
 When /^I make API call to retrieve today's delta file$/ do

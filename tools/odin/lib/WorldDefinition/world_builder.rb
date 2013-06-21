@@ -1058,8 +1058,14 @@ class WorldBuilder
               staff_cohort_association_per_staff = staff_count
             end
             for s in 0..staff_cohort_association_per_staff-1
+              next_staff = staff.next['id']
+              if next_staff.kind_of? Integer
+                staff_id = DataUtility.get_staff_unique_state_id(next_staff)
+              else 
+                staff_id = next_staff
+              end
               @queue.push_work_order(
-                StaffCohortAssociation.new(staff.next['id'], cohort, @scenarioYAML['STAFF_HAVE_COHORT_ACCESS'], session['interval'].get_begin_date))
+                StaffCohortAssociation.new(staff_id, cohort, @scenarioYAML['STAFF_HAVE_COHORT_ACCESS'], session['interval'].get_begin_date))
             end
           }
         }

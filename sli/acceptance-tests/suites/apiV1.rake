@@ -331,11 +331,15 @@ task :apiOdinSearchAssessment do
   runTests("test/features/apiV1/end_user_stories/assessments/searchAssessment.feature")
 end
 
-desc "Run API Odin Student Integration Tests"
-task :apiOdinStudentLogin => [:realmInit] do
+desc "Set up api for odin tests"
+task :apiOdinSetupAPI => [:realmInit] do
   allLeaAllowApp("Mobile App")
   authorizeEdorg("Mobile App")
   Rake::Task["runSearchBulkExtract"].execute
+end
+
+desc "Run API Odin Student Integration Tests"
+task :apiOdinStudentLogin => [:apiOdinSetupAPI] do
   runTests("test/features/apiV1/integration/student_login.feature")
   runTests("test/features/apiV1/integration/student_endpoints.feature")
   runTests("test/features/apiV1/integration/student_staff_endpoints.feature")
