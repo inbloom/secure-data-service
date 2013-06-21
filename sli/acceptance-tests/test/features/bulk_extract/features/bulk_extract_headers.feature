@@ -4,7 +4,7 @@ Feature: Retrieve portions of the bulk extract file through the API and validate
 Background: Make a bulk extract request using corrent and incorrectly populated headers
     Given I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
     And in my list of rights I have BULK_EXTRACT
-    When I make a call retrieve the header for the bulk extract end point "/bulk/extract/tenant"
+    When I make a call retrieve the header for the bulk extract end point "/bulk/extract/LEA_DAYBREAK_ID"
     Then I get back a response code of "200"
     Then I have all the information to make a custom bulk extract request
 
