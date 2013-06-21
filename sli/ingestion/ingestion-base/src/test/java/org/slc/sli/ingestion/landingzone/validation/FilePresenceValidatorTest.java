@@ -71,11 +71,10 @@ public class FilePresenceValidatorTest {
 
     @Test
     public void testHappyPath() throws IOException {
-        IngestionFileEntry fe = Mockito.spy(new IngestionFileEntry("/", FileFormat.CONTROL_FILE, FileType.CONTROL, "file.ctl", ""));
+        IngestionFileEntry fe = new IngestionFileEntry("/", FileFormat.CONTROL_FILE, FileType.CONTROL, "file.ctl", "");
 
-        Mockito.doReturn(new ByteArrayInputStream(new byte[1024])).when(fe).getFileStream();
-
-        FilePresenceValidator v = new FilePresenceValidator();
+        FilePresenceValidator v = Mockito.spy(new FilePresenceValidator());
+        Mockito.when(v.isInZipfile(Mockito.anyString(), Mockito.anyString())).thenReturn(true);
 
         AbstractMessageReport mr = Mockito.spy(new DummyMessageReport());
 

@@ -76,7 +76,6 @@
       <list>
         <bean class="org.slc.sli.ingestion.landingzone.validation.FileFormatValidator" />
         <bean class="org.slc.sli.ingestion.landingzone.validation.FileTypeValidator" />
-        <bean class="org.slc.sli.ingestion.landingzone.validation.ChecksumValidator" />
       </list>
     </property>
   </bean>
