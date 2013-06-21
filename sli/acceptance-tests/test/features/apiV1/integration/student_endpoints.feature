@@ -5,7 +5,7 @@ Feature: As a student or staff I want to use apps that access the inBloom API
 
   Background: None
 
-@student_endpoints
+@student_endpoints @shortcut
 Scenario: Student has access to entities via API endpoints
 Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
   And format "application/json"
@@ -49,12 +49,6 @@ Given I log in to realm "Illinois Daybreak Students" using simple-idp as "studen
     | id                                          |
     | 139f77e73ae5f1970c5d884d4d2b90367361d1f6_id |
     | ec8b76883033432dc83b97e71fbc5bf881b4ccbb_id |
-  When I validate that I am denied access to restricted endpoints via API:
-    | uri                                                                                   | rc  |
-    | /v1/sections/e9b81633cba273dc9cc567d7f0f76a1c070c150d_id/studentSectionAssociations   | 403 |
-    | /v1/sections/57277fceb3592d0c8f3faadcdd824690bc2b2586_id/studentSectionAssociations   | 403 |
-    | /v1/programs/2e19c13bd3b303c5e7a292883cd9e487a6e5eccd_id/studentProgramAssociations   | 403 |
-    | /v1/cohorts/b4f9ddccc4c5c47a00541ee7c6d67fcb287316ce_id/studentCohortAssociations     | 403 |
 
   Scenario: I check the response to uris with query parameters
     Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"

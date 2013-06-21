@@ -37,8 +37,12 @@ Given /^I have a connection to Mongo$/ do
   # HACK TO WORK AROUND MONGOS DROP DATABASE BUG
   port2 = PropLoader.getProps['rcingest02_port']
   port3 = PropLoader.getProps['rcingest03_port']
+  port4 = PropLoader.getProps['rcapi01_port']
+  port5 = PropLoader.getProps['rcapi02_port']
   @conn2 = Mongo::Connection.new(host, port2) if port2
   @conn3 = Mongo::Connection.new(host, port3) if port3
+  #@conn4 = Mongo::Connection.new(host, port4) if port4
+  #@conn5 = Mongo::Connection.new(host, port5) if port5
 end
 
 ###############################################################################
@@ -107,7 +111,15 @@ Then /^I will drop the whole database$/ do
   end
   if @conn3
     res = @conn3.drop_database(@tenant_db_name)
-    puts "Attempted to drop database from second mongos: #{res.to_a}"
+    puts "Attempted to drop database from third mongos: #{res.to_a}"
+  end
+  if @conn4
+    res = @conn4.drop_database(@tenant_db_name)
+    puts "Attempted to drop database from fourth mongos: #{res.to_a}"
+  end
+  if @conn5
+    res = @conn5.drop_database(@tenant_db_name)
+    puts "Attempted to drop database from fifth mongos: #{res.to_a}"
   end
   #/ HACK TO WORK AROUND MONGOS DROP DATABASE BUG
 
@@ -176,4 +188,6 @@ Then /^I close all open Mongo connections$/ do
   @conn.close if @conn != nil
   @conn2.close if @conn2 != nil
   @conn3.close if @conn3 != nil
+  @conn4.close if @conn4 != nil
+  @conn5.close if @conn5 != nil
 end

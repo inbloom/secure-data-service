@@ -30,6 +30,7 @@ import javax.xml.bind.DatatypeConverter;
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerRequestFilter;
 
+import org.slc.sli.common.constants.EntityNames;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -72,6 +73,9 @@ public class PreProcessFilter implements ContainerRequestFilter {
     private static final List<String> CONTEXTERS = Arrays.asList(PathConstants.STUDENT_SCHOOL_ASSOCIATIONS,
             PathConstants.STUDENT_SECTION_ASSOCIATIONS, PathConstants.STUDENT_COHORT_ASSOCIATIONS,
             PathConstants.STUDENT_PROGRAM_ASSOCIATIONS);
+
+    public static final List<String> DATE_RESTRICTED_ENTITIES = Arrays.asList(EntityNames.STAFF_PROGRAM_ASSOCIATION, EntityNames.STAFF_COHORT_ASSOCIATION,
+            EntityNames.STAFF_ED_ORG_ASSOCIATION, EntityNames.TEACHER_SECTION_ASSOCIATION, EntityNames.TEACHER_SCHOOL_ASSOCIATION);
 
     @Resource(name = "urlValidators")
     private List<URLValidator> urlValidators;
@@ -143,13 +147,26 @@ public class PreProcessFilter implements ContainerRequestFilter {
             
             String base = request.getPathSegments().get(1).getPath();
             String assoc = request.getPathSegments().get(3).getPath();
-            
+
+            if (CONTEXTERS.contains(base)) {
+                info("Skipping date-based obligation injection because association {} is base level URI", base);
+                return;
+            }
+
             if(base.equals(ResourceNames.PROGRAMS) || base.equals(ResourceNames.COHORTS)) {
                 if(assoc.equals(ResourceNames.STAFF_PROGRAM_ASSOCIATIONS) || assoc.equals(ResourceNames.STAFF_COHORT_ASSOCIATIONS)) {
                     prince.setStudentAccessFlag(false);
                 }
             }
-            
+
+            if(SecurityUtil.isStudent()) {
+                List<NeutralQuery> oblong = construct("endDate");
+
+                for(String entity : DATE_RESTRICTED_ENTITIES) {
+                    prince.addObligation(entity, oblong);
+                }
+            }
+
             for (PathSegment seg : request.getPathSegments()) {
                 String resourceName = seg.getPath();
                 if (ResourceNames.STUDENTS.equals(resourceName)) {	// once student is encountered,

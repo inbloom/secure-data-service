@@ -48,7 +48,7 @@ Scenario: Verify Rewrites for Base Level entities for Students
     | /schools                     | /schools/@ids                                                                  |
     | /sections                    | /students/@ids/studentSectionAssociations/sections                             |
     | /sessions                    | /schools/@ids/sessions                                                         |
-#    | /staff                       | /educationOrganizations/@ids/staffEducationOrgAssignmentAssociations           |
+    # | /staff                       | /educationOrganizations/@ids/staffEducationOrgAssignmentAssociations           |
 #    | /staffCohortAssociations     | /educationOrganizations/@ids/staffEducationOrgAssignmentAssociations           |
 #    | /staffEducationOrgAssignmentAssociations | /educationOrganizations/@ids/staffEducationOrgAssignmentAssociations           |
 #    | /staffProgramAssociations    | /educationOrganizations/@ids/staffEducationOrgAssignmentAssociations           |
@@ -63,7 +63,7 @@ Scenario: Verify Rewrites for Base Level entities for Students
     #| /students                    | /sections/@ids/studentSectionAssociations/students                             |
     | /studentSchoolAssociations   | /students/@ids/studentSchoolAssociations                                       |
     | /studentSectionAssociations  | /students/@ids/studentSectionAssociations                                      |
-#    | /teachers                    | /sections/@ids/teacherSectionAssociations/teachers                             |
+    #    | /teachers                    | /sections/@ids/teacherSectionAssociations/teachers                             |
 #    | /teacherSchoolAssociations   | /schools/@ids/teacherSchoolAssociations                                        |
 #    | /teacherSectionAssociations  | /sections/@ids/teacherSectionAssociations                                      |
     | /yearlyAttendances           | /students/@ids/yearlyAttendances                                               |
