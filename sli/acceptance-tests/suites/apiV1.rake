@@ -279,6 +279,12 @@ task :apiJMeterTests do
   runTests("test/features/apiV1/jmeter/jmeterPerformance.feature")
 end
 
+desc "Import and Approve SDK Sample App"
+task :approveSdk => [:realmInit] do
+  allLeaAllowApp("SDK Sample")
+  authorizeEdorg("SDK Sample")
+end
+
 desc "Run Odin API Generation Task"
 task :apiOdinGenerate do
   runTests("test/features/odin/generate_api_data.feature")
