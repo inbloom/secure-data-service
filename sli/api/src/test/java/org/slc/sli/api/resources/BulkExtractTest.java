@@ -213,23 +213,6 @@ public class BulkExtractTest {
         FileUtils.deleteQuietly(file);
     }
 
-    @Test
-    public void testGetTenantFileError() throws Exception {
-        injector.setEducatorContext();
-        Entity mockEntity = Mockito.mock(Entity.class);
-        Map<String, Object> mockBody = Mockito.mock(Map.class);
-        Mockito.when(mockEntity.getBody()).thenReturn(mockBody);
-        Mockito.when(mockBody.get("public_key")).thenReturn(PUBLIC_KEY);
-        Mockito.when(mockBody.get("isBulkExtract")).thenReturn(true);
-        Mockito.when(mockBody.containsKey("isBulkExtract")).thenReturn(true);
-        Mockito.when(mockBody.get("path")).thenReturn("/fake/path");
-        Mockito.when(mockBody.get("date")).thenReturn("2013-05-04");
-        Mockito.when(mockMongoEntityRepository.findOne(Mockito.anyString(), Mockito.any(NeutralQuery.class)))
-            .thenReturn(mockEntity);
-        ResponseImpl res = (ResponseImpl) bulkExtract.getTenant(req, CONTEXT);
-        assertEquals(404, res.getStatus());
-    }
-
   @Test
   public void testGetExtractResponse() throws Exception {
       injector.setOauthAuthenticationWithEducationRole();
@@ -424,32 +407,6 @@ public class BulkExtractTest {
         when(mockAuth.getBody()).thenReturn(authBody);
         when(mockMongoEntityRepository.findOne(eq("applicationAuthorization"), Mockito.any(NeutralQuery.class)))
                 .thenReturn(mockAuth);
-    }
-
-    @Test(expected = AccessDeniedException.class)
-    public void testAppHasNoDefinedRestriction() throws Exception {
-        injector.setEducatorContext();
-        // No BE Field
-        Map<String, Object> body = new HashMap<String, Object>();
-        Entity mockEntity = Mockito.mock(Entity.class);
-        when(mockEntity.getBody()).thenReturn(body);
-        when(mockMongoEntityRepository.findOne(eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
-                mockEntity);
-        bulkExtract.getTenant(req, CONTEXT);
-    }
-
-    @Test(expected = AccessDeniedException.class)
-    public void testAppIsNotBeepApp() throws Exception {
-        injector.setEducatorContext();
-        // No BE Field
-        Map<String, Object> body = new HashMap<String, Object>();
-        body.put("isBulkExtract", false);
-        body.put("public_key", "KEY");
-        Entity mockEntity = Mockito.mock(Entity.class);
-        when(mockEntity.getBody()).thenReturn(body);
-        when(mockMongoEntityRepository.findOne(eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
-                mockEntity);
-        bulkExtract.getTenant(req, CONTEXT);
     }
 
     @Test(expected = AccessDeniedException.class)
