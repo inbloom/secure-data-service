@@ -721,8 +721,7 @@ end
 
 #This function deterimes if a date string passed in (in format yyyy-mm-dd) is current or not
 def is_current?(date_string)
-  d = Date.today
-  now_string = d.strftime("%f")
+  now_string = Date.today.strftime("%F")
   return  now_string >= date_string
 end
 
