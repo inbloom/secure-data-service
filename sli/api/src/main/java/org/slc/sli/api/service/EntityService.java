@@ -222,5 +222,5 @@ public interface EntityService {
      */
     public boolean collectionExists(String collection);
 
-    public Iterable<EntityBody> listOnContextualRoles(NeutralQuery neutralQuery);
+    public Iterable<EntityBody> listBasedOnContextualRoles(NeutralQuery neutralQuery);
 }
