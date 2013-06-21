@@ -20,8 +20,6 @@ import java.io.*;
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.nio.channels.FileChannel;
-import java.nio.channels.FileLock;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -228,7 +226,7 @@ public class JobReportingProcessor implements Processor {
         } catch (IOException e) {
             LOG.error("Unable to write report file for: {}", job.getId());
         } finally {
-            cleanupWriterAndLocks(jobReportWriter);
+            cleanupWriter(jobReportWriter);
         }
     }
 
@@ -272,8 +270,7 @@ public class JobReportingProcessor implements Processor {
             } catch (IOException e) {
                 LOG.error("Unable to write error file for: {}", job.getId(), e);
             } finally {
-                errorWriter.flush();
-                IOUtils.closeQuietly(errorWriter);
+                cleanupWriter(errorWriter);
             }
             return true;
         }
@@ -488,10 +485,10 @@ public class JobReportingProcessor implements Processor {
         jobReportWriter.println();
     }
 
-    private void cleanupWriterAndLocks(PrintWriter jobReportWriter) {
-        if (jobReportWriter != null) {
-            jobReportWriter.flush();
-            jobReportWriter.close();
+    private void cleanupWriter(PrintWriter reportWriter) {
+        if (reportWriter != null) {
+            reportWriter.flush();
+            reportWriter.close();
         }
     }
 
