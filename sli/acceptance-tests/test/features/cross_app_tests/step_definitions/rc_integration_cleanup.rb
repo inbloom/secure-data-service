@@ -134,7 +134,7 @@ Then /^I flush all mongos instances$/ do
   [@conn, @conn2, @conn3, @conn4, @conn5].each do | mon |
     if mon != nil
       result = mon['admin'].command({:flushRouterConfig => true})
-      puts "Flushed #{@conn.host_port} with result: #{result}"
+      puts "Flushed #{mon.host_port} with result: #{result}"
     end
   end
 end
