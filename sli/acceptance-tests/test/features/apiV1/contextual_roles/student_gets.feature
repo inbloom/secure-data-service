@@ -1,9 +1,9 @@
-@RALLY_5765
+@RALLY_US5765
 Feature: Use the APi to successfully get student data while having roles over many schools
 
   Background: Setup for the tests
     Given the testing device app key has been created
-    And I import the odin-local-setup application and realm data
+    And I import the odin setup application and realm data
     And I have an open web browser
 
   @wip
@@ -68,21 +68,46 @@ Feature: Use the APi to successfully get student data while having roles over ma
     Given format "application/json"
     When I navigate to GET "<matt.sollars URI>"
     Then I should receive a return code of 200
+    And the response should have general student data
+    And the response should have restricted student data
+
+  #Commenting out since we do not support both staff and teacher context for a user(teacher)
     #When I navigate to GET "<carmen.ortiz URI>"
     #Then I should receive a return code of 200
-    #When I navigate to GET "<mu.mcneill URI>"
+    #And the response should have general student data
+    #And the response should have restricted student data
+    #When I navigate to GET "<lashawn.taite URI>"
     #Then I should receive a return code of 200
+    #And the response should have general student data
+    #And the response should have restricted student data
+    #When I navigate to GET "<bert.jakeman URI>"
+    #Then I should receive a return code of 200
+    #And the response should have general student data
+    #And the response should have restricted student data
 
     Given I remove the SEOA with role "Leader" for staff "jmacey" in "District 9"
+
+    When I navigate to the API authorization endpoint with my client ID
+    And I was redirected to the "Simple" IDP Login page
+    And I submit the credentials "jmacey" "jmacey1234" for the "Simple" login page
+    Then I should receive a json response containing my authorization code
+    When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
+    Then I should receive a json response containing my authorization token
+    And I should be able to use the token to make valid API calls
+
     Given format "application/json"
     When I navigate to GET "<matt.sollars URI>"
     Then I should receive a return code of 200
+    And the response should have general student data
+    And the response should not have restricted student data
 
 
     Given format "application/json"
     When I navigate to GET "<carmen.ortiz URI>"
     Then I should receive a return code of 403
-    When I navigate to GET "<mu.mcneill URI>"
+    When I navigate to GET "<lashawn.taite URI>"
+    Then I should receive a return code of 403
+    When I navigate to GET "<bert.jakeman URI>"
     Then I should receive a return code of 403
 
   @wip
@@ -95,13 +120,22 @@ Feature: Use the APi to successfully get student data while having roles over ma
     Then I should receive a json response containing my authorization token
     And I should be able to use the token to make valid API calls
 
+    And the following student section associations in Midgar are set correctly
+      | student         | teacher              | edorg                 | enrolledInAnySection? |
+      | carmen.ortiz    | rbelding             | Daybreak Central High | yes                   |
+      | lashawn.taite   | rbelding             | Daybreak Central High | no                    |
+    And "lashawn.taite" is not associated with any program that belongs to "rbelding"
+    And "lashawn.taite" is not associated with any cohort that belongs to "rbelding"
+
     Given format "application/json"
     #When I navigate to GET "<matt.sollars URI>"
     #Then I should receive a return code of 200
     When I navigate to GET "<carmen.ortiz URI>"
     Then I should receive a return code of 200
+    And the response should have general student data
+    #And the response should not have restricted student data
     When I navigate to GET "<lashawn.taite URI>"
-    Then I should receive a return code of 200
+    Then I should receive a return code of 403
 
     Given I remove the teacherSectionAssociation for "rbelding"
 
@@ -109,7 +143,7 @@ Feature: Use the APi to successfully get student data while having roles over ma
     #When I navigate to GET "<matt.sollars URI>"
     #Then I should receive a return code of 200
     When I navigate to GET "<lashawn.taite URI>"
-    Then I should receive a return code of 200
+    Then I should receive a return code of 403
     Given format "application/json"
     When I navigate to GET "<carmen.ortiz URI>"
     Then I should receive a return code of 403
@@ -117,10 +151,10 @@ Feature: Use the APi to successfully get student data while having roles over ma
     Then I should receive a return code of 403
 
   @wip
-  Scenario: Leader can access restricted data
+  Scenario: Aggregate Viewer can not access student data
     When I navigate to the API authorization endpoint with my client ID
     And I was redirected to the "Simple" IDP Login page
-    And I submit the credentials "sbantu" "sbantu1234" for the "Simple" login page
+    And I submit the credentials "msmith" "msmith1234" for the "Simple" login page
     Then I should receive a json response containing my authorization code
     When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
     Then I should receive a json response containing my authorization token
@@ -130,6 +164,29 @@ Feature: Use the APi to successfully get student data while having roles over ma
     When I navigate to GET "<matt.sollars URI>"
     Then I should receive a return code of 200
     And the response should have restricted student data
+    And the response should have general student data
+
+    Given I remove the SEOA with role "Leader" for staff "msmith" in "East Daybreak High"
+
+    When I navigate to the API authorization endpoint with my client ID
+    And I was redirected to the "Simple" IDP Login page
+    And I submit the credentials "msmith" "msmith1234" for the "Simple" login page
+    Then I should receive a json response containing my authorization code
+    When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
+    Then I should receive a json response containing my authorization token
+    And I should be able to use the token to make valid API calls
+
+    Given format "application/json"
+    When I navigate to GET "<matt.sollars URI>"
+    Then I should receive a return code of 403
+
+    Given format "application/json"
+    When I navigate to GET "<carmen.ortiz URI>"
+    Then I should receive a return code of 403
+
+    Given format "application/json"
+    When I navigate to GET "<lashawn.taite URI>"
+    Then I should receive a return code of 403
 
   @wip
   Scenario: Student belongs to schools in different LEAs
@@ -149,4 +206,18 @@ Feature: Use the APi to successfully get student data while having roles over ma
 
     Given format "application/json"
     When I navigate to GET "<bert.jakeman URI>"
+    Then I should receive a return code of 403
+
+  @wip
+  Scenario: User gets data based on roles in SEOA, even if user has more roles defined in IDP
+    When I navigate to the API authorization endpoint with my client ID
+    And I was redirected to the "Simple" IDP Login page
+    And I submit the credentials "xbell" "xbell1234" for the "Simple" login page
+    Then I should receive a json response containing my authorization code
+    When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
+    Then I should receive a json response containing my authorization token
+    And I should be able to use the token to make valid API calls
+
+    Given format "application/json"
+    When I navigate to GET "<carmen.ortiz URI>"
     Then I should receive a return code of 403

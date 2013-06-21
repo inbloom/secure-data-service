@@ -979,6 +979,11 @@ Given /^I post "([^"]*)" unzipped file as the payload of the ingestion job$/ do 
   @source_file_name = file_name
 end
 
+Given /^I post "([^"]*)" zipped file as the payload of the ingestion job$/ do |file_name|
+  @source_dir_name = processUnzippedPayloadFile file_name
+  @source_file_name = file_name
+end
+
 Given /^I post "([^"]*)" file as the payload of the ingestion job$/ do |file_name|
   @source_file_name = processPayloadFile file_name
 end
@@ -1871,6 +1876,10 @@ end
 ############################################################
 # STEPS: THEN
 ############################################################
+
+Then /^I fail$/ do
+  raise "Aborting test on explicit directive."
+end
 
 Then /^I should see following map of indexes in the corresponding collections:$/ do |table|
   @db   = @conn[@ingestion_db_name]

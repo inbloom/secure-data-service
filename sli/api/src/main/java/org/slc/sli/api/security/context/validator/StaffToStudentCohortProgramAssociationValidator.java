@@ -27,60 +27,52 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+
 /**
- * Validates the context of a staff member to see the requested set of student program associations.
+ * Validates the context of a staff member to see the requested set of student cohort or program associations.
  * Returns true if the staff member can see ALL of the entities, and false otherwise.
  *
  * @author mabernathy
  */
 @Component
-public class StaffToStudentProgramAssociationValidator extends AbstractContextValidator {
-
+public class StaffToStudentCohortProgramAssociationValidator extends AbstractContextValidator {
+        
     @Autowired
-    private GenericToProgramValidator staffProgramValidator;
-    
+    private StaffToStudentValidator studentValidator;
+
+    protected static final Set<String> STUDENT_ASSOCIATIONS = new HashSet<String>(Arrays.asList(
+            EntityNames.STUDENT_COHORT_ASSOCIATION,
+            EntityNames.STUDENT_PROGRAM_ASSOCIATION));
+
+
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return isStaff() && EntityNames.STUDENT_PROGRAM_ASSOCIATION.equals(entityType);
+        return STUDENT_ASSOCIATIONS.contains(entityType) && isStaff();
     }
     
     /**
-     * Can see all of the studentProgramAssociations of all of the edorgs and programs
-     * that I can see that aren't expired.
+     * Can see all of the studentCohortAssociations or studentProgramAssociations of the students I can see
+     * provided they aren't expired.
      */
     @Override
     public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
-        if (!areParametersValid(EntityNames.STUDENT_PROGRAM_ASSOCIATION, entityType, ids)) {
+        if (!areParametersValid(STUDENT_ASSOCIATIONS, entityType, ids)) {
             return false;
         }
-        
-        boolean match = false;
-        // See the program && see the edorg
+        Set<String> associations = new HashSet<String>();
+        // See the student
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
                 NeutralCriteria.CRITERIA_IN, ids));
-        Iterable<Entity> scas = getRepo().findAll(EntityNames.STUDENT_PROGRAM_ASSOCIATION, basicQuery);
-        Set<String> lineage = getStaffEdOrgLineage();
-        for (Entity sca : scas) {
-            String edOrgId = (String) sca.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_ID);
-            String programId = (String) sca.getBody().get(ParameterConstants.PROGRAM_ID);
-            boolean validByEdOrg = lineage.contains(edOrgId);
-            boolean validByProgram = staffProgramValidator.validate(EntityNames.PROGRAM,
-                    new HashSet<String>(Arrays.asList(programId)));
-            if (!(validByEdOrg || validByProgram) || isFieldExpired(sca.getBody(), ParameterConstants.END_DATE, true)) {
+        Iterable<Entity> assocs = getRepo().findAll(entityType, basicQuery);
+        for (Entity assoc : assocs) {
+            String studentId = (String) assoc.getBody().get(ParameterConstants.STUDENT_ID);
+            if (isFieldExpired(assoc.getBody(), ParameterConstants.END_DATE, true)) {
                 return false;
             } else {
-                match = true;
+                associations.add(studentId);
             }
         }
-        return match;
+        return studentValidator.validate(EntityNames.STUDENT, associations);
     }
-    
-    /**
-     * @param staffProgramValidator
-     *            the staffProgramValidator to set
-     */
-    public void setStaffProgramValidator(GenericToProgramValidator staffProgramValidator) {
-        this.staffProgramValidator = staffProgramValidator;
-    }
-    
+        
 }

@@ -45,6 +45,7 @@ end
 # After Steps
 #############################################################################################
 
+#Undo changes made by update_mongo, remove_from_mongo, and add_to_mongo after the scenario ends
 After do
   unless @mongo_changes.nil?
     @mongo_changes.reverse_each do |mongo_change|
@@ -60,16 +61,24 @@ After do
         else
           coll.update(mongo_change[:query], {'$unset' => {mongo_change[:field] => 1}})
         end
+      elsif mongo_change[:operation] == 'add'
+        entity = mongo_change[:entity]
+        query = {'_id' => entity['_id']}
+        coll.remove(query)
       end
       conn.close
       enable_NOTABLESCAN()
     end
   end
 end
-
 #############################################################################################
 # Mongo Steps
 #############################################################################################
+
+#The following three methods (update_mongo, remove_from_mongo, add_to_mongo) are singleton operators.
+#They also keep a record of the changes they made so that they can be reverted after the scenario is done
+#Note: tenant is the database name and query is a query that'd uniquely identify an entity
+#      (Generally, a query like {'_id' => id} is enough)
 
 def update_mongo(tenant, collection, query, field, remove, value = nil)
 #Note: value is ignored if remove is true (It doesn't matter what the field contains if you're removing it)
@@ -113,6 +122,21 @@ def update_mongo(tenant, collection, query, field, remove, value = nil)
 
   conn.close
 
+end
+
+def add_to_mongo(tenant, collection, entity)
+  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  db = conn[tenant]
+  coll = db.collection(collection)
+  entry = {:operation => 'add',
+           :tenant => tenant,
+           :collection => collection,
+           :entity => entity
+  }
+
+  coll.insert(entity)
+  (@mongo_changes ||= []) << entry
+  conn.close
 end
 
 def remove_from_mongo(tenant, collection, query)
@@ -194,7 +218,7 @@ Given /^I remove all SEOAs for "([^"]*)" in tenant "([^"]*)"/ do |staff, tenant|
 end
 
 Given /^I remove the SEOA with role "([^"]*)" for staff "([^"]*)" in "([^"]*)"$/ do |role, staff, edOrg|
-  tenant = convertTenantIdToDbName 'Midgar'
+  tenant = convertTenantIdToDbName @tenant
   disable_NOTABLESCAN()
   conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
   db = conn[tenant]
@@ -207,7 +231,7 @@ Given /^I remove the SEOA with role "([^"]*)" for staff "([^"]*)" in "([^"]*)"$/
 
 
   seoa_coll = db.collection('staffEducationOrganizationAssociation')
-  seoas = seoa_coll.find({'body.staffReference' => staff_id, 'body.educationOrganizationReference' => edOrg_id, 'staffClassification' => role}).to_a
+  seoas = seoa_coll.find({'body.staffReference' => staff_id, 'body.educationOrganizationReference' => edOrg_id, 'body.staffClassification' => role}).to_a
   seoas.each do |seoa|
     query = { '_id' => seoa['_id']}
     remove_from_mongo(tenant, 'staffEducationOrganizationAssociation', query)
@@ -219,7 +243,7 @@ Given /^I remove the SEOA with role "([^"]*)" for staff "([^"]*)" in "([^"]*)"$/
 end
 
 Given /^I remove the teacherSectionAssociation for "([^"]*)"$/ do |staff|
-  tenant = convertTenantIdToDbName 'Midgar'
+  tenant = convertTenantIdToDbName @tenant
   disable_NOTABLESCAN()
   conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
   db = conn[tenant]
@@ -227,20 +251,22 @@ Given /^I remove the teacherSectionAssociation for "([^"]*)"$/ do |staff|
   staff_coll = db.collection('staff')
   staff_id = staff_coll.find_one({'body.staffUniqueStateId' => staff})['_id']
 
-  query = {'teacherSectionAssociation.body.teacherId' => staff_id}
-
   section_coll = db.collection('section')
-  noOfRecords = section_coll.find(query).count.to_i
+  sections = section_coll.find({'teacherSectionAssociation.body.teacherId' => staff_id}).count.to_a
 
-  for i in 0..(noOfRecords -1)
-      update_mongo(tenant, "section", query, "teacherSectionAssociation",true)
+  sections.each do |section|
+    query = {'_id' => section['_id']}
+    update_mongo(tenant, "section", query, "teacherSectionAssociation",true)
   end
+
+  conn.close
+  enable_NOTABLESCAN()
 end
 
 Given /^the only SEOA for "([^"]*)" is as a "([^"]*)" in "([^"]*)"$/ do |staff, role, edorg|
   disable_NOTABLESCAN()
   conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
-  db_tenant = convertTenantIdToDbName 'Midgar'
+  db_tenant = convertTenantIdToDbName @tenant
   db = conn[db_tenant]
 
   staff_coll = db.collection('staff')
@@ -264,6 +290,26 @@ Given /^the only SEOA for "([^"]*)" is as a "([^"]*)" in "([^"]*)"$/ do |staff, 
     first = false
   end
 
+  conn.close
+  enable_NOTABLESCAN()
+end
+
+Given /^I add a SEOA for "([^"]*)" in "([^"]*)" as a "([^"]*)"$/ do |staff, edOrg, role|
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  db_tenant = convertTenantIdToDbName @tenant
+  db = conn[db_tenant]
+
+  staff_coll = db.collection('staff')
+  staff_id = staff_coll.find_one({'body.staffUniqueStateId' => staff})['_id']
+
+  edorg_coll = db.collection('educationOrganization')
+  edorg_id = edorg_coll.find_one({'body.stateOrganizationId' => edOrg})['_id']
+
+  seoa = {'_id' => '8a3419da-1c75-45b5-874f-49ec61eg403', 'type' => 'staffEducationOrganizationAssociation',
+          'body' => {'staffClassification' => role, 'educationOrganizationReference' => edorg_id, 'staffReference' => staff_id}}
+
+  add_to_mongo(db_tenant, 'staffEducationOrganizationAssociation', seoa)
   conn.close
   enable_NOTABLESCAN()
 end
@@ -321,6 +367,29 @@ Given /^the following student section associations in ([^ ]*) are set correctly$
 
 
   end
+
+  conn.close
+  enable_NOTABLESCAN()
+end
+
+Given /^"([^"]*)" is not associated with any (program|cohort) that belongs to "([^"]*)"$/ do |student, collection, staff|
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  db_name = convertTenantIdToDbName(@tenant)
+  db = conn[db_name]
+  student_coll = db.collection('student')
+  staff_coll = db.collection('staff')
+  association_coll = db.collection("staff#{collection.capitalize}Association")
+
+  student = student_coll.find_one({'body.studentUniqueStateId' => student})
+  staff_id = staff_coll.find_one({'body.staffUniqueStateId' => staff})['_id']
+
+  staff_entities = association_coll.find({'body.staffId' => staff_id}, {:fields => %w(_id)}).to_a
+
+  query = { '_id' => student['_id']}
+  value = student["student#{collection.capitalize}Association"]
+  value.delete_if {|entry| staff_entities.include?({'_id' => entry['body']["#{collection}Id"] }) }
+  update_mongo(db_name, 'student', query, 'studentSectionAssociation', false, value)
 
   conn.close
   enable_NOTABLESCAN()
@@ -436,7 +505,7 @@ def authorize_edorg_for_tenant(app_name, tenant_name)
   enable_NOTABLESCAN()
 end
 
-Given /^I import the odin-local-setup application and realm data$/ do
+Given /^I import the odin setup application and realm data$/ do
   @ci_realm_store_path = File.dirname(__FILE__) + '/../../../../../../../tools/jmeter/odin-ci/'
   @local_realm_store_path = File.dirname(__FILE__) + '/../../../../../../../tools/jmeter/odin-local-setup/'
   #get current working dir
@@ -474,8 +543,9 @@ Given /^I import the odin-local-setup application and realm data$/ do
     conn.close
     enable_NOTABLESCAN()
   end
-  all_lea_allow_app_for_tenant('Mobile App', 'Midgar')
-  authorize_edorg_for_tenant('Mobile App', 'Midgar')
+  @tenant = 'Midgar'
+  all_lea_allow_app_for_tenant('Mobile App', @tenant)
+  authorize_edorg_for_tenant('Mobile App', @tenant)
   # restore back current dir
   Dir.chdir(current_dir)
 end
@@ -510,27 +580,20 @@ end
 Then /^the response (should|should not) have restricted student data$/ do |function|
   apiRecord = JSON.parse(@res.body)
   assert(apiRecord != nil, "Result of JSON parsing is nil")
-  if function == 'should'
-    assert(apiRecord.has_key?("schoolFoodServicesEligibility") == true, "Restricted field not found")
-  else
-    assert(apiRecord.has_key?("schoolFoodServicesEligibility") == false, "Restricted field found")
-  end
+  should = (function == 'should')
+  negative = 'not ' if should
+  assert(apiRecord.has_key?("schoolFoodServicesEligibility") == should, "Restricted field #{negative}found")
 end
 
 Then /^the response (should|should not) have general student data$/ do |function|
   apiRecord = JSON.parse(@res.body)
   assert(apiRecord != nil, "Result of JSON parsing is nil")
-  if function == 'should'
-    assert(apiRecord.has_key?("studentUniqueStateId") == true, "General field studentUniqueStateId not found")
-    assert(apiRecord.has_key?("name") == true, "General field name not found")
-    assert(apiRecord.has_key?("birthData") == true, "General field birthData not found")
-    assert(apiRecord.has_key?("hispanicLatinoEthnicity") == true, "General field hispanicLatinoEthnicity not found")
-  else
-    assert(apiRecord.has_key?("studentUniqueStateId") == false, "General field studentUniqueStateId found")
-    assert(apiRecord.has_key?("name") == true, "General field name  found")
-    assert(apiRecord.has_key?("birthData") == true, "General field birthData found")
-    assert(apiRecord.has_key?("hispanicLatinoEthnicity") == true, "General field hispanicLatinoEthnicity found")
-  end
+  should = (function == 'should')
+  negative = 'not ' if should
+  assert(apiRecord.has_key?("studentUniqueStateId") == should, "General field studentUniqueStateId #{negative}found")
+  assert(apiRecord.has_key?("name") == should, "General field name #{negative}found")
+  assert(apiRecord.has_key?("birthData") == should, "General field birthData #{negative}found")
+  assert(apiRecord.has_key?("hispanicLatinoEthnicity") == should, "General field hispanicLatinoEthnicity #{negative}found")
 end
 
 

@@ -666,21 +666,20 @@ Scenario: Triggering deltas via ingestion
 ### period descriptor update to the data ingested at this point in the flow, and assert
 ### accordingly.
 ##
-### Scenario: Ingest an update to AssessmentPeriodDescriptor and output only affected assessments
-###   Given I clean the bulk extract file system and database
-###     And I ingest "StoriedDataSet_IL_Daybreak.zip"
-###     And I trigger a delta extract
-###     And I ingest "AssessmentPeriodDescriptorUpdate.zip"
-###     And I trigger a delta extract
-###    When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
-###       |  entityType                            |
-###       |  assessment                            |
-###    And I verify this "assessment" file should contain:
-###      | id                                          | condition                |
-###      | f8a8f68c8aed779c2e8c3f9174e5b05e880e9a9d_id | entityType = assessment  |
-###    And I verify this "assessment" file should not contain:
-###      | id                                          | condition                |
-###      | fe472294f0e40fd428b1a67b9765360004562bab_id |                          |
+Scenario: Ingest an update to AssessmentPeriodDescriptor and output only affected assessments
+  Given I clean the bulk extract file system and database
+    And I trigger a delta extract
+   When I ingest "AssessmentPeriodDescriptorUpdate.zip"
+    And I trigger a delta extract
+   When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+      |  entityType                            |
+      |  assessment                            |
+   And I verify this "assessment" file should contain:
+     | id                                          | condition                |
+     | 060f1d61807b473021b82e0d0831bc47edc9fd96_id | entityType = assessment  |
+   And I verify this "assessment" file should not contain:
+     | id                                          | condition                |
+     | 124057675fa0903e905f0377bbc0450aacc7edab_id |                          |
 
 Scenario: Generate a bulk extract in a different LEA
   Given I clean the bulk extract file system and database

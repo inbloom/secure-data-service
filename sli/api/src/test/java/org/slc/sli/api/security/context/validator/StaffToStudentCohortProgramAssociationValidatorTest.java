@@ -40,7 +40,6 @@ import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -57,11 +56,11 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
-public class StaffToStudentCohortAssociationValidatorTest {
+public class StaffToStudentCohortProgramAssociationValidatorTest {
     
     @Autowired
     @InjectMocks
-    private StaffToStudentCohortAssociationValidator validator;
+    private StaffToStudentCohortProgramAssociationValidator validator;
     
     @Autowired
     private ValidatorTestHelper helper;
@@ -74,11 +73,9 @@ public class StaffToStudentCohortAssociationValidatorTest {
     
     @Mock
     private StaffToStudentValidator mockStudentValidator;
-    
-    @Mock
-    private StaffToCohortValidator mockCohortValidator;
 
     Set<String> cohortIds;
+    Set<String> programIds;
     
     @Before
     public void setUp() {
@@ -93,9 +90,9 @@ public class StaffToStudentCohortAssociationValidatorTest {
         injector.setCustomContext(user, fullName, "MERPREALM", roles, entity, helper.ED_ORG_ID);
         
         cohortIds = new HashSet<String>();
+        programIds = new HashSet<String>();
         
         mockStudentValidator = Mockito.mock(StaffToStudentValidator.class);
-        mockCohortValidator = Mockito.mock(StaffToCohortValidator.class);
         MockitoAnnotations.initMocks(this);
 
     }
@@ -105,45 +102,53 @@ public class StaffToStudentCohortAssociationValidatorTest {
         repo.deleteAll(EntityNames.STUDENT_COHORT_ASSOCIATION, new NeutralQuery());
         
         mockStudentValidator = null;
-        mockCohortValidator = null;
     }
     
     @Test
     public void testCanValidate() {
         assertTrue(validator.canValidate(EntityNames.STUDENT_COHORT_ASSOCIATION, false));
         assertTrue(validator.canValidate(EntityNames.STUDENT_COHORT_ASSOCIATION, true));
+        assertTrue(validator.canValidate(EntityNames.STUDENT_PROGRAM_ASSOCIATION, false));
+        assertTrue(validator.canValidate(EntityNames.STUDENT_PROGRAM_ASSOCIATION, true));
+
         assertFalse(validator.canValidate(EntityNames.SECTION, true));
         assertFalse(validator.canValidate(EntityNames.SECTION, false));
+        assertFalse(validator.canValidate(EntityNames.STUDENT_SECTION_ASSOCIATION, true));
+        assertFalse(validator.canValidate(EntityNames.STUDENT_SECTION_ASSOCIATION, false));
     }
     
     @Test
-    public void testCanValidateValidAssociation() {
+    public void testCanValidateValidCohortAssociation() {
         Mockito.when(mockStudentValidator.validate(Mockito.eq(EntityNames.STUDENT), Mockito.any(Set.class)))
                 .thenReturn(true);
-        Mockito.when(mockCohortValidator.validate(Mockito.eq(EntityNames.COHORT), Mockito.any(Set.class))).thenReturn(
-                true);
         for (int i = 0; i < 10; ++i) {
             cohortIds.add(helper.generateStudentCohort("Boop", "" + i, false).getEntityId());
         }
         assertTrue(validator.validate(EntityNames.STUDENT_COHORT_ASSOCIATION, cohortIds));
     }
-    
+
+    @Test
+    public void testCanValidateValidProgramAssociation() {
+        Mockito.when(mockStudentValidator.validate(Mockito.eq(EntityNames.STUDENT), Mockito.any(Set.class)))
+                .thenReturn(true);
+        for (int i = 0; i < 10; ++i) {
+            programIds.add(helper.generateStudentProgram("Boop", "" + i, false).getEntityId());
+        }
+        assertTrue(validator.validate(EntityNames.STUDENT_PROGRAM_ASSOCIATION, programIds));
+    }
+
     @Test
     public void testCanNotValidExpiredAssociation() {
         Mockito.when(mockStudentValidator.validate(Mockito.eq(EntityNames.STUDENT), Mockito.any(Set.class)))
                 .thenReturn(true);
-        Mockito.when(mockCohortValidator.validate(Mockito.eq(EntityNames.COHORT), Mockito.any(Set.class))).thenReturn(
-                true);
         cohortIds.add(helper.generateStudentCohort("Boop", "Beep", true).getEntityId());
         assertFalse(validator.validate(EntityNames.STUDENT_COHORT_ASSOCIATION, cohortIds));
     }
     
     @Test
-    public void testCanNotValidateAssociationWithoutStudentAcccess() {
+    public void testCanNotValidateAssociationWithoutStudentAccess() {
         Mockito.when(mockStudentValidator.validate(Mockito.eq(EntityNames.STUDENT), Mockito.any(Set.class)))
                 .thenReturn(false);
-        Mockito.when(mockCohortValidator.validate(Mockito.eq(EntityNames.COHORT), Mockito.any(Set.class))).thenReturn(
-                true);
         for (int i = 0; i < 10; ++i) {
             cohortIds.add(helper.generateStudentCohort("Boop", "" + i, false).getEntityId());
         }

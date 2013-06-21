@@ -642,6 +642,10 @@ task :ingestionSeoaa do
   runTests("test/features/ingestion/features/seoaa.feature")
 end
 
+task :corruptZip do
+  runTests("test/features/ingestion/features/corrupt_zip.feature")
+end
+
 ############################################################
 # Ingestion tests end
 ############################################################
