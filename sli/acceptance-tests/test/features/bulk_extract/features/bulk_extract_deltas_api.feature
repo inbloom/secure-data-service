@@ -1,10 +1,35 @@
 Feature: Retrieved through the api a generated delta bulk extract file, and validate the file
 
+    
 Scenario: Initialize security trust store for Bulk Extract application and LEAs
   Given the extraction zone is empty
     And the bulk extract files in the database are scrubbed
     And The bulk extract app has been approved for "Midgar-DAYBREAK" with client id "<clientId>"
     And The X509 cert "cert" has been installed in the trust store and aliased
+
+@wip
+Scenario: SEA Assessment Delete Test
+    And I ingest "SEAAssessment.zip"
+    And I ingest "SEAAssessmentDeletexx.zip"  
+    And the extraction zone is empty
+    When I trigger a delta extract
+    When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+      |  entityType                            |
+      |  assessment                            |
+  
+     And the extraction zone is empty
+      And I ingest "SEAAssessmentDeletexx.zip"  
+	And I ingest "SEAAssessmentDelete.zip"
+	
+  
+    And I ingest "SEAAssessmentDeletesss.zip"
+    When I trigger a delta extract
+    When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+       |  entityType                            |
+     |  deleted                               |
+#And I ingest "SEAAssessmentDeletexx.zip"  
+
+
 
 Scenario: Generate a bulk extract delta after day 1 ingestion
   When I trigger a delta extract
@@ -79,6 +104,22 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
     And there is a metadata file in the extract
    Then each record in the full extract is present and matches the delta extract
 
+Scenario: SEA Assessment Delete Test
+    And I ingest "SEAAssessment.zip"
+    And the extraction zone is empty
+    When I trigger a delta extract
+    When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+      |  entityType                            |
+      |  assessment                            |
+     
+	And I ingest "SEAAssessmentDelete.zip"
+    And the extraction zone is empty
+    When I trigger a delta extract
+    When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+       |  entityType                            |
+       |  deleted                               |
+ 
+
   Scenario: Ingesting SEA (Non Odin) entities - AssessmentFamily
     When I ingest "AssessmentFamilyDelta.zip"
     And the extraction zone is empty
@@ -107,6 +148,7 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
     And I verify this "assessment" file should contain:
       | id                                          | condition                                |
       | f8a8f68c8aed779c2e8c3f9174e5b05e880e9a9d_id | assessmentTitle = READ 2.0 Grade 1 BOY   |
+     
 
 
   Scenario: SEA Assessment Delete Test
@@ -128,7 +170,7 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
     And I verify this "deleted" file should contain:
       | id                                          | condition                                |
       | f8a8f68c8aed779c2e8c3f9174e5b05e880e9a9d_id | entityType = assessment                  |
-
+      
  Scenario: Ingesting SEA (Non Odin) entities - Session
     When I ingest "SEASession.zip"
     And the extraction zone is empty
@@ -296,7 +338,7 @@ Scenario: Triggering deltas via ingestion
      And I verify this "deleted" file should contain:
        | id                                           | condition                               |
        #delete assessment, when delete finish, we should remove it
-       #| 49059b5a8c8c3e11649995bb4ca4275b0afe5f58_id  | entityType = assessment                 |
+       | 49059b5a8c8c3e11649995bb4ca4275b0afe5f58_id  | entityType = assessment                 |
        | 8621a1a8d32dde3cf200697f22368a0f92f0fb92_id  | entityType = learningObjective          |
        | 4a6402c02ea016736280ac88d202d71a81058171_id  | entityType = learningStandard           |
        | d82250f49dbe4facb59af2f88fe746f70948405d_id  | entityType = competencyLevelDescriptor  |
@@ -305,8 +347,8 @@ Scenario: Triggering deltas via ingestion
        | aec59707feac8e68d9d4b780bef5547e934297dc_id  | entityType = gradingPeriod              |
        | 78f5ed2b6ce039539f34ef1889af712816aec6f7_id  | entityType = calendarDate               |
        #this should not in deleted file, when delete finish, we should remove it
-       #| a60af241e154436d3a996e544fb886381edc490a_id0ce66f5d6973ecc7182bbad99e3f9a314aed3168_id | entityType = objectiveAssessment        |
-       #| 10c6591286b369aac8764612c9803079bc61aa6a_id  | entityType = assessmentPeriodDescriptor |
+       | a60af241e154436d3a996e544fb886381edc490a_id0ce66f5d6973ecc7182bbad99e3f9a314aed3168_id | entityType = objectiveAssessment        |
+       | 10c6591286b369aac8764612c9803079bc61aa6a_id  | entityType = assessmentPeriodDescriptor |
 
 	   	                                                             
       And I verify this "assessment" file should contain:
@@ -350,9 +392,10 @@ Scenario: Triggering deltas via ingestion
 	    #|a60af241e154436d3a996e544fb886381edc490a_id  |  identificationCode = 2013-Fourth grade Assessment 2.OA-0  |
 
         #delete objectiveAssessment, when delete finish, we should remove it
-	    #|a60af241e154436d3a996e544fb886381edc490a_id |                            |
+        And I verify this "assessment" file should not contain:
+	    |a60af241e154436d3a996e544fb886381edc490a_id |                            |
         #delete assessmentFamily
-	    #|124057675fa0903e905f0377bbc0450aacc7edab_id |  assessmentFamilyReference         |
+	    |124057675fa0903e905f0377bbc0450aacc7edab_id |  assessmentFamilyReference         |
 
 
 

@@ -1,5 +1,8 @@
-<InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-    xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-AssessmentMetadata.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
+
+  <Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="false">
 <Assessment>
     <AssessmentTitle>2013-Eleventh grade Assessment 2 XX</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="State">
@@ -47,30 +50,10 @@
     </ObjectiveAssessmentReference>
  
  </Assessment>
- 
- <ObjectiveAssessment>
-  <IdentificationCode>2013-Eleventh grade Assessment 2.OA-0 yy</IdentificationCode>
-  <MaxRawScore>50</MaxRawScore>
-  <AssessmentPerformanceLevel>
-    <PerformanceLevel>
-      <CodeValue>code1</CodeValue>
-      <PerformanceLevelMet>true</PerformanceLevelMet>
-    </PerformanceLevel>
-    <AssessmentReportingMethod>Number score</AssessmentReportingMethod>
-    <MinimumScore>0</MinimumScore>
-    <MaximumScore>50</MaximumScore>
-  </AssessmentPerformanceLevel>
-  <PercentOfAssessment>50</PercentOfAssessment>
-  <Nomenclature>Nomenclature</Nomenclature>
-  <AssessmentReference>
-      <AssessmentIdentity>
-          <AssessmentTitle>2013-Eleventh grade Assessment 2 XX</AssessmentTitle>
-          <AcademicSubject>ELA</AcademicSubject>
-          <GradeLevelAssessed>Eleventh grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</ObjectiveAssessment>
 
+
+
+</Action>
 
 
 </InterchangeAssessmentMetadata>

@@ -110,22 +110,7 @@
             <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#4</AssessmentItemIdentificationCode>
         </AssessmentItemIdentity>
     </AssessmentItemReference>
-    <ObjectiveAssessmentReference>
-        <ObjectiveAssessmentIdentity>
-            <ObjectiveAssessmentIdentificationCode>2013-Eleventh grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
-        </ObjectiveAssessmentIdentity>
-    </ObjectiveAssessmentReference>
-    <ObjectiveAssessmentReference>
-        <ObjectiveAssessmentIdentity>
-            <ObjectiveAssessmentIdentificationCode>2013-Eleventh grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
-        </ObjectiveAssessmentIdentity>
-    </ObjectiveAssessmentReference>
-    <AssessmentFamilyReference>
-        <AssessmentFamilyIdentity>
-            <AssessmentFamilyTitle>2013 Eleventh grade Standard</AssessmentFamilyTitle>
-            <Version>1</Version>
-        </AssessmentFamilyIdentity>
-    </AssessmentFamilyReference>
+ 
 </Assessment>
 
 <ObjectiveAssessment>
@@ -196,11 +181,6 @@
     <Description>Beginning of Year 2013-2014 for Twelfth grade</Description>
   </AssessmentPeriodDescriptor>
 
-
-  <AssessmentPeriodDescriptor>
-    <CodeValue>BOY-12-2013</CodeValue>
-    <Description>Beginning of Year 2013-2014 for Twelfth grade</Description>
-  </AssessmentPeriodDescriptor>
 
 
 <AssessmentFamily>
