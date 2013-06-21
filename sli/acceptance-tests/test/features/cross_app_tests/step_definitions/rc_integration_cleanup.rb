@@ -41,8 +41,8 @@ Given /^I have a connection to Mongo$/ do
   port5 = PropLoader.getProps['rcapi02_port']
   @conn2 = Mongo::Connection.new(host, port2) if port2
   @conn3 = Mongo::Connection.new(host, port3) if port3
-  @conn4 = Mongo::Connection.new(host, port4) if port4
-  @conn5 = Mongo::Connection.new(host, port5) if port5
+  #@conn4 = Mongo::Connection.new(host, port4) if port4
+  #@conn5 = Mongo::Connection.new(host, port5) if port5
 end
 
 ###############################################################################
@@ -111,15 +111,15 @@ Then /^I will drop the whole database$/ do
   end
   if @conn3
     res = @conn3.drop_database(@tenant_db_name)
-    puts "Attempted to drop database from second mongos: #{res.to_a}"
+    puts "Attempted to drop database from third mongos: #{res.to_a}"
   end
   if @conn4
     res = @conn4.drop_database(@tenant_db_name)
-    puts "Attempted to drop database from second mongos: #{res.to_a}"
+    puts "Attempted to drop database from fourth mongos: #{res.to_a}"
   end
   if @conn5
     res = @conn5.drop_database(@tenant_db_name)
-    puts "Attempted to drop database from second mongos: #{res.to_a}"
+    puts "Attempted to drop database from fifth mongos: #{res.to_a}"
   end
   #/ HACK TO WORK AROUND MONGOS DROP DATABASE BUG
 
