@@ -10,23 +10,23 @@ Scenario: Validate backwards compatibility
     When I make a call retrieve the header for the bulk extract end point "/bulk/extract"
     When the return code is 200 I get expected tar downloaded
     Then I check the version of http response headers
-    When I make a call retrieve the header for the bulk extract end point "/bulk/extract/tenant"
+    When I make a call retrieve the header for the bulk extract end point "/bulk/extract/LEA_DAYBREAK_ID"
     When the return code is 200 I get expected tar downloaded
     Then I check the version of http response headers
 
-Scenario: Valicate request with only major version
+Scenario: Vaidate request with only major version
     When I make a call retrieve the header for the bulk extract end point "/v1/bulk/extract"
     When the return code is 200 I get expected tar downloaded
     Then I check the version of http response headers
-    When I make a call retrieve the header for the bulk extract end point "/v1/bulk/extract/tenant"
+    When I make a call retrieve the header for the bulk extract end point "/v1/bulk/extract/LEA_DAYBREAK_ID"
     When the return code is 200 I get expected tar downloaded
     Then I check the version of http response headers
 
 Scenario: Validate requests with minor versions
-    When I make a call retrieve the header for the bulk extract end point "/v1.1/bulk/extract/tenant"
+    When I make a call retrieve the header for the bulk extract end point "/v1.1/bulk/extract/LEA_DAYBREAK_ID"
     When the return code is 200 I get expected tar downloaded
     Then I check the version of http response headers
-    When I make a call retrieve the header for the bulk extract end point "/v1.1/bulk/extract/tenant"
+    When I make a call retrieve the header for the bulk extract end point "/v1.1/bulk/extract/LEA_DAYBREAK_ID"
     When the return code is 200 I get expected tar downloaded
     Then I check the version of http response headers
     When I make a call retrieve the header for the bulk extract end point "/v1.1/bulk/extract"
@@ -37,13 +37,13 @@ Scenario: Validate requests with minor versions
     Then I check the version of http response headers
 
 Scenario: Validate requests with invalid versions
-    When I make a call retrieve the header for the bulk extract end point "/v1.3/bulk/extract/tenant"
+    When I make a call retrieve the header for the bulk extract end point "/v1.3/bulk/extract/LEA_DAYBREAK_ID"
     Then I get back a response code of "404"
-    When I make a call retrieve the header for the bulk extract end point "/v2.0/bulk/extract/tenant"
+    When I make a call retrieve the header for the bulk extract end point "/v2.0/bulk/extract/LEA_DAYBREAK_ID"
     Then I get back a response code of "404"
-    When I make a call retrieve the header for the bulk extract end point "/1.3/bulk/extract/tenant"
+    When I make a call retrieve the header for the bulk extract end point "/1.3/bulk/extract/LEA_DAYBREAK_ID"
     Then I get back a response code of "404"
-    When I make a call retrieve the header for the bulk extract end point "/abc/bulk/extract/tenant"
+    When I make a call retrieve the header for the bulk extract end point "/abc/bulk/extract/LEA_DAYBREAK_ID"
     Then I get back a response code of "404"
     When I make a call retrieve the header for the bulk extract end point "/v1.3/bulk/extract"
     Then I get back a response code of "404"

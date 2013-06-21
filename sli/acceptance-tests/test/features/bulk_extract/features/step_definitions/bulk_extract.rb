@@ -60,10 +60,20 @@ $APP_CONVERSION_MAP = {"19cca28d-7357-4044-8df9-caad4b1c8ee4" => "vavedra9ub",
 #Don't hate me, help me find a better solution...
 #BTW, I got "Riley Approved" 
 $GLOBAL_VARIABLE_MAP = {}
+LEA_DAYBREAK_ID_VAL = '1b223f577827204a1c7e9c851dba06bea6b031fe_id'
+SEA_IL_ID_VAL = 'b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id'
 
 ############################################################
 # Transform
 ############################################################
+
+Transform /(.*LEA_DAYBREAK_ID.*)/ do|hrId|
+    hrId.sub(/(.*)LEA_DAYBREAK_ID(.*)/, '\1' + LEA_DAYBREAK_ID_VAL + '\2')
+end
+
+Transform /(.*SEA_IL_ID.*)/ do|hrId|
+  hrId.sub(/(.*)SEA_IL_ID(.*)/, '\1' + SEA_IL_ID_VAL + '\2')
+end
 
 Transform /^<(.*?)>$/ do |human_readable_id|
   # entity id transforms

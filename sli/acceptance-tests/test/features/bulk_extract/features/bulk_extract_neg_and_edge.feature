@@ -23,7 +23,7 @@ Scenario: Valid User tries to get a bulk extract before it's been triggered
 	And the bulk extract files in the database are scrubbed
 	And I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
 	And in my list of rights I have BULK_EXTRACT
-	When I make a call to the bulk extract end point "/bulk/extract/tenant"
+	When I make a call to the bulk extract end point "/bulk/extract/LEA_DAYBREAK_ID"
 	Then I get back a response code of "404"
 	
 Scenario: Vaiid User tries to POST to bulk extract endpoint
@@ -37,7 +37,7 @@ Scenario: Valid User tries to get a bulk extract after it's been triggered but i
 	Given the extraction zone is empty
 	And I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
 	And in my list of rights I have BULK_EXTRACT
-	When I make a call to the bulk extract end point "/bulk/extract/tenant"
+	When I make a call to the bulk extract end point "/bulk/extract/LEA_DAYBREAK_ID"
 	Then I get back a response code of "404"
 		
 Scenario: Run the bulk extractor on an empty database
