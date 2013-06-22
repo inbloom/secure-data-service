@@ -317,7 +317,7 @@ When /^I validate the current allowed association entities via API "(.*?)":$/ do
   step "I validate the allowed association entities via API \"#{uri}\":", table
 
   # After its done, additionally check the response that all returned associations are current
-  assert(@result.is_a? Array, "Response of a Listing endpoint was not a list of entities")
+  assert(@result.is_a?(Array), "Response of a Listing endpoint was not a list of entities")
   @result.each do |assoc|
     if assoc.has_key? "endDate"
       date = assoc["endDate"]
@@ -720,9 +720,9 @@ def studentArray(value)
 end
 
 #This function deterimes if a date string passed in (in format yyyy-mm-dd) is current or not
-def is_current?(date_string)
+def is_current?(end_date_string)
   now_string = Date.today.strftime("%F")
-  return  now_string >= date_string
+  return  now_string <= end_date_string
 end
 
 Then(/^I PATCH entities and check return code$/) do |table|
