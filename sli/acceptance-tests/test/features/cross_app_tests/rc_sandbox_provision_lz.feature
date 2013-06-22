@@ -81,6 +81,4 @@ Background:
          | courseTranscript                         |                196|
          | teacherSchoolAssociation                 |                  3|
          | teacherSectionAssociation                |                 11|
-    Given I have a connection to Mongo
     Then I flush all mongos instances
-    And I close all open Mongo connections

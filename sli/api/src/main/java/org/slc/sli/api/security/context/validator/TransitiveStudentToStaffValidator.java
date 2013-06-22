@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -59,16 +60,24 @@ public class TransitiveStudentToStaffValidator extends BasicValidator {
         if (ids.isEmpty()) {
             return ids;
         }
-        Set<String> programIds = getProgramIds(me);
-        if(programIds.isEmpty()) {
-            return ids;
+        return filterThroughSubdocs(ids, me, "studentProgramAssociation", "programId", "programId",
+                EntityNames.STAFF_PROGRAM_ASSOCIATION, "staffId", false);
+    }
+
+    private Set<String> filterThroughSubdocs(Set<String> ids, Entity me, String subDocType, String subDocKey,
+            String idKey, String staffAssocType, String staffRef, boolean isDenorm) {
+        Set<String> subDocIds = isDenorm ? getDenormIds(me, subDocType, subDocKey) : getSubDocIds(me, subDocType,
+                subDocKey);
+        if (subDocIds.isEmpty()) {
+            return Collections.emptySet();
         }
-        Query q = Query.query(Criteria.where("body.programId").in(programIds).and("body.staffId").in(ids).andOperator(DateHelper.getExpiredCriteria()));
-        Iterator<Entity> spas = getRepo().findEach(EntityNames.STAFF_PROGRAM_ASSOCIATION, q);
+        Query q = Query.query(Criteria.where("body." + idKey).in(subDocIds).and("body." + staffRef).in(ids)
+                .andOperator(DateHelper.getExpiredCriteria()));
+        Iterator<Entity> spas = getRepo().findEach(staffAssocType, q);
         Set<String> filtered = new HashSet<String>();
-        while(spas.hasNext()) {
+        while (spas.hasNext()) {
             Entity spa = spas.next();
-            String staff = (String) spa.getBody().get("staffId");
+            String staff = (String) spa.getBody().get(staffRef);
             if (staff != null) {
                 filtered.add(staff);
             }
@@ -77,7 +86,11 @@ public class TransitiveStudentToStaffValidator extends BasicValidator {
     }
 
     protected Set<String> filterConnectedViaCohort(Set<String> ids, Entity me) {
-        return Collections.emptySet();
+        if (ids.isEmpty()) {
+            return ids;
+        }
+        return filterThroughSubdocs(ids, me, "studentCohortAssociation", "cohortId", "cohortId",
+                EntityNames.STAFF_COHORT_ASSOCIATION, "staffId", false);
     }
 
     protected Set<String> filterConnectedViaSection(Set<String> ids, Entity me) {
@@ -85,18 +98,35 @@ public class TransitiveStudentToStaffValidator extends BasicValidator {
     }
 
     protected Set<String> filterConnectedViaEdOrg(Set<String> ids, Entity me) {
-        return Collections.emptySet();
+        if (ids.isEmpty()) {
+            return ids;
+        }
+        return filterThroughSubdocs(ids, me, "schools", "_id", "educationOrganizationReference",
+                EntityNames.STAFF_ED_ORG_ASSOCIATION, "staffReference", true);
     }
 
-    private Set<String> getProgramIds(Entity me) {
-        List<Entity> spas = me.getEmbeddedData().get("studentProgramAssociation");
-        if(spas == null) {
+    private Set<String> getSubDocIds(Entity me, String subDocType, String idKey) {
+        List<Entity> subDocs = me.getEmbeddedData().get(subDocType);
+        if (subDocs == null) {
             return Collections.emptySet();
         }
-        Set<String> programIds = new HashSet<String>();
-        for(Entity spa: spas) {
-            programIds.add((String) spa.getBody().get("programId"));
+        Set<String> assocIds = new HashSet<String>();
+        for (Entity subDoc : subDocs) {
+            assocIds.add((String) subDoc.getBody().get(idKey));
         }
-        return programIds;
+        return assocIds;
+    }
+
+    // virtuall the exact same function except with fricken Maps instead of entities....
+    private Set<String> getDenormIds(Entity me, String denormType, String idKey) {
+        List<Map<String, Object>> denorms = me.getDenormalizedData().get(denormType);
+        if (denorms == null) {
+            return Collections.emptySet();
+        }
+        Set<String> assocIds = new HashSet<String>();
+        for (Map<String, Object> denorm : denorms) {
+            assocIds.add((String) denorm.get(idKey));
+        }
+        return assocIds;
     }
 }

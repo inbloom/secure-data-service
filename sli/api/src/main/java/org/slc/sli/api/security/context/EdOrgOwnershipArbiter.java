@@ -16,21 +16,28 @@
 
 package org.slc.sli.api.security.context;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.utils.EdOrgHierarchyHelper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
-import java.util.*;
 
 /**
  * @author ablum npandey
@@ -161,7 +168,7 @@ public class EdOrgOwnershipArbiter {
     public Set<String> determineEdorgs(Iterable<Entity> entities, String entityType) {
        Set<String> edorgs = new HashSet<String>();
 
-       for (Entity entity : findEdorgs(entities, entityType)) {
+       for (Entity entity : findEdorgs(entities, entityType, false)) {
            edorgs.add(entity.getEntityId());
        }
 
@@ -178,7 +185,7 @@ public class EdOrgOwnershipArbiter {
     public Set<String> determineHierarchicalEdorgs(Iterable<Entity> entities, String entityType) {
         Set<String> hierarchicalEdorgs = new HashSet<String>();
 
-        List<Entity> edorgs = findEdorgs(entities, entityType);
+        List<Entity> edorgs = findEdorgs(entities, entityType, true);
 
         for (Entity edorg : edorgs) {
             hierarchicalEdorgs.add(edorg.getEntityId());
@@ -188,7 +195,7 @@ public class EdOrgOwnershipArbiter {
         return hierarchicalEdorgs;
     }
 
-    private List<Entity> findEdorgs(Iterable<Entity> entities, String entityType) {
+    private List<Entity> findEdorgs(Iterable<Entity> entities, String entityType, boolean ignoreOrphans) {
         List<Entity> edorgs = new ArrayList<Entity>();
         debug("checking ownership for entities of type: {}", entityType);
 
@@ -205,6 +212,13 @@ public class EdOrgOwnershipArbiter {
             }
 
             for (Entity entity : entities) {
+                // Ignore orphaned entities created by the principal.
+                if (SecurityUtil.principalId().equals(entity.getMetaData().get("createdBy"))
+                        && "true".equals(entity.getMetaData().get("isOrphaned")) && ignoreOrphans) {
+                    debug("Entity is orphaned: id {} of type {}", entity.getEntityId(), entity.getType());
+                    continue;
+                }
+
                 EntityDefinition definition = store.lookupByEntityType(ref.toType);
                 String collectionName = definition.getStoredCollectionName();
                 String critField = null;
@@ -220,7 +234,7 @@ public class EdOrgOwnershipArbiter {
                 Iterable<Entity> ents = repo.findAll(collectionName, new NeutralQuery(new NeutralCriteria(critField,
                         NeutralCriteria.OPERATOR_EQUAL, critValue)));
                 if (ents.iterator().hasNext()) {
-                    List<Entity> toAdd = findEdorgs(ents, collectionName);
+                    List<Entity> toAdd = findEdorgs(ents, collectionName, ignoreOrphans);
                     edorgs.addAll(toAdd);
                 } else {
                     throw new AccessDeniedException("Could not find a matching " + collectionName + " where "
