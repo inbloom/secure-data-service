@@ -355,8 +355,9 @@ public class UriMutator {
                 mutated.setPath(String.format("/sections/%s/teacherSectionAssociations", StringUtils.join(getSectionIds(user))));
             } else if (PathConstants.TEACHER_SCHOOL_ASSOCIATIONS.equals(baseEntity)) {
                 mutated.setPath(String.format("/schools/%s/teacherSchoolAssociations", StringUtils.join(edOrgHelper.getDirectEdorgs(user), ",")));
-            } else if (PathConstants.STAFF.equals(baseEntity)) {
-                mutated.setPath(String.format("/educationOrganizations/%s/staffEducationOrgAssignmentAssociations/staff", StringUtils.join(edOrgHelper.getDirectEdorgs(user), ",")));
+                // } else if (PathConstants.STAFF.equals(baseEntity)) {
+                // mutated.setPath(String.format("/educationOrganizations/%s/staffEducationOrgAssignmentAssociations/staff",
+                // StringUtils.join(edOrgHelper.getDirectEdorgs(user), ",")));
             } else if (PathConstants.STAFF_COHORT_ASSOCIATIONS.equals(baseEntity)) {
                 mutated.setPath(String.format("/cohorts/%s/staffCohortAssociations", StringUtils.join(getCohortIds(user))));
             } else if (PathConstants.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS.equals(baseEntity)) {
