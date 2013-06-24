@@ -16,6 +16,7 @@
 
 package org.slc.sli.common.util.datetime;
 
+import java.util.Arrays;
 import java.util.Map;
 
 import org.joda.time.DateTime;
@@ -48,6 +49,17 @@ public class DateHelper {
         return now.minusDays(numDays);
     }
 
+    public boolean isFieldExpired(Map<String, Object> body) {
+        // silly edfi, refusing to have even one field be consistent...
+        for (String key : Arrays.asList("endDate", "exitWithdrawDate")) {
+            if (body.containsKey(key)) {
+                return isFieldExpired(body, key, false);
+            }
+        }
+        // no end date set, assume current
+        return false;
+    }
+
     public boolean isFieldExpired(Map<String, Object> body, String fieldName) {
         return isFieldExpired(body, fieldName, false);
     }
@@ -73,8 +85,10 @@ public class DateHelper {
      * Checks if the DateTime of the first parameter is earlier (or equal to) the second parameter,
      * comparing only the year, month, and day.
      *
-     * @param lhs First DateTime.
-     * @param rhs Second DateTime.
+     * @param lhs
+     *            First DateTime.
+     * @param rhs
+     *            Second DateTime.
      * @return True if first DateTime is before (or equal to) to the second DateTime, false
      *         otherwise.
      */

@@ -252,7 +252,7 @@ Given /^I remove the teacherSectionAssociation for "([^"]*)"$/ do |staff|
   staff_id = staff_coll.find_one({'body.staffUniqueStateId' => staff})['_id']
 
   section_coll = db.collection('section')
-  sections = section_coll.find({'teacherSectionAssociation.body.teacherId' => staff_id}).count.to_a
+  sections = section_coll.find({'teacherSectionAssociation.body.teacherId' => staff_id}).to_a
 
   sections.each do |section|
     query = {'_id' => section['_id']}
@@ -306,8 +306,12 @@ Given /^I add a SEOA for "([^"]*)" in "([^"]*)" as a "([^"]*)"$/ do |staff, edOr
   edorg_coll = db.collection('educationOrganization')
   edorg_id = edorg_coll.find_one({'body.stateOrganizationId' => edOrg})['_id']
 
-  seoa = {'_id' => '8a3419da-1c75-45b5-874f-49ec61eg403', 'type' => 'staffEducationOrganizationAssociation',
-          'body' => {'staffClassification' => role, 'educationOrganizationReference' => edorg_id, 'staffReference' => staff_id}}
+  seoa = {'_id' => SecureRandom.uuid,
+          'type' => 'staffEducationOrganizationAssociation',
+          'body' => {'staffClassification' => role,
+                     'educationOrganizationReference' => edorg_id,
+                     'staffReference' => staff_id,
+                     'beginDate' => '2000-01-01'}  }
 
   add_to_mongo(db_tenant, 'staffEducationOrganizationAssociation', seoa)
   conn.close
@@ -389,8 +393,10 @@ Given /^"([^"]*)" is not associated with any (program|cohort) that belongs to "(
 
   query = { '_id' => student['_id']}
   value = student["student#{collection.capitalize}Association"]
-  value.delete_if {|entry| staff_entities.include?({'body' => {"#{collection}Id" => entry['body']["#{collection}Id"]}})}
-  update_mongo(db_name, 'student', query, "student#{collection.capitalize}Association", false, value)
+  unless value.nil?
+    value.delete_if {|entry| staff_entities.include?({'body' => {"#{collection}Id" => entry['body']["#{collection}Id"]}})}
+    update_mongo(db_name, 'student', query, "student#{collection.capitalize}Association", false, value)
+  end
 
   conn.close
   enable_NOTABLESCAN()

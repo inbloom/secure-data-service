@@ -144,6 +144,3 @@ Scenario: Verify Rewrites for Base Level entities for Students
       | /teachers/1b8c3849be3ac8c3b1a7442aab1b00d1dcfa299c_id/teacherSchoolAssociations/schools                                                           |
       | /teachers/1b8c3849be3ac8c3b1a7442aab1b00d1dcfa299c_id/teacherSectionAssociations                                                                  |
       | /teachers/1b8c3849be3ac8c3b1a7442aab1b00d1dcfa299c_id/teacherSectionAssociations/sections                                                         |
-      #Temporary
-      | /students/92164cd19ebdbe17cfdcd0e1d177877cdc9a40ef_id/courseTranscripts                                                                           |
-      | /students/92164cd19ebdbe17cfdcd0e1d177877cdc9a40ef_id/courseTranscripts/courses                                                                   |

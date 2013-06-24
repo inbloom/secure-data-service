@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
@@ -40,6 +41,9 @@ import org.slc.sli.domain.Entity;
  */
 @Component
 public class TransitiveStudentToStaffValidator extends BasicValidator {
+
+    @Autowired
+    private DateHelper dateHelper;
 
     public TransitiveStudentToStaffValidator() {
         super(true, EntityNames.STUDENT, Arrays.asList(EntityNames.STAFF, EntityNames.TEACHER));
@@ -94,7 +98,27 @@ public class TransitiveStudentToStaffValidator extends BasicValidator {
     }
 
     protected Set<String> filterConnectedViaSection(Set<String> ids, Entity me) {
-        return Collections.emptySet();
+        if (ids.isEmpty()) {
+            return ids;
+        }
+        //The fact that this goes through a subdoc on section means I can't reuse filterThroughSubdocs without adding another couple dozen parameters to that method...
+        Set<String> sectionIds = getDenormIds(me, "section", "_id");
+        if (sectionIds.isEmpty()) {
+            return Collections.emptySet();
+        }
+        Query q = Query.query(Criteria.where("_id").in(sectionIds).and("teacherSectionAssociation").elemMatch(Criteria.where("body.teacherId").in(ids).andOperator(DateHelper.getExpiredCriteria())));
+        q.fields().include("teacherSectionAssociation.$");
+        Iterator<Entity> sections = getRepo().findEach(EntityNames.SECTION, q);
+        Set<String> filtered = new HashSet<String>();
+        while(sections.hasNext()) {
+            Entity section = sections.next();
+            List<Entity> tsas = section.getEmbeddedData().get("teacherSectionAssociation");
+            for(Entity tsa: tsas) {
+                String teacher = (String) tsa.getBody().get("teacherId");
+                filtered.add(teacher);
+            }
+        }
+        return filtered;
     }
 
     protected Set<String> filterConnectedViaEdOrg(Set<String> ids, Entity me) {
@@ -112,12 +136,14 @@ public class TransitiveStudentToStaffValidator extends BasicValidator {
         }
         Set<String> assocIds = new HashSet<String>();
         for (Entity subDoc : subDocs) {
-            assocIds.add((String) subDoc.getBody().get(idKey));
+            if(!getDateHelper().isFieldExpired(subDoc.getBody())) {
+                assocIds.add((String) subDoc.getBody().get(idKey));
+            }
         }
         return assocIds;
     }
 
-    // virtuall the exact same function except with fricken Maps instead of entities....
+    // virtually the exact same function except with fricken Maps instead of entities....
     private Set<String> getDenormIds(Entity me, String denormType, String idKey) {
         List<Map<String, Object>> denorms = me.getDenormalizedData().get(denormType);
         if (denorms == null) {
@@ -125,8 +151,19 @@ public class TransitiveStudentToStaffValidator extends BasicValidator {
         }
         Set<String> assocIds = new HashSet<String>();
         for (Map<String, Object> denorm : denorms) {
-            assocIds.add((String) denorm.get(idKey));
+            if(!getDateHelper().isFieldExpired(denorm)) {
+                assocIds.add((String) denorm.get(idKey));
+            }
         }
         return assocIds;
     }
+
+    protected DateHelper getDateHelper() {
+        return dateHelper;
+    }
+
+    protected void setDateHelper(DateHelper dateHelper) {
+        this.dateHelper = dateHelper;
+    }
+
 }
