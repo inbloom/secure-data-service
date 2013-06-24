@@ -159,7 +159,7 @@ public class DefaultResourceService implements ResourceService {
                  // US5765: Temporarily disabled the new logic
                     /*SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
                     if (ids.size() == 1  && definition.getType().equals(EntityNames.STUDENT) &&  SecurityUtil.isStaffUser()) {
-                        finalResults = (List<EntityBody>) definition.getService().listOnContextualRoles(apiQuery);
+                        finalResults = (List<EntityBody>) definition.getService().listBasedOnContextualRoles(apiQuery);
                     } else {
                       */
                         finalResults = (List<EntityBody>) definition.getService().list(apiQuery);

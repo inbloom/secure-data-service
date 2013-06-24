@@ -15,7 +15,21 @@
  */
 package org.slc.sli.api.security.roles;
 
-import org.slc.sli.api.config.EntityDefinition;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.schema.SchemaDataProvider;
@@ -25,14 +39,6 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.QueryParseException;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-
-import java.util.*;
 
 /** Class to validate if the context has the right to access the entity.
  *
@@ -57,11 +63,29 @@ public class RightAccessValidator {
      * @param entity item under inspection
      */
     public void checkAccess(boolean isRead, boolean isSelf, Entity entity, String entityType) {
+        Collection<GrantedAuthority> auths = getContextualAuthorities(isSelf, entity);
+
+        EntityBody body = null;
+        if(entity != null) {
+            body = new EntityBody(entity.getBody());
+        }
+        checkAccess(isRead, body, entityType, auths);
+    }
+
+
+    /**
+     * Validates that user roles allow access to fields, based on the provided authorities.
+     *
+     * @param isRead       whether operation is "read" or "write"
+     * @param entityBody   the entity body to be checked.
+     * @param entityType   entity type
+     * @param auths        collection of authorities to validate
+     */
+    public void checkAccess(boolean isRead, EntityBody entityBody, String entityType, Collection<GrantedAuthority> auths) {
         SecurityUtil.ensureAuthenticated();
         Set<Right> neededRights = new HashSet<Right>();
 
-        Collection<GrantedAuthority> auths = getAuthorities(isSelf, entity);
-
+        info("Granted authorizies are :" ,  auths);
         boolean allow = false;
         if (auths.contains(Right.FULL_ACCESS)) {
             debug("User has full access");
@@ -71,11 +95,11 @@ public class RightAccessValidator {
             allow = intersection(auths, neededRights);
         } else if (!isRead) {
             debug("Evaluating rights for write...");
-            if (entity == null) {
+            if (entityBody == null) {
                 neededRights.addAll(provider.getAllFieldRights(entityType, isRead));
                 allow = intersection(auths, neededRights);
             } else {
-                allow = determineWriteAccess(entity.getBody(), "", auths, entityType);
+                allow = determineWriteAccess(entityBody, "", auths, entityType);
             }
         } else if (isRead) {
             debug("Evaluating rights for read...");
@@ -102,20 +126,31 @@ public class RightAccessValidator {
         if (query != null) {
             // get the authorities
             Collection<GrantedAuthority> auths = new HashSet<GrantedAuthority>();
-            auths.addAll(getAuthorities(isSelf, entity));
+            auths.addAll(getContextualAuthorities(isSelf, entity));
             if (isSelf) {
                 auths.addAll(SecurityUtil.getSLIPrincipal().getSelfRights());
             }
 
-            if (!auths.contains(Right.FULL_ACCESS) && !auths.contains(Right.ANONYMOUS_ACCESS)) {
-                for (NeutralCriteria criteria : query.getCriteria()) {
-                    // get the needed rights for the field
-                    Set<Right> neededRights = getNeededRights(criteria.getKey(), entityType);
+            checkFieldAccess(query, entityType, auths);
+        }
+    }
 
-                    if (!neededRights.isEmpty() && !intersection(auths, neededRights)) {
-                        debug("Denied user searching on field {}", criteria.getKey());
-                        throw new QueryParseException("Cannot search on restricted field", criteria.getKey());
-                    }
+    /**
+     * Checks query params for access restrictions, based on provided authorities.
+     *
+     * @param query        the query to be checked.
+     * @param entityType   the entity type
+     * @param auths        collection of authorities to check.
+     */
+    public void checkFieldAccess(NeutralQuery query, String entityType, Collection<GrantedAuthority> auths) {
+        if (!auths.contains(Right.FULL_ACCESS) && !auths.contains(Right.ANONYMOUS_ACCESS)) {
+            for (NeutralCriteria criteria : query.getCriteria()) {
+                // get the needed rights for the field
+                Set<Right> neededRights = getNeededRights(criteria.getKey(), entityType);
+
+                if (!neededRights.isEmpty() && !intersection(auths, neededRights)) {
+                    debug("Denied user searching on field {}", criteria.getKey());
+                    throw new QueryParseException("Cannot search on restricted field", criteria.getKey());
                 }
             }
         }
@@ -129,7 +164,7 @@ public class RightAccessValidator {
      *
      * @return a set of granted authorities
      */
-    public Collection<GrantedAuthority> getAuthorities(boolean isSelf, Entity entity){
+    public Collection<GrantedAuthority> getContextualAuthorities(boolean isSelf, Entity entity){
         Collection<GrantedAuthority> auths = new HashSet<GrantedAuthority>();
 
         if (isSelf) {
@@ -146,7 +181,14 @@ public class RightAccessValidator {
             if (entity == null) {
                 debug("No authority for null");
             } else {
-                auths.addAll(entityEdOrgRightBuilder.buildEntityEdOrgRights(principal.getEdOrgRights(), entity));
+                if (SecurityUtil.principalId().equals(entity.getMetaData().get("createdBy"))
+                        && "true".equals(entity.getMetaData().get("isOrphaned"))) {
+                    // Orphaned entities created by the principal are handled the same as before.
+                    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                    auths.addAll(auth.getAuthorities());
+                } else {
+                    auths.addAll(entityEdOrgRightBuilder.buildEntityEdOrgRights(principal.getEdOrgRights(), entity));
+                }
             }
         }
 
@@ -183,7 +225,7 @@ public class RightAccessValidator {
     }
 
     @SuppressWarnings("unchecked")
-    private boolean determineWriteAccess(Map<String, Object> eb, String prefix, Collection<GrantedAuthority> auths, String entityType) {
+    protected boolean determineWriteAccess(Map<String, Object> eb, String prefix, Collection<GrantedAuthority> auths, String entityType) {
 
         boolean allow = true;
         if (!ADMIN_SPHERE.equals(provider.getDataSphere(entityType))) {

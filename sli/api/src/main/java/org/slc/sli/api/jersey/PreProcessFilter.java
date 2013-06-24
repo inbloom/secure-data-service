@@ -74,6 +74,9 @@ public class PreProcessFilter implements ContainerRequestFilter {
             PathConstants.STUDENT_SECTION_ASSOCIATIONS, PathConstants.STUDENT_COHORT_ASSOCIATIONS,
             PathConstants.STUDENT_PROGRAM_ASSOCIATIONS);
 
+    public static final List<String> DATE_RESTRICTED_ENTITIES = Arrays.asList(EntityNames.STAFF_PROGRAM_ASSOCIATION, EntityNames.STAFF_COHORT_ASSOCIATION,
+            EntityNames.STAFF_ED_ORG_ASSOCIATION, EntityNames.TEACHER_SECTION_ASSOCIATION, EntityNames.TEACHER_SCHOOL_ASSOCIATION);
+
     @Resource(name = "urlValidators")
     private List<URLValidator> urlValidators;
 
@@ -155,7 +158,15 @@ public class PreProcessFilter implements ContainerRequestFilter {
                     prince.setStudentAccessFlag(false);
                 }
             }
-            
+
+            if(SecurityUtil.isStudent()) {
+                List<NeutralQuery> oblong = construct("endDate");
+
+                for(String entity : DATE_RESTRICTED_ENTITIES) {
+                    prince.addObligation(entity, oblong);
+                }
+            }
+
             for (PathSegment seg : request.getPathSegments()) {
                 String resourceName = seg.getPath();
                 if (ResourceNames.STUDENTS.equals(resourceName)) {	// once student is encountered,

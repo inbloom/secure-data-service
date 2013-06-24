@@ -31,11 +31,9 @@ def genCtlFile(dir='generated')
       # Derive the Interchange type, name, and hash from the filename
       # --> Interchange<file_type>.xml
       # --> /Fully/qualified/path/<file_name>.xml
-      # --> file_hash = md5(fully_qualified_file_name)
       file_type = stripInterchange(int[int.rindex('/')+1..-1])
       file_name = int[int.rindex('/')+1..-1]
-      file_hash = Digest::MD5.file(int).hexdigest
-      f.write "edfi-xml,#{file_type},#{file_name},#{file_hash}\n"
+      f.write "edfi-xml,#{file_type},#{file_name}\n"
     end
   end  
 end
