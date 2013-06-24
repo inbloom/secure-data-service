@@ -50,7 +50,7 @@ Scenario: Verify Rewrites for Base Level entities for Students
     | /schools                     | /schools/@ids                                                                  |
     | /sections                    | /students/@ids/studentSectionAssociations/sections                             |
     | /sessions                    | /schools/@ids/sessions                                                         |
-    #    | /staff                       | /educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff     |
+    | /staff                       | /educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff     |
     | /staffCohortAssociations     | /cohorts/@ids/staffCohortAssociations                                          |
     | /staffEducationOrgAssignmentAssociations | /educationOrganizations/@ids/staffEducationOrgAssignmentAssociations           |
     | /staffProgramAssociations    | /programs/@ids/staffProgramAssociations                                        |
