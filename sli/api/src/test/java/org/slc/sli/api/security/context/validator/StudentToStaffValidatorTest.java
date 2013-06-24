@@ -37,7 +37,7 @@ import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.domain.Entity;
 
 /**
- *
+ * Unit test for TransitiveStudentToStaffValidator
  *
  * @author nbrown
  *
@@ -64,6 +64,7 @@ public class StudentToStaffValidatorTest {
         when(e.getEmbeddedData()).thenReturn(subDocs);
         Map<String, List<Map<String, Object>>> denorms = new HashMap<String, List<Map<String, Object>>>();
         denorms.put("schools", Arrays.asList(makeStudentEdOrg("school1"), makeStudentEdOrg("school2")));
+        denorms.put("section", Arrays.asList(makeStudentSection("section1"), makeStudentSection("section2")));
         when(e.getDenormalizedData()).thenReturn(denorms);
         underTest.setRepo(repo);
     }
@@ -96,6 +97,25 @@ public class StudentToStaffValidatorTest {
         when(repo.findEach(eq("staffEducationOrganizationAssociation"), any(Query.class))).thenReturn(staffEdOrgList);
         assertEquals(new HashSet<String>(Arrays.asList("staff1", "staff2", "staff3")),
                 underTest.filterConnectedViaEdOrg(new HashSet<String>(staffIds), e));
+    }
+
+    @Test
+    public void testFilterConnectedViaSection() {
+        Entity section1 = mock(Entity.class);
+        Map<String, List<Entity>> section1SubDocs = new HashMap<String, List<Entity>>();
+        section1SubDocs.put("teacherSectionAssociation", Arrays.asList(makeTeacherSection("staff1", "section1"), makeTeacherSection("staff2", "section1")));
+        when(section1.getEmbeddedData()).thenReturn(section1SubDocs);
+        Entity section2 = mock(Entity.class);
+        Map<String, List<Entity>> section2SubDocs = new HashMap<String, List<Entity>>();
+        section2SubDocs.put("teacherSectionAssociation", Arrays.asList(makeTeacherSection("staff1", "section2")));
+        when(section2.getEmbeddedData()).thenReturn(section2SubDocs);
+        Entity section3 = mock(Entity.class);
+        Map<String, List<Entity>> section3SubDocs = new HashMap<String, List<Entity>>();
+        section3SubDocs.put("teacherSectionAssociation", Arrays.asList(makeTeacherSection("staff3", "section3")));
+        when(section3.getEmbeddedData()).thenReturn(section3SubDocs);
+        when(repo.findEach(eq("section"), any(Query.class))).thenReturn(Arrays.asList(section1, section2, section3).iterator());
+        assertEquals(new HashSet<String>(Arrays.asList("staff1", "staff2", "staff3")),
+                underTest.filterConnectedViaSection(new HashSet<String>(staffIds), e));
     }
 
     @SuppressWarnings("unchecked")
@@ -154,6 +174,22 @@ public class StudentToStaffValidatorTest {
     }
 
     private Map<String, Object> makeStudentEdOrg(String id) {
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put("_id", id);
+        return body;
+    }
+
+    private Entity makeTeacherSection(String staffId, String sectionId) {
+        Entity sea = mock(Entity.class);
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put("sectionId", sectionId);
+        body.put("teacherId", staffId);
+        when(sea.getBody()).thenReturn(body);
+        return sea;
+
+    }
+
+    private Map<String, Object> makeStudentSection(String id) {
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("_id", id);
         return body;
