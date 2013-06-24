@@ -51,12 +51,14 @@ require 'pp'
 COUNT_TAG = "__count"
 ELEMENTS_TAG = "ALL_ELEMENTS"
 
-
 # Main driver
 def main(argv)
   host = "localhost"
   conn = Mongo::Connection.new(host)
   dbs = argv
+
+  # Tags to ignore throughout
+  ignore_tags = {}
 
   # If no args, just show all databases
   if dbs.empty?
@@ -66,15 +68,23 @@ def main(argv)
       puts "    " + db_summary(conn, dbname)
     end
 
-    puts "\nTo data profile specific database(s) or collections, give argument(s) as follows:\n"
+    puts "\nTo data profile specific database(s) or collections, give argument(s) in any combination and order as follows:\n"
     puts "     <dbname>                    Profile all collections in <dbname>\n"
     puts "     <dbname>:<coll1>,<coll2>    Profile collections <coll1> and <coll2. in <dbname>\n"
+    puts "     -<tag1> -<tag2>             Ignore <tag1>, <tag2> and all their contents\n"
     puts "\n"
     return
   end
   
   # conn.database_info.each { |info| puts info.inspect }
   for dbname_and_colls in dbs
+
+    # See if an "ignore" tag
+    if dbname_and_colls[0] == "-"
+      to_ignore = dbname_and_colls[1, dbname_and_colls.length - 1]
+      ignore_tags[to_ignore] = true
+      next
+    end
 
     # Split to see if specific collection(s) given
     inf = dbname_and_colls.split(/:+/)
@@ -101,7 +111,7 @@ def main(argv)
         countstr = ndoc.to_s() + " docs"
       end
       puts "    " + collname + " (" + countstr + ")"
-      summary_data = analyze(coll)
+      summary_data = analyze(coll, ignore_tags)
       # PP.pp(summary_data)
       summary_data.delete(COUNT_TAG)
       print_hash(summary_data, 2)
@@ -110,20 +120,20 @@ def main(argv)
 end
 
 # Analyze data in collection and return summary data
-def analyze(coll)
+def analyze(coll, ignore_tags)
   summary = {}
   coll.find({}, :timeout => false) do |cursor|
     cursor.each do |document|
       # Process
       # puts document.to_s()
-      summarize(summary, document)
+      summarize(summary, document, ignore_tags)
     end
   end  
   return summary
 end
 
 # Accumulate summary from document
-def summarize(summary, val)
+def summarize(summary, val, ignore_tags)
 
   # Accumulate counts by data type
   if not summary.has_key?(COUNT_TAG)
@@ -138,10 +148,13 @@ def summarize(summary, val)
   if vtype == "BSON::OrderedHash"
     # Maintain summary stats on hash sizes
     val.each do |k, v|
+      if ignore_tags.has_key?(k)
+        next
+      end
       if not summary.has_key?(k)
         summary[k] = {}
       end
-      summarize(summary[k], v)
+      summarize(summary[k], v, ignore_tags)
     end
   elsif vtype == "Array"
     # Maintain summary stats on array sizes
@@ -150,7 +163,7 @@ def summarize(summary, val)
       summary[ELEMENTS_TAG] = {}
     end
     val.each do |v|
-      summarize(summary[ELEMENTS_TAG], v)
+      summarize(summary[ELEMENTS_TAG], v, ignore_tags)
     end
   end
 end
