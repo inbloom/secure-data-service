@@ -100,5 +100,17 @@
         "grade": "Tenth grade"
       }
     ]
+  },
+    {
+    "userId": "jack.jackson",
+    "name": "Jack Jackson",
+    "edOrgs": [
+      {
+        "role": "Student",
+        "type": "High School",
+        "association": "East Daybreak High",
+        "grade": "Tenth grade"
+      }
+    ]
   }
 ]
