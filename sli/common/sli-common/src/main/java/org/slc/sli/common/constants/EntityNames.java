@@ -17,6 +17,10 @@
 
 package org.slc.sli.common.constants;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Defines for entity names exposed by API.
  */
@@ -74,4 +78,42 @@ public final class EntityNames {
     public static final String TEACHER_SCHOOL_ASSOCIATION = "teacherSchoolAssociation";
     public static final String TEACHER_SECTION_ASSOCIATION = "teacherSectionAssociation";
     public static final String CALENDAR_DATE = "calendarDate";
+    
+    private static final Set<String> PUBLIC_ENTITIES = new HashSet<String>(Arrays.asList(
+            ASSESSMENT,
+            ASSESSMENT_FAMILY,
+            ASSESSMENT_PERIOD_DESCRIPTOR,
+            COMPETENCY_LEVEL_DESCRIPTOR,
+            COURSE,
+            COURSE_OFFERING,
+            EDUCATION_ORGANIZATION,
+            GRADING_PERIOD,
+            LEARNING_OBJECTIVE,
+            LEARNING_STANDARD,
+            OBJECTIVE_ASSESSMENT,
+            PROGRAM,
+            SCHOOL,
+            SECTION,
+            SESSION,
+            STUDENT_COMPETENCY_OBJECTIVE
+            ));
+
+    public static boolean isPublic(String entityType) {
+        return PUBLIC_ENTITIES.contains(entityType);
+    }
+    
+    // there is no type safety, whoever calls this function should be
+    // pretty sure that the entityType is valid
+    public static String toResourceName(String entityType) {
+        if (STAFF.equals(entityType) || COMPETENCY_LEVEL_DESCRIPTOR.equals(entityType)) {
+            return entityType;
+        }
+    
+        if (GRADEBOOK_ENTRY.equals(entityType) || STUDENT_GRADEBOOK_ENTRY.equals(entityType)
+                || ASSESSMENT_FAMILY.equals(entityType) || STUDENT_COMPETENCY.equals(entityType)) {
+            return entityType.replace("y", "ies");
+        }
+        
+        return entityType + "s";
+    }
 }

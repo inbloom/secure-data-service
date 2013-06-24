@@ -57,6 +57,7 @@ public class StudentAccessValidatorTest {
             }
         });
         when(request.getQueryParameters()).thenReturn(new MultivaluedMapImpl());
+        when(request.getMethod()).thenReturn("GET");
     }
 
     @Test
@@ -131,6 +132,20 @@ public class StudentAccessValidatorTest {
     public void testAccessToHome() {
         paths = Arrays.asList("v1", "home");
         assertTrue(underTest.isAllowed(request));
+    }
+    
+    @Test
+    public void onePartPOSTOnPrivateEntityAllowed() {
+        when(request.getMethod()).thenReturn("POST");
+        paths = Arrays.asList("v1", "studentAssessments");
+        assertTrue(underTest.isAllowed(request));
+    }
+    
+    @Test
+    public void onePartPOSTOnPublicEntityDenied() {
+        when(request.getMethod()).thenReturn("POST");
+        paths = Arrays.asList("v1", "assessments");
+        assertFalse(underTest.isAllowed(request));
     }
     
     @Test

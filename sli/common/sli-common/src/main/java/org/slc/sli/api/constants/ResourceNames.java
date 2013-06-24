@@ -63,7 +63,7 @@ public final class ResourceNames {
     public static final String TEACHERS = "teachers";
     public static final String GRADES = "grades";
     public static final String GRADUATION_PLANS = "graduationPlans";
-
+    public static final String COURSE_TRANSCRIPTS = "courseTranscripts";
     public static final String COURSE_OFFERINGS = "courseOfferings";
     public static final String STUDENT_ASSESSMENTS = "studentAssessments";
     public static final String STUDENT_SECTION_ASSOCIATIONS = "studentSectionAssociations";
@@ -160,6 +160,20 @@ public final class ResourceNames {
         }
     }
 
+    // convert a resource name to entity name, there is no type
+    // safety here, so be sure your input is valid
+    public static String toEntityName(String resourceName) {
+        if (STAFF.equals(resourceName) || COMPETENCY_LEVEL_DESCRIPTORS.equals(resourceName) || CUSTOM.equals(resourceName)) {
+            return resourceName;
+        }
 
-    public static final String COURSE_TRANSCRIPTS = "courseTranscripts";
+        if (GRADEBOOK_ENTRIES.equals(resourceName) || STUDENT_GRADEBOOK_ENTRIES.equals(resourceName)
+                || STUDENT_COMPETENCIES.equals(resourceName)) {
+            return resourceName.replace("ies", "y");
+        }
+        
+        // break off last "s"
+        return resourceName.substring(0, resourceName.length() - 1);
+    }
+
 }
