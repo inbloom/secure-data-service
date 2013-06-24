@@ -71,7 +71,7 @@ When /^I navigate to the base level URI <Entity> I should see the rewrite in the
     else
       puts "Return code for URI: #{row["Entity"]} was #{@res.code}"
     end
-
+    
     #Verify the general path of the rewrite
     expectedPath = row["URI"].gsub("@ids", "[^/]+")
     actualPath = @res.raw_headers.to_hash()["x-executedpath"][0]

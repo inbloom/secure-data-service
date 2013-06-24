@@ -21,7 +21,6 @@ import java.util.Set;
 
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 
@@ -36,8 +35,7 @@ public class TransitiveStudentToParentValidator extends BasicValidator {
     }
 
     @Override
-    protected boolean doValidate(Set<String> ids) {
-        Entity e = SecurityUtil.getSLIPrincipal().getEntity();
+    protected boolean doValidate(Set<String> ids, Entity e, String entityType) {
 
         List<Entity> spas = e.getEmbeddedData().get("studentParentAssociation");
 

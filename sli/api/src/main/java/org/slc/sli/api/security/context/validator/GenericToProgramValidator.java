@@ -19,13 +19,14 @@ package org.slc.sli.api.security.context.validator;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
-import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.springframework.stereotype.Component;
 
 /**
  * Decides if given user has access to given program
@@ -37,7 +38,7 @@ public class GenericToProgramValidator extends AbstractContextValidator {
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return EntityNames.PROGRAM.equals(entityType) && !isTransitive;
+        return !isStudent() && EntityNames.PROGRAM.equals(entityType) && !isTransitive;
     }
 
     @Override

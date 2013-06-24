@@ -46,10 +46,10 @@ public class StudentToCohortValidatorTest {
     }
     
     @Test
-    public void canValidateCohortForStudentOnly() {
+    public void canValidateTransitiveCohortForStudentOnly() {
         injector.setStudentContext(student1);
         assertTrue(underTest.canValidate(EntityNames.COHORT, true));
-        assertTrue(underTest.canValidate(EntityNames.COHORT, false));
+        assertFalse(underTest.canValidate(EntityNames.COHORT, false));
         
         injector.setEducatorContext();
         assertFalse(underTest.canValidate(EntityNames.COHORT, true));
@@ -88,6 +88,7 @@ public class StudentToCohortValidatorTest {
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("studentId", student1.getEntityId());
         body.put("cohortId", "cohort123");
+        body.put("endDate", "2100-01-01");
         when(studentCohortAssociations.getBody()).thenReturn(body);
         embeddedData.put(EntityNames.STUDENT_COHORT_ASSOCIATION, Arrays.asList(studentCohortAssociations));
         return embeddedData;

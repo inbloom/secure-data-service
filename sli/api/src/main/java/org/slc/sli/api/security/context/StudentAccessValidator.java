@@ -15,13 +15,23 @@
  */
 package org.slc.sli.api.security.context;
 
-import com.sun.jersey.spi.container.ContainerRequest;
-import org.slc.sli.api.constants.ResourceNames;
-import org.slc.sli.common.constants.EntityNames;
-import org.springframework.stereotype.Component;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.ws.rs.core.PathSegment;
-import java.util.*;
+
+import com.sun.jersey.spi.container.ContainerRequest;
+
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.constants.ResourceNames;
+import org.slc.sli.common.constants.EntityNames;
 
 /**
  * This class encapsulates access rules (URL wise)
@@ -335,7 +345,9 @@ public class StudentAccessValidator {
 
         switch (paths.size()) {
             case 1:
-                return baseEntity.equals("home") || !request.getQueryParameters().isEmpty();
+                return baseEntity.equals("home")
+                        || (!request.getQueryParameters().isEmpty())
+                        || ("POST".equals(request.getMethod().toUpperCase()) && !EntityNames.isPublic(ResourceNames.toEntityName(baseEntity)));
             case 2:
                 return true;
             case 3:
