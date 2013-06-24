@@ -34,6 +34,7 @@ import org.junit.Test;
 import org.springframework.data.mongodb.core.query.Query;
 
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.slc.sli.common.util.datetime.DateHelper;
 import org.slc.sli.domain.Entity;
 
 /**
@@ -67,6 +68,7 @@ public class StudentToStaffValidatorTest {
         denorms.put("section", Arrays.asList(makeStudentSection("section1"), makeStudentSection("section2")));
         when(e.getDenormalizedData()).thenReturn(denorms);
         underTest.setRepo(repo);
+        underTest.setDateHelper(new DateHelper());
     }
 
     @Test
@@ -103,7 +105,8 @@ public class StudentToStaffValidatorTest {
     public void testFilterConnectedViaSection() {
         Entity section1 = mock(Entity.class);
         Map<String, List<Entity>> section1SubDocs = new HashMap<String, List<Entity>>();
-        section1SubDocs.put("teacherSectionAssociation", Arrays.asList(makeTeacherSection("staff1", "section1"), makeTeacherSection("staff2", "section1")));
+        section1SubDocs.put("teacherSectionAssociation",
+                Arrays.asList(makeTeacherSection("staff1", "section1"), makeTeacherSection("staff2", "section1")));
         when(section1.getEmbeddedData()).thenReturn(section1SubDocs);
         Entity section2 = mock(Entity.class);
         Map<String, List<Entity>> section2SubDocs = new HashMap<String, List<Entity>>();
@@ -113,7 +116,8 @@ public class StudentToStaffValidatorTest {
         Map<String, List<Entity>> section3SubDocs = new HashMap<String, List<Entity>>();
         section3SubDocs.put("teacherSectionAssociation", Arrays.asList(makeTeacherSection("staff3", "section3")));
         when(section3.getEmbeddedData()).thenReturn(section3SubDocs);
-        when(repo.findEach(eq("section"), any(Query.class))).thenReturn(Arrays.asList(section1, section2, section3).iterator());
+        when(repo.findEach(eq("section"), any(Query.class))).thenReturn(
+                Arrays.asList(section1, section2, section3).iterator());
         assertEquals(new HashSet<String>(Arrays.asList("staff1", "staff2", "staff3")),
                 underTest.filterConnectedViaSection(new HashSet<String>(staffIds), e));
     }
@@ -125,6 +129,33 @@ public class StudentToStaffValidatorTest {
         when(lonely.getDenormalizedData()).thenReturn(Collections.EMPTY_MAP);
         when(lonely.getEmbeddedData()).thenReturn(Collections.EMPTY_MAP);
         assertEquals(Collections.emptySet(), underTest.filterConnectedViaEdOrg(new HashSet<String>(staffIds), lonely));
+    }
+
+    @Test
+    public void testOldStudent() {
+        Iterator<Entity> staffProgramList = Arrays.asList(makeStaffProgram("staff1", "program1"),
+                makeStaffProgram("staff1", "program2"), makeStaffProgram("staff2", "program1"),
+                makeStaffProgram("staff3", "program3")).iterator();
+        when(repo.findEach(eq("staffProgramAssociation"), any(Query.class))).thenReturn(staffProgramList);
+        Iterator<Entity> staffCohortList = Arrays.asList(makeStaffCohort("staff1", "cohort1"),
+                makeStaffCohort("staff1", "cohort2"), makeStaffCohort("staff2", "cohort1"),
+                makeStaffCohort("staff3", "cohort3")).iterator();
+        when(repo.findEach(eq("staffCohortAssociation"), any(Query.class))).thenReturn(staffCohortList);
+        Iterator<Entity> staffEdOrgList = Arrays.asList(makeStaffEdOrg("staff1", "school1"),
+                makeStaffEdOrg("staff1", "school2"), makeStaffEdOrg("staff2", "school1"),
+                makeStaffEdOrg("staff3", "school3")).iterator();
+        when(repo.findEach(eq("staffEducationOrganizationAssociation"), any(Query.class))).thenReturn(staffEdOrgList);
+        for (List<Entity> subDocs : e.getEmbeddedData().values()) {
+            for (Entity subDoc : subDocs) {
+                subDoc.getBody().put("endDate", "1999-12-31");
+            }
+        }
+        for (List<Map<String, Object>> denorms : e.getDenormalizedData().values()) {
+            for (Map<String, Object> denorm : denorms) {
+                denorm.put("endDate", "1999-12-31");
+            }
+        }
+        assertEquals(Collections.emptySet(), underTest.filterConnectedViaEdOrg(new HashSet<String>(staffIds), e));
     }
 
     private Entity makeStaffProgram(String staffId, String programId) {

@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
@@ -40,6 +41,9 @@ import org.slc.sli.domain.Entity;
  */
 @Component
 public class TransitiveStudentToStaffValidator extends BasicValidator {
+
+    @Autowired
+    private DateHelper dateHelper;
 
     public TransitiveStudentToStaffValidator() {
         super(true, EntityNames.STUDENT, Arrays.asList(EntityNames.STAFF, EntityNames.TEACHER));
@@ -132,7 +136,9 @@ public class TransitiveStudentToStaffValidator extends BasicValidator {
         }
         Set<String> assocIds = new HashSet<String>();
         for (Entity subDoc : subDocs) {
-            assocIds.add((String) subDoc.getBody().get(idKey));
+            if(!getDateHelper().isFieldExpired(subDoc.getBody())) {
+                assocIds.add((String) subDoc.getBody().get(idKey));
+            }
         }
         return assocIds;
     }
@@ -145,8 +151,19 @@ public class TransitiveStudentToStaffValidator extends BasicValidator {
         }
         Set<String> assocIds = new HashSet<String>();
         for (Map<String, Object> denorm : denorms) {
-            assocIds.add((String) denorm.get(idKey));
+            if(!getDateHelper().isFieldExpired(denorm)) {
+                assocIds.add((String) denorm.get(idKey));
+            }
         }
         return assocIds;
     }
+
+    protected DateHelper getDateHelper() {
+        return dateHelper;
+    }
+
+    protected void setDateHelper(DateHelper dateHelper) {
+        this.dateHelper = dateHelper;
+    }
+
 }
