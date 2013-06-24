@@ -22,9 +22,11 @@ Given I log in to realm "Illinois Daybreak Students" using simple-idp as "studen
     | staff                     | 4255c28503a1c96ed9a9127d1a21f992e636acd6_id |
     | staff                     | 143760f37839b2608d2c929ef26d30c900f6a434_id |
     | staff                     | 8b6a31734ed43040f8a171d5d85e39176c543f22_id |
+    | staffCohortAssociations   | a17d936ca77e391ace5d14645a4b9b78f6dbd387_id |
   Then I validate that I am denied access to restricted endpoints via API:
-    | uri                                                     | rc           |
-    | /v1/staff/e40ee9041a7159c62867f63bf4da581ba9fc3dc7_id   | 403          |
+    | uri                                                                       | rc           |
+    | /v1/staff/e40ee9041a7159c62867f63bf4da581ba9fc3dc7_id                     | 403          |
+    | /v1/staffCohortAssociations/e1b4e5e0e8c1d7b84d7a8eb72958ad0a53e7ef77_id   | 403          |
 
 @student_endpoints
 Scenario: Student has access to non-transitive associations
