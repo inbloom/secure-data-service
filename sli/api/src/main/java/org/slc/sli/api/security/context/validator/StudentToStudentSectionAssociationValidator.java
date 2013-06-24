@@ -68,6 +68,6 @@ public class StudentToStudentSectionAssociationValidator extends AbstractContext
 
         // If we were just asking about our own data (otherStudentIds is empty) return true,
         // else validate access to the other requested students and return that
-        return otherStudentIds.isEmpty() || studentValidator.validate(EntityNames.STUDENT, otherStudentIds);
+        return otherStudentIds.isEmpty(); // || studentValidator.validate(EntityNames.STUDENT, otherStudentIds);
     }
 }

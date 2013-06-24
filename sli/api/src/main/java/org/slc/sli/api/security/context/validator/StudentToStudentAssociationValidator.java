@@ -84,6 +84,7 @@ public class StudentToStudentAssociationValidator extends AbstractContextValidat
 
         // Validate the other students you found (you should have at least one,
         // if you don't, the student validator will return false if passed in an empty list)
-        return studentValidator.validate(EntityNames.STUDENT, otherStudentIds);
+        return false;
+//        return studentValidator.validate(EntityNames.STUDENT, otherStudentIds);
     }
 }
