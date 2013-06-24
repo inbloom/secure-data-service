@@ -202,7 +202,7 @@ public class BulkExtract {
     /**
      * Send the list of BE file links for all LEAs for which the calling user and application have access.
      *
-     * @return A response with the complete list of BE file links for all LEAs for this user/app.
+     * @return A response with the complete list of BE file links for all LEAs/SEAs for this user/app.
      *
      * @throws Exception On Error.
      */
@@ -218,24 +218,6 @@ public class BulkExtract {
         return getSLEAListResponse(context);
     }
 
-    /**
-     * Creates a streaming response for the tenant data file.
-     *
-     * @return A response with the actual extract file
-     * @throws Exception On Error
-     */
-    @GET
-    @Path("extract/tenant")
-    @RightsAllowed({ Right.BULK_EXTRACT })
-    public Response getTenant(@Context HttpServletRequest request, @Context HttpContext context) throws Exception {
-        info("Received request to stream tenant bulk extract...");
-        logSecurityEvent(uri, "Received request to stream tenant bulk extract");
-        validateRequestCertificate(request);
-
-        appAuthHelper.checkApplicationAuthorization(null);
-
-        return getExtractResponse(context.getRequest(), null, null, false);
-    }
 
     /**
      * Stream a delta response.
@@ -332,14 +314,8 @@ public class BulkExtract {
         Entity entity = getBulkExtractFileEntity(deltaDate, appId, leaId, false, isPublicData);
 
         if (entity == null) {
-            // return 404 if no bulk extract support for that tenant
-            if (leaId != null) {
-                logSecurityEvent(uri, "No bulk extract support for lea: " + leaId);
-                LOG.info("No bulk extract support for lea: {}", leaId);
-            } else {
-                logSecurityEvent(uri, "No bulk extract support for tenant: " + getPrincipal().getTenantId());
-                LOG.info("No bulk extract support for tenant: {}", getPrincipal().getTenantId());
-            }
+            logSecurityEvent(uri, "No bulk extract support for : " + leaId);
+            LOG.info("No bulk extract support for : {}", leaId);
             return Response.status(Status.NOT_FOUND).build();
         }
 
@@ -347,14 +323,8 @@ public class BulkExtract {
 
         final File bulkExtractFile = bulkExtractFileEntity.getBulkExtractFile(bulkExtractFileEntity);
         if (!bulkExtractFile.exists()) {
-            // return 404 if the bulk extract file is missing
-            if (leaId != null) {
-                logSecurityEvent(uri, "No bulk extract support for lea: " + leaId);
-                LOG.info("No bulk extract file found for lea: {}", leaId);
-            } else {
-                logSecurityEvent(uri, "No bulk extract support for tenant: " + getPrincipal().getTenantId());
-                LOG.info("No bulk extract file found for tenant: {}", getPrincipal().getTenantId());
-            }
+            logSecurityEvent(uri, "No bulk extract support for : " + leaId);
+            LOG.info("No bulk extract file found for : {}", leaId);
             return Response.status(Status.NOT_FOUND).build();
         }
 
@@ -401,7 +371,7 @@ public class BulkExtract {
      *        Original HTTP Request Context.
      * @param appId
      *        Authorized application ID.
-     * @param appAuthorizedUserSLEAs
+     * @param authorizedUserSLEAs
      *        List of SEAs and LEAs authorized to use and authorizing the specified application.
      *
      * @return the jax-rs response to send back.
@@ -423,7 +393,7 @@ public class BulkExtract {
      *        Original HTTP Request Context.
      * @param appId
      *        Authorized application ID.
-     * @param appAuthorizedUserSLEAs
+     * @param authorizedUserSLEAs
      *        List of SEAs and LEAs authorized to use and authorizing the specified application.
      *
      * @return the jax-rs response to send back.

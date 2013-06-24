@@ -16,7 +16,16 @@
 
 package org.slc.sli.api.security.context;
 
+import static org.mockito.Matchers.argThat;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 import junit.framework.Assert;
+
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.junit.After;
@@ -27,15 +36,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.security.context.resolver.EdOrgHelper;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.test.annotation.DirtiesContext;
@@ -45,9 +45,17 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import java.util.*;
-
-import static org.mockito.Matchers.argThat;
+import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.resolver.EdOrgHelper;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 
 /**
  * @author npandey ablum
@@ -73,6 +81,9 @@ public class EdOrgOwnershipArbiterTest {
     @Autowired
     private EntityDefinitionStore store;
 
+    @Autowired
+    SecurityContextInjector securityContextInjector;
+
     @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
@@ -85,6 +96,8 @@ public class EdOrgOwnershipArbiterTest {
 
     @Test
     public void testEdOrgReferenceEntities() {
+        securityContextInjector.setEducatorContext();
+
      Entity edorg = createEntity(EntityNames.SCHOOL, "edorg1", new HashMap<String, Object>());
      Mockito.when(repo.findAll(Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), argThat(new BaseMatcher<NeutralQuery>() {
 
@@ -114,6 +127,8 @@ public class EdOrgOwnershipArbiterTest {
 
     @Test
     public void testEdOrgFromAssociation() {
+        securityContextInjector.setEducatorContext();
+
         Entity edorg1 = createEntity(EntityNames.SCHOOL, "edorg1", new HashMap<String, Object>());
         Entity edorg2 = createEntity(EntityNames.SCHOOL, "edorg2", new HashMap<String, Object>());
         Entity edorg3 = createEntity(EntityNames.SCHOOL, "edorg3", new HashMap<String, Object>());
@@ -176,12 +191,12 @@ public class EdOrgOwnershipArbiterTest {
         Assert.assertTrue(edorgIds.contains("edorg1"));
         Assert.assertTrue(edorgIds.contains("edorg2"));
         Assert.assertTrue(edorgIds.contains("edorg3"));
-
-
     }
 
     @Test
     public void testEdOrgThroughStaff() {
+        securityContextInjector.setStaffContext();
+
         Entity edorg1 = createEntity(EntityNames.SCHOOL, "edorg1", new HashMap<String, Object>());
         Entity edorg2 = createEntity(EntityNames.SCHOOL, "edorg2", new HashMap<String, Object>());
         Mockito.when(repo.findAll(Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.any(NeutralQuery.class))).thenReturn(Arrays.asList(edorg1), Arrays.asList(edorg2));
@@ -245,6 +260,7 @@ public class EdOrgOwnershipArbiterTest {
     @Test
     (expected = AccessDeniedException.class)
     public void testInvalidReference() {
+        securityContextInjector.setEducatorContext();
 
     Map<String, Object> body = new HashMap<String, Object>();
     body.put(ParameterConstants.SECTION_ID, "section1");
@@ -275,6 +291,8 @@ public class EdOrgOwnershipArbiterTest {
 
     @Test
     public void testHierarchicalEdOrgs() {
+        securityContextInjector.setStaffContext();
+
         Entity edorg1 = createEntity(EntityNames.SCHOOL, "edorg1", new HashMap<String, Object>());
 
         Mockito.when(repo.findAll(Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.any(NeutralQuery.class))).thenReturn( Arrays.asList(edorg1));
@@ -291,6 +309,28 @@ public class EdOrgOwnershipArbiterTest {
         Assert.assertTrue(edorgIds.contains("edorg1Parent1"));
         Assert.assertTrue(edorgIds.contains("edorg1Parent2"));
 
+    }
+
+    @Test
+    public void testOrphanedEntity() {
+        securityContextInjector.setStaffContext();
+
+        Entity principalEntity = Mockito.mock(Entity.class);
+        Mockito.when(principalEntity.getEntityId()).thenReturn("doofus1_id");
+        SLIPrincipal principal = Mockito.mock(SLIPrincipal.class);
+        Mockito.when(principal.getEntity()).thenReturn(principalEntity);
+        securityContextInjector.setOauthSecurityContext(principal, false);
+
+        Mockito.when(repo.findAll(Mockito.anyString(), Mockito.any(NeutralQuery.class))).thenReturn(new ArrayList<Entity>());
+
+        Map<String, Object> metaData = new HashMap<String, Object>();
+        metaData.put("createdBy", "doofus1_id");
+        metaData.put("isOrphaned", "true");
+        Entity student1 = new MongoEntity(EntityNames.STUDENT, "student1", new HashMap<String, Object>(), metaData);
+
+        Set<String> edorgIds = arbiter.determineHierarchicalEdorgs(Arrays.asList(student1), EntityNames.STUDENT);
+
+        Assert.assertTrue(edorgIds.isEmpty());
     }
 
 

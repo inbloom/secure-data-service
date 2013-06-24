@@ -10,7 +10,7 @@ Scenario: Student has access to entities via API endpoints
 Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
   And format "application/json"
   And I am using api version "v1"
- When I validate I have access to entities via the API access pattern "/v1/Entity/Id":
+ Then I validate I have access to entities via the API access pattern "/v1/Entity/Id":
     | entity                    | id                                          |
     | students                  | 067198fd6da91e1aa8d67e28e850f224d6851713_id |
     | parents                   | 5f8989384287747b1960d16edd95ff2bb318e3bd_id |
@@ -18,6 +18,12 @@ Given I log in to realm "Illinois Daybreak Students" using simple-idp as "studen
     | parents                   | 5f8989384287747b1960d16edd95ff2bb318e3bd_id,7f5b783a051b72820eab5f8188c45ade72869f0f_id |
     | studentParentAssociations | 067198fd6da91e1aa8d67e28e850f224d6851713_idc43bbfa3df05d4fd2d78a9edfee8fd63fbcf495a_id  |
     | studentParentAssociations | 067198fd6da91e1aa8d67e28e850f224d6851713_ide2f8c24b3e1ab8ead6e134d661a464d0f90e4c8e_id  |
+    | staff                     | 63d4be8a233db1fd14676f1535fa21fe4c5dd466_id |
+    | staff                     | 4255c28503a1c96ed9a9127d1a21f992e636acd6_id |
+    | staff                     | 4b07dba2b6868c0827315b99ea94fc74c0f7c902_id |
+  Then I validate that I am denied access to restricted endpoints via API:
+    | uri                                                     | rc           |
+    | /v1/staff/e40ee9041a7159c62867f63bf4da581ba9fc3dc7_id   | 403          |
 
 @student_endpoints
 Scenario: Student has access to non-transitive associations
