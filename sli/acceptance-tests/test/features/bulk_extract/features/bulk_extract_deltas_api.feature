@@ -7,27 +7,7 @@ Scenario: Initialize security trust store for Bulk Extract application and LEAs
     And The bulk extract app has been approved for "Midgar-DAYBREAK" with client id "<clientId>"
     And The X509 cert "cert" has been installed in the trust store and aliased
 
-@wip
-Scenario: SEA Assessment Delete Test
-    And I ingest "SEAAssessment.zip"
-    And I ingest "SEAAssessmentDeletexx.zip"  
-    And the extraction zone is empty
-    When I trigger a delta extract
-    When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
-      |  entityType                            |
-      |  assessment                            |
-  
-     And the extraction zone is empty
-      And I ingest "SEAAssessmentDeletexx.zip"  
-	And I ingest "SEAAssessmentDelete.zip"
-	
-  
-    And I ingest "SEAAssessmentDeletesss.zip"
-    When I trigger a delta extract
-    When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
-       |  entityType                            |
-     |  deleted                               |
-#And I ingest "SEAAssessmentDeletexx.zip"  
+
 
 
 
@@ -106,19 +86,24 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
 
 Scenario: SEA Assessment Delete Test
     And I ingest "SEAAssessment.zip"
+    #And I ingest "SEAAssessmentDeletexx.zip"  
     And the extraction zone is empty
     When I trigger a delta extract
     When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
       |  entityType                            |
       |  assessment                            |
-     
+  
+     And the extraction zone is empty
+      #And I ingest "SEAAssessmentDeletexx.zip"  
 	And I ingest "SEAAssessmentDelete.zip"
-    And the extraction zone is empty
+	
+  
+    #And I ingest "SEAAssessmentDeletesss.zip"
     When I trigger a delta extract
     When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
-       |  deleted                               |
- 
+     |  deleted                               |
+#And I ingest "SEAAssessmentDeletexx.zip"  
 
   Scenario: Ingesting SEA (Non Odin) entities - AssessmentFamily
     When I ingest "AssessmentFamilyDelta.zip"
@@ -348,8 +333,7 @@ Scenario: Triggering deltas via ingestion
        | 78f5ed2b6ce039539f34ef1889af712816aec6f7_id  | entityType = calendarDate               |
        #this should not in deleted file, when delete finish, we should remove it
        | a60af241e154436d3a996e544fb886381edc490a_id0ce66f5d6973ecc7182bbad99e3f9a314aed3168_id | entityType = objectiveAssessment        |
-       | 10c6591286b369aac8764612c9803079bc61aa6a_id  | entityType = assessmentPeriodDescriptor |
-
+      
 	   	                                                             
       And I verify this "assessment" file should contain:
        | id                                          | condition                                                    |
@@ -383,19 +367,14 @@ Scenario: Triggering deltas via ingestion
 	     | id                                          | field                          |
          | f0ffa2e21cf1fc400527ac2ba63c20e4a620815c_id | assessmentPeriodDescriptor     |
          | b3a9994c8006a7e4c086b02e59e034146f053f77_id | assessmentPeriodDescriptor     |
-
-        #delete assessmentFamily                
-	    #|124057675fa0903e905f0377bbc0450aacc7edab_id |  assessmentFamilyReference         |
+         |124057675fa0903e905f0377bbc0450aacc7edab_id  | assessmentFamilyReference      |
 	    
-	    And I verify this "assessment" file should not contain:
-	    #delete objectiveAssessment, when delete finish, we should remove it
-	    #|a60af241e154436d3a996e544fb886381edc490a_id  |  identificationCode = 2013-Fourth grade Assessment 2.OA-0  |
-
-        #delete objectiveAssessment, when delete finish, we should remove it
-        And I verify this "assessment" file should not contain:
-	    |a60af241e154436d3a996e544fb886381edc490a_id |                            |
+        #delete objectiveAssessment
+       And I verify this "assessment" file should not contain:
+        | id                                          | condition                                |
+  	    | a60af241e154436d3a996e544fb886381edc490a_id | objectiveAssessment.identificationCode = 2013-Fourth grade Assessment 2.OA-0    |
         #delete assessmentFamily
-	    |124057675fa0903e905f0377bbc0450aacc7edab_id |  assessmentFamilyReference         |
+	    #|124057675fa0903e905f0377bbc0450aacc7edab_id |            |
 
 
 
