@@ -16,18 +16,11 @@
 package org.slc.sli.api.security.context.validator;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.util.datetime.DateHelper;
 import org.slc.sli.domain.Entity;
 
 /**
@@ -37,39 +30,18 @@ import org.slc.sli.domain.Entity;
  *
  */
 @Component
-public class StudentToStaffCohortValidator extends BasicValidator {
+public class StudentToStaffCohortValidator extends StudentToStaffAssociation {
 
-    private final DateHelper dateHelper;
-
-    @Autowired
-    public StudentToStaffCohortValidator(DateHelper dateHelper) {
-        super(true, EntityNames.STUDENT, EntityNames.STAFF_COHORT_ASSOCIATION);
-        this.dateHelper = dateHelper;
+    public StudentToStaffCohortValidator() {
+        super(EntityNames.STAFF_COHORT_ASSOCIATION, "cohortId");
     }
 
     @Override
-    protected boolean doValidate(Set<String> ids, Entity me, String entityType) {
-        List<String> myCohorts = getStudentAssociationIds(me);
-        Iterator<Entity> results = getRepo().findEach(
-                EntityNames.STAFF_COHORT_ASSOCIATION,
-                Query.query(Criteria.where("_id").in(ids).and("body.cohortId").in(myCohorts)
-                        .andOperator(DateHelper.getExpiredCriteria())));
-        Set<String> unvalidated = new HashSet<String>(ids);
-        while(results.hasNext()) {
-            Entity e = results.next();
-            if(dateHelper.isFieldExpired(e.getBody())) {
-                return false;
-            }
-            unvalidated.remove(e.getEntityId());
-        }
-        return unvalidated.isEmpty();
-    }
-
     protected List<String> getStudentAssociationIds(Entity me) {
         List<Entity> cohortAssociations = me.getEmbeddedData().get("studentCohortAssociation");
         List<String> myCohorts = new ArrayList<String>();
         for (Entity assoc : cohortAssociations) {
-            if (!dateHelper.isFieldExpired(assoc.getBody())) {
+            if (!getDateHelper().isFieldExpired(assoc.getBody())) {
                 myCohorts.add((String) assoc.getBody().get("cohortId"));
             }
         }

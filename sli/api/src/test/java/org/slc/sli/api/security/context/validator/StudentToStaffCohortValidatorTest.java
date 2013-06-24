@@ -49,12 +49,13 @@ import org.slc.sli.domain.Entity;
 @SuppressWarnings("unchecked")
 public class StudentToStaffCohortValidatorTest {
 
-    private StudentToStaffCohortValidator underTest = new StudentToStaffCohortValidator(new DateHelper());
+    private StudentToStaffAssociation underTest = new StudentToStaffCohortValidator();
     private PagingRepositoryDelegate<Entity> repo = mock(PagingRepositoryDelegate.class);
 
     @Before
     public void setup() {
         underTest.setRepo(repo);
+        underTest.setDateHelper(new DateHelper());
     }
 
     @Test
