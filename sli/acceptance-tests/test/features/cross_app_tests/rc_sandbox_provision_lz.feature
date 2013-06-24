@@ -81,3 +81,4 @@ Background:
          | courseTranscript                         |                196|
          | teacherSchoolAssociation                 |                  3|
          | teacherSectionAssociation                |                 11|
+    Then I flush all mongos instances

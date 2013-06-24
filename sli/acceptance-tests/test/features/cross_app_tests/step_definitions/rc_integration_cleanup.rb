@@ -130,6 +130,22 @@ Then /^I will drop the whole database$/ do
   assert(tenant_dropped, "Tenant DB not dropped.")
 end
 
+Then /^I flush all mongos instances$/ do
+  # if one connection is to a mongos, then they all should be.
+  if @conn['admin'].command({:serverStatus => true})['process'] == 'mongos'
+    step "I have a connection to Mongo"
+    [@conn, @conn2, @conn3, @conn4, @conn5].each do |mon|
+      if mon != nil
+        result = mon['admin'].command({:flushRouterConfig => true})
+        puts "Flushed #{mon.host_port} with result: #{result}"
+      end
+    end
+    step "I close all open Mongo connections"
+  else
+    puts "Not running against mongos. Skipping."
+  end
+end
+
 Then /^I will clean my tenants recordHash documents from ingestion_batch_job db$/ do
   host = PropLoader.getProps['ingestion_batchjob_db']
   port = PropLoader.getProps['ingestion_batchjob_db_port']

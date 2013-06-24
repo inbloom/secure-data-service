@@ -45,7 +45,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -168,37 +170,10 @@ public class BasicService implements EntityService, AccessibilityCheck {
      * @param content item under inspection
      */
     private void checkAccess(boolean isRead, boolean isSelf, EntityBody content) {
-        SecurityUtil.ensureAuthenticated();
-        Set<Right> neededRights = new HashSet<Right>();
 
         Collection<GrantedAuthority> auths = getAuths(isSelf);
 
-        boolean allow = false;
-        if (auths.contains(Right.FULL_ACCESS)) {
-            debug("User has full access");
-            allow = true;
-        } else if (ADMIN_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
-            neededRights = new HashSet<Right>(Arrays.asList(Right.ADMIN_ACCESS));
-            allow = intersection(auths, neededRights);
-        } else if (!isRead) {
-            debug("Evaluating rights for write...");
-            if (content == null) {
-                neededRights.addAll(provider.getAllFieldRights(defn.getType(), isRead));
-                allow = intersection(auths, neededRights);
-            } else {
-                allow = determineWriteAccess(content, "", auths);
-            }
-        } else if (isRead) {
-            debug("Evaluating rights for read...");
-            neededRights.addAll(provider.getAllFieldRights(defn.getType(), isRead));
-            allow = intersection(auths, neededRights);
-        } else {
-            throw new IllegalStateException("Unknown security validation path for Read/Write/Admin");
-        }
-
-        if (!allow) {
-            throw new AccessDeniedException("Insufficient Privileges");
-        }
+        rightAccessValidator.checkAccess(isRead, content, defn.getType(), auths);
     }
 
     private void checkAccess(boolean isRead, String entityId, EntityBody content) {
@@ -428,7 +403,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
 
     @Override
-    public Iterable<EntityBody> listOnContextualRoles(NeutralQuery neutralQuery) {
+    public Iterable<EntityBody> listBasedOnContextualRoles(NeutralQuery neutralQuery) {
         boolean isSelf = isSelf(neutralQuery);
 
         injectSecurity(neutralQuery);
@@ -440,7 +415,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
             rightAccessValidator.checkAccess(true, isSelf, entity, defn.getType());
             rightAccessValidator.checkFieldAccess(neutralQuery, isSelf, entity, defn.getType());
 
-            results.add(entityRightsFilter.makeEntityBody(entity, treatments, defn));
+            results.add(entityRightsFilter.makeEntityBody(entity, treatments, defn, isSelf));
         }
 
         if (results.isEmpty()) {
@@ -611,29 +586,11 @@ public class BasicService implements EntityService, AccessibilityCheck {
      * @return
      */
     private EntityBody makeEntityBody(Entity entity) {
-        EntityBody toReturn = createBody(entity);
 
-        if ((entity.getEmbeddedData() != null) && !entity.getEmbeddedData().isEmpty()) {
-            for (Map.Entry<String, List<Entity>> enbDocList : entity.getEmbeddedData().entrySet()) {
-                List<EntityBody> subDocbody = new ArrayList<EntityBody>();
-                for (Entity subEntity : enbDocList.getValue()) {
-                    subDocbody.add(createBody(subEntity));
-                }
-                toReturn.put(enbDocList.getKey(), subDocbody);
-            }
-        }
-        return toReturn;
-    }
+        Collection<GrantedAuthority> selfAuths = getAuths(isSelf(entity.getEntityId()));
+        Collection<GrantedAuthority> nonSelfAuths = getAuths(false);
 
-    private EntityBody createBody(Entity entity) {
-        EntityBody toReturn = new EntityBody(entity.getBody());
-
-        for (Treatment treatment : treatments) {
-            toReturn = treatment.toExposed(toReturn, defn, entity);
-        }
-
-        filterFields(toReturn);
-
+        EntityBody toReturn = entityRightsFilter.makeEntityBody(entity, treatments, defn, nonSelfAuths, selfAuths);
         return toReturn;
     }
 
@@ -796,100 +753,6 @@ public class BasicService implements EntityService, AccessibilityCheck {
     }
 
     /**
-     * Removes fields user isn't entitled to see
-     *
-     * @param eb
-     */
-    private void filterFields(Map<String, Object> eb) {
-        Collection<GrantedAuthority> auths = new HashSet<GrantedAuthority>();
-        auths.addAll(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
-        SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
-        if (isSelf((String) eb.get("id"))) {
-            auths.addAll(principal.getSelfRights());
-        }
-        filterFields(eb, auths, "");
-        complexFilter(eb);
-    }
-
-    private void complexFilter(Map<String, Object> eb) {
-        Collection<GrantedAuthority> auths = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-
-        if (!auths.contains(Right.READ_RESTRICTED) && defn.getType().equals(EntityNames.STAFF)) {
-            final String work = "Work";
-            final String telephoneNumberType = "telephoneNumberType";
-            final String emailAddressType = "emailAddressType";
-            final String telephone = "telephone";
-            final String electronicMail = "electronicMail";
-
-            @SuppressWarnings("unchecked")
-            List<Map<String, Object>> telephones = (List<Map<String, Object>>) eb.get(telephone);
-            if (telephones != null) {
-
-                for (Iterator<Map<String, Object>> it = telephones.iterator(); it.hasNext(); ) {
-                    if (!work.equals(it.next().get(telephoneNumberType))) {
-                        it.remove();
-                    }
-                }
-
-            }
-
-            @SuppressWarnings("unchecked")
-            List<Map<String, Object>> emails = (List<Map<String, Object>>) eb.get(electronicMail);
-            if (emails != null) {
-
-                for (Iterator<Map<String, Object>> it = emails.iterator(); it.hasNext(); ) {
-                    if (!work.equals(it.next().get(emailAddressType))) {
-                        it.remove();
-                    }
-                }
-
-            }
-
-        }
-    }
-
-    /**
-     * Removes fields user isn't entitled to see
-     *
-     * @param eb
-     */
-    @SuppressWarnings("unchecked")
-    private void filterFields(Map<String, Object> eb, Collection<GrantedAuthority> auths, String prefix) {
-
-        if (!auths.contains(Right.FULL_ACCESS)) {
-
-            List<String> toRemove = new LinkedList<String>();
-
-            for (Iterator<Map.Entry<String, Object>> it = eb.entrySet().iterator(); it.hasNext();) {
-                String fieldName = it.next().getKey();
-
-                Set<Right> neededRights = getNeededRights(prefix + fieldName);
-
-                if (!neededRights.isEmpty() && !intersection(auths, neededRights)) {
-                    it.remove();
-                }
-            }
-
-        }
-    }
-
-    /**
-     * Returns the needed right for a field by examining the schema
-     *
-     * @param fieldPath The field name
-     * @return
-     */
-    protected Set<Right> getNeededRights(String fieldPath) {
-        Set<Right> neededRights = provider.getRequiredReadLevels(defn.getType(), fieldPath);
-
-        if (ADMIN_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
-            neededRights.add(Right.ADMIN_ACCESS);
-        }
-
-        return neededRights;
-    }
-
-    /**
      * Checks query params for access restrictions
      *
      * @param query The query to check
@@ -904,30 +767,8 @@ public class BasicService implements EntityService, AccessibilityCheck {
                 auths.addAll(SecurityUtil.getSLIPrincipal().getSelfRights());
             }
 
-            if (!auths.contains(Right.FULL_ACCESS) && !auths.contains(Right.ANONYMOUS_ACCESS)) {
-                for (NeutralCriteria criteria : query.getCriteria()) {
-                    // get the needed rights for the field
-                    Set<Right> neededRights = getNeededRights(criteria.getKey());
-
-                    if (!neededRights.isEmpty() && !intersection(auths, neededRights)) {
-                        debug("Denied user searching on field {}", criteria.getKey());
-                        throw new QueryParseException("Cannot search on restricted field", criteria.getKey());
-                    }
-                }
-            }
+            rightAccessValidator.checkFieldAccess(query, defn.getType(), auths);
         }
-    }
-
-    /**
-     * Determines if there is an intersection of a single needed right within the user's collection
-     * of granted authorities.
-     *
-     * @param authorities  User's collection of granted authorities.
-     * @param neededRights Set of rights needed for accessing a given field.
-     * @return True if the user can access the field, false otherwise.
-     */
-    protected boolean intersection(Collection<GrantedAuthority> authorities, Set<Right> neededRights) {
-        return neededRights.isEmpty() || !Collections.disjoint(authorities, neededRights);
     }
 
     /**
@@ -947,44 +788,6 @@ public class BasicService implements EntityService, AccessibilityCheck {
             }
         }
         return union;
-    }
-
-    @SuppressWarnings("unchecked")
-    private boolean determineWriteAccess(Map<String, Object> eb, String prefix, Collection<GrantedAuthority> auths) {
-
-        boolean allow = true;
-        if (!ADMIN_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
-            for (Map.Entry<String, Object> entry : eb.entrySet()) {
-                String fieldName = entry.getKey();
-                Object value = entry.getValue();
-
-                List<Object> list = null;
-                if (value instanceof List) {
-                    list = (List<Object>) value;
-                } else {
-                    list = Collections.singletonList(value);
-                }
-
-                for (Object obj : list) {
-                    String fieldPath = prefix + fieldName;
-                    Set<Right> neededRights = provider.getRequiredWriteLevels(defn.getType(), fieldPath);
-
-                    debug("Field {} requires {}", fieldPath, neededRights);
-
-                    if (neededRights.isEmpty() && obj instanceof Map) {
-                        allow &= determineWriteAccess((Map<String, Object>) obj, prefix + "." + fieldName + ".", auths);    // Mixing recursion and iteration, very bad
-                    } else {
-                        if (!intersection(auths, neededRights)) {
-                            allow = false;
-                            break;
-                        }
-                    }
-
-                }
-            }
-        }
-
-        return allow;
     }
 
     /**

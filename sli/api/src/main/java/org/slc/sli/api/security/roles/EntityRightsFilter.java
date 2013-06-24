@@ -17,18 +17,16 @@ package org.slc.sli.api.security.roles;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.service.Treatment;
-import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.List;
 
 /**
  * Class to filter the authorized fields from the entity.
@@ -41,21 +39,45 @@ public class EntityRightsFilter {
     RightAccessValidator rightAccessValidator;
 
     /**
-     * given an entity, make the entity body to expose
+     * given an entity, make the entity body to be exposed
      *
      * @param entity   the entity to be filtered
      * @param treamts  treatments to be applied to the entity
      * @param defn     EntityDefinition needed to create the entity
-     * @return
+     * @return    the result entity body
      */
-    public EntityBody makeEntityBody(Entity entity, List<Treatment> treamts, EntityDefinition defn) {
-        EntityBody toReturn = createBody(entity, treamts, defn);
+    public EntityBody makeEntityBody(Entity entity, List<Treatment> treamts, EntityDefinition defn, boolean isSelf) {
+
+        Collection<GrantedAuthority> nonSelfAuths = rightAccessValidator.getContextualAuthorities(false, entity);
+        Collection<GrantedAuthority> selfAuths = rightAccessValidator.getContextualAuthorities(isSelf, entity);
+
+        return makeEntityBody(entity, treamts, defn, nonSelfAuths, selfAuths);
+    }
+
+    /**
+     * Given an entity, make the entity body to be exposed.
+     *
+     * @param entity         the entity to be filtered
+     * @param treamts        treatments to be applied to the entity
+     * @param defn           EntityDefinition needed to create the entity
+     * @param nonSelfAuths   list of granted authorities without self rights
+     * @param selfAuths      list of granted authorities with self rights if necessary.
+     * @return               the result entity body
+     */
+    public EntityBody makeEntityBody(Entity entity, List<Treatment> treamts,
+                                     EntityDefinition defn, Collection<GrantedAuthority> nonSelfAuths,
+                                        Collection<GrantedAuthority> selfAuths) {
+
+        EntityBody toReturn = exposeTreatments(entity, treamts, defn);
+
+        toReturn = filterBody(toReturn, defn.getType(), nonSelfAuths, selfAuths);
 
         if ((entity.getEmbeddedData() != null) && !entity.getEmbeddedData().isEmpty()) {
             for (Map.Entry<String, List<Entity>> enbDocList : entity.getEmbeddedData().entrySet()) {
                 List<EntityBody> subDocbody = new ArrayList<EntityBody>();
                 for (Entity subEntity : enbDocList.getValue()) {
-                    subDocbody.add(createBody(subEntity, treamts, defn));
+                    EntityBody sdBody = exposeTreatments(subEntity, treamts, defn);
+                    subDocbody.add(filterBody(sdBody, defn.getType(), nonSelfAuths, selfAuths));
                 }
                 toReturn.put(enbDocList.getKey(), subDocbody);
             }
@@ -63,19 +85,32 @@ public class EntityRightsFilter {
         return toReturn;
     }
 
-    protected EntityBody createBody(Entity entity, List<Treatment> treatments, EntityDefinition defn) {
+    /**
+     *   Expose the provided list of treatments to the entity.
+     *
+     * @param entity       entity to be treated
+     * @param treatments   list of treatments to expose
+     * @param defn         entity definition
+     * @return             treated entity body.
+     */
+    public EntityBody exposeTreatments(Entity entity, List<Treatment> treatments, EntityDefinition defn) {
         EntityBody toReturn = new EntityBody(entity.getBody());
 
         for (Treatment treatment : treatments) {
             toReturn = treatment.toExposed(toReturn, defn, entity);
         }
 
-        Collection<GrantedAuthority> auths = rightAccessValidator.getAuthorities(false, entity);
-
-        filterFields(toReturn, auths, "", entity.getType());
-        complexFilter(toReturn, auths, entity.getType());
-
         return toReturn;
+    }
+
+    protected EntityBody filterBody(EntityBody entityBody, String entityType,
+                                 Collection<GrantedAuthority> nonSelfAuths, Collection<GrantedAuthority> selfAuths) {
+
+        filterFields(entityBody, selfAuths, "", entityType);
+
+        complexFilter(entityBody, nonSelfAuths, entityType);
+
+        return entityBody;
     }
 
     protected void complexFilter(EntityBody entityBody, Collection<GrantedAuthority> auths, String entityType) {

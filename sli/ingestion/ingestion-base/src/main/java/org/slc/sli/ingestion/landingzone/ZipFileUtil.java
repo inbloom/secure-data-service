@@ -36,21 +36,21 @@ import org.slf4j.LoggerFactory;
 
 /**
  * ZIP File utility class.
- *
  */
 public final class ZipFileUtil {
 
     static final Logger LOG = LoggerFactory.getLogger(ZipFileUtil.class);
 
-    private ZipFileUtil() {}
+    private ZipFileUtil() {
+    }
 
     /**
      * Extracts content of the ZIP file to the target folder.
      *
-     * @param zipFile ZIP archive
+     * @param zipFile   ZIP archive
      * @param targetDir Directory to extract files to
-     * @param mkdirs Allow creating missing directories on the file paths
-     * @throws IOException IO Exception
+     * @param mkdirs    Allow creating missing directories on the file paths
+     * @throws IOException           IO Exception
      * @throws FileNotFoundException
      */
     public static void extract(File zipFile, File targetDir, boolean mkdirs) throws IOException {
@@ -88,10 +88,10 @@ public final class ZipFileUtil {
     /**
      * Returns a stream for a file stored in the ZIP archive.
      *
-     * @param zipFile ZIP archive
+     * @param zipFile  ZIP archive
      * @param fileName Name of the file to get stream for
      * @return Input Stream for the requested file entry
-     * @throws IOException IO Exception
+     * @throws IOException           IO Exception
      * @throws FileNotFoundException
      */
     public static InputStream getInputStreamForFile(File zipFile, String fileName) throws IOException {
@@ -123,6 +123,35 @@ public final class ZipFileUtil {
         }
 
         return fileInputStream;
+    }
+
+    /**
+     * Returns whether or not a file is in the ZIP archive.
+     *
+     * @param zipFile  ZIP archive
+     * @param fileName Name of the file to get stream for
+     * @return whether or not the fileName is in the zipFile
+     */
+    public static boolean isInZipFile(File zipFile, String fileName) {
+        ZipFile zf = null;
+
+        try {
+            zf = new ZipFile(zipFile);
+
+            Enumeration<ZipArchiveEntry> zipFileEntries = zf.getEntries();
+
+            while (zipFileEntries.hasMoreElements()) {
+                if (zipFileEntries.nextElement().getName().equals(fileName)) {
+                    return true;
+                }
+            }
+        } catch (IOException exception) {
+            return false;
+        } finally {
+            ZipFile.closeQuietly(zf);
+        }
+
+        return false;
     }
 
     /**
@@ -158,7 +187,7 @@ public final class ZipFileUtil {
      * This is a copy of the Apache Commons IO {@link FileUtils.copyInputStreamToFile},
      * except it does not close the input stream at the end.
      *
-     * @param source Source stream
+     * @param source      Source stream
      * @param destination Destination file
      * @throws IOException
      */
