@@ -24,32 +24,33 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.domain.Entity;
 
 /**
  * validate courseTranscripts for students both transitively and
  * non-transitively
- * 
+ *
  * @author ycao
- * 
+ *
  */
 @Component
 public class StudentToCourseTranscriptValidator extends BasicValidator {
-    
+
     @Autowired
     StudentToSubStudentValidator studentToSubValidator;
-    
+
     public StudentToCourseTranscriptValidator() {
         super(EntityNames.STUDENT, EntityNames.COURSE_TRANSCRIPT);
     }
 
     @Override
-    protected boolean doValidate(Set<String> ids) {
-        
+    protected boolean doValidate(Set<String> ids, Entity myself) {
+
         // Get the Student IDs on the things we want to see, compare with the IDs of yourself
         Set<String> studentAcademicRecordIds = new HashSet<String>(
                 getIdsContainedInFieldOnEntities(EntityNames.COURSE_TRANSCRIPT, new ArrayList<String>(ids), ParameterConstants.STUDENT_ACADEMIC_RECORD_ID));
-        
+
         return studentToSubValidator.validate(EntityNames.STUDENT_ACADEMIC_RECORD, studentAcademicRecordIds);
     }
-    
+
 }
