@@ -21,32 +21,30 @@ import java.util.Set;
 
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 
 /**
  * validate cohorts both transitively and non-transitively for a student
- * 
+ *
  * @author ycao
- * 
+ *
  */
 @Component
 public class StudentToCohortValidator extends BasicValidator {
-    
+
     public StudentToCohortValidator() {
         super(EntityNames.STUDENT, EntityNames.COHORT);
     }
 
     @Override
-    protected boolean doValidate(Set<String> ids) {
-        Entity myself = SecurityUtil.getSLIPrincipal().getEntity();
+    protected boolean doValidate(Set<String> ids, Entity myself) {
         if (myself == null || myself.getEmbeddedData() == null) {
             // not sure how this can happen
             return false;
         }
-        
+
         List<Entity> studentCohortAssociations = myself.getEmbeddedData().get(EntityNames.STUDENT_COHORT_ASSOCIATION);
 
         if (studentCohortAssociations == null) {
@@ -59,8 +57,8 @@ public class StudentToCohortValidator extends BasicValidator {
                 myCohorts.add((String) myCohortAssociation.getBody().get(ParameterConstants.COHORT_ID));
             }
         }
-        
+
         return myCohorts.containsAll(ids);
     }
-    
+
 }

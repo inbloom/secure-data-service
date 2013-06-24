@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.domain.Entity;
 
 /**
  * Abstract class to do common functionality
@@ -66,10 +67,10 @@ public abstract class BasicValidator extends AbstractContextValidator {
         if (!areParametersValid(types, entityType, ids)) {
             return false;
         }
-
-        return doValidate(ids);
+        Entity me = SecurityUtil.getSLIPrincipal().getEntity();
+        return doValidate(ids, me);
     }
 
-    protected abstract boolean doValidate(Set<String> ids);
+    protected abstract boolean doValidate(Set<String> ids, Entity me);
 
 }

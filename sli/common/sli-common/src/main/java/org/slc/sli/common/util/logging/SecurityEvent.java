@@ -208,9 +208,9 @@ public class SecurityEvent {
                 + ((tenantId == null) ? "" : tenantId) + DELIMITER
                 + ((targetEdOrg == null) ? "" : targetEdOrg) + DELIMITER
                 + ((userEdOrg == null) ? "" : userEdOrg) + DELIMITER
-                + ((user == null) ? "" : user) + DELIMITER
+                + ((user == null) ? "" : "<censored>") + DELIMITER
                 + ((userOrigin == null) ? "" : userOrigin) + DELIMITER
-                + ((credential == null) ? "" : credential) + DELIMITER
+                + ((credential == null) ? "" : "<censored>") + DELIMITER
                 + ((actionUri == null) ? "" : actionUri) + DELIMITER
                 + ((origin == null) ? "" : origin) + DELIMITER
                 + ((roles == null) ? "" : roles) + DELIMITER
