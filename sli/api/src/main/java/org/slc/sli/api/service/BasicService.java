@@ -66,7 +66,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
     private static final String CUSTOM_ENTITY_CLIENT_ID = "clientId";
     private static final String CUSTOM_ENTITY_ENTITY_ID = "entityId";
     private static final List<String> STUDENT_SELF = Arrays.asList(EntityNames.STUDENT_PROGRAM_ASSOCIATION, EntityNames.STUDENT_COHORT_ASSOCIATION,
-            EntityNames.STUDENT_SECTION_ASSOCIATION);
+            EntityNames.STUDENT_SECTION_ASSOCIATION, EntityNames.PARENT, EntityNames.STUDENT_PARENT_ASSOCIATION);
     private String collectionName;
     private List<Treatment> treatments;
     private EntityDefinition defn;
