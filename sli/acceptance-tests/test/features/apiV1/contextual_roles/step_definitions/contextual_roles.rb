@@ -384,12 +384,13 @@ Given /^"([^"]*)" is not associated with any (program|cohort) that belongs to "(
   student = student_coll.find_one({'body.studentUniqueStateId' => student})
   staff_id = staff_coll.find_one({'body.staffUniqueStateId' => staff})['_id']
 
-  staff_entities = association_coll.find({'body.staffId' => staff_id}, {:fields => %w(_id)}).to_a
+  staff_entities = association_coll.find({'body.staffId' => staff_id}, {:fields => {'_id' => 0,
+                                                                                    "body.#{collection}Id" => 1}}).to_a
 
   query = { '_id' => student['_id']}
   value = student["student#{collection.capitalize}Association"]
-  value.delete_if {|entry| staff_entities.include?({'_id' => entry['body']["#{collection}Id"] }) }
-  update_mongo(db_name, 'student', query, 'studentSectionAssociation', false, value)
+  value.delete_if {|entry| staff_entities.include?({'body' => {"#{collection}Id" => entry['body']["#{collection}Id"]}})}
+  update_mongo(db_name, 'student', query, "student#{collection.capitalize}Association", false, value)
 
   conn.close
   enable_NOTABLESCAN()
