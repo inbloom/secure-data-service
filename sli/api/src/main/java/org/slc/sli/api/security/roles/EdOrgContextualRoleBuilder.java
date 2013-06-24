@@ -103,7 +103,7 @@ public class EdOrgContextualRoleBuilder {
     private List<String> getRoleNameList(Set<Role> roleSet) {
         List<String> roles = new ArrayList<String>();
         for (Role role : roleSet) {
-            roles.add(role.getName());
+            roles.addAll(role.getName());
         }
         return roles;
     }

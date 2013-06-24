@@ -30,16 +30,21 @@ public final class RoleBuilder {
 
     Role role;
 
-    public static RoleBuilder makeRole(String name) {
+    public static RoleBuilder makeRole(List<String> name) {
         return new RoleBuilder(name);
     }
 
-    private RoleBuilder(String name) {
+    private RoleBuilder(List<String> name) {
         role = new Role(name);
 
     }
 
-    public RoleBuilder addName(String name) {
+    public RoleBuilder addGroupTitle(String groupTitle) {
+     role.setGroupTitle(groupTitle);
+        return this;
+    }
+
+    public RoleBuilder addName(List<String> name) {
         role.setName(name);
         return this;
     }

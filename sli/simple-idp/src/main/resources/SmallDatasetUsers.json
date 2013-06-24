@@ -3,28 +3,28 @@
     "userId": "cgray",
     "type": "staff",
     "name": "Charles Gray",
-    "roles": ["Educator"],
+    "roles": ["Educator", "Teacher"],
     "association": "Daybreak Central High"
   },
   {
     "userId": "linda.kim",
     "type": "staff",
     "name": "Linda Kim",
-    "roles": ["Educator"],
+    "roles": ["Educator", "Teacher"],
     "association": "East Daybreak Junior High"
   },
   {
     "userId": "rbraverman",
     "type": "staff",
     "name": "Rebecca Braverman",
-    "roles": ["Educator"],
+    "roles": ["Educator", "Teacher"],
     "association": "South Daybreak Elementary"
   },
   {
     "userId": "demo",
     "type": "staff",
     "name": "Johnny Admin",
-    "roles": ["IT Administrator"],
+    "roles": ["IT Administrator", "LEA Administrator"],
     "association": "IL-DAYBREAK"
   },
   {
@@ -38,63 +38,63 @@
     "userId": "mgonzales",
     "type": "staff",
     "name": "Maria Gonzales",
-    "roles": ["Leader"],
+    "roles": ["Leader", "Principal"],
     "association": "South Daybreak Elementary"
   },
   {
     "userId": "akopel",
     "type": "staff",
     "name": "Amy Kopel",
-    "roles": ["IT Administrator"],
+    "roles": ["IT Administrator", "School Administrative Support Staff"],
     "association": "South Daybreak Elementary"
   },
   {
     "userId": "msmith",
     "type": "staff",
     "name": "Mary Smith",
-    "roles": ["Aggregate Viewer"],
+    "roles": ["Aggregate Viewer", "Specialist/Consultant"],
     "association": "South Daybreak Elementary"
   },
   {
     "userId": "ckoch",
     "type": "staff",
     "name": "Christopher Koch",
-    "roles": ["Leader"],
+    "roles": ["Leader", "Superintendent"],
     "association": "STANDARD-SEA"
   },
   {
     "userId": "rrogers",
     "type": "staff",
     "name": "Rick Rogers",
-    "roles": ["IT Administrator"],
+    "roles": ["IT Administrator", "LEA System Administrator"],
     "association": "STANDARD-SEA"
   },
   {
     "userId": "mjohnson",
     "type": "staff",
     "name": "Michael Johnson",
-    "roles": ["Aggregate Viewer"],
+    "roles": ["Aggregate Viewer", "Specialist/Consultant"],
     "association": "STANDARD-SEA"
   },
   {
     "userId": "sbantu",
     "type": "staff",
     "name": "Susan Bantu",
-    "roles": ["Leader"],
+    "roles": ["Leader", "Superintendent"],
     "association": "IL-DAYBREAK"
   },
   {
     "userId": "jstevenson",
     "type": "staff",
     "name": "James Stevenson",
-    "roles": ["IT Administrator"],
+    "roles": ["IT Administrator", "LEA System Administrator"],
     "association": "IL-DAYBREAK"
   },
   {
     "userId": "jjackson",
     "type": "staff",
     "name": "Jack Jackson",
-    "roles": ["Aggregate Viewer"],
+    "roles": ["Aggregate Viewer", "Specialist/Consultant"],
     "association": "IL-DAYBREAK"
   },
   {
