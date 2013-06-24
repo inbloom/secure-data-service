@@ -23,7 +23,6 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.util.datetime.DateHelper;
@@ -47,7 +46,7 @@ public class StudentToProgramCohortValidator extends BasicValidator {
     }
 
     @Override
-    protected boolean doValidate(Set<String> ids, String entityType) {
+    protected boolean doValidate(Set<String> ids, Entity myself, String entityType) {
         String subdocType = null;
         String subdocId = null;
         if (EntityNames.COHORT.equals(entityType)) {
@@ -58,7 +57,6 @@ public class StudentToProgramCohortValidator extends BasicValidator {
             subdocId = ParameterConstants.PROGRAM_ID;
         }
         
-        Entity myself = SecurityUtil.getSLIPrincipal().getEntity();
         if (myself == null || myself.getEmbeddedData() == null || subdocType == null) {
             // not sure how this can happen
             return false;

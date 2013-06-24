@@ -20,8 +20,8 @@ import java.util.Set;
 
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.domain.Entity;
 
 /**
  * User: dkornishev
@@ -34,8 +34,8 @@ public class StudentToStudentValidator extends BasicValidator {
     }
 
     @Override
-    protected boolean doValidate(Set<String> ids, String entityType) {
-        return ids.size() == 1 && ids.contains(SecurityUtil.getSLIPrincipal().getEntity().getEntityId());
+    protected boolean doValidate(Set<String> ids, Entity me, String entityType) {
+        return ids.size() == 1 && ids.contains(me.getEntityId());
     }
 
 }

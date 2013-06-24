@@ -28,7 +28,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.util.datetime.DateHelper;
 import org.slc.sli.domain.Entity;
@@ -50,8 +49,7 @@ public class TransitiveStudentToStaffValidator extends BasicValidator {
     }
 
     @Override
-    protected boolean doValidate(Set<String> ids, String entityType) {
-        Entity me = SecurityUtil.getSLIPrincipal().getEntity();
+    protected boolean doValidate(Set<String> ids, Entity me, String entityType) {
         Set<String> idsToCheck = new HashSet<String>(ids);
         idsToCheck.removeAll(filterConnectedViaEdOrg(idsToCheck, me));
         idsToCheck.removeAll(filterConnectedViaSection(idsToCheck, me));
