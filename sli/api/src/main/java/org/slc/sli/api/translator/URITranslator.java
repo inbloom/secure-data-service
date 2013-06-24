@@ -77,11 +77,10 @@ public class URITranslator {
                 usingPattern("{version}/learningObjectives/{id}/learningStandards").
                 usingCollection(EntityNames.LEARNING_OBJECTIVE).withKey(LEARNING_STANDARD)
                 .andReference(ID_KEY).build();
-        translate(COURSE_TRANSCRIPT).transformToUri("studentAcademicRecords/{id}/courseTranscripts").
+        translate(COURSE_TRANSCRIPT).transformToUri("students/{id}/studentAcademicRecords/courseTranscripts").
                 usingPattern("{version}/students/{id}/courseTranscripts").
-                ignoringPattern(Arrays.asList("/students/studentAcademicRecords/courseTranscripts")).
-                usingCollection(EntityNames.STUDENT_ACADEMIC_RECORD).withKey(ID_KEY)
-                .andReference("studentId").build();
+                ignoringPattern(Arrays.asList(".*studentAcademicRecords/courseTranscripts", ".*courseTranscripts/courses.*")).
+                useProvidedId().build();
     }
 
     public void translate(ContainerRequest request) {
@@ -123,6 +122,7 @@ public class URITranslator {
         private String referenceKey;
         private String transformToUri;
         private List<String> ignorePatternList;
+        private boolean useProvidedId;
 
         private URITranslationBuilder(String transformResource) {
             this.transformResource = transformResource;
@@ -165,7 +165,12 @@ public class URITranslator {
 
         public void build() {
             uriTranslationMap.put(transformResource,
-                    new URITranslation(transformTo, pattern, parentEntity, key, referenceKey, transformToUri, ignorePatternList));
+                    new URITranslation(transformTo, pattern, parentEntity, key, referenceKey, transformToUri, ignorePatternList, useProvidedId));
+        }
+
+        public URITranslationBuilder useProvidedId() {
+            this.useProvidedId = true;
+            return this;
         }
     }
 
@@ -183,9 +188,10 @@ public class URITranslator {
         String referenceKey;
         String transformToUri;
         List<String> ignorePatternList;
+        private boolean useProvidedId;
 
         URITranslation(String transformTo, String pattern, String parentEntity, String key,
-                       String referenceKey, String transformToUri, List<String> ignorePatternList) {
+                       String referenceKey, String transformToUri, List<String> ignorePatternList, boolean useProvidedId) {
             this.transformTo = transformTo;
             this.pattern = pattern;
             this.parentEntity = parentEntity;
@@ -193,6 +199,7 @@ public class URITranslator {
             this.referenceKey = referenceKey;
             this.transformToUri = transformToUri;
             this.ignorePatternList = ignorePatternList;
+            this.useProvidedId = useProvidedId;
         }
 
 
@@ -202,38 +209,46 @@ public class URITranslator {
             if (matchList.isEmpty() || ignorePatternList(requestPath)) {
                 return requestPath;
             }
+
             List<String> translatedIdList = new ArrayList<String>();
+            if (useProvidedId) {
+                String[] ids = matchList.get("id").split(",");
+                translatedIdList.addAll(Arrays.asList(ids));
+            } else {
 
-            NeutralQuery neutralQuery = new NeutralQuery();
-            neutralQuery.addCriteria(new NeutralCriteria(referenceKey, "in", Arrays.asList(matchList.get("id"))));
-            neutralQuery.setOffset(0);
-            neutralQuery.setLimit(0);
-            Iterable<Entity> entities = repository.findAll(parentEntity, neutralQuery);
+                NeutralQuery neutralQuery = new NeutralQuery();
+                neutralQuery.addCriteria(new NeutralCriteria(referenceKey, "in", Arrays.asList(matchList.get("id"))));
+                neutralQuery.setOffset(0);
+                neutralQuery.setLimit(0);
+                Iterable<Entity> entities = repository.findAll(parentEntity, neutralQuery);
 
-            for (Entity entity : entities) {
-                if (key.equals("_id")) {
-                    translatedIdList.add(entity.getEntityId());
-                } else if (entity.getBody().containsKey(key)) {
-                    Object value = entity.getBody().get(key);
-                    if (value instanceof String) {
-                        translatedIdList.add((String) value);
-                    } else if (value instanceof List<?>) {
-                        for (String id : (List<String>) value) {
-                            translatedIdList.add(id);
+                for (Entity entity : entities) {
+                    if (key.equals("_id")) {
+                        translatedIdList.add(entity.getEntityId());
+                    } else if (entity.getBody().containsKey(key)) {
+                        Object value = entity.getBody().get(key);
+                        if (value instanceof String) {
+                            translatedIdList.add((String) value);
+                        } else if (value instanceof List<?>) {
+                            for (String id : (List<String>) value) {
+                                translatedIdList.add(id);
+                            }
                         }
                     }
                 }
+                if (translatedIdList.isEmpty()) {
+                    warn("Failed upversioning rewrite {} -> {} due not being able to find intermediate entities", requestPath, this.transformTo);
+                    throw new EntityNotFoundException("Upversioning rewrite failed.  No target entities found.");
+                }
             }
-            if (translatedIdList.isEmpty()) {
-                throw new EntityNotFoundException("Could not locate entity.");
-            }
+
             return buildTranslatedPath(translatedIdList);
         }
 
         private boolean ignorePatternList(String requestPath) {
             if(ignorePatternList != null && ignorePatternList.isEmpty()!=true) {
                 for(String pattern: ignorePatternList) {
-                    if(requestPath.contains(pattern)) {
+                    if(requestPath.matches(pattern)) {
                         return true;
                     }
                 }
