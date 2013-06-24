@@ -21,15 +21,15 @@ require 'logger'
 require 'mongo'
 
 def add_role_names(custom_role, role, names)
-	role_names = role['names']
-	if (role_names != nil)
-		names.each do |name|
-			if !exists_across_role_group(custom_role, name)
-		        role_names << name
-		    end
-		end
-	else
-		@log.info "No role names for custom role #{custom_role['_id']}, skipping"
+  role_names = role['names']
+  if role_names != nil
+    names.each do |name|
+      if !exists_across_role_group(custom_role, name)
+            role_names << name
+        end
+    end
+  else
+    @log.info "No role names for custom role #{custom_role['_id']}, skipping"
     end 
 end
 
@@ -50,8 +50,9 @@ end
 if ARGV.count < 1
   @log.warn 'Usage: migrate_default_roles.rb <host>:<port>/'
   @log.warn 'Usage: migrate_default_roles.rb <host>:<port> <sli_database_name>'
-  @log.warn '\t host - hostname for mongo instance' 
-  @log.warn '\t port - port mongo is running on (27017 is common)'
+  @log.warn 'host - hostname for mongo instance' 
+  @log.warn 'port - port mongo is running on (27017 is common)'
+  @log.warn 'sli_database_name - optional, defaults to \'sli\''
   @log.warn '*** Note: These parameters must exist in the order they are presented ***'
   exit
 end
@@ -64,8 +65,8 @@ end
 host_port = ARGV[0].strip.split(':')
 sli_database_name = ARGV[1] 
 if sli_database_name == nil
-	  @log.info 'Using default sli database name: sli'
-	sli_database_name = 'sli'
+    @log.info 'Using default sli database name: sli'
+  sli_database_name = 'sli'
 end
 
 mongodb   = Mongo::Connection.new(host_port[0], host_port[1].to_i, :pool_size => 10, :pool_timeout => 25)
@@ -85,14 +86,14 @@ tenants.each do |tenant|
       if role['groupTitle'] == 'Educator'
           add_role_names(custom_role_doc, role, ['Teacher'])
       elsif role['groupTitle'] == 'Leader'
-      	  add_role_names(custom_role_doc, role, ['Superintendent', 'Principal'])
+          add_role_names(custom_role_doc, role, ['Superintendent', 'Principal'])
       elsif role['groupTitle'] == 'IT Administrator'
-      	  add_role_names(custom_role_doc, role, ['School Administrative Support Staff', 'LEA System Administrator', 'LEA Administrator'])
+          add_role_names(custom_role_doc, role, ['School Administrative Support Staff', 'LEA System Administrator', 'LEA Administrator'])
       elsif role['groupTitle'] == 'Aggregate Viewer'
           add_role_names(custom_role_doc, role, ['Specialist/Consultant'])
       end
     end
-    custom_roles.remove({"_id" => custom_role_doc["_id"]})
+    custom_roles.remove({'_id' => custom_role_doc['_id']})
     custom_roles.insert(custom_role_doc)
   end
 end
