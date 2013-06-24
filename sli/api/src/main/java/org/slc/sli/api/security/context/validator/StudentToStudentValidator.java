@@ -34,7 +34,7 @@ public class StudentToStudentValidator extends BasicValidator {
     }
 
     @Override
-    protected boolean doValidate(Set<String> ids) {
+    protected boolean doValidate(Set<String> ids, String entityType) {
         return ids.size() == 1 && ids.contains(SecurityUtil.getSLIPrincipal().getEntity().getEntityId());
     }
 

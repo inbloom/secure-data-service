@@ -15,6 +15,7 @@
  */
 package org.slc.sli.api.security.context.validator;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -29,43 +30,53 @@ import org.slc.sli.common.util.datetime.DateHelper;
 import org.slc.sli.domain.Entity;
 
 /**
- * validate cohorts transitively for a student
+ * validating non transtive programs for students
  * 
  * @author ycao
  * 
  */
 @Component
-public class StudentToCohortValidator extends BasicValidator {
+public class StudentToProgramCohortValidator extends BasicValidator {
     
     @Autowired
     DateHelper dateHelper;
 
-    public StudentToCohortValidator() {
-        super(true, EntityNames.STUDENT, EntityNames.COHORT);
+    public StudentToProgramCohortValidator() {
+        super(false, EntityNames.STUDENT, Arrays.asList(EntityNames.PROGRAM, EntityNames.COHORT));
+        // TODO Auto-generated constructor stub
     }
 
     @Override
     protected boolean doValidate(Set<String> ids, String entityType) {
+        String subdocType = null;
+        String subdocId = null;
+        if (EntityNames.COHORT.equals(entityType)) {
+            subdocType = EntityNames.STUDENT_COHORT_ASSOCIATION;
+            subdocId = ParameterConstants.COHORT_ID;
+        } else if (EntityNames.PROGRAM.equals(entityType)) {
+            subdocType = EntityNames.STUDENT_PROGRAM_ASSOCIATION;
+            subdocId = ParameterConstants.PROGRAM_ID;
+        }
+        
         Entity myself = SecurityUtil.getSLIPrincipal().getEntity();
-        if (myself == null || myself.getEmbeddedData() == null) {
+        if (myself == null || myself.getEmbeddedData() == null || subdocType == null) {
             // not sure how this can happen
             return false;
         }
+        List<Entity> studentAssociations = myself.getEmbeddedData().get(subdocType);
         
-        List<Entity> studentCohortAssociations = myself.getEmbeddedData().get(EntityNames.STUDENT_COHORT_ASSOCIATION);
-
-        if (studentCohortAssociations == null) {
+        if (studentAssociations == null) {
             return false;
         }
-
-        Set<String> myCohorts = new HashSet<String>();
-        for (Entity myCohortAssociation : studentCohortAssociations) {
-            if (myCohortAssociation.getBody() != null) {
-                myCohorts.add((String) myCohortAssociation.getBody().get(ParameterConstants.COHORT_ID));
+        
+        Set<String> myCurrentIds = new HashSet<String>();
+        for (Entity myAssociation : studentAssociations) {
+            if (myAssociation.getBody() != null && !dateHelper.isFieldExpired(myAssociation.getBody(), ParameterConstants.END_DATE)) {
+                myCurrentIds.add((String) myAssociation.getBody().get(subdocId));
             }
         }
         
-        return myCohorts.containsAll(ids);
+        return myCurrentIds.containsAll(ids);
     }
     
 }

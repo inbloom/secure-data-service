@@ -36,7 +36,7 @@ public class TransitiveStudentToParentValidator extends BasicValidator {
     }
 
     @Override
-    protected boolean doValidate(Set<String> ids) {
+    protected boolean doValidate(Set<String> ids, String entityType) {
         Entity e = SecurityUtil.getSLIPrincipal().getEntity();
 
         List<Entity> spas = e.getEmbeddedData().get("studentParentAssociation");

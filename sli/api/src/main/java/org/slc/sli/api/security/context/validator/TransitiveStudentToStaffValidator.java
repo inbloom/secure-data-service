@@ -50,7 +50,7 @@ public class TransitiveStudentToStaffValidator extends BasicValidator {
     }
 
     @Override
-    protected boolean doValidate(Set<String> ids) {
+    protected boolean doValidate(Set<String> ids, String entityType) {
         Entity me = SecurityUtil.getSLIPrincipal().getEntity();
         Set<String> idsToCheck = new HashSet<String>(ids);
         idsToCheck.removeAll(filterConnectedViaEdOrg(idsToCheck, me));

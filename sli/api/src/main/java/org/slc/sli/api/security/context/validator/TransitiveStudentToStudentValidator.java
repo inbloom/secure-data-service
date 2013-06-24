@@ -35,7 +35,7 @@ public class TransitiveStudentToStudentValidator extends BasicValidator {
     }
 
     @Override
-    protected boolean doValidate(Set<String> ids) {
+    protected boolean doValidate(Set<String> ids, String entityType) {
         //  Needs to be changed once students get access to other students
         return ids.size() == 1 && ids.contains(SecurityUtil.getSLIPrincipal().getEntity().getEntityId());
     }

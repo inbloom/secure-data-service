@@ -40,7 +40,7 @@ public class StudentToSectionValidator extends BasicValidator {
     }
 
     @Override
-    protected boolean doValidate(Set<String> ids) {
+    protected boolean doValidate(Set<String> ids, String entityType) {
         Entity user = SecurityUtil.getSLIPrincipal().getEntity();
         List<Map<String, Object>> sectionData = user.getDenormalizedData().get("section");
         // stupid java with no first class functions, I could do this in one line in any decent

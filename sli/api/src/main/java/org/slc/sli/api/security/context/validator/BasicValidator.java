@@ -67,9 +67,9 @@ public abstract class BasicValidator extends AbstractContextValidator {
             return false;
         }
 
-        return doValidate(ids);
+        return doValidate(ids, entityType);
     }
 
-    protected abstract boolean doValidate(Set<String> ids);
+    protected abstract boolean doValidate(Set<String> ids, String entityType);
 
 }
