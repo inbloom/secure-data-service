@@ -393,7 +393,7 @@ Given /^"([^"]*)" is not associated with any (program|cohort) that belongs to "(
 
   query = { '_id' => student['_id']}
   value = student["student#{collection.capitalize}Association"]
-  unless value.is_nil?
+  unless value.nil?
     value.delete_if {|entry| staff_entities.include?({'body' => {"#{collection}Id" => entry['body']["#{collection}Id"]}})}
     update_mongo(db_name, 'student', query, "student#{collection.capitalize}Association", false, value)
   end
