@@ -36,7 +36,7 @@ Transform /^<(.*?)>$/ do |human_readable_id|
   id = "/v1/students/3d7084654aa96c1fdc68a27664760f6bb1b97b5a_id"         if human_readable_id == "bert.jakeman URI"
   id = "/v1/students/b98a593e13945f54ecc3f1671127881064ab592d_id"         if human_readable_id == "nate.dedrick URI"
   id = "/v1/students/2d17703cb29a95bbfdaab47f513cafdc0ef55d67_id"         if human_readable_id == "mu.mcneill URI"
-
+  id = "/v1/students/df54047bf88ecd7e2f6fbf00951196f747c9ccfc_id"         if human_readable_id == "jack.jackson URI"
   id
 end
 
@@ -397,6 +397,7 @@ Given /^"([^"]*)" is not associated with any (program|cohort) that belongs to "(
     value.delete_if {|entry| staff_entities.include?({'body' => {"#{collection}Id" => entry['body']["#{collection}Id"]}})}
     update_mongo(db_name, 'student', query, "student#{collection.capitalize}Association", false, value)
   end
+
 
   conn.close
   enable_NOTABLESCAN()
