@@ -746,9 +746,9 @@ Given I clean the bulk extract file system and database
   And format "application/json"
  # CREATE parent entity via POST
   When I POST and validate the following entities:
-    |  entity                       |  type                      |  returnCode  |
+    |  entityName                   |  entityType                |  returnCode  |
     |  newEducationOrganization     |  educationOrganization     |  201         |
-    |  newDaybreakStudent           |  staffStudent              |  201         |
+    |  newDaybreakStudent           |  student                   |  201         |
     |  DbStudentSchoolAssociation   |  studentSchoolAssociation  |  201         |
     |  newParentFather              |  parent                    |  201         |
     |  newParentMother              |  parent                    |  201         |
@@ -897,8 +897,8 @@ Given I clean the bulk extract file system and database
  # An entry for "type" must be defined in bulk_extract.rb:getEntityEndpoint:entity_to_endpoint_map
  # Note that "entity" is passed as "field", and "type" passed as "entity" when the underlying POST step is called for each table entry
  # Note if you get a 409 after adding an entity, it may have duplicate natural keys of a pre-existing entity
-    | entity                         |  type                                  |  returnCode  |
-    | newDaybreakStudent             |  staffStudent                          |  201         |
+    | entityName                     |  entityType                            |  returnCode  |
+    | newDaybreakStudent             |  student                               |  201         |
     | DbStudentSchoolAssociation     |  studentSchoolAssociation              |  201         |
     | newParentFather                |  parent                                |  201         |
     | newParentMother                |  parent                                |  201         |
@@ -907,7 +907,7 @@ Given I clean the bulk extract file system and database
     | newCourseOffering              |  courseOffering                        |  201         |
     | newSection                     |  section                               |  201         |
     | newStudentSectionAssociation   |  studentSectionAssociation             |  201         |
-    | newHighwindStudent             |  staffStudent                          |  201         |
+    | newHighwindStudent             |  student                               |  201         |
     | HwStudentSchoolAssociation     |  studentSchoolAssociation              |  201         |
     | newStudentAssessment           |  studentAssessment                     |  201         |
     | newGradebookEntry              |  gradebookEntry                        |  201         |
@@ -1351,8 +1351,8 @@ Given I clean the bulk extract file system and database
   And format "application/json"
  # Create one student (and studentSchoolAssociation) per edorg
  And I POST and validate the following entities:
-    |  entity                        |  type                       |  returnCode  |
-    |  newDaybreakStudent            |  staffStudent               |  201         |
+    |  entityName                    |  entityType                 |  returnCode  |
+    |  newDaybreakStudent            |  student                    |  201         |
     |  DbStudentSchoolAssociation    |  studentSchoolAssociation   |  201         |
  # Delete both students and stSchAssoc
  When I DELETE and validate the following entities:
@@ -1361,10 +1361,10 @@ Given I clean the bulk extract file system and database
     |  newStudent                  |  b8b0a8d439591b9e073e8f1115ff1cf1fd4125d6_id  |  204         |
  # Create one student (and studentSchoolAssociation) per edorg
  And I POST and validate the following entities:
-    |  entity                        |  type                       |  returnCode  |
-    |  newDaybreakStudent            |  staffStudent               |  201         |
+    |  entityName                    |  entityType                 |  returnCode  |
+    |  newDaybreakStudent            |  student                    |  201         |
     |  DbStudentSchoolAssociation    |  studentSchoolAssociation   |  201         |
-    |  newHighwindStudent            |  staffStudent               |  201         |
+    |  newHighwindStudent            |  student                    |  201         |
     |  HwStudentSchoolAssociation    |  studentSchoolAssociation   |  201         |
  # Delete the studentSchoolAssociations leaving the orphaned students
   And I DELETE and validate the following entities:
@@ -1412,7 +1412,7 @@ Given I clean the bulk extract file system and database
   And format "application/json"
  # Create one student in each lea, and matching studentSchoolAssociations
  When I POST and validate the following entities:
-    |  entity                        |  type                       |  returnCode  |
+    |  entityName                    |  entityType                 |  returnCode  |
     |  DbStudentSchoolAssociation    |  studentSchoolAssociation   |  201         |
     |  HwStudentSchoolAssociation    |  studentSchoolAssociation   |  201         |
  # Delete students and stSchoAssoc
@@ -1425,10 +1425,10 @@ Given I clean the bulk extract file system and database
 
  # Create one student in each lea, and matching studentSchoolAssociations
  And I POST and validate the following entities:
-    |  entity                        |  type                       |  returnCode  |
-    |  newDaybreakStudent            |  staffStudent               |  201         |
+    |  entityName                    |  entityType                 |  returnCode  |
+    |  newDaybreakStudent            |  student                    |  201         |
     |  DbStudentSchoolAssociation    |  studentSchoolAssociation   |  201         |
-    |  newHighwindStudent            |  staffStudent               |  201         |
+    |  newHighwindStudent            |  student                    |  201         |
     |  HwStudentSchoolAssociation    |  studentSchoolAssociation   |  201         |
 
  # Log in as jstevenson from Daybreak and request the delta via API for Daybreak
