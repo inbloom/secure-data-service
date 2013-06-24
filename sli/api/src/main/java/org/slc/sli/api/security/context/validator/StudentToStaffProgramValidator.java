@@ -23,22 +23,20 @@ import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 
 /**
- * Validator for student access to a staff cohort association
+ * Validator for student to staff program associations
  *
  * @author nbrown
  *
  */
 @Component
-public class StudentToStaffCohortValidator extends StudentToStaffAssociation {
-
-    public StudentToStaffCohortValidator() {
-        super(EntityNames.STAFF_COHORT_ASSOCIATION, "cohortId");
+public class StudentToStaffProgramValidator extends StudentToStaffAssociation {
+    public StudentToStaffProgramValidator() {
+        super(EntityNames.STAFF_PROGRAM_ASSOCIATION, "programId");
     }
 
     @Override
     protected Set<String> getStudentAssociationIds(Entity me) {
-        return getStudentAssociationsFromSubDoc(me, "studentCohortAssociation", "cohortId");
+        return getStudentAssociationsFromSubDoc(me, "studentProgramAssociation", "programId");
     }
-
 
 }

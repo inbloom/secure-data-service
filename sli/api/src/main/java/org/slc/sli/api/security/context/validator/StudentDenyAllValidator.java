@@ -32,7 +32,6 @@ public class StudentDenyAllValidator extends AbstractContextValidator {
             EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION,
             // to be supported in a future release, but unsupported today
             EntityNames.STAFF_ED_ORG_ASSOCIATION,
-            EntityNames.STAFF_PROGRAM_ASSOCIATION,
             EntityNames.TEACHER_SCHOOL_ASSOCIATION,
             EntityNames.TEACHER_SECTION_ASSOCIATION));
 

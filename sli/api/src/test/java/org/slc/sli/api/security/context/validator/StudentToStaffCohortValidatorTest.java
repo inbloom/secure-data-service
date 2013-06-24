@@ -23,6 +23,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -68,6 +69,7 @@ public class StudentToStaffCohortValidatorTest {
                 Query q = (Query) arg0;
                 Map<String, Object> cohortIdClause = (Map<String, Object>) q.getQueryObject().get("body.cohortId");
                 List<String> inClause = (List<String>) cohortIdClause.get("$in");
+                Collections.sort(inClause);
                 if(!inClause.equals(Arrays.asList("s1", "s2"))) {
                     //3 has expired, should be ruled out ahead of time
                     return false;

@@ -15,6 +15,7 @@
  */
 package org.slc.sli.api.security.context.validator;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -41,11 +42,11 @@ public abstract class StudentToStaffAssociation extends BasicValidator {
 
     @Override
     protected boolean doValidate(Set<String> ids, Entity me, String entityType) {
-        List<String> studentAssociations = getStudentAssociationIds(me);
+        Set<String> studentAssociations = getStudentAssociationIds(me);
         Iterator<Entity> results = getRepo().findEach(
                 this.collection,
-                Query.query(Criteria.where("_id").in(ids).and("body." + associationField).in(studentAssociations)
-                        .andOperator(DateHelper.getExpiredCriteria())));
+                Query.query(Criteria.where("_id").in(ids).and("body." + associationField)
+                        .in(new ArrayList<String>(studentAssociations)).andOperator(DateHelper.getExpiredCriteria())));
         Set<String> unvalidated = new HashSet<String>(ids);
         while (results.hasNext()) {
             Entity e = results.next();
@@ -57,6 +58,17 @@ public abstract class StudentToStaffAssociation extends BasicValidator {
         return unvalidated.isEmpty();
     }
 
-    protected abstract List<String> getStudentAssociationIds(Entity me);
+    protected Set<String> getStudentAssociationsFromSubDoc(Entity me, String subDocType, String associationKey) {
+        List<Entity> cohortAssociations = me.getEmbeddedData().get(subDocType);
+        Set<String> myCohorts = new HashSet<String>();
+        for (Entity assoc : cohortAssociations) {
+            if (!getDateHelper().isFieldExpired(assoc.getBody())) {
+                myCohorts.add((String) assoc.getBody().get(associationKey));
+            }
+        }
+        return myCohorts;
+    }
+
+    protected abstract Set<String> getStudentAssociationIds(Entity me);
 
 }
