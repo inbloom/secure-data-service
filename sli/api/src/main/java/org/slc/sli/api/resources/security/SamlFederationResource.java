@@ -351,7 +351,7 @@ public class SamlFederationResource {
         List<String> sliRoleList = new ArrayList<String>();
         boolean isAdminUser = true;
         for (Role role : sliRoleSet) {
-            sliRoleList.add(role.getName());
+            sliRoleList.addAll(role.getName());
             if (!role.isAdmin()) {
                 isAdminUser = false;
                 break;

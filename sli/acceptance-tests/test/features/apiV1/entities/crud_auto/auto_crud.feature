@@ -42,7 +42,7 @@ Background: Nothing yet
     | program                                 | programs                                 | 2     |/staff/@ids/staffProgramAssociations/programs|
     | studentProgramAssociation               | studentProgramAssociations               | 6    |/staff/@ids/staffProgramAssociations/programs/studentProgramAssociations|
     | courseTranscript                        | courseTranscripts                        | 0     |/schools/@ids/studentSchoolAssociations/students/studentAcademicRecords/courseTranscripts|
-    | staffEducationOrganizationAssociation   | staffEducationOrgAssignmentAssociations  | 1     |/staff/@ids/staffEducationOrgAssignmentAssociations|
+    | staffEducationOrganizationAssociation   | staffEducationOrgAssignmentAssociations  | 2     |/staff/@ids/staffEducationOrgAssignmentAssociations|
     | studentCohortAssociation                | studentCohortAssociations                | 4     |/staff/@ids/staffCohortAssociations/cohorts/studentCohortAssociations|
     | teacherSectionAssociation               | teacherSectionAssociations               | 0     |/schools/@ids/teacherSchoolAssociations/teachers/teacherSectionAssociations|
     | studentSchoolAssociation                | studentSchoolAssociations                | 0     |/schools/@ids/studentSchoolAssociations|

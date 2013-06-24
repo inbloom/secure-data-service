@@ -77,4 +77,33 @@ Scenario: Use Sandbox IDP to log in to two apps as the same impersonation user w
   When I logout of the databrowser
     Then I should see the logout message
   When I navigate to the Sample App it should crash and burn
+
+Scenario: Use Sandbox IDP to log in as multiple roles
+  Given I navigate to databrowser home page
+  Then I was redirected to the "Simple" IDP Login page
+  When I submit the developer credentials "testdeveloper" "testdeveloper1234" for the impersonation login page
+  Then I should be redirected to the impersonation page
+    And I should see that I "testdeveloper" am logged in
+    And I want to select "rrogers" from the "SmallDatasetUsers" in automatic mode
+  Then I should be redirected to the databrowser web page
+  When I navigate to databrowsers "/entities/system/session/debug" page
+  Then I should see my roles as "IT Administrator"
+  Then I should see my roles as "LEA System Administrator"
+
+Scenario: Use Sandbox IDP to log in as a different role name
+  Given I navigate to databrowser home page
+  Then I was redirected to the "Simple" IDP Login page
+  When I submit the developer credentials "testdeveloper" "testdeveloper1234" for the impersonation login page
+  Then I should be redirected to the impersonation page
+    And I should see that I "testdeveloper" am logged in
+    And I want to manually imitate the user "rrogers" who is a "LEA System Administrator"
+  Then I should be redirected to the databrowser web page
+  Then I should see the name "Rick Rogers" on the page
+  # Verify role not blank if custom role not specified
+When I navigate to databrowsers "/entities/system/session/debug" page
+Then I should see my roles as "LEA System Administrator"
+And I should see my rights include "READ_PUBLIC"
+And I should see my rights include "READ_GENERAL"
+And I should see my rights include "AGGREGATE_READ"
+
   
