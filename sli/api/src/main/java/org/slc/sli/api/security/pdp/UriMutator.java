@@ -351,8 +351,13 @@ public class UriMutator {
                 mutated.setPath(String.format("/students/%s/reportCards", StringUtils.join(getStudentIds(user))));
             } else if (PathConstants.TEACHERS.equals(baseEntity)) {
                 mutated.setPath(String.format("/sections/%s/teacherSectionAssociations/teachers", StringUtils.join(getSectionIds(user))));
-            } else if (PathConstants.STAFF.equals(baseEntity)) {
-                mutated.setPath(String.format("/educationOrganizations/%s/staffEducationOrgAssignmentAssociations/staff", StringUtils.join(edOrgHelper.getDirectEdorgs(user), ",")));
+            } else if (PathConstants.TEACHER_SECTION_ASSOCIATIONS.equals(baseEntity)) {
+                mutated.setPath(String.format("/sections/%s/teacherSectionAssociations", StringUtils.join(getSectionIds(user))));
+            } else if (PathConstants.TEACHER_SCHOOL_ASSOCIATIONS.equals(baseEntity)) {
+                mutated.setPath(String.format("/schools/%s/teacherSchoolAssociations", StringUtils.join(edOrgHelper.getDirectEdorgs(user), ",")));
+                // } else if (PathConstants.STAFF.equals(baseEntity)) {
+                // mutated.setPath(String.format("/educationOrganizations/%s/staffEducationOrgAssignmentAssociations/staff",
+                // StringUtils.join(edOrgHelper.getDirectEdorgs(user), ",")));
             } else if (PathConstants.STAFF_COHORT_ASSOCIATIONS.equals(baseEntity)) {
                 mutated.setPath(String.format("/cohorts/%s/staffCohortAssociations", StringUtils.join(getCohortIds(user))));
             } else if (PathConstants.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS.equals(baseEntity)) {
@@ -1042,11 +1047,11 @@ public class UriMutator {
     private Set<String> getSubdocIds(Entity superdoc, String subdocType, String subdocField) {
         Set<String> subdocFields = new HashSet<String>();
         Map<String, List<Entity>> myEmbeddedData = superdoc.getEmbeddedData();
-        List<Entity> myCohorts = myEmbeddedData == null ? Collections.<Entity> emptyList() : myEmbeddedData.get(subdocType);
-        if (myCohorts != null && !myCohorts.isEmpty()) {
-            for (Entity cohortAssociation : myCohorts) {
-                if (!dateHelper.isFieldExpired(cohortAssociation.getBody(), ParameterConstants.END_DATE)) {
-                    subdocFields.add((String) cohortAssociation.getBody().get(subdocField));
+        List<Entity> myAssociations = myEmbeddedData == null ? Collections.<Entity> emptyList() : myEmbeddedData.get(subdocType);
+        if (myAssociations != null && !myAssociations.isEmpty()) {
+            for (Entity association : myAssociations) {
+                if (!dateHelper.isFieldExpired(association.getBody(), ParameterConstants.END_DATE)) {
+                    subdocFields.add((String) association.getBody().get(subdocField));
                 }
             }
         }

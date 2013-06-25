@@ -50,7 +50,7 @@ Scenario: Verify Rewrites for Base Level entities for Students
     | /schools                     | /schools/@ids                                                                  |
     | /sections                    | /students/@ids/studentSectionAssociations/sections                             |
     | /sessions                    | /schools/@ids/sessions                                                         |
-    | /staff                       | /educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff     |
+    #    | /staff                       | /educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff     |
     | /staffCohortAssociations     | /cohorts/@ids/staffCohortAssociations                                          |
     | /staffEducationOrgAssignmentAssociations | /educationOrganizations/@ids/staffEducationOrgAssignmentAssociations           |
     | /staffProgramAssociations    | /programs/@ids/staffProgramAssociations                                        |
@@ -65,9 +65,9 @@ Scenario: Verify Rewrites for Base Level entities for Students
     #| /students                    | /sections/@ids/studentSectionAssociations/students                             |
     | /studentSchoolAssociations   | /students/@ids/studentSchoolAssociations                                       |
     | /studentSectionAssociations  | /students/@ids/studentSectionAssociations                                      |
-    #    | /teachers                    | /sections/@ids/teacherSectionAssociations/teachers                             |
-#    | /teacherSchoolAssociations   | /schools/@ids/teacherSchoolAssociations                                        |
-#    | /teacherSectionAssociations  | /sections/@ids/teacherSectionAssociations                                      |
+    | /teachers                    | /sections/@ids/teacherSectionAssociations/teachers                             |
+    | /teacherSchoolAssociations   | /schools/@ids/teacherSchoolAssociations                                        |
+    | /teacherSectionAssociations  | /sections/@ids/teacherSectionAssociations                                      |
     | /yearlyAttendances           | /students/@ids/yearlyAttendances                                               |
 
   Scenario: Verify Blacklist for Student URI paths

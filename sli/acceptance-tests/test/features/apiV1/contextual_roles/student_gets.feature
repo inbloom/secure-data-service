@@ -1,5 +1,5 @@
 @RALLY_US5765
-@wip
+
 Feature: Use the APi to successfully get student data while having roles over many schools
 
   Background: Setup for the tests
@@ -20,6 +20,8 @@ Feature: Use the APi to successfully get student data while having roles over ma
       | nate.dedrick    | linda.kim            | Daybreak Bayside High | yes                   |
       | mu.mcneill      | linda.kim            | Daybreak Bayside High | yes                   |
       | matt.sollars    | rbraverman           | East Daybreak High    | yes                   |
+    And "lashawn.taite" is not associated with any program that belongs to "linda.kim"
+    And "lashawn.taite" is not associated with any cohort that belongs to "linda.kim"
 
     When I navigate to the API authorization endpoint with my client ID
     And I was redirected to the "Simple" IDP Login page
@@ -77,6 +79,7 @@ Feature: Use the APi to successfully get student data while having roles over ma
     And the response should have restricted student data
 
   #Commenting out since we do not support both staff and teacher context for a user(teacher)
+  #TODO:Uncomment out all steps when US5787 is done
     #When I navigate to GET "<carmen.ortiz URI>"
     #Then I should receive a return code of 200
     #And the response should have general student data
@@ -254,6 +257,12 @@ Feature: Use the APi to successfully get student data while having roles over ma
     Given format "application/json"
     When I navigate to GET "<carmen.ortiz URI>"
     Then I should receive a return code of 403
+    When I navigate to GET "<matt.sollars URI>"
+    Then I should receive a return code of 403
+    When I navigate to GET "<bert.jakeman URI>"
+    Then I should receive a return code of 403
+    When I navigate to GET "<nate.dedrick URI>"
+    Then I should receive a return code of 403
 
   @wip
   Scenario: User gets additional data of new role if a seoa is added to match additional role defined in IDP
@@ -266,9 +275,11 @@ Feature: Use the APi to successfully get student data while having roles over ma
     When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
     Then I should receive a json response containing my authorization token
     And I should be able to use the token to make valid API calls
-
     Given format "application/json"
     When I navigate to GET "<carmen.ortiz URI>"
+    Then I should receive a return code of 200
+    And the response should have restricted student data
+    When I navigate to GET "<matt.sollars URI>"
     Then I should receive a return code of 200
     And the response should have restricted student data
     When I navigate to GET "<bert.jakeman URI>"
@@ -276,6 +287,7 @@ Feature: Use the APi to successfully get student data while having roles over ma
     And the response should have restricted student data
     When I navigate to GET "<nate.dedrick URI>"
     Then I should receive a return code of 403
+
 
   @wip
   Scenario: Teacher can only access students associated with her/him.
@@ -344,7 +356,7 @@ Feature: Use the APi to successfully get student data while having roles over ma
     When I navigate to GET "<mu.mcneill URI>"
     Then I should receive a return code of 403
 
-  @wip
+  #@wip
   Scenario: Educators can only access students associated with them
     Given the only SEOA for "rbraverman" is as a "Educator" in "District 9"
     And the following student section associations in Midgar are set correctly
