@@ -9,8 +9,6 @@ Scenario: Initialize security trust store for Bulk Extract application and LEAs
 
 
 
-
-
 Scenario: Generate a bulk extract delta after day 1 ingestion
   When I trigger a delta extract
    And I request the latest bulk extract delta using the api
@@ -84,9 +82,9 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
     And there is a metadata file in the extract
    Then each record in the full extract is present and matches the delta extract
 
-Scenario: SEA Assessment Delete Test
+
+Scenario: SEA Assessment + Objective Delete Test
     And I ingest "SEAAssessment.zip"
-    #And I ingest "SEAAssessmentDeletexx.zip"  
     And the extraction zone is empty
     When I trigger a delta extract
     When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
@@ -94,16 +92,40 @@ Scenario: SEA Assessment Delete Test
       |  assessment                            |
   
      And the extraction zone is empty
-      #And I ingest "SEAAssessmentDeletexx.zip"  
-	And I ingest "SEAAssessmentDelete.zip"
-	
-  
-    #And I ingest "SEAAssessmentDeletesss.zip"
-    When I trigger a delta extract
-    When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+	 And I ingest "SEAAssessmentDelete.zip"	
+     When I trigger a delta extract
+     When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
-     |  deleted                               |
-#And I ingest "SEAAssessmentDeletexx.zip"  
+       |  deleted                               |
+	
+     And I verify this "deleted" file should contain:
+       | id                                           | condition                               |
+      #this id meet the delete assessment with ObjectiveAssessment at same ingestion
+       | 2a95a8f8837327ebb223fd217f190a64c0bd23ea_id  | entityType = assessment                 |
+      #this id meet the delete assessment and update ObjectiveAssessment at same ingestion
+       | 24c99743cae1b492fc267af3e53ee7014c7b9afa_id  | entityType = assessment                 |
+     And There should not be any of the following extracts for edOrg "<STANDARD-SEA>" in tenant "Midgar"
+        |   assessment     |
+          
+     And the extraction zone is empty
+     And I ingest "SEAAssessmentUpdate.zip"
+     When I trigger a delta extract
+     When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+      |  entityType                            |
+      |  assessment                            |
+     
+     And I verify this "assessment" file should contain:
+       | id                                         | condition                                                    |
+	   #this id meet update assessment
+	  |90282da8fa5d3e6fb433d961b129f19fc0a48b09_id | assessmentIdentificationCode.ID = 2013-Eleventh grade Assessment 2 A+OB+Update again       |
+	  #this id meet deleting it first, then update it again
+      |2a95a8f8837327ebb223fd217f190a64c0bd23ea_id | assessmentIdentificationCode.ID = 2013-Eleventh grade Assessment 2 A+OB+Delete then update |
+      #this id meet update assessment and delete objectiveAssessment at same ingestion
+      |e4b57ea9428372fec52af1348334dc93e4800320_id | assessmentIdentificationCode.ID = 2013-Eleventh grade Assessment 2 A+OB+UA+DOB again |
+       
+      
+	
+
 
   Scenario: Ingesting SEA (Non Odin) entities - AssessmentFamily
     When I ingest "AssessmentFamilyDelta.zip"
@@ -352,30 +374,30 @@ Scenario: Triggering deltas via ingestion
 	   #create objectiveAssessment
 	   |d6be71fd4ede46095c1efd7281e9f96cd75b1798_id | assessmentTitle = 2016-Kindergarten Assessment 1                         |
 	   
-	   #update objectiveAssessment 
-	   |2c53daf31299947bc83fa5637ea502f16b715a60_id | objectiveAssessment.objectiveAssessments.nomenclature= Nomenclature BKU  |
-	   #create objectiveAssessment
-	   |d6be71fd4ede46095c1efd7281e9f96cd75b1798_id | assessmentTitle = 2016-Kindergarten Assessment 1                         |
 	   
 	   #update AssessessmentPeriodDescriptor
 	   | e8c930772a34becb630760ea019491294bd900b4_id | assessmentPeriodDescriptor.description = Beginning of Year 2013-2014 for Seventh grade BKU|
-	   #created AssessessmentPeriodDescriptor
-	   | 789660a15ff1f7588050018d581a77e0002e8120_id | assessmentTitle = 2017-First grade Assessment 2 BKC|
+	 
+	  #test assessment + assessmentFamily, 
+	  #case 1: check create, update, then delete, then update it.
+	   #created Assessessment + AssessmentFamily 
+	   #will investigage it later lina chen
+	   #| 789660a15ff1f7588050018d581a77e0002e8120_id | assessmentTitle = 2017-First grade Assessment 2 BKC|
 
-	   #delete AssessessmentPeriodDescriptor
+	   #check fields after deleting AssessessmentPeriodDescriptor and assessmentFamily 
 	   And the "assessment" file should not contain a field
 	     | id                                          | field                          |
          | f0ffa2e21cf1fc400527ac2ba63c20e4a620815c_id | assessmentPeriodDescriptor     |
          | b3a9994c8006a7e4c086b02e59e034146f053f77_id | assessmentPeriodDescriptor     |
-         |124057675fa0903e905f0377bbc0450aacc7edab_id  | assessmentFamilyReference      |
+         | 124057675fa0903e905f0377bbc0450aacc7edab_id  | assessmentFamilyReference     |
 	    
         #delete objectiveAssessment
        And I verify this "assessment" file should not contain:
         | id                                          | condition                                |
   	    | a60af241e154436d3a996e544fb886381edc490a_id | objectiveAssessment.identificationCode = 2013-Fourth grade Assessment 2.OA-0    |
-        #delete assessmentFamily
-	    #|124057675fa0903e905f0377bbc0450aacc7edab_id |            |
 
+        # after delete assessmentFamily with id 124057675fa0903e905f0377bbc0450aacc7edab_id, then i update it.
+        
 
 
        And I verify this "calendarDate" file should contain:
