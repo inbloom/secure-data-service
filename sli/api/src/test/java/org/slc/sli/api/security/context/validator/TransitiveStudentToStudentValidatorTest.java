@@ -116,8 +116,25 @@ public class TransitiveStudentToStudentValidatorTest {
     }
     
     @Test
+    public void testCurrentProgram() {
+        Entity goodStudent = helper.generateStudent();
+        goodStudent.getEmbeddedData().put("studentProgramAssociation", new ArrayList<Entity>());
+        goodStudent.getEmbeddedData().get("studentProgramAssociation")
+                .add(helper.generateStudentProgram(goodStudent.getEntityId(), "program_1", false));
+        
+        ArrayList<Entity> studentPrograms = new ArrayList<Entity>();
+        studentPrograms.add(helper.generateStudentProgram(student.getEntityId(), "program_1", false));
+        Map<String, List<Entity>> embeddedData = new HashMap<String,List<Entity>>();
+        embeddedData.put("studentProgramAssociation", studentPrograms);
+        Mockito.when(student.getEmbeddedData()).thenReturn(embeddedData);
+        
+        Set<String> ids = new HashSet<String>();
+        ids.add(goodStudent.getEntityId());
+        assertTrue(validator.validate("student", ids));
+    }
+    
+    @Test
     public void testCurrentCohort() {
-        // cohorts: 1 current w/2 students, one of which has expired assoc. 1 expired w/1 student
         Entity goodStudent = helper.generateStudent();
         goodStudent.getEmbeddedData().put("studentCohortAssociation", new ArrayList<Entity>());
         goodStudent.getEmbeddedData().get("studentCohortAssociation")
@@ -153,6 +170,24 @@ public class TransitiveStudentToStudentValidatorTest {
     }
     
     @Test
+    public void testExpiredProgram() {
+        Entity goodStudent = helper.generateStudent();
+        goodStudent.getEmbeddedData().put("studentProgramAssociation", new ArrayList<Entity>());
+        goodStudent.getEmbeddedData().get("studentProgramAssociation")
+                .add(helper.generateStudentProgram(goodStudent.getEntityId(), "program_1", false));
+        
+        ArrayList<Entity> studentPrograms = new ArrayList<Entity>();
+        studentPrograms.add(helper.generateStudentProgram(student.getEntityId(), "program_1", true)); // auth student's assoc is expired
+        Map<String, List<Entity>> embeddedData = new HashMap<String,List<Entity>>();
+        embeddedData.put("studentProgramAssociation", studentPrograms);
+        Mockito.when(student.getEmbeddedData()).thenReturn(embeddedData);
+        
+        Set<String> ids = new HashSet<String>();
+        ids.add(goodStudent.getEntityId());
+        assertFalse(validator.validate("student", ids));
+    }
+    
+    @Test
     public void testExpiredCohortOtherStudent() {
         Entity goodStudent = helper.generateStudent();
         goodStudent.getEmbeddedData().put("studentCohortAssociation", new ArrayList<Entity>());
@@ -163,6 +198,24 @@ public class TransitiveStudentToStudentValidatorTest {
         studentCohorts.add(helper.generateStudentCohort(student.getEntityId(), "cohort_1", false));
         Map<String, List<Entity>> embeddedData = new HashMap<String,List<Entity>>();
         embeddedData.put("studentCohortAssociation", studentCohorts);
+        Mockito.when(student.getEmbeddedData()).thenReturn(embeddedData);
+        
+        Set<String> ids = new HashSet<String>();
+        ids.add(goodStudent.getEntityId());
+        assertFalse(validator.validate("student", ids));
+    }
+    
+    @Test
+    public void testExpiredProgramOtherStudent() {
+        Entity goodStudent = helper.generateStudent();
+        goodStudent.getEmbeddedData().put("studentProgramAssociation", new ArrayList<Entity>());
+        goodStudent.getEmbeddedData().get("studentProgramAssociation")
+                .add(helper.generateStudentProgram(goodStudent.getEntityId(), "program_1", true)); // other student's assoc is expired
+        
+        ArrayList<Entity> studentPrograms = new ArrayList<Entity>();
+        studentPrograms.add(helper.generateStudentProgram(student.getEntityId(), "program_1", false));
+        Map<String, List<Entity>> embeddedData = new HashMap<String,List<Entity>>();
+        embeddedData.put("studentProgramAssociation", studentPrograms);
         Mockito.when(student.getEmbeddedData()).thenReturn(embeddedData);
         
         Set<String> ids = new HashSet<String>();
