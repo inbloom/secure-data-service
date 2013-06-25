@@ -49,11 +49,12 @@ public class TransitiveStudentToStudentValidator extends BasicValidator {
             return false;
         }
         
-        if (ids.size() == 1 && ids.contains(authenticatedStudent.getEntityId())) {
+        ids.remove(authenticatedStudent.getEntityId());
+        if (ids.size() == 0) {
             return true;
         }
+        
         Set<String> allowedStudentIds = new HashSet<String>();
-        allowedStudentIds.add(authenticatedStudent.getEntityId());
         
         // check for current students in my sections, programs, and cohorts. Section first.
         Set<String> currentSections = new HashSet<String>();
@@ -64,10 +65,10 @@ public class TransitiveStudentToStudentValidator extends BasicValidator {
                     currentSections.add((String) section.get("_id"));
                 }
             }
-            NeutralQuery studentQuery = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN,
+            NeutralQuery sectionQuery = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN,
                     currentSections, false));
-            studentQuery.setEmbeddedFields(Arrays.asList("studentSectionAssociation"));
-            for (Entity section : getRepo().findAll("section", studentQuery)) {
+            sectionQuery.setEmbeddedFields(Arrays.asList("studentSectionAssociation"));
+            for (Entity section : getRepo().findAll("section", sectionQuery)) {
                 List<Entity> ssas = section.getEmbeddedData().get("studentSectionAssociation");
                 if (ssas != null) {
                     for (Entity ssa : ssas) {
@@ -77,11 +78,64 @@ public class TransitiveStudentToStudentValidator extends BasicValidator {
                     }
                 }
             }
-            if (allowedStudentIds.containsAll(ids)) {
+            ids.removeAll(allowedStudentIds);
+            if (ids.size() == 0) {
+                return true;
+            }
+        }
+        
+        // now for programs
+        Set<String> authenticatedStudentPrograms = findMyAllowedEntities(authenticatedStudent, "studentProgramAssociation", "programId");
+        if (authenticatedStudentPrograms.size() > 0) {
+            Set<String> studentsInPrograms = findAllowedStudentsByCurrentCohort(ids, authenticatedStudentPrograms, "studentProgramAssociation", "programId");
+            ids.removeAll(studentsInPrograms);
+            if (ids.size() == 0) {
+                return true;
+            }
+        }
+        
+        // now for cohorts
+        Set<String> authenticatedStudentCohorts = findMyAllowedEntities(authenticatedStudent, "studentCohortAssociation", "cohortId");
+        if (authenticatedStudentCohorts.size() > 0) {
+            Set<String> studentsInCohorts = findAllowedStudentsByCurrentCohort(ids, authenticatedStudentCohorts, "studentCohortAssociation", "cohortId");
+            ids.removeAll(studentsInCohorts);
+            if (ids.size() == 0) {
                 return true;
             }
         }
         
         return false;
+    }
+    
+    private Set<String> findMyAllowedEntities(Entity authenticatedStudent, String subdocType, String idField) {
+        Set<String> authenticatedStudentCohorts = new HashSet<String>();
+        List<Entity> cohortAssocs = authenticatedStudent.getEmbeddedData().get(subdocType);
+        if (cohortAssocs != null) {
+            for (Entity putativeCohort : cohortAssocs) {
+                if (!dateHelper.isFieldExpired(putativeCohort.getBody())) {
+                    authenticatedStudentCohorts.add((String)putativeCohort.getBody().get(idField));
+                }
+            }
+        }
+        return authenticatedStudentCohorts;
+    }
+    
+    private Set<String> findAllowedStudentsByCurrentCohort(Set<String> studentIds, Set<String> allowedEntityIds, String subdocType, String idField) {
+        Set<String> matchingStudents = new HashSet<String>();
+        NeutralQuery studentQuery = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN,
+                studentIds, false));
+        studentQuery.setEmbeddedFields(Arrays.asList(subdocType));
+        for (Entity student : getRepo().findAll("student", studentQuery)) {
+            List<Entity> scas = student.getEmbeddedData().get(subdocType);
+            if (scas != null) {
+                for (Entity sca : scas) {
+                    String cohortId = (String)sca.getBody().get(idField);
+                    if (allowedEntityIds.contains(cohortId) && !dateHelper.isFieldExpired(sca.getBody())) {
+                        matchingStudents.add(student.getEntityId());
+                    }
+                }
+            }
+        }
+        return matchingStudents;
     }
 }

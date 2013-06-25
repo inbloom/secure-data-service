@@ -116,13 +116,68 @@ public class TransitiveStudentToStudentValidatorTest {
     }
     
     @Test
+    public void testCurrentCohort() {
+        // cohorts: 1 current w/2 students, one of which has expired assoc. 1 expired w/1 student
+        Entity goodStudent = helper.generateStudent();
+        goodStudent.getEmbeddedData().put("studentCohortAssociation", new ArrayList<Entity>());
+        goodStudent.getEmbeddedData().get("studentCohortAssociation")
+                .add(helper.generateStudentCohort(goodStudent.getEntityId(), "cohort_1", false));
+        
+        ArrayList<Entity> studentCohorts = new ArrayList<Entity>();
+        studentCohorts.add(helper.generateStudentCohort(student.getEntityId(), "cohort_1", false));
+        Map<String, List<Entity>> embeddedData = new HashMap<String,List<Entity>>();
+        embeddedData.put("studentCohortAssociation", studentCohorts);
+        Mockito.when(student.getEmbeddedData()).thenReturn(embeddedData);
+        
+        Set<String> ids = new HashSet<String>();
+        ids.add(goodStudent.getEntityId());
+        assertTrue(validator.validate("student", ids));
+    }
+    
+    @Test
+    public void testExpiredCohort() {
+        Entity goodStudent = helper.generateStudent();
+        goodStudent.getEmbeddedData().put("studentCohortAssociation", new ArrayList<Entity>());
+        goodStudent.getEmbeddedData().get("studentCohortAssociation")
+                .add(helper.generateStudentCohort(goodStudent.getEntityId(), "cohort_1", false));
+        
+        ArrayList<Entity> studentCohorts = new ArrayList<Entity>();
+        studentCohorts.add(helper.generateStudentCohort(student.getEntityId(), "cohort_1", true)); // auth student's assoc is expired
+        Map<String, List<Entity>> embeddedData = new HashMap<String,List<Entity>>();
+        embeddedData.put("studentCohortAssociation", studentCohorts);
+        Mockito.when(student.getEmbeddedData()).thenReturn(embeddedData);
+        
+        Set<String> ids = new HashSet<String>();
+        ids.add(goodStudent.getEntityId());
+        assertFalse(validator.validate("student", ids));
+    }
+    
+    @Test
+    public void testExpiredCohortOtherStudent() {
+        Entity goodStudent = helper.generateStudent();
+        goodStudent.getEmbeddedData().put("studentCohortAssociation", new ArrayList<Entity>());
+        goodStudent.getEmbeddedData().get("studentCohortAssociation")
+                .add(helper.generateStudentCohort(goodStudent.getEntityId(), "cohort_1", true)); // other student's assoc is expired
+        
+        ArrayList<Entity> studentCohorts = new ArrayList<Entity>();
+        studentCohorts.add(helper.generateStudentCohort(student.getEntityId(), "cohort_1", false));
+        Map<String, List<Entity>> embeddedData = new HashMap<String,List<Entity>>();
+        embeddedData.put("studentCohortAssociation", studentCohorts);
+        Mockito.when(student.getEmbeddedData()).thenReturn(embeddedData);
+        
+        Set<String> ids = new HashSet<String>();
+        ids.add(goodStudent.getEntityId());
+        assertFalse(validator.validate("student", ids));
+    }
+    
+    @Test
     public void testParamValidation() {
         assertTrue(validator.canValidate("student", true));
         assertFalse(validator.canValidate("student", false));
         assertFalse(validator.validate("student", new HashSet<String>()));
     }
     
-    @Test(expected=IllegalArgumentException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testWrongType() {
         HashSet<String> ids = new HashSet<String>();
         ids.add("test");
