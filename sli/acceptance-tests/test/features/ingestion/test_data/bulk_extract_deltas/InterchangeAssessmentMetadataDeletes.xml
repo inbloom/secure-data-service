@@ -203,20 +203,7 @@
 </AssessmentFamily>
 
 
-<Assessment>
-    <AssessmentTitle>2017-First grade Assessment 2 BKC</AssessmentTitle>
-    <AssessmentIdentificationCode IdentificationSystem="State">
-        <ID>2017-First Grade Assessment 2 BKC</ID>
-    </AssessmentIdentificationCode>
-    <AcademicSubject>Writing</AcademicSubject>
-    <GradeLevelAssessed>First grade</GradeLevelAssessed>    
-    <AssessmentFamilyReference>
-        <AssessmentFamilyIdentity>
-            <AssessmentFamilyTitle>2017 First grade Standard</AssessmentFamilyTitle>
-            <Version>1</Version>
-        </AssessmentFamilyIdentity>
-    </AssessmentFamilyReference>    
-</Assessment>
+
   
  
 
