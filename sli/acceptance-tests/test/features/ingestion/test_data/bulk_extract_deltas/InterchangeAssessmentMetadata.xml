@@ -194,7 +194,8 @@
     </AssessmentFamilyReference>
 </Assessment>
 
-<!-- ObjectiveAssessment -->
+<!-- update ObjectiveAssessment -->
+
 <ObjectiveAssessment>
   <IdentificationCode>2013-Kindergarten Assessment 1.OA-1 Sub</IdentificationCode>
   <MaxRawScore>50</MaxRawScore>
@@ -320,8 +321,7 @@
         <AssessmentPeriodDescriptorIdentity>
             <AssessmentPeriodDescriptorCodeValue>BOY-0-2017</AssessmentPeriodDescriptorCodeValue>
         </AssessmentPeriodDescriptorIdentity>
-    </AssessmentPeriods>
- 
+    </AssessmentPeriods> 
 </AssessmentFamily>
 
 
@@ -329,7 +329,7 @@
     <CodeValue>BOY-0-2017</CodeValue>
     <Description>Beginning of Year 2017-2018 for Kindergarten BKC</Description>
   </AssessmentPeriodDescriptor>
-	
+<!--  test assessment + assessmentFamily -->	
 <Assessment>
     <AssessmentTitle>2017-First grade Assessment 2 BKC</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="State">
@@ -344,4 +344,8 @@
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>    
 </Assessment>
+
+
+
+
 </InterchangeAssessmentMetadata>

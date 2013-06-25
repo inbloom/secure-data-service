@@ -1828,6 +1828,10 @@ end
 # STEPS: THEN
 ############################################################
 
+Then /^I fail$/ do
+  raise "Aborting test on explicit directive."
+end
+
 Then /^I should see following map of indexes in the corresponding collections:$/ do |table|
   @db   = @conn[@ingestion_db_name]
 

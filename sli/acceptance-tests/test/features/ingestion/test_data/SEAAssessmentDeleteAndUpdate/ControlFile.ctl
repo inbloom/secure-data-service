@@ -1,0 +1,2 @@
+edfi-xml,AssessmentMetadata,InterchangeAssessmentMetadata.xml
+edfi-xml,AssessmentMetadata,InterchangeAssessmentMetadataUpdate.xml
