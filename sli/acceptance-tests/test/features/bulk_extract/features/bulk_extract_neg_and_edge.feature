@@ -46,10 +46,8 @@ Scenario: Run the bulk extractor on an empty database
 	And the extraction zone is empty
     And the bulk extract files in the database are scrubbed
 	And I trigger a bulk extract
-	When I retrieve the path to and decrypt the extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
-	And I verify that an extract tar file was created for the tenant "Midgar"
-	And there is a metadata file in the extract	
-	Then the extract contains no entity files
+	Then I failed retrieve the path to and decrypt the extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
+
 
 Scenario: Run the bulk extractor on a non-existing tenant
 	Given the extraction zone is empty

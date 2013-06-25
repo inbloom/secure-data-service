@@ -71,8 +71,7 @@ public class SessionExtractor implements EntityExtract {
 
 			for (String gradingPeriod : gradingPeriods) {
 				cache.addEntry(gradingPeriod, lea);
-			}
-			
+			}		
 		}
 	}
 	

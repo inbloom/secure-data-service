@@ -27,12 +27,9 @@ import org.joda.time.DateTime;
 import org.slc.sli.bulk.extract.extractor.DeltaExtractor;
 import org.slc.sli.bulk.extract.extractor.LocalEdOrgExtractor;
 import org.slc.sli.bulk.extract.extractor.StatePublicDataExtractor;
-import org.slc.sli.bulk.extract.extractor.TenantExtractor;
-import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.message.BEMessageCode;
 import org.slc.sli.bulk.extract.util.SecurityEventUtil;
 import org.slc.sli.common.util.logging.LogLevelType;
-import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory;
 import org.slc.sli.domain.Entity;
 import org.slf4j.Logger;
@@ -52,7 +49,7 @@ public class Launcher {
     private static final Logger LOG = LoggerFactory.getLogger(Launcher.class);
     
     private String baseDirectory;
-    private TenantExtractor tenantExtractor;
+
     @Autowired
     private DeltaExtractor deltaExtractor;
     
@@ -82,13 +79,6 @@ public class Launcher {
             if (isDelta) {
                 deltaExtractor.execute(tenant, startTime, baseDirectory);
             } else {
-                ExtractFile extractFile = null;
-                TenantContext.setTenantId(tenant);
-                extractFile = new ExtractFile(getTenantDirectory(tenant), getArchiveName(tenant, startTime.toDate()),
-                        bulkExtractMongoDA.getAppPublicKeys(), securityEventUtil);
-                
-                LOG.info("Starting tenant based extract...");
-                tenantExtractor.execute(tenant, extractFile, startTime);
                 LOG.info("Starting LEA Based extract...");
                 localEdOrgExtractor.execute(tenant, getTenantDirectory(tenant), startTime);
                 LOG.info("Starting public data extract...");
@@ -137,16 +127,6 @@ public class Launcher {
      */
     public void setBaseDirectory(String baseDirectory) {
         this.baseDirectory = baseDirectory;
-    }
-    
-    /**
-     * Set tenant extractor.
-     * 
-     * @param tenantExtractor
-     *            TenantExtractor object
-     */
-    public void setTenantExtractor(TenantExtractor tenantExtractor) {
-        this.tenantExtractor = tenantExtractor;
     }
     
     /**
