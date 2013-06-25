@@ -46,28 +46,30 @@ end
 #############################################################################################
 
 #Undo changes made by update_mongo, remove_from_mongo, and add_to_mongo after the scenario ends
-After do
-  unless @mongo_changes.nil?
-    @mongo_changes.reverse_each do |mongo_change|
-      disable_NOTABLESCAN()
-      conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
-      db = conn[mongo_change[:tenant]]
-      coll = db.collection(mongo_change[:collection])
-      if mongo_change[:operation] == 'remove'
-        coll.insert(mongo_change[:value])
-      elsif mongo_change[:operation] == 'update'
-        if mongo_change[:found]
-          coll.update(mongo_change[:query], {'$set' => {mongo_change[:field] => mongo_change[:value]}})
-        else
-          coll.update(mongo_change[:query], {'$unset' => {mongo_change[:field] => 1}})
+After do |scenario|
+  if scenario.passed?
+    unless @mongo_changes.nil?
+      @mongo_changes.reverse_each do |mongo_change|
+        disable_NOTABLESCAN()
+        conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+        db = conn[mongo_change[:tenant]]
+        coll = db.collection(mongo_change[:collection])
+        if mongo_change[:operation] == 'remove'
+          coll.insert(mongo_change[:value])
+        elsif mongo_change[:operation] == 'update'
+          if mongo_change[:found]
+            coll.update(mongo_change[:query], {'$set' => {mongo_change[:field] => mongo_change[:value]}})
+          else
+            coll.update(mongo_change[:query], {'$unset' => {mongo_change[:field] => 1}})
+          end
+        elsif mongo_change[:operation] == 'add'
+          entity = mongo_change[:entity]
+          query = {'_id' => entity['_id']}
+          coll.remove(query)
         end
-      elsif mongo_change[:operation] == 'add'
-        entity = mongo_change[:entity]
-        query = {'_id' => entity['_id']}
-        coll.remove(query)
+        conn.close
+        enable_NOTABLESCAN()
       end
-      conn.close
-      enable_NOTABLESCAN()
     end
   end
 end
