@@ -346,7 +346,83 @@ Feature: As a student or staff I want to use apps that access the inBloom API
       | field                         |
       | economicDisadvantaged         |
       | schoolFoodServicesEligibility |
-      
+
+  @student_staff
+  Scenario: Student should see limited set of fields on staff related entities
+    Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
+    And format "application/json"
+    And I am using api version "v1"
+    # staff
+    Then I verify the following response body fields exist in "/staff/143760f37839b2608d2c929ef26d30c900f6a434_id":
+      | field                       |
+      | name                        |
+    Then I verify the following response body fields do not exist in "/staff/143760f37839b2608d2c929ef26d30c900f6a434_id":
+      | field                              |
+      | staffUniqueStateId                 |
+      | staffIdentificationCode            |
+      | otherName                          |
+      | sexType                            |
+      | birthDate                          |
+      | address                            |
+      | hispanicLatinoEthnicity            |
+      | oldEthnicityType                   |
+      | race                               |
+      | highestLevelOfEducationCompleted   |
+      | yearsOfPriorProfessionalExperience |
+      | yearsOfPriorTeachingExperience     |
+      | credentials                        |
+      | loginId                            |
+    # teacher
+    Then I verify the following response body fields exist in "/teachers/4b07dba2b6868c0827315b99ea94fc74c0f7c902_id":
+      | field                       |
+      | name                        |
+    Then I verify the following response body fields do not exist in "/teachers/4b07dba2b6868c0827315b99ea94fc74c0f7c902_id":
+      | field                              |
+      | staffUniqueStateId                 |
+      | staffIdentificationCode            |
+      | otherName                          |
+      | sexType                            |
+      | birthDate                          |
+      | address                            |
+      | hispanicLatinoEthnicity            |
+      | oldEthnicityType                   |
+      | race                               |
+      | highestLevelOfEducationCompleted   |
+      | yearsOfPriorProfessionalExperience |
+      | yearsOfPriorTeachingExperience     |
+      | credentials                        |
+      | loginId                            |
+     
+    # staffEdorgAssociation
+    #Then I verify the following response body fields exist in "/staffEducationOrgAssignmentAssociations/472d10b94e4a24aa78f5f03e33a92d0ca4af336b_id":
+    #  | field                       |
+    #  | staffReference              |
+    #  | educationOrganization       |
+    #Then I verify the following response body fields do not exist in "/staffEducationOrgAssignmentAssociations/472d10b94e4a24aa78f5f03e33a92d0ca4af336b_id":
+    #  | field                         |
+    #  | staffClassification           |
+    #  | beginDate                     |
+    
+    # staffCohortAssociations
+    Then I verify the following response body fields exist in "/staffCohortAssociations/a17d936ca77e391ace5d14645a4b9b78f6dbd387_id":
+      | field                       |
+      | staffId                     |
+      | cohortId                    |
+    Then I verify the following response body fields do not exist in "/staffCohortAssociations/a17d936ca77e391ace5d14645a4b9b78f6dbd387_id":
+      | field                         |
+      | beginDate                     |
+      | endDate                       |
+      | studentRecordAccess           |
+    # staffProgramAssociations
+    Then I verify the following response body fields exist in "/staffProgramAssociations/2cc6a6a3e5990518e6c196630873b6adc0736b86_id":
+      | field                       |
+      | staffId                     |
+      | programId                   |
+    Then I verify the following response body fields do not exist in "/staffProgramAssociations/2cc6a6a3e5990518e6c196630873b6adc0736b86_id":
+      | field                         |
+      | beginDate                     |
+      | endDate                       |
+      | studentRecordAccess           |
 
   @wip
   Scenario: Student cannot POST private entities
