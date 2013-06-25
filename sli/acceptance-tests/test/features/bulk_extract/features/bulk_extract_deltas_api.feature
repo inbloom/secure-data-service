@@ -746,9 +746,9 @@ Given I clean the bulk extract file system and database
   And format "application/json"
  # CREATE parent entity via POST
   When I POST and validate the following entities:
-    |  entity                       |  type                      |  returnCode  |
+    |  entityName                   |  entityType                |  returnCode  |
     |  newEducationOrganization     |  educationOrganization     |  201         |
-    |  newDaybreakStudent           |  staffStudent              |  201         |
+    |  newDaybreakStudent           |  student                   |  201         |
     |  DbStudentSchoolAssociation   |  studentSchoolAssociation  |  201         |
     |  newParentFather              |  parent                    |  201         |
     |  newParentMother              |  parent                    |  201         |
@@ -770,12 +770,12 @@ Given I clean the bulk extract file system and database
    And format "application/json"
   # UPDATE/UPSERT parent entity via PUT
   When I PUT and validate the following entities:
-     |  field            |  entity                       |  value                           |  returnCode  |
-     |  loginId          |  newStudent                   |  super_student_you_rock@bazinga  |  204         |
-     |  loginId          |  newParentMom                 |  super_mom_you_rock@bazinga.com  |  204         |
-     |  loginId          |  newParentDad                 |  super_dad_good_job@bazinga.com  |  204         |
-     |  contactPriority  |  newStudentParentAssociation  |  1                               |  204         |
-     |  postalCode       |  school                       |  11012                           |  204         |
+     |  field            |  entityName                   |  value                           |  returnCode  | endpoint                                             |
+     |  loginId          |  newStudent                   |  super_student_you_rock@bazinga  |  204         | students/9bf3036428c40861238fdc820568fde53e658d88_id |
+     |  loginId          |  newParentMom                 |  super_mom_you_rock@bazinga.com  |  204         | parents/41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id  |
+     |  loginId          |  newParentDad                 |  super_dad_good_job@bazinga.com  |  204         | parents/41f42690a7c8eb5b99637fade00fc72f599dab07_id  |
+     |  contactPriority  |  newStudentParentAssociation  |  1                               |  204         | studentParentAssociations/9bf3036428c40861238fdc820568fde53e658d88_idc3a6a4ed285c14f562f0e0b63e1357e061e337c6_id |
+     |  postalCode       |  school                       |  11012                           |  204         | educationOrganizations/a13489364c2eb015c219172d561c62350f0453f3_id |
 
   When I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
    And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
@@ -792,12 +792,12 @@ Given I clean the bulk extract file system and database
 
   # UPDATE parent and parentStudentAssociation fields via PATCH
   When I PATCH and validate the following entities:
-    |  field            |  entity                       |  value                                 |  returnCode  |
-    |  postalCode       |  patchEdOrg                   |  11099                                 |  204         |
-    |  studentLoginId   |  newStudent                   |  average_student_youre_ok@bazinga.com  |  204         |
-    |  momLoginId       |  newParentMom                 |  average_mom_youre_ok@bazinga.com      |  204         |
-    |  dadLoginId       |  newParentDad                 |  average_dad_youre_ok@bazinga.com      |  204         |
-    |  contactPriority  |  newStudentParentAssociation  |  1                                     |  204         |
+    |  fieldName        |  entityName                   | entityType               | value                                 |  returnCode  |
+    |  postalCode       |  patchEdOrg                   | educationOrganization    | 11099                                 |  204         |
+    |  studentLoginId   |  newStudent                   | student                  | average_student_youre_ok@bazinga.com  |  204         |
+    |  momLoginId       |  newParentMom                 | parent                   | average_mom_youre_ok@bazinga.com      |  204         |
+    |  dadLoginId       |  newParentDad                 | parent                   | average_dad_youre_ok@bazinga.com      |  204         |
+    |  contactPriority  |  newStudentParentAssociation  | studentParentAssociation | 1                                     |  204         |
 
   When I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
    And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
@@ -815,9 +815,9 @@ Given I clean the bulk extract file system and database
    And format "application/json"
   When I DELETE and validate the following entities:
     |  entity        |  id                                           |  returnCode  |
-    |  newStudent    |  9bf3036428c40861238fdc820568fde53e658d88_id  |  204         |
-    |  newParentDad  |  41f42690a7c8eb5b99637fade00fc72f599dab07_id  |  204         |
-    |  newParentMom  |  41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id  |  204         |
+    |  student       |  9bf3036428c40861238fdc820568fde53e658d88_id  |  204         |
+    |  parent        |  41f42690a7c8eb5b99637fade00fc72f599dab07_id  |  204         |
+    |  parent        |  41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id  |  204         |
 
   When I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
    And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
@@ -838,7 +838,7 @@ Scenario: Update an existing edorg through the API, perform delta, call list end
  Given I clean the bulk extract file system and database
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
    And format "application/json"
-  When I PUT the "postalCode" for a "school" entity to "11012"
+  When I PUT the "postalCode" for a "school" entity to "11012" at "educationOrganizations/a13489364c2eb015c219172d561c62350f0453f3_id "
   Then I should receive a return code of 204
   When I trigger a delta extract
 
@@ -865,7 +865,7 @@ Scenario: Update an existing edOrg with invalid API call, verify no delta create
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/json"
- When I PUT the "missingEntity" for a "school" entity to "WHOOPS"
+ When I PUT the "missingEntity" for a "school" entity to "WHOOPS" at "educationOrganizations/doesNotExistb015c219172d561c62350f0453f3_id "
  Then I should receive a return code of 404
   And deltas collection should have "0" records
 
@@ -881,7 +881,7 @@ Scenario: As SEA Admin, delete an existing school with API call, verify delta
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/json"
- When I DELETE an "orphanEdorg" of id "54b4b51377cd941675958e6e81dce69df801bfe8_id"
+ When I DELETE an "educationOrganization" of id "54b4b51377cd941675958e6e81dce69df801bfe8_id"
  Then I should receive a return code of 204
  When I trigger a delta extract
   And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
@@ -897,8 +897,8 @@ Given I clean the bulk extract file system and database
  # An entry for "type" must be defined in bulk_extract.rb:getEntityEndpoint:entity_to_endpoint_map
  # Note that "entity" is passed as "field", and "type" passed as "entity" when the underlying POST step is called for each table entry
  # Note if you get a 409 after adding an entity, it may have duplicate natural keys of a pre-existing entity
-    | entity                         |  type                                  |  returnCode  |
-    | newDaybreakStudent             |  staffStudent                          |  201         |
+    | entityName                     |  entityType                            |  returnCode  |
+    | newDaybreakStudent             |  student                               |  201         |
     | DbStudentSchoolAssociation     |  studentSchoolAssociation              |  201         |
     | newParentFather                |  parent                                |  201         |
     | newParentMother                |  parent                                |  201         |
@@ -907,7 +907,7 @@ Given I clean the bulk extract file system and database
     | newCourseOffering              |  courseOffering                        |  201         |
     | newSection                     |  section                               |  201         |
     | newStudentSectionAssociation   |  studentSectionAssociation             |  201         |
-    | newHighwindStudent             |  staffStudent                          |  201         |
+    | newHighwindStudent             |  student                               |  201         |
     | HwStudentSchoolAssociation     |  studentSchoolAssociation              |  201         |
     | newStudentAssessment           |  studentAssessment                     |  201         |
     | newGradebookEntry              |  gradebookEntry                        |  201         |
@@ -1000,18 +1000,18 @@ Given I clean the bulk extract file system and database
  # "field" values must be defined in bulk_extract.rb:prepareBody:field_data["PATCH"]
  # "entity" values must be defined in bulk_extract.rb:getEntityBodyFromApi:entity_to_uri_map and in bulk_extract.rb:getEntityEndpoint:entity_to_endpoint_map
  # Note if "value" is empty in this table, the patched field will be set to the string "value"
-        |  field                |  entity                          |  value                                       |  returnCode  |
-        |  patchProgramType     |  patchProgram                    |  Adult/Continuing Education                  |  204         |
-        |  patchEndDate         |  patchGradingPeriod              |  2015-07-01                                  |  204         |
-        |  patchDescription     |  patchLearningObjective          |  Patched description                         |  204         |
-        |  patchDescription     |  patchLearningStandard           |  Patched description                         |  204         |
-        |  patchDescription     |  patchCompetencyLevelDescriptor  |  Patched description                         |  204         |
-        |  patchDescription     |  patchStudentCompetencyObjective |  Patched description                         |  204         |
-        |  patchEndDate         |  patchSession                    |  2015-06-12                                  |  204         |
-        |  patchCourseDesc      |  patchSEACourse                  |  Patched description                         |  204         |
-        |  patchCourseId        |  patchSEACourseOffering          |  06ccb498c620fdab155a6d70bcc4123b021fa60d_id |  204         |
-        |  patchContentStd      |  patchAssessment                 |  National Standard                           |  204         |
-        |  patchIndividualPlan  |  patchGraduationPlan             |  true                                        |  204         |
+    |  fieldName            |  entityName                      |  entityType                 | value                                       |  returnCode  |
+    |  patchProgramType     |  patchProgram                    |  program                    | Adult/Continuing Education                  |  204         |
+    |  patchEndDate         |  patchGradingPeriod              |  gradingPeriod              | 2015-07-01                                  |  204         |
+    |  patchDescription     |  patchLearningObjective          |  learningObjective          | Patched description                         |  204         |
+    |  patchDescription     |  patchLearningStandard           |  learningStandard           | Patched description                         |  204         |
+    |  patchDescription     |  patchCompetencyLevelDescriptor  |  competencyLevelDescriptor  | Patched description                         |  204         |
+    |  patchDescription     |  patchStudentCompetencyObjective |  studentCompetencyObjective | Patched description                         |  204         |
+    |  patchEndDate         |  patchSession                    |  session                    | 2015-06-12                                  |  204         |
+    |  patchCourseDesc      |  patchSEACourse                  |  course                     | Patched description                         |  204         |
+    |  patchCourseId        |  patchSEACourseOffering          |  courseOffering             | 06ccb498c620fdab155a6d70bcc4123b021fa60d_id |  204         |
+    |  patchContentStd      |  patchAssessment                 |  assessment                 | National Standard                           |  204         |
+    |  patchIndividualPlan  |  patchGraduationPlan             |  graduationPlan             | true                                        |  204         |
 
  Given the unpack directory is empty
  When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -1273,10 +1273,10 @@ Given I clean the bulk extract file system and database
     |  staff                      |  e9f3401e0a034e20bb17663dd7d18ece6c4166b5_id  |  204         |
     |  teacherSchoolAssociation   |  7a2d5a958cfda9905812c3a9f38c07ac4e8899b0_id  |  204         |
     |  teacher                    |  2472b775b1607b66941d9fb6177863f144c5ceae_id  |  204         |
-    |  newParentMom               |  41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id  |  204         |
-    |  newParentDad               |  41f42690a7c8eb5b99637fade00fc72f599dab07_id  |  204         |
+    |  parent                     |  41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id  |  204         |
+    |  parent                     |  41f42690a7c8eb5b99637fade00fc72f599dab07_id  |  204         |
     |  studentSchoolAssociation   |  cbfe3a47491fdff0432d5d4abca339735da9461d_id  |  204         |
-    |  newStudent                 |  9bf3036428c40861238fdc820568fde53e658d88_id  |  204         |
+    |  student                    |  9bf3036428c40861238fdc820568fde53e658d88_id  |  204         |
     |  session                    |  227097db8525f4631d873837754633daf8bfcb22_id  |  204         |
     |  gradingPeriod              |  1dae9e8450e2e77dd0b06dee3fd928c1bfda4d49_id  |  204         |
     |  program                    |  0ee2b448980b720b722706ec29a1492d95560798_id  |  204         |
@@ -1351,20 +1351,20 @@ Given I clean the bulk extract file system and database
   And format "application/json"
  # Create one student (and studentSchoolAssociation) per edorg
  And I POST and validate the following entities:
-    |  entity                        |  type                       |  returnCode  |
-    |  newDaybreakStudent            |  staffStudent               |  201         |
+    |  entityName                    |  entityType                 |  returnCode  |
+    |  newDaybreakStudent            |  student                    |  201         |
     |  DbStudentSchoolAssociation    |  studentSchoolAssociation   |  201         |
  # Delete both students and stSchAssoc
  When I DELETE and validate the following entities:
     |  entity                      |  id                                           |  returnCode  |
-    |  newStudent                  |  9bf3036428c40861238fdc820568fde53e658d88_id  |  204         |
-    |  newStudent                  |  b8b0a8d439591b9e073e8f1115ff1cf1fd4125d6_id  |  204         |
+    |  student                     |  9bf3036428c40861238fdc820568fde53e658d88_id  |  204         |
+    |  student                  |  b8b0a8d439591b9e073e8f1115ff1cf1fd4125d6_id  |  204         |
  # Create one student (and studentSchoolAssociation) per edorg
  And I POST and validate the following entities:
-    |  entity                        |  type                       |  returnCode  |
-    |  newDaybreakStudent            |  staffStudent               |  201         |
+    |  entityName                    |  entityType                 |  returnCode  |
+    |  newDaybreakStudent            |  student                    |  201         |
     |  DbStudentSchoolAssociation    |  studentSchoolAssociation   |  201         |
-    |  newHighwindStudent            |  staffStudent               |  201         |
+    |  newHighwindStudent            |  student                    |  201         |
     |  HwStudentSchoolAssociation    |  studentSchoolAssociation   |  201         |
  # Delete the studentSchoolAssociations leaving the orphaned students
   And I DELETE and validate the following entities:
@@ -1412,7 +1412,7 @@ Given I clean the bulk extract file system and database
   And format "application/json"
  # Create one student in each lea, and matching studentSchoolAssociations
  When I POST and validate the following entities:
-    |  entity                        |  type                       |  returnCode  |
+    |  entityName                    |  entityType                 |  returnCode  |
     |  DbStudentSchoolAssociation    |  studentSchoolAssociation   |  201         |
     |  HwStudentSchoolAssociation    |  studentSchoolAssociation   |  201         |
  # Delete students and stSchoAssoc
@@ -1420,15 +1420,15 @@ Given I clean the bulk extract file system and database
     |  entity                   |  id                                           |  returnCode  |
     |  studentSchoolAssociation |  cbfe3a47491fdff0432d5d4abca339735da9461d_id  |  204         |
     |  studentSchoolAssociation |  d913396aef918602b8049027dbdce8826c054402_id  |  204         |
-    |  newStudent               |  9bf3036428c40861238fdc820568fde53e658d88_id  |  204         |
-    |  newStudent               |  b8b0a8d439591b9e073e8f1115ff1cf1fd4125d6_id  |  204         |
+    |  student                  |  9bf3036428c40861238fdc820568fde53e658d88_id  |  204         |
+    |  student                  |  b8b0a8d439591b9e073e8f1115ff1cf1fd4125d6_id  |  204         |
 
  # Create one student in each lea, and matching studentSchoolAssociations
  And I POST and validate the following entities:
-    |  entity                        |  type                       |  returnCode  |
-    |  newDaybreakStudent            |  staffStudent               |  201         |
+    |  entityName                    |  entityType                 |  returnCode  |
+    |  newDaybreakStudent            |  student                    |  201         |
     |  DbStudentSchoolAssociation    |  studentSchoolAssociation   |  201         |
-    |  newHighwindStudent            |  staffStudent               |  201         |
+    |  newHighwindStudent            |  student                    |  201         |
     |  HwStudentSchoolAssociation    |  studentSchoolAssociation   |  201         |
 
  # Log in as jstevenson from Daybreak and request the delta via API for Daybreak
