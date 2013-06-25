@@ -130,8 +130,8 @@ Scenario: SEA Assessment + Objective Delete Test
   Scenario: Ingesting SEA (Non Odin) entities - AssessmentFamily
     When I ingest "AssessmentFamilyDelta.zip"
     And the extraction zone is empty
-    When I trigger a delta extract
-    When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+    Then I trigger a delta extract
+    And I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
       |  entityType                            |
       |  assessment                            |
     And I verify this "assessment" file should contain:
@@ -143,12 +143,12 @@ Scenario: SEA Assessment + Objective Delete Test
       | ceaad98bfd854959a6cbdfd621808cd6d35997aa_id | assessmentTitle = Delete A and Delete AF  |
       | dd6c15967a9807cc061a9796f985d2f6dbe40ec0_id | assessmentTitle = Update AF then Delete A |
       | 0635fa68fbd43b610f281566241b809274adfd52_id | assessmentTitle = Delete A then Update AF |
-    And I ingest "AssessmentFamilyDeltaUpdated.zip"
+    When I ingest "AssessmentFamilyDeltaUpdated.zip"
     # Separately ingested to manipulate delta timestamps
     And I ingest "AssessmentFamilyDeltaDeleted.zip"
     And the extraction zone is empty
-    When I trigger a delta extract
-    When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+    Then I trigger a delta extract
+    And I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
       |  entityType                            |
       |  assessment                            |
       |  deleted                               |
@@ -973,6 +973,7 @@ Given I clean the bulk extract file system and database
   And I verify "2" delta bulk extract files are generated for LEA "<IL-HIGHWIND>" in "Midgar"
 
 @shortcut
+@RALLY_US5741
 Scenario: Create Student, course offering and section as SEA Admin, users from different LEAs requesting Delta extracts
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
