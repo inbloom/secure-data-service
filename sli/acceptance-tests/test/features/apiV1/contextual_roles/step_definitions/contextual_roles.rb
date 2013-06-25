@@ -46,28 +46,30 @@ end
 #############################################################################################
 
 #Undo changes made by update_mongo, remove_from_mongo, and add_to_mongo after the scenario ends
-After do
-  unless @mongo_changes.nil?
-    @mongo_changes.reverse_each do |mongo_change|
-      disable_NOTABLESCAN()
-      conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
-      db = conn[mongo_change[:tenant]]
-      coll = db.collection(mongo_change[:collection])
-      if mongo_change[:operation] == 'remove'
-        coll.insert(mongo_change[:value])
-      elsif mongo_change[:operation] == 'update'
-        if mongo_change[:found]
-          coll.update(mongo_change[:query], {'$set' => {mongo_change[:field] => mongo_change[:value]}})
-        else
-          coll.update(mongo_change[:query], {'$unset' => {mongo_change[:field] => 1}})
+After do |scenario|
+  if scenario.passed?
+    unless @mongo_changes.nil?
+      @mongo_changes.reverse_each do |mongo_change|
+        disable_NOTABLESCAN()
+        conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+        db = conn[mongo_change[:tenant]]
+        coll = db.collection(mongo_change[:collection])
+        if mongo_change[:operation] == 'remove'
+          coll.insert(mongo_change[:value])
+        elsif mongo_change[:operation] == 'update'
+          if mongo_change[:found]
+            coll.update(mongo_change[:query], {'$set' => {mongo_change[:field] => mongo_change[:value]}})
+          else
+            coll.update(mongo_change[:query], {'$unset' => {mongo_change[:field] => 1}})
+          end
+        elsif mongo_change[:operation] == 'add'
+          entity = mongo_change[:entity]
+          query = {'_id' => entity['_id']}
+          coll.remove(query)
         end
-      elsif mongo_change[:operation] == 'add'
-        entity = mongo_change[:entity]
-        query = {'_id' => entity['_id']}
-        coll.remove(query)
+        conn.close
+        enable_NOTABLESCAN()
       end
-      conn.close
-      enable_NOTABLESCAN()
     end
   end
 end
@@ -176,6 +178,20 @@ Given /^I (remove|expire) all SEOA expiration dates for "([^"]*)" in tenant "([^
   end
 
   conn.close
+  enable_NOTABLESCAN()
+end
+
+Given /^I remove the school association with student "([^"]*)" in tenant "([^"]*)"$/ do |studentUniqueStateId, tenant|
+  tenant = convertTenantIdToDbName tenant
+  disable_NOTABLESCAN()
+  query = {'body.studentUniqueStateId' => studentUniqueStateId}
+  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  db = conn[tenant]
+  student_coll = db.collection('student')
+  student_id = student_coll.find_one(query)['_id']
+  ssa_query = {'body.studentId' => student_id}
+  remove_from_mongo(tenant, "studentSchoolAssociation", ssa_query)
+
   enable_NOTABLESCAN()
 end
 
@@ -376,6 +392,21 @@ Given /^the following student section associations in ([^ ]*) are set correctly$
   enable_NOTABLESCAN()
 end
 
+Given /^I change the type of "([^"]*)" to "([^"]*)"$/ do |user, type|
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  db_name = convertTenantIdToDbName(@tenant)
+  db = conn[db_name]
+  staff_coll = db.collection('staff')
+  staff_id = staff_coll.find_one({'body.staffUniqueStateId' => user})['_id']
+
+  query = { '_id' => staff_id}
+  update_mongo(db_name, 'staff', query, 'type', false, type)
+
+  conn.close
+  enable_NOTABLESCAN()
+end
+
 Given /^"([^"]*)" is not associated with any (program|cohort) that belongs to "([^"]*)"$/ do |student, collection, staff|
   disable_NOTABLESCAN()
   conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
@@ -398,6 +429,31 @@ Given /^"([^"]*)" is not associated with any (program|cohort) that belongs to "(
     update_mongo(db_name, 'student', query, "student#{collection.capitalize}Association", false, value)
   end
 
+
+  conn.close
+  enable_NOTABLESCAN()
+end
+
+Given /^I expire all section associations that "([^"]*)" has with "([^"]*)"$/ do |student, teacher|
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  db_name = convertTenantIdToDbName(@tenant)
+  db = conn[db_name]
+  student_coll = db.collection('student')
+  teacher_coll = db.collection('staff')
+  section_coll = db.collection('section')
+  teacher_id = teacher_coll.find_one({'body.staffUniqueStateId' => teacher})['_id']
+  student_id = student_coll.find_one({'body.studentUniqueStateId' => student})['_id']
+
+  sections = section_coll.find({'teacherSectionAssociation.body.teacherId' => teacher_id,
+                                'studentSectionAssociation.body.studentId' => student_id}).to_a
+
+  sections.each do |section|
+    query = { '_id' => section['_id']}
+    value = section['studentSectionAssociation']
+    index = value.index {|entry| entry['body']['studentId'] == student_id}
+    update_mongo(db_name, 'section', query, "studentSectionAssociation.#{index}.body.endDate", false, '2000-01-01')
+  end
 
   conn.close
   enable_NOTABLESCAN()

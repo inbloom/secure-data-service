@@ -53,7 +53,7 @@ public class EntityEdOrgRightBuilder {
         edorgs.retainAll(edOrgRights.keySet());
 
         if (edorgs.isEmpty()) {
-            warn("Attempted access to an entity with no edorg association.");
+            warn("Attempted access to an entity with no matching edorg association.");
         } else {
             for (String edorg : edorgs) {
                 authorities.addAll(edOrgRights.get(edorg));
