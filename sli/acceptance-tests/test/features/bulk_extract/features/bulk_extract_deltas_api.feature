@@ -136,8 +136,8 @@ Scenario: SEA Assessment + Objective Delete Test
       |  assessment                            |
     And I verify this "assessment" file should contain:
       | id                                          | condition                                 |
-      | f8a8f68c8aed779c2e8c3f9174e5b05e880e9a9d_id | assessmentTitle = READ 2.0 Grade 1 BOY    |
-      | 060f1d61807b473021b82e0d0831bc47edc9fd96_id | assessmentTitle = READ 2.0 Grade 1 MOY    |
+      | a59997eeaafc53047a7b972f435fd4fc0b6458f1_id | assessmentTitle = Delete AF               |
+      | 87cc09359cfc6686841aa018b25d965a75153e36_id | assessmentTitle = Update AF               |
       | 69191a2b23a3395aba8183edb6088889f44cbd8a_id | assessmentTitle = Delete A and Update AF  |
       | 6fbf0016bba0a599878ddcc1873669a62a4b5958_id | assessmentTitle = Update A and Delete AF  |
       | ceaad98bfd854959a6cbdfd621808cd6d35997aa_id | assessmentTitle = Delete A and Delete AF  |
@@ -154,8 +154,8 @@ Scenario: SEA Assessment + Objective Delete Test
       |  deleted                               |
     And I verify this "assessment" file only contains:
       | id                                          | condition                                 |
-      | f8a8f68c8aed779c2e8c3f9174e5b05e880e9a9d_id | assessmentTitle = READ 2.0 Grade 1 BOY    |
-      | 060f1d61807b473021b82e0d0831bc47edc9fd96_id | assessmentTitle = READ 2.0 Grade 1 MOY    |
+      | a59997eeaafc53047a7b972f435fd4fc0b6458f1_id | assessmentTitle = Delete AF               |
+      | 87cc09359cfc6686841aa018b25d965a75153e36_id | assessmentTitle = Update AF               |
       | 6fbf0016bba0a599878ddcc1873669a62a4b5958_id | assessmentTitle = Update A and Delete AF  |
     And I verify this "deleted" file only contains:
       | id                                          | condition                |
