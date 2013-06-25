@@ -48,7 +48,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
     String gracePeriod;
 
     @Autowired
-    protected DateHelper dateHelper;
+    private DateHelper dateHelper;
 
     @Autowired
     public PagingRepositoryDelegate<Entity> repo;
@@ -360,4 +360,13 @@ public abstract class AbstractContextValidator implements IContextValidator {
         }
         return validated;
     }
+
+    protected DateHelper getDateHelper() {
+        return dateHelper;
+    }
+
+    protected void setDateHelper(DateHelper dateHelper) {
+        this.dateHelper = dateHelper;
+    }
+
 }

@@ -97,6 +97,8 @@ public class DefaultResourceService implements ResourceService {
     private ApiSchemaAdapter adapter;
     private Map<String, String> endDates = new HashMap<String, String>();
 
+    private Set<String> contextSupportedEntities = new HashSet<String>();
+
     public static final int MAX_MULTIPLE_UUIDS = 100;
 
     private static final String POST = "POST";
@@ -111,6 +113,8 @@ public class DefaultResourceService implements ResourceService {
         endDates.put(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, "endDate");
         endDates.put(ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS, "endDate");
         endDates.put(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, "endDate");
+
+        contextSupportedEntities.add(EntityNames.STUDENT);
     }    
     
     /**
@@ -157,11 +161,11 @@ public class DefaultResourceService implements ResourceService {
                     finalResults = logicalEntity.getEntities(apiQuery, resource.getResourceType());
                 } catch (UnsupportedSelectorException e) {
                  // US5765: Temporarily disabled the new logic
-                    /*SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
-                    if (ids.size() == 1  && definition.getType().equals(EntityNames.STUDENT) &&  SecurityUtil.isStaffUser()) {
+                 /*SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
+                    if (ids.size() == 1  && contextSupportedEntities.contains(definition.getType()) &&  SecurityUtil.isStaffUser()) {
                         finalResults = (List<EntityBody>) definition.getService().listBasedOnContextualRoles(apiQuery);
                     } else {
-                      */
+                   */
                         finalResults = (List<EntityBody>) definition.getService().list(apiQuery);
                     //}
                 }

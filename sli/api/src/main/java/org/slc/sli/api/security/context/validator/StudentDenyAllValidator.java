@@ -31,11 +31,9 @@ public class StudentDenyAllValidator extends AbstractContextValidator {
             EntityNames.DISCIPLINE_INCIDENT,
             EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION,
             // to be supported in a future release, but unsupported today
-            EntityNames.STAFF_COHORT_ASSOCIATION,
             EntityNames.STAFF_ED_ORG_ASSOCIATION,
-            EntityNames.STAFF_PROGRAM_ASSOCIATION,
             EntityNames.TEACHER_SCHOOL_ASSOCIATION,
-            EntityNames.TEACHER_SECTION_ASSOCIATION ));
+            EntityNames.TEACHER_SECTION_ASSOCIATION));
 
     protected static final Set<String> GLOBAL_ENTITIES = new HashSet<String>(Arrays.asList(
             EntityNames.PROGRAM,
@@ -50,13 +48,22 @@ public class StudentDenyAllValidator extends AbstractContextValidator {
             EntityNames.EDUCATION_ORGANIZATION,
             EntityNames.SCHOOL,
             EntityNames.GRADING_PERIOD,
-            EntityNames.ASSESSMENT
-            ));
+            EntityNames.ASSESSMENT));
+    private static final Set<String> NON_TRANSITIVE_DENY_ALL = new HashSet<String>(Arrays.asList(
+            EntityNames.STAFF,
+            EntityNames.STAFF_COHORT_ASSOCIATION,
+            EntityNames.STAFF_ED_ORG_ASSOCIATION,
+            EntityNames.STAFF_PROGRAM_ASSOCIATION,
+            EntityNames.TEACHER,
+            EntityNames.TEACHER_SCHOOL_ASSOCIATION,
+            EntityNames.TEACHER_SECTION_ASSOCIATION));
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
         return isStudentOrParent()
-                && (STUDENT_DENIED_ENTITIES.contains(entityType) || (isTransitive && GLOBAL_ENTITIES.contains(entityType)));
+                && (STUDENT_DENIED_ENTITIES.contains(entityType)
+                        || (isTransitive && GLOBAL_ENTITIES.contains(entityType)) || (!isTransitive && NON_TRANSITIVE_DENY_ALL
+                        .contains(entityType)));
     }
 
     @Override

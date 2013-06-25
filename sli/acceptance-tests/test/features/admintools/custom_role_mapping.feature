@@ -19,6 +19,7 @@ And I got a warning message saying "Are you sure you want to reset the mappings 
 When I click 'OK' on the warning message
 Then I am no longer in edit mode
 Then the Leader, Educator, Aggregate Viewer and IT Administrator roles are now only mapped to themselves
+And the Leader, Educator, Aggregate Viewer and IT Administrator role groups have the correct default role names
 And the IT Administrator role is the only admin role
 
 @production
@@ -39,12 +40,12 @@ Scenario: Add role to existing group
 When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
 Then I have navigated to my Custom Role Mapping Page
 When I create a new role <Role> to the group <Group> that allows <User> to access the API
-| Group              | Role        | User      |
-| "Educator"         | "Teacher"   | "teacher" |
-| "Leader"           | "Principal" | "prince"  |
-| "IT Administrator" | "Admin"     | "root"    |
-| "Aggregate Viewer" | "Observer"  | "bigbro"  |
-| "New Custom"       | "Custom"    | "custom"  |
+| Group              | Role                | User      |
+| "Educator"         | "EnglishTeacher"    | "teacher" |
+| "Leader"           | "SchoolPrincipal"   | "prince"  |
+| "IT Administrator" | "Admin"             | "root"    |
+| "Aggregate Viewer" | "Observer"          | "bigbro"  |
+| "New Custom"       | "Custom"            | "custom"  |
 Then I see the mapping in the table
 And That user can now access the API
 
@@ -82,13 +83,13 @@ And the user "custom" in tenant "IL" can access the API with rights "Read Genera
 Scenario: Remove role from group
 When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
 Then I have navigated to my Custom Role Mapping Page
-When I remove the role <Role> from the group <Group> that denies <User> access to the API
-| Group              | Role        | User      |
-| "Educator"         | "Teacher"   | "teacher" |
-| "Leader"           | "Principal" | "prince"  |
-| "IT Administrator" | "Admin"     | "root"    |
-| "Aggregate Viewer" | "Observer"  | "bigbro"  |
-| "New Custom"       | "Custom"    | "custom"  |
+When I remove the role <Role> out of <TotalRoles> from the group <Group> that denies <User> access to the API
+| Group              | Role               | User      | TotalRoles |
+| "Educator"         | "EnglishTeacher"   | "teacher" | 2          |
+| "Leader"           | "SchoolPrincipal"  | "prince"  | 3          |
+| "IT Administrator" | "Admin"            | "root"    | 4          |
+| "Aggregate Viewer" | "Observer"         | "bigbro"  | 2          |
+| "New Custom"       | "Custom"           | "custom"  | 1          |
 Then I no longer see that mapping in the table
 And That user can no longer access the API
 
@@ -135,10 +136,10 @@ When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" l
 Then I have navigated to my Custom Role Mapping Page
 When I edit the group "Educator"
 When I add the right "WRITE_GENERAL" to the group "Educator"
-And I add the role "Teacher" to the group "Educator"
+And I add the role "EnglishTeacher" to the group "Educator"
 And I click the cancel button
 Then the group "Educator" contains the "right" rights "Read General Public and Aggregate"
-And the group "Educator" contains the roles "Educator"
+And the group "Educator" contains the roles "Educator,Teacher"
 
 @production
 Scenario: An Educator is given WRITE_GENERAL in self context, they can write to themselves but no one else
@@ -209,6 +210,7 @@ And I got a warning message saying "Are you sure you want to reset the mappings 
 When I click 'OK' on the warning message
 Then I am no longer in edit mode
 Then the Leader, Educator, Aggregate Viewer and IT Administrator roles are now only mapped to themselves
+And the Leader, Educator, Aggregate Viewer and IT Administrator role groups have the correct default role names
 And the IT Administrator role is the only admin role
 And the user "linda.kim" in tenant "sandboxadministrator" can access the API with rights "IT Administrator"
 And the user "linda.kim" in tenant "developer-email" can access the API with rights "Read General"

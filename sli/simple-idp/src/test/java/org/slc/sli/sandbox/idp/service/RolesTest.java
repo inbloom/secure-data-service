@@ -42,7 +42,7 @@ public class RolesTest {
     public void testGetAvailableRoles() {
         List<Role> roles = roleService.getAvailableRoles();
         assertNotNull(roles);
-        assertEquals(4, roles.size());
+        assertEquals(11, roles.size());
         
         Set<String> values = new HashSet<String>();
         for (Role role : roles) {
