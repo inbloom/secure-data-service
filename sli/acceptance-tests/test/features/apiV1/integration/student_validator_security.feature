@@ -2,8 +2,7 @@
 Feature: Verify integrety of Student Validation Logic
   I want to make damn sure that student validation logic is working as intended, and that others do not break it.
 
-@student_validator
-Scenario: Validators return proper return codes on multi-ID requests
+Scenario: Validators return proper return codes on multi-ID requests for Carmen Ortiz
   Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "carmen.ortiz" with password "carmen.ortiz1234"
   And format "application/json"
   When I make API calls for multiple IDs in accordance to the following table:
@@ -89,13 +88,18 @@ Scenario: Validators return proper return codes on multi-ID requests
    # | /teacherSchoolAssociations/@ids/teachers | 185f8333b893edd803f880463a2a193d60715743_id                                                          | 93a4133d17303788f99e3b229b9649d46de5f42e_id                                                          |
    # | /teacherSectionAssociations/@ids/sections | 527f07a98f7f05c56c17a07cbbeac7eb1fa1d4db_id1e0c3bfe230357bd09c3d1a19a29b17489eeea68_id               | 6b687d24b9a2b10c664e2248bd8e689a482e47e2_idfe800a3044200c3b3ca6875b2449d581cc0521b7_id               |
    # | /teacherSectionAssociations/@ids/teachers | 527f07a98f7f05c56c17a07cbbeac7eb1fa1d4db_id1e0c3bfe230357bd09c3d1a19a29b17489eeea68_id               | 6b687d24b9a2b10c664e2248bd8e689a482e47e2_idfe800a3044200c3b3ca6875b2449d581cc0521b7_id               |  
-   
-   # his cohort is expired, so he doesn't have any non-transitive access to entities hanging out this cohort
-     # | /cohorts/@ids/staffCohortAssociations    | 72c0402e82f3a67db019d7736d423cc4a214db87_id                                            | 4711a3d63401b22260d9ed17313b9fc301f02c6f_id                                            |
-     # | /cohorts/@ids/staffCohortAssociations/staff | 72c0402e82f3a67db019d7736d423cc4a214db87_id                                            | 4711a3d63401b22260d9ed17313b9fc301f02c6f_id                                            |
-     # | /cohorts/@ids/studentCohortAssociations  | 72c0402e82f3a67db019d7736d423cc4a214db87_id                                            | 4711a3d63401b22260d9ed17313b9fc301f02c6f_id                                            |
-     # | /cohorts/@ids/studentCohortAssociations/students | 72c0402e82f3a67db019d7736d423cc4a214db87_id                                            | 4711a3d63401b22260d9ed17313b9fc301f02c6f_id                                            |
     #TODO -> | /courseTranscripts/@ids/courses          | 66855042298036c199ee39628625be212d682049_id                               | 000c61fc14cdf8a2def80d7aa81a0e425cb76925_id |
   When I request the Good ID, I should be allowed
   When I request the Bad ID, I should be denied
   When I request both IDs, I should be denied
+
+Scenario: Validators return proper return codes on multi-ID requests for Matt Sollars
+  # Carman doesn't have a valid cohort, must test with Matt
+  Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
+  And format "application/json"
+  When I make API calls for multiple IDs in accordance to the following table:
+      | Path                                        | GoodId                                      | BadId                                        |
+      | /cohorts/@ids/staffCohortAssociations       | b4f9ddccc4c5c47a00541ee7c6d67fcb287316ce_id | b7c645daf74600587514032c5315588290d01b06_id  |
+      | /cohorts/@ids/staffCohortAssociations/staff | b4f9ddccc4c5c47a00541ee7c6d67fcb287316ce_id | b7c645daf74600587514032c5315588290d01b06_id  |
+      | /cohorts/@ids/studentCohortAssociations     | b4f9ddccc4c5c47a00541ee7c6d67fcb287316ce_id | b7c645daf74600587514032c5315588290d01b06_id  |
+      | /cohorts/@ids/studentCohortAssociations/students | b4f9ddccc4c5c47a00541ee7c6d67fcb287316ce_id | b7c645daf74600587514032c5315588290d01b06_id  |
