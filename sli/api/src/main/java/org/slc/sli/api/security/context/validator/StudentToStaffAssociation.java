@@ -37,6 +37,8 @@ import org.slc.sli.domain.Entity;
  */
 public abstract class StudentToStaffAssociation extends BasicValidator {
 
+    private final String associationIdField = "_id";
+
     private final String collection;
 
     private final String associationField;
@@ -50,10 +52,7 @@ public abstract class StudentToStaffAssociation extends BasicValidator {
     @Override
     protected boolean doValidate(Set<String> ids, Entity me, String entityType) {
         Set<String> studentAssociations = getStudentAssociationIds(me);
-        Iterator<Entity> results = getRepo().findEach(
-                this.collection,
-                Query.query(Criteria.where("_id").in(ids).and("body." + associationField)
-                        .in(new ArrayList<String>(studentAssociations)).andOperator(DateHelper.getExpiredCriteria())));
+        Iterator<Entity> results = getMatchingAssociations(ids, studentAssociations);
         Set<String> unvalidated = new HashSet<String>(ids);
         while (results.hasNext()) {
             Entity e = results.next();
@@ -63,6 +62,14 @@ public abstract class StudentToStaffAssociation extends BasicValidator {
             unvalidated.remove(e.getEntityId());
         }
         return unvalidated.isEmpty();
+    }
+
+    protected Iterator<Entity> getMatchingAssociations(Set<String> ids, Set<String> studentAssociations) {
+        Iterator<Entity> results = getRepo().findEach(
+                this.getCollection(),
+                Query.query(Criteria.where(associationIdField).in(ids).and("body." + associationField)
+                        .in(new ArrayList<String>(studentAssociations)).andOperator(DateHelper.getExpiredCriteria())));
+        return results;
     }
 
     protected Set<String> getStudentAssociationsFromSubDoc(Entity me, String subDocType, String associationKey) {
@@ -88,5 +95,9 @@ public abstract class StudentToStaffAssociation extends BasicValidator {
     }
 
     protected abstract Set<String> getStudentAssociationIds(Entity me);
+
+    protected String getCollection() {
+        return collection;
+    }
 
 }

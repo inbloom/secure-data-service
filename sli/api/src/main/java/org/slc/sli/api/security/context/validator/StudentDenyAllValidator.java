@@ -31,8 +31,7 @@ public class StudentDenyAllValidator extends AbstractContextValidator {
             EntityNames.DISCIPLINE_INCIDENT,
             EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION,
             // to be supported in a future release, but unsupported today
-            EntityNames.TEACHER_SCHOOL_ASSOCIATION,
-            EntityNames.TEACHER_SECTION_ASSOCIATION));
+            EntityNames.TEACHER_SCHOOL_ASSOCIATION));
 
     private static final Set<String> NON_TRANSITIVE_DENY_ALL = new HashSet<String>(Arrays.asList(
             EntityNames.STAFF,

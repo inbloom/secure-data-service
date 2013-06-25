@@ -25,15 +25,17 @@ Given I log in to realm "Illinois Daybreak Students" using simple-idp as "studen
     | staffCohortAssociations                  | a17d936ca77e391ace5d14645a4b9b78f6dbd387_id |
     | staffProgramAssociations                 | 8c163998fbc8ab004b7cf95e33fc5f6d14e87982_id |
     | staffEducationOrgAssignmentAssociations  | b1877c4d0d8e081e87f8af9a933c6d46aea5d9ad_id |
+    | teacherSectionAssociations               | eb8663fe6856b49684a778446a0a1ad33238a86d_idc2e898df96ee2cb40e24e1986a2d1cbdf053184f_id |
   Then I validate that I am denied access to restricted endpoints via API:
-    | uri                                                                                      | rc           |
-    | /v1/staff/e40ee9041a7159c62867f63bf4da581ba9fc3dc7_id                                    | 403          |
-    | /v1/staffCohortAssociations/e1b4e5e0e8c1d7b84d7a8eb72958ad0a53e7ef77_id                  | 403          |
+    | uri                                                                                                                   | rc           |
+    | /v1/staff/e40ee9041a7159c62867f63bf4da581ba9fc3dc7_id                                                                 | 403          |
+    | /v1/staffCohortAssociations/e1b4e5e0e8c1d7b84d7a8eb72958ad0a53e7ef77_id                                               | 403          |
     # student association has expired
-    | /v1/staffProgramAssociations/d7fa74360c0fa06259c37fb67b07b039211c72de_id                 | 403          |
+    | /v1/staffProgramAssociations/d7fa74360c0fa06259c37fb67b07b039211c72de_id                                              | 403          |
+    | /v1/teacherSectionAssociations/57277fceb3592d0c8f3faadcdd824690bc2b2586_id98f3f6d2ee97b4e0bc1aca33f88911393446c017_id | 403          |
     # staff association has expired
-    | /v1/staffProgramAssociations/fa47e994944a53bc0b23a7f16fc5843149937b94_id                 | 403          |
-    | /v1/staffEducationOrgAssignmentAssociations/a9c8dfab5f003151f52b825be529bead1ae50564_id  | 403          |
+    | /v1/staffProgramAssociations/fa47e994944a53bc0b23a7f16fc5843149937b94_id                                              | 403          |
+    | /v1/staffEducationOrgAssignmentAssociations/a9c8dfab5f003151f52b825be529bead1ae50564_id                               | 403          |
 
 @student_endpoints
 Scenario: Student has access to non-transitive associations
