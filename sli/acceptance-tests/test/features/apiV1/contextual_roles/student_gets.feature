@@ -1,5 +1,5 @@
 @RALLY_US5765
-
+@wip
 Feature: Use the APi to successfully get student data while having roles over many schools
 
   Background: Setup for the tests
@@ -130,6 +130,12 @@ Feature: Use the APi to successfully get student data while having roles over ma
     Then I should receive a return code of 403
     Given format "application/json"
     When I navigate to GET "<jack.jackson URI>"
+    Then I should receive a return code of 403
+
+    Given I expire all section associations that "matt.sollars" has with "jmacey"
+    And "matt.sollars" is not associated with any program that belongs to "jmacey"
+    And "matt.sollars" is not associated with any cohort that belongs to "jmacey"
+    When I navigate to GET "<matt.sollars URI>"
     Then I should receive a return code of 403
 
   @wip
@@ -379,7 +385,7 @@ Feature: Use the APi to successfully get student data while having roles over ma
     When I navigate to GET "<mu.mcneill URI>"
     Then I should receive a return code of 403
 
-  #@wip
+  @wip
   Scenario: Educators can only access students associated with them
     Given the only SEOA for "rbraverman" is as a "Educator" in "District 9"
     And the following student section associations in Midgar are set correctly
@@ -405,3 +411,9 @@ Feature: Use the APi to successfully get student data while having roles over ma
     Then I should receive a return code of 200
     And the response should have general student data
     And the response should not have restricted student data
+
+    Given I expire all section associations that "carmen.ortiz" has with "rbraverman"
+    And "carmen.ortiz" is not associated with any program that belongs to "rbraverman"
+    And "carmen.ortiz" is not associated with any cohort that belongs to "rbraverman"
+    When I navigate to GET "<carmen.ortiz URI>"
+    Then I should receive a return code of 403

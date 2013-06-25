@@ -420,6 +420,31 @@ Given /^"([^"]*)" is not associated with any (program|cohort) that belongs to "(
   enable_NOTABLESCAN()
 end
 
+Given /^I expire all section associations that "([^"]*)" has with "([^"]*)"$/ do |student, teacher|
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  db_name = convertTenantIdToDbName(@tenant)
+  db = conn[db_name]
+  student_coll = db.collection('student')
+  teacher_coll = db.collection('staff')
+  section_coll = db.collection('section')
+  teacher_id = teacher_coll.find_one({'body.staffUniqueStateId' => teacher})['_id']
+  student_id = student_coll.find_one({'body.studentUniqueStateId' => student})['_id']
+
+  sections = section_coll.find({'teacherSectionAssociation.body.teacherId' => teacher_id,
+                                'studentSectionAssociation.body.studentId' => student_id}).to_a
+
+  sections.each do |section|
+    query = { '_id' => section['_id']}
+    value = section['studentSectionAssociation']
+    index = value.index {|entry| entry['body']['studentId'] == student_id}
+    update_mongo(db_name, 'section', query, "studentSectionAssociation.#{index}.body.endDate", false, '2000-01-01')
+  end
+
+  conn.close
+  enable_NOTABLESCAN()
+end
+
 #############################################################################################
 # OAUTH Steps
 #############################################################################################
