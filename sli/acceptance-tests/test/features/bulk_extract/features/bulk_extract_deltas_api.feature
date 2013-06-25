@@ -135,27 +135,34 @@ Scenario: SEA Assessment + Objective Delete Test
       |  entityType                            |
       |  assessment                            |
     And I verify this "assessment" file should contain:
-      | id                                          | condition                                |
-      | f8a8f68c8aed779c2e8c3f9174e5b05e880e9a9d_id | assessmentTitle = READ 2.0 Grade 1 BOY   |
+      | id                                          | condition                                 |
+      | f8a8f68c8aed779c2e8c3f9174e5b05e880e9a9d_id | assessmentTitle = READ 2.0 Grade 1 BOY    |
+      | 060f1d61807b473021b82e0d0831bc47edc9fd96_id | assessmentTitle = READ 2.0 Grade 1 MOY    |
+      | 69191a2b23a3395aba8183edb6088889f44cbd8a_id | assessmentTitle = Delete A and Update AF  |
+      | 6fbf0016bba0a599878ddcc1873669a62a4b5958_id | assessmentTitle = Update A and Delete AF  |
+      | ceaad98bfd854959a6cbdfd621808cd6d35997aa_id | assessmentTitle = Delete A and Delete AF  |
+      | dd6c15967a9807cc061a9796f985d2f6dbe40ec0_id | assessmentTitle = Update AF then Delete A |
+      | 0635fa68fbd43b610f281566241b809274adfd52_id | assessmentTitle = Delete A then Update AF |
     And I ingest "AssessmentFamilyDeltaUpdated.zip"
-    And the extraction zone is empty
-    When I trigger a delta extract
-    When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
-      |  entityType                            |
-      |  assessment                            |
-    And I verify this "assessment" file should contain:
-      | id                                          | condition                                |
-      | f8a8f68c8aed779c2e8c3f9174e5b05e880e9a9d_id | assessmentTitle = READ 2.0 Grade 1 BOY   |
+    # Separately ingested to manipulate delta timestamps
     And I ingest "AssessmentFamilyDeltaDeleted.zip"
     And the extraction zone is empty
     When I trigger a delta extract
     When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
       |  entityType                            |
       |  assessment                            |
-    And I verify this "assessment" file should contain:
-      | id                                          | condition                                |
-      | f8a8f68c8aed779c2e8c3f9174e5b05e880e9a9d_id | assessmentTitle = READ 2.0 Grade 1 BOY   |
-     
+      |  deleted                               |
+    And I verify this "assessment" file only contains:
+      | id                                          | condition                                 |
+      | f8a8f68c8aed779c2e8c3f9174e5b05e880e9a9d_id | assessmentTitle = READ 2.0 Grade 1 BOY    |
+      | 060f1d61807b473021b82e0d0831bc47edc9fd96_id | assessmentTitle = READ 2.0 Grade 1 MOY    |
+      | 6fbf0016bba0a599878ddcc1873669a62a4b5958_id | assessmentTitle = Update A and Delete AF  |
+    And I verify this "deleted" file only contains:
+      | id                                          | condition                |
+      | 69191a2b23a3395aba8183edb6088889f44cbd8a_id | entityType = assessment  |
+      | ceaad98bfd854959a6cbdfd621808cd6d35997aa_id | entityType = assessment  |
+      | dd6c15967a9807cc061a9796f985d2f6dbe40ec0_id | entityType = assessment  |
+      | 0635fa68fbd43b610f281566241b809274adfd52_id | entityType = assessment  |
 
 
   Scenario: SEA Assessment Delete Test
