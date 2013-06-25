@@ -290,8 +290,7 @@ When /^I verify the following response body fields exist in "(.*?)":$/ do |uri, 
   end
 end
 
-When /^I verify the following response body fields do not exist in "(.*?)":$/ do |uri, table|
-  step "I navigate to GET \"/#{@api_version}#{uri}\""
+When /^I verify the following response body fields do not exist in the response:$/ do |table|
   puts "api result is #{@result}" if $SLI_DEBUG
   table.hashes.map do |row|
     field = row['field']

@@ -342,7 +342,8 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     And format "application/json"
     And I am using api version "v1"
     And I am accessing data about myself, "matt.sollars"
-    Then I verify the following response body fields do not exist in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id":
+    When I navigate to GET "/v1/students/067198fd6da91e1aa8d67e28e850f224d6851713_id"
+    Then I verify the following response body fields do not exist in the response:
       | field                         |
       | economicDisadvantaged         |
       | schoolFoodServicesEligibility |
