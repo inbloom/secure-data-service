@@ -1153,6 +1153,13 @@ And /^There should not be any of the following extracts for edOrg "(.*?)" in ten
   assert(intersect.size == 0, "Found #{set2.to_a.join(',')} in extract for #{edOrg}. None of #{set1.to_a.join(',')} should occur.")
 end
 
+Then /^I verify this "(.*?)" file only contains:$/ do |file_name, table|
+    step "I verify this \"#{file_name}\" file should contain:", table
+    file_entry_count = to_map(get_json_from_file(file_name)).count
+    step_entry_count = table.hashes.map.count
+    assert(file_entry_count == step_entry_count, "The extracted #{file_name} json file contains #{file_entry_count} entries, but the step expects #{step_entry_count}")
+end
+
 Then /^I verify this "(.*?)" file (should|should not) contain:$/ do |file_name, should, table|
     look_for = should.downcase == "should"
     json_map = to_map(get_json_from_file(file_name))

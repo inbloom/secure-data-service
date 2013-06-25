@@ -181,6 +181,49 @@ Given /^I (remove|expire) all SEOA expiration dates for "([^"]*)" in tenant "([^
   enable_NOTABLESCAN()
 end
 
+Given /^I change all SEOAs of "([^"]*)" to the edorg "([^"]*)"$/ do |staff, edorg|
+  tenant = convertTenantIdToDbName @tenant
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  db = conn[tenant]
+  staff_coll = db.collection('staff')
+  edorg_coll = db.collection('educationOrganization')
+  staff_id = staff_coll.find_one({'body.staffUniqueStateId' => staff})['_id']
+  edorg_id = edorg_coll.find_one({'body.stateOrganizationId' => edorg})['_id']
+  seoa_coll = db.collection('staffEducationOrganizationAssociation')
+  seoas = seoa_coll.find({'body.staffReference' => staff_id}).to_a
+  seoas.each do |seoa|
+    query = { '_id' => seoa['_id']}
+    update_mongo(tenant, 'staffEducationOrganizationAssociation', query, 'body.educationOrganizationReference', false, edorg_id)
+  end
+
+  enable_NOTABLESCAN()
+  conn.close
+
+end
+
+Given /^I change the custom role of "([^"]*)" to (add|remove) the "([^"]*)" right$/ do |role, function, right|
+  tenant = convertTenantIdToDbName @tenant
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  db = conn[tenant]
+  add = (function == 'add')
+  role_coll = db.collection('customRole')
+  custom_roles = role_coll.find_one()
+  roles = custom_roles['body']['roles']
+  index = roles.index {|entry| entry['names'][0] == role}
+  if add
+    roles[index]['rights'] << right
+  else
+    roles[index]['rights'].delete_if {|entry| entry == right}
+  end
+  update_mongo(tenant,'customRole',{},"body.roles.#{index}.rights", false, roles[index]['rights'])
+
+  enable_NOTABLESCAN()
+  conn.close
+
+end
+
 Given /^I remove the school association with student "([^"]*)" in tenant "([^"]*)"$/ do |studentUniqueStateId, tenant|
   tenant = convertTenantIdToDbName tenant
   disable_NOTABLESCAN()

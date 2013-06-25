@@ -1,1 +1,2 @@
-edfi-xml,AssessmentMetadata,InterchangeAssessmentMetadata.xml,79f2b6e054056854eeb22d057e8d9b95
+edfi-xml,AssessmentMetadata,InterchangeAssessmentMetadata.xml
+edfi-xml,AssessmentMetadata,InterchangeAssessmentMetadataDeletes.xml

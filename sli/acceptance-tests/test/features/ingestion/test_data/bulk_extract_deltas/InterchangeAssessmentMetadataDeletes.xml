@@ -110,22 +110,7 @@
             <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#4</AssessmentItemIdentificationCode>
         </AssessmentItemIdentity>
     </AssessmentItemReference>
-    <ObjectiveAssessmentReference>
-        <ObjectiveAssessmentIdentity>
-            <ObjectiveAssessmentIdentificationCode>2013-Eleventh grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
-        </ObjectiveAssessmentIdentity>
-    </ObjectiveAssessmentReference>
-    <ObjectiveAssessmentReference>
-        <ObjectiveAssessmentIdentity>
-            <ObjectiveAssessmentIdentificationCode>2013-Eleventh grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
-        </ObjectiveAssessmentIdentity>
-    </ObjectiveAssessmentReference>
-    <AssessmentFamilyReference>
-        <AssessmentFamilyIdentity>
-            <AssessmentFamilyTitle>2013 Eleventh grade Standard</AssessmentFamilyTitle>
-            <Version>1</Version>
-        </AssessmentFamilyIdentity>
-    </AssessmentFamilyReference>
+ 
 </Assessment>
 
 <ObjectiveAssessment>
@@ -197,6 +182,7 @@
   </AssessmentPeriodDescriptor>
 
 
+
 <AssessmentFamily>
     <AssessmentFamilyTitle>2013 Tenth grade Standard</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
@@ -215,6 +201,8 @@
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </AssessmentFamily>
+
+
 
   
  

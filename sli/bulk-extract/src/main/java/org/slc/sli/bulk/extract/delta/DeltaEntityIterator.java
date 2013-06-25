@@ -239,7 +239,7 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
             }
 
             boolean spamDelete = false;
-            if (deletedTime > updatedTime) {
+            if (deletedTime >= updatedTime) {
                 Entity deleted = new MongoEntity(collection, id, null, null);
                 if(DEPENDENT_MAP.containsKey(collection)) {
                     addDependencies(collection, deleted, resolver.findGoverningEdOrgs(deleted));

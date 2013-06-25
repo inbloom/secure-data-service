@@ -304,3 +304,8 @@ Then /^I should see a count of (\d+)$/ do |arg1|
     assert(data.count == arg1.to_i, "Count should match (#{arg1} != #{data.count})")
   end
 end
+
+# Useful to exit at a specific point during test development
+Then /^I assert false/ do
+  assert(false, 'Explicitly asserting false.')
+end
