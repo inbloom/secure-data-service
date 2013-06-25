@@ -447,6 +447,7 @@ public class MockRepo implements Repository<Entity> {
                 denormalized);
         final String id = generateId();
         final BasicBSONObject meta = new BasicBSONObject();
+        final Map<String, List<Entity>> embeddedData = new HashMap<String, List<Entity>>();
 
         Entity newEntity = new Entity() {
             @Override
@@ -481,7 +482,7 @@ public class MockRepo implements Repository<Entity> {
 
             @Override
             public Map<String, List<Entity>> getEmbeddedData() {
-                return null;
+                return embeddedData;
             }
 
             @Override

@@ -181,6 +181,20 @@ Given /^I (remove|expire) all SEOA expiration dates for "([^"]*)" in tenant "([^
   enable_NOTABLESCAN()
 end
 
+Given /^I remove the school association with student "([^"]*)" in tenant "([^"]*)"$/ do |studentUniqueStateId, tenant|
+  tenant = convertTenantIdToDbName tenant
+  disable_NOTABLESCAN()
+  query = {'body.studentUniqueStateId' => studentUniqueStateId}
+  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  db = conn[tenant]
+  student_coll = db.collection('student')
+  student_id = student_coll.find_one(query)['_id']
+  ssa_query = {'body.studentId' => student_id}
+  remove_from_mongo(tenant, "studentSchoolAssociation", ssa_query)
+
+  enable_NOTABLESCAN()
+end
+
 Given /^I modify all SEOA staff classifications for "([^"]*)" in tenant "([^"]*)" to "([^"]*)"$/ do |staff, tenant, value|
   tenant = convertTenantIdToDbName tenant
   disable_NOTABLESCAN()
