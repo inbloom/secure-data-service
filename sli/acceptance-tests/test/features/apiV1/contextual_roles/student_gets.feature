@@ -165,6 +165,29 @@ Feature: Use the APi to successfully get student data while having roles over ma
     #TODO:lashawn.taite should return 200 when US5787 is done
     When I navigate to GET "<lashawn.taite URI>"
     Then I should receive a return code of 403
+    #And the response should have general student data
+    #And the response should have restricted student data
+
+    Given I change the type of "rbelding" to "staff"
+    When I navigate to the API authorization endpoint with my client ID
+    And I was redirected to the "Simple" IDP Login page
+    And I submit the credentials "rbelding" "rbelding1234" for the "Simple" login page
+    Then I should receive a json response containing my authorization code
+
+    When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
+    Then I should receive a json response containing my authorization token
+    And I should be able to use the token to make valid API calls
+    When I navigate to GET "<carmen.ortiz URI>"
+    Then I should receive a return code of 200
+    And the response should have general student data
+    And the response should not have restricted student data
+    #TODO:bert.jakeman should return 403 when US5787 is done
+    When I navigate to GET "<bert.jakeman URI>"
+    Then I should receive a return code of 200
+    When I navigate to GET "<lashawn.taite URI>"
+    Then I should receive a return code of 200
+    And the response should have general student data
+    And the response should have restricted student data
 
     Given I remove the teacherSectionAssociation for "rbelding"
 
@@ -172,10 +195,10 @@ Feature: Use the APi to successfully get student data while having roles over ma
     #When I navigate to GET "<matt.sollars URI>"
     #Then I should receive a return code of 200
     When I navigate to GET "<lashawn.taite URI>"
-    Then I should receive a return code of 403
-    Given format "application/json"
+    Then I should receive a return code of 200
+    #TODO:carmen.ortiz should return 403 when US5787 is done
     When I navigate to GET "<carmen.ortiz URI>"
-    Then I should receive a return code of 403
+    Then I should receive a return code of 200
     When I navigate to GET "<mu.mcneill URI>"
     Then I should receive a return code of 403
 

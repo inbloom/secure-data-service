@@ -376,6 +376,21 @@ Given /^the following student section associations in ([^ ]*) are set correctly$
   enable_NOTABLESCAN()
 end
 
+Given /^I change the type of "([^"]*)" to "([^"]*)"$/ do |user, type|
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  db_name = convertTenantIdToDbName(@tenant)
+  db = conn[db_name]
+  staff_coll = db.collection('staff')
+  staff_id = staff_coll.find_one({'body.staffUniqueStateId' => user})['_id']
+
+  query = { '_id' => staff_id}
+  update_mongo(db_name, 'staff', query, 'type', false, type)
+
+  conn.close
+  enable_NOTABLESCAN()
+end
+
 Given /^"([^"]*)" is not associated with any (program|cohort) that belongs to "([^"]*)"$/ do |student, collection, staff|
   disable_NOTABLESCAN()
   conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
