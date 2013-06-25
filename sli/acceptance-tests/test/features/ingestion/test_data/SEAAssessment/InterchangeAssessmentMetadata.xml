@@ -1,9 +1,9 @@
 <InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
     xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-AssessmentMetadata.xsd">
 <Assessment>
-    <AssessmentTitle>2013-Eleventh grade Assessment 2 A+OB+Delete+A</AssessmentTitle>
+    <AssessmentTitle>delete Assessment and then update</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="State">
-        <ID>2013-Eleventh grade Assessment 2 A+OB+Delete+A</ID>
+        <ID>delete Assessment and then update</ID>
     </AssessmentIdentificationCode>
     <AssessmentCategory>Performance assessment</AssessmentCategory>
     <AcademicSubject>ELA</AcademicSubject>
@@ -39,17 +39,16 @@
             <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#4</AssessmentItemIdentificationCode>
         </AssessmentItemIdentity>
     </AssessmentItemReference>
-    
     <ObjectiveAssessmentReference>
         <ObjectiveAssessmentIdentity>
-            <ObjectiveAssessmentIdentificationCode>2013-Eleventh grade Assessment 2.OA-0 A+OB+Delete+A</ObjectiveAssessmentIdentificationCode>
+            <ObjectiveAssessmentIdentificationCode>delete Assessment and then update</ObjectiveAssessmentIdentificationCode>
         </ObjectiveAssessmentIdentity>
     </ObjectiveAssessmentReference>
  
  </Assessment>
  
  <ObjectiveAssessment>
-  <IdentificationCode>2013-Eleventh grade Assessment 2.OA-0 A+OB+Delete+A</IdentificationCode>
+  <IdentificationCode>delete Assessment and then update</IdentificationCode>
   <MaxRawScore>50</MaxRawScore>
   <AssessmentPerformanceLevel>
     <PerformanceLevel>
@@ -64,7 +63,7 @@
   <Nomenclature>Nomenclature</Nomenclature>
   <AssessmentReference>
       <AssessmentIdentity>
-          <AssessmentTitle>2013-Eleventh grade Assessment 2 A+OB+Delete+A</AssessmentTitle>
+          <AssessmentTitle>delete Assessment and then update</AssessmentTitle>
           <AcademicSubject>ELA</AcademicSubject>
           <GradeLevelAssessed>Eleventh grade</GradeLevelAssessed>
       </AssessmentIdentity>

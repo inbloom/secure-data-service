@@ -99,7 +99,7 @@ Scenario: SEA Assessment + Objective Delete Test
 	  |d3580c38701831271557256b7eaa8b3c1dea1087_id | assessmentTitle = Scenario 5|
 	  |60adaf0b07d87d8f76f22df2c38717ab36935ae0_id | assessmentTitle = Scenario 6|
 	  |2a0d8d2f8049d113e2310bece5ba4aa9c5e34f59_id | assessmentTitle = Scenario 7|
-      |4e702929ba5b7b5247ea0085d79a32cd2f416c22_id | assessmentTitle = 2013-Eleventh grade Assessment 2 A+OB+Delete+A |
+      |86a6e5a5ec24b416c8db672515c72caa5bcaa7a8_id | assessmentTitle = delete Assessment and then update              |
       |90282da8fa5d3e6fb433d961b129f19fc0a48b09_id | assessmentTitle = 2013-Eleventh grade Assessment 2 A+OB+Update   |
 
      And the extraction zone is empty
@@ -112,21 +112,20 @@ Scenario: SEA Assessment + Objective Delete Test
        |  assessment                            |
        |  deleted                               |	
      And I verify this "deleted" file only contains:
-       | id                                           | condition                               |
-       | 4e702929ba5b7b5247ea0085d79a32cd2f416c22_id  | entityType = assessment                 | 
+       | id                                           | condition                              |
        | bcf0cadde56a961dd73efee8c15a6ca86c511ce8_id  | entityType = assessment                 | 
        | f5feb4f8940c0fda119ce82f1b8d1d3162dbabc4_id  | entityType = assessment                 | 
        | 60adaf0b07d87d8f76f22df2c38717ab36935ae0_id  | entityType = assessment                 | 
-       | 2a0d8d2f8049d113e2310bece5ba4aa9c5e34f59_id  | entityType = assessment                 |          
+       | 2a0d8d2f8049d113e2310bece5ba4aa9c5e34f59_id  | entityType = assessment                |          
      And I verify this "assessment" file only contains:
       | id                                         | condition                                                              |
 	  |90282da8fa5d3e6fb433d961b129f19fc0a48b09_id | assessmentTitle = 2013-Eleventh grade Assessment 2 A+OB+Update         | 	 
-      #|4e702929ba5b7b5247ea0085d79a32cd2f416c22_id | assessmentTitle = delete Assessment and then update                   |  
+      |86a6e5a5ec24b416c8db672515c72caa5bcaa7a8_id | assessmentTitle = delete Assessment and then update                    |  
       |0b3a35aeec13efc4547f19fc20b55b141992c795_id | assessmentTitle = Scenario 2                                           |
       |483b11e7a9ea9b0b337242bdc47fa758469f370e_id | assessmentTitle = Scenario 4                                           |
       |d3580c38701831271557256b7eaa8b3c1dea1087_id | assessmentTitle = Scenario 5                                           |
       
-
+ 
   Scenario: Ingesting SEA (Non Odin) entities - AssessmentFamily
     When I ingest "AssessmentFamilyDelta.zip"
     And the extraction zone is empty
