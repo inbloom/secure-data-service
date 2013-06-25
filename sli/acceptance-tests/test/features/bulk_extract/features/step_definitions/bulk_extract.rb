@@ -497,6 +497,17 @@ When /^I log into "(.*?)" with a token of "(.*?)", a "(.*?)" for "(.*?)" in tena
   puts "The generated token is #{@sessionId}"
 end
 
+def getEntityId(entity)
+  entity_to_id_map = {
+      "orphanEdorg" => "54b4b51377cd941675958e6e81dce69df801bfe8_id",
+      "IL-Daybreak" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id",
+      "IL-Highwind" => "99d527622dcb51c465c515c0636d17e085302d5e_id",
+      "District-5"  => "880572db916fa468fbee53a68918227e104c10f5_id",
+      "Daybreak Central High" => "a13489364c2eb015c219172d561c62350f0453f3_id"
+  }
+  return entity_to_id_map[entity]
+end
+
 When /^I try to POST to the bulk extract endpoint/ do
   hash = {
     "stuff" => "Random stuff"
@@ -574,14 +585,28 @@ end
 
 When /^I PUT and validate the following entities:$/ do |table|
   table.hashes.map do |api_params|
-    print "Putting #{api_params['entity']} .."
-    step "I PUT the \"#{api_params['field']}\" for a \"#{api_params['entity']}\" entity to \"#{api_params['value']}\""
+    print "Putting #{api_params['entityName']} .."
+    step "I PUT the \"#{api_params['field']}\" for a \"#{api_params['entityName']}\" entity to \"#{api_params['value']}\" at \"#{api_params['endpoint']}\""
     step "I should receive a return code of #{api_params['returnCode']}"
     print "OK\n"
   end
 end
 
-def updateApiPutField(body, field, value)
+When /^I PUT the "(.*?)" for a "(.*?)" entity to "(.*?)" at "(.*?)"$/ do |field, entity_name, value, endpoint|
+  # Get the desired entity from mongo
+  #response_map = get_entity_body_from_api(entity_name)
+  response_body = get_response_body(endpoint)
+  puts "DEBUG: response_body is #{response_body}"
+  assert(response_body != nil, "No response from GET request for entity #{entity_name}")
+  response_body = response_body[0] if response_body.is_a?(Array)
+  # Modify the response body field with value, will become PUT body
+  put_body = update_api_put_field(response_body, field, value)
+  # Get the endpoint that corresponds to the desired entity
+  restHttpPut("/#{@api_version}/#{endpoint}", prepareData(@format, put_body))
+  assert(@res != nil, "Response from rest-client PUT is nil")
+end
+
+def update_api_put_field(body, field, value)
   # Set the GET response body as body and edit the requested field
   body["address"][0]["postalCode"] = value.to_s if field == "postalCode"
   body["loginId"] = value if field == "loginId"
@@ -590,36 +615,27 @@ def updateApiPutField(body, field, value)
   return body
 end
 
-When /^I PUT the "(.*?)" for a "(.*?)" entity to "(.*?)"$/ do |field, entity, value|
-  # Get the desired entity from mongo
-  response_map = getEntityBodyFromApi(entity, @api_version, "PUT")
-  assert(response_map != nil, "No response from GET request for entity #{entity}")
-  response_map = response_map[0] if response_map.is_a?(Array)
-  # Modify the response body field with value, will become PUT body
-  put_body = updateApiPutField(response_map, field, value)
-  # Get the endpoint that corresponds to the desired entity
-  endpoint = getEntityEndpoint(entity)
-  restHttpPut("/#{@api_version}/#{endpoint}/#{put_body['id']}", prepareData(@format, put_body))
-  assert(@res != nil, "Response from rest-client PUT is nil")
-end
-
 When /^I PATCH and validate the following entities:$/ do |table|
   table.hashes.map do |api_params|
     print "Patching #{api_params['entity']} .."
-    step "I PATCH the \"#{api_params['field']}\" for a \"#{api_params['entity']}\" entity to \"#{api_params['value']}\""
+    step "I PATCH the \"#{api_params['fieldName']}\" for a \"#{api_params['entityName']}\" entity of type \"#{api_params['entityType']}\" to \"#{api_params['value']}\""
     step "I should receive a return code of #{api_params['returnCode']}"
     print "OK\n"
   end
 end
 
-When /^I PATCH the "(.*?)" for a "(.*?)" entity to "(.*?)"$/ do |field, entity, value|
+When /^I PATCH the "(.*?)" for a "(.*?)" entity of type "(.*?)" to "(.*?)"$/ do |field_name, entity_name, entity_type, value|
   # Get the desired entity from mongo, we will only use the _id
-  response_map = getEntityBodyFromApi(entity, @api_version, "PATCH")
-  # We will set the PATCH body to ONLY the field_values map we get from prepareBody()
-  patch_body = prepareBody("PATCH", value, response_map)
+  entity_response_body = get_full_patch_entity_from_api(entity_name)
+  puts "DEBUG: entity_response_body is #{entity_response_body}"
+  # We will set the PATCH body to ONLY the field_values map we get from get_patch_body_by_entity_name()
+  puts "DEBUG: field_name is #{field_name}"
+  patch_body = get_patch_body_by_entity_name(field_name, value)
+  puts "DEBUG: patch_body is #{patch_body}"
   # Get the endpoint that corresponds to the desired entity
-  endpoint = getEntityEndpoint(entity)
-  restHttpPatch("/#{@api_version}/#{endpoint}/#{patch_body["GET"]["id"]}", prepareData(@format, patch_body["PATCH"][field]))
+  endpoint = get_entity_endpoint(entity_type)
+  puts "DEBUG: endpoint is #{endpoint}"
+  restHttpPatch("/#{@api_version}/#{endpoint}/#{entity_response_body["id"]}", prepareData(@format, patch_body))
   assert(@res != nil, "Response from rest-client PATCH is nil")
 end
 
@@ -634,165 +650,270 @@ end
 
 When /^I DELETE an "(.*?)" of id "(.*?)"$/ do |entity, id|
   # Get the endpoint that corresponds to the desired entity
-  endpoint = getEntityEndpoint(entity)
+  endpoint = translate_custom_entity_to_endpoint(entity)
   restHttpDelete("/#{@api_version}/#{endpoint}/#{id}")
+end
+
+def translate_custom_entity_to_endpoint(endpoint_name)
+  endpoint_name_translation_map = {
+    "assessments/id/learningObjectives" => "assessments/235e448a14cc25ac0ede32bf35e9a798bf2cbc1d_id/learningObjectives",
+    "assessments/id/learningStandards" => "assessments/235e448a14cc25ac0ede32bf35e9a798bf2cbc1d_id/learningStandards",
+    "courseOfferings/id/courses" => "courseOfferings/4e22b4b0aac3310de7f4b789d5a31e5e2bd792ec_id/courses",
+    "courseOfferings/id/sections" => "courseOfferings/4e22b4b0aac3310de7f4b789d5a31e5e2bd792ec_id/sections",
+    "courseOfferings/id/sessions" => "courseOfferings/4e22b4b0aac3310de7f4b789d5a31e5e2bd792ec_id/sessions",
+    "courses/id/courseOfferings" => "courses/7f3baa1a1f553809c6539671f08714aed6ec8b0c_id/courseOfferings",
+    "courses/id/courseOfferings/sessions" => "courses/7f3baa1a1f553809c6539671f08714aed6ec8b0c_id/courseOfferings/sessions",
+    "educationOrganizations/id/courses" => "educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/courses",
+    "educationOrganizations/id/educationOrganizations" => "educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/educationOrganizations",
+    "educationOrganizations/id/graduationPlans" => "educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/graduationPlans",
+    "educationOrganizations/id/schools" => "educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/schools",
+    "educationOrganizations/id/studentCompetencyObjectives" => "educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/studentCompetencyObjectives",
+    "learningObjectives/id/childLearningObjectives" => "learningObjectives/18f258460004b33fa9c1249b8c9ed3bd33c41645_id/childLearningObjectives",
+    "learningObjectives/id/learningStandards" => "learningObjectives/18f258460004b33fa9c1249b8c9ed3bd33c41645_id/learningStandards",
+    "learningObjectives/id/parentLearningObjectives" => "learningObjectives/18f258460004b33fa9c1249b8c9ed3bd33c41645_id/parentLearningObjectives",
+    "schools/id/courseOfferings" => "schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/courseOfferings",
+    "schools/id/courses" => "schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/courses",
+    "schools/id/sections" => "schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/courses",
+    "schools/id/sessions" => "schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/courses",
+    "schools/id/sessions/gradingPeriods" => "schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/sessions/gradingPeriods",
+    "sessions/id/courseOfferings" => "sessions/fe6e1a162e6f6825830d78d72cb55498afaedcd3_id/courseOfferings",
+    "sessions/id/courseOfferings/courses" => "sessions/fe6e1a162e6f6825830d78d72cb55498afaedcd3_id/courseOfferings/courses",
+    "sessions/id/sections" => "sessions/fe6e1a162e6f6825830d78d72cb55498afaedcd3_id/sections"
+  }
+  # If the custom endpoint does not exist in the map, assume endpoint_name is
+  # just an endpoint type and return its common endpoint name
+  # i.e. if you cannot find it, pluralize it
+  if endpoint_name_translation_map[endpoint_name] == nil
+    endpoint = get_entity_endpoint(endpoint_name) 
+  else
+    endpoint = endpoint_name_translation_map[endpoint_name]
+  end
+  assert(endpoint != nil, "No endpoint mapping entry found in endpoint_name_translation_map for type #{endpoint_name}, please add an entry and try again.")
+  return endpoint
 end
 
 def getEntityEndpoint(entity)
   entity_to_endpoint_map = {
-      "attendance" => "attendances",
-      "assessment" => "assessments",
-      "assessments/id/learningObjectives" => "assessments/235e448a14cc25ac0ede32bf35e9a798bf2cbc1d_id/learningObjectives",
-      "assessments/id/learningStandards" => "assessments/235e448a14cc25ac0ede32bf35e9a798bf2cbc1d_id/learningStandards",
-      "patchAssessment" => "assessments",
-      "courseOffering" => "courseOfferings",
-      "courseOfferings/id/courses" => "courseOfferings/4e22b4b0aac3310de7f4b789d5a31e5e2bd792ec_id/courses",
-      "courseOfferings/id/sections" => "courseOfferings/4e22b4b0aac3310de7f4b789d5a31e5e2bd792ec_id/sections",
-      "courseOfferings/id/sessions" => "courseOfferings/4e22b4b0aac3310de7f4b789d5a31e5e2bd792ec_id/sessions",
-      "courses/id/courseOfferings" => "courses/7f3baa1a1f553809c6539671f08714aed6ec8b0c_id/courseOfferings",
-      "courses/id/courseOfferings/sessions" => "courses/7f3baa1a1f553809c6539671f08714aed6ec8b0c_id/courseOfferings/sessions",
-      "patchSEACourseOffering" => "courseOfferings",
-      "seaCourse" => "educationOrganizations/884daa27d806c2d725bc469b273d840493f84b4d_id/courses",
-      "cohort" => "cohorts",
-      "competencyLevelDescriptor" => "competencyLevelDescriptor",
-      "patchCompetencyLevelDescriptor" => "competencyLevelDescriptor",
-      "course" => "courses",
-      "patchSEACourse" => "courses",
-      "disciplineAction" => "disciplineActions",
-      "disciplineIncident" => "disciplineIncidents",
-      "educationOrganization" => "educationOrganizations",
-      "educationOrganizations/id/courses" => "educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/courses",
-      "educationOrganizations/id/educationOrganizations" => "educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/educationOrganizations",
-      "educationOrganizations/id/graduationPlans" => "educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/graduationPlans",
-      "educationOrganizations/id/schools" => "educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/schools",
-      "educationOrganizations/id/studentCompetencyObjectives" => "educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/studentCompetencyObjectives",
-      "gradebookEntry" => "gradebookEntries",
-      "grade" => "grades",
-      "gradingPeriod" => "gradingPeriods",
-      "graduationPlan" => "graduationPlans",
-      "patchGradingPeriod" => "gradingPeriods",
-      "graduationPlan" => "graduationPlans",
-      "patchGraduationPlan" => "graduationPlans",
-      "invalidEntry" => "school",
-      "learningObjectives/id/childLearningObjectives" => "learningObjectives/18f258460004b33fa9c1249b8c9ed3bd33c41645_id/childLearningObjectives",
-      "learningObjectives/id/learningStandards" => "learningObjectives/18f258460004b33fa9c1249b8c9ed3bd33c41645_id/learningStandards",
-      "learningObjectives/id/parentLearningObjectives" => "learningObjectives/18f258460004b33fa9c1249b8c9ed3bd33c41645_id/parentLearningObjectives",
-      "learningStandard" => "learningStandards",
-      "patchLearningStandard" => "learningStandards",
-      "learningObjective" => "learningObjectives",
-      "patchLearningObjective" => "learningObjectives",
-      "newParentDad" => "parents",
-      "newParentMom" => "parents",
-      "orphanEdorg" => "educationOrganizations",
-      "parent" => "parents",
-      "patchEdOrg" => "educationOrganizations",
-      "program" => "programs",
-      "patchProgram" => "programs",
-      "reportCard" => "reportCards",
-      "school" => "educationOrganizations",
-      "schools" => "schools",
-      "schools/id/courseOfferings" => "schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/courseOfferings",
-      "schools/id/courses" => "schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/courses",
-      "schools/id/sections" => "schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/courses",
-      "schools/id/sessions" => "schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/courses",
-      "schools/id/sessions/gradingPeriods" => "schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/sessions/gradingPeriods",
-      "section" => "sections",
-      "session" => "sessions",
-      "sessions/id/courseOfferings" => "sessions/fe6e1a162e6f6825830d78d72cb55498afaedcd3_id/courseOfferings",
-      "sessions/id/courseOfferings/courses" => "sessions/fe6e1a162e6f6825830d78d72cb55498afaedcd3_id/courseOfferings/courses",
-      "sessions/id/sections" => "sessions/fe6e1a162e6f6825830d78d72cb55498afaedcd3_id/sections",
-      "patchSession" => "sessions",
-      "staff" => "staff",
-      "newStaff" => "staff",
-      "staffCohortAssociation" => "staffCohortAssociations",
-      "staffEducationOrganizationAssociation" => "staffEducationOrgAssignmentAssociations",
-      "staffStudent" => "students",
-      "student" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students",
-      "newStudent" => "students",
-      "studentAcademicRecord" => "studentAcademicRecords",
-      "studentAssessment" => "studentAssessments",
-      "studentCohortAssociation" => "studentCohortAssociations",
-      "studentCompetencyObjective" => "studentCompetencyObjectives",
-      "patchStudentCompetencyObjective" => "studentCompetencyObjectives",
-      "studentDisciplineIncidentAssociation" => "studentDisciplineIncidentAssociations",
-      "studentSchoolAssociation" => "studentSchoolAssociations",
-      "studentSectionAssociation" => "studentSectionAssociations",
-      "studentParentAssociation" => "studentParentAssociations",
-      "studentProgramAssociation" => "studentProgramAssociations",
-      "newStudentParentAssociation" => "studentParentAssociations",
-      "teacher" => "teachers",
-      "newTeacher" => "teachers",
-      "teacherSchoolAssociation" => "teacherSchoolAssociations",
-      "teacherSectionAssociation" => "teacherSectionAssociations",
-      "wrongSchoolURI" => "schoolz",
-      "studentCompetency" => "studentCompetencies",
-      "yearlyTranscript" => "yearlyTranscripts"
+    "attendance" => "attendances",
+    "assessment" => "assessments",
+    "assessments/id/learningObjectives" => "assessments/235e448a14cc25ac0ede32bf35e9a798bf2cbc1d_id/learningObjectives",
+    "assessments/id/learningStandards" => "assessments/235e448a14cc25ac0ede32bf35e9a798bf2cbc1d_id/learningStandards",
+    "patchAssessment" => "assessments",
+    "courseOffering" => "courseOfferings",
+    "courseOfferings/id/courses" => "courseOfferings/4e22b4b0aac3310de7f4b789d5a31e5e2bd792ec_id/courses",
+    "courseOfferings/id/sections" => "courseOfferings/4e22b4b0aac3310de7f4b789d5a31e5e2bd792ec_id/sections",
+    "courseOfferings/id/sessions" => "courseOfferings/4e22b4b0aac3310de7f4b789d5a31e5e2bd792ec_id/sessions",
+    "courses/id/courseOfferings" => "courses/7f3baa1a1f553809c6539671f08714aed6ec8b0c_id/courseOfferings",
+    "courses/id/courseOfferings/sessions" => "courses/7f3baa1a1f553809c6539671f08714aed6ec8b0c_id/courseOfferings/sessions",
+    "patchSEACourseOffering" => "courseOfferings",
+    "seaCourse" => "educationOrganizations/884daa27d806c2d725bc469b273d840493f84b4d_id/courses",
+    "cohort" => "cohorts",
+    "competencyLevelDescriptor" => "competencyLevelDescriptor",
+    "patchCompetencyLevelDescriptor" => "competencyLevelDescriptor",
+    "course" => "courses",
+    "patchSEACourse" => "courses",
+    "disciplineAction" => "disciplineActions",
+    "disciplineIncident" => "disciplineIncidents",
+    "educationOrganization" => "educationOrganizations",
+    "educationOrganizations/id/courses" => "educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/courses",
+    "educationOrganizations/id/educationOrganizations" => "educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/educationOrganizations",
+    "educationOrganizations/id/graduationPlans" => "educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/graduationPlans",
+    "educationOrganizations/id/schools" => "educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/schools",
+    "educationOrganizations/id/studentCompetencyObjectives" => "educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/studentCompetencyObjectives",
+    "gradebookEntry" => "gradebookEntries",
+    "grade" => "grades",
+    "gradingPeriod" => "gradingPeriods",
+    "graduationPlan" => "graduationPlans",
+    "patchGradingPeriod" => "gradingPeriods",
+    "graduationPlan" => "graduationPlans",
+    "patchGraduationPlan" => "graduationPlans",
+    "invalidEntry" => "school",
+    "learningObjectives/id/childLearningObjectives" => "learningObjectives/18f258460004b33fa9c1249b8c9ed3bd33c41645_id/childLearningObjectives",
+    "learningObjectives/id/learningStandards" => "learningObjectives/18f258460004b33fa9c1249b8c9ed3bd33c41645_id/learningStandards",
+    "learningObjectives/id/parentLearningObjectives" => "learningObjectives/18f258460004b33fa9c1249b8c9ed3bd33c41645_id/parentLearningObjectives",
+    "learningStandard" => "learningStandards",
+    "patchLearningStandard" => "learningStandards",
+    "learningObjective" => "learningObjectives",
+    "patchLearningObjective" => "learningObjectives",
+    "newParentDad" => "parents",
+    "newParentMom" => "parents",
+    "orphanEdorg" => "educationOrganizations",
+    "parent" => "parents",
+    "patchEdOrg" => "educationOrganizations",
+    "program" => "programs",
+    "patchProgram" => "programs",
+    "reportCard" => "reportCards",
+    "school" => "educationOrganizations",
+    "schools" => "schools",
+    "schools/id/courseOfferings" => "schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/courseOfferings",
+    "schools/id/courses" => "schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/courses",
+    "schools/id/sections" => "schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/courses",
+    "schools/id/sessions" => "schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/courses",
+    "schools/id/sessions/gradingPeriods" => "schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/sessions/gradingPeriods",
+    "section" => "sections",
+    "session" => "sessions",
+    "sessions/id/courseOfferings" => "sessions/fe6e1a162e6f6825830d78d72cb55498afaedcd3_id/courseOfferings",
+    "sessions/id/courseOfferings/courses" => "sessions/fe6e1a162e6f6825830d78d72cb55498afaedcd3_id/courseOfferings/courses",
+    "sessions/id/sections" => "sessions/fe6e1a162e6f6825830d78d72cb55498afaedcd3_id/sections",
+    "patchSession" => "sessions",
+    "staff" => "staff",
+    "newStaff" => "staff",
+    "staffCohortAssociation" => "staffCohortAssociations",
+    "staffEducationOrganizationAssociation" => "staffEducationOrgAssignmentAssociations",
+    "staffStudent" => "students",
+    "student" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students",
+    "newStudent" => "students",
+    "studentAcademicRecord" => "studentAcademicRecords",
+    "studentAssessment" => "studentAssessments",
+    "studentCohortAssociation" => "studentCohortAssociations",
+    "studentCompetencyObjective" => "studentCompetencyObjectives",
+    "patchStudentCompetencyObjective" => "studentCompetencyObjectives",
+    "studentDisciplineIncidentAssociation" => "studentDisciplineIncidentAssociations",
+    "studentSchoolAssociation" => "studentSchoolAssociations",
+    "studentSectionAssociation" => "studentSectionAssociations",
+    "studentParentAssociation" => "studentParentAssociations",
+    "studentProgramAssociation" => "studentProgramAssociations",
+    "newStudentParentAssociation" => "studentParentAssociations",
+    "teacher" => "teachers",
+    "newTeacher" => "teachers",
+    "teacherSchoolAssociation" => "teacherSchoolAssociations",
+    "teacherSectionAssociation" => "teacherSectionAssociations",
+    "wrongSchoolURI" => "schoolz",
+    "studentCompetency" => "studentCompetencies",
+    "yearlyTranscript" => "yearlyTranscripts"
   }
   return entity_to_endpoint_map[entity]
 end
 
-def getEntityId(entity)
-  entity_to_id_map = {
-      "orphanEdorg" => "54b4b51377cd941675958e6e81dce69df801bfe8_id",
-      "IL-Daybreak" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id",
-      "IL-Highwind" => "99d527622dcb51c465c515c0636d17e085302d5e_id",
-      "District-5"  => "880572db916fa468fbee53a68918227e104c10f5_id",
-      "Daybreak Central High" => "a13489364c2eb015c219172d561c62350f0453f3_id"
+def get_full_patch_entity_from_api(entity_name)
+  entity_to_endpoint_map = {
+    "newParentDad" => "parents/41f42690a7c8eb5b99637fade00fc72f599dab07_id",
+    "newParentMom" => "parents/41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id",
+    "newStudent" => "students/9bf3036428c40861238fdc820568fde53e658d88_id",
+    "newStudentParentAssociation" => "studentParentAssociations/9bf3036428c40861238fdc820568fde53e658d88_idc3a6a4ed285c14f562f0e0b63e1357e061e337c6_id",
+    "patchEdOrg" => "educationOrganizations/a13489364c2eb015c219172d561c62350f0453f3_id",
+    "patchProgram" => "programs/0ee2b448980b720b722706ec29a1492d95560798_id",
+    "patchGradingPeriod" => "gradingPeriods/8feb483ade5d7b3b45c1e4b4a50d00302cba4548_id",
+    "patchLearningObjective" => "learningObjectives/bc2dd61ff2234eb25835dbebe22d674c8a10e963_id",
+    "patchLearningStandard" => "learningStandards/1bd6fea0e8b8ac6a8fe87a8530effbced0df9318_id",
+    "patchCompetencyLevelDescriptor" => "competencyLevelDescriptor/ceddd8ec0ee71c1f4f64218e00581e9b27c0fffb_id",
+    "patchStudentCompetencyObjective" => "studentCompetencyObjectives/ef680988e7c411cdb5438ded373512cd59cbfa7b_id",
+    "patchSession" => "sessions/fe6e1a162e6f6825830d78d72cb55498afaedcd3_id",
+    "patchSEACourse" => "courses/494d4c8281ec78c7d8634afb683d39f6afdc5b85_id",
+    "patchSEACourseOffering" => "courseOfferings/0fee7a7aba9a96388ef628b7e3e5e5ea60a142a7_id",
+    "patchAssessment" => "assessments/8d58352d180e00da82998cf29048593927a25c8e_id",
+    "patchGraduationPlan" => "graduationPlans/a77cdbececc81173aa76a34c05f9aeb44126a64d_id"
   }
-  return entity_to_id_map[entity]
+  # perform a GET request on the requested API endpoint
+  return get_response_body(entity_to_endpoint_map[entity_name])
 end
 
-def getEntityBodyFromApi(entity, api_version, verb)
-  return {entity=>nil} if verb == "POST"
-  entity_to_uri_map = {
-      "school" => "educationOrganizations/a13489364c2eb015c219172d561c62350f0453f3_id",
-      "educationOrganization" => "educationOrganizations",
-      "newCourseOffering" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/courseOfferings",
-      "newParentDad" => "parents/41f42690a7c8eb5b99637fade00fc72f599dab07_id",
-      "newParentMom" => "parents/41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id",
-      "orphanEdorg" => "educationOrganizations/54b4b51377cd941675958e6e81dce69df801bfe8_id",
-      "parent" => "parents",
-      "patchEdOrg" => "educationOrganizations/a13489364c2eb015c219172d561c62350f0453f3_id",
-      "section" => "sections",
-      "newSection" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/sections",
-      "staffEducationOrganizationAssociation" => "staffEducationOrgAssignmentAssociations",
-      "staffProgramAssociation" => "staffProgramAssociations",
-      "staffStudent" => "students",
-      "student" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students",
-      "newStudent" => "students/9bf3036428c40861238fdc820568fde53e658d88_id",
-      "studentCohortAssocation" => "studentCohortAssociations",
-      "studentDisciplineIncidentAssociation" => "studentDisciplineIncidentAssociations",
-      "studentParentAssociation" => "students/9bf3036428c40861238fdc820568fde53e658d88_id/studentParentAssociations",
-      "newStudentParentAssociation" => "studentParentAssociations/9bf3036428c40861238fdc820568fde53e658d88_idc3a6a4ed285c14f562f0e0b63e1357e061e337c6_id",
-      "studentProgramAssociation" => "studentProgramAssociations",
-      "studentSchoolAssociation" => "studentSchoolAssociations",
-      "studentSectionAssociation" => "studentSectionAssociations",
-      "teacherSchoolAssociation" => "teacherSchoolAssociations",
-      "patchProgram" => "programs/0ee2b448980b720b722706ec29a1492d95560798_id",
-      "patchGradingPeriod" => "gradingPeriods/8feb483ade5d7b3b45c1e4b4a50d00302cba4548_id",
-      "patchLearningObjective" => "learningObjectives/bc2dd61ff2234eb25835dbebe22d674c8a10e963_id",
-      "patchLearningStandard" => "learningStandards/1bd6fea0e8b8ac6a8fe87a8530effbced0df9318_id",
-      "patchCompetencyLevelDescriptor" => "competencyLevelDescriptor/ceddd8ec0ee71c1f4f64218e00581e9b27c0fffb_id",
-      "patchStudentCompetencyObjective" => "studentCompetencyObjectives/ef680988e7c411cdb5438ded373512cd59cbfa7b_id",
-      "patchSession" => "sessions/fe6e1a162e6f6825830d78d72cb55498afaedcd3_id",
-      "patchSEACourse" => "courses/494d4c8281ec78c7d8634afb683d39f6afdc5b85_id",
-      "patchSEACourseOffering" => "courseOfferings/0fee7a7aba9a96388ef628b7e3e5e5ea60a142a7_id",
-      "patchAssessment" => "assessments/8d58352d180e00da82998cf29048593927a25c8e_id",
-      "patchGraduationPlan" => "graduationPlans/a77cdbececc81173aa76a34c05f9aeb44126a64d_id"
+def get_patch_body_by_entity_name(field, value)
+  entity_name_to_patch_body_map = {
+    "postalCode" => {
+      "address"=>[{"postalCode"=>value.to_s,
+                  "nameOfCounty"=>"Wake",
+                  "streetNumberName"=>"111 Ave A",
+                  "stateAbbreviation"=>"IL",
+                  "addressType"=>"Physical",
+                  "city"=>"Chicago"
+                 }]
+    },
+    "contactPriority" => {
+      "contactPriority" => value.to_i
+    },
+    "studentLoginId" => {
+      "loginId" => value,
+      "sex" => "Male"
+    },
+    "momLoginId" => {
+        "loginId" => value
+    },
+    "dadLoginId" => {
+        "loginId" => value
+    },
+    "patchProgramType" => {
+        "programType" => value
+    },
+    "patchEndDate" => {
+        "endDate" => value
+    },
+    "patchDescription" => {
+        "description" => value
+    },
+    "patchCourseDesc" => {
+        "courseDescription" => value
+    },
+    "patchCourseId" => {
+        "courseId" => value
+    },
+    "patchContentStd" => {
+        "contentStandard" => value
+    },
+    "patchIndividualPlan" => {
+        "individualPlan" => value
+    },
+    "studentParentName" => {
+      "name" => {
+        "middleName" => "Fatang",
+        "lastSurname" => "ZoopBoing",
+        "firstName" => "Pang"
+      }
+    }
   }
+  return entity_name_to_patch_body_map[field]
+end
+
+def get_entity_body_from_api(entity_name)
+  entity_to_uri_map = {
+    "school" => "educationOrganizations/a13489364c2eb015c219172d561c62350f0453f3_id",
+    "educationOrganization" => "educationOrganizations",
+    "newCourseOffering" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/courseOfferings",
+    "newParentDad" => "parents/41f42690a7c8eb5b99637fade00fc72f599dab07_id",
+    "newParentMom" => "parents/41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id",
+    "orphanEdorg" => "educationOrganizations/54b4b51377cd941675958e6e81dce69df801bfe8_id",
+    "parent" => "parents",
+    "patchEdOrg" => "educationOrganizations/a13489364c2eb015c219172d561c62350f0453f3_id",
+    "section" => "sections",
+    "newSection" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/sections",
+    "staffEducationOrganizationAssociation" => "staffEducationOrgAssignmentAssociations",
+    "staffProgramAssociation" => "staffProgramAssociations",
+    "staffStudent" => "students",
+    "student" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students",
+    "newStudent" => "students/9bf3036428c40861238fdc820568fde53e658d88_id",
+    "studentCohortAssocation" => "studentCohortAssociations",
+    "studentDisciplineIncidentAssociation" => "studentDisciplineIncidentAssociations",
+    "studentParentAssociation" => "students/9bf3036428c40861238fdc820568fde53e658d88_id/studentParentAssociations",
+    "newStudentParentAssociation" => "studentParentAssociations/9bf3036428c40861238fdc820568fde53e658d88_idc3a6a4ed285c14f562f0e0b63e1357e061e337c6_id",
+    "studentProgramAssociation" => "studentProgramAssociations",
+    "studentSchoolAssociation" => "studentSchoolAssociations",
+    "studentSectionAssociation" => "studentSectionAssociations",
+    "teacherSchoolAssociation" => "teacherSchoolAssociations",
+    "patchProgram" => "programs/0ee2b448980b720b722706ec29a1492d95560798_id",
+    "patchGradingPeriod" => "gradingPeriods/8feb483ade5d7b3b45c1e4b4a50d00302cba4548_id",
+    "patchLearningObjective" => "learningObjectives/bc2dd61ff2234eb25835dbebe22d674c8a10e963_id",
+    "patchLearningStandard" => "learningStandards/1bd6fea0e8b8ac6a8fe87a8530effbced0df9318_id",
+    "patchCompetencyLevelDescriptor" => "competencyLevelDescriptor/ceddd8ec0ee71c1f4f64218e00581e9b27c0fffb_id",
+    "patchStudentCompetencyObjective" => "studentCompetencyObjectives/ef680988e7c411cdb5438ded373512cd59cbfa7b_id",
+    "patchSession" => "sessions/fe6e1a162e6f6825830d78d72cb55498afaedcd3_id",
+    "patchSEACourse" => "courses/494d4c8281ec78c7d8634afb683d39f6afdc5b85_id",
+    "patchSEACourseOffering" => "courseOfferings/0fee7a7aba9a96388ef628b7e3e5e5ea60a142a7_id",
+    "patchAssessment" => "assessments/8d58352d180e00da82998cf29048593927a25c8e_id",
+    "patchGraduationPlan" => "graduationPlans/a77cdbececc81173aa76a34c05f9aeb44126a64d_id"
+  }
+  return get_response_body(entity_to_uri_map[entity_name])
+end
+
+def get_response_body(endpoint)
   # Perform GET request and verify we get a response and a response body
-  restHttpGet("/#{api_version}/#{entity_to_uri_map[entity]}")
+  restHttpGet("/#{@api_version}/#{endpoint}")
   assert(@res != nil, "Response from rest-client GET is nil")
   assert(@res.body != nil, "Response body is nil")
-  # Make sure we actually hit the entity
-  puts "Ensuring the GET request returned 200"
-  step "I should receive a return code of 200"
-  puts "GET request: 200 (OK)"
   # Store the response in an entity-specific response map
-  response_map = JSON.parse(@res)
+  response_body = JSON.parse(@res)
   # Fail if we do not find the entity in response body from GET request
-  assert(response_map != nil, "No response body for #{entity} returned by GET request")
-  return response_map
+  assert(response_body != nil, "No response body for #{endpoint} returned by GET request")
+  return response_body
 end
 
 When /^I request an unsecured latest delta via API for tenant "(.*?)", lea "(.*?)" with appId "(.*?)"$/ do |tenant, lea, app_id |
@@ -1550,12 +1671,16 @@ end
 
 def get_entity_endpoint(type)
   case type
+    when "competencyLevelDescriptor"
+      "competencyLevelDescriptor"
     when "gradebookEntry"
       "gradebookEntries"
     when "staff"
       "staff"
     when "staffEducationOrganizationAssociation"
       "staffEducationOrgAssignmentAssociations"
+    when "studentCompetency"
+      "studentCompetencies"
     when "studentGradebookEntry"
       "studentGradebookEntries"
     else
@@ -2658,58 +2783,6 @@ def prepareBody(verb, value, response_map)
   field_data = {
     "GET" => response_map,
     "POST" => {
-    },
-    "PATCH" => {
-      "postalCode" => {
-        "address"=>[{"postalCode"=>value.to_s,
-                    "nameOfCounty"=>"Wake",
-                    "streetNumberName"=>"111 Ave A",
-                    "stateAbbreviation"=>"IL",
-                    "addressType"=>"Physical",
-                    "city"=>"Chicago"
-                   }]
-      },
-      "contactPriority" => {
-        "contactPriority" => value.to_i
-      },
-      "studentLoginId" => {
-        "loginId" => value,
-        "sex" => "Male"
-      },
-      "momLoginId" => {
-          "loginId" => value
-      },
-      "dadLoginId" => {
-          "loginId" => value
-      },
-      "patchProgramType" => {
-          "programType" => value
-      },
-      "patchEndDate" => {
-          "endDate" => value
-      },
-      "patchDescription" => {
-          "description" => value
-      },
-      "patchCourseDesc" => {
-          "courseDescription" => value
-      },
-      "patchCourseId" => {
-          "courseId" => value
-      },
-      "patchContentStd" => {
-          "contentStandard" => value
-      },
-      "patchIndividualPlan" => {
-          "individualPlan" => value
-      },
-      "studentParentName" => {
-        "name" => {
-          "middleName" => "Fatang",
-          "lastSurname" => "ZoopBoing",
-          "firstName" => "Pang"
-        },
-      }
     }
   }
   return field_data

@@ -40,6 +40,10 @@ Feature: As a student or staff I want to use apps that access the inBloom API
       | educationOrganizations      | 1b223f577827204a1c7e9c851dba06bea6b031fe_id | shortNameOfInstitution | 403        |
       | gradingPeriods              | e71e876487c72d1c1c0e9f7fa413815706e7f422_id | endDate                | 403        |
       | assessments                 | 8e47092935b521fb6aba9fdec94a4f961f04cd45_id | identificationCode     | 403        |
+    # We are using this more robust stepdef because certain entities require patching embedded non-string fields
+    #When I PATCH and validate the following entities:
+      #|  field               |  entityName                   |  value                                 |  returnCode  |
+      #|  patchIndividualPlan |  patchEdOrg                   |  false                                 |  204         |
     #DELETE
     When I DELETE and validate the following entities:
       | entity                | id                                          | returnCode  |
@@ -93,7 +97,7 @@ Feature: As a student or staff I want to use apps that access the inBloom API
       | learningObjective     | 735a9b42268fbe4a5be61124034be656249759dd_id | 403         |
       | learningStandard      | 7a9dc734146e8deff33b53a4e645e6b7cfd2c167_id | 403         |
       | program               | de7da21b8c7f020cc66a438d3cd13eb32ba41cb0_id | 403         |
-      | schools               | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id | 403         |
+      | school                | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id | 403         |
       | section               | 2982f5d3840b0a46bf152c7b7243c0db8dda694f_id | 403         |
       | session               | bfeaf9315f04797a41dbf1663d18ead6b6fb1309_id | 403         |
     When I DELETE and validate the following entities:
