@@ -36,7 +36,7 @@ import java.util.Set;
 public class StudentToStudentSectionAssociationValidator extends AbstractContextValidator{
 
     @Autowired
-    private TransitiveStudentToStudentValidator studentValidator;
+    private StudentToStudentValidator studentValidator;
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
@@ -66,8 +66,6 @@ public class StudentToStudentSectionAssociationValidator extends AbstractContext
             }
         }
 
-        // If we were just asking about our own data (otherStudentIds is empty) return true,
-        // else validate access to the other requested students and return that
         return otherStudentIds.isEmpty() || studentValidator.validate(EntityNames.STUDENT, otherStudentIds);
     }
 }
