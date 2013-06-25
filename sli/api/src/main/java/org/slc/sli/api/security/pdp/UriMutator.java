@@ -351,10 +351,18 @@ public class UriMutator {
                 mutated.setPath(String.format("/students/%s/reportCards", StringUtils.join(getStudentIds(user))));
             } else if (PathConstants.TEACHERS.equals(baseEntity)) {
                 mutated.setPath(String.format("/sections/%s/teacherSectionAssociations/teachers", StringUtils.join(getSectionIds(user))));
+            } else if (PathConstants.TEACHER_SECTION_ASSOCIATIONS.equals(baseEntity)) {
+                mutated.setPath(String.format("/sections/%s/teacherSectionAssociations", StringUtils.join(getSectionIds(user))));
+            } else if (PathConstants.TEACHER_SCHOOL_ASSOCIATIONS.equals(baseEntity)) {
+                mutated.setPath(String.format("/schools/%s/teacherSchoolAssociations", StringUtils.join(edOrgHelper.getDirectEdorgs(user), ",")));
             } else if (PathConstants.STAFF.equals(baseEntity)) {
                 mutated.setPath(String.format("/educationOrganizations/%s/staffEducationOrgAssignmentAssociations/staff", StringUtils.join(edOrgHelper.getDirectEdorgs(user), ",")));
             } else if (PathConstants.STAFF_COHORT_ASSOCIATIONS.equals(baseEntity)) {
                 mutated.setPath(String.format("/cohorts/%s/staffCohortAssociations", StringUtils.join(getCohortIds(user))));
+            } else if (PathConstants.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS.equals(baseEntity)) {
+                mutated.setPath(String.format("/educationOrganizations/%s/staffEducationOrgAssignmentAssociations", StringUtils.join(edOrgHelper.getDirectEdorgs(user), ",")));
+            } else if (PathConstants.STAFF_PROGRAM_ASSOCIATIONS.equals(baseEntity)) {
+                mutated.setPath(String.format("/programs/%s/staffProgramAssociations", StringUtils.join(getProgramIds(user))));
             } else if (PathConstants.STUDENTS.equals(baseEntity)) {
                 mutated.setPath(String.format("/sections/%s/studentSectionAssociations/students", StringUtils.join(getSectionIds(user))));
             } else if (PathConstants.STUDENT_ACADEMIC_RECORDS.equals(baseEntity)) {
@@ -1009,27 +1017,45 @@ public class UriMutator {
         return removeBrackets(sectionHelper.getStudentsSections(principal).toString());
     }
 
-    private String getCohortIds(Entity principal) {
-        Set<String> cohortsId = new HashSet<String>();
+    private String getProgramIds(Entity principal) {
+        Set<String> programsId = null;
         if (isStudent(principal)) {
-            Map<String, List<Entity>> myEmbeddedData = principal.getEmbeddedData();
-            List<Entity> myCohorts = myEmbeddedData == null ? Collections.<Entity> emptyList() : myEmbeddedData.get(EntityNames.STUDENT_COHORT_ASSOCIATION);
-            if (myCohorts == null || myCohorts.isEmpty()) {
-                throw new EntityNotFoundException("No association to any cohorts");
-            }
-            
-            for (Entity cohortAssociation : myCohorts) {
-                if (!dateHelper.isFieldExpired(cohortAssociation.getBody(), ParameterConstants.END_DATE)) {
-                    cohortsId.add((String) cohortAssociation.getBody().get(ParameterConstants.COHORT_ID));
-                }
-            }
+            programsId = getSubdocIds(principal, EntityNames.STUDENT_PROGRAM_ASSOCIATION, ParameterConstants.PROGRAM_ID);
         }
         
-        if (cohortsId.isEmpty()) {
+        if (programsId == null || programsId.isEmpty()) {
+            throw new EntityNotFoundException("No association to any programs");
+        }
+        
+        return removeBrackets(programsId.toString());
+    }
+
+    private String getCohortIds(Entity principal) {
+        Set<String> cohortsId = null;
+        if (isStudent(principal)) {
+            cohortsId = getSubdocIds(principal, EntityNames.STUDENT_COHORT_ASSOCIATION, ParameterConstants.COHORT_ID);
+        }
+        
+        if (cohortsId == null || cohortsId.isEmpty()) {
             throw new EntityNotFoundException("No association to any cohorts");
         }
         
         return removeBrackets(cohortsId.toString());
+    }
+    
+    private Set<String> getSubdocIds(Entity superdoc, String subdocType, String subdocField) {
+        Set<String> subdocFields = new HashSet<String>();
+        Map<String, List<Entity>> myEmbeddedData = superdoc.getEmbeddedData();
+        List<Entity> myAssociations = myEmbeddedData == null ? Collections.<Entity> emptyList() : myEmbeddedData.get(subdocType);
+        if (myAssociations != null && !myAssociations.isEmpty()) {
+            for (Entity association : myAssociations) {
+                if (!dateHelper.isFieldExpired(association.getBody(), ParameterConstants.END_DATE)) {
+                    subdocFields.add((String) association.getBody().get(subdocField));
+                }
+            }
+        }
+       
+        return subdocFields;
     }
 
     private String removeBrackets(String s) {

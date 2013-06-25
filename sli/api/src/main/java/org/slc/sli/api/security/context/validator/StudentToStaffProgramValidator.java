@@ -15,29 +15,28 @@
  */
 package org.slc.sli.api.security.context.validator;
 
-import java.util.Arrays;
 import java.util.Set;
 
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.domain.Entity;
 
 /**
- * Validator to deny access to all non transitive access to staff (/staff/id/somethingElse)
+ * Validator for student to staff program associations
  *
  * @author nbrown
  *
  */
 @Component
-public class StudentToStaffValidator extends BasicValidator {
-
-    public StudentToStaffValidator() {
-        super(false, EntityNames.STUDENT, Arrays.asList(EntityNames.STAFF, EntityNames.TEACHER));
+public class StudentToStaffProgramValidator extends StudentToStaffAssociation {
+    public StudentToStaffProgramValidator() {
+        super(EntityNames.STAFF_PROGRAM_ASSOCIATION, "programId");
     }
 
     @Override
-    protected boolean doValidate(Set<String> ids) {
-        return false;
+    protected Set<String> getStudentAssociationIds(Entity me) {
+        return getStudentAssociationsFromSubDoc(me, "studentProgramAssociation", "programId");
     }
 
 }

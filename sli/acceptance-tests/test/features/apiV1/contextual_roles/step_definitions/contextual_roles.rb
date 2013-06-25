@@ -36,7 +36,7 @@ Transform /^<(.*?)>$/ do |human_readable_id|
   id = "/v1/students/3d7084654aa96c1fdc68a27664760f6bb1b97b5a_id"         if human_readable_id == "bert.jakeman URI"
   id = "/v1/students/b98a593e13945f54ecc3f1671127881064ab592d_id"         if human_readable_id == "nate.dedrick URI"
   id = "/v1/students/2d17703cb29a95bbfdaab47f513cafdc0ef55d67_id"         if human_readable_id == "mu.mcneill URI"
-
+  id = "/v1/students/df54047bf88ecd7e2f6fbf00951196f747c9ccfc_id"         if human_readable_id == "jack.jackson URI"
   id
 end
 
@@ -46,28 +46,30 @@ end
 #############################################################################################
 
 #Undo changes made by update_mongo, remove_from_mongo, and add_to_mongo after the scenario ends
-After do
-  unless @mongo_changes.nil?
-    @mongo_changes.reverse_each do |mongo_change|
-      disable_NOTABLESCAN()
-      conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
-      db = conn[mongo_change[:tenant]]
-      coll = db.collection(mongo_change[:collection])
-      if mongo_change[:operation] == 'remove'
-        coll.insert(mongo_change[:value])
-      elsif mongo_change[:operation] == 'update'
-        if mongo_change[:found]
-          coll.update(mongo_change[:query], {'$set' => {mongo_change[:field] => mongo_change[:value]}})
-        else
-          coll.update(mongo_change[:query], {'$unset' => {mongo_change[:field] => 1}})
+After do |scenario|
+  if scenario.passed?
+    unless @mongo_changes.nil?
+      @mongo_changes.reverse_each do |mongo_change|
+        disable_NOTABLESCAN()
+        conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+        db = conn[mongo_change[:tenant]]
+        coll = db.collection(mongo_change[:collection])
+        if mongo_change[:operation] == 'remove'
+          coll.insert(mongo_change[:value])
+        elsif mongo_change[:operation] == 'update'
+          if mongo_change[:found]
+            coll.update(mongo_change[:query], {'$set' => {mongo_change[:field] => mongo_change[:value]}})
+          else
+            coll.update(mongo_change[:query], {'$unset' => {mongo_change[:field] => 1}})
+          end
+        elsif mongo_change[:operation] == 'add'
+          entity = mongo_change[:entity]
+          query = {'_id' => entity['_id']}
+          coll.remove(query)
         end
-      elsif mongo_change[:operation] == 'add'
-        entity = mongo_change[:entity]
-        query = {'_id' => entity['_id']}
-        coll.remove(query)
+        conn.close
+        enable_NOTABLESCAN()
       end
-      conn.close
-      enable_NOTABLESCAN()
     end
   end
 end
@@ -376,6 +378,21 @@ Given /^the following student section associations in ([^ ]*) are set correctly$
   enable_NOTABLESCAN()
 end
 
+Given /^I change the type of "([^"]*)" to "([^"]*)"$/ do |user, type|
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  db_name = convertTenantIdToDbName(@tenant)
+  db = conn[db_name]
+  staff_coll = db.collection('staff')
+  staff_id = staff_coll.find_one({'body.staffUniqueStateId' => user})['_id']
+
+  query = { '_id' => staff_id}
+  update_mongo(db_name, 'staff', query, 'type', false, type)
+
+  conn.close
+  enable_NOTABLESCAN()
+end
+
 Given /^"([^"]*)" is not associated with any (program|cohort) that belongs to "([^"]*)"$/ do |student, collection, staff|
   disable_NOTABLESCAN()
   conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
@@ -397,6 +414,7 @@ Given /^"([^"]*)" is not associated with any (program|cohort) that belongs to "(
     value.delete_if {|entry| staff_entities.include?({'body' => {"#{collection}Id" => entry['body']["#{collection}Id"]}})}
     update_mongo(db_name, 'student', query, "student#{collection.capitalize}Association", false, value)
   end
+
 
   conn.close
   enable_NOTABLESCAN()

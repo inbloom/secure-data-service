@@ -23,11 +23,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.util.datetime.DateHelper;
 import org.slc.sli.domain.Entity;
@@ -41,13 +41,15 @@ import org.slc.sli.domain.Entity;
 @Component
 public class TransitiveStudentToStaffValidator extends BasicValidator {
 
+    @Autowired
+    private DateHelper dateHelper;
+
     public TransitiveStudentToStaffValidator() {
         super(true, EntityNames.STUDENT, Arrays.asList(EntityNames.STAFF, EntityNames.TEACHER));
     }
 
     @Override
-    protected boolean doValidate(Set<String> ids) {
-        Entity me = SecurityUtil.getSLIPrincipal().getEntity();
+    protected boolean doValidate(Set<String> ids, Entity me, String entityType) {
         Set<String> idsToCheck = new HashSet<String>(ids);
         idsToCheck.removeAll(filterConnectedViaEdOrg(idsToCheck, me));
         idsToCheck.removeAll(filterConnectedViaSection(idsToCheck, me));
@@ -132,7 +134,9 @@ public class TransitiveStudentToStaffValidator extends BasicValidator {
         }
         Set<String> assocIds = new HashSet<String>();
         for (Entity subDoc : subDocs) {
-            assocIds.add((String) subDoc.getBody().get(idKey));
+            if(!getDateHelper().isFieldExpired(subDoc.getBody())) {
+                assocIds.add((String) subDoc.getBody().get(idKey));
+            }
         }
         return assocIds;
     }
@@ -145,8 +149,19 @@ public class TransitiveStudentToStaffValidator extends BasicValidator {
         }
         Set<String> assocIds = new HashSet<String>();
         for (Map<String, Object> denorm : denorms) {
-            assocIds.add((String) denorm.get(idKey));
+            if(!getDateHelper().isFieldExpired(denorm)) {
+                assocIds.add((String) denorm.get(idKey));
+            }
         }
         return assocIds;
     }
+
+    protected DateHelper getDateHelper() {
+        return dateHelper;
+    }
+
+    protected void setDateHelper(DateHelper dateHelper) {
+        this.dateHelper = dateHelper;
+    }
+
 }

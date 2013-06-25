@@ -20,11 +20,18 @@ Given I log in to realm "Illinois Daybreak Students" using simple-idp as "studen
     | studentParentAssociations | 067198fd6da91e1aa8d67e28e850f224d6851713_ide2f8c24b3e1ab8ead6e134d661a464d0f90e4c8e_id  |
     | staff                     | 63d4be8a233db1fd14676f1535fa21fe4c5dd466_id |
     | staff                     | 4255c28503a1c96ed9a9127d1a21f992e636acd6_id |
-    | staff                     | 4b07dba2b6868c0827315b99ea94fc74c0f7c902_id |
+    | staff                     | 143760f37839b2608d2c929ef26d30c900f6a434_id |
     | staff                     | 8b6a31734ed43040f8a171d5d85e39176c543f22_id |
+    | staffCohortAssociations   | a17d936ca77e391ace5d14645a4b9b78f6dbd387_id |
+    | staffProgramAssociations  | 8c163998fbc8ab004b7cf95e33fc5f6d14e87982_id |
   Then I validate that I am denied access to restricted endpoints via API:
-    | uri                                                     | rc           |
-    | /v1/staff/e40ee9041a7159c62867f63bf4da581ba9fc3dc7_id   | 403          |
+    | uri                                                                       | rc           |
+    | /v1/staff/e40ee9041a7159c62867f63bf4da581ba9fc3dc7_id                     | 403          |
+    | /v1/staffCohortAssociations/e1b4e5e0e8c1d7b84d7a8eb72958ad0a53e7ef77_id   | 403          |
+    # student association has expired
+    | /v1/staffProgramAssociations/d7fa74360c0fa06259c37fb67b07b039211c72de_id  | 403          |
+    # staff association has expired
+    | /v1/staffProgramAssociations/fa47e994944a53bc0b23a7f16fc5843149937b94_id  | 403          |
 
 @student_endpoints
 Scenario: Student has access to non-transitive associations
