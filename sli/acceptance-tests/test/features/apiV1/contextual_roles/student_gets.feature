@@ -231,6 +231,28 @@ Feature: Use the APi to successfully get student data while having roles over ma
     When I navigate to GET "<mu.mcneill URI>"
     Then I should receive a return code of 403
 
+    Given I change all SEOAs of "msmith" to the edorg "East Daybreak High"
+    And I change the custom role of "Aggregate Viewer" to add the "READ_RESTRICTED" right
+    And I change the custom role of "Leader" to remove the "READ_RESTRICTED" right
+
+    When I navigate to the API authorization endpoint with my client ID
+    And I was redirected to the "Simple" IDP Login page
+    And I submit the credentials "msmith" "msmith1234" for the "Simple" login page
+    Then I should receive a json response containing my authorization code
+    When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
+    Then I should receive a json response containing my authorization token
+    And I should be able to use the token to make valid API calls
+    When I navigate to GET "<matt.sollars URI>"
+    Then I should receive a return code of 200
+    And the response should have general student data
+    And the response should have restricted student data
+    When I navigate to GET "<jack.jackson URI>"
+    Then I should receive a return code of 200
+    And the response should have general student data
+    And the response should have restricted student data
+    When I navigate to GET "<bert.jakeman URI>"
+    Then I should receive a return code of 403
+
     Given I remove the SEOA with role "Leader" for staff "msmith" in "East Daybreak High"
 
     When I navigate to the API authorization endpoint with my client ID

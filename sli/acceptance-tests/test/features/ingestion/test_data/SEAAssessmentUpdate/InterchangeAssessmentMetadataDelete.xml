@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
+
+  <Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="false">
+<Assessment>
+    <AssessmentTitle>2013-Eleventh grade Assessment 2 A+OB+UA+DOB</AssessmentTitle>
+    <AssessmentIdentificationCode IdentificationSystem="State">
+        <ID>2013-Eleventh grade Assessment 2 A+OB+UA+DOB</ID>
+    </AssessmentIdentificationCode>
+    <AssessmentCategory>Performance assessment</AssessmentCategory>
+    <AcademicSubject>ELA</AcademicSubject>
+    <GradeLevelAssessed>Eleventh grade</GradeLevelAssessed>
+    <LowestGradeLevelAssessed>Eleventh grade</LowestGradeLevelAssessed>
+    <ContentStandard>State Standard</ContentStandard>
+    <AssessmentForm>Form</AssessmentForm>
+    <RevisionDate>2013-01-01</RevisionDate>
+    <MaxRawScore>100</MaxRawScore>
+    <Nomenclature>Nomenclature</Nomenclature>
+    <AssessmentPeriod>
+        <AssessmentPeriodDescriptorIdentity>
+            <AssessmentPeriodDescriptorCodeValue>BOY-11-2013</AssessmentPeriodDescriptorCodeValue>
+        </AssessmentPeriodDescriptorIdentity>
+    </AssessmentPeriod>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#2</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#3</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#4</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference> 
+ </Assessment>
+
+
+ <ObjectiveAssessment>
+  <IdentificationCode>2013-Eleventh grade Assessment 2.OA-0 A+OB+UA+DOB</IdentificationCode>
+  <MaxRawScore>50</MaxRawScore>
+  <AssessmentPerformanceLevel>
+    <PerformanceLevel>
+      <CodeValue>code1</CodeValue>
+      <PerformanceLevelMet>true</PerformanceLevelMet>
+    </PerformanceLevel>
+    <AssessmentReportingMethod>Number score</AssessmentReportingMethod>
+    <MinimumScore>0</MinimumScore>
+    <MaximumScore>50</MaximumScore>
+  </AssessmentPerformanceLevel>
+  <PercentOfAssessment>50</PercentOfAssessment>
+  <Nomenclature>Nomenclature</Nomenclature>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2013-Eleventh grade Assessment 2 A+OB+UA+DOB</AssessmentTitle>
+          <AcademicSubject>ELA</AcademicSubject>
+          <GradeLevelAssessed>Eleventh grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</ObjectiveAssessment>
+</Action>
+
+
+</InterchangeAssessmentMetadata>

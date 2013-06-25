@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -28,7 +29,15 @@ import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.util.datetime.DateHelper;
 import org.slc.sli.domain.Entity;
 
+/**
+ * Abstract validator to student to staff xxx associations
+ *
+ * @author nbrown
+ *
+ */
 public abstract class StudentToStaffAssociation extends BasicValidator {
+
+    private final String associationIdField = "_id";
 
     private final String collection;
 
@@ -43,10 +52,7 @@ public abstract class StudentToStaffAssociation extends BasicValidator {
     @Override
     protected boolean doValidate(Set<String> ids, Entity me, String entityType) {
         Set<String> studentAssociations = getStudentAssociationIds(me);
-        Iterator<Entity> results = getRepo().findEach(
-                this.collection,
-                Query.query(Criteria.where("_id").in(ids).and("body." + associationField)
-                        .in(new ArrayList<String>(studentAssociations)).andOperator(DateHelper.getExpiredCriteria())));
+        Iterator<Entity> results = getMatchingAssociations(ids, studentAssociations);
         Set<String> unvalidated = new HashSet<String>(ids);
         while (results.hasNext()) {
             Entity e = results.next();
@@ -58,10 +64,18 @@ public abstract class StudentToStaffAssociation extends BasicValidator {
         return unvalidated.isEmpty();
     }
 
+    protected Iterator<Entity> getMatchingAssociations(Set<String> ids, Set<String> studentAssociations) {
+        Iterator<Entity> results = getRepo().findEach(
+                this.getCollection(),
+                Query.query(Criteria.where(associationIdField).in(ids).and("body." + associationField)
+                        .in(new ArrayList<String>(studentAssociations)).andOperator(DateHelper.getExpiredCriteria())));
+        return results;
+    }
+
     protected Set<String> getStudentAssociationsFromSubDoc(Entity me, String subDocType, String associationKey) {
-        List<Entity> cohortAssociations = me.getEmbeddedData().get(subDocType);
+        List<Entity> associations = me.getEmbeddedData().get(subDocType);
         Set<String> myCohorts = new HashSet<String>();
-        for (Entity assoc : cohortAssociations) {
+        for (Entity assoc : associations) {
             if (!getDateHelper().isFieldExpired(assoc.getBody())) {
                 myCohorts.add((String) assoc.getBody().get(associationKey));
             }
@@ -69,6 +83,21 @@ public abstract class StudentToStaffAssociation extends BasicValidator {
         return myCohorts;
     }
 
+    protected Set<String> getStudentAssociationsFromDenorm(Entity me, String denormType) {
+        List<Map<String,Object>> associations = me.getDenormalizedData().get(denormType);
+        Set<String> myCohorts = new HashSet<String>();
+        for (Map<String, Object> assoc : associations) {
+            if (!getDateHelper().isFieldExpired(assoc)) {
+                myCohorts.add((String) assoc.get("_id"));
+            }
+        }
+        return myCohorts;
+    }
+
     protected abstract Set<String> getStudentAssociationIds(Entity me);
+
+    protected String getCollection() {
+        return collection;
+    }
 
 }
