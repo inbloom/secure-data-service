@@ -26,6 +26,7 @@ Given I log in to realm "Illinois Daybreak Students" using simple-idp as "studen
     | staffProgramAssociations                 | 8c163998fbc8ab004b7cf95e33fc5f6d14e87982_id |
     | staffEducationOrgAssignmentAssociations  | b1877c4d0d8e081e87f8af9a933c6d46aea5d9ad_id |
     | teacherSectionAssociations               | eb8663fe6856b49684a778446a0a1ad33238a86d_idc2e898df96ee2cb40e24e1986a2d1cbdf053184f_id |
+    | teacherSchoolAssociations                | 8495e720e4f1261f3845aeb1f499ec40359669a5_id |
   Then I validate that I am denied access to restricted endpoints via API:
     | uri                                                                                                                   | rc           |
     | /v1/staff/e40ee9041a7159c62867f63bf4da581ba9fc3dc7_id                                                                 | 403          |
