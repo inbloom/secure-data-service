@@ -575,7 +575,6 @@ When /^I POST a "(.*?)" of type "(.*?)"$/ do |entity_name, entity_type|
   response_map, value = nil
   # POST is a special case. We are creating a brand-new entity.
   # Get the entity json body from the map specified in get_post_body_by_entity_name()
-  ##DELETEME##body = prepareBody("POST", value, response_map)
   body = get_post_body_by_entity_name(entity_name)
   # Get the endpoint that corresponds to the desired entity
   endpoint = get_entity_endpoint(entity_type)
@@ -597,6 +596,7 @@ When /^I PUT the "(.*?)" for a "(.*?)" entity to "(.*?)" at "(.*?)"$/ do |field,
   #response_map = get_entity_body_from_api(entity_name)
   response_body = get_response_body(endpoint)
   assert(response_body != nil, "No response from GET request for entity #{entity_name}")
+  # If we get a list, just take the first entry. No muss, no fuss.
   response_body = response_body[0] if response_body.is_a?(Array)
   # Modify the response body field with value, will become PUT body
   put_body = update_api_put_field(response_body, field, value)
@@ -606,6 +606,9 @@ When /^I PUT the "(.*?)" for a "(.*?)" entity to "(.*?)" at "(.*?)"$/ do |field,
 end
 
 def update_api_put_field(body, field, value)
+  # This method allows us to modify custom fields in a way that is
+  # compliant with the ed-fi data structure and the type requirements per field.
+  # Some would call this hackish. I call it fiendishly clever.
   # Set the GET response body as body and edit the requested field
   body["address"][0]["postalCode"] = value.to_s if field == "postalCode"
   body["loginId"] = value if field == "loginId"
