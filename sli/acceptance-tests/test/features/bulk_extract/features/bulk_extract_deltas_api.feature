@@ -92,7 +92,7 @@ Scenario: SEA Assessment + Objective Delete Test
       |  assessment                            |
   
      And the extraction zone is empty
-	 And I ingest "SEAAssessmentDelete.zip"	
+	 And I ingest "SEAAssessmentDeleteAndUpdate.zip"	
      When I trigger a delta extract
      When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
