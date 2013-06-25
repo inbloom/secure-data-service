@@ -35,7 +35,7 @@ import java.util.*;
 public class StudentToStudentAssociationValidator extends AbstractContextValidator{
 
     @Autowired
-    private TransitiveStudentToStudentValidator studentValidator;
+    private StudentToStudentValidator studentValidator;
 
     protected static final Set<String> STUDENT_ASSOCIATIONS = new HashSet<String>(Arrays.asList(
             EntityNames.STUDENT_COHORT_ASSOCIATION,
@@ -82,9 +82,6 @@ public class StudentToStudentAssociationValidator extends AbstractContextValidat
             }
         }
 
-        // Validate the other students you found (you should have at least one,
-        // if you don't, the student validator will return false if passed in an empty list)
-        return false;
-//        return studentValidator.validate(EntityNames.STUDENT, otherStudentIds);
+        return studentValidator.validate(EntityNames.STUDENT, otherStudentIds);
     }
 }
