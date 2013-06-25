@@ -83,6 +83,11 @@ When /^I request both IDs, I should be denied$/ do
   # Explainitory step, doesn't actually do what it says, it gets done as part of a previous step
 end
 
+Then /^I should be able to see <Fields> for the entity with ID <ID>:$/ do |table|
+  # table is a Cucumber::Ast::Table
+  pending # express the regexp above with the code you wish you had
+end
+
 def validate_id_presence(res)
   id = nil
   return false if res == nil
