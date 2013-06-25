@@ -22,7 +22,6 @@ import java.util.Set;
 
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 
@@ -40,8 +39,7 @@ public class StudentToSectionValidator extends BasicValidator {
     }
 
     @Override
-    protected boolean doValidate(Set<String> ids) {
-        Entity user = SecurityUtil.getSLIPrincipal().getEntity();
+    protected boolean doValidate(Set<String> ids, Entity user, String entityType) {
         List<Map<String, Object>> sectionData = user.getDenormalizedData().get("section");
         // stupid java with no first class functions, I could do this in one line in any decent
         // language...

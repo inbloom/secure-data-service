@@ -16,23 +16,25 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import com.google.common.collect.Lists;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
-import org.slc.sli.api.security.context.PagingRepositoryDelegate;
-import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import com.google.common.collect.Lists;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 
 /**
  * Validates the context of a teacher to see the requested set of student entities.
@@ -133,7 +135,7 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
 
         // filter on end_date to get list of students
         for (Entity student : studentList) {
-            if (!dateHelper.isFieldExpired(student.getBody(), ParameterConstants.END_DATE, false)) {
+            if (!getDateHelper().isFieldExpired(student.getBody(), ParameterConstants.END_DATE, false)) {
                 studentIds.add((String) student.getBody().get(ParameterConstants.STUDENT_ID));
             }
 
@@ -183,7 +185,7 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
         addEndDateToQuery(queryForStudentRecord, false);
 
         for (Entity studentEntity : repo.findAll(entityName, queryForStudentRecord)) {
-            List<String> parameterIds = result.get((String) studentEntity.getBody().get(ParameterConstants.STUDENT_ID));
+            List<String> parameterIds = result.get(studentEntity.getBody().get(ParameterConstants.STUDENT_ID));
             parameterIds.add((String) studentEntity.getBody().get(parameter));
         }
 
@@ -248,6 +250,7 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
         return staffCohortIds;
     }
 
+    @Override
     public void setRepo(PagingRepositoryDelegate<Entity> repo) {
         this.repo = repo;
     }

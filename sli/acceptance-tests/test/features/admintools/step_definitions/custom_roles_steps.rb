@@ -292,6 +292,16 @@ Then /^the Leader, Educator, Aggregate Viewer and IT Administrator roles are now
   end
 end
 
+Then /^the Leader, Educator, Aggregate Viewer and IT Administrator role groups have the correct default role names$/ do
+  sleep 2
+  
+  ['Educator', 'Teacher', 'Leader', 'Principal', 'Superintendent', 'Aggregate Viewer', 'Specialist/Consultant',
+  'IT Administrator', 'School Administrative Support Staff', 'LEA System Administrator', 'LEA Administrator'].each do |role|
+    results = @driver.find_elements(:xpath, "//td/div/span[text()='#{role}']")
+    assert(results.size ==1 , webdriverDebugMessage(@driver,"Found unexpected occurences of role "+role+", expected 1 found "+results.size.to_s))
+  end
+end
+
 Then /^I see the mapping in the table$/ do
   # Dummy step, validation is done in WHEN step, this step just used to make the Gherkin read happy
 end

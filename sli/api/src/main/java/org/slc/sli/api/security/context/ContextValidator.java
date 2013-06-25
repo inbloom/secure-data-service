@@ -75,22 +75,6 @@ public class ContextValidator implements ApplicationContextAware {
             "parentLearningObjectives",
             "childLearningObjectives"));
 
-    protected static final Set<String> GLOBAL_ENTITIES = new HashSet<String>(
-            Arrays.asList(EntityNames.ASSESSMENT,
-            EntityNames.COMPETENCY_LEVEL_DESCRIPTOR,
-            EntityNames.COURSE,
-            EntityNames.COURSE_OFFERING,
-            EntityNames.EDUCATION_ORGANIZATION,
-            EntityNames.GRADUATION_PLAN,
-            EntityNames.GRADING_PERIOD,
-            EntityNames.LEARNING_OBJECTIVE,
-            EntityNames.LEARNING_STANDARD,
-            EntityNames.PROGRAM,
-            EntityNames.SCHOOL,
-            EntityNames.SECTION,
-            EntityNames.SESSION,
-            EntityNames.STUDENT_COMPETENCY_OBJECTIVE));
-    
     private List<IContextValidator> validators;
 
     @Autowired
@@ -344,7 +328,7 @@ public class ContextValidator implements ApplicationContextAware {
      * @return True if the entity is global, false otherwise.
      */
     public boolean isGlobalEntity(String type) {
-        return GLOBAL_ENTITIES.contains(type);
+        return EntityNames.isPublic(type);
     }
     
 }
