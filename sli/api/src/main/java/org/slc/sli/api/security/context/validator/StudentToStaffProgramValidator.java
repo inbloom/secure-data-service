@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.slc.sli.api.security.context.validator;
 
 import java.util.Set;
@@ -24,19 +23,20 @@ import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 
 /**
- * User: dkornishev
+ * Validator for student to staff program associations
+ *
+ * @author nbrown
+ *
  */
 @Component
-public class TransitiveStudentToStudentValidator extends BasicValidator {
-
-
-    public TransitiveStudentToStudentValidator() {
-        super(true, EntityNames.STUDENT, EntityNames.STUDENT);
+public class StudentToStaffProgramValidator extends StudentToStaffAssociation {
+    public StudentToStaffProgramValidator() {
+        super(EntityNames.STAFF_PROGRAM_ASSOCIATION, "programId");
     }
 
     @Override
-    protected boolean doValidate(Set<String> ids, Entity me, String entityType) {
-        //  Needs to be changed once students get access to other students
-        return ids.size() == 1 && ids.contains(me.getEntityId());
+    protected Set<String> getStudentAssociationIds(Entity me) {
+        return getStudentAssociationsFromSubDoc(me, "studentProgramAssociation", "programId");
     }
+
 }

@@ -4,7 +4,7 @@ Feature: As a student I want to use apps that access my associated Staff, Teache
 
 Background: None
 
-@student_staff_endpoints
+@wip @student_staff_endpoints
 Scenario: Student has access to directly associated teachers, staff, and student entities via API
 Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
   And format "application/json"

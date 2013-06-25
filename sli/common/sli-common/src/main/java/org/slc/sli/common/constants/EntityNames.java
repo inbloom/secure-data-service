@@ -88,6 +88,7 @@ public final class EntityNames {
             COURSE_OFFERING,
             EDUCATION_ORGANIZATION,
             GRADING_PERIOD,
+            GRADUATION_PLAN,
             LEARNING_OBJECTIVE,
             LEARNING_STANDARD,
             OBJECTIVE_ASSESSMENT,
