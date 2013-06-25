@@ -12,7 +12,7 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     And I am using api version "v1"
     #POST
     When I POST and validate the following entities:
-      | entity                        | type                       | returnCode |
+      | entityName                    | entityType                 | returnCode |
       | newProgram                    | program                    | 403        |
       | newSection                    | section                    | 403        |
       | newLearningObjective          | learningObjective          | 403        |
