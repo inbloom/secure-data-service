@@ -168,6 +168,7 @@ Given I log in to realm "Illinois Daybreak Students" using simple-idp as "studen
   #  | 58d1e760fcdc1612b900ecb8359a6d8b3e49a5ee_id |
   #  | 6757c28005c30748f3bbda02882bf59bc81e0d71_id |
 
+
 @wip @student_staff_denied
 Scenario: Student has access to non-transitive associations through sections
 Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
