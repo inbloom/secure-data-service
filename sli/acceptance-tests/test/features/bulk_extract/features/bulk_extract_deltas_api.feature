@@ -1,10 +1,12 @@
 Feature: Retrieved through the api a generated delta bulk extract file, and validate the file
 
+    
 Scenario: Initialize security trust store for Bulk Extract application and LEAs
   Given the extraction zone is empty
     And the bulk extract files in the database are scrubbed
     And The bulk extract app has been approved for "Midgar-DAYBREAK" with client id "<clientId>"
     And The X509 cert "cert" has been installed in the trust store and aliased
+
 
 Scenario: Generate a bulk extract delta after day 1 ingestion
   When I trigger a delta extract
@@ -79,35 +81,110 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
     And there is a metadata file in the extract
    Then each record in the full extract is present and matches the delta extract
 
+
+@wip
+Scenario: SEA Assessment + Objective Delete Test
+    And I ingest "SEAAssessment.zip"
+    And the extraction zone is empty
+    When I trigger a delta extract
+    When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+      |  entityType                            |
+      |  assessment                            |
+      And I verify this "assessment" file only contains:
+      | id                                         | condition                                   |
+	  |bcf0cadde56a961dd73efee8c15a6ca86c511ce8_id | assessmentTitle = Scenario 1|
+	  |0b3a35aeec13efc4547f19fc20b55b141992c795_id | assessmentTitle = Scenario 2|
+	  |f5feb4f8940c0fda119ce82f1b8d1d3162dbabc4_id | assessmentTitle = Scenario 3|
+	  |483b11e7a9ea9b0b337242bdc47fa758469f370e_id | assessmentTitle = Scenario 4|
+	  |d3580c38701831271557256b7eaa8b3c1dea1087_id | assessmentTitle = Scenario 5|
+	  |60adaf0b07d87d8f76f22df2c38717ab36935ae0_id | assessmentTitle = Scenario 6|
+	  |2a0d8d2f8049d113e2310bece5ba4aa9c5e34f59_id | assessmentTitle = Scenario 7|
+      |4e702929ba5b7b5247ea0085d79a32cd2f416c22_id | assessmentTitle = 2013-Eleventh grade Assessment 2 A+OB+Delete+A |
+      |90282da8fa5d3e6fb433d961b129f19fc0a48b09_id | assessmentTitle = 2013-Eleventh grade Assessment 2 A+OB+Update   |
+
+     And the extraction zone is empty
+	 And I ingest "SEAAssessmentDeleteAndUpdate.zip"
+	 #second ingestion to control order of events
+	 And I ingest "SEAAssessmentDeleteAndUpdate2.zip"
+     When I trigger a delta extract
+     When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+       |  entityType                            |
+       |  assessment                            |
+       |  deleted                               |	
+     And I verify this "deleted" file only contains:
+       | id                                           | condition                               |
+       | 4e702929ba5b7b5247ea0085d79a32cd2f416c22_id  | entityType = assessment                 | 
+       | bcf0cadde56a961dd73efee8c15a6ca86c511ce8_id  | entityType = assessment                 | 
+       | f5feb4f8940c0fda119ce82f1b8d1d3162dbabc4_id  | entityType = assessment                 | 
+       | 60adaf0b07d87d8f76f22df2c38717ab36935ae0_id  | entityType = assessment                 | 
+       | 2a0d8d2f8049d113e2310bece5ba4aa9c5e34f59_id  | entityType = assessment                 |          
+     And I verify this "assessment" file only contains:
+      | id                                         | condition                                                              |
+	  |90282da8fa5d3e6fb433d961b129f19fc0a48b09_id | assessmentTitle = 2013-Eleventh grade Assessment 2 A+OB+Update         | 	 
+      #|4e702929ba5b7b5247ea0085d79a32cd2f416c22_id | assessmentTitle = delete Assessment and then update                   |  
+      |0b3a35aeec13efc4547f19fc20b55b141992c795_id | assessmentTitle = Scenario 2                                           |
+      |483b11e7a9ea9b0b337242bdc47fa758469f370e_id | assessmentTitle = Scenario 4                                           |
+      |d3580c38701831271557256b7eaa8b3c1dea1087_id | assessmentTitle = Scenario 5                                           |
+      
+
   Scenario: Ingesting SEA (Non Odin) entities - AssessmentFamily
     When I ingest "AssessmentFamilyDelta.zip"
     And the extraction zone is empty
-    When I trigger a delta extract
-    When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+    Then I trigger a delta extract
+    And I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
       |  entityType                            |
       |  assessment                            |
     And I verify this "assessment" file should contain:
-      | id                                          | condition                                |
-      | f8a8f68c8aed779c2e8c3f9174e5b05e880e9a9d_id | assessmentTitle = READ 2.0 Grade 1 BOY   |
-    And I ingest "AssessmentFamilyDeltaUpdated.zip"
-    And the extraction zone is empty
-    When I trigger a delta extract
-    When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
-      |  entityType                            |
-      |  assessment                            |
-    And I verify this "assessment" file should contain:
-      | id                                          | condition                                |
-      | f8a8f68c8aed779c2e8c3f9174e5b05e880e9a9d_id | assessmentTitle = READ 2.0 Grade 1 BOY   |
+      | id                                          | condition                                 |
+      | a59997eeaafc53047a7b972f435fd4fc0b6458f1_id | assessmentTitle = Delete AF               |
+      | 87cc09359cfc6686841aa018b25d965a75153e36_id | assessmentTitle = Update AF               |
+      | 69191a2b23a3395aba8183edb6088889f44cbd8a_id | assessmentTitle = Delete A and Update AF  |
+      | 6fbf0016bba0a599878ddcc1873669a62a4b5958_id | assessmentTitle = Update A and Delete AF  |
+      | ceaad98bfd854959a6cbdfd621808cd6d35997aa_id | assessmentTitle = Delete A and Delete AF  |
+      | dd6c15967a9807cc061a9796f985d2f6dbe40ec0_id | assessmentTitle = Update AF then Delete A |
+      | 0635fa68fbd43b610f281566241b809274adfd52_id | assessmentTitle = Delete A then Update AF |
+    When I ingest "AssessmentFamilyDeltaUpdated.zip"
+    # Separately ingested to manipulate delta timestamps
     And I ingest "AssessmentFamilyDeltaDeleted.zip"
     And the extraction zone is empty
+    Then I trigger a delta extract
+    And I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+      |  entityType                            |
+      |  assessment                            |
+      |  deleted                               |
+    And I verify this "assessment" file only contains:
+      | id                                          | condition                                 |
+      | a59997eeaafc53047a7b972f435fd4fc0b6458f1_id | assessmentTitle = Delete AF               |
+      | 87cc09359cfc6686841aa018b25d965a75153e36_id | assessmentTitle = Update AF               |
+      | 6fbf0016bba0a599878ddcc1873669a62a4b5958_id | assessmentTitle = Update A and Delete AF  |
+    And I verify this "deleted" file only contains:
+      | id                                          | condition                |
+      | 69191a2b23a3395aba8183edb6088889f44cbd8a_id | entityType = assessment  |
+      | ceaad98bfd854959a6cbdfd621808cd6d35997aa_id | entityType = assessment  |
+      | dd6c15967a9807cc061a9796f985d2f6dbe40ec0_id | entityType = assessment  |
+      | 0635fa68fbd43b610f281566241b809274adfd52_id | entityType = assessment  |
+
+
+  Scenario: SEA Assessment Delete Test
+    And I ingest "AssessmentDelta.zip"
+    And the extraction zone is empty
     When I trigger a delta extract
     When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
       |  entityType                            |
-      |  assessment                            |
+      |  assessment                               |
     And I verify this "assessment" file should contain:
       | id                                          | condition                                |
-      | f8a8f68c8aed779c2e8c3f9174e5b05e880e9a9d_id | assessmentTitle = READ 2.0 Grade 1 BOY   |
-
+      | f8a8f68c8aed779c2e8c3f9174e5b05e880e9a9d_id | assessmentTitle = READ 2.0 Grade 1 BOY        |
+    And I ingest "AssessmentDeltaDelete.zip"
+    And the extraction zone is empty
+    When I trigger a delta extract
+    When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+      |  entityType                            |
+      |  deleted                               |
+    And I verify this "deleted" file should contain:
+      | id                                          | condition                                |
+      | f8a8f68c8aed779c2e8c3f9174e5b05e880e9a9d_id | entityType = assessment                  |
+      
  Scenario: Ingesting SEA (Non Odin) entities - Session
     When I ingest "SEASession.zip"
     And the extraction zone is empty
@@ -263,7 +340,7 @@ Scenario: Triggering deltas via ingestion
       And I verify "2" delta bulk extract files are generated for LEA "<STANDARD-SEA>" in "Midgar"
      When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
-      |  assessment                            |
+       |  assessment                            |
        |  learningObjective                     |
        |  learningStandard                      |
        |  competencyLevelDescriptor             |
@@ -275,7 +352,7 @@ Scenario: Triggering deltas via ingestion
      And I verify this "deleted" file should contain:
        | id                                           | condition                               |
        #delete assessment, when delete finish, we should remove it
-       #| 49059b5a8c8c3e11649995bb4ca4275b0afe5f58_id  | entityType = assessment                 |
+       | 49059b5a8c8c3e11649995bb4ca4275b0afe5f58_id  | entityType = assessment                 |
        | 8621a1a8d32dde3cf200697f22368a0f92f0fb92_id  | entityType = learningObjective          |
        | 4a6402c02ea016736280ac88d202d71a81058171_id  | entityType = learningStandard           |
        | d82250f49dbe4facb59af2f88fe746f70948405d_id  | entityType = competencyLevelDescriptor  |
@@ -285,9 +362,9 @@ Scenario: Triggering deltas via ingestion
        | 78f5ed2b6ce039539f34ef1889af712816aec6f7_id  | entityType = calendarDate               |
        #this should not in deleted file, when delete finish, we should remove it
        | a60af241e154436d3a996e544fb886381edc490a_id0ce66f5d6973ecc7182bbad99e3f9a314aed3168_id | entityType = objectiveAssessment        |
-#	   | 10c6591286b369aac8764612c9803079bc61aa6a_id  | entityType = assessmentPeriodDescriptor |
-
-    And I verify this "assessment" file should contain:
+      
+	   	                                                             
+      And I verify this "assessment" file should contain:
        | id                                          | condition                                                    |
        # update assessmentFamily(parent) expected generated 1 joson file of Assessment, 26 in total of assessment
        | 2777fe8b68767df7b7ab36768938daa576b5765b_id | assessmentTitle = 2013-Eighth grade Assessment 1             |
@@ -298,26 +375,35 @@ Scenario: Triggering deltas via ingestion
        #update assessment (child)
 	   |8b7e6ce92009e03e3760e798a5f6a3d7c5e134ae_id | assessmentIdentificationCode.ID = 2013-Kindergarten Assessment 2 BKU     |
 
+
 	   #update objectiveAssessment
 	   |2c53daf31299947bc83fa5637ea502f16b715a60_id | objectiveAssessment.objectiveAssessments.nomenclature= Nomenclature BKU  |
 	   #create objectiveAssessment
 	   |d6be71fd4ede46095c1efd7281e9f96cd75b1798_id | assessmentTitle = 2016-Kindergarten Assessment 1                         |
-
+	   
+	   
 	   #update AssessessmentPeriodDescriptor
 	   | e8c930772a34becb630760ea019491294bd900b4_id | assessmentPeriodDescriptor.description = Beginning of Year 2013-2014 for Seventh grade BKU|
-	   #created AssessessmentPeriodDescriptor
+	 
+	
+	   #created Assessessment + AssessmentFamily 
 	   | 789660a15ff1f7588050018d581a77e0002e8120_id | assessmentTitle = 2017-First grade Assessment 2 BKC|
 
-	   #delete AssessessmentPeriodDescriptor
+	   #check fields after deleting AssessessmentPeriodDescriptor and assessmentFamily 
 	   And the "assessment" file should not contain a field
 	     | id                                          | field                          |
          | f0ffa2e21cf1fc400527ac2ba63c20e4a620815c_id | assessmentPeriodDescriptor     |
          | b3a9994c8006a7e4c086b02e59e034146f053f77_id | assessmentPeriodDescriptor     |
-        #delete objectiveAssessment, when delete finish, we should remove it
-	    #|a60af241e154436d3a996e544fb886381edc490a_id |                            |
-        #delete assessmentFamily                
-	    #|124057675fa0903e905f0377bbc0450aacc7edab_id |  assessmentFamilyReference         |
-         
+         | 124057675fa0903e905f0377bbc0450aacc7edab_id  | assessmentFamilyReference     |
+	    
+        #delete objectiveAssessment
+       And I verify this "assessment" file should not contain:
+        | id                                          | condition                                |
+  	    | a60af241e154436d3a996e544fb886381edc490a_id | objectiveAssessment.identificationCode = 2013-Fourth grade Assessment 2.OA-0    |
+
+        # after delete assessmentFamily with id 124057675fa0903e905f0377bbc0450aacc7edab_id, then i update it.
+        
+
 
        And I verify this "calendarDate" file should contain:
         | id                                          | condition                                |
@@ -629,21 +715,20 @@ Scenario: Triggering deltas via ingestion
 ### period descriptor update to the data ingested at this point in the flow, and assert
 ### accordingly.
 ##
-### Scenario: Ingest an update to AssessmentPeriodDescriptor and output only affected assessments
-###   Given I clean the bulk extract file system and database
-###     And I ingest "StoriedDataSet_IL_Daybreak.zip"
-###     And I trigger a delta extract
-###     And I ingest "AssessmentPeriodDescriptorUpdate.zip"
-###     And I trigger a delta extract
-###    When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
-###       |  entityType                            |
-###       |  assessment                            |
-###    And I verify this "assessment" file should contain:
-###      | id                                          | condition                |
-###      | f8a8f68c8aed779c2e8c3f9174e5b05e880e9a9d_id | entityType = assessment  |
-###    And I verify this "assessment" file should not contain:
-###      | id                                          | condition                |
-###      | fe472294f0e40fd428b1a67b9765360004562bab_id |                          |
+Scenario: Ingest an update to AssessmentPeriodDescriptor and output only affected assessments
+  Given I clean the bulk extract file system and database
+    And I trigger a delta extract
+   When I ingest "AssessmentPeriodDescriptorUpdate.zip"
+    And I trigger a delta extract
+   When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+      |  entityType                            |
+      |  assessment                            |
+   And I verify this "assessment" file should contain:
+     | id                                          | condition                |
+     | 060f1d61807b473021b82e0d0831bc47edc9fd96_id | entityType = assessment  |
+   And I verify this "assessment" file should not contain:
+     | id                                          | condition                |
+     | 124057675fa0903e905f0377bbc0450aacc7edab_id |                          |
 
 Scenario: Generate a bulk extract in a different LEA
   Given I clean the bulk extract file system and database
@@ -888,6 +973,7 @@ Given I clean the bulk extract file system and database
   And I verify "2" delta bulk extract files are generated for LEA "<IL-HIGHWIND>" in "Midgar"
 
 @shortcut
+@RALLY_US5741
 Scenario: Create Student, course offering and section as SEA Admin, users from different LEAs requesting Delta extracts
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds

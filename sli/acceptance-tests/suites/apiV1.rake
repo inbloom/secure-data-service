@@ -345,6 +345,7 @@ task :apiOdinStudentLogin => [:apiOdinSetupAPI] do
   runTests("test/features/apiV1/integration/student_staff_endpoints.feature")
   runTests("test/features/apiV1/integration/student_path_security.feature")
   runTests("test/features/apiV1/integration/student_validator_security.feature")
+  runTests("test/features/apiV1/integration/student_other_student_fields.feature")
   runTests("test/features/apiV1/integration/student_crud_operations.feature")
 end
 
