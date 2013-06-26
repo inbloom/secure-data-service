@@ -300,6 +300,7 @@ Feature: Use the APi to successfully get student data while having roles over ma
     Then I should receive a return code of 403
 
     Given I remove the SEOA with role "Leader" for staff "msmith" in "East Daybreak High"
+    And I change the custom role of "Aggregate Viewer" to remove the "READ_RESTRICTED" right
 
     When I navigate to the API authorization endpoint with my client ID
     And I was redirected to the "Simple" IDP Login page

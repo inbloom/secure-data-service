@@ -18,11 +18,7 @@ package org.slc.sli.api.security.roles;
 
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import junit.framework.Assert;
 
@@ -99,31 +95,55 @@ public class RolesToRightsTest {
                 mockAccess.findRoles(DEFAULT_TENANT_ID, DEFAULT_REALM_ID, Arrays.asList(
                         SecureRoleRightAccessImpl.EDUCATOR, SecureRoleRightAccessImpl.AGGREGATOR, "bad", "doggie")))
                 .thenReturn(Arrays.asList(buildRole()));
-        
+
+        when(
+                mockAccess.findRoles(DEFAULT_TENANT_ID, DEFAULT_REALM_ID, Arrays.asList(
+                        SecureRoleRightAccessImpl.EDUCATOR, "bad", "doggie")))
+                .thenReturn(buildRoleOverlapped());
     }
     
     private Role buildRole() {
         return RoleBuilder.makeRole(Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR)).addRight(Right.AGGREGATE_READ).build();
     }
+
+    private List<Role> buildRoleOverlapped() {
+        List<Role> roles = new ArrayList<Role>();
+        roles.add(RoleBuilder.makeRole(Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR)).addRight(Right.AGGREGATE_READ).addRight(Right.READ_GENERAL).build());
+        roles.add(RoleBuilder.makeRole(Arrays.asList(SecureRoleRightAccessImpl.APP_DEVELOPER)).addRight(Right.READ_RESTRICTED).addRight(Right.READ_GENERAL).build());
+        roles.add(RoleBuilder.makeRole(Arrays.asList(SecureRoleRightAccessImpl.LEADER)).addRight(Right.ACCOUNT_APPROVAL).build());
+
+        return roles;
+    }
     
     @Test
     public void testMappedRoles() throws Exception {
-        Set<GrantedAuthority> rights = resolver.resolveRoles(DEFAULT_TENANT_ID, DEFAULT_REALM_ID,
+        Set<GrantedAuthority> rights = resolver.resolveRolesIntersect(DEFAULT_TENANT_ID, DEFAULT_REALM_ID,
                 Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR, SecureRoleRightAccessImpl.AGGREGATOR), false, false);
         Assert.assertTrue(rights.size() > 0);
     }
     
     @Test
     public void testBadRoles() throws Exception {
-        Set<GrantedAuthority> authorities = resolver.resolveRoles(DEFAULT_TENANT_ID, DEFAULT_REALM_ID,
+        Set<GrantedAuthority> authorities = resolver.resolveRolesIntersect(DEFAULT_TENANT_ID, DEFAULT_REALM_ID,
                 Arrays.asList("Pink", "Goo"), false, false);
         Assert.assertTrue("Authorities must be empty", authorities.size() == 0);
     }
     
     @Test
     public void testMixedRoles() throws Exception {
-        Set<GrantedAuthority> authorities = resolver.resolveRoles(DEFAULT_TENANT_ID, DEFAULT_REALM_ID, Arrays.asList(
+        Set<GrantedAuthority> authorities = resolver.resolveRolesIntersect(DEFAULT_TENANT_ID, DEFAULT_REALM_ID, Arrays.asList(
                 SecureRoleRightAccessImpl.EDUCATOR, SecureRoleRightAccessImpl.AGGREGATOR, "bad", "doggie"), false, false);
         Assert.assertTrue(authorities.size() > 0);
+    }
+
+    @Test
+    public void testUnionRoles() throws Exception {
+        Set<GrantedAuthority> authorities = resolver.resolveRolesUnion(DEFAULT_TENANT_ID, DEFAULT_REALM_ID, Arrays.asList(
+                SecureRoleRightAccessImpl.EDUCATOR, "bad", "doggie"), false, false);
+        Assert.assertEquals(4, authorities.size());
+        Assert.assertTrue(authorities.contains(Right.READ_GENERAL));
+        Assert.assertTrue(authorities.contains(Right.READ_RESTRICTED));
+        Assert.assertTrue(authorities.contains(Right.ACCOUNT_APPROVAL));
+        Assert.assertTrue(authorities.contains(Right.AGGREGATE_READ));
     }
 }
