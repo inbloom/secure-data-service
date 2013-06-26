@@ -53,6 +53,7 @@ Transform /roles "(.*?)"/ do |arg1|
   roles = ["Aggregate Viewer"] if arg1 == "Aggregate Viewer"
   roles = ["IT Administrator"] if arg1 == "IT Administrator"
   roles = ["Dummy"] if arg1 == "New Custom"
+  roles = ["Educator", "Teacher"] if arg1 == "Educator,Teacher"
   roles = [] if arg1 == "none"
   roles
 end
@@ -113,6 +114,11 @@ Then /^the group "([^"]*)" contains the (roles "[^"]*")$/ do |title, roles|
   roles.each do |role|
     group.find_elements(:xpath, "//span[text()='#{role}']")
   end
+end
+
+Then /^the group "([^"]*)" contains ([^"]*) roles$/ do |title, totalRoles|
+  group = @driver.find_element(:xpath, "//div[text()='#{title}']/../..")
+  assertWithWait("Expected #{totalRoles} roles, but saw #{group.find_elements(:class, "role").size} in group #{title}") {group.find_elements(:class, "role").size == totalRoles.to_i}
 end
 
 Then /^the group "([^"]*)" contains the "([^"]*)" (rights "[^"]*")$/ do |title,  css_class, rights|
@@ -179,12 +185,13 @@ When /^I remove the right "([^"]*)" from the group "([^"]*)"$/ do |arg1, arg2|
   group.find_element(:id, "DELETE_" + arg1).click
 end
 
-When /^I remove the role <Role> from the group <Group> that denies <User> access to the API$/ do |table|
+When /^I remove the role <Role> out of <TotalRoles> from the group <Group> that denies <User> access to the API$/ do |table|
   # table is a Cucumber::Ast::Table
   table.hashes.each do |hash|
     step "I edit the group #{hash["Group"]}"
     step "I remove the role #{hash["Role"]} from the group #{hash["Group"]}"
-    step "the group #{hash["Group"]} contains the roles #{hash["Group"]}"
+    sleep 1
+    step "the group #{hash["Group"]} contains #{hash["TotalRoles"]} roles"
     step "I hit the save button"
     step "I am no longer in edit mode"
     step "the user #{hash["User"]} in tenant \"IL\" can access the API with rights \"none\""
@@ -282,6 +289,16 @@ Then /^the Leader, Educator, Aggregate Viewer and IT Administrator roles are now
     results = @driver.find_elements(:xpath, "//td/div[text()='#{role}']")
     moreResults = @driver.find_elements(:xpath, "//td/div/span[text()='#{role}']")
     assert(results.size + moreResults.size == 2, webdriverDebugMessage(@driver,"Found unexpected occurences of role "+role+", expected 2 found "+results.size.to_s))
+  end
+end
+
+Then /^the Leader, Educator, Aggregate Viewer and IT Administrator role groups have the correct default role names$/ do
+  sleep 2
+  
+  ['Educator', 'Teacher', 'Leader', 'Principal', 'Superintendent', 'Aggregate Viewer', 'Specialist/Consultant',
+  'IT Administrator', 'School Administrative Support Staff', 'LEA System Administrator', 'LEA Administrator'].each do |role|
+    results = @driver.find_elements(:xpath, "//td/div/span[text()='#{role}']")
+    assert(results.size ==1 , webdriverDebugMessage(@driver,"Found unexpected occurences of role "+role+", expected 1 found "+results.size.to_s))
   end
 end
 

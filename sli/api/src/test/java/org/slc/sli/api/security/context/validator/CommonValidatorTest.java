@@ -129,6 +129,7 @@ public class CommonValidatorTest {
     public void verifyNumberOfStudentValidatorsForEachEntity() throws Exception {
         MongoEntity student = new MongoEntity("student", new HashMap<String, Object>());
         injector.setCustomContext("Studentious","Stendarious","Myrran",Arrays.asList(SecureRoleRightAccessImpl.STUDENT),student,"High Elves");
+        System.out.println("================ students =================");
         validateValidators();
     }
 
@@ -302,6 +303,7 @@ public class CommonValidatorTest {
                 int numValidators = 0;
                 for (IContextValidator validator : validators) {
                     if (validator.canValidate(entity, isTransitive)) {
+                        System.out.println(String.format("validating: %s using %s", entity, validator.getClass().getName()));
                         numValidators++;
                     }
                 }

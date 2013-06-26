@@ -342,50 +342,88 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     And format "application/json"
     And I am using api version "v1"
     And I am accessing data about myself, "matt.sollars"
-    Then I verify the following response body fields do not exist in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id":
+    When I navigate to GET "/v1/students/067198fd6da91e1aa8d67e28e850f224d6851713_id"
+    Then I verify the following response body fields do not exist in the response:
       | field                         |
       | economicDisadvantaged         |
       | schoolFoodServicesEligibility |
 
-  @student_public
-  Scenario: Student cannot POST public entities
+  @student_staff
+  Scenario: Student should see limited set of fields on staff related entities
     Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
     And format "application/json"
     And I am using api version "v1"
-    When I POST and validate the following entities:
-      | entity                        | type                       | returnCode |
-      | newProgram                    | program                    | 403        |
-      | newSection                    | section                    | 403        |
-      | newLearningObjective          | learningObjective          | 403        |
-      | newLearningStandard           | learningStandard           | 403        |
-      | newCourseOffering             | courseOffering             | 403        |
-      | newCompetencyLevelDescriptor  | competencyLevelDescriptor  | 403        |
-      | newSession                    | session                    | 403        |
-      | newSEACourse                  | course                     | 403        |
-      | newStudentCompetencyObjective | studentCompetencyObjective | 403        |
-      | newEducationOrganization      | educationOrganization      | 403        |
-      | newGradingPeriod              | gradingPeriod              | 403        |
-      | newAssessment                 | assessment                 | 403        |
-
-  @student_patch
-  Scenario: Student cannot PATCH public entities
-    Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
-    And format "application/json"
-    And I am using api version "v1"
-    Then I PATCH entities and check return code
-      | Endpoint                    | Id                                          | Field                  | ReturnCode |
-      | programs                    | 36980b1432275aae32437bb367fb3b66c5efc90e_id | programType            | 403        |
-      | sections                    | 8d9ad6c3b870e8775016fff99fbd9c74920de8d5_id | repeatIdentifier       | 403        |
-      | learningObjectives          | a39aa7089c0e0b8a271ed7caad97b8d319f7d236_id | academicSubject        | 403        |
-      | learningStandards           | c772fbb0f9b9210d1f2a1bfcd53018b205c46da6_id | subjectArea            | 403        |
-      | courseOfferings             | 4e22b4b0aac3310de7f4b789d5a31e5e2bd792ec_id | localCourseTitle       | 403        |
-      | competencyLevelDescriptor   | c91ae4718903d20289607c3c4335759e652ad569_id | description            | 403        |
-      | sessions                    | 3327329ef80b7419a48521818d65743234d6e5fb_id | sessionName            | 403        |
-      | courses                     | d875eac3c6117f5448437c192ac1ea7c3cc977dd_id | courseDescription      | 403        |
-      | studentCompetencyObjectives | b7080a7f753939752b693bca21fe60375d15587e_id | objective              | 403        |
-      | educationOrganizations      | 1b223f577827204a1c7e9c851dba06bea6b031fe_id | shortNameOfInstitution | 403        |
-      | gradingPeriods              | e71e876487c72d1c1c0e9f7fa413815706e7f422_id | endDate                | 403        |
-      | assessments                 | 8e47092935b521fb6aba9fdec94a4f961f04cd45_id | identificationCode     | 403        |
+    # staff
+    Then I verify the following response body fields exist in "/staff/143760f37839b2608d2c929ef26d30c900f6a434_id":
+      | field                       |
+      | name                        |
+    Then I verify the following response body fields do not exist in the response:
+      | field                              |
+      | staffUniqueStateId                 |
+      | staffIdentificationCode            |
+      | otherName                          |
+      | sexType                            |
+      | birthDate                          |
+      | address                            |
+      | hispanicLatinoEthnicity            |
+      | oldEthnicityType                   |
+      | race                               |
+      | highestLevelOfEducationCompleted   |
+      | yearsOfPriorProfessionalExperience |
+      | yearsOfPriorTeachingExperience     |
+      | credentials                        |
+      | loginId                            |
+    # teacher
+    Then I verify the following response body fields exist in "/teachers/4b07dba2b6868c0827315b99ea94fc74c0f7c902_id":
+      | field                       |
+      | name                        |
+    Then I verify the following response body fields do not exist in the response:
+      | field                              |
+      | staffUniqueStateId                 |
+      | staffIdentificationCode            |
+      | otherName                          |
+      | sexType                            |
+      | birthDate                          |
+      | address                            |
+      | hispanicLatinoEthnicity            |
+      | oldEthnicityType                   |
+      | race                               |
+      | highestLevelOfEducationCompleted   |
+      | yearsOfPriorProfessionalExperience |
+      | yearsOfPriorTeachingExperience     |
+      | credentials                        |
+      | loginId                            |
+     
+    # staffEdorgAssociation
+    #Then I verify the following response body fields exist in "/staffEducationOrgAssignmentAssociations/472d10b94e4a24aa78f5f03e33a92d0ca4af336b_id":
+    #  | field                       |
+    #  | staffReference              |
+    #  | educationOrganization       |
+    #Then I verify the following response body fields do not exist in "/staffEducationOrgAssignmentAssociations/472d10b94e4a24aa78f5f03e33a92d0ca4af336b_id":
+    #  | field                         |
+    #  | staffClassification           |
+    #  | beginDate                     |
+    
+    # staffCohortAssociations
+    Then I verify the following response body fields exist in "/staffCohortAssociations/a17d936ca77e391ace5d14645a4b9b78f6dbd387_id":
+      | field                       |
+      | staffId                     |
+      | cohortId                    |
+    Then I verify the following response body fields do not exist in the response:
+      | field                         |
+      | beginDate                     |
+      | endDate                       |
+      | studentRecordAccess           |
+    # staffProgramAssociations
+    Then I verify the following response body fields exist in "/staffProgramAssociations/2cc6a6a3e5990518e6c196630873b6adc0736b86_id":
+      | field                       |
+      | staffId                     |
+      | programId                   |
+    Then I verify the following response body fields do not exist in the response:
+      | field                         |
+      | beginDate                     |
+      | endDate                       |
+      | studentRecordAccess           |
 
   @wip
   Scenario: Student cannot POST private entities
@@ -395,55 +433,6 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     When I POST and validate the following entities:
       | entity             | type         | returnCode |
       | newDaybreakStudent | staffStudent | 403        |
-
-  @wip
-  Scenario: Verify Rewrites for Base Level entities for Students
-    Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "cegray" with password "cegray1234"
-    And my contextual access is defined by the table:
-      | Context                | Ids                                                                                                                                                                             |
-      | educationOrganizations | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id                                                                                                                                     |
-      | schools                | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id                                                                                                                                     |
-      | sections               | fb23953d3b55349847fe558e4909a265fab3b6a0_id,ac4aede7e0113d1c003f3da487fc079e124f129d_id,02ffe06e27e313e46e852c1a457ecb25af2cd950_id,6b687d24b9a2b10c664e2248bd8e689a482e47e2_id |
-      | students               | 92164cd19ebdbe17cfdcd0e1d177877cdc9a40ef_id                                                                                                                                     |
-    And format "application/json"
-    When I navigate to the base level URI <Entity> I should see the rewrite in the format of <URI>:
-  | Entity                       | URI                                                                            |
-  | /assessments                 | /search/assessments                                                            |
-  | /attendances                 | /students/@ids/attendances                                                     |
-  | /cohorts                     | /students/@ids/studentCohortAssociations/cohorts                               |
-  | /competencyLevelDescriptor   | /search/competencyLevelDescriptor                                              |
-  | /courseOfferings             | /schools/@ids/courseOfferings                                                  |
-  | /courses                     | /schools/@ids/courseOfferings/courses                                          |
-  | /courseTranscripts           | /students/@ids/studentAcademicRecords/courseTranscripts                        |
-  | /educationOrganizations      | /schools/@ids                                                                  |
-  | /gradebookEntries            | /sections/@ids/gradebookEntries                                                |
-  | /grades                      | /students/@ids/studentSectionAssociations/grades                               |
-  | /gradingPeriods              | /schools/@ids/sessions/gradingPeriods                                          |
-  | /graduationPlans             | /schools/@ids/graduationPlans                                                  |
-  | /learningObjectives          | /search/learningObjectives                                                     |
-  | /learningStandards           | /search/learningStandards                                                      |
-  | /parents                     | /students/@ids/studentParentAssociations/parents                               |
-  | /programs                    | /students/@ids/studentProgramAssociations/programs                             |
-  | /reportCards                 | /students/@ids/reportCards                                                     |
-  | /schools                     | /schools/@ids                                                                  |
-  | /sections                    | /sections/@ids                                                                 |
-  | /sessions                    | /schools/@ids/sessions                                                         |
-  | /staff                       | /educationOrganizations/@ids/staffEducationOrgAssignmentAssociations           |
-  | /studentAcademicRecords      | /students/@ids/studentAcademicRecords                                          |
-  | /studentAssessments          | /students/@ids/studentAssessments                                              |
-  | /studentCohortAssociations   | /students/@ids/studentCohortAssociations                                       |
-  | /studentCompetencies         | /students/@ids/studentSectionAssociations/studentCompetencies                  |
-  | /studentCompetencyObjectives | /educationOrganizations/@ids/studentCompetencyObjectives                       |
-  | /studentGradebookEntries     | /students/@ids/studentGradebookEntries                                         |
-  | /studentParentAssociations   | /students/@ids/studentParentAssociations                                       |
-  | /studentProgramAssociations  | /students/@ids/studentProgramAssociations                                      |
-  | /students                    | /sections/@ids/studentSectionAssociations/students                             |
-  | /studentSchoolAssociations   | /students/@ids/studentSchoolAssociations                                       |
-  | /studentSectionAssociations  | /students/@ids/studentSectionAssociations                                      |
-  | /teachers                    | /sections/@ids/teacherSectionAssociations/teachers                             |
-  | /teacherSchoolAssociations   | /schools/@ids/teacherSchoolAssociations                                        |
-  | /teacherSectionAssociations  | /sections/@ids/teacherSectionAssociations                                      |
-  | /yearlyAttendances           | /students/@ids/yearlyAttendances                                               |
 
 
   @student_parent

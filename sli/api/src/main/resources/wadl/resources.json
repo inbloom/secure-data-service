@@ -147,7 +147,7 @@
     {
       "path": "/staffEducationOrgAssignmentAssociations",
       "queryable": true,
-      "doc": "Represents the link between an education organization and a staff member. Education organizations employ multiple staff and staff are free to work at multiple education organizations. For more information, see the schema for $$StaffEducationOrganizationAssociation$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers or staff, this is /staff/{ID}/staffEducationOrgAssignmentAssociations. {ID} is the unique ID of the teacher or staff.",
+      "doc": "Represents the link between an education organization and a staff member. Education organizations employ multiple staff and staff are free to work at multiple education organizations. For more information, see the schema for $$StaffEducationOrganizationAssociation$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers or staff, this is /staff/{ID}/staffEducationOrgAssignmentAssociations. {ID} is the unique ID of the teacher or staff. For students, this is /educationOrganizations/{IDs}/staffEducationOrgAssignmentAssociations. {IDs} represents a list of the school IDs to which the student is currently associated.",
       "subResources": [
         { "path": "/{id}/staff" },
         { "path": "/{id}/educationOrganizations" }
@@ -227,7 +227,7 @@
       "path": "/teacherSectionAssociations",
       "queryable": true,
       "dateSearchDisallowed": true,
-      "doc": "Represents the class sections (see the $$Section$$ schema) to which a teacher (see the $$Teacher$$ schema) is assigned to. For more information, see the schema for $$TeacherSectionAssociation$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /teachers/{ID}/teacherSectionAssociations. {ID} is the unique ID of the teacher. For staff, this is /schools/{IDs}/teacherSchoolAssociations/teachers/teacherSectionAssociations. {IDs} represents a list of the school or education organization IDs to which the staff is currently associated.",
+      "doc": "Represents the class sections (see the $$Section$$ schema) to which a teacher (see the $$Teacher$$ schema) is assigned to. For more information, see the schema for $$TeacherSectionAssociation$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /teachers/{ID}/teacherSectionAssociations. {ID} is the unique ID of the teacher. For staff, this is /schools/{IDs}/teacherSchoolAssociations/teachers/teacherSectionAssociations. {IDs} represents a list of the school or education organization IDs to which the staff is currently associated. For students, this is /sections/{IDs}/teacherSectionAssociations. {IDs} represents a list of section IDs to which the student is currently associated.",
       "subResources": [
         { "path": "/{id}/teachers", "dateSearchDisallowed": true },
         { "path": "/{id}/sections", "dateSearchDisallowed": true }
@@ -416,7 +416,7 @@
       "path": "/teacherSchoolAssociations",
       "queryable": true,
       "dateSearchDisallowed": true,
-      "doc": "This association indicates the school(s) to which a teacher provides instructional services to. For more information, see the schema for $$TeacherSchoolAssociation$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /teachers/{ID}/teacherSchoolAssociations. {ID} is the unique ID of the teacher or staff. For staff, this is /schools/{IDs}/teacherSchoolAssociations. {IDs} represents a list of school or education organization IDs to which the staff is currently associated.",
+      "doc": "This association indicates the school(s) to which a teacher provides instructional services to. For more information, see the schema for $$TeacherSchoolAssociation$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /teachers/{ID}/teacherSchoolAssociations. {ID} is the unique ID of the teacher or staff. For staff and students, this is /schools/{IDs}/teacherSchoolAssociations. {IDs} represents a list of school or education organization IDs to which the staff or student is currently associated.",
       "subResources": [
         { "path": "/{id}/teachers" },
         { "path": "/{id}/schools" }
@@ -469,7 +469,7 @@
     {
       "path": "/staffCohortAssociations",
       "queryable": true,
-      "doc": "Represents the association between a $$Staff$$ member and a $$Cohort$$. For more information, see the schema for $$StaffCohortAssociation$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers and staff, this is /staff/{ID}/staffCohortAssociations. {ID} is the unique ID of the teacher or staff.",
+      "doc": "Represents the association between a $$Staff$$ member and a $$Cohort$$. For more information, see the schema for $$StaffCohortAssociation$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers and staff, this is /staff/{ID}/staffCohortAssociations. {ID} is the unique ID of the teacher or staff.  For students, this is /cohorts/{IDs}/staffCohortAssociations.  {IDs} represents a list of cohort IDs to which the student is currently associated.",
       "subResources": [
         { "path": "/{id}/staff" },
         { "path": "/{id}/cohorts" }
@@ -493,7 +493,7 @@
     {
       "path": "/staffProgramAssociations",
       "queryable": true,
-      "doc": "Represents the association between a $$Staff$$ member and a $$Program$$. For more information, see the schema for $$StaffProgramAssociation$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers or staff, this is /staff/{ID}/staffProgramAssociations. {ID} is the unique ID of the teacher or staff.",
+      "doc": "Represents the association between a $$Staff$$ member and a $$Program$$. For more information, see the schema for $$StaffProgramAssociation$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers or staff, this is /staff/{ID}/staffProgramAssociations. {ID} is the unique ID of the teacher or staff. For students, this is /programs/{IDs}/staffProgramAssociations.  {IDs} represents a list of program IDs to which the student is currently associated.",
       "subResources": [
         { "path": "/{id}/staff" },
         { "path": "/{id}/programs" }
@@ -642,7 +642,7 @@
       "path": "/staff",
       "queryable": true,
       "dateSearchDisallowed": true,
-      "doc": "Represents the definition of a staff resource. A staff is a person that is employed by an LEA or other educational unit engaged in student instruction. These persons are instructional-type staff members. A teacher is a staff member with additional properties. See the $$Teacher$$ resource for details. A staff is associated with a school, cohort and program through $$StaffEducationOrganizationAssociation$$, $$StaffCohortAssociation$$, and $$StaffProgramAssociation$$. For more details about the resources, see $$School$$, $$Cohort$$ and $$Program$$ resources. For detailed information, see the schema for $$Section$$ resources.  For this open ended URI, only current and directly associated entities are returned. For teachers and staff, this is /educationOrganizations/{IDs}/staffEducationOrgAssignmentAssociations/staff. {IDs} represents a list of Education Organization IDs to which the staff or teacher is currently associated.",
+      "doc": "Represents the definition of a staff resource. A staff is a person that is employed by an LEA or other educational unit engaged in student instruction. These persons are instructional-type staff members. A teacher is a staff member with additional properties. See the $$Teacher$$ resource for details. A staff is associated with a school, cohort and program through $$StaffEducationOrganizationAssociation$$, $$StaffCohortAssociation$$, and $$StaffProgramAssociation$$. For more details about the resources, see $$School$$, $$Cohort$$ and $$Program$$ resources. For detailed information, see the schema for $$Section$$ resources.  For this open ended URI, only current and directly associated entities are returned. For teachers, staff and students, this is /educationOrganizations/{IDs}/staffEducationOrgAssignmentAssociations/staff. {IDs} represents a list of Education Organization IDs to which the teacher/staff/student is currently associated.",
       "availableSince" : "v1.1",
       "subResources": [
         { "path": "/{id}/teacherSchoolAssociations", "dateSearchDisallowed": true },
@@ -654,7 +654,7 @@
     {
       "path": "/teachers",
       "queryable": true,
-      "doc": "Represents a person that is employed by an LEA or other educational unit engaged in student instruction. These persons are instructional-type staff members. In the data model, a teacher entity is a staff member with additional properties. For more information, see the schema for $$Teacher$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers and staff, this is /schools/{IDs}/teacherSchoolAssociations/teachers. {IDs} represents a list of school or education organization IDs to which the teacher or staff is currently associated.",
+      "doc": "Represents a person that is employed by an LEA or other educational unit engaged in student instruction. These persons are instructional-type staff members. In the data model, a teacher entity is a staff member with additional properties. For more information, see the schema for $$Teacher$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers and staff, this is /schools/{IDs}/teacherSchoolAssociations/teachers. {IDs} represents a list of school or education organization IDs to which the teacher or staff is currently associated.  For students, this is /sections/{IDs}/teacherSectionAssociations/teachers.  {IDs} represents a list of section IDs to which the student is currently associated.",
       "availableSince" : "v1.1",
       "subResources": [
         { "path": "/{id}/staffEducationOrgAssignmentAssociations" },

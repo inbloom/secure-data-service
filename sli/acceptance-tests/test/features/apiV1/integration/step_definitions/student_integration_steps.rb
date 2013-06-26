@@ -16,7 +16,7 @@ limitations under the License.
 
 =end
 
-
+require 'date'
 require 'json'
 require 'mongo'
 require 'rest-client'
@@ -290,8 +290,7 @@ When /^I verify the following response body fields exist in "(.*?)":$/ do |uri, 
   end
 end
 
-When /^I verify the following response body fields do not exist in "(.*?)":$/ do |uri, table|
-  step "I navigate to GET \"/#{@api_version}#{uri}\""
+When /^I verify the following response body fields do not exist in the response:$/ do |table|
   puts "api result is #{@result}" if $SLI_DEBUG
   table.hashes.map do |row|
     field = row['field']
@@ -310,6 +309,26 @@ When /^I validate I have access to entities via the API access pattern "(.*?)":$
     step "I should receive a return code of 200"
     print "OK\n"
   end
+end
+
+When /^I validate the current allowed association entities via API "(.*?)":$/ do |uri, table|
+  # Do all current existing validation
+  step "I validate the allowed association entities via API \"#{uri}\":", table
+
+  # After its done, additionally check the response that all returned associations are current
+  assert(@result.is_a?(Array), "Response of a Listing endpoint was not a list of entities")
+  @result.each do |assoc|
+    if assoc.has_key? "endDate"
+      date = assoc["endDate"]
+      assert(is_current?(date), "Date #{date} was not current")
+    elsif assoc.has_key? "exitWithdrawDate"
+      date = assoc["exitWithdrawDate"]
+      assert(is_current?(date), "Date #{date} was not current")
+    else
+      # Any association with no end date is deemed to be current
+    end
+  end
+
 end
 
 When /^I validate the allowed association entities via API "(.*?)":$/ do |uri, table|
@@ -699,6 +718,11 @@ def studentArray(value)
   end
 end
 
+#This function deterimes if a date string passed in (in format yyyy-mm-dd) is current or not
+def is_current?(end_date_string)
+  now_string = Date.today.strftime("%F")
+  return  now_string <= end_date_string
+end
 
 Then(/^I PATCH entities and check return code$/) do |table|
   # Strings for ANSI Color codes

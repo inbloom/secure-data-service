@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
+
+    <Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="false">
+
+        <Assessment>
+            <AssessmentTitle>Delete A then Update AF</AssessmentTitle>
+            <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                <ID>READ 2.0 Grade 1 MOY</ID>
+            </AssessmentIdentificationCode>
+            <AssessmentFamilyReference>
+                <AssessmentFamilyIdentity>
+                    <AssessmentFamilyTitle>Delete A then Update AF</AssessmentFamilyTitle>
+                </AssessmentFamilyIdentity>
+            </AssessmentFamilyReference>
+        </Assessment>
+
+        <Assessment>
+            <AssessmentTitle>Delete A and Update AF</AssessmentTitle>
+            <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                <ID>READ 2.0 Grade 1 MOY</ID>
+            </AssessmentIdentificationCode>
+            <AssessmentFamilyReference>
+                <AssessmentFamilyIdentity>
+                    <AssessmentFamilyTitle>3 Delete A and Update AF</AssessmentFamilyTitle>
+                </AssessmentFamilyIdentity>
+            </AssessmentFamilyReference>
+        </Assessment>
+
+        <Assessment>
+            <AssessmentTitle>Delete A and Delete AF</AssessmentTitle>
+            <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                <ID>READ 2.0 Grade 1 MOY</ID>
+            </AssessmentIdentificationCode>
+            <AssessmentFamilyReference>
+                <AssessmentFamilyIdentity>
+                    <AssessmentFamilyTitle>Delete A and Delete AF</AssessmentFamilyTitle>
+                </AssessmentFamilyIdentity>
+            </AssessmentFamilyReference>
+        </Assessment>
+
+        <AssessmentFamily>
+            <AssessmentFamilyTitle>Delete A and Delete AF</AssessmentFamilyTitle>
+            <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+                <ID>READ 2.0 Grade 1</ID>
+            </AssessmentFamilyIdentificationCode>
+        </AssessmentFamily>
+
+        <AssessmentFamily>
+            <AssessmentFamilyTitle>Update A and Delete AF</AssessmentFamilyTitle>
+            <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+                <ID>READ 2.0 Grade 1</ID>
+            </AssessmentFamilyIdentificationCode>
+        </AssessmentFamily>
+
+    </Action>
+
+</InterchangeAssessmentMetadata>

@@ -48,7 +48,7 @@ studentPartials = {
         :NOOP
       end },
     'staffEducationOrganizationAssociation' => Proc.new { |fieldName|
-      if ['staffReference ', 'educationOrganizationReference'].include? fieldName
+      if ['staffReference', 'educationOrganizationReference'].include? fieldName
         REGULAR_CONTEXT_RIGHT
       else
         :NOOP
@@ -57,7 +57,7 @@ studentPartials = {
       if ['name'].include? fieldName
         REGULAR_CONTEXT_RIGHT
       elsif ['economicDisadvantaged','schoolFoodServicesEligibility'].include? fieldName
-        "PROTECTED"
+        "STUDENT_RESTRICTED"
       else
         SELF_CONTEXT_RIGHT
       end },

@@ -42,7 +42,7 @@ Background: Nothing yet
     | program                                 | programs                                 | 2     |/staff/@ids/staffProgramAssociations/programs|
     | studentProgramAssociation               | studentProgramAssociations               | 6    |/staff/@ids/staffProgramAssociations/programs/studentProgramAssociations|
     | courseTranscript                        | courseTranscripts                        | 0     |/schools/@ids/studentSchoolAssociations/students/studentAcademicRecords/courseTranscripts|
-    | staffEducationOrganizationAssociation   | staffEducationOrgAssignmentAssociations  | 1     |/staff/@ids/staffEducationOrgAssignmentAssociations|
+    | staffEducationOrganizationAssociation   | staffEducationOrgAssignmentAssociations  | 2     |/staff/@ids/staffEducationOrgAssignmentAssociations|
     | studentCohortAssociation                | studentCohortAssociations                | 4     |/staff/@ids/staffCohortAssociations/cohorts/studentCohortAssociations|
     | teacherSectionAssociation               | teacherSectionAssociations               | 0     |/schools/@ids/teacherSchoolAssociations/teachers/teacherSectionAssociations|
     | studentSchoolAssociation                | studentSchoolAssociations                | 0     |/schools/@ids/studentSchoolAssociations|
@@ -59,7 +59,7 @@ Background: Nothing yet
     | school                                  | schools                                  | 0     |/staff/@ids/staffEducationOrgAssignmentAssociations/schools|
     | section                                 | sections                                 | 0     |/schools/@ids/sections|
     | session                                 | sessions                                 | 29    |/search/sessions|
-    | staff                                   | staff                                    | 4     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|
+    | staff                                   | staff                                    | 5     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|
     | student                                 | students                                 | 0     |/schools/@ids/studentSchoolAssociations/students|
     | studentAcademicRecord                   | studentAcademicRecords                   | 0     |/schools/@ids/studentSchoolAssociations/students/studentAcademicRecords|
     | studentGradebookEntry                   | studentGradebookEntries                  | 0     |/schools/@ids/studentSchoolAssociations/students/studentGradebookEntries|

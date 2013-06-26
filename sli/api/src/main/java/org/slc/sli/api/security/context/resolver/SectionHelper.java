@@ -41,7 +41,7 @@ public class SectionHelper {
      * @return a list of sections for the teacher
      */
     public List<String> getTeachersSections(Entity teacher) {
-        return studentHelper.getTeachersSectionIds(teacher);
+        return studentHelper.getTeachersSectionIds(teacher, false);
     }
 
 

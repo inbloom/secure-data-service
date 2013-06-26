@@ -52,7 +52,7 @@ public class RoleService {
      * Returns roles available to the user
      */
     public List<Role> getAvailableRoles() {
-        return Arrays.asList(new Role("IT Administrator"), new Role("Leader"), new Role("Educator"), new Role(
-                "Aggregate Viewer"));
+        return Arrays.asList(new Role("IT Administrator"), new Role("School Administrative Support Staff"), new Role("LEA System Administrator"), new Role("LEA Administrator"), new Role("Leader"),
+                new Role("Superintendent"), new Role("Principal"), new Role("Educator"), new Role("Teacher"), new Role("Aggregate Viewer"), new Role("Specialist/Consultant"));
     }
 }

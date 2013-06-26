@@ -10,14 +10,33 @@ Scenario: Student has access to entities via API endpoints
 Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
   And format "application/json"
   And I am using api version "v1"
- When I validate I have access to entities via the API access pattern "/v1/Entity/Id":
-    | entity                    | id                                          |
-    | students                  | 067198fd6da91e1aa8d67e28e850f224d6851713_id |
-    | parents                   | 5f8989384287747b1960d16edd95ff2bb318e3bd_id |
-    | parents                   | 7f5b783a051b72820eab5f8188c45ade72869f0f_id |
-    | parents                   | 5f8989384287747b1960d16edd95ff2bb318e3bd_id,7f5b783a051b72820eab5f8188c45ade72869f0f_id |
-    | studentParentAssociations | 067198fd6da91e1aa8d67e28e850f224d6851713_idc43bbfa3df05d4fd2d78a9edfee8fd63fbcf495a_id  |
-    | studentParentAssociations | 067198fd6da91e1aa8d67e28e850f224d6851713_ide2f8c24b3e1ab8ead6e134d661a464d0f90e4c8e_id  |
+ Then I validate I have access to entities via the API access pattern "/v1/Entity/Id":
+    | entity                                   | id                                          |
+    | students                                 | 067198fd6da91e1aa8d67e28e850f224d6851713_id |
+    | parents                                  | 5f8989384287747b1960d16edd95ff2bb318e3bd_id |
+    | parents                                  | 7f5b783a051b72820eab5f8188c45ade72869f0f_id |
+    | parents                                  | 5f8989384287747b1960d16edd95ff2bb318e3bd_id,7f5b783a051b72820eab5f8188c45ade72869f0f_id |
+    | studentParentAssociations                | 067198fd6da91e1aa8d67e28e850f224d6851713_idc43bbfa3df05d4fd2d78a9edfee8fd63fbcf495a_id  |
+    | studentParentAssociations                | 067198fd6da91e1aa8d67e28e850f224d6851713_ide2f8c24b3e1ab8ead6e134d661a464d0f90e4c8e_id  |
+    | staff                                    | 63d4be8a233db1fd14676f1535fa21fe4c5dd466_id |
+    | staff                                    | 4255c28503a1c96ed9a9127d1a21f992e636acd6_id |
+    | staff                                    | 143760f37839b2608d2c929ef26d30c900f6a434_id |
+    | staff                                    | 8b6a31734ed43040f8a171d5d85e39176c543f22_id |
+    | staffCohortAssociations                  | a17d936ca77e391ace5d14645a4b9b78f6dbd387_id |
+    | staffProgramAssociations                 | 8c163998fbc8ab004b7cf95e33fc5f6d14e87982_id |
+    | staffEducationOrgAssignmentAssociations  | b1877c4d0d8e081e87f8af9a933c6d46aea5d9ad_id |
+    | teacherSectionAssociations               | eb8663fe6856b49684a778446a0a1ad33238a86d_idc2e898df96ee2cb40e24e1986a2d1cbdf053184f_id |
+    | teacherSchoolAssociations                | 8495e720e4f1261f3845aeb1f499ec40359669a5_id |
+  Then I validate that I am denied access to restricted endpoints via API:
+    | uri                                                                                                                   | rc           |
+    | /v1/staff/e40ee9041a7159c62867f63bf4da581ba9fc3dc7_id                                                                 | 403          |
+    | /v1/staffCohortAssociations/e1b4e5e0e8c1d7b84d7a8eb72958ad0a53e7ef77_id                                               | 403          |
+    # student association has expired
+    | /v1/staffProgramAssociations/d7fa74360c0fa06259c37fb67b07b039211c72de_id                                              | 403          |
+    | /v1/teacherSectionAssociations/57277fceb3592d0c8f3faadcdd824690bc2b2586_id98f3f6d2ee97b4e0bc1aca33f88911393446c017_id | 403          |
+    # staff association has expired
+    | /v1/staffProgramAssociations/fa47e994944a53bc0b23a7f16fc5843149937b94_id                                              | 403          |
+    | /v1/staffEducationOrgAssignmentAssociations/a9c8dfab5f003151f52b825be529bead1ae50564_id                               | 403          |
 
 @student_endpoints
 Scenario: Student has access to non-transitive associations

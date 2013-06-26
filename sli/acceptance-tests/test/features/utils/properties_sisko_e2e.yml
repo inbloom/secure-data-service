@@ -15,6 +15,8 @@ ingestion_db: "localhost"
 ingestion_db_port: 27018
 rcingest02_port: 27020
 rcingest03_port: 27021
+rcapi01_port: 27022
+rcapi02_port: 27023
 ingestion_database_name: "sli"
 ingestion_batchjob_db: "localhost"
 ingestion_batchjob_database_name: "ingestion_batch_job"
