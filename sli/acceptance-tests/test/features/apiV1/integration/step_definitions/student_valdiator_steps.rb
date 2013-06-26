@@ -144,7 +144,6 @@ def validate_id_presence(res)
   data = JSON.parse(res.body)
   return false if data == nil
   if data.is_a? Array
-    STDERR.puts "XXXXXXXXXX         #{data[0]}"
     id = data[0]["id"]
   end
   if data.is_a? Hash
