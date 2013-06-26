@@ -81,7 +81,7 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
     And there is a metadata file in the extract
    Then each record in the full extract is present and matches the delta extract
 
-@wip
+
 Scenario: SEA - Ingest additional entities for subsequent update and delete tests
 And I ingest "SEAAppend.zip"
     And the extraction zone is empty
