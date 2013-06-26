@@ -163,11 +163,11 @@ public class DefaultResourceService implements ResourceService {
                 } catch (UnsupportedSelectorException e) {
                  // US5765: Temporarily disabled the new logic
                  SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
-                    /*if (ids.size() == 1  && contextSupportedEntities.contains(definition.getType()) &&  SecurityUtil.isStaffUser()) {
+                    if (ids.size() == 1  && contextSupportedEntities.contains(definition.getType()) &&  SecurityUtil.isStaffUser()) {
                         finalResults = (List<EntityBody>) definition.getService().listBasedOnContextualRoles(apiQuery);
-                    } else {*/
+                    } else {
                         finalResults = (List<EntityBody>) definition.getService().list(apiQuery);
-                    //}
+                    }
                 }
 
                 if (idLength == 1 && finalResults.isEmpty()) {
