@@ -8,16 +8,17 @@ databases.each do |dbName|
   coll = db.collection('customRole')
 
   puts("Updating db #{dbName}")
-  result = coll.update({'body.roles.groupTitle' => {'$ne' => 'Student'}}, {'$push' => {'body.roles' => {
-      :groupTitle => "Student",
+  result = coll.update({'body.roles.groupTitle' => {'$ne' => 'Parent'}}, {'$push' => {'body.roles' => {
+      :groupTitle => "Parent",
       :isAdminRole => false,
-      :names => ['Student'],
+      :names => ['Parent'],
       :rights => ['READ_PUBLIC', 'READ_STUDENT_GENERAL'],
-      :selfRights => ['READ_STUDENT_OWNED'],
+      :selfRights => ['READ_STUDENT_OWNED', 'READ_STUDENT_RESTRICTED'],
       :customRights => []
   }}
   }, {:multi => true})
 
-  puts "Updated #{result['n']}/#{coll.count}"
+  puts "Updated #{result['n']}/#{coll.count} with Parent role"
+
 end
 
