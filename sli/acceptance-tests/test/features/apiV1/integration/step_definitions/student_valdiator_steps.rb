@@ -85,7 +85,57 @@ end
 
 Then /^I should be able to see <Fields> for the entity with ID <ID>:$/ do |table|
   # table is a Cucumber::Ast::Table
-  pending # express the regexp above with the code you wish you had
+  # Strings for ANSI Color codes
+  startRed = "\e[31m"
+  colorReset = "\e[0m"
+
+  success = true
+  data = JSON.parse(@res.body)
+  assert(data != nil, "Response from API was nil")
+  assert(data.is_a?(Array), "Response for a listing endpoint was not an array")
+  data.each do |entity|
+    id = entity["id"]
+    expectations = table.hashes.select{|row| row["ID"]==id}
+    if (expectations != nil)
+      expectations = expectations[0]
+    else
+      puts "#{startRed}ID #{id} returned from API but not expected!#{colorReset}"
+      next
+    end
+    if expectations["Fields"] == "NameOnly"
+      # Check that we only see the name, no other fields that may exist
+      if entity["name"] == nil
+        success = false
+        puts "#{startRed}Expected field name on student #{id}, but was absent#{colorReset}"
+      else
+        puts "Expected field name on student #{id}, and was present"
+      end
+      if entity["address"] != nil
+        success = false
+        puts "#{startRed}Expected no field address on student #{id}, but was present#{colorReset}"
+      else
+        puts "Expected no field address on student #{id}, and was absent"
+      end
+    else
+      # Check that we can see most all fields on the student
+      if entity["name"] == nil
+        success = false
+        puts "#{startRed}Expected field name on student #{id}, but was absent#{colorReset}"
+      else
+        puts "Expected field name on student #{id}, and was present"
+      end
+      if entity["address"] == nil
+        success = false
+        puts "#{startRed}Expected field address on student #{id}, but was absent#{colorReset}"
+      else
+        puts "Expected field address on student #{id}, and was present"
+      end
+    end
+  end
+  actual_set = Set.new(data.map{|entity|entity["id"]})
+  expected_set = Set.new(table.hashes.collect{|row| row["ID"]})
+  assert(actual_set == expected_set,"Set Expectation failed: Outlier IDs: #{(expected_set.subtract(expected_set&actual_set)).select{|x| x}}")
+  assert(success, "Tests failed")
 end
 
 def validate_id_presence(res)
