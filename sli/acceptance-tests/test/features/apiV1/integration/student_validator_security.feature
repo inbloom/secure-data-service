@@ -82,12 +82,11 @@ Scenario: Validators return proper return codes on multi-ID requests for Carmen 
      | /students/@ids/studentSectionAssociations/sections | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id                                                          | 92164cd19ebdbe17cfdcd0e1d177877cdc9a40ef_id                                                          |
      | /studentSchoolAssociations/@ids/schools  | 5473d560c39002a09d650c618768b60adc6aadab_id                                                          | 90edded75ff09a5fad3371df3be9289ca2ae718a_id                                                          |
      | /studentSchoolAssociations/@ids/students | 932111c8421d0eb277d8ce5238a0272ec56f9e38_id                                                          | 90edded75ff09a5fad3371df3be9289ca2ae718a_id                                                          |
-     | /studentSectionAssociations/@ids/sections | ecb5131a66ffff44c3169acbdb9f1242e8384b13_ida0403a489062fb836e0640fa2f5e3d4cf6a31d1a_id               | ecb5131a66ffff44c3169acbdb9f1242e8384b13_id3e905f4bb054ed1440cb81c4bbeeb0a4d1d25dfc_id               |
-     | /studentSectionAssociations/@ids/students | 95cc5d67f3b653eb3e2f0641c429cf2006dc2646_id458e252d4bca49bffc868571cda53466c95a4425_id               | ecb5131a66ffff44c3169acbdb9f1242e8384b13_id3e905f4bb054ed1440cb81c4bbeeb0a4d1d25dfc_id               |
      | /teacherSchoolAssociations/@ids/schools  | fd64eb0e7ddcef2a651b2d0ad0bfbbc85c62a4ce_id | 8495e720e4f1261f3845aeb1f499ec40359669a5_id |
      | /teacherSchoolAssociations/@ids/teachers | fd64eb0e7ddcef2a651b2d0ad0bfbbc85c62a4ce_id | 8495e720e4f1261f3845aeb1f499ec40359669a5_id |
      | /teacherSectionAssociations/@ids/sections | ecb5131a66ffff44c3169acbdb9f1242e8384b13_id36678eb42429bf2cea4817c45f7bff5bb841c0a4_id | e9b81633cba273dc9cc567d7f0f76a1c070c150d_id2d275caf63e615e3d699f39cae4714084366024d_id |
      | /teacherSectionAssociations/@ids/teachers | ecb5131a66ffff44c3169acbdb9f1242e8384b13_id36678eb42429bf2cea4817c45f7bff5bb841c0a4_id | e9b81633cba273dc9cc567d7f0f76a1c070c150d_id2d275caf63e615e3d699f39cae4714084366024d_id |
+     | /studentSectionAssociations/@ids/students | 6967fe8c89198c9f2a64f2df1e60cd7677e62c31_idc75f6630245b4942ae6870a5b6466b51e322ea8a_id               | 828b5629e48f924f2c090b5fc92a08307a4e5d85_id9176177b445474ddcc0de79c118a499849192cbf_id               |
     #TODO -> | /courseTranscripts/@ids/courses          | 66855042298036c199ee39628625be212d682049_id                               | 000c61fc14cdf8a2def80d7aa81a0e425cb76925_id |
   When I request the Good ID, I should be allowed
   When I request the Bad ID, I should be denied
