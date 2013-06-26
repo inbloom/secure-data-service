@@ -342,7 +342,8 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     And format "application/json"
     And I am using api version "v1"
     And I am accessing data about myself, "matt.sollars"
-    Then I verify the following response body fields do not exist in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id":
+    When I navigate to GET "/v1/students/067198fd6da91e1aa8d67e28e850f224d6851713_id"
+    Then I verify the following response body fields do not exist in the response:
       | field                         |
       | economicDisadvantaged         |
       | schoolFoodServicesEligibility |
@@ -356,7 +357,7 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     Then I verify the following response body fields exist in "/staff/143760f37839b2608d2c929ef26d30c900f6a434_id":
       | field                       |
       | name                        |
-    Then I verify the following response body fields do not exist in "/staff/143760f37839b2608d2c929ef26d30c900f6a434_id":
+    Then I verify the following response body fields do not exist in the response:
       | field                              |
       | staffUniqueStateId                 |
       | staffIdentificationCode            |
@@ -376,7 +377,7 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     Then I verify the following response body fields exist in "/teachers/4b07dba2b6868c0827315b99ea94fc74c0f7c902_id":
       | field                       |
       | name                        |
-    Then I verify the following response body fields do not exist in "/teachers/4b07dba2b6868c0827315b99ea94fc74c0f7c902_id":
+    Then I verify the following response body fields do not exist in the response:
       | field                              |
       | staffUniqueStateId                 |
       | staffIdentificationCode            |
@@ -408,7 +409,7 @@ Feature: As a student or staff I want to use apps that access the inBloom API
       | field                       |
       | staffId                     |
       | cohortId                    |
-    Then I verify the following response body fields do not exist in "/staffCohortAssociations/a17d936ca77e391ace5d14645a4b9b78f6dbd387_id":
+    Then I verify the following response body fields do not exist in the response:
       | field                         |
       | beginDate                     |
       | endDate                       |
@@ -418,7 +419,7 @@ Feature: As a student or staff I want to use apps that access the inBloom API
       | field                       |
       | staffId                     |
       | programId                   |
-    Then I verify the following response body fields do not exist in "/staffProgramAssociations/2cc6a6a3e5990518e6c196630873b6adc0736b86_id":
+    Then I verify the following response body fields do not exist in the response:
       | field                         |
       | beginDate                     |
       | endDate                       |

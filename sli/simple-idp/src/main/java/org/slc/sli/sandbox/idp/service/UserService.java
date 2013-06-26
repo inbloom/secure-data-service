@@ -192,7 +192,8 @@ public class UserService {
         user.roles = getUserGroups(realm, userId);
 
         // check if userId needs to be updated (based on groups/roles)
-        if (user.roles.size() == 1 && (user.roles.contains("Student") || user.roles.contains("Parent"))) {
+        LOG.info("User roles are: {}", user.roles.toString());
+        if (user.roles.size() == 1 && (user.roles.contains("Student") || user.roles.contains("StudentLeader") || user.roles.contains("Parent"))) {
             if (user.getAttributes().containsKey("employeeNumber")) {
                 String newUid = user.getAttributes().remove("employeeNumber");
                 LOG.info("Updating user id: {} --> {}", user.getUserId(), newUid);
@@ -201,7 +202,7 @@ public class UserService {
         }
 
         user.getAttributes().put(USER_TYPE, "staff");
-        if (user.roles.contains("Student")) {
+        if (user.roles.contains("Student") || user.roles.contains("StudentLeader")) {
             user.getAttributes().put(USER_TYPE, "student");
         } else if (user.roles.contains("Parent")) {
             user.getAttributes().put(USER_TYPE, "parent");

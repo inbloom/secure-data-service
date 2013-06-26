@@ -2686,6 +2686,93 @@ def get_post_body_by_entity_name(entity_name)
           "creditType" => "Semester hour credit",
           "credit" => 32
       }
+    },
+    "expiredStaff" => {
+      "staffUniqueStateId" => "ex-staff-member1",
+      "sex" => "Male",
+      "hispanicLatinoEthnicity" => false,
+      "highestLevelOfEducationCompleted" => "Bachelor's",
+      "name" => {
+        "firstName" => "Exavier",
+        "middleName" => "D.",
+        "lastSurname" => "StaffGuy"
+      }
+    },
+    "expiredStaffEdorgAssociation" => {
+      "staffClassification" => "IT Administrator",
+      "educationOrganizationReference" => "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id",
+      "positionTitle" => "Educator",
+      "staffReference" => "bfddb715a20bb2996b8769abfc1813d029bfdf29_id",
+      "endDate" => "2013-05-22",
+      "entityType" => "staffEducationOrganizationAssociation",
+      "beginDate" => "2012-08-26"
+    },
+    "expiredTeacher" => {
+      "loginId" => "expired-teacher-1@fakemail.com",
+      "sex" => "Male",
+      "staffUniqueStateId" => "exp-teacher-1",
+      "hispanicLatinoEthnicity" => false,
+      "highlyQualifiedTeacher" => true,
+      "yearsOfPriorTeachingExperience" => 9,
+      "entityType" => "teacher",
+      "yearsOfPriorProfessionalExperience" => 10,
+      "address" => [{
+          "streetNumberName" => "10 South Street",
+          "postalCode" => "60601",
+          "stateAbbreviation" => "IL",
+          "addressType" => "Home",
+          "city" => "Chicago"
+      }],
+      "teacherUniqueStateId" => "expired-teacher-1",
+      "name" => {
+          "middleName" => "Mervin",
+          "lastSurname" => "Maroni",
+          "firstName" => "Marcos"
+      },
+      "electronicMail" => [
+        { "emailAddress" => "expired-teacher-work@fakemail.com",
+          "emailAddressType" => "Work"
+        },
+        {
+          "emailAddress" => "expired-teacher-home@fakemail.com",
+          "emailAddressType" => "Home/Personal"
+        }
+      ],
+      "highestLevelOfEducationCompleted" => "Master's",
+      "birthDate" => "1962-09-30",
+      "telephone" => [{
+          "primaryTelephoneNumberIndicator" => true,
+          "telephoneNumber" => "(319)555-1789",
+          "telephoneNumberType" => "Emergency 2"
+      }],
+      "staffIdentificationCode" => [{
+          "identificationSystem" => "Health Record",
+          "ID" => "82421"
+      }]
+    },
+    "expiredTeacherEdorgAssociation" => {
+      "staffClassification" => "Teacher",
+      "educationOrganizationReference" => "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id",
+      "positionTitle" => "Educator",
+      "staffReference" => "2ff51e81ecbd9c4160a19be629d0ccb4cb529796_id",
+      "endDate" => "2013-05-22",
+      "entityType" => "staffEducationOrganizationAssociation",
+      "beginDate" => "2012-08-26"
+    },
+    "expiredTeacherSchoolAssociation" => {
+      "academicSubjects" => ["Transportation, Distribution and Logistics"],
+      "schoolId" => "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id",
+      "entityType" => "teacherSchoolAssociation",
+      "programAssignment" => "Regular Education",
+      "teacherId" => "2ff51e81ecbd9c4160a19be629d0ccb4cb529796_id",
+      "instructionalGradeLevels" => ["Adult Education"]
+    },
+    "expiredTeacherSectionAssociation" => {
+      "teacherId" => "2ff51e81ecbd9c4160a19be629d0ccb4cb529796_id",
+      "sectionId" => "eb8663fe6856b49684a778446a0a1ad33238a86d_id",
+      "classroomPosition" => "Teacher of Record",
+      "endDate" => "2013-05-22",
+      "beginDate" => "2012-08-26"
     }
   }
   return json_bodies_by_name[entity_name]
