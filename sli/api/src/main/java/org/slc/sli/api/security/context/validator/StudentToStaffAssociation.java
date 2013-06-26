@@ -44,7 +44,7 @@ public abstract class StudentToStaffAssociation extends BasicValidator {
     private final String associationField;
 
     public StudentToStaffAssociation(String type, String associationField) {
-        super(true, EntityNames.STUDENT, type);
+        super(EntityNames.STUDENT, type);
         this.collection = type;
         this.associationField = associationField;
     }

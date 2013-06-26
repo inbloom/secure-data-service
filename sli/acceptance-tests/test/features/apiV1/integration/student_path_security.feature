@@ -15,7 +15,7 @@ Scenario: Check un-versioned URIs work for student
   When I navigate to GET "/system/session/logout"
   Then any future API request should result in a 401 response code
 
-Scenario: Verify Rewrites for Base Level entities for Students
+Scenario: Verify Rewrites for entities for Students
   Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "cegray" with password "cegray1234"
   And my contextual access is defined by the table:
     | Context                | Ids                                         |
@@ -69,6 +69,13 @@ Scenario: Verify Rewrites for Base Level entities for Students
     | /teacherSchoolAssociations   | /schools/@ids/teacherSchoolAssociations                                        |
     | /teacherSectionAssociations  | /sections/@ids/teacherSectionAssociations                                      |
     | /yearlyAttendances           | /students/@ids/yearlyAttendances                                               |
+  When I navigate to the URI <URI> I should see the rewrite in the format of <Rewrite>:
+    | URI                          | Rewrite                                                                            |
+    | /studentSectionAssociations/9226b1f7fcf2e3b14d12f59c69e1a9d693f51247_id4cb16d3e1882ba13516ad727d35ee83a85e63c44_id/sections                                                                                                        | /sections/9226b1f7fcf2e3b14d12f59c69e1a9d693f51247_id     |
+    | /studentSectionAssociations/9226b1f7fcf2e3b14d12f59c69e1a9d693f51247_id4cb16d3e1882ba13516ad727d35ee83a85e63c44_id/students                                                                                                        | /sections/9226b1f7fcf2e3b14d12f59c69e1a9d693f51247_id/studentSectionAssociations/students     |
+    | /studentSectionAssociations/9226b1f7fcf2e3b14d12f59c69e1a9d693f51247_id4cb16d3e1882ba13516ad727d35ee83a85e63c44_id,e1af27afcaba9691bdb1cbc1baa30fe75b8c300c_id749b53e759c6cb0d13782c3189fb40a6bef0a64b_id/sections                 | /sections/9226b1f7fcf2e3b14d12f59c69e1a9d693f51247_id,e1af27afcaba9691bdb1cbc1baa30fe75b8c300c_id     |
+    | /studentSectionAssociations/9226b1f7fcf2e3b14d12f59c69e1a9d693f51247_id4cb16d3e1882ba13516ad727d35ee83a85e63c44_id,e1af27afcaba9691bdb1cbc1baa30fe75b8c300c_id749b53e759c6cb0d13782c3189fb40a6bef0a64b_id/students                 | /sections/9226b1f7fcf2e3b14d12f59c69e1a9d693f51247_id,e1af27afcaba9691bdb1cbc1baa30fe75b8c300c_id/studentSectionAssociations/students     |
+
 
   Scenario: Verify Blacklist for Student URI paths
     Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "cegray" with password "cegray1234"

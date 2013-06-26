@@ -33,12 +33,8 @@ public class StudentDenyAllValidator extends AbstractContextValidator {
 
     private static final Set<String> NON_TRANSITIVE_DENY_ALL = new HashSet<String>(Arrays.asList(
             EntityNames.STAFF,
-            EntityNames.STAFF_COHORT_ASSOCIATION,
-            EntityNames.STAFF_ED_ORG_ASSOCIATION,
-            EntityNames.STAFF_PROGRAM_ASSOCIATION,
-            EntityNames.TEACHER,
-            EntityNames.TEACHER_SCHOOL_ASSOCIATION,
-            EntityNames.TEACHER_SECTION_ASSOCIATION));
+            EntityNames.TEACHER
+            ));
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
