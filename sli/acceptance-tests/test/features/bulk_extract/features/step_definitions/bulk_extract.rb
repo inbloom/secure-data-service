@@ -1092,10 +1092,6 @@ Then /^I failed retrieve the path to and decrypt the extract file for the tenant
   @coll = @sliDb.collection("bulkExtractFiles")
   match = @coll.find_one(build_bulk_query(tenant,appId))
 
-  puts "============================================="
-  puts @unpackDir
-  puts "============================================="
-
   assert(match ==nil, "Database should not be updated with bulk extract file location")
 end
 
@@ -1661,10 +1657,6 @@ def getExtractInfoFromMongo(query, query_opts={})
   @coll = @sliDb.collection("bulkExtractFiles")
   match = @coll.find_one(query, query_opts)
 
-  puts "============================================="
-  puts @unpackDir
-  puts "============================================="
-
   assert(match !=nil, "Database was not updated with bulk extract file location")
 
   edorg = match['body']['edorg'] || ""
@@ -1675,10 +1667,6 @@ def getExtractInfoFromMongo(query, query_opts={})
   @timestamp = match['body']['date'] || ""
   @timestamp = @timestamp.utc.iso8601(3)
   @tenant = query["body.tenantId"]
-
-  puts "+++++++++++++++++++++++++++++++++++++++++++++"
-  puts @unpackDir
-  puts "+++++++++++++++++++++++++++++++++++++++++++++"
 
   if $SLI_DEBUG
     puts "query is #{query}"
