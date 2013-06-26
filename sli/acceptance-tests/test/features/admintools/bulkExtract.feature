@@ -16,7 +16,7 @@ Feature: Admininstrating role-based access to bulking
         And the group "Balrogs" contains the "right" rights "BULK_EXTRACT"
         
         # Now test generation and use of the endpoint
-        Given I used the long lived session token generator script to create a token for user "manthony" with role "Balrog" for edorg "Sunset Central High" in tenant "Midgar"  for realm "IL-Sunset" that will expire in "300" seconds with client_id "vavedRa9uB" 
+        Given I used the long lived session token generator script to create a token for user "manthony" with role "Balrog" for edorg "Sunset Central High School" in tenant "Midgar"  for realm "IL-Sunset" that will expire in "300" seconds with client_id "vavedRa9uB" 
         Then I should see that my role is "Balrog"
         When I navigate to GET "/v1/sections"
         And I should receive a return code of 403
