@@ -7,7 +7,6 @@ Scenario: Initialize security trust store for Bulk Extract application and LEAs
     And The bulk extract app has been approved for "Midgar-DAYBREAK" with client id "<clientId>"
     And The X509 cert "cert" has been installed in the trust store and aliased
 
-
 Scenario: Generate a bulk extract delta after day 1 ingestion
   When I trigger a delta extract
    And I request the latest bulk extract delta using the api
@@ -141,49 +140,48 @@ And I ingest "SEAAppend.zip"
       | 7f6e03f2a01f0f74258a1b0d8796be5eaf289f0a_id | graduationPlanType = Standard            |
     And Then I Fail
 
-
 @wip
-Scenario: SEA Assessment + Objective Delete Test
-    And I ingest "SEAAssessment.zip"
-    And the extraction zone is empty
-    When I trigger a delta extract
-    When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+Scenario: SEA Assessment + Objective Deltas InteractionsPicked Objective Assessments but same behaviour expected for Assessment Item
+    Given the extraction zone is empty
+    When I ingest "SEAAssessment.zip"
+    And I trigger a delta extract
+    Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
       |  entityType                            |
       |  assessment                            |
-      And I verify this "assessment" file only contains:
-      | id                                         | condition                                   |
-	  |bcf0cadde56a961dd73efee8c15a6ca86c511ce8_id | assessmentTitle = Scenario 1|
-	  |0b3a35aeec13efc4547f19fc20b55b141992c795_id | assessmentTitle = Scenario 2|
-	  |f5feb4f8940c0fda119ce82f1b8d1d3162dbabc4_id | assessmentTitle = Scenario 3|
-	  |483b11e7a9ea9b0b337242bdc47fa758469f370e_id | assessmentTitle = Scenario 4|
-	  |d3580c38701831271557256b7eaa8b3c1dea1087_id | assessmentTitle = Scenario 5|
-	  |60adaf0b07d87d8f76f22df2c38717ab36935ae0_id | assessmentTitle = Scenario 6|
-	  |2a0d8d2f8049d113e2310bece5ba4aa9c5e34f59_id | assessmentTitle = Scenario 7|
-      |86a6e5a5ec24b416c8db672515c72caa5bcaa7a8_id | assessmentTitle = delete Assessment and then update              |
-      |90282da8fa5d3e6fb433d961b129f19fc0a48b09_id | assessmentTitle = 2013-Eleventh grade Assessment 2 A+OB+Update   |
+    And I verify this "assessment" file only contains:
+      | id                                         | condition                                                      | description                                                                                         |
+	  |bcf0cadde56a961dd73efee8c15a6ca86c511ce8_id | assessmentTitle = Scenario 1                                   | delete the Assessment and update the Objective Assessment in the same ingestion                     |
+	  |0b3a35aeec13efc4547f19fc20b55b141992c795_id | assessmentTitle = Scenario 2                                   | update the Assessment and delete the Objective Assessment in the same ingestion                     |
+      |f5feb4f8940c0fda119ce82f1b8d1d3162dbabc4_id | assessmentTitle = Scenario 3                                   | delete the Assessment                                                                               |
+	  |483b11e7a9ea9b0b337242bdc47fa758469f370e_id | assessmentTitle = Scenario 4                                   | delete the Objective Assessment                                                                     |
+	  |d3580c38701831271557256b7eaa8b3c1dea1087_id | assessmentTitle = Scenario 5                                   | update the Objective Assessment                                                                     |
+	  |60adaf0b07d87d8f76f22df2c38717ab36935ae0_id | assessmentTitle = Scenario 6                                   | update the Objective Assessment in one ingestion and delete the Assessment in another               |
+	  |2a0d8d2f8049d113e2310bece5ba4aa9c5e34f59_id | assessmentTitle = Scenario 7                                   | delete the Assessment in one ingestion and update the Objective Assessment in another               |
+      |86a6e5a5ec24b416c8db672515c72caa5bcaa7a8_id | assessmentTitle = delete Assessment and then update            | delete the Assessment in one ingestion and re-ingest and update the Assessment in another ingestion |
+      |90282da8fa5d3e6fb433d961b129f19fc0a48b09_id | assessmentTitle = 2013-Eleventh grade Assessment 2 A+OB+Update | update the Assessment                                                                               |
 
-     And the extraction zone is empty
-	 And I ingest "SEAAssessmentDeleteAndUpdate.zip"
+     Given the extraction zone is empty
+	 When I ingest "SEAAssessmentDeleteAndUpdate.zip"
 	 #second ingestion to control order of events
 	 And I ingest "SEAAssessmentDeleteAndUpdate2.zip"
-     When I trigger a delta extract
-     When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+     And I trigger a delta extract
+     Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
        |  assessment                            |
        |  deleted                               |	
      And I verify this "deleted" file only contains:
-       | id                                           | condition                              |
-       | bcf0cadde56a961dd73efee8c15a6ca86c511ce8_id  | entityType = assessment                 | 
-       | f5feb4f8940c0fda119ce82f1b8d1d3162dbabc4_id  | entityType = assessment                 | 
-       | 60adaf0b07d87d8f76f22df2c38717ab36935ae0_id  | entityType = assessment                 | 
-       | 2a0d8d2f8049d113e2310bece5ba4aa9c5e34f59_id  | entityType = assessment                |          
+       | id                                           | condition               | description                                                                                         |
+       | bcf0cadde56a961dd73efee8c15a6ca86c511ce8_id  | entityType = assessment | delete the Assessment and update the Objective Assessment in the same ingestion                     |
+       | f5feb4f8940c0fda119ce82f1b8d1d3162dbabc4_id  | entityType = assessment | delete the Assessment                                                                               |
+       | 60adaf0b07d87d8f76f22df2c38717ab36935ae0_id  | entityType = assessment | update the Objective Assessment in one ingestion and delete the Assessment in another               |
+       | 2a0d8d2f8049d113e2310bece5ba4aa9c5e34f59_id  | entityType = assessment | delete the Assessment in one ingestion and update the Objective Assessment in another               |
      And I verify this "assessment" file only contains:
-      | id                                         | condition                                                              |
-	  |90282da8fa5d3e6fb433d961b129f19fc0a48b09_id | assessmentTitle = 2013-Eleventh grade Assessment 2 A+OB+Update         | 	 
-      |86a6e5a5ec24b416c8db672515c72caa5bcaa7a8_id | assessmentTitle = delete Assessment and then update                    |  
-      |0b3a35aeec13efc4547f19fc20b55b141992c795_id | assessmentTitle = Scenario 2                                           |
-      |483b11e7a9ea9b0b337242bdc47fa758469f370e_id | assessmentTitle = Scenario 4                                           |
-      |d3580c38701831271557256b7eaa8b3c1dea1087_id | assessmentTitle = Scenario 5                                           |
+      | id                                         | condition                                                      | description                                                                                         |
+	  |90282da8fa5d3e6fb433d961b129f19fc0a48b09_id | assessmentTitle = 2013-Eleventh grade Assessment 2 A+OB+Update | update the Assessment                                                                               |
+      |86a6e5a5ec24b416c8db672515c72caa5bcaa7a8_id | assessmentTitle = delete Assessment and then update            | delete the Assessment in one ingestion and re-ingest and update the Assessment in another ingestion |
+      |0b3a35aeec13efc4547f19fc20b55b141992c795_id | assessmentTitle = Scenario 2                                   | update the Assessment and delete the Objective Assessment in the same ingestion                     |
+      |483b11e7a9ea9b0b337242bdc47fa758469f370e_id | assessmentTitle = Scenario 4                                   | delete the Objective Assessment                                                                     |
+      |d3580c38701831271557256b7eaa8b3c1dea1087_id | assessmentTitle = Scenario 5                                   | update the Objective Assessment                                                                     |
       
  
   Scenario: Ingesting SEA (Non Odin) entities - AssessmentFamily
