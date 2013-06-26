@@ -8,7 +8,7 @@ databases.each do |dbName|
   coll = db.collection('customRole')
 
   puts("Updating db #{dbName}")
-  coll.update({}, {'$push' => {'body.roles' => {
+  result = coll.update({'body.roles.groupTitle' => {'$ne' => 'Student'}}, {'$push' => {'body.roles' => {
       :groupTitle => "Student",
       :isAdminRole => false,
       :names => ['Student'],
@@ -17,5 +17,7 @@ databases.each do |dbName|
       :customRights => []
   }}
   }, {:multi => true})
+
+  puts "Updated #{result['n']}/#{coll.count}"
 end
 
