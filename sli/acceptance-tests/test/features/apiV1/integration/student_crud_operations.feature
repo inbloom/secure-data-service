@@ -156,3 +156,19 @@ Feature: As a student or staff I want to use apps that access the inBloom API
       | disciplineIncident                   | 84bea3a3c04d6be8935c8f057e8f3c080c0faf36_id | 403         |
       | studentDisciplineIncidentAssociation | 067198fd6da91e1aa8d67e28e850f224d6851713_idcc5123a629dee85e5f64ef188c1c33f2ffd6c210_id | 403 |
       | studentDisciplineIncidentAssociation | 908404e876dd56458385667fa383509035cd4312_id33a1c7ee086d4c488531652ab4a99cf0b6bd619d_id | 403 |
+
+@student_crud
+Scenario: POST new entities as a privileged student with extended rights
+  #Given I log in to realm "Illinois Daybreak Students" using simple-idp as "studentLeader" "leader.m.sollars" with password "leader.m.sollars1234"
+  Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "jstevenson" with password "jstevenson1234"
+    And format "application/json"
+    And I am using api version "v1"
+    #POST a new teacher as an enterprising student who somehow has write access to restricted entities
+    When I POST and validate the following entities:
+      | entityName                       | entityType                            | returnCode |
+      | expiredTeacher                   | teacher                               | 201        |
+      | expiredTeacherEdorgAssociation   | staffEducationOrganizationAssociation | 201        |
+      | expiredTeacherSchoolAssociation  | teacherSchoolAssociation              | 201        |
+      | expiredTeacherSectionAssociation | teacherSectionAssociation             | 201        |
+      | expiredStaff                     | staff                                 | 201        |
+      | expiredStaffEdorgAssociation     | staffEducationOrganizationAssociation | 201        |

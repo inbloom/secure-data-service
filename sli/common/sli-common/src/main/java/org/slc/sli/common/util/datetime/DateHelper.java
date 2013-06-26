@@ -106,7 +106,13 @@ public class DateHelper {
     }
 
     public static Criteria getExpiredCriteria() {
-        return Criteria.where("body.endDate").gte(DateTime.now().toString(getDateTimeFormat()));
+        return getExpiredCriteria("body.endDate");
+    }
+
+    public static Criteria getExpiredCriteria(String endDateField) {
+        return new Criteria().orOperator(
+                Criteria.where(endDateField).gte(DateTime.now().toString(getDateTimeFormat())),
+                Criteria.where(endDateField).exists(false));
     }
 
 }
