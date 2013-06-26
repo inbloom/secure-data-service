@@ -16,6 +16,7 @@
 package org.slc.sli.ingestion.validation.indexes;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.mongodb.DB;
@@ -52,7 +53,7 @@ public class TenantDBIndexValidator extends DbIndexValidator {
     }
 
     @Override
-    public boolean isValid(DB db, AbstractMessageReport report, ReportStats reportStats, Source source) {
+    public boolean isValid(DB db, AbstractMessageReport report, ReportStats reportStats, Source source, Map<String, Object> parameters) {
         List<String> tenantDbs = tenantDA.getAllTenantDbs();
         return isValid(db, tenantDbs, report, reportStats, source);
     }

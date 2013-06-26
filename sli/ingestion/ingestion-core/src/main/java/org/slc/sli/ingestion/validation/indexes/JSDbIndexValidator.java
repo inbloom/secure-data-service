@@ -16,6 +16,7 @@
 
 package org.slc.sli.ingestion.validation.indexes;
 
+import java.util.Map;
 import java.util.Set;
 
 import com.mongodb.DB;
@@ -51,10 +52,10 @@ public class JSDbIndexValidator extends DbIndexValidator {
     }
 
     @Override
-    public boolean isValid(DB db, AbstractMessageReport report, ReportStats reportStats, Source source) {
+    public boolean isValid(DB db, AbstractMessageReport report, ReportStats reportStats, Source source, Map<String, Object> parameters) {
         DB dbConn = MongoCommander.getDB(dbName, db);
         LOGGER.info("Validating indexes for DB: " + dbName);
-        return super.isValid(dbConn, report, reportStats, source);
+        return super.isValid(dbConn, report, reportStats, source, null);
     }
 
     /**

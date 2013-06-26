@@ -16,10 +16,7 @@
 
 package org.slc.sli.ingestion.validation.indexes;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -50,7 +47,7 @@ public class DbIndexValidator implements Validator<DB> {
      * {@inheritDoc}
      */
     @Override
-    public boolean isValid(DB db, AbstractMessageReport report, ReportStats reportStats, Source source) {
+    public boolean isValid(DB db, AbstractMessageReport report, ReportStats reportStats, Source source, Map<String, Object> parameters) {
         Set<MongoIndex> expectedIndexes = loadExpectedIndexes();
         Set<MongoIndex> actualIndexes = loadIndexInfoFromDB(db);
 

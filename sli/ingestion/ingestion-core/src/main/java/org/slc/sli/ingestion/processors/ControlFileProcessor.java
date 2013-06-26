@@ -122,7 +122,7 @@ public class ControlFileProcessor implements Processor {
 
             if ((currentJob.getProperty(AttributeType.PURGE.getName()) == null)
                     && (currentJob.getProperty(AttributeType.PURGE_KEEP_EDORGS.getName()) == null)) {
-                if (validator.isValid(controlFile, databaseMessageReport, reportStats, new ControlFileSource(controlFile.getFileName()))) {
+                if (validator.isValid(controlFile, databaseMessageReport, reportStats, new ControlFileSource(controlFile.getFileName()), null)) {
                     createAndAddResourceEntries(currentJob, controlFile);
                 } else {
                     boolean isZipFile = false;
