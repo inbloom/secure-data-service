@@ -393,17 +393,17 @@ Feature: As a student or staff I want to use apps that access the inBloom API
       | yearsOfPriorTeachingExperience     |
       | credentials                        |
       | loginId                            |
-     
     # staffEdorgAssociation
-    #Then I verify the following response body fields exist in "/staffEducationOrgAssignmentAssociations/472d10b94e4a24aa78f5f03e33a92d0ca4af336b_id":
-    #  | field                       |
-    #  | staffReference              |
-    #  | educationOrganization       |
-    #Then I verify the following response body fields do not exist in "/staffEducationOrgAssignmentAssociations/472d10b94e4a24aa78f5f03e33a92d0ca4af336b_id":
-    #  | field                         |
-    #  | staffClassification           |
-    #  | beginDate                     |
-    
+    Then I verify the following response body fields exist in "/staffEducationOrgAssignmentAssociations/472d10b94e4a24aa78f5f03e33a92d0ca4af336b_id":
+      | field                          |
+      | staffReference                 |
+      | educationOrganizationReference |
+    Then I verify the following response body fields do not exist in the response:
+      | field                         |
+      | staffClassification           |
+      | positionTitle                 |
+      | beginDate                     |
+      | endDate                       |
     # staffCohortAssociations
     Then I verify the following response body fields exist in "/staffCohortAssociations/a17d936ca77e391ace5d14645a4b9b78f6dbd387_id":
       | field                       |
@@ -424,6 +424,27 @@ Feature: As a student or staff I want to use apps that access the inBloom API
       | beginDate                     |
       | endDate                       |
       | studentRecordAccess           |
+    # teacherSectionAssociation 
+    Then I verify the following response body fields exist in "/teacherSectionAssociations/e9b81633cba273dc9cc567d7f0f76a1c070c150d_id2d275caf63e615e3d699f39cae4714084366024d_id":
+      | field                       |
+      | teacherId                   |
+      | sectionId                   |
+    Then I verify the following response body fields do not exist in the response:
+      | field                         |
+      | beginDate                     |
+      | endDate                       |
+      | highlyQualifiedTeacher        |
+      | classroomPosition             |
+    # teacherSchoolAssociation
+    Then I verify the following response body fields exist in "/teacherSchoolAssociations/8495e720e4f1261f3845aeb1f499ec40359669a5_id":
+      | field                       |
+      | teacherId                   |
+      | schoolId                    |
+    Then I verify the following response body fields do not exist in the response:
+      | field                         |
+      | programAssignment             |
+      | academicSubjects              |
+    
 
   @wip
   Scenario: Student cannot POST private entities

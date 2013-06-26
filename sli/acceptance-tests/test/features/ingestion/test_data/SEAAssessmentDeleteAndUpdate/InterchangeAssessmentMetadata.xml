@@ -4,9 +4,9 @@
 
   <Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="false">
 <Assessment>
-    <AssessmentTitle>2013-Eleventh grade Assessment 2 A+OB+Delete+A</AssessmentTitle>
+    <AssessmentTitle>delete Assessment and then update</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="State">
-        <ID>2013-Eleventh grade Assessment 2 A+OB+Delete+A</ID>
+        <ID>delete Assessment and then update</ID>
     </AssessmentIdentificationCode>
     <AssessmentCategory>Performance assessment</AssessmentCategory>
     <AcademicSubject>ELA</AcademicSubject>
@@ -42,6 +42,11 @@
             <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#4</AssessmentItemIdentificationCode>
         </AssessmentItemIdentity>
     </AssessmentItemReference>
+    <ObjectiveAssessmentReference>
+        <ObjectiveAssessmentIdentity>
+            <ObjectiveAssessmentIdentificationCode>delete Assessment and then update</ObjectiveAssessmentIdentificationCode>
+        </ObjectiveAssessmentIdentity>
+    </ObjectiveAssessmentReference>
  </Assessment>
 
 <Assessment>
