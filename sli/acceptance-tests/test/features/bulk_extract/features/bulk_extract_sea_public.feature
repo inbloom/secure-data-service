@@ -12,7 +12,7 @@ Scenario: As a valid user unsuccessful attempt to get SEA public data extract us
     And the extraction zone is empty
     And the bulk extract files in the database are scrubbed
     And in my list of rights I have BULK_EXTRACT
-    When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+    When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
     When I make a call to the bulk extract end point "/bulk/extract/b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id"
     Then I get back a response code of "404"
 
@@ -80,7 +80,7 @@ Scenario Outline: Extract should have all public tenant data for certain entitie
 
 Scenario: As a valid user get SEA public data extract using BEEP
     Given in my list of rights I have BULK_EXTRACT
-    When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+    When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
     When I make a call to the bulk extract end point "/bulk/extract/b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id"
     And the return code is 200 I get expected tar downloaded
     And I decrypt and save the extracted file
@@ -133,19 +133,19 @@ Scenario Outline: Extract received through the API should have all the valid ten
 
 Scenario: As a valid user get SEA public data delta extract using BEEP
   Given in my list of rights I have BULK_EXTRACT
-  When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   When I make a call to the bulk extract end point "/bulk/extract/b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id/delta/2013-04-30T17:22:26.391Z"
   Then I get back a response code of "404"
 
   Scenario: API call to the SEA BEEP with an invalid edOrg
   Given in my list of rights I have BULK_EXTRACT
-  When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   When I make a call to the bulk extract end point "/bulk/extract/bdb4be44075c7e7d1a7b066c81ff338ed1936_id"
   Then I get back a response code of "403"
 
 Scenario: API call to the SEA BEEP with a non SEA but valid EdOrg
   Given in my list of rights I have BULK_EXTRACT
-  When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   When I make a call to the bulk extract end point "/bulk/extract/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id"
   Then I get back a response code of "404"
 
@@ -158,7 +158,7 @@ Scenario: Invalid user tries to access SEA public data
 
 Scenario: SEA public data delta extract using BEEP with invalid users
   Given in my list of rights I have BULK_EXTRACT
-  When I log into "SDK Sample" with a token of "linda.kim", a "Teacher" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  When I log into "SDK Sample" with a token of "linda.kim", a "Teacher" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   When I make a call to the bulk extract end point "/bulk/extract/b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id/delta/2013-04-30T17:22:26.391Z"
   Then I get back a response code of "403"
 
@@ -177,7 +177,7 @@ Scenario: Bulk extract should fail if there is more than 1 SEA in the tenant.
 
 Scenario: API call to SEA BEEP when there is more than one SEA in the tenant
   Given in my list of rights I have BULK_EXTRACT
-  When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   When I make a call to the bulk extract end point "/bulk/extract/b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id"
   Then I get back a response code of "404"
   Then I remove the edorg with id "IL-Test" from the "Midgar" database
