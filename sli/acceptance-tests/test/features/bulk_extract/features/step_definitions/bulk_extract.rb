@@ -364,9 +364,6 @@ When /^I get the path to the extract file for the tenant "(.*?)" and application
   assert(File.exists?(@unpackDir + "/metadata.txt"), "Cannot find metadata file in extract")
 end
 
-When /^I get the path to the extract file for tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
-  getExtractInfoFromMongo(build_bulk_query(tenant,appId))
-end
 
 When /^I retrieve the path to and decrypt the SEA public data extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
   @tenant = tenant
@@ -379,7 +376,7 @@ When /^I know the file-length of the extract file$/ do
   @file_size = File.size(@filePath)
 end
 
-When /^I retrieve the path to and decrypt the extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
+When /^I retrieve the path to and decrypt the LEA public data extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
   getExtractInfoFromMongo(build_bulk_query(tenant,appId))
   openDecryptedFile(appId)
 end
