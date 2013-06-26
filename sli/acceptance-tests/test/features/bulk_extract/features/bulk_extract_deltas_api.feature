@@ -6,6 +6,8 @@ Scenario: Initialize security trust store for Bulk Extract application and LEAs
     And the bulk extract files in the database are scrubbed
     And The bulk extract app has been approved for "Midgar-DAYBREAK" with client id "<clientId>"
     And The X509 cert "cert" has been installed in the trust store and aliased
+    
+       
 
 Scenario: Generate a bulk extract delta after day 1 ingestion
   When I trigger a delta extract
@@ -184,6 +186,29 @@ Scenario: SEA Assessment + Objective Deltas InteractionsPicked Objective Assessm
       |d3580c38701831271557256b7eaa8b3c1dea1087_id | assessmentTitle = Scenario 5                                   | update the Objective Assessment                                                                     |
       
  
+  Scenario: SEA Assessment + AssessmentItem Deltas for Assessment Item
+    Given the extraction zone is empty
+    When I ingest "AssessmentItemDelta.zip"
+    And I trigger a delta extract
+    Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+      |  entityType                            |
+      |  assessment                            |
+    And I verify this "assessment" file only contains:
+      | id                                         | condition                                                  |
+	  |bb99132d75ccc4f92db1b8923a15bda8b40a3826_id | assessmentTitle = 2013-Kindergarten Assessment 2 Item      |                             
+	  |5fe86f2c3a2da1fbe9eaa386b40d0f0fbe265456_id | assessmentTitle = 2013-Kindergarten Assessment 1 Item      |                          
+   Given the extraction zone is empty
+	 When I ingest "AssessmentItemDeltaDeleted.zip"
+     And I trigger a delta extract
+       Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+       |  entityType                            |
+       |  assessment                            |
+	    And I verify this "assessment" file only contains:
+       | id                                         | condition                                              | description  |
+	   |bb99132d75ccc4f92db1b8923a15bda8b40a3826_id | assessmentTitle = 2013-Kindergarten Assessment 2 Item  |    updated   |
+	   |5fe86f2c3a2da1fbe9eaa386b40d0f0fbe265456_id | assessmentTitle = 2013-Kindergarten Assessment 1 Item  |    delted    |
+       
+       
   Scenario: Ingesting SEA (Non Odin) entities - AssessmentFamily
     When I ingest "AssessmentFamilyDelta.zip"
     And the extraction zone is empty

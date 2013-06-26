@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
+
+<Assessment>
+    <AssessmentTitle>2013-Kindergarten Assessment 1 Item</AssessmentTitle>
+    <AssessmentIdentificationCode IdentificationSystem="State">
+        <ID>2013-Kindergarten Assessment 1</ID>
+    </AssessmentIdentificationCode>
+    <AssessmentCategory>Performance assessment</AssessmentCategory>
+    <AcademicSubject>Science</AcademicSubject>
+    <GradeLevelAssessed>Kindergarten</GradeLevelAssessed>
+    <LowestGradeLevelAssessed>Kindergarten</LowestGradeLevelAssessed>
+    <ContentStandard>State Standard</ContentStandard>
+    <AssessmentForm>Form</AssessmentForm>
+    <RevisionDate>2013-01-01</RevisionDate>
+    <MaxRawScore>100</MaxRawScore>
+    <Nomenclature>Nomenclature</Nomenclature>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Kindergarten Assessment 1#1 Item</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+</Assessment>
+<Assessment>
+    <AssessmentTitle>2013-Kindergarten Assessment 2 Item</AssessmentTitle>
+    <AssessmentIdentificationCode IdentificationSystem="State">
+        <ID>2013-Kindergarten Assessment 2</ID>
+    </AssessmentIdentificationCode>
+    <AssessmentCategory>Performance assessment</AssessmentCategory>
+    <AcademicSubject>Writing</AcademicSubject>
+    <GradeLevelAssessed>Kindergarten</GradeLevelAssessed>
+    <LowestGradeLevelAssessed>Kindergarten</LowestGradeLevelAssessed>
+    <ContentStandard>State Standard</ContentStandard>
+    <AssessmentForm>Form</AssessmentForm>
+    <RevisionDate>2013-01-01</RevisionDate>
+    <MaxRawScore>100</MaxRawScore>
+    <Nomenclature>Nomenclature</Nomenclature>
+     <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Kindergarten Assessment 2#1 Item</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+</Assessment>
+
+<AssessmentItem>
+    <AssessmentReference>
+        <AssessmentIdentity>
+            <AssessmentTitle>2013-Kindergarten Assessment 1 Item</AssessmentTitle>
+            <AcademicSubject>Science</AcademicSubject>
+            <GradeLevelAssessed>Kindergarten</GradeLevelAssessed>
+        </AssessmentIdentity>
+    </AssessmentReference>
+    <IdentificationCode>2013-Kindergarten Assessment 1#1 Item</IdentificationCode>
+    <ItemCategory>True-False</ItemCategory>
+    <MaxRawScore>10</MaxRawScore>
+    <CorrectResponse>true</CorrectResponse>
+    <Nomenclature>nonenclature</Nomenclature>
+</AssessmentItem>
+
+<AssessmentItem>
+    <AssessmentReference>
+        <AssessmentIdentity>
+            <AssessmentTitle>2013-Kindergarten Assessment 2 Item</AssessmentTitle>
+            <AcademicSubject>Writing</AcademicSubject>
+            <GradeLevelAssessed>Kindergarten</GradeLevelAssessed>
+        </AssessmentIdentity>
+    </AssessmentReference>
+    <IdentificationCode>2013-Kindergarten Assessment 2#1 Item</IdentificationCode>
+    <ItemCategory>True-False</ItemCategory>
+    <MaxRawScore>10</MaxRawScore>
+    <CorrectResponse>true</CorrectResponse>
+    <Nomenclature>nonenclature</Nomenclature>
+</AssessmentItem>
+
+
+
+</InterchangeAssessmentMetadata>
