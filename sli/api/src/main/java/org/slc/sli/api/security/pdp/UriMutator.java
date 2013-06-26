@@ -398,6 +398,17 @@ public class UriMutator {
             } else {
                 throw new IllegalArgumentException("Not supported yet...");
             }
+        } else if (segmentStrings.size() >= 4 && ResourceNames.STUDENT_SECTION_ASSOCIATIONS.equals(segmentStrings.get(1))) {
+            // /studentSectionAssociation/{id}/students and /studentSectionAssociation/{id}/sections have to be re-written to /section/{id}/*
+            String secondEntity = segmentStrings.get(3);
+            if (ResourceNames.STUDENTS.equals(secondEntity) || ResourceNames.SECTIONS.equals(secondEntity)) {
+                List<String> sections = sectionHelper.getSectionsFromStudentSectionAssociation(segmentStrings.get(2).split(","));
+               String sectionUri = String.format("/sections/%s", StringUtils.join(sections.toArray(new String[0]), ","));
+               if (ResourceNames.STUDENTS.equals(secondEntity)) {
+                   sectionUri = sectionUri + "/studentSectionAssociations/students";
+               }
+               mutated.setPath(sectionUri);
+            }
         }
         return mutated;
     }

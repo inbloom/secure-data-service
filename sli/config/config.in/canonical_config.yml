@@ -892,7 +892,9 @@ local:
         # local/api/security/security.properties
         #
         # Set of substitution filters used for local builds
-        #
+
+        # Increase session length for local profile
+        sli.session.length: 28800000
 
         # Security
         ## sli.security.noSession.landing.url: http://localhost:8080/api/oauth/authorize?response_type=code
