@@ -369,13 +369,13 @@ When /^I validate that I am denied access to restricted endpoints via API:$/ do 
   table.hashes.map do |row|
     step "I navigate to GET \"#{row['uri']}\""
     if @res.code != row['rc'].to_i
-      print "#{startRed}Verifying I get a #{row['rc']} response from #{row['uri']}#{colorReset}"
+      print "#{startRed}Expected a #{row['rc']} response from #{row['uri']}, but got #{@res.code}#{colorReset}\n"
       success = false
     else
-      print "Verifying I get a #{row['rc']} response from #{row['uri']}"
+      print "Expected a #{row['rc']} response from #{row['uri']}, and got #{@res.code}\n"
     end
-    assert(success, "Received an unexpected http return code..")
   end
+  assert(success, "Received an unexpected http return code..")
 end
 
 When /^I validate the "(.*?)" HATEOS link for "(.*?)"$/ do |entity, key|

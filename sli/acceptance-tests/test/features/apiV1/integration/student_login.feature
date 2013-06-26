@@ -393,17 +393,17 @@ Feature: As a student or staff I want to use apps that access the inBloom API
       | yearsOfPriorTeachingExperience     |
       | credentials                        |
       | loginId                            |
-     
     # staffEdorgAssociation
-    #Then I verify the following response body fields exist in "/staffEducationOrgAssignmentAssociations/472d10b94e4a24aa78f5f03e33a92d0ca4af336b_id":
-    #  | field                       |
-    #  | staffReference              |
-    #  | educationOrganization       |
-    #Then I verify the following response body fields do not exist in "/staffEducationOrgAssignmentAssociations/472d10b94e4a24aa78f5f03e33a92d0ca4af336b_id":
-    #  | field                         |
-    #  | staffClassification           |
-    #  | beginDate                     |
-    
+    Then I verify the following response body fields exist in "/staffEducationOrgAssignmentAssociations/472d10b94e4a24aa78f5f03e33a92d0ca4af336b_id":
+      | field                          |
+      | staffReference                 |
+      | educationOrganizationReference |
+    Then I verify the following response body fields do not exist in the response:
+      | field                         |
+      | staffClassification           |
+      | positionTitle                 |
+      | beginDate                     |
+      | endDate                       |
     # staffCohortAssociations
     Then I verify the following response body fields exist in "/staffCohortAssociations/a17d936ca77e391ace5d14645a4b9b78f6dbd387_id":
       | field                       |
