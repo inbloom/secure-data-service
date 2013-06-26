@@ -15,6 +15,8 @@ Scenario: Validators return proper return codes on multi-ID requests for Carmen 
     | /parents/@ids                    | 2d6638adf22232b9af30b03ce9e84e707f4cf501_id                                            | ac9d23542b310939801dec4d29cfddda7765353b_id                                            |
     | /reportCards/@ids                | 581786d185ce6b954c17be3c116a025410a28f74_iddbc9d23b4a2b3ae57d05c94c81ab4d579c68663a_id | 2f38a01d3ce555cfcdc637aa02d3596de1e27574_id541b51e428f2371374525eab0cc8743faf324ded_id |
     | /staff/@ids                      | 2cb881fd1ff848815dc394103b3abbc1b768469e_id                                            | 6757c28005c30748f3bbda02882bf59bc81e0d71_id                                            |
+    | /staffEducationOrgAssignmentAssociations/@ids |  f7371a2a35e09e879b04f8985bc77f23f99aa5e6_id                              | 70ebd066ba83fc4fbe7396a52f539ee6d87e0b26_id                                            |
+    | /staffProgramAssociations/@ids   | c0d1523242fe217d56a0469f5fd86b1309a3b5c7_id                                            | 920b076c32a2c93ecc0321cf37ea61be72a9f7a4_id                                            |
     | /studentAcademicRecords/@ids     | 581786d185ce6b954c17be3c116a025410a28f74_iddac01c5702e0af232c4a34751c9c6f54aa966d4e_id | 2f38a01d3ce555cfcdc637aa02d3596de1e27574_id51a05e3fc152d6180c97370b1cdc4de367b1dce7_id |
     | /studentAssessments/@ids         | dac3e2b4f5bd1e7d02f22fb23b26fdb8ba94ab7f_id                                            | 2614b8f1d4c23aaa654e0250217aeceb21aa6a92_id                                            |
     | /studentCohortAssociations/@ids  | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id99f774601fb35844fa557ed82cfd97091d40c21f_id | 92164cd19ebdbe17cfdcd0e1d177877cdc9a40ef_idf460df29cd44fc5458e7cf650fa40002ec274865_id |
@@ -26,8 +28,8 @@ Scenario: Validators return proper return codes on multi-ID requests for Carmen 
     | /studentSchoolAssociations/@ids  | 5473d560c39002a09d650c618768b60adc6aadab_id                                            | ea66a6ef0e3c2dd61701e9fa5bcf108a631a9bcb_id                                            |
     | /studentSectionAssociations/@ids | 98c2fbb9fffbabb9c8bbbcc8de9d5f7db42dff5d_id5da26ce302b6c25b2cd7d4cd3b73f1363f32a195_id | 88bb1ad61323121c4939db296f4d444094ad5563_id786e763a5ffa777305dc1a0cfa3f62dfb278f593_id |
     | /teachers/@ids                   | fe472294f0e40fd428b1a67b9765360004562bab_id                                            | 6757c28005c30748f3bbda02882bf59bc81e0d71_id                                            |
-    # | /teacherSchoolAssociations/@ids  | 185f8333b893edd803f880463a2a193d60715743_id                                            | 93a4133d17303788f99e3b229b9649d46de5f42e_id                                            |
-    # | /teacherSectionAssociations/@ids | 527f07a98f7f05c56c17a07cbbeac7eb1fa1d4db_id1e0c3bfe230357bd09c3d1a19a29b17489eeea68_id | 6b687d24b9a2b10c664e2248bd8e689a482e47e2_idfe800a3044200c3b3ca6875b2449d581cc0521b7_id |
+    | /teacherSchoolAssociations/@ids  | fd64eb0e7ddcef2a651b2d0ad0bfbbc85c62a4ce_id | 8495e720e4f1261f3845aeb1f499ec40359669a5_id |
+    | /teacherSectionAssociations/@ids | ecb5131a66ffff44c3169acbdb9f1242e8384b13_id36678eb42429bf2cea4817c45f7bff5bb841c0a4_id | e9b81633cba273dc9cc567d7f0f76a1c070c150d_id2d275caf63e615e3d699f39cae4714084366024d_id |
     | /yearlyAttendances/@ids          | 69a338d4c77f47dbb0edb12878c751bde7622505_id                                            | cd14890af69207e6d9433f0962107eb0c96a1748_id                                            |
 #  multi-part url
      | /educationOrganizations/@ids/staffEducationOrgAssignmentAssociations | a13489364c2eb015c219172d561c62350f0453f3_id                              | 352e8570bd1116d11a72755b987902440045d346_id                                                           |
@@ -84,10 +86,10 @@ Scenario: Validators return proper return codes on multi-ID requests for Carmen 
      | /studentSchoolAssociations/@ids/students | 932111c8421d0eb277d8ce5238a0272ec56f9e38_id                                                          | 90edded75ff09a5fad3371df3be9289ca2ae718a_id                                                          |
      | /studentSectionAssociations/@ids/sections | ecb5131a66ffff44c3169acbdb9f1242e8384b13_ida0403a489062fb836e0640fa2f5e3d4cf6a31d1a_id               | ecb5131a66ffff44c3169acbdb9f1242e8384b13_id3e905f4bb054ed1440cb81c4bbeeb0a4d1d25dfc_id               |
      | /studentSectionAssociations/@ids/students | 95cc5d67f3b653eb3e2f0641c429cf2006dc2646_id458e252d4bca49bffc868571cda53466c95a4425_id               | ecb5131a66ffff44c3169acbdb9f1242e8384b13_id3e905f4bb054ed1440cb81c4bbeeb0a4d1d25dfc_id               |
-   # | /teacherSchoolAssociations/@ids/schools  | 185f8333b893edd803f880463a2a193d60715743_id                                                          | 93a4133d17303788f99e3b229b9649d46de5f42e_id                                                          |
-   # | /teacherSchoolAssociations/@ids/teachers | 185f8333b893edd803f880463a2a193d60715743_id                                                          | 93a4133d17303788f99e3b229b9649d46de5f42e_id                                                          |
-   # | /teacherSectionAssociations/@ids/sections | 527f07a98f7f05c56c17a07cbbeac7eb1fa1d4db_id1e0c3bfe230357bd09c3d1a19a29b17489eeea68_id               | 6b687d24b9a2b10c664e2248bd8e689a482e47e2_idfe800a3044200c3b3ca6875b2449d581cc0521b7_id               |
-   # | /teacherSectionAssociations/@ids/teachers | 527f07a98f7f05c56c17a07cbbeac7eb1fa1d4db_id1e0c3bfe230357bd09c3d1a19a29b17489eeea68_id               | 6b687d24b9a2b10c664e2248bd8e689a482e47e2_idfe800a3044200c3b3ca6875b2449d581cc0521b7_id               |  
+     #| /teacherSchoolAssociations/@ids/schools  | fd64eb0e7ddcef2a651b2d0ad0bfbbc85c62a4ce_id | 8495e720e4f1261f3845aeb1f499ec40359669a5_id |
+     #| /teacherSchoolAssociations/@ids/teachers | fd64eb0e7ddcef2a651b2d0ad0bfbbc85c62a4ce_id | 8495e720e4f1261f3845aeb1f499ec40359669a5_id |
+     #| /teacherSectionAssociations/@ids/sections | ecb5131a66ffff44c3169acbdb9f1242e8384b13_id36678eb42429bf2cea4817c45f7bff5bb841c0a4_id | e9b81633cba273dc9cc567d7f0f76a1c070c150d_id2d275caf63e615e3d699f39cae4714084366024d_id |
+     #| /teacherSectionAssociations/@ids/teachers | ecb5131a66ffff44c3169acbdb9f1242e8384b13_id36678eb42429bf2cea4817c45f7bff5bb841c0a4_id | e9b81633cba273dc9cc567d7f0f76a1c070c150d_id2d275caf63e615e3d699f39cae4714084366024d_id |
     #TODO -> | /courseTranscripts/@ids/courses          | 66855042298036c199ee39628625be212d682049_id                               | 000c61fc14cdf8a2def80d7aa81a0e425cb76925_id |
   When I request the Good ID, I should be allowed
   When I request the Bad ID, I should be denied
@@ -99,6 +101,7 @@ Scenario: Validators return proper return codes on multi-ID requests for Matt So
   And format "application/json"
   When I make API calls for multiple IDs in accordance to the following table:
       | Path                                        | GoodId                                      | BadId                                        |
+      | /staffCohortAssociations/@ids               | a17d936ca77e391ace5d14645a4b9b78f6dbd387_id | 2878f8c43530ccb0d5ad94ffaadad6e31953daf6_id  |
       | /cohorts/@ids/staffCohortAssociations       | b4f9ddccc4c5c47a00541ee7c6d67fcb287316ce_id | b7c645daf74600587514032c5315588290d01b06_id  |
       | /cohorts/@ids/staffCohortAssociations/staff | b4f9ddccc4c5c47a00541ee7c6d67fcb287316ce_id | b7c645daf74600587514032c5315588290d01b06_id  |
       | /cohorts/@ids/studentCohortAssociations     | b4f9ddccc4c5c47a00541ee7c6d67fcb287316ce_id | b7c645daf74600587514032c5315588290d01b06_id  |
