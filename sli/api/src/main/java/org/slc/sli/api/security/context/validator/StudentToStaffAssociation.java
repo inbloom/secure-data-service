@@ -56,12 +56,16 @@ public abstract class StudentToStaffAssociation extends BasicValidator {
         Set<String> unvalidated = new HashSet<String>(ids);
         while (results.hasNext()) {
             Entity e = results.next();
-            if (getDateHelper().isFieldExpired(e.getBody())) {
+            if (isExpired(e)) {
                 return false;
             }
             unvalidated.remove(e.getEntityId());
         }
         return unvalidated.isEmpty();
+    }
+
+    protected boolean isExpired(Entity e) {
+        return getDateHelper().isFieldExpired(e.getBody());
     }
 
     protected Iterator<Entity> getMatchingAssociations(Set<String> ids, Set<String> studentAssociations) {
@@ -76,7 +80,7 @@ public abstract class StudentToStaffAssociation extends BasicValidator {
         List<Entity> associations = me.getEmbeddedData().get(subDocType);
         Set<String> myCohorts = new HashSet<String>();
         for (Entity assoc : associations) {
-            if (!getDateHelper().isFieldExpired(assoc.getBody())) {
+            if (!isExpired(assoc)) {
                 myCohorts.add((String) assoc.getBody().get(associationKey));
             }
         }
