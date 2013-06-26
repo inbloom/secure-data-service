@@ -15,9 +15,13 @@
  */
 package org.slc.sli.api.security.context.validator;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.domain.Entity;
 
 /**
  * Abstract class to do common functionality
@@ -27,30 +31,47 @@ import org.slc.sli.api.util.SecurityUtil;
  */
 public abstract class BasicValidator extends AbstractContextValidator {
     private final boolean transitiveValidator;
-    private final String type;
+    private final boolean careAboutTransitive;
+    private final Set<String> types;
     private final String userType;
 
     public BasicValidator(boolean transitiveValidator, String userType, String type) {
         this.transitiveValidator = transitiveValidator;
-        this.type = type;
+        this.careAboutTransitive = true;
+        this.types = new HashSet<String>(Arrays.asList(type));
+        this.userType = userType;
+    }
+
+    public BasicValidator(boolean transitiveValidator, String userType, List<String> types) {
+        this.transitiveValidator = transitiveValidator;
+        this.careAboutTransitive = true;
+        this.types = new HashSet<String>(types);
+        this.userType = userType;
+    }
+
+    public BasicValidator(String userType, String type) {
+        this.transitiveValidator = false;
+        this.careAboutTransitive = false;
+        this.types = new HashSet<String>(Arrays.asList(type));
         this.userType = userType;
     }
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return userType.equals(SecurityUtil.getSLIPrincipal().getEntity().getType()) && type.equals(entityType)
-                && isTransitive == transitiveValidator;
+        return userType.equals(SecurityUtil.getSLIPrincipal().getEntity().getType()) && types.contains(entityType)
+                && (!careAboutTransitive || isTransitive == transitiveValidator);
     }
 
     @Override
     public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
-        if (!areParametersValid(type, entityType, ids)) {
+        if (!areParametersValid(types, entityType, ids)) {
             return false;
         }
 
-        return doValidate(ids);
+        Entity me = SecurityUtil.getSLIPrincipal().getEntity();
+        return doValidate(ids, me, entityType);
     }
 
-    protected abstract boolean doValidate(Set<String> ids);
+    protected abstract boolean doValidate(Set<String> ids, Entity me, String entityType);
 
 }

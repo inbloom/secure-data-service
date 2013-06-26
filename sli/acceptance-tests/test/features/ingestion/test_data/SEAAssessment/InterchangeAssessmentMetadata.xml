@@ -1,0 +1,639 @@
+<InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+    xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-AssessmentMetadata.xsd">
+<Assessment>
+    <AssessmentTitle>delete Assessment and then update</AssessmentTitle>
+    <AssessmentIdentificationCode IdentificationSystem="State">
+        <ID>delete Assessment and then update</ID>
+    </AssessmentIdentificationCode>
+    <AssessmentCategory>Performance assessment</AssessmentCategory>
+    <AcademicSubject>ELA</AcademicSubject>
+    <GradeLevelAssessed>Eleventh grade</GradeLevelAssessed>
+    <LowestGradeLevelAssessed>Eleventh grade</LowestGradeLevelAssessed>
+    <ContentStandard>State Standard</ContentStandard>
+    <AssessmentForm>Form</AssessmentForm>
+    <RevisionDate>2013-01-01</RevisionDate>
+    <MaxRawScore>100</MaxRawScore>
+    <Nomenclature>Nomenclature</Nomenclature>
+    <AssessmentPeriod>
+        <AssessmentPeriodDescriptorIdentity>
+            <AssessmentPeriodDescriptorCodeValue>BOY-11-2013</AssessmentPeriodDescriptorCodeValue>
+        </AssessmentPeriodDescriptorIdentity>
+    </AssessmentPeriod>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#2</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#3</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#4</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    <ObjectiveAssessmentReference>
+        <ObjectiveAssessmentIdentity>
+            <ObjectiveAssessmentIdentificationCode>delete Assessment and then update</ObjectiveAssessmentIdentificationCode>
+        </ObjectiveAssessmentIdentity>
+    </ObjectiveAssessmentReference>
+ 
+ </Assessment>
+ 
+ <ObjectiveAssessment>
+  <IdentificationCode>delete Assessment and then update</IdentificationCode>
+  <MaxRawScore>50</MaxRawScore>
+  <AssessmentPerformanceLevel>
+    <PerformanceLevel>
+      <CodeValue>code1</CodeValue>
+      <PerformanceLevelMet>true</PerformanceLevelMet>
+    </PerformanceLevel>
+    <AssessmentReportingMethod>Number score</AssessmentReportingMethod>
+    <MinimumScore>0</MinimumScore>
+    <MaximumScore>50</MaximumScore>
+  </AssessmentPerformanceLevel>
+  <PercentOfAssessment>50</PercentOfAssessment>
+  <Nomenclature>Nomenclature</Nomenclature>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>delete Assessment and then update</AssessmentTitle>
+          <AcademicSubject>ELA</AcademicSubject>
+          <GradeLevelAssessed>Eleventh grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</ObjectiveAssessment>
+
+
+<Assessment>
+    <AssessmentTitle>2013-Eleventh grade Assessment 2 A+OB+Update</AssessmentTitle>
+    <AssessmentIdentificationCode IdentificationSystem="State">
+        <ID>2013-Eleventh grade Assessment 2 A+OB+Update</ID>
+    </AssessmentIdentificationCode>
+    <AssessmentCategory>Performance assessment</AssessmentCategory>
+    <AcademicSubject>ELA</AcademicSubject>
+    <GradeLevelAssessed>Eleventh grade</GradeLevelAssessed>
+    <LowestGradeLevelAssessed>Eleventh grade</LowestGradeLevelAssessed>
+    <ContentStandard>State Standard</ContentStandard>
+    <AssessmentForm>Form</AssessmentForm>
+    <RevisionDate>2013-01-01</RevisionDate>
+    <MaxRawScore>100</MaxRawScore>
+    <Nomenclature>Nomenclature</Nomenclature>
+    <AssessmentPeriod>
+        <AssessmentPeriodDescriptorIdentity>
+            <AssessmentPeriodDescriptorCodeValue>BOY-11-2013</AssessmentPeriodDescriptorCodeValue>
+        </AssessmentPeriodDescriptorIdentity>
+    </AssessmentPeriod>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#2</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#3</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#4</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    
+    <ObjectiveAssessmentReference>
+        <ObjectiveAssessmentIdentity>
+            <ObjectiveAssessmentIdentificationCode>2013-Eleventh grade Assessment 2.OA-0 A+OB+Update</ObjectiveAssessmentIdentificationCode>
+        </ObjectiveAssessmentIdentity>
+    </ObjectiveAssessmentReference>
+ 
+ </Assessment>
+
+<ObjectiveAssessment>
+  <IdentificationCode>2013-Eleventh grade Assessment 2.OA-0 A+OB+Update</IdentificationCode>
+  <MaxRawScore>50</MaxRawScore>
+  <AssessmentPerformanceLevel>
+    <PerformanceLevel>
+      <CodeValue>code1</CodeValue>
+      <PerformanceLevelMet>true</PerformanceLevelMet>
+    </PerformanceLevel>
+    <AssessmentReportingMethod>Number score</AssessmentReportingMethod>
+    <MinimumScore>0</MinimumScore>
+    <MaximumScore>50</MaximumScore>
+  </AssessmentPerformanceLevel>
+  <PercentOfAssessment>50</PercentOfAssessment>
+  <Nomenclature>Nomenclature</Nomenclature>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2013-Eleventh grade Assessment 2 A+OB+Update</AssessmentTitle>
+          <AcademicSubject>ELA</AcademicSubject>
+          <GradeLevelAssessed>Eleventh grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</ObjectiveAssessment>
+
+
+<Assessment>
+    <AssessmentTitle>Scenario 1</AssessmentTitle>
+    <AssessmentIdentificationCode IdentificationSystem="State">
+        <ID>Scenario 1</ID>
+    </AssessmentIdentificationCode>
+    <AssessmentCategory>Performance assessment</AssessmentCategory>
+    <AcademicSubject>ELA</AcademicSubject>
+    <GradeLevelAssessed>Eleventh grade</GradeLevelAssessed>
+    <LowestGradeLevelAssessed>Eleventh grade</LowestGradeLevelAssessed>
+    <ContentStandard>State Standard</ContentStandard>
+    <AssessmentForm>Form</AssessmentForm>
+    <RevisionDate>2013-01-01</RevisionDate>
+    <MaxRawScore>100</MaxRawScore>
+    <Nomenclature>Nomenclature</Nomenclature>
+    <AssessmentPeriod>
+        <AssessmentPeriodDescriptorIdentity>
+            <AssessmentPeriodDescriptorCodeValue>BOY-11-2013</AssessmentPeriodDescriptorCodeValue>
+        </AssessmentPeriodDescriptorIdentity>
+    </AssessmentPeriod>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#2</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#3</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#4</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference> 
+    <ObjectiveAssessmentReference>
+        <ObjectiveAssessmentIdentity>
+            <ObjectiveAssessmentIdentificationCode>Scenario 1</ObjectiveAssessmentIdentificationCode>
+        </ObjectiveAssessmentIdentity>
+    </ObjectiveAssessmentReference> 
+    
+ </Assessment>
+ 
+<ObjectiveAssessment>
+  <IdentificationCode>Scenario 1</IdentificationCode>
+  <MaxRawScore>50</MaxRawScore>
+  <AssessmentPerformanceLevel>
+    <PerformanceLevel>
+      <CodeValue>code1</CodeValue>
+      <PerformanceLevelMet>true</PerformanceLevelMet>
+    </PerformanceLevel>
+    <AssessmentReportingMethod>Number score</AssessmentReportingMethod>
+    <MinimumScore>0</MinimumScore>
+    <MaximumScore>50</MaximumScore>
+  </AssessmentPerformanceLevel>
+  <PercentOfAssessment>50</PercentOfAssessment>
+  <Nomenclature>Nomenclature</Nomenclature>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>Scenario 1</AssessmentTitle>
+          <AcademicSubject>ELA</AcademicSubject>
+          <GradeLevelAssessed>Eleventh grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</ObjectiveAssessment>
+
+
+<Assessment>
+    <AssessmentTitle>Scenario 2</AssessmentTitle>
+    <AssessmentIdentificationCode IdentificationSystem="State">
+        <ID>Scenario 2</ID>
+    </AssessmentIdentificationCode>
+    <AssessmentCategory>Performance assessment</AssessmentCategory>
+    <AcademicSubject>ELA</AcademicSubject>
+    <GradeLevelAssessed>Eleventh grade</GradeLevelAssessed>
+    <LowestGradeLevelAssessed>Eleventh grade</LowestGradeLevelAssessed>
+    <ContentStandard>State Standard</ContentStandard>
+    <AssessmentForm>Form</AssessmentForm>
+    <RevisionDate>2013-01-01</RevisionDate>
+    <MaxRawScore>100</MaxRawScore>
+    <Nomenclature>Nomenclature</Nomenclature>
+    <AssessmentPeriod>
+        <AssessmentPeriodDescriptorIdentity>
+            <AssessmentPeriodDescriptorCodeValue>BOY-11-2013</AssessmentPeriodDescriptorCodeValue>
+        </AssessmentPeriodDescriptorIdentity>
+    </AssessmentPeriod>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#2</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#3</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#4</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference> 
+    <ObjectiveAssessmentReference>
+        <ObjectiveAssessmentIdentity>
+            <ObjectiveAssessmentIdentificationCode>Scenario 2</ObjectiveAssessmentIdentificationCode>
+        </ObjectiveAssessmentIdentity>
+    </ObjectiveAssessmentReference> 
+    
+ </Assessment>
+ 
+<ObjectiveAssessment>
+  <IdentificationCode>Scenario 2</IdentificationCode>
+  <MaxRawScore>50</MaxRawScore>
+  <AssessmentPerformanceLevel>
+    <PerformanceLevel>
+      <CodeValue>code1</CodeValue>
+      <PerformanceLevelMet>true</PerformanceLevelMet>
+    </PerformanceLevel>
+    <AssessmentReportingMethod>Number score</AssessmentReportingMethod>
+    <MinimumScore>0</MinimumScore>
+    <MaximumScore>50</MaximumScore>
+  </AssessmentPerformanceLevel>
+  <PercentOfAssessment>50</PercentOfAssessment>
+  <Nomenclature>Nomenclature</Nomenclature>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>Scenario 2</AssessmentTitle>
+          <AcademicSubject>ELA</AcademicSubject>
+          <GradeLevelAssessed>Eleventh grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</ObjectiveAssessment>
+
+<Assessment>
+    <AssessmentTitle>Scenario 3</AssessmentTitle>
+    <AssessmentIdentificationCode IdentificationSystem="State">
+        <ID>Scenario 3</ID>
+    </AssessmentIdentificationCode>
+    <AssessmentCategory>Performance assessment</AssessmentCategory>
+    <AcademicSubject>ELA</AcademicSubject>
+    <GradeLevelAssessed>Eleventh grade</GradeLevelAssessed>
+    <LowestGradeLevelAssessed>Eleventh grade</LowestGradeLevelAssessed>
+    <ContentStandard>State Standard</ContentStandard>
+    <AssessmentForm>Form</AssessmentForm>
+    <RevisionDate>2013-01-01</RevisionDate>
+    <MaxRawScore>100</MaxRawScore>
+    <Nomenclature>Nomenclature</Nomenclature>
+    <AssessmentPeriod>
+        <AssessmentPeriodDescriptorIdentity>
+            <AssessmentPeriodDescriptorCodeValue>BOY-11-2013</AssessmentPeriodDescriptorCodeValue>
+        </AssessmentPeriodDescriptorIdentity>
+    </AssessmentPeriod>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#2</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#3</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#4</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference> 
+    <ObjectiveAssessmentReference>
+        <ObjectiveAssessmentIdentity>
+            <ObjectiveAssessmentIdentificationCode>Scenario 3</ObjectiveAssessmentIdentificationCode>
+        </ObjectiveAssessmentIdentity>
+    </ObjectiveAssessmentReference> 
+    
+ </Assessment>
+ 
+<ObjectiveAssessment>
+  <IdentificationCode>Scenario 3</IdentificationCode>
+  <MaxRawScore>50</MaxRawScore>
+  <AssessmentPerformanceLevel>
+    <PerformanceLevel>
+      <CodeValue>code1</CodeValue>
+      <PerformanceLevelMet>true</PerformanceLevelMet>
+    </PerformanceLevel>
+    <AssessmentReportingMethod>Number score</AssessmentReportingMethod>
+    <MinimumScore>0</MinimumScore>
+    <MaximumScore>50</MaximumScore>
+  </AssessmentPerformanceLevel>
+  <PercentOfAssessment>50</PercentOfAssessment>
+  <Nomenclature>Nomenclature</Nomenclature>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>Scenario 3</AssessmentTitle>
+          <AcademicSubject>ELA</AcademicSubject>
+          <GradeLevelAssessed>Eleventh grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</ObjectiveAssessment>
+
+<Assessment>
+    <AssessmentTitle>Scenario 4</AssessmentTitle>
+    <AssessmentIdentificationCode IdentificationSystem="State">
+        <ID>Scenario 4</ID>
+    </AssessmentIdentificationCode>
+    <AssessmentCategory>Performance assessment</AssessmentCategory>
+    <AcademicSubject>ELA</AcademicSubject>
+    <GradeLevelAssessed>Eleventh grade</GradeLevelAssessed>
+    <LowestGradeLevelAssessed>Eleventh grade</LowestGradeLevelAssessed>
+    <ContentStandard>State Standard</ContentStandard>
+    <AssessmentForm>Form</AssessmentForm>
+    <RevisionDate>2013-01-01</RevisionDate>
+    <MaxRawScore>100</MaxRawScore>
+    <Nomenclature>Nomenclature</Nomenclature>
+    <AssessmentPeriod>
+        <AssessmentPeriodDescriptorIdentity>
+            <AssessmentPeriodDescriptorCodeValue>BOY-11-2013</AssessmentPeriodDescriptorCodeValue>
+        </AssessmentPeriodDescriptorIdentity>
+    </AssessmentPeriod>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#2</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#3</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#4</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference> 
+    <ObjectiveAssessmentReference>
+        <ObjectiveAssessmentIdentity>
+            <ObjectiveAssessmentIdentificationCode>Scenario 4</ObjectiveAssessmentIdentificationCode>
+        </ObjectiveAssessmentIdentity>
+    </ObjectiveAssessmentReference> 
+    
+ </Assessment>
+ 
+<ObjectiveAssessment>
+  <IdentificationCode>Scenario 4</IdentificationCode>
+  <MaxRawScore>50</MaxRawScore>
+  <AssessmentPerformanceLevel>
+    <PerformanceLevel>
+      <CodeValue>code1</CodeValue>
+      <PerformanceLevelMet>true</PerformanceLevelMet>
+    </PerformanceLevel>
+    <AssessmentReportingMethod>Number score</AssessmentReportingMethod>
+    <MinimumScore>0</MinimumScore>
+    <MaximumScore>50</MaximumScore>
+  </AssessmentPerformanceLevel>
+  <PercentOfAssessment>50</PercentOfAssessment>
+  <Nomenclature>Nomenclature</Nomenclature>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>Scenario 4</AssessmentTitle>
+          <AcademicSubject>ELA</AcademicSubject>
+          <GradeLevelAssessed>Eleventh grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</ObjectiveAssessment>
+
+<Assessment>
+    <AssessmentTitle>Scenario 5</AssessmentTitle>
+    <AssessmentIdentificationCode IdentificationSystem="State">
+        <ID>Scenario 5</ID>
+    </AssessmentIdentificationCode>
+    <AssessmentCategory>Performance assessment</AssessmentCategory>
+    <AcademicSubject>ELA</AcademicSubject>
+    <GradeLevelAssessed>Eleventh grade</GradeLevelAssessed>
+    <LowestGradeLevelAssessed>Eleventh grade</LowestGradeLevelAssessed>
+    <ContentStandard>State Standard</ContentStandard>
+    <AssessmentForm>Form</AssessmentForm>
+    <RevisionDate>2013-01-01</RevisionDate>
+    <MaxRawScore>100</MaxRawScore>
+    <Nomenclature>Nomenclature</Nomenclature>
+    <AssessmentPeriod>
+        <AssessmentPeriodDescriptorIdentity>
+            <AssessmentPeriodDescriptorCodeValue>BOY-11-2013</AssessmentPeriodDescriptorCodeValue>
+        </AssessmentPeriodDescriptorIdentity>
+    </AssessmentPeriod>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#2</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#3</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#4</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference> 
+    <ObjectiveAssessmentReference>
+        <ObjectiveAssessmentIdentity>
+            <ObjectiveAssessmentIdentificationCode>Scenario 5</ObjectiveAssessmentIdentificationCode>
+        </ObjectiveAssessmentIdentity>
+    </ObjectiveAssessmentReference> 
+    
+ </Assessment>
+ 
+<ObjectiveAssessment>
+  <IdentificationCode>Scenario 5</IdentificationCode>
+  <MaxRawScore>50</MaxRawScore>
+  <AssessmentPerformanceLevel>
+    <PerformanceLevel>
+      <CodeValue>code1</CodeValue>
+      <PerformanceLevelMet>true</PerformanceLevelMet>
+    </PerformanceLevel>
+    <AssessmentReportingMethod>Number score</AssessmentReportingMethod>
+    <MinimumScore>0</MinimumScore>
+    <MaximumScore>50</MaximumScore>
+  </AssessmentPerformanceLevel>
+  <PercentOfAssessment>50</PercentOfAssessment>
+  <Nomenclature>Nomenclature</Nomenclature>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>Scenario 5</AssessmentTitle>
+          <AcademicSubject>ELA</AcademicSubject>
+          <GradeLevelAssessed>Eleventh grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</ObjectiveAssessment>
+
+<Assessment>
+    <AssessmentTitle>Scenario 6</AssessmentTitle>
+    <AssessmentIdentificationCode IdentificationSystem="State">
+        <ID>Scenario 6</ID>
+    </AssessmentIdentificationCode>
+    <AssessmentCategory>Performance assessment</AssessmentCategory>
+    <AcademicSubject>ELA</AcademicSubject>
+    <GradeLevelAssessed>Eleventh grade</GradeLevelAssessed>
+    <LowestGradeLevelAssessed>Eleventh grade</LowestGradeLevelAssessed>
+    <ContentStandard>State Standard</ContentStandard>
+    <AssessmentForm>Form</AssessmentForm>
+    <RevisionDate>2013-01-01</RevisionDate>
+    <MaxRawScore>100</MaxRawScore>
+    <Nomenclature>Nomenclature</Nomenclature>
+    <AssessmentPeriod>
+        <AssessmentPeriodDescriptorIdentity>
+            <AssessmentPeriodDescriptorCodeValue>BOY-11-2013</AssessmentPeriodDescriptorCodeValue>
+        </AssessmentPeriodDescriptorIdentity>
+    </AssessmentPeriod>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#2</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#3</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#4</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference> 
+    <ObjectiveAssessmentReference>
+        <ObjectiveAssessmentIdentity>
+            <ObjectiveAssessmentIdentificationCode>Scenario 6</ObjectiveAssessmentIdentificationCode>
+        </ObjectiveAssessmentIdentity>
+    </ObjectiveAssessmentReference> 
+    
+ </Assessment>
+ 
+<ObjectiveAssessment>
+  <IdentificationCode>Scenario 6</IdentificationCode>
+  <MaxRawScore>50</MaxRawScore>
+  <AssessmentPerformanceLevel>
+    <PerformanceLevel>
+      <CodeValue>code1</CodeValue>
+      <PerformanceLevelMet>true</PerformanceLevelMet>
+    </PerformanceLevel>
+    <AssessmentReportingMethod>Number score</AssessmentReportingMethod>
+    <MinimumScore>0</MinimumScore>
+    <MaximumScore>50</MaximumScore>
+  </AssessmentPerformanceLevel>
+  <PercentOfAssessment>50</PercentOfAssessment>
+  <Nomenclature>Nomenclature</Nomenclature>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>Scenario 6</AssessmentTitle>
+          <AcademicSubject>ELA</AcademicSubject>
+          <GradeLevelAssessed>Eleventh grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</ObjectiveAssessment>
+
+<Assessment>
+    <AssessmentTitle>Scenario 7</AssessmentTitle>
+    <AssessmentIdentificationCode IdentificationSystem="State">
+        <ID>Scenario 7</ID>
+    </AssessmentIdentificationCode>
+    <AssessmentCategory>Performance assessment</AssessmentCategory>
+    <AcademicSubject>ELA</AcademicSubject>
+    <GradeLevelAssessed>Eleventh grade</GradeLevelAssessed>
+    <LowestGradeLevelAssessed>Eleventh grade</LowestGradeLevelAssessed>
+    <ContentStandard>State Standard</ContentStandard>
+    <AssessmentForm>Form</AssessmentForm>
+    <RevisionDate>2013-01-01</RevisionDate>
+    <MaxRawScore>100</MaxRawScore>
+    <Nomenclature>Nomenclature</Nomenclature>
+    <AssessmentPeriod>
+        <AssessmentPeriodDescriptorIdentity>
+            <AssessmentPeriodDescriptorCodeValue>BOY-11-2013</AssessmentPeriodDescriptorCodeValue>
+        </AssessmentPeriodDescriptorIdentity>
+    </AssessmentPeriod>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#2</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#3</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#4</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference> 
+    <ObjectiveAssessmentReference>
+        <ObjectiveAssessmentIdentity>
+            <ObjectiveAssessmentIdentificationCode>Scenario 7</ObjectiveAssessmentIdentificationCode>
+        </ObjectiveAssessmentIdentity>
+    </ObjectiveAssessmentReference> 
+    
+ </Assessment>
+ 
+<ObjectiveAssessment>
+  <IdentificationCode>Scenario 7</IdentificationCode>
+  <MaxRawScore>50</MaxRawScore>
+  <AssessmentPerformanceLevel>
+    <PerformanceLevel>
+      <CodeValue>code1</CodeValue>
+      <PerformanceLevelMet>true</PerformanceLevelMet>
+    </PerformanceLevel>
+    <AssessmentReportingMethod>Number score</AssessmentReportingMethod>
+    <MinimumScore>0</MinimumScore>
+    <MaximumScore>50</MaximumScore>
+  </AssessmentPerformanceLevel>
+  <PercentOfAssessment>50</PercentOfAssessment>
+  <Nomenclature>Nomenclature</Nomenclature>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>Scenario 7</AssessmentTitle>
+          <AcademicSubject>ELA</AcademicSubject>
+          <GradeLevelAssessed>Eleventh grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</ObjectiveAssessment>
+
+
+
+</InterchangeAssessmentMetadata>

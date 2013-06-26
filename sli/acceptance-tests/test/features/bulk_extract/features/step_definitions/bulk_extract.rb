@@ -27,6 +27,8 @@ require 'zlib'
 require 'open3'
 require 'openssl'
 require 'time'
+require 'digest/sha1'
+require 'set'
 include Archive::Tar
 
 SCHEDULER_SCRIPT = File.expand_path(PropLoader.getProps['bulk_extract_scheduler_script'])
@@ -58,10 +60,20 @@ $APP_CONVERSION_MAP = {"19cca28d-7357-4044-8df9-caad4b1c8ee4" => "vavedra9ub",
 #Don't hate me, help me find a better solution...
 #BTW, I got "Riley Approved" 
 $GLOBAL_VARIABLE_MAP = {}
+LEA_DAYBREAK_ID_VAL = '1b223f577827204a1c7e9c851dba06bea6b031fe_id'
+SEA_IL_ID_VAL = 'b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id'
 
 ############################################################
 # Transform
 ############################################################
+
+Transform /(.*LEA_DAYBREAK_ID.*)/ do|hrId|
+    hrId.sub(/(.*)LEA_DAYBREAK_ID(.*)/, '\1' + LEA_DAYBREAK_ID_VAL + '\2')
+end
+
+Transform /(.*SEA_IL_ID.*)/ do|hrId|
+  hrId.sub(/(.*)SEA_IL_ID(.*)/, '\1' + SEA_IL_ID_VAL + '\2')
+end
 
 Transform /^<(.*?)>$/ do |human_readable_id|
   # entity id transforms
@@ -107,7 +119,7 @@ end
 
 Given /^the extraction zone is empty$/ do
   if (Dir.exists?(OUTPUT_DIRECTORY))
-    puts OUTPUT_DIRECTORY
+    puts "#{OUTPUT_DIRECTORY} cleaned"
     FileUtils.rm_rf("#{OUTPUT_DIRECTORY}/.", secure: true)
   end
 end
@@ -437,6 +449,7 @@ When /^a the correct number of "(.*?)" was extracted from the database$/ do |col
     end
 	end
 
+
 	Zlib::GzipReader.open(@unpackDir + "/" + collection + ".json.gz") { |extractFile|
     records = JSON.parse(extractFile.read)
     puts "\nCounts Expected: " + count.to_s + " Actual: " + records.size.to_s + "\n"
@@ -482,6 +495,17 @@ When /^I log into "(.*?)" with a token of "(.*?)", a "(.*?)" for "(.*?)" in tena
   match = /token is (.*)/.match(out)
   @sessionId = match[1]
   puts "The generated token is #{@sessionId}"
+end
+
+def getEntityId(entity)
+  entity_to_id_map = {
+      "orphanEdorg" => "54b4b51377cd941675958e6e81dce69df801bfe8_id",
+      "IL-Daybreak" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id",
+      "IL-Highwind" => "99d527622dcb51c465c515c0636d17e085302d5e_id",
+      "District-5"  => "880572db916fa468fbee53a68918227e104c10f5_id",
+      "Daybreak Central High" => "a13489364c2eb015c219172d561c62350f0453f3_id"
+  }
+  return entity_to_id_map[entity]
 end
 
 When /^I try to POST to the bulk extract endpoint/ do
@@ -540,34 +564,51 @@ end
 
 When /^I POST and validate the following entities:$/ do |table|
   table.hashes.map do |api_params|
-    print "Posting #{api_params['type']} .. "
-    step "I POST a \"#{api_params['entity']}\" of type \"#{api_params['type']}\""
+    print "Posting new #{api_params['entityType']} .. "
+    step "I POST a \"#{api_params['entityName']}\" of type \"#{api_params['entityType']}\""
     step "I should receive a return code of #{api_params['returnCode']}"
     print "OK\n"
   end
 end
 
-When /^I POST a "(.*?)" of type "(.*?)"$/ do |field, entity|
+When /^I POST a "(.*?)" of type "(.*?)"$/ do |entity_name, entity_type|
   response_map, value = nil
   # POST is a special case. We are creating a brand-new entity.
-  # Get entity body from the map specified by prepareBody()
-  body = prepareBody("POST", value, response_map)
+  # Get the entity json body from the map specified in get_post_body_by_entity_name()
+  body = get_post_body_by_entity_name(entity_name)
   # Get the endpoint that corresponds to the desired entity
-  endpoint = getEntityEndpoint(entity)
-  restHttpPost("/#{@api_version}/#{endpoint}", prepareData(@format, body["POST"][field]))
+  endpoint = get_entity_endpoint(entity_type)
+  restHttpPost("/#{@api_version}/#{endpoint}", prepareData(@format, body))
   assert(@res != nil, "Response from rest-client POST is nil")
 end
 
 When /^I PUT and validate the following entities:$/ do |table|
   table.hashes.map do |api_params|
-    print "Putting #{api_params['entity']} .."
-    step "I PUT the \"#{api_params['field']}\" for a \"#{api_params['entity']}\" entity to \"#{api_params['value']}\""
+    print "Putting #{api_params['entityName']} .."
+    step "I PUT the \"#{api_params['field']}\" for a \"#{api_params['entityName']}\" entity to \"#{api_params['value']}\" at \"#{api_params['endpoint']}\""
     step "I should receive a return code of #{api_params['returnCode']}"
     print "OK\n"
   end
 end
 
-def updateApiPutField(body, field, value)
+When /^I PUT the "(.*?)" for a "(.*?)" entity to "(.*?)" at "(.*?)"$/ do |field, entity_name, value, endpoint|
+  # Get the desired entity from mongo
+  #response_map = get_entity_body_from_api(entity_name)
+  response_body = get_response_body(endpoint)
+  assert(response_body != nil, "No response from GET request for entity #{entity_name}")
+  # If we get a list, just take the first entry. No muss, no fuss.
+  response_body = response_body[0] if response_body.is_a?(Array)
+  # Modify the response body field with value, will become PUT body
+  put_body = update_api_put_field(response_body, field, value)
+  # Get the endpoint that corresponds to the desired entity
+  restHttpPut("/#{@api_version}/#{endpoint}", prepareData(@format, put_body))
+  assert(@res != nil, "Response from rest-client PUT is nil")
+end
+
+def update_api_put_field(body, field, value)
+  # This method allows us to modify custom fields in a way that is
+  # compliant with the ed-fi data structure and the type requirements per field.
+  # Some would call this hackish. I call it fiendishly clever.
   # Set the GET response body as body and edit the requested field
   body["address"][0]["postalCode"] = value.to_s if field == "postalCode"
   body["loginId"] = value if field == "loginId"
@@ -576,36 +617,23 @@ def updateApiPutField(body, field, value)
   return body
 end
 
-When /^I PUT the "(.*?)" for a "(.*?)" entity to "(.*?)"$/ do |field, entity, value|
-  # Get the desired entity from mongo
-  response_map = getEntityBodyFromApi(entity, @api_version, "PUT")
-  assert(response_map != nil, "No response from GET request for entity #{entity}")
-  response_map = response_map[0] if response_map.is_a?(Array)
-  # Modify the response body field with value, will become PUT body
-  put_body = updateApiPutField(response_map, field, value)
-  # Get the endpoint that corresponds to the desired entity
-  endpoint = getEntityEndpoint(entity)
-  restHttpPut("/#{@api_version}/#{endpoint}/#{put_body['id']}", prepareData(@format, put_body))
-  assert(@res != nil, "Response from rest-client PUT is nil")
-end
-
 When /^I PATCH and validate the following entities:$/ do |table|
   table.hashes.map do |api_params|
     print "Patching #{api_params['entity']} .."
-    step "I PATCH the \"#{api_params['field']}\" for a \"#{api_params['entity']}\" entity to \"#{api_params['value']}\""
+    step "I PATCH the \"#{api_params['fieldName']}\" for a \"#{api_params['entityName']}\" entity of type \"#{api_params['entityType']}\" to \"#{api_params['value']}\""
     step "I should receive a return code of #{api_params['returnCode']}"
     print "OK\n"
   end
 end
 
-When /^I PATCH the "(.*?)" for a "(.*?)" entity to "(.*?)"$/ do |field, entity, value|
+When /^I PATCH the "(.*?)" for a "(.*?)" entity of type "(.*?)" to "(.*?)"$/ do |field_name, entity_name, entity_type, value|
   # Get the desired entity from mongo, we will only use the _id
-  response_map = getEntityBodyFromApi(entity, @api_version, "PATCH")
-  # We will set the PATCH body to ONLY the field_values map we get from prepareBody()
-  patch_body = prepareBody("PATCH", value, response_map)
+  entity_response_body = get_full_patch_entity_from_api(entity_name)
+  # We will set the PATCH body to ONLY the field_values map we get from get_patch_body_by_entity_name()
+  patch_body = get_patch_body_by_entity_name(field_name, value)
   # Get the endpoint that corresponds to the desired entity
-  endpoint = getEntityEndpoint(entity)
-  restHttpPatch("/#{@api_version}/#{endpoint}/#{patch_body["GET"]["id"]}", prepareData(@format, patch_body["PATCH"][field]))
+  endpoint = get_entity_endpoint(entity_type)
+  restHttpPatch("/#{@api_version}/#{endpoint}/#{entity_response_body["id"]}", prepareData(@format, patch_body))
   assert(@res != nil, "Response from rest-client PATCH is nil")
 end
 
@@ -614,116 +642,183 @@ When /^I DELETE and validate the following entities:$/ do |table|
     print "Deleting #{api_params['entity']} .."
     step "I DELETE an \"#{api_params['entity']}\" of id \"#{api_params['id']}\""
     step "I should receive a return code of #{api_params['returnCode']}"
-    print "OK\n"
+    print " OK (Received expected RetCode: #{api_params['returnCode']})\n"
   end
 end
 
 When /^I DELETE an "(.*?)" of id "(.*?)"$/ do |entity, id|
   # Get the endpoint that corresponds to the desired entity
-  endpoint = getEntityEndpoint(entity)
+  endpoint = translate_custom_entity_to_endpoint(entity)
   restHttpDelete("/#{@api_version}/#{endpoint}/#{id}")
 end
 
-def getEntityEndpoint(entity)
+def translate_custom_entity_to_endpoint(endpoint_name)
+  endpoint_name_translation_map = {
+    "assessments/id/learningObjectives" => "assessments/235e448a14cc25ac0ede32bf35e9a798bf2cbc1d_id/learningObjectives",
+    "assessments/id/learningStandards" => "assessments/235e448a14cc25ac0ede32bf35e9a798bf2cbc1d_id/learningStandards",
+    "courseOfferings/id/courses" => "courseOfferings/4e22b4b0aac3310de7f4b789d5a31e5e2bd792ec_id/courses",
+    "courseOfferings/id/sections" => "courseOfferings/4e22b4b0aac3310de7f4b789d5a31e5e2bd792ec_id/sections",
+    "courseOfferings/id/sessions" => "courseOfferings/4e22b4b0aac3310de7f4b789d5a31e5e2bd792ec_id/sessions",
+    "courses/id/courseOfferings" => "courses/7f3baa1a1f553809c6539671f08714aed6ec8b0c_id/courseOfferings",
+    "courses/id/courseOfferings/sessions" => "courses/7f3baa1a1f553809c6539671f08714aed6ec8b0c_id/courseOfferings/sessions",
+    "educationOrganizations/id/courses" => "educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/courses",
+    "educationOrganizations/id/educationOrganizations" => "educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/educationOrganizations",
+    "educationOrganizations/id/graduationPlans" => "educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/graduationPlans",
+    "educationOrganizations/id/schools" => "educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/schools",
+    "educationOrganizations/id/studentCompetencyObjectives" => "educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/studentCompetencyObjectives",
+    "learningObjectives/id/childLearningObjectives" => "learningObjectives/18f258460004b33fa9c1249b8c9ed3bd33c41645_id/childLearningObjectives",
+    "learningObjectives/id/learningStandards" => "learningObjectives/18f258460004b33fa9c1249b8c9ed3bd33c41645_id/learningStandards",
+    "learningObjectives/id/parentLearningObjectives" => "learningObjectives/18f258460004b33fa9c1249b8c9ed3bd33c41645_id/parentLearningObjectives",
+    "schools/id/courseOfferings" => "schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/courseOfferings",
+    "schools/id/courses" => "schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/courses",
+    "schools/id/sections" => "schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/courses",
+    "schools/id/sessions" => "schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/courses",
+    "schools/id/sessions/gradingPeriods" => "schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/sessions/gradingPeriods",
+    "sessions/id/courseOfferings" => "sessions/fe6e1a162e6f6825830d78d72cb55498afaedcd3_id/courseOfferings",
+    "sessions/id/courseOfferings/courses" => "sessions/fe6e1a162e6f6825830d78d72cb55498afaedcd3_id/courseOfferings/courses",
+    "sessions/id/sections" => "sessions/fe6e1a162e6f6825830d78d72cb55498afaedcd3_id/sections"
+  }
+  # If the custom endpoint does not exist in the map, assume endpoint_name is
+  # just an endpoint type and return its common endpoint name
+  # i.e. if you cannot find it, pluralize it
+  if endpoint_name_translation_map[endpoint_name] == nil
+    endpoint = get_entity_endpoint(endpoint_name) 
+  else
+    endpoint = endpoint_name_translation_map[endpoint_name]
+  end
+  assert(endpoint != nil, "No endpoint mapping entry found in endpoint_name_translation_map for type #{endpoint_name}, please add an entry and try again.")
+  return endpoint
+end
+
+def get_full_patch_entity_from_api(entity_name)
   entity_to_endpoint_map = {
-      "attendance" => "attendances",
-      "courseOffering" => "courseOfferings",
-      "seaCourse" => "educationOrganizations/884daa27d806c2d725bc469b273d840493f84b4d_id/courses",
-      "cohort" => "cohorts",
-      "course" => "courses",
-      "educationOrganization" => "educationOrganizations",
-      "gradebookEntry" => "gradebookEntries",
-      "grade" => "grades",
-      "gradingPeriod" => "gradingPeriods",
-      "invalidEntry" => "school",
-      "newParentDad" => "parents",
-      "newParentMom" => "parents",
-      "orphanEdorg" => "educationOrganizations",
-      "parent" => "parents",
-      "patchEdOrg" => "educationOrganizations",
-      "program" => "programs",
-      "patchProgram" => "programs",
-      "reportCard" => "reportCards",
-      "school" => "educationOrganizations",
-      "section" => "sections",
-      "session" => "sessions",
-      "staff" => "staff",
-      "newStaff" => "staff",
-      "staffCohortAssociation" => "staffCohortAssociations",
-      "staffEducationOrganizationAssociation" => "staffEducationOrgAssignmentAssociations",
-      "staffStudent" => "students",
-      "student" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students",
-      "newStudent" => "students",
-      "studentAcademicRecord" => "studentAcademicRecords",
-      "studentAssessment" => "studentAssessments",
-      "studentCohortAssociation" => "studentCohortAssociations",
-      "studentSchoolAssociation" => "studentSchoolAssociations",
-      "studentSectionAssociation" => "studentSectionAssociations",
-      "studentParentAssociation" => "studentParentAssociations",
-      "studentProgramAssociation" => "studentProgramAssociations",
-      "newStudentParentAssociation" => "studentParentAssociations",
-      "teacher" => "teachers",
-      "newTeacher" => "teachers",
-      "teacherSchoolAssociation" => "teacherSchoolAssociations",
-      "wrongSchoolURI" => "schoolz",
-      "studentCompetency" => "studentCompetencies",
-      "yearlyTranscript" => "yearlyTranscripts"
+    "newParentDad" => "parents/41f42690a7c8eb5b99637fade00fc72f599dab07_id",
+    "newParentMom" => "parents/41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id",
+    "newStudent" => "students/9bf3036428c40861238fdc820568fde53e658d88_id",
+    "newStudentParentAssociation" => "studentParentAssociations/9bf3036428c40861238fdc820568fde53e658d88_idc3a6a4ed285c14f562f0e0b63e1357e061e337c6_id",
+    "patchEdOrg" => "educationOrganizations/a13489364c2eb015c219172d561c62350f0453f3_id",
+    "patchProgram" => "programs/0ee2b448980b720b722706ec29a1492d95560798_id",
+    "patchGradingPeriod" => "gradingPeriods/8feb483ade5d7b3b45c1e4b4a50d00302cba4548_id",
+    "patchLearningObjective" => "learningObjectives/bc2dd61ff2234eb25835dbebe22d674c8a10e963_id",
+    "patchLearningStandard" => "learningStandards/1bd6fea0e8b8ac6a8fe87a8530effbced0df9318_id",
+    "patchCompetencyLevelDescriptor" => "competencyLevelDescriptor/ceddd8ec0ee71c1f4f64218e00581e9b27c0fffb_id",
+    "patchStudentCompetencyObjective" => "studentCompetencyObjectives/ef680988e7c411cdb5438ded373512cd59cbfa7b_id",
+    "patchSession" => "sessions/fe6e1a162e6f6825830d78d72cb55498afaedcd3_id",
+    "patchSEACourse" => "courses/494d4c8281ec78c7d8634afb683d39f6afdc5b85_id",
+    "patchSEACourseOffering" => "courseOfferings/0fee7a7aba9a96388ef628b7e3e5e5ea60a142a7_id",
+    "patchAssessment" => "assessments/8d58352d180e00da82998cf29048593927a25c8e_id",
+    "patchGraduationPlan" => "graduationPlans/a77cdbececc81173aa76a34c05f9aeb44126a64d_id"
   }
-  return entity_to_endpoint_map[entity]
+  # perform a GET request on the requested API endpoint
+  return get_response_body(entity_to_endpoint_map[entity_name])
 end
 
-def getEntityId(entity)
-  entity_to_id_map = {
-      "orphanEdorg" => "54b4b51377cd941675958e6e81dce69df801bfe8_id",
-      "IL-Daybreak" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id",
-      "IL-Highwind" => "99d527622dcb51c465c515c0636d17e085302d5e_id",
-      "District-5"  => "880572db916fa468fbee53a68918227e104c10f5_id",
-      "Daybreak Central High" => "a13489364c2eb015c219172d561c62350f0453f3_id"
+def get_patch_body_by_entity_name(field, value)
+  entity_name_to_patch_body_map = {
+    "postalCode" => {
+      "address"=>[{"postalCode"=>value.to_s,
+                  "nameOfCounty"=>"Wake",
+                  "streetNumberName"=>"111 Ave A",
+                  "stateAbbreviation"=>"IL",
+                  "addressType"=>"Physical",
+                  "city"=>"Chicago"
+                 }]
+    },
+    "contactPriority" => {
+      "contactPriority" => value.to_i
+    },
+    "studentLoginId" => {
+      "loginId" => value,
+      "sex" => "Male"
+    },
+    "momLoginId" => {
+        "loginId" => value
+    },
+    "dadLoginId" => {
+        "loginId" => value
+    },
+    "patchProgramType" => {
+        "programType" => value
+    },
+    "patchEndDate" => {
+        "endDate" => value
+    },
+    "patchDescription" => {
+        "description" => value
+    },
+    "patchCourseDesc" => {
+        "courseDescription" => value
+    },
+    "patchCourseId" => {
+        "courseId" => value
+    },
+    "patchContentStd" => {
+        "contentStandard" => value
+    },
+    "patchIndividualPlan" => {
+        "individualPlan" => value
+    },
+    "studentParentName" => {
+      "name" => {
+        "middleName" => "Fatang",
+        "lastSurname" => "ZoopBoing",
+        "firstName" => "Pang"
+      }
+    }
   }
-  return entity_to_id_map[entity]
+  return entity_name_to_patch_body_map[field]
 end
 
-def getEntityBodyFromApi(entity, api_version, verb)
-  return {entity=>nil} if verb == "POST"
+def get_entity_body_from_api(entity_name)
   entity_to_uri_map = {
-      "school" => "educationOrganizations/a13489364c2eb015c219172d561c62350f0453f3_id",
-      "educationOrganization" => "educationOrganizations",
-      "newCourseOffering" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/courseOfferings",
-      "newParentDad" => "parents/41f42690a7c8eb5b99637fade00fc72f599dab07_id",
-      "newParentMom" => "parents/41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id",
-      "orphanEdorg" => "educationOrganizations/54b4b51377cd941675958e6e81dce69df801bfe8_id",
-      "parent" => "parents",
-      "patchEdOrg" => "educationOrganizations/a13489364c2eb015c219172d561c62350f0453f3_id",
-      "section" => "sections",
-      "newSection" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/sections",
-      "staffEducationOrganizationAssociation" => "staffEducationOrgAssignmentAssociations",
-      "staffProgramAssociation" => "staffProgramAssociations",
-      "staffStudent" => "students",
-      "student" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students",
-      "newStudent" => "students/9bf3036428c40861238fdc820568fde53e658d88_id",
-      "studentCohortAssocation" => "studentCohortAssociations",
-      "studentDisciplineIncidentAssociation" => "studentDisciplineIncidentAssociations",
-      "studentParentAssociation" => "students/9bf3036428c40861238fdc820568fde53e658d88_id/studentParentAssociations",
-      "newStudentParentAssociation" => "studentParentAssociations/9bf3036428c40861238fdc820568fde53e658d88_idc3a6a4ed285c14f562f0e0b63e1357e061e337c6_id",
-      "studentProgramAssociation" => "studentProgramAssociations",
-      "studentSchoolAssociation" => "studentSchoolAssociations",
-      "studentSectionAssociation" => "studentSectionAssociations",
-      "teacherSchoolAssociation" => "teacherSchoolAssociations",
-      "patchProgram" => "programs/0ee2b448980b720b722706ec29a1492d95560798_id",
+    "school" => "educationOrganizations/a13489364c2eb015c219172d561c62350f0453f3_id",
+    "educationOrganization" => "educationOrganizations",
+    "newCourseOffering" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/courseOfferings",
+    "newParentDad" => "parents/41f42690a7c8eb5b99637fade00fc72f599dab07_id",
+    "newParentMom" => "parents/41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id",
+    "orphanEdorg" => "educationOrganizations/54b4b51377cd941675958e6e81dce69df801bfe8_id",
+    "parent" => "parents",
+    "patchEdOrg" => "educationOrganizations/a13489364c2eb015c219172d561c62350f0453f3_id",
+    "section" => "sections",
+    "newSection" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/sections",
+    "staffEducationOrganizationAssociation" => "staffEducationOrgAssignmentAssociations",
+    "staffProgramAssociation" => "staffProgramAssociations",
+    "staffStudent" => "students",
+    "student" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students",
+    "newStudent" => "students/9bf3036428c40861238fdc820568fde53e658d88_id",
+    "studentCohortAssocation" => "studentCohortAssociations",
+    "studentDisciplineIncidentAssociation" => "studentDisciplineIncidentAssociations",
+    "studentParentAssociation" => "students/9bf3036428c40861238fdc820568fde53e658d88_id/studentParentAssociations",
+    "newStudentParentAssociation" => "studentParentAssociations/9bf3036428c40861238fdc820568fde53e658d88_idc3a6a4ed285c14f562f0e0b63e1357e061e337c6_id",
+    "studentProgramAssociation" => "studentProgramAssociations",
+    "studentSchoolAssociation" => "studentSchoolAssociations",
+    "studentSectionAssociation" => "studentSectionAssociations",
+    "teacherSchoolAssociation" => "teacherSchoolAssociations",
+    "patchProgram" => "programs/0ee2b448980b720b722706ec29a1492d95560798_id",
+    "patchGradingPeriod" => "gradingPeriods/8feb483ade5d7b3b45c1e4b4a50d00302cba4548_id",
+    "patchLearningObjective" => "learningObjectives/bc2dd61ff2234eb25835dbebe22d674c8a10e963_id",
+    "patchLearningStandard" => "learningStandards/1bd6fea0e8b8ac6a8fe87a8530effbced0df9318_id",
+    "patchCompetencyLevelDescriptor" => "competencyLevelDescriptor/ceddd8ec0ee71c1f4f64218e00581e9b27c0fffb_id",
+    "patchStudentCompetencyObjective" => "studentCompetencyObjectives/ef680988e7c411cdb5438ded373512cd59cbfa7b_id",
+    "patchSession" => "sessions/fe6e1a162e6f6825830d78d72cb55498afaedcd3_id",
+    "patchSEACourse" => "courses/494d4c8281ec78c7d8634afb683d39f6afdc5b85_id",
+    "patchSEACourseOffering" => "courseOfferings/0fee7a7aba9a96388ef628b7e3e5e5ea60a142a7_id",
+    "patchAssessment" => "assessments/8d58352d180e00da82998cf29048593927a25c8e_id",
+    "patchGraduationPlan" => "graduationPlans/a77cdbececc81173aa76a34c05f9aeb44126a64d_id"
   }
+  return get_response_body(entity_to_uri_map[entity_name])
+end
+
+def get_response_body(endpoint)
   # Perform GET request and verify we get a response and a response body
-  restHttpGet("/#{api_version}/#{entity_to_uri_map[entity]}")
+  restHttpGet("/#{@api_version}/#{endpoint}")
   assert(@res != nil, "Response from rest-client GET is nil")
   assert(@res.body != nil, "Response body is nil")
-  # Make sure we actually hit the entity
-  puts "Ensuring the GET request returned 200"
-  step "I should receive a return code of 200"
-  puts "GET request: 200 (OK)"
   # Store the response in an entity-specific response map
-  response_map = JSON.parse(@res)
+  response_body = JSON.parse(@res)
   # Fail if we do not find the entity in response body from GET request
-  assert(response_map != nil, "No response body for #{entity} returned by GET request")
-  return response_map
+  assert(response_body != nil, "No response body for #{endpoint} returned by GET request")
+  return response_body
 end
 
 When /^I request an unsecured latest delta via API for tenant "(.*?)", lea "(.*?)" with appId "(.*?)"$/ do |tenant, lea, app_id |
@@ -1013,6 +1108,58 @@ Then /^I verify the last public delta bulk extract by app "(.*?)" for "(.*?)" in
     step "the extract contains a file for each of the following entities:", table
 end
 
+
+def getExtractsForEdOrg(tenant, edOrg)
+  tenantId           = Digest::SHA1.hexdigest tenant
+  tenantExtractPath  = "#{OUTPUT_DIRECTORY}#{tenantId}"
+  tenantTarList      = Dir.glob "#{tenantExtractPath}/*.tar"
+
+  computedJsons = []
+  tenantTarList.each {|tenantTarListItem|
+    if  tenantTarListItem =~ /\/(.{36,36})-#{edOrg}.*.tar/
+      appId = $1
+      encryptedTenantTarFile = File.open(tenantTarListItem, 'rb') { |f| f.read}
+      decryptedTenantTarStr  = decryptFile(encryptedTenantTarFile, $APP_CONVERSION_MAP[appId])
+      decryptedTenantTarFile = StringIO.new(decryptedTenantTarStr);
+      Minitar::Input.open(decryptedTenantTarFile) do |inp|
+        inp.each do |entry|
+          tarComponent = entry.full_name
+          if tarComponent =~  /(.*).json.gz/
+            jsonFile = $1
+            computedJsons << jsonFile
+          end
+        end
+      end
+    end
+  }
+  return computedJsons
+end
+
+And /^Only the following extracts exists for edOrg "(.*?)" in tenant "(.*?)"/ do |edOrg, tenant, table|
+     allowedJsons  = table.raw.flatten
+     computedJsons = getExtractsForEdOrg(tenant, edOrg)
+     set1 = Set.new allowedJsons
+     set2 = Set.new computedJsons
+     symetricDiff = set1 ^ set2  #symmetric difference
+     assert(symetricDiff.size == 0, "Expected #{set1.to_a.join(',')}, Found #{set2.to_a.join(',')} in extract for #{edOrg}")
+end
+
+And /^There should not be any of the following extracts for edOrg "(.*?)" in tenant "(.*?)"/ do |edOrg, tenant, table|
+  unAllowedJsons  = table.raw.flatten
+  computedJsons = getExtractsForEdOrg(tenant, edOrg)
+  set1 = Set.new unAllowedJsons
+  set2 = Set.new computedJsons
+  intersect = set1 & set2
+  assert(intersect.size == 0, "Found #{set2.to_a.join(',')} in extract for #{edOrg}. None of #{set1.to_a.join(',')} should occur.")
+end
+
+Then /^I verify this "(.*?)" file only contains:$/ do |file_name, table|
+    step "I verify this \"#{file_name}\" file should contain:", table
+    file_entry_count = to_map(get_json_from_file(file_name)).count
+    step_entry_count = table.hashes.map.count
+    assert(file_entry_count == step_entry_count, "The extracted #{file_name} json file contains #{file_entry_count} entries, but the step expects #{step_entry_count}")
+end
+
 Then /^I verify this "(.*?)" file (should|should not) contain:$/ do |file_name, should, table|
     look_for = should.downcase == "should"
     json_map = to_map(get_json_from_file(file_name))
@@ -1038,10 +1185,25 @@ Then /^I verify this "(.*?)" file (should|should not) contain:$/ do |file_name, 
     end
 end
 
+Then /^the "(.*?)" file (should|should not) contain a field$/ do |file_name, should, table|
+    look_for = should.downcase == "should"
+    json_map = to_map(get_json_from_file(file_name))
+    table.hashes.map do |entity|
+        id = entity['id']
+        field = entity['field']
+        json_entities = json_map[id]
+        json_entities.each do |json_entity|
+          assert(json_entity[field].nil?, "Does contain a #{field.to_s} in #{file_name.to_s} with id: #{id.to_s}")
+        end
+    end
+end
+
 Then /^each record in the full extract is present and matches the delta extract$/ do
   @fileDir = Dir.pwd + "/extract/unpack"
+
   # loop through the list of files in delta directory
   Dir.entries(@deltaDir).each do |deltaFile|
+
     next if !deltaFile.include?("gz")
     next if deltaFile.include?("deleted")
     puts "DEBUG: Current delta file is #{deltaFile}"
@@ -1421,12 +1583,16 @@ end
 
 def get_entity_endpoint(type)
   case type
+    when "competencyLevelDescriptor"
+      "competencyLevelDescriptor"
     when "gradebookEntry"
       "gradebookEntries"
     when "staff"
       "staff"
     when "staffEducationOrganizationAssociation"
       "staffEducationOrgAssignmentAssociations"
+    when "studentCompetency"
+      "studentCompetencies"
     when "studentGradebookEntry"
       "studentGradebookEntries"
     else
@@ -1615,6 +1781,7 @@ def compareToApi(collection, collFile, sample_size=10)
     #Make API call and get JSON for the collection
     @format = "application/vnd.slc+json"
     restHttpGet("/v1/#{uri}/#{id}")
+
     assert(@res != nil, "Response from rest-client GET is nil")
     assert(@res.code != 404, "Response from rest-client GET is not 200 (Got a #{@res.code})")
     if @res.code == 200
@@ -1663,6 +1830,7 @@ def decryptFile(file, client_id)
     puts("Plain text length is #{@plain.length}")
     puts "length #{@res.body.length}" if @res != nil
   end
+  @plain   #return @plain
 end
 
 def untar(filePath)
@@ -1742,701 +1910,878 @@ def streamBulkExtractFile(download_file, apiBody)
   return download_file
 end
 
-def prepareBody(verb, value, response_map)
-  field_data = {
-    "GET" => response_map,
-    "POST" => {
-      "newEducationOrganization" => {
-        "organizationCategories" => ["School"],
-        "stateOrganizationId" => "SomeUniqueSchoolDistrict-2422883",
-        "nameOfInstitution" => "Gotham City School District",
-        "address" => [
-                  "streetNumberName" => "222 Ave D",
-                  "city" => "Chicago",
-                  "stateAbbreviation" => "IL",
-                  "postalCode" => "10098",
-                  "nameOfCounty" => "Hooray"
-                  ],
-        "parentEducationAgencyReference" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
-      },
-      "invalidEducationOrganization" => {
-          "organizationCategories" => ["School"],
-          "educationOrgIdentificationCode" => [
-              {
-                "identificationSystem" => "School",
-                "ID" => "Daybreak Podunk High"
-              }],
-          "stateOrganizationId" => "SchoolInAnInvalidDistrict",
-          "nameOfInstitution" => "Donkey School Wrong District",
-          "address" => [
-                    "streetNumberName" => "999 Ave FAIL",
-                    "city" => "Chicago",
-                    "stateAbbreviation" => "IL",
-                    "postalCode" => "10098",
-                    "nameOfCounty" => "Whoami"
-                    ],
-          "parentEducationAgencyReference" => "ffffffffffffffffffffffffffffffffffffffff_id"
-      },
-      "newStaff" => {
-        "loginId" => "new-staff-1@fakemail.com",
-        "otherName" => [{
-            "middleName" => "Groban",
-            "generationCodeSuffix" => "II",
-            "lastSurname" => "Tome",
-            "personalTitlePrefix" => "Mrs",
-            "firstName" => "Marisa",
-            "otherNameType" => "Nickname"
-        }],
-        "sex" => "Female",
-        "staffUniqueStateId" => "new-staff-1",
-        "hispanicLatinoEthnicity" => false,
-        "oldEthnicity" => "Black, Not Of Hispanic Origin",
-        "yearsOfPriorTeachingExperience" => 12,
-        "entityType" => "staff",
-        "race" => ["White"],
-        "yearsOfPriorProfessionalExperience" => 2,
-        "address" => [{
-            "streetNumberName" => "411 Pesci Ct",
-            "postalCode" => "60601",
-            "stateAbbreviation" => "IL",
-            "addressType" => "Home",
-            "city" => "Chicago"
-        }],
-        "name" => {
-            "middleName" => "Cheryl",
-            "lastSurname" => "Thome",
-            "firstName" => "Marissa"
-        },
-        "electronicMail" => [{
-            "emailAddress" => "new-staff-1@fakemail.com",
-            "emailAddressType" => "Home/Personal"
-        }],
-        "highestLevelOfEducationCompleted" => "Bachelor's",
-        "credentials" => [{
-            "credentialField" => [{
-                "description" => "Mathematics"
-            }],
-            "level" => "All Level (Grade Level PK-12)",
-            "teachingCredentialBasis" => "5-year bachelor's degree",
-            "teachingCredentialType" => "Master",
-            "credentialType" => "Endorsement",
-            "credentialExpirationDate" => "2017-06-24",
-            "credentialIssuanceDate" => "2000-09-22"
-        }],
-        "birthDate" => "1972-01-18",
-        "telephone" => [{
-            "primaryTelephoneNumberIndicator" => true,
-            "telephoneNumber" => "(060)555-3642",
-            "telephoneNumberType" => "Unlisted"
-        }],
-        "staffIdentificationCode" => [{
-            "identificationSystem" => "Health Record",
-            "ID" => "17502"
-        }]
-      },
-      "newStaffDaybreakAssociation" => { 
-        "staffClassification" => "LEA Administrative Support Staff",
-        "educationOrganizationReference" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id",
-        "positionTitle" => "IT Administrator",
-        "staffReference" => "e9f3401e0a034e20bb17663dd7d18ece6c4166b5_id",
-        "endDate" => "2014-05-22",
-        "entityType" => "staffEducationOrganizationAssociation",
-        "beginDate" => "2013-08-28"
-      },
-      "newStaffHighwindAssociation" => { 
-        "staffClassification" => "LEA Administrative Support Staff",
-        "educationOrganizationReference" => "99d527622dcb51c465c515c0636d17e085302d5e_id",
-        "positionTitle" => "IT Administrator",
-        "staffReference" => "e9f3401e0a034e20bb17663dd7d18ece6c4166b5_id",
-        "endDate" => "2014-05-22",
-        "entityType" => "staffEducationOrganizationAssociation",
-        "beginDate" => "2013-08-28"
-      },
-      "newTeacherEdorgAssociation" => {
-        "staffClassification" => "Teacher",
-        "educationOrganizationReference" => "a13489364c2eb015c219172d561c62350f0453f3_id",
-        "positionTitle" => "IT Administrator",
-        "staffReference" => "2472b775b1607b66941d9fb6177863f144c5ceae_id",
-        "endDate" => "2014-05-22",
-        "entityType" => "staffEducationOrganizationAssociation",
-        "beginDate" => "2013-08-26"
-      },
-      "newTeacher" => {
-        "loginId" => "new-teacher-1@fakemail.com",
-        "otherName" => [{
-            "middleName" => "Geraldo",
-            "generationCodeSuffix" => "II",
-            "lastSurname" => "Robbespierre",
-            "personalTitlePrefix" => "Mr",
-            "firstName" => "Marc",
-            "otherNameType" => "Other Name"
-        }],
-        "sex" => "Male",
-        "staffUniqueStateId" => "new-teacher-1",
-        "hispanicLatinoEthnicity" => false,
-        "highlyQualifiedTeacher" => true,
-        "oldEthnicity" => "Black, Not Of Hispanic Origin",
-        "yearsOfPriorTeachingExperience" => 9,
-        "entityType" => "teacher",
-        "race" => ["Black - African American"],
-        "yearsOfPriorProfessionalExperience" => 10,
-        "address" => [{
-            "streetNumberName" => "10 South Street",
-            "postalCode" => "60601",
-            "stateAbbreviation" => "IL",
-            "addressType" => "Home",
-            "city" => "Chicago"
-        }],
-        "teacherUniqueStateId" => "new-teacher-1",
-        "name" => {
-            "middleName" => "Mervin",
-            "lastSurname" => "Maroni",
-            "firstName" => "Marcos"
-        },
-        "electronicMail" => [{
-            "emailAddress" => "new-teacher-1@fakemail.com",
-            "emailAddressType" => "Home/Personal"
-        }],
-        "highestLevelOfEducationCompleted" => "No Degree",
-        "credentials" => [{
-            "credentialField" => [{
-                "description" => "Physics"
-            }],
-            "level" => "Elementary (Grade Level PK-5)",
-            "teachingCredentialBasis" => "Met state testing requirement",
-            "teachingCredentialType" => "Provisional",
-            "credentialType" => "Registration",
-            "credentialExpirationDate" => "2017-10-27",
-            "credentialIssuanceDate" => "2007-07-02"
-        }],
-        "birthDate" => "1962-09-30",
-        "telephone" => [{
-            "primaryTelephoneNumberIndicator" => true,
-            "telephoneNumber" => "(319)555-1789",
-            "telephoneNumberType" => "Emergency 2"
-        }],
-        "staffIdentificationCode" => [{
-            "identificationSystem" => "Health Record",
-            "ID" => "18511"
-        }]
-      },
-      "newTeacherSchoolAssociation" => {
-        "academicSubjects" => ["Transportation, Distribution and Logistics"],
-        "schoolId" => "a13489364c2eb015c219172d561c62350f0453f3_id",
-        "entityType" => "teacherSchoolAssociation",
-        "programAssignment" => "Regular Education",
-        "teacherId" => "2472b775b1607b66941d9fb6177863f144c5ceae_id",
-        "instructionalGradeLevels" => ["Adult Education"]
-      },
-      "newParentMother" => {
-        "entityType" => "parent",
-        "parentUniqueStateId" => "new-mom-1",
-        "loginId" => "new-mom@bazinga.org",
-        "sex" => "Female",
-        "telephone" => [],
-        "address" => [{
-          "streetNumberName" => "5440 Bazinga Win St.",
+def get_post_body_by_entity_name(entity_name)
+  json_bodies_by_name = {
+    "newAssessment" => {
+      "nomenclature" => "Nomenclature",
+      "identificationCode" => "2013-First grade Assessment 1.OA-1 Sub",
+      "percentOfAssessment" => 50,
+      "assessmentItemRefs" => [
+        "8e47092935b521fb6aba9fdec94a4f961f04cd45_id45d9971816ec629ae4f5317639f6ad67629f8e6c_id",
+        "8e47092935b521fb6aba9fdec94a4f961f04cd45_id3d8a30344f8180e851802ea2e29039eca200fbac_id"
+      ],
+      "assessmentId" => "8e47092935b521fb6aba9fdec94a4f961f04cd45_id",
+      "assessmentPerformanceLevel" => [
+        {
+          "performanceLevelDescriptor" => [
+            {"codeValue" => "code1"},
+          ],
+          "assessmentReportingMethod" => "Number score",
+          "minimumScore" => 0,
+          "maximumScore" => 50
+        }
+      ],
+      "learningObjectives" => [
+        "18f258460004b33fa9c1249b8c9ed3bd33c41645_id",
+        "c19a0f38f598ba8d6d8b7968efd1861f754dcc04_id",
+        "43ebe40d85cb70c4dc00ed94ee9f68cfae0c5d1a_id",
+        "ff84d3d1c6594847234ab13f8cc8bcd2a45bb75d_id",
+        "8f8b1ff4fd3459d3ab1bc54c9deb3581820e0bac_id"
+      ],
+      "maxRawScore" => 50
+    },
+    "newEducationOrganization" => {
+      "organizationCategories" => ["School"],
+      "stateOrganizationId" => "SomeUniqueSchoolDistrict-2422883",
+      "nameOfInstitution" => "Gotham City School District",
+      "address" => [
+                "streetNumberName" => "222 Ave D",
+                "city" => "Chicago",
+                "stateAbbreviation" => "IL",
+                "postalCode" => "10098",
+                "nameOfCounty" => "Hooray"
+                ],
+      "parentEducationAgencyReference" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
+    },
+    "invalidEducationOrganization" => {
+      "organizationCategories" => ["School"],
+      "educationOrgIdentificationCode" => [
+          {
+            "identificationSystem" => "School",
+            "ID" => "Daybreak Podunk High"
+          }],
+      "stateOrganizationId" => "SchoolInAnInvalidDistrict",
+      "nameOfInstitution" => "Donkey School Wrong District",
+      "address" => [
+                "streetNumberName" => "999 Ave FAIL",
+                "city" => "Chicago",
+                "stateAbbreviation" => "IL",
+                "postalCode" => "10098",
+                "nameOfCounty" => "Whoami"
+                ],
+      "parentEducationAgencyReference" => "ffffffffffffffffffffffffffffffffffffffff_id"
+    },
+    "newStaff" => {
+      "loginId" => "new-staff-1@fakemail.com",
+      "otherName" => [{
+          "middleName" => "Groban",
+          "generationCodeSuffix" => "II",
+          "lastSurname" => "Tome",
+          "personalTitlePrefix" => "Mrs",
+          "firstName" => "Marisa",
+          "otherNameType" => "Nickname"
+      }],
+      "sex" => "Female",
+      "staffUniqueStateId" => "new-staff-1",
+      "hispanicLatinoEthnicity" => false,
+      "oldEthnicity" => "Black, Not Of Hispanic Origin",
+      "yearsOfPriorTeachingExperience" => 12,
+      "entityType" => "staff",
+      "race" => ["White"],
+      "yearsOfPriorProfessionalExperience" => 2,
+      "address" => [{
+          "streetNumberName" => "411 Pesci Ct",
           "postalCode" => "60601",
           "stateAbbreviation" => "IL",
           "addressType" => "Home",
           "city" => "Chicago"
-        }],
-        "electronicMail" => [{
-          "emailAddress" => "new-mom@bazinga.org",
+      }],
+      "name" => {
+          "middleName" => "Cheryl",
+          "lastSurname" => "Thome",
+          "firstName" => "Marissa"
+      },
+      "electronicMail" => [{
+          "emailAddress" => "new-staff-1@fakemail.com",
           "emailAddressType" => "Home/Personal"
-        }],
-        "name" => {
-         "middleName" => "Capistrano",
-         "lastSurname" => "Samsonite",
-         "firstName" => "Mary"
-        },
-      },
-      "newStudentMotherAssociation" => {
-        "entityType" => "studentParentAssociation",
-        "parentId" => "41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id",
-        "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
-        "relation" => "Mother",
-        "contactPriority" => 3
-      },
-      "newParentFather" => {
-        "entityType" => "parent",
-        "parentUniqueStateId" => "new-dad-1",
-        "loginId" => "new-dad@bazinga.org",
-        "sex" => "Male",
-        "telephone" => [],
-        "address" => [{
-          "streetNumberName" => "5440 Bazinga Win St.",
+      }],
+      "highestLevelOfEducationCompleted" => "Bachelor's",
+      "credentials" => [{
+          "credentialField" => [{
+              "description" => "Mathematics"
+          }],
+          "level" => "All Level (Grade Level PK-12)",
+          "teachingCredentialBasis" => "5-year bachelor's degree",
+          "teachingCredentialType" => "Master",
+          "credentialType" => "Endorsement",
+          "credentialExpirationDate" => "2017-06-24",
+          "credentialIssuanceDate" => "2000-09-22"
+      }],
+      "birthDate" => "1972-01-18",
+      "telephone" => [{
+          "primaryTelephoneNumberIndicator" => true,
+          "telephoneNumber" => "(060)555-3642",
+          "telephoneNumberType" => "Unlisted"
+      }],
+      "staffIdentificationCode" => [{
+          "identificationSystem" => "Health Record",
+          "ID" => "17502"
+      }]
+    },
+    "newStaffDaybreakAssociation" => { 
+      "staffClassification" => "LEA Administrative Support Staff",
+      "educationOrganizationReference" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id",
+      "positionTitle" => "IT Administrator",
+      "staffReference" => "e9f3401e0a034e20bb17663dd7d18ece6c4166b5_id",
+      "endDate" => "2014-05-22",
+      "entityType" => "staffEducationOrganizationAssociation",
+      "beginDate" => "2013-08-28"
+    },
+    "newStaffHighwindAssociation" => { 
+      "staffClassification" => "LEA Administrative Support Staff",
+      "educationOrganizationReference" => "99d527622dcb51c465c515c0636d17e085302d5e_id",
+      "positionTitle" => "IT Administrator",
+      "staffReference" => "e9f3401e0a034e20bb17663dd7d18ece6c4166b5_id",
+      "endDate" => "2014-05-22",
+      "entityType" => "staffEducationOrganizationAssociation",
+      "beginDate" => "2013-08-28"
+    },
+    "newTeacherEdorgAssociation" => {
+      "staffClassification" => "Teacher",
+      "educationOrganizationReference" => "a13489364c2eb015c219172d561c62350f0453f3_id",
+      "positionTitle" => "IT Administrator",
+      "staffReference" => "2472b775b1607b66941d9fb6177863f144c5ceae_id",
+      "endDate" => "2014-05-22",
+      "entityType" => "staffEducationOrganizationAssociation",
+      "beginDate" => "2013-08-26"
+    },
+    "newTeacher" => {
+      "loginId" => "new-teacher-1@fakemail.com",
+      "otherName" => [{
+          "middleName" => "Geraldo",
+          "generationCodeSuffix" => "II",
+          "lastSurname" => "Robbespierre",
+          "personalTitlePrefix" => "Mr",
+          "firstName" => "Marc",
+          "otherNameType" => "Other Name"
+      }],
+      "sex" => "Male",
+      "staffUniqueStateId" => "new-teacher-1",
+      "hispanicLatinoEthnicity" => false,
+      "highlyQualifiedTeacher" => true,
+      "oldEthnicity" => "Black, Not Of Hispanic Origin",
+      "yearsOfPriorTeachingExperience" => 9,
+      "entityType" => "teacher",
+      "race" => ["Black - African American"],
+      "yearsOfPriorProfessionalExperience" => 10,
+      "address" => [{
+          "streetNumberName" => "10 South Street",
           "postalCode" => "60601",
           "stateAbbreviation" => "IL",
           "addressType" => "Home",
           "city" => "Chicago"
-        }],
-        "electronicMail" => [{
-          "emailAddress" => "new-mom@bazinga.org",
+      }],
+      "teacherUniqueStateId" => "new-teacher-1",
+      "name" => {
+          "middleName" => "Mervin",
+          "lastSurname" => "Maroni",
+          "firstName" => "Marcos"
+      },
+      "electronicMail" => [{
+          "emailAddress" => "new-teacher-1@fakemail.com",
           "emailAddressType" => "Home/Personal"
-        }],
-        "name" => {
-         "middleName" => "Badonkadonk",
-         "lastSurname" => "Samsonite",
-         "firstName" => "Keith"
-        },
+      }],
+      "highestLevelOfEducationCompleted" => "No Degree",
+      "credentials" => [{
+          "credentialField" => [{
+              "description" => "Physics"
+          }],
+          "level" => "Elementary (Grade Level PK-5)",
+          "teachingCredentialBasis" => "Met state testing requirement",
+          "teachingCredentialType" => "Provisional",
+          "credentialType" => "Registration",
+          "credentialExpirationDate" => "2017-10-27",
+          "credentialIssuanceDate" => "2007-07-02"
+      }],
+      "birthDate" => "1962-09-30",
+      "telephone" => [{
+          "primaryTelephoneNumberIndicator" => true,
+          "telephoneNumber" => "(319)555-1789",
+          "telephoneNumberType" => "Emergency 2"
+      }],
+      "staffIdentificationCode" => [{
+          "identificationSystem" => "Health Record",
+          "ID" => "18511"
+      }]
+    },
+    "newTeacherSchoolAssociation" => {
+      "academicSubjects" => ["Transportation, Distribution and Logistics"],
+      "schoolId" => "a13489364c2eb015c219172d561c62350f0453f3_id",
+      "entityType" => "teacherSchoolAssociation",
+      "programAssignment" => "Regular Education",
+      "teacherId" => "2472b775b1607b66941d9fb6177863f144c5ceae_id",
+      "instructionalGradeLevels" => ["Adult Education"]
+    },
+    "newParentMother" => {
+      "entityType" => "parent",
+      "parentUniqueStateId" => "new-mom-1",
+      "loginId" => "new-mom@bazinga.org",
+      "sex" => "Female",
+      "telephone" => [],
+      "address" => [{
+        "streetNumberName" => "5440 Bazinga Win St.",
+        "postalCode" => "60601",
+        "stateAbbreviation" => "IL",
+        "addressType" => "Home",
+        "city" => "Chicago"
+      }],
+      "electronicMail" => [{
+        "emailAddress" => "new-mom@bazinga.org",
+        "emailAddressType" => "Home/Personal"
+      }],
+      "name" => {
+       "middleName" => "Capistrano",
+       "lastSurname" => "Samsonite",
+       "firstName" => "Mary"
       },
-      "newStudentFatherAssociation" => {
-        "entityType" => "studentParentAssociation",
-        "parentId" => "41f42690a7c8eb5b99637fade00fc72f599dab07_id",
-        "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
-        "relation" => "Father",
-        "contactPriority" => 3
+    },
+    "newStudentMotherAssociation" => {
+      "entityType" => "studentParentAssociation",
+      "parentId" => "41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id",
+      "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+      "relation" => "Mother",
+      "contactPriority" => 3
+    },
+    "newParentFather" => {
+      "entityType" => "parent",
+      "parentUniqueStateId" => "new-dad-1",
+      "loginId" => "new-dad@bazinga.org",
+      "sex" => "Male",
+      "telephone" => [],
+      "address" => [{
+        "streetNumberName" => "5440 Bazinga Win St.",
+        "postalCode" => "60601",
+        "stateAbbreviation" => "IL",
+        "addressType" => "Home",
+        "city" => "Chicago"
+      }],
+      "electronicMail" => [{
+        "emailAddress" => "new-mom@bazinga.org",
+        "emailAddressType" => "Home/Personal"
+      }],
+      "name" => {
+       "middleName" => "Badonkadonk",
+       "lastSurname" => "Samsonite",
+       "firstName" => "Keith"
       },
-      "newDaybreakStudent" => {
-        "loginId" => "new-student-min@bazinga.org",
-        "sex" => "Male",
-        "entityType" => "student",
-        "race" => ["White"],
-        "languages" => [{
-            "language" => "English"
-        }],
-        "studentUniqueStateId" => "nsmin-1",
-        "profileThumbnail" => "1201 thumb",
-        "name" => {
-            "middleName" => "Robot",
-            "lastSurname" => "Samsonite",
-            "firstName" => "Sammy"
-        },
-        "address" => [{
-            "streetNumberName" => "1024 Byte Street",
-            "postalCode" => "60601",
-            "stateAbbreviation" => "IL",
-            "addressType" => "Home",
-            "city" => "Chicago"
-        }],
-        "birthData" => {
-            "birthDate" => "1998-10-22"
-        }
+    },
+    "newStudentFatherAssociation" => {
+      "entityType" => "studentParentAssociation",
+      "parentId" => "41f42690a7c8eb5b99637fade00fc72f599dab07_id",
+      "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+      "relation" => "Father",
+      "contactPriority" => 3
+    },
+    "newDaybreakStudent" => {
+      "loginId" => "new-student-min@bazinga.org",
+      "sex" => "Male",
+      "entityType" => "student",
+      "race" => ["White"],
+      "languages" => [{
+          "language" => "English"
+      }],
+      "studentUniqueStateId" => "nsmin-1",
+      "profileThumbnail" => "1201 thumb",
+      "name" => {
+          "middleName" => "Robot",
+          "lastSurname" => "Samsonite",
+          "firstName" => "Sammy"
       },
-      "newHighwindStudent" => {
-        "loginId" => "new-hw-student1@bazinga.org",
-        "sex" => "Female",
-        "entityType" => "student",
-        "race" => ["White"],
-        "languages" => [{
-            "language" => "English"
-        }],
-        "studentUniqueStateId" => "hwmin-1",
-        "profileThumbnail" => "1301 thumb",
-        "name" => {
-            "middleName" => "Beth",
-            "lastSurname" => "Markham",
-            "firstName" => "Caroline"
-        },
-        "address" => [{
-            "streetNumberName" => "128 Bit Road",
-            "postalCode" => "60611",
-            "stateAbbreviation" => "IL",
-            "addressType" => "Home",
-            "city" => "Chicago"
-        }],
-        "birthData" => {
-            "birthDate" => "1998-02-12"
-        }
+      "address" => [{
+          "streetNumberName" => "1024 Byte Street",
+          "postalCode" => "60601",
+          "stateAbbreviation" => "IL",
+          "addressType" => "Home",
+          "city" => "Chicago"
+      }],
+      "birthData" => {
+          "birthDate" => "1998-10-22"
+      }
+    },
+    "newHighwindStudent" => {
+      "loginId" => "new-hw-student1@bazinga.org",
+      "sex" => "Female",
+      "entityType" => "student",
+      "race" => ["White"],
+      "languages" => [{
+          "language" => "English"
+      }],
+      "studentUniqueStateId" => "hwmin-1",
+      "profileThumbnail" => "1301 thumb",
+      "name" => {
+          "middleName" => "Beth",
+          "lastSurname" => "Markham",
+          "firstName" => "Caroline"
       },
-      "HwStudentSchoolAssociation" => {
-        "exitWithdrawDate" => "2014-05-22",
-        "entityType" => "studentSchoolAssociation",
-        "entryDate" => "2013-08-27",
-        "entryGradeLevel" => "Third grade",
-        "schoolYear" => "2013-2014",
-        "educationalPlans" => [],
-        "schoolChoiceTransfer" => false,
-        "entryType" => "Other",
-        "studentId" => "b8b0a8d439591b9e073e8f1115ff1cf1fd4125d6_id",
-        "repeatGradeIndicator" => false,
-        "schoolId" => "1b5de2516221069fd8f690349ef0cc1cffbb6dca_id",
-      },
-      "DbStudentSchoolAssociation" => {
-        "exitWithdrawDate" => "2014-05-22",
-        "entityType" => "studentSchoolAssociation",
-        "entryDate" => "2013-08-27",
-        "entryGradeLevel" => "Eleventh grade",
-        "schoolYear" => "2013-2014",
-        "educationalPlans" => [],
-        "schoolChoiceTransfer" => true,
-        "entryType" => "Other",
-        "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
-        "repeatGradeIndicator" => true,
-        "schoolId" => "a13489364c2eb015c219172d561c62350f0453f3_id",
-      },
-      "newCourseOffering" => {
-        "schoolId" => "a13489364c2eb015c219172d561c62350f0453f3_id",
-        "sessionId" => "bfeaf9315f04797a41dbf1663d18ead6b6fb1309_id",
-        "courseId" => "06ccb498c620fdab155a6d70bcc4123b021fa60d_id",
-        "localCourseCode" => "101 English",
-        "localCourseTitle" => "Eleventh grade English"
-      },
-      "newSection" => {
-        "uniqueSectionCode" => "English00101",
-        "sequenceOfCourse" => 1,
-        "educationalEnvironment" => "Classroom",
-        "mediumOfInstruction" => "Face-to-face instruction",
-        "populationServed" => "Regular Students",
-        "schoolId" => "a13489364c2eb015c219172d561c62350f0453f3_id",
-        "sessionId" => "bfeaf9315f04797a41dbf1663d18ead6b6fb1309_id",
-        "courseOfferingId" => "38edd8479722ccf576313b4640708212841a5406_id"
-      },
-      "newStudentSectionAssociation" => {
-        "entityType" => "studentSectionAssociation",
-        "sectionId" => "4030207003b03d055bba0b5019b31046164eff4e_id",
-        "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
-        "beginDate" => "2013-08-27",
-        "homeroomIndicator" => true,
-        "repeatIdentifier" => "Repeated, counted in grade point average"
-      },
-      "newGradebookEntry" => {
-        "gradingPeriodId" => "21b8ac38bf886e78a879cfdb973a9352f64d07b9_id",
-        "sectionId" => "4030207003b03d055bba0b5019b31046164eff4e_id",
-        "dateAssigned" => "2014-02-21",
-        "description" => "Gradebook Entry of type: Homework, assigned on: 2014-02-21",
-        "gradebookEntryType" => "Homework",
-        "entityType" => "gradebookEntry",
-        "learningObjectives" => ["f8323e42a3438c198f7d7b41336512b74155f3af_id",
-                               "d469f0079144395720985c432f6bd9475c5f5a28_id",
-                               "12ebed0aa9b9e0fc406278fb8184a9569dd71600_id",
-                               "ea27f2c3cd548cf82682a75e29182462da366912_id",
-                               "5b1d4e75f457644b1bd00f7ef05caafa605adaec_id"]
-      },
-      "newStudentAssessment" => {
-        "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
-        "assessmentId" => "8e6fceafe05daef1da589a1709ee278ba51d337a_id",
-        "administrationDate" => "2013-09-24",
-        "specialAccommodations" => ["Large Print"],
-        "administrationEndDate" => "2013-09-25",
-        "gradeLevelWhenAssessed" => "Eleventh grade",
+      "address" => [{
+          "streetNumberName" => "128 Bit Road",
+          "postalCode" => "60611",
+          "stateAbbreviation" => "IL",
+          "addressType" => "Home",
+          "city" => "Chicago"
+      }],
+      "birthData" => {
+          "birthDate" => "1998-02-12"
+      }
+    },
+    "HwStudentSchoolAssociation" => {
+      "exitWithdrawDate" => "2014-05-22",
+      "entityType" => "studentSchoolAssociation",
+      "entryDate" => "2013-08-27",
+      "entryGradeLevel" => "Third grade",
+      "schoolYear" => "2013-2014",
+      "educationalPlans" => [],
+      "schoolChoiceTransfer" => false,
+      "entryType" => "Other",
+      "studentId" => "b8b0a8d439591b9e073e8f1115ff1cf1fd4125d6_id",
+      "repeatGradeIndicator" => false,
+      "schoolId" => "1b5de2516221069fd8f690349ef0cc1cffbb6dca_id",
+    },
+    "DbStudentSchoolAssociation" => {
+      "exitWithdrawDate" => "2014-05-22",
+      "entityType" => "studentSchoolAssociation",
+      "entryDate" => "2013-08-27",
+      "entryGradeLevel" => "Eleventh grade",
+      "schoolYear" => "2013-2014",
+      "educationalPlans" => [],
+      "schoolChoiceTransfer" => true,
+      "entryType" => "Other",
+      "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+      "repeatGradeIndicator" => true,
+      "schoolId" => "a13489364c2eb015c219172d561c62350f0453f3_id",
+    },
+    "newCourseOffering" => {
+      "schoolId" => "a13489364c2eb015c219172d561c62350f0453f3_id",
+      "sessionId" => "bfeaf9315f04797a41dbf1663d18ead6b6fb1309_id",
+      "courseId" => "06ccb498c620fdab155a6d70bcc4123b021fa60d_id",
+      "localCourseCode" => "101 English",
+      "localCourseTitle" => "Eleventh grade English"
+    },
+    "newSection" => {
+      "uniqueSectionCode" => "English00101",
+      "sequenceOfCourse" => 1,
+      "educationalEnvironment" => "Classroom",
+      "mediumOfInstruction" => "Face-to-face instruction",
+      "populationServed" => "Regular Students",
+      "schoolId" => "a13489364c2eb015c219172d561c62350f0453f3_id",
+      "sessionId" => "bfeaf9315f04797a41dbf1663d18ead6b6fb1309_id",
+      "courseOfferingId" => "38edd8479722ccf576313b4640708212841a5406_id"
+    },
+    "newStudentSectionAssociation" => {
+      "entityType" => "studentSectionAssociation",
+      "sectionId" => "4030207003b03d055bba0b5019b31046164eff4e_id",
+      "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+      "beginDate" => "2013-08-27",
+      "homeroomIndicator" => true,
+      "repeatIdentifier" => "Repeated, counted in grade point average"
+    },
+    "newGradebookEntry" => {
+      "gradingPeriodId" => "21b8ac38bf886e78a879cfdb973a9352f64d07b9_id",
+      "sectionId" => "4030207003b03d055bba0b5019b31046164eff4e_id",
+      "dateAssigned" => "2014-02-21",
+      "description" => "Gradebook Entry of type: Homework, assigned on: 2014-02-21",
+      "gradebookEntryType" => "Homework",
+      "entityType" => "gradebookEntry",
+      "learningObjectives" => ["f8323e42a3438c198f7d7b41336512b74155f3af_id",
+                             "d469f0079144395720985c432f6bd9475c5f5a28_id",
+                             "12ebed0aa9b9e0fc406278fb8184a9569dd71600_id",
+                             "ea27f2c3cd548cf82682a75e29182462da366912_id",
+                             "5b1d4e75f457644b1bd00f7ef05caafa605adaec_id"]
+    },
+    "newStudentAssessment" => {
+      "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+      "assessmentId" => "8e6fceafe05daef1da589a1709ee278ba51d337a_id",
+      "administrationDate" => "2013-09-24",
+      "specialAccommodations" => ["Large Print"],
+      "administrationEndDate" => "2013-09-25",
+      "gradeLevelWhenAssessed" => "Eleventh grade",
+      "performanceLevelDescriptors" => [
+        [{
+          "codeValue" => "30 code"
+        }]
+      ],
+      "administrationEnvironment" => "Classroom",
+      "retestIndicator" => "Primary Administration",
+      "studentObjectiveAssessments" => [{
+        "entityType" => "studentAssessment",
         "performanceLevelDescriptors" => [
           [{
-            "codeValue" => "30 code"
+            "codeValue" => "code1"
           }]
         ],
-        "administrationEnvironment" => "Classroom",
-        "retestIndicator" => "Primary Administration",
-        "studentObjectiveAssessments" => [{
-          "entityType" => "studentAssessment",
-          "performanceLevelDescriptors" => [
-            [{
-              "codeValue" => "code1"
-            }]
-          ],
-          "scoreResults" => [{
-            "result" => "32",
-            "assessmentReportingMethod" => "Scale score"
-          }],
-          "objectiveAssessment" => {
-            "nomenclature" => "Nomenclature",
-            "identificationCode" => "2013-Eleventh grade Assessment 2.OA-0",
-            "percentOfAssessment" => 50,
-            "assessmentId" => "8e6fceafe05daef1da589a1709ee278ba51d337a_id",
-            "assessmentPerformanceLevel" => [{
-              "performanceLevelDescriptor" => [{
-                "codeValue" => "code1"
-              }],
-              "assessmentReportingMethod" => "Number score",
-              "minimumScore" => 0,
-              "maximumScore" => 50
-            }],
-            "learningObjectives" => [
-              "1b0d13e233ef61ffafb613a8cc6930dfc0d29b92_id",
-              "8b6407c747e3de04c8e8365b1aa202f1dc3510c6_id",
-              "ea27f2c3cd548cf82682a75e29182462da366912_id",
-              "b2c4add05d75ba5144203d8dc3e1c5cb79b58c7b_id",
-              "f515c869a5b8507f7462dafd65c20710fc300182_id"
-            ],
-            "maxRawScore" => 50
-          }
-        }],
-        "reasonNotTested" => "Not appropriate (ARD decision)",
-        "serialNumber" => "30 code",
         "scoreResults" => [{
           "result" => "32",
           "assessmentReportingMethod" => "Scale score"
         }],
-        "linguisticAccommodations" => ["Bilingual Dictionary"],
-        "administrationLanguage" => {
-           "language" => "English"
-        },
-        "studentAssessmentItems" => [{
-          "rawScoreResult" => 82,
-          "responseIndicator" => "Effective response",
-          "assessmentResponse" => "false",
-          "assessmentItemResult" => "Incorrect",
-          "assessmentItem" => {
-            "identificationCode" => "2013-Eleventh grade Assessment 2#1",
-            "assessmentId" => "8e6fceafe05daef1da589a1709ee278ba51d337a_id",
-            "correctResponse" => "true",
-            "itemCategory" => "True-False",
-            "maxRawScore" => 10
-          }
-        }, {
-          "rawScoreResult" => 29,
-          "responseIndicator" => "Nonscorable response",
-          "assessmentResponse" => "false",
-          "assessmentItemResult" => "Correct",
-          "assessmentItem" => {
-              "identificationCode" => "2013-Eleventh grade Assessment 2#4",
-              "assessmentId" => "8e6fceafe05daef1da589a1709ee278ba51d337a_id",
-              "correctResponse" => "false",
-              "itemCategory" => "True-False",
-              "maxRawScore" => 10
-          }
-        }, {
-          "rawScoreResult" => 58,
-          "responseIndicator" => "Nonscorable response",
-          "assessmentResponse" => "false",
-          "assessmentItemResult" => "Correct",
-          "assessmentItem" => {
-            "identificationCode" => "2013-Eleventh grade Assessment 2#2",
+        "objectiveAssessment" => {
+          "nomenclature" => "Nomenclature",
+          "identificationCode" => "2013-Eleventh grade Assessment 2.OA-0",
+          "percentOfAssessment" => 50,
+          "assessmentId" => "8e6fceafe05daef1da589a1709ee278ba51d337a_id",
+          "assessmentPerformanceLevel" => [{
+            "performanceLevelDescriptor" => [{
+              "codeValue" => "code1"
+            }],
+            "assessmentReportingMethod" => "Number score",
+            "minimumScore" => 0,
+            "maximumScore" => 50
+          }],
+          "learningObjectives" => [
+            "1b0d13e233ef61ffafb613a8cc6930dfc0d29b92_id",
+            "8b6407c747e3de04c8e8365b1aa202f1dc3510c6_id",
+            "ea27f2c3cd548cf82682a75e29182462da366912_id",
+            "b2c4add05d75ba5144203d8dc3e1c5cb79b58c7b_id",
+            "f515c869a5b8507f7462dafd65c20710fc300182_id"
+          ],
+          "maxRawScore" => 50
+        }
+      }],
+      "reasonNotTested" => "Not appropriate (ARD decision)",
+      "serialNumber" => "30 code",
+      "scoreResults" => [{
+        "result" => "32",
+        "assessmentReportingMethod" => "Scale score"
+      }],
+      "linguisticAccommodations" => ["Bilingual Dictionary"],
+      "administrationLanguage" => {
+         "language" => "English"
+      },
+      "studentAssessmentItems" => [{
+        "rawScoreResult" => 82,
+        "responseIndicator" => "Effective response",
+        "assessmentResponse" => "false",
+        "assessmentItemResult" => "Incorrect",
+        "assessmentItem" => {
+          "identificationCode" => "2013-Eleventh grade Assessment 2#1",
+          "assessmentId" => "8e6fceafe05daef1da589a1709ee278ba51d337a_id",
+          "correctResponse" => "true",
+          "itemCategory" => "True-False",
+          "maxRawScore" => 10
+        }
+      }, {
+        "rawScoreResult" => 29,
+        "responseIndicator" => "Nonscorable response",
+        "assessmentResponse" => "false",
+        "assessmentItemResult" => "Correct",
+        "assessmentItem" => {
+            "identificationCode" => "2013-Eleventh grade Assessment 2#4",
             "assessmentId" => "8e6fceafe05daef1da589a1709ee278ba51d337a_id",
             "correctResponse" => "false",
             "itemCategory" => "True-False",
             "maxRawScore" => 10
-          }
-        },
-        {
-          "rawScoreResult" => 16,
-          "responseIndicator" => "Ineffective response",
-          "assessmentResponse" => "false",
-          "assessmentItemResult" => "Incorrect",
-          "assessmentItem" => {
-            "identificationCode" => "2013-Eleventh grade Assessment 2#3",
-            "assessmentId" => "8e6fceafe05daef1da589a1709ee278ba51d337a_id",
-            "correctResponse" => "true",
-            "itemCategory" => "True-False",
-            "maxRawScore" => 10
-          }
+        }
+      }, {
+        "rawScoreResult" => 58,
+        "responseIndicator" => "Nonscorable response",
+        "assessmentResponse" => "false",
+        "assessmentItemResult" => "Correct",
+        "assessmentItem" => {
+          "identificationCode" => "2013-Eleventh grade Assessment 2#2",
+          "assessmentId" => "8e6fceafe05daef1da589a1709ee278ba51d337a_id",
+          "correctResponse" => "false",
+          "itemCategory" => "True-False",
+          "maxRawScore" => 10
+        }
+      },
+      {
+        "rawScoreResult" => 16,
+        "responseIndicator" => "Ineffective response",
+        "assessmentResponse" => "false",
+        "assessmentItemResult" => "Incorrect",
+        "assessmentItem" => {
+          "identificationCode" => "2013-Eleventh grade Assessment 2#3",
+          "assessmentId" => "8e6fceafe05daef1da589a1709ee278ba51d337a_id",
+          "correctResponse" => "true",
+          "itemCategory" => "True-False",
+          "maxRawScore" => 10
+        }
+      }]
+    },
+    "newDaybreakCourse" => {
+      "courseDefinedBy" => "National Organization",
+      "courseDescription" => "this is a course for Sixth grade",
+      "courseLevelCharacteristics" => ["Core Subject"],
+      "dateCourseAdopted" => "2012-06-19",
+      "highSchoolCourseRequirement" => false,
+      "uniqueCourseId" => "new-science-1",
+      "entityType" => "course",
+      "courseCode" => [{
+          "identificationSystem" => "School course code",
+          "ID" => "new-science-1"
+      }],
+      "gradesOffered" => ["Sixth grade"],
+      "maximumAvailableCredit" => {
+          "credit" => 3.0
+      },
+      "minimumAvailableCredit" => {
+          "credit" => 3.0
+      },
+      "subjectArea" => "Critical Reading",
+      "courseLevel" => "Basic or remedial",
+      "courseTitle" => "Sixth grade Science",
+      "numberOfParts" => 1,
+      "schoolId" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id",
+      "courseGPAApplicability" => "Weighted",
+      "careerPathway" => "Arts, A/V Technology and Communications"
+    },
+    "newGrade" => {
+      "schoolYear" => "2013-2014",
+      "studentSectionAssociationId" => "4030207003b03d055bba0b5019b31046164eff4e_id78468628f357b29599510341f08dfd3277d9471e_id",
+      "sectionId" => "4030207003b03d055bba0b5019b31046164eff4e_id",
+      "letterGradeEarned" => "A",
+      "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+      "numericGradeEarned" => 96,
+      "gradeType" => "Final",
+      "performanceBaseConversion" => "Advanced",
+      "entityType" => "grade",
+      "diagnosticStatement" => "Student has Advanced understanding of subject."
+    },
+    "newReportCard" => {
+      "gpaGivenGradingPeriod" => 4.0,
+      "numberOfDaysTardy" => 5,
+      "entityType" => "reportCard",
+      "studentCompetencyId" => ["0b60ada34879ae92d702b8deba8ffa4b0304bd4f_id", "a2d49222a65539f8658a53262619ccd743eadeaa_id", "85d510ed1e6a021582511f2ea3f593cc215a2f03_id", "efbac13e68205e055e0b62dcb688db655d1f1993_id", "add666959932195cb58f6bb23a04cdf9c4f33b80_id", "269a5ed956c61131644b852007c25938d5e52dbe_id", "d378378182c655ddcd807c4ea8a6f1dd9856bc54_id", "55418b178d1b94246aa85dce397c96a064d8b131_id", "a257d6fbe7da025ed044246cbd26b5a4d3e7980d_id", "97d5881972febe96ff3b8898c517b86862b846a6_id", "9b878efa5294c11cd28b34ff8b261eaf0721d1cb_id", "e3eb0b9c4d81d2d05f73fe812f1448f6b154e788_id", "18da02af03074e79c38178da6af667fb92b765f0_id", "84cac53e0dba7443a1d38296006c2298b61b3f27_id", "a98d764081246bcc505d16597e46932651f71388_id", "36c93cc301c35a053dbc527b9ff95470bf941b3c_id", "43b22d9ccd4ee38fa414cac155295b5f3a0497d7_id", "df625d78063c3a19427f31582cc01ce45e4926bc_id", "5a606626e43fd425f4c2795fa59fc558b02d9e96_id", "3d490c9268eb505c2019f393019c45c0a860f19d_id"],
+      "schoolYear" => "2013-2014",
+      "gradingPeriodId" => "21b8ac38bf886e78a879cfdb973a9352f64d07b9_id",
+      "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+      "gpaCumulative" => 3.8,
+      "numberOfDaysInAttendance" => 137.0,
+      "grades" => ["1417cec726dc51d43172568a9c332ee1712d73d4_idcd83575df61656c7d8aebb690ae0bb3ff129a857_id"],
+      "numberOfDaysAbsent" => 1.0
+    },
+    "newStudentAcademicRecord" => {
+      "gradeValueQualifier" => "90-100%=A, 80-90%=B",
+      "projectedGraduationDate" => "2013-08-18",
+      "academicHonors" => [{
+          "honorAwardDate" => "2000-07-28",
+          "honorsDescription" => "Honor Desc BBB",
+          "academicHonorsType" => "Scholarships",
+
+      }],
+      "cumulativeCreditsEarned" => {
+          "credit" => 3.0
+      },
+      "reportCards" => ["1417cec726dc51d43172568a9c332ee1712d73d4_id77bc827b90835ef0df42154428ac3153f0ddc746_id"],
+      "entityType" => "studentAcademicRecord",
+      "schoolYear" => "2013-2014",
+      "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+      "sessionId" => "bfeaf9315f04797a41dbf1663d18ead6b6fb1309_id",
+      "classRanking" => {
+          "classRankingDate" => "2013-10-19",
+          "percentageRanking" => 99,
+          "totalNumberInClass" => 8,
+          "classRank" => 10
+      },
+      "cumulativeGradePointAverage" => 3.8,
+      "recognitions" => [{
+          "recognitionType" => "Other",
+          "recognitionAwardDate" => "2013-10-25",
+          "recognitionDescription" => "Recognition Desc BBB"
+      }],
+      "cumulativeGradePointsEarned" => 0.0
+    },
+    "newAttendanceEvent" => {
+      "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+      "schoolId" => "a13489364c2eb015c219172d561c62350f0453f3_id",
+      "entityType" => "attendance",
+      "schoolYearAttendance" => [{
+        "schoolYear" => "2013-2014",
+        "attendanceEvent" => [{
+          "reason" => "Missed school bus",
+          "event" => "Tardy",
+          "date" => "2013-08-30"
+        }, {
+          "reason" => "Excused: sick",
+          "event" => "Excused Absence",
+          "date" => "2013-12-19"
+        }, {
+          "reason" => "Missed school bus",
+          "event" => "Tardy",
+          "date" => "2014-05-19"
         }]
+      }]
+    },
+    "newCohort" => {
+      "academicSubject" => "Communication and Audio/Visual Technology",
+      "cohortType" => "Extracurricular Activity",
+      "cohortScope" => "School",
+      "educationOrgId" => "a13489364c2eb015c219172d561c62350f0453f3_id",
+      "entityType" => "cohort",
+      "cohortDescription" => "New Cohort 1 at Edorg Daybreak Central High",
+      "cohortIdentifier" => "new-cohort-1"
+    },
+    "newStaffCohortAssociation" => {
+      "staffId" => "2472b775b1607b66941d9fb6177863f144c5ceae_id",
+      "cohortId" => "cb99a7df36fadf8885b62003c442add9504b3cbd_id",
+      "beginDate" => "2013-01-15",
+      "endDate" => "2014-03-29",
+      "studentRecordAccess" => true
+    },
+    "newStudentCohortAssociation" => {
+      "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+      "cohortId" => "cb99a7df36fadf8885b62003c442add9504b3cbd_id",
+      "beginDate" => "2013-01-25",
+      "endDate" => "2014-03-29"
+    },
+    "DbGradingPeriod" => {
+      "endDate" => "2015-05-29",
+      "gradingPeriodIdentity" => {
+          "schoolYear" => "2014-2015",
+          "gradingPeriod" => "End of Year",
+          "schoolId" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
       },
-      "newDaybreakCourse" => {
-        "courseDefinedBy" => "National Organization",
-        "courseDescription" => "this is a course for Sixth grade",
-        "courseLevelCharacteristics" => ["Core Subject"],
-        "dateCourseAdopted" => "2012-06-19",
-        "highSchoolCourseRequirement" => false,
-        "uniqueCourseId" => "new-science-1",
-        "entityType" => "course",
-        "courseCode" => [{
-            "identificationSystem" => "School course code",
-            "ID" => "new-science-1"
-        }],
-        "gradesOffered" => ["Sixth grade"],
-        "maximumAvailableCredit" => {
-            "credit" => 3.0
-        },
-        "minimumAvailableCredit" => {
-            "credit" => 3.0
-        },
-        "subjectArea" => "Critical Reading",
-        "courseLevel" => "Basic or remedial",
-        "courseTitle" => "Sixth grade Science",
-        "numberOfParts" => 1,
-        "schoolId" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id",
-        "courseGPAApplicability" => "Weighted",
-        "careerPathway" => "Arts, A/V Technology and Communications"
-      },
-      "newGrade" => {
-        "schoolYear" => "2013-2014",
-        "studentSectionAssociationId" => "4030207003b03d055bba0b5019b31046164eff4e_id78468628f357b29599510341f08dfd3277d9471e_id",
-        "sectionId" => "4030207003b03d055bba0b5019b31046164eff4e_id",
-        "letterGradeEarned" => "A",
-        "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
-        "numericGradeEarned" => 96,
-        "gradeType" => "Final",
-        "performanceBaseConversion" => "Advanced",
-        "entityType" => "grade",
-        "diagnosticStatement" => "Student has Advanced understanding of subject."
-      },
-      "newReportCard" => {
-        "gpaGivenGradingPeriod" => 4.0,
-        "numberOfDaysTardy" => 5,
-        "entityType" => "reportCard",
-        "studentCompetencyId" => ["0b60ada34879ae92d702b8deba8ffa4b0304bd4f_id", "a2d49222a65539f8658a53262619ccd743eadeaa_id", "85d510ed1e6a021582511f2ea3f593cc215a2f03_id", "efbac13e68205e055e0b62dcb688db655d1f1993_id", "add666959932195cb58f6bb23a04cdf9c4f33b80_id", "269a5ed956c61131644b852007c25938d5e52dbe_id", "d378378182c655ddcd807c4ea8a6f1dd9856bc54_id", "55418b178d1b94246aa85dce397c96a064d8b131_id", "a257d6fbe7da025ed044246cbd26b5a4d3e7980d_id", "97d5881972febe96ff3b8898c517b86862b846a6_id", "9b878efa5294c11cd28b34ff8b261eaf0721d1cb_id", "e3eb0b9c4d81d2d05f73fe812f1448f6b154e788_id", "18da02af03074e79c38178da6af667fb92b765f0_id", "84cac53e0dba7443a1d38296006c2298b61b3f27_id", "a98d764081246bcc505d16597e46932651f71388_id", "36c93cc301c35a053dbc527b9ff95470bf941b3c_id", "43b22d9ccd4ee38fa414cac155295b5f3a0497d7_id", "df625d78063c3a19427f31582cc01ce45e4926bc_id", "5a606626e43fd425f4c2795fa59fc558b02d9e96_id", "3d490c9268eb505c2019f393019c45c0a860f19d_id"],
-        "schoolYear" => "2013-2014",
-        "gradingPeriodId" => "21b8ac38bf886e78a879cfdb973a9352f64d07b9_id",
-        "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
-        "gpaCumulative" => 3.8,
-        "numberOfDaysInAttendance" => 137.0,
-        "grades" => ["1417cec726dc51d43172568a9c332ee1712d73d4_idcd83575df61656c7d8aebb690ae0bb3ff129a857_id"],
-        "numberOfDaysAbsent" => 1.0
-      },
-      "newStudentAcademicRecord" => {
-        "gradeValueQualifier" => "90-100%=A, 80-90%=B",
-        "projectedGraduationDate" => "2013-08-18",
-        "academicHonors" => [{
-            "honorAwardDate" => "2000-07-28",
-            "honorsDescription" => "Honor Desc BBB",
-            "academicHonorsType" => "Scholarships",
+      "entityType" => "gradingPeriod",
+      "beginDate" => "2014-09-02",
+      "totalInstructionalDays" => 180
+    },
+    "DbSession" => {
+      "schoolYear" => "2014-2015",
+      "sessionName" => "2014-2015 Year Round session: IL-DAYBREAK",
+      "term" => "Year Round",
+      "gradingPeriodReference" => ["1dae9e8450e2e77dd0b06dee3fd928c1bfda4d49_id"],
+      "endDate" => "2015-05-29",
+      "schoolId" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id",
+      "entityType" => "session",
+      "beginDate" => "2014-09-02",
+      "totalInstructionalDays" => 180
+    },
+    "newProgram" => {
+      "services" => [
+          [{"codeValue" => "srv:136"}]
+      ],
+      "programId" => "12345",
+      "programSponsor" => "State Education Agency",
+      "entityType" => "program",
+      "programType" => "Regular Education"
+    },
+    "newStudentProgramAssociation" => {
+      "services" => [
+        [{"description" => "Reading Intervention"}]
+      ],
+      "programId" => "0ee2b448980b720b722706ec29a1492d95560798_id",
+      "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+      "endDate" => "2014-05-22",
+      "reasonExited" => "Reached maximum age",
+      "entityType" => "studentProgramAssociation",
+      "beginDate" => "2013-08-26",
+      "educationOrganizationId" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
+    },
+    "newStaffProgramAssociation" => {
 
-        }],
-        "cumulativeCreditsEarned" => {
-            "credit" => 3.0
-        },
-        "reportCards" => ["1417cec726dc51d43172568a9c332ee1712d73d4_id77bc827b90835ef0df42154428ac3153f0ddc746_id"],
-        "entityType" => "studentAcademicRecord",
-        "schoolYear" => "2013-2014",
-        "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
-        "sessionId" => "bfeaf9315f04797a41dbf1663d18ead6b6fb1309_id",
-        "classRanking" => {
-            "classRankingDate" => "2013-10-19",
-            "percentageRanking" => 99,
-            "totalNumberInClass" => 8,
-            "classRank" => 10
-        },
-        "cumulativeGradePointAverage" => 3.8,
-        "recognitions" => [{
-            "recognitionType" => "Other",
-            "recognitionAwardDate" => "2013-10-25",
-            "recognitionDescription" => "Recognition Desc BBB"
-        }],
-        "cumulativeGradePointsEarned" => 0.0
-      },
-      "newAttendanceEvent" => {
-        "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
-        "schoolId" => "a13489364c2eb015c219172d561c62350f0453f3_id",
-        "entityType" => "attendance",
-        "schoolYearAttendance" => [{
-          "schoolYear" => "2013-2014",
-          "attendanceEvent" => [{
-            "reason" => "Missed school bus",
-            "event" => "Tardy",
-            "date" => "2013-08-30"
-          }, {
-            "reason" => "Excused: sick",
-            "event" => "Excused Absence",
-            "date" => "2013-12-19"
-          }, {
-            "reason" => "Missed school bus",
-            "event" => "Tardy",
-            "date" => "2014-05-19"
-          }]
-        }]
-      },
-      "newCohort" => {
-        "academicSubject" => "Communication and Audio/Visual Technology",
-        "cohortType" => "Extracurricular Activity",
-        "cohortScope" => "School",
-        "educationOrgId" => "a13489364c2eb015c219172d561c62350f0453f3_id",
-        "entityType" => "cohort",
-        "cohortDescription" => "New Cohort 1 at Edorg Daybreak Central High",
-        "cohortIdentifier" => "new-cohort-1"
-      },
-      "newStaffCohortAssociation" => {
-        "staffId" => "2472b775b1607b66941d9fb6177863f144c5ceae_id",
-        "cohortId" => "cb99a7df36fadf8885b62003c442add9504b3cbd_id",
-        "beginDate" => "2013-01-15",
-        "endDate" => "2014-03-29",
-        "studentRecordAccess" => true
-      },
-      "newStudentCohortAssociation" => {
-        "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
-        "cohortId" => "cb99a7df36fadf8885b62003c442add9504b3cbd_id",
-        "beginDate" => "2013-01-25",
-        "endDate" => "2014-03-29"
-      },
-      "DbGradingPeriod" => {
-        "endDate" => "2015-05-29",
-        "gradingPeriodIdentity" => {
-            "schoolYear" => "2014-2015",
-            "gradingPeriod" => "End of Year",
-            "schoolId" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
-        },
-        "entityType" => "gradingPeriod",
-        "beginDate" => "2014-09-02",
-        "totalInstructionalDays" => 180
-      },
-      "DbSession" => {
-        "schoolYear" => "2014-2015",
-        "sessionName" => "2014-2015 Year Round session: IL-DAYBREAK",
-        "term" => "Year Round",
-        "gradingPeriodReference" => ["1dae9e8450e2e77dd0b06dee3fd928c1bfda4d49_id"],
-        "endDate" => "2015-05-29",
-        "schoolId" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id",
-        "entityType" => "session",
-        "beginDate" => "2014-09-02",
-        "totalInstructionalDays" => 180
-      },
-      "newProgram" => {
-        "services" => [
-            [{"codeValue" => "srv:136"}]
-        ],
-        "programId" => "12345",
-        "programSponsor" => "State Education Agency",
-        "entityType" => "program",
-        "programType" => "Regular Education"
-      },
-      "newStudentProgramAssociation" => {
-        "services" => [
-          [{"description" => "Reading Intervention"}]
-        ],
-        "programId" => "0ee2b448980b720b722706ec29a1492d95560798_id",
-        "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
-        "endDate" => "2014-05-22",
-        "reasonExited" => "Reached maximum age",
-        "entityType" => "studentProgramAssociation",
-        "beginDate" => "2013-08-26",
-        "educationOrganizationId" => "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
-      },
-      "newStaffProgramAssociation" => {
+    },
+    "newStudentCompetency" => {
+      "competencyLevel" => { "codeValue" => "Barely Competent" },
+      "objectiveId" => { "learningObjectiveId" => "c9b6e99895327de1b01f29ced552f6a3515d8455_id" },
+      "diagnosticStatement" => "passed with flying colors",
+      "studentSectionAssociationId" => "4030207003b03d055bba0b5019b31046164eff4e_id78468628f357b29599510341f08dfd3277d9471e_id",
+    },
+    "newDisciplineIncident" => {
 
-      },
-      "newStudentCompetency" => {
-        "competencyLevel" => { "codeValue" => "Barely Competent" },
-        "objectiveId" => { "learningObjectiveId" => "c9b6e99895327de1b01f29ced552f6a3515d8455_id" },
-        "diagnosticStatement" => "passed with flying colors",
-        "studentSectionAssociationId" => "4030207003b03d055bba0b5019b31046164eff4e_id78468628f357b29599510341f08dfd3277d9471e_id",
-      },
-      "newDisciplineIncident" => {
+    },
+    "newDisciplineAction" => {
 
-      },
-      "newDisciplineAction" => {
+    },
+    "newStudentDiscIncidentAssoc" => {
 
+    },
+    "newSession" => {
+      "schoolYear" => "2014-2015",
+      "sessionName" => "New SEA session",
+      "term" => "Year Round",
+      "gradingPeriodReference" => ["1dae9e8450e2e77dd0b06dee3fd928c1bfda4d49_id"],
+      "endDate" => "2015-06-11",
+      "schoolId" => "884daa27d806c2d725bc469b273d840493f84b4d_id",
+      "beginDate" => "2014-08-12",
+      "totalInstructionalDays" => 180
+    },
+    "newGradingPeriod" => {
+      "endDate"=>"2014-05-22",
+      "gradingPeriodIdentity"=>{
+          "schoolYear"=>"2013-2014",
+          "gradingPeriod"=>"End of Year",
+          "schoolId"=>"884daa27d806c2d725bc469b273d840493f84b4d_id"
       },
-      "newStudentDiscIncidentAssoc" => {
-
-      },
-      "newGraduationPlan" => {
-
+      "entityType"=>"gradingPeriod",
+      "beginDate"=>"2013-07-20",
+      "totalInstructionalDays"=>180
+    },
+    "newLearningObjective" => {
+      "objectiveGradeLevel" => "Fourth grade",
+      "objective" => "New Generic Learning Objective 1",
+      "academicSubject" => "Writing",
+      "description" => "Description"
+    },
+    "newLearningStandard" => {
+      "subjectArea" => "Science",
+      "courseTitle" => "Science",
+      "contentStandard" => "State Standard",
+      "description" => "Description",
+      "learningStandardId" => { "identificationCode" => "NEW-LS-GK-1" },
+      "gradeLevel" => "Kindergarten"
+    },
+    "newCompetencyLevelDescriptor" => {
+      "description" => "Description",
+      "codeValue" => "NEW-CLD-CodeValue",
+      "performanceBaseConversion" => "Advanced"
+    },
+    "newStudentCompetencyObjective" => {
+      "objectiveGradeLevel" => "Kindergarten",
+      "objective" => "Phonemic Awareness",
+      "studentCompetencyObjectiveId" => "NEW-JS-K-1",
+      "description" => "Description",
+      "educationOrganizationId" => "884daa27d806c2d725bc469b273d840493f84b4d_id"
+    },
+    "newSEACourse" => {
+      "courseDescription" => "new SEA course",
+      "uniqueCourseId" => "new-sea-1",
+      "courseCode" => [{
+          "identificationSystem" => "School course code",
+          "ID" => "new-science-1"
+      }],
+      "courseTitle" => "Sixth grade Science",
+      "numberOfParts" => 1,
+      "schoolId" => "884daa27d806c2d725bc469b273d840493f84b4d_id"
+    },
+    "newSEACourseOffering" => {
+      "schoolId" => "884daa27d806c2d725bc469b273d840493f84b4d_id",
+      "sessionId" => "bfeaf9315f04797a41dbf1663d18ead6b6fb1309_id",
+      "courseId" => "877e4934a96612529535581d2e0f909c5288131a_id",
+      "localCourseCode" => "101 English",
+      "localCourseTitle" => "New SEA English"
+    },
+    "newAssessment" => {
+      "assessmentIdentificationCode" => [
+          { "identificationSystem" => "State", "ID" => "New Assessment 1" }
+      ],
+      "assessmentTitle" => "New Assessment Title 1",
+      "gradeLevelAssessed" => "Eighth grade",
+      "academicSubject" => "English",
+      "version" => 2,
+      "contentStandard" => "State Standard"
+    },
+    "newGraduationPlan" => {
+      "creditsBySubject" => [{
+          "subjectArea" => "English",
+          "credits" => {
+              "creditConversion" => 0,
+              "creditType" => "Semester hour credit",
+              "credit" => 6
+           }
+      }],
+      "individualPlan" => false,
+      "graduationPlanType" => "Recommended",
+      "educationOrganizationId" => "884daa27d806c2d725bc469b273d840493f84b4d_id",
+      "totalCreditsRequired" => {
+          "creditConversion" => 0,
+          "creditType" => "Semester hour credit",
+          "credit" => 32
       }
     },
-    "PATCH" => {
-      "postalCode" => {
-        "address"=>[{"postalCode"=>value.to_s,
-                    "nameOfCounty"=>"Wake",
-                    "streetNumberName"=>"111 Ave A",
-                    "stateAbbreviation"=>"IL",
-                    "addressType"=>"Physical",
-                    "city"=>"Chicago"
-                   }]
-      },
-      "contactPriority" => {
-        "contactPriority" => value.to_i
-      },
-      "studentLoginId" => {
-        "loginId" => value,
-        "sex" => "Male"
-      },
-      "momLoginId" => {
-          "loginId" => value
-      },
-      "dadLoginId" => {
-          "loginId" => value
-      },
-      "patchProgramType" => {
-          "programType" => value
-      },
-      "studentParentName" => {
-        "name" => {
-          "middleName" => "Fatang",
-          "lastSurname" => "ZoopBoing",
-          "firstName" => "Pang"
-        },
+    "expiredStaff" => {
+      "staffUniqueStateId" => "ex-staff-member1",
+      "sex" => "Male",
+      "hispanicLatinoEthnicity" => false,
+      "highestLevelOfEducationCompleted" => "Bachelor's",
+      "name" => {
+        "firstName" => "Exavier",
+        "middleName" => "D.",
+        "lastSurname" => "StaffGuy"
       }
+    },
+    "expiredStaffEdorgAssociation" => {
+      "staffClassification" => "IT Administrator",
+      "educationOrganizationReference" => "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id",
+      "positionTitle" => "Educator",
+      "staffReference" => "bfddb715a20bb2996b8769abfc1813d029bfdf29_id",
+      "endDate" => "2013-05-22",
+      "entityType" => "staffEducationOrganizationAssociation",
+      "beginDate" => "2012-08-26"
+    },
+    "expiredTeacher" => {
+      "loginId" => "expired-teacher-1@fakemail.com",
+      "sex" => "Male",
+      "staffUniqueStateId" => "exp-teacher-1",
+      "hispanicLatinoEthnicity" => false,
+      "highlyQualifiedTeacher" => true,
+      "yearsOfPriorTeachingExperience" => 9,
+      "entityType" => "teacher",
+      "yearsOfPriorProfessionalExperience" => 10,
+      "address" => [{
+          "streetNumberName" => "10 South Street",
+          "postalCode" => "60601",
+          "stateAbbreviation" => "IL",
+          "addressType" => "Home",
+          "city" => "Chicago"
+      }],
+      "teacherUniqueStateId" => "expired-teacher-1",
+      "name" => {
+          "middleName" => "Mervin",
+          "lastSurname" => "Maroni",
+          "firstName" => "Marcos"
+      },
+      "electronicMail" => [
+        { "emailAddress" => "expired-teacher-work@fakemail.com",
+          "emailAddressType" => "Work"
+        },
+        {
+          "emailAddress" => "expired-teacher-home@fakemail.com",
+          "emailAddressType" => "Home/Personal"
+        }
+      ],
+      "highestLevelOfEducationCompleted" => "Master's",
+      "birthDate" => "1962-09-30",
+      "telephone" => [{
+          "primaryTelephoneNumberIndicator" => true,
+          "telephoneNumber" => "(319)555-1789",
+          "telephoneNumberType" => "Emergency 2"
+      }],
+      "staffIdentificationCode" => [{
+          "identificationSystem" => "Health Record",
+          "ID" => "82421"
+      }]
+    },
+    "expiredTeacherEdorgAssociation" => {
+      "staffClassification" => "Teacher",
+      "educationOrganizationReference" => "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id",
+      "positionTitle" => "Educator",
+      "staffReference" => "2ff51e81ecbd9c4160a19be629d0ccb4cb529796_id",
+      "endDate" => "2013-05-22",
+      "entityType" => "staffEducationOrganizationAssociation",
+      "beginDate" => "2012-08-26"
+    },
+    "expiredTeacherSchoolAssociation" => {
+      "academicSubjects" => ["Transportation, Distribution and Logistics"],
+      "schoolId" => "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id",
+      "entityType" => "teacherSchoolAssociation",
+      "programAssignment" => "Regular Education",
+      "teacherId" => "2ff51e81ecbd9c4160a19be629d0ccb4cb529796_id",
+      "instructionalGradeLevels" => ["Adult Education"]
+    },
+    "expiredTeacherSectionAssociation" => {
+      "teacherId" => "2ff51e81ecbd9c4160a19be629d0ccb4cb529796_id",
+      "sectionId" => "eb8663fe6856b49684a778446a0a1ad33238a86d_id",
+      "classroomPosition" => "Teacher of Record",
+      "endDate" => "2013-05-22",
+      "beginDate" => "2012-08-26"
+    }
+  }
+  return json_bodies_by_name[entity_name]
+end
+
+def prepareBody(verb, value, response_map)
+  field_data = {
+    "GET" => response_map,
+    "POST" => {
     }
   }
   return field_data

@@ -163,7 +163,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffCohortAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>4</StaffUniqueStateId>
+        <StaffUniqueStateId>stff-0000000004</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <CohortReference>
@@ -183,7 +183,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffCohortAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>5</StaffUniqueStateId>
+        <StaffUniqueStateId>stff-0000000005</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <CohortReference>
@@ -203,7 +203,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffCohortAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>6</StaffUniqueStateId>
+        <StaffUniqueStateId>stff-0000000006</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <CohortReference>
@@ -223,7 +223,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffCohortAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>7</StaffUniqueStateId>
+        <StaffUniqueStateId>stff-0000000007</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <CohortReference>
@@ -243,7 +243,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffCohortAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>8</StaffUniqueStateId>
+        <StaffUniqueStateId>stff-0000000008</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <CohortReference>
@@ -263,7 +263,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffCohortAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>9</StaffUniqueStateId>
+        <StaffUniqueStateId>stff-0000000009</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <CohortReference>
@@ -283,7 +283,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffCohortAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>12</StaffUniqueStateId>
+        <StaffUniqueStateId>stff-0000000012</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <CohortReference>
@@ -303,7 +303,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffCohortAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>13</StaffUniqueStateId>
+        <StaffUniqueStateId>stff-0000000013</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <CohortReference>
@@ -323,7 +323,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffCohortAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>14</StaffUniqueStateId>
+        <StaffUniqueStateId>stff-0000000014</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <CohortReference>
@@ -343,7 +343,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffCohortAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>15</StaffUniqueStateId>
+        <StaffUniqueStateId>stff-0000000015</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <CohortReference>
@@ -363,7 +363,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffCohortAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>16</StaffUniqueStateId>
+        <StaffUniqueStateId>stff-0000000016</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <CohortReference>
@@ -383,7 +383,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffCohortAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>17</StaffUniqueStateId>
+        <StaffUniqueStateId>stff-0000000017</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <CohortReference>
@@ -403,7 +403,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffCohortAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>18</StaffUniqueStateId>
+        <StaffUniqueStateId>stff-0000000018</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <CohortReference>
@@ -423,7 +423,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffCohortAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>19</StaffUniqueStateId>
+        <StaffUniqueStateId>stff-0000000019</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <CohortReference>
@@ -443,7 +443,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffCohortAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>12</StaffUniqueStateId>
+        <StaffUniqueStateId>stff-0000000012</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <CohortReference>
@@ -463,7 +463,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffCohortAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>20</StaffUniqueStateId>
+        <StaffUniqueStateId>stff-0000000020</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <CohortReference>
@@ -483,7 +483,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffCohortAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>21</StaffUniqueStateId>
+        <StaffUniqueStateId>stff-0000000021</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <CohortReference>
@@ -503,7 +503,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffCohortAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>22</StaffUniqueStateId>
+        <StaffUniqueStateId>stff-0000000022</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <CohortReference>
@@ -523,7 +523,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffCohortAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>23</StaffUniqueStateId>
+        <StaffUniqueStateId>stff-0000000023</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <CohortReference>
@@ -543,7 +543,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffCohortAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>24</StaffUniqueStateId>
+        <StaffUniqueStateId>stff-0000000024</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <CohortReference>
@@ -563,7 +563,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffCohortAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>25</StaffUniqueStateId>
+        <StaffUniqueStateId>stff-0000000025</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <CohortReference>
@@ -583,7 +583,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffCohortAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>26</StaffUniqueStateId>
+        <StaffUniqueStateId>stff-0000000026</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <CohortReference>
@@ -603,7 +603,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffCohortAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>27</StaffUniqueStateId>
+        <StaffUniqueStateId>stff-0000000027</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <CohortReference>
@@ -623,7 +623,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StaffCohortAssociation>
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>20</StaffUniqueStateId>
+        <StaffUniqueStateId>stff-0000000020</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
     <CohortReference>

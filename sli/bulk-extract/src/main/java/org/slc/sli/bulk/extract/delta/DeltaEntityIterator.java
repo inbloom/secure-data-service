@@ -15,6 +15,7 @@
  */
 package org.slc.sli.bulk.extract.delta;
 
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -28,6 +29,7 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
+import com.google.common.collect.Iterables;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +42,8 @@ import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.bulk.extract.context.resolver.ContextResolver;
 import org.slc.sli.bulk.extract.context.resolver.EdOrgContextResolverFactory;
 import org.slc.sli.bulk.extract.delta.DeltaEntityIterator.DeltaRecord;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.repository.DeltaJournal;
 import org.slc.sli.domain.Entity;
@@ -79,9 +83,11 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
     private long lastDeltaTime;
 
     private final static Map<String, List<String>> REQUIRED_EMBEDDED_FIELDS;
+    private final static Map<String, List<Map<String, String>>> DEPENDENT_MAP;
 
     private final static Set<String> KEEP_DENORMALIZED = Collections.unmodifiableSet(new HashSet<String>(Arrays.asList(
             "assessment", "studentAssessment")));
+    private Map<String, Set<String>> dependendEntities = new HashMap< String, Set<String>>();
 
     // the Map<String, Boolean> is a map of entityId:isSpamDelete, must record the
     // spamDelete information before it's lost
@@ -100,7 +106,27 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
         requiredDenormalizedFields.put("studentAssessment",
                 Arrays.asList("studentAssessmentItem", "studentObjectiveAssessment"));
         REQUIRED_EMBEDDED_FIELDS = Collections.unmodifiableMap(requiredDenormalizedFields);
-
+        
+        /*
+         * Updates to certain entities ( e.g. Assessment Family ) is supposed to trigger bult extract of dependent entities
+         */
+        
+        Map<String, List<Map<String,String>>> pullDependent = new HashMap<String, List<Map<String,String>>>();
+        Map<String,String> assessment = new HashMap<String,String>();
+        assessment.put( EntityNames.ASSESSMENT, ParameterConstants.ASSESSMENT_FAMILY_REFERENCE);
+       
+        List<Map<String,String>> list = new ArrayList<Map<String,String>>();
+        list.add( assessment );
+        pullDependent.put(EntityNames.ASSESSMENT_FAMILY, list );
+        
+        Map<String,String> assessment_period = new HashMap<String,String>();
+        assessment_period.put( EntityNames.ASSESSMENT, ParameterConstants.ASSESSMENT_PERIOD_DESCRIPTOR_ID);
+       
+        List<Map<String,String>> list1 = new ArrayList<Map<String,String>>();
+        list1.add( assessment_period );
+        pullDependent.put(EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR, list1 );
+        
+        DEPENDENT_MAP = Collections.unmodifiableMap(pullDependent);
     }
 
     public enum Operation {
@@ -108,6 +134,8 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
     }
 
     public void init(String tenant, DateTime deltaUptoTime) {
+        dependendEntities.put( EntityNames.ASSESSMENT, new HashSet<String>());
+        
         LOG.info(String.format("Generating deltas for tenant: %s", tenant));
         TenantContext.setTenantId(tenant);
 
@@ -211,9 +239,13 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
             }
 
             boolean spamDelete = false;
-            if (deletedTime > updatedTime) {
+            if (deletedTime >= updatedTime) {
                 Entity deleted = new MongoEntity(collection, id, null, null);
-                deleteQueue.add(new DeltaRecord(deleted, null, Operation.DELETE, false, collection));
+                if(DEPENDENT_MAP.containsKey(collection)) {
+                    addDependencies(collection, deleted, resolver.findGoverningEdOrgs(deleted));
+                } else {
+                    deleteQueue.add(new DeltaRecord(deleted, null, Operation.DELETE, false, collection));
+                }
                 if (deleteQueue.size() >= batchSize) {
                     workQueue = deleteQueue;
                     deleteQueue = new LinkedList<DeltaRecord>();
@@ -299,8 +331,10 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
                 }
 
                 if (governingEdOrgs != null && !governingEdOrgs.isEmpty()) {
-                    workQueue.add(new DeltaRecord(entity, governingEdOrgs, Operation.UPDATE, spamDelete,
-                            batchedCollection));
+                    addToQueue(new DeltaRecord(entity, governingEdOrgs, Operation.UPDATE, spamDelete,
+                            batchedCollection), batchedCollection );
+                    addDependencies( batchedCollection, entity, governingEdOrgs );
+                   
                 } else {
                     LOG.debug(String.format("Can not resolve the governing lea for entity: %s", entity.getEntityId()));
                 }
@@ -323,6 +357,83 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
         return workQueue.poll();
     }
 
+    private void addToQueue( DeltaRecord record, String collection ) {
+        
+        if( dependendEntities.containsKey( collection) ) {
+            if( dependendEntities.get(collection).contains( record.getEntity().getEntityId())) {
+                // this entity has already been added for extract, do not add it again
+                return;
+            }
+            dependendEntities.get(collection).add( record.getEntity().getEntityId());
+        }
+        workQueue.add( record );
+    }
+    
+    private void addDependencies(String batchedCollection, Entity entity, Set<String> governingEdOrgs) {
+        if (!DEPENDENT_MAP.containsKey(batchedCollection)) {
+            return;
+        }
+        
+        List<Map<String, String>> entitiesToAdd = DEPENDENT_MAP.get(batchedCollection);
+        for (int i = 0; i < entitiesToAdd.size(); ++i) {
+            String collection = entitiesToAdd.get(i).keySet().iterator().next();
+            String key = entitiesToAdd.get(i).get(collection);
+
+            //TODO::Refactor to be more readable -ldalgado
+            Iterable<Entity> entities = null;
+            if(batchedCollection.equals("assessmentFamily") && collection.equals("assessment")) {
+                entities = getAssessmentsForAssessmentFamily(entity.getEntityId());
+            } else {
+                entities = repo.findAll(collection, buildBatchQuery(collection, entity.getEntityId(), key));
+            }
+            for ( Entity e : entities ) {
+                addToQueue(new DeltaRecord(e, governingEdOrgs, Operation.UPDATE, false, collection), collection);
+            }
+        }
+        
+    }
+
+    /**
+     * Given an assessmentFamily Id, return all assessment Entities that reference the assessmentFamily
+     * directly (via body.assessmentFamilyReference) or
+     * indirectly (via body.assessmentFamilyReference -> assessmentFamily.body.assessmentFamilyReference...->..body.assessmentFamilyReference
+     *
+     * @param afId
+     * @return
+     */
+    private Iterable<Entity> getAssessmentsForAssessmentFamily(String afId) {
+        Set<String> allRelated = new HashSet<String>();
+        getAssessmentFamilyHierarchy(afId, allRelated);
+        Iterable<Entity> assessments = Collections.EMPTY_LIST;
+        if(allRelated != null && !allRelated.isEmpty()) {
+            NeutralQuery q = new NeutralQuery(new NeutralCriteria("assessmentFamilyReference", NeutralCriteria.CRITERIA_IN, allRelated));
+            assessments = repo.findAll("assessment", q);
+        }
+        return assessments;
+    }
+
+    /**
+     *  An assessmentFamily object can refer another assessmentFamily object via body.assessmentFamilyReference
+     *  Given an assessmentFamily Id, return the set of assessmentFamily Ids that are connected via body.assessmentFamilyReference
+     *
+     * @param afId
+     * @param allRelated OUT parameter
+     */
+    private void getAssessmentFamilyHierarchy(String afId, Set <String> allRelated) {
+        if(afId == null || afId.trim().equals("") || allRelated.contains(afId)) {
+            return;
+        } else {
+            allRelated.add(afId);
+            NeutralQuery q = new NeutralQuery(new NeutralCriteria("assessmentFamilyReference", NeutralCriteria.OPERATOR_EQUAL, afId));
+            Iterable<Entity> entities = repo.findAll("assessmentFamily", q);
+            if( entities != null) {
+                for (Entity e : entities) {
+                    getAssessmentFamilyHierarchy(e.getEntityId(), allRelated);
+                }
+            }
+        }
+    }
+
     /**
      * build a batch query with embedded date if required
      *
@@ -334,10 +445,15 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
         NeutralQuery q = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, ids));
         return addEmbeddedQuery(collection, q);
     }
-
+    
+    public static NeutralQuery buildBatchQuery(String collection, String id, String field) {
+        NeutralQuery q = new NeutralQuery(new NeutralCriteria(field, NeutralCriteria.OPERATOR_EQUAL, id));
+        return addEmbeddedQuery(collection, q);
+    }
+    
     /**
      * build a query with embedded date if required
-     *
+     * 
      * @param collection
      * @param id
      * @return a query with embedded data added if required
@@ -346,7 +462,7 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
         NeutralQuery q = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, id));
         return addEmbeddedQuery(collection, q);
     }
-
+    
     private static NeutralQuery addEmbeddedQuery(String collection, NeutralQuery q) {
         if (REQUIRED_EMBEDDED_FIELDS.containsKey(collection)) {
             q.setEmbeddedFields(REQUIRED_EMBEDDED_FIELDS.get(collection));

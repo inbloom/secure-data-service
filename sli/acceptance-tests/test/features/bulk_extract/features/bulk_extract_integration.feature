@@ -1,11 +1,12 @@
-Feature: A bulk extract is triggered, retrived through the api, and validated
+Feature: A bulk extract is triggered, retrieved through the api, and validated
 
 Scenario: Trigger a bulk extract on ingested data and retrieve the extract through the api
    Given I trigger a bulk extract
-
    And I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
    And in my list of rights I have BULK_EXTRACT
-   When I make a call to the bulk extract end point "/bulk/extract/tenant"
+  When I make a call to the bulk extract end point "/bulk/extract/tenant"
+  Then I should receive a return code of 403
+  When I make a call to the bulk extract end point "/bulk/extract/LEA_DAYBREAK_ID"
    When the return code is 200 I get expected tar downloaded
    Then I check the http response headers
    When I decrypt and save the extracted file
@@ -13,10 +14,8 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
    And there is a metadata file in the extract
    And the extract contains a file for each of the following entities:
    |  entityType                            |
-   |  assessment                            |              
    |  attendance                            |
    |  cohort                                |
-   |  competencyLevelDescriptor             |
    |  course                                |
    |  courseOffering                        |
    |  courseTranscript                      |
@@ -27,10 +26,7 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
    |  gradebookEntry                        |
    |  gradingPeriod                         |
    |  graduationPlan                        |
-   |  learningObjective                     |
-   |  learningStandard                      |
    |  parent                                |
-   |  program                               |
    |  reportCard                            |
    |  school                                |
    |  section                               |
@@ -44,7 +40,6 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
    |  studentAssessment                     |
    |  studentCohortAssociation              |
    |  studentCompetency                     |
-   |  studentCompetencyObjective            |
    |  studentDisciplineIncidentAssociation  |
    |  studentProgramAssociation             |
    |  studentGradebookEntry                 |
@@ -54,12 +49,29 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
    |  teacher                               |
    |  teacherSchoolAssociation              |
    |  teacherSectionAssociation             |
+  When I make a call to the bulk extract end point "/bulk/extract/SEA_IL_ID"
+  When the return code is 200 I get expected tar downloaded
+  Then I check the http response headers
+  When I decrypt and save the extracted file
+  And I verify that an extract tar file was created for the tenant "Midgar"
+  And there is a metadata file in the extract
+  And the extract contains a file for each of the following entities:
+    |  entityType                            |
+    |  assessment                            |
+    |  calendarDate                          |
+    |  competencyLevelDescriptor             |
+    |  educationOrganization                 |
+    |  graduationPlan                        |
+    |  learningObjective                     |
+    |  learningStandard                      |
+    |  program                               |
+    |  studentCompetencyObjective            |
 
 
 Scenario: Un-Authorized user cannot use the endpoint
         Given I am logged in using "linda.kim" "balrogs" to realm "IL"
-        When I make a call to the bulk extract end point "/bulk/extract/tenant"
-        Then I should receive a return code of 403   
+        When I make a call to the bulk extract end point "/bulk/extract/LEA_DAYBREAK_ID"
+        Then I should receive a return code of 403
 
 
 Scenario: Validate the Last-Modified header is in a valid http date format
@@ -70,7 +82,7 @@ Scenario: Validate the Last-Modified header is in a valid http date format
     #Make a head call to retrieve last-modified information
     Given I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
     And in my list of rights I have BULK_EXTRACT
-    When I make a call retrieve the header for the bulk extract end point "/bulk/extract/tenant"
+    When I make a call retrieve the header for the bulk extract end point "/bulk/extract/LEA_DAYBREAK_ID"
     Then I get back a response code of "200"
     Then I have all the information to make a custom bulk extract request
 

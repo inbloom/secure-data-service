@@ -38,7 +38,7 @@ require_relative 'enum/WeaponItemType'
 #          <xs:element name="IncidentIdentifier" type="IncidentIdentifier"/>
 #          <xs:element name="IncidentDate" type="xs:date"/>
 #          <xs:element name="IncidentTime" type="xs:time"/>
-#          <xs:element name="IncidentLocation" type="IncidentLocationType"/>
+#          <xs:element name="IncidentLocation" type="SLC-IncidentLocationType"/>
 #          <xs:element name="ReporterDescription" type="ReporterDescriptionType" minOccurs="0"/>
 #          <xs:element name="ReporterName" type="ReporterName" minOccurs="0"/>
 #          <xs:element name="Behaviors" type="BehaviorDescriptorType" maxOccurs="unbounded"/>

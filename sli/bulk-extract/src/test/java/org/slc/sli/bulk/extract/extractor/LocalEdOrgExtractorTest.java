@@ -109,6 +109,7 @@ public class LocalEdOrgExtractorTest {
         CourseTranscriptExtractor courseTranscriptExtract = Mockito.mock(CourseTranscriptExtractor.class);
         GraduationPlanExtractor graduationPlanExtractor = Mockito.mock(GraduationPlanExtractor.class);
         DisciplineExtractor discipline = Mockito.mock(DisciplineExtractor.class);
+        CalendarDateExtractor calendarDateExtractor = Mockito.mock(CalendarDateExtractor.class);
 
         Mockito.when(mockSsa.getGraduationPlanCache()).thenReturn(new EntityToLeaCache());
         Mockito.when(sectionExtractor.getSsaCache()).thenReturn(new EntityToLeaCache());
@@ -191,6 +192,10 @@ public class LocalEdOrgExtractorTest {
         Mockito.when(
                 mockFactory.buildGraduationPlanExtractor(Mockito.eq(entityExtractor), Mockito.any(LEAExtractFileMap.class),
                         Mockito.any(Repository.class), Mockito.any(LocalEdOrgExtractHelper.class))).thenReturn(graduationPlanExtractor);
+
+        Mockito.when(
+                mockFactory.buildCalendarDateExtractor(Mockito.eq(entityExtractor), Mockito.any(LEAExtractFileMap.class),
+                        Mockito.any(Repository.class), Mockito.any(LocalEdOrgExtractHelper.class))).thenReturn(calendarDateExtractor);
 
         Mockito.when(mockFactory.buildDisciplineExtractor(Mockito.eq(entityExtractor), Mockito.any(LEAExtractFileMap.class), Mockito.any(Repository.class),
                 Mockito.any(EntityToLeaCache.class), Mockito.any(EntityToLeaCache.class))).thenReturn(discipline);

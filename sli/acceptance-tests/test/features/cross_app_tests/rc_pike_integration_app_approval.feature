@@ -227,6 +227,7 @@ And the extract contains a file for each of the following entities:
    |  entityType                            |
    |  assessment                            |
    |  attendance                            |
+   |  calendarDate                          |
    |  cohort                                |
    |  course                                |
    |  courseTranscript                      |
@@ -285,6 +286,7 @@ And the extract contains a file for each of the following entities:
       |  entityType                            |
       # |  assessment                            |
       |  attendance                            |
+      |  calendarDate                          |
       |  cohort                                |
       |  course                                |
       |  courseTranscript                      |
@@ -346,6 +348,7 @@ Scenario: App makes an api call to retrieve a SEA public data bulk extract
       |  learningStandard                      |
       |  program                               |
       |  studentCompetencyObjective            |
+      |  calendarDate                          |
 
 Scenario: App makes an api call to retrieve a bulk extract delta
 #Get a session to trigger a bulk extract
@@ -392,6 +395,8 @@ Scenario: SEA admin makes an api call to PATCH the SEA
   And I was redirected to the "Simple" IDP Login page
   When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
   Then I should receive a json response containing my authorization code
+  When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
+  Then I should receive a json response containing my authorization token
   And I get the id for the edorg "STANDARD-SEA"
   When I PATCH the postalCode for the current edorg entity to 11999
   Then I should receive a return code of 204
@@ -426,3 +431,4 @@ Scenario: App makes an api call to retrieve a bulk extract delta for the SEA
     |  learningObjective                     |
     |  learningStandard                      |
     |  program                               |
+    |  calendarDate                          |

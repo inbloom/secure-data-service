@@ -23,15 +23,14 @@ import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.HashSet;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -52,7 +51,7 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.api.security.roles.EdOrgContextualRoleBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -61,17 +60,18 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 
-import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.representation.CustomStatus;
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.SecurityEventBuilder;
+import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.resolver.RealmHelper;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.security.roles.Role;
 import org.slc.sli.api.security.saml.SamlAttributeTransformer;
 import org.slc.sli.api.security.saml.SamlHelper;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.common.util.tenantdb.TenantContext;
@@ -131,6 +131,12 @@ public class SamlFederationResource {
 
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
+
+    @Autowired
+    private EdOrgHelper edorgHelper;
+
+    @Autowired
+    private EdOrgContextualRoleBuilder edOrgRoleBuilder;
 
     public static SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -318,16 +324,13 @@ public class SamlFederationResource {
             throw new AccessDeniedException("Invalid user. No roles specified for user.");
         }
 
-        /*
-        if(!(isAdminRealm || isDevRealm) && principal.getUserType().equals(EntityNames.STAFF)) {
-            Set<String> samlRoleSet = new HashSet<String>(roles);
-            Set<String> matchedRoles = matchRoles(principal.getEntity().getEntityId(), samlRoleSet, new Date());
-            if(matchedRoles == null || matchedRoles.isEmpty()) {
-                error("Attempted login by a user that did not include any valid roles in the SAML Assertion.");
-                throw new AccessDeniedException("Invalid user. No valid roles specified for user.");
-            }
+
+        if(!(isAdminRealm || isDevRealm) &&
+                (principal.getUserType() == null || principal.getUserType().equals(EntityNames.STAFF))) {
+            Map<String, List<String>> sliEdOrgRoleMap = edOrgRoleBuilder.buildValidStaffRoles(realm.getEntityId(), principal.getEntity().getEntityId(), tenant, roles);
+            principal.setEdOrgRoles(sliEdOrgRoleMap);
         }
-        */
+
 
         principal.setRealm(realm.getEntityId());
         principal.setEdOrg(attributes.getFirst("edOrg"));
@@ -343,16 +346,18 @@ public class SamlFederationResource {
             throw new AccessDeniedException("User is not associated with realm.");
         }
 
+        //F262: Update this to only store roles for non staff users
         Set<Role> sliRoleSet = resolver.mapRoles(tenant, realm.getEntityId(), roles, isAdminRealm);
         List<String> sliRoleList = new ArrayList<String>();
         boolean isAdminUser = true;
         for (Role role : sliRoleSet) {
-            sliRoleList.add(role.getName());
+            sliRoleList.addAll(role.getName());
             if (!role.isAdmin()) {
                 isAdminUser = false;
                 break;
             }
         }
+
         principal.setRoles(sliRoleList);
         principal.setAdminUser(isAdminUser);
         principal.setAdminRealmAuthenticated(isAdminRealm || isDevRealm);
@@ -467,6 +472,7 @@ public class SamlFederationResource {
         }
     }
 
+
     private void generateSamlValidationError(String message) {
         error(message);
         throw new AccessDeniedException("Authorization could not be verified.");
@@ -520,6 +526,7 @@ public class SamlFederationResource {
      *            - can be null to skip before check
      * @param notOnOrAfter
      *            - can be null to skip after check
+     *
      * @return true if in range, false otherwise
      */
     private boolean isTimeInRange(String notBefore, String notOnOrAfter) {
@@ -543,51 +550,12 @@ public class SamlFederationResource {
         return true;
     }
 
-    protected Set<String> matchRoles(String staffId, Set<String>smalRoleSet, Date expirationDate) {
-        Set<String> seoaRoles = new HashSet<String>();
-
-        if (staffId == null) {
-            return seoaRoles;
-        }
-
-        NeutralQuery SEOAQuery = new NeutralQuery();
-        SEOAQuery.addCriteria(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE, NeutralCriteria.OPERATOR_EQUAL, staffId));
-
-        Iterable<Entity> SEOAEntities = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, SEOAQuery);
-
-        if(SEOAEntities.iterator().hasNext()) {
-            seoaRoles = filterRoles(SEOAEntities, smalRoleSet, expirationDate);
-        }
-
-        return seoaRoles;
-    }
-
-    private Set<String> filterRoles(Iterable<Entity> SEOAEntities, Set<String> samlRoleSet, Date expirationDate) {
-        Set<String> seoaRoles = new HashSet<String>();
-
-        for(Entity seoa : SEOAEntities) {
-            Date endDate = null;
-            String seoaEndDate = (String) seoa.getBody().get(ParameterConstants.STAFF_EDORG_ASSOC_END_DATE);
-            if(seoaEndDate != null) {
-                try {
-                    endDate = ft.parse(seoaEndDate);
-                } catch (ParseException e) {
-                    info("Failed to parse date from staffEducationOrganizationAssociation {}", seoa.getEntityId());
-                    continue;
-                }
-            }
-            if(endDate == null || endDate.after(expirationDate) || endDate.equals(expirationDate)) {
-                String role = (String) seoa.getBody().get(ParameterConstants.STAFF_EDORG_ASSOC_STAFF_CLASSIFICATION);
-                if(samlRoleSet.contains(role)) {
-                    seoaRoles.add(role);
-                }
-            }
-        }
-
-        return seoaRoles;
-    }
-
     Repository getRepository() {
         return repo;
     }
+
+    public void setEdorgHelper(EdOrgHelper edorgHelper) {
+        this.edorgHelper = edorgHelper;
+    }
+
 }

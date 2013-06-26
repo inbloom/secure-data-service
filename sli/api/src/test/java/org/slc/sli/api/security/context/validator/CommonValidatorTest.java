@@ -31,7 +31,6 @@ import junit.framework.Assert;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,10 +42,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 
@@ -91,6 +90,7 @@ public class CommonValidatorTest {
         ignored.add(EntityNames.REALM);
         ignored.add(EntityNames.STUDENT_OBJECTIVE_ASSESSMENT);
         ignored.add(EntityNames.SEARCH);
+        ignored.add(EntityNames.CALENDAR_DATE);
 
         globalEntities.add(EntityNames.ASSESSMENT);
         globalEntities.add(EntityNames.COMPETENCY_LEVEL_DESCRIPTOR);
@@ -126,10 +126,10 @@ public class CommonValidatorTest {
     }
 
     @Test
-    @Ignore
     public void verifyNumberOfStudentValidatorsForEachEntity() throws Exception {
         MongoEntity student = new MongoEntity("student", new HashMap<String, Object>());
         injector.setCustomContext("Studentious","Stendarious","Myrran",Arrays.asList(SecureRoleRightAccessImpl.STUDENT),student,"High Elves");
+        System.out.println("================ students =================");
         validateValidators();
     }
 
@@ -303,6 +303,7 @@ public class CommonValidatorTest {
                 int numValidators = 0;
                 for (IContextValidator validator : validators) {
                     if (validator.canValidate(entity, isTransitive)) {
+                        System.out.println(String.format("validating: %s using %s", entity, validator.getClass().getName()));
                         numValidators++;
                     }
                 }

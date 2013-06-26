@@ -279,6 +279,12 @@ task :apiJMeterTests do
   runTests("test/features/apiV1/jmeter/jmeterPerformance.feature")
 end
 
+desc "Import and Approve SDK Sample App"
+task :approveSdk => [:realmInit] do
+  allLeaAllowApp("SDK Sample")
+  authorizeEdorg("SDK Sample")
+end
+
 desc "Run Odin API Generation Task"
 task :apiOdinGenerate do
   runTests("test/features/odin/generate_api_data.feature")
@@ -287,6 +293,11 @@ end
 desc "Run Odin API Student Data Generation Task"
 task :apiOdinSecurityGenerate do
   runTests("test/features/odin/generate_api_security_data.feature")
+end
+
+desc "Run ODIN API Contextual Roles Data Generation Task"
+task :apiOdinContextualRolesGenerate do
+  runTests("test/features/odin/generate_api_contextual_roles.feature")
 end
 
 desc "Run API Odin Ingestion Tests"
@@ -299,11 +310,19 @@ task :apiOdinSecurityIngestion do
   runTests("test/features/ingestion/features/ingestion_OdinSecurityData.feature")
 end
 
-desc "Run API Odin Super Assessment Tests"
-task :apiOdinSuperAssessment do
+desc "Run API Odin Ingestion Test"
+task :apiOdinContextualRolesIngestion do
+  runTests("test/features/ingestion/features/ingestion_OdinContextualRoles.feature")
+end
+
+desc "Run API Odin Assessment Integration Tests"
+task :apiOdinSuperAssessment => [:realmInit] do
+  allLeaAllowApp("Mobile App")
+  authorizeEdorg("Mobile App")
 # This is to extract assessment, learningStandard, etc. into Elastic Search  
   Rake::Task["runSearchBulkExtract"].execute
-  runTests("test/features/apiV1/end_user_stories/assessments/superAssessment.feature")
+  runTests("test/features/apiV1/integration/super_assessment.feature")
+  runTests("test/features/apiV1/integration/search_assessment.feature")
 end
 
 desc "Run API Odin Assessment Search Tests"
@@ -312,18 +331,33 @@ task :apiOdinSearchAssessment do
   runTests("test/features/apiV1/end_user_stories/assessments/searchAssessment.feature")
 end
 
-desc "Run API Odin Integration Tests"
-task :apiOdinStudentLogin do
-# This is to extract assessment, learningStandard, etc. into Elastic Search
+desc "Set up api for odin tests"
+task :apiOdinSetupAPI => [:realmInit] do
   allLeaAllowApp("Mobile App")
   authorizeEdorg("Mobile App")
   Rake::Task["runSearchBulkExtract"].execute
-  runTests("test/features/apiV1/integration/studentLogin.feature")
+end
+
+desc "Run API Odin Student Integration Tests"
+task :apiOdinStudentLogin => [:apiOdinSetupAPI] do
+  runTests("test/features/apiV1/integration/student_login.feature")
+  runTests("test/features/apiV1/integration/student_endpoints.feature")
+  runTests("test/features/apiV1/integration/student_staff_endpoints.feature")
+  runTests("test/features/apiV1/integration/student_path_security.feature")
+  runTests("test/features/apiV1/integration/student_validator_security.feature")
+  runTests("test/features/apiV1/integration/student_other_student_fields.feature")
+  runTests("test/features/apiV1/integration/student_crud_operations.feature")
 end
 
 desc "Run contextual roles acceptance tests"
-task :apiContextualRolesTests => [:realmInit, :importSandboxData] do
-    runTests("test/features/apiV1/contextual_roles/matchRoles.feature")
+task :apiContextualRolesTests => [:apiOdinContextualRolesGenerate, :apiOdinContextualRolesIngestion] do
+#  setFixture("staffEducationOrganizationAssociation", "staffEducationOrganizationAssociation_fixture_contextual_roles.json")
+  runTests("test/features/apiV1/contextual_roles")
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
 end
 
 ############################################################

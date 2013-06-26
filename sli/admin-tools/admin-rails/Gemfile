@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.2.12'
+gem 'rails', '3.2.13'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
@@ -47,7 +47,7 @@ group :test do
   gem 'test-unit'
 	gem 'simplecov'
 	gem 'simplecov-rcov'
-  gem "mocha" ,'0.12.3', :require => false
+  gem "mocha" ,'0.14.0', :require => false
 end
 
 gem 'encrypted-cookie-store'

@@ -18,6 +18,8 @@ package org.slc.sli.bulk.extract.context.resolver.impl;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.annotation.PostConstruct;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,7 @@ import org.slc.sli.common.util.datetime.DateHelper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.utils.EdOrgHierarchyHelper;
 
 /**
  * resolve a staff or teacher
@@ -48,7 +51,14 @@ public class StaffTeacherContextResolver extends ReferrableResolver {
     
     @Autowired
     private DateHelper dateHelper;
+    
+    private EdOrgHierarchyHelper edOrgHelper;
 
+    @PostConstruct
+    public void init() {
+    	edOrgHelper = new EdOrgHierarchyHelper(getRepo());
+    }
+    
     @Override
     protected Set<String> resolve(Entity entity) {
         Set<String> leas = new HashSet<String>();
@@ -62,6 +72,13 @@ public class StaffTeacherContextResolver extends ReferrableResolver {
         for (Entity association : staffEdorgAssociations) {
             if (!dateHelper.isFieldExpired(association.getBody(), END_DATE)) {
                 String edorgReference = (String) association.getBody().get(EDORG_REFERENCE);
+               
+                Entity edOrg = getRepo().findById(EntityNames.EDUCATION_ORGANIZATION, edorgReference);
+
+                if(edOrg!=null && edOrgHelper.isSEA(edOrg))
+                {
+                	return leas;
+                }
                 if (edorgReference != null) {
                     leas.addAll(edOrgResolver.findGoverningEdOrgs(edorgReference));
                 }

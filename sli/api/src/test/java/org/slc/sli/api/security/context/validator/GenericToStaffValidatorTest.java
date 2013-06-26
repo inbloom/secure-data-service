@@ -32,7 +32,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 public class GenericToStaffValidatorTest {
 
     @Autowired
-    private GenericToStaffValidator validator;
+    private StaffTeacherToStaffTeacherValidator validator;
     
     @Autowired
     private ValidatorTestHelper helper;

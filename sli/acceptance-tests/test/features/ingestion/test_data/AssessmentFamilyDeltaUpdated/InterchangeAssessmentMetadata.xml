@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
+
+    <AssessmentFamily>
+        <AssessmentFamilyTitle>Update AF then Delete A</AssessmentFamilyTitle>
+        <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+            <ID>Updated</ID>
+        </AssessmentFamilyIdentificationCode>
+    </AssessmentFamily>
+
+    <Assessment>
+        <AssessmentTitle>Update A and Delete AF</AssessmentTitle>
+        <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+            <ID>Updated</ID>
+        </AssessmentIdentificationCode>
+        <AssessmentFamilyReference>
+            <AssessmentFamilyIdentity>
+                <AssessmentFamilyTitle>Update A and Delete AF</AssessmentFamilyTitle>
+            </AssessmentFamilyIdentity>
+        </AssessmentFamilyReference>
+    </Assessment>
+
+    <AssessmentFamily>
+        <AssessmentFamilyTitle>Delete A and Update AF</AssessmentFamilyTitle>
+        <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+            <ID>Updated AF ID Code</ID>
+        </AssessmentFamilyIdentificationCode>
+    </AssessmentFamily>
+
+    <AssessmentFamily>
+    <AssessmentFamilyTitle>READ 2.0</AssessmentFamilyTitle>
+        <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+            <ID>READ 2.0 Updated</ID> <!-- changed from ingestion/test_data/AssessmentFamilyDelta -->
+        </AssessmentFamilyIdentificationCode>
+    </AssessmentFamily>
+
+</InterchangeAssessmentMetadata>

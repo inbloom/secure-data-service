@@ -48,6 +48,7 @@ public class ControlFile extends IngestionFileEntry{
     private static final Logger LOG = LoggerFactory.getLogger(ControlFile.class);
 
     private static final Pattern FE_PATTERN = Pattern.compile("^([^\\s^,]+)\\,([^\\s^,]+)\\,([^,]+)\\,(\\w+)\\s*$");
+    private static final Pattern FE_PATTERN_NO_CHKSUM = Pattern.compile("^([^\\s^,]+)\\,([^\\s^,]+)\\,([^,]+)$");
     private static final Pattern CE_PATTERN = Pattern.compile("^@(.*)$");
 
     protected List<IngestionFileEntry> fileEntries = new ArrayList<IngestionFileEntry>();
@@ -122,6 +123,14 @@ public class ControlFile extends IngestionFileEntry{
             FileFormat fileFormat = FileFormat.findByCode(m.group(1));
             FileType fileType = FileType.findByNameAndFormat(m.group(2), fileFormat);
             return new IngestionFileEntry(getParentZipFileOrDirectory(), fileFormat, fileType, m.group(3), m.group(4));
+        }
+
+        // try parsing without chksum field
+        m = FE_PATTERN_NO_CHKSUM.matcher(line);
+        if (m.matches()) {
+            FileFormat fileFormat = FileFormat.findByCode(m.group(1));
+            FileType fileType = FileType.findByNameAndFormat(m.group(2), fileFormat);
+            return new IngestionFileEntry(getParentZipFileOrDirectory(), fileFormat, fileType, m.group(3), null);
         }
 
         return null;

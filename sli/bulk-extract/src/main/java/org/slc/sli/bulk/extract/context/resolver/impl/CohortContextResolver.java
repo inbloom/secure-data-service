@@ -15,6 +15,16 @@
  */
 package org.slc.sli.bulk.extract.context.resolver.impl;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.annotation.PostConstruct;
+
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.utils.EdOrgHierarchyHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,18 +35,49 @@ import org.springframework.stereotype.Component;
  *
  */
 @Component
-public class CohortContextResolver extends RelatedContextResolver {
+public class CohortContextResolver extends ReferrableResolver {
+	
+    public final static String EDORG_REFERENCE = "educationOrgId";
+
+    private static final Logger LOG = LoggerFactory.getLogger(SectionContextResolver.class);
+
     @Autowired
     private EducationOrganizationContextResolver edOrgResolver;
     
-    @Override
-    protected String getReferenceProperty(String entityType) {
-        return "educationOrgId";
+    private EdOrgHierarchyHelper edOrgHelper;
+
+    @PostConstruct
+    public void init() {
+    	edOrgHelper = new EdOrgHierarchyHelper(getRepo());
     }
-    
-    @Override
-    protected ReferrableResolver getReferredResolver() {
-        return edOrgResolver;
-    }
+
+	@Override
+	protected String getCollection() {
+        return EntityNames.COHORT;
+	}
+
+	@Override
+	protected Set<String> resolve(Entity entity) {
+		Set<String> leas = new HashSet<String>();
+
+		String id = entity.getEntityId();
+		if (id == null) {
+			return leas;
+		}
+
+		String edorgReference = (String) entity.getBody().get(EDORG_REFERENCE);
+
+		Entity edOrg = getRepo().findById(EntityNames.EDUCATION_ORGANIZATION,
+				edorgReference);
+
+		if (edOrg != null && edOrgHelper.isSEA(edOrg)) {
+			return leas;
+		}
+		if (edorgReference != null) {
+			leas.addAll(edOrgResolver.findGoverningEdOrgs(edorgReference));
+		}
+
+		return leas;
+	}
     
 }

@@ -79,6 +79,7 @@ end
 
 When /^I submit the credentials "([^"]*)" "([^"]*)" for the "([^"]*)" login page$/ do |user, pass, idpType|
   disable_NOTABLESCAN
+  puts "Logging in with credentials \"#{user}\" \"#{pass}\"" if $SLI_DEBUG
   if idpType=="OpenAM"
     @driver.find_element(:id, "IDToken1").send_keys user
     @driver.find_element(:id, "IDToken2").send_keys pass
@@ -144,7 +145,7 @@ AfterStep do |scenario|
 end
 
 def assertWithWait(msg, &blk)
-  wait = Selenium::WebDriver::Wait.new(:timeout => 5)
+  wait = Selenium::WebDriver::Wait.new(:timeout => 15)
   begin
     wait.until {yield}
   rescue

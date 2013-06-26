@@ -18,8 +18,8 @@ limitations under the License.
 
 require_relative 'Enum.rb'
 
-# Enumerates the grade types supported by ed-fi. From Ed-Fi-Core.xsd:
-# <xs:simpleType name="GradeType">
+# Enumerates the grade types supported by ed-fi. From SLI-Ed-Fi-Core.xsd:
+# <xs:simpleType name="SLC-GradeType">
 #   <xs:annotation>
 #     <xs:documentation>The type of grade in a report card or transcript (e.g., Final, Exam, Grading Period, ...)</xs:documentation>
 #   </xs:annotation>
@@ -31,6 +31,7 @@ require_relative 'Enum.rb'
 #     <xs:enumeration value="Mid-Term Grade"/>
 #     <xs:enumeration value="Progress Report"/>
 #     <xs:enumeration value="Semester"/>
+#     <xs:enumeration value="Other"/>
 #   </xs:restriction>
 # </xs:simpleType>
 class GradeType
@@ -43,4 +44,5 @@ class GradeType
   GradeType.define :MID_TERM_GRADE, "Mid-Term Grade"
   GradeType.define :PROGRESS_REPORT, "Progress Report"
   GradeType.define :SEMESTER, "Semester"
+  GradeType.define :OTHER, "Other"
 end

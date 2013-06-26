@@ -18,8 +18,8 @@ limitations under the License.
 
 require_relative "Enum.rb"
 
-# Enumerates the types of educational environments. From Ed-Fi-Core.xsd:
-# <xs:simpleType name="EducationalEnvironmentType">
+# Enumerates the types of educational environments. From SLI-Ed-Fi-Core.xsd:
+# <xs:simpleType name="SLI-EducationalEnvironmentType">
 #   <xs:annotation>
 #     <xs:documentation>The setting in which a child receives education and related services.</xs:documentation>
 #   </xs:annotation>
@@ -36,6 +36,7 @@ require_relative "Enum.rb"
 #     <xs:enumeration value="Self-contained (Special Education) "/>
 #     <xs:enumeration value="Self-study"/>
 #     <xs:enumeration value="Shop"/>
+#     <xs:enumeration value="Other"/>
 #   </xs:restriction>
 # </xs:simpleType>
 class EducationalEnvironmentType
@@ -53,4 +54,5 @@ class EducationalEnvironmentType
   EducationalEnvironmentType.define :SELF_CONTAINED_SPECIAL_EDUCATION, "Self-contained (Special Education) "
   EducationalEnvironmentType.define :SELF_STUDY, "Self-study"
   EducationalEnvironmentType.define :SHOP, "Shop"
+  EducationalEnvironmentType.define :OTHER, "Other"
 end

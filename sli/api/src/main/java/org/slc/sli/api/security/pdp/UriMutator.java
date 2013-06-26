@@ -18,6 +18,7 @@ package org.slc.sli.api.security.pdp;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -33,17 +34,20 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.BasicDefinitionStore;
 import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.security.context.ResponseTooLargeException;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.resolver.SectionHelper;
+import org.slc.sli.api.service.EntityNotFoundException;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.common.util.datetime.DateHelper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -74,6 +78,9 @@ public class UriMutator {
 
     @Autowired
     private BasicDefinitionStore definitionStore;
+    
+    @Autowired
+    private DateHelper dateHelper;
 
     private Map<String, MutateInfo> teacherSectionMutations;
 
@@ -310,27 +317,91 @@ public class UriMutator {
                 mutated.setPath(String.format("/schools/%s/courses", StringUtils.join(edOrgHelper.getDirectEdorgs(user), ",")));
             } else if(Arrays.asList(PathConstants.SCHOOLS, PathConstants.EDUCATION_ORGANIZATIONS).contains(baseEntity)) {
                 mutated.setPath(String.format("/schools/%s", StringUtils.join(edOrgHelper.getDirectEdorgs(user), ",")));
-            } else  if (PathConstants.COURSE_OFFERINGS.equals(baseEntity)) {
+            } else if (PathConstants.COURSE_OFFERINGS.equals(baseEntity)) {
                 mutated.setPath(String.format("/schools/%s/courseOfferings", StringUtils.join(edOrgHelper.getDirectEdorgs(user), ",")));
-            } else  if (PathConstants.SESSIONS.equals(baseEntity)) {
+            } else if (PathConstants.SESSIONS.equals(baseEntity)) {
                 mutated.setPath(String.format("/schools/%s/sessions", StringUtils.join(edOrgHelper.getDirectEdorgs(user), ",")));
-            } else  if (PathConstants.GRADING_PERIODS.equals(baseEntity)) {
+            } else if (PathConstants.GRADING_PERIODS.equals(baseEntity)) {
                 mutated.setPath(String.format("/schools/%s/sessions/gradingPeriods", StringUtils.join(edOrgHelper.getDirectEdorgs(user), ",")));
-            } else  if (PathConstants.GRADUATION_PLANS.equals(baseEntity)) {
+            } else if (PathConstants.GRADUATION_PLANS.equals(baseEntity)) {
                 mutated.setPath(String.format("/schools/%s/graduationPlans", StringUtils.join(edOrgHelper.getDirectEdorgs(user), ",")));
             } else if(Arrays.asList(PathConstants.LEARNING_STANDARDS, PathConstants.LEARNING_OBJECTIVES).contains(baseEntity)) {
                 mutated.setPath(String.format("/search/%s", baseEntity));
-            } else  if (PathConstants.STUDENT_COMPETENCY_OBJECTIVES.equals(baseEntity)) {
+            } else if (PathConstants.STUDENT_COMPETENCY_OBJECTIVES.equals(baseEntity)) {
                 mutated.setPath(String.format("/educationOrganizations/%s/studentCompetencyObjectives", StringUtils.join(edOrgHelper.getDirectEdorgs(user), ",")));
+            } else if (PathConstants.ASSESSMENTS.equals(baseEntity)) {
+                mutated.setPath(String.format("/students/%s/studentAssessments/assessments", StringUtils.join(getStudentIds(user))));
+            } else if (PathConstants.ATTENDANCES.equals(baseEntity)) {
+                mutated.setPath(String.format("/students/%s/attendances", StringUtils.join(getStudentIds(user))));
+            } else if (PathConstants.COHORTS.equals(baseEntity)) {
+                mutated.setPath(String.format("/students/%s/studentCohortAssociations/cohorts", StringUtils.join(getStudentIds(user))));
+            } else if (PathConstants.COURSE_TRANSCRIPTS.equals(baseEntity)) {
+                mutated.setPath(String.format("/studentAcademicRecords/%s/courseTranscripts", StringUtils.join(getStudentAcademicRecordsIds(user))));
+            } else if (PathConstants.GRADES.equals(baseEntity)) {
+                mutated.setPath(String.format("/studentSectionAssociations/%s/grades", StringUtils.join(getStudentSectionAssocIds(user))));
+            } else if (PathConstants.GRADEBOOK_ENTRIES.equals(baseEntity)) {
+                mutated.setPath(String.format("/sections/%s/gradebookEntries", StringUtils.join(getSectionIds(user))));
+            } else if (PathConstants.PARENTS.equals(baseEntity)) {
+                mutated.setPath(String.format("/students/%s/studentParentAssociations/parents", StringUtils.join(getStudentIds(user))));
+            } else if (PathConstants.PROGRAMS.equals(baseEntity)) {
+                mutated.setPath(String.format("/students/%s/studentProgramAssociations/programs", StringUtils.join(getStudentIds(user))));
+            } else if (PathConstants.SECTIONS.equals(baseEntity)) {
+                mutated.setPath(String.format("/students/%s/studentSectionAssociations/sections", StringUtils.join(getStudentIds(user))));
+            } else if (PathConstants.REPORT_CARDS.equals(baseEntity)) {
+                mutated.setPath(String.format("/students/%s/reportCards", StringUtils.join(getStudentIds(user))));
+            } else if (PathConstants.TEACHERS.equals(baseEntity)) {
+                mutated.setPath(String.format("/sections/%s/teacherSectionAssociations/teachers", StringUtils.join(getSectionIds(user))));
+            } else if (PathConstants.TEACHER_SECTION_ASSOCIATIONS.equals(baseEntity)) {
+                mutated.setPath(String.format("/sections/%s/teacherSectionAssociations", StringUtils.join(getSectionIds(user))));
+            } else if (PathConstants.TEACHER_SCHOOL_ASSOCIATIONS.equals(baseEntity)) {
+                mutated.setPath(String.format("/schools/%s/teacherSchoolAssociations", StringUtils.join(edOrgHelper.getDirectEdorgs(user), ",")));
+            } else if (PathConstants.STAFF.equals(baseEntity)) {
+                mutated.setPath(String.format("/educationOrganizations/%s/staffEducationOrgAssignmentAssociations/staff", StringUtils.join(edOrgHelper.getDirectEdorgs(user), ",")));
+            } else if (PathConstants.STAFF_COHORT_ASSOCIATIONS.equals(baseEntity)) {
+                mutated.setPath(String.format("/cohorts/%s/staffCohortAssociations", StringUtils.join(getCohortIds(user))));
+            } else if (PathConstants.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS.equals(baseEntity)) {
+                mutated.setPath(String.format("/educationOrganizations/%s/staffEducationOrgAssignmentAssociations", StringUtils.join(edOrgHelper.getDirectEdorgs(user), ",")));
+            } else if (PathConstants.STAFF_PROGRAM_ASSOCIATIONS.equals(baseEntity)) {
+                mutated.setPath(String.format("/programs/%s/staffProgramAssociations", StringUtils.join(getProgramIds(user))));
+            } else if (PathConstants.STUDENTS.equals(baseEntity)) {
+                mutated.setPath(String.format("/sections/%s/studentSectionAssociations/students", StringUtils.join(getSectionIds(user))));
+            } else if (PathConstants.STUDENT_ACADEMIC_RECORDS.equals(baseEntity)) {
+                mutated.setPath(String.format("/students/%s/studentAcademicRecords", StringUtils.join(getStudentIds(user))));
+            } else if (PathConstants.STUDENT_ASSESSMENTS.equals(baseEntity)) {
+                mutated.setPath(String.format("/students/%s/studentAssessments", StringUtils.join(getStudentIds(user))));
+            } else if (PathConstants.STUDENT_COHORT_ASSOCIATIONS.equals(baseEntity)) {
+                mutated.setPath(String.format("/students/%s/studentCohortAssociations", StringUtils.join(getStudentIds(user))));
+            } else if (PathConstants.STUDENT_COMPETENCIES.equals(baseEntity)) {
+                mutated.setPath(String.format("/studentSectionAssociations/%s/studentCompetencies", StringUtils.join(getStudentSectionAssocIds(user))));
+            } else if (PathConstants.STUDENT_GRADEBOOK_ENTRIES.equals(baseEntity)) {
+                mutated.setPath(String.format("/students/%s/studentGradebookEntries", StringUtils.join(getStudentIds(user))));
+            } else if (PathConstants.STUDENT_PARENT_ASSOCIATIONS.equals(baseEntity)) {
+                mutated.setPath(String.format("/students/%s/studentParentAssociations", StringUtils.join(getStudentIds(user))));
+            } else if (PathConstants.STUDENT_PROGRAM_ASSOCIATIONS.equals(baseEntity)) {
+                mutated.setPath(String.format("/students/%s/studentProgramAssociations", StringUtils.join(getStudentIds(user))));
+            } else if (PathConstants.STUDENT_SCHOOL_ASSOCIATIONS.equals(baseEntity)) {
+                mutated.setPath(String.format("/students/%s/studentSchoolAssociations", StringUtils.join(getStudentIds(user))));
+            } else if (PathConstants.STUDENT_SECTION_ASSOCIATIONS.equals(baseEntity)) {
+                mutated.setPath(String.format("/students/%s/studentSectionAssociations", StringUtils.join(getStudentIds(user))));
+            } else if (PathConstants.YEARLY_ATTENDANCES.equals(baseEntity)) {
+                mutated.setPath(String.format("/students/%s/yearlyAttendances", StringUtils.join(getStudentIds(user))));
+            } else if (PathConstants.DISCIPLINE_ACTIONS.equals(baseEntity)) {
+                throw new AccessDeniedException("Students do not have access to discipline actions.");
+            } else if (PathConstants.DISCIPLINE_INCIDENTS.equals(baseEntity)) {
+            	throw new AccessDeniedException("Students do not have access to discipline incidents.");
+            } else if (PathConstants.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS.equals(baseEntity)) {
+            	throw new AccessDeniedException("Students do not have access to discipline incident associations.");
             } else if (ResourceNames.HOME.equals(baseEntity)) {
                 mutated.setPath("/home");
+            } else if (ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS.equals(baseEntity)) {
+                mutated.setPath("/search/"+baseEntity);
             } else {
                 throw new IllegalArgumentException("Not supported yet...");
             }
         }
-
         return mutated;
     }
+
 
     private MutatedContainer mutateTeacherRequest(List<PathSegment> segments, String queryParameters, Entity user) {
         MutatedContainer mutated = new MutatedContainer();
@@ -926,6 +997,83 @@ public class UriMutator {
         return principal.getType().equals(EntityNames.STUDENT);
     }
 
+    private String getStudentIds(Entity principal) {
+        Set<String> studentIds = new HashSet<String>();
+        if (isStudent(principal)) {
+            studentIds.add(principal.getEntityId());
+        }
+        return removeBrackets(studentIds.toString());
+    }
+    
+    private String getStudentAcademicRecordsIds(Entity principal) {
+        return removeBrackets(getStudentRelatedRecords(principal, EntityNames.STUDENT_ACADEMIC_RECORD).toString());
+    }
+
+    private String getStudentSectionAssocIds(Entity principal) {
+        return removeBrackets(getStudentRelatedRecords(principal, EntityNames.STUDENT_SECTION_ASSOCIATION).toString());
+    }
+
+    private String getSectionIds(Entity principal) {
+        return removeBrackets(sectionHelper.getStudentsSections(principal).toString());
+    }
+
+    private String getProgramIds(Entity principal) {
+        Set<String> programsId = null;
+        if (isStudent(principal)) {
+            programsId = getSubdocIds(principal, EntityNames.STUDENT_PROGRAM_ASSOCIATION, ParameterConstants.PROGRAM_ID);
+        }
+        
+        if (programsId == null || programsId.isEmpty()) {
+            throw new EntityNotFoundException("No association to any programs");
+        }
+        
+        return removeBrackets(programsId.toString());
+    }
+
+    private String getCohortIds(Entity principal) {
+        Set<String> cohortsId = null;
+        if (isStudent(principal)) {
+            cohortsId = getSubdocIds(principal, EntityNames.STUDENT_COHORT_ASSOCIATION, ParameterConstants.COHORT_ID);
+        }
+        
+        if (cohortsId == null || cohortsId.isEmpty()) {
+            throw new EntityNotFoundException("No association to any cohorts");
+        }
+        
+        return removeBrackets(cohortsId.toString());
+    }
+    
+    private Set<String> getSubdocIds(Entity superdoc, String subdocType, String subdocField) {
+        Set<String> subdocFields = new HashSet<String>();
+        Map<String, List<Entity>> myEmbeddedData = superdoc.getEmbeddedData();
+        List<Entity> myAssociations = myEmbeddedData == null ? Collections.<Entity> emptyList() : myEmbeddedData.get(subdocType);
+        if (myAssociations != null && !myAssociations.isEmpty()) {
+            for (Entity association : myAssociations) {
+                if (!dateHelper.isFieldExpired(association.getBody(), ParameterConstants.END_DATE)) {
+                    subdocFields.add((String) association.getBody().get(subdocField));
+                }
+            }
+        }
+       
+        return subdocFields;
+    }
+
+    private String removeBrackets(String s) {
+        return s.replace("[", "").replace("]", "").replace(" ", "");
+    }
+
+    private List<String> getStudentRelatedRecords(Entity principal, String entityType) {
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.STUDENT_ID, NeutralCriteria.OPERATOR_EQUAL, principal.getEntityId()));
+        List<String> recordIds = new ArrayList<String>();
+
+        Iterable<String> allIds = repo.findAllIds(entityType, query);
+
+        for (String recordId : allIds) {
+            recordIds.add(recordId);
+        }
+        
+        return recordIds;
+    }
 
     private MutatedContainer formQueryBasedOnParameter(String path, String parameters, String parameter) {
         MutatedContainer mutated = new MutatedContainer();

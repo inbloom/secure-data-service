@@ -46,6 +46,7 @@
 			<xs:enumeration value="Prose"/>
 			<xs:enumeration value="Rubric"/>
 			<xs:enumeration value="True-False"/>
+            <xs:enumeration value="Other"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="educationOrgIdentificationSystemType">
@@ -698,6 +699,7 @@
 			<xs:enumeration value="SC" />
 			<xs:enumeration value="SL" />
 			<xs:enumeration value="SG" />
+            <xs:enumeration value="SS" />
 			<xs:enumeration value="SX" />
 			<xs:enumeration value="SK" />
 			<xs:enumeration value="SI" />
@@ -1025,6 +1027,7 @@
 			<xs:enumeration value="Preschool/early childhood"/>
 			<xs:enumeration value="Primary School"/>
 			<xs:enumeration value="Intermediate School"/>
+            <xs:enumeration value="Other"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="schoolType">
@@ -1129,6 +1132,15 @@
 			<xs:enumeration value="Third Trimester"/>
 			<xs:enumeration value="Year Round"/>
 			<xs:enumeration value="MiniTerm"/>
+            <xs:enumeration value="Term 0"/>
+            <xs:enumeration value="Term 1"/>
+            <xs:enumeration value="Term 2"/>
+            <xs:enumeration value="Term 3"/>
+            <xs:enumeration value="Term 4"/>
+            <xs:enumeration value="Term 5"/>
+            <xs:enumeration value="Term 6"/>
+            <xs:enumeration value="Term 7"/>
+            <xs:enumeration value="Term 8"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="meetingDayItemType">
@@ -1243,6 +1255,7 @@
 			<xs:enumeration value="Self-contained (Special Education) "/>
 			<xs:enumeration value="Self-study"/>
 			<xs:enumeration value="Shop"/>
+            <xs:enumeration value="Other"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="mediumOfInstructionType">
@@ -1854,6 +1867,7 @@
 			<xs:enumeration value="Classroom"/>
 			<xs:enumeration value="School"/>
 			<xs:enumeration value="Testing Center"/>
+            <xs:enumeration value="Other"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="assessmentCategoryType">
@@ -1921,6 +1935,7 @@
 			<xs:enumeration value="Correct"/>
 			<xs:enumeration value="Incorrect"/>
 			<xs:enumeration value="Met standard"/>
+            <xs:enumeration value="Did not meet standard"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="assessmentReportingMethodType">
@@ -2015,6 +2030,7 @@
 			<xs:enumeration value="State Offense"/>
 			<xs:enumeration value="School Violation"/>
 			<xs:enumeration value="School Code of Conduct"/>
+            <xs:enumeration value="Other"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="calendarEventType">
@@ -2638,6 +2654,7 @@
 			<xs:enumeration value="Reading Assistance"/>
 			<xs:enumeration value="Bilingual Glossary"/>
 			<xs:enumeration value="English and Spanish tests side-by-side"/>
+            <xs:enumeration value="Other"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="restraintEventReasonItemType">
@@ -2903,6 +2920,7 @@
 			<xs:enumeration value="Off-School at other school district facility"/>
 			<xs:enumeration value="Online"/>
 			<xs:enumeration value="Unknown"/>
+            <xs:enumeration value="Other"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="programAssignmentType">
@@ -3417,6 +3435,7 @@
 			<xs:enumeration value="Mid-Term Grade"/>
 			<xs:enumeration value="Progress Report"/>
 			<xs:enumeration value="Semester"/>
+            <xs:enumeration value="Other"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="disciplineActionLengthDifferenceReasonType">

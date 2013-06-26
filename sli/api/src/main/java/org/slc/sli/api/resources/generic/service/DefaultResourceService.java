@@ -35,9 +35,12 @@ import javax.xml.bind.DatatypeConverter;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.api.constants.ResourceConstants;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.criteriaGenerator.GranularAccessFilter;
@@ -49,6 +52,7 @@ import org.slc.sli.api.resources.generic.PreConditionFailedException;
 import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.representation.ServiceResponse;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
+import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.selectors.LogicalEntity;
 import org.slc.sli.api.selectors.UnsupportedSelectorException;
 import org.slc.sli.api.service.EntityNotFoundException;
@@ -56,14 +60,13 @@ import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.aspect.ApiMigrationAspect.MigratePostedEntity;
 import org.slc.sli.aspect.ApiMigrationAspect.MigrateResponse;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.modeling.uml.ClassType;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.stereotype.Component;
 
 /**
  * Default implementation of the resource service.
@@ -95,6 +98,8 @@ public class DefaultResourceService implements ResourceService {
     private ApiSchemaAdapter adapter;
     private Map<String, String> endDates = new HashMap<String, String>();
 
+    private Set<String> contextSupportedEntities = new HashSet<String>();
+
     public static final int MAX_MULTIPLE_UUIDS = 100;
 
     private static final String POST = "POST";
@@ -109,8 +114,10 @@ public class DefaultResourceService implements ResourceService {
         endDates.put(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, "endDate");
         endDates.put(ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS, "endDate");
         endDates.put(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, "endDate");
-    }    
-    
+
+        contextSupportedEntities.add(EntityNames.STUDENT);
+    }
+
     /**
      * @author jstokes
      */
@@ -154,7 +161,13 @@ public class DefaultResourceService implements ResourceService {
                 try {
                     finalResults = logicalEntity.getEntities(apiQuery, resource.getResourceType());
                 } catch (UnsupportedSelectorException e) {
-                    finalResults = (List<EntityBody>) definition.getService().list(apiQuery);
+                 // US5765: Temporarily disabled the new logic
+                 SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
+                    if (ids.size() == 1  && contextSupportedEntities.contains(definition.getType()) &&  SecurityUtil.isStaffUser()) {
+                        finalResults = (List<EntityBody>) definition.getService().listBasedOnContextualRoles(apiQuery);
+                    } else {
+                        finalResults = (List<EntityBody>) definition.getService().list(apiQuery);
+                    }
                 }
 
                 if (idLength == 1 && finalResults.isEmpty()) {
@@ -352,7 +365,7 @@ public class DefaultResourceService implements ResourceService {
             } catch (final UnsupportedSelectorException e) {
                 entityBodyList = (List<EntityBody>) definition.getService().list(apiQuery);
             }
-            
+
             long count = getEntityCount(definition, apiQuery);
             return new ServiceResponse(adapter.migrate(entityBodyList, definition.getResourceName(), GET), count);
         } catch (NoGranularAccessDatesException e) {
@@ -406,7 +419,7 @@ public class DefaultResourceService implements ResourceService {
 
                 for (EntityBody entityBody : baseEntity.getService().list(apiQuery)) {
                     List<EntityBody> associations = (List<EntityBody>) entityBody.get(assocEntity.getType());
-                    
+
                     if (associations != null) {
                         String ident = resourceKey;
                         if (finalEntityReferencesAssociation(finalEntity,
@@ -416,7 +429,7 @@ public class DefaultResourceService implements ResourceService {
                         }
 
                         List<EntityBody> filtered = getTimeFilteredAssociations(associations, baseEntity, assocEntity);
-                        
+
                         for(EntityBody body : filtered) {
                             filteredIdList.add((String) body.get(ident));
                         }
@@ -600,12 +613,12 @@ public class DefaultResourceService implements ResourceService {
                     filtered.remove(associationEntity);
                 }
             }
-        } 
+        }
 
         return filtered;
     }
 
-    
+
     private boolean isCurrent(EntityDefinition def, EntityBody body) {
         String now = DatatypeConverter.printDate(Calendar.getInstance());
         String assocEnd = (String) body.get(this.endDates.get(def
@@ -618,7 +631,7 @@ public class DefaultResourceService implements ResourceService {
 
         return now.compareTo(assocEnd) < 0;
     }
-    
+
     /**
      * Indicates that for a valid granular access query, no sessions and hence
      * no beginDate or endDate were found.

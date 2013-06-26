@@ -17,11 +17,24 @@ package org.slc.sli.api.security.context;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.PathSegment;
+
+import com.sun.jersey.core.util.MultivaluedMapImpl;
+import com.sun.jersey.spi.container.ContainerRequest;
+
+import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.common.constants.EntityNames;
@@ -30,39 +43,128 @@ public class StudentAccessValidatorTest {
     
     StudentAccessValidator underTest = new StudentAccessValidator();
     
+    ContainerRequest request;
+    
+    List<String> paths;
+    
+    @Before
+    public void setup() {
+        request = Mockito.mock(ContainerRequest.class);
+        when(request.getPathSegments()).thenAnswer(new Answer<List<PathSegment>>() {
+            @Override
+            public List<PathSegment> answer(InvocationOnMock invocation) throws Throwable {
+                return buildSegment();
+            }
+        });
+        when(request.getQueryParameters()).thenReturn(new MultivaluedMapImpl());
+        when(request.getMethod()).thenReturn("GET");
+    }
+
     @Test
     public void disciplineRelatedEntityShouldNeverBeAllowed() {
-        List<String> paths = Arrays.asList("noise", "white_noise", EntityNames.DISCIPLINE_ACTION, "noise");
-        assertFalse(underTest.isAllowed(paths));
+        paths = Arrays.asList("v1", "noise", "white_noise", EntityNames.DISCIPLINE_ACTION, "noise");
+        assertFalse(underTest.isAllowed(request));
         // two parts
-        paths = Arrays.asList(ResourceNames.DISCIPLINE_ACTIONS, "id123");
-        assertFalse(underTest.isAllowed(paths));
-        paths = Arrays.asList(ResourceNames.DISCIPLINE_INCIDENTS, "id123");
-        assertFalse(underTest.isAllowed(paths));
-        paths = Arrays.asList(ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS, "id123");
-        assertFalse(underTest.isAllowed(paths));
+        paths = Arrays.asList("v1", ResourceNames.DISCIPLINE_ACTIONS, "id123");
+        assertFalse(underTest.isAllowed(request));
+        paths = Arrays.asList("v1", ResourceNames.DISCIPLINE_INCIDENTS, "id123");
+        assertFalse(underTest.isAllowed(request));
+        paths = Arrays.asList("v1", ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS, "id123");
+        assertFalse(underTest.isAllowed(request));
+    }
+    
+    private List<PathSegment> buildSegment() {
+        List<PathSegment> segs = new ArrayList<PathSegment>();
+        for (final String s : paths) {
+            segs.add(new PathSegment() {
+                
+                @Override
+                public String getPath() {
+                    return s;
+                }
+                
+                @Override
+                public MultivaluedMap<String, String> getMatrixParameters() {
+                    return null;
+                }
+                
+            });
+        }
+        return segs;
+    }
+
+    @Test
+    public void onePartWithQueryIsAllowed() {
+        // one part by itself is not allowed
+        paths = Arrays.asList("v1", ResourceNames.SCHOOLS);
+        assertFalse(underTest.isAllowed(request));
+        
+        // but it's allowed if it comes with any queries
+        MultivaluedMapImpl queries = new MultivaluedMapImpl();
+        queries.add("parentEducationAgencyReference", "1b223f577827204a1c7e9c851dba06bea6b031fe_id");
+        when(request.getQueryParameters()).thenReturn(queries);
+        assertTrue(underTest.isAllowed(request));
     }
     
     @Test
     public void whiteListedURLAllowed() {
-        List<String> paths = Arrays.asList(ResourceNames.SESSIONS, "id123", ResourceNames.COURSE_OFFERINGS);
-        assertTrue(underTest.isAllowed(paths));
+        paths = Arrays.asList("v1", ResourceNames.SESSIONS, "id123", ResourceNames.COURSE_OFFERINGS);
+        assertTrue(underTest.isAllowed(request));
         
-        paths = Arrays.asList(ResourceNames.SESSIONS, "id123", ResourceNames.COURSE_OFFERINGS, ResourceNames.COURSES);
-        assertTrue(underTest.isAllowed(paths));
+        paths = Arrays.asList("v1", ResourceNames.SESSIONS, "id123", ResourceNames.COURSE_OFFERINGS, ResourceNames.COURSES);
+        assertTrue(underTest.isAllowed(request));
 
     }
     
     @Test
     public void notInWhiteListBlocked() {
-        List<String> paths = Arrays.asList(ResourceNames.SESSIONS, "id123", ResourceNames.STUDENT_ACADEMIC_RECORDS);
-        assertFalse(underTest.isAllowed(paths));
+        paths = Arrays.asList("v1", ResourceNames.SESSIONS, "id123", ResourceNames.STUDENT_ACADEMIC_RECORDS);
+        assertFalse(underTest.isAllowed(request));
     }
     
     @Test
     public void twoPartsAreAllowed() {
-        List<String> paths = Arrays.asList("anything", "id123");
-        assertTrue(underTest.isAllowed(paths));
+        paths = Arrays.asList("v1", "anything", "id123");
+        assertTrue(underTest.isAllowed(request));
+    }
+    
+    @Test
+    public void testAccessToHome() {
+        paths = Arrays.asList("v1", "home");
+        assertTrue(underTest.isAllowed(request));
+    }
+    
+    @Test
+    public void onePartPOSTOnPrivateEntityAllowed() {
+        when(request.getMethod()).thenReturn("POST");
+        paths = Arrays.asList("v1", "studentAssessments");
+        assertTrue(underTest.isAllowed(request));
+    }
+    
+    @Test
+    public void onePartPOSTOnPublicEntityDenied() {
+        when(request.getMethod()).thenReturn("POST");
+        paths = Arrays.asList("v1", "assessments");
+        assertFalse(underTest.isAllowed(request));
+    }
+    
+    @Test
+    public void testAccessToSystem() {
+        paths = Arrays.asList("v1", "system", "session");
+        assertTrue(underTest.isAllowed(request));
+        paths = Arrays.asList("v1", "system", "session", "debug");
+        assertTrue(underTest.isAllowed(request));
+        paths = Arrays.asList("v1", "system", "session", "check");
+        assertTrue(underTest.isAllowed(request));
+        paths = Arrays.asList("v1", "system", "session", "logout");
+        assertTrue(underTest.isAllowed(request));
+    }
+    
+    @Ignore
+    public void generateWhitelist() {
+        for (String s : underTest.getAllWhiteLists()) {
+            System.out.println(s);
+        }
     }
 
 }

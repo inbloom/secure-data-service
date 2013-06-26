@@ -447,6 +447,7 @@ public class MockRepo implements Repository<Entity> {
                 denormalized);
         final String id = generateId();
         final BasicBSONObject meta = new BasicBSONObject();
+        final Map<String, List<Entity>> embeddedData = new HashMap<String, List<Entity>>();
 
         Entity newEntity = new Entity() {
             @Override
@@ -481,7 +482,7 @@ public class MockRepo implements Repository<Entity> {
 
             @Override
             public Map<String, List<Entity>> getEmbeddedData() {
-                return null;
+                return embeddedData;
             }
 
             @Override
@@ -681,9 +682,70 @@ public class MockRepo implements Repository<Entity> {
     }
 
     @Override
-    public Entity createWithRetries(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
+    public Entity createWithRetries(final String type, final String id, Map<String, Object> body, Map<String, Object> metaData,
             String collectionName, int noOfRetries) {
-        return null;
+        final HashMap<String, Object> clonedBody = new HashMap<String, Object>(body);
+        final HashMap<String, Object> clonedMetadata = new HashMap<String, Object>(metaData);
+
+        Entity newEntity = new Entity() {
+            @Override
+            public String getEntityId() {
+                return id;
+            }
+
+            @Override
+            public Map<String, Object> getMetaData() {
+                return clonedMetadata;
+            }
+
+            @Override
+            public Map<String, Object> getBody() {
+                return clonedBody;
+            }
+
+            @Override
+            public String getType() {
+                return type;
+            }
+
+            @Override
+            public CalculatedData<String> getCalculatedValues() {
+                return null;
+            }
+
+            @Override
+            public CalculatedData<Map<String, Integer>> getAggregates() {
+                return null;
+            }
+
+            @Override
+            public Map<String, List<Entity>> getEmbeddedData() {
+                return null;
+            }
+
+            @Override
+            public Map<String, List<Map<String, Object>>> getDenormalizedData() {
+                return null;
+            }
+
+            @Override
+            public String getStagedEntityId() {
+                return null;
+            }
+
+            @Override
+            public Map<String, List<Entity>> getContainerData() {
+                return null;
+            }
+
+            @Override
+            public void hollowOut() {
+                // override super implementation with empty implementation
+            }
+        };
+
+        update(collectionName, newEntity, false);
+        return newEntity;
     }
 
     @Override

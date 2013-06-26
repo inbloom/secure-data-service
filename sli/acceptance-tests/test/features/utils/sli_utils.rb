@@ -290,6 +290,7 @@ def restHttpGet(id, format = @format, sessionId = @sessionId)
   puts "GET urlHeader: #{urlHeader}" if $SLI_DEBUG
   @res = RestClient.get(urlHeader[:url], urlHeader[:headers]){|response, request, result| response }
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
+  return @res
 end
 
 def restHttpCustomHeadersGet(id, customHeaders, format = @format, sessionId = @sessionId)
@@ -435,31 +436,32 @@ end
 
 After do |scenario|
   if scenario.failed?
-    begin
-      conn = Mongo::Connection.new("jenkins.slidev.org")
-      db = conn.db("test_job_failures")
-      failures = db.collection("failure")
-      title = scenario.is_a?(Cucumber::Ast::OutlineTable::ExampleRow)? scenario.scenario_outline.feature.name.split("\n")[0] : scenario.feature.name.split("\n")[0]
-      scenarioName = scenario.is_a?(Cucumber::Ast::OutlineTable::ExampleRow)? scenario.scenario_outline.name : scenario.name
-      host = Socket.gethostname.include?("cislave")? Socket.gethostname : "local"
-      
-      filepath = scenario.is_a?(Cucumber::Ast::OutlineTable::ExampleRow)? scenario.scenario_outline.feature.file : scenario.feature.file
-      component = filepath.match(/test[\\\/]features[\\\/]([^\\\/]+)[\\\/]/)[1]
-      
-      failureHash = {
-       "timestamp" => Time.now.to_f,
-       "feature" => title,
-       "scenario" => scenarioName,
-       "component" => component,
-       "hostname" => host
-      }
-      failures.insert(failureHash)
-      db.get_last_error()
-    rescue
-      # If couldn't report failure, swallow the exception and continue
-    ensure
-      conn.close if conn != nil
-    end
+    ### No longer have network access to mongo on jenkins
+    # begin
+    #       conn = Mongo::Connection.new("jenkins.slidev.org")
+    #       db = conn.db("test_job_failures")
+    #       failures = db.collection("failure")
+    #       title = scenario.is_a?(Cucumber::Ast::OutlineTable::ExampleRow)? scenario.scenario_outline.feature.name.split("\n")[0] : scenario.feature.name.split("\n")[0]
+    #       scenarioName = scenario.is_a?(Cucumber::Ast::OutlineTable::ExampleRow)? scenario.scenario_outline.name : scenario.name
+    #       host = Socket.gethostname.include?("cislave")? Socket.gethostname : "local"
+    #       
+    #       filepath = scenario.is_a?(Cucumber::Ast::OutlineTable::ExampleRow)? scenario.scenario_outline.feature.file : scenario.feature.file
+    #       component = filepath.match(/test[\\\/]features[\\\/]([^\\\/]+)[\\\/]/)[1]
+    #       
+    #       failureHash = {
+    #        "timestamp" => Time.now.to_f,
+    #        "feature" => title,
+    #        "scenario" => scenarioName,
+    #        "component" => component,
+    #        "hostname" => host
+    #       }
+    #       failures.insert(failureHash)
+    #       db.get_last_error()
+    #     rescue
+    #       # If couldn't report failure, swallow the exception and continue
+    #     ensure
+    #       conn.close if conn != nil
+    #     end
     Cucumber.wants_to_quit = true if !ENV['FAILSLOW']
   end
 end
@@ -784,7 +786,8 @@ def retryOnFailure(naptime = 2, retries = 5, &block)
     rescue SystemExit, Interrupt
       raise
     rescue Exception => e
-      if attempts < retries
+      if attempts >= retries
+        puts "Failed #{attempts} times, giving up"
         raise e
       else
         puts e

@@ -34,7 +34,6 @@ end
 desc "Run Ingestion Negative Tests"
 task :ingestionNegativeTests do
   runTests("test/features/ingestion/features/negative_testing.feature")
-  runTests("test/features/ingestion/features/ingestion_ChecksumError.feature")
 end
 
 desc "Run International Address Test"
@@ -618,8 +617,8 @@ task :multipleForceDeletesTest do
   runTests("test/features/ingestion/features/multiple_forced_deletions.feature")
 end
 
-task :updateAllMd5s do
-  runTests("test/features/ingestion/features/updateAllMd5s.feature")
+task :generateZips do
+  runTests("test/features/ingestion/features/generateZips.feature")
 end
 
 task :ingestionSuperStudentDelete do
@@ -645,6 +644,10 @@ end
 
 task :ingestionSeoaa do
   runTests("test/features/ingestion/features/seoaa.feature")
+end
+
+task :corruptZip do
+  runTests("test/features/ingestion/features/corrupt_zip.feature")
 end
 
 ############################################################

@@ -16,7 +16,7 @@ limitations under the License.
 
 =end
 
-
+require 'date'
 require 'json'
 require 'mongo'
 require 'rest-client'
@@ -24,6 +24,7 @@ require 'rexml/document'
 include REXML
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../utils/api_utils.rb'
+require_relative '../../../bulk_extract/features/step_definitions/bulk_extract.rb'
 
 Transform /^<(.*?)>$/ do |human_readable_id|
   # teacher hash transforms
@@ -62,15 +63,20 @@ Transform /^<(.*?)>$/ do |human_readable_id|
   # The zeroes mean that field is an array, and we are taking the first element in it
   # These dot-delmited strings are passed to fieldExtract, which recursively
   # walks the response body and ultimately returns the field we desire
+  #
+  # Student Domain
+  id = "studentUniqueStateId"                                  if human_readable_id == "studentUniqueStateId"
+  #
+  # Assessment Domain
   id = "false"                                                 if human_readable_id == "correct response"
   id = "code1"                                                 if human_readable_id == "code value"
   id = "True-False"                                            if human_readable_id == "item category"
   id = "Number score"                                          if human_readable_id == "reporting method"
-  id = "BOY-11-2013"                                           if human_readable_id == "APD.codeValue"
-  id = "2013-Eleventh grade Assessment 2"                      if human_readable_id == "assessment 1"
-  id = "2013-Eleventh grade Assessment 2#2"                    if human_readable_id == "assessment item 1"
-  id = "2013-Eleventh grade Assessment 2.OA-1"                 if human_readable_id == "objective assessment"
-  id = "2013-Eleventh grade Assessment 2.OA-1 Sub"             if human_readable_id == "sub objective assessment"
+  id = "BOY-12-2013"                                           if human_readable_id == "APD.codeValue"
+  id = "2013-Twelfth grade Assessment 1"                       if human_readable_id == "assessment 1"
+  id = "2013-Twelfth grade Assessment 1#2"                     if human_readable_id == "assessment item 1"
+  id = "2013-Twelfth grade Assessment 1.OA-1"                  if human_readable_id == "objective assessment"
+  id = "2013-Twelfth grade Assessment 1.OA-1 Sub"              if human_readable_id == "sub objective assessment"
   id = "objectiveAssessment.0.maxRawScore"                     if human_readable_id == "OA.maxRawScore"
   id = "objectiveAssessment.0.nomenclature"                    if human_readable_id == "OA.nomenclature"
   id = "objectiveAssessment.0.identificationCode"              if human_readable_id == "OA.identificationCode"
@@ -80,9 +86,9 @@ Transform /^<(.*?)>$/ do |human_readable_id|
   id = "assessmentIdentificationCode.0.identificationSystem"   if human_readable_id == "AIC.identificationSystem"
   
   # Assessment Family Hierarchy
-  id = "2013 Standard.2013 Eleventh grade Standard"             if human_readable_id == "assessment family hierarchy"
+  id = "2013 Standard.2013 Twelfth grade Standard"             if human_readable_id == "assessment family hierarchy"
   # Assessment Period Descriptor
-  id = "Beginning of Year 2013-2014 for Eleventh grade"         if human_readable_id == "assessment period descriptor"
+  id = "Beginning of Year 2013-2014 for Twelfth grade"         if human_readable_id == "assessment period descriptor"
 
   # Search endpoints
   id = "assessmentIdentificationCode.0.ID"                     if human_readable_id == "search.assessment.ID"
@@ -212,16 +218,24 @@ Given /^I am a valid SEA\/LEA end user "([^"]*)" with password "([^"]*)"$/ do |u
 end
 
 Given /^I have a Role attribute returned from the "([^"]*)"$/ do |arg1|
-# No code needed, this is done during the IDP configuration
+  # No code needed, this is done during the IDP configuration
+end
+
+Given /^I am accessing data about myself, "(.*?)"$/ do |arg1|
+  # No code needed, this is an explanation step
 end
 
 Given /^the role attribute equals "([^"]*)"$/ do |arg1|
-# No code needed, this is done during the IDP configuration
+  # No code needed, this is done during the IDP configuration
 end
 
-Given /^I am authenticated on "([^"]*)"$/ do |arg1|
+Given /^I am authenticated on "(.*?)"$/ do |arg1|
   idpRealmLogin(@user, @passwd, arg1)
   assert(@sessionId != nil, "Session returned was nil")
+end
+
+Given /^I am using api version "(.*?)"$/ do |version|
+  @api_version = version
 end
 
 ###############################################################################
@@ -257,22 +271,168 @@ When /^I follow the links for assessment$/ do
   @links = @result["links"]
 end
 
+When /^I verify the following response body fields in "(.*?)":$/ do |uri, table|
+  step "I navigate to GET \"/#{@api_version}#{uri}\""
+  table.hashes.map do |row|
+    puts "Checking #{row['field']} is set to #{row['value']}" if $SLI_DEBUG
+    step "the response field \"#{row['field']}\" should be \"#{row['value']}\""
+  end
+end
+
+When /^I verify the following response body fields exist in "(.*?)":$/ do |uri, table|
+  step "I navigate to GET \"/#{@api_version}#{uri}\""
+  puts "api result is #{@result}" if $SLI_DEBUG
+  table.hashes.map do |row|
+    field = row['field']
+    puts "Checking #{field} exists" if $SLI_DEBUG
+    result = fieldExtract(field, @result)
+    assert((not result.nil?), "No value set for field #{field}")
+  end
+end
+
+When /^I verify the following response body fields do not exist in the response:$/ do |table|
+  puts "api result is #{@result}" if $SLI_DEBUG
+  table.hashes.map do |row|
+    field = row['field']
+    puts "Checking #{field} exists" if $SLI_DEBUG
+    result = fieldExtract(field, @result)
+    assert(result.nil?, "Invalid Access: User has access to field #{field} but should not")
+  end
+end
+
+When /^I validate I have access to entities via the API access pattern "(.*?)":$/ do |uri, table| 
+  table.hashes.map do |row|
+    print "Verifying I get a 200 response from #{row["entity"]}/#{row["id"]} .. "
+    call_uri = uri.gsub("Entity", row["entity"]).gsub("Id", row["id"])
+    puts "Calling GET to #{call_uri}" if $SLI_DEBUG
+    step "I navigate to GET \"#{call_uri}\""
+    step "I should receive a return code of 200"
+    print "OK\n"
+  end
+end
+
+When /^I validate the current allowed association entities via API "(.*?)":$/ do |uri, table|
+  # Do all current existing validation
+  step "I validate the allowed association entities via API \"#{uri}\":", table
+
+  # After its done, additionally check the response that all returned associations are current
+  assert(@result.is_a?(Array), "Response of a Listing endpoint was not a list of entities")
+  @result.each do |assoc|
+    if assoc.has_key? "endDate"
+      date = assoc["endDate"]
+      assert(is_current?(date), "Date #{date} was not current")
+    elsif assoc.has_key? "exitWithdrawDate"
+      date = assoc["exitWithdrawDate"]
+      assert(is_current?(date), "Date #{date} was not current")
+    else
+      # Any association with no end date is deemed to be current
+    end
+  end
+
+end
+
+When /^I validate the allowed association entities via API "(.*?)":$/ do |uri, table|
+  startRed = "\e[31m"
+  colorReset = "\e[0m"
+
+  print "Verifying I get a 200 response from #{uri} .. "
+  puts "Calling GET to #{uri}" if $SLI_DEBUG
+  step "I navigate to GET \"#{uri}\""
+  step "I should receive a return code of 200"
+  print "OK\n"
+
+  print "Verifying the number of entities returned matches the expected count .. "
+  @result = JSON.parse(@res.body)
+  response_ids = @result.collect{|res| res["id"]}
+  expected_ids = table.hashes.collect{|row| row["id"]}
+  assert(response_ids.length == expected_ids.length, "Found #{response_ids.length}, expected #{expected_ids.length}")
+  success = true
+  print "OK\n"
+
+  table.hashes.map do |row|
+    result = @result.detect{|res| res["id"] == row["id"]}
+    if result.nil?
+      success = false
+      print "#{startRed}Looking for Entity: #{row["id"]}#{colorReset}\n"
+    else
+      print "Looking for Entity: #{row["id"]}\n" 
+    end
+  end
+  assert(success, "Did not find one or more expected entities")
+end
+
+When /^I validate that I am denied access to restricted endpoints via API:$/ do |table|
+  startRed = "\e[31m"
+  colorReset = "\e[0m"
+  success = true
+
+  table.hashes.map do |row|
+    step "I navigate to GET \"#{row['uri']}\""
+    if @res.code != row['rc'].to_i
+      print "#{startRed}Verifying I get a #{row['rc']} response from #{row['uri']}#{colorReset}"
+      success = false
+    else
+      print "Verifying I get a #{row['rc']} response from #{row['uri']}"
+    end
+    assert(success, "Received an unexpected http return code..")
+  end
+end
+
+When /^I validate the "(.*?)" HATEOS link for "(.*?)"$/ do |entity, key|
+  uri = @entityMap[entity.to_s][key.to_s]
+  step "I follow the HATEOS link named \"#{uri}\""
+end
+
+
 ###############################################################################
 # THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN
 ###############################################################################
 Then /^I should get and store the "(.*?)" link named "(.*?)"$/ do |context, mylink|
   @result = JSON.parse(@res.body)
   assert(@result != nil, "Response contains no data")
-  found = false
   if !@result.nil? && !@result.empty?
+    found = false
     @result["links"].each do |link|
       if link["rel"] == mylink
         found = true
-        entityHashPush(context, mylink)
+        entityHashPush(context, mylink, link["href"])
+        puts "DEBUG: @entityMap[#{context}][#{mylink}] is #{@entityMap[context][mylink]}"
       end
     end
   end
   assert(found, "Could not find the link #{mylink} in the URI Response: #{@result}")
+end
+
+Then /^I should validate all the HATEOS links$/ do
+  @result = JSON.parse(@res.body)
+  assert(@result != nil, "Response contains no data")
+  puts "DEBUG: Token is #{@sessionId}"
+  if !@result.empty?
+    @result["links"].each do |link|
+      link["href"].match("/api/rest/v1\.[0-9]/(.*?)$")
+      uri = $1
+      assert(uri != nil, "Did not find a link for #{link["rel"]} => #{link["href"]}" )
+      step "I navigate to GET \"/v1/#{uri}\""
+      if link["rel"] == "custom"
+        assert(@res.code == 404, "Return code was not expected: #{@res.code} but expected 404")
+      else 
+        puts "DEBUG: return code for #{link["rel"]} is #{@res.code}\nURL is #{link["href"]}"
+        #step "I should receive a return code of 200"
+      end
+      #puts "DEBUG: 200 OK"
+    end
+  else
+    assert(false, "Empty response from API call, expected HATEOS links in response body.")
+  end
+end
+
+Then /^I should GET a return code of "(.*?)" for all the "(.*?)" links$/ do |rc, userType|
+  # Strip out the first part of each URI to pass to GET method
+  @entityMap[userType].each
+  uris = something
+
+  step "I navigate to GET '/v1/#{uri}'"
+  step "I should receive a return code of #{rc}"
 end
 
 Then /^I should get and store the "(.*?)" from the response body$/ do |field|
@@ -291,13 +451,20 @@ Then /^I sort the studentAssessmentItems$/ do
 end
 
 Then /^the response field "(.*?)" should be "(.*?)"$/ do |field, value|
+  startRed = "\e[31m"
+  colorReset = "\e[0m"
   #puts "\n\nDEBUG: @result[#{field}]=#{@result[field]}\n"
   # dig the value for that field out of a potentially
   # dot-delimited response-body structure
   # ex: field=body.name.firstName, @result=[json response body]
-  puts @result
+  puts @result if $SLI_DEBUG
   result = fieldExtract(field, @result) 
-  assert(result.to_s == value, "Unexpected response: expected #{value}, found #{result}")  
+  if (result.to_s != value)
+    puts "#{startRed}Result for #{field} was #{result.to_s}#{colorReset}"
+    assert(false, "Unexpected result for field #{field}, should be #{value}.")
+  else
+    puts "Result for #{field} was #{result.to_s}"
+  end
 end
 
 Then /^the offset response field "([^"]*)" should be "([^"]*)"$/ do |field, value|
@@ -312,7 +479,8 @@ Then /^the response field "(.*?)" should be the number "(.*?)"$/ do |field, valu
 end
 
 Then /^I should extract the "(.*?)" id from the "(.*?)" URI$/ do |entity, link|
-  value = @entityMap["teacher"][link].match(/#{resource}\/(.*?_id)/)
+  puts "DEBUG: entity link is #{@entityMap[entity][link]}"
+  value = @entityMap[entity][link].match(/#{entity}s\/(.*?_id)/)
   entityHashPush(entity, "id", $1)
 end
 
@@ -346,13 +514,13 @@ end
 Then /^I store the studentAssessments$/ do
   #puts "\n\nDEBUG: Storing #{@result.length} studentAssessments"
   ids = Array.new
-
   @result.each do |studentAssessment|
     ids << studentAssessment["id"]
     entityHashPush("teacher", studentAssessment["id"], studentAssessment)
   end
   # Push the list of studentAsessment hash keys to a list in @entityMap["teacher"]
   ids.sort!
+  puts "DEBUG: ids are #{ids.inspect}"
   entityHashPush("teacher", "studentAssessments", ids)
 end
 
@@ -515,7 +683,8 @@ end
 
 # Build the entity hash map
 def entityHashPush(entity, key, value)
-  @entityMap[entity] = Hash.new unless defined? @entityMap[entity]
+  @entityMap = {} unless @entityMap != nil
+  @entityMap[entity] = {} unless @entityMap[entity] != nil  
   @entityMap[entity][key] = value
 end
 
@@ -549,5 +718,32 @@ def studentArray(value)
   end
 end
 
+#This function deterimes if a date string passed in (in format yyyy-mm-dd) is current or not
+def is_current?(end_date_string)
+  now_string = Date.today.strftime("%F")
+  return  now_string <= end_date_string
+end
 
+Then(/^I PATCH entities and check return code$/) do |table|
+  # Strings for ANSI Color codes
+  startRed = "\e[31m"
+  colorReset = "\e[0m"
 
+  success = true
+  @format = 'application/json'
+  table.hashes.map do |params|
+    uri = "#{params['Endpoint']}/#{params['Id']}"
+    data = {}
+    data[params['Field']]='onward'
+    restHttpPatch("/#{@api_version}/#{uri}", data)
+    #Verify the return code
+    assert(@res != nil, "Response from rest-client PATCH is nil")
+    if (@res == nil) || (@res.code != 403)
+      success = false
+      puts "#{startRed}Return code for URI: #{uri} was #{@res.code}#{colorReset}"
+    else
+      puts "Return code for URI: #{uri} was #{@res.code}"
+    end
+  end
+  assert(success, "Response code was unexpected, see logs above.")
+end

@@ -23,4 +23,28 @@
             </AssessmentFamilyIdentity>
         </AssessmentFamilyReference>
     </Assessment>
+    <AssessmentItem>
+        <AssessmentReference>
+            <AssessmentIdentity>
+                <AssessmentTitle>English Literature and Composition</AssessmentTitle>
+                <AcademicSubject>Career Education</AcademicSubject>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+        </AssessmentReference>
+        <IdentificationCode>AssessmentItem-2</IdentificationCode>
+        <ItemCategory>Other</ItemCategory>
+        <MaxRawScore>5</MaxRawScore>
+        <CorrectResponse>True</CorrectResponse>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>G-SRT.2</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>G-SRT.3</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </AssessmentItem>
 </InterchangeAssessmentMetadata>

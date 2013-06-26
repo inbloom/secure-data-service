@@ -46,9 +46,15 @@ import org.slc.sli.domain.enums.Right;
 @Component
 public class RoleInitializer {
     public static final String EDUCATOR = "Educator";
+    public static final String TEACHER = "Teacher";
     public static final String AGGREGATE_VIEWER = "Aggregate Viewer";
+    public static final String SPECIALIST_CONSULTANT = "Specialist/Consultant";
     public static final String IT_ADMINISTRATOR = "IT Administrator";
+    public static final String SCHOOL_ADMIN = "School Administrative Support Staff";
+    public static final String LEA_ADMIN = "LEA System Administrator";
     public static final String LEADER = "Leader";
+    public static final String PRINCIPAL = "Principal";
+    public static final String SUPERINTENDENT = "Superintendent";
     public static final String STUDENT = "Student";
     public static final String PARENT = "Parent";
     public static final String ROLES = "customRole";
@@ -107,14 +113,14 @@ public class RoleInitializer {
         groups.add(buildRoleGroup(buildLeader()));
         groups.add(buildRoleGroup(buildIT()));
         groups.add(buildRoleGroup(buildEducator()));
-        groups.add(buildRoleGroup(RoleBuilder.makeRole("Student").addRights(new Right[]{Right.READ_PUBLIC, Right.READ_STUDENT_DATA}).addSelfRights(new Right[]{Right.READ_GENERIC}).setAdmin(false).build()));
+        groups.add(buildRoleGroup(RoleBuilder.makeRole(Arrays.asList("Student")).addGroupTitle("Student").addRights(new Right[]{Right.READ_PUBLIC, Right.READ_STUDENT_GENERAL}).addSelfRights(new Right[]{Right.READ_STUDENT_OWNED}).setAdmin(false).build()));
         return groups;
     }
 
     private Map<String, Object> buildRoleGroup(Role role) {
         Map<String, Object> group = new HashMap<String, Object>();
-        group.put("groupTitle", role.getName());
-        group.put("names", Arrays.asList(role.getName()));
+        group.put("groupTitle", role.getGroupTitle());
+        group.put("names", role.getName());
         group.put("rights", iterableToList(role.getRightsAsStrings()));
         group.put("selfRights", iterableToList(role.getSelfRightsAsStrings()));
         group.put("isAdminRole", role.isAdmin());
@@ -131,7 +137,11 @@ public class RoleInitializer {
 
     private Role buildAggregate() {
         info("Building Aggregate Viewer default role.");
-        Role role = RoleBuilder.makeRole(AGGREGATE_VIEWER)
+        ArrayList<String> roleNames = new ArrayList<String>();
+        roleNames.add(AGGREGATE_VIEWER);
+        roleNames.add(SPECIALIST_CONSULTANT);
+        Role role = RoleBuilder.makeRole(roleNames)
+                .addGroupTitle(AGGREGATE_VIEWER)
                 .addRights(new Right[] { Right.READ_PUBLIC, Right.AGGREGATE_READ })
                 .addSelfRights(new Right[] { Right.READ_GENERAL, Right.READ_RESTRICTED}).build();
         role.setAdmin(false);
@@ -140,7 +150,11 @@ public class RoleInitializer {
 
     private Role buildEducator() {
         info("Building Educator default role.");
-        Role role = RoleBuilder.makeRole(EDUCATOR)
+        ArrayList<String> roleNames = new ArrayList<String>();
+        roleNames.add(EDUCATOR);
+        roleNames.add(TEACHER);
+        Role role = RoleBuilder.makeRole(roleNames)
+                .addGroupTitle(EDUCATOR)
                 .addRights(new Right[] { Right.READ_PUBLIC, Right.AGGREGATE_READ, Right.READ_GENERAL })
                 .addSelfRights(new Right[]{ Right.READ_RESTRICTED}).build();
         role.setAdmin(false);
@@ -149,8 +163,12 @@ public class RoleInitializer {
 
     private Role buildLeader() {
         info("Building Leader default role.");
-        Role role = RoleBuilder
-                .makeRole(LEADER)
+        ArrayList<String> roleNames = new ArrayList<String>();
+        roleNames.add(LEADER);
+        roleNames.add(PRINCIPAL);
+        roleNames.add(SUPERINTENDENT);
+        Role role = RoleBuilder.makeRole(roleNames)
+                .addGroupTitle(LEADER)
                 .addRights(
                         new Right[] { Right.READ_PUBLIC, Right.AGGREGATE_READ, Right.READ_GENERAL,
                                 Right.READ_RESTRICTED }).build();
@@ -160,8 +178,13 @@ public class RoleInitializer {
 
     private Role buildIT() {
         info("Building IT Administrator default role.");
-        Role role = RoleBuilder
-                .makeRole(IT_ADMINISTRATOR)
+        ArrayList<String> roleNames = new ArrayList<String>();
+        roleNames.add(IT_ADMINISTRATOR);
+        roleNames.add(LEA_ADMINISTRATOR);
+        roleNames.add(SCHOOL_ADMIN);
+        roleNames.add(LEA_ADMIN);
+        Role role = RoleBuilder.makeRole(roleNames)
+                .addGroupTitle(IT_ADMINISTRATOR)
                 .addRights(
                         new Right[] { Right.READ_PUBLIC, Right.AGGREGATE_READ, Right.READ_GENERAL,
                                 Right.READ_RESTRICTED, Right.WRITE_PUBLIC, Right.WRITE_GENERAL, Right.WRITE_RESTRICTED }).build();

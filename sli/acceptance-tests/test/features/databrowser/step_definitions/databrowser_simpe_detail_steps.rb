@@ -237,6 +237,22 @@ Then /^the error is dismissed$/ do
 
 end
 
+Then /^I can see my "(.*?)" is "(.*?)"$/ do |field, value|
+  # Far more complicated then it needs to be because databrowser seems to randomly choose different formats for fields and values.
+  found_value = nil
+  begin
+    found_value = @driver.find_element(:xpath, "//div[text()=\"#{field}:\"]/following-sibling::div[1]").text
+  rescue
+    begin
+      found_value = @driver.find_element(:xpath, "//div/span[text()=\"#{field}\"]/../following-sibling::div[1]").text
+    rescue => e
+      puts "Could not find #{field} = #{value}"
+      raise e
+    end
+  end
+  assert(value == found_value, "Did not find #{field} equals #{value}.  Found #{found_value} instead.")
+end
+
 Then /^I should click on the Home link and be redirected back$/ do
   #Ignored, should be verified in previous steps
 end

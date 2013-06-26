@@ -1,0 +1,4 @@
+source 'http://rubygems.org'
+gem 'mongo'
+gem 'bson'
+gem 'bson_ext'

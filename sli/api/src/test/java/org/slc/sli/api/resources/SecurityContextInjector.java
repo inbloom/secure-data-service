@@ -50,6 +50,7 @@ public class SecurityContextInjector {
     private static final String DEFAULT_REALM_ID = "dc=slidev,dc=net";
     public static final String TENANT_ID = "Midgar";
     private static final String SESSION_ID = "SOME_SESSION_ID";
+    private static final String ADMIN_TYPE = "admin";
 
     @Autowired
     @Qualifier("validationRepo")
@@ -60,8 +61,8 @@ public class SecurityContextInjector {
 
     public void setCustomContext(String user, String fullName, String realm, List<String> roles, Entity entity,
             String edOrgId) {
-        SLIPrincipal principal = buildPrincipal(user, fullName, realm, roles, entity);
-        principal.setEdOrg(edOrgId);
+        SLIPrincipal principal = buildPrincipal(user, fullName, realm, roles, entity, edOrgId, new HashMap<String, Collection<GrantedAuthority>>());
+
         setSecurityContext(principal, false);
     }
 
@@ -73,9 +74,9 @@ public class SecurityContextInjector {
         Entity entity = Mockito.mock(Entity.class);
         Mockito.when(entity.getType()).thenReturn("admin-staff");
         Mockito.when(entity.getEntityId()).thenReturn("-133");
-        SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
-        principal.setEdOrg(ED_ORG_ID);
-        principal.setEdOrgId(ED_ORG_ID);
+        SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity, ED_ORG_ID, new HashMap<String, Collection<GrantedAuthority>>());
+
+        principal.setUserType(ADMIN_TYPE);
         setSecurityContext(principal, false);
     }
 
@@ -87,11 +88,15 @@ public class SecurityContextInjector {
         Entity entity = Mockito.mock(Entity.class);
         Mockito.when(entity.getType()).thenReturn("staff");
         Mockito.when(entity.getEntityId()).thenReturn("blahblahstaffblahblahmerp");
-        SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
-        principal.setEdOrg(ED_ORG_ID);
-        principal.setEdOrgId(ED_ORG_ID);
-        setSecurityContext(principal, new HashSet<GrantedAuthority>(Arrays.asList(
-                Right.WRITE_GENERAL, Right.READ_GENERAL, Right.READ_RESTRICTED, Right.WRITE_RESTRICTED, Right.READ_PUBLIC, Right.WRITE_PUBLIC)));
+        List<Right> rights = Arrays.asList(
+                Right.WRITE_GENERAL, Right.READ_GENERAL, Right.READ_RESTRICTED, Right.WRITE_RESTRICTED, Right.READ_PUBLIC, Right.WRITE_PUBLIC);
+
+        Map<String, Collection<GrantedAuthority>> edorgRights = new HashMap<String, Collection<GrantedAuthority>>();
+        edorgRights.put(ED_ORG_ID, new ArrayList<GrantedAuthority>(rights));
+
+        SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity, ED_ORG_ID, edorgRights);
+        setSecurityContext(principal, new HashSet<GrantedAuthority>(rights));
+
     }
 
     public void setAccessAllAdminContext() {
@@ -102,8 +107,7 @@ public class SecurityContextInjector {
         Entity entity = Mockito.mock(Entity.class);
         Mockito.when(entity.getType()).thenReturn("access-all-staff");
         Mockito.when(entity.getEntityId()).thenReturn(user);
-        SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
-        principal.setEdOrg(ED_ORG_ID);
+        SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity, ED_ORG_ID, new HashMap<String, Collection<GrantedAuthority>>());
         setSecurityContext(principal, false);
     }
 
@@ -116,7 +120,7 @@ public class SecurityContextInjector {
         Entity entity = Mockito.mock(Entity.class);
         Mockito.when(entity.getType()).thenReturn("admin-staff");
         Mockito.when(entity.getEntityId()).thenReturn(user);
-        SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
+        SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity, ED_ORG_ID, new HashMap<String, Collection<GrantedAuthority>>());
         principal.setExternalId("developer");
         principal.setRoles(roles);
         setSecurityContext(principal, true);
@@ -138,8 +142,9 @@ public class SecurityContextInjector {
         Entity entity = Mockito.mock(Entity.class);
         Mockito.when(entity.getType()).thenReturn("admin-staff");
         Mockito.when(entity.getEntityId()).thenReturn(user);
-        SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
+        SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity, null, null);
         principal.setExternalId("lea_admin");
+        principal.setAdminRealmAuthenticated(true);
         setSecurityContext(principal, true);
 
         Right[] rights = new Right[] { Right.ADMIN_ACCESS, Right.EDORG_APP_AUTHZ };
@@ -159,7 +164,7 @@ public class SecurityContextInjector {
         Entity entity = Mockito.mock(Entity.class);
         Mockito.when(entity.getType()).thenReturn("admin-staff");
         Mockito.when(entity.getEntityId()).thenReturn(user);
-        SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
+        SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity, ED_ORG_ID, new HashMap<String, Collection<GrantedAuthority>>());
         principal.setExternalId("lea_admin");
         setSecurityContext(principal, true);
 
@@ -180,7 +185,7 @@ public class SecurityContextInjector {
         Entity entity = Mockito.mock(Entity.class);
         Mockito.when(entity.getType()).thenReturn("admin-staff");
         Mockito.when(entity.getEntityId()).thenReturn(user);
-        SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
+        SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity, ED_ORG_ID, new HashMap<String, Collection<GrantedAuthority>>());
         principal.setRoles(roles);
         setSecurityContext(principal, true);
 
@@ -201,8 +206,7 @@ public class SecurityContextInjector {
         Entity entity = Mockito.mock(Entity.class);
         Mockito.when(entity.getType()).thenReturn("admin-staff");
         Mockito.when(entity.getEntityId()).thenReturn(user);
-        SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
-        principal.setEdOrg("fake-ed-org");
+        SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity, "fake-ed-org", new HashMap<String, Collection<GrantedAuthority>>());
         principal.setRoles(roles);
         principal.setTenantId(TENANT_ID);
         setSecurityContext(principal, false);
@@ -216,6 +220,7 @@ public class SecurityContextInjector {
     }
 
     public void setAdminContextWithElevatedRights() {
+        Map<String, Collection<GrantedAuthority>> edorgRights = new HashMap<String, Collection<GrantedAuthority>>();
         setAdminContext();
 
         PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(SecurityContextHolder
@@ -267,7 +272,7 @@ public class SecurityContextInjector {
 
         Entity entity = Mockito.mock(Entity.class);
         Mockito.when(entity.getEntityId()).thenReturn(user);
-        SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
+        SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity, ED_ORG_ID, new HashMap<String, Collection<GrantedAuthority>>());
         principal.setRoles(roles);
         principal.setSelfRights(Arrays.asList(new GrantedAuthority[]{ Right.READ_RESTRICTED}));
 
@@ -281,7 +286,7 @@ public class SecurityContextInjector {
 
         Entity entity = Mockito.mock(Entity.class);
         Mockito.when(entity.getEntityId()).thenReturn(user);
-        SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
+        SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity, ED_ORG_ID, new HashMap<String, Collection<GrantedAuthority>>());
         principal.setRoles(roles);
         principal.setSelfRights(Arrays.asList(new GrantedAuthority[]{ Right.READ_RESTRICTED}));
         setSecurityContext(principal, false);
@@ -295,7 +300,7 @@ public class SecurityContextInjector {
         Entity entity = Mockito.mock(Entity.class);
         Mockito.when(entity.getType()).thenReturn(EntityNames.TEACHER);
         Mockito.when(entity.getEntityId()).thenReturn(userId);
-        SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
+        SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity, ED_ORG_ID, new HashMap<String, Collection<GrantedAuthority>>());
         principal.setRoles(roles);
         principal.setSelfRights(Arrays.asList(new GrantedAuthority[]{ Right.READ_RESTRICTED}));
         setSecurityContext(principal, false);
@@ -304,9 +309,9 @@ public class SecurityContextInjector {
     public void setStudentContext(Entity entity) {
         List<String> roles = Arrays.asList(SecureRoleRightAccessImpl.STUDENT);
 
-        SLIPrincipal principal = buildPrincipal("Studious", "Estudiando", DEFAULT_REALM_ID, roles, entity);
+        SLIPrincipal principal = buildPrincipal("Studious", "Estudiando", DEFAULT_REALM_ID, roles, entity, ED_ORG_ID, new HashMap<String, Collection<GrantedAuthority>>());
         principal.setRoles(roles);
-        principal.setSelfRights(Arrays.asList(new GrantedAuthority[]{ Right.READ_GENERIC}));
+        principal.setSelfRights(Arrays.asList(new GrantedAuthority[]{ Right.READ_STUDENT_OWNED}));
         setSecurityContext(principal, false);
     }
 
@@ -325,7 +330,7 @@ public class SecurityContextInjector {
         String fullName = "demo";
         List<String> roles = Arrays.asList(RoleInitializer.IT_ADMINISTRATOR);
         Entity entity = Mockito.mock(Entity.class);
-        SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
+        SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity, ED_ORG_ID, new HashMap<String, Collection<GrantedAuthority>>());
         setSecurityContext(principal, false);
     }
 
@@ -373,7 +378,7 @@ public class SecurityContextInjector {
     }
 
     private SLIPrincipal buildPrincipal(String user, String fullName, String realmId, List<String> roles,
-            Entity principalEntity) {
+            Entity principalEntity, String edorg, Map<String, Collection<GrantedAuthority>> edorgRights) {
         SLIPrincipal principal = new SLIPrincipal(user);
         principal.setId(user);
         principal.setName(fullName);
@@ -382,9 +387,20 @@ public class SecurityContextInjector {
         principal.setRealm(realmId);
         // Putting a default tenant
         principal.setTenantId(TENANT_ID);
+
         // Create the user session for security caching
         Entity session = repo.create("userSession", new HashMap<String, Object>());
         principal.setSessionId(session.getEntityId());
+
+
+        Map<String, List<String>> edorgRoles = new HashMap<String, List<String>>();
+        edorgRoles.put(edorg, roles);
+        principal.setEdOrgRoles(edorgRoles);
+
+        principal.setEdOrg(edorg);
+        principal.setEdOrgId(edorg);
+        principal.setEdOrgRights(edorgRights);
+
         return principal;
     }
 }

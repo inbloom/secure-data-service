@@ -24,11 +24,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.resolve.UserLocator;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
@@ -66,8 +66,8 @@ public class MongoUserLocator implements UserLocator {
                     ParameterConstants.STUDENT_UNIQUE_STATE_ID, NeutralCriteria.OPERATOR_EQUAL, externalUserId));
             neutralQuery.setOffset(0);
             neutralQuery.setLimit(1);
-            user.setEntity(repo.findOne(EntityNames.STUDENT, neutralQuery));
-        } else {
+            user.setEntity(repo.findOne(EntityNames.STUDENT, neutralQuery, true));
+        } else if (isStaff(userType)){
 
             NeutralQuery neutralQuery = new NeutralQuery();
             neutralQuery.setOffset(0);
@@ -98,6 +98,10 @@ public class MongoUserLocator implements UserLocator {
         }
 
         return user;
+    }
+
+    private boolean isStaff(String userType) {
+        return userType == null || userType.isEmpty() || EntityNames.STAFF.equals(userType);
     }
 
     /**
