@@ -42,7 +42,6 @@ public class StudentToProgramCohortValidator extends BasicValidator {
 
     public StudentToProgramCohortValidator() {
         super(false, EntityNames.STUDENT, Arrays.asList(EntityNames.PROGRAM, EntityNames.COHORT));
-        // TODO Auto-generated constructor stub
     }
 
     @Override
