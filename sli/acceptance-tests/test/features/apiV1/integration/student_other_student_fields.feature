@@ -242,7 +242,7 @@ Scenario: Accessing Students via Multi-part URIs
     When I verify the following response body fields in "/studentSectionAssociations/88bb1ad61323121c4939db296f4d444094ad5563_id7848f3971a0ee8afd286c40b5e3c9a411ee8708c_id":
       | field     | value                                       |
       | id        | 88bb1ad61323121c4939db296f4d444094ad5563_id7848f3971a0ee8afd286c40b5e3c9a411ee8708c_id |
-      | studentId | Myron                                       |
+      | studentId | 820642b49c9ca236d49c0384b98e9e6549047c34_id |
       | sectionId | 88bb1ad61323121c4939db296f4d444094ad5563_id |
     Then I verify the following response body fields do not exist in the response:
       | field             |
