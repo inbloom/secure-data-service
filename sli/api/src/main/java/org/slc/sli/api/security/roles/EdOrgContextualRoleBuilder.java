@@ -66,6 +66,13 @@ public class EdOrgContextualRoleBuilder {
         for (Map.Entry<String, List<String>> entry : sliEdOrgRoleMap.entrySet()) {
             sliEdOrgRoleMap.put(entry.getKey(), getRoleNameList(resolver.mapRoles(tenant, realmId, entry.getValue(), false)));
         }
+
+        if (isInValidRoleMap(sliEdOrgRoleMap)) {
+            error("Attempted login by a user that included no roles in the SAML Assertion that mapped to any of the SLI roles.");
+            throw new AccessDeniedException(
+                    "Invalid user.  No valid role mappings exist for the roles specified in the SAML Assertion.");
+        }
+
         return sliEdOrgRoleMap;
     }
 
@@ -98,6 +105,20 @@ public class EdOrgContextualRoleBuilder {
 
     private boolean isValidRole(String role, Set<String> samlRoleSet) {
         return samlRoleSet.contains(role);
+    }
+
+    private boolean isInValidRoleMap(Map<String, List<String>> roleMap) {
+        boolean isEmpty = false;
+
+        for (Map.Entry<String, List<String>> entry : roleMap.entrySet()) {
+           if(entry.getValue().isEmpty()) {
+               isEmpty = true;
+           } else {
+               isEmpty = false;
+               break;
+           }
+        }
+        return isEmpty;
     }
 
     private List<String> getRoleNameList(Set<Role> roleSet) {
