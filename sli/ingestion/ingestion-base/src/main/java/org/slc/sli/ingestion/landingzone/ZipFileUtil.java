@@ -125,35 +125,6 @@ public final class ZipFileUtil {
         return fileInputStream;
     }
 
-    /**
-     * Returns whether or not a file is in the ZIP archive.
-     *
-     * @param zipFile  ZIP archive
-     * @param fileName Name of the file to get stream for
-     * @return whether or not the fileName is in the zipFile
-     */
-    public static boolean isInZipFile(File zipFile, String fileName) {
-        ZipFile zf = null;
-
-        try {
-            zf = new ZipFile(zipFile);
-
-            Enumeration<ZipArchiveEntry> zipFileEntries = zf.getEntries();
-
-            while (zipFileEntries.hasMoreElements()) {
-                if (zipFileEntries.nextElement().getName().equals(fileName)) {
-                    return true;
-                }
-            }
-        } catch (IOException exception) {
-            return false;
-        } finally {
-            ZipFile.closeQuietly(zf);
-        }
-
-        return false;
-    }
-
     public static boolean isInZipFileEntries(String fileName, Set<String> zipFileEntries) {
         if (zipFileEntries == null) {
             return false;
