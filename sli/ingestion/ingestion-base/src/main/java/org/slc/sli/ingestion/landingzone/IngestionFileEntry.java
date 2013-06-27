@@ -24,6 +24,7 @@ import java.io.Serializable;
 
 import org.apache.commons.io.FileUtils;
 
+import org.apache.commons.lang.StringUtils;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.Resource;
@@ -52,7 +53,7 @@ public class IngestionFileEntry implements Serializable, Resource {
         this.parentZipFileOrDirectory = parentZipFileOrDirectory;
         this.fileFormat = fileFormat;
         this.fileType = fileType;
-        this.fileName = fileName;
+        this.fileName = fileName.trim();
         this.checksum = checksum;
         this.valid = true;
     }
