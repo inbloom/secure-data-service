@@ -500,7 +500,7 @@ When /^a "(.*?)" was extracted with all the correct fields$/ do |collection|
 }
 end
 
-When /^I log into "(.*?)" with a token of "(.*?)", a "(.*?)" for "(.*?)" in tenant "(.*?)", that lasts for "(.*?)" seconds/ do |client_appName, user, role, realm, tenant, expiration_in_seconds|
+When /^I log into "(.*?)" with a token of "(.*?)", a "(.*?)" for "(.*?)" for "(.*?)" in tenant "(.*?)", that lasts for "(.*?)" seconds/ do |client_appName, user, role, edorg, realm, tenant, expiration_in_seconds|
 
   @edorg = getEntityId(realm)
   @api_version = "v1"
@@ -514,7 +514,7 @@ When /^I log into "(.*?)" with a token of "(.*?)", a "(.*?)" for "(.*?)" in tena
   enable_NOTABLESCAN()
 
   script_loc = File.dirname(__FILE__) + "/../../../../../../opstools/token-generator/generator.rb"
-  out, status = Open3.capture2("ruby #{script_loc} -e #{expiration_in_seconds} -c #{client_id} -u #{user} -r \"#{role}\" -t \"#{tenant}\" -R \"#{realm}\"")
+  out, status = Open3.capture2("ruby #{script_loc} -e #{expiration_in_seconds} -c #{client_id} -u #{user} -r \"#{role}\" -E \"#{edorg}\" -t \"#{tenant}\" -R \"#{realm}\"")
   assert(out.include?("token is"), "Could not get a token for #{user} for realm #{realm}")
   match = /token is (.*)/.match(out)
   @sessionId = match[1]
@@ -939,14 +939,14 @@ When /^I generate and retrieve the bulk extract delta via API for "(.*?)"$/ do |
   step "I trigger a delta extract" 
   # Request path for IL-Daybreak Admins
   if lea == "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
-    step "I log into \"SDK Sample\" with a token of \"jstevenson\", a \"Noldor\" for \"IL-Daybreak\" in tenant \"Midgar\", that lasts for \"300\" seconds"
+    step "I log into \"SDK Sample\" with a token of \"jstevenson\", a \"Noldor\" for \"IL-DAYBREAK\" for \"IL-Daybreak\" in tenant \"Midgar\", that lasts for \"300\" seconds"
     step "I request latest delta via API for tenant \"Midgar\", lea \"#{lea}\" with appId \"<app id>\" clientId \"<client id>\""
   # Request path for IL-Highwind Admins
   elsif lea == "99d527622dcb51c465c515c0636d17e085302d5e_id"
-    step "I log into \"SDK Sample\" with a token of \"lstevenson\", a \"Noldor\" for \"IL-Highwind\" in tenant \"Midgar\", that lasts for \"300\" seconds"
+    step "I log into \"SDK Sample\" with a token of \"lstevenson\", a \"Noldor\" for \"IL-HIGHWIND\" for \"IL-Highwind\" in tenant \"Midgar\", that lasts for \"300\" seconds"
     step "I request latest delta via API for tenant \"Midgar\", lea \"#{lea}\" with appId \"<app id>\" clientId \"<client id>\""
   elsif lea == "884daa27d806c2d725bc469b273d840493f84b4d_id"
-    step "I log into \"SDK Sample\" with a token of \"rrogers\", a \"Noldor\" for \"IL-Daybreak\" in tenant \"Midgar\", that lasts for \"300\" seconds"
+    step "I log into \"SDK Sample\" with a token of \"rrogers\", a \"Noldor\" for \"STANDARD-SEA\" for \"IL-Daybreak\" in tenant \"Midgar\", that lasts for \"300\" seconds"
     step "I request latest public delta via API for tenant \"Midgar\", lea \"#{lea}\" with appId \"<app id>\" clientId \"<client id>\""
   # Catch invalid LEA
   else 
@@ -958,7 +958,7 @@ end
 
 When /^I request the latest bulk extract delta via API for "(.*?)"$/ do |lea|
   print "Logging in as lstevenson in IL-Highwind .. "
-  step "I log into \"SDK Sample\" with a token of \"lstevenson\", a \"Noldor\" for \"IL-Highwind\" in tenant \"Midgar\", that lasts for \"300\" seconds"
+  step "I log into \"SDK Sample\" with a token of \"lstevenson\", a \"Noldor\" for \"IL-HIGHWIND\" for \"IL-Highwind\" in tenant \"Midgar\", that lasts for \"300\" seconds"
   print "OK\nRequesting Delta via API .. "
   step "I request latest delta via API for tenant \"Midgar\", lea \"#{lea}\" with appId \"<app id>\" clientId \"<client id>\""
   print "OK\nVerifying return code 200 .. "

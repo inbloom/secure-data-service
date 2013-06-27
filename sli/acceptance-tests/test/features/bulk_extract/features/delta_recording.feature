@@ -12,7 +12,7 @@ Feature: Changes to the data result in deltas recorded in the delta collection
 
   Scenario: POST/PUT multiple updates to the same entity, verify one delta per entity
     Given I clean the bulk extract file system and database
-    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
     And format "application/json"
     # CREATE parent entity via POST
     And deltas collection should have "0" records

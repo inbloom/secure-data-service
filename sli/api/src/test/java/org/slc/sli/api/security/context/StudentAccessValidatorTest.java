@@ -37,6 +37,7 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import org.slc.sli.api.constants.ResourceNames;
+import org.slc.sli.api.resources.generic.util.ResourceMethod;
 import org.slc.sli.common.constants.EntityNames;
 
 public class StudentAccessValidatorTest {
@@ -135,13 +136,6 @@ public class StudentAccessValidatorTest {
     }
     
     @Test
-    public void onePartPOSTOnPrivateEntityAllowed() {
-        when(request.getMethod()).thenReturn("POST");
-        paths = Arrays.asList("v1", "studentAssessments");
-        assertTrue(underTest.isAllowed(request));
-    }
-    
-    @Test
     public void onePartPOSTOnPublicEntityDenied() {
         when(request.getMethod()).thenReturn("POST");
         paths = Arrays.asList("v1", "assessments");
@@ -160,6 +154,42 @@ public class StudentAccessValidatorTest {
         assertTrue(underTest.isAllowed(request));
     }
     
+    @Test
+    public void writesAllowedForCertainEntities() {
+        List<String> allowed = Arrays.asList(ResourceNames.GRADES,
+                ResourceNames.STUDENT_GRADEBOOK_ENTRIES,
+                ResourceNames.STUDENT_ASSESSMENTS,
+                ResourceNames.STUDENTS);
+        
+        List<String> writeOps = Arrays.asList(ResourceMethod.PUT.toString(),
+                ResourceMethod.PATCH.toString(), ResourceMethod.DELETE.toString(), ResourceMethod.POST.toString());
+
+        for (String op : writeOps) {
+            when(request.getMethod()).thenReturn(op);
+            for (String s : allowed) {
+                paths = Arrays.asList("v1", s);
+                assertTrue(underTest.isAllowed(request));
+            }
+        }
+    }
+    
+    @Test
+    public void writesDeniedForOtherEntities() {
+        List<String> writeOps = Arrays.asList(ResourceMethod.PUT.toString(),
+                ResourceMethod.PATCH.toString(), ResourceMethod.DELETE.toString(), ResourceMethod.POST.toString());
+        List<String> denied = Arrays.asList(ResourceNames.ASSESSMENTS,
+                ResourceNames.GRADEBOOK_ENTRIES,
+                ResourceNames.STUDENT_ACADEMIC_RECORDS,
+                ResourceNames.STAFF);
+        for (String op : writeOps) {
+            when(request.getMethod()).thenReturn(op);
+            for (String s : denied) {
+                paths = Arrays.asList("v1", s);
+                assertFalse(underTest.isAllowed(request));
+            }
+        }
+    }
+
     @Ignore
     public void generateWhitelist() {
         for (String s : underTest.getAllWhiteLists()) {
