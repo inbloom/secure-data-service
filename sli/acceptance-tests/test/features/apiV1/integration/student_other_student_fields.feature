@@ -123,8 +123,7 @@ Scenario: Accessing Students via Multi-part URIs
     | ab9e67df5e9030da4f23558b701af4d83729148f_id8a8e059acdaa70e6666e0af14e51a586ef559529_id | CohortIds     |
     | 31c4ff6bdc41c644772a5105386b6f7a215abfd2_id22bb8c325d924f9047e01a34c2337774b786d75d_id | CohortIds     |
 
-  @wip
-  Scenario: Accessing other students directly
+Scenario: Accessing other students directly
   Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "cegray" with password "cegray1234"
   And format "application/json"
   And I am using api version "v1"
@@ -267,7 +266,7 @@ Scenario: Accessing Students via Multi-part URIs
     # Get other students StudentCohortAssociation
     When I verify the following response body fields in "/studentCohortAssociations/18ebe03219dff01738c82645635997dbcb05205a_id747f7fed6f8f5352e752479052380c62da2ff7a5_id":
       | field     | value                                       |
-      | id        | 29c94cf2fb296f7b8e6300d6c24583468e80a5b0_id848cb8a355b5d3520b3cf36a46cadd5024cc0169_id |
+      | id        | 18ebe03219dff01738c82645635997dbcb05205a_id747f7fed6f8f5352e752479052380c62da2ff7a5_id |
       | studentId | 18ebe03219dff01738c82645635997dbcb05205a_id |
       | cohortId  | 4711a3d63401b22260d9ed17313b9fc301f02c6f_id |
     Then I verify the following response body fields do not exist in the response:
