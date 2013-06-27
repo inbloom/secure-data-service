@@ -31,6 +31,7 @@ import com.sun.jersey.spi.container.ContainerRequest;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.ResourceNames;
+import org.slc.sli.api.resources.generic.util.ResourceMethod;
 import org.slc.sli.common.constants.EntityNames;
 
 /**
@@ -41,6 +42,9 @@ import org.slc.sli.common.constants.EntityNames;
  */
 @Component
 public class StudentAccessValidator {
+    
+    private static final List<String> WRITE_OPERATIONS = Arrays.asList(ResourceMethod.PUT.toString(),
+            ResourceMethod.PATCH.toString(), ResourceMethod.DELETE.toString(), ResourceMethod.POST.toString());
 
     /**
      * this validator can only validates url in the format of /{entityType}/{id}/{subEntityType}
@@ -55,6 +59,12 @@ public class StudentAccessValidator {
      * i.e. /schools/{id}/teacherSchoolAssociations/teachers
      */
     private static final Map<String, Set<List<String>>> FOUR_PART_ALLOWED;
+    
+    /**
+     * writes are allowed for those entities
+     */
+    private static final Set<String> WRITES_ALLOWED;
+
     /**
      * discipline related entities
      */
@@ -308,6 +318,14 @@ public class StudentAccessValidator {
         fourParts.put(ResourceNames.STUDENTS, studentsAllowedFourParts);
 
         FOUR_PART_ALLOWED = Collections.unmodifiableMap(fourParts);
+        
+        Set<String> writesAllowed = new HashSet<String>();
+        writesAllowed.add(ResourceNames.GRADES);
+        writesAllowed.add(ResourceNames.STUDENT_GRADEBOOK_ENTRIES);
+        writesAllowed.add(ResourceNames.STUDENT_ASSESSMENTS);
+        writesAllowed.add(ResourceNames.STUDENTS);
+        
+        WRITES_ALLOWED = Collections.unmodifiableSet(writesAllowed);
     }
 
     /**
@@ -340,14 +358,19 @@ public class StudentAccessValidator {
         if (isDisiplineRelated(paths)) {
             return false;
         }
+        
+        if (isWrite(request.getMethod())) {
+            if (isWriteAllowed(paths)) {
+                return true;
+            }
+            return false;
+        } 
 
         String baseEntity = paths.get(0);
 
         switch (paths.size()) {
             case 1:
-                return baseEntity.equals("home")
-                        || (!request.getQueryParameters().isEmpty())
-                        || ("POST".equals(request.getMethod().toUpperCase()) && !EntityNames.isPublic(ResourceNames.toEntityName(baseEntity)));
+                return baseEntity.equals("home") || (!request.getQueryParameters().isEmpty());
             case 2:
                 return true;
             case 3:
@@ -364,6 +387,15 @@ public class StudentAccessValidator {
             default:
                 return false;
         }
+    }
+
+    private boolean isWrite(String method) {
+        return WRITE_OPERATIONS.contains(method);
+    }
+
+    private boolean isWriteAllowed(List<String> paths) {
+        String baseEntity = paths.get(0);
+        return WRITES_ALLOWED.contains(baseEntity);
     }
 
     private boolean isDisiplineRelated(List<String> paths) {

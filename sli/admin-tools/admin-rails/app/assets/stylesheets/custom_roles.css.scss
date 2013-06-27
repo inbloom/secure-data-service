@@ -34,6 +34,10 @@
   cursor: default;
   height: 20px;
   padding: 4px 5px;
+  max-width: 120px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .editable {

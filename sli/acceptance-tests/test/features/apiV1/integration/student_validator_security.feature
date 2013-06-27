@@ -79,7 +79,6 @@ Scenario: Validators return proper return codes on multi-ID requests for Carmen 
      | /studentProgramAssociations/@ids/students | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id4ac491e55d7f84870828b2b10dba2be1efb3a7f2_id               | 4d34e135d7af05424055c3798c8810d2330624f0_id0d750d1d6da8681a52836b900295e3d15478bd06_id               |
      # studentProgram for other current student
      | /studentProgramAssociations/@ids/students | 4964d960ca8d033dcb2dd023ee93a493d43fe13e_idfc60bc1f35454039f4cbd9c98936224e2d4add55_id               | 4d34e135d7af05424055c3798c8810d2330624f0_id0d750d1d6da8681a52836b900295e3d15478bd06_id               |
-     #| /students/@ids/courseTranscripts/courses | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id                                                          | 92164cd19ebdbe17cfdcd0e1d177877cdc9a40ef_id                                                          |
      | /students/@ids/studentSchoolAssociations/schools | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id                                                          | 92164cd19ebdbe17cfdcd0e1d177877cdc9a40ef_id                                                          |
      | /students/@ids/studentSectionAssociations/sections | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id                                                          | 92164cd19ebdbe17cfdcd0e1d177877cdc9a40ef_id                                                          |
      | /studentSchoolAssociations/@ids/schools  | 5473d560c39002a09d650c618768b60adc6aadab_id                                                          | 90edded75ff09a5fad3371df3be9289ca2ae718a_id                                                          |
@@ -89,7 +88,9 @@ Scenario: Validators return proper return codes on multi-ID requests for Carmen 
      | /teacherSectionAssociations/@ids/sections | ecb5131a66ffff44c3169acbdb9f1242e8384b13_id36678eb42429bf2cea4817c45f7bff5bb841c0a4_id | e9b81633cba273dc9cc567d7f0f76a1c070c150d_id2d275caf63e615e3d699f39cae4714084366024d_id |
      | /teacherSectionAssociations/@ids/teachers | ecb5131a66ffff44c3169acbdb9f1242e8384b13_id36678eb42429bf2cea4817c45f7bff5bb841c0a4_id | e9b81633cba273dc9cc567d7f0f76a1c070c150d_id2d275caf63e615e3d699f39cae4714084366024d_id |
      | /studentSectionAssociations/@ids/students | 6967fe8c89198c9f2a64f2df1e60cd7677e62c31_idc75f6630245b4942ae6870a5b6466b51e322ea8a_id               | 828b5629e48f924f2c090b5fc92a08307a4e5d85_id9176177b445474ddcc0de79c118a499849192cbf_id               |
-    #TODO -> | /courseTranscripts/@ids/courses          | 66855042298036c199ee39628625be212d682049_id                               | 000c61fc14cdf8a2def80d7aa81a0e425cb76925_id |
+     # data doesn't contain valid courseTranscript / courses asssociations
+     #| /students/@ids/courseTranscripts/courses | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id                                                          | 92164cd19ebdbe17cfdcd0e1d177877cdc9a40ef_id                                                          |
+     #| /courseTranscripts/@ids/courses          | 66855042298036c199ee39628625be212d682049_id                               | 000c61fc14cdf8a2def80d7aa81a0e425cb76925_id |
   When I request the Good ID, I should be allowed
   When I request the Bad ID, I should be denied
   When I request both IDs, I should be denied
