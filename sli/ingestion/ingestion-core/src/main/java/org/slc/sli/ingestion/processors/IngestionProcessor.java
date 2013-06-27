@@ -110,7 +110,7 @@ public abstract class IngestionProcessor<T extends WorkNote, S> implements Proce
     void pre(S item, AbstractMessageReport report, ReportStats reportStats, Source source) {
         if (preValidators != null) {
             for (Validator<S> validator : preValidators) {
-                validator.isValid(item, report, reportStats, source);
+                validator.isValid(item, report, reportStats, source, null);
             }
         }
     }
@@ -118,7 +118,7 @@ public abstract class IngestionProcessor<T extends WorkNote, S> implements Proce
     void post(S item, AbstractMessageReport report, ReportStats reportStats, Source source) {
         if (postValidators != null) {
             for (Validator<S> validator : postValidators) {
-                validator.isValid(item, report, reportStats, source);
+                validator.isValid(item, report, reportStats, source, null);
             }
         }
     }

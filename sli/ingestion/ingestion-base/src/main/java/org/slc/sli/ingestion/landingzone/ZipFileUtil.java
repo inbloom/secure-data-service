@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.MessageFormat;
-import java.util.Enumeration;
+import java.util.*;
 
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipFile;
@@ -152,6 +152,47 @@ public final class ZipFileUtil {
         }
 
         return false;
+    }
+
+    public static boolean isInZipFileEntries(String fileName, Set<String> zipFileEntries) {
+        if (zipFileEntries == null) {
+            return false;
+        }
+
+        return zipFileEntries.contains(fileName);
+    }
+
+    /**
+     * Get the entries in the ZIP file.
+     *
+     * @param zipFileName  ZIP file name
+     * @return the entries in the ZIP file
+     */
+    public static Set<String> getZipFileEntries(String zipFileName) throws IOException {
+        Enumeration<ZipArchiveEntry> zipFileEntries = null;
+        Set<String> filesInZip = new HashSet<String>();
+
+        ZipFile zf = null;
+
+        if (zipFileName == null) {
+            return null;
+        }
+
+        try {
+            zf = new ZipFile(zipFileName);
+
+            zipFileEntries = zf.getEntries();
+            while (zipFileEntries.hasMoreElements()) {
+                filesInZip.add(zipFileEntries.nextElement().getName());
+            }
+
+        } finally {
+            if (zf != null) {
+                ZipFile.closeQuietly(zf);
+            }
+        }
+
+        return filesInZip;
     }
 
     /**
