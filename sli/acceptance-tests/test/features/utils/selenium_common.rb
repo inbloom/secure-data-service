@@ -144,8 +144,8 @@ AfterStep do |scenario|
     end
 end
 
-def assertWithWait(msg, &blk)
-  wait = Selenium::WebDriver::Wait.new(:timeout => 15)
+def assertWithWait(msg, timeout = 15, &blk)
+  wait = Selenium::WebDriver::Wait.new(:timeout => timeout)
   begin
     wait.until {yield}
   rescue

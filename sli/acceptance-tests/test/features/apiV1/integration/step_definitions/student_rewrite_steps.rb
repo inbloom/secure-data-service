@@ -106,6 +106,16 @@ When /^I navigate to the base level URI <Entity> I should see the rewrite in the
   assert(success, "Rewrite Expectations failed, see above logs for specific failure(s)")
 end
 
+When /^I navigate to the URI <URI> I should see the rewrite in the format of <Rewrite>:$/ do |table|
+  table.hashes.each do |row|
+    # Make the API Request
+    restHttpGet("/v1#{row["URI"]}")
+    assert(@res.code == 200, "Expected 200, received #{@res.code}: /v1#{row["URI"]}")
+    executed_path = @res.raw_headers.to_hash()["x-executedpath"][0]
+    assert(executed_path =~ /.+#{row["Rewrite"]}$/, "Expected x-executedpath to be #{row["Rewrite"]}, received #{executed_path}")
+  end
+end
+
 When /^I navigate to the the URI <Path> I should be denied:$/ do |table|
   # table is a Cucumber::Ast::Table
 

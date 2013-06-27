@@ -6,6 +6,10 @@ require 'date'
 #Hold the command line options
 options = {}
 
+# This option is only used for automated tests.  It's not intended for use by the operator.
+student = ARGV.include? "--student"
+ARGV.delete "--student" if student
+
 ARGV.options do |opts|
   opts.banner = "Usage: generator -t Tenant -u User -c ClientId -r Role -e expiration [options]"
   options[:mongo] = 'localhost:27017'
@@ -19,6 +23,10 @@ ARGV.options do |opts|
   opts.on(:REQUIRED,/\d+/, '-e', '--expire','The number of seconds that this session will expire in' ) do |expire|
     # Convert to milis
     options[:expire] = expire.to_i * 1000
+  end
+    opts.on(:REQUIRED, '-E', '--edorg','The education organization this role belongs to' ) do |edorg|
+    # Convert to milis
+    options[:edorg] = edorg
   end
   opts.on(:REQUIRED, /.+/, '-c', '--client_id', 'The client_id of the application to generate a token for') do |app|
     options[:application] = app
@@ -39,7 +47,7 @@ ARGV.options do |opts|
   end
   begin 
     opts.parse!
-    unless options.include? :tenant and options.include? :user and options.include? :application and options.include? :roles and options.include? :expire
+    unless options.include? :tenant and options.include? :user and options.include? :application and options.include? :roles and options.include? :expire and options.include? :edorg
       throw Exception
     end
   rescue
@@ -47,6 +55,7 @@ ARGV.options do |opts|
     exit
   end
 end
+
 class PKFactory
   def create_pk(row)
     return row if row[:_id]
@@ -69,8 +78,16 @@ abort "Unable to locate #{options[:realm]} realm" if realm.nil?
 app = db['application'].find_one({'body.client_id' => options[:application]})
 abort "Unable to locate Application: #{options[:application]}" if app.nil?
 #Get the user
-user = staffDb[:staff].find_one({"body.staffUniqueStateId" => options[:user]})
+if student
+  user = staffDb[:student].find_one({'body.studentUniqueStateId' => options[:user]})
+else
+  user = staffDb[:staff].find_one({"body.staffUniqueStateId" => options[:user]})
+end
 abort "Unable to locate user: #{options[:user]}" if user.nil?
+
+#Get the edorg
+edorg = staffDb[:educationOrganization].find_one({"body.stateOrganizationId" => options[:edorg]})
+abort "Unable to locate edorg: #{options[:edorg]}" if edorg.nil?
 
 #Create a userSession
 userSession = {}
@@ -99,8 +116,16 @@ principal[:realm] = realm['_id']
 principal[:roles] = options[:roles]
 principal[:tenantId] = options[:tenant]
 principal[:name] = user['body']['name']['firstName'] + " " + user['body']['name']['lastSurname']
-principal[:externalId] = user['body']['staffUniqueStateId']
+if student
+  principal[:externalId] = user['body']['studentUniqueStateId']
+  principal[:userType] = 'student'
+else
+  principal[:externalId] = user['body']['staffUniqueStateId']
+end
 principal[:id] = principal[:externalId] + "@" + principal[:tenantId]
+edorgRoles = {}
+edorgRoles[edorg['_id']] = options[:roles]
+principal[:edOrgRoles] = edorgRoles
 body[:principal] = principal
 body[:appSession] = appSessions
 userSession[:body] = body

@@ -28,7 +28,7 @@ public class IndexValidatorExecutor {
         loggingMessageReport.setLogger(LOG);
         ReportStats reportStats = new SimpleReportStats();
         Source source = new JobSource("IngestionService");
-        boolean indexValidated = systemValidatorStartUp.isValid(null, loggingMessageReport, reportStats, source);
+        boolean indexValidated = systemValidatorStartUp.isValid(null, loggingMessageReport, reportStats, source, null);
         return reportStats;
     }
 

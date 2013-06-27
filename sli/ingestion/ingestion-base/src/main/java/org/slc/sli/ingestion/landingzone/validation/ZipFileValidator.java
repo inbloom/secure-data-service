@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Enumeration;
+import java.util.Map;
 
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.zip.UnsupportedZipFeatureException;
@@ -47,7 +48,7 @@ public class ZipFileValidator implements Validator<File> {
     private static final String STAGE_NAME = "Zip File Validation";
 
     @Override
-    public boolean isValid(File zipFile, AbstractMessageReport report, ReportStats reportStats, Source source) {
+    public boolean isValid(File zipFile, AbstractMessageReport report, ReportStats reportStats, Source source, Map<String, Object> parameters) {
         boolean isValid = false;
 
         // we know more of our source
