@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 require "selenium-webdriver"
+require 'open3'
+require 'set'
 
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../utils/selenium_common.rb'
@@ -26,20 +28,40 @@ Given /^the testing device app key has been created$/ do
   @oauthRedirectURI = "http://device"
 end
 
+
 Given /^I log in to realm "(.*?)" using simple-idp as "(.*?)" "(.*?)" with password "(.*?)"$/ do |realm, user_type, user, pass|
   step "the testing device app key has been created"
-  step "I have an open web browser"
-  step "I navigate to the API authorization endpoint with my client ID"
-  step "I was redirected to the Realm page"
-  step "I choose realm \"#{realm}\" in the drop\-down list"
-  step "I click on the realm page Go button"
 
-  step "I was redirected to the \"Simple\" IDP Login page"
-  step "I submit the credentials \"#{user}\" \"#{pass}\" for the \"Simple\" login page"
-  step "I should receive a json response containing my authorization code"
-  
-  step "I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI"
-  step "I should receive a json response containing my authorization token"
+  user_info = {
+                "student.m.sollars" => {:unique_id => "800000025", :student? => true},
+                "cegray" => {:unique_id => "cgray", :student? => true},
+                "carmen.ortiz" => {:unique_id => "900000016", :student? => true},
+                "jstevenson" => {:unique_id => "jstevenson", :student? => false}
+              }
+
+  realm_info = {
+                  "Illinois Daybreak Students" => {:unique_id => "IL-Daybreak-Students", :tenant => "Midgar"},
+                  "Illinois Daybreak School District 4529" => {:unique_id => "IL-Daybreak", :tenant => "Midgar"}
+              }
+
+  puts "XXXXXXXX    #{ENV["use_token_gen"]}"
+  if ENV["use_token_gen"] == "true" and user_info[user] && realm_info[realm]
+    user_type.capitalize! if user_type == "student"
+    @sessionId = get_token_from_generator user_info[user][:unique_id], user_type, realm_info[realm][:tenant], realm_info[realm][:unique_id], 600, @oauthClientId, user_info[user][:student?]
+  else
+    step "I have an open web browser"
+    step "I navigate to the API authorization endpoint with my client ID"
+    step "I was redirected to the Realm page"
+    step "I choose realm \"#{realm}\" in the drop\-down list"
+    step "I click on the realm page Go button"
+
+    step "I was redirected to the \"Simple\" IDP Login page"
+    step "I submit the credentials \"#{user}\" \"#{pass}\" for the \"Simple\" login page"
+    step "I should receive a json response containing my authorization code"
+
+    step "I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI"
+    step "I should receive a json response containing my authorization token"
+  end
   step "I should be able to use the token to make valid API calls"
 end
 
@@ -132,4 +154,15 @@ Then /^I should be able to use the token to make valid API calls$/ do
   assert(data != nil, "Response body is nil")
   assert(data['authenticated'] == true,
   "Session debug context 'authentication.authenticated' is not true")
+end
+
+
+def get_token_from_generator(user, role, tenant, realm, expiration_in_seconds, client_id, is_student)
+  script_loc = File.dirname(__FILE__) + "/../../../../../../opstools/token-generator/generator.rb"
+  student = "--student" if is_student
+  out, status = Open3.capture2("ruby #{script_loc} -e #{expiration_in_seconds} -c #{client_id} -u #{user} -r \"#{role}\" -t \"#{tenant}\" -R \"#{realm}\" #{student}")
+  match = /token is (.*)/.match(out)
+  sessionId = match[1]
+  puts("The generated token is #{sessionId}") if $SLI_DEBUG
+  return sessionId
 end
