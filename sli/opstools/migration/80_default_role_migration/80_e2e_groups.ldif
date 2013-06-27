@@ -1,0 +1,55 @@
+dn: cn=LEA System Administrator,ou=groups,ou=RCTestTenant,<LDAP_BASE>
+objectClass: posixGroup
+objectClass: top
+cn: LEA System Administrator
+gidNumber: 520
+memberUid: jstevenson
+memberUid: rrogers
+
+dn: cn=School Administrative Support Staff,ou=groups,ou=RCTestTenant,<LDAP_BASE>
+objectClass: posixGroup
+objectClass: top
+cn: School Administrative Support Staff
+gidNumber: 522
+memberUid: akopel
+
+dn: cn=LEA Administrator,ou=groups,ou=RCTestTenant,<LDAP_BASE>
+objectClass: posixGroup
+objectClass: top
+cn: LEA Administrator
+gidNumber: 526
+memberUid: demo
+
+dn: cn=Principal,ou=groups,ou=RCTestTenant,<LDAP_BASE>
+objectClass: posixGroup
+objectClass: top
+cn: Principal
+gidNumber: 521
+memberUid: mgonzales
+
+dn: cn=Superintendent,ou=groups,ou=RCTestTenant,<LDAP_BASE>
+objectClass: posixGroup
+objectClass: top
+cn: Superintendent
+gidNumber: 524
+memberUid: ckoch
+memberUid: sbantu
+
+dn: cn=Teacher,ou=groups,ou=RCTestTenant,<LDAP_BASE>
+objectClass: posixGroup
+objectClass: top
+cn: Teacher
+gidNumber: 503
+memberUid: linda.kim
+memberUid: cgray
+memberUid: rbraverman
+
+dn: cn=Specialist\/Consultant,ou=groups,ou=RCTestTenant,<LDAP_BASE>
+objectClass: posixGroup
+objectClass: top
+cn: Specialist/Consultant
+gidNumber: 523
+memberUid: jjackson
+memberUid: msmith
+memberUid: mjohnson
+

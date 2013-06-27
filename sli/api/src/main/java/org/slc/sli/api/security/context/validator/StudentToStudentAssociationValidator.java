@@ -35,7 +35,7 @@ import java.util.*;
 public class StudentToStudentAssociationValidator extends AbstractContextValidator{
 
     @Autowired
-    private StudentToStudentValidator studentValidator;
+    private TransitiveStudentToStudentValidator studentValidator;
 
     protected static final Set<String> STUDENT_ASSOCIATIONS = new HashSet<String>(Arrays.asList(
             EntityNames.STUDENT_COHORT_ASSOCIATION,

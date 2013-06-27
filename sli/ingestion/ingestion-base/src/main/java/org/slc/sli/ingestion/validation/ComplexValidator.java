@@ -17,6 +17,7 @@
 package org.slc.sli.ingestion.validation;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
@@ -41,9 +42,9 @@ public class ComplexValidator<T> implements Validator<T> {
     }
 
     @Override
-    public boolean isValid(T object, AbstractMessageReport report, ReportStats reportStats, Source source) {
+    public boolean isValid(T object, AbstractMessageReport report, ReportStats reportStats, Source source, Map<String, Object> parameters) {
         for (Validator<T> validator : validators) {
-            if (!validator.isValid(object, report, reportStats, source)) {
+            if (!validator.isValid(object, report, reportStats, source, null)) {
                 return false;
             }
         }

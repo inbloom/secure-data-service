@@ -59,7 +59,7 @@ Background: Nothing yet
     | school                                  | schools                                  | 0     |/staff/@ids/staffEducationOrgAssignmentAssociations/schools|
     | section                                 | sections                                 | 0     |/schools/@ids/sections|
     | session                                 | sessions                                 | 29    |/search/sessions|
-    | staff                                   | staff                                    | 4     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|
+    | staff                                   | staff                                    | 5     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|
     | student                                 | students                                 | 0     |/schools/@ids/studentSchoolAssociations/students|
     | studentAcademicRecord                   | studentAcademicRecords                   | 0     |/schools/@ids/studentSchoolAssociations/students/studentAcademicRecords|
     | studentGradebookEntry                   | studentGradebookEntries                  | 0     |/schools/@ids/studentSchoolAssociations/students/studentGradebookEntries|

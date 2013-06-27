@@ -15,12 +15,10 @@ Feature: Security events are logged when bulk extract is run
     And I trigger a bulk extract
     Then I should see following map of entry counts in the corresponding sli db collections:
       | collectionName              | count |
-      | securityEvent               | 40    |
+      | securityEvent               | 5    |
     And I check to find if record is in sli db collection:
       | collectionName  | expectedRecordCount | searchParameter         | searchValue                                                                  | searchType      |
       | securityEvent   | 1                   | body.logMessage         | Beginning bulk extract execution                                             | string          |
-      | securityEvent   | 1                   | body.logMessage         | Beginning tenant-level bulk extract                                          | string          |
-      | securityEvent   | 1                   | body.logMessage         | Completed tenant-level bulk extract                                          | string          |
       | securityEvent   | 1                   | body.logMessage         | Unable to trigger SEA public data extract                                    | string          |
       | securityEvent   | 1                   | body.logMessage         | No SEA is available for the tenant                                           | string          |
 
@@ -39,23 +37,21 @@ Feature: Security events are logged when bulk extract is run
     And I trigger a bulk extract
     Then I should see following map of entry counts in the corresponding sli db collections:
       | collectionName              | count |
-      | securityEvent               | 79   |
+      | securityEvent               | 44   |
     And I check to find if record is in sli db collection:
       | collectionName  | expectedRecordCount | searchParameter         | searchValue                                                                  | searchType      |
       | securityEvent   | 1                   | body.logMessage         | Beginning bulk extract execution                                             | string          |
       #Public Data for Tenant/SEA Extract
-      | securityEvent   | 1                   | body.logMessage         | Beginning tenant-level bulk extract                                          | string          |
-      | securityEvent   | 1                   | body.logMessage         | Completed tenant-level bulk extract                                          | string          |
       | securityEvent   | 1                   | body.logMessage         | Beginning SEA public data extract                                            | string          |
       | securityEvent   | 1                   | body.logMessage         | Completed SEA public data extract                                            | string          |
-      | securityEvent   | 3                   | body.logMessage         | Generating archive for app 22c2a28d-7327-4444-8ff9-caad4b1c7aa3              | string          |
-      | securityEvent   | 3                   | body.logMessage         | Generating archive for app 19cca28d-7357-4044-8df9-caad4b1c8ee4              | string          |
-      | securityEvent   | 3                   | body.logMessage         | Extracting educationOrganization                                             | string          |
-      | securityEvent   | 2                   | body.logMessage         | Extracting course                                                            | string          |
-      | securityEvent   | 2                   | body.logMessage         | Extracting courseOffering                                                    | string          |
-      | securityEvent   | 2                   | body.logMessage         | Extracting session                                                           | string          |
-      | securityEvent   | 2                   | body.logMessage         | Extracting graduationPlan                                                    | string          |
-      | securityEvent   | 2                   | body.logMessage         | Extracting calendarDate                                                      | string          |
+      | securityEvent   | 2                   | body.logMessage         | Generating archive for app 22c2a28d-7327-4444-8ff9-caad4b1c7aa3              | string          |
+      | securityEvent   | 2                   | body.logMessage         | Generating archive for app 19cca28d-7357-4044-8df9-caad4b1c8ee4              | string          |
+      | securityEvent   | 2                   | body.logMessage         | Extracting educationOrganization                                             | string          |
+      | securityEvent   | 1                   | body.logMessage         | Extracting course                                                            | string          |
+      | securityEvent   | 1                   | body.logMessage         | Extracting courseOffering                                                    | string          |
+      | securityEvent   | 1                   | body.logMessage         | Extracting session                                                           | string          |
+      | securityEvent   | 1                   | body.logMessage         | Extracting graduationPlan                                                    | string          |
+      | securityEvent   | 1                   | body.logMessage         | Extracting calendarDate                                                      | string          |
       #LEA Extract
       | securityEvent   | 1                   | body.logMessage         | Finished LEA level bulk extract                                              | string          |
       | securityEvent   | 1                   | body.logMessage         | Beginning LEA level bulk extract                                             | string          |
@@ -116,14 +112,14 @@ Feature: Security events are logged when bulk extract is run
     And I trigger an extract for tenant "Hyrule"
     Then I should see following map of entry counts in the corresponding sli db collections:
       | collectionName              | count |
-      | securityEvent               | 7     |
+      | securityEvent               | 5     |
     And I check to find if record is in sli db collection:
       | collectionName  | expectedRecordCount | searchParameter         | searchValue                                                                  | searchType      |
-      | securityEvent   | 7                   | body.appId              | BulkExtract                                                                  | string          |
-      | securityEvent   | 6                   | body.tenantId           | Hyrule                                                                       | string          |
+      | securityEvent   | 5                   | body.appId              | BulkExtract                                                                  | string          |
+      | securityEvent   | 4                   | body.tenantId           | Hyrule                                                                       | string          |
       | securityEvent   | 1                   | body.logMessage         | Beginning bulk extract execution                                             | string          |
       | securityEvent   | 1                   | body.logMessage         | No authorized application to extract data                                    | string          |
-      | securityEvent   | 1                   | body.logMessage         | No authorized application to extract data Hyrule                             | string          |
+      | securityEvent   | 0                   | body.logMessage         | No authorized application to extract data Hyrule                             | string          |
 
   Scenario: Trigger a bulk extract on a tenant that doesn't exit
     Given the following collections are empty in sli datastore:

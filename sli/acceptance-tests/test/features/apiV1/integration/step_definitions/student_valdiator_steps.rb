@@ -85,7 +85,32 @@ end
 
 Then /^I should be able to see <Fields> for the entity with ID <ID>:$/ do |table|
   # table is a Cucumber::Ast::Table
-  pending # express the regexp above with the code you wish you had
+  # Strings for ANSI Color codes
+  startRed = "\e[31m"
+  colorReset = "\e[0m"
+
+  success = true
+  data = JSON.parse(@res.body)
+  assert(data != nil, "Response from API was nil")
+  assert(data.is_a?(Array), "Response for a listing endpoint was not an array")
+  data.each do |entity|
+    id = entity["id"]
+    expectations = table.hashes.select{|row| row["ID"]==id}
+    if (expectations != nil && !expectations.empty?)
+      expectations = expectations[0]
+    else
+      success = false
+      puts "#{startRed}ID #{id} returned from API but not expected!#{colorReset}"
+      next
+    end
+    puts "=== Starting Field Validation for ID #{id} ==="
+    success &= validate_field_existance_nonexistance(entity, expectations["Fields"])
+    puts "=== Ending Field Validation for ID #{id} ==="
+  end
+  actual_set = Set.new(data.map{|entity|entity["id"]})
+  expected_set = Set.new(table.hashes.collect{|row| row["ID"]})
+  assert(actual_set == expected_set,"Set Expectation failed: Outlier IDs: #{(expected_set.subtract(expected_set&actual_set)).select{|x| x}}")
+  assert(success, "Tests failed")
 end
 
 def validate_id_presence(res)
@@ -100,4 +125,64 @@ def validate_id_presence(res)
     id = data["id"]
   end
   return id != nil
+end
+
+def validate_field_existance_nonexistance(entity_hash, field_string_enum)
+  # ANSI Color codes
+  startRed = "\e[31m"
+  colorReset = "\e[0m"
+
+
+  fields_should_exist = []
+  fields_should_not = []
+  # First populate, fields that should exist and not exist from the field string enum param
+  case field_string_enum
+    when "NameOnly"
+      fields_should_exist = ["name", "id"]
+      fields_should_not = ["studentUniqueStateId","studentIdentificationCode","otherName","sex","birthData","address",
+                           "telephone","electronicMail","profileThumbnail","hispanicLatinoEthnicity","oldEthnicity","race",
+                           "economicDisadvantaged","schoolFoodServicesEligibility","studentCharacteristics","limitedEnglishProficiency",
+                           "languages","homeLanguages","disabilities","section504Disabilities","displacementStatus","programParticipations",
+                           "learningStyles","cohortYears","studentIndicators","loginId","gradeLevel","schoolId"]
+    when "AllStudent"
+      fields_should_exist = ["name", "id", "birthData", "studentUniqueStateId"]
+      fields_should_not = ["economicDisadvantaged","schoolFoodServicesEligibility"]
+    when "SecionIds"
+      fields_should_exist = ["sectionId", "studentId"]
+      fields_should_not = ["beginDate","endDate","homeroomIndicator","repeatIdentifier"]
+    when "AllSectAsoc"
+      fields_should_exist = ["sectionId", "studentId", "beginDate"]
+      fields_should_not = []
+    when "ProgramIds"
+      fields_should_exist = ["programId", "studentId"]
+      fields_should_not = ["beginDate","endDate", "services", "educationOrganizationId", "reasonExited"]
+    when "AllProgAssoc"
+      fields_should_exist = ["programId", "studentId", "beginDate", "educationOrganizationId"]
+      fields_should_not = []
+    when "CohortIds"
+      fields_should_exist = ["cohortId", "studentId"]
+      fields_should_not = ["beginDate","endDate"]
+    when "AllCohrtAssoc"
+      fields_should_exist = ["cohortId", "studentId", "beginDate"]
+      fields_should_not = []
+  end
+
+  # Now check for existance or non-existance of fields
+  success = true
+  fields_should_exist.each do |field|
+    if entity_hash[field] == nil
+      success = false
+      puts "#{startRed}Expected field #{field}, but was absent#{colorReset}"
+    end
+  end
+  puts "Expected field validation passed" if success
+  fields_should_not.each do |field|
+    if entity_hash[field] != nil
+      success = false
+      puts "#{startRed}Did not expect field #{field}, but was present#{colorReset}"
+    end
+  end
+  puts "Non-expected field validation passed" if success
+
+  return success
 end

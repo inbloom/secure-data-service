@@ -19,7 +19,12 @@ package org.slc.sli.ingestion.landingzone.validation;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
+import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
@@ -31,6 +36,8 @@ import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
 import org.slc.sli.ingestion.reporting.impl.ControlFileSource;
 import org.slc.sli.ingestion.validation.Validator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * File Presence validator.
@@ -45,15 +52,14 @@ public class FilePresenceValidator implements Validator<IngestionFileEntry> {
 
     @Override
     public boolean isValid(IngestionFileEntry entry, AbstractMessageReport report, ReportStats reportStats,
-            Source source) {
+            Source source, Map<String, Object> parameters) {
 
-        InputStream is = null;
         boolean valid = true;
 
         if (hasPathInName(entry.getFileName())) {
             report.error(reportStats, new ControlFileSource(source.getResourceId(), entry), BaseMessageCode.BASE_0004, entry.getFileName());
             valid = false;
-        } else if (!isInZipfile(entry.getFileName(), entry.getParentZipFileOrDirectory())) {
+        } else if (!isInZipFile(entry.getFileName(), parameters)) {
             report.error(reportStats, new ControlFileSource(source.getResourceId(), entry), BaseMessageCode.BASE_0001, entry.getFileName());
             valid = false;
         }
@@ -61,27 +67,19 @@ public class FilePresenceValidator implements Validator<IngestionFileEntry> {
         return valid;
     }
 
-    // public for mocking of unit test only
-    public boolean isInZipfile(String fileName, String parentName) {
-        File parentFile = null;
-
-        if (parentName == null || fileName == null) {
-            return false;
-        }
-        parentFile = new File(parentName);
-
-        if (parentFile.isDirectory()) {
-            // should not happen going forward since only zip files are allowed now
-            return false;
-        }
-
-        return ZipFileUtil.isInZipFile(parentFile, fileName);
-    }
-
     private static boolean hasPathInName(String fileName) {
         return (fileName.contains(File.separator) || fileName.contains("/"));
     }
 
+    public boolean isInZipFile(String fileName, Map<String, Object> parameters) {
+        Set<String> zipFileEntries = null;
+
+        if (parameters != null) {
+            zipFileEntries = (Set<String>) parameters.get(ControlFileValidator.ZIPFILE_ENTRIES);
+        }
+
+        return ZipFileUtil.isInZipFileEntries(fileName, zipFileEntries);
+    }
     @Override
     public String getStageName() {
         return STAGE_NAME;

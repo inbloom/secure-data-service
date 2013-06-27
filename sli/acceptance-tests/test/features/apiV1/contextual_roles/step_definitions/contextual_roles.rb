@@ -301,6 +301,34 @@ Given /^I remove the SEOA with role "([^"]*)" for staff "([^"]*)" in "([^"]*)"$/
 
 end
 
+Given /^I remove "([^"]*)" from the custom roles$/ do |roleName|
+  tenant = convertTenantIdToDbName @tenant
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  db = conn[tenant]
+
+  query =  {'body.roles.names' => roleName}
+
+  customRoleColl = db.collection('customRole')
+  customRole = customRoleColl.find_one({'body.roles.names' => roleName})
+
+  roles = customRole ['body']['roles']
+
+  roles.each do |role|
+   role.delete_if {|key, value| key == 'names' && value == [roleName]}
+
+   if !role.has_key?('names')
+     role.store('names', ['DummyValue'])
+   end
+  end
+
+  remove_from_mongo(tenant, 'customRole', query)
+  add_to_mongo(tenant, 'customRole', customRole)
+
+  conn.close
+  enable_NOTABLESCAN()
+end
+
 Given /^I remove the teacherSectionAssociation for "([^"]*)"$/ do |staff|
   tenant = convertTenantIdToDbName @tenant
   disable_NOTABLESCAN()

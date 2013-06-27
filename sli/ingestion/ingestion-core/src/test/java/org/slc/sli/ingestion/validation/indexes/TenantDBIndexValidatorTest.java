@@ -102,7 +102,7 @@ public class TenantDBIndexValidatorTest {
         Mockito.when(tenantDA.getAllTenantDbs()).thenReturn(tenantDbs);
 
         Mockito.doCallRealMethod().when(tenantDBIndexValidator).setTenantDA(Matchers.any(TenantDA.class));
-        Mockito.doCallRealMethod().when(tenantDBIndexValidator).isValid(Matchers.any(DB.class), Matchers.any(AbstractMessageReport.class), Matchers.any(ReportStats.class), Matchers.any(Source.class));
+        Mockito.doCallRealMethod().when(tenantDBIndexValidator).isValid(Matchers.any(DB.class), Matchers.any(AbstractMessageReport.class), Matchers.any(ReportStats.class), Matchers.any(Source.class), Matchers.any(Map.class));
         Set<MongoIndex> expectedIndex = new HashSet<MongoIndex>();
         DBObject adminDelegationIndex = new BasicDBObject();
         adminDelegationIndex.put("creationTime", 1);
@@ -127,7 +127,7 @@ public class TenantDBIndexValidatorTest {
         ReportStats reportStats = Mockito.mock(ReportStats.class);
         Source source = Mockito.mock(Source.class);
 
-        tenantDBIndexValidator.isValid(db, report, reportStats, source);
+        tenantDBIndexValidator.isValid(db, report, reportStats, source, null);
 
         Mockito.verify(report, Mockito.atLeast(1)).info(Matchers.eq(reportStats), Matchers.eq(source), Matchers.eq(CoreMessageCode.CORE_0018), Matchers.eq("assessment"), Matchers.any(Map.class), Matchers.eq(false));
         Mockito.verify(report, Mockito.atLeast(1)).error(Matchers.eq(reportStats), Matchers.eq(source), Matchers.eq(CoreMessageCode.CORE_0038), Matchers.eq("assessmentFamilyCollection"), Matchers.any(Map.class), Matchers.eq(false));

@@ -114,6 +114,7 @@ public class EdOrgContextualRoleBuilderTest {
     }
 
     @Test
+    (expected = AccessDeniedException.class)
     public void testNoCustomRoleMatch () {
         Set<Entity> seoas = new HashSet<Entity>();
         seoas.add(createSEOA("LEA1", "IT Admin"));
@@ -127,11 +128,11 @@ public class EdOrgContextualRoleBuilderTest {
         Map<String, List<String>> edOrgRoles = edOrgRoleBuilder.buildValidStaffRoles(realmId, staffId,tenant, samlRoles);
 
         Assert.assertNotNull(edOrgRoles);
-        Assert.assertEquals(1,edOrgRoles.size());
+        Assert.assertEquals(0,edOrgRoles.size());
 
-        List<String> edOrg1Roles = edOrgRoles.get("LEA1");
-        Assert.assertNotNull(edOrg1Roles);
-        Assert.assertEquals(0, edOrg1Roles.size());
+        //List<String> edOrg1Roles = edOrgRoles.get("LEA1");
+        //Assert.assertNotNull(edOrg1Roles);
+        //Assert.assertEquals(0, edOrg1Roles.size());
 
     }
 

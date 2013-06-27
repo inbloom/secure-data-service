@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.MessageFormat;
-import java.util.Enumeration;
+import java.util.*;
 
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipFile;
@@ -125,33 +125,45 @@ public final class ZipFileUtil {
         return fileInputStream;
     }
 
-    /**
-     * Returns whether or not a file is in the ZIP archive.
-     *
-     * @param zipFile  ZIP archive
-     * @param fileName Name of the file to get stream for
-     * @return whether or not the fileName is in the zipFile
-     */
-    public static boolean isInZipFile(File zipFile, String fileName) {
-        ZipFile zf = null;
-
-        try {
-            zf = new ZipFile(zipFile);
-
-            Enumeration<ZipArchiveEntry> zipFileEntries = zf.getEntries();
-
-            while (zipFileEntries.hasMoreElements()) {
-                if (zipFileEntries.nextElement().getName().equals(fileName)) {
-                    return true;
-                }
-            }
-        } catch (IOException exception) {
+    public static boolean isInZipFileEntries(String fileName, Set<String> zipFileEntries) {
+        if (zipFileEntries == null) {
             return false;
-        } finally {
-            ZipFile.closeQuietly(zf);
         }
 
-        return false;
+        return zipFileEntries.contains(fileName);
+    }
+
+    /**
+     * Get the entries in the ZIP file.
+     *
+     * @param zipFileName  ZIP file name
+     * @return the entries in the ZIP file
+     */
+    public static Set<String> getZipFileEntries(String zipFileName) throws IOException {
+        Enumeration<ZipArchiveEntry> zipFileEntries = null;
+        Set<String> filesInZip = new HashSet<String>();
+
+        ZipFile zf = null;
+
+        if (zipFileName == null) {
+            return null;
+        }
+
+        try {
+            zf = new ZipFile(zipFileName);
+
+            zipFileEntries = zf.getEntries();
+            while (zipFileEntries.hasMoreElements()) {
+                filesInZip.add(zipFileEntries.nextElement().getName());
+            }
+
+        } finally {
+            if (zf != null) {
+                ZipFile.closeQuietly(zf);
+            }
+        }
+
+        return filesInZip;
     }
 
     /**
