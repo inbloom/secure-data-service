@@ -16,26 +16,16 @@
 
 package org.slc.sli.api.service;
 
-import org.slc.sli.api.config.BasicDefinitionStore;
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.constants.PathConstants;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.security.CallingApplicationInfoProvider;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.context.ContextValidator;
-import org.slc.sli.api.security.roles.EntityEdOrgRightBuilder;
-import org.slc.sli.api.security.roles.EntityRightsFilter;
-import org.slc.sli.api.security.roles.RightAccessValidator;
-import org.slc.sli.api.security.schema.SchemaDataProvider;
-import org.slc.sli.api.security.service.SecurityCriteria;
-import org.slc.sli.api.service.query.ApiQuery;
-import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
-import org.slc.sli.domain.*;
-import org.slc.sli.domain.enums.Right;
-import org.slc.sli.validation.EntityValidationException;
-import org.slc.sli.validation.ValidationError;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -45,9 +35,30 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import java.awt.*;
-import java.util.*;
-import java.util.List;
+import org.slc.sli.api.config.BasicDefinitionStore;
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.constants.PathConstants;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.security.CallingApplicationInfoProvider;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.ContextValidator;
+import org.slc.sli.api.security.roles.EntityRightsFilter;
+import org.slc.sli.api.security.roles.RightAccessValidator;
+import org.slc.sli.api.security.schema.SchemaDataProvider;
+import org.slc.sli.api.security.service.SecurityCriteria;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.domain.AccessibilityCheck;
+import org.slc.sli.domain.CalculatedData;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.FullSuperDoc;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.enums.Right;
+import org.slc.sli.validation.EntityValidationException;
+import org.slc.sli.validation.ValidationError;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -405,6 +416,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
     @Override
     public Iterable<EntityBody> listBasedOnContextualRoles(NeutralQuery neutralQuery) {
         boolean isSelf = isSelf(neutralQuery);
+        checkFieldAccess(neutralQuery, isSelf);
 
         injectSecurity(neutralQuery);
         Collection<Entity> entities = (Collection<Entity>) repo.findAll(collectionName, neutralQuery);
