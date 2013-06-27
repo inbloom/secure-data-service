@@ -536,6 +536,47 @@ public class BasicService implements EntityService, AccessibilityCheck {
     }
 
     private void checkReferences(EntityBody eb) {
+        /* TODO: Note that this is a horrible hack to allow students to validate
+         * only their own student ID when checking references, else they'd never
+         * be able to POST or PUT anything
+         */
+        if (SecurityUtil.isStudent()) {
+            String entityType = defn.getType();
+
+            if (entityType.equals(EntityNames.STUDENT)) {
+                String id = (String) eb.get(ParameterConstants.ID);
+
+                // Validate id is yourself
+                if (!id.equals(SecurityUtil.getSLIPrincipal().getEntity().getEntityId())) {
+                    throw new AccessDeniedException("Cannot update student not yourself");
+                }
+            } else if (entityType.equals(EntityNames.STUDENT_ASSESSMENT)) {
+                String studentId = (String) eb.get(ParameterConstants.STUDENT_ID);
+
+                // Validate student ID is yourself
+                if (!studentId.equals(SecurityUtil.getSLIPrincipal().getEntity().getEntityId())) {
+                    throw new AccessDeniedException("Cannot update student assessments that are not your own");
+                }
+            } else if (entityType.equals(EntityNames.STUDENT_GRADEBOOK_ENTRY) || entityType.equals(EntityNames.GRADE)) {
+                String studentId = (String) eb.get(ParameterConstants.STUDENT_ID);
+                String ssaId = (String) eb.get(ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID);
+
+                // Validate student ID is yourself
+                if (!studentId.equals(SecurityUtil.getSLIPrincipal().getEntity().getEntityId())) {
+                    throw new AccessDeniedException("Cannot update " + entityType + " that are not your own");
+                }
+                // Validate SSA ids are accessible via non-transitive SSA validator
+                EntityDefinition def = definitionStore.lookupByEntityType(EntityNames.STUDENT_SECTION_ASSOCIATION);
+                contextValidator.validateContextToEntities(def, Arrays.asList(ssaId), false);
+
+            } else {
+                throw new IllegalArgumentException("Students cannot write entities of type " + entityType);
+            }
+
+            // If you get this far, its all good
+            return;
+        }
+        // else if staff/teacher, do legacy
         for (Map.Entry<String, Object> entry : eb.entrySet()) {
             String fieldName = entry.getKey();
             Object value = entry.getValue();
