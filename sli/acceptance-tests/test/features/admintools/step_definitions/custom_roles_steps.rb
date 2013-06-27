@@ -216,8 +216,10 @@ When /^I remove the role "([^"]*)" from the group "([^"]*)"$/ do |arg1, arg2|
 end
 
 When /^I edit the group "([^"]*)"$/ do |arg1|
-  row = @driver.find_element(:xpath, "//div[text()='#{arg1}']/../..")
-  row.find_element(:class, "rowEditToolEditButton").click
+  retryOnFailure() do
+    row = @driver.find_element(:xpath, "//div[text()='#{arg1}']/../..")
+    row.find_element(:class, "rowEditToolEditButton").click
+  end
 end
 
 When /^I remove the group "([^"]*)"$/ do |arg1|
