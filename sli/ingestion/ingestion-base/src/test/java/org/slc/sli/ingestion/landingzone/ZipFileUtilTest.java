@@ -167,14 +167,6 @@ public class ZipFileUtilTest {
         Assert.assertFalse(ZipFileUtil.isInZipFileEntries(MISSING_FILE, zipFileEntries));
     }
 
-    @Test
-    public void testZipFileEntries() throws IOException {
-        File zipFile = new File(ZIP_FILE_DIR, ZIP_FILE_MISSING_FILE);
-
-        Assert.assertTrue(ZipFileUtil.isInZipFile(zipFile, EXISTING_FILE));
-        Assert.assertFalse(ZipFileUtil.isInZipFile(zipFile, MISSING_FILE));
-    }
-
     @AfterClass
     public static void deleteZipFileDir() {
         try {
