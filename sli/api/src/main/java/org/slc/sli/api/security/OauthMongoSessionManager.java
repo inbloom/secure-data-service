@@ -454,7 +454,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         Map<String, Collection<GrantedAuthority>> edOrgRights = new HashMap<String, Collection<GrantedAuthority>>();
         if (principal.getEdOrgRoles() != null) {
             for (String edOrg : principal.getEdOrgRoles().keySet()) {
-                Collection<GrantedAuthority> edorgAuthorities = resolveAuthorities(principal.getTenantId(), principal.getRealm(),
+                Collection<GrantedAuthority> edorgAuthorities = resolver.resolveRolesUnion(principal.getTenantId(), principal.getRealm(),
                         principal.getEdOrgRoles().get(edOrg), principal.isAdminRealmAuthenticated(), false);
                 edOrgRights.put(edOrg, edorgAuthorities);
             }
@@ -527,7 +527,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
 
     private Collection<GrantedAuthority> resolveAuthorities(String tenantId, final String realm,
             final List<String> roleNames, boolean isAdmin, boolean isSelf) {
-        return resolver.resolveRoles(tenantId, realm, roleNames, isAdmin, isSelf);
+        return resolver.resolveRolesIntersect(tenantId, realm, roleNames, isAdmin, isSelf);
     }
 
     /**
