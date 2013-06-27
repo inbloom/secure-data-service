@@ -1,4 +1,4 @@
-@student_students @wip
+@student_students
 Feature: Students accessing fellow students
   As a student I want to access students in my current sections, programs, cohorts to lookup their names
 
@@ -123,6 +123,7 @@ Scenario: Accessing Students via Multi-part URIs
     | ab9e67df5e9030da4f23558b701af4d83729148f_id8a8e059acdaa70e6666e0af14e51a586ef559529_id | CohortIds     |
     | 31c4ff6bdc41c644772a5105386b6f7a215abfd2_id22bb8c325d924f9047e01a34c2337774b786d75d_id | CohortIds     |
 
+  @wip
   Scenario: Accessing other students directly
   Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "cegray" with password "cegray1234"
   And format "application/json"
