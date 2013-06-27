@@ -82,18 +82,32 @@ Given I log in to realm "Illinois Daybreak Students" using simple-idp as "studen
     | 820642b49c9ca236d49c0384b98e9e6549047c34_id |
     | f5d19abf71b888312e3807ae867a6c2c75196fbd_id |
   # Programs
-  #When I validate the allowed association entities via API "/v1/programs/9cce6ea23864ee4870c8871e4c14ddecb6ab0fb0_id/staffProgramAssociations":
-  #  | id                                          |
-  #  | 139f77e73ae5f1970c5d884d4d2b90367361d1f6_id |
-  #When I validate the allowed association entities via API "/v1/programs/9cce6ea23864ee4870c8871e4c14ddecb6ab0fb0_id/staffProgramAssociations/staff":
-  #  | id                                          |
-  #  | 139f77e73ae5f1970c5d884d4d2b90367361d1f6_id |
-  #When I validate the allowed association entities via API "/v1/programs/9cce6ea23864ee4870c8871e4c14ddecb6ab0fb0_id/studentProgramAssociations":
-  #  | id                                          |
-  #  | 139f77e73ae5f1970c5d884d4d2b90367361d1f6_id |
-  #When I validate the allowed association entities via API "/v1/programs/9cce6ea23864ee4870c8871e4c14ddecb6ab0fb0_id/studentProgramAssociations/students":
-  #  | id                                          |
-  #  | 139f77e73ae5f1970c5d884d4d2b90367361d1f6_id |
+  When I validate the allowed association entities via API "/v1/programs/9cce6ea23864ee4870c8871e4c14ddecb6ab0fb0_id/staffProgramAssociations":
+    | id                                          |
+    | 7c71801b0e4d7fbca4993a8fa13e9490d3bc3d9c_id |
+    | b519ce9ad9bd8588fb52997180888063a4ba9fce_id |
+    | 75acfaf2376b53fe38f23840f14f2d937461faf6_id |
+    | 8c163998fbc8ab004b7cf95e33fc5f6d14e87982_id |
+    | 582d62a9f5f288e78defe672fc06228802d81f70_id |
+    | 2cc6a6a3e5990518e6c196630873b6adc0736b86_id |
+  When I validate the allowed association entities via API "/v1/programs/9cce6ea23864ee4870c8871e4c14ddecb6ab0fb0_id/staffProgramAssociations/staff":
+    | id                                          |
+    | 957463f7cd8d25526b35cbc215a78b752177bc13_id |
+    | a909105eca7591d418b2697d72df27ca632e16f8_id |
+    | 44faaf0a00179f2e1569e9bfb1adbda3d6397207_id |
+    | 26e63d0460e9472f4fea94b962cd33a7e13d3c42_id |
+    | 0d37e764a1d3a1a630502aa27421caef7bb66e71_id |
+    | 63d4be8a233db1fd14676f1535fa21fe4c5dd466_id |
+  When I validate there are "32" allowed association entities via API "/v1/programs/9cce6ea23864ee4870c8871e4c14ddecb6ab0fb0_id/studentProgramAssociations", some of them are:
+    | id                                          |
+    | a3a744519926ebf85bd1f669cd381ab3f02a8f83_id41e50d1c9c487ce16b391523118a1e6c7f97b4b6_id |
+    | e4a3b2430710b17b9accb3b1f89a3082f3e60548_id1e7af41db1131632febcae69d8de62280e84da6b_id |
+    | ca4ec31c7161966112d32034b76e3d9b80a02651_idd40773f3d054bcb1723c584d7ef3b411e877ccfd_id |
+  When I validate there are "32" allowed association entities via API "/v1/programs/9cce6ea23864ee4870c8871e4c14ddecb6ab0fb0_id/studentProgramAssociations/students", some of them are:
+    | id                                          |
+    | a3a744519926ebf85bd1f669cd381ab3f02a8f83_id |
+    | e4a3b2430710b17b9accb3b1f89a3082f3e60548_id |
+    | ca4ec31c7161966112d32034b76e3d9b80a02651_id |
   # Sections 
   When I validate the allowed association entities via API "/v1/sections/eb8663fe6856b49684a778446a0a1ad33238a86d_id/gradebookEntries":
     | id                                                                                     |
@@ -151,22 +165,22 @@ Given I log in to realm "Illinois Daybreak Students" using simple-idp as "studen
     | id                                          |
     | 4b07dba2b6868c0827315b99ea94fc74c0f7c902_id |
   # Schools
-  #When I validate the allowed association entities via API "/v1/schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/staffEducationOrgAssignmentAssociations/staff":
-  # | id                                          |
-  #  | 8b6a31734ed43040f8a171d5d85e39176c543f22_id |
-  #  | 00fb228365702c5fb03029216f3f057e174e3d6f_id |
-  #  | a94da453a895a6d9ea23f884c3d232323a4acaae_id |
-  #  | 0941af6d37f33cc9d690bd662894f851ee1bfd1e_id |
-  #  | aec76b8572750483be1e0d1e7b00d03e3b07220d_id |
-  #  | 143760f37839b2608d2c929ef26d30c900f6a434_id |
-  #  | b56a781295310ed319be5070ead4930590a82619_id |
-  #  | 1b8c3849be3ac8c3b1a7442aab1b00d1dcfa299c_id |
-  #  | c64062927d0a93b6cf92a55bf812ffb2e613683a_id |
-  #  | 4255c28503a1c96ed9a9127d1a21f992e636acd6_id |
-  #  | e27fc445699aa38246a09373e6aeaa96981ea921_id |
-  #  | 4b07dba2b6868c0827315b99ea94fc74c0f7c902_id |
-  #  | 58d1e760fcdc1612b900ecb8359a6d8b3e49a5ee_id |
-  #  | 6757c28005c30748f3bbda02882bf59bc81e0d71_id |
+  When I validate the allowed association entities via API "/v1/educationOrganizations/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/staffEducationOrgAssignmentAssociations/staff":
+    | id                                          |
+    | 8b6a31734ed43040f8a171d5d85e39176c543f22_id |
+    | 00fb228365702c5fb03029216f3f057e174e3d6f_id |
+    | a94da453a895a6d9ea23f884c3d232323a4acaae_id |
+    | 0941af6d37f33cc9d690bd662894f851ee1bfd1e_id |
+    | aec76b8572750483be1e0d1e7b00d03e3b07220d_id |
+    | 143760f37839b2608d2c929ef26d30c900f6a434_id |
+    | b56a781295310ed319be5070ead4930590a82619_id |
+    | 1b8c3849be3ac8c3b1a7442aab1b00d1dcfa299c_id |
+    | c64062927d0a93b6cf92a55bf812ffb2e613683a_id |
+    | 4255c28503a1c96ed9a9127d1a21f992e636acd6_id |
+    | e27fc445699aa38246a09373e6aeaa96981ea921_id |
+    | 4b07dba2b6868c0827315b99ea94fc74c0f7c902_id |
+    | 58d1e760fcdc1612b900ecb8359a6d8b3e49a5ee_id |
+    | 6757c28005c30748f3bbda02882bf59bc81e0d71_id |
 
 
 @wip @student_staff_denied
