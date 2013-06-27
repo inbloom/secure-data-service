@@ -96,7 +96,7 @@ Then /^I should be able to see <Fields> for the entity with ID <ID>:$/ do |table
   data.each do |entity|
     id = entity["id"]
     expectations = table.hashes.select{|row| row["ID"]==id}
-    if (expectations != nil)
+    if (expectations != nil && !expectations.empty?)
       expectations = expectations[0]
     else
       success = false
@@ -128,16 +128,43 @@ def validate_id_presence(res)
 end
 
 def validate_field_existance_nonexistance(entity_hash, field_string_enum)
+  # ANSI Color codes
+  startRed = "\e[31m"
+  colorReset = "\e[0m"
+
+
   fields_should_exist = []
   fields_should_not = []
   # First populate, fields that should exist and not exist from the field string enum param
   case field_string_enum
     when "NameOnly"
       fields_should_exist = ["name", "id"]
-      fields_should_not = ["address", "studentUniqueStateId"]
+      fields_should_not = ["studentUniqueStateId","studentIdentificationCode","otherName","sex","birthData","address",
+                           "telephone","electronicMail","profileThumbnail","hispanicLatinoEthnicity","oldEthnicity","race",
+                           "economicDisadvantaged","schoolFoodServicesEligibility","studentCharacteristics","limitedEnglishProficiency",
+                           "languages","homeLanguages","disabilities","section504Disabilities","displacementStatus","programParticipations",
+                           "learningStyles","cohortYears","studentIndicators","loginId","gradeLevel","schoolId"]
     when "AllStudent"
-      fields_should_exist = ["name", "id", "address", "studentUniqueStateId"]
-      fields_should_not = ["economicDisadvantaged"]
+      fields_should_exist = ["name", "id", "birthData", "studentUniqueStateId"]
+      fields_should_not = ["economicDisadvantaged","schoolFoodServicesEligibility"]
+    when "SecionIds"
+      fields_should_exist = ["sectionId", "studentId"]
+      fields_should_not = ["beginDate","endDate","homeroomIndicator","repeatIdentifier"]
+    when "AllSectAsoc"
+      fields_should_exist = ["sectionId", "studentId", "beginDate"]
+      fields_should_not = []
+    when "ProgramIds"
+      fields_should_exist = ["programId", "studentId"]
+      fields_should_not = ["beginDate","endDate", "services", "educationOrganizationId", "reasonExited"]
+    when "AllProgAssoc"
+      fields_should_exist = ["programId", "studentId", "beginDate", "educationOrganizationId"]
+      fields_should_not = []
+    when "CohortIds"
+      fields_should_exist = ["cohortId", "studentId"]
+      fields_should_not = ["beginDate","endDate"]
+    when "AllCohrtAssoc"
+      fields_should_exist = ["cohortId", "studentId", "beginDate"]
+      fields_should_not = []
   end
 
   # Now check for existance or non-existance of fields
@@ -146,18 +173,16 @@ def validate_field_existance_nonexistance(entity_hash, field_string_enum)
     if entity_hash[field] == nil
       success = false
       puts "#{startRed}Expected field #{field}, but was absent#{colorReset}"
-    else
-      puts "Expected field #{field}, and was present"
     end
   end
+  puts "Expected field validation passed" if success
   fields_should_not.each do |field|
     if entity_hash[field] != nil
       success = false
-      puts "#{startRed}Expected field #{field}, but was present#{colorReset}"
-    else
-      puts "Expected field #{field}, and was absent"
+      puts "#{startRed}Did not expect field #{field}, but was present#{colorReset}"
     end
   end
+  puts "Non-expected field validation passed" if success
 
   return success
 end
