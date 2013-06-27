@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
+  <Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="false">
+
+<AssessmentItem>
+    <AssessmentReference>
+        <AssessmentIdentity>
+            <AssessmentTitle>2013-Kindergarten Assessment 1 Item</AssessmentTitle>
+            <AcademicSubject>Science</AcademicSubject>
+            <GradeLevelAssessed>Kindergarten</GradeLevelAssessed>
+        </AssessmentIdentity>
+    </AssessmentReference>
+    <IdentificationCode>2013-Kindergarten Assessment 1#1 Item</IdentificationCode>
+    <ItemCategory>True-False</ItemCategory>
+    <MaxRawScore>10</MaxRawScore>
+    <CorrectResponse>true</CorrectResponse>
+    <Nomenclature>nonenclature</Nomenclature>
+</AssessmentItem>
+
+
+  </Action>
+</InterchangeAssessmentMetadata>
