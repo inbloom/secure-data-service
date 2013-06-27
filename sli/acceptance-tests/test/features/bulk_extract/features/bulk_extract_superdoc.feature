@@ -30,7 +30,7 @@ Scenario Outline: Verify simple entities were correctly extracted for LEA
     And a "<entity>" extract file exists
     And a the correct number of "<entity>" was extracted from the database
     And a "<entity>" was extracted with all the correct fields
-    And I log into "inBloom Dashboards" with a token of "<user>", a "<role>" for "<realm>" in tenant "<tenant>", that lasts for "300" seconds
+   And I log into "inBloom Dashboards" with a token of "<user>", a "<role>" for "<edorg>" for "<realm>" in tenant "<tenant>", that lasts for "300" seconds
     Then a "<entity>" was extracted in the same format as the api
 
   Examples:
