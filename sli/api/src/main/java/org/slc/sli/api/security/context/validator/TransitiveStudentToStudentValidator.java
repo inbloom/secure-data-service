@@ -102,9 +102,9 @@ public class TransitiveStudentToStudentValidator extends BasicValidator {
         Set<String> allowedEntitiesForTheStudentWhoIsCurrentlyLoggedIntoTheAPI = new HashSet<String>();
         List<Entity> associationsToTheEntitiesInQuestionForTheStudentWhoIsCurrentlyLoggedIntoTheAPI = authenticatedStudent.getEmbeddedData().get(subdocType);
         if (associationsToTheEntitiesInQuestionForTheStudentWhoIsCurrentlyLoggedIntoTheAPI != null) {
-            for (Entity putativeCohort : associationsToTheEntitiesInQuestionForTheStudentWhoIsCurrentlyLoggedIntoTheAPI) {
-                if (!dateHelper.isFieldExpired(putativeCohort.getBody())) {
-                    allowedEntitiesForTheStudentWhoIsCurrentlyLoggedIntoTheAPI.add((String) putativeCohort.getBody().get(refField));
+            for (Entity putativeAssociationToTheEntitiesInQuestion : associationsToTheEntitiesInQuestionForTheStudentWhoIsCurrentlyLoggedIntoTheAPI) {
+                if (!dateHelper.isFieldExpired(putativeAssociationToTheEntitiesInQuestion.getBody())) {
+                    allowedEntitiesForTheStudentWhoIsCurrentlyLoggedIntoTheAPI.add((String) putativeAssociationToTheEntitiesInQuestion.getBody().get(refField));
                 }
             }
         }
