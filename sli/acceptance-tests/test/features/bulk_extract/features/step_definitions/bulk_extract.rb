@@ -353,9 +353,17 @@ When /^I should see warning message$/ do
   assert(@cleanResult.to_s.include?(errorMessage), "Result of bulk extract cleanup script should include error message but was " + @cleanResult )
 end
 
-When /^I get the path to the extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
-  getExtractInfoFromMongo(build_bulk_query(tenant,appId))
+When /^I get the path to the extract file for the tenant "(.*?)" and application with id "(.*?)" for the lea "(.*?)"$/ do |tenant, appId, lea|
+  getExtractInfoFromMongo(build_bulk_query(tenant,appId,lea))
 end
+
+When /^I get the path to the extract file for the tenant "(.*?)" and application with id "(.*?)" for sea "(.*?)"$/ do |tenant, appId, sea|
+  getExtractInfoFromMongo(build_bulk_query(tenant,appId,sea,false, true))
+  openDecryptedFile(appId)
+  Minitar.unpack(@filePath, @unpackDir)
+  assert(File.exists?(@unpackDir + "/metadata.txt"), "Cannot find metadata file in extract")
+end
+
 
 When /^I retrieve the path to and decrypt the SEA public data extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
   @tenant = tenant
@@ -363,11 +371,12 @@ When /^I retrieve the path to and decrypt the SEA public data extract file for t
   openDecryptedFile(appId)
 end
 
+
 When /^I know the file-length of the extract file$/ do
   @file_size = File.size(@filePath)
 end
 
-When /^I retrieve the path to and decrypt the extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
+When /^I retrieve the path to and decrypt the LEA public data extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
   getExtractInfoFromMongo(build_bulk_query(tenant,appId))
   openDecryptedFile(appId)
 end
@@ -440,6 +449,22 @@ When /^a the correct number of "(.*?)" was extracted from the database$/ do |col
 	  count = @tenantDb.collection("educationOrganization").find({"type" => "school" } ).count()
 	when "teacher"
 	  count = @tenantDb.collection("staff").find({"type" => "teacher" } ).count()
+  when "graduationPlan"
+    count = 3
+  when "gradingPeriod"
+    count = 13
+  when "staffEducationOrganizationAssociation"
+    count = 10
+  when "staffCohortAssociation"
+    count = 2
+  when "staffProgramAssociation"
+    count = 6
+  when "cohort"
+    count = 1
+  when "educationOrganization"
+    count = 5
+  when "staff"
+    count = 10
 	else
     parentCollection = subDocParent(collection)
 	  if(parentCollection == nil)
@@ -448,7 +473,6 @@ When /^a the correct number of "(.*?)" was extracted from the database$/ do |col
       count = @tenantDb.collection(parentCollection).aggregate([ {"$match" => {"#{collection}" => {"$exists" => true}}}, {"$unwind" => "$#{collection}"}]).size
     end
 	end
-
 
 	Zlib::GzipReader.open(@unpackDir + "/" + collection + ".json.gz") { |extractFile|
     records = JSON.parse(extractFile.read)
@@ -966,6 +990,7 @@ end
 ############################################################
 
 Then  /^a "(.*?)" was extracted in the same format as the api$/ do |collection|
+
   Zlib::GzipReader.open(@unpackDir +"/" + collection + ".json.gz") { |extracts|
   collFile = JSON.parse(extracts.read)
   assert(collFile!=nil, "Cannot find #{collection}.json file in extracts")
@@ -979,6 +1004,7 @@ Then  /^The "(.*?)" delta was extracted in the same format as the api$/ do |coll
   #  zipfiles = Array.new
   #  zipfiles << file if file.match(/.gz$/)
   #end
+
   zipfile = @fileDir + "/" + collection + ".json.gz"
 
   #Why do we have two different conventions on where to place the untar'd files?
@@ -1082,6 +1108,15 @@ end
 Then /^I should not see SEA data in the bulk extract deltas$/ do
   #verify there is no delta generated
   steps "Then I should see \"0\" bulk extract files"
+end
+
+Then /^I failed retrieve the path to and decrypt the extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
+  @conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
+  @sliDb = @conn.db(DATABASE_NAME)
+  @coll = @sliDb.collection("bulkExtractFiles")
+  match = @coll.find_one(build_bulk_query(tenant,appId))
+
+  assert(match ==nil, "Database should not be updated with bulk extract file location")
 end
 
 Then /^I verify "(.*?)" delta bulk extract files are generated for LEA "(.*?)" in "(.*?)"$/ do |count, lea, tenant|
@@ -1656,6 +1691,7 @@ def getExtractInfoFromMongo(query, query_opts={})
   @sliDb = @conn.db(DATABASE_NAME)
   @coll = @sliDb.collection("bulkExtractFiles")
   match = @coll.find_one(query, query_opts)
+
   assert(match !=nil, "Database was not updated with bulk extract file location")
 
   edorg = match['body']['edorg'] || ""
