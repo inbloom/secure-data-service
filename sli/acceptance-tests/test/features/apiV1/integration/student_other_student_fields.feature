@@ -123,6 +123,7 @@ Scenario: Accessing Students via Multi-part URIs
     | ab9e67df5e9030da4f23558b701af4d83729148f_id8a8e059acdaa70e6666e0af14e51a586ef559529_id | CohortIds     |
     | 31c4ff6bdc41c644772a5105386b6f7a215abfd2_id22bb8c325d924f9047e01a34c2337774b786d75d_id | CohortIds     |
 
+
 Scenario: Accessing other students directly
   Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "cegray" with password "cegray1234"
   And format "application/json"
@@ -280,8 +281,8 @@ Scenario: Accessing other students directly
   And I am using api version "v1"
   Then I validate that I am denied access to restricted endpoints via API:
     | uri                                                     | rc  |
-   #| Student with expired StudentSectionAssociation NOTE: Odin does not have any of these
-   #| /v1/students/e40ee9041a7159c62867f63bf4da581ba9fc3dc7_id | 403 |
+   #| Student with expired StudentSectionAssociation
+    | /v1/students/b13887c5f555d6675d1f71de3b0fa6ad3b67f8aa_id | 403 |
    #| Student with expired StudentProgramAssociation
     | /v1/students/89fa0cef4c8a3a0c50bcf132ee28fffdff4c90ef_id | 403 |
    #| Student with expired StudentCohortAssociation

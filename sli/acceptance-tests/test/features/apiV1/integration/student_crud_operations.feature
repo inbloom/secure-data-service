@@ -158,15 +158,16 @@ Feature: As a student or staff I want to use apps that access the inBloom API
       | studentDisciplineIncidentAssociation | 908404e876dd56458385667fa383509035cd4312_id33a1c7ee086d4c488531652ab4a99cf0b6bd619d_id | 403 |
 
 
-@wip @student_crud @student_write
+@wip @student_crud
 Scenario: POST new entities as a privileged student with extended rights
 Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "student.m.sollars" with password "student.m.sollars1234"
-    And format "application/json"
-    And I am using api version "v1"
-    #POST a new teacher as an enterprising student who somehow has write access to restricted entities
-    When I POST and validate the following entities:
-      | msollars.studentAssessment         | studentAssessment                     | 201        |
-      | msollars.studentCompetency         | studentCompetency                     | 201        |
-      | msollars.studentAcademicRecord     | studentAcademicRecord                 | 201        |
-      | msollars.grade                     | grade                                 | 201        |
-      | msollars.reportCard                | reportCard                            | 201        |
+  And format "application/json"
+  And I am using api version "v1"
+  #POST a new teacher as an enterprising student who somehow has write access to restricted entities
+  When I POST and validate the following entities:
+    | msollars.studentAssessmentItem      | studentAssessmentItem                 | 201        |
+    | msollars.studentObjectiveAssessment | studentObjectiveAssessment            | 201        |
+    | msollars.studentAssessment          | studentAssessment                     | 201        |
+    | msollars.studentGradebookEntry      | studentGradebookEntry                 | 201        |
+    | msollars.grade                      | grade                                 | 201        |
+    | msollars.student                    | student                               | 201        |

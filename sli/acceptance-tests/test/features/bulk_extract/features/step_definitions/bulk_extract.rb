@@ -2853,7 +2853,8 @@ def get_post_body_by_entity_name(entity_name)
       "entityType" => "studentSectionAssociation",
       "sectionId" => "eb8663fe6856b49684a778446a0a1ad33238a86d_id",
       "studentId" => "b13887c5f555d6675d1f71de3b0fa6ad3b67f8aa_id",
-      "beginDate" => "2013-08-27",
+      "endDate" => "2012-12-13",
+      "beginDate" => "2012-08-27",
       "homeroomIndicator" => true,
       "repeatIdentifier" => "Repeated, counted in grade point average"
     },
