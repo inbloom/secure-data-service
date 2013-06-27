@@ -168,8 +168,29 @@ Given I log in to realm "Illinois Daybreak Students" using simple-idp as "studen
   #  | 58d1e760fcdc1612b900ecb8359a6d8b3e49a5ee_id |
   #  | 6757c28005c30748f3bbda02882bf59bc81e0d71_id |
 
+@student_staff_denied @student_write
+Scenario: POST new entities as a privileged student with extended rights
+  #Given I log in to realm "Illinois Daybreak Students" using simple-idp as "studentLeader" "leader.m.sollars" with password "leader.m.sollars1234"
+  Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "jstevenson" with password "jstevenson1234"
+    And format "application/json"
+    And I am using api version "v1"
+    #POST a new teacher as an enterprising student who somehow has write access to restricted entities
+    When I POST and validate the following entities:
+      | entityName                         | entityType                            | returnCode |
+      | expiredTeacher                     | teacher                               | 201        |
+      | expiredTeacherEdorgAssociation     | staffEducationOrganizationAssociation | 201        |
+      | expiredTeacherSchoolAssociation    | teacherSchoolAssociation              | 201        |
+      | expiredTeacherSectionAssociation   | teacherSectionAssociation             | 201        |
+      | expiredStaff                       | staff                                 | 201        |
+      | expiredStaffEdorgAssociation       | staffEducationOrganizationAssociation | 201        |
+      | expiredStudent                     | student                               | 201        |
+      | expiredStudentSchoolAssociation    | studentSchoolAssociation              | 201        |
+      | expiredStudentSectionAssociation   | studentSectionAssociation             | 201        |
+      | msollars.studentProgramAssociation | studentProgramAssociation             | 201        |
+      | expiredStudentProgramAssociation   | studentProgramAssociation             | 201        |
+      | expiredStudentCohortAssociation    | studentCohortAssociation              | 201        |
 
-@wip @student_staff_denied
+@student_staff_denied
 Scenario: Student has access to non-transitive associations through sections
 Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
   And format "application/json"
@@ -184,15 +205,15 @@ Given I log in to realm "Illinois Daybreak Students" using simple-idp as "studen
    #| Teacher that does not exist should return                                             | 404 |
     | /v1/teachers/this_teacher_dne                                                         | 404 |
    #| Staff with expired association to student should return                               | 403 |
-    | /v1/staff/{id}                                                                        | 403 |
+    | /v1/staff/bfddb715a20bb2996b8769abfc1813d029bfdf29_id                                 | 403 |
    #| Staff with no context to student should return                                        | 403 |
-    | /v1/staff/{id}                                                                        | 403 |
+    | /v1/staff/20b470cc8609718d36cd32d7d6258ef508529971_id                                 | 403 |
    #| Staff that does not exist should return                                               | 404 |
     | /v1/staff/this_staff_dne                                                              | 404 |
    #| Student with expired association to student should return                             | 403 |
-    | /v1/students/{id}                                                                     | 403 |
+    | /v1/students/b13887c5f555d6675d1f71de3b0fa6ad3b67f8aa_id                              | 403 |
    #| Student with no context to student should return                                      | 403 |
-    | /v1/students/{id}                                                                     | 403 |
+    | /v1/students/f9b25a057abd498c4a9ce367189d185f24b9681c_id                              | 403 |
    #| Student that does not exist should return                                             | 404 |
     | /v1/students/this_student_dne                                                         | 404 |
    #| Associations through expired cohorts should return                                    | 403 |
