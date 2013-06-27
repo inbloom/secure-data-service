@@ -78,7 +78,7 @@ end
 
 def bulk_extract_api_range_call(range)
   @customHeaders = makeCustomHeader(range)
-  return restHttpCustomHeadersGet("/bulk/extract/#{}", @customHeaders)
+  return restHttpCustomHeadersGet("/bulk/extract/#{LEA_DAYBREAK_ID_VAL2}", @customHeaders)
 end
 
 When /^I make API call to retrieve today's delta file$/ do
