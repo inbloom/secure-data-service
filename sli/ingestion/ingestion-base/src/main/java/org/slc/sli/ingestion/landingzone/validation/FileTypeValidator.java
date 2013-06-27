@@ -29,6 +29,8 @@ import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
 import org.slc.sli.ingestion.reporting.impl.ControlFileSource;
 import org.slc.sli.ingestion.validation.Validator;
 
+import java.util.Map;
+
 /**
  * File Type validator.
  *
@@ -41,7 +43,7 @@ public class FileTypeValidator implements Validator<IngestionFileEntry> {
 
     @Override
     public boolean isValid(IngestionFileEntry entry, AbstractMessageReport report, ReportStats reportStats,
-            Source source) {
+            Source source, Map<String, Object> parameters) {
         FileType fileType = entry.getFileType();
 
         if (fileType == null) {

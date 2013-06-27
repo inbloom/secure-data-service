@@ -18,6 +18,7 @@ package org.slc.sli.ingestion.handler;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -67,7 +68,7 @@ public class AbstractIngestionHandlerTest {
         Validator<Resource> preValidator = Mockito.mock(Validator.class);
         Mockito.when(
                 preValidator.isValid(Mockito.any(Resource.class), Mockito.any(AbstractMessageReport.class),
-                        Mockito.any(ReportStats.class), Mockito.any(Source.class))).thenReturn(true);
+                        Mockito.any(ReportStats.class), Mockito.any(Source.class), Mockito.any(Map.class))).thenReturn(true);
         List<Validator<Resource>> preValidators = new ArrayList<Validator<Resource>>();
         preValidators.add(preValidator);
         handler.setPreValidators(preValidators);
@@ -75,7 +76,7 @@ public class AbstractIngestionHandlerTest {
         Validator<Resource> postValidator = Mockito.mock(Validator.class);
         Mockito.when(
                 postValidator.isValid(Mockito.any(Resource.class), Mockito.any(AbstractMessageReport.class),
-                        Mockito.any(ReportStats.class), Mockito.any(Source.class))).thenReturn(true);
+                        Mockito.any(ReportStats.class), Mockito.any(Source.class), Mockito.any(Map.class))).thenReturn(true);
         List<Validator<Resource>> postValidators = new ArrayList<Validator<Resource>>();
         postValidators.add(postValidator);
         handler.setPostValidators(postValidators);

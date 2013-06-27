@@ -19,6 +19,7 @@ package org.slc.sli.ingestion.validation;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -49,7 +50,7 @@ public class XsdValidator implements Validator<IngestionFileEntry> {
 
     @Override
     public boolean isValid(IngestionFileEntry entry, AbstractMessageReport report,
-            ReportStats reportStats, Source source) {
+            ReportStats reportStats, Source source, Map<String, Object> parameters) {
 
         InputStream input = null;
         try {

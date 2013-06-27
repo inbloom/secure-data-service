@@ -23,6 +23,8 @@ import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 
+import java.util.Map;
+
 /**
  * Validator to validate Mongo information.
  *
@@ -36,12 +38,12 @@ public class MongoValidator extends ComplexValidator<Object> {
     private MongoTemplate mongoTemplate;
 
     @Override
-    public boolean isValid(Object object, AbstractMessageReport report, ReportStats reportStats, Source source) {
+    public boolean isValid(Object object, AbstractMessageReport report, ReportStats reportStats, Source source, Map<String, Object> parameters) {
         boolean isValid = true;
         DB dbConn = mongoTemplate.getDb();
 
         for (Validator<Object> validator : this.getValidators()) {
-            isValid &= validator.isValid(dbConn, report, reportStats, source);
+            isValid &= validator.isValid(dbConn, report, reportStats, source, null);
         }
 
         return isValid;

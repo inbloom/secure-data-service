@@ -16,10 +16,14 @@
 
 package org.slc.sli.ingestion.validation;
 
+import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.slc.sli.ingestion.BatchJobStage;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
+
+import java.util.Enumeration;
+import java.util.Map;
 
 /**
  * Validator Interface.
@@ -42,8 +46,10 @@ public interface Validator<T> extends BatchJobStage {
      *            track statistics for this validation
      * @param source
      *            details the origin of the error
+     * @param parameters
+     *            state for validators - e.g. cache of zipfile entries for FilePresenceValidator
      * @return <code>true</code> if the object is valid
      */
-    boolean isValid(T object, AbstractMessageReport report, ReportStats reportStats, Source source);
+    boolean isValid(T object, AbstractMessageReport report, ReportStats reportStats, Source source, Map<String, Object> parameters);
 
 }
