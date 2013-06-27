@@ -77,7 +77,7 @@ public class ValidationController {
         for (IngestionFileEntry ife : cfile.getFileEntries()) {
             if (ife.isValid()) {
                 messageReport.info(reportStats, new XmlFileSource(ife), ValidationMessageCode.VALIDATION_0002, ife.getFileName());
-                isValid = complexValidator.isValid(ife, messageReport, reportStats, new XmlFileSource(ife));
+                isValid = complexValidator.isValid(ife, messageReport, reportStats, new XmlFileSource(ife), null);
                 if (!isValid) {
                     messageReport.info(reportStats, new XmlFileSource(ife), ValidationMessageCode.VALIDATION_0003, ife.getFileName());
                     continue;
@@ -110,7 +110,7 @@ public class ValidationController {
 
             //ControlFileDescriptor cfd = new ControlFileDescriptor(cfile, parentDirectoryOrZipFile.getAbsolutePath());
 
-            controlFilevalidator.isValid(cfile, messageReport, reportStats, source);
+            controlFilevalidator.isValid(cfile, messageReport, reportStats, source, null);
 
             processValidators(cfile, reportStats);
         } catch (IOException e) {

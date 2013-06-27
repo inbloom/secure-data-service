@@ -433,14 +433,6 @@ public class SubDocAccessor {
             return queryDBObject;
         }
 
-        private String getParentId(String embededId) {
-            String parentId = embededId;
-            if (embededId.split("_id").length == 2) {
-                parentId = embededId.split("_id")[0] + "_id";
-            }
-            return parentId;
-        }
-
         // retrieve limit/offset/sort info from the original query and make them applicable to
         // subDocs
         private DBObject getLimitQuery(Query originalQuery) {
@@ -736,7 +728,7 @@ public class SubDocAccessor {
         }
 
         private void addParentId(final Set<String> parentIds, final String childId) throws InvalidIdException {
-            final String parentId = getParentId(childId);
+            final String parentId = SuperDocIdUtility.getParentId(childId);
             if (childId.equals(parentId)) {
                 throw new InvalidIdException("ChildId == ParentId");
             }

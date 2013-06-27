@@ -85,7 +85,32 @@ end
 
 Then /^I should be able to see <Fields> for the entity with ID <ID>:$/ do |table|
   # table is a Cucumber::Ast::Table
-  pending # express the regexp above with the code you wish you had
+  # Strings for ANSI Color codes
+  startRed = "\e[31m"
+  colorReset = "\e[0m"
+
+  success = true
+  data = JSON.parse(@res.body)
+  assert(data != nil, "Response from API was nil")
+  assert(data.is_a?(Array), "Response for a listing endpoint was not an array")
+  data.each do |entity|
+    id = entity["id"]
+    expectations = table.hashes.select{|row| row["ID"]==id}
+    if (expectations != nil)
+      expectations = expectations[0]
+    else
+      success = false
+      puts "#{startRed}ID #{id} returned from API but not expected!#{colorReset}"
+      next
+    end
+    puts "=== Starting Field Validation for ID #{id} ==="
+    success &= validate_field_existance_nonexistance(entity, expectations["Fields"])
+    puts "=== Ending Field Validation for ID #{id} ==="
+  end
+  actual_set = Set.new(data.map{|entity|entity["id"]})
+  expected_set = Set.new(table.hashes.collect{|row| row["ID"]})
+  assert(actual_set == expected_set,"Set Expectation failed: Outlier IDs: #{(expected_set.subtract(expected_set&actual_set)).select{|x| x}}")
+  assert(success, "Tests failed")
 end
 
 def validate_id_presence(res)
@@ -100,4 +125,39 @@ def validate_id_presence(res)
     id = data["id"]
   end
   return id != nil
+end
+
+def validate_field_existance_nonexistance(entity_hash, field_string_enum)
+  fields_should_exist = []
+  fields_should_not = []
+  # First populate, fields that should exist and not exist from the field string enum param
+  case field_string_enum
+    when "NameOnly"
+      fields_should_exist = ["name", "id"]
+      fields_should_not = ["address", "studentUniqueStateId"]
+    when "AllStudent"
+      fields_should_exist = ["name", "id", "address", "studentUniqueStateId"]
+      fields_should_not = ["economicDisadvantaged"]
+  end
+
+  # Now check for existance or non-existance of fields
+  success = true
+  fields_should_exist.each do |field|
+    if entity_hash[field] == nil
+      success = false
+      puts "#{startRed}Expected field #{field}, but was absent#{colorReset}"
+    else
+      puts "Expected field #{field}, and was present"
+    end
+  end
+  fields_should_not.each do |field|
+    if entity_hash[field] != nil
+      success = false
+      puts "#{startRed}Expected field #{field}, but was present#{colorReset}"
+    else
+      puts "Expected field #{field}, and was absent"
+    end
+  end
+
+  return success
 end
