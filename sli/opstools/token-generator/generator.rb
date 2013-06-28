@@ -21,6 +21,10 @@ ARGV.options do |opts|
     opts.on(:REQUIRED, /.+/, '-E', '--edorg','The education organization this role belongs to' ) do |edorg|
     options[:edorg] = edorg
   end
+    options[:newSession] = false
+    opts.on(:REQUIRED, /.+/, '-n', '--newSession','If true, create a new userSession (Default : false)' ) do |newSession|
+    options[:newSession] = newSession
+  end
   opts.on(:REQUIRED, /.+/, '-R', '--realm','The realm unique name (Default: Shared Learning Collaborative)' ) do |realm|
     options[:realm] = realm
   end
@@ -184,13 +188,15 @@ else
 end
 query['body.principal.externalId'] = externalId
 
-#TODO:Temporarily disable because it fails BE AT
-#userSession = db[:userSession].find_one(query)
-#if(userSession != nil)
-#  token = updateUserSession(options, edorg, userSession, db)
-#else
+userSession = db[:userSession].find_one(query)
+if(userSession != nil && !options[:newSession])
+  token = updateUserSession(options, edorg, userSession, db)
+else
+  if(options[:newSession])
+    db[:userSession].remove(query)
+  end
   appSession = createUserSession(options, realm, user, edorg, app, student, db)
   token = appSession[:token]
-#end
+end
   
 puts "Your new long-lived session token is #{token}"
