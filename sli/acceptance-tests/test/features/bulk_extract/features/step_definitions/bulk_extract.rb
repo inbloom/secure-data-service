@@ -2932,9 +2932,9 @@ def get_post_body_by_entity_name(entity_name)
       "cumulativeGradePointsEarned" => 0.0
     },
     "msollars.grade" => {
-      "schoolYear" => "2013-2014",
-      "studentSectionAssociationId" => "4030207003b03d055bba0b5019b31046164eff4e_id78468628f357b29599510341f08dfd3277d9471e_id",
-      "sectionId" => "4030207003b03d055bba0b5019b31046164eff4e_id",
+      "schoolYear" => "2012-2013",
+      "studentSectionAssociationId" => "2982f5d3840b0a46bf152c7b7243c0db8dda694f_id06f4aa0f6d84ae7ab290709fc348754cbd232cb5_id",
+      "sectionId" => "2982f5d3840b0a46bf152c7b7243c0db8dda694f_id",
       "letterGradeEarned" => "A",
       "studentId" => "067198fd6da91e1aa8d67e28e850f224d6851713_id",
       "numericGradeEarned" => 96,
@@ -2956,6 +2956,69 @@ def get_post_body_by_entity_name(entity_name)
       "grades" => ["1417cec726dc51d43172568a9c332ee1712d73d4_idcd83575df61656c7d8aebb690ae0bb3ff129a857_id"],
       "numberOfDaysAbsent" => 1.0
     },
+    "msollars.studentGradebookEntry" => {
+      "studentSectionAssociationId" => "2982f5d3840b0a46bf152c7b7243c0db8dda694f_id06f4aa0f6d84ae7ab290709fc348754cbd232cb5_id",
+      "gradebookEntryId" => "eb8663fe6856b49684a778446a0a1ad33238a86d_id1e0f700db933cda9dc1adf5f04d1204d2a9c2ddf_id",
+      "letterGradeEarned" => "F",
+      "sectionId" => "2982f5d3840b0a46bf152c7b7243c0db8dda694f_id",
+      "studentId" => "067198fd6da91e1aa8d67e28e850f224d6851713_id",
+      "numericGradeEarned" => 59,
+      "dateFulfilled" => "2013-04-25",
+      "diagnosticStatement" => "Diagnostic Statement"
+    },
+    "msollars.student" => {
+      "loginId" => "4859@fakemail.com",
+      "sex" => "Female",
+      "studentCharacteristics" => [{
+        "endDate" => "2014-08-01",
+        "beginDate" => "20013-04-20",
+        "designatedBy" => "Teacher",
+        "characteristic" => "Unaccompanied Youth"
+      }],
+      "oldEthnicity" => "White, Not Of Hispanic Origin",
+      "race" => ["Black - African American"],
+      "languages" => [{
+        "language" => "Norwegian"
+      }],
+      "studentUniqueStateId" => "800000025",
+      "name" => {
+        "middleName" => "Aida",
+        "lastSurname" => "Sollars",
+        "firstName" => "Matt"
+      },
+      "birthData" => {
+        "birthDate" => "2002-07-21"
+      },
+      "homeLanguages" => [{
+        "language" => "Cambodian (Khmer)"
+      }],
+      "learningStyles" => {
+        "visualLearning" => 36,
+        "auditoryLearning" => 39,
+        "tactileLearning" => 12
+      },
+      "limitedEnglishProficiency" => "NotLimited",
+      "studentIdentificationCode" => [{
+        "identificationCode" => "abcde",
+        "identificationSystem" => "District",
+        "assigningOrganizationCode" => "School"
+      }],
+      "address" => [{
+        "streetNumberName" => "707 Elm Street",
+        "postalCode" => "60601",
+        "stateAbbreviation" => "IL",
+        "addressType" => "Home",
+        "city" => "Chicago"
+      }],
+      "displacementStatus" => "Status BBB",
+      "electronicMail" => [{
+        "emailAddress" => "4859@fakemail.com",
+        "emailAddressType" => "Home/Personal"
+      }],
+      "telephone" => [{
+        "telephoneNumber" => "(115)555-5072"
+      }]
+  },
     "msollars.studentAssessment" => {
       "studentId" => "067198fd6da91e1aa8d67e28e850f224d6851713_id",
       "assessmentId" => "8e6fceafe05daef1da589a1709ee278ba51d337a_id",

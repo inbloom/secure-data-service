@@ -775,3 +775,11 @@ After('@student_expired_access') do |scenario|
   `mongo 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a --quiet --eval "db.student.remove({_id:'067198fd6da91e1aa8d67e28e850f224d6851713_id'}); assert.eq(null, db.getLastError());"`
   `mongoimport -d 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a -c section -h localhost --file ~/scripts/data/student.msollars.json`
 end
+
+
+After('@clean_up_student_posts') do |scenario|
+  `mongo 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a --quiet --eval "db.studentAssessment.remove({_id:'f9643b7abba04ae01586723abed0e38c63e4f975_id'}); assert.eq(null, db.getLastError());"`
+  `mongo 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a --quiet --eval "db.studentGradebookEntry.remove({_id:'7f714f03238d978398fbd4f8abbf9acb3e5775fe_id'}); assert.eq(null, db.getLastError());"`
+  `mongo 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a --quiet --eval "db.yearlyTranscript.update({'_id':'f438cf61eda4d45d77f3d7624fc8d089aa95e5ea_id'},{$pull:{'grade':{'_id':'f438cf61eda4d45d77f3d7624fc8d089aa95e5ea_id4542ee7a376b1c7813dcdc495368c875bc6b03ed_id'}}},false, true);"`
+#  `mongo 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a --quiet --eval "db.grades.remove({_id:'f438cf61eda4d45d77f3d7624fc8d089aa95e5ea_id4542ee7a376b1c7813dcdc495368c875bc6b03ed_id'}); assert.eq(null, db.getLastError());"`
+end

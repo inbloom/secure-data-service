@@ -158,16 +158,34 @@ Feature: As a student or staff I want to use apps that access the inBloom API
       | studentDisciplineIncidentAssociation | 908404e876dd56458385667fa383509035cd4312_id33a1c7ee086d4c488531652ab4a99cf0b6bd619d_id | 403 |
 
 
-@wip @student_crud
+@student_crud @clean_up_student_posts @wip
 Scenario: POST new entities as a privileged student with extended rights
-Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "student.m.sollars" with password "student.m.sollars1234"
+Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "leader.m.sollars" with password "leader.m.sollars1234"
   And format "application/json"
   And I am using api version "v1"
   #POST a new teacher as an enterprising student who somehow has write access to restricted entities
   When I POST and validate the following entities:
-    | msollars.studentAssessmentItem      | studentAssessmentItem                 | 201        |
-    | msollars.studentObjectiveAssessment | studentObjectiveAssessment            | 201        |
-    | msollars.studentAssessment          | studentAssessment                     | 201        |
-    | msollars.studentGradebookEntry      | studentGradebookEntry                 | 201        |
-    | msollars.grade                      | grade                                 | 201        |
-    | msollars.student                    | student                               | 201        |
+    | entityName                     | entityType            | returnCode |
+    | msollars.studentAssessment     | studentAssessment     | 201        |
+    | msollars.studentGradebookEntry | studentGradebookEntry | 201        |
+    | msollars.grade                 | grade                 | 201        |
+    #| msollars.student               | student               | 409        |
+  When I PATCH and validate the following entities:
+    | fieldName      | entityName                                                                             | entityType            | value | returnCode |
+    | studentLoginId | 067198fd6da91e1aa8d67e28e850f224d6851713_id                                            | student               | "a"   | 204        |
+    | grade          | f9643b7abba04ae01586723abed0e38c63e4f975_id                                            | studentAssessment     | "a"   | 204        |
+    | grade          | 7f714f03238d978398fbd4f8abbf9acb3e5775fe_id                                            | studentGradebookEntry | "a"   | 204        |
+    | diagnosticStatement | f438cf61eda4d45d77f3d7624fc8d089aa95e5ea_id4542ee7a376b1c7813dcdc495368c875bc6b03ed_id | grade                 | "Derp"   | 204        |
+  When I PUT and validate the following entities:
+    | field          | entityName            | value | returnCode | endpoint                                                        |
+    | loginId        | studentAssessment     | a     | 204        | studentAssessments/b7080a7f753939752b693bca21fe60375d15587e_id/ |
+    | studentId      | studentGradebookEntry | b     | 204        | studentAssessments/b7080a7f753939752b693bca21fe60375d15587e_id/ |
+    | grade          | grade                 | c     | 204        | studentAssessments/b7080a7f753939752b693bca21fe60375d15587e_id/ |
+    | name.firstName | student               | d     | 204        | studentAssessments/b7080a7f753939752b693bca21fe60375d15587e_id/ |
+  When I DELETE and validate the following entities:
+    | entity                         | id                    | returnCode |
+    | msollars.studentAssessment     | studentAssessment     | 204        |
+    | msollars.studentGradebookEntry | studentGradebookEntry | 204        |
+    | msollars.grade                 | grade                 | 204        |
+    | msollars.student               | student               | 204        |
+
