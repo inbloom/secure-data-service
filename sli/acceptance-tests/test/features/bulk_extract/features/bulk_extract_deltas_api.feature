@@ -7,7 +7,6 @@ Scenario: Initialize security trust store for Bulk Extract application and LEAs
     And The bulk extract app has been approved for "Midgar-DAYBREAK" with client id "<clientId>"
     And The X509 cert "cert" has been installed in the trust store and aliased
     
-       
 
 Scenario: Generate a bulk extract delta after day 1 ingestion
   When I trigger a delta extract
@@ -82,8 +81,8 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
     And there is a metadata file in the extract
    Then each record in the full extract is present and matches the delta extract
 
-@wip
-Scenario: SEA - Ingest additional entities for subsequent update and delete tests
+
+Scenario: SEA - Ingest additional entities in preparation for subsequent update and delete tests
 And I ingest "SEAAppend.zip"
     And the extraction zone is empty
     When I trigger a delta extract
@@ -128,6 +127,18 @@ And I ingest "SEAAppend.zip"
       |  courseOffering                        |
       |  gradingPeriod                         |
       |  graduationPlan                        |
+    And I verify this "assessment" file should contain:
+      | id                                          | condition                                |
+	  | bb99132d75ccc4f92db1b8923a15bda8b40a3826_id | assessmentTitle = 2013-Kindergarten Assessment 2 Item |
+	  | 5fe86f2c3a2da1fbe9eaa386b40d0f0fbe265456_id | assessmentTitle = 2013-Kindergarten Assessment 1 Item |
+      | a59997eeaafc53047a7b972f435fd4fc0b6458f1_id | assessmentTitle = Delete AF              |
+      | 87cc09359cfc6686841aa018b25d965a75153e36_id | assessmentTitle = Update AF              |
+      | 69191a2b23a3395aba8183edb6088889f44cbd8a_id | assessmentTitle = Delete A and Update AF |
+      | 6fbf0016bba0a599878ddcc1873669a62a4b5958_id | assessmentTitle = Update A and Delete AF |
+      | ceaad98bfd854959a6cbdfd621808cd6d35997aa_id | assessmentTitle = Delete A and Delete AF |
+      | dd6c15967a9807cc061a9796f985d2f6dbe40ec0_id | assessmentTitle = Update AF then Delete A|
+      | 0635fa68fbd43b610f281566241b809274adfd52_id | assessmentTitle = Delete A then Update AF|
+      | f8a8f68c8aed779c2e8c3f9174e5b05e880e9a9d_id | assessmentTitle = READ 2.0 Grade 1 BOY        |
     And I verify this "session" file should contain:
       | id                                          | condition                                |
       | 3d809925e89e28202cbaa76ddfaca40f52124dd3_id | totalInstructionalDays = 40              |
@@ -139,8 +150,7 @@ And I ingest "SEAAppend.zip"
       | eba54e12a1a8ce4c09a4ce2863fe080ee05a42e0_id | localCourseTitle = Sixth grade English   |
     And I verify this "graduationPlan" file should contain:
       | id                                          | condition                                |
-      | 7f6e03f2a01f0f74258a1b0d8796be5eaf289f0a_id | graduationPlanType = Standard            |
-    And Then I Fail
+      | 22411ee1066db57f4a8424f8285bc1d82fae1560_id | graduationPlanType = Distinguished       |
 
 @wip
 Scenario: SEA Assessment + Objective Deltas InteractionsPicked Objective Assessments but same behaviour expected for Assessment Item
@@ -186,17 +196,7 @@ Scenario: SEA Assessment + Objective Deltas InteractionsPicked Objective Assessm
       |d3580c38701831271557256b7eaa8b3c1dea1087_id | assessmentTitle = Scenario 5                                   | update the Objective Assessment                                                                     |
       
  
-  Scenario: SEA Assessment + AssessmentItem Deltas for Assessment Item
-    Given the extraction zone is empty
-    When I ingest "AssessmentItemDelta.zip"
-    And I trigger a delta extract
-    Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
-      |  entityType                            |
-      |  assessment                            |
-    And I verify this "assessment" file only contains:
-      | id                                         | condition                                                  |
-	  |bb99132d75ccc4f92db1b8923a15bda8b40a3826_id | assessmentTitle = 2013-Kindergarten Assessment 2 Item      |                             
-	  |5fe86f2c3a2da1fbe9eaa386b40d0f0fbe265456_id | assessmentTitle = 2013-Kindergarten Assessment 1 Item      |                          
+  Scenario: SEA Assessment + AssessmentItem Delta Updates and Deletes
    Given the extraction zone is empty
 	 When I ingest "AssessmentItemDeltaDeleted.zip"
      And I trigger a delta extract
@@ -207,24 +207,9 @@ Scenario: SEA Assessment + Objective Deltas InteractionsPicked Objective Assessm
        | id                                         | condition                                              | description  |
 	   |bb99132d75ccc4f92db1b8923a15bda8b40a3826_id | assessmentTitle = 2013-Kindergarten Assessment 2 Item  |    updated   |
 	   |5fe86f2c3a2da1fbe9eaa386b40d0f0fbe265456_id | assessmentTitle = 2013-Kindergarten Assessment 1 Item  |    delted    |
+
        
-       
-  Scenario: Ingesting SEA (Non Odin) entities - AssessmentFamily
-    Given the extraction zone is empty
-    When I ingest "AssessmentFamilyDelta.zip"
-    Then I trigger a delta extract
-    And I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
-      |  entityType                            |
-      |  assessment                            |
-    And I verify this "assessment" file only contains:
-      | id                                          | condition                                 |
-      | a59997eeaafc53047a7b972f435fd4fc0b6458f1_id | assessmentTitle = Delete AF               |
-      | 87cc09359cfc6686841aa018b25d965a75153e36_id | assessmentTitle = Update AF               |
-      | 69191a2b23a3395aba8183edb6088889f44cbd8a_id | assessmentTitle = Delete A and Update AF  |
-      | 6fbf0016bba0a599878ddcc1873669a62a4b5958_id | assessmentTitle = Update A and Delete AF  |
-      | ceaad98bfd854959a6cbdfd621808cd6d35997aa_id | assessmentTitle = Delete A and Delete AF  |
-      | dd6c15967a9807cc061a9796f985d2f6dbe40ec0_id | assessmentTitle = Update AF then Delete A |
-      | 0635fa68fbd43b610f281566241b809274adfd52_id | assessmentTitle = Delete A then Update AF |
+  Scenario: Ingesting SEA (Non Odin) entities - AssessmentFamily Updates and Deletes
     When I ingest "AssessmentFamilyDeltaUpdated.zip"
     #second ingestion to control order of events
     Given the extraction zone is empty
@@ -239,6 +224,7 @@ Scenario: SEA Assessment + Objective Deltas InteractionsPicked Objective Assessm
       | a59997eeaafc53047a7b972f435fd4fc0b6458f1_id | assessmentTitle = Delete AF               |
       | 87cc09359cfc6686841aa018b25d965a75153e36_id | assessmentTitle = Update AF               |
       | 6fbf0016bba0a599878ddcc1873669a62a4b5958_id | assessmentTitle = Update A and Delete AF  |
+      | f8a8f68c8aed779c2e8c3f9174e5b05e880e9a9d_id | assessmentTitle = READ 2.0 Grade 1 BOY    |
     And I verify this "deleted" file only contains:
       | id                                          | condition                |
       | 69191a2b23a3395aba8183edb6088889f44cbd8a_id | entityType = assessment  |
@@ -246,16 +232,8 @@ Scenario: SEA Assessment + Objective Deltas InteractionsPicked Objective Assessm
       | dd6c15967a9807cc061a9796f985d2f6dbe40ec0_id | entityType = assessment  |
       | 0635fa68fbd43b610f281566241b809274adfd52_id | entityType = assessment  |
 
+
   Scenario: SEA Assessment Delete Test
-    Given the extraction zone is empty
-    When I ingest "AssessmentDelta.zip"
-    And I trigger a delta extract
-    Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
-      |  entityType                            |
-      |  assessment                               |
-    And I verify this "assessment" file should contain:
-      | id                                          | condition                                |
-      | f8a8f68c8aed779c2e8c3f9174e5b05e880e9a9d_id | assessmentTitle = READ 2.0 Grade 1 BOY        |
     Given the extraction zone is empty
     When I ingest "AssessmentDeltaDelete.zip"
     And I trigger a delta extract
@@ -265,72 +243,26 @@ Scenario: SEA Assessment + Objective Deltas InteractionsPicked Objective Assessm
     And I verify this "deleted" file should contain:
       | id                                          | condition                                |
       | f8a8f68c8aed779c2e8c3f9174e5b05e880e9a9d_id | entityType = assessment                  |
+
       
- Scenario: Ingesting SEA (Non Odin) entities - Session
-    Given the extraction zone is empty
-    When I ingest "SEASession.zip"
-    And I trigger a delta extract
-    Then Only the following extracts exists for edOrg "<STANDARD-SEA>" in tenant "Midgar"
-      |   session           |
-      |   calendarDate      |
-    And There should not be any of the following extracts for edOrg "<IL-DAYBREAK>" in tenant "Midgar"
-      |   session           |
-      |   calendarDate      |
-    And There should not be any of the following extracts for edOrg "<IL-HIGHWIND>" in tenant "Midgar"
-      |   session           |
-      |   calendarDate      |
-    And There should not be any of the following extracts for edOrg "<IL-SUNSET>" in tenant "Midgar"
-      |   session           |
-      |   calendarDate      |
-    And I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
-      |  entityType                            |
-      |  session                               |
-      |  calendarDate                          |
-    And I verify this "session" file should contain:
-      | id                                          | condition                                |
-      | 3d809925e89e28202cbaa76ddfaca40f52124dd3_id | totalInstructionalDays = 40              |
+ Scenario: Ingesting SEA (Non Odin) entities - Session Update Test
     Given the extraction zone is empty
     When I ingest "SEASessionUpdate.zip"
      And I trigger a delta extract
     Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
       |  entityType                            |
       |  session                               |
+      |  calendarDate                          |
      And I verify this "session" file should contain:
       | id                                          | condition                                |
       | 3d809925e89e28202cbaa76ddfaca40f52124dd3_id | totalInstructionalDays = 45              |
 
 
-
-  Scenario: Ingesting SEA (Non Odin) entities - Course
-    When I ingest "SEACourse.zip"
-    And the extraction zone is empty
-    When I trigger a delta extract
-    And Only the following extracts exists for edOrg "<STANDARD-SEA>" in tenant "Midgar"
-      |   course              |
-      |   courseOffering      |
-    And There should not be any of the following extracts for edOrg "<IL-DAYBREAK>" in tenant "Midgar"
-      # Note course exists here due to a reference to a courseOffering related to this LEA
-      |   courseOffering      |
-    And There should not be any of the following extracts for edOrg "<IL-HIGHWIND>" in tenant "Midgar"
-      # Note course exists here due to a reference to a courseOffering related to this LEA
-      |   courseOffering      |
-    And There should not be any of the following extracts for edOrg "<IL-SUNSET>" in tenant "Midgar"
-      |   course              |
-      |   courseOffering      |
-    When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
-      |  entityType                            |
-      |  course                                |
-      |  courseOffering                        |
-    And I verify this "course" file should contain:
-      | id                                          | condition                                |
-      | a71ea7489a86103bddd7459c25c83b7e7c5da875_id | courseTitle = Sixth grade English        |
-    And I verify this "courseOffering" file should contain:
-      | id                                          | condition                                |
-      | eba54e12a1a8ce4c09a4ce2863fe080ee05a42e0_id | localCourseTitle = Sixth grade English   |
-    And I ingest "SEACourseUpdate.zip"
-    And the extraction zone is empty
-    When I trigger a delta extract
-    When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+  Scenario: Ingesting SEA (Non Odin) entities - Course Update
+    Given the extraction zone is empty
+    When I ingest "SEACourseUpdate.zip"
+     And I trigger a delta extract
+    Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
       |  entityType                            |
       |  course                                |
       |  courseOffering                        |
@@ -342,33 +274,11 @@ Scenario: SEA Assessment + Objective Deltas InteractionsPicked Objective Assessm
       | eba54e12a1a8ce4c09a4ce2863fe080ee05a42e0_id | localCourseTitle = Seventh grade English |
 
 
-  Scenario: Ingesting SEA (Non Odin) entities - Grading Period
-    When I ingest "SEAGradingPeriod.zip"
-    And the extraction zone is empty
-    When I trigger a delta extract
-    And Only the following extracts exists for edOrg "<STANDARD-SEA>" in tenant "Midgar"
-      |   gradingPeriod     |
-      |   calendarDate      |
-    And There should not be any of the following extracts for edOrg "<IL-DAYBREAK>" in tenant "Midgar"
-      |   gradingPeriod     |
-      |   calendarDate      |
-    And There should not be any of the following extracts for edOrg "<IL-HIGHWIND>" in tenant "Midgar"
-      |   gradingPeriod     |
-      |   calendarDate      |
-    And There should not be any of the following extracts for edOrg "<IL-SUNSET>" in tenant "Midgar"
-      |   gradingPeriod     |
-      |   calendarDate      |
-    When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
-      |  entityType                            |
-      |  gradingPeriod                         |
-      |  calendarDate                          |
-    And I verify this "gradingPeriod" file should contain:
-      | id                                          | condition                                |
-      | aec59707feac8e68d9d4b780bef5547e934297dc_id | totalInstructionalDays = 180             |
-    And I ingest "SEAGradingPeriodUpdate.zip"
-    And the extraction zone is empty
-    When I trigger a delta extract
-    When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+  Scenario: Ingesting SEA (Non Odin) entities - Grading Period Update
+    Given the extraction zone is empty
+    When I ingest "SEAGradingPeriodUpdate.zip"
+     And I trigger a delta extract
+    Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
       |  entityType                            |
       |  gradingPeriod                         |
     And I verify this "gradingPeriod" file should contain:
@@ -376,33 +286,17 @@ Scenario: SEA Assessment + Objective Deltas InteractionsPicked Objective Assessm
       | aec59707feac8e68d9d4b780bef5547e934297dc_id | totalInstructionalDays = 190             |
 
 
-  Scenario: Ingesting SEA (Non Odin) entities - GraduationPlan
-    When I ingest "SEAGraduationPlan.zip"
-    And the extraction zone is empty
-    When I trigger a delta extract
-    And Only the following extracts exists for edOrg "<STANDARD-SEA>" in tenant "Midgar"
-      |   graduationPlan     |
-    And There should not be any of the following extracts for edOrg "<IL-DAYBREAK>" in tenant "Midgar"
-      |   graduationPlan     |
-    And There should not be any of the following extracts for edOrg "<IL-HIGHWIND>" in tenant "Midgar"
-      |   graduationPlan     |
-    And There should not be any of the following extracts for edOrg "<IL-SUNSET>" in tenant "Midgar"
-      |   graduationPlan     |
-    When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
-      |  entityType                            |
-      |  graduationPlan                        |
-    And I verify this "graduationPlan" file should contain:
-      | id                                          | condition                                |
-      | 22411ee1066db57f4a8424f8285bc1d82fae1560_id | graduationPlanType = Distinguished       |
-    And I ingest "SEAGraduationPlanUpdate.zip"
-    And the extraction zone is empty
-    When I trigger a delta extract
-    When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+  Scenario: Ingesting SEA (Non Odin) entities - GraduationPlan Update
+    Given the extraction zone is empty
+    When I ingest "SEAGraduationPlanUpdate.zip"
+     And I trigger a delta extract
+    Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
       |  entityType                            |
       |  graduationPlan                        |
     And I verify this "graduationPlan" file should contain:
       | id                                          | condition                                |
       | 7f6e03f2a01f0f74258a1b0d8796be5eaf289f0a_id | graduationPlanType = Standard            |
+
 
 Scenario: Triggering deltas via ingestion
   All entities belong to lea1 which is IL-DAYBREAK, we should only see a delta file for lea1
@@ -439,7 +333,7 @@ Scenario: Triggering deltas via ingestion
        | edcd730acd29f74a5adcb4123b183001a3513853_id  | entityType = studentCompetencyObjective |
        | ebfc74d85dfcdcb7e5ddc93a6af2952801f9436e_id  | entityType = program                    |
        | aec59707feac8e68d9d4b780bef5547e934297dc_id  | entityType = gradingPeriod              |
-       | 78f5ed2b6ce039539f34ef1889af712816aec6f7_id  | entityType = calendarDate               |       |
+       | 78f5ed2b6ce039539f34ef1889af712816aec6f7_id  | entityType = calendarDate               |
 
       And I verify this "assessment" file should contain:
        | id                                          | condition                                                    |
@@ -795,7 +689,7 @@ Scenario: Ingest an update to AssessmentPeriodDescriptor and output only affecte
       |  assessment                            |
    And I verify this "assessment" file should contain:
      | id                                          | condition                |
-     | 060f1d61807b473021b82e0d0831bc47edc9fd96_id | entityType = assessment  |
+     | a59997eeaafc53047a7b972f435fd4fc0b6458f1_id | entityType = assessment  |
    And I verify this "assessment" file should not contain:
      | id                                          | condition                |
      | 124057675fa0903e905f0377bbc0450aacc7edab_id |                          |
