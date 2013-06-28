@@ -26,7 +26,6 @@ Feature: As a student or staff I want to use apps that access the inBloom API
       | oldEthnicity                                          | White, Not Of Hispanic Origin               |
       | profileThumbnail                                      | 800000025 thumb                             |
       | limitedEnglishProficiency                             | NotLimited                                  |
-      #| schoolFoodServicesEligibility                         | Full price                                  |
       | displacementStatus                                    | Status BBB                                  |
       | hispanicLatinoEthnicity                               | false                                       |
       #| studentCharacteristics.beginDate                      | 20013-04-20                                 |
@@ -445,16 +444,6 @@ Feature: As a student or staff I want to use apps that access the inBloom API
       | programAssignment             |
       | academicSubjects              |
     
-
-  @wip
-  Scenario: Student cannot POST private entities
-    Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
-    And format "application/json"
-    And I am using api version "v1"
-    When I POST and validate the following entities:
-      | entity             | type         | returnCode |
-      | newDaybreakStudent | staffStudent | 403        |
-
 
   @student_parent
   Scenario: Student can see all parent fields

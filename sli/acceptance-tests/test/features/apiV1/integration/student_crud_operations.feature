@@ -47,18 +47,18 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     #DELETE
     When I DELETE and validate the following entities:
       | entity                | id                                          | returnCode  |
-     #| Dont exist in mongo   | Transitive endpoints should return a        | 404         |
-      | assessment            | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 404         |
-      | courseOffering        | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 404         |
-      | course                | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 404         |
-      | educationOrganization | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 404         |
-      | gradingPeriod         | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 404         |
-      | learningObjective     | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 404         |
-      | learningStandard      | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 404         |
-      | program               | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 404         |
-      | schools               | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 404         |
-      | section               | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 404         |
-      | session               | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 404         |
+     #| Dont exist in mongo   | Transitive endpoints should return a        | 403         |
+      | assessment            | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
+      | courseOffering        | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
+      | course                | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
+      | educationOrganization | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
+      | gradingPeriod         | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
+      | learningObjective     | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
+      | learningStandard      | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
+      | program               | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
+      | schools               | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
+      | section               | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
+      | session               | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
     When I DELETE and validate the following entities:
       | entity                              | id                                          | returnCode  |
      #| These entities dont exist in mongo  | Non-transitive endpoints should return a    | 403         |    
@@ -70,13 +70,7 @@ Feature: As a student or staff I want to use apps that access the inBloom API
       | courses/id/courseOfferings          | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
       | courses/id/courseOfferings/sessions | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
       | educationOrganizations/id/courses   | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
-      | educationOrganizations/id/educationOrganizations  | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403 |
-      | educationOrganizations/id/graduationPlans         | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403 |
-      | educationOrganizations/id/studentCompetencyObjectives | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403 |
       | educationOrganizations/id/schools   | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
-      | learningObjectives/id/childLearningObjectives     | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403 |
-      | learningObjectives/id/learningStandards           | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403 |
-      | learningObjectives/id/parentLearningObjectives    | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403 |
       | schools/id/courseOfferings          | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
       | schools/id/courses                  | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
       | schools/id/sections                 | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
@@ -85,6 +79,12 @@ Feature: As a student or staff I want to use apps that access the inBloom API
       | sessions/id/courseOfferings         | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
       | sessions/id/courseOfferings/courses | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
       | sessions/id/sections                | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403         |
+      | learningObjectives/id/childLearningObjectives         | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403 |
+      | learningObjectives/id/learningStandards               | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403 |
+      | learningObjectives/id/parentLearningObjectives        | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403 |
+      | educationOrganizations/id/educationOrganizations      | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403 |
+      | educationOrganizations/id/graduationPlans             | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403 |
+      | educationOrganizations/id/studentCompetencyObjectives | doesnotexist177d00b06dee3fd928c1bfda4d49_id | 403 |
     When I DELETE and validate the following entities:    
       | entity                | id                                          | returnCode  |
      #| Do exist in mongo     | Transitive endpoints should return a        | 403         |
@@ -111,13 +111,7 @@ Feature: As a student or staff I want to use apps that access the inBloom API
       | courses/id/courseOfferings          | 514196bf10482bbfa307c023360692ef4c8f87db_id | 403         |
       | courses/id/courseOfferings/sessions | bfeaf9315f04797a41dbf1663d18ead6b6fb1309_id | 403         |
       | educationOrganizations/id/courses   | 7f3baa1a1f553809c6539671f08714aed6ec8b0c_id | 403         |
-      | educationOrganizations/id/educationOrganizations  | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id | 403 |
-      | educationOrganizations/id/graduationPlans         | 7f6e03f2a01f0f74258a1b0d8796be5eaf289f0a_id | 403 |
-      | educationOrganizations/id/studentCompetencyObjectives | b7080a7f753939752b693bca21fe60375d15587e_id | 403 |
       | educationOrganizations/id/schools   | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id | 403         |
-      | learningObjectives/id/childLearningObjectives     | 735a9b42268fbe4a5be61124034be656249759dd_id | 403 |
-      | learningObjectives/id/learningStandards           | 7a9dc734146e8deff33b53a4e645e6b7cfd2c167_id | 403 |
-      | learningObjectives/id/parentLearningObjectives    | 735a9b42268fbe4a5be61124034be656249759dd_id | 403 |
       | schools/id/courseOfferings          | 514196bf10482bbfa307c023360692ef4c8f87db_id | 403         |
       | schools/id/courses                  | 7f3baa1a1f553809c6539671f08714aed6ec8b0c_id | 403         |
       | schools/id/sections                 | 2982f5d3840b0a46bf152c7b7243c0db8dda694f_id | 403         |
@@ -126,22 +120,28 @@ Feature: As a student or staff I want to use apps that access the inBloom API
       | sessions/id/courseOfferings         | 514196bf10482bbfa307c023360692ef4c8f87db_id | 403         |
       | sessions/id/courseOfferings/courses | 7f3baa1a1f553809c6539671f08714aed6ec8b0c_id | 403         |
       | sessions/id/sections                | 2982f5d3840b0a46bf152c7b7243c0db8dda694f_id | 403         |
+      | learningObjectives/id/childLearningObjectives         | 735a9b42268fbe4a5be61124034be656249759dd_id | 403 |
+      | learningObjectives/id/learningStandards               | 7a9dc734146e8deff33b53a4e645e6b7cfd2c167_id | 403 |
+      | learningObjectives/id/parentLearningObjectives        | 735a9b42268fbe4a5be61124034be656249759dd_id | 403 |
+      | educationOrganizations/id/educationOrganizations      | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id | 403 |
+      | educationOrganizations/id/graduationPlans             | 7f6e03f2a01f0f74258a1b0d8796be5eaf289f0a_id | 403 |
+      | educationOrganizations/id/studentCompetencyObjectives | b7080a7f753939752b693bca21fe60375d15587e_id | 403 |
     When I DELETE and validate the following entities:
       | entity                     | id                                          | returnCode  |
       | attendance                 | fb7b5e0d6cebb8e9e35c8700270882f9c4adb49c_id | 403         |
       | cohort                     | 4711a3d63401b22260d9ed17313b9fc301f02c6f_id | 403         |
       | competencyLevelDescriptor  | c91ae4718903d20289607c3c4335759e652ad569_id | 403         |
-      | grade                      | 5aaf89278b7226f668f46509403d86a2b5968978_id9a437b8ade601e7ea50d146c9f91ec6745313c01_id | 403 |
+      #| grade                      | 5aaf89278b7226f668f46509403d86a2b5968978_id9a437b8ade601e7ea50d146c9f91ec6745313c01_id | 403 |
       | gradebookEntry             | 2982f5d3840b0a46bf152c7b7243c0db8dda694f_ida861d8326b3144fe12262cae42b27b979d368dbe_id | 403 |
       | parent                     | 5f8989384287747b1960d16edd95ff2bb318e3bd_id | 403         |
       | parent                     | ea649b2220d73ec57eb2e92589c3049d44d102f7_id | 403         |
       | reportCard                 | 5aaf89278b7226f668f46509403d86a2b5968978_id2f2b79c129330d6f371439c9d63988abf8fffd05_id | 403 |
       | staff                      | e27fc445699aa38246a09373e6aeaa96981ea921_id | 403         |
       | staffCohortAssociation     | 3748e919e23549ec9205e917658f4b3486fd42b1_id | 403         |
-      | student                    | 067198fd6da91e1aa8d67e28e850f224d6851713_id | 403         |
-      | student                    | aea1153839c7923a4d70ca9f5859dbc0895d629f_id | 403         |
+      #| student                    | 067198fd6da91e1aa8d67e28e850f224d6851713_id | 403         |
+      #| student                    | aea1153839c7923a4d70ca9f5859dbc0895d629f_id | 403         |
       | studentAcademicRecord      | 5aaf89278b7226f668f46509403d86a2b5968978_idf686ca38e2c6acd3eeb149ba351c6da21930e096_id | 403 |
-      | studentAssessment          | efaff117aa1656323dd225d70fc97501b393a7a6_id | 403         |
+      #| studentAssessment          | efaff117aa1656323dd225d70fc97501b393a7a6_id | 403         |
       | studentCohortAssociation   | 067198fd6da91e1aa8d67e28e850f224d6851713_idc787af32ad98c7e7062619db99d233c32582d30a_id | 403 |
       | studentCompetencyObjective | b7080a7f753939752b693bca21fe60375d15587e_id | 403         |
       | studentProgramAssociation  | 067198fd6da91e1aa8d67e28e850f224d6851713_id1564ad795bbfa929b2deb7b06386ad60f50c84fc_id | 403 |
@@ -157,18 +157,17 @@ Feature: As a student or staff I want to use apps that access the inBloom API
       | studentDisciplineIncidentAssociation | 067198fd6da91e1aa8d67e28e850f224d6851713_idcc5123a629dee85e5f64ef188c1c33f2ffd6c210_id | 403 |
       | studentDisciplineIncidentAssociation | 908404e876dd56458385667fa383509035cd4312_id33a1c7ee086d4c488531652ab4a99cf0b6bd619d_id | 403 |
 
-@student_crud
+
+@wip @student_crud
 Scenario: POST new entities as a privileged student with extended rights
-  #Given I log in to realm "Illinois Daybreak Students" using simple-idp as "studentLeader" "leader.m.sollars" with password "leader.m.sollars1234"
-  Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "jstevenson" with password "jstevenson1234"
-    And format "application/json"
-    And I am using api version "v1"
-    #POST a new teacher as an enterprising student who somehow has write access to restricted entities
-    When I POST and validate the following entities:
-      | entityName                       | entityType                            | returnCode |
-      | expiredTeacher                   | teacher                               | 201        |
-      | expiredTeacherEdorgAssociation   | staffEducationOrganizationAssociation | 201        |
-      | expiredTeacherSchoolAssociation  | teacherSchoolAssociation              | 201        |
-      | expiredTeacherSectionAssociation | teacherSectionAssociation             | 201        |
-      | expiredStaff                     | staff                                 | 201        |
-      | expiredStaffEdorgAssociation     | staffEducationOrganizationAssociation | 201        |
+Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "student.m.sollars" with password "student.m.sollars1234"
+  And format "application/json"
+  And I am using api version "v1"
+  #POST a new teacher as an enterprising student who somehow has write access to restricted entities
+  When I POST and validate the following entities:
+    | msollars.studentAssessmentItem      | studentAssessmentItem                 | 201        |
+    | msollars.studentObjectiveAssessment | studentObjectiveAssessment            | 201        |
+    | msollars.studentAssessment          | studentAssessment                     | 201        |
+    | msollars.studentGradebookEntry      | studentGradebookEntry                 | 201        |
+    | msollars.grade                      | grade                                 | 201        |
+    | msollars.student                    | student                               | 201        |

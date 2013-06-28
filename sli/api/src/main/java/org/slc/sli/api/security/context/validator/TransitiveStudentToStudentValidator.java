@@ -99,12 +99,12 @@ public class TransitiveStudentToStudentValidator extends BasicValidator {
     }
     
     private void removeValidIds(Set<String> ids, Entity authenticatedStudent, Entity student, String subdocType, String refField) {
-        Set<String> authenticatedStudentCohorts = new HashSet<String>();
-        List<Entity> cohortAssocs = authenticatedStudent.getEmbeddedData().get(subdocType);
-        if (cohortAssocs != null) {
-            for (Entity putativeCohort : cohortAssocs) {
-                if (!dateHelper.isFieldExpired(putativeCohort.getBody())) {
-                    authenticatedStudentCohorts.add((String) putativeCohort.getBody().get(refField));
+        Set<String> allowedEntitiesForTheStudentWhoIsCurrentlyLoggedIntoTheAPI = new HashSet<String>();
+        List<Entity> associationsToTheEntitiesInQuestionForTheStudentWhoIsCurrentlyLoggedIntoTheAPI = authenticatedStudent.getEmbeddedData().get(subdocType);
+        if (associationsToTheEntitiesInQuestionForTheStudentWhoIsCurrentlyLoggedIntoTheAPI != null) {
+            for (Entity putativeAssociationToTheEntitiesInQuestion : associationsToTheEntitiesInQuestionForTheStudentWhoIsCurrentlyLoggedIntoTheAPI) {
+                if (!dateHelper.isFieldExpired(putativeAssociationToTheEntitiesInQuestion.getBody())) {
+                    allowedEntitiesForTheStudentWhoIsCurrentlyLoggedIntoTheAPI.add((String) putativeAssociationToTheEntitiesInQuestion.getBody().get(refField));
                 }
             }
         }
@@ -112,7 +112,7 @@ public class TransitiveStudentToStudentValidator extends BasicValidator {
         if (associations != null) {
             for (Entity association : associations) {
                 String reference = (String) association.getBody().get(refField);
-                if (authenticatedStudentCohorts.contains(reference)
+                if (allowedEntitiesForTheStudentWhoIsCurrentlyLoggedIntoTheAPI.contains(reference)
                         && !dateHelper.isFieldExpired(association.getBody())) {
                     ids.remove(student.getEntityId());
                 }

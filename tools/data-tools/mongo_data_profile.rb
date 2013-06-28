@@ -254,9 +254,9 @@ def get_type(val)
       return "Encrypted String"
     elsif starts_with?(val, "EBOOL:")
       return "Encrypted Bool"
-    elsif val.match(/^[a-f0-9]{40}_id$/)
+    elsif val.length == 43 and val.match(/^[a-f0-9]{40}_id$/)
       return "Entity ID '%40x_id'"
-    elsif val.match(/^[a-f0-9]{40}_id[a-f0-9]{40}_id$/)
+    elsif val.length == 86 and val.match(/^[a-f0-9]{40}_id[a-f0-9]{40}_id$/)
       return "SubDoc ID '%40x_id%40x_id'"
     end
   end

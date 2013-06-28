@@ -32,7 +32,7 @@ Feature: As an API user, I want to be able to get a list of links available to t
 	And I make a head request with each returned URL
 
 Scenario: Login as a user not directly associated with the SEA, SEA extract should be in the list
-  Then I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  Then I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   When I make a call to the bulk extract end point "/v1.1/bulk/extract/list"
   When I get back a response code of "200"
   When the number of returned URLs is correct:

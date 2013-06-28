@@ -353,9 +353,17 @@ When /^I should see warning message$/ do
   assert(@cleanResult.to_s.include?(errorMessage), "Result of bulk extract cleanup script should include error message but was " + @cleanResult )
 end
 
-When /^I get the path to the extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
-  getExtractInfoFromMongo(build_bulk_query(tenant,appId))
+When /^I get the path to the extract file for the tenant "(.*?)" and application with id "(.*?)" for the lea "(.*?)"$/ do |tenant, appId, lea|
+  getExtractInfoFromMongo(build_bulk_query(tenant,appId,lea))
 end
+
+When /^I get the path to the extract file for the tenant "(.*?)" and application with id "(.*?)" for sea "(.*?)"$/ do |tenant, appId, sea|
+  getExtractInfoFromMongo(build_bulk_query(tenant,appId,sea,false, true))
+  openDecryptedFile(appId)
+  Minitar.unpack(@filePath, @unpackDir)
+  assert(File.exists?(@unpackDir + "/metadata.txt"), "Cannot find metadata file in extract")
+end
+
 
 When /^I retrieve the path to and decrypt the SEA public data extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
   @tenant = tenant
@@ -363,11 +371,12 @@ When /^I retrieve the path to and decrypt the SEA public data extract file for t
   openDecryptedFile(appId)
 end
 
+
 When /^I know the file-length of the extract file$/ do
   @file_size = File.size(@filePath)
 end
 
-When /^I retrieve the path to and decrypt the extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
+When /^I retrieve the path to and decrypt the LEA public data extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
   getExtractInfoFromMongo(build_bulk_query(tenant,appId))
   openDecryptedFile(appId)
 end
@@ -440,6 +449,22 @@ When /^a the correct number of "(.*?)" was extracted from the database$/ do |col
 	  count = @tenantDb.collection("educationOrganization").find({"type" => "school" } ).count()
 	when "teacher"
 	  count = @tenantDb.collection("staff").find({"type" => "teacher" } ).count()
+  when "graduationPlan"
+    count = 3
+  when "gradingPeriod"
+    count = 13
+  when "staffEducationOrganizationAssociation"
+    count = 10
+  when "staffCohortAssociation"
+    count = 2
+  when "staffProgramAssociation"
+    count = 6
+  when "cohort"
+    count = 1
+  when "educationOrganization"
+    count = 5
+  when "staff"
+    count = 10
 	else
     parentCollection = subDocParent(collection)
 	  if(parentCollection == nil)
@@ -448,7 +473,6 @@ When /^a the correct number of "(.*?)" was extracted from the database$/ do |col
       count = @tenantDb.collection(parentCollection).aggregate([ {"$match" => {"#{collection}" => {"$exists" => true}}}, {"$unwind" => "$#{collection}"}]).size
     end
 	end
-
 
 	Zlib::GzipReader.open(@unpackDir + "/" + collection + ".json.gz") { |extractFile|
     records = JSON.parse(extractFile.read)
@@ -476,7 +500,7 @@ When /^a "(.*?)" was extracted with all the correct fields$/ do |collection|
 }
 end
 
-When /^I log into "(.*?)" with a token of "(.*?)", a "(.*?)" for "(.*?)" in tenant "(.*?)", that lasts for "(.*?)" seconds/ do |client_appName, user, role, realm, tenant, expiration_in_seconds|
+When /^I log into "(.*?)" with a token of "(.*?)", a "(.*?)" for "(.*?)" for "(.*?)" in tenant "(.*?)", that lasts for "(.*?)" seconds/ do |client_appName, user, role, edorg, realm, tenant, expiration_in_seconds|
 
   @edorg = getEntityId(realm)
   @api_version = "v1"
@@ -490,7 +514,7 @@ When /^I log into "(.*?)" with a token of "(.*?)", a "(.*?)" for "(.*?)" in tena
   enable_NOTABLESCAN()
 
   script_loc = File.dirname(__FILE__) + "/../../../../../../opstools/token-generator/generator.rb"
-  out, status = Open3.capture2("ruby #{script_loc} -e #{expiration_in_seconds} -c #{client_id} -u #{user} -r \"#{role}\" -t \"#{tenant}\" -R \"#{realm}\"")
+  out, status = Open3.capture2("ruby #{script_loc} -e #{expiration_in_seconds} -c #{client_id} -u #{user} -r \"#{role}\" -E \"#{edorg}\" -t \"#{tenant}\" -R \"#{realm}\"")
   assert(out.include?("token is"), "Could not get a token for #{user} for realm #{realm}")
   match = /token is (.*)/.match(out)
   @sessionId = match[1]
@@ -915,14 +939,14 @@ When /^I generate and retrieve the bulk extract delta via API for "(.*?)"$/ do |
   step "I trigger a delta extract" 
   # Request path for IL-Daybreak Admins
   if lea == "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
-    step "I log into \"SDK Sample\" with a token of \"jstevenson\", a \"Noldor\" for \"IL-Daybreak\" in tenant \"Midgar\", that lasts for \"300\" seconds"
+    step "I log into \"SDK Sample\" with a token of \"jstevenson\", a \"Noldor\" for \"IL-DAYBREAK\" for \"IL-Daybreak\" in tenant \"Midgar\", that lasts for \"300\" seconds"
     step "I request latest delta via API for tenant \"Midgar\", lea \"#{lea}\" with appId \"<app id>\" clientId \"<client id>\""
   # Request path for IL-Highwind Admins
   elsif lea == "99d527622dcb51c465c515c0636d17e085302d5e_id"
-    step "I log into \"SDK Sample\" with a token of \"lstevenson\", a \"Noldor\" for \"IL-Highwind\" in tenant \"Midgar\", that lasts for \"300\" seconds"
+    step "I log into \"SDK Sample\" with a token of \"lstevenson\", a \"Noldor\" for \"IL-HIGHWIND\" for \"IL-Highwind\" in tenant \"Midgar\", that lasts for \"300\" seconds"
     step "I request latest delta via API for tenant \"Midgar\", lea \"#{lea}\" with appId \"<app id>\" clientId \"<client id>\""
   elsif lea == "884daa27d806c2d725bc469b273d840493f84b4d_id"
-    step "I log into \"SDK Sample\" with a token of \"rrogers\", a \"Noldor\" for \"IL-Daybreak\" in tenant \"Midgar\", that lasts for \"300\" seconds"
+    step "I log into \"SDK Sample\" with a token of \"rrogers\", a \"Noldor\" for \"STANDARD-SEA\" for \"IL-Daybreak\" in tenant \"Midgar\", that lasts for \"300\" seconds"
     step "I request latest public delta via API for tenant \"Midgar\", lea \"#{lea}\" with appId \"<app id>\" clientId \"<client id>\""
   # Catch invalid LEA
   else 
@@ -934,7 +958,7 @@ end
 
 When /^I request the latest bulk extract delta via API for "(.*?)"$/ do |lea|
   print "Logging in as lstevenson in IL-Highwind .. "
-  step "I log into \"SDK Sample\" with a token of \"lstevenson\", a \"Noldor\" for \"IL-Highwind\" in tenant \"Midgar\", that lasts for \"300\" seconds"
+  step "I log into \"SDK Sample\" with a token of \"lstevenson\", a \"Noldor\" for \"IL-HIGHWIND\" for \"IL-Highwind\" in tenant \"Midgar\", that lasts for \"300\" seconds"
   print "OK\nRequesting Delta via API .. "
   step "I request latest delta via API for tenant \"Midgar\", lea \"#{lea}\" with appId \"<app id>\" clientId \"<client id>\""
   print "OK\nVerifying return code 200 .. "
@@ -966,6 +990,7 @@ end
 ############################################################
 
 Then  /^a "(.*?)" was extracted in the same format as the api$/ do |collection|
+
   Zlib::GzipReader.open(@unpackDir +"/" + collection + ".json.gz") { |extracts|
   collFile = JSON.parse(extracts.read)
   assert(collFile!=nil, "Cannot find #{collection}.json file in extracts")
@@ -979,6 +1004,7 @@ Then  /^The "(.*?)" delta was extracted in the same format as the api$/ do |coll
   #  zipfiles = Array.new
   #  zipfiles << file if file.match(/.gz$/)
   #end
+
   zipfile = @fileDir + "/" + collection + ".json.gz"
 
   #Why do we have two different conventions on where to place the untar'd files?
@@ -1082,6 +1108,15 @@ end
 Then /^I should not see SEA data in the bulk extract deltas$/ do
   #verify there is no delta generated
   steps "Then I should see \"0\" bulk extract files"
+end
+
+Then /^I failed retrieve the path to and decrypt the extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
+  @conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
+  @sliDb = @conn.db(DATABASE_NAME)
+  @coll = @sliDb.collection("bulkExtractFiles")
+  match = @coll.find_one(build_bulk_query(tenant,appId))
+
+  assert(match ==nil, "Database should not be updated with bulk extract file location")
 end
 
 Then /^I verify "(.*?)" delta bulk extract files are generated for LEA "(.*?)" in "(.*?)"$/ do |count, lea, tenant|
@@ -1656,6 +1691,7 @@ def getExtractInfoFromMongo(query, query_opts={})
   @sliDb = @conn.db(DATABASE_NAME)
   @coll = @sliDb.collection("bulkExtractFiles")
   match = @coll.find_one(query, query_opts)
+
   assert(match !=nil, "Database was not updated with bulk extract file location")
 
   edorg = match['body']['edorg'] || ""
@@ -2773,6 +2809,261 @@ def get_post_body_by_entity_name(entity_name)
       "classroomPosition" => "Teacher of Record",
       "endDate" => "2013-05-22",
       "beginDate" => "2012-08-26"
+    },
+    "expiredStudent" => {
+      "loginId" => "expired-student-1@bazinga.org",
+      "sex" => "Male",
+      "entityType" => "student",
+      "race" => ["White"],
+      "languages" => [{
+          "language" => "English"
+      }],
+      "studentUniqueStateId" => "expired-student-1",
+      "profileThumbnail" => "expired-student-1 thumb",
+      "name" => {
+          "middleName" => "Tera",
+          "lastSurname" => "Byte",
+          "firstName" => "Jim"
+      },
+      "address" => [{
+          "streetNumberName" => "2048 Byte Street",
+          "postalCode" => "60601",
+          "stateAbbreviation" => "IL",
+          "addressType" => "Home",
+          "city" => "Chicago"
+      }],
+      "birthData" => {
+          "birthDate" => "1997-03-02"
+      }
+    },
+    "expiredStudentSchoolAssociation" => {
+      "exitWithdrawDate" => "2013-05-22",
+      "entityType" => "studentSchoolAssociation",
+      "entryDate" => "2012-08-27",
+      "entryGradeLevel" => "Seventh grade",
+      "schoolYear" => "2012-2013",
+      "educationalPlans" => [],
+      "schoolChoiceTransfer" => true,
+      "entryType" => "Other",
+      "studentId" => "b13887c5f555d6675d1f71de3b0fa6ad3b67f8aa_id",
+      "repeatGradeIndicator" => true,
+      "schoolId" => "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id"
+    },
+    "expiredStudentSectionAssociation" => {
+      "entityType" => "studentSectionAssociation",
+      "sectionId" => "eb8663fe6856b49684a778446a0a1ad33238a86d_id",
+      "studentId" => "b13887c5f555d6675d1f71de3b0fa6ad3b67f8aa_id",
+      "endDate" => "2012-12-13",
+      "beginDate" => "2012-08-27",
+      "homeroomIndicator" => true,
+      "repeatIdentifier" => "Repeated, counted in grade point average"
+    },
+    "jstevenson.staffProgramAssociation" => {
+      "programId" => "904888b5ed47e46e2be7f3536a581e044fb18835_id",
+      "staffId" => "dfec28d34c75a4d307d1e85579e26a81630f6a47_id",
+      "endDate" => "2015-06-04",
+      "beginDate" => "2012-09-09"
+    },
+    "msollars.studentProgramAssociation" => {
+      "services" => [
+        [{"description" => "Reading Intervention"}]
+      ],
+      "programId" => "904888b5ed47e46e2be7f3536a581e044fb18835_id",
+      "studentId" => "067198fd6da91e1aa8d67e28e850f224d6851713_id",
+      "endDate" => "2014-06-22",
+      "reasonExited" => "Reached maximum age",
+      "entityType" => "studentProgramAssociation",
+      "beginDate" => "2013-05-26",
+      "educationOrganizationId" => "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id"
+    },
+    "expiredStudentProgramAssociation" => {
+      "services" => [
+        [{"description" => "Reading Intervention"}]
+      ],
+      "programId" => "904888b5ed47e46e2be7f3536a581e044fb18835_id",
+      "studentId" => "b13887c5f555d6675d1f71de3b0fa6ad3b67f8aa_id",
+      "endDate" => "2013-06-22",
+      "reasonExited" => "Reached maximum age",
+      "entityType" => "studentProgramAssociation",
+      "beginDate" => "2013-05-26",
+      "educationOrganizationId" => "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id"
+    },
+    "expiredStudentCohortAssociation" => {
+      "studentId" => "b13887c5f555d6675d1f71de3b0fa6ad3b67f8aa_id",
+      "cohortId" => "b4f9ddccc4c5c47a00541ee7c6d67fcb287316ce_id",
+      "beginDate" => "2012-01-25",
+      "endDate" => "2013-03-29"
+    },
+    "msollars.studentCompetency" => {
+      "competencyLevel" => { "codeValue" => "Advanced" },
+      "objectiveId" => { "learningObjectiveId" => "c9b6e99895327de1b01f29ced552f6a3515d8455_id" },
+      "diagnosticStatement" => "passed with flying colors",
+      "studentSectionAssociationId" => "eb8663fe6856b49684a778446a0a1ad33238a86d_id9abdc5ad23afda9fca17a667c1af0f472000f2cb_id",
+    },
+    "msollars.studentAcademicRecord" => {
+      "gradeValueQualifier" => "90-100%=A, 80-90%=B",
+      "projectedGraduationDate" => "2013-08-18",
+      "academicHonors" => [{
+          "honorAwardDate" => "2000-07-28",
+          "honorsDescription" => "Honor Desc BBB",
+          "academicHonorsType" => "Scholarships",
+
+      }],
+      "cumulativeCreditsEarned" => {
+          "credit" => 3.0
+      },
+      "reportCards" => ["1417cec726dc51d43172568a9c332ee1712d73d4_id77bc827b90835ef0df42154428ac3153f0ddc746_id"],
+      "entityType" => "studentAcademicRecord",
+      "schoolYear" => "2013-2014",
+      "studentId" => "067198fd6da91e1aa8d67e28e850f224d6851713_id",
+      "sessionId" => "bfeaf9315f04797a41dbf1663d18ead6b6fb1309_id",
+      "classRanking" => {
+          "classRankingDate" => "2013-10-19",
+          "percentageRanking" => 99,
+          "totalNumberInClass" => 8,
+          "classRank" => 10
+      },
+      "cumulativeGradePointAverage" => 3.8,
+      "recognitions" => [{
+          "recognitionType" => "Other",
+          "recognitionAwardDate" => "2013-10-25",
+          "recognitionDescription" => "Recognition Desc BBB"
+      }],
+      "cumulativeGradePointsEarned" => 0.0
+    },
+    "msollars.grade" => {
+      "schoolYear" => "2013-2014",
+      "studentSectionAssociationId" => "4030207003b03d055bba0b5019b31046164eff4e_id78468628f357b29599510341f08dfd3277d9471e_id",
+      "sectionId" => "4030207003b03d055bba0b5019b31046164eff4e_id",
+      "letterGradeEarned" => "A",
+      "studentId" => "067198fd6da91e1aa8d67e28e850f224d6851713_id",
+      "numericGradeEarned" => 96,
+      "gradeType" => "Final",
+      "performanceBaseConversion" => "Advanced",
+      "entityType" => "grade",
+      "diagnosticStatement" => "Student has Advanced understanding of subject."
+    },
+    "msollars.reportCard" => {
+      "gpaGivenGradingPeriod" => 4.0,
+      "numberOfDaysTardy" => 5,
+      "entityType" => "reportCard",
+      "studentCompetencyId" => ["0b60ada34879ae92d702b8deba8ffa4b0304bd4f_id", "a2d49222a65539f8658a53262619ccd743eadeaa_id", "85d510ed1e6a021582511f2ea3f593cc215a2f03_id", "efbac13e68205e055e0b62dcb688db655d1f1993_id", "add666959932195cb58f6bb23a04cdf9c4f33b80_id", "269a5ed956c61131644b852007c25938d5e52dbe_id", "d378378182c655ddcd807c4ea8a6f1dd9856bc54_id", "55418b178d1b94246aa85dce397c96a064d8b131_id", "a257d6fbe7da025ed044246cbd26b5a4d3e7980d_id", "97d5881972febe96ff3b8898c517b86862b846a6_id", "9b878efa5294c11cd28b34ff8b261eaf0721d1cb_id", "e3eb0b9c4d81d2d05f73fe812f1448f6b154e788_id", "18da02af03074e79c38178da6af667fb92b765f0_id", "84cac53e0dba7443a1d38296006c2298b61b3f27_id", "a98d764081246bcc505d16597e46932651f71388_id", "36c93cc301c35a053dbc527b9ff95470bf941b3c_id", "43b22d9ccd4ee38fa414cac155295b5f3a0497d7_id", "df625d78063c3a19427f31582cc01ce45e4926bc_id", "5a606626e43fd425f4c2795fa59fc558b02d9e96_id", "3d490c9268eb505c2019f393019c45c0a860f19d_id"],
+      "schoolYear" => "2013-2014",
+      "gradingPeriodId" => "21b8ac38bf886e78a879cfdb973a9352f64d07b9_id",
+      "studentId" => "067198fd6da91e1aa8d67e28e850f224d6851713_id",
+      "gpaCumulative" => 3.8,
+      "numberOfDaysInAttendance" => 137.0,
+      "grades" => ["1417cec726dc51d43172568a9c332ee1712d73d4_idcd83575df61656c7d8aebb690ae0bb3ff129a857_id"],
+      "numberOfDaysAbsent" => 1.0
+    },
+    "msollars.studentAssessment" => {
+      "studentId" => "067198fd6da91e1aa8d67e28e850f224d6851713_id",
+      "assessmentId" => "8e6fceafe05daef1da589a1709ee278ba51d337a_id",
+      "administrationDate" => "2013-09-24",
+      "specialAccommodations" => ["Large Print"],
+      "administrationEndDate" => "2012-09-25",
+      "gradeLevelWhenAssessed" => "Eleventh grade",
+      "performanceLevelDescriptors" => [
+        [{
+          "codeValue" => "30 code"
+        }]
+      ],
+      "administrationEnvironment" => "Classroom",
+      "retestIndicator" => "Primary Administration",
+      "studentObjectiveAssessments" => [{
+        "entityType" => "studentAssessment",
+        "performanceLevelDescriptors" => [
+          [{
+            "codeValue" => "code1"
+          }]
+        ],
+        "scoreResults" => [{
+          "result" => "32",
+          "assessmentReportingMethod" => "Scale score"
+        }],
+        "objectiveAssessment" => {
+          "nomenclature" => "Nomenclature",
+          "identificationCode" => "2013-Eleventh grade Assessment 2.OA-0",
+          "percentOfAssessment" => 50,
+          "assessmentId" => "8e6fceafe05daef1da589a1709ee278ba51d337a_id",
+          "assessmentPerformanceLevel" => [{
+            "performanceLevelDescriptor" => [{
+              "codeValue" => "code1"
+            }],
+            "assessmentReportingMethod" => "Number score",
+            "minimumScore" => 0,
+            "maximumScore" => 50
+          }],
+          "learningObjectives" => [
+            "1b0d13e233ef61ffafb613a8cc6930dfc0d29b92_id",
+            "8b6407c747e3de04c8e8365b1aa202f1dc3510c6_id",
+            "ea27f2c3cd548cf82682a75e29182462da366912_id",
+            "b2c4add05d75ba5144203d8dc3e1c5cb79b58c7b_id",
+            "f515c869a5b8507f7462dafd65c20710fc300182_id"
+          ],
+          "maxRawScore" => 50
+        }
+      }],
+      "reasonNotTested" => "Not appropriate (ARD decision)",
+      "serialNumber" => "30 code",
+      "scoreResults" => [{
+        "result" => "32",
+        "assessmentReportingMethod" => "Scale score"
+      }],
+      "linguisticAccommodations" => ["Bilingual Dictionary"],
+      "administrationLanguage" => {
+         "language" => "English"
+      },
+      "studentAssessmentItems" => [{
+        "rawScoreResult" => 82,
+        "responseIndicator" => "Effective response",
+        "assessmentResponse" => "false",
+        "assessmentItemResult" => "Incorrect",
+        "assessmentItem" => {
+          "identificationCode" => "2013-Eleventh grade Assessment 2#1",
+          "assessmentId" => "8e6fceafe05daef1da589a1709ee278ba51d337a_id",
+          "correctResponse" => "true",
+          "itemCategory" => "True-False",
+          "maxRawScore" => 10
+        }
+      }, {
+        "rawScoreResult" => 29,
+        "responseIndicator" => "Nonscorable response",
+        "assessmentResponse" => "false",
+        "assessmentItemResult" => "Correct",
+        "assessmentItem" => {
+            "identificationCode" => "2013-Eleventh grade Assessment 2#4",
+            "assessmentId" => "8e6fceafe05daef1da589a1709ee278ba51d337a_id",
+            "correctResponse" => "false",
+            "itemCategory" => "True-False",
+            "maxRawScore" => 10
+        }
+      }, {
+        "rawScoreResult" => 58,
+        "responseIndicator" => "Nonscorable response",
+        "assessmentResponse" => "false",
+        "assessmentItemResult" => "Correct",
+        "assessmentItem" => {
+          "identificationCode" => "2013-Eleventh grade Assessment 2#2",
+          "assessmentId" => "8e6fceafe05daef1da589a1709ee278ba51d337a_id",
+          "correctResponse" => "false",
+          "itemCategory" => "True-False",
+          "maxRawScore" => 10
+        }
+      },
+      {
+        "rawScoreResult" => 16,
+        "responseIndicator" => "Ineffective response",
+        "assessmentResponse" => "false",
+        "assessmentItemResult" => "Incorrect",
+        "assessmentItem" => {
+          "identificationCode" => "2013-Eleventh grade Assessment 2#3",
+          "assessmentId" => "8e6fceafe05daef1da589a1709ee278ba51d337a_id",
+          "correctResponse" => "true",
+          "itemCategory" => "True-False",
+          "maxRawScore" => 10
+        }
+      }]
     }
   }
   return json_bodies_by_name[entity_name]

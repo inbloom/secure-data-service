@@ -33,12 +33,13 @@ Given /^I log in to realm "(.*?)" using simple-idp as "(.*?)" "(.*?)" with passw
   step "the testing device app key has been created"
 
   user_info = {
-                "student.m.sollars" => {:unique_id => "800000025", :role => "Student", :student? => true},
-                "cegray" => {:unique_id => "cgray", :role => "Student", :student? => true},
-                "carmen.ortiz" => {:unique_id => "900000016", :role => "Student", :student? => true},
-                "jstevenson" => {:unique_id => "jstevenson", :role => "IT Administrator", :student? => false},
-                "rrogers" => {:unique_id => "rrogers", :role => "IT Administrator", :student? => false},
-                "cgray" => {:unique_id => "cgray", :role => "Educator", :student? => false}
+                "student.m.sollars" => {:unique_id => "800000025", :role => "Student", :student? => true, :edOrg => "East Daybreak Junior High"},
+                "leader.m.sollars" => {:unique_id => "800000025", :role => "StudentLeader", :student? => true, :edOrg => "East Daybreak Junior High"},
+                "cegray" => {:unique_id => "cgray", :role => "Student", :student? => true, :edOrg => "East Daybreak Junior High"},
+                "carmen.ortiz" => {:unique_id => "900000016", :role => "Student", :student? => true, :edOrg => "Daybreak Central High"},
+                "jstevenson" => {:unique_id => "jstevenson", :role => "IT Administrator", :student? => false, :edOrg => "IL-DAYBREAK"},
+                "rrogers" => {:unique_id => "rrogers", :role => "IT Administrator", :student? => false, :edOrg => "STANDARD-SEA"},
+                "cgray" => {:unique_id => "cgray", :role => "Educator", :student? => false, :edOrg => "Daybreak Central High"}
               }
 
   realm_info = {
@@ -47,7 +48,7 @@ Given /^I log in to realm "(.*?)" using simple-idp as "(.*?)" "(.*?)" with passw
               }
 
   if ENV["use_token_gen"] == "true" and user_info[user] && realm_info[realm]
-    @sessionId = get_token_from_generator user_info[user][:unique_id], user_info[user][:role], realm_info[realm][:tenant], realm_info[realm][:unique_id], 600, @oauthClientId, user_info[user][:student?]
+    @sessionId = get_token_from_generator user_info[user][:unique_id], user_info[user][:role], realm_info[realm][:tenant], realm_info[realm][:unique_id], user_info[user][:edOrg], 600, @oauthClientId, user_info[user][:student?]
   else
     step "I have an open web browser"
     step "I navigate to the API authorization endpoint with my client ID"
@@ -157,10 +158,10 @@ Then /^I should be able to use the token to make valid API calls$/ do
 end
 
 
-def get_token_from_generator(user, role, tenant, realm, expiration_in_seconds, client_id, is_student)
+def get_token_from_generator(user, role, tenant, realm, edOrg, expiration_in_seconds, client_id, is_student)
   script_loc = File.dirname(__FILE__) + "/../../../../../../opstools/token-generator/generator.rb"
   student = "--student" if is_student
-  out, status = Open3.capture2("ruby #{script_loc} -e #{expiration_in_seconds} -c #{client_id} -u #{user} -r \"#{role}\" -t \"#{tenant}\" -R \"#{realm}\" #{student}")
+  out, status = Open3.capture2("ruby #{script_loc} -e #{expiration_in_seconds} -c #{client_id} -u #{user} -r \"#{role}\" -t \"#{tenant}\" -R \"#{realm}\" -E \"#{edOrg}\" #{student}")
   match = /token is (.*)/.match(out)
   sessionId = match[1]
   puts("The generated token is #{sessionId}") if $SLI_DEBUG

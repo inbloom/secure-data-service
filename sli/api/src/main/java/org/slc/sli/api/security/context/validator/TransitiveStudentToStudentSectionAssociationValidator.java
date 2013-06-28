@@ -33,11 +33,14 @@ import java.util.Set;
  * while StudentSectionAssociation is denormalized on section
  */
 @Component
-public class StudentToStudentSectionAssociationValidator extends AbstractContextValidator{
+public class TransitiveStudentToStudentSectionAssociationValidator extends AbstractContextValidator{
+
+    @Autowired
+    private TransitiveStudentToStudentValidator studentValidator;
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return isStudent() && EntityNames.STUDENT_SECTION_ASSOCIATION.equals(entityType) && !isTransitive;
+        return isStudent() && EntityNames.STUDENT_SECTION_ASSOCIATION.equals(entityType) && isTransitive;
     }
 
     @Override
@@ -50,12 +53,19 @@ public class StudentToStudentSectionAssociationValidator extends AbstractContext
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids));
         for(Entity ssa : repo.findAll(EntityNames.STUDENT_SECTION_ASSOCIATION, query)) {
             Map<String, Object> body = ssa.getBody();
-            // You only have non-transitive access (able to go through) SSAs if they are your own (student Id is self)
-            if (!getDirectStudentIds().contains(body.get(ParameterConstants.STUDENT_ID))) {
+            if (getDirectStudentIds().contains(body.get(ParameterConstants.STUDENT_ID))) {
+                // We don't have to further validate SSAs if the studentId is a reference to the user
+                continue;
+            }
+            // At this point the STUDENT_ID is not self
+            if (!isFieldExpired(body, ParameterConstants.END_DATE, false)) {
+                otherStudentIds.add((String) ssa.getBody().get(ParameterConstants.STUDENT_ID));
+            } else {
+                // We cannot see SSAs for other students if they are expired
                 return false;
             }
         }
 
-        return true;
+        return otherStudentIds.isEmpty() || studentValidator.validate(EntityNames.STUDENT, otherStudentIds);
     }
 }

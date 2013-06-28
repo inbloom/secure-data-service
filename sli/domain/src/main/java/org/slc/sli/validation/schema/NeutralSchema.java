@@ -336,7 +336,9 @@ public abstract class NeutralSchema {
     }
 
     public void addAnnotation(Annotation d) {
-        annotations.put(d.getType(), d);
+        if(null != d) {
+            annotations.put(d.getType(), d);
+        }
     }
 
     /**

@@ -52,7 +52,17 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
     private Repository<Entity> repo;
 
     @Override
-    public Set<GrantedAuthority> resolveRoles(String tenantId, String realmId, List<String> roleNames, boolean isAdminRealm, boolean getSelfRights) {
+    public Set<GrantedAuthority> resolveRolesIntersect(String tenantId, String realmId, List<String> roleNames, boolean isAdminRealm, boolean getSelfRights) {
+        return resolveRoles(tenantId, realmId, roleNames, isAdminRealm, getSelfRights, true);
+    }
+
+    @Override
+    public Set<GrantedAuthority> resolveRolesUnion(String tenantId, String realmId, List<String> roleNames, boolean isAdminRealm, boolean getSelfRights) {
+        return resolveRoles(tenantId, realmId, roleNames, isAdminRealm, getSelfRights, false);
+    }
+
+    private Set<GrantedAuthority> resolveRoles(String tenantId, String realmId, List<String> roleNames,
+                                               boolean isAdminRealm, boolean getSelfRights, boolean intersect) {
         Set<GrantedAuthority> auths = null;
         
         Collection<Role> roles = mapRoles(tenantId, realmId, roleNames, isAdminRealm);
@@ -64,13 +74,15 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
             } else {
                 if (isAdminRealm || isDeveloperRealm(realm)) {
                     auths.addAll(getNeededRights(role, getSelfRights));
-                } else {
+                } else if (intersect){
                     //When the user is coming from a federated realm this prevents the user from getting
                     //a right they shouldn't.  If the user is in more than one district with different roles
                     //they should get only the rights that are in all their roles. This could prevent the user from
                     //getting a right that they need but more importantly it keeps them from having a right that
                     //they shouldn't have. - DE1679
                     auths.retainAll(getNeededRights(role, getSelfRights));
+                } else {
+                    auths.addAll(getNeededRights(role, getSelfRights));
                 }
             }
         }
@@ -80,6 +92,8 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
         }
         return auths;
     }
+
+
     
     private boolean isDeveloperRealm(final Entity realm) {
         return valueOf(realm, "developer");

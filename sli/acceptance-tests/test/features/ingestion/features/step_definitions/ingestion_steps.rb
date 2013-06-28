@@ -3666,8 +3666,9 @@ end
 
   
 $savedEntities = {}
- And /^I read the following entity in "([^"]*)" tenant and save it as "([^"]*)"/ do | tenant, entityTag, table |
+ And /^I read the following entity in "([^"]*)" tenant and save (it as|it with metaData as) "([^"]*)"/ do | tenant, withMetaData, entityTag, table |
   @db         = @conn[convertTenantIdToDbName(tenant)]
+  deleteMetaData = withMetaData == "it as"
 
   condHash = Hash.new
 
@@ -3686,7 +3687,9 @@ $savedEntities = {}
     disable_NOTABLESCAN()
     record   = @coll.find_one(condHash)
     enable_NOTABLESCAN()
-    recursive_hash_delete( record, "metaData")
+    if (deleteMetaData)
+      recursive_hash_delete( record, "metaData")
+    end
 
     $savedEntities[ entityTag ] = {"criteria"=>condHash, "collection"=>collection, "tenant"=>tenant, "entity" => record };
   end
@@ -3707,6 +3710,26 @@ And /^I read again the entity tagged "([^"]*)" from the "([^"]*)" tenant and con
   enable_NOTABLESCAN()
   recursive_hash_delete( record, "metaData")
   EntityProvider.verify_entities_match( oldRecord, record)
+
+end
+
+And /^I read again the entity tagged "([^"]*)" from the "([^"]*)" tenant and confirm the following fields are (the same|different)/ do | entityTag, tenant, same, table |
+  match = same == "the same"
+  STDOUT.puts "match: #{match.to_s}"
+  oldRecord = $savedEntities[ entityTag][ "entity" ]
+  tenant = $savedEntities[ entityTag ][ "tenant" ]
+  criteria = $savedEntities[ entityTag][ "criteria" ]
+  collection = $savedEntities[ entityTag][ "collection"]
+  fieldArray = table.rows().flatten
+
+  @db         = @conn[convertTenantIdToDbName(tenant)]
+  disable_NOTABLESCAN()
+  record   = @coll.find_one( criteria )
+  enable_NOTABLESCAN()
+  STDOUT.puts "fieldArray: #{fieldArray.to_s}"
+  fieldArray.each do |field|
+    match && EntityProvider.entity_field_matches?(oldRecord, record, field)
+  end
 
 end
 

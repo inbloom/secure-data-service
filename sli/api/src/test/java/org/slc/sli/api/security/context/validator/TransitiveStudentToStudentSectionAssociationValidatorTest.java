@@ -22,10 +22,10 @@ import java.util.HashSet;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
-public class StudentToStudentSectionAssociationValidatorTest extends TestCase {
+public class TransitiveStudentToStudentSectionAssociationValidatorTest extends TestCase {
 
     @Autowired
-    StudentToStudentSectionAssociationValidator validator;
+    TransitiveStudentToStudentSectionAssociationValidator validator;
 
     @Autowired
     ValidatorTestHelper helper;
@@ -56,9 +56,9 @@ public class StudentToStudentSectionAssociationValidatorTest extends TestCase {
 
     @Test
     public void testCanValidate() {
-        assertTrue(validator.canValidate(EntityNames.STUDENT_SECTION_ASSOCIATION, false));
+        assertTrue(validator.canValidate(EntityNames.STUDENT_SECTION_ASSOCIATION, true));
 
-        assertFalse(validator.canValidate(EntityNames.STUDENT_SECTION_ASSOCIATION, true));
+        assertFalse(validator.canValidate(EntityNames.STUDENT_SECTION_ASSOCIATION, false));
         assertFalse(validator.canValidate(EntityNames.STUDENT_COHORT_ASSOCIATION, true));
         assertFalse(validator.canValidate(EntityNames.STUDENT_COHORT_ASSOCIATION, false));
         assertFalse(validator.canValidate(EntityNames.STUDENT_PROGRAM_ASSOCIATION, true));

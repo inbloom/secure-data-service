@@ -24,6 +24,10 @@ ARGV.options do |opts|
     # Convert to milis
     options[:expire] = expire.to_i * 1000
   end
+    opts.on(:REQUIRED, '-E', '--edorg','The education organization this role belongs to' ) do |edorg|
+    # Convert to milis
+    options[:edorg] = edorg
+  end
   opts.on(:REQUIRED, /.+/, '-c', '--client_id', 'The client_id of the application to generate a token for') do |app|
     options[:application] = app
   end
@@ -43,7 +47,7 @@ ARGV.options do |opts|
   end
   begin 
     opts.parse!
-    unless options.include? :tenant and options.include? :user and options.include? :application and options.include? :roles and options.include? :expire
+    unless options.include? :tenant and options.include? :user and options.include? :application and options.include? :roles and options.include? :expire and options.include? :edorg
       throw Exception
     end
   rescue
@@ -81,6 +85,10 @@ else
 end
 abort "Unable to locate user: #{options[:user]}" if user.nil?
 
+#Get the edorg
+edorg = staffDb[:educationOrganization].find_one({"body.stateOrganizationId" => options[:edorg]})
+abort "Unable to locate edorg: #{options[:edorg]}" if edorg.nil?
+
 #Create a userSession
 userSession = {}
 body = {}
@@ -115,6 +123,9 @@ else
   principal[:externalId] = user['body']['staffUniqueStateId']
 end
 principal[:id] = principal[:externalId] + "@" + principal[:tenantId]
+edorgRoles = {}
+edorgRoles[edorg['_id']] = options[:roles]
+principal[:edOrgRoles] = edorgRoles
 body[:principal] = principal
 body[:appSession] = appSessions
 userSession[:body] = body

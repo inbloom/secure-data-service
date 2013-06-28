@@ -25,7 +25,7 @@ Scenario: An authorized bulk extract user logs in and gets the information for t
 
   Scenario: Security Event is logged when I retrieve LEA data
     Given in my list of rights I have BULK_EXTRACT
-    When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+    When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
     When I make a call to the bulk extract end point "/bulk/extract/LEA_DAYBREAK_ID"
     When I get back a response code of "200"
     Then a security event matching "Received request to stream Edorg data" should be in the sli db
@@ -33,7 +33,7 @@ Scenario: An authorized bulk extract user logs in and gets the information for t
 
   Scenario: Security Event is logged when I retrieve SEA data
     Given in my list of rights I have BULK_EXTRACT
-    When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+    When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
     When I make a call to the bulk extract end point "/bulk/extract/SEA_IL_ID"
     When I get back a response code of "200"
     Then a security event matching "Received request to stream Edorg data" should be in the sli db
@@ -41,7 +41,7 @@ Scenario: An authorized bulk extract user logs in and gets the information for t
 
   Scenario: Security Event is logged when I retrieve SEA/LEA list
     Given in my list of rights I have BULK_EXTRACT
-    When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+    When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
     When I make a call to the bulk extract end point "/bulk/extract/list"
     When I get back a response code of "200"
     Then a security event matching "Received request for list of links for all SEAs and LEAs for this user/app" should be in the sli db
@@ -49,7 +49,7 @@ Scenario: An authorized bulk extract user logs in and gets the information for t
 
   Scenario: Security Event is logged when I retrieve BE delta data
     Given in my list of rights I have BULK_EXTRACT
-    When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+    When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
     When I request latest delta via API for tenant "Midgar", lea "<IL-DAYBREAK>" with appId "<app id>" clientId "<client id>"
     When I get back a response code of "200"
     Then a security event matching "Received request to stream Edorg delta bulk extract data" should be in the sli db
@@ -57,7 +57,7 @@ Scenario: An authorized bulk extract user logs in and gets the information for t
 
   Scenario: Security Event is logged when I retrieve partial BE files
     Given in my list of rights I have BULK_EXTRACT
-    When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+    When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
     And I delete the previous tar file if it exists
     When I make a call to the bulk extract end point "/bulk/extract/LEA_DAYBREAK_ID"
     Then I get back a response code of "200"

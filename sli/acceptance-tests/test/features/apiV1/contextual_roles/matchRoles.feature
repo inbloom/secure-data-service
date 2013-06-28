@@ -61,6 +61,13 @@ Scenario: As a staff member, I cannot log in, if my roles are empty
 Scenario: As a staff member, I cannot log in, if I have no roles in the database
   Given I remove all SEOAs for "linda.kim" in tenant "Midgar"
   When I navigate to the API authorization endpoint with my client ID
+  And I was redirected to the "Simple" IDP Login page
+  And I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
+  Then I should receive a response page with http error code 403
+
+Scenario: As a staff member, I cannot log in, if my roles do not match one of the roles in the system
+    Given I remove "Educator" from the custom roles
+    When I navigate to the API authorization endpoint with my client ID
     And I was redirected to the "Simple" IDP Login page
     And I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
-      Then I should receive a response page with http error code 403
+    Then I should receive a response page with http error code 403

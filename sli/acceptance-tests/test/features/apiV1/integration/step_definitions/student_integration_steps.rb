@@ -331,10 +331,19 @@ When /^I validate the current allowed association entities via API "(.*?)":$/ do
 
 end
 
-When /^I validate the allowed association entities via API "(.*?)":$/ do |uri, table|
-  startRed = "\e[31m"
-  colorReset = "\e[0m"
+When /^I validate there are "(.*?)" allowed association entities via API "(.*?)", some of them are:$/ do |count, uri, table|
+  print "Verifying I get a 200 response from #{uri} .. "
+  puts "Calling GET to #{uri}" if $SLI_DEBUG
+  step "I navigate to GET \"#{uri}\""
+  step "I should receive a return code of 200"
+  print "OK\n"
+    
+  expected_ids = Set.new(table.hashes.collect{|row| row["id"]})
+  assert(contains_all(@res, expected_ids, count.to_i), "Did not find one or more expected entities")
+  print "OK\n"
+end
 
+When /^I validate the allowed association entities via API "(.*?)":$/ do |uri, table|
   print "Verifying I get a 200 response from #{uri} .. "
   puts "Calling GET to #{uri}" if $SLI_DEBUG
   step "I navigate to GET \"#{uri}\""
@@ -342,23 +351,10 @@ When /^I validate the allowed association entities via API "(.*?)":$/ do |uri, t
   print "OK\n"
 
   print "Verifying the number of entities returned matches the expected count .. "
-  @result = JSON.parse(@res.body)
-  response_ids = @result.collect{|res| res["id"]}
-  expected_ids = table.hashes.collect{|row| row["id"]}
-  assert(response_ids.length == expected_ids.length, "Found #{response_ids.length}, expected #{expected_ids.length}")
-  success = true
-  print "OK\n"
 
-  table.hashes.map do |row|
-    result = @result.detect{|res| res["id"] == row["id"]}
-    if result.nil?
-      success = false
-      print "#{startRed}Looking for Entity: #{row["id"]}#{colorReset}\n"
-    else
-      print "Looking for Entity: #{row["id"]}\n" 
-    end
-  end
-  assert(success, "Did not find one or more expected entities")
+  expected_ids = Set.new(table.hashes.collect{|row| row["id"]})
+  assert(contains_all(@res, expected_ids), "Did not find one or more expected entities")
+  print "OK\n"
 end
 
 When /^I validate that I am denied access to restricted endpoints via API:$/ do |table|
@@ -383,7 +379,9 @@ When /^I validate the "(.*?)" HATEOS link for "(.*?)"$/ do |entity, key|
   step "I follow the HATEOS link named \"#{uri}\""
 end
 
+When /^I add an expired studentCohortAssociation to "(.*?)"$/ do |uniqueId|
 
+end
 ###############################################################################
 # THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN
 ###############################################################################
@@ -724,6 +722,21 @@ def is_current?(end_date_string)
   return  now_string <= end_date_string
 end
 
+def contains_all(api_result, should_exists, opt_count=0) 
+  startRed = "\e[31m"
+  colorReset = "\e[0m"
+
+  @result = JSON.parse(api_result.body)
+  response_ids = Set.new(@result.collect{|res| res["id"]})
+
+  missing_ids = should_exists.subtract(response_ids.intersection(should_exists))
+  missing_ids.each { |missed|
+      print "#{startRed}Looking for Entity: #{missed}#{colorReset}\n"
+  }
+
+  missing_ids.empty? && response_ids.size >= opt_count 
+end
+
 Then(/^I PATCH entities and check return code$/) do |table|
   # Strings for ANSI Color codes
   startRed = "\e[31m"
@@ -746,4 +759,21 @@ Then(/^I PATCH entities and check return code$/) do |table|
     end
   end
   assert(success, "Response code was unexpected, see logs above.")
+end
+
+After('@student_expired_access') do |scenario|
+  step "I log in to realm \"Illinois Daybreak School District 4529\" using simple-idp as \"IT Administrator\" \"jstevenson\" with password \"jstevenson1234\""
+  #step "I am logged in using \"jstevenson\" \"jstevenson1234\" to realm \"IL\""
+  step "format \"application/json\""
+  step "I am using api version \"v1\""
+  step "I DELETE and validate the following entities:", table(%{
+    | entity  | id                                          | returnCode  |
+    | staff   | 2ff51e81ecbd9c4160a19be629d0ccb4cb529796_id | 204         |
+    | staff   | bfddb715a20bb2996b8769abfc1813d029bfdf29_id | 204         |
+    | student | b13887c5f555d6675d1f71de3b0fa6ad3b67f8aa_id | 204         |
+    | studentProgramAssociation | 067198fd6da91e1aa8d67e28e850f224d6851713_id001b57375dab7d013d6cca625fa78351862d6653_id  | 204 |
+  })
+   #| studentProgramAssociation | 067198fd6da91e1aa8d67e28e850f224d6851713_id001b57375dab7d013d6cca625fa78351862d6653_id  | 204 |
+   # This hack removes msollars' expired studentProgramAssociation until the token generator is fixed
+   #`mongo 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a --quiet --eval "db.student.update({_id:'067198fd6da91e1aa8d67e28e850f224d6851713_id'},{$pull:{'studentProgramAssociation':{'_id':'067198fd6da91e1aa8d67e28e850f224d6851713_id001b57375dab7d013d6cca625fa78351862d6653_id'}}},false, true)"`
 end
