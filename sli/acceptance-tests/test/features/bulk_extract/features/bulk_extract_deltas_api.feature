@@ -83,10 +83,10 @@ Scenario: Generate a SEA bulk extract delta after day 1 ingestion
 
 
 Scenario: SEA - Ingest additional entities in preparation for subsequent update and delete tests
-And I ingest "SEAAppend.zip"
-    And the extraction zone is empty
-    When I trigger a delta extract
-    When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+   Given the extraction zone is empty
+	When I ingest "SEAAppend.zip"
+     And I trigger a delta extract
+    Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
       |  entityType                            |
       |  assessment                            |
       |  session                               |
@@ -128,29 +128,68 @@ And I ingest "SEAAppend.zip"
       |  gradingPeriod                         |
       |  graduationPlan                        |
     And I verify this "assessment" file should contain:
-      | id                                          | condition                                |
-	  | bb99132d75ccc4f92db1b8923a15bda8b40a3826_id | assessmentTitle = 2013-Kindergarten Assessment 2 Item |
-	  | 5fe86f2c3a2da1fbe9eaa386b40d0f0fbe265456_id | assessmentTitle = 2013-Kindergarten Assessment 1 Item |
-      | a59997eeaafc53047a7b972f435fd4fc0b6458f1_id | assessmentTitle = Delete AF              |
-      | 87cc09359cfc6686841aa018b25d965a75153e36_id | assessmentTitle = Update AF              |
-      | 69191a2b23a3395aba8183edb6088889f44cbd8a_id | assessmentTitle = Delete A and Update AF |
-      | 6fbf0016bba0a599878ddcc1873669a62a4b5958_id | assessmentTitle = Update A and Delete AF |
-      | ceaad98bfd854959a6cbdfd621808cd6d35997aa_id | assessmentTitle = Delete A and Delete AF |
-      | dd6c15967a9807cc061a9796f985d2f6dbe40ec0_id | assessmentTitle = Update AF then Delete A|
-      | 0635fa68fbd43b610f281566241b809274adfd52_id | assessmentTitle = Delete A then Update AF|
-      | f8a8f68c8aed779c2e8c3f9174e5b05e880e9a9d_id | assessmentTitle = READ 2.0 Grade 1 BOY        |
+      | id                                          | condition                                | description                                  |
+	  | bb99132d75ccc4f92db1b8923a15bda8b40a3826_id | assessmentTitle = 2013-Kindergarten Assessment 2 Item | insert                          |
+	  | 5fe86f2c3a2da1fbe9eaa386b40d0f0fbe265456_id | assessmentTitle = 2013-Kindergarten Assessment 1 Item | insert                          |
+      | a59997eeaafc53047a7b972f435fd4fc0b6458f1_id | assessmentTitle = Delete AF              | insert                                       |
+      | 87cc09359cfc6686841aa018b25d965a75153e36_id | assessmentTitle = Update AF              | insert                                       |
+      | 69191a2b23a3395aba8183edb6088889f44cbd8a_id | assessmentTitle = Delete A and Update AF | insert                                       |
+      | 6fbf0016bba0a599878ddcc1873669a62a4b5958_id | assessmentTitle = Update A and Delete AF | insert                                       |
+      | ceaad98bfd854959a6cbdfd621808cd6d35997aa_id | assessmentTitle = Delete A and Delete AF | insert                                       |
+      | dd6c15967a9807cc061a9796f985d2f6dbe40ec0_id | assessmentTitle = Update AF then Delete A| insert                                       |
+      | 0635fa68fbd43b610f281566241b809274adfd52_id | assessmentTitle = Delete A then Update AF| insert                                       |
+      | f8a8f68c8aed779c2e8c3f9174e5b05e880e9a9d_id | assessmentTitle = READ 2.0 Grade 1 BOY   | insert                                       |
     And I verify this "session" file should contain:
-      | id                                          | condition                                |
-      | 3d809925e89e28202cbaa76ddfaca40f52124dd3_id | totalInstructionalDays = 40              |
+      | id                                          | condition                                | description                                  |
+      | 3d809925e89e28202cbaa76ddfaca40f52124dd3_id | totalInstructionalDays = 40              | insert                                       |
     And I verify this "course" file should contain:
-      | id                                          | condition                                |
-      | a71ea7489a86103bddd7459c25c83b7e7c5da875_id | courseTitle = Sixth grade English        |
+      | id                                          | condition                                | description                                  |
+      | a71ea7489a86103bddd7459c25c83b7e7c5da875_id | courseTitle = Sixth grade English        | insert                                       |
     And I verify this "courseOffering" file should contain:
-      | id                                          | condition                                |
-      | eba54e12a1a8ce4c09a4ce2863fe080ee05a42e0_id | localCourseTitle = Sixth grade English   |
+      | id                                          | condition                                | description                                  |
+      | eba54e12a1a8ce4c09a4ce2863fe080ee05a42e0_id | localCourseTitle = Sixth grade English   | insert                                       |
     And I verify this "graduationPlan" file should contain:
-      | id                                          | condition                                |
-      | 22411ee1066db57f4a8424f8285bc1d82fae1560_id | graduationPlanType = Distinguished       |
+      | id                                          | condition                                | description                                  |
+      | 22411ee1066db57f4a8424f8285bc1d82fae1560_id | graduationPlanType = Distinguished       | insert                                       |
+
+@wip
+Scenario: SEA - Update entities
+   Given the extraction zone is empty
+	When I ingest "SEAUpdate.zip"
+     And I trigger a delta extract
+    Then I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
+       |  entityType                            |
+       |  assessment                            |
+       |  calendarDate                          |
+       |  course                                |
+       |  courseOffering                        |
+       |  gradingPeriod                         |
+       |  graduationPlan                        |
+       |  session                               |
+	 And I verify this "assessment" file only contains:
+       | id                                          | condition                                 | description                                |
+	   | bb99132d75ccc4f92db1b8923a15bda8b40a3826_id | assessmentTitle = 2013-Kindergarten Assessment 2 Item  | updated by AssessmentItem     |
+       | a59997eeaafc53047a7b972f435fd4fc0b6458f1_id | assessmentTitle = Delete AF               | updated by AssessmentFamily                |
+       | 87cc09359cfc6686841aa018b25d965a75153e36_id | assessmentTitle = Update AF               | updated by AssessmentFamily                |
+       | 6fbf0016bba0a599878ddcc1873669a62a4b5958_id | assessmentTitle = Update A and Delete AF  | updated by Assessment                      |
+       | f8a8f68c8aed779c2e8c3f9174e5b05e880e9a9d_id | assessmentTitle = READ 2.0 Grade 1 BOY    | updated by AssessmentFamily                |
+       | dd6c15967a9807cc061a9796f985d2f6dbe40ec0_id | assessmentTitle = Update AF then Delete A | inserted by AssessmentFamily update        |
+     And I verify this "session" file should contain:
+       | id                                          | condition                                 | description                                |
+       | 3d809925e89e28202cbaa76ddfaca40f52124dd3_id | totalInstructionalDays = 45               | updated                                    |
+     And I verify this "course" file should contain:
+       | id                                          | condition                                 | description                                |
+       | a71ea7489a86103bddd7459c25c83b7e7c5da875_id | courseTitle = Seventh grade English       | updated                                    |
+     And I verify this "courseOffering" file should contain:
+       | id                                          | condition                                 | description                                |
+       | eba54e12a1a8ce4c09a4ce2863fe080ee05a42e0_id | localCourseTitle = Seventh grade English  | updated                                    |
+     And I verify this "gradingPeriod" file should contain:
+       | id                                          | condition                                 | description                                |
+       | aec59707feac8e68d9d4b780bef5547e934297dc_id | totalInstructionalDays = 190              | updated                                    |
+     And I verify this "graduationPlan" file should contain:
+       | id                                          | condition                                 | description                                |
+       | 7f6e03f2a01f0f74258a1b0d8796be5eaf289f0a_id | graduationPlanType = Standard             | updated                                    |
+    Then I fail
 
 @wip
 Scenario: SEA Assessment + Objective Deltas InteractionsPicked Objective Assessments but same behaviour expected for Assessment Item
@@ -204,9 +243,10 @@ Scenario: SEA Assessment + Objective Deltas InteractionsPicked Objective Assessm
        |  entityType                            |
        |  assessment                            |
 	    And I verify this "assessment" file only contains:
-       | id                                         | condition                                              | description  |
-	   |bb99132d75ccc4f92db1b8923a15bda8b40a3826_id | assessmentTitle = 2013-Kindergarten Assessment 2 Item  |    updated   |
-	   |5fe86f2c3a2da1fbe9eaa386b40d0f0fbe265456_id | assessmentTitle = 2013-Kindergarten Assessment 1 Item  |    delted    |
+       | id                                          | condition                                              | description  |
+	   | bb99132d75ccc4f92db1b8923a15bda8b40a3826_id | assessmentTitle = 2013-Kindergarten Assessment 2 Item  |    updated   |
+	   | 5fe86f2c3a2da1fbe9eaa386b40d0f0fbe265456_id | assessmentTitle = 2013-Kindergarten Assessment 1 Item  |    deleted   |
+
 
        
   Scenario: Ingesting SEA (Non Odin) entities - AssessmentFamily Updates and Deletes

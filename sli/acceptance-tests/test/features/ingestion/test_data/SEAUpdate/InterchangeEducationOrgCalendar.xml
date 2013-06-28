@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<InterchangeEducationOrgCalendar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrgCalendar.xsd">
+  <CalendarDate>
+    <Date>2013-06-30</Date>
+    <CalendarEvent>Other</CalendarEvent>
+    <EducationOrgReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrgReference>
+  </CalendarDate>
+  <CalendarDate>
+    <Date>2013-08-24</Date>
+    <CalendarEvent>Other</CalendarEvent>
+    <EducationOrgReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrgReference>
+  </CalendarDate>
+  <GradingPeriod>
+    <GradingPeriod>End of Year</GradingPeriod>
+    <SchoolYear>2013-2014</SchoolYear>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <BeginDate>2013-08-26</BeginDate>
+    <EndDate>2014-05-23</EndDate>
+    <TotalInstructionalDays>190</TotalInstructionalDays>
+    <CalendarDateReference>
+      <CalendarDateIdentity>
+        <Date>2013-08-26</Date>
+        <EducationOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationOrgReference>
+      </CalendarDateIdentity>
+    </CalendarDateReference>
+  </GradingPeriod>
+  <Session>
+    <SessionName>Summer school</SessionName>
+    <SchoolYear>2012-2013</SchoolYear>
+    <Term>Summer Semester</Term>
+    <BeginDate>2013-06-30</BeginDate>
+    <EndDate>2013-08-24</EndDate>
+    <TotalInstructionalDays>45</TotalInstructionalDays>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>STANDARD-SEA </StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <GradingPeriod>Summer Semester</GradingPeriod>
+        <BeginDate>2013-06-30</BeginDate>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+  </Session>
+</InterchangeEducationOrgCalendar>
