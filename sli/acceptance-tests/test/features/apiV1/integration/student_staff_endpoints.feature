@@ -182,14 +182,13 @@ Given I log in to realm "Illinois Daybreak Students" using simple-idp as "studen
     | 58d1e760fcdc1612b900ecb8359a6d8b3e49a5ee_id |
     | 6757c28005c30748f3bbda02882bf59bc81e0d71_id |
 
-@wip @student_staff_denied @student_expired_access
+@student_staff_denied @student_expired_access
 Scenario: Verify student access/deny through associations and expired entities
   #Given I log in to realm "Illinois Daybreak Students" using simple-idp as "studentLeader" "leader.m.sollars" with password "leader.m.sollars1234"
   Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "jstevenson" with password "jstevenson1234"
     And format "application/json"
     And I am using api version "v1"
-    When I add an expired studentCohortAssociation to "student.m.sollars"
-    #POST a new teacher as an enterprising student who somehow has write access to restricted entities
+    #POST custom expired entities to validate security policy for students
      And I POST and validate the following entities:
       | entityName                         | entityType                            | returnCode |
       | expiredTeacher                     | teacher                               | 201        |
@@ -244,22 +243,12 @@ Given I log in to realm "Illinois Daybreak Students" using simple-idp as "studen
    #| Associations through cohorts that do not exist should return                                 | 404 |
     | /v1/sections/this_section_dne                                                                | 404 |
   
-  # Log in as Carmen Ortiz because she actually has expired associations to a cohort
-  Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "carmen.ortiz" with password "carmen.ortiz1234"
-  When I validate that I am denied access to restricted endpoints via API:
-   #| Associations through expired cohorts should return                                    | 403 |
-    | /v1/cohorts/72c0402e82f3a67db019d7736d423cc4a214db87_id/staffCohortAssociations       | 403 |
-    | /v1/cohorts/72c0402e82f3a67db019d7736d423cc4a214db87_id/staffCohortAssociations/staff | 403 |
-    | /v1/cohorts/72c0402e82f3a67db019d7736d423cc4a214db87_id/studentCohortAssociations     | 403 |
-    | /v1/cohorts/72c0402e82f3a67db019d7736d423cc4a214db87_id/studentCohortAssociations/students | 403 |
-   #| Associations through cohorts that do not exist should return                          | 404 |
-    | /v1/cohorts/this_cohort_dne                                                           | 404 |
-  
   # Check that I only see CURRENT students in my current section
   When I navigate to GET "/v1/sections/eb8663fe6856b49684a778446a0a1ad33238a86d_id/studentSectionAssociations"
   Then I should be able to see <Fields> for the entity with ID <ID>:
     | ID                                                                                     | Fields      |
-    | eb8663fe6856b49684a778446a0a1ad33238a86d_id405cf08c5d34d2b30c4aeb47ebb4fe5634d28698_id | AllSectAsoc |
+    | eb8663fe6856b49684a778446a0a1ad33238a86d_id9abdc5ad23afda9fca17a667c1af0f472000f2cb_id | AllSectAsoc |
+    | eb8663fe6856b49684a778446a0a1ad33238a86d_id405cf08c5d34d2b30c4aeb47ebb4fe5634d28698_id | SecionIds   |
     | eb8663fe6856b49684a778446a0a1ad33238a86d_idc255d211d6fd0048c69a400e860c6108aa3a94d6_id | SecionIds   |
     | eb8663fe6856b49684a778446a0a1ad33238a86d_idc9a2ec8859473e2161b9472b0f927b25c6c8e356_id | SecionIds   |
     | eb8663fe6856b49684a778446a0a1ad33238a86d_id9c7fcb2f969a682fd280edab0668ea9cb64fe383_id | SecionIds   |
@@ -268,7 +257,18 @@ Given I log in to realm "Illinois Daybreak Students" using simple-idp as "studen
     | eb8663fe6856b49684a778446a0a1ad33238a86d_idd75b93563685713d03f62a7bcef6d27300494ccc_id | SecionIds   |
     | eb8663fe6856b49684a778446a0a1ad33238a86d_id07807a5d747cca0d4e96346b3f3994629335454d_id | SecionIds   |
     | eb8663fe6856b49684a778446a0a1ad33238a86d_iddcf760efd488a4d7a921aa8a0a1274c25221a0d9_id | SecionIds   |
-    | eb8663fe6856b49684a778446a0a1ad33238a86d_id9abdc5ad23afda9fca17a667c1af0f472000f2cb_id | SecionIds   |
     | eb8663fe6856b49684a778446a0a1ad33238a86d_idcfb32cf861dc89bab5a61b8a0a55c8f0f9820507_id | SecionIds   |
    #| Expired SSA ID should not be returned: 
+
+  # Log in as Carmen Ortiz because she actually has expired associations to a cohort
+  Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "carmen.ortiz" with password "carmen.ortiz1234"
+  When I validate that I am denied access to restricted endpoints via API:
+    | uri                                                                                        | rc  |
+   #| Associations through expired cohorts should return                                         | 403 |
+    | /v1/cohorts/72c0402e82f3a67db019d7736d423cc4a214db87_id/staffCohortAssociations            | 403 |
+    | /v1/cohorts/72c0402e82f3a67db019d7736d423cc4a214db87_id/staffCohortAssociations/staff      | 403 |
+    | /v1/cohorts/72c0402e82f3a67db019d7736d423cc4a214db87_id/studentCohortAssociations          | 403 |
+    | /v1/cohorts/72c0402e82f3a67db019d7736d423cc4a214db87_id/studentCohortAssociations/students | 403 |
+   #| Associations through cohorts that do not exist should return                               | 404 |
+    | /v1/cohorts/this_cohort_dne                                                                | 404 |
 

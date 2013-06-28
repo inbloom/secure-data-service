@@ -2891,8 +2891,8 @@ def get_post_body_by_entity_name(entity_name)
     "expiredStudentCohortAssociation" => {
       "studentId" => "b13887c5f555d6675d1f71de3b0fa6ad3b67f8aa_id",
       "cohortId" => "b4f9ddccc4c5c47a00541ee7c6d67fcb287316ce_id",
-      "beginDate" => "2013-01-25",
-      "endDate" => "2014-03-29"
+      "beginDate" => "2012-01-25",
+      "endDate" => "2013-03-29"
     },
     "msollars.studentCompetency" => {
       "competencyLevel" => { "codeValue" => "Advanced" },
