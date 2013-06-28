@@ -160,7 +160,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
     public String create(EntityBody content) {
         checkAccess(false, false, content);
 
-        checkReferences(content);
+        checkReferences(null, content);
 
         List<String> entityIds = new ArrayList<String>();
         sanitizeEntityBody(content);
@@ -265,7 +265,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
             return false;
         }
 
-        checkReferences(content);
+        checkReferences(id, content);
 
         info("new body is {}", content);
         entity.getBody().clear();
@@ -293,7 +293,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
         info("patch value(s): ", content);
 
         // don't check references until things are combined
-        checkReferences(content);
+        checkReferences(id, content);
 
         repo.patch(defn.getType(), collectionName, id, content);
 
@@ -547,7 +547,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
         }
     }
 
-    private void checkReferences(EntityBody eb) {
+    private void checkReferences(String entityId, EntityBody eb) {
         /* TODO: MAKE BETTER
          * Note that this is a workaround to allow students to validate
          * only their own student ID when checking references, else they'd never
@@ -557,10 +557,8 @@ public class BasicService implements EntityService, AccessibilityCheck {
             String entityType = defn.getType();
 
             if (entityType.equals(EntityNames.STUDENT)) {
-                String id = (String) eb.get(ParameterConstants.ID);
-
                 // Validate id is yourself
-                if (!SecurityUtil.getSLIPrincipal().getEntity().getEntityId().equals(id)) {
+                if (!SecurityUtil.getSLIPrincipal().getEntity().getEntityId().equals(entityId)) {
                     throw new AccessDeniedException("Cannot update student not yourself");
                 }
             } else if (entityType.equals(EntityNames.STUDENT_ASSESSMENT)) {
