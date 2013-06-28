@@ -762,18 +762,20 @@ Then(/^I PATCH entities and check return code$/) do |table|
 end
 
 After('@student_expired_access') do |scenario|
-  `mongo 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a --quiet --eval "db.staff.remove({_id:'2ff51e81ecbd9c4160a19be629d0ccb4cb529796_id'}); assert.eq(null, db.getLastError());"`
-  `mongo 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a --quiet --eval "db.staff.remove({_id:'bfddb715a20bb2996b8769abfc1813d029bfdf29_id'}); assert.eq(null, db.getLastError());"`
-  `mongo 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a --quiet --eval "db.staffEducationOrganizationAssociation.remove({_id:'c0f36b65e92cd125fab5fd6d1bdca365ed85e294_id'}); assert.eq(null, db.getLastError());"`
-  `mongo 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a --quiet --eval "db.teacherSchoolAssociation.remove({_id:'26219af8c9f6a2ab517daedcb3074d32fb01c72a_id'}); assert.eq(null, db.getLastError());"`
-  `mongo 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a --quiet --eval "db.section.remove({'teacherSectionAssociation._id':'eb8663fe6856b49684a778446a0a1ad33238a86d_id78beedd65d371761652d5152ac9244bb072105bb_id'}); assert.eq(null, db.getLastError());"`
-  `mongoimport -d 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a -c section -h localhost --file ~/scripts/data/section.json`
-  `mongo 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a --quiet --eval "db.staff.remove({_id:'bfddb715a20bb2996b8769abfc1813d029bfdf29_id'}); assert.eq(null, db.getLastError());"`
-  `mongo 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a --quiet --eval "db.staffEducationOrganizationAssociation.remove({_id:'d4c191a396d0674ea8c23763df5c09b4a39a07ac_id'}); assert.eq(null, db.getLastError());"`
-  `mongo 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a --quiet --eval "db.student.remove({_id:'b13887c5f555d6675d1f71de3b0fa6ad3b67f8aa_id'}); assert.eq(null, db.getLastError());"`
-  `mongo 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a --quiet --eval "db.studentSchoolAssociation.remove({_id:'64c3f4eb85dab11fb5f566c9b60d3fae8848787e_id'}); assert.eq(null, db.getLastError());"`
-  `mongo 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a --quiet --eval "db.student.remove({_id:'067198fd6da91e1aa8d67e28e850f224d6851713_id'}); assert.eq(null, db.getLastError());"`
-  `mongoimport -d 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a -c section -h localhost --file ~/scripts/data/student.msollars.json`
+  step "I log in to realm \"Illinois Daybreak School District 4529\" using simple-idp as \"IT Administrator\" \"jstevenson\" with password \"jstevenson1234\""
+  #step "I am logged in using \"jstevenson\" \"jstevenson1234\" to realm \"IL\""
+  step "format \"application/json\""
+  step "I am using api version \"v1\""
+  step "I DELETE and validate the following entities:", table(%{
+    | entity  | id                                          | returnCode  |
+    | staff   | 2ff51e81ecbd9c4160a19be629d0ccb4cb529796_id | 204         |
+    | staff   | bfddb715a20bb2996b8769abfc1813d029bfdf29_id | 204         |
+    | student | b13887c5f555d6675d1f71de3b0fa6ad3b67f8aa_id | 204         |
+    | studentProgramAssociation | 067198fd6da91e1aa8d67e28e850f224d6851713_id001b57375dab7d013d6cca625fa78351862d6653_id  | 204 |
+  })
+   #| studentProgramAssociation | 067198fd6da91e1aa8d67e28e850f224d6851713_id001b57375dab7d013d6cca625fa78351862d6653_id  | 204 |
+   # This hack removes msollars' expired studentProgramAssociation until the token generator is fixed
+   #`mongo 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a --quiet --eval "db.student.update({_id:'067198fd6da91e1aa8d67e28e850f224d6851713_id'},{$pull:{'studentProgramAssociation':{'_id':'067198fd6da91e1aa8d67e28e850f224d6851713_id001b57375dab7d013d6cca625fa78351862d6653_id'}}},false, true)"`
 end
 
 
