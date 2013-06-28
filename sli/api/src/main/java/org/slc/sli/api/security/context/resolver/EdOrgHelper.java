@@ -184,7 +184,7 @@ public class EdOrgHelper {
         if (helper.isSchool(currentEdOrg)) {
            Map<String, Object> metadata = edOrg.getMetaData();
            if (metadata != null) {
-               List<String> edorgs = (List<String>) metadata.get("edOrgs");
+               List<String> edorgs = (List<String>) metadata.get("edorgs");
                if (edorgs != null && !edorgs.isEmpty()) {
                    toReturn.addAll(edorgs);
                }  else {
