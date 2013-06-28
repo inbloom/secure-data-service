@@ -296,7 +296,9 @@ Scenario: Post a zip file and then post it again and make sure the updated date 
   When zip file is scp to ingestion landing zone
   And a batch job for file "stringOrEnumContainsWhitespace.zip" is completed in database
   And I find a(n) "student" record where "body.studentUniqueStateId" is equal to "100000000"
-  And verify that "metaData.created" is equal to "metaData.updated"
+  And I read the following entity in "Midgar" tenant and save it with metaData as "studentUpdateTimestamp"
+    | collection | field | value								      |
+    | student    | body.studentUniqueStateId   |100000000 |
   Given I am using preconfigured Ingestion Landing Zone
   And I post "stringOrEnumContainsWhitespace.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
@@ -304,8 +306,12 @@ Scenario: Post a zip file and then post it again and make sure the updated date 
         | recordHash                  |
   And zip file is scp to ingestion landing zone with name "stringOrEnumContainsWhitespace2.zip"
   And a batch job for file "stringOrEnumContainsWhitespace2.zip" is completed in database
-  And I find a(n) "student" record where "body.studentUniqueStateId" is equal to "100000000"
-  And verify that "metaData.created" is unequal to "metaData.updated"
+  And I read again the entity tagged "studentUpdateTimestamp" from the "Midgar" tenant and confirm the following fields are the same
+  | field        |
+  | metaData.created |
+  And I read again the entity tagged "studentUpdateTimestamp" from the "Midgar" tenant and confirm the following fields are different
+  | field        |
+  | metaData.updated |
 
 Scenario: Post an unzipped ctl file and make sure it is not processed
   Given I post "UnzippedControlFile.ctl" unzipped file as the payload of the ingestion job
