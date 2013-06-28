@@ -565,7 +565,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
                 String studentId = (String) eb.get(ParameterConstants.STUDENT_ID);
 
                 // Validate student ID is yourself
-                if (!SecurityUtil.getSLIPrincipal().getEntity().getEntityId().equals(studentId)) {
+                if (studentId != null && !SecurityUtil.getSLIPrincipal().getEntity().getEntityId().equals(studentId)) {
                     throw new AccessDeniedException("Cannot update student assessments that are not your own");
                 }
             } else if (entityType.equals(EntityNames.STUDENT_GRADEBOOK_ENTRY) || entityType.equals(EntityNames.GRADE)) {
@@ -573,13 +573,14 @@ public class BasicService implements EntityService, AccessibilityCheck {
                 String ssaId = (String) eb.get(ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID);
 
                 // Validate student ID is yourself
-                if (!SecurityUtil.getSLIPrincipal().getEntity().getEntityId().equals(studentId)) {
+                if (studentId != null && !SecurityUtil.getSLIPrincipal().getEntity().getEntityId().equals(studentId)) {
                     throw new AccessDeniedException("Cannot update " + entityType + " that are not your own");
                 }
                 // Validate SSA ids are accessible via non-transitive SSA validator
-                EntityDefinition def = definitionStore.lookupByEntityType(EntityNames.STUDENT_SECTION_ASSOCIATION);
-                contextValidator.validateContextToEntities(def, Arrays.asList(ssaId), false);
-
+                if (ssaId != null) {
+                    EntityDefinition def = definitionStore.lookupByEntityType(EntityNames.STUDENT_SECTION_ASSOCIATION);
+                    contextValidator.validateContextToEntities(def, Arrays.asList(ssaId), false);
+                }
             } else {
                 // At the time of this comment, students can only write to student, studentAssessment, studentGradebookEntry, or grade
                 throw new IllegalArgumentException("Students cannot write entities of type " + entityType);
