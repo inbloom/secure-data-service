@@ -1,5 +1,5 @@
 @RALLY_US5765
-@wip
+
 Feature: Use the APi to successfully get student data while having roles over many schools
 
   Background: Setup for the tests
@@ -7,7 +7,7 @@ Feature: Use the APi to successfully get student data while having roles over ma
     And I import the odin setup application and realm data
     And I have an open web browser
 
-  @wip
+
   Scenario Outline: Get a student's data using various staff-student combination
     Given the only SEOA for "rbraverman" is as a "Educator" in "District 9"
     And the following student section associations in Midgar are set correctly
@@ -55,7 +55,6 @@ Feature: Use the APi to successfully get student data while having roles over ma
     | linda.kim   | linda.kim1234             | <nate.dedrick URI>      | should not             |
     | linda.kim   | linda.kim1234             | <mu.mcneill URI>        | should not             |
 
-  @wip
   Scenario: Staff with multiple roles in edOrg hierarchy
     Given the following student section associations in Midgar are set correctly
       | student         | teacher              | edorg                 | enrolledInAnySection? |
@@ -141,7 +140,6 @@ Feature: Use the APi to successfully get student data while having roles over ma
     When I navigate to GET "<matt.sollars URI>"
     Then I should receive a return code of 403
 
-  @wip
   Scenario: Staff with multiple roles in edOrg hierarchy, rights are unionized
     Given the following student section associations in Midgar are set correctly
       | student         | teacher              | edorg                 | enrolledInAnySection? |
@@ -184,7 +182,6 @@ Feature: Use the APi to successfully get student data while having roles over ma
     #And the response should not have general student data
     #And the response should have restricted student data
 
-  @wip
   Scenario: Student belongs to different schools
     When I navigate to the API authorization endpoint with my client ID
     And I was redirected to the "Simple" IDP Login page
@@ -255,7 +252,6 @@ Feature: Use the APi to successfully get student data while having roles over ma
     When I navigate to GET "<mu.mcneill URI>"
     Then I should receive a return code of 403
 
-  @wip
   Scenario: Aggregate Viewer can not access student data
     When I navigate to the API authorization endpoint with my client ID
     And I was redirected to the "Simple" IDP Login page
@@ -322,7 +318,6 @@ Feature: Use the APi to successfully get student data while having roles over ma
     When I navigate to GET "<lashawn.taite URI>"
     Then I should receive a return code of 403
 
-  @wip
   Scenario: Student belongs to schools in different LEAs
     When I navigate to the API authorization endpoint with my client ID
     And I was redirected to the "Simple" IDP Login page
@@ -342,7 +337,6 @@ Feature: Use the APi to successfully get student data while having roles over ma
     When I navigate to GET "<bert.jakeman URI>"
     Then I should receive a return code of 403
 
-  @wip
   Scenario: User gets data based on roles in SEOA, even if user has more roles defined in IDP
     When I navigate to the API authorization endpoint with my client ID
     And I was redirected to the "Simple" IDP Login page
@@ -362,7 +356,6 @@ Feature: Use the APi to successfully get student data while having roles over ma
     When I navigate to GET "<nate.dedrick URI>"
     Then I should receive a return code of 403
 
-  @wip
   Scenario: User gets additional data of new role if a seoa is added to match additional role defined in IDP
 
     Given I add a SEOA for "xbell" in "District 9" as a "Leader"
@@ -386,8 +379,6 @@ Feature: Use the APi to successfully get student data while having roles over ma
     When I navigate to GET "<nate.dedrick URI>"
     Then I should receive a return code of 403
 
-
-  @wip
   Scenario: Teacher can only access students associated with her/him.
     When I navigate to the API authorization endpoint with my client ID
     And I was redirected to the "Simple" IDP Login page
@@ -489,7 +480,6 @@ Feature: Use the APi to successfully get student data while having roles over ma
     And the response should have general student data
     And the response should not have restricted student data
 
-  @wip
   Scenario: Educators can only access students associated with them
     Given the only SEOA for "rbraverman" is as a "Educator" in "District 9"
     And the following student section associations in Midgar are set correctly
