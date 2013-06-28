@@ -338,7 +338,7 @@ Feature: Use the APi to successfully get student data while having roles over ma
     When I navigate to GET "<bert.jakeman URI>"
     Then I should receive a return code of 403
 
-  
+  @wip
   Scenario: User gets data based on roles in SEOA, even if user has more roles defined in IDP
     When I navigate to the API authorization endpoint with my client ID
     And I was redirected to the "Simple" IDP Login page
