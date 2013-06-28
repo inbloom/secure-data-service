@@ -10,6 +10,8 @@ Scenario: Linda Kim querying on the restricted fields
   When I make an API call to get "<'MARVIN MILLER'>"
   Then I should receive a return code of 200
   And I should see that "entityType" is "student" in the JSON response
+  And I should see that "economicDisadvantaged" is nil in the JSON response
+  And I should see that "schoolFoodServicesEligibility" is nil in the JSON response
   Given parameter "economicDisadvantaged" is "false"
   And I make an API call to get "<'MARVIN MILLER'>"
   Then I should receive a return code of 400
@@ -57,3 +59,44 @@ Scenario: User with READ_RESTRICTED and not WRITE_RESTRICTED updating a restrict
   And I make an API call to update the student "<'MARVIN MILLER'>"
   Then I should receive a return code of 403
 
+Scenario: Charles Gray querying on the restricted fields
+  Given I am logged in using "cgray" "cgray1234" to realm "IL"
+  When I make an API call to get "teachers" "<'SHELIA TWEED'>"
+  Then I should receive a return code of 200
+  And I should see that "entityType" is "teacher" in the JSON response
+  And I should see that "highlyQualifiedTeacher" is nil in the JSON response
+  And I should see that "teacherUniqueStateId" is nil in the JSON response
+  Given parameter "highlyQualifiedTeacher" is "true"
+  When I make an API call to get "teachers" "<'SHELIA TWEED'>"
+  Then I should receive a return code of 400
+  Given parameter "teacherUniqueStateId" is "daybreak00001"
+  When I make an API call to get "teachers" "<'SHELIA TWEED'>"
+  Then I should receive a return code of 400
+
+Scenario: Charles Gray querying on the restricted fields for staff
+  Given I am logged in using "cgray" "cgray1234" to realm "IL"
+  When I make an API call to get "staff" "<'SHELIA TWEED'>"
+  Then I should receive a return code of 200
+  And I should see that "highlyQualifiedTeacher" is nil in the JSON response
+  And I should see that "teacherUniqueStateId" is nil in the JSON response
+
+Scenario: Charles Gray Admin querying on the restricted fields
+  Given I am logged in using "cgrayadmin" "cgrayadmin1234" to realm "IL"
+  When I make an API call to get "teachers" "<'SHELIA TWEED'>"
+  Then I should receive a return code of 200
+  And I should see that "entityType" is "teacher" in the JSON response
+  And I should see that "highlyQualifiedTeacher" is "true" in the JSON response
+  And I should see that "teacherUniqueStateId" is "daybreak00001" in the JSON response
+  Given parameter "highlyQualifiedTeacher" is "true"
+  When I make an API call to get "teachers" "<'SHELIA TWEED'>"
+  Then I should receive a return code of 404
+  Given parameter "teacherUniqueStateId" is "daybreak00001"
+  When I make an API call to get "teachers" "<'SHELIA TWEED'>"
+  Then I should receive a return code of 404
+
+Scenario: Charles Gray Admin querying on the restricted fields on staff
+  Given I am logged in using "cgrayadmin" "cgrayadmin1234" to realm "IL"
+  When I make an API call to get "staff" "<'SHELIA TWEED'>"
+  Then I should receive a return code of 200
+  And I should see that "highlyQualifiedTeacher" is "true" in the JSON response
+  And I should see that "teacherUniqueStateId" is "daybreak00001" in the JSON response
