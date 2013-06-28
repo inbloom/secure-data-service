@@ -144,6 +144,16 @@ public class RightAccessValidator {
      */
     public void checkFieldAccess(NeutralQuery query, String entityType, Collection<GrantedAuthority> auths) {
         if (!auths.contains(Right.FULL_ACCESS) && !auths.contains(Right.ANONYMOUS_ACCESS)) {
+
+            if (null != query.getSortBy()) {
+                Set<Right> rightsOnSort = getNeededRights(query.getSortBy(), entityType);
+
+                if (!rightsOnSort.isEmpty() && !intersection(auths, rightsOnSort)) {
+                    debug("Denied user sorting on field {}", query.getSortBy());
+                    throw new AccessDeniedException("Cannot search on restricted field " + query.getSortBy());
+                }
+            }
+
             for (NeutralCriteria criteria : query.getCriteria()) {
                 // get the needed rights for the field
                 Set<Right> neededRights = getNeededRights(criteria.getKey(), entityType);
