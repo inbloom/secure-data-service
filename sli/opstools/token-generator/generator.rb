@@ -134,7 +134,9 @@ def updateUserSession(options, edorg, userSession, db)
   newRoles = userSession['body']['principal']['roles'] | options[:roles]
   appSession = userSession['body']['appSession']
 
-  db[:userSession].update({'_id' => userSession['_id']}, {'$set' => {'body.principal.roles' => newRoles, 'body.principal.edOrgRoles' => edOrgRoles}})
+  expire = Time.now.to_i * 1000 + options[:expire].to_i
+  db[:userSession].update({'_id' => userSession['_id']}, {'$set' => {'body.principal.roles' => newRoles, 
+    'body.principal.edOrgRoles' => edOrgRoles,"body.expiration" => expire, "body.hardLogout" => expire, "body.appSession.0.code.expiration" => Time.now.to_i}})
 
   return appSession[0]['token']
 end
