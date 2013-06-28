@@ -184,12 +184,13 @@ else
 end
 query['body.principal.externalId'] = externalId
 
-userSession = db[:userSession].find_one(query)
-if(userSession != nil)
-  token = updateUserSession(options, edorg, userSession, db)
-else
+#TODO:Temporarily disable because it fails BE AT
+#userSession = db[:userSession].find_one(query)
+#if(userSession != nil)
+#  token = updateUserSession(options, edorg, userSession, db)
+#else
   appSession = createUserSession(options, realm, user, edorg, app, student, db)
   token = appSession[:token]
-end
+#end
   
 puts "Your new long-lived session token is #{token}"
