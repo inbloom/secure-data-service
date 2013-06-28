@@ -548,7 +548,8 @@ public class BasicService implements EntityService, AccessibilityCheck {
     }
 
     private void checkReferences(EntityBody eb) {
-        /* TODO: Note that this is a horrible hack to allow students to validate
+        /* TODO: MAKE BETTER
+         * Note that this is a workaround to allow students to validate
          * only their own student ID when checking references, else they'd never
          * be able to POST or PUT anything
          */
@@ -559,14 +560,14 @@ public class BasicService implements EntityService, AccessibilityCheck {
                 String id = (String) eb.get(ParameterConstants.ID);
 
                 // Validate id is yourself
-                if (!id.equals(SecurityUtil.getSLIPrincipal().getEntity().getEntityId())) {
+                if (!SecurityUtil.getSLIPrincipal().getEntity().getEntityId().equals(id)) {
                     throw new AccessDeniedException("Cannot update student not yourself");
                 }
             } else if (entityType.equals(EntityNames.STUDENT_ASSESSMENT)) {
                 String studentId = (String) eb.get(ParameterConstants.STUDENT_ID);
 
                 // Validate student ID is yourself
-                if (!studentId.equals(SecurityUtil.getSLIPrincipal().getEntity().getEntityId())) {
+                if (!SecurityUtil.getSLIPrincipal().getEntity().getEntityId().equals(studentId)) {
                     throw new AccessDeniedException("Cannot update student assessments that are not your own");
                 }
             } else if (entityType.equals(EntityNames.STUDENT_GRADEBOOK_ENTRY) || entityType.equals(EntityNames.GRADE)) {
@@ -574,7 +575,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
                 String ssaId = (String) eb.get(ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID);
 
                 // Validate student ID is yourself
-                if (!studentId.equals(SecurityUtil.getSLIPrincipal().getEntity().getEntityId())) {
+                if (!SecurityUtil.getSLIPrincipal().getEntity().getEntityId().equals(studentId)) {
                     throw new AccessDeniedException("Cannot update " + entityType + " that are not your own");
                 }
                 // Validate SSA ids are accessible via non-transitive SSA validator
@@ -582,6 +583,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
                 contextValidator.validateContextToEntities(def, Arrays.asList(ssaId), false);
 
             } else {
+                // At the time of this comment, students can only write to student, studentAssessment, studentGradebookEntry, or grade
                 throw new IllegalArgumentException("Students cannot write entities of type " + entityType);
             }
 

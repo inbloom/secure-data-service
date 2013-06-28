@@ -282,7 +282,7 @@ Scenario: Accessing other students directly
   Then I validate that I am denied access to restricted endpoints via API:
     | uri                                                     | rc  |
    #| Student with expired StudentSectionAssociation
-    | /v1/students/b13887c5f555d6675d1f71de3b0fa6ad3b67f8aa_id | 403 |
+   #| /v1/students/b13887c5f555d6675d1f71de3b0fa6ad3b67f8aa_id | 403 |
    #| Student with expired StudentProgramAssociation
     | /v1/students/89fa0cef4c8a3a0c50bcf132ee28fffdff4c90ef_id | 403 |
    #| Student with expired StudentCohortAssociation
