@@ -693,6 +693,10 @@ def translate_custom_entity_to_endpoint(endpoint_name)
     "learningObjectives/id/childLearningObjectives" => "learningObjectives/18f258460004b33fa9c1249b8c9ed3bd33c41645_id/childLearningObjectives",
     "learningObjectives/id/learningStandards" => "learningObjectives/18f258460004b33fa9c1249b8c9ed3bd33c41645_id/learningStandards",
     "learningObjectives/id/parentLearningObjectives" => "learningObjectives/18f258460004b33fa9c1249b8c9ed3bd33c41645_id/parentLearningObjectives",
+    "msollars.studentAssessment" => "studentAssessments/f9643b7abba04ae01586723abed0e38c63e4f975_id",
+    "msollars.studentGradebookEntry" => "studentGradebookEntries/7f714f03238d978398fbd4f8abbf9acb3e5775fe_id",
+    "msollars.grade" => "grades/f438cf61eda4d45d77f3d7624fc8d089aa95e5ea_id4542ee7a376b1c7813dcdc495368c875bc6b03ed_id",
+    "msollars.student" => "students/067198fd6da91e1aa8d67e28e850f224d6851713_id",
     "schools/id/courseOfferings" => "schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/courseOfferings",
     "schools/id/courses" => "schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/courses",
     "schools/id/sections" => "schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/courses",
@@ -716,6 +720,10 @@ end
 
 def get_full_patch_entity_from_api(entity_name)
   entity_to_endpoint_map = {
+    "msollars.grade" => "grades/f438cf61eda4d45d77f3d7624fc8d089aa95e5ea_id4542ee7a376b1c7813dcdc495368c875bc6b03ed_id",
+    "msollars.student" => "students/067198fd6da91e1aa8d67e28e850f224d6851713_id",
+    "msollars.studentAssessment" => "studentAssessments/f9643b7abba04ae01586723abed0e38c63e4f975_id",
+    "msollars.studentGradebookEntry" => "studentGradebookEntries/7f714f03238d978398fbd4f8abbf9acb3e5775fe_id",
     "newParentDad" => "parents/41f42690a7c8eb5b99637fade00fc72f599dab07_id",
     "newParentMom" => "parents/41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id",
     "newStudent" => "students/9bf3036428c40861238fdc820568fde53e658d88_id",
@@ -750,6 +758,12 @@ def get_patch_body_by_entity_name(field, value)
     },
     "contactPriority" => {
       "contactPriority" => value.to_i
+    },
+    "diagnosticStatement" => {
+      "diagnosticStatement" => value
+    },
+    "gradeLevelWhenAssessed" => {
+      "gradeLevelWhenAssessed" => value
     },
     "studentLoginId" => {
       "loginId" => value,
