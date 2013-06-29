@@ -376,6 +376,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
     }
 
     protected Iterable<Entity> getKidsForParent(Entity parent) {
+        //TODO cache this?
         Iterable<Entity> kids = getRepo().findAll(
                 EntityNames.STUDENT,
                 new NeutralQuery(new NeutralCriteria(EntityNames.STUDENT_PARENT_ASSOCIATION,
