@@ -192,9 +192,6 @@ userSession = db[:userSession].find_one(query)
 if(userSession != nil && !options[:newSession])
   token = updateUserSession(options, edorg, userSession, db)
 else
-  if(options[:newSession])
-    db[:userSession].remove(query)
-  end
   appSession = createUserSession(options, realm, user, edorg, app, student, db)
   token = appSession[:token]
 end
