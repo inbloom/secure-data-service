@@ -16,6 +16,7 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import java.util.Arrays;
 import java.util.Set;
 
 import org.springframework.stereotype.Component;
@@ -30,7 +31,7 @@ import org.slc.sli.domain.Entity;
 public class StudentToStudentValidator extends BasicValidator {
 
     public StudentToStudentValidator() {
-        super(false, EntityNames.STUDENT, EntityNames.STUDENT);
+        super(false, Arrays.asList(EntityNames.STUDENT, EntityNames.PARENT), EntityNames.STUDENT);
     }
 
     @Override
