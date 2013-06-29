@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 
 /**
@@ -33,32 +34,32 @@ public abstract class BasicValidator extends AbstractContextValidator {
     private final boolean transitiveValidator;
     private final boolean careAboutTransitive;
     private final Set<String> types;
-    private final String userType;
+    private final Set<String> userTypes;
 
-    public BasicValidator(boolean transitiveValidator, String userType, String type) {
+    public BasicValidator(boolean transitiveValidator, List<String> userTypes, String type) {
         this.transitiveValidator = transitiveValidator;
         this.careAboutTransitive = true;
         this.types = new HashSet<String>(Arrays.asList(type));
-        this.userType = userType;
+        this.userTypes = new HashSet<String>(userTypes);
     }
 
-    public BasicValidator(boolean transitiveValidator, String userType, List<String> types) {
+    public BasicValidator(boolean transitiveValidator, List<String> userTypes, List<String> types) {
         this.transitiveValidator = transitiveValidator;
         this.careAboutTransitive = true;
         this.types = new HashSet<String>(types);
-        this.userType = userType;
+        this.userTypes = new HashSet<String>(userTypes);
     }
 
-    public BasicValidator(String userType, String type) {
+    public BasicValidator(List<String> userTypes, String type) {
         this.transitiveValidator = false;
         this.careAboutTransitive = false;
         this.types = new HashSet<String>(Arrays.asList(type));
-        this.userType = userType;
+        this.userTypes = new HashSet<String>(userTypes);
     }
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return userType.equals(SecurityUtil.getSLIPrincipal().getEntity().getType()) && types.contains(entityType)
+        return userTypes.contains(SecurityUtil.getSLIPrincipal().getEntity().getType()) && types.contains(entityType)
                 && (!careAboutTransitive || isTransitive == transitiveValidator);
     }
 
@@ -67,9 +68,18 @@ public abstract class BasicValidator extends AbstractContextValidator {
         if (!areParametersValid(types, entityType, ids)) {
             return false;
         }
-
+        boolean result = false;
         Entity me = SecurityUtil.getSLIPrincipal().getEntity();
-        return doValidate(ids, me, entityType);
+        if (EntityNames.PARENT.equals(me.getType())) {
+            // for parent, validate as their kids
+            Iterable<Entity> kids = getKidsForParent(me);
+            for(Entity kid: kids) {
+                result |= doValidate(ids, kid, entityType);
+            }
+        } else {
+            result = doValidate(ids, me, entityType);
+        }
+        return result;
     }
 
     protected abstract boolean doValidate(Set<String> ids, Entity me, String entityType);
