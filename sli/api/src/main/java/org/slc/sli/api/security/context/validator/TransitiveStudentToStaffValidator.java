@@ -45,7 +45,7 @@ public class TransitiveStudentToStaffValidator extends BasicValidator {
     private DateHelper dateHelper;
 
     public TransitiveStudentToStaffValidator() {
-        super(true, EntityNames.STUDENT, Arrays.asList(EntityNames.STAFF, EntityNames.TEACHER));
+        super(true, Arrays.asList(EntityNames.STUDENT, EntityNames.PARENT), Arrays.asList(EntityNames.STAFF, EntityNames.TEACHER));
     }
 
     @Override
@@ -156,10 +156,12 @@ public class TransitiveStudentToStaffValidator extends BasicValidator {
         return assocIds;
     }
 
+    @Override
     protected DateHelper getDateHelper() {
         return dateHelper;
     }
 
+    @Override
     protected void setDateHelper(DateHelper dateHelper) {
         this.dateHelper = dateHelper;
     }

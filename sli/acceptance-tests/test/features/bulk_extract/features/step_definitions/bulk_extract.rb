@@ -514,7 +514,7 @@ When /^I log into "(.*?)" with a token of "(.*?)", a "(.*?)" for "(.*?)" for "(.
   enable_NOTABLESCAN()
 
   script_loc = File.dirname(__FILE__) + "/../../../../../../opstools/token-generator/generator.rb"
-  out, status = Open3.capture2("ruby #{script_loc} -e #{expiration_in_seconds} -c #{client_id} -u #{user} -r \"#{role}\" -E \"#{edorg}\" -t \"#{tenant}\" -R \"#{realm}\"")
+  out, status = Open3.capture2("ruby #{script_loc} -e #{expiration_in_seconds} -c #{client_id} -u #{user} -r \"#{role}\" -E \"#{edorg}\" -t \"#{tenant}\" -R \"#{realm}\" -n true")
   assert(out.include?("token is"), "Could not get a token for #{user} for realm #{realm}")
   match = /token is (.*)/.match(out)
   @sessionId = match[1]

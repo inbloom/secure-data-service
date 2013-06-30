@@ -15,6 +15,7 @@
  */
 package org.slc.sli.api.security.context.validator;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +36,7 @@ import org.slc.sli.domain.Entity;
 public class StudentToSectionValidator extends BasicValidator {
 
     public StudentToSectionValidator() {
-        super(false, EntityNames.STUDENT, EntityNames.SECTION);
+        super(false, Arrays.asList(EntityNames.STUDENT, EntityNames.PARENT), EntityNames.SECTION);
     }
 
     @Override
