@@ -169,16 +169,16 @@ Given I log in to realm "Illinois Daybreak Students" using simple-idp as "studen
     | msollars.studentAssessment     | studentAssessment     | 201        |
     | msollars.studentGradebookEntry | studentGradebookEntry | 201        |
     | msollars.grade                 | grade                 | 201        |
-    #| msollars.student               | student               | 409        |
-  #When I PATCH and validate the following entities:
-   #| fieldName              | entityName                     | entityType            | value                       | returnCode |
-   #| name.firstName         | msollars.student               | student               | "MattPatch"                 | 204        |
-   #| diagnosticStatement    | msollars.grade                 | grade                 | "Student was patched derpy" | 204        |
-   #| gradeLevelWhenAssessed | msollars.studentAssessment     | studentAssessment     | "Sixth Grade"               | 204        |
-   #| diagnosticStatement    | msollars.studentGradebookEntry | studentGradebookEntry | "Student was patched good"  | 204        |
+    | msollars.student               | student               | 403        |
+  When I PATCH and validate the following entities:
+    | fieldName              | entityName                     | entityType            | value                       | returnCode |
+    #| name.firstName         | msollars.student               | student               | "MattPatch"                 | 204        |
+    | diagnosticStatement    | msollars.grade                 | grade                 | "Student was patched derpy" | 204        |
+    #| gradeLevelWhenAssessed | msollars.studentAssessment     | studentAssessment     | "Sixth grade"               | 204        |
+    | diagnosticStatement    | msollars.studentGradebookEntry | studentGradebookEntry | "Student was patched good"  | 204        |
   When I PUT and validate the following entities:
     | field                  | entityName            | value                   | returnCode | endpoint                                                            |
-   #| name.firstName         | student               | "MattPut"               | 204        | students/067198fd6da91e1aa8d67e28e850f224d6851713_id                |
+    | name.firstName         | student               | "MattPut"               | 204        | students/067198fd6da91e1aa8d67e28e850f224d6851713_id                |
     | diagnosticStatement    | grade                 | "Student was put derpy" | 204        | grades/f438cf61eda4d45d77f3d7624fc8d089aa95e5ea_id4542ee7a376b1c7813dcdc495368c875bc6b03ed_id                  |
     | gradeLevelWhenAssessed | studentAssessment     | "Seventh Grade"         | 204        | studentAssessments/f9643b7abba04ae01586723abed0e38c63e4f975_id      |
     | diagnosticStatement    | studentGradebookEntry | "Student was put good"  | 204        | studentGradebookEntries/7f714f03238d978398fbd4f8abbf9acb3e5775fe_id |
