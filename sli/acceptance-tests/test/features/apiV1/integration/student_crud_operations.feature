@@ -172,9 +172,9 @@ Given I log in to realm "Illinois Daybreak Students" using simple-idp as "studen
     | msollars.student               | student               | 403        |
   When I PATCH and validate the following entities:
     | fieldName              | entityName                     | entityType            | value                       | returnCode |
-    #| name.firstName         | msollars.student               | student               | "MattPatch"                 | 204        |
+    | msollars.name          | msollars.student               | student               | "Patch"                     | 204        |
     | diagnosticStatement    | msollars.grade                 | grade                 | "Student was patched derpy" | 204        |
-    #| gradeLevelWhenAssessed | msollars.studentAssessment     | studentAssessment     | "Sixth grade"               | 204        |
+   #| gradeLevelWhenAssessed | msollars.studentAssessment     | studentAssessment     | "Sixth grade"               | 204        |
     | diagnosticStatement    | msollars.studentGradebookEntry | studentGradebookEntry | "Student was patched good"  | 204        |
   When I PUT and validate the following entities:
     | field                  | entityName            | value                   | returnCode | endpoint                                                            |

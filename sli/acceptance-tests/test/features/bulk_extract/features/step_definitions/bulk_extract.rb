@@ -770,7 +770,14 @@ def get_patch_body_by_entity_name(field, value)
       "sex" => "Male"
     },
     "momLoginId" => {
-        "loginId" => value
+      "loginId" => value
+    },
+    "msollars.name" => {
+      "name" => {
+        "middleName" => value,
+        "firstName" => "Matt",
+        "lastSurname" => "Sollars"
+      }
     },
     "dadLoginId" => {
         "loginId" => value
