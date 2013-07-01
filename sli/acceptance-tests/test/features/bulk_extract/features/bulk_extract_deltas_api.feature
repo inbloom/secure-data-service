@@ -828,7 +828,7 @@ Scenario: Ingest SEA delete and verify both LEAs received the delete
 
     Then I reingest the SEA so I can continue my other tests
 
-
+@shortcut
 Scenario: CREATE and verify deltas for private entities through API POST
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -881,12 +881,12 @@ Given I clean the bulk extract file system and database
 
   # UPDATE parent and parentStudentAssociation fields via PATCH
   When I PATCH and validate the following entities:
-    |  fieldName        |  entityName                   | entityType               | value                                 |  returnCode  |
-    |  postalCode       |  patchEdOrg                   | educationOrganization    | 11099                                 |  204         |
-    |  studentLoginId   |  newStudent                   | student                  | average_student_youre_ok@bazinga.com  |  204         |
-    |  momLoginId       |  newParentMom                 | parent                   | average_mom_youre_ok@bazinga.com      |  204         |
-    |  dadLoginId       |  newParentDad                 | parent                   | average_dad_youre_ok@bazinga.com      |  204         |
-    |  contactPriority  |  newStudentParentAssociation  | studentParentAssociation | 1                                     |  204         |
+    |  fieldName        |  entityType               | value                                 |  returnCode  | endpoint                                                           |
+    |  postalCode       |  educationOrganization    | 11099                                 |  204         | educationOrganizations/a13489364c2eb015c219172d561c62350f0453f3_id |
+    |  studentLoginId   |  student                  | average_student_youre_ok@bazinga.com  |  204         | students/9bf3036428c40861238fdc820568fde53e658d88_id               |
+    |  momLoginId       |  parent                   | average_mom_youre_ok@bazinga.com      |  204         | parents/41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id                |
+    |  dadLoginId       |  parent                   | average_dad_youre_ok@bazinga.com      |  204         | parents/41f42690a7c8eb5b99637fade00fc72f599dab07_id                |
+    |  contactPriority  |  studentParentAssociation | 1                                     |  204         | studentParentAssociations/9bf3036428c40861238fdc820568fde53e658d88_idc3a6a4ed285c14f562f0e0b63e1357e061e337c6_id |
 
   When I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
    And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
@@ -1090,18 +1090,18 @@ Given I clean the bulk extract file system and database
  # "field" values must be defined in bulk_extract.rb:prepareBody:field_data["PATCH"]
  # "entity" values must be defined in bulk_extract.rb:getEntityBodyFromApi:entity_to_uri_map and in bulk_extract.rb:getEntityEndpoint:entity_to_endpoint_map
  # Note if "value" is empty in this table, the patched field will be set to the string "value"
-    |  fieldName            |  entityName                      |  entityType                 | value                                       |  returnCode  |
-    |  patchProgramType     |  patchProgram                    |  program                    | Adult/Continuing Education                  |  204         |
-    |  patchEndDate         |  patchGradingPeriod              |  gradingPeriod              | 2015-07-01                                  |  204         |
-    |  patchDescription     |  patchLearningObjective          |  learningObjective          | Patched description                         |  204         |
-    |  patchDescription     |  patchLearningStandard           |  learningStandard           | Patched description                         |  204         |
-    |  patchDescription     |  patchCompetencyLevelDescriptor  |  competencyLevelDescriptor  | Patched description                         |  204         |
-    |  patchDescription     |  patchStudentCompetencyObjective |  studentCompetencyObjective | Patched description                         |  204         |
-    |  patchEndDate         |  patchSession                    |  session                    | 2015-06-12                                  |  204         |
-    |  patchCourseDesc      |  patchSEACourse                  |  course                     | Patched description                         |  204         |
-    |  patchCourseId        |  patchSEACourseOffering          |  courseOffering             | 06ccb498c620fdab155a6d70bcc4123b021fa60d_id |  204         |
-    |  patchContentStd      |  patchAssessment                 |  assessment                 | National Standard                           |  204         |
-    |  patchIndividualPlan  |  patchGraduationPlan             |  graduationPlan             | true                                        |  204         |
+    |  fieldName            |  entityType                 | value                                       |  returnCode  | endpoint                                                                |
+    |  patchProgramType     |  program                    | Adult/Continuing Education                  |  204         | programs/0ee2b448980b720b722706ec29a1492d95560798_id                    |
+    |  patchEndDate         |  gradingPeriod              | 2015-07-01                                  |  204         | gradingPeriods/8feb483ade5d7b3b45c1e4b4a50d00302cba4548_id              |
+    |  patchDescription     |  learningObjective          | Patched description                         |  204         | learningObjectives/bc2dd61ff2234eb25835dbebe22d674c8a10e963_id          |
+    |  patchDescription     |  learningStandard           | Patched description                         |  204         | learningStandards/1bd6fea0e8b8ac6a8fe87a8530effbced0df9318_id           |
+    |  patchDescription     |  competencyLevelDescriptor  | Patched description                         |  204         | competencyLevelDescriptor/ceddd8ec0ee71c1f4f64218e00581e9b27c0fffb_id   |
+    |  patchDescription     |  studentCompetencyObjective | Patched description                         |  204         | studentCompetencyObjectives/ef680988e7c411cdb5438ded373512cd59cbfa7b_id |
+    |  patchEndDate         |  session                    | 2015-06-12                                  |  204         | sessions/fe6e1a162e6f6825830d78d72cb55498afaedcd3_id                    |
+    |  patchCourseDesc      |  course                     | Patched description                         |  204         | courses/494d4c8281ec78c7d8634afb683d39f6afdc5b85_id                     |
+    |  patchCourseId        |  courseOffering             | 06ccb498c620fdab155a6d70bcc4123b021fa60d_id |  204         | courseOfferings/0fee7a7aba9a96388ef628b7e3e5e5ea60a142a7_id             |
+    |  patchContentStd      |  assessment                 | National Standard                           |  204         | assessments/8d58352d180e00da82998cf29048593927a25c8e_id                 |
+    |  patchIndividualPlan  |  graduationPlan             | true                                        |  204         | graduationPlans/a77cdbececc81173aa76a34c05f9aeb44126a64d_id             |
 
  Given the unpack directory is empty
  When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "STANDARD-SEA" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
