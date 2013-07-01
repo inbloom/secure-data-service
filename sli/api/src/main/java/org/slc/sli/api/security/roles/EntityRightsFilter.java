@@ -83,14 +83,15 @@ public class EntityRightsFilter {
 
         EntityBody toReturn = exposeTreatments(entity, treamts, defn);
 
-        toReturn = filterBody(toReturn, defn.getType(), nonSelfAuths, selfAuths);
+        String type = entity.getType() != null ? entity.getType() : defn.getType();
+        toReturn = filterBody(toReturn, type, nonSelfAuths, selfAuths);
 
         if ((entity.getEmbeddedData() != null) && !entity.getEmbeddedData().isEmpty()) {
             for (Map.Entry<String, List<Entity>> enbDocList : entity.getEmbeddedData().entrySet()) {
                 List<EntityBody> subDocbody = new ArrayList<EntityBody>();
                 for (Entity subEntity : enbDocList.getValue()) {
                     EntityBody sdBody = exposeTreatments(subEntity, treamts, defn);
-                    subDocbody.add(filterBody(sdBody, defn.getType(), nonSelfAuths, selfAuths));
+                    subDocbody.add(filterBody(sdBody, type, nonSelfAuths, selfAuths));
                 }
                 toReturn.put(enbDocList.getKey(), subDocbody);
             }

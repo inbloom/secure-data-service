@@ -16,26 +16,16 @@
 
 package org.slc.sli.api.service;
 
-import org.slc.sli.api.config.BasicDefinitionStore;
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.constants.PathConstants;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.security.CallingApplicationInfoProvider;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.context.ContextValidator;
-import org.slc.sli.api.security.roles.EntityEdOrgRightBuilder;
-import org.slc.sli.api.security.roles.EntityRightsFilter;
-import org.slc.sli.api.security.roles.RightAccessValidator;
-import org.slc.sli.api.security.schema.SchemaDataProvider;
-import org.slc.sli.api.security.service.SecurityCriteria;
-import org.slc.sli.api.service.query.ApiQuery;
-import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
-import org.slc.sli.domain.*;
-import org.slc.sli.domain.enums.Right;
-import org.slc.sli.validation.EntityValidationException;
-import org.slc.sli.validation.ValidationError;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -45,9 +35,30 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import java.awt.*;
-import java.util.*;
-import java.util.List;
+import org.slc.sli.api.config.BasicDefinitionStore;
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.constants.PathConstants;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.security.CallingApplicationInfoProvider;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.ContextValidator;
+import org.slc.sli.api.security.roles.EntityRightsFilter;
+import org.slc.sli.api.security.roles.RightAccessValidator;
+import org.slc.sli.api.security.schema.SchemaDataProvider;
+import org.slc.sli.api.security.service.SecurityCriteria;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.domain.AccessibilityCheck;
+import org.slc.sli.domain.CalculatedData;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.FullSuperDoc;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.enums.Right;
+import org.slc.sli.validation.EntityValidationException;
+import org.slc.sli.validation.ValidationError;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -149,7 +160,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
     public String create(EntityBody content) {
         checkAccess(false, false, content);
 
-        checkReferences(content);
+        checkReferences(null, content);
 
         List<String> entityIds = new ArrayList<String>();
         sanitizeEntityBody(content);
@@ -254,7 +265,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
             return false;
         }
 
-        checkReferences(content);
+        checkReferences(id, content);
 
         info("new body is {}", content);
         entity.getBody().clear();
@@ -282,7 +293,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
         info("patch value(s): ", content);
 
         // don't check references until things are combined
-        checkReferences(content);
+        checkReferences(id, content);
 
         repo.patch(defn.getType(), collectionName, id, content);
 
@@ -405,6 +416,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
     @Override
     public Iterable<EntityBody> listBasedOnContextualRoles(NeutralQuery neutralQuery) {
         boolean isSelf = isSelf(neutralQuery);
+        checkFieldAccess(neutralQuery, isSelf);
 
         injectSecurity(neutralQuery);
         Collection<Entity> entities = (Collection<Entity>) repo.findAll(collectionName, neutralQuery);
@@ -535,7 +547,49 @@ public class BasicService implements EntityService, AccessibilityCheck {
         }
     }
 
-    private void checkReferences(EntityBody eb) {
+    private void checkReferences(String entityId, EntityBody eb) {
+        /* TODO: MAKE BETTER
+         * Note that this is a workaround to allow students to validate
+         * only their own student ID when checking references, else they'd never
+         * be able to POST or PUT anything
+         */
+        if (SecurityUtil.isStudent()) {
+            String entityType = defn.getType();
+
+            if (entityType.equals(EntityNames.STUDENT)) {
+                // Validate id is yourself
+                if (!SecurityUtil.getSLIPrincipal().getEntity().getEntityId().equals(entityId)) {
+                    throw new AccessDeniedException("Cannot update student not yourself");
+                }
+            } else if (entityType.equals(EntityNames.STUDENT_ASSESSMENT)) {
+                String studentId = (String) eb.get(ParameterConstants.STUDENT_ID);
+
+                // Validate student ID is yourself
+                if (studentId != null && !SecurityUtil.getSLIPrincipal().getEntity().getEntityId().equals(studentId)) {
+                    throw new AccessDeniedException("Cannot update student assessments that are not your own");
+                }
+            } else if (entityType.equals(EntityNames.STUDENT_GRADEBOOK_ENTRY) || entityType.equals(EntityNames.GRADE)) {
+                String studentId = (String) eb.get(ParameterConstants.STUDENT_ID);
+                String ssaId = (String) eb.get(ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID);
+
+                // Validate student ID is yourself
+                if (studentId != null && !SecurityUtil.getSLIPrincipal().getEntity().getEntityId().equals(studentId)) {
+                    throw new AccessDeniedException("Cannot update " + entityType + " that are not your own");
+                }
+                // Validate SSA ids are accessible via non-transitive SSA validator
+                if (ssaId != null) {
+                    EntityDefinition def = definitionStore.lookupByEntityType(EntityNames.STUDENT_SECTION_ASSOCIATION);
+                    contextValidator.validateContextToEntities(def, Arrays.asList(ssaId), false);
+                }
+            } else {
+                // At the time of this comment, students can only write to student, studentAssessment, studentGradebookEntry, or grade
+                throw new IllegalArgumentException("Students cannot write entities of type " + entityType);
+            }
+
+            // If you get this far, its all good
+            return;
+        }
+        // else if staff/teacher, do legacy
         for (Map.Entry<String, Object> entry : eb.entrySet()) {
             String fieldName = entry.getKey();
             Object value = entry.getValue();

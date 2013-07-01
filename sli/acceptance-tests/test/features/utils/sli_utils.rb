@@ -702,6 +702,51 @@ module EntityProvider
     end
   end
 
+  def self.match?(fieldValue1, fieldValue2)
+    STDOUT.puts "matching #{fieldValue1} #{fieldValue2}"
+    result = true
+    if fieldValue1.is_a?(Hash)
+      fieldValue1.each { |key, value|
+        if ( ! match?(value, fieldValue2[key]) )
+          return false
+        end
+      }
+    elsif fieldValue1.is_a?(Array)
+      if ( fieldValue1.size != fieldValue2.size )
+        return false
+      end
+      fieldValue1.zip(fieldValue2).each { |ex, res|
+        if ( ! match?(ex, res) )
+          return false
+        end
+      }
+    else
+      if (fieldValue1 == "true" or fieldValue1 == "false")
+        fieldValue1 = (fieldValue1 == "true")
+      end
+      if (fieldValue2 == "true" or fieldValue2 == "false")
+        fieldValue2 = (fieldValue2 == "true")
+      end
+      return fieldValue1 == fieldValue2
+    end
+    return result
+  end
+
+  # returns whether or not the value of fieldPath is the same in oldRecord and record
+  def self.entity_field_matches?(oldRecord, record, fieldPath)
+    currentField, sep, remainingFieldPath = fieldPath.partition(".")
+    if fieldPath.empty?
+      match?(oldRecord, record)
+    elsif oldRecord.is_a?(Hash)
+      entity_field_matches?(oldRecord[currentField], record[currentField], remainingFieldPath)
+    elsif oldRecord.is_a?(Array)
+      # assume array index is specified in the fieldPath
+      entity_field_matches?(oldRecord[Integer(currentField)], record[Integer(currentField)], remainingFieldPath)
+    else
+      assert(false, "Invalid path. #{currentField} does not contain a subfield #{remainingFieldPath} as expected.")
+    end
+  end
+
 end
 
 module X509

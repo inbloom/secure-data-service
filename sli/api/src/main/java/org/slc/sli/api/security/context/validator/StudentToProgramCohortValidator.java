@@ -30,19 +30,18 @@ import org.slc.sli.domain.Entity;
 
 /**
  * validating non transtive programs for students
- * 
+ *
  * @author ycao
- * 
+ *
  */
 @Component
 public class StudentToProgramCohortValidator extends BasicValidator {
-    
+
     @Autowired
     DateHelper dateHelper;
 
     public StudentToProgramCohortValidator() {
-        super(false, EntityNames.STUDENT, Arrays.asList(EntityNames.PROGRAM, EntityNames.COHORT));
-        // TODO Auto-generated constructor stub
+        super(false, Arrays.asList(EntityNames.STUDENT, EntityNames.PARENT), Arrays.asList(EntityNames.PROGRAM, EntityNames.COHORT));
     }
 
     @Override
@@ -56,25 +55,25 @@ public class StudentToProgramCohortValidator extends BasicValidator {
             subdocType = EntityNames.STUDENT_PROGRAM_ASSOCIATION;
             subdocId = ParameterConstants.PROGRAM_ID;
         }
-        
+
         if (myself == null || myself.getEmbeddedData() == null || subdocType == null) {
             // not sure how this can happen
             return false;
         }
         List<Entity> studentAssociations = myself.getEmbeddedData().get(subdocType);
-        
+
         if (studentAssociations == null) {
             return false;
         }
-        
+
         Set<String> myCurrentIds = new HashSet<String>();
         for (Entity myAssociation : studentAssociations) {
             if (myAssociation.getBody() != null && !dateHelper.isFieldExpired(myAssociation.getBody(), ParameterConstants.END_DATE)) {
                 myCurrentIds.add((String) myAssociation.getBody().get(subdocId));
             }
         }
-        
+
         return myCurrentIds.containsAll(ids);
     }
-    
+
 }

@@ -39,11 +39,22 @@ public interface RolesToRightsResolver {
     public Set<Role> mapRoles(String tenantId, String realmId, List<String> roleNames, boolean isAdminRealm);
     
     /**
-     * Resolve roles to rights
+     * Resolve roles to rights by intersection.
      * @param tenantId
      * @param realmId
      * @param roleNames
      * @return
      */
-    public Set<GrantedAuthority> resolveRoles(String tenantId, String realmId, List<String> roleNames, boolean isAdminRealm, boolean getSelfRights);
+    public Set<GrantedAuthority> resolveRolesIntersect(String tenantId, String realmId, List<String> roleNames, boolean isAdminRealm, boolean getSelfRights);
+
+    /**
+     * Resolve roles to rights by unionization.
+     * Etc, we want unionization of right for all the roles in the same edorg.
+     * @param tenantId
+     * @param realmId
+     * @param roleNames
+     * @return
+     */
+    public Set<GrantedAuthority> resolveRolesUnion(String tenantId, String realmId, List<String> roleNames, boolean isAdminRealm, boolean getSelfRights);
+
 }

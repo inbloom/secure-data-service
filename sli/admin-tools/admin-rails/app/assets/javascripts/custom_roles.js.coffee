@@ -250,6 +250,7 @@ populateTable = (data) ->
     for name in role.names
       div = $('<div/>')
       div.append(createLabel('role', name))
+      div.attr("title",name)
       newRow.find(ROLE_COL).append(div)
 
     for right in role.rights

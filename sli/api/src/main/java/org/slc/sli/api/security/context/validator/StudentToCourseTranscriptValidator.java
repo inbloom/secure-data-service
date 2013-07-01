@@ -16,6 +16,7 @@
 package org.slc.sli.api.security.context.validator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -40,7 +41,7 @@ public class StudentToCourseTranscriptValidator extends BasicValidator {
     StudentToSubStudentValidator studentToSubValidator;
 
     public StudentToCourseTranscriptValidator() {
-        super(EntityNames.STUDENT, EntityNames.COURSE_TRANSCRIPT);
+        super(Arrays.asList(EntityNames.STUDENT, EntityNames.PARENT), EntityNames.COURSE_TRANSCRIPT);
     }
 
     @Override

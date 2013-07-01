@@ -50,11 +50,11 @@ require 'rest-client'
   "sli/acceptance-tests/suites/bulk-extract.rake" => ["bulk-extract"],
   "sli/acceptance-tests/suites/ingestion.rake" => ["ingestion"],
   "sli/acceptance-tests/suites/dashboard.rake" => ["dashboard"],
-  "sli/api/" => ["api", "odin-api", "search-indexer", "jmeter", "admin", "sdk", "bulk-extract", "databrowser", "contextual-role"],
-  "sli/simple-idp" => ["api", "odin-api", "admin", "sdk", "contextual-role"],
+  "sli/api/" => ["api", "odin-api", "search-indexer", "jmeter", "admin", "sdk", "bulk-extract", "databrowser", "contextual-role", "dashboard"],
+  "sli/simple-idp" => ["api", "odin-api", "admin", "sdk", "contextual-role", "dashboard"],
   "sli/SDK" => ["admin", "dashboard", "sdk"],
-  "sli/data-access" => ["api", "odin-api", "ingestion", "bulk-extract", "contextual-role"],
-  "sli/domain" => ["api", "odin-api", "ingestion", "bulk-extract"],
+  "sli/data-access" => ["api", "odin-api", "ingestion", "bulk-extract", "contextual-role", "dashboard"],
+  "sli/domain" => ["api", "odin-api", "ingestion", "bulk-extract", "dashboard"],
   "sli/bulk-extract" => ["bulk-extract"],
   "sli/ingestion/ingestion-core" => ["ingestion", "odin"],
   "sli/ingestion/ingestion-base" => ["ingestion", "odin"],
@@ -63,7 +63,7 @@ require 'rest-client'
   "sli/admin-tools" => ["admin"],
   "sli/dashboard/src" => ["dashboard"],
   "sli/databrowser" => ["databrowser"],
-  "sli/search-indexer" => ["search-indexer"],
+  "sli/search-indexer" => ["search-indexer", "dashboard"],
   "tools/odin" => ["odin", "odin-api", "jmeter"]
 }
 

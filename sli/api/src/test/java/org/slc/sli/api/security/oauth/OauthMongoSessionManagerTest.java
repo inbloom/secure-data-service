@@ -238,9 +238,9 @@ public class OauthMongoSessionManagerTest {
                 WRITE_RESTRICTED));
         Set<GrantedAuthority> authorities3 = new HashSet<GrantedAuthority>(Arrays.asList(READ_PUBLIC,
                 AGGREGATE_READ, WRITE_PUBLIC, AGGREGATE_WRITE));
-        Mockito.when(resolver.resolveRoles(matches(TENANT_ID), matches(REALM_ID), eq(edOrgRoles1), eq(false), eq(false))).thenReturn(authorities1);
-        Mockito.when(resolver.resolveRoles(matches(TENANT_ID), matches(REALM_ID), eq(edOrgRoles2), eq(false), eq(false))).thenReturn(authorities2);
-        Mockito.when(resolver.resolveRoles(matches(TENANT_ID), matches(REALM_ID), eq(edOrgRoles3), eq(false), eq(false))).thenReturn(authorities3);
+        Mockito.when(resolver.resolveRolesUnion(matches(TENANT_ID), matches(REALM_ID), eq(edOrgRoles1), eq(false), eq(false))).thenReturn(authorities1);
+        Mockito.when(resolver.resolveRolesUnion(matches(TENANT_ID), matches(REALM_ID), eq(edOrgRoles2), eq(false), eq(false))).thenReturn(authorities2);
+        Mockito.when(resolver.resolveRolesUnion(matches(TENANT_ID), matches(REALM_ID), eq(edOrgRoles3), eq(false), eq(false))).thenReturn(authorities3);
 
         Field field = OauthMongoSessionManager.class.getDeclaredField("resolver");
         field.setAccessible(true);

@@ -25,6 +25,7 @@ import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Set;
 import java.util.UUID;
 
 import junit.framework.Assert;
@@ -161,9 +162,9 @@ public class ZipFileUtilTest {
     @Test
     public void isInZipFile() throws IOException {
         File zipFile = new File(ZIP_FILE_DIR, ZIP_FILE_MISSING_FILE);
-
-        Assert.assertTrue(ZipFileUtil.isInZipFile(zipFile, EXISTING_FILE));
-        Assert.assertFalse(ZipFileUtil.isInZipFile(zipFile, MISSING_FILE));
+        Set<String> zipFileEntries = ZipFileUtil.getZipFileEntries(zipFile.getCanonicalPath());
+        Assert.assertTrue(ZipFileUtil.isInZipFileEntries(EXISTING_FILE, zipFileEntries));
+        Assert.assertFalse(ZipFileUtil.isInZipFileEntries(MISSING_FILE, zipFileEntries));
     }
 
     @AfterClass

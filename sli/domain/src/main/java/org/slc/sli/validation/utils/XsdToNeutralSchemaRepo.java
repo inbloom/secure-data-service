@@ -557,7 +557,11 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
                                     + schemaComplexType.getName());
                 } else if (!mergedChoiceSchemas.contains(ns)) {
                     ns.setType(complexSchema.getType());
+                    complexSchema.getAppInfo();
                     mergedChoiceSchemas.add(ns);
+                    if(ns.getType().equals("serviceDescriptorType")) {
+                        ns.addAnnotation(complexSchema.getAppInfo());
+                    }
                     return ns;
                 }
             }

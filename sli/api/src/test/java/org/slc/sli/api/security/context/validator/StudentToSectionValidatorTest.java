@@ -17,6 +17,8 @@ package org.slc.sli.api.security.context.validator;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -27,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +40,11 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
 
 /**
  * JUnit for student access to sections
@@ -51,6 +56,7 @@ import org.slc.sli.domain.Entity;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
+@SuppressWarnings("unchecked")
 public class StudentToSectionValidatorTest {
     @Autowired
     private StudentToSectionValidator underTest;
@@ -58,13 +64,20 @@ public class StudentToSectionValidatorTest {
     @Autowired
     private SecurityContextInjector injector;
 
-    private Entity e = mock(Entity.class);
+    private PagingRepositoryDelegate<Entity> repo = mock(PagingRepositoryDelegate.class);
 
-    @SuppressWarnings("unchecked")
     @Before
     public void setUp() {
-        when(e.getEntityId()).thenReturn("riverTam");
-        injector.setStudentContext(e);
+        underTest.setRepo(repo);
+    }
+
+    private void makeStudentContext() {
+        injector.setStudentContext(makeRiver());
+    }
+
+    private Entity makeRiver() {
+        Entity river = mock(Entity.class);
+        when(river.getEntityId()).thenReturn("riverTam");
         Map<String, Object> section1 = new HashMap<String, Object>();
         section1.put("_id", "quantumPhysics");
         Map<String, Object> section2 = new HashMap<String, Object>();
@@ -73,15 +86,55 @@ public class StudentToSectionValidatorTest {
         section3.put("_id", "dance");
         Map<String, List<Map<String, Object>>> denormalized = new HashMap<String, List<Map<String,Object>>>();
         denormalized.put("section", Arrays.asList(section1, section2, section3));
-        when(e.getDenormalizedData()).thenReturn(denormalized);
+        when(river.getDenormalizedData()).thenReturn(denormalized);
+        return river;
+    }
+
+    private Entity makeSimon() {
+        Entity simon = mock(Entity.class);
+        when(simon.getEntityId()).thenReturn("simonTam");
+        Map<String, Object> section1 = new HashMap<String, Object>();
+        section1.put("_id", "medicine");
+        Map<String, List<Map<String, Object>>> denormalized = new HashMap<String, List<Map<String,Object>>>();
+        denormalized.put("section", Arrays.asList(section1));
+        when(simon.getDenormalizedData()).thenReturn(denormalized);
+        return simon;
+    }
+
+    private void makeParentContext() {
+        Entity r = makeRiver();
+        Entity s = makeSimon();
+        Entity e = mock(Entity.class);
+        when(e.getEntityId()).thenReturn("mrTam");
+        when(e.getType()).thenReturn("parent");
+        when(repo.findAll(eq("student"), any(NeutralQuery.class))).thenReturn(Arrays.asList(r, s));
+        injector.setStudentContext(e);
     }
 
     @Test
-    public void test() {
+    public void testAsStudent() {
+        makeStudentContext();
         assertTrue(underTest.validate(EntityNames.SECTION, new HashSet<String>(Arrays.asList("quantumPhysics"))));
         assertTrue(underTest.validate(EntityNames.SECTION, new HashSet<String>(Arrays.asList("quantumPhysics", "history", "dance"))));
         assertFalse(underTest.validate(EntityNames.SECTION, new HashSet<String>(Arrays.asList("remedialMath"))));
         assertFalse(underTest.validate(EntityNames.SECTION, new HashSet<String>(Arrays.asList("remedialMath", "quantumPhysics"))));
+    }
+
+    @Test
+    public void testAsParent() {
+        makeParentContext();
+        assertTrue(underTest.validate(EntityNames.SECTION, new HashSet<String>(Arrays.asList("quantumPhysics"))));
+        assertFalse(underTest.validate(EntityNames.SECTION, new HashSet<String>(Arrays.asList("remedialMath"))));
+        assertFalse(underTest.validate(EntityNames.SECTION, new HashSet<String>(Arrays.asList("remedialMath", "quantumPhysics"))));
+        assertTrue(underTest.validate(EntityNames.SECTION, new HashSet<String>(Arrays.asList("medicine"))));
+    }
+
+    //FIXME un-ignore when this is fixed
+    @Test
+    @Ignore
+    public void testAsParentMixed() {
+        makeParentContext();
+        assertTrue(underTest.validate(EntityNames.SECTION, new HashSet<String>(Arrays.asList("quantumPhysics", "history", "dance", "medicine"))));
     }
 
 }
