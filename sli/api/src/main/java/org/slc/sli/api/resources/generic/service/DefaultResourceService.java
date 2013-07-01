@@ -62,7 +62,6 @@ import org.slc.sli.aspect.ApiMigrationAspect.MigratePostedEntity;
 import org.slc.sli.aspect.ApiMigrationAspect.MigrateResponse;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
-import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -163,7 +162,7 @@ public class DefaultResourceService implements ResourceService {
                 } catch (UnsupportedSelectorException e) {
                     // US5765: Temporarily disabled the new logic
                     SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
-                    if (ids.size() == 1  && contextSupportedEntities.contains(definition.getType()) &&  SecurityUtil.isStaffUser()) {
+                    if (ids.size() == 1  && contextSupportedEntities.contains(definition.getType()) && SecurityUtil.isStaffUser()) {
                         finalResults = (List<EntityBody>) definition.getService().listBasedOnContextualRoles(apiQuery);
                     } else {
                         finalResults = (List<EntityBody>) definition.getService().list(apiQuery);

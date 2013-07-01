@@ -381,7 +381,8 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                             debug("Granted regular rights - {}", authorities);
 
                             // Generate EdOrg-Rights map for principal, if staff.
-                            if (principal.getUserType() == null || principal.getUserType().equals(EntityNames.STAFF)) {
+                            if ((!principal.isAdminRealmAuthenticated()) && (principal.getUserType() == null || principal.getUserType().isEmpty()
+                                    || principal.getUserType().equals(EntityNames.STAFF))) {
                                 principal.setEdOrgRights(generateEdOrgRightsMap(principal));
                             }
 
