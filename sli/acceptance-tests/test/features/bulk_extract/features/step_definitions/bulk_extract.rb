@@ -638,6 +638,9 @@ def update_api_put_field(body, field, value)
   body["loginId"] = value if field == "loginId"
   body["contactPriority"] = value.to_i if field == "contactPriority"
   body["id"] = value if field == "missingEntity"
+  body["name"]["firstName"] = value if field == "name.firstName"
+  body["diagnosticStatement"] = value if field == "diagnosticStatement"
+  body["gradeLevelWhenAssessed"] = value if field == "gradeLevelWhenAssessed"
   return body
 end
 
