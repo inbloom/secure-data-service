@@ -34,10 +34,11 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   # students
   id = "74cf790e-84c4-4322-84b8-fca7206f1085_id" if human_readable_id == "'MARVIN MILLER'"
   id = "5738d251-dd0b-4734-9ea6-417ac9320a15_id" if human_readable_id == "'MATT SOLLARS'"
-  id = "e04118fd-5025-4d3b-b58d-3ed0d4f270a6_id"    if human_readable_id == "'CARMEN ORTIZ JR'"
-  id = "bf88acdb-71f9-4c19-8de8-2cdc698936fe_id"    if human_readable_id == "'CHARLA CHRISTOFF'"
-  id = "51db306f-4fa5-405b-b587-5fac7605e4b3_id"    if human_readable_id == "'STEVE DONG'"
-  id = "e1dd7a73-5000-4293-9b6d-b5f02b7b3b34_id"    if human_readable_id == "'LUCRETIA NAGAI'"
+  id = "e04118fd-5025-4d3b-b58d-3ed0d4f270a6_id" if human_readable_id == "'CARMEN ORTIZ JR'"
+  id = "bf88acdb-71f9-4c19-8de8-2cdc698936fe_id" if human_readable_id == "'CHARLA CHRISTOFF'"
+  id = "51db306f-4fa5-405b-b587-5fac7605e4b3_id" if human_readable_id == "'STEVE DONG'"
+  id = "e1dd7a73-5000-4293-9b6d-b5f02b7b3b34_id" if human_readable_id == "'LUCRETIA NAGAI'"
+  id = "e9ca4497-e1e5-4fc4-ac7b-24badbad998b"    if human_readable_id == "'SHELIA TWEED'"
 
   # schools
   id = "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"    if human_readable_id == "'SUNSET CENTRAL HIGH'"
@@ -123,7 +124,11 @@ end
 ###############################################################################
 
 When /^I make an API call to get "([^\"]*)"$/ do |studentId|
-  uri = "/v1/students/#{studentId}"
+  step "I make an API call to get \"students\" \"#{studentId}\""
+end
+
+When /^I make an API call to get "([^\"]*)" "([^\"]*)"$/ do |type, id|
+  uri = "/v1/#{type}/#{id}"
   puts "GET #{uri}"
   step "I navigate to GET \"#{uri}\""
 end
@@ -134,4 +139,8 @@ end
 
 Then /^I should see that "([^\"]*)" is "([^\"]*)" in the JSON response$/ do |key, value|
   assert(@result[key] == convert(value), "Expected #{value}, received #{@result[key]}")
+end
+
+Then /^I should see that "([^\"]*)" is nil in the JSON response$/ do |key|
+  assert(@result[key] == nil, "Expected nil, received #{@result[key]}")
 end

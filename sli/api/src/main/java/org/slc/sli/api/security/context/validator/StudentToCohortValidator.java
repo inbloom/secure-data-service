@@ -15,29 +15,28 @@
  */
 package org.slc.sli.api.security.context.validator;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
-import org.slc.sli.common.util.datetime.DateHelper;
 import org.slc.sli.domain.Entity;
 
 /**
  * validate cohorts transitively for a student
- * 
+ *
  * @author ycao
  *
  */
 @Component
 public class StudentToCohortValidator extends BasicValidator {
-    
+
     public StudentToCohortValidator() {
-        super(true, EntityNames.STUDENT, EntityNames.COHORT);
+        super(true, Arrays.asList(EntityNames.STUDENT, EntityNames.PARENT), EntityNames.COHORT);
     }
 
     @Override

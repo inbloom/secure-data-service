@@ -514,7 +514,7 @@ When /^I log into "(.*?)" with a token of "(.*?)", a "(.*?)" for "(.*?)" for "(.
   enable_NOTABLESCAN()
 
   script_loc = File.dirname(__FILE__) + "/../../../../../../opstools/token-generator/generator.rb"
-  out, status = Open3.capture2("ruby #{script_loc} -e #{expiration_in_seconds} -c #{client_id} -u #{user} -r \"#{role}\" -E \"#{edorg}\" -t \"#{tenant}\" -R \"#{realm}\"")
+  out, status = Open3.capture2("ruby #{script_loc} -e #{expiration_in_seconds} -c #{client_id} -u #{user} -r \"#{role}\" -E \"#{edorg}\" -t \"#{tenant}\" -R \"#{realm}\" -n true")
   assert(out.include?("token is"), "Could not get a token for #{user} for realm #{realm}")
   match = /token is (.*)/.match(out)
   @sessionId = match[1]
@@ -693,6 +693,10 @@ def translate_custom_entity_to_endpoint(endpoint_name)
     "learningObjectives/id/childLearningObjectives" => "learningObjectives/18f258460004b33fa9c1249b8c9ed3bd33c41645_id/childLearningObjectives",
     "learningObjectives/id/learningStandards" => "learningObjectives/18f258460004b33fa9c1249b8c9ed3bd33c41645_id/learningStandards",
     "learningObjectives/id/parentLearningObjectives" => "learningObjectives/18f258460004b33fa9c1249b8c9ed3bd33c41645_id/parentLearningObjectives",
+    "msollars.studentAssessment" => "studentAssessments/f9643b7abba04ae01586723abed0e38c63e4f975_id",
+    "msollars.studentGradebookEntry" => "studentGradebookEntries/7f714f03238d978398fbd4f8abbf9acb3e5775fe_id",
+    "msollars.grade" => "grades/f438cf61eda4d45d77f3d7624fc8d089aa95e5ea_id4542ee7a376b1c7813dcdc495368c875bc6b03ed_id",
+    "msollars.student" => "students/067198fd6da91e1aa8d67e28e850f224d6851713_id",
     "schools/id/courseOfferings" => "schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/courseOfferings",
     "schools/id/courses" => "schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/courses",
     "schools/id/sections" => "schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/courses",
@@ -716,6 +720,10 @@ end
 
 def get_full_patch_entity_from_api(entity_name)
   entity_to_endpoint_map = {
+    "msollars.grade" => "grades/f438cf61eda4d45d77f3d7624fc8d089aa95e5ea_id4542ee7a376b1c7813dcdc495368c875bc6b03ed_id",
+    "msollars.student" => "students/067198fd6da91e1aa8d67e28e850f224d6851713_id",
+    "msollars.studentAssessment" => "studentAssessments/f9643b7abba04ae01586723abed0e38c63e4f975_id",
+    "msollars.studentGradebookEntry" => "studentGradebookEntries/7f714f03238d978398fbd4f8abbf9acb3e5775fe_id",
     "newParentDad" => "parents/41f42690a7c8eb5b99637fade00fc72f599dab07_id",
     "newParentMom" => "parents/41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id",
     "newStudent" => "students/9bf3036428c40861238fdc820568fde53e658d88_id",
@@ -750,6 +758,12 @@ def get_patch_body_by_entity_name(field, value)
     },
     "contactPriority" => {
       "contactPriority" => value.to_i
+    },
+    "diagnosticStatement" => {
+      "diagnosticStatement" => value
+    },
+    "gradeLevelWhenAssessed" => {
+      "gradeLevelWhenAssessed" => value
     },
     "studentLoginId" => {
       "loginId" => value,
@@ -2932,9 +2946,9 @@ def get_post_body_by_entity_name(entity_name)
       "cumulativeGradePointsEarned" => 0.0
     },
     "msollars.grade" => {
-      "schoolYear" => "2013-2014",
-      "studentSectionAssociationId" => "4030207003b03d055bba0b5019b31046164eff4e_id78468628f357b29599510341f08dfd3277d9471e_id",
-      "sectionId" => "4030207003b03d055bba0b5019b31046164eff4e_id",
+      "schoolYear" => "2012-2013",
+      "studentSectionAssociationId" => "2982f5d3840b0a46bf152c7b7243c0db8dda694f_id06f4aa0f6d84ae7ab290709fc348754cbd232cb5_id",
+      "sectionId" => "2982f5d3840b0a46bf152c7b7243c0db8dda694f_id",
       "letterGradeEarned" => "A",
       "studentId" => "067198fd6da91e1aa8d67e28e850f224d6851713_id",
       "numericGradeEarned" => 96,
@@ -2956,6 +2970,69 @@ def get_post_body_by_entity_name(entity_name)
       "grades" => ["1417cec726dc51d43172568a9c332ee1712d73d4_idcd83575df61656c7d8aebb690ae0bb3ff129a857_id"],
       "numberOfDaysAbsent" => 1.0
     },
+    "msollars.studentGradebookEntry" => {
+      "studentSectionAssociationId" => "2982f5d3840b0a46bf152c7b7243c0db8dda694f_id06f4aa0f6d84ae7ab290709fc348754cbd232cb5_id",
+      "gradebookEntryId" => "eb8663fe6856b49684a778446a0a1ad33238a86d_id1e0f700db933cda9dc1adf5f04d1204d2a9c2ddf_id",
+      "letterGradeEarned" => "F",
+      "sectionId" => "2982f5d3840b0a46bf152c7b7243c0db8dda694f_id",
+      "studentId" => "067198fd6da91e1aa8d67e28e850f224d6851713_id",
+      "numericGradeEarned" => 59,
+      "dateFulfilled" => "2013-04-25",
+      "diagnosticStatement" => "Diagnostic Statement"
+    },
+    "msollars.student" => {
+      "loginId" => "4859@fakemail.com",
+      "sex" => "Female",
+      "studentCharacteristics" => [{
+        "endDate" => "2014-08-01",
+        "beginDate" => "20013-04-20",
+        "designatedBy" => "Teacher",
+        "characteristic" => "Unaccompanied Youth"
+      }],
+      "oldEthnicity" => "White, Not Of Hispanic Origin",
+      "race" => ["Black - African American"],
+      "languages" => [{
+        "language" => "Norwegian"
+      }],
+      "studentUniqueStateId" => "800000025",
+      "name" => {
+        "middleName" => "Aida",
+        "lastSurname" => "Sollars",
+        "firstName" => "Matt"
+      },
+      "birthData" => {
+        "birthDate" => "2002-07-21"
+      },
+      "homeLanguages" => [{
+        "language" => "Cambodian (Khmer)"
+      }],
+      "learningStyles" => {
+        "visualLearning" => 36,
+        "auditoryLearning" => 39,
+        "tactileLearning" => 12
+      },
+      "limitedEnglishProficiency" => "NotLimited",
+      "studentIdentificationCode" => [{
+        "identificationCode" => "abcde",
+        "identificationSystem" => "District",
+        "assigningOrganizationCode" => "School"
+      }],
+      "address" => [{
+        "streetNumberName" => "707 Elm Street",
+        "postalCode" => "60601",
+        "stateAbbreviation" => "IL",
+        "addressType" => "Home",
+        "city" => "Chicago"
+      }],
+      "displacementStatus" => "Status BBB",
+      "electronicMail" => [{
+        "emailAddress" => "4859@fakemail.com",
+        "emailAddressType" => "Home/Personal"
+      }],
+      "telephone" => [{
+        "telephoneNumber" => "(115)555-5072"
+      }]
+  },
     "msollars.studentAssessment" => {
       "studentId" => "067198fd6da91e1aa8d67e28e850f224d6851713_id",
       "assessmentId" => "8e6fceafe05daef1da589a1709ee278ba51d337a_id",
