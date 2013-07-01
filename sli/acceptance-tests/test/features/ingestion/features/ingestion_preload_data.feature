@@ -9,8 +9,6 @@ Scenario: Preload Sample Data Sets
   And the tenant database "Brian" does not exist
   And I create a tenant set to preload data set "small" for tenant "Brian"
   When I am using the tenant "Sharon"
-  And the tenant database "Sharon" does not exist
-  Then I create a tenant set to preload data set "medium" for tenant "Sharon"
   And a batch job has completed successfully in the database for tenant "Sharon"
   And I should not see an error log file created for "Sharon"
   And I should not see a warning log file created for "Sharon"
