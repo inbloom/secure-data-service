@@ -478,6 +478,27 @@ Given /^I change the type of "([^"]*)" to "([^"]*)"$/ do |user, type|
   enable_NOTABLESCAN()
 end
 
+Given /^I change the type of "([^"]*)" admin role to "([^"]*)"$/ do |rolegroup, isAdmin|
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  db_name = convertTenantIdToDbName(@tenant)
+  db = conn[db_name]
+  customRole_coll = db.collection('customRole')
+  customRole = customRole_coll.find_one()
+  puts customRole.to_s
+  id = customRole['_id']
+  body = customRole['body']
+  roles = body['roles']
+  roles.each do |role|
+    if role['groupTitle'] == rolegroup
+      role['isAdminRole'] = (isAdmin == 'true')
+    end
+  end
+  customRole_coll.remove({'_id' => id})
+  customRole_coll.insert(customRole)
+  enable_NOTABLESCAN()
+end
+
 Given /^"([^"]*)" is not associated with any (program|cohort) that belongs to "([^"]*)"$/ do |student, collection, staff|
   disable_NOTABLESCAN()
   conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)

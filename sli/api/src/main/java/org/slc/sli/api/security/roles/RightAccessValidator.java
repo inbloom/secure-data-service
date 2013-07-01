@@ -184,10 +184,7 @@ public class RightAccessValidator {
 
         SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
 
-        if (principal.isAdminRealmAuthenticated() || !SecurityUtil.isStaffUser()) {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            auths.addAll(auth.getAuthorities());
-        } else {
+        if (SecurityUtil.isStaffUser()) {
             if (entity == null) {
                 debug("No authority for null");
             } else {
@@ -200,6 +197,9 @@ public class RightAccessValidator {
                     auths.addAll(entityEdOrgRightBuilder.buildEntityEdOrgRights(principal.getEdOrgRights(), entity));
                 }
             }
+        } else {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            auths.addAll(auth.getAuthorities());
         }
 
         return auths;
