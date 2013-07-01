@@ -317,7 +317,7 @@ Feature: Use the APi to successfully get student data while having roles over ma
     Given format "application/json"
     When I navigate to GET "<lashawn.taite URI>"
     Then I should receive a return code of 403
-@wip
+
  Scenario: Staff access student with admin role
    Given I change the type of "Leader" admin role to "true"
    Given I change the type of "Educator" admin role to "true"
