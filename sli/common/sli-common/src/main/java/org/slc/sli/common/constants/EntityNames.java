@@ -96,7 +96,8 @@ public final class EntityNames {
             SCHOOL,
             SECTION,
             SESSION,
-            STUDENT_COMPETENCY_OBJECTIVE
+            STUDENT_COMPETENCY_OBJECTIVE,
+            CALENDAR_DATE
             ));
 
     public static boolean isPublic(String entityType) {

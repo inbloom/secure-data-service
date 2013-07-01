@@ -325,6 +325,8 @@ public class UriMutator {
                 mutated.setPath(String.format("/schools/%s/sessions/gradingPeriods", StringUtils.join(edOrgHelper.getDirectEdorgs(user), ",")));
             } else if (PathConstants.GRADUATION_PLANS.equals(baseEntity)) {
                 mutated.setPath(String.format("/schools/%s/graduationPlans", StringUtils.join(edOrgHelper.getDirectEdorgs(user), ",")));
+            } else if (PathConstants.CALENDAR_DATES.equals(baseEntity)) {
+                mutated.setPath(String.format("/schools/%s/calendarDates", StringUtils.join(edOrgHelper.getDirectEdorgs(user), ",")));    
             } else if(Arrays.asList(PathConstants.LEARNING_STANDARDS, PathConstants.LEARNING_OBJECTIVES).contains(baseEntity)) {
                 mutated.setPath(String.format("/search/%s", baseEntity));
             } else if (PathConstants.STUDENT_COMPETENCY_OBJECTIVES.equals(baseEntity)) {

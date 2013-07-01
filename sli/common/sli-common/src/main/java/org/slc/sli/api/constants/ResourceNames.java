@@ -31,7 +31,8 @@ import java.util.Set;
  */
 public final class ResourceNames {
 
-    public static final String AGGREGATIONS = "aggregations";
+    public static final String CALENDAR_DATES = "calendarDates";
+	public static final String AGGREGATIONS = "aggregations";
     public static final String AGGREGATION_DEFINITIONS = "aggregationDefinitions";
     public static final String ASSESSMENTS = "assessments";
     public static final String ASSESSMENT_FAMILIES = "assessmentFamilies";
@@ -114,7 +115,8 @@ public final class ResourceNames {
         SINGULAR_LINK_NAMES.put(ResourceNames.STAFF_COHORT_ASSOCIATIONS, ResourceNames.STAFF_COHORT_ASSOCIATION_GETTER);
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_COHORT_ASSOCIATIONS,
                 ResourceNames.STUDENT_COHORT_ASSOCIATION_GETTER);
-
+        
+        SINGULAR_LINK_NAMES.put(ResourceNames.CALENDAR_DATES, "getCalendar");
         SINGULAR_LINK_NAMES.put(ResourceNames.ASSESSMENTS, "getAssessment");
         SINGULAR_LINK_NAMES.put(ResourceNames.ATTENDANCES, "getAttendance");
         SINGULAR_LINK_NAMES.put(ResourceNames.YEARLY_ATTENDANCES, "getYearlyAttendance");

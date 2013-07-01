@@ -123,6 +123,7 @@ public class StudentAccessValidator {
 
         // schools
         Set<String> schoolsAllowedThreeParts = new HashSet<String>();
+        schoolsAllowedThreeParts.add(ResourceNames.CALENDAR_DATES);
         schoolsAllowedThreeParts.add(ResourceNames.COURSE_OFFERINGS);
         schoolsAllowedThreeParts.add(ResourceNames.COURSES);
         schoolsAllowedThreeParts.add(ResourceNames.SESSIONS);
@@ -137,6 +138,7 @@ public class StudentAccessValidator {
         edOrgsAllowedThreeParts.add(ResourceNames.COURSES);
         edOrgsAllowedThreeParts.add(ResourceNames.EDUCATION_ORGANIZATIONS);
         edOrgsAllowedThreeParts.add(ResourceNames.GRADUATION_PLANS);
+        edOrgsAllowedThreeParts.add(ResourceNames.CALENDAR_DATES);
         edOrgsAllowedThreeParts.add(ResourceNames.SCHOOLS);
         edOrgsAllowedThreeParts.add(ResourceNames.SESSIONS);
         edOrgsAllowedThreeParts.add(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS);

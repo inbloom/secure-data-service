@@ -211,6 +211,7 @@
         { "path": "/{id}/staffEducationOrgAssignmentAssociations" },
         { "path": "/{id}/staffEducationOrgAssignmentAssociations/staff" },
         { "path": "/{id}/graduationPlans", "dateSearchDisallowed": true },
+        { "path": "/{id}/calendarDates", "dateSearchDisallowed": true },
         { 
           "path": "/{id}/cohorts",
           "dateSearchDisallowed": true,
@@ -308,6 +309,7 @@
           "doc": "This URI, /schools/{id}/sections/gradebookEntries, should only be called in the context of a staff member, and should not be used in the context of a teacher. Use /sections/{id}/gradebookEntries instead, as this URI is used internally instead of /schools/{id}/sections/gradebookEntries (for teachers)."
         },
         { "path": "/{id}/graduationPlans", "dateSearchDisallowed": true },
+        { "path": "/{id}/calendarDates", "dateSearchDisallowed": true },
         { 
           "path": "/{id}/sections/studentSectionAssociations",
           "doc": "This URI, /schools/{id}/sections/studentSectionAssociations, should only be called in the context of a staff member, and should not be used in the context of a teacher. Use /sections/{id}/studentSectionAssociations instead, as this URI is used internally instead of /schools/{id}/sections/studentSectionAssociations (for teachers)."
@@ -583,6 +585,13 @@
         "queryable": true,
         "dateSearchDisallowed": true,
         "doc": "Represents the definition of a graduation plan. For detailed information, see the schema for the $$GraduationPlan$$ entity.  For this open ended URI, only current and directly associated entities are returned. For students, this is /schools/{IDs}/graduationPlans. {IDs} represents a list of the school or education organization IDs to which the student is currently associated.",
+        "resourceClass": "org.slc.sli.api.resources.generic.custom.PublicDefaultResource"
+    },
+    {
+        "path": "/calendarDates",
+        "queryable": true,
+        "dateSearchDisallowed": true,
+        "doc": "Represents the definition of a calendarDates. For detailed information, see the schema for the $$CalendarDate$$ entity.  For this open ended URI, only current and directly associated entities are returned. For students, this is /schools/{IDs}/calendarDates. {IDs} represents a list of the school or education organization IDs to which the student is currently associated.",
         "resourceClass": "org.slc.sli.api.resources.generic.custom.PublicDefaultResource"
     },
     {
