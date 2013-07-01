@@ -192,7 +192,7 @@ Scenario: SEA - Update entities
     Then I fail
 
 @wip
-Scenario: SEA Assessment + Objective Deltas InteractionsPicked Objective Assessments but same behaviour expected for Assessment Item
+Scenario: SEA Assessment + Objective Deltas Interactions (Picked Objective Assessments but same behaviour expected for Assessment Item)
     Given the extraction zone is empty
     When I ingest "SEAAssessment.zip"
     And I trigger a delta extract
