@@ -16,6 +16,7 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -31,7 +32,7 @@ import org.slc.sli.domain.Entity;
 public class TransitiveStudentToParentValidator extends BasicValidator {
 
     public TransitiveStudentToParentValidator() {
-        super(true, EntityNames.STUDENT, EntityNames.PARENT);
+        super(true, Arrays.asList(EntityNames.STUDENT), EntityNames.PARENT);
     }
 
     @Override

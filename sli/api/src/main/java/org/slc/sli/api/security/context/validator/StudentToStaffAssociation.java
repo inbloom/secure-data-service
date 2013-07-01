@@ -16,6 +16,7 @@
 package org.slc.sli.api.security.context.validator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -44,7 +45,7 @@ public abstract class StudentToStaffAssociation extends BasicValidator {
     private final String associationField;
 
     public StudentToStaffAssociation(String type, String associationField) {
-        super(EntityNames.STUDENT, type);
+        super(Arrays.asList(EntityNames.STUDENT, EntityNames.PARENT), type);
         this.collection = type;
         this.associationField = associationField;
     }

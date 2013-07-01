@@ -407,34 +407,34 @@ public class DefaultResourceService implements ResourceService {
         String key = "_id";
 
         try {
-            String parentType = EmbeddedDocumentRelations.getParentEntityType(assocEntity.getType());
-            if ((parentType != null) && baseEntity.getType().equals(parentType)) {
-                final ApiQuery apiQuery = resourceServiceHelper.getApiQuery(baseEntity);
-
-                addGranularAccessCriteria(baseEntity, apiQuery);
-                apiQuery.setLimit(0);
-                apiQuery.addCriteria(new NeutralCriteria("_id", "in", valueList));
-                apiQuery.setEmbeddedFields(Arrays.asList(assocEntity.getType()));
-
-                for (EntityBody entityBody : baseEntity.getService().list(apiQuery)) {
-                    List<EntityBody> associations = (List<EntityBody>) entityBody.get(assocEntity.getType());
-
-                    if (associations != null) {
-                        String ident = resourceKey;
-                        if (finalEntityReferencesAssociation(finalEntity,
-                                assocEntity, resourceKey)) {
-                            ident = "id";
-                            key = resourceKey;
-                        }
-
-                        List<EntityBody> filtered = getTimeFilteredAssociations(associations, baseEntity, assocEntity);
-
-                        for(EntityBody body : filtered) {
-                            filteredIdList.add((String) body.get(ident));
-                        }
-                    }
-                }
-            } else {
+//            String parentType = EmbeddedDocumentRelations.getParentEntityType(assocEntity.getType());
+//            if ((parentType != null) && baseEntity.getType().equals(parentType)) {
+//                final ApiQuery apiQuery = resourceServiceHelper.getApiQuery(baseEntity);
+//
+//                addGranularAccessCriteria(baseEntity, apiQuery);
+//                apiQuery.setLimit(0);
+//                apiQuery.addCriteria(new NeutralCriteria("_id", "in", valueList));
+//                apiQuery.setEmbeddedFields(Arrays.asList(assocEntity.getType()));
+//
+//                for (EntityBody entityBody : baseEntity.getService().list(apiQuery)) {
+//                    List<EntityBody> associations = (List<EntityBody>) entityBody.get(assocEntity.getType());
+//
+//                    if (associations != null) {
+//                        String ident = resourceKey;
+//                        if (finalEntityReferencesAssociation(finalEntity,
+//                                assocEntity, resourceKey)) {
+//                            ident = "id";
+//                            key = resourceKey;
+//                        }
+//
+//                        List<EntityBody> filtered = getTimeFilteredAssociations(associations, baseEntity, assocEntity);
+//
+//                        for(EntityBody body : filtered) {
+//                            filteredIdList.add((String) body.get(ident));
+//                        }
+//                    }
+//                }
+//            } else {
                 final ApiQuery apiQuery = resourceServiceHelper.getApiQuery(assocEntity);
 
                 addGranularAccessCriteria(assocEntity, apiQuery);
@@ -465,7 +465,7 @@ public class DefaultResourceService implements ResourceService {
                     }
                     filteredIdList.addAll(filteredIds);
                 }
-            }
+//            }
 
             List<EntityBody> entityBodyList;
             final ApiQuery finalApiQuery = resourceServiceHelper.getApiQuery(finalEntity, requestUri);
