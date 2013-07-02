@@ -28,27 +28,30 @@ Given /^the testing device app key has been created$/ do
   @oauthRedirectURI = "http://device"
 end
 
+Given /^I setup the data needed for the token generator$/ do
+  @user_info = {
+      "student.m.sollars" => {:unique_id => "800000025", :role => "Student", :student? => true, :edOrg => "East Daybreak Junior High"},
+      "leader.m.sollars" => {:unique_id => "800000025", :role => "StudentLeader", :student? => true, :edOrg => "East Daybreak Junior High"},
+      "cegray" => {:unique_id => "cgray", :role => "Student", :student? => true, :edOrg => "East Daybreak Junior High"},
+      "carmen.ortiz" => {:unique_id => "900000016", :role => "Student", :student? => true, :edOrg => "Daybreak Central High"},
+      "jstevenson" => {:unique_id => "jstevenson", :role => "IT Administrator", :student? => false, :edOrg => "IL-DAYBREAK"},
+      "rrogers" => {:unique_id => "rrogers", :role => "IT Administrator", :student? => false, :edOrg => "STANDARD-SEA"},
+      "cgray" => {:unique_id => "cgray", :role => "Educator", :student? => false, :edOrg => "Daybreak Central High"}
+  }
+
+  @realm_info = {
+      "Illinois Daybreak Students" => {:unique_id => "IL-Daybreak-Students", :tenant => "Midgar"},
+      "Illinois Daybreak School District 4529" => {:unique_id => "IL-Daybreak", :tenant => "Midgar"}
+  }
+end
+
 
 Given /^I log in to realm "(.*?)" using simple-idp as "(.*?)" "(.*?)" with password "(.*?)"$/ do |realm, user_type, user, pass|
   step "the testing device app key has been created"
+  step "I setup the data needed for the token generator"
 
-  user_info = {
-                "student.m.sollars" => {:unique_id => "800000025", :role => "Student", :student? => true, :edOrg => "East Daybreak Junior High"},
-                "leader.m.sollars" => {:unique_id => "800000025", :role => "StudentLeader", :student? => true, :edOrg => "East Daybreak Junior High"},
-                "cegray" => {:unique_id => "cgray", :role => "Student", :student? => true, :edOrg => "East Daybreak Junior High"},
-                "carmen.ortiz" => {:unique_id => "900000016", :role => "Student", :student? => true, :edOrg => "Daybreak Central High"},
-                "jstevenson" => {:unique_id => "jstevenson", :role => "IT Administrator", :student? => false, :edOrg => "IL-DAYBREAK"},
-                "rrogers" => {:unique_id => "rrogers", :role => "IT Administrator", :student? => false, :edOrg => "STANDARD-SEA"},
-                "cgray" => {:unique_id => "cgray", :role => "Educator", :student? => false, :edOrg => "Daybreak Central High"}
-              }
-
-  realm_info = {
-                  "Illinois Daybreak Students" => {:unique_id => "IL-Daybreak-Students", :tenant => "Midgar"},
-                  "Illinois Daybreak School District 4529" => {:unique_id => "IL-Daybreak", :tenant => "Midgar"}
-              }
-
-  if ENV["use_token_gen"] == "true" and user_info[user] && realm_info[realm]
-    @sessionId = get_token_from_generator user_info[user][:unique_id], user_info[user][:role], realm_info[realm][:tenant], realm_info[realm][:unique_id], user_info[user][:edOrg], 600, @oauthClientId, user_info[user][:student?]
+  if ENV["use_token_gen"] == "true" and @user_info[user] && @realm_info[realm]
+    @sessionId = get_token_from_generator @user_info[user][:unique_id], @user_info[user][:role], @realm_info[realm][:tenant], @realm_info[realm][:unique_id], @user_info[user][:edOrg], 600, @oauthClientId, @user_info[user][:student?]
   else
     step "I have an open web browser"
     step "I navigate to the API authorization endpoint with my client ID"
