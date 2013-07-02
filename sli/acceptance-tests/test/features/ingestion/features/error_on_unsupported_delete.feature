@@ -33,7 +33,7 @@ Scenario: Error When Attempting Cascade Delete, using grade as an example
         | collection |delta|
         |grade       |    0|
 
-Scenario: Error When Attempting Cascade Delete with Force and LogViolations flags on, usig student as an example
+Scenario: Error When Attempting Cascade Delete with Force and LogViolations flags on, using student as an example
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
