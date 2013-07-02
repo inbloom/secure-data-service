@@ -212,15 +212,15 @@ public class SecurityUtil {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth instanceof OAuth2Authentication
                 && ((OAuth2Authentication) auth).getUserAuthentication() instanceof AnonymousAuthenticationToken) {
-            
-            //We use the details field of the auth to store an embedded OAuthException, if applicable            
+
+            //We use the details field of the auth to store an embedded OAuthException, if applicable
             throw new InsufficientAuthenticationException("Unauthorized", (Throwable) auth.getDetails());
         }
     }
-    
+
     /**
      * Determines if the user is of type 'student'.
-     * 
+     *
      * @return True if user is of type 'student', false otherwise.
      */
     public static boolean isStudent() {
@@ -231,7 +231,7 @@ public class SecurityUtil {
     public static boolean isStaffUser() {
         SLIPrincipal principal = getSLIPrincipal();
         String userType = principal.getUserType();
-        return (userType == null || userType.isEmpty() || EntityNames.STAFF.equals(userType)) && !principal.isAdminUser();
+        return ((!principal.isAdminRealmAuthenticated()) && (userType == null || userType.isEmpty() || EntityNames.STAFF.equals(userType)));
     }
 
     /**

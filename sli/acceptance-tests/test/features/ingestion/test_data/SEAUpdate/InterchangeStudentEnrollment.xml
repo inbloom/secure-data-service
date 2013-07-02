@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <InterchangeStudentEnrollment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
 xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentEnrollment.xsd">
- <GraduationPlan>
+  <GraduationPlan>
     <GraduationPlanType>Standard</GraduationPlanType>
     <TotalCreditsRequired CreditConversion="0" CreditType="Semester hour credit">
       <Credit>54</Credit>
@@ -67,9 +67,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <GradeLevel>Twelfth grade</GradeLevel>
     </CreditsByCourse>
     <EducationOrganizationReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
-        </EducationalOrgIdentity>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </GraduationPlan>
 </InterchangeStudentEnrollment>

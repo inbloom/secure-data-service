@@ -314,7 +314,7 @@ Before do
   if (INGESTION_MODE != 'remote')
     @batchConn.drop_database(INGESTION_BATCHJOB_DB_NAME)
     `mongo ingestion_batch_job ../config/indexes/ingestion_batch_job_indexes.js`
-    puts "Dropped " + INGESTION_BATCHJOB_DB_NAME + " database"
+    #puts "Dropped " + INGESTION_BATCHJOB_DB_NAME + " database"
   else
     @tenant_conn = @conn.db(convertTenantIdToDbName(PropLoader.getProps['tenant']))
     @recordHash = @tenant_conn.collection('recordHash')
@@ -393,7 +393,7 @@ Before do
       end
 
 
-      puts identifier + " -> " + path
+      #puts identifier + " -> " + path
       @ingestion_lz_identifer_map[identifier] = path
 
       if !File.directory?(path) && INGESTION_MODE != 'remote'
@@ -439,7 +439,7 @@ def initializeTenants()
 
   end
 
-  puts "Top level LZ is -> " + @topLevelLandingZone
+  #puts "Top level LZ is -> " + @topLevelLandingZone
 
   cleanTenants()
 
@@ -619,13 +619,13 @@ def lzFileRmWait(file, wait_time)
   iters = (1.0*wait_time/intervalTime).ceil
   deleted = false
   iters.times do |i|
-    puts "Attempting delete of " + file
+    #puts "Attempting delete of " + file
     FileUtils.rm_rf file
     if File.exists? file
       puts "Retry delete " + file
       sleep(intervalTime)
     else
-      puts "Deleted " + file
+      #puts "Deleted " + file
       deleted = true
       break
     end
@@ -675,7 +675,7 @@ def initializeLandingZone(lz)
   end
 
   @landing_zone_path = lz
-  puts "Landing Zone = " + @landing_zone_path unless @landing_zone_path.nil?
+  #puts "Landing Zone = " + @landing_zone_path unless @landing_zone_path.nil?
 
   # clear out LZ before proceeding
   if (INGESTION_MODE == 'remote')
@@ -1377,7 +1377,7 @@ When /^a batch job has completed successfully in the database for tenant "(.*?)"
    old_db = @db
    @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
    @entity_collection = @db.collection("newBatchJob")
-   intervalTime = 0.5
+   intervalTime = 0.1
    @maxTimeout ? @maxTimeout : @maxTimeout = 240
    iters = (1.0*@maxTimeout/intervalTime).ceil
    found = false
@@ -1385,7 +1385,7 @@ When /^a batch job has completed successfully in the database for tenant "(.*?)"
        iters.times do |i|
          @entity_count = @entity_collection.find({"status" => {"$in" => ["CompletedSuccessfully"]}, "tenantId" => tenant}).count().to_s
          if @entity_count.to_s == "1"
-           puts "Ingestion took approx. #{i*intervalTime} seconds to complete"
+           #puts "Ingestion took approx. #{i*intervalTime} seconds to complete"
            found = true
            break
          else
@@ -1400,7 +1400,7 @@ When /^a batch job has completed successfully in the database for tenant "(.*?)"
        iters.times do |i|
          @entity_count = @entity_collection.find({"status" => {"$in" => ["CompletedSuccessfully"]}, "tenantId" => tenant}).count().to_s
          if @entity_count.to_s == "1"
-           puts "Ingestion took approx. #{i*intervalTime} seconds to complete"
+           #puts "Ingestion took approx. #{i*intervalTime} seconds to complete"
            found = true
            break
          else
@@ -1430,7 +1430,7 @@ When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
 
   #db.newBatchJob.find({"stages" : {$elemMatch : {"chunks.0.stageName" : "JobReportingProcessor" }} }).count()
 
-  intervalTime = 0.5 #seconds
+  intervalTime = 0.1 #seconds
   #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
   @maxTimeout ? @maxTimeout : @maxTimeout = 900
   iters = (1.0*@maxTimeout/intervalTime).ceil
@@ -1440,7 +1440,7 @@ When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
       @entity_count = @entity_collection.find({"resourceEntries.0.resourceId" => batch_file, "status" => {"$in" => ["CompletedSuccessfully", "CompletedWithErrors"]}}).count().to_s
 
       if @entity_count.to_s == "1"
-        puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+        #puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
         found = true
         break
       else
@@ -1454,7 +1454,7 @@ When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
       @entity_count = @entity_collection.find({"resourceEntries.0.resourceId" => batch_file, "status" => {"$in" => ["CompletedSuccessfully", "CompletedWithErrors"]}}).count().to_s
 
       if @entity_count.to_s == "1"
-        puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+        #puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
         found = true
         break
       else
@@ -1483,7 +1483,7 @@ When /^two batch job logs have been created$/ do
   if (INGESTION_MODE == 'remote') # TODO this needs testing for remote
     iters.times do |i|
       if remoteLzContainsFiles("job-*.log", 2, @landing_zone_path)
-        puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+        #puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
         found = true
         break
       else
@@ -1494,7 +1494,7 @@ When /^two batch job logs have been created$/ do
     sleep(3) # waiting to poll job file removes race condition (windows-specific)
     iters.times do |i|
       if dirContainsBatchJobLogs? @landing_zone_path, 2
-        puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+        #puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
         found = true
         break
       else
@@ -1528,7 +1528,7 @@ def checkForBatchJobLog(landing_zone, should_has_log = true)
     if (INGESTION_MODE == 'remote')
         iters.times do |i|
             if remoteLzContainsFile("job-#{@source_file_name}*.log", landing_zone)
-                puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+                #puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
                 found = true
                 break
             else
@@ -1538,7 +1538,7 @@ def checkForBatchJobLog(landing_zone, should_has_log = true)
     else
         iters.times do |i|
             if dirContainsBatchJobLog? landing_zone
-                puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+                #puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
                 found = true
                 break
             else

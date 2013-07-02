@@ -318,6 +318,66 @@ Feature: Use the APi to successfully get student data while having roles over ma
     When I navigate to GET "<lashawn.taite URI>"
     Then I should receive a return code of 403
 
+ Scenario: Staff access student with admin role
+   Given I change the type of "Leader" admin role to "true"
+   Given I change the type of "Educator" admin role to "true"
+    When I navigate to the API authorization endpoint with my client ID
+    And I was redirected to the "Simple" IDP Login page
+    And I submit the credentials "rbelding" "rbelding1234" for the "Simple" login page
+    Then I should receive a json response containing my authorization code
+    When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
+    Then I should receive a json response containing my authorization token
+    And I should be able to use the token to make valid API calls
+
+    And the following student section associations in Midgar are set correctly
+      | student         | teacher              | edorg                 | enrolledInAnySection? |
+      | carmen.ortiz    | rbelding             | Daybreak Central High | yes                   |
+      | lashawn.taite   | rbelding             | Daybreak Central High | no                    |
+      | bert.jakeman    | rbelding             | Daybreak Central High | no                    |
+    And "lashawn.taite" is not associated with any program that belongs to "rbelding"
+    And "lashawn.taite" is not associated with any cohort that belongs to "rbelding"
+    And "bert.jakeman" is not associated with any program that belongs to "rbelding"
+    And "bert.jakeman" is not associated with any cohort that belongs to "rbelding"
+
+    Given format "application/json"
+    #When I navigate to GET "<matt.sollars URI>"
+    #Then I should receive a return code of 200
+    When I navigate to GET "<carmen.ortiz URI>"
+    Then I should receive a return code of 200
+    And the response should have general student data
+    And the response should not have restricted student data
+    When I navigate to GET "<bert.jakeman URI>"
+    Then I should receive a return code of 403
+
+    #TODO:lashawn.taite should return 200 when US5787 is done
+    When I navigate to GET "<lashawn.taite URI>"
+    Then I should receive a return code of 403
+    #And the response should have general student data
+    #And the response should have restricted student data
+
+    Given I change the type of "rbelding" to "staff"
+    When I navigate to the API authorization endpoint with my client ID
+    And I was redirected to the "Simple" IDP Login page
+    And I submit the credentials "rbelding" "rbelding1234" for the "Simple" login page
+    Then I should receive a json response containing my authorization code
+
+    When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
+    Then I should receive a json response containing my authorization token
+    And I should be able to use the token to make valid API calls
+    When I navigate to GET "<carmen.ortiz URI>"
+    Then I should receive a return code of 200
+    And the response should have general student data
+    And the response should not have restricted student data
+    #TODO:bert.jakeman should return 403 when US5787 is done
+    When I navigate to GET "<bert.jakeman URI>"
+    Then I should receive a return code of 200
+    When I navigate to GET "<lashawn.taite URI>"
+    Then I should receive a return code of 200
+    And the response should have general student data
+    And the response should have restricted student data
+   Given I change the type of "Leader" admin role to "false"
+   Given I change the type of "Educator" admin role to "false"
+
   Scenario: Student belongs to schools in different LEAs
     When I navigate to the API authorization endpoint with my client ID
     And I was redirected to the "Simple" IDP Login page
