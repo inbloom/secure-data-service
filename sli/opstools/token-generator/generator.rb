@@ -6,9 +6,15 @@ require 'date'
 #Hold the command line options
 options = {}
 
-# This option is only used for automated tests.  It's not intended for use by the operator.
+# These options are only used for automated tests.  It's not intended for use by the operator.
 student = ARGV.include? "--student"
 ARGV.delete "--student" if student
+parent = ARGV.include? "--parent"
+ARGV.delete "--parent" if parent
+
+if student and parent
+  raise "Can't specify both student and parent at the same time."
+end
 
 ARGV.options do |opts|
   opts.banner = "Usage: generator -t Tenant -u User -c ClientId -r Role -e expiration [options]"
@@ -163,6 +169,8 @@ abort "Unable to locate Application: #{options[:application]}" if app.nil?
 #Get the user
 if student
   user = staffDb[:student].find_one({'body.studentUniqueStateId' => options[:user]})
+elsif parent
+  user = staffDb[:parent].find_one({'body.parentUniqueStateId' => options[:user]})
 else
   user = staffDb[:staff].find_one({"body.staffUniqueStateId" => options[:user]})
 end
@@ -181,8 +189,10 @@ query['body.principal.tenantId'] = options[:tenant]
 query['body.appSession.clientId'] = app["body"]["client_id"]
 if student
   externalId = user['body']['studentUniqueStateId']
-  type = 'student'
-  query['userType'] = type
+  query['userType'] = 'student'
+elsif
+  externalId = user['body']['parentUniqueStateId']
+  query['userType'] = 'parent'
 else
   externalId = user['body']['staffUniqueStateId']
 end
