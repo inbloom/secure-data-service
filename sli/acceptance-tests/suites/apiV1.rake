@@ -336,6 +336,7 @@ task :apiOdinSetupAPI => [:realmInit] do
   allLeaAllowApp("Mobile App")
   authorizeEdorg("Mobile App")
   Rake::Task["runSearchBulkExtract"].execute
+  runTests("test/features/apiV1/integration/parent_student_token_generator.feature")
 end
 
 desc "Run API Odin Student Integration Tests"
