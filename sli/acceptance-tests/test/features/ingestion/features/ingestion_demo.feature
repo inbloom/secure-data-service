@@ -42,7 +42,6 @@ Given I post "DemoData.zip" file as the payload of the ingestion job
         | graduationPlan              |
         | studentAcademicRecord       |
 When zip file is scp to ingestion landing zone
-#    And "30" seconds have elapsed
   And a batch job for file "DemoData.zip" is completed in database
   Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
