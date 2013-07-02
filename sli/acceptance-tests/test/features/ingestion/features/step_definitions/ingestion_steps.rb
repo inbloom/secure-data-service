@@ -66,6 +66,240 @@ UPLOAD_FILE_SCRIPT = File.expand_path("../opstools/ingestion_trigger/publish_fil
 ERROR_REPORT_MISSING_STRING_PREFIX = "#?"
 ERROR_REPORT_MISSING_STRING_SUFFIX = "?#"
 
+$CASCADE_DELETE_REFERENCE_MAP = {
+                "academicHonor_diploma" => "updated",
+                "academicHonor_studentAcademicRecord" => "updated",
+                "accountabilityRating_educationOrganization" => "updated",
+                "accountabilityRating_localEducationAgency" => "updated",
+                "accountabilityRating_school" => "updated",
+                "accountabilityRating_stateEducationAgency" => "updated",
+                "additionalCredits_courseTranscript" => "updated",
+                "address_educationOrganization" => "checked",
+                "address_localEducationAgency" => "checked",
+                "address_parent" => "updated",
+                "address_school" => "checked",
+                "address_staff" => "updated",
+                "address_stateEducationAgency" => "checked",
+                "address_student" => "updated",
+                "address_teacher" => "updated",
+                "assessment_assessmentItem" => "updated",
+                "assessment_objectiveAssessment" => "updated",
+                "assessment_section" => "updated",
+                "assessment_studentAssessment" => "deleted",
+                "assessmentIdentificationCode_assessment" => "checked",
+                "assessmentFamily_assessment" => "updated",
+                "assessmentItem_assessment" => "updated",
+                "assessmentItem_objectiveAssessment" => "updated",
+                "assessmentItem_objectiveAssessment" => "updated",
+                "assessmentItem_studentAssessmentItem" => "deleted",
+                "assessmentItem_subdoc_studentAssessmentItem" => "deleted",
+                "assessmentPerformanceLevel_assessment" => "updated",
+                "assessmentPerformanceLevel_objectiveAssessment" => "updated",
+                "assessmentPeriodDescriptor_assessment" => "updated",
+                "attendanceEvent_attendance" => "updated",
+                "attendanceEvent_schoolYearAttendanceType" => "updated",
+                "behaviorDescriptorType_disciplineIncident" => "checked",
+                "behaviorDescriptorType_studentDisciplineIncidentAssociation" => "updated",
+                "birthData_student" => "deleted",
+                "calendarDate_gradingPeriod" => "checked",
+                "classRanking_studentAcademicRecord" => "updated",
+                "cohort_staffCohortAssociation" => "deleted",
+                "cohort_studentCohortAssociation" => "deleted",
+                "cohortYear_student" => "updated",
+                "competencyLevelDescriptor_studentCompetency" => "deleted",
+                "course_courseOffering" => "deleted",
+                "course_courseTranscript" => "deleted",
+                "courseCode_course" => "checked",
+                "courseCode_creditsByCourse" => "checked",
+                "courseOffering_section" => "deleted",
+                "credential_staff" => "updated",
+                "credential_teacher" => "updated",
+                "credentialFieldDescriptor_credential" => "deleted",
+                "credits_course" => "updated",
+                "credits_course" => "updated",
+                "credits_courseTranscript" => "updated",
+                "credits_courseTranscript" => "deleted",
+                "credits_creditsByCourse" => "deleted",
+                "credits_creditsBySubject" => "deleted",
+                "credits_graduationPlan" => "deleted",
+                "credits_section" => "updated",
+                "credits_studentAcademicRecord" => "updated",
+                "credits_studentAcademicRecord" => "updated",
+                "creditsByCourse_graduationPlan" => "updated",
+                "creditsBySubject_graduationPlan" => "updated",
+                "CTEProgram_studentCTEProgramAssociation" => "checked",
+                "disability_student" => "updated",
+                "disciplineDescriptorType_disciplineAction" => "checked",
+                "disciplineIncident_disciplineAction" => "checked",
+                "disciplineIncident_studentDisciplineIncidentAssociation" => "deleted",
+                "educationOrganization_behaviorDescriptor" => "checked",
+                "educationOrganization_calendarDate" => "deleted",
+                "educationOrganization_cohort" => "deleted",
+                "educationOrganization_course" => "deleted",
+                "educationOrganization_courseTranscript" => "checked",
+                "educationOrganization_disciplineDescriptor" => "checked",
+                "educationOrganization_educationOrganization" => "updated",
+                "educationOrganization_gradingPeriodIdentityType" => "deleted",
+                "educationOrganization_graduationPlan" => "updated",
+                "educationOrganization_localEducationAgency" => "updated",
+                "educationOrganization_localEducationAgency" => "updated",
+                "educationOrganization_localEducationAgency" => "updated",
+                "educationOrganization_postSecondaryEvent" => "updated",
+                "educationOrganization_school" => "updated",
+                "educationOrganization_session" => "deleted",
+                "educationOrganization_staffEducationOrganizationAssociation" => "deleted",
+                "educationOrganization_stateEducationAgency" => "updated",
+                "educationOrganization_studentCompetencyObjective" => "deleted",
+                "educationOrganization_studentCTEProgramAssociation" => "deleted",
+                "educationOrganization_studentProgramAssociation" => "deleted",
+                "educationOrganization_studentSpecialEdProgramAssociation" => "deleted",
+                "educationOrgIdentificationCode_educationalOrgIdentityType" => "checked",
+                "educationOrgIdentificationCode_educationOrganization" => "updated",
+                "educationOrgIdentificationCode_localEducationAgency" => "updated",
+                "educationOrgIdentificationCode_school" => "updated",
+                "educationOrgIdentificationCode_stateEducationAgency" => "updated",
+                "electronicMail_parent" => "updated",
+                "electronicMail_staff" => "updated",
+                "electronicMail_student" => "updated",
+                "electronicMail_teacher" => "updated",
+                "grade_reportCard" => "updated",
+                "gradebookEntry_studentGradebookEntry" => "deleted",
+                "gradingPeriod_grade" => "updated",
+                "gradingPeriod_gradebookEntry" => "updated",
+                "gradingPeriod_reportCard" => "deleted",
+                "gradingPeriod_session" => "checked",
+                "gradingPeriodIdentityType_gradingPeriod" => "deleted",
+                "graduationPlan_studentSchoolAssociation" => "updated",
+                "institutionTelephone_educationOrganization" => "updated",
+                "institutionTelephone_localEducationAgency" => "updated",
+                "institutionTelephone_school" => "updated",
+                "institutionTelephone_stateEducationAgency" => "updated",
+                "learningObjective_gradebookEntry" => "updated",
+                "learningObjective_learningObjective" => "updated",
+                "learningObjective_objectiveAssessment" => "updated",
+                "learningObjective_studentCompetencyObjectiveReference" => "deleted",
+                "learningStandard_assessmentItem" => "updated",
+                "learningStandard_gradebookEntry" => "updated",
+                "learningStandard_learningObjective" => "updated",
+                "learningStandardId_learningObjective" => "updated",
+                "learningStandardId_learningObjectiveIdentityType" => "deleted",
+                "learningStandardId_learningStandard" => "deleted",
+                "learningStandardId_learningStandardIdentityType" => "updated",
+                "learningStyles_student" => "updated",
+                "links_home" => "updated",
+                "name_parent" => "deleted",
+                "name_staff" => "deleted",
+                "name_student" => "deleted",
+                "name_teacher" => "deleted",
+                "objectiveAssessment_assessment" => "updated",
+                "objectiveAssessment_objectiveAssessment" => "updated",
+                "objectiveAssessment_objectiveAssessment" => "updated",
+                "objectiveAssessment_studentObjectiveAssessment" => "deleted",
+                "objectiveAssessment_subdoc_studentObjectiveAssessment" => "deleted",
+                "otherName_parent" => "updated",
+                "otherName_staff" => "updated",
+                "otherName_student" => "updated",
+                "otherName_teacher" => "updated",
+                "parent_studentParentAssociation" => "deleted",
+                "parent_student" => "updated",
+                "performanceLevelDescriptor_assessmentPerformanceLevel" => "deleted",
+                "performanceLevelDescriptor_studentAssessment" => "updated",
+                "performanceLevelDescriptor_studentObjectiveAssessment" => "updated",
+                "performanceLevelDescriptor_subdoc_studentObjectiveAssessment" => "updated",
+                "program_cohort" => "updated",
+                "program_educationOrganization" => "updated",
+                "program_localEducationAgency" => "updated",
+                "program_restraintEvent" => "updated",
+                "program_school" => "updated",
+                "program_section" => "updated",
+                "program_staffProgramAssociation" => "deleted",
+                "program_stateEducationAgency" => "updated",
+                "program_studentCTEProgramAssociation" => "deleted",
+                "program_studentProgramAssociation" => "deleted",
+                "program_studentSpecialEdProgramAssociation" => "deleted",
+                "programParticipation_student" => "updated",
+                "recognition_diploma" => "updated",
+                "recognition_studentAcademicRecord" => "updated",
+                "reportCard_studentAcademicRecord" => "updated",
+                "reportCard_yearlyTranscript" => "updated",
+                "restraintEventReasonsType_restraintEvent" => "deleted",
+                "school_attendance" => "deleted",
+                "school_courseOffering" => "deleted",
+                "school_disciplineAction" => "confused",
+                "school_disciplineIncident" => "deleted",
+                "school_restraintEvent" => "deleted",
+                "school_section" => "deleted",
+                "school_studentSchoolAssociation" => "deleted",
+                "school_teacherSchoolAssociation" => "deleted",
+                "scoreResult_studentAssessment" => "updated",
+                "scoreResult_studentObjectiveAssessment" => "checked",
+                "scoreResult_subdoc_studentObjectiveAssessment" => "checked",
+                "secondaryBehavior_disciplineIncident" => "updated",
+                "secondaryBehavior_studentDisciplineIncidentAssociation" => "updated",
+                "section_grade" => "deleted",
+                "section_gradebookEntry" => "deleted",
+                "section_studentGradebookEntry" => "deleted",
+                "section_studentSectionAssociation" => "deleted",
+                "section_teacherSectionAssociation" => "deleted",
+                "serviceDescriptorType_program" => "updated",
+                "serviceDescriptorType_studentCTEProgramAssociation" => "updated",
+                "serviceDescriptorType_studentProgramAssociation" => "updated",
+                "serviceDescriptorType_studentSpecialEdProgramAssociation" => "updated",
+                "session_courseOffering" => "deleted",
+                "session_section" => "deleted",
+                "session_studentAcademicRecord" => "deleted",
+                "staff_disciplineAction" => "updated",
+                "staff_disciplineIncident" => "updated",
+                "staff_staffCohortAssociation" => "deleted",
+                "staff_staffEducationOrganizationAssociation" => "deleted",
+                "staff_staffProgramAssociation" => "deleted",
+                "staffIdentificationCode_staff" => "updated",
+                "staffIdentificationCode_teacher" => "updated",
+                "student_attendance" => "deleted",
+                "student_courseTranscript" => "updated",
+                "student_disciplineAction" => "checked",
+                "student_grade" => "deleted",
+                "student_postSecondaryEvent" => "deleted",
+                "student_reportCard" => "deleted",
+                "student_restraintEvent" => "deleted",
+                "student_studentAcademicRecord" => "deleted",
+                "student_studentAssessment" => "deleted",
+                "student_studentCohortAssociation" => "deleted",
+                "student_studentCTEProgramAssociation" => "deleted",
+                "student_studentDisciplineIncidentAssociation" => "deleted",
+                "student_studentGradebookEntry" => "deleted",
+                "student_studentParentAssociation" => "deleted",
+                "student_studentProgramAssociation" => "deleted",
+                "student_studentSchoolAssociation" => "deleted",
+                "student_studentSectionAssociation" => "deleted",
+                "student_studentSpecialEdProgramAssociation" => "deleted",
+                "studentAcademicRecord_courseTranscript" => "deleted",
+                "studentAssessment_studentAssessmentItem" => "deleted",
+                "studentAssessment_studentObjectiveAssessment" => "deleted",
+                "studentCharacteristic_student" => "updated",
+                "studentCompetency_reportCard" => "updated",
+                "studentCompetencyObjective_studentCompetencyObjectiveReference" => "deleted",
+                "studentCompetencyObjectiveReference_studentCompetency" => "deleted",
+                "studentIdentificationCode_student" => "updated",
+                "studentIndicator_student" => "updated",
+                "studentSectionAssociation_grade" => "deleted",
+                "studentSectionAssociation_studentCompetency" => "deleted",
+                "studentSectionAssociation_studentGradebookEntry" => "deleted",
+                "subdoc_studentAssessmentItem_studentAssessment" => "updated",
+                "subdoc_studentObjectiveAssessment_studentAssessment" => "updated",
+                "teacher_teacherSchoolAssociation" => "deleted",
+                "teacher_teacherSectionAssociation" => "deleted",
+                "telephone_parent" => "updated",
+                "telephone_staff" => "updated",
+                "telephone_student" => "updated",
+                "telephone_teacher" => "updated",
+}
+
+updated = Set.new
+deleted = Set.new
+checked = Set.new
+
+
 ############################################################
 # STEPS: BEFORE
 ############################################################
@@ -80,7 +314,7 @@ Before do
   if (INGESTION_MODE != 'remote')
     @batchConn.drop_database(INGESTION_BATCHJOB_DB_NAME)
     `mongo ingestion_batch_job ../config/indexes/ingestion_batch_job_indexes.js`
-    puts "Dropped " + INGESTION_BATCHJOB_DB_NAME + " database"
+    #puts "Dropped " + INGESTION_BATCHJOB_DB_NAME + " database"
   else
     @tenant_conn = @conn.db(convertTenantIdToDbName(PropLoader.getProps['tenant']))
     @recordHash = @tenant_conn.collection('recordHash')
@@ -159,7 +393,7 @@ Before do
       end
 
 
-      puts identifier + " -> " + path
+      #puts identifier + " -> " + path
       @ingestion_lz_identifer_map[identifier] = path
 
       if !File.directory?(path) && INGESTION_MODE != 'remote'
@@ -205,7 +439,7 @@ def initializeTenants()
 
   end
 
-  puts "Top level LZ is -> " + @topLevelLandingZone
+  #puts "Top level LZ is -> " + @topLevelLandingZone
 
   cleanTenants()
 
@@ -248,6 +482,13 @@ def cleanTenants()
   end
 
   enable_NOTABLESCAN()
+end
+
+def getCorrectCountForDataset(dataSet)
+  case dataSet
+    when "SmallSampleDataSet.zip" then 10137
+    when "MediumSampleDataSet.zip" then 45416
+  end
 end
 
 ############################################################
@@ -356,6 +597,7 @@ def createRemoteDirectory(dirPath)
   end
 end
 
+
 ############################################################
 # STEPS: GIVEN
 ############################################################
@@ -377,13 +619,13 @@ def lzFileRmWait(file, wait_time)
   iters = (1.0*wait_time/intervalTime).ceil
   deleted = false
   iters.times do |i|
-    puts "Attempting delete of " + file
+    #puts "Attempting delete of " + file
     FileUtils.rm_rf file
     if File.exists? file
       puts "Retry delete " + file
       sleep(intervalTime)
     else
-      puts "Deleted " + file
+      #puts "Deleted " + file
       deleted = true
       break
     end
@@ -433,7 +675,7 @@ def initializeLandingZone(lz)
   end
 
   @landing_zone_path = lz
-  puts "Landing Zone = " + @landing_zone_path unless @landing_zone_path.nil?
+  #puts "Landing Zone = " + @landing_zone_path unless @landing_zone_path.nil?
 
   # clear out LZ before proceeding
   if (INGESTION_MODE == 'remote')
@@ -458,58 +700,9 @@ end
 def processPayloadFile(file_name)
   path_name = file_name[0..-5]
   file_name = file_name.split('/')[-1] if file_name.include? '/'
-
-  # copy everything into a new directory (to avoid touching git tracked files)
-  path_delim = ""
-  if path_name.include? '/'
-    folders = path_name.split '/'
-    if folders.size > 0
-      folders[0...-1].each { |path| path_delim += path + '/'}
-      path_name = folders[-1]
-    end
-  end
-  zip_dir = @local_file_store_path + "temp-" + path_name + "/"
-  p zip_dir
-  if Dir.exists?(zip_dir)
-    FileUtils.rm_r zip_dir
-  end
-  FileUtils.cp_r @local_file_store_path + path_delim + path_name, zip_dir
-
-  ctl_template = nil
-  Dir.foreach(zip_dir) do |file|
-    if /.*.ctl$/.match file
-      ctl_template = file
-    end
-  end
-
-  # for each line in the ctl file, recompute the md5 hash
-  new_ctl_file = File.open(zip_dir + ctl_template + "-tmp", "w")
-  File.open(zip_dir + ctl_template, "r") do |ctl_file|
-    ctl_file.each_line do |line|
-      if line.chomp.length == 0
-        next
-      end
-      entries = line.chomp.split ","
-      if entries.length < 3
-        puts "DEBUG:  less than 3 elements on the control file line.  Passing it through untouched: " + line
-        new_ctl_file.puts line.chomp
-        next
-      end
-      payload_file = entries[2]
-      md5 = Digest::MD5.file(zip_dir + payload_file).hexdigest;
-      if entries[3] != md5.to_s
-        puts "MD5 mismatch.  Replacing MD5 digest for #{entries[2]} in file #{ctl_template}"
-      end
-      # swap out the md5 unless we encounter the special all zero md5 used for unhappy path tests
-      entries[3] = md5 unless entries[3] == "00000000000000000000000000000000"
-      new_ctl_file.puts entries.join ","
-    end
-  end
-  new_ctl_file.close
-  FileUtils.mv zip_dir + ctl_template + "-tmp", zip_dir + ctl_template
+  zip_dir = @local_file_store_path + path_name + "/"
 
   runShellCommand("zip -j #{@local_file_store_path}#{file_name} #{zip_dir}/*")
-  FileUtils.rm_r zip_dir
 
   return file_name
 end
@@ -737,6 +930,11 @@ Given /^I post "([^"]*)" unzipped file as the payload of the ingestion job$/ do 
   @source_file_name = file_name
 end
 
+Given /^I post "([^"]*)" zipped file as the payload of the ingestion job$/ do |file_name|
+  @source_dir_name = processUnzippedPayloadFile file_name
+  @source_file_name = file_name
+end
+
 Given /^I post "([^"]*)" file as the payload of the ingestion job$/ do |file_name|
   @source_file_name = processPayloadFile file_name
 end
@@ -920,7 +1118,7 @@ Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
   @metaData = {}
 
   @newTenant = {
-      "_id" => "tenantTest-id",
+      "_id" => "#{lz_key}",
       "type" => "tenantTest",
       "body" => @body,
       "metaData" => @metaData
@@ -1078,12 +1276,46 @@ Given /^the log directory contains "([^"]*)" file$/ do |logfile|
   assert(fileExist == true, logfile + 'missing')
 end
 
+Given /^I successfully ingest "([^"]*)"/ do |zipfile|
+  steps "Given I post \"#{zipfile}\" file as the payload of the ingestion job"
+  steps 'When zip file is scp to ingestion landing zone'
+  steps "And a batch job for file \"#{zipfile}\" is completed in database"
+  steps 'Then I should not see an error log file created'
+  steps 'Then I should not see a warning log file created'
+end
+
 ############################################################
 # STEPS: WHEN
 ############################################################
 
 When /^the landing zone is reinitialized$/ do
   initializeLandingZone(@landing_zone_path)
+end
+
+When /^the landing zone for tenant "(.*?)" edOrg "(.*?)" is reinitialized$/ do |tenant, edOrg|
+  disable_NOTABLESCAN()
+
+  # Get the landing zone from the tenant collection
+  @conn = Mongo::Connection.new(INGESTION_DB, INGESTION_DB_PORT)
+  @db = @conn["sli"]
+  @tenant_coll = @db.collection('tenant')
+
+  @tenant_coll.find.each do |row|
+    @body = row['body']
+    @landingZones = @body['landingZone'].to_a
+    @landingZones.each do |lz|
+      if lz['educationOrganization'] == edOrg
+        puts "Current lz path is #{lz['path']}"
+        @landing_zone_path = lz['path']
+        break
+      end
+    end
+  end
+
+  @landing_zone_path = @landing_zone_path+"/"
+  initializeLandingZone(@landing_zone_path)
+
+  enable_NOTABLESCAN()
 end
 
 When /^"([^"]*)" seconds have elapsed$/ do |secs|
@@ -1140,24 +1372,24 @@ When /^a batch job log (has|has not) been created$/ do |has_or_has_not|
   checkForBatchJobLog(@landing_zone_path, should_has_log) if !@hasNoLandingZone
 end
 
-When /^a batch job has completed successfully in the database$/ do
+When /^a batch job has completed successfully in the database for tenant "(.*?)"$/ do |tenant|
    disable_NOTABLESCAN()
    old_db = @db
    @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
    @entity_collection = @db.collection("newBatchJob")
-   intervalTime = 1
-   @maxTimeout ? @maxTimeout : @maxTimeout = 600
+   intervalTime = 0.1
+   @maxTimeout ? @maxTimeout : @maxTimeout = 240
    iters = (1.0*@maxTimeout/intervalTime).ceil
    found = false
      if (INGESTION_MODE == 'remote')
        iters.times do |i|
-         @entity_count = @entity_collection.find({"status" => {"$in" => ["CompletedSuccessfully"]}}).count().to_s
+         @entity_count = @entity_collection.find({"status" => {"$in" => ["CompletedSuccessfully"]}, "tenantId" => tenant}).count().to_s
          if @entity_count.to_s == "1"
-           puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+           #puts "Ingestion took approx. #{i*intervalTime} seconds to complete"
            found = true
            break
          else
-           @entity_count = @entity_collection.find({"status" => {"$in" => ["CompletedWithErrors"]}}).count().to_s
+           @entity_count = @entity_collection.find({"status" => {"$in" => ["CompletedWithErrors"]}, "tenantId" => tenant}).count().to_s
            if @entity_count.to_s == "1"
                 assert(false, "Batch Job completed with errors")
            end
@@ -1165,15 +1397,14 @@ When /^a batch job has completed successfully in the database$/ do
          end
        end
      else
-       sleep(5) # waiting to check job completion removes race condition (windows-specific)
        iters.times do |i|
-         @entity_count = @entity_collection.find({"status" => {"$in" => ["CompletedSuccessfully"]}}).count().to_s
+         @entity_count = @entity_collection.find({"status" => {"$in" => ["CompletedSuccessfully"]}, "tenantId" => tenant}).count().to_s
          if @entity_count.to_s == "1"
-           puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+           #puts "Ingestion took approx. #{i*intervalTime} seconds to complete"
            found = true
            break
          else
-           @entity_count = @entity_collection.find({"status" => {"$in" => ["CompletedWithErrors"]}}).count().to_s
+           @entity_count = @entity_collection.find({"status" => {"$in" => ["CompletedWithErrors"]}, "tenantId" => tenant}).count().to_s
            if @entity_count.to_s == "1"
                 assert(false, "Batch Job completed with errors")
            end
@@ -1199,9 +1430,9 @@ When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
 
   #db.newBatchJob.find({"stages" : {$elemMatch : {"chunks.0.stageName" : "JobReportingProcessor" }} }).count()
 
-  intervalTime = 1 #seconds
+  intervalTime = 0.1 #seconds
   #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
-  @maxTimeout ? @maxTimeout : @maxTimeout = 600
+  @maxTimeout ? @maxTimeout : @maxTimeout = 900
   iters = (1.0*@maxTimeout/intervalTime).ceil
   found = false
   if (INGESTION_MODE == 'remote')
@@ -1209,7 +1440,7 @@ When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
       @entity_count = @entity_collection.find({"resourceEntries.0.resourceId" => batch_file, "status" => {"$in" => ["CompletedSuccessfully", "CompletedWithErrors"]}}).count().to_s
 
       if @entity_count.to_s == "1"
-        puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+        #puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
         found = true
         break
       else
@@ -1217,13 +1448,13 @@ When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
       end
     end
   else
-    sleep(5) # waiting to check job completion removes race condition (windows-specific)
+    #sleep(5) # waiting to check job completion removes race condition (windows-specific)
     iters.times do |i|
 
       @entity_count = @entity_collection.find({"resourceEntries.0.resourceId" => batch_file, "status" => {"$in" => ["CompletedSuccessfully", "CompletedWithErrors"]}}).count().to_s
 
       if @entity_count.to_s == "1"
-        puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+        #puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
         found = true
         break
       else
@@ -1252,7 +1483,7 @@ When /^two batch job logs have been created$/ do
   if (INGESTION_MODE == 'remote') # TODO this needs testing for remote
     iters.times do |i|
       if remoteLzContainsFiles("job-*.log", 2, @landing_zone_path)
-        puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+        #puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
         found = true
         break
       else
@@ -1263,7 +1494,7 @@ When /^two batch job logs have been created$/ do
     sleep(3) # waiting to poll job file removes race condition (windows-specific)
     iters.times do |i|
       if dirContainsBatchJobLogs? @landing_zone_path, 2
-        puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+        #puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
         found = true
         break
       else
@@ -1288,16 +1519,16 @@ end
 
 def checkForBatchJobLog(landing_zone, should_has_log = true)
   puts "checkForBatchJobLog"
-  intervalTime = 3 #seconds
+  intervalTime = 1 #seconds
                    #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
-  @maxTimeout ? @maxTimeout : @maxTimeout = 600
+  @maxTimeout ? @maxTimeout : @maxTimeout = 900
   sleep(intervalTime)
   iters = (1.0*@maxTimeout/intervalTime).ceil
     found = false
     if (INGESTION_MODE == 'remote')
         iters.times do |i|
             if remoteLzContainsFile("job-#{@source_file_name}*.log", landing_zone)
-                puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+                #puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
                 found = true
                 break
             else
@@ -1307,7 +1538,7 @@ def checkForBatchJobLog(landing_zone, should_has_log = true)
     else
         iters.times do |i|
             if dirContainsBatchJobLog? landing_zone
-                puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+                #puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
                 found = true
                 break
             else
@@ -1597,6 +1828,10 @@ end
 # STEPS: THEN
 ############################################################
 
+Then /^I fail$/ do
+  raise "Aborting test on explicit directive."
+end
+
 Then /^I should see following map of indexes in the corresponding collections:$/ do |table|
   @db   = @conn[@ingestion_db_name]
 
@@ -1641,50 +1876,48 @@ def cleanupSubDoc(superdocs, subdoc)
   end
 end
 
-def subDocParent(collectionName)
-  case collectionName
-    when "studentSectionAssociation"
-      "section"
-    when "gradebookEntry"
-      "section"
-    when "teacherSectionAssociation"
-      "section"
-    when "studentProgramAssociation"
-      "program"
-    when "studentParentAssociation"
-      "student"
-    when "studentCohortAssociation"
-      "cohort"
-    when "studentDisciplineIncidentAssociation"
-      "student"
-    when "studentAssessmentItem"
-      "studentAssessment"
-    when "assessmentItem"
-      "assessment"
-    when "objectiveAssessment"
-      "assessment"
-    when "studentObjectiveAssessment"
-      "studentAssessment"
-    when "reportCard"
-      "yearlyTranscript"
-    when "studentAcademicRecord"
-      "yearlyTranscript"
-    when "grade"
-      "yearlyTranscript"
-    else
-      nil
-  end
+$superDocTypes = [ 'section', 'student', 'studentAssessment', 'assessment']
+  
+$subDocEntity2ParentType = {
+    "studentSectionAssociation" => "section",
+    "gradebookEntry" => "section",
+    "teacherSectionAssociation" => "section",
+    "studentProgramAssociation" => "student",
+    "studentParentAssociation" => "student",
+    "studentCohortAssociation" => "student",
+    "studentDisciplineIncidentAssociation" => "student",
+    "studentAssessmentItem" => "studentAssessment",
+    "assessmentItem" => "assessment",
+    "objectiveAssessment" => "assessment",
+    "studentObjectiveAssessment" => "studentAssessment",
+    "reportCard" => "yearlyTranscript",
+    "studentAcademicRecord" => "yearlyTranscript",
+    "grade" => "yearlyTranscript",
+    "attendanceEvent" => "attendance"
+}
+
+$denormalizedTypeInfo = {
+    "studentSectionAssociation" => {"parent" => "student", "subDoc" => "section"},
+    "studentSchoolAssociation" => {"parent" => "student", "subDoc" => "schools"}
+}
+
+def subDocParent(subDocType)
+    return $subDocEntity2ParentType[subDocType]
 end
 
 def subDocCount(parent, subdoc, opts=nil, key=nil, match_value=nil)
   total = 0
   coll = @db.collection(parent)
   coll.find().each do |doc|
-    unless doc[subdoc] == nil
+    subdocInMain = doc[subdoc] rescue nil
+    subdocInMainSize = (subdocInMain == nil)? 0 : subdocInMain.size
+    subdocInBody = doc["body"][subdoc] rescue nil
+    subdocInBodySize = (subdocInBody == nil)? 0 : subdocInBody.size
+    if (subdocInMain != nil) || (subdocInBody != nil)
       if key == nil and match_value == nil and opts==nil
-        total += doc[subdoc].size
+        total += subdocInMainSize + subdocInBodySize
       else
-        array = doc[subdoc]
+        array = (subdocInMain != nil)? subdocInMain : subdocInBody
         array.each do |sub|
           @contains = true
           if (key != nil && match_value != nil)
@@ -1978,11 +2211,7 @@ Then /^the document references "(.*?)" "(.*?)" with "(.*?)"$/ do |coll, src_fiel
   # if doc is an array, we need to iterate over doc
   # special thanks to the idiot mongo BSON::OrderedHash
   if src_value.kind_of?(Array)
-    i = 0
-    for value in src_value
-      result = true if value[value.keys[i]] == ref_value
-      i += 1
-    end
+    src_value.each{|value| value.each{|key, val| result = true if val == ref_value}}
   else
     result = true if src_value == ref_value
   end
@@ -2225,6 +2454,8 @@ end
 
 When /^verify that "([^"]*)" is (equal|unequal) to "([^"]*)"$/ do |arg1, equal_or_unequal, arg2|
   @entity.each do |ent|
+    puts "#{arg1}: #{getValueAtIndex(ent,arg1)}" if $SLI_DEBUG
+    puts "#{arg2}: #{getValueAtIndex(ent,arg2)}" if $SLI_DEBUG
     if equal_or_unequal == "equal"
       assert(getValueAtIndex(ent,arg1) == getValueAtIndex(ent,arg2), "#{arg1} is not equal to #{arg2}")
     else
@@ -2463,6 +2694,84 @@ def parallelCheckForContentInFileGivenPrefix(message, prefix, landing_zone)
   end
 end
 
+
+def checkForContentInFileGivenPrefixAndXMLNameRegex( regex, prefix, xml_name)
+
+  if (INGESTION_MODE == 'remote')
+
+    @resultOfIngestion = ""
+    Net::SSH.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => INGESTION_PASSWORD) do |ssh|
+      ssh.exec!("ls -l #{@landing_zone_path} | grep #{prefix}#{xml_name} | tail -1 | awk '{print $NF}' | xargs -I x cat #{@landing_zone_path}/x") do |channel, stream, data|
+        @resultOfIngestion << data
+      end
+    end
+
+    @resultOfIngestion.split( "\n" ).each do |line|
+      if ! ( line.match( /#{regex}/) )
+        assert(false, "File contains unexpected error message: " + line )
+      end
+    end
+
+    assert(true, "Processed all the records.")
+
+  else
+    @job_status_filename = ""
+    Dir.foreach(@landing_zone_path) do |entry|
+      if (entry.rindex(prefix) && entry.rindex(xml_name))
+        # XML ENTRY IS OUR FILE
+        @job_status_filename = entry
+      end
+    end
+
+
+    aFile = File.new(@landing_zone_path + @job_status_filename, "r")
+    puts "STATUS FILENAME = " + @landing_zone_path + @job_status_filename
+    assert(aFile != nil, "File " + @job_status_filename + "doesn't exist")
+    if aFile 
+      file_contents = IO.readlines(@landing_zone_path + @job_status_filename).join()
+      #puts "FILE CONTENTS = " + file_contents
+
+      missingStringPrefixIdx = file_contents.rindex(ERROR_REPORT_MISSING_STRING_PREFIX)
+      missingStringSuffixIdx = file_contents.rindex(ERROR_REPORT_MISSING_STRING_SUFFIX)
+      if (missingStringPrefixIdx != nil && missingStringSuffixIdx != nil)
+        assert(false, "Missing error message string for "+(file_contents[missingStringPrefixIdx..missingStringSuffixIdx+2]))
+      end
+      @linesArray = IO.readlines(@landing_zone_path + @job_status_filename)
+      @linesArray.each do |line|
+        if ! ( line.match( /#{regex}/) )
+          assert(false, "File contains unexpected error message: " + line )
+        end
+      end
+      aFile.close
+    else
+      raise "File " + @job_status_filename + "can't be opened"
+    end
+  end
+end
+
+
+And /^the only errors I want to see in the resulting (.*?) log file for "(.*?)" are below$/ do |file_type,xml_name, table|
+
+  case file_type
+     when "warning" then prefix="warn."
+     when "error" then prefix="error."
+     else assert(false, "Unsupported file type:" + file_type )
+  end
+
+  @first = 0
+
+  @codeList = ""
+  table.rows.each do |row|
+    if ( @first != 0 ) 
+      @codeList += "|"
+    end
+    @first = 1
+    @codeList = @codeList + row[0] 
+  end
+  checkForContentInFileGivenPrefixAndXMLNameRegex( @codeList, prefix, xml_name)
+
+end
+
 Then /^I should see "([^"]*)" in the resulting batch job file$/ do |message|
   prefix = "job-" + @source_file_name + "-"
   checkForContentInFileGivenPrefix(message, prefix)
@@ -2528,6 +2837,11 @@ end
 Then /^I should not see an error log file created for "([^\"]*)"$/ do |lz_key|
   lz = @ingestion_lz_identifer_map[lz_key]
   checkForErrorWarnLogFile(lz, "error")
+end
+
+Then /^I should not see a warning log file created for "([^\"]*)"$/ do |lz_key|
+  lz = @ingestion_lz_identifer_map[lz_key]
+  checkForErrorWarnLogFile(lz, "warn")
 end
 
 def checkForErrorWarnLogFile(landing_zone, prefix)
@@ -2670,6 +2984,11 @@ def findField(object, field)
     end
   end
   object
+end
+
+Then /^there are no mismatches when executing "(.*?)" on tenant "(.*?)"$/ do |filename, tenant|
+  `mongo #{convertTenantIdToDbName(tenant)} test/features/ingestion/test_data/#{filename} | grep Mismatch`
+  assert($?.to_i!=0, "Mismatches or other error when executing mongo #{convertTenantIdToDbName(tenant)} test/features/ingestion/test_data/#{filename} | grep Mismatch")
 end
 
 Then /^the field "([^"]*)" is an array of size (\d+)$/ do |field, arrayCount|
@@ -3115,6 +3434,208 @@ Then /^I check the number of records in collection:/ do |table|
   enable_NOTABLESCAN()   
 end
 
+Then /^I check the number of elements in array of collection:/ do |table|
+  
+  disable_NOTABLESCAN()
+  @db = @conn[@ingestion_db_name]
+  @result = "true"
+  
+  table.hashes.map do |row|
+      coll = row["collectionName"]
+      param = row["field"]
+      value = row["value"]
+      parentList = row["searchContainer"]
+
+    @entity_collection = @db.collection(coll)
+    
+    @entity_count = @entity_collection.aggregate( [ {"$match" => {"#{param}" => "#{value}"}},{"$unwind"=> "$#{parentList}"}]).size
+    
+    if @entity_count.to_s != row["expectedRecordCount"].to_s
+      @result = "false"
+      red = "\e[31m"
+      reset = "\e[0m"
+    end
+
+    puts "#{red}There are " + @entity_count.to_s + " in "+ row["collectionName"] + " collection for record with " + row["searchContainer"] + " . Expected: " + row["expectedRecordCount"].to_s+"#{reset}"
+  end
+  
+  assert(@result == "true", "Some entities were not stored.")
+  enable_NOTABLESCAN()   
+end
+
+@original_count
+@after_count
+
+def dumpDb(tenant)
+     `rm -rf temp/*|wc -l`
+     `sh exportMongoDb.sh #{convertTenantIdToDbName(tenant)} temp 2>&1 /dev/null`
+end
+
+def cleanUpDbDump
+     `rm -rf temp/*`
+end
+
+Then /^I should not see "(.*?)" in the "(.*?)" database$/ do |id, tenant|
+       dumpDb(tenant)
+       `rm -f temp/exp_*_deltas.json`
+       output = `grep #{id} ./temp/*`
+       assert($?.to_i!=0, "ID: #{id} found in tenant database: #{output}")
+
+end
+
+Then /^I should not see any entity mandatorily referring to "(.*?)" in the "(.*?)" database$/ do |id, tenant|
+   @after_count = `grep id ./temp/*|wc -l`
+   puts "after_count = " + @after_count
+      if(deleted.length()>0)
+          deleted.each do |id|
+              puts id
+              output = `grep #{id} ./temp/*`
+              assert($?.to_i!=0, "ID: #{id} found in tenant database: #{output}")
+          end
+      end
+
+end
+
+def check_record_in_collection(table,db_name,found)
+    @db   = @conn[db_name]
+    for i in 0..deleted.length-1
+        recordId = deleted[i]
+        subdoc_parent = subDocParent table
+        if subdoc_parent
+           @entity_count = runSubDocQuery(subdoc_parent, table, "string", "_id", recordId)
+        else
+           @entity_collection = @db.collection(table)
+           @entity_count = @entity_collection.find({"$and" => [{"_id" => recordId}]}).count().to_s
+           if found
+             assert(@entity_count!=0, "ID: #{recordId} not found in tenant database")
+           else
+             assert(@entity_count==0, "ID: #{recordId} found in tenant database")
+           end
+        end
+    end
+end
+
+Then /^I should see entities optionally referring to "(.*?)" be updated in the "(.*?)" database$/ do |id, tenant|
+        count = @after_count.to_i + deleted.length()
+        #puts count
+        #puts @original_count.to_i
+        #assert(@original_count.to_i==count, "Some records which should not be deleted are deleted.")
+
+        if(updated.length()>0)
+             updated.each do |id|
+                 puts id
+                 output = `grep #{id} ./temp/*`
+                 assert($?.to_i==0, "ID: #{id} not found in tenant database: #{output}")
+             end
+        end
+        cleanUpDbDump
+end
+
+Then /^I should see child entities of entityType "(.*?)" with id "(.*?)" in the "(.*?)" database$/ do |entityType, id, tenant|
+    #Step 1: pass in the entity type to be searched
+
+    dumpDb(tenant)
+    @original_count = `grep id ./temp/*|wc -l`
+    puts "original_count = " + @original_count
+    export_data = './temp/*'
+    output = `grep #{id} ./temp/* |awk -F: '{print ""; f=$1; print $0;}'`
+    #puts "output = " + output
+    output_lines = output.split(/[\r\n]+/)
+
+    for i in 1..output_lines.length-1
+        puts i
+        entry =  output_lines[i]
+        #Step 2: get the child type
+        filename = entry.split(':')[0]
+        child_type = filename.split('_')[2].split('.')[0]
+        puts entityType+"_"+child_type
+
+        #Step 3: get child id
+        child_id = entry.split(',')[0].split(':')[2]
+        puts child_id
+        if(child_id.rindex(id))
+              deleted.add(child_id)
+              puts "add self"
+        else
+            #Step 4: search the table for type [deleted, updated, checked]
+             type = $CASCADE_DELETE_REFERENCE_MAP[entityType+"_"+child_type]
+             puts "add refering type"
+            if(type != nil)
+                puts entityType+"_"+child_type
+                puts "type = "+type
+                    case type
+                    when 'updated'
+                        updated.add(child_id)
+                        puts id
+                        puts child_id+" added to update"
+                    when 'deleted'
+                        puts id
+                        deleted.add(child_id)
+                        puts child_id+" added to delete"
+                    when 'confused'
+                        if /\"responsibilitySchoolId\" \: \"#{id}\"/.match(entry)
+                              puts entry
+                              deleted.add(child_id)
+                              puts "add to deleted"
+                        elsif /\"assignmentSchoolId\" \: \"#{id}\"/.match(entry)
+                              puts entry
+                              updated.add(child_id)
+                              puts "add to udpated"
+                        else
+                        end
+                    when 'checked'
+                        checked.add(child_id)
+                        puts "entry = " + entry
+                        puts /\[\s*\"#{id}\"\s*\]/.match(entry)
+                        puts /\s*\[\s*\{[^\}]*\"#{id}[^\}]*\"\}\s*\]\s*/.match(entry)
+                        if /\[\s*\"#{id}\"\s*\]/.match(entry) || /\s*\[\s*\{[^\}]*\"#{id}[^\}]*\"\}\s*\]\s*/.match(entry)
+                            deleted.add(child_id)
+                            puts child_id+" added to delete"
+                        else
+                            updated.add(child_id)
+                            puts child_id+" added to update"
+                         end
+                    end
+            end
+        end
+    end
+    puts "deleted = {"
+    puts deleted.length()
+    if(deleted.length()>0)
+        deleted.each do |d1|
+            puts d1
+        end
+    end
+    puts "}"
+    puts "updated = {"
+    puts updated.length()
+    if(updated.length()>0)
+        updated.each do |d1|
+            puts d1
+        end
+    end
+    puts "}"
+    puts "checked = {"
+    puts checked.length()
+    if(checked.length()>0)
+        checked.each do |d1|
+            puts d1
+        end
+    end
+    puts "}"
+    cleanUpDbDump
+end
+
+
+Then /^I should see "(.*?)" in the "(.*?)" database$/ do |id, tenant|
+  `rm -rf temp/*`
+  `sh exportMongoDb.sh #{convertTenantIdToDbName(tenant)} temp 2>&1 /dev/null`
+  output = `grep #{id} ./temp/*`
+  assert($?.to_i==0, "ID: #{id} not found in tenant database: #{output}")
+  `rm -rf temp/*`
+end
+
+
 
 Then /^all attendance entities should should have the expected structure./ do
   @db = @conn[@ingestion_db_name]
@@ -3133,9 +3654,326 @@ Then /^all attendance entities should should have the expected structure./ do
       end
     end
   end
+end
+
+Then /^a query on attendance of for studentId "(.*?)", schoolYear "(.*?)" and date "(.*?)" on the "(.*?)" tenant has a count of "(.*?)"$/ do |student, year, date, tenant, count|
+    disable_NOTABLESCAN()
+    @db = @conn[convertTenantIdToDbName(tenant)]
+    @coll = @db['attendance']
+    entity_count = @coll.find({"body.studentId" => student, "body.schoolYear" => year, "body.attendanceEvent.date" => date}).count()
+    assert(entity_count.to_i==count.to_i, "Count mismatch. Actual count is #{entity_count}")
+    enable_NOTABLESCAN()
+end
+
+Then /^correct number of records should be ingested for "(.*?)"$/ do |dataSet|
+    correct_count = getCorrectCountForDataset(dataSet)
+    step "I should see \"Processed #{correct_count} records.\" in the resulting batch job file"
+end
+
+  
+$savedEntities = {}
+ And /^I read the following entity in "([^"]*)" tenant and save (it as|it with metaData as) "([^"]*)"/ do | tenant, withMetaData, entityTag, table |
+  @db         = @conn[convertTenantIdToDbName(tenant)]
+  deleteMetaData = withMetaData == "it as"
+
+  condHash = Hash.new
+
+  table.hashes.map do |row|
+    value = row[ "value" ]
+    if value =~ /float\((.*?)\)/
+      condHash[ row[ "field" ] ] = $1.to_f
+    elsif value =~ /int\((.*)\)/
+      condHash[ row[ "field" ] ] = $1.to_i
+    else
+      condHash[ row[ "field"] ] = value
+    end
+
+    collection = row["collection"]
+    @coll       = @db[ collection ]
+    disable_NOTABLESCAN()
+    record   = @coll.find_one(condHash)
+    enable_NOTABLESCAN()
+    if (deleteMetaData)
+      recursive_hash_delete( record, "metaData")
+    end
+
+    $savedEntities[ entityTag ] = {"criteria"=>condHash, "collection"=>collection, "tenant"=>tenant, "entity" => record };
+  end
+
+  disable_NOTABLESCAN()
 
 end
 
+And /^I read again the entity tagged "([^"]*)" from the "([^"]*)" tenant and confirm that it is the same/ do | entityTag, tenant |
+  oldRecord = $savedEntities[ entityTag][ "entity" ]
+  tenant = $savedEntities[ entityTag ][ "tenant" ]
+  criteria = $savedEntities[ entityTag][ "criteria" ]
+  collection = $savedEntities[ entityTag][ "collection"]
+
+  @db         = @conn[convertTenantIdToDbName(tenant)]
+  disable_NOTABLESCAN()
+  record   = @coll.find_one( criteria )
+  enable_NOTABLESCAN()
+  recursive_hash_delete( record, "metaData")
+  EntityProvider.verify_entities_match( oldRecord, record)
+
+end
+
+And /^I read again the entity tagged "([^"]*)" from the "([^"]*)" tenant and confirm the following fields are (the same|different)/ do | entityTag, tenant, same, table |
+  match = same == "the same"
+  STDOUT.puts "match: #{match.to_s}"
+  oldRecord = $savedEntities[ entityTag][ "entity" ]
+  tenant = $savedEntities[ entityTag ][ "tenant" ]
+  criteria = $savedEntities[ entityTag][ "criteria" ]
+  collection = $savedEntities[ entityTag][ "collection"]
+  fieldArray = table.rows().flatten
+
+  @db         = @conn[convertTenantIdToDbName(tenant)]
+  disable_NOTABLESCAN()
+  record   = @coll.find_one( criteria )
+  enable_NOTABLESCAN()
+  STDOUT.puts "fieldArray: #{fieldArray.to_s}"
+  fieldArray.each do |field|
+    match && EntityProvider.entity_field_matches?(oldRecord, record, field)
+  end
+
+end
+
+$savedQueries = {}
+
+#simulate Perl's autovivification. [[http://t-a-w.blogspot.com/2006/07/autovivification-in-ruby.html]]
+def autovivifying_hash
+   Hash.new {|ht,k| ht[k] = autovivifying_hash}
+end
+
+Then /^there exist "([^"]*)" "([^"]*)" records like below in "([^"]*)" tenant. And I save this query as "([^"]*)"/ do |count, collection, tenant, queryName, table|
+    @db         = @conn[convertTenantIdToDbName(tenant)]
+    @coll       = @db[collection]
+    condArray   = table.rows()
+    condHash    = Hash[*condArray.flatten]
+    condHash.each do |field, value|
+        if value =~ /float\((.*?)\)/
+	    condHash[field] = $1.to_f
+	elsif value =~ /int\((.*)\)/
+	    condHash[field] = $1.to_i
+	end
+    end
+
+    elemMatch = autovivifying_hash
+    condHash.each do |field, value|
+        if field =~ /(.*)\.\$\.(.*)/
+            k1,k2 = $1, $2
+            elemMatch[k1][k2] = value
+            condHash.delete(field)
+        end
+    end
+
+    elemMatch.each do |arrName, memberCriteria|
+          condHash[arrName] = {'$elemMatch' => memberCriteria};
+    end
+
+    $savedQueries[queryName] = {"criteria"=>condHash, "collection"=>collection, "tenant"=>tenant};
+    disable_NOTABLESCAN()
+    recordCnt   = @coll.find(condHash).count()
+    enable_NOTABLESCAN()
+    assert(recordCnt.to_i ==  count.to_i, "Found #{recordCnt}. Expected #{count} in #{collection} matching #{condHash}!");
+end
+
+Then /I re-execute saved query "([^"]*)" to get "([^"]*)" records/ do |queryName, count|
+    q             = $savedQueries[queryName]
+    criteria      = q["criteria"]
+    collection    = q["collection"]
+    tenant        = q["tenant"]
+
+    #puts "Re-executing #{criteria} with #{collection}, #{tenant}"
+
+    @db         = @conn[convertTenantIdToDbName(tenant)]
+    @coll       = @db[collection]
+    disable_NOTABLESCAN()
+    recordCnt   = @coll.find(criteria).count()
+    enable_NOTABLESCAN()
+    assert(recordCnt.to_i ==  count.to_i, "Found #{recordCnt}. Expected #{count} in #{collection} matching #{criteria}!");
+end
+
+
+Then /^the data from "(.*?)" is imported$/ do |directory|
+    Dir.foreach(directory) {|x|
+        db=x.split("_")[1].to_s
+        coll=x.split("_")[2].to_s.split(".")[0].to_s
+        if x != "." && x != ".." && x != ".gitignore"
+            #hack - splitting on underscore doesn't work on custom_entities
+            if coll=="custom"
+                coll="custom_entities"
+            end
+            `mongoimport --db #{db} --collection #{coll} #{directory}/#{x}`
+        end
+    }
+end
+
+Then /^the data from tenant "(.*?)"is exported to "(.*?)"$/ do |tenant, directory|
+  `./exportMongoDb.sh #{convertTenantIdToDbName(tenant)} #{directory} 2>&1 /dev/null`
+end
+
+Given /^the "(.*?)" tenant db is empty$/ do |tenant|
+     tenant_db = @conn.db(convertTenantIdToDbName(tenant))
+     coll_names = tenant_db.collection_names
+     coll_to_skip = ["system.indexes",
+                     "system.js",
+                     "system.profile",
+                     "system.namespaces",
+                     "system.users",
+                     "tenant",
+                     "securityEvent",
+                     "realm",
+                     "application",
+                     "roles",
+                     "customRole"]
+     disable_NOTABLESCAN
+     coll_names.each do |coll|
+        if !coll_to_skip.include?(coll)
+            tenant_db["#{coll}"].remove
+            #tenant_db["#{coll}"].drop_indexes
+            #tenant_db["#{coll}"].drop
+#            assert(tenant_db["#{coll}"].count == 0, "#{coll} is not empty.")
+        end
+     end
+     #step "the tenant indexes are applied to the tenant \"#{tenant}\""
+     enable_NOTABLESCAN
+end
+
+def getEntityCounts(tenant)
+    entityCounts = {}
+     tenant_db = @conn.db(convertTenantIdToDbName(tenant))
+     coll_names = tenant_db.collection_names
+     coll_to_skip = ["system.indexes",
+                     "system.js",
+                     "system.profile",
+                     "system.namespaces",
+                     "system.users",
+                     "tenant",
+                     "securityEvent",
+                     "realm",
+                     "application",
+                     "roles",
+                     "applicationAuthorization",
+                     "customRole",
+                     "adminDelegation",
+                     "deltas"]
+     disable_NOTABLESCAN
+     # Add straight collection counts
+     coll_names.each do |coll|
+        if !coll_to_skip.include?(coll)
+            count = tenant_db[coll].count().to_i
+            entityCounts[coll] = count
+#            puts "#{coll} #{count}"
+        end
+    end
+    # Add counts for "hollowed" superdocs
+    $superDocTypes.each do |superDoc|
+      count = tenant_db[superDoc].find({
+        'body' => { '$exists' => false },
+        'metaData' => { '$exists' => false }
+      }).count().to_i
+      entityCounts[superDoc+"<hollow>"] = count
+#      puts "#{superDoc}<hollow> #{count}"
+    end
+    # Add subdoc entity counts
+    subDocEntities = $subDocEntity2ParentType.keys
+    subDocEntities.each do |subDocEntity|
+        parent = $subDocEntity2ParentType[subDocEntity]
+        count = subDocCount(parent, subDocEntity)
+        entityCounts[subDocEntity] = count
+#        puts "#{subDocEntity} #{count}"
+    end
+    # Add denormalized data counts
+    denormalizedEntities = $denormalizedTypeInfo.keys
+    denormalizedEntities.each do |denormalizedType|
+      denormalizationInfo = $denormalizedTypeInfo[denormalizedType]
+      parent = denormalizationInfo["parent"]
+#        puts "parent #{parent}"
+      subDoc = denormalizationInfo["subDoc"]
+#        puts "subDoc #{subDoc}"
+      count = subDocCount(parent, subDoc)
+      entityCounts[parent+"."+subDoc] = count
+#      puts "#{parent}.#{subDoc} #{count}"
+    end
+    enable_NOTABLESCAN
+    return entityCounts
+end
+
+And /I save the collection counts in "([^"]*)" tenant/ do |tenant|
+    @db         = @conn[convertTenantIdToDbName(tenant)]
+    @beforeEntityCounts = getEntityCounts(tenant)
+end
+
+And /I see that collections counts have changed as follows in tenant "([^"]*)"/ do |tenant, table|
+    @db         = @conn[convertTenantIdToDbName(tenant)]
+    condArray   = table.rows()
+    condHash    = Hash[*condArray.flatten]
+    afterEntityCounts = getEntityCounts(tenant)
+    entityCountDeltas = {}
+    unionOfEntities = @beforeEntityCounts.keys | afterEntityCounts.keys
+    unionOfEntities.each do |entityType|
+        # check for missing entity types
+        assert(afterEntityCounts.has_key?(entityType), "Collection #{entityType} has been deleted.")
+        new   = afterEntityCounts[entityType].to_i;
+
+        if (new != 0)
+            assert(@beforeEntityCounts.has_key?(entityType), "Collection #{entityType} has been created.")
+        end
+
+        old   = @beforeEntityCounts[entityType].to_i;
+        actualDelta = new - old
+
+        # build a map of delta values per entity
+        entityCountDeltas[entityType] = new - old
+
+        # check if a delta is expected and if so whether it is correct
+        if (condHash.has_key?(entityType))
+            condDelta = condHash[entityType]
+            operation = condDelta[0,1]   # + or -
+            expectedDelta = condHash[entityType].to_i
+            assert(actualDelta == expectedDelta, "The change in count for #{entityType} was #{actualDelta}. It was expected to be #{expectedDelta}.")
+        else
+            assert(old == new, "The change in count for #{entityType} was #{actualDelta}. It was expected to be 0.")
+        end
+    end
+    condHash.each_key { |key| assert(unionOfEntities.include?(key), "Delta check of non-existing entity \"#{key}\"") }
+end
+
+And /I generate zip files/ do
+    Dir.chdir(@local_file_store_path)
+    Dir.glob("*/") do |file_name|
+        if !File.directory?(file_name)
+            next
+        end
+        zip_file = file_name.chomp('/')
+        zip_dir = @local_file_store_path + file_name
+
+        runShellCommand("cd #{zip_dir} && zip -r #{@local_file_store_path}#{zip_file} *")
+    end
+    assert(true)
+end
+
+
+Given /^I ingest "(.*?)"$/ do |ingestion_file|
+  steps %Q{
+    Given I am using local data store
+    And the landing zone for tenant "Midgar" edOrg "Daybreak" is reinitialized
+    When I post "#{ingestion_file}" file as the payload of the ingestion job
+    And zip file is scp to ingestion landing zone
+    Then a batch job for file "#{ingestion_file}" is completed in database
+    And I should see "All records processed successfully." in the resulting batch job file
+    And I should not see an error log file created
+    And I should not see a warning log file created
+  }
+
+end
+
+And /I wait for user input/ do
+      print "Waiting for user input. Press Enter to continue."
+      STDIN.getc
+end
 ############################################################
 # STEPS: AFTER
 ############################################################

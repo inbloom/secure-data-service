@@ -28,7 +28,7 @@ import java.util.Random;
  */
 public class TokenGenerator {
     
-    private static final char[] DEFAULT_CODEC = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".toCharArray();
+    private static final char[] DEFAULT_CODEC = "1234567890abcdefghijklmnopqrstuvwxyz".toCharArray();
     
     private static Random random = new SecureRandom();
     

@@ -13,7 +13,7 @@
 				<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>LEA Administrator</StaffClassification>
+		<StaffClassification>IT Administrator</StaffClassification>
 		<PositionTitle>IT Admin</PositionTitle>
 		<BeginDate>2000-01-01</BeginDate>
 	</StaffEducationOrgAssignmentAssociation>
@@ -29,7 +29,7 @@
 				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>Principal</StaffClassification>
+		<StaffClassification>Leader</StaffClassification>
 		<PositionTitle>Principal</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>2013-08-13</EndDate>
@@ -45,7 +45,7 @@
 				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>School Administrative Support Staff</StaffClassification>
+		<StaffClassification>IT Administrator</StaffClassification>
 		<PositionTitle>IT Support</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>2013-08-13</EndDate>
@@ -61,7 +61,7 @@
 				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>Specialist/Consultant</StaffClassification>
+		<StaffClassification>Aggregate Viewer</StaffClassification>
 		<PositionTitle>Researcher</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>2013-08-13</EndDate>
@@ -77,7 +77,7 @@
 				<StateOrganizationId>IL</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>Superintendent</StaffClassification>
+		<StaffClassification>Leader</StaffClassification>
 		<PositionTitle>State Superintendent</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>2013-08-13</EndDate>
@@ -93,7 +93,7 @@
 				<StateOrganizationId>IL</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>LEA System Administrator</StaffClassification>
+		<StaffClassification>IT Administrator</StaffClassification>
 		<PositionTitle>IT Support</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>2013-08-13</EndDate>
@@ -109,7 +109,7 @@
 				<StateOrganizationId>IL</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>Specialist/Consultant</StaffClassification>
+		<StaffClassification>Aggregate Viewer</StaffClassification>
 		<PositionTitle>Researcher</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>2013-08-13</EndDate>
@@ -125,7 +125,7 @@
 				<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>Superintendent</StaffClassification>
+		<StaffClassification>Leader</StaffClassification>
 		<PositionTitle>District Superintendent</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>2013-08-13</EndDate>
@@ -141,7 +141,7 @@
 				<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>LEA System Administrator</StaffClassification>
+		<StaffClassification>IT Administrator</StaffClassification>
 		<PositionTitle>IT Support</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>2013-08-13</EndDate>
@@ -157,7 +157,7 @@
 				<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>Specialist/Consultant</StaffClassification>
+		<StaffClassification>Aggregate Viewer</StaffClassification>
 		<PositionTitle>Researcher</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>2013-08-13</EndDate>

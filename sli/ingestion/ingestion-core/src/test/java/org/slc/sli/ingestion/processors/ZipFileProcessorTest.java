@@ -51,7 +51,7 @@ import org.slc.sli.ingestion.queues.MessageType;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/processor-test.xml" })
+@ContextConfiguration(locations = { "/spring/handler-context.xml", "/spring/processor-test.xml" })
 public class ZipFileProcessorTest {
 
     @Autowired
@@ -84,12 +84,11 @@ public class ZipFileProcessorTest {
         preObject.getIn().setBody(workNote);
         Mockito.when(mockedBatchJobDAO.findBatchJobById(Matchers.eq(batchJobId))).thenReturn(mockedJob);
 
+        File zipFile = IngestionTest.getFile("zip/ValidZip.zip");
         ResourceEntry entry = new ResourceEntry();
-        entry.setResourceName("zip/ValidZip.zip");
+        entry.setResourceName(zipFile.getAbsolutePath());
         Mockito.when(mockedJob.getZipResourceEntry()).thenReturn(entry);
 
-
-        File zipFile = IngestionTest.getFile("zip/ValidZip.zip");
         createResourceEntryAndAddToJob(zipFile, mockedJob);
         mockedJob.setSourceId("zip");
 
@@ -110,11 +109,11 @@ public class ZipFileProcessorTest {
         preObject.getIn().setBody(workNote);
         Mockito.when(mockedBatchJobDAO.findBatchJobById(Matchers.eq(batchJobId))).thenReturn(mockedJob);
 
+        File zipFile = IngestionTest.getFile("zip/NoControlFile.zip");
         ResourceEntry entry = new ResourceEntry();
-        entry.setResourceName("zip/NoControlFile.zip");
+        entry.setResourceName(zipFile.getAbsolutePath());
         Mockito.when(mockedJob.getZipResourceEntry()).thenReturn(entry);
 
-        File zipFile = IngestionTest.getFile("zip/NoControlFile.zip");
         createResourceEntryAndAddToJob(zipFile, mockedJob);
         mockedJob.setSourceId("zip");
         Mockito.when(mockedBatchJobDAO.findBatchJobById(Matchers.eq(batchJobId))).thenReturn(mockedJob);

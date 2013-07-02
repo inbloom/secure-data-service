@@ -39,7 +39,9 @@ class BaseEntity
   end
 
   def choose(options)
-    options[@rand.rand(options.size) - 1]
+    unless options.empty? 
+      options[@rand.rand(options.size) - 1]
+    end
   end
 
   def wChoose(distribution)

@@ -22,8 +22,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
@@ -171,6 +171,19 @@ public class WriteValidatorTest {
         writeValidator.validateWriteRequest(entityBody, uriInfo, principal);
     }
 
+    @Test
+    public void testValidUpdateWithNoEdorgId() {
+        EntityBody entityBody = new EntityBody();
+        entityBody.put("key", "value");
+        
+        existingSection.getBody().put(ParameterConstants.SCHOOL_ID, ED_ORG_B);
+
+        when(uriInfo.getPathSegments()).thenReturn(putPath);
+
+        writeValidator.validateWriteRequest(entityBody, uriInfo, principal);
+    }
+
+    
     @Test
     public void testValidDelete() {
         existingSection.getBody().put(ParameterConstants.SCHOOL_ID, ED_ORG_B);

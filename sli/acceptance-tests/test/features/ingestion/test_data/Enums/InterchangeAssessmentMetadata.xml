@@ -1,0 +1,50 @@
+<InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+    xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-AssessmentMetadata.xsd">
+    <Assessment>
+        <AssessmentTitle>English Literature and Composition</AssessmentTitle>
+        <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+            <ID>AP English Literature and Composition</ID>
+        </AssessmentIdentificationCode>
+        <AssessmentCategory>College entrance exam</AssessmentCategory>
+        <AcademicSubject>Career Education</AcademicSubject>
+        <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+        <AssessmentPerformanceLevel>
+            <PerformanceLevel>
+                <CodeValue>5</CodeValue>
+            </PerformanceLevel>
+            <AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
+        </AssessmentPerformanceLevel>
+        <ContentStandard>Other</ContentStandard>
+        <Version>1</Version>
+        <RevisionDate>2005-03-12</RevisionDate>
+        <AssessmentFamilyReference>
+            <AssessmentFamilyIdentity>
+                <AssessmentFamilyTitle>AP-Eng-and-Literature</AssessmentFamilyTitle>
+            </AssessmentFamilyIdentity>
+        </AssessmentFamilyReference>
+    </Assessment>
+    <AssessmentItem>
+        <AssessmentReference>
+            <AssessmentIdentity>
+                <AssessmentTitle>English Literature and Composition</AssessmentTitle>
+                <AcademicSubject>Career Education</AcademicSubject>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+        </AssessmentReference>
+        <IdentificationCode>AssessmentItem-2</IdentificationCode>
+        <ItemCategory>Other</ItemCategory>
+        <MaxRawScore>5</MaxRawScore>
+        <CorrectResponse>True</CorrectResponse>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>G-SRT.2</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>G-SRT.3</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </AssessmentItem>
+</InterchangeAssessmentMetadata>

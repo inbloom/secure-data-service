@@ -1,5 +1,4 @@
-{
-    "keyFields" : [ "body.objective","body.academicSubject","body.objectiveGradeLevel","body.learningObjectiveId.identificationCode"],
+{ "keyFields" : [ "body.objective","body.academicSubject","body.objectiveGradeLevel"],
     "references" :
     [{
         "fieldPath" : "body.LearningObjectiveReference",

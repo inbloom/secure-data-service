@@ -17,17 +17,21 @@
 
 package org.slc.sli.dal.repository;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
+import com.mongodb.DBCollection;
+import com.mongodb.WriteResult;
+
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
-import com.mongodb.DBCollection;
-import com.mongodb.WriteResult;
+import org.slc.sli.domain.AccessibilityCheck;
+import org.slc.sli.domain.CascadeResult;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * @author ifaybyshev
@@ -61,12 +65,24 @@ public class SimpleEntityRepository implements Repository<Entity> {
     }
 
     @Override
+    public Entity findById(String collectionName, String id, boolean allFields) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
     public boolean exists(String collectionName, String id) {
         return true;
     }
 
     @Override
     public Entity findOne(String collectionName, NeutralQuery neutralQuery) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Entity findOne(String collectionName, NeutralQuery neutralQuery, boolean allFields) {
         // TODO Auto-generated method stub
         return null;
     }
@@ -93,6 +109,12 @@ public class SimpleEntityRepository implements Repository<Entity> {
     public boolean update(String collection, Entity object, boolean isSuperdoc) {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    @Override
+    public CascadeResult safeDelete(String entityType, String id, boolean cascade, boolean dryrun, boolean forced, boolean logViolations,
+                                    Integer maxObjects, AccessibilityCheck access) {
+        throw new UnsupportedOperationException("SimpleEntityRepository.safeDelete not implemented");
     }
 
     @Override
@@ -185,6 +207,23 @@ public class SimpleEntityRepository implements Repository<Entity> {
 
     @Override
     public Entity findAndUpdate(String collectionName, NeutralQuery neutralQuery, Update update) {
+        return null;
+    }
+
+    @Override
+    public Iterator<Entity> findEach(String collectionName, NeutralQuery query) {
+        return null;
+    }
+
+    @Override
+    public Iterator<Entity> findEach(String collectionName, Query query) {
+        return null;
+    }
+
+    @Override
+    public CascadeResult safeDelete(Entity entity, String id, boolean cascade, boolean dryrun, boolean forced, boolean logViolations,
+                                    Integer maxObjects, AccessibilityCheck access) {
+        // TODO Auto-generated method stub
         return null;
     }
 }

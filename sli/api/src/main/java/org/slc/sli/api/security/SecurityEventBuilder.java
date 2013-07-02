@@ -26,12 +26,12 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 
+import org.slc.sli.common.constants.ParameterConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.resolver.RealmHelper;
 import org.slc.sli.common.util.logging.LogLevelType;

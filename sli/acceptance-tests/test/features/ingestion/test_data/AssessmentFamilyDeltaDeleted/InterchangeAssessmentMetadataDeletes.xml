@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+    xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
+    <Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="false">
+        <Assessment>
+            <AssessmentTitle>Update AF then Delete A</AssessmentTitle>
+            <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                <ID>READ 2.0 Grade 1 MOY</ID>
+            </AssessmentIdentificationCode>
+            <AssessmentFamilyReference>
+                <AssessmentFamilyIdentity>
+                    <AssessmentFamilyTitle>Update AF then Delete A</AssessmentFamilyTitle>
+                </AssessmentFamilyIdentity>
+            </AssessmentFamilyReference>
+        </Assessment>
+        <AssessmentFamily>
+            <AssessmentFamilyTitle>READ 2.0 Grade 1</AssessmentFamilyTitle>
+            <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+                <ID>READ 2.0 Grade 1</ID>
+            </AssessmentFamilyIdentificationCode>
+            <AssessmentFamilyReference>
+                <AssessmentFamilyIdentity>
+                    <AssessmentFamilyTitle>READ 2.0</AssessmentFamilyTitle>
+                </AssessmentFamilyIdentity>
+            </AssessmentFamilyReference>
+        </AssessmentFamily>
+    </Action>
+</InterchangeAssessmentMetadata>

@@ -10,6 +10,8 @@ Scenario: Job report should report deltas when SDS is ingested twice
     And the following collections are empty in datastore:
          | collectionName                            |
          | assessment                                |
+         | assessmentFamily                          |
+         | assessmentPeriodDescriptor                |
          | attendance                                |
          | calendarDate                              |
          | cohort                                    |
@@ -61,7 +63,6 @@ Scenario: Job report should report deltas when SDS is ingested twice
          | teacherSectionAssociation                 |
     And zip file is scp to ingestion landing zone
     And a batch job for file "StoriedDataSet_IL_Daybreak.zip" is completed in database
-    And a batch job log has been created
     And zip file is scp to ingestion landing zone with name "Reingest-StoriedDataSet_IL_Daybreak.zip"
     And a batch job for file "Reingest-StoriedDataSet_IL_Daybreak.zip" is completed in database
     And I should see "InterchangeStudent.xml student 78 deltas!" in the resulting batch job file
@@ -109,6 +110,31 @@ Scenario: Job report should report deltas when SDS is ingested twice
     And I should see "InterchangeAssessmentMetadata-CCS-Math.xml learningObjective 65 deltas!" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-CommonCore.xml learningObjective 63 deltas!" in the resulting batch job file
     And I should see "InterchangeAttendance.xml attendanceEvent 5550 deltas!" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-ACT.xml assessment 1 deltas!" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-AP-Eng.xml assessment 2 deltas!" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-READ2.xml assessment 2 deltas!" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-StateAssessments.xml assessment 12 deltas!" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-StateAssessments.xml assessment 12 deltas!" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-StateTest.xml assessment 2 deltas!" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-ACT.xml assessmentFamily 1 deltas!" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-AP-Eng.xml assessmentFamily 4 deltas!" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-READ2.xml assessmentFamily 2 deltas!" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-StateAssessments.xml assessmentFamily 26 deltas!" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-StateTest.xml assessmentFamily 5 deltas!" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-READ2.xml assessmentPeriodDescriptor 2 deltas!" in the resulting batch job file
+# DE2834    And I should see "InterchangeAssessmentMetadata-ACT.xml objectiveAssessment 12 deltas!" in the resulting batch job file
+    And I should see "InterchangeStudentAssessment-Cgray-ACT.xml studentAssessment 25 deltas!" in the resulting batch job file
+    And I should see "InterchangeStudentAssessment-CgrayAP-English.xml studentAssessment 50 deltas!" in the resulting batch job file
+    And I should see "InterchangeStudentAssessment-Lkim6thgrade.xml studentAssessment 2 deltas!" in the resulting batch job file
+    And I should see "InterchangeStudentAssessment-Lkim7thgrade.xml studentAssessment 3 deltas!" in the resulting batch job file
+    And I should see "InterchangeStudentAssessment-Lkim8thgrade.xml studentAssessment 112 deltas!" in the resulting batch job file
+    And I should see "InterchangeStudentAssessment-Rbraverman1stgrade.xml studentAssessment 4 deltas!" in the resulting batch job file
+    And I should see "InterchangeStudentAssessment-Rbraverman3rdgrade.xml studentAssessment 3 deltas!" in the resulting batch job file
+    And I should see "InterchangeStudentAssessment-Rbraverman4thgrade.xml studentAssessment 2 deltas!" in the resulting batch job file
+    And I should see "InterchangeStudentAssessment-Rbraverman5thgrade.xml studentAssessment 2 deltas!" in the resulting batch job file
+    And I should see "InterchangeStudentAssessment-Cgray-ACT.xml studentAssessmentItem 50 deltas!" in the resulting batch job file
+    And I should see "InterchangeStudentAssessment-Cgray-ACT.xml studentObjectiveAssessment 300 deltas!" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-ACT.xml assessmentItem 4 deltas!" in the resulting batch job file
     And I should not see a warning log file created
     And I post "StoriedDataSet_IL_Daybreak_Deltas.zip" file as the payload of the ingestion job
     And zip file is scp to ingestion landing zone with name "StoriedDataSet_IL_Daybreak_Deltas.zip"
@@ -127,6 +153,8 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the following collections are empty in datastore:
          | collectionName                            |
          | assessment                                |
+         | assessmentFamily                          |
+         | assessmentPeriodDescriptor                |
          | attendance                                |
          | calendarDate                              |
          | cohort                                    |

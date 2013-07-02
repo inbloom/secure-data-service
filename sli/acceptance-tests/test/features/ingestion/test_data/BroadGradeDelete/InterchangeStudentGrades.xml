@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<InterchangeStudentGrade xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentGrade.xsd">
+  <Action ActionType="DELETE" Cascade="true">  
+    <Grade>
+      <LetterGradeEarned>C</LetterGradeEarned>
+      <NumericGradeEarned>74</NumericGradeEarned>
+      <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
+      <GradeType>Final</GradeType>
+      <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
+      <StudentSectionAssociationReference>
+        <StudentSectionAssociationIdentity>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>1</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+          <SectionReference>
+            <SectionIdentity>
+              <EducationalOrgReference>
+                <EducationalOrgIdentity>
+                  <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                </EducationalOrgIdentity>
+              </EducationalOrgReference>
+              <UniqueSectionCode>3</UniqueSectionCode>
+            </SectionIdentity>
+          </SectionReference>
+          <BeginDate>2001-09-03</BeginDate>
+        </StudentSectionAssociationIdentity>
+      </StudentSectionAssociationReference>
+      <SchoolYear>2001-2002</SchoolYear>
+    </Grade>
+  </Action>  
+</InterchangeStudentGrade>

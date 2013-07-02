@@ -16,8 +16,7 @@ Scenario: Post a zip file containing all configured Learning Objective interchan
      | recordHash                  |
   When zip file is scp to ingestion landing zone
   And a batch job for file "grade12English.zip" is completed in database
-  And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+  Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
      | learningObjective           | 70    |
      | learningStandard            | 954   |
@@ -45,8 +44,7 @@ Given I post "CommonCoreStandards/grade12Math.zip" file as the payload of the in
      | recordHash                         |
 When zip file is scp to ingestion landing zone
   And a batch job for file "grade12Math.zip" is completed in database
-  And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+  Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
      | learningObjective           | 65     |
      | learningStandard            | 509    |
@@ -76,17 +74,16 @@ Given I post "CommonCoreStandards/grade12Math.zip" file as the payload of the in
      | learningObjective                  |
      | learningStandard                   |
      | recordHash                         |
-When zip file is scp to ingestion landing zone
-  And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+  And zip file is scp to ingestion landing zone with name "grade12Math2.zip"
+  And a batch job for file "grade12Math2.zip" is completed in database
+  Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
      | learningObjective           | 65     |
      | learningStandard            | 509    |
 Given I post "CommonCoreStandards/grade12Math.zip" file as the payload of the ingestion job
-When zip file is scp to ingestion landing zone with name "grade12Math2.zip"
-  And a batch job for file "grade12Math2.zip" is completed in database
-  And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+When zip file is scp to ingestion landing zone with name "grade12Math3.zip"
+  And a batch job for file "grade12Math3.zip" is completed in database
+  Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
      | learningObjective           | 65     |
      | learningStandard            | 509    |

@@ -87,7 +87,7 @@ class SchoolYearType
   SchoolYearType.define :START_2017, "2017-2018"
   SchoolYearType.define :START_2018, "2018-2019"
   SchoolYearType.define :START_2019, "2019-2020"
-  SchoolYearType.define :START_2020, "2020-2021"
+  # SchoolYearType.define :START_2020, "2020-2021"
   SchoolYearType.define :START_2021, "2021-2022"
   SchoolYearType.define :START_2022, "2022-2023"
   SchoolYearType.define :START_2023, "2023-2024"

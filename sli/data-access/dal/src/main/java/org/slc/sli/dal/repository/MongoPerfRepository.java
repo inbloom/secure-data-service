@@ -17,22 +17,26 @@
 package org.slc.sli.dal.repository;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.dal.convert.IdConverter;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
+import com.mongodb.DBCollection;
+import com.mongodb.WriteConcern;
+import com.mongodb.WriteResult;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
-import com.mongodb.DBCollection;
-import com.mongodb.WriteConcern;
-import com.mongodb.WriteResult;
+import org.slc.sli.dal.convert.IdConverter;
+import org.slc.sli.domain.AccessibilityCheck;
+import org.slc.sli.domain.CascadeResult;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * mongodb implementation of the repository interface that provides basic CRUD
@@ -95,12 +99,22 @@ public class MongoPerfRepository<Entity> implements Repository<Entity> {
     }
 
     @Override
+    public Entity findById(String collectionName, String id, boolean allFields) {
+        throw new UnsupportedOperationException("MongoPerfRepository.findById not implemented");
+    }
+
+    @Override
     public boolean exists(String collectionName, String id) {
         throw new UnsupportedOperationException("MongoPerfRepository.exists not implemented");
     }
 
     @Override
     public Entity findOne(String collectionName, NeutralQuery neutralQuery) {
+        throw new UnsupportedOperationException("MongoPerfRepository.findOne not implemented");
+    }
+
+    @Override
+    public Entity findOne(String collectionName, NeutralQuery neutralQuery, boolean allFields) {
         throw new UnsupportedOperationException("MongoPerfRepository.findOne not implemented");
     }
 
@@ -122,6 +136,12 @@ public class MongoPerfRepository<Entity> implements Repository<Entity> {
     @Override
     public boolean update(String collection, Entity object, boolean isSuperDoc) {
         return false;  // To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public CascadeResult safeDelete(String entityType, String id, boolean cascade, boolean dryrun, boolean forced, boolean logViolations,
+                                    Integer maxObjects, AccessibilityCheck access) {
+        return null;  // To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
@@ -207,6 +227,23 @@ public class MongoPerfRepository<Entity> implements Repository<Entity> {
 
     @Override
     public Entity findAndUpdate(String collectionName, NeutralQuery neutralQuery, Update update) {
+        return null;
+    }
+
+    @Override
+    public Iterator<Entity> findEach(String collectionName, NeutralQuery query) {
+        return null;
+    }
+
+    @Override
+    public Iterator<Entity> findEach(String collectionName, Query query) {
+        return null;
+    }
+
+    @Override
+    public CascadeResult safeDelete(org.slc.sli.domain.Entity entity, String id, boolean cascade, boolean dryrun, boolean forced, boolean logViolations,
+                                    Integer maxObjects, AccessibilityCheck access) {
+        // TODO Auto-generated method stub
         return null;
     }
 }

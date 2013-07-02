@@ -37,6 +37,8 @@ import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FileEntryWorkNote;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordWorkNote;
+import org.slc.sli.ingestion.ReferenceConverter;
+import org.slc.sli.ingestion.ReferenceHelper;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -63,6 +65,7 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
         RecordVisitor {
     private static final String BATCH_JOB_STAGE_DESC = "Reads records from the interchanges";
 
+    private ReferenceHelper helper;
     // Processor configuration
     private ProducerTemplate producer;
     private TypeProvider typeProvider;
@@ -71,7 +74,8 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
 
     // Internal state of the processor
     protected ThreadLocal<ParserState> state = new ThreadLocal<ParserState>();
-    protected ThreadLocal<Integer> ignoredRecordcount = new ThreadLocal<Integer>();
+    protected ThreadLocal<Integer> ignoredRecordCount = new ThreadLocal<Integer>();
+    protected ThreadLocal<Integer> processedRecordCount = new ThreadLocal<Integer>();
 
     @Override
     protected void process(Exchange exchange, ProcessorArgs<FileEntryWorkNote> args) {
@@ -87,7 +91,7 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
             Resource xsdSchema = xsdSelector.provideXsdResource(args.workNote.getFileEntry());
 
             parse(input, xsdSchema, args.reportStats, source);
-            metrics.setValidationErrorCount(ignoredRecordcount.get());
+            metrics.setValidationErrorCount(ignoredRecordCount.get());
 
         } catch (IOException e) {
             getMessageReport().error(args.reportStats, source, CoreMessageCode.CORE_0061);
@@ -130,14 +134,17 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
 
         state.set(newState);
 
-        ignoredRecordcount.set(0);
+        ignoredRecordCount.set(0);
+        processedRecordCount.set(0);
     }
 
     /**
      * Clean the internal state for the job.
      */
     private void cleanUpState() {
-        state.set(null);
+        state.remove();
+        processedRecordCount.remove();
+        ignoredRecordCount.remove();
     }
 
     private NewBatchJob refreshjob(String id) {
@@ -146,7 +153,7 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
 
     @Override
     public void visit(RecordMeta recordMeta, Map<String, Object> record) {
-        state.get().addToBatch(recordMeta, record);
+        state.get().addToBatch(recordMeta, record, typeProvider, helper);
 
         if (state.get().getDataBatch().size() >= batchSize) {
             sendDataBatch();
@@ -155,7 +162,7 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
 
     @Override
     public void ignored() {
-        ignoredRecordcount.set(ignoredRecordcount.get() + 1);
+        ignoredRecordCount.set(ignoredRecordCount.get() + 1);
     }
 
     public void sendDataBatch() {
@@ -166,6 +173,7 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
                     false);
 
             producer.sendBodyAndHeaders(workNote, s.getOriginalExchange().getIn().getHeaders());
+            processedRecordCount.set(processedRecordCount.get() + s.getDataBatch().size());
 
             s.resetDataBatch();
         }
@@ -211,6 +219,9 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
         return xsdSelector;
     }
 
+    public void setHelper( ReferenceHelper helper ) {
+        this.helper = helper;
+    }
     public void setXsdSelector(XsdSelector xsdSelector) {
         this.xsdSelector = xsdSelector;
     }
@@ -258,10 +269,37 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
             dataBatch = new ArrayList<NeutralRecord>();
         }
 
-        public void addToBatch(RecordMeta recordMeta, Map<String, Object> record) {
-            NeutralRecord neutralRecord = new NeutralRecord();
+        static void convertReference2EntityFieldNames(NeutralRecord neutralRecord, String referenceType,
+                ReferenceHelper helper) {
 
-            neutralRecord.setRecordType(StringUtils.uncapitalize(recordMeta.getName()));
+            helper.mapAttributes(neutralRecord.getAttributes(), referenceType);
+
+
+/*
+            Map<String, Object> attributes = neutralRecord.getAttributes();
+            final Map<String, String> derivedFields = new HashMap<String, String>();
+            // target //source
+            derivedFields.put("EducationOrganizationReference", "EducationalOrgReference");
+            derivedFields.put("SchoolReference", "EducationalOrgReference");
+            derivedFields.put("EducationOrgReference", "EducationalOrgReference");
+
+            for (String derivedField : derivedFields.keySet()) {
+                String existingField = derivedFields.get(derivedField);
+                if (attributes.containsKey(existingField)) {
+                    attributes.put(derivedField, attributes.get(existingField));
+                    // attributes.remove(refFieldName);
+                }
+            }
+  */
+
+        }
+
+        public void addToBatch(RecordMeta recordMeta, Map<String, Object> record, TypeProvider typeProvider,
+                ReferenceHelper helper) {
+            NeutralRecord neutralRecord = new NeutralRecord();
+            neutralRecord.setActionVerb(recordMeta.getAction());
+            String recordType = StringUtils.uncapitalize(recordMeta.getName());
+
             neutralRecord.setBatchJobId(work.getBatchJobId());
             neutralRecord.setSourceFile(work.getFileEntry().getResourceId());
 
@@ -272,8 +310,25 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
             neutralRecord.setVisitBeforeColumnNumber(startLoc.getColumnNumber());
             neutralRecord.setVisitAfterLineNumber(endLoc.getLineNumber());
             neutralRecord.setVisitAfterColumnNumber(endLoc.getColumnNumber());
+            neutralRecord.setActionAttributes(recordMeta.getActionAttributes());
 
             neutralRecord.setAttributes(record);
+            String originalType = recordMeta.getOriginalType();
+
+            if (originalType != null && ReferenceConverter.isReferenceType(originalType)) {
+                ReferenceConverter convert = ReferenceConverter.fromReferenceName(recordMeta.getOriginalType());
+                String useType = convert != null ? convert.getEntityName() : recordType;
+                neutralRecord.setRecordType(useType);
+                neutralRecord.setDataType(recordMeta.getName());
+
+                // Do a record conversion for field names that don't match up between the reference
+                // type and entity type
+                convertReference2EntityFieldNames(neutralRecord, originalType, helper);
+
+            } else {
+                neutralRecord.setRecordType(recordType);
+            }
+
             dataBatch.add(neutralRecord);
         }
     }

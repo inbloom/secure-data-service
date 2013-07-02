@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentParent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-StudentParent.xsd">
+
+  
+  <!-- Illustrative use of DELETE -->
+  <Action ActionType="DELETE" Cascade="false" Force="false">
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>Student-1</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+  </Action>
+
+</InterchangeStudentParent>

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<InterchangeAssessmentMetadata xmlns="http://ed-fi.org/0100">
+
+  <LearningStandard id="LST_1">
+    <LearningStandardId ContentStandardName="Content Standard Name">
+      <IdentificationCode>LST_1</IdentificationCode>
+    </LearningStandardId>
+    <Description>Learning Standard 1 Description</Description>
+    <ContentStandard>LEA Standard</ContentStandard>
+    <GradeLevel>Fourth grade</GradeLevel>
+    <SubjectArea>Social Sciences and History</SubjectArea>
+    <CourseTitle>Learning Standard 1 CourseTitle</CourseTitle>
+  </LearningStandard>
+
+  <LearningObjective>
+    <LearningObjectiveId ContentStandardName="Content Standard Name">
+        <IdentificationCode>LearningObjective_1</IdentificationCode>
+    </LearningObjectiveId>
+    <Objective>LearningObjective_1</Objective>
+    <Description>Learning Objective 1 Description</Description>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Other</ObjectiveGradeLevel>
+  </LearningObjective>
+
+</InterchangeAssessmentMetadata>

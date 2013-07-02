@@ -92,6 +92,12 @@ default:
         #Used for security context resultion's internal paging threshold
         sli.api.security.context.paging: 100000
 
+        #Used for X509 Certs for Bulk Extract
+        sli.security.truststore.path: /tmp/trustey.jks
+        sli.security.truststore.password: changeit
+
+        sli.session.cache.ttl: 10
+        sli.session.cache.tli: 5
 
     data-access: &DATA-ACCESS-DEFAULT
         # MongoDB Options (only used in data-access)
@@ -120,12 +126,6 @@ default:
         # Key substitutions
         sli.mongodb.keyencoding: \%:\%25,\\.:\%2E
 
-        # Ingestion Staging MongoDB options (used in ingestion to configure the datalayer)
-        sli.ingestion.staging.mongodb.database: is
-        sli.ingestion.staging.mongodb.host: localhost
-        sli.ingestion.staging.mongodb.port: 27017
-        sli.ingestion.staging.clearOnCompletion: true
-
         # Ingestion BatchJob MongoDB options (used in ingestion to configure the datalayer)
         sli.ingestion.batchjob.mongodb.database: ingestion_batch_job
         sli.ingestion.batchjob.mongodb.host: localhost
@@ -143,10 +143,11 @@ default:
         sli.mongo.tracking: false
         sli.mongo.tracking.interval.seconds: 5
 
+        sli.bulk.extract.deltasEnabled: true
+
   # Write concerns
 
         sli.ingestion.mongotemplate.writeConcern: SAFE
-        sli.ingestion.staging.mongotemplate.writeConcern: SAFE
         sli.default.mongotemplate.writeConcern: SAFE
 
     ingestion: &INGESTION-DEFAULT
@@ -183,18 +184,6 @@ default:
         sli.ingestion.queue.landingZone.queueURI: activemq:queue:ingestion.landingZone
         sli.ingestion.queue.landingZone.concurrentConsumers: 1
 
-        # Symphony (maestro + pit) queue config
-        sli.ingestion.queue.maestro.queueURI: seda:IngestionMaestro
-        sli.ingestion.queue.maestro.consumerQueueURI: seda:IngestionMaestro
-        sli.ingestion.queue.maestro.concurrentConsumers: 1
-        sli.ingestion.queue.maestro.uriOptions:
-
-        # Pit (worker) nodes
-        sli.ingestion.queue.pit.queueURI: seda:IngestionPit
-        sli.ingestion.queue.pit.consumerQueueURI: seda:IngestionPit
-        sli.ingestion.queue.pit.concurrentConsumers: 30
-        sli.ingestion.queue.pit.uriOptions:
-
         # Xml file parser queue
         sli.ingestion.queue.parser.queueURI: seda:IngestionParser
         sli.ingestion.queue.parser.concurrentConsumers: 8
@@ -202,21 +191,14 @@ default:
 
         sli.ingestion.parser.batch.size: 1000
 
+        sli.ingestion.purge.batch.size: 30000
+
         sli.ingestion.nodeType: standalone
         sli.ingestion.tenant.loadDefaultTenants: true
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
-        sli.ingestion.cache.type: inmemory
-        sli.ingestion.cache.servers:
-        sli.ingestion.cache.opTimeout: 10
-
-        #Work Note Chunking Parameters
-        sli.ingestion.split.chunk.size: 500
-        sli.ingestion.split.threshold.percentage: 0.30
-
         #Reference Schema reference check
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
-
 
         #Used to limit the total number of errors or warnings being printed
         #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature
@@ -229,10 +211,6 @@ default:
         sli.ingestion.dataset.sample:
             small: [SmallSampleDataSet.zip]
             medium : [MediumSampleDataSet.zip]
-
-        # file processing
-        sli.ingestion.file.timeout: 600000
-        sli.ingestion.file.retryinterval: 30000
 
     dashboard: &DASHBOARD-DEFAULT
 
@@ -430,11 +408,17 @@ default:
         sli.search.indexer.extract.schedule: 0 0 0 ? * SUN
         sli.search.indexer.extract.runOnStartup: false
         sli.search.indexer.service.port: 10024
-        sli.search.indexer.broker.uri : vm:(localhost:(stomp://localhost:61613,tcp://localhost:61616)?persistent=false&tempUsage=1073741824)?marshal=false&waitForStart=1
+        sli.search.indexer.broker.uri: tcp://${sli.ingestion.queue.workItem.host}:${sli.ingestion.queue.workItem.port}
         sli.search.indexer.queue.name: search
         sli.search.indexer.sarje.sub.topic: /topic/oplog_subscribe
         sli.search.indexer.sarje.sub.req.queue: /queue/subscription/poll
         sli.search.indexer.env: local
+
+        # bulk extract
+        sli.bulk.extract.output.directory: extract
+        sli.bulk.extract.log.path: logs
+        sli.bulk.extract.log.level: INFO
+        sli.be.mongo.failOnPrimary: false
 
 acceptance-tests:
     api:
@@ -497,19 +481,6 @@ acceptance-tests:
         sli.ingestion.queue.workItem.concurrentConsumers: 4
 
 
-        # TODO - need maestroPit queue config
-        # Symphony (maestro + pit) queue config
-        sli.ingestion.queue.maestro.queueURI: activemq:queue:IngestionMaestro
-        sli.ingestion.queue.maestro.consumerQueueURI: txActivemq:queue:IngestionMaestro
-        sli.ingestion.queue.maestro.concurrentConsumers: 1
-        sli.ingestion.queue.maestro.uriOptions: '&transferExchange=true'
-
-        # Pit (worker) nodes
-        sli.ingestion.queue.pit.queueURI: activemq:queue:IngestionPit
-        sli.ingestion.queue.pit.consumerQueueURI: txActivemq:queue:IngestionPit
-        sli.ingestion.queue.pit.concurrentConsumers: 30
-        sli.ingestion.queue.pit.uriOptions: '&transferExchange=true'
-
         # Xml file parser queue
         sli.ingestion.queue.parser.queueURI: activemq:queue:IngestionParser
         sli.ingestion.queue.parser.concurrentConsumers: 8
@@ -520,8 +491,8 @@ acceptance-tests:
 
         #Used to limit the total number of errors or warnings being printed
         #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature
-        sli.ingestion.errorsCountPerInterchange: 15
-        sli.ingestion.warningsCountPerInterchange: 15
+        sli.ingestion.errorsCountPerInterchange: 250
+        sli.ingestion.warningsCountPerInterchange: 250
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -607,8 +578,8 @@ ci:
 
         #Used to limit the total number of errors or warnings being printed
         #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature
-        sli.ingestion.errorsCountPerInterchange: 15
-        sli.ingestion.warningsCountPerInterchange: 15
+        sli.ingestion.errorsCountPerInterchange: 250
+        sli.ingestion.warningsCountPerInterchange: 250
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -710,8 +681,8 @@ dev:
 
         #Used to limit the total number of errors or warnings being printed
         #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature
-        sli.ingestion.errorsCountPerInterchange: 15
-        sli.ingestion.warningsCountPerInterchange: 15
+        sli.ingestion.errorsCountPerInterchange: 250
+        sli.ingestion.warningsCountPerInterchange: 250
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -921,7 +892,9 @@ local:
         # local/api/security/security.properties
         #
         # Set of substitution filters used for local builds
-        #
+
+        # Increase session length for local profile
+        sli.session.length: 28800000
 
         # Security
         ## sli.security.noSession.landing.url: http://localhost:8080/api/oauth/authorize?response_type=code
@@ -1011,8 +984,8 @@ local:
 
         #Used to limit the total number of errors or warnings being printed
         #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature
-        sli.ingestion.errorsCountPerInterchange: 15
-        sli.ingestion.warningsCountPerInterchange: 15
+        sli.ingestion.errorsCountPerInterchange: 250
+        sli.ingestion.warningsCountPerInterchange: 250
 
     dashboard: &DASHBOARD-LOCAL
         <<: *DASHBOARD-DEFAULT
@@ -1061,7 +1034,7 @@ local:
         sli.simple-idp.sliAdminRealmName: LocalNew
         # LDAP base URLs, comma separated list of ldap servers
         ## sli.simple-idp.ldap.urls: ldap://{ldap_host:port}
-        sli.simple-idp.ldap.urls: ldap://ldap.slidev.org:389
+        sli.simple-idp.ldap.urls: ldaps://ldapelb.slidev.org:443
         # LDAP base DN
         sli.simple-idp.ldap.base: ou=DevTest,dc=slidev,dc=org
 
@@ -1133,8 +1106,8 @@ local-acceptance-tests:
 
         #Used to limit the total number of errors or warnings being printed
         #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature
-        sli.ingestion.errorsCountPerInterchange: 15
-        sli.ingestion.warningsCountPerInterchange: 15
+        sli.ingestion.errorsCountPerInterchange: 250
+        sli.ingestion.warningsCountPerInterchange: 250
 
     dashboard:
         # Pick up default here, not local, to avoid overriding the encryption keystore.
@@ -1229,6 +1202,11 @@ team:
         bootstrap.sandbox.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp
         bootstrap.app.conf: ${sli.conf}
         sli.api.performance.tracking: false
+        
+        #Used for X509 Certs for Bulk Extract
+        sli.security.truststore.path: /opt/tomcat/encryption/ciTruststore.jks
+        sli.security.truststore.password: changeit
+
 
     data-access: &DATA-ACCESS-TEAM
         <<: *DATA-ACCESS-DEFAULT
@@ -1282,18 +1260,6 @@ team:
         sli.ingestion.queue.workItem.queueURI: activemq:queue:ingestion.workItem
         sli.ingestion.queue.workItem.concurrentConsumers: 4
 
-        # Symphony (maestro + pit) queue config
-        sli.ingestion.queue.maestro.queueURI: activemq:queue:ingestion.maestro
-        sli.ingestion.queue.maestro.consumerQueueURI: txActivemq:queue:ingestion.maestro
-        sli.ingestion.queue.maestro.concurrentConsumers: 1
-        sli.ingestion.queue.maestro.uriOptions: '&transferExchange=true'
-
-        # Pit (worker) nodes
-        sli.ingestion.queue.pit.queueURI: activemq:queue:ingestion.pit
-        sli.ingestion.queue.pit.consumerQueueURI: txActivemq:queue:ingestion.pit
-        sli.ingestion.queue.pit.concurrentConsumers: 30
-        sli.ingestion.queue.pit.uriOptions: '&transferExchange=true'
-
         #Xml file parser queue
         sli.ingestion.queue.parser.queueURI: activemq:queue:ingestion.parser
         sli.ingestion.queue.parser.concurrentConsumers: 8
@@ -1306,8 +1272,8 @@ team:
 
         #Used to limit the total number of errors or warnings being printed
         #if you change these two parameters, please make sure to change acceptanceTest ingestion_error_warning_count.feature
-        sli.ingestion.errorsCountPerInterchange: 15
-        sli.ingestion.warningsCountPerInterchange: 15
+        sli.ingestion.errorsCountPerInterchange: 250
+        sli.ingestion.warningsCountPerInterchange: 250
 
 
     dashboard: &DASHBOARD-TEAM
@@ -1420,6 +1386,9 @@ perf:
         # Health Check credentials
         sli.ingestion.healthcheck.user: admin
         sli.ingestion.healthcheck.pass: admin
+
+        sli.bulk.extract.deltasEnabled: false
+        sli.be.mongo.failOnPrimary: false
 
     ingestion:
         <<: *INGESTION-DEFAULT
@@ -1600,8 +1569,6 @@ nxteam:
         ## sli.ingestion.queue.workItem.host: {active_mq_host}
         sli.ingestion.queue.workItem.host: nxmaestro.slidev.org
         sli.ingestion.tenant.loadDefaultTenants: true
-        sli.ingestion.queue.maestro.concurrentConsumers: 1
-        sli.ingestion.queue.pit.concurrentConsumers: 30
         sli.ingestion.queue.parser.concurrentConsumers: 8
         sli.ingestion.cache.type: inmemory
         sli.ingestion.cache.opTimeout: 100

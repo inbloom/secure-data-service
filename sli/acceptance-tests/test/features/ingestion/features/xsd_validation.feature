@@ -16,9 +16,7 @@ Scenario: Student Ed-Fi XSD Validation
         | recordHash                  |
     When zip file is scp to ingestion landing zone
     And a batch job for file "XsdValidation.zip" is completed in database
-    And a batch job log has been created
-
-    Then I should see following map of entry counts in the corresponding collections:
+        Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | student                     | 2     |
     And I check to find if record is in collection:
@@ -60,9 +58,7 @@ Scenario: InterchangeStudentGrade.xml Ed-Fi XSD Validation - <CompetencyLevel> u
       | recordHash                  |
     When zip file is scp to ingestion landing zone
     And a batch job for file "StudentGradeXsdValidation.zip" is completed in database
-    And a batch job log has been created
-
-    Then I should see following map of entry counts in the corresponding collections:
+        Then I should see following map of entry counts in the corresponding collections:
       | collectionName              | count |
       | educationOrganization       | 3     |
       | student                     | 1     |

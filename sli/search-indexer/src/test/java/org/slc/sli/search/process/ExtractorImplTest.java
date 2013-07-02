@@ -24,12 +24,12 @@ import java.util.List;
 import junit.framework.Assert;
 
 import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 import org.slc.sli.search.config.IndexConfigStore;
 import org.slc.sli.search.connector.SourceDatastoreConnector;
 import org.slc.sli.search.connector.SourceDatastoreConnector.Tenant;
@@ -102,6 +102,19 @@ public class ExtractorImplTest {
             return null;
         }
 
+		@Override
+		public DBCursor getDBCursor(String collectionName, List<String> fields,
+				DBObject query) {
+			// TODO Auto-generated method stub
+            return MockDBCursorFactory.create(collectionName);
+		}
+
+        @Override
+        public DBCursor getDBCursor(String databaseName, String collectionName, List<String> fields, DBObject query) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
     };
 
     private final MockExtractor extractor = new MockExtractor();
@@ -112,7 +125,6 @@ public class ExtractorImplTest {
         extractor.setJobWaitTimeoutInMins(1);
         indexConfigStore = new IndexConfigStore("index-config-test.json");
         indexEntityConverter = new IndexEntityConverter();
-        indexEntityConverter.setIndexConfigStore(indexConfigStore);
 
         extractor.setIndexConfigStore(indexConfigStore);
         extractor.reset();

@@ -51,6 +51,7 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
     public static final String LEADER = "Leader";
     public static final String AGGREGATOR = "Aggregate Viewer";
     public static final String IT_ADMINISTRATOR = "IT Administrator";
+    public static final String STUDENT = "Student";
 
     public static final String LEA_ADMINISTRATOR = "LEA Administrator";
     public static final String SEA_ADMINISTRATOR = "SEA Administrator";
@@ -69,33 +70,38 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
         adminRoles.put(
                 LEA_ADMINISTRATOR,
                 RoleBuilder
-                        .makeRole(LEA_ADMINISTRATOR)
+                        .makeRole(Arrays.asList(LEA_ADMINISTRATOR))
+                        .addGroupTitle(LEA_ADMINISTRATOR)
                         .addRights(
                                 new Right[] { Right.ADMIN_ACCESS, Right.EDORG_APP_AUTHZ, Right.READ_PUBLIC,
                                         Right.CRUD_LEA_ADMIN, Right.SECURITY_EVENT_VIEW }).setAdmin(true).build());
         adminRoles.put(
                 SEA_ADMINISTRATOR,
                 RoleBuilder
-                        .makeRole(SEA_ADMINISTRATOR)
+                        .makeRole(Arrays.asList(SEA_ADMINISTRATOR))
+                        .addGroupTitle(SEA_ADMINISTRATOR)
                         .addRights(
                                 new Right[] { Right.ADMIN_ACCESS, Right.EDORG_DELEGATE, Right.READ_PUBLIC,
                                         Right.CRUD_SEA_ADMIN, Right.CRUD_LEA_ADMIN, Right.SECURITY_EVENT_VIEW }).setAdmin(true).build());
         adminRoles.put(
                 SANDBOX_SLC_OPERATOR,
                 RoleBuilder
-                        .makeRole(SANDBOX_SLC_OPERATOR)
+                        .makeRole(Arrays.asList(SANDBOX_SLC_OPERATOR))
+                        .addGroupTitle(SANDBOX_SLC_OPERATOR)
                         .addRights(
                                 new Right[] { Right.ADMIN_ACCESS, Right.CRUD_SANDBOX_SLC_OPERATOR,
                                         Right.CRUD_SANDBOX_ADMIN }).setAdmin(true).build());
         adminRoles
                 .put(SANDBOX_ADMINISTRATOR,
-                        RoleBuilder.makeRole(SANDBOX_ADMINISTRATOR)
+                        RoleBuilder.makeRole(Arrays.asList(SANDBOX_ADMINISTRATOR))
+                                .addGroupTitle(SANDBOX_ADMINISTRATOR)
                                 .addRights(new Right[] { Right.ADMIN_ACCESS, Right.CRUD_SANDBOX_ADMIN, Right.PRODUCTION_LOGIN }).setAdmin(true)
                                 .build());
         adminRoles.put(
                 REALM_ADMINISTRATOR,
                 RoleBuilder
-                        .makeRole(REALM_ADMINISTRATOR)
+                        .makeRole(Arrays.asList(REALM_ADMINISTRATOR))
+                        .addGroupTitle(REALM_ADMINISTRATOR)
                         .addRights(
                                 new Right[] { Right.ADMIN_ACCESS, Right.READ_GENERAL, Right.CRUD_REALM,
                                         Right.READ_PUBLIC, Right.CRUD_ROLE }).setAdmin(true).build());
@@ -107,11 +113,11 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
         } else {
             appDevRights = new Right[] { Right.ADMIN_ACCESS, Right.DEV_APP_CRUD, Right.READ_GENERAL, Right.READ_PUBLIC };
         }
-        adminRoles.put(APP_DEVELOPER, RoleBuilder.makeRole(APP_DEVELOPER).addRights(appDevRights).setAdmin(true)
+        adminRoles.put(APP_DEVELOPER, RoleBuilder.makeRole(Arrays.asList(APP_DEVELOPER)).addGroupTitle(APP_DEVELOPER).addRights(appDevRights).setAdmin(true)
                 .build());
 
         adminRoles.put(INGESTION_USER,
-                RoleBuilder.makeRole(INGESTION_USER).addRights(new Right[] { Right.INGEST_DATA, Right.ADMIN_ACCESS })
+                RoleBuilder.makeRole(Arrays.asList(INGESTION_USER)).addGroupTitle(INGESTION_USER).addRights(new Right[] { Right.INGEST_DATA, Right.ADMIN_ACCESS })
                         .setAdmin(true).build());
 
         List<Right> slcOperatorRights = new ArrayList<Right> ( Arrays.asList(Right.ADMIN_ACCESS, Right.SLC_APP_APPROVE, Right.READ_GENERAL,
@@ -123,7 +129,8 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
         adminRoles.put(
                 SLC_OPERATOR,
                 RoleBuilder
-                        .makeRole(SLC_OPERATOR)
+                        .makeRole(Arrays.asList(SLC_OPERATOR))
+                        .addGroupTitle(SLC_OPERATOR)
                         .addRights(slcOperatorRights.toArray(new Right[slcOperatorRights.size()])).setAdmin(true).build());
     }
 
@@ -170,7 +177,7 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
                                 List<String> rights = (List<String>) role.get("rights");
                                 List<String> selfRights = (List<String>) role.get("selfRights");
 
-                                RoleBuilder roleBuilder = RoleBuilder.makeRole(roleName).addGrantedAuthorities(rights); 
+                                RoleBuilder roleBuilder = RoleBuilder.makeRole(Arrays.asList(roleName)).addGroupTitle(roleName).addGrantedAuthorities(rights);
                                 roleBuilder.addSelfGrantedAuthorities(selfRights);
                                 Role mainRole = roleBuilder.build();
 

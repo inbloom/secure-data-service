@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<InterchangeEducationOrgCalendar xmlns="http://ed-fi.org/0100"
+                                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                                 xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../domain/src/main/resources/edfiXsd/Interchange-EducationOrgCalendar.xsd ">
+    <CalendarDate>
+        <Date>2009-08-01</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+        <EducationOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrgReference>
+    </CalendarDate>
+</InterchangeEducationOrgCalendar>

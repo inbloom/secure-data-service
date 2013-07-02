@@ -1,0 +1,127 @@
+<?xml version="1.0"?>
+<InterchangeStudentGrade xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentGrade.xsd">
+  <Action ActionType="DELETE" Cascade="false" Force="false">
+      <ReportCard>
+          <GradeReference>
+              <GradeIdentity>
+                  <StudentReference>
+                      <StudentIdentity>
+                          <StudentUniqueStateId>RC-800000025</StudentUniqueStateId>
+                      </StudentIdentity>
+                  </StudentReference>
+                  <SectionReference>
+                      <SectionIdentity>
+                          <EducationalOrgReference>
+                              <EducationalOrgIdentity>
+                                  <StateOrganizationId>RC-South Daybreak Elementary</StateOrganizationId>
+                              </EducationalOrgIdentity>
+                          </EducationalOrgReference>
+                          <UniqueSectionCode>RC-Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+                      </SectionIdentity>
+                  </SectionReference>
+                  <GradingPeriodReference>
+                      <GradingPeriodIdentity>
+                          <EducationalOrgReference>
+                              <EducationalOrgIdentity>
+                                  <StateOrganizationId>RC-South Daybreak Elementary</StateOrganizationId>
+                              </EducationalOrgIdentity>
+                          </EducationalOrgReference>
+                          <GradingPeriod>First Six Weeks</GradingPeriod>
+                          <BeginDate>2010-08-23</BeginDate>
+                      </GradingPeriodIdentity>
+                  </GradingPeriodReference>
+                  <SchoolYear>2010-2011</SchoolYear>
+              </GradeIdentity>
+          </GradeReference>
+          <GradeReference>
+              <GradeIdentity>
+                  <StudentReference>
+                      <StudentIdentity>
+                          <StudentUniqueStateId>RC-800000025</StudentUniqueStateId>
+                      </StudentIdentity>
+                  </StudentReference>
+                  <SectionReference>
+                      <SectionIdentity>
+                          <EducationalOrgReference>
+                              <EducationalOrgIdentity>
+                                  <StateOrganizationId>RC-South Daybreak Elementary</StateOrganizationId>
+                              </EducationalOrgIdentity>
+                          </EducationalOrgReference>
+                          <UniqueSectionCode>RC-Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+                      </SectionIdentity>
+                  </SectionReference>
+                  <GradingPeriodReference>
+                      <GradingPeriodIdentity>
+                          <EducationalOrgReference>
+                              <EducationalOrgIdentity>
+                                  <StateOrganizationId>RC-South Daybreak Elementary</StateOrganizationId>
+                              </EducationalOrgIdentity>
+                          </EducationalOrgReference>
+                          <GradingPeriod>Sixth Six Weeks</GradingPeriod>
+                          <BeginDate>2011-04-11</BeginDate>
+                      </GradingPeriodIdentity>
+                  </GradingPeriodReference>
+                  <SchoolYear>2010-2011</SchoolYear>
+              </GradeIdentity>
+          </GradeReference>
+
+          <StudentCompetencyReference>
+              <StudentCompetencyIdentity>
+                  <LearningObjectiveReference>
+                      <LearningObjectiveIdentity>
+                          <Objective>The Rainforest</Objective>
+                          <AcademicSubject>Science</AcademicSubject>
+                          <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+                      </LearningObjectiveIdentity>
+                  </LearningObjectiveReference>
+                  <CodeValue>3</CodeValue>
+                  <StudentSectionAssociationReference>
+                      <StudentSectionAssociationIdentity>
+                          <StudentReference>
+                              <StudentIdentity>
+                                  <StudentUniqueStateId>800000025</StudentUniqueStateId>
+                              </StudentIdentity>
+                          </StudentReference>
+                          <SectionReference>
+                              <SectionIdentity>
+                                  <EducationalOrgReference>
+                                      <EducationalOrgIdentity>
+                                          <StateOrganizationId>SCR-South Daybreak Elementary</StateOrganizationId>
+                                      </EducationalOrgIdentity>
+                                  </EducationalOrgReference>
+                                  <UniqueSectionCode>SCR-Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+                              </SectionIdentity>
+                          </SectionReference>
+                          <BeginDate>2011-09-01</BeginDate>
+                      </StudentSectionAssociationIdentity>
+                  </StudentSectionAssociationReference>
+              </StudentCompetencyIdentity>
+          </StudentCompetencyReference>
+          <GPAGivenGradingPeriod>2.6</GPAGivenGradingPeriod>
+          <GPACumulative>2.6</GPACumulative>
+          <NumberOfDaysAbsent>2</NumberOfDaysAbsent>
+          <NumberOfDaysInAttendance>183</NumberOfDaysInAttendance>
+          <NumberOfDaysTardy>2</NumberOfDaysTardy>
+          <StudentReference>
+              <StudentIdentity>
+                  <StudentUniqueStateId>SCR-800000025</StudentUniqueStateId>
+              </StudentIdentity>
+          </StudentReference>
+          <!-- id does not exist in this file -->
+          <!-- GradingPeriodReference/-->
+          <GradingPeriodReference>
+              <GradingPeriodIdentity>
+                  <EducationalOrgReference>
+                      <EducationalOrgIdentity>
+                          <StateOrganizationId>RC-South Daybreak Elementary</StateOrganizationId>
+                      </EducationalOrgIdentity>
+                  </EducationalOrgReference>
+                  <GradingPeriod>End of Year</GradingPeriod>
+                  <BeginDate>2011-05-27</BeginDate>
+              </GradingPeriodIdentity>
+          </GradingPeriodReference>
+          <SchoolYear>2010-2011</SchoolYear>
+      </ReportCard>
+  </Action>  
+</InterchangeStudentGrade>

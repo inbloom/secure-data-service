@@ -1,0 +1,139 @@
+[
+  {
+    "userId": "jstevenson",
+    "name": "James Stevenson",
+    "edOrgs": [
+      {
+        "role": "IT Administrator",
+        "type": "State Education Agency",
+        "association": "IL-DAYBREAK"
+      }
+    ]
+  },
+  {
+    "userId": "sbantu",
+    "name": "Susan Bantu",
+    "edOrgs": [
+      {
+        "role": "Leader",
+        "type": "High School",
+        "association": "East Daybreak High",
+        "parent" : "District 9"
+      }
+    ]
+  },
+  {
+    "userId": "linda.kim",
+    "name": "Linda Kim",
+    "edOrgs": [
+      {
+        "role": "Educator",
+        "type": "High School",
+        "association": "Daybreak Central High",
+        "parent" : "District 9"
+      },
+      {
+        "role": "Educator",
+        "type": "High School",
+        "association": "Daybreak Bayside High",
+        "parent" : "District 31"
+      }
+    ]
+  },
+  {
+    "userId": "rbraverman",
+    "name": "Rebecca Braverman",
+    "edOrgs": [
+      {
+        "role": "Educator",
+        "type": "High School",
+        "association": "Daybreak Central High",
+        "parent" : "District 9"
+      },
+      {
+        "role": "Educator",
+        "type": "High School",
+        "association": "East Daybreak High",
+        "parent" : "District 9"
+      }
+    ]
+  },
+  {
+    "userId": "mgonzales",
+    "name": "Maria Gonzales",
+    "edOrgs": [
+      {
+        "role": "Leader",
+        "type": "Local Education Agency",
+        "association": "District 31",
+        "parent" : "IL-DAYBREAK"
+      }
+    ]
+  },
+  {
+    "userId": "jmacey",
+    "name": "Javier Macey",
+    "edOrgs": [
+      {
+        "role": "Leader",
+        "type": "Local Education Agency",
+        "association": "District 9",
+        "parent" : "IL-DAYBREAK"
+      },
+      {
+        "role": "Educator",
+        "type": "High School",
+        "association": "East Daybreak High",
+        "parent" : "District 9"
+      }
+    ]
+  },
+  {
+    "userId": "rbelding",
+    "name": "Richard Belding",
+    "edOrgs": [
+      {
+        "role": "Educator",
+        "type": "High School",
+        "association": "Daybreak Central High",
+        "parent" : "District 9"
+      },
+      {
+        "role": "Leader",
+        "type": "High School",
+        "association": "East Daybreak High",
+        "parent" : "District 9"
+      }
+    ]
+  },
+  {
+    "userId": "msmith",
+    "name": "Mary Smith",
+    "edOrgs": [
+      {
+        "role": "Aggregate Viewer",
+        "type": "Local Education Agency",
+        "association": "District 9",
+        "parent" : "IL-DAYBREAK"
+      },
+      {
+        "role": "Leader",
+        "type": "High School",
+        "association": "East Daybreak High",
+        "parent" : "District 9"
+      }
+    ]
+  },
+  {
+    "userId": "xbell",
+    "name": "Xavier Bell",
+    "edOrgs": [
+      {
+        "role": "Aggregate Viewer",
+        "type": "Local Education Agency",
+        "association": "District 31",
+        "parent" : "IL-DAYBREAK"
+      }
+    ]
+  }
+]

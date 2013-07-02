@@ -245,6 +245,8 @@ When /^I confirm the delete action$/ do
   begin
     @driver.switch_to.alert.accept
   rescue
+    sleep(3)
+    @driver.switch_to.alert.accept
   end
   sleep(3)
 end
@@ -258,16 +260,16 @@ Then /^that user is removed from LDAP$/ do
   sessionId = @sessionId
   format = "application/json"
   found = false
-  30.times do
+  30.times do |i|
     restHttpGet("/users",format,sessionId)
     found = false
     result = JSON.parse(@res.body)
     result.each do |user|
       if user["fullName"] == @userFullName
+        puts "Found #{user["fullName"]} on try #{i}\n"
         found = true
         break
       end
-      puts user["fullName"]
     end
     if !found
       break
@@ -349,8 +351,23 @@ def check_heading(heading_name)
 end
 
 def assertText(text)
-  body = @explicitWait.until{@driver.find_element(:tag_name, "body")}
-  assert(body.text.include?(text), "Cannot find the text \"#{text}\"")
+  begin
+    # Try twice to account for timing issues
+    body = @explicitWait.until{@driver.find_element(:tag_name, "body")}
+    assertWithWait("Cannot find the text \"#{text}\"") { @driver.page_source.include?(text) }
+
+  # This will catch a Runtime error thrown by assertWithWait
+  rescue RuntimeError
+    # If this is the first failure, we set first to false and retry assertWithWait
+    if first.nil?
+      first = false
+      retry
+    # If this is the second attempt, first is set so we skip here
+    # and simply raise the runtime error and bag out
+    else
+      raise "Cannot find the text \"#{text}\""
+    end
+  end
 end
 
 def build_user(uid,fullName,groups,tenant,edorg)

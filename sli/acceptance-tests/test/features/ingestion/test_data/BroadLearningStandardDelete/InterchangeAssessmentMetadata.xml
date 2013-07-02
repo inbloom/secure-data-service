@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                                  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-AssessmentMetadata.xsd">
+    <Action ActionType="DELETE" Cascade="true">
+
+    <LearningStandard>
+        <LearningStandardId>
+            <IdentificationCode>LS-G3-3</IdentificationCode>
+        </LearningStandardId>
+        <Description>Description of learning standard for writing</Description>
+        <ContentStandard>State Standard</ContentStandard>
+        <GradeLevel>Third grade</GradeLevel>
+        <SubjectArea>Writing</SubjectArea>
+        <CourseTitle>Writing</CourseTitle>
+    </LearningStandard>
+    
+    </Action>
+    </InterchangeAssessmentMetadata>

@@ -286,7 +286,7 @@ final class Xsd2UmlLinker {
             // reportIllegalSuffix(classType, attribute);
             return name.substring(0, name.length() - SUFFIX_REFERENCES.length());
         } else {
-            reportIllegalSuffix(classType, attribute);
+            // reportIllegalSuffix(classType, attribute);
             return name;
         }
     }

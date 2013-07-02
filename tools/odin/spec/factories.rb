@@ -20,7 +20,7 @@ require 'factory_girl'
 
 FactoryGirl.define do
   factory :student do
-    initialize_with { new(42, Date.new(2000, 9, 1)) }
+    initialize_with { new(42, 42, Date.new(2000, 9, 1)) }
     sex "Male"
     firstName "John"
     lastName "Snow"
@@ -51,7 +51,7 @@ FactoryGirl.define do
   
   factory :assessment do
   
-    initialize_with { new(52, Date.new(2012, 11, 2)) }
+    initialize_with { new(52, 2012) }
     assessmentTitle "SAT II - US History"
     gradeLevelAssessed "Twelfth grade"
   end

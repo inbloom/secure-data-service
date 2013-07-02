@@ -33,7 +33,7 @@ Scenario: Login as Celeste Gray (student unique state id is equivalent to Charle
   And I should navigate to "/entities/system/session/debug"
   Then I should see "Celeste" on the page
   Then I should not see "Charles" on the page
-  And I should navigate to "/entities/teachers"
-  Then I should see a message that I am forbidden
+  #And I should navigate to "/entities/teachers"
+  #Then I should see a message that I am forbidden
   When I click on the Logout link
   And I am forced to reauthenticate to access the databrowser

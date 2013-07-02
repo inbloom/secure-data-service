@@ -16,14 +16,15 @@
 
 package org.slc.sli.domain;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-
 import com.mongodb.DBCollection;
 import com.mongodb.WriteResult;
+
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 
 /**
  * Define the object repository interface that provides basic CRUD and field
@@ -79,6 +80,7 @@ public interface Repository<T> {
      * @return the object retrieved
      */
     public T findById(String collectionName, String id);
+    public T findById(String collectionName, String id, boolean allFields);
 
     public boolean exists(String collectionName, String id);
 
@@ -90,6 +92,7 @@ public interface Repository<T> {
      * @return
      */
     public T findOne(String collectionName, NeutralQuery neutralQuery);
+    public T findOne(String collectionName, NeutralQuery neutralQuery, boolean allFields);
 
     /**
      * @param collectionName
@@ -151,6 +154,27 @@ public interface Repository<T> {
      * @return whether or not the object was updated
      */
     public boolean doUpdate(String collection, NeutralQuery query, Update update);
+
+    /**
+     * @param entityType
+     *            the type of the entity being deleted
+     * @param id
+     *            the global unique id of the object
+     * @param cascade
+     *            true iff the delete is authorized to recursively delete referring objects
+     * @param dryrun
+     *            true iff the operation is a "dry run" that is meant simply to test and count the effects of the recursion, as an indication of whether it "would succeed"
+     * @param forced
+     *            true iff the operation should delete the entity whether or not it is referred to by other entities
+     * @param logViolations
+     *            true iff the operation should log referential integrity violation information
+     * @param maxObjects
+     *            the largest number of objects that can be affected by the operation (not including inaccessible objects) without being considered a failure
+     * @param access
+     *            if non-null, an implementer of AccessibiltyCheck whose check methods (accessibilityCheck) will be called on all objects in the cascade.
+     */
+    public CascadeResult safeDelete(String entityType, String id, boolean cascade, boolean dryrun, boolean forced, boolean logViolations,
+                                    Integer maxObjects, AccessibilityCheck access);
 
     /**
      * @param collectionName
@@ -260,4 +284,41 @@ public interface Repository<T> {
      * @return
      */
     public abstract T findAndUpdate(String collectionName, NeutralQuery neutralQuery, Update update);
+
+    /**
+     * Get DB cursor for the collection
+     * @param collectionName
+     * @param query TODO
+     * @return
+     */
+    public Iterator<T> findEach(String collectionName, NeutralQuery query);
+
+    /**
+     * Get DB cursor for the collection
+     * @param collectionName
+     * @param query TODO
+     * @return
+     */
+    public Iterator<T> findEach(String collectionName, Query query);
+
+    /**
+     * @param entity
+     *            the entity being deleted.
+     * @param id
+     *            the global unique id of the object
+     * @param cascade
+     *            true iff the delete is authorized to recursively delete referring objects
+     * @param dryrun
+     *            true iff the operation is a "dry run" that is meant simply to test and count the effects of the recursion, as an indication of whether it "would succeed"
+     * @param forced
+     *            true iff the operation should delete the entity whether or not it is referred to by other entities
+     * @param logViolations
+     *            true iff the operation should log referential integrity violation information
+     * @param maxObjects
+     *            the largest number of objects that can be affected by the operation (not including inaccessible objects) without being considered a failure
+     * @param access
+     *            if non-null, an implementer of AccessibiltyCheck whose check methods (accessibilityCheck) will be called on all objects in the cascade.
+     */
+    public CascadeResult safeDelete(Entity entity, String id, boolean cascade, boolean dryrun, boolean forced, boolean logViolations,
+                                    Integer maxObjects, AccessibilityCheck access);
 }

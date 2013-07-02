@@ -1,0 +1,160 @@
+<?xml version="1.0"?>
+<InterchangeMasterSchedule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-MasterSchedule.xsd">
+  <Section>
+    <UniqueSectionCode>2</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Twelve month year hour credit" CreditConversion="1">
+        <Credit>0</Credit>
+      </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>45</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2013-2014 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2013-2014 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+
+  <CourseOffering>
+    <!--ID: 1c4d8ea0c38aab28c05b5b40e8cf71e79e455ea2_id this should only appear in DAYBREAK -->
+    <LocalCourseCode>2</LocalCourseCode>
+    <LocalCourseTitle>First grade modified course</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2013-2014 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>2</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+  <CourseOffering>
+    <!-- ID: 48779c5fb806b8325ffbe4ceb0448bde1f5d8313_id should follow section 1 to both LEAs -->
+    <LocalCourseCode>45</LocalCourseCode>
+    <LocalCourseTitle>Ninth grade Advanced English</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2013-2014 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>DAYBREAK21</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+
+  <!-- 95147c130335e0656b0d8e9ab79622a22c3a3fab_id -->
+  <Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="false">
+    <Section>
+      <UniqueSectionCode>75</UniqueSectionCode>
+      <SequenceOfCourse>1</SequenceOfCourse>
+      <EducationalEnvironment>Classroom</EducationalEnvironment>
+      <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+      <PopulationServed>Regular Students</PopulationServed>
+      <AvailableCredit CreditType="Semester hour credit" CreditConversion="0">
+        <Credit>3</Credit>
+      </AvailableCredit>
+      <CourseOfferingReference>
+        <CourseOfferingIdentity>
+          <LocalCourseCode>7</LocalCourseCode>
+          <SessionReference>
+            <SessionIdentity>
+              <EducationalOrgReference>
+                <EducationalOrgIdentity>
+                  <StateOrganizationId>IL-HIGHWIND</StateOrganizationId>
+                </EducationalOrgIdentity>
+              </EducationalOrgReference>
+              <SessionName>2013-2014 Year Round session: IL-HIGHWIND</SessionName>
+            </SessionIdentity>
+          </SessionReference>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+              <StateOrganizationId>South Highwind Elementary</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+      </CourseOfferingReference>
+      <SchoolReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>South Highwind Elementary</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </SchoolReference>
+      <SessionReference>
+        <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+              <StateOrganizationId>IL-HIGHWIND</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+          <SessionName>2013-2014 Year Round session: IL-HIGHWIND</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+    </Section>
+  </Action>
+
+</InterchangeMasterSchedule>

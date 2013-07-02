@@ -31,7 +31,8 @@ Scenario: Sorting a collection of entities obtained via a hop using a (nested) f
     And the link at index 0 should have "name.firstName" equal to "Rick"
     And the link at index 1 should have "name.firstName" equal to "Michael"
     And the link at index 2 should have "name.firstName" equal to "Mark"
-    And the link at index 3 should have "name.firstName" equal to "Christopher"
+    And the link at index 3 should have "name.firstName" equal to "Mark"
+    And the link at index 4 should have "name.firstName" equal to "Christopher"
 
 Scenario: Sorting a collection of full student school association entities
 	Given I am logged in using "jpratt" "jpratt1234" to realm "NY"
@@ -63,8 +64,9 @@ Scenario: Sorting a collection of staff through a hop (from an ed-org)
     And I should receive a collection
     And the link at index 0 should have "name.firstName" equal to "Christopher"
     And the link at index 1 should have "name.firstName" equal to "Mark"
-    And the link at index 2 should have "name.firstName" equal to "Michael"
-    And the link at index 3 should have "name.firstName" equal to "Rick"
+    And the link at index 2 should have "name.firstName" equal to "Mark"
+    And the link at index 3 should have "name.firstName" equal to "Michael"
+    And the link at index 4 should have "name.firstName" equal to "Rick"
 
 Scenario: Paging request the first two results from an API request
   Given I am logged in using "jpratt" "jpratt1234" to realm "NY"
@@ -89,13 +91,13 @@ Scenario: Paging request the first two results from an API request via a hop
 		And parameter "sortBy" is "name.firstName"
 		And parameter "sortOrder" is "ascending"
 	When I navigate to GET "/v1/educationOrganizations/<'Illinois State Ed-org' ID>/staffEducationOrgAssignmentAssociations/staff"
-	Then I should receive a collection with 4 elements
+	Then I should receive a collection with 5 elements
  	Given parameter "offset" is "0"
 		And parameter "limit" is "1"
 	When I navigate to GET "/v1/educationOrganizations/<'Illinois State Ed-org' ID>/staffEducationOrgAssignmentAssociations/staff"
 	Then I should receive a collection with 1 elements
 		And the link at index 0 should point to an entity with id "b4c2a73f-336d-4c47-9b47-2d24871eef96"
-		And the header "TotalCount" equals 4
+		And the header "TotalCount" equals 5
 		And the a next link exists with offset equal to 1 and limit equal to 1
 		And the a previous link should not exist
 
@@ -259,7 +261,7 @@ Scenario: Sorting Collections routed to Elastic Search
    And the link at index 2 should have "academicSubject" equal to "English Language and Literature"
    And the link at index 3 should have "academicSubject" equal to "English Language and Literature"
    And the link at index 4 should have "academicSubject" equal to "Mathematics"
-   And the link at index 12 should have "academicSubject" equal to "Reading"
+   And the link at index 13 should have "academicSubject" equal to "Reading"
   And the link at index 13 should have "academicSubject" equal to "Reading"
   And the link at index 14 should have "academicSubject" equal to "Reading"
   And the link at index 15 should have "academicSubject" equal to "Reading"

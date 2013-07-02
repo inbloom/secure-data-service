@@ -51,6 +51,15 @@ public class NeutralRecord implements Cloneable, Resource, ElementSource {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
+
+    public static final String KEY_ACTION = "Action";
+    public static final String KEY_ACTION_ATTRS = "ActionAttributes";
+    public static final String KEY_DATA = "DataType";
+
+    public static final String TYPE_ENTITY = "Entity";
+    public static final String TYPE_REFERENCE = "Reference";
+
+
     /**
      * stores an Id value uniquely identifying the record within the data store.
      */
@@ -137,6 +146,7 @@ public class NeutralRecord implements Cloneable, Resource, ElementSource {
      * stores a mapping that captures contextual information regarding the record.
      */
     private Map<String, Object> metaData;
+
 
     /**
      * Default constructor
@@ -520,5 +530,33 @@ public class NeutralRecord implements Cloneable, Resource, ElementSource {
     @Override
     public String getResourceId() {
         return getSourceFile();
+    }
+
+    public ActionVerb getActionVerb() {
+        String name = (String) this.metaData.get( KEY_ACTION);
+        ActionVerb verb = ActionVerb.NONE;
+        if( name != null ) {
+            verb = ActionVerb.valueOf( name );
+        }
+        return verb;
+    }
+
+    public void setActionVerb(ActionVerb action) {
+        this.metaData.put( KEY_ACTION, action.toString());
+        //this.actionVerb = action;
+    }
+
+
+    public void setDataType( String dataType ) {
+        this.metaData.put( KEY_DATA, dataType);
+        //this.actionVerb = action;
+    }
+
+    public Map<String, String> getActionAttributes() {
+        return (Map<String, String>)metaData.get(KEY_ACTION_ATTRS);
+    }
+
+    public void setActionAttributes(Map<String, String> actionAttributes) {
+        metaData.put(KEY_ACTION_ATTRS, actionAttributes);
     }
 }

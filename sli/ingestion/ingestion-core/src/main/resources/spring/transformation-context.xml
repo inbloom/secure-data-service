@@ -263,7 +263,18 @@
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentAssessmentItem.xml" />
       </bean>
     </entry>
-    
+
+    <entry key="assessmentPeriodDescriptor">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/assessmentPeriodDescriptor.xml" />
+      </bean>
+    </entry>
+
+    <entry key="assessmentFamily">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/assessmentFamily.xml" />
+      </bean>
+    </entry>
   </util:map>
 
   <bean id="didSchemaParser" class="org.slc.sli.ingestion.transformation.normalization.did.DidSchemaParser">
@@ -286,11 +297,6 @@
   <bean id="smooksEdFi2SLITransformer" class="org.slc.sli.ingestion.transformation.SmooksEdFi2SLITransformer"
     parent="abstractEdFi2SLITransformer">
     <property name="smooksConfigs" ref="smooksConfigs" />
-  </bean>
-
-  <bean id="transformationFactory" class="org.slc.sli.ingestion.transformation.TransformationFactory">
-    <property name="transformationStrategySuffix" value="TransformationStrategy" />
-    <property name="neutralRecordMongoAccess" ref="neutralRecordMongoAccess" />
   </bean>
 
   <bean id="entityConfigurationsFactory" class="org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory">

@@ -1,0 +1,333 @@
+<?xml version="1.0"?>
+<InterchangeStaffAssociation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+    xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StaffAssociation.xsd">
+  <Teacher>
+    <!-- updated -->
+    <StaffUniqueStateId>tech-0000000001</StaffUniqueStateId>
+    <StaffIdentificationCode IdentificationSystem="Medicaid">
+      <ID>5107</ID>
+    </StaffIdentificationCode>
+    <Name>
+      <FirstName>Janelle</FirstName>
+      <MiddleName>Joan</MiddleName>
+      <LastSurname>Durand</LastSurname>
+    </Name>
+    <OtherName OtherNameType="Previous Legal Name">
+      <PersonalTitlePrefix>Reverend</PersonalTitlePrefix>
+      <FirstName>Stacie</FirstName>
+      <MiddleName>Natasha</MiddleName>
+      <LastSurname>Blanks</LastSurname>
+      <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+    </OtherName>
+    <Sex>Female</Sex>
+    <BirthDate>1971-01-18</BirthDate>
+    <Address AddressType="Home">
+      <StreetNumberName>100 Changed place</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60601</PostalCode>
+    </Address>
+      <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="true">
+        <TelephoneNumber>(798)555-7331</TelephoneNumber>
+      </Telephone>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>6999@fakemail.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <OldEthnicity>Hispanic</OldEthnicity>
+    <Race>
+      <RacialCategory>White</RacialCategory>
+    </Race>
+    <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+    <YearsOfPriorProfessionalExperience>19</YearsOfPriorProfessionalExperience>
+    <YearsOfPriorTeachingExperience>17</YearsOfPriorTeachingExperience>
+      <Credentials>
+        <CredentialType>Registration</CredentialType>
+        <CredentialField>
+          <Description>Mathematics</Description>
+        </CredentialField>
+        <Level>Early Childhood (PK-K)</Level>
+        <TeachingCredentialType>Vocational</TeachingCredentialType>
+        <CredentialIssuanceDate>2011-08-18</CredentialIssuanceDate>
+        <CredentialExpirationDate>2017-08-26</CredentialExpirationDate>
+        <TeachingCredentialBasis>Met state testing requirement</TeachingCredentialBasis>
+      </Credentials>
+    <LoginId>6999@fakemail.com</LoginId>
+    <TeacherUniqueStateId>tech-0000000001</TeacherUniqueStateId>
+    <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
+  </Teacher>
+  <TeacherSectionAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000001</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>1</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <ClassroomPosition>Teacher of Record</ClassroomPosition>
+      <BeginDate>2013-09-03</BeginDate>
+      <EndDate>2014-05-29</EndDate>
+      <HighlyQualifiedTeacher>false</HighlyQualifiedTeacher>
+  </TeacherSectionAssociation>
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000001</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Ninth grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+      <AcademicSubject>Human Services</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+
+  <Teacher>
+    <!-- expired -->
+    <StaffUniqueStateId>tech-0000000002</StaffUniqueStateId>
+    <StaffIdentificationCode IdentificationSystem="Health Record">
+      <ID>7650</ID>
+    </StaffIdentificationCode>
+    <Name>
+      <FirstName>Alyssa</FirstName>
+      <MiddleName>Tami</MiddleName>
+      <LastSurname>Rey</LastSurname>
+    </Name>
+    <OtherName OtherNameType="Nickname">
+      <PersonalTitlePrefix>Mr</PersonalTitlePrefix>
+      <FirstName>Rena</FirstName>
+      <MiddleName>Audrey</MiddleName>
+      <LastSurname>Seifert</LastSurname>
+      <GenerationCodeSuffix>V</GenerationCodeSuffix>
+    </OtherName>
+    <Sex>Female</Sex>
+    <BirthDate>1958-03-27</BirthDate>
+    <Address AddressType="Home">
+      <StreetNumberName>162 Braeburn Lane</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60601</PostalCode>
+    </Address>
+      <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
+        <TelephoneNumber>(607)555-4367</TelephoneNumber>
+      </Telephone>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>5828@fakemail.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <OldEthnicity>White, Not Of Hispanic Origin</OldEthnicity>
+    <Race>
+      <RacialCategory>White</RacialCategory>
+    </Race>
+    <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+    <YearsOfPriorProfessionalExperience>19</YearsOfPriorProfessionalExperience>
+    <YearsOfPriorTeachingExperience>12</YearsOfPriorTeachingExperience>
+      <Credentials>
+        <CredentialType>Licensure</CredentialType>
+        <CredentialField>
+          <Description>Physics</Description>
+        </CredentialField>
+        <Level>Elementary (Grade Level 1-6)</Level>
+        <TeachingCredentialType>Visiting International Teacher</TeachingCredentialType>
+        <CredentialIssuanceDate>2005-09-18</CredentialIssuanceDate>
+        <CredentialExpirationDate>2013-10-06</CredentialExpirationDate>
+        <TeachingCredentialBasis>5-year bachelor's degree</TeachingCredentialBasis>
+      </Credentials>
+    <LoginId>5828@fakemail.com</LoginId>
+    <TeacherUniqueStateId>tech-0000000002</TeacherUniqueStateId>
+    <HighlyQualifiedTeacher>false</HighlyQualifiedTeacher>
+  </Teacher>
+  <StaffEducationOrgAssignmentAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000002</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
+    <BeginDate>2013-08-26</BeginDate>
+    <EndDate>2013-05-10</EndDate>
+  </StaffEducationOrgAssignmentAssociation>
+
+  <Teacher>
+    <!-- shared -->
+    <StaffUniqueStateId>tech-0000000003</StaffUniqueStateId>
+    <StaffIdentificationCode IdentificationSystem="Drivers License">
+      <ID>2415</ID>
+    </StaffIdentificationCode>
+    <Name>
+      <FirstName>Ola</FirstName>
+      <MiddleName>Adeline</MiddleName>
+      <LastSurname>Hoang</LastSurname>
+    </Name>
+    <OtherName OtherNameType="Nickname">
+      <PersonalTitlePrefix>Ms</PersonalTitlePrefix>
+      <FirstName>Deanne</FirstName>
+      <MiddleName>Gretchen</MiddleName>
+      <LastSurname>Cronin</LastSurname>
+      <GenerationCodeSuffix>V</GenerationCodeSuffix>
+    </OtherName>
+    <Sex>Female</Sex>
+    <BirthDate>1967-11-20</BirthDate>
+    <Address AddressType="Home">
+      <StreetNumberName>200 Modified Dr</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60601</PostalCode>
+    </Address>
+      <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
+        <TelephoneNumber>(203)555-8488</TelephoneNumber>
+      </Telephone>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>4486@fakemail.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
+    <OldEthnicity>White, Not Of Hispanic Origin</OldEthnicity>
+    <Race>
+      <RacialCategory>White</RacialCategory>
+    </Race>
+    <HighestLevelOfEducationCompleted>Master's</HighestLevelOfEducationCompleted>
+    <YearsOfPriorProfessionalExperience>9</YearsOfPriorProfessionalExperience>
+    <YearsOfPriorTeachingExperience>19</YearsOfPriorTeachingExperience>
+      <Credentials>
+        <CredentialType>Registration</CredentialType>
+        <CredentialField>
+          <Description>Physics</Description>
+        </CredentialField>
+        <Level>Elementary (Grade Level EC-6)</Level>
+        <TeachingCredentialType>Standard Paraprofessional</TeachingCredentialType>
+        <CredentialIssuanceDate>2001-12-15</CredentialIssuanceDate>
+        <CredentialExpirationDate>2023-03-14</CredentialExpirationDate>
+        <TeachingCredentialBasis>Special/alternative program completion</TeachingCredentialBasis>
+      </Credentials>
+    <LoginId>4486@fakemail.com</LoginId>
+    <TeacherUniqueStateId>tech-0000000003</TeacherUniqueStateId>
+    <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
+  </Teacher>
+  <StaffEducationOrgAssignmentAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000003</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Highwind Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StaffClassification>Educator</StaffClassification>
+    <PositionTitle>Teacher</PositionTitle>
+    <BeginDate>2013-09-03</BeginDate>
+    <EndDate>2014-05-29</EndDate>
+  </StaffEducationOrgAssignmentAssociation>
+  <TeacherSchoolAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000003</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Highwind Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <ProgramAssignment>Regular Education</ProgramAssignment>
+    <InstructionalGradeLevels>
+      <GradeLevel>Seventh grade</GradeLevel>
+    </InstructionalGradeLevels>
+    <AcademicSubjects>
+      <AcademicSubject>Critical Reading</AcademicSubject>
+      <AcademicSubject>Science</AcademicSubject>
+    </AcademicSubjects>
+  </TeacherSchoolAssociation>
+  <Staff>
+      <!-- shared -->
+      <StaffUniqueStateId>stff-0000000004</StaffUniqueStateId>
+      <StaffIdentificationCode IdentificationSystem="Health Record">
+        <ID>1146</ID>
+      </StaffIdentificationCode>
+      <Name>
+        <FirstName>Shirley</FirstName>
+        <MiddleName>Preston</MiddleName>
+        <LastSurname>Clawson</LastSurname>
+      </Name>
+      <OtherName OtherNameType="Previous Legal Name">
+        <PersonalTitlePrefix>Mrs</PersonalTitlePrefix>
+        <FirstName>Marcelo</FirstName>
+        <MiddleName>Bobby</MiddleName>
+        <LastSurname>Mansfield</LastSurname>
+        <GenerationCodeSuffix>II</GenerationCodeSuffix>
+      </OtherName>
+      <Sex>Male</Sex>
+      <BirthDate>1951-11-03</BirthDate>
+      <Address AddressType="Home">
+        <StreetNumberName>300 New Rd</StreetNumberName>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>60601</PostalCode>
+      </Address>
+        <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+          <TelephoneNumber>(533)555-8341</TelephoneNumber>
+        </Telephone>
+      <ElectronicMail EmailAddressType="Home/Personal">
+        <EmailAddress>9274@fakemail.com</EmailAddress>
+      </ElectronicMail>
+      <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+      <OldEthnicity>White, Not Of Hispanic Origin</OldEthnicity>
+      <Race>
+        <RacialCategory>White</RacialCategory>
+      </Race>
+      <HighestLevelOfEducationCompleted>Master's</HighestLevelOfEducationCompleted>
+      <YearsOfPriorProfessionalExperience>8</YearsOfPriorProfessionalExperience>
+      <YearsOfPriorTeachingExperience>0</YearsOfPriorTeachingExperience>
+        <Credentials>
+          <CredentialType>Endorsement</CredentialType>
+          <CredentialField>
+            <Description>Mathematics</Description>
+          </CredentialField>
+          <Level>All Level (Grade Level PK-12)</Level>
+          <TeachingCredentialType>District Local</TeachingCredentialType>
+          <CredentialIssuanceDate>2003-03-20</CredentialIssuanceDate>
+          <CredentialExpirationDate>2015-10-19</CredentialExpirationDate>
+          <TeachingCredentialBasis>4-year bachelor's degree</TeachingCredentialBasis>
+        </Credentials>
+      <LoginId>9274@fakemail.com</LoginId>
+  </Staff>
+  <StaffEducationOrgAssignmentAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>stff-0000000004</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Highwind Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StaffClassification>ASSISTANT_PRINCIPAL</StaffClassification>
+    <PositionTitle>School Nurse</PositionTitle>
+    <BeginDate>2014-08-27</BeginDate>
+    <EndDate>2015-05-25</EndDate>
+  </StaffEducationOrgAssignmentAssociation>
+</InterchangeStaffAssociation>

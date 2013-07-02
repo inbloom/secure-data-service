@@ -19,6 +19,7 @@ require_relative 'spec_helper'
 require_relative '../lib/WorldDefinition/world_builder.rb'
 require_relative '../lib/OutputGeneration/XmlDataWriter.rb'
 require_relative '../lib/Shared/util.rb'
+require_relative '../lib/Shared/data_utility.rb'
 require_relative '../lib/EntityCreation/work_order_queue.rb'
 require_relative '../lib/OutputGeneration/DataWriter.rb'
 require_relative '../lib/EntityCreation/entity_factory.rb'
@@ -109,7 +110,7 @@ describe "WorldBuilder" do
       end
       it "education organization calendar interchange will contain the correct number of calendar dates" do
         # Calendar dates are not part of the world, they are created as work orders directly.
-        @queue.count(CalendarDate).should eq(580)
+        @queue.count(CalendarDate).should eq(581)
       end
       it "master schedule interchange will contain the correct number of course offerings" do
         # Course offerings are not part of the world, they are created as work orders directly.
@@ -119,7 +120,7 @@ describe "WorldBuilder" do
         @queue.count(Staff).should eq(34)
       end
       it "staff association interchange will contain the correct number of staff education organization assignment associations" do
-        @queue.count(StaffEducationOrgAssignmentAssociation).should eq(120)
+        @queue.count(StaffEducationOrgAssignmentAssociation).should eq(149)
       end
 
       it "grade wide assessment work orders will be created for each grade and year" do
@@ -228,6 +229,20 @@ describe "WorldBuilder" do
       end
       it "will generate each of the competency level descriptors" do
         @queue.count(CompetencyLevelDescriptor).should eq 4
+      end
+      it "will generate cohorts and staffCohortAssociations that map to valid staff" do
+        @queue.count(StaffCohortAssociation).should eq 54
+        staff_ids = []
+        @queue.get_work_orders(Staff).each do |staff|
+          if staff[:id].is_a?(Integer)
+            id = DataUtility.get_staff_unique_state_id(staff[:id])
+          else
+            id = staff[:id]
+          end
+          staff_ids << id
+        end
+        @queue.get_work_orders(StaffCohortAssociation).each do |sca_work_order|
+        end
       end
     end
   end

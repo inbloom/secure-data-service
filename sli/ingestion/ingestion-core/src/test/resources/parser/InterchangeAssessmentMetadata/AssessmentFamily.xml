@@ -15,15 +15,15 @@
     <Version>-1164435820</Version>
     <RevisionDate>2014-05-09</RevisionDate>
     <Nomenclature>Kfr87Oas</Nomenclature>
-    <AssessmentPeriods id="ID003" ref="ID003">
-      <CodeValue>WPhxGcxrV</CodeValue>
+    <AssessmentPeriods>
+      <AssessmentPeriodDescriptorIdentity>
+        <AssessmentPeriodDescriptorCodeValue>WPhxGcxrV</AssessmentPeriodDescriptorCodeValue>
+      </AssessmentPeriodDescriptorIdentity>
     </AssessmentPeriods>
-    <AssessmentFamilyReference id="ID005" ref="ID002">
+    <AssessmentFamilyReference>
       <AssessmentFamilyIdentity>
-        <AssessmentFamilyIdentificationCode IdentificationSystem="District"
-          AssigningOrganizationCode="u.zXl85h0sKc9w9DUEiQLUX1s5H8Bs">
-          <ID>kkG3hnH</ID>
-        </AssessmentFamilyIdentificationCode>
+        <AssessmentFamilyTitle>Test</AssessmentFamilyTitle>
+        <Version>1</Version>
       </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </AssessmentFamily>

@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<InterchangeStudentGrade xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                         xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentGrade.xsd">
+    <Action ActionType="DELETE" Cascade="false" Force="false">
+        <Grade>
+            <LetterGradeEarned>B</LetterGradeEarned>
+            <GradeType>Final</GradeType>
+            <StudentSectionAssociationReference>
+                <StudentSectionAssociationIdentity>
+                    <StudentReference>
+                        <StudentIdentity>
+                            <StudentUniqueStateId>G-800000025</StudentUniqueStateId>
+                        </StudentIdentity>
+                    </StudentReference>
+                    <SectionReference>
+                        <SectionIdentity>
+                            <EducationalOrgReference>
+                                <EducationalOrgIdentity>
+                                    <StateOrganizationId>G-South Daybreak Elementary</StateOrganizationId>
+                                </EducationalOrgIdentity>
+                            </EducationalOrgReference>
+                            <UniqueSectionCode>G-Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+                        </SectionIdentity>
+                    </SectionReference>
+                    <BeginDate>2011-09-01</BeginDate>
+                </StudentSectionAssociationIdentity>
+            </StudentSectionAssociationReference>
+            <GradingPeriodReference>
+                <GradingPeriodIdentity>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>G-South Daybreak Elementary</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                    <GradingPeriod>Sixth Six Weeks</GradingPeriod>
+                    <BeginDate>2011-04-11</BeginDate>
+                </GradingPeriodIdentity>
+            </GradingPeriodReference>
+            <SchoolYear>2011-2012</SchoolYear>
+        </Grade>
+    </Action>
+</InterchangeStudentGrade>

@@ -238,6 +238,17 @@
 			<version>2.0.8</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+		</dependency>
+
+
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
@@ -286,6 +297,10 @@
 							<name>sli.encryption.properties</name>
 							<value>${sli.encryption.properties}</value>
 						</systemProperty>
+						<systemProperty>
+							<name>javax.net.ssl</name>
+							<value>debug</value>
+						</systemProperty>
 					</systemProperties>
 
 					<contextPath>api</contextPath>
@@ -293,9 +308,18 @@
 						<connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
 							<port>8080</port>
 							<maxIdleTime>60000</maxIdleTime>
-							<!-- increase header buffer size to support our aggressive linking 
-								strategy -->
 							<headerBufferSize>16384</headerBufferSize>
+						</connector>
+						<connector implementation="org.mortbay.jetty.security.SslSocketConnector">
+							<port>8443</port>
+							<maxIdleTime>60000</maxIdleTime>
+							<headerBufferSize>16384</headerBufferSize>
+							<keystore>${sli.home}/data-access/dal/keyStore/fakey.jks</keystore>
+							<password>changeit</password>
+							<keyPassword>changeit</keyPassword>
+							<truststore>${sli.home}/data-access/dal/keyStore/trustey.jks</truststore>
+							<trustPassword>changeit</trustPassword>
+							<wantClientAuth>true</wantClientAuth>
 						</connector>
 					</connectors>
 				</configuration>

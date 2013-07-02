@@ -65,6 +65,8 @@
             expression=".*StudentAssessmentConverter" />
             <context:exclude-filter type="regex"
             expression=".*SuperdocConverterRegistry" />
+            <context:exclude-filter type="regex"
+            expression=".*DeltaJournal" />
     </context:component-scan>
 
 

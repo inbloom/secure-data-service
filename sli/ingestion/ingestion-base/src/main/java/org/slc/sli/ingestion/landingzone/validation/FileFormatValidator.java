@@ -24,6 +24,10 @@ import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
 import org.slc.sli.ingestion.reporting.impl.ControlFileSource;
 import org.slc.sli.ingestion.validation.Validator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Map;
 
 /**
  * File format validator.
@@ -34,7 +38,7 @@ public class FileFormatValidator implements Validator<IngestionFileEntry> {
 
     @Override
     public boolean isValid(IngestionFileEntry entry, AbstractMessageReport report, ReportStats reportStats,
-            Source source) {
+            Source source, Map<String, Object> parameters) {
         FileFormat format = entry.getFileFormat();
         if (format == null) {
             report.error(reportStats, new ControlFileSource(source.getResourceId(), entry), BaseMessageCode.BASE_0005, entry.getFileName());

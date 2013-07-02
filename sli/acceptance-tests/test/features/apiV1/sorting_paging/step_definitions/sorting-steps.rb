@@ -79,21 +79,6 @@ Then /^the link at index (\d+) should have "([^\"]*)" equal to "([^\"]*)"$/ do |
   fieldValue.should == id
 end
 
-
-Then /^the header "([^\"]*)" equals (\d+)$/ do |header, value|
-  value = convert(value)
-  header.downcase!
-  headers = @res.raw_headers
-  headers.should_not == nil
-  assert(headers[header])
-  headers[header].should_not == nil
-  resultValue = headers[header]
-  resultValue.should be_a Array
-  resultValue.length.should == 1
-  singleValue = convert(resultValue[0])
-  singleValue.should == value
-end
-
 Then /^the a next link exists with offset equal to (\d+) and limit equal to (\d+)$/ do |start, max|
   links = @res.raw_headers["link"];
   links.should be_a Array

@@ -85,16 +85,14 @@ public class ControlFilePreProcessorTest {
         List<Stage> mockedStages = createFakeStages();
         Map<String, String> mockedProperties = createFakeBatchProperties();
 
-        NewBatchJob job = new NewBatchJob(BATCHJOBID, "sourceId", "finished", 29, mockedProperties, mockedStages, null);
+        File testZip = IngestionTest.getFile("ctl_tmp/test.zip");
+
+        NewBatchJob job = new NewBatchJob(BATCHJOBID, testZip.getAbsolutePath(), "finished", 29, mockedProperties, mockedStages, null);
 
         job.setBatchProperties(mockedProperties);
-        job.setSourceId("sourceId");
-        job.setStatus("finished");
         job.setTenantId(tenantId);
 
-
         ResourceEntry entry = new ResourceEntry();
-        File testZip = IngestionTest.getFile("ctl_tmp/test.zip");
         entry.setResourceName(testZip.getAbsolutePath());
         entry.setResourceFormat(FileFormat.ZIP_FILE.getCode());
         job.addResourceEntry(entry);
@@ -107,7 +105,6 @@ public class ControlFilePreProcessorTest {
         exchange.getIn().setBody(workNote);
 
         Mockito.when(mockedBatchJobDAO.findBatchJobById(Matchers.eq(BATCHJOBID))).thenReturn(job);
-
 
         controlFilePreProcessor.setBatchJobDAO(mockedBatchJobDAO);
         controlFilePreProcessor.setTenantDA(mockedTenantDA);

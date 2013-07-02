@@ -23,11 +23,13 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.resources.security.ApplicationResource;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.Entity;
@@ -72,6 +74,8 @@ public class ApplicationAuthorizationValidatorTest {
     Entity noAuthApp = null;
     Entity nonApprovedApp = null;
     Entity notAuthorizedApp = null;
+    Entity notOperatorApproved = null;
+    Entity approvedAppWithoutOperator = null;
     Entity leaRealm = null;
     Entity sliRealm = null;
 
@@ -79,6 +83,11 @@ public class ApplicationAuthorizationValidatorTest {
     public void setup() {
 
         HashMap<String, Object> body = null;
+        
+        Map<String, Object> registration = new HashMap<String, Object>();
+        registration.put(ApplicationResource.STATUS, ApplicationResource.STATUS_APPROVED);
+        Map<String, Object> badReg = new HashMap<String, Object>();
+        badReg.put(ApplicationResource.STATUS, ApplicationResource.STATUS_PENDING);
 
         //Create edorgs
         body = new HashMap<String, Object>();
@@ -105,6 +114,7 @@ public class ApplicationAuthorizationValidatorTest {
         body.put("authorized_for_all_edorgs", false);
         body.put("allowed_for_all_edorgs", false);
         body.put("admin_visible", true);
+        body.put("registration", registration);
         adminApp = repo.create("application", body);
 
         //Create an auto allowed/authorized app
@@ -113,35 +123,61 @@ public class ApplicationAuthorizationValidatorTest {
         body.put("authorized_for_all_edorgs", true);
         body.put("allowed_for_all_edorgs", true);
         body.put("admin_visible", false);
+        body.put("registration", registration);
         autoApp = repo.create("application", body);
 
         //Create a normal app that's approved and authorized
         body = new HashMap<String, Object>();
         body.put("name", "Approved App");
         body.put("authorized_ed_orgs", Arrays.asList(lea1.getEntityId()));
+        body.put("registration", registration);
         approvedApp = repo.create("application", body);
 
         //Create a normal app that's authorized by the edorg but not approved by developer
         body = new HashMap<String, Object>();
         body.put("name", "App No EdOrgs");
         body.put("authorized_ed_orgs", new ArrayList());
+        body.put("registration", registration);
         nonApprovedApp = repo.create("application", body);
 
         //Create a normal app that's approved by the developer but not authorized by edorg
         body = new HashMap<String, Object>();
         body.put("name", "App No EdOrgs");
         body.put("authorized_ed_orgs", Arrays.asList(lea1.getEntityId()));
+        body.put("registration", registration);
         notAuthorizedApp = repo.create("application", body);
 
-        //Create a normal app that's not authorized for any edorgs and not authorized by any edorgs
+        // Create a normal app that's not authorized for any edorgs
         body = new HashMap<String, Object>();
         body.put("name", "App No Auth");
         body.put("authorized_ed_orgs", new ArrayList());
+        body.put("registration", registration);
         noAuthApp = repo.create("application", body);
+        
+        // Create a normal app that's not authorized by the operator
+        body = new HashMap<String, Object>();
+        body.put("name", "App No EdOrgs");
+        body.put("authorized_ed_orgs", Arrays.asList(lea1.getEntityId()));
+        body.put("registration", registration);
+
+        body.put("registration", badReg);
+        notOperatorApproved = repo.create("application", body);
+        
+        // App that is approved by LEA, Dev, and denied by operator
+        body = new HashMap<String, Object>();
+        body.put("name", "Approved App");
+        body.put("authorized_ed_orgs", Arrays.asList(lea1.getEntityId()));
+        body.put("registration", badReg);
+        approvedAppWithoutOperator = repo.create("application", body);
 
         body = new HashMap<String, Object>();
         body.put("edorgs", Arrays.asList(sea1.getEntityId(), lea1.getEntityId()));
         body.put("applicationId", approvedApp.getEntityId());
+        repo.create("applicationAuthorization", body);
+        
+        body = new HashMap<String, Object>();
+        body.put("edorgs", Arrays.asList(sea1.getEntityId(), lea1.getEntityId()));
+        body.put("applicationId", approvedAppWithoutOperator.getEntityId());
         repo.create("applicationAuthorization", body);
         
         body = new HashMap<String, Object>();
@@ -168,6 +204,9 @@ public class ApplicationAuthorizationValidatorTest {
 
         assertTrue("Can see autoApp", validator.isAuthorizedForApp(autoApp, principal));
         assertTrue("Can see approvedApp", validator.isAuthorizedForApp(approvedApp, principal));
+        assertFalse("Cannot see notOperatorApproved", validator.isAuthorizedForApp(notOperatorApproved, principal));
+        assertFalse("Cannot see approvedAppWithoutOperator",
+                validator.isAuthorizedForApp(approvedAppWithoutOperator, principal));
         assertFalse("Cannot see adminApp", validator.isAuthorizedForApp(adminApp, principal));
         assertFalse("Cannot see noAuthApp", validator.isAuthorizedForApp(noAuthApp, principal));
         assertFalse("Cannot see nonApprovedApp", validator.isAuthorizedForApp(nonApprovedApp, principal));
@@ -185,6 +224,10 @@ public class ApplicationAuthorizationValidatorTest {
         assertFalse("Cannot see autoApp", validator.isAuthorizedForApp(autoApp, principal));
         assertFalse("Cannot see approvedApp", validator.isAuthorizedForApp(approvedApp, principal));
         assertTrue("Can see adminApp", validator.isAuthorizedForApp(adminApp, principal));
+        
+        assertFalse("Cannot see notOperatorApproved", validator.isAuthorizedForApp(notOperatorApproved, principal));
+        assertFalse("Cannot see approvedAppWithoutOperator",
+                validator.isAuthorizedForApp(approvedAppWithoutOperator, principal));
         assertFalse("Cannot see noAuthApp", validator.isAuthorizedForApp(noAuthApp, principal));
         assertFalse("Cannot see nonApprovedApp", validator.isAuthorizedForApp(nonApprovedApp, principal));
         assertFalse("Cannot see notAuthorizedApp", validator.isAuthorizedForApp(notAuthorizedApp, principal));

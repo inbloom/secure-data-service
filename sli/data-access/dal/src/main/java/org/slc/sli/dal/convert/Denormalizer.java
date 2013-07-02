@@ -16,19 +16,15 @@
 
 package org.slc.sli.dal.convert;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.WriteConcern;
+import com.mongodb.util.JSON;
 
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -37,6 +33,8 @@ import org.springframework.data.mongodb.core.query.Update;
 
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.domain.AccessibilityCheck;
+import org.slc.sli.domain.CascadeResult;
 import org.slc.sli.domain.Entity;
 
 
@@ -66,10 +64,11 @@ public class Denormalizer {
             String idKey = EmbeddedDocumentRelations.getDenormalizedIdKey(entityType);
             List<String> denormalizedBodyFields = EmbeddedDocumentRelations.getDenormalizedBodyFields(entityType);
             List<String> denormalizedMetaFields = EmbeddedDocumentRelations.getDenormalizedMetaFields(entityType);
+            String [] denormalizedEntityKeys =  EmbeddedDocumentRelations.getDenormalizedEntityKeys(entityType);
 
             if (toEntity != null && referenceKeys != null) {
                 denormalize(entityType).data(denormalizedBodyFields, denormalizedMetaFields).to(toEntity).as(field)
-                        .using(referenceKeys).withCache(cachedReferenceKey).idKey(idKey).register();
+                        .using(referenceKeys).withCache(cachedReferenceKey).idKey(idKey).withDenormalizedEntityKeys(denormalizedEntityKeys).register();
             }
         }
     }
@@ -93,6 +92,7 @@ public class Denormalizer {
         private List<String> bodyFields;
         private List<String> metaFields;
         private Map<String,String> cachedEntityRefKey;
+        private String [] denormalizedEntityKeys;
 
         public DenormalizationBuilder(String type) {
             super();
@@ -130,9 +130,14 @@ public class Denormalizer {
             return this;
         }
 
+        public DenormalizationBuilder withDenormalizedEntityKeys(String [] denormalizedEntityKeys) {
+            this.denormalizedEntityKeys = Arrays.copyOf(denormalizedEntityKeys, denormalizedEntityKeys.length);
+            return this;
+        }
+
         public void register() {
             denormalizations.put(type, new Denormalization(type, collection, field, referenceKeys, idKey, bodyFields,
-                    metaFields, cachedEntityRefKey));
+                    metaFields, cachedEntityRefKey, denormalizedEntityKeys));
         }
 
 
@@ -153,10 +158,11 @@ public class Denormalizer {
         private String denormalizedToField;
         private Map<String,String> cachedEntityRefKey;
         private Map<String,Entity> referencedEntityMap;
+        private String [] denormalizedEntityKeys;
 
         public Denormalization(String type, String denormalizeToEntity, String denormalizedToField,
                 Map<String, String> denormalizationReferenceKeys, String denormalizedIdKey,
-                List<String> denormalizedFields, Map<String,String> cachedEntityRefKey) {
+                List<String> denormalizedFields, Map<String,String> cachedEntityRefKey, String [] denormalizedEntityKeys) {
             this.type = type;
             this.denormalizeToEntity = denormalizeToEntity;
             this.denormalizedToField = denormalizedToField;
@@ -165,12 +171,13 @@ public class Denormalizer {
             this.denormalizedBodyFields = denormalizedFields;
             this.cachedEntityRefKey = cachedEntityRefKey;
             this.referencedEntityMap = null;
+            this.denormalizedEntityKeys = Arrays.copyOf(denormalizedEntityKeys, denormalizedEntityKeys.length);
         }
 
         public Denormalization(String type, String denormalizeToEntity, String denormalizedToField,
                 Map<String, String> denormalizationReferenceKeys, String denormalizedIdKey,
                 List<String> denormalizedBodyFields, List<String> denormalizedMetaDataFields
-                , Map<String,String> cachedEntityRefKey) {
+                , Map<String,String> cachedEntityRefKey, String [] denormalizedEntityKeys) {
             this.type = type;
             this.denormalizeToEntity = denormalizeToEntity;
             this.denormalizedToField = denormalizedToField;
@@ -180,6 +187,7 @@ public class Denormalizer {
             this.denormalizedMetaDataFields = denormalizedMetaDataFields;
             this.cachedEntityRefKey = cachedEntityRefKey;
             this.referencedEntityMap = null;
+            this.denormalizedEntityKeys = Arrays.copyOf(denormalizedEntityKeys, denormalizedEntityKeys.length);
         }
 
         public boolean create(Entity entity) {
@@ -290,39 +298,7 @@ public class Denormalizer {
                 }
             }
 
-            if (denormalizedIdKey.equals("schoolId")) {
-                dbObj.put("edOrgs", new ArrayList<String>(fetchLineage(internalId, new HashSet<String>())));
-            }
-
             return dbObj;
-        }
-
-        /**
-         * Fetches the education organization lineage for the specified education organization id.
-         * Use
-         * sparingly, as this will recurse up the education organization hierarchy.
-         *
-         * @param id
-         *            Education Organization for which the lineage must be assembled.
-         * @return Set of parent education organization ids.
-         */
-        private Set<String> fetchLineage(String id, Set<String> parentsSoFar) {
-            Set<String> parents = new HashSet<String>(parentsSoFar);
-            if (id != null) {
-                Entity edOrg = template.findOne(new Query().addCriteria(Criteria.where("_id").is(id)), Entity.class,
-                        EDUCATION_ORGANIZATION);
-                if (edOrg != null) {
-                    parents.add(id);
-                    Map<String, Object> body = edOrg.getBody();
-                    if (body.containsKey(PARENT_REFERENCE)) {
-                        String myParent = (String) body.get(PARENT_REFERENCE);
-                        if (!parents.contains(myParent)) {
-                            parents.addAll(fetchLineage(myParent, parents));
-                        }
-                    }
-                }
-            }
-            return parents;
         }
 
         private boolean doUpdate(DBObject parentQuery, List<Entity> entities) {
@@ -351,9 +327,9 @@ public class Denormalizer {
         }
 
         private DBObject buildPullObject(List<Entity> entities) {
-            Set<String> existingIds = new HashSet<String>();
             Query pullQuery = new Query();
 
+            List <Criteria> orList = new ArrayList<Criteria>();
             for (Entity entity : entities) {
                 String internalId = null;
                 if (denormalizedIdKey.equals("_id")) {
@@ -361,10 +337,20 @@ public class Denormalizer {
                 } else {
                     internalId = (String) entity.getBody().get(denormalizedIdKey);
                 }
-                existingIds.add(internalId);
+                //delete studentSectionAssociation DND where (sectionId(_id) = "x1" and beginDate(denormalizedKey) = "y1") OR (sectionId(_id) = "x2" and beginDate(denormalizedKey) = "y2") ...
+                //delete studentSchoolAssociation  DND where (schoolld(_id)  = "x1" and entryDate(denormalizedKey) = "y1") OR (schoolld(_id)  = "x2" and entryDate(denormalizedKey) = "y2") ...
+                //DND -> denormalizedDoc
+                List<Criteria> andList = new ArrayList<Criteria>();
+                andList.add(Criteria.where("_id").is(internalId));
+                for(String denormalizedKey:denormalizedEntityKeys) {
+                    String denormalizedValue = (String) entity.getBody().get(denormalizedKey);
+                    andList.add( Criteria.where(denormalizedKey).is(denormalizedValue));
+                }
+                    Criteria and = new Criteria().andOperator(andList.toArray(new Criteria[0]));
+                    orList.add(and);
             }
-
-            pullQuery.addCriteria(Criteria.where("_id").in(existingIds));
+            Criteria or = new Criteria().orOperator(orList.toArray(new Criteria[0]));
+            pullQuery.addCriteria(or);
 
             Update update = new Update();
             update.pull(denormalizedToField, pullQuery.getQueryObject());
@@ -392,6 +378,11 @@ public class Denormalizer {
 
         private boolean bulkUpdate(DBObject parentQuery, List<Entity> newEntities) {
             return doUpdate(parentQuery, newEntities);
+        }
+
+        public CascadeResult safeDelete(Entity providedEntity, String id, Boolean cascade, Boolean dryrun, Integer maxObjects, AccessibilityCheck access) {
+        	CascadeResult result = new CascadeResult();
+        	return result;
         }
 
         public boolean delete(Entity providedEntity, String id) {

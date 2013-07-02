@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
+	xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
 	<Program>
 		<ProgramId>ACC-TEST-PROG-1</ProgramId>
 		<ProgramType>Regular Education</ProgramType>
@@ -37,6 +37,14 @@
 		<ProgramSponsor>Local Education Agency</ProgramSponsor>
 		<Services>
 			<Description>This is a longer description of the services provided by program 4 service 1. More detail could be provided here.</Description>
+		</Services>
+	</Program>
+	<Program>
+		<ProgramId>ACC-TEST-PROG-5-SIXTY-CHARACTER-PROGRAM-ID-XXXXXXXXXXXXXXXXX</ProgramId>
+		<ProgramType>Remedial Education</ProgramType>
+		<ProgramSponsor>Local Education Agency</ProgramSponsor>
+		<Services>
+			<Description>This is a longer description of the services provided by program 5 service 1. More detail could be provided here.</Description>
 		</Services>
 	</Program>
 </InterchangeEducationOrganization>

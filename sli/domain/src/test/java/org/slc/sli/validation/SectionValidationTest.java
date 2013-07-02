@@ -133,6 +133,16 @@ public class SectionValidationTest {
             public String getStagedEntityId() {
                 return null;
             }
+
+            @Override
+            public Map<String, List<Entity>> getContainerData() {
+                return null;
+            }
+
+            @Override
+            public void hollowOut() {
+                // override super implementation with empty implementation
+            }
         };
     }
 

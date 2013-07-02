@@ -40,7 +40,7 @@ public class FullSuperDoc {
         FULL_ENTITIES.put("assessment", assessmentNestedFields);
         FULL_ENTITIES.put("studentAssessment", saNestedFields);
     }
-    
+
     public static boolean isFullSuperdoc(Entity entity) {
         return FULL_ENTITIES.containsKey(entity.getType());
     }

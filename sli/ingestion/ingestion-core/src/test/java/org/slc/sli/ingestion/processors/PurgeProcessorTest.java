@@ -16,10 +16,13 @@
 
 package org.slc.sli.ingestion.processors;
 
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
@@ -29,6 +32,7 @@ import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.slc.sli.dal.repository.DeltaJournal;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 
@@ -58,6 +62,9 @@ public class PurgeProcessorTest {
     @Mock
     private MongoTemplate mongoTemplate;
 
+    @Mock
+    private DeltaJournal deltaJournal;
+
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
@@ -67,10 +74,9 @@ public class PurgeProcessorTest {
         purgeProcessor.setBatchJobDAO(mockBatchJobDAO);
         purgeProcessor.setMongoTemplate(mongoTemplate);
         purgeProcessor.setSandboxEnabled(false);
+        purgeProcessor.setDeltaJournal(deltaJournal);
+        purgeProcessor.setDeltasEnabled(true);
 
-        List<String> exclude = Collections.emptyList();
-
-        purgeProcessor.setExcludeCollections(exclude);
     }
 
     @Test
@@ -99,6 +105,8 @@ public class PurgeProcessorTest {
 
         RangedWorkNote workNote = RangedWorkNote.createSimpleWorkNote(BATCHJOBID);
 
+        purgeProcessor.setPurgeBatchSize(2);
+
         Exchange ex = Mockito.mock(Exchange.class);
         Message message = Mockito.mock(Message.class);
         Mockito.when(ex.getIn()).thenReturn(message);
@@ -110,13 +118,36 @@ public class PurgeProcessorTest {
 
         Set<String> collectionNames = new HashSet<String>();
         collectionNames.add("student");
-        collectionNames.add("teacher");
 
         Mockito.when(mongoTemplate.getCollectionNames()).thenReturn(collectionNames);
 
+        DBCollection studentCollection = Mockito.mock(DBCollection.class);
+
+        Mockito.when(mongoTemplate.getCollection(Mockito.eq("student"))).thenReturn(studentCollection);
+
+        DBCursor cursor = Mockito.mock(DBCursor.class);
+
+        DBCursor firstCursor = Mockito.mock(DBCursor.class);
+        Mockito.when(firstCursor.size()).thenReturn(2);
+        Mockito.when(firstCursor.hasNext()).thenReturn(true, true, false);
+        Mockito.when(firstCursor.next()).thenReturn(new BasicDBObject("_id", "123"), new BasicDBObject("_id", "456"));
+
+        DBCursor secondCursor = Mockito.mock(DBCursor.class);
+        Mockito.when(secondCursor.size()).thenReturn(1);
+        Mockito.when(secondCursor.hasNext()).thenReturn(true, false);
+        Mockito.when(secondCursor.next()).thenReturn(new BasicDBObject("_id", "678"));
+
+        DBCursor thirdCursor = Mockito.mock(DBCursor.class);
+        Mockito.when(thirdCursor.size()).thenReturn(0);
+        Mockito.when(thirdCursor.hasNext()).thenReturn(false);
+
+        Mockito.when(studentCollection.find(Mockito.any(BasicDBObject.class), Mockito.any(BasicDBObject.class))).thenReturn(cursor);
+        Mockito.when(cursor.limit(2)).thenReturn(firstCursor, secondCursor, thirdCursor);
+
         purgeProcessor.process(ex);
 
-        Mockito.verify(mongoTemplate, Mockito.atLeastOnce()).remove(Mockito.any(Query.class), Mockito.eq("student"));
+        Mockito.verify(studentCollection, Mockito.atLeast(2)).remove(Mockito.any(DBObject.class));
+        Mockito.verify(deltaJournal, Mockito.times(1)).journalPurge(Mockito.anyLong());
     }
 
     @Test

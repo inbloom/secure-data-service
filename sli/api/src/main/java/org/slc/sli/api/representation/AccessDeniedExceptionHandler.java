@@ -92,12 +92,18 @@ public class AccessDeniedExceptionHandler implements ExceptionMapper<AccessDenie
         } else {
             warn("Access has been denied to user for being incorrectly associated");
         }
-        warn("Cause: {}", message);
+        warn("Cause: {}", e.getMessage());
         String reason = message.indexOf( ED_ORG_START) > 0 ? message.substring( 0, message.indexOf( ED_ORG_START) ) : message;
 
         audit(securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo.getRequestUri(), "Access Denied:"
-                    + reason,  getTargetEdOrgs( message )));
-        return Response.status(errorStatus).entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(), "Access DENIED: " + message)).build();
+                + reason,  getTargetEdOrgs( message )));
+
+        MediaType errorType = MediaType.APPLICATION_JSON_TYPE;
+        if(this.headers.getMediaType() == MediaType.APPLICATION_XML_TYPE) {
+            errorType = MediaType.APPLICATION_XML_TYPE;
+        }
+        
+        return Response.status(errorStatus).entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(), "Access DENIED: " + e.getMessage())).type(errorType).build();
     }
 
   // Trying to see if EntityId of the entity, user tried to access, was passed as a part of the message

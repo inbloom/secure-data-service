@@ -18,14 +18,14 @@ package org.slc.sli.api.security.context;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.slc.sli.api.constants.ParameterConstants;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
+import com.mongodb.DBCollection;
+import com.mongodb.WriteResult;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,8 +33,13 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
-import com.mongodb.DBCollection;
-import com.mongodb.WriteResult;
+import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.domain.AccessibilityCheck;
+import org.slc.sli.domain.CascadeResult;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  *
@@ -169,6 +174,16 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
     /*
      * (non-Javadoc)
      *
+     * @see org.slc.sli.domain.Repository#findById(java.lang.String, java.lang.String, boolean)
+     */
+    @Override
+    public T findById(String collectionName, String id, boolean allFields) {
+        return repo.findById(collectionName, id, allFields);
+    }
+
+    /*
+     * (non-Javadoc)
+     *
      * @see org.slc.sli.domain.Repository#exists(java.lang.String, java.lang.String)
      */
     @Override
@@ -184,6 +199,16 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
     @Override
     public T findOne(String collectionName, NeutralQuery neutralQuery) {
         return repo.findOne(collectionName, neutralQuery);
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.slc.sli.domain.Repository#findOne(java.lang.String, org.slc.sli.domain.NeutralQuery)
+     */
+    @Override
+    public T findOne(String collectionName, NeutralQuery neutralQuery, boolean allFields) {
+        return repo.findOne(collectionName, neutralQuery, allFields);
     }
 
     /*
@@ -249,6 +274,17 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
     @Override
     public boolean doUpdate(String collection, NeutralQuery query, Update update) {
         return repo.doUpdate(collection, query, update);
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.slc.sli.domain.Repository#safeDelete(...)
+     */
+    @Override
+    public CascadeResult safeDelete(String entityType, String id, boolean cascade, boolean dryrun, boolean forced, boolean logViolations,
+                                    Integer maxObjects, AccessibilityCheck access) {
+        return repo.safeDelete(entityType, id, cascade, dryrun, forced, logViolations, maxObjects, access);
     }
 
     /*
@@ -367,6 +403,23 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
 
     @Override
     public T findAndUpdate(String collectionName, NeutralQuery neutralQuery, Update update) {
+        return null;
+    }
+
+    @Override
+    public Iterator<T> findEach(String collectionName, NeutralQuery query) {
+        return null;
+    }
+
+    @Override
+    public Iterator<T> findEach(String collectionName, Query query) {
+        return repo.findEach(collectionName, query);
+    }
+
+    @Override
+    public CascadeResult safeDelete(Entity entity, String id, boolean cascade, boolean dryrun, boolean force, boolean logViolations,
+            Integer maxObjects, AccessibilityCheck access) {
+        // TODO Auto-generated method stub
         return null;
     }
 }

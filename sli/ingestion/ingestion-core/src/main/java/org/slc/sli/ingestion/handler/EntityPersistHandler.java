@@ -36,10 +36,16 @@ import org.springframework.dao.DuplicateKeyException;
 
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.datetime.DateTimeUtil;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
+import org.slc.sli.domain.CascadeResult;
+import org.slc.sli.domain.CascadeResultError;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
+import org.slc.sli.ingestion.ActionVerb;
 import org.slc.sli.ingestion.FileProcessStatus;
+import org.slc.sli.ingestion.model.RecordHash;
+import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
@@ -81,6 +87,9 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
     @Value("${sli.ingestion.referenceSchema.referenceCheckEnabled}")
     private String referenceCheckEnabled;
 
+    @Value("${sli.ingestion.maxDeleteObjects:0}")
+    private int maxDeleteObjects;
+
     @Value("${sli.ingestion.totalRetries}")
     private int totalRetries;
 
@@ -95,6 +104,9 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
     @Autowired
     private DeterministicUUIDGeneratorStrategy deterministicUUIDGeneratorStrategy;
+
+    @Autowired
+    private BatchJobDAO batchJobDAO;
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -122,6 +134,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             }
         }
 
+        entity.removeAction();
         if (entity.getEntityId() != null) {
 
             if (!entityRepository.updateWithRetries(collectionName, entity, totalRetries)) {
@@ -130,10 +143,66 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             }
 
             return entity;
+
         } else {
-            return entityRepository.createWithRetries(entity.getType(), null, entity.getBody(), entity.getMetaData(),
-                    collectionName, totalRetries);
+            return entityRepository.createWithRetries(entity.getType(), null, entity.getBody(),
+                    entity.getMetaData(), collectionName, totalRetries);
         }
+    }
+
+    /**
+     * Persist entity in the data store.
+     *
+     * @param entity
+     *            Entity to be persisted
+     * @return Persisted entity
+     * @throws EntityValidationException
+     *             Validation Exception
+     */
+    private CascadeResult delete(SimpleEntity entity) throws EntityValidationException {
+        ActionVerb action = entity.getAction();
+
+        // find out about dryrun
+        boolean dryrun = false;
+        Integer max = (maxDeleteObjects == 0) ? null : maxDeleteObjects;
+        String id = entity.getEntityId();
+        if (id == null) {
+            id = entity.getUUID();
+        }
+
+        CascadeResult result = entityRepository.safeDelete(entity, id,
+                action.doCascade(), dryrun, entity.doForceDelete(), entity.doLogViolations(), max, null);
+
+        // TODO pass in the reportStats and record the delete stats there rather than modify the entity
+        // Set the objects affected in the entity for reporting
+        entity.setDeleteAffectedCount(String.valueOf(result.getnObjects()));
+
+        // Remove any affected entities, including children, from the recordHash
+        // TODO XXX HACK comment this out for now since we are not supporting cascade delete yet
+        // and DIds don't always match up between recordHash and the db
+//            cleanupRecordHash( result );
+
+        return result;
+    }
+
+    private boolean  cleanupRecordHash( CascadeResult cascade ) {
+        if( cascade == null) {
+            return false;
+        }
+
+        String tenantId = TenantContext.getTenantId();
+
+        for ( String id : cascade.getDeletedIds() ) {
+            RecordHash rh = batchJobDAO.findRecordHash(tenantId, id);
+            if( rh != null ) {
+                batchJobDAO.removeRecordHash(rh);
+                LOG.info( "Removed record hash for entity:{} Tenant:{}", id, tenantId);
+            } else {
+                LOG.warn("Could not find record hash. Entity:{} Tenant:{}", id, tenantId);
+            }
+        }
+
+        return true;
     }
 
     boolean update(String collectionName, Entity entity, List<Entity> failed, AbstractMessageReport report,
@@ -156,19 +225,40 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         return res;
     }
 
+    /**
+     * Persist a list of entities
+     *
+     * @param entities          the entities to persist
+     * @param report
+     * @param reportStats
+     * @return                  the list of entities that FAILED to persist (note this differs logically from the single item persist() which returns the persisted entity)
+     */
     private List<Entity> persist(List<SimpleEntity> entities, AbstractMessageReport report, ReportStats reportStats) {
         List<Entity> failed = new ArrayList<Entity>();
-        List<Entity> queued = new ArrayList<Entity>();
+        HashMap<String, ArrayList<Entity>> queued = new HashMap<String, ArrayList<Entity>>();
         Map<List<Object>, SimpleEntity> memory = new HashMap<List<Object>, SimpleEntity>();
-        String collectionName = getCollectionName(entities.get(0));
-        EntityConfig entityConfig = entityConfigurations.getEntityConfiguration(entities.get(0).getType());
 
         for (SimpleEntity entity : entities) {
+            String collectionName = getCollectionName(entity.getType());
 
-            if (entity.getEntityId() != null) {
-                update(collectionName, entity, failed, report, reportStats, new ElementSourceImpl(entity));
+            EntityConfig entityConfig = entityConfigurations.getEntityConfiguration(entity.getType());
+
+            if (entity.getAction().doDelete()) {
+                CascadeResult result = delete(entity);
+
+                // Log errors and warning to report files
+                reportDeleteResults(entity, result, report, reportStats, new ElementSourceImpl(entity));
+
+                if (result.getStatus() != CascadeResult.Status.SUCCESS) {
+                    failed.add(entity);
+                }
             } else {
-                preMatchEntity(memory, entityConfig, report, entity, reportStats);
+                entity.removeAction();
+                if (entity.getEntityId() != null) {
+                    update(collectionName, entity, failed, report, reportStats, new ElementSourceImpl(entity));
+                } else {
+                    preMatchEntity(memory, entityConfig, report, entity, reportStats);
+                }
             }
         }
 
@@ -178,27 +268,32 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             try {
                 validator.validate(entity);
                 addTimestamps(entity);
-                queued.add(entity);
+                if (!queued.containsKey(entity.getType())) {
+                    queued.put(entity.getType(),new ArrayList<Entity>());
+                }
+                queued.get(entity.getType()).add(entity);
             } catch (EntityValidationException e) {
                 reportErrors(e.getValidationErrors(), entity, report, reportStats, new ElementSourceImpl(entity));
                 failed.add(entity);
             }
         }
 
-        try {
-            LOG.info("Bulk insert of {} queued records into collection: {}", new Object[] { queued.size(),
-                    collectionName });
-            entityRepository.insert(queued, collectionName);
-        } catch (Exception e) {
-            // Assuming there would NOT be DuplicateKeyException at this point.
-            // Because "queued" only contains new records(with no Id), and we don't have unique
-            // indexes
-            LOG.warn("Bulk insert failed --> Performing upsert for each record that was queued.");
+        for (String entityType : queued.keySet()) {
+            LOG.info("Bulk insert of {} queued records into collection: {}", new Object[]{queued.get(entityType).size(),
+                    entityType});
+            try {
+                entityRepository.insert(queued.get(entityType), getCollectionName(entityType));
+            } catch (Exception e) {
+                // Assuming there would NOT be DuplicateKeyException at this point.
+                // Because "queued" only contains new records(with no Id), and we don't have unique
+                // indexes
+                LOG.warn("Bulk insert failed --> Performing upsert for each record that was queued.");
 
-            // Try to do individual upsert again for other exceptions
-            for (Entity entity : queued) {
-                SimpleEntity simpleEntity = (SimpleEntity) entity;
-                update(collectionName, entity, failed, report, reportStats, new ElementSourceImpl(simpleEntity));
+                // Try to do individual upsert again for other exceptions
+                for (Entity entity : queued.get(entityType)) {
+                    SimpleEntity simpleEntity = (SimpleEntity) entity;
+                    update(getCollectionName(entityType), entity, failed, report, reportStats, new ElementSourceImpl(simpleEntity));
+                }
             }
         }
 
@@ -217,15 +312,17 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         }
 
         if (naturalKeyDescriptor.isNaturalKeysNotNeeded()) {
-            LOG.error("Unable to find natural keys fields for Entity {}, at line {} column {}",
-                    new Object[] { entity.getType(), entity.getVisitBeforeLineNumber(), entity.getVisitBeforeColumnNumber() });
+            LOG.error(
+                    "Unable to find natural keys fields for Entity {}, at line {} column {}",
+                    new Object[] { entity.getType(), entity.getVisitBeforeLineNumber(),
+                            entity.getVisitBeforeColumnNumber() });
 
             preMatchEntityWithNaturalKeys(memory, entityConfig, report, entity, reportStats);
         } else {
             // "new" style -> based on natural keys from schema
             String id = deterministicUUIDGeneratorStrategy.generateId(naturalKeyDescriptor);
             List<Object> keyValues = new ArrayList<Object>();
-            if(entity.getType().equals("attendance")) {
+            if (entity.getType().equals("attendance")) {
                 keyValues.add(entity.getBody());
             }
             keyValues.add(id);
@@ -264,9 +361,9 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         }
     }
 
-    private String getCollectionName(Entity entity) {
+    private String getCollectionName(String entityType) {
         String collectionName = null;
-        NeutralSchema schema = schemaRepository.getSchema(entity.getType());
+        NeutralSchema schema = schemaRepository.getSchema(entityType);
         if (schema != null) {
             AppInfo appInfo = schema.getAppInfo();
             if (appInfo != null) {
@@ -276,14 +373,70 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         return collectionName;
     }
 
+    private void reportDeleteResults(SimpleEntity entity, CascadeResult result, AbstractMessageReport report,
+                                        ReportStats reportStats, Source source) {
+
+        // Log errors
+        if (result.getStatus() == CascadeResult.Status.MAX_OBJECTS_EXCEEDED) {
+            report.error(reportStats, source, CoreMessageCode.CORE_0067, entity.getType(), entity.getEntityId());
+        }
+
+        String id = (entity.getEntityId() == null) ? entity.getUUID() : entity.getEntityId();
+        for (CascadeResultError err : result.getErrors()) {
+            switch (err.getErrorType()) {
+                case DELETE_ERROR:
+                    if (err.getObjectId().equals(id)) {
+                        report.error(reportStats, source, CoreMessageCode.CORE_0071, entity.getType(), id);
+                    } else {
+                        report.error(reportStats, source, CoreMessageCode.CORE_0070, err.getObjectType(), err.getObjectId(),
+                                err.getDepth(), entity.getType(), id);
+                    }
+                    break;
+                case PATCH_ERROR:
+                    report.error(reportStats, source, CoreMessageCode.CORE_0069, err.getObjectType(), err.getObjectId(),
+                            err.getDepth(), entity.getType(), id);
+                    break;
+                case UPDATE_ERROR:
+                    report.error(reportStats, source, CoreMessageCode.CORE_0068, err.getObjectType(), err.getObjectId(),
+                            err.getDepth(), entity.getType(), id);
+                    break;
+                case DATABASE_ERROR:
+                    report.error(reportStats, source, CoreMessageCode.CORE_0061);
+                    break;
+                case CHILD_DATA_EXISTS:
+                    report.error(reportStats, source, CoreMessageCode.CORE_0066, err.getObjectType(), err.getObjectId(),
+                            err.getDepth(), entity.getType(), id);
+                    break;
+                case ACCESS_DENIED:
+                    report.error(reportStats, source, CoreMessageCode.CORE_0065, err.getObjectType(), err.getObjectId(),
+                            err.getDepth(), entity.getType(), id);
+                    break;
+                case MAX_DEPTH_EXCEEDED:
+                    report.error(reportStats, source, CoreMessageCode.CORE_0064, entity.getType(), id,
+                            err.getDepth());
+                    break;
+            }
+        }
+
+        // Log warnings
+        for (CascadeResultError warn : result.getWarnings()) {
+            switch (warn.getErrorType()) {
+                case CHILD_DATA_EXISTS:
+                    report.warning(reportStats, source, CoreMessageCode.CORE_0066, warn.getObjectType(), warn.getObjectId(),
+                            warn.getDepth(), entity.getType(), entity.getEntityId());
+                    break;
+            }
+        }
+    }
+
     /**
      * Generic error reporting function.
      *
-     * @param error
+     * @param errors
      *            List of errors to report.
      * @param entity
      *            Entity reporting errors.
-     * @param errorReport
+     * @param report
      *            Reference to error report logging error messages.
      * @param source
      *            Reference to Source.
@@ -292,8 +445,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             ReportStats reportStats, Source source) {
         for (ValidationError err : errors) {
             report.error(reportStats, source, CoreMessageCode.CORE_0006, err.getType().name(), entity.getType(),
-                    err.getFieldName(), err.getFieldValue(),
-                    Arrays.toString(err.getExpectedTypes()));
+                    err.getFieldName(), err.getFieldValue(), Arrays.toString(err.getExpectedTypes()));
         }
     }
 
@@ -302,9 +454,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
      *
      * @param warningMessage
      *            Warning message reported by entity.
-     * @param entity
-     *            Entity reporting warning.
-     * @param errorReport
+     * @param report
      *            Reference to error report to log warning message in.
      * @param source
      *            Reference to Source.
@@ -339,15 +489,33 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
     @Override
     protected Entity doHandling(SimpleEntity item, AbstractMessageReport report, ReportStats reportStats,
             FileProcessStatus fileProcessStatus) {
-        try {
-            return persist(item);
-        } catch (EntityValidationException ex) {
-            reportErrors(ex.getValidationErrors(), item, report, reportStats, new ElementSourceImpl(item));
-        } catch (DuplicateKeyException ex) {
-            reportWarnings(ex.getMostSpecificCause().getMessage(), item.getType(), item.getSourceFile(), report,
-                    reportStats, new ElementSourceImpl(item));
+        ActionVerb action = ActionVerb.NONE;
+
+        if (item.getMetaData() != null) {
+            action = item.getAction();
         }
-        return null;
+
+        if (action.doDelete()) {
+            CascadeResult result = delete(item);
+
+            // Log errors and warning to report files
+            reportDeleteResults(item, result, report, reportStats, new ElementSourceImpl(item));
+
+            if (result.getStatus() == CascadeResult.Status.SUCCESS) {
+                return item;  // success
+            }
+        } else {
+            try {
+                return persist(item);
+            } catch (EntityValidationException ex) {
+                LOG.error("Exception persisting record with entityPersistentHandler", ex);
+                reportErrors(ex.getValidationErrors(), item, report, reportStats, new ElementSourceImpl(item));
+            } catch (DuplicateKeyException ex) {
+                reportWarnings(ex.getMostSpecificCause().getMessage(), item.getType(), item.getSourceFile(), report,
+                        reportStats, new ElementSourceImpl(item));
+            }
+        }
+        return null;  // fail
     }
 
     @Override

@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<InterchangeStudentAttendance xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                              xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentAttendance.xsd">
+    <Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="true">
+        <AttendanceEvent>
+            <SchoolYear>2001-2002</SchoolYear>
+            <EventDate>2001-09-13</EventDate>
+            <AttendanceEventType>Daily Attendance</AttendanceEventType>
+            <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
+            <AttendanceEventReason>Excused: sick</AttendanceEventReason>
+            <EducationalEnvironment>Classroom</EducationalEnvironment>
+            <StudentReference>
+                <StudentIdentity>
+                    <StudentUniqueStateId>1</StudentUniqueStateId>
+                </StudentIdentity>
+            </StudentReference>
+            <SchoolReference>
+                <EducationalOrgIdentity>
+                    <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                </EducationalOrgIdentity>
+            </SchoolReference>
+            <SessionReference>
+                <SessionIdentity>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                    <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+                </SessionIdentity>
+            </SessionReference>
+            <SectionReference>
+                <SectionIdentity>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                    <UniqueSectionCode>3</UniqueSectionCode>
+                </SectionIdentity>
+            </SectionReference>
+        </AttendanceEvent>
+    </Action>
+</InterchangeStudentAttendance>

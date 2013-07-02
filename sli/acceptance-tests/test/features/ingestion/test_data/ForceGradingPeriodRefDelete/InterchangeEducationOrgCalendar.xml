@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<InterchangeEducationOrgCalendar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                                 xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrgCalendar.xsd">
+
+    <Action ActionType="DELETE" LogViolations="true">
+     <GradingPeriodReference>
+           <GradingPeriodIdentity>
+                 <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                                <StateOrganizationId>5</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                 </EducationalOrgReference>
+                 <GradingPeriod>End of Year</GradingPeriod>
+                 <BeginDate>2002-08-26</BeginDate>
+           </GradingPeriodIdentity>
+    </GradingPeriodReference>
+
+    </Action>
+</InterchangeEducationOrgCalendar>

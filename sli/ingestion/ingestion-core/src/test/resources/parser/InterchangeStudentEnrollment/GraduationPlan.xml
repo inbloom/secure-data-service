@@ -48,10 +48,5 @@
         <StateOrganizationId>pnML5IrRgmVeYZMO3IlTVwnmrO3NCzUYb3plQyn0LIAmYBtEVYKG9zS</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>DgswYI9Aq.I2cG6h6CgR</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
   </GraduationPlan>
 </InterchangeStudentEnrollment>

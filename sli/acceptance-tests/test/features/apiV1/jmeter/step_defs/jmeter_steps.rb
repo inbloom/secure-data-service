@@ -34,6 +34,9 @@ JMETER_BIN = PropLoader.getProps['jmeter_bin']
 JMETER_JTL_ARCHIVE = PropLoader.getProps['jmeter_jtl_archive']
 JMETER_FAILED_JTL_ARCHIVE = PropLoader.getProps['jmeter_failed_jtl_archive']
 REGRESSION_THRESHOLD = PropLoader.getProps['jmeter_regression_threshold'].to_f
+RESET_REGRESSIONS = PropLoader.getProps['jmeter_reset_regression']
+CONSIDERATION_PERCENTILE = PropLoader.getProps['jmeter_consideration_percentile']
+
 puts "pre-float REGRESSION_THRESHOLD is #{PropLoader.getProps['jmeter_regression_threshold']}"
 puts "REGRESSION_THRESHOLD is #{REGRESSION_THRESHOLD}"
 
@@ -135,10 +138,11 @@ end
 
 Then /^no performance regressions should be found/ do
   puts "REGRESSION_THRESHOLD is #{REGRESSION_THRESHOLD}"
+  puts "RESET_REGRESSIONS is #{RESET_REGRESSIONS}"
   superRegressionMap = {}
   @testsRun.each do |testName|
     regressionsFound = checkForRegression(testName)
-    if regressionsFound.empty?
+    if regressionsFound.empty? || RESET_REGRESSIONS == "true"
           archiveJtlFile("#{testName}.jtl")
     else
         archiveFailedJtlFile("#{testName}.jtl")
@@ -146,7 +150,14 @@ Then /^no performance regressions should be found/ do
     end
   end
 
-  assert(superRegressionMap.size == 0, "Regressions over #{REGRESSION_THRESHOLD} found: #{superRegressionMap.to_s}")
+  if RESET_REGRESSIONS == "true"
+    if superRegressionMap.size > 0
+      puts "Regressions over #{REGRESSION_THRESHOLD} found: #{superRegressionMap.to_s}"
+      puts "Regressions will be ignored and this run will reset the baseline."
+    end
+  else
+    assert(superRegressionMap.size == 0, "Regressions over #{REGRESSION_THRESHOLD} found: #{superRegressionMap.to_s}")
+  end
 end
 
 Then /^I only check "(.*?)" for performance regression$/ do |lbNames|
@@ -163,6 +174,8 @@ def checkForRegression(testName)
   if previousJtl.nil?
     puts "No previous jtl for #{testName}"
     return {}
+  else
+    puts "Found previous jtl for #{testName} at #{previousJtl}"
   end
 
   currentDoc = loadXML(currentJtl)
@@ -196,9 +209,9 @@ def checkForRegression(testName)
 end
 
 def findPreviousJtl(testName)
-  pattern = "#{testName}\\.jtl\\..*"
+  pattern = "^#{testName}\\.jtl\\..*$"
   previousJtl = nil
-  Dir.foreach(JMETER_JTL_ARCHIVE) do |archivedFile|
+  Dir.entries(JMETER_JTL_ARCHIVE).sort.each do |archivedFile|
     archivedFile.match(pattern) do |matchedFile|
       previousJtl = File.join(JMETER_JTL_ARCHIVE, matchedFile.to_s)
     end
@@ -221,6 +234,14 @@ def parseJtlForTimings(doc)
       end
       timings << sample.attributes["t"]
     end
+  end
+
+  map.each do |label, timings|
+    integer_timings = timings.map { |x| x.to_i }
+    integer_timings.sort!
+    to_keep = (integer_timings.count * CONSIDERATION_PERCENTILE).round
+    to_keep -= 1 if to_keep == integer_timings.count
+    map[label] = integer_timings[0 ... to_keep].map { |x| x.to_s }
   end
 
   return map

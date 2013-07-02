@@ -10,12 +10,14 @@ Given I post "PropagatedDataSet.zip" file as the payload of the ingestion job
      | collectionName                        |
      | recordHash                            |
      | assessment                            |
+     | assessmentFamily                      |
+     | assessmentPeriodDescriptor            |
      | assessmentItem                        |
-     | objectiveAssessment                   |     
+     | objectiveAssessment                   |
      | attendance                            |
      | cohort                                |
      | competencyLevelDescriptor             |
-     | course	                              |
+     | course	                             |
      | courseOffering                        |
      | courseTranscript                      |
      | disciplineIncident                    |
@@ -57,12 +59,14 @@ When zip file is scp to ingestion landing zone
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName                        | count |
      | assessment                            | 4     |
+     | assessmentFamily                      | 3     |
+     | assessmentPeriodDescriptor            | 6     |
      | assessmentItem                        | 8     |
      | objectiveAssessment                   | 6     |
      | attendance                            | 16    |
      | cohort                                | 32    |
      | competencyLevelDescriptor             | 2     |
-     | course	                              | 16    |
+     | course	                             | 16    |
      | courseOffering                        | 32    |
      | courseTranscript                      | 32    |
      | disciplineIncident                    | 16    |
@@ -101,7 +105,6 @@ Then I should see following map of entry counts in the corresponding collections
    And I check the number of records in collection:
      | collectionName                        | expectedRecordCount | searchParameter                                                                                                                       | searchContainer |
      | assessment                            | 4                   | body.assessmentTitle                                                                                                                  | none |
-     | assessment                            | 4                   | body.assessmentFamilyHierarchyName                                                                                                    | none |
      | assessment                            | 4                   | body.assessmentIdentificationCode                                                                                                     | body.assessmentIdentificationCode |
      | assessment                            | 4                   | body.assessmentIdentificationCode.ID                                                                                                  | body.assessmentIdentificationCode |
      | assessment                            | 4                   | body.assessmentIdentificationCode.identificationSystem                                                                                | body.assessmentIdentificationCode |
@@ -123,13 +126,25 @@ Then I should see following map of entry counts in the corresponding collections
      | assessment                            | 4                   | body.revisionDate                                                                                                                     | none |
      | assessment                            | 4                   | body.maxRawScore                                                                                                                      | none |
      | assessment                            | 4                   | body.nomenclature                                                                                                                     | none |
-     | assessment                            | 4                   | body.assessmentPeriodDescriptor                                                                                                       | none |
-     | assessment                            | 4                   | body.assessmentPeriodDescriptor.codeValue                                                                                             | none |
-     | assessment                            | 4                   | body.assessmentPeriodDescriptor.description                                                                                           | none |
-     | assessment                            | 4                   | body.assessmentPeriodDescriptor.shortDescription                                                                                      | none |
-     | assessment                            | 4                   | body.assessmentPeriodDescriptor.beginDate                                                                                             | none |
-     | assessment                            | 4                   | body.assessmentPeriodDescriptor.endDate                                                                                               | none |
-     
+     | assessment                            | 4                   | body.assessmentPeriodDescriptorId                                                                                                       | none |
+
+     | assessmentPeriodDescriptor                            | 6                   | body.codeValue                                                                                             | none |
+     | assessmentPeriodDescriptor                            | 6                   | body.description                                                                                           | none |
+     | assessmentPeriodDescriptor                            | 6                   | body.shortDescription                                                                                      | none |
+     | assessmentPeriodDescriptor                            | 6                   | body.beginDate                                                                                             | none |
+     | assessmentPeriodDescriptor                            | 6                   | body.endDate                                                                                               | none |
+
+     | assessmentFamily                            | 3                   | body.nomenclature                                                                                             | none |
+     | assessmentFamily                            | 3                   | body.academicSubject                                                                                           | none |
+     | assessmentFamily                            | 3                   | body.assessmentFamilyTitle                                                                                      | none |
+     | assessmentFamily                            | 3                   | body.contentStandard                                                                                      | none |
+     | assessmentFamily                            | 3                   | body.assessmentCategory                                                                                      | none |
+     | assessmentFamily                            | 3                   | body.revisionDate                                                                                      | none |
+     | assessmentFamily                            | 3                   | body.lowestGradeLevelAssessed                                                                                      | none |
+     | assessmentFamily                            | 3                   | body.gradeLevelAssessed                                                                                      | none |
+     | assessmentFamily                            | 3                   | body.gradeLevelAssessed                                                                                      | none |
+     | assessmentFamily                            | 3                   | body.version                                                                                      | none |
+
      | assessmentItem                        | 8                   | body.identificationCode                                                                                                               | none |
      | assessmentItem                        | 8                   | body.itemCategory                                                                                                                     | none |
      | assessmentItem                        | 8                   | body.maxRawScore                                                                                                                      | none |
@@ -245,7 +260,7 @@ Then I should see following map of entry counts in the corresponding collections
      | disciplineIncident                    | 16                  | body.caseNumber                                                                                                                       | none |
      | disciplineIncident                    | 16                  | body.schoolId                                                                                                                         | none |
      | disciplineIncident                    | 16                  | body.staffId                                                                                                                          | none |
- 
+
      | educationOrganization                 | 14                  | body.stateOrganizationId                                                                                                              | none |
      | educationOrganization                 | 8                   | body.educationOrgIdentificationCode                                                                                                   | body.educationOrgIdentificationCode |
      | educationOrganization                 | 8                   | body.educationOrgIdentificationCode.ID                                                                                                | body.educationOrgIdentificationCode |
@@ -547,7 +562,7 @@ Then I should see following map of entry counts in the corresponding collections
      | student	                              | 24                  | body.address.postalCode                                                                                                               | body.address |
      | student	                              | 24                  | body.address.nameOfCounty                                                                                                             | body.address |
      | student	                              | 24                  | body.address.countyFIPSCode                                                                                                           | body.address |
-     | student 	                            | 24                  | body.address.latitude                                                                                                                 | body.address |
+     | student 	                              | 24                  | body.address.latitude                                                                                                                 | body.address |
      | student	                              | 24                  | body.address.longitude                                                                                                                | body.address |
      | student	                              | 24                  | body.address.openDate                                                                                                                 | body.address |
      | student	                              | 24                  | body.address.closeDate                                                                                                                | body.address |
@@ -571,14 +586,14 @@ Then I should see following map of entry counts in the corresponding collections
      | student	                              | 32                  | body.studentCharacteristics.endDate                                                                                                   | body.studentCharacteristics |
      | student	                              | 1                   | body.studentCharacteristics.designatedBy                                                                                              | body.studentCharacteristics |
      | student	                              | 16                  | body.limitedEnglishProficiency                                                                                                        | none |
-     | student	                              | 32                  | body.languages                                                                                                                        | body.languages |
-     | student	                              | 32                  | body.homeLanguages                                                                                                                    | body.homeLanguages |
+     | student	                              | 32                  | body.languages.language                                                                                                               | body.languages |
+     | student	                              | 32                  | body.homeLanguages.language                                                                                                           | body.homeLanguages |
      | student	                              | 32                  | body.disabilities                                                                                                                     | body.disabilities |
      | student	                              | 32                  | body.disabilities.disability                                                                                                          | body.disabilities |
      | student	                              | 1                   | body.disabilities.disabilityDiagnosis                                                                                                 | body.disabilities |
      | student	                              | 2                   | body.disabilities.orderOfDisability                                                                                                   | body.disabilities |
      | student	                              | 16                  | body.section504Disabilities                                                                                                           | body.section504Disabilities |
-     | student 	                            | 16                  | body.displacementStatus                                                                                                               | none |
+     | student 	                              | 16                  | body.displacementStatus                                                                                                               | none |
      | student	                              | 32                  | body.programParticipations                                                                                                            | body.programParticipations |
      | student	                              | 32                  | body.programParticipations.program                                                                                                    | body.programParticipations |
      | student	                              | 32                  | body.programParticipations.beginDate                                                                                                  | body.programParticipations |
@@ -633,7 +648,7 @@ Then I should see following map of entry counts in the corresponding collections
      | studentAssessment                     | 32                  | body.administrationDate                                                                                                               | none |
      | studentAssessment                     | 32                  | body.administrationEndDate                                                                                                            | none |
      | studentAssessment                     | 32                  | body.serialNumber                                                                                                                     | none |
-     | studentAssessment                     | 32                  | body.administrationLanguage                                                                                                           | none |
+     | studentAssessment                     | 32                  | body.administrationLanguage.language                                                                                                  | none |
      | studentAssessment                     | 32                  | body.administrationEnvironment                                                                                                        | none |
      | studentAssessment                     | 34                  | body.specialAccommodations                                                                                                            | body.specialAccommodations |
      | studentAssessment                     | 36                  | body.linguisticAccommodations                                                                                                         | body.linguisticAccommodations |
@@ -759,6 +774,6 @@ Then I should see following map of entry counts in the corresponding collections
      | teacherSectionAssociation             | 1                   | body.highlyQualifiedTeacher                                                                                                           | none |
 
 
-  And I should see "Processed 1317 records." in the resulting batch job file
+  And I should see "Processed 1326 records." in the resulting batch job file
   And I should not see an error log file created
   And I should not see a warning log file created

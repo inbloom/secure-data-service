@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<InterchangeStudentEnrollment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                              xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentEnrollment.xsd">
+
+    <Action ActionType="DELETE" Cascade="false" Force="false">
+
+        <StudentSchoolAssociation>
+            <StudentReference>
+                <StudentIdentity>
+                    <StudentUniqueStateId>1</StudentUniqueStateId>
+                </StudentIdentity>
+            </StudentReference>
+            <SchoolReference>
+                <EducationalOrgIdentity>
+                    <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                </EducationalOrgIdentity>
+            </SchoolReference>
+            <SchoolYear>2019-2020</SchoolYear>
+            <EntryDate>2001-09-03</EntryDate>
+            <EntryGradeLevel>Ninth grade</EntryGradeLevel>
+            <EntryType>Other</EntryType>
+            <RepeatGradeIndicator>true</RepeatGradeIndicator>
+            <ClassOf>2014-2015</ClassOf>
+            <SchoolChoiceTransfer>true</SchoolChoiceTransfer>
+            <ExitWithdrawDate>2002-05-30</ExitWithdrawDate>
+            <EducationalPlans>
+                <EducationalPlan>IDEA IEP</EducationalPlan>
+            </EducationalPlans>
+            <GraduationPlanReference>
+                <GraduationPlanIdentity>
+                    <GraduationPlanType>Minimum</GraduationPlanType>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                </GraduationPlanIdentity>
+            </GraduationPlanReference>
+        </StudentSchoolAssociation>
+
+    </Action>
+
+</InterchangeStudentEnrollment>

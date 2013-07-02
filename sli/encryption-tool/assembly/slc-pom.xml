@@ -12,6 +12,7 @@
 	<name>Encryption Tool</name>
 
 	<properties>
+		<VERSION_NUMBER>1.0-SNAPSHOT</VERSION_NUMBER>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.assembly.version>2.2-beta-5</maven.assembly.version>
 	</properties>
@@ -53,26 +54,115 @@
 				</executions>
 			</plugin>
 			
-						<plugin>
-							<groupId>org.apache.maven.plugins</groupId>
-							<artifactId>maven-assembly-plugin</artifactId>
-							<version>${maven.assembly.version}</version>
-							<executions>
-								<execution>
-									<id>make-assembly</id>
-									<phase>package</phase>
-									<goals>
-										<goal>single</goal>
-									</goals>
-									<configuration>
-										<finalName>EncryptionTool</finalName>
-										<descriptors>
-											<descriptor>assembly/zip.xml</descriptor>
-										</descriptors>
-									</configuration>
-								</execution>
-							</executions>
-						</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>${maven.assembly.version}</version>
+				<executions>
+					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<finalName>EncryptionTool</finalName>
+							<descriptors>
+								<descriptor>assembly/zip.xml</descriptor>
+							</descriptors>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-install-plugin</artifactId>
+				<executions>
+				    <execution>
+				        <id>overwrite-pom</id>
+				        <phase>install</phase>
+				        <goals>
+				            <goal>install-file</goal>
+				        </goals>
+				        <configuration>
+				            <packaging>pom</packaging>
+				            <file>target/pom-install-deploy-fix/pom.xml</file>
+				            <pomFile>target/pom-install-deploy-fix/pom.xml</pomFile>
+				            <version>1.0-SNAPSHOT</version>
+				        </configuration>
+				    </execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<executions>
+				    <execution>
+				        <id>overwrite-pom</id>
+				        <phase>deploy</phase>
+				        <goals>
+				            <goal>deploy-file</goal>
+				        </goals>
+				        <configuration>
+				            <packaging>pom</packaging>
+				            <file>target/pom-install-deploy-fix/pom.xml</file>
+				            <pomFile>target/pom-install-deploy-fix/pom.xml</pomFile>
+				            <version>1.0-SNAPSHOT</version>
+				            <updateReleaseInfo>${isRelease}</updateReleaseInfo>
+				            <uniqueVersion>${isRelease}</uniqueVersion>
+				        </configuration>
+				    </execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+				  <archive>
+				      <manifestSection>
+				          <name>Specification</name>
+				          <manifestEntries>
+				              <Title>${project.name}</Title>
+				              <Build-Version>${VERSION_NUMBER}</Build-Version>
+				          </manifestEntries>
+				      </manifestSection>
+				  </archive>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+				  <archive>
+				      <manifestSection>
+				          <name>Specification</name>
+				          <manifestEntries>
+				              <Title>${project.name}</Title>
+				              <Build-Version>${VERSION_NUMBER}</Build-Version>
+				          </manifestEntries>
+				      </manifestSection>
+				  </archive>
+				</configuration>
+			</plugin>
+
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>snapshot-deploy-url-override</id>
+			<activation>
+				<property>
+					<name>!VERSION_NUMBER</name>
+				</property>
+			</activation>
+			<properties>
+				<isRelease>false</isRelease>
+			</properties>
+		</profile>
+	</profiles>
+
+
 </project>

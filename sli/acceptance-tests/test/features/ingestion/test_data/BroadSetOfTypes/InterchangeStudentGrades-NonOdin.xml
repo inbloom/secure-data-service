@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<InterchangeStudentGrade xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                         xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentGrade.xsd">
+    <CourseTranscript>
+        <CourseAttemptResult>Pass</CourseAttemptResult>
+        <CreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
+            <Credit>3</Credit>
+        </CreditsAttempted>
+        <CreditsEarned>
+            <Credit>3</Credit>
+        </CreditsEarned>
+        <AdditionalCreditsEarned AdditionalCreditType="AP">
+            <Credit>0</Credit>
+        </AdditionalCreditsEarned>
+        <GradeLevelWhenTaken>Ninth grade</GradeLevelWhenTaken>
+        <MethodCreditEarned>Classroom credit</MethodCreditEarned>
+        <FinalLetterGradeEarned>C</FinalLetterGradeEarned>
+        <FinalNumericGradeEarned>74</FinalNumericGradeEarned>
+        <CourseRepeatCode>RepeatCounted</CourseRepeatCode>
+        <CourseReference>
+            <CourseIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>1</UniqueCourseId>
+            </CourseIdentity>
+        </CourseReference>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <StudentAcademicRecordReference>
+            <StudentAcademicRecordIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>1</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <SessionReference>
+                    <SessionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+                    </SessionIdentity>
+                </SessionReference>
+                <SchoolYear>2001-2002</SchoolYear>
+            </StudentAcademicRecordIdentity>
+        </StudentAcademicRecordReference>
+    </CourseTranscript>
+    <StudentCompetencyObjective>
+        <StudentCompetencyObjectiveId>SCO-K-1</StudentCompetencyObjectiveId>
+        <Objective>Phonemic Awareness</Objective>
+        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+    </StudentCompetencyObjective>
+    <CompetencyLevelDescriptor>
+        <CodeValue>CLD-CodeValue-CLD_1</CodeValue>
+        <Description>CompetencyLevelDesciptor Description CLD_1</Description>
+        <PerformanceBaseConversion>Advanced</PerformanceBaseConversion>
+    </CompetencyLevelDescriptor>
+    <StudentCompetency>
+        <StudentCompetencyObjectiveReference>
+            <StudentCompetencyObjectiveIdentity>
+                <StudentCompetencyObjectiveId>JS-K-1</StudentCompetencyObjectiveId>
+            </StudentCompetencyObjectiveIdentity>
+        </StudentCompetencyObjectiveReference>
+        <CompetencyLevel>
+            <CodeValue>Incompetent</CodeValue>
+        </CompetencyLevel>
+        <StudentSectionAssociationReference>
+            <StudentSectionAssociationIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>1</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
+                    <SectionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <UniqueSectionCode>3</UniqueSectionCode>
+                    </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2001-09-03</BeginDate>
+            </StudentSectionAssociationIdentity>
+        </StudentSectionAssociationReference>
+    </StudentCompetency>
+    <StudentCompetencyObjective>
+        <StudentCompetencyObjectiveId>JS-K-1</StudentCompetencyObjectiveId>
+        <Objective>Phonemic Awareness</Objective>
+        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+    </StudentCompetencyObjective>
+</InterchangeStudentGrade>

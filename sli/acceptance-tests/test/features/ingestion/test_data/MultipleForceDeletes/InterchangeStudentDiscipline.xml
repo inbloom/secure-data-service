@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<InterchangeStudentDiscipline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                              xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentDiscipline.xsd">
+    <Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="true">
+        <DisciplineActionReference>
+            <DisciplineActionIdentity>
+                <DisciplineActionIdentifier>4#0,1</DisciplineActionIdentifier>
+                <ResponsibilitySchoolReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </ResponsibilitySchoolReference>
+            </DisciplineActionIdentity>
+        </DisciplineActionReference>
+        <DisciplineIncident>
+            <IncidentIdentifier>12#0</IncidentIdentifier>
+            <IncidentDate>2003-02-23</IncidentDate>
+            <IncidentTime>10:46:24</IncidentTime>
+            <IncidentLocation>Classroom</IncidentLocation>
+            <ReporterDescription>Parent</ReporterDescription>
+            <ReporterName>Reported Parent Name</ReporterName>
+            <Behaviors>
+                <CodeValue>BE0</CodeValue>
+            </Behaviors>
+            <SecondaryBehaviors BehaviorCategory="State Offense">
+                <SecondaryBehavior>SBE0</SecondaryBehavior>
+            </SecondaryBehaviors>
+            <Weapons>
+                <Weapon>Substance Used as Weapon</Weapon>
+            </Weapons>
+            <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
+            <SchoolReference>
+                <EducationalOrgIdentity>
+                    <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                </EducationalOrgIdentity>
+            </SchoolReference>
+            <StaffReference>
+                <StaffIdentity>
+                    <StaffUniqueStateId>tech-0000000016</StaffUniqueStateId>
+                </StaffIdentity>
+            </StaffReference>
+        </DisciplineIncident>
+    </Action>
+    <Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="true">
+        <StudentDisciplineIncidentAssociation>
+            <StudentReference>
+                <StudentIdentity>
+                    <StudentUniqueStateId>1</StudentUniqueStateId>
+                </StudentIdentity>
+            </StudentReference>
+            <DisciplineIncidentReference>
+                <DisciplineIncidentIdentity>
+                    <IncidentIdentifier>4#0</IncidentIdentifier>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                </DisciplineIncidentIdentity>
+            </DisciplineIncidentReference>
+            <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+            <Behaviors>
+                <CodeValue>BE1</CodeValue>
+            </Behaviors>
+        </StudentDisciplineIncidentAssociation>
+        <StudentGradebookEntryReference>
+            <StudentGradebookEntryIdentity>
+                <StudentSectionAssociationReference>
+                    <StudentSectionAssociationIdentity>
+                        <StudentReference>
+                            <StudentIdentity>
+                                <StudentUniqueStateId>1</StudentUniqueStateId>
+                            </StudentIdentity>
+                        </StudentReference>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>3</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                        <BeginDate>2001-09-03</BeginDate>
+                    </StudentSectionAssociationIdentity>
+                </StudentSectionAssociationReference>
+                <GradebookEntryReference>
+                    <GradebookEntryIdentity>
+                        <GradebookEntryType>Homework</GradebookEntryType>
+                        <DateAssigned>2001-09-04</DateAssigned>
+                        <SectionReference>
+                            <SectionIdentity>
+                                <EducationalOrgReference>
+                                    <EducationalOrgIdentity>
+                                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                                    </EducationalOrgIdentity>
+                                </EducationalOrgReference>
+                                <UniqueSectionCode>3</UniqueSectionCode>
+                            </SectionIdentity>
+                        </SectionReference>
+                    </GradebookEntryIdentity>
+                </GradebookEntryReference>
+            </StudentGradebookEntryIdentity>
+        </StudentGradebookEntryReference>
+    </Action>
+</InterchangeStudentDiscipline>

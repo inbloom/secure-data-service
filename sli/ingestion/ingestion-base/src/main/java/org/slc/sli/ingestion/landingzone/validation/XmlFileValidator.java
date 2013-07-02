@@ -19,6 +19,7 @@ package org.slc.sli.ingestion.landingzone.validation;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
@@ -46,7 +47,7 @@ public class XmlFileValidator implements Validator<IngestionFileEntry> {
 
     @Override
     public boolean isValid(IngestionFileEntry entry, AbstractMessageReport report, ReportStats reportStats,
-            Source source) {
+            Source source, Map<String, Object> parameters) {
         LOG.debug("validating xml...");
 
         if (isEmptyOrUnreadable(entry, report, reportStats, source)) {
@@ -70,11 +71,11 @@ public class XmlFileValidator implements Validator<IngestionFileEntry> {
             }
         } catch (FileNotFoundException e) {
             LOG.error("File not found: " + entry.getFileName(), e);
-            report.error(reportStats, new XmlFileSource(entry), BaseMessageCode.BASE_0013, entry.getFileName());
+            report.error(e, reportStats, new XmlFileSource(entry), BaseMessageCode.BASE_0013, entry.getFileName());
             isEmpty = true;
         } catch (IOException e) {
             LOG.error("Problem reading file: " + entry.getFileName());
-            report.error(reportStats, new XmlFileSource(entry), BaseMessageCode.BASE_0014, entry.getFileName());
+            report.error(e, reportStats, new XmlFileSource(entry), BaseMessageCode.BASE_0014, entry.getFileName());
             isEmpty = true;
         } finally {
             IOUtils.closeQuietly(is);

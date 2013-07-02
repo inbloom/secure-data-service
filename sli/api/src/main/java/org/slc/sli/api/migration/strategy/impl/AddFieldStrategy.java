@@ -76,7 +76,9 @@ public class AddFieldStrategy implements MigrationStrategy<EntityBody> {
     public List<EntityBody> migrate(List<EntityBody> entityList) throws MigrationException {
         for (EntityBody entityBody : entityList) {
             try {
-                PropertyUtils.setProperty(entityBody, fieldName, resolveRules(entityBody));
+                if (!entityBody.containsKey(fieldName)) {
+                    PropertyUtils.setProperty(entityBody, fieldName, resolveRules(entityBody));
+                }
             } catch (IllegalAccessException e) {
                 throw new MigrationException(e);
             } catch (InvocationTargetException e) {

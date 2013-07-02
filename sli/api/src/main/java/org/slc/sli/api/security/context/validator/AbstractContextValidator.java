@@ -28,11 +28,12 @@ import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.common.util.datetime.DateHelper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -47,7 +48,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
     String gracePeriod;
 
     @Autowired
-    protected DateHelper dateHelper;
+    private DateHelper dateHelper;
 
     @Autowired
     public PagingRepositoryDelegate<Entity> repo;
@@ -64,27 +65,20 @@ public abstract class AbstractContextValidator implements IContextValidator {
     }
 
     protected static final Set<String> GLOBAL_WRITE_RESOURCE = new HashSet<String>(Arrays.asList(
-            EntityNames.ASSESSMENT,
-            EntityNames.LEARNING_OBJECTIVE,
-            EntityNames.LEARNING_STANDARD,
+            EntityNames.ASSESSMENT, EntityNames.LEARNING_OBJECTIVE, EntityNames.LEARNING_STANDARD,
             EntityNames.COMPETENCY_LEVEL_DESCRIPTOR));
 
     protected static final Set<String> SUB_ENTITIES_OF_STUDENT = new HashSet<String>(Arrays.asList(
-            EntityNames.ATTENDANCE,
-            EntityNames.DISCIPLINE_ACTION,
-            EntityNames.STUDENT_ACADEMIC_RECORD,
-            EntityNames.STUDENT_ASSESSMENT,
-            EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION,
-            EntityNames.STUDENT_GRADEBOOK_ENTRY,
-            EntityNames.STUDENT_PARENT_ASSOCIATION,
-            EntityNames.STUDENT_SCHOOL_ASSOCIATION,
-            EntityNames.STUDENT_SECTION_ASSOCIATION,
-            EntityNames.REPORT_CARD));
+            EntityNames.ATTENDANCE, EntityNames.DISCIPLINE_ACTION, EntityNames.STUDENT_ACADEMIC_RECORD,
+            EntityNames.STUDENT_ASSESSMENT, EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION,
+            EntityNames.STUDENT_GRADEBOOK_ENTRY, EntityNames.STUDENT_PARENT_ASSOCIATION,
+            EntityNames.STUDENT_SCHOOL_ASSOCIATION, EntityNames.STUDENT_SECTION_ASSOCIATION, EntityNames.REPORT_CARD));
 
     /**
      * Determines if the specified type is a sub-entity of student.
      *
-     * @param type Type to check is 'below' student.
+     * @param type
+     *            Type to check is 'below' student.
      * @return True if the entity hangs off of student, false otherwise.
      */
     protected boolean isSubEntityOfStudent(String type) {
@@ -92,20 +86,21 @@ public abstract class AbstractContextValidator implements IContextValidator {
     }
 
     protected void addEndDateToQuery(NeutralQuery query, boolean useGracePeriod) {
-        NeutralCriteria endDateCriteria = new NeutralCriteria(ParameterConstants.END_DATE, NeutralCriteria.CRITERIA_GTE, getFilterDate(useGracePeriod));
-        query.addOrQuery(new NeutralQuery(new NeutralCriteria(ParameterConstants.END_DATE, NeutralCriteria.CRITERIA_EXISTS, false)));
+        NeutralCriteria endDateCriteria = new NeutralCriteria(ParameterConstants.END_DATE,
+                NeutralCriteria.CRITERIA_GTE, getFilterDate(useGracePeriod));
+        query.addOrQuery(new NeutralQuery(new NeutralCriteria(ParameterConstants.END_DATE,
+                NeutralCriteria.CRITERIA_EXISTS, false)));
         query.addOrQuery(new NeutralQuery(endDateCriteria));
     }
 
     protected static final Set<String> SUB_ENTITIES_OF_STUDENT_SECTION = new HashSet<String>(Arrays.asList(
-            EntityNames.GRADE,
-            EntityNames.STUDENT_COMPETENCY));
-
+            EntityNames.GRADE, EntityNames.STUDENT_COMPETENCY));
 
     /**
      * Determines if the specified type is a sub-entity of student section association.
      *
-     * @param type Type to check is 'below' student section association.
+     * @param type
+     *            Type to check is 'below' student section association.
      * @return True if the entity hangs off of student section association, false otherwise.
      */
     protected boolean isSubEntityOfStudentSectionAssociation(String type) {
@@ -116,8 +111,10 @@ public abstract class AbstractContextValidator implements IContextValidator {
      * Checks if the DateTime of the first parameter is earlier (or equal to) the second parameter,
      * comparing only the year, month, and day.
      *
-     * @param lhs First DateTime.
-     * @param rhs Second DateTime.
+     * @param lhs
+     *            First DateTime.
+     * @param rhs
+     *            Second DateTime.
      * @return True if first DateTime is before (or equal to) to the second DateTime, false
      *         otherwise.
      */
@@ -128,21 +125,23 @@ public abstract class AbstractContextValidator implements IContextValidator {
     /**
      * Parse the String representing a DateTime and return the corresponding DateTime.
      *
-     * @param convert String to be converted (of format yyyy-MM-dd).
+     * @param convert
+     *            String to be converted (of format yyyy-MM-dd).
      * @return DateTime object.
      */
     protected DateTime getDateTime(String convert) {
-        return DateTime.parse(convert, dateHelper.fmt);
+        return DateTime.parse(convert, dateHelper.getDateTimeFormat());
     }
 
     /**
      * Convert the DateTime to a String representation.
      *
-     * @param convert DateTime to be converted.
+     * @param convert
+     *            DateTime to be converted.
      * @return String representing DateTime (of format yyyy-MM-dd).
      */
     protected String getDateTimeString(DateTime convert) {
-        return convert.toString(dateHelper.fmt);
+        return convert.toString(dateHelper.getDateTimeFormat());
     }
 
     /**
@@ -163,15 +162,33 @@ public abstract class AbstractContextValidator implements IContextValidator {
         return EntityNames.TEACHER.equals(SecurityUtil.getSLIPrincipal().getEntity().getType());
     }
 
+    /**
+     * Determines if the user is of type 'student' or of 'parent'.
+     *
+     * @return True if user is of type 'student' or 'parent', false otherwise.
+     */
+    protected boolean isStudentOrParent() {
+        // Just return for students now, later we can add funcitonality for parents also
+        return isStudent()/* || isParent() */;
+    }
+
+    /**
+     * Determines if the user is of type 'student'.
+     *
+     * @return True if user is of type 'student', false otherwise.
+     */
+
+    protected boolean isStudent() {
+        return SecurityUtil.isStudent();
+    }
+
     public boolean isFieldExpired(Map<String, Object> body, String fieldName, boolean useGracePeriod) {
         return dateHelper.isFieldExpired(body, fieldName, useGracePeriod);
     }
 
-
     protected Repository<Entity> getRepo() {
         return this.repo;
     }
-
 
     /**
      * Will go through staffEdorgAssociations that are current and get the descendant
@@ -200,6 +217,21 @@ public abstract class AbstractContextValidator implements IContextValidator {
 
     }
 
+    /**
+     * Returns the list of student IDs associated to a student or parent actor,
+     * or empty set otherwise
+     *
+     * @return the list of student IDs associated to a student or parent actor, empty set otherwise
+     */
+    protected Set<String> getDirectStudentIds() {
+        if (isStudent()) {
+            return new HashSet<String>(Arrays.asList(SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
+        }
+        // else if parent
+        // else
+        return new HashSet<String>();
+    }
+
     protected Set<String> getStaffCurrentAssociatedEdOrgs() {
         return edorgHelper.getDirectEdorgs();
     }
@@ -216,29 +248,35 @@ public abstract class AbstractContextValidator implements IContextValidator {
 
     private Set<String> fetchParentEdorgs(String id) {
         Set<String> parents = new HashSet<String>();
-        Entity edOrg = getRepo().findOne(EntityNames.EDUCATION_ORGANIZATION, new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.OPERATOR_EQUAL, id, false)));
+        Entity edOrg = getRepo()
+                .findOne(
+                        EntityNames.EDUCATION_ORGANIZATION,
+                        new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.OPERATOR_EQUAL, id,
+                                false)));
         if (edOrg != null) {
             parents.addAll(edorgHelper.getParentEdOrgs(edOrg));
         }
         return parents;
     }
 
-
     /**
      * Performs a query for entities of type 'type' with _id contained in the List of 'ids'.
      * Iterates through result and peels off String value contained in body.<<field>>. Returns
      * unique set of values that were stored in body.<<field>>.
      *
-     * @param type  Entity type to query for.
-     * @param ids   List of _ids of entities to query.
-     * @param field Field (contained in body) to peel off of entities.
+     * @param type
+     *            Entity type to query for.
+     * @param ids
+     *            List of _ids of entities to query.
+     * @param field
+     *            Field (contained in body) to peel off of entities.
      * @return List of Strings representing unique Set of values stored in entities' body.<<field>>.
      */
     protected List<String> getIdsContainedInFieldOnEntities(String type, List<String> ids, String field) {
         Set<String> matching = new HashSet<String>();
 
-        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
-                NeutralCriteria.OPERATOR_EQUAL, ids));
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN,
+                ids));
         Iterable<Entity> entities = getRepo().findAll(type, query);
         if (entities != null) {
             for (Entity entity : entities) {
@@ -257,13 +295,15 @@ public abstract class AbstractContextValidator implements IContextValidator {
     }
 
     /**
-     * Validate that the id list isn't null, contains at least one id, and that the entity types match.
+     * Validate that the id list isn't null, contains at least one id, and that the entity types
+     * match.
      *
      * @param correctEntityType
      * @param inputEntityType
      * @param ids
      * @return true if the parameters are valid, false otherwise
-     * @throws IllegalArgumentException if the types don't match
+     * @throws IllegalArgumentException
+     *             if the types don't match
      */
     protected boolean areParametersValid(String correctEntityType, String inputEntityType, Set<String> ids) {
         return areParametersValid(Arrays.asList(correctEntityType), inputEntityType, ids);
@@ -293,7 +333,8 @@ public abstract class AbstractContextValidator implements IContextValidator {
     /**
      * Determines if the entity type has global write context.
      *
-     * @param type Entity type.
+     * @param type
+     *            Entity type.
      * @return True if the entity has global write context, false otherwise.
      */
     protected boolean isGlobalWrite(String type) {
@@ -325,4 +366,22 @@ public abstract class AbstractContextValidator implements IContextValidator {
         }
         return validated;
     }
+
+    protected DateHelper getDateHelper() {
+        return dateHelper;
+    }
+
+    protected void setDateHelper(DateHelper dateHelper) {
+        this.dateHelper = dateHelper;
+    }
+
+    protected Iterable<Entity> getKidsForParent(Entity parent) {
+        //TODO cache this?
+        Iterable<Entity> kids = getRepo().findAll(
+                EntityNames.STUDENT,
+                new NeutralQuery(new NeutralCriteria(EntityNames.STUDENT_PARENT_ASSOCIATION,
+                        NeutralCriteria.OPERATOR_EQUAL, parent.getEntityId())));
+        return kids;
+    }
+
 }

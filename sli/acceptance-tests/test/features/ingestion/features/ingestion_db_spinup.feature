@@ -41,7 +41,6 @@ Then I should see following map of indexes in the corresponding collections:
      | educationOrganizationAssociation       |
      | educationOrganizationSchoolAssociation |
      | grade                                  |
-     | gradebookEntry                         |
      | graduationPlan                         |
      | parent                                 |
      | reportCard                             |
@@ -52,15 +51,10 @@ Then I should see following map of indexes in the corresponding collections:
      | staffProgramAssociation                |
      | student                                |
      | studentAcademicRecord                  |
-     | studentCohortAssociation               |
      | studentCompetency                      |
      | studentCompetencyObjective             |
-     | studentDisciplineIncidentAssociation   |
      | studentGradebookEntry                  |
-     | studentParentAssociation               |
-     | studentProgramAssociation              |
      | studentSchoolAssociation               |
      | courseTranscript                       |
      | teacherSchoolAssociation               |
-     | teacherSectionAssociation              |
 	 | recordHash                             |

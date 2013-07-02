@@ -1,0 +1,339 @@
+<?xml version="1.0"?>
+<InterchangeStudentParent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentParent.xsd">
+<Student>
+  <StudentUniqueStateId>1</StudentUniqueStateId>
+      <StudentIdentificationCode IdentificationSystem="National Migrant" AssigningOrganizationCode="School">
+        <IdentificationCode>id_1</IdentificationCode>
+      </StudentIdentificationCode>
+  <Name>
+    <FirstName>Jessie</FirstName>
+    <MiddleName>Kory</MiddleName>
+    <LastSurname>Mcgowan</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <BirthData>
+    <BirthDate>1999-01-12</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>960 Marks Ct</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+	<Telephone>
+	  <TelephoneNumber>(753)555-9719</TelephoneNumber>
+	</Telephone>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>2895@fakemail.com</EmailAddress>
+  </ElectronicMail>
+    <ProfileThumbnail>1 thumb</ProfileThumbnail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <OldEthnicity>American Indian Or Alaskan Native</OldEthnicity>
+  <Race>
+    <RacialCategory>Asian</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <Languages>
+      <Language>Nepali</Language>
+    </Languages>
+    <HomeLanguages>
+      <Language>French</Language>
+    </HomeLanguages>
+    <Disabilities>
+      <Disability>Emotional Disturbance</Disability>
+      <DisabilityDiagnosis>Diagnosis A</DisabilityDiagnosis>
+      <OrderOfDisability>4</OrderOfDisability>
+    </Disabilities>
+    <Section504Disabilities>
+      <Section504Disability>Attention Deficit Hyperactivity Disorder (ADHD)</Section504Disability>
+    </Section504Disabilities>
+    <DisplacementStatus>Status BBB</DisplacementStatus>
+    <ProgramParticipations>
+      <Program>Bilingual Summer</Program>
+      <BeginDate>20013-10-19</BeginDate>
+      <EndDate>2014-01-05</EndDate>
+      <DesignatedBy>Teacher</DesignatedBy>
+    </ProgramParticipations>
+    <LearningStyles>
+      <VisualLearning>24</VisualLearning>
+      <AuditoryLearning>8</AuditoryLearning>
+      <TactileLearning>27</TactileLearning>
+    </LearningStyles>
+    <CohortYears CohortYearType="Sixth grade">
+      <SchoolYear>2014-2015</SchoolYear>
+    </CohortYears>
+    <StudentIndicators>
+      <IndicatorGroup>Group B</IndicatorGroup>
+      <IndicatorName>Name 1</IndicatorName>
+      <Indicator>Indicator 3</Indicator>
+      <BeginDate>20013-06-26</BeginDate>
+      <EndDate>2014-07-09</EndDate>
+      <DesignatedBy>Parent</DesignatedBy>
+    </StudentIndicators>
+    
+  <LoginId>2895@fakemail.com</LoginId>
+</Student>
+  <Student>
+    <StudentUniqueStateId>11</StudentUniqueStateId>
+    <StudentIdentificationCode IdentificationSystem="State" AssigningOrganizationCode="District">
+      <IdentificationCode>abcde</IdentificationCode>
+    </StudentIdentificationCode>
+    <Name>
+      <FirstName>Leonel</FirstName>
+      <MiddleName>Travis</MiddleName>
+      <LastSurname>Kelleher</LastSurname>
+    </Name>
+    <OtherName OtherNameType="Previous Legal Name">
+      <PersonalTitlePrefix>Mr</PersonalTitlePrefix>
+      <FirstName>Herbert</FirstName>
+      <MiddleName>Carroll</MiddleName>
+      <LastSurname>Fraley</LastSurname>
+      <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+    </OtherName>
+    <Sex>Male</Sex>
+    <BirthData>
+      <BirthDate>1998-07-30</BirthDate>
+    </BirthData>
+    <Address AddressType="Home">
+      <StreetNumberName>100 Moved pl</StreetNumberName>
+      <City>Cary</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60601</PostalCode>
+    </Address>
+    <Telephone>
+      <TelephoneNumber>(611)555-1394</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>leonel_kelleher@fakemail.com</EmailAddress>
+    </ElectronicMail>
+    <ProfileThumbnail>11 thumb</ProfileThumbnail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <OldEthnicity>White, Not Of Hispanic Origin</OldEthnicity>
+    <Race>
+      <RacialCategory>White</RacialCategory>
+    </Race>
+    <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+    <StudentCharacteristics>
+      <Characteristic>Pregnant</Characteristic>
+      <BeginDate>20013-12-11</BeginDate>
+      <EndDate>2014-12-13</EndDate>
+      <DesignatedBy>Teacher</DesignatedBy>
+    </StudentCharacteristics>
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <Languages>
+      <Language>French</Language>
+    </Languages>
+    <HomeLanguages>
+      <Language>German</Language>
+    </HomeLanguages>
+    <Disabilities>
+      <Disability>Mental Retardation</Disability>
+      <DisabilityDiagnosis>Diagnosis A</DisabilityDiagnosis>
+      <OrderOfDisability>6</OrderOfDisability>
+    </Disabilities>
+    <Section504Disabilities>
+      <Section504Disability>Medical Condition</Section504Disability>
+    </Section504Disabilities>
+    <DisplacementStatus>Status A</DisplacementStatus>
+    <ProgramParticipations>
+      <Program>Cocurricular Programs</Program>
+      <BeginDate>20013-02-05</BeginDate>
+      <EndDate>2013-03-01</EndDate>
+      <DesignatedBy>Mentor</DesignatedBy>
+    </ProgramParticipations>
+    <LearningStyles>
+      <VisualLearning>27</VisualLearning>
+      <AuditoryLearning>39</AuditoryLearning>
+      <TactileLearning>18</TactileLearning>
+    </LearningStyles>
+    <CohortYears CohortYearType="Twelfth grade">
+      <SchoolYear>2013-2014</SchoolYear>
+    </CohortYears>
+    <StudentIndicators>
+      <IndicatorGroup>Group B</IndicatorGroup>
+      <IndicatorName>Name 3</IndicatorName>
+      <Indicator>Indicator 3</Indicator>
+      <BeginDate>20012-09-05</BeginDate>
+      <EndDate>2014-02-10</EndDate>
+      <DesignatedBy>Parent</DesignatedBy>
+    </StudentIndicators>
+    <LoginId>583@fakemail.com</LoginId>
+  </Student>
+  <Student>
+    <StudentUniqueStateId>12</StudentUniqueStateId>
+    <StudentIdentificationCode IdentificationSystem="School" AssigningOrganizationCode="Other">
+      <IdentificationCode>abcde</IdentificationCode>
+    </StudentIdentificationCode>
+    <Name>
+      <FirstName>Nestor</FirstName>
+      <MiddleName>Ismael</MiddleName>
+      <LastSurname>Lear</LastSurname>
+    </Name>
+    <OtherName OtherNameType="Alias">
+      <PersonalTitlePrefix>Mrs</PersonalTitlePrefix>
+      <FirstName>Randall</FirstName>
+      <MiddleName>Jake</MiddleName>
+      <LastSurname>Close</LastSurname>
+      <GenerationCodeSuffix>VIII</GenerationCodeSuffix>
+    </OtherName>
+    <Sex>Male</Sex>
+    <BirthData>
+      <BirthDate>1998-05-18</BirthDate>
+    </BirthData>
+    <Address AddressType="Home">
+      <StreetNumberName>200 AlsoMoved Blvd</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60601</PostalCode>
+    </Address>
+    <Telephone>
+      <TelephoneNumber>(946)555-0208</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>278@fakemail.com</EmailAddress>
+    </ElectronicMail>
+    <ProfileThumbnail>12 thumb</ProfileThumbnail>
+    <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
+    <OldEthnicity>American Indian Or Alaskan Native</OldEthnicity>
+    <Race>
+      <RacialCategory>Asian</RacialCategory>
+    </Race>
+    <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+    <StudentCharacteristics>
+      <Characteristic>Unschooled Refugee</Characteristic>
+      <BeginDate>20012-12-28</BeginDate>
+      <EndDate>2014-12-25</EndDate>
+      <DesignatedBy>Teacher</DesignatedBy>
+    </StudentCharacteristics>
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <Languages>
+      <Language>German</Language>
+    </Languages>
+    <HomeLanguages>
+      <Language>Cambodian (Khmer)</Language>
+    </HomeLanguages>
+    <Disabilities>
+      <Disability>Emotional Disturbance</Disability>
+      <DisabilityDiagnosis>Diagnosis A</DisabilityDiagnosis>
+      <OrderOfDisability>20</OrderOfDisability>
+    </Disabilities>
+    <Section504Disabilities>
+      <Section504Disability>Motor Impairment</Section504Disability>
+    </Section504Disabilities>
+    <DisplacementStatus>Status A</DisplacementStatus>
+    <ProgramParticipations>
+      <Program>Alternative Education</Program>
+      <BeginDate>20012-07-14</BeginDate>
+      <EndDate>2014-03-11</EndDate>
+      <DesignatedBy>Mentor</DesignatedBy>
+    </ProgramParticipations>
+    <LearningStyles>
+      <VisualLearning>36</VisualLearning>
+      <AuditoryLearning>21</AuditoryLearning>
+      <TactileLearning>34</TactileLearning>
+    </LearningStyles>
+    <CohortYears CohortYearType="Fourth grade">
+      <SchoolYear>2009-2010</SchoolYear>
+    </CohortYears>
+    <StudentIndicators>
+      <IndicatorGroup>Group C</IndicatorGroup>
+      <IndicatorName>Name 2</IndicatorName>
+      <Indicator>Indicator 1</Indicator>
+      <BeginDate>20013-07-21</BeginDate>
+      <EndDate>2014-07-19</EndDate>
+      <DesignatedBy>Mentor</DesignatedBy>
+    </StudentIndicators>
+    <LoginId>278@fakemail.com</LoginId>
+  </Student>
+<Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="false">
+<Student>
+  <StudentUniqueStateId>2</StudentUniqueStateId>
+      <StudentIdentificationCode IdentificationSystem="Other" AssigningOrganizationCode="Other">
+        <IdentificationCode>abcde</IdentificationCode>
+      </StudentIdentificationCode>
+  <Name>
+    <FirstName>Dorthy</FirstName>
+    <MiddleName>Melba</MiddleName>
+    <LastSurname>Breedlove</LastSurname>
+  </Name>
+  <OtherName OtherNameType="Other Name">
+    <PersonalTitlePrefix>Mrs</PersonalTitlePrefix>
+    <FirstName>Marissa</FirstName>
+    <MiddleName>Frankie</MiddleName>
+    <LastSurname>Schenk</LastSurname>
+    <GenerationCodeSuffix>II</GenerationCodeSuffix>
+  </OtherName>
+  <Sex>Female</Sex>
+  <BirthData>
+    <BirthDate>1998-11-15</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>433 Oak Street</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+	<Telephone>
+	  <TelephoneNumber>(708)555-9518</TelephoneNumber>
+	</Telephone>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>4770@fakemail.com</EmailAddress>
+  </ElectronicMail>
+    <ProfileThumbnail>2 thumb</ProfileThumbnail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <OldEthnicity>Asian Or Pacific Islander</OldEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+    <StudentCharacteristics>
+      <Characteristic>Foster Care</Characteristic>
+      <BeginDate>20012-11-16</BeginDate>
+      <EndDate>2014-08-15</EndDate>
+      <DesignatedBy>Parent</DesignatedBy>
+    </StudentCharacteristics>
+    
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <Languages>
+      <Language>Nepali</Language>
+    </Languages>
+    <HomeLanguages>
+      <Language>German</Language>
+    </HomeLanguages>
+    <Disabilities>
+      <Disability>Hearing/Auditory Impairment</Disability>
+      <DisabilityDiagnosis>Diagnosis BBB</DisabilityDiagnosis>
+      <OrderOfDisability>10</OrderOfDisability>
+    </Disabilities>
+    <Section504Disabilities>
+      <Section504Disability>Sensory Impairment</Section504Disability>
+    </Section504Disabilities>
+    <DisplacementStatus>Status A</DisplacementStatus>
+    <ProgramParticipations>
+      <Program>Cocurricular Programs</Program>
+      <BeginDate>20012-03-09</BeginDate>
+      <EndDate>2013-11-09</EndDate>
+      <DesignatedBy>Mentor</DesignatedBy>
+    </ProgramParticipations>
+    <LearningStyles>
+      <VisualLearning>38</VisualLearning>
+      <AuditoryLearning>7</AuditoryLearning>
+      <TactileLearning>23</TactileLearning>
+    </LearningStyles>
+    <CohortYears CohortYearType="Eleventh grade">
+      <SchoolYear>2015-2016</SchoolYear>
+    </CohortYears>
+    <StudentIndicators>
+      <IndicatorGroup>Group C</IndicatorGroup>
+      <IndicatorName>Name 1</IndicatorName>
+      <Indicator>Indicator 1</Indicator>
+      <BeginDate>20012-10-06</BeginDate>
+      <EndDate>2014-03-21</EndDate>
+      <DesignatedBy>Mentor</DesignatedBy>
+    </StudentIndicators>
+    
+  <LoginId>4770@fakemail.com</LoginId>
+</Student>
+</Action>
+</InterchangeStudentParent>

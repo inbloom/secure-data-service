@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<InterchangeEducationOrgCalendar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                                 xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrgCalendar.xsd">
+
+   <Action ActionType="DELETE" Cascade="false" Force="false">
+     <Session>
+		<SessionName>SES-Fall 2011 East Daybreak Junior High</SessionName>
+		<SchoolYear>2011-2012</SchoolYear>
+		<Term>Fall Semester</Term>
+		<BeginDate>2011-09-06</BeginDate>
+		<EndDate>2011-12-16</EndDate>
+		<TotalInstructionalDays>75</TotalInstructionalDays>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>SES-South Daybreak Elementary</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<GradingPeriodReference>
+			<GradingPeriodIdentity>
+				<EducationalOrgReference>
+					<EducationalOrgIdentity>
+						<StateOrganizationId>SES-South Daybreak Elementary
+						</StateOrganizationId>
+					</EducationalOrgIdentity>
+				</EducationalOrgReference>
+				<GradingPeriod>First Six Weeks</GradingPeriod>
+				<BeginDate>2010-08-23</BeginDate>
+			</GradingPeriodIdentity>
+		</GradingPeriodReference>
+	</Session>
+    </Action>
+</InterchangeEducationOrgCalendar>

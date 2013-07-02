@@ -32,16 +32,22 @@ import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.impl.DefaultExchange;
 import org.apache.camel.test.CamelTestSupport;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.ingestion.ActionVerb;
 import org.slc.sli.ingestion.FileEntryWorkNote;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.ReferenceHelper;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -52,16 +58,25 @@ import org.slc.sli.ingestion.reporting.impl.JobSource;
 import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.util.XsdSelector;
 
+
+
 /**
  * EdFiParserProcessor unit tests.
  */
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/spring/processor-test.xml" })
 public class EdFiParserProcessorTest extends CamelTestSupport {
+
 
     @InjectMocks
     @Spy
     DummyEdFiParserProcessor processor = new DummyEdFiParserProcessor();
 
-     private XsdSelector xsdSelector = new XsdSelector();
+    private XsdSelector xsdSelector = new XsdSelector();
+
+    @Autowired
+    private  ReferenceHelper helper ;
 
     @Mock
     private ProducerTemplate producer;
@@ -79,9 +94,10 @@ public class EdFiParserProcessorTest extends CamelTestSupport {
         processor.setProducer(producer);
         processor.setBatchJobDAO(batchJobDAO);
         processor.setBatchSize(2);
-        Mockito.doNothing().when(processor)
-            .parse(Mockito.any(InputStream.class), Mockito.any(Resource.class),
-                   Mockito.any(SimpleReportStats.class), Mockito.any(JobSource.class));
+        Mockito.doNothing()
+                .when(processor)
+                .parse(Mockito.any(InputStream.class), Mockito.any(Resource.class),
+                        Mockito.any(SimpleReportStats.class), Mockito.any(JobSource.class));
     }
 
     @Test
@@ -98,9 +114,8 @@ public class EdFiParserProcessorTest extends CamelTestSupport {
 
         processor.process(exchange);
 
-        Mockito.verify(processor, Mockito.times(1))
-            .parse(Mockito.any(InputStream.class), Mockito.any(Resource.class),
-                   Mockito.any(SimpleReportStats.class), Mockito.any(JobSource.class));
+        Mockito.verify(processor, Mockito.times(1)).parse(Mockito.any(InputStream.class), Mockito.any(Resource.class),
+                Mockito.any(SimpleReportStats.class), Mockito.any(JobSource.class));
     }
 
     @Test
@@ -124,10 +139,52 @@ public class EdFiParserProcessorTest extends CamelTestSupport {
 
         ParserState state = processor.getState();
         List<NeutralRecord> records = state.getDataBatch();
+
         Assert.assertNotNull(records);
         Assert.assertEquals(1, records.size());
         Assert.assertEquals("studentId", records.get(0).getAttributes().get("studentUniqueStateId"));
         Assert.assertEquals("student", records.get(0).getRecordType());
+
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testReferenceMap() throws Exception {
+        init();
+
+       //helper.setMapFile( "deleteHelper/referenceExceptionMap.json" );
+
+        ActionVerb action = ActionVerb.DELETE;
+        RecordMetaImpl meta = new RecordMetaImpl("GradeReference", "GradeReference", false, action);
+        Location loc = Mockito.mock(Location.class);
+        Mockito.when(loc.getLineNumber()).thenReturn(1);
+        Mockito.when(loc.getColumnNumber()).thenReturn(1);
+        meta.setSourceStartLocation(loc);
+        meta.setSourceEndLocation(loc);
+
+        /*
+         * building GradeReference
+         */
+        Map<String, Object> att = new HashMap<String, Object>();
+        att.put("StudentReference",new HashMap<String, Object>());
+        (( Map<String,Object>)att.get("StudentReference")).put( "StudentIdenity", new HashMap<String, Object>());
+        (( Map<String,Object>)(( Map<String,Object>)att.get("StudentReference")).get("StudentIdenity")).
+                put("StudentUniqueStateId", "G-800000025");
+
+        att.put("SectionReference",new HashMap<String, Object>());
+        (( Map<String,Object>)att.get("SectionReference")).put( "EducationalOrgIdentity", new HashMap<String, Object>());
+        (( Map<String,Object>)(( Map<String,Object>)att.get("SectionReference")).get("EducationalOrgIdentity")).
+                put("StateOrganizationId", "Daybreak Central High");
+
+
+        att.put("SchoolYear", "2011-2012");
+        Assert.assertFalse(att.containsKey("StudentSectionAssociationReference"));
+
+        helper.mapAttributes(att, "GradeReference");
+        Assert.assertTrue(att.containsKey("StudentSectionAssociationReference"));
+        Assert.assertTrue(att.get("StudentSectionAssociationReference") instanceof Map );
+        Assert.assertTrue( ((Map<String,Object>)att.get("StudentSectionAssociationReference")).
+                containsKey("StudentSectionAssociationIdentity"));
 
     }
 
@@ -146,13 +203,13 @@ public class EdFiParserProcessorTest extends CamelTestSupport {
     }
 
     private class DummyEdFiParserProcessor extends EdFiParserProcessor {
-         public void setUpState(Exchange exchange, FileEntryWorkNote workNote){
-             super.prepareState(exchange, workNote);
-         }
+        public void setUpState(Exchange exchange, FileEntryWorkNote workNote) {
+            super.prepareState(exchange, workNote);
+        }
 
-         public ParserState getState() {
-             return state.get();
-         }
+        public ParserState getState() {
+            return state.get();
+        }
     }
 
 }

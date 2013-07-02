@@ -1,0 +1,435 @@
+<InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+    xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-AssessmentMetadata.xsd">
+    <Assessment>
+        <AssessmentTitle>2013-Eleventh grade Assessment 2 XX</AssessmentTitle>
+        <AssessmentIdentificationCode IdentificationSystem="State">
+            <ID>2013-Eleventh grade Assessment 2 XX</ID>
+        </AssessmentIdentificationCode>
+        <AssessmentCategory>Performance assessment</AssessmentCategory>
+        <AcademicSubject>ELA</AcademicSubject>
+        <GradeLevelAssessed>Eleventh grade</GradeLevelAssessed>
+        <LowestGradeLevelAssessed>Eleventh grade</LowestGradeLevelAssessed>
+        <ContentStandard>State Standard</ContentStandard>
+        <AssessmentForm>Form</AssessmentForm>
+        <RevisionDate>2013-01-01</RevisionDate>
+        <MaxRawScore>100</MaxRawScore>
+        <Nomenclature>Nomenclature</Nomenclature>
+        <AssessmentPeriod>
+            <AssessmentPeriodDescriptorIdentity>
+                <AssessmentPeriodDescriptorCodeValue>BOY-11-2013</AssessmentPeriodDescriptorCodeValue>
+            </AssessmentPeriodDescriptorIdentity>
+        </AssessmentPeriod>
+        <AssessmentItemReference>
+            <AssessmentItemIdentity>
+                <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#1</AssessmentItemIdentificationCode>
+            </AssessmentItemIdentity>
+        </AssessmentItemReference>
+        <AssessmentItemReference>
+            <AssessmentItemIdentity>
+                <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#2</AssessmentItemIdentificationCode>
+            </AssessmentItemIdentity>
+        </AssessmentItemReference>
+        <AssessmentItemReference>
+            <AssessmentItemIdentity>
+                <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#3</AssessmentItemIdentificationCode>
+            </AssessmentItemIdentity>
+        </AssessmentItemReference>
+        <AssessmentItemReference>
+            <AssessmentItemIdentity>
+                <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#4</AssessmentItemIdentificationCode>
+            </AssessmentItemIdentity>
+        </AssessmentItemReference>
+        <ObjectiveAssessmentReference>
+            <ObjectiveAssessmentIdentity>
+                <ObjectiveAssessmentIdentificationCode>2013-Eleventh grade Assessment 2.OA-0 yy</ObjectiveAssessmentIdentificationCode>
+            </ObjectiveAssessmentIdentity>
+        </ObjectiveAssessmentReference>
+    </Assessment>
+    <Assessment>
+        <AssessmentTitle>2013-Kindergarten Assessment 1 Item</AssessmentTitle>
+        <AssessmentIdentificationCode IdentificationSystem="State">
+            <ID>2013-Kindergarten Assessment 1</ID>
+        </AssessmentIdentificationCode>
+        <AssessmentCategory>Performance assessment</AssessmentCategory>
+        <AcademicSubject>Science</AcademicSubject>
+        <GradeLevelAssessed>Kindergarten</GradeLevelAssessed>
+        <LowestGradeLevelAssessed>Kindergarten</LowestGradeLevelAssessed>
+        <ContentStandard>State Standard</ContentStandard>
+        <AssessmentForm>Form</AssessmentForm>
+        <RevisionDate>2013-01-01</RevisionDate>
+        <MaxRawScore>100</MaxRawScore>
+        <Nomenclature>Nomenclature</Nomenclature>
+        <AssessmentItemReference>
+            <AssessmentItemIdentity>
+                <AssessmentItemIdentificationCode>2013-Kindergarten Assessment 1#1 Item</AssessmentItemIdentificationCode>
+            </AssessmentItemIdentity>
+        </AssessmentItemReference>
+    </Assessment>
+    <Assessment>
+        <AssessmentTitle>2013-Kindergarten Assessment 2 Item</AssessmentTitle>
+        <AssessmentIdentificationCode IdentificationSystem="State">
+            <ID>2013-Kindergarten Assessment 2</ID>
+        </AssessmentIdentificationCode>
+        <AssessmentCategory>Performance assessment</AssessmentCategory>
+        <AcademicSubject>Writing</AcademicSubject>
+        <GradeLevelAssessed>Kindergarten</GradeLevelAssessed>
+        <LowestGradeLevelAssessed>Kindergarten</LowestGradeLevelAssessed>
+        <ContentStandard>State Standard</ContentStandard>
+        <AssessmentForm>Form</AssessmentForm>
+        <RevisionDate>2013-01-01</RevisionDate>
+        <MaxRawScore>100</MaxRawScore>
+        <Nomenclature>Nomenclature</Nomenclature>
+        <AssessmentItemReference>
+            <AssessmentItemIdentity>
+                <AssessmentItemIdentificationCode>2013-Kindergarten Assessment 2#1 Item</AssessmentItemIdentificationCode>
+            </AssessmentItemIdentity>
+        </AssessmentItemReference>
+    </Assessment>
+    <Assessment>
+        <AssessmentTitle>Update AF</AssessmentTitle>
+        <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+            <ID>READ 2.0 Grade 1 BOY</ID>
+        </AssessmentIdentificationCode>
+        <AssessmentCategory>Reading readiness test</AssessmentCategory>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>First grade</GradeLevelAssessed>
+        <AssessmentPerformanceLevel>
+            <PerformanceLevel>
+                <CodeValue>Level 1</CodeValue>
+            </PerformanceLevel>
+            <AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+            <MinimumScore>113</MinimumScore>
+            <MaximumScore>380</MaximumScore>
+        </AssessmentPerformanceLevel>
+        <AssessmentPerformanceLevel>
+            <PerformanceLevel>
+                <CodeValue>Level 2</CodeValue>
+            </PerformanceLevel>
+            <AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+            <MinimumScore>97</MinimumScore>
+            <MaximumScore>112</MaximumScore>
+        </AssessmentPerformanceLevel>
+        <AssessmentPerformanceLevel>
+            <PerformanceLevel>
+                <CodeValue>Level 3</CodeValue>
+            </PerformanceLevel>
+            <AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+            <MinimumScore>0</MinimumScore>
+            <MaximumScore>96</MaximumScore>
+        </AssessmentPerformanceLevel>
+        <Version>1</Version>
+        <RevisionDate>2010-05-17</RevisionDate>
+        <AssessmentPeriod>
+            <AssessmentPeriodDescriptorIdentity>
+                <AssessmentPeriodDescriptorCodeValue>READ2-BOY-2011</AssessmentPeriodDescriptorCodeValue>
+            </AssessmentPeriodDescriptorIdentity>
+        </AssessmentPeriod>
+        <AssessmentFamilyReference>
+            <AssessmentFamilyIdentity>
+                <AssessmentFamilyTitle>READ 2.0</AssessmentFamilyTitle>
+            </AssessmentFamilyIdentity>
+        </AssessmentFamilyReference>
+    </Assessment>
+    <Assessment>
+        <AssessmentTitle>Delete AF</AssessmentTitle>
+        <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+            <ID>READ 2.0 Grade 1 MOY</ID>
+        </AssessmentIdentificationCode>
+        <AssessmentCategory>Reading readiness test</AssessmentCategory>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>First grade</GradeLevelAssessed>
+        <AssessmentPerformanceLevel>
+            <PerformanceLevel>
+                <CodeValue>Level 1</CodeValue>
+            </PerformanceLevel>
+            <AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+            <MinimumScore>130</MinimumScore>
+            <MaximumScore>380</MaximumScore>
+        </AssessmentPerformanceLevel>
+        <AssessmentPerformanceLevel>
+            <PerformanceLevel>
+                <CodeValue>Level 2</CodeValue>
+            </PerformanceLevel>
+            <AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+            <MinimumScore>100</MinimumScore>
+            <MaximumScore>129</MaximumScore>
+        </AssessmentPerformanceLevel>
+        <AssessmentPerformanceLevel>
+            <PerformanceLevel>
+                <CodeValue>Level 3</CodeValue>
+            </PerformanceLevel>
+            <AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+            <MinimumScore>0</MinimumScore>
+            <MaximumScore>99</MaximumScore>
+        </AssessmentPerformanceLevel>
+        <Version>1</Version>
+        <RevisionDate>2010-05-17</RevisionDate>
+        <AssessmentPeriod>
+            <AssessmentPeriodDescriptorIdentity>
+                <AssessmentPeriodDescriptorCodeValue>READ2-MOY-2011</AssessmentPeriodDescriptorCodeValue>
+            </AssessmentPeriodDescriptorIdentity>
+        </AssessmentPeriod>
+        <AssessmentFamilyReference>
+            <AssessmentFamilyIdentity>
+                <AssessmentFamilyTitle>READ 2.0 Grade 1</AssessmentFamilyTitle>
+            </AssessmentFamilyIdentity>
+        </AssessmentFamilyReference>
+    </Assessment>
+    <Assessment>
+        <AssessmentTitle>Delete A and Update AF</AssessmentTitle>
+        <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+            <ID>READ 2.0 Grade 1 MOY</ID>
+        </AssessmentIdentificationCode>
+        <AssessmentFamilyReference>
+            <AssessmentFamilyIdentity>
+                <AssessmentFamilyTitle>3 Delete A and Update AF</AssessmentFamilyTitle>
+            </AssessmentFamilyIdentity>
+        </AssessmentFamilyReference>
+    </Assessment>
+    <Assessment>
+        <AssessmentTitle>Update A and Delete AF</AssessmentTitle>
+        <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+            <ID>READ 2.0 Grade 1 MOY</ID>
+        </AssessmentIdentificationCode>
+        <AssessmentFamilyReference>
+            <AssessmentFamilyIdentity>
+                <AssessmentFamilyTitle>Update A and Delete AF</AssessmentFamilyTitle>
+            </AssessmentFamilyIdentity>
+        </AssessmentFamilyReference>
+    </Assessment>
+    <Assessment>
+        <AssessmentTitle>Delete A and Delete AF</AssessmentTitle>
+        <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+            <ID>READ 2.0 Grade 1 MOY</ID>
+        </AssessmentIdentificationCode>
+        <AssessmentFamilyReference>
+            <AssessmentFamilyIdentity>
+                <AssessmentFamilyTitle>Delete A and Delete AF</AssessmentFamilyTitle>
+            </AssessmentFamilyIdentity>
+        </AssessmentFamilyReference>
+    </Assessment>
+    <Assessment>
+        <AssessmentTitle>Update AF then Delete A</AssessmentTitle>
+        <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+            <ID>READ 2.0 Grade 1 MOY</ID>
+        </AssessmentIdentificationCode>
+        <AssessmentFamilyReference>
+            <AssessmentFamilyIdentity>
+                <AssessmentFamilyTitle>Update AF then Delete A</AssessmentFamilyTitle>
+            </AssessmentFamilyIdentity>
+        </AssessmentFamilyReference>
+    </Assessment>
+    <Assessment>
+        <AssessmentTitle>Delete A then Update AF</AssessmentTitle>
+        <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+            <ID>READ 2.0 Grade 1 MOY</ID>
+        </AssessmentIdentificationCode>
+        <AssessmentFamilyReference>
+            <AssessmentFamilyIdentity>
+                <AssessmentFamilyTitle>Delete A then Update AF</AssessmentFamilyTitle>
+            </AssessmentFamilyIdentity>
+        </AssessmentFamilyReference>
+    </Assessment>
+    <Assessment>
+        <AssessmentTitle>READ 2.0 Grade 1 BOY</AssessmentTitle>
+        <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+            <ID>READ 2.0 Grade 1 BOY</ID>
+        </AssessmentIdentificationCode>
+        <AssessmentCategory>Reading readiness test</AssessmentCategory>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>First grade</GradeLevelAssessed>
+        <AssessmentPerformanceLevel>
+            <PerformanceLevel>
+                <CodeValue>Level 1</CodeValue>
+            </PerformanceLevel>
+            <AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+            <MinimumScore>113</MinimumScore>
+            <MaximumScore>380</MaximumScore>
+        </AssessmentPerformanceLevel>
+        <AssessmentPerformanceLevel>
+            <PerformanceLevel>
+                <CodeValue>Level 2</CodeValue>
+            </PerformanceLevel>
+            <AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+            <MinimumScore>97</MinimumScore>
+            <MaximumScore>112</MaximumScore>
+        </AssessmentPerformanceLevel>
+        <AssessmentPerformanceLevel>
+            <PerformanceLevel>
+                <CodeValue>Level 3</CodeValue>
+            </PerformanceLevel>
+            <AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+            <MinimumScore>0</MinimumScore>
+            <MaximumScore>96</MaximumScore>
+        </AssessmentPerformanceLevel>
+        <Version>1</Version>
+        <RevisionDate>2010-05-17</RevisionDate>
+        <AssessmentPeriod><AssessmentPeriodDescriptorIdentity><AssessmentPeriodDescriptorCodeValue>READ2-BOY-2011</AssessmentPeriodDescriptorCodeValue></AssessmentPeriodDescriptorIdentity></AssessmentPeriod>
+        <AssessmentFamilyReference>
+            <AssessmentFamilyIdentity>
+                <AssessmentFamilyTitle>READ 2.0 Grade 1</AssessmentFamilyTitle>
+            </AssessmentFamilyIdentity>
+        </AssessmentFamilyReference>
+    </Assessment>
+    <AssessmentFamily>
+        <AssessmentFamilyTitle>AP</AssessmentFamilyTitle>
+        <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+            <ID>AP</ID>
+        </AssessmentFamilyIdentificationCode>
+    </AssessmentFamily>
+    <AssessmentFamily>
+        <AssessmentFamilyTitle>AP Eng</AssessmentFamilyTitle>
+        <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+            <ID>AP Eng</ID>
+        </AssessmentFamilyIdentificationCode>
+        <AssessmentFamilyReference>
+            <AssessmentFamilyIdentity>
+                <AssessmentFamilyTitle>AP</AssessmentFamilyTitle>
+            </AssessmentFamilyIdentity>
+        </AssessmentFamilyReference>
+    </AssessmentFamily>
+    <AssessmentFamily>
+        <AssessmentFamilyTitle>AP-Lang-and-Literature</AssessmentFamilyTitle>
+        <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+            <ID>AP-Lang-and-Literature</ID>
+        </AssessmentFamilyIdentificationCode>
+        <AssessmentFamilyReference>
+            <AssessmentFamilyIdentity>
+                <AssessmentFamilyTitle>AP Eng</AssessmentFamilyTitle>
+            </AssessmentFamilyIdentity>
+        </AssessmentFamilyReference>
+    </AssessmentFamily>
+    <AssessmentFamily>
+        <AssessmentFamilyTitle>Delete A and Update AF</AssessmentFamilyTitle>
+        <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+            <ID>READ 2.0 Grade 1</ID>
+        </AssessmentFamilyIdentificationCode>
+    </AssessmentFamily>
+    <AssessmentFamily>
+        <AssessmentFamilyTitle>Update A and Delete AF</AssessmentFamilyTitle>
+        <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+            <ID>READ 2.0 Grade 1</ID>
+        </AssessmentFamilyIdentificationCode>
+    </AssessmentFamily>
+    <AssessmentFamily>
+        <AssessmentFamilyTitle>Delete A and Delete AF</AssessmentFamilyTitle>
+        <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+            <ID>READ 2.0 Grade 1</ID>
+        </AssessmentFamilyIdentificationCode>
+    </AssessmentFamily>
+    <AssessmentFamily>
+        <AssessmentFamilyTitle>Update AF then Delete A</AssessmentFamilyTitle>
+        <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+            <ID>READ 2.0 Grade 1</ID>
+        </AssessmentFamilyIdentificationCode>
+    </AssessmentFamily>
+    <AssessmentFamily>
+        <AssessmentFamilyTitle>Delete A then Update AF</AssessmentFamilyTitle>
+        <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+            <ID>READ 2.0 Grade 1</ID>
+        </AssessmentFamilyIdentificationCode>
+    </AssessmentFamily>
+    <AssessmentFamily>
+        <AssessmentFamilyTitle>READ 2.0</AssessmentFamilyTitle>
+        <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+            <ID>READ 2.0</ID>
+        </AssessmentFamilyIdentificationCode>
+    </AssessmentFamily>
+    <AssessmentFamily>
+        <AssessmentFamilyTitle>READ 2.0 Grade 1</AssessmentFamilyTitle>
+        <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+            <ID>READ 2.0 Grade 1</ID>
+        </AssessmentFamilyIdentificationCode>
+        <AssessmentFamilyReference>
+            <AssessmentFamilyIdentity>
+                <AssessmentFamilyTitle>READ 2.0</AssessmentFamilyTitle>
+            </AssessmentFamilyIdentity>
+        </AssessmentFamilyReference>
+    </AssessmentFamily>
+    <AssessmentItem>
+        <AssessmentReference>
+            <AssessmentIdentity>
+                <AssessmentTitle>2013-Kindergarten Assessment 1 Item</AssessmentTitle>
+                <AcademicSubject>Science</AcademicSubject>
+                <GradeLevelAssessed>Kindergarten</GradeLevelAssessed>
+            </AssessmentIdentity>
+        </AssessmentReference>
+        <IdentificationCode>2013-Kindergarten Assessment 1#1 Item</IdentificationCode>
+        <ItemCategory>True-False</ItemCategory>
+        <MaxRawScore>10</MaxRawScore>
+        <CorrectResponse>true</CorrectResponse>
+        <Nomenclature>nonenclature</Nomenclature>
+    </AssessmentItem>
+    <AssessmentItem>
+        <AssessmentReference>
+            <AssessmentIdentity>
+                <AssessmentTitle>2013-Kindergarten Assessment 2 Item</AssessmentTitle>
+                <AcademicSubject>Writing</AcademicSubject>
+                <GradeLevelAssessed>Kindergarten</GradeLevelAssessed>
+            </AssessmentIdentity>
+        </AssessmentReference>
+        <IdentificationCode>2013-Kindergarten Assessment 2#1 Item</IdentificationCode>
+        <ItemCategory>True-False</ItemCategory>
+        <MaxRawScore>10</MaxRawScore>
+        <CorrectResponse>true</CorrectResponse>
+        <Nomenclature>nonenclature</Nomenclature>
+    </AssessmentItem>
+    <AssessmentPeriodDescriptor>
+        <CodeValue>READ2-BOY-2011</CodeValue>
+        <Description>Beginning of Year 2011-2012</Description>
+        <ShortDescription>READ2-BOY-2011</ShortDescription>
+        <BeginDate>2011-08-01</BeginDate>
+        <EndDate>2011-12-31</EndDate>
+    </AssessmentPeriodDescriptor>
+    <AssessmentPeriodDescriptor>
+        <CodeValue>READ2-MOY-2011</CodeValue>
+        <Description>Middle of Year 2011-2012</Description>
+        <ShortDescription>READ2-MOY-2011</ShortDescription>
+        <BeginDate>2012-01-01</BeginDate>
+        <EndDate>2012-03-31</EndDate>
+    </AssessmentPeriodDescriptor>
+    <ObjectiveAssessment>
+        <IdentificationCode>2013-Eleventh grade Assessment 2.OA-0 yy</IdentificationCode>
+        <MaxRawScore>50</MaxRawScore>
+        <AssessmentPerformanceLevel>
+            <PerformanceLevel>
+                <CodeValue>code1</CodeValue>
+                <PerformanceLevelMet>true</PerformanceLevelMet>
+            </PerformanceLevel>
+            <AssessmentReportingMethod>Number score</AssessmentReportingMethod>
+            <MinimumScore>0</MinimumScore>
+            <MaximumScore>50</MaximumScore>
+        </AssessmentPerformanceLevel>
+        <PercentOfAssessment>50</PercentOfAssessment>
+        <Nomenclature>Nomenclature</Nomenclature>
+        <AssessmentReference>
+            <AssessmentIdentity>
+                <AssessmentTitle>2013-Eleventh grade Assessment 2 XX</AssessmentTitle>
+                <AcademicSubject>ELA</AcademicSubject>
+                <GradeLevelAssessed>Eleventh grade</GradeLevelAssessed>
+            </AssessmentIdentity>
+        </AssessmentReference>
+    </ObjectiveAssessment>
+    <ObjectiveAssessment>
+        <IdentificationCode>ACT-Science</IdentificationCode>
+        <MaxRawScore>36</MaxRawScore>
+        <AssessmentReference>
+            <AssessmentIdentity>
+                <AssessmentTitle>ACT</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+        </AssessmentReference>
+    </ObjectiveAssessment>
+    <ObjectiveAssessment>
+        <IdentificationCode>ACT-Writing</IdentificationCode>
+        <MaxRawScore>12</MaxRawScore>
+        <AssessmentReference>
+            <AssessmentIdentity>
+                <AssessmentTitle>ACT</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+        </AssessmentReference>
+    </ObjectiveAssessment>
+</InterchangeAssessmentMetadata>

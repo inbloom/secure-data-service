@@ -53,8 +53,12 @@ class Course < BaseEntity
 
     optional { @grades_offered = grade }
 
-    optional { @subject_area = AcademicSubjectType.to_string(choose(AcademicSubjectType.get_academic_subjects(GradeLevelType.get_key(grade)))) }
-
+    optional {
+      @subject_area = AcademicSubjectType.to_string(choose(AcademicSubjectType.get_academic_subjects(GradeLevelType.get_key(grade))))
+      num_objectives = (@@scenario["NUM_LEARNING_OBJECTIVES_PER_SUBJECT_AND_GRADE"] or 2)
+      @learning_objectives = LearningObjective.build_learning_objectives(num_objectives, AcademicSubjectType.to_symbol(@subject_area), GradeLevelType.to_symbol(grade))
+    }
+    
     optional { @description = ("this is a course for " + grade) }
 
     optional { @gpa_appl = choose([
@@ -77,11 +81,6 @@ class Course < BaseEntity
         "Education and Training",
         "Science, Technology, Engineering and Mathematics"
       ])
-    }
-
-    optional {
-      num_objectives = (@@scenario["NUM_LEARNING_OBJECTIVES_PER_SUBJECT_AND_GRADE"] or 2)
-      @learning_objectives = LearningObjective.build_learning_objectives(num_objectives, AcademicSubjectType.to_symbol(@subject_area), GradeLevelType.to_symbol(grade))
     }
  
     optional {

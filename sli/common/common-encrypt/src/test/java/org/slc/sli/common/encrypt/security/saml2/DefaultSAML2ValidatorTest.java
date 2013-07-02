@@ -144,6 +144,11 @@ public class DefaultSAML2ValidatorTest {
         Assert.assertFalse("Garbage matched", isIssuerValid("CN=*.sandbox-staging.slcedu.org", "https://sidp.-stang.slcedu.org"));
         Assert.assertFalse("Domain as path matched", isIssuerValid("CN=*.sandbox-staging.slcedu.org", "https://malicious.com/sidp.sandbox-staging.slcedu.org"));
         Assert.assertFalse("Domain as query param matched", isIssuerValid("CN=*.sandbox-staging.slcedu.org", "https://malicious.com?impersonate=sidp.sandbox-staging.slcedu.org"));
+        Assert.assertFalse(isIssuerValid("CN=abc.d", "http://abc.def"));
+        Assert.assertFalse(isIssuerValid("CN=https://abc.d", "http://abc.def"));
+        Assert.assertFalse(isIssuerValid("CN=http://abc.d", "http://abc.def"));
+
+
     }
 
     /**

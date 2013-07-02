@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<InterchangeMasterSchedule xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-MasterSchedule.xsd">
+<!-- Illustrative use of DELETE -->
+  <Action ActionType="DELETE" Cascade="false" Force="false">
+    <CourseOffering>
+        <LocalCourseCode>CO-3rd Grade Homeroom</LocalCourseCode>
+        <LocalCourseTitle>CO-3rd Grade Homeroom</LocalCourseTitle>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>CO-South Daybreak Elementary</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <SessionReference>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CO-South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>CO-Fall 2006 South Daybreak Elementary</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+        <CourseReference>
+            <CourseIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>CO-South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>CO-3rd-Grade-Homeroom-1</UniqueCourseId>
+            </CourseIdentity>
+        </CourseReference>
+    </CourseOffering>
+
+   </Action>
+</InterchangeMasterSchedule>

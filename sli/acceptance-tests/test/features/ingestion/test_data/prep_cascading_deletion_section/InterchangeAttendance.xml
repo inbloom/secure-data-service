@@ -1,0 +1,31 @@
+<?xml version='1.0'?>
+<InterchangeStudentAttendance xmlns='http://ed-fi.org/0100' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/sliXsd/Attendance.xsd'>
+    <AttendanceEvent>
+    <SchoolYear>2011-2012</SchoolYear>
+    <EventDate>2011-09-06</EventDate>
+    <AttendanceEventType>Daily Attendance</AttendanceEventType>
+    <AttendanceEventCategory>In Attendance</AttendanceEventCategory>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>CAP0-D0-HSch0-stu78</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>North Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>North Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+         <UniqueSectionCode>Sec 145</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </AttendanceEvent>
+
+ </InterchangeStudentAttendance>

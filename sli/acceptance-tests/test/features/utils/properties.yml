@@ -8,6 +8,7 @@ browser: "firefox"
 admintools_server_url: "http://local.slidev.org:3001"
 minisb_admintools_server_url: "http://ycao-mint.slidev.org:3001"
 api_server_url: "http://local.slidev.org:8080"
+api_ssl_server_url: "https://local.slidev.org:8443"
 databrowser_server_url: "http://local.slidev.org:3000"
 
 ingestion_db: "localhost"
@@ -33,6 +34,23 @@ ingestion_rc_edorg: ""
 ingestion_timeout_override_seconds: 0
 activemq_host: "localhost"
 
+#Bulk Extract Configuration
+bulk_extract_script: "../bulk-extract/scripts/local_bulk_extract.sh"
+bulk_extract_delta_script: "../bulk-extract/scripts/local_bulk_extract.sh"
+bulk_extract_delta_properties: "../config/properties/sli.properties"
+bulk_extract_delta_keystore: "../data-access/dal/keyStore/ciKeyStore.jks"
+bulk_extract_output_directory: "extract/"
+bulk_extract_jar_loc: ""
+bulk_extract_properties_file: ""
+bulk_extract_keystore_file: ""
+bulk_extract_db: "localhost"
+bulk_extract_port: 27017
+
+#Bulk Extract Scheduler Configuration
+bulk_extract_scheduler_script: "../bulk-extract/scripts/schedule_bulk_extracts.sh"
+bulk_extract_script_directory: "../bulk-extract/scripts/"
+bulk_extract_cron_output_directory: "extract/02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a/"
+
 sif_db: "localhost"
 sif_port: 27017
 sif_database_name: "sli"
@@ -52,9 +70,9 @@ simpleIDP_login_url: "http://local.slidev.org:8082/simple-idp"
 simpleIDP_realm_SLI: "SimpleIDP Test Realm - SLI"
 simpleIDP_realm_suffix: "Local"
 
-ldap_hostname: ldap.slidev.org
-ldap_port: 389
-ldap_use_ssl: false
+ldap_hostname: ldapelb.slidev.org
+ldap_port: 443
+ldap_use_ssl: true
 ldap_base: "ou=LocalNew,ou=DevTest,dc=slidev,dc=org"
 ldap_admin_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
 ldap_admin_pass: Y;Gtf@w{
@@ -75,7 +93,10 @@ jmeter_failed_jtl_archive: "/storage/logs/jmeter/failed"
 jmeter_bin: "jmeter"
 jmeter_properties: "ci.properties"
 jmeter_regression_threshold: 0.25
+jmeter_reset_regression: false
+jmeter_consideration_percentile: .90
 
+app_bootstrap_server: "local"
 
 emaiL_smtp_host: mon.slidev.org
 email_smtp_port: 3000
@@ -157,6 +178,9 @@ ci_idp_redirect_url: https://localhost:8080/simple-idp?realm=IL-Daybreak
 #developer2_sb_email_imap_registration_user:
 #developer2_sb_email_imap_registration_user_email:
 #developer2_sb_email_imap_registration_pass:
+
+#Bulk extract cleanup script
+bulk_extract_cleanup_script: "../bulk-extract/scripts/cleanup_bulk_extract.rb"
 
 ################# /e2e test properties #################################
 

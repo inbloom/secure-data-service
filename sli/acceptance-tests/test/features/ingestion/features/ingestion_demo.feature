@@ -31,7 +31,9 @@ Given I post "DemoData.zip" file as the payload of the ingestion job
         | teacherSectionAssociation   |
         | session                     |
         | assessment                  |
-        | studentAssessment|
+        | assessmentFamily            |
+        | assessmentPeriodDescriptor  |
+        | studentAssessment           |
         | courseTranscript            |
         | studentAcademicRecord       |
         | studentGradebookEntry       |
@@ -40,10 +42,8 @@ Given I post "DemoData.zip" file as the payload of the ingestion job
         | graduationPlan              |
         | studentAcademicRecord       |
 When zip file is scp to ingestion landing zone
-#    And "30" seconds have elapsed
   And a batch job for file "DemoData.zip" is completed in database
-  And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+  Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | student                     | 94    |
         | studentSchoolAssociation    | 123   |
@@ -56,7 +56,9 @@ Then I should see following map of entry counts in the corresponding collections
         | teacherSectionAssociation   | 20    |
         | session                     | 8     |
         | assessment                  | 17    |
-        | studentAssessment| 104   |
+        | assessmentFamily            | 0     |
+        | assessmentPeriodDescriptor  | 0     |
+        | studentAssessment           | 104   |
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
         | studentGradebookEntry       | 135   |
@@ -110,8 +112,7 @@ Scenario: Post a zip file containing all configured interchanges as a payload of
 Given I post "DemoData.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
     And a batch job for file "DemoData.zip" is completed in database
-    And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+    Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | student                     | 94    |
         | studentSchoolAssociation    | 123   |
@@ -124,7 +125,9 @@ Then I should see following map of entry counts in the corresponding collections
         | teacherSectionAssociation   | 20    |
         | session                     | 8     |
         | assessment                  | 17    |
-        | studentAssessment| 104   |
+        | assessmentFamily            | 0     |
+        | assessmentPeriodDescriptor  | 0     |
+        | studentAssessment           | 104   |
         | courseTranscript            | 87    |
         | studentAcademicRecord       | 86    |
         | parent                      | 9     |

@@ -62,7 +62,7 @@ public class UserService {
     private String sliAdminRealmName;
 
     private static final String USER_TYPE = "userType";
-    private static final String SIMPLE_IDP_EXCEPTION = "SimpleIDP Authentication Exception";
+    private static final String SIMPLE_IDP_EXCEPTION_FORMAT = "SimpleIDP Authentication Exception with username %s";
     private static final Map<String, String> LDAP_ROLE_MAPPING = new HashMap<String, String>();
     static {
         // Mapping from roles in LDAP which comply with requirements of POSIX systems
@@ -174,9 +174,9 @@ public class UserService {
         if (!result) {
             Exception error = errorCallback.getError();
             if (error == null) {
-                LOG.error(SIMPLE_IDP_EXCEPTION);
+                LOG.error(String.format(SIMPLE_IDP_EXCEPTION_FORMAT, userId));
             } else {
-                LOG.error(SIMPLE_IDP_EXCEPTION, error);
+                LOG.error(String.format(SIMPLE_IDP_EXCEPTION_FORMAT, userId), error);
             }
             throw new AuthenticationException(error);
         }
@@ -185,14 +185,15 @@ public class UserService {
 
         if (user.getUserId() == null || !user.getUserId().equals(userId)) {
             String error = "Username does not match LDAP User ID.";
-            LOG.error(SIMPLE_IDP_EXCEPTION, error);
+            LOG.error(String.format(SIMPLE_IDP_EXCEPTION_FORMAT, userId), error);
             throw new AuthenticationException(error);
         }
 
         user.roles = getUserGroups(realm, userId);
 
         // check if userId needs to be updated (based on groups/roles)
-        if (user.roles.size() == 1 && (user.roles.contains("Student") || user.roles.contains("Parent"))) {
+        LOG.info("User roles are: {}", user.roles.toString());
+        if (user.roles.size() == 1 && (user.roles.contains("Student") || user.roles.contains("StudentLeader") || user.roles.contains("Parent"))) {
             if (user.getAttributes().containsKey("employeeNumber")) {
                 String newUid = user.getAttributes().remove("employeeNumber");
                 LOG.info("Updating user id: {} --> {}", user.getUserId(), newUid);
@@ -201,7 +202,7 @@ public class UserService {
         }
 
         user.getAttributes().put(USER_TYPE, "staff");
-        if (user.roles.contains("Student")) {
+        if (user.roles.contains("Student") || user.roles.contains("StudentLeader")) {
             user.getAttributes().put(USER_TYPE, "student");
         } else if (user.roles.contains("Parent")) {
             user.getAttributes().put(USER_TYPE, "parent");

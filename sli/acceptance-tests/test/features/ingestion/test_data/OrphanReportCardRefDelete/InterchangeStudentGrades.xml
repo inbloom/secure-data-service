@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<InterchangeStudentGrade xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentGrade.xsd">
+  <Action ActionType="DELETE" Cascade="false" Force="false">
+      <ReportCardReference>
+          <ReportCardIdentity>
+              <StudentReference>
+                  <StudentIdentity>
+                      <StudentUniqueStateId>SCR-800000025</StudentUniqueStateId>
+                  </StudentIdentity>
+              </StudentReference>
+              <!-- id does not exist in this file -->
+              <!-- GradingPeriodReference/-->
+              <GradingPeriodReference>
+                  <GradingPeriodIdentity>
+                      <EducationalOrgReference>
+                          <EducationalOrgIdentity>
+                              <StateOrganizationId>RC-South Daybreak Elementary</StateOrganizationId>
+                          </EducationalOrgIdentity>
+                      </EducationalOrgReference>
+                      <GradingPeriod>End of Year</GradingPeriod>
+                      <BeginDate>2011-05-27</BeginDate>
+                  </GradingPeriodIdentity>
+              </GradingPeriodReference>
+              <SchoolYear>2010-2011</SchoolYear>
+          </ReportCardIdentity>
+      </ReportCardReference>
+  </Action>  
+</InterchangeStudentGrade>

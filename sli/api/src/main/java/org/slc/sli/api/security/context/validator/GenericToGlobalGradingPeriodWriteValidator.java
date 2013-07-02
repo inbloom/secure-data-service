@@ -20,12 +20,13 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.constants.ParameterConstants;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.springframework.stereotype.Component;
 
 /**
  * Validates Write context to a global grading period.
@@ -35,7 +36,7 @@ public class GenericToGlobalGradingPeriodWriteValidator extends AbstractContextV
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return isTransitive && EntityNames.GRADING_PERIOD.equals(entityType);
+        return isTransitive && EntityNames.GRADING_PERIOD.equals(entityType) && !isStudent();
     }
 
     @SuppressWarnings("unchecked")

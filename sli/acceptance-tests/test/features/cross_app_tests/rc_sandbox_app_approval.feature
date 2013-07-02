@@ -24,6 +24,7 @@ When I entered the name "NotTheAppYoureLookingFor" into the field titled "Name"
 And I entered the name "Best.  Description.  Ever." into the field titled "Description"
 And I entered the name "0.0" into the field titled "Version"
 And I make my app an installed app
+And I check Bulk Extract
 And I click on the button Submit
 And I switch to the iframe
 Then I am redirected to the Application Registration Tool page
@@ -31,11 +32,26 @@ And the application "NotTheAppYoureLookingFor" is listed in the table on the top
 And the client ID and shared secret fields are present
 And I clicked on the button Edit for the application "NotTheAppYoureLookingFor"
 Then I can see the on-boarded states
-When I select a state
+When I select the state "Standard State Education Agency"
 Then I see all of the Districts
 Then I check the Districts
 When I click on Save
+And my new apps client ID is present
+And my new apps shared secret is present
 Then the "NotTheAppYoureLookingFor" is enabled for Districts
+
+#Add Bulk Extract role to IT Admin
+And I exit out of the iframe
+And I click on Admin
+Then I should be on the admin page
+And under System Tools, I click on "Create Custom Roles"
+And I switch to the iframe
+And I edit the group "IT Administrator"
+When I add the right "BULK_EXTRACT" to the group "IT Administrator"
+And I hit the save button
+Then I am no longer in edit mode
+And I switch to the iframe
+And the group "IT Administrator" contains the "right" rights "Bulk IT Administrator"
 
 #Full Window App
 And I exit out of the iframe
@@ -58,7 +74,7 @@ And the application "Schlemiel" is listed in the table on the top
 And the client ID and shared secret fields are present
 And I clicked on the button Edit for the application "Schlemiel"
 Then I can see the on-boarded states
-When I select a state
+When I select the state "Standard State Education Agency"
 Then I see all of the Districts
 Then I check the Districts
 When I click on Save

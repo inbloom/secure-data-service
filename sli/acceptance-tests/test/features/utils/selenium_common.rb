@@ -43,7 +43,10 @@ Given /^I have an open web browser$/ do
     #if Selenium::WebDriver::Firefox::Binary.path['/Applications/Firefox.app'] != nil
     #  Selenium::WebDriver::Firefox::Binary.path = 'test/features/utils/firefox_in_background.sh'
     #end
-    @driver ||= Selenium::WebDriver.for :firefox, :profile => @profile
+      if ENV['HEADLESS'] and RUBY_PLATFORM.include? "darwin"
+        Selenium::WebDriver::Firefox::Binary.path="/opt/local/bin/firefox-x11"  
+      end
+      @driver ||= Selenium::WebDriver.for :firefox, :profile => @profile
   end
   
   reset_timeouts_to_default
@@ -76,6 +79,7 @@ end
 
 When /^I submit the credentials "([^"]*)" "([^"]*)" for the "([^"]*)" login page$/ do |user, pass, idpType|
   disable_NOTABLESCAN
+  puts "Logging in with credentials \"#{user}\" \"#{pass}\"" if $SLI_DEBUG
   if idpType=="OpenAM"
     @driver.find_element(:id, "IDToken1").send_keys user
     @driver.find_element(:id, "IDToken2").send_keys pass
@@ -140,8 +144,8 @@ AfterStep do |scenario|
     end
 end
 
-def assertWithWait(msg, &blk)
-  wait = Selenium::WebDriver::Wait.new(:timeout => 5)
+def assertWithWait(msg, timeout = 15, &blk)
+  wait = Selenium::WebDriver::Wait.new(:timeout => timeout)
   begin
     wait.until {yield}
   rescue

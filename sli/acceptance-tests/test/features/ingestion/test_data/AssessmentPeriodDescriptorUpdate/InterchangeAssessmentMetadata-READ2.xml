@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
+
+<!-- READ 2.0-->
+
+  <AssessmentPeriodDescriptor>
+	<CodeValue>READ2-MOY-2011</CodeValue>
+	<Description>Middle of Year Foobar 2011-2012</Description>
+	<ShortDescription>READ2-MOY-2011</ShortDescription>
+	<BeginDate>2012-01-01</BeginDate>
+	<EndDate>2012-03-31</EndDate>
+  </AssessmentPeriodDescriptor>
+
+</InterchangeAssessmentMetadata>

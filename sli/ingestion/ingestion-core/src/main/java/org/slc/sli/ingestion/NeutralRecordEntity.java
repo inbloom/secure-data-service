@@ -181,4 +181,14 @@ public class NeutralRecordEntity implements Entity, Resource, ElementSource {
     public String getResourceId() {
         return neutralRecord.getResourceId();
     }
+
+    @Override
+    public Map<String, List<Entity>> getContainerData() {
+        return null;
+    }
+
+    @Override
+    public void hollowOut() {
+        // override super implementation with empty implementation
+    }
 }

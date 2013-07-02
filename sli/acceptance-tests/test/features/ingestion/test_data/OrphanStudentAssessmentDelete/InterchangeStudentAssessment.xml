@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<InterchangeStudentAssessment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                                  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-AssessmentMetadata.xsd">
+    <Action ActionType="DELETE" Cascade="false" Force="false">
+
+        <StudentAssessment>
+            <AdministrationDate>2001-09-04</AdministrationDate>
+            <AdministrationEndDate>2010-07-22</AdministrationEndDate>
+            
+            <SerialNumber>1 code</SerialNumber>
+            <AdministrationLanguage>English</AdministrationLanguage>
+            <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+            <SpecialAccommodations>
+                <SpecialAccommodation>Timing and Scheduling</SpecialAccommodation>
+            </SpecialAccommodations>
+            
+            <LinguisticAccommodations>
+                <LinguisticAccommodation>Oral Translation - Word or Phrase</LinguisticAccommodation>
+            </LinguisticAccommodations>
+            <RetestIndicator>Primary Administration</RetestIndicator>
+            <ReasonNotTested>Absent</ReasonNotTested>
+            <ScoreResults AssessmentReportingMethod="Scale score">
+                <Result>25</Result>
+            </ScoreResults>
+            <GradeLevelWhenAssessed>Grade 13</GradeLevelWhenAssessed>
+            <PerformanceLevels>
+                <CodeValue>SA Orphan</CodeValue>
+                <PerformanceLevelMet>true</PerformanceLevelMet>
+            </PerformanceLevels>
+            <StudentReference>
+                <StudentIdentity>
+                    <StudentUniqueStateId>SA Orphan 1</StudentUniqueStateId>
+                </StudentIdentity>
+            </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>SA Orphan 2001-Ninth grade Ass. 1</AssessmentTitle>
+                    <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessment>
+        
+    </Action>
+</InterchangeStudentAssessment>

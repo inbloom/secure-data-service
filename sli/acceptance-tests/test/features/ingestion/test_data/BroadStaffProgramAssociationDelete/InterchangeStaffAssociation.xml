@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<InterchangeStaffAssociation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://ed-fi.org/0100"
+  xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StaffAssociation.xsd">
+  <Action ActionType="DELETE" Cascade="true">
+    <StaffProgramAssociation>
+      <StaffReference>
+        <StaffIdentity>
+          <StaffUniqueStateId>ckoch</StaffUniqueStateId>
+        </StaffIdentity>
+      </StaffReference>
+      <ProgramReference>
+        <ProgramIdentity>
+          <ProgramId>6</ProgramId>
+        </ProgramIdentity>
+      </ProgramReference>
+      <BeginDate>2001-08-04</BeginDate>
+      <EndDate>2002-06-29</EndDate>
+      <StudentRecordAccess>true</StudentRecordAccess>
+    </StaffProgramAssociation>
+  </Action>
+</InterchangeStaffAssociation>

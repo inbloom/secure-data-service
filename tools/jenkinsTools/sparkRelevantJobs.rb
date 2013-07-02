@@ -28,28 +28,34 @@ require 'rest-client'
 @token = ""
 
 @pathToTestMap = {
-  "sli/acceptance-tests/test/features/api" => ["api"],
+  "sli/acceptance-tests/test/features/api" => ["api", "odin-api"],
   "sli/acceptance-tests/test/features/simple_idp" => ["admin" , "databrowser"],
   "sli/acceptance-tests/test/features/ingestion" => ["ingestion"],
   "sli/acceptance-tests/test/features/admintools" => ["admin"],
   "sli/acceptance-tests/test/features/databrowser" => ["databrowser"],
   "sli/acceptance-tests/test/features/dash" => ["dashboard"],
   "sli/acceptance-tests/test/features/odin" => ["odin", "jmeter"],
+  "sli/acceptance-tests/test/features/apiV1/contextual_roles" => ["contextual-role"],    
   "sli/acceptance-tests/test/features/ingestion/features/ingestion_dashboardSadPath.feature" => ["ingestion", "dashboard"],
   "sli/acceptance-tests/test/features/ingestion/test_data/DashboardSadPath_IL_Daybreak" => ["ingestion", "dashboard"],
   "sli/acceptance-tests/test/features/ingestion/test_data/DashboardSadPath_IL_Sunset" => ["ingestion", "dashboard"],
   "sli/acceptance-tests/test/features/ingestion/test_data/DashboardSadPath_NY" => ["ingestion", "dashboard"],
-  "sli/acceptance-tests/test/data/Midgar_data" => ["api", "databrowser"],
-  "sli/acceptance-tests/test/data/Hyrule_data" => ["api"],
-  "sli/acceptance-tests/test/data/unified_data" => ["dashboard"],
-  "sli/acceptance-tests/test/data/application_fixture.json" => ["api" , "admin"],
-  "sli/acceptance-tests/test/data/realm_fixture.json" => ["api" , "admin", "dashboard"],
-  "sli/acceptance-tests/test/data/oauth_authentication_tokens.json" => ["api"],
-  "sli/api/" => ["api", "search-indexer", "jmeter", "admin"],
-  "sli/simple-idp" => ["api", "admin"],
-  "sli/SDK" => ["admin", "dashboard"],
-  "sli/data-access" => ["api", "ingestion"],
-  "sli/domain" => ["api", "ingestion"],
+  "sli/acceptance-tests/test/features/bulk_extract" => ["bulk-extract"],
+  "sli/acceptance-tests/test/data/Midgar_data" => ["api", "odin-api" , "databrowser", "sdk"],
+  "sli/acceptance-tests/test/data/Hyrule_data" => ["api", "odin-api" , "sdk"],
+  "sli/acceptance-tests/test/data/unified_data" => ["dashboard", "sdk"],
+  "sli/acceptance-tests/test/data/application_fixture.json" => ["api", "odin-api", "admin", "sdk"],
+  "sli/acceptance-tests/test/data/realm_fixture.json" => ["api", "odin-api", "admin", "dashboard", "sdk"],
+  "sli/acceptance-tests/test/data/oauth_authentication_tokens.json" => ["api", "odin-api"],
+  "sli/acceptance-tests/suites/bulk-extract.rake" => ["bulk-extract"],
+  "sli/acceptance-tests/suites/ingestion.rake" => ["ingestion"],
+  "sli/acceptance-tests/suites/dashboard.rake" => ["dashboard"],
+  "sli/api/" => ["api", "odin-api", "search-indexer", "jmeter", "admin", "sdk", "bulk-extract", "databrowser", "contextual-role", "dashboard"],
+  "sli/simple-idp" => ["api", "odin-api", "admin", "sdk", "contextual-role", "dashboard"],
+  "sli/SDK" => ["admin", "dashboard", "sdk"],
+  "sli/data-access" => ["api", "odin-api", "ingestion", "bulk-extract", "contextual-role", "dashboard"],
+  "sli/domain" => ["api", "odin-api", "ingestion", "bulk-extract", "dashboard"],
+  "sli/bulk-extract" => ["bulk-extract"],
   "sli/ingestion/ingestion-core" => ["ingestion", "odin"],
   "sli/ingestion/ingestion-base" => ["ingestion", "odin"],
   "sli/ingestion/ingestion-validation" => ["ingestion"],
@@ -57,8 +63,8 @@ require 'rest-client'
   "sli/admin-tools" => ["admin"],
   "sli/dashboard/src" => ["dashboard"],
   "sli/databrowser" => ["databrowser"],
-  "sli/search-indexer" => ["search-indexer"],
-  "tools/odin" => ["odin", "jmeter"]
+  "sli/search-indexer" => ["search-indexer", "dashboard"],
+  "tools/odin" => ["odin", "odin-api", "jmeter"]
 }
 
 @testIdToUrlMap = {
@@ -70,8 +76,10 @@ require 'rest-client'
   "sdk" => "#{@jenkinsHostname}:8080/view/Components/job/NTS%20SDK%20Tests/buildWithParameters",
   "search-indexer" => "#{@jenkinsHostname}:8080/view/Components/job/Search-Indexer%20Tests/buildWithParameters",
   "odin" => "#{@jenkinsHostname}:8080/view/Components/job/Odin-DataGeneration-Tests/buildWithParameters",
-  "jmeter" => "#{@jenkinsHostname}:8080/view/Components/job/NTS%20JMeter%20API%20Performance/buildWithParameters"
-
+  "jmeter" => "#{@jenkinsHostname}:8080/view/Components/job/NTS%20JMeter%20API%20Performance/buildWithParameters",
+  "odin-api" => "#{@jenkinsHostname}:8080/view/Components/job/API_Odin_Tests/buildWithParameters",
+  "bulk-extract" => "#{@jenkinsHostname}:8080/view/Components/job/Bulk-Extract%20Tests/buildWithParameters",
+  "contextual-role" => "#{@jenkinsHostname}:8080/view/Components/job/API_Contextual_Roles/buildWithParameters"
 }
 
 ################## Helpers and Input Parsing ###########################

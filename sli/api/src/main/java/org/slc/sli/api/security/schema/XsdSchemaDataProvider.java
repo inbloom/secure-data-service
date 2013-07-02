@@ -17,14 +17,6 @@
 
 package org.slc.sli.api.security.schema;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.annotation.PostConstruct;
-
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
@@ -37,6 +29,12 @@ import org.slc.sli.validation.schema.NeutralSchema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * Extracts required data from the XsdSchema
  *
@@ -47,7 +45,6 @@ public class XsdSchemaDataProvider implements SchemaDataProvider {
 
     @Autowired
     private SchemaRepository repo;
-
     /**
      * Bogus Schema used as fallback in case field path search turns up nothing
      */
@@ -63,12 +60,12 @@ public class XsdSchemaDataProvider implements SchemaDataProvider {
 
                     @Override
                     public Set<Right> getReadAuthorities() {
-                        return new HashSet<Right>(Arrays.asList(Right.READ_GENERAL));
+                        return new HashSet<Right>();
                     }
 
                     @Override
                     public Set<Right> getWriteAuthorities() {
-                        return new HashSet<Right>(Arrays.asList(Right.WRITE_GENERAL));
+                        return new HashSet<Right>();
                     }
 
                 };
@@ -98,8 +95,6 @@ public class XsdSchemaDataProvider implements SchemaDataProvider {
 
     @Override
     public Set<Right> getRequiredReadLevels(String entityType, String fieldPath) {
-        Right auth = Right.READ_GENERAL;
-
         NeutralSchema schema = traverse(entityType, fieldPath);
         if (schema != null) {
             AppInfo info = schema.getAppInfo();
@@ -107,12 +102,11 @@ public class XsdSchemaDataProvider implements SchemaDataProvider {
                 return info.getReadAuthorities();
             }
         }
-        return new HashSet<Right>(Arrays.asList(auth));
+        return new HashSet<Right>();
     }
 
     @Override
     public Set<Right> getRequiredWriteLevels(String entityType, String fieldPath) {
-        Right auth = Right.WRITE_GENERAL;
         NeutralSchema schema = traverse(entityType, fieldPath);
         if (schema != null) {
             AppInfo info = schema.getAppInfo();
@@ -120,7 +114,7 @@ public class XsdSchemaDataProvider implements SchemaDataProvider {
                 return info.getWriteAuthorities();
             }
         }
-        return new HashSet<Right>(Arrays.asList(auth));
+        return new HashSet<Right>();
     }
 
     @Override
@@ -143,7 +137,7 @@ public class XsdSchemaDataProvider implements SchemaDataProvider {
         }
         return null;
     }
-    
+
     public Set<Right> getAllFieldRights(String entityType, boolean getReadRights) {
         Set<Right> neededRights = new HashSet<Right>();
         NeutralSchema schema = repo.getSchema(entityType);
@@ -161,7 +155,7 @@ public class XsdSchemaDataProvider implements SchemaDataProvider {
                 }
             }
         }
-        
+
         return neededRights;
     }
 
@@ -169,7 +163,11 @@ public class XsdSchemaDataProvider implements SchemaDataProvider {
         NeutralSchema schema = repo.getSchema(entityType);
 
         if (schema != null) {
-            String[] chunks = fieldPath.split("\\.");
+            if (schema instanceof ListSchema) {
+                schema = deList(schema);
+            }
+
+            String[] chunks = fieldPath.replaceAll("^\\.", "").split("\\.");
 
             for (String chunk : chunks) {
                 schema = schema.getFields().get(chunk);
@@ -177,6 +175,8 @@ public class XsdSchemaDataProvider implements SchemaDataProvider {
                 if (schema == null) {
                     schema = defaultSchema;
                     break;
+                } else if (schema instanceof ListSchema) {
+                    schema = deList(schema);
                 }
             }
         } else {
@@ -184,5 +184,10 @@ public class XsdSchemaDataProvider implements SchemaDataProvider {
         }
 
         return schema;
+    }
+
+    private NeutralSchema deList(NeutralSchema schema) {
+        ListSchema l = (ListSchema) schema;
+        return l.getList().get(0);
     }
 }

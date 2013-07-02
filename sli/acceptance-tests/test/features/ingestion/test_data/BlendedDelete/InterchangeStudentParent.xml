@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentParent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                          xmlns="http://ed-fi.org/0100"
+                          xsi:schemaLocation="http://ed-fi.org/0100 Interchange-StudentParent.xsd">
+
+    <!-- Non Orphan Force False   FAILS-->
+    <Action ActionType="DELETE" Cascade="false" Force="false">
+        <Student>
+            <StudentUniqueStateId>1</StudentUniqueStateId>
+            <StudentIdentificationCode IdentificationSystem="Local" AssigningOrganizationCode="School">
+                <IdentificationCode>abcde</IdentificationCode>
+            </StudentIdentificationCode>
+            <Name>
+                <FirstName>Jessie</FirstName>
+                <MiddleName>Kory</MiddleName>
+                <LastSurname>Mcgowan</LastSurname>
+            </Name>
+            <OtherName OtherNameType="Previous Legal Name">
+                <PersonalTitlePrefix>Mrs</PersonalTitlePrefix>
+                <FirstName>Basil</FirstName>
+                <MiddleName>Dillon</MiddleName>
+                <LastSurname>Grimes</LastSurname>
+                <GenerationCodeSuffix>III</GenerationCodeSuffix>
+            </OtherName>
+            <Sex>Male</Sex>
+            <BirthData>
+                <BirthDate>1988-01-12</BirthDate>
+            </BirthData>
+            <Address AddressType="Home">
+                <StreetNumberName>960 Marks Ct</StreetNumberName>
+                <City>New York</City>
+                <StateAbbreviation>NY</StateAbbreviation>
+                <PostalCode>10292</PostalCode>
+            </Address>
+            <Telephone>
+                <TelephoneNumber>(753)555-9719</TelephoneNumber>
+            </Telephone>
+            <ElectronicMail EmailAddressType="Home/Personal">
+                <EmailAddress>2895@fakemail.com</EmailAddress>
+            </ElectronicMail>
+            <ProfileThumbnail>1 thumb</ProfileThumbnail>
+            <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+            <OldEthnicity>American Indian Or Alaskan Native</OldEthnicity>
+            <Race>
+                <RacialCategory>Asian</RacialCategory>
+            </Race>
+            <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+            <StudentCharacteristics>
+                <Characteristic>Pregnant</Characteristic>
+                <BeginDate>20013-02-01</BeginDate>
+                <EndDate>2013-02-09</EndDate>
+                <DesignatedBy>Parent</DesignatedBy>
+            </StudentCharacteristics>
+
+            <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+            <Languages>
+                <Language>Nepali</Language>
+            </Languages>
+            <HomeLanguages>
+                <Language>French</Language>
+            </HomeLanguages>
+            <Disabilities>
+                <Disability>Emotional Disturbance</Disability>
+                <DisabilityDiagnosis>Diagnosis A</DisabilityDiagnosis>
+                <OrderOfDisability>4</OrderOfDisability>
+            </Disabilities>
+            <Section504Disabilities>
+                <Section504Disability>Attention Deficit Hyperactivity Disorder (ADHD)</Section504Disability>
+            </Section504Disabilities>
+            <DisplacementStatus>Status BBB</DisplacementStatus>
+            <ProgramParticipations>
+                <Program>Bilingual Summer</Program>
+                <BeginDate>20013-10-19</BeginDate>
+                <EndDate>2014-01-05</EndDate>
+                <DesignatedBy>Teacher</DesignatedBy>
+            </ProgramParticipations>
+            <LearningStyles>
+                <VisualLearning>24</VisualLearning>
+                <AuditoryLearning>8</AuditoryLearning>
+                <TactileLearning>27</TactileLearning>
+            </LearningStyles>
+            <CohortYears CohortYearType="Sixth grade">
+                <SchoolYear>2014-2015</SchoolYear>
+            </CohortYears>
+            <StudentIndicators>
+                <IndicatorGroup>Group B</IndicatorGroup>
+                <IndicatorName>Name 1</IndicatorName>
+                <Indicator>Indicator 3</Indicator>
+                <BeginDate>20013-06-26</BeginDate>
+                <EndDate>2014-07-09</EndDate>
+                <DesignatedBy>Parent</DesignatedBy>
+            </StudentIndicators>
+
+            <LoginId>2895@fakemail.com</LoginId>
+        </Student>
+    </Action>
+    <!-- Non Orphan Force True    PASSES-->
+    <Action ActionType="DELETE" Cascade="false" Force="true">
+        <Student>
+            <StudentUniqueStateId>2</StudentUniqueStateId>
+            <StudentIdentificationCode IdentificationSystem="National Migrant" AssigningOrganizationCode="Other">
+                <IdentificationCode>abcde</IdentificationCode>
+            </StudentIdentificationCode>
+            <Name>
+                <FirstName>Dorthy</FirstName>
+                <MiddleName>Melba</MiddleName>
+                <LastSurname>Breedlove</LastSurname>
+            </Name>
+            <OtherName OtherNameType="Other Name">
+                <PersonalTitlePrefix>Mrs</PersonalTitlePrefix>
+                <FirstName>Marissa</FirstName>
+                <MiddleName>Frankie</MiddleName>
+                <LastSurname>Schenk</LastSurname>
+                <GenerationCodeSuffix>II</GenerationCodeSuffix>
+            </OtherName>
+            <Sex>Female</Sex>
+            <BirthData>
+                <BirthDate>1990-11-15</BirthDate>
+            </BirthData>
+            <Address AddressType="Home">
+                <StreetNumberName>433 Oak Street</StreetNumberName>
+                <City>New York</City>
+                <StateAbbreviation>NY</StateAbbreviation>
+                <PostalCode>10292</PostalCode>
+            </Address>
+            <Telephone>
+                <TelephoneNumber>(708)555-9518</TelephoneNumber>
+            </Telephone>
+            <ElectronicMail EmailAddressType="Home/Personal">
+                <EmailAddress>4770@fakemail.com</EmailAddress>
+            </ElectronicMail>
+            <ProfileThumbnail>2 thumb</ProfileThumbnail>
+            <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+            <OldEthnicity>Asian Or Pacific Islander</OldEthnicity>
+            <Race>
+                <RacialCategory>White</RacialCategory>
+            </Race>
+            <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+            <StudentCharacteristics>
+                <Characteristic>Foster Care</Characteristic>
+                <BeginDate>20012-11-16</BeginDate>
+                <EndDate>2014-08-15</EndDate>
+                <DesignatedBy>Parent</DesignatedBy>
+            </StudentCharacteristics>
+
+            <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+            <Languages>
+                <Language>Nepali</Language>
+            </Languages>
+            <HomeLanguages>
+                <Language>German</Language>
+            </HomeLanguages>
+            <Disabilities>
+                <Disability>Hearing/Auditory Impairment</Disability>
+                <DisabilityDiagnosis>Diagnosis BBB</DisabilityDiagnosis>
+                <OrderOfDisability>10</OrderOfDisability>
+            </Disabilities>
+            <Section504Disabilities>
+                <Section504Disability>Sensory Impairment</Section504Disability>
+            </Section504Disabilities>
+            <DisplacementStatus>Status A</DisplacementStatus>
+            <ProgramParticipations>
+                <Program>Cocurricular Programs</Program>
+                <BeginDate>20012-03-09</BeginDate>
+                <EndDate>2013-11-09</EndDate>
+                <DesignatedBy>Mentor</DesignatedBy>
+            </ProgramParticipations>
+            <LearningStyles>
+                <VisualLearning>38</VisualLearning>
+                <AuditoryLearning>7</AuditoryLearning>
+                <TactileLearning>23</TactileLearning>
+            </LearningStyles>
+            <CohortYears CohortYearType="Eleventh grade">
+                <SchoolYear>2015-2016</SchoolYear>
+            </CohortYears>
+            <StudentIndicators>
+                <IndicatorGroup>Group C</IndicatorGroup>
+                <IndicatorName>Name 1</IndicatorName>
+                <Indicator>Indicator 1</Indicator>
+                <BeginDate>20012-10-06</BeginDate>
+                <EndDate>2014-03-21</EndDate>
+                <DesignatedBy>Mentor</DesignatedBy>
+            </StudentIndicators>
+            <LoginId>4770@fakemail.com</LoginId>
+        </Student>
+    </Action>
+    <!-- Orphan Force False       PASSES-->
+    <Action ActionType="DELETE" Cascade="false" Force="false">
+        <Student>
+            <StudentUniqueStateId>Student-1</StudentUniqueStateId>
+            <StudentIdentificationCode IdentificationSystem="Local" AssigningOrganizationCode="School">
+                <IdentificationCode>abcde</IdentificationCode>
+            </StudentIdentificationCode>
+            <Name>
+                <FirstName>Orphan Jessie</FirstName>
+                <MiddleName>Kory</MiddleName>
+                <LastSurname>Mcgowan</LastSurname>
+            </Name>
+            <OtherName OtherNameType="Previous Legal Name">
+                <PersonalTitlePrefix>Mrs</PersonalTitlePrefix>
+                <FirstName>Basil</FirstName>
+                <MiddleName>Dillon</MiddleName>
+                <LastSurname>Grimes</LastSurname>
+                <GenerationCodeSuffix>III</GenerationCodeSuffix>
+            </OtherName>
+            <Sex>Male</Sex>
+            <BirthData>
+                <BirthDate>1988-01-12</BirthDate>
+            </BirthData>
+            <Address AddressType="Home">
+                <StreetNumberName>960 Marks Ct</StreetNumberName>
+                <City>New York</City>
+                <StateAbbreviation>NY</StateAbbreviation>
+                <PostalCode>10292</PostalCode>
+            </Address>
+            <Telephone>
+                <TelephoneNumber>(753)555-9719</TelephoneNumber>
+            </Telephone>
+            <ElectronicMail EmailAddressType="Home/Personal">
+                <EmailAddress>2895@fakemail.com</EmailAddress>
+            </ElectronicMail>
+            <ProfileThumbnail>1 thumb</ProfileThumbnail>
+            <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+            <OldEthnicity>American Indian Or Alaskan Native</OldEthnicity>
+            <Race>
+                <RacialCategory>Asian</RacialCategory>
+            </Race>
+            <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+            <StudentCharacteristics>
+                <Characteristic>Pregnant</Characteristic>
+                <BeginDate>20013-02-01</BeginDate>
+                <EndDate>2013-02-09</EndDate>
+                <DesignatedBy>Parent</DesignatedBy>
+            </StudentCharacteristics>
+
+            <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+            <Languages>
+                <Language>Nepali</Language>
+            </Languages>
+            <HomeLanguages>
+                <Language>French</Language>
+            </HomeLanguages>
+            <Disabilities>
+                <Disability>Emotional Disturbance</Disability>
+                <DisabilityDiagnosis>Diagnosis A</DisabilityDiagnosis>
+                <OrderOfDisability>4</OrderOfDisability>
+            </Disabilities>
+            <Section504Disabilities>
+                <Section504Disability>Attention Deficit Hyperactivity Disorder (ADHD)</Section504Disability>
+            </Section504Disabilities>
+            <DisplacementStatus>Status BBB</DisplacementStatus>
+            <ProgramParticipations>
+                <Program>Bilingual Summer</Program>
+                <BeginDate>2014-01-05</BeginDate>
+                <EndDate>2020-01-01</EndDate>
+                <DesignatedBy>Teacher</DesignatedBy>
+            </ProgramParticipations>
+            <LearningStyles>
+                <VisualLearning>24</VisualLearning>
+                <AuditoryLearning>8</AuditoryLearning>
+                <TactileLearning>27</TactileLearning>
+            </LearningStyles>
+            <CohortYears CohortYearType="Sixth grade">
+                <SchoolYear>2014-2015</SchoolYear>
+            </CohortYears>
+            <StudentIndicators>
+                <IndicatorGroup>Group B</IndicatorGroup>
+                <IndicatorName>Name 1</IndicatorName>
+                <Indicator>Indicator 3</Indicator>
+                <BeginDate>2014-01-05</BeginDate>
+                <EndDate>2020-01-01</EndDate>
+                <DesignatedBy>Parent</DesignatedBy>
+            </StudentIndicators>
+
+            <LoginId>2895@fakemail.com</LoginId>
+        </Student>
+    </Action>
+    <!-- Orphan Force True        PASSES-->
+    <Action ActionType="DELETE" Cascade="false" Force="true">
+        <Student>
+            <StudentUniqueStateId>Student-2</StudentUniqueStateId>
+            <StudentIdentificationCode IdentificationSystem="Local" AssigningOrganizationCode="School">
+                <IdentificationCode>abcde</IdentificationCode>
+            </StudentIdentificationCode>
+            <Name>
+                <FirstName>Orphan Jessie</FirstName>
+                <MiddleName>Kory</MiddleName>
+                <LastSurname>Mcgowan</LastSurname>
+            </Name>
+            <OtherName OtherNameType="Previous Legal Name">
+                <PersonalTitlePrefix>Mrs</PersonalTitlePrefix>
+                <FirstName>Basil</FirstName>
+                <MiddleName>Dillon</MiddleName>
+                <LastSurname>Grimes</LastSurname>
+                <GenerationCodeSuffix>III</GenerationCodeSuffix>
+            </OtherName>
+            <Sex>Male</Sex>
+            <BirthData>
+                <BirthDate>1988-01-12</BirthDate>
+            </BirthData>
+            <Address AddressType="Home">
+                <StreetNumberName>960 Marks Ct</StreetNumberName>
+                <City>New York</City>
+                <StateAbbreviation>NY</StateAbbreviation>
+                <PostalCode>10292</PostalCode>
+            </Address>
+            <Telephone>
+                <TelephoneNumber>(753)555-9719</TelephoneNumber>
+            </Telephone>
+            <ElectronicMail EmailAddressType="Home/Personal">
+                <EmailAddress>2895@fakemail.com</EmailAddress>
+            </ElectronicMail>
+            <ProfileThumbnail>1 thumb</ProfileThumbnail>
+            <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+            <OldEthnicity>American Indian Or Alaskan Native</OldEthnicity>
+            <Race>
+                <RacialCategory>Asian</RacialCategory>
+            </Race>
+            <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+            <StudentCharacteristics>
+                <Characteristic>Pregnant</Characteristic>
+                <BeginDate>20013-02-01</BeginDate>
+                <EndDate>2013-02-09</EndDate>
+                <DesignatedBy>Parent</DesignatedBy>
+            </StudentCharacteristics>
+
+            <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+            <Languages>
+                <Language>Nepali</Language>
+            </Languages>
+            <HomeLanguages>
+                <Language>French</Language>
+            </HomeLanguages>
+            <Disabilities>
+                <Disability>Emotional Disturbance</Disability>
+                <DisabilityDiagnosis>Diagnosis A</DisabilityDiagnosis>
+                <OrderOfDisability>4</OrderOfDisability>
+            </Disabilities>
+            <Section504Disabilities>
+                <Section504Disability>Attention Deficit Hyperactivity Disorder (ADHD)</Section504Disability>
+            </Section504Disabilities>
+            <DisplacementStatus>Status BBB</DisplacementStatus>
+            <ProgramParticipations>
+                <Program>Bilingual Summer</Program>
+                <BeginDate>2014-01-05</BeginDate>
+                <EndDate>2020-01-01</EndDate>
+                <DesignatedBy>Teacher</DesignatedBy>
+            </ProgramParticipations>
+            <LearningStyles>
+                <VisualLearning>24</VisualLearning>
+                <AuditoryLearning>8</AuditoryLearning>
+                <TactileLearning>27</TactileLearning>
+            </LearningStyles>
+            <CohortYears CohortYearType="Sixth grade">
+                <SchoolYear>2014-2015</SchoolYear>
+            </CohortYears>
+            <StudentIndicators>
+                <IndicatorGroup>Group B</IndicatorGroup>
+                <IndicatorName>Name 1</IndicatorName>
+                <Indicator>Indicator 3</Indicator>
+                <BeginDate>2014-01-05</BeginDate>
+                <EndDate>2020-01-01</EndDate>
+                <DesignatedBy>Parent</DesignatedBy>
+            </StudentIndicators>
+
+            <LoginId>2895@fakemail.com</LoginId>
+        </Student>
+    </Action>
+    <!-- Non Orphan Force False   FAILS-->
+    <Action ActionType="DELETE" Cascade="false" Force="false">
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>3</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+    </Action>
+    <!-- Non Orphan Force True    PASSES-->
+    <Action ActionType="DELETE" Cascade="false" Force="true">
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>4</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+    </Action>
+
+</InterchangeStudentParent>

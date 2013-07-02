@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<InterchangeStudentEnrollment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                              xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentEnrollment.xsd">
+    <Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="true">
+        <GraduationPlanReference>
+            <GraduationPlanIdentity>
+                <GraduationPlanType>Minimum</GraduationPlanType>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+            </GraduationPlanIdentity>
+        </GraduationPlanReference>
+    </Action>
+    <Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="true">
+        <StudentSchoolAssociationReference>
+            <StudentSchoolAssociationIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>1</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <SchoolReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </SchoolReference>
+                <EntryDate>2001-09-03</EntryDate>
+            </StudentSchoolAssociationIdentity>
+        </StudentSchoolAssociationReference>
+        <StudentSectionAssociation>
+            <StudentReference>
+                <StudentIdentity>
+                    <StudentUniqueStateId>1</StudentUniqueStateId>
+                </StudentIdentity>
+            </StudentReference>
+            <SectionReference>
+                <SectionIdentity>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                    <UniqueSectionCode>3</UniqueSectionCode>
+                </SectionIdentity>
+            </SectionReference>
+            <BeginDate>2001-09-03</BeginDate>
+            <EndDate>2002-05-30</EndDate>
+            <HomeroomIndicator>false</HomeroomIndicator>
+            <RepeatIdentifier>Repeated, counted in grade point average</RepeatIdentifier>
+        </StudentSectionAssociation>
+    </Action>
+</InterchangeStudentEnrollment>

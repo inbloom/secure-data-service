@@ -5,7 +5,7 @@
   },
   "StudentIdentificationCode":[
     {
-      "a_IdentificationSystem":"SSN",
+      "a_IdentificationSystem":"State",
       "a_AssigningOrganizationCode":"XJo-xQ.tcIYkXhRPQ7gZXGv",
       "IdentificationCode":{
         "_value":"qVDzEH4OYsrbM__ZnGSF93BSrryuXJrRKOAi9QE_vfe2iWCSWvHFf5F"

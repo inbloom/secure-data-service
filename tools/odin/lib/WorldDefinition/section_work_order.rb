@@ -53,23 +53,33 @@ class SectionWorkOrderFactory
 
     @teachers[school_id] = [] if @teachers[school_id].nil?
     @world[ed_org_type][ed_org_index]['sections'] = {}
+    ed_org_assigned = {}
     unless ed_org['students'].nil?
       ed_org['students'].each{|year, student_map|
         @world[ed_org_type][ed_org_index]['sections'][year] = {}
         unless ed_org['offerings'].nil?
           student_map.each{|grade, num|
             @world[ed_org_type][ed_org_index]['sections'][year][grade] = {}
-
-            teachers_for_this_grade = ed_org['teachers'].select { |teacher| teacher['grades'].include? grade }
-            teachers_for_this_grade.each { |teacher| teacher['num_sections'] = sections_for_this_teacher(ed_org_type) } if !teachers_for_this_grade.nil? and teachers_for_this_grade.size > 0
             
+            teachers_for_this_grade = ed_org['teachers'].select { |teacher| teacher['grades'].include? grade }
+            if !teachers_for_this_grade.nil? and teachers_for_this_grade.size > 0
+              teachers_for_this_grade.each do |teacher| 
+                teacher['num_sections'] = sections_for_this_teacher(ed_org_type)
+                ed_org_assigned[teacher['id']] = false
+              end
+            end
+
             # take sections_from_edorg output and add teachers to sections
             # -> num_sections for each teacher is reset for each new year
             sections_with_teachers = add_teachers_to_sections(sections_from_edorg(ed_org, ed_org_type, year, grade), teachers_for_this_grade, ed_org_type)
 
             sections_with_teachers.each{ |offering, sections|
               @world[ed_org_type][ed_org_index]['sections'][year][grade][offering['id']] = [] 
-              session = find_matching_session_for_school(school_id, offering)
+              session = find_matching_session_for_school(school_id, offering, year)
+
+              interval = session['interval']
+              begin_date = interval.get_begin_date unless interval.nil?
+              end_date   = interval.get_end_date unless interval.nil?
               sections.each{ |section|
                 teacher_id = 0
                 isFirstTeacherForSection = true
@@ -80,6 +90,16 @@ class SectionWorkOrderFactory
                     yielder << {:type=>Teacher, :id=>section_teacher['id'], :year=>year_of, :name=>section_teacher['name']}
                   end
                   teacher_id = section_teacher['id']
+
+                  # add staff -> education organization assignment association for current session (where teacher is associated to school)
+                  # -> this will eventually allow us to migrate teachers (even pre-requisite teachers) across education organizations as part of 
+                  #    the current simulation
+                  unless ed_org_assigned[teacher_id]
+                    ed_org_associations = create_staff_ed_org_association_for_teacher(session, teacher_id, school_id, ed_org_type)
+                    ed_org_associations.each { |order| yielder << order }
+                    ed_org_assigned[teacher_id] = true
+                  end
+
                   if !@teachers[school_id].include?(teacher_id)
                     @teachers[school_id] << teacher_id
                     yielder << {:type=>TeacherSchoolAssociation, 
@@ -90,20 +110,15 @@ class SectionWorkOrderFactory
                       :subjects=>section_teacher['subjects']
                     }
   
-                    # add staff -> education organization assignment association for current session (where teacher is associated to school)
-                    # -> this will eventually allow us to migrate teachers (even pre-requisite teachers) across education organizations as part of 
-                    #    the current simulation
-                    ed_org_associations = create_staff_ed_org_association_for_teacher(session, teacher_id, school_id, ed_org_type)
-                    ed_org_associations.each { |order| yielder << order }
-  
                     # add staff -> program associations (currently very random)
                     # future implementations should be based off of a program catalog, OR more intelligence in reacting to students during simulation
                     program_associations = create_staff_program_associations_for_teacher(session, teacher_id, ed_org["programs"])
                     program_associations.each { |order| yielder << order }
                   end
+
                   # A section can have multiple teachers, assign the first teacher to the section
                   if isFirstTeacherForSection
-                    yielder << {:type=>TeacherSectionAssociation, :teacher=>teacher_id, :section=>section[:id], :school=>school_id, :position=>:TEACHER_OF_RECORD}
+                    yielder << {:type=>TeacherSectionAssociation, :teacher=>teacher_id, :section=>section[:id], :school=>school_id, :position=>:TEACHER_OF_RECORD, :start_date=>begin_date, :end_date=>end_date}
                     isFirstTeacherForSection = false
                   end
                 }
@@ -254,14 +269,23 @@ class SectionWorkOrderFactory
 
   # finds the school with the specified education organization id
   # -> returns the sessions stored on that school in the @world
-  def find_matching_session_for_school(ed_org_id, course_offering)
+  def find_matching_session_for_school(ed_org_id, course_offering, year)
     ed_org = find_school_with_id(ed_org_id, "elementary")
     ed_org = find_school_with_id(ed_org_id, "middle") if ed_org.nil?
     ed_org = find_school_with_id(ed_org_id, "high") if ed_org.nil?
     
     # 'ed_org' now contains the education organization matching ed_org_id (if it was found)
-    session = ed_org['sessions'].detect { |session| session['name'] == course_offering['session']['name'] } if !ed_org.nil?
+    session = ed_org['sessions'].detect{|session| session['name'] == course_offering['session']['name'] && session["year"] == year}
     session
+
+    # ed_org['sessions'].each do |session|
+    #   puts "finding matching session for school #{ed_org_id} for year #{year}"
+    #   next if session["year"] != year
+    #   unless ed_org.nil?
+    #     puts "found a session match: #{session.inspect}" if session['name'] == course_offering['session']['name']
+    #     return session if session['name'] == course_offering['session']['name']
+    #   end
+    # end
   end
 
   def find_school_with_id(id, type)
@@ -281,14 +305,15 @@ class SectionWorkOrderFactory
         state_org_id = ed_org_id
       end
 
-      classification = :TEACHER
-      title          = "Educator"
+      classification = "Educator"
+      title          = :TEACHER
       interval       = session["interval"]
       begin_date     = interval.get_begin_date
       end_date       = interval.get_end_date
+
       associations << {:type=>StaffEducationOrgAssignmentAssociation, :id=>teacher_id, :edOrg=>state_org_id,
                        :classification=>classification, :title=>title, :beginDate=>begin_date, :endDate=>end_date}
-    end 
+    end
     associations
   end
 
@@ -298,10 +323,10 @@ class SectionWorkOrderFactory
   def create_staff_program_associations_for_teacher(session, teacher_id, programs)
     associations = []
     if !session.nil?
-      staff_program_associations_per_teacher = DataUtility.rand_float_to_int(@prng, @scenario["HACK_STAFF_PROGRAM_ASSOCIATIONS_FOR_TEACHER"] || 1)
+      staff_program_associations_per_teacher = DataUtility.rand_float_to_int(@prng, (@scenario["HACK_STAFF_PROGRAM_ASSOCIATIONS_FOR_TEACHER"] or 1))
       for a in 1..staff_program_associations_per_teacher
-        min          = @scenario["MINIMUM_NUM_PROGRAMS_PER_TEACHER"]
-        max          = @scenario["MAXIMUM_NUM_PROGRAMS_PER_TEACHER"]
+        min          = (@scenario["MINIMUM_NUM_PROGRAMS_PER_TEACHER"] or 1)
+        max          = (@scenario["MAXIMUM_NUM_PROGRAMS_PER_TEACHER"] or 5)
         interval     = session["interval"]
         begin_date   = interval.get_begin_date
         end_date     = interval.get_end_date

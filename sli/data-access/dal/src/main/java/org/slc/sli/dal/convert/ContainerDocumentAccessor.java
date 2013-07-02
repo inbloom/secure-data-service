@@ -16,16 +16,15 @@
 
 package org.slc.sli.dal.convert;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.mongodb.BasicDBObject;
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DBObject;
 import com.mongodb.WriteConcern;
-import org.slc.sli.common.domain.ContainerDocument;
-import org.slc.sli.common.domain.ContainerDocumentHolder;
-import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.validation.schema.INaturalKeyExtractor;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -33,12 +32,12 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import org.slc.sli.common.domain.ContainerDocument;
+import org.slc.sli.common.domain.ContainerDocumentHolder;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.validation.schema.INaturalKeyExtractor;
 
 /**
  * @author pghosh
@@ -126,6 +125,54 @@ public class ContainerDocumentAccessor {
         return deleteContainerDoc(entity);
     }
 
+    /**
+     * Delete embedded documents from container doc record.
+     *
+     * @param containerDoc
+     *        Container document containing embedded entities to delete
+     *
+     * @return
+     *         Whether or not delete was successful.
+     */
+    @SuppressWarnings("unchecked")
+    public boolean deleteContainerNonSubDocs(final Entity containerDoc) {
+        // Extract embedded non-subdocs from container doc.
+        String collection = containerDoc.getType();
+        String embeddedDocType = getEmbeddedDocType(collection);
+        List<Map<String, Object>> embeddedDocs = (List<Map<String, Object>>) containerDoc.getBody().get(embeddedDocType);
+
+        // Delete the specified embedded documents from the container doc in the database.
+        String containerDocId = containerDoc.getEntityId();
+        final BasicDBObject query = new BasicDBObject();
+        query.put("_id", containerDocId);
+        DBObject result = null;
+        for (Map<String, Object> docToDelete : embeddedDocs) {
+            BasicDBObject dBDocToDelete = new BasicDBObject("body." + embeddedDocType, docToDelete);
+            final BasicDBObject update = new BasicDBObject("$pull", dBDocToDelete);
+            result = this.mongoTemplate.getCollection(collection).findAndModify(query, null, null, false, update,
+                    true, false);
+            if (result == null) {
+                LOG.error("Could not delete " + embeddedDocType + " instance from " + collection
+                        + " record with id " + containerDocId);
+                return false;
+            }
+        }
+
+        // If this was the last embedded document, delete the container doc as well.
+        List<Map<String, String>> remainingAttendanceEvents = (List<Map<String, String>>) ((Map<String, Object>) result
+                .get("body")).get(embeddedDocType);
+        if (remainingAttendanceEvents.isEmpty()) {
+            Query frQuery = new Query(Criteria.where("_id").is(containerDocId));
+            Entity deleted = this.mongoTemplate.findAndRemove(frQuery, Entity.class, collection);
+            if (deleted == null) {
+                LOG.error("Could not delete empty " + collection + " record with id " + containerDocId);
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public long count(String collectionName, Query query) {
         return getLocation(collectionName).count(query);
     }
@@ -140,6 +187,19 @@ public class ContainerDocumentAccessor {
         final Query query = Query.query(Criteria.where("_id").is(parentKey));
 
         return query.getQueryObject();
+    }
+
+    /**
+     * Get embedded document type for a container doc.
+     *
+     * @param containerDocType
+     *        Type of container document
+     *
+     * @return
+     *         Embedded document type of this container doc
+     */
+    public String getEmbeddedDocType(final String containerDocType) {
+        return containerDocumentHolder.getContainerDocument(containerDocType).getFieldToPersist();
     }
 
     // TODO: private
@@ -233,6 +293,9 @@ public class ContainerDocumentAccessor {
     }
 
     protected boolean deleteContainerDoc(final Entity entity) {
+        if( entity == null ) {
+            return false;
+        }
         return getLocation(entity.getType()).delete(entity);
     }
 

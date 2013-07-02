@@ -40,7 +40,7 @@ public class UncategorizedMongoExceptionHandler implements ExceptionMapper<Uncat
         return Response
                 .status(errorStatus)
                 .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),
-                        "Could not access database")).build();
+                        "Could not access database:" + exception.getMessage())).build();
     }
 
 }

@@ -16,10 +16,7 @@
 
 package org.slc.sli.ingestion.validation.indexes;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -50,7 +47,7 @@ public class DbIndexValidator implements Validator<DB> {
      * {@inheritDoc}
      */
     @Override
-    public boolean isValid(DB db, AbstractMessageReport report, ReportStats reportStats, Source source) {
+    public boolean isValid(DB db, AbstractMessageReport report, ReportStats reportStats, Source source, Map<String, Object> parameters) {
         Set<MongoIndex> expectedIndexes = loadExpectedIndexes();
         Set<MongoIndex> actualIndexes = loadIndexInfoFromDB(db);
 
@@ -77,11 +74,16 @@ public class DbIndexValidator implements Validator<DB> {
             for (DBObject dbObject : indexList) {
                 DBObject keyObj = (DBObject) dbObject.get("key");
                 Object uniqueField = dbObject.get("unique");
+                Object sparseField = dbObject.get("sparse");
                 boolean unique = false;
+                boolean sparse = false;
+                if (sparseField != null) {
+                	sparse = Boolean.parseBoolean(sparseField.toString());
+                }
                 if (uniqueField != null) {
                     unique = Boolean.parseBoolean(uniqueField.toString());
                 }
-                dbIndexes.add(new MongoIndex(collectionName, unique, keyObj));
+                dbIndexes.add(new MongoIndex(collectionName, unique, keyObj, sparse));
             }
         }
         return dbIndexes;

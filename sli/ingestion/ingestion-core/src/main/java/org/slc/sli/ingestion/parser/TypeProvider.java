@@ -16,6 +16,8 @@
 
 package org.slc.sli.ingestion.parser;
 
+import org.slc.sli.ingestion.ActionVerb;
+
 /**
  * Provides type information.
  *
@@ -37,15 +39,28 @@ public interface TypeProvider {
     public String getTypeFromInterchange(String interchange, String elementName);
 
     /**
+     * Given an interchange, provide the type of the element with given name. ( with special logic for
+     *
+     * @param interchange
+     *            String value of EdFi Interchange name.
+     * @param elementName
+     *            String value of the name of an EdFi element defined in the interchange.
+     * @param action (optional )
+     *            ActionVerb value ( if this element is a part of the "Action" wrapper )
+     * @return String value of the type of the element with given name as defined by the
+     *         interchange.
+     */
+    public String getTypeFromInterchange( String interchange, String elementName, ActionVerb action );
+    /**
      * Given an element's parent's type, provide the type of the element with given name.
      *
-     * @param parentType
-     *            String value of element's parent's EdFi type.
+     * @param parentMeta
+     *            RecordMeta data of the parent's element
      * @param elementName
      *            String value of the name of an EdFi element.
      * @return EdfiType for this element.
      */
-    public RecordMeta getTypeFromParentType(String parentType, String elementName);
+    public RecordMeta getTypeFromParentType(RecordMeta parentMeta, String elementName);
 
     /**
      * Process / convert the value for a given type.
@@ -70,4 +85,14 @@ public interface TypeProvider {
      * @return Converted object.
      */
     public Object convertAttributeType(String elementType, String attributeName, String value);
+
+    /**
+     * Determines if particular type represents Action Verb.
+     *
+     * @param type
+     *            String value of an EdFi type.
+     *
+     * @return true/false
+     */
+    public boolean isActionType(String type );
 }

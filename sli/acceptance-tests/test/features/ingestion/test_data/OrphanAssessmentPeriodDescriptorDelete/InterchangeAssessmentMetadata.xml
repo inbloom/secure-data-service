@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                                  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-AssessmentMetadata.xsd">
+ <Action ActionType="DELETE" Cascade="false"  Force="false">  
+  
+   <AssessmentPeriodDescriptor>
+	<CodeValue>APD-READ2-BOY-2011</CodeValue>
+	<Description>APD-Beginning of Year 2011-2012</Description>
+	<ShortDescription>APD-READ2-BOY-2011</ShortDescription>
+	<BeginDate>2011-08-01</BeginDate>
+	<EndDate>2011-12-31</EndDate>
+  </AssessmentPeriodDescriptor>
+  
+ </Action>
+ 
+</InterchangeAssessmentMetadata>

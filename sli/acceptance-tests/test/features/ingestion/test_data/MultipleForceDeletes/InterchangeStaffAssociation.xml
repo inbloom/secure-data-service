@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<InterchangeStaffAssociation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                             xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
+    <Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="true">
+        <StaffReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>msmith</StaffUniqueStateId>
+            </StaffIdentity>
+        </StaffReference>
+        <StaffEducationOrgAssignmentAssociation>
+            <StaffReference>
+                <StaffIdentity>
+                    <StaffUniqueStateId>ckoch</StaffUniqueStateId>
+                </StaffIdentity>
+            </StaffReference>
+            <EducationOrganizationReference>
+                <EducationalOrgIdentity>
+                    <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+                </EducationalOrgIdentity>
+            </EducationOrganizationReference>
+            <StaffClassification>Specialist/Consultant</StaffClassification>
+            <PositionTitle>Leader</PositionTitle>
+            <BeginDate>2001-08-04</BeginDate>
+            <EndDate>2002-06-29</EndDate>
+        </StaffEducationOrgAssignmentAssociation>
+        <StaffProgramAssociationReference>
+            <StaffProgramAssociationIdentity>
+                <StaffReference>
+                    <StaffIdentity>
+                        <StaffUniqueStateId>ckoch</StaffUniqueStateId>
+                    </StaffIdentity>
+                </StaffReference>
+                <ProgramReference>
+                    <ProgramIdentity>
+                        <ProgramId>6</ProgramId>
+                    </ProgramIdentity>
+                </ProgramReference>
+                <BeginDate>2001-08-04</BeginDate>
+            </StaffProgramAssociationIdentity>
+        </StaffProgramAssociationReference>
+        <TeacherReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>tech-0000000012</StaffUniqueStateId>
+            </StaffIdentity>
+        </TeacherReference>
+    </Action>
+    <Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="true">
+        <TeacherSchoolAssociation>
+            <TeacherReference>
+                <StaffIdentity>
+                    <StaffUniqueStateId>tech-0000000001</StaffUniqueStateId>
+                </StaffIdentity>
+            </TeacherReference>
+            <SchoolReference>
+                <EducationalOrgIdentity>
+                    <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                </EducationalOrgIdentity>
+            </SchoolReference>
+            <ProgramAssignment>Regular Education</ProgramAssignment>
+            <InstructionalGradeLevels>
+                <GradeLevel>Ninth grade</GradeLevel>
+            </InstructionalGradeLevels>
+            <AcademicSubjects>
+                <AcademicSubject>Science</AcademicSubject>
+                <AcademicSubject>ELA</AcademicSubject>
+                <AcademicSubject>Health Care Sciences</AcademicSubject>
+            </AcademicSubjects>
+        </TeacherSchoolAssociation>
+        <TeacherSectionAssociationReference>
+            <TeacherSectionAssociationIdentity>
+                <TeacherReference>
+                    <StaffIdentity>
+                        <StaffUniqueStateId>tech-0000000001</StaffUniqueStateId>
+                    </StaffIdentity>
+                </TeacherReference>
+                <SectionReference>
+                    <SectionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <UniqueSectionCode>1</UniqueSectionCode>
+                    </SectionIdentity>
+                </SectionReference>
+            </TeacherSectionAssociationIdentity>
+        </TeacherSectionAssociationReference>
+    </Action>
+</InterchangeStaffAssociation>

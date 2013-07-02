@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<InterchangeStudentAssessment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentAssessment.xsd">
+  <StudentAssessment>
+    <AdministrationDate>2013-08-28</AdministrationDate>
+    <AdministrationLanguage>English</AdministrationLanguage>
+    <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <RetestIndicator>Primary Administration</RetestIndicator>
+    <ScoreResults AssessmentReportingMethod="Scale score">
+      <Result>92</Result>
+    </ScoreResults>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <AssessmentReference>
+      <AssessmentIdentity>
+        <AssessmentTitle>2013-Ninth grade Assessment 1</AssessmentTitle>
+        <AcademicSubject>English Language and Literature</AcademicSubject>
+        <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+    </AssessmentReference>
+  </StudentAssessment>
+  <StudentAssessmentItem>
+    <AssessmentResponse>false</AssessmentResponse>
+    <ResponseIndicator>Effective response</ResponseIndicator>
+    <AssessmentItemResult>Correct</AssessmentItemResult>
+    <RawScoreResult>7</RawScoreResult>
+      <StudentAssessmentReference>
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2013-08-27</AdministrationDate>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>2</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+            <AssessmentReference>
+                <AssessmentIdentity>
+                    <AssessmentTitle>2013-Ninth grade Assessment 1</AssessmentTitle>
+                    <AcademicSubject>English Language and Literature</AcademicSubject>
+                    <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
+                </AssessmentIdentity>
+            </AssessmentReference>
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference>
+      <AssessmentItemReference>
+        <AssessmentItemIdentity>
+          <AssessmentItemIdentificationCode>2013-Ninth grade Assessment 1#2</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+      </AssessmentItemReference>
+  </StudentAssessmentItem>
+
+</InterchangeStudentAssessment>

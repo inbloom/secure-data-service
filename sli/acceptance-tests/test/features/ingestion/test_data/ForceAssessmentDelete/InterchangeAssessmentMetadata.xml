@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                                  xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-AssessmentMetadata.xsd">
+    <Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="true">
+
+   <Assessment>
+    <AssessmentTitle>2002-Tenth grade Assessment 1</AssessmentTitle>
+    <AssessmentIdentificationCode IdentificationSystem="State">
+        <ID>2002-Tenth grade Assessment 1</ID>
+    </AssessmentIdentificationCode>
+    <GradeLevelAssessed>Tenth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+        <AssessmentPeriodDescriptorIdentity>
+            <AssessmentPeriodDescriptorCodeValue>BOY-10-2002</AssessmentPeriodDescriptorCodeValue>
+        </AssessmentPeriodDescriptorIdentity>
+    </AssessmentPeriod>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2002-Tenth grade Assessment 1#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    <ObjectiveAssessmentReference>
+        <ObjectiveAssessmentIdentity>
+            <ObjectiveAssessmentIdentificationCode>2002-Tenth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+        </ObjectiveAssessmentIdentity>
+    </ObjectiveAssessmentReference>
+    <ObjectiveAssessmentReference>
+        <ObjectiveAssessmentIdentity>
+            <ObjectiveAssessmentIdentificationCode>2002-Tenth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+        </ObjectiveAssessmentIdentity>
+    </ObjectiveAssessmentReference>
+    <AssessmentFamilyReference>
+        <AssessmentFamilyIdentity>
+            <AssessmentFamilyTitle>2002 Tenth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
+        </AssessmentFamilyIdentity>
+    </AssessmentFamilyReference>
+</Assessment>
+    </Action>
+    </InterchangeAssessmentMetadata>

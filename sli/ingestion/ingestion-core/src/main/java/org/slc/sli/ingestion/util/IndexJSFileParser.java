@@ -80,7 +80,7 @@ public class IndexJSFileParser implements IndexParser<String> {
                     while ((currentFileLine = br.readLine()) != null) {
                         boolean unique = false;
                         Matcher indexMatcher = ensureIndexStatement(currentFileLine);
-
+       
                         if (indexMatcher != null) {
                             collectionName = indexMatcher.group(1);
                             keyJsonString = indexMatcher.group(2);
@@ -106,7 +106,7 @@ public class IndexJSFileParser implements IndexParser<String> {
         return indexes;
     }
 
-    private static Matcher ensureIndexStatement(String statement) {
+    private static Matcher ensureIndexStatement(String statement) { //# collection,uniqueness,sparse,key1:order,key2:order...
         Pattern ensureIndexPattern = Pattern.compile("^db\\[\"(\\S+)\"]\\.ensureIndex\\((\\{[^}]*\\})(,\\s*\\{\\s*unique\\s*:\\s*(\\S+)\\s*\\})?\\);.*", Pattern.MULTILINE);
         Matcher ensureIndexMatcher = ensureIndexPattern.matcher(statement);
         if (ensureIndexMatcher.matches()) {

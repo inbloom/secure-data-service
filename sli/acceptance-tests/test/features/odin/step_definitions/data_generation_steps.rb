@@ -7,7 +7,10 @@ def generate(scenario="10students")
   command = "bundle exec ruby driver.rb --normalgc #{scenario}"
   puts "Shell command will be #{command}"
   FileUtils.cd @odin_working_path
+  t1 = Time.now
+  puts "Generating Data based on #{scenario} scenario.."
   `#{command}`
+  runtime(t1, Time.now)
   FileUtils.cd @at_working_path
   @files = Dir.entries("#{@gen_path}")
 end
@@ -30,6 +33,12 @@ end
 ############################################################
 # STEPS: WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN
 ############################################################
+When /^I generate the "(.*?)" data set in the "(.*?)" directory$/ do |data_set, gen_dir|
+  @gen_path = "#{@odin_working_path}#{gen_dir}/"
+  puts "Calling generate function for #{data_set} scenario"
+  generate(data_set)
+end
+
 When /^I generate the 10 student data set with optional fields on in the (.*?) directory$/ do |gen_dir|
   @gen_path = "#{@odin_working_path}#{gen_dir}/"
   puts "Calling generate function for 10 students scenario"
@@ -46,6 +55,24 @@ When /^I generate the jmeter api performance data set in the (.*?) directory$/ d
   @gen_path = "#{@odin_working_path}#{gen_dir}/"
   puts "Calling generate function for jmeter api performance scenario"
   generate("jmeter_api_performance")
+end
+
+When /^I generate the api data set in the (.*?) directory$/ do |gen_dir|
+  @gen_path = "#{@odin_working_path}#{gen_dir}/"
+  puts "Calling generate function for api testing scenario"
+  generate("api_testing")
+end
+
+When /^I generate the bulk extract data set in the (.*?) directory$/ do |gen_dir|
+  @gen_path = "#{@odin_working_path}#{gen_dir}/"
+  puts "Calling generate function for api testing scenario"
+  generate("api_2lea_testing")
+end
+
+When /^I generate the contextual roles data set in the (.*?) directory$/ do |gen_dir|
+  @gen_path = "#{@odin_working_path}#{gen_dir}/"
+  puts "Calling generate function for api testing scenario"
+  generate("contextual_roles")
 end
 
 When /^I zip generated data under filename (.*?) to the new (.*?) directory$/ do |zip_file, new_dir|
@@ -91,3 +118,28 @@ Then /^the sli\-verify script completes successfully$/ do
   assert(results.include?("All expected entities found\n"), "verification script failed, results are #{results}")
   enable_NOTABLESCAN
 end
+
+def ingest_odin(scenario)
+  step "I am using preconfigured Ingestion Landing Zone for \"Midgar-Daybreak\""
+  @gen_path = "#{@odin_working_path}generated/"
+  generate(scenario)
+  steps %Q{
+    And the following collections are empty in batch job datastore:
+        | collectionName              |
+        | newBatchJob                 |
+    When I zip generated data under filename OdinSampleDataSet.zip to the new OdinSampleDataSet directory
+    And I copy generated data to the new OdinSampleDataSet directory
+    Given I am using odin data store
+    And I post "OdinSampleDataSet.zip" file as the payload of the ingestion job
+    When zip file is scp to ingestion landing zone
+    And a batch job for file "OdinSampleDataSet.zip" is completed in database
+  }
+end
+
+def runtime(t1, t2)
+  t = (t2 - t1).to_s
+  t_sec, t_dec = t.split(".")
+  puts "Data generation took approximately: " + t_sec + "." + t_dec[0..-5] + " seconds to complete."
+end
+
+

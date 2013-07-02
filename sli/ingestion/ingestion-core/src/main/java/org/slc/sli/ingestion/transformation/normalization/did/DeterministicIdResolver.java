@@ -22,14 +22,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.slc.sli.common.domain.ContainerDocument;
-import org.slc.sli.common.domain.ContainerDocumentHolder;
-import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import org.slc.sli.common.domain.ContainerDocument;
+import org.slc.sli.common.domain.ContainerDocumentHolder;
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
@@ -133,7 +132,16 @@ public class DeterministicIdResolver implements BatchJobStage {
 
         // resolve and set all the parentNodes
         for (Map<String, Object> node : parentNodes) {
-            Object resolvedRef = resolveReference(entity, node.get(refObjName), didRefSource.isOptional(), didRefConfig,
+
+            //Getting delete to work. Should be reworked.
+            boolean isDelete = false;
+
+            String action = (String)entity.getMetaData().get("Action");
+            if(action != null && action.equals("DELETE")) {
+                isDelete = true;
+            }
+
+            Object resolvedRef = resolveReference(entity, node.get(refObjName), isDelete?true:didRefSource.isOptional(), didRefConfig,
                     tenantId);
             if (resolvedRef != null) {
                 node.put(refObjName, resolvedRef);

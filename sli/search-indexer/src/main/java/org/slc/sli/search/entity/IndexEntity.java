@@ -82,6 +82,6 @@ public class IndexEntity {
 
     @Override
     public String toString() {
-        return action.getType() + ": {index:" + index + ", type:" + type + ", id:" + id + "}";
+        return action.getType() + ": {index:" + index + ", type:" + type + ", id:" + id + ", body: "+ body +"}";
     }
 }

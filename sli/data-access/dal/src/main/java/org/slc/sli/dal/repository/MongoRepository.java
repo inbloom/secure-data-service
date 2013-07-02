@@ -23,26 +23,29 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.apache.commons.lang3.StringUtils;
-import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.dal.convert.IdConverter;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.util.Assert;
-
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.mongodb.WriteConcern;
 import com.mongodb.WriteResult;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.util.Assert;
+
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.dal.convert.IdConverter;
+import org.slc.sli.dal.template.MongoEntityTemplate;
+import org.slc.sli.domain.AccessibilityCheck;
+import org.slc.sli.domain.CascadeResult;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * mongodb implementation of the repository interface that provides basic CRUD
@@ -52,9 +55,15 @@ import com.mongodb.WriteResult;
  *
  */
 public abstract class MongoRepository<T> implements Repository<T> {
+
+    // TODO determine whether this is the best place to have custom entity meta information
+    public static final String CUSTOM_ENTITY_COLLECTION = "custom_entities";
+    public static final String CUSTOM_ENTITY_CLIENT_ID = "clientId";
+    public static final String CUSTOM_ENTITY_ENTITY_ID = "entityId";
+
     protected static final Logger LOG = LoggerFactory.getLogger(MongoRepository.class);
 
-    protected MongoTemplate template;
+    protected MongoEntityTemplate template;
 
     protected IdConverter idConverter;
 
@@ -76,7 +85,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
      * this method
      * add the Tenant ID to a neutral query.
      *
-     * @param query
+     * @param origQuery
      *            The query returned is the same as the query passed.
      * @return
      *         The modified neutral query
@@ -143,11 +152,11 @@ public abstract class MongoRepository<T> implements Repository<T> {
         return new Criteria();
     }
 
-    public void setTemplate(MongoTemplate template) {
+    public void setTemplate(MongoEntityTemplate template) {
         this.template = template;
     }
 
-    public MongoTemplate getTemplate() {
+    public MongoEntityTemplate getTemplate() {
         return template;
     }
 
@@ -198,14 +207,18 @@ public abstract class MongoRepository<T> implements Repository<T> {
     public List<T> insert(List<T> records, String collectionName) {
         guideIfTenantAgnostic(collectionName);
         template.insert(records, collectionName);
-        LOG.debug("Insert {} records into collection: {}", new Object[] { records.size(), collectionName });
+        LOG.debug("Insert {} records into collection: {}", new Object[]{records.size(), collectionName});
         return records;
     }
 
     @Override
     public T findById(String collectionName, String id) {
+    	return findById(collectionName, id, false);
+    }
+	@Override
+    public T findById(String collectionName, String id, boolean allFields) {
         Object databaseId = idConverter.toDatabaseId(id);
-        LOG.debug("find a record in collection {} with id {}", new Object[] { collectionName, id });
+        LOG.debug("find a record in collection {} with id {}", new Object[]{collectionName, id});
 
         // Enforcing the tenantId query. The rationale for this is all CRUD
         // Operations should be restricted based on tenant.
@@ -214,10 +227,19 @@ public abstract class MongoRepository<T> implements Repository<T> {
         this.addDefaultQueryParams(neutralQuery, collectionName);
 
         // convert the neutral query into a mongo query
-        Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery);
+        Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery, allFields);
 
         try {
-            return findOne(collectionName, mongoQuery);
+        	if ( allFields ) {
+                // When getting "all fields" we want the full document, including any subdoc data.
+                // In that case, we want not to do any subdoc conversions, but rather retrieve
+            	// the data "raw", so use the template directly here.
+        		guideIfTenantAgnostic(collectionName);
+        		return template.findOne(mongoQuery, getRecordClass(), collectionName);
+        	}
+        	else {
+        		return findOne(collectionName, mongoQuery);
+        	}
         } catch (Exception e) {
             LOG.error("Exception occurred", e);
             return null;
@@ -244,13 +266,18 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     @Override
     public T findOne(String collectionName, NeutralQuery neutralQuery) {
+    	return findOne(collectionName, neutralQuery, false);
+    }
+
+    @Override
+    public T findOne(String collectionName, NeutralQuery neutralQuery, boolean allFields) {
 
         // Enforcing the tenantId query. The rationale for this is all CRUD
         // Operations should be restricted based on tenant.
         this.addDefaultQueryParams(neutralQuery, collectionName);
 
         // convert the neutral query into a mongo query
-        Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery);
+        Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery, allFields);
 
         // find and return an entity
         return findOne(collectionName, mongoQuery);
@@ -361,7 +388,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
      * @param body
      * @return True if the document was saved
      */
-    public boolean update(String collection, T record, Map<String, Object> body, boolean isSuperdoc) {
+    protected boolean update(String collection, T record, Map<String, Object> body, boolean isSuperdoc) {
         Assert.notNull(record, "The given record must not be null!");
         String id = getRecordId(record);
         if (StringUtils.isEmpty(id)) {
@@ -473,6 +500,12 @@ public abstract class MongoRepository<T> implements Repository<T> {
     protected abstract Update getUpdateCommand(T entity, boolean isSuperdoc);
 
     @Override
+    public CascadeResult safeDelete(String entityType, String id, boolean cascade, boolean dryrun, boolean forced, boolean logViolations,
+                                    Integer maxObjects, AccessibilityCheck access) {
+        throw new UnsupportedOperationException("safeDelete is not implemented at the " + this.getClass().getSimpleName() + ", perhaps you should be using MongoEntityRepository");
+    }
+
+    @Override
     public boolean delete(String collectionName, String id) {
         if (id.equals("")) {
             return false;
@@ -493,17 +526,6 @@ public abstract class MongoRepository<T> implements Repository<T> {
         T deleted = template.findAndRemove(query, getRecordClass(), collectionName);
         LOG.debug("delete a entity in collection {} with id {}", new Object[] { collectionName, id });
         return deleted != null;
-    }
-
-    public void deleteAll(String collectionName) {
-        // We decided that if TenantId is null, then we will search on blank.
-        // This option may need to be revisted.
-        String tenantId = TenantContext.getTenantId();
-        BasicDBObject obj = new BasicDBObject();
-
-        guideIfTenantAgnostic(collectionName);
-        template.getCollection(collectionName).remove(obj);
-        LOG.debug("delete all objects in collection {}", collectionName);
     }
 
     protected void logResults(String collectioName, List<T> results) {
@@ -654,4 +676,6 @@ public abstract class MongoRepository<T> implements Repository<T> {
     public T findAndUpdate(String collectionName, NeutralQuery neutralQuery, Update update) {
         return null;
     }
+
+
 }

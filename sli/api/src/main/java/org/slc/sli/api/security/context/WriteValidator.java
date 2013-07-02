@@ -30,8 +30,8 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.ThrowAPIException;
@@ -158,8 +158,10 @@ public class WriteValidator {
         boolean isValid = true;
         edOrgId = null;
         if (entitiesNeedingEdOrgWriteValidation.get(entityType) != null) {
-            edOrgId = (String) entityBody.get(entitiesNeedingEdOrgWriteValidation.get(entityType));
-            isValid = principal.getSubEdOrgHierarchy().contains(edOrgId);
+            String edOrgId = (String) entityBody.get(entitiesNeedingEdOrgWriteValidation.get(entityType));
+            if (edOrgId!=null){ //patch may not send the edorgId and we've already checked edorg writes on the existing entity
+                isValid = principal.getSubEdOrgHierarchy().contains(edOrgId);
+            }
         } else if (complexValidationMap.containsKey(entityType)) {
             ComplexValidation validation = complexValidationMap.get(entityType);
             EntityDefinition definition = store.lookupByEntityType(validation.getValidationReferenceType());

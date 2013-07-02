@@ -20,17 +20,17 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -38,13 +38,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.context.EntityOwnershipValidator;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 
 /**
@@ -283,7 +283,7 @@ public class EdOrgHelperTest {
         setContext(staff4, Arrays.asList(SecureRoleRightAccessImpl.IT_ADMINISTRATOR));
         List<String> leas = helper.getDistricts(staff4);
         assertTrue("staff4 must see lea1", leas.contains(lea1.getEntityId()));
-        assertTrue("staff4 must lea4", leas.contains(lea4.getEntityId()));
+        assertTrue("staff4 must see lea4", leas.contains(lea4.getEntityId()));
         assertEquals("staff4 must only see two districts", 2, leas.size());
     }
 
@@ -309,6 +309,19 @@ public class EdOrgHelperTest {
         List<String> leas = helper.getDistricts(teacher3);
         assertTrue("teacher3 must see lea1", leas.contains(lea1.getEntityId()));
         assertEquals("teacher3 must only see one district", 1, leas.size());
+    }
+
+    @Test
+    public void testTeacher3LocateSEOAs() {
+
+        NeutralQuery staffQuery = new NeutralQuery();
+        staffQuery.addCriteria(new NeutralCriteria(ParameterConstants.STAFF_UNIQUE_STATE_ID, NeutralCriteria.OPERATOR_EQUAL, teacher3.getEntityId()));
+        repo.deleteAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, staffQuery);
+        Date now = new Date();
+        setupSEOAs(repo, now.getTime(), teacher3, school3.getEntityId());
+
+        Set<Entity> associations = helper.locateNonExpiredSEOAs(teacher3.getEntityId());
+        assertTrue("teacher3 should have 3 valid associations", associations.size() == 3);
     }
 
     @Test
@@ -353,4 +366,44 @@ public class EdOrgHelperTest {
         assertFalse("student3 should not see school2", edorgs.contains(school2.getEntityId()));
         assertTrue("student3 should see school3", edorgs.contains(school3.getEntityId()));
     }
+
+    Map<String, Object> createSEOA(String edorg, String staff, String endDate) {
+        Map<String, Object> seoa = new HashMap<String, Object>();
+        seoa.put(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, edorg);
+        seoa.put(ParameterConstants.STAFF_REFERENCE, staff);
+        if(endDate != null)
+            seoa.put(ParameterConstants.STAFF_EDORG_ASSOC_END_DATE, endDate);
+
+        return seoa;
+    }
+
+
+    private void setupSEOAs(Repository repo, long time, Entity staffEntity, String edorg) {
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
+        Date date = new Date(time);
+        long milSecInAYear = 31557600000L;
+        long milSecInADay = 86400000L;
+
+        String dateString = df.format(date);
+
+        repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, createSEOA(edorg, staffEntity.getEntityId(), dateString));
+
+        date = new Date(time - milSecInAYear);
+        dateString = df.format(date);
+        repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, createSEOA(edorg, staffEntity.getEntityId(), dateString));
+
+        date = new Date(time + milSecInADay);
+        dateString = df.format(date);
+        repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, createSEOA( edorg, staffEntity.getEntityId(), dateString));
+
+        date = new Date(time + milSecInAYear);
+        dateString = df.format(date);
+        repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, createSEOA(edorg, staffEntity.getEntityId(), dateString));
+
+        repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, createSEOA(edorg, staffEntity.getEntityId(), null));
+
+    }
+
 }

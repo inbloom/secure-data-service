@@ -1,0 +1,23 @@
+<InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+    xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-AssessmentMetadata.xsd">
+    <AssessmentFamily>
+        <AssessmentFamilyTitle>Update AF then Delete A</AssessmentFamilyTitle>
+        <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+            <ID>Updated</ID>
+        </AssessmentFamilyIdentificationCode>
+    </AssessmentFamily>
+    <AssessmentItem>
+        <AssessmentReference>
+            <AssessmentIdentity>
+                <AssessmentTitle>2013-Kindergarten Assessment 2 Item</AssessmentTitle>
+                <AcademicSubject>Writing</AcademicSubject>
+                <GradeLevelAssessed>Kindergarten</GradeLevelAssessed>
+            </AssessmentIdentity>
+        </AssessmentReference>
+        <IdentificationCode>2013-Kindergarten Assessment 2#1 Item</IdentificationCode>
+        <ItemCategory>True-False</ItemCategory>
+        <MaxRawScore>88</MaxRawScore>
+        <CorrectResponse>true</CorrectResponse>
+        <Nomenclature>nonenclature</Nomenclature>
+    </AssessmentItem>
+</InterchangeAssessmentMetadata>

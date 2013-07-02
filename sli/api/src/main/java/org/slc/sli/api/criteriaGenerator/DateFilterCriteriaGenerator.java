@@ -18,7 +18,7 @@ package org.slc.sli.api.criteriaGenerator;
 
 import com.sun.jersey.spi.container.ContainerRequest;
 import org.apache.commons.lang3.StringUtils;
-import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;

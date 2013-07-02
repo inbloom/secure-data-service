@@ -19,6 +19,7 @@ package org.slc.sli.ingestion.landingzone.validation;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -49,7 +50,7 @@ public class FilePresenceValidatorTest {
 
         AbstractMessageReport mr = Mockito.spy(new DummyMessageReport());
 
-        Assert.assertFalse(v.isValid(fe, mr, new SimpleReportStats(), new JobSource("control")));
+        Assert.assertFalse(v.isValid(fe, mr, new SimpleReportStats(), new JobSource("control"), null));
 
         Mockito.verify(mr, Mockito.atLeastOnce()).error(Mockito.any(ReportStats.class),
                 Mockito.any(Source.class), Mockito.eq(BaseMessageCode.BASE_0004), Mockito.any(Object[].class));
@@ -63,23 +64,22 @@ public class FilePresenceValidatorTest {
 
         AbstractMessageReport mr = Mockito.spy(new DummyMessageReport());
 
-        Assert.assertFalse(v.isValid(fe, mr, new SimpleReportStats(), new JobSource("control")));
+        Assert.assertFalse(v.isValid(fe, mr, new SimpleReportStats(), new JobSource("control"), null));
 
-        Mockito.verify(mr, Mockito.atLeastOnce()).error(Mockito.any(ReportStats.class),
+        Mockito.verify(mr, Mockito.atLeastOnce()).error(Mockito.any(Throwable.class), Mockito.any(ReportStats.class),
                 Mockito.any(Source.class), Mockito.eq(BaseMessageCode.BASE_0001), Mockito.any(Object[].class));
     }
 
     @Test
     public void testHappyPath() throws IOException {
-        IngestionFileEntry fe = Mockito.spy(new IngestionFileEntry("/", FileFormat.CONTROL_FILE, FileType.CONTROL, "file.ctl", ""));
+        IngestionFileEntry fe = new IngestionFileEntry("/", FileFormat.CONTROL_FILE, FileType.CONTROL, "file.ctl", "");
 
-        Mockito.doReturn(new ByteArrayInputStream(new byte[1024])).when(fe).getFileStream();
-
-        FilePresenceValidator v = new FilePresenceValidator();
+        FilePresenceValidator v = Mockito.spy(new FilePresenceValidator());
+        Mockito.when(v.isInZipFile(Mockito.anyString(), Mockito.any(Map.class))).thenReturn(true);
 
         AbstractMessageReport mr = Mockito.spy(new DummyMessageReport());
 
-        Assert.assertTrue(v.isValid(fe, mr, new SimpleReportStats(), new JobSource("control")));
+        Assert.assertTrue(v.isValid(fe, mr, new SimpleReportStats(), new JobSource("control"), null));
 
         Mockito.verify(mr, Mockito.never()).error(Mockito.any(ReportStats.class),
                 Mockito.any(Source.class), Mockito.any(BaseMessageCode.class), Mockito.any(Object[].class));

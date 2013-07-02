@@ -26,7 +26,11 @@ import org.slc.sli.domain.Entity;
  */
 
 public interface SuperdocConverter {
-    
+
+    enum Option {
+        DELETE_ASSESSMENT_FAMILY_REFERENCE
+    }
+
     // convert the superdoc entity with subdoc outside the body into the superdoc entity body
     public void subdocToBodyField(Entity entity);
     
@@ -35,8 +39,14 @@ public interface SuperdocConverter {
 
     // convert the field of superdoc entity in the body to subdoc that outside of the entity body
     public void bodyFieldToSubdoc(Entity entity);
-    
+
     // convert the field of superdoc entities in the body to subdoc that outside of the entity body
     public void bodyFieldToSubdoc(Iterable<Entity> entities);
+
+    // convert the field of superdoc entity in the body to subdoc that outside of the entity body
+    public void bodyFieldToSubdoc(Entity entity, SuperdocConverter.Option option);
+
+    // convert the field of superdoc entities in the body to subdoc that outside of the entity body
+    public void bodyFieldToSubdoc(Iterable<Entity> entities, SuperdocConverter.Option option);
 
 }

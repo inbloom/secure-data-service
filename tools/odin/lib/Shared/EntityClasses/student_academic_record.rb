@@ -21,21 +21,24 @@ require_relative 'baseEntity'
 # creates a student academic record
 class StudentAcademicRecord < BaseEntity
   attr_accessor :student_id, :report_card, :cumulative_credits, :session, :school_year,
-                :cumulativeCreditsEarned, :cumulativeGradePointsEarned,
+                :cumulativeCreditsAttempted, :cumulativeCreditsEarned, :cumulativeGradePointsEarned,
                 :gradeValueQualifier, :classRanking, :academicHonors,
                 :recognitions, :projectedGraduationDate, :sessionCreditsEarned,
                 :sessionCreditsAttempted, :sessionGradePointsEarned
 
-  def initialize(student_id, session, report_card)
-    @rand = Random.new(student_id)
+  def initialize(student_id, student_int_id, session, report_card)
+    @rand = Random.new(student_int_id)
     @student_id = student_id
     @session = session
     @report_card = report_card
     @school_year = session['year'].to_s + "-" + (session['year'] + 1).to_s
 
-    optional {@cumulativeCreditsEarned = @rand.rand(10)/10}
+    optional {
+      @cumulativeCreditsEarned = 15.0
+      @cumulativeCreditsAttempted = 20.0
+    }
 
-    optional {@cumulativeGradePointsEarned = @rand.rand(10)/10}
+    optional {@cumulativeGradePointsEarned = 45.0}
 
     optional {@gradeValueQualifier = choose(["90-100%=A, 80-90%=B", "80-100%=A, 70-80%=B"])}
 

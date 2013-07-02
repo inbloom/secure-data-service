@@ -1,0 +1,5 @@
+{ "local": { "server":"local", "clientId":"01234567890", "secret":"ghjZfyAXi7qwejklcxziuohiueqjknfdsip9cxzhiu123456", "redirect_uri":"http://localhost/oauth", "authUser":"email@address", "password":"password"},
+  "sulu" : { "server":"sulu", "clientId":"gr40miSVHA", "secret":"g9S8Kzonxk0Wrt88C1BwE2O9Tb7h4a7AM4el44EOKXSCpqwu", "redirect_uri":"http://localhost/oauth", "authUser":"email@address", "password":"password"},
+  "sandbox": { "server":"sandbox", "clientId":"GLekshFT2W", "secret":"HSh49ilWMkHAawoW4NjZbyOG8TnORdOl5uupeCHkS6tpEDQD", "redirect_uri":"http://localhost/oauth", "authUser":"email@address", "password":"password"},
+  "pike": { "server":"pike", "mode":"prod", "clientId":"bwosPdujT6", "secret":"koGsJNJ7JYXekt4caVs2uLiAnAXyKqo5OmGs5wpjGjtBX5BC", "redirect_uri":"NA"}
+}

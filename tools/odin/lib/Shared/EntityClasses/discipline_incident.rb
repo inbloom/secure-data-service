@@ -38,7 +38,7 @@ require_relative 'enum/WeaponItemType'
 #          <xs:element name="IncidentIdentifier" type="IncidentIdentifier"/>
 #          <xs:element name="IncidentDate" type="xs:date"/>
 #          <xs:element name="IncidentTime" type="xs:time"/>
-#          <xs:element name="IncidentLocation" type="IncidentLocationType"/>
+#          <xs:element name="IncidentLocation" type="SLC-IncidentLocationType"/>
 #          <xs:element name="ReporterDescription" type="ReporterDescriptionType" minOccurs="0"/>
 #          <xs:element name="ReporterName" type="ReporterName" minOccurs="0"/>
 #          <xs:element name="Behaviors" type="BehaviorDescriptorType" maxOccurs="unbounded"/>
@@ -91,8 +91,10 @@ class DisciplineIncident < BaseEntity
     reporter       = DataUtility.select_random_from_options(@rand, reporters)
     weapon         = DataUtility.select_random_from_options(@rand, weapons)
 
-    optional { @reporter_desc = reporter.value }
-    optional { @reporter_name = "Reported " + @reporter_desc + " Name" }
+    optional {
+      @reporter_desc = reporter.value
+      @reporter_name = "Reported " + @reporter_desc + " Name"
+    }
     optional { 
       @sec_behaviors = [] 
       @behaviors.each do |behavior| 

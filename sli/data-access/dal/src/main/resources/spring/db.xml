@@ -70,7 +70,7 @@
   <bean id="dalEntityCipher" class="org.slc.sli.dal.encrypt.AesCipher">
   </bean>
 
-  <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate" depends-on="mongoTrackingAspect">
+  <bean id="mongoTemplate" class="org.slc.sli.dal.template.MongoEntityTemplate" depends-on="mongoTrackingAspect">
     <constructor-arg ref="sliMongoDbFactory" />
     <constructor-arg ref="mappingConverter" />
     <!-- property name="slaveOk" value="false" / -->
@@ -81,6 +81,11 @@
     <constructor-arg ref="mongoPerfDbFactory" />
     <constructor-arg ref="mappingPerfDbConverter" />
     <!-- property name="slaveOk" value="false" / -->
+  </bean>
+
+  <bean id="journalTemplate" class="org.springframework.data.mongodb.core.MongoTemplate" depends-on="mongoTrackingAspect">
+    <constructor-arg ref="sliMongoDbFactory" />
+    <property name="writeConcern"> <util:constant static-field="com.mongodb.WriteConcern.NORMAL"></util:constant> </property>
   </bean>
 
   <bean id="mongoIdConverter" class="org.slc.sli.dal.convert.MongoIdConverter" />
@@ -157,6 +162,7 @@
     <value>tenantJobLock</value>
     <value>userSession</value>
     <value>userAccount</value>
+    <value>bulkExtractFiles</value>
   </util:set>
 
 </beans>

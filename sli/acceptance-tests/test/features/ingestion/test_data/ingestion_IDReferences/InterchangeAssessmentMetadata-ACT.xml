@@ -44,10 +44,7 @@
 		</ObjectiveAssessmentReference>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
-				<AssessmentFamilyIdentificationCode
-					IdentificationSystem="Test Contractor">
-					<ID>ACT</ID>
-				</AssessmentFamilyIdentificationCode>
+				<AssessmentFamilyTitle>ACT-Family</AssessmentFamilyTitle>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</Assessment>

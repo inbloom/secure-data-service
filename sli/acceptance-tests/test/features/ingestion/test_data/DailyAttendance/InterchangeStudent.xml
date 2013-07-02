@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
-<InterchangeStudentParent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentParent.xsd">
+<InterchangeStudentParent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://ed-fi.org/0100"
+  xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentParent.xsd">
   <Student>
     <StudentUniqueStateId>530425896</StudentUniqueStateId>
     <Name>
@@ -38,22 +39,22 @@
       <EmailAddress>Rhonda.Delgado@gmail.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>814202099</StudentUniqueStateId>
     <Name>
       <FirstName>Yolanda</FirstName>
-      
+
       <LastSurname>Campos</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
     <Sex>Female</Sex>
-        <BirthData>
+    <BirthData>
       <BirthDate>2002-03-25</BirthDate>
     </BirthData>
     <Address AddressType="Home">
@@ -84,11 +85,11 @@
       <EmailAddress>Yolanda_Campos@yahoo.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>178875887</StudentUniqueStateId>
@@ -108,19 +109,19 @@
       <EmailAddress>m.sollars@gmail.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>true</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
     <Section504Disabilities>
-          <Section504Disability>Motor Impairment</Section504Disability>
+      <Section504Disability>Motor Impairment</Section504Disability>
     </Section504Disabilities>
   </Student>
   <Student>
     <StudentUniqueStateId>555685177</StudentUniqueStateId>
     <Name>
       <FirstName>Charde</FirstName>
-      
+
       <LastSurname>Lowery</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -150,17 +151,17 @@
       <TelephoneNumber>847-724-9091</TelephoneNumber>
     </Telephone>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>336344132</StudentUniqueStateId>
     <Name>
       <FirstName>Odysseus</FirstName>
-      
+
       <LastSurname>Merrill</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -197,11 +198,11 @@
       <EmailAddress>Odysseus.Merrill@gmail.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>131758477</StudentUniqueStateId>
@@ -234,11 +235,11 @@
       <EmailAddress>Deirdre.Gentry@gmail.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>992193581</StudentUniqueStateId>
@@ -286,17 +287,17 @@
       <EmailAddress>K.Hebert@yahoo.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>936070219</StudentUniqueStateId>
     <Name>
       <FirstName>Kay</FirstName>
-      
+
       <LastSurname>Sullivan</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -334,11 +335,11 @@
       <EmailAddress>Kay_Sullivan@gmail.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>558780133</StudentUniqueStateId>
@@ -376,17 +377,17 @@
       <TelephoneNumber>847-333-9848</TelephoneNumber>
     </Telephone>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>541397175</StudentUniqueStateId>
     <Name>
       <FirstName>Lunea</FirstName>
-      
+
       <LastSurname>Glass</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -424,17 +425,17 @@
       <EmailAddress>Lunea.Glass@gmail.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>851123275</StudentUniqueStateId>
     <Name>
       <FirstName>Hoyt</FirstName>
-      
+
       <LastSurname>Hicks</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -478,11 +479,11 @@
       <EmailAddress>H.Hicks@gmail.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>802709591</StudentUniqueStateId>
@@ -512,11 +513,11 @@
       <EmailAddress>Imelda_Lindsey@yahoo.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>100644447</StudentUniqueStateId>
@@ -560,18 +561,18 @@
     <ElectronicMail EmailAddressType="Home/Personal">
       <EmailAddress>Brielle.Klein@yahoo.com</EmailAddress>
     </ElectronicMail>
-        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>555685100</StudentUniqueStateId>
     <Name>
       <FirstName>Johnny</FirstName>
-      
+
       <LastSurname>Patel</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -601,11 +602,11 @@
       <EmailAddress>J.Patel@yahoo.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Unknown</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>111111111</StudentUniqueStateId>
@@ -638,17 +639,17 @@
       <EmailAddress>Student.Fake@gmail.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>421216329</StudentUniqueStateId>
     <Name>
       <FirstName>Madeline</FirstName>
-      
+
       <LastSurname>Hinton</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -677,11 +678,11 @@
       <EmailAddress>Madeline.Hinton@gmail.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>525878920</StudentUniqueStateId>
@@ -729,17 +730,17 @@
       <EmailAddress>Delilah_Sims@gmail.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>178828452</StudentUniqueStateId>
     <Name>
       <FirstName>Tyrone</FirstName>
-      
+
       <LastSurname>Burnett Jones</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -765,11 +766,11 @@
       <EmailAddress>T.Burnett_Jones@gmail.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>423037202</StudentUniqueStateId>
@@ -805,11 +806,11 @@
       <EmailAddress>Nomlanga_Mccormick@gmail.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>784204643</StudentUniqueStateId>
@@ -864,17 +865,17 @@
       <EmailAddress>Ingrid_Gentry@gmail.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>444444444</StudentUniqueStateId>
     <Name>
       <FirstName>Raphael</FirstName>
-      
+
       <LastSurname>De Silva</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -918,17 +919,17 @@
       <EmailAddress>Raphael_De_Silva@gmail.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>true</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>376191021</StudentUniqueStateId>
     <Name>
       <FirstName>Jeanette</FirstName>
-      
+
       <LastSurname>Graves</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -960,11 +961,11 @@
       <EmailAddress>Jeanette.Graves@yahoo.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>288598192</StudentUniqueStateId>
@@ -1008,22 +1009,22 @@
       <EmailAddress>ti.troung@yahoo.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>258392050</StudentUniqueStateId>
     <Name>
       <FirstName>Patricia</FirstName>
-      
+
       <LastSurname>Harper</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
     <Sex>Female</Sex>
-        <BirthData>
+    <BirthData>
       <BirthDate>1994-01-09</BirthDate>
     </BirthData>
     <Address AddressType="Billing">
@@ -1044,11 +1045,11 @@
 
     </Address>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>164420088</StudentUniqueStateId>
@@ -1087,17 +1088,17 @@
       <EmailAddress>Ursa.Oconnor@gmail.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>true</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>170011136</StudentUniqueStateId>
     <Name>
       <FirstName>Arsenio</FirstName>
-      
+
       <LastSurname>Durham</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -1126,17 +1127,17 @@
       <TelephoneNumber>312-608-2213</TelephoneNumber>
     </Telephone>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>453827070</StudentUniqueStateId>
     <Name>
       <FirstName>Marvin</FirstName>
-      
+
       <LastSurname>Miller</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -1167,22 +1168,22 @@
       <EmailAddress>M.Miller@yahoo.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>true</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>547028299</StudentUniqueStateId>
     <Name>
       <FirstName>Alec</FirstName>
-      
+
       <LastSurname>Swanson</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
     <Sex>Male</Sex>
-      <BirthData>
+    <BirthData>
       <BirthDate>1999-11-15</BirthDate>
     </BirthData>
     <Address AddressType="Home">
@@ -1215,17 +1216,17 @@
       <TelephoneNumber>312-230-0970</TelephoneNumber>
     </Telephone>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>333333333</StudentUniqueStateId>
     <Name>
       <FirstName>Fabio</FirstName>
-      
+
       <LastSurname>De Silva</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -1266,11 +1267,11 @@
       <EmailAddress>Fabio_De_Silva@yahoo.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>true</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>429526969</StudentUniqueStateId>
@@ -1288,17 +1289,17 @@
       <TelephoneNumber>708-929-8507</TelephoneNumber>
     </Telephone>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>453827023</StudentUniqueStateId>
     <Name>
       <FirstName>Carmen</FirstName>
-      
+
       <LastSurname>Ortiz</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -1310,11 +1311,11 @@
       <TelephoneNumber>309-555-XXXX</TelephoneNumber>
     </Telephone>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>true</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Unknown</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>670703438</StudentUniqueStateId>
@@ -1348,22 +1349,22 @@
       <EmailAddress>Zachary.Patton@yahoo.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>683314355</StudentUniqueStateId>
     <Name>
       <FirstName>Cherokee</FirstName>
-      
+
       <LastSurname>Stuart</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
     <Sex>Male</Sex>
-        <BirthData>
+    <BirthData>
       <BirthDate>2004-11-13</BirthDate>
     </BirthData>
     <Address AddressType="Home">
@@ -1393,11 +1394,11 @@
       <EmailAddress>C.Stuart@gmail.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>943715230</StudentUniqueStateId>
@@ -1446,11 +1447,11 @@
       <EmailAddress>Jolene_Ashley@yahoo.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>505331723</StudentUniqueStateId>
@@ -1461,7 +1462,7 @@
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
     <Sex>Male</Sex>
-        <BirthData>
+    <BirthData>
       <BirthDate>2004-08-22</BirthDate>
     </BirthData>
     <Address AddressType="Work">
@@ -1489,17 +1490,17 @@
       <EmailAddress>Gannon.Roman@yahoo.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>114989598</StudentUniqueStateId>
     <Name>
       <FirstName>Trevor</FirstName>
-      
+
       <LastSurname>Kim</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -1526,17 +1527,17 @@
       <EmailAddress>Trevor.Kim@gmail.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>711411586</StudentUniqueStateId>
     <Name>
       <FirstName>Rafael</FirstName>
-      
+
       <LastSurname>Kirk</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -1564,11 +1565,11 @@
       <EmailAddress>R.Kirk@gmail.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>977876544</StudentUniqueStateId>
@@ -1591,11 +1592,11 @@
       <NameOfCounty>Cook</NameOfCounty>
     </Address>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>204492239</StudentUniqueStateId>
@@ -1626,11 +1627,11 @@
       <TelephoneNumber>708-746-9663</TelephoneNumber>
     </Telephone>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>196038854</StudentUniqueStateId>
@@ -1641,7 +1642,7 @@
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
     <Sex>Male</Sex>
-        <BirthData>
+    <BirthData>
       <BirthDate>1999-06-27</BirthDate>
     </BirthData>
     <Address AddressType="Physical">
@@ -1668,22 +1669,22 @@
       <EmailAddress>Isaiah_Hopkins@yahoo.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>978367577</StudentUniqueStateId>
     <Name>
       <FirstName>Xaviera</FirstName>
-      
+
       <LastSurname>Erickson</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
     <Sex>Female</Sex>
-        <BirthData>
+    <BirthData>
       <BirthDate>1996-01-17</BirthDate>
     </BirthData>
     <Address AddressType="Home">
@@ -1716,17 +1717,17 @@
       <EmailAddress>X.Erickson@gmail.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>222222222</StudentUniqueStateId>
     <Name>
       <FirstName>Salmon</FirstName>
-      
+
       <LastSurname>Burger</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -1756,17 +1757,17 @@
       <TelephoneNumber>219-343-1565</TelephoneNumber>
     </Telephone>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>323538529</StudentUniqueStateId>
     <Name>
       <FirstName>Hector</FirstName>
-      
+
       <LastSurname>Marks</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -1790,11 +1791,11 @@
       <EmailAddress>Hector.Marks@gmail.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>419301055</StudentUniqueStateId>
@@ -1833,11 +1834,11 @@
       <EmailAddress>Veda_Morse@gmail.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>250918988</StudentUniqueStateId>
@@ -1882,22 +1883,22 @@
       <EmailAddress>Uriah_Jordan@yahoo.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>927436385</StudentUniqueStateId>
     <Name>
       <FirstName>Uriah</FirstName>
-      
+
       <LastSurname>Hernandez</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
     <Sex>Male</Sex>
-        <BirthData>
+    <BirthData>
       <BirthDate>2003-08-27</BirthDate>
     </BirthData>
     <Address AddressType="Physical">
@@ -1946,17 +1947,17 @@
       <EmailAddress>Uriah_Hernandez@gmail.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>428250371</StudentUniqueStateId>
     <Name>
       <FirstName>K</FirstName>
-      
+
       <LastSurname>Pierce</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -1980,11 +1981,11 @@
       <TelephoneNumber>262-875-4329</TelephoneNumber>
     </Telephone>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>510152105</StudentUniqueStateId>
@@ -1999,11 +2000,11 @@
       <BirthDate>1997-06-01</BirthDate>
     </BirthData>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>437680177</StudentUniqueStateId>
@@ -2033,17 +2034,17 @@
       <EmailAddress>Kimberley_Pennington@yahoo.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>746199592</StudentUniqueStateId>
     <Name>
       <FirstName>James</FirstName>
-      
+
       <LastSurname>Mckenzie</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -2072,17 +2073,17 @@
       <EmailAddress>J.Mckenzie@yahoo.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>560029459</StudentUniqueStateId>
     <Name>
       <FirstName>Florence</FirstName>
-      
+
       <LastSurname>Cline</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -2112,11 +2113,11 @@
       <EmailAddress>Florence.Cline@yahoo.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>91919001</StudentUniqueStateId>
@@ -2131,11 +2132,11 @@
       <BirthDate>1995-07-02</BirthDate>
     </BirthData>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>91919002</StudentUniqueStateId>
@@ -2177,11 +2178,11 @@
       <EmailAddress>Karen.Allen@gmail.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>91919003</StudentUniqueStateId>
@@ -2189,7 +2190,7 @@
       <FirstName>Derrick</FirstName>
       <MiddleName>Michael</MiddleName>
       <LastSurname>Ampy</LastSurname>
-      
+
     </Name>
     <Sex>Male</Sex>
     <BirthData>
@@ -2222,11 +2223,11 @@
       <EmailAddress>D.Ampy@gmail.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>91919004</StudentUniqueStateId>
@@ -2234,7 +2235,7 @@
       <FirstName>Ian</FirstName>
       <MiddleName>Michael</MiddleName>
       <LastSurname>Anderson</LastSurname>
-      
+
     </Name>
     <Sex>Male</Sex>
     <BirthData>
@@ -2273,11 +2274,11 @@
       <EmailAddress>I.Anderson@yahoo.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>91919005</StudentUniqueStateId>
@@ -2285,7 +2286,7 @@
       <FirstName>Brian</FirstName>
       <MiddleName>Allan</MiddleName>
       <LastSurname>Carney</LastSurname>
-      
+
     </Name>
     <Sex>Male</Sex>
     <BirthData>
@@ -2301,11 +2302,11 @@
       <EmailAddress>Brian.Carney@yahoo.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>91919006</StudentUniqueStateId>
@@ -2313,7 +2314,7 @@
       <FirstName>Clay</FirstName>
       <MiddleName>Charles</MiddleName>
       <LastSurname>Carpenter</LastSurname>
-      
+
     </Name>
     <Sex>Male</Sex>
     <BirthData>
@@ -2342,11 +2343,11 @@
       <TelephoneNumber>779-309-3470</TelephoneNumber>
     </Telephone>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>91919007</StudentUniqueStateId>
@@ -2354,7 +2355,7 @@
       <FirstName>Butch</FirstName>
       <MiddleName>Ted</MiddleName>
       <LastSurname>Dyer</LastSurname>
-      
+
     </Name>
     <Sex>Male</Sex>
     <BirthData>
@@ -2385,11 +2386,11 @@
       <EmailAddress>Butch_Dyer@yahoo.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>91919008</StudentUniqueStateId>
@@ -2397,7 +2398,7 @@
       <FirstName>Sarah</FirstName>
       <MiddleName>Jane</MiddleName>
       <LastSurname>Godfrey</LastSurname>
-      
+
     </Name>
     <Sex>Female</Sex>
     <BirthData>
@@ -2424,11 +2425,11 @@
       <EmailAddress>S.Godfrey@yahoo.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>91919009</StudentUniqueStateId>
@@ -2436,7 +2437,7 @@
       <FirstName>Chris</FirstName>
       <MiddleName>Theodore</MiddleName>
       <LastSurname>Hanson</LastSurname>
-      
+
     </Name>
     <Sex>Male</Sex>
     <BirthData>
@@ -2453,11 +2454,11 @@
       <TelephoneNumber>331-428-7697</TelephoneNumber>
     </Telephone>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>91919010</StudentUniqueStateId>
@@ -2465,7 +2466,7 @@
       <FirstName>Jeff</FirstName>
       <MiddleName>Andrew</MiddleName>
       <LastSurname>Henderson</LastSurname>
-      
+
     </Name>
     <Sex>Male</Sex>
     <BirthData>
@@ -2482,19 +2483,19 @@
       <EmailAddress>Jeff.Henderson@yahoo.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>91919011</StudentUniqueStateId>
     <Name>
       <FirstName>Tanya</FirstName>
-      
+
       <LastSurname>Hervey</LastSurname>
-      
+
     </Name>
     <Sex>Female</Sex>
     <BirthData>
@@ -2535,11 +2536,11 @@
       <EmailAddress>Tanya.Hervey@gmail.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>91919012</StudentUniqueStateId>
@@ -2547,7 +2548,7 @@
       <FirstName>Jason</FirstName>
       <MiddleName>David</MiddleName>
       <LastSurname>Pyles</LastSurname>
-      
+
     </Name>
     <Sex>Male</Sex>
     <BirthData>
@@ -2594,11 +2595,11 @@
       <EmailAddress>J.Pyles@yahoo.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>91919013</StudentUniqueStateId>
@@ -2606,7 +2607,7 @@
       <FirstName>Travis</FirstName>
       <MiddleName>Lloyd</MiddleName>
       <LastSurname>Jones</LastSurname>
-      
+
     </Name>
     <Sex>Male</Sex>
     <BirthData>
@@ -2627,11 +2628,11 @@
       <TelephoneNumber>219-570-8286</TelephoneNumber>
     </Telephone>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>91919014</StudentUniqueStateId>
@@ -2639,7 +2640,7 @@
       <FirstName>Darren</FirstName>
       <MiddleName>Vernon</MiddleName>
       <LastSurname>Josephson</LastSurname>
-      
+
     </Name>
     <Sex>Male</Sex>
     <BirthData>
@@ -2668,11 +2669,11 @@
       <EmailAddress>D.Josephson@gmail.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>91919015</StudentUniqueStateId>
@@ -2680,7 +2681,7 @@
       <FirstName>Jorge</FirstName>
       <MiddleName>Juan</MiddleName>
       <LastSurname>Lopez</LastSurname>
-      
+
     </Name>
     <Sex>Male</Sex>
     <BirthData>
@@ -2719,19 +2720,19 @@
       <EmailAddress>J.Lopez@yahoo.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>91919016</StudentUniqueStateId>
     <Name>
       <FirstName>Darren</FirstName>
-      
+
       <LastSurname>Mansfield</LastSurname>
-      
+
     </Name>
     <Sex>Male</Sex>
     <BirthData>
@@ -2747,19 +2748,19 @@
       <TelephoneNumber>312-287-8581</TelephoneNumber>
     </Telephone>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>91919017</StudentUniqueStateId>
     <Name>
       <FirstName>Michelle</FirstName>
-      
+
       <LastSurname>McGurrin</LastSurname>
-      
+
     </Name>
     <Sex>Female</Sex>
     <BirthData>
@@ -2794,19 +2795,19 @@
       <TelephoneNumber>708-299-1122</TelephoneNumber>
     </Telephone>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>91919018</StudentUniqueStateId>
     <Name>
       <FirstName>Kevin</FirstName>
-      
+
       <LastSurname>Murray</LastSurname>
-      
+
     </Name>
     <Sex>Male</Sex>
     <BirthData>
@@ -2824,19 +2825,19 @@
       <TelephoneNumber>331-272-2393</TelephoneNumber>
     </Telephone>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>91919019</StudentUniqueStateId>
     <Name>
       <FirstName>Mieu</FirstName>
-      
+
       <LastSurname>Phan</LastSurname>
-      
+
     </Name>
     <Sex>Female</Sex>
     <BirthData>
@@ -2861,19 +2862,19 @@
       <EmailAddress>Mieu_Phan@gmail.com</EmailAddress>
     </ElectronicMail>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>91919020</StudentUniqueStateId>
     <Name>
       <FirstName>Catherine</FirstName>
-      
+
       <LastSurname>Zacharias</LastSurname>
-      
+
     </Name>
     <Sex>Female</Sex>
     <BirthData>
@@ -2909,17 +2910,17 @@
       <TelephoneNumber>574-349-8245</TelephoneNumber>
     </Telephone>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>20174689</StudentUniqueStateId>
     <Name>
       <FirstName>Lauretta</FirstName>
-      
+
       <LastSurname>Vincent</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
@@ -2928,11 +2929,13 @@
       <BirthDate>2006-10-14</BirthDate>
     </BirthData>
     <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
-    <Race></Race>
+
     <EconomicDisadvantaged>true</EconomicDisadvantaged>
-    
+
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
-    <Section504Disabilities><Section504Disability>Motor Impairment</Section504Disability></Section504Disabilities>
+    <Section504Disabilities>
+      <Section504Disability>Motor Impairment</Section504Disability>
+    </Section504Disabilities>
   </Student>
   <Student>
     <StudentUniqueStateId>20174690</StudentUniqueStateId>
@@ -2947,13 +2950,11 @@
       <BirthDate>2006-02-13</BirthDate>
     </BirthData>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race>
-    </Race>
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
-    
+
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities>
-    </Section504Disabilities>
+    <Section504Disabilities> </Section504Disabilities>
     <DisplacementStatus>
     </DisplacementStatus>
   </Student>
@@ -2964,7 +2965,7 @@
     </StudentUniqueStateId>
     <Name>
       <FirstName>Smouse</FirstName>
-      
+
       <LastSurname>Zhou</LastSurname>
     </Name>
     <Sex>Female</Sex>
@@ -2972,13 +2973,11 @@
       <BirthDate>2006-01-25</BirthDate>
     </BirthData>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race>
-    </Race>
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
-    
+
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities>
-    </Section504Disabilities>
+    <Section504Disabilities> </Section504Disabilities>
     <DisplacementStatus>
     </DisplacementStatus>
   </Student>
@@ -2996,13 +2995,11 @@
       <BirthDate>2006-09-23</BirthDate>
     </BirthData>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race>
-    </Race>
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities>
-    </Section504Disabilities>
+    <Section504Disabilities> </Section504Disabilities>
     <DisplacementStatus>
     </DisplacementStatus>
   </Student>
@@ -3010,7 +3007,7 @@
     <StudentUniqueStateId>20174693</StudentUniqueStateId>
     <Name>
       <FirstName>Dominic</FirstName>
-      
+
       <LastSurname>Smolka</LastSurname>
     </Name>
     <Sex>Male</Sex>
@@ -3018,13 +3015,11 @@
       <BirthDate>2006-10-15</BirthDate>
     </BirthData>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race>
-    </Race>
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities>
-    </Section504Disabilities>
+    <Section504Disabilities> </Section504Disabilities>
     <DisplacementStatus>
     </DisplacementStatus>
   </Student>
@@ -3040,14 +3035,12 @@
     <BirthData>
       <BirthDate>2006-10-24</BirthDate>
     </BirthData>
-     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race>
-    </Race>   
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities>
-    </Section504Disabilities>
+    <Section504Disabilities> </Section504Disabilities>
     <DisplacementStatus>
     </DisplacementStatus>
   </Student>
@@ -3064,13 +3057,11 @@
       <BirthDate>2006-06-13</BirthDate>
     </BirthData>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race>
-    </Race>
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
-    <Section504Disabilities>
-    </Section504Disabilities>
+    <Section504Disabilities> </Section504Disabilities>
     <DisplacementStatus>
     </DisplacementStatus>
   </Student>
@@ -3086,13 +3077,11 @@
       <BirthDate>2006-03-07</BirthDate>
     </BirthData>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race>
-    </Race>
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities>
-    </Section504Disabilities>
+    <Section504Disabilities> </Section504Disabilities>
     <DisplacementStatus>
     </DisplacementStatus>
   </Student>
@@ -3107,14 +3096,12 @@
     <BirthData>
       <BirthDate>2006-06-02</BirthDate>
     </BirthData>
-        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race>
-    </Race>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
-    <Section504Disabilities>
-    </Section504Disabilities>
+    <Section504Disabilities> </Section504Disabilities>
     <DisplacementStatus>
     </DisplacementStatus>
   </Student>
@@ -3131,13 +3118,11 @@
       <BirthDate>2006-02-13</BirthDate>
     </BirthData>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race>
-    </Race>
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Unknown</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
-    <Section504Disabilities>
-    </Section504Disabilities>
+    <Section504Disabilities> </Section504Disabilities>
     <DisplacementStatus>
     </DisplacementStatus>
   </Student>
@@ -3145,21 +3130,19 @@
     <StudentUniqueStateId>20174699</StudentUniqueStateId>
     <Name>
       <FirstName>Dara</FirstName>
-      
+
       <LastSurname>Nemecek</LastSurname>
     </Name>
     <Sex>Female</Sex>
     <BirthData>
       <BirthDate>2006-01-01</BirthDate>
     </BirthData>
-        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race>
-    </Race>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+
     <EconomicDisadvantaged>true</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities>
-    </Section504Disabilities>
+    <Section504Disabilities> </Section504Disabilities>
     <DisplacementStatus>
     </DisplacementStatus>
   </Student>
@@ -3176,13 +3159,11 @@
       <BirthDate>2006-03-17</BirthDate>
     </BirthData>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race>
-    </Race>
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities>
-    </Section504Disabilities>
+    <Section504Disabilities> </Section504Disabilities>
     <DisplacementStatus>
     </DisplacementStatus>
   </Student>
@@ -3198,13 +3179,11 @@
       <BirthDate>2006-02-26</BirthDate>
     </BirthData>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race>
-    </Race>
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities>
-    </Section504Disabilities>
+    <Section504Disabilities> </Section504Disabilities>
     <DisplacementStatus>
     </DisplacementStatus>
   </Student>
@@ -3220,13 +3199,11 @@
       <BirthDate>2006-12-04</BirthDate>
     </BirthData>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race>
-    </Race>
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities>
-    </Section504Disabilities>
+    <Section504Disabilities> </Section504Disabilities>
     <DisplacementStatus>
     </DisplacementStatus>
   </Student>
@@ -3243,13 +3220,11 @@
       <BirthDate>2006-10-04</BirthDate>
     </BirthData>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race>
-    </Race>
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities>
-    </Section504Disabilities>
+    <Section504Disabilities> </Section504Disabilities>
     <DisplacementStatus>
     </DisplacementStatus>
   </Student>
@@ -3265,13 +3240,11 @@
       <BirthDate>2006-06-05</BirthDate>
     </BirthData>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race>
-    </Race>
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities>
-    </Section504Disabilities>
+    <Section504Disabilities> </Section504Disabilities>
     <DisplacementStatus>
     </DisplacementStatus>
   </Student>
@@ -3279,7 +3252,7 @@
     <StudentUniqueStateId>20174704</StudentUniqueStateId>
     <Name>
       <FirstName>Malcolm</FirstName>
-      
+
       <LastSurname>Haehn</LastSurname>
     </Name>
     <Sex>Male</Sex>
@@ -3287,13 +3260,11 @@
       <BirthDate>2006-07-02</BirthDate>
     </BirthData>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race>
-    </Race>
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities>
-    </Section504Disabilities>
+    <Section504Disabilities> </Section504Disabilities>
     <DisplacementStatus>
     </DisplacementStatus>
   </Student>
@@ -3310,13 +3281,11 @@
       <BirthDate>2006-05-18</BirthDate>
     </BirthData>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race>
-    </Race>
+
     <EconomicDisadvantaged>true</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities>
-    </Section504Disabilities>
+    <Section504Disabilities> </Section504Disabilities>
     <DisplacementStatus>
     </DisplacementStatus>
   </Student>
@@ -3328,18 +3297,16 @@
       </MiddleName>
       <LastSurname>Forker</LastSurname>
     </Name>
-    <Sex>Male</Sex>   
+    <Sex>Male</Sex>
     <BirthData>
       <BirthDate>2006-08-30</BirthDate>
     </BirthData>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race>
-    </Race>
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities>
-    </Section504Disabilities>
+    <Section504Disabilities> </Section504Disabilities>
     <DisplacementStatus>
     </DisplacementStatus>
   </Student>
@@ -3356,13 +3323,11 @@
       <BirthDate>2005-08-20</BirthDate>
     </BirthData>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race>
-    </Race>
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities>
-    </Section504Disabilities>
+    <Section504Disabilities> </Section504Disabilities>
     <DisplacementStatus>
     </DisplacementStatus>
   </Student>
@@ -3379,13 +3344,11 @@
       <BirthDate>2006-01-09</BirthDate>
     </BirthData>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race>
-    </Race>
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
-    <Section504Disabilities>
-    </Section504Disabilities>
+    <Section504Disabilities> </Section504Disabilities>
     <DisplacementStatus>
     </DisplacementStatus>
   </Student>
@@ -3398,7 +3361,7 @@
       <LastSurname>Kleinhans</LastSurname>
     </Name>
     <Sex>Female</Sex>
-       <BirthData>
+    <BirthData>
       <BirthDate>1996-07-02</BirthDate>
     </BirthData>
     <Address AddressType="Home">
@@ -3412,22 +3375,22 @@
       <TelephoneNumber>574-349-8245</TelephoneNumber>
     </Telephone>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
   <Student>
     <StudentUniqueStateId>2312320</StudentUniqueStateId>
     <Name>
       <FirstName>Frida</FirstName>
-      
+
       <LastSurname>Hlavacek</LastSurname>
-      
+
     </Name>
     <Sex>Female</Sex>
-        <BirthData>
+    <BirthData>
       <BirthDate>1996-06-01</BirthDate>
     </BirthData>
     <Address AddressType="Home">
@@ -3442,11 +3405,11 @@
       <TelephoneNumber>574-349-8245</TelephoneNumber>
     </Telephone>
     <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
+
     <EconomicDisadvantaged>false</EconomicDisadvantaged>
     <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
     <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
+    <Section504Disabilities/>
   </Student>
 
 </InterchangeStudentParent>

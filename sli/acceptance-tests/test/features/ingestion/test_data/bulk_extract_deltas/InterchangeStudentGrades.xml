@@ -1,0 +1,153 @@
+<?xml version="1.0"?>
+<InterchangeStudentGrade xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                         xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentGrade.xsd">
+    <StudentGradebookEntry>
+        <!-- id: 6620fcd37d1095005a67dc330e591279577aede7_id -->
+        <DateFulfilled>2012-08-28</DateFulfilled>
+        <LetterGradeEarned>A</LetterGradeEarned>
+        <NumericGradeEarned>94</NumericGradeEarned>
+        <StudentSectionAssociationReference>
+            <StudentSectionAssociationIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>1</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
+                    <SectionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <UniqueSectionCode>1</UniqueSectionCode>
+                    </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2012-08-27</BeginDate>
+            </StudentSectionAssociationIdentity>
+        </StudentSectionAssociationReference>
+        <GradebookEntryReference>
+            <GradebookEntryIdentity>
+                <GradebookEntryType>Homework</GradebookEntryType>
+                <DateAssigned>2012-08-27</DateAssigned>
+                <SectionReference>
+                    <SectionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <UniqueSectionCode>1</UniqueSectionCode>
+                    </SectionIdentity>
+                </SectionReference>
+            </GradebookEntryIdentity>
+        </GradebookEntryReference>
+    </StudentGradebookEntry>
+    <StudentCompetency>
+        <LearningObjectiveReference>
+            <LearningObjectiveIdentity>
+                <Objective>Generic Learning Objective 1</Objective>
+                <AcademicSubject>Science</AcademicSubject>
+                <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+            </LearningObjectiveIdentity>
+        </LearningObjectiveReference>
+        <CompetencyLevel>
+            <CodeValue>Very Competent</CodeValue>
+        </CompetencyLevel>
+        <DiagnosticStatement>Student has Advanced understanding of subject.</DiagnosticStatement>
+        <StudentSectionAssociationReference>
+            <StudentSectionAssociationIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>1</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
+                    <SectionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <UniqueSectionCode>2</UniqueSectionCode>
+                    </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2013-08-26</BeginDate>
+            </StudentSectionAssociationIdentity>
+        </StudentSectionAssociationReference>
+    </StudentCompetency>
+    <CourseTranscript>
+        <CourseAttemptResult>Pass</CourseAttemptResult>
+        <CreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
+            <Credit>3</Credit>
+        </CreditsAttempted>
+        <CreditsEarned>
+            <Credit>3</Credit>
+        </CreditsEarned>
+        <AdditionalCreditsEarned AdditionalCreditType="AP">
+            <Credit>0</Credit>
+        </AdditionalCreditsEarned>
+        <GradeLevelWhenTaken>Seventh grade</GradeLevelWhenTaken>
+        <MethodCreditEarned>Classroom credit</MethodCreditEarned>
+        <FinalLetterGradeEarned>C</FinalLetterGradeEarned>
+        <FinalNumericGradeEarned>82</FinalNumericGradeEarned>
+        <CourseRepeatCode>RepeatCounted</CourseRepeatCode>
+        <CourseReference>
+            <CourseIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>44</UniqueCourseId>
+            </CourseIdentity>
+        </CourseReference>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>East Highwind Junior High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <StudentAcademicRecordReference>
+            <StudentAcademicRecordIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>11</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <SessionReference>
+                    <SessionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <SessionName>2013-2014 Year Round session: IL-DAYBREAK</SessionName>
+                    </SessionIdentity>
+                </SessionReference>
+                <SchoolYear>2013-2014</SchoolYear>
+            </StudentAcademicRecordIdentity>
+        </StudentAcademicRecordReference>
+    </CourseTranscript>
+    <StudentCompetencyObjective>
+        <StudentCompetencyObjectiveId>SCO_FIRST_GRADE_STANDARD-SEA</StudentCompetencyObjectiveId>
+        <Objective>Attend FIRST_GRADE</Objective>
+        <Description>Added description to test Delta</Description>
+        <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+    </StudentCompetencyObjective>
+        <StudentCompetencyObjective>
+        <StudentCompetencyObjectiveId>SCO_K-1</StudentCompetencyObjectiveId>
+        <Objective>Phonemic Awareness</Objective>
+        <Description>Added description to test Delta after day N bulk extract</Description>
+        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+    </StudentCompetencyObjective>
+</InterchangeStudentGrade>

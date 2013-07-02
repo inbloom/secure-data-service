@@ -14,6 +14,7 @@ NUMBER_OF_SERVERS=$1
 NUMBER_OF_TENANTS=$2
 
 TOTAL_INGESTION_SERVERS=3
+ISDB="slirpmongo99.slidev.org"
 
 if [ -z "$ING_LOG_DIR" ] ; then
   ING_LOG_DIR=/opt/logs
@@ -52,7 +53,7 @@ rm -r -f /ingestion/lz/inbound/*
 echo " ***** Dropping databases"
 ALL_DBS=`mongo --quiet --eval 'db.getMongo().getDBNames()' | sed -e 's/,/ /g'`
 for DB in $ALL_DBS ; do
-  if [ "$DB" != "test" -a "$DB" != "config" -a "$DB" != "local" ] ; then
+  if [ "$DB" != "test" -a "$DB" != "config" -a "$DB" != "local" -a "$DB" != "admin" ] ; then
     echo "Dropping database $DB"
     mongo $DB --quiet --eval 'db.dropDatabase()'
   fi
@@ -61,7 +62,7 @@ done
 echo " ***** Dropping ingestion_batch_job"
 ALL_DBS=`mongo $ISDB --quiet --eval 'db.getMongo().getDBNames()' | sed -e 's/,/ /g'`
 for DB in $ALL_DBS ; do
-  if [ "$DB" != "test" -a "$DB" != "config" -a "$DB" != "local" ] ; then
+  if [ "$DB" != "test" -a "$DB" != "config" -a "$DB" != "local" -a "$DB" != "admin" ] ; then
     echo "Dropping database $DB on $ISDB"
     mongo $ISDB/$DB --quiet --eval 'db.dropDatabase()'
   fi
@@ -111,6 +112,7 @@ TENANTS[6]="Tenant_4-State"
 TENANTS[7]="Tenant_5-State"
 for (( NUM=1; NUM<=$NUMBER_OF_TENANTS; NUM++ )) ; do
   TENANT=${TENANTS[$NUM]}
+  mkdir $LZ/inbound/$TENANT
   echo "***** Onboarding tenant #$NUM - $TENANT"
   echo "@purge" > /tmp/MainControlFile.ctl
   pushd /tmp

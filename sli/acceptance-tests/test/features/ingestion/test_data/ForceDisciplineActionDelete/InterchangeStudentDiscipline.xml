@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<InterchangeStudentDiscipline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                              xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentDiscipline.xsd">
+    <Action ActionType="DELETE" Cascade="false" Force = "true">
+        <DisciplineAction>
+            <DisciplineActionIdentifier>4#0,1</DisciplineActionIdentifier>
+            <Disciplines>
+                <CodeValue>DI1</CodeValue>
+            </Disciplines>
+            <DisciplineDate>2002-04-11</DisciplineDate>
+            <DisciplineActionLength>4</DisciplineActionLength>
+            <ActualDisciplineActionLength>4</ActualDisciplineActionLength>
+            <DisciplineActionLengthDifferenceReason>No Difference</DisciplineActionLengthDifferenceReason>
+            <StudentReference>
+                <StudentIdentity>
+                    <StudentUniqueStateId>1</StudentUniqueStateId>
+                </StudentIdentity>
+            </StudentReference>
+            <DisciplineIncidentReference>
+                <DisciplineIncidentIdentity>
+                    <IncidentIdentifier>4#0</IncidentIdentifier>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                </DisciplineIncidentIdentity>
+            </DisciplineIncidentReference>
+            <StaffReference>
+                <StaffIdentity>
+                    <StaffUniqueStateId>tech-0000000014</StaffUniqueStateId>
+                </StaffIdentity>
+            </StaffReference>
+            <ResponsibilitySchoolReference>
+                <EducationalOrgIdentity>
+                    <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                </EducationalOrgIdentity>
+            </ResponsibilitySchoolReference>
+            <AssignmentSchoolReference>
+                <EducationalOrgIdentity>
+                    <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                </EducationalOrgIdentity>
+            </AssignmentSchoolReference>
+        </DisciplineAction>
+    </Action>
+</InterchangeStudentDiscipline>

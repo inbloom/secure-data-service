@@ -28,7 +28,7 @@
         <jb:value property="administrationDate" data="attributes AdministrationDate _value" />
         <jb:value property="administrationEndDate" data="attributes AdministrationEndDate _value" />
         <jb:value property="serialNumber" data="attributes SerialNumber _value" />
-        <jb:value property="administrationLanguage" data="attributes AdministrationLanguage _value" />
+        <jb:wiring property="administrationLanguage" beanIdRef="AdministrationLanguage" />
         <jb:value property="administrationEnvironment" data="attributes AdministrationEnvironment _value" />
         <jb:wiring property="specialAccommodations" beanIdRef="specialAccommodationsTypeArray" />
         <jb:wiring property="linguisticAccommodations" beanIdRef="linguisticAccommodationsTypeArray" />
@@ -49,6 +49,11 @@
     <jb:value property="version" data="attributes AssessmentReference AssessmentIdentity Version _value" decoder="Integer"/>
     <jb:value property="academicSubject" data="attributes AssessmentReference AssessmentIdentity AcademicSubject _value" />
     <jb:value property="assessmentTitle" data="attributes AssessmentReference AssessmentIdentity AssessmentTitle _value" />
+  </jb:bean>
+
+  <jb:bean beanId="AdministrationLanguage" class="java.util.HashMap"  createOnElement="attributes AdministrationLanguage">
+    <jb:value property="language" data="attributes AdministrationLanguage _value" />
+    <jb:value property="identificationSystem" data="attributes AdministrationLanguage a_IdentificationSystem" />
   </jb:bean>
 
   <jb:bean beanId="specialAccommodationsTypeArray" class="java.util.ArrayList" createOnElement="attributes SpecialAccommodations">

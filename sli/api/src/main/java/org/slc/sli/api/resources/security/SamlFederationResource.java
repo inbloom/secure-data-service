@@ -22,8 +22,10 @@ import java.io.StringWriter;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -43,10 +45,12 @@ import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.io.IOUtils;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.elasticsearch.search.query.FromParseElement;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.slc.sli.api.security.roles.EdOrgContextualRoleBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -55,17 +59,18 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 
-import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.representation.CustomStatus;
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.SecurityEventBuilder;
+import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.resolver.RealmHelper;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.security.roles.Role;
 import org.slc.sli.api.security.saml.SamlAttributeTransformer;
 import org.slc.sli.api.security.saml.SamlHelper;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.common.util.tenantdb.TenantContext;
@@ -125,6 +130,14 @@ public class SamlFederationResource {
 
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
+
+    @Autowired
+    private EdOrgHelper edorgHelper;
+
+    @Autowired
+    private EdOrgContextualRoleBuilder edOrgRoleBuilder;
+
+    public static SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
 
     @SuppressWarnings("unused")
     @PostConstruct
@@ -306,6 +319,14 @@ public class SamlFederationResource {
             throw new AccessDeniedException("Invalid user. No roles specified for user.");
         }
 
+
+        if(!(isAdminRealm || isDevRealm) &&
+                (principal.getUserType() == null || principal.getUserType().equals(EntityNames.STAFF))) {
+            Map<String, List<String>> sliEdOrgRoleMap = edOrgRoleBuilder.buildValidStaffRoles(realm.getEntityId(), principal.getEntity().getEntityId(), tenant, roles);
+            principal.setEdOrgRoles(sliEdOrgRoleMap);
+        }
+
+
         principal.setRealm(realm.getEntityId());
         principal.setEdOrg(attributes.getFirst("edOrg"));
         principal.setAdminRealm(attributes.getFirst("edOrg"));
@@ -320,16 +341,18 @@ public class SamlFederationResource {
             throw new AccessDeniedException("User is not associated with realm.");
         }
 
+        //F262: Update this to only store roles for non staff users
         Set<Role> sliRoleSet = resolver.mapRoles(tenant, realm.getEntityId(), roles, isAdminRealm);
         List<String> sliRoleList = new ArrayList<String>();
         boolean isAdminUser = true;
         for (Role role : sliRoleSet) {
-            sliRoleList.add(role.getName());
+            sliRoleList.addAll(role.getName());
             if (!role.isAdmin()) {
                 isAdminUser = false;
                 break;
             }
         }
+
         principal.setRoles(sliRoleList);
         principal.setAdminUser(isAdminUser);
         principal.setAdminRealmAuthenticated(isAdminRealm || isDevRealm);
@@ -442,6 +465,7 @@ public class SamlFederationResource {
         }
     }
 
+
     private void generateSamlValidationError(String message) {
         error(message);
         throw new AccessDeniedException("Authorization could not be verified.");
@@ -495,6 +519,7 @@ public class SamlFederationResource {
      *            - can be null to skip before check
      * @param notOnOrAfter
      *            - can be null to skip after check
+     *
      * @return true if in range, false otherwise
      */
     private boolean isTimeInRange(String notBefore, String notOnOrAfter) {
@@ -516,6 +541,14 @@ public class SamlFederationResource {
             }
         }
         return true;
+    }
+
+    Repository getRepository() {
+        return repo;
+    }
+
+    public void setEdorgHelper(EdOrgHelper edorgHelper) {
+        this.edorgHelper = edorgHelper;
     }
 
     public void setSecurityEventBuilder(SecurityEventBuilder securityEventBuilder) {

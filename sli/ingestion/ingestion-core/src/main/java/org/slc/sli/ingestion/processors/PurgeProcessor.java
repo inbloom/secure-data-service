@@ -17,14 +17,24 @@
 package org.slc.sli.ingestion.processors;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.Date;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.slc.sli.dal.repository.DeltaJournal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 
@@ -64,19 +74,21 @@ public class PurgeProcessor implements Processor {
 
     private AbstractMessageReport messageReport;
 
-    private List<String> excludeCollections;
+    private final static Set<String> EXCLUDED_COLLECTIONS = new HashSet<String>(Arrays.asList("system.indexes", "system.js",
+            "system.namespaces", "system.profile", "system.users", "tenant", "securityEvent", "realm", "application",
+            "roles", "customRole"));
 
     private ReportStats reportStats = null;
 
     private boolean sandboxEnabled;
 
-    public List<String> getExcludeCollections() {
-        return excludeCollections;
-    }
+    private int purgeBatchSize;
 
-    public void setExcludeCollections(List<String> excludeCollections) {
-        this.excludeCollections = excludeCollections;
-    }
+    @Autowired
+    private DeltaJournal deltaJournal;
+
+    @Value("${sli.bulk.extract.deltasEnabled:true}")
+    private boolean deltasEnabled;
 
     @Override
     public void process(Exchange exchange) throws Exception {
@@ -119,6 +131,8 @@ public class PurgeProcessor implements Processor {
 
         Query searchTenantId = new Query();
 
+        long startTime = new Date().getTime();
+
         TenantContext.setIsSystemCall(false);
         Set<String> collectionNames = mongoTemplate.getCollectionNames();
 
@@ -127,6 +141,7 @@ public class PurgeProcessor implements Processor {
         while (iter.hasNext()) {
             collectionName = iter.next();
             if (!isExcludedCollection(collectionName)) {
+                LOGGER.info("Purging collection: {}", collectionName);
                 // Remove edorgs and apps if in sandbox mode or purge-keep-edorgs was not specified.
                 if (collectionName.equalsIgnoreCase("educationOrganization")) {
                     if (sandboxEnabled || (job.getProperty(AttributeType.PURGE_KEEP_EDORGS.getName()) == null)) {
@@ -143,9 +158,17 @@ public class PurgeProcessor implements Processor {
             }
         }
 
-        batchJobDAO.removeRecordHashByTenant(tenantId);
         exchange.setProperty("purge.complete", "Purge process completed successfully.");
         LOGGER.info("Purge process complete.");
+        reportPurgeEvent(startTime);
+
+    }
+
+    private void reportPurgeEvent(long startTime) {
+        if(deltasEnabled) {
+            LOGGER.debug("Recording purge event in the delta journal");
+            deltaJournal.journalPurge(startTime);
+        }
 
     }
 
@@ -182,17 +205,32 @@ public class PurgeProcessor implements Processor {
     }
 
     private boolean isExcludedCollection(String collectionName) {
-        for (String excludedCollectionName : excludeCollections) {
-            if (collectionName.equals(excludedCollectionName)) {
-                return true;
-            }
-        }
-        return false;
+        return EXCLUDED_COLLECTIONS.contains(collectionName);
     }
 
     private void removeTenantCollection(Query searchTenantId, String collectionName) {
         TenantContext.setIsSystemCall(false);
-        mongoTemplate.remove(searchTenantId, collectionName);
+
+        while(true) {
+            LOGGER.debug("{}: Fetching ids", collectionName);
+            DBCursor cursor = mongoTemplate.getCollection(collectionName).find(new BasicDBObject(), new BasicDBObject("_id", "1")).limit(purgeBatchSize);
+            LOGGER.debug("{}: Completed fetching ids", collectionName);
+
+            if(cursor !=null && cursor.size() != 0) {
+                List<Object> entitiesToRemove = new ArrayList<Object>();
+                while(cursor.hasNext()) {
+                    entitiesToRemove.add(cursor.next().get("_id"));
+                }
+
+                DBObject inQuery = new BasicDBObject("_id", new BasicDBObject("$in", entitiesToRemove));
+
+                LOGGER.debug("{}: Starting removal of records", collectionName);
+                mongoTemplate.getCollection(collectionName).remove(inQuery);
+                LOGGER.debug("{}: Completed removing records for this batch", collectionName);
+            } else {
+               break;
+            }
+        }
     }
 
     private void handleNoTenantId(String batchJobId) {
@@ -253,5 +291,17 @@ public class PurgeProcessor implements Processor {
 
     public void setSandboxEnabled(boolean sandboxEnabled) {
         this.sandboxEnabled = sandboxEnabled;
+    }
+
+    public void setPurgeBatchSize(int purgeBatchSize) {
+        this.purgeBatchSize = purgeBatchSize;
+    }
+
+    public void setDeltaJournal(DeltaJournal deltaJournal) {
+       this.deltaJournal = deltaJournal;
+    }
+
+    public void setDeltasEnabled(boolean deltasEnabled) {
+        this.deltasEnabled = deltasEnabled;
     }
 }

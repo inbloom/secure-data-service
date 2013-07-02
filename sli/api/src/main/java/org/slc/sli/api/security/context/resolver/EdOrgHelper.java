@@ -29,19 +29,22 @@ import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.resources.security.DelegationUtil;
 import org.slc.sli.api.security.context.EntityOwnershipValidator;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
-import org.slc.sli.api.security.context.validator.DateHelper;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.common.util.datetime.DateHelper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.utils.EdOrgHierarchyHelper;
 
 /**
  * Contains helper methods for traversing the edorg hierarchy.
@@ -74,27 +77,49 @@ public class EdOrgHelper {
     @Autowired
     protected DelegationUtil delegationUtil;
 
+    private EdOrgHierarchyHelper helper;
+
+    @PostConstruct
+    public void init() {
+        helper = new EdOrgHierarchyHelper(repo);
+    }
+
     /**
-     * Determine the district of the user.
+     * Determine the districts of the user.
      *
      * If the user is directly associated with an SEA, this is any LEA directly below the SEA. If
      * the user is directly
      * associated with an LEA, this is the top-most LEA i.e. the LEA directly associated with the
      * SEA.
      *
-     * @param user
-     * @return a list of entity IDs
+     * @param user - User entity
+     *
+     * @return - List of entity IDs
      */
     public List<String> getDistricts(Entity user) {
         Set<String> directAssoc = getDirectEdorgs(user);
+        return getDistricts(directAssoc);
+    }
+
+    /**
+     * Determine the districts based upon the EdOrgs supplied.
+     *
+     * If an SEA is encountered, this is any LEA directly below the SEA.
+     * If an LEA or school is encountered, this is the top-most LEA, i.e. the LEA directly associated with the SEA.
+     *
+     * @param edOrgs - EdOrgs to search
+     *
+     * @return - List of district entity IDs
+     */
+    public List<String> getDistricts(Set<String> edOrgs) {
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN,
-                directAssoc, false));
+                edOrgs, false));
         Set<String> entities = new HashSet<String>();
         for (Entity entity : repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query)) {
-            if (isLEA(entity)) {
-                entities.add(getTopLEAOfEdOrg(entity).getEntityId());
-            } else if (isSchool(entity)) {
-                entities.add(getTopLEAOfEdOrg(entity).getEntityId());
+            if (helper.isLEA(entity)) {
+                entities.add(helper.getTopLEAOfEdOrg(entity).getEntityId());
+            } else if (helper.isSchool(entity)) {
+                entities.add(helper.getTopLEAOfEdOrg(entity).getEntityId());
             } else { // isSEA
                 entities.addAll(getChildLEAsOfEdOrg(entity));
             }
@@ -103,37 +128,19 @@ public class EdOrgHelper {
     }
 
     /**
-     * Determines the districts that the set of education organization ids belong to.
+     * Get a list of the direct child LEAs of an EdOrg.
      *
-     * @param edOrgs
-     *            Set of education organization ids.
-     * @return List representing unique Set of district ids that the specified education
-     *         organizations belong to.
+     * @param edorgEntity - EdOrg from which to get child LEAs
+     *
+     * @return - List of the EdOrg's child LEAs
      */
-    public List<String> getDistricts(Set<String> edOrgs) {
-        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN,
-                edOrgs, false));
-        Set<String> entities = new HashSet<String>();
-        for (Entity entity : repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query)) {
-            if (isLEA(entity)) {
-                entities.add(getTopLEAOfEdOrg(entity).getEntityId());
-            } else if (isSchool(entity)) {
-                entities.add(getTopLEAOfEdOrg(entity).getEntityId());
-            } else { // isSEA
-                entities.addAll(getChildLEAsOfEdOrg(entity));
-            }
-        }
-        return new ArrayList<String>(entities);
-    }
-
     public List<String> getChildLEAsOfEdOrg(Entity edorgEntity) {
         List<String> toReturn = new ArrayList<String>();
         NeutralQuery query = new NeutralQuery(0);
         query.addCriteria(new NeutralCriteria("parentEducationAgencyReference", "=", edorgEntity.getEntityId()));
         for (Entity entity : repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query)) {
-            if (isLEA(entity)) {
+            if (helper.isLEA(entity)) {
                 toReturn.add(entity.getEntityId());
-
             }
         }
 
@@ -158,13 +165,17 @@ public class EdOrgHelper {
 
 
     /**
-     * Get an ordered list of the parents of an edorg.
+     * Get an ordered list of the parents of an EdOrg.
      *
-     * The order of the list starts with the direct parent of the edorg and ends with the SEA
+     * The order of the list starts with the direct parent of the EdOrg and ends with the SEA
      *
-     * @param edOrg
-     * @return
+     * @param edOrg - EdOrg from which to get parents
+     *
+     * @return - Hierarchical list of the EdOrg's parents
      */
+
+
+
     public List<String> getParentEdOrgs(final Entity edOrg) {
         List<String> toReturn = new ArrayList<String>();
 
@@ -184,6 +195,22 @@ public class EdOrgHelper {
         return repo.findById(EntityNames.EDUCATION_ORGANIZATION, edOrgId);
     }
 
+    public boolean isSEA(Entity entity) {
+        // passing through
+        return helper.isSEA(entity);
+    }
+
+    /**
+     * Given an edorg entity, returns the SEA to which it belongs
+     *
+     * @param entity
+     *
+     * @return SEA
+     */
+    public String getSEAOfEdOrg(Entity entity) {
+        return helper.getSEAOfEdOrg(entity);
+    }
+
     /**
      * Finds schools directly associated to this user
      *
@@ -191,14 +218,21 @@ public class EdOrgHelper {
      * @return
      */
     public List<String> getDirectSchools(Entity principal) {
+        return getDirectSchoolsLineage( principal, false );
+    }
+
+    public List<String> getDirectSchoolsLineage(Entity principal, boolean getLineage) {
         Set<String> ids = getDirectEdorgs(principal);
         Iterable<Entity> edorgs = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, new NeutralQuery(
                 new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids, false)));
 
         List<String> schools = new ArrayList<String>();
         for (Entity e : edorgs) {
-            if (isSchool(e)) {
+            if (helper.isSchool(e)) {
                 schools.add(e.getEntityId());
+                if (getLineage) {
+                    schools.addAll(extractEdorgFromMeta(e));
+                }
             }
         }
 
@@ -219,6 +253,19 @@ public class EdOrgHelper {
 
 
 
+    @SuppressWarnings("unchecked")
+    private Set<String> extractEdorgFromMeta( Entity e) {
+        Set<String> edOrgs = new HashSet<String>();
+        Map<String,Object> meta = e.getMetaData();
+
+        if( meta == null || !meta.containsKey( ParameterConstants.EDORGS_ARRAY )) {
+            return edOrgs;
+        }
+
+        edOrgs.addAll( (Collection<? extends String>) meta.get( ParameterConstants.EDORGS_ARRAY  ));
+
+        return edOrgs;
+    }
     /**
      * Recursively returns the list of all child edorgs
      *
@@ -282,21 +329,6 @@ public class EdOrgHelper {
         return entity;
     }
 
-    private String getSEAOfEdOrg(Entity entity) {
-        if (isSEA(entity)) {
-            return entity.getEntityId();
-        } else {
-            Entity parentEdorg = repo.findById(EntityNames.EDUCATION_ORGANIZATION,
-                    (String) entity.getBody().get("parentEducationAgencyReference"));
-            if (parentEdorg != null) {
-                return getSEAOfEdOrg(parentEdorg);
-            } else {
-                warn("EdOrg {} is missing parent SEA", entity.getEntityId());
-                return null;
-            }
-        }
-    }
-
     /**
      * Get the collection of ed-orgs that will determine a user's security context
      *
@@ -349,33 +381,15 @@ public class EdOrgHelper {
     }
 
     @SuppressWarnings("unchecked")
-    public boolean isSEA(Entity entity) {
-        List<String> category = (List<String>) entity.getBody().get("organizationCategories");
-
-        if (category.contains("State Education Agency")) {
-            return true;
-        }
-        return false;
-    }
-
-    @SuppressWarnings("unchecked")
     public boolean isLEA(Entity entity) {
-        List<String> category = (List<String>) entity.getBody().get("organizationCategories");
-
-        if (category.contains("Local Education Agency")) {
-            return true;
-        }
-        return false;
+        // passing through
+        return helper.isLEA(entity);
     }
 
     @SuppressWarnings("unchecked")
     public boolean isSchool(Entity entity) {
-        List<String> category = (List<String>) entity.getBody().get("organizationCategories");
-
-        if (category.contains("School")) {
-            return true;
-        }
-        return false;
+        // passing through
+        return helper.isSchool(entity);
     }
 
     /**
@@ -451,7 +465,6 @@ public class EdOrgHelper {
         return new HashSet<String>();
     }
 
-
     /**
      * Get directly associated education organizations for the specified principal, not filtered by
      * data ownership.
@@ -472,19 +485,55 @@ public class EdOrgHelper {
     }
 
     /**
+     * Get all the valid StaffEdorg associations.
+     * @param staffId
+     *      The staffId the SEOAs belong to.
+     * @param filterByOwnership
+     *      flag to check ownership
+     * @return
+     */
+    public Set<Entity> locateValidSEOAs(String staffId, boolean filterByOwnership) {
+        Set<Entity> validAssociations = new HashSet<Entity>();
+        Iterable<Entity> associations = locateNonExpiredSEOAs(staffId);
+        for (Entity association : associations) {
+            if (!filterByOwnership || ownership.canAccess(association)) {
+                validAssociations.add(association);
+            }
+        }
+        return validAssociations;
+    }
+
+    /**
+     * Get all non expired StaffEdorg associations.
+     * @param staffId
+     *      The staffId the SEOAs belong to.
+     * @return
+     */
+    public Set<Entity> locateNonExpiredSEOAs(String staffId) {
+        Set<Entity> validAssociations = new HashSet<Entity>();
+        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE,
+                NeutralCriteria.OPERATOR_EQUAL, staffId));
+        Iterable<Entity> associations = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, basicQuery);
+        for (Entity association : associations) {
+            if (!dateHelper.isFieldExpired(association.getBody(), ParameterConstants.END_DATE, false)) {
+                validAssociations.add(association);
+            }
+        }
+        return validAssociations;
+    }
+
+    /**
      * Get current education organizations for the specified staff member.
      */
     private Set<String> getStaffDirectlyAssociatedEdorgs(Entity staff, boolean filterByOwnership) {
         Set<String> edorgs = new HashSet<String>();
-        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE,
-                NeutralCriteria.OPERATOR_EQUAL, staff.getEntityId()));
-        Iterable<Entity> associations = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, basicQuery);
+
+        Iterable<Entity> associations = locateValidSEOAs(staff.getEntityId(), filterByOwnership);
+
         for (Entity association : associations) {
-            if (!filterByOwnership || ownership.canAccess(association)) {
-                if (!dateHelper.isFieldExpired(association.getBody(), ParameterConstants.END_DATE, false)) {
-                    edorgs.add((String) association.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE));
-                }
-            }
+
+            edorgs.add((String) association.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE));
+
         }
         return edorgs;
     }
@@ -510,6 +559,8 @@ public class EdOrgHelper {
         }
         return edOrgIds;
     }
+
+
 
 
     public Set<String> getEdOrgStateOrganizationIds(Set<String> edOrgIds) {

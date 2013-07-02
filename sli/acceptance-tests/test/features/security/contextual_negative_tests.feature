@@ -30,8 +30,8 @@ Scenario Outline: Validate access to student related data based on accessor's co
     | "/v1/studentParentAssociations/0c2756fd-6a30-4010-af79-488d6ef2735a_idc5aa1969-492a-5150-8479-71bfc4d87984_id"              |
     | "/v1/parents/9b8f7237-ce8e-4dff-98cf-66535880987b"                                |
     | "/v1/studentSchoolAssociations/9cd50bcb-b39a-4d8a-b866-8766c79d6965"              |
-    | "/v1/studentCohortAssociations/9ac7ad37-80aa-42ab-9d63-e48cc70a7863_iddd5e5b41-30fb-40e5-a968-afe7ae32fce3_id"              |
-    | "/v1/studentProgramAssociations/9b8cafdc-8fd5-11e1-86ec-0021701f543f_idb3f55084-8fd5-11e1-86ec-0021701f543f_id"             |
+    | "/v1/studentCohortAssociations/0c2756fd-6a30-4010-af79-488d6ef2735a_iddd5e5b41-30fb-40e5-a968-afe7ae32fce3_id"              |
+    | "/v1/studentProgramAssociations/f7094bd8-46fc-4204-9fa2-a383fb71bdf6_idb3f55084-8fd5-11e1-86ec-0021701f543f_id"             |
     | "/v1/studentCompetencies/3a2ea9f8-9acf-11e1-add5-68a86d83461b"                    |
     | "/v1/grades/78501562270ca2938d56f793547bc3fc2c0b56e6_idef42e2a2-9942-11e1-a8a9-68a86d21d918"                                 |
     | "/v1/studentSectionAssociations/a00c740c-8753-4190-90ad-9fc026a65d53_id82f7d7ff-a2b1-4e05-896a-48367f497b89_id"             |

@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<InterchangeStaffAssociation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+    xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StaffAssociation.xsd">
+    <Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="true">
+        <Staff>
+            <StaffUniqueStateId>msmith</StaffUniqueStateId>
+            <StaffIdentificationCode IdentificationSystem="Drivers License">
+                <ID>1877</ID>
+            </StaffIdentificationCode>
+            <Name>
+                <FirstName>Mary</FirstName>
+                <MiddleName>Armand</MiddleName>
+                <LastSurname>Smith</LastSurname>
+            </Name>
+            <OtherName OtherNameType="Previous Legal Name">
+                <PersonalTitlePrefix>Reverend</PersonalTitlePrefix>
+                <FirstName>Austin</FirstName>
+                <MiddleName>Blake</MiddleName>
+                <LastSurname>Bowling</LastSurname>
+                <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+            </OtherName>
+            <Sex>Male</Sex>
+            <BirthDate>1951-01-09</BirthDate>
+            <Address AddressType="Home">
+                <StreetNumberName>392 Elm Street</StreetNumberName>
+                <City>New York</City>
+                <StateAbbreviation>NY</StateAbbreviation>
+                <PostalCode>10292</PostalCode>
+            </Address>
+            <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
+                <TelephoneNumber>(674)555-2642</TelephoneNumber>
+            </Telephone>
+            <ElectronicMail EmailAddressType="Home/Personal">
+                <EmailAddress>6110@fakemail.com</EmailAddress>
+            </ElectronicMail>
+            <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+            <OldEthnicity>Asian Or Pacific Islander</OldEthnicity>
+            <Race>
+                <RacialCategory>Black - African American</RacialCategory>
+            </Race>
+            <HighestLevelOfEducationCompleted>Master's</HighestLevelOfEducationCompleted>
+            <YearsOfPriorProfessionalExperience>7</YearsOfPriorProfessionalExperience>
+            <YearsOfPriorTeachingExperience>3</YearsOfPriorTeachingExperience>
+            <Credentials>
+                <CredentialType>Registration</CredentialType>
+                <CredentialField>
+                    <Description>Physics</Description>
+                </CredentialField>
+                <Level>Elementary (Grade Level 1-6)</Level>
+                <TeachingCredentialType>District Local</TeachingCredentialType>
+                <CredentialIssuanceDate>2011-06-22</CredentialIssuanceDate>
+                <CredentialExpirationDate>2013-12-14</CredentialExpirationDate>
+                <TeachingCredentialBasis>Special/alternative program completion</TeachingCredentialBasis>
+            </Credentials>
+            <LoginId>6110@fakemail.com</LoginId>
+        </Staff>
+    </Action>
+</InterchangeStaffAssociation>

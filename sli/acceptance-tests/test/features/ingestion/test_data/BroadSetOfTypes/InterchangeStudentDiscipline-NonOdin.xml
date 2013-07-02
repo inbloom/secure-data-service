@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<InterchangeStudentDiscipline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                              xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentDiscipline.xsd">
+    <DisciplineIncident>
+        <IncidentIdentifier>47#2</IncidentIdentifier>
+        <IncidentDate>2002-11-30</IncidentDate>
+        <IncidentTime>15:23:35</IncidentTime>
+        <IncidentLocation>Classroom</IncidentLocation>
+        <ReporterDescription>Other</ReporterDescription>
+        <ReporterName>Reported Other Name</ReporterName>
+        <Behaviors>
+            <CodeValue>BE0</CodeValue>
+        </Behaviors>
+        <SecondaryBehaviors BehaviorCategory="State Law Crime">
+            <SecondaryBehavior>SBE0</SecondaryBehavior>
+        </SecondaryBehaviors>
+        <Weapons>
+            <Weapon>Unknown</Weapon>
+        </Weapons>
+        <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <StaffReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>msmith</StaffUniqueStateId>
+            </StaffIdentity>
+        </StaffReference>
+    </DisciplineIncident>
+</InterchangeStudentDiscipline>

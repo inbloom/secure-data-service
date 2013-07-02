@@ -69,10 +69,10 @@ class GradeWideAssessmentWorkOrder
   def build
     generated = []
     generated << @parent_family if @gen_parent
-    family = AssessmentFamily.new("#{@year} #{GradeLevelType.to_string(@grade)} Standard", @year, @parent_family)
-    generated << family
     period_descriptor = AssessmentPeriodDescriptor.new("BOY-#{GradeLevelType.get_ordered_grades.index(@grade)}-#{@year}", "Beginning of Year #{@year}-#{@year + 1} for #{GradeLevelType.to_string(@grade)}", "BOY-#{@year}", "#{@year}-08-01", "#{@year}-12-31")
     generated << period_descriptor
+    family = AssessmentFamily.new("#{@year} #{GradeLevelType.to_string(@grade)} Standard", @year, @parent_family, 1, period_descriptor)
+    generated << family
     assessments = @factory.grade_wide_assessments(@grade, @year, family, period_descriptor)
     generated += assessments
     assessments.each{|assessment|

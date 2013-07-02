@@ -45,13 +45,6 @@ class AppTest < ActiveSupport::TestCase
     assert app.valid?, "App is valid with a string"
   end
 
-
-  # test "save app" do
-  #   app = App.new(@app_fixtures["new"])
-  #   assert(app.valid?, "This should be valid")
-  #   assert_nothing_raised(Exception) { app.save }
-  # end
-
   private
   def build_app
     app = App.new
@@ -61,6 +54,7 @@ class AppTest < ActiveSupport::TestCase
     app.application_url = "https://derp"
     app.vendor = "McDonalds"
     app.version = "1.0"
+    app.isBulkExtract = true
     app.administration_url = "https://morederp"
     app.image_url = "https://morederp"
     app

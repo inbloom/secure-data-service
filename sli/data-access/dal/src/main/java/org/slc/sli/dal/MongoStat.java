@@ -24,20 +24,13 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
-/**
- * Created with IntelliJ IDEA.
- * User: pghosh
- * Date: 8/24/12
- * Time: 4:27 PM
- * To change this template use File | Settings | File Templates.
- */
 @Component
 @Scope(value = "thread", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class MongoStat {
 
 
     private int dbHitCount;
-    private List<String> stats = new ArrayList<String>(10000); 
+    private List<String> stats = new ArrayList<String>(5000);
 
     public MongoStat(int dbHitCount) {
         this.dbHitCount = dbHitCount;
@@ -68,7 +61,6 @@ public class MongoStat {
     
     public void addEvent(String eventType, String eventId, Long timeStamp, List<String> args) {
         stats.add("e" + ":" + eventType + ":" + eventId + ":" + timeStamp + ":" + args); 
-        // stats.add(Arrays.asList((Object) "e", eventType, eventId, timeStamp, args)); 
     }
     
     public void addMetric(String metricType, String metricId, Long metric) {

@@ -28,6 +28,7 @@ import javax.ws.rs.core.PathSegment;
 
 import com.sun.jersey.spi.container.ContainerRequest;
 
+import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -36,7 +37,6 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.representation.ThrowAPIException;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
@@ -45,6 +45,7 @@ import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.validator.IContextValidator;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -76,22 +77,6 @@ public class ContextValidator implements ApplicationContextAware {
             "parentLearningObjectives",
             "childLearningObjectives"));
 
-    protected static final Set<String> GLOBAL_ENTITIES = new HashSet<String>(
-            Arrays.asList(EntityNames.ASSESSMENT,
-            EntityNames.COMPETENCY_LEVEL_DESCRIPTOR,
-            EntityNames.COURSE,
-            EntityNames.COURSE_OFFERING,
-            EntityNames.EDUCATION_ORGANIZATION,
-            EntityNames.GRADUATION_PLAN,
-            EntityNames.GRADING_PERIOD,
-            EntityNames.LEARNING_OBJECTIVE,
-            EntityNames.LEARNING_STANDARD,
-            EntityNames.PROGRAM,
-            EntityNames.SCHOOL,
-            EntityNames.SECTION,
-            EntityNames.SESSION,
-            EntityNames.STUDENT_COMPETENCY_OBJECTIVE));
-
     private List<IContextValidator> validators;
 
     @Autowired
@@ -99,8 +84,12 @@ public class ContextValidator implements ApplicationContextAware {
 
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
+
     @Autowired
     private EntityOwnershipValidator ownership;
+    
+    @Autowired
+    private StudentAccessValidator studentAccessValidator;
     @Autowired
     private EdOrgHelper edOrgHelper;
 
@@ -114,14 +103,67 @@ public class ContextValidator implements ApplicationContextAware {
         validateUserHasContextToRequestedEntities(request, principal);
     }
 
-    private void validateUserHasContextToRequestedEntities(ContainerRequest request, SLIPrincipal principal) {
+    /**
+     * white list student accessible URL. Can't do it in validateUserHasContextToRequestedEntity
+     * because we must also block some url that only has 2 segment, i.e.
+     * disciplineActions/disciplineIncidents
+     * 
+     * @param pathSegments
+     * @return if url is accessible to students principals
+     */
+    public boolean isUrlBlocked(ContainerRequest request) {
+        List<PathSegment> segs = cleanEmptySegments(request.getPathSegments());
 
-        List<PathSegment> segs = request.getPathSegments();
-        for (Iterator<PathSegment> i = segs.iterator(); i.hasNext();) {
+        if (isSystemCall(segs)) {
+            // do not block system calls
+            return false;
+        }
+
+        if (SecurityUtil.isStudent()) {
+            return !studentAccessValidator.isAllowed(request);
+        }
+        
+        return false;
+    }
+
+    private boolean isSystemCall(List<PathSegment> pathSegments) {
+        /**
+         * assuming all resource endpoints are versioned
+         */
+        if (pathSegments == null || pathSegments.size() == 0) {
+            // /api/rest/ root access?
+            return false;
+        }
+        
+        // all data model resources are versioned
+        if (isVersionString(pathSegments.get(0).getPath())) {
+            return false;
+        }
+        
+        return true;
+    }
+    
+    private boolean isVersionString(String path) {
+        if (path != null && path.startsWith("v")) {
+            return NumberUtils.isNumber(path.substring(1));
+        }
+        return false;
+    }
+
+    private List<PathSegment> cleanEmptySegments(List<PathSegment> pathSegments) {
+        for (Iterator<PathSegment> i = pathSegments.iterator(); i.hasNext();) {
             if (i.next().getPath().isEmpty()) {
                 i.remove();
             }
         }
+
+        return pathSegments;
+    }
+    
+    private void validateUserHasContextToRequestedEntities(ContainerRequest request, SLIPrincipal principal) {
+        
+        List<PathSegment> segs = request.getPathSegments();
+        segs = cleanEmptySegments(segs);
 
         if (segs.size() < 3) {
             return;
@@ -234,7 +276,7 @@ public class ContextValidator implements ApplicationContextAware {
                         && SecurityUtil.getSLIPrincipal().getEntity().getEntityId().equals(ent.getEntityId())) {
                     debug("Entity is themselves: id {} of type {}", ent.getEntityId(), ent.getType());
                 } else {
-                    if (ownership.canAccess(ent)) {
+                    if (ownership.canAccess(ent, isTransitive)) {
                         idsToValidate.add(ent.getEntityId());
                     } else {
                         ThrowAPIException.throwAccessDeniedException( "Access to " + ent.getEntityId() + " is not authorized",
@@ -293,6 +335,7 @@ public class ContextValidator implements ApplicationContextAware {
      * @return True if the entity is global, false otherwise.
      */
     public boolean isGlobalEntity(String type) {
-        return GLOBAL_ENTITIES.contains(type);
+        return EntityNames.isPublic(type);
     }
+    
 }

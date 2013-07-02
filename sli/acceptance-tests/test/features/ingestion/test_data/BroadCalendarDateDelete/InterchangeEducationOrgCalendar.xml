@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<InterchangeEducationOrgCalendar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                                 xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrgCalendar.xsd">
+
+    <Action ActionType="DELETE" Cascade="true">
+        <CalendarDate>
+            <Date>2001-09-05</Date>
+            <CalendarEvent>Instructional day</CalendarEvent>
+            <EducationOrgReference>
+                <EducationalOrgIdentity>
+                    <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+                </EducationalOrgIdentity>
+            </EducationOrgReference>
+        </CalendarDate>
+    </Action>
+</InterchangeEducationOrgCalendar>

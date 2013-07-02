@@ -23,6 +23,7 @@ import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.MessageCode;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.util.LogUtil;
 
 /**
  * MessageReport implementation that is constructed with a logger and uses that logger to act on
@@ -45,8 +46,12 @@ public class LoggingMessageReport extends AbstractMessageReport {
     }
 
     @Override
-    protected void reportError(ReportStats reportStats, Source source, MessageCode code, Object... args) {
-        logger.error(getMessage(reportStats, source, code, args));
+    protected void reportError(Throwable throwable, ReportStats reportStats, Source source, MessageCode code, Object... args) {
+        if (throwable != null) {
+            LogUtil.error(logger, getMessage(reportStats, source, code, args), throwable);
+        } else {
+            logger.error(getMessage(reportStats, source, code, args));
+        }
     }
 
     @Override

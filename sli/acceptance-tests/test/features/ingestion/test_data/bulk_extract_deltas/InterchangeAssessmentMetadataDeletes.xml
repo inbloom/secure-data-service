@@ -1,0 +1,212 @@
+<?xml version="1.0"?>
+<InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                               xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-AssessmentMetadata.xsd">
+    <Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="false">
+        <LearningObjective>
+            <LearningObjectiveId>
+                <IdentificationCode>Generic Learning Objective 1</IdentificationCode>
+            </LearningObjectiveId>
+            <Objective>Generic Learning Objective 1</Objective>
+            <Description>Generic Learning Objective 1 for grade: Kindergarten in subject: Mathematics</Description>
+            <AcademicSubject>Mathematics</AcademicSubject>
+            <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+            <LearningStandardReference>
+                <LearningStandardIdentity>
+                    <IdentificationCode>1-18-9</IdentificationCode>
+                </LearningStandardIdentity>
+            </LearningStandardReference>
+            <LearningStandardReference>
+                <LearningStandardIdentity>
+                    <IdentificationCode>2-18-9</IdentificationCode>
+                </LearningStandardIdentity>
+            </LearningStandardReference>
+            <LearningStandardReference>
+                <LearningStandardIdentity>
+                    <IdentificationCode>3-18-9</IdentificationCode>
+                </LearningStandardIdentity>
+            </LearningStandardReference>
+            <LearningStandardReference>
+                <LearningStandardIdentity>
+                    <IdentificationCode>4-18-9</IdentificationCode>
+                </LearningStandardIdentity>
+            </LearningStandardReference>
+            <LearningStandardReference>
+                <LearningStandardIdentity>
+                    <IdentificationCode>5-18-9</IdentificationCode>
+                </LearningStandardIdentity>
+            </LearningStandardReference>
+            <LearningStandardReference>
+                <LearningStandardIdentity>
+                    <IdentificationCode>6-18-9</IdentificationCode>
+                </LearningStandardIdentity>
+            </LearningStandardReference>
+            <LearningStandardReference>
+                <LearningStandardIdentity>
+                    <IdentificationCode>7-18-9</IdentificationCode>
+                </LearningStandardIdentity>
+            </LearningStandardReference>
+            <LearningStandardReference>
+                <LearningStandardIdentity>
+                    <IdentificationCode>8-18-9</IdentificationCode>
+                </LearningStandardIdentity>
+            </LearningStandardReference>
+            <LearningStandardReference>
+                <LearningStandardIdentity>
+                    <IdentificationCode>9-18-9</IdentificationCode>
+                </LearningStandardIdentity>
+            </LearningStandardReference>
+            <LearningStandardReference>
+                <LearningStandardIdentity>
+                    <IdentificationCode>10-18-9</IdentificationCode>
+                </LearningStandardIdentity>
+            </LearningStandardReference>
+        </LearningObjective>
+        <LearningStandard>
+            <LearningStandardId>
+                <IdentificationCode>1-18-9</IdentificationCode>
+            </LearningStandardId>
+            <Description>This is a description for learning standard 1-18-9</Description>
+            <ContentStandard>LEA Standard</ContentStandard>
+            <GradeLevel>Kindergarten</GradeLevel>
+            <SubjectArea>Mathematics</SubjectArea>
+        </LearningStandard>
+
+<Assessment>
+    <AssessmentTitle>2013-Eleventh grade Assessment 2</AssessmentTitle>
+    <AssessmentIdentificationCode IdentificationSystem="State">
+        <ID>2013-Eleventh grade Assessment 2</ID>
+    </AssessmentIdentificationCode>
+    <AssessmentCategory>Performance assessment</AssessmentCategory>
+    <AcademicSubject>ELA</AcademicSubject>
+    <GradeLevelAssessed>Eleventh grade</GradeLevelAssessed>
+    <LowestGradeLevelAssessed>Eleventh grade</LowestGradeLevelAssessed>
+    <ContentStandard>State Standard</ContentStandard>
+    <AssessmentForm>Form</AssessmentForm>
+    <RevisionDate>2013-01-01</RevisionDate>
+    <MaxRawScore>100</MaxRawScore>
+    <Nomenclature>Nomenclature</Nomenclature>
+    <AssessmentPeriod>
+        <AssessmentPeriodDescriptorIdentity>
+            <AssessmentPeriodDescriptorCodeValue>BOY-11-2013</AssessmentPeriodDescriptorCodeValue>
+        </AssessmentPeriodDescriptorIdentity>
+    </AssessmentPeriod>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#1</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#2</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#3</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    <AssessmentItemReference>
+        <AssessmentItemIdentity>
+            <AssessmentItemIdentificationCode>2013-Eleventh grade Assessment 2#4</AssessmentItemIdentificationCode>
+        </AssessmentItemIdentity>
+    </AssessmentItemReference>
+ 
+</Assessment>
+
+<ObjectiveAssessment>
+  <IdentificationCode>2013-Fourth grade Assessment 2.OA-0</IdentificationCode>
+  <MaxRawScore>50</MaxRawScore>
+  <AssessmentPerformanceLevel>
+    <PerformanceLevel>
+      <CodeValue>code1</CodeValue>
+      <PerformanceLevelMet>true</PerformanceLevelMet>
+    </PerformanceLevel>
+    <AssessmentReportingMethod>Number score</AssessmentReportingMethod>
+    <MinimumScore>0</MinimumScore>
+    <MaximumScore>50</MaximumScore>
+  </AssessmentPerformanceLevel>
+  <PercentOfAssessment>50</PercentOfAssessment>
+  <Nomenclature>Nomenclature</Nomenclature>
+  <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+      <Objective>Generic Learning Objective 1</Objective>
+      <AcademicSubject>Writing</AcademicSubject>
+      <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+  </LearningObjectiveReference>
+  <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+      <Objective>Generic Learning Objective 2</Objective>
+      <AcademicSubject>Writing</AcademicSubject>
+      <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+  </LearningObjectiveReference>
+  <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+      <Objective>Generic Learning Objective 3</Objective>
+      <AcademicSubject>Writing</AcademicSubject>
+      <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+  </LearningObjectiveReference>
+  <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+      <Objective>Generic Learning Objective 4</Objective>
+      <AcademicSubject>Writing</AcademicSubject>
+      <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+  </LearningObjectiveReference>
+  <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+      <Objective>Generic Learning Objective 5</Objective>
+      <AcademicSubject>Writing</AcademicSubject>
+      <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+  </LearningObjectiveReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2013-Fourth grade Assessment 2.OA-0 Sub</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2013-Fourth grade Assessment 2</AssessmentTitle>
+          <AcademicSubject>Science</AcademicSubject>
+          <GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</ObjectiveAssessment>
+
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-12-2013</CodeValue>
+    <Description>Beginning of Year 2013-2014 for Twelfth grade</Description>
+  </AssessmentPeriodDescriptor>
+
+
+
+<AssessmentFamily>
+    <AssessmentFamilyTitle>2013 Tenth grade Standard</AssessmentFamilyTitle>
+    <AssessmentFamilyIdentificationCode IdentificationSystem="State">
+        <ID>2013 Tenth grade Standard</ID>
+    </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
+    <AssessmentPeriods>
+        <AssessmentPeriodDescriptorIdentity>
+            <AssessmentPeriodDescriptorCodeValue>BOY-10-2013</AssessmentPeriodDescriptorCodeValue>
+        </AssessmentPeriodDescriptorIdentity>
+    </AssessmentPeriods>
+    <AssessmentFamilyReference>
+        <AssessmentFamilyIdentity>
+            <AssessmentFamilyTitle>2013 Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
+        </AssessmentFamilyIdentity>
+    </AssessmentFamilyReference>
+</AssessmentFamily>
+
+
+
+  
+ 
+
+
+</Action>
+</InterchangeAssessmentMetadata>

@@ -54,9 +54,9 @@ public class TokenGeneratorTest {
         for (int i = 0; i < 25; i++) {   //try a few times to increase our probability
             String token = TokenGenerator.generateToken(10000);
             foundChars = token.indexOf('a') > -1
-                    && token.indexOf('A') > -1
+                    && token.indexOf('u') > -1
                     && token.indexOf('z') > -1
-                    && token.indexOf('Z') > -1
+                    && token.indexOf('w') > -1
                     && token.indexOf('0') > -1
                     && token.indexOf('9') > -1;
                     if (foundChars)

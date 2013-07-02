@@ -21,9 +21,6 @@ import javax.annotation.PostConstruct;
 import org.apache.camel.CamelContext;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.spring.SpringRouteBuilder;
-import org.slc.sli.ingestion.reporting.ReportStats;
-import org.slc.sli.ingestion.validation.IndexValidationException;
-import org.slc.sli.ingestion.validation.IndexValidatorExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,14 +37,12 @@ import org.slc.sli.ingestion.processors.LandingZoneProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
 import org.slc.sli.ingestion.processors.PurgeProcessor;
 import org.slc.sli.ingestion.processors.TenantProcessor;
-import org.slc.sli.ingestion.processors.TransformationProcessor;
 import org.slc.sli.ingestion.processors.ZipFileProcessor;
 import org.slc.sli.ingestion.queues.MessageType;
-import org.slc.sli.ingestion.routes.orchestra.AggregationPostProcessor;
-import org.slc.sli.ingestion.routes.orchestra.OrchestraPreProcessor;
-import org.slc.sli.ingestion.routes.orchestra.WorkNoteLatch;
-import org.slc.sli.ingestion.routes.orchestra.parsing.FileEntryLatch;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.tenant.TenantPopulator;
+import org.slc.sli.ingestion.validation.IndexValidationException;
+import org.slc.sli.ingestion.validation.IndexValidatorExecutor;
 
 
 
@@ -81,15 +76,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     private PersistenceProcessor persistenceProcessor;
 
     @Autowired
-    private TransformationProcessor transformationProcessor;
-
-    @Autowired
-    private OrchestraPreProcessor orchestraPreProcessor;
-
-    @Autowired
-    private AggregationPostProcessor aggregationPostProcessor;
-
-    @Autowired
     private JobReportingProcessor jobReportingProcessor;
 
     @Autowired
@@ -106,7 +92,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     @Autowired
     private NodeInfo nodeInfo;
-    
+
     @Autowired
     private IndexValidatorExecutor indexValidatorExecutor;
 
@@ -121,30 +107,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     @Value("${sli.ingestion.queue.landingZone.concurrentConsumers}")
     private String landingZoneConsumers;
-
-    @Value("${sli.ingestion.queue.maestro.queueURI}")
-    private String maestroQueue;
-
-    @Value("${sli.ingestion.queue.maestro.consumerQueueURI}")
-    private String maestroConsumerQueue;
-
-    @Value("${sli.ingestion.queue.maestro.concurrentConsumers}")
-    private String maestroConsumers;
-
-    @Value("${sli.ingestion.queue.maestro.uriOptions}")
-    private String maestroUriOptions;
-
-    @Value("${sli.ingestion.queue.pit.queueURI}")
-    private String pitQueue;
-
-    @Value("${sli.ingestion.queue.pit.consumerQueueURI}")
-    private String pitConsumerQueue;
-
-    @Value("${sli.ingestion.queue.pit.concurrentConsumers}")
-    private String pitConsumers;
-
-    @Value("${sli.ingestion.queue.pit.uriOptions}")
-    private String pitUriOptions;
 
     @Value("${sli.ingestion.topic.command}")
     private String commandTopicUri;
@@ -164,7 +126,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Value("${sli.ingestion.tenant.loadDefaultTenants}")
     private boolean loadDefaultTenants;
 
-    private static final String INGESTION_MESSAGE_TYPE = "IngestionMessageType";
+    public static final String INGESTION_MESSAGE_TYPE = "IngestionMessageType";
 
     // Spring's dependency management can confuse camel due to some circular dependencies. Removing
     // this constructor, even if it doesn't look like it will change things, may affect loading
@@ -186,10 +148,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
         String landingZoneQueueUri = landingZoneQueue + "?concurrentConsumers=" + landingZoneConsumers;
         String workItemQueueUri = workItemQueue + "?concurrentConsumers=" + workItemConsumers;
-        String maestroQueueUri = maestroQueue + "?concurrentConsumers=" + maestroConsumers + maestroUriOptions;
-        String maestroConsumerQueueUri = maestroConsumerQueue + "?concurrentConsumers=" + maestroConsumers + maestroUriOptions;
-        String pitNodeQueueUri = pitQueue + "?concurrentConsumers=" + pitConsumers + pitUriOptions;
-        String pitConsumerNodeQueueUri = pitConsumerQueue + "?concurrentConsumers=" + pitConsumers + pitUriOptions;
         String parserQueueUri = parserQueue + "?concurrentConsumers=" + parserConsumers + parserUriOptions;
 
         if (IngestionNodeType.MAESTRO.equals(nodeInfo.getNodeType())
@@ -206,40 +164,34 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
             buildExtractionRoutes(workItemQueueUri, parserQueueUri);
 
-            buildMaestroRoutes(maestroConsumerQueueUri, pitNodeQueueUri);
-
             configureTenantPollingTimerRoute();
 
             this.addRoutesToCamelContext(camelContext);
         }
 
-        if (IngestionNodeType.PIT.equals(nodeInfo.getNodeType())
-                || IngestionNodeType.STANDALONE.equals(nodeInfo.getNodeType())) {
-
-            LOG.info("configuring routes for pit node");
-
-            buildPitRoutes(pitConsumerNodeQueueUri, maestroQueueUri);
-        }
-
-        from(this.commandTopicUri).bean(this.lookup(CommandProcessor.class));
+        from(this.commandTopicUri)
+            .bean(batchJobManager, "prepareTenantContext")
+            .bean(this.lookup(CommandProcessor.class));
     }
 
     /**
-     * The TransformPersist route will handle transformation of staged NeutralRecords and persist
-     * SLI entities to mongodb.
+     * The buildLzDropFileRoute route defines the path from the landingzone through control file processing
      *
-     * @param pitNodeQueueUri
+     * @param landingZoneQueueUri
+     * @param workItemQueueUri
      */
     private void buildLzDropFileRoute(String landingZoneQueueUri, String workItemQueueUri) {
 
         // routeId: lzDropFile
         from(landingZoneQueueUri).routeId("lzDropFile")
+            .bean(batchJobManager, "prepareTenantContext")
             .log(LoggingLevel.INFO, "CamelRouting", "Landing Zone message detected. Routing to LandingZoneProcessor.")
             .to("direct:processLandingZone");
 
         // routeId: processLandingZone
         from("direct:processLandingZone").routeId("processLandingZone")
             .process(landingZoneProcessor)
+            .bean(batchJobManager, "prepareTenantContext")
             .choice().when()
                 .method(batchJobManager, "hasErrors")
                 .log(LoggingLevel.WARN, "CamelRouting", "Invalid landing zone detected.")
@@ -250,6 +202,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
         // routeId: processZipFile
         from("direct:processZipFile").routeId("processZipFile")
+            .bean(batchJobManager, "prepareTenantContext")
             .process(zipFileProcessor)
             .choice().when()
                 .method(batchJobManager, "hasErrors")
@@ -261,6 +214,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
         // routeId: processControlFilePre
         from("direct:processControlFilePre").routeId("processControlFilePre")
+            .bean(batchJobManager, "prepareTenantContext")
             .process(controlFilePreProcessor)
             .choice().when()
                 .method(batchJobManager, "hasErrors")
@@ -272,69 +226,17 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     }
 
     /**
-     * The maestro routes should:
-     * 1. Process the inbound file until persisting to the staging DB
-     * 2. Create notes that can be posted to the symphony queue
-     * 3. Wait for pit nodes to be done
-     * 4. Aggregate pit node job status into final status
-     *
-     * @param maestroQueueUri
-     * @param pitNodeQueueUri
-     */
-    private void buildMaestroRoutes(String maestroQueueUri, String pitNodeQueueUri) {
-
-        // postExtract
-        // we enter here after EdFiProcessor. everything has been staged.
-        from("direct:postExtract").routeId("postExtract")
-                .log(LoggingLevel.INFO, "CamelRouting", "Routing to Maestro orchestration.")
-                .process(orchestraPreProcessor).choice().when(header("stagedEntitiesEmpty").isEqualTo(true))
-                .to("direct:stop").otherwise().to("direct:transformationSplitter");
-
-        // transformationSplitter
-        // split WorkNotes into separate Exchanges and drop into the pit node queue.
-        from("direct:transformationSplitter").routeId("transformationSplitter")
-                .log(LoggingLevel.INFO, "CamelRouting", "Routing to WorkNoteSplitter for transformation splitting.")
-                .split().method("WorkNoteSplitter", "splitTransformationWorkNotes")
-                .setHeader(INGESTION_MESSAGE_TYPE, constant(MessageType.DATA_TRANSFORMATION.name()))
-                .to(pitNodeQueueUri);
-
-        // persistenceSplitter
-        // act as a pass-through, create separate Exchanges for the list of WorkNotes in the
-        // incoming exchange
-        // and drop into the pit node queue.
-        from("direct:persistenceSplitter").routeId("persistenceSplitter")
-                .log(LoggingLevel.INFO, "CamelRouting", "Routing to WorkNoteSplitter for persistence splitting.")
-                .split().method("WorkNoteSplitter", "splitPersistanceWorkNotes")
-                .setHeader(INGESTION_MESSAGE_TYPE, constant(MessageType.PERSIST_REQUEST.name())).to(pitNodeQueueUri);
-
-        // workNoteLatch
-        from(maestroQueueUri).routeId("workNoteLatch")
-                .log(LoggingLevel.INFO, "CamelRouting", "Maestro message received. Processing: ${body}")
-                .bean(this.lookup(WorkNoteLatch.class))
-                .choice().when(header("latchOpened").isEqualTo(true))
-                    .log(LoggingLevel.INFO, "CamelRouting", "WorkNote latch opened.")
-                    .choice().when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.DATA_TRANSFORMATION.name()))
-                        .to("direct:persistenceSplitter")
-                    .when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.PERSIST_REQUEST.name()))
-                        .process(aggregationPostProcessor)
-                        .choice().when(header("processedAllStagedEntities").isEqualTo(true))
-                            .to("direct:stop")
-                        .otherwise()
-                            .to("direct:transformationSplitter");
-
-    }
-
-    /**
-     * The common route will get us through the extract phase. When complete, all data will be
-     * staged in
-     * NeutralRecord format in mongodb.
+     * The common route will get us through the extract and persistence phases. When complete, all data will be
+     * written to the mongodb.
      *
      * @param workItemQueueUri
+     * @param parserQueueUri
      */
     private void buildExtractionRoutes(String workItemQueueUri, String parserQueueUri) {
 
         // routeId: extraction
-        from(workItemQueueUri).routeId("extraction").choice()
+        from(workItemQueueUri).routeId("extraction")
+                .bean(batchJobManager, "prepareTenantContext").choice()
                 .when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.ERROR.name()))
                 .log(LoggingLevel.INFO, "CamelRouting", "Error in processing. Routing to stop.").to("direct:stop")
 
@@ -353,71 +255,55 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .beanRef("deltaHashPurgeProcessor")
                 .endChoice()
                 .split().method("ZipFileSplitter", "splitZipFile")
-                .log(LoggingLevel.INFO, "CamemRoutring", "Zip file split").to(parserQueueUri);
+                .log(LoggingLevel.INFO, "CamelRouting", "Zip file split").to(parserQueueUri);
 
         from(parserQueueUri).routeId("edFiParser")
+            .bean(batchJobManager, "prepareTenantContext")
             .log(LoggingLevel.INFO, "File entry received. Processing: ${body}")
             .beanRef("edFiParserProcessor")
             .to("direct:fileEntryLatch");
 
         from("direct:deltaFilter").routeId("deltaFilter")
+            .bean(batchJobManager, "prepareTenantContext")
             .log(LoggingLevel.INFO, "CamelRouting", "Batch of ${body.neutralRecords.size} is recieved for delta processing")
             .beanRef("deltaFilterProcessor")
-            .to("direct:staging");
+            .choice()
+                .when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.PERSIST_REQUEST.name()))
+                .choice()
+                    .when()
+                    .method(batchJobManager, "isDryRun")
+                        .log(LoggingLevel.INFO, "CamelRouting", "Dry-run specified. Bypassing persistence.")
+                    .otherwise()
+                        .log(LoggingLevel.INFO, "CamelRouting", "Routing to PersistenceProcessor.")
+                        .to("direct:persister");
 
-        from("direct:staging").routeId("staging")
-            .log(LoggingLevel.INFO, "CamelRouting", "Batch of ${body.neutralRecords.size} is recieved to stage")
-            .beanRef("stagingProcessor");
+        from("direct:persister").routeId("persister")
+                .bean(batchJobManager, "prepareTenantContext")
+                .log(LoggingLevel.INFO, "CamelRouting", "Batch of ${body.neutralRecords.size} is recieved to persist")
+                .beanRef("persistenceProcessor");
 
         // file entry Latch
         from("direct:fileEntryLatch").routeId("fileEntryLatch")
+            .bean(batchJobManager, "prepareTenantContext")
             .log(LoggingLevel.INFO, "Removing file entry from latch. Processing: ${body}")
             .choice()
                 .when().method("fileEntryLatch", "lastFileProcessed")
                     .log(LoggingLevel.INFO, "CamelRouting", "FileEntryWorkNote latch opened.")
-                    .to("direct:postExtract");
+                    .to("direct:stop");
 
         // routeId: assembledJobs
-        from("direct:assembledJobs").routeId("assembledJobs").choice().when()
+        from("direct:assembledJobs").routeId("assembledJobs")
+            .bean(batchJobManager, "prepareTenantContext").choice().when()
                 .method(batchJobManager, "hasErrors")
                 .log(LoggingLevel.INFO, "CamelRouting", "Error in processing. Routing to stop.").to("direct:stop")
                 .otherwise().to(workItemQueueUri);
 
         // end of routing
-        from("direct:stop").routeId("stop").log(LoggingLevel.INFO, "CamelRouting", "Routing to JobReportingProcessor.")
+        from("direct:stop").routeId("stop")
+                .bean(batchJobManager, "prepareTenantContext")
+                .log(LoggingLevel.INFO, "CamelRouting", "Routing to JobReportingProcessor.")
                 .process(jobReportingProcessor).log(LoggingLevel.INFO, "CamelRouting", "Stop. Job routing complete.")
                 .stop();
-    }
-
-    /**
-     * The TransformPersist route will handle transformation of staged NeutralRecords and persist
-     * SLI entities to mongodb.
-     *
-     * @param pitNodeQueueUri
-     */
-    private void buildPitRoutes(String pitNodeQueueUri, String maestroQueueUri) {
-
-        // routeId: pitNodes
-        from(pitNodeQueueUri).routeId("pitNodes")
-            .log(LoggingLevel.INFO, "CamelRouting", "Pit message received: ${body}")
-            .choice()
-            .when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.DATA_TRANSFORMATION.name()))
-                .log(LoggingLevel.INFO, "CamelRouting", "Routing to TransformationProcessor.")
-                .process(transformationProcessor)
-                .log(LoggingLevel.INFO, "CamelRouting", "TransformationProcessor complete. Routing back to Maestro.")
-                .to(maestroQueueUri)
-
-                .when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.PERSIST_REQUEST.name()))
-                .choice()
-                .when()
-                    .method(batchJobManager, "isDryRun")
-                    .log(LoggingLevel.INFO, "CamelRouting", "Dry-run specified. Routing back to Maestro.")
-                    .to(maestroQueueUri)
-                .otherwise()
-                    .log(LoggingLevel.INFO, "CamelRouting", "Routing to PersistenceProcessor.")
-                    .process(persistenceProcessor)
-                    .log(LoggingLevel.INFO, "CamelRouting", "PersistenceProcessor complete. Routing back to Maestro.")
-                    .to(maestroQueueUri);
     }
 
     public void configureTenantPollingTimerRoute() {

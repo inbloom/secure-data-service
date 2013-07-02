@@ -48,28 +48,10 @@ Scenario: Associations List - Expand/Collapse between Simple View and Detail Vie
   Then I am redirected to the associations list page
   And I see a table displaying the associations in a list
   And those names include the IDs of both "ProgramId" and "StaffId" in the association
-  When I click on the row containing "ce92126960911fc94f308947cc3d14bb50e81927_id"
+  When I click on the row containing "2012-02-15"
   Then the row expands below listing the rest of the attributes for the item
-  When I click on the row containing "ce92126960911fc94f308947cc3d14bb50e81927_id"
+  When I click on the row containing "2012-02-15"
   Then the row collapses hiding the additional attributes
-
-Scenario Outline: Entity Detail View
-  When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
-  Then I should be on Portal home page
-  And I should see Admin link
-  And I click on Admin
-  Then I should be on the admin page
-  And under System Tools, I click on "inBloom Data Browser"
-  Then I should be redirected to the Data Browser home page
-  And I have navigated to the <Page> page of the Data Browser
-  When I click on the row containing <Text>
-  And I click on the <Link> of any of the associating entities
-  Then I am redirected to a page that page lists all of the <Entity> entity's fields
-  Examples:
-  | Page                          | Text                                          | Link        | Entity                                                          |
-  | "GetStaffProgramAssociations" | "ce92126960911fc94f308947cc3d14bb50e81927_id" | "Me"        | "ce92126960911fc94f308947cc3d14bb50e81927_id"                   |
-#  | "GetStaffCohortAssociations"  | "8fef446f-fc63-15f9-8606-0b85086c07d5"        | "GetCohort" | "District-wide academic intervention cohort for Social Studies" |
-#  | "GetStaffCohortAssociations"  | "8fef446f-fc63-15f9-8606-0b85086c07d5"        | "GetStaff"  | "rrogers"                                                       |
 
 Scenario: Click on Available Links associations and entities
   When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page

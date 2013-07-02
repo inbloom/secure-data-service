@@ -14,7 +14,6 @@ Scenario: Post a zip file where the second record has a bad attribute should fai
         | educationOrganization       |
         | course                      |
   When zip file is scp to ingestion landing zone
-  And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job for file "BlacklistInputs.zip" is completed in database
   And I should see "CORE_0006" in the resulting error log file
   And I should not see a warning log file created

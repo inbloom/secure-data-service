@@ -1,0 +1,50 @@
+[
+  {
+    "userId": "800000025",
+    "name": "Matt Sollars",
+    "edOrgs": [
+      {
+        "role": "Student",
+        "type": "Middle School",
+        "association": "East Daybreak Junior High",
+        "grade": "Sixth grade"
+      }
+    ]
+  },
+  {
+    "userId": "100000017",
+    "name": "Miha Tran",
+    "edOrgs": [
+      {
+        "role": "Student",
+        "type": "Elementary School",
+        "association": "South Daybreak Elementary",
+        "grade": "First grade"
+      }
+    ]
+  },
+  {
+    "userId": "900000016",
+    "name": "Carmen Ortiz",
+    "edOrgs": [
+      {
+        "role": "Student",
+        "type": "High School",
+        "association": "Daybreak Central High",
+        "grade": "Ninth grade"
+      }
+    ]
+  },
+  {
+    "userId": "cgray",
+    "name": "Celeste Gray",
+    "edOrgs": [
+      {
+        "role": "Student",
+        "type": "Middle School",
+        "association": "East Daybreak Junior High",
+        "grade": "Seventh grade"
+      }
+    ]
+  }
+]

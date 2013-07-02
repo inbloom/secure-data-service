@@ -21,7 +21,9 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | teacherSectionAssociation   |
         | session                     |
         | assessment                  |
-        | studentAssessment|
+        | studentAssessment           |
+        | assessmentFamily            |
+        | assessmentPeriodDescriptor  |
         | gradebookEntry              |
         | courseTranscript            |
         | studentGradebookEntry       |
@@ -48,8 +50,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | studentAcademicRecord       |
 When zip file is scp to ingestion landing zone
   And a batch job for file "DashboardSadPath_IL_Daybreak.zip" is completed in database
-  And a batch job log has been created
-  And I should see "Processed 759 records." in the resulting batch job file
+  And I should see "Processed 764 records." in the resulting batch job file
 
 @IL-Sunset
 Scenario: Post a zip file containing bad data for Illinois Sunset as a payload of the ingestion job: Append Database
@@ -57,14 +58,15 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Sunset"
   And I post "DashboardSadPath_IL_Sunset.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
   And a batch job for file "DashboardSadPath_IL_Sunset.zip" is completed in database
-  And a batch job log has been created
 
-@NY-NYC  
+  @NY-NYC
 Scenario: Post a zip file containing bad data for New York as a payload of the ingestion job: Append Database
 Given I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
 And the following collections are empty in datastore:
         | collectionName              |
         | assessment                  |
+        | assessmentFamily            |
+        | assessmentPeriodDescriptor  |
         | attendance                  |
         | calendarDate                |
         | cohort                      |
@@ -105,4 +107,3 @@ And the following collections are empty in datastore:
   And I post "DashboardSadPath_NY.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
   And a batch job for file "DashboardSadPath_NY.zip" is completed in database
-  And a batch job log has been created

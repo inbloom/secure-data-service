@@ -42,7 +42,8 @@ public class ControlFileTest {
 
         String sep = System.getProperty("line.separator");
         String content = "@hello=world" + sep + " " + sep
-                + "edfi-xml,StudentEnrollment,data.xml,756a5e96e330082424b83902908b070a" + sep;
+            + "edfi-xml,StudentEnrollment,data.xml,756a5e96e330082424b83902908b070a" + sep
+            + "edfi-xml,EducationOrganization,InterchangeEducationOrganization.xml" + sep;
 
         ControlFile controlFile = getControlFileFor(content);
 
@@ -50,12 +51,17 @@ public class ControlFileTest {
 
         List<IngestionFileEntry> items = controlFile.getFileEntries();
 
-        assertEquals(items.size(), 1);
+        assertEquals(items.size(), 2);
 
         assertEquals(items.get(0).getFileFormat(), FileFormat.EDFI_XML);
         assertEquals(items.get(0).getFileType(), FileType.XML_STUDENT_ENROLLMENT);
         assertEquals(items.get(0).getFileName(), "data.xml");
         assertEquals(items.get(0).getChecksum(), "756a5e96e330082424b83902908b070a");
+
+        assertEquals(items.get(1).getFileFormat(), FileFormat.EDFI_XML);
+        assertEquals(items.get(1).getFileType(), FileType.XML_EDUCATION_ORGANIZATION);
+        assertEquals(items.get(1).getFileName(), "InterchangeEducationOrganization.xml");
+        assertEquals(items.get(1).getChecksum(), null);
 
         String[] configPropNames = new String[1];
         Enumeration<?> e = controlFile.configProperties.propertyNames();
@@ -70,7 +76,7 @@ public class ControlFileTest {
     @Test(expected = SubmissionLevelException.class)
     public void testInvalidRecordParseFile() throws IOException, SubmissionLevelException {
 
-        String content = "edfi-xml,StudentEnrollment,data.xml756a5e96e330082424b83902908b070a";
+        String content = "edfi-xml,StudentEnrollmentdata.xml";
 
         ControlFile controlFile = getControlFileFor(content);
 

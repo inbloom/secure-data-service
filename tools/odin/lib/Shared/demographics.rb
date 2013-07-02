@@ -20,9 +20,19 @@ require 'yaml'
 
 class Demographics
 
-  def initialize(demographics, choices)
-    @choices =  YAML.load_file(demographics)
-    @choices = @choices.merge!(YAML.load_file(choices))
+  def initialize(demographics = nil, choices = nil)
+
+    defaultDemographics = File.join("#{File.dirname(__FILE__)}", '../../scenarios/defaults/demographics.yml')
+    defaultChoices = File.join("#{File.dirname(__FILE__)}", '../../scenarios/defaults/choices.yml')
+
+    @choices = YAML.load_file(defaultDemographics)
+    @choices = @choices.merge!(YAML.load_file(defaultChoices))
+    if demographics.nil? == false
+      @choices = @choices.merge!(YAML.load_file(demographics))
+    end
+    if choices.nil? == false
+      @choices = @choices.merge!(YAML.load_file(choices))
+    end
   end
 
   def [](key)

@@ -192,8 +192,10 @@
 		<Version>1</Version>
 		<RevisionDate>2011-01-01</RevisionDate>
 		<Nomenclature>Nomenclature</Nomenclature>
-		<AssessmentPeriods>
-			<CodeValue>apd0</CodeValue>
+        <AssessmentPeriods>
+            <AssessmentPeriodDescriptorIdentity>
+                <AssessmentPeriodDescriptorCodeValue>apd0</AssessmentPeriodDescriptorCodeValue>
+            </AssessmentPeriodDescriptorIdentity>
 		</AssessmentPeriods>
 	</AssessmentFamily>
 	<Assessment>
@@ -220,9 +222,7 @@
 		<RevisionDate>2012-03-24</RevisionDate>
 		<MaxRawScore>100</MaxRawScore>
 		<Nomenclature>Nomenclature</Nomenclature>
-		<AssessmentPeriod>
-			<CodeValue>apd0</CodeValue>
-		</AssessmentPeriod>
+<AssessmentPeriod><AssessmentPeriodDescriptorIdentity><AssessmentPeriodDescriptorCodeValue>apd0</AssessmentPeriodDescriptorCodeValue></AssessmentPeriodDescriptorIdentity></AssessmentPeriod>
 		<ObjectiveAssessmentReference>
 			<ObjectiveAssessmentIdentity>
 				<ObjectiveAssessmentIdentificationCode>objas0</ObjectiveAssessmentIdentificationCode>

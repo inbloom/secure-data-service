@@ -20,8 +20,8 @@ import java.util.Set;
 
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 
@@ -33,7 +33,7 @@ public class GenericToGlobalGraduationPlanWriteValidator extends AbstractContext
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return isTransitive && EntityNames.GRADUATION_PLAN.equals(entityType);
+        return isTransitive && EntityNames.GRADUATION_PLAN.equals(entityType) && !isStudentOrParent();
     }
 
     @Override

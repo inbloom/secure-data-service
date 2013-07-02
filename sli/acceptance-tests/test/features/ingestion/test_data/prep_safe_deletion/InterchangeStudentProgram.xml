@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<InterchangeStudentProgram xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentProgram.xsd">
+	<StudentProgramAssociation>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>800000025</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<ProgramReference>
+			<ProgramIdentity>
+				<ProgramId>ACC-TEST-PROG-1</ProgramId>
+			</ProgramIdentity>
+		</ProgramReference>
+		<BeginDate>2011-03-01</BeginDate>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+	</StudentProgramAssociation>
+</InterchangeStudentProgram>

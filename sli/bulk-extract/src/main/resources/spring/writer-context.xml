@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:util="http://www.springframework.org/schema/util"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+
+      <bean id="defaultWriter" class="org.slc.sli.bulk.extract.files.writer.EntityWriter">
+        <constructor-arg><bean class="org.slc.sli.bulk.extract.treatment.TreatmentApplicator">
+                <property name="treatments"><util:list value-type="org.slc.sli.bulk.extract.treatment.Treatment">
+                        <ref local="idTreatment"/>
+                        <ref local="typeTreatment"/>
+                 </util:list></property></bean></constructor-arg>
+      </bean>
+
+      <bean id="educationOrganizationWriter" class="org.slc.sli.bulk.extract.files.writer.EntityWriter">
+        <constructor-arg><bean  class="org.slc.sli.bulk.extract.treatment.TreatmentApplicator">
+                <property name="treatments"><util:list value-type="org.slc.sli.bulk.extract.treatment.Treatment">
+                        <ref local="idTreatment"/>
+                        <ref local="educationOrganizationTreatment"/>
+                </util:list></property></bean> </constructor-arg>
+      </bean>
+
+      <bean id="staffWriter" class="org.slc.sli.bulk.extract.files.writer.EntityWriter">
+        <constructor-arg><bean  class="org.slc.sli.bulk.extract.treatment.TreatmentApplicator">
+                <property name="treatments"><util:list value-type="org.slc.sli.bulk.extract.treatment.Treatment">
+                        <ref local="idTreatment"/>
+                        <ref local="staffTreatment"/>
+                </util:list></property></bean> </constructor-arg>
+      </bean>
+
+      <bean id="assessmentWriter" class="org.slc.sli.bulk.extract.files.writer.EntityWriter">
+        <constructor-arg><bean  class="org.slc.sli.bulk.extract.treatment.TreatmentApplicator">
+                <property name="treatments"><util:list value-type="org.slc.sli.bulk.extract.treatment.Treatment">
+                        <ref local="idTreatment"/>
+                        <ref local="typeTreatment"/>
+                        <ref local="assessmentTreatment"/>
+                </util:list></property></bean> </constructor-arg>
+      </bean>
+
+     <bean id="studentAssessmentWriter" class="org.slc.sli.bulk.extract.files.writer.EntityWriter">
+        <constructor-arg><bean  class="org.slc.sli.bulk.extract.treatment.TreatmentApplicator">
+                <property name="treatments"><util:list value-type="org.slc.sli.bulk.extract.treatment.Treatment">
+                        <ref local="idTreatment"/>
+                        <ref local="typeTreatment"/>
+                        <ref local="studentAssessmentTreatment"/>
+                </util:list></property></bean> </constructor-arg>
+      </bean>
+
+      <bean id="attendanceWriter" class="org.slc.sli.bulk.extract.files.writer.EntityWriter">
+        <constructor-arg><bean  class="org.slc.sli.bulk.extract.treatment.TreatmentApplicator">
+                <property name="treatments"><util:list value-type="org.slc.sli.bulk.extract.treatment.Treatment">
+                        <ref local="idTreatment"/>
+                        <ref local="typeTreatment"/>
+                        <ref local="attendanceTreatment"/>
+                </util:list></property></bean> </constructor-arg>
+      </bean>
+
+    <bean id="educationOrganizationTreatment" class="org.slc.sli.bulk.extract.treatment.EducationOrganizationTreatment" />
+    <bean id="staffTreatment" class="org.slc.sli.bulk.extract.treatment.StaffTreatment" />
+    <bean id="idTreatment" class="org.slc.sli.bulk.extract.treatment.IdTreatment" />
+    <bean id="typeTreatment" class="org.slc.sli.bulk.extract.treatment.TypeTreatment" />
+    <bean id="assessmentTreatment" class="org.slc.sli.bulk.extract.treatment.AssessmentTreatment" />
+    <bean id="studentAssessmentTreatment" class="org.slc.sli.bulk.extract.treatment.StudentAssessmentTreatment" />
+    <bean id="attendanceTreatment" class="org.slc.sli.bulk.extract.treatment.AttendanceTreatment" />
+
+    <util:map id="writers" key-type="java.lang.String" value-type="org.slc.sli.bulk.extract.files.writer.EntityWriter">
+        <entry key="educationOrganization" value-ref="educationOrganizationWriter" />
+        <entry key="staff" value-ref="staffWriter" />
+        <entry key="assessment" value-ref="assessmentWriter" />
+        <entry key="studentAssessment" value-ref="studentAssessmentWriter" />
+        <entry key="attendance" value-ref="attendanceWriter" />
+    </util:map>
+   </beans>
+   

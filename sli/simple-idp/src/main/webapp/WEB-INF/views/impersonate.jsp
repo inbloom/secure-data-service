@@ -44,16 +44,20 @@ $(document).ready(function() {
 	  $("#" + dataset).prop("disabled", false);
   }
   function showSampleUsers(){
-	  $("#manualUserDiv").hide();
-	  $("#manualUserBtn").toggleClass("active");
-	  $("#sampleUserDiv").show();
-	  $("#sampleUserBtn").toggleClass("active");
+	  if ($('#manualUserBtn').hasClass('active')) {
+		  $("#manualUserDiv").hide();
+		  $("#manualUserBtn").toggleClass("active");
+		  $("#sampleUserDiv").show();
+		  $("#sampleUserBtn").toggleClass("active");
+	  }
   }  
   function showManualConfig(){
-	  $("#manualUserDiv").show();
-	  $("#manualUserBtn").toggleClass("active");
-	  $("#sampleUserDiv").hide();
-	  $("#sampleUserBtn").toggleClass("active");
+	  if ($('#sampleUserBtn').hasClass('active')) {
+		  $("#sampleUserDiv").hide();
+		  $("#sampleUserBtn").toggleClass("active");
+		  $("#manualUserDiv").show();
+		  $("#manualUserBtn").toggleClass("active");
+	  }
 	  return false;
   }
 </script>
@@ -128,7 +132,7 @@ $(document).ready(function() {
 						<div class="controls">
 						<select id="${dataset.key}" name="userList" class="input-xlarge userList" onchange="">
 							<c:forEach items='<%=request.getAttribute(((Dataset)pageContext.getAttribute("dataset")).getKey())%>' var="user">
-	                              	 <option value="${user.userId}">${user.name} - ${user.role} at ${user.association}</option>
+                                <option value="${user.userId}">${user.name} - ${fn:replace(fn:replace(user.roles,"]" , ""), "[", "")} at ${user.association}</option>
 							</c:forEach>
 						</select>
 						</div>

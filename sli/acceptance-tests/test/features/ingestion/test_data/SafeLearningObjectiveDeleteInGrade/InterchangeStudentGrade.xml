@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<InterchangeStudentGrade xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                                  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentGrade.xsd">
+    <Action ActionType="DELETE" Cascade="false" Force="false">
+
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <Description>Generic Learning Objective 1 for grade: Eleventh grade in subject: Human Services</Description>
+    <AcademicSubject>Human Services</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  
+    </Action>
+</InterchangeStudentGrade>

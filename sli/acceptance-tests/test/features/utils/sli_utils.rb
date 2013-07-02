@@ -62,6 +62,7 @@ $SESSION_MAP = {
                 "sunsetadmin_SLI" => "4aea375c-0e5d-456a-8b89-23bc03aa5ea2",
                 "badadmin_IL" => "5cf7a5d4-57a1-c100-8b13-b5f95131ac85",
                 "sampleUser_IL" => "e88cb5c1-771d-46ac-a207-e88cb7c1771d",
+                "carmen.ortiz_IL-Student" => "1AC2D1F8-D6B4-4174-884B-214A48E0007B",
                 "demo_IL" => "e88cb5c1-771d-46ac-a2c7-2d58d7f12196",
                 "eengland_NY" => "ebbec99c-c8cf-4982-b853-3513374d0073",
                 "gcanning_NY" => "0a50a4ec-e00f-4944-abac-2abbdb99f7d9",
@@ -140,9 +141,13 @@ $SESSION_MAP = {
                                     
 }
 
+$CASCADE_DELETE_REFERENCE_MAP = {
+
+}
+
 def convertTenantIdToDbName(tenantId)
   db_name = Digest::SHA1.hexdigest tenantId
-  puts "Tenant: #{tenantId} DB: #{db_name}"
+  #puts "Tenant: #{tenantId} DB: #{db_name}"
   return db_name
 end
 
@@ -210,6 +215,64 @@ def restHttpPostAbs(url, data = nil, format = @format, sessionId = @sessionId)
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
 
+# Function restHttpHead
+# Inputs: (String) id = URL of the desired resource (ex. /students/fe3425e53-f23-f343-53cab3453)
+# Opt. Input: (String) format = defaults to @format that is generally set from the scenario step defs
+#                               Can be manually overwritten
+# Opt. Input: (String) sessionId = defaults to @sessionId that was created from the idpLogin() function
+#                               Can be manually overwritten
+# Output: sets @res, the HTML REST response that can be access throughout the remainder of the Gherkin scenario
+# Returns: Nothing, see Output
+# Description: Helper function that calls the REST API specified in id using HEAD to retrieve an existing object
+#              It is suggested you assert the state of the @res response before returning success from the calling function
+def restHttpHead(id, extra_headers = nil, format = @format, sessionId = @sessionId, client_id = "vavedra9ub")
+  # Validate SessionId is not nil
+  assert(sessionId != nil, "Session ID passed into HEAD was nil")
+
+  client_cert = OpenSSL::X509::Certificate.new File.read File.expand_path("../keys/#{client_id}.crt", __FILE__)
+  private_key = OpenSSL::PKey::RSA.new File.read File.expand_path("../keys/#{client_id}.key", __FILE__)
+
+  urlHeader = makeUrlAndHeaders('head',id,sessionId,format,true)
+  
+  header = urlHeader[:headers]
+  header.merge!(extra_headers) if extra_headers !=nil
+  
+  puts "HEAD urlHeader: #{urlHeader}" if $SLI_DEBUG
+
+  @res = RestClient::Request.execute(:method => :head, :url => urlHeader[:url], :headers => header, :ssl_client_cert => client_cert, :ssl_client_key => private_key) {|response, request, result| response }
+  puts(@res.code,@res.raw_headers) if $SLI_DEBUG
+  return @res
+end
+
+# Function restHttpHeadFullURL
+# Inputs: (String) id = URL of the desired resource (ex. /students/fe3425e53-f23-f343-53cab3453)
+# Opt. Input: (String) format = defaults to @format that is generally set from the scenario step defs
+#                               Can be manually overwritten
+# Opt. Input: (String) sessionId = defaults to @sessionId that was created from the idpLogin() function
+#                               Can be manually overwritten
+# Output: sets @res, the HTML REST response that can be access throughout the remainder of the Gherkin scenario
+# Returns: Nothing, see Output
+# Description: Helper function that calls the REST API specified in id using HEAD to retrieve an existing object
+#              It is suggested you assert the state of the @res response before returning success from the calling function
+def restHttpHeadFullURL(fullUrl, extra_headers = nil, format = @format, sessionId = @sessionId, client_id = "vavedra9ub")
+  # Validate SessionId is not nil
+  assert(sessionId != nil, "Session ID passed into HEAD was nil")
+
+  client_cert = OpenSSL::X509::Certificate.new File.read File.expand_path("../keys/#{client_id}.crt", __FILE__)
+  private_key = OpenSSL::PKey::RSA.new File.read File.expand_path("../keys/#{client_id}.key", __FILE__)
+
+  header = makeHeaders('head', sessionId, format)
+  
+  header.merge!(extra_headers) if extra_headers !=nil
+  
+  puts "HEAD header: #{header}"
+
+  @res = RestClient::Request.execute(:method => :head, :url => fullUrl, :headers => header, :ssl_client_cert => client_cert, :ssl_client_key => private_key) {|response, request, result| response }
+#, :ssl_client_cert => client_cert, :ssl_client_key => private_key
+  puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
+end
+
+
 # Function restHttpGet
 # Inputs: (String) id = URL of the desired resource (ex. /students/fe3425e53-f23-f343-53cab3453)
 # Opt. Input: (String) format = defaults to @format that is generally set from the scenario step defs
@@ -225,9 +288,35 @@ def restHttpGet(id, format = @format, sessionId = @sessionId)
   assert(sessionId != nil, "Session ID passed into GET was nil")
 
   urlHeader = makeUrlAndHeaders('get',id,sessionId,format)
+  puts "GET urlHeader: #{urlHeader}" if $SLI_DEBUG
   @res = RestClient.get(urlHeader[:url], urlHeader[:headers]){|response, request, result| response }
-
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
+  return @res
+end
+
+def restHttpCustomHeadersGet(id, customHeaders, format = @format, sessionId = @sessionId)
+  restTls(id, customHeaders, format, sessionId)
+  return @res
+end
+
+def restTls(url, extra_headers = nil, format = @format, sessionId = @sessionId, client_id = "vavedra9ub")
+  # Validate SessionId is not nil
+  assert(sessionId != nil, "Session ID passed into GET was nil")
+
+  puts "Loading Key and Certificate for client ID #{client_id}"
+  client_cert = OpenSSL::X509::Certificate.new File.read File.expand_path("../keys/#{client_id}.crt", __FILE__)
+  private_key = OpenSSL::PKey::RSA.new File.read File.expand_path("../keys/#{client_id}.key", __FILE__)
+
+  urlHeader = makeUrlAndHeaders('get',url,sessionId,format,true)
+
+  header = urlHeader[:headers]
+  header.merge!(extra_headers) if extra_headers !=nil
+  
+  puts "GET TLS urlHeader: #{urlHeader}" if $SLI_DEBUG
+
+  @res = RestClient::Request.execute(:method => :get, :url => urlHeader[:url], :headers => header, :ssl_client_cert => client_cert, :ssl_client_key => private_key) {|response, request, result| response }
+  puts(@res.code,@res.raw_headers) if $SLI_DEBUG
+  return @res
 end
 
 def restHttpGetAbs(url, format = @format, sessionId = @sessionId)
@@ -307,10 +396,13 @@ def restHttpDeleteAbs(url, format = @format, sessionId = @sessionId)
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
 
-def makeUrlAndHeaders(verb,id,sessionId,format)
+def makeUrlAndHeaders(verb,id,sessionId,format, ssl_mode = false)
   headers = makeHeaders(verb, sessionId, format)
+  
+  property_name = 'api_server_url'
+  property_name = 'api_ssl_server_url' if ssl_mode
 
-  url = PropLoader.getProps['api_server_url']+"/api/rest"+id
+  url = PropLoader.getProps[property_name]+"/api/rest"+id
   puts(url, headers) if $SLI_DEBUG
 
   return {:url => url, :headers => headers}
@@ -345,31 +437,32 @@ end
 
 After do |scenario|
   if scenario.failed?
-    begin
-      conn = Mongo::Connection.new("jenkins.slidev.org")
-      db = conn.db("test_job_failures")
-      failures = db.collection("failure")
-      title = scenario.is_a?(Cucumber::Ast::OutlineTable::ExampleRow)? scenario.scenario_outline.feature.name.split("\n")[0] : scenario.feature.name.split("\n")[0]
-      scenarioName = scenario.is_a?(Cucumber::Ast::OutlineTable::ExampleRow)? scenario.scenario_outline.name : scenario.name
-      host = Socket.gethostname.include?("cislave")? Socket.gethostname : "local"
-      
-      filepath = scenario.is_a?(Cucumber::Ast::OutlineTable::ExampleRow)? scenario.scenario_outline.feature.file : scenario.feature.file
-      component = filepath.match(/test[\\\/]features[\\\/]([^\\\/]+)[\\\/]/)[1]
-      
-      failureHash = {
-       "timestamp" => Time.now.to_f,
-       "feature" => title,
-       "scenario" => scenarioName,
-       "component" => component,
-       "hostname" => host
-      }
-      failures.insert(failureHash)
-      db.get_last_error()
-    rescue
-      # If couldn't report failure, swallow the exception and continue
-    ensure
-      conn.close if conn != nil
-    end
+    ### No longer have network access to mongo on jenkins
+    # begin
+    #       conn = Mongo::Connection.new("jenkins.slidev.org")
+    #       db = conn.db("test_job_failures")
+    #       failures = db.collection("failure")
+    #       title = scenario.is_a?(Cucumber::Ast::OutlineTable::ExampleRow)? scenario.scenario_outline.feature.name.split("\n")[0] : scenario.feature.name.split("\n")[0]
+    #       scenarioName = scenario.is_a?(Cucumber::Ast::OutlineTable::ExampleRow)? scenario.scenario_outline.name : scenario.name
+    #       host = Socket.gethostname.include?("cislave")? Socket.gethostname : "local"
+    #       
+    #       filepath = scenario.is_a?(Cucumber::Ast::OutlineTable::ExampleRow)? scenario.scenario_outline.feature.file : scenario.feature.file
+    #       component = filepath.match(/test[\\\/]features[\\\/]([^\\\/]+)[\\\/]/)[1]
+    #       
+    #       failureHash = {
+    #        "timestamp" => Time.now.to_f,
+    #        "feature" => title,
+    #        "scenario" => scenarioName,
+    #        "component" => component,
+    #        "hostname" => host
+    #       }
+    #       failures.insert(failureHash)
+    #       db.get_last_error()
+    #     rescue
+    #       # If couldn't report failure, swallow the exception and continue
+    #     ensure
+    #       conn.close if conn != nil
+    #     end
     Cucumber.wants_to_quit = true if !ENV['FAILSLOW']
   end
 end
@@ -499,6 +592,7 @@ module DataProvider
       "description" => "Prints hello world.",
       "name" => "Hello World",
       "is_admin" => true,
+      "isBulkExtract" => false,
       "behavior" => "Full Window App",
       "administration_url" => "https://slidev.org/admin",
       "image_url" => "https://slidev.org/img",
@@ -529,6 +623,16 @@ module DataProvider
   end
   
 
+end
+
+def recursive_hash_delete( hash, key_to_remove ) 
+   if  hash.is_a? Hash then
+     hash.delete( key_to_remove )
+     hash.each_value do |value|
+       recursive_hash_delete(value, key_to_remove) if value.is_a? Hash
+      value.each { |el | recursive_hash_delete( el, key_to_remove ) } if value.is_a? Array
+    end
+  end
 end
 
 module CreateEntityHash
@@ -599,12 +703,92 @@ module EntityProvider
       assert( expected.size == response.size )
       expected.zip(response).each { |ex, res| verify_entities_match(ex, res) }
     else
+      if (expected == "true" or expected == "false")
+        expected = (expected == "true")
+      end
+      if (response == "true" or response == "false")
+        response = (response == "true")
+      end
       assert( expected == response )
+    end
+  end
+
+  def self.match?(fieldValue1, fieldValue2)
+    STDOUT.puts "matching #{fieldValue1} #{fieldValue2}"
+    result = true
+    if fieldValue1.is_a?(Hash)
+      fieldValue1.each { |key, value|
+        if ( ! match?(value, fieldValue2[key]) )
+          return false
+        end
+      }
+    elsif fieldValue1.is_a?(Array)
+      if ( fieldValue1.size != fieldValue2.size )
+        return false
+      end
+      fieldValue1.zip(fieldValue2).each { |ex, res|
+        if ( ! match?(ex, res) )
+          return false
+        end
+      }
+    else
+      if (fieldValue1 == "true" or fieldValue1 == "false")
+        fieldValue1 = (fieldValue1 == "true")
+      end
+      if (fieldValue2 == "true" or fieldValue2 == "false")
+        fieldValue2 = (fieldValue2 == "true")
+      end
+      return fieldValue1 == fieldValue2
+    end
+    return result
+  end
+
+  # returns whether or not the value of fieldPath is the same in oldRecord and record
+  def self.entity_field_matches?(oldRecord, record, fieldPath)
+    currentField, sep, remainingFieldPath = fieldPath.partition(".")
+    if fieldPath.empty?
+      match?(oldRecord, record)
+    elsif oldRecord.is_a?(Hash)
+      entity_field_matches?(oldRecord[currentField], record[currentField], remainingFieldPath)
+    elsif oldRecord.is_a?(Array)
+      # assume array index is specified in the fieldPath
+      entity_field_matches?(oldRecord[Integer(currentField)], record[Integer(currentField)], remainingFieldPath)
+    else
+      assert(false, "Invalid path. #{currentField} does not contain a subfield #{remainingFieldPath} as expected.")
     end
   end
 
 end
 
+module X509
+  def self.newApp(clientId, trustStore)
+    cert_path = File.expand_path("../keys/#{clientId}.crt", __FILE__)
+    key_path = File.expand_path("../keys/#{clientId}.key", __FILE__)
+
+    puts "Generating key pair for app: #{clientId}"
+    `openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout #{key_path} -out #{cert_path} -subj "/C=UA/ST=Denial/L=gru/O=pnewed/CN=*.slidev.org"`
+    puts "New Certificate created at #{cert_path}"
+    puts "New Private Key created at #{key_path}"
+    
+    puts "importing generating cert into trust store #{trustStore}"
+    `keytool -import -file #{cert_path} -keystore #{trustStore} -alias #{clientId} -storepass changeit -noprompt` 
+    
+  end
+  
+  def self.cleanse(clientId, trustStore)
+    cert_path = File.expand_path("../keys/#{clientId}.crt", __FILE__)
+    key_path = File.expand_path("../keys/#{clientId}.key", __FILE__)
+    
+    puts "Deleting #{clientId} from #{trustStore}"
+    `keytool -delete -alias #{clientId} -keystore #{trustStore} -storepass changeit -noprompt`
+    
+    puts "Cleaning up Certificate from file system at #{cert_path}"
+    `rm #{cert_path}`
+    puts "Cleaning up Private Key from file system at #{key_path}"
+    `rm #{key_path}`
+
+  end  
+end
 ######################
 ######################
 ### Create uuids that can be used thusly:  @db['collection'].find_one( '_id' => id_from_juuid("e5420397-908e-11e1-9a9d-68a86d2267de"))
@@ -641,6 +825,33 @@ def assertWithPolling(msg, total_wait_sec, &blk)
   }
 
   assert(yield, msg) unless passed
+end
+
+
+### Retries the passed code block if any exception is thrown.
+def retryOnFailure(naptime = 2, retries = 5, &block)
+  attempts = 1
+  while attempts < retries
+    if attempts > 1
+      puts "Previous attempt failed. Attempt #{attempts}/#{retries}"
+      sleep(naptime)
+    end
+    begin
+      yield
+      return
+    rescue SystemExit, Interrupt
+      raise
+    rescue Exception => e
+      if attempts >= retries
+        puts "Failed #{attempts} times, giving up"
+        raise e
+      else
+        puts e
+        puts e.backtrace.join("\n")
+      end
+    end
+    attempts += 1
+  end
 end
 
 

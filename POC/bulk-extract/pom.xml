@@ -204,7 +204,7 @@
                         <manifest>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib</classpathPrefix>
-                            <mainClass>org.slc.sli.search.Launcher</mainClass>
+                            <mainClass>extract.Launcher</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -234,7 +234,7 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>2.2-beta-5</version>
                 <configuration>
-                    <finalName>search_indexer</finalName>
+                    <finalName>bulk_extract</finalName>
                     <descriptors>
                         <descriptor>assembly/tgz.xml</descriptor>
                     </descriptors>

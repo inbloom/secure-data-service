@@ -5,6 +5,10 @@ Feature:  RC Integration CleanUp Tests
 Background:
   Given I have an open web browser
 
+Scenario: Delete bulk extract files
+  When the production extraction zone is empty
+  And there is no bulk extract files in the local directory
+
 Scenario:  LEA deletes realm
   When I navigate to the Portal home page
   When I selected the realm "inBloom"
@@ -16,10 +20,10 @@ Scenario:  LEA deletes realm
   Then I should be on the admin page
   And under System Tools, I click on "Manage Realm"
   And I switch to the iframe
-  Then I see the realms for "Daybreak School District 4529 (IL-DAYBREAK)"
+  Then I see the realms for "IL-DAYBREAK"
   When I click the "Daybreak Test Realm" delete button and confirm deletion
   And I switch to the iframe
-  Then I see the realms for "Daybreak School District 4529 (IL-DAYBREAK)"
+  Then I see the realms for "IL-DAYBREAK"
   And I exit out of the iframe
   And I click on log out
 

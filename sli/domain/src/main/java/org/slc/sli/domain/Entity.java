@@ -83,4 +83,17 @@ public interface Entity {
      * @return
      */
     public Map<String, List<Map<String, Object>>> getDenormalizedData();
+
+    /**
+     * Get data contained within this entity. This refers to entities that are not subdocs, but are
+     * contained within this entity.
+     *
+     * @return container entities
+     */
+    public Map<String, List<Entity>> getContainerData();
+
+    /*
+     * Hollow out an entity by removing its body and metadata.
+     */
+    public void hollowOut();
 }

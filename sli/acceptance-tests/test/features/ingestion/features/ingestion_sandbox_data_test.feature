@@ -22,10 +22,12 @@ Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
         | session                     |
         | schoolSessionAssociation    |
         | assessment                  |
-        | studentAssessment|
+        | assessmentFamily            |
+        | assessmentPeriodDescriptor  |
+        | studentAssessment           |
         | gradebookEntry              |
         | courseTranscript            |
-        | studentGradebookEntry|
+        | studentGradebookEntry       |
         | parent                      |
         | studentParentAssociation    |
         | attendance                  |
@@ -49,9 +51,7 @@ Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
         | studentAcademicRecord       |
   When zip file is scp to ingestion landing zone
   And a batch job for file "SmallSampleDataSet.zip" is completed in database
-  And a batch job log has been created
-
-Then I should see following map of entry counts in the corresponding collections:
+  Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | student                     | 78    |
         | studentSchoolAssociation    | 167   |
@@ -66,7 +66,9 @@ Then I should see following map of entry counts in the corresponding collections
         | session                     | 22    |
         | schoolSessionAssociation    | 22    |
         | assessment                  | 19    |
-        | studentAssessment| 203   |
+        | assessmentFamily            | 0     |
+        | assessmentPeriodDescriptor  | 0     |
+        | studentAssessment           | 203   |
         | courseTranscript            | 196   |
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
@@ -229,7 +231,9 @@ Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
         | session                     |
         | schoolSessionAssociation    |
         | assessment                  |
-        | studentAssessment|
+        | assessmentFamily            |
+        | assessmentPeriodDescriptor  |
+        | studentAssessment           |
         | gradebookEntry              |
         | courseTranscript            |
         | studentGradebookEntry       |
@@ -256,9 +260,7 @@ Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
         | studentAcademicRecord       |
   When zip file is scp to ingestion landing zone
   And a batch job for file "MediumSampleDataSet.zip" is completed in database
-  And a batch job log has been created
-
-Then I should see following map of entry counts in the corresponding collections:
+  Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | student                     | 500   |
         | studentSchoolAssociation    | 500   |
@@ -273,7 +275,9 @@ Then I should see following map of entry counts in the corresponding collections
         | session                     | 10    |
         | schoolSessionAssociation    | 10    |
         | assessment                  | 1     |
-        | studentAssessment| 2500  |
+        | assessmentFamily            | 0     |
+        | assessmentPeriodDescriptor  | 0     |
+        | studentAssessment           | 2500  |
         | courseTranscript            | 2500  |
         | parent                      | 0     |
         | studentParentAssociation    | 0     |

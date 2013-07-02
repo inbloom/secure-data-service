@@ -16,16 +16,19 @@
 
 package org.slc.sli.api.jersey;
 
-import com.sun.jersey.spi.container.ContainerRequest;
-import com.sun.jersey.spi.container.ContainerRequestFilter;
-import org.slc.sli.api.resources.generic.config.ResourceEndPoint;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import java.util.List;
+import java.util.SortedSet;
 
 import javax.ws.rs.core.PathSegment;
 import javax.ws.rs.core.UriBuilder;
-import java.util.List;
-import java.util.SortedSet;
+
+import com.sun.jersey.spi.container.ContainerRequest;
+import com.sun.jersey.spi.container.ContainerRequestFilter;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.resources.generic.config.ResourceEndPoint;
 
 /**
  * Pre-request version filter.
@@ -41,6 +44,8 @@ public class VersionFilter implements ContainerRequestFilter {
     @Autowired
     private ResourceEndPoint resourceEndPoint;
 
+    private static final String VERSION_PATTERN = "v([0-9])+(\\.([0-9])+)?";
+
     @Override
     public ContainerRequest filter(ContainerRequest containerRequest) {
 
@@ -48,35 +53,79 @@ public class VersionFilter implements ContainerRequestFilter {
 
         if (!segments.isEmpty()) {
             String version = segments.get(0).getPath();
+            boolean isBulkNonVersion = version.equals("bulk");
 
             SortedSet<String> minorVersions = resourceEndPoint.getNameSpaceMappings().get(version);
 
-            if ((minorVersions != null) && !minorVersions.isEmpty()) {
-                //remove the version
-                segments.remove(0);
+            String newVersion = null;
 
-                String newVersion = version + "." + minorVersions.last();
-
-                //add the new version
-                UriBuilder builder = containerRequest.getBaseUriBuilder().path(newVersion);
-
-                //add the rest of the request
-                for (PathSegment segment : segments) {
-                    builder.path(segment.getPath());
+            if(isBulkNonVersion || (segments.size() > 1 && segments.get(1).getPath().equals("bulk"))) {
+                if (!isBulkNonVersion) {
+                    //remove the version
+                    segments.remove(0);
+                } else {
+                    //there is no version specified in the request for bulk extract
+                    version = "";
                 }
 
-                if (containerRequest.getRequestUri().getQuery() != null &&
-                        !containerRequest.getRequestUri().getQuery().isEmpty()) {
-                    builder.replaceQuery(containerRequest.getRequestUri().getQuery());
-                }
+                // Bulk extract always returns latest API version.
+                newVersion = getLatestApiVersion(version);
 
+                updateContainerRequest(containerRequest, segments, newVersion);
                 info("Version Rewrite: {} --> {}", new Object[] { version, newVersion });
 
-                containerRequest.getProperties().put(REQUESTED_PATH, containerRequest.getPath());
-                containerRequest.setUris(containerRequest.getBaseUri(), builder.build());
+            } else if ((minorVersions != null) && !minorVersions.isEmpty()) {
+                segments.remove(0);
+
+                newVersion = version + "." + minorVersions.last();
+
+                updateContainerRequest(containerRequest, segments, newVersion);
+                info("Version Rewrite: {} --> {}", new Object[] { version, newVersion });
             }
         }
 
         return containerRequest;
+    }
+
+    private ContainerRequest updateContainerRequest(ContainerRequest containerRequest, List<PathSegment> segments, String newVersion) {
+        //add the new version
+        UriBuilder builder = containerRequest.getBaseUriBuilder().path(newVersion);
+
+        //add the rest of the request
+        for (PathSegment segment : segments) {
+            builder.path(segment.getPath());
+        }
+
+        if (containerRequest.getRequestUri().getQuery() != null &&
+                !containerRequest.getRequestUri().getQuery().isEmpty()) {
+            builder.replaceQuery(containerRequest.getRequestUri().getQuery());
+        }
+
+        containerRequest.getProperties().put(REQUESTED_PATH, containerRequest.getPath());
+        containerRequest.setUris(containerRequest.getBaseUri(), builder.build());
+
+        return containerRequest;
+    }
+
+/**
+ * Get the latest API version.
+ *
+ * @return Latest API version
+ */
+    public String getLatestApiVersion(String requestedVersion) {
+      String latestApiVersion = "";
+
+      for (String majorVersion : resourceEndPoint.getNameSpaceMappings().keySet()) {
+          String minorVersion = resourceEndPoint.getNameSpaceMappings().get(majorVersion).last();
+          String fullVersion = majorVersion + "." + minorVersion;
+              if (fullVersion.compareToIgnoreCase(latestApiVersion) > 0) {
+                  latestApiVersion = fullVersion;
+              }
+      }
+      if(!requestedVersion.equals("") && !requestedVersion.matches(VERSION_PATTERN)) {
+        return requestedVersion;
+      }
+
+      return requestedVersion.compareToIgnoreCase(latestApiVersion) > 0 ? requestedVersion : latestApiVersion;
     }
 }

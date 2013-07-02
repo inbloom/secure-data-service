@@ -16,16 +16,16 @@
 
 package org.slc.sli.ingestion.landingzone.validation;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Enumeration;
+import java.util.Map;
 
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.zip.UnsupportedZipFeatureException;
-import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
-import org.apache.commons.io.IOUtils;
+import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
+import org.apache.commons.compress.archivers.zip.ZipFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,22 +48,20 @@ public class ZipFileValidator implements Validator<File> {
     private static final String STAGE_NAME = "Zip File Validation";
 
     @Override
-    public boolean isValid(File zipFile, AbstractMessageReport report, ReportStats reportStats, Source source) {
-        FileInputStream fis = null;
-        ZipArchiveInputStream zis = null;
-
+    public boolean isValid(File zipFile, AbstractMessageReport report, ReportStats reportStats, Source source, Map<String, Object> parameters) {
         boolean isValid = false;
 
         // we know more of our source
         LOG.info("Validating " + zipFile.getAbsolutePath());
 
+        ZipFile zf = null;
         try {
-            fis = new FileInputStream(zipFile);
-            zis = new ZipArchiveInputStream(new BufferedInputStream(fis));
+            zf = new ZipFile(zipFile);
 
-            ArchiveEntry ze;
+            Enumeration<ZipArchiveEntry> zes = zf.getEntries();
 
-            while ((ze = zis.getNextEntry()) != null) {
+            while (zes.hasMoreElements()) {
+                ZipArchiveEntry ze = zes.nextElement();
 
                 if (isDirectory(ze)) {
                     report.error(reportStats, new FileSource(zipFile.getName()), BaseMessageCode.BASE_0010, zipFile.getName());
@@ -80,22 +78,21 @@ public class ZipFileValidator implements Validator<File> {
                 report.error(reportStats, new FileSource(zipFile.getName()), BaseMessageCode.BASE_0009, zipFile.getName());
             }
         } catch (UnsupportedZipFeatureException ex) {
-            report.error(reportStats, new FileSource(zipFile.getName()), BaseMessageCode.BASE_0022, zipFile.getName());
+            report.error(ex, reportStats, new FileSource(zipFile.getName()), BaseMessageCode.BASE_0022, zipFile.getName());
 
             isValid = false;
         } catch (FileNotFoundException ex) {
-            report.error(reportStats, new FileSource(zipFile.getName()), BaseMessageCode.BASE_0020, zipFile.getName());
+            report.error(ex, reportStats, new FileSource(zipFile.getName()), BaseMessageCode.BASE_0020, zipFile.getName());
 
             isValid = false;
         } catch (IOException ex) {
             LOG.warn("Caught IO exception processing " + zipFile.getAbsolutePath());
 
-            report.error(reportStats, new FileSource(zipFile.getName()), BaseMessageCode.BASE_0021, zipFile.getName());
+            report.error(ex, reportStats, new FileSource(zipFile.getName()), BaseMessageCode.BASE_0021, zipFile.getName());
 
             isValid = false;
         } finally {
-            IOUtils.closeQuietly(zis);
-            IOUtils.closeQuietly(fis);
+            ZipFile.closeQuietly(zf);
         }
 
         return isValid;

@@ -32,11 +32,11 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 
@@ -169,6 +169,20 @@ public class ValidatorTestHelper {
         return entity;
     }
 
+    public Entity generateSchoolEdOrg( String parentId ) {
+
+        Map<String, Object> edorg = new HashMap<String, Object>();
+        if (parentId != null) {
+            edorg.put(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE, parentId);
+        }
+        edorg.put("organizationCategories", Arrays.asList( "School"));
+        edorg.put("type", "school");
+        Entity e = repo.create(EntityNames.EDUCATION_ORGANIZATION, edorg);
+        e.getMetaData().put( "edOrgs", Arrays.asList(e.getEntityId()));
+
+        return e;
+    }
+
     public String generateStudentAndStudentSchoolAssociation(String studentId, String schoolId,
             String graduationPlanId, boolean isExpired) {
         Map<String, Object> student = new HashMap<String, Object>();
@@ -188,7 +202,7 @@ public class ValidatorTestHelper {
         if (isExpired) {
             school.put("exitWithdrawDate", getBadDate());
         }
-        school.put("edOrgs", Arrays.asList(schoolId));
+ //       school.put("edOrgs", Arrays.asList(schoolId));
         schools.add(school);
         denormalizations.put("schools", schools);
         student.put("denormalization", denormalizations);
@@ -388,6 +402,12 @@ public class ValidatorTestHelper {
         parent.put(ParameterConstants.PARENT_ID, parentId);
         parent.put(ParameterConstants.STUDENT_ID, studentId);
         return repo.create(EntityNames.STUDENT_PARENT_ASSOCIATION, parent);
+    }
+    
+    public Entity generateStudentAcademicRecord(String studentId) {
+        Map<String, Object> studentAcademicRecord = new HashMap<String, Object>();
+        studentAcademicRecord.put(ParameterConstants.STUDENT_ID, studentId);
+        return repo.create(EntityNames.STUDENT_ACADEMIC_RECORD, studentAcademicRecord);
     }
 
     protected void setUpTeacherContext() {

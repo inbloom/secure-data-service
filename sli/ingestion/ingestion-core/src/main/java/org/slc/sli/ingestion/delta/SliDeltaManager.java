@@ -114,9 +114,6 @@ public final class SliDeltaManager {
             NaturalKeyDescriptor nkd = new NaturalKeyDescriptor(populatedNaturalKeys, tenantId, sliEntityType, null);
 
             String recordId = dIdStrategy.generateId(nkd);
-            if(neutralRecordResolved.getRecordType().equals("attendanceEvent")) {
-                recordId = DigestUtils.shaHex(recordId + "|" + neutralRecordResolved.getAttributes().toString());
-            }
 
             // Calculate record hash using natural keys' values
             String recordHashValues = DigestUtils.shaHex(neutralRecordResolved.getRecordType() + "-"
@@ -132,10 +129,11 @@ public final class SliDeltaManager {
 
             n.addMetaData(RECORDHASH_DATA, rhData);
 
-            isPrevIngested = (record != null && record.getHash().equals(recordHashValues));
+// If we are doing delete, we still want to proceed
+            isPrevIngested = !n.getActionVerb().doDelete() && (record != null && record.getHash().equals(recordHashValues));
 
             if(record != null) {
-                //not ingested previously
+
                 rhDataElement.put(RECORDHASH_CURRENT, record.exportToSerializableMap());
             }
 
@@ -177,12 +175,17 @@ public final class SliDeltaManager {
             if (value != null) {
                 if( value instanceof Map) {
                     @SuppressWarnings("unchecked")
-                    Map<String, String> valueMap = (Map<String, String>) value;
-                    strValue = valueMap.get(VALUE);
+                    Map<String, Object> valueMap = (Map<String, Object>) value;
+                    Object objValue = valueMap.get(VALUE);
+                    if (objValue instanceof Integer) {
+                        strValue = Integer.toString((Integer) objValue);
+                    } else {
+                        strValue = (String) objValue;
+                    }
                 } else {
                     strValue = value.toString();
                 }
-                } else {
+            } else {
                 handleFieldAccessException(fieldName, neutralRecord, naturalKey.isOptional());
             }
 

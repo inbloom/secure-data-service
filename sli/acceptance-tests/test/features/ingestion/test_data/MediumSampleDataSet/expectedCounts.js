@@ -11,43 +11,41 @@ var entities ={
               'disciplineAction':4875,
               'disciplineIncident':4875,
               'educationOrganization':7,
-              'grade':2500,
               'gradingPeriod':40,
               'graduationPlan':5,
               'learningObjective':1,
               'learningStandard':3,
               'parent':763,
               'program':13,
-              'reportCard':500,
               'section':300,
               'session':10,
               'staff':60,
               'staffCohortAssociation':180,
               'staffProgramAssociation':106,
               'student':500,
-              'studentAcademicRecord':500,
               'studentCompetency':1000,
               'studentCompetencyObjective':1,
               'studentGradebookEntry':8,
               'teacherSchoolAssociation':50,
 };
 var superdocs = {
-    'cohort':{
-        'studentCohortAssociation':1500,
-    },
-    'program':{
-        'studentProgramAssociation':1000,
-    },
     'section':{
         'gradebookEntry':1,
         'studentSectionAssociation':2500,
         'teacherSectionAssociation':300,
     },
     'student':{
+        'studentProgramAssociation':1000,
+        'studentCohortAssociation':1500,
         'schools':500,
         'studentDisciplineIncidentAssociation':4875,
         'studentParentAssociation':763,
     },
+    'yearlyTranscript':{
+        'grade':2500,
+        'reportCard':500,
+        'studentAcademicRecord':500
+    }
 }
 for(var entity in  entities){
     var expectedCount = entities[entity];

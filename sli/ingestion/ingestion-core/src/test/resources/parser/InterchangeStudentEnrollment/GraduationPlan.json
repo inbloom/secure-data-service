@@ -119,7 +119,6 @@
     }
   ],
   "EducationOrganizationReference":
-  [
     {
       "EducationalOrgIdentity":
       {
@@ -128,15 +127,5 @@
           "_value":"pnML5IrRgmVeYZMO3IlTVwnmrO3NCzUYb3plQyn0LIAmYBtEVYKG9zS"
         }
       }
-    },
-    {
-      "EducationalOrgIdentity":
-      {
-        "StateOrganizationId":
-        {
-          "_value":"DgswYI9Aq.I2cG6h6CgR"
-        }
-      }
     }
-  ]
 }

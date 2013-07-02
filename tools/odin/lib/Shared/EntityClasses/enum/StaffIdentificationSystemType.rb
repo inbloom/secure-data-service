@@ -34,17 +34,14 @@ require_relative 'Enum.rb'
 #     <xs:enumeration value="Federal"/>
 #     <xs:enumeration value="Other Federal"/>
 #     <xs:enumeration value="Selective Service"/>
-#     <xs:enumeration value="SSN"/>
 #     <xs:enumeration value="US Visa"/>
 #     <xs:enumeration value="PIN"/>
-#     <xs:enumeration value="Canadian SIN"/>
 #     <xs:enumeration value="Other"/>
 #   </xs:restriction>
 # </xs:simpleType>
 class StaffIdentificationSystemType
   include Enum
 
-  StaffIdentificationSystemType.define :CANADIAN_SIN, "Canadian SIN"
   StaffIdentificationSystemType.define :DISTRICT, "District"
   StaffIdentificationSystemType.define :DRIVERS_LICENSE, "Drivers License"
   StaffIdentificationSystemType.define :FEDERAL, "Federal"
@@ -56,7 +53,6 @@ class StaffIdentificationSystemType
   StaffIdentificationSystemType.define :PROFESSIONAL_CERTIFICATE, "Professional Certificate"
   StaffIdentificationSystemType.define :SCHOOL, "School"
   StaffIdentificationSystemType.define :SELECTIVE_SERVICE, "Selective Service"
-  StaffIdentificationSystemType.define :SSN, "SSN"
   StaffIdentificationSystemType.define :STATE, "State"
   StaffIdentificationSystemType.define :US_VISA, "US Visa"
 end

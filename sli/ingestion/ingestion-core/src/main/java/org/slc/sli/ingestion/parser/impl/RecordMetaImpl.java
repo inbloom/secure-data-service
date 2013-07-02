@@ -18,7 +18,11 @@ package org.slc.sli.ingestion.parser.impl;
 import javax.xml.stream.Location;
 
 import org.slc.sli.common.util.logging.SecurityEvent;
+import org.slc.sli.ingestion.ActionVerb;
+import org.slc.sli.ingestion.ReferenceConverter;
 import org.slc.sli.ingestion.parser.RecordMeta;
+
+import java.util.Map;
 
 /**
  * Basic implementation of RecordMeta
@@ -28,22 +32,49 @@ import org.slc.sli.ingestion.parser.RecordMeta;
  */
 public final class RecordMetaImpl implements RecordMeta {
 
-    final String name;
+    private final String name;
     final String type;
+    private String originalType;
     final boolean isList;
+    private boolean isReference = false;
+    private ActionVerb action;
+    private final boolean isCascade;
     Location sourceStartLocation;
     Location sourceEndLocation;
+    private Map<String, String> actionAttributes;
 
     public RecordMetaImpl(String name, String type) {
         this.name = name;
         this.type = type;
         isList = false;
+        this.isCascade = false;
+        action = ActionVerb.NONE;
     }
 
     public RecordMetaImpl(String name, String type, boolean isList) {
         this.name = name;
         this.type = type;
         this.isList = isList;
+        this.isCascade = false;
+        this.action = ActionVerb.NONE;
+
+
+    }
+
+    public RecordMetaImpl( String name, String type, boolean isList, ActionVerb doWhat ) {
+        this.name = name;
+        this.type = type;
+        this.isList = isList;
+        this.action = doWhat;
+        this.isCascade = ( doWhat == ActionVerb.CASCADE_DELETE ) ? true : false ;
+        if( doWhat.doDelete() && ReferenceConverter.isReferenceType( name ) ) {
+            this.isReference = true;
+        }
+    }
+
+    public RecordMetaImpl( String name, String type, boolean isList, ActionVerb doWhat, Map<String, String> actionAttributes) {
+        this(name, type, isList, doWhat);
+        this.actionAttributes = actionAttributes;
     }
 
     @Override
@@ -60,6 +91,7 @@ public final class RecordMetaImpl implements RecordMeta {
     public String getName() {
         return name;
     }
+
 
     @Override
     public String toString() {
@@ -95,9 +127,52 @@ public final class RecordMetaImpl implements RecordMeta {
         this.sourceEndLocation = sourceEndLocation;
     }
 
+    public void setAction( String name) {
+        action = ActionVerb.valueOf( name);
+
+    }
+
     public void audit(SecurityEvent event) {
         // TODO Auto-generated method stub
 
     }
 
+    @Override
+    public boolean isAction() {
+        return action == ActionVerb.NONE ? false : true;
+    }
+
+    @Override
+    public ActionVerb getAction() {
+        return action;
+    }
+
+    @Override
+    public boolean doCascade() {
+        return isCascade;
+    }
+
+
+    @Override
+    public boolean isReference() {
+        return isReference;
+    }
+
+    @Override
+    public String getOriginalType() {
+        return originalType;
+    }
+
+    @Override
+    public void setOriginalType(String originalType) {
+        this.originalType = originalType;
+    }
+
+    public Map<String, String> getActionAttributes() {
+        return actionAttributes;
+    }
+
+    public void setActionAttributes(Map<String, String> actionAttributes) {
+        this.actionAttributes = actionAttributes;
+    }
 }

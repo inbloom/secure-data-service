@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                                  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-AssessmentMetadata.xsd">
+    <Action ActionType="DELETE" Cascade="false" Force="false">
+
+  <Assessment>
+    <AssessmentTitle>A-Grade 7 2011 State Reading</AssessmentTitle>
+    <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+      <ID>Grade 7 2011 State Reading</ID>
+    </AssessmentIdentificationCode>
+    <AssessmentCategory>State summative assessment 3-8 general</AssessmentCategory>
+    <AcademicSubject>Reading</AcademicSubject>
+    <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>W</CodeValue>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <MinimumScore>120</MinimumScore>
+      <MaximumScore>179</MaximumScore>
+    </AssessmentPerformanceLevel>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>B</CodeValue>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <MinimumScore>180</MinimumScore>
+      <MaximumScore>230</MaximumScore>
+    </AssessmentPerformanceLevel>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>S</CodeValue>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <MinimumScore>231</MinimumScore>
+      <MaximumScore>277</MaximumScore>
+    </AssessmentPerformanceLevel>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>E</CodeValue>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <MinimumScore>278</MinimumScore>
+      <MaximumScore>364</MaximumScore>
+    </AssessmentPerformanceLevel>
+    <ContentStandard>State Standard</ContentStandard>
+    <Version>1</Version>
+    <RevisionDate>2011-03-12</RevisionDate>
+    <MaxRawScore>364</MaxRawScore>
+    <AssessmentFamilyReference>
+      <AssessmentFamilyIdentity>
+        <AssessmentFamilyTitle>A-State Reading for Grades 3-8</AssessmentFamilyTitle>
+      </AssessmentFamilyIdentity>
+    </AssessmentFamilyReference>
+  </Assessment>
+  
+    </Action>
+    </InterchangeAssessmentMetadata>

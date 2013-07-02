@@ -16,32 +16,26 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.common.util.datetime.DateHelper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
-import static org.slc.sli.api.constants.ParameterConstants.STUDENT_RECORD_ACCESS;
+import static org.slc.sli.common.constants.ParameterConstants.STUDENT_RECORD_ACCESS;
 
 @Component
 public class StudentValidatorHelper {
 
     @Autowired
     private DateHelper dateHelper;
-
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
 
@@ -55,7 +49,12 @@ public class StudentValidatorHelper {
 
         return new ArrayList<String>(ids);
     }
+
     public List<String> getTeachersSectionIds(Entity teacher) {
+        return getTeachersSectionIds(teacher, true);
+    }
+
+    public List<String> getTeachersSectionIds(Entity teacher, boolean useGracePeriod) {
         List<String> sectionIds = new ArrayList<String>();
 
         // teacher -> teacherSectionAssociation
@@ -64,7 +63,7 @@ public class StudentValidatorHelper {
         Iterable<Entity> teacherSectionAssociations = repo.findAll(EntityNames.TEACHER_SECTION_ASSOCIATION, query);
 
         for (Entity assoc : teacherSectionAssociations) {
-            if (!dateHelper.isFieldExpired(assoc.getBody(), ParameterConstants.END_DATE, true)) {
+            if (!dateHelper.isFieldExpired(assoc.getBody(), ParameterConstants.END_DATE, useGracePeriod)) {
                 sectionIds.add((String) assoc.getBody().get(ParameterConstants.SECTION_ID));
             }
         }

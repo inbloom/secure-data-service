@@ -25,6 +25,7 @@ Scenario: Non SLI-hosted valid user tries to access the Application Authorizatio
      And I submit the credentials "administrator" "administrator1234" for the "Simple" login page
      Then the api should generate a 403 error
 
+@DE_2690
 Scenario: Deny application
   
   Given I am an authenticated District Super Administrator for "Sunset School District"
@@ -40,7 +41,7 @@ Scenario: Deny application
   And the Approve button next to it is enabled
   And the Deny button next to it is disabled
   
-	Scenario: Approve application
+Scenario: Approve application
 	
 	Given I am an authenticated District Super Administrator for "Sunset School District"
 	And I am logged into the Application Authorization Tool

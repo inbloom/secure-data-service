@@ -24,34 +24,45 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.annotation.Resource;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
+import com.mongodb.MongoException;
+
 import org.joda.time.DateTime;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.domain.AccessibilityCheck;
+import org.slc.sli.domain.CascadeResult;
+import org.slc.sli.domain.CascadeResultError;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
-import com.mongodb.MongoException;
 
 /**
  * JUnits for DAL
@@ -59,7 +70,7 @@ import com.mongodb.MongoException;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class EntityRepositoryTest {
-    
+
     @Autowired
     private MongoTemplate mongoTemplate;
 
@@ -71,11 +82,142 @@ public class EntityRepositoryTest {
     @Resource(name = "mongoEntityRepository")
     private Repository<Entity> repository;
 
+    boolean schoolLineageIs(String schoolId, Set<String> expectedEdOrgs) {
+        NeutralQuery neutralQuery = new NeutralQuery();
+        neutralQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, schoolId));
+        Entity school = repository.findOne(EntityNames.EDUCATION_ORGANIZATION, neutralQuery);
+        ArrayList<String> edOrgs = (ArrayList<String>) school.getMetaData().get("edOrgs");
+        if (edOrgs == null) {
+            return expectedEdOrgs.isEmpty();
+        } else if (!expectedEdOrgs.equals(new HashSet<String>(edOrgs))) {
+            System.out.println("School edOrg lineage incorrect. Expected " + expectedEdOrgs + ", got " + edOrgs);
+            return false;
+        }
+        return true;
+    }
+
+    @Test
+    public void testSchoolLineage() {
+        NeutralQuery query = null;
+
+        repository.deleteAll(EntityNames.EDUCATION_ORGANIZATION, null);
+
+        DBObject indexKeys = new BasicDBObject("body." + ParameterConstants.STATE_ORGANIZATION_ID, 1);
+        mongoTemplate.getCollection(EntityNames.EDUCATION_ORGANIZATION).ensureIndex(indexKeys);
+        mongoTemplate.getCollection(EntityNames.EDUCATION_ORGANIZATION).ensureIndex(new BasicDBObject("metaData.edOrgs", 1), new BasicDBObject("sparse", true));
+
+        // Add a school
+        Entity school = createEducationOrganizationEntity("school1", "school", "School", null);
+        Set<String> expectedEdOrgs = new HashSet();
+        expectedEdOrgs.add(school.getEntityId());
+        assertTrue("School not found in lineage.", schoolLineageIs(school.getEntityId(), expectedEdOrgs));
+
+        // Add an SEA
+        Entity sea = createEducationOrganizationEntity("sea1", "stateEducationAgency", "State Education Agency", null);
+        assertTrue("After adding SEA expected edOrgs not found in lineage.", schoolLineageIs(school.getEntityId(), expectedEdOrgs));
+
+        // Add an LEA
+        Entity lea = createEducationOrganizationEntity("lea1", "localEducationAgency", "Local Education Agency", sea.getEntityId());
+        assertTrue("After adding LEA expected edOrgs not found in lineage.", schoolLineageIs(school.getEntityId(), expectedEdOrgs));
+
+        // doUpdate School parent ref to LEA
+        query = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, school.getEntityId()));
+        Update update = new Update().set("body." + ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE, lea.getEntityId());
+        repository.doUpdate(EntityNames.EDUCATION_ORGANIZATION, query, update);
+        expectedEdOrgs.add(lea.getEntityId());
+        expectedEdOrgs.add(sea.getEntityId());
+        assertTrue("After updating school parent ref expected edOrgs not found in lineage.", schoolLineageIs(school.getEntityId(), expectedEdOrgs));
+
+        // Patch LEA parent ref to an undefined id
+        Map<String, Object> newValues = new HashMap<String, Object>();
+        newValues.put(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE, "undefinedId");
+        repository.patch("localEducationEntity", EntityNames.EDUCATION_ORGANIZATION, lea.getEntityId(), newValues);
+        expectedEdOrgs.remove(sea.getEntityId());
+        assertTrue("After updating school parent ref expected edOrgs not found in lineage.", schoolLineageIs(school.getEntityId(), expectedEdOrgs));
+
+        // Update LEA to set parent ref back to SEA
+        repository.update(EntityNames.EDUCATION_ORGANIZATION, lea, false);
+        expectedEdOrgs.add(sea.getEntityId());
+        assertTrue("After updating school parent ref expected edOrgs not found in lineage.", schoolLineageIs(school.getEntityId(), expectedEdOrgs));
+
+        // Delete LEA - lineage should be recalculated
+        repository.delete(EntityNames.EDUCATION_ORGANIZATION, lea.getEntityId());
+        expectedEdOrgs.remove(lea.getEntityId());
+        expectedEdOrgs.remove(sea.getEntityId());
+        assertTrue("After deleting lea expected edOrgs not found in lineage.", schoolLineageIs(school.getEntityId(), expectedEdOrgs));
+
+        // Insert LEA with no parent ref to SEA
+        lea.getBody().remove(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE);
+        Entity insertedLea = ((MongoEntityRepository)repository).insert(lea, EntityNames.EDUCATION_ORGANIZATION);
+        expectedEdOrgs.add(lea.getEntityId());
+        assertTrue("After re-adding LEA with no parent ref expected edOrgs not found in lineage.", schoolLineageIs(school.getEntityId(), expectedEdOrgs));
+
+        // findAndUpdate School parent ref to SEA
+        query = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, school.getEntityId()));
+        update = new Update().set("body." + ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE, sea.getEntityId());
+        repository.findAndUpdate(EntityNames.EDUCATION_ORGANIZATION, query, update);
+        expectedEdOrgs.remove(lea.getEntityId());
+        expectedEdOrgs.add(sea.getEntityId());
+        assertTrue("After updating school parent ref to SEA, expected edOrgs not found in lineage.", schoolLineageIs(school.getEntityId(), expectedEdOrgs));
+
+        // Clear lineage for negative tests
+        clearSchoolLineage(school);
+
+        // Create an unrelated entity type and make sure school lineage isn't recalculated
+        repository.create("student", buildTestStudentEntity());
+        assertTrue("After adding a student lineage school lineage should not change.", schoolLineageIs(school.getEntityId(), new HashSet<String>()));
+
+        // Patch an edOrg non-parent-ref and make sure school lineage isn't recalculated
+        newValues = new HashMap<String, Object>();
+        newValues.put("body.nameOfInstitution", "updatedName");
+        repository.patch("school", EntityNames.EDUCATION_ORGANIZATION, school.getEntityId(), newValues);
+        assertTrue("Updating a school non-parent ref should not change school lineage.", schoolLineageIs(school.getEntityId(), new HashSet<String>()));
+
+        mongoTemplate.getCollection(EntityNames.EDUCATION_ORGANIZATION).drop();
+
+    }
+
+    private void clearSchoolLineage(Entity school) {
+        school.getMetaData().remove("edOrgs");
+        repository.update(EntityNames.EDUCATION_ORGANIZATION, school, false);
+    }
+
+    private Entity createEducationOrganizationEntity(String stateOrgId, String type, String organizationCategory, String parentRef) {
+        Random rand = new Random();
+        Map<String, Object> body = new HashMap<String, Object>();
+        List<Map<String, String>> addresses = new ArrayList<Map<String, String>>();
+        Map<String, String> address = new HashMap<String, String>();
+        List<String> organizationCategories = new ArrayList<String>();
+
+        /*
+     	    <xs:enumeration value="State Education Agency" />
+			<xs:enumeration value="Education Service Center" />
+			<xs:enumeration value="Local Education Agency" />
+			<xs:enumeration value="School" />
+         */
+        organizationCategories.add(organizationCategory);
+        body.put(ParameterConstants.ORGANIZATION_CATEGORIES, organizationCategories);
+
+        address.put("streetNumberName", rand.nextInt(100) + " Hill Street");
+        address.put("city", "My City");
+        address.put("stateAbbreviation", "IL");
+        address.put("postalCode", "1235");
+        addresses.add(address);
+        body.put("address", addresses);
+
+        if (parentRef != null) {
+            body.put(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE, parentRef);
+        }
+        body.put("nameOfInstitution", stateOrgId + "Name");
+        body.put(ParameterConstants.STATE_ORGANIZATION_ID, stateOrgId);
+        return repository.create(type, body, EntityNames.EDUCATION_ORGANIZATION);
+    }
+
     @Test
     public void testDeleteAll() {
         repository.deleteAll("student", null);
-        
-        DBObject indexKeys =  new BasicDBObject("body.firstName", 1); 
+
+        DBObject indexKeys = new BasicDBObject("body.firstName", 1);
         mongoTemplate.getCollection("student").ensureIndex(indexKeys);
 
         Map<String, Object> studentMap = buildTestStudentEntity();
@@ -90,9 +232,386 @@ public class EntityRepositoryTest {
         neutralQuery.addCriteria(new NeutralCriteria("firstName=John"));
         repository.deleteAll("student", neutralQuery);
         assertEquals(4, repository.count("student", new NeutralQuery()));
-        
+
         repository.deleteAll("student", null);
-        mongoTemplate.getCollection("student").dropIndex(indexKeys); 
+        mongoTemplate.getCollection("student").dropIndex(indexKeys);
+    }
+
+    private AccessibilityCheck access = new AccessibilityCheck() {
+        // grant access to all entities
+        // TODO exercise access denied logic
+        @Override
+        public boolean accessibilityCheck(String id) {
+            return true;
+        }
+    };
+
+    private AccessibilityCheck accessDenied = new AccessibilityCheck() {
+        int count = 0;
+
+        // grant access to no entities
+        // TODO exercise access denied logic
+        @Override
+        public boolean accessibilityCheck(String id) {
+            count++;
+            if (count > 1) {
+                // deny access after the first check
+                return false;
+            }
+            return true;
+        }
+    };
+
+    @Test
+    public void testSafeDelete() {
+//        testSafeDeleteHelper(collectionName, overridingId, cascade, dryrun, forced, logViolations,maxObjects, access, leafDataOnly,
+//                leafDataOnly, expectedNObjects, expectedDepth, expectedStatus, expectedErrorType, expectedWarningType)
+
+        // Test leaf node delete success : cascade=false and dryrun=false
+        testSafeDeleteHelper("gradingPeriod", null, false, false, false, false, null, access, true, 1, MongoEntityRepository.DELETE_BASE_DEPTH, CascadeResult.Status.SUCCESS, null, null);
+
+        // Test leaf node delete failure : cascade=false and dryrun=false
+        testSafeDeleteHelper("gradingPeriod", null, false, false, false, false, null, access, false, 0, MongoEntityRepository.DELETE_BASE_DEPTH, CascadeResult.Status.ERROR, CascadeResultError.ErrorType.CHILD_DATA_EXISTS, null);
+
+        // Test cascade=false and dryrun=true
+        testSafeDeleteHelper("gradingPeriod", null, false, true, false, false, null, access, false, 0, MongoEntityRepository.DELETE_BASE_DEPTH, CascadeResult.Status.ERROR, CascadeResultError.ErrorType.CHILD_DATA_EXISTS, null);
+
+        // Test cascade=true and dryrun=true
+        testSafeDeleteHelper("gradingPeriod", null, true, true, false, false, null, access, false, 4, MongoEntityRepository.DELETE_BASE_DEPTH+1, CascadeResult.Status.SUCCESS, null, null);
+
+        // Test cascade=true and dryrun=false
+        testSafeDeleteHelper("gradingPeriod", null, true, false, false, false, null, access, false, 4, MongoEntityRepository.DELETE_BASE_DEPTH+1, CascadeResult.Status.SUCCESS, null, null);
+
+        // Test maxobjects
+        testSafeDeleteHelper("gradingPeriod", null, true, false, false, false, 2, access, false, 4, MongoEntityRepository.DELETE_BASE_DEPTH+1, CascadeResult.Status.MAX_OBJECTS_EXCEEDED, null, null);
+
+        // Test access denied
+        testSafeDeleteHelper("gradingPeriod", null, true, false, false, false, null, accessDenied, false, 0, MongoEntityRepository.DELETE_BASE_DEPTH, CascadeResult.Status.ERROR, CascadeResultError.ErrorType.ACCESS_DENIED, null);
+
+        // Test deletion from a non-existent collection
+        testSafeDeleteHelper("nonexistentCollection", null, true, false, false, false, null, access, false, 0, MongoEntityRepository.DELETE_BASE_DEPTH, CascadeResult.Status.ERROR, CascadeResultError.ErrorType.DELETE_ERROR, null);
+
+        // Test deletion of a non-existent id
+        testSafeDeleteHelper("gradingPeriod", "noMatchId", true, false, false, false, null, access, false, 0, MongoEntityRepository.DELETE_BASE_DEPTH, CascadeResult.Status.ERROR, CascadeResultError.ErrorType.DELETE_ERROR, null);
+
+        // Test leaf forced delete
+        testSafeDeleteHelper("gradingPeriod", null, false, false, true, true, null, access, true, 1, MongoEntityRepository.DELETE_BASE_DEPTH, CascadeResult.Status.SUCCESS, null, null);
+
+        // Test forced delete with children
+        testSafeDeleteHelper("gradingPeriod", null, false, false, true, false, null, access, false, 1, MongoEntityRepository.DELETE_BASE_DEPTH, CascadeResult.Status.SUCCESS, null, null);
+
+        // Test forced delete with logViolations
+        testSafeDeleteHelper("gradingPeriod", null, false, false, true, true, null, access, false, 1, MongoEntityRepository.DELETE_BASE_DEPTH, CascadeResult.Status.SUCCESS, null, CascadeResultError.ErrorType.CHILD_DATA_EXISTS);
+    }
+
+    private void testSafeDeleteHelper(String entityType, String overridingId,
+            boolean cascade, boolean dryrun, boolean forced, boolean logViolations,
+            Integer maxObjects, AccessibilityCheck access,
+            boolean leafDataOnly,int expectedNObjects, int expectedDepth,
+            CascadeResult.Status expectedStatus,
+            CascadeResultError.ErrorType expectedErrorType, CascadeResultError.ErrorType expectedWarningType) {
+//        System.out.println("Testing safeDelete: ");
+//        System.out.println("   entity type             : " + entityType);
+//        System.out.println("   override id             : " + overridingId);
+//        System.out.println("   cascade                 : " + cascade);
+//        System.out.println("   dryrun                  : " + dryrun);
+//        System.out.println("   maxObjects              : " + maxObjects);
+//        System.out.println("   leaf data only          : " + leafDataOnly);
+//        System.out.println("   expected affected count : " + expectedNObjects);
+//        System.out.println("   expected depth          : " + expectedDepth);
+
+        CascadeResult result = null;
+        String idToDelete = prepareSafeDeleteGradingPeriodData(leafDataOnly);
+
+        // used to test bad id scenario
+        if (overridingId != null) {
+            idToDelete = overridingId;
+        }
+
+        result = repository.safeDelete(entityType, idToDelete, cascade, dryrun, forced, logViolations, maxObjects, access);
+
+        // check for at least one instance of the expected error type
+        boolean errorMatchFound = false;
+        List<CascadeResultError> errors = result.getErrors();
+        if (expectedErrorType == null && errors != null && errors.size() == 0) {
+            errorMatchFound = true;
+        } else {
+            for (CascadeResultError error : errors) {
+                if (error.getErrorType() == expectedErrorType) {
+                    errorMatchFound = true;
+                    break;
+                }
+            }
+        }
+
+//        for (CascadeResultError error : result.getErrors()) {
+//            System.out.println(error);
+//        }
+
+        // check for at least one instance of the expected warning type
+        boolean warningMatchFound = false;
+        List<CascadeResultError> warnings = result.getWarnings();
+        if (expectedWarningType == null && warnings != null && warnings.size() == 0) {
+            warningMatchFound = true;
+        } else {
+            for(CascadeResultError warning : warnings) {
+                if (warning.getErrorType() == expectedWarningType) {
+                    warningMatchFound = true;
+                    break;
+                }
+            }
+        }
+
+//        for(CascadeResultError warning : result.getWarnings()) {
+//            System.out.println(warning);
+//        }
+
+        //   verify expected results
+        assertEquals(expectedNObjects, result.getnObjects());
+        assertEquals(expectedDepth, result.getDepth());
+        assertEquals(expectedStatus, result.getStatus());
+        assertTrue(errorMatchFound);
+        assertTrue(warningMatchFound);
+    }
+
+    private String prepareSafeDeleteGradingPeriodData(boolean justLeaf) {
+        clearSafeDeleteGradingPeriodData();
+
+        // populate the leaf grading period entity to be deleted
+        String idToDelete = prepareSafeDeleteGradingPeriodLeafData();
+
+        if (!justLeaf) {
+            prepareSafeDeleteGradingPeriodReferenceData(idToDelete);
+        }
+
+        return idToDelete;
+    }
+
+    private void clearSafeDeleteGradingPeriodData() {
+        repository.deleteAll("gradingPeriod", null);
+        repository.deleteAll("session", null);
+        repository.deleteAll(MongoRepository.CUSTOM_ENTITY_COLLECTION, null);
+        repository.deleteAll("yearlyTranscript", null); // actual mongo
+                                                        // collection for grade
+                                                        // and reportCard
+    }
+
+    private String prepareSafeDeleteGradingPeriodLeafData() {
+        DBObject indexKeys = new BasicDBObject("body.beginDate", 1);
+        mongoTemplate.getCollection("gradingPeriod").ensureIndex(indexKeys);
+
+        // create a minimal gradingPeriod document
+        Map<String, Object> gradingPeriodIdentity = new HashMap<String, Object>();
+        gradingPeriodIdentity.put("gradingPeriod", "gradingPeriod1");
+        gradingPeriodIdentity.put("schoolYear", "2011-2012");
+        gradingPeriodIdentity.put("schoolId", "schoolId1");
+        Map<String, Object> gradingPeriodBody = new HashMap<String, Object>();
+        gradingPeriodBody.put("gradingPeriodIdentity", gradingPeriodIdentity);
+        gradingPeriodBody.put("beginDate", "beginDate1");
+        repository.create("gradingPeriod", gradingPeriodBody);
+
+        // get the db id of the gradingPeriod - there is only one
+        NeutralQuery neutralQuery = new NeutralQuery();
+        Entity gradingPeriod1 = repository.findOne("gradingPeriod", neutralQuery);
+        return gradingPeriod1.getEntityId();
+    }
+
+    private void prepareSafeDeleteGradingPeriodReferenceData(String idToDelete) {
+        DBObject indexKeys = new BasicDBObject("body.gradingPeriodId", 1);
+        mongoTemplate.getCollection("grade").ensureIndex(indexKeys);
+        mongoTemplate.getCollection("gradeBookEntry").ensureIndex(indexKeys);
+        mongoTemplate.getCollection("reportCard").ensureIndex(indexKeys);
+        mongoTemplate.getCollection(MongoRepository.CUSTOM_ENTITY_COLLECTION).ensureIndex(
+                "metaData." + MongoRepository.CUSTOM_ENTITY_ENTITY_ID);
+        DBObject indexKeysList = new BasicDBObject("body.gradingPeriodReference", 1);
+        mongoTemplate.getCollection("session").ensureIndex(indexKeysList);
+
+        // add a custom entity referencing the entity to be deleted
+        Map<String, Object> customEntityMetaData = new HashMap<String, Object>();
+        customEntityMetaData.put(MongoRepository.CUSTOM_ENTITY_ENTITY_ID, idToDelete);
+        Map<String, Object> customEntityBody = new HashMap<String, Object>();
+        customEntityBody.put("customBodyData", "customData1");
+        repository.create(MongoRepository.CUSTOM_ENTITY_COLLECTION, customEntityBody,
+                customEntityMetaData, MongoRepository.CUSTOM_ENTITY_COLLECTION);
+        customEntityMetaData.put(MongoRepository.CUSTOM_ENTITY_ENTITY_ID, "nonMatchingId");
+        customEntityBody.put("customBodyData", "customData2");
+        repository.create(MongoRepository.CUSTOM_ENTITY_COLLECTION, customEntityBody,
+                customEntityMetaData, MongoRepository.CUSTOM_ENTITY_COLLECTION);
+
+        // add referencing grade entities
+        Map<String, Object> gradeMap = new HashMap<String, Object>();
+        gradeMap.put("studentId", "studentId1");
+        gradeMap.put("sectionId", "sectionId1");
+        gradeMap.put("schoolYear", "2011-2012");
+        gradeMap.put("gradingPeriodId", "noMatch");
+        repository.create("grade", gradeMap); // add one non-matching document
+        gradeMap.put("studentId", "studentId2");
+        gradeMap.put("sectionId", "sectionId2");
+        gradeMap.put("schoolYear", "2011-2012");
+        gradeMap.put("gradingPeriodId", idToDelete);
+        repository.create("grade", gradeMap); // add matching document
+
+        // // add referencing gradeBookEntry entities - excluded since the
+        // reference type is the same as grade
+        // Map<String, Object> gradeBookEntryMap = new HashMap<String,
+        // Object>();
+        // gradeBookEntryMap.put("gradebookEntryType", "gradebookEntryType1");
+        // gradeBookEntryMap.put("sectionId", "sectionId1");
+        // gradeBookEntryMap.put("gradingPeriodId", idToDelete);
+        // repository.create("gradeBookEntry", gradeBookEntryMap); // add one
+        // non-matching document
+        // gradeBookEntryMap.put("gradebookEntryType", "gradebookEntryType2");
+        // gradeBookEntryMap.put("sectionId", "sectionId2");
+        // gradeBookEntryMap.put("gradingPeriodId", "noMatch");
+        // repository.create("gradeBookEntry", gradeBookEntryMap); // add
+        // matching document
+
+        // add referencing resportCard entities
+        Map<String, Object> reportCardMap = new HashMap<String, Object>();
+        reportCardMap.put("schoolYear", "2011-2012");
+        reportCardMap.put("studentId", "studentId1");
+        reportCardMap.put("gradingPeriodId", "noMatch");
+        repository.create("reportCard", reportCardMap); // add one non-matching
+                                                        // document
+        reportCardMap.put("schoolYear", "2011-2012");
+        reportCardMap.put("studentId", "studentId2");
+        reportCardMap.put("gradingPeriodId", idToDelete);
+        repository.create("reportCard", reportCardMap); // add matching document
+
+        // create a minimal session document
+        Map<String, Object> sessionMap = new HashMap<String, Object>();
+        sessionMap.put("sessionName", "session1");
+        sessionMap.put("schoolId", "schoolId1");
+        List<String> gradingPeriodRefArray = new ArrayList<String>();
+        gradingPeriodRefArray.add("dog");
+        sessionMap.put("gradingPeriodReference", gradingPeriodRefArray);
+        repository.create("session", sessionMap);
+        sessionMap.put("sessionName", "session2");
+        sessionMap.put("schoolId", "schoolId2");
+        gradingPeriodRefArray.add(idToDelete);
+        gradingPeriodRefArray.add("mousearama");
+        sessionMap.put("gradingPeriodReference", gradingPeriodRefArray);
+        repository.create("session", sessionMap);
+    }
+
+    @Test
+    public void testDeleteAttendanceEventWithBogusId() {
+        // Result is error, and Attendance record should remain unchanged in DB.
+        String attendanceRecordId = insertAttendanceEventData(false);
+        String bogusAttendanceRecordId = "123-abc-789-def-e1e10";
+        Entity bogusDeleteAssessment = createDeleteAttendanceEntity("Excused: sick",
+                "Excused Absence", "2012-04-18", bogusAttendanceRecordId);
+        CascadeResult bogusDeleteResult = repository.safeDelete(bogusDeleteAssessment,
+                bogusAttendanceRecordId, false, false, false, false, 1, null);
+        List<Map<String, String>> attendanceEvents = getAttendanceEvents(false);
+        Entity attendanceRecord = getAttendanceRecord(attendanceRecordId);
+        Assert.assertEquals("Delete result should be error", CascadeResult.Status.ERROR,
+                bogusDeleteResult.getStatus());
+        Assert.assertNotNull("Attendance record should exist in DB", attendanceRecord);
+        Assert.assertEquals("Field attendanceEvent mismatch", attendanceEvents, attendanceRecord
+                .getBody().get("attendanceEvent"));
+    }
+
+    @Test
+    public void testDeleteAttendanceEventWithBogusField() {
+        // Result is success, but Attendance record should remain unchanged in DB.
+        String attendanceRecordId = insertAttendanceEventData(false);
+        Entity bogusDeleteAssessment = createDeleteAttendanceEntity("Excused: dead",
+                "Excused Absence", "2012-04-18", attendanceRecordId);
+        CascadeResult bogusDeleteResult = repository.safeDelete(bogusDeleteAssessment,
+                attendanceRecordId, false, false, false, false, 1, null);
+        List<Map<String, String>> attendanceEvents = getAttendanceEvents(false);
+        Entity attendanceRecord = getAttendanceRecord(attendanceRecordId);
+        Assert.assertEquals("Delete result should be success", CascadeResult.Status.SUCCESS,
+                bogusDeleteResult.getStatus());
+        Assert.assertNotNull("Attendance record should exist in DB", attendanceRecord);
+        Assert.assertEquals("Field attendanceEvent mismatch", attendanceEvents, attendanceRecord
+                .getBody().get("attendanceEvent"));
+    }
+
+    @Test
+    public void testDeleteNextToLastAttendanceEvent() {
+        String attendanceRecordId = insertAttendanceEventData(false);
+        Entity deleteAssessment = createDeleteAttendanceEntity("Excused: sick", "Excused Absence",
+                "2012-04-18", attendanceRecordId);
+        CascadeResult deleteResult1 = repository.safeDelete(deleteAssessment,
+                attendanceRecordId, false, false, false, false, 1, null);
+        List<Map<String, String>> attendanceEvents = getAttendanceEvents(true);
+        Entity attendanceRecord = getAttendanceRecord(attendanceRecordId);
+        Assert.assertEquals("Delete result should be success", CascadeResult.Status.SUCCESS,
+                deleteResult1.getStatus());
+        Assert.assertNotNull("Attendance record should exist in DB", attendanceRecord);
+        Assert.assertEquals("Field attendanceEvent mismatch", attendanceEvents, attendanceRecord
+                .getBody().get("attendanceEvent"));
+    }
+
+    @Test
+    public void testDeleteLastAttendanceEvent() {
+        String attendanceRecordId = insertAttendanceEventData(true);
+        Entity deleteAssessment = createDeleteAttendanceEntity("Missed school bus", "Tardy",
+                "2011-10-26", attendanceRecordId);
+        CascadeResult deleteResult2 = repository.safeDelete(deleteAssessment,
+                attendanceRecordId, false, false, false, false, 1, null);
+        Entity attendanceRecord = getAttendanceRecord(attendanceRecordId);
+        Assert.assertEquals("Delete result should be success", CascadeResult.Status.SUCCESS,
+                deleteResult2.getStatus());
+        Assert.assertNull("Attendance record should not exist in DB", attendanceRecord);
+    }
+
+    private String insertAttendanceEventData(boolean skipFirst) {
+        // Clear attendance collection.
+        repository.deleteAll("attendance", null);
+
+        // Populate the attendance record to be deleted, and add it to the db.
+        Map<String, Object> attendanceMap = new HashMap<String, Object>();
+        List<Map<String, String>> attendanceEvents = getAttendanceEvents(skipFirst);
+        attendanceMap.put("attendanceEvent", attendanceEvents);
+        attendanceMap.put("schoolId", "schoolId1");
+        attendanceMap.put("schoolYear", "2011-2012");
+        attendanceMap.put("studentId", "studentId1");
+        repository.create("attendance", attendanceMap);
+
+        // Get the db id of the attendance record; there is only one.
+        NeutralQuery neutralQuery = new NeutralQuery();
+        Entity attendance = repository.findOne("attendance", neutralQuery);
+        return attendance.getEntityId();
+    }
+
+    private Entity getAttendanceRecord(String id) {
+        return repository.findById("attendance", id);
+    }
+
+    private List<Map<String, String>> getAttendanceEvents(boolean skipFirst) {
+        List<Map<String, String>> attendanceEvents = new ArrayList<Map<String, String>>();
+        if (!skipFirst) {
+            Map<String, String> attendanceEvent1 = new HashMap<String, String>();
+            attendanceEvent1.put("reason", "Excused: sick");
+            attendanceEvent1.put("event", "Excused Absence");
+            attendanceEvent1.put("date", "2012-04-18");
+            attendanceEvents.add(attendanceEvent1);
+        }
+        Map<String, String> attendanceEvent2 = new HashMap<String, String>();
+        attendanceEvent2.put("reason", "Missed school bus");
+        attendanceEvent2.put("event", "Tardy");
+        attendanceEvent2.put("date", "2011-10-26");
+        attendanceEvents.add(attendanceEvent2);
+
+        return attendanceEvents;
+    }
+
+    private Entity createDeleteAttendanceEntity(String reason, String event, String date, String id) {
+        Map<String, Object> attendanceBody = new HashMap<String, Object>();
+        List<Map<String, String>> attendanceEvents = new ArrayList<Map<String, String>>();
+        Map<String, String> attendanceEvent = new HashMap<String, String>();
+        attendanceEvent.put("reason", reason);
+        attendanceEvent.put("event", event);
+        attendanceEvent.put("date", date);
+        attendanceEvents.add(attendanceEvent);
+        attendanceBody.put("attendanceEvent", attendanceEvents);
+        attendanceBody.put("schoolId", "schoolId1");
+        attendanceBody.put("schoolYear", "2011-2012");
+        attendanceBody.put("studentId", "studentId1");
+        return new MongoEntity("attendance", id, attendanceBody, new HashMap<String, Object>());
     }
 
     @Test
@@ -217,7 +736,8 @@ public class EntityRepositoryTest {
         assertEquals("Jane", it.next().getBody().get("firstName"));
         assertEquals("Austin", it.next().getBody().get("firstName"));
 
-        // sort entities by performanceLevels which is an array with ascending order
+        // sort entities by performanceLevels which is an array with ascending
+        // order
         NeutralQuery sortQuery3 = new NeutralQuery();
         sortQuery3.setSortBy("performanceLevels");
         sortQuery3.setSortOrder(NeutralQuery.SortOrder.ascending);
@@ -231,7 +751,8 @@ public class EntityRepositoryTest {
         assertEquals("3", ((List<String>) (it.next().getBody().get("performanceLevels"))).get(0));
         assertEquals("4", ((List<String>) (it.next().getBody().get("performanceLevels"))).get(0));
 
-        // sort entities by performanceLevels which is an array with descending order
+        // sort entities by performanceLevels which is an array with descending
+        // order
         NeutralQuery sortQuery4 = new NeutralQuery();
         sortQuery4.setSortBy("performanceLevels");
         sortQuery4.setSortOrder(NeutralQuery.SortOrder.descending);
@@ -249,8 +770,8 @@ public class EntityRepositoryTest {
     @Test
     public void testCount() {
         repository.deleteAll("student", null);
-        
-        DBObject indexKeys =  new BasicDBObject("body.cityOfBirth", 1); 
+
+        DBObject indexKeys = new BasicDBObject("body.cityOfBirth", 1);
         mongoTemplate.getCollection("student").ensureIndex(indexKeys);
 
         repository.create("student", buildTestStudentEntity());
@@ -264,9 +785,9 @@ public class EntityRepositoryTest {
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.addCriteria(new NeutralCriteria("cityOfBirth=Nantucket"));
         assertEquals(1, repository.count("student", neutralQuery));
-        
+
         repository.deleteAll("student", null);
-        mongoTemplate.getCollection("student").dropIndex(indexKeys);        
+        mongoTemplate.getCollection("student").dropIndex(indexKeys);
     }
 
     private Map<String, Object> buildTestStudentEntity() {
@@ -318,7 +839,8 @@ public class EntityRepositoryTest {
 
         saved.getBody().put("cityOfBirth", "Evanston");
 
-        // Needs to be here to prevent cases where code execution is so fast, there
+        // Needs to be here to prevent cases where code execution is so fast,
+        // there
         // is no difference between create/update times
         Thread.sleep(2);
 
@@ -354,8 +876,8 @@ public class EntityRepositoryTest {
     @Test
     public void findOneTest() {
         repository.deleteAll("student", null);
-        DBObject indexKeys =  new BasicDBObject("body.firstName", 1); 
-        mongoTemplate.getCollection("student").ensureIndex(indexKeys);        
+        DBObject indexKeys = new BasicDBObject("body.firstName", 1);
+        mongoTemplate.getCollection("student").ensureIndex(indexKeys);
 
         Map<String, Object> student = buildTestStudentEntity();
         student.put("firstName", "Jadwiga");
@@ -367,15 +889,15 @@ public class EntityRepositoryTest {
         assertNotNull(this.repository.findOne("student", neutralQuery));
 
         repository.deleteAll("student", null);
-        mongoTemplate.getCollection("student").dropIndex(indexKeys);    
+        mongoTemplate.getCollection("student").dropIndex(indexKeys);
     }
 
     @Test
     public void findOneMultipleMatches() {
         repository.deleteAll("student", null);
-        DBObject indexKeys =  new BasicDBObject("body.firstName", 1); 
-        mongoTemplate.getCollection("student").ensureIndex(indexKeys);        
-        
+        DBObject indexKeys = new BasicDBObject("body.firstName", 1);
+        mongoTemplate.getCollection("student").ensureIndex(indexKeys);
+
         Map<String, Object> student = buildTestStudentEntity();
         student.put("firstName", "Jadwiga");
         this.repository.create("student", student);
@@ -393,22 +915,22 @@ public class EntityRepositoryTest {
         assertNotNull(this.repository.findOne("student", neutralQuery));
 
         repository.deleteAll("student", null);
-        mongoTemplate.getCollection("student").dropIndex(indexKeys);     
+        mongoTemplate.getCollection("student").dropIndex(indexKeys);
     }
 
     @Test
     public void findOneTestNegative() {
         repository.deleteAll("student", null);
-        DBObject indexKeys =  new BasicDBObject("body.firstName", 1); 
-        mongoTemplate.getCollection("student").ensureIndex(indexKeys);        
-        
+        DBObject indexKeys = new BasicDBObject("body.firstName", 1);
+        mongoTemplate.getCollection("student").ensureIndex(indexKeys);
+
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.addCriteria(new NeutralCriteria("firstName=Jadwiga"));
 
         assertNull(this.repository.findOne("student", neutralQuery));
-        
+
         repository.deleteAll("student", null);
-        mongoTemplate.getCollection("student").dropIndex(indexKeys);       
+        mongoTemplate.getCollection("student").dropIndex(indexKeys);
     }
 
     @Test
@@ -416,7 +938,7 @@ public class EntityRepositoryTest {
         TenantContext.setTenantId("SLIUnitTest");
         repository.deleteAll("student", null);
 
-        DBObject indexKeys =  new BasicDBObject("body.cityOfBirth", 1); 
+        DBObject indexKeys = new BasicDBObject("body.cityOfBirth", 1);
         mongoTemplate.getCollection("student").ensureIndex(indexKeys);
 
         repository.create("student", buildTestStudentEntity());
@@ -425,16 +947,18 @@ public class EntityRepositoryTest {
         Map<String, Object> studentBody = entity.getBody();
         studentBody.put("cityOfBirth", "ABC");
 
-        Entity studentEntity = new MongoEntity("student", entity.getEntityId(), studentBody, entity.getMetaData());
+        Entity studentEntity = new MongoEntity("student", entity.getEntityId(), studentBody,
+                entity.getMetaData());
         repository.updateWithRetries("student", studentEntity, 5);
 
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.addCriteria(new NeutralCriteria("cityOfBirth=ABC"));
         assertEquals(1, repository.count("student", neutralQuery));
-        
+
         repository.deleteAll("student", null);
-        mongoTemplate.getCollection("student").dropIndex(indexKeys);         
+        mongoTemplate.getCollection("student").dropIndex(indexKeys);
     }
+
     @Test
     public void testCreateWithMetadata() {
         repository.deleteAll("student", null);
@@ -451,18 +975,23 @@ public class EntityRepositoryTest {
         Map<String, Object> studentMetaData = new HashMap<String, Object>();
         int noOfRetries = 5;
 
-        Mockito.doThrow(new MongoException("Test Exception")).when(((MongoEntityRepository) mockRepo))
-            .internalCreate("student", null, studentBody, studentMetaData, "student");
-        Mockito.doCallRealMethod().when(mockRepo)
-            .createWithRetries("student", null, studentBody, studentMetaData, "student", noOfRetries);
+        Mockito.doThrow(new MongoException("Test Exception"))
+                .when(((MongoEntityRepository) mockRepo))
+                .internalCreate("student", null, studentBody, studentMetaData, "student");
+        Mockito.doCallRealMethod()
+                .when(mockRepo)
+                .createWithRetries("student", null, studentBody, studentMetaData, "student",
+                        noOfRetries);
 
         try {
-            mockRepo.createWithRetries("student", null, studentBody, studentMetaData, "student", noOfRetries);
+            mockRepo.createWithRetries("student", null, studentBody, studentMetaData, "student",
+                    noOfRetries);
         } catch (MongoException ex) {
             assertEquals(ex.getMessage(), "Test Exception");
         }
 
-        Mockito.verify((MongoEntityRepository) mockRepo, Mockito.times(noOfRetries)).internalCreate("student", null, studentBody, studentMetaData, "student");
+        Mockito.verify((MongoEntityRepository) mockRepo, Mockito.times(noOfRetries))
+                .internalCreate("student", null, studentBody, studentMetaData, "student");
     }
 
     @Test

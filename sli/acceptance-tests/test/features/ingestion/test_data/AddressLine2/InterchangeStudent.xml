@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentParent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentParent.xsd">
+
+    <Student>
+        <StudentUniqueStateId>201300003</StudentUniqueStateId>
+        <Name>
+            <FirstName>Smith</FirstName>
+            <LastSurname>Brown</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2006-07-02</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <AddressLine>AddressLine1</AddressLine>
+            <AddressLine>AddressLine2</AddressLine>
+            <AddressLine>AddressLine3</AddressLine>
+            <AddressLine>AddressLine4</AddressLine>
+            <Country>BRAZIL</Country>	        
+        </Address>
+        <Address AddressType="Work">
+            <StreetNumberName>9857 Kingsborough 2nd Walk</StreetNumberName>
+            <City>Toronto</City>
+            <StateAbbreviation>WA</StateAbbreviation>
+            <PostalCode>60908-1028</PostalCode>
+        </Address>
+        <ElectronicMail EmailAddressType="Other">
+            <EmailAddress>Bennie.C@gmail.com</EmailAddress>
+        </ElectronicMail>
+        <ElectronicMail EmailAddressType="Organization">
+            <EmailAddress>B.Cimmino@gmail.com</EmailAddress>
+        </ElectronicMail>
+        <ElectronicMail EmailAddressType="Home/Personal">
+            <EmailAddress>Bennie.Cimmino@gmail.com</EmailAddress>
+        </ElectronicMail>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+    
+</InterchangeStudentParent>

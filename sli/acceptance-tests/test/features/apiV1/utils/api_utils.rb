@@ -25,38 +25,44 @@ include REXML
 require File.expand_path("../../../utils/common", __FILE__)
 
 Transform /^\/(<[^"]*>)$/ do |uri_placeholder|
-  uri = "/v1.1/" + Transform(uri_placeholder)
+  uri = "/v1.2/" + Transform(uri_placeholder)
   #puts "URI = #{uri}"
   uri
 end
 
 Transform /^\/(<[^"]*>)\/(<[^"]*>)$/ do |uri_placeholder1, uri_placeholder2|
-  uri = "/v1.1/" + Transform(uri_placeholder1) + "/" + Transform(uri_placeholder2)
+  uri = "/v1.2/" + Transform(uri_placeholder1) + "/" + Transform(uri_placeholder2)
   #puts "URI = #{uri}"
   uri
 end
 
 Transform /^\/([^"<>]*)\/(<[^"]*>)$/ do |uri_placeholder1, uri_placeholder2|
-  uri = "/v1.1/" + uri_placeholder1 + "/" + Transform(uri_placeholder2)
+  uri = "/v1.2/" + uri_placeholder1 + "/" + Transform(uri_placeholder2)
   #puts "URI = #{uri}"
   uri
 end
 
 Transform /^\/(<[^"]*>)\/(<[^"]*>)\/(<[^"]*>)$/ do |uri_placeholder1, uri_placeholder2, uri_placeholder3|
-  uri = "/v1.1/" + Transform(uri_placeholder1) + "/" + Transform(uri_placeholder2) + "/" + Transform(uri_placeholder3)
+  uri = "/v1.2/" + Transform(uri_placeholder1) + "/" + Transform(uri_placeholder2) + "/" + Transform(uri_placeholder3)
   #puts "URI = #{uri}"
   uri
 end
 
 Transform /^\/(<[^"]*>)\/(<[^"]*>)\/(<[^"]*>)\/(<[^"]*>)$/ do |uri_placeholder1, uri_placeholder2, uri_placeholder3, uri_placeholder4|
-  uri = "/v1.1/" + Transform(uri_placeholder1) + "/" + Transform(uri_placeholder2) + "/" + Transform(uri_placeholder3) + "/" + Transform(uri_placeholder4)
+  uri = "/v1.2/" + Transform(uri_placeholder1) + "/" + Transform(uri_placeholder2) + "/" + Transform(uri_placeholder3) + "/" + Transform(uri_placeholder4)
   #puts "URI = #{uri}"
   uri
 end
 
 Transform /^\/(<[^"]*>)\/(<[^"]*>)\/(<[^"]*>)\/(<[^"]*>)\/(<[^"]*>)$/ do |uri_placeholder1, uri_placeholder2, uri_placeholder3, uri_placeholder4, uri_placeholder5|
-  uri = "/v1.1/" + Transform(uri_placeholder1) + "/" + Transform(uri_placeholder2) + "/" + Transform(uri_placeholder3) + "/" + Transform(uri_placeholder4) + "/" + Transform(uri_placeholder5)
+  uri = "/v1.2/" + Transform(uri_placeholder1) + "/" + Transform(uri_placeholder2) + "/" + Transform(uri_placeholder3) + "/" + Transform(uri_placeholder4) + "/" + Transform(uri_placeholder5)
   #puts "URI = #{uri}"
+  uri
+end
+
+Transform /^\/(<[^"]*>)\/(<[^"]*>)\/(<[^"]*>)\/(<[^"]*>)\/(<[^"]*>)(\?.*?)$/ do |uri_placeholder1, uri_placeholder2, uri_placeholder3, uri_placeholder4, uri_placeholder5, query_params|
+  uri = "/v1.2/" + Transform(uri_placeholder1) + "/" + Transform(uri_placeholder2) + "/" + Transform(uri_placeholder3) + "/" + Transform(uri_placeholder4) + "/" + Transform(uri_placeholder5) + query_params
+  puts "URI = #{uri}"
   uri
 end
 
@@ -79,6 +85,7 @@ end
 
 When /^I navigate to POST "([^"]*)"$/ do |post_uri|
   data = prepareData(@format, @fields)
+  puts("POSTing: #{data.inspect}") if $SLI_DEBUG
   restHttpPost(post_uri, data)
   assert(@res != nil, "Response from rest-client POST is nil")
 end
@@ -182,7 +189,7 @@ Then /^"([^"]*)" should be "([^"]*)"$/ do |key, value|
 end
 
 Then /^the response should contain the appropriate fields and values$/ do
-  EntityProvider.verify_entities_match(@fields, @result)
+  EntityProvider.verify_entities_match(@fields.to_hash, @result.to_hash)
 end
 
 Then /^the error message should indicate "([^"]*)"$/ do |error_message|
@@ -247,9 +254,21 @@ Then /^in each entity, I should receive a link named "([^"]*)" with URI "([^"]*)
   end
 end
 
+Then /^I should find and store a link named "(.*?)"$/ do |rel|
+  foundInEntity = false
+  @result["links"].each do |link|
+    if link["rel"] == rel
+      @link = link["href"]
+      foundInEntity = true
+    end
+  end
+  assert(foundInEntity, "A link labeled #{rel} with value #{href} was not present in one or more returned entities")
+end
+
 Then /^in occurrence (\d+) I should receive a link named "([^"]*)" with URI "([^"]*)"$/ do |position, rel, href|
   position = position.to_i - 1
   foundInEntity = false
+  puts("\n-----\nThe result is #{@result[position].inspect}\n-----\n")
   @result[position]["links"].each do |link|
     if link["rel"] == rel && link["href"] =~ /#{Regexp.escape(href)}$/
       foundInEntity = true

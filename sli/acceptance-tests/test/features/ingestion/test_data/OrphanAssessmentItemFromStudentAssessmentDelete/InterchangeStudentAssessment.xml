@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<InterchangeStudentAssessment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                              xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentAssessment.xsd">
+    <Action ActionType="DELETE" Cascade="false">
+
+   <AssessmentItem>
+	<AssessmentReference>
+            <AssessmentIdentity>
+                <AssessmentTitle>AI-Grade 7 2011 State Reading</AssessmentTitle>
+                <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+        </AssessmentReference>
+        <IdentificationCode>AI-AssessmentItem-4</IdentificationCode>
+        <ItemCategory>True-False</ItemCategory>
+        <MaxRawScore>5</MaxRawScore>
+        <CorrectResponse>False</CorrectResponse>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>AI-LS-G3-2</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </AssessmentItem>
+    </Action>
+</InterchangeStudentAssessment>

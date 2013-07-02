@@ -42,7 +42,7 @@ require_relative 'enum/PerformanceBaseType'
 #          </xs:element>
 #          <xs:element name="NumericGradeEarned" type="xs:integer" minOccurs="0"/>
 #          <xs:element name="DiagnosticStatement" type="text" minOccurs="0"/>
-#          <xs:element name="GradeType" type="GradeType"/>
+#          <xs:element name="GradeType" type="SLC-GradeType"/>
 #          <xs:element name="PerformanceBaseConversion" type="PerformanceBaseType" minOccurs="0"/>
 #          <xs:element name="StudentSectionAssociationReference" type="SLC-StudentSectionAssociationReferenceType"/>
 #          <xs:element name="GradingPeriodReference" type="SLC-GradingPeriodReferenceType" minOccurs="0"/>

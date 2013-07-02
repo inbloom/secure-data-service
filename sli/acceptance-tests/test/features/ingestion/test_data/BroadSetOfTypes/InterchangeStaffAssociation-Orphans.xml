@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+<InterchangeStaffAssociation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StaffAssociation.xsd">
+  <Teacher>
+    <StaffUniqueStateId>techer-0000000001</StaffUniqueStateId>
+    <StaffIdentificationCode IdentificationSystem="Medicaid">
+      <ID>2584</ID>
+    </StaffIdentificationCode>
+    <Name>
+      <FirstName>Sal</FirstName>
+      <MiddleName>Charley</MiddleName>
+      <LastSurname>Santiago</LastSurname>
+    </Name>
+    <OtherName OtherNameType="Previous Legal Name">
+      <PersonalTitlePrefix>Mr</PersonalTitlePrefix>
+      <FirstName>Damien</FirstName>
+      <MiddleName>Lance</MiddleName>
+      <LastSurname>Ferrara</LastSurname>
+      <GenerationCodeSuffix>VIII</GenerationCodeSuffix>
+    </OtherName>
+    <Sex>Male</Sex>
+    <BirthDate>1970-07-25</BirthDate>
+    <Address AddressType="Home">
+      <StreetNumberName>258 Cherry Rd</StreetNumberName>
+      <City>New York</City>
+      <StateAbbreviation>NY</StateAbbreviation>
+      <PostalCode>10292</PostalCode>
+    </Address>
+      <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
+        <TelephoneNumber>(946)555-4423</TelephoneNumber>
+      </Telephone>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>857@fakemail.com</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <OldEthnicity>Hispanic</OldEthnicity>
+    <Race>
+      <RacialCategory>White</RacialCategory>
+    </Race>
+    <HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+    <YearsOfPriorProfessionalExperience>13</YearsOfPriorProfessionalExperience>
+    <YearsOfPriorTeachingExperience>1</YearsOfPriorTeachingExperience>
+      <Credentials>
+        <CredentialType>Certification</CredentialType>
+        <CredentialField>
+          <Description>Early Childhood Education</Description>
+        </CredentialField>
+        <Level>Junior High (Grade Level 6-8)</Level>
+        <TeachingCredentialType>Temporary</TeachingCredentialType>
+        <CredentialIssuanceDate>2011-11-02</CredentialIssuanceDate>
+        <CredentialExpirationDate>2014-05-13</CredentialExpirationDate>
+        <TeachingCredentialBasis>Master's degree</TeachingCredentialBasis>
+      </Credentials>
+    <LoginId>857@fakemail.com</LoginId>
+    <TeacherUniqueStateId>tech-0000000001</TeacherUniqueStateId>
+    <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
+  </Teacher>
+ 
+  <Staff>
+      <StaffUniqueStateId>Staff-ckoch</StaffUniqueStateId>
+      <StaffIdentificationCode IdentificationSystem="Medicaid">
+        <ID>3669</ID>
+      </StaffIdentificationCode>
+      <Name>
+        <FirstName>Christopher</FirstName>
+        <MiddleName>Joey</MiddleName>
+        <LastSurname>Koch</LastSurname>
+      </Name>
+      <OtherName OtherNameType="Nickname">
+        <PersonalTitlePrefix>Ms</PersonalTitlePrefix>
+        <FirstName>Keven</FirstName>
+        <MiddleName>Barton</MiddleName>
+        <LastSurname>Gaytan</LastSurname>
+        <GenerationCodeSuffix>IV</GenerationCodeSuffix>
+      </OtherName>
+      <Sex>Male</Sex>
+      <BirthDate>1982-09-14</BirthDate>
+      <Address AddressType="Home">
+        <StreetNumberName>904 Marks Ct</StreetNumberName>
+        <City>New York</City>
+        <StateAbbreviation>NY</StateAbbreviation>
+        <PostalCode>10292</PostalCode>
+      </Address>
+        <Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
+          <TelephoneNumber>(881)555-8131</TelephoneNumber>
+        </Telephone>
+      <ElectronicMail EmailAddressType="Home/Personal">
+        <EmailAddress>13@fakemail.com</EmailAddress>
+      </ElectronicMail>
+      <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+      <OldEthnicity>White, Not Of Hispanic Origin</OldEthnicity>
+      <Race>
+        <RacialCategory>White</RacialCategory>
+      </Race>
+      <HighestLevelOfEducationCompleted>Doctorate</HighestLevelOfEducationCompleted>
+      <YearsOfPriorProfessionalExperience>3</YearsOfPriorProfessionalExperience>
+      <YearsOfPriorTeachingExperience>12</YearsOfPriorTeachingExperience>
+        <Credentials>
+          <CredentialType>Licensure</CredentialType>
+          <CredentialField>
+            <Description>Physics</Description>
+          </CredentialField>
+          <Level>Elementary (Grade Level 1-6)</Level>
+          <TeachingCredentialType>Vocational</TeachingCredentialType>
+          <CredentialIssuanceDate>2008-10-01</CredentialIssuanceDate>
+          <CredentialExpirationDate>2018-11-18</CredentialExpirationDate>
+          <TeachingCredentialBasis>4-year bachelor's degree</TeachingCredentialBasis>
+        </Credentials>
+      <LoginId>13@fakemail.com</LoginId>
+  </Staff>
+  </InterchangeStaffAssociation>
+  

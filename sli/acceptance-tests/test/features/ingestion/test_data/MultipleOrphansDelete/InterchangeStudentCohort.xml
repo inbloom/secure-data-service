@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<InterchangeStudentCohort xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                          xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentCohort.xsd">
+    <Action ActionType="DELETE" Cascade="false" Force="false">
+        <Cohort>
+            <CohortIdentifier>Cohort-1</CohortIdentifier>
+            <CohortDescription>Cohort Orphan 1 at Edorg South Daybreak Elem</CohortDescription>
+            <CohortType>Extracurricular Activity</CohortType>
+            <CohortScope>School</CohortScope>
+            <AcademicSubject>ELA</AcademicSubject>
+            <EducationOrgReference>
+                <EducationalOrgIdentity>
+                    <StateOrganizationId>Cohort Orphan-South Daybreak Elem</StateOrganizationId>
+                </EducationalOrgIdentity>
+            </EducationOrgReference>
+            <ProgramReference>
+                <ProgramIdentity>
+                    <ProgramId>Cohort Orphan-3</ProgramId>
+                </ProgramIdentity>
+            </ProgramReference>
+        </Cohort>
+    </Action>
+</InterchangeStudentCohort>

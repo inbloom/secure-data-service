@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.security;
 
 import java.io.Serializable;
@@ -29,9 +28,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.slc.sli.domain.Entity;
+import org.slc.sli.common.constants.EntityNames;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
 
 /**
  * Attribute holder for SLI Principal
@@ -53,6 +55,8 @@ public class SLIPrincipal implements Principal, Serializable {
     private String tenantId;
     private String sessionId;
     private List<String> roles;
+    private Map<String, List<String>> edOrgRoles;
+    private Map<String, Collection<GrantedAuthority>> edOrgRights;
     private String edOrgId;
     private boolean adminUser;
     private String firstName;
@@ -66,6 +70,8 @@ public class SLIPrincipal implements Principal, Serializable {
     private Collection<GrantedAuthority> selfRights;
     private Set<String> authorizingEdOrgs;
     private String email;
+    private Map<String, List<NeutralQuery>> obligations;
+    private boolean studentAccessFlag = true;
 
     public String getSessionId() {
         return sessionId;
@@ -76,8 +82,11 @@ public class SLIPrincipal implements Principal, Serializable {
     }
 
     public SLIPrincipal() {
-        // Empty default constructor is used in various places. 
+        // Empty default constructor is used in various places.
         authorizingEdOrgs = new HashSet<String>();
+        obligations = new HashMap<String, List<NeutralQuery>>();
+        edOrgRoles = new HashMap<String, List<String>>();
+        edOrgRights = new HashMap<String, Collection<GrantedAuthority>>();
     }
 
     public SLIPrincipal(String id) {
@@ -147,6 +156,22 @@ public class SLIPrincipal implements Principal, Serializable {
         this.roles = roles;
     }
 
+    public Map<String, List<String>> getEdOrgRoles() {
+        return edOrgRoles;
+    }
+
+    public void setEdOrgRoles(Map<String, List<String>> edOrgRoles) {
+        this.edOrgRoles = edOrgRoles;
+    }
+
+    public Map<String, Collection<GrantedAuthority>> getEdOrgRights() {
+        return edOrgRights;
+    }
+
+    public void setEdOrgRights(Map<String, Collection<GrantedAuthority>> edOrgRights) {
+        this.edOrgRights = edOrgRights;
+    }
+
     public String getAdminRealm() {
         return adminRealm;
     }
@@ -156,8 +181,8 @@ public class SLIPrincipal implements Principal, Serializable {
     }
 
     /**
-     * LDAP Attribute "edorg" is set to "X-DistrictY" which is the "stateOrganizationId"
-     * for the District in the edorg hierarchy for the data that will be ingested
+     * LDAP Attribute "edorg" is set to "X-DistrictY" which is the "stateOrganizationId" for the District in the edorg
+     * hierarchy for the data that will be ingested
      *
      * @return
      */
@@ -200,7 +225,6 @@ public class SLIPrincipal implements Principal, Serializable {
     public String getEdOrgId() {
         return edOrgId;
     }
-
 
     /**
      * @param edOrgId the entityId of the edOrg the user is associated with
@@ -258,7 +282,7 @@ public class SLIPrincipal implements Principal, Serializable {
             return Collections.emptySet();
         }
     }
-    
+
     public void setSubEdOrgHierarchy(Collection<String> subEdOrgHierarchy) {
         this.subEdOrgHierarchy = new TreeSet<String>(subEdOrgHierarchy);
     }
@@ -270,7 +294,7 @@ public class SLIPrincipal implements Principal, Serializable {
     public void setSandboxTenant(String sandboxTenant) {
         this.sandboxTenant = sandboxTenant;
     }
-    
+
     public boolean isAdminRealmAuthenticated() {
         return adminRealmAuthenticated;
     }
@@ -280,25 +304,26 @@ public class SLIPrincipal implements Principal, Serializable {
     }
 
     public void setUserType(String userType) {
-        this.userType=userType;
+        this.userType = userType;
     }
-    
+
     public String getUserType() {
         return this.userType;
     }
-    
+
     public void setSelfRights(Collection<GrantedAuthority> auths) {
         this.selfRights = auths;
     }
-    
+
     public Collection<GrantedAuthority> getSelfRights() {
         return this.selfRights;
     }
-    
+
     /**
      * These are edorgs that have authorized the app that the user is currently logged into.
-     * 
+     *
      * The set contains ids of both the authorizing LEA and any sub-LEAs or schools within the LEA.
+     *
      * @return
      */
     public Set<String> getAuthorizingEdOrgs() {
@@ -308,12 +333,39 @@ public class SLIPrincipal implements Principal, Serializable {
     public void setAuthorizingEdOrgs(Set<String> authorizingEdOrgs) {
         this.authorizingEdOrgs = authorizingEdOrgs;
     }
-    
+
     public String getEmail() {
         return email;
     }
-    
+
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public List<NeutralQuery> getObligation(String key) {
+        List<NeutralQuery> result = obligations.get(key);
+
+        if(result == null) {
+            result = Collections.emptyList();
+        }
+
+        return result;
+    }
+
+    public void addObligation(String collection, List<NeutralQuery> obligations) {
+        this.obligations.put(collection, obligations);
+    }
+
+    public void clearObligations() {
+    	this.obligations.clear();
+    }
+
+    public boolean isStudentAccessFlag() {
+        return studentAccessFlag;
+    }
+
+    public void setStudentAccessFlag(boolean studentAccessFlag) {
+        this.studentAccessFlag = studentAccessFlag;
+    }
+
 }

@@ -1,0 +1,222 @@
+<?xml version="1.0"?>
+<InterchangeStudentEnrollment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentEnrollment.xsd">
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Midvale_School</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SchoolYear>2014-2015</SchoolYear>
+    <EntryDate>2013-09-05</EntryDate>
+    <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
+    <EntryType>Transfer from a school outside of the country</EntryType>
+    <RepeatGradeIndicator>true</RepeatGradeIndicator>
+    <ClassOf>2015-2016</ClassOf>
+    <SchoolChoiceTransfer>false</SchoolChoiceTransfer>
+    <ExitWithdrawDate>2014-05-31</ExitWithdrawDate>
+    <EducationalPlans>
+      <EducationalPlan>IDEA IEP</EducationalPlan>
+    </EducationalPlans>
+    <GraduationPlanReference>
+      <GraduationPlanIdentity>
+        <GraduationPlanType>Standard</GraduationPlanType>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </GraduationPlanIdentity>
+    </GraduationPlanReference>
+  </StudentSchoolAssociation>
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>11</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SchoolYear>2014-2015</SchoolYear>
+    <EntryDate>2013-09-05</EntryDate>
+    <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
+    <EntryType>Transfer from a school outside of the country</EntryType>
+    <RepeatGradeIndicator>true</RepeatGradeIndicator>
+    <ClassOf>2015-2016</ClassOf>
+    <SchoolChoiceTransfer>false</SchoolChoiceTransfer>
+    <ExitWithdrawDate>2014-05-31</ExitWithdrawDate>
+    <EducationalPlans>
+      <EducationalPlan>IDEA IEP</EducationalPlan>
+    </EducationalPlans>
+    <GraduationPlanReference>
+      <GraduationPlanIdentity>
+        <GraduationPlanType>Standard</GraduationPlanType>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </GraduationPlanIdentity>
+    </GraduationPlanReference>
+  </StudentSchoolAssociation>
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>11</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SchoolYear>2014-2015</SchoolYear>
+    <EntryDate>2012-08-27</EntryDate>
+    <EntryGradeLevel>Tenth grade</EntryGradeLevel>
+    <EntryType>Transfer from a school outside of the country</EntryType>
+    <RepeatGradeIndicator>true</RepeatGradeIndicator>
+    <ClassOf>2015-2016</ClassOf>
+    <SchoolChoiceTransfer>false</SchoolChoiceTransfer>
+    <ExitWithdrawDate>2013-08-27</ExitWithdrawDate>
+    <EducationalPlans>
+      <EducationalPlan>IDEA IEP</EducationalPlan>
+    </EducationalPlans>
+    <GraduationPlanReference>
+      <GraduationPlanIdentity>
+        <GraduationPlanType>Standard</GraduationPlanType>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </GraduationPlanIdentity>
+    </GraduationPlanReference>
+  </StudentSchoolAssociation>
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>12</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SchoolYear>2015-2016</SchoolYear>
+    <EntryDate>2012-08-27</EntryDate>
+    <EntryGradeLevel>Tenth grade</EntryGradeLevel>
+    <EntryType>Original entry into a United States school from a foreign country with no interruption in schooling</EntryType>
+    <RepeatGradeIndicator>true</RepeatGradeIndicator>
+    <ClassOf>2018-2019</ClassOf>
+    <SchoolChoiceTransfer>false</SchoolChoiceTransfer>
+    <ExitWithdrawDate>2013-03-23</ExitWithdrawDate>
+    <EducationalPlans>
+      <EducationalPlan>Career Suggestions</EducationalPlan>
+    </EducationalPlans>
+    <GraduationPlanReference>
+      <GraduationPlanIdentity>
+        <GraduationPlanType>Distinguished</GraduationPlanType>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </GraduationPlanIdentity>
+    </GraduationPlanReference>
+  </StudentSchoolAssociation>
+  <Action ActionType="DELETE">
+  <StudentSchoolAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>12</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+      <SchoolYear>2013-2014</SchoolYear>
+    <EntryDate>2013-08-26</EntryDate>
+    <EntryGradeLevel>Eleventh grade</EntryGradeLevel>
+      <EntryType>Transfer from a school outside of the country</EntryType>
+      <RepeatGradeIndicator>false</RepeatGradeIndicator>
+      <ClassOf>2015-2016</ClassOf>
+      <SchoolChoiceTransfer>false</SchoolChoiceTransfer>
+    <ExitWithdrawDate>2014-06-04</ExitWithdrawDate>
+      <EducationalPlans>
+      	<EducationalPlan>Completion and Reach Age 22</EducationalPlan>
+      </EducationalPlans>
+    <GraduationPlanReference>
+      <GraduationPlanIdentity>
+        <GraduationPlanType>Distinguished</GraduationPlanType>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </GraduationPlanIdentity>
+    </GraduationPlanReference>
+  </StudentSchoolAssociation>
+ </Action>
+ <GraduationPlan>
+    <GraduationPlanType>Distinguished</GraduationPlanType>
+    <TotalCreditsRequired CreditConversion="0" CreditType="Semester hour credit">
+      <Credit>70</Credit>
+    </TotalCreditsRequired>
+    <CreditsBySubject>
+      <SubjectArea>Social Sciences and History</SubjectArea>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>12</Credit>
+      </Credits>
+    </CreditsBySubject>
+    <CreditsByCourse>
+      <CourseCode IdentificationSystem="CSSC course code" AssigningOrganizationCode="STANDARD-SEA">
+        <ID>English Language and Literature</ID>
+      </CourseCode>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>12</Credit>
+      </Credits>
+      <GradeLevel>Twelfth grade</GradeLevel>
+    </CreditsByCourse>
+    <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+        </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </GraduationPlan>
+  <GraduationPlan>
+    <GraduationPlanType>Distinguished</GraduationPlanType>
+    <TotalCreditsRequired CreditConversion="0" CreditType="Semester hour credit">
+      <Credit>100</Credit>
+    </TotalCreditsRequired>
+    <CreditsBySubject>
+      <SubjectArea>Social Sciences and History</SubjectArea>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>12</Credit>
+      </Credits>
+    </CreditsBySubject>
+    <CreditsByCourse>
+      <CourseCode IdentificationSystem="CSSC course code" AssigningOrganizationCode="STANDARD-SEA">
+        <ID>English Language and Literature</ID>
+      </CourseCode>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>12</Credit>
+      </Credits>
+      <GradeLevel>Twelfth grade</GradeLevel>
+    </CreditsByCourse>
+    <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>IL-HIGHWIND</StateOrganizationId>
+        </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </GraduationPlan>
+</InterchangeStudentEnrollment>

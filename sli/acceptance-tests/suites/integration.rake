@@ -47,11 +47,7 @@ end
 
 desc "Run DataBrowser RC Test"
 task :rcDataBrowserTests do
-  if RUN_ON_RC
-    runTests("test/features/cross_app_tests/rc_pike_integration_databrowser.feature")
-  else
-    runTests("test/features/cross_app_tests/rc_integration_databrowser.feature")
-  end
+  runTests("test/features/cross_app_tests/rc_integration_databrowser.feature")
 end
 
 desc "Run RC SAMT Tests"
@@ -107,9 +103,13 @@ task :rcSandboxDashboardTests do
   runTests("test/features/cross_app_tests/rc_sandbox_dashboard.feature")
 end
 
-desc "Run RC Sandbox Databrowser Test"
+desc "Run RC Sandbox App Approval Test"
 task :rcSandboxAppApprovalTests do
   runTests("test/features/cross_app_tests/rc_sandbox_app_approval.feature")
+end
+
+task :rcSandboxStudentLoginTests do
+  runTests("test/features/cross_app_tests/rc_sandbox_student_login.feature")
 end
 
 desc "Run RC Sandbox DAMT Test"
@@ -137,6 +137,10 @@ task :rcSandboxTenantCleanUp do
   runTests("test/features/cross_app_tests/rc_sandbox_delete_tenant.feature")
 end
 
+desc "Run RC Portal Compile"
+task :rcPortalCompile do
+  runTests("test/features/cross_app_tests/rc_portal_init.feature")
+end
 
 desc "Delete SEA, LEA and dev from LDAP"
 task :rcDeleteLDAPUsers do
@@ -156,6 +160,7 @@ task :rcDeleteLDAPUsers do
       puts e.message
       puts e.backtrace.inspect
       puts "Error:  Deleting #{email} from LDAP failed"
+      puts "Host: #{PropLoader.getProps['ldap_hostname']} Port: #{PropLoader.getProps['ldap_port']} Use SSL: #{PropLoader.getProps['ldap_use_ssl']}"
     end
   end
 end
@@ -172,6 +177,7 @@ task :rcDeleteSandboxLDAPUsers do
       puts e.message
       puts e.backtrace.inspect
       puts "Error:  Deleting #{email} from LDAP failed"
+      puts "Host: #{PropLoader.getProps['ldap_hostname']} Port: #{PropLoader.getProps['ldap_port']} Use SSL: #{PropLoader.getProps['ldap_use_ssl']}"
     end
   end
 end
@@ -180,7 +186,9 @@ desc "Run RC E2E Tests in Production mode"
 task :rcTests do
   @tags = ["~@wip", "@rc", "~@sandbox"]
   Rake::Task["rcDeleteLDAPUsers"].execute
-  Rake::Task["rcTenantCleanUp"].execute if tenant_exists
+  Rake::Task["rcTenantCleanUp"].execute # if tenant_exists
+  Rake::Task["rcPortalCompile"].execute if RUN_ON_RC
+  randomizeRcProdTenant() if RUN_ON_RC
   Rake::Task["rcSamtTests"].execute
   Rake::Task["rcProvisioningTests"].execute
   Rake::Task["rcIngestionTests"].execute
@@ -190,9 +198,8 @@ task :rcTests do
   Rake::Task["rcAppApprovalTests"].execute
   Rake::Task["rcDashboardTests"].execute
   Rake::Task["rcDataBrowserTests"].execute
-  Rake::Task["rcCleanUpTests"].execute
   Rake::Task["rcTenantPurgeTests"].execute
-
+  Rake::Task["rcCleanUpTests"].execute
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -204,17 +211,20 @@ end
 desc "Run RC E2E Tests in Sandbox mode"
 task :rcSandboxTests do
   @tags = ["~@wip", "@rc", "@sandbox"]
-  Rake::Task["rcSandboxTenantCleanUp"].execute if tenant_exists(PropLoader.getProps['sandbox_tenant'])
+  @tags = ["~@wip", "@rc", "@sandbox", "~@ci"] if RUN_ON_RC
+  Rake::Task["rcSandboxTenantCleanUp"].execute # if tenant_exists(PropLoader.getProps['sandbox_tenant'])
   Rake::Task["rcDeleteSandboxLDAPUsers"].execute
+  Rake::Task["rcPortalCompile"].execute if RUN_ON_RC
   Rake::Task["rcSandboxAccountRequestTests"].execute
   Rake::Task["rcSandboxProvisionTests"].execute
   Rake::Task["runSearchBulkExtract"].execute unless RUN_ON_RC
   Rake::Task["rcSandboxAppApprovalTests"].execute
+  Rake::Task["rcSandboxStudentLoginTests"].execute
   Rake::Task["rcSandboxDamtTests"].execute
   Rake::Task["rcSandboxDashboardTests"].execute
   Rake::Task["rcSandboxDatabrowserTests"].execute
-  Rake::Task["rcSandboxPurgeTests"].execute
   Rake::Task["rcSandboxCleanUpTests"].execute
+  Rake::Task["rcSandboxPurgeTests"].execute
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"

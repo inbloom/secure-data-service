@@ -54,7 +54,6 @@ public class XsdSelectorTest {
         assertNotNull(resources.get("AssessmentMetadata"));
         assertNotNull(resources.get("EducationOrganization"));
         assertNotNull(resources.get("EducationOrgCalendar"));
-        assertNotNull(resources.get("HSGeneratedStudentTranscript"));
         assertNotNull(resources.get("MasterSchedule"));
         assertNotNull(resources.get("StaffAssociation"));
         assertNotNull(resources.get("StudentAssessment"));
@@ -69,7 +68,6 @@ public class XsdSelectorTest {
         assertTrue(resources.get("AssessmentMetadata").exists());
         assertTrue(resources.get("EducationOrganization").exists());
         assertTrue(resources.get("EducationOrgCalendar").exists());
-        assertTrue(resources.get("HSGeneratedStudentTranscript").exists());
         assertTrue(resources.get("MasterSchedule").exists());
         assertTrue(resources.get("StaffAssociation").exists());
         assertTrue(resources.get("StudentAssessment").exists());

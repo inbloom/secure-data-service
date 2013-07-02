@@ -39,13 +39,18 @@ import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
+import org.slc.sli.ingestion.ActionVerb;
+import org.slc.sli.ingestion.ReferenceConverter;
 import org.slc.sli.ingestion.parser.RecordMeta;
 import org.slc.sli.ingestion.parser.RecordVisitor;
 import org.slc.sli.ingestion.parser.TypeProvider;
 import org.slc.sli.ingestion.parser.XmlParseException;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ElementSource;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
 
 /**
  * A reader delegate that will intercept an XML Validator's calls to nextEvent() and build the
@@ -60,10 +65,18 @@ import org.slc.sli.ingestion.reporting.Source;
 public class EdfiRecordUnmarshaller extends EdfiRecordParser {
 
     private static final Logger LOG = LoggerFactory.getLogger(EdfiRecordUnmarshaller.class);
+    private static final String ACTION_TYPE = "ActionType";
+    private static final String CASCADE = "Cascade";
+    private static final String ACTION = "Action";
+    private static final String FORCE = "Force";
+    private static final String LOG_VIOLATIONS = "LogViolations";
 
     private TypeProvider typeProvider;
 
     private Stack<Pair<RecordMeta, Map<String, Object>>> complexTypeStack = new Stack<Pair<RecordMeta, Map<String, Object>>>();
+    private ActionVerb action = ActionVerb.NONE;
+    private String originalType = null;
+    private Map<String, String> actionAttributes;
 
     private boolean currentEntityValid = false;
 
@@ -78,34 +91,50 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
     /**
      * Constructor.
      *
-     * @param typeProvider XSD Type provider
-     * @param messageReport Message report for validation warning/error reporting
-     * @param reportStats Associated report statistics
-     * @param source Source of the messages
+     * @param typeProvider
+     *            XSD Type provider
+     * @param messageReport
+     *            Message report for validation warning/error reporting
+     * @param reportStats
+     *            Associated report statistics
+     * @param source
+     *            Source of the messages
      */
-    public EdfiRecordUnmarshaller(TypeProvider typeProvider, AbstractMessageReport messageReport, ReportStats reportStats, Source source) {
+    public EdfiRecordUnmarshaller(TypeProvider typeProvider, AbstractMessageReport messageReport,
+            ReportStats reportStats, Source source) {
         super(messageReport, reportStats, source);
         this.typeProvider = typeProvider;
     }
 
     /**
-     * Parser an XML represented by the input stream against provided XSD, reports validation issues and produces output of
+     * Parser an XML represented by the input stream against provided XSD, reports validation issues
+     * and produces output of
      * extracted data via the provided visitor.
      *
-     * @param input XML to validate
-     * @param schemaResource XSD resource
-     * @param typeProvider XSD Type provider
-     * @param visitor Record visitor
-     * @param messageReport Message report for validation warning/error reporting
-     * @param reportStats Associated report statistics
-     * @param source Source of the messages
-     * @throws SAXException If a SAX error occurs during XSD parsing.
-     * @throws IOException If a IO error occurs during XSD/XML parsing.
-     * @throws XmlParseException If a SAX error occurs during XML parsing.
+     * @param input
+     *            XML to validate
+     * @param schemaResource
+     *            XSD resource
+     * @param typeProvider
+     *            XSD Type provider
+     * @param visitor
+     *            Record visitor
+     * @param messageReport
+     *            Message report for validation warning/error reporting
+     * @param reportStats
+     *            Associated report statistics
+     * @param source
+     *            Source of the messages
+     * @throws SAXException
+     *             If a SAX error occurs during XSD parsing.
+     * @throws IOException
+     *             If a IO error occurs during XSD/XML parsing.
+     * @throws XmlParseException
+     *             If a SAX error occurs during XML parsing.
      */
     public static void parse(InputStream input, Resource schemaResource, TypeProvider typeProvider,
             RecordVisitor visitor, AbstractMessageReport messageReport, ReportStats reportStats, Source source)
-                    throws SAXException, IOException, XmlParseException {
+            throws SAXException, IOException, XmlParseException {
 
         EdfiRecordUnmarshaller parser = new EdfiRecordUnmarshaller(typeProvider, messageReport, reportStats, source);
 
@@ -130,7 +159,10 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         elementValue.setLength(0);
 
-        if (interchange != null) {
+        if (ACTION.equals(localName)) {
+            action = getAction(localName, attributes);
+            originalType = null;
+        } else if (interchange != null) {
             parseInterchangeEvent(localName, attributes);
         } else if (localName.startsWith("Interchange")) {
             interchange = localName;
@@ -139,6 +171,17 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
 
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
+
+        if (ACTION.equals(localName)) {
+            action = ActionVerb.NONE;
+            actionAttributes = null;
+            return;
+        }
+
+        if (action.doDelete() && ReferenceConverter.isReferenceType(originalType) && originalType.equals(localName)) {
+            return;
+        }
+
         if (complexTypeStack.isEmpty()) {
             return;
         }
@@ -170,17 +213,73 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
     }
 
     private void parseInterchangeEvent(String localName, Attributes attributes) {
+
+        boolean isFirst = false;
+
+        if (originalType == null && action.doDelete()) {
+            originalType = localName;
+            isFirst = true;
+        }
+
+        if (isFirst && ReferenceConverter.isReferenceType(localName)) {
+            return;
+        }
+
         if (complexTypeStack.isEmpty()) {
-            initCurrentEntity(localName, attributes);
+            initCurrentEntity(localName, attributes, action);
         } else {
             parseStartElement(localName, attributes);
         }
     }
 
-    private void initCurrentEntity(String localName, Attributes attributes) {
+    private ActionVerb getAction(String localName, Attributes attributes) {
         String xsdType = typeProvider.getTypeFromInterchange(interchange, localName);
+        ActionVerb doAction = ActionVerb.NONE;
 
-        RecordMetaImpl recordMeta = new RecordMetaImpl(localName, xsdType);
+        if (typeProvider.isActionType(xsdType)) {
+            String action = attributes.getValue(ACTION_TYPE);
+            String cascade = attributes.getValue(CASCADE);
+            if (action == null || cascade == null) {
+                /*
+                 * Shouldn't happen - xsd validation would've failed
+                 */
+                LOG.warn("Could not get ActionType or Cascade properties for {}", localName);
+            }
+
+            try {
+                doAction = ActionVerb.valueOf(action);
+                if (doAction == ActionVerb.DELETE && Boolean.parseBoolean(cascade)) {
+                    doAction = ActionVerb.CASCADE_DELETE;
+                }
+
+            } catch (Exception e) {
+                /*
+                 * Shouldn't happen - xsd validation would've failed
+                 */
+                doAction = ActionVerb.NONE;
+                LOG.warn("Could not get ActionVerb for {}", action);
+            }
+            actionAttributes = new HashMap<String, String>();
+            String force = attributes.getValue(FORCE);
+            String logViolations = attributes.getValue(LOG_VIOLATIONS);
+            if(force != null) {
+                actionAttributes.put(FORCE, force);
+            }
+            if(logViolations != null) {
+                actionAttributes.put(LOG_VIOLATIONS, logViolations);
+            }
+        }
+
+        return (doAction);
+    }
+
+    private void initCurrentEntity(String localName, Attributes attributes, ActionVerb doAction) {
+        String xsdType = typeProvider.getTypeFromInterchange(interchange, localName, doAction);
+
+        RecordMetaImpl recordMeta = new RecordMetaImpl(localName, xsdType, false, doAction, actionAttributes);
+        if (originalType != null) {
+            recordMeta.setOriginalType(originalType);
+        }
 
         recordMeta.setSourceStartLocation(getCurrentLocation());
 
@@ -214,8 +313,7 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
     }
 
     private RecordMeta getRecordMetaForEvent(String eventName) {
-        RecordMeta typeMeta = typeProvider
-                .getTypeFromParentType(complexTypeStack.peek().getLeft().getType(), eventName);
+        RecordMeta typeMeta = typeProvider.getTypeFromParentType(complexTypeStack.peek().getLeft(), eventName);
 
         if (typeMeta == null) {
             // the parser must go on building the stack
@@ -246,17 +344,77 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
         Pair<RecordMeta, Map<String, Object>> pair = complexTypeStack.pop();
         LOG.debug("Parsed record: {}", pair);
 
+        RecordMetaImpl meta = (RecordMetaImpl) pair.getLeft();
+        boolean validRecord = isValidRecord(meta);
+        if (!validRecord) {
+            currentEntityValid = false;
+        }
+
         if (currentEntityValid) {
-            ((RecordMetaImpl) pair.getLeft()).setSourceEndLocation(getCurrentLocation());
+            meta.setSourceEndLocation(getCurrentLocation());
+            originalType = null;
 
             for (RecordVisitor visitor : recordVisitors) {
-                visitor.visit(pair.getLeft(), pair.getRight());
+                visitor.visit(meta, pair.getRight());
             }
         } else {
             for (RecordVisitor visitor : recordVisitors) {
                 visitor.ignored();
             }
         }
+    }
+
+    /*
+     * Cascade delete is not supported now, but we can't change the schema
+     */
+    private boolean isValidRecord(final RecordMeta meta) {
+        boolean status = true;
+        Source elementSource = new ElementSourceImpl(new ElementSource() {
+
+            @Override
+            public String getResourceId() {
+                return source.getResourceId();
+            }
+
+            @Override
+            public int getVisitBeforeLineNumber() {
+                return meta.getSourceStartLocation().getLineNumber();
+            }
+
+            @Override
+            public int getVisitBeforeColumnNumber() {
+                return meta.getSourceStartLocation().getColumnNumber();
+            }
+
+            @Override
+            public String getElementType() {
+                return source.getResourceId();
+            }
+        });
+
+        boolean isDelete = meta.getAction().doDelete();
+        boolean isReference = false;
+
+        if (!isDelete) {
+            return status;
+        }
+
+        if (isDelete && meta.doCascade()) {
+            messageReport.error(reportStats, elementSource, CoreMessageCode.CORE_0072);
+            status = false;
+        }
+
+        // Some deletes are not implemented yet
+        if (isDelete && ReferenceConverter.isReferenceType(originalType)) {
+            if (ReferenceConverter.fromReferenceName(originalType) == null) {
+                messageReport.error(reportStats, elementSource, CoreMessageCode.CORE_0073, originalType);
+                return false;
+            } else {
+                isReference = true;
+            }
+        }
+
+        return status;
     }
 
     /**
@@ -302,7 +460,8 @@ public class EdfiRecordUnmarshaller extends EdfiRecordParser {
     /**
      * Register a visitor to retrieve extracted data.
      *
-     * @param recordVisitor Record visitor
+     * @param recordVisitor
+     *            Record visitor
      */
     public void addVisitor(RecordVisitor recordVisitor) {
         recordVisitors.add(recordVisitor);

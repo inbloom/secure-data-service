@@ -1,0 +1,1557 @@
+<?xml version="1.0"?>
+<InterchangeStudentParent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentParent.xsd">
+<Student>
+  <StudentUniqueStateId>1</StudentUniqueStateId>
+      <StudentIdentificationCode IdentificationSystem="Local" AssigningOrganizationCode="School">
+        <IdentificationCode>abcde</IdentificationCode>
+      </StudentIdentificationCode>
+  <Name>
+    <FirstName>Jessie</FirstName>
+    <MiddleName>Kory</MiddleName>
+    <LastSurname>Mcgowan</LastSurname>
+  </Name>
+  <OtherName OtherNameType="Previous Legal Name">
+    <PersonalTitlePrefix>Mrs</PersonalTitlePrefix>
+    <FirstName>Basil</FirstName>
+    <MiddleName>Dillon</MiddleName>
+    <LastSurname>Grimes</LastSurname>
+    <GenerationCodeSuffix>III</GenerationCodeSuffix>
+  </OtherName>
+  <Sex>Male</Sex>
+  <BirthData>
+    <BirthDate>1988-01-12</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>960 Marks Ct</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+	<Telephone>
+	  <TelephoneNumber>(753)555-9719</TelephoneNumber>
+	</Telephone>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>2895@fakemail.com</EmailAddress>
+  </ElectronicMail>
+    <ProfileThumbnail>1 thumb</ProfileThumbnail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <OldEthnicity>American Indian Or Alaskan Native</OldEthnicity>
+  <Race>
+    <RacialCategory>Asian</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+    <StudentCharacteristics>
+      <Characteristic>Pregnant</Characteristic>
+      <BeginDate>20013-02-01</BeginDate>
+      <EndDate>2013-02-09</EndDate>
+      <DesignatedBy>Parent</DesignatedBy>
+    </StudentCharacteristics>
+    
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <Languages>
+      <Language>Nepali</Language>
+    </Languages>
+    <HomeLanguages>
+      <Language>French</Language>
+    </HomeLanguages>
+    <Disabilities>
+      <Disability>Emotional Disturbance</Disability>
+      <DisabilityDiagnosis>Diagnosis A</DisabilityDiagnosis>
+      <OrderOfDisability>4</OrderOfDisability>
+    </Disabilities>
+    <Section504Disabilities>
+      <Section504Disability>Attention Deficit Hyperactivity Disorder (ADHD)</Section504Disability>
+    </Section504Disabilities>
+    <DisplacementStatus>Status BBB</DisplacementStatus>
+    <ProgramParticipations>
+      <Program>Bilingual Summer</Program>
+      <BeginDate>20013-10-19</BeginDate>
+      <EndDate>2014-01-05</EndDate>
+      <DesignatedBy>Teacher</DesignatedBy>
+    </ProgramParticipations>
+    <LearningStyles>
+      <VisualLearning>24</VisualLearning>
+      <AuditoryLearning>8</AuditoryLearning>
+      <TactileLearning>27</TactileLearning>
+    </LearningStyles>
+    <CohortYears CohortYearType="Sixth grade">
+      <SchoolYear>2014-2015</SchoolYear>
+    </CohortYears>
+    <StudentIndicators>
+      <IndicatorGroup>Group B</IndicatorGroup>
+      <IndicatorName>Name 1</IndicatorName>
+      <Indicator>Indicator 3</Indicator>
+      <BeginDate>20013-06-26</BeginDate>
+      <EndDate>2014-07-09</EndDate>
+      <DesignatedBy>Parent</DesignatedBy>
+    </StudentIndicators>
+    
+  <LoginId>2895@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>2</StudentUniqueStateId>
+      <StudentIdentificationCode IdentificationSystem="National Migrant" AssigningOrganizationCode="Other">
+        <IdentificationCode>abcde</IdentificationCode>
+      </StudentIdentificationCode>
+  <Name>
+    <FirstName>Dorthy</FirstName>
+    <MiddleName>Melba</MiddleName>
+    <LastSurname>Breedlove</LastSurname>
+  </Name>
+  <OtherName OtherNameType="Other Name">
+    <PersonalTitlePrefix>Mrs</PersonalTitlePrefix>
+    <FirstName>Marissa</FirstName>
+    <MiddleName>Frankie</MiddleName>
+    <LastSurname>Schenk</LastSurname>
+    <GenerationCodeSuffix>II</GenerationCodeSuffix>
+  </OtherName>
+  <Sex>Female</Sex>
+  <BirthData>
+    <BirthDate>1990-11-15</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>433 Oak Street</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+	<Telephone>
+	  <TelephoneNumber>(708)555-9518</TelephoneNumber>
+	</Telephone>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>4770@fakemail.com</EmailAddress>
+  </ElectronicMail>
+    <ProfileThumbnail>2 thumb</ProfileThumbnail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <OldEthnicity>Asian Or Pacific Islander</OldEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+    <StudentCharacteristics>
+      <Characteristic>Foster Care</Characteristic>
+      <BeginDate>20012-11-16</BeginDate>
+      <EndDate>2014-08-15</EndDate>
+      <DesignatedBy>Parent</DesignatedBy>
+    </StudentCharacteristics>
+    
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <Languages>
+      <Language>Nepali</Language>
+    </Languages>
+    <HomeLanguages>
+      <Language>German</Language>
+    </HomeLanguages>
+    <Disabilities>
+      <Disability>Hearing/Auditory Impairment</Disability>
+      <DisabilityDiagnosis>Diagnosis BBB</DisabilityDiagnosis>
+      <OrderOfDisability>10</OrderOfDisability>
+    </Disabilities>
+    <Section504Disabilities>
+      <Section504Disability>Sensory Impairment</Section504Disability>
+    </Section504Disabilities>
+    <DisplacementStatus>Status A</DisplacementStatus>
+    <ProgramParticipations>
+      <Program>Cocurricular Programs</Program>
+      <BeginDate>20012-03-09</BeginDate>
+      <EndDate>2013-11-09</EndDate>
+      <DesignatedBy>Mentor</DesignatedBy>
+    </ProgramParticipations>
+    <LearningStyles>
+      <VisualLearning>38</VisualLearning>
+      <AuditoryLearning>7</AuditoryLearning>
+      <TactileLearning>23</TactileLearning>
+    </LearningStyles>
+    <CohortYears CohortYearType="Eleventh grade">
+      <SchoolYear>2015-2016</SchoolYear>
+    </CohortYears>
+    <StudentIndicators>
+      <IndicatorGroup>Group C</IndicatorGroup>
+      <IndicatorName>Name 1</IndicatorName>
+      <Indicator>Indicator 1</Indicator>
+      <BeginDate>20012-10-06</BeginDate>
+      <EndDate>2014-03-21</EndDate>
+      <DesignatedBy>Mentor</DesignatedBy>
+    </StudentIndicators>
+    
+  <LoginId>4770@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>3</StudentUniqueStateId>
+      <StudentIdentificationCode IdentificationSystem="Other" AssigningOrganizationCode="School">
+        <IdentificationCode>abcde</IdentificationCode>
+      </StudentIdentificationCode>
+  <Name>
+    <FirstName>Staci</FirstName>
+    <MiddleName>Dora</MiddleName>
+    <LastSurname>Crowell</LastSurname>
+  </Name>
+  <OtherName OtherNameType="Alias">
+    <PersonalTitlePrefix>Mrs</PersonalTitlePrefix>
+    <FirstName>Summer</FirstName>
+    <MiddleName>Tammi</MiddleName>
+    <LastSurname>Cloud</LastSurname>
+    <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+  </OtherName>
+  <Sex>Female</Sex>
+  <BirthData>
+    <BirthDate>1990-05-15</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>659 Martin Luther King Jr Blvd</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+	<Telephone>
+	  <TelephoneNumber>(581)555-7016</TelephoneNumber>
+	</Telephone>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>8981@fakemail.com</EmailAddress>
+  </ElectronicMail>
+    <ProfileThumbnail>3 thumb</ProfileThumbnail>
+  <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
+    <OldEthnicity>White, Not Of Hispanic Origin</OldEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+    <StudentCharacteristics>
+      <Characteristic>Single Parent</Characteristic>
+      <BeginDate>20012-12-02</BeginDate>
+      <EndDate>2014-01-06</EndDate>
+      <DesignatedBy>Parent</DesignatedBy>
+    </StudentCharacteristics>
+    
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <Languages>
+      <Language>Korean</Language>
+    </Languages>
+    <HomeLanguages>
+      <Language>Cambodian (Khmer)</Language>
+    </HomeLanguages>
+    <Disabilities>
+      <Disability>Hearing/Auditory Impairment</Disability>
+      <DisabilityDiagnosis>Diagnosis BBB</DisabilityDiagnosis>
+      <OrderOfDisability>1</OrderOfDisability>
+    </Disabilities>
+    <Section504Disabilities>
+      <Section504Disability>Sensory Impairment</Section504Disability>
+    </Section504Disabilities>
+    <DisplacementStatus>Status BBB</DisplacementStatus>
+    <ProgramParticipations>
+      <Program>Bilingual Summer</Program>
+      <BeginDate>20013-02-18</BeginDate>
+      <EndDate>2014-06-22</EndDate>
+      <DesignatedBy>Mentor</DesignatedBy>
+    </ProgramParticipations>
+    <LearningStyles>
+      <VisualLearning>37</VisualLearning>
+      <AuditoryLearning>36</AuditoryLearning>
+      <TactileLearning>28</TactileLearning>
+    </LearningStyles>
+    <CohortYears CohortYearType="Twelfth grade">
+      <SchoolYear>2015-2016</SchoolYear>
+    </CohortYears>
+    <StudentIndicators>
+      <IndicatorGroup>Group B</IndicatorGroup>
+      <IndicatorName>Name 3</IndicatorName>
+      <Indicator>Indicator 1</Indicator>
+      <BeginDate>20013-01-02</BeginDate>
+      <EndDate>2013-02-19</EndDate>
+      <DesignatedBy>Mentor</DesignatedBy>
+    </StudentIndicators>
+    
+  <LoginId>8981@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>4</StudentUniqueStateId>
+      <StudentIdentificationCode IdentificationSystem="National Migrant" AssigningOrganizationCode="School">
+        <IdentificationCode>abcde</IdentificationCode>
+      </StudentIdentificationCode>
+  <Name>
+    <FirstName>Yvonne</FirstName>
+    <MiddleName>Leigh</MiddleName>
+    <LastSurname>Morse</LastSurname>
+  </Name>
+  <OtherName OtherNameType="Other Name">
+    <PersonalTitlePrefix>Ms</PersonalTitlePrefix>
+    <FirstName>Ida</FirstName>
+    <MiddleName>Sallie</MiddleName>
+    <LastSurname>Black</LastSurname>
+    <GenerationCodeSuffix>V</GenerationCodeSuffix>
+  </OtherName>
+  <Sex>Female</Sex>
+  <BirthData>
+    <BirthDate>1989-08-27</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>818 Martin Luther King Jr Blvd</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+	<Telephone>
+	  <TelephoneNumber>(056)555-4802</TelephoneNumber>
+	</Telephone>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>456@fakemail.com</EmailAddress>
+  </ElectronicMail>
+    <ProfileThumbnail>4 thumb</ProfileThumbnail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <OldEthnicity>American Indian Or Alaskan Native</OldEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+    <StudentCharacteristics>
+      <Characteristic>Single Parent</Characteristic>
+      <BeginDate>20012-09-20</BeginDate>
+      <EndDate>2013-02-01</EndDate>
+      <DesignatedBy>Mentor</DesignatedBy>
+    </StudentCharacteristics>
+    
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <Languages>
+      <Language>Laotian (Lao)</Language>
+    </Languages>
+    <HomeLanguages>
+      <Language>Vietnamese</Language>
+    </HomeLanguages>
+    <Disabilities>
+      <Disability>Deaf-Blindness</Disability>
+      <DisabilityDiagnosis>Diagnosis A</DisabilityDiagnosis>
+      <OrderOfDisability>17</OrderOfDisability>
+    </Disabilities>
+    <Section504Disabilities>
+      <Section504Disability>Attention Deficit Hyperactivity Disorder (ADHD)</Section504Disability>
+    </Section504Disabilities>
+    <DisplacementStatus>Status BBB</DisplacementStatus>
+    <ProgramParticipations>
+      <Program>Career and Technical Education</Program>
+      <BeginDate>20012-04-12</BeginDate>
+      <EndDate>2014-09-19</EndDate>
+      <DesignatedBy>Mentor</DesignatedBy>
+    </ProgramParticipations>
+    <LearningStyles>
+      <VisualLearning>8</VisualLearning>
+      <AuditoryLearning>10</AuditoryLearning>
+      <TactileLearning>19</TactileLearning>
+    </LearningStyles>
+    <CohortYears CohortYearType="Twelfth grade">
+      <SchoolYear>2011-2012</SchoolYear>
+    </CohortYears>
+    <StudentIndicators>
+      <IndicatorGroup>Group C</IndicatorGroup>
+      <IndicatorName>Name 3</IndicatorName>
+      <Indicator>Indicator 1</Indicator>
+      <BeginDate>20013-09-28</BeginDate>
+      <EndDate>2013-07-08</EndDate>
+      <DesignatedBy>Parent</DesignatedBy>
+    </StudentIndicators>
+    
+  <LoginId>456@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>5</StudentUniqueStateId>
+      <StudentIdentificationCode IdentificationSystem="Local" AssigningOrganizationCode="Other">
+        <IdentificationCode>abcde</IdentificationCode>
+      </StudentIdentificationCode>
+  <Name>
+    <FirstName>Nathaniel</FirstName>
+    <MiddleName>Denver</MiddleName>
+    <LastSurname>Wadsworth</LastSurname>
+  </Name>
+  <OtherName OtherNameType="Alias">
+    <PersonalTitlePrefix>Mr</PersonalTitlePrefix>
+    <FirstName>Amos</FirstName>
+    <MiddleName>Desmond</MiddleName>
+    <LastSurname>Naylor</LastSurname>
+    <GenerationCodeSuffix>V</GenerationCodeSuffix>
+  </OtherName>
+  <Sex>Male</Sex>
+  <BirthData>
+    <BirthDate>1996-11-13</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>740 Elm Street</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+	<Telephone>
+	  <TelephoneNumber>(254)555-0377</TelephoneNumber>
+	</Telephone>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>1032@fakemail.com</EmailAddress>
+  </ElectronicMail>
+    <ProfileThumbnail>5 thumb</ProfileThumbnail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <OldEthnicity>American Indian Or Alaskan Native</OldEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+    <StudentCharacteristics>
+      <Characteristic>Unschooled Refugee</Characteristic>
+      <BeginDate>20012-06-27</BeginDate>
+      <EndDate>2013-01-05</EndDate>
+      <DesignatedBy>Mentor</DesignatedBy>
+    </StudentCharacteristics>
+    
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <Languages>
+      <Language>Laotian (Lao)</Language>
+    </Languages>
+    <HomeLanguages>
+      <Language>Vietnamese</Language>
+    </HomeLanguages>
+    <Disabilities>
+      <Disability>Multiple Disabilities</Disability>
+      <DisabilityDiagnosis>Diagnosis A</DisabilityDiagnosis>
+      <OrderOfDisability>20</OrderOfDisability>
+    </Disabilities>
+    <Section504Disabilities>
+      <Section504Disability>Sensory Impairment</Section504Disability>
+    </Section504Disabilities>
+    <DisplacementStatus>Status BBB</DisplacementStatus>
+    <ProgramParticipations>
+      <Program>Athletics</Program>
+      <BeginDate>20013-02-24</BeginDate>
+      <EndDate>2014-12-15</EndDate>
+      <DesignatedBy>Teacher</DesignatedBy>
+    </ProgramParticipations>
+    <LearningStyles>
+      <VisualLearning>22</VisualLearning>
+      <AuditoryLearning>8</AuditoryLearning>
+      <TactileLearning>17</TactileLearning>
+    </LearningStyles>
+    <CohortYears CohortYearType="Sixth grade">
+      <SchoolYear>2010-2011</SchoolYear>
+    </CohortYears>
+    <StudentIndicators>
+      <IndicatorGroup>Group C</IndicatorGroup>
+      <IndicatorName>Name 1</IndicatorName>
+      <Indicator>Indicator 2</Indicator>
+      <BeginDate>20013-12-25</BeginDate>
+      <EndDate>2014-07-12</EndDate>
+      <DesignatedBy>Parent</DesignatedBy>
+    </StudentIndicators>
+    
+  <LoginId>1032@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>6</StudentUniqueStateId>
+      <StudentIdentificationCode IdentificationSystem="Federal" AssigningOrganizationCode="District">
+        <IdentificationCode>abcde</IdentificationCode>
+      </StudentIdentificationCode>
+  <Name>
+    <FirstName>Randi</FirstName>
+    <MiddleName>Colleen</MiddleName>
+    <LastSurname>Naylor</LastSurname>
+  </Name>
+  <OtherName OtherNameType="Previous Legal Name">
+    <PersonalTitlePrefix>Ms</PersonalTitlePrefix>
+    <FirstName>Kitty</FirstName>
+    <MiddleName>Brenda</MiddleName>
+    <LastSurname>Wing</LastSurname>
+    <GenerationCodeSuffix>Sr</GenerationCodeSuffix>
+  </OtherName>
+  <Sex>Female</Sex>
+  <BirthData>
+    <BirthDate>1996-08-28</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>318 Martin Luther King Jr Blvd</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+	<Telephone>
+	  <TelephoneNumber>(485)555-5553</TelephoneNumber>
+	</Telephone>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>9040@fakemail.com</EmailAddress>
+  </ElectronicMail>
+    <ProfileThumbnail>6 thumb</ProfileThumbnail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <OldEthnicity>Asian Or Pacific Islander</OldEthnicity>
+  <Race>
+    <RacialCategory>Asian</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+    <StudentCharacteristics>
+      <Characteristic>Homeless</Characteristic>
+      <BeginDate>20013-12-26</BeginDate>
+      <EndDate>2014-03-27</EndDate>
+      <DesignatedBy>Mentor</DesignatedBy>
+    </StudentCharacteristics>
+    
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <Languages>
+      <Language>Korean</Language>
+    </Languages>
+    <HomeLanguages>
+      <Language>Nepali</Language>
+    </HomeLanguages>
+    <Disabilities>
+      <Disability>Deafness</Disability>
+      <DisabilityDiagnosis>Diagnosis A</DisabilityDiagnosis>
+      <OrderOfDisability>12</OrderOfDisability>
+    </Disabilities>
+    <Section504Disabilities>
+      <Section504Disability>Motor Impairment</Section504Disability>
+    </Section504Disabilities>
+    <DisplacementStatus>Status A</DisplacementStatus>
+    <ProgramParticipations>
+      <Program>Cocurricular Programs</Program>
+      <BeginDate>20012-04-08</BeginDate>
+      <EndDate>2013-12-25</EndDate>
+      <DesignatedBy>Teacher</DesignatedBy>
+    </ProgramParticipations>
+    <LearningStyles>
+      <VisualLearning>5</VisualLearning>
+      <AuditoryLearning>34</AuditoryLearning>
+      <TactileLearning>16</TactileLearning>
+    </LearningStyles>
+    <CohortYears CohortYearType="Fourth grade">
+      <SchoolYear>2013-2014</SchoolYear>
+    </CohortYears>
+    <StudentIndicators>
+      <IndicatorGroup>Group A</IndicatorGroup>
+      <IndicatorName>Name 1</IndicatorName>
+      <Indicator>Indicator 3</Indicator>
+      <BeginDate>20012-06-11</BeginDate>
+      <EndDate>2013-10-02</EndDate>
+      <DesignatedBy>Mentor</DesignatedBy>
+    </StudentIndicators>
+    
+  <LoginId>9040@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>7</StudentUniqueStateId>
+      <StudentIdentificationCode IdentificationSystem="National Migrant" AssigningOrganizationCode="Other">
+        <IdentificationCode>abcde</IdentificationCode>
+      </StudentIdentificationCode>
+  <Name>
+    <FirstName>Jessie</FirstName>
+    <MiddleName>Robbie</MiddleName>
+    <LastSurname>Quintanilla</LastSurname>
+  </Name>
+  <OtherName OtherNameType="Other Name">
+    <PersonalTitlePrefix>Ms</PersonalTitlePrefix>
+    <FirstName>August</FirstName>
+    <MiddleName>Allen</MiddleName>
+    <LastSurname>Trammell</LastSurname>
+    <GenerationCodeSuffix>V</GenerationCodeSuffix>
+  </OtherName>
+  <Sex>Male</Sex>
+  <BirthData>
+    <BirthDate>1995-03-31</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>615 Martin Luther King Jr Blvd</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+	<Telephone>
+	  <TelephoneNumber>(044)555-9541</TelephoneNumber>
+	</Telephone>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>919@fakemail.com</EmailAddress>
+  </ElectronicMail>
+    <ProfileThumbnail>7 thumb</ProfileThumbnail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <OldEthnicity>White, Not Of Hispanic Origin</OldEthnicity>
+  <Race>
+    <RacialCategory>Black - African American</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Unknown</SchoolFoodServicesEligibility>
+    <StudentCharacteristics>
+      <Characteristic>Unschooled Refugee</Characteristic>
+      <BeginDate>20012-09-10</BeginDate>
+      <EndDate>2013-07-05</EndDate>
+      <DesignatedBy>Mentor</DesignatedBy>
+    </StudentCharacteristics>
+    
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <Languages>
+      <Language>Laotian (Lao)</Language>
+    </Languages>
+    <HomeLanguages>
+      <Language>Laotian (Lao)</Language>
+    </HomeLanguages>
+    <Disabilities>
+      <Disability>Other Health Impairment</Disability>
+      <DisabilityDiagnosis>Diagnosis BBB</DisabilityDiagnosis>
+      <OrderOfDisability>13</OrderOfDisability>
+    </Disabilities>
+    <Section504Disabilities>
+      <Section504Disability>Medical Condition</Section504Disability>
+    </Section504Disabilities>
+    <DisplacementStatus>Status BBB</DisplacementStatus>
+    <ProgramParticipations>
+      <Program>Bilingual</Program>
+      <BeginDate>20013-01-22</BeginDate>
+      <EndDate>2013-04-02</EndDate>
+      <DesignatedBy>Teacher</DesignatedBy>
+    </ProgramParticipations>
+    <LearningStyles>
+      <VisualLearning>5</VisualLearning>
+      <AuditoryLearning>20</AuditoryLearning>
+      <TactileLearning>34</TactileLearning>
+    </LearningStyles>
+    <CohortYears CohortYearType="Fourth grade">
+      <SchoolYear>2009-2010</SchoolYear>
+    </CohortYears>
+    <StudentIndicators>
+      <IndicatorGroup>Group A</IndicatorGroup>
+      <IndicatorName>Name 2</IndicatorName>
+      <Indicator>Indicator 2</Indicator>
+      <BeginDate>20012-06-24</BeginDate>
+      <EndDate>2014-12-27</EndDate>
+      <DesignatedBy>Parent</DesignatedBy>
+    </StudentIndicators>
+    
+  <LoginId>919@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>8</StudentUniqueStateId>
+      <StudentIdentificationCode IdentificationSystem="District" AssigningOrganizationCode="School">
+        <IdentificationCode>abcde</IdentificationCode>
+      </StudentIdentificationCode>
+  <Name>
+    <FirstName>Guillermo</FirstName>
+    <MiddleName>Alton</MiddleName>
+    <LastSurname>Squires</LastSurname>
+  </Name>
+  <OtherName OtherNameType="Alias">
+    <PersonalTitlePrefix>Ms</PersonalTitlePrefix>
+    <FirstName>Daren</FirstName>
+    <MiddleName>Agustin</MiddleName>
+    <LastSurname>Pennell</LastSurname>
+    <GenerationCodeSuffix>VI</GenerationCodeSuffix>
+  </OtherName>
+  <Sex>Male</Sex>
+  <BirthData>
+    <BirthDate>1994-01-15</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>360 Marks Ct</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+	<Telephone>
+	  <TelephoneNumber>(873)555-4506</TelephoneNumber>
+	</Telephone>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>6995@fakemail.com</EmailAddress>
+  </ElectronicMail>
+    <ProfileThumbnail>8 thumb</ProfileThumbnail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <OldEthnicity>American Indian Or Alaskan Native</OldEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+    <StudentCharacteristics>
+      <Characteristic>Pregnant</Characteristic>
+      <BeginDate>20013-05-14</BeginDate>
+      <EndDate>2014-09-16</EndDate>
+      <DesignatedBy>Mentor</DesignatedBy>
+    </StudentCharacteristics>
+    
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <Languages>
+      <Language>Vietnamese</Language>
+    </Languages>
+    <HomeLanguages>
+      <Language>Cambodian (Khmer)</Language>
+    </HomeLanguages>
+    <Disabilities>
+      <Disability>Multiple Disabilities</Disability>
+      <DisabilityDiagnosis>Diagnosis BBB</DisabilityDiagnosis>
+      <OrderOfDisability>7</OrderOfDisability>
+    </Disabilities>
+    <Section504Disabilities>
+      <Section504Disability>Motor Impairment</Section504Disability>
+    </Section504Disabilities>
+    <DisplacementStatus>Status BBB</DisplacementStatus>
+    <ProgramParticipations>
+      <Program>Alternative Education</Program>
+      <BeginDate>20012-10-07</BeginDate>
+      <EndDate>2014-01-10</EndDate>
+      <DesignatedBy>Mentor</DesignatedBy>
+    </ProgramParticipations>
+    <LearningStyles>
+      <VisualLearning>10</VisualLearning>
+      <AuditoryLearning>35</AuditoryLearning>
+      <TactileLearning>39</TactileLearning>
+    </LearningStyles>
+    <CohortYears CohortYearType="Twelfth grade">
+      <SchoolYear>2011-2012</SchoolYear>
+    </CohortYears>
+    <StudentIndicators>
+      <IndicatorGroup>Group C</IndicatorGroup>
+      <IndicatorName>Name 2</IndicatorName>
+      <Indicator>Indicator 2</Indicator>
+      <BeginDate>20013-08-21</BeginDate>
+      <EndDate>2014-10-21</EndDate>
+      <DesignatedBy>Parent</DesignatedBy>
+    </StudentIndicators>
+    
+  <LoginId>6995@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>9</StudentUniqueStateId>
+      <StudentIdentificationCode IdentificationSystem="State Migrant" AssigningOrganizationCode="Other">
+        <IdentificationCode>abcde</IdentificationCode>
+      </StudentIdentificationCode>
+  <Name>
+    <FirstName>Yvette</FirstName>
+    <MiddleName>Gracie</MiddleName>
+    <LastSurname>Wilcox</LastSurname>
+  </Name>
+  <OtherName OtherNameType="Previous Legal Name">
+    <PersonalTitlePrefix>Mrs</PersonalTitlePrefix>
+    <FirstName>Diann</FirstName>
+    <MiddleName>Elsa</MiddleName>
+    <LastSurname>Bernard</LastSurname>
+    <GenerationCodeSuffix>VII</GenerationCodeSuffix>
+  </OtherName>
+  <Sex>Female</Sex>
+  <BirthData>
+    <BirthDate>1992-10-27</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>918 North Street</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+	<Telephone>
+	  <TelephoneNumber>(214)555-3768</TelephoneNumber>
+	</Telephone>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>9979@fakemail.com</EmailAddress>
+  </ElectronicMail>
+    <ProfileThumbnail>9 thumb</ProfileThumbnail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <OldEthnicity>Black, Not Of Hispanic Origin</OldEthnicity>
+  <Race>
+    <RacialCategory>Black - African American</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+    <StudentCharacteristics>
+      <Characteristic>Unschooled Asylee</Characteristic>
+      <BeginDate>20012-09-18</BeginDate>
+      <EndDate>2014-09-14</EndDate>
+      <DesignatedBy>Mentor</DesignatedBy>
+    </StudentCharacteristics>
+    
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <Languages>
+      <Language>Nepali</Language>
+    </Languages>
+    <HomeLanguages>
+      <Language>Japanese</Language>
+    </HomeLanguages>
+    <Disabilities>
+      <Disability>Developmental Delay</Disability>
+      <DisabilityDiagnosis>Diagnosis A</DisabilityDiagnosis>
+      <OrderOfDisability>4</OrderOfDisability>
+    </Disabilities>
+    <Section504Disabilities>
+      <Section504Disability>Other</Section504Disability>
+    </Section504Disabilities>
+    <DisplacementStatus>Status BBB</DisplacementStatus>
+    <ProgramParticipations>
+      <Program>Bilingual Summer</Program>
+      <BeginDate>20012-09-20</BeginDate>
+      <EndDate>2013-09-05</EndDate>
+      <DesignatedBy>Parent</DesignatedBy>
+    </ProgramParticipations>
+    <LearningStyles>
+      <VisualLearning>35</VisualLearning>
+      <AuditoryLearning>28</AuditoryLearning>
+      <TactileLearning>14</TactileLearning>
+    </LearningStyles>
+    <CohortYears CohortYearType="Twelfth grade">
+      <SchoolYear>2010-2011</SchoolYear>
+    </CohortYears>
+    <StudentIndicators>
+      <IndicatorGroup>Group B</IndicatorGroup>
+      <IndicatorName>Name 2</IndicatorName>
+      <Indicator>Indicator 1</Indicator>
+      <BeginDate>20012-03-15</BeginDate>
+      <EndDate>2014-10-11</EndDate>
+      <DesignatedBy>Mentor</DesignatedBy>
+    </StudentIndicators>
+    
+  <LoginId>9979@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>10</StudentUniqueStateId>
+      <StudentIdentificationCode IdentificationSystem="National Migrant" AssigningOrganizationCode="Other">
+        <IdentificationCode>abcde</IdentificationCode>
+      </StudentIdentificationCode>
+  <Name>
+    <FirstName>Warren</FirstName>
+    <MiddleName>Demetrius</MiddleName>
+    <LastSurname>Boswell</LastSurname>
+  </Name>
+  <OtherName OtherNameType="Nickname">
+    <PersonalTitlePrefix>Mr</PersonalTitlePrefix>
+    <FirstName>Clinton</FirstName>
+    <MiddleName>Milford</MiddleName>
+    <LastSurname>Lindsay</LastSurname>
+    <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+  </OtherName>
+  <Sex>Male</Sex>
+  <BirthData>
+    <BirthDate>1992-04-09</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>925 North Street</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+	<Telephone>
+	  <TelephoneNumber>(077)555-6899</TelephoneNumber>
+	</Telephone>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>1520@fakemail.com</EmailAddress>
+  </ElectronicMail>
+    <ProfileThumbnail>10 thumb</ProfileThumbnail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <OldEthnicity>American Indian Or Alaskan Native</OldEthnicity>
+  <Race>
+    <RacialCategory>Black - African American</RacialCategory>
+  </Race>
+    <EconomicDisadvantaged>true</EconomicDisadvantaged>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+    <StudentCharacteristics>
+      <Characteristic>Unschooled Asylee</Characteristic>
+      <BeginDate>20012-12-19</BeginDate>
+      <EndDate>2014-07-24</EndDate>
+      <DesignatedBy>Mentor</DesignatedBy>
+    </StudentCharacteristics>
+    
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <Languages>
+      <Language>Nepali</Language>
+    </Languages>
+    <HomeLanguages>
+      <Language>Vietnamese</Language>
+    </HomeLanguages>
+    <Disabilities>
+      <Disability>Infants and Toddlers with Disabilities</Disability>
+      <DisabilityDiagnosis>Diagnosis BBB</DisabilityDiagnosis>
+      <OrderOfDisability>12</OrderOfDisability>
+    </Disabilities>
+    <Section504Disabilities>
+      <Section504Disability>Motor Impairment</Section504Disability>
+    </Section504Disabilities>
+    <DisplacementStatus>Status BBB</DisplacementStatus>
+    <ProgramParticipations>
+      <Program>Cocurricular Programs</Program>
+      <BeginDate>20012-06-05</BeginDate>
+      <EndDate>2014-09-25</EndDate>
+      <DesignatedBy>Mentor</DesignatedBy>
+    </ProgramParticipations>
+    <LearningStyles>
+      <VisualLearning>35</VisualLearning>
+      <AuditoryLearning>16</AuditoryLearning>
+      <TactileLearning>14</TactileLearning>
+    </LearningStyles>
+    <CohortYears CohortYearType="Ninth grade">
+      <SchoolYear>2013-2014</SchoolYear>
+    </CohortYears>
+    <StudentIndicators>
+      <IndicatorGroup>Group B</IndicatorGroup>
+      <IndicatorName>Name 2</IndicatorName>
+      <Indicator>Indicator 3</Indicator>
+      <BeginDate>20012-01-23</BeginDate>
+      <EndDate>2014-02-16</EndDate>
+      <DesignatedBy>Parent</DesignatedBy>
+    </StudentIndicators>
+    
+  <LoginId>1520@fakemail.com</LoginId>
+</Student>
+
+<Parent>
+  <ParentUniqueStateId>1-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Dianna</FirstName>
+    <MiddleName>Tommie</MiddleName>
+    <LastSurname>Mcgowan</LastSurname>
+  </Name>
+  <OtherName OtherNameType="Alias">
+    <PersonalTitlePrefix>Sr</PersonalTitlePrefix>
+    <FirstName>Lydia</FirstName>
+    <MiddleName>Yvette</MiddleName>
+    <LastSurname>Samuels</LastSurname>
+    <GenerationCodeSuffix>VIII</GenerationCodeSuffix>
+  </OtherName>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>960 Marks Ct</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>(695)555-9537</TelephoneNumber>
+    </Telephone>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>1679@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>1679@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>1-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Myles</FirstName>
+    <MiddleName>Murray</MiddleName>
+    <LastSurname>Mcgowan</LastSurname>
+  </Name>
+  <OtherName OtherNameType="Other Name">
+    <PersonalTitlePrefix>Ms</PersonalTitlePrefix>
+    <FirstName>Isidro</FirstName>
+    <MiddleName>Ian</MiddleName>
+    <LastSurname>Eggleston</LastSurname>
+    <GenerationCodeSuffix>III</GenerationCodeSuffix>
+  </OtherName>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>960 Marks Ct</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+    <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>(871)555-9991</TelephoneNumber>
+    </Telephone>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>1478@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>1478@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>2-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Madge</FirstName>
+    <MiddleName>Tamra</MiddleName>
+    <LastSurname>Breedlove</LastSurname>
+  </Name>
+  <OtherName OtherNameType="Nickname">
+    <PersonalTitlePrefix>Mr</PersonalTitlePrefix>
+    <FirstName>Kitty</FirstName>
+    <MiddleName>Estela</MiddleName>
+    <LastSurname>Pitman</LastSurname>
+    <GenerationCodeSuffix>IV</GenerationCodeSuffix>
+  </OtherName>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>433 Oak Street</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+    <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>(661)555-6187</TelephoneNumber>
+    </Telephone>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>1765@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>1765@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>3-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Bertha</FirstName>
+    <MiddleName>Kathleen</MiddleName>
+    <LastSurname>Crowell</LastSurname>
+  </Name>
+  <OtherName OtherNameType="Other Name">
+    <PersonalTitlePrefix>Dr</PersonalTitlePrefix>
+    <FirstName>Renee</FirstName>
+    <MiddleName>Tabitha</MiddleName>
+    <LastSurname>Singleton</LastSurname>
+    <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+  </OtherName>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>659 Martin Luther King Jr Blvd</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>(824)555-7784</TelephoneNumber>
+    </Telephone>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>1768@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>1768@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>3-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Marcelino</FirstName>
+    <MiddleName>Jean</MiddleName>
+    <LastSurname>Crowell</LastSurname>
+  </Name>
+  <OtherName OtherNameType="Previous Legal Name">
+    <PersonalTitlePrefix>Mrs</PersonalTitlePrefix>
+    <FirstName>Seymour</FirstName>
+    <MiddleName>Lorenzo</MiddleName>
+    <LastSurname>Kinsey</LastSurname>
+    <GenerationCodeSuffix>II</GenerationCodeSuffix>
+  </OtherName>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>659 Martin Luther King Jr Blvd</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+    <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>(738)555-9394</TelephoneNumber>
+    </Telephone>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>3284@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>3284@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>4-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Luella</FirstName>
+    <MiddleName>Krista</MiddleName>
+    <LastSurname>Morse</LastSurname>
+  </Name>
+  <OtherName OtherNameType="Alias">
+    <PersonalTitlePrefix>Reverend</PersonalTitlePrefix>
+    <FirstName>Margaret</FirstName>
+    <MiddleName>Ethel</MiddleName>
+    <LastSurname>Kauffman</LastSurname>
+    <GenerationCodeSuffix>Sr</GenerationCodeSuffix>
+  </OtherName>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>818 Martin Luther King Jr Blvd</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+    <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>(772)555-1078</TelephoneNumber>
+    </Telephone>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>7652@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>7652@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>5-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Brenda</FirstName>
+    <MiddleName>Amy</MiddleName>
+    <LastSurname>Wadsworth</LastSurname>
+  </Name>
+  <OtherName OtherNameType="Nickname">
+    <PersonalTitlePrefix>Dr</PersonalTitlePrefix>
+    <FirstName>Juliette</FirstName>
+    <MiddleName>Terra</MiddleName>
+    <LastSurname>Gary</LastSurname>
+    <GenerationCodeSuffix>V</GenerationCodeSuffix>
+  </OtherName>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>740 Elm Street</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+    <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>(064)555-5594</TelephoneNumber>
+    </Telephone>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>3973@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>3973@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>5-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Dewitt</FirstName>
+    <MiddleName>Lewis</MiddleName>
+    <LastSurname>Wadsworth</LastSurname>
+  </Name>
+  <OtherName OtherNameType="Previous Legal Name">
+    <PersonalTitlePrefix>Sister</PersonalTitlePrefix>
+    <FirstName>Harvey</FirstName>
+    <MiddleName>Darnell</MiddleName>
+    <LastSurname>Nettles</LastSurname>
+    <GenerationCodeSuffix>V</GenerationCodeSuffix>
+  </OtherName>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>740 Elm Street</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>(276)555-6321</TelephoneNumber>
+    </Telephone>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>7868@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>7868@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>6-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Sandy</FirstName>
+    <MiddleName>Lea</MiddleName>
+    <LastSurname>Naylor</LastSurname>
+  </Name>
+  <OtherName OtherNameType="Alias">
+    <PersonalTitlePrefix>Colonel</PersonalTitlePrefix>
+    <FirstName>Shauna</FirstName>
+    <MiddleName>Althea</MiddleName>
+    <LastSurname>Friedman</LastSurname>
+    <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+  </OtherName>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>318 Martin Luther King Jr Blvd</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+    <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>(920)555-9276</TelephoneNumber>
+    </Telephone>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>5580@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>5580@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>7-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Adele</FirstName>
+    <MiddleName>Melody</MiddleName>
+    <LastSurname>Quintanilla</LastSurname>
+  </Name>
+  <OtherName OtherNameType="Nickname">
+    <PersonalTitlePrefix>Mrs</PersonalTitlePrefix>
+    <FirstName>Brandy</FirstName>
+    <MiddleName>Faye</MiddleName>
+    <LastSurname>Ernst</LastSurname>
+    <GenerationCodeSuffix>II</GenerationCodeSuffix>
+  </OtherName>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>615 Martin Luther King Jr Blvd</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+    <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>(811)555-6600</TelephoneNumber>
+    </Telephone>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>844@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>844@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>8-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Lillian</FirstName>
+    <MiddleName>Jessie</MiddleName>
+    <LastSurname>Squires</LastSurname>
+  </Name>
+  <OtherName OtherNameType="Previous Legal Name">
+    <PersonalTitlePrefix>Ms</PersonalTitlePrefix>
+    <FirstName>Tammi</FirstName>
+    <MiddleName>Gabrielle</MiddleName>
+    <LastSurname>Patten</LastSurname>
+    <GenerationCodeSuffix>VII</GenerationCodeSuffix>
+  </OtherName>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>360 Marks Ct</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>(910)555-4775</TelephoneNumber>
+    </Telephone>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>5784@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>5784@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>8-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Norbert</FirstName>
+    <MiddleName>Devon</MiddleName>
+    <LastSurname>Squires</LastSurname>
+  </Name>
+  <OtherName OtherNameType="Previous Legal Name">
+    <PersonalTitlePrefix>Mr</PersonalTitlePrefix>
+    <FirstName>Buddy</FirstName>
+    <MiddleName>Gene</MiddleName>
+    <LastSurname>Tanaka</LastSurname>
+    <GenerationCodeSuffix>Sr</GenerationCodeSuffix>
+  </OtherName>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>360 Marks Ct</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+    <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>(519)555-4947</TelephoneNumber>
+    </Telephone>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>7779@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>7779@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>9-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Ollie</FirstName>
+    <MiddleName>Kendra</MiddleName>
+    <LastSurname>Wilcox</LastSurname>
+  </Name>
+  <OtherName OtherNameType="Previous Legal Name">
+    <PersonalTitlePrefix>Mrs</PersonalTitlePrefix>
+    <FirstName>Leanne</FirstName>
+    <MiddleName>Kenya</MiddleName>
+    <LastSurname>Arthur</LastSurname>
+    <GenerationCodeSuffix>VI</GenerationCodeSuffix>
+  </OtherName>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>918 North Street</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+    <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
+      <TelephoneNumber>(722)555-7131</TelephoneNumber>
+    </Telephone>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>3281@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>3281@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>9-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Robt</FirstName>
+    <MiddleName>Zachery</MiddleName>
+    <LastSurname>Wilcox</LastSurname>
+  </Name>
+  <OtherName OtherNameType="Previous Legal Name">
+    <PersonalTitlePrefix>Reverend</PersonalTitlePrefix>
+    <FirstName>Bennie</FirstName>
+    <MiddleName>Reuben</MiddleName>
+    <LastSurname>Bowles</LastSurname>
+    <GenerationCodeSuffix>V</GenerationCodeSuffix>
+  </OtherName>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>918 North Street</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+    <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>(102)555-7372</TelephoneNumber>
+    </Telephone>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>9683@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>9683@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>10-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Constance</FirstName>
+    <MiddleName>Corinne</MiddleName>
+    <LastSurname>Boswell</LastSurname>
+  </Name>
+  <OtherName OtherNameType="Alias">
+    <PersonalTitlePrefix>Sister</PersonalTitlePrefix>
+    <FirstName>Noelle</FirstName>
+    <MiddleName>Randi</MiddleName>
+    <LastSurname>Rosales</LastSurname>
+    <GenerationCodeSuffix>VI</GenerationCodeSuffix>
+  </OtherName>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>925 North Street</StreetNumberName>
+    <City>New York</City>
+    <StateAbbreviation>NY</StateAbbreviation>
+    <PostalCode>10292</PostalCode>
+  </Address>
+    <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>(784)555-1362</TelephoneNumber>
+    </Telephone>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>4843@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>4843@fakemail.com</LoginId>
+  </Parent>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>1</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>1-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <ContactPriority>1</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>1</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>1-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <ContactPriority>2</ContactPriority>
+  <ContactRestrictions>Custody on Mondays, Wednesdays, Fridays only</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>2</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>2-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <ContactPriority>1</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>3</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>3-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>1</ContactPriority>
+  <ContactRestrictions>Custody on Mondays, Wednesdays, Fridays only</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>3</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>3-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <ContactPriority>1</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>4</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>4-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>3</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>5</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>5-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>1</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>5</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>5-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>0</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>6</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>6-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <ContactPriority>2</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>7</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>7-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <LivesWith>true</LivesWith>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>3</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>8</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>8-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <ContactPriority>1</ContactPriority>
+  <ContactRestrictions>Custody on Mondays, Wednesdays, Fridays only</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>8</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>8-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <LivesWith>true</LivesWith>
+  <ContactPriority>0</ContactPriority>
+  <ContactRestrictions>Custody on Mondays, Wednesdays, Fridays only</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>9</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>9-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>2</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>9</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>9-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>2</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>10</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>10-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <LivesWith>true</LivesWith>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>1</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
+</InterchangeStudentParent>

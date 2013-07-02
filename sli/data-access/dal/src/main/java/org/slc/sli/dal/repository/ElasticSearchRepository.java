@@ -22,11 +22,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+
+import com.google.common.io.NullOutputStream;
+import com.mongodb.DBCollection;
+import com.mongodb.WriteResult;
 
 import org.apache.commons.codec.binary.Base64;
 import org.codehaus.jackson.JsonNode;
@@ -42,25 +47,25 @@ import org.elasticsearch.common.cache.CacheBuilder;
 import org.elasticsearch.common.cache.CacheLoader;
 import org.elasticsearch.common.cache.LoadingCache;
 import org.elasticsearch.common.collect.Iterators;
-import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
-import org.slc.sli.domain.CalculatedData;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
-import org.slc.sli.encryption.tool.Encryptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestTemplate;
 
-import com.google.common.io.NullOutputStream;
-import com.mongodb.DBCollection;
-import com.mongodb.WriteResult;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
+import org.slc.sli.domain.AccessibilityCheck;
+import org.slc.sli.domain.CalculatedData;
+import org.slc.sli.domain.CascadeResult;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.encryption.tool.Encryptor;
 
 /**
  * elasticsearch connector
@@ -112,26 +117,26 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
     /**
      * called by init-method
-     * 
+     *
      * @throws Exception
      */
     public void init() throws Exception {
-        // This is an ugly hack to prevent an exception to be written to 
-        // standard output by the elastic search package, when it cannot load the "snappy" library 
-        // TODO: remove this when elastic search removes snappy compression as a dependency. 
+        // This is an ugly hack to prevent an exception to be written to
+        // standard output by the elastic search package, when it cannot load the "snappy" library
+        // TODO: remove this when elastic search removes snappy compression as a dependency.
         PrintStream stdout = System.out;
-        System.setOut(new PrintStream(new NullOutputStream())); 
-        try { 
+        System.setOut(new PrintStream(new NullOutputStream()));
+        try {
             esClient = new TransportClient();
         }
         finally {
-            System.setOut(stdout); 
+            System.setOut(stdout);
         }
     }
 
     /**
      * called by destroy-method
-     * 
+     *
      * @throws Exception
      */
     public void destroy() throws Exception {
@@ -145,7 +150,7 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
     /**
      * Send REST query to elasticsearch server
-     * 
+     *
      * @param query
      * @return
      */
@@ -183,7 +188,7 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
     /**
      * Get ES Query
-     * 
+     *
      * @param neutralQuery
      * @return query topost as a body
      */
@@ -262,12 +267,22 @@ public class ElasticSearchRepository implements Repository<Entity> {
     }
 
     @Override
+    public Entity findById(String collectionName, String id, boolean allFields) {
+        throw new UnsupportedOperationException("ElasticSearchRepository.findById not implemented");
+    }
+
+    @Override
     public boolean exists(String collectionName, String id) {
         throw new UnsupportedOperationException("ElasticSearchRepository.exists not implemented");
     }
 
     @Override
     public Entity findOne(String collectionName, NeutralQuery neutralQuery) {
+        throw new UnsupportedOperationException("ElasticSearchRepository.findOne not implemented");
+    }
+
+    @Override
+    public Entity findOne(String collectionName, NeutralQuery neutralQuery, boolean allFields) {
         throw new UnsupportedOperationException("ElasticSearchRepository.findOne not implemented");
     }
 
@@ -289,6 +304,12 @@ public class ElasticSearchRepository implements Repository<Entity> {
     @Override
     public boolean delete(String collectionName, String id) {
         throw new UnsupportedOperationException("ElasticSearchRepository.delete not implemented");
+    }
+
+    @Override
+    public CascadeResult safeDelete(String entityType, String id, boolean cascade, boolean dryrun, boolean forced, boolean logViolations,
+                                    Integer maxObjects, AccessibilityCheck access) {
+        throw new UnsupportedOperationException("ElasticSearchRepository.safeDelete not implemented");
     }
 
     @Override
@@ -373,6 +394,16 @@ public class ElasticSearchRepository implements Repository<Entity> {
         throw new UnsupportedOperationException("ElasticSearchRepository.updateMulti not implemented");
     }
 
+    @Override
+    public Iterator<Entity> findEach(String collectionName, NeutralQuery query) {
+        throw new UnsupportedOperationException("ElasticSearchRepository.getDBCursor not implemented");
+    }
+
+    @Override
+    public Iterator<Entity> findEach(String collectionName, Query query) {
+        throw new UnsupportedOperationException("ElasticSearchRepository.getDBCursor not implemented");
+    }
+
     public static class ReadConverter {
 
         private static JsonNode getHitsNode(HttpEntity<String> response) throws JsonProcessingException, IOException {
@@ -381,7 +412,7 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
         /**
          * Converts elasticsearch http response to collection of entities
-         * 
+         *
          * @param response
          * @return
          */
@@ -454,7 +485,7 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
     /**
      * Simple adapter for SearchHits to Entity
-     * 
+     *
      */
     static final class SearchHitEntity implements Entity {
         private Map<String, Object> body;
@@ -512,9 +543,25 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
         @Override
         public Map<String, List<Map<String, Object>>> getDenormalizedData() {
-            // TODO Auto-generated method stub
             return null;
         }
+
+        @Override
+        public Map<String, List<Entity>> getContainerData() {
+            return null;
+        }
+
+        @Override
+        public void hollowOut() {
+            // override super implementation with empty implementation
+        }
+    }
+
+    @Override
+    public CascadeResult safeDelete(Entity entity, String id, boolean cascade, boolean dryrun, boolean forced, boolean logViolations,
+                                    Integer maxObjects, AccessibilityCheck access) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

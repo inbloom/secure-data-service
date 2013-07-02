@@ -40,9 +40,7 @@
     </AssessmentPerformanceLevel>
     <Version>1</Version>
     <RevisionDate>2010-05-17</RevisionDate>
-    <AssessmentPeriod>
-      <CodeValue>READ2-BOY-2011</CodeValue>
-    </AssessmentPeriod>
+<AssessmentPeriod><AssessmentPeriodDescriptorIdentity><AssessmentPeriodDescriptorCodeValue>READ2-BOY-2011</AssessmentPeriodDescriptorCodeValue></AssessmentPeriodDescriptorIdentity></AssessmentPeriod>
     <AssessmentFamilyReference>
       <AssessmentFamilyIdentity>
         <AssessmentFamilyTitle>READ 2.0 Grade 1</AssessmentFamilyTitle>
@@ -87,9 +85,7 @@
     </AssessmentPerformanceLevel>
     <Version>1</Version>
     <RevisionDate>2010-05-17</RevisionDate>
-    <AssessmentPeriod>
-      <CodeValue>READ2-MOY-2011</CodeValue>
-    </AssessmentPeriod>
+<AssessmentPeriod><AssessmentPeriodDescriptorIdentity><AssessmentPeriodDescriptorCodeValue>READ2-MOY-2011</AssessmentPeriodDescriptorCodeValue></AssessmentPeriodDescriptorIdentity></AssessmentPeriod>
     <AssessmentFamilyReference>
       <AssessmentFamilyIdentity>
         <AssessmentFamilyTitle>READ 2.0 Grade 1</AssessmentFamilyTitle>

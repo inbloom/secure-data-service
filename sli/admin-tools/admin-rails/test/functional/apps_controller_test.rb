@@ -69,7 +69,7 @@ class AppsControllerTest < ActionController::TestCase
   end
 
   test "should get lea with valid state" do
-    get :get_local_edorgs, state: "NC", format: :js
+    get :get_local_edorgs, sea_id: "STATE", format: :js
     assert_not_nil assigns(:results)
     assert_response :success
   end

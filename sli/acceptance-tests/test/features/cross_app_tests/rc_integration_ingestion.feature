@@ -9,15 +9,17 @@ Feature: Ingestion
             Given a landing zone
             And I drop the file "SmallSampleDataSet.zip" into the landingzone
             And I check for the file "job*.log" every "30" seconds for "600" seconds
-            Then the landing zone should contain a file with the message "Processed 10095 records"
+            Then the "SmallSampleDataSet.zip" should be ingested with the correct number of records
             And the landing zone should contain a file with the message "All records processed successfully."
             And I should not see an error log file created
             And I should not see a warning log file created
             And I should see following map of entry counts in the corresponding collections:
                  | collectionName                           |              count|
                  | assessment                               |                 19|
+                 | assessmentFamily                         |                 38|
+                 | assessmentPeriodDescriptor               |                  2|
                  | attendance                               |                 75|
-                 | calendarDate                             |                556|
+                 | calendarDate                             |                558|
                  | cohort                                   |                  3|
                  | competencyLevelDescriptor                |                  0|
                  | course                                   |                 95|
@@ -36,7 +38,7 @@ Feature: Ingestion
                  | learningStandard                         |               1499|
                  | parent                                   |                  9|
                  | program                                  |                  2|
-                 | recordHash                               |               9479|
+                 | recordHash                               |              10097|
                  | reportCard                               |                  2|
                  | schoolSessionAssociation                 |                  0|
                  | section                                  |                 97|
@@ -55,6 +57,7 @@ Feature: Ingestion
                  | studentCompetency                        |                 59|
                  | studentCompetencyObjective               |                  4|
                  | studentDisciplineIncidentAssociation     |                  4|
+                 | studentObjectiveAssessment               |                300|    
                  | studentParentAssociation                 |                  9|
                  | studentProgramAssociation                |                  6|
                  | studentSchoolAssociation                 |                167|

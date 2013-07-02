@@ -1,5 +1,10 @@
     <tr>
-      <td><%= @apps_map[@app_auth.appId].name %></td>
+      <td><%= @apps_map[@app_auth.appId].name %><% if @apps_map[@app_auth.appId].registration.status != 'APPROVED' %>
+          <div class="alert">Application has been denied by operator</div>
+        <% end %><% if @apps_map[@app_auth.appId].isBulkExtract %>
+          <div class="alert alert-info">Bulk Extract application request</div>
+        <% end %>
+      </td>
       <td><%= @apps_map[@app_auth.appId].version  %></td>
       <td><%= @apps_map[@app_auth.appId].vendor %></td>
       <%=

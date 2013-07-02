@@ -19,6 +19,7 @@ package org.slc.sli.validation.utils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -556,7 +557,11 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
                                     + schemaComplexType.getName());
                 } else if (!mergedChoiceSchemas.contains(ns)) {
                     ns.setType(complexSchema.getType());
+                    complexSchema.getAppInfo();
                     mergedChoiceSchemas.add(ns);
+                    if(ns.getType().equals("serviceDescriptorType")) {
+                        ns.addAnnotation(complexSchema.getAppInfo());
+                    }
                     return ns;
                 }
             }
@@ -671,6 +676,23 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
             }
         }
 
+
+
+
+        Long min = element.getMinOccurs();
+        Long max = element.getMaxOccurs();
+        QName type = element.getSchemaTypeName();
+
+        if(min != null) {
+            elementSchema.getProperties().put("minCardinality", min);
+        }
+        if( max != null) {
+            elementSchema.getProperties().put("maxCardinality", max);
+        }
+        if(type != null) {
+            elementSchema.getProperties().put("elementType", type.toString());
+        }
+
         return elementSchema;
     }
 
@@ -696,6 +718,13 @@ public class XsdToNeutralSchemaRepo implements SchemaRepository, ApplicationCont
 
                 // Update Neutral Schema Field
                 complexSchema.addField(elementName, elementSchema);
+
+                //DE840 address.addressLines were not being encrypted
+                for(Map.Entry<String, NeutralSchema> entry:elementSchema.getFields().entrySet()) {
+                    String fieldName = entry.getKey();
+                    NeutralSchema fieldSchema = entry.getValue();
+                    fieldSchema.inheritAnnotations(complexSchema.getAppInfo());
+                }
 
             } else if (particle instanceof XmlSchemaSequence) {
                 XmlSchemaSequence schemaSequence = (XmlSchemaSequence) particle;

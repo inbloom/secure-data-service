@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentParent xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                          xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentParent.xsd">
+     <Parent>
+        <ParentUniqueStateId>CAP0-D0-HSch0-stu78-dad78</ParentUniqueStateId>
+        <Name>
+            <PersonalTitlePrefix>Reverend</PersonalTitlePrefix>
+            <FirstName>Peter</FirstName>
+            <LastSurname>Shaw</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <Telephone TelephoneNumberType="Work">
+            <TelephoneNumber>3095550000</TelephoneNumber>
+        </Telephone>
+    </Parent>
+    <Parent>
+        <ParentUniqueStateId>CAP0-D0-HSch0-stu78-mom78</ParentUniqueStateId>
+        <Name>
+            <PersonalTitlePrefix>Reverend</PersonalTitlePrefix>
+            <FirstName>Mary</FirstName>
+            <LastSurname>Shaw</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <Telephone TelephoneNumberType="Work">
+            <TelephoneNumber>3095550001</TelephoneNumber>
+        </Telephone>
+    </Parent>
+    <StudentParentAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>CAP0-D0-HSch0-stu78</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <ParentReference>
+            <ParentIdentity>
+                <ParentUniqueStateId>CAP0-D0-HSch0-stu78-dad78</ParentUniqueStateId>
+            </ParentIdentity>
+        </ParentReference>
+        <Relation>Mother</Relation>
+        <EmergencyContactStatus>false</EmergencyContactStatus>
+    </StudentParentAssociation>
+       <StudentParentAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>CAP0-D0-HSch0-stu78</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <ParentReference>
+            <ParentIdentity>
+                <ParentUniqueStateId>CAP0-D0-HSch0-stu78-mom78</ParentUniqueStateId>
+            </ParentIdentity>
+        </ParentReference>
+        <Relation>Father</Relation>
+        <EmergencyContactStatus>false</EmergencyContactStatus>
+    </StudentParentAssociation>
+</InterchangeStudentParent>

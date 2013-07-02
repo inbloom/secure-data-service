@@ -1,0 +1,116 @@
+[
+  {
+    "userId": "matt.sollars",
+    "name": "Matt Sollars",
+    "edOrgs": [
+      {
+        "role": "Student",
+        "type": "High School",
+        "association": "East Daybreak High",
+        "grade": "Tenth grade"
+      }
+    ]
+  },
+  {
+    "userId": "carmen.ortiz",
+    "name": "Carmen Ortiz",
+    "edOrgs": [
+      {
+        "role": "Student",
+        "type": "High School",
+        "association": "Daybreak Central High",
+        "grade": "Ninth grade"
+      },
+      {
+        "role": "Student",
+        "type": "High School",
+        "association": "Daybreak Bayside High",
+        "grade": "Ninth grade"
+      }
+    ]
+  },
+  {
+    "userId": "lashawn.taite",
+    "name": "Lashawn Taite",
+    "edOrgs": [
+      {
+        "role": "Student",
+        "type": "High School",
+        "association": "Daybreak Central High",
+        "grade": "Tenth grade"
+      },
+      {
+        "role": "Student",
+        "type": "High School",
+        "association": "East Daybreak High",
+        "grade": "Tenth grade"
+      }
+    ]
+  },
+  {
+    "userId": "yishai.sokoll",
+    "name": "Yishai Sokoll",
+    "edOrgs": [
+      {
+        "role": "Student",
+        "association": "District 9",
+        "type": "Local Education Agency",
+        "grade": "Tenth grade"
+      }
+    ]
+  },
+  {
+    "userId": "bert.jakeman",
+    "name": "Bert Jakeman",
+    "edOrgs": [
+      {
+        "role": "Student",
+        "type": "High School",
+        "association": "Daybreak Central High",
+        "grade": "Tenth grade"
+      }
+    ]
+  },
+  {
+    "userId": "nate.dedrick",
+    "name": "Nate Dedrick",
+    "edOrgs": [
+      {
+        "role": "Student",
+        "type": "High School",
+        "association": "Daybreak Bayside High",
+        "grade": "Tenth grade"
+      }
+    ]
+  },
+  {
+    "userId": "mu.mcneill",
+    "name": "Mu McNeill",
+    "edOrgs": [
+      {
+        "role": "Student",
+        "type": "Local Education Agency",
+        "association": "District 9",
+        "grade": "Tenth grade"
+      },
+      {
+        "role": "Student",
+        "type": "High School",
+        "association": "Daybreak Bayside High",
+        "grade": "Tenth grade"
+      }
+    ]
+  },
+    {
+    "userId": "jack.jackson",
+    "name": "Jack Jackson",
+    "edOrgs": [
+      {
+        "role": "Student",
+        "type": "High School",
+        "association": "East Daybreak High",
+        "grade": "Tenth grade"
+      }
+    ]
+  }
+]

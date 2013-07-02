@@ -354,7 +354,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
            "itemCategory"=> "True-False"
         }]
       }],
-      "assessmentFamilyHierarchyName"=> "2001 Standard.2001 Seventh grade Standard",
+      #"assessmentFamilyHierarchyName"=>"2001 Standard.2001 Seventh grade Standard",
       "assessmentItem"=> [{
         "identificationCode"=> "2001-Seventh grade Assessment 2#3",
         "correctResponse"=> "true",
@@ -371,12 +371,18 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
       "assessmentPerformanceLevel"=> [],
       "gradeLevelAssessed"=> "Seventh grade",
       "assessmentTitle"=> "2001-Seventh grade Assessment 2",
+      "assessmentPeriodDescriptor"=>{
+        "codeValue"=>"codeGreen",
+        "description"=>"describes this descriptor"
+      },
       "version" => 2 
   },
 
   "studentAssessment" => {
       "administrationDate" => "2001-08-28",
-      "administrationLanguage" => "English",
+      "administrationLanguage" => {
+         "language" => "English"
+        },
       "studentId" => "274f4c71-1984-4607-8c6f-0a91db2d240a_id",
       "assessmentId" => "cc0a56b97a0c58c01fbd9e960c05e542c3755336_id",
       "scoreResults" => [
@@ -401,12 +407,27 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
        }],
       "studentObjectiveAssessments" => [
         {
+          "performanceLevelDescriptors"=>[
+          [
+            {
+              "codeValue"=>"code1"
+            }
+          ]],
           "scoreResults" => [
           {
             "result" => "28",
             "assessmentReportingMethod" => "Scale score"
           }],
           "objectiveAssessment" => {
+             "assessmentPerformanceLevel"=>[
+               {
+                "performanceLevelDescriptor"=> [{
+                    "codeValue"=> "code1"
+               }],
+              "assessmentReportingMethod"=> "Number score",
+              "minimumScore"=> 0,
+              "maximumScore"=> 50
+             }],
             "nomenclature"=> "Nomenclature",
             "percentOfAssessment"=> 50,
             "identificationCode"=> "2001-Seventh grade Assessment 2.OA-2",
@@ -699,7 +720,7 @@ Given /^my contextual access is defined by table:$/ do |table|
 end
 
 Then /^uri was rewritten to "(.*?)"$/ do |expectedUri|
-  version = "v1.1"
+  version = "v1.2"
   root = expectedUri.match(/\/(.+?)\/|$/)[1]
   expected = version+expectedUri
   actual = @headers["x-executedpath"][0]
@@ -711,7 +732,7 @@ Then /^uri was rewritten to "(.*?)"$/ do |expectedUri|
   #Then, validate the list of ids are the same
   ids = []
   if @ctx.has_key? root
-    idsString = actual.match(/v1.1\/[^\/]*\/([^\/]*)\/?/)[1]
+    idsString = actual.match(/v1.2\/[^\/]*\/([^\/]*)\/?/)[1]
     actualIds = idsString.split(",")
     expectedIds = @ctx[root].split(",")
     
@@ -777,13 +798,38 @@ Then /^I verify "(.*?)" and "(.*?)" should be subdoc'ed in mongo for this new "(
   }
 end
 
-Then /^I verify "(.*?)" and "(.*?)" is collapsed in response body$/ do |subdoc1, subdoc2| 
-  [subdoc1, subdoc2].each { |subdoc|
+Then /^I set the "(.*?)" to "(.*?)" in "(.*?)"$/ do |key, value, field|
+  @fields = {} if !defined? @fields
+  @fields[field].merge!(key=>value)
+end
+
+Then /^I verify there are "(\d)" "(.*?)" with "(.*?)" in mongo$/ do |count, type, query| 
+  @conn = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
+  @db = @conn.db(convertTenantIdToDbName("Midgar"))
+  @coll = @db[type]
+  disable_NOTABLESCAN
+  query_key="body."+query.split("=")[0]
+  query_value=query.split("=")[1]
+  count_in_db = @coll.find(query_key=>query_value).count
+  assert(count.to_i == count_in_db, "expected #{count}, but only found #{count_in_db}")
+  enable_NOTABLESCAN
+end
+
+Then /^I verify "(.*?)" and "(.*?)" is collapsed in response body$/ do |subdocs, last_subdoc| 
+  all_docs = subdocs.strip.split(/,\s/) << last_subdoc
+  all_docs.each { |doc_w_space|
+    subdoc = doc_w_space.strip
     assert(@res[subdoc], "#{subdoc} does not exists in response body")
   }
 end
 
-Then /^"(.*?)" is hierachical with childrens at "(.*?)"$/ do |parent, child|
+Then /^I verify "(.*?)" is "(.*?)" inside "(.*?)"$/ do |key, value, container|
+  result = JSON.parse(@res.body)
+  assert(result[container], "#{container} does not exists in response body")
+  assert(result[container][key] == value, "#{key} is #{result[container][key]}, but expecting #{value}}")
+end
+
+Then /^"(.*?)" is hierachical with children at "(.*?)"$/ do |parent, child|
   result = JSON.parse(@res.body)
   assert(result[parent][0][child], "#{parent} does not contain any child at #{child}")
 end

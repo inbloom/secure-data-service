@@ -41,14 +41,22 @@
     <value>studentCompetency</value>
     <value>studentCompetencyObjective</value>
     <value>studentDisciplineIncidentAssociation</value>
-    <value>studentParentAssociation</value>
     <value>studentProgramAssociation</value>
     <value>studentSchoolAssociation</value>
     <value>studentSectionAssociation</value>
+    <value>studentParentAssociation</value>
     <value>studentGradebookEntry</value>
     <value>teacher</value>
     <value>teacherSchoolAssociation</value>
     <value>teacherSectionAssociation</value>
+    <value>assessment</value>
+    <value>assessmentItem</value>
+    <value>assessmentFamily</value>
+    <value>assessmentPeriodDescriptor</value>
+<!--    <value>objectiveAssessment</value>   Re-enable when DE2834 is resolved -->
+    <value>studentAssessment</value>
+    <value>studentAssessmentItem</value>
+    <value>studentObjectiveAssessment</value>
   </util:set>
 
 </beans>

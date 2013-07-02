@@ -25,6 +25,7 @@ import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Set;
 import java.util.UUID;
 
 import junit.framework.Assert;
@@ -47,8 +48,13 @@ public class ZipFileUtilTest {
 
     private static final File ZIP_FILE_DIR = new File(FileUtils.getTempDirectory(), "ZipFileUtilTest");
     private static final String ZIP_FILE_WITH_NO_DIRS_NAME = "DemoData.zip";
+    private static final String ZIP_FILE_MISSING_FILE = "MissingFileInControlFile.zip";
     private static final String ZIP_FILE_WITH_DIRS_NAME = "ZipContainsSubfolder.zip";
     private static final String SUB_DIR_NAME = "DataFiles";
+
+    // files for ZIP_FILE_MISSING_FILE
+    private static final String EXISTING_FILE = "InterchangeEducationOrganization.xml";
+    private static final String MISSING_FILE = "InterchangeStudentAssessment.xml";
 
     @BeforeClass
     public static void createZipFileDir() throws IOException, URISyntaxException {
@@ -59,8 +65,11 @@ public class ZipFileUtilTest {
                 .getResource(ZIP_FILE_WITH_NO_DIRS_NAME).toURI());
         File resourceZipFileWithDirs = new File(Thread.currentThread().getContextClassLoader()
                 .getResource(ZIP_FILE_WITH_DIRS_NAME).toURI());
+        File resourceZipFileMissingFile = new File(Thread.currentThread().getContextClassLoader()
+                .getResource(ZIP_FILE_MISSING_FILE).toURI());
         FileUtils.copyFileToDirectory(resourceZipFileWithNoDirs, ZIP_FILE_DIR);
         FileUtils.copyFileToDirectory(resourceZipFileWithDirs, ZIP_FILE_DIR);
+        FileUtils.copyFileToDirectory(resourceZipFileMissingFile, ZIP_FILE_DIR);
     }
 
     @Test
@@ -106,7 +115,12 @@ public class ZipFileUtilTest {
     public void testFileInputStreamOnBadZip() throws IOException {
         File zipFile = new File("nozip.zip");
 
-        ZipFileUtil.getInputStreamForFile(zipFile, "doesnotmatter");
+        InputStream is = null;
+        try {
+            is = ZipFileUtil.getInputStreamForFile(zipFile, "doesnotmatter");
+        } finally {
+            IOUtils.closeQuietly(is);
+        }
     }
 
     @Test(expected = FileNotFoundException.class)
@@ -143,6 +157,14 @@ public class ZipFileUtilTest {
             IOUtils.closeQuietly(xmlIs);
             FileUtils.deleteQuietly(zipCopy);
         }
+    }
+
+    @Test
+    public void isInZipFile() throws IOException {
+        File zipFile = new File(ZIP_FILE_DIR, ZIP_FILE_MISSING_FILE);
+        Set<String> zipFileEntries = ZipFileUtil.getZipFileEntries(zipFile.getCanonicalPath());
+        Assert.assertTrue(ZipFileUtil.isInZipFileEntries(EXISTING_FILE, zipFileEntries));
+        Assert.assertFalse(ZipFileUtil.isInZipFileEntries(MISSING_FILE, zipFileEntries));
     }
 
     @AfterClass

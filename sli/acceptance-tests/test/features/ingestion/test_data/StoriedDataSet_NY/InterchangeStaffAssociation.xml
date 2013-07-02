@@ -246,7 +246,7 @@
 				<StateOrganizationId>1000000112</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>Teacher</StaffClassification>
+		<StaffClassification>Educator</StaffClassification>
 		<BeginDate>2007-07-07</BeginDate>
 	</StaffEducationOrgAssignmentAssociation>
 	<TeacherSchoolAssociation>
@@ -279,7 +279,7 @@
 				<StateOrganizationId>1000000122</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>Teacher</StaffClassification>
+		<StaffClassification>Educator</StaffClassification>
 		<BeginDate>2007-07-07</BeginDate>
 	</StaffEducationOrgAssignmentAssociation>
 	<TeacherSchoolAssociation>
@@ -312,7 +312,7 @@
 				<StateOrganizationId>1000000112</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>Teacher</StaffClassification>
+		<StaffClassification>Educator</StaffClassification>
 		<BeginDate>2007-07-07</BeginDate>
 	</StaffEducationOrgAssignmentAssociation>
 	<TeacherSchoolAssociation>
@@ -345,7 +345,7 @@
 				<StateOrganizationId>1000000122</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>Teacher</StaffClassification>
+		<StaffClassification>Educator</StaffClassification>
 		<BeginDate>2007-07-07</BeginDate>
 	</StaffEducationOrgAssignmentAssociation>
 	<TeacherSchoolAssociation>
@@ -378,7 +378,7 @@
 				<StateOrganizationId>1000000112</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>Teacher</StaffClassification>
+		<StaffClassification>Educator</StaffClassification>
 		<BeginDate>2007-07-07</BeginDate>
 	</StaffEducationOrgAssignmentAssociation>
 	<TeacherSchoolAssociation>
@@ -411,7 +411,7 @@
 				<StateOrganizationId>1000000122</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>Teacher</StaffClassification>
+		<StaffClassification>Educator</StaffClassification>
 		<BeginDate>2007-07-07</BeginDate>
 	</StaffEducationOrgAssignmentAssociation>
 	<TeacherSchoolAssociation>
@@ -444,7 +444,7 @@
 				<StateOrganizationId>1000000122</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>Teacher</StaffClassification>
+		<StaffClassification>Educator</StaffClassification>
 		<BeginDate>2007-07-07</BeginDate>
 	</StaffEducationOrgAssignmentAssociation>
 	<TeacherSchoolAssociation>
@@ -477,7 +477,7 @@
 				<StateOrganizationId>1000000112</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>Teacher</StaffClassification>
+		<StaffClassification>Educator</StaffClassification>
 		<BeginDate>2007-07-07</BeginDate>
 	</StaffEducationOrgAssignmentAssociation>
 	<TeacherSchoolAssociation>
@@ -510,7 +510,7 @@
 				<StateOrganizationId>10000000121</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>Teacher</StaffClassification>
+		<StaffClassification>Educator</StaffClassification>
 		<BeginDate>2007-07-07</BeginDate>
 	</StaffEducationOrgAssignmentAssociation>
 	<TeacherSchoolAssociation>
@@ -543,7 +543,7 @@
 				<StateOrganizationId>10000000121</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>Teacher</StaffClassification>
+		<StaffClassification>Educator</StaffClassification>
 		<BeginDate>2007-07-07</BeginDate>
 	</StaffEducationOrgAssignmentAssociation>
 	<TeacherSchoolAssociation>
@@ -576,7 +576,7 @@
 				<StateOrganizationId>10000000121</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>Teacher</StaffClassification>
+		<StaffClassification>Educator</StaffClassification>
 		<BeginDate>2007-07-07</BeginDate>
 	</StaffEducationOrgAssignmentAssociation>
 	<TeacherSchoolAssociation>
@@ -609,7 +609,7 @@
 				<StateOrganizationId>1000000111</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>Teacher</StaffClassification>
+		<StaffClassification>Educator</StaffClassification>
 		<BeginDate>2007-07-07</BeginDate>
 	</StaffEducationOrgAssignmentAssociation>
 	<TeacherSchoolAssociation>
@@ -642,7 +642,7 @@
 				<StateOrganizationId>1000000111</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>Teacher</StaffClassification>
+		<StaffClassification>Educator</StaffClassification>
 		<BeginDate>2007-07-07</BeginDate>
 	</StaffEducationOrgAssignmentAssociation>
 	<TeacherSchoolAssociation>
@@ -675,7 +675,7 @@
 				<StateOrganizationId>1000000111</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>Teacher</StaffClassification>
+		<StaffClassification>Educator</StaffClassification>
 		<BeginDate>2007-07-07</BeginDate>
 	</StaffEducationOrgAssignmentAssociation>
 	<TeacherSchoolAssociation>
@@ -708,7 +708,7 @@
 				<StateOrganizationId>1000000111</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>Teacher</StaffClassification>
+		<StaffClassification>Educator</StaffClassification>
 		<BeginDate>2007-07-07</BeginDate>
 	</StaffEducationOrgAssignmentAssociation>
 	<TeacherSchoolAssociation>
@@ -741,7 +741,7 @@
 				<StateOrganizationId>10000000121</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>Teacher</StaffClassification>
+		<StaffClassification>Educator</StaffClassification>
 		<BeginDate>2007-07-07</BeginDate>
 	</StaffEducationOrgAssignmentAssociation>
 	<TeacherSectionAssociation>
@@ -1090,7 +1090,7 @@
 				<StateOrganizationId>1000000122</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>Principal</StaffClassification>
+		<StaffClassification>Leader</StaffClassification>
 		<PositionTitle>Principal</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>2013-08-13</EndDate>
@@ -1152,7 +1152,7 @@
 				<StateOrganizationId>1000000122</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>School Administrative Support Staff</StaffClassification>
+		<StaffClassification>IT Administrator</StaffClassification>
 		<PositionTitle>IT Support</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>2013-08-13</EndDate>
@@ -1214,7 +1214,7 @@
 				<StateOrganizationId>1000000122</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>Specialist/Consultant</StaffClassification>
+		<StaffClassification>Aggregate Viewer</StaffClassification>
 		<PositionTitle>Researcher</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>2013-08-13</EndDate>
@@ -1276,7 +1276,7 @@
 				<StateOrganizationId>NY</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>Superintendent</StaffClassification>
+		<StaffClassification>Leader</StaffClassification>
 		<PositionTitle>State Superintendent</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>2013-08-13</EndDate>
@@ -1338,7 +1338,7 @@
 				<StateOrganizationId>NY</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>LEA System Administrator</StaffClassification>
+		<StaffClassification>IT Administrator</StaffClassification>
 		<PositionTitle>IT Support</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>2013-08-13</EndDate>
@@ -1400,7 +1400,7 @@
 				<StateOrganizationId>NY</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>Specialist/Consultant</StaffClassification>
+		<StaffClassification>Aggregate Viewer</StaffClassification>
 		<PositionTitle>Researcher</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>2013-08-13</EndDate>
@@ -1462,7 +1462,7 @@
 				<StateOrganizationId>NY-Dusk</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>Superintendent</StaffClassification>
+		<StaffClassification>Leader</StaffClassification>
 		<PositionTitle>District Superintendent</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>2013-08-13</EndDate>
@@ -1524,7 +1524,7 @@
 				<StateOrganizationId>NY-Dusk</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>LEA System Administrator</StaffClassification>
+		<StaffClassification>IT Administrator</StaffClassification>
 		<PositionTitle>IT Support</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>2013-08-13</EndDate>
@@ -1587,7 +1587,7 @@
 				<StateOrganizationId>NY-Dusk</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>Specialist/Consultant</StaffClassification>
+		<StaffClassification>Aggregate Viewer</StaffClassification>
 		<PositionTitle>Researcher</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>2013-08-13</EndDate>
@@ -1649,7 +1649,7 @@
 				<StateOrganizationId>NY-Parker</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>Superintendent</StaffClassification>
+		<StaffClassification>Leader</StaffClassification>
 		<PositionTitle>District Superintendent</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>2013-08-13</EndDate>
@@ -1711,7 +1711,7 @@
 				<StateOrganizationId>NY-Parker</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>LEA System Administrator</StaffClassification>
+		<StaffClassification>IT Administrator</StaffClassification>
 		<PositionTitle>IT Support</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>2013-08-13</EndDate>
@@ -1774,7 +1774,7 @@
 				<StateOrganizationId>NY-Parker</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>Specialist/Consultant</StaffClassification>
+		<StaffClassification>Aggregate Viewer</StaffClassification>
 		<PositionTitle>Researcher</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>2013-08-13</EndDate>
@@ -1837,7 +1837,7 @@
 				<StateOrganizationId>10000000121</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>Principal</StaffClassification>
+		<StaffClassification>Leader</StaffClassification>
 		<PositionTitle>Principal</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>2013-08-13</EndDate>
@@ -1899,7 +1899,7 @@
 				<StateOrganizationId>10000000121</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>School Administrative Support Staff</StaffClassification>
+		<StaffClassification>IT Administrator</StaffClassification>
 		<PositionTitle>IT Support</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>2013-08-13</EndDate>
@@ -1961,7 +1961,7 @@
 				<StateOrganizationId>10000000121</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>Specialist/Consultant</StaffClassification>
+		<StaffClassification>Aggregate Viewer</StaffClassification>
 		<PositionTitle>Researcher</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>2013-08-13</EndDate>
@@ -2024,7 +2024,7 @@
 				<StateOrganizationId>1000000111</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>Principal</StaffClassification>
+		<StaffClassification>Leader</StaffClassification>
 		<PositionTitle>Principal</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>2013-08-13</EndDate>
@@ -2086,7 +2086,7 @@
 				<StateOrganizationId>1000000111</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>School Administrative Support Staff</StaffClassification>
+		<StaffClassification>IT Administrator</StaffClassification>
 		<PositionTitle>IT Support</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>2013-08-13</EndDate>
@@ -2148,7 +2148,7 @@
 				<StateOrganizationId>1000000111</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>Specialist/Consultant</StaffClassification>
+		<StaffClassification>Aggregate Viewer</StaffClassification>
 		<PositionTitle>Researcher</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>2013-08-13</EndDate>
@@ -2211,7 +2211,7 @@
 				<StateOrganizationId>1000000112</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>Principal</StaffClassification>
+		<StaffClassification>Leader</StaffClassification>
 		<PositionTitle>Principal</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>2013-08-13</EndDate>
@@ -2273,7 +2273,7 @@
 				<StateOrganizationId>1000000112</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>School Administrative Support Staff</StaffClassification>
+		<StaffClassification>IT Administrator</StaffClassification>
 		<PositionTitle>IT Support</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>2013-08-13</EndDate>
@@ -2335,7 +2335,7 @@
 				<StateOrganizationId>1000000112</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</EducationOrganizationReference>
-		<StaffClassification>Specialist/Consultant</StaffClassification>
+		<StaffClassification>Aggregate Viewer</StaffClassification>
 		<PositionTitle>Researcher</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
 		<EndDate>2013-08-13</EndDate>

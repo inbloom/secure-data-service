@@ -15,12 +15,32 @@
  */
 package org.slc.sli.api.resources.generic.service;
 
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.annotation.PostConstruct;
+import javax.ws.rs.core.Response;
+import javax.xml.bind.DatatypeConverter;
+
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.constants.ResourceConstants;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.criteriaGenerator.GranularAccessFilter;
@@ -32,7 +52,7 @@ import org.slc.sli.api.resources.generic.PreConditionFailedException;
 import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.representation.ServiceResponse;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
-import org.slc.sli.api.resources.util.InProcessDateQueryEvaluator;
+import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.selectors.LogicalEntity;
 import org.slc.sli.api.selectors.UnsupportedSelectorException;
 import org.slc.sli.api.service.EntityNotFoundException;
@@ -40,28 +60,12 @@ import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.aspect.ApiMigrationAspect.MigratePostedEntity;
 import org.slc.sli.aspect.ApiMigrationAspect.MigrateResponse;
-import org.slc.sli.common.domain.EmbeddedDocumentRelations;
-import org.slc.sli.common.migration.strategy.MigrationException;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.modeling.uml.ClassType;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.stereotype.Component;
-
-import javax.ws.rs.core.Response;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Default implementation of the resource service.
@@ -90,15 +94,28 @@ public class DefaultResourceService implements ResourceService {
     private GranularAccessFilterProvider granularAccessFilterProvider;
 
     @Autowired
-    private InProcessDateQueryEvaluator inProcessDateQueryEvaluator;
-
-    @Autowired
     private ApiSchemaAdapter adapter;
+    private Map<String, String> endDates = new HashMap<String, String>();
+
+    private Set<String> contextSupportedEntities = new HashSet<String>();
 
     public static final int MAX_MULTIPLE_UUIDS = 100;
+
     private static final String POST = "POST";
     private static final String GET = "GET";
     private static final String PUT = "PUT";
+
+    @PostConstruct
+    public void init() {
+        endDates.put(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS,
+                "exitWithdrawDate");
+
+        endDates.put(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, "endDate");
+        endDates.put(ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS, "endDate");
+        endDates.put(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, "endDate");
+
+        contextSupportedEntities.add(EntityNames.STUDENT);
+    }
 
     /**
      * @author jstokes
@@ -143,7 +160,13 @@ public class DefaultResourceService implements ResourceService {
                 try {
                     finalResults = logicalEntity.getEntities(apiQuery, resource.getResourceType());
                 } catch (UnsupportedSelectorException e) {
-                    finalResults = (List<EntityBody>) definition.getService().list(apiQuery);
+                    // US5765: Temporarily disabled the new logic
+                    SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
+                    if (ids.size() == 1  && contextSupportedEntities.contains(definition.getType()) && SecurityUtil.isStaffUser()) {
+                        finalResults = (List<EntityBody>) definition.getService().listBasedOnContextualRoles(apiQuery);
+                    } else {
+                        finalResults = (List<EntityBody>) definition.getService().list(apiQuery);
+                    }
                 }
 
                 if (idLength == 1 && finalResults.isEmpty()) {
@@ -370,6 +393,7 @@ public class DefaultResourceService implements ResourceService {
 
         return isAssociation;
     }
+    @SuppressWarnings("unchecked")
     private ServiceResponse getAssociatedEntities(final Resource base, final Resource association, final String id,
                                                   final Resource resource, final String associationKey, final URI requestUri) {
         List<String> valueList = Arrays.asList(id.split(","));
@@ -383,38 +407,34 @@ public class DefaultResourceService implements ResourceService {
         String key = "_id";
 
         try {
-            String parentType = EmbeddedDocumentRelations.getParentEntityType(assocEntity.getType());
-            if ((parentType != null) && baseEntity.getType().equals(parentType)) {
-                final ApiQuery apiQuery = resourceServiceHelper.getApiQuery(baseEntity);
-
-                addGranularAccessCriteria(baseEntity, apiQuery);
-                apiQuery.setLimit(0);
-                apiQuery.addCriteria(new NeutralCriteria("_id", "in", valueList));
-                apiQuery.setEmbeddedFields(Arrays.asList(assocEntity.getType()));
-
-                for (EntityBody entityBody : baseEntity.getService().list(apiQuery)) {
-                    @SuppressWarnings("unchecked")
-                    List<EntityBody> associations = (List<EntityBody>) entityBody.get(assocEntity.getType());
-
-                    if (associations != null) {
-                        if (finalEntityReferencesAssociation(finalEntity, assocEntity, resourceKey)) {
-                            //if the finalEntity references the assocEntity
-                            for (EntityBody associationEntity : associations) {
-                                filteredIdList.add((String) associationEntity.get("id"));
-                            }
-                            key = resourceKey;
-                        } else {
-                            //otherwise the assocEntity references the finalEntity
-
-                            List<EntityBody> dateMatchedAssociations = filterAssociationEntitiesForDates(associations, assocEntity);
-
-                            for (EntityBody associationEntity : dateMatchedAssociations) {
-                                filteredIdList.add((String) associationEntity.get(resourceKey));
-                            }
-                        }
-                    }
-                }
-            } else {
+//            String parentType = EmbeddedDocumentRelations.getParentEntityType(assocEntity.getType());
+//            if ((parentType != null) && baseEntity.getType().equals(parentType)) {
+//                final ApiQuery apiQuery = resourceServiceHelper.getApiQuery(baseEntity);
+//
+//                addGranularAccessCriteria(baseEntity, apiQuery);
+//                apiQuery.setLimit(0);
+//                apiQuery.addCriteria(new NeutralCriteria("_id", "in", valueList));
+//                apiQuery.setEmbeddedFields(Arrays.asList(assocEntity.getType()));
+//
+//                for (EntityBody entityBody : baseEntity.getService().list(apiQuery)) {
+//                    List<EntityBody> associations = (List<EntityBody>) entityBody.get(assocEntity.getType());
+//
+//                    if (associations != null) {
+//                        String ident = resourceKey;
+//                        if (finalEntityReferencesAssociation(finalEntity,
+//                                assocEntity, resourceKey)) {
+//                            ident = "id";
+//                            key = resourceKey;
+//                        }
+//
+//                        List<EntityBody> filtered = getTimeFilteredAssociations(associations, baseEntity, assocEntity);
+//
+//                        for(EntityBody body : filtered) {
+//                            filteredIdList.add((String) body.get(ident));
+//                        }
+//                    }
+//                }
+//            } else {
                 final ApiQuery apiQuery = resourceServiceHelper.getApiQuery(assocEntity);
 
                 addGranularAccessCriteria(assocEntity, apiQuery);
@@ -445,7 +465,7 @@ public class DefaultResourceService implements ResourceService {
                     }
                     filteredIdList.addAll(filteredIds);
                 }
-            }
+//            }
 
             List<EntityBody> entityBodyList;
             final ApiQuery finalApiQuery = resourceServiceHelper.getApiQuery(finalEntity, requestUri);
@@ -460,9 +480,9 @@ public class DefaultResourceService implements ResourceService {
                 if (crit.getKey().equals(key)
                         && (crit.getOperator().equals(NeutralCriteria.CRITERIA_IN) || crit.getOperator().equals(NeutralCriteria.OPERATOR_EQUAL))) {
                     skipIn = true;
-                    Set valueSet = new HashSet();
+                    Set<Object> valueSet = new HashSet<Object>();
                     if (crit.getValue() instanceof Collection) {
-                        valueSet.addAll((Collection) crit.getValue());
+                        valueSet.addAll((Collection<Object>) crit.getValue());
                     } else {
                         valueSet.add(crit.getValue());
                     }
@@ -584,67 +604,31 @@ public class DefaultResourceService implements ResourceService {
         }
     }
 
-    private List<EntityBody> filterAssociationEntitiesForDates(List<EntityBody> originalList, EntityDefinition assocEntity) {
-
-        if (granularAccessFilterProvider.hasFilter()) {
-            GranularAccessFilter filter = granularAccessFilterProvider.getFilter();
-
-            if (assocEntity.getType().equals(filter.getEntityName())) {
-                // need to filter in java, not using mongo query
-                NeutralQuery query = filter.getNeutralQuery();
-                List<EntityBody> resultList = new ArrayList<EntityBody>();
-
-                for (EntityBody entity : originalList){
-
-                    if(inProcessDateQueryEvaluator.entitySatisfiesDateQuery(entity,query)){
-                        resultList.add(entity);
-                    }
+    private List<EntityBody> getTimeFilteredAssociations(List<EntityBody> associations, EntityDefinition baseEntity, EntityDefinition assocEntity) {
+        List<EntityBody> filtered = new ArrayList<EntityBody>(associations);
+        if (!baseEntity.getResourceName().equals(ResourceNames.STUDENTS))  {
+            for (EntityBody associationEntity : associations) {
+                if ((this.endDates.keySet().contains(assocEntity.getResourceName()) && !isCurrent(assocEntity, associationEntity))) {
+                    filtered.remove(associationEntity);
                 }
-
-                return resultList;
-            } else {
-                return originalList;
             }
-        } else {
-            return originalList;
         }
+
+        return filtered;
     }
 
 
-    /**
-     * Determines whether a query matches an entity. This does NOT handle all operators,
-     * and it assumes that all the fields are strings. This is a minimal filter function
-     * that is used to apply the granular access query in Java in the case of embedded
-     * docs that are loaded in a batch. This is not intended to be a general purpose query
-     * handler.
-     *
-     * @param entity
-     * @param query
-     * @return
-     */
-    private boolean entitySatisfiesDateQuery(EntityBody entity, NeutralQuery query) {
-        for (NeutralCriteria andCriteria : query.getCriteria()) {
-            String fieldName = andCriteria.getKey();
-            String fieldValue = (String) entity.get(fieldName);
-            String operator = andCriteria.getOperator();
+    private boolean isCurrent(EntityDefinition def, EntityBody body) {
+        String now = DatatypeConverter.printDate(Calendar.getInstance());
+        String assocEnd = (String) body.get(this.endDates.get(def
+                .getResourceName()));
 
-
-            if (NeutralCriteria.CRITERIA_EXISTS.equals(operator)) {
-                boolean shouldExist = (Boolean) andCriteria.getValue();
-                Object actualValue = entity.get(fieldName);
-                if (shouldExist && actualValue == null) {
-                    return false;
-                }
-            } else {
-                String expectedValue = (String) andCriteria.getValue();
-                int comparison = fieldValue.compareTo(expectedValue);
-                if(NeutralCriteria.CRITERIA_LT.equals(operator)){
-
-                }
-            }
-
+        // Absent end date means association is 'current'
+        if (assocEnd == null) {
+            assocEnd = "6999-12-12"; // infinity
         }
-        return true;
+
+        return now.compareTo(assocEnd) < 0;
     }
 
     /**
@@ -652,6 +636,7 @@ public class DefaultResourceService implements ResourceService {
      * no beginDate or endDate were found.
      */
     private class NoGranularAccessDatesException extends Exception {
+        private static final long serialVersionUID = 1L;
     }
 
 }

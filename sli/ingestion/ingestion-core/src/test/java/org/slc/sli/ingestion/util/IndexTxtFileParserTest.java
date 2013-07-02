@@ -48,11 +48,11 @@ public class IndexTxtFileParserTest {
         DBObject adminDelegationIndex = new BasicDBObject();
         adminDelegationIndex.put("body.localEdOrgId", 1);
         adminDelegationIndex.put("body.appApprovalEnabled", 1);
-        expectedIndex.put("adminDelegation", new MongoIndex("adminDelegation", false, adminDelegationIndex));
+        expectedIndex.put("adminDelegation", new MongoIndex("adminDelegation", false, adminDelegationIndex, false));
 
         DBObject applicationAuthorizationIndex = new BasicDBObject();
         applicationAuthorizationIndex.put("body.appIds", 1);
-        expectedIndex.put("applicationAuthorization", new MongoIndex("applicationAuthorization", true, applicationAuthorizationIndex));
+        expectedIndex.put("applicationAuthorization", new MongoIndex("applicationAuthorization", true, applicationAuthorizationIndex, false));
 
         for (MongoIndex index : indexes) {
             String collection = index.getCollection();

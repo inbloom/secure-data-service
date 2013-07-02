@@ -2,7 +2,6 @@
 # creates ~2M records
 STUDENT_COUNT: 15000
 NUMBER_OF_YEARS: 1
-BEGIN_YEAR: 2012
 
 ENTITY_WHITELIST: [
   "Assessment",

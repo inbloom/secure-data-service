@@ -24,6 +24,7 @@ import java.net.UnknownHostException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -34,7 +35,9 @@ import org.apache.camel.Processor;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 
@@ -99,7 +102,6 @@ public class ControlFilePreProcessor implements Processor {
     @Autowired
     private AbstractMessageReport databaseMessageReport;
 
-
     @Autowired
     private TenantDBIndexValidator tenantDBIndexValidator;
 
@@ -107,6 +109,7 @@ public class ControlFilePreProcessor implements Processor {
     private MongoTemplate mongoTemplate;
 
     private enum TenantStatus {TENANT_READY, TENANT_NOT_READY, TENANT_SPINUP_FAILED}
+
 
     /**
      * @see org.apache.camel.Processor#process(org.apache.camel.Exchange)
@@ -205,8 +208,8 @@ public class ControlFilePreProcessor implements Processor {
 
             if (onboardingLockIsAcquired) {
 
-                String result = runDbSpinUpScripts(tenantId);
-                if (result != null) {
+                boolean result = runDbSpinUpScripts(tenantId);
+                if (!result) {
                     //Unset isReady field so that future run of the spinup script works
                     tenantDA.unsetTenantReadyFlag(tenantId);
                     isNowReady = TenantStatus.TENANT_SPINUP_FAILED;
@@ -225,25 +228,22 @@ public class ControlFilePreProcessor implements Processor {
         }
     }
 
-    private String runDbSpinUpScripts(String tenantId) {
+    private boolean runDbSpinUpScripts(String tenantId) {
 
         String jsEscapedTenantId = StringEscapeUtils.escapeJavaScript(tenantId);
         String dbName = TenantIdToDbName.convertTenantIdToDbName(jsEscapedTenantId);
 
         LOG.info("Running tenant indexing script for tenant: {} db: {}", tenantId, dbName);
-        String result = MongoCommander.ensureIndexes(INDEX_SCRIPT, dbName, batchJobDAO.getMongoTemplate());
-        if (result != null) {
-            return result;
-        }
-
+        boolean result = MongoCommander.ensureIndexes(INDEX_SCRIPT, dbName, batchJobDAO.getMongoTemplate()) == null;
+        
         LOG.info("Running tenant presplit script for tenant: {} db: {}", tenantId, dbName);
-        result = MongoCommander.preSplit(shardCollections, dbName, batchJobDAO.getMongoTemplate());
-        if (result != null) {
-            return result;
+        result &= MongoCommander.preSplit(shardCollections, dbName, batchJobDAO.getMongoTemplate()) == null;
+
+        if (result) {
+            tenantDA.setTenantReadyFlag(tenantId);
         }
 
-        tenantDA.setTenantReadyFlag(tenantId);
-        return null;
+        return result;
     }
 
     private void setExchangeBody(Exchange exchange, ReportStats reportStats, ControlFile controlFile, NewBatchJob job) {
@@ -276,7 +276,7 @@ public class ControlFilePreProcessor implements Processor {
      *            String representing current batch job id.
      * @param exception
      *            Exception thrown during control file parsing.
-     * @param controlFileName
+     * @param reportStats
      */
     private void handleExceptions(Exchange exchange, String batchJobId, Exception exception, ReportStats reportStats,
             Source source) {

@@ -1,0 +1,74 @@
+<?xml version="1.0" ?>
+<InterchangeMasterSchedule xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-MasterSchedule.xsd">
+    <CourseOffering>
+        <LocalCourseCode>3rd Grade Homeroom</LocalCourseCode>
+        <LocalCourseTitle>3rd Grade Homeroom</LocalCourseTitle>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <SessionReference>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>Fall 2006 South Daybreak Elementary</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+        <CourseReference>
+            <CourseIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>3rd-Grade-Homeroom-1</UniqueCourseId>
+            </CourseIdentity>
+        </CourseReference>
+    </CourseOffering>
+    <Section>
+        <UniqueSectionCode>Mrs. Braverman's Homeroom #38</UniqueSectionCode>
+        <SequenceOfCourse>1</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Independent study</MediumOfInstruction>
+        <PopulationServed>Regular Students</PopulationServed>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>1st Grade Homeroom</LocalCourseCode>
+                <SessionReference>
+                    <SessionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <SessionName>Fall 2011 South Daybreak Elementary</SessionName>
+                    </SessionIdentity>
+                </SessionReference>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <SessionReference>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>Fall 2011 South Daybreak Elementary</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+    </Section>
+</InterchangeMasterSchedule>

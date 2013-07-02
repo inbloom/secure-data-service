@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<InterchangeStudentAssessment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                                  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-AssessmentMetadata.xsd">
+<Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="true">
+
+        <StudentAssessmentReference>
+            <StudentAssessmentIdentity>
+                <AdministrationDate>2002-09-11</AdministrationDate>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>2</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <AssessmentReference>
+                    <AssessmentIdentity>
+                        <AssessmentTitle>2002-Seventh grade Assessment 1</AssessmentTitle>
+                        <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>                        
+                    </AssessmentIdentity>
+                </AssessmentReference>
+            </StudentAssessmentIdentity>
+        </StudentAssessmentReference>
+              
+    </Action>
+</InterchangeStudentAssessment>

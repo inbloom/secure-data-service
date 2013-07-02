@@ -39,7 +39,10 @@ And I should see following map of entry counts in the corresponding sli collecti
         | collectionName              | count |
         | securityEvent               | 1     |
 
-Scenario: Go to default Admin Page, with a role other than SLI IT Administrator when authenticated to SLI IDP
+@DE2728
+Scenario: Go to default Admin Page, with an invalid user who does not have any roles
+# hijacked this test to test an user with no roles defined in LDAP since we removed
+# leader group from our LDAP
 Given I have an open web browser
 And the following collections are empty in sli datastore:
         | collectionName              |
@@ -48,7 +51,9 @@ And I am not authenticated to SLI IDP
 And I have tried to access the default Admin Page
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "leader" "leader1234" for the "Simple" login page
-Then I will get an error message that "Forbidden"
+Then I am informed that authentication has failed
+And I will get an error message that "User account is in invalid mode"
+And I do not have access to the default Admin Page
 And I should see following map of entry counts in the corresponding sli collections:
         | collectionName              | count |
         | securityEvent               | 1     |

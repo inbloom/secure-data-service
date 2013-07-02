@@ -16,7 +16,7 @@
 
 package org.slc.sli.common.domain;
 
-import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.common.constants.EntityNames;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;

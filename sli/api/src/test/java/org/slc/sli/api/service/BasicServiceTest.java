@@ -17,15 +17,26 @@
 
 package org.slc.sli.api.service;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+
 import org.slc.sli.api.config.BasicDefinitionStore;
 import org.slc.sli.api.config.DefinitionFactory;
 import org.slc.sli.api.config.EntityDefinition;
@@ -37,15 +48,6 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.QueryParseException;
 import org.slc.sli.domain.Repository;
-import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ApplicationContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 /**
  *
@@ -64,7 +66,7 @@ public class BasicServiceTest {
 
     @Autowired
     private SecurityContextInjector securityContextInjector;
-    
+
     @Autowired
     private BasicDefinitionStore definitionStore;
 
@@ -109,19 +111,36 @@ public class BasicServiceTest {
 
         service.checkFieldAccess(query, false);
     }
-    
+
     @Test
     public void testWriteSelf() {
         BasicService basicService = (BasicService) context.getBean("basicService", "teacher", new ArrayList<Treatment>(), securityRepo);
         basicService.setDefn(definitionStore.lookupByEntityType("teacher"));
         securityContextInjector.setEducatorContext("my-id");
-        
+
         Map<String, Object> body = new HashMap<String, Object>();
         Entity entity = securityRepo.create("teacher", body);
 
         EntityBody updated = new EntityBody();
         basicService.update(entity.getEntityId(), updated);
     }
-    
+
+    @Test
+    public void testIsSelf() {
+        BasicService basicService = (BasicService) context.getBean("basicService", "teacher", new ArrayList<Treatment>(), securityRepo);
+        basicService.setDefn(definitionStore.lookupByEntityType("teacher"));
+        securityContextInjector.setEducatorContext("my-id");
+        assertTrue(basicService.isSelf(new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, "my-id"))));
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, Arrays.asList("my-id")));
+        assertTrue(basicService.isSelf(query));
+        query.addCriteria(new NeutralCriteria("someOtherProperty", NeutralCriteria.OPERATOR_EQUAL, "somethingElse"));
+        assertTrue(basicService.isSelf(query));
+        query.addOrQuery(new NeutralQuery(new NeutralCriteria("refProperty", NeutralCriteria.OPERATOR_EQUAL, "my-id")));
+        assertTrue(basicService.isSelf(query));
+        query.addOrQuery(new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, "someoneElse")));
+        assertFalse(basicService.isSelf(query));
+        assertFalse(basicService.isSelf(new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, Arrays.asList("my-id", "someoneElse")))));
+
+    }
 
 }

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<InterchangeStaffAssociation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                             xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
+    <Action ActionType="DELETE" Cascade="true">
+        <TeacherSectionAssociation>
+            <TeacherReference>
+                <StaffIdentity>
+                    <StaffUniqueStateId>tech-0000000001</StaffUniqueStateId>
+                </StaffIdentity>
+            </TeacherReference>
+            <SectionReference>
+                <SectionIdentity>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                    <UniqueSectionCode>1</UniqueSectionCode>
+                </SectionIdentity>
+            </SectionReference>
+            <ClassroomPosition>Teacher of Record</ClassroomPosition>
+            <BeginDate>2001-09-03</BeginDate>
+            <EndDate>2002-05-30</EndDate>
+            <HighlyQualifiedTeacher>false</HighlyQualifiedTeacher>
+        </TeacherSectionAssociation>
+    </Action>
+</InterchangeStaffAssociation>

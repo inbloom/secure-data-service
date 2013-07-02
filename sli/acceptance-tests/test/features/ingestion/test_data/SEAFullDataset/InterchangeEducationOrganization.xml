@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><InterchangeEducationOrganization xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
+
+  <StateEducationAgency>
+    <StateOrganizationId>IL</StateOrganizationId>
+    <NameOfInstitution>Illinois State Board of Education</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>State Education Agency</OrganizationCategory>
+    </OrganizationCategories>
+    <Address>
+      <StreetNumberName>123 Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>00000</PostalCode>
+    </Address>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>ACC-TEST-PROG-1</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+  </StateEducationAgency>
+
+  <LocalEducationAgency>
+    <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+    <NameOfInstitution>Daybreak School District 4529</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>Local Education Agency</OrganizationCategory>
+    </OrganizationCategories>
+    <Address>
+      <StreetNumberName>123 Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>00000</PostalCode>
+    </Address>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>ACC-TEST-PROG-2</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <LEACategory>Independent</LEACategory>
+    <StateEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </StateEducationAgencyReference>
+  </LocalEducationAgency>
+
+    <LocalEducationAgency>
+    <StateOrganizationId>IL-DAYBREAK-DIS</StateOrganizationId>
+    <NameOfInstitution>Daybreak School District 4528</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>Local Education Agency</OrganizationCategory>
+    </OrganizationCategories>
+    <Address>
+      <StreetNumberName>456 Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>00000</PostalCode>
+    </Address>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>ACC-TEST-PROG-2</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <LEACategory>Independent</LEACategory>
+    <StateEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </StateEducationAgencyReference>
+  </LocalEducationAgency>
+  
+  <School>
+    <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+      <ID>South Daybreak Elementary</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>South Daybreak Elementary</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <Address AddressType="Physical">
+      <StreetNumberName>111 Ave A</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>11011</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone InstitutionTelephoneNumberType="Main">
+      <TelephoneNumber>(917)-555-0212</TelephoneNumber>
+    </Telephone>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>ACC-TEST-PROG-1</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <GradesOffered>
+      <GradeLevel>Kindergarten</GradeLevel>
+      <GradeLevel>First grade</GradeLevel>
+      <GradeLevel>Second grade</GradeLevel>
+      <GradeLevel>Third grade</GradeLevel>
+      <GradeLevel>Fourth grade</GradeLevel>
+      <GradeLevel>Fifth grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>Elementary School</SchoolCategory>
+    </SchoolCategories>
+    <LocalEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </LocalEducationAgencyReference>
+  </School>
+
+  <School>
+    <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+      <ID>East Daybreak Junior High</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>East Daybreak Junior High</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <Address AddressType="Physical">
+      <StreetNumberName>111 Ave B</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>10112</PostalCode>
+      <NameOfCounty>Wake</NameOfCounty>
+    </Address>
+    <Telephone InstitutionTelephoneNumberType="Main">
+      <TelephoneNumber>(917)-555-3312</TelephoneNumber>
+    </Telephone>
+    <GradesOffered>
+      <GradeLevel>Sixth grade</GradeLevel>
+      <GradeLevel>Seventh grade</GradeLevel>
+      <GradeLevel>Eighth grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>Junior High School</SchoolCategory>
+    </SchoolCategories>
+    <LocalEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </LocalEducationAgencyReference>
+  </School>
+
+  <Course>
+    <CourseTitle>3rd Grade Homeroom</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>3rd Grade Homeroom</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <UniqueCourseId>3rd-Grade-Homeroom-1</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>4th Grade Homeroom</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>4th Grade Homeroom</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <UniqueCourseId>4th-Grade-Homeroom-2</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>5th Grade Homeroom</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>5th Grade Homeroom</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <UniqueCourseId>5th-Grade-Homeroom-3</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>1st Grade Homeroom</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>1st Grade Homeroom</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <CompetencyLevels>
+      <CodeValue>CL-G1-1</CodeValue>
+      <!--<Description>Express complete thoughts.</Description>-->
+    </CompetencyLevels>
+    <CompetencyLevels>
+      <CodeValue>CL-G1-2</CodeValue>
+      <!--<Description>Write multiple sentences about the same topic.</Description>-->
+    </CompetencyLevels>
+    <CompetencyLevels>
+      <CodeValue>CL-G1-3</CodeValue>
+      <!--<Description>Add on to writing in response to questions.</Description>-->
+    </CompetencyLevels>
+    <CompetencyLevels>
+      <CodeValue>CL-G1-4</CodeValue>
+      <!--<Description>Write for a variety of purposes.</Description>-->
+    </CompetencyLevels>
+    <UniqueCourseId>1st-Grade-Homeroom-4</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>8th Grade English</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>8th Grade English</ID>
+    </CourseCode>
+    <SubjectArea>English Language and Literature</SubjectArea>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <UniqueCourseId>8th-Grade-English-5</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>6th Grade English</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>6th Grade English</ID>
+    </CourseCode>
+    <SubjectArea>English Language and Literature</SubjectArea>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <UniqueCourseId>6th-Grade-English-6</UniqueCourseId>
+  </Course>
+
+  <Program>
+    <ProgramId>ACC-TEST-PROG-1</ProgramId>
+	<ProgramType>Regular Education</ProgramType>
+	<ProgramSponsor>State Education Agency</ProgramSponsor>
+	<Services>
+	  <CodeValue>Test service 1</CodeValue>
+	  <!--<ShortDescription>Short description for acceptance test program 1</ShortDescription>
+	  <Description>This is a longer description of the services provided by acceptance test program 1. More detail could be provided here.</Description>-->
+	</Services>
+  </Program>
+  <Program>
+    <ProgramId>ACC-TEST-PROG-2</ProgramId>
+	<ProgramType>Remedial Education</ProgramType>
+	<ProgramSponsor>Local Education Agency</ProgramSponsor>
+	<Services>
+	  <CodeValue>Test service 2</CodeValue>
+	  <!--<ShortDescription>Short description for acceptance test program 2</ShortDescription>
+	  <Description>This is a longer description of the services provided by acceptance test program 2. More detail could be provided here.</Description>-->
+	</Services>
+  </Program>
+    
+    <CompetencyLevelDescriptor>
+        <CodeValue>Barely Competent 1</CodeValue>
+        <Description>Herman tends to throw tantrums</Description>
+        <PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
+    </CompetencyLevelDescriptor>
+    <CompetencyLevelDescriptor>
+        <CodeValue>Barely Competent 2</CodeValue>
+        <Description>Herman tends to throw tantrums</Description>
+        <PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
+    </CompetencyLevelDescriptor>
+    <CompetencyLevelDescriptor>
+        <CodeValue>Barely Competent 3</CodeValue>
+        <Description>Herman tends to throw tantrums</Description>
+        <PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
+    </CompetencyLevelDescriptor>
+    <CompetencyLevelDescriptor>
+        <CodeValue>Barely Competent 4</CodeValue>
+        <Description>Herman tends to throw tantrums</Description>
+        <PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
+    </CompetencyLevelDescriptor>
+    <CompetencyLevelDescriptor>
+        <CodeValue>Barely Competent 5</CodeValue>
+        <Description>Herman tends to throw tantrums</Description>
+        <PerformanceBaseConversion>Pass</PerformanceBaseConversion>
+    </CompetencyLevelDescriptor>
+    <CompetencyLevelDescriptor>
+        <CodeValue>Barely Competent 6</CodeValue>
+        <Description>Herman tends to throw tantrums</Description>
+        <PerformanceBaseConversion>Fail</PerformanceBaseConversion>
+    </CompetencyLevelDescriptor>
+    
+
+</InterchangeEducationOrganization>

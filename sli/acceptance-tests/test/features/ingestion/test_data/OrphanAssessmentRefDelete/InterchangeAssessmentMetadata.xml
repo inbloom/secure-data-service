@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                                  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-AssessmentMetadata.xsd">
+    <Action ActionType="DELETE" Cascade="false" Force="false">
+
+  
+  <AssessmentReference>
+      <AssessmentIdentity>
+         <AssessmentTitle>A-Grade 7 2011 State Reading</AssessmentTitle>
+	 <AcademicSubject>Reading</AcademicSubject>
+         <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
+         <Version>1</Version>
+      </AssessmentIdentity>
+  </AssessmentReference>
+    </Action>
+    </InterchangeAssessmentMetadata>

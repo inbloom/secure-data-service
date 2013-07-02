@@ -1,0 +1,5006 @@
+<?xml version="1.0"?>
+<InterchangeStudentParent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentParent.xsd">
+<Student>
+  <StudentUniqueStateId>1</StudentUniqueStateId>
+  <Name>
+    <FirstName>Jessie</FirstName>
+    <MiddleName>Kory</MiddleName>
+    <LastSurname>Mcgowan</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <BirthData>
+    <BirthDate>1998-01-12</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>960 Marks Ct</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>2895@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>Asian</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>2895@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>2</StudentUniqueStateId>
+  <Name>
+    <FirstName>Dorthy</FirstName>
+    <MiddleName>Melba</MiddleName>
+    <LastSurname>Breedlove</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <BirthData>
+    <BirthDate>1997-11-15</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>433 Oak Street</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>4770@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>4770@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>3</StudentUniqueStateId>
+  <Name>
+    <FirstName>Staci</FirstName>
+    <MiddleName>Dora</MiddleName>
+    <LastSurname>Crowell</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <BirthData>
+    <BirthDate>1998-05-15</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>659 Martin Luther King Jr Blvd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>8981@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>8981@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>4</StudentUniqueStateId>
+  <Name>
+    <FirstName>Yvonne</FirstName>
+    <MiddleName>Leigh</MiddleName>
+    <LastSurname>Morse</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <BirthData>
+    <BirthDate>1998-08-27</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>818 Martin Luther King Jr Blvd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>456@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>456@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>5</StudentUniqueStateId>
+  <Name>
+    <FirstName>Nathaniel</FirstName>
+    <MiddleName>Denver</MiddleName>
+    <LastSurname>Wadsworth</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <BirthData>
+    <BirthDate>1996-11-13</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>740 Elm Street</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>1032@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>1032@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>6</StudentUniqueStateId>
+  <Name>
+    <FirstName>Randi</FirstName>
+    <MiddleName>Colleen</MiddleName>
+    <LastSurname>Naylor</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <BirthData>
+    <BirthDate>1997-08-29</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>318 Martin Luther King Jr Blvd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>9040@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>Asian</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>9040@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>7</StudentUniqueStateId>
+  <Name>
+    <FirstName>Jessie</FirstName>
+    <MiddleName>Robbie</MiddleName>
+    <LastSurname>Quintanilla</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <BirthData>
+    <BirthDate>1997-03-31</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>615 Martin Luther King Jr Blvd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>919@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>Black - African American</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Unknown</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>919@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>8</StudentUniqueStateId>
+  <Name>
+    <FirstName>Guillermo</FirstName>
+    <MiddleName>Alton</MiddleName>
+    <LastSurname>Squires</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <BirthData>
+    <BirthDate>1997-01-15</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>360 Marks Ct</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>6995@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>6995@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>9</StudentUniqueStateId>
+  <Name>
+    <FirstName>Yvette</FirstName>
+    <MiddleName>Gracie</MiddleName>
+    <LastSurname>Wilcox</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <BirthData>
+    <BirthDate>1995-10-27</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>918 North Street</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>9979@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>Black - African American</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>9979@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>10</StudentUniqueStateId>
+  <Name>
+    <FirstName>Warren</FirstName>
+    <MiddleName>Demetrius</MiddleName>
+    <LastSurname>Boswell</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <BirthData>
+    <BirthDate>1996-04-09</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>925 North Street</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>1520@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>Black - African American</RacialCategory>
+  </Race>
+    <EconomicDisadvantaged>true</EconomicDisadvantaged>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>1520@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>11</StudentUniqueStateId>
+  <Name>
+    <FirstName>Leonel</FirstName>
+    <MiddleName>Travis</MiddleName>
+    <LastSurname>Kelleher</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <BirthData>
+    <BirthDate>1996-07-29</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>850 Cherry Rd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>583@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>583@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>12</StudentUniqueStateId>
+  <Name>
+    <FirstName>Nestor</FirstName>
+    <MiddleName>Ismael</MiddleName>
+    <LastSurname>Lear</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <BirthData>
+    <BirthDate>1996-05-17</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>49 West Blvd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>278@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>Asian</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>278@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>13</StudentUniqueStateId>
+  <Name>
+    <FirstName>June</FirstName>
+    <MiddleName>Denise</MiddleName>
+    <LastSurname>Ocampo</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <BirthData>
+    <BirthDate>1995-05-03</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>748 East Rd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>153@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>153@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>14</StudentUniqueStateId>
+  <Name>
+    <FirstName>Noel</FirstName>
+    <MiddleName>Joey</MiddleName>
+    <LastSurname>Harms</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <BirthData>
+    <BirthDate>1995-05-08</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>746 Marks Ct</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>7526@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>7526@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>15</StudentUniqueStateId>
+  <Name>
+    <FirstName>Lenore</FirstName>
+    <MiddleName>Vilma</MiddleName>
+    <LastSurname>Mattox</LastSurname>
+    <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+  </Name>
+  <Sex>Female</Sex>
+  <BirthData>
+    <BirthDate>1995-02-04</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>199 Oak Street</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>2715@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>2715@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>16</StudentUniqueStateId>
+  <Name>
+    <FirstName>Isaac</FirstName>
+    <MiddleName>Chad</MiddleName>
+    <LastSurname>Horn</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <BirthData>
+    <BirthDate>2001-01-02</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>381 West Blvd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>4548@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>4548@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>17</StudentUniqueStateId>
+  <Name>
+    <FirstName>Willard</FirstName>
+    <MiddleName>Mario</MiddleName>
+    <LastSurname>Floyd</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <BirthData>
+    <BirthDate>2001-04-29</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>278 West Blvd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>6061@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>6061@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>18</StudentUniqueStateId>
+  <Name>
+    <FirstName>Carole</FirstName>
+    <MiddleName>Sylvia</MiddleName>
+    <LastSurname>Muncy</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <BirthData>
+    <BirthDate>2001-02-22</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>578 Cherry Rd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>2290@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>Native Hawaiian - Pacific Islander</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>Limited Monitored 2</LimitedEnglishProficiency>
+  
+  <LoginId>2290@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>19</StudentUniqueStateId>
+  <Name>
+    <FirstName>Joesph</FirstName>
+    <MiddleName>Bernie</MiddleName>
+    <LastSurname>Conklin</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <BirthData>
+    <BirthDate>2000-09-20</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>330 South Lane</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>6452@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>Limited Monitored 2</LimitedEnglishProficiency>
+  
+  <LoginId>6452@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>20</StudentUniqueStateId>
+  <Name>
+    <FirstName>Saul</FirstName>
+    <MiddleName>Dave</MiddleName>
+    <LastSurname>Henley</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <BirthData>
+    <BirthDate>2000-06-05</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>162 Marks Ct</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>1607@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>1607@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>21</StudentUniqueStateId>
+  <Name>
+    <FirstName>Cody</FirstName>
+    <MiddleName>Elmo</MiddleName>
+    <LastSurname>Ochoa</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <BirthData>
+    <BirthDate>1999-12-30</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>610 North Street</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>6844@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>6844@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>22</StudentUniqueStateId>
+  <Name>
+    <FirstName>Ray</FirstName>
+    <MiddleName>Reid</MiddleName>
+    <LastSurname>Mcgee</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <BirthData>
+    <BirthDate>2000-01-25</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>764 Cherry Rd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>5646@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>5646@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>23</StudentUniqueStateId>
+  <Name>
+    <FirstName>Leonel</FirstName>
+    <MiddleName>Howard</MiddleName>
+    <LastSurname>Foote</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <BirthData>
+    <BirthDate>1999-10-02</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>39 Martin Luther King Jr Blvd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>347@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>347@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>24</StudentUniqueStateId>
+  <Name>
+    <FirstName>Josefa</FirstName>
+    <MiddleName>Laurie</MiddleName>
+    <LastSurname>Reeves</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <BirthData>
+    <BirthDate>1999-01-24</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>356 West Blvd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>5249@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>5249@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>25</StudentUniqueStateId>
+  <Name>
+    <FirstName>Cecilia</FirstName>
+    <MiddleName>Essie</MiddleName>
+    <LastSurname>Medley</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <BirthData>
+    <BirthDate>1999-05-14</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>940 South Lane</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>1175@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>Black - African American</RacialCategory>
+  </Race>
+    <EconomicDisadvantaged>true</EconomicDisadvantaged>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>1175@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>26</StudentUniqueStateId>
+  <Name>
+    <FirstName>Damon</FirstName>
+    <MiddleName>Myles</MiddleName>
+    <LastSurname>Enriquez</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <BirthData>
+    <BirthDate>1998-12-12</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>77 Marks Ct</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>7891@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>7891@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>27</StudentUniqueStateId>
+  <Name>
+    <FirstName>Hunter</FirstName>
+    <MiddleName>Lemuel</MiddleName>
+    <LastSurname>Moten</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <BirthData>
+    <BirthDate>2006-09-25</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>881 South Lane</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>4237@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>4237@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>28</StudentUniqueStateId>
+  <Name>
+    <FirstName>Benito</FirstName>
+    <MiddleName>Shannon</MiddleName>
+    <LastSurname>Patterson</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <BirthData>
+    <BirthDate>2007-03-12</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>776 Cherry Rd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>4549@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>4549@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>29</StudentUniqueStateId>
+  <Name>
+    <FirstName>Owen</FirstName>
+    <MiddleName>Christian</MiddleName>
+    <LastSurname>Grissom</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <BirthData>
+    <BirthDate>2007-06-24</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>361 North Street</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>864@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>Native Hawaiian - Pacific Islander</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Unknown</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>864@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>30</StudentUniqueStateId>
+  <Name>
+    <FirstName>Marty</FirstName>
+    <MiddleName>Lenard</MiddleName>
+    <LastSurname>Almond</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <BirthData>
+    <BirthDate>2007-07-07</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>145 East Rd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>4859@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>4859@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>31</StudentUniqueStateId>
+  <Name>
+    <FirstName>Ola</FirstName>
+    <MiddleName>Sandra</MiddleName>
+    <LastSurname>Behrens</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <BirthData>
+    <BirthDate>2006-01-30</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>28 Braeburn Lane</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>826@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>826@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>32</StudentUniqueStateId>
+  <Name>
+    <FirstName>Norbert</FirstName>
+    <MiddleName>Maria</MiddleName>
+    <LastSurname>Lilly</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <BirthData>
+    <BirthDate>2005-11-28</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>252 Elm Street</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>7571@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+    <EconomicDisadvantaged>true</EconomicDisadvantaged>
+  <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>Limited Monitored 1</LimitedEnglishProficiency>
+  
+  <LoginId>7571@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>33</StudentUniqueStateId>
+  <Name>
+    <FirstName>Johnnie</FirstName>
+    <MiddleName>Greta</MiddleName>
+    <LastSurname>Garrison</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <BirthData>
+    <BirthDate>2006-03-21</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>195 Braeburn Lane</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>57@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>57@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>34</StudentUniqueStateId>
+  <Name>
+    <FirstName>Tommy</FirstName>
+    <MiddleName>Emilio</MiddleName>
+    <LastSurname>Bussey</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <BirthData>
+    <BirthDate>2006-07-22</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>453 South Lane</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>5667@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>5667@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>35</StudentUniqueStateId>
+  <Name>
+    <FirstName>Wendell</FirstName>
+    <MiddleName>Bud</MiddleName>
+    <LastSurname>Hein</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <BirthData>
+    <BirthDate>2005-05-08</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>651 Cherry Rd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>2792@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Unknown</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>2792@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>36</StudentUniqueStateId>
+  <Name>
+    <FirstName>Fidel</FirstName>
+    <MiddleName>Judson</MiddleName>
+    <LastSurname>Riggins</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <BirthData>
+    <BirthDate>2005-05-09</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>812 Martin Luther King Jr Blvd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>986@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+    <EconomicDisadvantaged>true</EconomicDisadvantaged>
+  <SchoolFoodServicesEligibility>Unknown</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>986@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>37</StudentUniqueStateId>
+  <Name>
+    <FirstName>Marco</FirstName>
+    <MiddleName>Lucien</MiddleName>
+    <LastSurname>Barlow</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <BirthData>
+    <BirthDate>2004-09-23</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>451 Oak Street</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>5795@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>5795@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>38</StudentUniqueStateId>
+  <Name>
+    <FirstName>Jules</FirstName>
+    <MiddleName>Jack</MiddleName>
+    <LastSurname>Rinaldi</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <BirthData>
+    <BirthDate>2005-05-17</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>601 Marks Ct</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>6167@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Unknown</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>6167@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>39</StudentUniqueStateId>
+  <Name>
+    <FirstName>Mike</FirstName>
+    <MiddleName>Eugene</MiddleName>
+    <LastSurname>Law</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <BirthData>
+    <BirthDate>2003-11-10</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>432 West Blvd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>3195@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>3195@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>40</StudentUniqueStateId>
+  <Name>
+    <FirstName>Willie</FirstName>
+    <MiddleName>Maria</MiddleName>
+    <LastSurname>Winfield</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <BirthData>
+    <BirthDate>2004-07-03</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>626 East Rd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>5959@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Unknown</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>5959@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>41</StudentUniqueStateId>
+  <Name>
+    <FirstName>Mariana</FirstName>
+    <MiddleName>Vilma</MiddleName>
+    <LastSurname>Oconner</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <BirthData>
+    <BirthDate>2004-07-18</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>601 Elm Street</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>4339@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>Limited Monitored 1</LimitedEnglishProficiency>
+  
+  <LoginId>4339@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>42</StudentUniqueStateId>
+  <Name>
+    <FirstName>Lynette</FirstName>
+    <MiddleName>Nona</MiddleName>
+    <LastSurname>Fishman</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <BirthData>
+    <BirthDate>2003-12-12</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>466 Braeburn Lane</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>6265@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>6265@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>43</StudentUniqueStateId>
+  <Name>
+    <FirstName>Brandi</FirstName>
+    <MiddleName>Irma</MiddleName>
+    <LastSurname>Laughlin</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <BirthData>
+    <BirthDate>2002-09-17</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>657 South Lane</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>8499@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>8499@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>44</StudentUniqueStateId>
+  <Name>
+    <FirstName>Paulette</FirstName>
+    <MiddleName>Ericka</MiddleName>
+    <LastSurname>Mata</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <BirthData>
+    <BirthDate>2002-12-06</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>899 Cherry Rd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>4180@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>Native Hawaiian - Pacific Islander</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>4180@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>45</StudentUniqueStateId>
+  <Name>
+    <FirstName>Kristopher</FirstName>
+    <MiddleName>Cole</MiddleName>
+    <LastSurname>Clemmons</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <BirthData>
+    <BirthDate>2003-04-02</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>580 Martin Luther King Jr Blvd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>163@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>Black - African American</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>163@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>46</StudentUniqueStateId>
+  <Name>
+    <FirstName>Scottie</FirstName>
+    <MiddleName>Anton</MiddleName>
+    <LastSurname>Shuler</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <BirthData>
+    <BirthDate>2003-01-25</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>861 Marks Ct</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>3787@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>Asian</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>3787@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>47</StudentUniqueStateId>
+  <Name>
+    <FirstName>Lenard</FirstName>
+    <MiddleName>Shaun</MiddleName>
+    <LastSurname>Mclaurin</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <BirthData>
+    <BirthDate>2002-02-27</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>23 Marks Ct</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>2896@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>Asian</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Unknown</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>2896@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>48</StudentUniqueStateId>
+  <Name>
+    <FirstName>Eugenia</FirstName>
+    <MiddleName>Maggie</MiddleName>
+    <LastSurname>Montalvo</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <BirthData>
+    <BirthDate>2002-07-18</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>454 South Lane</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>966@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>966@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>49</StudentUniqueStateId>
+  <Name>
+    <FirstName>Aileen</FirstName>
+    <MiddleName>Angel</MiddleName>
+    <LastSurname>Wharton</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <BirthData>
+    <BirthDate>2002-01-05</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>177 South Lane</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>4988@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>White</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>4988@fakemail.com</LoginId>
+</Student>
+<Student>
+  <StudentUniqueStateId>50</StudentUniqueStateId>
+  <Name>
+    <FirstName>Miranda</FirstName>
+    <MiddleName>Anastasia</MiddleName>
+    <LastSurname>Edmondson</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <BirthData>
+    <BirthDate>2001-11-10</BirthDate>
+  </BirthData>
+  <Address AddressType="Home">
+    <StreetNumberName>278 Oak Street</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>8262@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+  <Race>
+    <RacialCategory>Asian</RacialCategory>
+  </Race>
+  <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+  
+  <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+  
+  <LoginId>8262@fakemail.com</LoginId>
+</Student>
+
+<Parent>
+  <ParentUniqueStateId>1-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Brandy</FirstName>
+    <MiddleName>Maxine</MiddleName>
+    <LastSurname>Mcgowan</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>960 Marks Ct</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>2516@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>2516@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>1-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Roosevelt</FirstName>
+    <MiddleName>Quentin</MiddleName>
+    <LastSurname>Mcgowan</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>960 Marks Ct</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>8151@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>8151@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>2-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Bobbi</FirstName>
+    <MiddleName>Vanessa</MiddleName>
+    <LastSurname>Breedlove</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>433 Oak Street</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>5034@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>5034@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>2-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Ashley</FirstName>
+    <MiddleName>Marlin</MiddleName>
+    <LastSurname>Breedlove</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>433 Oak Street</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>9541@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>9541@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>3-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Lelia</FirstName>
+    <MiddleName>Maribel</MiddleName>
+    <LastSurname>Crowell</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>659 Martin Luther King Jr Blvd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>6542@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>6542@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>3-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Lindsey</FirstName>
+    <MiddleName>Armando</MiddleName>
+    <LastSurname>Crowell</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>659 Martin Luther King Jr Blvd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>4019@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>4019@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>4-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Annmarie</FirstName>
+    <MiddleName>Marie</MiddleName>
+    <LastSurname>Morse</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>818 Martin Luther King Jr Blvd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>8170@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>8170@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>4-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Clifford</FirstName>
+    <MiddleName>Adan</MiddleName>
+    <LastSurname>Morse</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>818 Martin Luther King Jr Blvd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>5606@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>5606@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>5-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Lynnette</FirstName>
+    <MiddleName>Cindy</MiddleName>
+    <LastSurname>Wadsworth</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>740 Elm Street</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>9260@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>9260@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>5-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Alfred</FirstName>
+    <MiddleName>Eddy</MiddleName>
+    <LastSurname>Wadsworth</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>740 Elm Street</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>9470@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>9470@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>6-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Concepcion</FirstName>
+    <MiddleName>Graciela</MiddleName>
+    <LastSurname>Naylor</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>318 Martin Luther King Jr Blvd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>1953@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>1953@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>6-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Trey</FirstName>
+    <MiddleName>Eddy</MiddleName>
+    <LastSurname>Naylor</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>318 Martin Luther King Jr Blvd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>2390@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>2390@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>7-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Lessie</FirstName>
+    <MiddleName>Sally</MiddleName>
+    <LastSurname>Quintanilla</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>615 Martin Luther King Jr Blvd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>1456@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>1456@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>7-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Douglas</FirstName>
+    <MiddleName>Major</MiddleName>
+    <LastSurname>Quintanilla</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>615 Martin Luther King Jr Blvd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>9541@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>9541@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>8-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Amalia</FirstName>
+    <MiddleName>Katherine</MiddleName>
+    <LastSurname>Squires</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>360 Marks Ct</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>5469@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>5469@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>8-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Rickey</FirstName>
+    <MiddleName>Caleb</MiddleName>
+    <LastSurname>Squires</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>360 Marks Ct</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>4659@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>4659@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>9-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Terrie</FirstName>
+    <MiddleName>Deann</MiddleName>
+    <LastSurname>Wilcox</LastSurname>
+    <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>918 North Street</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>956@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>956@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>9-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Lamont</FirstName>
+    <MiddleName>Ariel</MiddleName>
+    <LastSurname>Wilcox</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>918 North Street</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>6418@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>6418@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>10-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Mamie</FirstName>
+    <MiddleName>Minnie</MiddleName>
+    <LastSurname>Boswell</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>925 North Street</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>2102@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>2102@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>10-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Clinton</FirstName>
+    <MiddleName>Milford</MiddleName>
+    <LastSurname>Boswell</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>925 North Street</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>6899@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>6899@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>11-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Eva</FirstName>
+    <MiddleName>Deena</MiddleName>
+    <LastSurname>Kelleher</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>850 Cherry Rd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>1255@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>1255@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>11-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Rickie</FirstName>
+    <MiddleName>Armand</MiddleName>
+    <LastSurname>Kelleher</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>850 Cherry Rd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>1394@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>1394@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>12-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Blanca</FirstName>
+    <MiddleName>Patty</MiddleName>
+    <LastSurname>Lear</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>49 West Blvd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>4178@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>4178@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>12-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Donny</FirstName>
+    <MiddleName>Ronnie</MiddleName>
+    <LastSurname>Lear</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>49 West Blvd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>208@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>208@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>13-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Lina</FirstName>
+    <MiddleName>Lilian</MiddleName>
+    <LastSurname>Ocampo</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>748 East Rd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>6293@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>6293@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>13-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Noe</FirstName>
+    <MiddleName>Oliver</MiddleName>
+    <LastSurname>Ocampo</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>748 East Rd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>8203@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>8203@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>14-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Twila</FirstName>
+    <MiddleName>Hazel</MiddleName>
+    <LastSurname>Harms</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>746 Marks Ct</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>7252@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>7252@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>14-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Genaro</FirstName>
+    <MiddleName>Erik</MiddleName>
+    <LastSurname>Harms</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>746 Marks Ct</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>1743@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>1743@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>15-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Cecilia</FirstName>
+    <MiddleName>Tommie</MiddleName>
+    <LastSurname>Mattox</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>199 Oak Street</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>8388@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>8388@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>15-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Delmar</FirstName>
+    <MiddleName>Dannie</MiddleName>
+    <LastSurname>Mattox</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>199 Oak Street</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>9551@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>9551@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>16-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Gabriela</FirstName>
+    <MiddleName>Erin</MiddleName>
+    <LastSurname>Horn</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>381 West Blvd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>7967@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>7967@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>16-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Angel</FirstName>
+    <MiddleName>Tad</MiddleName>
+    <LastSurname>Horn</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>381 West Blvd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>796@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>796@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>17-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Stephanie</FirstName>
+    <MiddleName>Dale</MiddleName>
+    <LastSurname>Floyd</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>278 West Blvd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>4578@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>4578@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>17-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Sydney</FirstName>
+    <MiddleName>Bruno</MiddleName>
+    <LastSurname>Floyd</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>278 West Blvd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>3345@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>3345@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>18-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Claudia</FirstName>
+    <MiddleName>Angeline</MiddleName>
+    <LastSurname>Muncy</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>578 Cherry Rd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>951@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>951@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>18-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Maria</FirstName>
+    <MiddleName>Jack</MiddleName>
+    <LastSurname>Muncy</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>578 Cherry Rd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>2901@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>2901@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>19-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Kristine</FirstName>
+    <MiddleName>Margarita</MiddleName>
+    <LastSurname>Conklin</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>330 South Lane</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>2279@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>2279@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>19-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Sonny</FirstName>
+    <MiddleName>Earle</MiddleName>
+    <LastSurname>Conklin</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>330 South Lane</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>6993@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>6993@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>20-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Sofia</FirstName>
+    <MiddleName>Ava</MiddleName>
+    <LastSurname>Henley</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>162 Marks Ct</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>5264@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>5264@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>20-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Douglas</FirstName>
+    <MiddleName>Ross</MiddleName>
+    <LastSurname>Henley</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>162 Marks Ct</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>4043@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>4043@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>21-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Nellie</FirstName>
+    <MiddleName>Lakeisha</MiddleName>
+    <LastSurname>Ochoa</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>610 North Street</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>6804@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>6804@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>21-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Dominick</FirstName>
+    <MiddleName>Robby</MiddleName>
+    <LastSurname>Ochoa</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>610 North Street</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>952@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>952@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>22-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Pauline</FirstName>
+    <MiddleName>Hannah</MiddleName>
+    <LastSurname>Mcgee</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>764 Cherry Rd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>7801@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>7801@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>22-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Clifton</FirstName>
+    <MiddleName>Lyman</MiddleName>
+    <LastSurname>Mcgee</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>764 Cherry Rd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>1502@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>1502@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>23-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Silvia</FirstName>
+    <MiddleName>Alyson</MiddleName>
+    <LastSurname>Foote</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>39 Martin Luther King Jr Blvd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>5312@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>5312@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>23-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Walker</FirstName>
+    <MiddleName>Chris</MiddleName>
+    <LastSurname>Foote</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>39 Martin Luther King Jr Blvd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>5537@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>5537@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>24-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Tameka</FirstName>
+    <MiddleName>Marva</MiddleName>
+    <LastSurname>Reeves</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>356 West Blvd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>2588@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>2588@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>24-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Alexis</FirstName>
+    <MiddleName>Samuel</MiddleName>
+    <LastSurname>Reeves</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>356 West Blvd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>3398@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>3398@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>25-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Marisa</FirstName>
+    <MiddleName>Sally</MiddleName>
+    <LastSurname>Medley</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>940 South Lane</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>7427@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>7427@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>25-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Gino</FirstName>
+    <MiddleName>Arturo</MiddleName>
+    <LastSurname>Medley</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>940 South Lane</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>7824@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>7824@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>26-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Agnes</FirstName>
+    <MiddleName>Beryl</MiddleName>
+    <LastSurname>Enriquez</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>77 Marks Ct</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>6549@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>6549@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>26-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Jorge</FirstName>
+    <MiddleName>Cleo</MiddleName>
+    <LastSurname>Enriquez</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>77 Marks Ct</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>5714@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>5714@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>27-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Barbara</FirstName>
+    <MiddleName>Gilda</MiddleName>
+    <LastSurname>Moten</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>881 South Lane</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>9743@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>9743@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>27-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Kareem</FirstName>
+    <MiddleName>Raymond</MiddleName>
+    <LastSurname>Moten</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>881 South Lane</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>1754@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>1754@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>28-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Ursula</FirstName>
+    <MiddleName>Terri</MiddleName>
+    <LastSurname>Patterson</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>776 Cherry Rd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>60@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>60@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>28-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Donn</FirstName>
+    <MiddleName>Elbert</MiddleName>
+    <LastSurname>Patterson</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>776 Cherry Rd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>109@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>109@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>29-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Heidi</FirstName>
+    <MiddleName>Silvia</MiddleName>
+    <LastSurname>Grissom</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>361 North Street</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>3141@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>3141@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>29-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Herbert</FirstName>
+    <MiddleName>Donald</MiddleName>
+    <LastSurname>Grissom</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>361 North Street</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>479@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>479@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>30-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Cathy</FirstName>
+    <MiddleName>Trina</MiddleName>
+    <LastSurname>Almond</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>145 East Rd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>7156@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>7156@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>30-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Ralph</FirstName>
+    <MiddleName>Gerard</MiddleName>
+    <LastSurname>Almond</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>145 East Rd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>4269@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>4269@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>31-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Jeanie</FirstName>
+    <MiddleName>Deborah</MiddleName>
+    <LastSurname>Behrens</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>28 Braeburn Lane</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>1643@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>1643@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>31-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Jacob</FirstName>
+    <MiddleName>Irwin</MiddleName>
+    <LastSurname>Behrens</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>28 Braeburn Lane</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>1718@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>1718@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>32-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Lena</FirstName>
+    <MiddleName>Consuelo</MiddleName>
+    <LastSurname>Lilly</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>252 Elm Street</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>8227@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>8227@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>32-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Irvin</FirstName>
+    <MiddleName>Cliff</MiddleName>
+    <LastSurname>Lilly</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>252 Elm Street</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>4345@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>4345@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>33-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Marissa</FirstName>
+    <MiddleName>Aline</MiddleName>
+    <LastSurname>Garrison</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>195 Braeburn Lane</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>7340@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>7340@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>33-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Efren</FirstName>
+    <MiddleName>Reggie</MiddleName>
+    <LastSurname>Garrison</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>195 Braeburn Lane</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>6488@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>6488@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>34-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Deanna</FirstName>
+    <MiddleName>Amparo</MiddleName>
+    <LastSurname>Bussey</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>453 South Lane</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>7699@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>7699@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>34-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Aubrey</FirstName>
+    <MiddleName>Scotty</MiddleName>
+    <LastSurname>Bussey</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>453 South Lane</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>1101@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>1101@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>35-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Doris</FirstName>
+    <MiddleName>Kenya</MiddleName>
+    <LastSurname>Hein</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>651 Cherry Rd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>2636@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>2636@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>35-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Victor</FirstName>
+    <MiddleName>Brady</MiddleName>
+    <LastSurname>Hein</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>651 Cherry Rd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>1319@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>1319@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>36-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Bianca</FirstName>
+    <MiddleName>Elsie</MiddleName>
+    <LastSurname>Riggins</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>812 Martin Luther King Jr Blvd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>3329@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>3329@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>36-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Alphonso</FirstName>
+    <MiddleName>Jacob</MiddleName>
+    <LastSurname>Riggins</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>812 Martin Luther King Jr Blvd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>3705@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>3705@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>37-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Camille</FirstName>
+    <MiddleName>Pat</MiddleName>
+    <LastSurname>Barlow</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>451 Oak Street</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>4940@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>4940@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>37-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Les</FirstName>
+    <MiddleName>Giovanni</MiddleName>
+    <LastSurname>Barlow</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>451 Oak Street</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>7832@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>7832@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>38-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Britney</FirstName>
+    <MiddleName>Grace</MiddleName>
+    <LastSurname>Rinaldi</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>601 Marks Ct</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>5025@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>5025@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>38-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Cedric</FirstName>
+    <MiddleName>Wilford</MiddleName>
+    <LastSurname>Rinaldi</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>601 Marks Ct</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>9595@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>9595@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>39-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Nancy</FirstName>
+    <MiddleName>Deana</MiddleName>
+    <LastSurname>Law</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>432 West Blvd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>5022@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>5022@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>39-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Damian</FirstName>
+    <MiddleName>Merle</MiddleName>
+    <LastSurname>Law</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>432 West Blvd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>8973@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>8973@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>40-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Beverly</FirstName>
+    <MiddleName>Estela</MiddleName>
+    <LastSurname>Winfield</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>626 East Rd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>9909@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>9909@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>40-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Boris</FirstName>
+    <MiddleName>Edmond</MiddleName>
+    <LastSurname>Winfield</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>626 East Rd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>5142@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>5142@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>41-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Elsie</FirstName>
+    <MiddleName>Sara</MiddleName>
+    <LastSurname>Oconner</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>601 Elm Street</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>5053@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>5053@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>41-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Cleo</FirstName>
+    <MiddleName>Tommie</MiddleName>
+    <LastSurname>Oconner</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>601 Elm Street</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>8314@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>8314@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>42-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Katharine</FirstName>
+    <MiddleName>Cora</MiddleName>
+    <LastSurname>Fishman</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>466 Braeburn Lane</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>6949@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>6949@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>42-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Grady</FirstName>
+    <MiddleName>Andres</MiddleName>
+    <LastSurname>Fishman</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>466 Braeburn Lane</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>6396@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>6396@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>43-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Julia</FirstName>
+    <MiddleName>Jana</MiddleName>
+    <LastSurname>Laughlin</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>657 South Lane</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>9035@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>9035@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>43-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Ted</FirstName>
+    <MiddleName>Ahmad</MiddleName>
+    <LastSurname>Laughlin</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>657 South Lane</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>5884@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>5884@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>44-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Rosetta</FirstName>
+    <MiddleName>Colleen</MiddleName>
+    <LastSurname>Mata</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>899 Cherry Rd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>1038@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>1038@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>44-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Colin</FirstName>
+    <MiddleName>Don</MiddleName>
+    <LastSurname>Mata</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>899 Cherry Rd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>2537@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>2537@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>45-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Jessie</FirstName>
+    <MiddleName>Nita</MiddleName>
+    <LastSurname>Clemmons</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>580 Martin Luther King Jr Blvd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>7349@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>7349@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>45-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Justin</FirstName>
+    <MiddleName>Dominick</MiddleName>
+    <LastSurname>Clemmons</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>580 Martin Luther King Jr Blvd</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>5230@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>5230@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>46-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Cecile</FirstName>
+    <MiddleName>Cheryl</MiddleName>
+    <LastSurname>Shuler</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>861 Marks Ct</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>1822@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>1822@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>46-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Mason</FirstName>
+    <MiddleName>Nigel</MiddleName>
+    <LastSurname>Shuler</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>861 Marks Ct</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>1192@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>1192@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>47-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Karla</FirstName>
+    <MiddleName>Elisa</MiddleName>
+    <LastSurname>Mclaurin</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>23 Marks Ct</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>4475@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>4475@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>47-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Homer</FirstName>
+    <MiddleName>Elwood</MiddleName>
+    <LastSurname>Mclaurin</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>23 Marks Ct</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>9948@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>9948@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>48-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Nita</FirstName>
+    <MiddleName>Jannie</MiddleName>
+    <LastSurname>Montalvo</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>454 South Lane</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>7399@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>7399@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>48-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Tyson</FirstName>
+    <MiddleName>Josh</MiddleName>
+    <LastSurname>Montalvo</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>454 South Lane</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>6378@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>6378@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>49-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Angelica</FirstName>
+    <MiddleName>Hattie</MiddleName>
+    <LastSurname>Wharton</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>177 South Lane</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>4038@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>4038@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>49-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Ernesto</FirstName>
+    <MiddleName>Shannon</MiddleName>
+    <LastSurname>Wharton</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>177 South Lane</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>1467@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>1467@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>50-mom</ParentUniqueStateId>
+  <Name>
+    <FirstName>Nona</FirstName>
+    <MiddleName>Alisa</MiddleName>
+    <LastSurname>Edmondson</LastSurname>
+  </Name>
+  <Sex>Female</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>278 Oak Street</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>4314@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>4314@fakemail.com</LoginId>
+  </Parent>
+<Parent>
+  <ParentUniqueStateId>50-dad</ParentUniqueStateId>
+  <Name>
+    <FirstName>Wilbur</FirstName>
+    <MiddleName>Francisco</MiddleName>
+    <LastSurname>Edmondson</LastSurname>
+  </Name>
+  <Sex>Male</Sex>
+  <Address AddressType="Home">
+    <StreetNumberName>278 Oak Street</StreetNumberName>
+    <City>Chicago</City>
+    <StateAbbreviation>IL</StateAbbreviation>
+    <PostalCode>60601</PostalCode>
+  </Address>
+  <ElectronicMail EmailAddressType="Home/Personal">
+    <EmailAddress>5118@fakemail.com</EmailAddress>
+  </ElectronicMail>
+  <LoginId>5118@fakemail.com</LoginId>
+  </Parent>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>1</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>1-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <ContactPriority>0</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>1</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>1-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <LivesWith>true</LivesWith>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>2</ContactPriority>
+  <ContactRestrictions>Custody on Mondays, Wednesdays, Fridays only</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>2</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>2-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <LivesWith>true</LivesWith>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>2</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>2</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>2-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <ContactPriority>2</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>3</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>3-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>2</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>3</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>3-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <LivesWith>true</LivesWith>
+  <ContactPriority>2</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>4</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>4-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <LivesWith>true</LivesWith>
+  <ContactPriority>3</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>4</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>4-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <ContactPriority>1</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>5</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>5-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <LivesWith>true</LivesWith>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>3</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>5</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>5-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <LivesWith>true</LivesWith>
+  <ContactPriority>1</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>6</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>6-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <ContactPriority>0</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>6</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>6-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <LivesWith>true</LivesWith>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>1</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>7</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>7-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <LivesWith>true</LivesWith>
+  <ContactPriority>0</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>7</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>7-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>1</ContactPriority>
+  <ContactRestrictions>Custody on Mondays, Wednesdays, Fridays only</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>8</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>8-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <LivesWith>true</LivesWith>
+  <ContactPriority>2</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>8</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>8-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <LivesWith>true</LivesWith>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>3</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>9</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>9-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <LivesWith>true</LivesWith>
+  <ContactPriority>2</ContactPriority>
+  <ContactRestrictions>Custody on Mondays, Wednesdays, Fridays only</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>9</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>9-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>0</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>10</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>10-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <LivesWith>true</LivesWith>
+  <ContactPriority>2</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>10</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>10-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>0</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>11</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>11-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <LivesWith>true</LivesWith>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>0</ContactPriority>
+  <ContactRestrictions>Custody on Mondays, Wednesdays, Fridays only</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>11</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>11-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>3</ContactPriority>
+  <ContactRestrictions>Custody on Mondays, Wednesdays, Fridays only</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>12</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>12-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <LivesWith>true</LivesWith>
+  <ContactPriority>0</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>12</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>12-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>1</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>13</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>13-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <LivesWith>true</LivesWith>
+  <ContactPriority>1</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>13</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>13-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <ContactPriority>2</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>14</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>14-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <LivesWith>true</LivesWith>
+  <ContactPriority>1</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>14</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>14-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <LivesWith>true</LivesWith>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>3</ContactPriority>
+  <ContactRestrictions>Custody on Mondays, Wednesdays, Fridays only</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>15</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>15-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <LivesWith>true</LivesWith>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>3</ContactPriority>
+  <ContactRestrictions>Custody on Mondays, Wednesdays, Fridays only</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>15</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>15-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <LivesWith>true</LivesWith>
+  <ContactPriority>2</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>16</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>16-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <ContactPriority>2</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>16</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>16-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <LivesWith>true</LivesWith>
+  <ContactPriority>3</ContactPriority>
+  <ContactRestrictions>Custody on Mondays, Wednesdays, Fridays only</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>17</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>17-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <LivesWith>true</LivesWith>
+  <ContactPriority>3</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>17</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>17-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <LivesWith>true</LivesWith>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>1</ContactPriority>
+  <ContactRestrictions>Custody on Mondays, Wednesdays, Fridays only</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>18</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>18-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>1</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>18</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>18-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <LivesWith>true</LivesWith>
+  <ContactPriority>2</ContactPriority>
+  <ContactRestrictions>Custody on Mondays, Wednesdays, Fridays only</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>19</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>19-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <LivesWith>true</LivesWith>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>1</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>19</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>19-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>3</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>20</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>20-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <LivesWith>true</LivesWith>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>1</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>20</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>20-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <LivesWith>true</LivesWith>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>2</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>21</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>21-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <ContactPriority>1</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>21</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>21-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <ContactPriority>1</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>22</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>22-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <LivesWith>true</LivesWith>
+  <ContactPriority>3</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>22</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>22-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>0</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>23</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>23-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <LivesWith>true</LivesWith>
+  <ContactPriority>1</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>23</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>23-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <LivesWith>true</LivesWith>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>0</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>24</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>24-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <ContactPriority>3</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>24</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>24-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <LivesWith>true</LivesWith>
+  <ContactPriority>2</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>25</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>25-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <LivesWith>true</LivesWith>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>1</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>25</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>25-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <LivesWith>true</LivesWith>
+  <ContactPriority>1</ContactPriority>
+  <ContactRestrictions>Custody on Mondays, Wednesdays, Fridays only</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>26</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>26-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <LivesWith>true</LivesWith>
+  <ContactPriority>2</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>26</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>26-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <LivesWith>true</LivesWith>
+  <ContactPriority>3</ContactPriority>
+  <ContactRestrictions>Custody on Mondays, Wednesdays, Fridays only</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>27</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>27-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <LivesWith>true</LivesWith>
+  <ContactPriority>0</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>27</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>27-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <ContactPriority>3</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>28</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>28-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <LivesWith>true</LivesWith>
+  <ContactPriority>0</ContactPriority>
+  <ContactRestrictions>Custody on Mondays, Wednesdays, Fridays only</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>28</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>28-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <ContactPriority>3</ContactPriority>
+  <ContactRestrictions>Custody on Mondays, Wednesdays, Fridays only</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>29</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>29-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>0</ContactPriority>
+  <ContactRestrictions>Custody on Mondays, Wednesdays, Fridays only</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>29</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>29-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <LivesWith>true</LivesWith>
+  <ContactPriority>2</ContactPriority>
+  <ContactRestrictions>Custody on Mondays, Wednesdays, Fridays only</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>30</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>30-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <ContactPriority>0</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>30</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>30-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>3</ContactPriority>
+  <ContactRestrictions>Custody on Mondays, Wednesdays, Fridays only</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>31</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>31-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <LivesWith>true</LivesWith>
+  <ContactPriority>1</ContactPriority>
+  <ContactRestrictions>Custody on Mondays, Wednesdays, Fridays only</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>31</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>31-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <LivesWith>true</LivesWith>
+  <ContactPriority>0</ContactPriority>
+  <ContactRestrictions>Custody on Mondays, Wednesdays, Fridays only</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>32</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>32-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <ContactPriority>2</ContactPriority>
+  <ContactRestrictions>Custody on Mondays, Wednesdays, Fridays only</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>32</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>32-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <LivesWith>true</LivesWith>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>2</ContactPriority>
+  <ContactRestrictions>Custody on Mondays, Wednesdays, Fridays only</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>33</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>33-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <LivesWith>true</LivesWith>
+  <ContactPriority>3</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>33</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>33-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <LivesWith>true</LivesWith>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>1</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>34</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>34-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <LivesWith>true</LivesWith>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>0</ContactPriority>
+  <ContactRestrictions>Custody on Mondays, Wednesdays, Fridays only</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>34</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>34-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>2</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>35</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>35-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>1</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>35</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>35-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <ContactPriority>0</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>36</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>36-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <ContactPriority>0</ContactPriority>
+  <ContactRestrictions>Custody on Mondays, Wednesdays, Fridays only</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>36</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>36-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <LivesWith>true</LivesWith>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>1</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>37</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>37-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <ContactPriority>2</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>37</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>37-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <LivesWith>true</LivesWith>
+  <ContactPriority>3</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>38</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>38-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>3</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>38</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>38-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>3</ContactPriority>
+  <ContactRestrictions>Custody on Mondays, Wednesdays, Fridays only</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>39</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>39-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>0</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>39</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>39-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>0</ContactPriority>
+  <ContactRestrictions>Custody on Mondays, Wednesdays, Fridays only</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>40</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>40-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <ContactPriority>2</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>40</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>40-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <LivesWith>true</LivesWith>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>3</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>41</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>41-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <LivesWith>true</LivesWith>
+  <ContactPriority>0</ContactPriority>
+  <ContactRestrictions>Custody on Mondays, Wednesdays, Fridays only</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>41</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>41-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <LivesWith>true</LivesWith>
+  <ContactPriority>1</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>42</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>42-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <LivesWith>true</LivesWith>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>0</ContactPriority>
+  <ContactRestrictions>Custody on Mondays, Wednesdays, Fridays only</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>42</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>42-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <ContactPriority>2</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>43</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>43-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <LivesWith>true</LivesWith>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>0</ContactPriority>
+  <ContactRestrictions>Custody on Mondays, Wednesdays, Fridays only</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>43</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>43-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <ContactPriority>0</ContactPriority>
+  <ContactRestrictions>Custody on Mondays, Wednesdays, Fridays only</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>44</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>44-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <LivesWith>true</LivesWith>
+  <ContactPriority>1</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>44</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>44-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <ContactPriority>1</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>45</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>45-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <ContactPriority>0</ContactPriority>
+  <ContactRestrictions>Custody on Mondays, Wednesdays, Fridays only</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>45</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>45-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <ContactPriority>2</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>46</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>46-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <ContactPriority>2</ContactPriority>
+  <ContactRestrictions>Custody on Mondays, Wednesdays, Fridays only</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>46</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>46-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>0</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>47</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>47-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>2</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>47</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>47-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <ContactPriority>2</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>48</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>48-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>2</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>48</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>48-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <LivesWith>true</LivesWith>
+  <ContactPriority>2</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>49</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>49-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <LivesWith>true</LivesWith>
+  <ContactPriority>3</ContactPriority>
+  <ContactRestrictions>Custody on Mondays, Wednesdays, Fridays only</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>49</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>49-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <ContactPriority>0</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>50</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>50-mom</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Mother</Relation>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>3</ContactPriority>
+</StudentParentAssociation>
+<StudentParentAssociation>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>50</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <ParentReference>
+    <ParentIdentity>
+      <ParentUniqueStateId>50-dad</ParentUniqueStateId>
+    </ParentIdentity>
+  </ParentReference>
+  <Relation>Father</Relation>
+  <PrimaryContactStatus>true</PrimaryContactStatus>
+  <EmergencyContactStatus>true</EmergencyContactStatus>
+  <ContactPriority>2</ContactPriority>
+  <ContactRestrictions>No pickup</ContactRestrictions>
+</StudentParentAssociation>
+</InterchangeStudentParent>

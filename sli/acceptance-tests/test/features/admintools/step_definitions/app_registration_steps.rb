@@ -147,10 +147,11 @@ Then /^application "([^"]*)" is not registered$/ do |app|
 end
 
 Then /^application "([^"]*)" is removed from the list$/ do |app|
-# TODO: canidate for lowering timeout temporarly to improve performance
-  assertWithWait("Shouldn't see a NewApp") {
-    @driver.find_element(:id, "applications").find_elements(:xpath, ".//tr/td[text()='#{app}']").length == 0
-  }
+  retryOnFailure() do
+    assertWithWait("Shouldn't see a NewApp", 30) {
+      @driver.find_element(:id, "applications").find_elements(:xpath, ".//tr/td[text()='#{app}']").length == 0
+    }
+  end
   #appsTable = @driver.find_element(:id, "applications")
   #tds  = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']")
   #assert(tds.length == 0, "#{app} isn't in list")
@@ -255,7 +256,13 @@ Then /^the client ID and shared secret fields are present$/ do
   client_id = @driver.find_element(:xpath, '//tbody/tr[2]/td/dl/dd[1]').text
   shared_secret = @driver.find_element(:xpath, '//tbody/tr[2]/td/dl/dd[2]').text  
   puts "client_id: " + client_id
-  puts "Shared Secret ID: " + shared_secret  
+  if client_id != "Pending"
+    $client_id = client_id
+  end
+  puts "Shared Secret ID: " + shared_secret
+  if shared_secret != "Pending"
+    $client_secret = shared_secret
+  end
   assert(client_id != '', "Expected non empty client Id, got #{client_id}")
   assert(shared_secret != '', "Expected non empty shared secret Id, got #{shared_secret}")
 end
@@ -309,7 +316,7 @@ Then /^I have edited the field named "([^"]*)" to say "([^"]*)"$/ do |arg1, arg2
 end
 
 When /^I clicked Save$/ do
-  @form.find_element(:name, 'commit').click
+  @driver.find_element(:name, 'commit').click
 end
 
 Then /^the info for "([^"]*)" was updated$/ do |arg1|
@@ -400,18 +407,7 @@ Then /^a notification email is sent to "([^"]*)"$/ do |email|
 end
 
 When /^I click on the In Progress button$/ do
-  @mongo_ids = []
-  db = Mongo::Connection.new[convertTenantIdToDbName('developer-email@slidev.org')]['educationOrganization']
-
-  ed_org = build_edorg("Some State", "developer-email@slidev.org")
-  ed_org[:body][:organizationCategories] = ["State Education Agency"]
-  @mongo_ids << db.insert(ed_org)
-  ed_org = build_edorg("Some District", "developer-email@slidev.org", @mongo_ids.first, "WaffleDistrict", true)
-  @mongo_ids << db.insert(ed_org)
-  ed_org = build_edorg("Some School", "developer-email@slidev.org", @mongo_ids[1], "WaffleSchool", false)
-  @mongo_ids << db.insert(ed_org, opts = {:safe => true})
   step 'I clicked on the button Edit for the application "NewApp"'
-  db.remove()
 end
 
 Then /^I can see the ed\-orgs I want to approve for my application$/ do
@@ -427,6 +423,15 @@ And /^I can delete "(.*?)"$/ do |app_name|
     step "I got warning message saying 'You are trying to remove this application from inBloom. By doing so, you will prevent any active user to access it. Do you want to continue?'"
     step "I click 'Yes'"
     step "the application named \"#{app_name}\" is removed from the SLI"
+end
+
+Then /^I have enabled "(.*?)"$/ do |arg1|
+  client_id = @driver.find_element(:xpath, '//tbody/tr[2]/td/dl/dd[11]').text
+  assert(client_id == 'true', "Expected 'true', got #{client_id}")
+end
+
+Then /^I check Bulk Extract$/ do
+  @driver.find_element(:id, 'app_isBulkExtract').click
 end
 
 private

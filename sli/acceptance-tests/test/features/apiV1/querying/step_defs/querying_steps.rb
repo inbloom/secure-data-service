@@ -85,20 +85,3 @@ Then /^each entity's response body I should see the following fields only:$/ do 
     check_contains_fields(res, table)
   end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

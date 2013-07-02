@@ -94,9 +94,7 @@ public class DeterministicUUIDGeneratorStrategy implements UUIDGeneratorStrategy
         if (input == null) {
             return "";
         }
-        String output = input.replaceAll(DELIMITER_1_REGEX, DELIMITER_1_REPLACEMENT).replaceAll(DELIMITER_2_REGEX,
-                DELIMITER_2_REPLACEMENT);
-        return output;
+        return input.replace(DELIMITER_1, DELIMITER_1_REPLACEMENT).replace(DELIMITER_2, DELIMITER_2_REPLACEMENT);
     }
 
     protected static UUID generateUuid(byte[] data) {

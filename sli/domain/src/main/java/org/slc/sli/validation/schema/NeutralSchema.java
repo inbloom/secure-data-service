@@ -145,7 +145,7 @@ public abstract class NeutralSchema {
         this.fields = fields;
     }
 
-    public final Map<String, NeutralSchema> getFields() {
+    public Map<String, NeutralSchema> getFields() {
         if (fields == null) {
             fields = new LinkedHashMap<String, NeutralSchema>();
         }
@@ -171,7 +171,7 @@ public abstract class NeutralSchema {
 
     }
 
-    protected void inheritAnnotations(AppInfo parentInfo) {
+    public void inheritAnnotations(AppInfo parentInfo) {
         // Nothing to inherit.
         if (parentInfo == null || parentInfo.getValues().isEmpty()) {
             return;
@@ -336,7 +336,9 @@ public abstract class NeutralSchema {
     }
 
     public void addAnnotation(Annotation d) {
-        annotations.put(d.getType(), d);
+        if(null != d) {
+            annotations.put(d.getType(), d);
+        }
     }
 
     /**

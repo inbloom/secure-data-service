@@ -160,7 +160,7 @@ under the License.
       <id>sli-nexus</id>
       <mirrorOf>*</mirrorOf>
       <name>SLI Nexis Repository</name>
-      <url>http://nexus.slidev.org:8080/nexus/content/groups/public</url>
+      <url>https://nexus.slidev.org/nexus/content/groups/public</url>
     </mirror>
   </mirrors>
   

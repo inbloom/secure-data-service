@@ -17,18 +17,22 @@
 package org.slc.sli.validation;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
+import com.mongodb.DBCollection;
+import com.mongodb.WriteResult;
+
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
-import com.mongodb.DBCollection;
-import com.mongodb.WriteResult;
+import org.slc.sli.domain.AccessibilityCheck;
+import org.slc.sli.domain.CascadeResult;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * Mock entity repository for testing purposes
@@ -81,8 +85,13 @@ public class DummyEntityRepository implements Repository<Entity> {
     }
 
     @Override
-    public Entity findById(String collectioName, String id) {
-        Map<String, Entity> collection = entities.get(collectioName);
+    public Entity findById(String collectionName, String id) {
+    	return findById(collectionName, id, false);
+    }
+
+    @Override
+    public Entity findById(String collectionName, String id, boolean allFields) {
+        Map<String, Entity> collection = entities.get(collectionName);
         return collection.get(id);
     }
 
@@ -111,6 +120,12 @@ public class DummyEntityRepository implements Repository<Entity> {
     }
 
     @Override
+    public CascadeResult safeDelete(String entityType, String id, boolean cascade, boolean dryrun, boolean forced, boolean logViolations, Integer maxObjects, AccessibilityCheck access) {
+    	// TODO Auto-generated method stub
+    	return null;
+    }
+
+    @Override
     public boolean delete(String collectionName, String id) {
         // TODO Auto-generated method stub
         return false;
@@ -130,6 +145,12 @@ public class DummyEntityRepository implements Repository<Entity> {
 
     @Override
     public Entity findOne(String collectionName, NeutralQuery query) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Entity findOne(String collectionName, NeutralQuery query, boolean allFields) {
         // TODO Auto-generated method stub
         return null;
     }
@@ -232,6 +253,25 @@ public class DummyEntityRepository implements Repository<Entity> {
 
     @Override
     public Entity findAndUpdate(String collectionName, NeutralQuery neutralQuery, Update update) {
+        return null;
+    }
+
+    @Override
+    public Iterator<Entity> findEach(String collectionName, NeutralQuery query) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Iterator<Entity> findEach(String collectionName, Query query) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public CascadeResult safeDelete(Entity entity, String id, boolean cascade, boolean dryrun, boolean forced, boolean logViolations,
+                                    Integer maxObjects, AccessibilityCheck access) {
+        // TODO Auto-generated method stub
         return null;
     }
 }

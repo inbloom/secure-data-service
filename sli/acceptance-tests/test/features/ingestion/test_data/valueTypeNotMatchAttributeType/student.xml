@@ -13,7 +13,7 @@
 			<BirthDate>1999-07-12</BirthDate>
 		</BirthData>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race />
+		
 	</Student>
 	<Student>
 		<StudentUniqueStateId>993553490</StudentUniqueStateId>
@@ -27,6 +27,6 @@
 			<BirthDate>2003-01-01</BirthDate>
 		</BirthData>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-		<Race />
+		
 	</Student>
 </InterchangeStudentParent>

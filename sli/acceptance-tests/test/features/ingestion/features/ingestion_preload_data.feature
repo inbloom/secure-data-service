@@ -1,68 +1,26 @@
 @RALLY_US1107
 Feature: Pre-loading of data for sandbox tenants - Ingestion component test
 
-Scenario: Preload Small Sample Data Set
-  Given I am using the tenant "Brian"
+Scenario: Preload Sample Data Sets
+  When I am using the tenant "Sharon"
+  And the tenant database "Sharon" does not exist
+  Then I create a tenant set to preload data set "medium" for tenant "Sharon"
+  When I am using the tenant "Brian"
   And the tenant database "Brian" does not exist
-  And the following collections are empty in datastore:
-     | collectionName                            |
-     | assessment                                |
-     | attendance                                |
-     | calendarDate                              |
-     | cohort                                    |
-     | competencyLevelDescriptor                 |
-     | course                                    |
-     | courseOffering                            |
-     | courseSectionAssociation                  |
-     | disciplineAction                          |
-     | disciplineIncident                        |
-     | educationOrganization                     |
-     | educationOrganizationAssociation          |
-     | educationOrganizationSchoolAssociation    |
-     | grade                                     |
-     | gradebookEntry                            |
-     | gradingPeriod                             |
-     | graduationPlan                            |
-     | learningObjective                         |
-     | learningStandard                          |
-     | parent                                    |
-     | program                                   |
-     | recordHash                                |
-     | reportCard                                |
-     | school                                    |
-     | schoolSessionAssociation                  |
-     | section                                   |
-     | sectionSchoolAssociation                  |
-     | session                                   |
-     | sessionCourseAssociation                  |
-     | staff                                     |
-     | staffCohortAssociation                    |
-     | staffEducationOrganizationAssociation     |
-     | staffProgramAssociation                   |
-     | student                                   |
-     | studentAcademicRecord                     |
-     | studentAssessment                         |
-     | studentCohortAssociation                  |
-     | studentCompetency                         |
-     | studentCompetencyObjective                |
-     | studentDisciplineIncidentAssociation      |
-     | studentParentAssociation                  |
-     | studentProgramAssociation                 |
-     | studentSchoolAssociation                  |
-     | studentSectionAssociation                 |
-     | studentGradebookEntry                     |
-     | courseTranscript                          |
-     | teacher                                   |
-     | teacherSchoolAssociation                  |
-     | teacherSectionAssociation                 |
-   And I create a tenant set to preload data set "small" for tenant "Brian"
-   And a batch job has completed successfully in the database
-   And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+  And I create a tenant set to preload data set "small" for tenant "Brian"
+  When I am using the tenant "Sharon"
+  And a batch job has completed successfully in the database for tenant "Sharon"
+  And I should not see an error log file created for "Sharon"
+  And I should not see a warning log file created for "Sharon"
+  When I am using the tenant "Brian"
+  And a batch job has completed successfully in the database for tenant "Brian"
+  Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
      | assessment                               |                 19|
+     | assessmentFamily                         |                 38|
+     | assessmentPeriodDescriptor               |                  2|
      | attendance                               |                 75|
-     | calendarDate                             |                556|
+     | calendarDate                             |                558|
      | cohort                                   |                  3|
      | competencyLevelDescriptor                |                  0|
      | course                                   |                 95|
@@ -81,10 +39,11 @@ Then I should see following map of entry counts in the corresponding collections
      | learningStandard                         |               1499|
      | parent                                   |                  9|
      | program                                  |                  2|
-     | recordHash                               |               9479|
+     | recordHash                               |              10097|
      | reportCard                               |                  2|
      | schoolSessionAssociation                 |                  0|
      | section                                  |                 97|
+     | sectionAssessmentAssociation             |                  0|
      | sectionSchoolAssociation                 |                  0|
      | session                                  |                 22|
      | sessionCourseAssociation                 |                  0|
@@ -99,6 +58,7 @@ Then I should see following map of entry counts in the corresponding collections
      | studentCompetency                        |                 59|
      | studentCompetencyObjective               |                  4|
      | studentDisciplineIncidentAssociation     |                  4|
+     | studentObjectiveAssessment               |                300|
      | studentParentAssociation                 |                  9|
      | studentProgramAssociation                |                  6|
      | studentSchoolAssociation                 |                167|
@@ -107,15 +67,6 @@ Then I should see following map of entry counts in the corresponding collections
      | courseTranscript                         |                196|
      | teacherSchoolAssociation                 |                  3|
      | teacherSectionAssociation                |                 11|
-    And I should not see an error log file created
-	And I should not see a warning log file created
+  And I should not see an error log file created for "Brian"
+  And I should not see a warning log file created for "Brian"
 
-
-Scenario: Preload Medium Sample Data Set
-   Given I am using the tenant "Sharon"
-   And the tenant database "Sharon" does not exist
-   Then I create a tenant set to preload data set "medium" for tenant "Sharon"
-   And a batch job has completed successfully in the database
-   And a batch job log has been created
-   And I should not see an error log file created
-   And I should not see a warning log file created

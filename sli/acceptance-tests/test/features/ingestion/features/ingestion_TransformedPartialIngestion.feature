@@ -14,8 +14,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
      | studentAssessment              |
 When zip file is scp to ingestion landing zone
   And a batch job for file "StudentAssessment_Partial_Unhappy.zip" is completed in database
-  And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+  Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
      | studentAssessment             |                  0|
     And I should see "Not all records were processed completely due to errors." in the resulting batch job file
@@ -28,17 +27,18 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
      And the following collections are empty in datastore:
      | collectionName                            |
      | assessment                                |
+     | assessmentFamily                          |
      | student                                   |
      | studentAssessment                         |
      | recordHash                                |
 When zip file is scp to ingestion landing zone
     And a batch job for file "StudentAssessmentFull.zip" is completed in database
-    And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+    Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
      | assessment                               |                  1|
+     | assessmentFamily                         |                  1|
      | student                                  |                  1|
-    And I should see "Processed 4 records." in the resulting batch job file
+    And I should see "Processed 5 records." in the resulting batch job file
     And I should not see an error log file created
     And I should not see a warning log file created
 
@@ -46,13 +46,12 @@ Then I should see following map of entry counts in the corresponding collections
     And I post "StudentAssessment_Partial_Happy.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
   And a batch job for file "StudentAssessment_Partial_Happy.zip" is completed in database
-  And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+  Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
      | assessment                               |                  1|
      | student                                  |                  1|
      | studentAssessment                        |                  2|
-    And I should see "Processed 5 records." in the resulting batch job file
+    And I should see "Processed 4 records." in the resulting batch job file
     And I should not see a warning log file created
 
 Scenario: Post Attendance without required parent records in database
@@ -65,8 +64,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
      | recordHash                                |
 When zip file is scp to ingestion landing zone
   And a batch job for file "AttendancePartialUnHappy.zip" is completed in database
-  And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+  Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
      | attendance                               |                  0|
     And I should see "Processed 2 records." in the resulting batch job file
@@ -87,8 +85,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
      |recordHash                                 |
 When zip file is scp to ingestion landing zone
     And a batch job for file "AttendanceFull.zip" is completed in database
-    And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+    Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
      | educationOrganization                    |                  3|
      | session                                  |                  1|
@@ -102,8 +99,7 @@ Then I should see following map of entry counts in the corresponding collections
     And I post "AttendancePartialHappy.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
   And a batch job for file "AttendancePartialHappy.zip" is completed in database
-  And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+  Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
      | attendance                               |                  1|
      | educationOrganization                    |                  3|
@@ -122,8 +118,7 @@ And I check to find if record is in collection:
     And I post "AttendanceUpdateAndAppend.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
   And a batch job for file "AttendanceUpdateAndAppend.zip" is completed in database
-  And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+  Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
      | attendance                               |                  1|
     And I check to find if record is in collection:
@@ -144,15 +139,16 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
   And the following collections are empty in datastore:
      | collectionName                            |
      | assessment                                |
+     | assessmentFamily                          |
      | recordHash                                |
 
 When zip file is scp to ingestion landing zone
   And a batch job for file "AssessmentPartial.zip" is completed in database
-  And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+  Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
      | assessment                               |                  2|
-    And I should see "Processed 2 records." in the resulting batch job file
+     | assessmentFamily                         |                  2|
+    And I should see "Processed 4 records." in the resulting batch job file
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter                  | searchValue        | searchType         |
        | assessment                  | 2                   | body.assessmentPeriodDescriptor  | nil                | nil                |
@@ -164,33 +160,35 @@ Then I should see following map of entry counts in the corresponding collections
   And the following collections are empty in datastore:
      | collectionName                            |
      | assessment                                |
+     | assessmentFamily                          |
+     | assessmentPeriodDescriptor                |
      | recordHash                                |
 
 When zip file is scp to ingestion landing zone
   And a batch job for file "AssessmentFull.zip" is completed in database
-  And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+  Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
      | assessment                               |                  2|
-    And I should see "Processed 2 records." in the resulting batch job file
+     | assessmentFamily                         |                  2|
+     | assessmentPeriodDescriptor               |                  2|
+    And I should see "Processed 6 records." in the resulting batch job file
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter                  | searchValue                | searchType           |
-       | assessment                  | 1                   | body.assessmentPeriodDescriptor.codeValue  | READ2-BOY-2011                       | string               |
-       | assessment                  | 1                   | body.assessmentPeriodDescriptor.codeValue  | READ2-MOY-2011                       | string               |
+       | assessmentPeriodDescriptor  | 1                   | body.codeValue                   | READ2-BOY-2011             | string               |
+       | assessmentPeriodDescriptor  | 1                   | body.codeValue                   | READ2-MOY-2011             | string               |
     And I should not see a warning log file created
 
     And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And I post "AssessmentPartial.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
     And a batch job for file "AssessmentPartial.zip" is completed in database
-    And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+    Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
      | assessment                               |                  4|
     And I should see "Processed 2 records." in the resulting batch job file
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter                  | searchValue                | searchType           |
-       | assessment                  | 2                   | body.assessmentPeriodDescriptor.codeValue  | READ2-BOY-2011                       | string               |
-       | assessment                  | 2                   | body.assessmentPeriodDescriptor.codeValue  | READ2-MOY-2011                       | string               |
+       | assessmentPeriodDescriptor  | 1                   | body.codeValue                   | READ2-BOY-2011             | string               |
+       | assessmentPeriodDescriptor  | 1                   | body.codeValue                   | READ2-MOY-2011             | string               |
     And I should not see a warning log file created
        

@@ -34,8 +34,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.oauth.OAuthAccessException;
-import org.slc.sli.api.security.oauth.OAuthAccessException.OAuthError;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.enums.Right;
@@ -213,10 +212,26 @@ public class SecurityUtil {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth instanceof OAuth2Authentication
                 && ((OAuth2Authentication) auth).getUserAuthentication() instanceof AnonymousAuthenticationToken) {
-            
-            //We use the details field of the auth to store an embedded OAuthException, if applicable            
+
+            //We use the details field of the auth to store an embedded OAuthException, if applicable
             throw new InsufficientAuthenticationException("Unauthorized", (Throwable) auth.getDetails());
         }
+    }
+
+    /**
+     * Determines if the user is of type 'student'.
+     *
+     * @return True if user is of type 'student', false otherwise.
+     */
+    public static boolean isStudent() {
+        SLIPrincipal principal = getSLIPrincipal();
+        return principal != null && EntityNames.STUDENT.equals(principal.getEntity().getType());
+    }
+
+    public static boolean isStaffUser() {
+        SLIPrincipal principal = getSLIPrincipal();
+        String userType = principal.getUserType();
+        return ((!principal.isAdminRealmAuthenticated()) && (userType == null || userType.isEmpty() || EntityNames.STAFF.equals(userType)));
     }
 
     /**

@@ -21,6 +21,10 @@ Scenario: Fail when posting a School object during a Student POST operation
 	When I navigate to POST "/v1/students"
 	Then I should receive a return code of 400
 
+Scenario: Fail when posting null
+        Given I post a null document
+        Then I should receive a return code of 400
+
 #tests all non-nullable fields
 Scenario: Fail when passing blank object during POST for student
 	Given format "application/json"

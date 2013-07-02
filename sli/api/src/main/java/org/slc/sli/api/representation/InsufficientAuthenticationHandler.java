@@ -17,7 +17,9 @@
 
 package org.slc.sli.api.representation;
 
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
@@ -40,6 +42,9 @@ public class InsufficientAuthenticationHandler implements ExceptionMapper<Insuff
 
     @Value("${sli.security.noSession.landing.url}")
     private String authUrl;
+    
+    @Context
+    private HttpHeaders headers;
 
     @Override
     public Response toResponse(InsufficientAuthenticationException exception) {
@@ -53,8 +58,14 @@ public class InsufficientAuthenticationHandler implements ExceptionMapper<Insuff
             OAuthAccessException oauthEx = (OAuthAccessException) exception.getCause();
             wwwAuthHeader = "Bearer error=\"" + oauthEx.getType().toString() + "\", error_description=\"" + oauthEx.getMessage() + "\"";
         }
+        
+        MediaType errorType = MediaType.APPLICATION_JSON_TYPE;
+        if(this.headers.getMediaType() == MediaType.APPLICATION_XML_TYPE) {
+            errorType = MediaType.APPLICATION_XML_TYPE;
+        }
+        
         return Response.status(status).entity(new ErrorResponse(status.getStatusCode(), status.getReasonPhrase(), 
-                "Access DENIED: " + exception.getMessage())).header(HttpHeaders.WWW_AUTHENTICATE, wwwAuthHeader).build();
+                "Access DENIED: " + exception.getMessage())).header(HttpHeaders.WWW_AUTHENTICATE, wwwAuthHeader).type(errorType).build();
     }
 
 }

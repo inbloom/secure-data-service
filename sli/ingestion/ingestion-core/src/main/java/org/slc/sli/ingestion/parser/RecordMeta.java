@@ -17,6 +17,10 @@ package org.slc.sli.ingestion.parser;
 
 import javax.xml.stream.Location;
 
+import org.slc.sli.ingestion.ActionVerb;
+
+import java.util.Map;
+
 /**
  * Describes an XML record.
  *
@@ -62,4 +66,42 @@ public interface RecordMeta {
      */
     Location getSourceEndLocation();
 
+    /**
+     * Checks if it's a part of "ActionType" wrapper
+     * @return <code>true</code> if it's a part of the ActionType
+     *
+     */
+
+    boolean isAction();
+
+
+    /**
+     * Checks if "isCascade" flag was set
+     * @return <code>true</code> if cascade flag was set
+     *
+     */
+
+    boolean doCascade();
+
+    /**
+     * Returns action specified for this element
+     * @return <code>org.slc.sli.ingestion.parser.ActionVerb</code>
+     *
+     */
+    ActionVerb getAction();
+
+    /**
+     * Checks if "isReference" flag was set
+     * @return <code>true</code> if cascade flag was set
+     *
+     */
+    boolean isReference();
+
+    String getOriginalType();
+
+    void setOriginalType(String originalType);
+
+    public Map<String, String> getActionAttributes();
+
+    public void setActionAttributes(Map<String, String> actionAttributes);
 }

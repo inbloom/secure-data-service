@@ -203,12 +203,17 @@ Given /^I check for the file "(.*?)" every "(.*?)" seconds for "(.*?)" seconds$/
   total = Integer(arg3)
   until ((waited > total) || result)
     # todo: what doesn't this 'puts' flush??
-    puts "checking for file " + target.to_s + " waited " + waited.to_s
+    STDOUT.puts "checking for file " + target.to_s + " waited " + waited.to_s
     result = lzContainsFile(target, @landing_zone_path, @lz_url, @lz_username, @lz_password, @lz_port_number)
     sleep checkInterval
     waited += checkInterval
   end
   assert (waited < total)
+end
+
+Then /^the "(.*?)" should be ingested with the correct number of records$/ do |dataSet|
+   correct_count = getCorrectCountForDataset(dataSet)
+   step "the landing zone should contain a file with the message \"Processed #{correct_count} records\""
 end
 
 Then /^the landing zone should contain a file with the message "(.*?)"$/ do |arg1|

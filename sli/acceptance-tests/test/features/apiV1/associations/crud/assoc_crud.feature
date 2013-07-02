@@ -106,7 +106,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     Examples:
       | ASSOC TYPE                             | ASSOC URI                                | UPDATE FIELD             | OLD VALUE              | NEW VALUE              | USER       | PASSWORD    |
       # Staff - Rick Rogers
-      | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | beginDate                | 2011-01-13             | 2011-02-15             | rrogers    | rrogers1234 |
+      | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | staffClassification      | English Teacher        | Counselor              | rrogers    | rrogers1234 |
       | studentCohortAssociation               | studentCohortAssociations                | beginDate                | 2012-02-29             | 2011-12-01             | rrogers    | rrogers1234 |
       | teacherSchoolAssociation               | teacherSchoolAssociations                | programAssignment        | Special Education      | Regular Education      | rrogers    | rrogers1234 |
       # Teacher - Charles Gray (IT Admin)
@@ -131,13 +131,13 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | ASSOC TYPE                             | ASSOC URI                                | COUNT | REWRITE URI |
       | courseOffering                         | courseOfferings                          | 138   | "/search/courseOfferings" |
       | staffCohortAssociation                 | staffCohortAssociations                  | 2     | "/staff/@ids/staffCohortAssociations" |
-      | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | 1     | "/staff/@ids/staffEducationOrgAssignmentAssociations" |
+      | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | 2     | "/staff/@ids/staffEducationOrgAssignmentAssociations" |
       | staffProgramAssociation                | staffProgramAssociations                 | 3     | "/staff/@ids/staffProgramAssociations" |
       | studentAssessment           | studentAssessments                       | 0     | "/schools/@ids/studentSchoolAssociations/students/studentAssessments" |
-      | studentCohortAssociation               | studentCohortAssociations                | 6     | "/staff/@ids/staffCohortAssociations/cohorts/studentCohortAssociations" |
+      | studentCohortAssociation               | studentCohortAssociations                | 4     | "/staff/@ids/staffCohortAssociations/cohorts/studentCohortAssociations" |
       | studentDisciplineIncidentAssociation   | studentDisciplineIncidentAssociations    | 0     | "/staff/@ids/disciplineIncidents/studentDisciplineIncidentAssociations" |
       | studentParentAssociation               | studentParentAssociations                | 0     | "/schools/@ids/studentSchoolAssociations/students/studentParentAssociations" |
-      | studentProgramAssociation              | studentProgramAssociations               | 10    | "/staff/@ids/staffProgramAssociations/programs/studentProgramAssociations" |
+      | studentProgramAssociation              | studentProgramAssociations               | 6     | "/staff/@ids/staffProgramAssociations/programs/studentProgramAssociations" |
       | studentSchoolAssociation               | studentSchoolAssociations                | 0     | "/schools/@ids/studentSchoolAssociations" |
       | studentSectionAssociation              | studentSectionAssociations               | 0     | "/schools/@ids/sections/studentSectionAssociations" |
       | courseTranscript                       | courseTranscripts                        | 0     | "/schools/@ids/studentSchoolAssociations/students/studentAcademicRecords/courseTranscripts" |
@@ -195,6 +195,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       Then I should receive a return code of 404
       # Update by setting end points to invalid references
       When I navigate to GET "/<ASSOC URI>/<ASSOC ID FOR UPDATE>"
+      Then I should receive a return code of 200
       And I set the "<END POINT 1 FIELD>" to "<INVALID REFERENCE>"
       And I navigate to PUT "/<ASSOC URI>/<ASSOC ID FOR UPDATE>"
       Then I should receive a return code of 403
@@ -272,8 +273,8 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | studentDisciplineIncidentAssociation   | studentDisciplineIncidentAssociations    | <0fb8e0b4-8f84-48a4-b3f0-9ba7b0513dba_id0e26de6c-225b-9f67-9625-5113ad50a03b_id>    | studentParticipationCode | Witness                | studentId             | disciplineIncidentId           | <737dd4c1-86bd-4892-b9e0-0f24f76210be_id>    | <0e26de79-22aa-5d67-9201-5113ad50a03b>    | IL-DAYBREAK   | IL-DAYBREAK                |
       | studentParentAssociation               | studentParentAssociations                | <5738d251-dd0b-4734-9ea6-417ac9320a15_idc5aa1969-492a-5150-8479-71bfc4d57f1e_id>    | livesWith                | false                  | studentId             | parentId                       | <737dd4c1-86bd-4892-b9e0-0f24f76210be_id>    | <cb7a932f-2d44-800c-cd5a-cdb25a29fc75>    | IL-DAYBREAK   | IL-DAYBREAK                |
       | studentProgramAssociation              | studentProgramAssociations               | <9b8cafdc-8fd5-11e1-86ec-0021701f543f_idb3f68907-8fd5-11e1-86ec-0021701f543f_id>    | reasonExited             | Expulsion              | studentId             | programId                      | <737dd4c1-86bd-4892-b9e0-0f24f76210be_id>    | <9e909dfc-ba61-406d-bbb4-c953e8946f8b_id> | IL-DAYBREAK   | Sunset Central High School |
-      #| studentSchoolAssociation               | studentSchoolAssociations                | <e7e0e926-874e-4d05-9177-9776d44c5fb5>                                              | entryGradeLevel          | Third grade            | studentId             | schoolId                       | <737dd4c1-86bd-4892-b9e0-0f24f76210be_id>    | <0f464187-30ff-4e61-a0dd-74f45e5c7a9d>    | IL-DAYBREAK   | Sunset Central High School |
-      #| studentSectionAssociation              | studentSectionAssociations               | <8ed12459-eae5-49bc-8b6b-6ebe1a56384f_id4ae72560-3518-4576-a35e-a9607668c9ad_id>    | homeroomIndicator        | false                  | studentId             | sectionId                      | <737dd4c1-86bd-4892-b9e0-0f24f76210be_id>    | <a47eb9aa-1c97-4c8e-9d0a-45689a66d4f8_id> | IL-DAYBREAK   | IL-DAYBREAK                |
-      #| courseTranscript                       | courseTranscripts                        | <f11a2a30-d4fd-4400-ae18-353c00d581a2>                                              | finalLetterGradeEarned   | B                      | studentId             | courseId                       | <737dd4c1-86bd-4892-b9e0-0f24f76210be_id>    | <e31f7583-417e-4c42-bd55-0bbe7518edf8>    | IL-DAYBREAK   | Sunset Central High School |
+      | studentSchoolAssociation               | studentSchoolAssociations                | <e7e0e926-874e-4d05-9177-9776d44c5fb5>                                              | entryGradeLevel          | Third grade            | studentId             | schoolId                       | <737dd4c1-86bd-4892-b9e0-0f24f76210be_id>    | <0f464187-30ff-4e61-a0dd-74f45e5c7a9d>    | IL-DAYBREAK   | Sunset Central High School |
+      | studentSectionAssociation              | studentSectionAssociations               | <8ed12459-eae5-49bc-8b6b-6ebe1a56384f_id4ae72560-3518-4576-a35e-a9607668c9ad_id>    | homeroomIndicator        | false                  | studentId             | sectionId                      | <737dd4c1-86bd-4892-b9e0-0f24f76210be_id>    | <a47eb9aa-1c97-4c8e-9d0a-45689a66d4f8_id> | IL-DAYBREAK   | IL-DAYBREAK                |
+      | courseTranscript                       | courseTranscripts                        | <f11a2a30-d4fd-4400-ae18-353c00d581a2>                                              | finalLetterGradeEarned   | B                      | studentId             | courseId                       | <737dd4c1-86bd-4892-b9e0-0f24f76210be_id>    | <e31f7583-417e-4c42-bd55-0bbe7518edf8>    | IL-DAYBREAK   | Sunset Central High School |
       | teacherSectionAssociation              | teacherSectionAssociations               | <15ab6363-5509-470c-8b59-4f289c224107_id32b86a2a-e55c-4689-aedf-4b676f3da3fc_id>    | classroomPosition        | Assistant Teacher      | teacherId             | sectionId                      | <04f708bc-928b-420d-a440-f1592a5d1073>       | <a47eb9aa-1c97-4c8e-9d0a-45689a66d4f8_id> | IL-DAYBREAK   | IL-DAYBREAK                |
       

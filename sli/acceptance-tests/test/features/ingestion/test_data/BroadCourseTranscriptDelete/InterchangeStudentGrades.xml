@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<InterchangeStudentGrade xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentGrade.xsd">
+  <Action ActionType="DELETE" Cascade="true">  
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsAttempted CreditConversion="1" CreditType="Carnegie unit">
+        <Credit>3</Credit>
+      </CreditsAttempted>
+      <CreditsEarned>
+        <Credit>3</Credit>
+      </CreditsEarned>
+      <AdditionalCreditsEarned AdditionalCreditType="AP"> 
+        <Credit>0</Credit>
+      </AdditionalCreditsEarned>
+      <GradeLevelWhenTaken>Ninth grade</GradeLevelWhenTaken>
+      <MethodCreditEarned>Classroom credit</MethodCreditEarned>
+      <FinalLetterGradeEarned>C</FinalLetterGradeEarned>
+      <FinalNumericGradeEarned>74</FinalNumericGradeEarned>
+      <CourseRepeatCode>RepeatCounted</CourseRepeatCode>
+      <CourseReference>
+        <CourseIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+              <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+          <UniqueCourseId>455</UniqueCourseId>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference>
+        <StudentAcademicRecordIdentity>
+          <StudentReference>
+            <StudentIdentity>
+              <StudentUniqueStateId>1</StudentUniqueStateId>
+            </StudentIdentity>
+          </StudentReference>
+          <SessionReference>
+            <SessionIdentity>
+              <EducationalOrgReference>
+                <EducationalOrgIdentity>
+                  <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+                </EducationalOrgIdentity>
+              </EducationalOrgReference>
+              <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+            </SessionIdentity>
+          </SessionReference>
+          <SchoolYear>2001-2002</SchoolYear>
+        </StudentAcademicRecordIdentity>
+      </StudentAcademicRecordReference>
+    </CourseTranscript>
+  </Action>  
+</InterchangeStudentGrade>

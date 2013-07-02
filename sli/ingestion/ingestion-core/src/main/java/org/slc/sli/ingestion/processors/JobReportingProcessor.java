@@ -16,16 +16,10 @@
 
 package org.slc.sli.ingestion.processors;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.nio.channels.FileChannel;
-import java.nio.channels.FileLock;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -58,7 +52,6 @@ import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.WorkNote;
-import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -95,9 +88,6 @@ public class JobReportingProcessor implements Processor {
     public static final String ERROR_FILE_TYPE = "error";
     public static final String WARNING_FILE_TYPE = "warn";
 
-    @Value("${sli.ingestion.staging.clearOnCompletion}")
-    private String clearOnCompletion;
-
     @Value("${sli.ingestion.topic.command}")
     private String commandTopicUri;
 
@@ -106,9 +96,6 @@ public class JobReportingProcessor implements Processor {
 
     @Autowired
     private BatchJobDAO batchJobDAO;
-
-    @Autowired
-    private NeutralRecordMongoAccess neutralRecordMongoAccess;
 
     @Value("${sli.ingestion.errorsCountPerInterchange}")
     private int errorsCountPerInterchange;
@@ -210,14 +197,10 @@ public class JobReportingProcessor implements Processor {
     private void writeBatchJobReportFile(Exchange exchange, NewBatchJob job, boolean hasErrors) {
 
         PrintWriter jobReportWriter = null;
-        FileLock lock = null;
-        FileChannel channel = null;
         try {
             File file = getLogFile(job);
-            FileOutputStream outputStream = new FileOutputStream(file);
-            channel = outputStream.getChannel();
-            lock = channel.lock();
-            jobReportWriter = new PrintWriter(outputStream, true);
+            BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(file), 65536);
+            jobReportWriter = new PrintWriter(outputStream);
 
             writeInfoLine(job, jobReportWriter, "jobId: " + job.getId());
 
@@ -247,7 +230,7 @@ public class JobReportingProcessor implements Processor {
         } catch (IOException e) {
             LOG.error("Unable to write report file for: {}", job.getId());
         } finally {
-            cleanupWriterAndLocks(jobReportWriter, lock, channel);
+            cleanupWriter(jobReportWriter);
         }
     }
 
@@ -291,7 +274,7 @@ public class JobReportingProcessor implements Processor {
             } catch (IOException e) {
                 LOG.error("Unable to write error file for: {}", job.getId(), e);
             } finally {
-                IOUtils.closeQuietly(errorWriter);
+                cleanupWriter(errorWriter);
             }
             return true;
         }
@@ -307,7 +290,7 @@ public class JobReportingProcessor implements Processor {
             errorFileName = type + "." + resource.getResourceId() + "-" + job.getId() + ".log";
         }
 
-        return new PrintWriter(new FileWriter(createFile(job, errorFileName)));
+        return new PrintWriter(new BufferedOutputStream(new FileOutputStream(createFile(job, errorFileName)), 65536));
     }
 
     /**
@@ -409,7 +392,11 @@ public class JobReportingProcessor implements Processor {
                     temp.setRecordCount(combinedMetricsMap.get(m.getResourceId()).getRecordCount());
                     temp.setErrorCount(combinedMetricsMap.get(m.getResourceId()).getErrorCount());
                     temp.setValidationErrorCount(combinedMetricsMap.get(m.getResourceId()).getValidationErrorCount());
+                    temp.setDeletedCount(combinedMetricsMap.get(m.getResourceId()).getDeletedCount());
+                    temp.setDeletedChildCount(combinedMetricsMap.get(m.getResourceId()).getDeletedChildCount());
 
+                    temp.setDeletedChildCount(temp.getDeletedChildCount() + m.getDeletedChildCount());
+                    temp.setDeletedCount(temp.getDeletedCount() + m.getDeletedCount());
                     temp.setErrorCount(temp.getErrorCount() + m.getErrorCount());
                     temp.setRecordCount(temp.getRecordCount() + m.getRecordCount());
                     temp.setValidationErrorCount(temp.getValidationErrorCount() + m.getValidationErrorCount());
@@ -418,7 +405,7 @@ public class JobReportingProcessor implements Processor {
 
                 } else {
                     // adding metrics to the map
-                    Metrics aggregatedMetrics = new Metrics(m.getResourceId(), m.getRecordCount(), m.getErrorCount());
+                    Metrics aggregatedMetrics = new Metrics(m.getResourceId(), m.getRecordCount(), m.getErrorCount(), m.getDeletedCount(), m.getDeletedChildCount());
                     aggregatedMetrics.setValidationErrorCount(m.getValidationErrorCount());
                     combinedMetricsMap.put(m.getResourceId(), aggregatedMetrics);
                 }
@@ -436,7 +423,8 @@ public class JobReportingProcessor implements Processor {
                 continue;
             }
 
-            logResourceMetric(job, resourceEntry, metric.getRecordCount(), metric.getErrorCount(), metric.getValidationErrorCount(),jobReportWriter);
+            logResourceMetric(job, resourceEntry, metric.getRecordCount(), metric.getErrorCount(), metric.getValidationErrorCount(),
+                    metric.getDeletedCount(), metric.getDeletedChildCount(), jobReportWriter);
 
             totalProcessed += metric.getRecordCount();
             totalProcessed += metric.getValidationErrorCount();
@@ -458,22 +446,26 @@ public class JobReportingProcessor implements Processor {
         for (ResourceEntry resourceEntry : job.getResourceEntries()) {
             if (resourceEntry.getResourceFormat() != null
                     && resourceEntry.getResourceFormat().equalsIgnoreCase(FileFormat.EDFI_XML.getCode())
-                    && resourceEntry.getRecordCount() == 0 && resourceEntry.getErrorCount() == 0) {
-                logResourceMetric(job, resourceEntry, 0, 0, 0, jobReportWriter);
+                    && resourceEntry.getRecordCount() == 0 && resourceEntry.getErrorCount() == 0 && resourceEntry.getValidationErrorCount() == 0) {
+                logResourceMetric(job, resourceEntry, 0, 0, 0, 0, 0, jobReportWriter);
             }
         }
     }
 
-    private void logResourceMetric(NewBatchJob job, ResourceEntry resourceEntry, long numProcessed, long numFailed,
-            long numFailedValidation, PrintWriter jobReportWriter) {
+    private void logResourceMetric(NewBatchJob job, ResourceEntry resourceEntry, long numProcessed, long numFailed, long numFailedValidation,
+            long numDeleted, long numDeletedChild, PrintWriter jobReportWriter) {
+
         String id = "[file] " + resourceEntry.getExternallyUploadedResourceId();
         writeInfoLine(job, jobReportWriter,
                 id + " (" + resourceEntry.getResourceFormat() + "/" + resourceEntry.getResourceType() + ")");
 
-        long numPassed = numProcessed - numFailed;
+        long numPassed = numProcessed - numFailed - numDeleted;
 
         writeInfoLine(job, jobReportWriter, id + " records considered for processing: " + numProcessed);
         writeInfoLine(job, jobReportWriter, id + " records ingested successfully: " + numPassed);
+        writeInfoLine(job, jobReportWriter, id + " records deleted successfully: " + numDeleted);
+        // TODO uncomment if/when cascade deletes are supported
+//        writeInfoLine(job, jobReportWriter, id + " child records deleted successfully: " + numDeletedChild);
         writeInfoLine(job, jobReportWriter, id + " records failed processing: " + numFailed);
         writeInfoLine(job, jobReportWriter, id + " records not considered for processing: " + numFailedValidation);
     }
@@ -497,23 +489,10 @@ public class JobReportingProcessor implements Processor {
         jobReportWriter.println();
     }
 
-    private void cleanupWriterAndLocks(PrintWriter jobReportWriter, FileLock lock, FileChannel channel) {
-        if (jobReportWriter != null) {
-            jobReportWriter.close();
-        }
-        if (lock != null && lock.isValid()) {
-            try {
-                lock.release();
-            } catch (IOException e) {
-                LOG.error("unable to release FileLock.", e);
-            }
-        }
-        if (channel != null) {
-            try {
-                channel.close();
-            } catch (IOException e) {
-                LOG.error("unable to close FileChannel.", e);
-            }
+    private void cleanupWriter(PrintWriter reportWriter) {
+        if (reportWriter != null) {
+            reportWriter.flush();
+            reportWriter.close();
         }
     }
 
@@ -521,12 +500,9 @@ public class JobReportingProcessor implements Processor {
         if (job != null) {
             BatchJobUtils.completeStageAndJob(stage, job);
             batchJobDAO.saveBatchJob(job);
-            batchJobDAO.cleanUpWorkNoteLatchAndStagedEntites(job.getId());
             broadcastFlushStats(exchange, workNote);
             cleanUpLZ(job);
         }
-
-        cleanupStagingDatabase(workNote);
 
         TenantContext.setJobId(null);
     }
@@ -570,18 +546,6 @@ public class JobReportingProcessor implements Processor {
         event.setRoles(userRoles);
         event.setLogMessage(message);
         audit(event);
-    }
-
-    private void cleanupStagingDatabase(WorkNote workNote) {
-        if ("true".equals(clearOnCompletion)) {
-
-            neutralRecordMongoAccess.cleanupJob(workNote.getBatchJobId());
-
-            LOG.info("Successfully deleted all staged records for batch job: {}", workNote.getBatchJobId());
-        } else {
-            LOG.info("Not deleting staged records for batch job: {} --> clear on completion flag is set to FALSE",
-                    workNote.getBatchJobId());
-        }
     }
 
     /**

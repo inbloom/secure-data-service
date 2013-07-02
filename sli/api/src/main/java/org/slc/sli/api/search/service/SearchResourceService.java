@@ -52,8 +52,6 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpStatusCodeException;
 
 import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.criteriaGenerator.GranularAccessFilter;
 import org.slc.sli.api.criteriaGenerator.GranularAccessFilterProvider;
 import org.slc.sli.api.representation.EntityBody;
@@ -69,10 +67,12 @@ import org.slc.sli.api.security.context.validator.IContextValidator;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.service.query.ApiQuery;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-
 /**
  * Service class to handle all API search requests. Retrieves results using data
  * access classes. Queries and filters results based on the user's security
@@ -179,6 +179,9 @@ public class SearchResourceService {
         NeutralCriteria criteria = null;
         // got through each type and execute list() for the list of ids provided
         // by search
+
+        toSubDocCompatible(query, EmbeddedDocumentRelations.getSubDocuments());
+
         for (String type : entityMap.rowKeySet()) {
             if (criteria != null) {
                 query.removeCriteria(criteria);
@@ -189,6 +192,28 @@ public class SearchResourceService {
             Iterables.addAll(fullEntities, resourceHelper.getEntityDefinitionByType(type).getService().list(query));
         }
         return fullEntities;
+    }
+
+    private void toSubDocCompatible(NeutralQuery query, Set<String> subdocs) {
+        List<NeutralCriteria> newCriteria = new ArrayList<NeutralCriteria>();
+        for (NeutralCriteria criteria : query.getCriteria()) {
+            String key = criteria.getKey().split("\\.")[0];
+            if (invalidCriteria(key)) {
+                continue;
+            }
+            if (subdocs.contains(key)) {
+                criteria.setCanBePrefixed(false);
+                criteria.setKey(key+".body"+criteria.getKey().substring(key.length()));
+            }
+            newCriteria.add(criteria);
+        }
+        query.setQueryCriteria(newCriteria);
+    }
+
+    private boolean invalidCriteria(String key) {
+        //assessmentPeriodDescriptor and assessmentFamilyHierarchyName is no longer in assessment,
+        //can't query on those two fields anymore, they will not yield correct result
+        return "assessmentPeriodDescriptor".equals(key) || "assessmentFamilyHierarchyName".equals(key);
     }
 
     /**
@@ -453,12 +478,33 @@ public class SearchResourceService {
 
         // filter rule:
         // first, token must be at least 1 tokens
-        String[] tokens = queryString.split("\\s+");
-        if (tokens == null || tokens.length < 1 || queryString.length() < 1) {
-            throw new HttpClientErrorException(HttpStatus.REQUEST_ENTITY_TOO_LARGE);
+
+        // if double-quotes string has been passed, we want to search exactly as-is
+
+        NeutralCriteria.SearchType qType = criteria.getType();
+
+        if (queryString.startsWith("\"") && queryString.endsWith("\"")) {
+            qType = NeutralCriteria.SearchType.EXACT;
+            queryString = queryString.replaceAll("\"", "");
         }
-        // append wildcard '*' to each token
-        criteria.setValue(StringUtils.join(tokens, "* ") + "*");
+
+        if (queryString.matches(".*\\d.*")) {
+            qType = (qType == NeutralCriteria.SearchType.EXACT) ? NeutralCriteria.SearchType.EXACT_NUMERIC
+                    : NeutralCriteria.SearchType.NUMERIC;
+        }
+
+        String useValue = queryString;
+        if (qType != NeutralCriteria.SearchType.EXACT && qType != NeutralCriteria.SearchType.EXACT_NUMERIC) {
+            String[] tokens = queryString.split("\\s+");
+            if (tokens == null || tokens.length < 1 || queryString.length() < 1) {
+                throw new HttpClientErrorException(HttpStatus.REQUEST_ENTITY_TOO_LARGE);
+            }
+            // append wildcard '*' to each token
+            useValue = StringUtils.join(tokens, "* ");
+        }
+
+        criteria.setValue(useValue + "*");
+        criteria.setType( qType );
     }
 
     /**

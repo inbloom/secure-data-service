@@ -41,4 +41,6 @@ class AttendanceEventCategory
   AttendanceEventCategory.define :PRESENT, "In Attendance"
   AttendanceEventCategory.define :TARDY, "Tardy"
   AttendanceEventCategory.define :UNEXCUSED_ABSENCE, "Unexcused Absence"
+  AttendanceEventCategory.define :IN_SCHOOL_SUSPENSION, "In-School Suspension"
+  AttendanceEventCategory.define :OUT_OF_SCHOOL_SUSPENSION, "Out-of-School Suspension"
 end

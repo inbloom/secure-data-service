@@ -21,7 +21,7 @@ import java.util.Set;
 
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.common.constants.EntityNames;
 
 /**
  * Validates the context of a user to see the requested set of education organizations. Returns
@@ -32,7 +32,14 @@ public class GenericToEdOrgValidator extends AbstractContextValidator {
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return EntityNames.SCHOOL.equals(entityType) || EntityNames.EDUCATION_ORGANIZATION.equals(entityType);
+        if (EntityNames.SCHOOL.equals(entityType) || EntityNames.EDUCATION_ORGANIZATION.equals(entityType)) {
+            if (isStudent()) {
+                // only validates non-transitive url for students
+                return !isTransitive;
+            }
+            return true;
+        }
+        return false;
     }
 
     @Override

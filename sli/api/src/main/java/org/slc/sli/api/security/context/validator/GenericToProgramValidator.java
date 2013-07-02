@@ -19,47 +19,47 @@ package org.slc.sli.api.security.context.validator;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.constants.ParameterConstants;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.springframework.stereotype.Component;
 
 /**
  * Decides if given user has access to given program
  * 
- * This validator is used for both staff and teachers for access to student and
- * staff through a program
+ * This validator is used for both staff and teachers for access to student and staff through a program
  */
 @Component
 public class GenericToProgramValidator extends AbstractContextValidator {
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return EntityNames.PROGRAM.equals(entityType) && !isTransitive;
+        return !isStudent() && EntityNames.PROGRAM.equals(entityType) && !isTransitive;
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.PROGRAM, entityType, ids)) {
             return false;
         }
-        NeutralCriteria studentCriteria = new NeutralCriteria(ParameterConstants.STUDENT_RECORD_ACCESS,
-                NeutralCriteria.OPERATOR_EQUAL, true);
+        
+        NeutralQuery nq = new NeutralQuery(new NeutralCriteria("body.staffId", "=", SecurityUtil.getSLIPrincipal().getEntity().getEntityId(), false));
 
-        Set<String> programsToValidate = new HashSet<String>(ids);
+        if (SecurityUtil.getSLIPrincipal().isStudentAccessFlag()) {
+            nq.addCriteria(new NeutralCriteria(ParameterConstants.STUDENT_RECORD_ACCESS, NeutralCriteria.OPERATOR_EQUAL, true));
+        }
 
         // Fetch associations
-        NeutralQuery nq = new NeutralQuery(new NeutralCriteria("body.staffId", "=", SecurityUtil.getSLIPrincipal().getEntity().getEntityId(), false));
-        nq.addCriteria(studentCriteria);
         addEndDateToQuery(nq, false);
 
+        Set<String> programsToValidate = new HashSet<String>(ids);
         Iterable<Entity> assocs = getRepo().findAll(EntityNames.STAFF_PROGRAM_ASSOCIATION, nq);
         for (Entity assoc : assocs) {
-        	programsToValidate.remove((String) assoc.getBody().get("programId"));
+            programsToValidate.remove((String) assoc.getBody().get("programId"));
         }
 
         return programsToValidate.isEmpty();

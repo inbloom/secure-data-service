@@ -49,25 +49,25 @@ class LearningObjective < BaseEntity
   attr_accessor :objective            # maps to 'Objective'
 
   # optional fields
-  attr_accessor :learning_standard_id # maps to 'LearningObjectiveId'
-  attr_accessor :description          # maps to 'Description'
-  attr_accessor :learning_standards   # maps to 'LearningStandardReference'
-  attr_accessor :learning_objectives  # maps to 'LearningObjectiveReference'
+  attr_accessor :learning_objective_id # maps to 'LearningObjectiveId'
+  attr_accessor :description           # maps to 'Description'
+  attr_accessor :learning_standards    # maps to 'LearningStandardReference'
+  attr_accessor :learning_objectives   # maps to 'LearningObjectiveReference'
 
   # additional fields needed
   attr_accessor :subject
   attr_accessor :grade
 
-  def initialize(objective, subject, grade, learning_standards = [], learning_objectives = [])
-    @rand                  = Random.new((objective + AcademicSubjectType.to_string(subject) + GradeLevelType.to_string(grade)).size)
-    @objective             = objective
-    @subject               = subject
-    @grade                 = grade
+  def initialize(objective, subject, grade)
+    @rand = Random.new((objective + AcademicSubjectType.to_string(subject) + GradeLevelType.to_string(grade)).size)
+    @objective = objective
+    @subject = subject
+    @grade = grade
+    @learning_standards  = LearningStandard.learning_standard_ids((@@scenario["NUM_LEARNING_STANDARDS_PER_SUBJECT_AND_GRADE"] or 0), subject, grade)
+    @learning_objective_id = objective
 
     optional { @description          = "#{objective} for grade: #{objective_grade_level} in subject: #{academic_subject}" }
-    optional { @learning_standard_id = learning_standards.first['id'] unless learning_standards.empty? }
     optional { @learning_standards   = learning_standards }
-    optional { @learning_objectives  = learning_objectives }
   end
 
   # maps to required field 'AcademicSubject'

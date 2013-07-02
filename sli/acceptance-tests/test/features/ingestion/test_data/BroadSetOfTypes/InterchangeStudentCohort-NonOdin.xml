@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<InterchangeStudentCohort xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+  xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentCohort.xsd">
+  <Cohort>
+    <CohortIdentifier>NonOdin-1</CohortIdentifier>
+    <CohortDescription>NonOdin-Cohort 1 at Edorg South Daybreak Elementary</CohortDescription>
+    <CohortType>Extracurricular Activity</CohortType>
+    <CohortScope>School</CohortScope>
+    <AcademicSubject>ELA</AcademicSubject>
+    <EducationOrgReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>NonOdin-South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrgReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>6</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+  </Cohort>
+  <StaffCohortAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>tech-0000000012</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <CohortReference>
+      <CohortIdentity>
+        <CohortIdentifier>2</CohortIdentifier>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+              <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+      </CohortIdentity>
+    </CohortReference>
+    <BeginDate>2001-08-30</BeginDate>
+    <EndDate>2002-08-30</EndDate>
+    <StudentRecordAccess>true</StudentRecordAccess>
+  </StaffCohortAssociation>
+</InterchangeStudentCohort>

@@ -23,6 +23,9 @@ import static org.mockito.Mockito.times;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.URI;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -32,9 +35,14 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Matchers;
 import org.mockito.Mockito;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.test.context.ContextConfiguration;
@@ -46,6 +54,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import org.slc.sli.api.security.SecurityEventBuilder;
+import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.common.util.logging.SecurityEvent;
 
@@ -61,6 +70,8 @@ public class SamlFederationResourceTest {
 
     @Autowired
     SamlFederationResource resource;
+
+    public static SimpleDateFormat ft = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss aa");
 
     @Test
     public void getMetadataTest() {

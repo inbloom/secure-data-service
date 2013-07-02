@@ -15,16 +15,18 @@
  */
 package org.slc.sli.api.migration.strategy.impl;
 
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.common.migration.strategy.MigrationException;
-import org.slc.sli.common.migration.strategy.MigrationStrategy;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.common.migration.strategy.MigrationException;
+import org.slc.sli.common.migration.strategy.MigrationStrategy;
+import org.slc.sli.common.migration.strategy.impl.AttendanceStrategyHelper;
 
 /**
  * Represents a strategy that converts between different attendance representations
@@ -102,25 +104,9 @@ public class AttendanceStrategy implements MigrationStrategy<EntityBody> {
 
     @SuppressWarnings("unchecked")
     private List<EntityBody> wrap(EntityBody entityBody) {
+        EntityBody body = new EntityBody(AttendanceStrategyHelper.wrap(entityBody));
+
         List<EntityBody> entityBodies = new ArrayList<EntityBody>();
-
-        EntityBody body = new EntityBody(entityBody);
-        final List<EntityBody> attendanceEvents = (List<EntityBody>) body.get(ATTENDANCE_EVENT);
-        final String schoolYear = (String) body.get(SCHOOL_YEAR);
-
-        List<EntityBody> schoolYearAttendances = new ArrayList<EntityBody>();
-        EntityBody schoolYearAttendance = new EntityBody() {{
-            put(SCHOOL_YEAR, schoolYear);
-            if (attendanceEvents != null) {
-                put(ATTENDANCE_EVENT, attendanceEvents);
-            }
-        }};
-        schoolYearAttendances.add(schoolYearAttendance);
-
-        body.put(SCHOOL_YEAR_ATTENDANCE, schoolYearAttendances);
-        body.remove(SCHOOL_YEAR);
-        body.remove(ATTENDANCE_EVENT);
-
         entityBodies.add(body);
         return entityBodies;
     }

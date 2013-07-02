@@ -22,6 +22,9 @@ require 'json'
 require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
 
+require_relative '../../bulk_extract/features/step_definitions/bulk_extract_api_steps.rb'
+require_relative '../../apiV1/long_lived_session/step_definitions/token_generator_steps.rb'
+
 Transform /rights "(.*?)"/ do |arg1|
   # Default rights for SLI Default roles  
   rights = ["READ_GENERAL", "AGGREGATE_READ", "READ_PUBLIC"] if arg1 == "Educator"
@@ -37,7 +40,8 @@ Transform /rights "(.*?)"/ do |arg1|
   rights = ["READ_GENERAL", "READ_PUBLIC", "READ_AGGREGATE"] if arg1 == "Read General Public and Aggregate"
   rights = ["READ_RESTRICTED", "WRITE_GENERAL", "WRITE_RESTRICTED"] if arg1 == "Read Restricted, Write Restricted and Write General"
   rights = ["READ_GENERAL", "READ_RESTRICTED", "WRITE_GENERAL", "WRITE_RESTRICTED"] if arg1 == "Read General, Read Restricted, Write Restricted and Write General"
-
+  rights = ["READ_GENERAL", "WRITE_GENERAL", "WRITE_PUBLIC", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "BULK_EXTRACT"] if arg1 == "Bulk IT Administrator"
+  rights = ["BULK_EXTRACT"] if arg1 == "BULK_EXTRACT"
   rights = [] if arg1 == "none"
   rights
 end
@@ -49,6 +53,7 @@ Transform /roles "(.*?)"/ do |arg1|
   roles = ["Aggregate Viewer"] if arg1 == "Aggregate Viewer"
   roles = ["IT Administrator"] if arg1 == "IT Administrator"
   roles = ["Dummy"] if arg1 == "New Custom"
+  roles = ["Educator", "Teacher"] if arg1 == "Educator,Teacher"
   roles = [] if arg1 == "none"
   roles
 end
@@ -58,6 +63,10 @@ Transform /staff "(.*?)"/ do |user|
   result = "teachers/e9ca4497-e1e5-4fc4-ac7b-24badbad998b" if user == "stweed"
   result = "staff/527406fd-0f6c-43b7-9dab-fab504c87c7f" if user == "jvasquez"
   result
+end
+
+Then /^I should not see right "(.*?)" on any existing role$/ do |arg1|
+  assert(@driver.page_source.index(arg1) == nil, "ALL YOUR RITE ARE BELONG TO BALROG")
 end
 
 When /^I navigate to the Custom Role Mapping Page$/ do
@@ -107,13 +116,21 @@ Then /^the group "([^"]*)" contains the (roles "[^"]*")$/ do |title, roles|
   end
 end
 
-Then /^the group "([^"]*)" contains the "([^"]*)" (rights "[^"]*")$/ do |title,  css_class, rights|
+Then /^the group "([^"]*)" contains ([^"]*) roles$/ do |title, totalRoles|
   group = @driver.find_element(:xpath, "//div[text()='#{title}']/../..")
+  assertWithWait("Expected #{totalRoles} roles, but saw #{group.find_elements(:class, "role").size} in group #{title}") {group.find_elements(:class, "role").size == totalRoles.to_i}
+end
 
-  assertWithWait("Expected #{rights.size} roles, but saw #{group.find_elements(:class, css_class).size} in group #{title}") {group.find_elements(:class, css_class).size == rights.size}
-  puts "Group is currently #{group}"
-  rights.each do |right|
-    group.find_elements(:xpath, "//span[text()='#{right}']")
+Then /^the group "([^"]*)" contains the "([^"]*)" (rights "[^"]*")$/ do |title,  css_class, rights|
+  retryOnFailure() do
+    group = @driver.find_element(:xpath, "//div[text()='#{title}']/../..")
+
+    assertWithWait("Expected #{rights.size} roles, but saw #{group.find_elements(:class, css_class).size} in group #{title}") {group.find_elements(:class, css_class).size == rights.size}
+    puts "Group is currently #{group}"
+    puts "Rights are currently #{group.find_elements(:class, css_class)}"
+    rights.each do |right|
+      group.find_elements(:xpath, "//span[text()='#{right}']")
+    end
   end
 end
 
@@ -168,12 +185,13 @@ When /^I remove the right "([^"]*)" from the group "([^"]*)"$/ do |arg1, arg2|
   group.find_element(:id, "DELETE_" + arg1).click
 end
 
-When /^I remove the role <Role> from the group <Group> that denies <User> access to the API$/ do |table|
+When /^I remove the role <Role> out of <TotalRoles> from the group <Group> that denies <User> access to the API$/ do |table|
   # table is a Cucumber::Ast::Table
   table.hashes.each do |hash|
     step "I edit the group #{hash["Group"]}"
     step "I remove the role #{hash["Role"]} from the group #{hash["Group"]}"
-    step "the group #{hash["Group"]} contains the roles #{hash["Group"]}"
+    sleep 1
+    step "the group #{hash["Group"]} contains #{hash["TotalRoles"]} roles"
     step "I hit the save button"
     step "I am no longer in edit mode"
     step "the user #{hash["User"]} in tenant \"IL\" can access the API with rights \"none\""
@@ -198,8 +216,10 @@ When /^I remove the role "([^"]*)" from the group "([^"]*)"$/ do |arg1, arg2|
 end
 
 When /^I edit the group "([^"]*)"$/ do |arg1|
-  row = @driver.find_element(:xpath, "//div[text()='#{arg1}']/../..")
-  row.find_element(:class, "rowEditToolEditButton").click
+  retryOnFailure() do
+    row = @driver.find_element(:xpath, "//div[text()='#{arg1}']/../..")
+    row.find_element(:class, "rowEditToolEditButton").click
+  end
 end
 
 When /^I remove the group "([^"]*)"$/ do |arg1|
@@ -211,8 +231,10 @@ end
 
 Then /^the group "([^"]*)" no longer appears on the page$/ do |arg1|
   lower_timeout_for_same_page_validation
-  groups = @driver.find_elements(:xpath, "//div[text()='#{arg1}']")
-  assert(groups.size == 0, "Found group named #{arg1} on page")
+  retryOnFailure() do
+    groups = @driver.find_elements(:xpath, "//div[text()='#{arg1}']")
+    assert(groups.size == 0, "Found group named #{arg1} on page")
+  end
   reset_timeouts_to_default
 end
 
@@ -265,10 +287,20 @@ Then /^the Leader, Educator, Aggregate Viewer and IT Administrator roles are now
   sleep 2
 
   # Seach for two occurances of each of the default roles as elements of <td>s, one being client role other being default role 
-  ["Educator","Leader","Aggregate Viewer","IT Administrator"].each do |role|
+  ["Educator","Leader","Aggregate Viewer","IT Administrator", "Student"].each do |role|
     results = @driver.find_elements(:xpath, "//td/div[text()='#{role}']")
     moreResults = @driver.find_elements(:xpath, "//td/div/span[text()='#{role}']")
     assert(results.size + moreResults.size == 2, webdriverDebugMessage(@driver,"Found unexpected occurences of role "+role+", expected 2 found "+results.size.to_s))
+  end
+end
+
+Then /^the Leader, Educator, Aggregate Viewer and IT Administrator role groups have the correct default role names$/ do
+  sleep 2
+  
+  ['Educator', 'Teacher', 'Leader', 'Principal', 'Superintendent', 'Aggregate Viewer', 'Specialist/Consultant',
+  'IT Administrator', 'School Administrative Support Staff', 'LEA System Administrator', 'LEA Administrator'].each do |role|
+    results = @driver.find_elements(:xpath, "//td/div/span[text()='#{role}']")
+    assert(results.size ==1 , webdriverDebugMessage(@driver,"Found unexpected occurences of role "+role+", expected 1 found "+results.size.to_s))
   end
 end
 
@@ -327,7 +359,7 @@ Then /^the user "(.*?)" in tenant "(.*?)" can access the API with self (rights "
   checkRights(user, tenant, rights, true)
 end
 
-def checkRights(user, tenant, rights, isSelf) 
+def checkRights(user, tenant, rights, isSelf)
   for num in 0..5
     begin 
        sleep 1
@@ -358,7 +390,7 @@ def checkRights(user, tenant, rights, isSelf)
       end 
       #If we get this far the test probably succeeded
       break
-    rescue => e
+    rescue MiniTest::Assertion, StandardError => e
       raise e if num == 5
     end
   end

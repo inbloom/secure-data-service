@@ -35,7 +35,7 @@ public class ValidationTestUtils {
 
     public static Entity makeDummyEntity(final String type, final String id) {
         return new Entity() {
-
+            Map<String, Object> body = new HashMap<String, Object>();
             @Override
             public String getType() {
                 return type;
@@ -53,7 +53,7 @@ public class ValidationTestUtils {
 
             @Override
             public Map<String, Object> getBody() {
-                return new HashMap<String, Object>();
+                return body;
             }
 
             @Override
@@ -79,6 +79,16 @@ public class ValidationTestUtils {
             @Override
             public String getStagedEntityId() {
                 return null;
+            }
+
+            @Override
+            public Map<String, List<Entity>> getContainerData() {
+                return null;
+            }
+
+            @Override
+            public void hollowOut() {
+                // override super implementation with empty implementation
             }
        };
     }

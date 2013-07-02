@@ -69,6 +69,7 @@ public class SmooksEdFi2SLITransformerTest {
     private static final String TENANT_ID_FIELD = "tenantId";
     private static final String EXTERNAL_ID_FIELD = "externalId";
     private static final String ASSESSMENT_TITLE = "assessmentTitle";
+    private static final String ASSESSMENT_FAMILY_ID = "AF-1";
 
     @Test
     public void testDirectMapping() {
@@ -85,6 +86,21 @@ public class SmooksEdFi2SLITransformerTest {
         Assert.assertEquals("Test String", result.get(0).getBody().get("field1"));
     }
 
+    @Test
+    public void testEncoding() {
+        NeutralRecord directlyMapped = new NeutralRecord();
+        directlyMapped.setRecordType("directEntity");
+        directlyMapped.setAttributeField("field2", "Test&String");
+        ReportStats reportStats = new SimpleReportStats();
+
+        List<? extends Entity> result = transformer.transform(directlyMapped,
+                new DummyMessageReport(), reportStats);
+
+        Assert.assertNotNull(result);
+        Assert.assertEquals(1, result.size());
+        Assert.assertEquals("Test&String", result.get(0).getBody().get("field1"));
+    }
+
     @SuppressWarnings("unchecked")
     @Test
     public void testAssessmentMapping() {
@@ -99,8 +115,8 @@ public class SmooksEdFi2SLITransformerTest {
         Assert.assertEquals(1, result.size());
 
         Assert.assertEquals("assessmentTitle", result.get(0).getBody().get("assessmentTitle"));
-        Assert.assertEquals("assessmentFamilyHierarchyName",
-                result.get(0).getBody().get("assessmentFamilyHierarchyName"));
+        Assert.assertEquals(ASSESSMENT_FAMILY_ID,
+                result.get(0).getBody().get("assessmentFamilyReference"));
 
         List<Map<String, Object>> assessmentIDCodeList = (List<Map<String, Object>>) result.get(0)
                 .getBody().get("assessmentIdentificationCode");
@@ -155,6 +171,47 @@ public class SmooksEdFi2SLITransformerTest {
         Assert.assertEquals("1999-01-01", result.get(0).getBody().get("revisionDate"));
         Assert.assertEquals(2400, result.get(0).getBody().get("maxRawScore"));
         Assert.assertEquals("nomenclature", result.get(0).getBody().get("nomenclature"));
+    }
+
+
+
+    @Test
+    public void testCourseTranscriptMapping() {
+        NeutralRecord transcript = createCourseTranscriptNeutralRecord(false);
+
+        ReportStats reportStats = new SimpleReportStats();
+
+        List<? extends Entity> result = transformer.transform(transcript, new DummyMessageReport(),
+                reportStats);
+
+        Assert.assertNotNull(result);
+        Assert.assertEquals(1, result.size());
+        Assert.assertFalse( transcript.getAttributes().containsKey( "GradeType"));
+
+        Assert.assertEquals("courseAttemptResult", result.get(0).getBody().get("courseAttemptResult"));
+        Assert.assertEquals("C", result.get(0).getBody().get("finalLetterGradeEarned"));
+        Assert.assertEquals("Final", result.get(0).getBody().get("gradeType"));
+        Assert.assertEquals("courseTranscript", result.get(0).getType());
+
+        NeutralRecord transcript1 = createCourseTranscriptNeutralRecord( true );
+
+        ReportStats reportStats1 = new SimpleReportStats();
+
+        result = transformer.transform(transcript1, new DummyMessageReport(),
+                reportStats1);
+
+        Assert.assertNotNull(result);
+        Assert.assertEquals(1, result.size());
+        Assert.assertTrue( transcript1.getAttributes().containsKey( "GradeType"));
+
+        Assert.assertEquals("courseAttemptResult", result.get(0).getBody().get("courseAttemptResult"));
+        Assert.assertEquals("C", result.get(0).getBody().get("finalLetterGradeEarned"));
+        Assert.assertEquals("GradeType", result.get(0).getBody().get("gradeType"));
+        Assert.assertEquals("courseTranscript", result.get(0).getType());
+
+
+
+
     }
 
     /**
@@ -227,8 +284,6 @@ public class SmooksEdFi2SLITransformerTest {
         Map<String, Object> assessmentTitle = new HashMap<String, Object>();
         assessmentTitle.put("_value", "assessmentTitle");
         assessment.setAttributeField("AssessmentTitle", assessmentTitle);
-        assessment.setAttributeField("assessmentFamilyHierarchyName",
-                "assessmentFamilyHierarchyName");
 
         List<Map<String, Object>> assessmentIdentificationCodeList = new ArrayList<Map<String, Object>>();
         Map<String, Object> assessmentIdentificationCode1 = new HashMap<String, Object>();
@@ -253,6 +308,8 @@ public class SmooksEdFi2SLITransformerTest {
         Map<String, Object> assessmentCategory = new HashMap<String, Object>();
         assessmentCategory.put("_value", "Achievement test");
         assessment.setAttributeField("AssessmentCategory", assessmentCategory);
+        assessment.setAttributeField("AssessmentFamilyReference", "AF-1");
+
         Map<String, Object> academicSubject = new HashMap<String, Object>();
         academicSubject.put("_value", "English");
         assessment.setAttributeField("AcademicSubject", academicSubject);
@@ -324,6 +381,41 @@ public class SmooksEdFi2SLITransformerTest {
     }
 
     /**
+     * @author
+     * @param
+     *
+     * @return neutral record
+     */
+    private NeutralRecord createCourseTranscriptNeutralRecord(boolean setGradeType) {
+        // Create neutral record for entity.
+        NeutralRecord courseTranscript = new NeutralRecord();
+
+
+        Map<String,Object>  body = new HashMap<String, Object>();
+        Map<String, Object> a1 = new HashMap<String, Object>();
+        a1.put("_value", "courseAttemptResult");
+        body.put( "CourseAttemptResult", a1);
+
+        Map<String, Object> a4 = new HashMap<String, Object>();
+        a4.put("_value", "C");
+        body.put( "FinalLetterGradeEarned", a4);
+
+
+        if( setGradeType ) {
+            Map<String, Object> a3 = new HashMap<String, Object>();
+            a3.put("_value", "GradeType");
+            body.put( "GradeType", a3);
+        }
+
+        courseTranscript.setAttributes( body);
+        courseTranscript.setRecordId( "1a-323-fg4");
+        courseTranscript.setSourceId(TENANT_ID);
+        courseTranscript.setRecordType("courseTranscript");
+
+
+        return courseTranscript;
+    }
+    /**
      * @author tke
      * @param setId
      *            :entityId will be set if it is true
@@ -340,6 +432,7 @@ public class SmooksEdFi2SLITransformerTest {
         field.put("studentUniqueStateId", STUDENT_ID);
         field.put("Sex", "Male");
         field.put("assessmentTitle", ASSESSMENT_TITLE);
+        field.put("assessmentFamilyReference", ASSESSMENT_FAMILY_ID);
 
         entity.setBody(field);
         entity.setMetaData(new HashMap<String, Object>());

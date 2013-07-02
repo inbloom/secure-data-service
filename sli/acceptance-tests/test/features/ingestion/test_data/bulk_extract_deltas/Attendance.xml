@@ -1,0 +1,128 @@
+<?xml version="1.0"?>
+<InterchangeStudentAttendance xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+                              xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentAttendance.xsd">
+  <!-- DAYBREAK -->
+  <!-- ID:  07185fb3e72af3e0c2f48cf64b474b1731c52b20_id -->
+  <AttendanceEvent>
+    <SchoolYear>2013-2014</SchoolYear>
+    <EventDate>2013-08-28</EventDate>
+    <AttendanceEventType>Daily Attendance</AttendanceEventType>
+    <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
+    <AttendanceEventReason>change_1</AttendanceEventReason>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>11</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2013-2014 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>2</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </AttendanceEvent>
+
+  <!-- HIGHWIND -->
+  <!-- ID:  aefc3c964b1caf4754c8792be9886edaa2f84d4c_id  -->
+  <AttendanceEvent>
+    <SchoolYear>2013-2014</SchoolYear>
+    <EventDate>2013-09-06</EventDate>
+    <AttendanceEventType>Daily Attendance</AttendanceEventType>
+    <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
+    <AttendanceEventReason>change_2</AttendanceEventReason>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>197</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Highwind Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Highwind Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2013-2014 Year Round session: IL-HIGHWIND</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Highwind Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>75</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </AttendanceEvent>
+
+
+  <!-- This should show up as a update, not a delete, since attendance events are rolled up -->
+  <Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="false">
+    <AttendanceEvent>
+      <SchoolYear>2013-2014</SchoolYear>
+      <EventDate>2013-09-09</EventDate>
+      <AttendanceEventType>Daily Attendance</AttendanceEventType>
+      <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
+      <AttendanceEventReason>Excused: sick</AttendanceEventReason>
+      <EducationalEnvironment>Classroom</EducationalEnvironment>
+      <StudentReference>
+        <StudentIdentity>
+          <StudentUniqueStateId>197</StudentUniqueStateId>
+        </StudentIdentity>
+      </StudentReference>
+      <SchoolReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>South Highwind Elementary</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </SchoolReference>
+      <SessionReference>
+        <SessionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+              <StateOrganizationId>South Highwind Elementary</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+          <SessionName>2013-2014 Year Round session: IL-HIGHWIND</SessionName>
+        </SessionIdentity>
+      </SessionReference>
+      <SectionReference>
+        <SectionIdentity>
+          <EducationalOrgReference>
+            <EducationalOrgIdentity>
+              <StateOrganizationId>South Highwind Elementary</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+          <UniqueSectionCode>75</UniqueSectionCode>
+        </SectionIdentity>
+      </SectionReference>
+    </AttendanceEvent>
+  </Action>
+</InterchangeStudentAttendance>

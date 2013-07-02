@@ -217,7 +217,9 @@ def clear_users
 end
 
 def assertText(text)
-  @explicitWait.until{@driver.find_element(:tag_name,"body")}
-  body = @driver.find_element(:tag_name, "body")
-  assert(body.text.include?(text), "Cannot find the text \"#{text}\"")
+  retryOnFailure() do
+    @explicitWait.until{@driver.find_element(:tag_name,"body")}
+    body = @driver.find_element(:tag_name, "body")
+    assert(body.text.include?(text), "Cannot find the text \"#{text}\"")
+  end
 end
