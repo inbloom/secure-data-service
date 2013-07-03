@@ -3083,7 +3083,107 @@ def get_post_body_by_entity_name(entity_name)
           "maxRawScore" => 10
         }
       }]
-    }
+    },
+    "cgray.parent" => {
+      "entityType" => "parent",
+      "parentUniqueStateId" => "cgray",
+      "loginId" => "cgray@bazinga.org",
+      "sex" => "Male",
+      "telephone" => [
+        {"primaryTelephoneNumberIndicator" => true,
+         "telephoneNumber" => "(666)555-1776",
+         "telephoneNumberType" => "Emergency 2"
+        },
+        {"primaryTelephoneNumberIndicator" => false,
+         "telephoneNumber" => "(666)555-1777",
+         "telephoneNumberType" => "Mobile"
+        }
+      ],
+      "address" => [{
+        "streetNumberName" => "256 Charles Gray Has His Own Street St.",
+        "postalCode" => "66666",
+        "stateAbbreviation" => "IL",
+        "addressType" => "Home",
+        "city" => "Chicago"
+      }],
+      "electronicMail" => [
+        {"emailAddress" => "9468@fakemail.com",
+         "emailAddressType" => "Home/Personal"
+        },
+        {"emailAddress" => "cgray@Midgar.edu",
+         "emailAddressType" => "Work"
+        }
+      ],
+      "name" => {
+       "middleName" => "Ivan",
+       "lastSurname" => "Gray",
+       "firstName" => "Charles"
+      },
+    },
+    "cgray.parent.notMe" => {
+      "entityType" => "parent",
+      "parentUniqueStateId" => "cgray",
+      "loginId" => "cgray@bazinga.org",
+      "sex" => "Male",
+      "telephone" => [
+        {"primaryTelephoneNumberIndicator" => true,
+         "telephoneNumber" => "(666)555-1776",
+         "telephoneNumberType" => "Emergency 2"
+        },
+        {"primaryTelephoneNumberIndicator" => false,
+         "telephoneNumber" => "(666)555-1777",
+         "telephoneNumberType" => "Mobile"
+        }
+      ],
+      "address" => [{
+        "streetNumberName" => "256 Charles Gray Has His Own Street St.",
+        "postalCode" => "66666",
+        "stateAbbreviation" => "IL",
+        "addressType" => "Home",
+        "city" => "Chicago"
+      }],
+      "electronicMail" => [
+        {"emailAddress" => "9468@fakemail.com",
+         "emailAddressType" => "Home/Personal"
+        },
+        {"emailAddress" => "cgray@Midgar.edu",
+         "emailAddressType" => "Work"
+        }
+      ],
+      "name" => {
+       "middleName" => "Ivan",
+       "lastSurname" => "Gray",
+       "firstName" => "Charles"
+      },
+    },
+    "cgray.studentParentAssociation.myClass" => {
+      "entityType" => "studentParentAssociation",
+      "parentId" => "1fe86fe9c45680234f1caa3b494a1c4b42838954_id",
+      "studentId" => "fdd8ee3ee44133f489e47d2cae109e886b041382_id",
+      "relation" => "Father",
+      "contactPriority" => 1
+    },
+    "cgray.studentParentAssociation.notMyKid" => {
+      "entityType" => "studentParentAssociation",
+      "parentId" => "1fe86fe9c45680234f1caa3b494a1c4b42838954_id",
+      "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+      "relation" => "Father",
+      "contactPriority" => 2
+    },
+    "cgray.studentParentAssociation.mySchool" => {
+      "entityType" => "studentParentAssociation",
+      "parentId" => "1fe86fe9c45680234f1caa3b494a1c4b42838954_id",
+      "studentId" => "6b41180a6ba41031f50f3b50c97ef5f9387666c3_id",
+      "relation" => "Father",
+      "contactPriority" => 3
+    },
+    "cgray.studentParentAssociation.newLea" => {
+      "entityType" => "studentParentAssociation",
+      "parentId" => "1fe86fe9c45680234f1caa3b494a1c4b42838954_id",
+      "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+      "relation" => "Father",
+      "contactPriority" => 1
+    },
   }
   return json_bodies_by_name[entity_name]
 end

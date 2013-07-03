@@ -3,7 +3,7 @@ Feature: Parent accessing fellow students
   As a student I want to access students in my current sections, programs, cohorts to lookup their names
 
 Scenario: Accessing Students via Multi-part URIs
-  Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "cegray" with password "cegray1234"
+  Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "cee.gray" with password "cee.gray1234"
   And format "application/json"
   And I am using api version "v1"
   When I navigate to GET "/v1/sections/88bb1ad61323121c4939db296f4d444094ad5563_id/studentSectionAssociations/students"
@@ -125,7 +125,7 @@ Scenario: Accessing Students via Multi-part URIs
 
 
 Scenario: Accessing other students directly
-  Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "cegray" with password "cegray1234"
+  Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "cee.gray" with password "cee.gray1234"
   And format "application/json"
   And I am using api version "v1"
   # Get student in current Section
@@ -276,7 +276,7 @@ Scenario: Accessing other students directly
       | endDate   |
 
   Scenario: Denying access to past associations
-  Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "cegray" with password "cegray1234"
+  Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "cee.gray" with password "cee.gray1234"
   And format "application/json"
   And I am using api version "v1"
   Then I validate that I am denied access to restricted endpoints via API:

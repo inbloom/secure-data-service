@@ -7,13 +7,13 @@ Feature: As a parent I want to use apps that access the inBloom API
 
   Scenario: As a parent, I want access to my data to use educational apps
   # Log in via simple-idp and authenticate student credentials
-    Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
+    Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "marsha.sollars" with password "marsha.sollars1234"
     And format "application/json"
     When I navigate to GET "/v1/home"
     Then I should validate all the HATEOS links
 
   Scenario: I check the response body fields of specific API endpoints
-    Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
+    Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "marsha.sollars" with password "marsha.sollars1234"
     And format "application/json"
     And I am using api version "v1"
     And I am accessing data about myself, "matt.sollars"
@@ -308,7 +308,7 @@ Feature: As a parent I want to use apps that access the inBloom API
 
   @parent_blacklist
   Scenario: Parent should NOT have access to certain fields in API entity response bodies
-    Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
+    Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "marsha.sollars" with password "marsha.sollars1234"
     And format "application/json"
     And I am using api version "v1"
     And I am accessing data about myself, "matt.sollars"
@@ -320,7 +320,7 @@ Feature: As a parent I want to use apps that access the inBloom API
 
   @parent_staff
   Scenario: Parent should see limited set of fields on staff related entities
-    Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
+    Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "marsha.sollars" with password "marsha.sollars1234"
     And format "application/json"
     And I am using api version "v1"
     # staff
@@ -418,7 +418,7 @@ Feature: As a parent I want to use apps that access the inBloom API
 
   @parent_parent
   Scenario: Parent can see all parent fields
-    Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
+    Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "marsha.sollars" with password "marsha.sollars1234"
     And format "application/json"
     And I am using api version "v1"
     And I am accessing data about myself, "matt.sollars"
@@ -447,7 +447,7 @@ Feature: As a parent I want to use apps that access the inBloom API
 
   @parent_parent
   Scenario: Parent can see all studentParentAssociations fields
-    Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
+    Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "marsha.sollars" with password "marsha.sollars1234"
     And format "application/json"
     And I am using api version "v1"
     And I am accessing data about myself, "matt.sollars"
