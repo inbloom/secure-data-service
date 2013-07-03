@@ -1,26 +1,20 @@
 package org.slc.sli.api.security.context.validator;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.annotation.Resource;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import javax.annotation.Resource;
+import java.util.*;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * 
@@ -91,10 +85,17 @@ public class TeacherToCohortValidatorTest {
 
 	@Test
 	public void testHeterogeneousList() {
-		List<String> descs = Arrays.asList("Just Cause", "Armaggedon", "Awareness", "Chaos Mastery", "Life Mastery", "Death and Decay", "Node Mastery", "Artificer", "Warlord", "Conjurer");
+		List<String> descs = Arrays.asList("Just Cause", "Armageddon", "Awareness", "Chaos Mastery", "Life Mastery", "Death and Decay", "Node Mastery", "Artificer", "Warlord", "Conjurer");
 
 		Set<String> cohortIds = new HashSet<String>();
 		List<String> successes = new ArrayList<String>();
+
+        cohortIds.add(this.generateCohort(USER_ID, "Artifacts Home World"));
+
+        String idPerm = this.generateCohortAndAssociate(USER_ID, "Large Home World");
+        cohortIds.add(idPerm);
+        successes.add(idPerm);
+
 		for (String desc : descs) {
 			if(Math.random()>0.5) {
 				cohortIds.add(this.generateCohort(USER_ID, desc));
