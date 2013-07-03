@@ -87,7 +87,7 @@ Scenario: SecurityEvent is logged when BE file is missing
 
 Scenario: Security Event is logged when access denied
   Given I trigger a bulk extract
-  And I the sli securityEvent collection is empty
+  And the sli securityEvent collection is empty
   And I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
   When I make a call to the bulk extract end point "/bulk/extract/LEA_DAYBREAK_ID" using the certificate for app "pavedz00ua"
   Then I get back a response code of "403"
