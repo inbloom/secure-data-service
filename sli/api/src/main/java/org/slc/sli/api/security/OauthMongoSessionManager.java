@@ -17,16 +17,7 @@
 package org.slc.sli.api.security;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,6 +25,7 @@ import javax.annotation.Resource;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -367,6 +359,12 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                             // -> if nil, set to staff
                             principal.setEntity(locator.locate(principal.getTenantId(), principal.getExternalId(),
                                     principal.getUserType()).getEntity());
+
+                            //  Fetch students for parent
+                            if(SecurityUtil.isParent()) {
+                                principal.populateChildren(repo);
+                            }
+
                             principal.setSessionId(sessionEntity.getEntityId());
                             Collection<GrantedAuthority> selfAuthorities = resolveAuthorities(principal.getTenantId(),
                                     principal.getRealm(), principal.getRoles(), principal.isAdminRealmAuthenticated(),

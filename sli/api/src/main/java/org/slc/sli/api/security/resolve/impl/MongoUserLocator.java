@@ -16,25 +16,20 @@
 
 package org.slc.sli.api.security.resolve.impl;
 
-import java.util.HashMap;
-import java.util.Set;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+import java.util.Set;
 
 /**
  * Attempts to locate a user in SLI mongo data-store
@@ -47,13 +42,12 @@ public class MongoUserLocator implements UserLocator {
     @Autowired
     @Qualifier("validationRepo")
     private Repository<Entity> repo;
-
     @Autowired
     private EdOrgHelper edorgHelper;
 
     @Override
     public SLIPrincipal locate(String tenantId, String externalUserId, String userType) {
-        info("Locating user {}@{} of type: {}", new Object[] { externalUserId, tenantId, userType });
+        info("Locating user {}@{} of type: {}", new Object[]{externalUserId, tenantId, userType});
         SLIPrincipal user = new SLIPrincipal(externalUserId + "@" + tenantId);
         user.setExternalId(externalUserId);
         user.setTenantId(tenantId);
@@ -67,7 +61,12 @@ public class MongoUserLocator implements UserLocator {
             neutralQuery.setOffset(0);
             neutralQuery.setLimit(1);
             user.setEntity(repo.findOne(EntityNames.STUDENT, neutralQuery, true));
-        } else if (isStaff(userType)){
+        } else if (EntityNames.PARENT.equals(userType)) {
+            NeutralQuery neutralQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.PARENT_UNIQUE_STATE_ID, NeutralCriteria.OPERATOR_EQUAL, externalUserId));
+            neutralQuery.setOffset(0);
+            neutralQuery.setLimit(1);
+            user.setEntity(repo.findOne(EntityNames.PARENT, neutralQuery, true));
+        } else if (isStaff(userType)) {
 
             NeutralQuery neutralQuery = new NeutralQuery();
             neutralQuery.setOffset(0);
@@ -94,7 +93,7 @@ public class MongoUserLocator implements UserLocator {
                     new HashMap<String, Object>());
             user.setEntity(entity);
         } else {
-            info("Matched user: {}@{} -> {}", new Object[] { externalUserId, tenantId, user.getEntity().getEntityId() });
+            info("Matched user: {}@{} -> {}", new Object[]{externalUserId, tenantId, user.getEntity().getEntityId()});
         }
 
         return user;
@@ -107,8 +106,7 @@ public class MongoUserLocator implements UserLocator {
     /**
      * Used by auto-wiring to set the entity repository.
      *
-     * @param repo
-     *            repository to be used by mongo user locator.
+     * @param repo repository to be used by mongo user locator.
      */
     public void setRepo(Repository<Entity> repo) {
         this.repo = repo;
