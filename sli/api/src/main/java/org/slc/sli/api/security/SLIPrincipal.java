@@ -29,6 +29,8 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.Repository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
@@ -71,6 +73,7 @@ public class SLIPrincipal implements Principal, Serializable {
     private String email;
     private Map<String, List<NeutralQuery>> obligations;
     private boolean studentAccessFlag = true;
+    private Set<String> accessibleStudents;
 
     public String getSessionId() {
         return sessionId;
@@ -359,4 +362,22 @@ public class SLIPrincipal implements Principal, Serializable {
         this.studentAccessFlag = studentAccessFlag;
     }
 
+    public Set<String> getAccessibleStudents() {
+        return accessibleStudents;
+    }
+
+    public void populateChildren(Repository<Entity> repo) {
+
+        if(accessibleStudents == null) {
+            accessibleStudents = new HashSet<String>();
+        }
+
+        Iterable<String> ids = repo.findAllIds(EntityNames.STUDENT,new NeutralQuery(new NeutralCriteria("studentParentAssociation.body.parentId","=",
+                getEntity().getEntityId(), false)));
+
+        for(String id : ids) {
+            accessibleStudents.add(id);
+        }
+
+    }
 }

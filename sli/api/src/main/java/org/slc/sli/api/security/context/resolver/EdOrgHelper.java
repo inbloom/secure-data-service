@@ -26,6 +26,7 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
+import org.slc.sli.api.security.SLIPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -376,9 +377,11 @@ public class EdOrgHelper {
         } else if (isStudent(principal)) {
             return getStudentsCurrentAssociatedEdOrgs(Collections.singleton(principal.getEntityId()), false);
         } else if (isParent(principal)) {
-            // will need logic to get student -> parent associations
-            // assemble set of students that parent can see
-            // -> call getStudentCurrentAssociatedEdOrgs(Set<String> studentIds)
+            SLIPrincipal prince = new SLIPrincipal();
+            prince.setEntity(principal);
+            prince.populateChildren(repo);
+
+            return getStudentsCurrentAssociatedEdOrgs(prince.getAccessibleStudents(), false);
         }
 
         return new HashSet<String>();
