@@ -47,7 +47,11 @@ def get_session_using_token_gen(realm, user)
       "cgray" => {:unique_id => "cgray", :role => "Educator", :type => :teacher, :edOrg => "Daybreak Central High"},
 
       ### Parents
-      "aaron.smith" => {:unique_id => "aaron.smith", :role => "Parent", :type => :parent, :edOrg => "Daybreak Central High"}
+      "aaron.smith" => {:unique_id => "aaron.smith", :role => "Parent", :type => :parent, :edOrg => "Daybreak Central High"},
+      "marsha.sollars" => {:unique_id => "800000025-mom", :role => "Parent", :type => :parent, :edOrg => "East Daybreak Junior High"},
+      "ignatio.ortiz" => {:unique_id => "900000016-dad", :role => "Parent", :type => :parent, :edOrg => "Daybreak Central High"},
+      "cee.gray" => {:unique_id => "cgray-dad", :role => "Parent", :type => :parent, :edOrg => "East Daybreak Junior High"},
+      "charles.gray" => {:unique_id => "cgray", :role => "Parent", :type => :parent, :edOrg => "East Daybreak Junior High"}
   }
 
   realm_info = {
