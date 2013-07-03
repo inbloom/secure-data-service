@@ -68,7 +68,8 @@ Background: Nothing yet
     | studentCompetencie                      | studentCompetencies                      | 0     |/schools/@ids/sections/studentSectionAssociations/studentCompetencies|
     | gradingPeriod                           | gradingPeriods                           | 3     |/search/gradingPeriods|
     | reportCard                              | reportCards                              | 0     |/schools/@ids/studentSchoolAssociations/students/reportCards|
-    | studentCompetencyObjective              | studentCompetencyObjectives              | 1     |/search/studentCompetencyObjectives    |    
+    | studentCompetencyObjective              | studentCompetencyObjectives              | 1     |/search/studentCompetencyObjectives    |
+    | calendarDates                           | calendarDates                            | 0     |/calendarDates|
     Then the staff queries and rewrite rules work
 
  @Teacher_crud
@@ -116,6 +117,7 @@ Background: Nothing yet
       | studentCompetencies                       |
       | reportCards                              |
       | studentCompetencyObjectives              |
+      |calendarDates                             |
       And I perform PUT,GET and Natural Key Update for each resource available
       And I perform DELETE for each resource availabel in the order defined by table:
         | Entity Resource                         |
