@@ -160,7 +160,7 @@ public class DefaultResourceService implements ResourceService {
                 try {
                     finalResults = logicalEntity.getEntities(apiQuery, resource.getResourceType());
                 } catch (UnsupportedSelectorException e) {
-                    // US5765: Temporarily disabled the new logic
+                    // US5765: Added new logic for contextual roles.
                     SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
                     if (ids.size() == 1  && contextSupportedEntities.contains(definition.getType()) && SecurityUtil.isStaffUser()) {
                         finalResults = (List<EntityBody>) definition.getService().listBasedOnContextualRoles(apiQuery);
