@@ -856,11 +856,11 @@ end
 
 
 Then /^I check to find if record is in sli db collection:$/ do |table|
-   check_records_in_collection(table)
+   check_records_in_sli_collection(table)
 end
 
 
-def check_records_in_collection(table)
+def check_records_in_sli_collection(table)
   disable_NOTABLESCAN()
   #First cut. Method has to be optimised. Connection should be cached.
   secConn = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
