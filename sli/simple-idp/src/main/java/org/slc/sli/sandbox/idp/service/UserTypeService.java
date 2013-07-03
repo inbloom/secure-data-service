@@ -50,6 +50,6 @@ public class UserTypeService {
      * Returns UserTypes available to the user
      */
     public List<UserType> getAvailableUserTypes() {
-        return Arrays.asList(new UserType("student"), new UserType("staff"));
+        return Arrays.asList(new UserType("student"), new UserType("staff"), new UserType("parent"));
     }
 }
