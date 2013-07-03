@@ -66,7 +66,7 @@ end
 
 Given /^I log in to realm "(.*?)" using simple-idp as "(.*?)" "(.*?)" with password "(.*?)"$/ do |realm, user_type, user, pass|
   step "the testing device app key has been created"
-
+  @sessionId = nil
   if ENV["use_token_gen"] == "true"
     @sessionId = get_session_using_token_gen(realm, user)
   end
