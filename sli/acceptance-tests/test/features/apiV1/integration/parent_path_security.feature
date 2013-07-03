@@ -3,7 +3,7 @@ Feature: Path Based Security for Parent Authentication
   I want to verify that URI paths that don't make sense for students to access are denied or rewritten
 
 Scenario: Check un-versioned URIs work for parents
-  Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "cegray" with password "cegray1234"
+  Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "cee.gray" with password "cee.gray1234"
   When I make requests to both the versioned and un-versioned URI "/system/session/check"
   Then both responses should be identical in return code and body
   When I make requests to both the versioned and un-versioned URI "/system/session/debug"
@@ -16,7 +16,7 @@ Scenario: Check un-versioned URIs work for parents
   Then any future API request should result in a 401 response code
 
 Scenario: Verify Rewrites for entities for Parents
-  Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "cegray" with password "cegray1234"
+  Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "cee.gray" with password "cee.gray1234"
   And my contextual access is defined by the table:
     | Context                | Ids                                         |
     | educationOrganizations | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
@@ -78,7 +78,7 @@ Scenario: Verify Rewrites for entities for Parents
 
 
   Scenario: Verify Blacklist for Parent URI paths
-    Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "cegray" with password "cegray1234"
+    Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "cee.gray" with password "cee.gray1234"
     And format "application/json"
     When I navigate to the the URI <Path> I should be denied:
       | Path                                                                                                                                              |

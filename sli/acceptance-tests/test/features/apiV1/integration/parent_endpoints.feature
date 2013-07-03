@@ -7,7 +7,7 @@ Feature: As a parent I want to use apps that access the inBloom API
 
 @parent_endpoints
 Scenario: Parents has access to entities via API endpoints
-Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
+  Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "marsha.sollars" with password "marsha.sollars1234"
   And format "application/json"
   And I am using api version "v1"
  Then I validate I have access to entities via the API access pattern "/v1/Entity/Id":
@@ -40,7 +40,7 @@ Given I log in to realm "Illinois Daybreak Students" using simple-idp as "studen
 
 @parent_endpoints
 Scenario: Parent has access to non-transitive associations
-Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
+  Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "marsha.sollars" with password "marsha.sollars1234"
   And format "application/json"
   And I am using api version "v1" 
   When I validate the allowed association entities via API "/v1/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/studentSectionAssociations":
@@ -70,7 +70,7 @@ Given I log in to realm "Illinois Daybreak Students" using simple-idp as "studen
     | ec8b76883033432dc83b97e71fbc5bf881b4ccbb_id |
 
   Scenario: I check the response to uris with query parameters
-    Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
+    Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "marsha.sollars" with password "marsha.sollars1234"
     And format "application/json"
     And I am using api version "v1"
     And I am accessing data about myself, "matt.sollars"
