@@ -166,6 +166,39 @@ public class EdOrgHelper {
         return toReturn;
     }
 
+    /**
+     * Get an ordered list of the parents of an EdOrg.
+     *
+     * The order of the list starts with the direct parent of the EdOrg and ends with the SEA
+     *
+     * @param edOrg - EdOrg from which to get parents
+     *
+     * @return - Hierarchical list of the EdOrg's parents
+     */
+
+
+
+    public List<String> getHierarchicalEdOrgs(final Entity edOrg) {
+        List<String> toReturn = new ArrayList<String>();
+
+        Entity currentEdOrg = edOrg;
+        if (helper.isSchool(currentEdOrg)) {
+           Map<String, Object> metadata = edOrg.getMetaData();
+           if (metadata != null) {
+               List<String> edorgs = (List<String>) metadata.get("edOrgs");
+               if (edorgs != null && !edorgs.isEmpty()) {
+                   toReturn.addAll(edorgs);
+               }  else {
+                   toReturn.addAll(getParentEdOrgs(currentEdOrg));
+               }
+           }
+        } else {
+            toReturn.addAll(getParentEdOrgs(currentEdOrg));
+        }
+        return toReturn;
+    }
+
+
     public Entity byId(String edOrgId) {
         return repo.findById(EntityNames.EDUCATION_ORGANIZATION, edOrgId);
     }
