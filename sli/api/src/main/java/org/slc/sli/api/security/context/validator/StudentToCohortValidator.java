@@ -44,17 +44,21 @@ public class StudentToCohortValidator extends BasicValidator {
 
         Set<String> myCohorts = new HashSet<String>();
         for (Entity owned : SecurityUtil.getSLIPrincipal().getOwnedStudentEntities()) {
-            List<Entity> studentCohortAssociations = owned.getEmbeddedData().get(EntityNames.STUDENT_COHORT_ASSOCIATION);
 
-            if (studentCohortAssociations == null) {
-                return false;
-            }
+            if (owned.getEmbeddedData() != null) {
+                List<Entity> studentCohortAssociations = owned.getEmbeddedData().get(EntityNames.STUDENT_COHORT_ASSOCIATION);
 
-            for (Entity myCohortAssociation : studentCohortAssociations) {
-                if (myCohortAssociation.getBody() != null) {
-                    myCohorts.add((String) myCohortAssociation.getBody().get(ParameterConstants.COHORT_ID));
+                if (studentCohortAssociations == null) {
+                    return false;
+                }
+
+                for (Entity myCohortAssociation : studentCohortAssociations) {
+                    if (myCohortAssociation.getBody() != null) {
+                        myCohorts.add((String) myCohortAssociation.getBody().get(ParameterConstants.COHORT_ID));
+                    }
                 }
             }
+
         }
 
         return myCohorts.containsAll(ids);

@@ -59,15 +59,17 @@ public class StudentToProgramCohortValidator extends BasicValidator {
 
         for (Entity myself : SecurityUtil.getSLIPrincipal().getOwnedStudentEntities()) {
 
-            List<Entity> studentAssociations = myself.getEmbeddedData().get(subdocType);
+            if (myself.getEmbeddedData() != null) {
+                List<Entity> studentAssociations = myself.getEmbeddedData().get(subdocType);
 
-            if (studentAssociations == null) {
-                continue;
-            }
+                if (studentAssociations == null) {
+                    continue;
+                }
 
-            for (Entity myAssociation : studentAssociations) {
-                if (myAssociation.getBody() != null && !dateHelper.isFieldExpired(myAssociation.getBody(), ParameterConstants.END_DATE)) {
-                    myCurrentIds.add((String) myAssociation.getBody().get(subdocId));
+                for (Entity myAssociation : studentAssociations) {
+                    if (myAssociation.getBody() != null && !dateHelper.isFieldExpired(myAssociation.getBody(), ParameterConstants.END_DATE)) {
+                        myCurrentIds.add((String) myAssociation.getBody().get(subdocId));
+                    }
                 }
             }
         }
