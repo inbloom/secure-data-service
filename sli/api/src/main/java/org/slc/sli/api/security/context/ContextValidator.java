@@ -88,6 +88,9 @@ public class ContextValidator implements ApplicationContextAware {
     
     @Autowired
     private StudentAccessValidator studentAccessValidator;
+    
+    @Autowired
+    private ParentAccessValidator parentAccessValidator;
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -117,6 +120,8 @@ public class ContextValidator implements ApplicationContextAware {
 
         if (SecurityUtil.isStudent()) {
             return !studentAccessValidator.isAllowed(request);
+        } else if (SecurityUtil.isParent()) {
+            return !parentAccessValidator.isAllowed(request);
         }
         
         return false;

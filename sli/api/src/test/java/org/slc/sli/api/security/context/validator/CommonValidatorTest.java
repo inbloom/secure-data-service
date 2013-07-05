@@ -31,6 +31,7 @@ import junit.framework.Assert;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -130,6 +131,15 @@ public class CommonValidatorTest {
         MongoEntity student = new MongoEntity("student", new HashMap<String, Object>());
         injector.setCustomContext("Studentious","Stendarious","Myrran",Arrays.asList(SecureRoleRightAccessImpl.STUDENT),student,"High Elves");
         System.out.println("================ students =================");
+        validateValidators();
+    }
+    
+    @Test
+    @Ignore
+    public void verifyNumberOfParentValidatorsForEachEntity() throws Exception {
+        MongoEntity parent = new MongoEntity("parent", new HashMap<String, Object>());
+        injector.setCustomContext("Parentious", "Stendarious' Dad", "Myrran", Arrays.asList(SecureRoleRightAccessImpl.PARENT), parent, "High Elves's Dad");
+        System.out.println("================ Parent =================");
         validateValidators();
     }
 
@@ -318,6 +328,7 @@ public class CommonValidatorTest {
         if (messages.size() > 0) {
             StringBuilder builder = new StringBuilder();
             for (String message : messages) {
+                System.out.print(message);
                 builder.append(message);
             }
             Assert.fail(builder.toString());
