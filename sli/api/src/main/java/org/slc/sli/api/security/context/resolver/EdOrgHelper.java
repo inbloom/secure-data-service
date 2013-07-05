@@ -26,10 +26,10 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
-import org.slc.sli.api.security.SLIPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.EntityOwnershipValidator;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.util.SecurityUtil;
@@ -353,17 +353,7 @@ public class EdOrgHelper {
      * data ownership.
      */
     public Set<String> getDirectEdorgs(Entity principal) {
-        if (isStaff(principal) || isTeacher(principal)) {
-            return getStaffDirectlyAssociatedEdorgs(principal, true);
-        } else if (isStudent(principal)) {
-            return getStudentsCurrentAssociatedEdOrgs(Collections.singleton(principal.getEntityId()), true);
-        } else if (isParent(principal)) {
-            // will need logic to get student -> parent associations
-            // assemble set of students that parent can see
-            // -> call getStudentCurrentAssociatedEdOrgs(Set<String> studentIds)
-        }
-
-        return new HashSet<String>();
+        return getEdOrgs(principal, true);
     }
 
 
@@ -372,16 +362,20 @@ public class EdOrgHelper {
      * data ownership.
      */
     public Set<String> locateDirectEdorgs(Entity principal) {
+        return getEdOrgs(principal, false);
+    }
+    
+    private Set<String> getEdOrgs(Entity principal, boolean filterByOwnership) {
         if (isStaff(principal) || isTeacher(principal)) {
-            return getStaffDirectlyAssociatedEdorgs(principal, false);
+            return getStaffDirectlyAssociatedEdorgs(principal, filterByOwnership);
         } else if (isStudent(principal)) {
-            return getStudentsCurrentAssociatedEdOrgs(Collections.singleton(principal.getEntityId()), false);
+            return getStudentsCurrentAssociatedEdOrgs(Collections.singleton(principal.getEntityId()), filterByOwnership);
         } else if (isParent(principal)) {
             SLIPrincipal prince = new SLIPrincipal();
             prince.setEntity(principal);
             prince.populateChildren(repo);
 
-            return getStudentsCurrentAssociatedEdOrgs(prince.getOwnedStudents(), false);
+            return getStudentsCurrentAssociatedEdOrgs(prince.getOwnedStudents(), filterByOwnership);
         }
 
         return new HashSet<String>();
