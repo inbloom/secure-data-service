@@ -49,14 +49,14 @@ public abstract class AccessValidator {
         if (segs == null || segs.isEmpty()) {
             return Collections.<String> emptyList();
         }
+
         List<String> paths = new ArrayList<String>();
-        
         // first one is version, system calls (un-versioned) have been handled elsewhere
         for (int i = 1; i < segs.size(); ++i) {
             if (segs.get(i) != null) {
                 String path = segs.get(i).getPath();
                 if (path != null && !path.isEmpty()) {
-                    paths.add(segs.get(i).getPath());
+                    paths.add(path);
                 }
             }
         }
