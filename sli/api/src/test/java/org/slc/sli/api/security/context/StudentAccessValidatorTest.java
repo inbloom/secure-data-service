@@ -161,10 +161,7 @@ public class StudentAccessValidatorTest {
                 ResourceNames.STUDENT_ASSESSMENTS,
                 ResourceNames.STUDENTS);
         
-        List<String> writeOps = Arrays.asList(ResourceMethod.PUT.toString(),
-                ResourceMethod.PATCH.toString(), ResourceMethod.DELETE.toString(), ResourceMethod.POST.toString());
-
-        for (String op : writeOps) {
+        for (String op : ResourceMethod.getWriteOps()) {
             when(request.getMethod()).thenReturn(op);
             for (String s : allowed) {
                 paths = Arrays.asList("v1", s);

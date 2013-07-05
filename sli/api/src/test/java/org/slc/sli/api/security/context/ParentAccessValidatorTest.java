@@ -17,19 +17,28 @@ package org.slc.sli.api.security.context;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.PathSegment;
+
+import com.sun.jersey.core.util.MultivaluedMapImpl;
 import com.sun.jersey.spi.container.ContainerRequest;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
+import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.resources.generic.util.ResourceMethod;
@@ -43,6 +52,7 @@ public class ParentAccessValidatorTest {
     StudentAccessValidator studentValidator;
     
     ContainerRequest request;
+    List<String> paths;
 
     @Before
     public void setUp() throws Exception {
@@ -50,16 +60,43 @@ public class ParentAccessValidatorTest {
         request = Mockito.mock(ContainerRequest.class);
         MockitoAnnotations.initMocks(this);
         when(request.getMethod()).thenReturn(ResourceMethod.GET.toString());
+        when(request.getQueryParameters()).thenReturn(new MultivaluedMapImpl());
+        when(request.getPathSegments()).thenAnswer(new Answer<List<PathSegment>>() {
+            @Override
+            public List<PathSegment> answer(InvocationOnMock invocation) throws Throwable {
+                return buildSegment();
+            }
+        });
     }
     
+    private List<PathSegment> buildSegment() {
+        List<PathSegment> segs = new ArrayList<PathSegment>();
+        for (final String s : paths) {
+            segs.add(new PathSegment() {
+                
+                @Override
+                public String getPath() {
+                    return s;
+                }
+                
+                @Override
+                public MultivaluedMap<String, String> getMatrixParameters() {
+                    return null;
+                }
+                
+            });
+        }
+        return segs;
+    }
+
     @Test
     public void followStudents() {
-        when(request.getPath()).thenReturn("something works for student");
-        when(studentValidator.isAllowed(request)).thenReturn(true);
+        paths = Arrays.asList("v1", ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, "ssa123", ResourceNames.STUDENTS);
+        when(studentValidator.isPathAllowed(Matchers.anyListOf(String.class), any(MultivaluedMapImpl.class))).thenReturn(true);
         assertTrue(underTest.isAllowed(request));
         
-        when(request.getPath()).thenReturn("something doesn't work for student");
-        when(studentValidator.isAllowed(request)).thenReturn(false);
+        paths = Arrays.asList("v1", ResourceNames.TEACHERS, "teacher123", ResourceNames.TEACHER_SECTION_ASSOCIATIONS);
+        when(studentValidator.isPathAllowed(Matchers.anyListOf(String.class), any(MultivaluedMapImpl.class))).thenReturn(false);
         assertFalse(underTest.isAllowed(request));
     }
     
@@ -70,12 +107,10 @@ public class ParentAccessValidatorTest {
                 ResourceNames.STUDENT_ASSESSMENTS,
                 ResourceNames.STUDENTS);
         
-        List<String> writeOps = Arrays.asList(ResourceMethod.PUT.toString(),
-                ResourceMethod.PATCH.toString(), ResourceMethod.DELETE.toString(), ResourceMethod.POST.toString());
-        
-        for (String op : writeOps) {
+        for (String op : ResourceMethod.getWriteOps()) {
             when(request.getMethod()).thenReturn(op);
             for (String s : allowed) {
+                paths = Arrays.asList("v1", s);
                 assertFalse(underTest.isAllowed(request));
             }
         }
@@ -83,25 +118,17 @@ public class ParentAccessValidatorTest {
     
     @Test
     public void parentURLsAreAllowed() {
-        when(request.getPath()).thenReturn("v1.2/parents/067198fd6da91e1aa8d67e28e850f224d6851713_id/studentParentAssociations");
+        paths = Arrays.asList("v1", "parents", "067198fd6da91e1aa8d67e28e850f224d6851713_id", "studentParentAssociations");
         assertTrue(underTest.isAllowed(request));
-        when(request.getPath()).thenReturn("v1.2/parents/067198fd6da91e1aa8d67e28e850f224d6851713_id/studentParentAssociations/students");
-        assertTrue(underTest.isAllowed(request));
-        when(request.getPath()).thenReturn("v1/parents/067198fd6da91e1aa8d67e28e850f224d6851713_id/studentParentAssociations/students");
-        assertTrue(underTest.isAllowed(request));
-        when(request.getPath()).thenReturn("v1./parents/067198fd6da91e1aa8d67e28e850f224d6851713_id/studentParentAssociations/students");
+        paths = Arrays.asList("v1", "parents", "067198fd6da91e1aa8d67e28e850f224d6851713_id", "studentParentAssociations", "students");
         assertTrue(underTest.isAllowed(request));
     }
     
     @Test
     public void denyStudentURLs() {
-        when(request.getPath()).thenReturn("v1.2/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/studentParentAssociations");
+        paths = Arrays.asList("v1", "students", "067198fd6da91e1aa8d67e28e850f224d6851713_id", "studentParentAssociations");
         assertFalse(underTest.isAllowed(request));
-        when(request.getPath()).thenReturn("v1.2/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/studentParentAssociations/parents");
-        assertFalse(underTest.isAllowed(request));
-        when(request.getPath()).thenReturn("v2./students/067198fd6da91e1aa8d67e28e850f224d6851713_id/studentParentAssociations/parents");
-        assertFalse(underTest.isAllowed(request));
-        when(request.getPath()).thenReturn("v1/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/studentParentAssociations/parents");
+        paths = Arrays.asList("v1", "students", "067198fd6da91e1aa8d67e28e850f224d6851713_id", "studentParentAssociations", "parents");
         assertFalse(underTest.isAllowed(request));
     }
 }

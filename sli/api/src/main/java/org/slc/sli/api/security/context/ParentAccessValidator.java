@@ -15,22 +15,17 @@
  */
 package org.slc.sli.api.security.context;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import com.sun.jersey.spi.container.ContainerRequest;
+import javax.ws.rs.core.MultivaluedMap;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.resources.generic.util.ResourceMethod;
-
 @Component
-public class ParentAccessValidator {
-    
-    private static final List<String> WRITE_OPERATIONS = Arrays.asList(ResourceMethod.PUT.toString(),
-            ResourceMethod.PATCH.toString(), ResourceMethod.DELETE.toString(), ResourceMethod.POST.toString());
+public class ParentAccessValidator extends AccessValidator {
 
     @Autowired
     private StudentAccessValidator studentAccessValidator;
@@ -45,24 +40,24 @@ public class ParentAccessValidator {
      * /students/{id}/studentParentAssociations
      * /students/{id}/studentParentAssociations/parents
      */
-    final Pattern parentToAssociations = Pattern.compile("^v.*/parents/[0-9a-f]{40}_id/studentParentAssociations$");
-    final Pattern parentToAssociationsStudents = Pattern.compile("^v.*/parents/[0-9a-f]{40}_id/studentParentAssociations/students$");
-    final Pattern studentToAssociations = Pattern.compile("^v.*/students/[0-9a-f]{40}_id/studentParentAssociations$");
-    final Pattern studentToAssociationsStudents = Pattern.compile("^v.*/students/[0-9a-f]{40}_id/studentParentAssociations/students$");
+    final Pattern parentToAssociations = Pattern.compile("^parents/[0-9a-f]{40}_id/studentParentAssociations$");
+    final Pattern parentToAssociationsStudents = Pattern.compile("^parents/[0-9a-f]{40}_id/studentParentAssociations/students$");
+    final Pattern studentToAssociations = Pattern.compile("^students/[0-9a-f]{40}_id/studentParentAssociations$");
+    final Pattern studentToAssociationsStudents = Pattern.compile("^students/[0-9a-f]{40}_id/studentParentAssociations/students$");
     
     /**
      * check if a path can be accessed according to stored business rules
      * 
-     * @param ContainerRequest
-     *            request
+     * @param
+     *        List<String> paths url segments in string without version
+     * @param
+     *        MultivaluedMap<String, String> query Paramaters
+     * 
      * @return true if accessible by parent
      */
-    public boolean isAllowed(ContainerRequest request) {
-        if (WRITE_OPERATIONS.contains(request.getMethod())) {
-            return false;
-        }
-        
-        String url = request.getPath().trim();
+    @Override
+    protected boolean isPathAllowed(List<String> path, MultivaluedMap<String, String> queryParameters) {
+        String url = StringUtils.join(path, "/");
         if (parentToAssociations.matcher(url).matches() || parentToAssociationsStudents.matcher(url).matches()) {
             return true;
         }
@@ -71,7 +66,12 @@ public class ParentAccessValidator {
             return false;
         }
         
-        return studentAccessValidator.isAllowed(request);
+        return studentAccessValidator.isPathAllowed(path, queryParameters);
+    }
+    
+    @Override
+    protected boolean isWriteAllowed(List<String> path) {
+        return false;
     }
     
 }
