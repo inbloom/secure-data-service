@@ -33,7 +33,7 @@ public class GenericToEdOrgValidator extends AbstractContextValidator {
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
         if (EntityNames.SCHOOL.equals(entityType) || EntityNames.EDUCATION_ORGANIZATION.equals(entityType)) {
-            if (isStudent()) {
+            if (isStudentOrParent()) {
                 // only validates non-transitive url for students
                 return !isTransitive;
             }

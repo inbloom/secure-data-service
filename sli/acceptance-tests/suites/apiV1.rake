@@ -353,6 +353,7 @@ end
 desc "Run API Odin Parent Integration Tests"
 task :apiOdinParentLogin => [:apiOdinSetupAPI] do
   runTests("test/features/apiV1/integration/parent_login.feature")
+  runTests("test/features/apiV1/integration/parent_public.feature")
   runTests("test/features/apiV1/integration/parent_endpoints.feature")
   runTests("test/features/apiV1/integration/parent_staff_endpoints.feature")
   runTests("test/features/apiV1/integration/parent_path_security.feature")

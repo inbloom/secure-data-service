@@ -33,7 +33,7 @@ public class GenericToGlobalCourseWriteValidator extends AbstractContextValidato
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return isTransitive && EntityNames.COURSE.equals(entityType) && !isStudent();
+        return isTransitive && EntityNames.COURSE.equals(entityType) && !isStudentOrParent();
     }
 
     @Override

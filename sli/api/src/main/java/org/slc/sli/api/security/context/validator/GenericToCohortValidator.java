@@ -22,7 +22,7 @@ public class GenericToCohortValidator extends AbstractContextValidator {
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return !isStudent() && !isTransitive && EntityNames.COHORT.equals(entityType);
+        return !isStudentOrParent() && !isTransitive && EntityNames.COHORT.equals(entityType);
     }
 
     @Override
