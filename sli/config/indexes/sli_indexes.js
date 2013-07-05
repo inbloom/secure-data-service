@@ -32,6 +32,7 @@ db["realm"].ensureIndex({"body.uniqueIdentifier":1});  //unique identifier for a
 db["realm"].ensureIndex({"body.name":1});
 
 db["securityEvent"].ensureIndex({"body.targetEdOrg":1,"body.roles":1});
+db["securityEvent"].ensureIndex({"body.targetEdOrgList":1});
 
 db["tenant"].ensureIndex({"body.landingZone.ingestionServer":1,"body.landingZone.preload.status":1});//ingestion-startup
 db["tenant"].ensureIndex({"body.landingZone.path":1});  //ingestion-job start
