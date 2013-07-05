@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.Repository;
@@ -73,7 +74,7 @@ public class SLIPrincipal implements Principal, Serializable {
     private String email;
     private Map<String, List<NeutralQuery>> obligations;
     private boolean studentAccessFlag = true;
-    private Set<String> accessibleStudents;
+    private Set<String> ownedStudents;
 
     public String getSessionId() {
         return sessionId;
@@ -362,21 +363,34 @@ public class SLIPrincipal implements Principal, Serializable {
         this.studentAccessFlag = studentAccessFlag;
     }
 
-    public Set<String> getAccessibleStudents() {
-        return accessibleStudents;
+    /**
+     * Provides a set of owned students (used in self context for example)
+     * Only works for parent or student
+     * @return set of 'owned' students.  For student it is self.  For parent it is children
+     */
+    public Set<String> getOwnedStudents() {
+        if(ownedStudents == null) {
+            ownedStudents = new HashSet<String>();
+        }
+
+        if (EntityNames.STUDENT.equals(this.entity.getType())) {
+            ownedStudents.add(this.getEntity().getEntityId());
+        }
+
+        return ownedStudents;
     }
 
     public void populateChildren(Repository<Entity> repo) {
 
-        if(accessibleStudents == null) {
-            accessibleStudents = new HashSet<String>();
+        if(ownedStudents == null) {
+            ownedStudents = new HashSet<String>();
         }
 
         Iterable<String> ids = repo.findAllIds(EntityNames.STUDENT,new NeutralQuery(new NeutralCriteria("studentParentAssociation.body.parentId","=",
                 getEntity().getEntityId(), false)));
 
         for(String id : ids) {
-            accessibleStudents.add(id);
+            ownedStudents.add(id);
         }
 
     }
