@@ -110,6 +110,10 @@ public class SecurityUtil {
         return principal.getEntity().getEntityId();
     }
 
+    public static boolean isStudentOrParent() {
+        return isStudent() || isParent();
+    }
+
     /**
      * Callback for security-related tasks
      *
