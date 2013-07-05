@@ -381,7 +381,7 @@ public class EdOrgHelper {
             prince.setEntity(principal);
             prince.populateChildren(repo);
 
-            return getStudentsCurrentAssociatedEdOrgs(prince.getOwnedStudents(), false);
+            return getStudentsCurrentAssociatedEdOrgs(prince.getOwnedStudentIds(), false);
         }
 
         return new HashSet<String>();

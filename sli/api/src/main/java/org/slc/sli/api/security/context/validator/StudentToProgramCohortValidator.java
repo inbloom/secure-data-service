@@ -15,24 +15,23 @@
  */
 package org.slc.sli.api.security.context.validator;
 
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.common.util.datetime.DateHelper;
+import org.slc.sli.domain.Entity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
-import org.slc.sli.common.util.datetime.DateHelper;
-import org.slc.sli.domain.Entity;
-
 /**
  * validating non transtive programs for students
  *
  * @author ycao
- *
  */
 @Component
 public class StudentToProgramCohortValidator extends BasicValidator {
@@ -45,7 +44,7 @@ public class StudentToProgramCohortValidator extends BasicValidator {
     }
 
     @Override
-    protected boolean doValidate(Set<String> ids, Entity myself, String entityType) {
+    protected boolean doValidate(Set<String> ids, String entityType) {
         String subdocType = null;
         String subdocId = null;
         if (EntityNames.COHORT.equals(entityType)) {
@@ -56,20 +55,20 @@ public class StudentToProgramCohortValidator extends BasicValidator {
             subdocId = ParameterConstants.PROGRAM_ID;
         }
 
-        if (myself == null || myself.getEmbeddedData() == null || subdocType == null) {
-            // not sure how this can happen
-            return false;
-        }
-        List<Entity> studentAssociations = myself.getEmbeddedData().get(subdocType);
-
-        if (studentAssociations == null) {
-            return false;
-        }
-
         Set<String> myCurrentIds = new HashSet<String>();
-        for (Entity myAssociation : studentAssociations) {
-            if (myAssociation.getBody() != null && !dateHelper.isFieldExpired(myAssociation.getBody(), ParameterConstants.END_DATE)) {
-                myCurrentIds.add((String) myAssociation.getBody().get(subdocId));
+
+        for (Entity myself : SecurityUtil.getSLIPrincipal().getOwnedStudentEntities()) {
+
+            List<Entity> studentAssociations = myself.getEmbeddedData().get(subdocType);
+
+            if (studentAssociations == null) {
+                continue;
+            }
+
+            for (Entity myAssociation : studentAssociations) {
+                if (myAssociation.getBody() != null && !dateHelper.isFieldExpired(myAssociation.getBody(), ParameterConstants.END_DATE)) {
+                    myCurrentIds.add((String) myAssociation.getBody().get(subdocId));
+                }
             }
         }
 

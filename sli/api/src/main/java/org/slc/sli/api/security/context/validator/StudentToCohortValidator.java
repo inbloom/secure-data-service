@@ -15,22 +15,21 @@
  */
 package org.slc.sli.api.security.context.validator;
 
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.domain.Entity;
+import org.springframework.stereotype.Component;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.springframework.stereotype.Component;
-
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
-import org.slc.sli.domain.Entity;
-
 /**
  * validate cohorts transitively for a student
  *
  * @author ycao
- *
  */
 @Component
 public class StudentToCohortValidator extends BasicValidator {
@@ -40,22 +39,21 @@ public class StudentToCohortValidator extends BasicValidator {
     }
 
     @Override
-    protected boolean doValidate(Set<String> ids, Entity myself, String entityType) {
-        if (myself == null || myself.getEmbeddedData() == null) {
-            // not sure how this can happen
-            return false;
-        }
+    protected boolean doValidate(Set<String> ids, String entityType) {
 
-        List<Entity> studentCohortAssociations = myself.getEmbeddedData().get(EntityNames.STUDENT_COHORT_ASSOCIATION);
-
-        if (studentCohortAssociations == null) {
-            return false;
-        }
 
         Set<String> myCohorts = new HashSet<String>();
-        for (Entity myCohortAssociation : studentCohortAssociations) {
-            if (myCohortAssociation.getBody() != null) {
-                myCohorts.add((String) myCohortAssociation.getBody().get(ParameterConstants.COHORT_ID));
+        for (Entity owned : SecurityUtil.getSLIPrincipal().getOwnedStudentEntities()) {
+            List<Entity> studentCohortAssociations = owned.getEmbeddedData().get(EntityNames.STUDENT_COHORT_ASSOCIATION);
+
+            if (studentCohortAssociations == null) {
+                return false;
+            }
+
+            for (Entity myCohortAssociation : studentCohortAssociations) {
+                if (myCohortAssociation.getBody() != null) {
+                    myCohorts.add((String) myCohortAssociation.getBody().get(ParameterConstants.COHORT_ID));
+                }
             }
         }
 

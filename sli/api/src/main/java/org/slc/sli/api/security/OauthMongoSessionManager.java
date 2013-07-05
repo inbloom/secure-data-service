@@ -360,10 +360,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                             principal.setEntity(locator.locate(principal.getTenantId(), principal.getExternalId(),
                                     principal.getUserType()).getEntity());
 
-                            //  Fetch students for parent
-                            if(SecurityUtil.isParent()) {
-                                principal.populateChildren(repo);
-                            }
+                            principal.populateChildren(repo);
 
                             principal.setSessionId(sessionEntity.getEntityId());
                             Collection<GrantedAuthority> selfAuthorities = resolveAuthorities(principal.getTenantId(),
@@ -425,6 +422,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                         "Authorization header must be of the form 'Bearer <token>'"));
             }
         }
+
         return auth;
     }
 

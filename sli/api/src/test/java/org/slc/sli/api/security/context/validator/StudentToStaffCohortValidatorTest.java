@@ -89,8 +89,8 @@ public class StudentToStaffCohortValidatorTest {
                 makeStudentCohort("s2", null),
                 makeStudentCohort("s3", DateTime.now().minusMonths(2).toString(DateHelper.getDateTimeFormat()))));
         when(me.getEmbeddedData()).thenReturn(superDocs);
-        assertTrue(underTest.doValidate(new HashSet<String>(Arrays.asList("sca1", "sca2")), me, EntityNames.STAFF_COHORT_ASSOCIATION));
-        assertFalse(underTest.doValidate(new HashSet<String>(Arrays.asList("sca1", "sca2", "sca3")), me, EntityNames.STAFF_COHORT_ASSOCIATION));
+        assertTrue(underTest.doValidate(new HashSet<String>(Arrays.asList("sca1", "sca2")), EntityNames.STAFF_COHORT_ASSOCIATION));
+        assertFalse(underTest.doValidate(new HashSet<String>(Arrays.asList("sca1", "sca2", "sca3")), EntityNames.STAFF_COHORT_ASSOCIATION));
     }
 
     private Entity makeEntity(String id) {

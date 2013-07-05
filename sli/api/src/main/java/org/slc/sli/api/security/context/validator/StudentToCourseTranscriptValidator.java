@@ -25,7 +25,6 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
-import org.slc.sli.domain.Entity;
 
 /**
  * validate courseTranscripts for students both transitively and
@@ -45,7 +44,7 @@ public class StudentToCourseTranscriptValidator extends BasicValidator {
     }
 
     @Override
-    protected boolean doValidate(Set<String> ids, Entity myself, String entityType) {
+    protected boolean doValidate(Set<String> ids, String entityType) {
 
         // Get the Student IDs on the things we want to see, compare with the IDs of yourself
         Set<String> studentAcademicRecordIds = new HashSet<String>(

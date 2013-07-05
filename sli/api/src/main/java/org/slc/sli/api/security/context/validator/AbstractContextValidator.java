@@ -374,14 +374,4 @@ public abstract class AbstractContextValidator implements IContextValidator {
     protected void setDateHelper(DateHelper dateHelper) {
         this.dateHelper = dateHelper;
     }
-
-    protected Iterable<Entity> getKidsForParent(Entity parent) {
-        //TODO cache this?
-        Iterable<Entity> kids = getRepo().findAll(
-                EntityNames.STUDENT,
-                new NeutralQuery(new NeutralCriteria(EntityNames.STUDENT_PARENT_ASSOCIATION,
-                        NeutralCriteria.OPERATOR_EQUAL, parent.getEntityId())));
-        return kids;
-    }
-
 }
