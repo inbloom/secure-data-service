@@ -780,7 +780,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
             } else if (SecurityUtil.isStudentOrParent() && STUDENT_SELF.contains(type)) {
                 Entity entity = repo.findById(defn.getStoredCollectionName(), entityId);
                 if (entity != null) {
-                    Set<String> owned = principal.getOwnedStudents();
+                    Set<String> owned = principal.getOwnedStudentIds();
                     return owned.contains(entity.getBody().get(ParameterConstants.STUDENT_ID));
                 }
             }

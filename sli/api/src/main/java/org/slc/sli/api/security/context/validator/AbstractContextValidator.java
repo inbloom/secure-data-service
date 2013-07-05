@@ -169,7 +169,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
      */
     protected boolean isStudentOrParent() {
         // Just return for students now, later we can add funcitonality for parents also
-        return isStudent()/* || isParent() */;
+        return SecurityUtil.isStudent() || SecurityUtil.isParent();
     }
 
     /**
@@ -177,7 +177,6 @@ public abstract class AbstractContextValidator implements IContextValidator {
      *
      * @return True if user is of type 'student', false otherwise.
      */
-
     protected boolean isStudent() {
         return SecurityUtil.isStudent();
     }
@@ -374,14 +373,4 @@ public abstract class AbstractContextValidator implements IContextValidator {
     protected void setDateHelper(DateHelper dateHelper) {
         this.dateHelper = dateHelper;
     }
-
-    protected Iterable<Entity> getKidsForParent(Entity parent) {
-        //TODO cache this?
-        Iterable<Entity> kids = getRepo().findAll(
-                EntityNames.STUDENT,
-                new NeutralQuery(new NeutralCriteria(EntityNames.STUDENT_PARENT_ASSOCIATION,
-                        NeutralCriteria.OPERATOR_EQUAL, parent.getEntityId())));
-        return kids;
-    }
-
 }

@@ -16,27 +16,18 @@
 
 package org.slc.sli.api.security;
 
-import java.io.Serializable;
-import java.lang.reflect.Field;
-import java.security.Principal;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
-
-import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralQuery;
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.security.Principal;
+import java.util.*;
 
 /**
  * Attribute holder for SLI Principal
@@ -74,15 +65,8 @@ public class SLIPrincipal implements Principal, Serializable {
     private String email;
     private Map<String, List<NeutralQuery>> obligations;
     private boolean studentAccessFlag = true;
-    private Set<String> ownedStudents;
-
-    public String getSessionId() {
-        return sessionId;
-    }
-
-    public void setSessionId(String sessionId) {
-        this.sessionId = sessionId;
-    }
+    private Set<String> ownedStudentIds = new HashSet<String>();
+    private Set<Entity> ownedStudents = new HashSet<Entity>();
 
     public SLIPrincipal() {
         // Empty default constructor is used in various places.
@@ -97,13 +81,29 @@ public class SLIPrincipal implements Principal, Serializable {
         this.id = id;
     }
 
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
+    }
+
     @Override
     public String getName() {
         return this.name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getId() {
         return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     /**
@@ -115,32 +115,24 @@ public class SLIPrincipal implements Principal, Serializable {
         return realm;
     }
 
-    public String getExternalId() {
-        return externalId;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public void setRealm(String realm) {
         this.realm = realm;
+    }
+
+    public String getExternalId() {
+        return externalId;
     }
 
     public void setExternalId(String externalId) {
         this.externalId = externalId;
     }
 
-    public void setEntity(Entity entity) {
-        this.entity = entity;
-    }
-
     public Entity getEntity() {
         return entity;
+    }
+
+    public void setEntity(Entity entity) {
+        this.entity = entity;
     }
 
     public List<String> getRoles() {
@@ -195,21 +187,21 @@ public class SLIPrincipal implements Principal, Serializable {
     }
 
     /**
-     * Sets the tenant id of the sli principal.
-     *
-     * @param newTenantId new tenant id.
-     */
-    public void setTenantId(String newTenantId) {
-        this.tenantId = newTenantId;
-    }
-
-    /**
      * Gets the tenant id of the sli principal.
      *
      * @return tenant id.
      */
     public String getTenantId() {
         return tenantId;
+    }
+
+    /**
+     * Sets the tenant id of the sli principal.
+     *
+     * @param newTenantId new tenant id.
+     */
+    public void setTenantId(String newTenantId) {
+        this.tenantId = newTenantId;
     }
 
     /**
@@ -238,12 +230,12 @@ public class SLIPrincipal implements Principal, Serializable {
         return map;
     }
 
-    public void setAdminUser(boolean isAdminUser) {
-        this.adminUser = isAdminUser;
-    }
-
     public boolean isAdminUser() {
         return adminUser;
+    }
+
+    public void setAdminUser(boolean isAdminUser) {
+        this.adminUser = isAdminUser;
     }
 
     public String getFirstName() {
@@ -298,25 +290,25 @@ public class SLIPrincipal implements Principal, Serializable {
         this.adminRealmAuthenticated = adminRealmAuthenticated;
     }
 
-    public void setUserType(String userType) {
-        this.userType = userType;
-    }
-
     public String getUserType() {
         return this.userType;
     }
 
-    public void setSelfRights(Collection<GrantedAuthority> auths) {
-        this.selfRights = auths;
+    public void setUserType(String userType) {
+        this.userType = userType;
     }
 
     public Collection<GrantedAuthority> getSelfRights() {
         return this.selfRights;
     }
 
+    public void setSelfRights(Collection<GrantedAuthority> auths) {
+        this.selfRights = auths;
+    }
+
     /**
      * These are edorgs that have authorized the app that the user is currently logged into.
-     *
+     * <p/>
      * The set contains ids of both the authorizing LEA and any sub-LEAs or schools within the LEA.
      *
      * @return
@@ -340,7 +332,7 @@ public class SLIPrincipal implements Principal, Serializable {
     public List<NeutralQuery> getObligation(String key) {
         List<NeutralQuery> result = obligations.get(key);
 
-        if(result == null) {
+        if (result == null) {
             result = Collections.emptyList();
         }
 
@@ -352,7 +344,7 @@ public class SLIPrincipal implements Principal, Serializable {
     }
 
     public void clearObligations() {
-    	this.obligations.clear();
+        this.obligations.clear();
     }
 
     public boolean isStudentAccessFlag() {
@@ -366,31 +358,39 @@ public class SLIPrincipal implements Principal, Serializable {
     /**
      * Provides a set of owned students (used in self context for example)
      * Only works for parent or student
+     *
      * @return set of 'owned' students.  For student it is self.  For parent it is children
      */
-    public Set<String> getOwnedStudents() {
-        if(ownedStudents == null) {
-            ownedStudents = new HashSet<String>();
-        }
+    public Set<String> getOwnedStudentIds() {
+        return ownedStudentIds;
+    }
 
-        if (EntityNames.STUDENT.equals(this.entity.getType())) {
-            ownedStudents.add(this.getEntity().getEntityId());
-        }
-
-        return ownedStudents;
+    public Set<Entity> getOwnedStudentEntities() {
+        return Collections.unmodifiableSet(this.ownedStudents);
     }
 
     public void populateChildren(Repository<Entity> repo) {
 
-        if(ownedStudents == null) {
-            ownedStudents = new HashSet<String>();
+        if (ownedStudentIds == null) {
+            ownedStudentIds = new HashSet<String>();
         }
 
-        Iterable<String> ids = repo.findAllIds(EntityNames.STUDENT,new NeutralQuery(new NeutralCriteria("studentParentAssociation.body.parentId","=",
-                getEntity().getEntityId(), false)));
+        if (ownedStudents == null) {
+            ownedStudents = new HashSet<Entity>();
+        }
 
-        for(String id : ids) {
-            ownedStudents.add(id);
+        if (EntityNames.STUDENT.equals(this.entity.getType())) {
+            ownedStudentIds.add(this.getEntity().getEntityId());
+            ownedStudents.add(entity);
+        } else if (EntityNames.PARENT.equals(this.entity.getType())) {
+
+            Iterable<Entity> students = repo.findAll(EntityNames.STUDENT, new NeutralQuery(new NeutralCriteria("studentParentAssociation.body.parentId", "=",
+                    getEntity().getEntityId(), false)));
+
+            for (Entity student : students) {
+                ownedStudentIds.add(id);
+                ownedStudents.add(student);
+            }
         }
 
     }
