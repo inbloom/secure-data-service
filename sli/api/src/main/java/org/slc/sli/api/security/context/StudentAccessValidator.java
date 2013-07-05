@@ -320,7 +320,7 @@ public class StudentAccessValidator extends AccessValidator {
      * 
      * @return true if accessible by student
      */
-    protected boolean isPathAllowed(List<String> paths, MultivaluedMap<String, String> queryParams) {
+    protected boolean isReadAllowed(List<String> paths, MultivaluedMap<String, String> queryParams) {
 
         String baseEntity = paths.get(0);
 

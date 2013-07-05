@@ -56,7 +56,7 @@ public class ParentAccessValidator extends AccessValidator {
      * @return true if accessible by parent
      */
     @Override
-    protected boolean isPathAllowed(List<String> path, MultivaluedMap<String, String> queryParameters) {
+    protected boolean isReadAllowed(List<String> path, MultivaluedMap<String, String> queryParameters) {
         String url = StringUtils.join(path, "/");
         if (parentToAssociations.matcher(url).matches() || parentToAssociationsStudents.matcher(url).matches()) {
             return true;
@@ -66,7 +66,7 @@ public class ParentAccessValidator extends AccessValidator {
             return false;
         }
         
-        return studentAccessValidator.isPathAllowed(path, queryParameters);
+        return studentAccessValidator.isReadAllowed(path, queryParameters);
     }
     
     @Override

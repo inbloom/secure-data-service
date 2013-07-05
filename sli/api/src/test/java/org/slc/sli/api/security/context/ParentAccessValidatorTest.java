@@ -92,11 +92,11 @@ public class ParentAccessValidatorTest {
     @Test
     public void followStudents() {
         paths = Arrays.asList("v1", ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, "ssa123", ResourceNames.STUDENTS);
-        when(studentValidator.isPathAllowed(Matchers.anyListOf(String.class), any(MultivaluedMapImpl.class))).thenReturn(true);
+        when(studentValidator.isReadAllowed(Matchers.anyListOf(String.class), any(MultivaluedMapImpl.class))).thenReturn(true);
         assertTrue(underTest.isAllowed(request));
         
         paths = Arrays.asList("v1", ResourceNames.TEACHERS, "teacher123", ResourceNames.TEACHER_SECTION_ASSOCIATIONS);
-        when(studentValidator.isPathAllowed(Matchers.anyListOf(String.class), any(MultivaluedMapImpl.class))).thenReturn(false);
+        when(studentValidator.isReadAllowed(Matchers.anyListOf(String.class), any(MultivaluedMapImpl.class))).thenReturn(false);
         assertFalse(underTest.isAllowed(request));
     }
     
