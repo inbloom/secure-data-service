@@ -38,7 +38,7 @@ public class GenericToProgramValidator extends AbstractContextValidator {
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return !isStudent() && EntityNames.PROGRAM.equals(entityType) && !isTransitive;
+        return !isStudentOrParent() && EntityNames.PROGRAM.equals(entityType) && !isTransitive;
     }
 
     @Override
