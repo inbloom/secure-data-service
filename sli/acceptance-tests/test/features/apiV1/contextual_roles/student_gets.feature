@@ -375,8 +375,6 @@ Feature: Use the APi to successfully get student data while having roles over ma
     Then I should receive a return code of 200
     And the response should have general student data
     And the response should have restricted student data
-   Given I change the type of "Leader" admin role to "false"
-   Given I change the type of "Educator" admin role to "false"
 
   Scenario: Student belongs to schools in different LEAs
     When I navigate to the API authorization endpoint with my client ID
@@ -571,3 +569,27 @@ Feature: Use the APi to successfully get student data while having roles over ma
     And "carmen.ortiz" is not associated with any cohort that belongs to "rbraverman"
     When I navigate to GET "<carmen.ortiz URI>"
     Then I should receive a return code of 403
+
+  @wip
+  Scenario: GET lists of students
+    When I navigate to the API authorization endpoint with my client ID
+    And I was redirected to the "Simple" IDP Login page
+    And I submit the credentials "msmith" "msmith1234" for the "Simple" login page
+    Then I should receive a json response containing my authorization code
+    When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
+    Then I should receive a json response containing my authorization token
+    And I should be able to use the token to make valid API calls
+
+    When I navigate to GET "/v1/students"
+    Then I should receive a return code of 200
+    And the response should have the following students
+    | student         |
+    | matt.sollars    |
+    | jack.jackson    |
+    | lashawn.taite   |
+    And the response should not have the following students
+    | student         |
+    | bert.jakeman    |
+    | carmen.ortiz    |
+    | nate.dedrick    |
+    | mu.mcneil       |
