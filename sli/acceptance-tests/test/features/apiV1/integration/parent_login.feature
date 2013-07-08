@@ -1,4 +1,3 @@
-@wip
 @RALLY_US4305
 @RALLY_US4306
 @parent_login
@@ -51,6 +50,7 @@ Feature: As a parent I want to use apps that access the inBloom API
       | studentCharacteristics.0.endDate                      | 2014-08-01                                  |
       | studentCharacteristics.0.designatedBy                 | Teacher                                     |
       | studentCharacteristics.0.characteristic               | Unaccompanied Youth                         |
+      | schoolFoodServicesEligibility                         | Full price                                  |
 
     When I verify the following response body fields in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/studentParentAssociations/parents?sortBy=parentUniqueStateId":
       | field                           | value             |
@@ -242,92 +242,80 @@ Feature: As a parent I want to use apps that access the inBloom API
       | sequenceOfCourse       |
       | uniqueSectionCode      |
 
-  Then I verify the following response body fields exist in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/attendances":
-    | field                                               |
-    | 0.schoolYearAttendance.0.schoolYear                 |
-    | 0.schoolYearAttendance.0.attendanceEvent.0.date     |
-    | 0.schoolYearAttendance.0.attendanceEvent.0.event    |
-    | 0.schoolYearAttendance.0.attendanceEvent.0.reason   |
-  Then I verify the following response body fields exist in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/yearlyAttendances":
-    | field                        |
-    | 0.attendanceEvent.0.date     |
-    | 0.attendanceEvent.0.event    |
-    | 0.attendanceEvent.0.reason   |
-    | 0.schoolYear                 |
+    Then I verify the following response body fields exist in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/attendances":
+      | field                                             |
+      | 0.schoolYearAttendance.0.schoolYear               |
+      | 0.schoolYearAttendance.0.attendanceEvent.0.date   |
+      | 0.schoolYearAttendance.0.attendanceEvent.0.event  |
+      | 0.schoolYearAttendance.0.attendanceEvent.0.reason |
+    Then I verify the following response body fields exist in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/yearlyAttendances":
+      | field                      |
+      | 0.attendanceEvent.0.date   |
+      | 0.attendanceEvent.0.event  |
+      | 0.attendanceEvent.0.reason |
+      | 0.schoolYear               |
 
-  Then I verify the following response body fields exist in "/studentSectionAssociations/24cdeb47d5ccfee1536dd8f6a8951baea76b82f3_id33ee33e252908a2e95eb8d0b4f85f96ffd4b0bae_id/grades":
-    | field                         |
-    | 0.diagnosticStatement         |
-    | 0.gradeType                   |
-    | 0.letterGradeEarned           |
-    | 0.numericGradeEarned          |
-    | 0.performanceBaseConversion   |
-    | 0.schoolYear                  |
-  Then I verify the following response body fields exist in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/studentGradebookEntries":
-    | field                         |
-    | 0.dateFulfilled               |
-    | 0.diagnosticStatement         |
-    | 0.letterGradeEarned           |
-    | 0.numericGradeEarned          |
-  Then I verify the following response body fields exist in "/studentAcademicRecords/5aaf89278b7226f668f46509403d86a2b5968978_idf686ca38e2c6acd3eeb149ba351c6da21930e096_id/courseTranscripts":
-    | field                                             |
-    | 0.additionalCreditsEarned.0.additionalCreditType  |
-    | 0.additionalCreditsEarned.0.credit                |
-    | 0.courseAttemptResult                             |
-    | 0.creditsAttempted                                |
-    | 0.creditsEarned                                   |
-    | 0.finalLetterGradeEarned                          |
-    | 0.finalNumericGradeEarned                         |
-    | 0.gradeLevelWhenTaken                             |
-    | 0.gradeType                                       |
-    | 0.methodCreditEarned                              |
-  Then I verify the following response body fields exist in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/studentAcademicRecords":
-    | field                                      |
-    | 0.academicHonors.0.academicHonorsType      |
-    | 0.academicHonors.0.honorAwardDate          |
-    | 0.academicHonors.0.honorsDescription       |
-    | 0.classRanking.classRank                   |
-    | 0.classRanking.classRankingDate            |
-    | 0.classRanking.percentageRanking           |
-    | 0.classRanking.totalNumberInClass          |
-    | 0.cumulativeCreditsAttempted               |
-    | 0.cumulativeCreditsEarned                  |
-    | 0.gradeValueQualifier                      |
-    | 0.projectedGraduationDate                  |
-    | 0.recognitions.0.recognitionAwardDate      |
-    | 0.recognitions.0.recognitionDescription    |
-    | 0.recognitions.0.recognitionType           |
-    | 0.schoolYear                               |
-  Then I verify the following response body fields exist in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/reportCards":
-    | field                       |
-    | 0.gpaCumulative             |
-    | 0.gpaGivenGradingPeriod     |
-    | 0.numberOfDaysAbsent        |
-    | 0.numberOfDaysInAttendance  |
-    | 0.numberOfDaysTardy         |
-    | 0.schoolYear                |
-
-  @parent_blacklist
-  Scenario: Parent should NOT have access to certain fields in API entity response bodies
-    Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "marsha.sollars" with password "marsha.sollars1234"
-    And format "application/json"
-    And I am using api version "v1"
-    And I am accessing data about myself, "matt.sollars"
-    When I navigate to GET "/v1/students/067198fd6da91e1aa8d67e28e850f224d6851713_id"
-    Then I verify the following response body fields do not exist in the response:
-      | field                         |
-      | economicDisadvantaged         |
-      | schoolFoodServicesEligibility |
+    Then I verify the following response body fields exist in "/studentSectionAssociations/24cdeb47d5ccfee1536dd8f6a8951baea76b82f3_id33ee33e252908a2e95eb8d0b4f85f96ffd4b0bae_id/grades":
+      | field                       |
+      | 0.diagnosticStatement       |
+      | 0.gradeType                 |
+      | 0.letterGradeEarned         |
+      | 0.numericGradeEarned        |
+      | 0.performanceBaseConversion |
+      | 0.schoolYear                |
+    Then I verify the following response body fields exist in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/studentGradebookEntries":
+      | field                 |
+      | 0.dateFulfilled       |
+      | 0.diagnosticStatement |
+      | 0.letterGradeEarned   |
+      | 0.numericGradeEarned  |
+    Then I verify the following response body fields exist in "/studentAcademicRecords/5aaf89278b7226f668f46509403d86a2b5968978_idf686ca38e2c6acd3eeb149ba351c6da21930e096_id/courseTranscripts":
+      | field                                            |
+      | 0.additionalCreditsEarned.0.additionalCreditType |
+      | 0.additionalCreditsEarned.0.credit               |
+      | 0.courseAttemptResult                            |
+      | 0.creditsAttempted                               |
+      | 0.creditsEarned                                  |
+      | 0.finalLetterGradeEarned                         |
+      | 0.finalNumericGradeEarned                        |
+      | 0.gradeLevelWhenTaken                            |
+      | 0.gradeType                                      |
+      | 0.methodCreditEarned                             |
+    Then I verify the following response body fields exist in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/studentAcademicRecords":
+      | field                                   |
+      | 0.academicHonors.0.academicHonorsType   |
+      | 0.academicHonors.0.honorAwardDate       |
+      | 0.academicHonors.0.honorsDescription    |
+      | 0.classRanking.classRank                |
+      | 0.classRanking.classRankingDate         |
+      | 0.classRanking.percentageRanking        |
+      | 0.classRanking.totalNumberInClass       |
+      | 0.cumulativeCreditsAttempted            |
+      | 0.cumulativeCreditsEarned               |
+      | 0.gradeValueQualifier                   |
+      | 0.projectedGraduationDate               |
+      | 0.recognitions.0.recognitionAwardDate   |
+      | 0.recognitions.0.recognitionDescription |
+      | 0.recognitions.0.recognitionType        |
+      | 0.schoolYear                            |
+    Then I verify the following response body fields exist in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/reportCards":
+      | field                      |
+      | 0.gpaCumulative            |
+      | 0.gpaGivenGradingPeriod    |
+      | 0.numberOfDaysAbsent       |
+      | 0.numberOfDaysInAttendance |
+      | 0.numberOfDaysTardy        |
+      | 0.schoolYear               |
 
   @parent_staff
   Scenario: Parent should see limited set of fields on staff related entities
     Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "marsha.sollars" with password "marsha.sollars1234"
     And format "application/json"
     And I am using api version "v1"
-    # staff
+  # staff
     Then I verify the following response body fields exist in "/staff/143760f37839b2608d2c929ef26d30c900f6a434_id":
-      | field                       |
-      | name                        |
+      | field |
+      | name  |
     Then I verify the following response body fields do not exist in the response:
       | field                              |
       | staffUniqueStateId                 |
@@ -344,10 +332,10 @@ Feature: As a parent I want to use apps that access the inBloom API
       | yearsOfPriorTeachingExperience     |
       | credentials                        |
       | loginId                            |
-    # teacher
+  # teacher
     Then I verify the following response body fields exist in "/teachers/4b07dba2b6868c0827315b99ea94fc74c0f7c902_id":
-      | field                       |
-      | name                        |
+      | field |
+      | name  |
     Then I verify the following response body fields do not exist in the response:
       | field                              |
       | staffUniqueStateId                 |
@@ -364,58 +352,58 @@ Feature: As a parent I want to use apps that access the inBloom API
       | yearsOfPriorTeachingExperience     |
       | credentials                        |
       | loginId                            |
-    # staffEdorgAssociation
+  # staffEdorgAssociation
     Then I verify the following response body fields exist in "/staffEducationOrgAssignmentAssociations/472d10b94e4a24aa78f5f03e33a92d0ca4af336b_id":
       | field                          |
       | staffReference                 |
       | educationOrganizationReference |
     Then I verify the following response body fields do not exist in the response:
-      | field                         |
-      | staffClassification           |
-      | positionTitle                 |
-      | beginDate                     |
-      | endDate                       |
-    # staffCohortAssociations
+      | field               |
+      | staffClassification |
+      | positionTitle       |
+      | beginDate           |
+      | endDate             |
+  # staffCohortAssociations
     Then I verify the following response body fields exist in "/staffCohortAssociations/a17d936ca77e391ace5d14645a4b9b78f6dbd387_id":
-      | field                       |
-      | staffId                     |
-      | cohortId                    |
+      | field    |
+      | staffId  |
+      | cohortId |
     Then I verify the following response body fields do not exist in the response:
-      | field                         |
-      | beginDate                     |
-      | endDate                       |
-      | studentRecordAccess           |
-    # staffProgramAssociations
+      | field               |
+      | beginDate           |
+      | endDate             |
+      | studentRecordAccess |
+  # staffProgramAssociations
     Then I verify the following response body fields exist in "/staffProgramAssociations/2cc6a6a3e5990518e6c196630873b6adc0736b86_id":
-      | field                       |
-      | staffId                     |
-      | programId                   |
+      | field     |
+      | staffId   |
+      | programId |
     Then I verify the following response body fields do not exist in the response:
-      | field                         |
-      | beginDate                     |
-      | endDate                       |
-      | studentRecordAccess           |
-    # teacherSectionAssociation 
+      | field               |
+      | beginDate           |
+      | endDate             |
+      | studentRecordAccess |
+  # teacherSectionAssociation
     Then I verify the following response body fields exist in "/teacherSectionAssociations/e9b81633cba273dc9cc567d7f0f76a1c070c150d_id2d275caf63e615e3d699f39cae4714084366024d_id":
-      | field                       |
-      | teacherId                   |
-      | sectionId                   |
+      | field     |
+      | teacherId |
+      | sectionId |
     Then I verify the following response body fields do not exist in the response:
-      | field                         |
-      | beginDate                     |
-      | endDate                       |
-      | highlyQualifiedTeacher        |
-      | classroomPosition             |
-    # teacherSchoolAssociation
+      | field                  |
+      | beginDate              |
+      | endDate                |
+      | highlyQualifiedTeacher |
+      | classroomPosition      |
+  # teacherSchoolAssociation
     Then I verify the following response body fields exist in "/teacherSchoolAssociations/8495e720e4f1261f3845aeb1f499ec40359669a5_id":
-      | field                       |
-      | teacherId                   |
-      | schoolId                    |
+      | field     |
+      | teacherId |
+      | schoolId  |
     Then I verify the following response body fields do not exist in the response:
-      | field                         |
-      | programAssignment             |
-      | academicSubjects              |
-    
+      | field             |
+      | programAssignment |
+      | academicSubjects  |
+
 
   @parent_parent
   Scenario: Parent can see all parent fields
@@ -434,18 +422,8 @@ Feature: As a parent I want to use apps that access the inBloom API
       | electronicMail.0.emailAddressType |
       | telephone.0.telephoneNumber       |
       | telephone.0.telephoneNumberType   |
-    Then I verify the following response body fields exist in "/parents/5f8989384287747b1960d16edd95ff2bb318e3bd_id":
-      | field                             |
-      | sex                               |
-      | parentUniqueStateId               |
-      | name.lastSurname                  |
-      | name.middleName                   |
-      | name.firstName                    |
-      | electronicMail.0.emailAddress     |
-      | electronicMail.0.emailAddressType |
-      | telephone.0.telephoneNumber       |
-      | telephone.0.telephoneNumberType   |
 
+  @wip
   @parent_parent
   Scenario: Parent can see all studentParentAssociations fields
     Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "marsha.sollars" with password "marsha.sollars1234"

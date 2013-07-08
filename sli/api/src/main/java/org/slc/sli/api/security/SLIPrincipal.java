@@ -16,19 +16,28 @@
 
 package org.slc.sli.api.security;
 
+import java.io.Serializable;
+import java.lang.reflect.Field;
+import java.security.Principal;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.stereotype.Component;
-
-import java.io.Serializable;
-import java.lang.reflect.Field;
-import java.security.Principal;
-import java.util.*;
 
 /**
  * Attribute holder for SLI Principal
@@ -370,6 +379,20 @@ public class SLIPrincipal implements Principal, Serializable {
         return Collections.unmodifiableSet(this.ownedStudents);
     }
 
+    /**
+     * Provide the set of all rights for this principal, from the edOrg Rights Map.
+     *
+     * @return - The set of all rights for this principal, from the edOrg Rights Map
+     */
+    public Collection<GrantedAuthority> getAllRights() {
+        Set<GrantedAuthority> allRights = new HashSet<GrantedAuthority>();
+        for (Collection<GrantedAuthority> rights : edOrgRights.values()) {
+            allRights.addAll(rights);
+        }
+
+        return allRights;
+    }
+
     public void populateChildren(Repository<Entity> repo) {
 
         if (ownedStudentIds == null) {
@@ -387,8 +410,7 @@ public class SLIPrincipal implements Principal, Serializable {
 
             NeutralQuery nq = new NeutralQuery(new NeutralCriteria("studentParentAssociation.body.parentId", "=", getEntity().getEntityId(), false));
             nq.setEmbeddedFields(Arrays.asList(ResourceNames.SCHOOLS, EntityNames.STUDENT_COHORT_ASSOCIATION, EntityNames.STUDENT_PROGRAM_ASSOCIATION,
-                    ResourceNames.SECTIONS, EntityNames.STUDENT_PARENT_ASSOCIATION));
-
+                    EntityNames.SECTION, EntityNames.STUDENT_PARENT_ASSOCIATION));
 
             Iterable<Entity> students = repo.findAll(EntityNames.STUDENT, nq);
 

@@ -191,8 +191,7 @@ public class RightAccessValidator {
                 if (SecurityUtil.principalId().equals(entity.getMetaData().get("createdBy"))
                         && "true".equals(entity.getMetaData().get("isOrphaned"))) {
                     // Orphaned entities created by the principal are handled the same as before.
-                    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-                    auths.addAll(auth.getAuthorities());
+                    auths.addAll(principal.getAllRights());
                 } else {
                     auths.addAll(entityEdOrgRightBuilder.buildEntityEdOrgRights(principal.getEdOrgRights(), entity));
                 }

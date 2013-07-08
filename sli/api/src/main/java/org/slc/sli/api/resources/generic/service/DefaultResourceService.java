@@ -52,7 +52,6 @@ import org.slc.sli.api.resources.generic.PreConditionFailedException;
 import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.representation.ServiceResponse;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
-import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.selectors.LogicalEntity;
 import org.slc.sli.api.selectors.UnsupportedSelectorException;
 import org.slc.sli.api.service.EntityNotFoundException;
@@ -257,7 +256,12 @@ public class DefaultResourceService implements ResourceService {
     @MigratePostedEntity
     public String postEntity(final Resource resource, EntityBody entity) {
         EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
-        List<String> entityIds = definition.getService().create(adapter.migrate(entity, definition.getResourceName(), POST));
+        List<String> entityIds = new ArrayList<String>();
+        if (contextSupportedEntities.contains(definition.getType()) && SecurityUtil.isStaffUser()) {
+            entityIds = definition.getService().createBasedOnContextualRoles(adapter.migrate(entity, definition.getResourceName(), POST));
+        } else {
+            entityIds = definition.getService().create(adapter.migrate(entity, definition.getResourceName(), POST));
+        }
         return StringUtils.join(entityIds.toArray(), ",");
     }
 
