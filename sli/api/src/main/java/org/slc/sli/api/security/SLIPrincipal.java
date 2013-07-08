@@ -387,7 +387,7 @@ public class SLIPrincipal implements Principal, Serializable {
 
             NeutralQuery nq = new NeutralQuery(new NeutralCriteria("studentParentAssociation.body.parentId", "=", getEntity().getEntityId(), false));
             nq.setEmbeddedFields(Arrays.asList(ResourceNames.SCHOOLS, EntityNames.STUDENT_COHORT_ASSOCIATION, EntityNames.STUDENT_PROGRAM_ASSOCIATION,
-                    ResourceNames.SECTIONS));
+                    EntityNames.SECTION));
 
 
             Iterable<Entity> students = repo.findAll(EntityNames.STUDENT, nq);
