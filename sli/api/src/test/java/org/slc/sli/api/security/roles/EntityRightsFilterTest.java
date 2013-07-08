@@ -172,7 +172,7 @@ public class EntityRightsFilterTest {
         EntityDefinition definition = Mockito.mock(EntityDefinition.class);
         Mockito.when(definition.getType()).thenReturn("student");
 
-        EntityBody res = entityRightsFilter.makeEntityBody(student, treatments, definition, false);
+        EntityBody res = entityRightsFilter.makeEntityBody(student, treatments, definition, false, service.getContextualAuthorities(false, student));
         Assert.assertNotNull(res);
         List<EntityBody> ssa = (List<EntityBody>) res.get("studentSchoolAssociation");
         Assert.assertNotNull(ssa);
