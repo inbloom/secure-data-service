@@ -15,18 +15,16 @@
  */
 package org.slc.sli.api.security.context.validator;
 
-import org.slc.sli.api.util.SecurityUtil;
+import java.util.Map;
+import java.util.Set;
+
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Note that this class differs from StudentToStudentAssociationValidator
