@@ -423,21 +423,12 @@ Feature: As a parent I want to use apps that access the inBloom API
       | telephone.0.telephoneNumber       |
       | telephone.0.telephoneNumberType   |
 
-  @wip
   @parent_parent
   Scenario: Parent can see all studentParentAssociations fields
     Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "marsha.sollars" with password "marsha.sollars1234"
     And format "application/json"
     And I am using api version "v1"
     And I am accessing data about myself, "matt.sollars"
-    Then I verify the following response body fields exist in "/studentParentAssociations/067198fd6da91e1aa8d67e28e850f224d6851713_idc43bbfa3df05d4fd2d78a9edfee8fd63fbcf495a_id":
-      | field                  |
-      | parentId               |
-      | livesWith              |
-      | studentId              |
-      | relation               |
-      | contactPriority        |
-      | emergencyContactStatus |
     Then I verify the following response body fields exist in "/studentParentAssociations/067198fd6da91e1aa8d67e28e850f224d6851713_ide2f8c24b3e1ab8ead6e134d661a464d0f90e4c8e_id":
       | field                  |
       | parentId               |
