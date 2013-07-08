@@ -595,6 +595,8 @@ Feature: Use the APi to successfully get student data while having roles over ma
     | nate.dedrick    |
     | mu.mcneill      |
 
+ @wip
+ Scenario: GET lists of students for a staff member with multiple roles in an edorg hierarchy
     Given I change the custom role of "Aggregate Viewer" to add the "READ_GENERAL" right
     When I navigate to the API authorization endpoint with my client ID
     And I was redirected to the "Simple" IDP Login page
