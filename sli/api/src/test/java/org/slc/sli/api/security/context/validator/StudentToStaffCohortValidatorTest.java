@@ -53,7 +53,7 @@ import org.slc.sli.domain.Entity;
 @SuppressWarnings("unchecked")
 public class StudentToStaffCohortValidatorTest {
 
-    private StudentToStaffAssociation underTest = new StudentToStaffCohortValidator();
+    private AbstractValidatorForStudentsOrParentsToOneOfSeveralAssociationsThatInvolveTeachersOrStaffMembersValidator underTest = new StudentToStaffCohortValidator();
     private PagingRepositoryDelegate<Entity> repo = mock(PagingRepositoryDelegate.class);
     private SecurityContextInjector inj = new SecurityContextInjector();
 

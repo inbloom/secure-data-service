@@ -35,7 +35,7 @@ import org.slc.sli.domain.Entity;
  *
  */
 @Component
-public class StudentToTeacherSectionValidator extends StudentToStaffAssociation {
+public class StudentToTeacherSectionValidator extends AbstractValidatorForStudentsOrParentsToOneOfSeveralAssociationsThatInvolveTeachersOrStaffMembersValidator {
 
     public StudentToTeacherSectionValidator() {
         super(EntityNames.TEACHER_SECTION_ASSOCIATION, "sectionId");

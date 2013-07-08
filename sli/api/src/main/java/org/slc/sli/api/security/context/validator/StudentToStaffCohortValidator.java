@@ -29,7 +29,7 @@ import org.slc.sli.domain.Entity;
  *
  */
 @Component
-public class StudentToStaffCohortValidator extends StudentToStaffAssociation {
+public class StudentToStaffCohortValidator extends AbstractValidatorForStudentsOrParentsToOneOfSeveralAssociationsThatInvolveTeachersOrStaffMembersValidator {
 
     public StudentToStaffCohortValidator() {
         super(EntityNames.STAFF_COHORT_ASSOCIATION, "cohortId");

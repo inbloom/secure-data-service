@@ -29,13 +29,13 @@ import java.util.*;
  *
  * @author nbrown
  */
-public abstract class StudentToStaffAssociation extends BasicValidator {
+public abstract class AbstractValidatorForStudentsOrParentsToOneOfSeveralAssociationsThatInvolveTeachersOrStaffMembersValidator extends BasicValidator {
 
     private final String associationIdField = "_id";
     private final String collection;
     private final String associationField;
 
-    public StudentToStaffAssociation(String type, String associationField) {
+    public AbstractValidatorForStudentsOrParentsToOneOfSeveralAssociationsThatInvolveTeachersOrStaffMembersValidator(String type, String associationField) {
         super(Arrays.asList(EntityNames.STUDENT, EntityNames.PARENT), type);
         this.collection = type;
         this.associationField = associationField;
