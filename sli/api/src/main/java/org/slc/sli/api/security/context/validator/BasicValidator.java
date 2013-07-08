@@ -68,20 +68,10 @@ public abstract class BasicValidator extends AbstractContextValidator {
         if (!areParametersValid(types, entityType, ids)) {
             return false;
         }
-        boolean result = false;
-        Entity me = SecurityUtil.getSLIPrincipal().getEntity();
-        if (EntityNames.PARENT.equals(me.getType())) {
-            // for parent, validate as their kids
-            Iterable<Entity> kids = getKidsForParent(me);
-            for(Entity kid: kids) {
-                result |= doValidate(ids, kid, entityType);
-            }
-        } else {
-            result = doValidate(ids, me, entityType);
-        }
-        return result;
+
+        return doValidate(ids, entityType);
     }
 
-    protected abstract boolean doValidate(Set<String> ids, Entity me, String entityType);
+    protected abstract boolean doValidate(Set<String> ids, String entityType);
 
 }

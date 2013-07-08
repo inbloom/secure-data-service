@@ -15,22 +15,17 @@
  */
 package org.slc.sli.api.security.context.validator;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.springframework.stereotype.Component;
-
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
+import org.springframework.stereotype.Component;
+
+import java.util.*;
 
 /**
  * Validator for student to section
  *
  * @author nbrown
- *
  */
 @Component
 public class StudentToSectionValidator extends BasicValidator {
@@ -40,13 +35,22 @@ public class StudentToSectionValidator extends BasicValidator {
     }
 
     @Override
-    protected boolean doValidate(Set<String> ids, Entity user, String entityType) {
-        List<Map<String, Object>> sectionData = user.getDenormalizedData().get("section");
-        // stupid java with no first class functions, I could do this in one line in any decent
-        // language...
-        Set<String> sections = new HashSet<String>(sectionData.size());
-        for (Map<String, Object> section : sectionData) {
-            sections.add((String) section.get("_id"));
+    protected boolean doValidate(Set<String> ids, String entityType) {
+
+        Set<String> sections = new HashSet<String>();
+        for (Entity user : SecurityUtil.getSLIPrincipal().getOwnedStudentEntities()) {
+
+            List<Map<String, Object>> sectionData = user.getDenormalizedData().get("section");
+
+            if (null == sectionData) {
+                // If there is no denormalized sections
+                return false;
+            }
+            // stupid java with no first class functions, I could do this in one line in any decent
+            // language...
+            for (Map<String, Object> section : sectionData) {
+                sections.add((String) section.get("_id"));
+            }
         }
 
         return sections.containsAll(ids);

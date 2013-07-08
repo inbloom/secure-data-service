@@ -90,17 +90,6 @@ task :ingestionErrorReportTest do
   runTests("test/features/ingestion/features/ingestion_ErrorReport.feature")
 end
 
-# This task SHOULD NOT BE ADDED to the general ingestion test suite
-desc "Run Ingestion Performance Tests"
-task :ingestionPerformanceTest do
-  runTests("test/features/ingestion/features/performance_testing.feature")
-end
-
-desc "Run Ingestion Database Performance Tests"
-task :ingestionMongoDBPerformanceTest do
-  runTests("test/features/ingestion/features/ingestion_mongo_performance.feature")
-end
-
 desc "Run Ingestion Parallel Job Tests"
 task :ingestionParallelTests do
  runTests("test/features/ingestion/features/ingestion_acceptance_parallel_test.feature")
@@ -138,19 +127,9 @@ task :ingestionCompetencyLevelDescriptorTest do
   runTests("test/features/ingestion/features/ingestion_competencyLevelDescriptor.feature")
 end
 
-desc "Run bad control File Test"
-task :ingestionBadControlFileTest do
-  runTests("test/features/ingestion/features/ingestion_badCtlFile.feature")
-end
-
 desc "Run Dry Run Test"
 task :ingestionDryRunTest do
   runTests("test/features/ingestion/features/ingestion_dry_run.feature")
-end
-
-desc "Run Course Update Test"
-task :ingestionCourseUpdateTest do
-  runTests("test/features/ingestion/features/ingestion_courseUpdate.feature")
 end
 
 desc "Run Complex Object Array Id Reference Resolution Test"
@@ -192,17 +171,6 @@ end
 desc "Run Preloading Test"
 task :ingestionPreloading do
   runTests("test/features/ingestion/features/ingestion_preload_data.feature")
-end
-
-desc "Run Ingestion Order Agnostic Lists in Key Fields Testing"
-task :ingestionOrderAgnosticListTest do
-  testHash = Hash[
-    "staff" => "staff_fixture.json",
-    "program" => "program_fixture.json",
-    "staffProgramAssociation" => "ingestion/orderAgnosticList_fixture.json"
-  ]
-  setMultipleFixtureFiles(testHash)
-  runTests("test/features/ingestion/features/ingestion_orderAgnosticList.feature")
 end
 
 desc "Run Partial Ingestion of transformed Test"
@@ -286,7 +254,8 @@ desc "Run Ingestion Deletion Tests"
         :ingestionSuperStudentDelete,
         :ingestionSuperSectionDelete,
         :ingestionSuperAssessmentDelete,
-	      :ingestionSuperStudentAssessmentDelete,
+	    :ingestionSuperStudentAssessmentDelete,
+	    :ingestionDeleteAndReingest,
         :multipleForceDeletesTest,
         :multipleOrphansDeleteTest,
         :errorsOnUnsupportedDeleteRequestsTest,
@@ -630,6 +599,10 @@ end
 
 task :ingestionSuperStudentAssessmentDelete do
   runTests("test/features/ingestion/features/ingestion_super_studentAssessment_delete.feature")
+end
+
+task :ingestionDeleteAndReingest do
+  runTests("test/features/ingestion/features/ingestion_nes_delete_reingest.feature")
 end
 
 desc "Ingest Bulk Extract LEA dataset"

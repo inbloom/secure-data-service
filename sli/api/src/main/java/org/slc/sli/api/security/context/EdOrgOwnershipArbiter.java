@@ -189,7 +189,7 @@ public class EdOrgOwnershipArbiter {
 
         for (Entity edorg : edorgs) {
             hierarchicalEdorgs.add(edorg.getEntityId());
-            hierarchicalEdorgs.addAll(helper.getParentEdOrgs(edorg));
+            hierarchicalEdorgs.addAll(helper.getHierarchicalEdOrgs(edorg));
         }
 
         return hierarchicalEdorgs;
