@@ -15,6 +15,7 @@
  */
 package org.slc.sli.api.security.context.validator;
 
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
@@ -37,7 +38,7 @@ public class StudentToStudentSectionAssociationValidator extends AbstractContext
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return isStudent() && EntityNames.STUDENT_SECTION_ASSOCIATION.equals(entityType) && !isTransitive;
+        return isStudentOrParent() && EntityNames.STUDENT_SECTION_ASSOCIATION.equals(entityType) && !isTransitive;
     }
 
     @Override
@@ -46,7 +47,6 @@ public class StudentToStudentSectionAssociationValidator extends AbstractContext
             return false;
         }
 
-        Set<String> otherStudentIds = new HashSet<String>();
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids));
         for(Entity ssa : repo.findAll(EntityNames.STUDENT_SECTION_ASSOCIATION, query)) {
             Map<String, Object> body = ssa.getBody();
