@@ -459,7 +459,7 @@ Then /^the response field "(.*?)" should be "(.*?)"$/ do |field, value|
   result = fieldExtract(field, @result) 
   if (result.to_s != value)
     puts "#{startRed}Result for #{field} was #{result.to_s}#{colorReset}"
-    assert(false, "Unexpected result for field #{field}, should be #{value}.")
+    assert(false, "Unexpected result for field #{field}, should be #{value} was #{result.to_s}")
   else
     puts "Result for #{field} was #{result.to_s}"
   end
