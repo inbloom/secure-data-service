@@ -617,7 +617,6 @@ end
 
 When /^I PUT the "(.*?)" for a "(.*?)" entity to "(.*?)" at "(.*?)"$/ do |field, entity_name, value, endpoint|
   # Get the desired entity from mongo
-  #response_map = get_entity_body_from_api(entity_name)
   response_body = get_response_body(endpoint)
   assert(response_body != nil, "No response from GET request for entity #{entity_name}")
   # If we get a list, just take the first entry. No muss, no fuss.
@@ -647,15 +646,15 @@ end
 When /^I PATCH and validate the following entities:$/ do |table|
   table.hashes.map do |api_params|
     print "Patching #{api_params['entity']} .."
-    step "I PATCH the \"#{api_params['fieldName']}\" for a \"#{api_params['entityName']}\" entity of type \"#{api_params['entityType']}\" to \"#{api_params['value']}\""
+    step "I PATCH the \"#{api_params['fieldName']}\" entity of type \"#{api_params['entityType']}\" to \"#{api_params['value']}\" at endpoint \"#{api_params['endpoint']}\""
     step "I should receive a return code of #{api_params['returnCode']}"
     print "OK\n"
   end
 end
 
-When /^I PATCH the "(.*?)" for a "(.*?)" entity of type "(.*?)" to "(.*?)"$/ do |field_name, entity_name, entity_type, value|
+When /^I PATCH the "(.*?)" entity of type "(.*?)" to "(.*?)" at endpoint "(.*?)"$/ do |field_name, entity_type, value, endpoint|
   # Get the desired entity from mongo, we will only use the _id
-  entity_response_body = get_full_patch_entity_from_api(entity_name)
+  entity_response_body = get_response_body(endpoint)
   # We will set the PATCH body to ONLY the field_values map we get from get_patch_body_by_entity_name()
   patch_body = get_patch_body_by_entity_name(field_name, value)
   # Get the endpoint that corresponds to the desired entity
@@ -719,33 +718,6 @@ def translate_custom_entity_to_endpoint(endpoint_name)
   end
   assert(endpoint != nil, "No endpoint mapping entry found in endpoint_name_translation_map for type #{endpoint_name}, please add an entry and try again.")
   return endpoint
-end
-
-def get_full_patch_entity_from_api(entity_name)
-  entity_to_endpoint_map = {
-    "msollars.grade" => "grades/f438cf61eda4d45d77f3d7624fc8d089aa95e5ea_id4542ee7a376b1c7813dcdc495368c875bc6b03ed_id",
-    "msollars.student" => "students/067198fd6da91e1aa8d67e28e850f224d6851713_id",
-    "msollars.studentAssessment" => "studentAssessments/f9643b7abba04ae01586723abed0e38c63e4f975_id",
-    "msollars.studentGradebookEntry" => "studentGradebookEntries/7f714f03238d978398fbd4f8abbf9acb3e5775fe_id",
-    "newParentDad" => "parents/41f42690a7c8eb5b99637fade00fc72f599dab07_id",
-    "newParentMom" => "parents/41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id",
-    "newStudent" => "students/9bf3036428c40861238fdc820568fde53e658d88_id",
-    "newStudentParentAssociation" => "studentParentAssociations/9bf3036428c40861238fdc820568fde53e658d88_idc3a6a4ed285c14f562f0e0b63e1357e061e337c6_id",
-    "patchEdOrg" => "educationOrganizations/a13489364c2eb015c219172d561c62350f0453f3_id",
-    "patchProgram" => "programs/0ee2b448980b720b722706ec29a1492d95560798_id",
-    "patchGradingPeriod" => "gradingPeriods/8feb483ade5d7b3b45c1e4b4a50d00302cba4548_id",
-    "patchLearningObjective" => "learningObjectives/bc2dd61ff2234eb25835dbebe22d674c8a10e963_id",
-    "patchLearningStandard" => "learningStandards/1bd6fea0e8b8ac6a8fe87a8530effbced0df9318_id",
-    "patchCompetencyLevelDescriptor" => "competencyLevelDescriptor/ceddd8ec0ee71c1f4f64218e00581e9b27c0fffb_id",
-    "patchStudentCompetencyObjective" => "studentCompetencyObjectives/ef680988e7c411cdb5438ded373512cd59cbfa7b_id",
-    "patchSession" => "sessions/fe6e1a162e6f6825830d78d72cb55498afaedcd3_id",
-    "patchSEACourse" => "courses/494d4c8281ec78c7d8634afb683d39f6afdc5b85_id",
-    "patchSEACourseOffering" => "courseOfferings/0fee7a7aba9a96388ef628b7e3e5e5ea60a142a7_id",
-    "patchAssessment" => "assessments/8d58352d180e00da82998cf29048593927a25c8e_id",
-    "patchGraduationPlan" => "graduationPlans/a77cdbececc81173aa76a34c05f9aeb44126a64d_id"
-  }
-  # perform a GET request on the requested API endpoint
-  return get_response_body(entity_to_endpoint_map[entity_name])
 end
 
 def get_patch_body_by_entity_name(field, value)
@@ -815,46 +787,6 @@ def get_patch_body_by_entity_name(field, value)
     }
   }
   return entity_name_to_patch_body_map[field]
-end
-
-def get_entity_body_from_api(entity_name)
-  entity_to_uri_map = {
-    "school" => "educationOrganizations/a13489364c2eb015c219172d561c62350f0453f3_id",
-    "educationOrganization" => "educationOrganizations",
-    "newCourseOffering" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/courseOfferings",
-    "newParentDad" => "parents/41f42690a7c8eb5b99637fade00fc72f599dab07_id",
-    "newParentMom" => "parents/41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id",
-    "orphanEdorg" => "educationOrganizations/54b4b51377cd941675958e6e81dce69df801bfe8_id",
-    "parent" => "parents",
-    "patchEdOrg" => "educationOrganizations/a13489364c2eb015c219172d561c62350f0453f3_id",
-    "section" => "sections",
-    "newSection" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/sections",
-    "staffEducationOrganizationAssociation" => "staffEducationOrgAssignmentAssociations",
-    "staffProgramAssociation" => "staffProgramAssociations",
-    "staffStudent" => "students",
-    "student" => "schools/a13489364c2eb015c219172d561c62350f0453f3_id/studentSchoolAssociations/students",
-    "newStudent" => "students/9bf3036428c40861238fdc820568fde53e658d88_id",
-    "studentCohortAssocation" => "studentCohortAssociations",
-    "studentDisciplineIncidentAssociation" => "studentDisciplineIncidentAssociations",
-    "studentParentAssociation" => "students/9bf3036428c40861238fdc820568fde53e658d88_id/studentParentAssociations",
-    "newStudentParentAssociation" => "studentParentAssociations/9bf3036428c40861238fdc820568fde53e658d88_idc3a6a4ed285c14f562f0e0b63e1357e061e337c6_id",
-    "studentProgramAssociation" => "studentProgramAssociations",
-    "studentSchoolAssociation" => "studentSchoolAssociations",
-    "studentSectionAssociation" => "studentSectionAssociations",
-    "teacherSchoolAssociation" => "teacherSchoolAssociations",
-    "patchProgram" => "programs/0ee2b448980b720b722706ec29a1492d95560798_id",
-    "patchGradingPeriod" => "gradingPeriods/8feb483ade5d7b3b45c1e4b4a50d00302cba4548_id",
-    "patchLearningObjective" => "learningObjectives/bc2dd61ff2234eb25835dbebe22d674c8a10e963_id",
-    "patchLearningStandard" => "learningStandards/1bd6fea0e8b8ac6a8fe87a8530effbced0df9318_id",
-    "patchCompetencyLevelDescriptor" => "competencyLevelDescriptor/ceddd8ec0ee71c1f4f64218e00581e9b27c0fffb_id",
-    "patchStudentCompetencyObjective" => "studentCompetencyObjectives/ef680988e7c411cdb5438ded373512cd59cbfa7b_id",
-    "patchSession" => "sessions/fe6e1a162e6f6825830d78d72cb55498afaedcd3_id",
-    "patchSEACourse" => "courses/494d4c8281ec78c7d8634afb683d39f6afdc5b85_id",
-    "patchSEACourseOffering" => "courseOfferings/0fee7a7aba9a96388ef628b7e3e5e5ea60a142a7_id",
-    "patchAssessment" => "assessments/8d58352d180e00da82998cf29048593927a25c8e_id",
-    "patchGraduationPlan" => "graduationPlans/a77cdbececc81173aa76a34c05f9aeb44126a64d_id"
-  }
-  return get_response_body(entity_to_uri_map[entity_name])
 end
 
 def get_response_body(endpoint)
@@ -3151,7 +3083,107 @@ def get_post_body_by_entity_name(entity_name)
           "maxRawScore" => 10
         }
       }]
-    }
+    },
+    "cgray.parent" => {
+      "entityType" => "parent",
+      "parentUniqueStateId" => "cgray",
+      "loginId" => "cgray@bazinga.org",
+      "sex" => "Male",
+      "telephone" => [
+        {"primaryTelephoneNumberIndicator" => true,
+         "telephoneNumber" => "(666)555-1776",
+         "telephoneNumberType" => "Emergency 2"
+        },
+        {"primaryTelephoneNumberIndicator" => false,
+         "telephoneNumber" => "(666)555-1777",
+         "telephoneNumberType" => "Mobile"
+        }
+      ],
+      "address" => [{
+        "streetNumberName" => "256 Charles Gray Has His Own Street St.",
+        "postalCode" => "66666",
+        "stateAbbreviation" => "IL",
+        "addressType" => "Home",
+        "city" => "Chicago"
+      }],
+      "electronicMail" => [
+        {"emailAddress" => "9468@fakemail.com",
+         "emailAddressType" => "Home/Personal"
+        },
+        {"emailAddress" => "cgray@Midgar.edu",
+         "emailAddressType" => "Work"
+        }
+      ],
+      "name" => {
+       "middleName" => "Ivan",
+       "lastSurname" => "Gray",
+       "firstName" => "Charles"
+      },
+    },
+    "cgray.parent.notMe" => {
+      "entityType" => "parent",
+      "parentUniqueStateId" => "cgray",
+      "loginId" => "cgray@bazinga.org",
+      "sex" => "Male",
+      "telephone" => [
+        {"primaryTelephoneNumberIndicator" => true,
+         "telephoneNumber" => "(666)555-1776",
+         "telephoneNumberType" => "Emergency 2"
+        },
+        {"primaryTelephoneNumberIndicator" => false,
+         "telephoneNumber" => "(666)555-1777",
+         "telephoneNumberType" => "Mobile"
+        }
+      ],
+      "address" => [{
+        "streetNumberName" => "256 Charles Gray Has His Own Street St.",
+        "postalCode" => "66666",
+        "stateAbbreviation" => "IL",
+        "addressType" => "Home",
+        "city" => "Chicago"
+      }],
+      "electronicMail" => [
+        {"emailAddress" => "9468@fakemail.com",
+         "emailAddressType" => "Home/Personal"
+        },
+        {"emailAddress" => "cgray@Midgar.edu",
+         "emailAddressType" => "Work"
+        }
+      ],
+      "name" => {
+       "middleName" => "Ivan",
+       "lastSurname" => "Gray",
+       "firstName" => "Charles"
+      },
+    },
+    "cgray.studentParentAssociation.myClass" => {
+      "entityType" => "studentParentAssociation",
+      "parentId" => "1fe86fe9c45680234f1caa3b494a1c4b42838954_id",
+      "studentId" => "fdd8ee3ee44133f489e47d2cae109e886b041382_id",
+      "relation" => "Father",
+      "contactPriority" => 1
+    },
+    "cgray.studentParentAssociation.notMyKid" => {
+      "entityType" => "studentParentAssociation",
+      "parentId" => "1fe86fe9c45680234f1caa3b494a1c4b42838954_id",
+      "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+      "relation" => "Father",
+      "contactPriority" => 2
+    },
+    "cgray.studentParentAssociation.mySchool" => {
+      "entityType" => "studentParentAssociation",
+      "parentId" => "1fe86fe9c45680234f1caa3b494a1c4b42838954_id",
+      "studentId" => "6b41180a6ba41031f50f3b50c97ef5f9387666c3_id",
+      "relation" => "Father",
+      "contactPriority" => 3
+    },
+    "cgray.studentParentAssociation.newLea" => {
+      "entityType" => "studentParentAssociation",
+      "parentId" => "1fe86fe9c45680234f1caa3b494a1c4b42838954_id",
+      "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+      "relation" => "Father",
+      "contactPriority" => 1
+    },
   }
   return json_bodies_by_name[entity_name]
 end

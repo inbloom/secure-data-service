@@ -1,19 +1,19 @@
 @RALLY_US4305
 @RALLY_US4306
-
-Feature: As a student or staff I want to use apps that access the inBloom API
+@parent_login
+Feature: As a parent I want to use apps that access the inBloom API
 
   Background: None
 
-  Scenario: As a student, I want access to my data to use educational apps
+  Scenario: As a parent, I want access to my data to use educational apps
   # Log in via simple-idp and authenticate student credentials
-    Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
+    Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "marsha.sollars" with password "marsha.sollars1234"
     And format "application/json"
     When I navigate to GET "/v1/home"
     Then I should validate all the HATEOS links
 
   Scenario: I check the response body fields of specific API endpoints
-    Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
+    Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "marsha.sollars" with password "marsha.sollars1234"
     And format "application/json"
     And I am using api version "v1"
     And I am accessing data about myself, "matt.sollars"
@@ -306,9 +306,9 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     | 0.numberOfDaysTardy         |
     | 0.schoolYear                |
 
-  @student_blacklist
-  Scenario: Student should NOT have access to certain fields in API entity response bodies
-    Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
+  @parent_blacklist
+  Scenario: Parent should NOT have access to certain fields in API entity response bodies
+    Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "marsha.sollars" with password "marsha.sollars1234"
     And format "application/json"
     And I am using api version "v1"
     And I am accessing data about myself, "matt.sollars"
@@ -318,9 +318,9 @@ Feature: As a student or staff I want to use apps that access the inBloom API
       | economicDisadvantaged         |
       | schoolFoodServicesEligibility |
 
-  @student_staff
-  Scenario: Student should see limited set of fields on staff related entities
-    Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
+  @parent_staff
+  Scenario: Parent should see limited set of fields on staff related entities
+    Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "marsha.sollars" with password "marsha.sollars1234"
     And format "application/json"
     And I am using api version "v1"
     # staff
@@ -416,9 +416,9 @@ Feature: As a student or staff I want to use apps that access the inBloom API
       | academicSubjects              |
     
 
-  @student_parent
-  Scenario: Student can see all parent fields
-    Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
+  @parent_parent
+  Scenario: Parent can see all parent fields
+    Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "marsha.sollars" with password "marsha.sollars1234"
     And format "application/json"
     And I am using api version "v1"
     And I am accessing data about myself, "matt.sollars"
@@ -445,9 +445,9 @@ Feature: As a student or staff I want to use apps that access the inBloom API
       | telephone.0.telephoneNumber       |
       | telephone.0.telephoneNumberType   |
 
-  @student_parent
-  Scenario: Student can see all studentParentAssociations fields
-    Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
+  @parent_parent
+  Scenario: Parent can see all studentParentAssociations fields
+    Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "marsha.sollars" with password "marsha.sollars1234"
     And format "application/json"
     And I am using api version "v1"
     And I am accessing data about myself, "matt.sollars"

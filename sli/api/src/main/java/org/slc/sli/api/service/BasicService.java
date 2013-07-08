@@ -769,10 +769,11 @@ public class BasicService implements EntityService, AccessibilityCheck {
                     Map<String, Object> body = entity.getBody();
                     return selfId.equals(body.get(ParameterConstants.TEACHER_ID));
                 }
-            } else if (SecurityUtil.isStudent() && STUDENT_SELF.contains(type)) {
+            } else if (SecurityUtil.isStudentOrParent() && STUDENT_SELF.contains(type)) {
                 Entity entity = repo.findById(defn.getStoredCollectionName(), entityId);
                 if (entity != null) {
-                    return selfId.equals(entity.getBody().get(ParameterConstants.STUDENT_ID));
+                    Set<String> owned = principal.getOwnedStudentIds();
+                    return owned.contains(entity.getBody().get(ParameterConstants.STUDENT_ID));
                 }
             }
         }

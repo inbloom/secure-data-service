@@ -62,7 +62,6 @@ import org.slc.sli.aspect.ApiMigrationAspect.MigratePostedEntity;
 import org.slc.sli.aspect.ApiMigrationAspect.MigrateResponse;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
-import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -161,9 +160,7 @@ public class DefaultResourceService implements ResourceService {
                 try {
                     finalResults = logicalEntity.getEntities(apiQuery, resource.getResourceType());
                 } catch (UnsupportedSelectorException e) {
-                    // US5765: Temporarily disabled the new logic
-                    SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
-                    if (ids.size() == 1  && contextSupportedEntities.contains(definition.getType()) &&  SecurityUtil.isStaffUser()) {
+                    if (ids.size() == 1  && contextSupportedEntities.contains(definition.getType()) && SecurityUtil.isStaffUser()) {
                         finalResults = (List<EntityBody>) definition.getService().listBasedOnContextualRoles(apiQuery);
                     } else {
                         finalResults = (List<EntityBody>) definition.getService().list(apiQuery);
@@ -451,7 +448,14 @@ public class DefaultResourceService implements ResourceService {
                     )));
                 }
 
-                for (EntityBody entityBody : assocEntity.getService().list(apiQuery)) {
+                Iterable<EntityBody> entityList;
+                //if (contextSupportedEntities.contains(finalEntity.getType()) && SecurityUtil.isStaffUser()) {
+                  //  entityList = assocEntity.getService().listBasedOnContextualRoles(apiQuery);
+                //} else {
+                    entityList = assocEntity.getService().list(apiQuery);
+                //}
+
+                for (EntityBody entityBody : entityList) {
                     List<String> filteredIds = entityBody.getValues(resourceKey);
                     if ((filteredIds == null) || (filteredIds.isEmpty())) {
                         key = resourceKey;
@@ -499,7 +503,11 @@ public class DefaultResourceService implements ResourceService {
             try {
                 entityBodyList = logicalEntity.getEntities(finalApiQuery, finalEntity.getResourceName());
             } catch (final UnsupportedSelectorException e) {
-                entityBodyList = (List<EntityBody>) finalEntity.getService().list(finalApiQuery);
+                /*if (contextSupportedEntities.contains(finalEntity.getType()) && SecurityUtil.isStaffUser()) {
+                    entityBodyList = (List<EntityBody>) finalEntity.getService().listBasedOnContextualRoles(finalApiQuery);
+                } else {*/
+                    entityBodyList = (List<EntityBody>) finalEntity.getService().list(finalApiQuery);
+                //}
             }
 
             long count = getEntityCount(finalEntity, finalApiQuery);

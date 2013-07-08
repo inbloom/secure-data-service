@@ -15,28 +15,21 @@
  */
 package org.slc.sli.api.security.context.validator;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.util.datetime.DateHelper;
+import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.util.datetime.DateHelper;
-import org.slc.sli.domain.Entity;
+import java.util.*;
 
 /**
  * Validator for teacher/staff
  *
  * @author nbrown
- *
  */
 @Component
 public class TransitiveStudentToStaffValidator extends BasicValidator {
@@ -49,12 +42,16 @@ public class TransitiveStudentToStaffValidator extends BasicValidator {
     }
 
     @Override
-    protected boolean doValidate(Set<String> ids, Entity me, String entityType) {
+    protected boolean doValidate(Set<String> ids, String entityType) {
         Set<String> idsToCheck = new HashSet<String>(ids);
-        idsToCheck.removeAll(filterConnectedViaEdOrg(idsToCheck, me));
-        idsToCheck.removeAll(filterConnectedViaSection(idsToCheck, me));
-        idsToCheck.removeAll(filterConnectedViaProgram(idsToCheck, me));
-        idsToCheck.removeAll(filterConnectedViaCohort(idsToCheck, me));
+
+        for (Entity me : SecurityUtil.getSLIPrincipal().getOwnedStudentEntities()) {
+
+            idsToCheck.removeAll(filterConnectedViaEdOrg(idsToCheck, me));
+            idsToCheck.removeAll(filterConnectedViaSection(idsToCheck, me));
+            idsToCheck.removeAll(filterConnectedViaProgram(idsToCheck, me));
+            idsToCheck.removeAll(filterConnectedViaCohort(idsToCheck, me));
+        }
         return idsToCheck.isEmpty();
     }
 
@@ -67,7 +64,7 @@ public class TransitiveStudentToStaffValidator extends BasicValidator {
     }
 
     private Set<String> filterThroughSubdocs(Set<String> ids, Entity me, String subDocType, String subDocKey,
-            String idKey, String staffAssocType, String staffRef, boolean isDenorm) {
+                                             String idKey, String staffAssocType, String staffRef, boolean isDenorm) {
         Set<String> subDocIds = isDenorm ? getDenormIds(me, subDocType, subDocKey) : getSubDocIds(me, subDocType,
                 subDocKey);
         if (subDocIds.isEmpty()) {
@@ -108,10 +105,10 @@ public class TransitiveStudentToStaffValidator extends BasicValidator {
         q.fields().include("teacherSectionAssociation.$");
         Iterator<Entity> sections = getRepo().findEach(EntityNames.SECTION, q);
         Set<String> filtered = new HashSet<String>();
-        while(sections.hasNext()) {
+        while (sections.hasNext()) {
             Entity section = sections.next();
             List<Entity> tsas = section.getEmbeddedData().get("teacherSectionAssociation");
-            for(Entity tsa: tsas) {
+            for (Entity tsa : tsas) {
                 String teacher = (String) tsa.getBody().get("teacherId");
                 filtered.add(teacher);
             }
@@ -134,7 +131,7 @@ public class TransitiveStudentToStaffValidator extends BasicValidator {
         }
         Set<String> assocIds = new HashSet<String>();
         for (Entity subDoc : subDocs) {
-            if(!getDateHelper().isFieldExpired(subDoc.getBody())) {
+            if (!getDateHelper().isFieldExpired(subDoc.getBody())) {
                 assocIds.add((String) subDoc.getBody().get(idKey));
             }
         }
@@ -149,7 +146,7 @@ public class TransitiveStudentToStaffValidator extends BasicValidator {
         }
         Set<String> assocIds = new HashSet<String>();
         for (Map<String, Object> denorm : denorms) {
-            if(!getDateHelper().isFieldExpired(denorm)) {
+            if (!getDateHelper().isFieldExpired(denorm)) {
                 assocIds.add((String) denorm.get(idKey));
             }
         }

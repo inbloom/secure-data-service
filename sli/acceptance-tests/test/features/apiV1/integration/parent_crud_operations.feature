@@ -1,13 +1,12 @@
 @RALLY_US4305
 @RALLY_US4306
-
-Feature: As a student or staff I want to use apps that access the inBloom API
+Feature: As a parent I want to use apps that access the inBloom API
 
   Background: None
 
-  @student_crud
-  Scenario: Student cannot Write to public entities
-    Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
+  @wip @parent_crud
+  Scenario: Parent cannot Write to public entities
+    Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "marsha.sollars" with password "marsha.sollars1234"
     And format "application/json"
     And I am using api version "v1"
     #POST
@@ -158,24 +157,34 @@ Feature: As a student or staff I want to use apps that access the inBloom API
       | studentDisciplineIncidentAssociation | 908404e876dd56458385667fa383509035cd4312_id33a1c7ee086d4c488531652ab4a99cf0b6bd619d_id | 403 |
 
 
-@student_crud @clean_up_student_posts
-Scenario: POST new entities as a privileged student with extended rights
-Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "leader.m.sollars" with password "leader.m.sollars1234"
+@wip @parent_crud @clean_up_parent_posts
+Scenario: POST new entities as a privileged parent with extended rights
+Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "jstevenson" with password "jstevenson1234"
   And format "application/json"
   And I am using api version "v1"
-  #POST a new teacher as an enterprising student who somehow has write access to restricted entities
+  #using IT Admin, POST cgray as a parent
+ #When I POST and validate the following entities:
+    #| entityName                              | entityType               | returnCode |
+    #| cgray.parent                            | parent                   | 201        |
+    #| cgray.studentParentAssociation.myClass  | studentParentAssociation | 201        |
+Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "charles.gray" with password "charles.gray1234"
+  #POST entities as cgray with the parent role
   When I POST and validate the following entities:
-    | entityName                     | entityType            | returnCode |
-    | msollars.studentAssessment     | studentAssessment     | 201        |
-    | msollars.studentGradebookEntry | studentGradebookEntry | 201        |
-    | msollars.grade                 | grade                 | 201        |
-    | msollars.student               | student               | 403        |
+    | entityName                              | entityType               | returnCode |
+    | cgray.parent                            | parent                   | 403        |
+    | cgray.parent.notMe                      | parent                   | 403        |
+    | cgray.student.myKid                     | student                  | 403        |
+    | cgray.student.notMyKid                  | student                  | 403        |
+    | cgray.studentParentAssociation.myClass  | studentParentAssociation | 403        |
+    | cgray.studentParentAssociation.notMyKid | studentParentAssociation | 201        |
+    | cgray.student.notMyKid                  | student                  | 201        |
+    | cgray.studentParentAssociation.mySchool | studentParentAssociation | 201        |
+    | cgray.studentParentAssociation.newLea   | studentParentAssociation | 201        |
   When I PATCH and validate the following entities:
-    | fieldName              | entityType            | value                       | returnCode | endpoint                                                                                      |
-    | msollars.name          | student               | Patch                       | 204        | students/067198fd6da91e1aa8d67e28e850f224d6851713_id                                          |
-    | diagnosticStatement    | grade                 | Student was patched derpy   | 204        | grades/f438cf61eda4d45d77f3d7624fc8d089aa95e5ea_id4542ee7a376b1c7813dcdc495368c875bc6b03ed_id |
-    | gradeLevelWhenAssessed | studentAssessment     | Sixth grade                 | 204        | studentAssessments/f9643b7abba04ae01586723abed0e38c63e4f975_id                                |
-    | diagnosticStatement    | studentGradebookEntry | "Student was patched good"  | 204        | studentGradebookEntries/7f714f03238d978398fbd4f8abbf9acb3e5775fe_id                           |
+    | fieldName              | entityType               | value                       | returnCode | endpoint                                                                                      |
+    | msollars.name          | student                  | Patch                       | 204        | students/067198fd6da91e1aa8d67e28e850f224d6851713_id                                          |
+    | diagnosticStatement    | parent                   | Student was patched derpy   | 204        | grades/f438cf61eda4d45d77f3d7624fc8d089aa95e5ea_id4542ee7a376b1c7813dcdc495368c875bc6b03ed_id |
+    | gradeLevelWhenAssessed | studentParentAssociation | Sixth grade                 | 204        | studentAssessments/f9643b7abba04ae01586723abed0e38c63e4f975_id                                |
   When I PUT and validate the following entities:
     | field                  | entityName            | value                   | returnCode | endpoint                                                            |
     | name.firstName         | student               | MattPut                 | 204        | students/067198fd6da91e1aa8d67e28e850f224d6851713_id                |

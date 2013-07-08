@@ -4,14 +4,11 @@ Feature: Safe Deletion and Cascading Deletion
   Background: I have a landing zone route configured
   Given I am using local data store
 
+  @wip
   Scenario: Delete Program with cascade
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
-    And I post "BroadSetOfTypes.zip" file as the payload of the ingestion job
-    When zip file is scp to ingestion landing zone
-    Then a batch job for file "BroadSetOfTypes.zip" is completed in database
-    And I should not see an error log file created
-    And I should not see a warning log file created
+    When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
 
     Then there exist "1" "student" records like below in "Midgar" tenant. And I save this query as "DR1"
       |field                                                  |value                                                |

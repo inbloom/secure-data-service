@@ -19,10 +19,10 @@ package org.slc.sli.api.security.context.validator;
 import java.util.Arrays;
 import java.util.Set;
 
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.domain.Entity;
 
 /**
  * User: dkornishev
@@ -35,8 +35,8 @@ public class StudentToStudentValidator extends BasicValidator {
     }
 
     @Override
-    protected boolean doValidate(Set<String> ids, Entity me, String entityType) {
-        return ids.size() == 1 && ids.contains(me.getEntityId());
+    protected boolean doValidate(Set<String> ids, String entityType) {
+        return SecurityUtil.getSLIPrincipal().getOwnedStudentIds().containsAll(ids);
     }
 
 }
