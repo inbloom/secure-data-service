@@ -53,6 +53,7 @@ import org.slc.sli.domain.AccessibilityCheck;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.FullSuperDoc;
+import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
@@ -71,7 +72,6 @@ import org.slc.sli.validation.ValidationError;
 @Component("basicService")
 public class BasicService implements EntityService, AccessibilityCheck {
 
-    private static final String ADMIN_SPHERE = "Admin";
     private static final int MAX_RESULT_SIZE = 0;
     private static final String CUSTOM_ENTITY_COLLECTION = "custom_entities";
     private static final String CUSTOM_ENTITY_CLIENT_ID = "clientId";
@@ -134,6 +134,20 @@ public class BasicService implements EntityService, AccessibilityCheck {
         return entityIds;
     }
 
+    @Override
+    public List<String> createBasedOnContextualRoles(List<EntityBody> content) {
+        List<String> entityIds = new ArrayList<String>();
+        for (EntityBody entityBody : content) {
+            entityIds.add(createBasedOnContextualRoles(entityBody));
+        }
+        if (entityIds.size() != content.size()) {
+            for (String id : entityIds) {
+                delete(id);
+            }
+        }
+        return entityIds;
+    }
+
     /**
      * Retrieves an entity from the data store with certain fields added/removed.
      *
@@ -171,6 +185,26 @@ public class BasicService implements EntityService, AccessibilityCheck {
         }
 
         return entity.getEntityId();
+    }
+
+    @Override
+    public String createBasedOnContextualRoles(EntityBody content) {
+
+        Entity entity = new MongoEntity(defn.getType(), null, content, createMetadata());
+        rightAccessValidator.checkAccess(false, false, entity, entity.getType());
+
+        checkReferences(null, content);
+
+        List<String> entityIds = new ArrayList<String>();
+        sanitizeEntityBody(content);
+
+        // Ideally, we should validate everything first before actually persisting!
+        Entity created = getRepo().create(defn.getType(), content, createMetadata(), collectionName);
+        if (created != null) {
+            entityIds.add(created.getEntityId());
+        }
+
+        return created.getEntityId();
     }
 
     /**
