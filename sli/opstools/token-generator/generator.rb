@@ -7,14 +7,14 @@ require 'date'
 options = {}
 
 # These options are only used for automated tests.  It's not intended for use by the operator.
-student = ARGV.include? "--student"
-ARGV.delete "--student" if student
-parent = ARGV.include? "--parent"
-ARGV.delete "--parent" if parent
-
-if student and parent
+if ARGV.include? "--student" and ARGV.include? "--parent"
   raise "Can't specify both student and parent at the same time."
 end
+user_type = :staff
+user_type = :student if ARGV.include? "--student"
+ARGV.delete "--student" if ARGV.include? "--student"
+user_type = :parent if ARGV.include? "--parent"
+ARGV.delete "--parent" if ARGV.include? "--parent"
 
 ARGV.options do |opts|
   opts.banner = "Usage: generator -t Tenant -u User -c ClientId -r Role -e expiration [options]"
@@ -75,7 +75,7 @@ class PKFactory
   end
 end
 
-def createUserSession(options, realm, user, edorg, app, student, db)
+def createUserSession(options, realm, user, edorg, app, user_type, db)
   #Create a userSession
   userSession = {}
   body = {}
@@ -103,9 +103,12 @@ def createUserSession(options, realm, user, edorg, app, student, db)
   principal[:roles] = options[:roles]
   principal[:tenantId] = options[:tenant]
   principal[:name] = user['body']['name']['firstName'] + " " + user['body']['name']['lastSurname']
-  if student
+  if user_type == :student
     principal[:externalId] = user['body']['studentUniqueStateId']
     principal[:userType] = 'student'
+  elsif user_type == :parent
+    principal[:externalId] = user['body']['parentUniqueStateId']
+    principal[:userType] = 'parent'
   else
     principal[:externalId] = user['body']['staffUniqueStateId']
   end
@@ -167,9 +170,9 @@ abort "Unable to locate #{options[:realm]} realm" if realm.nil?
 app = db['application'].find_one({'body.client_id' => options[:application]})
 abort "Unable to locate Application: #{options[:application]}" if app.nil?
 #Get the user
-if student
+if user_type == :student
   user = staffDb[:student].find_one({'body.studentUniqueStateId' => options[:user]})
-elsif parent
+elsif user_type == :parent
   user = staffDb[:parent].find_one({'body.parentUniqueStateId' => options[:user]})
 else
   user = staffDb[:staff].find_one({"body.staffUniqueStateId" => options[:user]})
@@ -187,10 +190,10 @@ query = {}
 query['body.principal.realm'] = realm['_id']
 query['body.principal.tenantId'] = options[:tenant]
 query['body.appSession.clientId'] = app["body"]["client_id"]
-if student
+if user_type == :student
   externalId = user['body']['studentUniqueStateId']
   query['userType'] = 'student'
-elsif
+elsif user_type == :parent
   externalId = user['body']['parentUniqueStateId']
   query['userType'] = 'parent'
 else
@@ -202,7 +205,7 @@ userSession = db[:userSession].find_one(query)
 if(userSession != nil && !options[:newSession])
   token = updateUserSession(options, edorg, userSession, db)
 else
-  appSession = createUserSession(options, realm, user, edorg, app, student, db)
+  appSession = createUserSession(options, realm, user, edorg, app, user_type, db)
   token = appSession[:token]
 end
   
