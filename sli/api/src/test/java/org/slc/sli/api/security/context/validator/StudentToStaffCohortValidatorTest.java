@@ -33,11 +33,13 @@ import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.joda.time.DateTime;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.slc.sli.api.resources.SecurityContextInjector;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.util.datetime.DateHelper;
@@ -49,11 +51,10 @@ import org.slc.sli.domain.Entity;
  * @author nbrown
  *
  */
-@Ignore // OK, I don't understand this test TODO fix
 @SuppressWarnings("unchecked")
 public class StudentToStaffCohortValidatorTest {
 
-    private StudentToStaffAssociation underTest = new StudentToStaffCohortValidator();
+    private StudentToStaffAssociationAbstractValidator underTest = new StudentToStaffCohortValidator();
     private PagingRepositoryDelegate<Entity> repo = mock(PagingRepositoryDelegate.class);
     private SecurityContextInjector inj = new SecurityContextInjector();
 
@@ -94,6 +95,11 @@ public class StudentToStaffCohortValidatorTest {
                 makeStudentCohort("s2", null),
                 makeStudentCohort("s3", DateTime.now().minusMonths(2).toString(DateHelper.getDateTimeFormat()))));
         when(me.getEmbeddedData()).thenReturn(superDocs);
+        SLIPrincipal principal = mock(SLIPrincipal.class);
+        when(principal.getOwnedStudentEntities()).thenReturn(new HashSet<Entity>(Arrays.asList(me)));
+        Authentication auth = mock(Authentication.class);
+        when(auth.getPrincipal()).thenReturn(principal);
+        SecurityContextHolder.getContext().setAuthentication(auth);
         assertTrue(underTest.doValidate(new HashSet<String>(Arrays.asList("sca1", "sca2")), EntityNames.STAFF_COHORT_ASSOCIATION));
         assertFalse(underTest.doValidate(new HashSet<String>(Arrays.asList("sca1", "sca2", "sca3")), EntityNames.STAFF_COHORT_ASSOCIATION));
     }

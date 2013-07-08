@@ -41,6 +41,11 @@ public class StudentToSectionValidator extends BasicValidator {
         for (Entity user : SecurityUtil.getSLIPrincipal().getOwnedStudentEntities()) {
 
             List<Map<String, Object>> sectionData = user.getDenormalizedData().get("section");
+
+            if (null == sectionData) {
+                // If there is no denormalized sections
+                return false;
+            }
             // stupid java with no first class functions, I could do this in one line in any decent
             // language...
             for (Map<String, Object> section : sectionData) {
