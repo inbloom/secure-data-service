@@ -376,7 +376,7 @@ Feature: Use the APi to successfully get student data while having roles over ma
     And the response should have general student data
     And the response should have restricted student data
 
-  Scenario: Student belongs to schools in different LEAs
+ Scenario: Student belongs to schools in different LEAs
     When I navigate to the API authorization endpoint with my client ID
     And I was redirected to the "Simple" IDP Login page
     And I submit the credentials "mgonzales" "mgonzales1234" for the "Simple" login page
@@ -395,7 +395,7 @@ Feature: Use the APi to successfully get student data while having roles over ma
     When I navigate to GET "<bert.jakeman URI>"
     Then I should receive a return code of 403
 
-  Scenario: User gets data based on roles in SEOA, even if user has more roles defined in IDP
+ Scenario: User gets data based on roles in SEOA, even if user has more roles defined in IDP
     When I navigate to the API authorization endpoint with my client ID
     And I was redirected to the "Simple" IDP Login page
     And I submit the credentials "xbell" "xbell1234" for the "Simple" login page
@@ -414,7 +414,7 @@ Feature: Use the APi to successfully get student data while having roles over ma
     When I navigate to GET "<nate.dedrick URI>"
     Then I should receive a return code of 403
 
-  Scenario: User gets additional data of new role if a seoa is added to match additional role defined in IDP
+ Scenario: User gets additional data of new role if a seoa is added to match additional role defined in IDP
 
     Given I add a SEOA for "xbell" in "District 9" as a "Leader"
     When I navigate to the API authorization endpoint with my client ID
@@ -437,7 +437,7 @@ Feature: Use the APi to successfully get student data while having roles over ma
     When I navigate to GET "<nate.dedrick URI>"
     Then I should receive a return code of 403
 
-  Scenario: Teacher can only access students associated with her/him.
+ Scenario: Teacher can only access students associated with her/him.
     When I navigate to the API authorization endpoint with my client ID
     And I was redirected to the "Simple" IDP Login page
     And I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
@@ -538,7 +538,7 @@ Feature: Use the APi to successfully get student data while having roles over ma
     And the response should have general student data
     And the response should not have restricted student data
 
-  Scenario: Educators can only access students associated with them
+ Scenario: Educators can only access students associated with them
     Given the only SEOA for "rbraverman" is as a "Educator" in "District 9"
     And the following student section associations in Midgar are set correctly
       | student         | teacher              | edorg                 | enrolledInAnySection? |
@@ -570,8 +570,9 @@ Feature: Use the APi to successfully get student data while having roles over ma
     When I navigate to GET "<carmen.ortiz URI>"
     Then I should receive a return code of 403
 
-  @wip
-  Scenario: GET lists of students
+ #Do not remove the @wip until after studentSchoolAssociations have been updated to use contextual roles
+ @wip
+ Scenario: GET lists of students for a staff member with multiple roles in an edorg heirarchy
     When I navigate to the API authorization endpoint with my client ID
     And I was redirected to the "Simple" IDP Login page
     And I submit the credentials "msmith" "msmith1234" for the "Simple" login page
@@ -592,4 +593,98 @@ Feature: Use the APi to successfully get student data while having roles over ma
     | bert.jakeman    |
     | carmen.ortiz    |
     | nate.dedrick    |
-    | mu.mcneil       |
+    | mu.mcneill      |
+
+    Given I change the custom role of "Aggregate Viewer" to add the "READ_GENERAL" right
+    When I navigate to the API authorization endpoint with my client ID
+    And I was redirected to the "Simple" IDP Login page
+    And I submit the credentials "msmith" "msmith1234" for the "Simple" login page
+    Then I should receive a json response containing my authorization code
+    When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
+    Then I should receive a json response containing my authorization token
+    And I should be able to use the token to make valid API calls
+
+    When I navigate to GET "/v1/students"
+    Then I should receive a return code of 200
+    And the response should have the following students
+      | student         |
+      | matt.sollars    |
+      | jack.jackson    |
+      | lashawn.taite   |
+      | bert.jakeman    |
+      | carmen.ortiz    |
+    And the response should not have the following students
+      | student         |
+      | nate.dedrick    |
+      | mu.mcneill      |
+
+ @wip
+ Scenario: GET lists of students for a staff member with multiple roles
+   Given the following student section associations in Midgar are set correctly
+     | student         | teacher              | edorg                 | enrolledInAnySection? |
+     | carmen.ortiz    | rbelding             | Daybreak Central High | yes                   |
+     | lashawn.taite   | rbelding             | Daybreak Central High | no                    |
+     | bert.jakeman    | rbelding             | Daybreak Central High | no                    |
+   And "lashawn.taite" is not associated with any program that belongs to "rbelding"
+   And "lashawn.taite" is not associated with any cohort that belongs to "rbelding"
+   And "bert.jakeman" is not associated with any program that belongs to "rbelding"
+   And "bert.jakeman" is not associated with any cohort that belongs to "rbelding"
+
+   When I navigate to the API authorization endpoint with my client ID
+   And I was redirected to the "Simple" IDP Login page
+   And I submit the credentials "rbelding" "rbelding1234" for the "Simple" login page
+   Then I should receive a json response containing my authorization code
+   When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
+   Then I should receive a json response containing my authorization token
+   And I should be able to use the token to make valid API calls
+
+   When I navigate to GET "/v1/students"
+   Then I should receive a return code of 200
+   #TODO: After US5787, the returned list should now have matt.sollars, jack.jackson, and lashawn.taite
+   And the response should have the following students
+      | student         |
+      | carmen.ortiz    |
+   And the response should not have the following students
+      | student         |
+      | matt.sollars    |
+      | jack.jackson    |
+      | lashawn.taite   |
+      | bert.jakeman    |
+      | nate.dedrick    |
+      | mu.mcneill      |
+
+ @wip
+ Scenario: GET lists of students for an educator in multiple schools
+    Given the following student section associations in Midgar are set correctly
+      | student         | teacher              | edorg                 | enrolledInAnySection? |
+      | carmen.ortiz    | linda.kim            | Daybreak Central High | yes                   |
+      | bert.jakeman    | linda.kim            | Daybreak Central High | yes                   |
+      | lashawn.taite   | linda.kim            | Daybreak Central High | no                    |
+      | carmen.ortiz    | linda.kim            | Daybreak Bayside High | yes                   |
+      | nate.dedrick    | linda.kim            | Daybreak Bayside High | yes                   |
+      | mu.mcneill      | linda.kim            | Daybreak Bayside High | no                    |
+    And "lashawn.taite" is not associated with any program that belongs to "linda.kim"
+    And "lashawn.taite" is not associated with any cohort that belongs to "linda.kim"
+    And "mu.mcneill" is not associated with any program that belongs to "linda.kim"
+    And "mu.mcneill" is not associated with any cohort that belongs to "linda.kim"
+    When I navigate to the API authorization endpoint with my client ID
+    And I was redirected to the "Simple" IDP Login page
+    And I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
+    Then I should receive a json response containing my authorization code
+    When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
+    Then I should receive a json response containing my authorization token
+    And I should be able to use the token to make valid API calls
+
+    When I navigate to GET "/v1/students"
+    Then I should receive a return code of 200
+    And the response should have the following students
+      | student         |
+      | carmen.ortiz    |
+      | bert.jakeman    |
+      | nate.dedrick    |
+    And the response should not have the following students
+      | student         |
+      | matt.sollars    |
+      | lashawn.taite   |
+      | jack.jackson    |
+      | mu.mcneill      |
