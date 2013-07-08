@@ -73,6 +73,11 @@ public abstract class StudentToStaffAssociation extends BasicValidator {
 
     protected Set<String> getStudentAssociationsFromSubDoc(Entity me, String subDocType, String associationKey) {
         List<Entity> associations = me.getEmbeddedData().get(subDocType);
+
+        if (null == associations) {
+            return new HashSet<String>();
+        }
+
         Set<String> myCohorts = new HashSet<String>();
         for (Entity assoc : associations) {
             if (!isExpired(assoc)) {
@@ -84,6 +89,11 @@ public abstract class StudentToStaffAssociation extends BasicValidator {
 
     protected Set<String> getStudentAssociationsFromDenorm(Entity me, String denormType) {
         List<Map<String, Object>> associations = me.getDenormalizedData().get(denormType);
+
+        if (null == associations) {
+            return new HashSet<String>();
+        }
+
         Set<String> myCohorts = new HashSet<String>();
         for (Map<String, Object> assoc : associations) {
             if (!getDateHelper().isFieldExpired(assoc)) {
