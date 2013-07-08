@@ -15,27 +15,34 @@
  */
 package org.slc.sli.api.security.context.validator;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.util.datetime.DateHelper;
 import org.slc.sli.domain.Entity;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-
-import java.util.*;
 
 /**
  * Abstract validator to student to staff xxx associations
  *
  * @author nbrown
  */
-public abstract class StudentToStaffAssociation extends BasicValidator {
+public abstract class StudentToStaffAssociationAbstractValidator extends BasicValidator {
 
     private final String associationIdField = "_id";
     private final String collection;
     private final String associationField;
 
-    public StudentToStaffAssociation(String type, String associationField) {
+    public StudentToStaffAssociationAbstractValidator(String type, String associationField) {
         super(Arrays.asList(EntityNames.STUDENT, EntityNames.PARENT), type);
         this.collection = type;
         this.associationField = associationField;

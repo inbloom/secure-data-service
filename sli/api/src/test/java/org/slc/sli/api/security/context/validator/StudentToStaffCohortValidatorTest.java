@@ -49,11 +49,10 @@ import org.slc.sli.domain.Entity;
  * @author nbrown
  *
  */
-@Ignore // OK, I don't understand this test TODO fix
 @SuppressWarnings("unchecked")
 public class StudentToStaffCohortValidatorTest {
 
-    private StudentToStaffAssociation underTest = new StudentToStaffCohortValidator();
+    private StudentToStaffAssociationAbstractValidator underTest = new StudentToStaffCohortValidator();
     private PagingRepositoryDelegate<Entity> repo = mock(PagingRepositoryDelegate.class);
     private SecurityContextInjector inj = new SecurityContextInjector();
 
