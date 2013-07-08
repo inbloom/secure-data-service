@@ -388,7 +388,7 @@ public class SLIPrincipal implements Principal, Serializable {
                     getEntity().getEntityId(), false)));
 
             for (Entity student : students) {
-                ownedStudentIds.add(id);
+                ownedStudentIds.add(student.getEntityId());
                 ownedStudents.add(student);
             }
         }
