@@ -1319,6 +1319,7 @@ task :importSandboxMidgarData do
     "session" => "Midgar_data/session_fixture.json",
     "program" => "Midgar_data/program_fixture.json",
     "section" => "Midgar_data/section_fixture.json",
+    "calendarDate" => "Midgar_data/calendarDate_fixture.json",
     "course" => "Midgar_data/course_fixture.json",
     "student" => "Midgar_data/student_fixture.json",
     "parent" => "Midgar_data/parent_fixture.json",
