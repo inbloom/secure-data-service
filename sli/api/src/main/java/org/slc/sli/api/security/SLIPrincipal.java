@@ -16,6 +16,7 @@
 
 package org.slc.sli.api.security;
 
+import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -385,8 +386,9 @@ public class SLIPrincipal implements Principal, Serializable {
         } else if (EntityNames.PARENT.equals(this.entity.getType())) {
 
             NeutralQuery nq = new NeutralQuery(new NeutralCriteria("studentParentAssociation.body.parentId", "=", getEntity().getEntityId(), false));
-            nq.setEmbeddedFields(Arrays.asList(EntityNames.STUDENT_SECTION_ASSOCIATION, EntityNames.STUDENT_COHORT_ASSOCIATION, EntityNames.STUDENT_PROGRAM_ASSOCIATION,
-                    EntityNames.STUDENT_SCHOOL_ASSOCIATION));
+            nq.setEmbeddedFields(Arrays.asList(ResourceNames.SCHOOLS, EntityNames.STUDENT_COHORT_ASSOCIATION, EntityNames.STUDENT_PROGRAM_ASSOCIATION,
+                    ResourceNames.SECTIONS));
+
 
             Iterable<Entity> students = repo.findAll(EntityNames.STUDENT, nq);
 
