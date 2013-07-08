@@ -121,6 +121,7 @@ Feature: Data Browser
     Then I should be redirected to the impersonation page
     And I should see that I "<DEVELOPER_SB_EMAIL>" am logged in
 
+    Given I am running in Sandbox mode
 
     Given a landing zone
     And I drop the file "E2ESandboxSEOA.zip" into the landingzone
