@@ -869,14 +869,13 @@ def check_records_in_sli_collection(table)
   table.hashes.map do |row|
       entity_collection = secDb.collection(row["collectionName"])
       entity_count = entity_collection.find( {row["searchParameter"] => {"$in" => [row["searchValue"]]}}).count().to_s
-      puts "There are " + entity_count.to_s + " in " + row["collectionName"] + " collection for record with " + row["searchParameter"] + " = " + row["searchValue"]
       if  entity_count.to_s != row["expectedRecordCount"].to_s
           puts "Failed #{row["collectionName"]}"
           result = "false"
           red = "\e[31m"
           reset = "\e[0m"
       end
-      puts "#{red}There are " + entity_count.to_s + " in " + row["collectionName"] + " collection for record with " + row["searchParameter"] + " = " + row["searchValue"] + ". Expected: " + row["expectedRecordCount"].to_s + "#{reset}"
+      STDOUT.puts "#{red}There are " + entity_count.to_s + " in " + row["collectionName"] + " collection for record with " + row["searchParameter"] + " = " + row["searchValue"] + ". Expected: " + row["expectedRecordCount"].to_s + "#{reset}"
   end
   assert(result == "true", "Some records are not found in collection.")
   enable_NOTABLESCAN()

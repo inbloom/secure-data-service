@@ -16,10 +16,7 @@
 
 package org.slc.sli.api.security.context;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.core.UriInfo;
@@ -48,7 +45,7 @@ public class WriteValidator {
     private HashMap<String, String> entitiesNeedingEdOrgWriteValidation;
     private List<ComplexValidation> complexValidationList;
     private Map<String, ComplexValidation> complexValidationMap;
-    private String edOrgId;
+    private Set<String> targetEdOrgIds;
 
     @Value("${sli.security.writeValidation}")
     private boolean isWriteValidationEnabled;
@@ -118,9 +115,10 @@ public class WriteValidator {
 
 
     public void validateWriteRequest(EntityBody entityBody, UriInfo uriInfo, SLIPrincipal principal) {
+        targetEdOrgIds = new HashSet<String>();
 
         if (isWriteValidationEnabled && !isValidForEdOrgWrite(entityBody, uriInfo, principal)) {
-            ThrowAPIException.throwAccessDeniedException("Invalid reference. No association to referenced entity.", edOrgId);
+            ThrowAPIException.throwAccessDeniedException("Invalid reference. No association to referenced entity.", targetEdOrgIds);
         }
 
     }
@@ -156,10 +154,10 @@ public class WriteValidator {
 
     private boolean isEntityValidForEdOrgWrite(Map<String, Object> entityBody, String entityType, SLIPrincipal principal) {
         boolean isValid = true;
-        edOrgId = null;
         if (entitiesNeedingEdOrgWriteValidation.get(entityType) != null) {
             String edOrgId = (String) entityBody.get(entitiesNeedingEdOrgWriteValidation.get(entityType));
             if (edOrgId!=null){ //patch may not send the edorgId and we've already checked edorg writes on the existing entity
+                targetEdOrgIds.add(edOrgId);
                 isValid = principal.getSubEdOrgHierarchy().contains(edOrgId);
             }
         } else if (complexValidationMap.containsKey(entityType)) {
