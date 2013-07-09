@@ -25,7 +25,7 @@ class Student < BaseEntity
                 :birthDay, :email, :loginId, :address, :city, :state, :postalCode, :race, :hispanicLatino,
                 :economicDisadvantaged, :limitedEnglish, :disability, :schoolFood,
                 :studentIdentificationCode, :otherName, :telephone, :profileThumbnail,
-                :oldEthnicity, :economicDisadvantaged, :studentCharacteristics,
+                :oldEthnicity, :studentCharacteristics,
                 :languages, :homeLanguages, :disabilities, :section504Disabilities,
                 :displacementStatus, :programParticipations, :learningStyles,
                 :cohortYears, :studentIndicators
