@@ -1,12 +1,12 @@
-Feature: Users can see public entities
+Feature: Users can access public entities
 
-   Background: Update one calendar date to reference a school (until Odin generates Calendar Dates for schools)
-   Given I update the "calendarDate" with ID "7629c5951c8af6dac204cf636d5a81acb64fc6ef_id" field "body.educationOrganizationId" to "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id"
+  Background: Update one calendar date to reference a school (until Odin generates Calendar Dates for schools)
+    Given I update the "calendarDate" with ID "7629c5951c8af6dac204cf636d5a81acb64fc6ef_id" field "body.educationOrganizationId" to "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id"
 
-  Scenario Outline: User can see public entities via direct id calls
+  Scenario Outline: User access of public entities via direct id calls
     Given I log in to realm "<REALM>" using simple-idp as "<TYPE>" "<USERNAME>" with password "<PASSWORD>"
-    And format "application/json"
-    And I am using api version "v1"
+     And format "application/json"
+     And I am using api version "v1"
     Then I validate I have access to entities via the API access pattern "/v1/Entity/Id":
       | entity                                                                           | id                                          | notes                                                                     |
       | assessments                                                                      | b6430cc0f403986249675794c9ab49b5d978f682_id |                                                                           |
@@ -28,19 +28,31 @@ Feature: Users can see public entities
       | calendarDates                                                                    | dcaab0add72ad8d37de0dafa312b4d23d35ddb21_id | associated to LEA IL-HIGHWIND 99d527622dcb51c465c515c0636d17e085302d5e_id |
       | educationOrganizations/1b223f577827204a1c7e9c851dba06bea6b031fe_id/calendarDates |                                             |                                                                           |
       | schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/calendarDates                |                                             |                                                                           |
-      #| educationOrganizations/1b223f577827204a1c7e9c851dba06bea6b031fe_id/calendarDates | e00dc4fb9d6be8372a549dea899fe1915a598c5c_id |                                                                           |
-      #| schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/calendarDates                | 7629c5951c8af6dac204cf636d5a81acb64fc6ef_id |                                                                           |
-      #| gradingPeriods/19b56717877893f8d13bcfe6cfc256811c60c8ff_id/calendarDates         |                                             |                                                                           |
-      #| gradingPeriods/19b56717877893f8d13bcfe6cfc256811c60c8ff_id/calendarDates         | 54b0182a783a58ca4cb7266773266a2040fcd799_id |                                                                           |
+     #| educationOrganizations/1b223f577827204a1c7e9c851dba06bea6b031fe_id/calendarDates | e00dc4fb9d6be8372a549dea899fe1915a598c5c_id |                                                                           |
+     #| schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/calendarDates                | 7629c5951c8af6dac204cf636d5a81acb64fc6ef_id |                                                                           |
+     #| gradingPeriods/19b56717877893f8d13bcfe6cfc256811c60c8ff_id/calendarDates         |                                             |                                                                           |
+     #| gradingPeriods/19b56717877893f8d13bcfe6cfc256811c60c8ff_id/calendarDates         | 54b0182a783a58ca4cb7266773266a2040fcd799_id |                                                                           |
 
-      Examples:
-        | REALM                                   | TYPE              | USERNAME          | PASSWORD              |
-        #| Illinois Daybreak School District 4529  | aggregate viewer  | msmith            | msmith1234            |
-        | Illinois Daybreak School District 4529  | leader            | mgonzales         | mgonzales1234         |
-        | Illinois Daybreak School District 4529  | educator          | linda.kim         | linda.kim1234         |
-        | Illinois Daybreak School District 4529  | admin             | akopel            | akopel1234            |
-        #| Illinois Daybreak Parents               | parent            | marsha.sollars    | marsha.sollars1234    |
-        #| Illinois Daybreak Students              | student           | student.m.sollars | student.m.sollars1234 |
+    Then I validate that I am denied access to certain endpoints via API:
+       | uri                        | rc  | description                |
+       | /v1/calendarDates/1        | 404 | Non-existent calendar date |
+
+    Then I verify the following response body fields in "/calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id":
+       | field                                                 | value                                       |
+       | id                                                    | 7629c5951c8af6dac204cf636d5a81acb64fc6ef_id |
+       | entityType                                            | calendarDate                                |
+       | calendarEvent                                         | Instructional day                           |
+       | date                                                  | 2012-09-18                                  |
+       | educationOrganizationId                               | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
+
+    Examples:
+       | REALM                                   | TYPE              | USERNAME          | PASSWORD              |
+      #| Illinois Daybreak School District 4529  | aggregate viewer  | msmith            | msmith1234            |
+       | Illinois Daybreak School District 4529  | leader            | mgonzales         | mgonzales1234         |
+       | Illinois Daybreak School District 4529  | educator          | linda.kim         | linda.kim1234         |
+       | Illinois Daybreak School District 4529  | admin             | akopel            | akopel1234            |
+      #| Illinois Daybreak Parents               | parent            | marsha.sollars    | marsha.sollars1234    |
+      #| Illinois Daybreak Students              | student           | student.m.sollars | student.m.sollars1234 |
 
   @wip
   Scenario Outline: Verify Rewrites for entities for staff
