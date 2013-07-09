@@ -1,5 +1,4 @@
 @RALLY_US5470
-@wip
 Feature: As a parent I want to use apps that access my associated Staff, Teachers, and Students via the inBloom API
 
 Background: None
@@ -182,7 +181,7 @@ Scenario: Parent has access to non-transitive associations through cohorts, prog
     | 58d1e760fcdc1612b900ecb8359a6d8b3e49a5ee_id |
     | 6757c28005c30748f3bbda02882bf59bc81e0d71_id |
 
-@parent_staff_denied @parent_expired_access
+@parent_staff_denied @parent_expired_access @wip
 Scenario: Verify parent access/deny through associations and expired entities
   Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "jstevenson" with password "jstevenson1234"
     And format "application/json"
