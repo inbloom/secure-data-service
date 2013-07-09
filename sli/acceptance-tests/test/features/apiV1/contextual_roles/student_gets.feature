@@ -620,7 +620,6 @@ Feature: Use the APi to successfully get student data while having roles over ma
       | nate.dedrick    |
       | mu.mcneill      |
 
- @wip
  Scenario: GET lists of students for a staff member with multiple roles
    Given the following student section associations in Midgar are set correctly
      | student         | teacher              | edorg                 | enrolledInAnySection? |
@@ -655,7 +654,6 @@ Feature: Use the APi to successfully get student data while having roles over ma
       | nate.dedrick    |
       | mu.mcneill      |
 
- @wip
  Scenario: GET lists of students for an educator in multiple schools
     Given the following student section associations in Midgar are set correctly
       | student         | teacher              | edorg                 | enrolledInAnySection? |
