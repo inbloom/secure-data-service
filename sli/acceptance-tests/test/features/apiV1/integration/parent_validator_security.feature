@@ -1,4 +1,4 @@
-@parent_validator @wip
+@parent_validator 
 Feature: Verify integrety of Parent Validation Logic
   I want to make damn sure that student validation logic is working as intended, and that others do not break it.
 

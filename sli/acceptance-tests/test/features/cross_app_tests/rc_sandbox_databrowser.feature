@@ -121,6 +121,15 @@ Feature: Data Browser
     Then I should be redirected to the impersonation page
     And I should see that I "<DEVELOPER_SB_EMAIL>" am logged in
 
+    Given I am running in Sandbox mode
+
+    Given a landing zone
+    And I drop the file "E2ESandboxSEOA.zip" into the landingzone
+    And I check for the file "job*.log" every "5" seconds for "60" seconds
+    And the landing zone should contain a file with the message "All records processed successfully."
+    And I should not see an error log file created
+    And I should not see a warning log file created
+
     # Illinois Daybreak Central High Educator - Charles Gray as IT Administrator
     And I want to manually imitate the user "cgray" who is a "IT Administrator"
     Then I should be on Portal home page
@@ -144,3 +153,10 @@ Feature: Data Browser
     And I should see the text "Ortiz"
     When I search for the identifier "<MATT SOLLARS UNIQUE ID>" in "students"
     Then I see a "There were no entries matching your search" alert box
+
+    Given a landing zone
+    And I drop the file "E2ESandboxSEOADelete.zip" into the landingzone
+    And I check for the file "job*.log" every "5" seconds for "60" seconds
+    And the landing zone should contain a file with the message "All records processed successfully."
+    And I should not see an error log file created
+    And I should not see a warning log file created

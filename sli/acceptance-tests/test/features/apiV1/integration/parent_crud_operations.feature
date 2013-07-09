@@ -4,7 +4,7 @@ Feature: As a parent I want to use apps that access the inBloom API
 
   Background: None
 
-  @wip @parent_crud
+  @parent_crud
   Scenario: Parent cannot Write to public entities
     Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "marsha.sollars" with password "marsha.sollars1234"
     And format "application/json"

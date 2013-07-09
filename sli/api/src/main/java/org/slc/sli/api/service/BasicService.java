@@ -191,7 +191,9 @@ public class BasicService implements EntityService, AccessibilityCheck {
     public String createBasedOnContextualRoles(EntityBody content) {
 
         Entity entity = new MongoEntity(defn.getType(), null, content, createMetadata());
-        rightAccessValidator.checkAccess(false, false, entity, entity.getType());
+
+        Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(false, entity);
+        rightAccessValidator.checkAccess(false, false, entity, entity.getType(), auths);
 
         checkReferences(null, content);
 
@@ -458,10 +460,19 @@ public class BasicService implements EntityService, AccessibilityCheck {
         List<EntityBody> results = new ArrayList<EntityBody>();
 
         for (Entity entity : entities) {
-            rightAccessValidator.checkAccess(true, isSelf, entity, defn.getType());
-            rightAccessValidator.checkFieldAccess(neutralQuery, isSelf, entity, defn.getType());
+            try {
+            Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf, entity);
+            rightAccessValidator.checkAccess(true, isSelf, entity, defn.getType(), auths);
+            rightAccessValidator.checkFieldAccess(neutralQuery, isSelf, entity, defn.getType(), auths);
 
-            results.add(entityRightsFilter.makeEntityBody(entity, treatments, defn, isSelf));
+            results.add(entityRightsFilter.makeEntityBody(entity, treatments, defn, isSelf, auths));
+            } catch (AccessDeniedException aex) {
+                if(entities.size() == 1) {
+                    throw aex;
+                } else {
+                    error(aex.getMessage());
+                }
+            }
         }
 
         if (results.isEmpty()) {
@@ -787,9 +798,10 @@ public class BasicService implements EntityService, AccessibilityCheck {
     private boolean isSelf(String entityId) {
         SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
         String selfId = principal.getEntity().getEntityId();
+        Collection<String> studentIds = principal.getOwnedStudentIds();
         String type = defn.getType();
         if (selfId != null) {
-            if (selfId.equals(entityId)) {
+            if (selfId.equals(entityId) || studentIds.contains(entityId)) {
                 return true;
             } else if (EntityNames.STAFF_ED_ORG_ASSOCIATION.equals(type)) {
                 Entity entity = repo.findById(defn.getStoredCollectionName(), entityId);

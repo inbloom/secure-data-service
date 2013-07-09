@@ -765,7 +765,7 @@ Then(/^I PATCH entities and check return code$/) do |table|
   assert(success, "Response code was unexpected, see logs above.")
 end
 
-After('@student_expired_access') do |scenario|
+After('@student_expired_access, @parent_expired_access') do |scenario|
   step "I log in to realm \"Illinois Daybreak School District 4529\" using simple-idp as \"IT Administrator\" \"jstevenson\" with password \"jstevenson1234\""
   #step "I am logged in using \"jstevenson\" \"jstevenson1234\" to realm \"IL\""
   step "format \"application/json\""
