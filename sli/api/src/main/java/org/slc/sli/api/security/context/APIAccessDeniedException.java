@@ -42,6 +42,17 @@ public class APIAccessDeniedException extends AccessDeniedException {
         super(msg);
     }
 
+    // inherit targetEdOrg info from the passed exception and set cause
+    // - used to catch and rethrow with cause
+    public APIAccessDeniedException(String msg, APIAccessDeniedException e) {
+        super(msg);
+        this.targetEdOrgs = e.getTargetEdOrgs();
+        this.entityType = e.getEntityType();
+        this.entities = e.getEntities();
+        this.entityIds = e.getEntityIds();
+        this.initCause(e);
+    }
+
     public APIAccessDeniedException(String msg, String targetEdOrg) {
         super(msg);
         this.targetEdOrgs = new HashSet<String>();
@@ -67,6 +78,14 @@ public class APIAccessDeniedException extends AccessDeniedException {
         }
     }
 
+    public APIAccessDeniedException(String msg, String entityType, String entityId) {
+        super(msg);
+
+        this.entityType = entityType;
+        this.entityIds = new HashSet<String>();
+        this.entityIds.add(entityId);
+    }
+
     public APIAccessDeniedException(String msg, String entityType, Collection<String> entityIds) {
         super(msg);
 
@@ -88,6 +107,22 @@ public class APIAccessDeniedException extends AccessDeniedException {
 
     public Set<String> getEntityIds() {
         return entityIds;
+    }
+
+    public void setTargetEdOrgs(Set<String> targetEdOrgs) {
+        this.targetEdOrgs = targetEdOrgs;
+    }
+
+    public void setEntityType(String entityType) {
+        this.entityType = entityType;
+    }
+
+    public void setEntities(Set<Entity> entities) {
+        this.entities = entities;
+    }
+
+    public void setEntityIds(Set<String> entityIds) {
+        this.entityIds = entityIds;
     }
 
 }

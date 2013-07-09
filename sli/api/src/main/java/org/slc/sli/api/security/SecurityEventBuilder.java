@@ -65,26 +65,29 @@ public class SecurityEventBuilder {
     }
 
 
-
+    // unknown targetEdOrg
     public SecurityEvent createSecurityEvent(String loggingClass, URI requestUri, String slMessage) {
-
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            SLIPrincipal principal =null ;
-            Entity realmEntity = null;
-            if (auth != null) {
-                 principal = (SLIPrincipal) auth.getPrincipal();
-                 if(principal != null && realmHelper != null) {
-                     String sessionId =  principal.getSessionId();
-                     if(sessionId != null) {
-                	     realmEntity = realmHelper.getRealmFromSession(sessionId);
-                     }
-                 }
-            }
-            return createSecurityEvent( loggingClass,  requestUri,  slMessage,  principal,  realmEntity);
+        return createSecurityEvent( loggingClass,  requestUri,  slMessage, null);
     }
 
-    public SecurityEvent createSecurityEvent(String loggingClass, URI requestUri, String slMessage, SLIPrincipal principal, Entity realmEntity) {
-        return createSecurityEvent( loggingClass,  requestUri,  slMessage,  principal,  realmEntity, null);
+    // already have the userEdOrg entity, unknown targetEdOrg
+    public SecurityEvent createSecurityEvent(String loggingClass, URI requestUri, String slMessage, SLIPrincipal principal, Entity userEdOrg) {
+        return createSecurityEvent( loggingClass,  requestUri,  slMessage,  principal, userEdOrg, (Set<String>) null);
+    }
+
+    public SecurityEvent createSecurityEvent(String loggingClass, URI requestUri, String slMessage, SLIPrincipal principal, Entity userEdOrg, Entity targetEdOrg) {
+        Set<String> targetEdOrgs = null;
+        if (targetEdOrg != null) {
+            Map<String, Object> body = targetEdOrg.getBody();
+            if (body != null) {
+                String stateOrgId = (String) body.get("edOrg");
+                if (stateOrgId != null && !stateOrgId.isEmpty()) {
+                    targetEdOrgs = new HashSet<String>();
+                    targetEdOrgs.add(stateOrgId);
+                }
+            }
+        }
+        return createSecurityEvent( loggingClass,  requestUri,  slMessage,  principal,  userEdOrg, targetEdOrgs);
     }
 
     public SecurityEvent createSecurityEvent(String loggingClass, URI requestUri, String slMessage, SLIPrincipal principal, Entity realmEntity, Set<String> targetEdOrgs) {
@@ -133,10 +136,6 @@ public class SecurityEventBuilder {
             Set<String> targetEdOrgIds) {
         SecurityEvent event = new SecurityEvent();
 
-        if( targetEdOrgIds == null ) {
-            return createSecurityEvent( loggingClass, requestUri, slMessage);
-        }
-
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             if (auth != null) {
@@ -156,7 +155,7 @@ public class SecurityEventBuilder {
                 }
             }
             ArrayList<String> targetEdOrgs = new ArrayList<String>();
-            if (targetEdOrgIds != null) {
+            if (targetEdOrgIds != null && !targetEdOrgIds.isEmpty()) {
 
                 for (String s : targetEdOrgIds) {
                     try {

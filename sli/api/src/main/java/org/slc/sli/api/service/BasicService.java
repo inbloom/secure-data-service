@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -612,14 +613,19 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
             try {
                 contextValidator.validateContextToEntities(def, ids, true);
+            } catch (APIAccessDeniedException e) {
+                debug("Invalid Reference: {} in {} is not accessible by user", value, def.getStoredCollectionName());
+                throw (APIAccessDeniedException) new APIAccessDeniedException(
+                        "Invalid reference. No association to referenced entity.", e);
             } catch (AccessDeniedException e) {
                 debug("Invalid Reference: {} in {} is not accessible by user", value, def.getStoredCollectionName());
                 throw (AccessDeniedException) new AccessDeniedException(
                         "Invalid reference. No association to referenced entity.").initCause(e);
             } catch (EntityNotFoundException e) {
                 debug("Invalid Reference: {} in {} does not exist", value, def.getStoredCollectionName());
-                throw (AccessDeniedException) new AccessDeniedException(
-                        "Invalid reference. No association to referenced entity.").initCause(e);
+                throw (APIAccessDeniedException) new APIAccessDeniedException(
+                        "Invalid reference. No association to referenced entity.",
+                        defn.getType(), entityId).initCause(e);
             }
 
         }

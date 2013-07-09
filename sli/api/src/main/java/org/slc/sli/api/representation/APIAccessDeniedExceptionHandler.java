@@ -111,9 +111,6 @@ public class APIAccessDeniedExceptionHandler implements ExceptionMapper<APIAcces
         if (e.getTargetEdOrgs() != null) {
             // if we already have the target edOrgs - good to go
             return e.getTargetEdOrgs();
-
-        } else {
-            // determine targetEdOrgs by entities to which access was attempted and their type
         }
 
         // entityType should be set
@@ -153,11 +150,13 @@ public class APIAccessDeniedExceptionHandler implements ExceptionMapper<APIAcces
             if (e.getEntityIds() != null && !e.getEntityIds().isEmpty()) {
                 entities = new HashSet<Entity>();
                 for (String id : e.getEntityIds()) {
-                    Entity entity = repository.findById(e.getEntityType(), id);
-                    if (entity == null) {
-                        warn("Entity of type " + e.getEntityType() + " with id " + id + " could not be found in the database.");
-                    } else {
-                        entities.add(entity);
+                    if (id != null) {
+                        Entity entity = repository.findById(e.getEntityType(), id);
+                        if (entity == null) {
+                            warn("Entity of type " + e.getEntityType() + " with id " + id + " could not be found in the database.");
+                        } else {
+                            entities.add(entity);
+                        }
                     }
                 }
             }
