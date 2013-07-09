@@ -157,7 +157,7 @@ Feature: As a parent I want to use apps that access the inBloom API
       | studentDisciplineIncidentAssociation | 908404e876dd56458385667fa383509035cd4312_id33a1c7ee086d4c488531652ab4a99cf0b6bd619d_id | 403 |
 
 
-@parent_crud @clean_up_parent_posts
+@wip @parent_crud @clean_up_parent_posts
 Scenario: POST new entities as a parent without, then with extended rights
 Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "jstevenson" with password "jstevenson1234"
   And format "application/json"
@@ -165,24 +165,25 @@ Given I log in to realm "Illinois Daybreak School District 4529" using simple-id
   # As an IT Admin, POST cgray as a parent
   When I POST and validate the following entities:
     | entityName                              | entityType               | returnCode |
-   #| cgray.parent                            | parent                   | 201        |
+    | cgray.parent                            | parent                   | 201        |
+    | cgray.studentParentAssociation.myClass  | studentParentAssociation | 201        |
+    | cgray.studentParentAssociation.notMyKid | studentParentAssociation | 201        |
+    | cgray.studentParentAssociation.mySchool | studentParentAssociation | 201        |
 
-  And I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "charles.gray" with password "charles.gray1234"
+# Asociate cgray to a student in a different LEA
+Given I log in to realm "Illinois Highwind School District" using simple-idp as "IT Administrator" "lstevenson" with password "lstevenson1234"    
+  When I POST and validate the following entities:
+    | entityName                              | entityType               | returnCode |
+    | cgray.studentParentAssociation.newLea   | studentParentAssociation | 201        |
+
   # Make sure cgray can edit himself, but cannot edit any students yet since he has no studentParentAssociations
+  And I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "charles.gray" with password "charles.gray1234"
   When I PATCH and validate the following entities:
     | fieldName                 | entityType               | value   | returnCode | endpoint                                             |
     | cgray.name                | parent                   | Patched | 204        | parents/1fe86fe9c45680234f1caa3b494a1c4b42838954_id  |
     | cgray.name                | parent                   | Patched | 403        | parents/678d9a45dca7121dca843c80bf02eb6c227beb43_id  |
     | cgray.myClass.name        | student                  | Patched | 403        | students/fdd8ee3ee44133f489e47d2cae109e886b041382_id |
     | cgray.contactRestrictions | studentParentAssociation | Patched | 403        | studentParentAssociations/fdd8ee3ee44133f489e47d2cae109e886b041382_idec053d2e0752799cb0217578d003a1fe8f06b9a0_id |
-
-# Give access for cgray to all of his kids via posting studentParentAssociations as IT Admin
-Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "jstevenson" with password "jstevenson1234"
-    | entityName                              | entityType               | returnCode |
-    | cgray.studentParentAssociation.myClass  | studentParentAssociation | 201        |
-    | cgray.studentParentAssociation.notMyKid | studentParentAssociation | 201        |
-    | cgray.studentParentAssociation.mySchool | studentParentAssociation | 201        |
-    | cgray.studentParentAssociation.newLea   | studentParentAssociation | 201        | 
 
 # Now modify the Parent role to include the rights of an IT-Administrator
 Given I get the rights for the "Parent" role in realm "deadbeef-1bad-4606-a936-094331bddeed"
@@ -196,8 +197,8 @@ Given I get the rights for the "Parent" role in realm "deadbeef-1bad-4606-a936-0
     | READ_RESTRICTED  |
     | WRITE_GENERAL    |
 
+#POST entities as cgray with the parent role
 Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "charles.gray" with password "charles.gray1234"
-  #POST entities as cgray with the parent role
   When I POST and validate the following entities:
     | entityName                              | entityType               | returnCode |
    #| cgray.parent                            | parent                   | 409        |
@@ -215,6 +216,7 @@ Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent"
     | cgray.myClass.name        | student                  | Patched | 204        | students/fdd8ee3ee44133f489e47d2cae109e886b041382_id |
     | cgray.myClass.name        | student                  | Patched | 403        | students/0324d50380119f1927eda4efcfd61061b23e3143_id |
     | cgray.contactRestrictions | studentParentAssociation | Patched | 403        | studentParentAssociations/fdd8ee3ee44133f489e47d2cae109e886b041382_idec053d2e0752799cb0217578d003a1fe8f06b9a0_id |
+  
   When I PUT and validate the following entities:
     | field               | entityName               | value    | returnCode | endpoint                                                            |
     | name.middleName     | parent                   | Puttayed | 204        | parents/1fe86fe9c45680234f1caa3b494a1c4b42838954_id                 |
@@ -229,12 +231,12 @@ Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent"
     | student                  | fdd8ee3ee44133f489e47d2cae109e886b041382_id  | 403        |
     | studentParentAssociation | fdd8ee3ee44133f489e47d2cae109e886b041382_idec053d2e0752799cb0217578d003a1fe8f06b9a0_id  | 403        |
 
-
 Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "jstevenson" with password "jstevenson1234"
 #Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "charles.gray" with password "charles.gray1234"
   When I DELETE and validate the following entities:
-    #| entity                   | id                                          | returnCode |
-    #| student                  | fdd8ee3ee44133f489e47d2cae109e886b041382_id | 201        |
-     | parent                   | 1fe86fe9c45680234f1caa3b494a1c4b42838954_id | 201        |
-     | studentParentAssociation | fdd8ee3ee44133f489e47d2cae109e886b041382_idec053d2e0752799cb0217578d003a1fe8f06b9a0_id | 201        |
+    | entity                   | id                                          | returnCode |
+    | student                  | fdd8ee3ee44133f489e47d2cae109e886b041382_id | 201        |
+    | parent                   | 1fe86fe9c45680234f1caa3b494a1c4b42838954_id | 201        |
+    | studentParentAssociation | fdd8ee3ee44133f489e47d2cae109e886b041382_idec053d2e0752799cb0217578d003a1fe8f06b9a0_id | 201        |
 
+  And I change the "Parent" role for realm "deadbeef-1bad-4606-a936-094331bddeed" back to its original rights

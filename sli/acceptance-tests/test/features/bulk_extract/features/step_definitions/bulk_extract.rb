@@ -3189,7 +3189,7 @@ def get_post_body_by_entity_name(entity_name)
     "cgray.studentParentAssociation.notMyKid" => {
       "entityType" => "studentParentAssociation",
       "parentId" => "1fe86fe9c45680234f1caa3b494a1c4b42838954_id",
-      "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+      "studentId" => "75a1710a115cd94dde09ccd950a11a05b7843ab2_id",
       "relation" => "Father",
       "contactPriority" => 2
     },
@@ -3203,7 +3203,7 @@ def get_post_body_by_entity_name(entity_name)
     "cgray.studentParentAssociation.newLea" => {
       "entityType" => "studentParentAssociation",
       "parentId" => "1fe86fe9c45680234f1caa3b494a1c4b42838954_id",
-      "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+      "studentId" => "f07bc57c18f13e8bb692660a7fab0ca92817598c_id",
       "relation" => "Father",
       "contactPriority" => 1
     },
