@@ -92,7 +92,7 @@ public class ParentAccessValidator extends AccessValidator {
     
     @Override
     protected boolean isWriteAllowed(List<String> path, String method) {
-        if (ResourceMethod.DELETE.toString().equals(method)) {
+        if (ResourceMethod.DELETE.toString().equals(method) || ResourceMethod.POST.toString().equals(method)) {
             return false; 
         }
        

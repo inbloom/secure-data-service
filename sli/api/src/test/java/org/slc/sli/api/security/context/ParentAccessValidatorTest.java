@@ -123,6 +123,7 @@ public class ParentAccessValidatorTest {
                 ResourceNames.STUDENTS);
         Set<String> operations = new HashSet<String>(ResourceMethod.getWriteOps());
         operations.remove(ResourceMethod.DELETE.toString());
+        operations.remove(ResourceMethod.POST.toString());
         for (String op : operations) {
             when(request.getMethod()).thenReturn(op);
             for (String s : allowed) {
