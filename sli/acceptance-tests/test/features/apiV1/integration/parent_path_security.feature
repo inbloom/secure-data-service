@@ -15,7 +15,6 @@ Scenario: Check un-versioned URIs work for parents
   When I navigate to GET "/system/session/logout"
   Then any future API request should result in a 401 response code
 
-@wip
 Scenario: Verify Rewrites for entities for Parents
   Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "cee.gray" with password "cee.gray1234"
   And my contextual access is defined by the table:
@@ -45,7 +44,7 @@ Scenario: Verify Rewrites for entities for Parents
     | /graduationPlans             | /schools/@ids/graduationPlans                                                  |
     | /learningObjectives          | /search/learningObjectives                                                     |
     | /learningStandards           | /search/learningStandards                                                      |
-    | /parents                     | /students/@ids/studentParentAssociations/parents                               |
+    #    | /parents                     | /students/@ids/studentParentAssociations/parents                               |
     | /programs                    | /students/@ids/studentProgramAssociations/programs                             |
     | /reportCards                 | /students/@ids/reportCards                                                     |
     | /schools                     | /schools/@ids                                                                  |
@@ -61,7 +60,7 @@ Scenario: Verify Rewrites for entities for Parents
     | /studentCompetencies         | /studentSectionAssociations/@ids/studentCompetencies                           |
     | /studentCompetencyObjectives | /educationOrganizations/@ids/studentCompetencyObjectives                       |
     | /studentGradebookEntries     | /students/@ids/studentGradebookEntries                                         |
-    | /studentParentAssociations   | /students/@ids/studentParentAssociations                                       |
+    #| /studentParentAssociations   | /students/@ids/studentParentAssociations                                       |
     | /studentProgramAssociations  | /students/@ids/studentProgramAssociations                                      |
     | /students                    | /sections/@ids/studentSectionAssociations/students                             |
     | /studentSchoolAssociations   | /students/@ids/studentSchoolAssociations                                       |
