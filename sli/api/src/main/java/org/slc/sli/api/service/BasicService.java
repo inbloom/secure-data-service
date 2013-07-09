@@ -191,7 +191,9 @@ public class BasicService implements EntityService, AccessibilityCheck {
     public String createBasedOnContextualRoles(EntityBody content) {
 
         Entity entity = new MongoEntity(defn.getType(), null, content, createMetadata());
-        rightAccessValidator.checkAccess(false, false, entity, entity.getType());
+
+        Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(false, entity);
+        rightAccessValidator.checkAccess(false, false, entity, entity.getType(), auths);
 
         checkReferences(null, content);
 
@@ -458,10 +460,19 @@ public class BasicService implements EntityService, AccessibilityCheck {
         List<EntityBody> results = new ArrayList<EntityBody>();
 
         for (Entity entity : entities) {
-            rightAccessValidator.checkAccess(true, isSelf, entity, defn.getType());
-            rightAccessValidator.checkFieldAccess(neutralQuery, isSelf, entity, defn.getType());
+            try {
+            Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf, entity);
+            rightAccessValidator.checkAccess(true, isSelf, entity, defn.getType(), auths);
+            rightAccessValidator.checkFieldAccess(neutralQuery, isSelf, entity, defn.getType(), auths);
 
-            results.add(entityRightsFilter.makeEntityBody(entity, treatments, defn, isSelf));
+            results.add(entityRightsFilter.makeEntityBody(entity, treatments, defn, isSelf, auths));
+            } catch (AccessDeniedException aex) {
+                if(entities.size() == 1) {
+                    throw aex;
+                } else {
+                    error(aex.getMessage());
+                }
+            }
         }
 
         if (results.isEmpty()) {

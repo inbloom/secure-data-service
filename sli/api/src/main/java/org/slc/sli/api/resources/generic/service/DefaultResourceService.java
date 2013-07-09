@@ -507,11 +507,11 @@ public class DefaultResourceService implements ResourceService {
             try {
                 entityBodyList = logicalEntity.getEntities(finalApiQuery, finalEntity.getResourceName());
             } catch (final UnsupportedSelectorException e) {
-                /*if (contextSupportedEntities.contains(finalEntity.getType()) && SecurityUtil.isStaffUser()) {
+                if (contextSupportedEntities.contains(finalEntity.getType()) && SecurityUtil.isStaffUser()) {
                     entityBodyList = (List<EntityBody>) finalEntity.getService().listBasedOnContextualRoles(finalApiQuery);
-                } else {*/
+                } else {
                     entityBodyList = (List<EntityBody>) finalEntity.getService().list(finalApiQuery);
-                //}
+                }
             }
 
             long count = getEntityCount(finalEntity, finalApiQuery);

@@ -62,8 +62,7 @@ public class RightAccessValidator {
      * @param isSelf  whether operation is being done in "self" context
      * @param entity item under inspection
      */
-    public void checkAccess(boolean isRead, boolean isSelf, Entity entity, String entityType) {
-        Collection<GrantedAuthority> auths = getContextualAuthorities(isSelf, entity);
+    public void checkAccess(boolean isRead, boolean isSelf, Entity entity, String entityType, Collection<GrantedAuthority> auths) {
 
         EntityBody body = null;
         if(entity != null) {
@@ -121,12 +120,10 @@ public class RightAccessValidator {
      * @param isSelf  whether operation is being done in "self" context
      * @param entity item under inspection
      */
-    public void checkFieldAccess(NeutralQuery query, boolean isSelf, Entity entity, String entityType) {
+    public void checkFieldAccess(NeutralQuery query, boolean isSelf, Entity entity, String entityType, Collection<GrantedAuthority> auths) {
 
         if (query != null) {
             // get the authorities
-            Collection<GrantedAuthority> auths = new HashSet<GrantedAuthority>();
-            auths.addAll(getContextualAuthorities(isSelf, entity));
             if (isSelf) {
                 auths.addAll(SecurityUtil.getSLIPrincipal().getSelfRights());
             }

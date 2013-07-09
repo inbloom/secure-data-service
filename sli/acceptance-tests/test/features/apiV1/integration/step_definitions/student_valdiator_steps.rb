@@ -144,6 +144,9 @@ def validate_field_existance_nonexistance(entity_hash, field_string_enum)
                            "economicDisadvantaged","schoolFoodServicesEligibility","studentCharacteristics","limitedEnglishProficiency",
                            "languages","homeLanguages","disabilities","section504Disabilities","displacementStatus","programParticipations",
                            "learningStyles","cohortYears","studentIndicators","loginId","gradeLevel","schoolId"]
+    when "Everything"
+      fields_should_exist = ["name", "id", "birthData", "studentUniqueStateId", "economicDisadvantaged","schoolFoodServicesEligibility"]
+      fields_should_not = []
     when "AllStudent"
       fields_should_exist = ["name", "id", "birthData", "studentUniqueStateId"]
       fields_should_not = ["economicDisadvantaged","schoolFoodServicesEligibility"]
