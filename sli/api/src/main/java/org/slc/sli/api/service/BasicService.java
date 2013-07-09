@@ -831,9 +831,10 @@ public class BasicService implements EntityService, AccessibilityCheck {
     private boolean isSelf(String entityId) {
         SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
         String selfId = principal.getEntity().getEntityId();
+        Collection<String> studentIds = principal.getOwnedStudentIds();
         String type = defn.getType();
         if (selfId != null) {
-            if (selfId.equals(entityId)) {
+            if (selfId.equals(entityId) || studentIds.contains(entityId)) {
                 return true;
             } else if (EntityNames.STAFF_ED_ORG_ASSOCIATION.equals(type)) {
                 Entity entity = repo.findById(defn.getStoredCollectionName(), entityId);

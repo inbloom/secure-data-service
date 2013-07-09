@@ -97,7 +97,7 @@ public abstract class AccessValidator {
         }
         
         if (ResourceMethod.getWriteOps().contains(request.getMethod())) {
-            return isWriteAllowed(paths);
+            return isWriteAllowed(paths, request.getMethod());
         } 
         
         return isReadAllowed(paths, request.getQueryParameters());
@@ -105,5 +105,5 @@ public abstract class AccessValidator {
     
     protected abstract boolean isReadAllowed(List<String> path, MultivaluedMap<String, String> queryParameters);
     
-    protected abstract boolean isWriteAllowed(List<String> path);
+    protected abstract boolean isWriteAllowed(List<String> path, String method);
 }
