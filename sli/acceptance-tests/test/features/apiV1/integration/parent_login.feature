@@ -1,7 +1,6 @@
 @RALLY_US4305
 @RALLY_US4306
 @parent_login
-@wipn
 Feature: As a parent I want to use apps that access the inBloom API
 
   Background: None
