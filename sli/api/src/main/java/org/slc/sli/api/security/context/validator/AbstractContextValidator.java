@@ -223,11 +223,10 @@ public abstract class AbstractContextValidator implements IContextValidator {
      * @return the list of student IDs associated to a student or parent actor, empty set otherwise
      */
     protected Set<String> getDirectStudentIds() {
-        if (isStudent()) {
-            return new HashSet<String>(Arrays.asList(SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
+        if (isStudentOrParent()) {
+            return SecurityUtil.getSLIPrincipal().getOwnedStudentIds();
         }
-        // else if parent
-        // else
+
         return new HashSet<String>();
     }
 

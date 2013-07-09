@@ -22,7 +22,6 @@ import java.util.Map;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.NeutralQuery;
 
@@ -222,5 +221,32 @@ public interface EntityService {
      */
     public boolean collectionExists(String collection);
 
+
+    // Methods for F262: Establishing Contextual (Association Based) Roles
+
+    /**
+     * Retrieves an entity from the data store with certain fields added/removed.
+     *
+     * @param neutralQuery - Query containing search criteria
+     *
+     * @return - The matching entity bodies
+     */
     public Iterable<EntityBody> listBasedOnContextualRoles(NeutralQuery neutralQuery);
+
+    /**
+     * Create entities and store them in the data store.
+     *
+     * @param content - List containing the new entity bodies
+     * @return - Ids of the new entities
+     */
+    public List<String> createBasedOnContextualRoles(List<EntityBody> content);
+
+    /**
+     * Create an entity and store it in the data store.
+     *
+     * @param content - The body of the new entity
+     * @return - Id of the new entity
+     */
+    public String createBasedOnContextualRoles(EntityBody content);
+
 }
