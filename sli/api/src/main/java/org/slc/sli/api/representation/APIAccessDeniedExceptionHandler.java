@@ -17,29 +17,25 @@
 
 package org.slc.sli.api.representation;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.ext.ExceptionMapper;
-import javax.ws.rs.ext.Provider;
-
+import org.slc.sli.api.resources.security.RealmResource;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.SecurityEventBuilder;
+import org.slc.sli.api.security.context.APIAccessDeniedException;
+import org.slc.sli.api.security.context.EdOrgOwnershipArbiter;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.resources.security.RealmResource;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.SecurityEventBuilder;
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.*;
+import javax.ws.rs.ext.ExceptionMapper;
+import javax.ws.rs.ext.Provider;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Handler for catching access denied exceptions.
@@ -48,11 +44,13 @@ import org.slc.sli.api.security.SecurityEventBuilder;
  */
 @Provider
 @Component
-public class AccessDeniedExceptionHandler implements ExceptionMapper<AccessDeniedException> {
+public class APIAccessDeniedExceptionHandler implements ExceptionMapper<APIAccessDeniedException> {
 
-    public static final String ED_ORG_START = "<" ;
-    public static final String ED_ORG_END = ">" ;
-    public static final String NO_EDORG = "UNAVAILABLE";
+    @Autowired
+    private PagingRepositoryDelegate<Entity> repository;
+
+    @Autowired
+    private EdOrgOwnershipArbiter arbiter;
 
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
@@ -66,14 +64,14 @@ public class AccessDeniedExceptionHandler implements ExceptionMapper<AccessDenie
     @Context
     private HttpServletResponse response;
 
+
     /*
      *  Target EdOrgsIDs might be passed in to the exception as a part of the error message, enclosed in <>
      *  E.g.: Insufficient Rights <TargetEdOrgID>
      */
 
     @Override
-    public Response toResponse(AccessDeniedException e) {
-
+    public Response toResponse(APIAccessDeniedException e) {
         //There are a few jax-rs resources that generate HTML content, and we want the
         //default web-container error handler pages to get used in those cases.
         if (headers.getAcceptableMediaTypes().contains(MediaType.TEXT_HTML_TYPE)) {
@@ -95,10 +93,9 @@ public class AccessDeniedExceptionHandler implements ExceptionMapper<AccessDenie
             warn("Access has been denied to user for being incorrectly associated");
         }
         warn("Cause: {}", e.getMessage());
-        String reason = message.indexOf( ED_ORG_START) > 0 ? message.substring( 0, message.indexOf( ED_ORG_START) ) : message;
 
         audit(securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo.getRequestUri(), "Access Denied:"
-                + reason, null));
+                + e.getMessage(), getTargetEdOrgs(e)));
 
         MediaType errorType = MediaType.APPLICATION_JSON_TYPE;
         if(this.headers.getMediaType() == MediaType.APPLICATION_XML_TYPE) {
@@ -108,4 +105,64 @@ public class AccessDeniedExceptionHandler implements ExceptionMapper<AccessDenie
         return Response.status(errorStatus).entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(), "Access DENIED: " + e.getMessage())).type(errorType).build();
     }
 
+    private Set<String> getTargetEdOrgs(APIAccessDeniedException e) {
+        Set<String> targetEdOrgs = null;
+
+        if (e.getTargetEdOrgs() != null) {
+            // if we already have the target edOrgs - good to go
+            return e.getTargetEdOrgs();
+
+        } else {
+            // determine targetEdOrgs by entities to which access was attempted and their type
+        }
+
+        // entityType should be set
+        if (e.getEntityType() == null) {
+            return null;
+        }
+
+        Set<Entity> entities = getEntities(e);
+        if (entities == null || entities.isEmpty()) {
+            return null;
+        }
+
+        try {
+            targetEdOrgs = arbiter.determineEdorgs(entities, e.getEntityType());
+        } catch (AccessDeniedException nestedE) {
+            // we were unable to determine the targetEdOrgs
+            warn(nestedE.getMessage());
+            return null;
+        } catch (RuntimeException nestedE) {
+            // we were unable to determine the targetEdOrgs
+            warn(nestedE.getMessage());
+            return null;
+        }
+
+        return targetEdOrgs;
+    }
+
+    private Set<Entity> getEntities(APIAccessDeniedException e) {
+        Set<Entity> entities = null;
+
+        if (e.getEntities() != null) {
+            // entities are already available
+            entities = e.getEntities();
+
+        } else if (e.getEntityIds() != null) {
+            // use entityId and entityType to get the entities
+            if (e.getEntityIds() != null && !e.getEntityIds().isEmpty()) {
+                entities = new HashSet<Entity>();
+                for (String id : e.getEntityIds()) {
+                    Entity entity = repository.findById(e.getEntityType(), id);
+                    if (entity == null) {
+                        warn("Entity of type " + e.getEntityType() + " with id " + id + " could not be found in the database.");
+                    } else {
+                        entities.add(entity);
+                    }
+                }
+            }
+        }
+
+        return entities;
+    }
 }

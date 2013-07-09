@@ -868,6 +868,10 @@ def check_records_in_sli_collection(table)
   result = "true"
   table.hashes.map do |row|
       entity_collection = secDb.collection(row["collectionName"])
+      if row["searchValue"].empty?
+          # ignore checks with empty value
+          next
+      end
       entity_count = entity_collection.find( {row["searchParameter"] => {"$in" => [row["searchValue"]]}}).count().to_s
       if  entity_count.to_s != row["expectedRecordCount"].to_s
           puts "Failed #{row["collectionName"]}"

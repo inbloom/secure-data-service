@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
@@ -82,6 +83,18 @@ public class RightAccessValidator {
      * @param auths        collection of authorities to validate
      */
     public void checkAccess(boolean isRead, EntityBody entityBody, String entityType, Collection<GrantedAuthority> auths) {
+        checkAccess(isRead, entityBody, entityType, auths, null);
+    }
+
+    /**
+     * Validates that user roles allow access to fields, based on the provided authorities.
+     *
+     * @param isRead       whether operation is "read" or "write"
+     * @param entityBody   the entity body to be checked.
+     * @param entityType   entity type
+     * @param auths        collection of authorities to validate
+     */
+    public void checkAccess(boolean isRead, EntityBody entityBody, String entityType, Collection<GrantedAuthority> auths, Entity entity) {
         SecurityUtil.ensureAuthenticated();
         Set<Right> neededRights = new HashSet<Right>();
 
@@ -110,7 +123,7 @@ public class RightAccessValidator {
         }
 
         if (!allow) {
-            throw new AccessDeniedException("Insufficient Privileges");
+            throw new APIAccessDeniedException("Insufficient Privileges", entity);
         }
     }
 

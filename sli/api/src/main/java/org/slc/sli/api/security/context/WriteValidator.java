@@ -31,7 +31,6 @@ import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.representation.ThrowAPIException;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.domain.Entity;
 
@@ -118,7 +117,7 @@ public class WriteValidator {
         targetEdOrgIds = new HashSet<String>();
 
         if (isWriteValidationEnabled && !isValidForEdOrgWrite(entityBody, uriInfo, principal)) {
-            ThrowAPIException.throwAccessDeniedException("Invalid reference. No association to referenced entity.", targetEdOrgIds);
+            throw new APIAccessDeniedException("Invalid reference. No association to referenced entity.", targetEdOrgIds);
         }
 
     }

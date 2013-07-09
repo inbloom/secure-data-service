@@ -37,9 +37,9 @@ Scenario Outline: Teacher views students through valid Program Association
 	Examples:
 	| Student          | Code | Comment                                                                 | userEdOrg     | targetEdOrg   | expectedRecordCount  |
 	|"Randy Voelker"   |  200 | #current program, current student                                       | *             | *             | 0                    |
-	|"Curtis Omeara"   |  403 | #old program, current student                                           | IL-SUNSET     | IL-SUNSET     | 1                    |
-	|"Theresa Deguzman"|  403 | #current program, current student, student record flag false            | IL-SUNSET     | IL-SUNSET     | 1                    |
-	|"Paul Bunker"     |  403 | #Current program, old student                                           | IL-SUNSET     | IL-SUNSET     | 1                    |
-	|"Sabrina Knepper" |  403 | #current program, old student                                           | IL-SUNSET     | IL-SUNSET     | 1                    |
-	|"Roberta Jones"   |  200 | #current program, old student but in current section taught by teacher  | IL-SUNSET     | IL-SUNSET     | 0                    |
+	|"Curtis Omeara"   |  403 | #old program, current student                                           | IL-SUNSET     | 152901004     | 1                    |
+	|"Theresa Deguzman"|  403 | #current program, current student, student record flag false            | IL-SUNSET     | 152901004     | 1                    |
+	|"Paul Bunker"     |  403 | #Current program, old student                                           | IL-SUNSET     | 152901004     | 1                    |
+	|"Sabrina Knepper" |  403 | #current program, old student                                           | IL-SUNSET     | 152901004     | 1                    |
+	|"Roberta Jones"   |  200 | #current program, old student but in current section taught by teacher  | *             | *             | 0                    |
     |"Christopher Bode"|  200 | #current program, current student                                       | *             | *             | 0                    |

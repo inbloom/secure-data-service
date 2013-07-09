@@ -21,10 +21,7 @@ import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
 
 import org.slc.sli.common.constants.ParameterConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,8 +83,11 @@ public class SecurityEventBuilder {
             return createSecurityEvent( loggingClass,  requestUri,  slMessage,  principal,  realmEntity);
     }
 
-
     public SecurityEvent createSecurityEvent(String loggingClass, URI requestUri, String slMessage, SLIPrincipal principal, Entity realmEntity) {
+        return createSecurityEvent( loggingClass,  requestUri,  slMessage,  principal,  realmEntity, null);
+    }
+
+    public SecurityEvent createSecurityEvent(String loggingClass, URI requestUri, String slMessage, SLIPrincipal principal, Entity realmEntity, Set<String> targetEdOrgs) {
     	    SecurityEvent event = new SecurityEvent();
     		if (requestUri != null) {
     		    event.setActionUri(requestUri.toString());
@@ -106,13 +106,10 @@ public class SecurityEventBuilder {
                     event.setTenantId(principal.getTenantId());
                     event.setUser(principal.getExternalId() + ", " + principal.getName());
             		if (realmEntity != null) {
-                        String realmId = realmEntity.getEntityId();
                         Map<String, Object> body = realmEntity.getBody();
                         if (body != null) {
             				String stateOrgId = (String) body.get("edOrg");
             				event.setUserEdOrg(stateOrgId);
-				            event.setTargetEdOrg(stateOrgId);
-				            event.setTargetEdOrgList(Arrays.asList(stateOrgId));
             			}
             		}
                 }
@@ -122,6 +119,10 @@ public class SecurityEventBuilder {
                 }
             }
 
+            if (targetEdOrgs != null && !targetEdOrgs.isEmpty()) {
+                event.setTargetEdOrgList(new ArrayList<String>(targetEdOrgs));
+            }
+
             debug(event.toString());
 
         return event;
@@ -129,7 +130,7 @@ public class SecurityEventBuilder {
 
 
     public SecurityEvent createSecurityEvent(String loggingClass, URI requestUri, String slMessage,
-            ArrayList<String> targetEdOrgIds) {
+            Set<String> targetEdOrgIds) {
         SecurityEvent event = new SecurityEvent();
 
         if( targetEdOrgIds == null ) {

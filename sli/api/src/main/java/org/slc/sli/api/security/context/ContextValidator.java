@@ -38,7 +38,6 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.ResourceNames;
-import org.slc.sli.api.representation.ThrowAPIException;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
@@ -108,7 +107,7 @@ public class ContextValidator implements ApplicationContextAware {
      * because we must also block some url that only has 2 segment, i.e.
      * disciplineActions/disciplineIncidents
      * 
-     * @param pathSegments
+     * @param request
      * @return if url is accessible to students principals
      */
     public boolean isUrlBlocked(ContainerRequest request) {
@@ -279,9 +278,8 @@ public class ContextValidator implements ApplicationContextAware {
                     if (ownership.canAccess(ent, isTransitive)) {
                         idsToValidate.add(ent.getEntityId());
                     } else {
-                        ThrowAPIException.throwAccessDeniedException( "Access to " + ent.getEntityId() + " is not authorized",
-                                                                    userEdOrgs );
-
+                        throw new APIAccessDeniedException("Access to " + ent.getEntityId() + " is not authorized",
+                                userEdOrgs);
                     }
                 }
             }
@@ -294,11 +292,11 @@ public class ContextValidator implements ApplicationContextAware {
 
             if (!idsToValidate.isEmpty()) {
                 if (!validator.validate(def.getType(), idsToValidate)) {
-                    ThrowAPIException.throwAccessDeniedException("Cannot access entities");
+                    throw new APIAccessDeniedException("Cannot access entities", def.getType(), idsToValidate);
                 }
             }
         } else {
-            ThrowAPIException.throwAccessDeniedException("No validator for " + def.getType() + ", transitive=" + isTransitive);
+            throw new AccessDeniedException("No validator for " + def.getType() + ", transitive=" + isTransitive);
         }
     }
 

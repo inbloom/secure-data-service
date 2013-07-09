@@ -105,6 +105,7 @@ Feature: Admin delegation CRUD
       | Sunset Central High School |
 
 #US5464
+@wip
   Scenario: District administrator can grant access to edOrg data only if LEA adminstrator has delegated  AppApproval
     #LEA administrator disables delegation
     Given I am logged in using "sunsetadmin" "sunsetadmin1234" to realm "SLI"

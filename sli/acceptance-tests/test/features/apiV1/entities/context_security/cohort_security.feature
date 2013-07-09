@@ -31,10 +31,10 @@ Scenario Outline: Teacher views students through valid Cohort Association
        | securityEvent       | <expectedRecordCount>| body.logMessage       | <logMessage> |
 
   Examples:
-  | Student        | Code | Comment                                                     | userEdOrg     | targetEdOrg                | expectedRecordCount  | logMessage                                                                        |
-  |"Todd Angulo"   |  200 | #current cohort, current student                            | *             | *                          | 0                    | *                                                                                 |
-# us5758 confirm failing field values should be changed or there is code bug  |"Agnes Trinh"   |  403 | #old cohort, current student                                | IL-SUNSET     | UNKNOWN                    | 1                    | Access Denied:Access to 22bf5f8f-5e6b-4749-9e1a-2efda072d506_id is not authorized |
-  |"Stella Rego"   |  403 | #current cohort, current student, student record flag false | IL-SUNSET     | IL-SUNSET                  | 1                    | Access Denied:Cannot access entities                                              |
-  |"Glenda Koch"   |  403 | #Current cohort, old student                                | IL-SUNSET     | IL-SUNSET                  | 1                    | Access Denied:Cannot access entities                                              |
-  |"Johnny Tallent"|  403 | #current cohort, old student                                | IL-SUNSET     | IL-SUNSET                  | 1                    | Access Denied:Cannot access entities                                              |
-  |"Thelma Frasier"|  200 | #current cohort, current student                            | *             | *                          | 0                    | *                                                                                 |
+  | Student        | Code | Comment                                                     | userEdOrg     | targetEdOrg   | expectedRecordCount  | logMessage                            |
+  |"Todd Angulo"   |  200 | #current cohort, current student                            | *             | *             | 0                    | *                                     |
+  |"Agnes Trinh"   |  403 | #old cohort, current student                                | IL-SUNSET     |               | 1                    | Access Denied:Insufficient Privileges |
+  |"Stella Rego"   |  403 | #current cohort, current student, student record flag false | IL-SUNSET     |               | 1                    | Access Denied:Cannot access entities  |
+  |"Glenda Koch"   |  403 | #Current cohort, old student                                | IL-SUNSET     |               | 1                    | Access Denied:Cannot access entities  |
+  |"Johnny Tallent"|  403 | #current cohort, old student                                | IL-SUNSET     |               | 1                    | Access Denied:Cannot access entities  |
+  |"Thelma Frasier"|  200 | #current cohort, current student                            | *             | *             | 0                    | *                                     |

@@ -33,6 +33,7 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import com.google.common.collect.Sets;
+import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -41,7 +42,6 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.representation.ThrowAPIException;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SecurityEventBuilder;
@@ -294,8 +294,7 @@ public class ApplicationAuthorizationResource {
             return SecurityUtil.getEdOrgId();
         }
         if (!edorg.equals(SecurityUtil.getEdOrgId()) && !delegation.getAppApprovalDelegateEdOrgs().contains(edorg) ) {
-            ThrowAPIException.throwAccessDeniedException("Cannot perform authorizations for edorg ", edorg);
-
+            throw new APIAccessDeniedException("Cannot perform authorizations for edorg ", edorg);
         }
         return edorg;
     }
