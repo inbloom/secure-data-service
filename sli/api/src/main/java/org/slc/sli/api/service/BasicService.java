@@ -191,7 +191,9 @@ public class BasicService implements EntityService, AccessibilityCheck {
     public String createBasedOnContextualRoles(EntityBody content) {
 
         Entity entity = new MongoEntity(defn.getType(), null, content, createMetadata());
-        rightAccessValidator.checkAccess(false, false, entity, entity.getType());
+
+        Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(false, entity);
+        rightAccessValidator.checkAccess(false, false, entity, entity.getType(), auths);
 
         checkReferences(null, content);
 
