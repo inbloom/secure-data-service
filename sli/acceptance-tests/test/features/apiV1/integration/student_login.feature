@@ -12,7 +12,7 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     When I navigate to GET "/v1/home"
     Then I should validate all the HATEOS links
 
-  Scenario: I check the response body fields of specific student API endpoints
+  Scenario: I check the response body fields of specific API endpoints
     Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
     And format "application/json"
     And I am using api version "v1"
@@ -50,6 +50,7 @@ Feature: As a student or staff I want to use apps that access the inBloom API
       | studentCharacteristics.0.endDate                      | 2014-08-01                                  |
       | studentCharacteristics.0.designatedBy                 | Teacher                                     |
       | studentCharacteristics.0.characteristic               | Unaccompanied Youth                         |
+
     When I verify the following response body fields in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/studentParentAssociations/parents?sortBy=parentUniqueStateId":
       | field                           | value             |
       | 0.address.0.streetNumberName    | 707 Elm Street    |
@@ -62,11 +63,6 @@ Feature: As a student or staff I want to use apps that access the inBloom API
       | 0.telephone.0.telephoneNumber   | (512)555-2418     |
       | 1.parentUniqueStateId           | 800000025-mom     |
 
-  Scenario: I check the response body fields of assessment domain endpoints
-    Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
-    And format "application/json"
-    And I am using api version "v1"
-    And I am accessing data about myself, "matt.sollars"
     Then I verify the following response body fields exist in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/studentAssessments":
       | field                                                                          |
       | 0.administrationDate                                                           |
@@ -156,11 +152,6 @@ Feature: As a student or staff I want to use apps that access the inBloom API
       | learningStandardId.identificationCode  |
       | subjectArea                            |
 
-  Scenario: I check the response body fields of edOrg endpoints
-    Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
-    And format "application/json"
-    And I am using api version "v1"
-    And I am accessing data about myself, "matt.sollars"
     Then I verify the following response body fields exist in "/schools/a13489364c2eb015c219172d561c62350f0453f3_id":
       | field                              |
       | administrativeFundingControl       |
@@ -234,11 +225,6 @@ Feature: As a student or staff I want to use apps that access the inBloom API
       | 0.objectiveGradeLevel          |
       | 0.studentCompetencyObjectiveId |
 
-  Scenario: I check the response body fields of programs
-    Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
-    And format "application/json"
-    And I am using api version "v1"
-    And I am accessing data about myself, "matt.sollars"
     Then I verify the following response body fields exist in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/studentProgramAssociations/programs":
       | field                    |
       | 0.programId              |
@@ -246,11 +232,6 @@ Feature: As a student or staff I want to use apps that access the inBloom API
       | 0.programType            |
       | 0.services.0.0.codeValue |
 
-  Scenario: I check the response body fields of sections
-    Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
-    And format "application/json"
-    And I am using api version "v1"
-    And I am accessing data about myself, "matt.sollars"
     Then I verify the following response body fields exist in "/sections/24cdeb47d5ccfee1536dd8f6a8951baea76b82f3_id":
       | field                  |
       | availableCredit        |
@@ -260,11 +241,6 @@ Feature: As a student or staff I want to use apps that access the inBloom API
       | sequenceOfCourse       |
       | uniqueSectionCode      |
 
-  Scenario: I check the response body fields of attendance data
-    Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
-    And format "application/json"
-    And I am using api version "v1"
-    And I am accessing data about myself, "matt.sollars"
   Then I verify the following response body fields exist in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/attendances":
     | field                                               |
     | 0.schoolYearAttendance.0.schoolYear                 |
@@ -278,11 +254,6 @@ Feature: As a student or staff I want to use apps that access the inBloom API
     | 0.attendanceEvent.0.reason   |
     | 0.schoolYear                 |
 
-  Scenario: I check the response body fields of grade data
-    Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
-    And format "application/json"
-    And I am using api version "v1"
-    And I am accessing data about myself, "matt.sollars"
   Then I verify the following response body fields exist in "/studentSectionAssociations/24cdeb47d5ccfee1536dd8f6a8951baea76b82f3_id33ee33e252908a2e95eb8d0b4f85f96ffd4b0bae_id/grades":
     | field                         |
     | 0.diagnosticStatement         |

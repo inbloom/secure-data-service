@@ -9,6 +9,10 @@ from pychart import *
 
 def main():
 
+    #use color
+    theme.use_color = 1
+    theme.reinitialize()
+
     # Get data
     series = {}
     counts = { "10k_4M": 3899674,

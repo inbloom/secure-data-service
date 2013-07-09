@@ -76,7 +76,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
     private static final String CUSTOM_ENTITY_COLLECTION = "custom_entities";
     private static final String CUSTOM_ENTITY_CLIENT_ID = "clientId";
     private static final String CUSTOM_ENTITY_ENTITY_ID = "entityId";
-    private static final List<String> STUDENT_SELF = Arrays.asList(EntityNames.STUDENT_PROGRAM_ASSOCIATION, EntityNames.STUDENT_COHORT_ASSOCIATION,
+    private static final List<String> STUDENT_SELF = Arrays.asList(EntityNames.STUDENT, EntityNames.STUDENT_PROGRAM_ASSOCIATION, EntityNames.STUDENT_COHORT_ASSOCIATION,
             EntityNames.STUDENT_SECTION_ASSOCIATION, EntityNames.PARENT, EntityNames.STUDENT_PARENT_ASSOCIATION);
     private String collectionName;
     private List<Treatment> treatments;
@@ -769,10 +769,11 @@ public class BasicService implements EntityService, AccessibilityCheck {
                     Map<String, Object> body = entity.getBody();
                     return selfId.equals(body.get(ParameterConstants.TEACHER_ID));
                 }
-            } else if (SecurityUtil.isStudent() && STUDENT_SELF.contains(type)) {
+            } else if (SecurityUtil.isStudentOrParent() && STUDENT_SELF.contains(type)) {
                 Entity entity = repo.findById(defn.getStoredCollectionName(), entityId);
                 if (entity != null) {
-                    return selfId.equals(entity.getBody().get(ParameterConstants.STUDENT_ID));
+                    Set<String> owned = principal.getOwnedStudentIds();
+                    return owned.contains(entity.getBody().get(ParameterConstants.STUDENT_ID)) || owned.contains(entityId);
                 }
             }
         }

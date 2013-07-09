@@ -478,6 +478,24 @@ Given /^I change the type of "([^"]*)" to "([^"]*)"$/ do |user, type|
   enable_NOTABLESCAN()
 end
 
+Given /^I change the type of "([^"]*)" admin role to "(true|false)"$/ do |rolegroup, isAdmin|
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  db_name = convertTenantIdToDbName(@tenant)
+  db = conn[db_name]
+  custom_role_coll = db.collection('customRole')
+  custom_role = custom_role_coll.find_one()
+  roles =custom_role['body']['roles']
+
+  index = roles.index {|entry| entry['groupTitle'] == rolegroup}
+  roles[index]['isAdminRole'] = (isAdmin == 'true')
+
+  update_mongo(db_name,'customRole',{},"body.roles.#{index}", false, roles[index])
+
+  conn.close
+  enable_NOTABLESCAN()
+end
+
 Given /^"([^"]*)" is not associated with any (program|cohort) that belongs to "([^"]*)"$/ do |student, collection, staff|
   disable_NOTABLESCAN()
   conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
@@ -729,6 +747,21 @@ Then /^the response (should|should not) have general student data$/ do |function
   assert(apiRecord.has_key?("name") == should, "General field name #{negative}found")
   assert(apiRecord.has_key?("birthData") == should, "General field birthData #{negative}found")
   assert(apiRecord.has_key?("hispanicLatinoEthnicity") == should, "General field hispanicLatinoEthnicity #{negative}found")
+end
+
+Then /^the response (should|should not) have the following students$/ do |function, table|
+  should = (function == 'should')
+  negative = 'not ' if should
+  table.hashes.map do |row|
+    found = false
+    JSON.parse(@res.body).each do |student|
+      if student['studentUniqueStateId'] == row['student']
+        found = true
+        break
+      end
+    end
+    assert(found == should, "Student: #{row['student']} #{negative}found")
+  end
 end
 
 

@@ -336,6 +336,7 @@ task :apiOdinSetupAPI => [:realmInit] do
   allLeaAllowApp("Mobile App")
   authorizeEdorg("Mobile App")
   Rake::Task["runSearchBulkExtract"].execute
+  runTests("test/features/apiV1/integration/parent_student_token_generator.feature")
 end
 
 desc "Run API Odin Student Integration Tests"
@@ -347,6 +348,27 @@ task :apiOdinStudentLogin => [:apiOdinSetupAPI] do
   runTests("test/features/apiV1/integration/student_validator_security.feature")
   runTests("test/features/apiV1/integration/student_other_student_fields.feature")
   runTests("test/features/apiV1/integration/student_crud_operations.feature")
+end
+
+desc "Run API Odin Parent Integration Tests"
+task :apiOdinParentLogin => [:apiOdinSetupAPI] do
+  runTests("test/features/apiV1/integration/parent_login.feature")
+  runTests("test/features/apiV1/integration/parent_public.feature")
+  runTests("test/features/apiV1/integration/parent_endpoints.feature")
+  runTests("test/features/apiV1/integration/parent_staff_endpoints.feature")
+  runTests("test/features/apiV1/integration/parent_path_security.feature")
+  runTests("test/features/apiV1/integration/parent_validator_security.feature")
+  runTests("test/features/apiV1/integration/parent_other_student_fields.feature")
+  runTests("test/features/apiV1/integration/parent_crud_operations.feature")
+end
+
+desc "Run API Odin Public Data Integration Tests"
+task :apiOdinPublicData => [:apiOdinSetupAPI] do
+  runTests("test/features/apiV1/integration/aggregator_public.feature")
+  runTests("test/features/apiV1/integration/admin_public.feature")
+  runTests("test/features/apiV1/integration/leader_public.feature")
+  runTests("test/features/apiV1/integration/educator_public.feature")
+  runTests("test/features/apiV1/integration/parent_public.feature")
 end
 
 desc "Run contextual roles acceptance tests"

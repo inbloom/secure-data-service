@@ -27,7 +27,7 @@ public class GenericToGlobalProgramWriteValidator extends
 
 	@Override
 	public boolean canValidate(String entityType, boolean isTransitive) {
-        return EntityNames.PROGRAM.equals(entityType) && isTransitive && !isStudent();
+        return EntityNames.PROGRAM.equals(entityType) && isTransitive && !isStudentOrParent();
 	}
 
 	@SuppressWarnings("unchecked")

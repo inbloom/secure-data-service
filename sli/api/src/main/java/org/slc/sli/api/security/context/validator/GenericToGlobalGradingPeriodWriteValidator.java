@@ -36,7 +36,7 @@ public class GenericToGlobalGradingPeriodWriteValidator extends AbstractContextV
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return isTransitive && EntityNames.GRADING_PERIOD.equals(entityType) && !isStudent();
+        return isTransitive && EntityNames.GRADING_PERIOD.equals(entityType) && !isStudentOrParent();
     }
 
     @SuppressWarnings("unchecked")

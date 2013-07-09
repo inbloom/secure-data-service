@@ -28,28 +28,53 @@ Given /^the testing device app key has been created$/ do
   @oauthRedirectURI = "http://device"
 end
 
+Given /^I use the token generator for realm "(.*?)" and user "(.*?)"$/ do |realm, user|
+  step "the testing device app key has been created"
+  @sessionId = get_session_using_token_gen(realm, user)
+end
+
+def get_session_using_token_gen(realm, user)
+  user_info = {
+      ### Students
+      "student.m.sollars" => {:unique_id => "800000025", :role => "Student", :type => :student, :edOrg => "East Daybreak Junior High"},
+      "leader.m.sollars" => {:unique_id => "800000025", :role => "StudentLeader", :type => :student, :edOrg => "East Daybreak Junior High"},
+      "cegray" => {:unique_id => "cgray", :role => "Student", :type => :student, :edOrg => "East Daybreak Junior High"},
+      "carmen.ortiz" => {:unique_id => "900000016", :role => "Student", :type => :student, :edOrg => "Daybreak Central High"},
+
+      ### Staff / Teachers
+      "jstevenson" => {:unique_id => "jstevenson", :role => "IT Administrator", :type => :staff, :edOrg => "IL-DAYBREAK"},
+      "rrogers" => {:unique_id => "rrogers", :role => "IT Administrator", :type => :staff, :edOrg => "STANDARD-SEA"},
+      "cgray" => {:unique_id => "cgray", :role => "Educator", :type => :teacher, :edOrg => "Daybreak Central High"},
+
+      ### Parents
+      "aaron.smith" => {:unique_id => "aaron.smith", :role => "Parent", :type => :parent, :edOrg => "Daybreak Central High"},
+      "marsha.sollars" => {:unique_id => "800000025-mom", :role => "Parent", :type => :parent, :edOrg => "East Daybreak Junior High"},
+      "ignatio.ortiz" => {:unique_id => "900000016-dad", :role => "Parent", :type => :parent, :edOrg => "Daybreak Central High"},
+      "cee.gray" => {:unique_id => "cgray-dad", :role => "Parent", :type => :parent, :edOrg => "East Daybreak Junior High"},
+      "charles.gray" => {:unique_id => "cgray", :role => "Parent", :type => :parent, :edOrg => "East Daybreak Junior High"}
+  }
+
+  realm_info = {
+      "Illinois Daybreak Students" => {:unique_id => "IL-Daybreak-Students", :tenant => "Midgar"},
+      "Illinois Daybreak Parents" => {:unique_id => "IL-Daybreak-Parents", :tenant => "Midgar"},
+      "Illinois Daybreak School District 4529" => {:unique_id => "IL-Daybreak", :tenant => "Midgar"}
+  }
+
+  sessionId = nil
+  if user_info[user] && realm_info[realm]
+    sessionId = get_token_from_generator user_info[user][:unique_id], user_info[user][:role], realm_info[realm][:tenant], realm_info[realm][:unique_id], user_info[user][:edOrg], 600, @oauthClientId, user_info[user][:type]
+  end
+  puts "Token not created for #{user}" if sessionId.nil? and $SLI_DEBUG
+  return sessionId
+end
 
 Given /^I log in to realm "(.*?)" using simple-idp as "(.*?)" "(.*?)" with password "(.*?)"$/ do |realm, user_type, user, pass|
   step "the testing device app key has been created"
-
-  user_info = {
-                "student.m.sollars" => {:unique_id => "800000025", :role => "Student", :student? => true, :edOrg => "East Daybreak Junior High"},
-                "leader.m.sollars" => {:unique_id => "800000025", :role => "StudentLeader", :student? => true, :edOrg => "East Daybreak Junior High"},
-                "cegray" => {:unique_id => "cgray", :role => "Student", :student? => true, :edOrg => "East Daybreak Junior High"},
-                "carmen.ortiz" => {:unique_id => "900000016", :role => "Student", :student? => true, :edOrg => "Daybreak Central High"},
-                "jstevenson" => {:unique_id => "jstevenson", :role => "IT Administrator", :student? => false, :edOrg => "IL-DAYBREAK"},
-                "rrogers" => {:unique_id => "rrogers", :role => "IT Administrator", :student? => false, :edOrg => "STANDARD-SEA"},
-                "cgray" => {:unique_id => "cgray", :role => "Educator", :student? => false, :edOrg => "Daybreak Central High"}
-              }
-
-  realm_info = {
-                  "Illinois Daybreak Students" => {:unique_id => "IL-Daybreak-Students", :tenant => "Midgar"},
-                  "Illinois Daybreak School District 4529" => {:unique_id => "IL-Daybreak", :tenant => "Midgar"}
-              }
-
-  if ENV["use_token_gen"] == "true" and user_info[user] && realm_info[realm]
-    @sessionId = get_token_from_generator user_info[user][:unique_id], user_info[user][:role], realm_info[realm][:tenant], realm_info[realm][:unique_id], user_info[user][:edOrg], 600, @oauthClientId, user_info[user][:student?]
-  else
+  @sessionId = nil
+  if ENV["use_token_gen"] == "true"
+    @sessionId = get_session_using_token_gen(realm, user)
+  end
+  if @sessionId.nil?
     step "I have an open web browser"
     step "I navigate to the API authorization endpoint with my client ID"
     step "I was redirected to the Realm page"
@@ -158,10 +183,13 @@ Then /^I should be able to use the token to make valid API calls$/ do
 end
 
 
-def get_token_from_generator(user, role, tenant, realm, edOrg, expiration_in_seconds, client_id, is_student)
+def get_token_from_generator(user, role, tenant, realm, edOrg, expiration_in_seconds, client_id, type)
   script_loc = File.dirname(__FILE__) + "/../../../../../../opstools/token-generator/generator.rb"
-  student = "--student" if is_student
-  out, status = Open3.capture2("ruby #{script_loc} -e #{expiration_in_seconds} -c #{client_id} -u #{user} -r \"#{role}\" -t \"#{tenant}\" -R \"#{realm}\" -E \"#{edOrg}\" #{student}")
+  user_type = ""
+  user_type = "--student" if type == :student
+  user_type = "--parent" if type == :parent
+  out, status = Open3.capture2("ruby #{script_loc} -e #{expiration_in_seconds} -c #{client_id} -u #{user} -r \"#{role}\" -t \"#{tenant}\" -R \"#{realm}\" -E \"#{edOrg}\" #{user_type}")
+  puts "token status: #{status}, output: #{out}" if $SLI_DEBUG
   match = /token is (.*)/.match(out)
   sessionId = match[1]
   puts("The generated token is #{sessionId}") if $SLI_DEBUG

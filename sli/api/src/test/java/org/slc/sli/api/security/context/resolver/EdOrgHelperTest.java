@@ -187,7 +187,9 @@ public class EdOrgHelperTest {
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("School"));
         body.put("parentEducationAgencyReference", lea1.getEntityId());
-        school1 = repo.create(EntityNames.EDUCATION_ORGANIZATION, body);
+        Map<String, Object> metadata = new HashMap<String, Object>();
+        metadata.put("edOrgs", Arrays.asList(lea1.getEntityId()));
+        school1 = repo.create(EntityNames.EDUCATION_ORGANIZATION, body, metadata, EntityNames.EDUCATION_ORGANIZATION);
 
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("School"));
@@ -365,6 +367,16 @@ public class EdOrgHelperTest {
         assertFalse("student3 should not see school1", edorgs.contains(school1.getEntityId()));
         assertFalse("student3 should not see school2", edorgs.contains(school2.getEntityId()));
         assertTrue("student3 should see school3", edorgs.contains(school3.getEntityId()));
+    }
+
+    @Test
+    public void testHeirarchicalEdorgs() {
+        List<String> edorgs = helper.getHierarchicalEdOrgs(school1);
+        assertEquals(1, edorgs.size());
+        assertFalse("school1 should not see lea3", edorgs.contains(lea3.getEntityId()));
+        assertFalse("school1 should not see lea2", edorgs.contains(lea2.getEntityId()));
+        assertTrue("school1 should see lea1", edorgs.contains(lea1.getEntityId()));
+
     }
 
     Map<String, Object> createSEOA(String edorg, String staff, String endDate) {

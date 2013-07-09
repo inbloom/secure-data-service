@@ -29,7 +29,7 @@ import org.slc.sli.domain.Entity;
  *
  */
 @Component
-public class StudentToStaffEdOrgValidator extends StudentToStaffAssociation {
+public class StudentToStaffEdOrgValidator extends StudentToStaffAssociationAbstractValidator {
 
     public StudentToStaffEdOrgValidator() {
         super(EntityNames.STAFF_ED_ORG_ASSOCIATION, "educationOrganizationReference");
