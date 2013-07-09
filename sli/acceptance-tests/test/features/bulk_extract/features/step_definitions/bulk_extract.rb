@@ -638,8 +638,10 @@ def update_api_put_field(body, field, value)
   body["contactPriority"] = value.to_i if field == "contactPriority"
   body["id"] = value if field == "missingEntity"
   body["name"]["firstName"] = value if field == "name.firstName"
+  body["name"]["middleName"] = value if field == "name.middleName"
   body["diagnosticStatement"] = value if field == "diagnosticStatement"
   body["gradeLevelWhenAssessed"] = value if field == "gradeLevelWhenAssessed"
+  body["contactRestrictions"] = value if field == "contactRestrictions"
   return body
 end
 
@@ -756,6 +758,23 @@ def get_patch_body_by_entity_name(field, value)
         "firstName" => "Matt",
         "lastSurname" => "Sollars"
       }
+    },
+    "cgray.name" => {
+      "name" => {
+        "middleName" => value,
+        "firstName" => "Charles",
+        "lastSurname" => "Gray"
+      }
+    },
+    "cgray.myClass.name" => {
+      "name" => {
+        "middleName" => value,
+        "firstName" => "LilCharlie",
+        "lastSurname" => "Gray"
+      }
+    },
+    "cgray.contactRestrictions" => {
+      "contactRestrictions" => value
     },
     "dadLoginId" => {
         "loginId" => value
