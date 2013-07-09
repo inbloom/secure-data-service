@@ -56,7 +56,7 @@ public class ParentAccessValidator extends AccessValidator {
         Set<List<String>> denied_delta = new HashSet<List<String>>();
         denied_delta.add(Arrays.asList(ResourceNames.STUDENT_PARENT_ASSOCIATIONS));
         denied_delta.add(Arrays.asList(ResourceNames.STUDENT_PARENT_ASSOCIATIONS, ResourceNames.PARENTS));
-        DENIED_DELTA = Collections.unmodifiableSet(allowed_delta);
+        DENIED_DELTA = Collections.unmodifiableSet(denied_delta);
     }
 
     /**
