@@ -47,7 +47,7 @@ public class ParentToStudentAssociationValidator extends BasicValidator {
         for (String id : ids) {
             studentIds.add(SuperDocIdUtility.getParentId(id));
         }
-        return studentValidator.validate(entityType, studentIds);
+        return studentValidator.validate(EntityNames.STUDENT, studentIds);
     }
     
 }

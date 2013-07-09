@@ -744,6 +744,9 @@ def get_patch_body_by_entity_name(field, value)
       "loginId" => value,
       "sex" => "Male"
     },
+    "studentLunch" => {
+      "schoolFoodServicesEligibility" => value,
+    },
     "momLoginId" => {
       "loginId" => value
     },
@@ -2936,6 +2939,7 @@ def get_post_body_by_entity_name(entity_name)
       "languages" => [{
         "language" => "Norwegian"
       }],
+      "schoolFoodServicesEligibility" => "Full price",
       "studentUniqueStateId" => "800000025",
       "name" => {
         "middleName" => "Aida",
