@@ -54,14 +54,19 @@ Feature: Users can access public entities
        | date                                                  | 2014-01-21                                  |
        | educationOrganizationId                               | 352e8570bd1116d11a72755b987902440045d346_id |
 
-    Examples: User Credentials
-       | REALM                                   | TYPE              | USERNAME          | PASSWORD              |
-       | Illinois Daybreak School District 4529  | aggregate viewer  | msmith            | msmith1234            |
-       | Illinois Daybreak School District 4529  | leader            | mgonzales         | mgonzales1234         |
-       | Illinois Daybreak School District 4529  | educator          | linda.kim         | linda.kim1234         |
-       | Illinois Daybreak School District 4529  | admin             | akopel            | akopel1234            |
-       | Illinois Daybreak Parents               | parent            | marsha.sollars    | marsha.sollars1234    |
-       | Illinois Daybreak Students              | student           | student.m.sollars | student.m.sollars1234 |
+    #Verify base endpoint only contains calendarDates for the directly associated edOrgs
+    When I navigate to GET "/v1/calendarDates"
+    Then I should receive a return code of 200
+     And I should receive a collection with <COUNT> elements
+
+    Examples: User Credentials and Expected Counts
+       | REALM                                   | TYPE              | USERNAME          | PASSWORD              | COUNT | Notes- Direct edOrg Association             |
+       | Illinois Daybreak School District 4529  | aggregate viewer  | msmith            | msmith1234            | 1     | 352e8570bd1116d11a72755b987902440045d346_id |
+       | Illinois Daybreak School District 4529  | leader            | mgonzales         | mgonzales1234         | 1     | 352e8570bd1116d11a72755b987902440045d346_id |
+       | Illinois Daybreak School District 4529  | educator          | linda.kim         | linda.kim1234         | 1     | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
+       | Illinois Daybreak School District 4529  | admin             | akopel            | akopel1234            | 1     | 352e8570bd1116d11a72755b987902440045d346_id |
+       | Illinois Daybreak Parents               | parent            | marsha.sollars    | marsha.sollars1234    | 1     | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
+       | Illinois Daybreak Students              | student           | student.m.sollars | student.m.sollars1234 | 1     | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
 
   Scenario Outline: Verify Rewrites
     Given I log in to realm "<REALM>" using simple-idp as "<TYPE>" "<USERNAME>" with password "<PASSWORD>"
@@ -84,6 +89,7 @@ Feature: Users can access public entities
        #| Illinois Daybreak Parents               | parent            | marsha.sollars    | marsha.sollars1234    | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id | schools                |
        #| Illinois Daybreak Students              | student           | student.m.sollars | student.m.sollars1234 | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id | schools                |
 
+@wip
   Scenario Outline: Verify base endpoint only contains calendarDates for the directly associated edOrgs
     Given I log in to realm "<REALM>" using simple-idp as "<TYPE>" "<USERNAME>" with password "<PASSWORD>"
      And format "application/json"
