@@ -370,6 +370,36 @@ public class BasicService implements EntityService, AccessibilityCheck {
     }
 
     @Override
+    public boolean patchBasedOnContextualRoles(String id, EntityBody content) {
+        debug("Patching {} in {}", id, collectionName);
+
+        NeutralQuery query = new NeutralQuery();
+        query.addCriteria(new NeutralCriteria("_id", "=", id));
+
+        Entity entity = new MongoEntity(defn.getType(), null, content, createMetadata());
+
+        boolean isSelf = isSelf(query);
+        Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf, entity);
+        rightAccessValidator.checkAccess(true, isSelf, entity, defn.getType(), auths);
+
+        if (repo.findOne(collectionName, query) == null) {
+            info("Could not find {}", id);
+            throw new EntityNotFoundException(id);
+        }
+
+        sanitizeEntityBody(content);
+
+        info("patch value(s): ", content);
+
+        // don't check references until things are combined
+        checkReferences(id, content);
+
+        repo.patch(defn.getType(), collectionName, id, content);
+
+        return true;
+    }
+
+    @Override
     public EntityBody get(String id) {
         return get(id, new NeutralQuery());
 

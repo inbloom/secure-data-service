@@ -77,6 +77,12 @@ public class MockBasicService implements EntityService {
     }
 
     @Override
+    public boolean patchBasedOnContextualRoles(String id, EntityBody content) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
     public EntityBody get(String id) {
         // TODO Auto-generated method stub
         return null;

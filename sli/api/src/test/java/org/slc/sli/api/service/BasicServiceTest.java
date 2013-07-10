@@ -17,6 +17,7 @@
 
 package org.slc.sli.api.service;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -34,9 +35,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -285,6 +289,60 @@ public class BasicServiceTest {
 
         Assert.assertEquals("EntityBody mismatch", entity1.getEntityId(), listResult.toArray()[0]);
         Assert.assertEquals("EntityBody mismatch", entity2.getEntityId(), listResult.toArray()[1]);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testUpdateBasedOnContextualRoles() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+        securityContextInjector.setStaffContext();
+        service = (BasicService) context.getBean("basicService", "student", new ArrayList<Treatment>(), securityRepo);
+        EntityDefinition studentDef = factory.makeEntity("student").exposeAs("students").build();
+        service.setDefn(studentDef);
+        EntityBody entityBody1 = new EntityBody();
+        entityBody1.put("studentUniqueStateId", "student1");
+        Entity student = securityRepo.create(EntityNames.STUDENT, entityBody1);
+        EntityBody entityBody2 = new EntityBody();
+        entityBody2.put(ParameterConstants.STUDENT_ID, student.getEntityId());
+        entityBody2.put(ParameterConstants.SCHOOL_ID, SecurityContextInjector.ED_ORG_ID);
+        securityRepo.create(EntityNames.STUDENT_SCHOOL_ASSOCIATION, entityBody2);
+        securityRepo.createWithRetries(EntityNames.EDUCATION_ORGANIZATION,SecurityContextInjector.ED_ORG_ID, new HashMap<String, Object>(), new HashMap<String, Object>(), EntityNames.EDUCATION_ORGANIZATION, 1);
+
+        EntityBody putEntity = new EntityBody();
+        putEntity.put("studentUniqueStateId", "student1");
+        putEntity.put("loginId", "student1");
+        boolean result = service.updateBasedOnContextualRoles(student.getEntityId(), putEntity);
+
+        Assert.assertTrue(result);
+        Entity studentResult = securityRepo.findById(EntityNames.STUDENT, student.getEntityId());
+        Assert.assertNotNull(studentResult.getBody());
+        Assert.assertNotNull(studentResult.getBody().get("studentUniqueStateId"));
+        Assert.assertEquals("student1", studentResult.getBody().get("studentUniqueStateId"));
+        Assert.assertNotNull(studentResult.getBody().get("loginId"));
+        Assert.assertEquals("student1",studentResult.getBody().get("loginId"));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test(expected = AccessDeniedException.class)
+    public void testUpdateBasedOnContextualRolesAccessDenied() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+        securityContextInjector.setEducatorContext();
+        service = (BasicService) context.getBean("basicService", "student", new ArrayList<Treatment>(), securityRepo);
+        EntityDefinition studentDef = factory.makeEntity("student").exposeAs("students").build();
+        service.setDefn(studentDef);
+        EntityBody entityBody1 = new EntityBody();
+        entityBody1.put("studentUniqueStateId", "student1");
+        Entity student = securityRepo.create(EntityNames.STUDENT, entityBody1);
+        EntityBody entityBody2 = new EntityBody();
+        entityBody2.put(ParameterConstants.STUDENT_ID, student.getEntityId());
+        entityBody2.put(ParameterConstants.SCHOOL_ID, SecurityContextInjector.ED_ORG_ID);
+        securityRepo.create(EntityNames.STUDENT_SCHOOL_ASSOCIATION, entityBody2);
+        securityRepo.createWithRetries(EntityNames.EDUCATION_ORGANIZATION,SecurityContextInjector.ED_ORG_ID, new HashMap<String, Object>(), new HashMap<String, Object>(), EntityNames.EDUCATION_ORGANIZATION, 1);
+
+        EntityBody putEntity = new EntityBody();
+        putEntity.put("studentUniqueStateId", "student1");
+        putEntity.put("loginId", "student1");
+        boolean result = service.updateBasedOnContextualRoles(student.getEntityId(), putEntity);
+
+        Assert.assertFalse(result);
     }
 
 }
