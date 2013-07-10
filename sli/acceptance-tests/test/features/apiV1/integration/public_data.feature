@@ -56,12 +56,12 @@ Feature: Users can access public entities
 
     Examples: User Credentials
        | REALM                                   | TYPE              | USERNAME          | PASSWORD              |
-      #| Illinois Daybreak School District 4529  | aggregate viewer  | msmith            | msmith1234            |
+       | Illinois Daybreak School District 4529  | aggregate viewer  | msmith            | msmith1234            |
        | Illinois Daybreak School District 4529  | leader            | mgonzales         | mgonzales1234         |
        | Illinois Daybreak School District 4529  | educator          | linda.kim         | linda.kim1234         |
        | Illinois Daybreak School District 4529  | admin             | akopel            | akopel1234            |
-      #| Illinois Daybreak Parents               | parent            | marsha.sollars    | marsha.sollars1234    |
-      #| Illinois Daybreak Students              | student           | student.m.sollars | student.m.sollars1234 |
+       | Illinois Daybreak Parents               | parent            | marsha.sollars    | marsha.sollars1234    |
+       | Illinois Daybreak Students              | student           | student.m.sollars | student.m.sollars1234 |
 
   @wip
   Scenario Outline: Verify Rewrites for entities for staff
