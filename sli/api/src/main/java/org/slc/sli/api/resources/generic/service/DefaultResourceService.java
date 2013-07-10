@@ -277,7 +277,11 @@ public class DefaultResourceService implements ResourceService {
         if (migratedCopies.size() != 1) {
             throw new IllegalStateException("Error occurred while processing entity body.");
         }
-        definition.getService().update(id, migratedCopies.get(0));
+        if (contextSupportedEntities.contains(definition.getType()) && SecurityUtil.isStaffUser()) {
+            definition.getService().updateBasedOnContextualRoles(id, migratedCopies.get(0));
+        } else {
+            definition.getService().update(id, migratedCopies.get(0));
+        }
     }
 
     @Override

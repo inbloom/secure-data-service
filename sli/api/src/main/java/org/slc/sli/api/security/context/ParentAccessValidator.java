@@ -27,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.ResourceNames;
+import org.slc.sli.api.resources.generic.util.ResourceMethod;
 
 @Component
 public class ParentAccessValidator extends AccessValidator {
@@ -56,7 +57,7 @@ public class ParentAccessValidator extends AccessValidator {
         Set<List<String>> denied_delta = new HashSet<List<String>>();
         denied_delta.add(Arrays.asList(ResourceNames.STUDENT_PARENT_ASSOCIATIONS));
         denied_delta.add(Arrays.asList(ResourceNames.STUDENT_PARENT_ASSOCIATIONS, ResourceNames.PARENTS));
-        DENIED_DELTA = Collections.unmodifiableSet(allowed_delta);
+        DENIED_DELTA = Collections.unmodifiableSet(denied_delta);
     }
 
     /**
@@ -90,8 +91,13 @@ public class ParentAccessValidator extends AccessValidator {
     }
     
     @Override
-    protected boolean isWriteAllowed(List<String> path) {
-        return false;
+    protected boolean isWriteAllowed(List<String> path, String method) {
+        if (ResourceMethod.DELETE.toString().equals(method) || ResourceMethod.POST.toString().equals(method)) {
+            return false; 
+        }
+       
+        String baseEntity = path.get(0);
+        return path.size() <= 2 && (ResourceNames.STUDENTS.equals(baseEntity) || ResourceNames.PARENTS.equals(baseEntity));
     }
     
 }

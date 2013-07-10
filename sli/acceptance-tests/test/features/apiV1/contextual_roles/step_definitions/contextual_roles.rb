@@ -771,6 +771,14 @@ Then /^the response (should|should not) have the following students$/ do |functi
   end
 end
 
+Then /^"([^"]*)" in the response (should|should not) have restricted data$/ do |student, function|
+  should = (function == 'should')
+  negative = 'not ' if should
+  response = JSON.parse(@res.body)
+  index =  response.index {|entry| entry['studentUniqueStateId'] == student}
+  assert(response[index].has_key?('schoolFoodServicesEligibility') == should, "Restricted field #{negative}found")
+end
+
 
 #############################################################################################
 

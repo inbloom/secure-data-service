@@ -573,6 +573,7 @@ Feature: Use the APi to successfully get student data while having roles over ma
  #Do not remove the @wip until after studentSchoolAssociations have been updated to use contextual roles
  @wip
  Scenario: GET lists of students for a staff member with multiple roles in an edorg heirarchy
+    Given parameter "limit" is "0"
     When I navigate to the API authorization endpoint with my client ID
     And I was redirected to the "Simple" IDP Login page
     And I submit the credentials "msmith" "msmith1234" for the "Simple" login page
@@ -595,9 +596,10 @@ Feature: Use the APi to successfully get student data while having roles over ma
     | nate.dedrick    |
     | mu.mcneill      |
 
- @wip
  Scenario: GET lists of students for a staff member with multiple roles in an edorg hierarchy
     Given I change the custom role of "Aggregate Viewer" to add the "READ_GENERAL" right
+    And I add a SEOA for "msmith" in "Daybreak Central High" as a "Aggregate Viewer"
+    And parameter "limit" is "0"
     When I navigate to the API authorization endpoint with my client ID
     And I was redirected to the "Simple" IDP Login page
     And I submit the credentials "msmith" "msmith1234" for the "Simple" login page
@@ -630,6 +632,7 @@ Feature: Use the APi to successfully get student data while having roles over ma
    And "lashawn.taite" is not associated with any cohort that belongs to "rbelding"
    And "bert.jakeman" is not associated with any program that belongs to "rbelding"
    And "bert.jakeman" is not associated with any cohort that belongs to "rbelding"
+   And parameter "limit" is "0"
 
    When I navigate to the API authorization endpoint with my client ID
    And I was redirected to the "Simple" IDP Login page
@@ -654,6 +657,39 @@ Feature: Use the APi to successfully get student data while having roles over ma
       | nate.dedrick    |
       | mu.mcneill      |
 
+#Do not remove the @wip until after studentSchoolAssociations have been updated to use contextual roles
+  @wip
+  Scenario: GET lists of students for a staff member with multiple roles in the same edorg
+    Given I change the custom role of "Aggregate Viewer" to add the "READ_GENERAL" right
+    And I change the custom role of "Leader" to remove the "READ_GENERAL" right
+    And I change all SEOAs of "xbell" to the edorg "Daybreak Bayside High"
+    And I add a SEOA for "xbell" in "Daybreak Bayside High" as a "Leader"
+    And parameter "limit" is "0"
+    When I navigate to the API authorization endpoint with my client ID
+    And I was redirected to the "Simple" IDP Login page
+    And I submit the credentials "xbell" "xbell1234" for the "Simple" login page
+    Then I should receive a json response containing my authorization code
+    When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
+    Then I should receive a json response containing my authorization token
+    And I should be able to use the token to make valid API calls
+
+    When I navigate to GET "/v1/students"
+    Then I should receive a return code of 200
+    And the response should have the following students
+      | student         |
+      | nate.dedrick    |
+      | mu.mcneill      |
+      | carmen.ortiz    |
+    And "nate.dedrick" in the response should have restricted data
+    And "mu.mcneill" in the response should have restricted data
+    And "carmen.ortiz" in the response should have restricted data
+    And the response should not have the following students
+      | student         |
+      | matt.sollars    |
+      | jack.jackson    |
+      | lashawn.taite   |
+      | bert.jakeman    |
+
  Scenario: GET lists of students for an educator in multiple schools
     Given the following student section associations in Midgar are set correctly
       | student         | teacher              | edorg                 | enrolledInAnySection? |
@@ -667,6 +703,8 @@ Feature: Use the APi to successfully get student data while having roles over ma
     And "lashawn.taite" is not associated with any cohort that belongs to "linda.kim"
     And "mu.mcneill" is not associated with any program that belongs to "linda.kim"
     And "mu.mcneill" is not associated with any cohort that belongs to "linda.kim"
+    And parameter "limit" is "0"
+
     When I navigate to the API authorization endpoint with my client ID
     And I was redirected to the "Simple" IDP Login page
     And I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page

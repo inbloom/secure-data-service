@@ -312,6 +312,39 @@ public class BasicService implements EntityService, AccessibilityCheck {
     }
 
     @Override
+    public boolean updateBasedOnContextualRoles(String id, EntityBody content) {
+        debug("Updating {} in {} with {}", id, collectionName, SecurityUtil.getSLIPrincipal());
+
+        NeutralQuery query = new NeutralQuery();
+        query.addCriteria(new NeutralCriteria("_id", "=", id));
+        Entity entity = getRepo().findOne(collectionName, query);
+        // Entity entity = repo.findById(collectionName, id);
+        if (entity == null) {
+            info("Could not find {}", id);
+            throw new EntityNotFoundException(id);
+        }
+        Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(false, entity);
+        rightAccessValidator.checkAccess(false, content, defn.getType(), auths);
+
+        sanitizeEntityBody(content);
+
+        boolean success = false;
+        if (entity.getBody().equals(content)) {
+            info("No change detected to {}", id);
+            return false;
+        }
+
+        checkReferences(id, content);
+
+        info("new body is {}", content);
+        entity.getBody().clear();
+        entity.getBody().putAll(content);
+
+        success = repo.update(collectionName, entity, FullSuperDoc.isFullSuperdoc(entity));
+        return success;
+    }
+
+    @Override
     public boolean patch(String id, EntityBody content) {
         debug("Patching {} in {}", id, collectionName);
         checkAccess(false, id, content);
@@ -798,9 +831,10 @@ public class BasicService implements EntityService, AccessibilityCheck {
     private boolean isSelf(String entityId) {
         SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
         String selfId = principal.getEntity().getEntityId();
+        Collection<String> studentIds = principal.getOwnedStudentIds();
         String type = defn.getType();
         if (selfId != null) {
-            if (selfId.equals(entityId)) {
+            if (selfId.equals(entityId) || studentIds.contains(entityId)) {
                 return true;
             } else if (EntityNames.STAFF_ED_ORG_ASSOCIATION.equals(type)) {
                 Entity entity = repo.findById(defn.getStoredCollectionName(), entityId);
