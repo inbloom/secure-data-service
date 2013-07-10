@@ -51,6 +51,9 @@ public class StudentAssessmentConverter extends GenericSuperdocConverter impleme
     @Override
     public Entity subdocToBodyField(Entity entity) {
         if (entity != null && entity.getType().equals(STUDENT_ASSESSMENT)) {
+            if (entity.getBody() == null || entity.getBody().isEmpty()) {
+                return null;
+            }
             Entity assessment = retrieveAssessment(entity.getBody().get(ASSESSMENT_ID));
 
             // replace assessmentItem reference in studentAssessmentItem with actual assessmentItem
@@ -183,7 +186,10 @@ public class StudentAssessmentConverter extends GenericSuperdocConverter impleme
         List<Entity> converted = new ArrayList<Entity>();
         if (entities != null) {
             for (Entity entity : entities) {
-                converted.add(subdocToBodyField(entity));
+                Entity newEntity = subdocToBodyField(entity);
+                if(newEntity != null) {
+                    converted.add(newEntity);
+                }
             }
         }
         return converted;

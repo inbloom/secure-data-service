@@ -72,6 +72,7 @@ public class StudentAssessmentConverterTest {
         String entityType = "studentAssessment";
         String entityId = "ID";
         Map<String, Object> body = new HashMap<String, Object>();
+        body.put("assessmentTitle", "Random Assessment");
         Map<String, Object> metaData = new HashMap<String, Object>();
         Map<String, List<Entity>> embeddedData = new HashMap<String, List<Entity>>();
 

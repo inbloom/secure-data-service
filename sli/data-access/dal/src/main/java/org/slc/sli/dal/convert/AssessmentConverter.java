@@ -70,6 +70,9 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
     @Override
     public Entity subdocToBodyField(Entity entity) {
         if (entity != null && entity.getType().equals(ASSESSMENT)) {
+            if (entity.getBody() == null || entity.getBody().isEmpty()) {
+                return null;
+            }
             transformToHierarchy(entity);
             subdocsToBody(entity, ASSESSMENT_ITEM, ASSESSMENT_ITEM, Arrays.asList(ASSESSMENT_ID));
             subdocsToBody(entity, OBJECTIVE_ASSESSMENT, OBJECTIVE_ASSESSMENT, Arrays.asList(ASSESSMENT_ID));
@@ -162,7 +165,10 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
         List<Entity> converted = new ArrayList<Entity>();
         if (entities != null) {
             for (Entity entity : entities) {
-                converted.add(subdocToBodyField(entity));
+                Entity newEntity = subdocToBodyField(entity);
+                if (newEntity != null) {
+                    converted.add(newEntity);
+                }
             }
         }
         return converted;
