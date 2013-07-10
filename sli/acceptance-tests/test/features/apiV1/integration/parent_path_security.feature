@@ -94,8 +94,6 @@ Scenario: Verify Rewrites for entities for Parents
       | /gradingPeriods/21b8ac38bf886e78a879cfdb973a9352f64d07b9_id/grades                                                                                |
       | /gradingPeriods/21b8ac38bf886e78a879cfdb973a9352f64d07b9_id/reportCards                                                                           |
       | /learningObjectives/53f942931e3c494e7d91ec26ddf52b4e02d5cdee_id/studentCompetencies                                                               |
-      | /students/ac9d23542b310939801dec4d29cfddda7765353b_id/studentParentAssociations                                                                   |
-      | /students/ac9d23542b310939801dec4d29cfddda7765353b_id/studentParentAssociations/parents                                                           |
       | /schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/sections/gradebookEntries                                                                    |
       | /schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/sections/studentSectionAssociations                                                          |
       | /schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/sections/studentSectionAssociations/grades                                                   |
