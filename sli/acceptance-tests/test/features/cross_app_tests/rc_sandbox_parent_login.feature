@@ -33,15 +33,15 @@ Feature:  RC Integration Tests - Test Parent Login
 # Login as a parent a take a look at some stuff.
     Then I should be redirected to the impersonation page
     And I should see that I "<DEVELOPER_SB_EMAIL>" am logged in
-    And I want to manually imitate the user "800000025-dad" who is of type "parent" and role "Parent"
+    And I want to manually imitate the user "3597672174" who is of type "parent" and role "Parent"
     #And I want to select "3597672174" from the "SmallDatasetUsers" in automatic mode
     Then I should be on Portal home page
     And I click on Admin
     Then I should be on the admin page
     And under System Tools, I click on "inBloom Data Browser"
     Then I should be redirected to the Data Browser home page
-    And I should see the name "Brenton Sollars" on the page
+    And I should see the name "Matthew Sollars" on the page
     And I have navigated to the "Me" page of the Data Browser
     Then I can see my "Gender" is "Male"
-    Then I can see my "ParentUniqueStateId" is "800000025-dad"
+    Then I can see my "ParentUniqueStateId" is "3597672174"
     Then I log out of Databrowser
