@@ -63,7 +63,7 @@ Feature: Users can access public entities
        | Illinois Daybreak Parents               | parent            | marsha.sollars    | marsha.sollars1234    |
        | Illinois Daybreak Students              | student           | student.m.sollars | student.m.sollars1234 |
 
-  Scenario Outline: Verify Rewrites for entities for staff
+  Scenario Outline: Verify Rewrites
     Given I log in to realm "<REALM>" using simple-idp as "<TYPE>" "<USERNAME>" with password "<PASSWORD>"
       And format "application/json"
     When I navigate to the base level URI <Entity> I should see the rewrite in the format of <URI>:
@@ -84,7 +84,6 @@ Feature: Users can access public entities
        #| Illinois Daybreak Parents               | parent            | marsha.sollars    | marsha.sollars1234    | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id | schools                |
        #| Illinois Daybreak Students              | student           | student.m.sollars | student.m.sollars1234 | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id | schools                |
 
-  @wip
   Scenario Outline: Verify base endpoint only contains calendarDates for the directly associated edOrgs
     Given I log in to realm "<REALM>" using simple-idp as "<TYPE>" "<USERNAME>" with password "<PASSWORD>"
      And format "application/json"
@@ -148,9 +147,9 @@ Feature: Users can access public entities
     When I POST and validate the following entities:
        | entityName       | entityType   | returnCode |
        | newCalendarDate2 | calendarDate | 403        |
-    #When I PATCH and validate the following entities:
-       #|  fieldName     |  entityType    | value   |  returnCode  | endpoint                                                  |
-       #|  calendarEvent |  calendarDate2 | Holiday |  403         | calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id |
+   #When I PATCH and validate the following entities:
+      #|  fieldName     |  entityType    | value   |  returnCode  | endpoint                                                  |
+      #|  calendarEvent |  calendarDate2 | Holiday |  403         | calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id |
     Then I verify the following response body fields in "/calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id":
        | field                   | value                                       |
        | id                      | 7629c5951c8af6dac204cf636d5a81acb64fc6ef_id |
@@ -158,9 +157,9 @@ Feature: Users can access public entities
        | calendarEvent           | Instructional day                           |
        | date                    | 2012-09-18                                  |
        | educationOrganizationId | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
-    #When I PUT and validate the following entities:
-       #|  field         | entityName       |  value            | returnCode | endpoint                                                  |
-       #|  calendarEvent | newCalendarDate2 | Holiday           | 403        | calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id |
+   #When I PUT and validate the following entities:
+      #|  field         | entityName       |  value            | returnCode | endpoint                                                  |
+      #|  calendarEvent | newCalendarDate2 | Holiday           | 403        | calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id |
     Then I verify the following response body fields in "/calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id":
        | field                   | value                                       |
        | id                      | 7629c5951c8af6dac204cf636d5a81acb64fc6ef_id |
@@ -168,9 +167,9 @@ Feature: Users can access public entities
        | calendarEvent           | Instructional day                           |
        | date                    | 2012-09-18                                  |
        | educationOrganizationId | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
-    #When I DELETE and validate the following entities:
-       #| entity       | id                                           | returnCode |
-       #| calendarDate | 6f93d0a3e53c2d9c3409646eaab94155fe079e87_id  | 403        |
+   #When I DELETE and validate the following entities:
+      #| entity       | id                                           | returnCode |
+      #| calendarDate | 6f93d0a3e53c2d9c3409646eaab94155fe079e87_id  | 403        |
     Then I verify the following response body fields in "/calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id":
        | field                   | value                                       |
        | id                      | 7629c5951c8af6dac204cf636d5a81acb64fc6ef_id |
@@ -188,9 +187,9 @@ Feature: Users can access public entities
         | newCalendarDate | calendarDate | 403        |
       And I navigate to GET "/v1/calendarDates/611ce67cc258ae2d06bc3199ee678df0fb6cecab_id"
      Then I should receive a return code of 404
-     #When I PATCH and validate the following entities:
-        #|  fieldName     |  entityType   | value   |  returnCode  | endpoint                                                  |
-        #|  calendarEvent |  calendarDate | Holiday |  403         | calendarDates/6f93d0a3e53c2d9c3409646eaab94155fe079e87_id |
+    #When I PATCH and validate the following entities:
+       #|  fieldName     |  entityType   | value   |  returnCode  | endpoint                                                  |
+       #|  calendarEvent |  calendarDate | Holiday |  403         | calendarDates/6f93d0a3e53c2d9c3409646eaab94155fe079e87_id |
      Then I verify the following response body fields in "/calendarDates/6f93d0a3e53c2d9c3409646eaab94155fe079e87_id":
         | field                   | value                                       |
         | id                      | 6f93d0a3e53c2d9c3409646eaab94155fe079e87_id |
@@ -198,9 +197,9 @@ Feature: Users can access public entities
         | calendarEvent           | Instructional day                           |
         | date                    | 2014-01-21                                  |
         | educationOrganizationId | 352e8570bd1116d11a72755b987902440045d346_id |
-     #When I PUT and validate the following entities:
-        #|  field         | entityName      |  value            | returnCode | endpoint                                                  |
-        #|  calendarEvent | newCalendarDate | Holiday           | 403        | calendarDates/6f93d0a3e53c2d9c3409646eaab94155fe079e87_id |
+    #When I PUT and validate the following entities:
+       #|  field         | entityName      |  value            | returnCode | endpoint                                                  |
+       #|  calendarEvent | newCalendarDate | Holiday           | 403        | calendarDates/6f93d0a3e53c2d9c3409646eaab94155fe079e87_id |
      Then I verify the following response body fields in "/calendarDates/6f93d0a3e53c2d9c3409646eaab94155fe079e87_id":
         | field                   | value                                       |
         | id                      | 6f93d0a3e53c2d9c3409646eaab94155fe079e87_id |
@@ -208,9 +207,9 @@ Feature: Users can access public entities
         | calendarEvent           | Instructional day                           |
         | date                    | 2014-01-21                                  |
         | educationOrganizationId | 352e8570bd1116d11a72755b987902440045d346_id |
-     #When I DELETE and validate the following entities:
-        #| entity       | id                                           | returnCode |
-        #| calendarDate | 6f93d0a3e53c2d9c3409646eaab94155fe079e87_id  | 403        |
+    #When I DELETE and validate the following entities:
+       #| entity       | id                                           | returnCode |
+       #| calendarDate | 6f93d0a3e53c2d9c3409646eaab94155fe079e87_id  | 403        |
      Then I verify the following response body fields in "/calendarDates/6f93d0a3e53c2d9c3409646eaab94155fe079e87_id":
         | field                   | value                                       |
         | id                      | 6f93d0a3e53c2d9c3409646eaab94155fe079e87_id |
@@ -220,10 +219,10 @@ Feature: Users can access public entities
         | educationOrganizationId | 352e8570bd1116d11a72755b987902440045d346_id |
 
      Examples: User Credentials
-         | REALM                                   | TYPE              | USERNAME          | PASSWORD              |
-        #| Illinois Daybreak School District 4529  | aggregate viewer  | msmith            | msmith1234            |
-         | Illinois Daybreak School District 4529  | leader            | mgonzales         | mgonzales1234         |
-         | Illinois Daybreak School District 4529  | educator          | linda.kim         | linda.kim1234         |
-        #| Illinois Daybreak Parents               | parent            | marsha.sollars    | marsha.sollars1234    |
-        #| Illinois Daybreak Students              | student           | student.m.sollars | student.m.sollars1234 |
+        | REALM                                   | TYPE              | USERNAME          | PASSWORD              |
+       #| Illinois Daybreak School District 4529  | aggregate viewer  | msmith            | msmith1234            |
+        | Illinois Daybreak School District 4529  | leader            | mgonzales         | mgonzales1234         |
+        | Illinois Daybreak School District 4529  | educator          | linda.kim         | linda.kim1234         |
+       #| Illinois Daybreak Parents               | parent            | marsha.sollars    | marsha.sollars1234    |
+       #| Illinois Daybreak Students              | student           | student.m.sollars | student.m.sollars1234 |
 
