@@ -288,7 +288,11 @@ public class DefaultResourceService implements ResourceService {
         EntityBody copy = new EntityBody(entity);
         copy.remove(ResourceConstants.LINKS);
 
-        definition.getService().patch(id, copy);
+        if (contextSupportedEntities.contains(definition.getType()) && SecurityUtil.isStaffUser()) {
+            definition.getService().patchBasedOnContextualRoles(id, copy);
+        } else {
+            definition.getService().patch(id, copy);
+        }
     }
 
     @Override
