@@ -640,6 +640,7 @@ def update_api_put_field(body, field, value)
   body["name"]["firstName"] = value if field == "name.firstName"
   body["diagnosticStatement"] = value if field == "diagnosticStatement"
   body["gradeLevelWhenAssessed"] = value if field == "gradeLevelWhenAssessed"
+  body["calendarEvent"] = value if field == "calendarEvent"
   return body
 end
 
@@ -730,6 +731,9 @@ def get_patch_body_by_entity_name(field, value)
                   "addressType"=>"Physical",
                   "city"=>"Chicago"
                  }]
+    },
+    "calendarEvent" => {
+            "calendarEvent" => value
     },
     "contactPriority" => {
       "contactPriority" => value.to_i
@@ -2505,6 +2509,11 @@ def get_post_body_by_entity_name(entity_name)
           "date" => "2014-05-19"
         }]
       }]
+    },
+    "newCalendarDate" => {
+      "calendarEvent" => "Instructional day",
+      "date" => "2015-04-02",
+      "educationOrganizationId" => "352e8570bd1116d11a72755b987902440045d346_id"
     },
     "newCohort" => {
       "academicSubject" => "Communication and Audio/Visual Technology",

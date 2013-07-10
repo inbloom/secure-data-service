@@ -46,6 +46,14 @@ Feature: Users can access public entities
        | date                                                  | 2012-09-18                                  |
        | educationOrganizationId                               | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
 
+    Then I verify the following response body fields in "/calendarDates/6f93d0a3e53c2d9c3409646eaab94155fe079e87_id":
+       | field                                                 | value                                       |
+       | id                                                    | 6f93d0a3e53c2d9c3409646eaab94155fe079e87_id |
+       | entityType                                            | calendarDate                                |
+       | calendarEvent                                         | Instructional day                           |
+       | date                                                  | 2014-01-21                                  |
+       | educationOrganizationId                               | 352e8570bd1116d11a72755b987902440045d346_id |
+
     Examples: User Credentials
        | REALM                                   | TYPE              | USERNAME          | PASSWORD              |
       #| Illinois Daybreak School District 4529  | aggregate viewer  | msmith            | msmith1234            |
@@ -117,4 +125,44 @@ Feature: Users can access public entities
        | Illinois Daybreak School District 4529  | admin             | akopel            | akopel1234            | 1     | 352e8570bd1116d11a72755b987902440045d346_id |
        | Illinois Daybreak Parents               | parent            | marsha.sollars    | marsha.sollars1234    | 1     | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
        | Illinois Daybreak Students              | student           | student.m.sollars | student.m.sollars1234 | 1     | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
+
+  Scenario: Public Entities Write Commands as a IT Admin (user with WRITE PUBLIC)
+    Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "akopel" with password "akopel1234"
+     And format "application/json"
+     And I am using api version "v1"
+    When I POST and validate the following entities:
+       | entityName      | entityType   | returnCode |
+       | newCalendarDate | calendarDate | 201        |
+    Then I verify the following response body fields in "/calendarDates/611ce67cc258ae2d06bc3199ee678df0fb6cecab_id":
+       | field                   | value                                       |
+       | id                      | 611ce67cc258ae2d06bc3199ee678df0fb6cecab_id |
+       | entityType              | calendarDate                                |
+       | calendarEvent           | Instructional day                           |
+       | date                    | 2015-04-02                                  |
+       | educationOrganizationId | 352e8570bd1116d11a72755b987902440045d346_id |
+    When I PATCH and validate the following entities:
+       |  fieldName     |  entityType   | value   |  returnCode  | endpoint                                                  |
+       |  calendarEvent |  calendarDate | Holiday |  204         | calendarDates/611ce67cc258ae2d06bc3199ee678df0fb6cecab_id |
+    Then I verify the following response body fields in "/calendarDates/611ce67cc258ae2d06bc3199ee678df0fb6cecab_id":
+       | field                   | value                                       |
+       | id                      | 611ce67cc258ae2d06bc3199ee678df0fb6cecab_id |
+       | entityType              | calendarDate                                |
+       | calendarEvent           | Holiday                                     |
+       | date                    | 2015-04-02                                  |
+       | educationOrganizationId | 352e8570bd1116d11a72755b987902440045d346_id |
+    When I PUT and validate the following entities:
+       |  field         | entityName      |  value            | returnCode | endpoint                                                  |
+       |  calendarEvent | newCalendarDate | Instructional day | 204        | calendarDates/611ce67cc258ae2d06bc3199ee678df0fb6cecab_id |
+    Then I verify the following response body fields in "/calendarDates/611ce67cc258ae2d06bc3199ee678df0fb6cecab_id":
+       | field                   | value                                       |
+       | id                      | 611ce67cc258ae2d06bc3199ee678df0fb6cecab_id |
+       | entityType              | calendarDate                                |
+       | calendarEvent           | Instructional day                           |
+       | date                    | 2015-04-02                                  |
+       | educationOrganizationId | 352e8570bd1116d11a72755b987902440045d346_id |
+    When I DELETE and validate the following entities:
+       | entity       | id                                           | returnCode |
+       | calendarDate | 611ce67cc258ae2d06bc3199ee678df0fb6cecab_id  | 204        |
+     And I navigate to GET "/v1/calendarDates/611ce67cc258ae2d06bc3199ee678df0fb6cecab_id"
+    Then I should receive a return code of 404
 
