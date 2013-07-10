@@ -48,10 +48,9 @@ Feature: As an SLI application, I want to return the right order of entities.
      Then I should receive a return code of <CODE>
      And a security event matching "^Access Denied" should be in the sli db
      And I check to find if record is in sli db collection:
-       | collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
-       | securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                           |
-    # us5758 revisit this - value for targetEdOrg likely needs updating
-#       | securityEvent       | 1                   | body.targetEdOrgList  | IL-DAYBREAK                           |
+       | collectionName      | expectedRecordCount | searchParameter       | searchValue               |
+       | securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK               |
+       | securityEvent       | 1                   | body.targetEdOrgList  | East Daybreak Junior High |
 
 
  # Current behavior:
