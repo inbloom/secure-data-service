@@ -21,6 +21,6 @@ Feature: Parent can see public entities
       | sections                    | 8d9ad6c3b870e8775016fff99fbd9c74920de8d5_id |                                                                                                     |
       | sessions                    | 3327329ef80b7419a48521818d65743234d6e5fb_id |                                                                                                     |
       | studentCompetencyObjectives | b7080a7f753939752b693bca21fe60375d15587e_id |                                                                                                     |
-      #| calendarDates               | e00dc4fb9d6be8372a549dea899fe1915a598c5c_id | directly associated to LEA IL-DAYBREAK 1b223f577827204a1c7e9c851dba06bea6b031fe_id                  |
-      #| calendarDates               | b6f70d30b51a569610b8f882c8fa3a2d2eefbee1_id | directly associated to LEA 11 02bdd6bf0fd5f761e6fc316ca6c763d4bb96c055_id                           |
+      | calendarDates               | e00dc4fb9d6be8372a549dea899fe1915a598c5c_id | directly associated to LEA IL-DAYBREAK 1b223f577827204a1c7e9c851dba06bea6b031fe_id                  |
+      | calendarDates               | b6f70d30b51a569610b8f882c8fa3a2d2eefbee1_id | directly associated to LEA 11 02bdd6bf0fd5f761e6fc316ca6c763d4bb96c055_id                           |
 

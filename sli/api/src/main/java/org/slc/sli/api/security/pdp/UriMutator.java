@@ -374,7 +374,7 @@ public class UriMutator {
             //The ThreePartResource.java does not work for this relationship because it wrongly assumes that calendarDate contains a reference to gradingPeriod.
             if(baseEntity.equals("gradingPeriods") && resourceEntity.equals("calendarDates")) {
                 String [] gradingPeriodIds = segmentStrings.get(2).split(",");
-                Set<String> gradingPeriodCalendarDates = gradingPeriodHelper.getCalendarDatesForGradingPeriods(gradingPeriodIds);
+                List<String> gradingPeriodCalendarDates = gradingPeriodHelper.getCalendarDatesForGradingPeriods(queryParameters, gradingPeriodIds);
 
                 if(gradingPeriodCalendarDates.size() > 0) {
                     mutated = new MutatedContainer();
