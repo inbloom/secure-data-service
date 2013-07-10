@@ -17,6 +17,7 @@
 
 package org.slc.sli.api.representation;
 
+import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.resources.security.RealmResource;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.SecurityEventBuilder;
@@ -54,6 +55,9 @@ public class APIAccessDeniedExceptionHandler implements ExceptionMapper<APIAcces
 
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
+
+    @Autowired
+    private EntityDefinitionStore entityDefinitionStore;
 
     @Context
     UriInfo uriInfo;
@@ -151,7 +155,8 @@ public class APIAccessDeniedExceptionHandler implements ExceptionMapper<APIAcces
                 entities = new HashSet<Entity>();
                 for (String id : e.getEntityIds()) {
                     if (id != null) {
-                        Entity entity = repository.findById(e.getEntityType(), id);
+                        String collectionName = entityDefinitionStore.lookupByEntityType(e.getEntityType()).getStoredCollectionName();
+                        Entity entity = repository.findById(collectionName, id);
                         if (entity == null) {
                             warn("Entity of type " + e.getEntityType() + " with id " + id + " could not be found in the database.");
                         } else {

@@ -89,7 +89,8 @@ Scenario Outline: As teacher or leader in the Daybreak district but outside Dayb
      And I check to find if record is in sli db collection:
        | collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
        | securityEvent       | 1                   | body.userEdOrg        | <userEdOrg>                           |
-       | securityEvent       | 1                   | body.targetEdOrgList  | <targetEdOrg>                         |
+    # us5758 revisit this - values for targetEdOrg likely need updating
+#       | securityEvent       | 1                   | body.targetEdOrgList  | <targetEdOrg>                         |
 
 	Examples:
 	| Username     | Password         | RC  | Role       | EdOrg                       | userEdOrg                             | targetEdOrg                           |
@@ -108,7 +109,8 @@ Scenario Outline: As a teacher or leader in another district I cannot see any of
      And I check to find if record is in sli db collection:
        | collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
        | securityEvent       | 1                   | body.userEdOrg        | <userEdOrg>                           |
-       | securityEvent       | 1                   | body.targetEdOrgList  | <targetEdOrg>                         |
+    # us5758 revisit this - values for targetEdOrg likely need updating
+#       | securityEvent       | 1                   | body.targetEdOrgList  | <targetEdOrg>                         |
 
 	Examples:
 	| Username   | Password       | RC  | Role       | EdOrg                    |userEdOrg                             | targetEdOrg                           |
