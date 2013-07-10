@@ -2534,6 +2534,11 @@ def get_post_body_by_entity_name(entity_name)
       "date" => "2015-04-02",
       "educationOrganizationId" => "352e8570bd1116d11a72755b987902440045d346_id"
     },
+    "newCalendarDate2" => {
+          "calendarEvent" => "Instructional day",
+          "date" => "2015-04-02",
+          "educationOrganizationId" => "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id"
+    },
     "newCohort" => {
       "academicSubject" => "Communication and Audio/Visual Technology",
       "cohortType" => "Extracurricular Activity",
