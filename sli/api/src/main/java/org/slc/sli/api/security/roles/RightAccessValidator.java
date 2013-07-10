@@ -23,9 +23,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.slc.sli.api.security.service.SecurityCriteria;
-import org.slc.sli.api.service.EntityNotFoundException;
-import org.slc.sli.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.AccessDeniedException;
@@ -37,7 +34,14 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.schema.SchemaDataProvider;
+import org.slc.sli.api.security.service.SecurityCriteria;
+import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.QueryParseException;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 
 /** Class to validate if the context has the right to access the entity.
@@ -183,12 +187,10 @@ public class RightAccessValidator {
     public Collection<GrantedAuthority> getContextualAuthorities(boolean isSelf, Entity entity){
         Collection<GrantedAuthority> auths = new HashSet<GrantedAuthority>();
 
+        SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
         if (isSelf) {
-            SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
             auths.addAll(principal.getSelfRights());
         }
-
-        SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
 
         if (SecurityUtil.isStaffUser()) {
             if (entity == null) {
