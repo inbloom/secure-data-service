@@ -45,7 +45,6 @@ import org.slc.sli.api.security.context.ContextValidator;
 import org.slc.sli.api.security.roles.EntityRightsFilter;
 import org.slc.sli.api.security.roles.RightAccessValidator;
 import org.slc.sli.api.security.schema.SchemaDataProvider;
-import org.slc.sli.api.security.service.SecurityCriteria;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
@@ -224,18 +223,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
     }
 
     private void checkAccess(boolean isRead, String entityId, EntityBody content) {
-        // Check that target entity actually exists
-        if (securityRepo.findById(collectionName, entityId) == null) {
-            warn("Could not find {}", entityId);
-            throw new EntityNotFoundException(entityId);
-        }
-        Set<Right> rights = provider.getAllFieldRights(defn.getType(), isRead);
-        if (rights.equals(new HashSet<Right>(Arrays.asList(Right.ANONYMOUS_ACCESS)))) {
-            // Check that target entity is accessible to the actor
-            if (entityId != null && !isEntityAllowed(entityId, collectionName, defn.getType())) {
-                throw new AccessDeniedException("No association between the user and target entity");
-            }
-        }
+        rightAccessValidator.checkSecurity(isRead, entityId, defn.getType(), collectionName, getRepo());
 
         checkAccess(isRead, isSelf(entityId), content);
     }
@@ -324,7 +312,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
             throw new EntityNotFoundException(id);
         }
         Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(false, entity);
-        rightAccessValidator.checkAccess(false, content, defn.getType(), auths);
+        rightAccessValidator.checkAccess(false, id, content, defn.getType(), collectionName, getRepo(), auths);
 
         sanitizeEntityBody(content);
 
@@ -376,16 +364,17 @@ public class BasicService implements EntityService, AccessibilityCheck {
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("_id", "=", id));
 
-        Entity entity = new MongoEntity(defn.getType(), null, content, createMetadata());
-
         boolean isSelf = isSelf(query);
-        Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf, entity);
-        rightAccessValidator.checkAccess(true, isSelf, entity, defn.getType(), auths);
 
-        if (repo.findOne(collectionName, query) == null) {
+        Entity entity = repo.findOne(collectionName, query);
+        if (entity == null) {
             info("Could not find {}", id);
             throw new EntityNotFoundException(id);
         }
+
+        Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf, entity);
+
+        rightAccessValidator.checkAccess(false, id, content, defn.getType(), collectionName, getRepo(), auths);
 
         sanitizeEntityBody(content);
 
@@ -907,21 +896,6 @@ public class BasicService implements EntityService, AccessibilityCheck {
             }
         }
         return false;
-    }
-
-    /**
-     * Checks to see if the entity id is allowed by security
-     *
-     * @param entityId The id to check
-     * @return
-     */
-    private boolean isEntityAllowed(String entityId, String collectionName, String toType) {
-        SecurityCriteria securityCriteria = new SecurityCriteria();
-        NeutralQuery query = new NeutralQuery();
-        query = securityCriteria.applySecurityCriteria(query);
-        query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, Arrays.asList(entityId)));
-        Entity found = getRepo().findOne(collectionName, query);
-        return found != null;
     }
 
     private Collection<GrantedAuthority> getAuths(boolean isSelf) {

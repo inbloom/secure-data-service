@@ -23,7 +23,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.slc.sli.api.security.service.SecurityCriteria;
+import org.slc.sli.api.service.EntityNotFoundException;
+import org.slc.sli.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -34,10 +38,6 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.schema.SchemaDataProvider;
 import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.QueryParseException;
 import org.slc.sli.domain.enums.Right;
 
 /** Class to validate if the context has the right to access the entity.
@@ -55,6 +55,10 @@ public class RightAccessValidator {
     @Autowired
     private SchemaDataProvider provider;
 
+    @Autowired
+    @Qualifier("validationRepo")
+    private Repository<Entity> securityRepo;
+
     /**
      * Validates that user roles allow access to fields.
      *
@@ -71,6 +75,11 @@ public class RightAccessValidator {
         checkAccess(isRead, body, entityType, auths);
     }
 
+    public void checkAccess(boolean isRead, String entityId, EntityBody content, String entityType, String collectionName, Repository<Entity> repo, Collection<GrantedAuthority> auths) {
+
+        checkSecurity(isRead, entityId, entityType, collectionName, repo);
+        checkAccess(isRead, content, entityType, auths);
+    }
 
     /**
      * Validates that user roles allow access to fields, based on the provided authorities.
@@ -266,5 +275,37 @@ public class RightAccessValidator {
         }
 
         return allow;
+    }
+
+    public void checkSecurity(boolean isRead, String entityId, String entityType, String collectionName, Repository<Entity> repo) {
+        // Check that target entity actually exists
+        if (securityRepo.findById(collectionName, entityId) == null) {
+            warn("Could not find {}", entityId);
+            throw new EntityNotFoundException(entityId);
+        }
+        Set<Right> rights = provider.getAllFieldRights(entityType, isRead);
+        if (rights.equals(new HashSet<Right>(Arrays.asList(Right.ANONYMOUS_ACCESS)))) {
+            // Check that target entity is accessible to the actor
+            if (entityId != null && !isEntityAllowed(entityId, collectionName, entityType, repo)) {
+                throw new AccessDeniedException("No association between the user and target entity");
+            }
+        }
+    }
+
+    /**
+     * Checks to see if the entity id is allowed by security
+     *
+     * @param entityId The id to check
+     * @param collectionName the collection name
+     * @param toType the entity type
+     * @return
+     */
+    public boolean isEntityAllowed(String entityId, String collectionName, String toType, Repository<Entity> repo) {
+        SecurityCriteria securityCriteria = new SecurityCriteria();
+        NeutralQuery query = new NeutralQuery();
+        query = securityCriteria.applySecurityCriteria(query);
+        query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, Arrays.asList(entityId)));
+        Entity found = repo.findOne(collectionName, query);
+        return found != null;
     }
 }

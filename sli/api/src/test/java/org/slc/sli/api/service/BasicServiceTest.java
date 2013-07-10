@@ -345,4 +345,67 @@ public class BasicServiceTest {
         Assert.assertFalse(result);
     }
 
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testPatchBasedOnContextualRoles() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+        securityContextInjector.setStaffContext();
+        service = (BasicService) context.getBean("basicService", "student", new ArrayList<Treatment>(), securityRepo);
+        EntityDefinition studentDef = factory.makeEntity("student").exposeAs("students").build();
+        service.setDefn(studentDef);
+
+        EntityBody studentBody = new EntityBody();
+        studentBody.put("studentUniqueStateId", "123");
+        Entity student = securityRepo.create(EntityNames.STUDENT, studentBody);
+
+        EntityBody ssaBody = new EntityBody();
+        ssaBody.put(ParameterConstants.STUDENT_ID, student.getEntityId());
+        ssaBody.put(ParameterConstants.SCHOOL_ID, SecurityContextInjector.ED_ORG_ID);
+        securityRepo.create(EntityNames.STUDENT_SCHOOL_ASSOCIATION, ssaBody);
+
+        securityRepo.createWithRetries(EntityNames.EDUCATION_ORGANIZATION,SecurityContextInjector.ED_ORG_ID, new HashMap<String, Object>(), new HashMap<String, Object>(), EntityNames.EDUCATION_ORGANIZATION, 1);
+
+        EntityBody putEntity = new EntityBody();
+        putEntity.put("studentUniqueStateId", "456");
+        putEntity.put("schoolFoodServicesEligibility", "Yes");
+
+        boolean result = service.patchBasedOnContextualRoles(student.getEntityId(), putEntity);
+
+        Assert.assertTrue(result);
+        Entity studentResult = securityRepo.findById(EntityNames.STUDENT, student.getEntityId());
+        Assert.assertNotNull(studentResult.getBody());
+        Assert.assertNotNull(studentResult.getBody().get("studentUniqueStateId"));
+        Assert.assertEquals("456", studentResult.getBody().get("studentUniqueStateId"));
+        Assert.assertNotNull(studentResult.getBody().get("schoolFoodServicesEligibility"));
+        Assert.assertEquals("Yes",studentResult.getBody().get("schoolFoodServicesEligibility"));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test(expected = AccessDeniedException.class)
+    public void testPatchBasedOnContextualRolesAccessDenied() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+        securityContextInjector.setEducatorContext();
+        service = (BasicService) context.getBean("basicService", "student", new ArrayList<Treatment>(), securityRepo);
+
+        EntityDefinition studentDef = factory.makeEntity("student").exposeAs("students").build();
+        service.setDefn(studentDef);
+
+        EntityBody studentBody = new EntityBody();
+        studentBody.put("studentUniqueStateId", "123");
+        Entity student = securityRepo.create(EntityNames.STUDENT, studentBody);
+
+        EntityBody ssaBody = new EntityBody();
+        ssaBody.put(ParameterConstants.STUDENT_ID, student.getEntityId());
+        ssaBody.put(ParameterConstants.SCHOOL_ID, SecurityContextInjector.ED_ORG_ID);
+        securityRepo.create(EntityNames.STUDENT_SCHOOL_ASSOCIATION, ssaBody);
+
+        securityRepo.createWithRetries(EntityNames.EDUCATION_ORGANIZATION,SecurityContextInjector.ED_ORG_ID, new HashMap<String, Object>(), new HashMap<String, Object>(), EntityNames.EDUCATION_ORGANIZATION, 1);
+
+        EntityBody putEntity = new EntityBody();
+        putEntity.put("studentUniqueStateId", "456");
+        putEntity.put("schoolFoodServicesEligibility", "Yes");
+
+        boolean result = service.patchBasedOnContextualRoles(student.getEntityId(), putEntity);
+
+        Assert.assertFalse(result);
+    }
+
 }
