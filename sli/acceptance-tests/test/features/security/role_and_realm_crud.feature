@@ -40,7 +40,8 @@ Scenario: Create new realms
     When I POST a new realm called "Realm1"
     Then I should receive a return code of 201
     And I should receive a new ID for my new realm of "Realm1"
-    And a security event matching "^Realm .* created" should be in the sli db
+
+     
     #Test that a default custom role doc was created for the new realm
     When I GET the custom role doc for realm "Realm1"
     Then I should receive a return code of 200
@@ -81,16 +82,25 @@ Scenario: Create a custom role doc
     And I should receive a new ID for my new custom role document
     And a security event matching "^Created custom role with id" should be in the sli db
 
+     
+Scenario: Update a custom role doc    
+    Given the sli securityEvent collection is empty
+    Given I am logged in using "fakerealmadmin" "fakerealmadmin1234" to realm "SLI"
+    And I am editing the custom role document for realm "Fake Realm"
+    When I add a role "Foo" in group "Educator"
+    Then I should receive a return code of 204
+
+     
 Scenario: Deny the same role being listed in two different groups
     Given the sli securityEvent collection is empty
     And I am logged in using "fakerealmadmin" "fakerealmadmin1234" to realm "SLI"
     And I am editing the custom role document for realm "Fake Realm"
-    When I add a role "Foo" in group "Educator"
-    Then I should receive a return code of 204
+    #When I add a role "Foo" in group "Educator"
+    #Then I should receive a return code of 204
     When I add a role "Foo" in group "Leader"
     Then I should receive a return code of 400
     And a security event matching "^Failed to create custom role" should be in the sli db
-
+    
 Scenario: Deny the same role being listed twice in one group
     Given the sli securityEvent collection is empty
     And I am logged in using "fakerealmadmin" "fakerealmadmin1234" to realm "SLI"
@@ -147,3 +157,23 @@ Scenario: Sandbox developer confirming that his data was not affected by delete
     Given I am logged in using "anothersandboxdeveloper" "anothersandboxdeveloper1234" to realm "SLI" 
     When I GET the custom role doc for realm "Sandbox"
     Then I should see that my custom role document is the default with realm "Sandbox"
+
+  Scenario: CRUD opeations on Realm cause SecurityEvents to be logged
+    Given the sli securityEvent collection is empty
+    And I am logged in using "anotherfakerealmadmin" "anotherfakerealmadmin1234" to realm "SLI"
+    When I POST a new realm called "SecEventRealm"
+    Then I should receive a return code of 201
+    And I should receive a new ID for my new realm of "SecEventRealm"
+    And a security event "Realm [SecEventRealm] created!" should be created for these targetEdOrgs ONLY
+      | targetEdOrg |
+      | VIRGON      |
+    When I PUT to change the realm "SecEventRealm" to change field "name" to "Updated SecEventRealm"
+    Then I should receive a return code of 204
+    And a security event "Realm [SecEventRealm/Updated SecEventRealm] updated!" should be created for these targetEdOrgs ONLY
+      | targetEdOrg |
+      | VIRGON      |
+    When I DELETE the realm "SecEventRealm"
+    Then I should receive a return code of 204
+    And a security event "Realm [Updated SecEventRealm] deleted!" should be created for these targetEdOrgs ONLY
+      | targetEdOrg |
+      | VIRGON      |

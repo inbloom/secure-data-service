@@ -21,6 +21,7 @@ Scenario: Verify Rewrites for entities for Parents
     | Context                | Ids                                         |
     | educationOrganizations | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
     | schools                | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
+    | parents                | ac9d23542b310939801dec4d29cfddda7765353b_id |
     | sections               | 88bb1ad61323121c4939db296f4d444094ad5563_id,e963c47cc117e076735bcfed4a3bbac748a820e5_id,2143ef735a74796f1bbc2462e10ff9ba36de9919_id,9226b1f7fcf2e3b14d12f59c69e1a9d693f51247_id,5acb9a7f01a06c393cf60416ddbc0f8238b8c7d0_id,248f27c61d78ee9fed5a7a77edcb172d2dff2324_id,e1af27afcaba9691bdb1cbc1baa30fe75b8c300c_id,82d6d79602c102c8223cb381ba43c3678efa9f2c_id |
     | students               | 92164cd19ebdbe17cfdcd0e1d177877cdc9a40ef_id |
     | studentAcademicRecords | 29aeeb86490afdf1f9685216582d4410a0b9c380_id3e6ae27c427e4c3213eae1f77c0263a001312b33_id,2f38a01d3ce555cfcdc637aa02d3596de1e27574_id51a05e3fc152d6180c97370b1cdc4de367b1dce7_id |
@@ -44,7 +45,7 @@ Scenario: Verify Rewrites for entities for Parents
     | /graduationPlans             | /schools/@ids/graduationPlans                                                  |
     | /learningObjectives          | /search/learningObjectives                                                     |
     | /learningStandards           | /search/learningStandards                                                      |
-    #    | /parents                     | /students/@ids/studentParentAssociations/parents                               |
+    | /parents                     | /students/@ids/studentParentAssociations/parents                               |
     | /programs                    | /students/@ids/studentProgramAssociations/programs                             |
     | /reportCards                 | /students/@ids/reportCards                                                     |
     | /schools                     | /schools/@ids                                                                  |
@@ -60,9 +61,9 @@ Scenario: Verify Rewrites for entities for Parents
     | /studentCompetencies         | /studentSectionAssociations/@ids/studentCompetencies                           |
     | /studentCompetencyObjectives | /educationOrganizations/@ids/studentCompetencyObjectives                       |
     | /studentGradebookEntries     | /students/@ids/studentGradebookEntries                                         |
-    #| /studentParentAssociations   | /students/@ids/studentParentAssociations                                       |
+    | /studentParentAssociations   | /parents/@ids/studentParentAssociations                                        |
     | /studentProgramAssociations  | /students/@ids/studentProgramAssociations                                      |
-    | /students                    | /sections/@ids/studentSectionAssociations/students                             |
+    | /students                    | /parents/@ids/studentParentAssociations/students                               |
     | /studentSchoolAssociations   | /students/@ids/studentSchoolAssociations                                       |
     | /studentSectionAssociations  | /students/@ids/studentSectionAssociations                                      |
     | /teachers                    | /sections/@ids/teacherSectionAssociations/teachers                             |

@@ -259,3 +259,5 @@ When /^I PUT a new group "(.*?)" with role "(.*?)" and right "(.*?)"$/ do |group
   assert(@res != nil, "Response from rest-client POST is nil")
 end
 
+
+

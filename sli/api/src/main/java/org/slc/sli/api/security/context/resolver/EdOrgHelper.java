@@ -23,12 +23,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
+
+import com.google.common.base.Function;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Sets;
 
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.resources.security.DelegationUtil;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.EntityOwnershipValidator;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
@@ -68,6 +74,9 @@ public class EdOrgHelper {
 
     @Autowired
     protected EntityOwnershipValidator ownership;
+
+    @Autowired
+    protected DelegationUtil delegationUtil;
 
     private EdOrgHierarchyHelper helper;
 
@@ -138,6 +147,23 @@ public class EdOrgHelper {
 
         return toReturn;
     }
+
+
+    public List<String> getAllChildLEAsOfEdOrg(Entity edorgEntity) {
+        List<String> toReturn = new ArrayList<String>();
+        NeutralQuery query = new NeutralQuery(0);
+        query.addCriteria(new NeutralCriteria("parentEducationAgencyReference", "=", edorgEntity.getEntityId()));
+
+        for (Entity entity : repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query)) {
+            if (isLEA(entity) && toReturn.contains(entity.getEntityId()) == false) {
+            	List<String> nestedChildren = getAllChildLEAsOfEdOrg(entity);
+            	toReturn.addAll(nestedChildren);
+                toReturn.add(entity.getEntityId());
+            }
+        }
+       return toReturn;
+    }
+
 
     /**
      * Get an ordered list of the parents of an EdOrg.
@@ -247,6 +273,20 @@ public class EdOrgHelper {
         return schools;
     }
 
+
+    public List<String> getSubEdOrgHierarchy(Entity principal) {
+        List<String> result = new ArrayList<String>();
+        Set<String> directEdOrgs = getDirectEdorgs(principal);
+        if (!directEdOrgs.isEmpty()) {
+            result.addAll(directEdOrgs);
+            result.addAll(getChildEdOrgs(new TreeSet<String>(directEdOrgs)));
+        }
+        return result;
+
+    }
+
+
+
     @SuppressWarnings("unchecked")
     private Set<String> extractEdorgFromMeta( Entity e) {
         Set<String> edOrgs = new HashSet<String>();
@@ -267,6 +307,7 @@ public class EdOrgHelper {
      * @return
      */
     public Set<String> getChildEdOrgs(Collection<String> edOrgs) {
+
         if (edOrgs.isEmpty()) {
             return new HashSet<String>();
         }
@@ -284,6 +325,43 @@ public class EdOrgHelper {
         return children;
     }
 
+
+    /**
+     * Recursively returns the list of all child edorgs By Name
+     *
+     * @param edOrgs
+     * @return
+     */
+    public Set<String> getChildEdOrgsName(Collection<String> edOrgs) {
+
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE,
+                NeutralCriteria.CRITERIA_IN, edOrgs));
+        Iterable<Entity> childrenEntities = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query);
+        Set<String> children = new HashSet<String>();
+        for (Entity child : childrenEntities) {
+            children.add((String) child.getBody().get("stateOrganizationId"));
+        }
+        Set<String> childrenIds = new HashSet<String>();
+        for (Entity child : childrenEntities) {
+        	childrenIds.add(child.getEntityId());
+        }
+        if (!children.isEmpty()) {
+            children.addAll(getChildEdOrgsName(childrenIds));
+        }
+        return children;
+    }
+
+
+    private Entity getTopLEAOfEdOrg(Entity entity) {
+        if (entity.getBody().containsKey("parentEducationAgencyReference")) {
+            Entity parentEdorg = repo.findById(EntityNames.EDUCATION_ORGANIZATION,
+                    (String) entity.getBody().get("parentEducationAgencyReference"));
+            if (isLEA(parentEdorg)) {
+                return getTopLEAOfEdOrg(parentEdorg);
+            }
+        }
+        return entity;
+    }
 
     /**
      * Get the collection of ed-orgs that will determine a user's security context
@@ -311,6 +389,16 @@ public class EdOrgHelper {
         return edOrgLineage;
     }
 
+    public Set<String> getDelegatedEdorgDescendents() {
+
+    	List<String> getSecurityEventDelegateEdOrg =  delegationUtil.getSecurityEventDelegateStateIds();
+    	List<String> getSecurityEventDelegateEdOrgIds = delegationUtil.getSecurityEventDelegateEdOrgs();
+    	Set<String> result = new HashSet<String>();
+    	result.addAll(getSecurityEventDelegateEdOrg);
+    	result.addAll(getChildEdOrgsName(getSecurityEventDelegateEdOrgIds));
+    	return result;
+    }
+
     /**
      * Calls date helper to check whether the specified field on the input body is expired.
      *
@@ -324,6 +412,18 @@ public class EdOrgHelper {
      */
     public boolean isFieldExpired(Map<String, Object> body, String fieldName, boolean useGracePeriod) {
         return dateHelper.isFieldExpired(body, fieldName, useGracePeriod);
+    }
+
+    @SuppressWarnings("unchecked")
+    public boolean isLEA(Entity entity) {
+        // passing through
+        return helper.isLEA(entity);
+    }
+
+    @SuppressWarnings("unchecked")
+    public boolean isSchool(Entity entity) {
+        // passing through
+        return helper.isSchool(entity);
     }
 
     /**
@@ -388,7 +488,6 @@ public class EdOrgHelper {
     public Set<String> getDirectEdorgs(Entity principal) {
         return getEdOrgs(principal, true);
     }
-
 
     /**
      * Get directly associated education organizations for the specified principal, not filtered by
@@ -493,10 +592,25 @@ public class EdOrgHelper {
 
 
 
+
+    public Set<String> getEdOrgStateOrganizationIds(Set<String> edOrgIds) {
+        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, edOrgIds));
+        Iterable<Entity> edOrgs = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, basicQuery);
+        Iterable<String> stateOrganizationIds =
+        Iterables.transform(edOrgs,new Function<Entity, String>() {
+            @Override
+            public String apply(@javax.annotation.Nullable Entity entity) {
+                return (String)entity.getBody().get("stateOrganizationId");
+            }
+        });
+        return Sets.newHashSet(stateOrganizationIds);
+    }
+
     /**
      * Set the entity ownership validator (used primarily for unit testing).
      */
     protected void setEntityOwnershipValidator(EntityOwnershipValidator newOwner) {
         this.ownership = newOwner;
+
     }
 }

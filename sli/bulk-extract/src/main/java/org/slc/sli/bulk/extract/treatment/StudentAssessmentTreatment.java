@@ -29,12 +29,11 @@ import org.slc.sli.domain.Entity;
 public class StudentAssessmentTreatment implements Treatment{
 
     @Autowired
-    StudentAssessmentConverter studentAssessmentConverter;
+    private StudentAssessmentConverter studentAssessmentConverter;
 
     @Override
     public Entity apply(Entity entity) {
-        studentAssessmentConverter.subdocToBodyField(entity);
-        return entity;
+        return studentAssessmentConverter.subdocToBodyField(entity);
     }
 
 }

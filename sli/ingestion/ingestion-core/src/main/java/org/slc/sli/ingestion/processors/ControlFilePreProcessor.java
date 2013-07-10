@@ -156,7 +156,7 @@ public class ControlFilePreProcessor implements Processor {
 
                 controlFileDescriptor = new ControlFileDescriptor(controlFile, currentJob.getSourceId());
 
-                auditSecurityEvent(controlFile);
+                auditSecurityEvent(currentJob, controlFile);
 
             } else if(status == TenantStatus.TENANT_NOT_READY){
                 databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0001);
@@ -314,7 +314,7 @@ public class ControlFilePreProcessor implements Processor {
         batchJob.getResourceEntries().add(resourceEntry);
     }
 
-    private void auditSecurityEvent(ControlFile controlFile) {
+    private void auditSecurityEvent(NewBatchJob currentJob, ControlFile controlFile) {
         byte[] ipAddr = null;
         try {
             InetAddress addr = InetAddress.getLocalHost();
@@ -325,11 +325,19 @@ public class ControlFilePreProcessor implements Processor {
         } catch (UnknownHostException e) {
             LogUtil.error(LOG, "Error getting local host", e);
         }
+
+        String edOrg = tenantDA.getTenantEdOrg(currentJob.getTopLevelSourceId());
+        if ( edOrg == null ) {
+			edOrg = "";
+		}
+
         List<String> userRoles = Collections.emptyList();
         SecurityEvent event = new SecurityEvent();
         event.setTenantId(controlFile.getConfigProperties().getProperty("tenantId"));
         event.setUser("");
-        event.setTargetEdOrg("");
+        event.setUserEdOrg(edOrg);
+        event.setTargetEdOrg(edOrg);
+        event.setTargetEdOrgList(Arrays.asList(edOrg));
         event.setActionUri("processUsingNewBatchJob");
         event.setAppId("Ingestion");
         event.setOrigin("");

@@ -2096,7 +2096,7 @@ Then /^I check to find if record is in collection:$/ do |table|
    check_records_in_collection(table, @ingestion_db_name)
 end
 
-Then /^I check to find if record is in sli db collection:$/ do |table|
+Then /^I check to find if record is in sli database collection:$/ do |table|
    check_records_in_collection(table, INGESTION_DB_NAME)
 end
 
@@ -3120,8 +3120,11 @@ Then /^I should see either "(.*?)" or "(.*?)" following (.*?) in "(.*?)" file$/ 
 end
 
 def check_records_in_collection(table, db_name)
+
+  puts table
   disable_NOTABLESCAN()
   @db   = @conn[db_name]
+
 
   @result = "true"
 
@@ -3129,6 +3132,9 @@ def check_records_in_collection(table, db_name)
     subdoc_parent = subDocParent row["collectionName"]
     if subdoc_parent
       @entity_count = runSubDocQuery(subdoc_parent, row["collectionName"], row["searchType"], row["searchParameter"], row["searchValue"])
+    elsif row["collectionName"] == "securityEvent"
+         @entity_collection = @db.collection(row["collectionName"])
+         @entity_count = @entity_collection.find( {row["searchParameter"] => {"$in" => [row["searchValue"]]}}).count().to_s
     else
       @entity_collection = @db.collection(row["collectionName"])
 

@@ -165,23 +165,23 @@ public class AssessmentConverterTest {
 
     @Test
     public void upconvertShouldRemoveAPD_references() {
-        Entity entity = createUpConvertEntity();
-        assessmentConverter.subdocToBodyField(entity);
+        Entity oldEntity = createUpConvertEntity();
+        Entity entity = assessmentConverter.subdocToBodyField(oldEntity);
         assertNull(entity.getBody().get("assessmentPeriodDescriptorId"));
     }
 
     @Test
     public void upconvertNoEmbeddedSubdocShouldRemainUnchanged() {
-        List<Entity> entity = Arrays.asList(createDownConvertEntity());
+        List<Entity> old = Arrays.asList(createDownConvertEntity());
         Entity clone = createDownConvertEntity();
-        assessmentConverter.subdocToBodyField(entity);
-        assertEquals(clone.getBody(), entity.get(0).getBody());
+        Iterable<Entity> entity = assessmentConverter.subdocToBodyField(old);
+        assertEquals(clone.getBody(), entity.iterator().next().getBody());
     }
 
     @Test
     public void upconvertShouldConstructAssessmentFamilyHierarchy() {
-        Entity entity = createUpConvertEntity();
-        assessmentConverter.subdocToBodyField(entity);
+        Entity oldEntity = createUpConvertEntity();
+        Entity entity = assessmentConverter.subdocToBodyField(oldEntity);
         assertNull(entity.getBody().get(ASSESSMENT_FAMILY_REFERENCE));
         assertEquals("A.B.C", entity.getBody().get(ASSESSMENT_FAMILY_HIERARCHY));
     }
@@ -215,10 +215,10 @@ public class AssessmentConverterTest {
     @Test
     public void upconvertEmbeddedSubdocShouldMoveInsideBody() throws IllegalAccessException, InvocationTargetException,
             NoSuchMethodException {
-        Entity entity = createUpConvertEntity();
+        Entity oldEntity = createUpConvertEntity();
         Entity clone = createUpConvertEntity();
-        assertNull(entity.getBody().get("assessmentItem"));
-        assessmentConverter.subdocToBodyField(entity);
+        assertNull(oldEntity.getBody().get("assessmentItem"));
+        Entity entity = assessmentConverter.subdocToBodyField(oldEntity);
         assertNotNull(entity.getBody().get("assessmentItem"));
         assertEquals(clone.getEmbeddedData().get("assessmentItem").get(0).getBody().get("abc"),
                 ((List<Map<String, Object>>) (entity.getBody().get("assessmentItem"))).get(0).get("abc"));
@@ -265,8 +265,8 @@ public class AssessmentConverterTest {
     @Test
     public void invalidApdIdShouldBeFilteredOutInUp() {
         when(template.findById("mydescriptorid", Entity.class, EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR)).thenReturn(null);
-        Entity entity = createUpConvertEntity();
-        assessmentConverter.subdocToBodyField(Arrays.asList(entity));
+        Entity old = createUpConvertEntity();
+        Entity entity = assessmentConverter.subdocToBodyField(Arrays.asList(old)).iterator().next();
         assertNull(entity.getBody().get("assessmentPeriodDescriptor"));
         assertNull(entity.getBody().get("assessmentPeriodDescriptorId"));
     }
@@ -275,8 +275,8 @@ public class AssessmentConverterTest {
     @SuppressWarnings("unchecked")
     public void testHierachyInObjectiveAssessmentsToAPI() throws IllegalAccessException, InvocationTargetException,
             NoSuchMethodException {
-        Entity assessment = createHierarchicalUpConvertEntity();
-        assessmentConverter.subdocToBodyField(assessment);
+        Entity oldAssessment = createHierarchicalUpConvertEntity();
+        Entity assessment = assessmentConverter.subdocToBodyField(oldAssessment);
         List<Map<String, Object>> oas = (List<Map<String, Object>>) PropertyUtils.getProperty(assessment,
                 "body.objectiveAssessment");
         assertEquals(1, oas.size());
@@ -368,8 +368,8 @@ public class AssessmentConverterTest {
     @Test
     public void testAssessmentsWithAIsInOAsToAPI() throws IllegalAccessException, InvocationTargetException,
             NoSuchMethodException {
-        Entity assessment = createHierarchicalUpConvertEntity();
-        assessmentConverter.subdocToBodyField(assessment);
+        Entity oldAssessment = createHierarchicalUpConvertEntity();
+        Entity assessment = assessmentConverter.subdocToBodyField(oldAssessment);
         assertEquals("somevalue1", PropertyUtils.getProperty(assessment,
                 "body.objectiveAssessment.[0].objectiveAssessments.[0].assessmentItem.[0].abc"));
         assertEquals("somevalue2", PropertyUtils.getProperty(assessment,

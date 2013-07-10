@@ -432,7 +432,8 @@ public class UriMutator {
                 mutated.setPath(String.format("/studentAcademicRecords/%s/courseTranscripts",
                         getStudentAcademicRecordsIds(user)));
             } else if (PathConstants.GRADES.equals(baseEntity)) {
-                mutated.setPath(String.format("/studentSectionAssociations/%s/grades", getStudentSectionAssocIds(principal)));
+                mutated.setPath(String.format("/studentSectionAssociations/%s/grades",
+                        getStudentSectionAssocIds(principal)));
             } else if (PathConstants.GRADEBOOK_ENTRIES.equals(baseEntity)) {
                 mutated.setPath(String.format("/sections/%s/gradebookEntries", getSectionIds(principal)));
             } else if (PathConstants.PARENTS.equals(baseEntity)) {
@@ -466,7 +467,12 @@ public class UriMutator {
             } else if (PathConstants.STAFF_PROGRAM_ASSOCIATIONS.equals(baseEntity)) {
                 mutated.setPath(String.format("/programs/%s/staffProgramAssociations", getProgramIds(principal)));
             } else if (PathConstants.STUDENTS.equals(baseEntity)) {
-                mutated.setPath(String.format("/sections/%s/studentSectionAssociations/students", getSectionIds(principal)));
+                if (isStudent(user)) {
+                    mutated.setPath(String.format("/sections/%s/studentSectionAssociations/students",
+                            getSectionIds(principal)));
+                } else if (isParent(user)) {
+                    mutated.setPath(String.format("/parents/%s/studentParentAssociations/students", user.getEntityId()));
+                }
             } else if (PathConstants.STUDENT_ACADEMIC_RECORDS.equals(baseEntity)) {
                 mutated.setPath(String.format("/students/%s/studentAcademicRecords", getStudentIds(principal)));
             } else if (PathConstants.STUDENT_ASSESSMENTS.equals(baseEntity)) {
@@ -474,13 +480,18 @@ public class UriMutator {
             } else if (PathConstants.STUDENT_COHORT_ASSOCIATIONS.equals(baseEntity)) {
                 mutated.setPath(String.format("/students/%s/studentCohortAssociations", getStudentIds(principal)));
             } else if (PathConstants.STUDENT_COMPETENCIES.equals(baseEntity)) {
-                mutated.setPath(String.format("/studentSectionAssociations/%s/studentCompetencies", getStudentSectionAssocIds(principal)));
+                mutated.setPath(String.format("/studentSectionAssociations/%s/studentCompetencies",
+                        getStudentSectionAssocIds(principal)));
             } else if (PathConstants.STUDENT_GRADEBOOK_ENTRIES.equals(baseEntity)) {
                 mutated.setPath(String.format("/students/%s/studentGradebookEntries",
                         StringUtils.join(getStudentIds(principal))));
             } else if (PathConstants.STUDENT_PARENT_ASSOCIATIONS.equals(baseEntity)) {
-                mutated.setPath(String.format("/students/%s/studentParentAssociations",
-                        StringUtils.join(getStudentIds(principal))));
+                if (isStudent(user)) {
+                    mutated.setPath(String.format("/students/%s/studentParentAssociations",
+                            StringUtils.join(getStudentIds(principal))));
+                } else if (isParent(user)) {
+                    mutated.setPath(String.format("/parents/%s/studentParentAssociations", user.getEntityId()));
+                }
             } else if (PathConstants.STUDENT_PROGRAM_ASSOCIATIONS.equals(baseEntity)) {
                 mutated.setPath(String.format("/students/%s/studentProgramAssociations",
                         StringUtils.join(getStudentIds(principal))));
@@ -1156,7 +1167,7 @@ public class UriMutator {
 
     private String getStudentSectionAssocIds(SLIPrincipal principal) {
         Set<String> assocIds = new HashSet<String>();
-        for(Entity student: principal.getOwnedStudentEntities()) {
+        for (Entity student : principal.getOwnedStudentEntities()) {
             assocIds.addAll(getStudentRelatedRecords(student, EntityNames.STUDENT_SECTION_ASSOCIATION));
         }
         return StringUtils.join(assocIds, ",");

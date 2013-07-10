@@ -47,6 +47,22 @@ When /^I want to manually imitate the user "([^"]*)" who is a "([^"]*)"$/ do |ar
   @driver.find_element(:id, "manualUserLoginButton").click
 end
 
+When /^I want to manually imitate the user "([^"]*)" who is of type "([^"]*)" and role "([^"]*)"$/ do |user, type, role|
+  @driver.find_element(:id, "manualUserBtn").click
+  @driver.find_element(:id, "impersonate_user").send_keys user
+  @driver.find_element(:id, "customRoles").send_keys role
+  type_select = @driver.find_element(:id, "selected_type")
+  options = type_select.find_elements(:tag_name=>"option")
+  options.each do |e1|
+    if (e1.text == type)
+      e1.click()
+      break
+    end
+  end
+  @driver.find_element(:id, "manualUserLoginButton").click
+end
+
+
 Then /^I want to select "(.*?)" from the "(.*?)" in automatic mode$/ do |arg1, arg2|
   select = Selenium::WebDriver::Support::Select.new(@driver.find_element(:id, "datasets"))
   select.select_by(:value, arg2)

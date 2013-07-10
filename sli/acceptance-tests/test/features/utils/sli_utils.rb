@@ -56,6 +56,7 @@ $SESSION_MAP = {
                 "operator_SLI" => "a8cf184b-9c7e-4253-9f45-ed4e9f4f596c",
                 "bigbro_IL" => "4cf7a5d4-37a1-ca00-8b13-b5f95131ac85",
                 "sunsetrealmadmin_SLI" => "d9af321c-5fa8-4287-af3d-98e7b5f9d999",
+                "longwoodadmin_SLI" => "4aea375c-0e5d-456a-8b89-23bc03aa5ea3",
                 "fakerealmadmin_SLI" => "aa391d1c-99a8-4287-af3d-481516234242",
                 "anotherfakerealmadmin_SLI" => "910bcfad-5fa8-4287-af3d-98e7b5f9e786",
                 "sunsetadmin_SLI" => "4aea375c-0e5d-456a-8b89-23bc03aa5ea2",
@@ -603,6 +604,7 @@ module DataProvider
     }
   end
 
+
   def self.getValidAdminDelegationData()
     return {
       "viewSecurityEventsEnabled" => false,
@@ -610,7 +612,16 @@ module DataProvider
       "localEdOrgId" => "b2c6e292-37b0-4148-bf75-c98a2fcc905f"
       }
   end
-
+  
+ 
+   def self.getValidAdminDelegationDataLongwood()
+    return {
+      "viewSecurityEventsEnabled" => false,
+      "appApprovalEnabled" => false,
+      "localEdOrgId" => "xd086bae-ee82-6ce2-bcf9-321a8407ba13"
+      }
+  end
+  
 
 end
 
@@ -841,4 +852,35 @@ def retryOnFailure(naptime = 2, retries = 5, &block)
     end
     attempts += 1
   end
+end
+
+
+Then /^I check to find if record is in sli db collection:$/ do |table|
+   check_records_in_sli_collection(table)
+end
+
+
+def check_records_in_sli_collection(table)
+  disable_NOTABLESCAN()
+  #First cut. Method has to be optimised. Connection should be cached.
+  secConn = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
+  secDb = secConn.db('sli')
+  result = "true"
+  table.hashes.map do |row|
+      entity_collection = secDb.collection(row["collectionName"])
+      if row["searchValue"].empty?
+          # ignore checks with empty value
+          next
+      end
+      entity_count = entity_collection.find( {row["searchParameter"] => {"$in" => [row["searchValue"]]}}).count().to_s
+      if  entity_count.to_s != row["expectedRecordCount"].to_s
+          puts "Failed #{row["collectionName"]}"
+          result = "false"
+          red = "\e[31m"
+          reset = "\e[0m"
+      end
+      STDOUT.puts "#{red}There are " + entity_count.to_s + " in " + row["collectionName"] + " collection for record with " + row["searchParameter"] + " = " + row["searchValue"] + ". Expected: " + row["expectedRecordCount"].to_s + "#{reset}"
+  end
+  assert(result == "true", "Some records are not found in collection.")
+  enable_NOTABLESCAN()
 end

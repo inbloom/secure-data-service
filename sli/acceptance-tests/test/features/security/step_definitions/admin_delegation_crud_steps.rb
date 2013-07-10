@@ -25,6 +25,8 @@ require_relative '../../utils/sli_utils.rb'
 Transform /^district "([^"]*)"$/ do |district|
   id = "b2c6e292-37b0-4148-bf75-c98a2fcc905f" if district == "IL-SUNSET"
   id = "b2c6e292-37b0-4148-bf75-c98a2fcc905f" if district == "IL-SUNSET's ID"
+  id = "xd086bae-ee82-6ce2-bcf9-321a8407ba13" if district == "IL-LONGWOOD's ID"
+  id = "b1bd3db6-d020-4651-b1b8-a8dba688d9e1" if district == "IL"
   id
 end
 
@@ -50,14 +52,21 @@ Given /^I have a valid admin delegation entity$/ do
   @adminDelegation = DataProvider.getValidAdminDelegationData()
 end
 
+Given /^I have a valid admin delegation entity for longwood$/ do
+  @adminDelegation = DataProvider.getValidAdminDelegationDataLongwood()
+end
+
 Given /^I change "([^"]*)" to true$/ do |field|
   @adminDelegation[field] = true
+end
+
+Given /^I change "([^"]*)" to false/ do |field|
+  @adminDelegation[field] = false
 end
 
 When /^I PUT to admin delegation$/ do
   @format = "application/json"
   data = prepareData(@format, @adminDelegation)
-  puts data.inspect
   restHttpPut("/adminDelegation/myEdOrg", data)
   assert(@res != nil, "Response from PUT operation was nil")
 end
@@ -67,6 +76,24 @@ When /^I have access to app authorizations for district "([^"]*)"$/ do |arg1|
 end
 
 Then /^I should update app authorizations for (district "[^"]*")$/ do |district|
+  @format = "application/json"
+  dataObj = {"appId" => "78f71c9a-8e37-0f86-8560-7783379d96f7", "authorized" => true}
+  data = prepareData("application/json", dataObj)
+  puts("The data is #{data}") if ENV['DEBUG']
+  restHttpPut("/applicationAuthorization/78f71c9a-8e37-0f86-8560-7783379d96f7?edorg=#{district}", data)
+  assert(@res != nil, "Response from PUT operation was nil")
+end
+
+Then /^I should revoke all app authorizations for (district "[^"]*")$/ do |district|
+  @format = "application/json"
+  dataObj = {"appId" => "78f71c9a-8e37-0f86-8560-7783379d96f7", "authorized" => false}
+  data = prepareData("application/json", dataObj)
+  puts("The data is #{data}") if ENV['DEBUG']
+  restHttpPut("/applicationAuthorization/78f71c9a-8e37-0f86-8560-7783379d96f7?edorg=#{district}", data)
+  assert(@res != nil, "Response from PUT operation was nil")
+end
+
+Then /^I should grant all app authorizations for (district "[^"]*")$/ do |district|
   @format = "application/json"
   dataObj = {"appId" => "78f71c9a-8e37-0f86-8560-7783379d96f7", "authorized" => true}
   data = prepareData("application/json", dataObj)
@@ -91,7 +118,10 @@ end
 Then /^I should see that "([^"]*)" is "([^"]*)" for (district "[^"]*")$/ do |field, value, district|
   list = JSON.parse(@res.body)
   foundIt = false
+  puts "brandon"  
+  puts district
   list.each do |cur|
+    
     if cur["localEdOrgId"] == district  
       foundIt = true
       assert(cur[field].to_s == value, "Expected field #{field} to be #{value} was #{cur[field].to_s}")

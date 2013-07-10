@@ -1,4 +1,5 @@
 @RALLY_DE2632
+@RALLY_DE2617
 
 Feature: Security Event 
 
@@ -34,4 +35,5 @@ Given I am using preconfigured Ingestion Landing Zone
 	   | securityEvent   | 1                   | body.logMessage         | [configProperty] tenantId: IL                                                | string          |
 	   | securityEvent   | 1                   | body.logMessage         | All records processed successfully.                                          | string          |
 	   | securityEvent   | 1                   | body.logMessage         | Processed 1 records.                                                         | string          |
-       
+# us5758 determine whether this count simply needs updating to 11 or there is a bug	   | securityEvent   | 10                  | body.targetEdOrg        | Daybreak                                                                     | string          |
+# us5758 determine whether this count simply needs updating to 11 or there is a bug	   | securityEvent   | 10                  | body.targetEdOrgList    | Daybreak                                                                     | string          |

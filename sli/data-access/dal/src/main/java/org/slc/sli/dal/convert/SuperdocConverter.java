@@ -21,7 +21,7 @@ import org.slc.sli.domain.Entity;
 /**
  * define superdoc converter interface that convert subdoc into and outside of the superdoc body
  * currently this is just for assessment and studentassessment superdoc transformation
- * 
+ *
  * @author Dong Liu dliu@wgen.net
  */
 
@@ -32,10 +32,10 @@ public interface SuperdocConverter {
     }
 
     // convert the superdoc entity with subdoc outside the body into the superdoc entity body
-    public void subdocToBodyField(Entity entity);
-    
+    public Entity subdocToBodyField(Entity entity);
+
     // convert the superdoc entities with subdoc outside the body into the superdoc entity body
-    public void subdocToBodyField(Iterable<Entity> entities);
+    public Iterable<Entity> subdocToBodyField(Iterable<Entity> entities);
 
     // convert the field of superdoc entity in the body to subdoc that outside of the entity body
     public void bodyFieldToSubdoc(Entity entity);

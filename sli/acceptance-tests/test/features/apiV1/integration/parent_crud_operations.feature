@@ -158,7 +158,6 @@ Feature: As a parent I want to use apps that access the inBloom API
 
 
 @parent_crud @clean_up_parent_posts
-@wip
 Scenario: POST new entities as a parent without, then with extended rights
 Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "jstevenson" with password "jstevenson1234"
   And format "application/json"
@@ -208,7 +207,10 @@ Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent"
     | cgray.studentParentAssociation.myClass  | studentParentAssociation | 403        |
     | cgray.studentParentAssociation.notMyKid | studentParentAssociation | 403        |
     | cgray.studentParentAssociation.mySchool | studentParentAssociation | 403        |
-    | cgray.studentParentAssociation.newLea   | studentParentAssociation | 403        |  
+    | cgray.studentParentAssociation.newLea   | studentParentAssociation | 403        |
+    | cgray.studentAssessment                 | studentAssessment        | 403        |
+    | cgray.studentGradebookEntry             | studentGradebookEntry    | 403        |
+    | cgray.grade                             | grade                    | 403        |
 
   When I PATCH and validate the following entities:
     | fieldName                 | entityType               | value   | returnCode | endpoint                                             |
@@ -231,13 +233,5 @@ Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent"
     | parent                   | f9643b7abba04ae01586723abed0e38c63e4f975_id  | 403        |
     | student                  | fdd8ee3ee44133f489e47d2cae109e886b041382_id  | 403        |
     | studentParentAssociation | fdd8ee3ee44133f489e47d2cae109e886b041382_idec053d2e0752799cb0217578d003a1fe8f06b9a0_id  | 403        |
-
-Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "jstevenson" with password "jstevenson1234"
-#Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "charles.gray" with password "charles.gray1234"
-  When I DELETE and validate the following entities:
-    | entity                   | id                                          | returnCode |
-    | student                  | fdd8ee3ee44133f489e47d2cae109e886b041382_id | 201        |
-    | parent                   | 1fe86fe9c45680234f1caa3b494a1c4b42838954_id | 201        |
-    | studentParentAssociation | fdd8ee3ee44133f489e47d2cae109e886b041382_idec053d2e0752799cb0217578d003a1fe8f06b9a0_id | 201        |
 
   And I change the "Parent" role for realm "deadbeef-1bad-4606-a936-094331bddeed" back to its original rights

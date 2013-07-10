@@ -21,6 +21,7 @@ require 'rest-client'
 require 'json'
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../entities/common.rb'
+require_relative '../../../security/step_definitions/securityevent_util_steps.rb'
 
 ##############################################################################
 # TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM

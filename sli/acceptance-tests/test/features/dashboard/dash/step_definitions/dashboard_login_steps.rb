@@ -19,6 +19,7 @@ limitations under the License.
 
 require 'selenium-webdriver'
 require_relative '../../../utils/sli_utils.rb'
+require_relative '../../../ingestion/features/step_definitions/ingestion_steps.rb'
 
 $SLI_DEBUG=ENV['DEBUG'] if ENV['DEBUG'] 
 

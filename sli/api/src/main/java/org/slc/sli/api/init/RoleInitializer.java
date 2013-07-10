@@ -114,6 +114,8 @@ public class RoleInitializer {
         groups.add(buildRoleGroup(buildIT()));
         groups.add(buildRoleGroup(buildEducator()));
         groups.add(buildRoleGroup(RoleBuilder.makeRole(Arrays.asList("Student")).addGroupTitle("Student").addRights(new Right[]{Right.READ_PUBLIC, Right.READ_STUDENT_GENERAL}).addSelfRights(new Right[]{Right.READ_STUDENT_OWNED}).setAdmin(false).build()));
+        groups.add(buildRoleGroup(RoleBuilder.makeRole(Arrays.asList("Parent")).addGroupTitle("Parent").addRights(new Right[]{Right.READ_PUBLIC,
+                Right.READ_STUDENT_GENERAL}).addSelfRights(new Right[]{Right.READ_STUDENT_OWNED, Right.READ_STUDENT_RESTRICTED}).setAdmin(false).build()));
         return groups;
     }
 

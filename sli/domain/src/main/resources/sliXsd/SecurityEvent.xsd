@@ -14,7 +14,8 @@
 			    <xs:element name="tenantId"        type="xs:string"     minOccurs="0"></xs:element>
 				<xs:element name="user"            type="xs:string"     minOccurs="0"></xs:element>				
 				<xs:element name="roles"           type="roleList"      minOccurs="0"></xs:element>
-				<xs:element name="targetEdOrg"     type="xs:string"     minOccurs="0"></xs:element>
+                <xs:element name="targetEdOrg"     type="xs:string"      minOccurs="0"></xs:element>
+				<xs:element name="targetEdOrgList" type="targetEdOrgList"     minOccurs="0"></xs:element>
 				<xs:element name="userEdOrg"       type="xs:string"     minOccurs="0"></xs:element>
 				<xs:element name="actionUri"       type="xs:string"     minOccurs="0" ></xs:element>
 				<xs:element name="appId"           type="xs:string"     minOccurs="0"></xs:element>
@@ -30,6 +31,14 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
+
+    <xs:simpleType name="targetEdOrgList">
+        <xs:list>
+            <xs:simpleType>
+                <xs:restriction base="xs:string"></xs:restriction>
+            </xs:simpleType>
+        </xs:list>
+    </xs:simpleType>
 
 	<xs:simpleType name="roleList">
 		<xs:list>
