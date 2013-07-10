@@ -1,4 +1,3 @@
-#!/usr/bin/ruby
 require 'mongo'
 
 conn = Mongo::Connection.new()
