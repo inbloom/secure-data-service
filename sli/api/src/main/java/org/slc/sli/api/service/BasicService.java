@@ -666,6 +666,26 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
             // If you get this far, its all good
             return;
+        } else if (SecurityUtil.isParent()) {
+            String entityType = defn.getType();
+
+            if (entityType.equals(EntityNames.PARENT)) {
+                // Validate id is yourself
+                if (!SecurityUtil.getSLIPrincipal().getEntity().getEntityId().equals(entityId)) {
+                    throw new AccessDeniedException("Cannot update parent not yourself");
+                }
+            } else if (entityType.equals(EntityNames.STUDENT)) {
+                Set<String> ownStudents = SecurityUtil.getSLIPrincipal().getOwnedStudentIds();
+                if (!ownStudents.contains(entityId)) {
+                    throw new AccessDeniedException("Cannot update student that are not your own");
+                }
+            } else {
+                // At the time of this comment, parents can only write to student and parent
+                throw new IllegalArgumentException("Parents cannot write entities of type " + entityType);
+            }
+
+            // If you get this far, its all good
+            return;
         }
         // else if staff/teacher, do legacy
         for (Map.Entry<String, Object> entry : eb.entrySet()) {

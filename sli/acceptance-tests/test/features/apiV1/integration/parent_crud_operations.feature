@@ -157,7 +157,8 @@ Feature: As a parent I want to use apps that access the inBloom API
       | studentDisciplineIncidentAssociation | 908404e876dd56458385667fa383509035cd4312_id33a1c7ee086d4c488531652ab4a99cf0b6bd619d_id | 403 |
 
 
-@wip @parent_crud @clean_up_parent_posts
+@parent_crud @clean_up_parent_posts
+@wip
 Scenario: POST new entities as a parent without, then with extended rights
 Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "jstevenson" with password "jstevenson1234"
   And format "application/json"
@@ -171,7 +172,7 @@ Given I log in to realm "Illinois Daybreak School District 4529" using simple-id
     | cgray.studentParentAssociation.mySchool | studentParentAssociation | 201        |
 
 # Asociate cgray to a student in a different LEA
-Given I log in to realm "Illinois Highwind School District" using simple-idp as "IT Administrator" "lstevenson" with password "lstevenson1234"    
+Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "rrogers" with password "rrogers1234"
   When I POST and validate the following entities:
     | entityName                              | entityType               | returnCode |
     | cgray.studentParentAssociation.newLea   | studentParentAssociation | 201        |
@@ -180,8 +181,8 @@ Given I log in to realm "Illinois Highwind School District" using simple-idp as 
   And I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "charles.gray" with password "charles.gray1234"
   When I PATCH and validate the following entities:
     | fieldName                 | entityType               | value   | returnCode | endpoint                                             |
-    | cgray.name                | parent                   | Patched | 204        | parents/1fe86fe9c45680234f1caa3b494a1c4b42838954_id  |
-    | cgray.name                | parent                   | Patched | 403        | parents/678d9a45dca7121dca843c80bf02eb6c227beb43_id  |
+    | cgray.name                | parent                   | Patched | 403        | parents/1fe86fe9c45680234f1caa3b494a1c4b42838954_id  |
+    | cgray.name                | parent                   | Patched | 403        | parents/17075ee3f54bcf75fe37a75b098682b0644594d6_id  |
     | cgray.myClass.name        | student                  | Patched | 403        | students/fdd8ee3ee44133f489e47d2cae109e886b041382_id |
     | cgray.contactRestrictions | studentParentAssociation | Patched | 403        | studentParentAssociations/fdd8ee3ee44133f489e47d2cae109e886b041382_idec053d2e0752799cb0217578d003a1fe8f06b9a0_id |
 
@@ -212,7 +213,7 @@ Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent"
   When I PATCH and validate the following entities:
     | fieldName                 | entityType               | value   | returnCode | endpoint                                             |
     | cgray.name                | parent                   | Patched | 204        | parents/1fe86fe9c45680234f1caa3b494a1c4b42838954_id  |
-    | cgray.name                | parent                   | Patched | 403        | parents/678d9a45dca7121dca843c80bf02eb6c227beb43_id  |
+    | cgray.name                | parent                   | Patched | 403        | parents/17075ee3f54bcf75fe37a75b098682b0644594d6_id  |
     | cgray.myClass.name        | student                  | Patched | 204        | students/fdd8ee3ee44133f489e47d2cae109e886b041382_id |
     | cgray.myClass.name        | student                  | Patched | 403        | students/0324d50380119f1927eda4efcfd61061b23e3143_id |
     | cgray.contactRestrictions | studentParentAssociation | Patched | 403        | studentParentAssociations/fdd8ee3ee44133f489e47d2cae109e886b041382_idec053d2e0752799cb0217578d003a1fe8f06b9a0_id |
@@ -220,7 +221,7 @@ Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent"
   When I PUT and validate the following entities:
     | field               | entityName               | value    | returnCode | endpoint                                                            |
     | name.middleName     | parent                   | Puttayed | 204        | parents/1fe86fe9c45680234f1caa3b494a1c4b42838954_id                 |
-    | name.middleName     | parent                   | Puttayed | 403        | parents/678d9a45dca7121dca843c80bf02eb6c227beb43_id                 |
+    | name.middleName     | parent                   | Puttayed | 403        | parents/17075ee3f54bcf75fe37a75b098682b0644594d6_id                 |
     | name.middleName     | student                  | Puttayed | 204        | students/fdd8ee3ee44133f489e47d2cae109e886b041382_id                |
     | name.middleName     | student                  | Puttayed | 403        | students/0324d50380119f1927eda4efcfd61061b23e3143_id                |
     | contactRestrictions | studentParentAssociation | Puttayed | 403        | studentParentAssociations/fdd8ee3ee44133f489e47d2cae109e886b041382_idec053d2e0752799cb0217578d003a1fe8f06b9a0_id |
