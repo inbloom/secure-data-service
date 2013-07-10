@@ -141,11 +141,4 @@ public class ParentAccessValidatorTest {
         assertTrue(underTest.isAllowed(request));
     }
     
-    @Test
-    public void denyStudentURLs() {
-        paths = Arrays.asList("v1", "students", "067198fd6da91e1aa8d67e28e850f224d6851713_id", "studentParentAssociations");
-        assertFalse(underTest.isAllowed(request));
-        paths = Arrays.asList("v1", "students", "067198fd6da91e1aa8d67e28e850f224d6851713_id", "studentParentAssociations", "parents");
-        assertFalse(underTest.isAllowed(request));
-    }
 }

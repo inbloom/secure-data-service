@@ -36,28 +36,18 @@ public class ParentAccessValidator extends AccessValidator {
     private StudentAccessValidator studentAccessValidator;
 
     /*
-     * only difference between student and parent
+     * only difference between student and parent for GET requests
      * allow:
      * /parents/{id}/studentParentAssociations
      * /parents/{id}/studentParentAssociations/students
-     * 
-     * deny:
-     * /students/{id}/studentParentAssociations
-     * /students/{id}/studentParentAssociations/parents
      */
-    private static final Set<List<String>> ALLOWED_DELTA;
-    private static final Set<List<String>> DENIED_DELTA;
+    private static final Set<List<String>> ALLOWED_DELTA_FOR_PARENT;
 
     static {
         Set<List<String>> allowed_delta = new HashSet<List<String>>();
         allowed_delta.add(Arrays.asList(ResourceNames.STUDENT_PARENT_ASSOCIATIONS));
         allowed_delta.add(Arrays.asList(ResourceNames.STUDENT_PARENT_ASSOCIATIONS, ResourceNames.STUDENTS));
-        ALLOWED_DELTA = Collections.unmodifiableSet(allowed_delta);
-        
-        Set<List<String>> denied_delta = new HashSet<List<String>>();
-        denied_delta.add(Arrays.asList(ResourceNames.STUDENT_PARENT_ASSOCIATIONS));
-        denied_delta.add(Arrays.asList(ResourceNames.STUDENT_PARENT_ASSOCIATIONS, ResourceNames.PARENTS));
-        DENIED_DELTA = Collections.unmodifiableSet(denied_delta);
+        ALLOWED_DELTA_FOR_PARENT = Collections.unmodifiableSet(allowed_delta);
     }
 
     /**
@@ -79,12 +69,8 @@ public class ParentAccessValidator extends AccessValidator {
             subPath = Arrays.asList(path.get(2), path.get(3));
         }
         
-        if (subPath != null && path.get(0).equals(ResourceNames.PARENTS) && ALLOWED_DELTA.contains(subPath)) {
+        if (subPath != null && path.get(0).equals(ResourceNames.PARENTS) && ALLOWED_DELTA_FOR_PARENT.contains(subPath)) {
             return true;
-        }
-        
-        if (subPath != null && path.get(0).equals(ResourceNames.STUDENTS) && DENIED_DELTA.contains(subPath)) {
-            return false;
         }
         
         return studentAccessValidator.isReadAllowed(path, queryParameters);
