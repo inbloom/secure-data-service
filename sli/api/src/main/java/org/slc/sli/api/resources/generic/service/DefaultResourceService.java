@@ -277,7 +277,11 @@ public class DefaultResourceService implements ResourceService {
         if (migratedCopies.size() != 1) {
             throw new IllegalStateException("Error occurred while processing entity body.");
         }
-        definition.getService().update(id, migratedCopies.get(0));
+        if (contextSupportedEntities.contains(definition.getType()) && SecurityUtil.isStaffUser()) {
+            definition.getService().updateBasedOnContextualRoles(id, migratedCopies.get(0));
+        } else {
+            definition.getService().update(id, migratedCopies.get(0));
+        }
     }
 
     @Override
@@ -507,11 +511,11 @@ public class DefaultResourceService implements ResourceService {
             try {
                 entityBodyList = logicalEntity.getEntities(finalApiQuery, finalEntity.getResourceName());
             } catch (final UnsupportedSelectorException e) {
-                /*if (contextSupportedEntities.contains(finalEntity.getType()) && SecurityUtil.isStaffUser()) {
+                if (contextSupportedEntities.contains(finalEntity.getType()) && SecurityUtil.isStaffUser()) {
                     entityBodyList = (List<EntityBody>) finalEntity.getService().listBasedOnContextualRoles(finalApiQuery);
-                } else {*/
+                } else {
                     entityBodyList = (List<EntityBody>) finalEntity.getService().list(finalApiQuery);
-                //}
+                }
             }
 
             long count = getEntityCount(finalEntity, finalApiQuery);

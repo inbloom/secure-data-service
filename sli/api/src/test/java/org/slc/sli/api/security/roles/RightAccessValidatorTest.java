@@ -108,7 +108,7 @@ public class RightAccessValidatorTest {
         NeutralQuery query1 = new NeutralQuery(query);
 
 
-        service.checkFieldAccess(query, false, null, EntityNames.STUDENT);
+        service.checkFieldAccess(query, false, null, EntityNames.STUDENT, service.getContextualAuthorities(false, null));
         assertTrue("Should match", query1.equals(query));
     }
 
@@ -127,20 +127,20 @@ public class RightAccessValidatorTest {
 
         Entity student = createEntity(EntityNames.STUDENT, STUDENT_ID, new HashMap<String, Object>());
         mockRepo.createWithRetries(EntityNames.STUDENT, STUDENT_ID, new HashMap<String, Object>(), new HashMap<String, Object>(), EntityNames.STUDENT, 1);
-        service.checkFieldAccess(query, false, student, EntityNames.STUDENT);
+        service.checkFieldAccess(query, false, student, EntityNames.STUDENT, service.getContextualAuthorities(false, student));
     }
 
     @Test
     public void testCheckFullAccessAdmin() {
         securityContextInjector.setAdminContextWithElevatedRights();
 
-        service.checkAccess(true, false, null, EntityNames.STUDENT);
+        service.checkAccess(true, false, null, EntityNames.STUDENT, service.getContextualAuthorities(false, null));
     }
 
     @Test
     public void testCheckAccessAdmin() {
         securityContextInjector.setLeaAdminContext();
-        service.checkAccess(true, false, null, EntityNames.ADMIN_DELEGATION);
+        service.checkAccess(true, false, null, EntityNames.ADMIN_DELEGATION, service.getContextualAuthorities(false, null));
     }
 
     @Test (expected = AccessDeniedException.class)
@@ -156,7 +156,7 @@ public class RightAccessValidatorTest {
         eb.put("studentUniqueStateId", "1234");
         Entity student = createEntity(EntityNames.STUDENT, BAD_STUDENT, eb);
 
-        service.checkAccess(false, false, student, EntityNames.STUDENT);
+        service.checkAccess(false, false, student, EntityNames.STUDENT, service.getContextualAuthorities(false, student));
     }
 
     @Test (expected = AccessDeniedException.class)
@@ -172,7 +172,7 @@ public class RightAccessValidatorTest {
         eb.put("studentUniqueStateId", "1234");
         Entity student = createEntity(EntityNames.STUDENT, BAD_STUDENT, eb);
 
-        service.checkAccess(true, false, student, EntityNames.STUDENT);
+        service.checkAccess(true, false, student, EntityNames.STUDENT, service.getContextualAuthorities(false, student));
     }
 
     @Test
@@ -186,7 +186,7 @@ public class RightAccessValidatorTest {
 
         Entity student = createEntity(EntityNames.STUDENT, STUDENT_ID, new HashMap<String, Object>());
 
-        service.checkAccess(false, false, student, EntityNames.STUDENT);
+        service.checkAccess(false, false, student, EntityNames.STUDENT, service.getContextualAuthorities(false, student));
     }
 
     @Test

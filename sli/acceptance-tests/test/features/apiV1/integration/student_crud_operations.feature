@@ -188,4 +188,12 @@ Given I log in to realm "Illinois Daybreak Students" using simple-idp as "studen
     | studentGradebookEntry | 7f714f03238d978398fbd4f8abbf9acb3e5775fe_id  | 204        |
     | grade                 | f438cf61eda4d45d77f3d7624fc8d089aa95e5ea_id4542ee7a376b1c7813dcdc495368c875bc6b03ed_id | 204        |
    #| student               | 067198fd6da91e1aa8d67e28e850f224d6851713_id  | 204        |
+  #This step is just to put Matt Sollars back to normal
+  When I PUT and validate the following entities:
+    | field          | entityName | value | returnCode | endpoint                                             |
+    | name.firstName | student    | Matt  | 204        | students/067198fd6da91e1aa8d67e28e850f224d6851713_id |
+  When I PATCH and validate the following entities:
+    | fieldName     | entityType | value      | returnCode | endpoint                                             |
+    | msollars.name | student    | Aida       | 204        | students/067198fd6da91e1aa8d67e28e850f224d6851713_id |
+    | studentLunch  | student    | Full price | 204        | students/067198fd6da91e1aa8d67e28e850f224d6851713_id |
 

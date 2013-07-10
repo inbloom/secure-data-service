@@ -345,9 +345,9 @@ public class StudentAccessValidator extends AccessValidator {
         }
     }
 
-    protected boolean isWriteAllowed(List<String> paths) {
+    protected boolean isWriteAllowed(List<String> paths, String method) {
         String baseEntity = paths.get(0);
-        return WRITES_ALLOWED.contains(baseEntity);
+        return paths.size() <= 2 && WRITES_ALLOWED.contains(baseEntity);
     }
 
     // this default scope method is used to generate a list of whitelisted url for easy validation

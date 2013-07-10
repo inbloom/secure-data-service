@@ -4,7 +4,7 @@ Feature: As a parent I want to use apps that access the inBloom API
 
   Background: None
 
-  @wip @parent_crud
+  @parent_crud
   Scenario: Parent cannot Write to public entities
     Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "marsha.sollars" with password "marsha.sollars1234"
     And format "application/json"
@@ -158,43 +158,85 @@ Feature: As a parent I want to use apps that access the inBloom API
 
 
 @wip @parent_crud @clean_up_parent_posts
-Scenario: POST new entities as a privileged parent with extended rights
+Scenario: POST new entities as a parent without, then with extended rights
 Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "jstevenson" with password "jstevenson1234"
   And format "application/json"
   And I am using api version "v1"
-  #using IT Admin, POST cgray as a parent
- #When I POST and validate the following entities:
-    #| entityName                              | entityType               | returnCode |
-    #| cgray.parent                            | parent                   | 201        |
-    #| cgray.studentParentAssociation.myClass  | studentParentAssociation | 201        |
-Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "charles.gray" with password "charles.gray1234"
-  #POST entities as cgray with the parent role
+  # As an IT Admin, POST cgray as a parent
   When I POST and validate the following entities:
     | entityName                              | entityType               | returnCode |
-    | cgray.parent                            | parent                   | 403        |
-    | cgray.parent.notMe                      | parent                   | 403        |
-    | cgray.student.myKid                     | student                  | 403        |
-    | cgray.student.notMyKid                  | student                  | 403        |
-    | cgray.studentParentAssociation.myClass  | studentParentAssociation | 403        |
+    | cgray.parent                            | parent                   | 201        |
+    | cgray.studentParentAssociation.myClass  | studentParentAssociation | 201        |
     | cgray.studentParentAssociation.notMyKid | studentParentAssociation | 201        |
-    | cgray.student.notMyKid                  | student                  | 201        |
     | cgray.studentParentAssociation.mySchool | studentParentAssociation | 201        |
-    | cgray.studentParentAssociation.newLea   | studentParentAssociation | 201        |
-  When I PATCH and validate the following entities:
-    | fieldName              | entityType               | value                       | returnCode | endpoint                                                                                      |
-    | msollars.name          | student                  | Patch                       | 204        | students/067198fd6da91e1aa8d67e28e850f224d6851713_id                                          |
-    | diagnosticStatement    | parent                   | Student was patched derpy   | 204        | grades/f438cf61eda4d45d77f3d7624fc8d089aa95e5ea_id4542ee7a376b1c7813dcdc495368c875bc6b03ed_id |
-    | gradeLevelWhenAssessed | studentParentAssociation | Sixth grade                 | 204        | studentAssessments/f9643b7abba04ae01586723abed0e38c63e4f975_id                                |
-  When I PUT and validate the following entities:
-    | field                  | entityName            | value                   | returnCode | endpoint                                                            |
-    | name.firstName         | student               | MattPut                 | 204        | students/067198fd6da91e1aa8d67e28e850f224d6851713_id                |
-    | diagnosticStatement    | grade                 | Student was put derpy   | 204        | grades/f438cf61eda4d45d77f3d7624fc8d089aa95e5ea_id4542ee7a376b1c7813dcdc495368c875bc6b03ed_id |
-    | gradeLevelWhenAssessed | studentAssessment     | Seventh grade           | 204        | studentAssessments/f9643b7abba04ae01586723abed0e38c63e4f975_id      |
-    | diagnosticStatement    | studentGradebookEntry | Student was put good    | 204        | studentGradebookEntries/7f714f03238d978398fbd4f8abbf9acb3e5775fe_id |
-  When I DELETE and validate the following entities:
-    | entity                | id                                           | returnCode |
-    | studentAssessment     | f9643b7abba04ae01586723abed0e38c63e4f975_id  | 204        |
-    | studentGradebookEntry | 7f714f03238d978398fbd4f8abbf9acb3e5775fe_id  | 204        |
-    | grade                 | f438cf61eda4d45d77f3d7624fc8d089aa95e5ea_id4542ee7a376b1c7813dcdc495368c875bc6b03ed_id | 204        |
-   #| student               | 067198fd6da91e1aa8d67e28e850f224d6851713_id  | 204        |
 
+# Asociate cgray to a student in a different LEA
+Given I log in to realm "Illinois Highwind School District" using simple-idp as "IT Administrator" "lstevenson" with password "lstevenson1234"    
+  When I POST and validate the following entities:
+    | entityName                              | entityType               | returnCode |
+    | cgray.studentParentAssociation.newLea   | studentParentAssociation | 201        |
+
+  # Make sure cgray can edit himself, but cannot edit any students yet since he has no studentParentAssociations
+  And I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "charles.gray" with password "charles.gray1234"
+  When I PATCH and validate the following entities:
+    | fieldName                 | entityType               | value   | returnCode | endpoint                                             |
+    | cgray.name                | parent                   | Patched | 204        | parents/1fe86fe9c45680234f1caa3b494a1c4b42838954_id  |
+    | cgray.name                | parent                   | Patched | 403        | parents/678d9a45dca7121dca843c80bf02eb6c227beb43_id  |
+    | cgray.myClass.name        | student                  | Patched | 403        | students/fdd8ee3ee44133f489e47d2cae109e886b041382_id |
+    | cgray.contactRestrictions | studentParentAssociation | Patched | 403        | studentParentAssociations/fdd8ee3ee44133f489e47d2cae109e886b041382_idec053d2e0752799cb0217578d003a1fe8f06b9a0_id |
+
+# Now modify the Parent role to include the rights of an IT-Administrator
+Given I get the rights for the "Parent" role in realm "deadbeef-1bad-4606-a936-094331bddeed"
+  And I change the "Parent" role for realm "deadbeef-1bad-4606-a936-094331bddeed" to permit the following rights:
+    | right            |
+    | WRITE_PUBLIC     |
+    | WRITE_RESTRICTED |
+    | READ_GENERAL     |
+    | AGGREGATE_READ   |
+    | READ_PUBLIC      |
+    | READ_RESTRICTED  |
+    | WRITE_GENERAL    |
+
+#POST entities as cgray with the parent role
+Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "charles.gray" with password "charles.gray1234"
+  When I POST and validate the following entities:
+    | entityName                              | entityType               | returnCode |
+   #| cgray.parent                            | parent                   | 409        |
+    | cgray.parent.notMe                      | parent                   | 403        |
+    | newDaybreakStudent                      | student                  | 403        |
+    | cgray.studentParentAssociation.myClass  | studentParentAssociation | 403        |
+    | cgray.studentParentAssociation.notMyKid | studentParentAssociation | 403        |
+    | cgray.studentParentAssociation.mySchool | studentParentAssociation | 403        |
+    | cgray.studentParentAssociation.newLea   | studentParentAssociation | 403        |  
+
+  When I PATCH and validate the following entities:
+    | fieldName                 | entityType               | value   | returnCode | endpoint                                             |
+    | cgray.name                | parent                   | Patched | 204        | parents/1fe86fe9c45680234f1caa3b494a1c4b42838954_id  |
+    | cgray.name                | parent                   | Patched | 403        | parents/678d9a45dca7121dca843c80bf02eb6c227beb43_id  |
+    | cgray.myClass.name        | student                  | Patched | 204        | students/fdd8ee3ee44133f489e47d2cae109e886b041382_id |
+    | cgray.myClass.name        | student                  | Patched | 403        | students/0324d50380119f1927eda4efcfd61061b23e3143_id |
+    | cgray.contactRestrictions | studentParentAssociation | Patched | 403        | studentParentAssociations/fdd8ee3ee44133f489e47d2cae109e886b041382_idec053d2e0752799cb0217578d003a1fe8f06b9a0_id |
+  
+  When I PUT and validate the following entities:
+    | field               | entityName               | value    | returnCode | endpoint                                                            |
+    | name.middleName     | parent                   | Puttayed | 204        | parents/1fe86fe9c45680234f1caa3b494a1c4b42838954_id                 |
+    | name.middleName     | parent                   | Puttayed | 403        | parents/678d9a45dca7121dca843c80bf02eb6c227beb43_id                 |
+    | name.middleName     | student                  | Puttayed | 204        | students/fdd8ee3ee44133f489e47d2cae109e886b041382_id                |
+    | name.middleName     | student                  | Puttayed | 403        | students/0324d50380119f1927eda4efcfd61061b23e3143_id                |
+    | contactRestrictions | studentParentAssociation | Puttayed | 403        | studentParentAssociations/fdd8ee3ee44133f489e47d2cae109e886b041382_idec053d2e0752799cb0217578d003a1fe8f06b9a0_id |
+
+  When I DELETE and validate the following entities:
+    | entity                   | id                                           | returnCode |
+    | parent                   | f9643b7abba04ae01586723abed0e38c63e4f975_id  | 403        |
+    | student                  | fdd8ee3ee44133f489e47d2cae109e886b041382_id  | 403        |
+    | studentParentAssociation | fdd8ee3ee44133f489e47d2cae109e886b041382_idec053d2e0752799cb0217578d003a1fe8f06b9a0_id  | 403        |
+
+Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "jstevenson" with password "jstevenson1234"
+#Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "charles.gray" with password "charles.gray1234"
+  When I DELETE and validate the following entities:
+    | entity                   | id                                          | returnCode |
+    | student                  | fdd8ee3ee44133f489e47d2cae109e886b041382_id | 201        |
+    | parent                   | 1fe86fe9c45680234f1caa3b494a1c4b42838954_id | 201        |
+    | studentParentAssociation | fdd8ee3ee44133f489e47d2cae109e886b041382_idec053d2e0752799cb0217578d003a1fe8f06b9a0_id | 201        |
+
+  And I change the "Parent" role for realm "deadbeef-1bad-4606-a936-094331bddeed" back to its original rights

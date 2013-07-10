@@ -249,4 +249,14 @@ public interface EntityService {
      */
     public String createBasedOnContextualRoles(EntityBody content);
 
+    /**
+     * Change an entity in the data store
+     *
+     * @param id
+     *            the id of the entity to update
+     * @param content
+     *            the new body of the entity
+     * @return if the entity was changed
+     */
+    public boolean updateBasedOnContextualRoles(String id, EntityBody content);
 }

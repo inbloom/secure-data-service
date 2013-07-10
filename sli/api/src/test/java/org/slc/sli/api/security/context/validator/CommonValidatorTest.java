@@ -135,7 +135,6 @@ public class CommonValidatorTest {
     }
     
     @Test
-    @Ignore
     public void verifyNumberOfParentValidatorsForEachEntity() throws Exception {
         MongoEntity parent = new MongoEntity("parent", new HashMap<String, Object>());
         injector.setCustomContext("Parentious", "Stendarious' Dad", "Myrran", Arrays.asList(SecureRoleRightAccessImpl.PARENT), parent, "High Elves's Dad");

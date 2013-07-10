@@ -1,7 +1,6 @@
 @RALLY_US4305
 @RALLY_US4306
 @parent_login
-@wip
 Feature: As a parent I want to use apps that access the inBloom API
 
   Background: None
@@ -52,18 +51,6 @@ Feature: As a parent I want to use apps that access the inBloom API
       | studentCharacteristics.0.designatedBy                 | Teacher                                     |
       | studentCharacteristics.0.characteristic               | Unaccompanied Youth                         |
       | schoolFoodServicesEligibility                         | Full price                                  |
-
-    When I verify the following response body fields in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/studentParentAssociations/parents?sortBy=parentUniqueStateId":
-      | field                           | value             |
-      | 0.address.0.streetNumberName    | 707 Elm Street    |
-      | 0.electronicMail.0.emailAddress | 9008@fakemail.com |
-      | 0.loginId                       | 9008@fakemail.com |
-      | 0.name.firstName                | Brenton           |
-      | 0.otherName.0.firstName         | Brice             |
-      | 0.parentUniqueStateId           | 800000025-dad     |
-      | 0.sex                           | Male              |
-      | 0.telephone.0.telephoneNumber   | (512)555-2418     |
-      | 1.parentUniqueStateId           | 800000025-mom     |
 
     Then I verify the following response body fields exist in "/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/studentAssessments":
       | field                                                                          |
