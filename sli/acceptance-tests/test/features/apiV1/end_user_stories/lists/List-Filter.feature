@@ -89,14 +89,13 @@ Scenario Outline: As teacher or leader in the Daybreak district but outside Dayb
      And I check to find if record is in sli db collection:
        | collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
        | securityEvent       | 1                   | body.userEdOrg        | <userEdOrg>                           |
-    # us5758 revisit this - values for targetEdOrg likely need updating
-#       | securityEvent       | 1                   | body.targetEdOrgList  | <targetEdOrg>                         |
+       | securityEvent       | 1                   | body.targetEdOrgList  | <targetEdOrg>                         |
 
 	Examples:
-	| Username     | Password         | RC  | Role       | EdOrg                       | userEdOrg                             | targetEdOrg                           |
-	| "cgray"      | "cgray1234"      | 403 | "Educator" | "Daybreak Central High"     | IL-SUNSET                             | IL-SUNSET                             |
-	| "rbraverman" | "rbraverman1234" | 403 | "Educator" | "South Daybreak Elementary" | IL-DAYBREAK                           | IL-DAYBREAK                           |
-	| "mgonzales"  | "mgonzales234"   | 403 | "Leader"   | "South Daybreak Elementary" | IL-DAYBREAK                           | IL-DAYBREAK                           |
+	| Username     | Password         | RC  | Role       | EdOrg                       | userEdOrg                             | targetEdOrg               |
+	| "cgray"      | "cgray1234"      | 403 | "Educator" | "Daybreak Central High"     | IL-SUNSET                             | East Daybreak Junior High |
+	| "rbraverman" | "rbraverman1234" | 403 | "Educator" | "South Daybreak Elementary" | IL-DAYBREAK                           | East Daybreak Junior High |
+	| "mgonzales"  | "mgonzales234"   | 403 | "Leader"   | "South Daybreak Elementary" | IL-DAYBREAK                           | East Daybreak Junior High |
 
 
 Scenario Outline: As a teacher or leader in another district I cannot see any of Linda Kim's students in her 3rd period Algebra II class
@@ -109,10 +108,9 @@ Scenario Outline: As a teacher or leader in another district I cannot see any of
      And I check to find if record is in sli db collection:
        | collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
        | securityEvent       | 1                   | body.userEdOrg        | <userEdOrg>                           |
-    # us5758 revisit this - values for targetEdOrg likely need updating
-#       | securityEvent       | 1                   | body.targetEdOrgList  | <targetEdOrg>                         |
+       | securityEvent       | 1                   | body.targetEdOrgList  | <targetEdOrg>                         |
 
 	Examples:
-	| Username   | Password       | RC  | Role       | EdOrg                    |userEdOrg                             | targetEdOrg                           |
-	| "llogan"   | "llogan1234"   | 403 | "Leader"   | "Sunset School District" |IL-SUNSET                             | IL-SUNSET                             |
-	| "manthony" | "manthony1234" | 403 | "Educator" | "Sunset Central High"    |IL-SUNSET                             | IL-SUNSET                             |
+	| Username   | Password       | RC  | Role       | EdOrg                    |userEdOrg                             | targetEdOrg               |
+	| "llogan"   | "llogan1234"   | 403 | "Leader"   | "Sunset School District" |IL-SUNSET                             | East Daybreak Junior High |
+	| "manthony" | "manthony1234" | 403 | "Educator" | "Sunset Central High"    |IL-SUNSET                             | East Daybreak Junior High |
