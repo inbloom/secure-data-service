@@ -222,8 +222,8 @@ public class BasicServiceTest {
         Entity entity2 = new MongoEntity("student", "student2", entityBody2, new HashMap<String,Object>());
         Iterable<Entity> entities = Arrays.asList(entity1, entity2);
         Mockito.when(mockRepo.findAll(Mockito.eq("student"), Mockito.any(NeutralQuery.class))).thenReturn(entities);
-        Mockito.when(mockRightsFilter.makeEntityBody(Mockito.eq(entity1), Mockito.any(List.class), Mockito.any(EntityDefinition.class), Mockito.anyBoolean())).thenReturn(entityBody1);
-        Mockito.when(mockRightsFilter.makeEntityBody(Mockito.eq(entity2), Mockito.any(List.class), Mockito.any(EntityDefinition.class), Mockito.anyBoolean())).thenReturn(entityBody2);
+        Mockito.when(mockRightsFilter.makeEntityBody(Mockito.eq(entity1), Mockito.any(List.class), Mockito.any(EntityDefinition.class), Mockito.anyBoolean(), Mockito.any(Collection.class))).thenReturn(entityBody1);
+        Mockito.when(mockRightsFilter.makeEntityBody(Mockito.eq(entity2), Mockito.any(List.class), Mockito.any(EntityDefinition.class), Mockito.anyBoolean(), Mockito.any(Collection.class))).thenReturn(entityBody2);
 
         Iterable<EntityBody> listResult = service.listBasedOnContextualRoles(new NeutralQuery());
 
