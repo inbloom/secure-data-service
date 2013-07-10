@@ -389,7 +389,7 @@ Then /^I perform PUT,GET and Natural Key Update for each resource available$/ do
     if @context_hash.has_key? resource[1..-1] == false
       next
     end
-    if skip_resource(resource) or resource == "/competencyLevelDescriptor" or resource == "/teacherSectionAssociations" or resource == "/studentGradebookEntries" or resource == "/staffProgramAssociations" or resource == "/yearlyAttendances"
+    if skip_resource(resource) or resource == "/calendarDates" or resource == "/competencyLevelDescriptor" or resource == "/teacherSectionAssociations" or resource == "/studentGradebookEntries" or resource == "/staffProgramAssociations" or resource == "/yearlyAttendances"
       next
     end
     resource_type = get_resource_type resource

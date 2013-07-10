@@ -23,6 +23,4 @@ Feature: Parent can see public entities
       | studentCompetencyObjectives | b7080a7f753939752b693bca21fe60375d15587e_id |                                                                                                     |
       #| calendarDates               | e00dc4fb9d6be8372a549dea899fe1915a598c5c_id | directly associated to LEA IL-DAYBREAK 1b223f577827204a1c7e9c851dba06bea6b031fe_id                  |
       #| calendarDates               | b6f70d30b51a569610b8f882c8fa3a2d2eefbee1_id | directly associated to LEA 11 02bdd6bf0fd5f761e6fc316ca6c763d4bb96c055_id                           |
-      #| calendarDates               | dcaab0add72ad8d37de0dafa312b4d23d35ddb21_id | directly associated to LEA IL-HIGHWIND 99d527622dcb51c465c515c0636d17e085302d5e_id                  |
-      #| calendarDates               | 69052b31d701cd4f61bfd2c6189bcd1fe9d69041_id | directly associated to LEA 10 c67b5565b3b6475bae9e042c96cb0b9db6b37b29_id                           |
 

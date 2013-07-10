@@ -28,7 +28,7 @@
       "POST": {
           "calendarEvent" : "Holiday",
           "date" : "2012-04-15",
-          "educationOrganizationId" : "92d6d5a0-852c-45f4-907a-912752831772"
+          "educationOrganizationId" : "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
       },
       "UPDATE": {
           "field": "calendarEvent",
@@ -37,7 +37,7 @@
 
     "naturalKey": {
         "date" : "2012-04-15",
-        "educationOrganizationId" : "92d6d5a0-852c-45f4-907a-912752831772"
+        "educationOrganizationId" : "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
     }
   },
   "userAccount": {

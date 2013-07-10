@@ -52,7 +52,6 @@ import org.slc.sli.api.resources.generic.PreConditionFailedException;
 import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.representation.ServiceResponse;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
-import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.selectors.LogicalEntity;
 import org.slc.sli.api.selectors.UnsupportedSelectorException;
 import org.slc.sli.api.service.EntityNotFoundException;
@@ -257,7 +256,12 @@ public class DefaultResourceService implements ResourceService {
     @MigratePostedEntity
     public String postEntity(final Resource resource, EntityBody entity) {
         EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
-        List<String> entityIds = definition.getService().create(adapter.migrate(entity, definition.getResourceName(), POST));
+        List<String> entityIds = new ArrayList<String>();
+        if (contextSupportedEntities.contains(definition.getType()) && SecurityUtil.isStaffUser()) {
+            entityIds = definition.getService().createBasedOnContextualRoles(adapter.migrate(entity, definition.getResourceName(), POST));
+        } else {
+            entityIds = definition.getService().create(adapter.migrate(entity, definition.getResourceName(), POST));
+        }
         return StringUtils.join(entityIds.toArray(), ",");
     }
 
@@ -273,7 +277,11 @@ public class DefaultResourceService implements ResourceService {
         if (migratedCopies.size() != 1) {
             throw new IllegalStateException("Error occurred while processing entity body.");
         }
-        definition.getService().update(id, migratedCopies.get(0));
+        if (contextSupportedEntities.contains(definition.getType()) && SecurityUtil.isStaffUser()) {
+            definition.getService().updateBasedOnContextualRoles(id, migratedCopies.get(0));
+        } else {
+            definition.getService().update(id, migratedCopies.get(0));
+        }
     }
 
     @Override
@@ -284,7 +292,11 @@ public class DefaultResourceService implements ResourceService {
         EntityBody copy = new EntityBody(entity);
         copy.remove(ResourceConstants.LINKS);
 
-        definition.getService().patch(id, copy);
+        if (contextSupportedEntities.contains(definition.getType()) && SecurityUtil.isStaffUser()) {
+            definition.getService().patchBasedOnContextualRoles(id, copy);
+        } else {
+            definition.getService().patch(id, copy);
+        }
     }
 
     @Override
@@ -503,11 +515,11 @@ public class DefaultResourceService implements ResourceService {
             try {
                 entityBodyList = logicalEntity.getEntities(finalApiQuery, finalEntity.getResourceName());
             } catch (final UnsupportedSelectorException e) {
-                /*if (contextSupportedEntities.contains(finalEntity.getType()) && SecurityUtil.isStaffUser()) {
+                if (contextSupportedEntities.contains(finalEntity.getType()) && SecurityUtil.isStaffUser()) {
                     entityBodyList = (List<EntityBody>) finalEntity.getService().listBasedOnContextualRoles(finalApiQuery);
-                } else {*/
+                } else {
                     entityBodyList = (List<EntityBody>) finalEntity.getService().list(finalApiQuery);
-                //}
+                }
             }
 
             long count = getEntityCount(finalEntity, finalApiQuery);

@@ -93,6 +93,9 @@
                   "deprecatedVersion": "1.0",
                   "deprecatedReason" : "Deprecation occurred to remove a potential security vulnerability.",
                   "doc": "This URI, /gradingPeriods/{id}/grades, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/{id}/studentSectionAssociations/grades (for teachers) or /schools/{id}/sections/studentSectionAssociations/grades (for staff) instead. These URIs are used internally instead of /gradingPeriods/{id}/grades, and will still be available after the deprecation period ends."
+              },
+              {
+                  "path": "/{id}/calendarDates"
               }
           ]
       },

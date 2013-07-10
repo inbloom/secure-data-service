@@ -364,11 +364,7 @@ end
 
 desc "Run API Odin Public Data Integration Tests"
 task :apiOdinPublicData => [:apiOdinSetupAPI] do
-  runTests("test/features/apiV1/integration/aggregator_public.feature")
-  runTests("test/features/apiV1/integration/admin_public.feature")
-  runTests("test/features/apiV1/integration/leader_public.feature")
-  runTests("test/features/apiV1/integration/educator_public.feature")
-  runTests("test/features/apiV1/integration/parent_public.feature")
+  runTests("test/features/apiV1/integration/public_data.feature")
 end
 
 desc "Run contextual roles acceptance tests"

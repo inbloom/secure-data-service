@@ -638,8 +638,11 @@ def update_api_put_field(body, field, value)
   body["contactPriority"] = value.to_i if field == "contactPriority"
   body["id"] = value if field == "missingEntity"
   body["name"]["firstName"] = value if field == "name.firstName"
+  body["name"]["middleName"] = value if field == "name.middleName"
   body["diagnosticStatement"] = value if field == "diagnosticStatement"
   body["gradeLevelWhenAssessed"] = value if field == "gradeLevelWhenAssessed"
+  body["calendarEvent"] = value if field == "calendarEvent"
+  body["contactRestrictions"] = value if field == "contactRestrictions"
   return body
 end
 
@@ -731,6 +734,9 @@ def get_patch_body_by_entity_name(field, value)
                   "city"=>"Chicago"
                  }]
     },
+    "calendarEvent" => {
+            "calendarEvent" => value
+    },
     "contactPriority" => {
       "contactPriority" => value.to_i
     },
@@ -744,6 +750,9 @@ def get_patch_body_by_entity_name(field, value)
       "loginId" => value,
       "sex" => "Male"
     },
+    "studentLunch" => {
+      "schoolFoodServicesEligibility" => value,
+    },
     "momLoginId" => {
       "loginId" => value
     },
@@ -753,6 +762,23 @@ def get_patch_body_by_entity_name(field, value)
         "firstName" => "Matt",
         "lastSurname" => "Sollars"
       }
+    },
+    "cgray.name" => {
+      "name" => {
+        "middleName" => value,
+        "firstName" => "Charles",
+        "lastSurname" => "Gray"
+      }
+    },
+    "cgray.myClass.name" => {
+      "name" => {
+        "middleName" => value,
+        "firstName" => "LilCharlie",
+        "lastSurname" => "Gray"
+      }
+    },
+    "cgray.contactRestrictions" => {
+      "contactRestrictions" => value
     },
     "dadLoginId" => {
         "loginId" => value
@@ -2503,6 +2529,16 @@ def get_post_body_by_entity_name(entity_name)
         }]
       }]
     },
+    "newCalendarDate" => {
+      "calendarEvent" => "Instructional day",
+      "date" => "2015-04-02",
+      "educationOrganizationId" => "352e8570bd1116d11a72755b987902440045d346_id"
+    },
+    "newCalendarDate2" => {
+          "calendarEvent" => "Instructional day",
+          "date" => "2015-04-02",
+          "educationOrganizationId" => "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id"
+    },
     "newCohort" => {
       "academicSubject" => "Communication and Audio/Visual Technology",
       "cohortType" => "Extracurricular Activity",
@@ -2936,6 +2972,7 @@ def get_post_body_by_entity_name(entity_name)
       "languages" => [{
         "language" => "Norwegian"
       }],
+      "schoolFoodServicesEligibility" => "Full price",
       "studentUniqueStateId" => "800000025",
       "name" => {
         "middleName" => "Aida",
@@ -3166,7 +3203,7 @@ def get_post_body_by_entity_name(entity_name)
     "cgray.studentParentAssociation.notMyKid" => {
       "entityType" => "studentParentAssociation",
       "parentId" => "1fe86fe9c45680234f1caa3b494a1c4b42838954_id",
-      "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+      "studentId" => "75a1710a115cd94dde09ccd950a11a05b7843ab2_id",
       "relation" => "Father",
       "contactPriority" => 2
     },
@@ -3180,7 +3217,7 @@ def get_post_body_by_entity_name(entity_name)
     "cgray.studentParentAssociation.newLea" => {
       "entityType" => "studentParentAssociation",
       "parentId" => "1fe86fe9c45680234f1caa3b494a1c4b42838954_id",
-      "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+      "studentId" => "f07bc57c18f13e8bb692660a7fab0ca92817598c_id",
       "relation" => "Father",
       "contactPriority" => 1
     },

@@ -139,13 +139,13 @@ public class MockRepo implements Repository<Entity> {
         return repo.get(entityType).get(id);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "rawtypes"})
     private Object getValue(Entity entity, String key, boolean prefixable) {
         if (!"_id".equals(key) && prefixable) {
             key = "body." + key;
         }
         String[] path = key.split("\\.");
-        Map<String, Object> container = null;
+        Map container = null;
         if (path.length > 0) {
             if ("_id".equals(path[0])) {
                 return entity.getEntityId();
@@ -156,6 +156,9 @@ public class MockRepo implements Repository<Entity> {
             } else if ("type".equals(path[0])) {
                 container = new HashMap<String, Object>();
                 container.put("type", entity.getType());
+            } else {
+                // This branch is for superdoc'd entities
+                container = entity.getEmbeddedData();
             }
             for (int i = 1; i < path.length - 1; i++) {
                 Object sub = container.get(path[i]);

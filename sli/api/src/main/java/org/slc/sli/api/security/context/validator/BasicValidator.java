@@ -21,8 +21,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.domain.Entity;
 
 /**
  * Abstract class to do common functionality
@@ -54,6 +52,13 @@ public abstract class BasicValidator extends AbstractContextValidator {
         this.transitiveValidator = false;
         this.careAboutTransitive = false;
         this.types = new HashSet<String>(Arrays.asList(type));
+        this.userTypes = new HashSet<String>(userTypes);
+    }
+    
+    public BasicValidator(List<String> userTypes, List<String> types) {
+        this.transitiveValidator = false;
+        this.careAboutTransitive = false;
+        this.types = new HashSet<String>(types);
         this.userTypes = new HashSet<String>(userTypes);
     }
 
