@@ -166,6 +166,44 @@ Feature: Users can access public entities
      And I navigate to GET "/v1/calendarDates/611ce67cc258ae2d06bc3199ee678df0fb6cecab_id"
     Then I should receive a return code of 404
 
+  Scenario: Out of Context Public Entities Writes as a IT Admin (user with WRITE PUBLIC)
+    Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "akopel" with password "akopel1234"
+     And format "application/json"
+     And I am using api version "v1"
+    When I POST and validate the following entities:
+       | entityName       | entityType   | returnCode |
+       | newCalendarDate2 | calendarDate | 403        |
+    #When I PATCH and validate the following entities:
+       #|  fieldName     |  entityType    | value   |  returnCode  | endpoint                                                  |
+       #|  calendarEvent |  calendarDate2 | Holiday |  403         | calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id |
+    Then I verify the following response body fields in "/calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id":
+       | field                   | value                                       |
+       | id                      | 7629c5951c8af6dac204cf636d5a81acb64fc6ef_id |
+       | entityType              | calendarDate                                |
+       | calendarEvent           | Instructional day                           |
+       | date                    | 2012-09-18                                  |
+       | educationOrganizationId | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
+    #When I PUT and validate the following entities:
+       #|  field         | entityName       |  value            | returnCode | endpoint                                                  |
+       #|  calendarEvent | newCalendarDate2 | Holiday           | 403        | calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id |
+    Then I verify the following response body fields in "/calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id":
+       | field                   | value                                       |
+       | id                      | 7629c5951c8af6dac204cf636d5a81acb64fc6ef_id |
+       | entityType              | calendarDate                                |
+       | calendarEvent           | Instructional day                           |
+       | date                    | 2012-09-18                                  |
+       | educationOrganizationId | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
+    #When I DELETE and validate the following entities:
+       #| entity       | id                                           | returnCode |
+       #| calendarDate | 6f93d0a3e53c2d9c3409646eaab94155fe079e87_id  | 403        |
+    Then I verify the following response body fields in "/calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id":
+       | field                   | value                                       |
+       | id                      | 7629c5951c8af6dac204cf636d5a81acb64fc6ef_id |
+       | entityType              | calendarDate                                |
+       | calendarEvent           | Instructional day                           |
+       | date                    | 2012-09-18                                  |
+       | educationOrganizationId | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
+
   Scenario Outline: Public Entities Write Commands as non IT Admins (users without WRITE PUBLIC)
      Given I log in to realm "<REALM>" using simple-idp as "<TYPE>" "<USERNAME>" with password "<PASSWORD>"
       And format "application/json"
