@@ -89,23 +89,6 @@ Feature: Users can access public entities
        #| Illinois Daybreak Parents               | parent            | marsha.sollars    | marsha.sollars1234    | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id | schools                |
        #| Illinois Daybreak Students              | student           | student.m.sollars | student.m.sollars1234 | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id | schools                |
 
-@wip
-  Scenario Outline: Verify base endpoint only contains calendarDates for the directly associated edOrgs
-    Given I log in to realm "<REALM>" using simple-idp as "<TYPE>" "<USERNAME>" with password "<PASSWORD>"
-     And format "application/json"
-    When I navigate to GET "/v1/calendarDates"
-    Then I should receive a return code of 200
-     And I should receive a collection with <COUNT> elements
-
-    Examples: User Credentials and Expected Counts
-       | REALM                                   | TYPE              | USERNAME          | PASSWORD              | COUNT | Notes- Direct edOrg Association             |
-       | Illinois Daybreak School District 4529  | aggregate viewer  | msmith            | msmith1234            | 1     | 352e8570bd1116d11a72755b987902440045d346_id |
-       | Illinois Daybreak School District 4529  | leader            | mgonzales         | mgonzales1234         | 1     | 352e8570bd1116d11a72755b987902440045d346_id |
-       | Illinois Daybreak School District 4529  | educator          | linda.kim         | linda.kim1234         | 1     | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
-       | Illinois Daybreak School District 4529  | admin             | akopel            | akopel1234            | 1     | 352e8570bd1116d11a72755b987902440045d346_id |
-       | Illinois Daybreak Parents               | parent            | marsha.sollars    | marsha.sollars1234    | 1     | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
-       | Illinois Daybreak Students              | student           | student.m.sollars | student.m.sollars1234 | 1     | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
-
   Scenario: Public Entities Write Commands as a IT Admin (user with WRITE PUBLIC)
     Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "akopel" with password "akopel1234"
      And format "application/json"
@@ -146,10 +129,7 @@ Feature: Users can access public entities
      And I navigate to GET "/v1/calendarDates/611ce67cc258ae2d06bc3199ee678df0fb6cecab_id"
     Then I should receive a return code of 404
 
-  Scenario: Out of Context Public Entities Writes as a IT Admin (user with WRITE PUBLIC)
-    Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "akopel" with password "akopel1234"
-     And format "application/json"
-     And I am using api version "v1"
+  #Out of Context Public Entities Writes as a IT Admin (user with WRITE PUBLIC)
     When I POST and validate the following entities:
        | entityName       | entityType   | returnCode |
        | newCalendarDate2 | calendarDate | 403        |
