@@ -88,6 +88,7 @@ Feature: Users can access public entities
         | Illinois Daybreak School District 4529  | admin             | akopel            | akopel1234            | 352e8570bd1116d11a72755b987902440045d346_id | educationOrganizations |
        #| Illinois Daybreak Parents               | parent            | marsha.sollars    | marsha.sollars1234    | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id | schools                |
        #| Illinois Daybreak Students              | student           | student.m.sollars | student.m.sollars1234 | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id | schools                |
+       #above are commented out as rewrite from /calendarDates going to edOrgs instead of schools
 
   Scenario: Public Entities Write Commands as a IT Admin (user with WRITE PUBLIC)
     Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "akopel" with password "akopel1234"
@@ -206,9 +207,9 @@ Feature: Users can access public entities
 
      Examples: User Credentials
         | REALM                                   | TYPE              | USERNAME          | PASSWORD              |
-       #| Illinois Daybreak School District 4529  | aggregate viewer  | msmith            | msmith1234            |
+        | Illinois Daybreak School District 4529  | aggregate viewer  | msmith            | msmith1234            |
         | Illinois Daybreak School District 4529  | leader            | mgonzales         | mgonzales1234         |
         | Illinois Daybreak School District 4529  | educator          | linda.kim         | linda.kim1234         |
-       #| Illinois Daybreak Parents               | parent            | marsha.sollars    | marsha.sollars1234    |
-       #| Illinois Daybreak Students              | student           | student.m.sollars | student.m.sollars1234 |
+        | Illinois Daybreak Parents               | parent            | marsha.sollars    | marsha.sollars1234    |
+        | Illinois Daybreak Students              | student           | student.m.sollars | student.m.sollars1234 |
 
