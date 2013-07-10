@@ -21,6 +21,7 @@ require 'mongo'
 
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../utils/selenium_common.rb'
+require_relative '../../utils/api_utils.rb'
 
 DATABASE_HOST = PropLoader.getProps['ingestion_db']
 DATABASE_PORT = PropLoader.getProps['ingestion_db_port']
@@ -142,6 +143,13 @@ def add_to_mongo(tenant, collection, entity)
 end
 
 def remove_from_mongo(tenant, collection, query)
+  entry = remove_from_mongo_operation(tenant, collection, query)
+
+  (@mongo_changes ||= []) << entry
+
+end
+
+def remove_from_mongo_operation(tenant, collection, query)
   conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
   db = conn[tenant]
   coll = db.collection(collection)
@@ -155,11 +163,10 @@ def remove_from_mongo(tenant, collection, query)
     }
     coll.remove(query)
 
-    (@mongo_changes ||= []) << entry
-
   end
   conn.close
 
+  return entry
 end
 
 Given /^I (remove|expire) all SEOA expiration dates for "([^"]*)" in tenant "([^"]*)"$/ do | function, staff, tenant|
@@ -774,6 +781,26 @@ end
 
 
 #############################################################################################
+
+############################################################################################
+#Steps for POST
+############################################################################################
+
+Given /^I create a student entity with restricted data$/ do
+  @fields = CreateEntityHash.createBaseStudentRandomId()
+  @fields["economicDisadvantaged"] = true
+  @lastStudentId = @fields['studentUniqueStateId']
+end
+
+Given /^I create a student entity without restricted data$/ do
+  @fields = CreateEntityHash.createBaseStudentRandomId()
+  @lastStudentId = @fields['studentUniqueStateId']
+end
+
+Then /^I remove the posted student$/ do
+  tenant = convertTenantIdToDbName @tenant
+  remove_from_mongo_operation(tenant, 'student', {"_id" => @lastStudentId})
+end
 
 # Build the teacher hash
 def teacherHashPush(key, value)

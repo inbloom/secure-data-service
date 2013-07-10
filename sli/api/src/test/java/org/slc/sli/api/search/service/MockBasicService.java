@@ -190,5 +190,10 @@ public class MockBasicService implements EntityService {
         return null;
     }
 
+    @Override
+    public boolean updateBasedOnContextualRoles(String id, EntityBody content) {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
 
 }
