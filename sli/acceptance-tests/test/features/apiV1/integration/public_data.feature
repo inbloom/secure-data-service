@@ -1,7 +1,8 @@
 Feature: Users can access public entities
 
-  Background: Update one calendar date to reference a school (until Odin generates Calendar Dates for schools)
+  Background: Update calendar dates to reference schools (until Odin generates Calendar Dates for schools)
     Given I update the "calendarDate" with ID "7629c5951c8af6dac204cf636d5a81acb64fc6ef_id" field "body.educationOrganizationId" to "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id"
+    Given I update the "calendarDate" with ID "6f93d0a3e53c2d9c3409646eaab94155fe079e87_id" field "body.educationOrganizationId" to "352e8570bd1116d11a72755b987902440045d346_id"
 
   Scenario Outline: User access of public entities via direct id calls
     Given I log in to realm "<REALM>" using simple-idp as "<TYPE>" "<USERNAME>" with password "<PASSWORD>"
@@ -45,7 +46,7 @@ Feature: Users can access public entities
        | date                                                  | 2012-09-18                                  |
        | educationOrganizationId                               | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
 
-    Examples:
+    Examples: User Credentials
        | REALM                                   | TYPE              | USERNAME          | PASSWORD              |
       #| Illinois Daybreak School District 4529  | aggregate viewer  | msmith            | msmith1234            |
        | Illinois Daybreak School District 4529  | leader            | mgonzales         | mgonzales1234         |
@@ -62,21 +63,21 @@ Feature: Users can access public entities
         | educationOrganizations | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
         | schools                | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
       And format "application/json"
-      When I navigate to the base level URI <Entity> I should see the rewrite in the format of <URI>:
+    When I navigate to the base level URI <Entity> I should see the rewrite in the format of <URI>:
         | Entity                       | URI                                                                            |
         | /calendarDates               | /educationOrganizations/@ids/calendarDates                                     |
-      When I navigate to the URI <URI> I should see the rewrite in the format of <Rewrite>:
+    When I navigate to the URI <URI> I should see the rewrite in the format of <Rewrite>:
         | URI                                                                                                                           | Rewrite                                                    |
         | /educationOrganizations/1b223f577827204a1c7e9c851dba06bea6b031fe_id/calendarDates/e00dc4fb9d6be8372a549dea899fe1915a598c5c_id | /calendarDates/e00dc4fb9d6be8372a549dea899fe1915a598c5c_id |
         | /schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id                | /calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id |
         | /gradingPeriods/19b56717877893f8d13bcfe6cfc256811c60c8ff_id/calendarDates/54b0182a783a58ca4cb7266773266a2040fcd799_id         | /calendarDates/54b0182a783a58ca4cb7266773266a2040fcd799_id |
 
-      Examples:
-       | REALM                                   | TYPE              | USERNAME          | PASSWORD              |
-       | Illinois Daybreak School District 4529  | aggregate viewer  | msmith            | msmith1234            |
-       | Illinois Daybreak School District 4529  | leader            | mgonzales         | mgonzales1234         |
-       | Illinois Daybreak School District 4529  | educator          | linda.kim         | linda.kim1234         |
-       | Illinois Daybreak School District 4529  | admin             | akopel            | akopel1234            |
+    Examples: User Credentials
+        | REALM                                   | TYPE              | USERNAME          | PASSWORD              |
+        | Illinois Daybreak School District 4529  | aggregate viewer  | msmith            | msmith1234            |
+        | Illinois Daybreak School District 4529  | leader            | mgonzales         | mgonzales1234         |
+        | Illinois Daybreak School District 4529  | educator          | linda.kim         | linda.kim1234         |
+        | Illinois Daybreak School District 4529  | admin             | akopel            | akopel1234            |
 
   @wip
   Scenario Outline: Verify Rewrites for entities for students and parents
@@ -85,18 +86,35 @@ Feature: Users can access public entities
         | Context                | Ids                                         |
         | educationOrganizations | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
         | schools                | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
-      And format "application/json"
-      When I navigate to the base level URI <Entity> I should see the rewrite in the format of <URI>:
+       And format "application/json"
+    When I navigate to the base level URI <Entity> I should see the rewrite in the format of <URI>:
         | Entity                       | URI                                                             |
         | /calendarDates               | /schools/@ids/calendarDates                                     |
-      When I navigate to the URI <URI> I should see the rewrite in the format of <Rewrite>:
+    When I navigate to the URI <URI> I should see the rewrite in the format of <Rewrite>:
         | URI                                                                                                                           | Rewrite                                                    |
         | /educationOrganizations/1b223f577827204a1c7e9c851dba06bea6b031fe_id/calendarDates/e00dc4fb9d6be8372a549dea899fe1915a598c5c_id | /calendarDates/e00dc4fb9d6be8372a549dea899fe1915a598c5c_id |
         | /schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id                | /calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id |
         | /gradingPeriods/19b56717877893f8d13bcfe6cfc256811c60c8ff_id/calendarDates/54b0182a783a58ca4cb7266773266a2040fcd799_id         | /calendarDates/54b0182a783a58ca4cb7266773266a2040fcd799_id |
 
-      Examples:
-       | REALM                                   | TYPE              | USERNAME          | PASSWORD              |
-       | Illinois Daybreak Parents               | parent            | marsha.sollars    | marsha.sollars1234    |
-       | Illinois Daybreak Students              | student           | student.m.sollars | student.m.sollars1234 |
+    Examples: User Credentials
+        | REALM                                   | TYPE              | USERNAME          | PASSWORD              |
+        | Illinois Daybreak Parents               | parent            | marsha.sollars    | marsha.sollars1234    |
+        | Illinois Daybreak Students              | student           | student.m.sollars | student.m.sollars1234 |
+
+  @wip
+  Scenario Outline: Verify base endpoint only contains calendarDates for the directly associated edOrgs
+    Given I log in to realm "<REALM>" using simple-idp as "<TYPE>" "<USERNAME>" with password "<PASSWORD>"
+     And format "application/json"
+    When I navigate to GET "/v1/calendarDates"
+    Then I should receive a return code of 200
+     And I should receive a collection with <COUNT> elements
+
+    Examples: User Credentials and Expected Counts
+       | REALM                                   | TYPE              | USERNAME          | PASSWORD              | COUNT | Notes- Direct edOrg Association             |
+       | Illinois Daybreak School District 4529  | aggregate viewer  | msmith            | msmith1234            | 1     | 352e8570bd1116d11a72755b987902440045d346_id |
+       | Illinois Daybreak School District 4529  | leader            | mgonzales         | mgonzales1234         | 1     | 352e8570bd1116d11a72755b987902440045d346_id |
+       | Illinois Daybreak School District 4529  | educator          | linda.kim         | linda.kim1234         | 1     | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
+       | Illinois Daybreak School District 4529  | admin             | akopel            | akopel1234            | 1     | 352e8570bd1116d11a72755b987902440045d346_id |
+       | Illinois Daybreak Parents               | parent            | marsha.sollars    | marsha.sollars1234    | 1     | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
+       | Illinois Daybreak Students              | student           | student.m.sollars | student.m.sollars1234 | 1     | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
 
