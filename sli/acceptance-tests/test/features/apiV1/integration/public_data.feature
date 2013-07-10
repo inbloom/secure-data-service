@@ -166,3 +166,51 @@ Feature: Users can access public entities
      And I navigate to GET "/v1/calendarDates/611ce67cc258ae2d06bc3199ee678df0fb6cecab_id"
     Then I should receive a return code of 404
 
+  Scenario Outline: Public Entities Write Commands as non IT Admins (users without WRITE PUBLIC)
+     Given I log in to realm "<REALM>" using simple-idp as "<TYPE>" "<USERNAME>" with password "<PASSWORD>"
+      And format "application/json"
+      And I am using api version "v1"
+     When I POST and validate the following entities:
+        | entityName      | entityType   | returnCode |
+        | newCalendarDate | calendarDate | 403        |
+      And I navigate to GET "/v1/calendarDates/611ce67cc258ae2d06bc3199ee678df0fb6cecab_id"
+     Then I should receive a return code of 404
+     #When I PATCH and validate the following entities:
+        #|  fieldName     |  entityType   | value   |  returnCode  | endpoint                                                  |
+        #|  calendarEvent |  calendarDate | Holiday |  403         | calendarDates/6f93d0a3e53c2d9c3409646eaab94155fe079e87_id |
+     Then I verify the following response body fields in "/calendarDates/6f93d0a3e53c2d9c3409646eaab94155fe079e87_id":
+        | field                   | value                                       |
+        | id                      | 6f93d0a3e53c2d9c3409646eaab94155fe079e87_id |
+        | entityType              | calendarDate                                |
+        | calendarEvent           | Instructional day                           |
+        | date                    | 2014-01-21                                  |
+        | educationOrganizationId | 352e8570bd1116d11a72755b987902440045d346_id |
+     #When I PUT and validate the following entities:
+        #|  field         | entityName      |  value            | returnCode | endpoint                                                  |
+        #|  calendarEvent | newCalendarDate | Holiday           | 403        | calendarDates/6f93d0a3e53c2d9c3409646eaab94155fe079e87_id |
+     Then I verify the following response body fields in "/calendarDates/6f93d0a3e53c2d9c3409646eaab94155fe079e87_id":
+        | field                   | value                                       |
+        | id                      | 6f93d0a3e53c2d9c3409646eaab94155fe079e87_id |
+        | entityType              | calendarDate                                |
+        | calendarEvent           | Instructional day                           |
+        | date                    | 2014-01-21                                  |
+        | educationOrganizationId | 352e8570bd1116d11a72755b987902440045d346_id |
+     #When I DELETE and validate the following entities:
+        #| entity       | id                                           | returnCode |
+        #| calendarDate | 6f93d0a3e53c2d9c3409646eaab94155fe079e87_id  | 403        |
+     Then I verify the following response body fields in "/calendarDates/6f93d0a3e53c2d9c3409646eaab94155fe079e87_id":
+        | field                   | value                                       |
+        | id                      | 6f93d0a3e53c2d9c3409646eaab94155fe079e87_id |
+        | entityType              | calendarDate                                |
+        | calendarEvent           | Instructional day                           |
+        | date                    | 2014-01-21                                  |
+        | educationOrganizationId | 352e8570bd1116d11a72755b987902440045d346_id |
+
+     Examples: User Credentials
+         | REALM                                   | TYPE              | USERNAME          | PASSWORD              |
+        #| Illinois Daybreak School District 4529  | aggregate viewer  | msmith            | msmith1234            |
+         | Illinois Daybreak School District 4529  | leader            | mgonzales         | mgonzales1234         |
+         | Illinois Daybreak School District 4529  | educator          | linda.kim         | linda.kim1234         |
+        #| Illinois Daybreak Parents               | parent            | marsha.sollars    | marsha.sollars1234    |
+        #| Illinois Daybreak Students              | student           | student.m.sollars | student.m.sollars1234 |
+
