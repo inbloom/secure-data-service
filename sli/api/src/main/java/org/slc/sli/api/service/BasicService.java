@@ -312,12 +312,75 @@ public class BasicService implements EntityService, AccessibilityCheck {
     }
 
     @Override
+    public boolean updateBasedOnContextualRoles(String id, EntityBody content) {
+        debug("Updating {} in {} with {}", id, collectionName, SecurityUtil.getSLIPrincipal());
+
+        NeutralQuery query = new NeutralQuery();
+        query.addCriteria(new NeutralCriteria("_id", "=", id));
+        Entity entity = getRepo().findOne(collectionName, query);
+        // Entity entity = repo.findById(collectionName, id);
+        if (entity == null) {
+            info("Could not find {}", id);
+            throw new EntityNotFoundException(id);
+        }
+        Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(false, entity);
+        rightAccessValidator.checkAccess(false, content, defn.getType(), auths);
+
+        sanitizeEntityBody(content);
+
+        boolean success = false;
+        if (entity.getBody().equals(content)) {
+            info("No change detected to {}", id);
+            return false;
+        }
+
+        checkReferences(id, content);
+
+        info("new body is {}", content);
+        entity.getBody().clear();
+        entity.getBody().putAll(content);
+
+        success = repo.update(collectionName, entity, FullSuperDoc.isFullSuperdoc(entity));
+        return success;
+    }
+
+    @Override
     public boolean patch(String id, EntityBody content) {
         debug("Patching {} in {}", id, collectionName);
         checkAccess(false, id, content);
 
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("_id", "=", id));
+
+        if (repo.findOne(collectionName, query) == null) {
+            info("Could not find {}", id);
+            throw new EntityNotFoundException(id);
+        }
+
+        sanitizeEntityBody(content);
+
+        info("patch value(s): ", content);
+
+        // don't check references until things are combined
+        checkReferences(id, content);
+
+        repo.patch(defn.getType(), collectionName, id, content);
+
+        return true;
+    }
+
+    @Override
+    public boolean patchBasedOnContextualRoles(String id, EntityBody content) {
+        debug("Patching {} in {}", id, collectionName);
+
+        NeutralQuery query = new NeutralQuery();
+        query.addCriteria(new NeutralCriteria("_id", "=", id));
+
+        Entity entity = new MongoEntity(defn.getType(), null, content, createMetadata());
+
+        boolean isSelf = isSelf(query);
+        Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf, entity);
+        rightAccessValidator.checkAccess(true, isSelf, entity, defn.getType(), auths);
 
         if (repo.findOne(collectionName, query) == null) {
             info("Could not find {}", id);
@@ -629,6 +692,26 @@ public class BasicService implements EntityService, AccessibilityCheck {
             } else {
                 // At the time of this comment, students can only write to student, studentAssessment, studentGradebookEntry, or grade
                 throw new IllegalArgumentException("Students cannot write entities of type " + entityType);
+            }
+
+            // If you get this far, its all good
+            return;
+        } else if (SecurityUtil.isParent()) {
+            String entityType = defn.getType();
+
+            if (entityType.equals(EntityNames.PARENT)) {
+                // Validate id is yourself
+                if (!SecurityUtil.getSLIPrincipal().getEntity().getEntityId().equals(entityId)) {
+                    throw new AccessDeniedException("Cannot update parent not yourself");
+                }
+            } else if (entityType.equals(EntityNames.STUDENT)) {
+                Set<String> ownStudents = SecurityUtil.getSLIPrincipal().getOwnedStudentIds();
+                if (!ownStudents.contains(entityId)) {
+                    throw new AccessDeniedException("Cannot update student that are not your own");
+                }
+            } else {
+                // At the time of this comment, parents can only write to student and parent
+                throw new IllegalArgumentException("Parents cannot write entities of type " + entityType);
             }
 
             // If you get this far, its all good

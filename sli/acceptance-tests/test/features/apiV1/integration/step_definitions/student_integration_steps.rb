@@ -765,6 +765,41 @@ Then(/^I PATCH entities and check return code$/) do |table|
   assert(success, "Response code was unexpected, see logs above.")
 end
 
+Given /^I get the rights for the "(.*?)" role in realm "(.*?)"$/ do |role, realm|
+  @conn             = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
+  @db               = @conn['02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a']
+  @roles_collection = @db.collection('customRole')
+  puts "DEBUG: roles_collection is: #{@roles_collection}"
+ #45b02cb0-1bad-4606-a936-094331bd47fe
+  count = 0
+  @roles_collection.find({'body.realmId' => realm}).each do |row|
+    puts "DEBUG: row is: #{row.inspect}"
+    row['body']['roles'].each do |group|
+      puts "DEBUG: group is: #{group.inspect}"
+      if group['groupTitle'] == role
+        count += 1
+        @previous_rights = group['rights']
+      end
+    end
+  end
+  assert(count == 1, "Did not find expected number of role documents. Expected 1, found #{count}.")
+end
+
+Given /^I change the "(.*?)" role for realm "(.*?)" to permit the following rights:$/ do |role, realm, table|
+  id = "02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a"
+  rights = []
+  table.hashes.map do |row|
+    rights << row["right"]
+  end
+  ret = @roles_collection.update({'body.realmId' => realm, 'body.roles.groupTitle' => role}, {'$set' => {'body.roles.$.rights' => rights}}, {:multi=>true})
+  assert(ret['ok'] == 1.0 && ret['err'] == nil && ret['n'] == 1, "Mongo returned an error, nothing unusual or interesting to see here.\n#{ret}")
+end
+
+Then /^I change the "(.*?)" role for realm "(.*?)" back to its original rights$/ do |role, realm|
+  ret = @roles_collection.update({'body.realmId' => realm, 'body.roles.groupTitle' => role}, {'$set' => {'body.roles.$.rights' => @previous_rights}}, {:multi=>true})
+  assert(ret['ok'] == 1.0 && ret['err'] == nil && ret['n'] == 1, "Mongo returned an error, nothing unusual or interesting to see here.\n#{ret}")
+end
+
 After('@student_expired_access, @parent_expired_access') do |scenario|
   step "I log in to realm \"Illinois Daybreak School District 4529\" using simple-idp as \"IT Administrator\" \"jstevenson\" with password \"jstevenson1234\""
   #step "I am logged in using \"jstevenson\" \"jstevenson1234\" to realm \"IL\""
@@ -796,4 +831,19 @@ After('@clean_up_student_posts') do |scenario|
   #  | studentGradebookEntry | 7f714f03238d978398fbd4f8abbf9acb3e5775fe_id | 204         |
   #  | grade                 | f438cf61eda4d45d77f3d7624fc8d089aa95e5ea_id4542ee7a376b1c7813dcdc495368c875bc6b03ed_id | 204 |
   #})
+end
+
+After('@clean_up_parent_posts') do |scenario|
+  step "I log in to realm \"Illinois Daybreak School District 4529\" using simple-idp as \"IT Administrator\" \"jstevenson\" with password \"jstevenson1234\""
+  #step "I am logged in using \"jstevenson\" \"jstevenson1234\" to realm \"IL\""
+  step "format \"application/json\""
+  step "I am using api version \"v1\""
+  restHttpDelete("/v1/parents/1fe86fe9c45680234f1caa3b494a1c4b42838954_id")
+  print "parents delete result: #{@res.code}\n"
+  #restHttpDelete("/v1/studentParentAssociations/fdd8ee3ee44133f489e47d2cae109e886b041382_idec053d2e0752799cb0217578d003a1fe8f06b9a0_id")
+  #print "studentParentAssociations delete result: #{@res.code}\n"
+  #restHttpDelete("/v1/studentParentAssociations/fdd8ee3ee44133f489e47d2cae109e886b041382_idec053d2e0752799cb0217578d003a1fe8f06b9a0_id")
+  #print "studentParentAssociations delete result: #{@res.code}\n"
+  #restHttpDelete("/v1/studentParentAssociations/fdd8ee3ee44133f489e47d2cae109e886b041382_idec053d2e0752799cb0217578d003a1fe8f06b9a0_id")
+  #print "studentParentAssociations delete result: #{@res.code}\n"
 end
