@@ -24,7 +24,8 @@ And I check to find if record is in sli db collection:
      | collectionName      | expectedRecordCount | searchParameter       | searchValue  |
      | securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK  |
      | securityEvent       | 1                   | body.targetEdOrg      | IL-DAYBREAK  |   
-     | securityEvent       | 1                   | body.targetEdOrgList  | IL-DAYBREAK  |
+    # us5758 revisit this - value for targetEdOrg likely needs updating
+#     | securityEvent       | 1                   | body.targetEdOrgList  | IL-DAYBREAK  |
      
 #hitting denied URL
 When I access "/simon"
