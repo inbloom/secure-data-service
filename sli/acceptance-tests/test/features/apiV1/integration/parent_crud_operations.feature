@@ -207,7 +207,10 @@ Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent"
     | cgray.studentParentAssociation.myClass  | studentParentAssociation | 403        |
     | cgray.studentParentAssociation.notMyKid | studentParentAssociation | 403        |
     | cgray.studentParentAssociation.mySchool | studentParentAssociation | 403        |
-    | cgray.studentParentAssociation.newLea   | studentParentAssociation | 403        |  
+    | cgray.studentParentAssociation.newLea   | studentParentAssociation | 403        |
+    | cgray.studentAssessment                 | studentAssessment        | 403        |
+    | cgray.studentGradebookEntry             | studentGradebookEntry    | 403        |
+    | cgray.grade                             | grade                    | 403        |
 
   When I PATCH and validate the following entities:
     | fieldName                 | entityType               | value   | returnCode | endpoint                                             |
