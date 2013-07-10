@@ -33,7 +33,7 @@ import org.slc.sli.domain.Entity;
  *
  */
 @Component
-public class StudentToTeacherSchoolValidator extends StudentToStaffAssociation {
+public class StudentToTeacherSchoolValidator extends StudentToStaffAssociationAbstractValidator {
 
     public StudentToTeacherSchoolValidator() {
         super(EntityNames.TEACHER_SCHOOL_ASSOCIATION, "schoolId");

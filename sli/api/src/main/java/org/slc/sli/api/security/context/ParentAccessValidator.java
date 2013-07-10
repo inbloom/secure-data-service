@@ -16,62 +16,74 @@
 package org.slc.sli.api.security.context;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
-import java.util.regex.Pattern;
+import java.util.Set;
 
-import com.sun.jersey.spi.container.ContainerRequest;
+import javax.ws.rs.core.MultivaluedMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.resources.generic.util.ResourceMethod;
 
 @Component
-public class ParentAccessValidator {
-    
-    private static final List<String> WRITE_OPERATIONS = Arrays.asList(ResourceMethod.PUT.toString(),
-            ResourceMethod.PATCH.toString(), ResourceMethod.DELETE.toString(), ResourceMethod.POST.toString());
+public class ParentAccessValidator extends AccessValidator {
 
     @Autowired
     private StudentAccessValidator studentAccessValidator;
 
     /*
-     * only difference between student and parent
+     * only difference between student and parent for GET requests
      * allow:
      * /parents/{id}/studentParentAssociations
      * /parents/{id}/studentParentAssociations/students
-     * 
-     * deny:
-     * /students/{id}/studentParentAssociations
-     * /students/{id}/studentParentAssociations/parents
      */
-    final Pattern parentToAssociations = Pattern.compile("^v.*/parents/[0-9a-f]{40}_id/studentParentAssociations$");
-    final Pattern parentToAssociationsStudents = Pattern.compile("^v.*/parents/[0-9a-f]{40}_id/studentParentAssociations/students$");
-    final Pattern studentToAssociations = Pattern.compile("^v.*/students/[0-9a-f]{40}_id/studentParentAssociations$");
-    final Pattern studentToAssociationsStudents = Pattern.compile("^v.*/students/[0-9a-f]{40}_id/studentParentAssociations/students$");
-    
+    private static final Set<List<String>> ALLOWED_DELTA_FOR_PARENT;
+
+    static {
+        Set<List<String>> allowed_delta = new HashSet<List<String>>();
+        allowed_delta.add(Arrays.asList(ResourceNames.STUDENT_PARENT_ASSOCIATIONS));
+        allowed_delta.add(Arrays.asList(ResourceNames.STUDENT_PARENT_ASSOCIATIONS, ResourceNames.STUDENTS));
+        ALLOWED_DELTA_FOR_PARENT = Collections.unmodifiableSet(allowed_delta);
+    }
+
     /**
      * check if a path can be accessed according to stored business rules
      * 
-     * @param ContainerRequest
-     *            request
+     * @param
+     *        List<String> paths url segments in string without version
+     * @param
+     *        MultivaluedMap<String, String> query Paramaters
+     * 
      * @return true if accessible by parent
      */
-    public boolean isAllowed(ContainerRequest request) {
-        if (WRITE_OPERATIONS.contains(request.getMethod())) {
-            return false;
+    @Override
+    protected boolean isReadAllowed(List<String> path, MultivaluedMap<String, String> queryParameters) {
+        List<String> subPath = null;
+        if (path.size() == 3) {
+            subPath = Arrays.asList(path.get(2));
+        } else if (path.size() == 4) {
+            subPath = Arrays.asList(path.get(2), path.get(3));
         }
         
-        String url = request.getPath().trim();
-        if (parentToAssociations.matcher(url).matches() || parentToAssociationsStudents.matcher(url).matches()) {
+        if (subPath != null && path.get(0).equals(ResourceNames.PARENTS) && ALLOWED_DELTA_FOR_PARENT.contains(subPath)) {
             return true;
         }
         
-        if (studentToAssociations.matcher(url).matches() || studentToAssociationsStudents.matcher(url).matches()) {
-            return false;
+        return studentAccessValidator.isReadAllowed(path, queryParameters);
+    }
+    
+    @Override
+    protected boolean isWriteAllowed(List<String> path, String method) {
+        if (ResourceMethod.DELETE.toString().equals(method) || ResourceMethod.POST.toString().equals(method)) {
+            return false; 
         }
-        
-        return studentAccessValidator.isAllowed(request);
+       
+        String baseEntity = path.get(0);
+        return path.size() <= 2 && (ResourceNames.STUDENTS.equals(baseEntity) || ResourceNames.PARENTS.equals(baseEntity));
     }
     
 }

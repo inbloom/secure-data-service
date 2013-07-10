@@ -16,6 +16,10 @@
 
 package org.slc.sli.api.resources.generic.util;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Created with IntelliJ IDEA.
  * User: srupasinghe
@@ -29,7 +33,10 @@ public enum ResourceMethod {
     PUT("PUT"),
     DELETE("DELETE"),
     PATCH("PATCH");
-
+  
+    private final static Set<String> WRITE_OPERATIONS = new HashSet<String>(Arrays.asList(PUT.toString(),
+            PATCH.toString(), DELETE.toString(), POST.toString()));
+    
     private final String method;
 
     private ResourceMethod(final String method) {
@@ -38,5 +45,9 @@ public enum ResourceMethod {
 
     public String getMethod() {
         return method;
+    }
+    
+    public final static Set<String> getWriteOps() {
+        return WRITE_OPERATIONS; 
     }
 }

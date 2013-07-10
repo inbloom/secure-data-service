@@ -26,6 +26,7 @@ import java.util.HashSet;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.common.constants.EntityNames;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -59,6 +60,7 @@ public class StudentToStudentValidatorTest {
     public void setUp() throws Exception {
         Entity e = mock(Entity.class);
         when(e.getEntityId()).thenReturn("riverTam");
+        when(e.getType()).thenReturn(EntityNames.STUDENT);
         injector.setStudentContext(e);
     }
 

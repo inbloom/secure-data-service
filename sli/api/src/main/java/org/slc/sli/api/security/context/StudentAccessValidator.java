@@ -24,15 +24,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.ws.rs.core.PathSegment;
-
-import com.sun.jersey.spi.container.ContainerRequest;
+import javax.ws.rs.core.MultivaluedMap;
 
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.ResourceNames;
-import org.slc.sli.api.resources.generic.util.ResourceMethod;
-import org.slc.sli.common.constants.EntityNames;
 
 /**
  * This class encapsulates access rules (URL wise)
@@ -41,10 +37,8 @@ import org.slc.sli.common.constants.EntityNames;
  * @author ycao
  */
 @Component
-public class StudentAccessValidator {
+public class StudentAccessValidator extends AccessValidator {
     
-    private static final List<String> WRITE_OPERATIONS = Arrays.asList(ResourceMethod.PUT.toString(),
-            ResourceMethod.PATCH.toString(), ResourceMethod.DELETE.toString(), ResourceMethod.POST.toString());
 
     /**
      * this validator can only validates url in the format of /{entityType}/{id}/{subEntityType}
@@ -64,18 +58,6 @@ public class StudentAccessValidator {
      * writes are allowed for those entities
      */
     private static final Set<String> WRITES_ALLOWED;
-
-    /**
-     * discipline related entities
-     */
-    private static final Set<String> DISCIPLINE_RELATED = new HashSet<String>(
-            Arrays.asList(EntityNames.DISCIPLINE_ACTION,
-                    EntityNames.DISCIPLINE_INCIDENT,
-                    EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION,
-                    ResourceNames.DISCIPLINE_ACTIONS,
-                    ResourceNames.DISCIPLINE_INCIDENTS,
-                    ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS
-            ));
 
     static {
         // THREE PARTS
@@ -330,47 +312,21 @@ public class StudentAccessValidator {
 
     /**
      * check if a path can be accessed according to stored business rules
-     *
-     * @param ContainerRequest request
+     * 
+     * @param
+     *        List<String> paths url segments in string without version
+     * @param
+     *        MultivaluedMap<String, String> query Paramaters
+     * 
      * @return true if accessible by student
      */
-    public boolean isAllowed(ContainerRequest request) {
-        if (request == null || request.getPathSegments() == null) {
-            return false;
-        }
-        List<PathSegment> segs = request.getPathSegments();
-        List<String> paths = new ArrayList<String>();
-
-        // first one is version, system calls (un-versioned) have been handled elsewhere
-        for (int i = 1; i < segs.size(); ++i) {
-            if (segs.get(i) != null) {
-                String path = segs.get(i).getPath();
-                if (path != null && !path.isEmpty()) {
-                    paths.add(segs.get(i).getPath());
-                }
-            }
-        }
-
-        if (paths.isEmpty()) {
-            return false;
-        }
-
-        if (isDisiplineRelated(paths)) {
-            return false;
-        }
-        
-        if (isWrite(request.getMethod())) {
-            if (isWriteAllowed(paths)) {
-                return true;
-            }
-            return false;
-        } 
+    protected boolean isReadAllowed(List<String> paths, MultivaluedMap<String, String> queryParams) {
 
         String baseEntity = paths.get(0);
 
         switch (paths.size()) {
             case 1:
-                return baseEntity.equals("home") || (!request.getQueryParameters().isEmpty());
+                return baseEntity.equals("home") || !queryParams.isEmpty();
             case 2:
                 return true;
             case 3:
@@ -389,23 +345,9 @@ public class StudentAccessValidator {
         }
     }
 
-    private boolean isWrite(String method) {
-        return WRITE_OPERATIONS.contains(method);
-    }
-
-    private boolean isWriteAllowed(List<String> paths) {
+    protected boolean isWriteAllowed(List<String> paths, String method) {
         String baseEntity = paths.get(0);
-        return WRITES_ALLOWED.contains(baseEntity);
-    }
-
-    private boolean isDisiplineRelated(List<String> paths) {
-        for (String s : paths) {
-            if (DISCIPLINE_RELATED.contains(s)) {
-                return true;
-            }
-        }
-
-        return false;
+        return paths.size() <= 2 && WRITES_ALLOWED.contains(baseEntity);
     }
 
     // this default scope method is used to generate a list of whitelisted url for easy validation

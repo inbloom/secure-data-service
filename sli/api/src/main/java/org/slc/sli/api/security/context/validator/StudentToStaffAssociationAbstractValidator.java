@@ -26,6 +26,7 @@ import java.util.Set;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.util.datetime.DateHelper;
 import org.slc.sli.domain.Entity;
@@ -34,33 +35,33 @@ import org.slc.sli.domain.Entity;
  * Abstract validator to student to staff xxx associations
  *
  * @author nbrown
- *
  */
-public abstract class StudentToStaffAssociation extends BasicValidator {
+public abstract class StudentToStaffAssociationAbstractValidator extends BasicValidator {
 
     private final String associationIdField = "_id";
-
     private final String collection;
-
     private final String associationField;
 
-    public StudentToStaffAssociation(String type, String associationField) {
+    public StudentToStaffAssociationAbstractValidator(String type, String associationField) {
         super(Arrays.asList(EntityNames.STUDENT, EntityNames.PARENT), type);
         this.collection = type;
         this.associationField = associationField;
     }
 
     @Override
-    protected boolean doValidate(Set<String> ids, Entity me, String entityType) {
-        Set<String> studentAssociations = getStudentAssociationIds(me);
-        Iterator<Entity> results = getMatchingAssociations(ids, studentAssociations);
+    protected boolean doValidate(Set<String> ids, String entityType) {
         Set<String> unvalidated = new HashSet<String>(ids);
-        while (results.hasNext()) {
-            Entity e = results.next();
-            if (isExpired(e)) {
-                return false;
+
+        for (Entity me : SecurityUtil.getSLIPrincipal().getOwnedStudentEntities()) {
+            Set<String> studentAssociations = getStudentAssociationIds(me);
+            Iterator<Entity> results = getMatchingAssociations(ids, studentAssociations);
+            while (results.hasNext()) {
+                Entity e = results.next();
+                if (isExpired(e)) {
+                    return false;
+                }
+                unvalidated.remove(e.getEntityId());
             }
-            unvalidated.remove(e.getEntityId());
         }
         return unvalidated.isEmpty();
     }
@@ -79,6 +80,11 @@ public abstract class StudentToStaffAssociation extends BasicValidator {
 
     protected Set<String> getStudentAssociationsFromSubDoc(Entity me, String subDocType, String associationKey) {
         List<Entity> associations = me.getEmbeddedData().get(subDocType);
+
+        if (null == associations) {
+            return new HashSet<String>();
+        }
+
         Set<String> myCohorts = new HashSet<String>();
         for (Entity assoc : associations) {
             if (!isExpired(assoc)) {
@@ -89,7 +95,12 @@ public abstract class StudentToStaffAssociation extends BasicValidator {
     }
 
     protected Set<String> getStudentAssociationsFromDenorm(Entity me, String denormType) {
-        List<Map<String,Object>> associations = me.getDenormalizedData().get(denormType);
+        List<Map<String, Object>> associations = me.getDenormalizedData().get(denormType);
+
+        if (null == associations) {
+            return new HashSet<String>();
+        }
+
         Set<String> myCohorts = new HashSet<String>();
         for (Map<String, Object> assoc : associations) {
             if (!getDateHelper().isFieldExpired(assoc)) {

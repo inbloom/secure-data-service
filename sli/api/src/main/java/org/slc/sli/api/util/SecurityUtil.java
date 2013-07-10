@@ -16,9 +16,7 @@
 
 package org.slc.sli.api.util;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.*;
 
 import javax.ws.rs.core.Response;
 
@@ -110,6 +108,10 @@ public class SecurityUtil {
     public static String principalId() {
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return principal.getEntity().getEntityId();
+    }
+
+    public static boolean isStudentOrParent() {
+        return isStudent() || isParent();
     }
 
     /**
@@ -226,6 +228,11 @@ public class SecurityUtil {
     public static boolean isStudent() {
         SLIPrincipal principal = getSLIPrincipal();
         return principal != null && EntityNames.STUDENT.equals(principal.getEntity().getType());
+    }
+
+    public static boolean isParent() {
+        SLIPrincipal principal = getSLIPrincipal();
+        return principal != null && EntityNames.PARENT.equals(principal.getEntity().getType());
     }
 
     public static boolean isStaffUser() {

@@ -55,11 +55,13 @@ public class EntityRightsFilter {
      *            EntityDefinition needed to create the entity
      * @return the result entity body
      */
-    public EntityBody makeEntityBody(Entity entity, List<Treatment> treamts, EntityDefinition defn, boolean isSelf) {
-
-        Collection<GrantedAuthority> nonSelfAuths = rightAccessValidator.getContextualAuthorities(false, entity);
-        Collection<GrantedAuthority> selfAuths = rightAccessValidator.getContextualAuthorities(isSelf, entity);
-
+    public EntityBody makeEntityBody(Entity entity, List<Treatment> treamts, EntityDefinition defn, boolean isSelf, Collection<GrantedAuthority> nonSelfAuths) {
+        Collection<GrantedAuthority> selfAuths;
+        if(isSelf) {
+            selfAuths = rightAccessValidator.getContextualAuthorities(isSelf, entity);
+        } else {
+            selfAuths = nonSelfAuths;
+        }
         return makeEntityBody(entity, treamts, defn, nonSelfAuths, selfAuths);
     }
 

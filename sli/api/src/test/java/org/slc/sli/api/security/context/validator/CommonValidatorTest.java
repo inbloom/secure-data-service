@@ -129,7 +129,13 @@ public class CommonValidatorTest {
     public void verifyNumberOfStudentValidatorsForEachEntity() throws Exception {
         MongoEntity student = new MongoEntity("student", new HashMap<String, Object>());
         injector.setCustomContext("Studentious","Stendarious","Myrran",Arrays.asList(SecureRoleRightAccessImpl.STUDENT),student,"High Elves");
-        System.out.println("================ students =================");
+        validateValidators();
+    }
+    
+    @Test
+    public void verifyNumberOfParentValidatorsForEachEntity() throws Exception {
+        MongoEntity parent = new MongoEntity("parent", new HashMap<String, Object>());
+        injector.setCustomContext("Parentious", "Stendarious' Dad", "Myrran", Arrays.asList(SecureRoleRightAccessImpl.PARENT), parent, "High Elves's Dad");
         validateValidators();
     }
 
@@ -303,7 +309,6 @@ public class CommonValidatorTest {
                 int numValidators = 0;
                 for (IContextValidator validator : validators) {
                     if (validator.canValidate(entity, isTransitive)) {
-                        System.out.println(String.format("validating: %s using %s", entity, validator.getClass().getName()));
                         numValidators++;
                     }
                 }
@@ -318,6 +323,7 @@ public class CommonValidatorTest {
         if (messages.size() > 0) {
             StringBuilder builder = new StringBuilder();
             for (String message : messages) {
+                System.out.print(message);
                 builder.append(message);
             }
             Assert.fail(builder.toString());

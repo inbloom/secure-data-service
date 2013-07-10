@@ -16,14 +16,14 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.domain.Entity;
+import org.springframework.stereotype.Component;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
-
-import org.springframework.stereotype.Component;
-
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.domain.Entity;
 
 /**
  * User: dkornishev
@@ -36,17 +36,18 @@ public class TransitiveStudentToParentValidator extends BasicValidator {
     }
 
     @Override
-    protected boolean doValidate(Set<String> ids, Entity e, String entityType) {
+    protected boolean doValidate(Set<String> ids, String entityType) {
 
-        List<Entity> spas = e.getEmbeddedData().get("studentParentAssociation");
+        for (Entity me : SecurityUtil.getSLIPrincipal().getOwnedStudentEntities()) {
+            List<Entity> spas = me.getEmbeddedData().get("studentParentAssociation");
 
-        if (spas != null) {
-            for (Entity spa : spas) {
-                String parentId = (String) spa.getBody().get("parentId");
-                ids.remove(parentId);
+            if (spas != null) {
+                for (Entity spa : spas) {
+                    String parentId = (String) spa.getBody().get("parentId");
+                    ids.remove(parentId);
+                }
             }
         }
-
         return ids.isEmpty();
     }
 

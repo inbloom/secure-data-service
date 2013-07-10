@@ -1,12 +1,11 @@
 @RALLY_US5470
-@wip
 Feature: As a parent I want to use apps that access my associated Staff, Teachers, and Students via the inBloom API
 
 Background: None
 
 @parent_staff_endpoints
 Scenario: Parent has access to directly associated teachers, staff, and student entities via API
-Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
+  Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "marsha.sollars" with password "marsha.sollars1234"
   And format "application/json"
   And I am using api version "v1"
  When I validate I have access to entities via the API access pattern "/v1/Entity/Id":
@@ -43,7 +42,7 @@ Given I log in to realm "Illinois Daybreak Students" using simple-idp as "studen
 
 @parent_cohort_endpoints
 Scenario: Parent has access to non-transitive associations through cohorts, programs, sections, schools
-Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
+  Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "marsha.sollars" with password "marsha.sollars1234"
   And format "application/json"
   And I am using api version "v1" 
   # Cohorts
@@ -182,9 +181,8 @@ Given I log in to realm "Illinois Daybreak Students" using simple-idp as "studen
     | 58d1e760fcdc1612b900ecb8359a6d8b3e49a5ee_id |
     | 6757c28005c30748f3bbda02882bf59bc81e0d71_id |
 
-@parent_staff_denied @parent_expired_access
+@parent_staff_denied @parent_expired_access 
 Scenario: Verify parent access/deny through associations and expired entities
-  #Given I log in to realm "Illinois Daybreak Students" using simple-idp as "studentLeader" "leader.m.sollars" with password "leader.m.sollars1234"
   Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "jstevenson" with password "jstevenson1234"
     And format "application/json"
     And I am using api version "v1"
@@ -204,7 +202,7 @@ Scenario: Verify parent access/deny through associations and expired entities
       | expiredStudentProgramAssociation   | studentProgramAssociation             | 201        |
       | expiredStudentCohortAssociation    | studentCohortAssociation              | 201        |
 
-Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
+  Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "marsha.sollars" with password "marsha.sollars1234"
   And format "application/json"
   And I am using api version "v1"   
   When I validate that I am denied access to restricted endpoints via API:
@@ -261,7 +259,7 @@ Given I log in to realm "Illinois Daybreak Students" using simple-idp as "studen
    #| Expired SSA ID should not be returned: 
 
   # Log in as Carmen Ortiz because she actually has expired associations to a cohort
-  Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "carmen.ortiz" with password "carmen.ortiz1234"
+  Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "ignatio.ortiz" with password "ignatio.ortiz1234"
   When I validate that I am denied access to restricted endpoints via API:
     | uri                                                                                        | rc  |
    #| Associations through expired cohorts should return                                         | 403 |

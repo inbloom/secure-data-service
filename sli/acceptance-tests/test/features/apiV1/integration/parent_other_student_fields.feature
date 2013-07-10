@@ -1,15 +1,15 @@
-@parent_students @wip
+@parent_students
 Feature: Parent accessing fellow students
   As a student I want to access students in my current sections, programs, cohorts to lookup their names
 
 Scenario: Accessing Students via Multi-part URIs
-  Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "cegray" with password "cegray1234"
+  Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "cee.gray" with password "cee.gray1234"
   And format "application/json"
   And I am using api version "v1"
   When I navigate to GET "/v1/sections/88bb1ad61323121c4939db296f4d444094ad5563_id/studentSectionAssociations/students"
   Then I should be able to see <Fields> for the entity with ID <ID>:
     | ID                                          | Fields     |
-    | 92164cd19ebdbe17cfdcd0e1d177877cdc9a40ef_id | AllStudent |
+    | 92164cd19ebdbe17cfdcd0e1d177877cdc9a40ef_id | Everything |
     | 7b7fc7335ca0c8d8423d81740d1f1c0b9c7a3934_id | NameOnly   |
     | 18ebe03219dff01738c82645635997dbcb05205a_id | NameOnly   |
     | f24dad74523e919dcf96759b4f382df490bc9699_id | NameOnly   |
@@ -48,7 +48,7 @@ Scenario: Accessing Students via Multi-part URIs
     | f9b49abe229f73946b2ef9f5cc708cf440761de2_id | NameOnly   |
     | 45dcc24a13157514bb2cb7e43356813146b258b8_id | NameOnly   |
     | aea1153839c7923a4d70ca9f5859dbc0895d629f_id | NameOnly   |
-    | 92164cd19ebdbe17cfdcd0e1d177877cdc9a40ef_id | AllStudent |
+    | 92164cd19ebdbe17cfdcd0e1d177877cdc9a40ef_id | Everything |
     | d2049def48bd80279dd3d774e776c1ad466497d1_id | NameOnly   |
     | 820642b49c9ca236d49c0384b98e9e6549047c34_id | NameOnly   |
     | 6d535e95cd376a40fa6348807b47867e37a4b0bd_id | NameOnly   |
@@ -98,7 +98,7 @@ Scenario: Accessing Students via Multi-part URIs
     | 153e8258f62c711861d4bbc51653ee5fcea8e8ac_id | NameOnly   |
     | aea1153839c7923a4d70ca9f5859dbc0895d629f_id | NameOnly   |
     | 18fff957f4618b2a492b4393153e8ef43858153f_id | NameOnly   |
-    | 92164cd19ebdbe17cfdcd0e1d177877cdc9a40ef_id | AllStudent |
+    | 92164cd19ebdbe17cfdcd0e1d177877cdc9a40ef_id | Everything |
     | 080556ee7c69149d6143f309a758eec019ddfe11_id | NameOnly   |
     | 7b7fc7335ca0c8d8423d81740d1f1c0b9c7a3934_id | NameOnly   |
     | 18ebe03219dff01738c82645635997dbcb05205a_id | NameOnly   |
@@ -125,7 +125,7 @@ Scenario: Accessing Students via Multi-part URIs
 
 
 Scenario: Accessing other students directly
-  Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "cegray" with password "cegray1234"
+  Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "cee.gray" with password "cee.gray1234"
   And format "application/json"
   And I am using api version "v1"
   # Get student in current Section
@@ -276,7 +276,7 @@ Scenario: Accessing other students directly
       | endDate   |
 
   Scenario: Denying access to past associations
-  Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "cegray" with password "cegray1234"
+  Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "cee.gray" with password "cee.gray1234"
   And format "application/json"
   And I am using api version "v1"
   Then I validate that I am denied access to restricted endpoints via API:

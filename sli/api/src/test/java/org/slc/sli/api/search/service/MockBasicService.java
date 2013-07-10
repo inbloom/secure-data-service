@@ -28,7 +28,7 @@ import org.slc.sli.domain.NeutralQuery;
 
 /**
  * A test utility class for having a mock basic service available for other uses.
- * 
+ *
  * @author kmyers
  *
  */
@@ -72,6 +72,12 @@ public class MockBasicService implements EntityService {
 
     @Override
     public boolean patch(String id, EntityBody content) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public boolean patchBasedOnContextualRoles(String id, EntityBody content) {
         // TODO Auto-generated method stub
         return false;
     }
@@ -170,6 +176,23 @@ public class MockBasicService implements EntityService {
     @Override
     public Iterable<EntityBody> listBasedOnContextualRoles(NeutralQuery neutralQuery) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public List<String> createBasedOnContextualRoles(List<EntityBody> content) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String createBasedOnContextualRoles(EntityBody content) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public boolean updateBasedOnContextualRoles(String id, EntityBody content) {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
 

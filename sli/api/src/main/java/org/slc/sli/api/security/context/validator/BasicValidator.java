@@ -21,8 +21,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.domain.Entity;
 
 /**
  * Abstract class to do common functionality
@@ -56,6 +54,13 @@ public abstract class BasicValidator extends AbstractContextValidator {
         this.types = new HashSet<String>(Arrays.asList(type));
         this.userTypes = new HashSet<String>(userTypes);
     }
+    
+    public BasicValidator(List<String> userTypes, List<String> types) {
+        this.transitiveValidator = false;
+        this.careAboutTransitive = false;
+        this.types = new HashSet<String>(types);
+        this.userTypes = new HashSet<String>(userTypes);
+    }
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
@@ -68,20 +73,10 @@ public abstract class BasicValidator extends AbstractContextValidator {
         if (!areParametersValid(types, entityType, ids)) {
             return false;
         }
-        boolean result = false;
-        Entity me = SecurityUtil.getSLIPrincipal().getEntity();
-        if (EntityNames.PARENT.equals(me.getType())) {
-            // for parent, validate as their kids
-            Iterable<Entity> kids = getKidsForParent(me);
-            for(Entity kid: kids) {
-                result |= doValidate(ids, kid, entityType);
-            }
-        } else {
-            result = doValidate(ids, me, entityType);
-        }
-        return result;
+
+        return doValidate(ids, entityType);
     }
 
-    protected abstract boolean doValidate(Set<String> ids, Entity me, String entityType);
+    protected abstract boolean doValidate(Set<String> ids, String entityType);
 
 }

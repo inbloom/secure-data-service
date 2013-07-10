@@ -1,22 +1,16 @@
 @RALLY_US4305
 @RALLY_US4306
-@wip
+@parent_endpoints
 Feature: As a parent I want to use apps that access the inBloom API
 
-  Background: None
-
-@parent_endpoints
 Scenario: Parents has access to entities via API endpoints
-Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
+  Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "marsha.sollars" with password "marsha.sollars1234"
   And format "application/json"
   And I am using api version "v1"
  Then I validate I have access to entities via the API access pattern "/v1/Entity/Id":
     | entity                                   | id                                          |
     | students                                 | 067198fd6da91e1aa8d67e28e850f224d6851713_id |
-    | parents                                  | 5f8989384287747b1960d16edd95ff2bb318e3bd_id |
     | parents                                  | 7f5b783a051b72820eab5f8188c45ade72869f0f_id |
-    | parents                                  | 5f8989384287747b1960d16edd95ff2bb318e3bd_id,7f5b783a051b72820eab5f8188c45ade72869f0f_id |
-    | studentParentAssociations                | 067198fd6da91e1aa8d67e28e850f224d6851713_idc43bbfa3df05d4fd2d78a9edfee8fd63fbcf495a_id  |
     | studentParentAssociations                | 067198fd6da91e1aa8d67e28e850f224d6851713_ide2f8c24b3e1ab8ead6e134d661a464d0f90e4c8e_id  |
     | staff                                    | 63d4be8a233db1fd14676f1535fa21fe4c5dd466_id |
     | staff                                    | 4255c28503a1c96ed9a9127d1a21f992e636acd6_id |
@@ -40,7 +34,7 @@ Given I log in to realm "Illinois Daybreak Students" using simple-idp as "studen
 
 @parent_endpoints
 Scenario: Parent has access to non-transitive associations
-Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
+  Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "marsha.sollars" with password "marsha.sollars1234"
   And format "application/json"
   And I am using api version "v1" 
   When I validate the allowed association entities via API "/v1/students/067198fd6da91e1aa8d67e28e850f224d6851713_id/studentSectionAssociations":
@@ -70,7 +64,7 @@ Given I log in to realm "Illinois Daybreak Students" using simple-idp as "studen
     | ec8b76883033432dc83b97e71fbc5bf881b4ccbb_id |
 
   Scenario: I check the response to uris with query parameters
-    Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "student.m.sollars" with password "student.m.sollars1234"
+    Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "marsha.sollars" with password "marsha.sollars1234"
     And format "application/json"
     And I am using api version "v1"
     And I am accessing data about myself, "matt.sollars"

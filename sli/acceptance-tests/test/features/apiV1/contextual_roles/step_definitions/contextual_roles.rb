@@ -21,6 +21,7 @@ require 'mongo'
 
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../utils/selenium_common.rb'
+require_relative '../../utils/api_utils.rb'
 
 DATABASE_HOST = PropLoader.getProps['ingestion_db']
 DATABASE_PORT = PropLoader.getProps['ingestion_db_port']
@@ -142,6 +143,13 @@ def add_to_mongo(tenant, collection, entity)
 end
 
 def remove_from_mongo(tenant, collection, query)
+  entry = remove_from_mongo_operation(tenant, collection, query)
+
+  (@mongo_changes ||= []) << entry
+
+end
+
+def remove_from_mongo_operation(tenant, collection, query)
   conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
   db = conn[tenant]
   coll = db.collection(collection)
@@ -155,11 +163,10 @@ def remove_from_mongo(tenant, collection, query)
     }
     coll.remove(query)
 
-    (@mongo_changes ||= []) << entry
-
   end
   conn.close
 
+  return entry
 end
 
 Given /^I (remove|expire) all SEOA expiration dates for "([^"]*)" in tenant "([^"]*)"$/ do | function, staff, tenant|
@@ -478,24 +485,21 @@ Given /^I change the type of "([^"]*)" to "([^"]*)"$/ do |user, type|
   enable_NOTABLESCAN()
 end
 
-Given /^I change the type of "([^"]*)" admin role to "([^"]*)"$/ do |rolegroup, isAdmin|
+Given /^I change the type of "([^"]*)" admin role to "(true|false)"$/ do |rolegroup, isAdmin|
   disable_NOTABLESCAN()
   conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
   db_name = convertTenantIdToDbName(@tenant)
   db = conn[db_name]
-  customRole_coll = db.collection('customRole')
-  customRole = customRole_coll.find_one()
-  puts customRole.to_s
-  id = customRole['_id']
-  body = customRole['body']
-  roles = body['roles']
-  roles.each do |role|
-    if role['groupTitle'] == rolegroup
-      role['isAdminRole'] = (isAdmin == 'true')
-    end
-  end
-  customRole_coll.remove({'_id' => id})
-  customRole_coll.insert(customRole)
+  custom_role_coll = db.collection('customRole')
+  custom_role = custom_role_coll.find_one()
+  roles =custom_role['body']['roles']
+
+  index = roles.index {|entry| entry['groupTitle'] == rolegroup}
+  roles[index]['isAdminRole'] = (isAdmin == 'true')
+
+  update_mongo(db_name,'customRole',{},"body.roles.#{index}", false, roles[index])
+
+  conn.close
   enable_NOTABLESCAN()
 end
 
@@ -752,8 +756,51 @@ Then /^the response (should|should not) have general student data$/ do |function
   assert(apiRecord.has_key?("hispanicLatinoEthnicity") == should, "General field hispanicLatinoEthnicity #{negative}found")
 end
 
+Then /^the response (should|should not) have the following students$/ do |function, table|
+  should = (function == 'should')
+  negative = 'not ' if should
+  table.hashes.map do |row|
+    found = false
+    JSON.parse(@res.body).each do |student|
+      if student['studentUniqueStateId'] == row['student']
+        found = true
+        break
+      end
+    end
+    assert(found == should, "Student: #{row['student']} #{negative}found")
+  end
+end
+
+Then /^"([^"]*)" in the response (should|should not) have restricted data$/ do |student, function|
+  should = (function == 'should')
+  negative = 'not ' if should
+  response = JSON.parse(@res.body)
+  index =  response.index {|entry| entry['studentUniqueStateId'] == student}
+  assert(response[index].has_key?('schoolFoodServicesEligibility') == should, "Restricted field #{negative}found")
+end
+
 
 #############################################################################################
+
+############################################################################################
+#Steps for POST
+############################################################################################
+
+Given /^I create a student entity with restricted data$/ do
+  @fields = CreateEntityHash.createBaseStudentRandomId()
+  @fields["economicDisadvantaged"] = true
+  @lastStudentId = @fields['studentUniqueStateId']
+end
+
+Given /^I create a student entity without restricted data$/ do
+  @fields = CreateEntityHash.createBaseStudentRandomId()
+  @lastStudentId = @fields['studentUniqueStateId']
+end
+
+Then /^I remove the posted student$/ do
+  tenant = convertTenantIdToDbName @tenant
+  remove_from_mongo_operation(tenant, 'student', {"_id" => @lastStudentId})
+end
 
 # Build the teacher hash
 def teacherHashPush(key, value)

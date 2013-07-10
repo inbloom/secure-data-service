@@ -52,9 +52,9 @@ Scenario: Use Mock IDP to log in as IL Aggregate Viewer
   Then I was redirected to the "Simple" IDP Login page
   When I submit the developer credentials "testdeveloper" "testdeveloper1234" for the impersonation login page
   Then I should be redirected to the impersonation page
-    And I want to manually imitate the user "cgray" who is a "Aggregate Viewer"
+    And I want to manually imitate the user "jvasquez" who is a "Aggregate Viewer"
   Then I get message that I am not authorized to use the Databrowser
-  Then I should see the name "Charles Gray" on the page
+  Then I should see the name "Jon Vasquez" on the page
 
 Scenario: Deny logging in to non-sandbox NY Realm
   Given I navigate to databrowser home page
