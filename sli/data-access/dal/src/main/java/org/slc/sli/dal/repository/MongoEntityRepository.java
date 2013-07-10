@@ -32,7 +32,6 @@ import com.mongodb.DBObject;
 import com.mongodb.WriteResult;
 
 import org.apache.commons.lang.StringUtils;
-import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -47,6 +46,7 @@ import org.springframework.util.Assert;
 
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.util.datetime.DateTimeUtil;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
@@ -434,7 +434,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         if (entity != null) {
             SuperdocConverter converter = converterReg.getConverter(entity.getType());
             if (converter != null) {
-                converter.subdocToBodyField(entity);
+                return converter.subdocToBodyField(entity);
             }
         }
         return entity;
@@ -1168,7 +1168,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         Iterable<Entity> entities = super.findAll(collectionName, neutralQuery);
         SuperdocConverter converter = converterReg.getConverter(collectionName);
         if (converter != null) {
-            converter.subdocToBodyField(entities);
+            return converter.subdocToBodyField(entities);
         }
         return entities;
     }
