@@ -31,7 +31,6 @@ import junit.framework.Assert;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -130,7 +129,6 @@ public class CommonValidatorTest {
     public void verifyNumberOfStudentValidatorsForEachEntity() throws Exception {
         MongoEntity student = new MongoEntity("student", new HashMap<String, Object>());
         injector.setCustomContext("Studentious","Stendarious","Myrran",Arrays.asList(SecureRoleRightAccessImpl.STUDENT),student,"High Elves");
-        System.out.println("================ students =================");
         validateValidators();
     }
     
@@ -138,7 +136,6 @@ public class CommonValidatorTest {
     public void verifyNumberOfParentValidatorsForEachEntity() throws Exception {
         MongoEntity parent = new MongoEntity("parent", new HashMap<String, Object>());
         injector.setCustomContext("Parentious", "Stendarious' Dad", "Myrran", Arrays.asList(SecureRoleRightAccessImpl.PARENT), parent, "High Elves's Dad");
-        System.out.println("================ Parent =================");
         validateValidators();
     }
 
@@ -312,7 +309,6 @@ public class CommonValidatorTest {
                 int numValidators = 0;
                 for (IContextValidator validator : validators) {
                     if (validator.canValidate(entity, isTransitive)) {
-                        System.out.println(String.format("validating: %s using %s", entity, validator.getClass().getName()));
                         numValidators++;
                     }
                 }
