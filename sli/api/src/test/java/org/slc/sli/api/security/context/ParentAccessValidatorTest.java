@@ -22,7 +22,9 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.PathSegment;
@@ -101,11 +103,10 @@ public class ParentAccessValidatorTest {
     }
     
     @Test
-    public void parentCannotWrite() {
+    public void parentCannotWriteNonParentOrStudentEntities() {
         List<String> allowed = Arrays.asList(ResourceNames.GRADES,
                 ResourceNames.STUDENT_GRADEBOOK_ENTRIES,
-                ResourceNames.STUDENT_ASSESSMENTS,
-                ResourceNames.STUDENTS);
+                ResourceNames.STUDENT_ASSESSMENTS);
         
         for (String op : ResourceMethod.getWriteOps()) {
             when(request.getMethod()).thenReturn(op);
@@ -117,6 +118,22 @@ public class ParentAccessValidatorTest {
     }
     
     @Test
+    public void parentCanWriteToParentAndStudent() {
+        List<String> allowed = Arrays.asList(ResourceNames.PARENTS,
+                ResourceNames.STUDENTS);
+        Set<String> operations = new HashSet<String>(ResourceMethod.getWriteOps());
+        operations.remove(ResourceMethod.DELETE.toString());
+        operations.remove(ResourceMethod.POST.toString());
+        for (String op : operations) {
+            when(request.getMethod()).thenReturn(op);
+            for (String s : allowed) {
+                paths = Arrays.asList("v1", s);
+                assertTrue(underTest.isAllowed(request));
+            }
+        }
+    }
+
+    @Test
     public void parentURLsAreAllowed() {
         paths = Arrays.asList("v1", "parents", "067198fd6da91e1aa8d67e28e850f224d6851713_id", "studentParentAssociations");
         assertTrue(underTest.isAllowed(request));
@@ -124,11 +141,4 @@ public class ParentAccessValidatorTest {
         assertTrue(underTest.isAllowed(request));
     }
     
-    @Test
-    public void denyStudentURLs() {
-        paths = Arrays.asList("v1", "students", "067198fd6da91e1aa8d67e28e850f224d6851713_id", "studentParentAssociations");
-        assertFalse(underTest.isAllowed(request));
-        paths = Arrays.asList("v1", "students", "067198fd6da91e1aa8d67e28e850f224d6851713_id", "studentParentAssociations", "parents");
-        assertFalse(underTest.isAllowed(request));
-    }
 }

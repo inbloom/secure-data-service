@@ -32,8 +32,7 @@ public class AssessmentTreatment implements Treatment{
 
     @Override
     public Entity apply(Entity entity) {
-        assessmentConverter.subdocToBodyField(entity);
-        return entity;
+        return assessmentConverter.subdocToBodyField(entity);
     }
 
     /**

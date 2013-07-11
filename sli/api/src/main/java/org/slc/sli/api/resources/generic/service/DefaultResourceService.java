@@ -277,7 +277,11 @@ public class DefaultResourceService implements ResourceService {
         if (migratedCopies.size() != 1) {
             throw new IllegalStateException("Error occurred while processing entity body.");
         }
-        definition.getService().update(id, migratedCopies.get(0));
+        if (contextSupportedEntities.contains(definition.getType()) && SecurityUtil.isStaffUser()) {
+            definition.getService().updateBasedOnContextualRoles(id, migratedCopies.get(0));
+        } else {
+            definition.getService().update(id, migratedCopies.get(0));
+        }
     }
 
     @Override
@@ -288,14 +292,22 @@ public class DefaultResourceService implements ResourceService {
         EntityBody copy = new EntityBody(entity);
         copy.remove(ResourceConstants.LINKS);
 
-        definition.getService().patch(id, copy);
+        if (contextSupportedEntities.contains(definition.getType()) && SecurityUtil.isStaffUser()) {
+            definition.getService().patchBasedOnContextualRoles(id, copy);
+        } else {
+            definition.getService().patch(id, copy);
+        }
     }
 
     @Override
     public void deleteEntity(Resource resource, String id) {
         EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
 
-        definition.getService().delete(id);
+        if (contextSupportedEntities.contains(definition.getType()) && SecurityUtil.isStaffUser()) {
+            definition.getService().deleteBasedOnContextualRoles(id);
+        } else {
+            definition.getService().delete(id);
+        }
     }
 
     @Override

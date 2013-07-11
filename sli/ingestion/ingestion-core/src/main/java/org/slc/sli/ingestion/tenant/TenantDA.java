@@ -28,7 +28,8 @@ public interface TenantDA {
     List<String> getLzPaths();
 
     String getTenantId(String lzPath);
-
+    String getTenantEdOrg(String lzPath);
+    
     void insertTenant(TenantRecord tenant);
 
     /**

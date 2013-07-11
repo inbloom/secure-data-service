@@ -22,9 +22,11 @@ import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.RightsAllowed;
+import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -41,8 +43,10 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -72,6 +76,9 @@ public class AdminDelegationResource {
     private DelegationUtil util;
 
     private EntityService service;
+
+    @Autowired
+    private SecurityEventBuilder securityEventBuilder;
 
     public static final String RESOURCE_NAME = "adminDelegation";
     public static final String LEA_ID = "localEdOrgId";
@@ -136,7 +143,7 @@ public class AdminDelegationResource {
     @PUT
     @Path("myEdOrg")
     @RightsAllowed({Right.EDORG_APP_AUTHZ })
-    public Response setLocalDelegation(EntityBody body) {
+    public Response setLocalDelegation(EntityBody body, @Context final UriInfo uriInfo) {
         //verifyBodyEdOrgMatchesPrincipalEdOrg
         if (body == null || !body.containsKey(LEA_ID) || !body.get(LEA_ID).equals(SecurityUtil.getEdOrgId())) {
             EntityBody response = new EntityBody();
@@ -144,30 +151,50 @@ public class AdminDelegationResource {
             return Response.status(Status.BAD_REQUEST).entity(response).build();
         }
 
-        String delgId = getIdOfDelegationRecordForPrincipal();
-        if (delgId == null) {
+        EntityBody del =  getDelegationRecordForPrincipal();
+        Boolean appApprovalEnabled = (Boolean) body.get("appApprovalEnabled");
+        if(appApprovalEnabled == null) {
+        	appApprovalEnabled = false;
+        }
+        if (del == null) {
 
             if (service.create(body).isEmpty()) {
                 return Response.status(Status.BAD_REQUEST).build();
             } else {
+                log(appApprovalEnabled, false, uriInfo);
                 return Response.status(Status.CREATED).build();
             }
 
         } else {
-
+            String delgId = (String)del.get("id");
+            Boolean oldAppApprovalEnabled = (Boolean)del.get("appApprovalEnabled");
+            if(oldAppApprovalEnabled == null) {
+            	oldAppApprovalEnabled = false;
+            }
             if (!service.update(delgId, body)) {
                 return Response.status(Status.BAD_REQUEST).build();
             }
 
+            log(appApprovalEnabled, oldAppApprovalEnabled, uriInfo);
         }
 
         return Response.status(Status.NO_CONTENT).build();
     }
 
+    void log(boolean appApprovalEnabled, boolean oldAppApprovalEnabled, @Context final UriInfo uriInfo){
+    	 if (appApprovalEnabled && !oldAppApprovalEnabled) {
+             SecurityEvent event = securityEventBuilder.createSecurityEvent(AdminDelegationResource.class.getName(), uriInfo.getRequestUri(), "LEA's delegation is enabled!");
+             audit(event);
+         }	 else if (!appApprovalEnabled  && oldAppApprovalEnabled ) {
+             SecurityEvent event = securityEventBuilder.createSecurityEvent(AdminDelegationResource.class.getName(), uriInfo.getRequestUri(), "LEA's delegation is disabled!");
+             audit(event);
+         }
+    }
+
     @POST
     @RightsAllowed({Right.EDORG_APP_AUTHZ })
-    public Response create(EntityBody body) {
-        return setLocalDelegation(body);
+    public Response create(EntityBody body, @Context final UriInfo uriInfo) {
+        return setLocalDelegation(body, uriInfo);
     }
 
     @GET
@@ -182,7 +209,7 @@ public class AdminDelegationResource {
     }
 
 
-    private String getIdOfDelegationRecordForPrincipal() {
+    private EntityBody getDelegationRecordForPrincipal() {
         String edOrgId = SecurityUtil.getEdOrgId();
         if (edOrgId == null) {
             throw new EntityNotFoundException("No edorg exists on principal.");
@@ -190,8 +217,9 @@ public class AdminDelegationResource {
 
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria(LEA_ID, "=", edOrgId));
-        Iterator<String> it = service.listIds(query).iterator();
-        if (it.hasNext()) {
+        Iterator<EntityBody> it = service.list(query).iterator();
+        //Iterator<String> it = service.listIds(query).iterator();
+        if (it.hasNext()){
             return it.next();
         } else {
             return null;
@@ -202,7 +230,11 @@ public class AdminDelegationResource {
     private EntityBody getEntity() {
         if (SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ)) {
 
-            String entId = getIdOfDelegationRecordForPrincipal();
+        	EntityBody body = getDelegationRecordForPrincipal();
+        	if (body == null) {
+        		return null;
+        	}
+            String entId = (String)body.get("id");
             if (entId != null) {
                 return service.get(entId);
             }

@@ -18,14 +18,18 @@
 package org.slc.sli.api.resources.security;
 
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 import junit.framework.Assert;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,7 +89,8 @@ public class AdminDelegationResourceTest {
     public void testSetLocalDelegationNoEdOrg() throws Exception {
 
         securityContextInjector.setLeaAdminContext();
-        Assert.assertEquals(resource.setLocalDelegation(null).getStatus(), Response.Status.BAD_REQUEST.getStatusCode());
+        UriInfo uriInfo = ResourceTestUtil.buildMockUriInfo("");
+        Assert.assertEquals(resource.setLocalDelegation(null, uriInfo).getStatus(), Response.Status.BAD_REQUEST.getStatusCode());
 
     }
 
@@ -99,8 +104,8 @@ public class AdminDelegationResourceTest {
 
         EntityBody body = new EntityBody();
         body.put(resource.LEA_ID, "1234");
-
-        Assert.assertEquals(Response.Status.CREATED.getStatusCode(), resource.setLocalDelegation(body).getStatus());
+        UriInfo uriInfo = ResourceTestUtil.buildMockUriInfo("");
+        Assert.assertEquals(Response.Status.CREATED.getStatusCode(), resource.setLocalDelegation(body, uriInfo).getStatus());
 
     }
 }

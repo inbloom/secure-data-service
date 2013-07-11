@@ -43,6 +43,8 @@ public class SecurityEvent {
 
     private String targetEdOrg;
 
+    private List<String> targetEdOrgList;
+
     private String actionUri; // Alpha MH
 
     private String appId; // Alpha MH
@@ -95,14 +97,6 @@ public class SecurityEvent {
         return actionUri;
     }
 
-    public String getUserEdOrg() {
-        return userEdOrg;
-    }
-
-    public void setUserEdOrg(String userEdOrg) {
-        this.userEdOrg = userEdOrg;
-    }
-
     public void setActionUri(String actionUri) {
         this.actionUri = actionUri;
     }
@@ -142,7 +136,15 @@ public class SecurityEvent {
     public String getUserOrigin() {
         return userOrigin;
     }
+    
+    public void setUserEdOrg(String userEdOrg) {
+        this.userEdOrg = userEdOrg;
+    }
 
+    public String getUserEdOrg() {
+    	return this.userEdOrg;
+    }
+    
     public void setUserOrigin(String userOrigin) {
         this.userOrigin = userOrigin;
     }
@@ -195,6 +197,14 @@ public class SecurityEvent {
         this.roles = roles;
     }
 
+    public List<String> getTargetEdOrgList() {
+        return targetEdOrgList;
+    }
+
+    public void setTargetEdOrgList(List<String> targetEdOrgList) {
+        this.targetEdOrgList = targetEdOrgList;
+    }
+
     @Override
     public String toString() {
         String message;
@@ -207,6 +217,7 @@ public class SecurityEvent {
                 + ((className == null) ? "" : className) + DELIMITER
                 + ((tenantId == null) ? "" : tenantId) + DELIMITER
                 + ((targetEdOrg == null) ? "" : targetEdOrg) + DELIMITER
+                + ((targetEdOrgList == null) ? "" : targetEdOrgList) + DELIMITER
                 + ((userEdOrg == null) ? "" : userEdOrg) + DELIMITER
                 + ((user == null) ? "" : "<censored>") + DELIMITER
                 + ((userOrigin == null) ? "" : userOrigin) + DELIMITER
@@ -231,10 +242,14 @@ public class SecurityEvent {
             dataMap.put("targetEdOrg", targetEdOrg);
         }
 
+        if (targetEdOrgList != null) {
+            dataMap.put("targetEdOrgList", targetEdOrgList);
+        }
+
         if (userEdOrg != null) {
             dataMap.put("userEdOrg", userEdOrg);
         }
-
+ 
         if (actionUri != null) {
             dataMap.put("actionUri", actionUri);
         }

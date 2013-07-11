@@ -169,7 +169,7 @@ public class EdOrgOwnershipArbiter {
        Set<String> edorgs = new HashSet<String>();
 
        for (Entity entity : findEdorgs(entities, entityType, false)) {
-           edorgs.add(entity.getEntityId());
+            edorgs.add(entity.getEntityId());
        }
 
         return edorgs;

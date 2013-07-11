@@ -1,7 +1,6 @@
 @RALLY_F44
 @rc
 @sandbox
-@wip
 Feature:  RC Integration Tests - Test Parent Login
 
 ###
@@ -34,7 +33,8 @@ Feature:  RC Integration Tests - Test Parent Login
 # Login as a parent a take a look at some stuff.
     Then I should be redirected to the impersonation page
     And I should see that I "<DEVELOPER_SB_EMAIL>" am logged in
-    And I want to select "3597672174" from the "SmallDatasetUsers" in automatic mode
+    And I want to manually imitate the user "3597672174" who is of type "parent" and role "Parent"
+    #And I want to select "3597672174" from the "SmallDatasetUsers" in automatic mode
     Then I should be on Portal home page
     And I click on Admin
     Then I should be on the admin page

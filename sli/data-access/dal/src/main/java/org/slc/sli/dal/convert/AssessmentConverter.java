@@ -57,19 +57,22 @@ import org.slc.sli.domain.MongoEntity;
  */
 @Component
 public class AssessmentConverter extends GenericSuperdocConverter implements SuperdocConverter {
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(AssessmentConverter.class);
 
     private static final String OBJECTIVE_ASSESSSMENT_ID = "identificationCode";
     private static final String SUB_OBJECTIVE_ASSESSMENT_HIERARCHY = "objectiveAssessments";
-    
+
     protected static final String ASSESSMENT_FAMILY_ASSESSMENT_FAMILY_REFERENCE = "assessmentFamilyReference";
     protected static final String SUB_OBJECTIVE_ASSESSMENT_REFS = "subObjectiveAssessment";
     protected static final String ASSESSMENT_ITEM_REFS = "assessmentItemRefs";
 
     @Override
-    public void subdocToBodyField(Entity entity) {
+    public Entity subdocToBodyField(Entity entity) {
         if (entity != null && entity.getType().equals(ASSESSMENT)) {
+            if (entity.getBody() == null || entity.getBody().isEmpty()) {
+                return null;
+            }
             transformToHierarchy(entity);
             subdocsToBody(entity, ASSESSMENT_ITEM, ASSESSMENT_ITEM, Arrays.asList(ASSESSMENT_ID));
             subdocsToBody(entity, OBJECTIVE_ASSESSMENT, OBJECTIVE_ASSESSMENT, Arrays.asList(ASSESSMENT_ID));
@@ -77,10 +80,11 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
             collapseAssessmentPeriodDescriptor(entity);
             addFamilyHierarchy(entity);
         }
+        return entity;
     }
 
     private void collapseAssessmentPeriodDescriptor(Entity entity) {
-        Object apdId = entity.getBody().remove(ASSESSMENT_PERIOD_DESCRIPTOR_ID); 
+        Object apdId = entity.getBody().remove(ASSESSMENT_PERIOD_DESCRIPTOR_ID);
         if (apdId != null && apdId instanceof String) {
             Entity apd = retrieveAccessmentPeriodDecriptor((String) apdId);
             if (apd != null) {
@@ -112,7 +116,7 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
 
             entity.getBody().remove(OBJECTIVE_ASSESSMENT);
             entity.getEmbeddedData().put(OBJECTIVE_ASSESSMENT, objectiveAssessments);
-            
+
             //assessmentItem
             List<Map<String, Object>> assessmentItems = new ArrayList<Map<String, Object>>();
             @SuppressWarnings("unchecked")
@@ -122,7 +126,7 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
                 assessmentItems.addAll(extractAssessmentItems(objectiveAssessments, parentKey));
             }
             makeSubDocs(entity, ASSESSMENT_ITEM, ASSESSMENT_ID, assessmentItems);
-           
+
             //assessmentPeriodDescriptor
             Object assessmentPeriodDescriptor = entity.getBody().remove(ASSESSMENT_PERIOD_DESCRIPTOR);
             if (assessmentPeriodDescriptor instanceof Map<?,?>) {
@@ -136,7 +140,7 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
                     entity.getBody().put(ASSESSMENT_PERIOD_DESCRIPTOR_ID, did);
                 }
             }
-            
+
             fixAssessmentFamilyReference(entity, option);
         }
     }
@@ -157,12 +161,17 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
     }
 
     @Override
-    public void subdocToBodyField(Iterable<Entity> entities) {
+    public Iterable<Entity> subdocToBodyField(Iterable<Entity> entities) {
+        List<Entity> converted = new ArrayList<Entity>();
         if (entities != null) {
             for (Entity entity : entities) {
-                subdocToBodyField(entity);
+                Entity newEntity = subdocToBodyField(entity);
+                if (newEntity != null) {
+                    converted.add(newEntity);
+                }
             }
         }
+        return converted;
     }
 
     @Override
@@ -178,7 +187,7 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
             }
         }
     }
-    
+
     /**
      * On update, AssessmentFamilyReference will not exist on the entity. Fetch it from
      * the db and re-add it to the entity.
@@ -201,21 +210,21 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
             }
         }
     }
-    
+
     /**
      * Construct the assessmentFamilyHierarchy string from the assessment family reference
      */
     private void addFamilyHierarchy(Entity entity) {
         Object object = entity.getBody().remove(ASSESSMENT_FAMILY_REFERENCE);
         if (object == null || !(object instanceof String)) {
-            // we don't validate assessmentFamilyHierarchy any more, so someone could have passed in 
+            // we don't validate assessmentFamilyHierarchy any more, so someone could have passed in
             // an object, array, number, etc.
             return;
         }
         String familyRef = (String) object;
         MongoTemplate mongo = ((MongoEntityRepository) repo).getTemplate();
         Entity family = mongo.findById(familyRef, Entity.class, ASSESSMENT_FAMILY);
-        
+
         List<String> familyTitles = new LinkedList<String>();
         Set<String> seenFamilyRefs = new HashSet<String>();
         seenFamilyRefs.add(familyRef);
@@ -228,7 +237,7 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
             familyTitles.add(familyTitle);
             String parentRef = (String)family.getBody().get(ASSESSMENT_FAMILY_ASSESSMENT_FAMILY_REFERENCE);
             family = null;
-            
+
             if (parentRef != null) {
                 if (!seenFamilyRefs.contains(parentRef)) {
                     family = mongo.findById(parentRef, Entity.class, ASSESSMENT_FAMILY);
@@ -238,7 +247,7 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
                 }
             }
         }
-        
+
         String familyHierarchyString = Joiner.on(".").join(Lists.reverse(familyTitles));
         entity.getBody().put(ASSESSMENT_FAMILY_HIERARCHY, familyHierarchyString);
     }

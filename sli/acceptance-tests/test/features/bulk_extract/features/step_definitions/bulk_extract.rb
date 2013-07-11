@@ -638,8 +638,10 @@ def update_api_put_field(body, field, value)
   body["contactPriority"] = value.to_i if field == "contactPriority"
   body["id"] = value if field == "missingEntity"
   body["name"]["firstName"] = value if field == "name.firstName"
+  body["name"]["middleName"] = value if field == "name.middleName"
   body["diagnosticStatement"] = value if field == "diagnosticStatement"
   body["gradeLevelWhenAssessed"] = value if field == "gradeLevelWhenAssessed"
+  body["contactRestrictions"] = value if field == "contactRestrictions"
   return body
 end
 
@@ -756,6 +758,23 @@ def get_patch_body_by_entity_name(field, value)
         "firstName" => "Matt",
         "lastSurname" => "Sollars"
       }
+    },
+    "cgray.name" => {
+      "name" => {
+        "middleName" => value,
+        "firstName" => "Charles",
+        "lastSurname" => "Gray"
+      }
+    },
+    "cgray.myClass.name" => {
+      "name" => {
+        "middleName" => value,
+        "firstName" => "LilCharlie",
+        "lastSurname" => "Gray"
+      }
+    },
+    "cgray.contactRestrictions" => {
+      "contactRestrictions" => value
     },
     "dadLoginId" => {
         "loginId" => value
@@ -3088,6 +3107,100 @@ def get_post_body_by_entity_name(entity_name)
         }
       }]
     },
+    "cgray.studentAssessment" => {
+      "studentId" => "fdd8ee3ee44133f489e47d2cae109e886b041382_id",
+      "assessmentId" => "8e6fceafe05daef1da589a1709ee278ba51d337a_id",
+      "administrationDate" => "2013-09-24",
+      "specialAccommodations" => ["Large Print"],
+      "administrationEndDate" => "2013-09-25",
+      "gradeLevelWhenAssessed" => "Eleventh grade",
+      "performanceLevelDescriptors" => [
+        [{
+          "codeValue" => "30 code"
+        }]
+      ],
+      "administrationEnvironment" => "Classroom",
+      "retestIndicator" => "Primary Administration",
+      "studentObjectiveAssessments" => [{
+        "entityType" => "studentAssessment",
+        "performanceLevelDescriptors" => [
+          [{
+            "codeValue" => "code1"
+          }]
+        ],
+        "scoreResults" => [{
+          "result" => "32",
+          "assessmentReportingMethod" => "Scale score"
+        }],
+        "objectiveAssessment" => {
+          "nomenclature" => "Nomenclature",
+          "identificationCode" => "2013-Eleventh grade Assessment 2.OA-0",
+          "percentOfAssessment" => 50,
+          "assessmentId" => "8e6fceafe05daef1da589a1709ee278ba51d337a_id",
+          "assessmentPerformanceLevel" => [{
+            "performanceLevelDescriptor" => [{
+              "codeValue" => "code1"
+            }],
+            "assessmentReportingMethod" => "Number score",
+            "minimumScore" => 0,
+            "maximumScore" => 50
+          }],
+          "learningObjectives" => [
+            "1b0d13e233ef61ffafb613a8cc6930dfc0d29b92_id",
+            "8b6407c747e3de04c8e8365b1aa202f1dc3510c6_id",
+            "ea27f2c3cd548cf82682a75e29182462da366912_id",
+            "b2c4add05d75ba5144203d8dc3e1c5cb79b58c7b_id",
+            "f515c869a5b8507f7462dafd65c20710fc300182_id"
+          ],
+          "maxRawScore" => 50
+        }
+      }],
+      "reasonNotTested" => "Not appropriate (ARD decision)",
+      "serialNumber" => "30 code",
+      "scoreResults" => [{
+        "result" => "32",
+        "assessmentReportingMethod" => "Scale score"
+      }],
+      "linguisticAccommodations" => ["Bilingual Dictionary"],
+      "administrationLanguage" => {
+         "language" => "English"
+      },
+      "studentAssessmentItems" => [{
+        "rawScoreResult" => 82,
+        "responseIndicator" => "Effective response",
+        "assessmentResponse" => "false",
+        "assessmentItemResult" => "Incorrect",
+        "assessmentItem" => {
+          "identificationCode" => "2013-Eleventh grade Assessment 2#1",
+          "assessmentId" => "8e6fceafe05daef1da589a1709ee278ba51d337a_id",
+          "correctResponse" => "true",
+          "itemCategory" => "True-False",
+          "maxRawScore" => 10
+        }
+      }]
+    },
+    "cgray.grade" => {
+      "schoolYear" => "2012-2013",
+      "studentSectionAssociationId" => "95ea4c7b7ad507cf6947c82114ff56de92ffda78_id7f04bc9f666bb9a3ec08c232e239d14e7856929b_id",
+      "sectionId" => "95ea4c7b7ad507cf6947c82114ff56de92ffda78_id",
+      "letterGradeEarned" => "A",
+      "studentId" => "fdd8ee3ee44133f489e47d2cae109e886b041382_id",
+      "numericGradeEarned" => 96,
+      "gradeType" => "Final",
+      "performanceBaseConversion" => "Advanced",
+      "entityType" => "grade",
+      "diagnosticStatement" => "Student has Advanced understanding of subject."
+    },
+    "cgray.studentGradebookEntry" => {
+      "studentSectionAssociationId" => "95ea4c7b7ad507cf6947c82114ff56de92ffda78_id7f04bc9f666bb9a3ec08c232e239d14e7856929b_id",
+      "gradebookEntryId" => "d0bf8bb1e3418c8c7578a89403d6ffea5cb9c1a6_id58a523f121d74d87d45c9a26a686decdbce622ef_id",
+      "letterGradeEarned" => "A",
+      "sectionId" => "95ea4c7b7ad507cf6947c82114ff56de92ffda78_id",
+      "studentId" => "fdd8ee3ee44133f489e47d2cae109e886b041382_id",
+      "numericGradeEarned" => 99,
+      "dateFulfilled" => "2013-04-25",
+      "diagnosticStatement" => "Diagnostic Statement"
+    },
     "cgray.parent" => {
       "entityType" => "parent",
       "parentUniqueStateId" => "cgray",
@@ -3170,7 +3283,7 @@ def get_post_body_by_entity_name(entity_name)
     "cgray.studentParentAssociation.notMyKid" => {
       "entityType" => "studentParentAssociation",
       "parentId" => "1fe86fe9c45680234f1caa3b494a1c4b42838954_id",
-      "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+      "studentId" => "75a1710a115cd94dde09ccd950a11a05b7843ab2_id",
       "relation" => "Father",
       "contactPriority" => 2
     },
@@ -3184,7 +3297,7 @@ def get_post_body_by_entity_name(entity_name)
     "cgray.studentParentAssociation.newLea" => {
       "entityType" => "studentParentAssociation",
       "parentId" => "1fe86fe9c45680234f1caa3b494a1c4b42838954_id",
-      "studentId" => "9bf3036428c40861238fdc820568fde53e658d88_id",
+      "studentId" => "f07bc57c18f13e8bb692660a7fab0ca92817598c_id",
       "relation" => "Father",
       "contactPriority" => 1
     },

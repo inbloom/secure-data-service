@@ -39,7 +39,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | courseTranscript                       | courseTranscripts                        | finalLetterGradeEarned   | A                      | B                      | rrogers    | rrogers1234 |
       | staffCohortAssociation                 | staffCohortAssociations                  | endDate                  | 2012-03-29             | 2013-03-29             | rrogers    | rrogers1234 |
       | staffProgramAssociation                | staffProgramAssociations                 | endDate                  | 2012-12-31             | 2012-02-01             | rrogers    | rrogers1234 |
-      | studentAssessment           | studentAssessments                       | retestIndicator          | 1st Retest             | 2nd Retest             | rrogers    | rrogers1234 |
+      | studentAssessment                      | studentAssessments                       | retestIndicator          | 1st Retest             | 2nd Retest             | rrogers    | rrogers1234 |
       | studentDisciplineIncidentAssociation   | studentDisciplineIncidentAssociations    | studentParticipationCode | Reporter               | Witness                | rrogers    | rrogers1234 |
       | studentParentAssociation               | studentParentAssociations                | livesWith                | true                   | false                  | rrogers    | rrogers1234 |
       | studentProgramAssociation              | studentProgramAssociations               | reasonExited             | Refused services       | Expulsion              | rrogers    | rrogers1234 |
@@ -48,7 +48,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | teacherSectionAssociation              | teacherSectionAssociations               | classroomPosition        | Teacher of Record      | Assistant Teacher      | rrogers    | rrogers1234 |
       # Teacher - Charles Gray (IT Admin)
       | courseTranscript                       | courseTranscripts                        | finalLetterGradeEarned   | A                      | B                      | cgrayadmin | cgray1234   |
-      | studentAssessment           | studentAssessments                       | retestIndicator          | 1st Retest             | 2nd Retest             | cgrayadmin | cgray1234   |
+      | studentAssessment                      | studentAssessments                       | retestIndicator          | 1st Retest             | 2nd Retest             | cgrayadmin | cgray1234   |
       | studentDisciplineIncidentAssociation   | studentDisciplineIncidentAssociations    | studentParticipationCode | Reporter               | Witness                | cgrayadmin | cgray1234   |
       | studentParentAssociation               | studentParentAssociations                | livesWith                | true                   | false                  | cgrayadmin | cgray1234   |
       | studentProgramAssociation              | studentProgramAssociations               | reasonExited             | Refused services       | Expulsion              | cgrayadmin | cgray1234   |
@@ -68,6 +68,11 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       # Read
       When I navigate to GET "/<ASSOC URI>/<NEWLY CREATED ASSOC ID>"
       Then I should receive a return code of 403
+      And a security event matching "^Access Denied" should be in the sli db
+      And I check to find if record is in sli db collection:
+       | collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
+       | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234  |
+       | securityEvent       | 1                   | body.targetEdOrgList  | IL-DAYBREAK                           |
 
     Examples:
       | ASSOC TYPE     | ASSOC URI       |
@@ -177,7 +182,8 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
 
     Scenario Outline: Unhappy paths: invalid or inaccessible references
       # Log in as a user with less accessible data
-      Given I am logged in using "jstevenson" "jstevenson1234" to realm "IL"
+      Given the sli securityEvent collection is empty
+      And I am logged in using "jstevenson" "jstevenson1234" to realm "IL"
       And format "application/vnd.slc+json"
       # Read with invalid reference
       When I navigate to GET "/<ASSOC URI>/<INVALID REFERENCE>"
@@ -193,47 +199,84 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       And I set the "<END POINT 1 FIELD>" to "<INVALID REFERENCE>"
       And I navigate to PUT "/<ASSOC URI>/<ASSOC ID FOR UPDATE>"
       Then I should receive a return code of 403
+      And a security event matching "^Access Denied" should be in the sli db
+      And I check to find if record is in sli db collection:
+         | collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
+         | securityEvent       | 1                   | body.userEdOrg        | <userEdOrg>                           |
+         | securityEvent       | 1                   | body.targetEdOrgList  | <targetEdOrg>                         |
       And the error message should indicate "<BAD REFERENCE>"
-      When I navigate to GET "/<ASSOC URI>/<ASSOC ID FOR UPDATE>"
+      When the sli securityEvent collection is empty
+      And I navigate to GET "/<ASSOC URI>/<ASSOC ID FOR UPDATE>"
       And I set the "<END POINT 2 FIELD>" to "<INVALID REFERENCE>"
       And I navigate to PUT "/<ASSOC URI>/<ASSOC ID FOR UPDATE>"
       Then I should receive a return code of 403
+      And a security event matching "^Access Denied" should be in the sli db
+      And I check to find if record is in sli db collection:
+       | collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
+       | securityEvent       | 1                   | body.userEdOrg        | <userEdOrg>                           |
+       | securityEvent       | 1                   | body.targetEdOrgList  | <targetEdOrg>                         |
       And the error message should indicate "<BAD REFERENCE>"
       # Delete with invalid reference
-      When I navigate to DELETE "/<ASSOC URI>/<INVALID REFERENCE>"
+      When the sli securityEvent collection is empty
+      And I navigate to DELETE "/<ASSOC URI>/<INVALID REFERENCE>"
       Then I should receive a return code of 404
       # Create with inaccessible endpoint 1
       Given a valid association json document for <ASSOC TYPE>
       When I set the "<END POINT 1 FIELD>" to "<INACCESSIBLE END POINT 1 ID>"
       When I navigate to POST "/<ASSOC URI>"
       Then I should receive a return code of 403
+      And a security event matching "^Access Denied" should be in the sli db
+      And I check to find if record is in sli db collection:
+         | collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
+         | securityEvent       | 1                   | body.userEdOrg        | <userEdOrg>                           |
+         | securityEvent       | 1                   | body.targetEdOrgList  | <targetEdOrg>                         |
       # Create with inaccessible endpoint 2
-      Given a valid association json document for <ASSOC TYPE>
+      When the sli securityEvent collection is empty
+      And a valid association json document for <ASSOC TYPE>
       When I set the "<END POINT 2 FIELD>" to "<INACCESSIBLE END POINT 2 ID>"
       When I navigate to POST "/<ASSOC URI>"
       Then I should receive a return code of 403
+      And a security event matching "^Access Denied" should be in the sli db
+      And I check to find if record is in sli db collection:
+           | collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
+           | securityEvent       | 1                   | body.userEdOrg        | <userEdOrg>                           |
+           | securityEvent       | 1                   | body.targetEdOrgList  | <targetEdOrg>                         |
       # Update wby setting end points to inaccessible references
-      When I navigate to GET "/<ASSOC URI>/<ASSOC ID FOR UPDATE>"
+      When the sli securityEvent collection is empty
+      And I navigate to GET "/<ASSOC URI>/<ASSOC ID FOR UPDATE>"
       And I set the "<END POINT 1 FIELD>" to "<INACCESSIBLE END POINT 1 ID>"
       And I navigate to PUT "/<ASSOC URI>/<ASSOC ID FOR UPDATE>"
+      And a security event matching "^Access Denied" should be in the sli db
       Then I should receive a return code of 403
-      When I navigate to GET "/<ASSOC URI>/<ASSOC ID FOR UPDATE>"
+      And I check to find if record is in sli db collection:
+           | collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
+           | securityEvent       | 1                   | body.userEdOrg        | <userEdOrg>                           |
+           | securityEvent       | 1                   | body.targetEdOrgList  | <targetEdOrg>                         |
+      When the sli securityEvent collection is empty
+      And I navigate to GET "/<ASSOC URI>/<ASSOC ID FOR UPDATE>"
       And I set the "<END POINT 2 FIELD>" to "<INACCESSIBLE END POINT 2 ID>"
       And I navigate to PUT "/<ASSOC URI>/<ASSOC ID FOR UPDATE>"
       Then I should receive a return code of 403
+      And a security event matching "^Access Denied" should be in the sli db
+      And I check to find if record is in sli db collection:
+           | collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
+           | securityEvent       | 1                   | body.userEdOrg        | <userEdOrg>                           |
+           | securityEvent       | 1                   | body.targetEdOrgList  | <targetEdOrg>                         |
 
     Examples:
-      | ASSOC TYPE                             | ASSOC URI                                | ASSOC ID FOR UPDATE                    | UPDATE FIELD             | NEW VALUE              | END POINT 1 FIELD     | END POINT 2 FIELD              | INACCESSIBLE END POINT 1 ID            | INACCESSIBLE END POINT 2 ID            |
-      | staffCohortAssociation                 | staffCohortAssociations                  | <b4e31b1a-8e55-8803-722c-14d8087c0712> | beginDate                | 2011-02-01             | staffId               | cohortId                       | <04f708bc-928b-420d-a440-f1592a5d1073> | <b1bd3db6-d020-4651-b1b8-a8dba688d9e1> |
-      | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | <0966614a-6c5d-4345-b451-7ec991823ac5> | beginDate                | 2011-02-15             | staffReference        | educationOrganizationReference | <04f708bc-928b-420d-a440-f1592a5d1073> | <b2c6e292-37b0-4148-bf75-c98a2fcc905f> |
-      | staffProgramAssociation                | staffProgramAssociations                 | <9bf7591b-8fd5-11e1-86ec-0021701f543f> | endDate                  | 2012-02-01             | staffId               | programId                      | <04f708bc-928b-420d-a440-f1592a5d1073> | <9e909dfc-ba61-406d-bbb4-c953e8946f8b_id> |
-      | studentAssessment                      | studentAssessments                       | <e85b5aa7-465a-6dd3-8ffb-d02461ed79f8_id> | retestIndicator          | 2nd Retest             | studentId             | assessmentId                   | <737dd4c1-86bd-4892-b9e0-0f24f76210be_id> | <abc16592-7d7e-5d27-a87d-dfc7fcb12346> |
-      | studentCohortAssociation               | studentCohortAssociations                | <41df2791-b33c-4b10-8de6-a24963bbd3dd_idb40c5b02-8fd5-11e1-86ec-0021701f543f_id> | beginDate                | 2011-12-01             | studentId             | cohortId                       | <737dd4c1-86bd-4892-b9e0-0f24f76210be_id> | <b1bd3db6-d020-4651-b1b8-a8dba688d9e1> |
-      | studentDisciplineIncidentAssociation   | studentDisciplineIncidentAssociations    | <0fb8e0b4-8f84-48a4-b3f0-9ba7b0513dba_id0e26de6c-225b-9f67-9625-5113ad50a03b_id> | studentParticipationCode | Witness                | studentId             | disciplineIncidentId           | <737dd4c1-86bd-4892-b9e0-0f24f76210be_id> | <0e26de79-22aa-5d67-9201-5113ad50a03b> |
-      | studentParentAssociation               | studentParentAssociations                | <5738d251-dd0b-4734-9ea6-417ac9320a15_idc5aa1969-492a-5150-8479-71bfc4d57f1e_id> | livesWith                | false                  | studentId             | parentId                       | <737dd4c1-86bd-4892-b9e0-0f24f76210be_id> | <cb7a932f-2d44-800c-cd5a-cdb25a29fc75> |
-      | studentProgramAssociation              | studentProgramAssociations               | <0f0d9bac-0081-4900-af7c-d17915e02378_idb3f68907-8fd5-11e1-86ec-0021701f543f_id> | reasonExited             | Expulsion              | studentId             | programId                      | <737dd4c1-86bd-4892-b9e0-0f24f76210be_id> | <9e909dfc-ba61-406d-bbb4-c953e8946f8b_id> |
-      | studentSchoolAssociation               | studentSchoolAssociations                | <e7e0e926-874e-4d05-9177-9776d44c5fb5> | entryGradeLevel          | Third grade            | studentId             | schoolId                       | <737dd4c1-86bd-4892-b9e0-0f24f76210be_id> | <0f464187-30ff-4e61-a0dd-74f45e5c7a9d> |
-      | studentSectionAssociation              | studentSectionAssociations               | <8ed12459-eae5-49bc-8b6b-6ebe1a56384f_id4ae72560-3518-4576-a35e-a9607668c9ad_id> | homeroomIndicator        | false                  | studentId             | sectionId                      | <737dd4c1-86bd-4892-b9e0-0f24f76210be_id> | <a47eb9aa-1c97-4c8e-9d0a-45689a66d4f8_id> |
-      | courseTranscript                       | courseTranscripts                        | <f11a2a30-d4fd-4400-ae18-353c00d581a2> | finalLetterGradeEarned   | B                      | studentId             | courseId                       | <737dd4c1-86bd-4892-b9e0-0f24f76210be_id> | <e31f7583-417e-4c42-bd55-0bbe7518edf8> |
-      | teacherSectionAssociation              | teacherSectionAssociations               | <15ab6363-5509-470c-8b59-4f289c224107_id32b86a2a-e55c-4689-aedf-4b676f3da3fc_id> | classroomPosition        | Assistant Teacher      | teacherId             | sectionId                      | <04f708bc-928b-420d-a440-f1592a5d1073> | <a47eb9aa-1c97-4c8e-9d0a-45689a66d4f8_id> |
+      | ASSOC TYPE                             | ASSOC URI                                | ASSOC ID FOR UPDATE                                                                 | UPDATE FIELD             | NEW VALUE              | END POINT 1 FIELD     | END POINT 2 FIELD              | INACCESSIBLE END POINT 1 ID                  | INACCESSIBLE END POINT 2 ID               | userEdOrg     | targetEdOrg                |
+# us5758 When the ref used to determine targetEdOrg is changed, targetEdOrg will change so can't be tested in this framework which requires targetEdOrg to remain the consistent
+# This AT needs to be modified to handle diff sec evt targetEdOrg field values per check or should be moved out into a separate AT.
+      | staffCohortAssociation                 | staffCohortAssociations                  | <b4e31b1a-8e55-8803-722c-14d8087c0712>                                              | beginDate                | 2011-02-01             | staffId               | cohortId                       | <04f708bc-928b-420d-a440-f1592a5d1073>       | <b1bd3db6-d020-4651-b1b8-a8dba688d9e1>    | IL-DAYBREAK   |   |
+      | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | <0966614a-6c5d-4345-b451-7ec991823ac5>                                              | beginDate                | 2011-02-15             | staffReference        | educationOrganizationReference | <04f708bc-928b-420d-a440-f1592a5d1073>       | <b2c6e292-37b0-4148-bf75-c98a2fcc905f>    | IL-DAYBREAK   |   |
+      | staffProgramAssociation                | staffProgramAssociations                 | <9bf7591b-8fd5-11e1-86ec-0021701f543f>                                              | endDate                  | 2012-02-01             | staffId               | programId                      | <04f708bc-928b-420d-a440-f1592a5d1073>       | <9e909dfc-ba61-406d-bbb4-c953e8946f8b_id> | IL-DAYBREAK   |   |
+      | studentAssessment                      | studentAssessments                       | <e85b5aa7-465a-6dd3-8ffb-d02461ed79f8_id>                                           | retestIndicator          | 2nd Retest             | studentId             | assessmentId                   | <737dd4c1-86bd-4892-b9e0-0f24f76210be_id>    | <abc16592-7d7e-5d27-a87d-dfc7fcb12346>    | IL-DAYBREAK   |   |
+      | studentCohortAssociation               | studentCohortAssociations                | <41df2791-b33c-4b10-8de6-a24963bbd3dd_idb40c5b02-8fd5-11e1-86ec-0021701f543f_id>    | beginDate                | 2011-12-01             | studentId             | cohortId                       | <737dd4c1-86bd-4892-b9e0-0f24f76210be_id>    | <b1bd3db6-d020-4651-b1b8-a8dba688d9e1>    | IL-DAYBREAK   |   |
+      | studentDisciplineIncidentAssociation   | studentDisciplineIncidentAssociations    | <0fb8e0b4-8f84-48a4-b3f0-9ba7b0513dba_id0e26de6c-225b-9f67-9625-5113ad50a03b_id>    | studentParticipationCode | Witness                | studentId             | disciplineIncidentId           | <737dd4c1-86bd-4892-b9e0-0f24f76210be_id>    | <0e26de79-22aa-5d67-9201-5113ad50a03b>    | IL-DAYBREAK   |   |
+      | studentParentAssociation               | studentParentAssociations                | <5738d251-dd0b-4734-9ea6-417ac9320a15_idc5aa1969-492a-5150-8479-71bfc4d57f1e_id>    | livesWith                | false                  | studentId             | parentId                       | <737dd4c1-86bd-4892-b9e0-0f24f76210be_id>    | <cb7a932f-2d44-800c-cd5a-cdb25a29fc75>    | IL-DAYBREAK   |   |
+      | studentProgramAssociation              | studentProgramAssociations               | <0f0d9bac-0081-4900-af7c-d17915e02378_idb3f68907-8fd5-11e1-86ec-0021701f543f_id>    | reasonExited             | Expulsion              | studentId             | programId                      | <737dd4c1-86bd-4892-b9e0-0f24f76210be_id>    | <9e909dfc-ba61-406d-bbb4-c953e8946f8b_id> | IL-DAYBREAK   |  |
+      | studentSchoolAssociation               | studentSchoolAssociations                | <e7e0e926-874e-4d05-9177-9776d44c5fb5>                                              | entryGradeLevel          | Third grade            | studentId             | schoolId                       | <737dd4c1-86bd-4892-b9e0-0f24f76210be_id>    | <0f464187-30ff-4e61-a0dd-74f45e5c7a9d>    | IL-DAYBREAK   |    |
+      | studentSectionAssociation              | studentSectionAssociations               | <8ed12459-eae5-49bc-8b6b-6ebe1a56384f_id4ae72560-3518-4576-a35e-a9607668c9ad_id>    | homeroomIndicator        | false                  | studentId             | sectionId                      | <737dd4c1-86bd-4892-b9e0-0f24f76210be_id>    | <a47eb9aa-1c97-4c8e-9d0a-45689a66d4f8_id> | IL-DAYBREAK   |       |
+      | courseTranscript                       | courseTranscripts                        | <f11a2a30-d4fd-4400-ae18-353c00d581a2>                                              | finalLetterGradeEarned   | B                      | studentId             | courseId                       | <737dd4c1-86bd-4892-b9e0-0f24f76210be_id>    | <e31f7583-417e-4c42-bd55-0bbe7518edf8>    | IL-DAYBREAK   |  |
+      | teacherSectionAssociation              | teacherSectionAssociations               | <15ab6363-5509-470c-8b59-4f289c224107_id32b86a2a-e55c-4689-aedf-4b676f3da3fc_id>    | classroomPosition        | Assistant Teacher      | teacherId             | sectionId                      | <04f708bc-928b-420d-a440-f1592a5d1073>       | <a47eb9aa-1c97-4c8e-9d0a-45689a66d4f8_id> | IL-DAYBREAK   |   |
       

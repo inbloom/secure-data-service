@@ -726,3 +726,43 @@ Feature: Use the APi to successfully get student data while having roles over ma
       | lashawn.taite   |
       | jack.jackson    |
       | mu.mcneill      |
+
+  Scenario: GET list of students for an educator associated with the LEA, instead of the schools
+    Given the only SEOA for "rbraverman" is as a "Educator" in "District 9"
+    And the following student section associations in Midgar are set correctly
+      | student         | teacher              | edorg                 | enrolledInAnySection? |
+      | carmen.ortiz    | rbraverman           | Daybreak Central High | yes                   |
+      | jack.jackson    | rbraverman           | Daybreak Central High | no                    |
+      | lashawn.taite   | rbraverman           | Daybreak Central High | no                    |
+      | matt.sollars    | rbraverman           | East Daybreak High    | yes                   |
+      | bert.jakeman    | rbraverman           | East Daybreak High    | no                    |
+      | lashawn.taite   | rbraverman           | East Daybreak High    | no                    |
+    And "jack.jackson" is not associated with any program that belongs to "rbraverman"
+    And "jack.jackson" is not associated with any cohort that belongs to "rbraverman"
+    And "lashawn.taite" is not associated with any program that belongs to "rbraverman"
+    And "lashawn.taite" is not associated with any cohort that belongs to "rbraverman"
+    And "bert.jakeman" is not associated with any program that belongs to "rbraverman"
+    And "bert.jakeman" is not associated with any cohort that belongs to "rbraverman"
+    And parameter "limit" is "0"
+
+    When I navigate to the API authorization endpoint with my client ID
+    And I was redirected to the "Simple" IDP Login page
+    And I submit the credentials "rbraverman" "rbraverman1234" for the "Simple" login page
+    Then I should receive a json response containing my authorization code
+    When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
+    Then I should receive a json response containing my authorization token
+    And I should be able to use the token to make valid API calls
+
+    When I navigate to GET "/v1/students"
+    Then I should receive a return code of 200
+    And the response should have the following students
+      | student         |
+      | carmen.ortiz    |
+      | matt.sollars    |
+    And the response should not have the following students
+      | student         |
+      | lashawn.taite   |
+      | jack.jackson    |
+      | bert.jakeman    |
+      | mu.mcneill      |
+      | nate.dedrick    |

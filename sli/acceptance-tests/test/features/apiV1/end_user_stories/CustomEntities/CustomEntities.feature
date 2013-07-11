@@ -86,15 +86,15 @@ Scenario:  As an Educator, I can retrieve correct custom entity for correct appl
 	When I navigate to GET "/<EDUCATION ORGANIZATION URI>/<EDUCATION ORGANIZATION ID>/<CUSTOM URI>"
 	Then I should receive a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>StateTest Writing Results</DisplayName>" in the result
     
-    #But I can't create as an Educator
     Given format "application/json" 
+    And the sli securityEvent collection is empty
     And a valid entity json object for a "educationOrganizations"
     And I add a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>SAT Scores</DisplayName>" to the object
 	When I navigate to POST "/<EDUCATION ORGANIZATION URI>/<EDUCATION ORGANIZATION ID>/<CUSTOM URI>"
     Then I should receive a return code of 201
 
-    #And I can't update as an Educator
     Given format "application/json"
+    And the sli securityEvent collection is empty
     And a valid entity json object for a "educationOrganizations"
     And I add a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>StateTest Writing Results</DisplayName>" to the object
 	When I navigate to PUT "/<EDUCATION ORGANIZATION URI>/<EDUCATION ORGANIZATION ID>/<CUSTOM URI>"

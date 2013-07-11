@@ -85,7 +85,7 @@ public class DelegationUtil {
             return delegateEdOrgs;
         }
         Entity sea = repo.findById(EntityNames.EDUCATION_ORGANIZATION, edOrgId);
-        List<String> myEdOrgsIds = helper.getChildLEAsOfEdOrg(sea);
+        List<String> myEdOrgsIds = helper.getAllChildLEAsOfEdOrg(sea);
         
         for (String curEdOrg : myEdOrgsIds) {
             NeutralQuery delegateQuery = new NeutralQuery();
