@@ -56,38 +56,57 @@ Feature: Users can access public entities
 
     Examples: User Credentials
        | REALM                                   | TYPE              | USERNAME          | PASSWORD              |
-#       | Illinois Daybreak School District 4529  | aggregate viewer  | msmith            | msmith1234            |
+       | Illinois Daybreak School District 4529  | aggregate viewer  | msmith            | msmith1234            |
        | Illinois Daybreak School District 4529  | leader            | mgonzales         | mgonzales1234         |
        | Illinois Daybreak School District 4529  | educator          | linda.kim         | linda.kim1234         |
        | Illinois Daybreak School District 4529  | admin             | akopel            | akopel1234            |
        | Illinois Daybreak Parents               | parent            | marsha.sollars    | marsha.sollars1234    |
        | Illinois Daybreak Students              | student           | student.m.sollars | student.m.sollars1234 |
 
-  @wip
-  Scenario Outline: Verify Rewrites for entities for staff
+
+  Scenario Outline: Verify Rewrites for entities for staff - msmith/mgonzales
     Given I log in to realm "<REALM>" using simple-idp as "<TYPE>" "<USERNAME>" with password "<PASSWORD>"
       And my contextual access is defined by the table:
         | Context                | Ids                                         |
-        | educationOrganizations | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
-        | schools                | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
+        | educationOrganizations | 352e8570bd1116d11a72755b987902440045d346_id |
+        | schools                | 352e8570bd1116d11a72755b987902440045d346_id |
       And format "application/json"
     When I navigate to the base level URI <Entity> I should see the rewrite in the format of <URI>:
         | Entity                       | URI                                                                            |
         | /calendarDates               | /educationOrganizations/@ids/calendarDates                                     |
     When I navigate to the URI <URI> I should see the rewrite in the format of <Rewrite>:
         | URI                                                                                                                           | Rewrite                                                    |
-        | /educationOrganizations/1b223f577827204a1c7e9c851dba06bea6b031fe_id/calendarDates/e00dc4fb9d6be8372a549dea899fe1915a598c5c_id | /calendarDates/e00dc4fb9d6be8372a549dea899fe1915a598c5c_id |
-        | /schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id                | /calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id |
-        | /gradingPeriods/19b56717877893f8d13bcfe6cfc256811c60c8ff_id/calendarDates/54b0182a783a58ca4cb7266773266a2040fcd799_id         | /calendarDates/54b0182a783a58ca4cb7266773266a2040fcd799_id |
+       #| /educationOrganizations/1b223f577827204a1c7e9c851dba06bea6b031fe_id/calendarDates/e00dc4fb9d6be8372a549dea899fe1915a598c5c_id | /calendarDates/e00dc4fb9d6be8372a549dea899fe1915a598c5c_id |
+       #| /schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id                | /calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id |
+       #| /gradingPeriods/19b56717877893f8d13bcfe6cfc256811c60c8ff_id/calendarDates/54b0182a783a58ca4cb7266773266a2040fcd799_id         | /calendarDates/54b0182a783a58ca4cb7266773266a2040fcd799_id |
 
     Examples: User Credentials
         | REALM                                   | TYPE              | USERNAME          | PASSWORD              |
         | Illinois Daybreak School District 4529  | aggregate viewer  | msmith            | msmith1234            |
         | Illinois Daybreak School District 4529  | leader            | mgonzales         | mgonzales1234         |
-        | Illinois Daybreak School District 4529  | educator          | linda.kim         | linda.kim1234         |
         | Illinois Daybreak School District 4529  | admin             | akopel            | akopel1234            |
 
-  @wip
+  Scenario Outline: Verify Rewrites for entities for staff - linda.kim/akopel
+    Given I log in to realm "<REALM>" using simple-idp as "<TYPE>" "<USERNAME>" with password "<PASSWORD>"
+    And my contextual access is defined by the table:
+      | Context                | Ids                                         |
+      | educationOrganizations | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
+      | schools                | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
+    And format "application/json"
+    When I navigate to the base level URI <Entity> I should see the rewrite in the format of <URI>:
+  | Entity                       | URI                                                                            |
+  | /calendarDates               | /educationOrganizations/@ids/calendarDates                                     |
+    When I navigate to the URI <URI> I should see the rewrite in the format of <Rewrite>:
+  | URI                                                                                                                           | Rewrite                                                    |
+  #| /educationOrganizations/1b223f577827204a1c7e9c851dba06bea6b031fe_id/calendarDates/e00dc4fb9d6be8372a549dea899fe1915a598c5c_id | /calendarDates/e00dc4fb9d6be8372a549dea899fe1915a598c5c_id |
+  #| /schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id                | /calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id |
+  #| /gradingPeriods/19b56717877893f8d13bcfe6cfc256811c60c8ff_id/calendarDates/54b0182a783a58ca4cb7266773266a2040fcd799_id         | /calendarDates/54b0182a783a58ca4cb7266773266a2040fcd799_id |
+
+  Examples: User Credentials
+    | REALM                                   | TYPE              | USERNAME          | PASSWORD              |
+    | Illinois Daybreak School District 4529  | educator          | linda.kim         | linda.kim1234         |
+
+
   Scenario Outline: Verify Rewrites for entities for students and parents
     Given I log in to realm "<REALM>" using simple-idp as "<TYPE>" "<USERNAME>" with password "<PASSWORD>"
       And my contextual access is defined by the table:
@@ -97,19 +116,19 @@ Feature: Users can access public entities
        And format "application/json"
     When I navigate to the base level URI <Entity> I should see the rewrite in the format of <URI>:
         | Entity                       | URI                                                             |
-        | /calendarDates               | /schools/@ids/calendarDates                                     |
+        | /calendarDates               | /educationOrganizations/@ids/calendarDates                                     |
     When I navigate to the URI <URI> I should see the rewrite in the format of <Rewrite>:
         | URI                                                                                                                           | Rewrite                                                    |
-        | /educationOrganizations/1b223f577827204a1c7e9c851dba06bea6b031fe_id/calendarDates/e00dc4fb9d6be8372a549dea899fe1915a598c5c_id | /calendarDates/e00dc4fb9d6be8372a549dea899fe1915a598c5c_id |
-        | /schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id                | /calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id |
-        | /gradingPeriods/19b56717877893f8d13bcfe6cfc256811c60c8ff_id/calendarDates/54b0182a783a58ca4cb7266773266a2040fcd799_id         | /calendarDates/54b0182a783a58ca4cb7266773266a2040fcd799_id |
+       #| /educationOrganizations/1b223f577827204a1c7e9c851dba06bea6b031fe_id/calendarDates/e00dc4fb9d6be8372a549dea899fe1915a598c5c_id | /calendarDates/e00dc4fb9d6be8372a549dea899fe1915a598c5c_id |
+       #| /schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id                | /calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id |
+       #| /gradingPeriods/19b56717877893f8d13bcfe6cfc256811c60c8ff_id/calendarDates/54b0182a783a58ca4cb7266773266a2040fcd799_id         | /calendarDates/54b0182a783a58ca4cb7266773266a2040fcd799_id |
 
     Examples: User Credentials
         | REALM                                   | TYPE              | USERNAME          | PASSWORD              |
         | Illinois Daybreak Parents               | parent            | marsha.sollars    | marsha.sollars1234    |
         | Illinois Daybreak Students              | student           | student.m.sollars | student.m.sollars1234 |
 
-  @wip
+
   Scenario Outline: Verify base endpoint only contains calendarDates for the directly associated edOrgs
     Given I log in to realm "<REALM>" using simple-idp as "<TYPE>" "<USERNAME>" with password "<PASSWORD>"
      And format "application/json"
@@ -132,9 +151,9 @@ Feature: Users can access public entities
       And format "application/json"
     When I navigate to the base level URI <Entity> I should see the rewrite in the format of <URI>:
         | Entity                       | URI                                           |
-        | /calendarDates               | /<DEFAULT_ENDPOINT>/<EDORG>/calendarDates |
-   #When I navigate to the URI <URI> I should see the rewrite in the format of <Rewrite>:
-       #| URI                                                                                                                           | Rewrite                                                    |
+        | /calendarDates               | /educationOrganizations/<EDORG>/calendarDates |
+    When I navigate to the URI <URI> I should see the rewrite in the format of <Rewrite>:
+        | URI                                                                                                                           | Rewrite                                                    |
        #| /educationOrganizations/1b223f577827204a1c7e9c851dba06bea6b031fe_id/calendarDates/e00dc4fb9d6be8372a549dea899fe1915a598c5c_id | /calendarDates/e00dc4fb9d6be8372a549dea899fe1915a598c5c_id |
        #| /schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id                | /calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id |
        #| /gradingPeriods/19b56717877893f8d13bcfe6cfc256811c60c8ff_id/calendarDates/54b0182a783a58ca4cb7266773266a2040fcd799_id         | /calendarDates/54b0182a783a58ca4cb7266773266a2040fcd799_id |
@@ -145,8 +164,8 @@ Feature: Users can access public entities
         | Illinois Daybreak School District 4529  | leader            | mgonzales         | mgonzales1234         | 352e8570bd1116d11a72755b987902440045d346_id | educationOrganizations |
         | Illinois Daybreak School District 4529  | educator          | linda.kim         | linda.kim1234         | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id | educationOrganizations |
         | Illinois Daybreak School District 4529  | admin             | akopel            | akopel1234            | 352e8570bd1116d11a72755b987902440045d346_id | educationOrganizations |
-       #| Illinois Daybreak Parents               | parent            | marsha.sollars    | marsha.sollars1234    | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id | schools                |
-       #| Illinois Daybreak Students              | student           | student.m.sollars | student.m.sollars1234 | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id | schools                |
+        | Illinois Daybreak Parents               | parent            | marsha.sollars    | marsha.sollars1234    | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id | schools                |
+        | Illinois Daybreak Students              | student           | student.m.sollars | student.m.sollars1234 | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id | schools                |
        #above are commented out as rewrite from /calendarDates going to edOrgs instead of schools
 
   Scenario: Public Entities Write Commands as a IT Admin (user with WRITE PUBLIC)
@@ -163,16 +182,16 @@ Feature: Users can access public entities
        | calendarEvent           | Instructional day                           |
        | date                    | 2015-04-02                                  |
        | educationOrganizationId | 352e8570bd1116d11a72755b987902440045d346_id |
-    When I PATCH and validate the following entities:
-       |  fieldName     |  entityType   | value   |  returnCode  | endpoint                                                  |
-       |  calendarEvent |  calendarDate | Holiday |  204         | calendarDates/611ce67cc258ae2d06bc3199ee678df0fb6cecab_id |
-    Then I verify the following response body fields in "/calendarDates/611ce67cc258ae2d06bc3199ee678df0fb6cecab_id":
-       | field                   | value                                       |
-       | id                      | 611ce67cc258ae2d06bc3199ee678df0fb6cecab_id |
-       | entityType              | calendarDate                                |
-       | calendarEvent           | Holiday                                     |
-       | date                    | 2015-04-02                                  |
-       | educationOrganizationId | 352e8570bd1116d11a72755b987902440045d346_id |
+    #When I PATCH and validate the following entities:
+    #   |  fieldName     |  entityType   | value   |  returnCode  | endpoint                                                  |
+    #   |  calendarEvent |  calendarDate | Holiday |  204         | calendarDates/611ce67cc258ae2d06bc3199ee678df0fb6cecab_id |
+    #Then I verify the following response body fields in "/calendarDates/611ce67cc258ae2d06bc3199ee678df0fb6cecab_id":
+    #   | field                   | value                                       |
+    #   | id                      | 611ce67cc258ae2d06bc3199ee678df0fb6cecab_id |
+    #   | entityType              | calendarDate                                |
+    #   | calendarEvent           | Holiday                                     |
+    #   | date                    | 2015-04-02                                  |
+    #   | educationOrganizationId | 352e8570bd1116d11a72755b987902440045d346_id |
     When I PUT and validate the following entities:
        |  field         | entityName      |  value            | returnCode | endpoint                                                  |
        |  calendarEvent | newCalendarDate | Instructional day | 204        | calendarDates/611ce67cc258ae2d06bc3199ee678df0fb6cecab_id |
@@ -194,8 +213,18 @@ Feature: Users can access public entities
        | entityName       | entityType   | returnCode |
        | newCalendarDate2 | calendarDate | 403        |
    #When I PATCH and validate the following entities:
-      #|  fieldName     |  entityType    | value   |  returnCode  | endpoint                                                  |
-      #|  calendarEvent |  calendarDate2 | Holiday |  403         | calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id |
+   #    |  fieldName     |  entityType    | value   |  returnCode  | endpoint                                                  |
+   #    |  calendarEvent |  calendarDate2 | Holiday |  403         | calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id |
+   # Then I verify the following response body fields in "/calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id":
+   #    | field                   | value                                       |
+   #    | id                      | 7629c5951c8af6dac204cf636d5a81acb64fc6ef_id |
+   #    | entityType              | calendarDate                                |
+   #    | calendarEvent           | Instructional day                           |
+   #    | date                    | 2012-09-18                                  |
+   #    | educationOrganizationId | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
+    When I PUT and validate the following entities:
+       |  field         | entityName       |  value            | returnCode | endpoint                                                  |
+       |  calendarEvent | newCalendarDate2 | Holiday           | 403        | calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id |
     Then I verify the following response body fields in "/calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id":
        | field                   | value                                       |
        | id                      | 7629c5951c8af6dac204cf636d5a81acb64fc6ef_id |
@@ -203,19 +232,10 @@ Feature: Users can access public entities
        | calendarEvent           | Instructional day                           |
        | date                    | 2012-09-18                                  |
        | educationOrganizationId | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
-   #When I PUT and validate the following entities:
-      #|  field         | entityName       |  value            | returnCode | endpoint                                                  |
-      #|  calendarEvent | newCalendarDate2 | Holiday           | 403        | calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id |
-    Then I verify the following response body fields in "/calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id":
-       | field                   | value                                       |
-       | id                      | 7629c5951c8af6dac204cf636d5a81acb64fc6ef_id |
-       | entityType              | calendarDate                                |
-       | calendarEvent           | Instructional day                           |
-       | date                    | 2012-09-18                                  |
-       | educationOrganizationId | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
-   #When I DELETE and validate the following entities:
-      #| entity       | id                                           | returnCode |
-      #| calendarDate | 6f93d0a3e53c2d9c3409646eaab94155fe079e87_id  | 403        |
+    And I die
+    When I DELETE and validate the following entities:
+       | entity       | id                                           | returnCode |
+       | calendarDate | 6f93d0a3e53c2d9c3409646eaab94155fe079e87_id  | 403        |
     Then I verify the following response body fields in "/calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id":
        | field                   | value                                       |
        | id                      | 7629c5951c8af6dac204cf636d5a81acb64fc6ef_id |
@@ -234,17 +254,17 @@ Feature: Users can access public entities
       And I navigate to GET "/v1/calendarDates/611ce67cc258ae2d06bc3199ee678df0fb6cecab_id"
      Then I should receive a return code of 404
 
-     When I PATCH and validate the following entities:
-        |  fieldName     |  entityType   | value   |  returnCode  | endpoint                                                  |
-        |  calendarEvent |  calendarDate | Holiday |  403         | calendarDates/6f93d0a3e53c2d9c3409646eaab94155fe079e87_id |
+   #  When I PATCH and validate the following entities:
+   #     |  fieldName     |  entityType   | value   |  returnCode  | endpoint                                                  |
+   #     |  calendarEvent |  calendarDate | Holiday |  403         | calendarDates/6f93d0a3e53c2d9c3409646eaab94155fe079e87_id |
 
-     Then I verify the following response body fields in "/calendarDates/6f93d0a3e53c2d9c3409646eaab94155fe079e87_id":
-        | field                   | value                                       |
-        | id                      | 6f93d0a3e53c2d9c3409646eaab94155fe079e87_id |
-        | entityType              | calendarDate                                |
-        | calendarEvent           | Instructional day                           |
-        | date                    | 2014-01-21                                  |
-        | educationOrganizationId | 352e8570bd1116d11a72755b987902440045d346_id |
+   #  Then I verify the following response body fields in "/calendarDates/6f93d0a3e53c2d9c3409646eaab94155fe079e87_id":
+   #     | field                   | value                                       |
+   #     | id                      | 6f93d0a3e53c2d9c3409646eaab94155fe079e87_id |
+   #     | entityType              | calendarDate                                |
+   #     | calendarEvent           | Instructional day                           |
+   #     | date                    | 2014-01-21                                  |
+   #     | educationOrganizationId | 352e8570bd1116d11a72755b987902440045d346_id |
 
      When I PUT and validate the following entities:
         |  field         | entityName      |  value            | returnCode | endpoint                                                  |
