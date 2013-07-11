@@ -30,9 +30,9 @@ import javax.xml.bind.DatatypeConverter;
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerRequestFilter;
 
+import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.common.constants.EntityNames;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Component;
@@ -127,7 +127,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
         // but because I don't understand, and security is sensitive, I am block
         // certain urls explicitly...
         if (contextValidator.isUrlBlocked(request)) {
-            throw new AccessDeniedException(String.format("url %s is not accessible.", request.getAbsolutePath().toString()));
+            throw new APIAccessDeniedException(String.format("url %s is not accessible.", request.getAbsolutePath().toString()));
         }
 
         if (isWrite(request.getMethod())) {

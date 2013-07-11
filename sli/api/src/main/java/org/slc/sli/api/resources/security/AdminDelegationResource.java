@@ -183,10 +183,10 @@ public class AdminDelegationResource {
 
     void log(boolean appApprovalEnabled, boolean oldAppApprovalEnabled, @Context final UriInfo uriInfo){
     	 if (appApprovalEnabled && !oldAppApprovalEnabled) {
-             SecurityEvent event = securityEventBuilder.createSecurityEvent(AdminDelegationResource.class.getName(), uriInfo.getRequestUri(), "LEA's delegation is enabled!");
+             SecurityEvent event = securityEventBuilder.createSecurityEvent(AdminDelegationResource.class.getName(), uriInfo.getRequestUri(), "LEA's delegation is enabled!", true);
              audit(event);
          }	 else if (!appApprovalEnabled  && oldAppApprovalEnabled ) {
-             SecurityEvent event = securityEventBuilder.createSecurityEvent(AdminDelegationResource.class.getName(), uriInfo.getRequestUri(), "LEA's delegation is disabled!");
+             SecurityEvent event = securityEventBuilder.createSecurityEvent(AdminDelegationResource.class.getName(), uriInfo.getRequestUri(), "LEA's delegation is disabled!", true);
              audit(event);
          }
     }

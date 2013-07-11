@@ -236,7 +236,7 @@ public class ContextValidator implements ApplicationContextAware {
     public void validateContextToCallUri(List<PathSegment> segments) {
         if (SecurityUtil.getSLIPrincipal().getEntity().getType().equals(EntityNames.TEACHER)
                 && checkAccessOfStudentsThroughDisciplineIncidents(segments)) {
-            throw new AccessDeniedException("Cannot access endpoint.");
+            throw new APIAccessDeniedException("Cannot access endpoint.");
         }
     }
 
@@ -302,7 +302,7 @@ public class ContextValidator implements ApplicationContextAware {
                 }
             }
         } else {
-            throw new AccessDeniedException("No validator for " + def.getType() + ", transitive=" + isTransitive);
+            throw new APIAccessDeniedException("No validator for " + def.getType() + ", transitive=" + isTransitive, def.getType(), ids);
         }
     }
 

@@ -24,10 +24,9 @@ import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.api.security.context.EdOrgOwnershipArbiter;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
@@ -48,16 +47,7 @@ import java.util.*;
 public class APIAccessDeniedExceptionHandler implements ExceptionMapper<APIAccessDeniedException> {
 
     @Autowired
-    private PagingRepositoryDelegate<Entity> repository;
-
-    @Autowired
-    private EdOrgOwnershipArbiter arbiter;
-
-    @Autowired
     private SecurityEventBuilder securityEventBuilder;
-
-    @Autowired
-    private EntityDefinitionStore entityDefinitionStore;
 
     @Context
     UriInfo uriInfo;
@@ -98,8 +88,7 @@ public class APIAccessDeniedExceptionHandler implements ExceptionMapper<APIAcces
         }
         warn("Cause: {}", e.getMessage());
 
-        audit(securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo.getRequestUri(), "Access Denied:"
-                + e.getMessage(), getTargetEdOrgs(e)));
+        logSecurityEvent(e);
 
         MediaType errorType = MediaType.APPLICATION_JSON_TYPE;
         if(this.headers.getMediaType() == MediaType.APPLICATION_XML_TYPE) {
@@ -109,64 +98,23 @@ public class APIAccessDeniedExceptionHandler implements ExceptionMapper<APIAcces
         return Response.status(errorStatus).entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(), "Access DENIED: " + e.getMessage())).type(errorType).build();
     }
 
-    private Set<String> getTargetEdOrgs(APIAccessDeniedException e) {
-        Set<String> targetEdOrgs = null;
+    private void logSecurityEvent(APIAccessDeniedException e) {
 
-        if (e.getTargetEdOrgs() != null) {
+        if (e.getTargetEdOrgIds() != null) {
             // if we already have the target edOrgs - good to go
-            return e.getTargetEdOrgs();
-        }
+            audit(securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo.getRequestUri(), "Access Denied:"
+                    + e.getMessage(), EntityNames.EDUCATION_ORGANIZATION, e.getTargetEdOrgIds().toArray(new String[0])));
 
-        // entityType should be set
-        if (e.getEntityType() == null) {
-            return null;
-        }
+        } else if (e.getEntityType() != null) {
 
-        Set<Entity> entities = getEntities(e);
-        if (entities == null || entities.isEmpty()) {
-            return null;
-        }
+            if (e.getEntities() != null && !e.getEntities().isEmpty()) {
+                audit(securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo.getRequestUri(), "Access Denied:"
+                        + e.getMessage(), e.getEntityType(), e.getEntities()));
 
-        try {
-            targetEdOrgs = arbiter.determineEdorgs(entities, e.getEntityType());
-        } catch (AccessDeniedException nestedE) {
-            // we were unable to determine the targetEdOrgs
-            warn(nestedE.getMessage());
-            return null;
-        } catch (RuntimeException nestedE) {
-            // we were unable to determine the targetEdOrgs
-            warn(nestedE.getMessage());
-            return null;
-        }
-
-        return targetEdOrgs;
-    }
-
-    private Set<Entity> getEntities(APIAccessDeniedException e) {
-        Set<Entity> entities = null;
-
-        if (e.getEntities() != null) {
-            // entities are already available
-            entities = e.getEntities();
-
-        } else if (e.getEntityIds() != null) {
-            // use entityId and entityType to get the entities
-            if (e.getEntityIds() != null && !e.getEntityIds().isEmpty()) {
-                entities = new HashSet<Entity>();
-                for (String id : e.getEntityIds()) {
-                    if (id != null) {
-                        String collectionName = entityDefinitionStore.lookupByEntityType(e.getEntityType()).getStoredCollectionName();
-                        Entity entity = repository.findById(collectionName, id);
-                        if (entity == null) {
-                            warn("Entity of type " + e.getEntityType() + " with id " + id + " could not be found in the database.");
-                        } else {
-                            entities.add(entity);
-                        }
-                    }
-                }
+            } else if (e.getEntityIds() != null && !e.getEntityIds().isEmpty()) {
+                audit(securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo.getRequestUri(), "Access Denied:"
+                        + e.getMessage(), e.getEntityType(), e.getEntityIds().toArray(new String[0])));
             }
         }
-
-        return entities;
     }
 }

@@ -313,7 +313,7 @@ public class CustomRoleResource {
     }
 
     private void auditSecEvent(UriInfo uriInfo, String message, String RealmId) {
-    	SecurityEvent event = securityEventBuilder.createSecurityEvent(CustomRoleResource.class.getName(), uriInfo.getRequestUri(), message);
+    	SecurityEvent event = securityEventBuilder.createSecurityEvent(CustomRoleResource.class.getName(), uriInfo.getRequestUri(), message, true);
     	if(RealmId!=null)
     	{
             String targetEdOrg = realmHelper.getEdOrgIdFromRealm(RealmId);
