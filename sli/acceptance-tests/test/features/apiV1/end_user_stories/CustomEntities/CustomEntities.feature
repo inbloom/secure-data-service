@@ -5,6 +5,60 @@ Application is authorized using OAuth (there is an client_id and client_secret).
 
 Background: None
 
+Scenario:  As an IT Admin, I want to add custom entitiy of cleandarDates to a core entity belonging to my application
+    #create a new custom entity for demoClient
+    Given  I am a valid SEA/LEA end user "rrogers" with password "rrogers1234"
+    And the clientID is "demoClient"
+    And I am authenticated on "IL"
+   
+    Given format "application/json"
+    And a valid entity json object for a "calendarDates"
+    And I add a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>StateTest Programming Results</DisplayName>" to the object
+	When I navigate to POST "/<CALENDARDATE URI>/<CALENDARDATE ID>/<CUSTOM URI>"
+	Then I should receive a return code of 201
+
+	
+	#retrieve correct custom entity for correct application
+    Given  I am a valid SEA/LEA end user "rrogers" with password "rrogers1234"
+    And the clientID is "demoClient"
+    And I am authenticated on "IL"
+	When I navigate to GET "/<CALENDARDATE URI>/<CALENDARDATE ID>/<CUSTOM URI>"
+    Then I should receive a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>StateTest Programming Results</DisplayName>" in the result
+
+	Given format "application/json"
+    And a valid entity json object for a "calendarDates"
+    And I add a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>StateTest Writing Results</DisplayName>" to the object
+	When I navigate to PUT "/<CALENDARDATE URI>/<CALENDARDATE ID>/<CUSTOM URI>"
+	Then I should receive a return code of 204
+	
+    Given format "application/json" 
+	When I navigate to DELETE "/<CALENDARDATE URI>/<CALENDARDATE ID>/<CUSTOM URI>"
+	Then I should receive a return code of 204
+	
+Scenario:  As an Educator, I can retrieve correct custom entity of CalendarDate for correct application, and I can also create and update custom entities
+	#As an educator I can also retrieve correct custom entity for correct application
+    Given  I am a valid SEA/LEA end user "rbraverman" with password "rbraverman1234"
+    And the clientID is "demoClient"
+    And I am authenticated on "IL"
+	   
+    Given format "application/json" 
+    And the sli securityEvent collection is empty
+    And a valid entity json object for a "calendarDates"
+    And I add a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>SAT Scores</DisplayName>" to the object
+	When I navigate to POST "/<CALENDARDATE URI>/<CALENDARDATE ID>/<CUSTOM URI>"
+    Then I should receive a return code of 201
+        
+    When I navigate to GET "/<CALENDARDATE URI>/<CALENDARDATE ID>/<CUSTOM URI>"
+	Then I should receive a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>SAT Scores</DisplayName>" in the result
+
+    Given format "application/json"
+    And the sli securityEvent collection is empty
+    And a valid entity json object for a "calendarDates"
+    And I add a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>StateTest Writing Results</DisplayName>" to the object
+	When I navigate to PUT "/<CALENDARDATE URI>/<CALENDARDATE ID>/<CUSTOM URI>"
+	#Then I should receive a return code of 204	
+	
+
 Scenario:  As an IT Admin, I want to add custom entitiy to a core entity belonging to my application
     #create a new custom entity for demoClient
     Given  I am a valid SEA/LEA end user "rrogers" with password "rrogers1234"
@@ -17,7 +71,7 @@ Scenario:  As an IT Admin, I want to add custom entitiy to a core entity belongi
 	When I navigate to POST "/<EDUCATION ORGANIZATION URI>/<EDUCATION ORGANIZATION ID>/<CUSTOM URI>"
 	Then I should receive a return code of 201
 	And I should receive a Location header for the custom entity
-	
+
 	#create a new custom entity for sampleApplication
 	Given  I am a valid SEA/LEA end user "rrogers" with password "rrogers1234"
     And the clientID is "SampleApplication"
@@ -35,6 +89,7 @@ Scenario:  As an IT Admin, I want to add custom entitiy to a core entity belongi
     And I am authenticated on "IL"
 	When I navigate to GET "/<EDUCATION ORGANIZATION URI>/<EDUCATION ORGANIZATION ID>/<CUSTOM URI>"
     Then I should receive a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>StateTest Reading Results</DisplayName>" in the result
+
 
 Scenario: As an IT Admin, I want to update custom entity associated with any core entity belonging to my application
 
