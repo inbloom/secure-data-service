@@ -69,7 +69,7 @@ Background: Nothing yet
     | gradingPeriod                           | gradingPeriods                           | 3     |/search/gradingPeriods|
     | reportCard                              | reportCards                              | 0     |/schools/@ids/studentSchoolAssociations/students/reportCards|
     | studentCompetencyObjective              | studentCompetencyObjectives              | 1     |/search/studentCompetencyObjectives    |
-    | calendarDates                           | calendarDates                            | 0     |/educationOrganizations/@ids/calendarDates|
+    | calendarDates                           | calendarDates                            | 4     |/educationOrganizations/@ids/calendarDates|
     Then the staff queries and rewrite rules work
 
  @Teacher_crud

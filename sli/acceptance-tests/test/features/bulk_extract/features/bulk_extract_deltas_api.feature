@@ -95,6 +95,7 @@ Scenario: SEA - Ingest additional entities in preparation for subsequent update 
       |  courseOffering                        |
       |  gradingPeriod                         |
       |  graduationPlan                        |
+      |  deleted                               |
     And Only the following extracts exists for edOrg "<STANDARD-SEA>" in tenant "Midgar"
       |  assessment                            |
       |  session                               |
@@ -103,6 +104,7 @@ Scenario: SEA - Ingest additional entities in preparation for subsequent update 
       |  courseOffering                        |
       |  gradingPeriod                         |
       |  graduationPlan                        |
+      |  deleted                               |
     And There should not be any of the following extracts for edOrg "<IL-DAYBREAK>" in tenant "Midgar"
     # Note course exists here due to a reference to a courseOffering related to this LEA
       |  assessment                            |

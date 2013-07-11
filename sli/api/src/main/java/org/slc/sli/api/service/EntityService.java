@@ -68,6 +68,14 @@ public interface EntityService {
     public void delete(String id);
 
     /**
+     * Delete an entity from the data store based on contextual roles
+     *
+     * @param id
+     *            the id of the entity to delete
+     */
+    public void deleteBasedOnContextualRoles(String id);
+
+    /**
      * Change an entity in the data store
      *
      * @param id

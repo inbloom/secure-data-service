@@ -303,7 +303,11 @@ public class DefaultResourceService implements ResourceService {
     public void deleteEntity(Resource resource, String id) {
         EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
 
-        definition.getService().delete(id);
+        if (contextSupportedEntities.contains(definition.getType()) && SecurityUtil.isStaffUser()) {
+            definition.getService().deleteBasedOnContextualRoles(id);
+        } else {
+            definition.getService().delete(id);
+        }
     }
 
     @Override

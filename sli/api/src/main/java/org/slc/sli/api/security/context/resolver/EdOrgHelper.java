@@ -31,6 +31,7 @@ import com.google.common.collect.Sets;
 
 import javax.annotation.PostConstruct;
 
+import org.slc.sli.api.representation.EntityBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -596,14 +597,17 @@ public class EdOrgHelper {
     public Set<String> getEdOrgStateOrganizationIds(Set<String> edOrgIds) {
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, edOrgIds));
         Iterable<Entity> edOrgs = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, basicQuery);
-        Iterable<String> stateOrganizationIds =
-        Iterables.transform(edOrgs,new Function<Entity, String>() {
-            @Override
-            public String apply(@javax.annotation.Nullable Entity entity) {
-                return (String)entity.getBody().get("stateOrganizationId");
+        Set<String> stateOrganizationIds = new HashSet<String>();
+        for (Entity edOrg : edOrgs) {
+            Map<String, Object> body = edOrg.getBody();
+            if (body != null) {
+                String stateId = (String) body.get("stateOrganizationId");
+                if (stateId != null) {
+                    stateOrganizationIds.add(stateId);
+                }
             }
-        });
-        return Sets.newHashSet(stateOrganizationIds);
+        }
+        return stateOrganizationIds;
     }
 
     /**
