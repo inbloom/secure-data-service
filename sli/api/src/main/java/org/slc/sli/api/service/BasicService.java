@@ -251,9 +251,39 @@ public class BasicService implements EntityService, AccessibilityCheck {
     // with different combinations of parameters
 
     @Override
-    public void delete(String id) {
+     public void delete(String id) {
 
         checkAccess(false, id, null);
+
+        try {
+            cascadeDelete(id);
+        } catch (RuntimeException re) {
+            debug(re.toString());
+        }
+
+        if (!getRepo().delete(collectionName, id)) {
+            info("Could not find {}", id);
+            throw new EntityNotFoundException(id);
+        }
+        deleteAttachedCustomEntities(id);
+    }
+
+    @Override
+    public void deleteBasedOnContextualRoles(String id) {
+
+        NeutralQuery query = new NeutralQuery();
+        query.addCriteria(new NeutralCriteria("_id", "=", id));
+
+        boolean isSelf = isSelf(query);
+
+        Entity entity = repo.findOne(collectionName, query);
+        if (entity == null) {
+            info("Could not find {}", id);
+            throw new EntityNotFoundException(id);
+        }
+
+        Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf, entity);
+        rightAccessValidator.checkAccess(false, id, null, defn.getType(), collectionName, getRepo(), auths);
 
         try {
             cascadeDelete(id);
