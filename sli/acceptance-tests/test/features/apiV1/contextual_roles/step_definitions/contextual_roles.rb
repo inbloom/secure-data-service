@@ -802,6 +802,11 @@ Then /^I remove the posted student$/ do
   remove_from_mongo_operation(tenant, 'student', {"_id" => @lastStudentId})
 end
 
+When /^I change the field "([^\"]*)" to "([^\"]*)"$/ do |field, value|
+  @patch_body = Hash.new if !defined?(@patch_body)
+  @patch_body["#{field}"] = value
+end
+
 # Build the teacher hash
 def teacherHashPush(key, value)
   @teacher = Hash.new unless defined? @teacher
