@@ -79,7 +79,7 @@ public final class EntityNames {
     public static final String TEACHER_SECTION_ASSOCIATION = "teacherSectionAssociation";
     public static final String CALENDAR_DATE = "calendarDate";
     
-    private static final Set<String> PUBLIC_ENTITIES = new HashSet<String>(Arrays.asList(
+    public static final Set<String> PUBLIC_ENTITIES = new HashSet<String>(Arrays.asList(
             ASSESSMENT,
             ASSESSMENT_FAMILY,
             ASSESSMENT_PERIOD_DESCRIPTOR,

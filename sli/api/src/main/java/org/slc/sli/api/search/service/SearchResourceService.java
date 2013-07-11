@@ -189,7 +189,7 @@ public class SearchResourceService {
             criteria = new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, entityMap.row(type).keySet());
             query.addCriteria(criteria);
             query.setOffset(0);
-            Iterables.addAll(fullEntities, resourceHelper.getEntityDefinitionByType(type).getService().list(query));
+            Iterables.addAll(fullEntities, resourceHelper.getEntityDefinitionByType(type).getService().listBasedOnContextualRoles(query));
         }
         return fullEntities;
     }
@@ -258,7 +258,8 @@ public class SearchResourceService {
                 && apiQuery.getOffset() + limitPerQuery < this.maxUnfilteredSearchResultCount) {
 
             // call BasicService to query the elastic search repo
-            entityBodies = (List<EntityBody>) getService().list(apiQuery);
+            //entityBodies = (List<EntityBody>) getService().list(apiQuery);
+            entityBodies = (List<EntityBody>) getService().listBasedOnContextualRoles(apiQuery);
             debug("Got {} entities back", entityBodies.size());
             int lastSize = entityBodies.size();
             finalEntities.addAll(filterResultsBySecurity(entityBodies, offset, limit));
