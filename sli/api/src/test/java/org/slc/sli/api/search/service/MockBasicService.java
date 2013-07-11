@@ -65,6 +65,12 @@ public class MockBasicService implements EntityService {
     }
 
     @Override
+    public void deleteBasedOnContextualRoles(String id) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
     public boolean update(String id, EntityBody content) {
         // TODO Auto-generated method stub
         return false;
