@@ -16,19 +16,20 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 
 /**
  * Validates a staff accessing a set of entities that are directly associated to a student.
@@ -57,12 +58,13 @@ public class StaffToSubStudentEntityValidator extends AbstractContextValidator {
         return isStaff() && isSubEntityOfStudent(entityType);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(SUB_ENTITIES_OF_STUDENT, entityType, ids)) {
             return false;
         }
-        
+
         Set<String> students = new HashSet<String>();
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
                 NeutralCriteria.CRITERIA_IN, new ArrayList<String>(ids)));
@@ -72,7 +74,7 @@ public class StaffToSubStudentEntityValidator extends AbstractContextValidator {
                 Map<String, Object> body = entity.getBody();
                 Object studentInfo = body.get(ParameterConstants.STUDENT_ID);
                 if (studentInfo instanceof Collection) {    //e.g. BasicDBList
-                    students.addAll((Collection) studentInfo);
+                    students.addAll((Collection<String>) studentInfo);
                 } else if (studentInfo instanceof String) {
                     students.add((String) studentInfo);
                 }
