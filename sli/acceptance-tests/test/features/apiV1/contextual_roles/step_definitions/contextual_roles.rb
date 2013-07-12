@@ -562,23 +562,6 @@ Given /^I expire all section associations that "([^"]*)" has with "([^"]*)"$/ do
   enable_NOTABLESCAN()
 end
 
-Given /^I remove all restricted data from the student "([^"]*)"$/ do |student|
-  disable_NOTABLESCAN()
-  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
-  db_name = convertTenantIdToDbName(@tenant)
-  db = conn[db_name]
-  student_coll = db.collection('student')
-  student_id = student_coll.find_one({'body.studentUniqueStateId' => student})['_id']
-  query = { '_id' => student_id }
-
-  update_mongo(db_name, 'student', query, 'body.economicDisadvantaged', true)
-  update_mongo(db_name, 'student', query, 'body.schoolFoodServicesEligibility', true)
-
-  conn.close
-  enable_NOTABLESCAN()
-
-end
-
 #############################################################################################
 # OAUTH Steps
 #############################################################################################
@@ -866,19 +849,6 @@ end
 ############################################################################################
 #Steps for DELETE
 ############################################################################################
-
-When /^I attempt to delete the student at "([^"]*)"$/ do |student|
-  db_name = convertTenantIdToDbName @tenant
-  disable_NOTABLESCAN()
-  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
-  db = conn[db_name]
-  student_coll = db.collection('student')
-  student_entity = student_coll.find_one({'body.studentUniqueStateId' => student})
-  student_id = student_entity['_id']
-
-  restHttpDelete("/v1/students/#{student_id}")
-
-end
 
 When /^I attempt to delete the new entity$/ do
   restHttpDelete("/v1/students/#{@result['id']}")
