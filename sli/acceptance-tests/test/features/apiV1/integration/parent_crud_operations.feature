@@ -199,7 +199,7 @@ Given I log in to realm "Illinois Daybreak School District 4529" using simple-id
     | staff                      | 0a6289889ce37aec0a94de535b2df8dfe3c136ee_id |
     | staff                      | 7a501f815f2224125033913c891d629e0d0f5fb9_id |
     | staffCohortAssociations    | f812f7507a1ab13b54a8ef390323342705bd9171_id |
-    | staffProgramAssociations   | b183ce95614dcedd03f25196a217aa3e0b6c5ca1_id |
+    | staffProgramAssociations   | b519ce9ad9bd8588fb52997180888063a4ba9fce_id |
     | cohorts                    | cfa2241d0bbf48070ed492e653931db4bcd9bb43_id | 
     | cohorts                    | 271a8d3a18ae2d80599dc55a0abaaeb8527ff10f_id |
     | parents                    | 1fe86fe9c45680234f1caa3b494a1c4b42838954_id |
@@ -211,6 +211,7 @@ Given I log in to realm "Illinois Daybreak School District 4529" using simple-id
     | assessments                | f0ffa2e21cf1fc400527ac2ba63c20e4a620815c_id |
     | studentAssessments         | d4efea33872dc68985dbd1fc75c67681b8b13a60_id |
     | attendances                | 63033e548daa3c024ad12ae98466e96055909da5_id |
+    | yearlyAttendances          | 63033e548daa3c024ad12ae98466e96055909da5_id |
     | studentGradebookEntries    | 93434cd0e970de1222e21e1b569e560bba82e203_id |
     | studentCompetencies        | 6668114ed5195e2a0baf50a42b9a81a6006a9ca2_id |
     | studentCompetencyObjectives| b7080a7f753939752b693bca21fe60375d15587e_id |
@@ -227,7 +228,7 @@ Given I log in to realm "Illinois Daybreak School District 4529" using simple-id
     | studentParentAssociations  | fdd8ee3ee44133f489e47d2cae109e886b041382_idfbfd0e2202a671708374cb077c7ffd45e94046b7_id |
     | studentCohortAssociations  | fdd8ee3ee44133f489e47d2cae109e886b041382_id090a854fd293a2b17a2f7c54c2cc5f9b5f63e18b_id |
     | studentProgramAssociations | fdd8ee3ee44133f489e47d2cae109e886b041382_idfcd0570abc7cd5997bd21c74a1d1078cc7ee6a07_id |
-    | staffEducationOrganizationAssociations | abda51a76968fd76328481bc984d7004604160bb_id |
+    | staffEducationOrgAssignmentAssociations | f7371a2a35e09e879b04f8985bc77f23f99aa5e6_id |
 
 # Now modify the Parent role to include the rights of an IT-Administrator
 Given I get the rights for the "Parent" role in realm "deadbeef-1bad-4606-a936-094331bddeed"
