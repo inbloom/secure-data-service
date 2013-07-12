@@ -836,8 +836,8 @@ After('@clean_up_parent_posts') do |scenario|
   step "I am using api version \"v1\""
   restHttpDelete("/v1/parents/1fe86fe9c45680234f1caa3b494a1c4b42838954_id")
   print "parents delete result: #{@res.code}\n"
-  #restHttpDelete("/v1/studentParentAssociations/fdd8ee3ee44133f489e47d2cae109e886b041382_idec053d2e0752799cb0217578d003a1fe8f06b9a0_id")
-  #print "studentParentAssociations delete result: #{@res.code}\n"
+  restHttpDelete("/v1/studentSchoolAssociations/not_sure_yet")
+  print "studentSchoolAssociations delete result: #{@res.code}\n"
   #restHttpDelete("/v1/studentParentAssociations/fdd8ee3ee44133f489e47d2cae109e886b041382_idec053d2e0752799cb0217578d003a1fe8f06b9a0_id")
   #print "studentParentAssociations delete result: #{@res.code}\n"
   #restHttpDelete("/v1/studentParentAssociations/fdd8ee3ee44133f489e47d2cae109e886b041382_idec053d2e0752799cb0217578d003a1fe8f06b9a0_id")
