@@ -19,11 +19,8 @@ package org.slc.sli.api.security.context.validator;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -82,9 +79,6 @@ public class StaffToStudentValidator extends AbstractContextValidator {
 
         if (students != null && students.iterator().hasNext()) {
             for (Entity entity : students) {
-                NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STUDENT_ID,
-                        NeutralCriteria.OPERATOR_EQUAL, entity.getEntityId()));
-
                 Set<String> studentsEdOrgs = getStudentsEdOrgs(entity);
                 if (!(isIntersection(staffsEdOrgIds, studentsEdOrgs) ||
                       programValidator.validate(EntityNames.PROGRAM, getValidPrograms(entity)) ||

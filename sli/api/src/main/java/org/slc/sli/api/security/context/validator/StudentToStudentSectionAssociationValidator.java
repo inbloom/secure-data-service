@@ -46,7 +46,7 @@ public class StudentToStudentSectionAssociationValidator extends AbstractContext
         }
 
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids));
-        for(Entity ssa : repo.findAll(EntityNames.STUDENT_SECTION_ASSOCIATION, query)) {
+        for(Entity ssa : getRepo().findAll(EntityNames.STUDENT_SECTION_ASSOCIATION, query)) {
             Map<String, Object> body = ssa.getBody();
             // You only have non-transitive access (able to go through) SSAs if they are your own (student Id is self)
             if (!getDirectStudentIds().contains(body.get(ParameterConstants.STUDENT_ID))) {

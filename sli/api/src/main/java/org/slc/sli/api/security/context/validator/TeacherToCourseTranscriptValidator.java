@@ -55,7 +55,7 @@ public class TeacherToCourseTranscriptValidator extends AbstractContextValidator
         Set<String> studentAcademicRecords = new HashSet<String>();
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
                 NeutralCriteria.CRITERIA_IN, new ArrayList<String>(ids)));
-        Iterable<Entity> entities = repo.findAll(EntityNames.COURSE_TRANSCRIPT, query);
+        Iterable<Entity> entities = getRepo().findAll(EntityNames.COURSE_TRANSCRIPT, query);
 
         for (Entity entity : entities) {
             Map<String, Object> body = entity.getBody();

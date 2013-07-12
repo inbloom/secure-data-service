@@ -15,16 +15,21 @@
  */
 package org.slc.sli.api.security.context.validator;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import java.util.*;
 
 /**
  * Note that this class differs from StudentToStudentSectionAssociationValidator
@@ -72,7 +77,7 @@ public class StudentToStudentAssociationValidator extends AbstractContextValidat
 
         // Now, find the student IDs on the other remaining requested IDs and validate them
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, toValidateIds));
-        for(Entity association : repo.findAll(entityType, query)) {
+        for(Entity association : getRepo().findAll(entityType, query)) {
             Map<String, Object>body = association.getBody();
             if (!isFieldExpired(body, ParameterConstants.END_DATE, false)) {
                 otherStudentIds.add((String) body.get(ParameterConstants.STUDENT_ID));

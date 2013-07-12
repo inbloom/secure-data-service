@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import com.google.common.collect.Lists;
@@ -114,11 +115,11 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
         }
 
         Set<String> teacherSections = getTeacherSections();
-        for (String studentId : studentSectionIds.keySet()) {
+        for (Entry<String, List<String>> studentEntry : studentSectionIds.entrySet()) {
             Set<String> tempSet = new HashSet<String>(teacherSections);
-            tempSet.retainAll(studentSectionIds.get(studentId));
+            tempSet.retainAll(studentEntry.getValue());
             if (!tempSet.isEmpty()) {
-                result.add(studentId);
+                result.add(studentEntry.getKey());
             }
         }
 
@@ -161,11 +162,11 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
 
         Set<String> tempSet = new HashSet<String>(staffProgramIds);
         // Get studentProgramAssociations
-        for (String studentId : studentProgramIds.keySet()) {
-            tempSet.retainAll(studentProgramIds.get(studentId));
+        for (Entry<String, List<String>> studentEntry : studentProgramIds.entrySet()) {
+            tempSet.retainAll(studentEntry.getValue());
 
             if (!tempSet.isEmpty()) {
-                result.add(studentId);
+                result.add(studentEntry.getKey());
             }
 
             tempSet.clear();
