@@ -181,7 +181,7 @@ public class MockBasicService implements EntityService {
 
     @Override
     public Iterable<EntityBody> listBasedOnContextualRoles(NeutralQuery neutralQuery) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return list(neutralQuery);
     }
 
     @Override
