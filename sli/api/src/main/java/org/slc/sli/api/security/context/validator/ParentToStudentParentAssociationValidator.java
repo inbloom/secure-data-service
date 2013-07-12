@@ -23,20 +23,25 @@ public class ParentToStudentParentAssociationValidator extends AbstractContextVa
         if (!areParametersValid(EntityNames.STUDENT_PARENT_ASSOCIATION, entityType, ids)) {
             return false;
         }
-
+        
+        Set<String> remainingIds = removePermissibleIds(ids, true);
+        return remainingIds.isEmpty();
+    }
+    
+    protected Set<String> removePermissibleIds(Set<String> ids, boolean filterBySelf) {
         Set<String> requestedIds = new HashSet<String>(ids);
         Set<Entity> ownStudents = SecurityUtil.getSLIPrincipal().getOwnedStudentEntities();
         for (Entity student : ownStudents) {
             List<Entity> elist = student.getEmbeddedData().get("studentParentAssociation");
             if (elist != null ) {
                 for (Entity e : elist) {
-                    if (e.getBody().get(ParameterConstants.PARENT_ID).equals(SecurityUtil.principalId())) {
+                    if (!filterBySelf || e.getBody().get(ParameterConstants.PARENT_ID).equals(SecurityUtil.principalId())) {
                         requestedIds.remove(e.getEntityId());
                     }
                 }
             }
         }
 
-        return requestedIds.isEmpty();
+        return requestedIds;
     }
 }
