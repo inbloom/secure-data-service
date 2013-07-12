@@ -445,7 +445,7 @@
     {
       "path": "/grades",
       "queryable": true,
-      "doc": "Represents an overall score or assessment tied to a course over a period of time (i.e., the grading period). Student grades are usually a compilation of marks and other scores. For more information, see the schema for $$Grade$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students/grades. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/studentSchoolAssociations/students/grades. {IDs} represents a list of the school or education organization IDs to which the staff is currently associated. For students, this is /studentSectionAssociations/{IDs}/grades. {IDs} represents the IDs of the student's studentSectionAssociations."
+      "doc": "Represents an overall score or assessment tied to a course over a period of time (i.e., the grading period). Student grades are usually a compilation of marks and other scores. For more information, see the schema for $$Grade$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students/grades. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/sections/studentSectionAssociations/grades. {IDs} represents a list of the school or education organization IDs to which the staff is currently associated. For students, this is /studentSectionAssociations/{IDs}/grades. {IDs} represents the IDs of the student's studentSectionAssociations."
     },
     {
       "path": "/studentCompetencies",
