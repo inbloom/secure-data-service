@@ -193,7 +193,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
         Entity entity = new MongoEntity(defn.getType(), null, content, createMetadata());
 
-        Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(false, entity, defn.getType());
+        Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(false, entity);
         rightAccessValidator.checkAccess(false, false, entity, entity.getType(), auths);
 
         checkReferences(null, content);
@@ -283,7 +283,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
             throw new EntityNotFoundException(id);
         }
 
-        Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf, entity, defn.getType());
+        Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf, entity);
         rightAccessValidator.checkAccess(false, id, null, defn.getType(), collectionName, getRepo(), auths);
 
         try {
@@ -343,7 +343,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
             info("Could not find {}", id);
             throw new EntityNotFoundException(id);
         }
-        Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(false, entity, defn.getType());
+        Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(false, entity);
         rightAccessValidator.checkAccess(false, id, content, defn.getType(), collectionName, getRepo(), auths);
 
         sanitizeEntityBody(content);
@@ -404,7 +404,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
             throw new EntityNotFoundException(id);
         }
 
-        Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf, entity, defn.getType());
+        Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf, entity);
 
         rightAccessValidator.checkAccess(false, id, content, defn.getType(), collectionName, getRepo(), auths);
 
@@ -545,7 +545,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
         for (Entity entity : entities) {
             try {
-            Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf, entity, defn.getType());
+            Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf, entity);
             rightAccessValidator.checkAccess(true, isSelf, entity, defn.getType(), auths);
             rightAccessValidator.checkFieldAccess(neutralQuery, isSelf, entity, defn.getType(), auths);
 

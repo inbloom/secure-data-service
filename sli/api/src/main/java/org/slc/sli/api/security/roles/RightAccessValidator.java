@@ -204,14 +204,12 @@ public class RightAccessValidator {
     /**
      *  Get the authorities from the context
      *
-     * @param isSelf       whether operation is being done in "self" context
-     * @param entity       item under inspection
-     * @param entityType   entity type
-     *                     we need entityType because type within Entity can be different from its actual type(etc. localEducationAgency)
+     * @param isSelf  whether operation is being done in "self" context
+     * @param entity item under inspection
      *
      * @return a set of granted authorities
      */
-    public Collection<GrantedAuthority> getContextualAuthorities(boolean isSelf, Entity entity, String entityType){
+    public Collection<GrantedAuthority> getContextualAuthorities(boolean isSelf, Entity entity){
         Collection<GrantedAuthority> auths = new HashSet<GrantedAuthority>();
 
         SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
@@ -223,10 +221,9 @@ public class RightAccessValidator {
             if (entity == null) {
                 debug("No authority for null");
             } else {
-
                 if ((entity.getMetaData() != null && SecurityUtil.principalId().equals(entity.getMetaData().get("createdBy"))
                         && "true".equals(entity.getMetaData().get("isOrphaned")))
-                        || EntityNames.isPublic(entityType)) {
+                        || EntityNames.isPublic(entity.getType())) {
                     // Orphaned entities created by the principal are handled the same as before.
                     auths.addAll(principal.getAllRights());
                 } else {
