@@ -32,7 +32,7 @@ Scenario: Validate requests with minor versions
     When I make a call retrieve the header for the bulk extract end point "/v1.1/bulk/extract"
     When the return code is 200 I get expected tar downloaded
     Then I check the version of http response headers
-    When I make a call retrieve the header for the bulk extract end point "/v1.2/bulk/extract"
+    When I make a call retrieve the header for the bulk extract end point "/v1.3/bulk/extract"
     When the return code is 200 I get expected tar downloaded
     Then I check the version of http response headers
 

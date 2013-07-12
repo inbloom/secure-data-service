@@ -875,8 +875,8 @@ end
 When /^I store the URL for the latest delta for LEA "(.*?)"$/ do |lea|
   @delta_uri = JSON.parse(@res)
   @list_url  = @delta_uri["deltaLeas"][lea][0]["uri"]
-  # @list_irl is in the format https://<url>/api/rest/v1.2/bulk/extract/<lea>/delta/<timestamp>
-  # -> strip off everything before v1.2, store: /v1.2/bulk/extract/<lea>/delta/<timestamp>
+  # @list_irl is in the format https://<url>/api/rest/v1.3/bulk/extract/<lea>/delta/<timestamp>
+  # -> strip off everything before v1.3, store: /v1.3/bulk/extract/<lea>/delta/<timestamp>
   @list_url.match(/api\/rest\/v(.*?)\/(.*)$/)
   @list_uri = $2
   # Get the timestamp from the URL
