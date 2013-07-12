@@ -58,7 +58,7 @@ public abstract class StudentToStaffAssociationAbstractValidator extends BasicVa
             while (results.hasNext()) {
                 Entity e = results.next();
                 if (isExpired(e)) {
-                    return false;
+                    continue;
                 }
                 unvalidated.remove(e.getEntityId());
             }
