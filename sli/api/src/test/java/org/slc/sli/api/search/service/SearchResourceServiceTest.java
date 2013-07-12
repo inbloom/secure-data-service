@@ -43,6 +43,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.slc.sli.api.service.EntityService;
+import org.slc.sli.domain.MongoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -130,6 +132,9 @@ public class SearchResourceServiceTest {
     @Test
     public void testResponse() throws Exception {
         setupAuth(EntityNames.TEACHER);
+
+        List<EntityBody> students = new ArrayList<EntityBody>();
+
         Map<String, Object> student = new HashMap<String, Object>();
         Map<String, Object> name = new HashMap<String, Object>();
         Map<String, Object> context = new HashMap<String, Object>();
@@ -141,6 +146,9 @@ public class SearchResourceServiceTest {
         context.put("schoolId", "ALL");
         student.put("context", context);
 
+        MongoEntity entity = new MongoEntity(EntityNames.STUDENT, student);
+
+
         String index = TenantIdToDbName.convertTenantIdToDbName(TenantContext.getTenantId());
         indexData(index, "student", student);
 
@@ -151,6 +159,9 @@ public class SearchResourceServiceTest {
 
         Resource resource = new Resource("v1", "search");
         SearchResourceService rs = Mockito.spy(resourceService);
+
+        EntityService mockEntityService = Mockito.mock(EntityService.class);
+
         Mockito.when(rs.filterResultsBySecurity(Mockito.isA(List.class), Mockito.anyInt(), Mockito.anyInt())).thenAnswer(new Answer<List<EntityBody>>() {
             @Override
             public List<EntityBody> answer(InvocationOnMock invocation) throws Throwable {
@@ -158,6 +169,10 @@ public class SearchResourceServiceTest {
                 return (List<EntityBody>) args[0];
             }
         });
+
+        Mockito.when(mockEntityService.listBasedOnContextualRoles(Mockito.any(ApiQuery.class))).thenReturn(students);
+
+        Mockito.when(rs.getService()).thenReturn(mockEntityService);
 
         ServiceResponse serviceResponse = null;
         serviceResponse = rs.list(resource, null, new URI("http://local.slidev.org:8080/api/rest/v1/search?q=David%20Wu"), false);
