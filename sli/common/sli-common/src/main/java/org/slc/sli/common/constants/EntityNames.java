@@ -78,11 +78,6 @@ public final class EntityNames {
     public static final String TEACHER_SCHOOL_ASSOCIATION = "teacherSchoolAssociation";
     public static final String TEACHER_SECTION_ASSOCIATION = "teacherSectionAssociation";
     public static final String CALENDAR_DATE = "calendarDate";
-
-
-    //these two are not API exposed, only to be used for public entity verification internally
-    private static final String LOCAL_EDORG_AGENCY = "localEducationAgency";
-    private static final String STATE_EDORG_AGENCY = "stateEducationAgency";
     
     public static final Set<String> PUBLIC_ENTITIES = new HashSet<String>(Arrays.asList(
             ASSESSMENT,
@@ -102,8 +97,8 @@ public final class EntityNames {
             SECTION,
             SESSION,
             STUDENT_COMPETENCY_OBJECTIVE,
-            LOCAL_EDORG_AGENCY,
-            STATE_EDORG_AGENCY
+            "localEducationAgency",
+            "stateEducationAgency"
             ));
 
     public static boolean isPublic(String entityType) {
