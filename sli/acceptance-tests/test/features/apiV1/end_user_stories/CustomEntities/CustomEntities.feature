@@ -3,62 +3,6 @@ Feature: Test CRUD fuctionality of Custom Entities per application
 Application is authorized using OAuth (there is an client_id and client_secret).  Custom entities are partitioned by application. Access control inherited from parent.
 
 
-Background: None
-
-Scenario:  As an IT Admin, I want to add custom entitiy of cleandarDates to a core entity belonging to my application
-    #create a new custom entity for demoClient
-    Given  I am a valid SEA/LEA end user "rrogers" with password "rrogers1234"
-    And the clientID is "demoClient"
-    And I am authenticated on "IL"
-   
-    Given format "application/json"
-    And a valid entity json object for a "calendarDates"
-    And I add a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>StateTest Programming Results</DisplayName>" to the object
-	When I navigate to POST "/<CALENDARDATE URI>/<CALENDARDATE ID>/<CUSTOM URI>"
-	Then I should receive a return code of 201
-
-	
-	#retrieve correct custom entity for correct application
-    Given  I am a valid SEA/LEA end user "rrogers" with password "rrogers1234"
-    And the clientID is "demoClient"
-    And I am authenticated on "IL"
-	When I navigate to GET "/<CALENDARDATE URI>/<CALENDARDATE ID>/<CUSTOM URI>"
-    Then I should receive a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>StateTest Programming Results</DisplayName>" in the result
-
-	Given format "application/json"
-    And a valid entity json object for a "calendarDates"
-    And I add a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>StateTest Writing Results</DisplayName>" to the object
-	When I navigate to PUT "/<CALENDARDATE URI>/<CALENDARDATE ID>/<CUSTOM URI>"
-	Then I should receive a return code of 204
-	
-    Given format "application/json" 
-	When I navigate to DELETE "/<CALENDARDATE URI>/<CALENDARDATE ID>/<CUSTOM URI>"
-	Then I should receive a return code of 204
-	
-Scenario:  As an Educator, I can retrieve correct custom entity of CalendarDate for correct application, and I can also create and update custom entities
-	#As an educator I can also retrieve correct custom entity for correct application
-    Given  I am a valid SEA/LEA end user "rbraverman" with password "rbraverman1234"
-    And the clientID is "demoClient"
-    And I am authenticated on "IL"
-	   
-    Given format "application/json" 
-    And the sli securityEvent collection is empty
-    And a valid entity json object for a "calendarDates"
-    And I add a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>SAT Scores</DisplayName>" to the object
-	When I navigate to POST "/<CALENDARDATE URI>/<CALENDARDATE ID>/<CUSTOM URI>"
-    Then I should receive a return code of 201
-        
-    When I navigate to GET "/<CALENDARDATE URI>/<CALENDARDATE ID>/<CUSTOM URI>"
-	Then I should receive a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>SAT Scores</DisplayName>" in the result
-
-    Given format "application/json"
-    And the sli securityEvent collection is empty
-    And a valid entity json object for a "calendarDates"
-    And I add a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>StateTest Writing Results</DisplayName>" to the object
-	When I navigate to PUT "/<CALENDARDATE URI>/<CALENDARDATE ID>/<CUSTOM URI>"
-	#Then I should receive a return code of 204	
-	
-
 Scenario:  As an IT Admin, I want to add custom entitiy to a core entity belonging to my application
     #create a new custom entity for demoClient
     Given  I am a valid SEA/LEA end user "rrogers" with password "rrogers1234"
@@ -334,8 +278,9 @@ Scenario:  As an IT Admin, I want to add a large custom entitiy to a core entity
     Given  I am a valid SEA/LEA end user "rrogers" with password "rrogers1234"
     And the clientID is "demoClient"
     And I am authenticated on "IL"
-   
+
     Given format "application/json"
+
     And a valid entity json object for a "educationOrganizations"
     And I add a large random file with key "custom_app_data" to the object
     When I navigate to POST "/<EDUCATION ORGANIZATION URI>/<EDUCATION ORGANIZATION ID>/<CUSTOM URI>"
@@ -350,11 +295,11 @@ Scenario:  As an IT Admin, I want to add a large custom entitiy to a core entity
     Then I should receive the same large random file in key "custom_app_data" in the result
 
 
-Scenario:  As an IT Admin, I want to add a truncated (thus faulty) large custom entitiy to a core entity belonging to my application and get a 400 server error. 
+Scenario:  As an IT Admin, I want to add a truncated (thus faulty) large custom entitiy to a core entity belonging to my application and get a 400 server error.
     Given  I am a valid SEA/LEA end user "rrogers" with password "rrogers1234"
     And the clientID is "demoClient"
     And I am authenticated on "IL"
-   
+
     Given format "application/json"
     And a valid entity json object for a "educationOrganizations"
     And I add a large random file with key "custom_app_data" to the object
@@ -374,8 +319,25 @@ Scenario:  As an IT Admin, I want to add custom entitiy with invalid/blacklisted
 	When I navigate to POST "/<EDUCATION ORGANIZATION URI>/<EDUCATION ORGANIZATION ID>/<CUSTOM URI>"
 	Then I should receive a return code of 400
 
-	Given  I am a valid SEA/LEA end user "rrogers" with password "rrogers1234"
-    And the clientID is "demoClient"
-    And I am authenticated on "IL"
 	When I navigate to GET "/<EDUCATION ORGANIZATION URI>/<EDUCATION ORGANIZATION ID>/<CUSTOM URI>"
     Then I should receive a return code of 404
+
+Scenario: As an IT Admin, I want to add custom entity of calendarDates to a core entity belonging to my application
+    Given  I am a valid SEA/LEA end user "rrogers" with password "rrogers1234"
+     And the clientID is "demoClient"
+     And I am authenticated on "IL"
+     And format "application/json"
+     And a valid entity json object for a "calendarDates"
+     And I add a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>StateTest Programming Results</DisplayName>" to the object
+	When I navigate to POST "/<CALENDARDATE URI>/<CALENDARDATE ID>/<CUSTOM URI>"
+	Then I should receive a return code of 201
+
+	When I navigate to GET "/<CALENDARDATE URI>/<CALENDARDATE ID>/<CUSTOM URI>"
+    Then I should receive a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>StateTest Programming Results</DisplayName>" in the result
+
+    And I add a key value pair "CustomConfig" : "<?xml version=1.0?><DisplayName>StateTest Writing Results</DisplayName>" to the object
+	When I navigate to PUT "/<CALENDARDATE URI>/<CALENDARDATE ID>/<CUSTOM URI>"
+	Then I should receive a return code of 204
+
+	When I navigate to DELETE "/<CALENDARDATE URI>/<CALENDARDATE ID>/<CUSTOM URI>"
+	Then I should receive a return code of 204
