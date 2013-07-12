@@ -525,7 +525,7 @@ public class FileResource {
 
     void logSecurityEvent(String message) {
         audit(securityEventBuilder.createSecurityEvent(FileResource.class.getName(),
-                uri.getRequestUri(), message));
+                uri.getRequestUri(), message, false));
     }
 
 }

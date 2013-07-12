@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.slc.sli.api.security.context.APIAccessDeniedException;
+import org.slc.sli.api.security.roles.ContextSupportedEntities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -237,7 +238,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
     public boolean accessibilityCheck(String id) {
         try {
             checkAccess(false, id, null);
-        } catch (AccessDeniedException e) {
+        } catch (APIAccessDeniedException e) {
             return false;
         }
         return true;
@@ -764,10 +765,6 @@ public class BasicService implements EntityService, AccessibilityCheck {
                 debug("Invalid Reference: {} in {} is not accessible by user", value, def.getStoredCollectionName());
                 throw (APIAccessDeniedException) new APIAccessDeniedException(
                         "Invalid reference. No association to referenced entity.", e);
-            } catch (AccessDeniedException e) {
-                debug("Invalid Reference: {} in {} is not accessible by user", value, def.getStoredCollectionName());
-                throw (AccessDeniedException) new AccessDeniedException(
-                        "Invalid reference. No association to referenced entity.").initCause(e);
             } catch (EntityNotFoundException e) {
                 debug("Invalid Reference: {} in {} does not exist", value, def.getStoredCollectionName());
                 throw (APIAccessDeniedException) new APIAccessDeniedException(
@@ -826,6 +823,8 @@ public class BasicService implements EntityService, AccessibilityCheck {
         // loop for every EntityDefinition that references the deleted entity's type
         for (EntityDefinition referencingEntity : defn.getReferencingEntities()) {
             // loop for every reference field that COULD reference the deleted ID
+            boolean isContextualSupported = (ContextSupportedEntities.getSupportedEntities().contains(referencingEntity.getType())) && SecurityUtil.isStaffUser();
+
             for (String referenceField : referencingEntity.getReferenceFieldNames(defn.getStoredCollectionName())) {
                 EntityService referencingEntityService = referencingEntity.getService();
 
@@ -841,21 +840,44 @@ public class BasicService implements EntityService, AccessibilityCheck {
                     if (referencingEntity.hasArrayField(referenceField)) {
                         // list all entities that have the deleted entity's ID in one of their
                         // arrays
-                        for (EntityBody entityBody : referencingEntityService.list(neutralQuery)) {
+
+                        Iterable<EntityBody> entityList;
+                        if(isContextualSupported) {
+                            entityList = referencingEntityService.listBasedOnContextualRoles(neutralQuery);
+                        } else {
+                            entityList = referencingEntityService.list(neutralQuery);
+                        }
+
+                        for (EntityBody entityBody : entityList) {
                             String idToBePatched = (String) entityBody.get("id");
                             List<?> basicDBList = (List<?>) entityBody.get(referenceField);
                             basicDBList.remove(sourceId);
                             EntityBody patchEntityBody = new EntityBody();
                             patchEntityBody.put(referenceField, basicDBList);
-                            referencingEntityService.patch(idToBePatched, patchEntityBody);
+                            if(isContextualSupported) {
+                                referencingEntityService.patchBasedOnContextualRoles(idToBePatched, patchEntityBody);
+                            } else {
+                                referencingEntityService.patch(idToBePatched, patchEntityBody);
+                            }
                         }
                     } else {
                         // list all entities that have the deleted entity's ID in their reference
                         // field (for deletion)
-                        for (EntityBody entityBody : referencingEntityService.list(neutralQuery)) {
+
+                        Iterable<EntityBody> entityList;
+                        if(isContextualSupported) {
+                            entityList = referencingEntityService.listBasedOnContextualRoles(neutralQuery);
+                        } else {
+                            entityList = referencingEntityService.list(neutralQuery);
+                        }
+                        for (EntityBody entityBody : entityList) {
                             String idToBeDeleted = (String) entityBody.get("id");
                             // delete that entity as well
-                            referencingEntityService.delete(idToBeDeleted);
+                            if(isContextualSupported) {
+                                referencingEntityService.deleteBasedOnContextualRoles(idToBeDeleted);
+                            } else {
+                                referencingEntityService.delete(idToBeDeleted);
+                            }
                             // delete custom entities attached to this entity
                             deleteAttachedCustomEntities(idToBeDeleted);
                         }

@@ -15,12 +15,17 @@
  */
 package org.slc.sli.api.security.context.validator;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
-import org.springframework.stereotype.Component;
-
-import java.util.*;
 
 /**
  * Validator for student to section
@@ -44,7 +49,7 @@ public class StudentToSectionValidator extends BasicValidator {
 
             if (null == sectionData) {
                 // If there is no denormalized sections
-                return false;
+                continue;
             }
             // stupid java with no first class functions, I could do this in one line in any decent
             // language...

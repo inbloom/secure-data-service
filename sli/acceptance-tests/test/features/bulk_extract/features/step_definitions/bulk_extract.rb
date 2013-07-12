@@ -3280,6 +3280,27 @@ def get_post_body_by_entity_name(entity_name)
       "relation" => "Father",
       "contactPriority" => 1
     },
+    "cgray.studentSchoolAssociation.myClass" => {
+      "exitWithdrawDate" => "2014-05-22",
+      "entityType" => "studentSchoolAssociation",
+      "entryDate" => "2013-08-27",
+      "entryGradeLevel" => "Ninth grade",
+      "schoolYear" => "2013-2014",
+      "educationalPlans" => [],
+      "schoolChoiceTransfer" => false,
+      "entryType" => "Other",
+      "studentId" => "fdd8ee3ee44133f489e47d2cae109e886b041382_id",
+      "repeatGradeIndicator" => false,
+      "schoolId" => "f43e124e966084ce15bdba9b4e9befc92adf09ea_id",
+    },
+    "cgray.studentSectionAssociation.myClass" => {
+      "entityType" => "studentSectionAssociation",
+      "sectionId" => "cee6195d1c5e2605bea2f3c34d264442c78638d2_id",
+      "studentId" => "fdd8ee3ee44133f489e47d2cae109e886b041382_id",
+      "beginDate" => "2013-08-27",
+      "homeroomIndicator" => true,
+      "repeatIdentifier" => "Repeated, counted in grade point average"
+    },
     "cgray.studentParentAssociation.notMyKid" => {
       "entityType" => "studentParentAssociation",
       "parentId" => "1fe86fe9c45680234f1caa3b494a1c4b42838954_id",

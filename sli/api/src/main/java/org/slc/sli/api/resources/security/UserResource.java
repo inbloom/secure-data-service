@@ -85,7 +85,7 @@ public class UserResource {
     private SecurityEventBuilder securityEventBuilder;
 
     SecurityEvent createSecurityEvent(String logMessage, String tenantId, String edorg) {
-        SecurityEvent securityEvent = securityEventBuilder.createSecurityEvent(UserResource.class.getName(), null, logMessage);
+        SecurityEvent securityEvent = securityEventBuilder.createSecurityEvent(UserResource.class.getName(), null, logMessage,false);
         securityEvent.setTenantId(tenantId);
         securityEvent.setTargetEdOrg(edorg);
         return securityEvent;

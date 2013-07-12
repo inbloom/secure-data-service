@@ -268,7 +268,7 @@ public class ApplicationAuthorizationResource {
         Set<String> granted = Sets.difference(newEO, oldEO);
         if(granted.size() > 0) {
             SecurityEvent event = securityEventBuilder.createSecurityEvent(resourceClassName,
-                    path, "Application granted access to EdOrg data!");
+                    path, "Application granted access to EdOrg data!", true);
             event.setAppId(appId);
             Set<String> targetEdOrgList = helper.getEdOrgStateOrganizationIds(granted);
             event.setTargetEdOrgList(new ArrayList<String>(targetEdOrgList));
@@ -279,7 +279,7 @@ public class ApplicationAuthorizationResource {
         Set<String> revoked = Sets.difference(oldEO, newEO);
         if(revoked.size() > 0) {
             SecurityEvent event = securityEventBuilder.createSecurityEvent(resourceClassName,
-                    path, "EdOrg data access has been revoked!");
+                    path, "EdOrg data access has been revoked!", true);
             event.setAppId(appId);
             Set<String> targetEdOrgList = helper.getEdOrgStateOrganizationIds(revoked);
             event.setTargetEdOrgList(new ArrayList<String>(targetEdOrgList));

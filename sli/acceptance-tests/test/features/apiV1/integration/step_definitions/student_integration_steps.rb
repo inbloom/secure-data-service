@@ -830,16 +830,15 @@ After('@clean_up_student_posts') do |scenario|
 end
 
 After('@clean_up_parent_posts') do |scenario|
-  step "I log in to realm \"Illinois Daybreak School District 4529\" using simple-idp as \"IT Administrator\" \"jstevenson\" with password \"jstevenson1234\""
-  #step "I am logged in using \"jstevenson\" \"jstevenson1234\" to realm \"IL\""
+  step "I log in to realm \"Illinois Daybreak School District 4529\" using simple-idp as \"IT Administrator\" \"rrogers\" with password \"rrogers1234\""
   step "format \"application/json\""
   step "I am using api version \"v1\""
   restHttpDelete("/v1/parents/1fe86fe9c45680234f1caa3b494a1c4b42838954_id")
   print "parents delete result: #{@res.code}\n"
-  #restHttpDelete("/v1/studentParentAssociations/fdd8ee3ee44133f489e47d2cae109e886b041382_idec053d2e0752799cb0217578d003a1fe8f06b9a0_id")
-  #print "studentParentAssociations delete result: #{@res.code}\n"
-  #restHttpDelete("/v1/studentParentAssociations/fdd8ee3ee44133f489e47d2cae109e886b041382_idec053d2e0752799cb0217578d003a1fe8f06b9a0_id")
-  #print "studentParentAssociations delete result: #{@res.code}\n"
+  restHttpDelete("/v1/studentSchoolAssociations/23125624f5f1dcfcf7e27eae8e7b44d91945ad2e_id")
+  print "studentSchoolAssociations delete result: #{@res.code}\n"
+  restHttpDelete("/v1/studentSectionAssociations/cee6195d1c5e2605bea2f3c34d264442c78638d2_idf073a2639d4d95f8fea3b0cfb96e17580416c819_id")
+  print "studentSectionAssociations delete result: #{@res.code}\n"
   #restHttpDelete("/v1/studentParentAssociations/fdd8ee3ee44133f489e47d2cae109e886b041382_idec053d2e0752799cb0217578d003a1fe8f06b9a0_id")
   #print "studentParentAssociations delete result: #{@res.code}\n"
 end

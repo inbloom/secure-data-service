@@ -52,6 +52,7 @@ import com.sun.jersey.api.core.HttpRequestContext;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
+import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -282,7 +283,7 @@ public class BulkExtract {
                 }
         }
         if (!approvedLEAExists) {
-            throw new AccessDeniedException("User is not authorized to access SEA public extract");
+            throw new APIAccessDeniedException("User is not authorized to access SEA public extract", seaEntity);
         }
     }
 
@@ -293,7 +294,7 @@ public class BulkExtract {
      */
     void canAccessLEAExtract(String leaId) {
             if (!edorgValidator.validate(EntityNames.EDUCATION_ORGANIZATION, new HashSet<String>(Arrays.asList(leaId)))) {
-                throw new AccessDeniedException("User is not authorized to access this extract");
+                throw new APIAccessDeniedException("User is not authorized to access this extract", EntityNames.EDUCATION_ORGANIZATION, leaId);
             }
         appAuthHelper.checkApplicationAuthorization(leaId);
     }
@@ -557,7 +558,7 @@ public class BulkExtract {
     private List<String> retrieveUserAssociatedLEAs() throws AccessDeniedException {
         List<String> userDistricts = helper.getDistricts(getPrincipal().getEntity());
         if (userDistricts.size() == 0) {
-            throw new AccessDeniedException("User is not authorized for a list of available SEA/LEA extracts");
+            throw new APIAccessDeniedException("User is not authorized for a list of available SEA/LEA extracts");
         }
         return userDistricts;
     }
@@ -640,7 +641,7 @@ public class BulkExtract {
 
     void logSecurityEvent(UriInfo uriInfo, String message) {
         audit(securityEventBuilder.createSecurityEvent(BulkExtract.class.getName(),
-                uri.getRequestUri(), message));
+                uri.getRequestUri(), message, false));
     }
 
 }
