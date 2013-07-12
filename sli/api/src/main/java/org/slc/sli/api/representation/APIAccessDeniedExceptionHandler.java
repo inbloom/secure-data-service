@@ -115,6 +115,9 @@ public class APIAccessDeniedExceptionHandler implements ExceptionMapper<APIAcces
                 audit(securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo.getRequestUri(), "Access Denied:"
                         + e.getMessage(), e.getEntityType(), e.getEntityIds().toArray(new String[0])));
             }
+        } else {
+            audit(securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo.getRequestUri(), "Access Denied:"
+                    + e.getMessage(), false));
         }
     }
 }
