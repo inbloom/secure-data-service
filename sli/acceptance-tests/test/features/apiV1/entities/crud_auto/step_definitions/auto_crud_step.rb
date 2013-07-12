@@ -55,7 +55,7 @@ When /^I navigate to PUT with invalid id for each resource available$/ do
     end
 
     badId = "bad1111111111111111111111111111111111111_id"
-    uri = "/v1.2#{resource}/#{badId}"
+    uri = "/v1.3#{resource}/#{badId}"
 
     # strip leading "/"
     resource_type = get_resource_type resource
