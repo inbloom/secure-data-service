@@ -98,7 +98,7 @@ public class AccessDeniedExceptionHandler implements ExceptionMapper<AccessDenie
         String reason = message.indexOf( ED_ORG_START) > 0 ? message.substring( 0, message.indexOf( ED_ORG_START) ) : message;
 
         audit(securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo.getRequestUri(), "Access Denied:"
-                + reason, null));
+                + reason, false));
 
         MediaType errorType = MediaType.APPLICATION_JSON_TYPE;
         if(this.headers.getMediaType() == MediaType.APPLICATION_XML_TYPE) {

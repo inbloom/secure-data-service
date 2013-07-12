@@ -200,7 +200,7 @@ public class EdOrgOwnershipArbiter {
         return hierarchicalEdorgs;
     }
 
-    private List<Entity> findEdorgs(Iterable<Entity> entities, String entityType, boolean ignoreOrphans) {
+    public List<Entity> findEdorgs(Iterable<Entity> entities, String entityType, boolean ignoreOrphans) {
         List<Entity> edorgs = new ArrayList<Entity>();
         debug("checking ownership for entities of type: {}", entityType);
 
@@ -242,7 +242,8 @@ public class EdOrgOwnershipArbiter {
                     List<Entity> toAdd = findEdorgs(ents, collectionName, ignoreOrphans);
                     edorgs.addAll(toAdd);
                 } else {
-                    throw new AccessDeniedException("Could not find a matching " + collectionName + " where "
+                    // entity does not exist in db so skip
+                    throw new APIAccessDeniedException("Could not find a matching " + collectionName + " where "
                             + critField + " is " + critValue + ".");
                 }
             }

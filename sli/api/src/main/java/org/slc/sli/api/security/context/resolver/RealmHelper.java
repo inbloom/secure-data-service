@@ -26,11 +26,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.init.RealmInitializer;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -140,13 +140,14 @@ public class RealmHelper {
 		for (String edOrgId : edOrgs) {
 			Entity edOrgEntity = repo
 					.findById("educationOrganization", edOrgId);
-			Iterable<Entity> realms = getRealms(edOrgEntity);
-			for (Entity realm : realms) {
-				toReturn.add(realm.getEntityId());
-				debug("User is directly associated with realm: {} through edorg: {}",
-						realm.getBody().get("name"),
-						edOrgEntity.getBody().get("nameOfInstitution"));
-			}
+			if (edOrgEntity != null) {
+                Iterable<Entity> realms = getRealms(edOrgEntity);
+                for (Entity realm : realms) {
+                    toReturn.add(realm.getEntityId());
+                    debug("User is directly associated with realm: {} through edorg: {}", realm.getBody().get("name"),
+                            edOrgEntity.getBody().get("nameOfInstitution"));
+                }
+            }
 		}
 
 		return toReturn;

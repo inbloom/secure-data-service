@@ -47,6 +47,7 @@ import org.slc.sli.api.resources.generic.service.ResourceService;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.oauth.TokenGenerator;
 import org.slc.sli.api.service.EntityService;
@@ -440,11 +441,11 @@ public class ApplicationResource extends UnversionedResource {
                     return;
                 }
             }
-            throw new AccessDeniedException("Developer " + principal.getExternalId()
+            throw new APIAccessDeniedException("Developer " + principal.getExternalId()
                     + " does not share the same tenant as the creator of this app and cannot modify it.");
         } else {
             if (!(principal.getExternalId().equals(app.get(CREATED_BY)) || belongToSameSandboxTenant(app, principal.getSandboxTenant()))) {
-                throw new AccessDeniedException("Developer " + principal.getExternalId()
+                throw new APIAccessDeniedException("Developer " + principal.getExternalId()
                         + " is not the creator of this app and does not share same sandbox tenant as the creator hence cannot modify it.");
             }
         }

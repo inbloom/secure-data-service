@@ -86,6 +86,7 @@ enableSaveButtonIfPossible = (tr)  ->
 createLabel = (type, name) ->
   label = $('#labelUi').clone()
   label.find("span").text(name)
+  label.find("span").prop("title", name)
   label.children().addClass(type)
   return label.children()
 

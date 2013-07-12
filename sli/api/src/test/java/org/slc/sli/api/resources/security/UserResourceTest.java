@@ -99,7 +99,7 @@ public class UserResourceTest {
                 new HashSet<String>(Arrays.asList(EDORG1, EDORG2)));
         Mockito.when(secUtil.getTenantId()).thenReturn(TENANT); // need a tenant without
                                                                 // CRUD_SLC_OPERATOR.
-        Mockito.when(securityEventBuilder.createSecurityEvent(Mockito.anyString(), (URI) Mockito.anyObject(), Mockito.anyString())).thenReturn(new SecurityEvent());
+        Mockito.when(securityEventBuilder.createSecurityEvent(Mockito.anyString(), (URI) Mockito.anyObject(), Mockito.anyString(), Mockito.anyBoolean())).thenReturn(new SecurityEvent());
     }
 
     @Test

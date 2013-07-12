@@ -157,24 +157,26 @@ Feature: As a parent I want to use apps that access the inBloom API
       | studentDisciplineIncidentAssociation | 908404e876dd56458385667fa383509035cd4312_id33a1c7ee086d4c488531652ab4a99cf0b6bd619d_id | 403 |
 
 
-@parent_crud @clean_up_parent_posts
+@wip @parent_crud @clean_up_parent_posts
 Scenario: POST new entities as a parent without, then with extended rights
 Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "jstevenson" with password "jstevenson1234"
   And format "application/json"
   And I am using api version "v1"
   # As an IT Admin, POST cgray as a parent
   When I POST and validate the following entities:
-    | entityName                              | entityType               | returnCode |
-    | cgray.parent                            | parent                   | 201        |
-    | cgray.studentParentAssociation.myClass  | studentParentAssociation | 201        |
-    | cgray.studentParentAssociation.notMyKid | studentParentAssociation | 201        |
-    | cgray.studentParentAssociation.mySchool | studentParentAssociation | 201        |
+    | entityName                              | entityType                | returnCode |
+    | cgray.parent                            | parent                    | 201        |
+    | cgray.studentParentAssociation.myClass  | studentParentAssociation  | 201        |
+    | cgray.studentParentAssociation.notMyKid | studentParentAssociation  | 201        |
+    | cgray.studentParentAssociation.mySchool | studentParentAssociation  | 201        |
 
 # Asociate cgray to a student in a different LEA
 Given I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "rrogers" with password "rrogers1234"
   When I POST and validate the following entities:
-    | entityName                              | entityType               | returnCode |
-    | cgray.studentParentAssociation.newLea   | studentParentAssociation | 201        |
+    | entityName                              | entityType                | returnCode |
+    | cgray.studentParentAssociation.newLea   | studentParentAssociation  | 201        |
+    | cgray.studentSchoolAssociation.myClass  | studentSchoolAssociation  | 201        |
+    | cgray.studentSectionAssociation.myClass | studentSectionAssociation | 201        |
 
   # Make sure cgray can edit himself, but cannot edit any students yet since he has no studentParentAssociations
   And I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "charles.gray" with password "charles.gray1234"
@@ -184,6 +186,29 @@ Given I log in to realm "Illinois Daybreak School District 4529" using simple-id
     | cgray.name                | parent                   | Patched | 403        | parents/17075ee3f54bcf75fe37a75b098682b0644594d6_id  |
     | cgray.myClass.name        | student                  | Patched | 403        | students/fdd8ee3ee44133f489e47d2cae109e886b041382_id |
     | cgray.contactRestrictions | studentParentAssociation | Patched | 403        | studentParentAssociations/fdd8ee3ee44133f489e47d2cae109e886b041382_idec053d2e0752799cb0217578d003a1fe8f06b9a0_id |
+
+  # Make sure cgray can see the student in a different LEA
+  Then I validate I have access to entities via the API access pattern "/v1/Entity/Id":
+    | entity                     | id                                          |
+    | students                   | fdd8ee3ee44133f489e47d2cae109e886b041382_id |
+    | students                   | 6b41180a6ba41031f50f3b50c97ef5f9387666c3_id |
+    | students                   | f07bc57c18f13e8bb692660a7fab0ca92817598c_id |
+    | sections                   | cee6195d1c5e2605bea2f3c34d264442c78638d2_id |
+    | schools                    | f43e124e966084ce15bdba9b4e9befc92adf09ea_id |
+    | cohorts                    | cfa2241d0bbf48070ed492e653931db4bcd9bb43_id | 
+    | cohorts                    | 271a8d3a18ae2d80599dc55a0abaaeb8527ff10f_id | 
+    | parents                    | cfa25e8916d80fd0e0c34507b3007ae0b45b938d_id |
+    | parents                    | fe09eab2fe8d42454d03be52230d7fad92a84231_id |
+    | programs                   | 1dbf54bff85c7f24df0a978f61dce57537ed4713_id | 
+    | educationOrganizations     | 99d527622dcb51c465c515c0636d17e085302d5e_id |
+    | assessments                | f0ffa2e21cf1fc400527ac2ba63c20e4a620815c_id |
+    | studentAssessments         | d4efea33872dc68985dbd1fc75c67681b8b13a60_id |
+    | studentSchoolAssociations  | 23125624f5f1dcfcf7e27eae8e7b44d91945ad2e_id |
+    | studentSectionAssociations | cee6195d1c5e2605bea2f3c34d264442c78638d2_idf073a2639d4d95f8fea3b0cfb96e17580416c819_id |
+    | studentParentAssociations  | fdd8ee3ee44133f489e47d2cae109e886b041382_id146cb6be194273e519e711b0af37d42af7800c06_id |
+    | studentParentAssociations  | fdd8ee3ee44133f489e47d2cae109e886b041382_idfbfd0e2202a671708374cb077c7ffd45e94046b7_id |
+    | studentCohortAssociations  | fdd8ee3ee44133f489e47d2cae109e886b041382_id090a854fd293a2b17a2f7c54c2cc5f9b5f63e18b_id |
+    | studentProgramAssociations | fdd8ee3ee44133f489e47d2cae109e886b041382_idfcd0570abc7cd5997bd21c74a1d1078cc7ee6a07_id |
 
 # Now modify the Parent role to include the rights of an IT-Administrator
 Given I get the rights for the "Parent" role in realm "deadbeef-1bad-4606-a936-094331bddeed"

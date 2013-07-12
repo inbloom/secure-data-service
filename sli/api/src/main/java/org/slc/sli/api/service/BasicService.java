@@ -237,7 +237,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
     public boolean accessibilityCheck(String id) {
         try {
             checkAccess(false, id, null);
-        } catch (AccessDeniedException e) {
+        } catch (APIAccessDeniedException e) {
             return false;
         }
         return true;
@@ -764,10 +764,6 @@ public class BasicService implements EntityService, AccessibilityCheck {
                 debug("Invalid Reference: {} in {} is not accessible by user", value, def.getStoredCollectionName());
                 throw (APIAccessDeniedException) new APIAccessDeniedException(
                         "Invalid reference. No association to referenced entity.", e);
-            } catch (AccessDeniedException e) {
-                debug("Invalid Reference: {} in {} is not accessible by user", value, def.getStoredCollectionName());
-                throw (AccessDeniedException) new AccessDeniedException(
-                        "Invalid reference. No association to referenced entity.").initCause(e);
             } catch (EntityNotFoundException e) {
                 debug("Invalid Reference: {} in {} does not exist", value, def.getStoredCollectionName());
                 throw (APIAccessDeniedException) new APIAccessDeniedException(

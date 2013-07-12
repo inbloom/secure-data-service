@@ -51,7 +51,7 @@ public class ResourceAccessLog {
         if (definition.isRestrictedForLogging()) {
             if (securityEventBuilder != null) {
                 SecurityEvent event = securityEventBuilder.createSecurityEvent(loggingClass,
-                        uriInfo.getRequestUri(), "restricted entity \"" + definition.getResourceName() + "\" is accessed.");
+                        uriInfo.getRequestUri(), "restricted entity \"" + definition.getResourceName() + "\" is accessed.", true);
                 auditLog(event);
             } else {
                 warn("Cannot create security event, when restricted entity \"" + definition.getResourceName()

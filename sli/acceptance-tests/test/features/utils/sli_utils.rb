@@ -881,6 +881,7 @@ def check_records_in_sli_collection(table)
       end
       STDOUT.puts "#{red}There are " + entity_count.to_s + " in " + row["collectionName"] + " collection for record with " + row["searchParameter"] + " = " + row["searchValue"] + ". Expected: " + row["expectedRecordCount"].to_s + "#{reset}"
   end
+  secConn.close
   assert(result == "true", "Some records are not found in collection.")
   enable_NOTABLESCAN()
 end
