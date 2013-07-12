@@ -12,6 +12,18 @@
     ]
   },
   {
+    "userId": "pat.sollars",
+    "name": "Pat Sollars",
+    "edOrgs": [
+      {
+        "role": "Student",
+        "type": "High School",
+        "association": "East Daybreak High",
+        "grade": "Tenth grade"
+      }
+    ]
+  },
+  {
     "userId": "carmen.ortiz",
     "name": "Carmen Ortiz",
     "edOrgs": [
@@ -30,8 +42,44 @@
     ]
   },
   {
+    "userId": "herman.ortiz",
+    "name": "Herman Ortiz",
+    "edOrgs": [
+      {
+        "role": "Student",
+        "type": "High School",
+        "association": "Daybreak Central High",
+        "grade": "Ninth grade"
+      },
+      {
+        "role": "Student",
+        "type": "High School",
+        "association": "Daybreak Bayside High",
+        "grade": "Ninth grade"
+      }
+    ]
+  },
+  {
     "userId": "lashawn.taite",
     "name": "Lashawn Taite",
+    "edOrgs": [
+      {
+        "role": "Student",
+        "type": "High School",
+        "association": "Daybreak Central High",
+        "grade": "Tenth grade"
+      },
+      {
+        "role": "Student",
+        "type": "High School",
+        "association": "East Daybreak High",
+        "grade": "Tenth grade"
+      }
+    ]
+  },
+  {
+    "userId": "shawn.taite",
+    "name": "Shawn Taite",
     "edOrgs": [
       {
         "role": "Student",
@@ -72,8 +120,32 @@
     ]
   },
   {
+    "userId": "jake.bertman",
+    "name": "Jake Bertman",
+    "edOrgs": [
+      {
+        "role": "Student",
+        "type": "High School",
+        "association": "Daybreak Central High",
+        "grade": "Tenth grade"
+      }
+    ]
+  },
+  {
     "userId": "nate.dedrick",
     "name": "Nate Dedrick",
+    "edOrgs": [
+      {
+        "role": "Student",
+        "type": "High School",
+        "association": "Daybreak Bayside High",
+        "grade": "Tenth grade"
+      }
+    ]
+  },
+  {
+    "userId": "kate.dedrick",
+    "name": "Kate Dedrick",
     "edOrgs": [
       {
         "role": "Student",
@@ -101,9 +173,21 @@
       }
     ]
   },
-    {
+  {
     "userId": "jack.jackson",
     "name": "Jack Jackson",
+    "edOrgs": [
+      {
+        "role": "Student",
+        "type": "High School",
+        "association": "East Daybreak High",
+        "grade": "Tenth grade"
+      }
+    ]
+  },
+  {
+    "userId": "john.johnson",
+    "name": "John Johnson",
     "edOrgs": [
       {
         "role": "Student",

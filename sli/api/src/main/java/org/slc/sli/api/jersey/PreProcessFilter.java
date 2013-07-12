@@ -30,7 +30,6 @@ import javax.xml.bind.DatatypeConverter;
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerRequestFilter;
 
-import org.slc.sli.common.constants.EntityNames;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -52,6 +51,7 @@ import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.translator.URITranslator;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.validation.URLValidator;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.MongoStat;
 import org.slc.sli.domain.NeutralCriteria;
@@ -68,7 +68,7 @@ import org.slc.sli.validation.ValidationError;
 @Component
 public class PreProcessFilter implements ContainerRequestFilter {
 
-    private static final List<String> WRITE_OPERATIONS = Arrays.asList(ResourceMethod.PUT.toString(),
+    private static final List<String> UPDATE_DELETE_OPERATIONS = Arrays.asList(ResourceMethod.PUT.toString(),
             ResourceMethod.PATCH.toString(), ResourceMethod.DELETE.toString());
     private static final List<String> CONTEXTERS = Arrays.asList(PathConstants.STUDENT_SCHOOL_ASSOCIATIONS,
             PathConstants.STUDENT_SECTION_ASSOCIATIONS, PathConstants.STUDENT_COHORT_ASSOCIATIONS,
@@ -123,14 +123,11 @@ public class PreProcessFilter implements ContainerRequestFilter {
         injectObligations(request);
         validateNotBlockGetRequest(request);
 
-        // I don't get why the validateContextToUri is only called on write request
-        // but because I don't understand, and security is sensitive, I am block
-        // certain urls explicitly...
-        if (contextValidator.isUrlBlocked(request)) {
+        if (ResourceMethod.getWriteOps().contains(request.getMethod()) && contextValidator.isUrlBlocked(request)) {
             throw new AccessDeniedException(String.format("url %s is not accessible.", request.getAbsolutePath().toString()));
         }
 
-        if (isWrite(request.getMethod())) {
+        if (isUpdateOrDelete(request.getMethod())) {
             contextValidator.validateContextToUri(request, principal);
         }
 
@@ -218,8 +215,8 @@ public class PreProcessFilter implements ContainerRequestFilter {
      * @return True if the request method is a PUT, PATCH, or DELETE, false
      *         otherwise.
      */
-    private boolean isWrite(String operation) {
-        return WRITE_OPERATIONS.contains(operation);
+    private boolean isUpdateOrDelete(String operation) {
+        return UPDATE_DELETE_OPERATIONS.contains(operation);
     }
 
     private void recordStartTime(ContainerRequest request) {

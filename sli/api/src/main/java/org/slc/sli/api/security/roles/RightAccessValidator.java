@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.AccessDeniedException;
@@ -94,6 +95,18 @@ public class RightAccessValidator {
      * @param auths        collection of authorities to validate
      */
     public void checkAccess(boolean isRead, EntityBody entityBody, String entityType, Collection<GrantedAuthority> auths) {
+        checkAccess(isRead, entityBody, entityType, auths, null);
+    }
+
+    /**
+     * Validates that user roles allow access to fields, based on the provided authorities.
+     *
+     * @param isRead       whether operation is "read" or "write"
+     * @param entityBody   the entity body to be checked.
+     * @param entityType   entity type
+     * @param auths        collection of authorities to validate
+     */
+    public void checkAccess(boolean isRead, EntityBody entityBody, String entityType, Collection<GrantedAuthority> auths, Entity entity) {
         SecurityUtil.ensureAuthenticated();
         Set<Right> neededRights = new HashSet<Right>();
 
@@ -122,7 +135,7 @@ public class RightAccessValidator {
         }
 
         if (!allow) {
-            throw new AccessDeniedException("Insufficient Privileges");
+            throw new APIAccessDeniedException("Insufficient Privileges", entity);
         }
     }
 
@@ -141,7 +154,17 @@ public class RightAccessValidator {
                 auths.addAll(SecurityUtil.getSLIPrincipal().getSelfRights());
             }
 
-            checkFieldAccess(query, entityType, auths);
+            try {
+                checkFieldAccess(query, entityType, auths);
+            } catch (APIAccessDeniedException e) {
+                Set<Entity> entities = new HashSet<Entity>();
+                entities.add(entity);
+
+                // we know the target entity now so rethrow with target data
+                e.setEntityType(entityType);
+                e.setEntities(entities);
+                throw e;
+            }
         }
     }
 
@@ -160,7 +183,7 @@ public class RightAccessValidator {
 
                 if (!rightsOnSort.isEmpty() && !intersection(auths, rightsOnSort)) {
                     debug("Denied user sorting on field {}", query.getSortBy());
-                    throw new AccessDeniedException("Cannot search on restricted field " + query.getSortBy());
+                    throw new APIAccessDeniedException("Cannot search on restricted field " + query.getSortBy());
                 }
             }
 
@@ -289,7 +312,7 @@ public class RightAccessValidator {
         if (rights.equals(new HashSet<Right>(Arrays.asList(Right.ANONYMOUS_ACCESS)))) {
             // Check that target entity is accessible to the actor
             if (entityId != null && !isEntityAllowed(entityId, collectionName, entityType, repo)) {
-                throw new AccessDeniedException("No association between the user and target entity");
+                throw new APIAccessDeniedException("No association between the user and target entity", entityType, entityId);
             }
         }
     }

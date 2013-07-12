@@ -72,6 +72,7 @@ public class StudentAssessmentConverterTest {
         String entityType = "studentAssessment";
         String entityId = "ID";
         Map<String, Object> body = new HashMap<String, Object>();
+        body.put("assessmentTitle", "Random Assessment");
         Map<String, Object> metaData = new HashMap<String, Object>();
         Map<String, List<Entity>> embeddedData = new HashMap<String, List<Entity>>();
 
@@ -132,10 +133,10 @@ public class StudentAssessmentConverterTest {
 
     @Test
     public void upconvertNoAssessmentShouldRemoveInvalidReference() {
-        List<Entity> entity = Arrays.asList(createUpConvertEntity());
-        assertNotNull(entity.get(0).getEmbeddedData().get("studentAssessmentItem"));
-        saConverter.subdocToBodyField(entity);
-        assertNull(entity.get(0).getEmbeddedData().get("studentAssessmentItem"));
+        List<Entity> old = Arrays.asList(createUpConvertEntity());
+        assertNotNull(old.get(0).getEmbeddedData().get("studentAssessmentItem"));
+        Iterable<Entity> entity = saConverter.subdocToBodyField(old);
+        assertNull(entity.iterator().next().getEmbeddedData().get("studentAssessmentItem"));
     }
 
     @Test
@@ -173,20 +174,20 @@ public class StudentAssessmentConverterTest {
         Entity saEntity = createUpConvertEntity();
         saEntity.getBody().put("assessmentId", "assessmentId");
         saEntity.getBody().put("studentId", "studentId");
-        List<Entity> entities = Arrays.asList(saEntity);
-        assertNull("studentAssessmentItem should not be in body", entities.get(0).getBody()
+        List<Entity> old = Arrays.asList(saEntity);
+        assertNull("studentAssessmentItem should not be in body", old.get(0).getBody()
                 .get("studentAssessmentItem"));
         Entity assessment = createAssessment();
         when(repo.getTemplate()).thenReturn(template);
         when(template.findById("assessmentId", Entity.class, EntityNames.ASSESSMENT)).thenReturn(assessment);
-        saConverter.subdocToBodyField(entities);
+        Iterable<Entity> entities = saConverter.subdocToBodyField(old);
         assertNotNull("studentAssessmentItem should be moved into body",
-                entities.get(0).getBody().get("studentAssessmentItems"));
+                entities.iterator().next().getBody().get("studentAssessmentItems"));
         assertNotNull(
                 "assessmentItem should be collapsed into the  studentAssessmentItem",
-                ((List<Map<String, Object>>) (entities.get(0).getBody().get("studentAssessmentItems"))).get(0).get(
+                ((List<Map<String, Object>>) (entities.iterator().next().getBody().get("studentAssessmentItems"))).get(0).get(
                         "assessmentItem"));
-        Map<String, Object> assessmentItemBody = (Map<String, Object>) ((List<Map<String, Object>>) (entities.get(0)
+        Map<String, Object> assessmentItemBody = (Map<String, Object>) ((List<Map<String, Object>>) (entities.iterator().next()
                 .getBody().get("studentAssessmentItems"))).get(0).get("assessmentItem");
         assertEquals("collapsed assessmentItem should have assessmentId field is assessmentId", "assessmentId",
                 assessmentItemBody.get("assessmentId"));

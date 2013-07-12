@@ -18,8 +18,8 @@ package org.slc.sli.api.jersey;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.core.Response.Status;
 
@@ -34,6 +34,7 @@ import org.joda.time.format.DateTimeFormatterBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
@@ -93,6 +94,10 @@ public class PostProcessFilter implements ContainerResponseFilter {
     @Override
     public ContainerResponse filter(ContainerRequest request, ContainerResponse response) {
         if (isRead(request.getMethod()) && isSuccessfulRead(response.getStatus())) {
+            if (contextValidator.isUrlBlocked(request)) {
+                throw new AccessDeniedException(String.format("url %s is not accessible.", request.getAbsolutePath().toString()));
+            }
+
             SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
                     .getPrincipal();
             principal.setSubEdOrgHierarchy(edOrgHelper.getStaffEdOrgsAndChildren());

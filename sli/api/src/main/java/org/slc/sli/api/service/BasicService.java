@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -236,7 +237,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
     public boolean accessibilityCheck(String id) {
         try {
             checkAccess(false, id, null);
-        } catch (AccessDeniedException e) {
+        } catch (APIAccessDeniedException e) {
             return false;
         }
         return true;
@@ -250,9 +251,39 @@ public class BasicService implements EntityService, AccessibilityCheck {
     // with different combinations of parameters
 
     @Override
-    public void delete(String id) {
+     public void delete(String id) {
 
         checkAccess(false, id, null);
+
+        try {
+            cascadeDelete(id);
+        } catch (RuntimeException re) {
+            debug(re.toString());
+        }
+
+        if (!getRepo().delete(collectionName, id)) {
+            info("Could not find {}", id);
+            throw new EntityNotFoundException(id);
+        }
+        deleteAttachedCustomEntities(id);
+    }
+
+    @Override
+    public void deleteBasedOnContextualRoles(String id) {
+
+        NeutralQuery query = new NeutralQuery();
+        query.addCriteria(new NeutralCriteria("_id", "=", id));
+
+        boolean isSelf = isSelf(query);
+
+        Entity entity = repo.findOne(collectionName, query);
+        if (entity == null) {
+            info("Could not find {}", id);
+            throw new EntityNotFoundException(id);
+        }
+
+        Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf, entity);
+        rightAccessValidator.checkAccess(false, id, null, defn.getType(), collectionName, getRepo(), auths);
 
         try {
             cascadeDelete(id);
@@ -729,14 +760,15 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
             try {
                 contextValidator.validateContextToEntities(def, ids, true);
-            } catch (AccessDeniedException e) {
+            } catch (APIAccessDeniedException e) {
                 debug("Invalid Reference: {} in {} is not accessible by user", value, def.getStoredCollectionName());
-                throw (AccessDeniedException) new AccessDeniedException(
-                        "Invalid reference. No association to referenced entity.").initCause(e);
+                throw (APIAccessDeniedException) new APIAccessDeniedException(
+                        "Invalid reference. No association to referenced entity.", e);
             } catch (EntityNotFoundException e) {
                 debug("Invalid Reference: {} in {} does not exist", value, def.getStoredCollectionName());
-                throw (AccessDeniedException) new AccessDeniedException(
-                        "Invalid reference. No association to referenced entity.").initCause(e);
+                throw (APIAccessDeniedException) new APIAccessDeniedException(
+                        "Invalid reference. No association to referenced entity.",
+                        defn.getType(), entityId).initCause(e);
             }
 
         }

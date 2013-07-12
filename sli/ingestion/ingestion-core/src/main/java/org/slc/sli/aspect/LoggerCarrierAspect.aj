@@ -22,7 +22,6 @@ public aspect LoggerCarrierAspect {
             !java.lang.Enum+)  implements LoggerCarrier;
     
     private Repository<Entity> entityRepository;
-
     
     @Value("${sli.ingestion.securityEvent.capSize}")
     private String capSize;
@@ -92,7 +91,6 @@ public aspect LoggerCarrierAspect {
     public void setEntityRepository(Repository<Entity> entityRepository) {
         this.entityRepository = entityRepository;
     }
-   
 
     public String getCapSize() {
         return capSize;

@@ -89,7 +89,7 @@ public class SecuritySessionResource {
 
         String status = (Boolean) logoutMap.get("logout") ? "Success" : "Failure";
         audit(securityEventBuilder.createSecurityEvent(SecuritySessionResource.class.getName(),
-                uriInfo.getRequestUri(), "Logout: " + status));
+                uriInfo.getRequestUri(), "Logout: " + status, true));
         return logoutMap;
     }
 

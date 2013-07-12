@@ -52,9 +52,10 @@ public class SLIPrincipal implements Principal, Serializable {
     private String id;
     private String name;
     private String realm;
+    private String realmEdOrg;
     private String externalId;
     private String adminRealm;
-    private String edOrg;
+    private String edOrg; 
     private String tenantId;
     private String sessionId;
     private List<String> roles;
@@ -125,10 +126,18 @@ public class SLIPrincipal implements Principal, Serializable {
         return realm;
     }
 
+    public String getRealmEdOrg() {
+        return realmEdOrg;
+    }
+    
     public void setRealm(String realm) {
         this.realm = realm;
     }
 
+    public void setRealmEdOrg(String realmEdOrg) {
+        this.realmEdOrg = realmEdOrg;
+    }
+    
     public String getExternalId() {
         return externalId;
     }

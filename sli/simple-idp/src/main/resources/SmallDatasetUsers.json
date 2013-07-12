@@ -117,5 +117,26 @@
     "name": "Carmen Ortiz",
     "roles": ["Student"],
     "association": "Daybreak Central High"
+  },
+  {
+    "userId": "3597672174",
+    "type": "parent",
+    "name": "Matthew Sollars",
+    "roles": ["Parent"],
+    "association": "East Daybreak Junior High"
+  },
+  {
+    "userId": "6473283635",
+    "type": "parent",
+    "name": "Ti Troung",
+    "roles": ["Parent"],
+    "association": "South Daybreak Elementary"
+  },
+  {
+    "userId": "0798132465",
+    "type": "parent",
+    "name": "Felizia Ortiz",
+    "roles": ["Parent"],
+    "association": "Daybreak Central High"
   }
 ]
