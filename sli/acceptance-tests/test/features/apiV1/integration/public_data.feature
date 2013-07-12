@@ -106,16 +106,16 @@ Feature: Users can access public entities
        | calendarEvent           | Instructional day                           |
        | date                    | 2015-04-02                                  |
        | educationOrganizationId | 352e8570bd1116d11a72755b987902440045d346_id |
-    #When I PATCH and validate the following entities:
-    #   |  fieldName     |  entityType   | value   |  returnCode  | endpoint                                                  |
-    #   |  calendarEvent |  calendarDate | Holiday |  204         | calendarDates/611ce67cc258ae2d06bc3199ee678df0fb6cecab_id |
-    #Then I verify the following response body fields in "/calendarDates/611ce67cc258ae2d06bc3199ee678df0fb6cecab_id":
-    #   | field                   | value                                       |
-    #   | id                      | 611ce67cc258ae2d06bc3199ee678df0fb6cecab_id |
-    #   | entityType              | calendarDate                                |
-    #   | calendarEvent           | Holiday                                     |
-    #   | date                    | 2015-04-02                                  |
-    #   | educationOrganizationId | 352e8570bd1116d11a72755b987902440045d346_id |
+    When I PATCH and validate the following entities:
+       |  fieldName     |  entityType   | value   |  returnCode  | endpoint                                                  |
+       |  calendarEvent |  calendarDate | Holiday |  204         | calendarDates/611ce67cc258ae2d06bc3199ee678df0fb6cecab_id |
+    Then I verify the following response body fields in "/calendarDates/611ce67cc258ae2d06bc3199ee678df0fb6cecab_id":
+       | field                   | value                                       |
+       | id                      | 611ce67cc258ae2d06bc3199ee678df0fb6cecab_id |
+       | entityType              | calendarDate                                |
+       | calendarEvent           | Holiday                                     |
+       | date                    | 2015-04-02                                  |
+       | educationOrganizationId | 352e8570bd1116d11a72755b987902440045d346_id |
     When I PUT and validate the following entities:
        |  field         | entityName      |  value            | returnCode | endpoint                                                  |
        |  calendarEvent | newCalendarDate | Instructional day | 204        | calendarDates/611ce67cc258ae2d06bc3199ee678df0fb6cecab_id |
@@ -139,13 +139,13 @@ Feature: Users can access public entities
    #When I PATCH and validate the following entities:
    #    |  fieldName     |  entityType    | value   |  returnCode  | endpoint                                                  |
    #    |  calendarEvent |  calendarDate2 | Holiday |  403         | calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id |
-   # Then I verify the following response body fields in "/calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id":
-   #    | field                   | value                                       |
-   #    | id                      | 7629c5951c8af6dac204cf636d5a81acb64fc6ef_id |
-   #    | entityType              | calendarDate                                |
-   #    | calendarEvent           | Instructional day                           |
-   #    | date                    | 2012-09-18                                  |
-   #    | educationOrganizationId | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
+    Then I verify the following response body fields in "/calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id":
+       | field                   | value                                       |
+       | id                      | 7629c5951c8af6dac204cf636d5a81acb64fc6ef_id |
+       | entityType              | calendarDate                                |
+       | calendarEvent           | Instructional day                           |
+       | date                    | 2012-09-18                                  |
+       | educationOrganizationId | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
     When I PUT and validate the following entities:
        |  field         | entityName       |  value            | returnCode | endpoint                                                  |
        |  calendarEvent | newCalendarDate2 | Holiday           | 403        | calendarDates/7629c5951c8af6dac204cf636d5a81acb64fc6ef_id |
@@ -177,17 +177,17 @@ Feature: Users can access public entities
       And I navigate to GET "/v1/calendarDates/611ce67cc258ae2d06bc3199ee678df0fb6cecab_id"
      Then I should receive a return code of 404
 
-   #  When I PATCH and validate the following entities:
-   #     |  fieldName     |  entityType   | value   |  returnCode  | endpoint                                                  |
-   #     |  calendarEvent |  calendarDate | Holiday |  403         | calendarDates/6f93d0a3e53c2d9c3409646eaab94155fe079e87_id |
+     When I PATCH and validate the following entities:
+        |  fieldName     |  entityType   | value   |  returnCode  | endpoint                                                  |
+        |  calendarEvent |  calendarDate | Holiday |  403         | calendarDates/6f93d0a3e53c2d9c3409646eaab94155fe079e87_id |
 
-   #  Then I verify the following response body fields in "/calendarDates/6f93d0a3e53c2d9c3409646eaab94155fe079e87_id":
-   #     | field                   | value                                       |
-   #     | id                      | 6f93d0a3e53c2d9c3409646eaab94155fe079e87_id |
-   #     | entityType              | calendarDate                                |
-   #     | calendarEvent           | Instructional day                           |
-   #     | date                    | 2014-01-21                                  |
-   #     | educationOrganizationId | 352e8570bd1116d11a72755b987902440045d346_id |
+     Then I verify the following response body fields in "/calendarDates/6f93d0a3e53c2d9c3409646eaab94155fe079e87_id":
+        | field                   | value                                       |
+        | id                      | 6f93d0a3e53c2d9c3409646eaab94155fe079e87_id |
+        | entityType              | calendarDate                                |
+        | calendarEvent           | Instructional day                           |
+        | date                    | 2014-01-21                                  |
+        | educationOrganizationId | 352e8570bd1116d11a72755b987902440045d346_id |
 
      When I PUT and validate the following entities:
         |  field         | entityName      |  value            | returnCode | endpoint                                                  |
