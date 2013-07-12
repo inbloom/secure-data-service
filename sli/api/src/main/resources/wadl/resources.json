@@ -1,5 +1,5 @@
 [{
-  "nameSpace": ["v1.0","v1.1", "v1.2"],
+  "nameSpace": ["v1.0","v1.1", "v1.2", "v1.3"],
   "resources": [
    {
       "path": "/bulk",
@@ -614,7 +614,7 @@
   ]
 },
 {
-  "nameSpace": ["v1.1", "v1.2"],
+  "nameSpace": ["v1.1", "v1.2", "v1.3"],
   "resources": [
     {
       "path": "/search",
@@ -679,7 +679,7 @@
   ]
 },
 {
-  "nameSpace": ["v1.2"],
+  "nameSpace": ["v1.2", "v1.3"],
   "resources": [
     {
       "path": "/students",
@@ -691,4 +691,17 @@
         ]
     }
   ]
+},
+{
+  "nameSpace": ["v1.3"],
+  "resources": [
+    {
+      "path": "/calendarDates",
+      "queryable": true,
+      "doc": "This entity represents an individual for whom instruction, services and/or care are provided in an early childhood, elementary or secondary educational program under the jurisdiction of a school, education agency, or other institution or program. A student is a person who has been enrolled in a school or other educational institution. For more information, see the schema for the $$Student$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/studentSchoolAssociations/students. {IDs} represents a list of the school or education organization IDs to which the staff is currently associated.",
+      "subResources": [
+        { "path": "/{id}/calendarDates}
+        ]
+    }
+  ] 
 }]
