@@ -56,9 +56,11 @@ public class StudentToTeacherSectionValidator extends StudentToStaffAssociationA
         while (sections.hasNext()) {
             Entity section = sections.next();
             List<Entity> associations = section.getEmbeddedData().get(EntityNames.TEACHER_SECTION_ASSOCIATION);
-            for (Entity entity : associations) {
-                if (ids.contains(entity.getEntityId())) {
-                    results.add(entity);
+            if (associations != null) {
+                for (Entity entity : associations) {
+                    if (ids.contains(entity.getEntityId())) {
+                        results.add(entity);
+                    }
                 }
             }
         }

@@ -16,16 +16,22 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.util.datetime.DateHelper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import java.util.*;
 
 /**
  * User: dkornishev
@@ -45,9 +51,10 @@ public class TransitiveStudentToStudentValidator extends BasicValidator {
         if (!areParametersValid(EntityNames.STUDENT, entityType, ids)) {
             return false;
         }
-
-        ids.removeAll(SecurityUtil.getSLIPrincipal().getOwnedStudentIds());
-        if (ids.size() == 0) {
+        
+        Set<String> myCopyOfIds = new HashSet<String>(ids);
+        myCopyOfIds.removeAll(SecurityUtil.getSLIPrincipal().getOwnedStudentIds());
+        if (myCopyOfIds.size() == 0) {
             return true;
         }
 
@@ -70,26 +77,26 @@ public class TransitiveStudentToStudentValidator extends BasicValidator {
                     if (ssas != null) {
                         for (Entity ssa : ssas) {
                             if (!dateHelper.isFieldExpired(ssa.getBody())) {
-                                ids.remove(ssa.getBody().get("studentId"));
+                                myCopyOfIds.remove(ssa.getBody().get("studentId"));
                             }
                         }
                     }
                 }
             }
-            if (ids.size() == 0) {
+            if (myCopyOfIds.size() == 0) {
                 return true;
             }
 
             // program and cohorts
-            NeutralQuery studentQuery = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, ids, false));
+            NeutralQuery studentQuery = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, myCopyOfIds, false));
             studentQuery.setEmbeddedFields(Arrays.asList("studentProgramAssociation", "studentCohortAssociation"));
             studentQuery.setIncludeFields(new ArrayList<String>()); // we don't need anything in the body of the superdoc.
             for (Entity student : getRepo().findAll("student", studentQuery)) {
-                removeValidIds(ids, authenticatedStudent, student, "studentProgramAssociation", "programId");
-                removeValidIds(ids, authenticatedStudent, student, "studentCohortAssociation", "cohortId");
+                removeValidIds(myCopyOfIds, authenticatedStudent, student, "studentProgramAssociation", "programId");
+                removeValidIds(myCopyOfIds, authenticatedStudent, student, "studentCohortAssociation", "cohortId");
             }
 
-            if (ids.size() == 0) {
+            if (myCopyOfIds.size() == 0) {
                 return true;
             }
         }

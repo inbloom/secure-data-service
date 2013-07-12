@@ -51,6 +51,6 @@ public class GenericToGlobalSessionWriteValidator extends AbstractContextValidat
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids, false));
         query.addCriteria(new NeutralCriteria(ParameterConstants.SCHOOL_ID, NeutralCriteria.CRITERIA_IN, edOrgLineage));
 
-        return ids.size() == repo.count(entityType, query);
+        return ids.size() == getRepo().count(entityType, query);
     }
 }
