@@ -21,24 +21,21 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.util.datetime.DateHelper;
-import org.slc.sli.api.security.context.PagingRepositoryDelegate;
-import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.springframework.stereotype.Component;
 
 /**
  * Validates teacher context to a global section. This logic is applied to transitive UPDATEs and non-transitive GETs.
  */
 @Component
 public class TeacherToSectionValidator extends AbstractContextValidator {
-
-    @Resource
-    private PagingRepositoryDelegate<Entity> repo;
 
     @Resource
     private DateHelper dateHelper;
@@ -57,7 +54,7 @@ public class TeacherToSectionValidator extends AbstractContextValidator {
         Set<String> sectionIds = new HashSet<String>();
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.SECTION_ID, NeutralCriteria.CRITERIA_IN, ids));
         query.addCriteria(new NeutralCriteria(ParameterConstants.TEACHER_ID, NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
-        Iterable<Entity> associations = repo.findAll(EntityNames.TEACHER_SECTION_ASSOCIATION, query);
+        Iterable<Entity> associations = getRepo().findAll(EntityNames.TEACHER_SECTION_ASSOCIATION, query);
 
         if (associations != null) {
             for (Entity association : associations) {
