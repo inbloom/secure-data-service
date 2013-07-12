@@ -332,7 +332,7 @@ public class RealmResource {
         List<String> newTargetEdOrgList = (newEdOrg != null) ?  Arrays.asList(newEdOrg):new ArrayList<String>();
 
         String message      = null;
-        SecurityEvent event = securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo.getRequestUri(), message);
+        SecurityEvent event = securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo.getRequestUri(), message, false);
 
         if (oldRealm == null && newRealm != null)        {//Create
             event.setLogMessage("Realm [" + newRealmName + "] created!");

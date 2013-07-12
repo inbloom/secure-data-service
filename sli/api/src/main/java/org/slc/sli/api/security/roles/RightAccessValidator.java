@@ -154,7 +154,17 @@ public class RightAccessValidator {
                 auths.addAll(SecurityUtil.getSLIPrincipal().getSelfRights());
             }
 
-            checkFieldAccess(query, entityType, auths);
+            try {
+                checkFieldAccess(query, entityType, auths);
+            } catch (APIAccessDeniedException e) {
+                Set<Entity> entities = new HashSet<Entity>();
+                entities.add(entity);
+
+                // we know the target entity now so rethrow with target data
+                e.setEntityType(entityType);
+                e.setEntities(entities);
+                throw e;
+            }
         }
     }
 
@@ -173,7 +183,7 @@ public class RightAccessValidator {
 
                 if (!rightsOnSort.isEmpty() && !intersection(auths, rightsOnSort)) {
                     debug("Denied user sorting on field {}", query.getSortBy());
-                    throw new AccessDeniedException("Cannot search on restricted field " + query.getSortBy());
+                    throw new APIAccessDeniedException("Cannot search on restricted field " + query.getSortBy());
                 }
             }
 
@@ -302,7 +312,7 @@ public class RightAccessValidator {
         if (rights.equals(new HashSet<Right>(Arrays.asList(Right.ANONYMOUS_ACCESS)))) {
             // Check that target entity is accessible to the actor
             if (entityId != null && !isEntityAllowed(entityId, collectionName, entityType, repo)) {
-                throw new AccessDeniedException("No association between the user and target entity");
+                throw new APIAccessDeniedException("No association between the user and target entity", entityType, entityId);
             }
         }
     }

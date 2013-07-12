@@ -50,6 +50,7 @@ import org.jdom.Document;
 import org.jdom.Element;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.api.security.roles.EdOrgContextualRoleBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -163,7 +164,7 @@ public class SamlFederationResource {
         try {
             doc = saml.decodeSamlPost(postData);
         } catch (Exception e) {
-            SecurityEvent event = securityEventBuilder.createSecurityEvent(this.getClass().getName(), uriInfo.getRequestUri(), "");
+            SecurityEvent event = securityEventBuilder.createSecurityEvent(this.getClass().getName(), uriInfo.getRequestUri(), "", false);
 
 
             try {
@@ -282,7 +283,7 @@ public class SamlFederationResource {
                     tenant = samlTenant;
                 }else{
                     error("Attempted login by a user in sandbox mode but no tenant was specified in the saml message.");
-                    throw new AccessDeniedException("Invalid user configuration.");
+                    throw new APIAccessDeniedException("Invalid user configuration.", (String) realm.getBody().get("edOrg"));
                 }
             }
         } else if(isAdminRealm){
@@ -313,19 +314,22 @@ public class SamlFederationResource {
             principal.setName(attributes.getFirst("userName"));
         }
 
+        if (realm.getBody() != null) {
+            // cache realm edOrg for security events
+            principal.setRealmEdOrg((String) realm.getBody().get("edOrg"));
+        }
+
         List<String> roles = attributes.get("roles");
         if (roles == null || roles.isEmpty()) {
             error("Attempted login by a user that did not include any roles in the SAML Assertion.");
-            throw new AccessDeniedException("Invalid user. No roles specified for user.");
+            throw new APIAccessDeniedException("Invalid user. No roles specified for user.", realm);
         }
-
 
         if(!(isAdminRealm || isDevRealm) &&
                 (principal.getUserType() == null || principal.getUserType().equals("") || principal.getUserType().equals(EntityNames.STAFF))) {
             Map<String, List<String>> sliEdOrgRoleMap = edOrgRoleBuilder.buildValidStaffRoles(realm.getEntityId(), principal.getEntity().getEntityId(), tenant, roles);
             principal.setEdOrgRoles(sliEdOrgRoleMap);
         }
-
 
         principal.setRealm(realm.getEntityId());
         principal.setEdOrg(attributes.getFirst("edOrg"));
@@ -334,11 +338,11 @@ public class SamlFederationResource {
         if ("-133".equals(principal.getEntity().getEntityId()) && !(isAdminRealm || isDevRealm)) {
             // if we couldn't find an Entity for the user and this isn't an admin realm, then we
             // have no valid user
-            throw new AccessDeniedException("Invalid user.");
+            throw new APIAccessDeniedException("Invalid user.", realm);
         }
 
         if (!(isAdminRealm || isDevRealm) && !realmHelper.isUserAllowedLoginToRealm(principal.getEntity(), realm)) {
-            throw new AccessDeniedException("User is not associated with realm.");
+            throw new APIAccessDeniedException("User is not associated with realm.", realm);
         }
 
         //F262: Update this to only store roles for non staff users
@@ -359,8 +363,8 @@ public class SamlFederationResource {
 
         if (principal.getRoles().isEmpty()) {
             debug("Attempted login by a user that included no roles in the SAML Assertion that mapped to any of the SLI roles.");
-            throw new AccessDeniedException(
-                    "Invalid user.  No valid role mappings exist for the roles specified in the SAML Assertion.");
+            throw new APIAccessDeniedException(
+                    "Invalid user.  No valid role mappings exist for the roles specified in the SAML Assertion.", realm);
         }
 
         if (samlTenant != null) {
@@ -408,7 +412,7 @@ public class SamlFederationResource {
         String authorizationCode = (String) code.get("value");
         Object state = appSession.get("state");
 
-        SecurityEvent successfulLogin = securityEventBuilder.createSecurityEvent(this.getClass().getName(), uriInfo.getRequestUri(), "", principal, realm, realm);
+        SecurityEvent successfulLogin = securityEventBuilder.createSecurityEvent(this.getClass().getName(), uriInfo.getRequestUri(), "", principal, realm, null, true);
         successfulLogin.setOrigin(httpServletRequest.getRemoteHost()+ ":" + httpServletRequest.getRemotePort());
         successfulLogin.setCredential(authorizationCode);
         successfulLogin.setUserOrigin(httpServletRequest.getRemoteHost()+ ":" + httpServletRequest.getRemotePort());

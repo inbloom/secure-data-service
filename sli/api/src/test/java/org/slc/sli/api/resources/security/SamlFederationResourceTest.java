@@ -18,6 +18,7 @@
 package org.slc.sli.api.resources.security;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyBoolean;
 import static org.mockito.Mockito.times;
 
 import java.io.IOException;
@@ -106,9 +107,9 @@ public class SamlFederationResourceTest {
         SecurityEventBuilder securityEventBuilder = Mockito.mock(SecurityEventBuilder.class);
         resource.setSecurityEventBuilder(securityEventBuilder);
         SecurityEvent event = new SecurityEvent();
-        Mockito.when(securityEventBuilder.createSecurityEvent(any(String.class), any(URI.class), any(String.class))).thenReturn(event);
+        Mockito.when(securityEventBuilder.createSecurityEvent(any(String.class), any(URI.class), any(String.class), anyBoolean())).thenReturn(event);
         resource.consume(postData, uriInfo);
-        Mockito.verify(securityEventBuilder, times(1)).createSecurityEvent(any(String.class), any(URI.class), any(String.class));
+        Mockito.verify(securityEventBuilder, times(1)).createSecurityEvent(any(String.class), any(URI.class), any(String.class), anyBoolean());
     }
 
 }
