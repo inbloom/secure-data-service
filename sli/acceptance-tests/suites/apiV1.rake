@@ -363,7 +363,7 @@ task :apiOdinParentLogin => [:apiOdinSetupAPI] do
 end
 
 desc "Run API Odin Public Data Integration Tests"
-task :apiOdinPublicData => [:apiOdinSetupAPI] do
+task :apiOdinPublicData do
   runTests("test/features/apiV1/integration/public_data.feature")
 end
 
