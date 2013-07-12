@@ -271,7 +271,13 @@ public class SecurityEventBuilder {
         Set<String> edorgs = new HashSet<String>();
 
         for (Entity edOrg : edOrgs) {
-            edorgs.add((String) edOrg.getBody().get(ParameterConstants.STATE_ORGANIZATION_ID));
+            Map<String, Object> body = edOrg.getBody();
+            if (body != null) {
+                String stateId = (String) body.get(ParameterConstants.STATE_ORGANIZATION_ID);
+                if (stateId != null && !stateId.isEmpty()) {
+                    edorgs.add(stateId);
+                }
+            }
         }
 
         return edorgs;
