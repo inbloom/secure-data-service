@@ -38,6 +38,13 @@ Transform /^<(.*?)>$/ do |human_readable_id|
   id = "/v1/students/b98a593e13945f54ecc3f1671127881064ab592d_id"         if human_readable_id == "nate.dedrick URI"
   id = "/v1/students/2d17703cb29a95bbfdaab47f513cafdc0ef55d67_id"         if human_readable_id == "mu.mcneill URI"
   id = "/v1/students/df54047bf88ecd7e2f6fbf00951196f747c9ccfc_id"         if human_readable_id == "jack.jackson URI"
+  id = "/v1/students/993283bce14b54bbfc896b8452f26e745ce4c101_id"         if human_readable_id == "pat.sollars URI"
+  id = "/v1/students/5fb6e796c5a8485c28f1875fda41810eca13db46_id"         if human_readable_id == "herman.ortiz URI"
+  id = "/v1/students/edeba6dcfab1d1461896e9581c20ce329604a94c_id"         if human_readable_id == "shawn.taite URI"
+  id = "/v1/students/7b9ae98922c207146f1feb0b799a91b1c02f17eb_id"         if human_readable_id == "jake.bertman URI"
+  id = "/v1/students/aceb1e6d159c833db61f72a9dfeee50be2f2691e_id"         if human_readable_id == "john.johnson URI"
+  id = "/v1/students/a94fc8d0895f2a00b811d54996a8f3eb8fdc7480_id"         if human_readable_id == "kate.dedrick URI"
+
   id
 end
 
@@ -555,6 +562,23 @@ Given /^I expire all section associations that "([^"]*)" has with "([^"]*)"$/ do
   enable_NOTABLESCAN()
 end
 
+Given /^I remove all restricted data from the student "([^"]*)"$/ do |student|
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  db_name = convertTenantIdToDbName(@tenant)
+  db = conn[db_name]
+  student_coll = db.collection('student')
+  student_id = student_coll.find_one({'body.studentUniqueStateId' => student})['_id']
+  query = { '_id' => student_id }
+
+  update_mongo(db_name, 'student', query, 'body.economicDisadvantaged', true)
+  update_mongo(db_name, 'student', query, 'body.schoolFoodServicesEligibility', true)
+
+  conn.close
+  enable_NOTABLESCAN()
+
+end
+
 #############################################################################################
 # OAUTH Steps
 #############################################################################################
@@ -779,9 +803,6 @@ Then /^"([^"]*)" in the response (should|should not) have restricted data$/ do |
   assert(response[index].has_key?('schoolFoodServicesEligibility') == should, "Restricted field #{negative}found")
 end
 
-
-#############################################################################################
-
 ############################################################################################
 #Steps for POST
 ############################################################################################
@@ -829,6 +850,11 @@ steps %Q{
     }
 end
 
+When /^I navigate to GET the new student entity$/ do
+  step "I navigate to GET \"/v1/students/#{@lastStudentId}\""
+end
+
+
 When /^I navigate to PUT the new entity$/ do
 
 id = @result['id']
@@ -837,3 +863,23 @@ steps %Q{
     }
 end
 
+############################################################################################
+#Steps for DELETE
+############################################################################################
+
+When /^I attempt to delete the student at "([^"]*)"$/ do |student|
+  db_name = convertTenantIdToDbName @tenant
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  db = conn[db_name]
+  student_coll = db.collection('student')
+  student_entity = student_coll.find_one({'body.studentUniqueStateId' => student})
+  student_id = student_entity['_id']
+
+  restHttpDelete("/v1/students/#{student_id}")
+
+end
+
+When /^I attempt to delete the new entity$/ do
+  restHttpDelete("/v1/students/#{@result['id']}")
+end
