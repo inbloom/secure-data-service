@@ -194,7 +194,9 @@ Given I log in to realm "Illinois Daybreak School District 4529" using simple-id
     | students                   | 6b41180a6ba41031f50f3b50c97ef5f9387666c3_id |
     | students                   | f07bc57c18f13e8bb692660a7fab0ca92817598c_id |
     | sections                   | cee6195d1c5e2605bea2f3c34d264442c78638d2_id |
+    | teachers                   | 67721e64bd47dc3a5845d643ef8c5f6635a9362a_id |
     | schools                    | f43e124e966084ce15bdba9b4e9befc92adf09ea_id |
+    | staff                      | 0a6289889ce37aec0a94de535b2df8dfe3c136ee_id |
     | cohorts                    | cfa2241d0bbf48070ed492e653931db4bcd9bb43_id | 
     | cohorts                    | 271a8d3a18ae2d80599dc55a0abaaeb8527ff10f_id | 
     | parents                    | cfa25e8916d80fd0e0c34507b3007ae0b45b938d_id |
@@ -203,7 +205,15 @@ Given I log in to realm "Illinois Daybreak School District 4529" using simple-id
     | educationOrganizations     | 99d527622dcb51c465c515c0636d17e085302d5e_id |
     | assessments                | f0ffa2e21cf1fc400527ac2ba63c20e4a620815c_id |
     | studentAssessments         | d4efea33872dc68985dbd1fc75c67681b8b13a60_id |
+    | attendances                | 63033e548daa3c024ad12ae98466e96055909da5_id |
+    | studentGradebookEntries    | 93434cd0e970de1222e21e1b569e560bba82e203_id |
+    | studentCompetencies        | 6668114ed5195e2a0baf50a42b9a81a6006a9ca2_id |
+    | courseTranscripts          | 81ab106aa9e0b2658957cad5e9316e7e87e853a7_id |
     | studentSchoolAssociations  | 23125624f5f1dcfcf7e27eae8e7b44d91945ad2e_id |
+    | grades                     | 00a80d4a19731ce76274a2b433d326a75e0040ba_id82ebb43f2947f56dcdb6cf61b1123d6df728a30f_id |
+    | gradebookEntries           | d0bf8bb1e3418c8c7578a89403d6ffea5cb9c1a6_id58a523f121d74d87d45c9a26a686decdbce622ef_id |
+    | reportCards                | 00a80d4a19731ce76274a2b433d326a75e0040ba_id719e8d9ca6168ad347b28985d80a61c518a67ae3_id |
+    | studentAcademicRecords     | 00a80d4a19731ce76274a2b433d326a75e0040ba_id792ce89761e86b315ad10daadc0be38a0e44f010_id |
     | studentSectionAssociations | cee6195d1c5e2605bea2f3c34d264442c78638d2_idf073a2639d4d95f8fea3b0cfb96e17580416c819_id |
     | studentParentAssociations  | fdd8ee3ee44133f489e47d2cae109e886b041382_id146cb6be194273e519e711b0af37d42af7800c06_id |
     | studentParentAssociations  | fdd8ee3ee44133f489e47d2cae109e886b041382_idfbfd0e2202a671708374cb077c7ffd45e94046b7_id |
