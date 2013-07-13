@@ -15,16 +15,23 @@
  */
 package org.slc.sli.api.security.context.validator;
 
-import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.util.datetime.DateHelper;
-import org.slc.sli.domain.Entity;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.util.datetime.DateHelper;
+import org.slc.sli.domain.Entity;
 
 /**
  * Validator for teacher/staff
@@ -108,9 +115,11 @@ public class TransitiveStudentToStaffValidator extends BasicValidator {
         while (sections.hasNext()) {
             Entity section = sections.next();
             List<Entity> tsas = section.getEmbeddedData().get("teacherSectionAssociation");
-            for (Entity tsa : tsas) {
-                String teacher = (String) tsa.getBody().get("teacherId");
-                filtered.add(teacher);
+            if (tsas != null) {
+                for (Entity tsa : tsas) {
+                    String teacher = (String) tsa.getBody().get("teacherId");
+                    filtered.add(teacher);
+                }
             }
         }
         return filtered;

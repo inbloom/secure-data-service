@@ -15,16 +15,17 @@
  */
 package org.slc.sli.api.security.context.validator;
 
-import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
-import org.slc.sli.domain.Entity;
-import org.springframework.stereotype.Component;
-
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.domain.Entity;
 
 /**
  * validate cohorts transitively for a student
@@ -49,7 +50,7 @@ public class StudentToCohortValidator extends BasicValidator {
                 List<Entity> studentCohortAssociations = owned.getEmbeddedData().get(EntityNames.STUDENT_COHORT_ASSOCIATION);
 
                 if (studentCohortAssociations == null) {
-                    return false;
+                    continue;
                 }
 
                 for (Entity myCohortAssociation : studentCohortAssociations) {

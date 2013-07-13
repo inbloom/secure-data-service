@@ -641,6 +641,7 @@ def update_api_put_field(body, field, value)
   body["name"]["middleName"] = value if field == "name.middleName"
   body["diagnosticStatement"] = value if field == "diagnosticStatement"
   body["gradeLevelWhenAssessed"] = value if field == "gradeLevelWhenAssessed"
+  body["calendarEvent"] = value if field == "calendarEvent"
   body["contactRestrictions"] = value if field == "contactRestrictions"
   return body
 end
@@ -732,6 +733,9 @@ def get_patch_body_by_entity_name(field, value)
                   "addressType"=>"Physical",
                   "city"=>"Chicago"
                  }]
+    },
+    "calendarEvent" => {
+            "calendarEvent" => value
     },
     "contactPriority" => {
       "contactPriority" => value.to_i
@@ -871,8 +875,8 @@ end
 When /^I store the URL for the latest delta for LEA "(.*?)"$/ do |lea|
   @delta_uri = JSON.parse(@res)
   @list_url  = @delta_uri["deltaLeas"][lea][0]["uri"]
-  # @list_irl is in the format https://<url>/api/rest/v1.2/bulk/extract/<lea>/delta/<timestamp>
-  # -> strip off everything before v1.2, store: /v1.2/bulk/extract/<lea>/delta/<timestamp>
+  # @list_irl is in the format https://<url>/api/rest/v1.3/bulk/extract/<lea>/delta/<timestamp>
+  # -> strip off everything before v1.3, store: /v1.3/bulk/extract/<lea>/delta/<timestamp>
   @list_url.match(/api\/rest\/v(.*?)\/(.*)$/)
   @list_uri = $2
   # Get the timestamp from the URL
@@ -2525,6 +2529,16 @@ def get_post_body_by_entity_name(entity_name)
         }]
       }]
     },
+    "newCalendarDate" => {
+      "calendarEvent" => "Instructional day",
+      "date" => "2015-04-02",
+      "educationOrganizationId" => "352e8570bd1116d11a72755b987902440045d346_id"
+    },
+    "newCalendarDate2" => {
+          "calendarEvent" => "Instructional day",
+          "date" => "2015-04-02",
+          "educationOrganizationId" => "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id"
+    },
     "newCohort" => {
       "academicSubject" => "Communication and Audio/Visual Technology",
       "cohortType" => "Extracurricular Activity",
@@ -3279,6 +3293,27 @@ def get_post_body_by_entity_name(entity_name)
       "studentId" => "fdd8ee3ee44133f489e47d2cae109e886b041382_id",
       "relation" => "Father",
       "contactPriority" => 1
+    },
+    "cgray.studentSchoolAssociation.myClass" => {
+      "exitWithdrawDate" => "2014-05-22",
+      "entityType" => "studentSchoolAssociation",
+      "entryDate" => "2013-08-27",
+      "entryGradeLevel" => "Ninth grade",
+      "schoolYear" => "2013-2014",
+      "educationalPlans" => [],
+      "schoolChoiceTransfer" => false,
+      "entryType" => "Other",
+      "studentId" => "fdd8ee3ee44133f489e47d2cae109e886b041382_id",
+      "repeatGradeIndicator" => false,
+      "schoolId" => "f43e124e966084ce15bdba9b4e9befc92adf09ea_id",
+    },
+    "cgray.studentSectionAssociation.myClass" => {
+      "entityType" => "studentSectionAssociation",
+      "sectionId" => "cee6195d1c5e2605bea2f3c34d264442c78638d2_id",
+      "studentId" => "fdd8ee3ee44133f489e47d2cae109e886b041382_id",
+      "beginDate" => "2013-08-27",
+      "homeroomIndicator" => true,
+      "repeatIdentifier" => "Repeated, counted in grade point average"
     },
     "cgray.studentParentAssociation.notMyKid" => {
       "entityType" => "studentParentAssociation",

@@ -1,5 +1,5 @@
 [{
-  "nameSpace": ["v1.0","v1.1", "v1.2"],
+  "nameSpace": ["v1.0","v1.1", "v1.2", "v1.3"],
   "resources": [
    {
       "path": "/bulk",
@@ -93,6 +93,9 @@
                   "deprecatedVersion": "1.0",
                   "deprecatedReason" : "Deprecation occurred to remove a potential security vulnerability.",
                   "doc": "This URI, /gradingPeriods/{id}/grades, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/{id}/studentSectionAssociations/grades (for teachers) or /schools/{id}/sections/studentSectionAssociations/grades (for staff) instead. These URIs are used internally instead of /gradingPeriods/{id}/grades, and will still be available after the deprecation period ends."
+              },
+              {
+                  "path": "/{id}/calendarDates"
               }
           ]
       },
@@ -211,6 +214,7 @@
         { "path": "/{id}/staffEducationOrgAssignmentAssociations" },
         { "path": "/{id}/staffEducationOrgAssignmentAssociations/staff" },
         { "path": "/{id}/graduationPlans", "dateSearchDisallowed": true },
+        { "path": "/{id}/calendarDates", "dateSearchDisallowed": true },
         { 
           "path": "/{id}/cohorts",
           "dateSearchDisallowed": true,
@@ -308,6 +312,7 @@
           "doc": "This URI, /schools/{id}/sections/gradebookEntries, should only be called in the context of a staff member, and should not be used in the context of a teacher. Use /sections/{id}/gradebookEntries instead, as this URI is used internally instead of /schools/{id}/sections/gradebookEntries (for teachers)."
         },
         { "path": "/{id}/graduationPlans", "dateSearchDisallowed": true },
+        { "path": "/{id}/calendarDates", "dateSearchDisallowed": true },
         { 
           "path": "/{id}/sections/studentSectionAssociations",
           "doc": "This URI, /schools/{id}/sections/studentSectionAssociations, should only be called in the context of a staff member, and should not be used in the context of a teacher. Use /sections/{id}/studentSectionAssociations instead, as this URI is used internally instead of /schools/{id}/sections/studentSectionAssociations (for teachers)."
@@ -445,7 +450,7 @@
     {
       "path": "/grades",
       "queryable": true,
-      "doc": "Represents an overall score or assessment tied to a course over a period of time (i.e., the grading period). Student grades are usually a compilation of marks and other scores. For more information, see the schema for $$Grade$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students/grades. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/studentSchoolAssociations/students/grades. {IDs} represents a list of the school or education organization IDs to which the staff is currently associated. For students, this is /studentSectionAssociations/{IDs}/grades. {IDs} represents the IDs of the student's studentSectionAssociations."
+      "doc": "Represents an overall score or assessment tied to a course over a period of time (i.e., the grading period). Student grades are usually a compilation of marks and other scores. For more information, see the schema for $$Grade$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students/grades. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/sections/studentSectionAssociations/grades. {IDs} represents a list of the school or education organization IDs to which the staff is currently associated. For students, this is /studentSectionAssociations/{IDs}/grades. {IDs} represents the IDs of the student's studentSectionAssociations."
     },
     {
       "path": "/studentCompetencies",
@@ -586,6 +591,13 @@
         "resourceClass": "org.slc.sli.api.resources.generic.custom.PublicDefaultResource"
     },
     {
+        "path": "/calendarDates",
+        "queryable": true,
+        "dateSearchDisallowed": true,
+        "doc": "Represents the definition of a calendarDates. For detailed information, see the schema for the $$CalendarDate$$ entity.  For this open ended URI, only current and directly associated entities are returned. For students, this is /schools/{IDs}/calendarDates. {IDs} represents a list of the school or education organization IDs to which the student is currently associated.",
+        "resourceClass": "org.slc.sli.api.resources.generic.custom.PublicDefaultResource"
+    },
+    {
         "path": "/system/support",
         "queryable": true,
         "dateSearchDisallowed": true,
@@ -602,7 +614,7 @@
   ]
 },
 {
-  "nameSpace": ["v1.1", "v1.2"],
+  "nameSpace": ["v1.1", "v1.2", "v1.3"],
   "resources": [
     {
       "path": "/search",
@@ -667,7 +679,7 @@
   ]
 },
 {
-  "nameSpace": ["v1.2"],
+  "nameSpace": ["v1.2", "v1.3"],
   "resources": [
     {
       "path": "/students",
@@ -679,4 +691,14 @@
         ]
     }
   ]
+},
+{
+  "nameSpace": ["v1.3"],
+  "resources": [
+    {
+      "path": "/calendarDates",
+      "queryable": true,
+      "doc": "This entity represents an individual for whom instruction, services and/or care are provided in an early childhood, elementary or secondary educational program under the jurisdiction of a school, education agency, or other institution or program. A student is a person who has been enrolled in a school or other educational institution. For more information, see the schema for the $$Student$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/studentSchoolAssociations/students. {IDs} represents a list of the school or education organization IDs to which the staff is currently associated."
+    }
+  ] 
 }]

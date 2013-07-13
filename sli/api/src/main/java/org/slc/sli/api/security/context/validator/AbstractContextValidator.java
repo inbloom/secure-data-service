@@ -26,7 +26,6 @@ import java.util.Set;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
@@ -44,14 +43,11 @@ import org.slc.sli.domain.Repository;
  */
 public abstract class AbstractContextValidator implements IContextValidator {
 
-    @Value("${sli.security.gracePeriod}")
-    String gracePeriod;
-
     @Autowired
     private DateHelper dateHelper;
 
     @Autowired
-    public PagingRepositoryDelegate<Entity> repo;
+    private PagingRepositoryDelegate<Entity> repo;
 
     @Autowired
     private EdOrgHelper edorgHelper;
@@ -130,7 +126,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
      * @return DateTime object.
      */
     protected DateTime getDateTime(String convert) {
-        return DateTime.parse(convert, dateHelper.getDateTimeFormat());
+        return DateTime.parse(convert, DateHelper.getDateTimeFormat());
     }
 
     /**
@@ -141,7 +137,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
      * @return String representing DateTime (of format yyyy-MM-dd).
      */
     protected String getDateTimeString(DateTime convert) {
-        return convert.toString(dateHelper.getDateTimeFormat());
+        return convert.toString(DateHelper.getDateTimeFormat());
     }
 
     /**

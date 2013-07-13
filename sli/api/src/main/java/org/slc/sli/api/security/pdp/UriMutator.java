@@ -33,6 +33,7 @@ import javax.ws.rs.core.PathSegment;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.slc.sli.api.security.context.resolver.GradingPeriodHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.AccessDeniedException;
@@ -86,6 +87,9 @@ public class UriMutator {
     private DateHelper dateHelper;
 
     private Map<String, MutateInfo> teacherSectionMutations;
+
+    @Autowired
+    private GradingPeriodHelper gradingPeriodHelper;
 
     @SuppressWarnings("unchecked")
     private static final List<Pair<String, String>> PARAMETER_RESOURCE_PAIRS = Arrays.asList(
@@ -145,8 +149,12 @@ public class UriMutator {
 
         mutated.setPath(null);
         mutated.setQueryParameters(queryParameters);
+        MutatedContainer generalMutation = doGeneralMutations(stringifyPathSegments(segments), queryParameters, user);
 
-        if (segments.size() < NUM_SEGMENTS_IN_TWO_PART_REQUEST) {
+        if( generalMutation != null) {
+          mutated = generalMutation;
+        }
+        else if (segments.size() < NUM_SEGMENTS_IN_TWO_PART_REQUEST) {
 
             if (!shouldSkipMutationToEnableSearch(segments, mutated.getQueryParameters())) {
                 if (segments.size() == 1) {
@@ -341,6 +349,47 @@ public class UriMutator {
         return mutatedPathAndParameters;
     }
 
+
+    private MutatedContainer doGeneralMutations(List<String> segmentStrings, String queryParameters, Entity user) {
+        MutatedContainer mutated = null;
+        int segmentSize = segmentStrings.size();
+
+        if(segmentSize == 2) {
+            String baseEntity = segmentStrings.get(1);
+            //does following mutation
+            //v1.2/calendarDates   ->   v1.2/calendarDates/<user's edOrg Ids>
+            if(baseEntity.equals("calendarDates")) {
+                mutated = new MutatedContainer();
+                mutated.setQueryParameters(queryParameters != null ? queryParameters : "");
+                String mutatedURL = String.format("/educationOrganizations/%s/calendarDates", StringUtils.join(edOrgHelper.getDirectEdorgs(user), ","));
+                mutated.setPath(mutatedURL);
+            }
+        }
+        else if (segmentSize == 4) {
+            String baseEntity = segmentStrings.get(1);
+            String resourceEntity = segmentStrings.get(3);
+            //does following mutation
+            //v1.2/gradingPeriods/b62056a2f0463864ed2d81dd6ce121c1b7b8d950_id/calendarDates   ->   v1.2/calendarDates/521570eb6dc0e988c4553b91c6c4dadc2a02c487_id
+            //where 521570eb6dc0e988c4553b91c6c4dadc2a02c487_id is the calendarDateReference inside gradingPeriod b62056a2f0463864ed2d81dd6ce121c1b7b8d950_id
+            //The ThreePartResource.java does not work for this relationship because it wrongly assumes that calendarDate contains a reference to gradingPeriod.
+            if(baseEntity.equals("gradingPeriods") && resourceEntity.equals("calendarDates")) {
+                String [] gradingPeriodIds = segmentStrings.get(2).split(",");
+                List<String> gradingPeriodCalendarDates = gradingPeriodHelper.getCalendarDatesForGradingPeriods(queryParameters, gradingPeriodIds);
+
+                if(gradingPeriodCalendarDates.size() > 0) {
+                    mutated = new MutatedContainer();
+                    mutated.setQueryParameters(queryParameters != null ? queryParameters : "");
+                    String mutatedURL = String.format("/calendarDates/%s", StringUtils.join(gradingPeriodCalendarDates.toArray(), ","));
+                    mutated.setPath(mutatedURL);
+                }   else {    //no calendarDates associated with this grading Period
+                    info("Cannot find any calendarDates associated with gradingPeriods [{}]", Arrays.asList(gradingPeriodIds));
+                }
+            }
+        }
+        return mutated;
+    }
+
+
     private MutatedContainer mutateStudentParentRequest(List<String> segmentStrings, String queryParameters, Entity user) {
         MutatedContainer mutated = new MutatedContainer();
         mutated.setQueryParameters(queryParameters != null ? queryParameters : "");
@@ -468,20 +517,25 @@ public class UriMutator {
             } else {
                 throw new IllegalArgumentException("Not supported yet...");
             }
-        } else if (segmentStrings.size() >= 4
-                && ResourceNames.STUDENT_SECTION_ASSOCIATIONS.equals(segmentStrings.get(1))) {
-            // /studentSectionAssociation/{id}/students and /studentSectionAssociation/{id}/sections
-            // have to be re-written to /section/{id}/*
+        } else if (segmentStrings.size() >= 4) {
+            String baseEntity = segmentStrings.get(1);
             String secondEntity = segmentStrings.get(3);
-            if (ResourceNames.STUDENTS.equals(secondEntity) || ResourceNames.SECTIONS.equals(secondEntity)) {
-                List<String> sections = sectionHelper.getSectionsFromStudentSectionAssociation(segmentStrings.get(2)
-                        .split(","));
-                String sectionUri = String.format("/sections/%s",
-                        StringUtils.join(sections.toArray(new String[0]), ","));
-                if (ResourceNames.STUDENTS.equals(secondEntity)) {
-                    sectionUri = sectionUri + "/studentSectionAssociations/students";
+            if (ResourceNames.STUDENT_SECTION_ASSOCIATIONS.equals(segmentStrings.get(1))) {
+                // /studentSectionAssociation/{id}/students and
+                // /studentSectionAssociation/{id}/sections
+                // have to be re-written to /section/{id}/*
+                if (ResourceNames.STUDENTS.equals(secondEntity) || ResourceNames.SECTIONS.equals(secondEntity)) {
+                    List<String> sections = sectionHelper.getSectionsFromStudentSectionAssociation(segmentStrings.get(2)
+                            .split(","));
+                    String sectionUri = String.format("/sections/%s",
+                            StringUtils.join(sections.toArray(new String[0]), ","));
+                    if (ResourceNames.STUDENTS.equals(secondEntity)) {
+                        sectionUri = sectionUri + "/studentSectionAssociations/students";
+                    }
+                    mutated.setPath(sectionUri);
                 }
-                mutated.setPath(sectionUri);
+            } else if (ResourceNames.LEARNINGOBJECTIVES.equals(baseEntity) && ResourceNames.STUDENT_COMPETENCIES.equals(secondEntity)) {
+                throw new AccessDeniedException("url is not accessible to students or parents");
             }
         }
         return mutated;

@@ -32,8 +32,12 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "studentSchoolAssociations"                  if human_readable_id == "STUDENT SCHOOL ASSOCIATION URI"
   id = "custom"                                     if human_readable_id == "CUSTOM URI"
   id = "students"                                   if human_readable_id == "STUDENT URI"
+  id = "calendarDates"                              if human_readable_id == "CALENDARDATE URI"
   id =  "<"+human_readable_id+">"                   if human_readable_id.include? "?"
- 
+
+  #calendarDates
+  id = "2012ah-797e94af-ceb0-11e1-8af5-0a0027000000"       if human_readable_id == "CALENDARDATE ID"
+              
   #education organizations
   id = "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"       if human_readable_id == "EDUCATION ORGANIZATION ID"
     

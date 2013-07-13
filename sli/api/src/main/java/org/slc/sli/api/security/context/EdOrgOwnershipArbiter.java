@@ -82,9 +82,11 @@ public class EdOrgOwnershipArbiter {
         typeToReference
                 .put(EntityNames.STUDENT, new Reference(EntityNames.STUDENT, EntityNames.STUDENT_SCHOOL_ASSOCIATION,
                         ParameterConstants.STUDENT_ID, Reference.RefType.RIGHT_TO_LEFT));
+        
         typeToReference.put(EntityNames.STUDENT_SCHOOL_ASSOCIATION, new Reference(
                 EntityNames.STUDENT_SCHOOL_ASSOCIATION, EntityNames.EDUCATION_ORGANIZATION,
                 ParameterConstants.SCHOOL_ID, Reference.RefType.LEFT_TO_RIGHT));
+        
         typeToReference.put(EntityNames.GRADE, new Reference(EntityNames.GRADE,
                 EntityNames.STUDENT_SECTION_ASSOCIATION, ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID,
                 Reference.RefType.LEFT_TO_RIGHT));
@@ -105,6 +107,9 @@ public class EdOrgOwnershipArbiter {
         typeToReference.put(EntityNames.GRADEBOOK_ENTRY, new Reference(EntityNames.GRADEBOOK_ENTRY,
                 EntityNames.SECTION, ParameterConstants.SECTION_ID, Reference.RefType.LEFT_TO_RIGHT));
         typeToReference.put(EntityNames.GRADUATION_PLAN, new Reference(EntityNames.GRADUATION_PLAN,
+                EntityNames.EDUCATION_ORGANIZATION, ParameterConstants.EDUCATION_ORGANIZATION_ID,
+                Reference.RefType.LEFT_TO_RIGHT));
+        typeToReference.put(EntityNames.CALENDAR_DATE, new Reference(EntityNames.CALENDAR_DATE,
                 EntityNames.EDUCATION_ORGANIZATION, ParameterConstants.EDUCATION_ORGANIZATION_ID,
                 Reference.RefType.LEFT_TO_RIGHT));
         typeToReference.put(EntityNames.PARENT, new Reference(EntityNames.PARENT,
