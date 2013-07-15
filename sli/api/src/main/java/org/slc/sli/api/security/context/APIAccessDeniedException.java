@@ -76,8 +76,10 @@ public class APIAccessDeniedException extends AccessDeniedException {
      */
     public APIAccessDeniedException(String msg, String targetEdOrg) {
         super(msg);
-        this.targetEdOrgs = new HashSet<String>();
-        this.targetEdOrgs.add(targetEdOrg);
+        if (targetEdOrg != null) {
+            this.targetEdOrgs = new HashSet<String>();
+            this.targetEdOrgs.add(targetEdOrg);
+        }
     }
 
     /**
@@ -112,10 +114,11 @@ public class APIAccessDeniedException extends AccessDeniedException {
      */
     public APIAccessDeniedException(String msg, String entityType, String entityId) {
         super(msg);
-
-        this.entityType = entityType;
-        this.entityIds = new HashSet<String>();
-        this.entityIds.add(entityId);
+        if (entityId != null) {
+            this.entityType = entityType;
+            this.entityIds = new HashSet<String>();
+            this.entityIds.add(entityId);
+        }
     }
 
     /**
@@ -138,9 +141,10 @@ public class APIAccessDeniedException extends AccessDeniedException {
      */
     public APIAccessDeniedException(String msg, String entityType, Collection<String> entityIds) {
         super(msg);
-
-        this.entityType = entityType;
-        this.entityIds = new HashSet<String>(entityIds);
+        if (entityIds != null && !entityIds.isEmpty()) {
+            this.entityType = entityType;
+            this.entityIds = new HashSet<String>(entityIds);
+        }
     }
 
     public Set<String> getTargetEdOrgs() {
