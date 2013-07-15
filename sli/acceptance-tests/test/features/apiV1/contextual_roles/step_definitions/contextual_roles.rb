@@ -18,6 +18,7 @@ limitations under the License.
 
 require 'selenium-webdriver'
 require 'mongo'
+require 'open3'
 
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../utils/selenium_common.rb'
@@ -572,6 +573,51 @@ Given /^the testing device app key has been created$/ do
   @oauthRedirectURI = "http://device"
 end
 
+When /^I log in as "(.*?)"/ do |user|
+
+  expiration_in_seconds = 300
+  script_loc = File.dirname(__FILE__) + '/../../../../../../opstools/token-generator/generator.rb'
+
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
+  db_name = convertTenantIdToDbName @tenant
+  db = conn[db_name]
+  staff_coll = db.collection('staff')
+  seoa_coll = db.collection('staffEducationOrganizationAssociation')
+  edorg_coll = db.collection('educationOrganization')
+
+  staff_id = staff_coll.find_one({'body.staffUniqueStateId' => user})['_id']
+  seoas = seoa_coll.find({'body.staffReference' => staff_id}).to_a
+  assert(seoas.size > 0, "No SEOAs found for #{user}")
+
+  sli_db_name = PropLoader.getProps['sli_database_name']
+  sli_db = conn[sli_db_name]
+  user_session_coll = sli_db.collection('userSession')
+  user_session_coll.remove()
+
+  first = true
+  previous_session = 0
+  session_id = 0
+  seoas.each do |seoa|
+    role = seoa['body']['staffClassification']
+    edorg = edorg_coll.find_one({'_id' => seoa['body']['educationOrganizationReference']})['body']['stateOrganizationId']
+    command = "ruby #{script_loc} -e #{expiration_in_seconds} -c #{@oauthClientId} -u #{user} -r \"#{role}\" -E \"#{edorg}\" -t \"#{@tenant}\" -R \"#{@realm}\" -n #{first}"
+    out, status = Open3.capture2(command)
+    assert(out.include?("token is"), "Could not get a token for #{user} for realm #{@realm}")
+    match = /token is (.*)/.match(out)
+    session_id = match[1]
+    assert(previous_session == session_id,'Multiple sessions detected') unless first
+    previous_session = session_id
+    first = false
+  end
+
+  @sessionId = session_id
+  puts "The generated token is #{@sessionId}"
+
+  conn.close
+  enable_NOTABLESCAN()
+end
+
 When /^I navigate to the API authorization endpoint with my client ID$/ do
   @driver.get PropLoader.getProps['api_server_url'] + "/api/oauth/authorize?response_type=code&client_id=#{@oauthClientId}"
 end
@@ -711,6 +757,7 @@ Given /^I import the odin setup application and realm data$/ do
     enable_NOTABLESCAN()
   end
   @tenant = 'Midgar'
+  @realm = 'IL-DAYBREAK'
   all_lea_allow_app_for_tenant('Mobile App', @tenant)
   authorize_edorg_for_tenant('Mobile App', @tenant)
   # restore back current dir

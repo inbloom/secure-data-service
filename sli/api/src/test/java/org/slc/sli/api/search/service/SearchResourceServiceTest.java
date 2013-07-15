@@ -16,6 +16,7 @@
 package org.slc.sli.api.search.service;
 
 import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
+import static org.mockito.Matchers.argThat;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -36,6 +37,8 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.client.Client;
+import org.hamcrest.BaseMatcher;
+import org.hamcrest.Description;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -43,6 +46,10 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.slc.sli.api.service.EntityService;
+import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -72,7 +79,7 @@ import org.slc.sli.domain.enums.Right;
 
 /**
  * Tests for the search resource/service.
- * 
+ *
  * @author kmyers
  *
  */
@@ -90,12 +97,12 @@ public class SearchResourceServiceTest {
     Embedded embedded;
 
     static Client client;
-    
+
     @Before
     public void setup() {
         client = embedded.getClient();
     }
-    
+
     private void indexData(String index, String type, Collection<Map<String, Object>> data) throws Exception {
         if (!client.admin().indices().prepareExists(index).execute().actionGet().isExists()) {
             client.admin().indices().prepareCreate(index).execute().actionGet();
@@ -119,7 +126,7 @@ public class SearchResourceServiceTest {
         }
         client.admin().indices().prepareFlush(index).execute().actionGet();
     }
-    
+
     @SuppressWarnings("unchecked")
     private void indexData(String index, String type, Map<String, Object> object) throws Exception {
         indexData(index, type, Arrays.asList(object));
@@ -129,6 +136,9 @@ public class SearchResourceServiceTest {
     @Test
     public void testResponse() throws Exception {
         setupAuth(EntityNames.TEACHER);
+
+        List<EntityBody> students = new ArrayList<EntityBody>();
+
         Map<String, Object> student = new HashMap<String, Object>();
         Map<String, Object> name = new HashMap<String, Object>();
         Map<String, Object> context = new HashMap<String, Object>();
@@ -140,16 +150,33 @@ public class SearchResourceServiceTest {
         context.put("schoolId", "ALL");
         student.put("context", context);
 
+        MongoEntity studentEntity1 = new MongoEntity(EntityNames.STUDENT, student);
+        EntityBody studentBody1 = new EntityBody(studentEntity1.getBody());
+        students.add(studentBody1);
+
         String index = TenantIdToDbName.convertTenantIdToDbName(TenantContext.getTenantId());
         indexData(index, "student", student);
 
-        student.put("_id", "another");
+        Map<String, Object> student2 = new HashMap<String, Object>();
+
+        student2.put("_id", "another");
         name.put("firstName", "xyz");
         name.put("lastSurname", "Davi");
+        name.put("middleName", "≠");
+        student2.put("name", name);
+        student2.put("context", context);
+
         indexData(index, "student", student);
+
+        MongoEntity studentEntity2 = new MongoEntity(EntityNames.STUDENT, student2);
+        EntityBody studentBody2 = new EntityBody(studentEntity2.getBody());
+        students.add(studentBody2);
 
         Resource resource = new Resource("v1", "search");
         SearchResourceService rs = Mockito.spy(resourceService);
+
+        EntityService mockEntityService = Mockito.mock(EntityService.class);
+
         Mockito.when(rs.filterResultsBySecurity(Mockito.isA(List.class), Mockito.anyInt(), Mockito.anyInt())).thenAnswer(new Answer<List<EntityBody>>() {
             @Override
             public List<EntityBody> answer(InvocationOnMock invocation) throws Throwable {
@@ -157,6 +184,11 @@ public class SearchResourceServiceTest {
                 return (List<EntityBody>) args[0];
             }
         });
+
+
+        Mockito.when(mockEntityService.listBasedOnContextualRoles(Mockito.any(ApiQuery.class))).thenReturn(Arrays.asList(studentBody1));
+
+        Mockito.when(rs.getService()).thenReturn(mockEntityService);
 
         ServiceResponse serviceResponse = null;
         serviceResponse = rs.list(resource, null, new URI("http://local.slidev.org:8080/api/rest/v1/search?q=David%20Wu"), false);
@@ -170,6 +202,7 @@ public class SearchResourceServiceTest {
         studentBody = serviceResponse.getEntityBodyList().get(0);
         Assert.assertEquals("david'sid", studentBody.get("_id"));
 
+        Mockito.when(mockEntityService.listBasedOnContextualRoles(Mockito.any(ApiQuery.class))).thenReturn(students);
         serviceResponse = rs.list(resource, null, new URI("http://local.slidev.org:8080/api/rest/v1/search/student?q=Davi"), false);
         Assert.assertEquals(2L, serviceResponse.getEntityCount());
     }
@@ -370,6 +403,7 @@ public class SearchResourceServiceTest {
         EntityDefinition mockDef = Mockito.mock(EntityDefinition.class);
         MockBasicService mockService = new MockBasicService();
         mockService.setNumToReturn(numSearchHits);
+
         Mockito.when(mockDef.getService()).thenReturn(mockService);
         Mockito.when(rs.getService()).thenReturn(mockService);
         Mockito.when(rs.filterResultsBySecurity(Mockito.isA(List.class), Mockito.anyInt(), Mockito.anyInt())).thenAnswer(new Answer<List<EntityBody>>() {

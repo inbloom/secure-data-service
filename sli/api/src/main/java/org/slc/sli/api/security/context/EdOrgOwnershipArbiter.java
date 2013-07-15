@@ -218,7 +218,7 @@ public class EdOrgOwnershipArbiter {
 
             for (Entity entity : entities) {
                 // Ignore orphaned entities created by the principal.
-                if (SecurityUtil.principalId().equals(entity.getMetaData().get("createdBy"))
+                if (entity.getMetaData() != null && SecurityUtil.principalId().equals(entity.getMetaData().get("createdBy"))
                         && "true".equals(entity.getMetaData().get("isOrphaned")) && ignoreOrphans) {
                     debug("Entity is orphaned: id {} of type {}", entity.getEntityId(), entity.getType());
                     continue;

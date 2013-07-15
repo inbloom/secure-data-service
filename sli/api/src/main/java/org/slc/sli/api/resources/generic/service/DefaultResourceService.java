@@ -35,7 +35,7 @@ import javax.xml.bind.DatatypeConverter;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
-import org.slc.sli.api.security.roles.ContextSupportedEntities;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
@@ -60,7 +60,6 @@ import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.aspect.ApiMigrationAspect.MigratePostedEntity;
 import org.slc.sli.aspect.ApiMigrationAspect.MigrateResponse;
-import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.NeutralCriteria;
@@ -112,7 +111,6 @@ public class DefaultResourceService implements ResourceService {
         endDates.put(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, "endDate");
         endDates.put(ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS, "endDate");
         endDates.put(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, "endDate");
-
     }
 
     /**
