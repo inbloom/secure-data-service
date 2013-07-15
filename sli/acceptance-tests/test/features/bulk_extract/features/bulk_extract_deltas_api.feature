@@ -47,6 +47,7 @@ Scenario: Generate a bulk extract delta after day 1 ingestion
    And The "disciplineIncident" delta was extracted in the same format as the api
    And The "disciplineAction" delta was extracted in the same format as the api
    And The "studentCompetency" delta was extracted in the same format as the api
+   And The "calendarDate" delta was extracted in the same format as the api
 
   Given I trigger a bulk extract
    When I set the header format to "application/x-tar"
@@ -105,6 +106,8 @@ Scenario: SEA - Ingest additional entities in preparation for subsequent update 
       |  gradingPeriod                         |
       |  graduationPlan                        |
       |  deleted                               |
+    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+    And The "calendarDate" delta was extracted in the same format as the api
     And There should not be any of the following extracts for edOrg "<IL-DAYBREAK>" in tenant "Midgar"
     # Note course exists here due to a reference to a courseOffering related to this LEA
       |  assessment                            |
@@ -950,11 +953,11 @@ Given I clean the bulk extract file system and database
     | DbSession                      |  session                               |  201         |
     | newProgram                     |  program                               |  201         |
     | newStudentProgramAssociation   |  studentProgramAssociation             |  201         |
-    #| newStaffProgramAssociation     |  staffProgramAssociation               |  201         |
+   #| newStaffProgramAssociation     |  staffProgramAssociation               |  201         |
     | newStudentCompetency           |  studentCompetency                     |  201         |
-    #| newDisciplineIncident          |  disciplineIncident                    |  201         |
-    #| newDisciplineAction            |  disciplineAction                      |  201         |
-    #| newStudentDiscIncidentAssoc    |  studentDisciplineIncidentAssociation  |  201         |
+   #| newDisciplineIncident          |  disciplineIncident                    |  201         |
+   #| newDisciplineAction            |  disciplineAction                      |  201         |
+   #| newStudentDiscIncidentAssoc    |  studentDisciplineIncidentAssociation  |  201         |
     | newGraduationPlan              |  graduationPlan                        |  201         |
     | newGradingPeriod               |  gradingPeriod                         |  201         |
     | newLearningObjective           |  learningObjective                     |  201         |
@@ -965,6 +968,7 @@ Given I clean the bulk extract file system and database
     | newSEACourse                   |  course                                |  201         |
     | newSEACourseOffering           |  courseOffering                        |  201         |
     | newAssessment                  |  assessment                            |  201         |
+    | newBECalendarDate              |  calendarDate                          |  201         |
 
  When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "STANDARD-SEA" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And I generate and retrieve the bulk extract delta via API for "<STANDARD-SEA>"
@@ -981,6 +985,7 @@ Given I clean the bulk extract file system and database
         |  courseOffering                        |
         |  assessment                            |
         |  graduationPlan                        |
+        |  calendarDate                          |
   And I verify this "program" file should contain:
         | id                                          | condition                                |
         | 0ee2b448980b720b722706ec29a1492d95560798_id | programType = Regular Education          |
@@ -1015,6 +1020,10 @@ Given I clean the bulk extract file system and database
   And I verify this "graduationPlan" file should contain:
         | id                                          | condition                                |
         | a77cdbececc81173aa76a34c05f9aeb44126a64d_id | individualPlan = false |
+  And I verify this "calendarDate" file should contain:
+        | id                                          | condition                                |
+        | c7af73b8f98390a6d695a9e458529d6a149f0a21_id | date = 2015-04-02                        |
+        | c7af73b8f98390a6d695a9e458529d6a149f0a21_id | calendarEvent = Instructional day        |
 
  When I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "STANDARD-SEA" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/json"
@@ -1034,6 +1043,7 @@ Given I clean the bulk extract file system and database
     |  patchCourseId        |  courseOffering             | 06ccb498c620fdab155a6d70bcc4123b021fa60d_id |  204         | courseOfferings/0fee7a7aba9a96388ef628b7e3e5e5ea60a142a7_id             |
     |  patchContentStd      |  assessment                 | National Standard                           |  204         | assessments/8d58352d180e00da82998cf29048593927a25c8e_id                 |
     |  patchIndividualPlan  |  graduationPlan             | true                                        |  204         | graduationPlans/a77cdbececc81173aa76a34c05f9aeb44126a64d_id             |
+    |  calendarEvent        |  calendarDate               | Holiday                                     |  204         | calendarDates/c7af73b8f98390a6d695a9e458529d6a149f0a21_id             |
 
  Given the unpack directory is empty
  When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "STANDARD-SEA" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -1051,6 +1061,7 @@ Given I clean the bulk extract file system and database
         |  courseOffering                        |
         |  assessment                            |
         |  graduationPlan                        |
+        |  calendarDate                          |
    And I verify this "program" file should contain:
         | id                                          | condition                                |
         | 0ee2b448980b720b722706ec29a1492d95560798_id | programType = Adult/Continuing Education |
@@ -1084,7 +1095,11 @@ Given I clean the bulk extract file system and database
         | 8d58352d180e00da82998cf29048593927a25c8e_id | contentStandard = National Standard                |
   And I verify this "graduationPlan" file should contain:
         | id                                          | condition                                |
-        | a77cdbececc81173aa76a34c05f9aeb44126a64d_id | individualPlan = true |
+        | a77cdbececc81173aa76a34c05f9aeb44126a64d_id | individualPlan = true                    |
+  And I verify this "calendarDate" file should contain:
+        | id                                          | condition                                |
+        | c7af73b8f98390a6d695a9e458529d6a149f0a21_id | date = 2015-04-02                        |
+        | c7af73b8f98390a6d695a9e458529d6a149f0a21_id | calendarEvent = Holiday                  |
 
  When I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
@@ -1312,6 +1327,7 @@ Given I clean the bulk extract file system and database
     |  courseOffering             |  0fee7a7aba9a96388ef628b7e3e5e5ea60a142a7_id  |  204         |
     |  assessment                 |  8d58352d180e00da82998cf29048593927a25c8e_id  |  204         |
     |  graduationPlan             |  a77cdbececc81173aa76a34c05f9aeb44126a64d_id  |  204         |
+    |  calendarDate               |  c7af73b8f98390a6d695a9e458529d6a149f0a21_id  |  204         |
 
  Given the extraction zone is empty
   When I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -1347,6 +1363,7 @@ Given I clean the bulk extract file system and database
     | 9bf3036428c40861238fdc820568fde53e658d88_id28af8b70a2f2e695fc25da04e0f8625115002556_id | entityType = studentParentAssociation  |
     | 9bf3036428c40861238fdc820568fde53e658d88_id38025c314f0972d09cd982ffe58c7d8d2b59d23d_id | entityType = studentProgramAssociation |
     | 4030207003b03d055bba0b5019b31046164eff4e_id78468628f357b29599510341f08dfd3277d9471e_id | entityType = studentSectionAssociation |
+    | c7af73b8f98390a6d695a9e458529d6a149f0a21_id                                            | entityType = calendarDate              |
 
   When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "STANDARD-SEA" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
    And I generate and retrieve the bulk extract delta via API for "<STANDARD-SEA>"
