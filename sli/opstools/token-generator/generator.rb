@@ -29,7 +29,7 @@ ARGV.options do |opts|
   end
     options[:newSession] = false
     opts.on(:REQUIRED, /.+/, '-n', '--newSession','If true, create a new userSession (Default : false)' ) do |newSession|
-    options[:newSession] = newSession
+    options[:newSession] = (newSession.downcase == 'true')
   end
   opts.on(:REQUIRED, /.+/, '-R', '--realm','The realm unique name (Default: Shared Learning Collaborative)' ) do |realm|
     options[:realm] = realm
