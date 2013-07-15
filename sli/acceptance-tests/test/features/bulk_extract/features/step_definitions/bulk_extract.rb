@@ -633,16 +633,20 @@ def update_api_put_field(body, field, value)
   # compliant with the ed-fi data structure and the type requirements per field.
   # Some would call this hackish. I call it fiendishly clever.
   # Set the GET response body as body and edit the requested field
-  body["address"][0]["postalCode"] = value.to_s if field == "postalCode"
-  body["loginId"] = value if field == "loginId"
-  body["contactPriority"] = value.to_i if field == "contactPriority"
-  body["id"] = value if field == "missingEntity"
-  body["name"]["firstName"] = value if field == "name.firstName"
-  body["name"]["middleName"] = value if field == "name.middleName"
-  body["diagnosticStatement"] = value if field == "diagnosticStatement"
-  body["gradeLevelWhenAssessed"] = value if field == "gradeLevelWhenAssessed"
-  body["calendarEvent"] = value if field == "calendarEvent"
-  body["contactRestrictions"] = value if field == "contactRestrictions"
+  case field
+   when "postalCode"
+    body["address"][0]["postalCode"] = value.to_s
+   when "contactPriority"
+    body["contactPriority"] = value.to_i
+   when "missingEntity"
+    body["id"] = value
+   when "name.firstName"
+    body["name"]["firstName"] = value
+   when "name.middleName"
+    body["name"]["middleName"] = value
+   else
+    body[field] = value
+  end
   return body
 end
 
@@ -2538,6 +2542,11 @@ def get_post_body_by_entity_name(entity_name)
           "calendarEvent" => "Instructional day",
           "date" => "2015-04-02",
           "educationOrganizationId" => "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id"
+    },
+    "newBECalendarDate" => {
+           "calendarEvent" => "Instructional day",
+           "date" => "2015-04-02",
+           "educationOrganizationId" => "884daa27d806c2d725bc469b273d840493f84b4d_id"
     },
     "newCohort" => {
       "academicSubject" => "Communication and Audio/Visual Technology",
