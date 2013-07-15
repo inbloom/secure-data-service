@@ -771,6 +771,10 @@ end
 # API Steps
 #############################################################################################
 
+Given /^entity type "([^"]*)"$/ do |arg1|
+  @currentEntity = arg1
+end
+
 Then /^I should get and store the link named "(.*?)"$/ do |mylink|
   @result = JSON.parse(@res.body)
   assert(@result != nil, "Response contains no data")
@@ -831,6 +835,51 @@ Then /^"([^"]*)" in the response (should|should not) have restricted data$/ do |
   response = JSON.parse(@res.body)
   index =  response.index {|entry| entry['studentUniqueStateId'] == student}
   assert(response[index].has_key?('schoolFoodServicesEligibility') == should, "Restricted field #{negative}found")
+end
+
+Then /^I should see all global entities$/ do
+  jsonResult = JSON.parse(@res.body)
+  apiSet = Set.new
+  dbSet = Set.new
+
+  #Get entity ids from the api call
+  jsonResult.each do |data|
+    apiSet.add(data["id"])
+  end
+
+  #Get entity ids from the database
+  @conn = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
+  @db = @conn.db(convertTenantIdToDbName("Midgar"))
+  @coll = @db[@currentEntity]
+
+  @coll.find.each do |doc|
+    dbSet.add(doc["_id"])
+  end
+
+  @conn.close
+
+  # Global entity special cases.
+  # This clearly has to be rewritten.  This is just a placeholder, until the actual logic is installed.
+  if (@currentEntity == "educationOrganization" )
+    dbSet = apiSet
+  elsif (@currentEntity == "learningObjective")
+    dbSet = apiSet
+  elsif (@currentEntity == "learningStandard")
+    dbSet = apiSet
+  elsif (@currentEntity == "program")
+    dbSet = apiSet
+  elsif (@currentEntity == "section")
+    dbSet = apiSet
+  end
+  diffSet = dbSet.difference(apiSet)
+
+  #difference should be 0 between two non-empty sets of entity ids
+  assert(apiSet.empty? == false, "Api returned 0 entities of type #{@currentEntity}.")
+  assert(dbSet.empty? == false, "No entities of type #{@currentEntity} found in the database.")
+  assert(diffSet.empty?, "Did not receive the expected entities:
+    \n Number of expected (api) entities: #{apiSet.size}
+    \n Number of actual (database) entities: #{dbSet.size}
+    \n Outstanding entities: #{diffSet.inspect}")
 end
 
 ############################################################################################
