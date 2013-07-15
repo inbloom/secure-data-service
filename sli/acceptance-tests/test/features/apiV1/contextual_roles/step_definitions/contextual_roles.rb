@@ -859,6 +859,7 @@ Then /^I should see all global entities$/ do
   @conn.close
 
   # Global entity special cases.
+  # This clearly has to be rewritten.  This is just a placeholder, until the actual logic is installed.
   if (@currentEntity == "educationOrganization" )
     dbSet = apiSet
   elsif (@currentEntity == "learningObjective")
