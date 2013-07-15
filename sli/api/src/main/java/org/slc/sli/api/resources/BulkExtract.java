@@ -141,7 +141,7 @@ public class BulkExtract {
     public Response get(@Context HttpServletRequest request) throws Exception {
         LOG.info("Received request to stream sample bulk extract...");
 
-        logSecurityEvent(uri, "Received request to stream sample bulk extract");
+        logSecurityEvent("Received request to stream sample bulk extract");
 
         validateRequestCertificate(request);
 
@@ -161,7 +161,7 @@ public class BulkExtract {
         ResponseBuilder builder = Response.ok(out);
         builder.header("content-disposition", "attachment; filename = " + SAMPLED_FILE_NAME);
         builder.header("last-modified", "Not Specified");
-        logSecurityEvent(uri, "Successful request to stream sample bulk extract");
+        logSecurityEvent("Successful request to stream sample bulk extract");
         return builder.build();
     }
 
@@ -180,9 +180,9 @@ public class BulkExtract {
     @RightsAllowed({ Right.BULK_EXTRACT })
     public Response getLEAorSEAExtract(@Context HttpContext context, @Context HttpServletRequest request, @PathParam("edOrgId") String edOrgId) {
 
-        logSecurityEvent(uri, "Received request to stream Edorg data");
+        logSecurityEvent("Received request to stream Edorg data");
         if (edOrgId == null || edOrgId.isEmpty()) {
-            logSecurityEvent(uri, "Failed request to stream SEA public data, missing edOrgId");
+            logSecurityEvent("Failed request to stream SEA public data, missing edOrgId");
             throw new IllegalArgumentException("edOrgId cannot be missing");
         }
         validateRequestCertificate(request);
@@ -212,10 +212,10 @@ public class BulkExtract {
     @RightsAllowed({ Right.BULK_EXTRACT })
     public Response getSEAOrLEAList(@Context HttpServletRequest request, @Context HttpContext context) throws Exception {
         info("Received request for list of links for all SEAs and LEAs for this user/app");
-        logSecurityEvent(uri, "Received request for list of links for all SEAs and LEAs for this user/app");
+        logSecurityEvent("Received request for list of links for all SEAs and LEAs for this user/app");
         validateRequestAndApplicationAuthorization(request);
 
-        logSecurityEvent(uri, "Successful request for list of links for all SEAs and LEAs for this user/app");
+        logSecurityEvent("Successful request for list of links for all SEAs and LEAs for this user/app");
         return getSLEAListResponse(context);
     }
 
@@ -233,15 +233,15 @@ public class BulkExtract {
     @RightsAllowed({ Right.BULK_EXTRACT })
     public Response getDelta(@Context HttpServletRequest request, @Context HttpContext context,
                              @PathParam("edOrgId") String edOrgId, @PathParam("date") String date) {
-        logSecurityEvent(uri, "Received request to stream Edorg delta bulk extract data");
+        logSecurityEvent("Received request to stream Edorg delta bulk extract data");
         if (deltasEnabled) {
             LOG.info("Retrieving delta bulk extract for {}, at date {}", edOrgId, date);
             if (edOrgId == null || edOrgId.isEmpty()) {
-                logSecurityEvent(uri, "Failed delta request, missing leadId");
+                logSecurityEvent("Failed delta request, missing leadId");
                 throw new IllegalArgumentException("leaId cannot be missing");
             }
             if (date == null || date.isEmpty()) {
-                logSecurityEvent(uri, "Failed delta request, missing date");
+                logSecurityEvent("Failed delta request, missing date");
                 throw new IllegalArgumentException("date cannot be missing");
             }
 
@@ -260,7 +260,7 @@ public class BulkExtract {
             return getExtractResponse(context.getRequest(), date, edOrgId, isPublicData);
 
         }
-        logSecurityEvent(uri, "Failed request for Edorg delta bulk extract data");
+        logSecurityEvent("Failed request for Edorg delta bulk extract data");
         return Response.status(404).build();
     }
 
@@ -315,7 +315,7 @@ public class BulkExtract {
         Entity entity = getBulkExtractFileEntity(deltaDate, appId, leaId, false, isPublicData);
 
         if (entity == null) {
-            logSecurityEvent(uri, "No bulk extract support for : " + leaId);
+            logSecurityEvent("No bulk extract support for : " + leaId);
             LOG.info("No bulk extract support for : {}", leaId);
             return Response.status(Status.NOT_FOUND).build();
         }
@@ -324,7 +324,7 @@ public class BulkExtract {
 
         final File bulkExtractFile = bulkExtractFileEntity.getBulkExtractFile(bulkExtractFileEntity);
         if (!bulkExtractFile.exists()) {
-            logSecurityEvent(uri, "No bulk extract support for : " + leaId);
+            logSecurityEvent("No bulk extract support for : " + leaId);
             LOG.info("No bulk extract file found for : {}", leaId);
             return Response.status(Status.NOT_FOUND).build();
         }
@@ -348,7 +348,7 @@ public class BulkExtract {
 
         List<String> appAuthorizedUserLEAs = getApplicationAuthorizedUserLEAs(userDistricts, appId);
         if (appAuthorizedUserLEAs.size() == 0) {
-            logSecurityEvent(uri, "No authorized LEAs for application:" + appId);
+            logSecurityEvent("No authorized LEAs for application:" + appId);
             LOG.info("No authorized LEAs for application: {}", appId);
             return Response.status(Status.NOT_FOUND).build();
         }
@@ -361,7 +361,7 @@ public class BulkExtract {
             authorizedUserSLEAs.add(seaId);
         }
 
-        logSecurityEvent(uri, "Successfully retrieved SEA/LEA list for " + appId);
+        logSecurityEvent("Successfully retrieved SEA/LEA list for " + appId);
         return assembleSLEALinksResponse(context, appId, authorizedUserSLEAs);
     }
 
@@ -558,7 +558,7 @@ public class BulkExtract {
     private List<String> retrieveUserAssociatedLEAs() throws AccessDeniedException {
         List<String> userDistricts = helper.getDistricts(getPrincipal().getEntity());
         if (userDistricts.size() == 0) {
-            throw new APIAccessDeniedException("User is not authorized for a list of available SEA/LEA extracts");
+            throw new APIAccessDeniedException("User is not authorized for a list of available SEA/LEA extracts", userDistricts);
         }
         return userDistricts;
     }
@@ -627,7 +627,7 @@ public class BulkExtract {
         String clientId = auth.getClientAuthentication().getClientId();
 
         if (null == certs || certs.length < 1) {
-            logSecurityEvent(uri, "App must provide client side X509 Certificate");
+            logSecurityEvent("App must provide client side X509 Certificate");
             throw new IllegalArgumentException("App must provide client side X509 Certificate");
         }
 
@@ -639,9 +639,9 @@ public class BulkExtract {
     }
 
 
-    void logSecurityEvent(UriInfo uriInfo, String message) {
+    void logSecurityEvent(String message) {
         audit(securityEventBuilder.createSecurityEvent(BulkExtract.class.getName(),
-                uri.getRequestUri(), message, false));
+                uri.getRequestUri(), message, true));
     }
 
 }

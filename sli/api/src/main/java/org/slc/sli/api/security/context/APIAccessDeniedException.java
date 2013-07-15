@@ -30,11 +30,23 @@ import java.util.*;
  */
 public class APIAccessDeniedException extends AccessDeniedException {
 
-    private Set<String> targetEdOrgIds;
+    private Set<String> targetEdOrgIds;       // targetEdOrg used if defined
 
+    // only used if targetEdOrgIds is NOT set
     private String entityType;                // type of the entities to which access was attempted
     private Set<Entity> entities;             // entities to which access was attempted
     private Set<String> entityIds;            // ids of the entities to which access was attempted
+
+    public boolean isTargetIsUserEdOrg() {
+        return targetIsUserEdOrg;
+    }
+
+    public void setTargetIsUserEdOrg(boolean targetIsUserEdOrg) {
+        this.targetIsUserEdOrg = targetIsUserEdOrg;
+    }
+
+    // only used if targetEdOrgIds AND entityType are NOT set
+    private boolean targetIsUserEdOrg;        // if true, will set targetEdOrgList to be userEdOrg
 
     private static final long serialVersionUID = 23498349L;
 
@@ -79,7 +91,7 @@ public class APIAccessDeniedException extends AccessDeniedException {
     /**
      * Creates an APIAccessDeniedException with targetEdOrgs set based on the provided entity
      * @param msg       explanation of the exception
-     * @param entity    entity to which access was denied
+     * @param entity    entity to which access was denied (MUST have entityType set)
      */
     public APIAccessDeniedException(String msg, Entity entity) {
         super(msg);
@@ -103,6 +115,17 @@ public class APIAccessDeniedException extends AccessDeniedException {
         this.entityType = entityType;
         this.entityIds = new HashSet<String>();
         this.entityIds.add(entityId);
+    }
+
+    /**
+     * Creates an APIAccessDeniedException with targetEdOrgs set to the userEdOrg
+     * @param msg                   explanation of the exception
+     * @param targetIsUserEdOrg     whether to set targetEdOrgList from userEdOrg
+     */
+    public APIAccessDeniedException(String msg, boolean targetIsUserEdOrg) {
+        super(msg);
+
+        this.targetIsUserEdOrg = targetIsUserEdOrg;
     }
 
     /**
