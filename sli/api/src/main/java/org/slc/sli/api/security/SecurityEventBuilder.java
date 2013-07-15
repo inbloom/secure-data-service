@@ -104,7 +104,6 @@ public class SecurityEventBuilder {
      */
     public SecurityEvent createSecurityEvent(String loggingClass, URI requestUri, String slMessage,
                                              String entityType, String[] entityIds) {
-        debug("Creating security event with targetEdOrgList determined entity ids: " + entityIds + " of type " + entityType);
         Set<String> targetEdOrgs = getTargetEdOrgStateIds(entityType, entityIds);
         return createSecurityEvent(loggingClass, requestUri, slMessage, null, null, targetEdOrgs, false);
     }
@@ -222,7 +221,6 @@ public class SecurityEventBuilder {
                         if (i > 0 && ResourceNames.SINGULAR_LINK_NAMES.containsKey(uriPathSegments[i-1])) {
                             String[] entityIds = uriPathSegments[i].split(",");  // some uri patterns can contain comma separated id lists
                             String entityType = ResourceNames.toEntityName(uriPathSegments[i-1]);
-                            debug("Extracted entity type: " + entityType + " and ids: " + entityIds);
                             targetEdOrgStateIds = getTargetEdOrgStateIds(entityType, entityIds);
                         }
                     }
