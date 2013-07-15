@@ -227,7 +227,16 @@ public class BasicService implements EntityService, AccessibilityCheck {
     private void checkAccess(boolean isRead, String entityId, EntityBody content) {
         rightAccessValidator.checkSecurity(isRead, entityId, defn.getType(), collectionName, getRepo());
 
-        checkAccess(isRead, isSelf(entityId), content);
+        try {
+            checkAccess(isRead, isSelf(entityId), content);
+        } catch (APIAccessDeniedException e) {
+            // we only know the target entity here so rethrow with that info so it can be used in the security event
+            Set<String> entityIds = new HashSet<String>();
+            entityIds.add(entityId);
+            e.setEntityType(defn.getType());
+            e.setEntityIds(entityIds);
+            throw e;
+        }
     }
 
     /*
