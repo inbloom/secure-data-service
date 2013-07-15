@@ -1551,6 +1551,7 @@
                         <sli:naturalKey>true</sli:naturalKey>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_OWNED</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -1568,6 +1569,7 @@
                         </sli:PersonallyIdentifiableInfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_OWNED</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -1587,6 +1589,7 @@
                         </sli:PersonallyIdentifiableInfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_OWNED</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -1603,6 +1606,7 @@
                         </sli:PersonallyIdentifiableInfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_OWNED</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -1620,6 +1624,7 @@
                         <sli:PersonallyIdentifiableInfo>true
                         </sli:PersonallyIdentifiableInfo>
                         <sli:WriteEnforcement>
+                            <sli:allowedBy>WRITE_STUDENT_OWNED</sli:allowedBy>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
@@ -1641,6 +1646,7 @@
                         </sli:PersonallyIdentifiableInfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_OWNED</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -1662,6 +1668,7 @@
                         </sli:PersonallyIdentifiableInfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_OWNED</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
@@ -1679,6 +1686,7 @@
                     <xs:appinfo>
                         <sli:WriteEnforcement>
                             <sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+                            <sli:allowedBy>WRITE_STUDENT_OWNED</sli:allowedBy>
                         </sli:WriteEnforcement>
                         <sli:ReadEnforcement>
                             <sli:allowedBy>READ_GENERAL</sli:allowedBy>
