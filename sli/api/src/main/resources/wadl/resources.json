@@ -694,6 +694,7 @@
     {
       "path": "/calendarDates",
       "queryable": true,
+      "availableSince" : "v1.3",
       "doc": "This URI, /calendarDates, represents a day in the school calendar."
     }
   ] 
