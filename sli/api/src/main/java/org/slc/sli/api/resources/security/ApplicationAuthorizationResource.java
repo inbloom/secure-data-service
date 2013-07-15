@@ -294,7 +294,9 @@ public class ApplicationAuthorizationResource {
             return SecurityUtil.getEdOrgId();
         }
         if (!edorg.equals(SecurityUtil.getEdOrgId()) && !delegation.getAppApprovalDelegateEdOrgs().contains(edorg) ) {
-            throw new APIAccessDeniedException("Cannot perform authorizations for edorg ", edorg);
+            Set<String> edOrgIds = new HashSet<String>();
+            edOrgIds.add(edorg);
+            throw new APIAccessDeniedException("Cannot perform authorizations for edorg ", edOrgIds);
         }
         return edorg;
     }
