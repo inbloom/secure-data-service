@@ -465,7 +465,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
         if (!repo.findAll(collectionName, neutralQuery).iterator().hasNext()) {
             return new ArrayList<EntityBody>();
         } else {
-            throw new AccessDeniedException("Access to resource denied.");
+            throw new APIAccessDeniedException("Access to resource denied.");
         }
     }
 
@@ -697,14 +697,14 @@ public class BasicService implements EntityService, AccessibilityCheck {
             if (entityType.equals(EntityNames.STUDENT)) {
                 // Validate id is yourself
                 if (!SecurityUtil.getSLIPrincipal().getEntity().getEntityId().equals(entityId)) {
-                    throw new AccessDeniedException("Cannot update student not yourself");
+                    throw new APIAccessDeniedException("Cannot update student not yourself", entityType, entityId);
                 }
             } else if (entityType.equals(EntityNames.STUDENT_ASSESSMENT)) {
                 String studentId = (String) eb.get(ParameterConstants.STUDENT_ID);
 
                 // Validate student ID is yourself
                 if (studentId != null && !SecurityUtil.getSLIPrincipal().getEntity().getEntityId().equals(studentId)) {
-                    throw new AccessDeniedException("Cannot update student assessments that are not your own");
+                    throw new APIAccessDeniedException("Cannot update student assessments that are not your own", EntityNames.STUDENT, studentId);
                 }
             } else if (entityType.equals(EntityNames.STUDENT_GRADEBOOK_ENTRY) || entityType.equals(EntityNames.GRADE)) {
                 String studentId = (String) eb.get(ParameterConstants.STUDENT_ID);
@@ -712,7 +712,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
                 // Validate student ID is yourself
                 if (studentId != null && !SecurityUtil.getSLIPrincipal().getEntity().getEntityId().equals(studentId)) {
-                    throw new AccessDeniedException("Cannot update " + entityType + " that are not your own");
+                    throw new APIAccessDeniedException("Cannot update " + entityType + " that are not your own", EntityNames.STUDENT, studentId);
                 }
                 // Validate SSA ids are accessible via non-transitive SSA validator
                 if (ssaId != null) {
@@ -732,12 +732,12 @@ public class BasicService implements EntityService, AccessibilityCheck {
             if (entityType.equals(EntityNames.PARENT)) {
                 // Validate id is yourself
                 if (!SecurityUtil.getSLIPrincipal().getEntity().getEntityId().equals(entityId)) {
-                    throw new AccessDeniedException("Cannot update parent not yourself");
+                    throw new APIAccessDeniedException("Cannot update parent not yourself", entityType, entityId);
                 }
             } else if (entityType.equals(EntityNames.STUDENT)) {
                 Set<String> ownStudents = SecurityUtil.getSLIPrincipal().getOwnedStudentIds();
                 if (!ownStudents.contains(entityId)) {
-                    throw new AccessDeniedException("Cannot update student that are not your own");
+                    throw new APIAccessDeniedException("Cannot update student that are not your own", EntityNames.STUDENT, entityId);
                 }
             } else {
                 // At the time of this comment, parents can only write to student and parent
@@ -772,7 +772,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
                 contextValidator.validateContextToEntities(def, ids, true);
             } catch (APIAccessDeniedException e) {
                 debug("Invalid Reference: {} in {} is not accessible by user", value, def.getStoredCollectionName());
-                throw (APIAccessDeniedException) new APIAccessDeniedException(
+                throw new APIAccessDeniedException(
                         "Invalid reference. No association to referenced entity.", e);
             } catch (EntityNotFoundException e) {
                 debug("Invalid Reference: {} in {} does not exist", value, def.getStoredCollectionName());
