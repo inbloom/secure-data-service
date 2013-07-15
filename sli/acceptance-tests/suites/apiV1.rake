@@ -368,7 +368,7 @@ task :apiOdinPublicData do
 end
 
 desc "Run contextual roles acceptance tests"
-task :apiContextualRolesTests => [:apiOdinContextualRolesGenerate, :apiOdinContextualRolesIngestion] do
+task :apiContextualRolesTests => [:apiOdinContextualRolesGenerate, :apiOdinContextualRolesIngestion, :runSearchBulkExtract] do
 #  setFixture("staffEducationOrganizationAssociation", "staffEducationOrganizationAssociation_fixture_contextual_roles.json")
   runTests("test/features/apiV1/contextual_roles")
   if $SUCCESS

@@ -112,6 +112,7 @@ public class StudentAccessValidator extends AccessValidator {
         schoolsAllowedThreeParts.add(ResourceNames.SECTIONS);
         schoolsAllowedThreeParts.add(ResourceNames.GRADUATION_PLANS);
         schoolsAllowedThreeParts.add(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS);
+        schoolsAllowedThreeParts.add(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS);
         threeParts.put(ResourceNames.SCHOOLS, schoolsAllowedThreeParts);
 
         // edorgs
@@ -286,6 +287,7 @@ public class StudentAccessValidator extends AccessValidator {
         Set<List<String>> schoolsAllowedFourParts = new HashSet<List<String>>();
         schoolsAllowedFourParts.add(Arrays.asList(ResourceNames.SESSIONS, ResourceNames.GRADING_PERIODS));
         schoolsAllowedFourParts.add(Arrays.asList(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS, ResourceNames.TEACHERS));
+        schoolsAllowedFourParts.add(Arrays.asList(ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, ResourceNames.STAFF));
         schoolsAllowedFourParts.add(Arrays.asList(ResourceNames.COURSE_OFFERINGS, ResourceNames.COURSES));
         fourParts.put(ResourceNames.SCHOOLS, schoolsAllowedFourParts);
 
