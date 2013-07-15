@@ -98,7 +98,8 @@ public final class EntityNames {
             SESSION,
             STUDENT_COMPETENCY_OBJECTIVE,
             "localEducationAgency",
-            "stateEducationAgency"
+            "stateEducationAgency",
+            CALENDAR_DATE
             ));
 
     public static boolean isPublic(String entityType) {

@@ -362,6 +362,11 @@ task :apiOdinParentLogin => [:apiOdinSetupAPI] do
   runTests("test/features/apiV1/integration/parent_crud_operations.feature")
 end
 
+desc "Run API Odin Public Data Integration Tests"
+task :apiOdinPublicData do
+  runTests("test/features/apiV1/integration/public_data.feature")
+end
+
 desc "Run contextual roles acceptance tests"
 task :apiContextualRolesTests => [:apiOdinContextualRolesGenerate, :apiOdinContextualRolesIngestion] do
 #  setFixture("staffEducationOrganizationAssociation", "staffEducationOrganizationAssociation_fixture_contextual_roles.json")

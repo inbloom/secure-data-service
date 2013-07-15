@@ -24,6 +24,22 @@
       "beginDate": "2012-08-15"
     }
   },
+  "calendarDate": {
+      "POST": {
+          "calendarEvent" : "Holiday",
+          "date" : "2012-04-15",
+          "educationOrganizationId" : "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
+      },
+      "UPDATE": {
+          "field": "calendarEvent",
+          "value": "Other"
+      },
+
+    "naturalKey": {
+        "date" : "2012-04-15",
+        "educationOrganizationId" : "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
+    }
+  },
   "userAccount": {
     "POST": {
       "userName": "bob3@bob.com",

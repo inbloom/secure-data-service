@@ -454,7 +454,7 @@ Then /^I combine the file contents$/ do
 end
 
 Then /^I check the version of http response headers$/ do
-  LATEST_API_VERSION = "v1.2"
+  LATEST_API_VERSION = "v1.3"
 
   returned_version = @res.headers[:x_executedpath].split("/").first
 

@@ -103,6 +103,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
     @Autowired
     public void init() {
 
+        factory.makeEntity(EntityNames.CALENDAR_DATE, ResourceNames.CALENDAR_DATES).buildAndRegister(this);
         // adding the entity definitions
         EntityDefinition assessment = factory.makeEntity(EntityNames.ASSESSMENT, ResourceNames.ASSESSMENTS)
                 .buildAndRegister(this);

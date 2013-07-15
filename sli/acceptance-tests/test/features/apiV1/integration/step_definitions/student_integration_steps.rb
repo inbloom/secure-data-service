@@ -374,6 +374,10 @@ When /^I validate that I am denied access to restricted endpoints via API:$/ do 
   assert(success, "Received an unexpected http return code..")
 end
 
+When /^I validate that I am denied access to certain endpoints via API:$/ do |table|
+   step "I validate that I am denied access to restricted endpoints via API:", table
+end
+
 When /^I validate the "(.*?)" HATEOS link for "(.*?)"$/ do |entity, key|
   uri = @entityMap[entity.to_s][key.to_s]
   step "I follow the HATEOS link named \"#{uri}\""

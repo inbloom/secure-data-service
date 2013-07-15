@@ -124,6 +124,8 @@ def get_id_for_resource resource
   "courseOfferings"=>"00291269-33e0-415e-a0a4-833f0ef38189",
   "disciplineActions"=>"0e26de6c-225b-9f67-9201-8113ad50a03b",
   "students"=>"00209530-6e1f-4273-a5a7-eb686c79fcd9_id",
-  "graduationPlans"=>"0002f3f2-cf56-425a-ba24-gradplan1111"}
+  "graduationPlans"=>"0002f3f2-cf56-425a-ba24-gradplan1111",
+  "calendarDates"  => "2012ac-7957aaee-ceb0-11e1-8af5-0a0027000000"
+  }
   ids[resource]
 end

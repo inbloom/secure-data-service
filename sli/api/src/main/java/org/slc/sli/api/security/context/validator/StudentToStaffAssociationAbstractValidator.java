@@ -38,7 +38,7 @@ import org.slc.sli.domain.Entity;
  */
 public abstract class StudentToStaffAssociationAbstractValidator extends BasicValidator {
 
-    private final String associationIdField = "_id";
+    private final static String ASSOCIATION_ID_FIELD = "_id";
     private final String collection;
     private final String associationField;
 
@@ -58,7 +58,7 @@ public abstract class StudentToStaffAssociationAbstractValidator extends BasicVa
             while (results.hasNext()) {
                 Entity e = results.next();
                 if (isExpired(e)) {
-                    continue;
+                    return false;
                 }
                 unvalidated.remove(e.getEntityId());
             }
@@ -73,7 +73,7 @@ public abstract class StudentToStaffAssociationAbstractValidator extends BasicVa
     protected Iterator<Entity> getMatchingAssociations(Set<String> ids, Set<String> studentAssociations) {
         Iterator<Entity> results = getRepo().findEach(
                 this.getCollection(),
-                Query.query(Criteria.where(associationIdField).in(ids).and("body." + associationField)
+                Query.query(Criteria.where(ASSOCIATION_ID_FIELD).in(ids).and("body." + associationField)
                         .in(new ArrayList<String>(studentAssociations)).andOperator(DateHelper.getExpiredCriteria())));
         return results;
     }

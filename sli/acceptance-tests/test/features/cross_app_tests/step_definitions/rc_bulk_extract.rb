@@ -51,8 +51,8 @@ When /^I store the URL for the latest delta for the (LEA|SEA)$/ do |edorg|
   puts "result body from previous API call is #{@res}"
   @delta_uri = JSON.parse(@res)
   @list_url  = @delta_uri[delta][@lea][0]["uri"]
-  # @list_irl is in the format https://<url>/api/rest/v1.2/bulk/extract/<lea>/delta/<timestamp>
-  # -> strip off everything before v1.2, store: bulk/extract/<lea>/delta/<timestamp>
+  # @list_irl is in the format https://<url>/api/rest/v1.3/bulk/extract/<lea>/delta/<timestamp>
+  # -> strip off everything before v1.3, store: bulk/extract/<lea>/delta/<timestamp>
   @list_url.match(/api\/rest\/v(.*?)\/(.*)$/)
   puts "Bulk Extract Delta URI suffix: #{$2}"
   @list_uri = $2

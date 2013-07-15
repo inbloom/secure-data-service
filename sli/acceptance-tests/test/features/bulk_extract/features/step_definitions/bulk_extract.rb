@@ -641,6 +641,7 @@ def update_api_put_field(body, field, value)
   body["name"]["middleName"] = value if field == "name.middleName"
   body["diagnosticStatement"] = value if field == "diagnosticStatement"
   body["gradeLevelWhenAssessed"] = value if field == "gradeLevelWhenAssessed"
+  body["calendarEvent"] = value if field == "calendarEvent"
   body["contactRestrictions"] = value if field == "contactRestrictions"
   return body
 end
@@ -732,6 +733,9 @@ def get_patch_body_by_entity_name(field, value)
                   "addressType"=>"Physical",
                   "city"=>"Chicago"
                  }]
+    },
+    "calendarEvent" => {
+            "calendarEvent" => value
     },
     "contactPriority" => {
       "contactPriority" => value.to_i
@@ -871,8 +875,8 @@ end
 When /^I store the URL for the latest delta for LEA "(.*?)"$/ do |lea|
   @delta_uri = JSON.parse(@res)
   @list_url  = @delta_uri["deltaLeas"][lea][0]["uri"]
-  # @list_irl is in the format https://<url>/api/rest/v1.2/bulk/extract/<lea>/delta/<timestamp>
-  # -> strip off everything before v1.2, store: /v1.2/bulk/extract/<lea>/delta/<timestamp>
+  # @list_irl is in the format https://<url>/api/rest/v1.3/bulk/extract/<lea>/delta/<timestamp>
+  # -> strip off everything before v1.3, store: /v1.3/bulk/extract/<lea>/delta/<timestamp>
   @list_url.match(/api\/rest\/v(.*?)\/(.*)$/)
   @list_uri = $2
   # Get the timestamp from the URL
@@ -2524,6 +2528,16 @@ def get_post_body_by_entity_name(entity_name)
           "date" => "2014-05-19"
         }]
       }]
+    },
+    "newCalendarDate" => {
+      "calendarEvent" => "Instructional day",
+      "date" => "2015-04-02",
+      "educationOrganizationId" => "352e8570bd1116d11a72755b987902440045d346_id"
+    },
+    "newCalendarDate2" => {
+          "calendarEvent" => "Instructional day",
+          "date" => "2015-04-02",
+          "educationOrganizationId" => "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id"
     },
     "newCohort" => {
       "academicSubject" => "Communication and Audio/Visual Technology",

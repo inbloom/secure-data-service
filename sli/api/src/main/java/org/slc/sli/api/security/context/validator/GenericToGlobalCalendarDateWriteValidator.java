@@ -1,3 +1,13 @@
+/**
+ * 
+ */
+package org.slc.sli.api.security.context.validator;
+
+/**
+ * @author lchen
+ *
+ */
+
 /*
  * Copyright 2012-2013 inBloom, Inc. and its affiliates.
  *
@@ -14,8 +24,6 @@
  * limitations under the License.
  */
 
-package org.slc.sli.api.security.context.validator;
-
 import java.util.Set;
 
 import org.springframework.stereotype.Component;
@@ -26,26 +34,26 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 
 /**
- * Validates Write context to a global student competency objective.
+ * Validates Write context to a global calendarDate.
  */
 @Component
-public class GenericToGlobalStudentCompObjectWriteValidator extends AbstractContextValidator {
+public class GenericToGlobalCalendarDateWriteValidator extends AbstractContextValidator {
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return isTransitive && EntityNames.STUDENT_COMPETENCY_OBJECTIVE.equals(entityType) && !isStudentOrParent();
+        return isTransitive && EntityNames.CALENDAR_DATE.equals(entityType) && !isStudentOrParent();
     }
 
     @Override
     public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
-        if (!areParametersValid(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, entityType, ids)) {
+        if (!areParametersValid(EntityNames.CALENDAR_DATE, entityType, ids)) {
             return false;
         }
 
         /*
-         * Grab all the Competency Objs that are being requested AND contain a
+         * Grab all the Graduation Plans that are being requested AND contain a
          * reference to a edorg in your edorg hierarchy. Counts should be equal
-         * if you can see all the competency objs you asked for
+         * if you can see all the graduation plans you asked for
          */
         Set<String> edOrgLineage = getEdorgDescendents(getDirectEdorgs());
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids, false));
@@ -53,4 +61,5 @@ public class GenericToGlobalStudentCompObjectWriteValidator extends AbstractCont
 
         return ids.size() == getRepo().count(entityType, query);
     }
+
 }

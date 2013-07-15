@@ -59,6 +59,7 @@ public class ContextValidator implements ApplicationContextAware {
 
     public static final Set<String> GLOBAL_RESOURCES = new HashSet<String>(
             Arrays.asList(ResourceNames.ASSESSMENTS,
+            ResourceNames.CALENDAR_DATES,		
             ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS,
             ResourceNames.COURSES,
             ResourceNames.COURSE_OFFERINGS,
