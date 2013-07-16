@@ -176,10 +176,12 @@ public class SecurityEventBuilder {
                 debug("Setting targetEdOrgList explicitly: " + targetEdOrgs);
                 event.setTargetEdOrgList(new ArrayList<String>(targetEdOrgs));
             } else if (defaultTargetToUserEdOrg) {
-                debug("Setting targetEdOrgList to be userEdOrg");
-                List<String> defaultTargetEdOrgs = new ArrayList<String>();
-                defaultTargetEdOrgs.add(event.getUserEdOrg());
-                event.setTargetEdOrgList(defaultTargetEdOrgs);
+                debug("Setting targetEdOrgList to be userEdOrg" + event.getUserEdOrg());
+                if (event.getUserEdOrg() != null) {
+                    List<String> defaultTargetEdOrgs = new ArrayList<String>();
+                    defaultTargetEdOrgs.add(event.getUserEdOrg());
+                    event.setTargetEdOrgList(defaultTargetEdOrgs);
+                }
             } else {
                 debug("Not explicitly specified, doing a best effort determination of targetEdOrg based on the request uri path: " + requestUri.getPath());
                 Set<String> stateOrgIds = getTargetEdOrgStateIdsFromURI(requestUri);
