@@ -40,12 +40,14 @@ Transform /^<(.*?)>$/ do |human_readable_id|
   id = "/v1/students/b98a593e13945f54ecc3f1671127881064ab592d_id"         if human_readable_id == "nate.dedrick URI"
   id = "/v1/students/2d17703cb29a95bbfdaab47f513cafdc0ef55d67_id"         if human_readable_id == "mu.mcneill URI"
   id = "/v1/students/df54047bf88ecd7e2f6fbf00951196f747c9ccfc_id"         if human_readable_id == "jack.jackson URI"
+#Following are for DELETES
   id = "/v1/students/993283bce14b54bbfc896b8452f26e745ce4c101_id"         if human_readable_id == "pat.sollars URI"
   id = "/v1/students/5fb6e796c5a8485c28f1875fda41810eca13db46_id"         if human_readable_id == "herman.ortiz URI"
   id = "/v1/students/edeba6dcfab1d1461896e9581c20ce329604a94c_id"         if human_readable_id == "shawn.taite URI"
   id = "/v1/students/7b9ae98922c207146f1feb0b799a91b1c02f17eb_id"         if human_readable_id == "jake.bertman URI"
   id = "/v1/students/aceb1e6d159c833db61f72a9dfeee50be2f2691e_id"         if human_readable_id == "john.johnson URI"
   id = "/v1/students/a94fc8d0895f2a00b811d54996a8f3eb8fdc7480_id"         if human_readable_id == "kate.dedrick URI"
+  id = @newId                                                             if human_readable_id == "NEWLY CREATED ENTITY ID"
 
   id
 end
@@ -565,6 +567,23 @@ Given /^I expire all section associations that "([^"]*)" has with "([^"]*)"$/ do
   enable_NOTABLESCAN()
 end
 
+Given /^I get (\d+) random ids for "([^"]*)" in "([^"]*)"$/ do |number, type, entity|
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  db_name = convertTenantIdToDbName(@tenant)
+  db = conn[db_name]
+  coll = db.collection(entity)
+  if type == 'educationOrganization' && entity == 'educationOrganization'
+    entities = coll.find({}, {:fields => %w(_id)}).to_a
+  else
+    entities = coll.find({'type' => type}, {:fields => %w(_id)}).to_a
+  end
+  assert(entities.size > 0, "No #{entity} of type #{type} found")
+  (entities.shuffle.take(number.to_i)).each { |entry| (@entity_ids ||= []) << entry['_id'] }
+  conn.close
+  enable_NOTABLESCAN()
+end
+
 #############################################################################################
 # OAUTH Steps
 #############################################################################################
@@ -890,6 +909,25 @@ Then /^I should see all global entities$/ do
     \n Outstanding entities: #{diffSet.inspect}")
 end
 
+When /^I navigate to GET each id for "([^"]*)"$/ do |uri|
+  @return_codes = []
+  @entity_ids.each do |id|
+    step "I navigate to GET \"#{uri}/#{id}\""
+    @return_codes << @res.code
+  end
+end
+
+Then /^All the return codes should be (\d+)$/ do |code|
+  @return_codes.each do |return_code|
+    assert(return_code == code.to_i,"Found a return code of #{return_code}. Expecting all to be #{code}.")
+  end
+end
+
+When /^I set the ([^"]*) to ([^"]*)$/ do |key, value|
+  @result = {} if !defined? @result
+  @result[key] = convert(value)
+end
+
 ############################################################################################
 #Steps for POST
 ############################################################################################
@@ -908,6 +946,12 @@ end
 Then /^I remove the posted student$/ do
   tenant = convertTenantIdToDbName @tenant
   remove_from_mongo_operation(tenant, 'student', {"_id" => @lastStudentId})
+end
+
+
+Then /^I remove the new entity from "([^"]*)"$/ do |collection|
+  tenant = convertTenantIdToDbName @tenant
+  remove_from_mongo_operation(tenant, collection, {"_id" => @newId})
 end
 
 When /^I change the field "([^\"]*)" to "([^\"]*)"$/ do |field, value|

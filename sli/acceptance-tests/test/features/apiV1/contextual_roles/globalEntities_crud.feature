@@ -9,7 +9,6 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
 
 # Single segment (/<ENTITY>) URI tests.
 
-@wip
   @tagPublicEntities
   Scenario Outline: Ensure GET can be performed on all public entities with READ_PUBLIC right
     Given I change the custom role of "Leader" to add the "READ_PUBLIC" right
@@ -39,7 +38,6 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
       |  studentCompetencyObjective            |  studentCompetencyObjectives           |
 
 
-@wip
   @tagPublicEntities
   Scenario Outline: Ensure GET can NOT be performed on any public entities without READ_PUBLIC right
     Given I change the custom role of "Leader" to remove the "READ_PUBLIC" right
@@ -75,27 +73,29 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     Given I change the custom role of "Educator" to add the "READ_PUBLIC" right
     Given I change the custom role of "Educator" to add the "WRITE_PUBLIC" right
     And I log in as "jmacey"
-    Given entity type "<ENTITY TYPE>"
+    Given entity type "<ENTITY>"
     Given a valid formatted entity json document for a "<ENTITY TYPE>"
     When I navigate to POST "/v1/<ENTITY URI>"
     Then I should receive a return code of 201
+    And I should receive a new entity URI
+    And I remove the new entity from "<ENTITY>"
 
   Examples:
-      |  ENTITY TYPE                           |  ENTITY URI                            |
-      |  assessment                            |  assessments                           |
-      |  competencyLevelDescriptor             |  competencyLevelDescriptor             |
-#      |  courseOffering                        |  courseOfferings                       |
-#      |  course                                |  courses                               |
-      |  educationOrganization                 |  educationOrganizations                |
-#      |  gradingPeriod                         |  gradingPeriods                        |
-#      |  graduationPlan                        |  graduationPlans                       |
-      |  learningObjective                     |  learningObjectives                    |
-      |  learningStandard                      |  learningStandards                     |
-      |  program                               |  programs                              |
-#      |  educationOrganization                 |  schools                               |
-#      |  section                               |  sections                              |
-#      |  session                               |  sessions                              |
-#      |  studentCompetencyObjective            |  studentCompetencyObjectives           |
+    |  ENTITY                     | ENTITY TYPE                           |  ENTITY URI                            |
+    |  assessment                 | assessment                            |  assessments                           |
+    |  competencyLevelDescriptor  | competencyLevelDescriptor             |  competencyLevelDescriptor             |
+#    |  courseOffering             | courseOffering                        |  courseOfferings                       |
+#    |  course                     | course                                |  courses                               |
+    |  educationOrganization      | educationOrganization                 |  educationOrganizations                |
+#    |  gradingPeriod              | gradingPeriod                         |  gradingPeriods                        |
+#    |  graduationPlan             | graduationPlan                        |  graduationPlans                       |
+    |  learningObjective          | learningObjective                     |  learningObjectives                    |
+    |  learningStandard           | learningStandard                      |  learningStandards                     |
+    |  program                    | program                               |  programs                              |
+    |  educationOrganization      | school                                |  schools                               |
+#    |  section                    | section                               |  sections                              |
+#    |  session                    | session                               |  sessions                              |
+#    |  studentCompetencyObjective | studentCompetencyObjective            |  studentCompetencyObjectives           |
 
 
   @tagPublicEntities
@@ -130,4 +130,87 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
 
 
 # Double segment (/<ENTITY>/{id}) URI tests.
+  Scenario Outline: GETs on /entity/{id}
+    Given I log in as "jmacey"
+    And I get 10 random ids for "<ENTITY TYPE>" in "<ENTITY>"
+    When I navigate to GET each id for "/v1/<ENTITY URI>"
+    Then All the return codes should be 200
+
+    Given I change the custom role of "Leader" to remove the "READ_PUBLIC" right
+    And I change the custom role of "Educator" to remove the "READ_PUBLIC" right
+    And I log in as "jmacey"
+    When I navigate to GET each id for "/v1/<ENTITY URI>"
+    Then All the return codes should be 403
+  Examples:
+    |  ENTITY                     | ENTITY TYPE                           |  ENTITY URI                            |
+    |  assessment                 | assessment                            |  assessments                           |
+    |  competencyLevelDescriptor  | competencyLevelDescriptor             |  competencyLevelDescriptor             |
+    |  courseOffering             | courseOffering                        |  courseOfferings                       |
+    |  course                     | course                                |  courses                               |
+    |  educationOrganization      | educationOrganization                 |  educationOrganizations                |
+    |  gradingPeriod              | gradingPeriod                         |  gradingPeriods                        |
+    |  graduationPlan             | graduationPlan                        |  graduationPlans                       |
+    |  learningObjective          | learningObjective                     |  learningObjectives                    |
+    |  learningStandard           | learningStandard                      |  learningStandards                     |
+    |  program                    | program                               |  programs                              |
+    |  educationOrganization      | school                                |  schools                               |
+    |  section                    | section                               |  sections                              |
+    |  session                    | session                               |  sessions                              |
+    |  studentCompetencyObjective | studentCompetencyObjective            |  studentCompetencyObjectives           |
+
+  Scenario Outline: PUTs, PATCHes, and DELETEs on /entity/{id}
+    Given I change the custom role of "Aggregate Viewer" to add the "WRITE_PUBLIC" right
+    And format "application/json"
+    And a valid entity json document for a "<ENTITY TYPE>"
+
+    When I log in as "msmith"
+    And I navigate to POST "/v1/<ENTITY URI>"
+    Then I should receive a return code of 201
+    And I should receive a new entity URI
+    When I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 200
+
+    When I log in as "jmacey"
+    And I set the <MODIFY FIELD> to <PUT VALUE>
+    And I navigate to PUT "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 403
+
+    When I log in as "msmith"
+    And I navigate to PUT "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 204
+
+    When I log in as "jmacey"
+    And I change the field "<MODIFY FIELD>" to "<PATCH VALUE>"
+    And I navigate to PATCH "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 403
+
+    When I navigate to DELETE "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 403
+
+    When I log in as "msmith"
+    And I navigate to PATCH "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 204
+
+    When I navigate to DELETE "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 204
+
+    When I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 404
+
+  Examples:
+    |  ENTITY TYPE                   |  ENTITY URI                      | MODIFY FIELD        | PUT VALUE        | PATCH VALUE            |
+    |  assessment                    |  assessments                     | assessmentCategory  | Class test       | Other                  |
+    |  competencyLevelDescriptor     |  competencyLevelDescriptor       | description         | Always Angry     | Skips school           |
+#    |  courseOffering                |  courseOfferings                 |
+#    |  course                        |  courses                         |
+    |  educationOrganization         |  educationOrganizations          | nameOfInstitution   | Dummy Agency     | Dummy Edorg            |
+#    |  gradingPeriod                 |  gradingPeriods                  |
+#    |  graduationPlan                |  graduationPlans                 |
+    |  learningObjective             |  learningObjectives              | description         | My Description   | New Description        |
+    |  learningStandard              |  learningStandards               | description         | My Description   | New Description        |
+    |  program                       |  programs                        | programSponsor      | School           | State Education Agency |
+    |  school                        |  schools                         | nameOfInstitution   | Dummy Elementary | Dummy High             |
+#    |  section                       |  sections                        |
+#    |  session                       |  sessions                        |
+#    |  studentCompetencyObjective    |  studentCompetencyObjectives     |
 
