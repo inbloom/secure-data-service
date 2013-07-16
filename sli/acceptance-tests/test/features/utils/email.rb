@@ -27,8 +27,22 @@ def check_email(config = {})
   retry_attempts = config[:retry_attempts] || 30
   retry_wait_time = config[:retry_wait_time] || 1
 
+  if ENV['DEBUG']
+    puts "imap host #{imap_host}"
+    puts "imap port #{imap_port}"
+    puts "imap user #{imap_username}"
+    puts "imap passwd #{imap_password}"
+    puts "content substr #{content_substring}"
+    puts "subject substr #{subject_substring}"
+  end
+
   content_substring.gsub!(/\s/, '') unless content_substring.nil? # remove spaces because the imap client add unnecessary spaces
   subject_substring.gsub!(/\s/, '') unless subject_substring.nil? # remove spaces because the imap client add unnecessary spaces
+  
+  if ENV['DEBUG']
+    puts "content substr #{content_substring}"
+    puts "subject substr #{subject_substring}"
+  end
 
   imap = Net::IMAP.new(imap_host, imap_port, true, nil, false)
   imap.login(imap_username, imap_password)
@@ -53,6 +67,12 @@ def check_email(config = {})
         messages.each do |message|
           content = message.attr["BODY[TEXT]"]
           subject = message.attr["BODY[HEADER.FIELDS (SUBJECT)]"]
+
+          if ENV['DEBUG']
+            puts "content is #{content}"
+            puts "subject is #{subject}"
+          end
+
           if((content_substring.nil? || (!content.nil? && content.gsub(/\s/, '').include?(content_substring))) &&
               (subject_substring.nil? || (!subject.nil? && subject.gsub(/\s/, '').include?(subject_substring))))
             return content

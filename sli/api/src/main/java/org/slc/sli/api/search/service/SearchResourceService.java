@@ -258,7 +258,6 @@ public class SearchResourceService {
                 && apiQuery.getOffset() + limitPerQuery < this.maxUnfilteredSearchResultCount) {
 
             // call BasicService to query the elastic search repo
-            //entityBodies = (List<EntityBody>) getService().list(apiQuery);
             entityBodies = (List<EntityBody>) getService().listBasedOnContextualRoles(apiQuery);
             debug("Got {} entities back", entityBodies.size());
             int lastSize = entityBodies.size();

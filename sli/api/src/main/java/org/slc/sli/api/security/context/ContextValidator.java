@@ -57,7 +57,7 @@ import org.slc.sli.domain.NeutralQuery;
 @Component
 public class ContextValidator implements ApplicationContextAware {
 
-    public static final Set<String> GLOBAL_RESOURCES = new HashSet<String>(
+    protected static final Set<String> GLOBAL_RESOURCES = new HashSet<String>(
             Arrays.asList(ResourceNames.ASSESSMENTS,
             ResourceNames.CALENDAR_DATES,		
             ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS,
