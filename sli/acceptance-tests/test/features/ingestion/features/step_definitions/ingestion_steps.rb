@@ -29,7 +29,7 @@ require 'rbconfig'
 require 'json'
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../odin/step_definitions/data_generation_steps'
-require_relative '../../../security/step_definitions/securityEvent_util_steps.rb'
+require_relative '../../../security/step_definitions/securityevent_util_steps.rb'
 
 ############################################################
 # ENVIRONMENT CONFIGURATION
