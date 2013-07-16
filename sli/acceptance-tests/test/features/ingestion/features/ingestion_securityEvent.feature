@@ -11,7 +11,6 @@ Given I am using local data store
 Scenario: Ingest and reingest with default mode
 Given I am using preconfigured Ingestion Landing Zone
   And the landing zone is reinitialized
-
   And the following collections are empty in sli datastore:
     | collectionName              |
     | securityEvent               |
