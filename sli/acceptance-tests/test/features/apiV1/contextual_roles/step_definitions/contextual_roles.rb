@@ -23,6 +23,7 @@ require 'open3'
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../utils/selenium_common.rb'
 require_relative '../../utils/api_utils.rb'
+require_relative '../../entities/crud/step_definitions/crud_step.rb'
 
 DATABASE_HOST = PropLoader.getProps['ingestion_db']
 DATABASE_PORT = PropLoader.getProps['ingestion_db_port']
@@ -82,6 +83,7 @@ After do |scenario|
     end
   end
 end
+
 #############################################################################################
 # Mongo Steps
 #############################################################################################
@@ -774,6 +776,12 @@ end
 Given /^entity type "([^"]*)"$/ do |arg1|
   @currentEntity = arg1
 end
+
+Given /^a valid formatted entity json document for a "([^"]*)"$/ do |arg1|
+  @format = "application/json"
+  step "a valid entity json document for a \"#{arg1}\""
+end
+
 
 Then /^I should get and store the link named "(.*?)"$/ do |mylink|
   @result = JSON.parse(@res.body)

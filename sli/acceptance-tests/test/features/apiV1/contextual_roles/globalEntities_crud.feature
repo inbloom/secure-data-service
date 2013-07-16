@@ -9,6 +9,7 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
 
 # Single segment (/<ENTITY>) URI tests.
 
+@wip
   @tagPublicEntities
   Scenario Outline: Ensure GET can be performed on all public entities with READ_PUBLIC right
     Given I change the custom role of "Leader" to add the "READ_PUBLIC" right
@@ -37,8 +38,10 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
       |  session                               |  sessions                              |
       |  studentCompetencyObjective            |  studentCompetencyObjectives           |
 
+
+@wip
   @tagPublicEntities
-  Scenario Outline: Ensure GET can NOT be performed on all public entities without READ_PUBLIC right
+  Scenario Outline: Ensure GET can NOT be performed on any public entities without READ_PUBLIC right
     Given I change the custom role of "Leader" to remove the "READ_PUBLIC" right
     Given I change the custom role of "Educator" to remove the "READ_PUBLIC" right
     And I log in as "jmacey"
@@ -63,6 +66,67 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
       |  section                               |  sections                              |
       |  session                               |  sessions                              |
       |  studentCompetencyObjective            |  studentCompetencyObjectives           |
+
+
+  @tagPublicEntities
+  Scenario Outline: Ensure POST can be performed on all public entities with READ_PUBLIC and WRITE_PUBLIC rights
+    Given I change the custom role of "Leader" to add the "READ_PUBLIC" right
+    Given I change the custom role of "Leader" to add the "WRITE_PUBLIC" right
+    Given I change the custom role of "Educator" to add the "READ_PUBLIC" right
+    Given I change the custom role of "Educator" to add the "WRITE_PUBLIC" right
+    And I log in as "jmacey"
+    Given entity type "<ENTITY TYPE>"
+    Given a valid formatted entity json document for a "<ENTITY TYPE>"
+    When I navigate to POST "/v1/<ENTITY URI>"
+    Then I should receive a return code of 201
+
+  Examples:
+      |  ENTITY TYPE                           |  ENTITY URI                            |
+      |  assessment                            |  assessments                           |
+      |  competencyLevelDescriptor             |  competencyLevelDescriptor             |
+#      |  courseOffering                        |  courseOfferings                       |
+#      |  course                                |  courses                               |
+      |  educationOrganization                 |  educationOrganizations                |
+#      |  gradingPeriod                         |  gradingPeriods                        |
+#      |  graduationPlan                        |  graduationPlans                       |
+      |  learningObjective                     |  learningObjectives                    |
+      |  learningStandard                      |  learningStandards                     |
+      |  program                               |  programs                              |
+#      |  educationOrganization                 |  schools                               |
+#      |  section                               |  sections                              |
+#      |  session                               |  sessions                              |
+#      |  studentCompetencyObjective            |  studentCompetencyObjectives           |
+
+
+  @tagPublicEntities
+  Scenario Outline: Ensure POST can NOT be performed on any public entities with READ_PUBLIC and WRITE_PUBLIC rights
+    Given I change the custom role of "Leader" to remove the "READ_PUBLIC" right
+    Given I change the custom role of "Leader" to remove the "WRITE_PUBLIC" right
+    Given I change the custom role of "Educator" to remove the "READ_PUBLIC" right
+    Given I change the custom role of "Educator" to remove the "WRITE_PUBLIC" right
+    And I log in as "jmacey"
+    Given entity type "<ENTITY TYPE>"
+    Given a valid formatted entity json document for a "<ENTITY TYPE>"
+    When I navigate to POST "/v1/<ENTITY URI>"
+    Then I should receive a return code of 403
+
+  Examples:
+      |  ENTITY TYPE                           |  ENTITY URI                            |
+      |  assessment                            |  assessments                           |
+      |  competencyLevelDescriptor             |  competencyLevelDescriptor             |
+      |  courseOffering                        |  courseOfferings                       |
+      |  course                                |  courses                               |
+      |  educationOrganization                 |  educationOrganizations                |
+      |  gradingPeriod                         |  gradingPeriods                        |
+      |  graduationPlan                        |  graduationPlans                       |
+      |  learningObjective                     |  learningObjectives                    |
+      |  learningStandard                      |  learningStandards                     |
+      |  program                               |  programs                              |
+      |  educationOrganization                 |  schools                               |
+      |  section                               |  sections                              |
+      |  session                               |  sessions                              |
+      |  studentCompetencyObjective            |  studentCompetencyObjectives           |
+
 
 
 # Double segment (/<ENTITY>/{id}) URI tests.
