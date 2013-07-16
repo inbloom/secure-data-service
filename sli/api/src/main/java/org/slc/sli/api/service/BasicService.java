@@ -597,7 +597,18 @@ public class BasicService implements EntityService, AccessibilityCheck {
     public EntityBody getCustom(String id) {
         checkAccess(true, id, null);
 
-        String clientId = getClientId();
+        String clientId = null;
+        try {
+            clientId = getClientId();
+        } catch (APIAccessDeniedException e) {
+            // set custom entity data for security event targetEdOrgList
+            APIAccessDeniedException wrapperE = new APIAccessDeniedException("Custom entity get denied.", e);
+            Set<String> entityIds = new HashSet<String>();
+            entityIds.add(id);
+            wrapperE.setEntityType(defn.getType());
+            wrapperE.setEntityIds(entityIds);
+            throw wrapperE;
+        }
 
         debug("Reading custom entity: entity={}, entityId={}, clientId={}", new Object[]{
                 getEntityDefinition().getType(), id, clientId});
@@ -618,8 +629,18 @@ public class BasicService implements EntityService, AccessibilityCheck {
     @Override
     public void deleteCustom(String id) {
         checkAccess(false, id, null);
-
-        String clientId = getClientId();
+        String clientId = null;
+        try {
+            clientId = getClientId();
+        } catch (APIAccessDeniedException e) {
+            // set custom entity data for security event targetEdOrgList
+            APIAccessDeniedException wrapperE = new APIAccessDeniedException("Custom entity delete denied.", e);
+            Set<String> entityIds = new HashSet<String>();
+            entityIds.add(id);
+            wrapperE.setEntityType(defn.getType());
+            wrapperE.setEntityIds(entityIds);
+            throw wrapperE;
+        }
 
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_CLIENT_ID, "=", clientId, false));
@@ -639,8 +660,19 @@ public class BasicService implements EntityService, AccessibilityCheck {
     @Override
     public void createOrUpdateCustom(String id, EntityBody customEntity) throws EntityValidationException {
         checkAccess(false, id, customEntity);
+        String clientId = null;
 
-        String clientId = getClientId();
+        try {
+            clientId = getClientId();
+        } catch (APIAccessDeniedException e) {
+            // set custom entity data for security event targetEdOrgList
+            APIAccessDeniedException wrapperE = new APIAccessDeniedException("Custom entity write denied.", e);
+            Set<String> entityIds = new HashSet<String>();
+            entityIds.add(id);
+            wrapperE.setEntityType(defn.getType());
+            wrapperE.setEntityIds(entityIds);
+            throw wrapperE;
+        }
 
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_CLIENT_ID, "=", clientId, false));
@@ -787,7 +819,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
     private String getClientId() {
         String clientId = clientInfo.getClientId();
         if (clientId == null) {
-            throw new AccessDeniedException("No Application Id");
+            throw new APIAccessDeniedException("No Application Id");
         }
         return clientId;
     }
