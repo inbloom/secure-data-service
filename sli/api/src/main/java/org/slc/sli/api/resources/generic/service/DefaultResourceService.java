@@ -36,6 +36,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 
+import org.slc.sli.common.constants.EntityNames;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
@@ -208,7 +209,11 @@ public class DefaultResourceService implements ResourceService {
                         try {
                             entityBodies = logicalEntity.getEntities(apiQuery, resource.getResourceType());
                         } catch (UnsupportedSelectorException e) {
-                            entityBodies = definition.getService().list(apiQuery);
+                            if(EntityNames.PUBLIC_ENTITIES.contains(definition.getType()) && SecurityUtil.isStaffUser()) {
+                                entityBodies = definition.getService().listBasedOnContextualRoles(apiQuery);
+                            } else {
+                                entityBodies = definition.getService().list(apiQuery);
+                            }
                         }
                     }
                     long count = getEntityCount(definition, apiQuery);
@@ -373,7 +378,11 @@ public class DefaultResourceService implements ResourceService {
             try {
                 entityBodyList = logicalEntity.getEntities(apiQuery, definition.getResourceName());
             } catch (final UnsupportedSelectorException e) {
-                entityBodyList = (List<EntityBody>) definition.getService().list(apiQuery);
+                if(EntityNames.PUBLIC_ENTITIES.contains(definition.getType()) && SecurityUtil.isStaffUser()) {
+                    entityBodyList = (List<EntityBody>) definition.getService().listBasedOnContextualRoles(apiQuery);
+                } else {
+                    entityBodyList = (List<EntityBody>) definition.getService().list(apiQuery);
+                }
             }
 
             long count = getEntityCount(definition, apiQuery);
