@@ -29,29 +29,41 @@ Scenario: Non SLI-hosted valid user tries to access the Application Authorizatio
 Scenario: Deny application
   
   Given I am an authenticated District Super Administrator for "Sunset School District"
-  And I am logged into the Application Authorization Tool
-  And I see an application "SDK Sample" in the table
-  And in Status it says "Approved"
-  And I click on the "Deny" button next to it
-  And I am asked 'Do you really want deny access to this application of the district's data'
+   And I am logged into the Application Authorization Tool
+   And the sli securityEvent collection is empty
+   And I see an application "SDK Sample" in the table
+   And in Status it says "Approved"
+   And I click on the "Deny" button next to it
+   And I am asked 'Do you really want deny access to this application of the district's data'
   When I click on Ok
   Then the application is denied to use data of "Sunset School District"
-  And the app "SDK Sample" Status becomes "Not Approved"
-  And it is colored "red"
-  And the Approve button next to it is enabled
-  And the Deny button next to it is disabled
+   And the app "SDK Sample" Status becomes "Not Approved"
+   And it is colored "red"
+   And the Approve button next to it is enabled
+   And the Deny button next to it is disabled
+   And a security event matching "^Application Denied" should be in the sli db
+   And I check to find if record is in sli db collection:
+    | collectionName      | expectedRecordCount | searchParameter       | searchValue |
+    | securityEvent       | 1                   | body.userEdOrg        | IL          |
+    | securityEvent       | 1                   | body.targetEdOrgList  | IL-SUNSET   |
   
 Scenario: Approve application
 	
 	Given I am an authenticated District Super Administrator for "Sunset School District"
-	And I am logged into the Application Authorization Tool
-	And I see an application "SDK Sample" in the table
-	And in Status it says "Not Approved"
-	And I click on the "Approve" button next to it
-	And I am asked 'Do you really want this application to access the district's data'
+	 And I am logged into the Application Authorization Tool
+	 And the sli securityEvent collection is empty
+	 And I see an application "SDK Sample" in the table
+	 And in Status it says "Not Approved"
+	 And I click on the "Approve" button next to it
+	 And I am asked 'Do you really want this application to access the district's data'
 	When I click on Ok
 	Then the application is authorized to use data of "Sunset School District"
-	And the app "SDK Sample" Status becomes "Approved"
-	And it is colored "green"
-	And the Approve button next to it is disabled
-	And the Deny button next to it is enabled
+	 And the app "SDK Sample" Status becomes "Approved"
+	 And it is colored "green"
+	 And the Approve button next to it is disabled
+	 And the Deny button next to it is enabled
+	 And a security event matching "^Application Approved" should be in the sli db
+     And I check to find if record is in sli db collection:
+      | collectionName      | expectedRecordCount | searchParameter       | searchValue |
+      | securityEvent       | 1                   | body.userEdOrg        | IL          |
+      | securityEvent       | 1                   | body.targetEdOrgList  | IL-SUNSET   |
