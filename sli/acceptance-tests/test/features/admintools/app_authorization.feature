@@ -41,12 +41,16 @@ Scenario: Deny application
    And it is colored "red"
    And the Approve button next to it is enabled
    And the Deny button next to it is disabled
-   And a security event matching "^Application Denied" should be in the sli db
+   And I should see following map of entry counts in the corresponding sli db collections:
+    | collectionName              | count |
+    | securityEvent               | 1     |
    And I check to find if record is in sli db collection:
-    | collectionName      | expectedRecordCount | searchParameter       | searchValue |
-    | securityEvent       | 1                   | body.userEdOrg        | IL          |
-    | securityEvent       | 1                   | body.targetEdOrgList  | IL-SUNSET   |
-  
+    | collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
+   #| securityEvent       | 1                   | body.userEdOrg        | IL-SUNSET                             |
+    | securityEvent       | 1                   | body.targetEdOrgList  | IL-SUNSET, Sunset Central High School |
+    | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!   |
+   #| securityEvent       | 1                   | body.appId            | SDK Sample                            |
+
 Scenario: Approve application
 	
 	Given I am an authenticated District Super Administrator for "Sunset School District"
@@ -62,8 +66,12 @@ Scenario: Approve application
 	 And it is colored "green"
 	 And the Approve button next to it is disabled
 	 And the Deny button next to it is enabled
-	 And a security event matching "^Application Approved" should be in the sli db
+	 And I should see following map of entry counts in the corresponding sli db collections:
+      | collectionName              | count |
+      | securityEvent               | 1     |
      And I check to find if record is in sli db collection:
-      | collectionName      | expectedRecordCount | searchParameter       | searchValue |
-      | securityEvent       | 1                   | body.userEdOrg        | IL          |
-      | securityEvent       | 1                   | body.targetEdOrgList  | IL-SUNSET   |
+      | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
+     #| securityEvent       | 1                   | body.userEdOrg        | IL-SUNSET                                 |
+      | securityEvent       | 1                   | body.targetEdOrgList  | IL-SUNSET, Sunset Central High School     |
+      | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
+     #| securityEvent       | 1                   | body.appId            | SDK Sample                                |
