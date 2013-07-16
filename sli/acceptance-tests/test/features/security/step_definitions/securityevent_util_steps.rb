@@ -48,18 +48,8 @@ def securityEventCollection
 end
 
 def getMatchingSecEvents(securityeventpattern)
-    #temp removed retry logic, will remove properly if nothing breaks
-
-    #retryCount = 3;
-    #securityEventCount = 0;
-    #while retryCount > 0 do
-        coll = securityEventCollection()
-        #retryCount = retryCount - 1
-        secEventCount = coll.find({"body.logMessage" => /#{securityeventpattern}/}).count()
-        #break if secEventCount > 0
-        #sleep (10)
-    #end
-    #puts "SecEvent retries left [" + retryCount.to_s + "]"
+    coll = securityEventCollection()
+    secEventCount = coll.find({"body.logMessage" => /#{securityeventpattern}/}).count()
     return secEventCount
 end
 
