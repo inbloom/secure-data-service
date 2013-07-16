@@ -34,23 +34,32 @@ Then /^a security event matching "([^"]*)" should be in the sli db$/ do |securit
   assert(secEventCount > 0, "No security events were found with logMessage matching " + securityeventpattern)
 end
 
+Then /^"([^"]*)" security event matching "([^"]*)" should be in the sli db$/ do |expected_count, securityeventpattern|
+  disable_NOTABLESCAN()
+  secEventCount = getMatchingSecEvents(securityeventpattern);
+  enable_NOTABLESCAN()
+  assert(secEventCount == expected_count.to_i, "Unexpected number of security events found with logMessage matching " + securityeventpattern)
+end
+
 def securityEventCollection
   db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
-  coll ||= db.collection('securityEvent', opts = {:safe => true})
+  coll ||= db.collection('securityEvent')
   return coll
 end
 
 def getMatchingSecEvents(securityeventpattern)
-    retryCount = 3;
-    securityEventCount = 0;
-    while retryCount > 0 do
+    #temp removed retry logic, will remove properly if nothing breaks
+
+    #retryCount = 3;
+    #securityEventCount = 0;
+    #while retryCount > 0 do
         coll = securityEventCollection()
-        retryCount = retryCount - 1
+        #retryCount = retryCount - 1
         secEventCount = coll.find({"body.logMessage" => /#{securityeventpattern}/}).count()
-        break if secEventCount > 0
-        sleep (10)
-    end
-    puts "SecEvent retries left [" + retryCount.to_s + "]"
+        #break if secEventCount > 0
+        #sleep (10)
+    #end
+    #puts "SecEvent retries left [" + retryCount.to_s + "]"
     return secEventCount
 end
 

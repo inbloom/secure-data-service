@@ -24,16 +24,18 @@ Given I am using preconfigured Ingestion Landing Zone
         | collectionName              | count |
         | securityEvent               | 11    |
   And I check to find if record is in sli db collection:
-       | collectionName  | expectedRecordCount | searchParameter         | searchValue                                                                  | searchType      |
-       | securityEvent   | 11                   | body.appId              | Ingestion                                                                    | string          |
-       | securityEvent   | 1                   | body.logMessage         | Ingestion process started.                                                   | string          |
-       | securityEvent   | 1                   | body.logMessage         | [file] InterchangeEducationOrganization.xml (edfi-xml/EducationOrganization) | string          |
-	   | securityEvent   | 1                   | body.logMessage         | [file] InterchangeEducationOrganization.xml records considered for processing: 1            | string          |
-	   | securityEvent   | 1                   | body.logMessage         | [file] InterchangeEducationOrganization.xml records ingested successfully: 1 | string          |
-       | securityEvent   | 1                   | body.logMessage         | [file] InterchangeEducationOrganization.xml records deleted successfully: 0  | string          |        
-	   | securityEvent   | 1                   | body.logMessage         | [file] InterchangeEducationOrganization.xml records failed processing: 0                | string          |
-	   | securityEvent   | 1                   | body.logMessage         | [configProperty] tenantId: IL                                                | string          |
-	   | securityEvent   | 1                   | body.logMessage         | All records processed successfully.                                          | string          |
-	   | securityEvent   | 1                   | body.logMessage         | Processed 1 records.                                                         | string          |
-# us5758 determine whether this count simply needs updating to 11 or there is a bug	   | securityEvent   | 10                  | body.targetEdOrg        | Daybreak                                                                     | string          |
-# us5758 determine whether this count simply needs updating to 11 or there is a bug	   | securityEvent   | 10                  | body.targetEdOrgList    | Daybreak                                                                     | string          |
+       | collectionName  | expectedRecordCount | searchParameter         | searchValue                                                                          | searchType |
+       | securityEvent   | 11                  | body.appId              | Ingestion                                                                            | string     |
+       | securityEvent   | 1                   | body.logMessage         | Ingestion process started.                                                           | string     |
+       | securityEvent   | 1                   | body.logMessage         | [file] InterchangeEducationOrganization.xml (edfi-xml/EducationOrganization)         | string     |
+	   | securityEvent   | 1                   | body.logMessage         | [file] InterchangeEducationOrganization.xml records considered for processing: 1     | string     |
+	   | securityEvent   | 1                   | body.logMessage         | [file] InterchangeEducationOrganization.xml records ingested successfully: 1         | string     |
+       | securityEvent   | 1                   | body.logMessage         | [file] InterchangeEducationOrganization.xml records deleted successfully: 0          | string     |
+	   | securityEvent   | 1                   | body.logMessage         | [file] InterchangeEducationOrganization.xml records failed processing: 0             | string     |
+	   | securityEvent   | 1                   | body.logMessage         | [file] InterchangeEducationOrganization.xml records not considered for processing: 0 | string     |
+	   | securityEvent   | 1                   | body.logMessage         | [configProperty] tenantId: IL                                                        | string     |
+	   | securityEvent   | 1                   | body.logMessage         | All records processed successfully.                                                  | string     |
+	   | securityEvent   | 1                   | body.logMessage         | Processed 1 records.                                                                 | string     |
+	   | securityEvent   | 11                  | body.userEdOrg          | Daybreak                                                                             | string     |
+	   | securityEvent   | 11                  | body.targetEdOrgList    | Daybreak                                                                             | string     |
+  And "1" security event matching "^jobId: TinyDataSet.zip" should be in the sli db
