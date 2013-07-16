@@ -22,6 +22,7 @@ require 'json'
 
 require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
+require_relative '../../ingestion/ingestion_steps.rb'
 
 When /^I hit the Admin Application Authorization Tool$/ do
   #XXX - Once the API is ready, remove the ID
