@@ -87,15 +87,15 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
 #    |  courseOffering             | courseOffering                        |  courseOfferings                       |
 #    |  course                     | course                                |  courses                               |
     |  educationOrganization      | educationOrganization                 |  educationOrganizations                |
-#    |  gradingPeriod              | gradingPeriod                         |  gradingPeriods                        |
-#    |  graduationPlan             | graduationPlan                        |  graduationPlans                       |
+    |  gradingPeriod              | gradingPeriod                         |  gradingPeriods                        |
+    |  graduationPlan             | graduationPlan                        |  graduationPlans                       |
     |  learningObjective          | learningObjective                     |  learningObjectives                    |
     |  learningStandard           | learningStandard                      |  learningStandards                     |
     |  program                    | program                               |  programs                              |
     |  educationOrganization      | school                                |  schools                               |
 #    |  section                    | section                               |  sections                              |
-#    |  session                    | session                               |  sessions                              |
-#    |  studentCompetencyObjective | studentCompetencyObjective            |  studentCompetencyObjectives           |
+    |  session                    | session                               |  sessions                              |
+    |  studentCompetencyObjective | studentCompetencyObjective            |  studentCompetencyObjectives           |
 
 
   @tagPublicEntities
@@ -105,27 +105,27 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     Given I change the custom role of "Educator" to remove the "READ_PUBLIC" right
     Given I change the custom role of "Educator" to remove the "WRITE_PUBLIC" right
     And I log in as "jmacey"
-    Given entity type "<ENTITY TYPE>"
+    Given entity type "<ENTITY>"
     Given a valid formatted entity json document for a "<ENTITY TYPE>"
     When I navigate to POST "/v1/<ENTITY URI>"
     Then I should receive a return code of 403
 
   Examples:
-      |  ENTITY TYPE                           |  ENTITY URI                            |
-      |  assessment                            |  assessments                           |
-      |  competencyLevelDescriptor             |  competencyLevelDescriptor             |
-      |  courseOffering                        |  courseOfferings                       |
-      |  course                                |  courses                               |
-      |  educationOrganization                 |  educationOrganizations                |
-      |  gradingPeriod                         |  gradingPeriods                        |
-      |  graduationPlan                        |  graduationPlans                       |
-      |  learningObjective                     |  learningObjectives                    |
-      |  learningStandard                      |  learningStandards                     |
-      |  program                               |  programs                              |
-      |  educationOrganization                 |  schools                               |
-      |  section                               |  sections                              |
-      |  session                               |  sessions                              |
-      |  studentCompetencyObjective            |  studentCompetencyObjectives           |
+    |  ENTITY                     | ENTITY TYPE                           |  ENTITY URI                            |
+    |  assessment                 | assessment                            |  assessments                           |
+    |  competencyLevelDescriptor  | competencyLevelDescriptor             |  competencyLevelDescriptor             |
+    |  courseOffering             | courseOffering                        |  courseOfferings                       |
+    |  course                     | course                                |  courses                               |
+    |  educationOrganization      | educationOrganization                 |  educationOrganizations                |
+    |  gradingPeriod              | gradingPeriod                         |  gradingPeriods                        |
+    |  graduationPlan             | graduationPlan                        |  graduationPlans                       |
+    |  learningObjective          | learningObjective                     |  learningObjectives                    |
+    |  learningStandard           | learningStandard                      |  learningStandards                     |
+    |  program                    | program                               |  programs                              |
+    |  educationOrganization      | school                                |  schools                               |
+    |  section                    | section                               |  sections                              |
+    |  session                    | session                               |  sessions                              |
+    |  studentCompetencyObjective | studentCompetencyObjective            |  studentCompetencyObjectives           |
 
 
 
@@ -161,7 +161,7 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
   Scenario Outline: PUTs, PATCHes, and DELETEs on /entity/{id}
     Given I change the custom role of "Aggregate Viewer" to add the "WRITE_PUBLIC" right
     And format "application/json"
-    And a valid entity json document for a "<ENTITY TYPE>"
+    And a valid json document for entity "<ENTITY TYPE>"
 
     When I log in as "msmith"
     And I navigate to POST "/v1/<ENTITY URI>"
@@ -201,16 +201,22 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     |  ENTITY TYPE                   |  ENTITY URI                      | MODIFY FIELD        | PUT VALUE        | PATCH VALUE            |
     |  assessment                    |  assessments                     | assessmentCategory  | Class test       | Other                  |
     |  competencyLevelDescriptor     |  competencyLevelDescriptor       | description         | Always Angry     | Skips school           |
-#    |  courseOffering                |  courseOfferings                 |
-#    |  course                        |  courses                         |
+#    |  courseOffering                |  courseOfferings                 | localCourseCode     | New Code         | Even Newer Code        |
+#    |  course                        |  courses                         | courseDescription   | Chinese 101      | Chinese 102            |
     |  educationOrganization         |  educationOrganizations          | nameOfInstitution   | Dummy Agency     | Dummy Edorg            |
-#    |  gradingPeriod                 |  gradingPeriods                  |
-#    |  graduationPlan                |  graduationPlans                 |
+    |  gradingPeriod                 |  gradingPeriods                  | endDate             | 2013-01-01       | 2013-12-12             |
+    |  graduationPlan                |  graduationPlans                 | individualPlan      | true             | false                  |
     |  learningObjective             |  learningObjectives              | description         | My Description   | New Description        |
     |  learningStandard              |  learningStandards               | description         | My Description   | New Description        |
     |  program                       |  programs                        | programSponsor      | School           | State Education Agency |
     |  school                        |  schools                         | nameOfInstitution   | Dummy Elementary | Dummy High             |
-#    |  section                       |  sections                        |
-#    |  session                       |  sessions                        |
-#    |  studentCompetencyObjective    |  studentCompetencyObjectives     |
+#    |  section                       |  sections                        | mediumOfInstruction | Televised        | Internship             |
+    |  session                       |  sessions                        | endDate             | 2013-01-01       | 2013-12-12             |
+    |  studentCompetencyObjective    |  studentCompetencyObjectives     | description         | Basic Objective  | Advanced Objective     |
+
+# Multi segment (/<ENTITY>/{id}/...) URI tests.
+  Scenario: GETs on multiple (more than 2) part URIs of global entities
+    When I log in as "jmacey"
+    And I navigate to GET "/v1/educationOrganizations/99a4ec9d3ba372993b2860a798b550c77bb73a09_id/staffEducationOrgAssignmentAssociations/staff"
+    Then I should receive a return code of 200
 

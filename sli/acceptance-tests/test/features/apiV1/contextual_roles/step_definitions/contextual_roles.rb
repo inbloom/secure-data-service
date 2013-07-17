@@ -48,6 +48,7 @@ Transform /^<(.*?)>$/ do |human_readable_id|
   id = "/v1/students/7b9ae98922c207146f1feb0b799a91b1c02f17eb_id"         if human_readable_id == "jake.bertman URI"
   id = "/v1/students/aceb1e6d159c833db61f72a9dfeee50be2f2691e_id"         if human_readable_id == "john.johnson URI"
   id = "/v1/students/a94fc8d0895f2a00b811d54996a8f3eb8fdc7480_id"         if human_readable_id == "kate.dedrick URI"
+
   id = @newId                                                             if human_readable_id == "NEWLY CREATED ENTITY ID"
 
   id
@@ -256,6 +257,7 @@ Given /^I remove the school association with student "([^"]*)" in tenant "([^"]*
   remove_from_mongo(tenant, "studentSchoolAssociation", ssa_query)
 
   enable_NOTABLESCAN()
+  conn.close
 end
 
 Given /^I modify all SEOA staff classifications for "([^"]*)" in tenant "([^"]*)" to "([^"]*)"$/ do |staff, tenant, value|
@@ -799,7 +801,7 @@ end
 
 Given /^a valid formatted entity json document for a "([^"]*)"$/ do |arg1|
   @format = "application/json"
-  step "a valid entity json document for a \"#{arg1}\""
+  step "a valid json document for entity \"#{arg1}\""
 end
 
 
@@ -927,6 +929,212 @@ end
 When /^I set the ([^"]*) to ([^"]*)$/ do |key, value|
   @result = {} if !defined? @result
   @result[key] = convert(value)
+end
+
+Given /^a valid json document for entity "([^"]*)"$/ do |entity|
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
+  db_name = convertTenantIdToDbName @tenant
+  db = conn[db_name]
+  gp_coll = db.collection('gradingPeriod')
+  gp = gp_coll.find_one({})
+  gp_id = gp['_id']
+  gp_school_id = gp['body']['gradingPeriodIdentity']['schoolId']
+
+  co_coll = db.collection('courseOffering')
+  co = co_coll.find_one({})
+  co_id = co['_id']
+  co_school_id = co['body']['schoolId']
+
+  course_coll = db.collection('course')
+  session_coll = db.collection('session')
+  course_session = session_coll.find_one({})
+  course = course_coll.find_one({})
+  course_id = course['_id']
+  course_school_id = course_session['body']['schoolId']
+  course_session_id = course_session['_id']
+
+
+  enable_NOTABLESCAN()
+  conn.close
+
+  @entityData = {
+    "gradingPeriod" => {
+        "gradingPeriodIdentity" => {
+            "schoolId" => "2a30827ed4cf5500fb848512d19ad73ed37c4464_id",
+            "gradingPeriod" => "First Six Weeks",
+            "schoolYear" => "2011-2012"
+        },
+        "beginDate" => "2012-07-01",
+        "endDate" => "2012-07-31",
+        "totalInstructionalDays" => 20
+    },
+
+    "course" => {
+        "courseTitle" => "Chinese 1",
+        "numberOfParts" => 1,
+        "courseCode" => [{
+                             "ID" => "C1",
+                             "identificationSystem" => "School course code",
+                             "assigningOrganizationCode" => "Bob's Code Generator"
+                         }],
+        "courseLevel" => "Basic or remedial",
+        "courseLevelCharacteristics" => ["Advanced Placement"],
+        "gradesOffered" => ["Eighth grade"],
+        "subjectArea" => "Foreign Language and Literature",
+        "courseDescription" => "Intro to Chinese",
+        "dateCourseAdopted" => "2001-01-01",
+        "highSchoolCourseRequirement" => false,
+        "courseDefinedBy" => "LEA",
+        "minimumAvailableCredit" => {
+            "credit" => 1.0
+        },
+        "maximumAvailableCredit" => {
+            "credit" => 1.0
+        },
+        "careerPathway" => "Hospitality and Tourism",
+        "schoolId" => "264b869a22b74b4ab5b3b6620b3d31d1a98dc4a0_id",
+        "uniqueCourseId" => "Chinese-1-10"
+    },
+
+    "courseOffering" => {
+        "schoolId" => course_school_id,
+        "localCourseCode" => "LCCMA1",
+        "sessionId" => course_session_id,
+        "localCourseTitle" => "Math 1 - Intro to Mathematics",
+        "courseId" => course_id
+    },
+
+    "educationOrganization" => {
+        "organizationCategories" => ["State Education Agency"],
+        "stateOrganizationId" => "SomeUniqueSchoolDistrict-2422883",
+        "nameOfInstitution" => "Gotham City School District",
+        "address" => [
+            "streetNumberName" => "111 Ave C",
+            "city" => "Chicago",
+            "stateAbbreviation" => "IL",
+            "postalCode" => "10098",
+            "nameOfCounty" => "Wake"
+        ]
+    },
+
+
+    "learningObjective" => {
+        "academicSubject" => "Mathematics",
+        "objective" => "Learn Mathematics",
+        "objectiveGradeLevel" => "Fifth grade"
+    },
+
+    "learningStandard" => {
+        "learningStandardId" => {
+            "identificationCode" => "apiTestLearningStandard"},
+        "description" => "a description",
+        "gradeLevel" => "Ninth grade",
+        "contentStandard"=>"State Standard",
+        "subjectArea" => "English"
+    },
+
+    "program" => {
+        "programId" => "ACC-TEST-PROG-3",
+        "programType" => "Remedial Education",
+        "programSponsor" => "Local Education Agency",
+        "services" => [[
+                           {"codeValue" => "codeValue3"},
+                           {"shortDescription" => "Short description for acceptance test program 3"},
+                           {"description" => "This is a longer description of the services provided by acceptance test program 3. More detail could be provided here."}]]
+    },
+
+    "section" => {
+        "uniqueSectionCode" => "SpanishB09",
+        "sequenceOfCourse" => 1,
+        "educationalEnvironment" => "Off-school center",
+        "mediumOfInstruction" => "Independent study",
+        "populationServed" => "Regular Students",
+        "schoolId" => co_school_id,
+        "courseOfferingId" => co_id
+    },
+
+    "session" => {
+        "sessionName" => "Spring 2012",
+        "schoolYear" => "2011-2012",
+        "term" => "Spring Semester",
+        "beginDate" => "2012-01-01",
+        "endDate" => "2012-06-30",
+        "totalInstructionalDays" => 80,
+        "gradingPeriodReference" => [gp_id],
+        "schoolId" => gp_school_id
+    },
+
+
+    "assessment" => {
+        "assessmentTitle" => "Writing Advanced Placement Test",
+        "assessmentIdentificationCode" => [{
+                                               "identificationSystem" => "School",
+                                               "ID" => "01234B"
+                                           }],
+        "academicSubject" => "Mathematics",
+        "assessmentCategory" => "Achievement test",
+        "gradeLevelAssessed" => "Adult Education",
+        "contentStandard" => "LEA Standard",
+        "version" => 2
+    },
+
+
+    "school" => {
+        "shortNameOfInstitution" => "SCTS",
+        "nameOfInstitution" => "School Crud Test School",
+        "webSite" => "www.scts.edu",
+        "stateOrganizationId" => "SomeUniqueSchool-24242342",
+        "organizationCategories" => ["School"],
+        "address" => [
+            "addressType" => "Physical",
+            "streetNumberName" => "123 Main Street",
+            "city" => "Lebanon",
+            "stateAbbreviation" => "KS",
+            "postalCode" => "66952",
+            "nameOfCounty" => "Smith County"
+        ],
+        "gradesOffered" => [
+            "Kindergarten",
+            "First grade",
+            "Second grade",
+            "Third grade",
+            "Fourth grade",
+            "Fifth grade"
+        ]
+    },
+
+    "graduationPlan" => {
+        "creditsBySubject" => [{
+                                   "subjectArea" => "English",
+                                   "credits" => {
+                                       "creditConversion" => 0,
+                                       "creditType" => "Semester hour credit",
+                                       "credit" => 6
+                                   }
+                               }],
+        "individualPlan" => false,
+        "graduationPlanType" => "Minimum",
+        "educationOrganizationId" => "2a30827ed4cf5500fb848512d19ad73ed37c4464_id",
+        "totalCreditsRequired" => {
+            "creditConversion" => 0,
+            "creditType" => "Semester hour credit",
+            "credit" => 32
+        }
+    },
+    "competencyLevelDescriptor" => {
+        "description" => "Herman tends to throw tantrums",
+        "codeValue" => "Temper Tantrum",
+        "performanceBaseConversion" => "Basic"
+    },
+    "studentCompetencyObjective" => {
+        "objectiveGradeLevel" => "Kindergarten",
+        "objective" => "Phonemic Awareness",
+        "studentCompetencyObjectiveId" => "SCO-K-1",
+        "educationOrganizationId" => "2a30827ed4cf5500fb848512d19ad73ed37c4464_id"
+    }
+  }
+  @fields = @entityData[entity]
 end
 
 ############################################################################################
