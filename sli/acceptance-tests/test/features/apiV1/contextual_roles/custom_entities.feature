@@ -5,7 +5,7 @@ Feature: Test CRUD fuctionality of Custom Entities with multiple roles
     Given the testing device app key has been created
     And I import the odin setup application and realm data
     And I have an open web browser
-@wip
+
 Scenario:  User can WRITE custom data to an EdOrg with Write Access, cannot write to custom data in EdOrg without Write Access
     Given I change the custom role of "Leader" to add the "WRITE_RESTRICTED" right
     And I change the custom role of "Leader" to add the "WRITE_GENERAL" right
@@ -17,7 +17,9 @@ Scenario:  User can WRITE custom data to an EdOrg with Write Access, cannot writ
     When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
     Then I should receive a json response containing my authorization token
     And I should be able to use the token to make valid API calls
-
+    Then the following student section associations in Midgar are set correctly
+      | student         | teacher              | edorg                 | enrolledInAnySection? |
+      | jack.jackson    | rbelding             | East Daybreak High    | no                    |
     #Jack Jackson
     Given format "application/json"
     And I add a key value pair "Drives" : "True" to the object
@@ -35,13 +37,13 @@ Scenario:  User can WRITE custom data to an EdOrg with Write Access, cannot writ
     Given format "application/json"
     And I add a key value pair "Drives" : "true" to the object
     When I navigate to POST "/v1/students/3d7084654aa96c1fdc68a27664760f6bb1b97b5a_id/custom"
-    Then I should receive a return code of 403
+    Then I should receive a return code of 201
 
-@wip
 Scenario:  User with multiple roles gets hierarchical access
     Given I change the custom role of "Leader" to add the "WRITE_RESTRICTED" right
     And I change the custom role of "Leader" to add the "WRITE_GENERAL" right
     And I change the custom role of "Leader" to add the "WRITE_PUBLIC" right
+    And I change the custom role of "Educator" to add the "WRITE_PUBLIC" right
     When I navigate to the API authorization endpoint with my client ID
     And I was redirected to the "Simple" IDP Login page
     And I submit the credentials "jmacey" "jmacey1234" for the "Simple" login page
@@ -52,19 +54,19 @@ Scenario:  User with multiple roles gets hierarchical access
 
     Given format "application/json"
     And I add a key value pair "isCharter" : "True" to the object
-    When I navigate to POST "/v1/educationOrganizations/1b223f577827204a1c7e9c851dba06bea6b031fe_id/custom"
+    When I navigate to POST "/v1/educationOrganizations/2a30827ed4cf5500fb848512d19ad73ed37c4464_id/custom"
     Then I should receive a return code of 201
-    When I navigate to GET "/v1/educationOrganizations/1b223f577827204a1c7e9c851dba06bea6b031fe_id/custom"
+    When I navigate to GET "/v1/educationOrganizations/2a30827ed4cf5500fb848512d19ad73ed37c4464_id/custom"
     Then I should receive a return code of 200
     Then I should receive a key value pair "isCharter" : "True" in the result
 
-    When I navigate to DELETE "/v1/educationOrganizations/1b223f577827204a1c7e9c851dba06bea6b031fe_id/custom"
+    Given I add a key value pair "isCharter" : "False" to the object
+    When I navigate to PUT "/v1/educationOrganizations/2a30827ed4cf5500fb848512d19ad73ed37c4464_id/custom"
     Then I should receive a return code of 204
-    When I navigate to GET "/v1/educationOrganizations/1b223f577827204a1c7e9c851dba06bea6b031fe_id/custom"
-    Then I should receive a return code of 404
+    When I navigate to DELETE "/v1/educationOrganizations/2a30827ed4cf5500fb848512d19ad73ed37c4464_id/custom"
+    Then I should receive a return code of 204
 
-@wip
-Scenario Outline:  User writes to self custom data
+Scenario:  User writes to self custom data with multiple roles
     Given I change the custom role of "Leader" to add the "WRITE_RESTRICTED" right
     And I change the custom role of "Leader" to add the "WRITE_GENERAL" right
     And I change the custom role of "Leader" to add the "WRITE_PUBLIC" right
@@ -77,23 +79,29 @@ Scenario Outline:  User writes to self custom data
     And I should be able to use the token to make valid API calls
 
     Given format "application/json"
-    And I add a key value pair "<CUSTOM FIELD>" : "<CUSTOM VALUE>" to the object
-    When I navigate to POST "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>/custom"
+    And I add a key value pair "Commuter" : "True" to the object
+    When I navigate to POST "/v1/staff/7810ac678851ae29a450cc18bd9f47efa37bfaef_id/custom"
     Then I should receive a return code of 201
-    When I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>/custom"
+    When I navigate to GET "/v1/staff/7810ac678851ae29a450cc18bd9f47efa37bfaef_id/custom"
     Then I should receive a return code of 200
-    Then I should receive a key value pair "<CUSTOM FIELD>" : "<CUSTOM VALUE>" in the result
+    Then I should receive a key value pair "Commuter" : "True" in the result
 
-    When I navigate to DELETE "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>/custom"
+    Given I add a key value pair "Commuter" : "False" to the object
+    When I navigate to PUT "/v1/staff/7810ac678851ae29a450cc18bd9f47efa37bfaef_id/custom"
     Then I should receive a return code of 204
-    When I navigate to GET "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>/custom"
+    When I navigate to GET "/v1/staff/7810ac678851ae29a450cc18bd9f47efa37bfaef_id/custom"
+    Then I should receive a return code of 200
+    Then I should receive a key value pair "Commuter" : "False" in the result
+
+    Given format "application/json"
+    And I add a key value pair "Commuter" : "True" to the object
+    When I navigate to POST "/v1/staffEducationOrgAssignmentAssociations/57edc58caa226f4ab888e51ef8b5531b98800cca_id/custom"
+    Then I should receive a return code of 201
+    When I navigate to GET "/v1/staffEducationOrgAssignmentAssociations/57edc58caa226f4ab888e51ef8b5531b98800cca_id/custom"
+    Then I should receive a return code of 200
+    Then I should receive a key value pair "Commuter" : "True" in the result
+
+    When I navigate to DELETE "/v1/staffEducationOrgAssignmentAssociations/57edc58caa226f4ab888e51ef8b5531b98800cca_id/custom"
+    Then I should receive a return code of 204
+    When I navigate to GET "/v1/staffEducationOrgAssignmentAssociations/57edc58caa226f4ab888e51ef8b5531b98800cca_id/custom"
     Then I should receive a return code of 404
-
-Examples:
-    |  ENTITY TYPE                   |  ENTITY URI                      | CUSTOM FIELD        | CUSTOM VALUE        |
-    |  assessment                    |  assessments                     | scale               | 5.0                 |
-
-
-
-
-
