@@ -1,11 +1,11 @@
-@RALLY_US5775
+@RALLY_US5775 @wip
 Feature: Test CRUD fuctionality of Custom Entities with multiple roles
 
   Background: Setup for the tests
     Given the testing device app key has been created
     And I import the odin setup application and realm data
     And I have an open web browser
-@wip
+
 Scenario:  User can WRITE custom data to an EdOrg with Write Access, cannot write to custom data in EdOrg without Write Access
     Given I change the custom role of "Leader" to add the "WRITE_RESTRICTED" right
     And I change the custom role of "Leader" to add the "WRITE_GENERAL" right
@@ -37,7 +37,6 @@ Scenario:  User can WRITE custom data to an EdOrg with Write Access, cannot writ
     When I navigate to POST "/v1/students/3d7084654aa96c1fdc68a27664760f6bb1b97b5a_id/custom"
     Then I should receive a return code of 403
 
-@wip
 Scenario:  User with multiple roles gets hierarchical access
     Given I change the custom role of "Leader" to add the "WRITE_RESTRICTED" right
     And I change the custom role of "Leader" to add the "WRITE_GENERAL" right
@@ -63,7 +62,6 @@ Scenario:  User with multiple roles gets hierarchical access
     When I navigate to GET "/v1/educationOrganizations/1b223f577827204a1c7e9c851dba06bea6b031fe_id/custom"
     Then I should receive a return code of 404
 
-@wip
 Scenario Outline:  User writes to self custom data
     Given I change the custom role of "Leader" to add the "WRITE_RESTRICTED" right
     And I change the custom role of "Leader" to add the "WRITE_GENERAL" right
