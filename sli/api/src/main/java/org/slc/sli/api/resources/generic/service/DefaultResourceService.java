@@ -206,7 +206,7 @@ public class DefaultResourceService implements ResourceService {
                             }
                         });
                     } else {
-                        entityBodies = generateEntityListBasedOnContextualRole(apiQuery, definition, EntityNames.PUBLIC_ENTITIES);
+                        entityBodies = getEntityBodies(apiQuery, definition, EntityNames.PUBLIC_ENTITIES);
                     }
                     long count = getEntityCount(definition, apiQuery);
 
@@ -367,7 +367,7 @@ public class DefaultResourceService implements ResourceService {
             }
 
 
-            entityBodyList = (List<EntityBody>) generateEntityListBasedOnContextualRole(apiQuery, definition, EntityNames.PUBLIC_ENTITIES);
+            entityBodyList = (List<EntityBody>) getEntityBodies(apiQuery, definition, EntityNames.PUBLIC_ENTITIES);
 
             long count = getEntityCount(definition, apiQuery);
             return new ServiceResponse(adapter.migrate(entityBodyList, definition.getResourceName(), GET), count);
@@ -506,7 +506,7 @@ public class DefaultResourceService implements ResourceService {
                 finalApiQuery.addCriteria(new NeutralCriteria(key, "in", filteredIdList));
             }
 
-            entityBodyList = (List<EntityBody>) generateEntityListBasedOnContextualRole(finalApiQuery, finalEntity, ContextSupportedEntities.getSupportedEntities());
+            entityBodyList = (List<EntityBody>) getEntityBodies(finalApiQuery, finalEntity, ContextSupportedEntities.getSupportedEntities());
 
             long count = getEntityCount(finalEntity, finalApiQuery);
 
@@ -639,7 +639,7 @@ public class DefaultResourceService implements ResourceService {
     }
 
 
-    private Iterable<EntityBody> generateEntityListBasedOnContextualRole(ApiQuery apiQuery, EntityDefinition definition, Set<String> supportedEntities) {
+    private Iterable<EntityBody> getEntityBodies(ApiQuery apiQuery, EntityDefinition definition, Set<String> supportedEntities) {
 
         Iterable<EntityBody> entityBodies = null;
 
