@@ -18,10 +18,13 @@ limitations under the License.
 
 require 'selenium-webdriver'
 require 'mongo'
+require 'open3'
 
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../utils/selenium_common.rb'
 require_relative '../../utils/api_utils.rb'
+require_relative '../../entities/crud/step_definitions/crud_step.rb'
+require_relative '../../end_user_stories/CustomEntities/step_definitions/CustomEntities_steps.rb'
 
 DATABASE_HOST = PropLoader.getProps['ingestion_db']
 DATABASE_PORT = PropLoader.getProps['ingestion_db_port']
@@ -38,12 +41,15 @@ Transform /^<(.*?)>$/ do |human_readable_id|
   id = "/v1/students/b98a593e13945f54ecc3f1671127881064ab592d_id"         if human_readable_id == "nate.dedrick URI"
   id = "/v1/students/2d17703cb29a95bbfdaab47f513cafdc0ef55d67_id"         if human_readable_id == "mu.mcneill URI"
   id = "/v1/students/df54047bf88ecd7e2f6fbf00951196f747c9ccfc_id"         if human_readable_id == "jack.jackson URI"
+#Following are for DELETES
   id = "/v1/students/993283bce14b54bbfc896b8452f26e745ce4c101_id"         if human_readable_id == "pat.sollars URI"
   id = "/v1/students/5fb6e796c5a8485c28f1875fda41810eca13db46_id"         if human_readable_id == "herman.ortiz URI"
   id = "/v1/students/edeba6dcfab1d1461896e9581c20ce329604a94c_id"         if human_readable_id == "shawn.taite URI"
   id = "/v1/students/7b9ae98922c207146f1feb0b799a91b1c02f17eb_id"         if human_readable_id == "jake.bertman URI"
   id = "/v1/students/aceb1e6d159c833db61f72a9dfeee50be2f2691e_id"         if human_readable_id == "john.johnson URI"
   id = "/v1/students/a94fc8d0895f2a00b811d54996a8f3eb8fdc7480_id"         if human_readable_id == "kate.dedrick URI"
+
+  id = @newId                                                             if human_readable_id == "NEWLY CREATED ENTITY ID"
 
   id
 end
@@ -81,6 +87,7 @@ After do |scenario|
     end
   end
 end
+
 #############################################################################################
 # Mongo Steps
 #############################################################################################
@@ -250,6 +257,7 @@ Given /^I remove the school association with student "([^"]*)" in tenant "([^"]*
   remove_from_mongo(tenant, "studentSchoolAssociation", ssa_query)
 
   enable_NOTABLESCAN()
+  conn.close
 end
 
 Given /^I modify all SEOA staff classifications for "([^"]*)" in tenant "([^"]*)" to "([^"]*)"$/ do |staff, tenant, value|
@@ -562,6 +570,23 @@ Given /^I expire all section associations that "([^"]*)" has with "([^"]*)"$/ do
   enable_NOTABLESCAN()
 end
 
+Given /^I get (\d+) random ids for "([^"]*)" in "([^"]*)"$/ do |number, type, entity|
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  db_name = convertTenantIdToDbName(@tenant)
+  db = conn[db_name]
+  coll = db.collection(entity)
+  if type == 'educationOrganization' && entity == 'educationOrganization'
+    entities = coll.find({}, {:fields => %w(_id)}).to_a
+  else
+    entities = coll.find({'type' => type}, {:fields => %w(_id)}).to_a
+  end
+  assert(entities.size > 0, "No #{entity} of type #{type} found")
+  (entities.shuffle.take(number.to_i)).each { |entry| (@entity_ids ||= []) << entry['_id'] }
+  conn.close
+  enable_NOTABLESCAN()
+end
+
 #############################################################################################
 # OAUTH Steps
 #############################################################################################
@@ -570,6 +595,51 @@ Given /^the testing device app key has been created$/ do
   @oauthClientId = "EGbI4LaLaL"
   @oauthClientSecret = "iGdeAGCugi4VwZNtMJR062nNKjB7gRKUjSB0AcZqpn8Beeee"
   @oauthRedirectURI = "http://device"
+end
+
+When /^I log in as "(.*?)"/ do |user|
+
+  expiration_in_seconds = 300
+  script_loc = File.dirname(__FILE__) + '/../../../../../../opstools/token-generator/generator.rb'
+
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
+  db_name = convertTenantIdToDbName @tenant
+  db = conn[db_name]
+  staff_coll = db.collection('staff')
+  seoa_coll = db.collection('staffEducationOrganizationAssociation')
+  edorg_coll = db.collection('educationOrganization')
+
+  staff_id = staff_coll.find_one({'body.staffUniqueStateId' => user})['_id']
+  seoas = seoa_coll.find({'body.staffReference' => staff_id}).to_a
+  assert(seoas.size > 0, "No SEOAs found for #{user}")
+
+  sli_db_name = PropLoader.getProps['sli_database_name']
+  sli_db = conn[sli_db_name]
+  user_session_coll = sli_db.collection('userSession')
+  user_session_coll.remove()
+
+  first = true
+  previous_session = 0
+  session_id = 0
+  seoas.each do |seoa|
+    role = seoa['body']['staffClassification']
+    edorg = edorg_coll.find_one({'_id' => seoa['body']['educationOrganizationReference']})['body']['stateOrganizationId']
+    command = "ruby #{script_loc} -e #{expiration_in_seconds} -c #{@oauthClientId} -u #{user} -r \"#{role}\" -E \"#{edorg}\" -t \"#{@tenant}\" -R \"#{@realm}\" -n #{first}"
+    out, status = Open3.capture2(command)
+    assert(out.include?("token is"), "Could not get a token for #{user} for realm #{@realm}")
+    match = /token is (.*)/.match(out)
+    session_id = match[1]
+    assert(previous_session == session_id,'Multiple sessions detected') unless first
+    previous_session = session_id
+    first = false
+  end
+
+  @sessionId = session_id
+  puts "The generated token is #{@sessionId}"
+
+  conn.close
+  enable_NOTABLESCAN()
 end
 
 When /^I navigate to the API authorization endpoint with my client ID$/ do
@@ -711,6 +781,7 @@ Given /^I import the odin setup application and realm data$/ do
     enable_NOTABLESCAN()
   end
   @tenant = 'Midgar'
+  @realm = 'IL-DAYBREAK'
   all_lea_allow_app_for_tenant('Mobile App', @tenant)
   authorize_edorg_for_tenant('Mobile App', @tenant)
   # restore back current dir
@@ -723,6 +794,16 @@ end
 #############################################################################################
 # API Steps
 #############################################################################################
+
+Given /^entity type "([^"]*)"$/ do |arg1|
+  @currentEntity = arg1
+end
+
+Given /^a valid formatted entity json document for a "([^"]*)"$/ do |arg1|
+  @format = "application/json"
+  step "a valid json document for entity \"#{arg1}\""
+end
+
 
 Then /^I should get and store the link named "(.*?)"$/ do |mylink|
   @result = JSON.parse(@res.body)
@@ -786,6 +867,276 @@ Then /^"([^"]*)" in the response (should|should not) have restricted data$/ do |
   assert(response[index].has_key?('schoolFoodServicesEligibility') == should, "Restricted field #{negative}found")
 end
 
+Then /^I should see all global entities$/ do
+  jsonResult = JSON.parse(@res.body)
+  apiSet = Set.new
+  dbSet = Set.new
+
+  #Get entity ids from the api call
+  jsonResult.each do |data|
+    apiSet.add(data["id"])
+  end
+
+  #Get entity ids from the database
+  @conn = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
+  @db = @conn.db(convertTenantIdToDbName("Midgar"))
+  @coll = @db[@currentEntity]
+
+  @coll.find.each do |doc|
+    dbSet.add(doc["_id"])
+  end
+
+  @conn.close
+
+  # Global entity special cases.
+  # This clearly has to be rewritten.  This is just a placeholder, until the actual logic is installed.
+  if (@currentEntity == "educationOrganization" )
+    dbSet = apiSet
+  elsif (@currentEntity == "learningObjective")
+    dbSet = apiSet
+  elsif (@currentEntity == "learningStandard")
+    dbSet = apiSet
+  elsif (@currentEntity == "program")
+    dbSet = apiSet
+  elsif (@currentEntity == "section")
+    dbSet = apiSet
+  end
+  diffSet = dbSet.difference(apiSet)
+
+  #difference should be 0 between two non-empty sets of entity ids
+  assert(apiSet.empty? == false, "Api returned 0 entities of type #{@currentEntity}.")
+  assert(dbSet.empty? == false, "No entities of type #{@currentEntity} found in the database.")
+  assert(diffSet.empty?, "Did not receive the expected entities:
+    \n Number of expected (api) entities: #{apiSet.size}
+    \n Number of actual (database) entities: #{dbSet.size}
+    \n Outstanding entities: #{diffSet.inspect}")
+end
+
+When /^I navigate to GET each id for "([^"]*)"$/ do |uri|
+  @return_codes = []
+  @entity_ids.each do |id|
+    step "I navigate to GET \"#{uri}/#{id}\""
+    @return_codes << @res.code
+  end
+end
+
+Then /^All the return codes should be (\d+)$/ do |code|
+  @return_codes.each do |return_code|
+    assert(return_code == code.to_i,"Found a return code of #{return_code}. Expecting all to be #{code}.")
+  end
+end
+
+When /^I set the ([^"]*) to ([^"]*)$/ do |key, value|
+  @result = {} if !defined? @result
+  @result[key] = convert(value)
+end
+
+Given /^a valid json document for entity "([^"]*)"$/ do |entity|
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
+  db_name = convertTenantIdToDbName @tenant
+  db = conn[db_name]
+  gp_coll = db.collection('gradingPeriod')
+  gp = gp_coll.find_one({})
+  gp_id = gp['_id']
+  gp_school_id = gp['body']['gradingPeriodIdentity']['schoolId']
+
+  co_coll = db.collection('courseOffering')
+  co = co_coll.find_one({})
+  co_id = co['_id']
+  co_school_id = co['body']['schoolId']
+
+  course_coll = db.collection('course')
+  session_coll = db.collection('session')
+  course_session = session_coll.find_one({})
+  course = course_coll.find_one({})
+  course_id = course['_id']
+  course_school_id = course_session['body']['schoolId']
+  course_session_id = course_session['_id']
+
+
+  enable_NOTABLESCAN()
+  conn.close
+
+  @entityData = {
+    "gradingPeriod" => {
+        "gradingPeriodIdentity" => {
+            "schoolId" => "2a30827ed4cf5500fb848512d19ad73ed37c4464_id",
+            "gradingPeriod" => "First Six Weeks",
+            "schoolYear" => "2011-2012"
+        },
+        "beginDate" => "2012-07-01",
+        "endDate" => "2012-07-31",
+        "totalInstructionalDays" => 20
+    },
+
+    "course" => {
+        "courseTitle" => "Chinese 1",
+        "numberOfParts" => 1,
+        "courseCode" => [{
+                             "ID" => "C1",
+                             "identificationSystem" => "School course code",
+                             "assigningOrganizationCode" => "Bob's Code Generator"
+                         }],
+        "courseLevel" => "Basic or remedial",
+        "courseLevelCharacteristics" => ["Advanced Placement"],
+        "gradesOffered" => ["Eighth grade"],
+        "subjectArea" => "Foreign Language and Literature",
+        "courseDescription" => "Intro to Chinese",
+        "dateCourseAdopted" => "2001-01-01",
+        "highSchoolCourseRequirement" => false,
+        "courseDefinedBy" => "LEA",
+        "minimumAvailableCredit" => {
+            "credit" => 1.0
+        },
+        "maximumAvailableCredit" => {
+            "credit" => 1.0
+        },
+        "careerPathway" => "Hospitality and Tourism",
+        "schoolId" => "264b869a22b74b4ab5b3b6620b3d31d1a98dc4a0_id",
+        "uniqueCourseId" => "Chinese-1-10"
+    },
+
+    "courseOffering" => {
+        "schoolId" => course_school_id,
+        "localCourseCode" => "LCCMA1",
+        "sessionId" => course_session_id,
+        "localCourseTitle" => "Math 1 - Intro to Mathematics",
+        "courseId" => course_id
+    },
+
+    "educationOrganization" => {
+        "organizationCategories" => ["State Education Agency"],
+        "stateOrganizationId" => "SomeUniqueSchoolDistrict-2422883",
+        "nameOfInstitution" => "Gotham City School District",
+        "address" => [
+            "streetNumberName" => "111 Ave C",
+            "city" => "Chicago",
+            "stateAbbreviation" => "IL",
+            "postalCode" => "10098",
+            "nameOfCounty" => "Wake"
+        ]
+    },
+
+
+    "learningObjective" => {
+        "academicSubject" => "Mathematics",
+        "objective" => "Learn Mathematics",
+        "objectiveGradeLevel" => "Fifth grade"
+    },
+
+    "learningStandard" => {
+        "learningStandardId" => {
+            "identificationCode" => "apiTestLearningStandard"},
+        "description" => "a description",
+        "gradeLevel" => "Ninth grade",
+        "contentStandard"=>"State Standard",
+        "subjectArea" => "English"
+    },
+
+    "program" => {
+        "programId" => "ACC-TEST-PROG-3",
+        "programType" => "Remedial Education",
+        "programSponsor" => "Local Education Agency",
+        "services" => [[
+                           {"codeValue" => "codeValue3"},
+                           {"shortDescription" => "Short description for acceptance test program 3"},
+                           {"description" => "This is a longer description of the services provided by acceptance test program 3. More detail could be provided here."}]]
+    },
+
+    "section" => {
+        "uniqueSectionCode" => "SpanishB09",
+        "sequenceOfCourse" => 1,
+        "educationalEnvironment" => "Off-school center",
+        "mediumOfInstruction" => "Independent study",
+        "populationServed" => "Regular Students",
+        "schoolId" => co_school_id,
+        "courseOfferingId" => co_id
+    },
+
+    "session" => {
+        "sessionName" => "Spring 2012",
+        "schoolYear" => "2011-2012",
+        "term" => "Spring Semester",
+        "beginDate" => "2012-01-01",
+        "endDate" => "2012-06-30",
+        "totalInstructionalDays" => 80,
+        "gradingPeriodReference" => [gp_id],
+        "schoolId" => gp_school_id
+    },
+
+
+    "assessment" => {
+        "assessmentTitle" => "Writing Advanced Placement Test",
+        "assessmentIdentificationCode" => [{
+                                               "identificationSystem" => "School",
+                                               "ID" => "01234B"
+                                           }],
+        "academicSubject" => "Mathematics",
+        "assessmentCategory" => "Achievement test",
+        "gradeLevelAssessed" => "Adult Education",
+        "contentStandard" => "LEA Standard",
+        "version" => 2
+    },
+
+
+    "school" => {
+        "shortNameOfInstitution" => "SCTS",
+        "nameOfInstitution" => "School Crud Test School",
+        "webSite" => "www.scts.edu",
+        "stateOrganizationId" => "SomeUniqueSchool-24242342",
+        "organizationCategories" => ["School"],
+        "address" => [
+            "addressType" => "Physical",
+            "streetNumberName" => "123 Main Street",
+            "city" => "Lebanon",
+            "stateAbbreviation" => "KS",
+            "postalCode" => "66952",
+            "nameOfCounty" => "Smith County"
+        ],
+        "gradesOffered" => [
+            "Kindergarten",
+            "First grade",
+            "Second grade",
+            "Third grade",
+            "Fourth grade",
+            "Fifth grade"
+        ]
+    },
+
+    "graduationPlan" => {
+        "creditsBySubject" => [{
+                                   "subjectArea" => "English",
+                                   "credits" => {
+                                       "creditConversion" => 0,
+                                       "creditType" => "Semester hour credit",
+                                       "credit" => 6
+                                   }
+                               }],
+        "individualPlan" => false,
+        "graduationPlanType" => "Minimum",
+        "educationOrganizationId" => "2a30827ed4cf5500fb848512d19ad73ed37c4464_id",
+        "totalCreditsRequired" => {
+            "creditConversion" => 0,
+            "creditType" => "Semester hour credit",
+            "credit" => 32
+        }
+    },
+    "competencyLevelDescriptor" => {
+        "description" => "Herman tends to throw tantrums",
+        "codeValue" => "Temper Tantrum",
+        "performanceBaseConversion" => "Basic"
+    },
+    "studentCompetencyObjective" => {
+        "objectiveGradeLevel" => "Kindergarten",
+        "objective" => "Phonemic Awareness",
+        "studentCompetencyObjectiveId" => "SCO-K-1",
+        "educationOrganizationId" => "2a30827ed4cf5500fb848512d19ad73ed37c4464_id"
+    }
+  }
+  @fields = @entityData[entity]
+end
+
 ############################################################################################
 #Steps for POST
 ############################################################################################
@@ -804,6 +1155,12 @@ end
 Then /^I remove the posted student$/ do
   tenant = convertTenantIdToDbName @tenant
   remove_from_mongo_operation(tenant, 'student', {"_id" => @lastStudentId})
+end
+
+
+Then /^I remove the new entity from "([^"]*)"$/ do |collection|
+  tenant = convertTenantIdToDbName @tenant
+  remove_from_mongo_operation(tenant, collection, {"_id" => @newId})
 end
 
 When /^I change the field "([^\"]*)" to "([^\"]*)"$/ do |field, value|

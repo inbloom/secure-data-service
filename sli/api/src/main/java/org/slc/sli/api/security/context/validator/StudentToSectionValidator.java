@@ -54,7 +54,9 @@ public class StudentToSectionValidator extends BasicValidator {
             // stupid java with no first class functions, I could do this in one line in any decent
             // language...
             for (Map<String, Object> section : sectionData) {
-                sections.add((String) section.get("_id"));
+                if(!isFieldExpired(section, "endDate", false)) {
+                    sections.add((String) section.get("_id"));
+                }
             }
         }
 

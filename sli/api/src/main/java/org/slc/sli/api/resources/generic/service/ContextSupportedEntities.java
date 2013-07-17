@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.slc.sli.api.security.roles;
+package org.slc.sli.api.resources.generic.service;
 
 import org.slc.sli.common.constants.EntityNames;
 
@@ -35,5 +35,6 @@ public final class ContextSupportedEntities {
     static {
         supportedEntities = new HashSet<String>();
         supportedEntities.add(EntityNames.STUDENT);
+        supportedEntities.addAll(EntityNames.PUBLIC_ENTITIES);
     }
 }

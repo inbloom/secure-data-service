@@ -27,7 +27,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.slc.sli.api.security.context.APIAccessDeniedException;
-import org.slc.sli.api.security.roles.ContextSupportedEntities;
+import org.slc.sli.api.resources.generic.service.ContextSupportedEntities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;

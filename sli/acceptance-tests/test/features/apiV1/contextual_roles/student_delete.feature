@@ -5,7 +5,6 @@ Feature: Use the API to successfully delete students  while having roles over ma
   Background: Setup
     Given the testing device app key has been created
     And I import the odin setup application and realm data
-    And I have an open web browser
 
   Scenario: User with one write right in one edorg and another in another, able to delete with either
     Given I change the custom role of "Leader" to add the "WRITE_RESTRICTED" right
@@ -13,13 +12,7 @@ Feature: Use the API to successfully delete students  while having roles over ma
     And I change the custom role of "Aggregate Viewer" to add the "READ_GENERAL" right
     And I add a SEOA for "xbell" in "District 9" as a "Leader"
 
-    When I navigate to the API authorization endpoint with my client ID
-    And I was redirected to the "Simple" IDP Login page
-    And I submit the credentials "xbell" "xbell1234" for the "Simple" login page
-    Then I should receive a json response containing my authorization code
-    When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
-    Then I should receive a json response containing my authorization token
-    And I should be able to use the token to make valid API calls
+    When I log in as "xbell"
 
     Given format "application/json"
     When I navigate to DELETE "<kate.dedrick URI>"
@@ -38,13 +31,7 @@ Feature: Use the API to successfully delete students  while having roles over ma
       | student         | teacher              | edorg                 | enrolledInAnySection? |
       | bert.jakeman    | rbelding             | Daybreak Central High | yes                   |
 
-    When I navigate to the API authorization endpoint with my client ID
-    And I was redirected to the "Simple" IDP Login page
-    And I submit the credentials "rbelding" "rbelding1234" for the "Simple" login page
-    Then I should receive a json response containing my authorization code
-    When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
-    Then I should receive a json response containing my authorization token
-    And I should be able to use the token to make valid API calls
+    When I log in as "rbelding"
 
     Given format "application/json"
     When I navigate to DELETE "<john.johnson URI>"
@@ -66,13 +53,7 @@ Feature: Use the API to successfully delete students  while having roles over ma
     Given I change the custom role of "Leader" to add the "WRITE_GENERAL" right
     And I change the custom role of "Aggregate Viewer" to add the "READ_GENERAL" right
 
-    When I navigate to the API authorization endpoint with my client ID
-    And I was redirected to the "Simple" IDP Login page
-    And I submit the credentials "msmith" "msmith1234" for the "Simple" login page
-    Then I should receive a json response containing my authorization code
-    When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
-    Then I should receive a json response containing my authorization token
-    And I should be able to use the token to make valid API calls
+    When I log in as "msmith"
 
     Given format "application/json"
     When I navigate to DELETE "<pat.sollars URI>"
@@ -99,13 +80,7 @@ Feature: Use the API to successfully delete students  while having roles over ma
     Given I change the custom role of "Aggregate Viewer" to add the "WRITE_GENERAL" right
     And I change the custom role of "Aggregate Viewer" to add the "READ_GENERAL" right
 
-    When I navigate to the API authorization endpoint with my client ID
-    And I was redirected to the "Simple" IDP Login page
-    And I submit the credentials "msmith" "msmith1234" for the "Simple" login page
-    Then I should receive a json response containing my authorization code
-    When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
-    Then I should receive a json response containing my authorization token
-    And I should be able to use the token to make valid API calls
+    When I log in as "msmith"
 
     Given format "application/json"
     When I navigate to DELETE "<jake.bertman URI>"
@@ -128,13 +103,7 @@ Feature: Use the API to successfully delete students  while having roles over ma
     And I change the custom role of "Leader" to add the "WRITE_GENERAL" right
     And I change the custom role of "Leader" to add the "WRITE_PUBLIC" right
 
-    When I navigate to the API authorization endpoint with my client ID
-    And I was redirected to the "Simple" IDP Login page
-    And I submit the credentials "msmith" "msmith1234" for the "Simple" login page
-    Then I should receive a json response containing my authorization code
-    When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
-    Then I should receive a json response containing my authorization token
-    And I should be able to use the token to make valid API calls
+    When I log in as "msmith"
 
     Given format "application/json"
     Given I create a student entity with restricted data
@@ -143,24 +112,12 @@ Feature: Use the API to successfully delete students  while having roles over ma
     When I navigate to GET the new entity
     Then I should receive a return code of 200
 
-    When I navigate to the API authorization endpoint with my client ID
-    And I was redirected to the "Simple" IDP Login page
-    And I submit the credentials "rbelding" "rbelding1234" for the "Simple" login page
-    Then I should receive a json response containing my authorization code
-    When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
-    Then I should receive a json response containing my authorization token
-    And I should be able to use the token to make valid API calls
+    When I log in as "rbelding"
 
     When I attempt to delete the new entity
     Then I should receive a return code of 403
 
-    When I navigate to the API authorization endpoint with my client ID
-    And I was redirected to the "Simple" IDP Login page
-    And I submit the credentials "msmith" "msmith1234" for the "Simple" login page
-    Then I should receive a json response containing my authorization code
-    When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
-    Then I should receive a json response containing my authorization token
-    And I should be able to use the token to make valid API calls
+    When I log in as "msmith"
 
     When I attempt to delete the new entity
     Then I should receive a return code of 204

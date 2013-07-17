@@ -35,7 +35,8 @@ import javax.xml.bind.DatatypeConverter;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
-import org.slc.sli.api.security.roles.ContextSupportedEntities;
+
+import org.slc.sli.common.constants.EntityNames;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
@@ -60,7 +61,6 @@ import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.aspect.ApiMigrationAspect.MigratePostedEntity;
 import org.slc.sli.aspect.ApiMigrationAspect.MigrateResponse;
-import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.NeutralCriteria;
@@ -112,7 +112,6 @@ public class DefaultResourceService implements ResourceService {
         endDates.put(ResourceNames.STUDENT_COHORT_ASSOCIATIONS, "endDate");
         endDates.put(ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS, "endDate");
         endDates.put(ResourceNames.STUDENT_SECTION_ASSOCIATIONS, "endDate");
-
     }
 
     /**
@@ -207,11 +206,7 @@ public class DefaultResourceService implements ResourceService {
                             }
                         });
                     } else {
-                        try {
-                            entityBodies = logicalEntity.getEntities(apiQuery, resource.getResourceType());
-                        } catch (UnsupportedSelectorException e) {
-                            entityBodies = definition.getService().list(apiQuery);
-                        }
+                        entityBodies = getEntityBodies(apiQuery, definition, EntityNames.PUBLIC_ENTITIES);
                     }
                     long count = getEntityCount(definition, apiQuery);
 
@@ -372,11 +367,7 @@ public class DefaultResourceService implements ResourceService {
             }
 
 
-            try {
-                entityBodyList = logicalEntity.getEntities(apiQuery, definition.getResourceName());
-            } catch (final UnsupportedSelectorException e) {
-                entityBodyList = (List<EntityBody>) definition.getService().list(apiQuery);
-            }
+            entityBodyList = (List<EntityBody>) getEntityBodies(apiQuery, definition, EntityNames.PUBLIC_ENTITIES);
 
             long count = getEntityCount(definition, apiQuery);
             return new ServiceResponse(adapter.migrate(entityBodyList, definition.getResourceName(), GET), count);
@@ -515,15 +506,7 @@ public class DefaultResourceService implements ResourceService {
                 finalApiQuery.addCriteria(new NeutralCriteria(key, "in", filteredIdList));
             }
 
-            try {
-                entityBodyList = logicalEntity.getEntities(finalApiQuery, finalEntity.getResourceName());
-            } catch (final UnsupportedSelectorException e) {
-                if (ContextSupportedEntities.getSupportedEntities().contains(finalEntity.getType()) && SecurityUtil.isStaffUser()) {
-                    entityBodyList = (List<EntityBody>) finalEntity.getService().listBasedOnContextualRoles(finalApiQuery);
-                } else {
-                    entityBodyList = (List<EntityBody>) finalEntity.getService().list(finalApiQuery);
-                }
-            }
+            entityBodyList = (List<EntityBody>) getEntityBodies(finalApiQuery, finalEntity, ContextSupportedEntities.getSupportedEntities());
 
             long count = getEntityCount(finalEntity, finalApiQuery);
 
@@ -654,6 +637,25 @@ public class DefaultResourceService implements ResourceService {
 
         return now.compareTo(assocEnd) < 0;
     }
+
+
+    private Iterable<EntityBody> getEntityBodies(ApiQuery apiQuery, EntityDefinition definition, Set<String> supportedEntities) {
+
+        Iterable<EntityBody> entityBodies = null;
+
+        try {
+            entityBodies = logicalEntity.getEntities(apiQuery, definition.getResourceName());
+        } catch (UnsupportedSelectorException e) {
+            if (supportedEntities.contains(definition.getType()) && SecurityUtil.isStaffUser()) {
+                entityBodies = definition.getService().listBasedOnContextualRoles(apiQuery);
+            } else {
+                entityBodies = definition.getService().list(apiQuery);
+            }
+        }
+        return entityBodies;
+    }
+
+
 
     /**
      * Indicates that for a valid granular access query, no sessions and hence

@@ -95,6 +95,7 @@
                   "doc": "This URI, /gradingPeriods/{id}/grades, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/{id}/studentSectionAssociations/grades (for teachers) or /schools/{id}/sections/studentSectionAssociations/grades (for staff) instead. These URIs are used internally instead of /gradingPeriods/{id}/grades, and will still be available after the deprecation period ends."
               },
               {
+                  "doc": "This URI, /gradingPeriods/{id}/calendarDates, provides the calendarDates associated with the Grading Period.",
                   "path": "/{id}/calendarDates"
               }
           ]
@@ -214,7 +215,10 @@
         { "path": "/{id}/staffEducationOrgAssignmentAssociations" },
         { "path": "/{id}/staffEducationOrgAssignmentAssociations/staff" },
         { "path": "/{id}/graduationPlans", "dateSearchDisallowed": true },
-        { "path": "/{id}/calendarDates", "dateSearchDisallowed": true },
+        { "path": "/{id}/calendarDates",
+          "dateSearchDisallowed": true,
+          "doc": "This URI, /educationOrganizations/{id}/calendarDates, provides the calendarDates associated with the EducationOrganization."
+        },
         { 
           "path": "/{id}/cohorts",
           "dateSearchDisallowed": true,
@@ -312,7 +316,6 @@
           "doc": "This URI, /schools/{id}/sections/gradebookEntries, should only be called in the context of a staff member, and should not be used in the context of a teacher. Use /sections/{id}/gradebookEntries instead, as this URI is used internally instead of /schools/{id}/sections/gradebookEntries (for teachers)."
         },
         { "path": "/{id}/graduationPlans", "dateSearchDisallowed": true },
-        { "path": "/{id}/calendarDates", "dateSearchDisallowed": true },
         { 
           "path": "/{id}/sections/studentSectionAssociations",
           "doc": "This URI, /schools/{id}/sections/studentSectionAssociations, should only be called in the context of a staff member, and should not be used in the context of a teacher. Use /sections/{id}/studentSectionAssociations instead, as this URI is used internally instead of /schools/{id}/sections/studentSectionAssociations (for teachers)."
@@ -591,13 +594,6 @@
         "resourceClass": "org.slc.sli.api.resources.generic.custom.PublicDefaultResource"
     },
     {
-        "path": "/calendarDates",
-        "queryable": true,
-        "dateSearchDisallowed": true,
-        "doc": "Represents the definition of a calendarDates. For detailed information, see the schema for the $$CalendarDate$$ entity.  For this open ended URI, only current and directly associated entities are returned. For students, this is /schools/{IDs}/calendarDates. {IDs} represents a list of the school or education organization IDs to which the student is currently associated.",
-        "resourceClass": "org.slc.sli.api.resources.generic.custom.PublicDefaultResource"
-    },
-    {
         "path": "/system/support",
         "queryable": true,
         "dateSearchDisallowed": true,
@@ -698,7 +694,8 @@
     {
       "path": "/calendarDates",
       "queryable": true,
-      "doc": "This entity represents an individual for whom instruction, services and/or care are provided in an early childhood, elementary or secondary educational program under the jurisdiction of a school, education agency, or other institution or program. A student is a person who has been enrolled in a school or other educational institution. For more information, see the schema for the $$Student$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/studentSchoolAssociations/students. {IDs} represents a list of the school or education organization IDs to which the staff is currently associated."
+      "availableSince" : "v1.3",
+      "doc": "This URI, /calendarDates, represents a day in the school calendar."
     }
   ] 
 }]

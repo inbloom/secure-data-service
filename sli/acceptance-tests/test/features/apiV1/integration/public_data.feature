@@ -28,7 +28,6 @@ Feature: Users can access public entities
       | calendarDates                                                                    | e00dc4fb9d6be8372a549dea899fe1915a598c5c_id | associated to LEA IL-DAYBREAK 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
       | calendarDates                                                                    | dcaab0add72ad8d37de0dafa312b4d23d35ddb21_id | associated to LEA IL-HIGHWIND 99d527622dcb51c465c515c0636d17e085302d5e_id |
       | educationOrganizations/1b223f577827204a1c7e9c851dba06bea6b031fe_id/calendarDates |                                             |                                                                           |
-      | schools/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id/calendarDates                |                                             |                                                                           |
       | gradingPeriods/19b56717877893f8d13bcfe6cfc256811c60c8ff_id/calendarDates         |                                             |                                                                           |
 
     Then I validate that I am denied access to certain endpoints via API:

@@ -52,6 +52,7 @@ $known_ids = {
   'teacherSchoolAssociations' => '93a4133d17303788f99e3b229b9649d46de5f42e_id',
   'teacherSectionAssociations' => 'b11d9f8e0790f441c72a15a3c2deba5ffa1a5c4a_id09f27aad1cc3054393f9c5d27fadb0c562a1b93e_id',
   'yearlyAttendances' => '4851c7adbe7beecf29cc4a3046a8e62d1bced079_id',
+  'calendarDates' => '8a305722401debf092bca04b24ea8d9955e4ff2b_id'
 }
 
 # templates

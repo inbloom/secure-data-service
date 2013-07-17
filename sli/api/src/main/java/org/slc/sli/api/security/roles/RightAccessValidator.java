@@ -24,6 +24,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.slc.sli.api.security.context.APIAccessDeniedException;
+import org.slc.sli.api.security.context.ContextValidator;
+import org.slc.sli.common.constants.EntityNames;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.AccessDeniedException;
@@ -237,8 +239,9 @@ public class RightAccessValidator {
             if (entity == null) {
                 debug("No authority for null");
             } else {
-                if (SecurityUtil.principalId().equals(entity.getMetaData().get("createdBy"))
-                        && "true".equals(entity.getMetaData().get("isOrphaned"))) {
+                if ((entity.getMetaData() != null && SecurityUtil.principalId().equals(entity.getMetaData().get("createdBy"))
+                        && "true".equals(entity.getMetaData().get("isOrphaned")))
+                        || EntityNames.isPublic(entity.getType())) {
                     // Orphaned entities created by the principal are handled the same as before.
                     auths.addAll(principal.getAllRights());
                 } else {

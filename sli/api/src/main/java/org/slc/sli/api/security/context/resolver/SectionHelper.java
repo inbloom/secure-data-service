@@ -20,48 +20,55 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.api.security.context.validator.StudentValidatorHelper;
-import org.slc.sli.dal.convert.SuperDocIdUtility;
-import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.security.context.validator.StudentValidatorHelper;
+import org.slc.sli.common.util.datetime.DateHelper;
+import org.slc.sli.dal.convert.SuperDocIdUtility;
+import org.slc.sli.domain.Entity;
+
 /**
  * Contains helper methods to traverse to the sections of a given user
- * 
+ *
  */
 @Component
 public class SectionHelper {
-    
+
+    @Autowired
+    private DateHelper dateHelper;
+
     @Autowired
     private StudentValidatorHelper studentHelper;
-    
+
     /**
      * Traverse the edorg hierarchy and find all the SEAs the user is associated with, directly or
      * indirectly.
-     * 
+     *
      * @param teacher
      * @return a list of sections for the teacher
      */
     public List<String> getTeachersSections(Entity teacher) {
         return studentHelper.getTeachersSectionIds(teacher, false);
     }
-    
+
     public List<String> getStudentsSections(Entity student) {
         // Throw exception if calling this function as a non-student
         if (!"student".equals(student.getType())) {
             throw new IllegalArgumentException("Cannot get a student's sections if not a student");
         }
-        
+
         List<Map<String, Object>> sections = student.getDenormalizedData().get("section");
         List<String> sectionIds = new ArrayList<String>();
         for (Map<String, Object> section : sections) {
-            sectionIds.add((String) section.get("_id"));
+            if(!dateHelper.isFieldExpired(section, "endDate", false)) {
+                sectionIds.add((String) section.get("_id"));
+            }
         }
-        
+
         return sectionIds;
     }
-    
+
     public List<String> getSectionsFromStudentSectionAssociation(String[] studentSectionIds) {
         List<String> sectionIds = new ArrayList<String>();
         for (String ssaId : studentSectionIds) {

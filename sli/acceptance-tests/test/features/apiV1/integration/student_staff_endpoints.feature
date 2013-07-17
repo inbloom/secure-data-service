@@ -234,12 +234,12 @@ Given I log in to realm "Illinois Daybreak Students" using simple-idp as "studen
     | /v1/programs/b5d3344b30d0a3f8251aed87f307c387e069828e_id/studentProgramAssociations/students | 403 |
    #| Associations through programs that do not exist should return                                | 404 |
     | /v1/programs/this_program_dne                                                                | 404 |
-   #| Associations through expired sections should be                                              | 200 |
-    | /v1/sections/57277fceb3592d0c8f3faadcdd824690bc2b2586_id/gradebookEntries                    | 200 |
-    | /v1/sections/57277fceb3592d0c8f3faadcdd824690bc2b2586_id/studentSectionAssociations          | 200 |
-    | /v1/sections/0a96d039894bf5c9518584f11a646e53f1a9f4f6_id/studentSectionAssociations/students | 200 |
-    | /v1/sections/9c5580ef4861ad2242e6ab444a52b359cb5fc516_id/teacherSectionAssociations          | 200 |
-    | /v1/sections/8ae1caa952b3b22d9f58c26760aec903bed6d31b_id/teacherSectionAssociations/teachers | 200 |
+   #| Associations through expired sections should be                                              | 403 |
+    | /v1/sections/57277fceb3592d0c8f3faadcdd824690bc2b2586_id/gradebookEntries                    | 403 |
+    | /v1/sections/57277fceb3592d0c8f3faadcdd824690bc2b2586_id/studentSectionAssociations          | 403 |
+    | /v1/sections/0a96d039894bf5c9518584f11a646e53f1a9f4f6_id/studentSectionAssociations/students | 403 |
+    | /v1/sections/9c5580ef4861ad2242e6ab444a52b359cb5fc516_id/teacherSectionAssociations          | 403 |
+    | /v1/sections/8ae1caa952b3b22d9f58c26760aec903bed6d31b_id/teacherSectionAssociations/teachers | 403 |
    #| Associations through cohorts that do not exist should return                                 | 404 |
     | /v1/sections/this_section_dne                                                                | 404 |
   

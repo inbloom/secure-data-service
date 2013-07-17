@@ -5,17 +5,10 @@ Feature: Use the APi to successfully patch student data while having roles over 
   Background: Setup for the tests
     Given the testing device app key has been created
     And I import the odin setup application and realm data
-    And I have an open web browser
     And format "application/json"
 
   Scenario: Role with all the write rights in school can patch a student with restricted data
-    When I navigate to the API authorization endpoint with my client ID
-    And I was redirected to the "Simple" IDP Login page
-    And I submit the credentials "msmith" "msmith1234" for the "Simple" login page
-    Then I should receive a json response containing my authorization code
-    When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
-    Then I should receive a json response containing my authorization token
-    And I should be able to use the token to make valid API calls
+    When I log in as "msmith"
 
     When I change the field "sex" to "Male"
     When I navigate to PATCH "<matt.sollars URI>"
@@ -24,13 +17,7 @@ Feature: Use the APi to successfully patch student data while having roles over 
     Given I change all SEOAs of "msmith" to the edorg "East Daybreak High"
     And I change the custom role of "Leader" to add the "WRITE_GENERAL" right
 
-    When I navigate to the API authorization endpoint with my client ID
-    And I was redirected to the "Simple" IDP Login page
-    And I submit the credentials "msmith" "msmith1234" for the "Simple" login page
-    Then I should receive a json response containing my authorization code
-    When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
-    Then I should receive a json response containing my authorization token
-    And I should be able to use the token to make valid API calls
+    When I log in as "msmith"
 
     When I navigate to PATCH "<matt.sollars URI>"
     Then I should receive a return code of 204
@@ -41,13 +28,7 @@ Feature: Use the APi to successfully patch student data while having roles over 
 
     And I change the custom role of "Leader" to add the "WRITE_RESTRICTED" right
 
-    When I navigate to the API authorization endpoint with my client ID
-    And I was redirected to the "Simple" IDP Login page
-    And I submit the credentials "msmith" "msmith1234" for the "Simple" login page
-    Then I should receive a json response containing my authorization code
-    When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
-    Then I should receive a json response containing my authorization token
-    And I should be able to use the token to make valid API calls
+    When I log in as "msmith"
 
     When I navigate to PATCH "<matt.sollars URI>"
     Then I should receive a return code of 204
@@ -76,13 +57,7 @@ Feature: Use the APi to successfully patch student data while having roles over 
     And I change the custom role of "Aggregate Viewer" to add the "WRITE_GENERAL" right
     And I change the custom role of "Aggregate Viewer" to add the "READ_GENERAL" right
 
-    When I navigate to the API authorization endpoint with my client ID
-    And I was redirected to the "Simple" IDP Login page
-    And I submit the credentials "msmith" "msmith1234" for the "Simple" login page
-    Then I should receive a json response containing my authorization code
-    When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
-    Then I should receive a json response containing my authorization token
-    And I should be able to use the token to make valid API calls
+    When I log in as "msmith"
 
     When I change the field "sex" to "Male"
     When I navigate to PATCH "<matt.sollars URI>"
@@ -138,13 +113,7 @@ Feature: Use the APi to successfully patch student data while having roles over 
     And I change the custom role of "Leader" to add the "WRITE_RESTRICTED" right
     And I change the custom role of "Educator" to add the "WRITE_GENERAL" right
 
-    When I navigate to the API authorization endpoint with my client ID
-    And I was redirected to the "Simple" IDP Login page
-    And I submit the credentials "rbelding" "rbelding1234" for the "Simple" login page
-    Then I should receive a json response containing my authorization code
-    When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
-    Then I should receive a json response containing my authorization token
-    And I should be able to use the token to make valid API calls
+    When I log in as "rbelding"
     And the following student section associations in Midgar are set correctly
       | student         | teacher              | edorg                 | enrolledInAnySection? |
       | carmen.ortiz    | rbelding             | Daybreak Central High | yes                   |
@@ -180,13 +149,7 @@ Feature: Use the APi to successfully patch student data while having roles over 
     And I change the custom role of "Leader" to add the "WRITE_RESTRICTED" right
     And I change the custom role of "Educator" to add the "WRITE_GENERAL" right
 
-    When I navigate to the API authorization endpoint with my client ID
-    And I was redirected to the "Simple" IDP Login page
-    And I submit the credentials "rbelding" "rbelding1234" for the "Simple" login page
-    Then I should receive a json response containing my authorization code
-    When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
-    Then I should receive a json response containing my authorization token
-    And I should be able to use the token to make valid API calls
+    When I log in as "rbelding"
     And the following student section associations in Midgar are set correctly
       | student         | teacher              | edorg                 | enrolledInAnySection? |
       | carmen.ortiz    | rbelding             | Daybreak Central High | yes                   |
