@@ -24,6 +24,7 @@ require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../utils/selenium_common.rb'
 require_relative '../../utils/api_utils.rb'
 require_relative '../../entities/crud/step_definitions/crud_step.rb'
+require_relative '../../end_user_stories/CustomEntities/step_definitions/CustomEntities_steps.rb'
 
 DATABASE_HOST = PropLoader.getProps['ingestion_db']
 DATABASE_PORT = PropLoader.getProps['ingestion_db_port']
