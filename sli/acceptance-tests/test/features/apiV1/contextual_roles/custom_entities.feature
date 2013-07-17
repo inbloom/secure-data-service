@@ -1,4 +1,4 @@
-@RALLY_US5775
+@RALLY_US5775 @wip
 Feature: Test CRUD fuctionality of Custom Entities with multiple roles
 
   Background: Setup for the tests
@@ -43,7 +43,6 @@ Scenario:  User with multiple roles gets hierarchical access
     Given I change the custom role of "Leader" to add the "WRITE_RESTRICTED" right
     And I change the custom role of "Leader" to add the "WRITE_GENERAL" right
     And I change the custom role of "Leader" to add the "WRITE_PUBLIC" right
-    And I change the custom role of "Educator" to add the "WRITE_PUBLIC" right
     When I navigate to the API authorization endpoint with my client ID
     And I was redirected to the "Simple" IDP Login page
     And I submit the credentials "jmacey" "jmacey1234" for the "Simple" login page
@@ -66,7 +65,7 @@ Scenario:  User with multiple roles gets hierarchical access
     When I navigate to DELETE "/v1/educationOrganizations/2a30827ed4cf5500fb848512d19ad73ed37c4464_id/custom"
     Then I should receive a return code of 204
 
-Scenario:  User writes to self custom data with multiple roles
+Scenario Outline:  User writes to self custom data with multiple roles
     Given I change the custom role of "Leader" to add the "WRITE_RESTRICTED" right
     And I change the custom role of "Leader" to add the "WRITE_GENERAL" right
     And I change the custom role of "Leader" to add the "WRITE_PUBLIC" right
