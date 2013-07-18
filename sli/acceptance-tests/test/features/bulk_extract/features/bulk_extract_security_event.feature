@@ -91,8 +91,7 @@ Scenario: Security Event is logged when access denied
   And I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
   When I make a call to the bulk extract end point "/bulk/extract/LEA_DAYBREAK_ID" using the certificate for app "pavedz00ua"
   Then I get back a response code of "403"
-  #current security event is 'Received request to stream Edorg data'
-  #Then a security event matching "Access Denied" should be in the sli db
+  Then a security event matching "Access Denied" should be in the sli db
 
 Scenario: Security Event is logged client does not provide Cert
   Given I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"

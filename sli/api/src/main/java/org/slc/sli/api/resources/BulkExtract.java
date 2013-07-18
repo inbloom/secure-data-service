@@ -631,7 +631,13 @@ public class BulkExtract {
             throw new IllegalArgumentException("App must provide client side X509 Certificate");
         }
 
-        this.validator.validateCertificate(certs[0], clientId);
+        try {
+            this.validator.validateCertificate(certs[0], clientId);
+        } catch (AccessDeniedException e) {
+            APIAccessDeniedException wrapperE = new APIAccessDeniedException("Invalid certificate");
+            wrapperE.initCause(e);
+            throw wrapperE;
+        }
     }
 
     public void setFileResource(FileResource fileResource) {
