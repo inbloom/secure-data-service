@@ -19,7 +19,7 @@ And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "slcoperator-email@slidev.org" "slcoperator-email1234" for the "Simple" login page
 Then I am now authenticated to SLI IDP
 And I should be redirected to the default Admin Page
-And I should see following map of entry counts in the corresponding sli collections:
+And I should see following map of entry counts in the corresponding sli db collections:
         | collectionName              | count |
         | securityEvent               | 2     |
 
@@ -35,7 +35,7 @@ And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "InvalidJohnDoe" "badpass" for the "Simple" login page
 Then I am informed that authentication has failed
 And I do not have access to the default Admin Page
-And I should see following map of entry counts in the corresponding sli collections:
+And I should see following map of entry counts in the corresponding sli db collections::
         | collectionName              | count |
         | securityEvent               | 1     |
 
@@ -54,7 +54,7 @@ When I submit the credentials "leader" "leader1234" for the "Simple" login page
 Then I am informed that authentication has failed
 And I will get an error message that "User account is in invalid mode"
 And I do not have access to the default Admin Page
-And I should see following map of entry counts in the corresponding sli collections:
+And I should see following map of entry counts in the corresponding sli db collections::
         | collectionName              | count |
         | securityEvent               | 1     |
 

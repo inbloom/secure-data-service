@@ -47,7 +47,7 @@ Scenario: Deny application
    And I check to find if record is in sli db collection:
     | collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
    #| securityEvent       | 1                   | body.userEdOrg        | IL-SUNSET                             |
-    | securityEvent       | 1                   | body.targetEdOrgList  | IL-SUNSET, Sunset Central High School |
+   #| securityEvent       | 1                   | body.targetEdOrgList  | IL-SUNSET, Sunset Central High School |
     | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!   |
    #| securityEvent       | 1                   | body.appId            | SDK Sample                            |
 
@@ -72,6 +72,6 @@ Scenario: Approve application
      And I check to find if record is in sli db collection:
       | collectionName      | expectedRecordCount | searchParameter       | searchValue                               |
      #| securityEvent       | 1                   | body.userEdOrg        | IL-SUNSET                                 |
-      | securityEvent       | 1                   | body.targetEdOrgList  | IL-SUNSET, Sunset Central High School     |
+     #| securityEvent       | 1                   | body.targetEdOrgList  | IL-SUNSET, Sunset Central High School     |
       | securityEvent       | 1                   | body.logMessage       | Application granted access to EdOrg data! |
      #| securityEvent       | 1                   | body.appId            | SDK Sample                                |
