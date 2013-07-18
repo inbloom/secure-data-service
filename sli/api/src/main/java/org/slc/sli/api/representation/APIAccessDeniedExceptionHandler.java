@@ -102,22 +102,32 @@ public class APIAccessDeniedExceptionHandler implements ExceptionMapper<APIAcces
 
         if (e.getTargetEdOrgIds() != null) {
             // if we already have the target edOrgs - good to go
-            audit(securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo.getRequestUri(), "Access Denied:"
+            audit(securityEventBuilder.createSecurityEvent(getThrowingClassName(e), uriInfo.getRequestUri(), "Access Denied:"
                     + e.getMessage(), EntityNames.EDUCATION_ORGANIZATION, e.getTargetEdOrgIds().toArray(new String[0])));
 
         } else if (e.getEntityType() != null) {
 
             if (e.getEntities() != null && !e.getEntities().isEmpty()) {
-                audit(securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo.getRequestUri(), "Access Denied:"
+                audit(securityEventBuilder.createSecurityEvent(getThrowingClassName(e), uriInfo.getRequestUri(), "Access Denied:"
                         + e.getMessage(), e.getEntityType(), e.getEntities()));
 
             } else if (e.getEntityIds() != null && !e.getEntityIds().isEmpty()) {
-                audit(securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo.getRequestUri(), "Access Denied:"
+                audit(securityEventBuilder.createSecurityEvent(getThrowingClassName(e), uriInfo.getRequestUri(), "Access Denied:"
                         + e.getMessage(), e.getEntityType(), e.getEntityIds().toArray(new String[0])));
             }
         } else {
-            audit(securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo.getRequestUri(), "Access Denied:"
+            audit(securityEventBuilder.createSecurityEvent(getThrowingClassName(e), uriInfo.getRequestUri(), "Access Denied:"
                     + e.getMessage(), e.isTargetIsUserEdOrg()));
         }
+    }
+
+    private String getThrowingClassName(Exception e) {
+        if (e != null && e.getStackTrace() != null) {
+            StackTraceElement ste = e.getStackTrace()[0];
+            if (ste != null) {
+                return ste.getClassName();
+            }
+        }
+        return null;
     }
 }

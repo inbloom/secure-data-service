@@ -25,10 +25,14 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
+import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.security.oauth.OAuthAccessException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.stereotype.Component;
+
+import java.net.URI;
 
 /**
  * Translates InsufficientAuthenticationException to 401
@@ -42,7 +46,10 @@ public class InsufficientAuthenticationHandler implements ExceptionMapper<Insuff
 
     @Value("${sli.security.noSession.landing.url}")
     private String authUrl;
-    
+
+    @Autowired
+    private SecurityEventBuilder securityEventBuilder;
+
     @Context
     private HttpHeaders headers;
 
@@ -63,9 +70,26 @@ public class InsufficientAuthenticationHandler implements ExceptionMapper<Insuff
         if(this.headers.getMediaType() == MediaType.APPLICATION_XML_TYPE) {
             errorType = MediaType.APPLICATION_XML_TYPE;
         }
-        
-        return Response.status(status).entity(new ErrorResponse(status.getStatusCode(), status.getReasonPhrase(), 
+
+        audit(securityEventBuilder.createSecurityEvent(getThrowingClassName(exception), null, "Access Denied: "
+                + exception.getMessage(), false));
+
+        return Response.status(status).entity(new ErrorResponse(status.getStatusCode(), status.getReasonPhrase(),
                 "Access DENIED: " + exception.getMessage())).header(HttpHeaders.WWW_AUTHENTICATE, wwwAuthHeader).type(errorType).build();
+    }
+
+    private String getThrowingClassName(Exception e) {
+        if (e != null && e.getStackTrace() != null) {
+            StackTraceElement ste = e.getStackTrace()[0];
+            if (ste != null) {
+                return ste.getClassName();
+            }
+        }
+        return null;
+    }
+
+    public void setSecurityEventBuilder(SecurityEventBuilder securityEventBuilder) {
+        this.securityEventBuilder = securityEventBuilder;
     }
 
 }

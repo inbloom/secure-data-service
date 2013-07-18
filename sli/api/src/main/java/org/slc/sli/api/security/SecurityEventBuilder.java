@@ -40,6 +40,9 @@ import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.domain.Entity;
 
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.UriInfo;
+
 /**
  * Utility class to fill in common SecurityEvent details
  */
@@ -50,6 +53,9 @@ public class SecurityEventBuilder {
 
     private String thisNode;
     private String thisProcess;
+
+    @Context
+    UriInfo uriInfo;
 
     @Autowired
     private RealmHelper realmHelper;
@@ -137,9 +143,15 @@ public class SecurityEventBuilder {
      * @param defaultTargetToUserEdOrg  whether or not to set targetEdOrgList to be userEdOrg by default
      * @return  security event
      */
-    public SecurityEvent createSecurityEvent(String loggingClass, URI requestUri, String slMessage, SLIPrincipal explicitPrincipal, Entity explicitRealmEntity,
+    public SecurityEvent createSecurityEvent(String loggingClass, URI explicitUri, String slMessage, SLIPrincipal explicitPrincipal, Entity explicitRealmEntity,
                                              Set<String> targetEdOrgs, boolean defaultTargetToUserEdOrg) {
         SecurityEvent event = new SecurityEvent();
+        URI requestUri = explicitUri;
+
+        // if not explicitly set, try to get the uri from the context
+        if (explicitUri == null && uriInfo != null) {
+            requestUri = uriInfo.getRequestUri();
+        }
 
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
