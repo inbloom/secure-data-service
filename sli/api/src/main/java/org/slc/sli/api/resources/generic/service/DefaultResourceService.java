@@ -157,7 +157,7 @@ public class DefaultResourceService implements ResourceService {
                 try {
                     finalResults = logicalEntity.getEntities(apiQuery, resource.getResourceType());
                 } catch (UnsupportedSelectorException e) {
-                    if (ids.size() == 1  && ContextSupportedEntities.getSupportedEntities().contains(definition.getType()) && SecurityUtil.isStaffUser()) {
+                    if (ContextSupportedEntities.getSupportedEntities().contains(definition.getType()) && SecurityUtil.isStaffUser()) {
                         finalResults = (List<EntityBody>) definition.getService().listBasedOnContextualRoles(apiQuery);
                     } else {
                         finalResults = (List<EntityBody>) definition.getService().list(apiQuery);
@@ -206,7 +206,7 @@ public class DefaultResourceService implements ResourceService {
                             }
                         });
                     } else {
-                        entityBodies = getEntityBodies(apiQuery, definition, EntityNames.PUBLIC_ENTITIES);
+                        entityBodies = getEntityBodies(apiQuery, definition, ContextSupportedEntities.getSupportedEntities());
                     }
                     long count = getEntityCount(definition, apiQuery);
 
@@ -367,7 +367,7 @@ public class DefaultResourceService implements ResourceService {
             }
 
 
-            entityBodyList = (List<EntityBody>) getEntityBodies(apiQuery, definition, EntityNames.PUBLIC_ENTITIES);
+            entityBodyList = (List<EntityBody>) getEntityBodies(apiQuery, definition, ContextSupportedEntities.getSupportedEntities());
 
             long count = getEntityCount(definition, apiQuery);
             return new ServiceResponse(adapter.migrate(entityBodyList, definition.getResourceName(), GET), count);
