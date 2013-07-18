@@ -48,6 +48,12 @@ Transform /^<(.*?)>$/ do |human_readable_id|
   id = "/v1/students/7b9ae98922c207146f1feb0b799a91b1c02f17eb_id"         if human_readable_id == "jake.bertman URI"
   id = "/v1/students/aceb1e6d159c833db61f72a9dfeee50be2f2691e_id"         if human_readable_id == "john.johnson URI"
   id = "/v1/students/a94fc8d0895f2a00b811d54996a8f3eb8fdc7480_id"         if human_readable_id == "kate.dedrick URI"
+#Following are for CUSTOM
+  id = "/v1/students/df54047bf88ecd7e2f6fbf00951196f747c9ccfc_id/custom"  if human_readable_id == "JACK.JACKSON CUSTOM URI"
+  id = "/v1/students/3d7084654aa96c1fdc68a27664760f6bb1b97b5a_id/custom"  if human_readable_id == "BERT.JAKEMAN CUSTOM URI"
+  id = "/v1/educationOrganizations/2a30827ed4cf5500fb848512d19ad73ed37c4464_id/custom"  if human_readable_id == "EAST.DAYBREAK CUSTOM URI"
+  id = "/v1/staff/7810ac678851ae29a450cc18bd9f47efa37bfaef_id/custom"  if human_readable_id == "JMACEY CUSTOM URI"
+  id = "/v1/staffEducationOrgAssignmentAssociations/57edc58caa226f4ab888e51ef8b5531b98800cca_id/custom"  if human_readable_id == "JMACEY SEOAA CUSTOM URI"
 
   id = @newId                                                             if human_readable_id == "NEWLY CREATED ENTITY ID"
 
