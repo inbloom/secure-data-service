@@ -321,7 +321,14 @@ Feature: Use the APi to successfully get student data while having roles over ma
     Then I should receive a return code of 403
 
  Scenario: User gets data based on roles in SEOA, even if user has more roles defined in IDP
-   When I log in as "xbell"
+   Given I have an open web browser
+   When I navigate to the API authorization endpoint with my client ID
+   And I was redirected to the "Simple" IDP Login page
+   And I submit the credentials "xbell" "xbell1234" for the "Simple" login page
+   Then I should receive a json response containing my authorization code
+   When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
+   Then I should receive a json response containing my authorization token
+   And I should be able to use the token to make valid API calls
 
     Given format "application/json"
     When I navigate to GET "<carmen.ortiz URI>"
@@ -334,9 +341,16 @@ Feature: Use the APi to successfully get student data while having roles over ma
     Then I should receive a return code of 403
 
  Scenario: User gets additional data of new role if a seoa is added to match additional role defined in IDP
+   Given I add a SEOA for "xbell" in "District 9" as a "Leader"
+   And I have an open web browser
+   When I navigate to the API authorization endpoint with my client ID
+   And I was redirected to the "Simple" IDP Login page
+   And I submit the credentials "xbell" "xbell1234" for the "Simple" login page
+   Then I should receive a json response containing my authorization code
+   When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
+   Then I should receive a json response containing my authorization token
+   And I should be able to use the token to make valid API calls
 
-    Given I add a SEOA for "xbell" in "District 9" as a "Leader"
-    When I log in as "xbell"
     Given format "application/json"
     When I navigate to GET "<carmen.ortiz URI>"
     Then I should receive a return code of 200
