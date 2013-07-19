@@ -255,7 +255,7 @@ public class SecurityEvent {
         if (actionUri != null && !actionUri.isEmpty()) {
             dataMap.put("actionUri", actionUri);
         }
-        if (appId != null && !actionUri.isEmpty()) {
+        if (appId != null && !appId.isEmpty()) {
             dataMap.put("appId", appId);
         }
         if (origin != null && !origin.isEmpty()) {
