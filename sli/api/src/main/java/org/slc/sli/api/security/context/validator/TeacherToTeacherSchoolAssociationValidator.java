@@ -68,4 +68,9 @@ public class TeacherToTeacherSchoolAssociationValidator extends AbstractContextV
         return fin.isEmpty();
     }
 
+    @Override
+    public String getContext() {
+        return SecurityUtil.TEACHER_CONTEXT;
+    }
+
 }

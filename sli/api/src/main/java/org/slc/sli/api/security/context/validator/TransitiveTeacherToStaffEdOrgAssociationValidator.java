@@ -80,4 +80,8 @@ public class TransitiveTeacherToStaffEdOrgAssociationValidator extends AbstractC
         return teachersEdOrgs.containsAll(requiredEdOrgs);
     }
 
+    @Override
+    public String getContext() {
+        return SecurityUtil.TEACHER_CONTEXT;
+    }
 }

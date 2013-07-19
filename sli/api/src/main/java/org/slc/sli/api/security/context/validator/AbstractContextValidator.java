@@ -368,4 +368,11 @@ public abstract class AbstractContextValidator implements IContextValidator {
     protected void setDateHelper(DateHelper dateHelper) {
         this.dateHelper = dateHelper;
     }
+
+    @Override
+    public String getContext() {
+        //default context is null
+        return "None";
+    }
 }
+

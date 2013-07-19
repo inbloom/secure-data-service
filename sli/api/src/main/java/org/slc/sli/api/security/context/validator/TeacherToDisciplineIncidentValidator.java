@@ -96,5 +96,8 @@ public class TeacherToDisciplineIncidentValidator extends AbstractContextValidat
         return validIncidents == discIncidentIds.size();
     }
 
-
+    @Override
+    public String getContext() {
+        return SecurityUtil.TEACHER_CONTEXT;
+    }
 }

@@ -22,6 +22,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -92,5 +93,10 @@ public class StaffToSubStudentEntityValidator extends AbstractContextValidator {
      */
     protected void setStaffToStudentValidator(StaffToStudentValidator staffToStudentValidator) {
         this.validator = staffToStudentValidator;
+    }
+
+    @Override
+    public String getContext() {
+        return SecurityUtil.STAFF_CONTEXT;
     }
 }

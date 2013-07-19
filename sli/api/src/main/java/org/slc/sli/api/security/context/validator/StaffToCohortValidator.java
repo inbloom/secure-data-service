@@ -85,4 +85,9 @@ public class StaffToCohortValidator extends AbstractContextValidator {
         }
         return match;
     }
+
+    @Override
+    public String getContext() {
+        return SecurityUtil.STAFF_CONTEXT;
+    }
 }

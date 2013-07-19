@@ -54,4 +54,9 @@ public class AdminValidator implements IContextValidator {
          
          return Collections.emptySet();
     }
+
+    @Override
+    public String getContext() {
+        return null;
+    }
 }

@@ -79,4 +79,8 @@ public class TeacherToStudentCohortAssociationValidator extends AbstractContextV
         return validCohortIds.containsAll(cohortIds);
     }
 
+    @Override
+    public String getContext() {
+        return SecurityUtil.TEACHER_CONTEXT;
+    }
 }

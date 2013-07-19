@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -59,5 +60,9 @@ public class TeacherToStudentCompetencyValidator extends AbstractContextValidato
         return sectionAssocValidator.validate(EntityNames.STUDENT_SECTION_ASSOCIATION, secAssocIds);
     }
 
+    @Override
+    public String getContext() {
+        return SecurityUtil.TEACHER_CONTEXT;
+    }
 
 }

@@ -57,4 +57,9 @@ public class StaffToEducationOrganizationAssociationValidator extends AbstractCo
         
         return ids.size() == found.size();
     }
+
+    @Override
+    public String getContext() {
+        return SecurityUtil.STAFF_CONTEXT;
+    }
 }

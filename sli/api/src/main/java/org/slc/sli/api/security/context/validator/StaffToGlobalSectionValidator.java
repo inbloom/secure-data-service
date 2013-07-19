@@ -18,6 +18,7 @@ package org.slc.sli.api.security.context.validator;
 
 import java.util.Set;
 
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.constants.EntityNames;
@@ -54,5 +55,10 @@ public class StaffToGlobalSectionValidator extends AbstractContextValidator {
         query.addCriteria(new NeutralCriteria(ParameterConstants.SCHOOL_ID, NeutralCriteria.CRITERIA_IN, edOrgLineage));
 
         return ids.size() == getRepo().count(entityType, query);
+    }
+
+    @Override
+    public String getContext() {
+        return SecurityUtil.STAFF_CONTEXT;
     }
 }

@@ -185,4 +185,9 @@ public class TransitiveStaffToStaffValidator extends AbstractContextValidator {
         }
     }
 
+    @Override
+    public String getContext() {
+        return SecurityUtil.STAFF_CONTEXT;
+    }
+
 }

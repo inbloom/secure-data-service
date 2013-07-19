@@ -54,4 +54,8 @@ public class TeacherToTeacherSectionAssociationValidator extends AbstractContext
         return count == ids.size();
     }
 
+    @Override
+    public String getContext() {
+        return SecurityUtil.TEACHER_CONTEXT;
+    }
 }

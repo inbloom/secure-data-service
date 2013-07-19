@@ -77,4 +77,8 @@ public class TransitiveTeacherToTeacherValidator extends AbstractContextValidato
         return fin.isEmpty();
     }
 
+    @Override
+    public String getContext() {
+        return SecurityUtil.TEACHER_CONTEXT;
+    }
 }

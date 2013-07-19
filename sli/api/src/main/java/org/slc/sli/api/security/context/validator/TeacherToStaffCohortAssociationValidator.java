@@ -52,4 +52,8 @@ public class TeacherToStaffCohortAssociationValidator extends AbstractContextVal
         return result==ids.size();
     }
 
+    @Override
+    public String getContext() {
+        return SecurityUtil.TEACHER_CONTEXT;
+    }
 }

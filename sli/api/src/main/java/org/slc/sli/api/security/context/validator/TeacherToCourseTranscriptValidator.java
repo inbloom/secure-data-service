@@ -21,6 +21,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -73,5 +74,10 @@ public class TeacherToCourseTranscriptValidator extends AbstractContextValidator
         }
 
         return validator.validate(EntityNames.STUDENT_ACADEMIC_RECORD, studentAcademicRecords);
+    }
+
+    @Override
+    public String getContext() {
+        return SecurityUtil.TEACHER_CONTEXT;
     }
 }

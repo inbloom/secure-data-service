@@ -66,4 +66,8 @@ public class TeacherToSectionValidator extends AbstractContextValidator {
         return ids.size() == sectionIds.size();
     }
 
+    @Override
+    public String getContext() {
+        return SecurityUtil.TEACHER_CONTEXT;
+    }
 }

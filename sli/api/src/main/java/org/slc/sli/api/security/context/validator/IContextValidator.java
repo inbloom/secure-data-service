@@ -67,4 +67,17 @@ public interface IContextValidator {
      * @return Set of valid ids that the user has access to to
      */
     public abstract Set<String> getValid(String entityType, Set<String> ids);
+
+
+    /**
+     * Gets the context that the validator validates against.
+     *
+     * @return SecurityUtil.STAFF_CONTEXT for staff context,
+     *         SecurityUtil.TEACHER_CONTEXT for teacher context,
+     *         "None" for other cases:
+     *              use for both staff and teacher
+     *              doesn't need context
+     *              unsupported contexts: student/parents
+     */
+    public abstract String getContext();
 }

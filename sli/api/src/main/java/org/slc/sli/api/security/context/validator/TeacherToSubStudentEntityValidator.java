@@ -16,6 +16,7 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
@@ -116,5 +117,10 @@ public class TeacherToSubStudentEntityValidator extends AbstractContextValidator
      */
     public void setTeacherToStudentValidator(TeacherToStudentValidator teacherToStudentValidator) {
         this.validator = teacherToStudentValidator;
+    }
+
+    @Override
+    public String getContext() {
+        return SecurityUtil.TEACHER_CONTEXT;
     }
 }

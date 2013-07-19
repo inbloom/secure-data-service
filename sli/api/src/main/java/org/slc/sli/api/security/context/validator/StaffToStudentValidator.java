@@ -51,7 +51,7 @@ public class StaffToStudentValidator extends AbstractContextValidator {
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
         return EntityNames.STUDENT.equals(entityType)
-                && SecurityUtil.getSLIPrincipal().getEntity().getType().equals(EntityNames.STAFF);
+                && SecurityUtil.getSLIPrincipal().isStaff();
     }
 
     @Override
@@ -162,4 +162,8 @@ public class StaffToStudentValidator extends AbstractContextValidator {
         this.cohortValidator = cohortValidator;
     }
 
+    @Override
+    public String getContext() {
+        return SecurityUtil.STAFF_CONTEXT;
+    }
 }

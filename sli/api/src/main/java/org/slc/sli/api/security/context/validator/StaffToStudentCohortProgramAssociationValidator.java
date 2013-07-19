@@ -16,6 +16,7 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
@@ -74,5 +75,9 @@ public class StaffToStudentCohortProgramAssociationValidator extends AbstractCon
         }
         return studentValidator.validate(EntityNames.STUDENT, associations);
     }
-        
+
+    @Override
+    public String getContext() {
+        return SecurityUtil.STAFF_CONTEXT;
+    }
 }

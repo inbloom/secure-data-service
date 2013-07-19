@@ -80,4 +80,8 @@ public class TeacherToStudentProgramAssociationValidator extends AbstractContext
         return validProgramIds.containsAll(programIds);
     }
 
+    @Override
+    public String getContext() {
+        return SecurityUtil.TEACHER_CONTEXT;
+    }
 }

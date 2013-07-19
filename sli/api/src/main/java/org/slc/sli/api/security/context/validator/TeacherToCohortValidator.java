@@ -62,4 +62,8 @@ public class TeacherToCohortValidator extends AbstractContextValidator {
         return validIds.containsAll(ids);
     }
 
+    @Override
+    public String getContext() {
+        return SecurityUtil.TEACHER_CONTEXT;
+    }
 }

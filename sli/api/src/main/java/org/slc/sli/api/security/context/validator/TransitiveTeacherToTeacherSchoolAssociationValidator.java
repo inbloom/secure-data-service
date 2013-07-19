@@ -16,6 +16,7 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
@@ -59,5 +60,10 @@ public class TransitiveTeacherToTeacherSchoolAssociationValidator extends Abstra
         }
         
         return val.validate(EntityNames.TEACHER, teachers);
+    }
+
+    @Override
+    public String getContext() {
+        return SecurityUtil.TEACHER_CONTEXT;
     }
 }

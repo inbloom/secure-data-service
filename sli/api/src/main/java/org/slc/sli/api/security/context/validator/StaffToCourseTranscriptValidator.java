@@ -76,4 +76,9 @@ public class StaffToCourseTranscriptValidator extends AbstractContextValidator {
 
         return validator.validate(EntityNames.STUDENT_ACADEMIC_RECORD, studentAcademicRecords);
     }
+
+    @Override
+    public String getContext() {
+        return SecurityUtil.STAFF_CONTEXT;
+    }
 }

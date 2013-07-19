@@ -16,6 +16,7 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
@@ -57,5 +58,10 @@ public class TeacherToGradeValidator extends AbstractContextValidator {
             secAssocIds.add((String) grade.getBody().get(ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID));
         }
         return sectionAssocValidator.validate(EntityNames.STUDENT_SECTION_ASSOCIATION, secAssocIds);
+    }
+
+    @Override
+    public String getContext() {
+        return SecurityUtil.TEACHER_CONTEXT;
     }
 }
