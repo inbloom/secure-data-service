@@ -54,6 +54,11 @@ public class APIAccessDeniedException extends AccessDeniedException {
         super(msg);
     }
 
+    public APIAccessDeniedException(String msg, AccessDeniedException e) {
+        super(msg);
+        this.initCause(e);
+    }
+
     /**
      * inherit targetEdOrg info from the passed exception and set cause
      * - used to catch and rethrow with cause

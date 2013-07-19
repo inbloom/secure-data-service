@@ -634,9 +634,7 @@ public class BulkExtract {
         try {
             this.validator.validateCertificate(certs[0], clientId);
         } catch (AccessDeniedException e) {
-            APIAccessDeniedException wrapperE = new APIAccessDeniedException("Invalid certificate");
-            wrapperE.initCause(e);
-            throw wrapperE;
+            throw new APIAccessDeniedException("Invalid certificate", e);
         }
     }
 
