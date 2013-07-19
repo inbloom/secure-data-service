@@ -162,7 +162,10 @@ public class SecurityEventBuilder {
                 }
                 if (principal != null) {
                     event.setTenantId(principal.getTenantId());
-                    event.setUser(principal.getExternalId() + ", " + principal.getName());
+                    if ((principal.getExternalId() != null && !principal.getExternalId().isEmpty())
+                            || (principal.getName() != null && !principal.getName().isEmpty())) {
+                        event.setUser(principal.getExternalId() + ", " + principal.getName());
+                    }
                     event.setUserEdOrg(principal.getRealmEdOrg());
 
                     // override the userEdOrg if explicit realm passed

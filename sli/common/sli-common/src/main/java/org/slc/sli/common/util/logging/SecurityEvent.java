@@ -234,40 +234,40 @@ public class SecurityEvent {
 
     public Map<String, Object> getProperties() {
         Map<String, Object> dataMap = new HashMap<String, Object>();
-        if (tenantId != null) {
+        if (tenantId != null && !tenantId.isEmpty()) {
             dataMap.put("tenantId", tenantId);
         }
-        if (user != null) {
+        if (user != null && !user.isEmpty()) {
             dataMap.put("user", user);
         }
-        if (targetEdOrg != null) {
+        if (targetEdOrg != null && !targetEdOrg.isEmpty()) {
             dataMap.put("targetEdOrg", targetEdOrg);
         }
 
-        if (targetEdOrgList != null) {
+        if (targetEdOrgList != null && !targetEdOrgList.isEmpty()) {
             dataMap.put("targetEdOrgList", targetEdOrgList);
         }
 
-        if (userEdOrg != null) {
+        if (userEdOrg != null && !userEdOrg.isEmpty()) {
             dataMap.put("userEdOrg", userEdOrg);
         }
  
-        if (actionUri != null) {
+        if (actionUri != null && !actionUri.isEmpty()) {
             dataMap.put("actionUri", actionUri);
         }
-        if (appId != null) {
+        if (appId != null && !actionUri.isEmpty()) {
             dataMap.put("appId", appId);
         }
-        if (origin != null) {
+        if (origin != null && !origin.isEmpty()) {
             dataMap.put("origin", origin);
         }
-        if (executedOn != null) {
+        if (executedOn != null && !executedOn.isEmpty()) {
             dataMap.put("executedOn", executedOn);
         }
-        if (credential != null) {
+        if (credential != null && !credential.isEmpty()) {
             dataMap.put("credential", credential);
         }
-        if (userOrigin != null) {
+        if (userOrigin != null && !userOrigin.isEmpty()) {
             dataMap.put("userOrigin", userOrigin);
         }
         if (timeStamp != null) {
@@ -275,19 +275,19 @@ public class SecurityEvent {
             cal.setTime(timeStamp);
             dataMap.put("timeStamp", DatatypeConverter.printDateTime(cal));
         }
-        if (processNameOrId != null) {
+        if (processNameOrId != null && !processNameOrId.isEmpty()) {
             dataMap.put("processNameOrId", processNameOrId);
         }
-        if (className != null) {
+        if (className != null && !className.isEmpty()) {
             dataMap.put("className", className);
         }
         if (logLevel != null) {
             dataMap.put("logLevel", logLevel.toString());
         }
-        if (logMessage != null) {
+        if (logMessage != null && !logMessage.isEmpty()) {
             dataMap.put("logMessage", logMessage);
         }
-        if (roles != null) {
+        if (roles != null && !roles.isEmpty()) {
             dataMap.put("roles", roles);
         }
         return dataMap;
