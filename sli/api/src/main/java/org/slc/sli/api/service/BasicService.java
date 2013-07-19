@@ -595,11 +595,17 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
     @Override
     public EntityBody getCustom(String id) {
-        checkAccess(true, id, null);
+        if(SecurityUtil.isStaffUser()) {
+            Entity entity = getEntity(id);
+            Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf(id), entity);
+            rightAccessValidator.checkAccess(true, id, null, defn.getType(), collectionName, getRepo(), auths);
+        } else {
+            checkAccess(true, id, null);
+        }
 
         String clientId = null;
         try {
-            clientId = getClientId();
+            clientId = getClientId(id);
         } catch (APIAccessDeniedException e) {
             // set custom entity data for security event targetEdOrgList
             APIAccessDeniedException wrapperE = new APIAccessDeniedException("Custom entity get denied.", e);
@@ -613,13 +619,10 @@ public class BasicService implements EntityService, AccessibilityCheck {
         debug("Reading custom entity: entity={}, entityId={}, clientId={}", new Object[]{
                 getEntityDefinition().getType(), id, clientId});
 
-        NeutralQuery query = new NeutralQuery();
-        query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_CLIENT_ID, "=", clientId, false));
-        query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_ENTITY_ID, "=", id, false));
+        Entity customEntity = getCustomEntity(id, clientId);
 
-        Entity entity = getRepo().findOne(CUSTOM_ENTITY_COLLECTION, query);
-        if (entity != null) {
-            EntityBody clonedBody = new EntityBody(entity.getBody());
+        if (customEntity != null) {
+            EntityBody clonedBody = new EntityBody(customEntity.getBody());
             return clonedBody;
         } else {
             return null;
@@ -628,10 +631,17 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
     @Override
     public void deleteCustom(String id) {
-        checkAccess(false, id, null);
+        if(SecurityUtil.isStaffUser()) {
+            Entity entity = getEntity(id);
+            Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf(id), entity);
+            rightAccessValidator.checkAccess(false, id, null, defn.getType(), collectionName, getRepo(), auths);
+        } else {
+            checkAccess(false, id, null);
+        }
+
         String clientId = null;
         try {
-            clientId = getClientId();
+            clientId = getClientId(id);
         } catch (APIAccessDeniedException e) {
             // set custom entity data for security event targetEdOrgList
             APIAccessDeniedException wrapperE = new APIAccessDeniedException("Custom entity delete denied.", e);
@@ -642,28 +652,31 @@ public class BasicService implements EntityService, AccessibilityCheck {
             throw wrapperE;
         }
 
-        NeutralQuery query = new NeutralQuery();
-        query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_CLIENT_ID, "=", clientId, false));
-        query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_ENTITY_ID, "=", id, false));
+        Entity customEntity = getCustomEntity(id, clientId);
 
-        Entity entity = getRepo().findOne(CUSTOM_ENTITY_COLLECTION, query);
-
-        if (entity == null) {
+        if (customEntity == null) {
             throw new EntityNotFoundException(id);
         }
 
-        boolean deleted = getRepo().delete(CUSTOM_ENTITY_COLLECTION, entity.getEntityId());
+        boolean deleted = getRepo().delete(CUSTOM_ENTITY_COLLECTION, customEntity.getEntityId());
+
         debug("Deleting custom entity: entity={}, entityId={}, clientId={}, deleted?={}", new Object[]{
                 getEntityDefinition().getType(), id, clientId, String.valueOf(deleted)});
     }
 
     @Override
     public void createOrUpdateCustom(String id, EntityBody customEntity) throws EntityValidationException {
-        checkAccess(false, id, customEntity);
         String clientId = null;
+        if(SecurityUtil.isStaffUser()) {
+            Entity parentEntity = getEntity(id);
+            Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf(id), parentEntity);
+            rightAccessValidator.checkAccess(false, id, customEntity, defn.getType(), collectionName, getRepo(), auths);
+        } else {
+            checkAccess(false, id, customEntity);
+        }
 
         try {
-            clientId = getClientId();
+            clientId = getClientId(id);
         } catch (APIAccessDeniedException e) {
             // set custom entity data for security event targetEdOrgList
             APIAccessDeniedException wrapperE = new APIAccessDeniedException("Custom entity write denied.", e);
@@ -674,11 +687,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
             throw wrapperE;
         }
 
-        NeutralQuery query = new NeutralQuery();
-        query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_CLIENT_ID, "=", clientId, false));
-        query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_ENTITY_ID, "=", id, false));
-
-        Entity entity = getRepo().findOne(CUSTOM_ENTITY_COLLECTION, query);
+        Entity entity = getCustomEntity(id, clientId);
 
         if (entity != null && entity.getBody().equals(customEntity)) {
             debug("No change detected to custom entity, ignoring update: entity={}, entityId={}, clientId={}",
@@ -816,10 +825,23 @@ public class BasicService implements EntityService, AccessibilityCheck {
         }
     }
 
-    private String getClientId() {
-        String clientId = clientInfo.getClientId();
+    private String getClientId(String id) {
+        String clientId = null;
+        try {
+            clientId = clientInfo.getClientId();
+        } catch (APIAccessDeniedException e) {
+            // set custom entity data for security event targetEdOrgList
+            APIAccessDeniedException wrapperE = new APIAccessDeniedException("Custom entity get denied.", e);
+            Set<String> entityIds = new HashSet<String>();
+            entityIds.add(id);
+            wrapperE.setEntityType(defn.getType());
+            wrapperE.setEntityIds(entityIds);
+        }
+
         if (clientId == null) {
-            throw new APIAccessDeniedException("No Application Id");
+            Set<String> entityIds = new HashSet<String>();
+            entityIds.add(id);
+            throw new APIAccessDeniedException("No Application Id", defn.getType(), entityIds);
         }
         return clientId;
     }
@@ -1064,6 +1086,26 @@ public class BasicService implements EntityService, AccessibilityCheck {
         metadata.put("tenantId", principal.getTenantId());
 
         return metadata;
+    }
+
+    private Entity getEntity(String id) {
+        NeutralQuery entityQuery = new NeutralQuery();
+        entityQuery.addCriteria(new NeutralCriteria("_id", "=", id));
+
+        Entity entity = repo.findOne(collectionName, entityQuery);
+        if (entity == null) {
+            info("Could not find {}", id);
+            throw new EntityNotFoundException(id);
+        }
+        return entity;
+    }
+
+    private Entity getCustomEntity(String id, String clientId) {
+        NeutralQuery query = new NeutralQuery();
+        query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_CLIENT_ID, "=", clientId, false));
+        query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_ENTITY_ID, "=", id, false));
+
+        return getRepo().findOne(CUSTOM_ENTITY_COLLECTION, query);
     }
 
     /**
