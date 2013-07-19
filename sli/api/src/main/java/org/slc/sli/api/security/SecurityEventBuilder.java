@@ -211,7 +211,7 @@ public class SecurityEventBuilder {
 
             setSecurityEvent(loggingClass, requestUri, slMessage, event);
 
-            debug("Security event created: " + event.toString());
+            info("Security event created: " + event.toString());
 
         } catch (Exception e) {
             info("Could not build SecurityEvent for [" + requestUri + "] [" + slMessage + "]");
