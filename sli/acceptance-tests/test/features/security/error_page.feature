@@ -6,7 +6,14 @@ Scenario: Make bad saml assertion with application/json content type
   And the sli securityEvent collection is empty
   And I make a post request to sso/post
   Then I get back a json-formatted 403 error page
-  And a security event matching "^SAML message received" should be in the sli db
+   And "1" security event matching "^SAML message received" should be in the sli db
+   And I should see a count of "2" in the security event collection
+  #And I check to find if record is in sli db collection:
+   #| collectionName  | expectedRecordCount | searchParameter         | searchValue                                               | searchType |
+   #| securityEvent   | 1                   | body.appId              | not sure if this is needed for this event                                                | string     |
+   #| securityEvent   | 1                   | body.className          | org.slc.sli.api.resources.security.SamlFederationResource | string     |
+   #| securityEvent   | 1                   | body.logMessage         | Access Denied:Authorization could not be verified.        | string     |
+
 
 Scenario: Make bad saml assertion with text/html content type 
   Given I am using "text/html" as my content type
