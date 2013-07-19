@@ -8,11 +8,11 @@ Scenario: Make bad saml assertion with application/json content type
   Then I get back a json-formatted 403 error page
    And "1" security event matching "^SAML message received" should be in the sli db
    And I should see a count of "2" in the security event collection
-  #And I check to find if record is in sli db collection:
-   #| collectionName  | expectedRecordCount | searchParameter         | searchValue                                               | searchType |
-   #| securityEvent   | 1                   | body.appId              | not sure if this is needed for this event                                                | string     |
-   #| securityEvent   | 1                   | body.className          | org.slc.sli.api.resources.security.SamlFederationResource | string     |
-   #| securityEvent   | 1                   | body.logMessage         | Access Denied:Authorization could not be verified.        | string     |
+   And I check to find if record is in sli db collection:
+    | collectionName  | expectedRecordCount | searchParameter         | searchValue                                               | searchType |
+    | securityEvent   | 1                   | body.appId              | UNKNOWN                                                   | string     |
+    | securityEvent   | 2                   | body.className          | org.slc.sli.api.resources.security.SamlFederationResource | string     |
+    | securityEvent   | 1                   | body.logMessage         | Access Denied:Authorization could not be verified.        | string     |
 
 
 Scenario: Make bad saml assertion with text/html content type 
