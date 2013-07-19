@@ -68,4 +68,18 @@ And /^a security event "([^"]*)" should be created for these targetEdOrgs( ONLY)
   end
 end
 
+Then /^I should see a count of "([^"]*)" in the security event collection$/ do |count|
+  disable_NOTABLESCAN()
+  @result = "true"
+    coll = securityEventCollection()
+    @entity_count = coll.count().to_i
+    #puts @entity_count
+    #puts "There are " + @entity_count.to_s + " in the security event collection"
+    if @entity_count.to_s != count.to_s
+      @result = "false"
+    end
+  assert(@result == "true", "Some records didn't match successfully.")
+  enable_NOTABLESCAN()
+end
+
 

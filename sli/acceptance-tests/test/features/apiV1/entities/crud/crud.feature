@@ -464,7 +464,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
 
   @student
   Scenario Outline: Rewrites for student work
-    Given I am logged in using "carmen.ortiz" "carmen.ortiz1234" to realm "IL-Student"
+    Given I am logged in using "carmen.ortiz" "carmen.ortiz1234" to realm "IL-Daybreak-Students"
     And format "application/vnd.slc+json"
     And my contextual access is defined by table:
       | Context                | Ids                                                                       |
