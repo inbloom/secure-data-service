@@ -17,6 +17,9 @@
 
 package org.slc.sli.api.security;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.URI;
@@ -199,12 +202,14 @@ public class SecurityEventBuilder {
                     defaultTargetEdOrgs.add(event.getUserEdOrg());
                     event.setTargetEdOrgList(defaultTargetEdOrgs);
                 }
-            } else {
+            } else if (requestUri != null && requestUri.getPath() != null) {
                 debug("Not explicitly specified, doing a best effort determination of targetEdOrg based on the request uri path: " + requestUri.getPath());
                 Set<String> stateOrgIds = getTargetEdOrgStateIdsFromURI(requestUri);
                 if (stateOrgIds != null && !stateOrgIds.isEmpty()) {
                     event.setTargetEdOrgList(new ArrayList<String>(stateOrgIds));
                 }
+            } else {
+                debug("Unable to determine targetEdOrgList");
             }
 
             if (auth != null) {
@@ -219,8 +224,11 @@ public class SecurityEventBuilder {
             info("Security event created: " + event.toString());
 
         } catch (Exception e) {
+            final Writer result = new StringWriter();
+            final PrintWriter printWriter = new PrintWriter(result);
+            e.printStackTrace(printWriter);
+            debug("Security event creation failed: \n" + result.toString());
             info("Could not build SecurityEvent for [" + requestUri + "] [" + slMessage + "]");
-            debug("Could not build SecurityEvent: " + e.toString());
         }
         return event;
     }
