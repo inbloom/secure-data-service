@@ -172,7 +172,7 @@ public class SecurityEventBuilder {
                         if (body != null && body.get("edOrg") != null) {
                             event.setUserEdOrg((String) body.get("edOrg"));
                         }
-                    } else if (event.getUserEdOrg() == null) {
+                    } else if (event.getUserEdOrg() == null && principal.getSessionId() != null) {
                         debug("Determining userEdOrg from the current session");
                         Entity realmEntity = realmHelper.getRealmFromSession(principal.getSessionId());
                         if (realmEntity != null) {
