@@ -93,4 +93,20 @@ Then I should receive a return code of 403
 Examples:
 	|Username  |Password      |Realm|District     |Data|
 	|"jjackson"|"jjackson1234"|"IL" |"IL-Daybreak"|"Students in South Daybreak Elementary"|
-	|"rlindsey"|"rlindsey1234"|"NY" |"NY-Dusk"    |"Teachers in Dawn Elementary"|
+
+Scenario: Aggregate Viewer trying to access non-school info data with security event checking
+
+Given I am logged in using "rlindsey" "rlindsey1234" to realm "NY"
+And I have a Role attribute that equals "Aggregate Viewer"
+And my "district" is "NY-Dusk"
+And the sli securityEvent collection is empty
+When I try to access the data for "Teachers in Dawn Elementary" in my "district" from the API
+Then I should receive a return code of 403
+     And I check to find if record is in sli db collection:
+        | collectionName  | expectedRecordCount | searchParameter         | searchValue                                            | searchType |
+        | securityEvent   | 1                   | body.appId              | ke9Dgpo3uI                                             | string     |
+        | securityEvent   | 1                   | body.className          | org.slc.sli.api.security.roles.RightAccessValidator    | string     |
+        | securityEvent   | 1                   | body.userEdOrg          | NY-STATE-NYC                                           | string     |
+        | securityEvent   | 1                   | body.targetEdOrgList    | 1000000122                                             | string     |
+     # actionUri waiting for clarification   | securityEvent   | 1                   | body.actionUri          | http://local.slidev.org:8080/api/rest/v1.3/schools/9d970849-0116-499d-b8f3-2255aeb69552/teacherSchoolAssociations/teachers | string     |
+     And "1" security event matching "Access Denied:Insufficient Privileges" should be in the sli db
