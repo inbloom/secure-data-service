@@ -175,9 +175,11 @@ public class SecurityEventBuilder {
                     } else if (event.getUserEdOrg() == null) {
                         debug("Determining userEdOrg from the current session");
                         Entity realmEntity = realmHelper.getRealmFromSession(principal.getSessionId());
-                        Map<String, Object> body = realmEntity.getBody();
-                        if (body != null && body.get("edOrg") != null) {
-                            event.setUserEdOrg((String) body.get("edOrg"));
+                        if (realmEntity != null) {
+                            Map<String, Object> body =  realmEntity.getBody();
+                            if (body != null && body.get("edOrg") != null) {
+                                event.setUserEdOrg((String) body.get("edOrg"));
+                            }
                         }
                     }
                 }
@@ -215,6 +217,7 @@ public class SecurityEventBuilder {
 
         } catch (Exception e) {
             info("Could not build SecurityEvent for [" + requestUri + "] [" + slMessage + "]");
+            debug("Could not build SecurityEvent: " + e.toString());
         }
         return event;
     }
