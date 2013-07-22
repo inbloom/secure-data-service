@@ -569,8 +569,9 @@ public class ResourceUtil {
     public static SLIPrincipal getSLIPrincipalFromSecurityContext() {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean isAuthed = auth.isAuthenticated();
 
-        if (auth instanceof AnonymousAuthenticationToken || auth.getPrincipal() instanceof String) {
+        if (auth instanceof AnonymousAuthenticationToken || auth.getPrincipal() instanceof String || !isAuthed) {
             throw new InsufficientAuthenticationException("Login Required");
         }
 
