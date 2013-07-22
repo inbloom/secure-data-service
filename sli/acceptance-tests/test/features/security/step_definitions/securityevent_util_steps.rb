@@ -90,4 +90,12 @@ Then /^I should see a count of "([^"]*)" in the security event collection$/ do |
   enable_NOTABLESCAN()
 end
 
+When /^I GET the url "([^"]*)" using a blank cookie$/ do |arg1|
+  url = PropLoader.getProps['api_server_url']+"/api/rest"+arg1
+  @res = RestClient.get(url, nil) {|response, request, result| response}
+end
+
+Then /^I should receive a "([^"]*)" response$/ do |arg1|
+  assert("#{@res.code}" ==  arg1, "Expected #{arg1}, but got #{@res.code}")
+end
 
