@@ -27,10 +27,12 @@ Scenario: Non SLI-hosted valid user tries to access the Application Authorizatio
      Then the api should generate a 403 error
       And I should see a count of "2" in the security event collection
       And I check to find if record is in sli db collection:
-       | collectionName  | expectedRecordCount | searchParameter         | searchValue                                                                               | searchType |
-       | securityEvent   | 1                   | body.appId              | UNKNOWN                                                                                   | string     |
-       | securityEvent   | 1                   | body.className          | org.slc.sli.api.resources.security.SamlFederationResource                                 | string     |
-       | securityEvent   | 1                   | body.logMessage         | Invalid user.  No valid role mappings exist for the roles specified in the SAML Assertion | string     |
+       | collectionName  | expectedRecordCount | searchParameter         | searchValue                                                                                              | searchType |
+       | securityEvent   | 1                   | body.appId              | UNKNOWN                                                                                                  | string     |
+       | securityEvent   | 1                   | body.userEdOrg          | fakeab32-b493-999b-a6f3-sliedorg1234                                                                     | string     |
+       | securityEvent   | 1                   | body.className          | org.slc.sli.api.resources.security.SamlFederationResource                                                | string     |
+       | securityEvent   | 1                   | body.logMessage         | Access Denied:Invalid user.  No valid role mappings exist for the roles specified in the SAML Assertion. | string     |
+      And "1" security event with field "body.actionUri" matching "http.*/api/rest/saml/sso/post" should be in the sli db
 
 
 @DE_2690
