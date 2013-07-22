@@ -38,14 +38,14 @@ Scenario: Home URI logs a security event for an unauthenticated user
 
 @RALLY_US5826
 Scenario: Home URI logs a security event for user that has no entity in the db
-  Given I am logged in using "akopel" "akopel1234" to realm "IL"
+  Given I am logged in using "fakerealmadmin" "fakerealmadmin1234" to realm "SLI"
     And format "application/json"
     And the sli securityEvent collection is empty
   When I navigate to GET "/v1/home"
 	Then I should receive a "401" response
 	And I check to find if record is in sli db collection:
         | collectionName  | expectedRecordCount | searchParameter         | searchValue                                            | searchType |
-        | securityEvent   | 1                   | body.appId              | UNKNOWN                                                | string     |
+        | securityEvent   | 1                   | body.appId              | ke9Dgpo3uI                                             | string     |
         | securityEvent   | 1                   | body.className          | org.slc.sli.api.resources.v1.HomeResource              | string     |
         # user and targetEdOrgs are not known since no session was established
     And "1" security event matching "Access Denied: No entity mapping found for user" should be in the sli db
