@@ -30,6 +30,10 @@ import java.util.*;
  */
 public class APIAccessDeniedException extends AccessDeniedException {
 
+    // explicit realm info needed if the exception is thrown before it can be fully set in the context
+    // e.g. SamlFederationResource.java
+    private Entity realm;
+
     private Set<String> targetEdOrgs;
 
     // used if targetEdOrgs is NOT set
@@ -99,12 +103,23 @@ public class APIAccessDeniedException extends AccessDeniedException {
     /**
      * Creates an APIAccessDeniedException with targetEdOrgs set based on the provided entity
      * @param msg       explanation of the exception
+     * @param realm    entity to which access was denied (MUST have entityType set)
+     */
+    public APIAccessDeniedException(String msg, Entity realm) {
+        super(msg);
+        this.realm = realm;
+    }
+
+    /**
+     * Creates an APIAccessDeniedException with targetEdOrgs set based on the provided entity
+     * @param msg       explanation of the exception
+     * @param entityType    type of the entity to which access was denied
      * @param entity    entity to which access was denied (MUST have entityType set)
      */
-    public APIAccessDeniedException(String msg, Entity entity) {
+    public APIAccessDeniedException(String msg, String entityType, Entity entity) {
         super(msg);
         if (entity != null) {
-            this.entityType = entity.getType();
+            this.entityType = entityType;
             this.entities = new HashSet<Entity>();
             this.entities.add(entity);
         }
@@ -200,4 +215,11 @@ public class APIAccessDeniedException extends AccessDeniedException {
         return entityIds;
     }
 
+    public Entity getRealm() {
+        return realm;
+    }
+
+    public void setRealm(Entity realm) {
+        this.realm = realm;
+    }
 }

@@ -107,14 +107,15 @@ public class SecurityEventBuilder {
      * @param loggingClass      java class logging the security event
      * @param requestUri        relevant URI
      * @param slMessage         security event message text
+     * @param explicitRealmEntity       used instead of the realm from the security context
      * @param entityType        type of the entity ids used to determine targetEdOrgs
      * @param entityIds         entity ids used to determine targetEdOrgs
      * @return security event with targetEdOrgList determined from the entities
      */
     public SecurityEvent createSecurityEvent(String loggingClass, URI requestUri, String slMessage,
-                                             String entityType, String[] entityIds) {
+                                             Entity explicitRealmEntity, String entityType, String[] entityIds) {
         Set<String> targetEdOrgs = getTargetEdOrgStateIds(entityType, entityIds);
-        return createSecurityEvent(loggingClass, requestUri, slMessage, null, null, targetEdOrgs, false);
+        return createSecurityEvent(loggingClass, requestUri, slMessage, null, explicitRealmEntity, targetEdOrgs, false);
     }
 
     /**
@@ -123,22 +124,23 @@ public class SecurityEventBuilder {
      * @param loggingClass      java class logging the security event
      * @param requestUri        relevant URI
      * @param slMessage         security event message text
+     * @param explicitRealmEntity       used instead of the realm from the security context
      * @param entityType        type of the entity ids used to determine targetEdOrgs
      * @param entities          entities used to determine targetEdOrgs
      * @return security event with targetEdOrgList determined from the entities
      */
     public SecurityEvent createSecurityEvent(String loggingClass, URI requestUri, String slMessage,
-                                             String entityType, Set<Entity> entities) {
+                                             Entity explicitRealmEntity, String entityType, Set<Entity> entities) {
         debug("Creating security event with targetEdOrgList determined from entities of type " + entityType);
         Set<String> targetEdOrgs = getTargetEdOrgStateIds(entityType, entities);
-        return createSecurityEvent(loggingClass, requestUri, slMessage, null, null, targetEdOrgs, false);
+        return createSecurityEvent(loggingClass, requestUri, slMessage, null, explicitRealmEntity, targetEdOrgs, false);
     }
 
     /**
      * Creates a security event with explicitly specified targetEdOrgList via targetEdOrgIds
      *
      * @param loggingClass              java class logging the security event
-     * @param requestUri                relevant URI
+     * @param explicitUri               relevant URI
      * @param slMessage                 security event message text
      * @param explicitPrincipal         used instead of the principle from the security context
      * @param explicitRealmEntity       used instead of the realm from the security context
@@ -197,16 +199,15 @@ public class SecurityEventBuilder {
                 event.setTargetEdOrgList(new ArrayList<String>(targetEdOrgs));
             } else if (defaultTargetToUserEdOrg) {
                 debug("Setting targetEdOrgList to be userEdOrg" + event.getUserEdOrg());
-                if (event.getUserEdOrg() != null) {
-                    List<String> defaultTargetEdOrgs = new ArrayList<String>();
-                    defaultTargetEdOrgs.add(event.getUserEdOrg());
-                    event.setTargetEdOrgList(defaultTargetEdOrgs);
-                }
+                setTargetToUserEdOrg(event);
             } else if (requestUri != null && requestUri.getPath() != null) {
                 debug("Not explicitly specified, doing a best effort determination of targetEdOrg based on the request uri path: " + requestUri.getPath());
                 Set<String> stateOrgIds = getTargetEdOrgStateIdsFromURI(requestUri);
                 if (stateOrgIds != null && !stateOrgIds.isEmpty()) {
                     event.setTargetEdOrgList(new ArrayList<String>(stateOrgIds));
+                } else {
+                    debug("Defaulting targetEdOrgList to userEdOrg since URI has no specific id.");
+                    setTargetToUserEdOrg(event);
                 }
             } else {
                 debug("Unable to determine targetEdOrgList");
@@ -231,6 +232,14 @@ public class SecurityEventBuilder {
             info("Could not build SecurityEvent for [" + requestUri + "] [" + slMessage + "]");
         }
         return event;
+    }
+
+    private void setTargetToUserEdOrg(SecurityEvent event) {
+        if (event != null && event.getUserEdOrg() != null) {
+            List<String> defaultTargetEdOrgs = new ArrayList<String>();
+            defaultTargetEdOrgs.add(event.getUserEdOrg());
+            event.setTargetEdOrgList(defaultTargetEdOrgs);
+        }
     }
 
     private Set<String> getTargetEdOrgStateIdsFromURI(URI requestURI) {

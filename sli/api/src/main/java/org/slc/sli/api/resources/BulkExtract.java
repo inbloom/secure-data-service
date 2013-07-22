@@ -283,7 +283,7 @@ public class BulkExtract {
                 }
         }
         if (!approvedLEAExists) {
-            throw new APIAccessDeniedException("User is not authorized to access SEA public extract", seaEntity);
+            throw new APIAccessDeniedException("User is not authorized to access SEA public extract", EntityNames.EDUCATION_ORGANIZATION, seaEntity);
         }
     }
 

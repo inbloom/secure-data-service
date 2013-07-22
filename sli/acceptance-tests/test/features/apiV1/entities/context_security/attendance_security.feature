@@ -21,16 +21,8 @@ Scenario: Unauthorized authenticated user tries to hit the attendance events lis
 Given I am user "linda.kim" in IDP "IL"
 And I am assigned the Educator role in my IDP
 And I do not teach the student "Delilah D. Sims"
-And the sli securityEvent collection is empty
 When I make an API call to get the student "Delilah D. Sims"'s attendance events list
 Then I get a message that I am not authorized
-#ContextValidator.java:288
-And I should see a count of "1" in the security event collection
-And a security event matching "Access Denied:Access to 6a98d5d3-d508-4b9c-aec2-59fce7e16825_id is not authorized" should be in the sli db
-And I check to find if record is in sli db collection:
-    | collectionName  | expectedRecordCount | searchParameter         | searchValue                              | searchType |
-    | securityEvent   | 1                   | body.userEdOrg          | IL-DAYBREAK                              | string     |
-    | securityEvent   | 1                   | body.targetEdOrgList    | 152901002                                | string     |
 
 Scenario: Authorized user accessing a specific school year attendance events of a student
 Given I am user "linda.kim" in IDP "IL"

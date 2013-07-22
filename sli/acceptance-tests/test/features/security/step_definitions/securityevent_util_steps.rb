@@ -41,15 +41,23 @@ Then /^"([^"]*)" security event matching "([^"]*)" should be in the sli db$/ do 
   assert(secEventCount == expected_count.to_i, "Unexpected number of security events found with logMessage matching " + securityeventpattern)
 end
 
+
+Then /^"([^"]*)" security event with field "([^"]*)" matching "([^"]*)" should be in the sli db$/ do |expected_count, field, securityeventpattern|
+  disable_NOTABLESCAN()
+  secEventCount = getMatchingSecEvents(field, securityeventpattern);
+  enable_NOTABLESCAN()
+  assert(secEventCount == expected_count.to_i, "Unexpected number of security events found with logMessage matching " + securityeventpattern)
+end
+
 def securityEventCollection
   db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
   coll ||= db.collection('securityEvent')
   return coll
 end
 
-def getMatchingSecEvents(securityeventpattern)
+def getMatchingSecEvents(field="body.logMessage", securityeventpattern)
     coll = securityEventCollection()
-    secEventCount = coll.find({"body.logMessage" => /#{securityeventpattern}/}).count()
+    secEventCount = coll.find({field => /#{securityeventpattern}/}).count()
     return secEventCount
 end
 
