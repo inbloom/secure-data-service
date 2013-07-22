@@ -154,15 +154,7 @@ public class DefaultResourceService implements ResourceService {
 
                 // final/resulting information
                 List<EntityBody> finalResults = null;
-                try {
-                    finalResults = logicalEntity.getEntities(apiQuery, resource.getResourceType());
-                } catch (UnsupportedSelectorException e) {
-                    if (ContextSupportedEntities.getSupportedEntities().contains(definition.getType()) && SecurityUtil.isStaffUser()) {
-                        finalResults = (List<EntityBody>) definition.getService().listBasedOnContextualRoles(apiQuery);
-                    } else {
-                        finalResults = (List<EntityBody>) definition.getService().list(apiQuery);
-                    }
-                }
+                finalResults = (List<EntityBody>) getEntityBodies(apiQuery, definition, resource.getResourceType());
 
                 if (idLength == 1 && finalResults.isEmpty()) {
                     throw new EntityNotFoundException(ids.get(0));
@@ -206,7 +198,7 @@ public class DefaultResourceService implements ResourceService {
                             }
                         });
                     } else {
-                        entityBodies = getEntityBodies(apiQuery, definition, ContextSupportedEntities.getSupportedEntities());
+                        entityBodies = getEntityBodies(apiQuery, definition, definition.getResourceName());
                     }
                     long count = getEntityCount(definition, apiQuery);
 
@@ -367,7 +359,7 @@ public class DefaultResourceService implements ResourceService {
             }
 
 
-            entityBodyList = (List<EntityBody>) getEntityBodies(apiQuery, definition, ContextSupportedEntities.getSupportedEntities());
+            entityBodyList = (List<EntityBody>) getEntityBodies(apiQuery, definition, definition.getResourceName());
 
             long count = getEntityCount(definition, apiQuery);
             return new ServiceResponse(adapter.migrate(entityBodyList, definition.getResourceName(), GET), count);
@@ -506,11 +498,11 @@ public class DefaultResourceService implements ResourceService {
                 finalApiQuery.addCriteria(new NeutralCriteria(key, "in", filteredIdList));
             }
 
-            entityBodyList = (List<EntityBody>) getEntityBodies(finalApiQuery, finalEntity, ContextSupportedEntities.getSupportedEntities());
+            entityBodyList = (List<EntityBody>) getEntityBodies(finalApiQuery, finalEntity, finalEntity.getResourceName());
 
             long count = getEntityCount(finalEntity, finalApiQuery);
 
-            return new ServiceResponse(adapter.migrate(entityBodyList,finalEntity.getResourceName(), GET), count);
+            return new ServiceResponse(adapter.migrate(entityBodyList, finalEntity.getResourceName(), GET), count);
         } catch (NoGranularAccessDatesException e) {
             List<EntityBody> entityBodyList = Collections.emptyList();
             return new ServiceResponse(entityBodyList, 0);
@@ -639,14 +631,14 @@ public class DefaultResourceService implements ResourceService {
     }
 
 
-    private Iterable<EntityBody> getEntityBodies(ApiQuery apiQuery, EntityDefinition definition, Set<String> supportedEntities) {
+    private Iterable<EntityBody> getEntityBodies(ApiQuery apiQuery, EntityDefinition definition, String type) {
 
         Iterable<EntityBody> entityBodies = null;
 
         try {
-            entityBodies = logicalEntity.getEntities(apiQuery, definition.getResourceName());
+            entityBodies = logicalEntity.getEntities(apiQuery, type);
         } catch (UnsupportedSelectorException e) {
-            if (supportedEntities.contains(definition.getType()) && SecurityUtil.isStaffUser()) {
+            if (ContextSupportedEntities.getSupportedEntities().contains(definition.getType()) && SecurityUtil.isStaffUser()) {
                 entityBodies = definition.getService().listBasedOnContextualRoles(apiQuery);
             } else {
                 entityBodies = definition.getService().list(apiQuery);
