@@ -233,6 +233,8 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
 
   Scenario Outline: PUTs, PATCHes, and DELETEs on /entity/{id}
     Given I change the custom role of "Aggregate Viewer" to add the "WRITE_PUBLIC" right
+    Given I change the custom role of "Aggregate Viewer" to add the "WRITE_GENERAL" right
+    Given I change the custom role of "Aggregate Viewer" to add the "WRITE_RESTRICTED" right
     And format "application/json"
     And a valid json document for entity "<ENTITY TYPE>"
 
