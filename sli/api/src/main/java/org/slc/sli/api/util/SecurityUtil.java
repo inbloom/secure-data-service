@@ -47,6 +47,10 @@ public class SecurityUtil {
     private static final Authentication FULL_ACCESS_AUTH;
     public static final String SYSTEM_ENTITY = "system_entity";
 
+    public static final String TEACHER_CONTEXT = "teacher";
+    public static final String STAFF_CONTEXT = "staff";
+    public static final String NULL_CONTEXT = "null";
+
     private static ThreadLocal<Authentication> cachedAuth = new ThreadLocal<Authentication>();
     private static ThreadLocal<String> tenantContext = new ThreadLocal<String>();
 

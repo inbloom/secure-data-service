@@ -61,6 +61,7 @@ public class SLIPrincipal implements Principal, Serializable {
     private List<String> roles;
     private Map<String, List<String>> edOrgRoles;
     private Map<String, Collection<GrantedAuthority>> edOrgRights;
+    private Map<String, Map<String, Collection<GrantedAuthority>>> edorgContextRights;
     private String edOrgId;
     private boolean adminUser;
     private String firstName;
@@ -79,6 +80,10 @@ public class SLIPrincipal implements Principal, Serializable {
     private Set<String> ownedStudentIds = new HashSet<String>();
     private Set<Entity> ownedStudents = new HashSet<Entity>();
 
+    private boolean isTransitive;
+    private boolean isTeacher;
+    private boolean isStaff;
+
     public SLIPrincipal() {
         // Empty default constructor is used in various places.
         authorizingEdOrgs = new HashSet<String>();
@@ -91,6 +96,15 @@ public class SLIPrincipal implements Principal, Serializable {
         this();
         this.id = id;
     }
+
+    public boolean isTransitive() {
+        return isTransitive;
+    }
+
+    public void setTransitive(boolean transitive) {
+        isTransitive = transitive;
+    }
+
 
     public String getSessionId() {
         return sessionId;
@@ -402,6 +416,7 @@ public class SLIPrincipal implements Principal, Serializable {
         return allRights;
     }
 
+
     public void populateChildren(Repository<Entity> repo) {
 
         if (ownedStudentIds == null) {
@@ -430,4 +445,29 @@ public class SLIPrincipal implements Principal, Serializable {
         }
 
     }
+
+    public boolean isTeacher() {
+        return isTeacher;
+    }
+
+    public void setTeacher(boolean teacher) {
+        isTeacher = teacher;
+    }
+
+    public boolean isStaff() {
+        return isStaff;
+    }
+
+    public void setStaff(boolean staff) {
+        isStaff = staff;
+    }
+
+    public Map<String, Map<String, Collection<GrantedAuthority>>> getEdorgContextRights() {
+        return edorgContextRights;
+    }
+
+    public void setEdorgContextRights(Map<String, Map<String, Collection<GrantedAuthority>>> edorgContextRights) {
+        this.edorgContextRights = edorgContextRights;
+    }
+
 }

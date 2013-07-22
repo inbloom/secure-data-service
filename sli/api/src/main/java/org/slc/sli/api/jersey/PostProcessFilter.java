@@ -31,6 +31,7 @@ import com.sun.jersey.spi.container.ContainerResponseFilter;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.DateTimeFormatterBuilder;
+import org.slc.sli.api.representation.EntityBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -102,6 +103,7 @@ public class PostProcessFilter implements ContainerResponseFilter {
                     .getPrincipal();
             principal.setSubEdOrgHierarchy(edOrgHelper.getStaffEdOrgsAndChildren());
             contextValidator.validateContextToUri(request, principal);
+
         }
 
         SecurityContextHolder.clearContext();

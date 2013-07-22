@@ -543,13 +543,17 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
         List<EntityBody> results = new ArrayList<EntityBody>();
 
+        Set<String> contexts = null;
         for (Entity entity : entities) {
             try {
-            Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf, entity);
-            rightAccessValidator.checkAccess(true, isSelf, entity, defn.getType(), auths);
-            rightAccessValidator.checkFieldAccess(neutralQuery, isSelf, entity, defn.getType(), auths);
 
-            results.add(entityRightsFilter.makeEntityBody(entity, treatments, defn, isSelf, auths));
+                contexts = contextValidator.validateContextToEntitiesNew(defn, entity, SecurityUtil.getSLIPrincipal().isTransitive());
+
+                Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf, entity, contexts);
+                rightAccessValidator.checkAccess(true, isSelf, entity, defn.getType(), auths);
+                rightAccessValidator.checkFieldAccess(neutralQuery, isSelf, entity, defn.getType(), auths);
+
+                results.add(entityRightsFilter.makeEntityBody(entity, treatments, defn, isSelf, auths));
             } catch (AccessDeniedException aex) {
                 if(entities.size() == 1) {
                     throw aex;

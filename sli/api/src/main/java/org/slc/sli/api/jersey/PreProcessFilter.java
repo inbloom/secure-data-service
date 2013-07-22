@@ -116,6 +116,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
 
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         principal.setSubEdOrgHierarchy(edOrgHelper.getStaffEdOrgsAndChildren());
+        principal.setTransitive(ContextValidator.isTransitive(request.getPathSegments()));
 
         info("uri: {} -> {}", request.getMethod(), request.getRequestUri().getPath());
         request.getProperties().put("original-request", request.getPath());

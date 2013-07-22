@@ -74,7 +74,7 @@ public interface IContextValidator {
      *
      * @return SecurityUtil.STAFF_CONTEXT for staff context,
      *         SecurityUtil.TEACHER_CONTEXT for teacher context,
-     *         "None" for other cases:
+     *         SecurityUtil.NULL_CONTEXT for other cases:
      *              use for both staff and teacher
      *              doesn't need context
      *              unsupported contexts: student/parents

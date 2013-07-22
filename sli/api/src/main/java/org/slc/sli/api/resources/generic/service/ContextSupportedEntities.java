@@ -36,5 +36,6 @@ public final class ContextSupportedEntities {
         supportedEntities = new HashSet<String>();
         supportedEntities.add(EntityNames.STUDENT);
         supportedEntities.addAll(EntityNames.PUBLIC_ENTITIES);
+        supportedEntities.add(EntityNames.STUDENT_SCHOOL_ASSOCIATION);
     }
 }

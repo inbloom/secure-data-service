@@ -30,6 +30,7 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
 import javax.xml.bind.DatatypeConverter;
 
 import org.apache.commons.lang3.StringUtils;

@@ -29,6 +29,7 @@ import javax.ws.rs.core.PathSegment;
 import com.sun.jersey.spi.container.ContainerRequest;
 
 import org.apache.commons.lang.math.NumberUtils;
+import org.elasticsearch.common.inject.matcher.Matcher;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -214,13 +215,8 @@ public class ContextValidator implements ApplicationContextAware {
             return;
         }
 
-        /*
-         * e.g.
-         * !isTransitive - /v1/staff/<ID>/disciplineActions
-         * isTransitive - /v1/staff/<ID> OR /v1/staff/<ID>/custom
-         */
-        boolean isTransitive = segs.size() == 3
-                || (segs.size() == 4 && segs.get(3).getPath().equals(ResourceNames.CUSTOM));
+
+        boolean isTransitive =  isTransitive(segs);
 
         validateContextToCallUri(segs);
         String idsString = segs.get(2).getPath();
@@ -269,12 +265,43 @@ public class ContextValidator implements ApplicationContextAware {
 
         IContextValidator validator = findValidator(def.getType(), isTransitive);
         if (validator != null) {
-            Set<String> idsToValidate = new HashSet<String>();
             NeutralQuery getIdsQuery = new NeutralQuery(new NeutralCriteria("_id", "in", new ArrayList<String>(ids)));
-            int found = 0;
-            for (Entity ent : repo.findAll(def.getStoredCollectionName(), getIdsQuery)) {
+            Collection<Entity> entities = (Collection<Entity>) repo.findAll(def.getStoredCollectionName(), getIdsQuery);
+            validateContextToEntities(def, entities, isTransitive, validator);
+        }    else {
+            throw new APIAccessDeniedException("No validator for " + def.getType() + ", transitive=" + isTransitive, def.getType(), ids);
+        }
+    }
+
+    public Set<String> validateContextToEntitiesNew(EntityDefinition def, Entity entity, boolean isTransitive) {
+
+        List<IContextValidator> contextValidators = findContextualValidator(def.getType(), isTransitive);
+
+        Set<String> contexts = new HashSet<String>();
+
+        for (IContextValidator validator : contextValidators) {
+           try {
+               validateContextToEntities(def, Arrays.asList(entity), isTransitive, validator);
+               contexts.add(validator.getContext());
+           } catch (Exception e) {
+               error(e.getMessage());
+           }
+        }
+
+        if (contexts.size() == 0) {
+            throw new APIAccessDeniedException("No validator for " + def.getType() + ", transitive=" + isTransitive, def.getType(), entity.toString());
+        }
+
+        return contexts;
+    }
+
+    protected Collection<Entity> validateContextToEntities(EntityDefinition def, Collection<Entity> entities, boolean isTransitive, IContextValidator validator) {
+         int found = 0;
+         Set<String> idsToValidate = new HashSet<String>();
+         Set<Entity> entitiesToValidate = new HashSet<Entity>();
+            for (Entity ent : entities) {
                 found++;
-                Collection< String> userEdOrgs = edOrgHelper.getDirectEdorgs( ent );
+                Collection<String> userEdOrgs = edOrgHelper.getDirectEdorgs( ent );
                 if (SecurityUtil.principalId().equals(ent.getMetaData().get("createdBy"))
                         && "true".equals(ent.getMetaData().get("isOrphaned"))) {
                     debug("Entity is orphaned: id {} of type {}", ent.getEntityId(), ent.getType());
@@ -284,17 +311,18 @@ public class ContextValidator implements ApplicationContextAware {
                 } else {
                     if (ownership.canAccess(ent, isTransitive)) {
                         idsToValidate.add(ent.getEntityId());
+                        entitiesToValidate.add(ent);
                     } else {
                         throw new APIAccessDeniedException("Access to " + ent.getEntityId() + " is not authorized",
-                                userEdOrgs);
+                            userEdOrgs);
                     }
                 }
             }
 
-            if (found != ids.size()) {
-                debug("Invalid reference, an entity does not exist. collection: {} ids: {}",
-                        def.getStoredCollectionName(), ids);
-                throw new EntityNotFoundException("Could not locate " + def.getType() + " with ids " + ids);
+            if (found != entities.size()) {
+                debug("Invalid reference, an entity does not exist. collection: {} entities: {}",
+                        def.getStoredCollectionName(), entities);
+                throw new EntityNotFoundException("Could not locate " + def.getType() + " with ids " + entities);
             }
 
             if (!idsToValidate.isEmpty()) {
@@ -302,10 +330,9 @@ public class ContextValidator implements ApplicationContextAware {
                     throw new APIAccessDeniedException("Cannot access entities", def.getType(), idsToValidate);
                 }
             }
-        } else {
-            throw new APIAccessDeniedException("No validator for " + def.getType() + ", transitive=" + isTransitive, def.getType(), ids);
-        }
-    }
+
+         return entitiesToValidate;
+       }
 
     /**
      *
@@ -332,6 +359,23 @@ public class ContextValidator implements ApplicationContextAware {
         return found;
     }
 
+    public List<IContextValidator> findContextualValidator(String toType, boolean isTransitive) throws IllegalStateException {
+
+        List<IContextValidator> validators = new ArrayList<IContextValidator>();
+        for (IContextValidator validator : this.validators) {
+            if (validator.canValidate(toType, isTransitive)) {
+                info("Using {} to validate {}", new Object[] { validator.getClass().toString(), toType });
+                validators.add(validator);
+            }
+        }
+
+        if (validators.isEmpty()) {
+            warn("No {} validator to {}.", isTransitive ? "TRANSITIVE" : "NOT TRANSITIVE", toType);
+        }
+
+        return validators;
+    }
+
     /**
      * Determines if the entity is global.
      *
@@ -341,6 +385,24 @@ public class ContextValidator implements ApplicationContextAware {
      */
     public boolean isGlobalEntity(String type) {
         return EntityNames.isPublic(type);
+    }
+
+    public static boolean isTransitive(List<PathSegment> segs) {
+                /*
+         * e.g.
+         * !isTransitive - /v1/staff/<ID>/disciplineActions
+         * isTransitive - /v1/staff/<ID> OR /v1/staff/<ID>/custom
+         */
+        return segs.size() == 3
+                || (segs.size() == 4 && segs.get(3).getPath().equals(ResourceNames.CUSTOM));
+    }
+
+    public List<IContextValidator> getValidators() {
+        return validators;
+    }
+
+    public void setValidators(List<IContextValidator> validators) {
+        this.validators = validators;
     }
     
 }

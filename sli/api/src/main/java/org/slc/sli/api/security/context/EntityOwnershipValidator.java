@@ -71,6 +71,17 @@ public class EntityOwnershipValidator {
      * @return True if the requested entity can be accessed, false otherwise.
      */
     public boolean canAccess(Entity entity, boolean isTransitive) {
+        Set<String> owningEdorgs = arbiter.determineEdorgs(Arrays.asList(entity), entity.getType());
+        if (owningEdorgs.size() == 0) {
+            warn("Potentially bad data found.");
+            return true;
+        }
+
+        return canAccess(entity, isTransitive, owningEdorgs);
+    }
+
+    public boolean canAccess(Entity entity, boolean isTransitive, Set<String> owningEdorgs) {
+
         if (SecurityUtil.getSLIPrincipal().getAuthorizingEdOrgs() == null) {
             // explicitly set null if the app is marked as authorized_for_all_edorgs
             return true;
@@ -83,12 +94,6 @@ public class EntityOwnershipValidator {
 
         if (isTransitive && globalEntities.contains(entity.getType())) {
             debug("skipping ownership validation --> transitive access to global entity: {}", entity.getType());
-            return true;
-        }
-
-        Set<String> owningEdorgs = arbiter.determineEdorgs(Arrays.asList(entity), entity.getType());
-        if (owningEdorgs.size() == 0) {
-            warn("Potentially bad data found.");
             return true;
         }
 

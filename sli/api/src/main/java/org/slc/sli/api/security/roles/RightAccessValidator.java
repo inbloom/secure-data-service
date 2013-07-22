@@ -209,6 +209,35 @@ public class RightAccessValidator {
      *
      * @return a set of granted authorities
      */
+    public Collection<GrantedAuthority> getContextualAuthorities(boolean isSelf, Entity entity, Set<String> contexts){
+        Collection<GrantedAuthority> auths = new HashSet<GrantedAuthority>();
+
+        SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
+        if (isSelf) {
+            auths.addAll(principal.getSelfRights());
+        }
+
+        if (SecurityUtil.isStaffUser()) {
+            if (entity == null) {
+                debug("No authority for null");
+            } else {
+                if ((entity.getMetaData() != null && SecurityUtil.principalId().equals(entity.getMetaData().get("createdBy"))
+                        && "true".equals(entity.getMetaData().get("isOrphaned")))
+                        || EntityNames.isPublic(entity.getType())) {
+                    // Orphaned entities created by the principal are handled the same as before.
+                    auths.addAll(principal.getAllRights());
+                } else {
+                    auths.addAll(entityEdOrgRightBuilder.buildContextualEntityEdOrgRights(principal.getEdorgContextRights(), entity, contexts));
+                }
+            }
+        } else {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            auths.addAll(auth.getAuthorities());
+        }
+
+        return auths;
+    }
+
     public Collection<GrantedAuthority> getContextualAuthorities(boolean isSelf, Entity entity){
         Collection<GrantedAuthority> auths = new HashSet<GrantedAuthority>();
 
@@ -227,7 +256,7 @@ public class RightAccessValidator {
                     // Orphaned entities created by the principal are handled the same as before.
                     auths.addAll(principal.getAllRights());
                 } else {
-                    auths.addAll(entityEdOrgRightBuilder.buildEntityEdOrgRights(principal.getEdOrgRights(), entity));
+                    auths.addAll(entityEdOrgRightBuilder.buildContextualEntityEdOrgRights(principal.getEdorgContextRights(), entity, new HashSet<String>()));
                 }
             }
         } else {
