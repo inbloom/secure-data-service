@@ -7,7 +7,7 @@ Given I am user "linda.kim" in IDP "IL"
 And I am assigned the Educator role in my IDP
 And I teach the student "Marvin Miller"
 When I make an API call to get the student "Marvin Miller"
-Then I receive a JSON response
+Then I receive a JSON RESPONSE
 And I should see a link to get the list of its attendance events in the response labeled "attendances"
 
 Scenario: Authorized user tries to hit the attendance events list URL directly

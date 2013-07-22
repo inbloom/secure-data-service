@@ -155,7 +155,7 @@ public class RightAccessValidator {
         }
 
         if (!allow) {
-            throw new APIAccessDeniedException("Insufficient Privileges", entity);
+            throw new APIAccessDeniedException("Insufficient Privileges", entityType, entity);
         }
     }
 
