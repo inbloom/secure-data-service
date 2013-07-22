@@ -22,6 +22,24 @@ require_relative '../../../utils/sli_utils.rb'
 $TAR_FILE_NAME = "Final.tar"
 LEA_DAYBREAK_ID_VAL2 = '1b223f577827204a1c7e9c851dba06bea6b031fe_id'
 
+Given /^I update the "(.*?)" with ID "(.*?)" field "(.*?)" to "(.*?)" on the sli database$/ do |collection, id, field, boolean|
+  conn = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
+  sli = conn.db("sli")
+
+  coll = sli[collection]
+  entity = coll.find_one({"_id" => id})
+  assert(entity, "cant find #{collection} with id #{id}")
+  entry = entity
+  subfields = field.split(".")
+  last = subfields.pop
+  subfields.each { |subfield|
+    entry = entry[subfield]
+  }
+  puts "saving entity: #{entity}"
+  entry[last] = boolean=="true"
+  coll.save(entity)
+end
+
 Given /^I am a valid 'service' user with an authorized long\-lived token "(.*?)"$/ do |token|
   @sessionId=token
 end
