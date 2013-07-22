@@ -26,11 +26,13 @@ import java.util.Set;
 import junit.framework.Assert;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
@@ -142,6 +144,86 @@ public class EntityEdOrgRightBuilderTest {
         Collection<GrantedAuthority> grantedAuthorities = entityEdOrgRightBuilder.buildEntityEdOrgRights(edOrgRights, entity);
 
         Assert.assertTrue(grantedAuthorities.isEmpty());
+    }
+
+    @Test
+    public void testBuildContextualEdorgRight(){
+        EdOrgOwnershipArbiter edOrgOwnershipArbiter = Mockito.mock(EdOrgOwnershipArbiter.class);
+        entityEdOrgRightBuilder.setEdOrgOwnershipArbiter(edOrgOwnershipArbiter);
+
+        Set<String> teacherContext = new HashSet<String>(Arrays.asList(SecurityUtil.TEACHER_CONTEXT));
+        Set<String> staffContext = new HashSet<String>(Arrays.asList(SecurityUtil.STAFF_CONTEXT));
+        Set<String> bothContexts = new HashSet<String>(Arrays.asList(SecurityUtil.TEACHER_CONTEXT, SecurityUtil.STAFF_CONTEXT));
+
+        Map<String, Map<String, Collection<GrantedAuthority>>> edorgContextRightMap = createEdOrgContextualRights();
+
+        Set<String> edOrgs = new HashSet<String>();
+        edOrgs.add("edOrg1");
+        edOrgs.add("edOrg6");
+        edOrgs.add("edOrg7");
+
+        Entity entity = Mockito.mock(Entity.class);
+        Mockito.when(entity.getType()).thenReturn("student");
+
+        Mockito.when(edOrgOwnershipArbiter.determineHierarchicalEdorgs(Matchers.anyList(), Matchers.anyString())).thenReturn(edOrgs);
+
+        Collection<GrantedAuthority> grantedAuthorities = entityEdOrgRightBuilder.buildContextualEntityEdOrgRights(edorgContextRightMap, entity, teacherContext);
+
+        Assert.assertTrue(grantedAuthorities.isEmpty());
+
+        edOrgs.clear();
+        edOrgs.add("edorg2");
+
+        executeContextualRight(edorgContextRightMap, entity, teacherContext, new HashSet<GrantedAuthority>(Arrays.asList(READ_RESTRICTED)));
+        executeContextualRight(edorgContextRightMap, entity, staffContext, new HashSet<GrantedAuthority>(Arrays.asList(READ_GENERAL)));
+        executeContextualRight(edorgContextRightMap, entity, bothContexts, new HashSet<GrantedAuthority>(Arrays.asList(READ_RESTRICTED, READ_GENERAL)));
+
+        edOrgs.clear();
+        edOrgs.add("edorg3");
+        edOrgs.add("edorg4");
+
+        executeContextualRight(edorgContextRightMap, entity, teacherContext, new HashSet<GrantedAuthority>(Arrays.asList(READ_RESTRICTED)));
+        executeContextualRight(edorgContextRightMap, entity, staffContext, new HashSet<GrantedAuthority>(Arrays.asList(READ_GENERAL, READ_PUBLIC)));
+        executeContextualRight(edorgContextRightMap, entity, bothContexts, new HashSet<GrantedAuthority>(Arrays.asList(READ_GENERAL, READ_PUBLIC, READ_RESTRICTED)));
+
+    }
+
+    private void executeContextualRight(Map<String, Map<String, Collection<GrantedAuthority>>> edorgContextRightMap, Entity entity, Set<String> contexts, Set<GrantedAuthority> expectedAuthorities) {
+        Collection<GrantedAuthority> grantedAuthorities = entityEdOrgRightBuilder.buildContextualEntityEdOrgRights(edorgContextRightMap, entity, contexts);
+        Assert.assertEquals(expectedAuthorities.size(), grantedAuthorities.size());
+        for(GrantedAuthority auth : grantedAuthorities) {
+            Assert.assertTrue(expectedAuthorities.contains(auth));
+        }
+    }
+
+    private Map<String, Map<String, Collection<GrantedAuthority>>> createEdOrgContextualRights() {
+        Map<String, Map<String, Collection<GrantedAuthority>>> edOrgContextRights = new HashMap<String, Map<String, Collection<GrantedAuthority>>>();
+
+        Collection<GrantedAuthority> aRP = new HashSet<GrantedAuthority>(Arrays.asList(READ_PUBLIC));
+        Collection<GrantedAuthority> aRR = new HashSet<GrantedAuthority>(Arrays.asList(READ_RESTRICTED));
+        Collection<GrantedAuthority> aWG = new HashSet<GrantedAuthority>(Arrays.asList(WRITE_GENERAL));
+        Collection<GrantedAuthority> aRGRP = new HashSet<GrantedAuthority>(Arrays.asList(READ_GENERAL, READ_PUBLIC));
+        Collection<GrantedAuthority> aRG = new HashSet<GrantedAuthority>(Arrays.asList(READ_GENERAL));
+
+        Map<String, Collection<GrantedAuthority>> contextRight1 = new HashMap<String, Collection<GrantedAuthority>>();
+        contextRight1.put(SecurityUtil.TEACHER_CONTEXT, aRR);
+        contextRight1.put(SecurityUtil.STAFF_CONTEXT, aRG);
+
+        Map<String, Collection<GrantedAuthority>> contextRight2 = new HashMap<String, Collection<GrantedAuthority>>();
+        contextRight2.put(SecurityUtil.TEACHER_CONTEXT, aRR);
+
+        Map<String, Collection<GrantedAuthority>> contextRight3 = new HashMap<String, Collection<GrantedAuthority>>();
+        contextRight3.put(SecurityUtil.STAFF_CONTEXT, aRGRP);
+
+        Map<String, Collection<GrantedAuthority>> contextRight4 = new HashMap<String, Collection<GrantedAuthority>>();
+        contextRight4.put(SecurityUtil.STAFF_CONTEXT, aWG);
+
+        edOrgContextRights.put("edorg2", contextRight1);
+        edOrgContextRights.put("edorg3", contextRight2);
+        edOrgContextRights.put("edorg4", contextRight3);
+        edOrgContextRights.put("edorg5", contextRight4);
+
+        return edOrgContextRights;
     }
 
 
