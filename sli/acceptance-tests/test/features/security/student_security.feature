@@ -57,7 +57,7 @@ Feature: Student access to system
      And I check to find if record is in sli db collection:
         | collectionName  | expectedRecordCount | searchParameter         | searchValue                              | searchType |
         | securityEvent   | 1                   | body.appId              | vavedRa9uB                               | string     |
-       #| securityEvent   | 1                   | body.className          | org.slc.sli.api.jersey.PostProcessFilter | string     |
+        | securityEvent   | 1                   | body.className          | org.slc.sli.api.jersey.PostProcessFilter | string     |
         | securityEvent   | 1                   | body.userEdOrg          | IL-DAYBREAK                              | string     |
         | securityEvent   | 1                   | body.targetEdOrgList    | THRACE                                   | string     |
     And "1" security event matching "Access Denied:url http.*/api/rest/v1.3/schools/888b2e17-0edb-4251-958b-8ac65093c9d3/studentSchoolAssociations/students is not accessible." should be in the sli db
