@@ -6,7 +6,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
   Background: Logged in as IT Admin Rick Rogers
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
     And format "application/vnd.slc+json"
-
+@wip
     Scenario Outline: CRUD round trip for an association entity
       Given I am logged in using "<USER>" "<PASSWORD>" to realm "IL"
       # Create
@@ -77,7 +77,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     Examples:
       | ASSOC TYPE     | ASSOC URI       |
       | courseOffering | courseOfferings |
-
+@wip
     Scenario Outline: CRUD round trip for an association entity can't update natural key
       Given I am logged in using "<USER>" "<PASSWORD>" to realm "IL"
       # Create
@@ -113,7 +113,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | beginDate                | 2011-01-13             | 2011-02-15             | cgrayadmin | cgray1234   |
       | studentCohortAssociation               | studentCohortAssociations                | beginDate                | 2012-02-29             | 2011-12-01             | cgrayadmin | cgray1234   |
       | teacherSchoolAssociation               | teacherSchoolAssociations                | programAssignment        | Special Education      | Regular Education      | cgrayadmin | cgray1234   |
-
+@wip
     Scenario Outline: Read All as State level Staff
       Given my contextual access is defined by table:
       | Context                | Ids                                  |
@@ -143,7 +143,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | courseTranscript                       | courseTranscripts                        | 0     | "/schools/@ids/studentSchoolAssociations/students/studentAcademicRecords/courseTranscripts" |
       | teacherSchoolAssociation               | teacherSchoolAssociations                | 0     | "/schools/@ids/teacherSchoolAssociations" |
       | teacherSectionAssociation              | teacherSectionAssociations               | 0     | "/schools/@ids/teacherSchoolAssociations/teachers/teacherSectionAssociations" |
-
+@wip
     Scenario Outline: Read All as School level Teacher
       Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
       And format "application/vnd.slc+json"
@@ -179,7 +179,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | teacher                                | teachers                                 | 1     | "/schools/@ids/teacherSchoolAssociations/teachers" |
       | teacherSchoolAssociation               | teacherSchoolAssociations                | 1     | "/teachers/@ids/teacherSchoolAssociations" |
       | teacherSectionAssociation              | teacherSectionAssociations               | 4     | "/teachers/@ids/teacherSectionAssociations" |
-
+@wip
     Scenario Outline: Unhappy paths: invalid or inaccessible references
       # Log in as a user with less accessible data
       Given the sli securityEvent collection is empty
@@ -279,4 +279,25 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | studentSectionAssociation              | studentSectionAssociations               | <8ed12459-eae5-49bc-8b6b-6ebe1a56384f_id4ae72560-3518-4576-a35e-a9607668c9ad_id>    | homeroomIndicator        | false                  | studentId             | sectionId                      | <737dd4c1-86bd-4892-b9e0-0f24f76210be_id>    | <a47eb9aa-1c97-4c8e-9d0a-45689a66d4f8_id> | IL-DAYBREAK   |       |
       | courseTranscript                       | courseTranscripts                        | <f11a2a30-d4fd-4400-ae18-353c00d581a2>                                              | finalLetterGradeEarned   | B                      | studentId             | courseId                       | <737dd4c1-86bd-4892-b9e0-0f24f76210be_id>    | <e31f7583-417e-4c42-bd55-0bbe7518edf8>    | IL-DAYBREAK   |  |
       | teacherSectionAssociation              | teacherSectionAssociations               | <15ab6363-5509-470c-8b59-4f289c224107_id32b86a2a-e55c-4689-aedf-4b676f3da3fc_id>    | classroomPosition        | Assistant Teacher      | teacherId             | sectionId                      | <04f708bc-928b-420d-a440-f1592a5d1073>       | <a47eb9aa-1c97-4c8e-9d0a-45689a66d4f8_id> | IL-DAYBREAK   |   |
-      
+
+
+    Scenario: Unhappy paths: invalid or inaccessible references security event
+      Given the sli securityEvent collection is empty
+      And I am logged in using "jstevenson" "jstevenson1234" to realm "IL"
+      # Read with invalid reference
+      When I navigate to GET "/teacherSectionAssociations/<15ab6363-5509-470c-8b59-4f289c224107_id32b86a2a-e55c-4689-aedf-4b676f3da3fc_id>"
+      And I set the "<sectionId>" to "<a47eb9aa-1c97-4c8e-9d0a-45689a66d4f8_id>"
+      And I navigate to PUT "/teacherSectionAssociations/<15ab6363-5509-470c-8b59-4f289c224107_id32b86a2a-e55c-4689-aedf-4b676f3da3fc_id>"
+      Then I should receive a return code of 403
+     And I should see a count of "1" in the security event collection
+     And I check to find if record is in sli db collection:
+        | collectionName  | expectedRecordCount | searchParameter         | searchValue                              | searchType |
+        | securityEvent   | 1                   | body.appId              | ke9Dgpo3uI                               | string     |
+        | securityEvent   | 1                   | body.className          | org.slc.sli.api.service.BasicService     | string     |
+        | securityEvent   | 1                   | body.userEdOrg          | IL-DAYBREAK                              | string     |
+        | securityEvent   | 1                   | body.targetEdOrgList    | 152901001                                | string     |
+     And "1" security event matching "Access Denied:Invalid reference. No association to referenced entity." should be in the sli db
+     And "1" security event with field "body.actionUri" matching "http.*/api/rest/v1.1/teacherSectionAssociations" should be in the sli db   
+  
+ 
+     

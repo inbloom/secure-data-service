@@ -33,8 +33,8 @@ Feature: Admin delegation CRUD
         | securityEvent   | 1                   | body.userEdOrg          | fakeab32-b493-999b-a6f3-sliedorg1234                                | string     |
         | securityEvent   | 1                   | body.targetEdOrgList    | IL-SUNSET                                                           | string     |
      And "1" security event matching "Access Denied:Cannot perform authorizations for edorg " should be in the sli db
-
- 
+     #And "1" security event with field "body.actionUri" matching "http.*/api/rest/applicationAuthorization/78f71c9a-8e37-0f86-8560-7783379d96f7?edorg=b2c6e292-37b0-4148-bf75-c98a2fcc905f" should be in the sli db
+     
 
   Scenario: District administrator updating admin delegation
     Given I am logged in using "sunsetadmin" "sunsetadmin1234" to realm "SLI"
