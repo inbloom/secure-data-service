@@ -5,6 +5,26 @@ Feature: As a parent I want to use apps that access the inBloom API
   Background: None
 
   @parent_crud
+  Scenario: Parent cannot Write to public entities with Access Denied security event asserts
+    Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "marsha.sollars" with password "marsha.sollars1234"
+    And format "application/json"
+    And I am using api version "v1"
+    And the sli securityEvent collection is empty
+    #POST
+    When I POST and validate the following entities:
+      | entityName                    | entityType                 | returnCode |
+      | newProgram                    | program                    | 403        |
+    And I check to find if record is in sli db collection:
+        | collectionName  | expectedRecordCount | searchParameter         | searchValue                                | searchType |
+        | securityEvent   | 1                   | body.tenantId           | Midgar                                     | string     |
+        | securityEvent   | 1                   | body.appId              | EGbI4LaLaL                                 | string     |
+        | securityEvent   | 1                   | body.className          | org.slc.sli.api.jersey.PreProcessFilter    | string     |
+        | securityEvent   | 1                   | body.userEdOrg          | IL-DAYBREAK                                | string     |
+        | securityEvent   | 1                   | body.targetEdOrgList    | IL-DAYBREAK                                | string     |
+    And "1" security event with field "body.actionUri" matching "http.*/api/rest/v1.3/programs" should be in the sli db
+    And "1" security event with field "body.logMessage" matching "Access Denied:url http.*/api/rest/v1.3/programs is not accessible." should be in the sli db
+
+  @parent_crud
   Scenario: Parent cannot Write to public entities
     Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent" "marsha.sollars" with password "marsha.sollars1234"
     And format "application/json"
