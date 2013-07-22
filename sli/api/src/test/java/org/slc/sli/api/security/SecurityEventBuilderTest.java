@@ -157,7 +157,7 @@ public class SecurityEventBuilderTest {
         Assert.assertTrue(se.getActionUri().equals(ONE_PART_URI));
         Assert.assertTrue(se.getLogMessage().equals(LOG_MESSAGE));
         Assert.assertTrue(se.getUserEdOrg().equals(principal.getRealmEdOrg()));
-        Assert.assertTrue(se.getTargetEdOrgList() == null);
+        Assert.assertTrue(se.getTargetEdOrgList().contains(principal.getRealmEdOrg()));
     }
 
     // test deriving targetEdOrg from a two part URI

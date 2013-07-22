@@ -5,6 +5,7 @@ I want to test all combinations and permutations of accessing student data
 @DE_2726
 Scenario Outline: Users accessing students via multi-part URIs for Sections
   Given I am user <User> in IDP "SEC"
+  And the sli securityEvent collection is empty
   When I make an API call to get all students in the section <Section>
   Then I should receive a return code of <Code>
     And I should see a count of <Count>
@@ -96,6 +97,14 @@ Scenario Outline: Users accessing students via multi-part URIs for Sections
   |"staff13"|"section3"| 200 |  1  | "student10"          | state-staff as IT Admin |
   |"staff14"|"section3"| 403 |  0  | "none"               | state-staff as Agg Viewer |
   |"staff15"|"section3"| 403 |  0  | "none"               | state-staff with expired association |
+
+Scenario: Check the status of securityEvent collection 
+And I should see a count of "2" in the security event collection 
+And I check to find if record is in sli db collection: 
+| collectionName | expectedRecordCount | searchParameter | searchValue | searchType |
+| securityEvent | 2 | body.className | org.slc.sli.api.security.resolve.impl.MongoUserLocator | string | 
+ And "2" security event matching "Access Denied:User is not currently associated to a school/edorg" should be in the sli db
+
 
 @DE_2712 
 Scenario Outline: Users accessing students via multi-part URIs for Cohorts
