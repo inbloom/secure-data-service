@@ -4,7 +4,7 @@ Feature: As an SLI application, I want to return the right order of entities.
 
   Background: Format is JSON
     Given format "application/json"
-
+@wip
   Scenario Outline: Doing a GET request on 3 comma-separated, all valid student IDs
     Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
     Given the order of students I want is <STUDENT IDs ORDER>
@@ -39,7 +39,7 @@ Feature: As an SLI application, I want to return the right order of entities.
     | <INVALID ID>,<MARVIN MILLER ID>,<MARVIN MILLER ID>        | 404  |
     | <MARVIN MILLER ID>,<MARVIN MILLER ID>,<INACCESSABLE ID>   | 403  |
     | <MARVIN MILLER ID>,<INVALID ID>,<INACCESSABLE ID>         | 404  |
-
+@wip
  Scenario Outline: Doing a GET request on 3 comma-separated, some invalid student IDs, some I cannot see Part 2
      Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
      And the sli securityEvent collection is empty
@@ -60,7 +60,7 @@ Feature: As an SLI application, I want to return the right order of entities.
    Examples:
      | STUDENT IDs ORDER                                         | CODE |
      | <MARVIN MILLER ID>,<MARVIN MILLER ID>,<INACCESSABLE ID>   | 403  |
-
+@wip
  Scenario Outline: Validate CSL for each endpoint
  	    Given I am logged in using "jstevenson" "jstevenson1234" to realm "IL"
  	    When I navigate to GET "/v1/<ENDPOINT>/<ID1>"
@@ -110,7 +110,7 @@ Feature: As an SLI application, I want to return the right order of entities.
  	    |studentSchoolAssociations              |f4cd9ac2-8f68-42a7-a886-977e4a194c0c|db49239e-4813-44d6-98b1-da29eba0f47f|
  	    |teacherSchoolAssociations              |9d4e4031-3a5d-4965-98b9-257ff887a774|26a4a0fc-fad4-45f4-a00d-285acd1f83eb|
  	    |teacherSectionAssociations             |706ee3be-0dae-4e98-9525-f564e05aa388_id29d58f86-5fab-4926-a9e2-e4076fe27bb3_id|15ab6363-5509-470c-8b59-4f289c224107_id32b86a2a-e55c-4689-aedf-4b676f3da3fc_id|
-
+@wip
  Scenario Outline: Validate CSL where staff has access to one ID but not two
       Given I am logged in using "jstevenson" "jstevenson1234" to realm "IL"
       #And the sli securityEvent collection is empty
@@ -214,3 +214,35 @@ Scenario Outline: Validate CSL where teacher has access to one ID but not two
       |studentSchoolAssociations              |f4cd9ac2-8f68-42a7-a886-977e4a194c0c|03af9c21-43c0-4d2d-bac6-96cf3290a6f4|
       |teacherSchoolAssociations              |9d4e4031-3a5d-4965-98b9-257ff887a774|1a72521b-7bed-890a-d574-1d729a379528|
       |teacherSectionAssociations             |15ab6363-5509-470c-8b59-4f289c224107_id32b86a2a-e55c-4689-aedf-4b676f3da3fc_id|706ee3be-0dae-4e98-9525-f564e05aa388_id29d58f86-5fab-4926-a9e2-e4076fe27bb3_id|
+
+Scenario Outline: Validate CSL where teacher has access to one ID but not two security event
+      Given I am logged in using "cgray" "cgray1234" to realm "IL"
+      And the sli securityEvent collection is empty
+      When I navigate to GET "/v1/studentParentAssociations/0c2756fd-6a30-4010-af79-488d6ef2735a_idc5aa1969-492a-5150-8479-71bfc4d87984_id"
+      Then I should receive a return code of 403
+     And I should see a count of "1" in the security event collection
+     And I check to find if record is in sli db collection:
+        | collectionName  | expectedRecordCount | searchParameter         | searchValue                                           | searchType |
+        | securityEvent   | 1                   | body.appId              | ke9Dgpo3uI                                            | string     |
+        | securityEvent   | 1                   | body.className          |org.slc.sli.api.security.context.EdOrgOwnershipArbiter | string     |
+        | securityEvent   | 1                   | body.userEdOrg          | IL-SUNSET                                             | string     |
+        #| securityEvent   | 1                   | body.targetEdOrgList    | THRACE                                                | string     |
+     And "1" security event matching "Access Denied:Could not find a matching studentParentAssociation where parentId is 056dce8e-ec68-4df6-add0-a4243bddca9a." should be in the sli db
+
+       
+ @wip
+ Scenario: Student cannot traverse to protected data through public entities security event
+    Given I am logged in using "carmen.ortiz" "carmen.ortiz1234" to realm "IL-Daybreak-Students"
+     And the sli securityEvent collection is empty
+    When I navigate to GET "/v1/schools/888b2e17-0edb-4251-958b-8ac65093c9d3/studentSchoolAssociations/students"
+    Then I should receive a return code of 403
+     And I should see a count of "1" in the security event collection
+     And I check to find if record is in sli db collection:
+        | collectionName  | expectedRecordCount | searchParameter         | searchValue                              | searchType |
+        | securityEvent   | 1                   | body.appId              | vavedRa9uB                               | string     |
+       #| securityEvent   | 1                   | body.className          | org.slc.sli.api.jersey.PostProcessFilter | string     |
+        | securityEvent   | 1                   | body.userEdOrg          | IL-DAYBREAK                              | string     |
+        | securityEvent   | 1                   | body.targetEdOrgList    | THRACE                                   | string     |
+     And "1" security event matching "Access Denied:url http.*/api/rest/v1.3/schools/888b2e17-0edb-4251-958b-8ac65093c9d3/studentSchoolAssociations/students is not accessible." should be in the sli db
+
+      

@@ -61,3 +61,19 @@ Feature: Student access to system
         | securityEvent   | 1                   | body.userEdOrg          | IL-DAYBREAK                              | string     |
         | securityEvent   | 1                   | body.targetEdOrgList    | THRACE                                   | string     |
      And "1" security event matching "Access Denied:url http.*/api/rest/v1.3/schools/888b2e17-0edb-4251-958b-8ac65093c9d3/studentSchoolAssociations/students is not accessible." should be in the sli db
+
+     
+  Scenario: Student cannot traverse to protected data through public entities security event checking
+    Given I am logged in using "carmen.ortiz" "carmen.ortiz1234" to realm "IL-Daybreak-Students"
+     And the sli securityEvent collection is empty
+    When I navigate to GET "/v1/learningObjectives/dd9165f2-65fe-6d27-a8ec-bdc5f47757b7/studentCompetencies"
+    Then I should receive a return code of 403
+     And I should see a count of "1" in the security event collection
+     And I check to find if record is in sli db collection:
+        | collectionName  | expectedRecordCount | searchParameter         | searchValue                              | searchType |
+        | securityEvent   | 1                   | body.appId              | vavedRa9uB                               | string     |
+        | securityEvent   | 1                   | body.className          | org.slc.sli.api.security.pdp.UriMutator  | string     |
+        | securityEvent   | 1                   | body.userEdOrg          | IL-DAYBREAK                              | string     |
+        | securityEvent   | 1                   | body.targetEdOrgList    | IL-DAYBREAK                              | string     |
+     And "1" security event matching "Access Denied:url is not accessible to students or parents" should be in the sli db
+     
