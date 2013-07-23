@@ -94,17 +94,6 @@ public class PostProcessFilter implements ContainerResponseFilter {
 
     @Override
     public ContainerResponse filter(ContainerRequest request, ContainerResponse response) {
-        if (isRead(request.getMethod()) && isSuccessfulRead(response.getStatus())) {
-            if (contextValidator.isUrlBlocked(request)) {
-                throw new AccessDeniedException(String.format("url %s is not accessible.", request.getAbsolutePath().toString()));
-            }
-
-            SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
-                    .getPrincipal();
-            principal.setSubEdOrgHierarchy(edOrgHelper.getStaffEdOrgsAndChildren());
-            contextValidator.validateContextToUri(request, principal);
-
-        }
 
         SecurityContextHolder.clearContext();
 

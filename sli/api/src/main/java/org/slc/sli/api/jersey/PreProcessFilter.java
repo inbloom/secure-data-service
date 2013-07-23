@@ -124,13 +124,13 @@ public class PreProcessFilter implements ContainerRequestFilter {
         injectObligations(request);
         validateNotBlockGetRequest(request);
 
-        if (ResourceMethod.getWriteOps().contains(request.getMethod()) && contextValidator.isUrlBlocked(request)) {
+        if (contextValidator.isUrlBlocked(request)) {
             throw new AccessDeniedException(String.format("url %s is not accessible.", request.getAbsolutePath().toString()));
         }
 
-        if (isUpdateOrDelete(request.getMethod())) {
-            contextValidator.validateContextToUri(request, principal);
-        }
+        principal.setSubEdOrgHierarchy(edOrgHelper.getStaffEdOrgsAndChildren());
+        contextValidator.validateContextToUri(request, principal);
+
 
         translator.translate(request);
         criteriaGenerator.generate(request);
