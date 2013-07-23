@@ -109,9 +109,10 @@ Feature: As an SLI application I want to restrict user's access to restricted da
     Then I should receive a return code of 403
     And I check to find if record is in sli db collection:
         | collectionName  | expectedRecordCount | searchParameter         | searchValue                                            | searchType |
+        | securityEvent   | 1                   | body.tenantId           | Midgar                                                 | string     |
         | securityEvent   | 1                   | body.appId              | ke9Dgpo3uI                                             | string     |
         | securityEvent   | 1                   | body.className          | org.slc.sli.api.security.roles.RightAccessValidator    | string     |
         | securityEvent   | 1                   | body.userEdOrg          | IL-SUNSET                                              | string     |
         | securityEvent   | 1                   | body.targetEdOrgList    | South Daybreak Elementary                              | string     |
-    # actionUri waiting for clarification   | securityEvent   | 1                   | body.actionUri          | http://local.slidev.org:8080/api/rest/v1.3/schools/9d970849-0116-499d-b8f3-2255aeb69552/teacherSchoolAssociations/teachers | string     |
+    And "1" security event with field "body.actionUri" matching "http.*/api/rest/v.*/sections/706ee3be-0dae-4e98-9525-f564e05aa388_id/studentSectionAssociations/students" should be in the sli db
     And "1" security event matching "Access Denied:Cannot search on restricted field schoolFoodServicesEligibility" should be in the sli db
