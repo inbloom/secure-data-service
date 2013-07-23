@@ -536,7 +536,6 @@ public class BasicService implements EntityService, AccessibilityCheck {
     @Override
     public Iterable<EntityBody> listBasedOnContextualRoles(NeutralQuery neutralQuery) {
         boolean isSelf = isSelf(neutralQuery);
-        checkFieldAccess(neutralQuery, isSelf);
 
         injectSecurity(neutralQuery);
         Collection<Entity> entities = (Collection<Entity>) repo.findAll(collectionName, neutralQuery);
