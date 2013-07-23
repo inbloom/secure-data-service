@@ -158,7 +158,7 @@ Feature: As a student or staff I want to use apps that access the inBloom API
       | studentDisciplineIncidentAssociation | 908404e876dd56458385667fa383509035cd4312_id33a1c7ee086d4c488531652ab4a99cf0b6bd619d_id | 403 |
 
 
-@student_crud
+@student_crud @clean_up_student_posts
 Scenario: POST to other student as a privileged student with extended rights
   Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "leader.m.sollars" with password "leader.m.sollars1234"
    And format "application/json"
@@ -177,7 +177,7 @@ Scenario: POST to other student as a privileged student with extended rights
     | securityEvent   | 1                   | body.logMessage         | Access Denied:Cannot update student not yourself                      | string     |
    And "1" security event with field "body.actionUri" matching "http.*/api/rest/v1.3/students" should be in the sli db
 
-@student_crud
+@student_crud @clean_up_student_posts
 Scenario: POST to other student assessment as a privileged student with extended rights
   Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "leader.m.sollars" with password "leader.m.sollars1234"
    And format "application/json"
@@ -197,7 +197,7 @@ Scenario: POST to other student assessment as a privileged student with extended
   And "1" security event with field "body.actionUri" matching "http.*/api/rest/v1.3/studentAssessments" should be in the sli db
 
 
-@student_crud
+@student_crud @clean_up_student_posts
 Scenario: POST to other student entity as a privileged student with extended rights
   Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "leader.m.sollars" with password "leader.m.sollars1234"
    And format "application/json"

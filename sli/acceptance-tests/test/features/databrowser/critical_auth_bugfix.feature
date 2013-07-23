@@ -15,7 +15,7 @@ Scenario: Zombie Bug 1: Gaining access as the previously authenticated user when
 	When I access the API resource "/v1/students" with no authorization headers present
 	Then I should receive a return code of 401
 	
-Scenario: Zombie Bug 2: Infinate redirect loop when accessing Databrowser while having no entity in datastore
+Scenario: Zombie Bug 2: Infinite redirect loop when accessing Databrowser while having no entity in datastore
 	
 	Given I have an open web browser
 	And I navigated to the Data Browser Home URL
