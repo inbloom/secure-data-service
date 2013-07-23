@@ -164,12 +164,19 @@ Given I log in to realm "Illinois Daybreak Students" using simple-idp as "studen
   And format "application/json"
   And I am using api version "v1"
   #POST a new teacher as an enterprising student who somehow has write access to restricted entities
+  And the sli securityEvent collection is empty
   When I POST and validate the following entities:
     | entityName                     | entityType            | returnCode |
     | msollars.studentAssessment     | studentAssessment     | 201        |
     | msollars.studentGradebookEntry | studentGradebookEntry | 201        |
     | msollars.grade                 | grade                 | 201        |
     | msollars.student               | student               | 403        |
+  And I should see a count of "1" in the security event collection
+  And a security event matching "Access Denied:Cannot update student not yourself" should be in the sli db
+  And I check to find if record is in sli db collection:
+    | collectionName  | expectedRecordCount | searchParameter         | searchValue                              | searchType |
+    | securityEvent   | 1                   | body.userEdOrg          | IL-DAYBREAK                              | string     |
+    | securityEvent   | 1                   | body.targetEdOrgList    | IL-DAYBREAK                              | string     |
   When I PATCH and validate the following entities:
     | fieldName              | entityType            | value                       | returnCode | endpoint                                                                                      |
     | msollars.name          | student               | Patch                       | 204        | students/067198fd6da91e1aa8d67e28e850f224d6851713_id                                          |

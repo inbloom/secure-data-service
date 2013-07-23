@@ -19,7 +19,6 @@ limitations under the License.
 
 require 'json'
 require_relative '../../utils/sli_utils.rb'
-require_relative 'securityevent_util_steps.rb'
 
 When /^I make an API call to get the support email$/ do
   @format = "application/json"
