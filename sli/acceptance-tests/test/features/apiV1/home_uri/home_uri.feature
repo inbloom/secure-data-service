@@ -35,6 +35,7 @@ Scenario: Home URI logs a security event for an unauthenticated user
         | securityEvent   | 1                   | body.className          | org.slc.sli.api.resources.util.ResourceUtil            | string     |
         # user and targetEdOrgs are not known since no session was established
     And "1" security event matching "Access Denied: Login Required" should be in the sli db
+    And "1" security event with field "body.actionUri" matching "http.*/api/rest/v.*/home" should be in the sli db
 
 @RALLY_US5826
 Scenario: Home URI logs a security event for user that has no entity in the db
@@ -49,4 +50,4 @@ Scenario: Home URI logs a security event for user that has no entity in the db
         | securityEvent   | 1                   | body.className          | org.slc.sli.api.resources.v1.HomeResource              | string     |
         # user and targetEdOrgs are not known since no session was established
     And "1" security event matching "Access Denied: No entity mapping found for user" should be in the sli db
-
+    And "1" security event with field "body.actionUri" matching "http.*/api/rest/v.*/home" should be in the sli db

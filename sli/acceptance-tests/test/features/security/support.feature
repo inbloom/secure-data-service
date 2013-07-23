@@ -17,4 +17,5 @@ Scenario: Unauthenticated user asks for support email
         | securityEvent   | 1                   | body.appId              | UNKNOWN                                                | string     |
         | securityEvent   | 1                   | body.className          | org.slc.sli.api.resources.SupportResource              | string     |
         # user and targetEdOrgs are not known since no session was established
+    And "1" security event with field "body.actionUri" matching "http.*/api/rest/v.*/system/support/email" should be in the sli db
     And "1" security event matching "Access Denied: User must be logged in" should be in the sli db
