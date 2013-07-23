@@ -133,10 +133,10 @@ public class UriMutator {
                     if (e != null) {
                         MutatedContainer newMutated = new MutatedContainer();
                         String path = String.format("/%s/%s", resource, e.getEntityId());
-                        if (EntityNames.TEACHER.equals(e.getType())) {
-                            path = String.format("/teachers/%s", e.getEntityId());
-                        } else if (EntityNames.STAFF.equals(e.getType())) {
+                        if (SecurityUtil.getSLIPrincipal().isStaff()) {
                             path = String.format("/staff/%s", e.getEntityId());
+                        }else {
+                            path = String.format("/teachers/%s", e.getEntityId());
                         }
                         newMutated.setPath(path);
 
