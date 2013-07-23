@@ -557,7 +557,7 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="SLC-EducationOrganization" abstract="true">
+	<xs:complexType name="SLC-EducationOrganization">
 		<xs:annotation>
 			<xs:documentation>EducationOrganization record with key field: StateOrganizationId. Changed types of ProgramReference and EducationOrganizationPeerReference to SLC reference
 				types.</xs:documentation>
@@ -572,7 +572,16 @@
 					<xs:element name="EducationOrgIdentificationCode" type="EducationOrgIdentificationCode" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="NameOfInstitution" type="NameOfInstitution"/>
 					<xs:element name="ShortNameOfInstitution" type="NameOfInstitution" minOccurs="0"/>
+
+					<!-- Just use our own version of EducationOrganizationCategories that is a list of strings -->
+					<xs:element name="OrganizationCategories" type="SLC-EducationOrganizationCategoriesType"/>
+					<!-- 
+					<xs:choice maxOccurs="unbounded">
 					<xs:element name="OrganizationCategories" type="EducationOrganizationCategoriesType"/>
+					  <xs:element name="OtherOrganizationCategories" type="SLC-OtherEducationOrganizationCategoriesType"/>
+					</xs:choice>
+					-->
+
 					<xs:element name="Address" type="Address" maxOccurs="unbounded"/>
 					<xs:element name="Telephone" type="InstitutionTelephone" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="WebSite" type="WebSite" minOccurs="0"/>
@@ -580,6 +589,43 @@
 					<xs:element name="AccountabilityRatings" type="AccountabilityRating" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="ProgramReference" type="SLC-ProgramReferenceType" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="EducationOrganizationPeerReference" type="EducationalOrgReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+
+					<!-- Fields below were "pushed up" in the inheritance hierarchy from legacy subtypes, in a way that -->
+					<!-- (1) preserves the ordering of relevant fields for a given subtype but also (2) loses, where noted, -->
+					<!-- the required-field (minOccurs=1) validation for that field -->
+
+					<!-- Pushed up from subtype SLC-LocalEducationAgency (part 1 of 2) -->
+					<!-- *** LEACategory: Formerly required for LEA, now optional, required-validation lost -->
+					<xs:element name="LEACategory" type="LEACategoryType" minOccurs="0"/>
+
+					<!-- Pushed up from subtype SLC-School -->
+					<!-- *** GradesOffered: Formerly required for School, now optional, required-validation lost -->
+					<xs:element name="GradesOffered" type="GradeLevelsType" minOccurs="0"/>
+					<!-- *** SchoolCategories: Formerly required for School, now optional, required-validation lost -->
+					<xs:element name="SchoolCategories" type="SLC-SchoolCategoriesType" minOccurs="0"/>
+					<xs:element name="SchoolType" type="SchoolType" minOccurs="0"/>
+					<xs:element name="CharterStatus" type="CharterStatusType" minOccurs="0"/>
+					<xs:element name="TitleIPartASchoolDesignation" type="TitleIPartASchoolDesignationType" minOccurs="0"/>
+					<xs:element name="MagnetSpecialProgramEmphasisSchool" type="MagnetSpecialProgramEmphasisSchoolType" minOccurs="0"/>
+					<xs:element name="AdministrativeFundingControl" type="AdministrativeFundingControlType" minOccurs="0"/>
+					<xs:element name="LocalEducationAgencyReference" type="SLC-EducationalOrgReferenceType" minOccurs="0"/>
+					<xs:element name="ClassPeriodReference" type="ReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="LocationReference" type="ReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+
+					<!-- Pushed up from subtype SLC-LocalEducationAgency (part 2 of 2) -->
+					<!-- CharterStatus already pushed up from SLC-School (above) -->
+					<!-- <xs:element name="CharterStatus" type="CharterStatusType" minOccurs="0"/> -->
+					<!-- LocalEducationAgencyReference already pushed up from SLC-School (above) -->
+					<!-- <xs:element name="LocalEducationAgencyReference" type="SLC-EducationalOrgReferenceType" minOccurs="0"/> -->
+					<xs:element name="EducationServiceCenterReference" type="SLC-EducationalOrgReferenceType" minOccurs="0"/>
+					<xs:element name="StateEducationAgencyReference" type="SLC-EducationalOrgReferenceType" minOccurs="0"/>
+
+					<!-- Pushed up from subtype SLC-EducationServiceCenter -->
+					<!-- StateEducationAgencyReference already pushed up from SLC-LocalEducationAgency (above) -->
+					<!-- <xs:element name="StateEducationAgencyReference" type="EducationalOrgReferenceType" minOccurs="0"/> -->
+
+					<!-- Nothing to push up subtype SLC-StateEducationAgency -->
+
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -593,9 +639,6 @@
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="SLC-EducationOrganization">
-				<xs:sequence>
-					<xs:element name="StateEducationAgencyReference" type="EducationalOrgReferenceType" minOccurs="0"/>
-				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
@@ -762,13 +805,6 @@
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="SLC-EducationOrganization">
-				<xs:sequence>
-					<xs:element name="LEACategory" type="LEACategoryType"/>
-					<xs:element name="CharterStatus" type="CharterStatusType" minOccurs="0"/>
-					<xs:element name="LocalEducationAgencyReference" type="SLC-EducationalOrgReferenceType" minOccurs="0"/>
-					<xs:element name="EducationServiceCenterReference" type="SLC-EducationalOrgReferenceType" minOccurs="0"/>
-					<xs:element name="StateEducationAgencyReference" type="SLC-EducationalOrgReferenceType" minOccurs="0"/>
-				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
@@ -894,18 +930,6 @@
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="SLC-EducationOrganization">
-				<xs:sequence>
-					<xs:element name="GradesOffered" type="GradeLevelsType"/>
-					<xs:element name="SchoolCategories" type="SLC-SchoolCategoriesType"/>
-					<xs:element name="SchoolType" type="SchoolType" minOccurs="0"/>
-					<xs:element name="CharterStatus" type="CharterStatusType" minOccurs="0"/>
-					<xs:element name="TitleIPartASchoolDesignation" type="TitleIPartASchoolDesignationType" minOccurs="0"/>
-					<xs:element name="MagnetSpecialProgramEmphasisSchool" type="MagnetSpecialProgramEmphasisSchoolType" minOccurs="0"/>
-					<xs:element name="AdministrativeFundingControl" type="AdministrativeFundingControlType" minOccurs="0"/>
-					<xs:element name="LocalEducationAgencyReference" type="SLC-EducationalOrgReferenceType" minOccurs="0"/>
-					<xs:element name="ClassPeriodReference" type="ReferenceType" minOccurs="0" maxOccurs="unbounded"/>
-					<xs:element name="LocationReference" type="ReferenceType" minOccurs="0" maxOccurs="unbounded"/>
-				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
@@ -3494,6 +3518,32 @@
             </xs:element>
         </xs:sequence>
     </xs:complexType>
+    <xs:complexType name="SLC-EducationOrganizationCategoriesType">
+        <xs:annotation>
+            <xs:documentation>The classification(s) of the education agency within the geographic boundaries of a state according to the level of administrative and operational control granted by the state.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="OrganizationCategory" type="xs:string" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>The classification(s) of the education agency within the geographic boundaries of a state according to the level of administrative and operational control granted by the state</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="SLC-OtherEducationOrganizationCategoriesType">
+        <xs:annotation>
+            <xs:documentation>The other classification(s) of the education agency within the geographic boundaries of a state according to the level of administrative and operational control granted by the state.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+            <xs:element name="OtherOrganizationCategory" type="SLC-OtherEducationOrganizationCategoryType" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>The other classification(s) of the education agency within the geographic boundaries of a state according to the level of administrative and operational control granted by the state</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
 	<xs:complexType name="SLC-RaceType">
 		<xs:annotation>
 			<xs:documentation>The general racial category which most clearly reflects the individual's recognition of his or her community or with which the individual most identifies.
@@ -4667,6 +4717,15 @@
 		<xs:restriction base="xs:string">
 			<xs:minLength value="1"/>
 			<xs:maxLength value="64"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SLC-OtherEducationOrganizationCategoryType">
+		<xs:annotation>
+			<xs:documentation>The other classification of the education agency within the geographic boundaries of a state according to the level of administrative and operational control granted by the state.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:maxLength value="60"/>
 		</xs:restriction>
 	</xs:simpleType>
 </xs:schema>
