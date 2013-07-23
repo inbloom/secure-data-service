@@ -595,16 +595,15 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
     @Override
     public EntityBody getCustom(String id) {
-        if(SecurityUtil.isStaffUser()) {
-            Entity entity = getEntity(id);
-            Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf(id), entity);
-            rightAccessValidator.checkAccess(true, id, null, defn.getType(), collectionName, getRepo(), auths);
-        } else {
-            checkAccess(true, id, null);
-        }
-
         String clientId = null;
         try {
+            if(SecurityUtil.isStaffUser()) {
+                Entity entity = getEntity(id);
+                Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf(id), entity);
+                rightAccessValidator.checkAccess(true, id, null, defn.getType(), collectionName, getRepo(), auths);
+            } else {
+                checkAccess(true, id, null);
+            }
             clientId = getClientId(id);
         } catch (APIAccessDeniedException e) {
             // set custom entity data for security event targetEdOrgList
@@ -631,16 +630,15 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
     @Override
     public void deleteCustom(String id) {
-        if(SecurityUtil.isStaffUser()) {
-            Entity entity = getEntity(id);
-            Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf(id), entity);
-            rightAccessValidator.checkAccess(false, id, null, defn.getType(), collectionName, getRepo(), auths);
-        } else {
-            checkAccess(false, id, null);
-        }
-
         String clientId = null;
         try {
+            if(SecurityUtil.isStaffUser()) {
+                Entity entity = getEntity(id);
+                Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf(id), entity);
+                rightAccessValidator.checkAccess(false, id, null, defn.getType(), collectionName, getRepo(), auths);
+            } else {
+                checkAccess(false, id, null);
+            }
             clientId = getClientId(id);
         } catch (APIAccessDeniedException e) {
             // set custom entity data for security event targetEdOrgList
@@ -667,15 +665,14 @@ public class BasicService implements EntityService, AccessibilityCheck {
     @Override
     public void createOrUpdateCustom(String id, EntityBody customEntity) throws EntityValidationException {
         String clientId = null;
-        if(SecurityUtil.isStaffUser()) {
-            Entity parentEntity = getEntity(id);
-            Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf(id), parentEntity);
-            rightAccessValidator.checkAccess(false, id, customEntity, defn.getType(), collectionName, getRepo(), auths);
-        } else {
-            checkAccess(false, id, customEntity);
-        }
-
         try {
+            if(SecurityUtil.isStaffUser()) {
+                Entity parentEntity = getEntity(id);
+                Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf(id), parentEntity);
+                rightAccessValidator.checkAccess(false, id, customEntity, defn.getType(), collectionName, getRepo(), auths);
+            } else {
+                checkAccess(false, id, customEntity);
+            }
             clientId = getClientId(id);
         } catch (APIAccessDeniedException e) {
             // set custom entity data for security event targetEdOrgList
