@@ -66,10 +66,7 @@ Transform /^(<[^"]*>)\/([^"]*)$/ do |uri_placeholder1, uri_placeholder2|
 end
 
 Transform /^\[([^{]*)\]$/ do |array_list|
-  array_split = array_list.split(%r{,\s*})
-  array = []
-  array_split.each {|entry| array << entry}
-
+  array = array_list.split(%r{,\s*})
   array
 end
 
@@ -78,7 +75,7 @@ Transform /^\[\{([^{]*)\}\]$/ do |array_hash|
   hash = {}
   hash_split = array_hash.split(%r{,\s*})
   hash_split.each do |hash_parse|
-    hash_key_value = hash_parse.split(%r{:\s*})
+    hash_key_value = hash_parse.split(%r{\s*:\s*})
     new_hash = {hash_key_value[0] => hash_key_value[1]}
     hash.merge!(new_hash)
   end
