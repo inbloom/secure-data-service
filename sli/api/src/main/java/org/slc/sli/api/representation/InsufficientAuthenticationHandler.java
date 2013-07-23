@@ -17,10 +17,7 @@
 
 package org.slc.sli.api.representation;
 
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.core.*;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
@@ -51,13 +48,17 @@ public class InsufficientAuthenticationHandler implements ExceptionMapper<Insuff
     private SecurityEventBuilder securityEventBuilder;
 
     @Context
+    UriInfo uriInfo;
+
+    @Context
     private HttpHeaders headers;
 
     @Override
     public Response toResponse(InsufficientAuthenticationException exception) {
         Status status = Response.Status.UNAUTHORIZED;
         String wwwAuthHeader = this.authUrl;
-        
+        URI requestUri = (uriInfo == null) ? null : uriInfo.getRequestUri();
+
         //If we have an embedded OAuth exception, then put the error information in the www-auth header per oauth spec 
         //http://tools.ietf.org/html/rfc6750 see sec 3
         //Otherwise put the auth url in the header
@@ -71,7 +72,7 @@ public class InsufficientAuthenticationHandler implements ExceptionMapper<Insuff
             errorType = MediaType.APPLICATION_XML_TYPE;
         }
 
-        audit(securityEventBuilder.createSecurityEvent(getThrowingClassName(exception), null, "Access Denied: "
+        audit(securityEventBuilder.createSecurityEvent(getThrowingClassName(exception), requestUri, "Access Denied: "
                 + exception.getMessage(), false));
 
         return Response.status(status).entity(new ErrorResponse(status.getStatusCode(), status.getReasonPhrase(),
