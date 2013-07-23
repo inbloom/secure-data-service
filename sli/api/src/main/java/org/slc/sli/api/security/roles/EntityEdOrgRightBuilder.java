@@ -74,7 +74,7 @@ public class EntityEdOrgRightBuilder {
      *
      * @return - The set of all the user's access rights to the entity
      */
-    public Collection<GrantedAuthority> buildContextualEntityEdOrgRights(final Map<String, Map<String, Collection<GrantedAuthority>>> edOrgContextRights, final Entity entity, Set<String> contexts) {
+    public Collection<GrantedAuthority> buildContextualEntityEdOrgRights(final Map<String, Map<String, Collection<GrantedAuthority>>> edOrgContextRights, final Entity entity, String context) {
         Collection<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
 
         Set<String> edorgs = edOrgOwnershipArbiter.determineHierarchicalEdorgs(Arrays.asList(entity), entity.getType());
@@ -86,22 +86,22 @@ public class EntityEdOrgRightBuilder {
         } else {
             for (String edorg : edorgs) {
                 Map<String, Collection<GrantedAuthority>> contextRights = edOrgContextRights.get(edorg);
-                authorities.addAll(getContextRights(contextRights, contexts));
+                authorities.addAll(getContextRights(contextRights, context));
             }
         }
 
         return authorities;
     }
 
-    protected Collection<GrantedAuthority> getContextRights(Map<String, Collection<GrantedAuthority>> contextRights, Set<String> contexts) {
+    protected Collection<GrantedAuthority> getContextRights(Map<String, Collection<GrantedAuthority>> contextRights, String context) {
         List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
         if (contextRights != null) {
 
-            if (validCotnext(contextRights, contexts, SecurityUtil.STAFF_CONTEXT)) {
+            if (validCotnext(contextRights, context, SecurityUtil.STAFF_CONTEXT)) {
                 grantedAuthorities.addAll(contextRights.get(SecurityUtil.STAFF_CONTEXT));
             }
 
-            if (validCotnext(contextRights, contexts, SecurityUtil.TEACHER_CONTEXT)) {
+            if (validCotnext(contextRights, context, SecurityUtil.TEACHER_CONTEXT)) {
                 grantedAuthorities.addAll(contextRights.get(SecurityUtil.TEACHER_CONTEXT));
             }
         }
@@ -109,8 +109,8 @@ public class EntityEdOrgRightBuilder {
         return grantedAuthorities;
     }
 
-    private boolean validCotnext(Map<String, Collection<GrantedAuthority>> contextRights, Set<String> contexts, String curContext) {
-        return contextRights.containsKey(curContext) && (contexts.contains(curContext) || contexts.contains(SecurityUtil.NULL_CONTEXT));
+    private boolean validCotnext(Map<String, Collection<GrantedAuthority>> contextRights, String context, String curContext) {
+        return contextRights.containsKey(curContext) && (context.equals(curContext) || context.equals(SecurityUtil.NULL_CONTEXT));
     }
 
     public void setEdOrgOwnershipArbiter(EdOrgOwnershipArbiter edOrgOwnershipArbiter) {

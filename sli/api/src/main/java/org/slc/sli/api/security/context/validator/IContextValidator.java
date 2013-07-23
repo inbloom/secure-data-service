@@ -55,7 +55,7 @@ public interface IContextValidator {
      * @return True if the user has access to ALL of the entities requested, false otherwise.
      * @throws IllegalStateException thrown iw e
      */
-    public abstract boolean validate(String entityType, Set<String> ids) throws IllegalStateException;
+    public abstract Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException;
 
     /**
      * Gets a subset of ids that the user has access to from the provided set of entities of type 'entityType'.

@@ -16,13 +16,7 @@
 
 package org.slc.sli.api.security.context;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import javax.ws.rs.core.PathSegment;
 
@@ -273,32 +267,38 @@ public class ContextValidator implements ApplicationContextAware {
         }
     }
 
-    public Set<String> validateContextToEntitiesNew(EntityDefinition def, Entity entity, boolean isTransitive) {
+    public Map<Entity, String> validateContextToEntitiesNew(EntityDefinition def, Collection<Entity> entities, boolean isTransitive) {
 
         List<IContextValidator> contextValidators = findContextualValidator(def.getType(), isTransitive);
 
-        Set<String> contexts = new HashSet<String>();
+        Map<Entity, String> entityContexts = new HashMap<Entity, String>();
 
         for (IContextValidator validator : contextValidators) {
            try {
-               validateContextToEntities(def, Arrays.asList(entity), isTransitive, validator);
+               Set<Entity> entitiesValidated = validateContextToEntities(def, entities, isTransitive, validator);
                contexts.add(validator.getContext());
+               for(Entity ent : entitiesValidated) {
+                   if (entityContexts.containsKey(id)) {
+                       entityContexts.put(ent, SecurityUtil.NULL_CONTEXT);
+                   } else {
+                       entityContexts.put(ent, validator.getContext());
+                   }
+               }
            } catch (Exception e) {
                error(e.getMessage());
            }
         }
 
-        if (contexts.size() == 0) {
+        if (entityContexts.size() == 0) {
             throw new APIAccessDeniedException("No validator for " + def.getType() + ", transitive=" + isTransitive, def.getType(), entity.toString());
         }
 
-        return contexts;
+        return entityContexts;
     }
 
-    protected Collection<Entity> validateContextToEntities(EntityDefinition def, Collection<Entity> entities, boolean isTransitive, IContextValidator validator) {
+    protected Set<Entity> validateContextToEntities(EntityDefinition def, Collection<Entity> entities, boolean isTransitive, IContextValidator validator) {
          int found = 0;
-         Set<String> idsToValidate = new HashSet<String>();
-         Set<Entity> entitiesToValidate = new HashSet<Entity>();
+         Map<String, Entity> idsToValidate = new HashMap<String, Entity>();
             for (Entity ent : entities) {
                 found++;
                 Collection<String> userEdOrgs = edOrgHelper.getDirectEdorgs( ent );
@@ -310,8 +310,7 @@ public class ContextValidator implements ApplicationContextAware {
                     debug("Entity is themselves: id {} of type {}", ent.getEntityId(), ent.getType());
                 } else {
                     if (ownership.canAccess(ent, isTransitive)) {
-                        idsToValidate.add(ent.getEntityId());
-                        entitiesToValidate.add(ent);
+                        idsToValidate.put(ent.getEntityId(), ent);
                     } else {
                         throw new APIAccessDeniedException("Access to " + ent.getEntityId() + " is not authorized",
                             userEdOrgs);
@@ -325,13 +324,15 @@ public class ContextValidator implements ApplicationContextAware {
                 throw new EntityNotFoundException("Could not locate " + def.getType() + " with ids " + entities);
             }
 
+            Set<Entity> validatedEntities = new HashSet<Entity>();
             if (!idsToValidate.isEmpty()) {
-                if (!validator.validate(def.getType(), idsToValidate)) {
-                    throw new APIAccessDeniedException("Cannot access entities", def.getType(), idsToValidate);
+                Set<String> validatedIds = validator.validate(def.getType(), idsToValidate.keySet());
+                for(String id : validatedIds) {
+                    validatedEntities.add(idsToValidate.get(id));
                 }
             }
 
-         return entitiesToValidate;
+         return validatedEntities;
        }
 
     /**

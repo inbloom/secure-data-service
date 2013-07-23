@@ -209,7 +209,7 @@ public class RightAccessValidator {
      *
      * @return a set of granted authorities
      */
-    public Collection<GrantedAuthority> getContextualAuthorities(boolean isSelf, Entity entity, Set<String> contexts){
+    public Collection<GrantedAuthority> getContextualAuthorities(boolean isSelf, Entity entity, String context){
         Collection<GrantedAuthority> auths = new HashSet<GrantedAuthority>();
 
         SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
@@ -227,7 +227,7 @@ public class RightAccessValidator {
                     // Orphaned entities created by the principal are handled the same as before.
                     auths.addAll(principal.getAllRights());
                 } else {
-                    auths.addAll(entityEdOrgRightBuilder.buildContextualEntityEdOrgRights(principal.getEdorgContextRights(), entity, contexts));
+                    auths.addAll(entityEdOrgRightBuilder.buildContextualEntityEdOrgRights(principal.getEdorgContextRights(), entity, context));
                 }
             }
         } else {

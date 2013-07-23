@@ -541,15 +541,14 @@ public class BasicService implements EntityService, AccessibilityCheck {
         injectSecurity(neutralQuery);
         Collection<Entity> entities = (Collection<Entity>) repo.findAll(collectionName, neutralQuery);
 
+        Map<Entity, String> entityContexts = contextValidator.validateContextToEntitiesNew(defn, entities, SecurityUtil.getSLIPrincipal().isTransitive());
+
         List<EntityBody> results = new ArrayList<EntityBody>();
 
-        Set<String> contexts = null;
-        for (Entity entity : entities) {
+        for (Entity entity : entityContexts.keySet()) {
             try {
 
-                contexts = contextValidator.validateContextToEntitiesNew(defn, entity, SecurityUtil.getSLIPrincipal().isTransitive());
-
-                Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf, entity, contexts);
+                Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf, entity, entityContexts.get(entity));
                 rightAccessValidator.checkAccess(true, isSelf, entity, defn.getType(), auths);
                 rightAccessValidator.checkFieldAccess(neutralQuery, isSelf, entity, defn.getType(), auths);
 
