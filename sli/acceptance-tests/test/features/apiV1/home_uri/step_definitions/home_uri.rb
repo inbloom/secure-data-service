@@ -23,6 +23,7 @@ require 'builder'
 require 'rexml/document'
 include REXML
 require_relative '../../../utils/sli_utils.rb'
+require_relative '../../../security/step_definitions/securityevent_util_steps.rb'
 
 
 # transform <Place Holder Id>

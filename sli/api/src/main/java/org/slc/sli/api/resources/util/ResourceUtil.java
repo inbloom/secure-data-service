@@ -570,7 +570,7 @@ public class ResourceUtil {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-        if (auth instanceof AnonymousAuthenticationToken || auth.getPrincipal() instanceof String) {
+        if (auth instanceof AnonymousAuthenticationToken || auth.getPrincipal() instanceof String || !auth.isAuthenticated()) {
             throw new InsufficientAuthenticationException("Login Required");
         }
 
