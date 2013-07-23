@@ -42,6 +42,7 @@ Scenario: An authorized bulk extract user logs in and gets the information for t
        And I check to find if record is in sli db collection:
          | collectionName  | expectedRecordCount | searchParameter         | searchValue                                                | searchType |
          | securityEvent   | 2                   | body.appId              | vavedRa9uB                                                 | string     |
+         | securityEvent   | 2                   | body.tenantId           | Midgar                                                     | string     |
          | securityEvent   | 2                   | body.userEdOrg          | IL-DAYBREAK                                                | string     |
          | securityEvent   | 2                   | body.targetEdOrgList    | IL-DAYBREAK                                                | string     |
          | securityEvent   | 1                   | body.logMessage         | Access Denied:Application is not approved for bulk extract | string     |

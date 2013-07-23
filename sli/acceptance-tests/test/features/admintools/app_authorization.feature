@@ -29,7 +29,6 @@ Scenario: Non SLI-hosted valid user tries to access the Application Authorizatio
       And I check to find if record is in sli db collection:
        | collectionName  | expectedRecordCount | searchParameter         | searchValue                                                                                              | searchType |
        | securityEvent   | 1                   | body.appId              | UNKNOWN                                                                                                  | string     |
-       | securityEvent   | 1                   | body.tenantId           | UNKNOWN                                                                                                  | string     |
        | securityEvent   | 1                   | body.userEdOrg          | fakeab32-b493-999b-a6f3-sliedorg1234                                                                     | string     |
        | securityEvent   | 1                   | body.className          | org.slc.sli.api.resources.security.SamlFederationResource                                                | string     |
        | securityEvent   | 1                   | body.logMessage         | Access Denied:Invalid user.  No valid role mappings exist for the roles specified in the SAML Assertion. | string     |
