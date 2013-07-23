@@ -60,6 +60,14 @@ Transform /^<(.*?)>$/ do |human_readable_id|
   id
 end
 
+Transform /^\[(.*?)\]$/ do |array_list|
+  array_split = array_list.split(',')
+  array = []
+  array_split.each {|entry| array << entry}
+
+  array
+end
+
 
 #############################################################################################
 # After Steps
@@ -106,6 +114,12 @@ end
 def update_mongo(tenant, collection, query, field, remove, value = nil)
 #Note: value is ignored if remove is true (It doesn't matter what the field contains if you're removing it)
 
+  entry = update_mongo_operation(tenant, collection, query, field, remove, value)
+
+  (@mongo_changes ||= []) << entry
+end
+
+def update_mongo_operation(tenant, collection, query, field, remove, value = nil)
   conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
   db = conn[tenant]
   coll = db.collection(collection)
@@ -140,10 +154,10 @@ def update_mongo(tenant, collection, query, field, remove, value = nil)
     else
       coll.update(query, {'$set' => {field => value}})
     end
-    (@mongo_changes ||= []) << entry
   end
-
   conn.close
+
+  return entry
 
 end
 
@@ -593,6 +607,50 @@ Given /^I get (\d+) random ids for "([^"]*)" in "([^"]*)"$/ do |number, type, en
   enable_NOTABLESCAN()
 end
 
+Given /^I get (\d+) random ids associated with the edorgs for "([^"]*)" of "([^"]*)" in "([^"]*)"$/ do |number, staff, type, collection|
+  case type
+    when 'studentProgramAssociation'
+      subdoc = true
+      edorg_ref = 'body.educationOrganizationId'
+    when 'teacherSchoolAssociation', 'studentSchoolAssociation'
+      subdoc = false
+      edorg_ref = 'body.schoolId'
+    when 'staffEducationOrganizationAssociation'
+      subdoc = false
+      edorg_ref = 'body.educationOrganizationReference'
+    else
+      subdoc = false
+      edorg_ref = 'body.educationOrganizationId'
+  end
+
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  db_name = convertTenantIdToDbName(@tenant)
+  db = conn[db_name]
+  edorgs = Set.new
+  seoa_coll = db.collection('staffEducationOrganizationAssociation')
+  staff_coll = db.collection('staff')
+  staff_id = staff_coll.find_one({'body.staffUniqueStateId' => staff})['_id']
+  seoas = seoa_coll.find('body.staffReference' => staff_id).to_a
+  seoas.each {|seoa| edorgs.add(seoa['body']['educationOrganizationReference']) }
+
+  entity_ids = Set.new
+  coll = db.collection(collection)
+  edorgs.each do |edorg|
+    if subdoc
+      entities = coll.find({"#{type}.#{edorg_ref}" => edorg},{:fields => ["#{type}.$"]}).to_a
+      entities.each { |entity| entity_ids.add(entity[type][0]['_id'])}
+    else
+      entities = coll.find({edorg_ref => edorg},{:fields => %w(_id)}).to_a
+      entities.each { |entity| entity_ids.add(entity['_id'])}
+    end
+  end
+  assert(entity_ids.size > 0, "No #{type} found that is associated with the edorgs of #{staff}")
+  (entity_ids.to_a.shuffle.take(number.to_i)).each { |entry| (@entity_ids ||= []) << entry }
+  conn.close
+  enable_NOTABLESCAN()
+end
+
 #############################################################################################
 # OAUTH Steps
 #############################################################################################
@@ -960,185 +1018,230 @@ Given /^a valid json document for entity "([^"]*)"$/ do |entity|
   course_school_id = course_session['body']['schoolId']
   course_session_id = course_session['_id']
 
+  edorg_coll = db.collection('educationOrganization')
+  student_coll = db.collection('student')
+  student = student_coll.find_one({'body.studentUniqueStateId' => 'jack.jackson'})
+  student_programs = student['studentProgramAssociation']
+  edorg = edorg_coll.find_one({'body.stateOrganizationId' => 'District 9'})
+  edorg_programs = edorg['body']['programReference']
+  student_programs.each do |student_program|
+    edorg_programs.delete_if {|edorg_program| edorg_program == student_program['body']['programId']}
+  end
+  edorg_program_id = edorg_programs.shuffle[0]
 
   enable_NOTABLESCAN()
   conn.close
 
   @entityData = {
-    "gradingPeriod" => {
-        "gradingPeriodIdentity" => {
-            "schoolId" => "2a30827ed4cf5500fb848512d19ad73ed37c4464_id",
-            "gradingPeriod" => "First Six Weeks",
-            "schoolYear" => "2011-2012"
+    'gradingPeriod' => {
+        'gradingPeriodIdentity' => {
+            'schoolId' => '2a30827ed4cf5500fb848512d19ad73ed37c4464_id',
+            'gradingPeriod' => 'First Six Weeks',
+            'schoolYear' => '2011-2012'
         },
-        "beginDate" => "2012-07-01",
-        "endDate" => "2012-07-31",
-        "totalInstructionalDays" => 20
+        'beginDate' => '2012-07-01',
+        'endDate' => '2012-07-31',
+        'totalInstructionalDays' => 20
     },
 
-    "course" => {
-        "courseTitle" => "Chinese 1",
-        "numberOfParts" => 1,
-        "courseCode" => [{
-                             "ID" => "C1",
-                             "identificationSystem" => "School course code",
-                             "assigningOrganizationCode" => "Bob's Code Generator"
+    'course' => {
+        'courseTitle' => 'Chinese 1',
+        'numberOfParts' => 1,
+        'courseCode' => [{
+                             'ID' => 'C1',
+                             'identificationSystem' => 'School course code',
+                             'assigningOrganizationCode' => "Bob's Code Generator"
                          }],
-        "courseLevel" => "Basic or remedial",
-        "courseLevelCharacteristics" => ["Advanced Placement"],
-        "gradesOffered" => ["Eighth grade"],
-        "subjectArea" => "Foreign Language and Literature",
-        "courseDescription" => "Intro to Chinese",
-        "dateCourseAdopted" => "2001-01-01",
-        "highSchoolCourseRequirement" => false,
-        "courseDefinedBy" => "LEA",
-        "minimumAvailableCredit" => {
-            "credit" => 1.0
+        'courseLevel' => 'Basic or remedial',
+        'courseLevelCharacteristics' => ['Advanced Placement'],
+        'gradesOffered' => ['Eighth grade'],
+        'subjectArea' => 'Foreign Language and Literature',
+        'courseDescription' => 'Intro to Chinese',
+        'dateCourseAdopted' => '2001-01-01',
+        'highSchoolCourseRequirement' => false,
+        'courseDefinedBy' => 'LEA',
+        'minimumAvailableCredit' => {
+            'credit' => 1.0
         },
-        "maximumAvailableCredit" => {
-            "credit" => 1.0
+        'maximumAvailableCredit' => {
+            'credit' => 1.0
         },
-        "careerPathway" => "Hospitality and Tourism",
-        "schoolId" => "264b869a22b74b4ab5b3b6620b3d31d1a98dc4a0_id",
-        "uniqueCourseId" => "Chinese-1-10"
+        'careerPathway' => 'Hospitality and Tourism',
+        'schoolId' => '264b869a22b74b4ab5b3b6620b3d31d1a98dc4a0_id',
+        'uniqueCourseId' => 'Chinese-1-10'
     },
 
-    "courseOffering" => {
-        "schoolId" => course_school_id,
-        "localCourseCode" => "LCCMA1",
-        "sessionId" => course_session_id,
-        "localCourseTitle" => "Math 1 - Intro to Mathematics",
-        "courseId" => course_id
+    'courseOffering' => {
+        'schoolId' => course_school_id,
+        'localCourseCode' => 'LCCMA1',
+        'sessionId' => course_session_id,
+        'localCourseTitle' => 'Math 1 - Intro to Mathematics',
+        'courseId' => course_id
     },
 
-    "educationOrganization" => {
-        "organizationCategories" => ["State Education Agency"],
-        "stateOrganizationId" => "SomeUniqueSchoolDistrict-2422883",
-        "nameOfInstitution" => "Gotham City School District",
-        "address" => [
-            "streetNumberName" => "111 Ave C",
-            "city" => "Chicago",
-            "stateAbbreviation" => "IL",
-            "postalCode" => "10098",
-            "nameOfCounty" => "Wake"
+    'educationOrganization' => {
+        'organizationCategories' => ['State Education Agency'],
+        'stateOrganizationId' => 'SomeUniqueSchoolDistrict-2422883',
+        'nameOfInstitution' => 'Gotham City School District',
+        'address' => [
+            'streetNumberName' => '111 Ave C',
+            'city' => 'Chicago',
+            'stateAbbreviation' => 'IL',
+            'postalCode' => '10098',
+            'nameOfCounty' => 'Wake'
         ]
     },
 
 
-    "learningObjective" => {
-        "academicSubject" => "Mathematics",
-        "objective" => "Learn Mathematics",
-        "objectiveGradeLevel" => "Fifth grade"
+    'learningObjective' => {
+        'academicSubject' => 'Mathematics',
+        'objective' => 'Learn Mathematics',
+        'objectiveGradeLevel' => 'Fifth grade'
     },
 
-    "learningStandard" => {
-        "learningStandardId" => {
-            "identificationCode" => "apiTestLearningStandard"},
-        "description" => "a description",
-        "gradeLevel" => "Ninth grade",
-        "contentStandard"=>"State Standard",
-        "subjectArea" => "English"
+    'learningStandard' => {
+        'learningStandardId' => {
+            'identificationCode' => 'apiTestLearningStandard'},
+        'description' => 'a description',
+        'gradeLevel' => 'Ninth grade',
+        'contentStandard'=>'State Standard',
+        'subjectArea' => 'English'
     },
 
-    "program" => {
-        "programId" => "ACC-TEST-PROG-3",
-        "programType" => "Remedial Education",
-        "programSponsor" => "Local Education Agency",
-        "services" => [[
-                           {"codeValue" => "codeValue3"},
-                           {"shortDescription" => "Short description for acceptance test program 3"},
-                           {"description" => "This is a longer description of the services provided by acceptance test program 3. More detail could be provided here."}]]
+    'program' => {
+        'programId' => 'ACC-TEST-PROG-3',
+        'programType' => 'Remedial Education',
+        'programSponsor' => 'Local Education Agency',
+        'services' => [[
+                           {'codeValue' => 'codeValue3'},
+                           {'shortDescription' => 'Short description for acceptance test program 3'},
+                           {'description' => 'This is a longer description of the services provided by acceptance test program 3. More detail could be provided here.'}]]
     },
 
-    "section" => {
-        "uniqueSectionCode" => "SpanishB09",
-        "sequenceOfCourse" => 1,
-        "educationalEnvironment" => "Off-school center",
-        "mediumOfInstruction" => "Independent study",
-        "populationServed" => "Regular Students",
-        "schoolId" => co_school_id,
-        "courseOfferingId" => co_id
+    'section' => {
+        'uniqueSectionCode' => 'SpanishB09',
+        'sequenceOfCourse' => 1,
+        'educationalEnvironment' => 'Off-school center',
+        'mediumOfInstruction' => 'Independent study',
+        'populationServed' => 'Regular Students',
+        'schoolId' => co_school_id,
+        'courseOfferingId' => co_id
     },
 
-    "session" => {
-        "sessionName" => "Spring 2012",
-        "schoolYear" => "2011-2012",
-        "term" => "Spring Semester",
-        "beginDate" => "2012-01-01",
-        "endDate" => "2012-06-30",
-        "totalInstructionalDays" => 80,
-        "gradingPeriodReference" => [gp_id],
-        "schoolId" => gp_school_id
+    'session' => {
+        'sessionName' => 'Spring 2012',
+        'schoolYear' => '2011-2012',
+        'term' => 'Spring Semester',
+        'beginDate' => '2012-01-01',
+        'endDate' => '2012-06-30',
+        'totalInstructionalDays' => 80,
+        'gradingPeriodReference' => [gp_id],
+        'schoolId' => gp_school_id
     },
 
 
-    "assessment" => {
-        "assessmentTitle" => "Writing Advanced Placement Test",
-        "assessmentIdentificationCode" => [{
-                                               "identificationSystem" => "School",
-                                               "ID" => "01234B"
+    'assessment' => {
+        'assessmentTitle' => 'Writing Advanced Placement Test',
+        'assessmentIdentificationCode' => [{
+                                               'identificationSystem' => 'School',
+                                               'ID' => '01234B'
                                            }],
-        "academicSubject" => "Mathematics",
-        "assessmentCategory" => "Achievement test",
-        "gradeLevelAssessed" => "Adult Education",
-        "contentStandard" => "LEA Standard",
-        "version" => 2
+        'academicSubject' => 'Mathematics',
+        'assessmentCategory' => 'Achievement test',
+        'gradeLevelAssessed' => 'Adult Education',
+        'contentStandard' => 'LEA Standard',
+        'version' => 2
     },
 
 
-    "school" => {
-        "shortNameOfInstitution" => "SCTS",
-        "nameOfInstitution" => "School Crud Test School",
-        "webSite" => "www.scts.edu",
-        "stateOrganizationId" => "SomeUniqueSchool-24242342",
-        "organizationCategories" => ["School"],
-        "address" => [
-            "addressType" => "Physical",
-            "streetNumberName" => "123 Main Street",
-            "city" => "Lebanon",
-            "stateAbbreviation" => "KS",
-            "postalCode" => "66952",
-            "nameOfCounty" => "Smith County"
+    'school' => {
+        'shortNameOfInstitution' => 'SCTS',
+        'nameOfInstitution' => 'School Crud Test School',
+        'webSite' => 'www.scts.edu',
+        'stateOrganizationId' => 'SomeUniqueSchool-24242342',
+        'organizationCategories' => ['School'],
+        'address' => [
+            'addressType' => 'Physical',
+            'streetNumberName' => '123 Main Street',
+            'city' => 'Lebanon',
+            'stateAbbreviation' => 'KS',
+            'postalCode' => '66952',
+            'nameOfCounty' => 'Smith County'
         ],
-        "gradesOffered" => [
-            "Kindergarten",
-            "First grade",
-            "Second grade",
-            "Third grade",
-            "Fourth grade",
-            "Fifth grade"
+        'gradesOffered' => [
+            'Kindergarten',
+            'First grade',
+            'Second grade',
+            'Third grade',
+            'Fourth grade',
+            'Fifth grade'
         ]
     },
 
-    "graduationPlan" => {
-        "creditsBySubject" => [{
-                                   "subjectArea" => "English",
-                                   "credits" => {
-                                       "creditConversion" => 0,
-                                       "creditType" => "Semester hour credit",
-                                       "credit" => 6
+    'graduationPlan' => {
+        'creditsBySubject' => [{
+                                   'subjectArea' => 'English',
+                                   'credits' => {
+                                       'creditConversion' => 0,
+                                       'creditType' => 'Semester hour credit',
+                                       'credit' => 6
                                    }
                                }],
-        "individualPlan" => false,
-        "graduationPlanType" => "Minimum",
-        "educationOrganizationId" => "2a30827ed4cf5500fb848512d19ad73ed37c4464_id",
-        "totalCreditsRequired" => {
-            "creditConversion" => 0,
-            "creditType" => "Semester hour credit",
-            "credit" => 32
+        'individualPlan' => false,
+        'graduationPlanType' => 'Minimum',
+        'educationOrganizationId' => '2a30827ed4cf5500fb848512d19ad73ed37c4464_id',
+        'totalCreditsRequired' => {
+            'creditConversion' => 0,
+            'creditType' => 'Semester hour credit',
+            'credit' => 32
         }
     },
-    "competencyLevelDescriptor" => {
-        "description" => "Herman tends to throw tantrums",
-        "codeValue" => "Temper Tantrum",
-        "performanceBaseConversion" => "Basic"
+
+    'competencyLevelDescriptor' => {
+        'description' => 'Herman tends to throw tantrums',
+        'codeValue' => 'Temper Tantrum',
+        'performanceBaseConversion' => 'Basic'
     },
-    "studentCompetencyObjective" => {
-        "objectiveGradeLevel" => "Kindergarten",
-        "objective" => "Phonemic Awareness",
-        "studentCompetencyObjectiveId" => "SCO-K-1",
-        "educationOrganizationId" => "2a30827ed4cf5500fb848512d19ad73ed37c4464_id"
-    }
+
+    'studentCompetencyObjective' => {
+        'objectiveGradeLevel' => 'Kindergarten',
+        'objective' => 'Phonemic Awareness',
+        'studentCompetencyObjectiveId' => 'SCO-K-1',
+        'educationOrganizationId' => '2a30827ed4cf5500fb848512d19ad73ed37c4464_id'
+    },
+
+    'staffEducationOrganizationAssociation' => {
+        'educationOrganizationReference' => '2a30827ed4cf5500fb848512d19ad73ed37c4464_id',
+        'staffReference' => 'c9302118115a8e2f01492914ea22c4176447b6b6_id',
+        'beginDate' => '2000-01-01',
+        'positionTitle' => 'Hall monitor',
+        'staffClassification' => 'Leader'
+    },
+
+    'teacherSchoolAssociation' => {
+        'schoolId' => '2a30827ed4cf5500fb848512d19ad73ed37c4464_id',
+        'programAssignment' => 'Special Education',
+        'teacherId' => '8107c5ce31cec58d4ac0b647e91b786b03091f02_id',
+        'instructionalGradeLevels' => ['Twelfth grade'],
+        'academicSubjects' => ['Composite']
+    },
+
+    'studentSchoolAssociation' => {
+        'schoolId' => '2a30827ed4cf5500fb848512d19ad73ed37c4464_id',
+        'studentId' => 'df54047bf88ecd7e2f6fbf00951196f747c9ccfc_id',
+        'entryDate' => '2000-01-01',
+        'exitWithdrawDate' => '2000-12-12',
+        'entryGradeLevel' => 'Ninth grade'
+    },
+
+    'studentProgramAssociation' => {
+        'educationOrganizationId' => '99a4ec9d3ba372993b2860a798b550c77bb73a09_id',
+        'studentId' => 'df54047bf88ecd7e2f6fbf00951196f747c9ccfc_id',
+        'programId' => edorg_program_id,
+        'beginDate' => '2000-01-01',
+        'reasonExited' => 'Received a certificate',
+        }
+
   }
   @fields = @entityData[entity]
 end
@@ -1165,8 +1268,22 @@ end
 
 
 Then /^I remove the new entity from "([^"]*)"$/ do |collection|
-  tenant = convertTenantIdToDbName @tenant
-  remove_from_mongo_operation(tenant, collection, {"_id" => @newId})
+  db_name = convertTenantIdToDbName @tenant
+  if collection.include? '.'
+    disable_NOTABLESCAN
+    conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
+    db = conn[db_name]
+    coll_split = collection.split('.')
+    coll = db.collection(coll_split[0])
+    entity = coll.find_one({"#{coll_split[1]}._id" => @newId})
+    subdocs = entity[coll_split[1]]
+    subdocs.delete_if {|entry| entry['_id'] == @newId}
+    update_mongo_operation(db_name, coll_split[0],coll_split[1],false, subdocs)
+    conn.close
+    enable_NOTABLESCAN
+  else
+    remove_from_mongo_operation(db_name, collection, {"_id" => @newId})
+  end
 end
 
 When /^I change the field "([^\"]*)" to "([^\"]*)"$/ do |field, value|
