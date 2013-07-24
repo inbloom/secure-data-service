@@ -699,7 +699,7 @@ Given /^I get (\d+) random ids associated with the edorgs for "([^"]*)" of "([^"
       if edorg_in_subdoc
         entities = coll.find({"#{type}.#{edorg_ref}" => edorg},{:fields => ["#{type}.$"]}).to_a
       else
-        entities = coll.find({edorg_ref => edorg},{:fields => ["#{type}.$"]}).to_a
+        entities = coll.find({edorg_ref => edorg}).to_a
       end
       entities.each { |entity| entity_ids.add(entity[type][0]['_id'])}
     else
