@@ -681,7 +681,7 @@ Given /^I get (\d+) random ids associated with the edorgs for "([^"]*)" of "([^"
   enable_NOTABLESCAN()
 end
 
-Given /^I add a student school association for "([^"]*)" in "([^"]*)" that's already expired$/ do |student, edorg|
+Given /^I add (student school association|attendance) for "([^"]*)" in "([^"]*)" that's already expired$/ do |collection, student, edorg|
   disable_NOTABLESCAN()
   conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
   db_name = convertTenantIdToDbName(@tenant)
@@ -690,21 +690,44 @@ Given /^I add a student school association for "([^"]*)" in "([^"]*)" that's alr
   edorg_coll = db.collection('educationOrganization')
   student_id = student_coll.find_one({'body.studentUniqueStateId' => student})['_id']
   edorg_id = edorg_coll.find_one({'body.stateOrganizationId' => edorg})['_id']
-  entry = {
-      '_id' => SecureRandom.uuid,
-      'type' => 'studentSchoolAssociation',
-      'body' => {
-          'schoolYear' => '2010-2011',
-          'schoolId' => edorg_id,
-          'studentId' => student_id,
-          'entryDate' => '2010-10-10',
-          'entryGradeLevel' => 'Ninth grade',
-          'exitWithdrawDate' => '2011-05-05',
-          'exitWithdrawType' => 'Withdrawn due to illness'
+  entries = {
+      'student school association' => {
+          '_id' => SecureRandom.uuid,
+          'type' => 'studentSchoolAssociation',
+          'body' => {
+              'schoolYear' => '2010-2011',
+              'schoolId' => edorg_id,
+              'studentId' => student_id,
+              'entryDate' => '2010-10-10',
+              'entryGradeLevel' => 'Ninth grade',
+              'exitWithdrawDate' => '2011-05-05',
+              'exitWithdrawType' => 'Withdrawn due to illness'
+          }
+      },
+      'attendance' => {
+          '_id' => SecureRandom.uuid,
+          'type' => 'attendance',
+          'body' => {
+              'schoolYear' => '2010-2011',
+              'schoolId' => edorg_id,
+              'studentId' => student_id,
+              'attendanceEvent' => [
+                  {
+                      'reason' => 'Alarm did not go off',
+                      'event' => 'Tardy',
+                      'date' => '2010-12-01'
+                  },
+                  {
+                      'reason' => 'Sick: Had note from doctor',
+                      'event' => 'Excused Absence',
+                      'date' => '2011-03-15'
+                  }
+              ]
+          }
       }
   }
-  @newId = entry['_id']
-  add_to_mongo(db_name,'studentSchoolAssociation',entry)
+  @newId = entries[collection]['_id']
+  add_to_mongo(db_name,entries[collection]['type'],entries[collection])
 
   conn.close
   enable_NOTABLESCAN()
@@ -1432,6 +1455,10 @@ end
 When /^I change the field "([^\"]*)" to "([^\"]*)"$/ do |field, value|
   @patch_body = Hash.new if !defined?(@patch_body)
   @patch_body["#{field}"] = value
+end
+
+When /^I clear out the patch request$/ do
+  @patch_body = {}
 end
 
 # Build the teacher hash
