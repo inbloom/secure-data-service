@@ -160,6 +160,7 @@ public class SamlFederationResource {
         info("Received a SAML post for SSO...");
         TenantContext.setTenantId(null);
         Document doc = null;
+        String targetEdOrg = null;
 
         try {
             doc = saml.decodeSamlPost(postData);
@@ -190,7 +191,7 @@ public class SamlFederationResource {
 
             audit(event);
 
-            generateSamlValidationError(e.getMessage());
+            generateSamlValidationError(e.getMessage(), targetEdOrg);
         }
 
         String inResponseTo = doc.getRootElement().getAttributeValue("InResponseTo");
@@ -203,7 +204,11 @@ public class SamlFederationResource {
         Entity realm = repo.findOne("realm", neutralQuery);
 
         if (realm == null) {
-            generateSamlValidationError("Invalid realm: " + issuer);
+            generateSamlValidationError("Invalid realm: " + issuer, targetEdOrg);
+        }
+
+        if (realm.getBody() != null) {
+            targetEdOrg = (String) realm.getBody().get("edOrg");
         }
         Element assertion = doc.getRootElement().getChild("Assertion", SamlHelper.SAML_NS);
         Element stmt = assertion.getChild("AttributeStatement", SamlHelper.SAML_NS);
@@ -218,7 +223,7 @@ public class SamlFederationResource {
 
             if (!isTimeInRange(notBefore, notOnOrAfter)) {
                 generateSamlValidationError("SAML Conditions failed.  Current time not in range " + notBefore + " to "
-                        + notOnOrAfter + ".");
+                        + notOnOrAfter + ".", targetEdOrg);
             }
         }
 
@@ -229,7 +234,7 @@ public class SamlFederationResource {
             String recipient = subjConfirmationData.getAttributeValue("Recipient");
 
             if (!uriInfo.getRequestUri().toString().equals(recipient)) {
-                generateSamlValidationError("SAML Recipient was invalid, was " + recipient);
+                generateSamlValidationError("SAML Recipient was invalid, was " + recipient, targetEdOrg);
             }
 
             // One or both of these can be null
@@ -238,10 +243,10 @@ public class SamlFederationResource {
 
             if (!isTimeInRange(notBefore, notOnOrAfter)) {
                 generateSamlValidationError("SAML Subject failed.  Current time not in range " + notBefore + " to "
-                        + notOnOrAfter + ".");
+                        + notOnOrAfter + ".", targetEdOrg);
             }
         } else {
-            generateSamlValidationError("SAML response is missing Subject.");
+            generateSamlValidationError("SAML response is missing Subject.", targetEdOrg);
         }
 
         List<org.jdom.Element> attributeNodes = stmt.getChildren("Attribute", SamlHelper.SAML_NS);
@@ -314,10 +319,8 @@ public class SamlFederationResource {
             principal.setName(attributes.getFirst("userName"));
         }
 
-        if (realm.getBody() != null) {
-            // cache realm edOrg for security events
-            principal.setRealmEdOrg((String) realm.getBody().get("edOrg"));
-        }
+        // cache realm edOrg for security events
+        principal.setRealmEdOrg(targetEdOrg);
 
         List<String> roles = attributes.get("roles");
         if (roles == null || roles.isEmpty()) {
@@ -393,7 +396,7 @@ public class SamlFederationResource {
 
         String requestedRealmId = (String) session.getBody().get("requestedRealmId");
         if (requestedRealmId == null || !requestedRealmId.equals(realm.getEntityId())) {
-            generateSamlValidationError("Requested Realm (id=" + requestedRealmId +") does not match the realm the user authenticated against (id="+realm.getEntityId()+")");
+            generateSamlValidationError("Requested Realm (id=" + requestedRealmId +") does not match the realm the user authenticated against (id="+realm.getEntityId()+")", targetEdOrg);
         }
 
         Map<String, Object> appSession = sessionManager.getAppSession(inResponseTo, session);
@@ -470,9 +473,9 @@ public class SamlFederationResource {
     }
 
 
-    private void generateSamlValidationError(String message) {
+    private void generateSamlValidationError(String message, String targetEdOrg) {
         error(message);
-        throw new AccessDeniedException("Authorization could not be verified.");
+        throw new APIAccessDeniedException("Authorization could not be verified.", targetEdOrg);
     }
 
     private String getUserNameFromEntity(Entity entity) {

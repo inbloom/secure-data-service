@@ -24,11 +24,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.slc.sli.api.security.context.APIAccessDeniedException;
-import org.slc.sli.api.security.context.ContextValidator;
 import org.slc.sli.common.constants.EntityNames;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -79,13 +77,31 @@ public class RightAccessValidator {
         if(entity != null) {
             body = new EntityBody(entity.getBody());
         }
-        checkAccess(isRead, body, entityType, auths);
+        try {
+            checkAccess(isRead, body, entityType, auths);
+        } catch (APIAccessDeniedException e) {
+            // we only know the target entity here so rethrow so that info can be used in the security event
+            Set<Entity> entities = new HashSet<Entity>();
+            entities.add(entity);
+            e.setEntityType(entityType);
+            e.setEntities(entities);
+            throw e;
+        }
     }
 
     public void checkAccess(boolean isRead, String entityId, EntityBody content, String entityType, String collectionName, Repository<Entity> repo, Collection<GrantedAuthority> auths) {
 
         checkSecurity(isRead, entityId, entityType, collectionName, repo);
-        checkAccess(isRead, content, entityType, auths);
+        try {
+            checkAccess(isRead, content, entityType, auths);
+        } catch (APIAccessDeniedException e) {
+            // we only know the target entity here so rethrow so that info can be used in the security event
+            Set<String> entityIds = new HashSet<String>();
+            entityIds.add(entityId);
+            e.setEntityType(entityType);
+            e.setEntityIds(entityIds);
+            throw e;
+        }
     }
 
     /**
@@ -137,7 +153,7 @@ public class RightAccessValidator {
         }
 
         if (!allow) {
-            throw new APIAccessDeniedException("Insufficient Privileges", entity);
+            throw new APIAccessDeniedException("Insufficient Privileges", entityType, entity);
         }
     }
 
@@ -204,12 +220,14 @@ public class RightAccessValidator {
     /**
      *  Get the authorities from the context
      *
+     *
      * @param isSelf  whether operation is being done in "self" context
      * @param entity item under inspection
      *
+     * @param isRead if operation is a read operation
      * @return a set of granted authorities
      */
-    public Collection<GrantedAuthority> getContextualAuthorities(boolean isSelf, Entity entity){
+    public Collection<GrantedAuthority> getContextualAuthorities(boolean isSelf, Entity entity, boolean isRead){
         Collection<GrantedAuthority> auths = new HashSet<GrantedAuthority>();
 
         SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
@@ -227,7 +245,7 @@ public class RightAccessValidator {
                     // Orphaned entities created by the principal are handled the same as before.
                     auths.addAll(principal.getAllRights());
                 } else {
-                    auths.addAll(entityEdOrgRightBuilder.buildEntityEdOrgRights(principal.getEdOrgRights(), entity));
+                    auths.addAll(entityEdOrgRightBuilder.buildEntityEdOrgRights(principal.getEdOrgRights(), entity, isRead));
                 }
             }
         } else {

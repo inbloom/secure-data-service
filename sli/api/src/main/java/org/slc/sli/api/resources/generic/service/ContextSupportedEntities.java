@@ -39,6 +39,10 @@ public final class ContextSupportedEntities {
         supportedEntities.addAll(Arrays.asList(EntityNames.COHORT, EntityNames.DISCIPLINE_INCIDENT,
                 EntityNames.DISCIPLINE_ACTION, EntityNames.GRADEBOOK_ENTRY,
                 EntityNames.ATTENDANCE, EntityNames.COURSE_TRANSCRIPT));
+        supportedEntities.add(EntityNames.STAFF_ED_ORG_ASSOCIATION);
+        supportedEntities.add(EntityNames.TEACHER_SCHOOL_ASSOCIATION);
+        supportedEntities.add(EntityNames.STUDENT_PROGRAM_ASSOCIATION);
+        supportedEntities.add(EntityNames.STUDENT_SCHOOL_ASSOCIATION);
         supportedEntities.addAll(EntityNames.PUBLIC_ENTITIES);
     }
 }

@@ -81,8 +81,10 @@ task :apiV1QueryingTests => [:realmInit] do
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule")
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/querying/querying.feature")
+  runTests("test/features/apiV1/querying/access_denied_security_events.feature")
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
 end
+
 desc "Run API querying tests"
 task :apiV1NTSQueryingTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute

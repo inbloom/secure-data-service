@@ -62,7 +62,7 @@ $SESSION_MAP = {
                 "sunsetadmin_SLI" => "4aea375c-0e5d-456a-8b89-23bc03aa5ea2",
                 "badadmin_IL" => "5cf7a5d4-57a1-c100-8b13-b5f95131ac85",
                 "sampleUser_IL" => "e88cb5c1-771d-46ac-a207-e88cb7c1771d",
-                "carmen.ortiz_IL-Student" => "1AC2D1F8-D6B4-4174-884B-214A48E0007B",
+                "carmen.ortiz_IL-Daybreak-Students" => "1AC2D1F8-D6B4-4174-884B-214A48E0007B",
                 "demo_IL" => "e88cb5c1-771d-46ac-a2c7-2d58d7f12196",
                 "eengland_NY" => "ebbec99c-c8cf-4982-b853-3513374d0073",
                 "gcanning_NY" => "0a50a4ec-e00f-4944-abac-2abbdb99f7d9",
@@ -874,12 +874,11 @@ def check_records_in_sli_collection(table)
       end
       entity_count = entity_collection.find( {row["searchParameter"] => {"$in" => [row["searchValue"]]}}).count().to_s
       if  entity_count.to_s != row["expectedRecordCount"].to_s
-          puts "Failed #{row["collectionName"]}"
           result = "false"
           red = "\e[31m"
           reset = "\e[0m"
+          STDOUT.puts "#{red}There are " + entity_count.to_s + " in " + row["collectionName"] + " collection for record with " + row["searchParameter"] + " = " + row["searchValue"] + ". Expected: " + row["expectedRecordCount"].to_s + "#{reset}"
       end
-      STDOUT.puts "#{red}There are " + entity_count.to_s + " in " + row["collectionName"] + " collection for record with " + row["searchParameter"] + " = " + row["searchValue"] + ". Expected: " + row["expectedRecordCount"].to_s + "#{reset}"
   end
   secConn.close
   assert(result == "true", "Some records are not found in collection.")

@@ -20,6 +20,8 @@ limitations under the License.
 require 'json'
 require 'mongo'
 require_relative '../../../../utils/sli_utils.rb'
+require_relative '../../../../ingestion/features/step_definitions/ingestion_steps.rb'
+require_relative '../../../../security/step_definitions/securityevent_util_steps.rb'
 
 $studentHash = {
     "birthData" => {

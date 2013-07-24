@@ -52,35 +52,45 @@ Feature: As an admin I can create admin accounts for tenancies I administer
 	|sunsetadmin|sunsetadmin1234|LEA Administrator	|SLI		|should			|sunsetingestionuser|
 	|sunsetadmin|sunsetadmin1234|LEA Administrator	|SLI		|should			|sunsetrealmadmin	|
 
+ 
   @production
-  Scenario Outline:  As an administrator I can read all admin accounts in my tenancy if I am a SLC operator or a SEA.  If I am LEA, I can read myself and realm/ingestion users. 
-    
+  Scenario Outline:  As an administrator I can read all admin accounts in my tenancy if I am a SLC operator or a SEA.  If I am LEA, I can read myself and realm/ingestion users.     
     Given I have logged in to realm "<REALM>" using "<USER>" "<PASSWORD>"
+    And the sli securityEvent collection is empty 
     And I have a role "<ADMIN_ROLE>"
     And I navigate to GET "/users"
     Then I should receive a return code of <CODE>
     And I should receive a list of size "<Number>" of "<WANTED_ADMIN_ROLE>"
 #    And each account has "fullName", "uid", "email", "createTime" and "modifyTime"
     And one of the accounts has "<Full_Name>", "<User_ID>", "<Email_Address>"
+    And I check to find if record is in sli db collection: 
+	| collectionName | expectedRecordCount | searchParameter | searchValue | searchType |
+	| securityEvent | <Event_Num> | body.appId | ke9Dgpo3uI | string | 
+	| securityEvent | <Event_Num> | body.className | org.slc.sli.api.security.RightCheckFilterFactory$RightCheckResourceFilter | string | 
+	| securityEvent | <Event_Num> | body.targetEdOrgList | fakeab32-b493-999b-a6f3-sliedorg1234 | string |    
+    | securityEvent | <Event_Num> | body.userEdOrg | fakeab32-b493-999b-a6f3-sliedorg1234 | string |    
+	| securityEvent | <Event_Num> | body.user | <User> | string |    
+	And "<Event_Num>" security event matching "Access Denied:Failed to access URL because of insufficient rights." should be in the sli db
+	
   Examples:
-    |USER       |PASSWORD       |ADMIN_ROLE             |REALM      |WANTED_ADMIN_ROLE           |CODE|Number   |Full_Name       |User_ID                          |Email_Address               |
-    |operator   |operator1234   |SLC Operator           |SLI        |SLC Operator                |200 |1 or more|Bill Operator   |slcoperator-email@slidev.org     |slcoperator-email@slidev.org|
-    |operator   |operator1234   |SLC Operator           |SLI        |SEA Administrator           |200 |1 or more|NY Admin        |nyadmin                          |                            |
-    |operator   |operator1234   |SLC Operator           |SLI        |LEA Administrator           |200 |1 or more|Daybreak Admin  |daybreakadmin                    |daybreakadmin@slidev.org    |
-    |operator   |operator1234   |SLC Operator           |SLI        |Realm Administrator         |200 |1 or more|Mal Admin       |mreynolds                        |mreynolds@slidev.org        |
-    |operator   |operator1234   |SLC Operator           |SLI        |Ingestion User              |200 |1 or more|Sunset IngestionUser|sunsetingestionuser          |sunsetingestionuser@slidev.org|
-    |iladmin    |iladmin1234    |SEA Administrator      |SLI        |SLC Operator                |200 |0        |                |                                 |                            |
-    |iladmin    |iladmin1234    |SEA Administrator      |SLI        |SEA Administrator           |200 |1 or more|IL Admin        |iladmin                          |                            |
-    |iladmin    |iladmin1234    |SEA Administrator      |SLI        |LEA Administrator           |200 |1 or more|Daybreak Admin  |daybreakadmin                    |daybreakadmin@slidev.org    |
-    |iladmin    |iladmin1234    |SEA Administrator      |SLI        |Realm Administrator         |200 |1 or more|Sunset RealmAdmin|sunsetrealmadmin                |sunsetrealmadmin@slidev.org |
-    |iladmin    |iladmin1234    |SEA Administrator      |SLI        |Ingestion User              |200 |1 or more|Sunset IngestionUser|sunsetingestionuser          |sunsetingestionuser@slidev.org|
-    |sunsetadmin|sunsetadmin1234|LEA Administrator      |SLI        |SLC Operator                |200 |0        |                |                                 |                            |
-    |sunsetadmin|sunsetadmin1234|LEA Administrator      |SLI        |SEA Administrator           |200 |0        |                |                                 |                            |
-    |sunsetadmin|sunsetadmin1234|LEA Administrator      |SLI        |LEA Administrator           |200 |1 or more|Sunset Admin    |sunsetadmin                      |                            |
-    |sunsetadmin|sunsetadmin1234|LEA Administrator      |SLI        |Realm Administrator         |200 |1 or more|Sunset RealmAdmin|sunsetrealmadmin                |sunsetrealmadmin@slidev.org |
-    |sunsetadmin|sunsetadmin1234|LEA Administrator      |SLI        |Ingestion User              |200 |1 or more|Sunset IngestionUser|sunsetingestionuser          |sunsetingestionuser@slidev.org|
-    |sunsetrealmadmin|sunsetrealmadmin1234 |Realm Administrator     |SLI        |                |403 |         |                |                                  |                            |
-    |ingestionuser   |ingestionuser1234    |Ingestion User          |SLI        |                |403 |         |                |                                  |                            |
+    |USER       |PASSWORD       |ADMIN_ROLE             |REALM      |WANTED_ADMIN_ROLE           |CODE|Number   |Full_Name       |User_ID                          |Email_Address               |Event_Num|User |
+    |operator   |operator1234   |SLC Operator           |SLI        |SLC Operator                |200 |1 or more|Bill Operator   |slcoperator-email@slidev.org     |slcoperator-email@slidev.org|0        ||
+    |operator   |operator1234   |SLC Operator           |SLI        |SEA Administrator           |200 |1 or more|NY Admin        |nyadmin                          |                            |0        ||
+    |operator   |operator1234   |SLC Operator           |SLI        |LEA Administrator           |200 |1 or more|Daybreak Admin  |daybreakadmin                    |daybreakadmin@slidev.org    |0        ||
+    |operator   |operator1234   |SLC Operator           |SLI        |Realm Administrator         |200 |1 or more|Mal Admin       |mreynolds                        |mreynolds@slidev.org        |0        ||
+    |operator   |operator1234   |SLC Operator           |SLI        |Ingestion User              |200 |1 or more|Sunset IngestionUser|sunsetingestionuser          |sunsetingestionuser@slidev.org|0      ||
+    |iladmin    |iladmin1234    |SEA Administrator      |SLI        |SLC Operator                |200 |0        |                |                                 |                            |0        ||
+    |iladmin    |iladmin1234    |SEA Administrator      |SLI        |SEA Administrator           |200 |1 or more|IL Admin        |iladmin                          |                            |0        ||
+    |iladmin    |iladmin1234    |SEA Administrator      |SLI        |LEA Administrator           |200 |1 or more|Daybreak Admin  |daybreakadmin                    |daybreakadmin@slidev.org    |0        ||
+    |iladmin    |iladmin1234    |SEA Administrator      |SLI        |Realm Administrator         |200 |1 or more|Sunset RealmAdmin|sunsetrealmadmin                |sunsetrealmadmin@slidev.org |0        ||
+    |iladmin    |iladmin1234    |SEA Administrator      |SLI        |Ingestion User              |200 |1 or more|Sunset IngestionUser|sunsetingestionuser          |sunsetingestionuser@slidev.org|0      ||
+    |sunsetadmin|sunsetadmin1234|LEA Administrator      |SLI        |SLC Operator                |200 |0        |                |                                 |                            |0        ||
+    |sunsetadmin|sunsetadmin1234|LEA Administrator      |SLI        |SEA Administrator           |200 |0        |                |                                 |                            |0        ||
+    |sunsetadmin|sunsetadmin1234|LEA Administrator      |SLI        |LEA Administrator           |200 |1 or more|Sunset Admin    |sunsetadmin                      |                            |0        ||
+    |sunsetadmin|sunsetadmin1234|LEA Administrator      |SLI        |Realm Administrator         |200 |1 or more|Sunset RealmAdmin|sunsetrealmadmin                |sunsetrealmadmin@slidev.org |0        ||
+    |sunsetadmin|sunsetadmin1234|LEA Administrator      |SLI        |Ingestion User              |200 |1 or more|Sunset IngestionUser|sunsetingestionuser          |sunsetingestionuser@slidev.org|0      ||
+    |sunsetrealmadmin|sunsetrealmadmin1234 |Realm Administrator     |SLI        |                |403 |         |                |                                  |                            |1       |sunsetrealmadmin, Sunset Realm Admin|
+    |ingestionuser   |ingestionuser1234    |Ingestion User          |SLI        |                |403 |         |                |                                  |                            |1       |ingestionuser, Ingestion User|
 
 
   #sandbox

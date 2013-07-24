@@ -167,11 +167,13 @@ Scenario: Sandbox developer confirming that his data was not affected by delete
     And a security event "Realm [SecEventRealm] created!" should be created for these targetEdOrgs ONLY
       | targetEdOrg |
       | VIRGON      |
+    And the sli securityEvent collection is empty
     When I PUT to change the realm "SecEventRealm" to change field "name" to "Updated SecEventRealm"
     Then I should receive a return code of 204
     And a security event "Realm [SecEventRealm/Updated SecEventRealm] updated!" should be created for these targetEdOrgs ONLY
       | targetEdOrg |
       | VIRGON      |
+    And the sli securityEvent collection is empty
     When I DELETE the realm "SecEventRealm"
     Then I should receive a return code of 204
     And a security event "Realm [Updated SecEventRealm] deleted!" should be created for these targetEdOrgs ONLY

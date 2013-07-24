@@ -19,6 +19,7 @@ package org.slc.sli.api.representation;
 import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.Field;
+import java.net.URI;
 
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
@@ -26,8 +27,12 @@ import javax.ws.rs.core.Response;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.common.util.logging.SecurityEvent;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -44,11 +49,19 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class })
 public class InsufficientAuthenticationHandlerTest {
+
     private InsufficientAuthenticationHandler handler;
     
     @Test
     public void checkResponse() throws Exception {
+        SecurityEventBuilder mockSecurityEventBuilder = Mockito.mock(SecurityEventBuilder.class);
+
         handler = new InsufficientAuthenticationHandler();
+        handler.setSecurityEventBuilder(mockSecurityEventBuilder);
+
+        SecurityEvent secEvt = new SecurityEvent();
+
+        Mockito.when(mockSecurityEventBuilder.createSecurityEvent(Mockito.anyString(), Mockito.any(URI.class), Mockito.anyString(), Mockito.anyBoolean())).thenReturn(secEvt);
 
         HttpHeaders headers = Mockito.mock(HttpHeaders.class);
         Mockito.when(headers.getMediaType()).thenReturn(MediaType.APPLICATION_JSON_TYPE);
