@@ -27,7 +27,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.security.context.EdOrgOwnershipArbiter;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.enums.Right;
 
 /**
  * Build user's access rights to an entity based on its associated edOrgs.
@@ -56,6 +59,10 @@ public class EntityEdOrgRightBuilder {
             warn("Attempted access to an entity with no matching edorg association.");
         } else {
             for (String edorg : edorgs) {
+                if ((SecurityUtil.getContext().equals(EntityNames.STAFF) && (!edOrgRights.get(edorg).contains(Right.STAFF_CONTEXT))) ||
+                        (SecurityUtil.getContext().equals(EntityNames.TEACHER) && (!edOrgRights.get(edorg).contains(Right.TEACHER_CONTEXT)))) {
+                    continue;
+                }
                 authorities.addAll(edOrgRights.get(edorg));
             }
         }

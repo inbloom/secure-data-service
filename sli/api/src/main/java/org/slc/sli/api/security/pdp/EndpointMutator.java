@@ -26,12 +26,16 @@ import com.sun.jersey.api.NotFoundException;
 import com.sun.jersey.core.header.InBoundHeaders;
 import com.sun.jersey.spi.container.ContainerRequest;
 
-import org.slc.sli.api.constants.ResourceNames;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.PathConstants;
+import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
 
 /**
  * Determines whether or not the requested endpoint should be mutated.
@@ -70,7 +74,7 @@ public class EndpointMutator {
         SLIPrincipal user = (SLIPrincipal) auth.getPrincipal();
         List<PathSegment> segments = sanitizePathSegments(request);
         String parameters = request.getRequestUri().getQuery();
-        
+
 
         if (segments.size() == 0) {
             throw new NotFoundException();
@@ -80,7 +84,12 @@ public class EndpointMutator {
             if (!request.getProperties().containsKey(REQUESTED_PATH)) {
                 request.getProperties().put(REQUESTED_PATH, request.getPath());
             }
-            MutatedContainer mutated = uriMutator.mutate(segments, parameters, user.getEntity());
+
+            Entity entity = user.getEntity();
+            if (SecurityUtil.getContext().equals(EntityNames.STAFF) || SecurityUtil.getContext().equals(EntityNames.TEACHER)) {
+                entity = new MongoEntity(SecurityUtil.getContext(), entity.getEntityId(), entity.getBody(), entity.getMetaData());
+            }
+            MutatedContainer mutated = uriMutator.mutate(segments, parameters, entity);
 
             if (mutated != null && mutated.isModified()) {
 

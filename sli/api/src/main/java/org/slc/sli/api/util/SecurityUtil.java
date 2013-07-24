@@ -16,7 +16,9 @@
 
 package org.slc.sli.api.util;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
 
 import javax.ws.rs.core.Response;
 
@@ -56,6 +58,8 @@ public class SecurityUtil {
     // use to detect nested tenant blocks
     private static ThreadLocal<Boolean> inTenantBlock = new ThreadLocal<Boolean>();
     // private static String principalId;
+
+    private static String context = "other";
 
     static {
         SLIPrincipal system = new SLIPrincipal("SYSTEM");
@@ -239,6 +243,14 @@ public class SecurityUtil {
         SLIPrincipal principal = getSLIPrincipal();
         String userType = principal.getUserType();
         return ((!principal.isAdminRealmAuthenticated()) && (userType == null || userType.isEmpty() || EntityNames.STAFF.equals(userType)));
+    }
+
+    public static String getContext() {
+        return context;
+    }
+
+    public static void setContext(String context) {
+        SecurityUtil.context = context;
     }
 
     /**

@@ -43,6 +43,7 @@ import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextValidator;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.traversal.cache.SecurityCachingStrategy;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.MongoStat;
 import org.slc.sli.domain.Entity;
@@ -65,7 +66,7 @@ public class PostProcessFilter implements ContainerResponseFilter {
     private static final String GET = ResourceMethod.GET.toString();
 
     private DateTimeFormatter dateFormatter = new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd").toFormatter();
-    
+
     @Autowired
     private ContextValidator contextValidator;
 
@@ -77,8 +78,8 @@ public class PostProcessFilter implements ContainerResponseFilter {
 
     @Autowired
     @Qualifier("performanceRepo")
-    private Repository<Entity> perfRepo;    
-    
+    private Repository<Entity> perfRepo;
+
     @Value("${sli.application.buildTag}")
     private String buildTag;
 
@@ -104,12 +105,16 @@ public class PostProcessFilter implements ContainerResponseFilter {
             contextValidator.validateContextToUri(request, principal);
         }
 
-        SecurityContextHolder.clearContext();
+        if (!response.getHttpHeaders().containsKey("userContext")) {
+            SecurityContextHolder.clearContext();
+            TenantContext.cleanup();
+            SecurityUtil.setContext("other");
+        }
 
         if ("true".equals(apiPerformanceTracking)) {
             logApiDataToDb(request, response);
         }
-        TenantContext.cleanup();
+//        TenantContext.cleanup();
         printElapsed(request);
         expireCache();
 
@@ -169,7 +174,7 @@ public class PostProcessFilter implements ContainerResponseFilter {
     static long bucket = 0;
     private void logApiDataToDb(ContainerRequest request, ContainerResponse response) {
         long startTime = (Long) request.getProperties().get("startTime");
-        long endTime = System.currentTimeMillis(); 
+        long endTime = System.currentTimeMillis();
         long elapsed = endTime - startTime;
         long startBucket = bucket;
 
@@ -206,10 +211,10 @@ public class PostProcessFilter implements ContainerResponseFilter {
                     endPoint += "/" + uri.get("associateEntity");
                 }
             }
-            
+
             String reqId = request.getHeaderValue("x-request-id");
             if (null != reqId) {
-                body.put("reqid", reqId); 
+                body.put("reqid", reqId);
             }
 
             body.put("url", requestURL.replace(serverUrl, "/"));
@@ -221,8 +226,8 @@ public class PostProcessFilter implements ContainerResponseFilter {
             body.put("parameters", request.getQueryParameters());
             body.put("Date", dateFormatter.print(new DateTime(System.currentTimeMillis())));
             body.put("startTime", startTime);
-            // Note: Currently the start and end times are recorded in ms since the epoch. 
-            //       here is how they were formatted in the past 
+            // Note: Currently the start and end times are recorded in ms since the epoch.
+            //       here is how they were formatted in the past
             //  body.put("startTime", timeFormatter.print(new DateTime(startTime)));
             //  body.put("endTime", timeFormatter.print(new DateTime(System.currentTimeMillis())));
             body.put("endTime", endTime);

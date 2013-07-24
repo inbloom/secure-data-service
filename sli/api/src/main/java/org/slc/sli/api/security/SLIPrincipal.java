@@ -29,6 +29,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import com.sun.jersey.spi.container.ContainerRequest;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
@@ -55,7 +57,7 @@ public class SLIPrincipal implements Principal, Serializable {
     private String realmEdOrg;
     private String externalId;
     private String adminRealm;
-    private String edOrg; 
+    private String edOrg;
     private String tenantId;
     private String sessionId;
     private List<String> roles;
@@ -78,6 +80,7 @@ public class SLIPrincipal implements Principal, Serializable {
     private boolean studentAccessFlag = true;
     private Set<String> ownedStudentIds = new HashSet<String>();
     private Set<Entity> ownedStudents = new HashSet<Entity>();
+    private ContainerRequest request;
 
     public SLIPrincipal() {
         // Empty default constructor is used in various places.
@@ -129,7 +132,7 @@ public class SLIPrincipal implements Principal, Serializable {
     public String getRealmEdOrg() {
         return realmEdOrg;
     }
-    
+
     public void setRealm(String realm) {
         this.realm = realm;
     }
@@ -137,7 +140,7 @@ public class SLIPrincipal implements Principal, Serializable {
     public void setRealmEdOrg(String realmEdOrg) {
         this.realmEdOrg = realmEdOrg;
     }
-    
+
     public String getExternalId() {
         return externalId;
     }
@@ -429,5 +432,13 @@ public class SLIPrincipal implements Principal, Serializable {
             }
         }
 
+    }
+
+    public Object getRequest() {
+        return request;
+    }
+
+    public void setRequest(Object request) {
+        this.request = (ContainerRequest) request;
     }
 }

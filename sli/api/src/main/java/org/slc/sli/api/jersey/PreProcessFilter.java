@@ -116,6 +116,10 @@ public class PreProcessFilter implements ContainerRequestFilter {
 
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         principal.setSubEdOrgHierarchy(edOrgHelper.getStaffEdOrgsAndChildren());
+        principal.setRequest(request);
+        if (SecurityUtil.getContext().equals("other") && (principal.getEntity().getType().equals(EntityNames.STAFF) || principal.getEntity().getType().equals(EntityNames.TEACHER))) {
+            SecurityUtil.setContext(principal.getEntity().getType());
+        }
 
         info("uri: {} -> {}", request.getMethod(), request.getRequestUri().getPath());
         request.getProperties().put("original-request", request.getPath());
@@ -133,6 +137,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
 
         translator.translate(request);
         criteriaGenerator.generate(request);
+
         return request;
     }
 
@@ -141,7 +146,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
         SLIPrincipal prince = SecurityUtil.getSLIPrincipal();
 
         if (request.getPathSegments().size() > 3) {	// not applied on two parters
-            
+
             String base = request.getPathSegments().get(1).getPath();
             String assoc = request.getPathSegments().get(3).getPath();
 
