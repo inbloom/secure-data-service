@@ -16,6 +16,20 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import static org.slc.sli.common.constants.ParameterConstants.STUDENT_RECORD_ACCESS;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
@@ -24,12 +38,7 @@ import org.slc.sli.common.util.datetime.DateHelper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import java.util.*;
-
-import static org.slc.sli.common.constants.ParameterConstants.STUDENT_RECORD_ACCESS;
+import org.slc.sli.domain.enums.Right;
 
 @Component
 public class StudentValidatorHelper {
@@ -57,6 +66,7 @@ public class StudentValidatorHelper {
     public List<String> getTeachersSectionIds(Entity teacher, boolean useGracePeriod) {
         List<String> sectionIds = new ArrayList<String>();
 
+        SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
         // teacher -> teacherSectionAssociation
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.TEACHER_ID,
                 NeutralCriteria.OPERATOR_EQUAL, teacher.getEntityId()));
@@ -64,7 +74,22 @@ public class StudentValidatorHelper {
 
         for (Entity assoc : teacherSectionAssociations) {
             if (!dateHelper.isFieldExpired(assoc.getBody(), ParameterConstants.END_DATE, useGracePeriod)) {
-                sectionIds.add((String) assoc.getBody().get(ParameterConstants.SECTION_ID));
+                String sectionId = (String) assoc.getBody().get(ParameterConstants.SECTION_ID);
+                NeutralQuery query2 = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
+                        NeutralCriteria.OPERATOR_EQUAL, sectionId));
+                Entity section = repo.findOne(EntityNames.SECTION, query2);
+                 if (SecurityUtil.getContext().equals(EntityNames.STAFF) || SecurityUtil.getContext().equals(EntityNames.TEACHER)) {
+                    String schoolId = (String) section.getBody().get(ParameterConstants.SCHOOL_ID);
+                    if (principal.getEdOrgRights().containsKey(schoolId) &&
+                            ((SecurityUtil.getContext().equals(EntityNames.STAFF) && principal.getEdOrgRights().get(schoolId).contains(Right.STAFF_CONTEXT))
+                            || (SecurityUtil.getContext().equals(EntityNames.TEACHER) && principal.getEdOrgRights().get(schoolId).contains(Right.TEACHER_CONTEXT)))) {
+                        sectionIds.add(sectionId);
+                    }
+                } else {
+                    sectionIds.add(sectionId);
+                }
+
+//                sectionIds.add((String) assoc.getBody().get(ParameterConstants.SECTION_ID));
             }
         }
         return sectionIds;

@@ -48,8 +48,6 @@ import org.slc.sli.api.resources.generic.util.ResourceTemplate;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.enums.Right;
 
 /**
@@ -106,9 +104,6 @@ public class FourPartResource extends GenericResource {
                     SecurityUtil.setContext(context);
                     URI requestUri = uriInfo.getRequestUri();
                     if ((!context.equals(OTHER)) && (!context.equals(principal.getEntity().getType()))) {
-                        Entity entity = principal.getEntity();
-                        principal.setEntity(new MongoEntity(context, entity.getEntityId(), entity.getBody(), entity.getMetaData()));
-                        principal.setUserType(context);
                         try {
                             requestUri = new URI(request.getBaseUri().toString() + ((String) request.getProperties().get("original-request")));
                         } catch (URISyntaxException e) {
@@ -120,13 +115,14 @@ public class FourPartResource extends GenericResource {
                         requestUri = request.getRequestUri();
                     }
 
+                    String queryId = request.getPathSegments().get(2).getPath();
                     final Resource base = getBaseName(requestUri, ResourceTemplate.FOUR_PART);
                     final Resource association = getAssociationName(requestUri, ResourceTemplate.FOUR_PART);
-                    ServiceResponse contextResponse = resourceService.getEntities(base, id, association, resource, requestUri);
+                    ServiceResponse contextResponse = resourceService.getEntities(base, queryId, association, resource, requestUri);
                     entityBodyList.addAll(contextResponse.getEntityBodyList());
-                    entityCount = entityBodyList.size();
+                    entityCount += contextResponse.getEntityCount();
 
-                    if ((!context.equals(OTHER)) && (context.equals(principal.getEntity().getType()))) {
+                    if ((!context.equals(OTHER)) && (!context.equals(principal.getEntity().getType()))) {
                         ContainerResponse response = new ContainerResponse(null, request, null);
                         response.setStatus(200);
                         response.getHttpHeaders().add("TotalCount", entityCount);

@@ -25,13 +25,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Sets;
-
 import javax.annotation.PostConstruct;
 
-import org.slc.sli.api.representation.EntityBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -46,6 +41,7 @@ import org.slc.sli.common.util.datetime.DateHelper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.enums.Right;
 import org.slc.sli.domain.utils.EdOrgHierarchyHelper;
 
 /**
@@ -497,7 +493,7 @@ public class EdOrgHelper {
     public Set<String> locateDirectEdorgs(Entity principal) {
         return getEdOrgs(principal, false);
     }
-    
+
     private Set<String> getEdOrgs(Entity principal, boolean filterByOwnership) {
         if (isStaff(principal) || isTeacher(principal)) {
             return getStaffDirectlyAssociatedEdorgs(principal, filterByOwnership);
@@ -559,13 +555,23 @@ public class EdOrgHelper {
     private Set<String> getStaffDirectlyAssociatedEdorgs(Entity staff, boolean filterByOwnership) {
         Set<String> edorgs = new HashSet<String>();
 
+        SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
         Iterable<Entity> associations = locateValidSEOAs(staff.getEntityId(), filterByOwnership);
-
         for (Entity association : associations) {
+            String edOrgReference = (String) association.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE);
+            if (SecurityUtil.getContext().equals(EntityNames.STAFF) || SecurityUtil.getContext().equals(EntityNames.TEACHER)) {
+                   if ((SecurityUtil.getContext().equals(EntityNames.STAFF) && principal.getEdOrgRights().get(edOrgReference).contains(Right.STAFF_CONTEXT))
+                           || (SecurityUtil.getContext().equals(EntityNames.TEACHER) && principal.getEdOrgRights().get(edOrgReference).contains(Right.TEACHER_CONTEXT))) {
+                       edorgs.add(edOrgReference);
+                   }
+            } else {
+                edorgs.add(edOrgReference);
+            }
 
-            edorgs.add((String) association.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE));
+//            edorgs.add((String) association.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE));
 
         }
+
         return edorgs;
     }
 
