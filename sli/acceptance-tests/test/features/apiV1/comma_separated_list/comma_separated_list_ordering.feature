@@ -74,7 +74,7 @@ Feature: As an SLI application, I want to return the right order of entities.
  	    | ENDPOINT                  | ID1                                | ID2                                |
  	    |assessments                |b94b5194d45cd707465627c0cd6c4f68f3558600_id|c607aa848f00b4efa6bfb95fbe78a00338377f16_id|
  	    |attendances                |530f0704-c240-4ed9-0a64-55c0308f91ee|4beb72d4-0f76-4071-92b4-61982dba7a7b|
- 	    |cohorts                    |b40926af-8fd5-11e1-86ec-0021701f543f_id|b408d88e-8fd5-11e1-86ec-0021701f543f_id|
+ 	    |cohorts                    |b40926af-8fd5-11e1-86ec-0021701f543f_id|b408d88e-8fd5-11t1-86tc-0021701f543f_id|
  	    |courses                    |f9d960e4-682b-4ebe-96d8-c4c2fc803435|43ee8275-de7b-4a02-8ecb-21d25a45db36|
  	    |disciplineActions          |db7f1d4b-9689-b2f4-9281-d88d65999423|9e26de6c-225b-9f67-9201-8113ad50a03b|
  	    |disciplineIncidents        |0e26de79-7efa-5e67-9201-5113ad50a03b|0e26de79-22ea-5d67-9201-5113ad50a03b|

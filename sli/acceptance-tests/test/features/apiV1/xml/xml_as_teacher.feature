@@ -66,7 +66,7 @@ Scenario: Applying optional fields
   Then when I look at the student "Marvin" "Miller"
 
   # attendances
-  Then I should find 181 "<attendances>" under "<attendances>"
+  Then I should find 182 "<attendances>" under "<attendances>"
   And I should see "<date>" is "2011-09-07" for one of them
   And I should see "<event>" is "In Attendance" for it
 
@@ -122,7 +122,7 @@ Scenario: Applying optional fields - single student view
   And I should receive a return code of 200
 
   # attendances
-  Then I should find 181 "<attendances>" under "<attendances>"
+  Then I should find 182 "<attendances>" under "<attendances>"
   And I should see "<date>" is "2011-09-07" for one of them
   And I should see "<event>" is "In Attendance" for it
 

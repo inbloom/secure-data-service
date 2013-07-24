@@ -15,7 +15,7 @@ Feature: As an SLI application, I want to be able to view more student data in a
 
   # Attendaces
     And I should find "1" "attendances"
-    And I should find "181" "attendances" in it
+    And I should find "182" "attendances" in it
     Then I should see "date" is "2011-09-06" in one of them
     And I should see "event" is "In Attendance" in it
 
