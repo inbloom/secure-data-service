@@ -236,7 +236,7 @@ public class SecurityEventBuilderTest {
 
     private void prepareTargetEdOrgMocks() {
         // single id in uri match
-        Mockito.when(arbiter.findEdorgs(argThat(new BaseMatcher<Iterable<Entity>>() {
+        Mockito.when(arbiter.findOwner(argThat(new BaseMatcher<Iterable<Entity>>() {
 
             @Override
             public boolean matches(Object item) {
@@ -260,7 +260,7 @@ public class SecurityEventBuilderTest {
         }), Mockito.eq(EntityNames.SECTION), Mockito.eq(false))).thenReturn(Arrays.asList(edOrg1));
 
         // two ids in uri match
-        Mockito.when(arbiter.findEdorgs(argThat(new BaseMatcher<Iterable<Entity>>() {
+        Mockito.when(arbiter.findOwner(argThat(new BaseMatcher<Iterable<Entity>>() {
 
             @Override
             public boolean matches(Object item) {

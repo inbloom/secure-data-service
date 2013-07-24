@@ -16,64 +16,29 @@
 
 package org.slc.sli.api.security.context;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
+import org.slc.sli.api.security.context.resolver.EdOrgHelper;
+import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.security.context.resolver.EdOrgHelper;
-import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author ablum npandey
  */
 @Component
-public class EdOrgOwnershipArbiter {
-    private Map<String, Reference> typeToReference = new HashMap<String, EdOrgOwnershipArbiter.Reference>();
-
-    @Autowired
-    private EntityDefinitionStore store;
-
-    @Autowired
-    private PagingRepositoryDelegate<Entity> repo;
+public class EdOrgOwnershipArbiter extends OwnershipArbiter {
 
     @Autowired
     private EdOrgHelper helper;
-
-    private static class Reference {
-        // R2L = Right hand side entity contains reference to entity on left hand side
-        // L2R = Left hand side entity contains reference to entity on right hand side
-        public enum RefType {
-            LEFT_TO_RIGHT, RIGHT_TO_LEFT
-        };
-
-        String fromType = null;
-        String toType = null;
-        RefType type = null;
-        String refField = null;
-
-        public Reference(String fromType, String toType, String refField, RefType refType) {
-            this.fromType = fromType;
-            this.toType = toType;
-            this.type = refType;
-            this.refField = refField;
-        }
-    }
 
     @SuppressWarnings("unused")
     @PostConstruct
@@ -160,7 +125,6 @@ public class EdOrgOwnershipArbiter {
         typeToReference.put(EntityNames.TEACHER, new Reference(EntityNames.TEACHER,
                 EntityNames.STAFF_ED_ORG_ASSOCIATION, ParameterConstants.STAFF_REFERENCE,
                 Reference.RefType.RIGHT_TO_LEFT));
-
     }
 
     /**
@@ -171,11 +135,11 @@ public class EdOrgOwnershipArbiter {
      * @return a Set of edorg IDs
      */
     public Set<String> determineEdorgs(Iterable<Entity> entities, String entityType) {
-       Set<String> edorgs = new HashSet<String>();
+        Set<String> edorgs = new HashSet<String>();
 
-       for (Entity entity : findEdorgs(entities, entityType, false)) {
+        for (Entity entity : findOwner(entities, entityType, false)) {
             edorgs.add(entity.getEntityId());
-       }
+        }
 
         return edorgs;
     }
@@ -190,7 +154,7 @@ public class EdOrgOwnershipArbiter {
     public Set<String> determineHierarchicalEdorgs(Iterable<Entity> entities, String entityType) {
         Set<String> hierarchicalEdorgs = new HashSet<String>();
 
-        List<Entity> edorgs = findEdorgs(entities, entityType, true);
+        List<Entity> edorgs = findOwner(entities, entityType, true);
 
         for (Entity edorg : edorgs) {
             hierarchicalEdorgs.add(edorg.getEntityId());
@@ -200,58 +164,6 @@ public class EdOrgOwnershipArbiter {
         return hierarchicalEdorgs;
     }
 
-    public List<Entity> findEdorgs(Iterable<Entity> entities, String entityType, boolean ignoreOrphans) {
-        List<Entity> edorgs = new ArrayList<Entity>();
-        debug("checking ownership for entities of type: {}", entityType);
-
-        if (isEducationOrganization(entityType)) {
-            // No need to do an actual mongo lookup since we have the IDs we need
-            for (Entity entity : entities) {
-                edorgs.add(entity);
-            }
-        } else {
-            Reference ref = typeToReference.get(entityType);
-            if (ref == null) {
-                warn("Cannot handle ownership for entity type {}.", entityType);
-                throw new RuntimeException("No ownership for " + entityType);
-            }
-
-            for (Entity entity : entities) {
-                // Ignore orphaned entities created by the principal.
-                if (entity.getMetaData() != null && SecurityUtil.principalId().equals(entity.getMetaData().get("createdBy"))
-                        && "true".equals(entity.getMetaData().get("isOrphaned")) && ignoreOrphans) {
-                    debug("Entity is orphaned: id {} of type {}", entity.getEntityId(), entity.getType());
-                    continue;
-                }
-
-                EntityDefinition definition = store.lookupByEntityType(ref.toType);
-                String collectionName = definition.getStoredCollectionName();
-                String critField = null;
-                Object critValue = null;
-                if (ref.type == Reference.RefType.LEFT_TO_RIGHT) {
-                    critField = ParameterConstants.ID;
-                    critValue = entity.getBody().get(ref.refField);
-                } else { // RIGHT_TO_LEFT
-                    critField = ref.refField;
-                    critValue = entity.getEntityId();
-                }
-
-                Iterable<Entity> ents = repo.findAll(collectionName, new NeutralQuery(new NeutralCriteria(critField,
-                        NeutralCriteria.OPERATOR_EQUAL, critValue)));
-                if (ents.iterator().hasNext()) {
-                    List<Entity> toAdd = findEdorgs(ents, collectionName, ignoreOrphans);
-                    edorgs.addAll(toAdd);
-                } else {
-                    // entity does not exist in db so skip
-                    throw new APIAccessDeniedException("Could not find a matching " + collectionName + " where "
-                            + critField + " is " + critValue + ".");
-                }
-            }
-        }
-
-        return edorgs;
-    }
-
     /**
      * Determines if the specified entity type represents an education organization.
      *
@@ -259,9 +171,9 @@ public class EdOrgOwnershipArbiter {
      *            Type of Entity to be checked.
      * @return True if the specified entity type is an education organization, false otherwise.
      */
-    private boolean isEducationOrganization(String type) {
+    @Override
+    protected boolean isBaseType(String type) {
         return type.equals(EntityNames.EDUCATION_ORGANIZATION) || type.equals(EntityNames.SCHOOL)
                 || type.equals("localEducationAgency") || type.equals("stateEducationAgency");
     }
-
 }

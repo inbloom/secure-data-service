@@ -211,7 +211,7 @@ Scenario: security event throwing when you try to access existing parent id
      And I check to find if record is in sli db collection:
         | collectionName  | expectedRecordCount | searchParameter         | searchValue                                           | searchType |
         | securityEvent   | 1                   | body.appId              | ke9Dgpo3uI                                            | string     |
-        | securityEvent   | 1                   | body.className          |org.slc.sli.api.security.context.EdOrgOwnershipArbiter | string     |
+        | securityEvent   | 1                   | body.className          |org.slc.sli.api.security.context.OwnershipArbiter      | string     |
         | securityEvent   | 1                   | body.userEdOrg          | IL-SUNSET                                             | string     |
         | securityEvent   | 1                   | body.targetEdOrgList    | IL-SUNSET                                             | string     |
      And "1" security event with field "body.actionUri" matching "http.*/api/rest/v1.3/parents/056dce8e-ec68-4df6-add0-a4243bddca9a" should be in the sli db   

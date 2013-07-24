@@ -288,7 +288,7 @@ public class SecurityEventBuilder {
         }
 
         try {
-            targetEdOrgStateIds = getEdOrgStateIds(arbiter.findEdorgs(entities, entityType, false));
+            targetEdOrgStateIds = getEdOrgStateIds(arbiter.findOwner(entities, entityType, false));
         } catch (APIAccessDeniedException nestedE) {
             // we were unable to determine the targetEdOrgs
             warn(nestedE.getMessage());

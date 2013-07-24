@@ -24,11 +24,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.slc.sli.api.security.context.APIAccessDeniedException;
-import org.slc.sli.api.security.context.ContextValidator;
 import org.slc.sli.common.constants.EntityNames;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -222,12 +220,14 @@ public class RightAccessValidator {
     /**
      *  Get the authorities from the context
      *
+     *
      * @param isSelf  whether operation is being done in "self" context
      * @param entity item under inspection
      *
+     * @param isRead if operation is a read operation
      * @return a set of granted authorities
      */
-    public Collection<GrantedAuthority> getContextualAuthorities(boolean isSelf, Entity entity){
+    public Collection<GrantedAuthority> getContextualAuthorities(boolean isSelf, Entity entity, boolean isRead){
         Collection<GrantedAuthority> auths = new HashSet<GrantedAuthority>();
 
         SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
@@ -245,7 +245,7 @@ public class RightAccessValidator {
                     // Orphaned entities created by the principal are handled the same as before.
                     auths.addAll(principal.getAllRights());
                 } else {
-                    auths.addAll(entityEdOrgRightBuilder.buildEntityEdOrgRights(principal.getEdOrgRights(), entity));
+                    auths.addAll(entityEdOrgRightBuilder.buildEntityEdOrgRights(principal.getEdOrgRights(), entity, isRead));
                 }
             }
         } else {

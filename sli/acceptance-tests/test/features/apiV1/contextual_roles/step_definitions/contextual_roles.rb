@@ -60,14 +60,29 @@ Transform /^<(.*?)>$/ do |human_readable_id|
   id
 end
 
-Transform /^\[(.*?)\]$/ do |array_list|
-  array_split = array_list.split(',')
-  array = []
-  array_split.each {|entry| array << entry}
+Transform /^(<[^"]*>)\/([^"]*)$/ do |uri_placeholder1, uri_placeholder2|
+  uri = Transform(uri_placeholder1) + "/" + uri_placeholder2
+  uri
+end
 
+Transform /^\[([^{]*)\]$/ do |array_list|
+  array = array_list.split(%r{,\s*})
   array
 end
 
+Transform /^\[\{([^{]*)\}\]$/ do |array_hash|
+  array = []
+  hash = {}
+  hash_split = array_hash.split(%r{,\s*})
+  hash_split.each do |hash_parse|
+    hash_key_value = hash_parse.split(%r{\s*:\s*})
+    new_hash = {hash_key_value[0] => hash_key_value[1]}
+    hash.merge!(new_hash)
+  end
+  array << hash
+
+  array
+end
 
 #############################################################################################
 # After Steps
@@ -111,17 +126,17 @@ end
 #Note: tenant is the database name and query is a query that'd uniquely identify an entity
 #      (Generally, a query like {'_id' => id} is enough)
 
-def update_mongo(tenant, collection, query, field, remove, value = nil)
+def update_mongo(db_name, collection, query, field, remove, value = nil)
 #Note: value is ignored if remove is true (It doesn't matter what the field contains if you're removing it)
 
-  entry = update_mongo_operation(tenant, collection, query, field, remove, value)
+  entry = update_mongo_operation(db_name, collection, query, field, remove, value)
 
   (@mongo_changes ||= []) << entry
 end
 
-def update_mongo_operation(tenant, collection, query, field, remove, value = nil)
+def update_mongo_operation(db_name, collection, query, field, remove, value = nil)
   conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
-  db = conn[tenant]
+  db = conn[db_name]
   coll = db.collection(collection)
   entity = coll.find_one(query)
   entity_iter = entity
@@ -140,7 +155,7 @@ def update_mongo_operation(tenant, collection, query, field, remove, value = nil
   end
   if !(remove) || found
     entry = {:operation => 'update',
-             :tenant => tenant,
+             :tenant => db_name,
              :collection => collection,
              :query => query,
              :field => field,
@@ -161,12 +176,12 @@ def update_mongo_operation(tenant, collection, query, field, remove, value = nil
 
 end
 
-def add_to_mongo(tenant, collection, entity)
+def add_to_mongo(db_name, collection, entity)
   conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
-  db = conn[tenant]
+  db = conn[db_name]
   coll = db.collection(collection)
   entry = {:operation => 'add',
-           :tenant => tenant,
+           :tenant => db_name,
            :collection => collection,
            :entity => entity
   }
@@ -176,21 +191,21 @@ def add_to_mongo(tenant, collection, entity)
   conn.close
 end
 
-def remove_from_mongo(tenant, collection, query)
-  entry = remove_from_mongo_operation(tenant, collection, query)
+def remove_from_mongo(db_name, collection, query)
+  entry = remove_from_mongo_operation(db_name, collection, query)
 
   (@mongo_changes ||= []) << entry
 
 end
 
-def remove_from_mongo_operation(tenant, collection, query)
+def remove_from_mongo_operation(db_name, collection, query)
   conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
-  db = conn[tenant]
+  db = conn[db_name]
   coll = db.collection(collection)
   entity = coll.find_one(query)
   if entity
     entry = {:operation => 'remove',
-             :tenant => tenant,
+             :tenant => db_name,
              :collection => collection,
              :query => query,
              :value => entity
@@ -611,13 +626,24 @@ Given /^I get (\d+) random ids associated with the edorgs for "([^"]*)" of "([^"
   case type
     when 'studentProgramAssociation'
       subdoc = true
+      edorg_in_subdoc = true
       edorg_ref = 'body.educationOrganizationId'
-    when 'teacherSchoolAssociation', 'studentSchoolAssociation'
+    when 'teacherSchoolAssociation', 'studentSchoolAssociation', 'disciplineIncident', 'attendance'
       subdoc = false
       edorg_ref = 'body.schoolId'
     when 'staffEducationOrganizationAssociation'
       subdoc = false
       edorg_ref = 'body.educationOrganizationReference'
+    when 'cohort'
+      subdoc = false
+      edorg_ref = 'body.educationOrgId'
+    when 'disciplineAction'
+      subdoc = false
+      edorg_ref = 'body.responsibilitySchoolId'
+    when 'gradebookEntry'
+      subdoc = true
+      edorg_in_subdoc = false
+      edorg_ref = 'body.schoolId'
     else
       subdoc = false
       edorg_ref = 'body.educationOrganizationId'
@@ -638,7 +664,11 @@ Given /^I get (\d+) random ids associated with the edorgs for "([^"]*)" of "([^"
   coll = db.collection(collection)
   edorgs.each do |edorg|
     if subdoc
-      entities = coll.find({"#{type}.#{edorg_ref}" => edorg},{:fields => ["#{type}.$"]}).to_a
+      if edorg_in_subdoc
+        entities = coll.find({"#{type}.#{edorg_ref}" => edorg},{:fields => ["#{type}.$"]}).to_a
+      else
+        entities = coll.find({edorg_ref => edorg},{:fields => ["#{type}.$"]}).to_a
+      end
       entities.each { |entity| entity_ids.add(entity[type][0]['_id'])}
     else
       entities = coll.find({edorg_ref => edorg},{:fields => %w(_id)}).to_a
@@ -647,6 +677,35 @@ Given /^I get (\d+) random ids associated with the edorgs for "([^"]*)" of "([^"
   end
   assert(entity_ids.size > 0, "No #{type} found that is associated with the edorgs of #{staff}")
   (entity_ids.to_a.shuffle.take(number.to_i)).each { |entry| (@entity_ids ||= []) << entry }
+  conn.close
+  enable_NOTABLESCAN()
+end
+
+Given /^I add a student school association for "([^"]*)" in "([^"]*)" that's already expired$/ do |student, edorg|
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  db_name = convertTenantIdToDbName(@tenant)
+  db = conn[db_name]
+  student_coll = db.collection('student')
+  edorg_coll = db.collection('educationOrganization')
+  student_id = student_coll.find_one({'body.studentUniqueStateId' => student})['_id']
+  edorg_id = edorg_coll.find_one({'body.stateOrganizationId' => edorg})['_id']
+  entry = {
+      '_id' => SecureRandom.uuid,
+      'type' => 'studentSchoolAssociation',
+      'body' => {
+          'schoolYear' => '2010-2011',
+          'schoolId' => edorg_id,
+          'studentId' => student_id,
+          'entryDate' => '2010-10-10',
+          'entryGradeLevel' => 'Ninth grade',
+          'exitWithdrawDate' => '2011-05-05',
+          'exitWithdrawType' => 'Withdrawn due to illness'
+      }
+  }
+  @newId = entry['_id']
+  add_to_mongo(db_name,'studentSchoolAssociation',entry)
+
   conn.close
   enable_NOTABLESCAN()
 end
@@ -868,6 +927,21 @@ Given /^a valid formatted entity json document for a "([^"]*)"$/ do |arg1|
   step "a valid json document for entity \"#{arg1}\""
 end
 
+When /^the response should have the newly created entity$/ do
+  response = JSON.parse(@res.body)
+  found = false
+  if response.is_a? Array
+    response.each do |entry|
+      if entry['id'] == @newId
+        found = true
+        break
+      end
+    end
+  else
+    found = (response['id'] == @newId)
+  end
+  assert(found,'Newly created entity not found in the response')
+end
 
 Then /^I should get and store the link named "(.*?)"$/ do |mylink|
   @result = JSON.parse(@res.body)
@@ -992,7 +1066,7 @@ end
 
 When /^I set the ([^"]*) to ([^"]*)$/ do |key, value|
   @result = {} if !defined? @result
-  @result[key] = convert(value)
+  value.is_a?(String) ? @result[key] = convert(value) : @result[key] = value
 end
 
 Given /^a valid json document for entity "([^"]*)"$/ do |entity|
@@ -1001,25 +1075,29 @@ Given /^a valid json document for entity "([^"]*)"$/ do |entity|
   db_name = convertTenantIdToDbName @tenant
   db = conn[db_name]
   gp_coll = db.collection('gradingPeriod')
+  co_coll = db.collection('courseOffering')
+  course_coll = db.collection('course')
+  session_coll = db.collection('session')
+  edorg_coll = db.collection('educationOrganization')
+  student_coll = db.collection('student')
+  di_coll = db.collection('disciplineIncident')
+  section_coll = db.collection('section')
+  yt_coll = db.collection('yearlyTranscript')
+
   gp = gp_coll.find_one({})
   gp_id = gp['_id']
   gp_school_id = gp['body']['gradingPeriodIdentity']['schoolId']
 
-  co_coll = db.collection('courseOffering')
   co = co_coll.find_one({})
   co_id = co['_id']
   co_school_id = co['body']['schoolId']
 
-  course_coll = db.collection('course')
-  session_coll = db.collection('session')
   course_session = session_coll.find_one({})
   course = course_coll.find_one({})
   course_id = course['_id']
   course_school_id = course_session['body']['schoolId']
   course_session_id = course_session['_id']
 
-  edorg_coll = db.collection('educationOrganization')
-  student_coll = db.collection('student')
   student = student_coll.find_one({'body.studentUniqueStateId' => 'jack.jackson'})
   student_programs = student['studentProgramAssociation']
   edorg = edorg_coll.find_one({'body.stateOrganizationId' => 'District 9'})
@@ -1028,6 +1106,12 @@ Given /^a valid json document for entity "([^"]*)"$/ do |entity|
     edorg_programs.delete_if {|edorg_program| edorg_program == student_program['body']['programId']}
   end
   edorg_program_id = edorg_programs.shuffle[0]
+
+  di = di_coll.find_one({'body.schoolId' => '2a30827ed4cf5500fb848512d19ad73ed37c4464_id'})
+
+  gradebook_section = section_coll.find_one({'body.schoolId' => '2a30827ed4cf5500fb848512d19ad73ed37c4464_id'})
+
+  yt = yt_coll.find_one({'body.studentId' => '153df715388ff1b2293fc8b2f3828816bc2d3c1f_id'})
 
   enable_NOTABLESCAN()
   conn.close
@@ -1091,7 +1175,6 @@ Given /^a valid json document for entity "([^"]*)"$/ do |entity|
             'nameOfCounty' => 'Wake'
         ]
     },
-
 
     'learningObjective' => {
         'academicSubject' => 'Mathematics',
@@ -1212,7 +1295,7 @@ Given /^a valid json document for entity "([^"]*)"$/ do |entity|
 
     'staffEducationOrganizationAssociation' => {
         'educationOrganizationReference' => '2a30827ed4cf5500fb848512d19ad73ed37c4464_id',
-        'staffReference' => 'c9302118115a8e2f01492914ea22c4176447b6b6_id',
+        'staffReference' => '7810ac678851ae29a450cc18bd9f47efa37bfaef_id',
         'beginDate' => '2000-01-01',
         'positionTitle' => 'Hall monitor',
         'staffClassification' => 'Leader'
@@ -1240,7 +1323,66 @@ Given /^a valid json document for entity "([^"]*)"$/ do |entity|
         'programId' => edorg_program_id,
         'beginDate' => '2000-01-01',
         'reasonExited' => 'Received a certificate',
-        }
+    },
+
+    'cohort' => {
+        'cohortIdentifier' => 'My new Cohort',
+        'educationOrgId' => '99a4ec9d3ba372993b2860a798b550c77bb73a09_id',
+        'cohortType' => 'Field Trip',
+        'cohortDescription' => 'Trip to a nice field'
+    },
+
+    'disciplineIncident' => {
+        'schoolId' => '2a30827ed4cf5500fb848512d19ad73ed37c4464_id',
+        'incidentIdentifier' => 'Incident A1',
+        'incidentDate' => '2013-01-01',
+        'incidentTime' => '12:00:00',
+        'incidentLocation' => 'Auditorium',
+        'behaviors' =>  [[{
+                             'codeValue' => 'Code 6'
+                         }]]
+    },
+
+    'disciplineAction' => {
+        'disciplineActionIdentifier' => 'student jailed',
+        'responsibilitySchoolId' => '2a30827ed4cf5500fb848512d19ad73ed37c4464_id',
+        'disciplines' => [[{
+                              'codeValue' => 'Code 6'
+                          }]],
+        'disciplineIncidentId' => [di['_id']],
+        'disciplineDate' => '2013-01-01',
+        'studentId' => ['153df715388ff1b2293fc8b2f3828816bc2d3c1f_id'],
+        'disciplineActionLength' => 2
+    },
+
+    'gradebookEntry' => {
+        'gradebookEntryType' => 'Quiz',
+        'dateAssigned' => '2013-01-01',
+        'sectionId' => gradebook_section['_id'],
+        'description' => 'Entry of a quiz'
+    },
+
+    'attendance' => {
+        'schoolId' => '2a30827ed4cf5500fb848512d19ad73ed37c4464_id',
+        'studentId' => '153df715388ff1b2293fc8b2f3828816bc2d3c1f_id',
+        'schoolYear' => '2011-2012',
+        'attendanceEvent' => [{
+                                  'event' => 'Tardy',
+                                  'date' => '2011-12-12',
+                                  'reason' => 'Woke up late'
+                              }]
+    },
+
+    'courseTranscript' => {
+        'educationOrganizationReference' => ['2a30827ed4cf5500fb848512d19ad73ed37c4464_id'],
+        'courseId' => course_id,
+        'creditsEarned' => {
+            'credit' => 3
+        },
+        'courseAttemptResult' => 'Fail',
+        'studentAcademicRecordId' => yt['studentAcademicRecord'][0]['_id'],
+        'gradeLevelWhenTaken' => 'Ninth grade'
+    }
 
   }
   @fields = @entityData[entity]
@@ -1275,10 +1417,11 @@ Then /^I remove the new entity from "([^"]*)"$/ do |collection|
     db = conn[db_name]
     coll_split = collection.split('.')
     coll = db.collection(coll_split[0])
-    entity = coll.find_one({"#{coll_split[1]}._id" => @newId})
+    query = {"#{coll_split[1]}._id" => @newId}
+    entity = coll.find_one(query)
     subdocs = entity[coll_split[1]]
     subdocs.delete_if {|entry| entry['_id'] == @newId}
-    update_mongo_operation(db_name, coll_split[0],coll_split[1],false, subdocs)
+    update_mongo_operation(db_name, coll_split[0], query, coll_split[1],false, subdocs)
     conn.close
     enable_NOTABLESCAN
   else
