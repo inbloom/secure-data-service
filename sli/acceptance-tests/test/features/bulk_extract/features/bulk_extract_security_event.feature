@@ -51,7 +51,7 @@ Scenario: An authorized bulk extract user logs in and gets the information for t
     Given I update the "application" with ID "19cca28d-7357-4044-8df9-caad4b1c8ee4" field "body.isBulkExtract" to "true" on the sli database
 
   Scenario: Security Event is logged when I attempt to retrieve a SEA extract where I am directly associated to an immediate child
-    And in my list of rights I have BULK_EXTRACT
+    Given in my list of rights I have BULK_EXTRACT
     When I log into "SDK Sample" with a token of "akopel", a "Noldor" for "IL" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
     Given the sli securityEvent collection is empty
     When I make a call to the bulk extract end point "/bulk/extract/SEA_IL_ID"
@@ -123,11 +123,9 @@ Scenario: SecurityEvent is logged when BE file is missing
 
 Scenario: Security Event is logged when access denied
   Given I trigger a bulk extract
-  And the sli securityEvent collection is empty
   And I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
   When I make a call to the bulk extract end point "/bulk/extract/LEA_DAYBREAK_ID" using the certificate for app "pavedz00ua"
   Then I get back a response code of "403"
-  Then a security event matching "Access Denied" should be in the sli db
 
 Scenario: Security Event is logged client does not provide Cert
   Given I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
