@@ -198,6 +198,25 @@ Scenario: POST to other student assessment as a privileged student with extended
 
 
 @student_crud @clean_up_student_posts
+Scenario: POST to other student entity as a privileged student with extended rights
+  Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "leader.m.sollars" with password "leader.m.sollars1234"
+   And format "application/json"
+   And I am using api version "v1"
+   And the sli securityEvent collection is empty
+  When I POST and validate the following entities:
+    | entityName         | entityType | returnCode |
+    | cgray.grade        | grade      | 403        |
+  And I should see a count of "1" in the security event collection
+  And I check to find if record is in sli db collection:
+    | collectionName  | expectedRecordCount | searchParameter         | searchValue                                                           | searchType |
+    | securityEvent   | 1                   | body.appId              | EGbI4LaLaL                                                            | string     |
+    | securityEvent   | 1                   | body.tenantId           | Midgar                                                                | string     |
+    | securityEvent   | 1                   | body.userEdOrg          | IL-DAYBREAK                                                           | string     |
+    | securityEvent   | 1                   | body.targetEdOrgList    | Daybreak Central High                                                 | string     |
+    | securityEvent   | 1                   | body.logMessage         | Access Denied:Cannot update grade that are not your own               | string     |
+  And "1" security event with field "body.actionUri" matching "http.*/api/rest/v1.3/grades" should be in the sli db
+
+@student_crud @clean_up_student_posts
 Scenario: POST new entities as a privileged student with extended rights
   Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "leader.m.sollars" with password "leader.m.sollars1234"
    And format "application/json"

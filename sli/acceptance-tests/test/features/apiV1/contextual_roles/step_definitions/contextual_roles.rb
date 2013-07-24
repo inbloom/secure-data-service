@@ -1066,7 +1066,7 @@ end
 
 When /^I set the ([^"]*) to ([^"]*)$/ do |key, value|
   @result = {} if !defined? @result
-  @result[key] = convert(value)
+  value.is_a?(String) ? @result[key] = convert(value) : @result[key] = value
 end
 
 Given /^a valid json document for entity "([^"]*)"$/ do |entity|
@@ -1295,7 +1295,7 @@ Given /^a valid json document for entity "([^"]*)"$/ do |entity|
 
     'staffEducationOrganizationAssociation' => {
         'educationOrganizationReference' => '2a30827ed4cf5500fb848512d19ad73ed37c4464_id',
-        'staffReference' => 'c9302118115a8e2f01492914ea22c4176447b6b6_id',
+        'staffReference' => '7810ac678851ae29a450cc18bd9f47efa37bfaef_id',
         'beginDate' => '2000-01-01',
         'positionTitle' => 'Hall monitor',
         'staffClassification' => 'Leader'
@@ -1417,10 +1417,11 @@ Then /^I remove the new entity from "([^"]*)"$/ do |collection|
     db = conn[db_name]
     coll_split = collection.split('.')
     coll = db.collection(coll_split[0])
-    entity = coll.find_one({"#{coll_split[1]}._id" => @newId})
+    query = {"#{coll_split[1]}._id" => @newId}
+    entity = coll.find_one(query)
     subdocs = entity[coll_split[1]]
     subdocs.delete_if {|entry| entry['_id'] == @newId}
-    update_mongo_operation(db_name, coll_split[0],coll_split[1],false, subdocs)
+    update_mongo_operation(db_name, coll_split[0], query, coll_split[1],false, subdocs)
     conn.close
     enable_NOTABLESCAN
   else

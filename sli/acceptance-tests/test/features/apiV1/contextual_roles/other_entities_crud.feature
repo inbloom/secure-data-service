@@ -142,7 +142,7 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | ENTITY                                | ENTITY TYPE                           | ENTITY URI                              |
     | staffEducationOrganizationAssociation | staffEducationOrganizationAssociation | staffEducationOrgAssignmentAssociations |
     | teacherSchoolAssociation              | teacherSchoolAssociation              | teacherSchoolAssociations               |
-    | studentProgramAssociation             | studentProgramAssociation             | studentProgramAssociations              |
+    | student.studentProgramAssociation     | studentProgramAssociation             | studentProgramAssociations              |
     | studentSchoolAssociation              | studentSchoolAssociation              | studentSchoolAssociations               |
     #| cohort                                | cohort                                | cohorts                                 |
     #| disciplineIncident                    | disciplineIncident                    | disciplineIncidents                     |
@@ -308,10 +308,10 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | school                                | schools                                 | nameOfInstitution  | Dummy Elementary                | Dummy High                      |
     | session                               | sessions                                | endDate            | 2013-01-01                      | 2013-12-12                      |
     | studentCompetencyObjective            | studentCompetencyObjectives             | description        | Basic Objective                 | Advanced Objective              |
-    #| staffEducationOrganizationAssociation | staffEducationOrgAssignmentAssociations | positionTitle      | Treasurer                       | Principal                       |
-    #| teacherSchoolAssociation              | teacherSchoolAssociations               | academicSubjects   | [Reading]                       | [Science]                       |
-    #| studentProgramAssociation             | studentProgramAssociations              | reasonExited       | Unknown reason                  | Expulsion                       |
-    #| studentSchoolAssociation              | studentSchoolAssociations               | entryGradeLevel    | Eleventh grade                  | Eighth grade                    |
+    | staffEducationOrganizationAssociation | staffEducationOrgAssignmentAssociations | positionTitle      | Treasurer                       | Principal                       |
+    | teacherSchoolAssociation              | teacherSchoolAssociations               | academicSubjects   | [Reading]                       | [Science]                       |
+    | studentProgramAssociation             | studentProgramAssociations              | reasonExited       | Unknown reason                  | Expulsion                       |
+    | studentSchoolAssociation              | studentSchoolAssociations               | entryGradeLevel    | Eleventh grade                  | Eighth grade                    |
     #| cohort                                | cohorts                                 | cohortDescription  | Field Trip!                     | Wooo.. Field Trip               |
     #| disciplineIncident                    | disciplineIncidents                     | incidentLocation   | Off School                      | School bus                      |
     #| disciplineAction                      | disciplineActions                       | disciplineDate     | 2013-02-01                      | 2013-03-01                      |

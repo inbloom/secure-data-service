@@ -22,7 +22,6 @@ require 'rumbster'
 require 'message_observers'
 
 Before do
-  STDOUT.puts "Starting scenario at: " + Time.now.strftime("%Y-%m-%d %H:%M:%S.%L")
   @entity_type_to_uri = {
       "studentAssessment" => "studentAssessments",
       "studentSchoolAssociation" => "studentSchoolAssociations",
