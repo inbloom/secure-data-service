@@ -108,7 +108,7 @@ Feature: As an SLI application I want to restrict user's access to restricted da
   Scenario: Charles Gray cannot sort on restricted fields
     Given I am logged in using "cgray" "cgray1234" to realm "IL"
     And the sli securityEvent collection is empty
-    And I navigate to GET "/v1/sections/706ee3be-0dae-4e98-9525-f564e05aa388_id/studentSectionAssociations/students?sortBy=schoolFoodServicesEligibility"
+    And I navigate to GET "/v1/sections/47b5adbf-6fd0-4f07-ba5e-39612da2e234_id/studentSectionAssociations/students?sortBy=schoolFoodServicesEligibility"
     Then I should receive a return code of 403
     And I check to find if record is in sli db collection:
         | collectionName  | expectedRecordCount | searchParameter         | searchValue                                            | searchType |
@@ -116,6 +116,6 @@ Feature: As an SLI application I want to restrict user's access to restricted da
         | securityEvent   | 1                   | body.appId              | ke9Dgpo3uI                                             | string     |
         | securityEvent   | 1                   | body.className          | org.slc.sli.api.security.roles.RightAccessValidator    | string     |
         | securityEvent   | 1                   | body.userEdOrg          | IL-SUNSET                                              | string     |
-        | securityEvent   | 1                   | body.targetEdOrgList    | South Daybreak Elementary                              | string     |
-    And "1" security event with field "body.actionUri" matching "http.*/api/rest/v.*/sections/706ee3be-0dae-4e98-9525-f564e05aa388_id/studentSectionAssociations/students" should be in the sli db
+        | securityEvent   | 1                   | body.targetEdOrgList    | Sunset Central High School                              | string     |
+    And "1" security event with field "body.actionUri" matching "http.*/api/rest/v.*/sections/47b5adbf-6fd0-4f07-ba5e-39612da2e234_id/studentSectionAssociations/students" should be in the sli db
     And "1" security event matching "Access Denied:Cannot search on restricted field schoolFoodServicesEligibility" should be in the sli db
