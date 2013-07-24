@@ -22,6 +22,8 @@ import java.util.HashMap;
 
 import javax.ws.rs.core.Response;
 
+import com.sun.jersey.spi.container.ContainerRequest;
+
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
@@ -60,6 +62,8 @@ public class SecurityUtil {
     // private static String principalId;
 
     private static String context = "other";
+    private static ContainerRequest lastRequest = null;
+    private static String firstExecutedPath = null;
 
     static {
         SLIPrincipal system = new SLIPrincipal("SYSTEM");
@@ -251,6 +255,25 @@ public class SecurityUtil {
 
     public static void setContext(String context) {
         SecurityUtil.context = context;
+    }
+
+    public static ContainerRequest getLastRequest() {
+        return lastRequest;
+    }
+
+    public static void setLastRequest(ContainerRequest lastRequest) {
+        SecurityUtil.lastRequest = lastRequest;
+        if (lastRequest == null) {
+            SecurityUtil.firstExecutedPath = null;
+        }
+    }
+
+    public static String getFirstExecutedPath() {
+        return SecurityUtil.firstExecutedPath;
+    }
+
+    public static void setFirstExecutedPath(String firstExecutedPath) {
+        SecurityUtil.firstExecutedPath = firstExecutedPath;
     }
 
     /**

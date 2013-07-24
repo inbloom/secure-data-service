@@ -96,9 +96,7 @@ public class FourPartResource extends GenericResource {
                 }
 
                 List<EntityBody> entityBodyList = new LinkedList<EntityBody>();
-                long entityCount = 0;
-                String Header1 = new String();
-                ContainerRequest request = (ContainerRequest) principal.getRequest();
+                ContainerRequest request = SecurityUtil.getLastRequest();
                 for (String context : contexts) {
                     // Construct context-specific URIs, if needed.
                     SecurityUtil.setContext(context);
@@ -119,19 +117,29 @@ public class FourPartResource extends GenericResource {
                     final Resource base = getBaseName(requestUri, ResourceTemplate.FOUR_PART);
                     final Resource association = getAssociationName(requestUri, ResourceTemplate.FOUR_PART);
                     ServiceResponse contextResponse = resourceService.getEntities(base, queryId, association, resource, requestUri);
-                    entityBodyList.addAll(contextResponse.getEntityBodyList());
-                    entityCount += contextResponse.getEntityCount();
+                    if (entityBodyList.isEmpty()) {
+                        entityBodyList.addAll(contextResponse.getEntityBodyList());
+                    } else {
+                        for (EntityBody respEntityBody : contextResponse.getEntityBodyList()) {
+                            EntityBody entityBody = getMatchingRecord(respEntityBody, entityBodyList);
+                            if (entityBody != null) {
+                                entityBody = (EntityBody) mapMerge(entityBody, respEntityBody);
+                            } else {
+                                entityBodyList.add(respEntityBody);
+                            }
+                        }
+                    }
 
-                    if ((!context.equals(OTHER)) && (!context.equals(principal.getEntity().getType()))) {
+                    if ((!context.equals(OTHER)) && (context.equals(principal.getEntity().getType()))) {
                         ContainerResponse response = new ContainerResponse(null, request, null);
                         response.setStatus(200);
-                        response.getHttpHeaders().add("TotalCount", entityCount);
+                        response.getHttpHeaders().add("TotalCount", contextResponse.getEntityCount());
                         response.getHttpHeaders().add("userContext", context);
                         postFilter.filter(request, response);
                     }
                 }
 
-                ServiceResponse combinedResponse = new ServiceResponse(entityBodyList, entityCount);
+                ServiceResponse combinedResponse = new ServiceResponse(entityBodyList, entityBodyList.size());
 
                 return combinedResponse;
 
@@ -168,4 +176,28 @@ public class FourPartResource extends GenericResource {
         return new Resource(namespace, type);
     }
 
+    @SuppressWarnings("unchecked")
+    private Map<String, Object> mapMerge(Map<String, Object> original, final Map<String, Object> newMap) {
+        for (String key : newMap.keySet()) {
+            if (!original.containsKey(key)) {
+                original.put(key, newMap.get(key));
+            }
+            else if (newMap.get(key) instanceof Map && original.get(key) instanceof Map) {
+                Map<String, Object> originalChild = (Map<String, Object>) original.get(key);
+                Map<String, Object> newChild = (Map<String, Object>) newMap.get(key);
+                original.put(key, mapMerge(originalChild, newChild));
+            }
+        }
+        return original;
+    }
+
+    private EntityBody getMatchingRecord(final EntityBody searchEntityBody, final List<EntityBody> entityBodyList) {
+        for (EntityBody entityBody : entityBodyList) {
+            if (searchEntityBody.get("id").equals(entityBody.get("id"))) {
+                return entityBody;
+            }
+        }
+
+        return null;
+    }
 }
