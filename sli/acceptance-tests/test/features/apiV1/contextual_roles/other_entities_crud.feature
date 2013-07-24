@@ -327,7 +327,7 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
 
   @wip
   Scenario: Can view historical data of a student from a different edorg, but can't write to it
-    Given I add a student school association for "lashawn.taite" in "Daybreak Bayside High" that's already expired
+    Given I add student school association for "lashawn.taite" in "Daybreak Bayside High" that's already expired
     And I change the custom role of "Leader" to add the "WRITE_GENERAL" right
     When I log in as "msmith"
     And I navigate to GET "<lashawn.taite URI>/studentSchoolAssociations"
@@ -340,4 +340,17 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     Given format "application/json"
     When I change the field "exitWithdrawType" to "Exited"
     And I navigate to PATCH "/studentSchoolAssociations/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 403
+
+    Given I add attendance for "lashawn.taite" in "Daybreak Bayside High" that's already expired
+    When I navigate to GET "<lashawn.taite URI>/attendances"
+    Then I should receive a return code of 200
+    And the response should have the newly created entity
+
+    When I navigate to GET "/attendances/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 200
+
+    When I clear out the patch request
+    And I change the field "attendanceEvent" to "[{event:Tardy,date:2011-12-13}]"
+    And I navigate to PATCH "/attendances/<NEWLY CREATED ENTITY ID>"
     Then I should receive a return code of 403
