@@ -108,7 +108,7 @@ public class RightAccessValidatorTest {
         NeutralQuery query1 = new NeutralQuery(query);
 
 
-        service.checkFieldAccess(query, false, null, EntityNames.STUDENT, service.getContextualAuthorities(false, null));
+        service.checkFieldAccess(query, false, null, EntityNames.STUDENT, service.getContextualAuthorities(false, null, false));
         assertTrue("Should match", query1.equals(query));
     }
 
@@ -127,20 +127,20 @@ public class RightAccessValidatorTest {
 
         Entity student = createEntity(EntityNames.STUDENT, STUDENT_ID, new HashMap<String, Object>());
         mockRepo.createWithRetries(EntityNames.STUDENT, STUDENT_ID, new HashMap<String, Object>(), new HashMap<String, Object>(), EntityNames.STUDENT, 1);
-        service.checkFieldAccess(query, false, student, EntityNames.STUDENT, service.getContextualAuthorities(false, student));
+        service.checkFieldAccess(query, false, student, EntityNames.STUDENT, service.getContextualAuthorities(false, student, false));
     }
 
     @Test
     public void testCheckFullAccessAdmin() {
         securityContextInjector.setAdminContextWithElevatedRights();
 
-        service.checkAccess(true, false, null, EntityNames.STUDENT, service.getContextualAuthorities(false, null));
+        service.checkAccess(true, false, null, EntityNames.STUDENT, service.getContextualAuthorities(false, null, false));
     }
 
     @Test
     public void testCheckAccessAdmin() {
         securityContextInjector.setLeaAdminContext();
-        service.checkAccess(true, false, null, EntityNames.ADMIN_DELEGATION, service.getContextualAuthorities(false, null));
+        service.checkAccess(true, false, null, EntityNames.ADMIN_DELEGATION, service.getContextualAuthorities(false, null, false));
     }
 
     @Test (expected = AccessDeniedException.class)
@@ -156,7 +156,7 @@ public class RightAccessValidatorTest {
         eb.put("studentUniqueStateId", "1234");
         Entity student = createEntity(EntityNames.STUDENT, BAD_STUDENT, eb);
 
-        service.checkAccess(false, false, student, EntityNames.STUDENT, service.getContextualAuthorities(false, student));
+        service.checkAccess(false, false, student, EntityNames.STUDENT, service.getContextualAuthorities(false, student, false));
     }
 
     @Test (expected = AccessDeniedException.class)
@@ -172,7 +172,7 @@ public class RightAccessValidatorTest {
         eb.put("studentUniqueStateId", "1234");
         Entity student = createEntity(EntityNames.STUDENT, BAD_STUDENT, eb);
 
-        service.checkAccess(true, false, student, EntityNames.STUDENT, service.getContextualAuthorities(false, student));
+        service.checkAccess(true, false, student, EntityNames.STUDENT, service.getContextualAuthorities(false, student, false));
     }
 
     @Test
@@ -186,7 +186,7 @@ public class RightAccessValidatorTest {
 
         Entity student = createEntity(EntityNames.STUDENT, STUDENT_ID, new HashMap<String, Object>());
 
-        service.checkAccess(false, false, student, EntityNames.STUDENT, service.getContextualAuthorities(false, student));
+        service.checkAccess(false, false, student, EntityNames.STUDENT, service.getContextualAuthorities(false, student, false));
     }
 
     @Test
@@ -207,7 +207,7 @@ public class RightAccessValidatorTest {
         metaData.put("isOrphaned", "true");
         Entity entity = new MongoEntity("student", null, new HashMap<String,Object>(), metaData);
 
-        Collection<GrantedAuthority> auths = service.getContextualAuthorities(false, entity);
+        Collection<GrantedAuthority> auths = service.getContextualAuthorities(false, entity, false);
 
         Assert.assertEquals("Expected all rights", ALL_AUTHS, auths);
     }
@@ -227,9 +227,9 @@ public class RightAccessValidatorTest {
 
         Entity student = createEntity(EntityNames.STUDENT, STUDENT_ID, new HashMap<String, Object>());
 
-        Mockito.when(entityEdOrgRightBuilder.buildEntityEdOrgRights(edOrgRights, student)).thenReturn(ADMIN_AUTHS);
+        Mockito.when(entityEdOrgRightBuilder.buildEntityEdOrgRights(edOrgRights, student, false)).thenReturn(ADMIN_AUTHS);
 
-        Collection<GrantedAuthority> auths = service.getContextualAuthorities(false, student);
+        Collection<GrantedAuthority> auths = service.getContextualAuthorities(false, student, false);
 
         Assert.assertEquals("Expected administrator rights", ADMIN_AUTHS, auths);
     }
@@ -245,9 +245,9 @@ public class RightAccessValidatorTest {
 
         Entity student = createEntity(EntityNames.STUDENT, STUDENT_ID, new HashMap<String, Object>());
 
-        Mockito.when(entityEdOrgRightBuilder.buildEntityEdOrgRights(edOrgRights, student)).thenReturn(NO_AUTHS);
+        Mockito.when(entityEdOrgRightBuilder.buildEntityEdOrgRights(edOrgRights, student, false)).thenReturn(NO_AUTHS);
 
-        Collection<GrantedAuthority> auths = service.getContextualAuthorities(false, student);
+        Collection<GrantedAuthority> auths = service.getContextualAuthorities(false, student, false);
 
         Assert.assertEquals("Expected no rights", NO_AUTHS, auths);
     }
@@ -264,7 +264,7 @@ public class RightAccessValidatorTest {
 
         Entity entity = new MongoEntity("student", null, new HashMap<String,Object>(), new HashMap<String,Object>());
 
-        Collection<GrantedAuthority> auths = service.getContextualAuthorities(false, entity);
+        Collection<GrantedAuthority> auths = service.getContextualAuthorities(false, entity, false);
 
         Assert.assertEquals("Expected educator rights", EDU_AUTHS, auths);
     }
@@ -281,7 +281,7 @@ public class RightAccessValidatorTest {
 
         Entity entity = new MongoEntity("teacher", null, new HashMap<String,Object>(), new HashMap<String,Object>());
 
-        Collection<GrantedAuthority> auths = service.getContextualAuthorities(true, entity);
+        Collection<GrantedAuthority> auths = service.getContextualAuthorities(true, entity, false);
 
         Assert.assertEquals("Expected all rights", ALL_AUTHS, auths);
     }
@@ -290,7 +290,7 @@ public class RightAccessValidatorTest {
     public void testGetContextualAuthoritiesNullEntity() {
         securityContextInjector.setEducatorContext();
 
-        Collection<GrantedAuthority> auths = service.getContextualAuthorities(false, null);
+        Collection<GrantedAuthority> auths = service.getContextualAuthorities(false, null, false);
 
         Assert.assertEquals("Expected no rights", NO_AUTHS, auths);
     }

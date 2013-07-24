@@ -58,7 +58,7 @@ public class EntityRightsFilter {
     public EntityBody makeEntityBody(Entity entity, List<Treatment> treamts, EntityDefinition defn, boolean isSelf, Collection<GrantedAuthority> nonSelfAuths) {
         Collection<GrantedAuthority> selfAuths;
         if(isSelf) {
-            selfAuths = rightAccessValidator.getContextualAuthorities(isSelf, entity);
+            selfAuths = rightAccessValidator.getContextualAuthorities(isSelf, entity, true);
         } else {
             selfAuths = nonSelfAuths;
         }
