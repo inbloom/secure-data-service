@@ -19,6 +19,7 @@ limitations under the License.
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../entities/common.rb'
 require_relative '../../utils/api_utils.rb'
+require_relative '../../../security/step_definitions/securityevent_util_steps.rb'
 require 'test/unit'
 
 When /^I navigate to GET for each resource available$/ do

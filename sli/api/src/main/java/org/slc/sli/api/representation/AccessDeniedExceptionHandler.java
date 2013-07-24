@@ -66,11 +66,6 @@ public class AccessDeniedExceptionHandler implements ExceptionMapper<AccessDenie
     @Context
     private HttpServletResponse response;
 
-    /*
-     *  Target EdOrgsIDs might be passed in to the exception as a part of the error message, enclosed in <>
-     *  E.g.: Insufficient Rights <TargetEdOrgID>
-     */
-
     @Override
     public Response toResponse(AccessDeniedException e) {
 
@@ -95,10 +90,6 @@ public class AccessDeniedExceptionHandler implements ExceptionMapper<AccessDenie
             warn("Access has been denied to user for being incorrectly associated");
         }
         warn("Cause: {}", e.getMessage());
-        String reason = message.indexOf( ED_ORG_START) > 0 ? message.substring( 0, message.indexOf( ED_ORG_START) ) : message;
-
-        audit(securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo.getRequestUri(), "Access Denied:"
-                + reason, false));
 
         MediaType errorType = MediaType.APPLICATION_JSON_TYPE;
         if(this.headers.getMediaType() == MediaType.APPLICATION_XML_TYPE) {

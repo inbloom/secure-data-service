@@ -17,18 +17,19 @@
 
 package org.slc.sli.api.representation;
 
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import javax.ws.rs.core.*;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
+import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.security.oauth.OAuthAccessException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.stereotype.Component;
+
+import java.net.URI;
 
 /**
  * Translates InsufficientAuthenticationException to 401
@@ -42,7 +43,13 @@ public class InsufficientAuthenticationHandler implements ExceptionMapper<Insuff
 
     @Value("${sli.security.noSession.landing.url}")
     private String authUrl;
-    
+
+    @Autowired
+    private SecurityEventBuilder securityEventBuilder;
+
+    @Context
+    UriInfo uriInfo;
+
     @Context
     private HttpHeaders headers;
 
@@ -50,7 +57,8 @@ public class InsufficientAuthenticationHandler implements ExceptionMapper<Insuff
     public Response toResponse(InsufficientAuthenticationException exception) {
         Status status = Response.Status.UNAUTHORIZED;
         String wwwAuthHeader = this.authUrl;
-        
+        URI requestUri = (uriInfo == null) ? null : uriInfo.getRequestUri();
+
         //If we have an embedded OAuth exception, then put the error information in the www-auth header per oauth spec 
         //http://tools.ietf.org/html/rfc6750 see sec 3
         //Otherwise put the auth url in the header
@@ -63,9 +71,26 @@ public class InsufficientAuthenticationHandler implements ExceptionMapper<Insuff
         if(this.headers.getMediaType() == MediaType.APPLICATION_XML_TYPE) {
             errorType = MediaType.APPLICATION_XML_TYPE;
         }
-        
-        return Response.status(status).entity(new ErrorResponse(status.getStatusCode(), status.getReasonPhrase(), 
+
+        audit(securityEventBuilder.createSecurityEvent(getThrowingClassName(exception), requestUri, "Access Denied: "
+                + exception.getMessage(), false));
+
+        return Response.status(status).entity(new ErrorResponse(status.getStatusCode(), status.getReasonPhrase(),
                 "Access DENIED: " + exception.getMessage())).header(HttpHeaders.WWW_AUTHENTICATE, wwwAuthHeader).type(errorType).build();
+    }
+
+    private String getThrowingClassName(Exception e) {
+        if (e != null && e.getStackTrace() != null) {
+            StackTraceElement ste = e.getStackTrace()[0];
+            if (ste != null) {
+                return ste.getClassName();
+            }
+        }
+        return null;
+    }
+
+    public void setSecurityEventBuilder(SecurityEventBuilder securityEventBuilder) {
+        this.securityEventBuilder = securityEventBuilder;
     }
 
 }

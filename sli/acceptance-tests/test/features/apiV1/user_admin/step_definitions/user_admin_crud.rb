@@ -1,4 +1,6 @@
 require_relative '../../../utils/sli_utils.rb'
+require_relative '../../../ingestion/features/step_definitions/ingestion_steps.rb'
+
 require 'json'
 require 'test/unit'
 require "mongo"

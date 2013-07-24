@@ -17,6 +17,7 @@
 package org.slc.sli.api.security.resolve.impl;
 
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.common.constants.EntityNames;
@@ -25,7 +26,6 @@ import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -81,7 +81,7 @@ public class MongoUserLocator implements UserLocator {
                 Set<String> edorgs = edorgHelper.locateDirectEdorgs(entity);
                 if (edorgs.size() == 0) {
                     warn("User {} is not currently associated to a school/edorg", user.getId());
-                    throw new AccessDeniedException("User is not currently associated to a school/edorg");
+                    throw new APIAccessDeniedException("User is not currently associated to a school/edorg");
                 }
                 user.setEntity(entity);
             }

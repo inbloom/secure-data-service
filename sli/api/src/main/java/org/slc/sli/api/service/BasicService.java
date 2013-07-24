@@ -227,7 +227,16 @@ public class BasicService implements EntityService, AccessibilityCheck {
     private void checkAccess(boolean isRead, String entityId, EntityBody content) {
         rightAccessValidator.checkSecurity(isRead, entityId, defn.getType(), collectionName, getRepo());
 
-        checkAccess(isRead, isSelf(entityId), content);
+        try {
+            checkAccess(isRead, isSelf(entityId), content);
+        } catch (APIAccessDeniedException e) {
+            // we only know the target entity here so rethrow with that info so it can be used in the security event
+            Set<String> entityIds = new HashSet<String>();
+            entityIds.add(entityId);
+            e.setEntityType(defn.getType());
+            e.setEntityIds(entityIds);
+            throw e;
+        }
     }
 
     /*
@@ -456,7 +465,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
         if (!repo.findAll(collectionName, neutralQuery).iterator().hasNext()) {
             return new ArrayList<EntityBody>();
         } else {
-            throw new AccessDeniedException("Access to resource denied.");
+            throw new APIAccessDeniedException("Access to resource denied.");
         }
     }
 
@@ -593,7 +602,18 @@ public class BasicService implements EntityService, AccessibilityCheck {
             checkAccess(true, id, null);
         }
 
-        String clientId = getClientId();
+        String clientId = null;
+        try {
+            clientId = getClientId(id);
+        } catch (APIAccessDeniedException e) {
+            // set custom entity data for security event targetEdOrgList
+            APIAccessDeniedException wrapperE = new APIAccessDeniedException("Custom entity get denied.", e);
+            Set<String> entityIds = new HashSet<String>();
+            entityIds.add(id);
+            wrapperE.setEntityType(defn.getType());
+            wrapperE.setEntityIds(entityIds);
+            throw wrapperE;
+        }
 
         debug("Reading custom entity: entity={}, entityId={}, clientId={}", new Object[]{
                 getEntityDefinition().getType(), id, clientId});
@@ -608,7 +628,6 @@ public class BasicService implements EntityService, AccessibilityCheck {
         }
     }
 
-
     @Override
     public void deleteCustom(String id) {
         if(SecurityUtil.isStaffUser()) {
@@ -619,7 +638,18 @@ public class BasicService implements EntityService, AccessibilityCheck {
             checkAccess(false, id, null);
         }
 
-        String clientId = getClientId();
+        String clientId = null;
+        try {
+            clientId = getClientId(id);
+        } catch (APIAccessDeniedException e) {
+            // set custom entity data for security event targetEdOrgList
+            APIAccessDeniedException wrapperE = new APIAccessDeniedException("Custom entity delete denied.", e);
+            Set<String> entityIds = new HashSet<String>();
+            entityIds.add(id);
+            wrapperE.setEntityType(defn.getType());
+            wrapperE.setEntityIds(entityIds);
+            throw wrapperE;
+        }
 
         Entity customEntity = getCustomEntity(id, clientId);
 
@@ -633,10 +663,10 @@ public class BasicService implements EntityService, AccessibilityCheck {
                 getEntityDefinition().getType(), id, clientId, String.valueOf(deleted)});
     }
 
-
     @Override
     public void createOrUpdateCustom(String id, EntityBody customEntity) throws EntityValidationException {
-            if(SecurityUtil.isStaffUser()) {
+        String clientId = null;
+        if(SecurityUtil.isStaffUser()) {
             Entity parentEntity = getEntity(id);
             Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf(id), parentEntity, false);
             rightAccessValidator.checkAccess(false, id, customEntity, defn.getType(), collectionName, getRepo(), auths);
@@ -644,7 +674,17 @@ public class BasicService implements EntityService, AccessibilityCheck {
             checkAccess(false, id, customEntity);
         }
 
-        String clientId = getClientId();
+        try {
+            clientId = getClientId(id);
+        } catch (APIAccessDeniedException e) {
+            // set custom entity data for security event targetEdOrgList
+            APIAccessDeniedException wrapperE = new APIAccessDeniedException("Custom entity write denied.", e);
+            Set<String> entityIds = new HashSet<String>();
+            entityIds.add(id);
+            wrapperE.setEntityType(defn.getType());
+            wrapperE.setEntityIds(entityIds);
+            throw wrapperE;
+        }
 
         Entity entity = getCustomEntity(id, clientId);
 
@@ -697,14 +737,14 @@ public class BasicService implements EntityService, AccessibilityCheck {
             if (entityType.equals(EntityNames.STUDENT)) {
                 // Validate id is yourself
                 if (!SecurityUtil.getSLIPrincipal().getEntity().getEntityId().equals(entityId)) {
-                    throw new AccessDeniedException("Cannot update student not yourself");
+                    throw new APIAccessDeniedException("Cannot update student not yourself", entityType, entityId);
                 }
             } else if (entityType.equals(EntityNames.STUDENT_ASSESSMENT)) {
                 String studentId = (String) eb.get(ParameterConstants.STUDENT_ID);
 
                 // Validate student ID is yourself
                 if (studentId != null && !SecurityUtil.getSLIPrincipal().getEntity().getEntityId().equals(studentId)) {
-                    throw new AccessDeniedException("Cannot update student assessments that are not your own");
+                    throw new APIAccessDeniedException("Cannot update student assessments that are not your own", EntityNames.STUDENT, studentId);
                 }
             } else if (entityType.equals(EntityNames.STUDENT_GRADEBOOK_ENTRY) || entityType.equals(EntityNames.GRADE)) {
                 String studentId = (String) eb.get(ParameterConstants.STUDENT_ID);
@@ -712,7 +752,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
                 // Validate student ID is yourself
                 if (studentId != null && !SecurityUtil.getSLIPrincipal().getEntity().getEntityId().equals(studentId)) {
-                    throw new AccessDeniedException("Cannot update " + entityType + " that are not your own");
+                    throw new APIAccessDeniedException("Cannot update " + entityType + " that are not your own", EntityNames.STUDENT, studentId);
                 }
                 // Validate SSA ids are accessible via non-transitive SSA validator
                 if (ssaId != null) {
@@ -732,12 +772,12 @@ public class BasicService implements EntityService, AccessibilityCheck {
             if (entityType.equals(EntityNames.PARENT)) {
                 // Validate id is yourself
                 if (!SecurityUtil.getSLIPrincipal().getEntity().getEntityId().equals(entityId)) {
-                    throw new AccessDeniedException("Cannot update parent not yourself");
+                    throw new APIAccessDeniedException("Cannot update parent not yourself", entityType, entityId);
                 }
             } else if (entityType.equals(EntityNames.STUDENT)) {
                 Set<String> ownStudents = SecurityUtil.getSLIPrincipal().getOwnedStudentIds();
                 if (!ownStudents.contains(entityId)) {
-                    throw new AccessDeniedException("Cannot update student that are not your own");
+                    throw new APIAccessDeniedException("Cannot update student that are not your own", EntityNames.STUDENT, entityId);
                 }
             } else {
                 // At the time of this comment, parents can only write to student and parent
@@ -772,7 +812,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
                 contextValidator.validateContextToEntities(def, ids, true);
             } catch (APIAccessDeniedException e) {
                 debug("Invalid Reference: {} in {} is not accessible by user", value, def.getStoredCollectionName());
-                throw (APIAccessDeniedException) new APIAccessDeniedException(
+                throw new APIAccessDeniedException(
                         "Invalid reference. No association to referenced entity.", e);
             } catch (EntityNotFoundException e) {
                 debug("Invalid Reference: {} in {} does not exist", value, def.getStoredCollectionName());
@@ -784,10 +824,23 @@ public class BasicService implements EntityService, AccessibilityCheck {
         }
     }
 
-    private String getClientId() {
-        String clientId = clientInfo.getClientId();
+    private String getClientId(String id) {
+        String clientId = null;
+        try {
+            clientId = clientInfo.getClientId();
+        } catch (APIAccessDeniedException e) {
+            // set custom entity data for security event targetEdOrgList
+            APIAccessDeniedException wrapperE = new APIAccessDeniedException("Custom entity get denied.", e);
+            Set<String> entityIds = new HashSet<String>();
+            entityIds.add(id);
+            wrapperE.setEntityType(defn.getType());
+            wrapperE.setEntityIds(entityIds);
+        }
+
         if (clientId == null) {
-            throw new AccessDeniedException("No Application Id");
+            Set<String> entityIds = new HashSet<String>();
+            entityIds.add(id);
+            throw new APIAccessDeniedException("No Application Id", defn.getType(), entityIds);
         }
         return clientId;
     }

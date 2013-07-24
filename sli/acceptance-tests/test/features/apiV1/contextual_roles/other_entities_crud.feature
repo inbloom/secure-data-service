@@ -41,8 +41,15 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | ENTITY URI                              |
     | staffEducationOrgAssignmentAssociations |
     | teacherSchoolAssociations               |
-    | studentProgramAssociations               |
-    | studentSchoolAssociations                |
+    | studentProgramAssociations              |
+    | studentSchoolAssociations               |
+    #| cohorts                                 |
+    #| disciplineIncidents                     |
+    #| disciplineActions                       |
+    #| gradebookEntries                        |
+    #| attendances                             |
+    #| courseTranscripts                       |
+
 
   Scenario Outline: Ensure GET can NOT be performed on any public entities without READ_PUBLIC right
     Given I change the custom role of "Leader" to remove the "READ_PUBLIC" right
@@ -84,8 +91,14 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | ENTITY URI                              |
     | staffEducationOrgAssignmentAssociations |
     | teacherSchoolAssociations               |
-    | studentProgramAssociations               |
-    | studentSchoolAssociations                |
+    | studentProgramAssociations              |
+    | studentSchoolAssociations               |
+    #| cohorts                                 |
+    #| disciplineIncidents                     |
+    #| disciplineActions                       |
+    #| gradebookEntries                        |
+    #| attendances                             |
+    #| courseTranscripts                       |
 
   Scenario Outline: Ensure POST can be performed on all public entities with READ_PUBLIC and WRITE_PUBLIC rights
     Given I change the custom role of "Leader" to add the "READ_PUBLIC" right
@@ -131,6 +144,11 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | teacherSchoolAssociation              | teacherSchoolAssociation              | teacherSchoolAssociations               |
     | studentProgramAssociation             | studentProgramAssociation             | studentProgramAssociations              |
     | studentSchoolAssociation              | studentSchoolAssociation              | studentSchoolAssociations               |
+    #| cohort                                | cohort                                | cohorts                                 |
+    #| disciplineIncident                    | disciplineIncident                    | disciplineIncidents                     |
+    #| disciplineAction                      | disciplineAction                      | disciplineActions                       |
+    #| section.gradebookEntry                | gradebookEntry                        | gradebookEntries                        |
+    #| attendance                            | attendance                            | attendances                             |
 
   Scenario Outline: Ensure POST can NOT be performed on any public entities with READ_PUBLIC and WRITE_PUBLIC rights
     Given I change the custom role of "Leader" to remove the "READ_PUBLIC" right
@@ -171,8 +189,13 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | ENTITY TYPE                           | ENTITY URI                              |
     | staffEducationOrganizationAssociation | staffEducationOrgAssignmentAssociations |
     | teacherSchoolAssociation              | teacherSchoolAssociations               |
-    | studentProgramAssociation              | studentProgramAssociations               |
-    | studentSchoolAssociation               | studentSchoolAssociations                |
+    | studentProgramAssociation             | studentProgramAssociations              |
+    | studentSchoolAssociation              | studentSchoolAssociations               |
+    #| cohort                                | cohorts                                 |
+    #| disciplineIncident                    | disciplineIncidents                     |
+    #| disciplineAction                      | disciplineActions                       |
+    #| gradebookEntry                        | gradebookEntries                        |
+    #| attendance                            | attendances                             |
 
 # Double segment (/<ENTITY>/{id}) URI tests.
 
@@ -225,6 +248,11 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | teacherSchoolAssociation              | teacherSchoolAssociation              | teacherSchoolAssociations               |
     | student                               | studentProgramAssociation             | studentProgramAssociations              |
     | studentSchoolAssociation              | studentSchoolAssociation              | studentSchoolAssociations               |
+    #| cohort                                | cohort                                | cohorts                                 |
+    #| disciplineIncident                    | disciplineIncident                    | disciplineIncidents                     |
+    #| disciplineAction                      | disciplineAction                      | disciplineActions                       |
+    #| section                               | gradebookEntry                        | gradebookEntries                        |
+    #| attendance                            | attendance                            | attendances                             |
 
   Scenario Outline: PUTs, PATCHes, and DELETEs on /entity/{id}
     Given I change the custom role of "Aggregate Viewer" to add the "WRITE_PUBLIC" right
@@ -268,22 +296,27 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     Then I should receive a return code of 404
 
   Examples:
-    | ENTITY TYPE                           | ENTITY URI                              | MODIFY FIELD       | PUT VALUE        | PATCH VALUE            |
-    | assessment                            | assessments                             | assessmentCategory | Class test       | Other                  |
-    | competencyLevelDescriptor             | competencyLevelDescriptor               | description        | Always Angry     | Skips school           |
-    | educationOrganization                 | educationOrganizations                  | nameOfInstitution  | Dummy Agency     | Dummy Edorg            |
-    | gradingPeriod                         | gradingPeriods                          | endDate            | 2013-01-01       | 2013-12-12             |
-    | graduationPlan                        | graduationPlans                         | individualPlan     | true             | false                  |
-    | learningObjective                     | learningObjectives                      | description        | My Description   | New Description        |
-    | learningStandard                      | learningStandards                       | description        | My Description   | New Description        |
-    | program                               | programs                                | programSponsor     | School           | State Education Agency |
-    | school                                | schools                                 | nameOfInstitution  | Dummy Elementary | Dummy High             |
-    | session                               | sessions                                | endDate            | 2013-01-01       | 2013-12-12             |
-    | studentCompetencyObjective            | studentCompetencyObjectives             | description        | Basic Objective  | Advanced Objective     |
-#    | staffEducationOrganizationAssociation | staffEducationOrgAssignmentAssociations | positionTitle      | Treasurer        | Principal              |
-#    | teacherSchoolAssociation              | teacherSchoolAssociations               | academicSubjects   | [Reading]        | [Science]              |
-#    | studentProgramAssociation             | studentProgramAssociations              | reasonExited       | Unknown reason   | Expulsion              |
-#    | studentSchoolAssociation              | studentSchoolAssociations               | entryGradeLevel    | Eleventh grade   | Eighth grade           |
+    | ENTITY TYPE                           | ENTITY URI                              | MODIFY FIELD       | PUT VALUE                       | PATCH VALUE                     |
+    | assessment                            | assessments                             | assessmentCategory | Class test                      | Other                           |
+    | competencyLevelDescriptor             | competencyLevelDescriptor               | description        | Always Angry                    | Skips school                    |
+    | educationOrganization                 | educationOrganizations                  | nameOfInstitution  | Dummy Agency                    | Dummy Edorg                     |
+    | gradingPeriod                         | gradingPeriods                          | endDate            | 2013-01-01                      | 2013-12-12                      |
+    | graduationPlan                        | graduationPlans                         | individualPlan     | true                            | false                           |
+    | learningObjective                     | learningObjectives                      | description        | My Description                  | New Description                 |
+    | learningStandard                      | learningStandards                       | description        | My Description                  | New Description                 |
+    | program                               | programs                                | programSponsor     | School                          | State Education Agency          |
+    | school                                | schools                                 | nameOfInstitution  | Dummy Elementary                | Dummy High                      |
+    | session                               | sessions                                | endDate            | 2013-01-01                      | 2013-12-12                      |
+    | studentCompetencyObjective            | studentCompetencyObjectives             | description        | Basic Objective                 | Advanced Objective              |
+    #| staffEducationOrganizationAssociation | staffEducationOrgAssignmentAssociations | positionTitle      | Treasurer                       | Principal                       |
+    #| teacherSchoolAssociation              | teacherSchoolAssociations               | academicSubjects   | [Reading]                       | [Science]                       |
+    #| studentProgramAssociation             | studentProgramAssociations              | reasonExited       | Unknown reason                  | Expulsion                       |
+    #| studentSchoolAssociation              | studentSchoolAssociations               | entryGradeLevel    | Eleventh grade                  | Eighth grade                    |
+    #| cohort                                | cohorts                                 | cohortDescription  | Field Trip!                     | Wooo.. Field Trip               |
+    #| disciplineIncident                    | disciplineIncidents                     | incidentLocation   | Off School                      | School bus                      |
+    #| disciplineAction                      | disciplineActions                       | disciplineDate     | 2013-02-01                      | 2013-03-01                      |
+    #| gradebookEntry                        | gradebookEntries                        | description        | Quiz entry                      | First quiz entry                |
+    #| attendance                            | attendances                             | attendanceEvent    | [{event:Tardy,date:2011-12-13}] | [{event:Tardy,date:2011-12-14}] |
 
 # Multi segment (/<ENTITY>/{id}/...) URI tests.
 
@@ -291,3 +324,20 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     When I log in as "jmacey"
     And I navigate to GET "/v1/educationOrganizations/99a4ec9d3ba372993b2860a798b550c77bb73a09_id/staffEducationOrgAssignmentAssociations/staff"
     Then I should receive a return code of 200
+
+  @wip
+  Scenario: Can view historical data of a student from a different edorg, but can't write to it
+    Given I add a student school association for "lashawn.taite" in "Daybreak Bayside High" that's already expired
+    And I change the custom role of "Leader" to add the "WRITE_GENERAL" right
+    When I log in as "msmith"
+    And I navigate to GET "<lashawn.taite URI>/studentSchoolAssociations"
+    Then I should receive a return code of 200
+    And the response should have the newly created entity
+
+    When I navigate to GET "/studentSchoolAssociations/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 200
+
+    Given format "application/json"
+    When I change the field "exitWithdrawType" to "Exited"
+    And I navigate to PATCH "/studentSchoolAssociations/<NEWLY CREATED ENTITY ID>"
+    Then I should receive a return code of 403

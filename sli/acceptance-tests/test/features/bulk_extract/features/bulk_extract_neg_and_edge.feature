@@ -26,7 +26,7 @@ Scenario: Valid User tries to get a bulk extract before it's been triggered
 	When I make a call to the bulk extract end point "/bulk/extract/LEA_DAYBREAK_ID"
 	Then I get back a response code of "404"
 	
-Scenario: Vaiid User tries to POST to bulk extract endpoint
+Scenario: Valid User tries to POST to bulk extract endpoint
 	Given I trigger a bulk extract
 	And I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
 	And in my list of rights I have BULK_EXTRACT

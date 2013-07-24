@@ -77,13 +77,31 @@ public class RightAccessValidator {
         if(entity != null) {
             body = new EntityBody(entity.getBody());
         }
-        checkAccess(isRead, body, entityType, auths);
+        try {
+            checkAccess(isRead, body, entityType, auths);
+        } catch (APIAccessDeniedException e) {
+            // we only know the target entity here so rethrow so that info can be used in the security event
+            Set<Entity> entities = new HashSet<Entity>();
+            entities.add(entity);
+            e.setEntityType(entityType);
+            e.setEntities(entities);
+            throw e;
+        }
     }
 
     public void checkAccess(boolean isRead, String entityId, EntityBody content, String entityType, String collectionName, Repository<Entity> repo, Collection<GrantedAuthority> auths) {
 
         checkSecurity(isRead, entityId, entityType, collectionName, repo);
-        checkAccess(isRead, content, entityType, auths);
+        try {
+            checkAccess(isRead, content, entityType, auths);
+        } catch (APIAccessDeniedException e) {
+            // we only know the target entity here so rethrow so that info can be used in the security event
+            Set<String> entityIds = new HashSet<String>();
+            entityIds.add(entityId);
+            e.setEntityType(entityType);
+            e.setEntityIds(entityIds);
+            throw e;
+        }
     }
 
     /**
@@ -135,7 +153,7 @@ public class RightAccessValidator {
         }
 
         if (!allow) {
-            throw new APIAccessDeniedException("Insufficient Privileges", entity);
+            throw new APIAccessDeniedException("Insufficient Privileges", entityType, entity);
         }
     }
 

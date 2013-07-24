@@ -31,6 +31,25 @@ Scenario: An authorized bulk extract user logs in and gets the information for t
     Then a security event matching "Received request to stream Edorg data" should be in the sli db
     Then a security event matching "Successful request for singlePartFileResponse" should be in the sli db
 
+  Scenario: Security Event is logged when I attempt to retrieve a bulk extract for a non-bulk extract application
+    Given I update the "application" with ID "19cca28d-7357-4044-8df9-caad4b1c8ee4" field "body.isBulkExtract" to "false" on the sli database
+    And in my list of rights I have BULK_EXTRACT
+    When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+    Given the sli securityEvent collection is empty
+    When I make a call to the bulk extract end point "/bulk/extract/list"
+    Then I get back a response code of "403"
+       And I should see a count of "2" in the security event collection
+       And I check to find if record is in sli db collection:
+         | collectionName  | expectedRecordCount | searchParameter         | searchValue                                                | searchType |
+         | securityEvent   | 2                   | body.appId              | vavedRa9uB                                                 | string     |
+         | securityEvent   | 2                   | body.tenantId           | Midgar                                                     | string     |
+         | securityEvent   | 2                   | body.userEdOrg          | IL-DAYBREAK                                                | string     |
+         | securityEvent   | 2                   | body.targetEdOrgList    | IL-DAYBREAK                                                | string     |
+         | securityEvent   | 1                   | body.logMessage         | Access Denied:Application is not approved for bulk extract | string     |
+         | securityEvent   | 1                   | body.className          | org.slc.sli.api.security.context.resolver.AppAuthHelper    | string     |
+       And "2" security event with field "body.actionUri" matching "http.*/api/rest/v1.3/bulk/extract/list" should be in the sli db
+    Given I update the "application" with ID "19cca28d-7357-4044-8df9-caad4b1c8ee4" field "body.isBulkExtract" to "true" on the sli database
+
   Scenario: Security Event is logged when I retrieve SEA data
     Given in my list of rights I have BULK_EXTRACT
     When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds

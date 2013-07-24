@@ -71,6 +71,7 @@ public class APIAccessDeniedExceptionHandler implements ExceptionMapper<APIAcces
         if (headers.getAcceptableMediaTypes().contains(MediaType.TEXT_HTML_TYPE)) {
             try {
                 response.sendError(403, e.getMessage());
+                logSecurityEvent(e);
                 return null;    //the error page handles the response, so no need to return a response
             } catch (IOException ex) {
                 error("Error displaying error page", ex);
@@ -79,7 +80,6 @@ public class APIAccessDeniedExceptionHandler implements ExceptionMapper<APIAcces
 
         Response.Status errorStatus = Response.Status.FORBIDDEN;
         SLIPrincipal principal = null ;
-        String message = e.getMessage();
         if (SecurityContextHolder.getContext().getAuthentication() != null) {
             principal = (SLIPrincipal)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             warn("Access has been denied to user: {}",principal );
@@ -102,22 +102,32 @@ public class APIAccessDeniedExceptionHandler implements ExceptionMapper<APIAcces
 
         if (e.getTargetEdOrgIds() != null) {
             // if we already have the target edOrgs - good to go
-            audit(securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo.getRequestUri(), "Access Denied:"
-                    + e.getMessage(), EntityNames.EDUCATION_ORGANIZATION, e.getTargetEdOrgIds().toArray(new String[0])));
+            audit(securityEventBuilder.createSecurityEvent(getThrowingClassName(e), uriInfo.getRequestUri(), "Access Denied:"
+                    + e.getMessage(), e.getRealm(), EntityNames.EDUCATION_ORGANIZATION, e.getTargetEdOrgIds().toArray(new String[0])));
 
         } else if (e.getEntityType() != null) {
 
             if (e.getEntities() != null && !e.getEntities().isEmpty()) {
-                audit(securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo.getRequestUri(), "Access Denied:"
-                        + e.getMessage(), e.getEntityType(), e.getEntities()));
+                audit(securityEventBuilder.createSecurityEvent(getThrowingClassName(e), uriInfo.getRequestUri(), "Access Denied:"
+                        + e.getMessage(), e.getRealm(), e.getEntityType(), e.getEntities()));
 
             } else if (e.getEntityIds() != null && !e.getEntityIds().isEmpty()) {
-                audit(securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo.getRequestUri(), "Access Denied:"
-                        + e.getMessage(), e.getEntityType(), e.getEntityIds().toArray(new String[0])));
+                audit(securityEventBuilder.createSecurityEvent(getThrowingClassName(e), uriInfo.getRequestUri(), "Access Denied:"
+                        + e.getMessage(), e.getRealm(), e.getEntityType(), e.getEntityIds().toArray(new String[0])));
             }
         } else {
-            audit(securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo.getRequestUri(), "Access Denied:"
-                    + e.getMessage(), false));
+            audit(securityEventBuilder.createSecurityEvent(getThrowingClassName(e), uriInfo.getRequestUri(), "Access Denied:"
+                    + e.getMessage(), null, e.getRealm(), null, e.isTargetIsUserEdOrg()));
         }
+    }
+
+    private String getThrowingClassName(Exception e) {
+        if (e != null && e.getStackTrace() != null) {
+            StackTraceElement ste = e.getStackTrace()[0];
+            if (ste != null) {
+                return ste.getClassName();
+            }
+        }
+        return null;
     }
 }

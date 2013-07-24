@@ -33,6 +33,7 @@ import javax.ws.rs.core.PathSegment;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.api.security.context.resolver.GradingPeriodHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -505,11 +506,11 @@ public class UriMutator {
                 mutated.setPath(String.format("/students/%s/yearlyAttendances",
                         StringUtils.join(getStudentIds(principal))));
             } else if (PathConstants.DISCIPLINE_ACTIONS.equals(baseEntity)) {
-                throw new AccessDeniedException("Students do not have access to discipline actions.");
+                throw new APIAccessDeniedException("Students do not have access to discipline actions.", true);
             } else if (PathConstants.DISCIPLINE_INCIDENTS.equals(baseEntity)) {
-                throw new AccessDeniedException("Students do not have access to discipline incidents.");
+                throw new APIAccessDeniedException("Students do not have access to discipline incidents.", true);
             } else if (PathConstants.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS.equals(baseEntity)) {
-                throw new AccessDeniedException("Students do not have access to discipline incident associations.");
+                throw new APIAccessDeniedException("Students do not have access to discipline incident associations.", true);
             } else if (ResourceNames.HOME.equals(baseEntity)) {
                 mutated.setPath("/home");
             } else if (ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS.equals(baseEntity)) {
@@ -535,7 +536,7 @@ public class UriMutator {
                     mutated.setPath(sectionUri);
                 }
             } else if (ResourceNames.LEARNINGOBJECTIVES.equals(baseEntity) && ResourceNames.STUDENT_COMPETENCIES.equals(secondEntity)) {
-                throw new AccessDeniedException("url is not accessible to students or parents");
+                throw new APIAccessDeniedException("url is not accessible to students or parents", true);
             }
         }
         return mutated;
