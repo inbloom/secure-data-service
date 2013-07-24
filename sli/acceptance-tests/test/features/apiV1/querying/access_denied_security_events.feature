@@ -67,7 +67,7 @@ Feature: As an SLI application, I want to ensure security events are created for
     And I navigate to GET "/v1.3/students/6a98d5d3-d508-4b9c-aec2-59fce7e16825_id/attendances"
     Then I should receive a return code of 403
     And I should see a count of "1" in the security event collection
-    And a security event matching "Access Denied:Access to 6a98d5d3-d508-4b9c-aec2-59fce7e16825_id is not authorized" should be in the sli db
+    And a security event matching "Access Denied:Insufficient Privileges" should be in the sli db
     And I check to find if record is in sli db collection:
       | collectionName  | expectedRecordCount | searchParameter         | searchValue                              | searchType |
       | securityEvent   | 1                   | body.userEdOrg          | IL-DAYBREAK                              | string     |
