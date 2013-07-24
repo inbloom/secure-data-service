@@ -31,7 +31,6 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | session                    | sessions                    |
     | studentCompetencyObjective | studentCompetencyObjectives |
 
-  @wip
   Scenario Outline: Ensure GET can be performed on all edorg related entities with the proper rights
     And I log in as "jmacey"
     And parameter "limit" is "0"
@@ -42,8 +41,8 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | ENTITY URI                              |
     | staffEducationOrgAssignmentAssociations |
     | teacherSchoolAssociations               |
-    | studentProgramAssocations               |
-    | studentSchoolAssocations                |
+    | studentProgramAssociations               |
+    | studentSchoolAssociations                |
 
   Scenario Outline: Ensure GET can NOT be performed on any public entities without READ_PUBLIC right
     Given I change the custom role of "Leader" to remove the "READ_PUBLIC" right
@@ -71,7 +70,6 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | session                    | sessions                    |
     | studentCompetencyObjective | studentCompetencyObjectives |
 
-  @wip
   Scenario Outline: Ensure GET cannot be performed on all edorg related entities without the proper rights
     Given I change the custom role of "Leader" to remove the "READ_GENERAL" right
     And I change the custom role of "Leader" to remove the "READ_RESTRICTED" right
@@ -86,8 +84,8 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | ENTITY URI                              |
     | staffEducationOrgAssignmentAssociations |
     | teacherSchoolAssociations               |
-    | studentProgramAssocations               |
-    | studentSchoolAssocations                |
+    | studentProgramAssociations               |
+    | studentSchoolAssociations                |
 
   Scenario Outline: Ensure POST can be performed on all public entities with READ_PUBLIC and WRITE_PUBLIC rights
     Given I change the custom role of "Leader" to add the "READ_PUBLIC" right
@@ -116,7 +114,6 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | session                    | session                    | sessions                    |
     | studentCompetencyObjective | studentCompetencyObjective | studentCompetencyObjectives |
 
-  @wip
   Scenario Outline: Ensure POST can be performed on edorg related entities with WRITE_GENERAL and WRITE_RESTRICTED rights
     Given I change the custom role of "Leader" to add the "WRITE_GENERAL" right
     And I change the custom role of "Leader" to add the "WRITE_RESTRICTED" right
@@ -132,7 +129,7 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | ENTITY                                | ENTITY TYPE                           | ENTITY URI                              |
     | staffEducationOrganizationAssociation | staffEducationOrganizationAssociation | staffEducationOrgAssignmentAssociations |
     | teacherSchoolAssociation              | teacherSchoolAssociation              | teacherSchoolAssociations               |
-    | student.studentProgramAssociation     | studentProgramAssociation             | studentProgramAssociations              |
+    | studentProgramAssociation             | studentProgramAssociation             | studentProgramAssociations              |
     | studentSchoolAssociation              | studentSchoolAssociation              | studentSchoolAssociations               |
 
   Scenario Outline: Ensure POST can NOT be performed on any public entities with READ_PUBLIC and WRITE_PUBLIC rights
@@ -163,7 +160,6 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | session                    | session                    | sessions                    |
     | studentCompetencyObjective | studentCompetencyObjective | studentCompetencyObjectives |
 
-  @wip
   Scenario Outline: Ensure POST cannot be performed on edorg related entities without WRITE_GENERAL and WRITE_RESTRICTED rights
     Given I add a SEOA for "xbell" in "District 9" as a "Leader"
     And I log in as "xbell"
@@ -175,8 +171,8 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | ENTITY TYPE                           | ENTITY URI                              |
     | staffEducationOrganizationAssociation | staffEducationOrgAssignmentAssociations |
     | teacherSchoolAssociation              | teacherSchoolAssociations               |
-    | studentProgramAssocation              | studentProgramAssocations               |
-    | studentSchoolAssocation               | studentSchoolAssocations                |
+    | studentProgramAssociation              | studentProgramAssociations               |
+    | studentSchoolAssociation               | studentSchoolAssociations                |
 
 # Double segment (/<ENTITY>/{id}) URI tests.
 
@@ -209,7 +205,6 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | session                    | session                    | sessions                    |
     | studentCompetencyObjective | studentCompetencyObjective | studentCompetencyObjectives |
 
-    @wip
   Scenario Outline: GETs on /entity/{id} for edorg-related entities
     Given I change the custom role of "Aggregate Viewer" to add the "READ_GENERAL" right
     And I log in as "msmith"
