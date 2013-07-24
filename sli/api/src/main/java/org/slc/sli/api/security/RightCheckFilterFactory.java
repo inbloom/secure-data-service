@@ -27,6 +27,7 @@ import com.sun.jersey.spi.container.ContainerResponseFilter;
 import com.sun.jersey.spi.container.ResourceFilter;
 import com.sun.jersey.spi.container.ResourceFilterFactory;
 
+import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
@@ -155,7 +156,7 @@ public class RightCheckFilterFactory implements ResourceFilterFactory {
             }
 
 
-            throw new AccessDeniedException("Failed to access URL because of insufficient rights.");
+            throw new APIAccessDeniedException("Failed to access URL because of insufficient rights.");
         }
 
 

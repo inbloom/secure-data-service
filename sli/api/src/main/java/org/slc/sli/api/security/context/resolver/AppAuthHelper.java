@@ -20,8 +20,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -50,7 +50,7 @@ public class AppAuthHelper {
         Entity app = getApplicationEntity();
         Map<String, Object> body = app.getBody();
         if (!body.containsKey("isBulkExtract") || (Boolean) body.get("isBulkExtract") == false) {
-            throw new AccessDeniedException("Application is not approved for bulk extract");
+            throw new APIAccessDeniedException("Application is not approved for bulk extract", EntityNames.EDUCATION_ORGANIZATION, edorgId);
         }
 
         if (edorgId != null) {
@@ -58,7 +58,7 @@ public class AppAuthHelper {
             if (appAuth == null
                 || !((List) appAuth.getBody().get(ApplicationAuthorizationResource.EDORG_IDS))
                             .contains(edorgId)) {
-                throw new AccessDeniedException("Application is not authorized for bulk extract");
+                throw new APIAccessDeniedException("Application is not authorized for bulk extract", EntityNames.EDUCATION_ORGANIZATION, edorgId);
             }
         }
     }
@@ -86,7 +86,7 @@ public class AppAuthHelper {
     private Entity getApplicationEntity() {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof OAuth2Authentication)) {
-            throw new AccessDeniedException("Not logged in with valid oauth context");
+            throw new APIAccessDeniedException("Not logged in with valid oauth context", true);
         }
         final OAuth2Authentication oauth = (OAuth2Authentication) authentication;
 
@@ -95,7 +95,7 @@ public class AppAuthHelper {
         final Entity entity = mongoEntityRepository.findOne(EntityNames.APPLICATION, query);
 
         if (entity == null) {
-            throw new AccessDeniedException("Could not find application with client_id=" + clientId);
+            throw new APIAccessDeniedException("Could not find application with client_id=" + clientId, true);
         }
 
         return entity;

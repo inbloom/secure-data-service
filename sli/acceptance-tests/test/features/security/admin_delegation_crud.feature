@@ -18,6 +18,24 @@ Feature: Admin delegation CRUD
      | securityEvent       | 1                   | body.userEdOrg        | fakeab32-b493-999b-a6f3-sliedorg1234  |
      | securityEvent       | 1                   | body.targetEdOrgList  | IL-SUNSET                             |
 
+ 
+ Scenario: State administrator without access being denied update to application authorization security event
+    Given the sli securityEvent collection is empty
+    And I am logged in using "iladmin" "iladmin1234" to realm "SLI"
+    When I do not have access to app authorizations for district "IL-SUNSET"
+    Then I should update app authorizations for district "IL-SUNSET"
+    And I should receive a return code of 403
+     And I should see a count of "1" in the security event collection
+     And I check to find if record is in sli db collection:
+        | collectionName  | expectedRecordCount | searchParameter         | searchValue                                                         | searchType |
+        | securityEvent   | 1                   | body.appId              | ke9Dgpo3uI                                                          | string     |
+        | securityEvent   | 1                   | body.className          | org.slc.sli.api.resources.security.ApplicationAuthorizationResource | string     |
+        | securityEvent   | 1                   | body.userEdOrg          | fakeab32-b493-999b-a6f3-sliedorg1234                                | string     |
+        | securityEvent   | 1                   | body.targetEdOrgList    | IL-SUNSET                                                           | string     |
+     And "1" security event matching "Access Denied:Cannot perform authorizations for edorg " should be in the sli db
+     #And "1" security event with field "body.actionUri" matching "http.*/api/rest/applicationAuthorization/78f71c9a-8e37-0f86-8560-7783379d96f7?edorg=b2c6e292-37b0-4148-bf75-c98a2fcc905f" should be in the sli db
+     
+
   Scenario: District administrator updating admin delegation
     Given I am logged in using "sunsetadmin" "sunsetadmin1234" to realm "SLI"
     And I have a valid admin delegation entity

@@ -157,7 +157,7 @@ public class SecurityEventBuilderTest {
         Assert.assertTrue(se.getActionUri().equals(ONE_PART_URI));
         Assert.assertTrue(se.getLogMessage().equals(LOG_MESSAGE));
         Assert.assertTrue(se.getUserEdOrg().equals(principal.getRealmEdOrg()));
-        Assert.assertTrue(se.getTargetEdOrgList() == null);
+        Assert.assertTrue(se.getTargetEdOrgList().contains(principal.getRealmEdOrg()));
     }
 
     // test deriving targetEdOrg from a two part URI
@@ -196,7 +196,7 @@ public class SecurityEventBuilderTest {
     public void testCreateSecurityEventFromEntityIds() {
         prepareTargetEdOrgMocks();
         String[] entityIds = {SECTION_ENTITY_ID, SECTION_ENTITY2_ID};
-        SecurityEvent se = builder.createSecurityEvent(this.getClass().getName(), URI.create(ONE_PART_URI), LOG_MESSAGE, EntityNames.SECTION, entityIds);
+        SecurityEvent se = builder.createSecurityEvent(this.getClass().getName(), URI.create(ONE_PART_URI), LOG_MESSAGE, null, EntityNames.SECTION, entityIds);
         Assert.assertTrue(se.getActionUri().equals(ONE_PART_URI));
         Assert.assertTrue(se.getLogMessage().equals(LOG_MESSAGE));
         Assert.assertTrue(se.getUserEdOrg().equals(REALM_EDORG_STATEID));
@@ -213,7 +213,7 @@ public class SecurityEventBuilderTest {
         Set<Entity> entities = new HashSet<Entity>();
         entities.add(section1);
         entities.add(section2);
-        SecurityEvent se = builder.createSecurityEvent(this.getClass().getName(), URI.create(ONE_PART_URI), LOG_MESSAGE, EntityNames.SECTION, entities);
+        SecurityEvent se = builder.createSecurityEvent(this.getClass().getName(), URI.create(ONE_PART_URI), LOG_MESSAGE, null, EntityNames.SECTION, entities);
         Assert.assertTrue(se.getActionUri().equals(ONE_PART_URI));
         Assert.assertTrue(se.getLogMessage().equals(LOG_MESSAGE));
         Assert.assertTrue(se.getUserEdOrg().equals(REALM_EDORG_STATEID));
@@ -236,7 +236,7 @@ public class SecurityEventBuilderTest {
 
     private void prepareTargetEdOrgMocks() {
         // single id in uri match
-        Mockito.when(arbiter.findEdorgs(argThat(new BaseMatcher<Iterable<Entity>>() {
+        Mockito.when(arbiter.findOwner(argThat(new BaseMatcher<Iterable<Entity>>() {
 
             @Override
             public boolean matches(Object item) {
@@ -260,7 +260,7 @@ public class SecurityEventBuilderTest {
         }), Mockito.eq(EntityNames.SECTION), Mockito.eq(false))).thenReturn(Arrays.asList(edOrg1));
 
         // two ids in uri match
-        Mockito.when(arbiter.findEdorgs(argThat(new BaseMatcher<Iterable<Entity>>() {
+        Mockito.when(arbiter.findOwner(argThat(new BaseMatcher<Iterable<Entity>>() {
 
             @Override
             public boolean matches(Object item) {

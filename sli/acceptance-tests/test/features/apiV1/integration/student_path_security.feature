@@ -14,6 +14,7 @@ Scenario: Check un-versioned URIs work for student
   Then I should receive a return code of 200
   When I navigate to GET "/system/session/logout"
   Then any future API request should result in a 401 response code
+  And a security event matching "Unauthorized" should be in the sli db
 
 Scenario: Verify Rewrites for entities for Students
   Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "cegray" with password "cegray1234"

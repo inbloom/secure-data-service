@@ -30,6 +30,7 @@ import javax.xml.bind.DatatypeConverter;
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerRequestFilter;
 
+import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -124,7 +125,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
         validateNotBlockGetRequest(request);
 
         if (ResourceMethod.getWriteOps().contains(request.getMethod()) && contextValidator.isUrlBlocked(request)) {
-            throw new AccessDeniedException(String.format("url %s is not accessible.", request.getAbsolutePath().toString()));
+            throw new APIAccessDeniedException(String.format("url " + request.getAbsolutePath().toString() + " is not accessible."));
         }
 
         if (isUpdateOrDelete(request.getMethod())) {
