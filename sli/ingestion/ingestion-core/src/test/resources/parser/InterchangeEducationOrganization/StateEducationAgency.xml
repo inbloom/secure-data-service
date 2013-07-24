@@ -72,20 +72,5 @@
         <ProgramId>wZPeQlC2ulX</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <EducationOrganizationPeerReference id="ID003">
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="Other Federal">
-          <ID>PcrQp7_HtAZockXQA9VlLh</ID>
-        </EducationOrgIdentificationCode>
-        <EducationOrgIdentificationCode IdentificationSystem="DUNS">
-          <ID>u5ZC29Z1-V</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationPeerReference>
-    <EducationOrganizationPeerReference id="ID005">
-      <EducationalOrgIdentity>
-        <StateOrganizationId>WF.YN1MajOC3uDLZ1a1z37rvZargAXsMFaM3GZ6I9.</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationPeerReference>
   </StateEducationAgency>
 </InterchangeEducationOrganization>

@@ -72,16 +72,6 @@
         <ProgramId>Bz-9B</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <EducationOrganizationPeerReference id="ID009">
-      <EducationalOrgIdentity>
-        <StateOrganizationId>EsWa64mMvob9p_.3oCE5GZWst3jkZTfcMCY4QGr6Lp60YB7</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationPeerReference>
-    <EducationOrganizationPeerReference id="ID011">
-      <EducationalOrgIdentity>
-        <StateOrganizationId>XOMCPz.bktXXN8HjtfNx7anX0HHi-z4NR5yBp7R8c1t</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationPeerReference>
     <LEACategory>Charter</LEACategory>
     <CharterStatus>College/University Charter</CharterStatus>
     <LocalEducationAgencyReference>

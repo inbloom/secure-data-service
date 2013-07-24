@@ -224,40 +224,4 @@
       }
     }
   ],
-  "EducationOrganizationPeerReference":
-  [
-    {
-      "a_id":"ID003",
-      "EducationalOrgIdentity":
-      {
-        "EducationOrgIdentificationCode":
-        [
-          {
-            "a_IdentificationSystem":"Other Federal",
-            "ID":
-            {
-              "_value":"PcrQp7_HtAZockXQA9VlLh"
-            }
-          },
-          {
-            "a_IdentificationSystem":"DUNS",
-            "ID":
-            {
-              "_value":"u5ZC29Z1-V"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "a_id":"ID005",
-      "EducationalOrgIdentity":
-      {
-        "StateOrganizationId":
-        {
-          "_value":"WF.YN1MajOC3uDLZ1a1z37rvZargAXsMFaM3GZ6I9."
-        }
-      }
-    }
-  ]
 }

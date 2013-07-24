@@ -224,29 +224,6 @@
       }
     }
   ],
-  "EducationOrganizationPeerReference":
-  [
-    {
-      "a_id":"ID009",
-      "EducationalOrgIdentity":
-      {
-        "StateOrganizationId":
-        {
-          "_value":"EsWa64mMvob9p_.3oCE5GZWst3jkZTfcMCY4QGr6Lp60YB7"
-        }
-      }
-    },
-    {
-      "a_id":"ID011",
-      "EducationalOrgIdentity":
-      {
-        "StateOrganizationId":
-        {
-          "_value":"XOMCPz.bktXXN8HjtfNx7anX0HHi-z4NR5yBp7R8c1t"
-        }
-      }
-    }
-  ],
   "LEACategory":
   {
     "_value":"Charter"

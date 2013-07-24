@@ -77,26 +77,6 @@
         <ProgramId>Gj58LBb_xnvgFQoj</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <EducationOrganizationPeerReference id="ID015">
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="LEA">
-          <ID>HPmc_y-nw0.oElEVtg1BLsKgK6ZCi.cSTZB3oQ</ID>
-        </EducationOrgIdentificationCode>
-        <EducationOrgIdentificationCode IdentificationSystem="LEA">
-          <ID>ISzbJy7BTCkdqC-z2tfdRdlS</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationPeerReference>
-    <EducationOrganizationPeerReference id="ID017">
-      <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="SEA">
-          <ID>iU_a5t29haUJH4Mq1JMDomPcS7A8NDU</ID>
-        </EducationOrgIdentificationCode>
-        <EducationOrgIdentificationCode IdentificationSystem="DUNS">
-          <ID>bhCIjIVphMBSZkBUe16aaZVrr_qfdxeu</ID>
-        </EducationOrgIdentificationCode>
-      </EducationalOrgIdentity>
-    </EducationOrganizationPeerReference>
     <GradesOffered>
       <GradeLevel>Ninth grade</GradeLevel>
       <GradeLevel>Twelfth grade</GradeLevel>
