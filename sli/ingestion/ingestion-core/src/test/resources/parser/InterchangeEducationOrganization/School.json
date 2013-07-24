@@ -30,17 +30,19 @@
     "_value":"yviUYKb83zdr1XTTLx.BAv"
   },
   "OrganizationCategories":
-  {
-    "OrganizationCategory":
-    [
-      {
-        "_value":"Local Education Agency"
-      },
-      {
-        "_value":"State Education Agency"
-      }
-    ]
-  },
+  [
+    {
+      "OrganizationCategory":
+      [
+        {
+          "_value":"Local Education Agency"
+        },
+        {
+          "_value":"State Education Agency"
+        }
+      ]
+    }
+  ],
   "Address":
   [
     {

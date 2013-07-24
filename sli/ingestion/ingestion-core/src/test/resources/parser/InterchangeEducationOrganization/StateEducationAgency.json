@@ -30,17 +30,19 @@
     "_value":"bR4nLRjTsXA8Am4eMrqoIgWW"
   },
   "OrganizationCategories":
-  {
-    "OrganizationCategory":
-    [
-      {
-        "_value":"Education Service Center"
-      },
-      {
-        "_value":"State Education Agency"
-      }
-    ]
-  },
+  [
+    {
+      "OrganizationCategory":
+      [
+        {
+          "_value":"Education Service Center"
+        },
+        {
+          "_value":"State Education Agency"
+        }
+      ]
+    }
+  ],
   "Address":
   [
     {
