@@ -276,7 +276,6 @@ public class ContextValidator implements ApplicationContextAware {
         for (IContextValidator validator : contextValidators) {
            try {
                Set<Entity> entitiesValidated = validateContextToEntities(def, entities, isTransitive, validator);
-               contexts.add(validator.getContext());
                for(Entity ent : entitiesValidated) {
                    if (entityContexts.containsKey(id)) {
                        entityContexts.put(ent, SecurityUtil.NULL_CONTEXT);
