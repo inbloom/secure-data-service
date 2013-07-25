@@ -248,13 +248,13 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       Then I should receive a return code of 403
      And I should see a count of "1" in the security event collection
      And I check to find if record is in sli db collection:
-        | collectionName  | expectedRecordCount | searchParameter         | searchValue                                             | searchType |
-        | securityEvent   | 1                   | body.appId              | ke9Dgpo3uI                                              | string     |
-        | securityEvent   | 1                   | body.className          | org.slc.sli.api.service.BasicService                    | string     |
-        | securityEvent   | 1                   | body.tenantId           | IL                                                      | string     |
-        | securityEvent   | 1                   | body.userEdOrg          | IL-DAYBREAK                                             | string     |
-        | securityEvent   | 1                   | body.targetEdOrgList    | IL-DAYBREAK                                             | string     |
-        | securityEvent   | 1                   | body.logMessage         | Invalid reference. No association to referenced entity. | string     |
+        | collectionName  | expectedRecordCount | searchParameter         | searchValue                                                           | searchType |
+        | securityEvent   | 1                   | body.appId              | ke9Dgpo3uI                                                            | string     |
+        | securityEvent   | 1                   | body.className          | org.slc.sli.api.service.BasicService                                  | string     |
+        | securityEvent   | 1                   | body.tenantId           | Midgar                                                                | string     |
+        | securityEvent   | 1                   | body.userEdOrg          | IL-DAYBREAK                                                           | string     |
+        | securityEvent   | 1                   | body.targetEdOrgList    | IL-DAYBREAK                                                           | string     |
+        | securityEvent   | 1                   | body.logMessage         | Access Denied:Invalid reference. No association to referenced entity. | string     |
      And "1" security event with field "body.actionUri" matching "http.*/api/rest/v1.1/staffCohortAssociations.*" should be in the sli db
      
      Given the sli securityEvent collection is empty
@@ -269,7 +269,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
         | collectionName  | expectedRecordCount | searchParameter         | searchValue                                                           | searchType |
         | securityEvent   | 1                   | body.appId              | ke9Dgpo3uI                                                            | string     |
         | securityEvent   | 1                   | body.className          | org.slc.sli.api.service.BasicService                                  | string     |
-        | securityEvent   | 1                   | body.tenantId           | IL                                                                    | string     |
+        | securityEvent   | 1                   | body.tenantId           | Midgar                                                                | string     |
         | securityEvent   | 1                   | body.userEdOrg          | IL-DAYBREAK                                                           | string     |
         | securityEvent   | 1                   | body.targetEdOrgList    | 152901001                                                             | string     |
         | securityEvent   | 1                   | body.logMessage         | Access Denied:Invalid reference. No association to referenced entity. | string     |
