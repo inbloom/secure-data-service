@@ -231,7 +231,7 @@ public class SecurityEventBuilderTest {
         URI uri = URI.create(uriString);
 
         prepareTargetEdOrgMocks();
-        return builder.createSecurityEvent(this.getClass().getName(), uri, LOG_MESSAGE, principal, null, null, false);
+        return builder.createSecurityEvent(this.getClass().getName(), uri, LOG_MESSAGE, principal, null, null, null, false);
     }
 
     private void prepareTargetEdOrgMocks() {

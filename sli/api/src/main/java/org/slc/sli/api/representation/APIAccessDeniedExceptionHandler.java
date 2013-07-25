@@ -117,7 +117,7 @@ public class APIAccessDeniedExceptionHandler implements ExceptionMapper<APIAcces
             }
         } else {
             audit(securityEventBuilder.createSecurityEvent(getThrowingClassName(e), uriInfo.getRequestUri(), "Access Denied:"
-                    + e.getMessage(), null, e.getRealm(), null, e.isTargetIsUserEdOrg()));
+                    + e.getMessage(), e.getPrincipal(), e.getClientId(), e.getRealm(), null, e.isTargetIsUserEdOrg()));
         }
     }
 

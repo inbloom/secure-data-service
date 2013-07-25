@@ -27,5 +27,8 @@ import org.slc.sli.api.security.SLIPrincipal;
 public interface UserLocator {
 
     public SLIPrincipal locate(String tenantId, String externalUserId, String userType);
+    
+    //sessionId might be used to populate securityEvents 
+    public SLIPrincipal locate(String tenantId, String externalUserId, String userType, String clientId);
 
 }
