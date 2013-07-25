@@ -415,7 +415,7 @@ public class SamlFederationResource {
         String authorizationCode = (String) code.get("value");
         Object state = appSession.get("state");
 
-        SecurityEvent successfulLogin = securityEventBuilder.createSecurityEvent(this.getClass().getName(), uriInfo.getRequestUri(), "", principal, realm, null, true);
+        SecurityEvent successfulLogin = securityEventBuilder.createSecurityEvent(this.getClass().getName(), uriInfo.getRequestUri(), "", principal, null, realm, null, true);
         successfulLogin.setOrigin(httpServletRequest.getRemoteHost()+ ":" + httpServletRequest.getRemotePort());
         successfulLogin.setCredential(authorizationCode);
         successfulLogin.setUserOrigin(httpServletRequest.getRemoteHost()+ ":" + httpServletRequest.getRemotePort());

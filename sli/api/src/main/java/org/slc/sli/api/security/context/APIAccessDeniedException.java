@@ -17,6 +17,7 @@
 package org.slc.sli.api.security.context;
 
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.domain.Entity;
 import org.springframework.security.access.AccessDeniedException;
 
@@ -41,6 +42,8 @@ public class APIAccessDeniedException extends AccessDeniedException {
 
     // only used if targetEdOrgs and targetEdOrgIds is NOT set
     private String entityType;                // type of the entities to which access was attempted
+    private SLIPrincipal principal;
+    private String clientId;
     private Set<Entity> entities;             // entities to which access was attempted
     private Set<String> entityIds;            // ids of the entities to which access was attempted
 
@@ -58,6 +61,12 @@ public class APIAccessDeniedException extends AccessDeniedException {
         super(msg);
     }
 
+    public APIAccessDeniedException(String msg, SLIPrincipal principal, String clientId) {
+        super(msg);
+        this.principal = principal;
+        this.clientId = clientId;
+    }
+    
     public APIAccessDeniedException(String msg, AccessDeniedException e) {
         super(msg);
         this.initCause(e);
@@ -206,7 +215,14 @@ public class APIAccessDeniedException extends AccessDeniedException {
     public Set<Entity> getEntities() {
         return entities;
     }
+    
+    public SLIPrincipal getPrincipal() {
+    	return principal;
+    }
 
+    public String getClientId() {
+    	return clientId;
+    }
     public String getEntityType() {
         return entityType;
     }

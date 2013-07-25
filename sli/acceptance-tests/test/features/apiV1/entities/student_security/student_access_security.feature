@@ -1,6 +1,6 @@
 Feature: Student Access Security Mega Test
 I want to test all combinations and permutations of accessing student data
-
+@wip
 @DE_2712
 @DE_2726
 Scenario Outline: Users accessing students via multi-part URIs for Sections
@@ -112,10 +112,12 @@ Scenario: Check the status of securityEvent collection
   And I should see a count of "1" in the security event collection  
   And I check to find if record is in sli db collection: 
   | collectionName | expectedRecordCount | searchParameter | searchValue | searchType |
-  | securityEvent | 1 | body.className | org.slc.sli.api.security.resolve.impl.MongoUserLocator | string | 
+  | securityEvent  | 1         | body.tenantId           | Security      | string     |
+  | securityEvent  | 1         | body.className          | org.slc.sli.api.security.resolve.impl.MongoUserLocator | string | 
+  | securityEvent  | 1         | body.appId              | ke9Dgpo3uI                                  | string     |
   And "1" security event matching "Access Denied:User is not currently associated to a school/edorg" should be in the sli db
-
-
+  And "1" security event with field "body.actionUri" matching "http.*/api/rest/v1.3/sections.*" should be in the sli db
+	
 @DE_2712 
 Scenario Outline: Users accessing students via multi-part URIs for Cohorts
 Given I am user <User> in IDP "SEC"
