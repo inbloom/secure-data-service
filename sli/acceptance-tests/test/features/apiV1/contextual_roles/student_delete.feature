@@ -26,12 +26,10 @@ Feature: Use the API to successfully delete students  while having roles over ma
     Then I should receive a return code of 404
 
   Scenario: User with write rights in first school and no write rights in second
-    Given I change the custom role of "Leader" to add the "WRITE_GENERAL" right
-    Then the following student section associations in Midgar are set correctly
-      | student         | teacher              | edorg                 | enrolledInAnySection? |
-      | bert.jakeman    | rbelding             | Daybreak Central High | yes                   |
+    Given I remove the SEOA with role "IT Administrator" for staff "tcuyper" in "Daybreak Central High"
+    And I add a SEOA for "tcuyper" in "East Daybreak High" as a "IT Administrator"
 
-    When I log in as "rbelding"
+    When I log in as "tcuyper"
 
     Given format "application/json"
     When I navigate to DELETE "<john.johnson URI>"
@@ -112,7 +110,7 @@ Feature: Use the API to successfully delete students  while having roles over ma
     When I navigate to GET the new entity
     Then I should receive a return code of 200
 
-    When I log in as "rbelding"
+    When I log in as "tcuyper"
 
     When I attempt to delete the new entity
     Then I should receive a return code of 403

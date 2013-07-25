@@ -1071,15 +1071,15 @@ Then /^I should see all global entities$/ do
   end
 
   #Get entity ids from the database
-  @conn = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
-  @db = @conn.db(convertTenantIdToDbName("Midgar"))
-  @coll = @db[@currentEntity]
+  conn = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
+  db = conn.db(convertTenantIdToDbName("Midgar"))
+  coll = db[@currentEntity]
 
-  @coll.find.each do |doc|
+  coll.find.each do |doc|
     dbSet.add(doc["_id"])
   end
 
-  @conn.close
+  conn.close
 
   # Global entity special cases.
   # This clearly has to be rewritten.  This is just a placeholder, until the actual logic is installed.
@@ -1139,11 +1139,11 @@ Given /^a valid json document for entity "([^"]*)"$/ do |entity|
   section_coll = db.collection('section')
   yt_coll = db.collection('yearlyTranscript')
 
-  gp = gp_coll.find_one({})
+  gp = gp_coll.find_one({'body.gradingPeriodIdentity.schoolId' => '99a4ec9d3ba372993b2860a798b550c77bb73a09_id'})
   gp_id = gp['_id']
   gp_school_id = gp['body']['gradingPeriodIdentity']['schoolId']
 
-  co = co_coll.find_one({})
+  co = co_coll.find_one({'body.schoolId' => '2a30827ed4cf5500fb848512d19ad73ed37c4464_id'})
   co_id = co['_id']
   co_school_id = co['body']['schoolId']
 
@@ -1171,7 +1171,7 @@ Given /^a valid json document for entity "([^"]*)"$/ do |entity|
   enable_NOTABLESCAN()
   conn.close
 
-  @entityData = {
+  entity_data = {
     'gradingPeriod' => {
         'gradingPeriodIdentity' => {
             'schoolId' => '2a30827ed4cf5500fb848512d19ad73ed37c4464_id',
@@ -1440,7 +1440,7 @@ Given /^a valid json document for entity "([^"]*)"$/ do |entity|
     }
 
   }
-  @fields = @entityData[entity]
+  @fields = entity_data[entity]
 end
 
 ############################################################################################
