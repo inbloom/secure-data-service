@@ -36,11 +36,6 @@
                     <ProgramId>6</ProgramId>
                 </ProgramIdentity>
             </ProgramReference>
-            <EducationOrganizationPeerReference>
-                <EducationalOrgIdentity>
-                    <StateOrganizationId>STANDARD-SEA peer ref</StateOrganizationId>
-                </EducationalOrgIdentity>
-            </EducationOrganizationPeerReference>
         </StateEducationAgency>
     </Action>
 </InterchangeEducationOrganization>

@@ -35,11 +35,6 @@
         <ProgramId>SEA-6</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <EducationOrganizationPeerReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>SEA-STANDARD-SEA peer ref</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationPeerReference>
   </StateEducationAgency>
   <LocalEducationAgency>
     <StateOrganizationId>LEA-IL-DAYBREAK</StateOrganizationId>
