@@ -305,9 +305,16 @@ Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent"
     | cgray.name                | parent                   | Patched | 403        | parents/17075ee3f54bcf75fe37a75b098682b0644594d6_id  |
   And a security event matching "Access Denied:Cannot update parent not yourself" should be in the sli db
   And I check to find if record is in sli db collection:
-    | collectionName  | expectedRecordCount | searchParameter         | searchValue                              | searchType |
-    | securityEvent   | 1                   | body.userEdOrg          | IL-DAYBREAK                              | string     |
-    | securityEvent   | 1                   | body.targetEdOrgList    | South Highwind Elementary                | string     |
+    | collectionName  | expectedRecordCount | searchParameter         | searchValue                                        | searchType |
+    | securityEvent   | 1                   | body.userEdOrg          | IL-DAYBREAK                                        | string     |
+    | securityEvent   | 1                   | body.targetEdOrgList    | South Highwind Elementary                          | string     |
+    | securityEvent   | 1                   | body.tenantId           | Midgar                                             | string     |
+    | securityEvent   | 1                   | body.appId              | EGbI4LaLaL                                         | string     |
+    | securityEvent   | 1                   | body.logLevel           | TYPE_INFO                                          | string     |
+    | securityEvent   | 1                   | body.className          | org.slc.sli.api.service.BasicService               | string     |
+    | securityEvent   | 1                   | body.user               | cgray, Charles Gray                                | string     |
+    | securityEvent   | 1                   | body.logMessage         | Access Denied:Cannot update parent not yourself    | string     |
+
 
   And the sli securityEvent collection is empty
   When I PATCH and validate the following entities:
@@ -315,8 +322,15 @@ Given I log in to realm "Illinois Daybreak Parents" using simple-idp as "parent"
     | cgray.myClass.name        | student                  | Patched | 403        | students/0324d50380119f1927eda4efcfd61061b23e3143_id |
   And a security event matching "Access Denied:Cannot update student that are not your own" should be in the sli db
   And I check to find if record is in sli db collection:
-    | collectionName  | expectedRecordCount | searchParameter         | searchValue                              | searchType |
-    | securityEvent   | 1                   | body.userEdOrg          | IL-DAYBREAK                              | string     |
-    | securityEvent   | 1                   | body.targetEdOrgList    | Daybreak Central High                    | string     |
+    | collectionName  | expectedRecordCount | searchParameter               | searchValue                                               | searchType |
+    | securityEvent   | 1                   | body.userEdOrg                | IL-DAYBREAK                                               | string     |
+    | securityEvent   | 1                   | body.targetEdOrgList          | Daybreak Central High                                     | string     |
+    | securityEvent   | 1                   | body.tenantId                 | Midgar                                                    | string     |
+    | securityEvent   | 1                   | body.appId                    | EGbI4LaLaL                                                | string     |
+    | securityEvent   | 1                   | body.logLevel                 | TYPE_INFO                                                 | string     |
+    | securityEvent   | 1                   | body.className                | org.slc.sli.api.service.BasicService                      | string     |
+    | securityEvent   | 1                   | body.user                     | cgray, Charles Gray                                       | string     |
+    | securityEvent   | 1                   | body.logMessage               | Access Denied:Cannot update student that are not your own | string     |
+
 
   And I change the "Parent" role for realm "deadbeef-1bad-4606-a936-094331bddeed" back to its original rights
