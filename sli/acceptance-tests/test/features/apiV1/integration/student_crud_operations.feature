@@ -169,12 +169,13 @@ Scenario: POST to other student as a privileged student with extended rights
     | msollars.student               | student               | 403        |
   Then I should see a count of "1" in the security event collection
    And I check to find if record is in sli db collection:
-    | collectionName  | expectedRecordCount | searchParameter         | searchValue                                                           | searchType |
-    | securityEvent   | 1                   | body.appId              | EGbI4LaLaL                                                            | string     |
-    | securityEvent   | 1                   | body.tenantId           | Midgar                                                                | string     |
-    | securityEvent   | 1                   | body.userEdOrg          | IL-DAYBREAK                                                           | string     |
-    | securityEvent   | 1                   | body.targetEdOrgList    | IL-DAYBREAK                                                           | string     |
-    | securityEvent   | 1                   | body.logMessage         | Access Denied:Cannot update student not yourself                      | string     |
+    | collectionName  | expectedRecordCount | searchParameter         | searchValue                                      | searchType |
+    | securityEvent   | 1                   | body.appId              | EGbI4LaLaL                                       | string     |
+    | securityEvent   | 1                   | body.tenantId           | Midgar                                           | string     |
+    | securityEvent   | 1                   | body.userEdOrg          | IL-DAYBREAK                                      | string     |
+    | securityEvent   | 1                   | body.targetEdOrgList    | IL-DAYBREAK                                      | string     |
+    | securityEvent   | 1                   | body.logMessage         | Access Denied:Cannot update student not yourself | string     |
+    | securityEvent   | 1                   | body.className          | org.slc.sli.api.service.BasicService             | string     |
    And "1" security event with field "body.actionUri" matching "http.*/api/rest/v1.3/students" should be in the sli db
 
 @student_crud @clean_up_student_posts
@@ -194,6 +195,7 @@ Scenario: POST to other student assessment as a privileged student with extended
     | securityEvent   | 1                   | body.userEdOrg          | IL-DAYBREAK                                                           | string     |
     | securityEvent   | 1                   | body.targetEdOrgList    | Daybreak Central High                                                 | string     |
     | securityEvent   | 1                   | body.logMessage         | Access Denied:Cannot update student assessments that are not your own | string     |
+    | securityEvent   | 1                   | body.className          | org.slc.sli.api.service.BasicService             | string     |
   And "1" security event with field "body.actionUri" matching "http.*/api/rest/v1.3/studentAssessments" should be in the sli db
 
 
@@ -214,6 +216,7 @@ Scenario: POST to other student entity as a privileged student with extended rig
     | securityEvent   | 1                   | body.userEdOrg          | IL-DAYBREAK                                                           | string     |
     | securityEvent   | 1                   | body.targetEdOrgList    | Daybreak Central High                                                 | string     |
     | securityEvent   | 1                   | body.logMessage         | Access Denied:Cannot update grade that are not your own               | string     |
+    | securityEvent   | 1                   | body.className          | org.slc.sli.api.service.BasicService             | string     |
   And "1" security event with field "body.actionUri" matching "http.*/api/rest/v1.3/grades" should be in the sli db
 
 @student_crud @clean_up_student_posts

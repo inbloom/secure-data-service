@@ -1520,13 +1520,16 @@ Scenario: Test access to the api
   And I request latest delta via API for tenant "Midgar", lea "<IL-HIGHWIND>" with appId "<app id>" clientId "<client id>"
   Then I should receive a return code of 403
   And I should see a count of "2" in the security event collection 
-  And I check to find if record is in sli db collection: 
- | collectionName | expectedRecordCount | searchParameter | searchValue | searchType |
- | securityEvent  | 2                   | body.appId      | vavedRa9uB  | string | 
- | securityEvent  | 2                   | body.className  | org.slc.sli.api.resources.BulkExtract | string | 
- | securityEvent  | 2                   | body.userEdOrg  | IL-DAYBREAK | string | 
- | securityEvent  | 1                   | body.targetEdOrgList | IL-HIGHWIND | string |
- And "1" security event matching "Access Denied:User is not authorized to access this extract" should be in the sli db
+  And I check to find if record is in sli db collection:
+ | collectionName | expectedRecordCount | searchParameter      | searchValue                                                 | searchType |
+ | securityEvent  | 2                   | body.tenantId        | Midgar                                                      | string     |
+ | securityEvent  | 2                   | body.appId           | vavedRa9uB                                                  | string     |
+ | securityEvent  | 2                   | body.className       | org.slc.sli.api.resources.BulkExtract                       | string     |
+ | securityEvent  | 2                   | body.userEdOrg       | IL-DAYBREAK                                                 | string     |
+ | securityEvent  | 1                   | body.targetEdOrgList | IL-HIGHWIND                                                 | string     |
+ | securityEvent  | 1                   | body.logMessage      | Access Denied:User is not authorized to access this extract | string     |
+  And "2" security event with field "body.actionUri" matching "http.*/api/rest/v1..*/bulk/extract/99d527622dcb51c465c515c0636d17e085302d5e_id/delta/.*" should be in the sli db
+  
   Given I log into "SDK Sample" with a token of "lstevenson", a "Noldor" for "IL-HIGHWIND" for "IL-Highwind" in tenant "Midgar", that lasts for "300" seconds
   And I request an unsecured latest delta via API for tenant "Midgar", lea "<IL-HIGHWIND>" with appId "<app id>"
   Then I should receive a return code of 400

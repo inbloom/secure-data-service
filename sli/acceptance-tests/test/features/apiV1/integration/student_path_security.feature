@@ -13,8 +13,18 @@ Scenario: Check un-versioned URIs work for student
   When I navigate to GET "/userapps"
   Then I should receive a return code of 200
   When I navigate to GET "/system/session/logout"
+
+  Given the sli securityEvent collection is empty
   Then any future API request should result in a 401 response code
-  And a security event matching "Unauthorized" should be in the sli db
+   And I should see a count of "3" in the security event collection
+   And I check to find if record is in sli db collection:
+       | collectionName  | expectedRecordCount | searchParameter         | searchValue                       | searchType |
+       | securityEvent   | 3                   | body.appId              | UNKNOWN                           | string     |
+       | securityEvent   | 2                   | body.className          | org.slc.sli.api.util.SecurityUtil | string     |
+       | securityEvent   | 2                   | body.logMessage         | Access Denied: Unauthorized       | string     |
+      # tenantId, userEdOrg and targetEdOrgList not yet set
+      And "1" security event with field "body.actionUri" matching "http.*/api/rest/v1..*/students" should be in the sli db
+      And "1" security event with field "body.actionUri" matching "http.*/api/rest/v1..*/assessments" should be in the sli db
 
 Scenario: Verify Rewrites for entities for Students
   Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "cegray" with password "cegray1234"

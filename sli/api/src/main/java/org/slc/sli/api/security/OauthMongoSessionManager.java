@@ -355,14 +355,16 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                             SLIPrincipal principal = jsoner.convertValue(sessionEntity.getBody().get("principal"),
                                     SLIPrincipal.class);
                             TenantContext.setTenantId(principal.getTenantId());
+                            
+                            principal.setSessionId(sessionEntity.getEntityId());
+
                             // add logic here that checks principal.getUserType()
                             // -> if nil, set to staff
                             principal.setEntity(locator.locate(principal.getTenantId(), principal.getExternalId(),
-                                    principal.getUserType()).getEntity());
+                                    principal.getUserType(), token.getClientId()).getEntity());
 
                             principal.populateChildren(repo);
 
-                            principal.setSessionId(sessionEntity.getEntityId());
                             Collection<GrantedAuthority> selfAuthorities = resolveAuthorities(principal.getTenantId(),
                                     principal.getRealm(), principal.getRoles(), principal.isAdminRealmAuthenticated(),
                                     true);

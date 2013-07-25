@@ -235,5 +235,45 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | studentSchoolAssociation               | studentSchoolAssociations                | <e7e0e926-874e-4d05-9177-9776d44c5fb5> | entryGradeLevel          | Third grade            | studentId             | schoolId                       | <737dd4c1-86bd-4892-b9e0-0f24f76210be_id> | <0f464187-30ff-4e61-a0dd-74f45e5c7a9d> |
       | studentSectionAssociation              | studentSectionAssociations               | <8ed12459-eae5-49bc-8b6b-6ebe1a56384f_id4ae72560-3518-4576-a35e-a9607668c9ad_id> | homeroomIndicator        | false                  | studentId             | sectionId                      | <737dd4c1-86bd-4892-b9e0-0f24f76210be_id> | <a47eb9aa-1c97-4c8e-9d0a-45689a66d4f8_id> |
       | courseTranscript                       | courseTranscripts                        | <f11a2a30-d4fd-4400-ae18-353c00d581a2> | finalLetterGradeEarned   | B                      | studentId             | courseId                       | <737dd4c1-86bd-4892-b9e0-0f24f76210be_id> | <e31f7583-417e-4c42-bd55-0bbe7518edf8> |
-      | teacherSectionAssociation              | teacherSectionAssociations               | <15ab6363-5509-470c-8b59-4f289c224107_id32b86a2a-e55c-4689-aedf-4b676f3da3fc_id> | classroomPosition        | Assistant Teacher      | teacherId             | sectionId                      | <04f708bc-928b-420d-a440-f1592a5d1073> | <a47eb9aa-1c97-4c8e-9d0a-45689a66d4f8_id> |
+      | teacherSectionAssociation              | teacherSectionAssociations               | <15ab6363-5509-470c-8b59-4f289c224107_id32b86a2a-e55c-4689-aedf-4b676f3da3fc_id>    | classroomPosition        | Assistant Teacher      | teacherId             | sectionId                      | <04f708bc-928b-420d-a440-f1592a5d1073>       | <a47eb9aa-1c97-4c8e-9d0a-45689a66d4f8_id> |
+
+    #Invalid Reference: {} in {} is not accessible by user
+    Scenario: Unhappy paths: invalid or inaccessible references security event 
+    
+     Given the sli securityEvent collection is empty
+      And I am logged in using "jstevenson" "jstevenson1234" to realm "IL"
+      When I navigate to GET "/<staffCohortAssociations>/<b4e31b1a-8e55-8803-722c-14d8087c0712>"
+      And I set the "<cohortId>" to "<b1bd3db6-d020-4651-b1b8-a8dba688d9e1>"
+      And I navigate to PUT "/<staffCohortAssociations>/<b4e31b1a-8e55-8803-722c-14d8087c0712>"
+      Then I should receive a return code of 403
+     And I should see a count of "1" in the security event collection
+     And I check to find if record is in sli db collection:
+        | collectionName  | expectedRecordCount | searchParameter         | searchValue                                                           | searchType |
+        | securityEvent   | 1                   | body.appId              | ke9Dgpo3uI                                                            | string     |
+        | securityEvent   | 1                   | body.className          | org.slc.sli.api.service.BasicService                                  | string     |
+        | securityEvent   | 1                   | body.tenantId           | Midgar                                                                | string     |
+        | securityEvent   | 1                   | body.userEdOrg          | IL-DAYBREAK                                                           | string     |
+        | securityEvent   | 1                   | body.targetEdOrgList    | IL-DAYBREAK                                                           | string     |
+        | securityEvent   | 1                   | body.logMessage         | Access Denied:Invalid reference. No association to referenced entity. | string     |
+     And "1" security event with field "body.actionUri" matching "http.*/api/rest/v1.1/staffCohortAssociations.*" should be in the sli db
      
+     Given the sli securityEvent collection is empty
+      And I am logged in using "jstevenson" "jstevenson1234" to realm "IL"
+      # Read with invalid reference
+      When I navigate to GET "/teacherSectionAssociations/<15ab6363-5509-470c-8b59-4f289c224107_id32b86a2a-e55c-4689-aedf-4b676f3da3fc_id>"
+      And I set the "<sectionId>" to "<a47eb9aa-1c97-4c8e-9d0a-45689a66d4f8_id>"
+      And I navigate to PUT "/teacherSectionAssociations/<15ab6363-5509-470c-8b59-4f289c224107_id32b86a2a-e55c-4689-aedf-4b676f3da3fc_id>"
+      Then I should receive a return code of 403
+     And I should see a count of "1" in the security event collection
+     And I check to find if record is in sli db collection:
+        | collectionName  | expectedRecordCount | searchParameter         | searchValue                                                           | searchType |
+        | securityEvent   | 1                   | body.appId              | ke9Dgpo3uI                                                            | string     |
+        | securityEvent   | 1                   | body.className          | org.slc.sli.api.service.BasicService                                  | string     |
+        | securityEvent   | 1                   | body.tenantId           | Midgar                                                                | string     |
+        | securityEvent   | 1                   | body.userEdOrg          | IL-DAYBREAK                                                           | string     |
+        | securityEvent   | 1                   | body.targetEdOrgList    | 152901001                                                             | string     |
+        | securityEvent   | 1                   | body.logMessage         | Access Denied:Invalid reference. No association to referenced entity. | string     |
+     And "1" security event matching "Access Denied:Invalid reference. No association to referenced entity." should be in the sli db
+     And "1" security event with field "body.actionUri" matching "http.*/api/rest/v1.1/teacherSectionAssociations" should be in the sli db   
+  
+      

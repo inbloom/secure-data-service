@@ -65,12 +65,14 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     And one of the accounts has "<Full_Name>", "<User_ID>", "<Email_Address>"
     And I check to find if record is in sli db collection: 
 	| collectionName | expectedRecordCount | searchParameter | searchValue | searchType |
+	| securityEvent  | <Event_Num>         | body.tenantId   | Midgar      | string     |
 	| securityEvent | <Event_Num> | body.appId | ke9Dgpo3uI | string | 
 	| securityEvent | <Event_Num> | body.className | org.slc.sli.api.security.RightCheckFilterFactory$RightCheckResourceFilter | string | 
 	| securityEvent | <Event_Num> | body.targetEdOrgList | fakeab32-b493-999b-a6f3-sliedorg1234 | string |    
     | securityEvent | <Event_Num> | body.userEdOrg | fakeab32-b493-999b-a6f3-sliedorg1234 | string |    
 	| securityEvent | <Event_Num> | body.user | <User> | string |    
 	And "<Event_Num>" security event matching "Access Denied:Failed to access URL because of insufficient rights." should be in the sli db
+	And "<Event_Num>" security event with field "body.actionUri" matching "http.*/api/rest/users.*" should be in the sli db
 	
   Examples:
     |USER       |PASSWORD       |ADMIN_ROLE             |REALM      |WANTED_ADMIN_ROLE           |CODE|Number   |Full_Name       |User_ID                          |Email_Address               |Event_Num|User |
