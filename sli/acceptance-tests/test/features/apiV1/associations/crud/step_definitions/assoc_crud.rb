@@ -19,7 +19,6 @@ limitations under the License.
 
 require_relative '../../../utils/api_utils.rb'
 require_relative '../../../../security/step_definitions/securityevent_util_steps.rb'
-require_relative '../../../../ingestion/features/step_definitions/ingestion_steps.rb'
 
 ###############################################################################
 # TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM TRANSFORM

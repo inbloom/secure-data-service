@@ -241,7 +241,24 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
 
     #Invalid Reference: {} in {} is not accessible by user
     Scenario: Unhappy paths: invalid or inaccessible references security event 
-      Given the sli securityEvent collection is empty
+    
+     Given the sli securityEvent collection is empty
+      And I am logged in using "jstevenson" "jstevenson1234" to realm "IL"
+      When I navigate to GET "/<staffCohortAssociations>/<b4e31b1a-8e55-8803-722c-14d8087c0712>"
+      And I set the "<cohortId>" to "<b1bd3db6-d020-4651-b1b8-a8dba688d9e1>"
+      And I navigate to PUT "/<staffCohortAssociations>/<b4e31b1a-8e55-8803-722c-14d8087c0712>"
+      Then I should receive a return code of 403
+     And I should see a count of "1" in the security event collection
+     And I check to find if record is in sli db collection:
+        | collectionName  | expectedRecordCount | searchParameter         | searchValue                              | searchType |
+        | securityEvent   | 1                   | body.appId              | ke9Dgpo3uI                               | string     |
+        | securityEvent   | 1                   | body.className          | org.slc.sli.api.service.BasicService     | string     |
+        | securityEvent   | 1                   | body.userEdOrg          | IL-DAYBREAK                              | string     |
+        | securityEvent   | 1                   | body.targetEdOrgList    | IL-DAYBREAK                              | string     |
+     And "1" security event matching "Invalid reference. No association to referenced entity." should be in the sli db
+     And "1" security event with field "body.actionUri" matching "http.*/api/rest/v1.1/staffCohortAssociations.*" should be in the sli db   
+     
+     Given the sli securityEvent collection is empty
       And I am logged in using "jstevenson" "jstevenson1234" to realm "IL"
       # Read with invalid reference
       When I navigate to GET "/teacherSectionAssociations/<15ab6363-5509-470c-8b59-4f289c224107_id32b86a2a-e55c-4689-aedf-4b676f3da3fc_id>"

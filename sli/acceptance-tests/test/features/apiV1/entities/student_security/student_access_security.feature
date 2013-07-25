@@ -116,7 +116,6 @@ Scenario: Check the status of securityEvent collection
   | securityEvent  | 1         | body.className          | org.slc.sli.api.security.resolve.impl.MongoUserLocator | string | 
   | securityEvent  | 1         | body.appId              | ke9Dgpo3uI                                  | string     |
   And "1" security event matching "Access Denied:User is not currently associated to a school/edorg" should be in the sli db
-  And I wait for user input
   And "1" security event with field "body.actionUri" matching "http.*/api/rest/v1.3/sections.*" should be in the sli db
 	
 @DE_2712 
