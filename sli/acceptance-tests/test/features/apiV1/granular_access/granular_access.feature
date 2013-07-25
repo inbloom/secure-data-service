@@ -65,7 +65,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     # 2010-2011: 2010-09-06 to 2011-05-16
     # 2011-2012: 2011-09-06 to 2012-06-31
     | Entity URI                              | School Years | Count Without Range | Count With Range | Entity List                                                                    |
-    | attendances                             | 2011-2012    | 29                  | 1                | 530f0704-c240-4ed9-0a64-55c0308f91ee                                           |
+    | attendances                             | 2011-2012    | 30                  | 2                | 530f0704-c240-4ed9-0a64-55c0308f91ee,530f0704-c240-4ed9-0a64-55c9308f91e7                                           |
     | courseOfferings                         | 2010-2011    | 138                  | 12               | <LIST-CO-LINDAKIM>                                                             |
 #    | courseTranscripts                       | 2010-2011    | 2                   | 1                | f11a2a30-d4fd-4400-ae18-353c00d581a2                                           |
     | disciplineActions                       | 2010-2011    | 0                   | 0                |                                                                                |

@@ -56,10 +56,10 @@
       "schoolId": "92d6d5a0-852c-45f4-907a-912752831772",
       "schoolYearAttendance": [
         {
-          "schoolYear": "2011-2012",
+          "schoolYear": "2010-2011",
           "attendanceEvent": [
             {
-              "date": "2011-09-16",
+              "date": "2010-09-16",
               "event": "Tardy"
             }
           ]
@@ -69,14 +69,14 @@
     "UPDATE": {
       "field": "schoolYearAttendance",
       "value": [{
-          "schoolYear": "2011-2012",
+          "schoolYear": "2010-2011",
           "attendanceEvent": [
             {
-              "date": "2011-09-16",
+              "date": "2010-09-16",
               "event": "Tardy"
             },
           {
-              "date": "2011-09-17",
+              "date": "2010-09-17",
               "event": "Tardy"
             }
           ]

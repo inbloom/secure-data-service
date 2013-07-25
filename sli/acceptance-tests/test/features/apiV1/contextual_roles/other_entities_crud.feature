@@ -322,7 +322,7 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
 
   Scenario: GETs on multiple (more than 2) part URIs of global entities
     When I log in as "jmacey"
-    And I navigate to GET "/v1/educationOrganizations/99a4ec9d3ba372993b2860a798b550c77bb73a09_id/staffEducationOrgAssignmentAssociations/staff"
+    And I navigate to GET "<District 9 URI>/staffEducationOrgAssignmentAssociations/staff"
     Then I should receive a return code of 200
 
   @wip

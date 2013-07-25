@@ -17,6 +17,7 @@ package org.slc.sli.api.resources.generic.service;
 
 import org.slc.sli.common.constants.EntityNames;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,6 +36,9 @@ public final class ContextSupportedEntities {
     static {
         supportedEntities = new HashSet<String>();
         supportedEntities.add(EntityNames.STUDENT);
+        supportedEntities.addAll(Arrays.asList(EntityNames.COHORT, EntityNames.DISCIPLINE_INCIDENT,
+                EntityNames.DISCIPLINE_ACTION, EntityNames.GRADEBOOK_ENTRY,
+                EntityNames.ATTENDANCE, EntityNames.COURSE_TRANSCRIPT));
         supportedEntities.add(EntityNames.STAFF_ED_ORG_ASSOCIATION);
         supportedEntities.add(EntityNames.TEACHER_SCHOOL_ASSOCIATION);
         supportedEntities.add(EntityNames.STUDENT_PROGRAM_ASSOCIATION);

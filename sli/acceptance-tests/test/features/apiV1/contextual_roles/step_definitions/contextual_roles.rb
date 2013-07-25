@@ -34,28 +34,60 @@ DATABASE_PORT = PropLoader.getProps['ingestion_db_port']
 #############################################################################################
 
 Transform /^<(.*?)>$/ do |human_readable_id|
-  id = "/v1/students/5246832bf178dea013797aa14e57dcfbea46b17a_id"         if human_readable_id == "carmen.ortiz URI"
-  id = "/v1/students/aee5235923f795ae2eeff4e8197624244e754885_id"         if human_readable_id == "lashawn.taite URI"
-  id = "/v1/students/153df715388ff1b2293fc8b2f3828816bc2d3c1f_id"         if human_readable_id == "matt.sollars URI"
-  id = "/v1/students/3d7084654aa96c1fdc68a27664760f6bb1b97b5a_id"         if human_readable_id == "bert.jakeman URI"
-  id = "/v1/students/b98a593e13945f54ecc3f1671127881064ab592d_id"         if human_readable_id == "nate.dedrick URI"
-  id = "/v1/students/2d17703cb29a95bbfdaab47f513cafdc0ef55d67_id"         if human_readable_id == "mu.mcneill URI"
-  id = "/v1/students/df54047bf88ecd7e2f6fbf00951196f747c9ccfc_id"         if human_readable_id == "jack.jackson URI"
-#Following are for DELETES
-  id = "/v1/students/993283bce14b54bbfc896b8452f26e745ce4c101_id"         if human_readable_id == "pat.sollars URI"
-  id = "/v1/students/5fb6e796c5a8485c28f1875fda41810eca13db46_id"         if human_readable_id == "herman.ortiz URI"
-  id = "/v1/students/edeba6dcfab1d1461896e9581c20ce329604a94c_id"         if human_readable_id == "shawn.taite URI"
-  id = "/v1/students/7b9ae98922c207146f1feb0b799a91b1c02f17eb_id"         if human_readable_id == "jake.bertman URI"
-  id = "/v1/students/aceb1e6d159c833db61f72a9dfeee50be2f2691e_id"         if human_readable_id == "john.johnson URI"
-  id = "/v1/students/a94fc8d0895f2a00b811d54996a8f3eb8fdc7480_id"         if human_readable_id == "kate.dedrick URI"
-#Following are for CUSTOM
-  id = "/v1/students/df54047bf88ecd7e2f6fbf00951196f747c9ccfc_id/custom"  if human_readable_id == "JACK.JACKSON CUSTOM URI"
-  id = "/v1/students/3d7084654aa96c1fdc68a27664760f6bb1b97b5a_id/custom"  if human_readable_id == "BERT.JAKEMAN CUSTOM URI"
-  id = "/v1/educationOrganizations/2a30827ed4cf5500fb848512d19ad73ed37c4464_id/custom"  if human_readable_id == "EAST.DAYBREAK CUSTOM URI"
-  id = "/v1/staff/7810ac678851ae29a450cc18bd9f47efa37bfaef_id/custom"  if human_readable_id == "JMACEY CUSTOM URI"
-  id = "/v1/staffEducationOrgAssignmentAssociations/57edc58caa226f4ab888e51ef8b5531b98800cca_id/custom"  if human_readable_id == "JMACEY SEOAA CUSTOM URI"
 
-  id = @newId                                                             if human_readable_id == "NEWLY CREATED ENTITY ID"
+  case human_readable_id
+#Students
+    when 'carmen.ortiz URI'
+      id = '/v1/students/5246832bf178dea013797aa14e57dcfbea46b17a_id'
+    when 'lashawn.taite URI'
+      id = '/v1/students/aee5235923f795ae2eeff4e8197624244e754885_id'
+    when 'matt.sollars URI'
+      id = '/v1/students/153df715388ff1b2293fc8b2f3828816bc2d3c1f_id'
+    when 'bert.jakeman URI'
+      id = '/v1/students/3d7084654aa96c1fdc68a27664760f6bb1b97b5a_id'
+    when 'nate.dedrick URI'
+      id = '/v1/students/b98a593e13945f54ecc3f1671127881064ab592d_id'
+    when 'mu.mcneill URI'
+      id = '/v1/students/2d17703cb29a95bbfdaab47f513cafdc0ef55d67_id'
+    when 'jack.jackson URI'
+      id = '/v1/students/df54047bf88ecd7e2f6fbf00951196f747c9ccfc_id'
+
+#Education Organizations
+    when 'East Daybreak URI'
+      id = '/v1/educationOrganizations/2a30827ed4cf5500fb848512d19ad73ed37c4464_id'
+    when 'District 9 URI'
+      id = '/v1/educationOrganizations/99a4ec9d3ba372993b2860a798b550c77bb73a09_id'
+
+#Following are for DELETES
+    when 'pat.sollars URI'
+      id = '/v1/students/993283bce14b54bbfc896b8452f26e745ce4c101_id'
+    when 'herman.ortiz URI'
+      id = '/v1/students/5fb6e796c5a8485c28f1875fda41810eca13db46_id'
+    when 'shawn.taite URI'
+      id = '/v1/students/edeba6dcfab1d1461896e9581c20ce329604a94c_id'
+    when 'jake.bertman URI'
+      id = '/v1/students/7b9ae98922c207146f1feb0b799a91b1c02f17eb_id'
+    when 'john.johnson URI'
+      id = '/v1/students/aceb1e6d159c833db61f72a9dfeee50be2f2691e_id'
+    when 'kate.dedrick URI'
+      id = '/v1/students/a94fc8d0895f2a00b811d54996a8f3eb8fdc7480_id'
+
+#Following are for CUSTOM
+    when 'JACK.JACKSON CUSTOM URI'
+      id = '/v1/students/df54047bf88ecd7e2f6fbf00951196f747c9ccfc_id/custom'
+    when 'BERT.JAKEMAN CUSTOM URI'
+      id = '/v1/students/3d7084654aa96c1fdc68a27664760f6bb1b97b5a_id/custom'
+    when 'EAST.DAYBREAK CUSTOM URI'
+      id = '/v1/educationOrganizations/2a30827ed4cf5500fb848512d19ad73ed37c4464_id/custom'
+    when 'JMACEY CUSTOM URI'
+      id = '/v1/staff/7810ac678851ae29a450cc18bd9f47efa37bfaef_id/custom'
+    when 'JMACEY SEOAA CUSTOM URI'
+      id = '/v1/staffEducationOrgAssignmentAssociations/57edc58caa226f4ab888e51ef8b5531b98800cca_id/custom'
+
+#Following is for a newly created entity
+    when 'NEWLY CREATED ENTITY ID'
+      id = @newId
+  end
 
   id
 end
@@ -491,8 +523,8 @@ Given /^the following student section associations in ([^ ]*) are set correctly$
       query = { '_id' => section['_id']}
       entry = {
                 '_id'       => "#{section['_id']}#{SecureRandom.uuid}",
+                'type'      => 'studentSectionAssociation',
                 'body'      => {
-                            'type'              => 'studentSectionAssociation',
                             'sectionId'         => section['_id'],
                             'studentId'         => student_id,
                             'homeroomIndicator' => section['studentSectionAssociation'][0]['body']['homeroomIndicator'],
