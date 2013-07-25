@@ -106,6 +106,15 @@ public class EdOrgHelperTest {
     Entity student2 = null;
     Entity student3 = null;
 
+    /*
+     * leaCycle1 <-- leaCycle2 <-- leaCycle3
+     *     |___________________________^
+     */
+    Entity seaCycle = null;
+    Entity leaCycle1 = null;
+    Entity leaCycle2 = null;
+    Entity leaCycle3 = null;
+
     private void setContext(Entity actor, List<String> roles) {
         String user = "fake actor";
         String fullName = "Fake Actor";
@@ -253,6 +262,25 @@ public class EdOrgHelperTest {
         body.put(ParameterConstants.SCHOOL_ID, school3.getEntityId());
         body.put("entryDate", new DateTime().minusDays(3));
         repo.create(EntityNames.STUDENT_SCHOOL_ASSOCIATION, body);
+        
+        // entities for lea cycle
+        body = new HashMap<String, Object>();
+        body.put("organizationCategories", Arrays.asList("Local Education Agency"));
+        leaCycle1 = repo.create(EntityNames.EDUCATION_ORGANIZATION, body);
+
+        body = new HashMap<String, Object>();
+        body.put("organizationCategories", Arrays.asList("Local Education Agency"));
+        body.put("parentEducationAgencyReference", leaCycle1.getEntityId());
+        leaCycle2 = repo.create(EntityNames.EDUCATION_ORGANIZATION, body);
+
+        body = new HashMap<String, Object>();
+        body.put("organizationCategories", Arrays.asList("Local Education Agency"));
+        body.put("parentEducationAgencyReference", leaCycle2.getEntityId());
+        leaCycle3 = repo.create(EntityNames.EDUCATION_ORGANIZATION, body);
+
+        // update the parent ref now that we know the id
+        body.put("parentEducationAgencyReference", leaCycle3.getEntityId());
+        repo.update(EntityNames.EDUCATION_ORGANIZATION, leaCycle1, false);
     }
 
 
@@ -377,6 +405,34 @@ public class EdOrgHelperTest {
         assertFalse("school1 should not see lea2", edorgs.contains(lea2.getEntityId()));
         assertTrue("school1 should see lea1", edorgs.contains(lea1.getEntityId()));
 
+    }
+
+    @Test
+    public void testGetChildLeaOfEdorgs() {
+        List<String> edorgs = helper.getChildLEAsOfEdOrg(lea2);
+        assertEquals(1, edorgs.size());
+        assertFalse("lea1 should not be a child of lea2", edorgs.contains(lea1.getEntityId()));
+        assertFalse("lea2 should not be a child of lea2", edorgs.contains(lea2.getEntityId()));
+        assertTrue("lea3 should be a child of lea2", edorgs.contains(lea3.getEntityId()));
+    }
+
+    @Test
+    public void testGetAllChildLeaOfEdorgs() {
+        Set<String> edorgs = helper.getAllChildLEAsOfEdOrg(sea1);
+        assertEquals(4, edorgs.size());
+        assertTrue("lea1 should be a child of sea1", edorgs.contains(lea1.getEntityId()));
+        assertTrue("lea2 should be a child of sea1", edorgs.contains(lea2.getEntityId()));
+        assertTrue("lea3 should be a child of sea1", edorgs.contains(lea3.getEntityId()));
+        assertTrue("lea4 should be a child of sea1", edorgs.contains(lea4.getEntityId()));
+    }
+
+    @Test
+    public void testGetAllChildLeaOfEdorgsWithCycle() {
+        Set<String> edorgs = helper.getAllChildLEAsOfEdOrg(leaCycle1);
+        assertEquals(2, edorgs.size());
+        assertFalse("leaCycle1 should not be a child of leaCycle1", edorgs.contains(leaCycle1.getEntityId()));
+        assertTrue("leaCycle2 should be a child of leaCycle1", edorgs.contains(leaCycle2.getEntityId()));
+        assertTrue("leaCycle3 should be a child of leaCycle1", edorgs.contains(leaCycle3.getEntityId()));
     }
 
     Map<String, Object> createSEOA(String edorg, String staff, String endDate) {

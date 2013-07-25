@@ -166,13 +166,12 @@ public class SecurityEventBuilder {
 				principal = (SLIPrincipal) auth.getPrincipal();
 			}
 			if (principal != null) {
+                String externalId = principal.getExternalId();
+                String name = principal.getName();
 				event.setTenantId(principal.getTenantId());
-				if ((principal.getExternalId() != null && !principal
-						.getExternalId().isEmpty())
-						|| (principal.getName() != null && !principal.getName()
-								.isEmpty())) {
-					event.setUser(principal.getExternalId() + ", "
-							+ principal.getName());
+				if ((externalId != null && !externalId.isEmpty())
+						|| (name != null && !name.isEmpty())) {
+					event.setUser(externalId + ", " + name);
 				}
 				event.setUserEdOrg(principal.getRealmEdOrg());
 
@@ -231,14 +230,14 @@ public class SecurityEventBuilder {
 
             setSecurityEvent(loggingClass, requestUri, slMessage, event);
 
-            info("Security event created: " + event.toString());
+            info(String.format("Security event created: %s", event.toString()));
 
         } catch (Exception e) {
             final Writer result = new StringWriter();
             final PrintWriter printWriter = new PrintWriter(result);
             e.printStackTrace(printWriter);
             debug("Security event creation failed: \n" + result.toString());
-            info("Could not build SecurityEvent for [" + requestUri + "] [" + slMessage + "]");
+            info(String.format("Could not build SecurityEvent for [%s] [%s]", requestUri, slMessage));
         }
         return event;
     }

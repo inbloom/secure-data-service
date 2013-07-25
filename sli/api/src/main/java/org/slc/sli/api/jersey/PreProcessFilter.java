@@ -125,7 +125,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
         validateNotBlockGetRequest(request);
 
         if (ResourceMethod.getWriteOps().contains(request.getMethod()) && contextValidator.isUrlBlocked(request)) {
-            throw new APIAccessDeniedException(String.format("url " + request.getAbsolutePath().toString() + " is not accessible."));
+            throw new APIAccessDeniedException(String.format("url %s is not accessible.", request.getAbsolutePath().toString()));
         }
 
         if (isUpdateOrDelete(request.getMethod())) {
