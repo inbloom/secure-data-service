@@ -447,11 +447,11 @@ public class DefaultResourceService implements ResourceService {
                 }
 
                 Iterable<EntityBody> entityList;
-                //if (ContextSupportedEntities.getSupportedEntities().contains(finalEntity.getType()) && SecurityUtil.isStaffUser()) {
-                  //  entityList = assocEntity.getService().listBasedOnContextualRoles(apiQuery);
-                //} else {
+                if (ContextSupportedEntities.getSupportedEntities().contains(finalEntity.getType()) && SecurityUtil.isStaffUser()) {
+                    entityList = assocEntity.getService().listBasedOnContextualRoles(apiQuery);
+                } else {
                     entityList = assocEntity.getService().list(apiQuery);
-                //}
+                }
 
                 for (EntityBody entityBody : entityList) {
                     List<String> filteredIds = entityBody.getValues(resourceKey);
