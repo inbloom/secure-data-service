@@ -102,15 +102,14 @@ Feature: As an SLI application, I want to ensure security events are created for
     And I navigate to GET "/v1.3/students/6a98d5d3-d508-4b9c-aec2-59fce7e16825_id/attendances"
     Then I should receive a return code of 403
     And I should see a count of "1" in the security event collection
-    And a security event matching "Access Denied:Insufficient Privileges" should be in the sli db
     And I check to find if record is in sli db collection:
-      | collectionName  | expectedRecordCount | searchParameter               | searchValue                                                                                             | searchType |
-      | securityEvent   | 1                   | body.userEdOrg                | IL-DAYBREAK                                                                                             | string     |
-      | securityEvent   | 1                   | body.targetEdOrgList          | 152901002                                                                                               | string     |
-      | securityEvent   | 1                   | body.tenantId                 | Midgar                                                                                                  | string     |
-      | securityEvent   | 1                   | body.appId                    | ke9Dgpo3uI                                                                                              | string     |
-      | securityEvent   | 1                   | body.credential               | 4cf7a5d4-37a1-ca19-8b13-b5f95131ac85                                                                    | string     |
-      | securityEvent   | 1                   | body.logLevel                 | TYPE_INFO                                                                                               | string     |
-      | securityEvent   | 1                   | body.className                | org.slc.sli.api.security.context.ContextValidator                                                       | string     |                                
-      | securityEvent   | 1                   | body.user                     | linda.kim, Linda Kim                                                                                    | string     |
-      | securityEvent   | 1                   | body.logMessage               | Access Denied:Access to 6a98d5d3-d508-4b9c-aec2-59fce7e16825_id is not authorized                       | string     |
+      | collectionName  | expectedRecordCount | searchParameter               | searchValue                                         | searchType |
+      | securityEvent   | 1                   | body.userEdOrg                | IL-DAYBREAK                                         | string     |
+      | securityEvent   | 1                   | body.targetEdOrgList          | 152901002                                           | string     |
+      | securityEvent   | 1                   | body.tenantId                 | Midgar                                              | string     |
+      | securityEvent   | 1                   | body.appId                    | ke9Dgpo3uI                                          | string     |
+      | securityEvent   | 1                   | body.credential               | 4cf7a5d4-37a1-ca19-8b13-b5f95131ac85                | string     |
+      | securityEvent   | 1                   | body.logLevel                 | TYPE_INFO                                           | string     |
+      | securityEvent   | 1                   | body.className                | org.slc.sli.api.security.roles.RightAccessValidator | string     |
+      | securityEvent   | 1                   | body.user                     | linda.kim, Linda Kim                                | string     |
+      | securityEvent   | 1                   | body.logMessage               | Access Denied:Insufficient Privileges               | string     |

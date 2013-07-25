@@ -605,10 +605,10 @@ Feature: Use the APi to successfully get student data while having roles over ma
     And the following student section associations in Midgar are set correctly
       | student         | teacher              | edorg                 | enrolledInAnySection? |
       | carmen.ortiz    | rbraverman           | Daybreak Central High | yes                   |
-      | jack.jackson    | rbraverman           | Daybreak Central High | no                    |
+      | bert.jakeman    | rbraverman           | Daybreak Central High | no                    |
       | lashawn.taite   | rbraverman           | Daybreak Central High | no                    |
       | matt.sollars    | rbraverman           | East Daybreak High    | yes                   |
-      | bert.jakeman    | rbraverman           | East Daybreak High    | no                    |
+      | jack.jackson    | rbraverman           | East Daybreak High    | no                    |
       | lashawn.taite   | rbraverman           | East Daybreak High    | no                    |
     And "jack.jackson" is not associated with any program that belongs to "rbraverman"
     And "jack.jackson" is not associated with any cohort that belongs to "rbraverman"
