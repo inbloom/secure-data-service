@@ -83,12 +83,10 @@
 				boundaries of a state according to the level of administrative and operational
 				control granted by the state. </xs:documentation>
 		</xs:annotation>
-		<xs:restriction base="xs:token">
-			<xs:enumeration value="State Education Agency"/>
-			<xs:enumeration value="Education Service Center"/>
-			<xs:enumeration value="Local Education Agency"/>
-			<xs:enumeration value="School"/>
-		</xs:restriction>
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="75"/>
+        </xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="apartmentRoomSuiteNumber">
 		<xs:annotation>
