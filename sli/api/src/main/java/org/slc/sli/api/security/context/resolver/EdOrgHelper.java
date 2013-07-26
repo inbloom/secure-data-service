@@ -132,37 +132,101 @@ public class EdOrgHelper {
     /**
      * Get a list of the direct child LEAs of an EdOrg.
      *
-     * @param edorgEntity - EdOrg from which to get child LEAs
+     * @param edOrgEntity - EdOrg from which to get child LEAs
      *
      * @return - List of the EdOrg's child LEAs
      */
-    public List<String> getChildLEAsOfEdOrg(Entity edorgEntity) {
-        List<String> toReturn = new ArrayList<String>();
+    public List<String> getChildLEAsOfEdOrg(Entity edOrgEntity) {
+        Set<String> result;
+
+        if (edOrgEntity == null) {
+            return null;
+        }
+
+        result = getChildLEAsOfEdOrg(edOrgEntity.getEntityId());
+        if (result == null || result.isEmpty()) {
+            return null;
+        }
+
+        return new ArrayList<String>(result);
+    }
+
+    private Set<String> getChildLEAsOfEdOrg(String edOrgId) {
+        Set<String> toReturn = new HashSet<String>();
         NeutralQuery query = new NeutralQuery(0);
-        query.addCriteria(new NeutralCriteria("parentEducationAgencyReference", "=", edorgEntity.getEntityId()));
+        query.addCriteria(new NeutralCriteria("parentEducationAgencyReference", "=", edOrgId));
+
         for (Entity entity : repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query)) {
             if (helper.isLEA(entity)) {
                 toReturn.add(entity.getEntityId());
             }
         }
-
         return toReturn;
     }
 
+    public Set<String> getAllChildLEAsOfEdOrg(Entity edOrgEntity) {
+        Set<String> edOrgs = new HashSet<String>();
 
-    public List<String> getAllChildLEAsOfEdOrg(Entity edorgEntity) {
-        List<String> toReturn = new ArrayList<String>();
+        if (edOrgEntity == null || edOrgEntity.getEntityId() == null) {
+            return null;
+        }
+        edOrgs.add(edOrgEntity.getEntityId());
+
+        return getAllChildLEAsOfEdOrg(edOrgs, new HashSet<String>());
+    }
+
+    private Set<String> getAllChildLEAsOfEdOrg(Set<String> edOrgIds, Set<String>toReturn) {
+        Set<String> childLEAs = new HashSet<String>();
+
+        // collect all direct child LEAs
+        for (String edOrgId : edOrgIds) {
+            childLEAs.addAll(getChildLEAsOfEdOrg(edOrgId));
+        }
+
+        // remove any we have already processed
+        if (toReturn != null) {
+            childLEAs.removeAll(toReturn);
+        }
+
+        // base case: no new children so just return the accumulated set
+        if (childLEAs.isEmpty()) {
+            return toReturn;
+        }
+
+        // add the new children to those we will ultimately return
+        toReturn.addAll(childLEAs);
+        return getAllChildLEAsOfEdOrg(childLEAs, toReturn);
+    }
+
+
+    private Set<String> getAllChildLEAsOfEdOrg(Entity edOrgEntity, Set<String>previouslyProcessed) {
+        Set<String> toReturn = new HashSet<String>();
+        Set<String> nowProcessed = previouslyProcessed;
+        String edOrgId;
+
+        if (edOrgEntity == null) {
+            return null;
+        }
+        edOrgId = edOrgEntity.getEntityId();
+
+        if (nowProcessed == null) {
+            nowProcessed = new HashSet<String>();
+        }
+        nowProcessed.add(edOrgId);
+
         NeutralQuery query = new NeutralQuery(0);
-        query.addCriteria(new NeutralCriteria("parentEducationAgencyReference", "=", edorgEntity.getEntityId()));
+        query.addCriteria(new NeutralCriteria("parentEducationAgencyReference", "=", edOrgEntity.getEntityId()));
 
         for (Entity entity : repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query)) {
-            if (isLEA(entity) && toReturn.contains(entity.getEntityId()) == false) {
-            	List<String> nestedChildren = getAllChildLEAsOfEdOrg(entity);
-            	toReturn.addAll(nestedChildren);
-                toReturn.add(entity.getEntityId());
+            String entityId = entity.getEntityId();
+            if (isLEA(entity) && !nowProcessed.contains(entity.getEntityId())) {
+                nowProcessed.add(entityId);
+                Set<String> nestedChildren = getAllChildLEAsOfEdOrg(entity, nowProcessed);
+                toReturn.addAll(nestedChildren);
+                toReturn.add(entityId);
             }
         }
-       return toReturn;
+        return toReturn;
     }
 
 

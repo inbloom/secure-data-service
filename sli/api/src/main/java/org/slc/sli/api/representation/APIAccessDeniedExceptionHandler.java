@@ -38,9 +38,9 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Handler for catching access denied exceptions.
+ * Handler for catching API access denied exceptions that log security events.
  *
- * @author shalka
+ * @author bsuzuki
  */
 @Provider
 @Component
@@ -57,12 +57,6 @@ public class APIAccessDeniedExceptionHandler implements ExceptionMapper<APIAcces
 
     @Context
     private HttpServletResponse response;
-
-
-    /*
-     *  Target EdOrgsIDs might be passed in to the exception as a part of the error message, enclosed in <>
-     *  E.g.: Insufficient Rights <TargetEdOrgID>
-     */
 
     @Override
     public Response toResponse(APIAccessDeniedException e) {
@@ -114,6 +108,9 @@ public class APIAccessDeniedExceptionHandler implements ExceptionMapper<APIAcces
             } else if (e.getEntityIds() != null && !e.getEntityIds().isEmpty()) {
                 audit(securityEventBuilder.createSecurityEvent(getThrowingClassName(e), uriInfo.getRequestUri(), "Access Denied:"
                         + e.getMessage(), e.getRealm(), e.getEntityType(), e.getEntityIds().toArray(new String[0])));
+            } else {
+                audit(securityEventBuilder.createSecurityEvent(getThrowingClassName(e), uriInfo.getRequestUri(), "Access Denied:"
+                        + e.getMessage(), e.getPrincipal(), e.getClientId(), e.getRealm(), null, e.isTargetIsUserEdOrg()));
             }
         } else {
             audit(securityEventBuilder.createSecurityEvent(getThrowingClassName(e), uriInfo.getRequestUri(), "Access Denied:"
