@@ -409,7 +409,7 @@ public class EdOrgHelperTest {
 
     @Test
     public void testGetChildLeaOfEdorgs() {
-        List<String> edorgs = helper.getChildLEAsOfEdOrg(lea2);
+        List<String> edorgs = helper.getDirectChildLEAsOfEdOrg(lea2);
         assertEquals(1, edorgs.size());
         assertFalse("lea1 should not be a child of lea2", edorgs.contains(lea1.getEntityId()));
         assertFalse("lea2 should not be a child of lea2", edorgs.contains(lea2.getEntityId()));

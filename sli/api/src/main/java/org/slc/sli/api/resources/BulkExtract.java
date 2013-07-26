@@ -272,7 +272,7 @@ public class BulkExtract {
     void canAccessSEAExtract(final Entity seaEntity) {
 
         boolean approvedLEAExists = false;
-        for (String leaId : helper.getChildLEAsOfEdOrg(seaEntity)) {
+        for (String leaId : helper.getDirectChildLEAsOfEdOrg(seaEntity)) {
             LOG.debug("Checking lea: {} for sea: {}", leaId, seaEntity.getEntityId());
                 try {
                     canAccessLEAExtract(leaId);
