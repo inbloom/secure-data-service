@@ -57,7 +57,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.StreamingOutput;
 import javax.ws.rs.core.UriBuilder;
-import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Variant;
 
 import com.sun.jersey.api.Responses;
@@ -381,7 +380,7 @@ public class BulkExtractTest {
         Date date = d.toDate();
 
         mockBulkExtractEntity(date);
-        Mockito.when(edOrgHelper.getChildLEAsOfEdOrg(edOrg)).thenReturn(Arrays.asList("lea123"));
+        Mockito.when(edOrgHelper.getDirectChildLEAsOfEdOrg(edOrg)).thenReturn(Arrays.asList("lea123"));
         Set<String> lea = new HashSet<String>();
         lea.add("lea123");
         Mockito.when(mockValidator.validate(EntityNames.EDUCATION_ORGANIZATION, lea)).thenReturn(true);
@@ -747,7 +746,7 @@ public class BulkExtractTest {
         Entity mockedEntity = mockBulkExtractEntity(null);
         Mockito.when(edOrgHelper.byId(eq("SeaPub"))).thenReturn(mockedEntity);
         Mockito.when(edOrgHelper.isSEA(mockedEntity)).thenReturn(true);
-        Mockito.when(edOrgHelper.getChildLEAsOfEdOrg(mockedEntity)).thenReturn(Arrays.asList("lea123"));
+        Mockito.when(edOrgHelper.getDirectChildLEAsOfEdOrg(mockedEntity)).thenReturn(Arrays.asList("lea123"));
 
         Map<String, Object> authBody = new HashMap<String, Object>();
         authBody.put("applicationId", "App1");

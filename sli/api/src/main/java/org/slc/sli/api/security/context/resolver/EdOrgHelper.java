@@ -25,13 +25,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Sets;
-
 import javax.annotation.PostConstruct;
 
-import org.slc.sli.api.representation.EntityBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -123,7 +118,7 @@ public class EdOrgHelper {
             } else if (helper.isSchool(entity)) {
                 entities.add(helper.getTopLEAOfEdOrg(entity).getEntityId());
             } else { // isSEA
-                entities.addAll(getChildLEAsOfEdOrg(entity));
+                entities.addAll(getDirectChildLEAsOfEdOrg(entity));
             }
         }
         return new ArrayList<String>(entities);
@@ -136,14 +131,14 @@ public class EdOrgHelper {
      *
      * @return - List of the EdOrg's child LEAs
      */
-    public List<String> getChildLEAsOfEdOrg(Entity edOrgEntity) {
+    public List<String> getDirectChildLEAsOfEdOrg(Entity edOrgEntity) {
         Set<String> result;
 
         if (edOrgEntity == null) {
             return null;
         }
 
-        result = getChildLEAsOfEdOrg(edOrgEntity.getEntityId());
+        result = getDirectChildLEAsOfEdOrg(edOrgEntity.getEntityId());
         if (result == null || result.isEmpty()) {
             return null;
         }
@@ -151,7 +146,7 @@ public class EdOrgHelper {
         return new ArrayList<String>(result);
     }
 
-    private Set<String> getChildLEAsOfEdOrg(String edOrgId) {
+    private Set<String> getDirectChildLEAsOfEdOrg(String edOrgId) {
         Set<String> toReturn = new HashSet<String>();
         NeutralQuery query = new NeutralQuery(0);
         query.addCriteria(new NeutralCriteria("parentEducationAgencyReference", "=", edOrgId));
@@ -180,7 +175,7 @@ public class EdOrgHelper {
 
         // collect all direct child LEAs
         for (String edOrgId : edOrgIds) {
-            childLEAs.addAll(getChildLEAsOfEdOrg(edOrgId));
+            childLEAs.addAll(getDirectChildLEAsOfEdOrg(edOrgId));
         }
 
         // remove any we have already processed
@@ -199,37 +194,6 @@ public class EdOrgHelper {
     }
 
 
-    private Set<String> getAllChildLEAsOfEdOrg(Entity edOrgEntity, Set<String>previouslyProcessed) {
-        Set<String> toReturn = new HashSet<String>();
-        Set<String> nowProcessed = previouslyProcessed;
-        String edOrgId;
-
-        if (edOrgEntity == null) {
-            return null;
-        }
-        edOrgId = edOrgEntity.getEntityId();
-
-        if (nowProcessed == null) {
-            nowProcessed = new HashSet<String>();
-        }
-        nowProcessed.add(edOrgId);
-
-        NeutralQuery query = new NeutralQuery(0);
-        query.addCriteria(new NeutralCriteria("parentEducationAgencyReference", "=", edOrgEntity.getEntityId()));
-
-        for (Entity entity : repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query)) {
-            String entityId = entity.getEntityId();
-            if (isLEA(entity) && !nowProcessed.contains(entity.getEntityId())) {
-                nowProcessed.add(entityId);
-                Set<String> nestedChildren = getAllChildLEAsOfEdOrg(entity, nowProcessed);
-                toReturn.addAll(nestedChildren);
-                toReturn.add(entityId);
-            }
-        }
-        return toReturn;
-    }
-
-
     /**
      * Get an ordered list of the parents of an EdOrg.
      *
@@ -239,9 +203,6 @@ public class EdOrgHelper {
      *
      * @return - Hierarchical list of the EdOrg's parents
      */
-
-
-
     public List<String> getParentEdOrgs(final Entity edOrg) {
         List<String> toReturn = new ArrayList<String>();
 
