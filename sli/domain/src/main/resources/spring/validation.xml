@@ -69,8 +69,6 @@
         <value>\u001E</value>   <!-- Control - record separator          -->
         <value>\u001F</value>   <!-- Control - unit separator            -->
         <value>\u007F</value>   <!-- Control - delete                    -->
-        <value>\u003C</value>   <!--    <    - less-than sign            -->
-        <value>\u003E</value>   <!--    >    - greater-than sign         -->
       </list>
     </constructor-arg>
   </bean>
