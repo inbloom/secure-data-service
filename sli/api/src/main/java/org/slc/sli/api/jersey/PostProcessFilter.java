@@ -105,6 +105,7 @@ public class PostProcessFilter implements ContainerResponseFilter {
             contextValidator.validateContextToUri(request, principal);
         }
 
+        // Cleanup if user has dual staff/teacher contexts.
         if (!response.getHttpHeaders().containsKey("userContext")) {
             SecurityContextHolder.clearContext();
             TenantContext.cleanup();
@@ -112,14 +113,6 @@ public class PostProcessFilter implements ContainerResponseFilter {
             if (SecurityUtil.getFirstExecutedPath() != null) {
                 response.getHttpHeaders().add("X-ExecutedPath", SecurityUtil.getFirstExecutedPath());
                 SecurityUtil.setLastRequest(null);
-            }
-        } else {
-            if (SecurityUtil.getLastRequest() != null) {
-                String queryString = "";
-                if (SecurityUtil.getLastRequest().getRequestUri().getQuery() != null) {
-                    queryString = "?" + SecurityUtil.getLastRequest().getRequestUri().getQuery();
-                }
-                SecurityUtil.setFirstExecutedPath(SecurityUtil.getLastRequest().getPath() + queryString);
             }
         }
 

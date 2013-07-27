@@ -19,6 +19,7 @@ package org.slc.sli.api.jersey;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -32,6 +33,7 @@ import com.sun.jersey.spi.container.ContainerRequestFilter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Component;
@@ -56,6 +58,7 @@ import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.MongoStat;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.enums.Right;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
 
@@ -116,10 +119,6 @@ public class PreProcessFilter implements ContainerRequestFilter {
 
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         principal.setSubEdOrgHierarchy(edOrgHelper.getStaffEdOrgsAndChildren());
-        if (SecurityUtil.getContext().equals("other") && (principal.getEntity().getType().equals(EntityNames.STAFF) || principal.getEntity().getType().equals(EntityNames.TEACHER))) {
-            SecurityUtil.setContext(principal.getEntity().getType());
-            SecurityUtil.setLastRequest(request);
-        }
 
         info("uri: {} -> {}", request.getMethod(), request.getRequestUri().getPath());
         request.getProperties().put("original-request", request.getPath());
@@ -137,6 +136,21 @@ public class PreProcessFilter implements ContainerRequestFilter {
 
         translator.translate(request);
         criteriaGenerator.generate(request);
+
+        // Setup if user has dual staff/teacher contexts.
+        if (SecurityUtil.getContext().equals("other") && (principal.getEntity().getType().equals(EntityNames.STAFF) || principal.getEntity().getType().equals(EntityNames.TEACHER))) {
+            SecurityUtil.setContext(principal.getEntity().getType());
+            SecurityUtil.setLastRequest(request);
+            String queryString = "";
+            if (request.getRequestUri().getQuery() != null) {
+                queryString = "?" + SecurityUtil.getLastRequest().getRequestUri().getQuery();
+            }
+            SecurityUtil.setFirstExecutedPath(request.getPath() + queryString);
+        }
+        Collection<GrantedAuthority> rights = principal.getAllRights();
+        if (rights.contains(Right.STAFF_CONTEXT) && rights.contains(Right.TEACHER_CONTEXT)) {
+            SecurityUtil.setDualContext(true);
+        }
 
         return request;
     }

@@ -99,7 +99,7 @@ public abstract class GenericResource {
      * @param template
      * @return
      */
-    protected String locateIds(UriInfo uriInfo, ResourceTemplate template) {
+    public String locateIds(UriInfo uriInfo, ResourceTemplate template) {
         String id = uriInfo.getPathSegments().get(2).getPath();
         Resource resource = resourceHelper.getResourceName(uriInfo, template);
         Resource base = resourceHelper.getBaseName(uriInfo, template);
@@ -121,7 +121,7 @@ public abstract class GenericResource {
         return ids.toString();
     }
 
-    protected List<String> extractSegments(List<PathSegment> segments, List<Integer> indices) {
+    public List<String> extractSegments(List<PathSegment> segments, List<Integer> indices) {
 
         List<String> result = new ArrayList<String>();
 
@@ -139,7 +139,7 @@ public abstract class GenericResource {
      *            String representing decoded query parameters.
      * @return String representing encoded query parameters.
      */
-    protected String getEncodedQueryParameters(String decoded) {
+    public String getEncodedQueryParameters(String decoded) {
         String queryString = null;
         if (decoded == null) {
             queryString = "";

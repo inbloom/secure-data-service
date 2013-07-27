@@ -16,13 +16,15 @@
 
 package org.slc.sli.api.resources.generic.util;
 
+import java.util.List;
+
 import javax.ws.rs.core.PathSegment;
 import javax.ws.rs.core.UriInfo;
 
 import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.resources.generic.GenericResource;
 import org.slc.sli.api.resources.generic.representation.Resource;
-
-import java.util.List;
+import org.slc.sli.api.resources.generic.representation.ServiceResponse;
 
 /**
  * @author jstokes
@@ -37,4 +39,5 @@ public interface ResourceHelper {
     public EntityDefinition getEntityDefinitionByType(String type);
     public boolean resolveResourcePath(final String uri, final ResourceTemplate template);
     public String extractVersion(List<PathSegment> segments);
+    public ServiceResponse getEntitiesForOtherUserContext(final UriInfo uriInfo, final ServiceResponse firstResponse, GenericResource caller);
 }

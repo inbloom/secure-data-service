@@ -64,6 +64,7 @@ public class SecurityUtil {
     private static String context = "other";
     private static ContainerRequest lastRequest = null;
     private static String firstExecutedPath = null;
+    private static boolean isDualContext = false;
 
     static {
         SLIPrincipal system = new SLIPrincipal("SYSTEM");
@@ -274,6 +275,14 @@ public class SecurityUtil {
 
     public static void setFirstExecutedPath(String firstExecutedPath) {
         SecurityUtil.firstExecutedPath = firstExecutedPath;
+    }
+
+    public static boolean isDualContext() {
+        return isDualContext;
+    }
+
+    public static void setDualContext(boolean isDualContext) {
+        SecurityUtil.isDualContext = isDualContext;
     }
 
     /**
