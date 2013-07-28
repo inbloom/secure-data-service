@@ -246,9 +246,9 @@ public class OauthMongoSessionManagerTest {
         field.setAccessible(true);
         field.set(sessionManager, resolver);
 
-        Method method = OauthMongoSessionManager.class.getDeclaredMethod("generateEdOrgRightsMap", SLIPrincipal.class);
+        Method method = OauthMongoSessionManager.class.getDeclaredMethod("generateEdOrgRightsMap", SLIPrincipal.class, boolean.class);
         method.setAccessible(true);
-        Map<String, Collection<GrantedAuthority>> edOrgRights = (Map<String, Collection<GrantedAuthority>>) method.invoke(sessionManager, principal);
+        Map<String, Collection<GrantedAuthority>> edOrgRights = (Map<String, Collection<GrantedAuthority>>) method.invoke(sessionManager, principal, false);
 
         Assert.assertEquals(3, edOrgRights.size());
         Assert.assertTrue(edOrgRights.get("edOrg1").equals(authorities1));
@@ -268,9 +268,9 @@ public class OauthMongoSessionManagerTest {
         field.setAccessible(true);
         field.set(sessionManager, resolver);
 
-        Method method = OauthMongoSessionManager.class.getDeclaredMethod("generateEdOrgRightsMap", SLIPrincipal.class);
+        Method method = OauthMongoSessionManager.class.getDeclaredMethod("generateEdOrgRightsMap", SLIPrincipal.class, boolean.class);
         method.setAccessible(true);
-        Map<String, Collection<GrantedAuthority>> edOrgRights = (Map<String, Collection<GrantedAuthority>>) method.invoke(sessionManager, principal);
+        Map<String, Collection<GrantedAuthority>> edOrgRights = (Map<String, Collection<GrantedAuthority>>) method.invoke(sessionManager, principal, false);
 
         Assert.assertTrue(edOrgRights.isEmpty());
     }
@@ -288,9 +288,9 @@ public class OauthMongoSessionManagerTest {
         field.setAccessible(true);
         field.set(sessionManager, resolver);
 
-        Method method = OauthMongoSessionManager.class.getDeclaredMethod("generateEdOrgRightsMap", SLIPrincipal.class);
+        Method method = OauthMongoSessionManager.class.getDeclaredMethod("generateEdOrgRightsMap", SLIPrincipal.class, boolean.class);
         method.setAccessible(true);
-        Map<String, Collection<GrantedAuthority>> edOrgRights = (Map<String, Collection<GrantedAuthority>>) method.invoke(sessionManager, principal);
+        Map<String, Collection<GrantedAuthority>> edOrgRights = (Map<String, Collection<GrantedAuthority>>) method.invoke(sessionManager, principal, false);
 
         Assert.assertTrue(edOrgRights.isEmpty());
     }

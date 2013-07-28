@@ -50,6 +50,12 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | attendances                             |
     | courseTranscripts                       |
 
+  Scenario: Ensure GET can be performed on self entities with the proper rights
+    And I log in as "msmith"
+    And parameter "limit" is "0"
+    When I navigate to GET "/v1/staff/3a780cebc8f98982f9b7a5d548fecff42ed8f2f1_id/staffEducationOrgAssignmentAssociations"
+    Then I should receive a return code of 200
+    And I should receive a collection of "2" entities
 
   Scenario Outline: Ensure GET can NOT be performed on any public entities without READ_PUBLIC right
     Given I change the custom role of "Leader" to remove the "READ_PUBLIC" right
@@ -245,7 +251,6 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
 
   Examples:
     | ENTITY                                | ENTITY TYPE                           | ENTITY URI                              |
-    | staffEducationOrganizationAssociation | staffEducationOrganizationAssociation | staffEducationOrgAssignmentAssociations |
     | teacherSchoolAssociation              | teacherSchoolAssociation              | teacherSchoolAssociations               |
     | student                               | studentProgramAssociation             | studentProgramAssociations              |
     | studentSchoolAssociation              | studentSchoolAssociation              | studentSchoolAssociations               |

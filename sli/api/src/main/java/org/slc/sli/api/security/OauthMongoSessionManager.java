@@ -380,7 +380,8 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                             // Generate EdOrg-Rights map for principal, if staff.
                             if ((!principal.isAdminRealmAuthenticated()) && (principal.getUserType() == null || principal.getUserType().isEmpty()
                                     || principal.getUserType().equals(EntityNames.STAFF))) {
-                                principal.setEdOrgRights(generateEdOrgRightsMap(principal));
+                                principal.setEdOrgRights(generateEdOrgRightsMap(principal, false));
+                                principal.setEdOrgSelfRights(generateEdOrgRightsMap(principal, true));
                             }
 
                             if (!principal.isAdminRealmAuthenticated()) {
@@ -449,12 +450,12 @@ public class OauthMongoSessionManager implements OauthSessionManager {
      *
      * @return - Generated edorg-rights map for principal
      */
-    private Map<String, Collection<GrantedAuthority>> generateEdOrgRightsMap(SLIPrincipal principal) {
+    private Map<String, Collection<GrantedAuthority>> generateEdOrgRightsMap(SLIPrincipal principal, boolean getSelfRights) {
         Map<String, Collection<GrantedAuthority>> edOrgRights = new HashMap<String, Collection<GrantedAuthority>>();
         if (principal.getEdOrgRoles() != null) {
             for (String edOrg : principal.getEdOrgRoles().keySet()) {
                 Collection<GrantedAuthority> edorgAuthorities = resolver.resolveRolesUnion(principal.getTenantId(), principal.getRealm(),
-                        principal.getEdOrgRoles().get(edOrg), principal.isAdminRealmAuthenticated(), false);
+                        principal.getEdOrgRoles().get(edOrg), principal.isAdminRealmAuthenticated(), getSelfRights);
                 edOrgRights.put(edOrg, edorgAuthorities);
             }
         }

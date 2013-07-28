@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.NeutralQuery;
 
@@ -278,4 +279,11 @@ public interface EntityService {
      * @return if the entity was changed
      */
     public boolean updateBasedOnContextualRoles(String id, EntityBody content);
+
+    /**
+     * Returns number of entities stored.
+     *
+     * @return number of entities that have been stored/exist
+     */
+    long countBasedOnContextualRoles(NeutralQuery neutralQuery);
 }
