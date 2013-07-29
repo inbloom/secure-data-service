@@ -227,9 +227,6 @@ public class PersistenceProcessor extends IngestionProcessor<NeutralRecordWorkNo
                         stage.getStageName());
                 Metrics currentMetric = getOrCreateMetric(perFileMetrics, neutralRecord, workNote);
 
-                if(neutralRecord.getRecordType().equals("educationOrganization")) {
-                                                                                 int i = 100;
-                }
                 SimpleEntity xformedEntity = transformNeutralRecord(neutralRecord, job,
                         reportStatsForCollection);
 
