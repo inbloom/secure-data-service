@@ -93,7 +93,7 @@
     "name": "Mary Smith",
     "edOrgs": [
       {
-        "role": "Aggregate Viewer",
+        "role": "Specialist/Consultant",
         "type": "Local Education Agency",
         "association": "District 9",
         "parent" : "IL-DAYBREAK"

@@ -28,6 +28,7 @@ import java.util.Set;
 
 import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.api.resources.generic.service.ContextSupportedEntities;
+import org.slc.sli.api.service.query.ApiQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -117,6 +118,17 @@ public class BasicService implements EntityService, AccessibilityCheck {
         boolean isSelf = isSelf(neutralQuery);
         checkAccess(true, isSelf, null);
         checkFieldAccess(neutralQuery, isSelf);
+
+        return getRepo().count(collectionName, neutralQuery);
+    }
+
+    @Override
+    public long countBasedOnContextualRoles(NeutralQuery neutralQuery) {
+        boolean isSelf = isSelf(neutralQuery);
+        Collection<GrantedAuthority> auths = SecurityUtil.getSLIPrincipal().getAllRights(isSelf);
+
+        rightAccessValidator.checkAccess(true, null, defn.getType(), auths);
+        rightAccessValidator.checkFieldAccess(neutralQuery, defn.getType(), auths);
 
         return getRepo().count(collectionName, neutralQuery);
     }
