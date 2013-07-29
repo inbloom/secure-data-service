@@ -1366,6 +1366,25 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
      *            Education Organization for which the lineage must be assembled.
      * @return Set of parent education organization ids.
      */
+//    private Set<String> fetchLineage(String id, Set<String> parentsSoFar) {
+//        Set<String> parents = new HashSet<String>(parentsSoFar);
+//        if (id != null) {
+//            Entity edOrg = template.findOne(new Query().addCriteria(Criteria.where("_id").is(id)), Entity.class,
+//                    EntityNames.EDUCATION_ORGANIZATION);
+//            if (edOrg != null) {
+//                parents.add(id);
+//                Map<String, Object> body = edOrg.getBody();
+//                if (body.containsKey(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE)) {
+//                    String myParent = (String) body.get(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE);
+//                    if (!parents.contains(myParent)) {
+//                        parents.addAll(fetchLineage(myParent, parents));
+//                    }
+//                }
+//            }
+//        }
+//        return parents;
+//    }
+
     private Set<String> fetchLineage(String id, Set<String> parentsSoFar) {
         Set<String> parents = new HashSet<String>(parentsSoFar);
         if (id != null) {
@@ -1375,9 +1394,13 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                 parents.add(id);
                 Map<String, Object> body = edOrg.getBody();
                 if (body.containsKey(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE)) {
-                    String myParent = (String) body.get(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE);
-                    if (!parents.contains(myParent)) {
-                        parents.addAll(fetchLineage(myParent, parents));
+                    List<String> myParents = (List<String>) body.get(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE);
+                    if (myParents != null) {
+                        for (String myParent : myParents) {
+                            if (!parents.contains(myParent)) {
+                                parents.addAll(fetchLineage(myParent, parents));
+                            }
+                        }
                     }
                 }
             }
