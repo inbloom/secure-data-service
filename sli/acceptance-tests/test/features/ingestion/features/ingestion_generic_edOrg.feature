@@ -119,24 +119,48 @@ Feature: Generic EdOrg Ingestion
        #| body.gradesOffered                  | Fifth grade                                 |
        #| body.LEACategory                    | Independent                                 |
 
-  #update counts below if data is commented in
-  Scenario: Post Generic EdOrg Sample Data Set
-    Given the "Midgar" tenant db is empty
-    When I ingest "GenericEdOrg.zip"
+    #cycle tests - referring to itself
+    And there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "14"
+        | field                               | value                                       |
+        | _id                                 | 265cdc11571c4e28aceb6ed5fef795a9ffb2ea5c_id |
+        | body.stateOrganizationId            | Cycle 1                                     |
+        | body.organizationCategories         | Local Education Agency                      |
+        | body.parentEducationAgencyReference | 265cdc11571c4e28aceb6ed5fef795a9ffb2ea5c_id |
+    #cycle tests - 3 way cycle
+    And there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "15"
+        | field                               | value                                       |
+        | _id                                 | 2a05470ef1a2eacb408513fc646b8f39f1d9cd61_id |
+        | body.stateOrganizationId            | Cycle 2                                     |
+        | body.organizationCategories         | Local Education Agency                      |
+        | body.parentEducationAgencyReference | 3657ac93276c35e866e0b20b523dcca6c807cc81_id |
+    And there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "16"
+        | field                               | value                                       |
+        | _id                                 | 3657ac93276c35e866e0b20b523dcca6c807cc81_id |
+        | body.stateOrganizationId            | Cycle 3                                     |
+        | body.organizationCategories         | Local Education Agency                      |
+        | body.parentEducationAgencyReference | 2e68cac9a6a00c44a2f314219794859b4b503e6e_id |
+    And there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "17"
+        | field                               | value                                       |
+        | _id                                 | 2e68cac9a6a00c44a2f314219794859b4b503e6e_id |
+        | body.stateOrganizationId            | Cycle 4                                     |
+        | body.organizationCategories         | Local Education Agency                      |
+        | body.parentEducationAgencyReference | 2a05470ef1a2eacb408513fc646b8f39f1d9cd61_id |
+
+    #duplicate detection test
     And I should see following map of entry counts in the corresponding collections:
       | collectionName                           |              count|
-      | recordHash                               |                 12|
-      | educationOrganization                    |                 12|
-    # clear out the ingested entities to ensure we aren't upserting the 2nd time
-    And the following collections are empty in datastore:
+      | recordHash                               |                 16|
+      | educationOrganization                    |                 16|
+    # clear out the ingested entities to ensure we aren't upserting a second time
+    Given the following collections are empty in datastore:
       | collectionName                            |
       | educationOrganization                     |
-    And zip file is scp to ingestion landing zone with name "Reingest-GenericEdOrg.zip"
+    When zip file is scp to ingestion landing zone with name "Reingest-GenericEdOrg.zip"
     Then a batch job for file "Reingest-GenericEdOrg.zip" is completed in database
-    And I should see "InterchangeEducationOrganization.xml educationOrganization 12 deltas" in the resulting batch job file
+    And I should see "InterchangeEducationOrganization.xml educationOrganization 16 deltas" in the resulting batch job file
     And I should not see a warning log file created
     And I should see following map of entry counts in the corresponding collections:
       | collectionName                           |              count|
-      | recordHash                               |                 12|
+      | recordHash                               |                 16|
       | educationOrganization                    |                  0|
 
