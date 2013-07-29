@@ -231,9 +231,6 @@ public class RightAccessValidator {
         Collection<GrantedAuthority> auths = new HashSet<GrantedAuthority>();
 
         SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
-        if (isSelf) {
-            auths.addAll(principal.getSelfRights());
-        }
 
         if (SecurityUtil.isStaffUser()) {
             if (entity == null) {
@@ -243,14 +240,20 @@ public class RightAccessValidator {
                         && "true".equals(entity.getMetaData().get("isOrphaned")))
                         || EntityNames.isPublic(entity.getType())) {
                     // Orphaned entities created by the principal are handled the same as before.
-                    auths.addAll(principal.getAllRights());
+                    auths.addAll(principal.getAllRights(isSelf));
                 } else {
                     auths.addAll(entityEdOrgRightBuilder.buildEntityEdOrgRights(principal.getEdOrgRights(), entity, isRead));
+                }
+                if (isSelf) {
+                    auths.addAll(entityEdOrgRightBuilder.buildEntityEdOrgRights(principal.getEdOrgSelfRights(), entity, isRead));
                 }
             }
         } else {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             auths.addAll(auth.getAuthorities());
+            if (isSelf) {
+                auths.addAll(principal.getSelfRights());
+            }
         }
 
         return auths;

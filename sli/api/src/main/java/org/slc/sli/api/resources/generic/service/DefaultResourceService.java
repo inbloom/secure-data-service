@@ -231,7 +231,12 @@ public class DefaultResourceService implements ResourceService {
         apiQuery.setLimit(0);
         apiQuery.setOffset(0);
 
-        count = definition.getService().count(apiQuery);
+        if (ContextSupportedEntities.getSupportedEntities().contains(definition.getType()) && SecurityUtil.isStaffUser()) {
+            count = definition.getService().countBasedOnContextualRoles(apiQuery);
+        } else {
+            count = definition.getService().count(apiQuery);
+        }
+
         apiQuery.setLimit(originalLimit);
         apiQuery.setOffset(originalOffset);
 
