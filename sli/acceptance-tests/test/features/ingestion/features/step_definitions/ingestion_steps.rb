@@ -29,6 +29,7 @@ require 'rbconfig'
 require 'json'
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../odin/step_definitions/data_generation_steps'
+require_relative '../../../security/step_definitions/securityevent_util_steps.rb'
 
 ############################################################
 # ENVIRONMENT CONFIGURATION
@@ -971,8 +972,8 @@ Given /^the following collections are empty in sli datastore:$/ do |table|
     @result = "true"
     table.hashes.map do |row|
             @entity_collection = @db[row["collectionName"]]
-            @entity_collection.remove()           
-            puts "There are #{@entity_collection.count} records in collection " + row["collectionName"] + "."            
+            @entity_collection.remove()
+            puts "There are #{@entity_collection.count} records in collection " + row["collectionName"] + "."
             if @entity_collection.count.to_s != "0"
                 @result = "false"
             end
@@ -2047,16 +2048,16 @@ end
 Then /^I should see following map of entry counts in the corresponding sli db collections:$/ do |table|
 disable_NOTABLESCAN()
 puts INGESTION_DB_NAME
-@db = @conn[INGESTION_DB_NAME]                                                                                                  
+@db = @conn[INGESTION_DB_NAME]
 @result = "true"
 
-                                                                                                    
+
 table.hashes.map do |row|
   @entity_collection = @db.collection(row["collectionName"])
   @entity_count = @entity_collection.count().to_i
   puts @entity_count
   puts "There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection"
-                                                                                                     
+
   if @entity_count.to_s != row["count"].to_s
     @result = "false"
   end

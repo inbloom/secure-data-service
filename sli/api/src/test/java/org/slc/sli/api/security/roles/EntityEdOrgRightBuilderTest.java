@@ -93,7 +93,7 @@ public class EntityEdOrgRightBuilderTest {
 
         Mockito.when(edOrgOwnershipArbiter.determineHierarchicalEdorgs(Matchers.anyList(), Matchers.anyString())).thenReturn(edOrgs);
 
-        Collection<GrantedAuthority> grantedAuthorities = entityEdOrgRightBuilder.buildEntityEdOrgRights(edOrgRights, entity);
+        Collection<GrantedAuthority> grantedAuthorities = entityEdOrgRightBuilder.buildEntityEdOrgRights(edOrgRights, entity, false);
 
         Assert.assertEquals(5, grantedAuthorities.size());
         Assert.assertTrue(grantedAuthorities.contains(READ_PUBLIC));
@@ -118,7 +118,7 @@ public class EntityEdOrgRightBuilderTest {
 
         Mockito.when(edOrgOwnershipArbiter.determineHierarchicalEdorgs(Matchers.anyList(), Matchers.anyString())).thenReturn(new HashSet<String>());
 
-        Collection<GrantedAuthority> grantedAuthorities = entityEdOrgRightBuilder.buildEntityEdOrgRights(edOrgRights, entity);
+        Collection<GrantedAuthority> grantedAuthorities = entityEdOrgRightBuilder.buildEntityEdOrgRights(edOrgRights, entity, false);
 
         Assert.assertTrue(grantedAuthorities.isEmpty());
     }
@@ -139,7 +139,7 @@ public class EntityEdOrgRightBuilderTest {
 
         Mockito.when(edOrgOwnershipArbiter.determineHierarchicalEdorgs(Matchers.anyList(), Matchers.anyString())).thenReturn(edOrgs);
 
-        Collection<GrantedAuthority> grantedAuthorities = entityEdOrgRightBuilder.buildEntityEdOrgRights(edOrgRights, entity);
+        Collection<GrantedAuthority> grantedAuthorities = entityEdOrgRightBuilder.buildEntityEdOrgRights(edOrgRights, entity, false);
 
         Assert.assertTrue(grantedAuthorities.isEmpty());
     }

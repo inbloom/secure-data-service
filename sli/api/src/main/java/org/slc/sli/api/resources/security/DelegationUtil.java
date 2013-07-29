@@ -20,6 +20,7 @@ package org.slc.sli.api.resources.security;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
@@ -85,7 +86,7 @@ public class DelegationUtil {
             return delegateEdOrgs;
         }
         Entity sea = repo.findById(EntityNames.EDUCATION_ORGANIZATION, edOrgId);
-        List<String> myEdOrgsIds = helper.getAllChildLEAsOfEdOrg(sea);
+        Set<String> myEdOrgsIds = helper.getAllChildLEAsOfEdOrg(sea);
         
         for (String curEdOrg : myEdOrgsIds) {
             NeutralQuery delegateQuery = new NeutralQuery();

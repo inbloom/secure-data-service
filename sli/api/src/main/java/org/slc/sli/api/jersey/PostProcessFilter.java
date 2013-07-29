@@ -31,10 +31,10 @@ import com.sun.jersey.spi.container.ContainerResponseFilter;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.DateTimeFormatterBuilder;
+import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
@@ -96,7 +96,7 @@ public class PostProcessFilter implements ContainerResponseFilter {
     public ContainerResponse filter(ContainerRequest request, ContainerResponse response) {
         if (isRead(request.getMethod()) && isSuccessfulRead(response.getStatus())) {
             if (contextValidator.isUrlBlocked(request)) {
-                throw new AccessDeniedException(String.format("url %s is not accessible.", request.getAbsolutePath().toString()));
+                throw new APIAccessDeniedException(String.format("url %s is not accessible.", request.getAbsolutePath().toString()));
             }
 
             SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
@@ -138,10 +138,10 @@ public class PostProcessFilter implements ContainerResponseFilter {
     }
 
     /**
-     * Returns true if the request is a read operation.
+     * Returns true if the operation is a read operation.
      *
-     * @param request
-     *            Request to be checked.
+     * @param operation
+     *            Operation to be checked.
      * @return True if the request method is a GET, false otherwise.
      */
     private boolean isRead(String operation) {

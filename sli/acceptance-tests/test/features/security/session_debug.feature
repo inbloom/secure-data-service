@@ -17,9 +17,17 @@ Scenario: Deny access when request session debug context without session ID
 
 Scenario: Deny access when request session debug context with invalid session ID
 
-	When I GET the url "/system/session/debug" using an invalid session ID
+    When the sli securityEvent collection is empty
+	And I GET the url "/system/session/debug" using an invalid session ID
     Then I should receive a return code of 401
     And I should see a link in the responce header telling me where to authenicate
+    And I check to find if record is in sli db collection:
+        | collectionName  | expectedRecordCount | searchParameter         | searchValue                                            | searchType |
+        | securityEvent   | 1                   | body.appId              | UNKNOWN                                                | string     |
+        | securityEvent   | 1                   | body.className          | org.slc.sli.api.resources.SecuritySessionResource      | string     |
+        # user and targetEdOrgs are not known since no session was established
+    And "1" security event with field "body.actionUri" matching "http.*/api/rest/system/session/debug" should be in the sli db
+    And "1" security event matching "Access Denied: User must be logged in" should be in the sli db
 
 Scenario: Access the session check resource with valid authentication session ID
 

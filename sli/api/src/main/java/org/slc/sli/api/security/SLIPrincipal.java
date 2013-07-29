@@ -61,6 +61,7 @@ public class SLIPrincipal implements Principal, Serializable {
     private List<String> roles;
     private Map<String, List<String>> edOrgRoles;
     private Map<String, Collection<GrantedAuthority>> edOrgRights;
+    private Map<String, Collection<GrantedAuthority>> edOrgSelfRights;
     private String edOrgId;
     private boolean adminUser;
     private String firstName;
@@ -85,6 +86,7 @@ public class SLIPrincipal implements Principal, Serializable {
         obligations = new HashMap<String, List<NeutralQuery>>();
         edOrgRoles = new HashMap<String, List<String>>();
         edOrgRights = new HashMap<String, Collection<GrantedAuthority>>();
+        edOrgSelfRights = new HashMap<String, Collection<GrantedAuthority>>();
     }
 
     public SLIPrincipal(String id) {
@@ -172,6 +174,14 @@ public class SLIPrincipal implements Principal, Serializable {
 
     public Map<String, Collection<GrantedAuthority>> getEdOrgRights() {
         return edOrgRights;
+    }
+
+    public void setEdOrgSelfRights(Map<String, Collection<GrantedAuthority>> edOrgSelfRights) {
+        this.edOrgSelfRights = edOrgSelfRights;
+    }
+
+    public Map<String, Collection<GrantedAuthority>> getEdOrgSelfRights() {
+        return edOrgSelfRights;
     }
 
     public void setEdOrgRights(Map<String, Collection<GrantedAuthority>> edOrgRights) {
@@ -393,10 +403,16 @@ public class SLIPrincipal implements Principal, Serializable {
      *
      * @return - The set of all rights for this principal, from the edOrg Rights Map
      */
-    public Collection<GrantedAuthority> getAllRights() {
+    public Collection<GrantedAuthority> getAllRights(boolean isSelf) {
         Set<GrantedAuthority> allRights = new HashSet<GrantedAuthority>();
         for (Collection<GrantedAuthority> rights : edOrgRights.values()) {
             allRights.addAll(rights);
+        }
+
+        if (isSelf) {
+            for (Collection<GrantedAuthority> rights : edOrgSelfRights.values()) {
+                allRights.addAll(rights);
+            }
         }
 
         return allRights;

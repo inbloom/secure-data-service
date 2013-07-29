@@ -225,7 +225,7 @@ public class RealmHelper {
 
 		return false;
 	}
-
+	
 	private boolean isValidForLogin(Entity edOrgEntity, Entity realm) {
 		List<String> edOrgIds = edorgHelper.getParentEdOrgs(edOrgEntity);
 
@@ -244,7 +244,7 @@ public class RealmHelper {
 
 		// must be an SEA
 		if (edOrgIds.size() == 0) {
-			for (String childId : edorgHelper.getChildLEAsOfEdOrg(edOrgEntity)) {
+			for (String childId : edorgHelper.getDirectChildLEAsOfEdOrg(edOrgEntity)) {
 				Iterable<Entity> realmEnts = getRealms(repo.findById(
 						"educationOrganization", childId));
 				for (Entity realmEnt : realmEnts) {

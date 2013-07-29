@@ -15,12 +15,12 @@
  */
 package org.slc.sli.api.security.roles;
 
+import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -53,14 +53,14 @@ public class EdOrgContextualRoleBuilder {
 
         if (staffEdOrgAssoc.size() == 0) {
             error("Attempted login by a user that did not include any current valid roles in the SAML Assertion.");
-            throw new AccessDeniedException("Invalid user.  User is not currently associated with any school/edorg");
+            throw new APIAccessDeniedException("Invalid user.  User is not currently associated with any school/edorg", true);
         }
 
         Map<String, List<String>> sliEdOrgRoleMap = buildEdOrgContextualRoles(staffEdOrgAssoc, samlRoleSet);
 
         if(sliEdOrgRoleMap.isEmpty()) {
             error("Attempted login by a user that did not include any valid roles in the SAML Assertion.");
-            throw new AccessDeniedException("Invalid user. No valid roles specified for user.");
+            throw new APIAccessDeniedException("Invalid user. No valid roles specified for user.", true);
         }
 
         for (Map.Entry<String, List<String>> entry : sliEdOrgRoleMap.entrySet()) {
@@ -69,8 +69,8 @@ public class EdOrgContextualRoleBuilder {
 
         if (isInValidRoleMap(sliEdOrgRoleMap)) {
             error("Attempted login by a user that included no roles in the SAML Assertion that mapped to any of the SLI roles.");
-            throw new AccessDeniedException(
-                    "Invalid user.  No valid role mappings exist for the roles specified in the SAML Assertion.");
+            throw new APIAccessDeniedException(
+                    "Invalid user.  No valid role mappings exist for the roles specified in the SAML Assertion.", true);
         }
 
         return sliEdOrgRoleMap;

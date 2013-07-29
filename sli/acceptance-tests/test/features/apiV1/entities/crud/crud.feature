@@ -213,7 +213,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
   Examples:
     | Entity Type                  | Entity Resource URI           | Count | Rewrite URI                                                                          |
     | "assessment"                 | "assessments"                 | 18    | /search/assessments                                                                  |
-    | "attendance"                 | "attendances"                 | 3     | /sections/@ids/studentSectionAssociations/students/attendances                       |
+    | "attendance"                 | "attendances"                 | 4     | /sections/@ids/studentSectionAssociations/students/attendances                       |
     | "cohort"                     | "cohorts"                     | 4     | /staff/@ids/staffCohortAssociations/cohorts                                          |
     | "course"                     | "courses"                     | 92    | /search/courses                                                                      |
     | "disciplineAction"           | "disciplineActions"           | 0     | /staff/@ids/disciplineActions                                                        |
@@ -464,7 +464,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
 
   @student
   Scenario Outline: Rewrites for student work
-    Given I am logged in using "carmen.ortiz" "carmen.ortiz1234" to realm "IL-Student"
+    Given I am logged in using "carmen.ortiz" "carmen.ortiz1234" to realm "IL-Daybreak-Students"
     And format "application/vnd.slc+json"
     And my contextual access is defined by table:
       | Context                | Ids                                                                       |

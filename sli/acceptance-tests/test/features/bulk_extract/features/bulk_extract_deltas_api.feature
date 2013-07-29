@@ -1,12 +1,10 @@
 Feature: Retrieved through the api a generated delta bulk extract file, and validate the file
-
-    
+   
 Scenario: Initialize security trust store for Bulk Extract application and LEAs
   Given the extraction zone is empty
     And the bulk extract files in the database are scrubbed
     And The bulk extract app has been approved for "Midgar-DAYBREAK" with client id "<clientId>"
-    And The X509 cert "cert" has been installed in the trust store and aliased
-    
+    And The X509 cert "cert" has been installed in the trust store and aliased    
 
 Scenario: Generate a bulk extract delta after day 1 ingestion
   When I trigger a delta extract
@@ -1518,8 +1516,20 @@ Scenario: Test access to the api
   And I request latest delta via API for tenant "Midgar", lea "<IL-HIGHWIND>" with appId "<app id>" clientId "<client id>"
   Then I should receive a return code of 200
   Given I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  And the sli securityEvent collection is empty 
   And I request latest delta via API for tenant "Midgar", lea "<IL-HIGHWIND>" with appId "<app id>" clientId "<client id>"
   Then I should receive a return code of 403
+  And I should see a count of "2" in the security event collection 
+  And I check to find if record is in sli db collection:
+ | collectionName | expectedRecordCount | searchParameter      | searchValue                                                 | searchType |
+ | securityEvent  | 2                   | body.tenantId        | Midgar                                                      | string     |
+ | securityEvent  | 2                   | body.appId           | vavedRa9uB                                                  | string     |
+ | securityEvent  | 2                   | body.className       | org.slc.sli.api.resources.BulkExtract                       | string     |
+ | securityEvent  | 2                   | body.userEdOrg       | IL-DAYBREAK                                                 | string     |
+ | securityEvent  | 1                   | body.targetEdOrgList | IL-HIGHWIND                                                 | string     |
+ | securityEvent  | 1                   | body.logMessage      | Access Denied:User is not authorized to access this extract | string     |
+  And "2" security event with field "body.actionUri" matching "http.*/api/rest/v1..*/bulk/extract/99d527622dcb51c465c515c0636d17e085302d5e_id/delta/.*" should be in the sli db
+  
   Given I log into "SDK Sample" with a token of "lstevenson", a "Noldor" for "IL-HIGHWIND" for "IL-Highwind" in tenant "Midgar", that lasts for "300" seconds
   And I request an unsecured latest delta via API for tenant "Midgar", lea "<IL-HIGHWIND>" with appId "<app id>"
   Then I should receive a return code of 400

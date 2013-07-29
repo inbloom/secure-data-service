@@ -17,6 +17,7 @@
 package org.slc.sli.api.security.context;
 
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.domain.Entity;
 import org.springframework.security.access.AccessDeniedException;
 
@@ -30,16 +31,45 @@ import java.util.*;
  */
 public class APIAccessDeniedException extends AccessDeniedException {
 
+    // explicit realm info needed if the exception is thrown before it can be fully set in the context
+    // e.g. SamlFederationResource.java
+    private Entity realm;
+
+    private Set<String> targetEdOrgs;
+
+    // used if targetEdOrgs is NOT set
     private Set<String> targetEdOrgIds;
 
+    // only used if targetEdOrgs and targetEdOrgIds is NOT set
     private String entityType;                // type of the entities to which access was attempted
+    private SLIPrincipal principal;
+    private String clientId;
     private Set<Entity> entities;             // entities to which access was attempted
     private Set<String> entityIds;            // ids of the entities to which access was attempted
 
+    // only used if targetEdOrgs, targetEdOrgIds AND entityType are NOT set
+    private boolean targetIsUserEdOrg;        // if true, will set targetEdOrgList to be userEdOrg
+
     private static final long serialVersionUID = 23498349L;
 
+    /**
+     * Will use default security event logic to determine targetEdOrgList from uri
+     * should be explicitly set if possible
+     * @param msg           explanation of the exception
+     */
     public APIAccessDeniedException(String msg) {
         super(msg);
+    }
+
+    public APIAccessDeniedException(String msg, SLIPrincipal principal, String clientId) {
+        super(msg);
+        this.principal = principal;
+        this.clientId = clientId;
+    }
+    
+    public APIAccessDeniedException(String msg, AccessDeniedException e) {
+        super(msg);
+        this.initCause(e);
     }
 
     /**
@@ -50,6 +80,7 @@ public class APIAccessDeniedException extends AccessDeniedException {
      */
     public APIAccessDeniedException(String msg, APIAccessDeniedException e) {
         super(msg);
+        this.targetEdOrgs = e.getTargetEdOrgs();
         this.targetEdOrgIds = e.getTargetEdOrgIds();
         this.entityType = e.getEntityType();
         this.entities = e.getEntities();
@@ -59,17 +90,19 @@ public class APIAccessDeniedException extends AccessDeniedException {
 
     /**
      * @param msg           explanation of the exception
-     * @param targetEdOrgId   database id of the education organization to which access was denied
+     * @param targetEdOrg   state id of the education organization to which access was denied
      */
-    public APIAccessDeniedException(String msg, String targetEdOrgId) {
+    public APIAccessDeniedException(String msg, String targetEdOrg) {
         super(msg);
-        this.targetEdOrgIds = new HashSet<String>();
-        this.targetEdOrgIds.add(targetEdOrgId);
+        if (targetEdOrg != null) {
+            this.targetEdOrgs = new HashSet<String>();
+            this.targetEdOrgs.add(targetEdOrg);
+        }
     }
 
     /**
-     * @param msg           explanation of the exception
-     * @param targetEdOrgIds  database ids of the education organizations to which access was denied
+     * @param msg               explanation of the exception
+     * @param targetEdOrgIds    database ids of the education organizations to which access was denied
      */
     public APIAccessDeniedException(String msg, Collection<String> targetEdOrgIds) {
         super(msg);
@@ -79,12 +112,23 @@ public class APIAccessDeniedException extends AccessDeniedException {
     /**
      * Creates an APIAccessDeniedException with targetEdOrgs set based on the provided entity
      * @param msg       explanation of the exception
-     * @param entity    entity to which access was denied
+     * @param realm    entity to which access was denied (MUST have entityType set)
      */
-    public APIAccessDeniedException(String msg, Entity entity) {
+    public APIAccessDeniedException(String msg, Entity realm) {
+        super(msg);
+        this.realm = realm;
+    }
+
+    /**
+     * Creates an APIAccessDeniedException with targetEdOrgs set based on the provided entity
+     * @param msg       explanation of the exception
+     * @param entityType    type of the entity to which access was denied
+     * @param entity    entity to which access was denied (MUST have entityType set)
+     */
+    public APIAccessDeniedException(String msg, String entityType, Entity entity) {
         super(msg);
         if (entity != null) {
-            this.entityType = entity.getType();
+            this.entityType = entityType;
             this.entities = new HashSet<Entity>();
             this.entities.add(entity);
         }
@@ -99,10 +143,22 @@ public class APIAccessDeniedException extends AccessDeniedException {
      */
     public APIAccessDeniedException(String msg, String entityType, String entityId) {
         super(msg);
+        if (entityId != null) {
+            this.entityType = entityType;
+            this.entityIds = new HashSet<String>();
+            this.entityIds.add(entityId);
+        }
+    }
 
-        this.entityType = entityType;
-        this.entityIds = new HashSet<String>();
-        this.entityIds.add(entityId);
+    /**
+     * Creates an APIAccessDeniedException with targetEdOrgs set to the userEdOrg
+     * @param msg                   explanation of the exception
+     * @param targetIsUserEdOrg     whether to set targetEdOrgList from userEdOrg
+     */
+    public APIAccessDeniedException(String msg, boolean targetIsUserEdOrg) {
+        super(msg);
+
+        this.targetIsUserEdOrg = targetIsUserEdOrg;
     }
 
     /**
@@ -114,9 +170,26 @@ public class APIAccessDeniedException extends AccessDeniedException {
      */
     public APIAccessDeniedException(String msg, String entityType, Collection<String> entityIds) {
         super(msg);
+        if (entityIds != null && !entityIds.isEmpty()) {
+            this.entityType = entityType;
+            this.entityIds = new HashSet<String>(entityIds);
+        }
+    }
 
-        this.entityType = entityType;
-        this.entityIds = new HashSet<String>(entityIds);
+    public Set<String> getTargetEdOrgs() {
+        return targetEdOrgs;
+    }
+
+    public void setTargetEdOrgs(Set<String> targetEdOrgs) {
+        this.targetEdOrgs = targetEdOrgs;
+    }
+
+    public boolean isTargetIsUserEdOrg() {
+        return targetIsUserEdOrg;
+    }
+
+    public void setTargetIsUserEdOrg(boolean targetIsUserEdOrg) {
+        this.targetIsUserEdOrg = targetIsUserEdOrg;
     }
 
     public void setTargetEdOrgIds(Set<String> targetEdOrgIds) {
@@ -142,7 +215,14 @@ public class APIAccessDeniedException extends AccessDeniedException {
     public Set<Entity> getEntities() {
         return entities;
     }
+    
+    public SLIPrincipal getPrincipal() {
+    	return principal;
+    }
 
+    public String getClientId() {
+    	return clientId;
+    }
     public String getEntityType() {
         return entityType;
     }
@@ -151,4 +231,11 @@ public class APIAccessDeniedException extends AccessDeniedException {
         return entityIds;
     }
 
+    public Entity getRealm() {
+        return realm;
+    }
+
+    public void setRealm(Entity realm) {
+        this.realm = realm;
+    }
 }

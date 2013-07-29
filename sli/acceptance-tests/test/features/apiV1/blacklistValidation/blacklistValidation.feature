@@ -21,15 +21,7 @@ Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
 
    Given an entity with a \u003c character for a "<ENTITY TYPE>"
     When I navigate to POST "/<ENTITY URI>"
-    Then I should receive a return code of 400
-
-   Given an entity with a '>' character for a "<ENTITY TYPE>"
-    When I navigate to POST "/<ENTITY URI>"
-    Then I should receive a return code of 400
-
-   Given an entity with a '<' character for a "<ENTITY TYPE>"
-    When I navigate to POST "/<ENTITY URI>"
-    Then I should receive a return code of 400
+    Then I should receive a return code of 201
 
 Scenario: Create entities which contain invalid words - staff
 Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
@@ -99,17 +91,10 @@ Given I am logged in using "cgrayadmin" "cgray1234" to realm "IL"
     When I navigate to POST "/<ENTITY URI>"
     Then I should receive a return code of 400
 
-   Given an entity with a \u003c character for a "<ENTITY TYPE>"
-    When I navigate to POST "/<ENTITY URI>"
-    Then I should receive a return code of 400
-
    Given an entity with a '>' character for a "<ENTITY TYPE>"
     When I navigate to POST "/<ENTITY URI>"
-    Then I should receive a return code of 400
+    Then I should receive a return code of 201
 
-   Given an entity with a '<' character for a "<ENTITY TYPE>"
-    When I navigate to POST "/<ENTITY URI>"
-    Then I should receive a return code of 400
 
 Scenario: Create entities which contain invalid words - admin teacher
 Given I am logged in using "cgrayadmin" "cgray1234" to realm "IL"

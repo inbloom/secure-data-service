@@ -416,7 +416,7 @@ end
 When /^I try to delete an entity that is out of my write context$/ do
   nop = false
   case @type
-    when "attendance" then id = "4beb72d4-0f76-4071-92b4-61982dba7a7b"
+    when "attendance" then id = "4beb72d4-0f76-4071-92b4-61982dba7b7a"
     when "cohort" then id = "7e9915ed-ea6f-4e6b-b8b0-aeae20a25826_id"
     when "course" then id = "5c7aa39b-3193-4865-a10f-5e1e3c7dc7ea"
     when "courseOffering" then id = "119ecc01-d1ea-473d-bafd-51382158800e"

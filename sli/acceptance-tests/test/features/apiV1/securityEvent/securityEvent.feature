@@ -34,7 +34,7 @@ Scenario: Read all entities as SLC Operator
     And parameter "limit" is "0"
     When I navigate to GET "<ENTITY URI>"
     Then I should receive a return code of 200
-    And I should receive a collection of "19" entities
+    And I should receive a collection of "20" entities
     And each entity's "entityType" should be "<ENTITY TYPE>"
 
 Scenario: Read all entities as NonAdmin User

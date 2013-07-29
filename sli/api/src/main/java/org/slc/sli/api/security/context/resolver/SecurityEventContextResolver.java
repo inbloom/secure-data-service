@@ -24,6 +24,7 @@ import java.util.Set;
 
 import com.google.common.collect.Lists;
 
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -93,7 +94,8 @@ public class SecurityEventContextResolver implements EntityContextResolver {
 						String edOrg = principal.getEdOrg();
 						String edOrgId = principal.getEdOrgId();
 						if (edOrg != null) {
-							Set<String> homeEdOrgs = new HashSet<String>();
+                            String tenantId = SecurityUtil.getTenantId();
+                            Set<String> homeEdOrgs = new HashSet<String>();
 							homeEdOrgs.add(edOrg);
 							if (roles
 									.contains(RoleInitializer.SEA_ADMINISTRATOR)) {
@@ -107,6 +109,7 @@ public class SecurityEventContextResolver implements EntityContextResolver {
 								}
 
 								NeutralQuery or = new NeutralQuery();
+                                or.addCriteria(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL, tenantId));
 								or.addCriteria(new NeutralCriteria(
 										"targetEdOrgList",
 										NeutralCriteria.CRITERIA_IN, homeEdOrgs));
@@ -120,6 +123,7 @@ public class SecurityEventContextResolver implements EntityContextResolver {
 										.getChildEdOrgsName(edOrgs);
 								homeEdOrgs.addAll(childEdorgStateIds);
 								NeutralQuery or = new NeutralQuery();
+                                or.addCriteria(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL, tenantId));
 								or.addCriteria(new NeutralCriteria(
 										"targetEdOrgList",
 										NeutralCriteria.CRITERIA_IN, homeEdOrgs));

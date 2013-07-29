@@ -201,5 +201,10 @@ public class MockBasicService implements EntityService {
         return false;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    @Override
+    public long countBasedOnContextualRoles(NeutralQuery neutralQuery) {
+        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
 
 }

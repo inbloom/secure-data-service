@@ -83,6 +83,11 @@ end
 # WHEN WHEN WHEN WHEN WHEN WHEN 2WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN
 ###############################################################################
 
+
+When /^I create an empy json object to POST$/ do
+  @fields = Hash[]
+end
+
 When /^I navigate to POST "([^"]*)"$/ do |post_uri|
   data = prepareData(@format, @fields)
   puts("POSTing: #{data.inspect}") if $SLI_DEBUG

@@ -159,17 +159,76 @@ Feature: As a student or staff I want to use apps that access the inBloom API
 
 
 @student_crud @clean_up_student_posts
+Scenario: POST to other student as a privileged student with extended rights
+  Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "leader.m.sollars" with password "leader.m.sollars1234"
+   And format "application/json"
+   And I am using api version "v1"
+   And the sli securityEvent collection is empty
+  When I POST and validate the following entities:
+    | entityName                     | entityType            | returnCode |
+    | msollars.student               | student               | 403        |
+  Then I should see a count of "1" in the security event collection
+   And I check to find if record is in sli db collection:
+    | collectionName  | expectedRecordCount | searchParameter         | searchValue                                      | searchType |
+    | securityEvent   | 1                   | body.appId              | EGbI4LaLaL                                       | string     |
+    | securityEvent   | 1                   | body.tenantId           | Midgar                                           | string     |
+    | securityEvent   | 1                   | body.userEdOrg          | IL-DAYBREAK                                      | string     |
+    | securityEvent   | 1                   | body.targetEdOrgList    | IL-DAYBREAK                                      | string     |
+    | securityEvent   | 1                   | body.logMessage         | Access Denied:Cannot update student not yourself | string     |
+    | securityEvent   | 1                   | body.className          | org.slc.sli.api.service.BasicService             | string     |
+   And "1" security event with field "body.actionUri" matching "http.*/api/rest/v1.3/students" should be in the sli db
+
+@student_crud @clean_up_student_posts
+Scenario: POST to other student assessment as a privileged student with extended rights
+  Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "leader.m.sollars" with password "leader.m.sollars1234"
+   And format "application/json"
+   And I am using api version "v1"
+   And the sli securityEvent collection is empty
+  When I POST and validate the following entities:
+    | entityName                     | entityType            | returnCode |
+    | cgray.studentAssessment        | studentAssessment     | 403        |
+  And I should see a count of "1" in the security event collection
+  And I check to find if record is in sli db collection:
+    | collectionName  | expectedRecordCount | searchParameter         | searchValue                                                           | searchType |
+    | securityEvent   | 1                   | body.appId              | EGbI4LaLaL                                                            | string     |
+    | securityEvent   | 1                   | body.tenantId           | Midgar                                                                | string     |
+    | securityEvent   | 1                   | body.userEdOrg          | IL-DAYBREAK                                                           | string     |
+    | securityEvent   | 1                   | body.targetEdOrgList    | Daybreak Central High                                                 | string     |
+    | securityEvent   | 1                   | body.logMessage         | Access Denied:Cannot update student assessments that are not your own | string     |
+    | securityEvent   | 1                   | body.className          | org.slc.sli.api.service.BasicService             | string     |
+  And "1" security event with field "body.actionUri" matching "http.*/api/rest/v1.3/studentAssessments" should be in the sli db
+
+
+@student_crud @clean_up_student_posts
+Scenario: POST to other student entity as a privileged student with extended rights
+  Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "leader.m.sollars" with password "leader.m.sollars1234"
+   And format "application/json"
+   And I am using api version "v1"
+   And the sli securityEvent collection is empty
+  When I POST and validate the following entities:
+    | entityName         | entityType | returnCode |
+    | cgray.grade        | grade      | 403        |
+  And I should see a count of "1" in the security event collection
+  And I check to find if record is in sli db collection:
+    | collectionName  | expectedRecordCount | searchParameter         | searchValue                                                           | searchType |
+    | securityEvent   | 1                   | body.appId              | EGbI4LaLaL                                                            | string     |
+    | securityEvent   | 1                   | body.tenantId           | Midgar                                                                | string     |
+    | securityEvent   | 1                   | body.userEdOrg          | IL-DAYBREAK                                                           | string     |
+    | securityEvent   | 1                   | body.targetEdOrgList    | Daybreak Central High                                                 | string     |
+    | securityEvent   | 1                   | body.logMessage         | Access Denied:Cannot update grade that are not your own               | string     |
+    | securityEvent   | 1                   | body.className          | org.slc.sli.api.service.BasicService             | string     |
+  And "1" security event with field "body.actionUri" matching "http.*/api/rest/v1.3/grades" should be in the sli db
+
+@student_crud @clean_up_student_posts
 Scenario: POST new entities as a privileged student with extended rights
-Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "leader.m.sollars" with password "leader.m.sollars1234"
-  And format "application/json"
-  And I am using api version "v1"
-  #POST a new teacher as an enterprising student who somehow has write access to restricted entities
+  Given I log in to realm "Illinois Daybreak Students" using simple-idp as "student" "leader.m.sollars" with password "leader.m.sollars1234"
+   And format "application/json"
+   And I am using api version "v1"
   When I POST and validate the following entities:
     | entityName                     | entityType            | returnCode |
     | msollars.studentAssessment     | studentAssessment     | 201        |
     | msollars.studentGradebookEntry | studentGradebookEntry | 201        |
     | msollars.grade                 | grade                 | 201        |
-    | msollars.student               | student               | 403        |
   When I PATCH and validate the following entities:
     | fieldName              | entityType            | value                       | returnCode | endpoint                                                                                      |
     | msollars.name          | student               | Patch                       | 204        | students/067198fd6da91e1aa8d67e28e850f224d6851713_id                                          |

@@ -34,23 +34,30 @@ Then /^a security event matching "([^"]*)" should be in the sli db$/ do |securit
   assert(secEventCount > 0, "No security events were found with logMessage matching " + securityeventpattern)
 end
 
+Then /^"([^"]*)" security event matching "([^"]*)" should be in the sli db$/ do |expected_count, securityeventpattern|
+  disable_NOTABLESCAN()
+  secEventCount = getMatchingSecEvents(securityeventpattern);
+  enable_NOTABLESCAN()
+  assert(secEventCount == expected_count.to_i, "Unexpected number of security events found with logMessage matching " + securityeventpattern)
+end
+
+
+Then /^"([^"]*)" security event with field "([^"]*)" matching "([^"]*)" should be in the sli db$/ do |expected_count, field, securityeventpattern|
+  disable_NOTABLESCAN()
+  secEventCount = getMatchingSecEvents(field, securityeventpattern);
+  enable_NOTABLESCAN()
+  assert(secEventCount == expected_count.to_i, "Unexpected number of security events found with logMessage matching " + securityeventpattern)
+end
+
 def securityEventCollection
   db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
-  coll ||= db.collection('securityEvent', opts = {:safe => true})
+  coll ||= db.collection('securityEvent')
   return coll
 end
 
-def getMatchingSecEvents(securityeventpattern)
-    retryCount = 3;
-    securityEventCount = 0;
-    while retryCount > 0 do
-        coll = securityEventCollection()
-        retryCount = retryCount - 1
-        secEventCount = coll.find({"body.logMessage" => /#{securityeventpattern}/}).count()
-        break if secEventCount > 0
-        sleep (10)
-    end
-    puts "SecEvent retries left [" + retryCount.to_s + "]"
+def getMatchingSecEvents(field="body.logMessage", securityeventpattern)
+    coll = securityEventCollection()
+    secEventCount = coll.find({field => /#{securityeventpattern}/}).count()
     return secEventCount
 end
 
@@ -69,4 +76,26 @@ And /^a security event "([^"]*)" should be created for these targetEdOrgs( ONLY)
   end
 end
 
+Then /^I should see a count of "([^"]*)" in the security event collection$/ do |count|
+  disable_NOTABLESCAN()
+  @result = "true"
+    coll = securityEventCollection()
+    @entity_count = coll.count().to_i
+    #puts @entity_count
+    #puts "There are " + @entity_count.to_s + " in the security event collection"
+    if @entity_count.to_s != count.to_s
+      @result = "false"
+    end
+  assert(@result == "true", "Some records didn't match successfully.")
+  enable_NOTABLESCAN()
+end
+
+When /^I GET the url "([^"]*)" using a blank cookie$/ do |arg1|
+  url = PropLoader.getProps['api_server_url']+"/api/rest"+arg1
+  @res = RestClient.get(url, nil) {|response, request, result| response}
+end
+
+Then /^I should receive a "([^"]*)" response$/ do |arg1|
+  assert("#{@res.code}" ==  arg1, "Expected #{arg1}, but got #{@res.code}")
+end
 

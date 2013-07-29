@@ -1,6 +1,5 @@
 Feature: Student Access Security Mega Test
 I want to test all combinations and permutations of accessing student data
-
 @DE_2712
 @DE_2726
 Scenario Outline: Users accessing students via multi-part URIs for Sections
@@ -97,6 +96,27 @@ Scenario Outline: Users accessing students via multi-part URIs for Sections
   |"staff14"|"section3"| 403 |  0  | "none"               | state-staff as Agg Viewer |
   |"staff15"|"section3"| 403 |  0  | "none"               | state-staff with expired association |
 
+Scenario: Check the status of securityEvent collection 
+
+ Given I am user "staff15" in IDP "SEC"
+  And the sli securityEvent collection is empty
+  When I make an API call to get all students in the section "section3"
+  Then I should receive a return code of 403
+  And I should see a count of 0
+  #de2726
+  And the header "TotalCount" equals 0
+  And I the response should only include the students "none"
+    
+  And I should see a count of "1" in the security event collection  
+  And I check to find if record is in sli db collection: 
+  | collectionName | expectedRecordCount | searchParameter | searchValue                                                      | searchType |
+  | securityEvent  | 1                   | body.tenantId   | Security                                                         | string     |
+  | securityEvent  | 1                   | body.className  | org.slc.sli.api.security.resolve.impl.MongoUserLocator           | string     |
+  | securityEvent  | 1                   | body.appId      | ke9Dgpo3uI                                                       | string     |
+  | securityEvent  | 1                   | body.logMessage | Access Denied:User is not currently associated to a school/edorg | string     |
+  #userEdOrg and targetEdOrgList are not populated as association is expired
+  And "1" security event with field "body.actionUri" matching "http.*/api/rest/v1.3/sections.*" should be in the sli db
+	
 @DE_2712 
 Scenario Outline: Users accessing students via multi-part URIs for Cohorts
 Given I am user <User> in IDP "SEC"

@@ -74,7 +74,7 @@ Feature: As an SLI application, I want to return the right order of entities.
  	    | ENDPOINT                  | ID1                                | ID2                                |
  	    |assessments                |b94b5194d45cd707465627c0cd6c4f68f3558600_id|c607aa848f00b4efa6bfb95fbe78a00338377f16_id|
  	    |attendances                |530f0704-c240-4ed9-0a64-55c0308f91ee|4beb72d4-0f76-4071-92b4-61982dba7a7b|
- 	    |cohorts                    |b40926af-8fd5-11e1-86ec-0021701f543f_id|b408d88e-8fd5-11e1-86ec-0021701f543f_id|
+ 	    |cohorts                    |b40926af-8fd5-11e1-86ec-0021701f543f_id|b408d88e-8fd5-11t1-86tc-0021701f543f_id|
  	    |courses                    |f9d960e4-682b-4ebe-96d8-c4c2fc803435|43ee8275-de7b-4a02-8ecb-21d25a45db36|
  	    |disciplineActions          |db7f1d4b-9689-b2f4-9281-d88d65999423|9e26de6c-225b-9f67-9201-8113ad50a03b|
  	    |disciplineIncidents        |0e26de79-7efa-5e67-9201-5113ad50a03b|0e26de79-22ea-5d67-9201-5113ad50a03b|
@@ -118,21 +118,8 @@ Feature: As an SLI application, I want to return the right order of entities.
       Then I should receive a return code of 200
       When I navigate to GET "/v1/<ENDPOINT>/<BAD_ID>"
       Then I should receive a return code of 403
-    # us5758 revisit this - fix or remove
-       #And a security event matching "^Access Denied" should be in the sli db
-       #And I check to find if record is in sli db collection:
-         #| collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
-         #| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                           |
-         #| securityEvent       | 1                   | body.targetEdOrgList  | IL-DAYBREAK                           |
-      #When the sli securityEvent collection is empty
       And I navigate to GET "/v1/<ENDPOINT>/<GOOD_ID>,<BAD_ID>"
       Then I should receive a return code of 403
-    # us5758 revisit this - fix or remove
-       #And a security event matching "^Access Denied" should be in the sli db
-       #And I check to find if record is in sli db collection:
-         #| collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
-         #| securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                           |
-         #| securityEvent       | 1                   | body.targetEdOrgList  | IL-DAYBREAK                           |
       And I should see a total of 0 entities
       Examples:
       | ENDPOINT                  | GOOD_ID                            | BAD_ID                             |
@@ -214,3 +201,23 @@ Scenario Outline: Validate CSL where teacher has access to one ID but not two
       |studentSchoolAssociations              |f4cd9ac2-8f68-42a7-a886-977e4a194c0c|03af9c21-43c0-4d2d-bac6-96cf3290a6f4|
       |teacherSchoolAssociations              |9d4e4031-3a5d-4965-98b9-257ff887a774|1a72521b-7bed-890a-d574-1d729a379528|
       |teacherSectionAssociations             |15ab6363-5509-470c-8b59-4f289c224107_id32b86a2a-e55c-4689-aedf-4b676f3da3fc_id|706ee3be-0dae-4e98-9525-f564e05aa388_id29d58f86-5fab-4926-a9e2-e4076fe27bb3_id|
+
+Scenario: security event throwing when you try to access existing parent id
+      Given I am logged in using "cgray" "cgray1234" to realm "IL"
+      And the sli securityEvent collection is empty   
+      When I navigate to GET "/v1/parents/056dce8e-ec68-4df6-add0-a4243bddca9a"
+      Then I should receive a return code of 403
+     And I should see a count of "1" in the security event collection
+     And I check to find if record is in sli db collection:
+        | collectionName  | expectedRecordCount | searchParameter         | searchValue                                           | searchType |
+        | securityEvent   | 1                   | body.appId              | ke9Dgpo3uI                                            | string     |
+        | securityEvent   | 1                   | body.className          |org.slc.sli.api.security.context.OwnershipArbiter      | string     |
+        | securityEvent   | 1                   | body.userEdOrg          | IL-SUNSET                                             | string     |
+        | securityEvent   | 1                   | body.targetEdOrgList    | IL-SUNSET                                             | string     |
+     And "1" security event with field "body.actionUri" matching "http.*/api/rest/v1.3/parents/056dce8e-ec68-4df6-add0-a4243bddca9a" should be in the sli db   
+     And "1" security event matching "Access Denied:Could not find a matching studentParentAssociation where parentId is 056dce8e-ec68-4df6-add0-a4243bddca9a." should be in the sli db
+
+       
+ 
+ 
+      

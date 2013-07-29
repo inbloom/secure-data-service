@@ -238,6 +238,25 @@ Given /^I am using api version "(.*?)"$/ do |version|
   @api_version = version
 end
 
+Given /^I set the userSession clientId to nil$/ do
+  conn = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
+  sli = conn.db("sli")
+  coll = sli["userSession"]
+  entity = coll.find_one({"body.appSession.token" => @sessionId})
+  assert(entity, "cant find userSession with token #{@sessionId}")
+  body = entity["body"]
+  puts body
+  appSessionArray = body["appSession"]
+  puts appSessionArray
+  appSessionArray.each do |hash|
+     if hash.has_key?("clientId")
+        hash["clientId"] = nil
+     end
+  end
+  puts entity
+  coll.save(entity)
+end
+
 ###############################################################################
 # WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN
 ###############################################################################
