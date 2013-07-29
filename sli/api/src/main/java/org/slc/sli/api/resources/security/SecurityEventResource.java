@@ -37,6 +37,8 @@ import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.context.resolver.SecurityEventContextResolver;
 import org.slc.sli.api.service.query.UriInfoToApiQueryConverter;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -96,13 +98,10 @@ public class SecurityEventResource extends UnversionedResource {
         NeutralQuery mainQuery = queryConverter.convert(uriInfo);
         mainQuery.setSortBy("timeStamp");
         mainQuery.setSortOrder(SortOrder.descending);
+
         mainQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, resolver.findAccessible(null)));
 
         List<EntityBody> results = new ArrayList<EntityBody>();
-       /* for (Entity entity : repo.findAll("securityEvent", mainQuery)) {
-            
-            results.add(new EntityBody(entity.getBody()));
-        }*/
         for (EntityBody body : entityDef.getService().list(mainQuery)) {
             results.add(body);
         }
