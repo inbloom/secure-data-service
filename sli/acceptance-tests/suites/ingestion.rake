@@ -16,6 +16,11 @@ task :ingestionDemoDataTest do
   runTests("test/features/ingestion/features/ingestion_demo.feature")
 end
 
+desc "Run Ingestion Generic Education Organization Tests"
+task :ingestionGenericEdOrgTest do
+  runTests("test/features/ingestion/features/ingestion_generic_edOrg.feature")
+end  
+  
 desc "Run Ingestion Acceptance SDS Tests"
 task :ingestionAcceptanceSdsTest do
   runTests("test/features/ingestion/features/ingestion_acceptance_SDS_test.feature")
