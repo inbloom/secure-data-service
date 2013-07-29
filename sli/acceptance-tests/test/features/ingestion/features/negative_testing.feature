@@ -227,6 +227,7 @@ Scenario: Post an zip file where the control file has extra properties
   And I should see "CORE_0003:" in the resulting error log file
   And I should see "Processed 0 records." in the resulting batch job file
 
+@wip
 Scenario: Post a zip file containing error CalendarDate with ID References job: Clean Database
   Given I post "Error_Report1.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
