@@ -618,6 +618,10 @@ task :corruptZip do
   runTests("test/features/ingestion/features/corrupt_zip.feature")
 end
 
+task :genericEdOrgs do
+  runTests("test/features/ingestion/features/ingestion_generic_edOrg.feature")
+end
+
 ############################################################
 # Ingestion tests end
 ############################################################
