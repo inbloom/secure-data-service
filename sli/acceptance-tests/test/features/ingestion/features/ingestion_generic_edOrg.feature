@@ -146,6 +146,11 @@ Feature: Generic EdOrg Ingestion
         | body.organizationCategories         | Local Education Agency                      |
         | body.parentEducationAgencyReference | 2a05470ef1a2eacb408513fc646b8f39f1d9cd61_id |
 
+    #update tests
+    Then "0" records in the "educationOrganization" collection with field "body.nameOfInstitution" matching ".*Updated" should be in the "Midgar" tenant db
+    When I ingest "GenericEdOrgUpdates.zip"
+    Then "16" records in the "educationOrganization" collection with field "body.nameOfInstitution" matching ".*Updated" should be in the "Midgar" tenant db
+
     #duplicate detection test
     And I should see following map of entry counts in the corresponding collections:
       | collectionName                           |              count|
