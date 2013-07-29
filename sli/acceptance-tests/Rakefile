@@ -875,6 +875,7 @@ task :ingestionTests => [
         :loadDefaultIngestionTenants,
         :IngestionIndexValidationTest,
         :corruptZip,
+        :genericEdOrgs,
         :ingestionDeletionTests,
         :ingestionTenantPurgeTests,
         :ingestionJobFailOnMissingIndexTest,
