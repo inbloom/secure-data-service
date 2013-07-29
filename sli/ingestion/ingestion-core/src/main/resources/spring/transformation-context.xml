@@ -275,7 +275,14 @@
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/assessmentFamily.xml" />
       </bean>
     </entry>
-  </util:map>
+
+
+    <entry key="educationOrganization">
+        <bean class="org.milyn.Smooks">
+            <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/educationOrganization.xml" />
+        </bean>
+    </entry>
+</util:map>
 
   <bean id="didSchemaParser" class="org.slc.sli.ingestion.transformation.normalization.did.DidSchemaParser">
     <property name="xsdLocation" value="classpath:edfiXsd/Ed-Fi-Core.xsd" />
