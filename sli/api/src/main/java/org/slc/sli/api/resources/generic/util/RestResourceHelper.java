@@ -18,6 +18,7 @@ package org.slc.sli.api.resources.generic.util;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -193,9 +194,15 @@ public class RestResourceHelper implements ResourceHelper {
         String newUri;
         String queryString;
         ServiceResponse secondResponse;
+        try {
         switch (request.getPathSegments().size()) {
+        case 3:
+            id = request.getPathSegments().get(2).getPath();
+            resource = getResourceName(requestUri, ResourceTemplate.TWO_PART);
+            secondResponse = resourceService.getEntitiesByIds(resource, id, requestUri);
+        break;
         case 4:
-            id = request.getPathSegments().get(1).getPath();
+            id = request.getPathSegments().get(2).getPath();
             base = getBaseName(requestUri, ResourceTemplate.THREE_PART);
             resource = getResourceName(requestUri, ResourceTemplate.THREE_PART);
             secondResponse = resourceService.getEntities(base, id, resource, requestUri);
@@ -234,6 +241,10 @@ public class RestResourceHelper implements ResourceHelper {
         break;
         default:
             throw new AssertionError("Non-valid template");
+        }
+        } catch (Exception e) {
+            // Use blank response.
+            secondResponse = new ServiceResponse(new LinkedList<EntityBody>(), 0);
         }
 
         // Now, return the combined results.

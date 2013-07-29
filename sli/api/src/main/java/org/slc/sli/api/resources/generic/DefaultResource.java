@@ -101,11 +101,19 @@ public class DefaultResource extends GenericResource implements CustomEntityRetu
     @Path("{id}")
     public Response getWithId(@PathParam("id") final String id,
                               @Context final UriInfo uriInfo) {
+        final DefaultResource thisResource = this;
 
         return getResponseBuilder.build(uriInfo, twoPartTemplate, ResourceMethod.GET, new GenericResource.GetResourceLogic() {
             @Override
             public ServiceResponse run(Resource resource) {
-                return resourceService.getEntitiesByIds(resource, id, uriInfo.getRequestUri());
+                ServiceResponse response = resourceService.getEntitiesByIds(resource, id, uriInfo.getRequestUri());
+                if (SecurityUtil.isDualContext()) {
+                    response = resourceHelper.getEntitiesForOtherUserContext(uriInfo, response, thisResource);
+                    SecurityUtil.setDualContext(false);
+                }
+
+                return response;
+//                return resourceService.getEntitiesByIds(resource, id, uriInfo.getRequestUri());
             }
         });
 
