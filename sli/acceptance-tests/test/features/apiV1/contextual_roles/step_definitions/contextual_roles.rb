@@ -58,6 +58,10 @@ Transform /^<(.*?)>$/ do |human_readable_id|
     when 'District 9 URI'
       id = '/v1/educationOrganizations/99a4ec9d3ba372993b2860a798b550c77bb73a09_id'
 
+#Staff
+    when 'msmith URI'
+      id = '/v1/staff/3a780cebc8f98982f9b7a5d548fecff42ed8f2f1_id'
+
 #Following are for DELETES
     when 'pat.sollars URI'
       id = '/v1/students/993283bce14b54bbfc896b8452f26e745ce4c101_id'
@@ -102,18 +106,11 @@ Transform /^\[([^{]*)\]$/ do |array_list|
   array
 end
 
-Transform /^\[\{([^{]*)\}\]$/ do |array_hash|
-  array = []
-  hash = {}
-  hash_split = array_hash.split(%r{,\s*})
-  hash_split.each do |hash_parse|
-    hash_key_value = hash_parse.split(%r{\s*:\s*})
-    new_hash = {hash_key_value[0] => hash_key_value[1]}
-    hash.merge!(new_hash)
-  end
-  array << hash
+Transform /^(\[?\{.*?\}\]?)$/ do |array_hash|
+  string_hash = array_hash.gsub(/[']/,"\"")
+  hash = JSON.parse(string_hash)
 
-  array
+  hash
 end
 
 #############################################################################################
@@ -660,25 +657,60 @@ Given /^I get (\d+) random ids associated with the edorgs for "([^"]*)" of "([^"
       subdoc = true
       edorg_in_subdoc = true
       edorg_ref = 'body.educationOrganizationId'
+      indirect_ref = false
     when 'teacherSchoolAssociation', 'studentSchoolAssociation', 'disciplineIncident', 'attendance'
       subdoc = false
       edorg_ref = 'body.schoolId'
+      indirect_ref = false
     when 'staffEducationOrganizationAssociation'
       subdoc = false
       edorg_ref = 'body.educationOrganizationReference'
+      indirect_ref = false
     when 'cohort'
       subdoc = false
       edorg_ref = 'body.educationOrgId'
+      indirect_ref = false
     when 'disciplineAction'
       subdoc = false
       edorg_ref = 'body.responsibilitySchoolId'
-    when 'gradebookEntry'
+      indirect_ref = false
+    when 'gradebookEntry', 'studentSectionAssociation'
       subdoc = true
       edorg_in_subdoc = false
       edorg_ref = 'body.schoolId'
+      indirect_ref = false
+    when 'studentAssessment'
+      subdoc = false
+      indirect_ref = true
+      ref_entity = 'studentSchoolAssociation'
+      edorg_ref = 'body.schoolId'
+      ref_field_in_ref_entity = 'studentId'
+      ref_field = 'body.studentId'
+    when 'studentCohortAssociation'
+      subdoc = true
+      indirect_ref = true
+      ref_entity = 'cohort'
+      edorg_ref = 'body.educationOrgId'
+      ref_field_in_ref_entity = '_id'
+      ref_field = 'body.cohortId'
+    when 'studentDisciplineIncidentAssociation'
+      subdoc = true
+      indirect_ref = true
+      ref_entity = 'disciplineIncident'
+      edorg_ref = 'body.schoolId'
+      ref_field_in_ref_entity = '_id'
+      ref_field = 'body.disciplineIncidentId'
+    when 'studentParentAssociation', 'studentAcademicRecord', 'reportCard'
+      subdoc = true
+      indirect_ref = true
+      ref_entity = 'studentSchoolAssociation'
+      edorg_ref = 'body.schoolId'
+      ref_field_in_ref_entity = 'studentId'
+      ref_field = 'body.studentId'
     else
       subdoc = false
       edorg_ref = 'body.educationOrganizationId'
+      indirect_ref = false
   end
 
   disable_NOTABLESCAN()
@@ -695,16 +727,40 @@ Given /^I get (\d+) random ids associated with the edorgs for "([^"]*)" of "([^"
   entity_ids = Set.new
   coll = db.collection(collection)
   edorgs.each do |edorg|
-    if subdoc
+    if subdoc && !indirect_ref
       if edorg_in_subdoc
         entities = coll.find({"#{type}.#{edorg_ref}" => edorg},{:fields => ["#{type}.$"]}).to_a
       else
         entities = coll.find({edorg_ref => edorg}).to_a
       end
       entities.each { |entity| entity_ids.add(entity[type][0]['_id'])}
-    else
+    elsif !indirect_ref && !subdoc
       entities = coll.find({edorg_ref => edorg},{:fields => %w(_id)}).to_a
       entities.each { |entity| entity_ids.add(entity['_id'])}
+    elsif indirect_ref && !subdoc
+      ref_coll = db.collection(ref_entity)
+      ref_entities = ref_coll.find({edorg_ref => edorg}).to_a
+      ref_ids = Set.new
+      if ref_field_in_ref_entity == '_id'
+        ref_entities.each { |entry| ref_ids.add(entry[ref_field_in_ref_entity])}
+      else
+        ref_entities.each { |entry| ref_ids.add(entry['body'][ref_field_in_ref_entity])}
+      end
+      entities = []
+      ref_ids.each { |entry| entities.concat(coll.find({ref_field => entry},{:fields => %w(_id)}).to_a)}
+      entities.each { |entity| entity_ids.add(entity['_id'])}
+    elsif indirect_ref && subdoc
+      ref_coll = db.collection(ref_entity)
+      ref_entities = ref_coll.find({edorg_ref => edorg}).to_a
+      ref_ids = Set.new
+      if ref_field_in_ref_entity == '_id'
+        ref_entities.each { |entry| ref_ids.add(entry[ref_field_in_ref_entity])}
+      else
+        ref_entities.each { |entry| ref_ids.add(entry['body'][ref_field_in_ref_entity])}
+      end
+      entities = []
+      ref_ids.each { |entry| entities.concat(coll.find({"#{type}.#{ref_field}" => entry},{:fields => ["#{type}.$"]}).to_a)}
+      entities.each { |entity| entity_ids.add(entity[type][0]['_id']) }
     end
   end
   assert(entity_ids.size > 0, "No #{type} found that is associated with the edorgs of #{staff}")
@@ -1120,8 +1176,8 @@ Then /^All the return codes should be (\d+)$/ do |code|
 end
 
 When /^I set the ([^"]*) to ([^"]*)$/ do |key, value|
-  @result = {} if !defined? @result
-  value.is_a?(String) ? @result[key] = convert(value) : @result[key] = value
+  @fields = {} if !defined? @fields
+  value.is_a?(String) ? @fields[key] = convert(value) : @fields[key] = value
 end
 
 Given /^a valid json document for entity "([^"]*)"$/ do |entity|
@@ -1138,6 +1194,9 @@ Given /^a valid json document for entity "([^"]*)"$/ do |entity|
   di_coll = db.collection('disciplineIncident')
   section_coll = db.collection('section')
   yt_coll = db.collection('yearlyTranscript')
+  assessment_coll = db.collection('assessment')
+  cohort_coll = db.collection('cohort')
+  student_coll = db.collection('student')
 
   gp = gp_coll.find_one({'body.gradingPeriodIdentity.schoolId' => '99a4ec9d3ba372993b2860a798b550c77bb73a09_id'})
   gp_id = gp['_id']
@@ -1167,6 +1226,18 @@ Given /^a valid json document for entity "([^"]*)"$/ do |entity|
   gradebook_section = section_coll.find_one({'body.schoolId' => '2a30827ed4cf5500fb848512d19ad73ed37c4464_id'})
 
   yt = yt_coll.find_one({'body.studentId' => '153df715388ff1b2293fc8b2f3828816bc2d3c1f_id'})
+
+  session_id = session_coll.find_one({'body.schoolId' => '99a4ec9d3ba372993b2860a798b550c77bb73a09_id'})['_id']
+
+  assessment_id = assessment_coll.find_one()['_id']
+
+  cohort_id = cohort_coll.find_one({'body.educationOrgId' => '2a30827ed4cf5500fb848512d19ad73ed37c4464_id'})['_id']
+
+  student_dis = student_coll.find_one({'_id' => '153df715388ff1b2293fc8b2f3828816bc2d3c1f_id'},
+                                     {:fields => {'_id' => 0, 'studentDisciplineIncidentAssociation.body.disciplineIncidentId' => 1}})['studentDisciplineIncidentAssociation']
+  student_di_ids = []
+  student_dis.each {|entry| student_di_ids << entry['body']['disciplineIncidentId']}
+  student_di_id = di_coll.find_one({'body.schoolId' => '2a30827ed4cf5500fb848512d19ad73ed37c4464_id', '_id' => {'$nin' => student_di_ids}})['_id']
 
   enable_NOTABLESCAN()
   conn.close
@@ -1437,6 +1508,39 @@ Given /^a valid json document for entity "([^"]*)"$/ do |entity|
         'courseAttemptResult' => 'Fail',
         'studentAcademicRecordId' => yt['studentAcademicRecord'][0]['_id'],
         'gradeLevelWhenTaken' => 'Ninth grade'
+    },
+
+    'studentAssessment'=> {
+        'studentId' => '153df715388ff1b2293fc8b2f3828816bc2d3c1f_id',
+        'assessmentId' => assessment_id,
+        'administrationDate' => '2012-01-09',
+        'gradeLevelWhenAssessed' => 'Ungraded'
+    },
+
+    'studentCohortAssociation' => {
+        'studentId' => '153df715388ff1b2293fc8b2f3828816bc2d3c1f_id',
+        'cohortId' => cohort_id,
+        'beginDate' => '2012-01-01',
+        'endDate' => '2012-01-05'
+    },
+
+    'studentDisciplineIncidentAssociation' => {
+        'studentId' => '153df715388ff1b2293fc8b2f3828816bc2d3c1f_id',
+        'disciplineIncidentId' => student_di_id,
+        'studentParticipationCode' => 'Witness'
+    },
+
+    'studentParentAssociation' => {
+        'studentId' => '153df715388ff1b2293fc8b2f3828816bc2d3c1f_id',
+        'parentId' => 'aa3acf92cdebd987fa4b27c762828cde72ccfabc_id',
+        'relation' => 'Uncle'
+    },
+
+    'studentSectionAssociation' => {
+        'studentId' => '153df715388ff1b2293fc8b2f3828816bc2d3c1f_id',
+        'sectionId' => gradebook_section['_id'],
+        'beginDate' => '2012-01-01',
+        'endDate' => '2012-01-02'
     }
 
   }
@@ -1503,7 +1607,7 @@ end
 #Steps for POST
 ############################################################################################
 
-When /^I change the result field "([^\"]*)" to "([^\"]*)"$/ do |field, value|
+When /^I change the result field "([^\"]*)" to "(.*?)"$/ do |field, value|
   @fields = Hash.new if !defined?(@patch_body)
   @fields["#{field}"] = value
 end
