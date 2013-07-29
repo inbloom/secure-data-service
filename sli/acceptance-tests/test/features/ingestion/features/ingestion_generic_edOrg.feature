@@ -164,6 +164,7 @@ Feature: Generic EdOrg Ingestion
     Then a batch job for file "Reingest-GenericEdOrg.zip" is completed in database
     And I should see "InterchangeEducationOrganization.xml educationOrganization 16 deltas" in the resulting batch job file
     And I should not see a warning log file created
+    And I should not see an error log file created
     And I should see following map of entry counts in the corresponding collections:
       | collectionName                           |              count|
       | recordHash                               |                 16|
