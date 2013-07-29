@@ -108,7 +108,7 @@ Feature: Generic EdOrg Ingestion
        #| body.stateOrganizationId            | South Daybreak Elementary 7                 |
        #| body.organizationCategories         | School                                      |
        #| body.organizationCategories         | Local Education Agency                      |
-       #| body.parentEducationAgencyReference | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
+       #| body.parentEducationAgencyReference | 884daa27d806c2d725bc469b273d840493f84b4d_id |
        #| body.schoolCategories               | Elementary School                           |
        #| body.charterStatus                  | School Charter                              |
        #| body.gradesOffered                  | Kindergarten                                |
@@ -119,7 +119,7 @@ Feature: Generic EdOrg Ingestion
        #| body.gradesOffered                  | Fifth grade                                 |
        #| body.LEACategory                    | Independent                                 |
 
-
+  #update counts below if data is commented in
   Scenario: Post Generic EdOrg Sample Data Set
     Given the "Midgar" tenant db is empty
     When I ingest "GenericEdOrg.zip"
@@ -132,11 +132,11 @@ Feature: Generic EdOrg Ingestion
       | collectionName                            |
       | educationOrganization                     |
     And zip file is scp to ingestion landing zone with name "Reingest-GenericEdOrg.zip"
-    And a batch job for file "Reingest-GenericEdOrg.zip" is completed in database
+    Then a batch job for file "Reingest-GenericEdOrg.zip" is completed in database
     And I should see "InterchangeEducationOrganization.xml educationOrganization 12 deltas" in the resulting batch job file
     And I should not see a warning log file created
     And I should see following map of entry counts in the corresponding collections:
       | collectionName                           |              count|
-      | recordHash                               |                  12|
+      | recordHash                               |                 12|
       | educationOrganization                    |                  0|
 
