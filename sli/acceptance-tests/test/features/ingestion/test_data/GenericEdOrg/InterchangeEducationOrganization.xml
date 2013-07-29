@@ -86,6 +86,26 @@
         </Address>
         <LEACategory>Independent</LEACategory>
     </EducationOrganization>
+    <!--nested LEA 2-->
+    <EducationOrganization>
+        <StateOrganizationId>IL-DAYBREAK-SUB-LEA2</StateOrganizationId>
+        <NameOfInstitution>Daybreak School District 4529 Sub2</NameOfInstitution>
+        <OrganizationCategories>
+            <OrganizationCategory>Local Education Agency</OrganizationCategory>
+        </OrganizationCategories>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <Address>
+            <StreetNumberName>123 Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>00000</PostalCode>
+        </Address>
+        <LEACategory>Independent</LEACategory>
+    </EducationOrganization>
     <!--school linked to nested LEA-->
     <EducationOrganization>
         <StateOrganizationId>South Daybreak Elementary 2</StateOrganizationId>
@@ -137,6 +157,26 @@
         </Address>
         <LEACategory>Independent</LEACategory>
     </EducationOrganization>
+    <!--another basic LEA 2-->
+    <EducationOrganization>
+        <StateOrganizationId>IL-DAYBREAK3</StateOrganizationId>
+        <NameOfInstitution>Daybreak School District 4529C</NameOfInstitution>
+        <OrganizationCategories>
+            <OrganizationCategory>Local Education Agency</OrganizationCategory>
+        </OrganizationCategories>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <Address>
+            <StreetNumberName>123 Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>00000</PostalCode>
+        </Address>
+        <LEACategory>Independent</LEACategory>
+    </EducationOrganization>
     <!--school with multiple parents at same level-->
     <EducationOrganization>
         <StateOrganizationId>South Daybreak Elementary 3</StateOrganizationId>
@@ -152,6 +192,11 @@
         <ParentEducationAgencyReference>
             <EducationalOrgIdentity>
                 <StateOrganizationId>IL-DAYBREAK2</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK3</StateOrganizationId>
             </EducationalOrgIdentity>
         </ParentEducationAgencyReference>
         <Address AddressType="Physical">
@@ -173,7 +218,7 @@
             <SchoolCategory>Elementary School</SchoolCategory>
         </SchoolCategories>
     </EducationOrganization>
-    <!--school with multiple LEAs at different levels-->
+    <!--multiple nested LEA parents-->
     <EducationOrganization>
         <StateOrganizationId>South Daybreak Elementary 4</StateOrganizationId>
         <NameOfInstitution>South Daybreak Elementary 4</NameOfInstitution>
@@ -187,7 +232,7 @@
         </ParentEducationAgencyReference>
         <ParentEducationAgencyReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>IL-DAYBREAK2</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK-SUB-LEA2</StateOrganizationId>
             </EducationalOrgIdentity>
         </ParentEducationAgencyReference>
         <Address AddressType="Physical">
@@ -210,4 +255,199 @@
         </SchoolCategories>
     </EducationOrganization>
 
+    <!--school with multiple LEAs at different levels and same levels (above two combined)-->
+    <EducationOrganization>
+        <StateOrganizationId>South Daybreak Elementary 5</StateOrganizationId>
+        <NameOfInstitution>South Daybreak Elementary 5</NameOfInstitution>
+        <OrganizationCategories>
+            <OrganizationCategory>School</OrganizationCategory>
+        </OrganizationCategories>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK-SUB-LEA</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK-SUB-LEA2</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK2</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK3</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <Address AddressType="Physical">
+            <StreetNumberName>111 Ave A</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>11011</PostalCode>
+            <NameOfCounty>Wake</NameOfCounty>
+        </Address>
+        <GradesOffered>
+            <GradeLevel>Kindergarten</GradeLevel>
+            <GradeLevel>First grade</GradeLevel>
+            <GradeLevel>Second grade</GradeLevel>
+            <GradeLevel>Third grade</GradeLevel>
+            <GradeLevel>Fourth grade</GradeLevel>
+            <GradeLevel>Fifth grade</GradeLevel>
+        </GradesOffered>
+        <SchoolCategories>
+            <SchoolCategory>Elementary School</SchoolCategory>
+        </SchoolCategories>
+    </EducationOrganization>
+    <!--combined LEA/School-->
+    <EducationOrganization>
+        <StateOrganizationId>South Daybreak Elementary 6</StateOrganizationId>
+        <NameOfInstitution>South Daybreak Elementary 6</NameOfInstitution>
+        <OrganizationCategories>
+            <OrganizationCategory>School</OrganizationCategory>
+            <OrganizationCategory>Local Education Agency</OrganizationCategory>
+        </OrganizationCategories>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <Address AddressType="Physical">
+            <StreetNumberName>111 Ave A</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>11011</PostalCode>
+            <NameOfCounty>Wake</NameOfCounty>
+        </Address>
+        <LEACategory>Independent</LEACategory>
+        <GradesOffered>
+            <GradeLevel>Kindergarten</GradeLevel>
+            <GradeLevel>First grade</GradeLevel>
+            <GradeLevel>Second grade</GradeLevel>
+            <GradeLevel>Third grade</GradeLevel>
+            <GradeLevel>Fourth grade</GradeLevel>
+            <GradeLevel>Fifth grade</GradeLevel>
+        </GradesOffered>
+        <SchoolCategories>
+            <SchoolCategory>Elementary School</SchoolCategory>
+        </SchoolCategories>
+        <CharterStatus>School Charter</CharterStatus>
+    </EducationOrganization>
+    <!--other organization categories
+    <EducationOrganization>
+        <StateOrganizationId>South Daybreak Elementary 7</StateOrganizationId>
+        <NameOfInstitution>South Daybreak Elementary 7</NameOfInstitution>
+        <OtherOrganizationCategories>
+            <OtherOrganizationCategory>School</OtherOrganizationCategory>
+            <OtherOrganizationCategory>Local Education Agency</OtherOrganizationCategory>
+        </OtherOrganizationCategories>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <Address AddressType="Physical">
+            <StreetNumberName>111 Ave A</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>11011</PostalCode>
+            <NameOfCounty>Wake</NameOfCounty>
+        </Address>
+        <LEACategory>Independent</LEACategory>
+        <GradesOffered>
+            <GradeLevel>Kindergarten</GradeLevel>
+            <GradeLevel>First grade</GradeLevel>
+            <GradeLevel>Second grade</GradeLevel>
+            <GradeLevel>Third grade</GradeLevel>
+            <GradeLevel>Fourth grade</GradeLevel>
+            <GradeLevel>Fifth grade</GradeLevel>
+        </GradesOffered>
+        <SchoolCategories>
+            <SchoolCategory>Elementary School</SchoolCategory>
+        </SchoolCategories>
+        <CharterStatus>School Charter</CharterStatus>
+    </EducationOrganization> -->
+    <EducationOrganization>
+        <StateOrganizationId>Cycle 1</StateOrganizationId>
+        <NameOfInstitution>Cycle 1</NameOfInstitution>
+        <OrganizationCategories>
+            <OrganizationCategory>Local Education Agency</OrganizationCategory>
+        </OrganizationCategories>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Cycle 1</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <Address>
+            <StreetNumberName>123 Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>00000</PostalCode>
+        </Address>
+        <LEACategory>Independent</LEACategory>
+    </EducationOrganization>
+    <EducationOrganization>
+        <StateOrganizationId>Cycle 2</StateOrganizationId>
+        <NameOfInstitution>Cycle 2</NameOfInstitution>
+        <OrganizationCategories>
+            <OrganizationCategory>Local Education Agency</OrganizationCategory>
+        </OrganizationCategories>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Cycle 3</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <Address>
+            <StreetNumberName>123 Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>00000</PostalCode>
+        </Address>
+        <LEACategory>Independent</LEACategory>
+    </EducationOrganization>
+    <EducationOrganization>
+        <StateOrganizationId>Cycle 3</StateOrganizationId>
+        <NameOfInstitution>Cycle 3</NameOfInstitution>
+        <OrganizationCategories>
+            <OrganizationCategory>Local Education Agency</OrganizationCategory>
+        </OrganizationCategories>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Cycle 4</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <Address>
+            <StreetNumberName>123 Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>00000</PostalCode>
+        </Address>
+        <LEACategory>Independent</LEACategory>
+    </EducationOrganization>
+    <EducationOrganization>
+        <StateOrganizationId>Cycle 4</StateOrganizationId>
+        <NameOfInstitution>Cycle 4</NameOfInstitution>
+        <OrganizationCategories>
+            <OrganizationCategory>Local Education Agency</OrganizationCategory>
+        </OrganizationCategories>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Cycle 2</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <Address>
+            <StreetNumberName>123 Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>00000</PostalCode>
+        </Address>
+        <LEACategory>Independent</LEACategory>
+    </EducationOrganization>
 </InterchangeEducationOrganization>
