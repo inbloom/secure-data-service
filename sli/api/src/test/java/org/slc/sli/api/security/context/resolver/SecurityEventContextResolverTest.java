@@ -94,6 +94,7 @@ public class SecurityEventContextResolverTest {
 
 	private NeutralQuery createFilter(Set<String> homeEdOrgs) {
 		NeutralQuery or = new NeutralQuery();
+        or.addCriteria(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL, null));
 		or.addCriteria(new NeutralCriteria("targetEdOrgList",
 				NeutralCriteria.CRITERIA_IN, homeEdOrgs));
 		return or;
