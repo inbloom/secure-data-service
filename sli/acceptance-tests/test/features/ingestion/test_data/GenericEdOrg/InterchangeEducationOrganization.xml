@@ -344,9 +344,13 @@
     <EducationOrganization>
         <StateOrganizationId>South Daybreak Elementary 7</StateOrganizationId>
         <NameOfInstitution>South Daybreak Elementary 7</NameOfInstitution>
+        <OrganizationCategories>
+            <OrganizationCategory>School</OrganizationCategory>
+            <OrganizationCategory>Local Education Agency</OrganizationCategory>
+        </OrganizationCategories>
         <OtherOrganizationCategories>
-            <OtherOrganizationCategory>School</OtherOrganizationCategory>
-            <OtherOrganizationCategory>Local Education Agency</OtherOrganizationCategory>
+            <OtherOrganizationCategory>Other School</OtherOrganizationCategory>
+            <OtherOrganizationCategory>Other Local Education Agency</OtherOrganizationCategory>
         </OtherOrganizationCategories>
         <ParentEducationAgencyReference>
             <EducationalOrgIdentity>
