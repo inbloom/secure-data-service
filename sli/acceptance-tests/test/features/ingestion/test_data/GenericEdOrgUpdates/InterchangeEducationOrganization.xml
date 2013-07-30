@@ -310,8 +310,8 @@
         <StateOrganizationId>South Daybreak Elementary 6</StateOrganizationId>
         <NameOfInstitution>South Daybreak Elementary 6 Updated</NameOfInstitution>
         <OtherOrganizationCategories>
-            <OtherOrganizationCategory>School</OtherOrganizationCategory>
-            <OtherOrganizationCategory>Local Education Agency</OtherOrganizationCategory>
+            <OtherOrganizationCategory>Other School</OtherOrganizationCategory>
+            <OtherOrganizationCategory>Other Local Education Agency</OtherOrganizationCategory>
         </OtherOrganizationCategories>
         <ParentEducationAgencyReference>
             <EducationalOrgIdentity>
@@ -379,13 +379,25 @@
         <NameOfInstitution>South Daybreak Elementary 8 Updated</NameOfInstitution>
         <OrganizationCategories>
             <OrganizationCategory>School</OrganizationCategory>
+            <OrganizationCategory>School</OrganizationCategory>
+            <OrganizationCategory>Local Education Agency</OrganizationCategory>
+            <OrganizationCategory>Local Education Agency</OrganizationCategory>
         </OrganizationCategories>
         <OtherOrganizationCategories>
+            <OtherOrganizationCategory>Other School</OtherOrganizationCategory>
+            <OtherOrganizationCategory> Other School </OtherOrganizationCategory>
+            <OtherOrganizationCategory>School</OtherOrganizationCategory>
+            <OtherOrganizationCategory>Other Local Education Agency</OtherOrganizationCategory>
             <OtherOrganizationCategory>Local Education Agency</OtherOrganizationCategory>
         </OtherOrganizationCategories>
         <ParentEducationAgencyReference>
             <EducationalOrgIdentity>
                 <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId> STANDARD-SEA </StateOrganizationId>
             </EducationalOrgIdentity>
         </ParentEducationAgencyReference>
         <Address AddressType="Physical">

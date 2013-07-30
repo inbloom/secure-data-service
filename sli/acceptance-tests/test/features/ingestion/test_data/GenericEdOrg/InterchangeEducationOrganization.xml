@@ -380,13 +380,16 @@
         <NameOfInstitution>South Daybreak Elementary 8</NameOfInstitution>
         <OrganizationCategories>
             <OrganizationCategory>School</OrganizationCategory>
+            <OrganizationCategory>School</OrganizationCategory>
             <OrganizationCategory>Local Education Agency</OrganizationCategory>
             <OrganizationCategory>Local Education Agency</OrganizationCategory>
         </OrganizationCategories>
         <OtherOrganizationCategories>
             <OtherOrganizationCategory>Other School</OtherOrganizationCategory>
-            <OtherOrganizationCategory>Other School</OtherOrganizationCategory>
+            <OtherOrganizationCategory> Other School </OtherOrganizationCategory>
+            <OtherOrganizationCategory>School</OtherOrganizationCategory>
             <OtherOrganizationCategory>Other Local Education Agency</OtherOrganizationCategory>
+            <OtherOrganizationCategory>Local Education Agency</OtherOrganizationCategory>
         </OtherOrganizationCategories>
         <ParentEducationAgencyReference>
             <EducationalOrgIdentity>
@@ -395,7 +398,7 @@
         </ParentEducationAgencyReference>
         <ParentEducationAgencyReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+                <StateOrganizationId> STANDARD-SEA </StateOrganizationId>
             </EducationalOrgIdentity>
         </ParentEducationAgencyReference>
         <Address AddressType="Physical">
