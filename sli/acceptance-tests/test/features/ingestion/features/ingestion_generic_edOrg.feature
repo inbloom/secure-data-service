@@ -126,14 +126,18 @@ Feature: Generic EdOrg Ingestion
         | body.LEACategory                    | Independent                                 |
        #| metaData.edOrgs                     | de66bbfafd994193ae6aaf019ecfa14825c32575_id |
        #| metaData.edOrgs                     | 884daa27d806c2d725bc469b273d840493f84b4d_id |
+    And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "de66bbfafd994193ae6aaf019ecfa14825c32575_id" on the "Midgar" tenant
+        | value                  |
+        | Local Education Agency |
+        | School                 |
+    And there are only the following in the "parentEducationAgencyReference" of the "educationOrganization" collection for id "de66bbfafd994193ae6aaf019ecfa14825c32575_id" on the "Midgar" tenant
+         | value                                       |
+         | 884daa27d806c2d725bc469b273d840493f84b4d_id |
     #other organization categories
-   And there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "South Daybreak Elementary 7"
+    And there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "South Daybreak Elementary 7"
        | field                               | value                                       |
        | _id                                 | eef4f5ddc466beb3ad5136587731f9350fd398ec_id |
        | body.stateOrganizationId            | South Daybreak Elementary 7                 |
-       | body.organizationCategories         | School                                      |
-       | body.organizationCategories         | Local Education Agency                      |
-       | body.parentEducationAgencyReference | 884daa27d806c2d725bc469b273d840493f84b4d_id |
        | body.schoolCategories               | Elementary School                           |
        | body.charterStatus                  | School Charter                              |
        | body.gradesOffered                  | Kindergarten                                |
@@ -145,25 +149,41 @@ Feature: Generic EdOrg Ingestion
        | body.LEACategory                    | Independent                                 |
       #| metaData.edOrgs                     | eef4f5ddc466beb3ad5136587731f9350fd398ec_id |
       #| metaData.edOrgs                     | 884daa27d806c2d725bc469b273d840493f84b4d_id |
-   #mixture of other and regular organization categories
-   And there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "South Daybreak Elementary 8"
-          | field                               | value                                       |
-          | _id                                 | 57d18122d850992592e5a8d80832648a5b7198cd_id |
-          | body.stateOrganizationId            | South Daybreak Elementary 8                 |
-          | body.organizationCategories         | School                                      |
-          | body.organizationCategories         | Local Education Agency                      |
-          | body.parentEducationAgencyReference | 884daa27d806c2d725bc469b273d840493f84b4d_id |
-          | body.schoolCategories               | Elementary School                           |
-          | body.charterStatus                  | School Charter                              |
-          | body.gradesOffered                  | Kindergarten                                |
-          | body.gradesOffered                  | First grade                                 |
-          | body.gradesOffered                  | Second grade                                |
-          | body.gradesOffered                  | Third grade                                 |
-          | body.gradesOffered                  | Fourth grade                                |
-          | body.gradesOffered                  | Fifth grade                                 |
-          | body.LEACategory                    | Independent                                 |
-         #| metaData.edOrgs                     | 57d18122d850992592e5a8d80832648a5b7198cd_id |
-         #| metaData.edOrgs                     | 884daa27d806c2d725bc469b273d840493f84b4d_id |
+    And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "eef4f5ddc466beb3ad5136587731f9350fd398ec_id" on the "Midgar" tenant
+       | value                        |
+       | Other Local Education Agency |
+       | Other School                 |
+    And there are only the following in the "parentEducationAgencyReference" of the "educationOrganization" collection for id "eef4f5ddc466beb3ad5136587731f9350fd398ec_id" on the "Midgar" tenant
+       | value                                       |
+       | 884daa27d806c2d725bc469b273d840493f84b4d_id |
+
+    #mixture of other and regular organization categories and duplicate parentEducationAgencyReference and both types of organization categories
+    And there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "South Daybreak Elementary 8"
+        | field                               | value                                       |
+        | _id                                 | 57d18122d850992592e5a8d80832648a5b7198cd_id |
+        | body.stateOrganizationId            | South Daybreak Elementary 8                 |
+        | body.schoolCategories               | Elementary School                           |
+        | body.charterStatus                  | School Charter                              |
+        | body.gradesOffered                  | Kindergarten                                |
+        | body.gradesOffered                  | First grade                                 |
+        | body.gradesOffered                  | Second grade                                |
+        | body.gradesOffered                  | Third grade                                 |
+        | body.gradesOffered                  | Fourth grade                                |
+        | body.gradesOffered                  | Fifth grade                                 |
+        | body.LEACategory                    | Independent                                 |
+       #| metaData.edOrgs                     | 57d18122d850992592e5a8d80832648a5b7198cd_id |
+       #| metaData.edOrgs                     | 884daa27d806c2d725bc469b273d840493f84b4d_id |
+    And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "57d18122d850992592e5a8d80832648a5b7198cd_id" on the "Midgar" tenant
+        | value                        |
+        | Local Education Agency       |
+        | Local Education Agency       |
+        | School                       |
+        | Other Local Education Agency |
+        | Other School                 |
+        | Other School                 |
+    #And there are only the following in the "parentEducationAgencyReference" of the "educationOrganization" collection for id "57d18122d850992592e5a8d80832648a5b7198cd_id" on the "Midgar" tenant
+       #| value                                       |
+       #| 884daa27d806c2d725bc469b273d840493f84b4d_id |
 
     #cycle tests - referring to itself
     And there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "Cycle 1"

@@ -3983,6 +3983,27 @@ Then /^"([^"]*)" records in the "([^"]*)" collection with field "([^"]*)" matchi
   enable_NOTABLESCAN()
   assert(actualCount == expected_count.to_i, "Unexpected number of records found with pattern matching " + pattern)
 end
+
+Then /^there are only the following in the "(.*?)" of the "(.*?)" collection for id "(.*?)" on the "(.*?)" tenant/ do |field, collection, id, tenant, table|
+  disable_NOTABLESCAN()
+  tenant_db = @conn.db(convertTenantIdToDbName(tenant))
+  expArray = table.rows()
+  expArray.flatten!
+  expArray.sort!
+  #puts expArray
+  coll = tenant_db[collection]
+  entity = coll.find_one({"_id" => id})
+  #puts entity
+  body = entity["body"]
+  #puts body
+  actArray = body[field]
+  actArray.sort!
+  #puts actArray
+
+  #actualCount = tenant_db[collection].find({field => /#{pattern}/}).count()
+  enable_NOTABLESCAN()
+  assert(actArray == expArray, "Actual values differ from expected values.  Actual values are: " + actArray.to_s)
+end
 ############################################################
 # STEPS: AFTER
 ############################################################

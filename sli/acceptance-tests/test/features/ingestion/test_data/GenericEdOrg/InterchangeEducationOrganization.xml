@@ -344,10 +344,6 @@
     <EducationOrganization>
         <StateOrganizationId>South Daybreak Elementary 7</StateOrganizationId>
         <NameOfInstitution>South Daybreak Elementary 7</NameOfInstitution>
-        <OrganizationCategories>
-            <OrganizationCategory>School</OrganizationCategory>
-            <OrganizationCategory>Local Education Agency</OrganizationCategory>
-        </OrganizationCategories>
         <OtherOrganizationCategories>
             <OtherOrganizationCategory>Other School</OtherOrganizationCategory>
             <OtherOrganizationCategory>Other Local Education Agency</OtherOrganizationCategory>
@@ -383,11 +379,20 @@
         <StateOrganizationId>South Daybreak Elementary 8</StateOrganizationId>
         <NameOfInstitution>South Daybreak Elementary 8</NameOfInstitution>
         <OrganizationCategories>
+            <OrganizationCategory>School</OrganizationCategory>
+            <OrganizationCategory>Local Education Agency</OrganizationCategory>
             <OrganizationCategory>Local Education Agency</OrganizationCategory>
         </OrganizationCategories>
         <OtherOrganizationCategories>
-            <OtherOrganizationCategory>School</OtherOrganizationCategory>
+            <OtherOrganizationCategory>Other School</OtherOrganizationCategory>
+            <OtherOrganizationCategory>Other School</OtherOrganizationCategory>
+            <OtherOrganizationCategory>Other Local Education Agency</OtherOrganizationCategory>
         </OtherOrganizationCategories>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
         <ParentEducationAgencyReference>
             <EducationalOrgIdentity>
                 <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
