@@ -173,6 +173,7 @@ Feature: Generic EdOrg Ingestion
     When I ingest "GenericEdOrgUpdates.zip"
     Then "16" records in the "educationOrganization" collection with field "body.nameOfInstitution" matching ".*Updated" should be in the "Midgar" tenant db
 
+    #added another nested LEA and removed one nested LEA to edOrg hierarchy
     #basic SEA
     Then there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "1"
         | field                               | value                                       |
@@ -204,13 +205,13 @@ Feature: Generic EdOrg Ingestion
        #| metaData.edOrgs                     | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
        #| metaData.edOrgs                     | 915d173222c1dfd0e5956f225787ea25ef506a7b_id |
        #| metaData.edOrgs                     | 884daa27d806c2d725bc469b273d840493f84b4d_id |
-    #nested LEA
+    #previously nested LEA
     And there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "4"
         | field                               | value                                       |
         | _id                                 | c58b7bec2c0a9496e9e6f3b85426cd2f65f23ec4_id |
         | body.stateOrganizationId            | IL-DAYBREAK-SUB-LEA                         |
         | body.organizationCategories         | Local Education Agency                      |
-        | body.parentEducationAgencyReference | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
+        | body.parentEducationAgencyReference | 884daa27d806c2d725bc469b273d840493f84b4d_id |
     #school off nested LEA
     And there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "5"
         | field                               | value                                       |
@@ -220,8 +221,6 @@ Feature: Generic EdOrg Ingestion
         | body.parentEducationAgencyReference | c58b7bec2c0a9496e9e6f3b85426cd2f65f23ec4_id |
        #| metaData.edOrgs                     | e6972a8edb280114d26b1c4b919801f73c21232e_id |
        #| metaData.edOrgs                     | c58b7bec2c0a9496e9e6f3b85426cd2f65f23ec4_id |
-       #| metaData.edOrgs                     | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
-       #| metaData.edOrgs                     | 915d173222c1dfd0e5956f225787ea25ef506a7b_id |
        #| metaData.edOrgs                     | 884daa27d806c2d725bc469b273d840493f84b4d_id |
     #multiple parents test with LEAs at same level - regular leas
     And there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "6"
