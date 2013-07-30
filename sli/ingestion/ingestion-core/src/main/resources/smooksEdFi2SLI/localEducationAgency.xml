@@ -52,7 +52,7 @@
         <jb:value property="ID" data="attributes EducationOrgIdentificationCode element ID _value" />
     </jb:bean>
  
-    <jb:bean beanId="OrganizationCategories" class="java.util.ArrayList" createOnElement="attributes">
+    <jb:bean beanId="OrganizationCategories" class="java.util.HashSet" createOnElement="attributes">
         <jb:value data="attributes OrganizationCategories element OrganizationCategory element _value" />
         <jb:value data="attributes OtherOrganizationCategories element OtherOrganizationCategory element _value" />
     </jb:bean>
