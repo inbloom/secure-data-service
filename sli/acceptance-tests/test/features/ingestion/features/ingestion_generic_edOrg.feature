@@ -24,6 +24,8 @@ Feature: Generic EdOrg Ingestion
         | body.stateOrganizationId            | South Daybreak Elementary                   |
         | body.organizationCategories         | School                                      |
         | body.parentEducationAgencyReference | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
+       #| metaData.edOrgs                     | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
+       #| metaData.edOrgs                     | 352e8570bd1116d11a72755b987902440045d346_id |
     #nested LEA
     And there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "4"
         | field                               | value                                       |
@@ -38,6 +40,10 @@ Feature: Generic EdOrg Ingestion
         | body.stateOrganizationId            | South Daybreak Elementary 2                 |
         | body.organizationCategories         | School                                      |
         | body.parentEducationAgencyReference | c58b7bec2c0a9496e9e6f3b85426cd2f65f23ec4_id |
+       #| metaData.edOrgs                     | e6972a8edb280114d26b1c4b919801f73c21232e_id |
+       #| metaData.edOrgs                     | c58b7bec2c0a9496e9e6f3b85426cd2f65f23ec4_id |
+       #| metaData.edOrgs                     | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
+       #| metaData.edOrgs                     | 884daa27d806c2d725bc469b273d840493f84b4d_id |
     #multiple parents test with LEAs at same level - regular leas
     And there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "6"
         | field                               | value                                       |
@@ -59,6 +65,11 @@ Feature: Generic EdOrg Ingestion
         | body.parentEducationAgencyReference | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
         | body.parentEducationAgencyReference | a9bef2e3a445efb50d39fa47784a0542eaff5589_id |
         | body.parentEducationAgencyReference | 612e326cff7a9f85beb9a3fa6287e31a5bd5c62d_id |
+       #| metaData.edOrgs                     | 411f22e41453fba1c75c13b09b541520acf5be5b_id |
+       #| metaData.edOrgs                     | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
+       #| metaData.edOrgs                     | a9bef2e3a445efb50d39fa47784a0542eaff5589_id |
+       #| metaData.edOrgs                     | 612e326cff7a9f85beb9a3fa6287e31a5bd5c62d_id |
+       #| metaData.edOrgs                     | 884daa27d806c2d725bc469b273d840493f84b4d_id |
     #multiple parents test with LEAs at same level - nested leas
     And there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "9"
         | field                               | value                                       |
@@ -84,6 +95,13 @@ Feature: Generic EdOrg Ingestion
         | body.parentEducationAgencyReference | 612e326cff7a9f85beb9a3fa6287e31a5bd5c62d_id |
         | body.parentEducationAgencyReference | e6972a8edb280114d26b1c4b919801f73c21232e_id |
         | body.parentEducationAgencyReference | fa8f2751396d8162683eecfe86bb472119fc540c_id |
+       #| metaData.edOrgs                     | 016a47e1a44fa2097032f82f7163eeabe6f5c377_id |
+       #| metaData.edOrgs                     | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
+       #| metaData.edOrgs                     | a9bef2e3a445efb50d39fa47784a0542eaff5589_id |
+       #| metaData.edOrgs                     | 612e326cff7a9f85beb9a3fa6287e31a5bd5c62d_id |
+       #| metaData.edOrgs                     | e6972a8edb280114d26b1c4b919801f73c21232e_id |
+       #| metaData.edOrgs                     | fa8f2751396d8162683eecfe86bb472119fc540c_id |
+       #| metaData.edOrgs                     | 884daa27d806c2d725bc469b273d840493f84b4d_id |
     #school/LEA off SEA
     And there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "12"
         | field                               | value                                       |
@@ -101,6 +119,8 @@ Feature: Generic EdOrg Ingestion
         | body.gradesOffered                  | Fourth grade                                |
         | body.gradesOffered                  | Fifth grade                                 |
         | body.LEACategory                    | Independent                                 |
+       #| metaData.edOrgs                     | de66bbfafd994193ae6aaf019ecfa14825c32575_id |
+       #| metaData.edOrgs                     | 884daa27d806c2d725bc469b273d840493f84b4d_id |
     #other organization categories
    #And there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "13"
        #| field                               | value                                       |
@@ -118,6 +138,8 @@ Feature: Generic EdOrg Ingestion
        #| body.gradesOffered                  | Fourth grade                                |
        #| body.gradesOffered                  | Fifth grade                                 |
        #| body.LEACategory                    | Independent                                 |
+       #| metaData.edOrgs                     | de66bbfafd994193ae6aaf019ecfa14825c32575_id |
+       #| metaData.edOrgs                     | 884daa27d806c2d725bc469b273d840493f84b4d_id |
 
     #cycle tests - referring to itself
     And there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "14"
