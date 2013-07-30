@@ -340,7 +340,7 @@
         </SchoolCategories>
         <CharterStatus>School Charter</CharterStatus>
     </EducationOrganization>
-    <!--other organization categories
+    <!--other organization categories-->
     <EducationOrganization>
         <StateOrganizationId>South Daybreak Elementary 7</StateOrganizationId>
         <NameOfInstitution>South Daybreak Elementary 7</NameOfInstitution>
@@ -373,7 +373,43 @@
             <SchoolCategory>Elementary School</SchoolCategory>
         </SchoolCategories>
         <CharterStatus>School Charter</CharterStatus>
-    </EducationOrganization> -->
+    </EducationOrganization>
+    <!--organization categories combined with other organization categories-->
+    <EducationOrganization>
+        <StateOrganizationId>South Daybreak Elementary 8</StateOrganizationId>
+        <NameOfInstitution>South Daybreak Elementary 8</NameOfInstitution>
+        <OrganizationCategories>
+            <OrganizationCategory>Local Education Agency</OrganizationCategory>
+        </OrganizationCategories>
+        <OtherOrganizationCategories>
+            <OtherOrganizationCategory>School</OtherOrganizationCategory>
+        </OtherOrganizationCategories>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <Address AddressType="Physical">
+            <StreetNumberName>111 Ave A</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>11011</PostalCode>
+            <NameOfCounty>Wake</NameOfCounty>
+        </Address>
+        <LEACategory>Independent</LEACategory>
+        <GradesOffered>
+            <GradeLevel>Kindergarten</GradeLevel>
+            <GradeLevel>First grade</GradeLevel>
+            <GradeLevel>Second grade</GradeLevel>
+            <GradeLevel>Third grade</GradeLevel>
+            <GradeLevel>Fourth grade</GradeLevel>
+            <GradeLevel>Fifth grade</GradeLevel>
+        </GradesOffered>
+        <SchoolCategories>
+            <SchoolCategory>Elementary School</SchoolCategory>
+        </SchoolCategories>
+        <CharterStatus>School Charter</CharterStatus>
+    </EducationOrganization>
     <EducationOrganization>
         <StateOrganizationId>Cycle 1</StateOrganizationId>
         <NameOfInstitution>Cycle 1</NameOfInstitution>

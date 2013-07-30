@@ -309,6 +309,40 @@
     <EducationOrganization>
         <StateOrganizationId>South Daybreak Elementary 6</StateOrganizationId>
         <NameOfInstitution>South Daybreak Elementary 6 Updated</NameOfInstitution>
+        <OtherOrganizationCategories>
+            <OtherOrganizationCategory>School</OtherOrganizationCategory>
+            <OtherOrganizationCategory>Local Education Agency</OtherOrganizationCategory>
+        </OtherOrganizationCategories>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
+        <Address AddressType="Physical">
+            <StreetNumberName>111 Ave A</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>11011</PostalCode>
+            <NameOfCounty>Wake</NameOfCounty>
+        </Address>
+        <LEACategory>Independent</LEACategory>
+        <GradesOffered>
+            <GradeLevel>Kindergarten</GradeLevel>
+            <GradeLevel>First grade</GradeLevel>
+            <GradeLevel>Second grade</GradeLevel>
+            <GradeLevel>Third grade</GradeLevel>
+            <GradeLevel>Fourth grade</GradeLevel>
+            <GradeLevel>Fifth grade</GradeLevel>
+        </GradesOffered>
+        <SchoolCategories>
+            <SchoolCategory>Elementary School</SchoolCategory>
+        </SchoolCategories>
+        <CharterStatus>School Charter</CharterStatus>
+    </EducationOrganization>
+    <!--other organization categories-->
+    <EducationOrganization>
+        <StateOrganizationId>South Daybreak Elementary 7</StateOrganizationId>
+        <NameOfInstitution>South Daybreak Elementary 7 Updated</NameOfInstitution>
         <OrganizationCategories>
             <OrganizationCategory>School</OrganizationCategory>
             <OrganizationCategory>Local Education Agency</OrganizationCategory>
@@ -339,12 +373,14 @@
         </SchoolCategories>
         <CharterStatus>School Charter</CharterStatus>
     </EducationOrganization>
-    <!--other organization categories
+    <!--organization categories combined with other organization categories-->
     <EducationOrganization>
-        <StateOrganizationId>South Daybreak Elementary 7</StateOrganizationId>
-        <NameOfInstitution>South Daybreak Elementary 7 Updated</NameOfInstitution>
+        <StateOrganizationId>South Daybreak Elementary 8</StateOrganizationId>
+        <NameOfInstitution>South Daybreak Elementary 8 Updated</NameOfInstitution>
+        <OrganizationCategories>
+            <OrganizationCategory>School</OrganizationCategory>
+        </OrganizationCategories>
         <OtherOrganizationCategories>
-            <OtherOrganizationCategory>School</OtherOrganizationCategory>
             <OtherOrganizationCategory>Local Education Agency</OtherOrganizationCategory>
         </OtherOrganizationCategories>
         <ParentEducationAgencyReference>
@@ -372,7 +408,7 @@
             <SchoolCategory>Elementary School</SchoolCategory>
         </SchoolCategories>
         <CharterStatus>School Charter</CharterStatus>
-    </EducationOrganization> -->
+    </EducationOrganization>
     <EducationOrganization>
         <StateOrganizationId>Cycle 1</StateOrganizationId>
         <NameOfInstitution>Cycle 1 Updated</NameOfInstitution>
