@@ -196,6 +196,10 @@ public class RestResourceHelper implements ResourceHelper {
         ServiceResponse secondResponse;
         try {
         switch (request.getPathSegments().size()) {
+        case 2:
+            resource = getResourceName(requestUri, ResourceTemplate.ONE_PART);
+            secondResponse = resourceService.getEntities(resource, requestUri, true);
+        break;
         case 3:
             id = request.getPathSegments().get(2).getPath();
             resource = getResourceName(requestUri, ResourceTemplate.TWO_PART);

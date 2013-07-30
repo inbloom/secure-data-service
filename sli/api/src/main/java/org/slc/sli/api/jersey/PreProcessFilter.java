@@ -31,9 +31,7 @@ import javax.xml.bind.DatatypeConverter;
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerRequestFilter;
 
-import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -47,6 +45,7 @@ import org.slc.sli.api.resources.generic.config.ResourceEndPoint;
 import org.slc.sli.api.resources.generic.util.ResourceMethod;
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.api.security.context.ContextValidator;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.pdp.EndpointMutator;
@@ -148,7 +147,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
             }
             SecurityUtil.setFirstExecutedPath(request.getPath() + queryString);
         }
-        Collection<GrantedAuthority> rights = principal.getAllRights();
+        Collection<GrantedAuthority> rights = principal.getAllRights(false);
         if (rights.contains(Right.STAFF_CONTEXT) && rights.contains(Right.TEACHER_CONTEXT)) {
             SecurityUtil.setDualContext(true);
         }
