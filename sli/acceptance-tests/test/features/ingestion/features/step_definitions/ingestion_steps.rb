@@ -3975,6 +3975,14 @@ And /I wait for user input/ do
       print "Waiting for user input. Press Enter to continue."
       STDIN.getc
 end
+
+Then /^"([^"]*)" records in the "([^"]*)" collection with field "([^"]*)" matching "([^"]*)" should be in the "([^"]*)" tenant db$/ do |expected_count, collection, field, pattern, tenant|
+  disable_NOTABLESCAN()
+  tenant_db = @conn.db(convertTenantIdToDbName(tenant))
+  actualCount = tenant_db[collection].find({field => /#{pattern}/}).count()
+  enable_NOTABLESCAN()
+  assert(actualCount == expected_count.to_i, "Unexpected number of records found with pattern matching " + pattern)
+end
 ############################################################
 # STEPS: AFTER
 ############################################################
