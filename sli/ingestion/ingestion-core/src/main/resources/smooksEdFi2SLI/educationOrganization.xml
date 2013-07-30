@@ -28,7 +28,6 @@
         <jb:value property="nameOfInstitution" data="attributes NameOfInstitution _value" />
         <jb:value property="shortNameOfInstitution" data="attributes ShortNameOfInstitution _value" />
         <jb:wiring property="organizationCategories" beanIdRef="OrganizationCategories" />
-        <jb:wiring property="otherOrganizationCategories" beanIdRef="OtherOrganizationCategories" />
         <jb:wiring property="address" beanIdRef="Addresses" />
         <jb:wiring property="telephone" beanIdRef="Telephones" />
         <jb:value property="webSite" data="attributes WebSite _value" />
@@ -58,14 +57,11 @@
         <jb:value property="ID" data="attributes EducationOrgIdentificationCode element ID _value" />
     </jb:bean>
  
-    <jb:bean beanId="OrganizationCategories" class="java.util.ArrayList" createOnElement="attributes OrganizationCategories element OrganizationCategory">
+    <jb:bean beanId="OrganizationCategories" class="java.util.ArrayList" createOnElement="attributes">
         <jb:value data="attributes OrganizationCategories element OrganizationCategory element _value" />
-    </jb:bean>
-    
-    <jb:bean beanId="OtherOrganizationCategories" class="java.util.ArrayList" createOnElement="attributes OtherOrganizationCategories element OtherOrganizationCategory">
         <jb:value data="attributes OtherOrganizationCategories element OtherOrganizationCategory element _value" />
     </jb:bean>
-
+    
     <jb:bean beanId="ParentEducationAgencyReference" class="java.util.ArrayList" createOnElement="attributes ParentEducationAgencyReference">
         <jb:value data="attributes ParentEducationAgencyReference element" />
     </jb:bean>
