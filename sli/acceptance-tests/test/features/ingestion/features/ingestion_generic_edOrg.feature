@@ -84,6 +84,11 @@ Feature: Generic EdOrg Ingestion
         | body.organizationCategories         | School                                      |
         | body.parentEducationAgencyReference | e6972a8edb280114d26b1c4b919801f73c21232e_id |
         | body.parentEducationAgencyReference | fa8f2751396d8162683eecfe86bb472119fc540c_id |
+       #| metaData.edOrgs                     | 215575a74c87251a8d28f8e02b7ebdfd547d954b_id |
+       #| metaData.edOrgs                     | e6972a8edb280114d26b1c4b919801f73c21232e_id |
+       #| metaData.edOrgs                     | fa8f2751396d8162683eecfe86bb472119fc540c_id |
+       #| metaData.edOrgs                     | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
+       #| metaData.edOrgs                     | 884daa27d806c2d725bc469b273d840493f84b4d_id |
     #school with multiple LEAs at different levels and same levels (above two combined)
     And there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "South Daybreak Elementary 5"
         | field                               | value                                       |
@@ -252,45 +257,22 @@ Feature: Generic EdOrg Ingestion
        #| metaData.edOrgs                     | 915d173222c1dfd0e5956f225787ea25ef506a7b_id |
        #| metaData.edOrgs                     | 884daa27d806c2d725bc469b273d840493f84b4d_id |
 
-    And there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "10"
-        | field                               | value                                       |
-        | _id                                 | 215575a74c87251a8d28f8e02b7ebdfd547d954b_id |
-        | body.stateOrganizationId            | South Daybreak Elementary 4                 |
-        | body.organizationCategories         | School                                      |
-        | body.parentEducationAgencyReference | e6972a8edb280114d26b1c4b919801f73c21232e_id |
-        | body.parentEducationAgencyReference | fa8f2751396d8162683eecfe86bb472119fc540c_id |
-    #school with multiple LEAs at different levels and same levels (above two combined)
-    And there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "11"
-        | field                               | value                                       |
-        | _id                                 | 016a47e1a44fa2097032f82f7163eeabe6f5c377_id |
-        | body.stateOrganizationId            | South Daybreak Elementary 5                 |
-        | body.organizationCategories         | School                                      |
-        | body.parentEducationAgencyReference | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
-        | body.parentEducationAgencyReference | a9bef2e3a445efb50d39fa47784a0542eaff5589_id |
-        | body.parentEducationAgencyReference | 612e326cff7a9f85beb9a3fa6287e31a5bd5c62d_id |
-        | body.parentEducationAgencyReference | e6972a8edb280114d26b1c4b919801f73c21232e_id |
-        | body.parentEducationAgencyReference | fa8f2751396d8162683eecfe86bb472119fc540c_id |
-       #| metaData.edOrgs                     | 016a47e1a44fa2097032f82f7163eeabe6f5c377_id |
-       #| metaData.edOrgs                     | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
-       #| metaData.edOrgs                     | a9bef2e3a445efb50d39fa47784a0542eaff5589_id |
-       #| metaData.edOrgs                     | 612e326cff7a9f85beb9a3fa6287e31a5bd5c62d_id |
-       #| metaData.edOrgs                     | e6972a8edb280114d26b1c4b919801f73c21232e_id |
-       #| metaData.edOrgs                     | fa8f2751396d8162683eecfe86bb472119fc540c_id |
-       #| metaData.edOrgs                     | 915d173222c1dfd0e5956f225787ea25ef506a7b_id |
-       #| metaData.edOrgs                     | 884daa27d806c2d725bc469b273d840493f84b4d_id |
-
-    #unchanged entities
+    #unchanged entities (other than name update)
     And I re-execute saved query "STANDARD-SEA" to get "1" records
     And I re-execute saved query "IL-DAYBREAK2" to get "1" records
     And I re-execute saved query "IL-DAYBREAK3" to get "1" records
-    And I re-execute saved query "IL-DAYBREAK-SUB-LEA" to get "1" records
-    And I re-execute saved query "South Daybreak Elementary 6" to get "1" records
-    And I re-execute saved query "South Daybreak Elementary 7" to get "1" records
-    And I re-execute saved query "South Daybreak Elementary 8" to get "1" records
+    And I re-execute saved query "IL-DAYBREAK-SUB-LEA2" to get "1" records
+    And I re-execute saved query "South Daybreak Elementary 4" to get "1" records
+    And I re-execute saved query "South Daybreak Elementary 5" to get "1" records
     And I re-execute saved query "Cycle 1" to get "1" records
     And I re-execute saved query "Cycle 2" to get "1" records
     And I re-execute saved query "Cycle 3" to get "1" records
     And I re-execute saved query "Cycle 4" to get "1" records
+
+    #below switched OrganizationCategories to OtherOrganizationCategories and vice-versa
+    And I re-execute saved query "South Daybreak Elementary 6" to get "1" records
+    And I re-execute saved query "South Daybreak Elementary 7" to get "1" records
+    And I re-execute saved query "South Daybreak Elementary 8" to get "1" records
 
     #duplicate detection test
     And I should see following map of entry counts in the corresponding collections:
