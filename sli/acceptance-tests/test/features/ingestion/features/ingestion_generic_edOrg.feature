@@ -9,14 +9,20 @@ Feature: Generic EdOrg Ingestion
         | field                               | value                                       |
         | _id                                 | 884daa27d806c2d725bc469b273d840493f84b4d_id |
         | body.stateOrganizationId            | STANDARD-SEA                                |
-        | body.organizationCategories         | State Education Agency                      |
+    And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "884daa27d806c2d725bc469b273d840493f84b4d_id" on the "Midgar" tenant
+       | value                  |
+       | State Education Agency |
     #basic LEA
     And there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "IL-DAYBREAK"
         | field                               | value                                       |
         | _id                                 | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
         | body.stateOrganizationId            | IL-DAYBREAK                                 |
-        | body.organizationCategories         | Local Education Agency                      |
-        | body.parentEducationAgencyReference | 884daa27d806c2d725bc469b273d840493f84b4d_id |
+    And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "1b223f577827204a1c7e9c851dba06bea6b031fe_id" on the "Midgar" tenant
+        | value                  |
+        | Local Education Agency |
+    And there are only the following in the "parentEducationAgencyReference" of the "educationOrganization" collection for id "1b223f577827204a1c7e9c851dba06bea6b031fe_id" on the "Midgar" tenant
+        | value                                       |
+        | 884daa27d806c2d725bc469b273d840493f84b4d_id |
     #basic school
     And there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "South Daybreak Elementary"
         | field                               | value                                       |
@@ -176,14 +182,12 @@ Feature: Generic EdOrg Ingestion
     And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "57d18122d850992592e5a8d80832648a5b7198cd_id" on the "Midgar" tenant
         | value                        |
         | Local Education Agency       |
-        | Local Education Agency       |
         | School                       |
         | Other Local Education Agency |
         | Other School                 |
-        | Other School                 |
-    #And there are only the following in the "parentEducationAgencyReference" of the "educationOrganization" collection for id "57d18122d850992592e5a8d80832648a5b7198cd_id" on the "Midgar" tenant
-       #| value                                       |
-       #| 884daa27d806c2d725bc469b273d840493f84b4d_id |
+    And there are only the following in the "parentEducationAgencyReference" of the "educationOrganization" collection for id "57d18122d850992592e5a8d80832648a5b7198cd_id" on the "Midgar" tenant
+       | value                                       |
+       | 884daa27d806c2d725bc469b273d840493f84b4d_id |
 
     #cycle tests - referring to itself
     And there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "Cycle 1"
