@@ -19,23 +19,7 @@ limitations under the License.
 
 require 'logger'
 require 'mongo'
-
-def add_context_right(role, context_right)
-  rights = role['rights']
-  exists = false
-  if rights != nil
-    rights.each do |right|
-      if right.eql? context_right
-           exists = true
-        end
-    end
-    if !exists
-      rights << context_right
-    end
-  else
-    @log.info "No rights for custom role #{custom_role['_id']}, skipping"
-    end 
-end
+require_relative 'add_rights.rb'
 
 @log = Logger.new(STDOUT)
 
