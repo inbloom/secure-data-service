@@ -9,7 +9,7 @@ Feature: Generic EdOrg Ingestion
         | field                               | value                                       |
         | _id                                 | 884daa27d806c2d725bc469b273d840493f84b4d_id |
         | body.stateOrganizationId            | STANDARD-SEA                                |
-    And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "884daa27d806c2d725bc469b273d840493f84b4d_id" on the "Midgar" tenant
+    And there are only the following in the "body.organizationCategories" of the "educationOrganization" collection for id "884daa27d806c2d725bc469b273d840493f84b4d_id" on the "Midgar" tenant
        | value                  |
        | State Education Agency |
     #basic LEA
@@ -17,10 +17,10 @@ Feature: Generic EdOrg Ingestion
         | field                               | value                                       |
         | _id                                 | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
         | body.stateOrganizationId            | IL-DAYBREAK                                 |
-    And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "1b223f577827204a1c7e9c851dba06bea6b031fe_id" on the "Midgar" tenant
+    And there are only the following in the "body.organizationCategories" of the "educationOrganization" collection for id "1b223f577827204a1c7e9c851dba06bea6b031fe_id" on the "Midgar" tenant
         | value                  |
         | Local Education Agency |
-    And there are only the following in the "parentEducationAgencyReference" of the "educationOrganization" collection for id "1b223f577827204a1c7e9c851dba06bea6b031fe_id" on the "Midgar" tenant
+    And there are only the following in the "body.parentEducationAgencyReference" of the "educationOrganization" collection for id "1b223f577827204a1c7e9c851dba06bea6b031fe_id" on the "Midgar" tenant
         | value                                       |
         | 884daa27d806c2d725bc469b273d840493f84b4d_id |
     #basic school
@@ -33,7 +33,7 @@ Feature: Generic EdOrg Ingestion
     And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "352e8570bd1116d11a72755b987902440045d346_id" on the "Midgar" tenant
         | value  |
         | School |
-    And there are only the following in the "parentEducationAgencyReference" of the "educationOrganization" collection for id "352e8570bd1116d11a72755b987902440045d346_id" on the "Midgar" tenant
+    And there are only the following in the "body.parentEducationAgencyReference" of the "educationOrganization" collection for id "352e8570bd1116d11a72755b987902440045d346_id" on the "Midgar" tenant
         | value                                       |
         | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
     #nested LEA
@@ -44,7 +44,7 @@ Feature: Generic EdOrg Ingestion
     And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "c58b7bec2c0a9496e9e6f3b85426cd2f65f23ec4_id" on the "Midgar" tenant
         | value                  |
         | Local Education Agency |
-    And there are only the following in the "parentEducationAgencyReference" of the "educationOrganization" collection for id "c58b7bec2c0a9496e9e6f3b85426cd2f65f23ec4_id" on the "Midgar" tenant
+    And there are only the following in the "body.parentEducationAgencyReference" of the "educationOrganization" collection for id "c58b7bec2c0a9496e9e6f3b85426cd2f65f23ec4_id" on the "Midgar" tenant
         | value                                       |
         | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
     #school off nested LEA
@@ -59,7 +59,7 @@ Feature: Generic EdOrg Ingestion
     And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "e6972a8edb280114d26b1c4b919801f73c21232e_id" on the "Midgar" tenant
         | value  |
         | School |
-    And there are only the following in the "parentEducationAgencyReference" of the "educationOrganization" collection for id "e6972a8edb280114d26b1c4b919801f73c21232e_id" on the "Midgar" tenant
+    And there are only the following in the "body.parentEducationAgencyReference" of the "educationOrganization" collection for id "e6972a8edb280114d26b1c4b919801f73c21232e_id" on the "Midgar" tenant
         | value                                       |
         | c58b7bec2c0a9496e9e6f3b85426cd2f65f23ec4_id |
     #multiple parents test with LEAs at same level - regular leas
@@ -70,7 +70,7 @@ Feature: Generic EdOrg Ingestion
     And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "a9bef2e3a445efb50d39fa47784a0542eaff5589_id" on the "Midgar" tenant
         | value                  |
         | Local Education Agency |
-    And there are only the following in the "parentEducationAgencyReference" of the "educationOrganization" collection for id "a9bef2e3a445efb50d39fa47784a0542eaff5589_id" on the "Midgar" tenant
+    And there are only the following in the "body.parentEducationAgencyReference" of the "educationOrganization" collection for id "a9bef2e3a445efb50d39fa47784a0542eaff5589_id" on the "Midgar" tenant
         | value                                       |
         | 884daa27d806c2d725bc469b273d840493f84b4d_id |
     And there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "IL-DAYBREAK3"
@@ -80,7 +80,7 @@ Feature: Generic EdOrg Ingestion
     And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "612e326cff7a9f85beb9a3fa6287e31a5bd5c62d_id" on the "Midgar" tenant
         | value                  |
         | Local Education Agency |
-    And there are only the following in the "parentEducationAgencyReference" of the "educationOrganization" collection for id "612e326cff7a9f85beb9a3fa6287e31a5bd5c62d_id" on the "Midgar" tenant
+    And there are only the following in the "body.parentEducationAgencyReference" of the "educationOrganization" collection for id "612e326cff7a9f85beb9a3fa6287e31a5bd5c62d_id" on the "Midgar" tenant
         | value                                       |
         | 884daa27d806c2d725bc469b273d840493f84b4d_id |
     And there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "South Daybreak Elementary 3"
@@ -95,7 +95,7 @@ Feature: Generic EdOrg Ingestion
     And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "411f22e41453fba1c75c13b09b541520acf5be5b_id" on the "Midgar" tenant
         | value  |
         | School |
-    And there are only the following in the "parentEducationAgencyReference" of the "educationOrganization" collection for id "411f22e41453fba1c75c13b09b541520acf5be5b_id" on the "Midgar" tenant
+    And there are only the following in the "body.parentEducationAgencyReference" of the "educationOrganization" collection for id "411f22e41453fba1c75c13b09b541520acf5be5b_id" on the "Midgar" tenant
         | value                                       |
         | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
         | a9bef2e3a445efb50d39fa47784a0542eaff5589_id |
@@ -108,7 +108,7 @@ Feature: Generic EdOrg Ingestion
     And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "fa8f2751396d8162683eecfe86bb472119fc540c_id" on the "Midgar" tenant
         | value                  |
         | Local Education Agency |
-    And there are only the following in the "parentEducationAgencyReference" of the "educationOrganization" collection for id "fa8f2751396d8162683eecfe86bb472119fc540c_id" on the "Midgar" tenant
+    And there are only the following in the "body.parentEducationAgencyReference" of the "educationOrganization" collection for id "fa8f2751396d8162683eecfe86bb472119fc540c_id" on the "Midgar" tenant
         | value                                       |
         | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
     And there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "South Daybreak Elementary 4"
@@ -123,7 +123,7 @@ Feature: Generic EdOrg Ingestion
     And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "215575a74c87251a8d28f8e02b7ebdfd547d954b_id" on the "Midgar" tenant
         | value  |
         | School |
-    And there are only the following in the "parentEducationAgencyReference" of the "educationOrganization" collection for id "215575a74c87251a8d28f8e02b7ebdfd547d954b_id" on the "Midgar" tenant
+    And there are only the following in the "body.parentEducationAgencyReference" of the "educationOrganization" collection for id "215575a74c87251a8d28f8e02b7ebdfd547d954b_id" on the "Midgar" tenant
         | value                                       |
         | c58b7bec2c0a9496e9e6f3b85426cd2f65f23ec4_id |
         | fa8f2751396d8162683eecfe86bb472119fc540c_id |
@@ -142,7 +142,7 @@ Feature: Generic EdOrg Ingestion
     And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "016a47e1a44fa2097032f82f7163eeabe6f5c377_id" on the "Midgar" tenant
         | value  |
         | School |
-    And there are only the following in the "parentEducationAgencyReference" of the "educationOrganization" collection for id "016a47e1a44fa2097032f82f7163eeabe6f5c377_id" on the "Midgar" tenant
+    And there are only the following in the "body.parentEducationAgencyReference" of the "educationOrganization" collection for id "016a47e1a44fa2097032f82f7163eeabe6f5c377_id" on the "Midgar" tenant
         | value                                       |
         | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
         | a9bef2e3a445efb50d39fa47784a0542eaff5589_id |
@@ -169,7 +169,7 @@ Feature: Generic EdOrg Ingestion
         | value                  |
         | Local Education Agency |
         | School                 |
-    And there are only the following in the "parentEducationAgencyReference" of the "educationOrganization" collection for id "de66bbfafd994193ae6aaf019ecfa14825c32575_id" on the "Midgar" tenant
+    And there are only the following in the "body.parentEducationAgencyReference" of the "educationOrganization" collection for id "de66bbfafd994193ae6aaf019ecfa14825c32575_id" on the "Midgar" tenant
          | value                                       |
          | 884daa27d806c2d725bc469b273d840493f84b4d_id |
     #other organization categories
@@ -192,7 +192,7 @@ Feature: Generic EdOrg Ingestion
        | value                        |
        | Other Local Education Agency |
        | Other School                 |
-    And there are only the following in the "parentEducationAgencyReference" of the "educationOrganization" collection for id "eef4f5ddc466beb3ad5136587731f9350fd398ec_id" on the "Midgar" tenant
+    And there are only the following in the "body.parentEducationAgencyReference" of the "educationOrganization" collection for id "eef4f5ddc466beb3ad5136587731f9350fd398ec_id" on the "Midgar" tenant
        | value                                       |
        | 884daa27d806c2d725bc469b273d840493f84b4d_id |
 
@@ -218,7 +218,7 @@ Feature: Generic EdOrg Ingestion
         | School                       |
         | Other Local Education Agency |
         | Other School                 |
-    And there are only the following in the "parentEducationAgencyReference" of the "educationOrganization" collection for id "57d18122d850992592e5a8d80832648a5b7198cd_id" on the "Midgar" tenant
+    And there are only the following in the "body.parentEducationAgencyReference" of the "educationOrganization" collection for id "57d18122d850992592e5a8d80832648a5b7198cd_id" on the "Midgar" tenant
        | value                                       |
        | 884daa27d806c2d725bc469b273d840493f84b4d_id |
 
@@ -230,7 +230,7 @@ Feature: Generic EdOrg Ingestion
     And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "2a05470ef1a2eacb408513fc646b8f39f1d9cd61_id" on the "Midgar" tenant
         | value                  |
         | Local Education Agency |
-    And there are only the following in the "parentEducationAgencyReference" of the "educationOrganization" collection for id "2a05470ef1a2eacb408513fc646b8f39f1d9cd61_id" on the "Midgar" tenant
+    And there are only the following in the "body.parentEducationAgencyReference" of the "educationOrganization" collection for id "2a05470ef1a2eacb408513fc646b8f39f1d9cd61_id" on the "Midgar" tenant
         | value                                       |
         | 3657ac93276c35e866e0b20b523dcca6c807cc81_id |
     And there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "Cycle 3"
@@ -240,7 +240,7 @@ Feature: Generic EdOrg Ingestion
     And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "3657ac93276c35e866e0b20b523dcca6c807cc81_id" on the "Midgar" tenant
         | value                  |
         | Local Education Agency |
-    And there are only the following in the "parentEducationAgencyReference" of the "educationOrganization" collection for id "3657ac93276c35e866e0b20b523dcca6c807cc81_id" on the "Midgar" tenant
+    And there are only the following in the "body.parentEducationAgencyReference" of the "educationOrganization" collection for id "3657ac93276c35e866e0b20b523dcca6c807cc81_id" on the "Midgar" tenant
         | value                                       |
         | 2e68cac9a6a00c44a2f314219794859b4b503e6e_id |
     And there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "Cycle 4"
@@ -250,7 +250,7 @@ Feature: Generic EdOrg Ingestion
     And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "2e68cac9a6a00c44a2f314219794859b4b503e6e_id" on the "Midgar" tenant
         | value                  |
         | Local Education Agency |
-    And there are only the following in the "parentEducationAgencyReference" of the "educationOrganization" collection for id "2e68cac9a6a00c44a2f314219794859b4b503e6e_id" on the "Midgar" tenant
+    And there are only the following in the "body.parentEducationAgencyReference" of the "educationOrganization" collection for id "2e68cac9a6a00c44a2f314219794859b4b503e6e_id" on the "Midgar" tenant
         | value                                       |
         | 2a05470ef1a2eacb408513fc646b8f39f1d9cd61_id |
 
@@ -268,7 +268,7 @@ Feature: Generic EdOrg Ingestion
     And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "915d173222c1dfd0e5956f225787ea25ef506a7b_id" on the "Midgar" tenant
         | value                  |
         | Local Education Agency |
-    And there are only the following in the "parentEducationAgencyReference" of the "educationOrganization" collection for id "915d173222c1dfd0e5956f225787ea25ef506a7b_id" on the "Midgar" tenant
+    And there are only the following in the "body.parentEducationAgencyReference" of the "educationOrganization" collection for id "915d173222c1dfd0e5956f225787ea25ef506a7b_id" on the "Midgar" tenant
         | value                                       |
         | 884daa27d806c2d725bc469b273d840493f84b4d_id |
     #now has parent LEA
@@ -279,7 +279,7 @@ Feature: Generic EdOrg Ingestion
     And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "1b223f577827204a1c7e9c851dba06bea6b031fe_id" on the "Midgar" tenant
         | value                  |
         | Local Education Agency |
-    And there are only the following in the "parentEducationAgencyReference" of the "educationOrganization" collection for id "1b223f577827204a1c7e9c851dba06bea6b031fe_id" on the "Midgar" tenant
+    And there are only the following in the "body.parentEducationAgencyReference" of the "educationOrganization" collection for id "1b223f577827204a1c7e9c851dba06bea6b031fe_id" on the "Midgar" tenant
         | value                                       |
         | 915d173222c1dfd0e5956f225787ea25ef506a7b_id |
     #now off sub LEA
@@ -294,7 +294,7 @@ Feature: Generic EdOrg Ingestion
     And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "352e8570bd1116d11a72755b987902440045d346_id" on the "Midgar" tenant
         | value  |
         | School |
-    And there are only the following in the "parentEducationAgencyReference" of the "educationOrganization" collection for id "352e8570bd1116d11a72755b987902440045d346_id" on the "Midgar" tenant
+    And there are only the following in the "body.parentEducationAgencyReference" of the "educationOrganization" collection for id "352e8570bd1116d11a72755b987902440045d346_id" on the "Midgar" tenant
         | value                                       |
         | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
     #no longer sub LEA
@@ -305,7 +305,7 @@ Feature: Generic EdOrg Ingestion
     And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "c58b7bec2c0a9496e9e6f3b85426cd2f65f23ec4_id" on the "Midgar" tenant
         | value                  |
         | Local Education Agency |
-    And there are only the following in the "parentEducationAgencyReference" of the "educationOrganization" collection for id "c58b7bec2c0a9496e9e6f3b85426cd2f65f23ec4_id" on the "Midgar" tenant
+    And there are only the following in the "body.parentEducationAgencyReference" of the "educationOrganization" collection for id "c58b7bec2c0a9496e9e6f3b85426cd2f65f23ec4_id" on the "Midgar" tenant
         | value                                       |
         | 884daa27d806c2d725bc469b273d840493f84b4d_id |
     #school no longer off nested LEA
@@ -319,7 +319,7 @@ Feature: Generic EdOrg Ingestion
     And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "e6972a8edb280114d26b1c4b919801f73c21232e_id" on the "Midgar" tenant
         | value  |
         | School |
-    And there are only the following in the "parentEducationAgencyReference" of the "educationOrganization" collection for id "e6972a8edb280114d26b1c4b919801f73c21232e_id" on the "Midgar" tenant
+    And there are only the following in the "body.parentEducationAgencyReference" of the "educationOrganization" collection for id "e6972a8edb280114d26b1c4b919801f73c21232e_id" on the "Midgar" tenant
         | value                                       |
         | c58b7bec2c0a9496e9e6f3b85426cd2f65f23ec4_id |
     #updated to include new meta.edOrgs for extra LEA in hierarchy
@@ -336,7 +336,7 @@ Feature: Generic EdOrg Ingestion
     And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "411f22e41453fba1c75c13b09b541520acf5be5b_id" on the "Midgar" tenant
         | value  |
         | School |
-    And there are only the following in the "parentEducationAgencyReference" of the "educationOrganization" collection for id "411f22e41453fba1c75c13b09b541520acf5be5b_id" on the "Midgar" tenant
+    And there are only the following in the "body.parentEducationAgencyReference" of the "educationOrganization" collection for id "411f22e41453fba1c75c13b09b541520acf5be5b_id" on the "Midgar" tenant
         | value                                       |
         | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
         | a9bef2e3a445efb50d39fa47784a0542eaff5589_id |
@@ -363,7 +363,7 @@ Feature: Generic EdOrg Ingestion
         | value                        |
         | Other Local Education Agency |
         | Other School                 |
-    And there are only the following in the "parentEducationAgencyReference" of the "educationOrganization" collection for id "de66bbfafd994193ae6aaf019ecfa14825c32575_id" on the "Midgar" tenant
+    And there are only the following in the "body.parentEducationAgencyReference" of the "educationOrganization" collection for id "de66bbfafd994193ae6aaf019ecfa14825c32575_id" on the "Midgar" tenant
          | value                                       |
          | 884daa27d806c2d725bc469b273d840493f84b4d_id |
     #other organization categories
@@ -386,7 +386,7 @@ Feature: Generic EdOrg Ingestion
        | value                        |
        | Local Education Agency |
        | School                 |
-    And there are only the following in the "parentEducationAgencyReference" of the "educationOrganization" collection for id "eef4f5ddc466beb3ad5136587731f9350fd398ec_id" on the "Midgar" tenant
+    And there are only the following in the "body.parentEducationAgencyReference" of the "educationOrganization" collection for id "eef4f5ddc466beb3ad5136587731f9350fd398ec_id" on the "Midgar" tenant
        | value                                       |
        | 884daa27d806c2d725bc469b273d840493f84b4d_id |
 
