@@ -39,6 +39,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -107,6 +108,7 @@ public class CustomRoleResource {
     protected static final String ERROR_DUPLICATE_RIGHTS = "Cannot have the same right listed more than once in a role";
     protected static final String ERROR_CHANGING_REALM_ID = "Cannot change the realmId on a custom role document";
     protected static final String ERROR_INVALID_REALM_ID = "Invalid realmId specified.";
+    protected static final String ERROR_INVALID_CONTEXT_RIGHT = "Invalid context rights.A staff role have to contain either TEACHER_CONTEXT or STAFF_CONTEXT right";
 
     @PostConstruct
     public void init() {
@@ -283,8 +285,27 @@ public class CustomRoleResource {
                 }
             }
 
+            if(!SecurityUtil.isStudent() && !SecurityUtil.isParent()) {
+                if(!validateContextRights(rightsSet)) {
+                    return buildBadRequest(ERROR_INVALID_CONTEXT_RIGHT);
+                }
+            }
+
         }
         return null;
+    }
+
+    private boolean validateContextRights(Set<Right> rightsSet) {
+        if (rightsSet.contains(Right.TEACHER_CONTEXT)){
+            return !rightsSet.contains(Right.STAFF_CONTEXT);
+        }
+
+        if (rightsSet.contains(Right.STAFF_CONTEXT)){
+            return !rightsSet.contains(Right.TEACHER_CONTEXT);
+        }
+
+        //context right is required
+        return false;
     }
 
     private Response validateUniqueRoles(EntityBody customRoleDoc) {
