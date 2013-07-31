@@ -425,7 +425,7 @@
         <StateOrganizationId>Cycle 2</StateOrganizationId>
         <NameOfInstitution>Cycle 2 Updated</NameOfInstitution>
         <OrganizationCategories>
-            <OrganizationCategory>Local Education Agency</OrganizationCategory>
+            <OrganizationCategory>School</OrganizationCategory>
         </OrganizationCategories>
         <ParentEducationAgencyReference>
             <EducationalOrgIdentity>
@@ -444,7 +444,7 @@
         <StateOrganizationId>Cycle 3</StateOrganizationId>
         <NameOfInstitution>Cycle 3 Updated</NameOfInstitution>
         <OrganizationCategories>
-            <OrganizationCategory>Local Education Agency</OrganizationCategory>
+            <OrganizationCategory>School</OrganizationCategory>
         </OrganizationCategories>
         <ParentEducationAgencyReference>
             <EducationalOrgIdentity>
@@ -463,7 +463,7 @@
         <StateOrganizationId>Cycle 4</StateOrganizationId>
         <NameOfInstitution>Cycle 4 Updated</NameOfInstitution>
         <OrganizationCategories>
-            <OrganizationCategory>Local Education Agency</OrganizationCategory>
+            <OrganizationCategory>School</OrganizationCategory>
         </OrganizationCategories>
         <ParentEducationAgencyReference>
             <EducationalOrgIdentity>
