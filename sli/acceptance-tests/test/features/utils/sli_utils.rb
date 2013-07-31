@@ -98,6 +98,7 @@ $SESSION_MAP = {
                 "sandboxdeveloper_SLI" => "a1cf186b-9c8e-4252-9f46-ed4e9f4f597c",
                 "anothersandboxdeveloper_SLI" => "be71e33e-00f5-442a-a0c7-3dc5c63a8a02",
                 "iladmin_SLI" => "9abf3111-0e5d-456a-8b89-004815162342",
+                "zorkadmin_SLI" => "aaaaaaaa-0e5d-456a-8b89-004815111111",
                 "stweed_IL" => "2cf7a5d4-75a2-ba63-8b53-b5f95131de48",
                 "teach1_SEC" => "00000000-5555-5555-0001-500000000001",
                 "teach2_SEC" => "00000000-5555-5555-0001-500000000002",

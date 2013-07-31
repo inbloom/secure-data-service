@@ -58,6 +58,10 @@ Transform /^<(.*?)>$/ do |human_readable_id|
     when 'District 9 URI'
       id = '/v1/educationOrganizations/99a4ec9d3ba372993b2860a798b550c77bb73a09_id'
 
+#Staff
+    when 'msmith URI'
+      id = '/v1/staff/3a780cebc8f98982f9b7a5d548fecff42ed8f2f1_id'
+
 #Following are for DELETES
     when 'pat.sollars URI'
       id = '/v1/students/993283bce14b54bbfc896b8452f26e745ce4c101_id'
@@ -102,667 +106,11 @@ Transform /^\[([^{]*)\]$/ do |array_list|
   array
 end
 
-Transform /^\[\{([^{]*)\}\]$/ do |array_hash|
-  array = []
-  hash = {}
-  hash_split = array_hash.split(%r{,\s*})
-  hash_split.each do |hash_parse|
-    hash_key_value = hash_parse.split(%r{\s*:\s*})
-    new_hash = {hash_key_value[0] => hash_key_value[1]}
-    hash.merge!(new_hash)
-  end
-  array << hash
-
-  array
-end
-
-#############################################################################################
-# After Steps
-#############################################################################################
-
-#Undo changes made by update_mongo, remove_from_mongo, and add_to_mongo after the scenario ends
-After do |scenario|
-  if scenario.passed?
-    unless @mongo_changes.nil?
-      @mongo_changes.reverse_each do |mongo_change|
-        disable_NOTABLESCAN()
-        conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
-        db = conn[mongo_change[:tenant]]
-        coll = db.collection(mongo_change[:collection])
-        if mongo_change[:operation] == 'remove'
-          coll.insert(mongo_change[:value])
-        elsif mongo_change[:operation] == 'update'
-          if mongo_change[:found]
-            coll.update(mongo_change[:query], {'$set' => {mongo_change[:field] => mongo_change[:value]}})
-          else
-            coll.update(mongo_change[:query], {'$unset' => {mongo_change[:field] => 1}})
-          end
-        elsif mongo_change[:operation] == 'add'
-          entity = mongo_change[:entity]
-          query = {'_id' => entity['_id']}
-          coll.remove(query)
-        end
-        conn.close
-        enable_NOTABLESCAN()
-      end
-    end
-  end
-end
-
-#############################################################################################
-# Mongo Steps
-#############################################################################################
-
-#The following three methods (update_mongo, remove_from_mongo, add_to_mongo) are singleton operators.
-#They also keep a record of the changes they made so that they can be reverted after the scenario is done
-#Note: tenant is the database name and query is a query that'd uniquely identify an entity
-#      (Generally, a query like {'_id' => id} is enough)
-
-def update_mongo(db_name, collection, query, field, remove, value = nil)
-#Note: value is ignored if remove is true (It doesn't matter what the field contains if you're removing it)
-
-  entry = update_mongo_operation(db_name, collection, query, field, remove, value)
-
-  (@mongo_changes ||= []) << entry
-end
-
-def update_mongo_operation(db_name, collection, query, field, remove, value = nil)
-  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
-  db = conn[db_name]
-  coll = db.collection(collection)
-  entity = coll.find_one(query)
-  entity_iter = entity
-  field_list = field.split('.')
-  found = true
-  field_list.each do |field_entry|
-    if entity_iter.is_a? Array
-      field_entry = field_entry.to_i
-    else
-      unless entity_iter.has_key? field_entry
-        found = false
-        break
-      end
-    end
-    entity_iter = entity_iter[field_entry]
-  end
-  if !(remove) || found
-    entry = {:operation => 'update',
-             :tenant => db_name,
-             :collection => collection,
-             :query => query,
-             :field => field,
-             :remove => remove,
-             :found => found,
-             :value => entity_iter,
-             :new => value
-    }
-    if remove
-      coll.update(query, {'$unset' => {field => 1}})
-    else
-      coll.update(query, {'$set' => {field => value}})
-    end
-  end
-  conn.close
-
-  return entry
-
-end
-
-def add_to_mongo(db_name, collection, entity)
-  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
-  db = conn[db_name]
-  coll = db.collection(collection)
-  entry = {:operation => 'add',
-           :tenant => db_name,
-           :collection => collection,
-           :entity => entity
-  }
-
-  coll.insert(entity)
-  (@mongo_changes ||= []) << entry
-  conn.close
-end
-
-def remove_from_mongo(db_name, collection, query)
-  entry = remove_from_mongo_operation(db_name, collection, query)
-
-  (@mongo_changes ||= []) << entry
-
-end
-
-def remove_from_mongo_operation(db_name, collection, query)
-  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
-  db = conn[db_name]
-  coll = db.collection(collection)
-  entity = coll.find_one(query)
-  if entity
-    entry = {:operation => 'remove',
-             :tenant => db_name,
-             :collection => collection,
-             :query => query,
-             :value => entity
-    }
-    coll.remove(query)
-
-  end
-  conn.close
-
-  return entry
-end
-
-Given /^I (remove|expire) all SEOA expiration dates for "([^"]*)" in tenant "([^"]*)"$/ do | function, staff, tenant|
-  tenant = convertTenantIdToDbName tenant
-  disable_NOTABLESCAN()
-  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
-  db = conn[tenant]
-  staff_coll = db.collection('staff')
-  staff_id = staff_coll.find_one({'body.staffUniqueStateId' => staff})['_id']
-  seoa_coll = db.collection('staffEducationOrganizationAssociation')
-  seoas = seoa_coll.find({'body.staffReference' => staff_id}).to_a
-  remove = (function == 'remove')
-  seoas.each do |seoa|
-    query = { '_id' => seoa['_id']}
-    update_mongo(tenant, 'staffEducationOrganizationAssociation', query, 'body.endDate', remove, '2000-01-01')
-  end
-
-  conn.close
-  enable_NOTABLESCAN()
-end
-
-Given /^I change all SEOAs of "([^"]*)" to the edorg "([^"]*)"$/ do |staff, edorg|
-  tenant = convertTenantIdToDbName @tenant
-  disable_NOTABLESCAN()
-  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
-  db = conn[tenant]
-  staff_coll = db.collection('staff')
-  edorg_coll = db.collection('educationOrganization')
-  staff_id = staff_coll.find_one({'body.staffUniqueStateId' => staff})['_id']
-  edorg_id = edorg_coll.find_one({'body.stateOrganizationId' => edorg})['_id']
-  seoa_coll = db.collection('staffEducationOrganizationAssociation')
-  seoas = seoa_coll.find({'body.staffReference' => staff_id}).to_a
-  seoas.each do |seoa|
-    query = { '_id' => seoa['_id']}
-    update_mongo(tenant, 'staffEducationOrganizationAssociation', query, 'body.educationOrganizationReference', false, edorg_id)
-  end
-
-  enable_NOTABLESCAN()
-  conn.close
-
-end
-
-Given /^I change the custom role of "([^"]*)" to (add|remove) the "([^"]*)" right$/ do |role, function, right|
-  tenant = convertTenantIdToDbName @tenant
-  disable_NOTABLESCAN()
-  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
-  db = conn[tenant]
-  add = (function == 'add')
-  role_coll = db.collection('customRole')
-  custom_roles = role_coll.find_one()
-  roles = custom_roles['body']['roles']
-  index = roles.index {|entry| entry['names'][0] == role}
-  if add
-    roles[index]['rights'] << right
-  else
-    roles[index]['rights'].delete_if {|entry| entry == right}
-  end
-  update_mongo(tenant,'customRole',{},"body.roles.#{index}.rights", false, roles[index]['rights'])
-
-  enable_NOTABLESCAN()
-  conn.close
-
-end
-
-Given /^I remove the school association with student "([^"]*)" in tenant "([^"]*)"$/ do |studentUniqueStateId, tenant|
-  tenant = convertTenantIdToDbName tenant
-  disable_NOTABLESCAN()
-  query = {'body.studentUniqueStateId' => studentUniqueStateId}
-  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
-  db = conn[tenant]
-  student_coll = db.collection('student')
-  student_id = student_coll.find_one(query)['_id']
-  ssa_query = {'body.studentId' => student_id}
-  remove_from_mongo(tenant, "studentSchoolAssociation", ssa_query)
-
-  enable_NOTABLESCAN()
-  conn.close
-end
-
-Given /^I modify all SEOA staff classifications for "([^"]*)" in tenant "([^"]*)" to "([^"]*)"$/ do |staff, tenant, value|
-  tenant = convertTenantIdToDbName tenant
-  disable_NOTABLESCAN()
-  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
-  db = conn[tenant]
-  staff_coll = db.collection('staff')
-  staff_id = staff_coll.find_one({'body.staffUniqueStateId' => staff})['_id']
-  seoa_coll = db.collection('staffEducationOrganizationAssociation')
-  seoas = seoa_coll.find({'body.staffReference' => staff_id}).to_a
-  seoas.each do |seoa|
-    query = { '_id' => seoa['_id']}
-    update_mongo(tenant, 'staffEducationOrganizationAssociation', query, 'body.staffClassification', false, value)
-  end
-
-  conn.close
-  enable_NOTABLESCAN()
-
-end
-
-Given /^I remove all SEOAs for "([^"]*)" in tenant "([^"]*)"/ do |staff, tenant|
-  tenant = convertTenantIdToDbName tenant
-  disable_NOTABLESCAN()
-  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
-  db = conn[tenant]
-  staff_coll = db.collection('staff')
-  staff_id = staff_coll.find_one({'body.staffUniqueStateId' => staff})['_id']
-  seoa_coll = db.collection('staffEducationOrganizationAssociation')
-  seoas = seoa_coll.find({'body.staffReference' => staff_id}).to_a
-  seoas.each do |seoa|
-    query = { '_id' => seoa['_id']}
-    remove_from_mongo(tenant, 'staffEducationOrganizationAssociation', query)
-  end
-
-  conn.close
-  enable_NOTABLESCAN()
-
-end
-
-Given /^I remove the SEOA with role "([^"]*)" for staff "([^"]*)" in "([^"]*)"$/ do |role, staff, edOrg|
-  tenant = convertTenantIdToDbName @tenant
-  disable_NOTABLESCAN()
-  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
-  db = conn[tenant]
-
-  staff_coll = db.collection('staff')
-  staff_id = staff_coll.find_one({'body.staffUniqueStateId' => staff})['_id']
-
-  edOrg_coll = db.collection('educationOrganization')
-  edOrg_id = edOrg_coll.find_one({'body.stateOrganizationId' => edOrg})['_id']
-
-
-  seoa_coll = db.collection('staffEducationOrganizationAssociation')
-  seoas = seoa_coll.find({'body.staffReference' => staff_id, 'body.educationOrganizationReference' => edOrg_id, 'body.staffClassification' => role}).to_a
-  seoas.each do |seoa|
-    query = { '_id' => seoa['_id']}
-    remove_from_mongo(tenant, 'staffEducationOrganizationAssociation', query)
-  end
-
-  conn.close
-  enable_NOTABLESCAN()
-
-end
-
-Given /^I remove "([^"]*)" from the custom roles$/ do |roleName|
-  tenant = convertTenantIdToDbName @tenant
-  disable_NOTABLESCAN()
-  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
-  db = conn[tenant]
-
-  query =  {'body.roles.names' => roleName}
-
-  customRoleColl = db.collection('customRole')
-  customRole = customRoleColl.find_one({'body.roles.names' => roleName})
-
-  roles = customRole ['body']['roles']
-
-  roles.each do |role|
-   role.delete_if {|key, value| key == 'names' && value == [roleName]}
-
-   if !role.has_key?('names')
-     role.store('names', ['DummyValue'])
-   end
-  end
-
-  remove_from_mongo(tenant, 'customRole', query)
-  add_to_mongo(tenant, 'customRole', customRole)
-
-  conn.close
-  enable_NOTABLESCAN()
-end
-
-Given /^I remove the teacherSectionAssociation for "([^"]*)"$/ do |staff|
-  tenant = convertTenantIdToDbName @tenant
-  disable_NOTABLESCAN()
-  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
-  db = conn[tenant]
-
-  staff_coll = db.collection('staff')
-  staff_id = staff_coll.find_one({'body.staffUniqueStateId' => staff})['_id']
-
-  section_coll = db.collection('section')
-  sections = section_coll.find({'teacherSectionAssociation.body.teacherId' => staff_id}).to_a
-
-  sections.each do |section|
-    query = {'_id' => section['_id']}
-    update_mongo(tenant, "section", query, "teacherSectionAssociation",true)
-  end
-
-  conn.close
-  enable_NOTABLESCAN()
-end
-
-Given /^the only SEOA for "([^"]*)" is as a "([^"]*)" in "([^"]*)"$/ do |staff, role, edorg|
-  disable_NOTABLESCAN()
-  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
-  db_tenant = convertTenantIdToDbName @tenant
-  db = conn[db_tenant]
-
-  staff_coll = db.collection('staff')
-  staff_id = staff_coll.find_one({'body.staffUniqueStateId' => staff})['_id']
-
-  edorg_coll = db.collection('educationOrganization')
-  edorg_id = edorg_coll.find_one({'body.stateOrganizationId' => edorg})['_id']
-
-
-  seoa_coll = db.collection('staffEducationOrganizationAssociation')
-  seoas = seoa_coll.find({'body.staffReference' => staff_id}).to_a
-  first = true
-  seoas.each do |seoa|
-    query = { '_id' => seoa['_id']}
-    if first
-      update_mongo(db_tenant, 'staffEducationOrganizationAssociation', query, 'body.educationOrganizationReference', false, edorg_id)
-      update_mongo(db_tenant, 'staffEducationOrganizationAssociation', query, 'body.staffClassification', false, role)
-    else
-      remove_from_mongo(db_tenant, 'staffEducationOrganizationAssociation', query)
-    end
-    first = false
-  end
-
-  conn.close
-  enable_NOTABLESCAN()
-end
-
-Given /^I add a SEOA for "([^"]*)" in "([^"]*)" as a "([^"]*)"$/ do |staff, edOrg, role|
-  disable_NOTABLESCAN()
-  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
-  db_tenant = convertTenantIdToDbName @tenant
-  db = conn[db_tenant]
-
-  staff_coll = db.collection('staff')
-  staff_id = staff_coll.find_one({'body.staffUniqueStateId' => staff})['_id']
-
-  edorg_coll = db.collection('educationOrganization')
-  edorg_id = edorg_coll.find_one({'body.stateOrganizationId' => edOrg})['_id']
-
-  seoa = {'_id' => SecureRandom.uuid,
-          'type' => 'staffEducationOrganizationAssociation',
-          'body' => {'staffClassification' => role,
-                     'educationOrganizationReference' => edorg_id,
-                     'staffReference' => staff_id,
-                     'beginDate' => '2000-01-01'}  }
-
-  add_to_mongo(db_tenant, 'staffEducationOrganizationAssociation', seoa)
-  conn.close
-  enable_NOTABLESCAN()
-end
-
-Given /^the following student section associations in ([^ ]*) are set correctly$/ do |tenant, table|
-  disable_NOTABLESCAN()
-  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
-  tenant_hash = convertTenantIdToDbName(tenant)
-  db = conn[tenant_hash]
-  student_coll = db.collection('student')
-  staff_coll = db.collection('staff')
-  section_coll = db.collection('section')
-  edorg_coll = db.collection('educationOrganization')
-
-  table.hashes.map do |row|
-    add = (row['enrolledInAnySection?'] == 'yes')
-    student_id = student_coll.find_one({'body.studentUniqueStateId' => row['student']})['_id']
-    teacher_id = staff_coll.find_one({'body.staffUniqueStateId' => row['teacher']})['_id']
-    edorg_id = edorg_coll.find_one({'body.stateOrganizationId' => row['edorg']})['_id']
-
-    sections = section_coll.find({'body.schoolId' => edorg_id,
-                                  'teacherSectionAssociation.body.teacherId' => teacher_id,
-                                  'studentSectionAssociation.body.studentId' => student_id}).to_a
-
-    found = (sections.size > 0)
-
-    if !found && add
-      section = section_coll.find_one({'body.schoolId' => edorg_id,
-                                       'teacherSectionAssociation.body.teacherId' => teacher_id},
-                                      {:fields => %w(_id studentSectionAssociation)})
-      query = { '_id' => section['_id']}
-      entry = {
-                '_id'       => "#{section['_id']}#{SecureRandom.uuid}",
-                'type'      => 'studentSectionAssociation',
-                'body'      => {
-                            'sectionId'         => section['_id'],
-                            'studentId'         => student_id,
-                            'homeroomIndicator' => section['studentSectionAssociation'][0]['body']['homeroomIndicator'],
-                            'repeatIdentifier'  => section['studentSectionAssociation'][0]['body']['repeatIdentifier'],
-                            'beginDate'         => section['studentSectionAssociation'][0]['body']['beginDate'],
-                            'endDate'           => section['studentSectionAssociation'][0]['body']['endDate']
-                                },
-                'metaData'  => section['studentSectionAssociation'][0]['metaData']
-              }
-      (value = section['studentSectionAssociation']) << entry
-      update_mongo(tenant_hash, 'section', query, 'studentSectionAssociation', false, value)
-    elsif found && !add
-      sections.each do |section|
-        query = { '_id' => section['_id']}
-        value = section['studentSectionAssociation']
-        value.delete_if {|entry| entry['body']['studentId'] == student_id}
-        update_mongo(tenant_hash, 'section', query, 'studentSectionAssociation', false, value)
-      end
-    end
-
-
-  end
-
-  conn.close
-  enable_NOTABLESCAN()
-end
-
-Given /^I change the type of "([^"]*)" to "([^"]*)"$/ do |user, type|
-  disable_NOTABLESCAN()
-  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
-  db_name = convertTenantIdToDbName(@tenant)
-  db = conn[db_name]
-  staff_coll = db.collection('staff')
-  staff_id = staff_coll.find_one({'body.staffUniqueStateId' => user})['_id']
-
-  query = { '_id' => staff_id}
-  update_mongo(db_name, 'staff', query, 'type', false, type)
-
-  conn.close
-  enable_NOTABLESCAN()
-end
-
-Given /^I change the type of "([^"]*)" admin role to "(true|false)"$/ do |rolegroup, isAdmin|
-  disable_NOTABLESCAN()
-  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
-  db_name = convertTenantIdToDbName(@tenant)
-  db = conn[db_name]
-  custom_role_coll = db.collection('customRole')
-  custom_role = custom_role_coll.find_one()
-  roles =custom_role['body']['roles']
-
-  index = roles.index {|entry| entry['groupTitle'] == rolegroup}
-  roles[index]['isAdminRole'] = (isAdmin == 'true')
-
-  update_mongo(db_name,'customRole',{},"body.roles.#{index}", false, roles[index])
-
-  conn.close
-  enable_NOTABLESCAN()
-end
-
-Given /^"([^"]*)" is not associated with any (program|cohort) that belongs to "([^"]*)"$/ do |student, collection, staff|
-  disable_NOTABLESCAN()
-  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
-  db_name = convertTenantIdToDbName(@tenant)
-  db = conn[db_name]
-  student_coll = db.collection('student')
-  staff_coll = db.collection('staff')
-  association_coll = db.collection("staff#{collection.capitalize}Association")
-
-  student = student_coll.find_one({'body.studentUniqueStateId' => student})
-  staff_id = staff_coll.find_one({'body.staffUniqueStateId' => staff})['_id']
-
-  staff_entities = association_coll.find({'body.staffId' => staff_id}, {:fields => {'_id' => 0,
-                                                                                    "body.#{collection}Id" => 1}}).to_a
-
-  query = { '_id' => student['_id']}
-  value = student["student#{collection.capitalize}Association"]
-  unless value.nil?
-    value.delete_if {|entry| staff_entities.include?({'body' => {"#{collection}Id" => entry['body']["#{collection}Id"]}})}
-    update_mongo(db_name, 'student', query, "student#{collection.capitalize}Association", false, value)
-  end
-
-
-  conn.close
-  enable_NOTABLESCAN()
-end
-
-Given /^I expire all section associations that "([^"]*)" has with "([^"]*)"$/ do |student, teacher|
-  disable_NOTABLESCAN()
-  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
-  db_name = convertTenantIdToDbName(@tenant)
-  db = conn[db_name]
-  student_coll = db.collection('student')
-  teacher_coll = db.collection('staff')
-  section_coll = db.collection('section')
-  teacher_id = teacher_coll.find_one({'body.staffUniqueStateId' => teacher})['_id']
-  student_id = student_coll.find_one({'body.studentUniqueStateId' => student})['_id']
-
-  sections = section_coll.find({'teacherSectionAssociation.body.teacherId' => teacher_id,
-                                'studentSectionAssociation.body.studentId' => student_id}).to_a
-
-  sections.each do |section|
-    query = { '_id' => section['_id']}
-    value = section['studentSectionAssociation']
-    index = value.index {|entry| entry['body']['studentId'] == student_id}
-    update_mongo(db_name, 'section', query, "studentSectionAssociation.#{index}.body.endDate", false, '2000-01-01')
-  end
-
-  conn.close
-  enable_NOTABLESCAN()
-end
-
-Given /^I get (\d+) random ids for "([^"]*)" in "([^"]*)"$/ do |number, type, entity|
-  disable_NOTABLESCAN()
-  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
-  db_name = convertTenantIdToDbName(@tenant)
-  db = conn[db_name]
-  coll = db.collection(entity)
-  if type == 'educationOrganization' && entity == 'educationOrganization'
-    entities = coll.find({}, {:fields => %w(_id)}).to_a
-  else
-    entities = coll.find({'type' => type}, {:fields => %w(_id)}).to_a
-  end
-  assert(entities.size > 0, "No #{entity} of type #{type} found")
-  (entities.shuffle.take(number.to_i)).each { |entry| (@entity_ids ||= []) << entry['_id'] }
-  conn.close
-  enable_NOTABLESCAN()
-end
-
-Given /^I get (\d+) random ids associated with the edorgs for "([^"]*)" of "([^"]*)" in "([^"]*)"$/ do |number, staff, type, collection|
-  case type
-    when 'studentProgramAssociation'
-      subdoc = true
-      edorg_in_subdoc = true
-      edorg_ref = 'body.educationOrganizationId'
-    when 'teacherSchoolAssociation', 'studentSchoolAssociation', 'disciplineIncident', 'attendance'
-      subdoc = false
-      edorg_ref = 'body.schoolId'
-    when 'staffEducationOrganizationAssociation'
-      subdoc = false
-      edorg_ref = 'body.educationOrganizationReference'
-    when 'cohort'
-      subdoc = false
-      edorg_ref = 'body.educationOrgId'
-    when 'disciplineAction'
-      subdoc = false
-      edorg_ref = 'body.responsibilitySchoolId'
-    when 'gradebookEntry'
-      subdoc = true
-      edorg_in_subdoc = false
-      edorg_ref = 'body.schoolId'
-    else
-      subdoc = false
-      edorg_ref = 'body.educationOrganizationId'
-  end
-
-  disable_NOTABLESCAN()
-  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
-  db_name = convertTenantIdToDbName(@tenant)
-  db = conn[db_name]
-  edorgs = Set.new
-  seoa_coll = db.collection('staffEducationOrganizationAssociation')
-  staff_coll = db.collection('staff')
-  staff_id = staff_coll.find_one({'body.staffUniqueStateId' => staff})['_id']
-  seoas = seoa_coll.find('body.staffReference' => staff_id).to_a
-  seoas.each {|seoa| edorgs.add(seoa['body']['educationOrganizationReference']) }
-
-  entity_ids = Set.new
-  coll = db.collection(collection)
-  edorgs.each do |edorg|
-    if subdoc
-      if edorg_in_subdoc
-        entities = coll.find({"#{type}.#{edorg_ref}" => edorg},{:fields => ["#{type}.$"]}).to_a
-      else
-        entities = coll.find({edorg_ref => edorg}).to_a
-      end
-      entities.each { |entity| entity_ids.add(entity[type][0]['_id'])}
-    else
-      entities = coll.find({edorg_ref => edorg},{:fields => %w(_id)}).to_a
-      entities.each { |entity| entity_ids.add(entity['_id'])}
-    end
-  end
-  assert(entity_ids.size > 0, "No #{type} found that is associated with the edorgs of #{staff}")
-  (entity_ids.to_a.shuffle.take(number.to_i)).each { |entry| (@entity_ids ||= []) << entry }
-  conn.close
-  enable_NOTABLESCAN()
-end
-
-Given /^I add (student school association|attendance) for "([^"]*)" in "([^"]*)" that's already expired$/ do |collection, student, edorg|
-  disable_NOTABLESCAN()
-  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
-  db_name = convertTenantIdToDbName(@tenant)
-  db = conn[db_name]
-  student_coll = db.collection('student')
-  edorg_coll = db.collection('educationOrganization')
-  student_id = student_coll.find_one({'body.studentUniqueStateId' => student})['_id']
-  edorg_id = edorg_coll.find_one({'body.stateOrganizationId' => edorg})['_id']
-  entries = {
-      'student school association' => {
-          '_id' => SecureRandom.uuid,
-          'type' => 'studentSchoolAssociation',
-          'body' => {
-              'schoolYear' => '2010-2011',
-              'schoolId' => edorg_id,
-              'studentId' => student_id,
-              'entryDate' => '2010-10-10',
-              'entryGradeLevel' => 'Ninth grade',
-              'exitWithdrawDate' => '2011-05-05',
-              'exitWithdrawType' => 'Withdrawn due to illness'
-          }
-      },
-      'attendance' => {
-          '_id' => SecureRandom.uuid,
-          'type' => 'attendance',
-          'body' => {
-              'schoolYear' => '2010-2011',
-              'schoolId' => edorg_id,
-              'studentId' => student_id,
-              'attendanceEvent' => [
-                  {
-                      'reason' => 'Alarm did not go off',
-                      'event' => 'Tardy',
-                      'date' => '2010-12-01'
-                  },
-                  {
-                      'reason' => 'Sick: Had note from doctor',
-                      'event' => 'Excused Absence',
-                      'date' => '2011-03-15'
-                  }
-              ]
-          }
-      }
-  }
-  @newId = entries[collection]['_id']
-  add_to_mongo(db_name,entries[collection]['type'],entries[collection])
-
-  conn.close
-  enable_NOTABLESCAN()
+Transform /^(\[?\{.*?\}\]?)$/ do |array_hash|
+  string_hash = array_hash.gsub(/[']/,"\"")
+  hash = JSON.parse(string_hash)
+
+  hash
 end
 
 #############################################################################################
@@ -1120,8 +468,8 @@ Then /^All the return codes should be (\d+)$/ do |code|
 end
 
 When /^I set the ([^"]*) to ([^"]*)$/ do |key, value|
-  @result = {} if !defined? @result
-  value.is_a?(String) ? @result[key] = convert(value) : @result[key] = value
+  @fields = {} unless defined? @fields
+  value.is_a?(String) ? @fields[key] = convert(value) : @fields[key] = value
 end
 
 Given /^a valid json document for entity "([^"]*)"$/ do |entity|
@@ -1138,6 +486,9 @@ Given /^a valid json document for entity "([^"]*)"$/ do |entity|
   di_coll = db.collection('disciplineIncident')
   section_coll = db.collection('section')
   yt_coll = db.collection('yearlyTranscript')
+  assessment_coll = db.collection('assessment')
+  cohort_coll = db.collection('cohort')
+  student_coll = db.collection('student')
 
   gp = gp_coll.find_one({'body.gradingPeriodIdentity.schoolId' => '99a4ec9d3ba372993b2860a798b550c77bb73a09_id'})
   gp_id = gp['_id']
@@ -1167,6 +518,18 @@ Given /^a valid json document for entity "([^"]*)"$/ do |entity|
   gradebook_section = section_coll.find_one({'body.schoolId' => '2a30827ed4cf5500fb848512d19ad73ed37c4464_id'})
 
   yt = yt_coll.find_one({'body.studentId' => '153df715388ff1b2293fc8b2f3828816bc2d3c1f_id'})
+
+  session_id = session_coll.find_one({'body.schoolId' => '99a4ec9d3ba372993b2860a798b550c77bb73a09_id'})['_id']
+
+  assessment_id = assessment_coll.find_one()['_id']
+
+  cohort_id = cohort_coll.find_one({'body.educationOrgId' => '2a30827ed4cf5500fb848512d19ad73ed37c4464_id'})['_id']
+
+  student_dis = student_coll.find_one({'_id' => '153df715388ff1b2293fc8b2f3828816bc2d3c1f_id'},
+                                     {:fields => {'_id' => 0, 'studentDisciplineIncidentAssociation.body.disciplineIncidentId' => 1}})['studentDisciplineIncidentAssociation']
+  student_di_ids = []
+  student_dis.each {|entry| student_di_ids << entry['body']['disciplineIncidentId']}
+  student_di_id = di_coll.find_one({'body.schoolId' => '2a30827ed4cf5500fb848512d19ad73ed37c4464_id', '_id' => {'$nin' => student_di_ids}})['_id']
 
   enable_NOTABLESCAN()
   conn.close
@@ -1437,6 +800,39 @@ Given /^a valid json document for entity "([^"]*)"$/ do |entity|
         'courseAttemptResult' => 'Fail',
         'studentAcademicRecordId' => yt['studentAcademicRecord'][0]['_id'],
         'gradeLevelWhenTaken' => 'Ninth grade'
+    },
+
+    'studentAssessment'=> {
+        'studentId' => '153df715388ff1b2293fc8b2f3828816bc2d3c1f_id',
+        'assessmentId' => assessment_id,
+        'administrationDate' => '2012-01-09',
+        'gradeLevelWhenAssessed' => 'Ungraded'
+    },
+
+    'studentCohortAssociation' => {
+        'studentId' => '153df715388ff1b2293fc8b2f3828816bc2d3c1f_id',
+        'cohortId' => cohort_id,
+        'beginDate' => '2012-01-01',
+        'endDate' => '2012-01-05'
+    },
+
+    'studentDisciplineIncidentAssociation' => {
+        'studentId' => '153df715388ff1b2293fc8b2f3828816bc2d3c1f_id',
+        'disciplineIncidentId' => student_di_id,
+        'studentParticipationCode' => 'Witness'
+    },
+
+    'studentParentAssociation' => {
+        'studentId' => '153df715388ff1b2293fc8b2f3828816bc2d3c1f_id',
+        'parentId' => 'aa3acf92cdebd987fa4b27c762828cde72ccfabc_id',
+        'relation' => 'Uncle'
+    },
+
+    'studentSectionAssociation' => {
+        'studentId' => '153df715388ff1b2293fc8b2f3828816bc2d3c1f_id',
+        'sectionId' => gradebook_section['_id'],
+        'beginDate' => '2012-01-01',
+        'endDate' => '2012-01-02'
     }
 
   }
@@ -1503,7 +899,7 @@ end
 #Steps for POST
 ############################################################################################
 
-When /^I change the result field "([^\"]*)" to "([^\"]*)"$/ do |field, value|
+When /^I change the result field "([^\"]*)" to "(.*?)"$/ do |field, value|
   @fields = Hash.new if !defined?(@patch_body)
   @fields["#{field}"] = value
 end

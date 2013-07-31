@@ -144,7 +144,7 @@ public class RoleInitializer {
         roleNames.add(SPECIALIST_CONSULTANT);
         Role role = RoleBuilder.makeRole(roleNames)
                 .addGroupTitle(AGGREGATE_VIEWER)
-                .addRights(new Right[] { Right.READ_PUBLIC, Right.AGGREGATE_READ })
+                .addRights(new Right[] { Right.READ_PUBLIC, Right.AGGREGATE_READ, Right.STAFF_CONTEXT })
                 .addSelfRights(new Right[] { Right.READ_GENERAL, Right.READ_RESTRICTED}).build();
         role.setAdmin(false);
         return role;
@@ -157,7 +157,7 @@ public class RoleInitializer {
         roleNames.add(TEACHER);
         Role role = RoleBuilder.makeRole(roleNames)
                 .addGroupTitle(EDUCATOR)
-                .addRights(new Right[] { Right.READ_PUBLIC, Right.AGGREGATE_READ, Right.READ_GENERAL })
+                .addRights(new Right[] { Right.READ_PUBLIC, Right.AGGREGATE_READ, Right.READ_GENERAL, Right.TEACHER_CONTEXT })
                 .addSelfRights(new Right[]{ Right.READ_RESTRICTED}).build();
         role.setAdmin(false);
         return role;
@@ -173,7 +173,7 @@ public class RoleInitializer {
                 .addGroupTitle(LEADER)
                 .addRights(
                         new Right[] { Right.READ_PUBLIC, Right.AGGREGATE_READ, Right.READ_GENERAL,
-                                Right.READ_RESTRICTED }).build();
+                                Right.READ_RESTRICTED, Right.STAFF_CONTEXT }).build();
         role.setAdmin(false);
         return role;
     }
@@ -189,7 +189,7 @@ public class RoleInitializer {
                 .addGroupTitle(IT_ADMINISTRATOR)
                 .addRights(
                         new Right[] { Right.READ_PUBLIC, Right.AGGREGATE_READ, Right.READ_GENERAL,
-                                Right.READ_RESTRICTED, Right.WRITE_PUBLIC, Right.WRITE_GENERAL, Right.WRITE_RESTRICTED }).build();
+                                Right.READ_RESTRICTED, Right.WRITE_PUBLIC, Right.WRITE_GENERAL, Right.WRITE_RESTRICTED, Right.STAFF_CONTEXT }).build();
         role.setAdmin(true);
         return role;
     }
