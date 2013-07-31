@@ -180,8 +180,8 @@ Feature: Generic EdOrg Ingestion
         | Local Education Agency |
         | School                 |
     And there are only the following in the "body.parentEducationAgencyReference" of the "educationOrganization" collection for id "de66bbfafd994193ae6aaf019ecfa14825c32575_id" on the "Midgar" tenant
-         | value                                       |
-         | 884daa27d806c2d725bc469b273d840493f84b4d_id |
+        | value                                       |
+        | 884daa27d806c2d725bc469b273d840493f84b4d_id |
     #And there are only the following in the "metaData.edOrgs" of the "educationOrganization" collection for id "de66bbfafd994193ae6aaf019ecfa14825c32575_id" on the "Midgar" tenant
        #| value                                       |
        #| de66bbfafd994193ae6aaf019ecfa14825c32575_id |
@@ -232,8 +232,8 @@ Feature: Generic EdOrg Ingestion
         | Other Local Education Agency |
         | Other School                 |
     And there are only the following in the "body.parentEducationAgencyReference" of the "educationOrganization" collection for id "57d18122d850992592e5a8d80832648a5b7198cd_id" on the "Midgar" tenant
-       | value                                       |
-       | 884daa27d806c2d725bc469b273d840493f84b4d_id |
+        | value                                       |
+        | 884daa27d806c2d725bc469b273d840493f84b4d_id |
     #And there are only the following in the "metaData.edOrgs" of the "educationOrganization" collection for id "57d18122d850992592e5a8d80832648a5b7198cd_id" on the "Midgar" tenant
        #| value                                       |
        #| 57d18122d850992592e5a8d80832648a5b7198cd_id |
@@ -405,8 +405,8 @@ Feature: Generic EdOrg Ingestion
         | Other Local Education Agency |
         | Other School                 |
     And there are only the following in the "body.parentEducationAgencyReference" of the "educationOrganization" collection for id "de66bbfafd994193ae6aaf019ecfa14825c32575_id" on the "Midgar" tenant
-         | value                                       |
-         | 884daa27d806c2d725bc469b273d840493f84b4d_id |
+        | value                                       |
+        | 884daa27d806c2d725bc469b273d840493f84b4d_id |
     #And there are only the following in the "metaData.edOrgs" of the "educationOrganization" collection for id "de66bbfafd994193ae6aaf019ecfa14825c32575_id" on the "Midgar" tenant
        #| value                                       |
        #| de66bbfafd994193ae6aaf019ecfa14825c32575_id |
@@ -435,9 +435,9 @@ Feature: Generic EdOrg Ingestion
        | value                                       |
        | 884daa27d806c2d725bc469b273d840493f84b4d_id |
     #And there are only the following in the "metaData.edOrgs" of the "educationOrganization" collection for id "eef4f5ddc466beb3ad5136587731f9350fd398ec_id" on the "Midgar" tenant
-       #| value                                       |
-       #| eef4f5ddc466beb3ad5136587731f9350fd398ec_id |
-       #| 884daa27d806c2d725bc469b273d840493f84b4d_id |
+      #| value                                       |
+      #| eef4f5ddc466beb3ad5136587731f9350fd398ec_id |
+      #| 884daa27d806c2d725bc469b273d840493f84b4d_id |
 
     #duplicate detection test
     And I should see following map of entry counts in the corresponding collections:
