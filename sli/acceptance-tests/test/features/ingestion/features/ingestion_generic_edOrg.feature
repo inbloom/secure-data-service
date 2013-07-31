@@ -222,17 +222,6 @@ Feature: Generic EdOrg Ingestion
        | value                                       |
        | 884daa27d806c2d725bc469b273d840493f84b4d_id |
 
-    #cycle tests - referring to itself
-    And there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "Cycle 1"
-        | field                               | value                                       |
-        | _id                                 | 265cdc11571c4e28aceb6ed5fef795a9ffb2ea5c_id |
-        | body.stateOrganizationId            | Cycle 1                                     |
-    And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "265cdc11571c4e28aceb6ed5fef795a9ffb2ea5c_id" on the "Midgar" tenant
-        | value                  |
-        | Local Education Agency |
-    And there are only the following in the "parentEducationAgencyReference" of the "educationOrganization" collection for id "265cdc11571c4e28aceb6ed5fef795a9ffb2ea5c_id" on the "Midgar" tenant
-        | value                                       |
-        | 265cdc11571c4e28aceb6ed5fef795a9ffb2ea5c_id |
     #cycle tests - 3 way cycle
     And there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "Cycle 2"
         | field                               | value                                       |
@@ -268,7 +257,7 @@ Feature: Generic EdOrg Ingestion
     #update tests
     Then "0" records in the "educationOrganization" collection with field "body.nameOfInstitution" matching ".*Updated" should be in the "Midgar" tenant db
     When I ingest "GenericEdOrgUpdates.zip"
-    Then "18" records in the "educationOrganization" collection with field "body.nameOfInstitution" matching ".*Updated" should be in the "Midgar" tenant db
+    Then "17" records in the "educationOrganization" collection with field "body.nameOfInstitution" matching ".*Updated" should be in the "Midgar" tenant db
 
     #added another nested LEA and removed one nested LEA to edOrg hierarchy
     #new LEA parent of IL-DAYBREAK
@@ -404,19 +393,32 @@ Feature: Generic EdOrg Ingestion
     #duplicate detection test
     And I should see following map of entry counts in the corresponding collections:
       | collectionName                           |              count|
-      | recordHash                               |                 19|
-      | educationOrganization                    |                 19|
+      | recordHash                               |                 18|
+      | educationOrganization                    |                 18|
     # clear out the ingested entities to ensure we aren't upserting a second time
     Given the following collections are empty in datastore:
       | collectionName                            |
       | educationOrganization                     |
     When zip file is scp to ingestion landing zone with name "Reingest-GenericEdOrg.zip"
     Then a batch job for file "Reingest-GenericEdOrg.zip" is completed in database
-    And I should see "InterchangeEducationOrganization.xml educationOrganization 19 deltas" in the resulting batch job file
+    And I should see "InterchangeEducationOrganization.xml educationOrganization 18 deltas" in the resulting batch job file
     And I should not see a warning log file created
     And I should not see an error log file created
     And I should see following map of entry counts in the corresponding collections:
       | collectionName                           |              count|
-      | recordHash                               |                 19|
+      | recordHash                               |                 18|
       | educationOrganization                    |                  0|
+
+  @wip
+  Scenario: Post Generic EdOrg Negative Cases Data Set
+    Given the "Midgar" tenant db is empty
+    And I am using local data store
+    And the landing zone for tenant "Midgar" edOrg "Daybreak" is reinitialized
+    When I post "NegativeGenericEdOrg.zip" file as the payload of the ingestion job
+    And zip file is scp to ingestion landing zone
+    Then a batch job for file "NegativeGenericEdOrg.zip" is completed in database
+    #self refercing case
+    And I should see "CORE_0006" in the resulting error log file for "InterchangeEducationOrganization.xml"
+    And I should not see a warning log file created
+
 

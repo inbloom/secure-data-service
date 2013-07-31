@@ -423,25 +423,6 @@
         <CharterStatus>School Charter</CharterStatus>
     </EducationOrganization>
     <EducationOrganization>
-        <StateOrganizationId>Cycle 1</StateOrganizationId>
-        <NameOfInstitution>Cycle 1</NameOfInstitution>
-        <OrganizationCategories>
-            <OrganizationCategory>Local Education Agency</OrganizationCategory>
-        </OrganizationCategories>
-        <ParentEducationAgencyReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>Cycle 1</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </ParentEducationAgencyReference>
-        <Address>
-            <StreetNumberName>123 Street</StreetNumberName>
-            <City>Chicago</City>
-            <StateAbbreviation>IL</StateAbbreviation>
-            <PostalCode>00000</PostalCode>
-        </Address>
-        <LEACategory>Independent</LEACategory>
-    </EducationOrganization>
-    <EducationOrganization>
         <StateOrganizationId>Cycle 2</StateOrganizationId>
         <NameOfInstitution>Cycle 2</NameOfInstitution>
         <OrganizationCategories>
