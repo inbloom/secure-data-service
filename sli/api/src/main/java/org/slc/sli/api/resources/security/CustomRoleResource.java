@@ -16,12 +16,7 @@
 
 package org.slc.sli.api.resources.security;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -39,6 +34,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -107,6 +103,8 @@ public class CustomRoleResource {
     protected static final String ERROR_DUPLICATE_RIGHTS = "Cannot have the same right listed more than once in a role";
     protected static final String ERROR_CHANGING_REALM_ID = "Cannot change the realmId on a custom role document";
     protected static final String ERROR_INVALID_REALM_ID = "Invalid realmId specified.";
+    protected static final String ERROR_INVALID_CONTEXT_RIGHT = "Invalid context rights. A staff role has to contain either TEACHER_CONTEXT or STAFF_CONTEXT right";
+    protected static final String ERROR_INVALID_STUDENT_RIGHT = "Student/Parent roles can not contain staff context right";
 
     @PostConstruct
     public void init() {
@@ -283,8 +281,33 @@ public class CustomRoleResource {
                 }
             }
 
+            boolean validContextRight = validateContextRights(rightsSet);
+            boolean isStudent = !Collections.disjoint(rightsSet, Right.STUDENT_RIGHTS);
+
+            if(!validContextRight && !isStudent) {
+                return buildBadRequest(ERROR_INVALID_CONTEXT_RIGHT);
+            }
+
+            if (validContextRight && isStudent) {
+                return buildBadRequest(ERROR_INVALID_STUDENT_RIGHT);
+            }
+
+
         }
         return null;
+    }
+
+    private boolean validateContextRights(Set<Right> rightsSet) {
+        if (rightsSet.contains(Right.TEACHER_CONTEXT)){
+            return !rightsSet.contains(Right.STAFF_CONTEXT);
+        }
+
+        if (rightsSet.contains(Right.STAFF_CONTEXT)){
+            return !rightsSet.contains(Right.TEACHER_CONTEXT);
+        }
+
+        //context right is required
+        return false;
     }
 
     private Response validateUniqueRoles(EntityBody customRoleDoc) {
