@@ -16,17 +16,8 @@
 
 package org.slc.sli.dal.repository;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import com.mongodb.DBObject;
 import com.mongodb.WriteResult;
@@ -1392,9 +1383,10 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     // TODO add Set of edOrgs parameter to limit school documents needing recalc
     private boolean updateAllSchoolLineage() {
         boolean result = true;
-        NeutralQuery query = new NeutralQuery();
-        query.addCriteria(new NeutralCriteria("type", NeutralCriteria.OPERATOR_EQUAL, EntityNames.SCHOOL, false));
-        Iterator<Entity> schools = this.findEach(EntityNames.EDUCATION_ORGANIZATION, query);
+        NeutralQuery categoryIsSchool = new NeutralQuery(new NeutralCriteria("organizationCategories",
+                                                                             NeutralCriteria.CRITERIA_IN,
+                                                                             Arrays.asList("School", "Other School")));
+        Iterator<Entity> schools = this.findEach(EntityNames.EDUCATION_ORGANIZATION, categoryIsSchool);
         while (schools.hasNext()) {
             if (!updateSchoolLineage(schools.next().getEntityId())) {
                 result = false;
