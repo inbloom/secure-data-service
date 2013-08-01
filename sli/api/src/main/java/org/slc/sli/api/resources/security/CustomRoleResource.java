@@ -103,8 +103,8 @@ public class CustomRoleResource {
     protected static final String ERROR_DUPLICATE_RIGHTS = "Cannot have the same right listed more than once in a role";
     protected static final String ERROR_CHANGING_REALM_ID = "Cannot change the realmId on a custom role document";
     protected static final String ERROR_INVALID_REALM_ID = "Invalid realmId specified.";
-    protected static final String ERROR_INVALID_CONTEXT_RIGHT = "Invalid context rights.A staff role have to contain either TEACHER_CONTEXT or STAFF_CONTEXT right";
-    protected static final String ERROR_INVALID_STUDENT_RIGHT = "Student roles can not contain staff context right";
+    protected static final String ERROR_INVALID_CONTEXT_RIGHT = "Invalid context rights. A staff role has to contain either TEACHER_CONTEXT or STAFF_CONTEXT right";
+    protected static final String ERROR_INVALID_STUDENT_RIGHT = "Student/Parent roles can not contain staff context right";
 
     @PostConstruct
     public void init() {
