@@ -542,8 +542,6 @@ Feature: Use the APi to successfully get student data while having roles over ma
       | nate.dedrick    |
       | mu.mcneill      |
 
-#Do not remove the @wip until after studentSchoolAssociations have been updated to use contextual roles
-  @wip
   Scenario: GET lists of students for a staff member with multiple roles in the same edorg
     Given I change the custom role of "Aggregate Viewer" to add the "READ_GENERAL" right
     And I change the custom role of "Leader" to remove the "READ_GENERAL" right
