@@ -190,8 +190,9 @@ And the user "linda.kim" in tenant "developer-email" can access the API with rig
 And the user "linda.kim" in tenant "sandboxadministrator" can access the API with rights "IT Administrator"
 When I click on the Add Group button
 And I type the name "New Custom" in the Group name textbox
-When I add the right "READ_GENERAL" to the group "New Custom"   
-And I add the role "Educator" to the group "New Custom"
+When I add the right "READ_GENERAL" to the group "New Custom"
+  When I add the right "TEACHER_CONTEXT" to the group "New Custom"
+  And I add the role "Educator" to the group "New Custom"
 And I hit the save button
 Then I am no longer in edit mode
 Then the group "New Custom" contains the roles "Educator"
@@ -204,7 +205,7 @@ Scenario: Sandbox reset to defaults
 When I submit the credentials "sandboxdeveloper" "sandboxdeveloper1234" for the "Simple" login page
 Then I have navigated to my Custom Role Mapping Page
 When I edit the group "IT Administrator"
-When I add the right "AGGREGATE_WRITE" to the group "IT Administrator"   
+When I add the right "AGGREGATE_WRITE" to the group "IT Administrator"
 And I hit the save button
 Then I am no longer in edit mode
 And the user "linda.kim" in tenant "sandboxadministrator" can access the API with rights "all defaults"
