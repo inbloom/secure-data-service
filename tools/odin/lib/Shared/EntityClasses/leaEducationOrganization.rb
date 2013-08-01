@@ -102,7 +102,8 @@ class LocalEducationAgency < BaseEntity
     @state_org_id   = get_state_organization_id(id)
     @address        = get_address
     @programs       = programs
-    @sea_parent_id  = sea_parent_id 
+    @parent_id      = sea_parent_id
+    @org_category   = "Local Education Agency"
 
     # leave sea parent above get_accountability_ratings --> current rating organization
     optional { @ed_org_id_code = @state_org_id }
@@ -168,7 +169,7 @@ class LocalEducationAgency < BaseEntity
       rating      = get_random_rating
       date        = DateUtility.random_date_from_years(@rand, year)
       school_year = "#{year}-#{year+1}"
-      ratings << {:title => title, :rating => rating, :date => date, :year => school_year, :rating_org => @sea_parent_id, :program => "AEIS"}
+      ratings << {:title => title, :rating => rating, :date => date, :year => school_year, :rating_org => @parent_id, :program => "AEIS"}
     end
     ratings
   end

@@ -26,7 +26,7 @@ limitations under the License.
     <ShortNameOfInstitution>{{short_name}}</ShortNameOfInstitution>
     {{/short_name}}
     <OrganizationCategories>
-      <OrganizationCategory>{{}}</OrganizationCategory>
+      <OrganizationCategory>{{org_category}}</OrganizationCategory>
     </OrganizationCategories>
     {{#address}}
     <Address>
@@ -95,12 +95,5 @@ limitations under the License.
     <AdministrativeFundingControl>{{administrativeFundingControl}}</AdministrativeFundingControl>
   {{/administrativeFundingControl}}
   <LEACategory> Independent</LEACategory>
-  {{#esc_parent_id}}
-  <EducationServiceCenterReference>
-     <EducationalOrgIdentity>
-        <StateOrganizationId>{{esc_parent_id}}</StateOrganizationId>
-     </EducationalOrgIdentity>
-  </EducationServiceCenterReference>
-  {{/esc_parent_id}}
 </EducationOrganization>
 {{/entity}}

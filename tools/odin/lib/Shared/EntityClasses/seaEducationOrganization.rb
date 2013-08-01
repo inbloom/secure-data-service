@@ -34,6 +34,7 @@ class StateEducationAgency < BaseEntity
     end
     @rand     = Random.new(state_org_id.hash)
     @programs = programs
+    @org_category = "State Education Agency"
 
     optional {@educationOrgIdentificationCode = @state_org_id.to_s + " ID code"}
 

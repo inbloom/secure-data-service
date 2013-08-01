@@ -60,6 +60,7 @@ class School < BaseEntity
       GradeLevelType.high.each { |level| @grades << GradeLevelType.to_string(level) }
     end
     @programs = programs
+    @org_category = "School"
 
     optional {@schoolType = choose([
       "Alternative",

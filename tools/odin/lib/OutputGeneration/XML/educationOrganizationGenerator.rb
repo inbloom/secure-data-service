@@ -30,9 +30,9 @@ class EducationOrganizationGenerator < InterchangeGenerator
 
     @header, @footer = build_header_footer("EducationOrganization")
 
-    @writers[ StateEducationAgency ] = EntityWriter.new("educationOrganization.mustache")
-    @writers[ LocalEducationAgency ] = EntityWriter.new("educationOrganization.mustache")
-    @writers[ School ] = EntityWriter.new("educationOrganization.mustache")
+    @writers[ StateEducationAgency ] = EntityWriter.new("education_organization.mustache")
+    @writers[ LocalEducationAgency ] = EntityWriter.new("education_organization.mustache")
+    @writers[ School ] = EntityWriter.new("education_organization.mustache")
     @writers[ Course ] = EntityWriter.new("course.mustache")
     @writers[ Program ] = EntityWriter.new("program.mustache")
     @writers[ CompetencyLevelDescriptor ] = EntityWriter.new("competency_level_descriptor.mustache")
