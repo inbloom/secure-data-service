@@ -19,6 +19,10 @@ package org.slc.sli.domain.enums;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.security.core.GrantedAuthority;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * A simple enum describing our basic rights that are required.
  * ADMIN_ACCESS -> allows operations on entities in Admin Sphere
@@ -29,7 +33,7 @@ public enum Right implements GrantedAuthority {
     ADMIN_ACCESS, FULL_ACCESS, CRUD_REALM, CRUD_ROLE, SLC_APP_APPROVE, EDORG_APP_AUTHZ, EDORG_DELEGATE, DEV_APP_CRUD, 
     INGEST_DATA, CRUD_SLC_OPERATOR, CRUD_SANDBOX_SLC_OPERATOR, CRUD_SANDBOX_ADMIN, CRUD_SEA_ADMIN, CRUD_LEA_ADMIN, READ_PUBLIC, 
     SECURITY_EVENT_VIEW, PRODUCTION_LOGIN, ACCOUNT_APPROVAL, BULK_EXTRACT, READ_STUDENT_GENERAL, WRITE_STUDENT_GENERAL, READ_STUDENT_OWNED,
-    WRITE_STUDENT_OWNED, READ_STUDENT_RESTRICTED, WRITE_STUDENT_RESTRICTED, TEACHER_CONTEXT, STAFF_CONTEXT;
+    WRITE_STUDENT_OWNED, READ_STUDENT_RESTRICTED, WRITE_STUDENT_RESTRICTED;
 
     public static final Right[] PROD_ADMIN_CRUD_RIGHTS = new Right[] {CRUD_LEA_ADMIN, CRUD_SEA_ADMIN, CRUD_SLC_OPERATOR};
 
@@ -39,6 +43,9 @@ public enum Right implements GrantedAuthority {
     
     public static final Right[] DEFAULT_RIGHTS = new Right[] { READ_GENERAL, WRITE_GENERAL, READ_RESTRICTED, WRITE_RESTRICTED, 
         AGGREGATE_READ, AGGREGATE_WRITE };
+
+    public static final Set<Right> STUDENT_RIGHTS = new HashSet(Arrays.asList(READ_STUDENT_GENERAL, WRITE_STUDENT_GENERAL, READ_STUDENT_OWNED,
+            WRITE_STUDENT_OWNED, READ_STUDENT_RESTRICTED, WRITE_STUDENT_RESTRICTED));
 
     @Override
     public String getAuthority() {
