@@ -198,6 +198,7 @@ end
 When /^I remove the right "([^"]*)" from the group "([^"]*)"$/ do |arg1, arg2|
   group = @driver.find_element(:xpath, "//div[text()='#{arg2}']/../..")
   group.find_element(:id, "DELETE_" + arg1).click
+  sleep 1
 end
 
 When /^I remove the role <Role> out of <TotalRoles> from the group <Group> that denies <User> access to the API$/ do |table|
