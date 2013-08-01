@@ -51,6 +51,7 @@ end
 
 Transform /roles "(.*?)"/ do |arg1|
   roles = ["Dummy"] if arg1 == "Dummy"
+  roles = ["Test Role"] if arg1 == "Test Role"
   roles = ["Educator"] if arg1 == "Educator"
   roles = ["Leader"] if arg1 == "Leader"
   roles = ["Aggregate Viewer"] if arg1 == "Aggregate Viewer"
@@ -145,6 +146,17 @@ When /^I hit the save button$/ do
       break
     end
   end
+end
+
+Then /^the save button should be disabled$/ do
+  saveButtons = @driver.find_elements(:class, "rowEditToolSaveButton")
+  foundDisabledSave = false
+  saveButtons.each do |save|
+    if !save.enabled?
+      foundDisabledSave = true
+    end
+  end
+  assertWithWait("Save button was not disabled") {foundDisabledSave == true}
 end
 
 Then /^I am no longer in edit mode$/ do
@@ -412,5 +424,11 @@ end
 When /^the user "(.*?)" in tenant "(.*?)" tries to retrieve the (staff ".*?")$/ do |user, tenant, staff|
   idpRealmLogin(user, user+"1234", tenant)
   restHttpGet("/v1/" + staff)
+end
+
+Then /^I should get the error message "(.*?)"$/ do |msg|
+  alert = @driver.switch_to.alert
+  assert(alert.text == msg)
+  @driver.switch_to.alert.accept
 end
 
