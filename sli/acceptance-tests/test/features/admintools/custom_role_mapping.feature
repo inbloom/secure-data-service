@@ -22,13 +22,15 @@ Then the Leader, Educator, Aggregate Viewer and IT Administrator roles are now o
 And the Leader, Educator, Aggregate Viewer and IT Administrator role groups have the correct default role names
 And the IT Administrator role is the only admin role
 
+
 @production
 Scenario: Create new group
 When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
 Then I have navigated to my Custom Role Mapping Page
 When I click on the Add Group button
 And I type the name "New Custom" in the Group name textbox
-When I add the right "READ_GENERAL" to the group "New Custom"   
+When I add the right "READ_GENERAL" to the group "New Custom" 
+When I add the right "TEACHER_CONTEXT" to the group "New Custom"   
 And I add the role "Dummy" to the group "New Custom"
 And I hit the save button
 Then I am no longer in edit mode
@@ -76,8 +78,11 @@ And the group "New Custom" contains the "right" rights "Read General"
 And the user "custom" in tenant "IL" can access the API with rights "Read General"
 When I edit the group "New Custom"
 When I remove the right "READ_GENERAL" from the group "New Custom"
+And I hit the save button
+When I edit the group "New Custom"
+When I remove the right "TEACHER_CONTEXT" from the group "New Custom"
 Then I am informed that I must have at least one role and right in the group
-And the user "custom" in tenant "IL" can access the API with rights "Read General"
+And the user "custom" in tenant "IL" can access the API with rights "TEACHER CONTEXT"
 
 @production
 Scenario: Remove role from group
@@ -151,7 +156,7 @@ And I edit the group "Educator"
 And I add the self right "WRITE_GENERAL" to the group "Educator"
 And I add the self right "WRITE_RESTRICTED" to the group "Educator"
 And I hit the save button
-Then the user "cgray" in tenant "IL" can access the API with self rights "Read Restricted, Write Restricted and Write General"
+Then the user "cgray" in tenant "IL" can access the API with self rights "Self Read Restricted, Write Restricted and Write General"
 And  the user "cgray" in tenant "IL" tries to update the "firstName" for staff "cgray" to "Chuck"
 Then I should receive a return code of 204
 And I should see that the "firstName" for staff "cgray" is "Chuck"

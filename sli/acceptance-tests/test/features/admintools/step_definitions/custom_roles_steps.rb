@@ -31,17 +31,20 @@ Transform /rights "(.*?)"/ do |arg1|
   rights = ["READ_GENERAL", "WRITE_GENERAL", "WRITE_PUBLIC", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "STAFF_CONTEXT"] if arg1 == "IT Administrator"
   rights = ["READ_GENERAL", "READ_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "STAFF_CONTEXT"] if arg1 == "Leader"
   rights = ["AGGREGATE_READ", "READ_PUBLIC", "STAFF_CONTEXT"] if arg1 == "Aggregate Viewer"
-  rights = ["READ_GENERAL"] if arg1 == "New Custom"
+  rights = ["READ_GENERAL", "TEACHER_CONTEXT"] if arg1 == "New Custom"
   # Custom right sets for test roles
-  rights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "WRITE_PUBLIC", "AGGREGATE_WRITE"] if arg1 == "all defaults"
-  rights = ["READ_GENERAL"] if arg1 == "Read General"
-  rights = ["READ_RESTRICTED"] if arg1 == "Read Restricted"
-  rights = ["READ_GENERAL", "WRITE_GENERAL"] if arg1 == "Read and Write General"
-  rights = ["READ_GENERAL", "READ_PUBLIC", "READ_AGGREGATE","TEACHER_CONTEXT"] if arg1 == "Read General Public and Aggregate"
-  rights = ["READ_RESTRICTED", "WRITE_GENERAL", "WRITE_RESTRICTED"] if arg1 == "Read Restricted, Write Restricted and Write General"
-  rights = ["READ_GENERAL", "READ_RESTRICTED", "WRITE_GENERAL", "WRITE_RESTRICTED"] if arg1 == "Read General, Read Restricted, Write Restricted and Write General"
-  rights = ["READ_GENERAL", "WRITE_GENERAL", "WRITE_PUBLIC", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "BULK_EXTRACT"] if arg1 == "Bulk IT Administrator"
-  rights = ["BULK_EXTRACT"] if arg1 == "BULK_EXTRACT"
+  rights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "WRITE_PUBLIC", "AGGREGATE_WRITE", "STAFF_CONTEXT"] if arg1 == "all defaults"
+  rights = ["READ_GENERAL", "TEACHER_CONTEXT"] if arg1 == "Read General"
+  rights = ["READ_RESTRICTED", "TEACHER_CONTEXT"] if arg1 == "Read Restricted"
+  rights = ["READ_RESTRICTED"] if arg1 == "Self Read Restricted"
+  rights = ["READ_GENERAL", "WRITE_GENERAL", "TEACHER_CONTEXT"] if arg1 == "Read and Write General"
+  rights = ["READ_GENERAL", "READ_PUBLIC", "READ_AGGREGATE","STAFF_CONTEXT"] if arg1 == "Read General Public and Aggregate"
+  rights = ["READ_RESTRICTED", "WRITE_GENERAL", "WRITE_RESTRICTED", "TEACHER_CONTEXT"] if arg1 == "Read Restricted, Write Restricted and Write General"
+  rights = ["READ_RESTRICTED", "WRITE_GENERAL", "WRITE_RESTRICTED"] if arg1 == "Self Read Restricted, Write Restricted and Write General"
+  rights = ["READ_GENERAL", "READ_RESTRICTED", "WRITE_GENERAL", "WRITE_RESTRICTED", "TEACHER_CONTEXT"] if arg1 == "Read General, Read Restricted, Write Restricted and Write General"
+  rights = ["READ_GENERAL", "WRITE_GENERAL", "WRITE_PUBLIC", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "BULK_EXTRACT", "STAFF_CONTEXT"] if arg1 == "Bulk IT Administrator"
+  rights = ["BULK_EXTRACT","STAFF_CONTEXT"] if arg1 == "BULK_EXTRACT"
+  rights = ["TEACHER_CONTEXT"] if arg1 == "TEACHER CONTEXT"
   rights = [] if arg1 == "none"
   rights
 end
@@ -381,6 +384,7 @@ def checkRights(user, tenant, rights, isSelf)
       end
       
       puts("The actual rights are #{actualRights.inspect}")
+      puts("The expected rights are #{rights.inspect}")
       
       # Validate the user has expected rights
       assert(result["authentication"]["authenticated"] == true, "User "+user+" did not successfully authenticate to SLI")

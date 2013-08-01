@@ -16,12 +16,7 @@
 
 package org.slc.sli.api.resources.security;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -109,6 +104,7 @@ public class CustomRoleResource {
     protected static final String ERROR_CHANGING_REALM_ID = "Cannot change the realmId on a custom role document";
     protected static final String ERROR_INVALID_REALM_ID = "Invalid realmId specified.";
     protected static final String ERROR_INVALID_CONTEXT_RIGHT = "Invalid context rights.A staff role have to contain either TEACHER_CONTEXT or STAFF_CONTEXT right";
+    protected static final String ERROR_INVALID_STUDENT_RIGHT = "Student roles can not contain staff context right";
 
     @PostConstruct
     public void init() {
@@ -285,11 +281,17 @@ public class CustomRoleResource {
                 }
             }
 
-            if(!SecurityUtil.isStudent() && !SecurityUtil.isParent()) {
-                if(!validateContextRights(rightsSet)) {
-                    return buildBadRequest(ERROR_INVALID_CONTEXT_RIGHT);
-                }
+            boolean validContextRight = validateContextRights(rightsSet);
+            boolean isStudent = !Collections.disjoint(rightsSet, Right.STUDENT_RIGHTS);
+
+            if(!validContextRight && !isStudent) {
+                return buildBadRequest(ERROR_INVALID_CONTEXT_RIGHT);
             }
+
+            if (validContextRight && isStudent) {
+                return buildBadRequest(ERROR_INVALID_STUDENT_RIGHT);
+            }
+
 
         }
         return null;
