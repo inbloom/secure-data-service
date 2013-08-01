@@ -86,8 +86,9 @@ And the Leader, Educator, Aggregate Viewer and IT Administrator roles are now on
 # Do stuff to validate custom roles docs are being mapped to the proper realms
 When I click on the Add Group button
 And I type the name "Brand New Role" in the Group name textbox
-When I add the right "READ_GENERAL" to the group "Brand New Role"   
-And I add the role "Dummy" to the group "Brand New Role"
+When I add the right "READ_GENERAL" to the group "Brand New Role"
+When I add the right "TEACHER_CONTEXT" to the group "Brand New Role"
+  And I add the role "Dummy" to the group "Brand New Role"
 And I hit the save button
 Then I am no longer in edit mode
 And the group "Brand New Role" contains the roles "Dummy"
@@ -99,7 +100,8 @@ Then I am shown the custom roles page for "Chicken Realm"
 And the Leader, Educator, Aggregate Viewer and IT Administrator roles are now only mapped to themselves
 When I click on the Add Group button
 And I type the name "Chicken Role" in the Group name textbox
-When I add the right "READ_GENERAL" to the group "Chicken Role"   
+When I add the right "READ_GENERAL" to the group "Chicken Role"
+  When I add the right "TEACHER_CONTEXT" to the group "Brand New Role"
 And I add the role "Dummy" to the group "Chicken Role"
 And I hit the save button
 Then I am no longer in edit mode
