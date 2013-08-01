@@ -3990,17 +3990,17 @@ Then /^there are only the following in the "(.*?)" of the "(.*?)" collection for
   expArray = table.rows()
   expArray.flatten!
   expArray.sort!
-  #puts expArray
   coll = tenant_db[collection]
   entity = coll.find_one({"_id" => id})
-  #puts entity
-  body = entity["body"]
-  #puts body
-  actArray = body[field]
-  actArray.sort!
-  #puts actArray
-
-  #actualCount = tenant_db[collection].find({field => /#{pattern}/}).count()
+  if field.include? "."
+     top_level = entity[field.split(".")[0].to_s]
+     actArray = top_level[field.split(".")[1].to_s]
+     actArray.sort!
+  else
+    body = entity["body"]
+    actArray = body[field]
+    actArray.sort!
+  end
   enable_NOTABLESCAN()
   assert(actArray == expArray, "Actual values differ from expected values.  Actual values are: " + actArray.to_s)
 end

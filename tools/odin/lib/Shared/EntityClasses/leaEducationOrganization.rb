@@ -84,7 +84,6 @@ class LocalEducationAgency < BaseEntity
   attr_accessor :telephone      # maps to 'Telephone'
   attr_accessor :website        # maps to 'WebSite'
   attr_accessor :accountability # maps to 'AccountabilityRatings'
-  attr_accessor :ed_org_peers   # maps to 'EducationOrganizationPeerReference'
   attr_accessor :lea_parent_id  # maps to 'LocalEducationAgencyReference'
   attr_accessor :esc_parent_id  # maps to 'EducationServiceCenterReference'
   attr_accessor :sea_parent_id  # maps to 'StateEducationAgencyReference'
@@ -113,7 +112,6 @@ class LocalEducationAgency < BaseEntity
     optional { @website        = 'http://fake.local-education-agency.org.fake/fake' }
     optional { @op_status      = get_random_operational_status }
     optional { @accountability = get_accountability_ratings(years) unless years.nil? || years.empty? }
-    optional { @ed_org_peers   = [] }
     optional { @charter_status = get_random_charter_status_type(@rand) }
     optional { @lea_parent_id  = nil }   # this will need to be added when odin can generate multiple sub-tiers within the LEA tier
     optional { @esc_parent_id  = nil }   # can we ingest education service centers? if so, do we have any security model for them?

@@ -24,7 +24,7 @@ class StateEducationAgency < BaseEntity
   
   attr_accessor :state_org_id, :programs,
                 :educationOrgIdentificationCode, :shortNameOfInstitution, :telephone,
-                :webSite, :operationalStatus, :accountabilityRatings, :educationOrganizationPeerReference
+                :webSite, :operationalStatus, :accountabilityRatings
 
   def initialize(rand, id, programs = nil)
     if id.kind_of? String
@@ -70,11 +70,6 @@ class StateEducationAgency < BaseEntity
       :ratingProgram => choose(["NCLB", "Another Rating Program"]),
     }}
 
-    optional {@educationOrganizationPeerReference = {
-        :stateOrganizationId => @state_org_id.to_s + " peer ref"
-      }
-    }
-  
   end
 
 end
