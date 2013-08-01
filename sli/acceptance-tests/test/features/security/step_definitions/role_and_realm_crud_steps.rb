@@ -187,7 +187,7 @@ When /^I add a role "([^"]*)" in group "([^"]*)"$/ do |role, group|
   groups = data["roles"]
   curGroup = groups.select {|group| group["groupTitle"] == group}
   if curGroup.nil? or curGroup.empty?
-    curGroup = {"groupTitle" => group, "names" => [role], "rights" => ["READ_GENERAL"], "isAdminRole" => false}
+    curGroup = {"groupTitle" => group, "names" => [role], "rights" => ["READ_GENERAL", "TEACHER_CONTEXT"], "isAdminRole" => false}
     groups.push(curGroup)
   else
     groups.delete_if {|group| group["groupTitle"] == group}
@@ -205,12 +205,18 @@ When /^I add a right "([^"]*)" in group "([^"]*)"$/ do |right, group|
   curGroup = groups.select {|group| group["groupTitle"] == group}
   if curGroup.nil? or curGroup.empty?
     curGroup = {"groupTitle" => group, "names" => ["FAKE-NAME"], "rights" => [right], "isAdminRole" => false}
-    groups.push(curGroup)
   else
     groups.delete_if {|group| group["groupTitle"] == group}
     curGroup["rights"].push(right)
-    groups.push(curGroup)
   end
+
+  #add a context right if it doesn't have any
+  if(!curGroup.include?("TEACHER_CONTEXT") && !curGroup.include?("STAFF_CONTEXT"))
+    curGroup["rights"].push("TEACHER_CONTEXT")
+  end
+
+  groups.push(curGroup)
+
   data["roles"] = groups
   dataFormatted = prepareData("application/json", data)
   restHttpPut("/customRoles/" + data["id"], dataFormatted, "application/json")

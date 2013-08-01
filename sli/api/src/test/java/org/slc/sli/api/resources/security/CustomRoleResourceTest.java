@@ -367,6 +367,57 @@ public class CustomRoleResourceTest {
 
     }
 
+    @Test
+    public void testCreateWithBothContextRights() {
+        EntityBody body = getRoleDocWithBothContextRights();
+
+        mockGetRealmId();
+        Mockito.when(service.create(body)).thenReturn("new-role-id");
+
+
+        Response res = resource.createCustomRole(body, uriInfo);
+        Assert.assertEquals(400, res.getStatus());
+        Assert.assertEquals(CustomRoleResource.ERROR_INVALID_CONTEXT_RIGHT, res.getEntity());
+    }
+
+    @Test
+    public void testCreateWithNoContextRights() {
+        EntityBody body = getRoleDocWithNoContextRights();
+
+        mockGetRealmId();
+        Mockito.when(service.create(body)).thenReturn("new-role-id");
+
+
+        Response res = resource.createCustomRole(body, uriInfo);
+        Assert.assertEquals(400, res.getStatus());
+        Assert.assertEquals(CustomRoleResource.ERROR_INVALID_CONTEXT_RIGHT, res.getEntity());
+    }
+
+    @Test
+    public void testCreateStudentWithNoContextRights() throws URISyntaxException {
+        EntityBody body = getStudentRoleDocWithNoContextRights();
+        setRealms(REALM_ID);
+        mockGetRealmId();
+        Mockito.when(service.create(body)).thenReturn("new-role-id");
+
+
+        Response res = resource.createCustomRole(body, getMockUriInfo());
+        Assert.assertEquals(201, res.getStatus());
+    }
+
+    @Test
+    public void testCreateStudentWithContextRights() {
+        EntityBody body = getStudentRoleDocWithContextRights();
+
+        mockGetRealmId();
+        Mockito.when(service.create(body)).thenReturn("new-role-id");
+
+
+        Response res = resource.createCustomRole(body, uriInfo);
+        Assert.assertEquals(400, res.getStatus());
+        Assert.assertEquals(CustomRoleResource.ERROR_INVALID_STUDENT_RIGHT, res.getEntity());
+    }
+
     private EntityBody getValidRoleDoc() {
         EntityBody body = new EntityBody();
         body.put("realmId", REALM_ID);
@@ -376,10 +427,10 @@ public class CustomRoleResourceTest {
         List<Map<String, List<String>>> roles = new ArrayList<Map<String, List<String>>>();
         Map<String, List<String>> role1 = new HashMap<String, List<String>>();
         role1.put("names", Arrays.asList(new String[]{ "Role1", "Role2"}));
-        role1.put("rights", Arrays.asList(new String[]{"READ_GENERAL", "WRITE_GENERAL"}));
+        role1.put("rights", Arrays.asList(new String[]{"READ_GENERAL", "WRITE_GENERAL", "TEACHER_CONTEXT"}));
         Map<String, List<String>> role2 = new HashMap<String, List<String>>();
         role2.put("names", Arrays.asList(new String[]{ "Role3", "Role4"}));
-        role2.put("rights", Arrays.asList(new String[]{"READ_GENERAL", "READ_RESTRICTED"}));
+        role2.put("rights", Arrays.asList(new String[]{"READ_GENERAL", "READ_RESTRICTED", "STAFF_CONTEXT"}));
         roles.add(role1);
         roles.add(role2);
         body.put("roles", roles);
@@ -392,10 +443,10 @@ public class CustomRoleResourceTest {
         List<Map<String, List<String>>> roles = new ArrayList<Map<String, List<String>>>();
         Map<String, List<String>> role1 = new HashMap<String, List<String>>();
         role1.put("names", Arrays.asList(new String[]{ "Role1", "Role2"}));
-        role1.put("rights", Arrays.asList(new String[]{"READ_GENERAL", "WRITE_GENERAL"}));
+        role1.put("rights", Arrays.asList(new String[]{"READ_GENERAL", "WRITE_GENERAL", "TEACHER_CONTEXT"}));
         Map<String, List<String>> role2 = new HashMap<String, List<String>>();
         role2.put("names", Arrays.asList(new String[]{ "Role3", "Role1"}));
-        role2.put("rights", Arrays.asList(new String[]{"READ_GENERAL", "READ_RESTRICTED"}));
+        role2.put("rights", Arrays.asList(new String[]{"READ_GENERAL", "READ_RESTRICTED", "TEACHER_CONTEXT"}));
         roles.add(role1);
         roles.add(role2);
         body.put("roles", roles);
@@ -407,10 +458,10 @@ public class CustomRoleResourceTest {
         List<Map<String, List<String>>> roles = new ArrayList<Map<String, List<String>>>();
         Map<String, List<String>> role1 = new HashMap<String, List<String>>();
         role1.put("names", Arrays.asList(new String[]{ "Role1", "Role2"}));
-        role1.put("rights", Arrays.asList(new String[]{"RIGHT_TO_REMAIN_SILENT", "WRITE_GENERAL"}));
+        role1.put("rights", Arrays.asList(new String[]{"RIGHT_TO_REMAIN_SILENT", "WRITE_GENERAL", "TEACHER_CONTEXT"}));
         Map<String, List<String>> role2 = new HashMap<String, List<String>>();
         role2.put("names", Arrays.asList(new String[]{ "Role3", "Role1"}));
-        role2.put("rights", Arrays.asList(new String[]{"READ_GENERAL", "READ_RESTRICTED"}));
+        role2.put("rights", Arrays.asList(new String[]{"READ_GENERAL", "READ_RESTRICTED", "TEACHER_CONTEXT"}));
         roles.add(role1);
         roles.add(role2);
         body.put("roles", roles);
@@ -422,15 +473,58 @@ public class CustomRoleResourceTest {
         List<Map<String, List<String>>> roles = new ArrayList<Map<String, List<String>>>();
         Map<String, List<String>> role1 = new HashMap<String, List<String>>();
         role1.put("names", Arrays.asList(new String[]{ "Role1", "Role2"}));
-        role1.put("rights", Arrays.asList(new String[]{"WRITE_GENERAL", "WRITE_GENERAL"}));
+        role1.put("rights", Arrays.asList(new String[]{"WRITE_GENERAL", "WRITE_GENERAL", "TEACHER_CONTEXT"}));
         Map<String, List<String>> role2 = new HashMap<String, List<String>>();
         role2.put("names", Arrays.asList(new String[]{ "Role3", "Role1"}));
-        role2.put("rights", Arrays.asList(new String[]{"READ_GENERAL", "READ_RESTRICTED"}));
+        role2.put("rights", Arrays.asList(new String[]{"READ_GENERAL", "READ_RESTRICTED", "TEACHER_CONTEXT"}));
         roles.add(role1);
         roles.add(role2);
         body.put("roles", roles);
         return body;
+    }
 
+    private EntityBody getRoleDocWithBothContextRights() {
+        EntityBody body = getValidRoleDoc();
+        List<Map<String, List<String>>> roles = new ArrayList<Map<String, List<String>>>();
+        Map<String, List<String>> role1 = new HashMap<String, List<String>>();
+        role1.put("names", Arrays.asList(new String[]{ "Role1", "Role2"}));
+        role1.put("rights", Arrays.asList(new String[]{"WRITE_GENERAL", "TEACHER_CONTEXT", "STAFF_CONTEXT"}));
+        roles.add(role1);
+        body.put("roles", roles);
+        return body;
+    }
+
+    private EntityBody getRoleDocWithNoContextRights() {
+        EntityBody body = getValidRoleDoc();
+        List<Map<String, List<String>>> roles = new ArrayList<Map<String, List<String>>>();
+        Map<String, List<String>> role1 = new HashMap<String, List<String>>();
+        role1.put("names", Arrays.asList(new String[]{ "Role1", "Role2"}));
+        role1.put("rights", Arrays.asList(new String[]{"WRITE_GENERAL"}));
+        roles.add(role1);
+        body.put("roles", roles);
+        return body;
+    }
+
+    private EntityBody getStudentRoleDocWithNoContextRights() {
+        EntityBody body = getValidRoleDoc();
+        List<Map<String, List<String>>> roles = new ArrayList<Map<String, List<String>>>();
+        Map<String, List<String>> role1 = new HashMap<String, List<String>>();
+        role1.put("names", Arrays.asList(new String[]{ "Role1", "Role2"}));
+        role1.put("rights", Arrays.asList(new String[]{"WRITE_STUDENT_GENERAL"}));
+        roles.add(role1);
+        body.put("roles", roles);
+        return body;
+    }
+
+    private EntityBody getStudentRoleDocWithContextRights() {
+        EntityBody body = getValidRoleDoc();
+        List<Map<String, List<String>>> roles = new ArrayList<Map<String, List<String>>>();
+        Map<String, List<String>> role1 = new HashMap<String, List<String>>();
+        role1.put("names", Arrays.asList(new String[]{ "Role1", "Role2"}));
+        role1.put("rights", Arrays.asList(new String[]{"WRITE_STUDENT_GENERAL", "TEACHER_CONTEXT"}));
+        roles.add(role1);
+        body.put("roles", roles);
+        return body;
     }
     
     private EntityBody getRoleDocWithInvalidRealm() {

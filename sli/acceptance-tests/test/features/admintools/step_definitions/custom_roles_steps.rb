@@ -27,27 +27,31 @@ require_relative '../../apiV1/long_lived_session/step_definitions/token_generato
 
 Transform /rights "(.*?)"/ do |arg1|
   # Default rights for SLI Default roles  
-  rights = ["READ_GENERAL", "AGGREGATE_READ", "READ_PUBLIC"] if arg1 == "Educator"
-  rights = ["READ_GENERAL", "WRITE_GENERAL", "WRITE_PUBLIC", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC"] if arg1 == "IT Administrator"
-  rights = ["READ_GENERAL", "READ_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC"] if arg1 == "Leader"
-  rights = ["AGGREGATE_READ", "READ_PUBLIC"] if arg1 == "Aggregate Viewer"
-  rights = ["READ_GENERAL"] if arg1 == "New Custom"
+  rights = ["READ_GENERAL", "AGGREGATE_READ", "READ_PUBLIC", "TEACHER_CONTEXT"] if arg1 == "Educator"
+  rights = ["READ_GENERAL", "WRITE_GENERAL", "WRITE_PUBLIC", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "STAFF_CONTEXT"] if arg1 == "IT Administrator"
+  rights = ["READ_GENERAL", "READ_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "STAFF_CONTEXT"] if arg1 == "Leader"
+  rights = ["AGGREGATE_READ", "READ_PUBLIC", "STAFF_CONTEXT"] if arg1 == "Aggregate Viewer"
+  rights = ["READ_GENERAL", "TEACHER_CONTEXT"] if arg1 == "New Custom"
   # Custom right sets for test roles
-  rights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "WRITE_PUBLIC", "AGGREGATE_WRITE"] if arg1 == "all defaults"
-  rights = ["READ_GENERAL"] if arg1 == "Read General"
-  rights = ["READ_RESTRICTED"] if arg1 == "Read Restricted"
-  rights = ["READ_GENERAL", "WRITE_GENERAL"] if arg1 == "Read and Write General"
-  rights = ["READ_GENERAL", "READ_PUBLIC", "READ_AGGREGATE"] if arg1 == "Read General Public and Aggregate"
-  rights = ["READ_RESTRICTED", "WRITE_GENERAL", "WRITE_RESTRICTED"] if arg1 == "Read Restricted, Write Restricted and Write General"
-  rights = ["READ_GENERAL", "READ_RESTRICTED", "WRITE_GENERAL", "WRITE_RESTRICTED"] if arg1 == "Read General, Read Restricted, Write Restricted and Write General"
-  rights = ["READ_GENERAL", "WRITE_GENERAL", "WRITE_PUBLIC", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "BULK_EXTRACT"] if arg1 == "Bulk IT Administrator"
-  rights = ["BULK_EXTRACT"] if arg1 == "BULK_EXTRACT"
+  rights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "WRITE_PUBLIC", "AGGREGATE_WRITE", "STAFF_CONTEXT"] if arg1 == "all defaults"
+  rights = ["READ_GENERAL", "TEACHER_CONTEXT"] if arg1 == "Read General"
+  rights = ["READ_RESTRICTED", "TEACHER_CONTEXT"] if arg1 == "Read Restricted"
+  rights = ["READ_RESTRICTED"] if arg1 == "Self Read Restricted"
+  rights = ["READ_GENERAL", "WRITE_GENERAL", "TEACHER_CONTEXT"] if arg1 == "Read and Write General"
+  rights = ["READ_GENERAL", "READ_PUBLIC", "READ_AGGREGATE","STAFF_CONTEXT"] if arg1 == "Read General Public and Aggregate"
+  rights = ["READ_RESTRICTED", "WRITE_GENERAL", "WRITE_RESTRICTED", "TEACHER_CONTEXT"] if arg1 == "Read Restricted, Write Restricted and Write General"
+  rights = ["READ_RESTRICTED", "WRITE_GENERAL", "WRITE_RESTRICTED"] if arg1 == "Self Read Restricted, Write Restricted and Write General"
+  rights = ["READ_GENERAL", "READ_RESTRICTED", "WRITE_GENERAL", "WRITE_RESTRICTED", "TEACHER_CONTEXT"] if arg1 == "Read General, Read Restricted, Write Restricted and Write General"
+  rights = ["READ_GENERAL", "WRITE_GENERAL", "WRITE_PUBLIC", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "BULK_EXTRACT", "STAFF_CONTEXT"] if arg1 == "Bulk IT Administrator"
+  rights = ["BULK_EXTRACT","STAFF_CONTEXT"] if arg1 == "BULK_EXTRACT"
+  rights = ["TEACHER_CONTEXT"] if arg1 == "TEACHER CONTEXT"
   rights = [] if arg1 == "none"
   rights
 end
 
 Transform /roles "(.*?)"/ do |arg1|
   roles = ["Dummy"] if arg1 == "Dummy"
+  roles = ["Test Role"] if arg1 == "Test Role"
   roles = ["Educator"] if arg1 == "Educator"
   roles = ["Leader"] if arg1 == "Leader"
   roles = ["Aggregate Viewer"] if arg1 == "Aggregate Viewer"
@@ -144,6 +148,17 @@ When /^I hit the save button$/ do
   end
 end
 
+Then /^the save button should be disabled$/ do
+  saveButtons = @driver.find_elements(:class, "rowEditToolSaveButton")
+  foundDisabledSave = false
+  saveButtons.each do |save|
+    if !save.enabled?
+      foundDisabledSave = true
+    end
+  end
+  assertWithWait("Save button was not disabled") {foundDisabledSave == true}
+end
+
 Then /^I am no longer in edit mode$/ do
   # Use the presence of the Edit button as proof we are not in edit mode 
   assertWithWait("Was not returned to viewing mode") {@driver.find_element(:xpath, "//button[text()='Edit']")}
@@ -183,6 +198,7 @@ end
 When /^I remove the right "([^"]*)" from the group "([^"]*)"$/ do |arg1, arg2|
   group = @driver.find_element(:xpath, "//div[text()='#{arg2}']/../..")
   group.find_element(:id, "DELETE_" + arg1).click
+  sleep 1
 end
 
 When /^I remove the role <Role> out of <TotalRoles> from the group <Group> that denies <User> access to the API$/ do |table|
@@ -381,6 +397,7 @@ def checkRights(user, tenant, rights, isSelf)
       end
       
       puts("The actual rights are #{actualRights.inspect}")
+      puts("The expected rights are #{rights.inspect}")
       
       # Validate the user has expected rights
       assert(result["authentication"]["authenticated"] == true, "User "+user+" did not successfully authenticate to SLI")
@@ -408,5 +425,11 @@ end
 When /^the user "(.*?)" in tenant "(.*?)" tries to retrieve the (staff ".*?")$/ do |user, tenant, staff|
   idpRealmLogin(user, user+"1234", tenant)
   restHttpGet("/v1/" + staff)
+end
+
+Then /^I should get the error message "(.*?)"$/ do |msg|
+  alert = @driver.switch_to.alert
+  assert(alert.text == msg)
+  @driver.switch_to.alert.accept
 end
 

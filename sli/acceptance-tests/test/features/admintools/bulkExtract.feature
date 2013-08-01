@@ -10,7 +10,8 @@ Feature: Admininstrating role-based access to bulking
         Then I should not see right "BULK_EXTRACT" on any existing role        
         When I click on the Add Group button
         And I type the name "Balrogs" in the Group name textbox
-        When I add the right "BULK_EXTRACT" to the group "Balrogs"   
+        When I add the right "BULK_EXTRACT" to the group "Balrogs"
+        When I add the right "STAFF_CONTEXT" to the group "Balrogs"
         And I add the role "Balrog" to the group "Balrogs"
         And I hit the save button
         And the group "Balrogs" contains the "right" rights "BULK_EXTRACT"
