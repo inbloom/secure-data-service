@@ -4002,7 +4002,7 @@ Then /^there are only the following in the "(.*?)" of the "(.*?)" collection for
     actArray.sort!
   end
   enable_NOTABLESCAN()
-  assert(actArray == expArray, "Actual values differ from expected values.  Actual values are: " + actArray.to_s)
+  assert(actArray == expArray, "Actual values differ from expected values.  Actual values are: \n" + actArray.join("\n"))
 end
 ############################################################
 # STEPS: AFTER
