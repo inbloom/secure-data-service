@@ -212,7 +212,7 @@ public class ApplicationAuthorizationResource {
         }
     }
 
-    List<String> getParentEdorgs(String rootEdorg) {
+    Set<String> getParentEdorgs(String rootEdorg) {
         return helper.getParentEdOrgs(helper.byId(rootEdorg));
     }
 

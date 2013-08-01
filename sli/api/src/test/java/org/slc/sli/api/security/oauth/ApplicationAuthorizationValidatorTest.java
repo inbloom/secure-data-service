@@ -96,7 +96,7 @@ public class ApplicationAuthorizationValidatorTest {
 
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("Local Education Agency"));
-        body.put("parentEducationAgencyReference", sea1.getEntityId());
+        body.put("parentEducationAgencyReference", Arrays.asList(sea1.getEntityId()));
         lea1 = repo.create("educationOrganization", body);
 
         //Create a staff associated with the LEA

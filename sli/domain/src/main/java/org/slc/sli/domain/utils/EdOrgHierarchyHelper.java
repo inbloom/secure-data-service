@@ -92,6 +92,19 @@ public class EdOrgHierarchyHelper {
 
         return false;
     }
+
+    // TODO this logic will need to support multiple parentIds - see us5821
+    private Entity getParentEdOrg(Entity entity) {
+        if (entity.getBody().containsKey("parentEducationAgencyReference")) {
+            String parentId;
+            @SuppressWarnings("unchecked")
+            List<String> parentIds = (List<String>) entity.getBody().get("parentEducationAgencyReference");
+            // TODO add support of multiple parent references - see us5821
+            parentId = parentIds.get(0);
+            return repo.findById(EntityNames.EDUCATION_ORGANIZATION, parentId);
+        }
+        return null;
+    }
     
     /**
      * Given an school or LEA level entity, returns the top LEA it belongs to
@@ -103,8 +116,7 @@ public class EdOrgHierarchyHelper {
      */
     public Entity getTopLEAOfEdOrg(Entity entity) {
         if (entity.getBody().containsKey("parentEducationAgencyReference")) {
-            Entity parentEdorg = repo.findById(EntityNames.EDUCATION_ORGANIZATION,
-                    (String) entity.getBody().get("parentEducationAgencyReference"));
+            Entity parentEdorg = getParentEdOrg(entity);
             if (isLEA(parentEdorg)) {
                 return getTopLEAOfEdOrg(parentEdorg);
             }
@@ -127,8 +139,7 @@ public class EdOrgHierarchyHelper {
         if (isSEA(entity)) {
             return entity.getEntityId();
         } else {
-            Entity parentEdorg = repo.findById(EntityNames.EDUCATION_ORGANIZATION,
-                    (String) entity.getBody().get("parentEducationAgencyReference"));
+            Entity parentEdorg = getParentEdOrg(entity);
             if (parentEdorg != null) {
                 return getSEAOfEdOrg(parentEdorg);
             } else {
