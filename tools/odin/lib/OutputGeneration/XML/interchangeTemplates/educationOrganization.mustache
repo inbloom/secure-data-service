@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 }}
 {{#entity}}
-  <LocalEducationAgency>
+  <EducationOrganization>
     <StateOrganizationId>{{state_org_id}}</StateOrganizationId>
     {{#ed_org_id_code}}
     <EducationOrgIdentificationCode IdentificationSystem="SEA">
@@ -64,30 +64,48 @@ limitations under the License.
       </ProgramIdentity>
     </ProgramReference>
     {{/programs}}
-    <LEACategory>Independent</LEACategory>
-    {{#charter_status}}
-    <CharterStatus>{{charter_status_type}}</CharterStatus>
-    {{/charter_status}}
-    {{#lea_parent_id}}
-    <LocalEducationAgencyReference>
+    {{#parent_id}}
+    <ParentEducationAgencyReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>{{lea_parent_id}}</StateOrganizationId>
+        <StateOrganizationId>{{parent_id}}</StateOrganizationId>
       </EducationalOrgIdentity>
-    </LocalEducationAgencyReference>
-    {{/lea_parent_id}}
-    {{#esc_parent_id}}
-    <EducationServiceCenterReference>
+    </ParentEducationAgencyReference>
+    {{/parent_id}}
+    <GradesOffered>
+    {{#grades}}
+        <GradeLevel>{{.}}</GradeLevel>
+    {{/grades}}
+    </GradesOffered>
+    <SchoolCategories>
+        <SchoolCategory>{{type}}</SchoolCategory>
+    </SchoolCategories>
+    {{#schoolType}}
+        <SchoolType>{{schoolType}}</SchoolType>
+    {{/schoolType}}
+    {{#charterStatus}}
+        <CharterStatus>{{charterStatus}}</CharterStatus>
+    {{/charterStatus}}
+  {{#titleIPartASchoolDesignation}}
+    <TitleIPartASchoolDesignation>{{titleIPartASchoolDesignation}}</TitleIPartASchoolDesignation>
+   {{/titleIPartASchoolDesignation}}
+  {{#magnetSpecialProgramEmphasisSchool}}
+    <MagnetSpecialProgramEmphasisSchool>{{magnetSpecialProgramEmphasisSchool}}</MagnetSpecialProgramEmphasisSchool>
+  {{/magnetSpecialProgramEmphasisSchool}}
+  {{#administrativeFundingControl}}
+    <AdministrativeFundingControl>{{administrativeFundingControl}}</AdministrativeFundingControl>
+  {{/administrativeFundingControl}}
+  <LEACategory> Independent</LEACategory>
+  <LocalEducationAgencyReference>
       <EducationalOrgIdentity>
+        <StateOrganizationId>{{parent_id}}</StateOrganizationId>
+      </EducationalOrgIdentity>
+   </LocalEducationAgencyReference>
+  {{#esc_parent_id}}
+  <EducationServiceCenterReference>
+     <EducationalOrgIdentity>
         <StateOrganizationId>{{esc_parent_id}}</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationServiceCenterReference>
-    {{/esc_parent_id}}
-    {{#sea_parent_id}}
-    <StateEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>{{sea_parent_id}}</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </StateEducationAgencyReference>
-    {{/sea_parent_id}}
-  </LocalEducationAgency>
+     </EducationalOrgIdentity>
+  </EducationServiceCenterReference>
+  {{/esc_parent_id}}
+</EducationOrganization>
 {{/entity}}
