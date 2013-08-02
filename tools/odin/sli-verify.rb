@@ -54,15 +54,15 @@ def where_stored(entity_type)
   when "GradebookEntry"
     {collection: 'section', subdoc: ['gradebookEntry']}
   when "LocalEducationAgency"
-    {collection: 'educationOrganization', query: {type: 'localEducationAgency'}}
+    {collection: 'educationOrganization', query: {'body.organizationCategories' => 'Local Education Agency'}}
   when "School"
-    {collection: 'educationOrganization', query: {type: 'school'}}
+    {collection: 'educationOrganization', query: {'body.organizationCategories' => 'School'}}
   when "Staff"
     {collection: 'staff', query: {type: 'staff'}}
   when 'StaffEducationOrgAssignmentAssociation'
     {collection: 'staffEducationOrganizationAssociation'}
   when "StateEducationAgency"
-    {collection: 'educationOrganization', query: {type: 'stateEducationAgency'}}
+    {collection: 'educationOrganization', query: {'body.organizationCategories' => 'State Education Agency'}}
   when 'StudentAssessmentItem'
     {collection: 'studentAssessment', subdoc: ['studentAssessmentItem']}
   when 'StudentObjectiveAssessment'
