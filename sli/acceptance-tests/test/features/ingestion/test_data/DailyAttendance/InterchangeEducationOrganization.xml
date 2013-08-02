@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-EducationOrganization.xsd">
-
-  <StateEducationAgency>
+<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-EducationOrganization.xsd">
+  <EducationOrganization>
     <StateOrganizationId>IL</StateOrganizationId>
     <NameOfInstitution>Illinois State Board of Education</NameOfInstitution>
     <OrganizationCategories>
@@ -14,14 +12,18 @@
       <StateAbbreviation>IL</StateAbbreviation>
       <PostalCode>00000</PostalCode>
     </Address>
-  </StateEducationAgency>
-
-  <LocalEducationAgency>
+  </EducationOrganization>
+  <EducationOrganization>
     <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
     <NameOfInstitution>Daybreak School District 4529</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>Local Education Agency</OrganizationCategory>
     </OrganizationCategories>
+    <ParentEducationAgencyReference>
+  <EducationalOrgIdentity>
+    <StateOrganizationId>IL</StateOrganizationId>
+  </EducationalOrgIdentity>
+</ParentEducationAgencyReference>
     <Address>
       <StreetNumberName>123 Street</StreetNumberName>
       <City>Chicago</City>
@@ -29,18 +31,18 @@
       <PostalCode>00000</PostalCode>
     </Address>
     <LEACategory>Independent</LEACategory>
-    <StateEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>IL</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </StateEducationAgencyReference>
-  </LocalEducationAgency>
-  <LocalEducationAgency>
+  </EducationOrganization>
+  <EducationOrganization>
     <StateOrganizationId>IL-SUNSET</StateOrganizationId>
     <NameOfInstitution>Sunset School District 4526</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>Local Education Agency</OrganizationCategory>
     </OrganizationCategories>
+    <ParentEducationAgencyReference>
+  <EducationalOrgIdentity>
+    <StateOrganizationId>IL</StateOrganizationId>
+  </EducationalOrgIdentity>
+</ParentEducationAgencyReference>
     <Address>
       <StreetNumberName>123 Street</StreetNumberName>
       <City>Chicago</City>
@@ -48,22 +50,21 @@
       <PostalCode>00000</PostalCode>
     </Address>
     <LEACategory>Charter</LEACategory>
-    <StateEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>IL</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </StateEducationAgencyReference>
-  </LocalEducationAgency>
-
-  <School>
+  </EducationOrganization>
+  <EducationOrganization>
     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-     <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-     </EducationOrgIdentificationCode>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+      <ID>South Daybreak Elementary</ID>
+    </EducationOrgIdentificationCode>
     <NameOfInstitution>South Daybreak Elementary</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>School</OrganizationCategory>
     </OrganizationCategories>
+    <ParentEducationAgencyReference>
+  <EducationalOrgIdentity>
+    <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+  </EducationalOrgIdentity>
+</ParentEducationAgencyReference>
     <Address AddressType="Physical">
       <StreetNumberName>111 Ave A</StreetNumberName>
       <City>Chicago</City>
@@ -92,21 +93,21 @@
     <SchoolCategories>
       <SchoolCategory>Elementary School</SchoolCategory>
     </SchoolCategories>
-    <LocalEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </LocalEducationAgencyReference>
-  </School>
-  <School>
+  </EducationOrganization>
+  <EducationOrganization>
     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-     <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-     </EducationOrgIdentificationCode>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+      <ID>East Daybreak Junior High</ID>
+    </EducationOrgIdentificationCode>
     <NameOfInstitution>East Daybreak Junior High</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>School</OrganizationCategory>
     </OrganizationCategories>
+    <ParentEducationAgencyReference>
+  <EducationalOrgIdentity>
+    <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+  </EducationalOrgIdentity>
+</ParentEducationAgencyReference>
     <Address AddressType="Physical">
       <StreetNumberName>111 Ave B</StreetNumberName>
       <City>Chicago</City>
@@ -135,21 +136,21 @@
     <SchoolCategories>
       <SchoolCategory>Elementary School</SchoolCategory>
     </SchoolCategories>
-    <LocalEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </LocalEducationAgencyReference>
-  </School>
-  <School>
+  </EducationOrganization>
+  <EducationOrganization>
     <StateOrganizationId>Sunset Central High School</StateOrganizationId>
-     <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>Sunset Central High School</ID>
-     </EducationOrgIdentificationCode>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+      <ID>Sunset Central High School</ID>
+    </EducationOrgIdentificationCode>
     <NameOfInstitution>Sunset Central High School</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>School</OrganizationCategory>
     </OrganizationCategories>
+    <ParentEducationAgencyReference>
+  <EducationalOrgIdentity>
+    <StateOrganizationId>IL-SUNSET</StateOrganizationId>
+  </EducationalOrgIdentity>
+</ParentEducationAgencyReference>
     <Address AddressType="Physical">
       <StreetNumberName>111 Ave C</StreetNumberName>
       <City>Chicago</City>
@@ -178,21 +179,21 @@
     <SchoolCategories>
       <SchoolCategory>Elementary School</SchoolCategory>
     </SchoolCategories>
-    <LocalEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>IL-SUNSET</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </LocalEducationAgencyReference>
-  </School>
-  <School>
+  </EducationOrganization>
+  <EducationOrganization>
     <StateOrganizationId>Illinois PS145</StateOrganizationId>
-     <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>Illinois PS145</ID>
-     </EducationOrgIdentificationCode>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+      <ID>Illinois PS145</ID>
+    </EducationOrgIdentificationCode>
     <NameOfInstitution>Illinois PS145</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>School</OrganizationCategory>
     </OrganizationCategories>
+    <ParentEducationAgencyReference>
+  <EducationalOrgIdentity>
+    <StateOrganizationId>IL-SUNSET</StateOrganizationId>
+  </EducationalOrgIdentity>
+</ParentEducationAgencyReference>
     <Address AddressType="Physical">
       <StreetNumberName>111 Ave Z</StreetNumberName>
       <City>Chicago</City>
@@ -221,21 +222,21 @@
     <SchoolCategories>
       <SchoolCategory>Elementary School</SchoolCategory>
     </SchoolCategories>
-    <LocalEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>IL-SUNSET</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </LocalEducationAgencyReference>
-  </School>
-  <School>
+  </EducationOrganization>
+  <EducationOrganization>
     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-     <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>Daybreak Central High</ID>
-     </EducationOrgIdentificationCode>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+      <ID>Daybreak Central High</ID>
+    </EducationOrgIdentificationCode>
     <NameOfInstitution>Daybreak Central High</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>School</OrganizationCategory>
     </OrganizationCategories>
+    <ParentEducationAgencyReference>
+  <EducationalOrgIdentity>
+    <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+  </EducationalOrgIdentity>
+</ParentEducationAgencyReference>
     <Address AddressType="Physical">
       <StreetNumberName>111 Ave X</StreetNumberName>
       <City>Chicago</City>
@@ -264,13 +265,5 @@
     <SchoolCategories>
       <SchoolCategory>Elementary School</SchoolCategory>
     </SchoolCategories>
-    <LocalEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </LocalEducationAgencyReference>
-  </School>
-
-
-  
+  </EducationOrganization>
 </InterchangeEducationOrganization>

@@ -1,56 +1,55 @@
 <?xml version="1.0"?>
-<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-    xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
-    <Action ActionType="DELETE" Cascade="false" Force="false">
-        <LocalEducationAgency>
-            <StateOrganizationId>LEA-IL-DAYBREAK</StateOrganizationId>
-            <EducationOrgIdentificationCode IdentificationSystem="SEA">
-                <ID>IL-DAYBREAK</ID>
-            </EducationOrgIdentificationCode>
-            <NameOfInstitution>LEA-IL-DAYBREAK School District</NameOfInstitution>
-            <ShortNameOfInstitution>LEA-IL-DAYBREAK LEA</ShortNameOfInstitution>
-            <OrganizationCategories>
-                <OrganizationCategory>Local Education Agency</OrganizationCategory>
-            </OrganizationCategories>
-            <Address>
-                <StreetNumberName>827 Braeburn Lane</StreetNumberName>
-                <City>New York</City>
-                <StateAbbreviation>NY</StateAbbreviation>
-                <PostalCode>10292</PostalCode>
-            </Address>
-            <Telephone InstitutionTelephoneNumberType="Main">
-                <TelephoneNumber>(828) 555-5493</TelephoneNumber>
-            </Telephone>
-            <WebSite>http://fake.local-education-agency.org.fake/fake</WebSite>
-            <OperationalStatus>Changed Agency</OperationalStatus>
-            <AccountabilityRatings>
-                <RatingTitle>2001 rating: IL-DAYBREAK</RatingTitle>
-                <Rating>Low Advanced</Rating>
-                <RatingDate>2001-02-01</RatingDate>
-                <SchoolYear>2001-2002</SchoolYear>
-                <RatingOrganization>STANDARD-SEA</RatingOrganization>
-                <RatingProgram>AEIS</RatingProgram>
-            </AccountabilityRatings>
-            <AccountabilityRatings>
-                <RatingTitle>2002 rating: IL-DAYBREAK</RatingTitle>
-                <Rating>High Satisfactory</Rating>
-                <RatingDate>2002-11-27</RatingDate>
-                <SchoolYear>2002-2003</SchoolYear>
-                <RatingOrganization>STANDARD-SEA</RatingOrganization>
-                <RatingProgram>AEIS</RatingProgram>
-            </AccountabilityRatings>
-            <ProgramReference>
-                <ProgramIdentity>
-                    <ProgramId>LEA-4</ProgramId>
-                </ProgramIdentity>
-            </ProgramReference>
-            <LEACategory>Independent</LEACategory>
-            <CharterStatus>Open Enrollment</CharterStatus>
-            <StateEducationAgencyReference>
-                <EducationalOrgIdentity>
-                    <StateOrganizationId>LEA-STANDARD-SEA</StateOrganizationId>
-                </EducationalOrgIdentity>
-            </StateEducationAgencyReference>
-        </LocalEducationAgency>
-    </Action>
+<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
+  <Action ActionType="DELETE" Cascade="false" Force="false">
+    <EducationOrganization>
+      <StateOrganizationId>LEA-IL-DAYBREAK</StateOrganizationId>
+      <EducationOrgIdentificationCode IdentificationSystem="SEA">
+        <ID>IL-DAYBREAK</ID>
+      </EducationOrgIdentificationCode>
+      <NameOfInstitution>LEA-IL-DAYBREAK School District</NameOfInstitution>
+      <ShortNameOfInstitution>LEA-IL-DAYBREAK LEA</ShortNameOfInstitution>
+      <OrganizationCategories>
+        <OrganizationCategory>Local Education Agency</OrganizationCategory>
+      </OrganizationCategories>
+      <Address>
+        <StreetNumberName>827 Braeburn Lane</StreetNumberName>
+        <City>New York</City>
+        <StateAbbreviation>NY</StateAbbreviation>
+        <PostalCode>10292</PostalCode>
+      </Address>
+      <Telephone InstitutionTelephoneNumberType="Main">
+        <TelephoneNumber>(828) 555-5493</TelephoneNumber>
+      </Telephone>
+      <WebSite>http://fake.local-education-agency.org.fake/fake</WebSite>
+      <OperationalStatus>Changed Agency</OperationalStatus>
+      <AccountabilityRatings>
+        <RatingTitle>2001 rating: IL-DAYBREAK</RatingTitle>
+        <Rating>Low Advanced</Rating>
+        <RatingDate>2001-02-01</RatingDate>
+        <SchoolYear>2001-2002</SchoolYear>
+        <RatingOrganization>STANDARD-SEA</RatingOrganization>
+        <RatingProgram>AEIS</RatingProgram>
+      </AccountabilityRatings>
+      <AccountabilityRatings>
+        <RatingTitle>2002 rating: IL-DAYBREAK</RatingTitle>
+        <Rating>High Satisfactory</Rating>
+        <RatingDate>2002-11-27</RatingDate>
+        <SchoolYear>2002-2003</SchoolYear>
+        <RatingOrganization>STANDARD-SEA</RatingOrganization>
+        <RatingProgram>AEIS</RatingProgram>
+      </AccountabilityRatings>
+      <ProgramReference>
+        <ProgramIdentity>
+          <ProgramId>LEA-4</ProgramId>
+        </ProgramIdentity>
+      </ProgramReference>
+      <LEACategory>Independent</LEACategory>
+      <CharterStatus>Open Enrollment</CharterStatus>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>LEA-STANDARD-SEA</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+    </EducationOrganization>
+  </Action>
 </InterchangeEducationOrganization>

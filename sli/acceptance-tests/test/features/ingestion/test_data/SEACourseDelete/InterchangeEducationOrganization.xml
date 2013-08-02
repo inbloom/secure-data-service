@@ -1,86 +1,85 @@
 <?xml version="1.0"?>
-<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
+<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
   <Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="true">
- <Course>
-    <CourseTitle>Seventh grade English</CourseTitle>
-    <NumberOfParts>1</NumberOfParts>
-    <CourseCode IdentificationSystem="School course code">
-      <ID>9</ID>
-    </CourseCode>
-    <CourseLevel>Enriched or advanced</CourseLevel>
-    <CourseLevelCharacteristics>
-    <CourseLevelCharacteristic>Remedial</CourseLevelCharacteristic>
-    </CourseLevelCharacteristics>
-    <GradesOffered>
-    <GradeLevel>Sixth grade</GradeLevel>
-    </GradesOffered>
-    <SubjectArea>Mathematics</SubjectArea>
-    <CourseDescription>this is a course for Sixth grade</CourseDescription>
-    <DateCourseAdopted>2000-06-19</DateCourseAdopted>
-    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
-    <CourseGPAApplicability>Not Applicable</CourseGPAApplicability>
-    <CourseDefinedBy>LEA</CourseDefinedBy>
-    <MinimumAvailableCredit>
-      <Credit>3</Credit>
-    </MinimumAvailableCredit>
-    <MaximumAvailableCredit>
-      <Credit>3</Credit>
-    </MaximumAvailableCredit>
-    <CareerPathway>Arts, A/V Technology and Communications</CareerPathway>
-   <EducationOrganizationReference>
-         <EducationalOrgIdentity>
-                <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
-         </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-    <LearningObjectiveReference>
-    <LearningObjectiveIdentity>
-    <Objective>Generic Learning Objective 1</Objective>
-    <AcademicSubject>Mathematics</AcademicSubject>
-    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
-    </LearningObjectiveIdentity>
-    </LearningObjectiveReference>
-    <LearningObjectiveReference>
-    <LearningObjectiveIdentity>
-    <Objective>Generic Learning Objective 2</Objective>
-    <AcademicSubject>Mathematics</AcademicSubject>
-    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
-    </LearningObjectiveIdentity>
-    </LearningObjectiveReference>
-    <LearningObjectiveReference>
-    <LearningObjectiveIdentity>
-    <Objective>Generic Learning Objective 3</Objective>
-    <AcademicSubject>Mathematics</AcademicSubject>
-    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
-    </LearningObjectiveIdentity>
-    </LearningObjectiveReference>
-    <LearningObjectiveReference>
-    <LearningObjectiveIdentity>
-    <Objective>Generic Learning Objective 4</Objective>
-    <AcademicSubject>Mathematics</AcademicSubject>
-    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
-    </LearningObjectiveIdentity>
-    </LearningObjectiveReference>
-    <LearningObjectiveReference>
-    <LearningObjectiveIdentity>
-    <Objective>Generic Learning Objective 5</Objective>
-    <AcademicSubject>Mathematics</AcademicSubject>
-    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
-    </LearningObjectiveIdentity>
-    </LearningObjectiveReference>
-    <CompetencyLevels>
-    <CodeValue>Incompetent</CodeValue>
-    </CompetencyLevels>
-    <CompetencyLevels>
-    <CodeValue>Barely Competent</CodeValue>
-    </CompetencyLevels>
-    <CompetencyLevels>
-    <CodeValue>Competent</CodeValue>
-    </CompetencyLevels>
-    <CompetencyLevels>
-    <CodeValue>Very Competent</CodeValue>
-    </CompetencyLevels>
-    <UniqueCourseId>9</UniqueCourseId>
-  </Course>
- </Action>
+    <Course>
+      <CourseTitle>Seventh grade English</CourseTitle>
+      <NumberOfParts>1</NumberOfParts>
+      <CourseCode IdentificationSystem="School course code">
+        <ID>9</ID>
+      </CourseCode>
+      <CourseLevel>Enriched or advanced</CourseLevel>
+      <CourseLevelCharacteristics>
+        <CourseLevelCharacteristic>Remedial</CourseLevelCharacteristic>
+      </CourseLevelCharacteristics>
+      <GradesOffered>
+        <GradeLevel>Sixth grade</GradeLevel>
+      </GradesOffered>
+      <SubjectArea>Mathematics</SubjectArea>
+      <CourseDescription>this is a course for Sixth grade</CourseDescription>
+      <DateCourseAdopted>2000-06-19</DateCourseAdopted>
+      <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+      <CourseGPAApplicability>Not Applicable</CourseGPAApplicability>
+      <CourseDefinedBy>LEA</CourseDefinedBy>
+      <MinimumAvailableCredit>
+        <Credit>3</Credit>
+      </MinimumAvailableCredit>
+      <MaximumAvailableCredit>
+        <Credit>3</Credit>
+      </MaximumAvailableCredit>
+      <CareerPathway>Arts, A/V Technology and Communications</CareerPathway>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <LearningObjectiveReference>
+        <LearningObjectiveIdentity>
+          <Objective>Generic Learning Objective 1</Objective>
+          <AcademicSubject>Mathematics</AcademicSubject>
+          <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+        </LearningObjectiveIdentity>
+      </LearningObjectiveReference>
+      <LearningObjectiveReference>
+        <LearningObjectiveIdentity>
+          <Objective>Generic Learning Objective 2</Objective>
+          <AcademicSubject>Mathematics</AcademicSubject>
+          <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+        </LearningObjectiveIdentity>
+      </LearningObjectiveReference>
+      <LearningObjectiveReference>
+        <LearningObjectiveIdentity>
+          <Objective>Generic Learning Objective 3</Objective>
+          <AcademicSubject>Mathematics</AcademicSubject>
+          <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+        </LearningObjectiveIdentity>
+      </LearningObjectiveReference>
+      <LearningObjectiveReference>
+        <LearningObjectiveIdentity>
+          <Objective>Generic Learning Objective 4</Objective>
+          <AcademicSubject>Mathematics</AcademicSubject>
+          <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+        </LearningObjectiveIdentity>
+      </LearningObjectiveReference>
+      <LearningObjectiveReference>
+        <LearningObjectiveIdentity>
+          <Objective>Generic Learning Objective 5</Objective>
+          <AcademicSubject>Mathematics</AcademicSubject>
+          <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+        </LearningObjectiveIdentity>
+      </LearningObjectiveReference>
+      <CompetencyLevels>
+        <CodeValue>Incompetent</CodeValue>
+      </CompetencyLevels>
+      <CompetencyLevels>
+        <CodeValue>Barely Competent</CodeValue>
+      </CompetencyLevels>
+      <CompetencyLevels>
+        <CodeValue>Competent</CodeValue>
+      </CompetencyLevels>
+      <CompetencyLevels>
+        <CodeValue>Very Competent</CodeValue>
+      </CompetencyLevels>
+      <UniqueCourseId>9</UniqueCourseId>
+    </Course>
+  </Action>
 </InterchangeEducationOrganization>

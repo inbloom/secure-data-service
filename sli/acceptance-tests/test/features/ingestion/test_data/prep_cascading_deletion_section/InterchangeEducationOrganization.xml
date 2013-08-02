@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><InterchangeEducationOrganization xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
-
-  <StateEducationAgency>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<InterchangeEducationOrganization xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
+  <EducationOrganization>
     <StateOrganizationId>NON-STANDARD-SEA</StateOrganizationId>
     <NameOfInstitution>NON-Standard State Education Agency</NameOfInstitution>
     <OrganizationCategories>
@@ -12,14 +12,18 @@
       <StateAbbreviation>IL</StateAbbreviation>
       <PostalCode>00000</PostalCode>
     </Address>
-  </StateEducationAgency>
-
-  <LocalEducationAgency>
+  </EducationOrganization>
+  <EducationOrganization>
     <StateOrganizationId>IL-SUNSET</StateOrganizationId>
     <NameOfInstitution>SUNSET School District 4529</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>Local Education Agency</OrganizationCategory>
     </OrganizationCategories>
+    <ParentEducationAgencyReference>
+  <EducationalOrgIdentity>
+    <StateOrganizationId>NON-STANDARD-SEA</StateOrganizationId>
+  </EducationalOrgIdentity>
+</ParentEducationAgencyReference>
     <Address>
       <StreetNumberName>123 Street</StreetNumberName>
       <City>Chicago</City>
@@ -27,14 +31,8 @@
       <PostalCode>00000</PostalCode>
     </Address>
     <LEACategory>Independent</LEACategory>
-    <StateEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>NON-STANDARD-SEA</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </StateEducationAgencyReference>
-  </LocalEducationAgency>
-  
-  <School>
+  </EducationOrganization>
+  <EducationOrganization>
     <StateOrganizationId>North Daybreak Elementary</StateOrganizationId>
     <EducationOrgIdentificationCode IdentificationSystem="School">
       <ID>North Daybreak Elementary</ID>
@@ -43,6 +41,11 @@
     <OrganizationCategories>
       <OrganizationCategory>School</OrganizationCategory>
     </OrganizationCategories>
+    <ParentEducationAgencyReference>
+  <EducationalOrgIdentity>
+    <StateOrganizationId>IL-SUNSET</StateOrganizationId>
+  </EducationalOrgIdentity>
+</ParentEducationAgencyReference>
     <Address AddressType="Physical">
       <StreetNumberName>111 Ave A</StreetNumberName>
       <City>Chicago</City>
@@ -64,13 +67,7 @@
     <SchoolCategories>
       <SchoolCategory>Elementary School</SchoolCategory>
     </SchoolCategories>
-    <LocalEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>IL-SUNSET</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </LocalEducationAgencyReference>
-  </School>
-  
+  </EducationOrganization>
   <Course>
     <CourseTitle>4rd Grade Homeroom</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -92,16 +89,14 @@
     </EducationOrganizationReference>
     <UniqueCourseId>4rd-Grade-Homeroom-1</UniqueCourseId>
   </Course>
-  
-   <Program>
+  <Program>
     <ProgramId>ACC-TEST-PROG-2</ProgramId>
-	<ProgramType>Regular Education</ProgramType>
-	<ProgramSponsor>State Education Agency</ProgramSponsor>
-	<Services>
-	  <CodeValue>Test service 1</CodeValue>
-	  <!--<ShortDescription>Short description for acceptance test program 1</ShortDescription>
+    <ProgramType>Regular Education</ProgramType>
+    <ProgramSponsor>State Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>Test service 1</CodeValue>
+      <!--<ShortDescription>Short description for acceptance test program 1</ShortDescription>
 	  <Description>This is a longer description of the services provided by acceptance test program 1. More detail could be provided here.</Description>-->
-	</Services>
+    </Services>
   </Program>
-    
 </InterchangeEducationOrganization>

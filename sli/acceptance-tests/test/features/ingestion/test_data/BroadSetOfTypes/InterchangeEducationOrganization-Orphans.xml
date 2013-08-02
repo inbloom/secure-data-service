@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
-<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-  xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
-  <StateEducationAgency>
+<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
+  <EducationOrganization>
     <StateOrganizationId>SEA-STANDARD-SEA</StateOrganizationId>
     <EducationOrgIdentificationCode IdentificationSystem="School">
       <ID>SEA-STANDARD-SEA ID code</ID>
@@ -35,8 +34,8 @@
         <ProgramId>SEA-6</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-  </StateEducationAgency>
-  <LocalEducationAgency>
+  </EducationOrganization>
+  <EducationOrganization>
     <StateOrganizationId>LEA-IL-DAYBREAK</StateOrganizationId>
     <EducationOrgIdentificationCode IdentificationSystem="SEA">
       <ID>IL-DAYBREAK</ID>
@@ -46,6 +45,11 @@
     <OrganizationCategories>
       <OrganizationCategory>Local Education Agency</OrganizationCategory>
     </OrganizationCategories>
+    <ParentEducationAgencyReference>
+  <EducationalOrgIdentity>
+    <StateOrganizationId>LEA-STANDARD-SEA</StateOrganizationId>
+  </EducationalOrgIdentity>
+</ParentEducationAgencyReference>
     <Address>
       <StreetNumberName>827 Braeburn Lane</StreetNumberName>
       <City>New York</City>
@@ -80,13 +84,8 @@
     </ProgramReference>
     <LEACategory>Independent</LEACategory>
     <CharterStatus>Open Enrollment</CharterStatus>
-    <StateEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>LEA-STANDARD-SEA</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </StateEducationAgencyReference>
-  </LocalEducationAgency>
-  <School>
+  </EducationOrganization>
+  <EducationOrganization>
     <StateOrganizationId>School-South Daybreak Elementary</StateOrganizationId>
     <EducationOrgIdentificationCode IdentificationSystem="School">
       <ID>South Daybreak Elementary</ID>
@@ -95,6 +94,11 @@
     <OrganizationCategories>
       <OrganizationCategory>School</OrganizationCategory>
     </OrganizationCategories>
+    <ParentEducationAgencyReference>
+  <EducationalOrgIdentity>
+    <StateOrganizationId>School-IL-DAYBREAK</StateOrganizationId>
+  </EducationalOrgIdentity>
+</ParentEducationAgencyReference>
     <Address AddressType="Physical">
       <StreetNumberName>111 Ave A</StreetNumberName>
       <City>Chicago</City>
@@ -106,27 +110,22 @@
       <TelephoneNumber>(917)-555-0212</TelephoneNumber>
     </Telephone>
     <GradesOffered>
-        <GradeLevel>Kindergarten</GradeLevel>
-        <GradeLevel>First grade</GradeLevel>
-        <GradeLevel>Second grade</GradeLevel>
-        <GradeLevel>Third grade</GradeLevel>
-        <GradeLevel>Fourth grade</GradeLevel>
-        <GradeLevel>Fifth grade</GradeLevel>
+      <GradeLevel>Kindergarten</GradeLevel>
+      <GradeLevel>First grade</GradeLevel>
+      <GradeLevel>Second grade</GradeLevel>
+      <GradeLevel>Third grade</GradeLevel>
+      <GradeLevel>Fourth grade</GradeLevel>
+      <GradeLevel>Fifth grade</GradeLevel>
     </GradesOffered>
     <SchoolCategories>
       <SchoolCategory>Elementary School</SchoolCategory>
     </SchoolCategories>
-      <SchoolType>Alternative</SchoolType>
-      <CharterStatus>School Charter</CharterStatus>
-      <TitleIPartASchoolDesignation>Title I Part A Schoolwide Assistance Program School</TitleIPartASchoolDesignation>
-      <MagnetSpecialProgramEmphasisSchool>Some, but not all, students participate</MagnetSpecialProgramEmphasisSchool>
-      <AdministrativeFundingControl>Other</AdministrativeFundingControl>    
-    <LocalEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>School-IL-DAYBREAK</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </LocalEducationAgencyReference>
-  </School>
+    <SchoolType>Alternative</SchoolType>
+    <CharterStatus>School Charter</CharterStatus>
+    <TitleIPartASchoolDesignation>Title I Part A Schoolwide Assistance Program School</TitleIPartASchoolDesignation>
+    <MagnetSpecialProgramEmphasisSchool>Some, but not all, students participate</MagnetSpecialProgramEmphasisSchool>
+    <AdministrativeFundingControl>Other</AdministrativeFundingControl>
+  </EducationOrganization>
   <Program>
     <ProgramId>Program-6</ProgramId>
     <ProgramType>Gifted and Talented</ProgramType>
@@ -143,10 +142,10 @@
     </CourseCode>
     <CourseLevel>Honors</CourseLevel>
     <CourseLevelCharacteristics>
-    <CourseLevelCharacteristic>Other</CourseLevelCharacteristic>
+      <CourseLevelCharacteristic>Other</CourseLevelCharacteristic>
     </CourseLevelCharacteristics>
     <GradesOffered>
-    <GradeLevel>Kindergarten</GradeLevel>
+      <GradeLevel>Kindergarten</GradeLevel>
     </GradesOffered>
     <SubjectArea>ELA</SubjectArea>
     <CourseDescription>this is a course for Kindergarten</CourseDescription>
@@ -167,57 +166,57 @@
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <LearningObjectiveReference>
-    <LearningObjectiveIdentity>
-    <Objective>Generic Learning Objective 1</Objective>
-    <AcademicSubject>ELA</AcademicSubject>
-    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-    </LearningObjectiveIdentity>
+      <LearningObjectiveIdentity>
+        <Objective>Generic Learning Objective 1</Objective>
+        <AcademicSubject>ELA</AcademicSubject>
+        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <LearningObjectiveReference>
-    <LearningObjectiveIdentity>
-    <Objective>Generic Learning Objective 2</Objective>
-    <AcademicSubject>ELA</AcademicSubject>
-    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-    </LearningObjectiveIdentity>
+      <LearningObjectiveIdentity>
+        <Objective>Generic Learning Objective 2</Objective>
+        <AcademicSubject>ELA</AcademicSubject>
+        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <LearningObjectiveReference>
-    <LearningObjectiveIdentity>
-    <Objective>Generic Learning Objective 3</Objective>
-    <AcademicSubject>ELA</AcademicSubject>
-    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-    </LearningObjectiveIdentity>
+      <LearningObjectiveIdentity>
+        <Objective>Generic Learning Objective 3</Objective>
+        <AcademicSubject>ELA</AcademicSubject>
+        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <LearningObjectiveReference>
-    <LearningObjectiveIdentity>
-    <Objective>Generic Learning Objective 4</Objective>
-    <AcademicSubject>ELA</AcademicSubject>
-    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-    </LearningObjectiveIdentity>
+      <LearningObjectiveIdentity>
+        <Objective>Generic Learning Objective 4</Objective>
+        <AcademicSubject>ELA</AcademicSubject>
+        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <LearningObjectiveReference>
-    <LearningObjectiveIdentity>
-    <Objective>Generic Learning Objective 5</Objective>
-    <AcademicSubject>ELA</AcademicSubject>
-    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
-    </LearningObjectiveIdentity>
+      <LearningObjectiveIdentity>
+        <Objective>Generic Learning Objective 5</Objective>
+        <AcademicSubject>ELA</AcademicSubject>
+        <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevels>
-    <CodeValue>CRS-Incompetent</CodeValue>
+      <CodeValue>CRS-Incompetent</CodeValue>
     </CompetencyLevels>
     <CompetencyLevels>
-    <CodeValue>CRS-Barely Competent</CodeValue>
+      <CodeValue>CRS-Barely Competent</CodeValue>
     </CompetencyLevels>
     <CompetencyLevels>
-    <CodeValue>CRS-Competent</CodeValue>
+      <CodeValue>CRS-Competent</CodeValue>
     </CompetencyLevels>
     <CompetencyLevels>
-    <CodeValue>CRS-Very Competent</CodeValue>
+      <CodeValue>CRS-Very Competent</CodeValue>
     </CompetencyLevels>
     <UniqueCourseId>CRS-1</UniqueCourseId>
   </Course>
   <CompetencyLevelDescriptor>
-      <CodeValue>CLD-Incompetent</CodeValue>
-      <Description>Student does not understand anything</Description>
-      <PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
+    <CodeValue>CLD-Incompetent</CodeValue>
+    <Description>Student does not understand anything</Description>
+    <PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
   </CompetencyLevelDescriptor>
 </InterchangeEducationOrganization>

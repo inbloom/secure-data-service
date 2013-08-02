@@ -1,13 +1,12 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><InterchangeEducationOrganization xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
-
-  <StateEducationAgency>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<InterchangeEducationOrganization xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
+  <EducationOrganization>
     <!-- State Education Organization ID-->
     <StateOrganizationId>_JEFFCO_SEA_</StateOrganizationId>
     <NameOfInstitution>Jefferson County School District</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>State Education Agency</OrganizationCategory>
     </OrganizationCategories>
-
     <!-- Address of SEA -->
     <Address>
       <StreetNumberName>100 Jefferson County Parkway</StreetNumberName>
@@ -15,15 +14,20 @@
       <StateAbbreviation>CO</StateAbbreviation>
       <PostalCode>80419</PostalCode>
     </Address>
-  </StateEducationAgency>
-
-  <LocalEducationAgency>
+  </EducationOrganization>
+  <EducationOrganization>
     <!-- Local Education Organization ID -->
     <StateOrganizationId>_JEFFCO_</StateOrganizationId>
     <NameOfInstitution>Jefferson County School District</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>Local Education Agency</OrganizationCategory>
     </OrganizationCategories>
+    <ParentEducationAgencyReference>
+  <EducationalOrgIdentity>
+    <!-- State Education Organization ID-->
+    <StateOrganizationId>_JEFFCO_SEA_</StateOrganizationId>
+  </EducationalOrgIdentity>
+</ParentEducationAgencyReference>
     <Address>
       <StreetNumberName>100 Jefferson County Parkway</StreetNumberName>
       <City>Golden</City>
@@ -31,12 +35,5 @@
       <PostalCode>80419</PostalCode>
     </Address>
     <LEACategory>Independent</LEACategory>
-    <StateEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <!-- State Education Organization ID-->
-        <StateOrganizationId>_JEFFCO_SEA_</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </StateEducationAgencyReference>
-  </LocalEducationAgency>
-
+  </EducationOrganization>
 </InterchangeEducationOrganization>

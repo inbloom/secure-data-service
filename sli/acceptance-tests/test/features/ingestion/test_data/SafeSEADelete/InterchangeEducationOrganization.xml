@@ -1,41 +1,40 @@
 <?xml version="1.0"?>
-<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-                                  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
-    <Action ActionType="DELETE" Cascade="false" Force="false">
-        <StateEducationAgency>
-            <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
-            <EducationOrgIdentificationCode IdentificationSystem="School">
-                <ID>STANDARD-SEA ID code</ID>
-            </EducationOrgIdentificationCode>
-            <NameOfInstitution>STANDARD-SEA (State Education Agency)</NameOfInstitution>
-            <ShortNameOfInstitution>STANDARD-SEA shortName</ShortNameOfInstitution>
-            <OrganizationCategories>
-                <OrganizationCategory>State Education Agency</OrganizationCategory>
-            </OrganizationCategories>
-            <Address>
-                <StreetNumberName>123 Street</StreetNumberName>
-                <City>Chicago</City>
-                <StateAbbreviation>IL</StateAbbreviation>
-                <PostalCode>00000</PostalCode>
-            </Address>
-            <Telephone>
-                <TelephoneNumber>(342)555-1314</TelephoneNumber>
-            </Telephone>
-            <WebSite>www.STANDARD-SEA.org</WebSite>
-            <OperationalStatus>Added</OperationalStatus>
-            <AccountabilityRatings>
-                <RatingTitle>Safety Score</RatingTitle>
-                <Rating>Good</Rating>
-                <RatingDate>2005-06-06</RatingDate>
-                <SchoolYear>2014-2015</SchoolYear>
-                <RatingOrganization>RO #2</RatingOrganization>
-                <RatingProgram>NCLB</RatingProgram>
-            </AccountabilityRatings>
-            <ProgramReference>
-                <ProgramIdentity>
-                    <ProgramId>6</ProgramId>
-                </ProgramIdentity>
-            </ProgramReference>
-        </StateEducationAgency>
-    </Action>
+<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
+  <Action ActionType="DELETE" Cascade="false" Force="false">
+    <EducationOrganization>
+      <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      <EducationOrgIdentificationCode IdentificationSystem="School">
+        <ID>STANDARD-SEA ID code</ID>
+      </EducationOrgIdentificationCode>
+      <NameOfInstitution>STANDARD-SEA (State Education Agency)</NameOfInstitution>
+      <ShortNameOfInstitution>STANDARD-SEA shortName</ShortNameOfInstitution>
+      <OrganizationCategories>
+        <OrganizationCategory>State Education Agency</OrganizationCategory>
+      </OrganizationCategories>
+      <Address>
+        <StreetNumberName>123 Street</StreetNumberName>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>00000</PostalCode>
+      </Address>
+      <Telephone>
+        <TelephoneNumber>(342)555-1314</TelephoneNumber>
+      </Telephone>
+      <WebSite>www.STANDARD-SEA.org</WebSite>
+      <OperationalStatus>Added</OperationalStatus>
+      <AccountabilityRatings>
+        <RatingTitle>Safety Score</RatingTitle>
+        <Rating>Good</Rating>
+        <RatingDate>2005-06-06</RatingDate>
+        <SchoolYear>2014-2015</SchoolYear>
+        <RatingOrganization>RO #2</RatingOrganization>
+        <RatingProgram>NCLB</RatingProgram>
+      </AccountabilityRatings>
+      <ProgramReference>
+        <ProgramIdentity>
+          <ProgramId>6</ProgramId>
+        </ProgramIdentity>
+      </ProgramReference>
+    </EducationOrganization>
+  </Action>
 </InterchangeEducationOrganization>

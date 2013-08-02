@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
   <Action ActionType="DELETE" Cascade="false" Force="true">
-    <School>
+    <EducationOrganization>
       <StateOrganizationId>Daybreak Podunk High</StateOrganizationId>
       <EducationOrgIdentificationCode IdentificationSystem="School">
         <ID>Daybreak Podunk High</ID>
@@ -34,14 +34,14 @@
       <TitleIPartASchoolDesignation>Title I school wide eligible school - no program</TitleIPartASchoolDesignation>
       <MagnetSpecialProgramEmphasisSchool>Some, but not all, students participate</MagnetSpecialProgramEmphasisSchool>
       <AdministrativeFundingControl>Public School</AdministrativeFundingControl>
-      <LocalEducationAgencyReference>
+      <EducationOrganizationReference>
         <EducationalOrgIdentity>
           <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
         </EducationalOrgIdentity>
-      </LocalEducationAgencyReference>
-    </School>
+      </EducationOrganizationReference>
+    </EducationOrganization>
   </Action>
-  <School>
+  <EducationOrganization>
     <StateOrganizationId>Daybreak Podunk High</StateOrganizationId>
     <EducationOrgIdentificationCode IdentificationSystem="School">
       <ID>Daybreak Podunk High</ID>
@@ -50,6 +50,11 @@
     <OrganizationCategories>
       <OrganizationCategory>School</OrganizationCategory>
     </OrganizationCategories>
+    <ParentEducationAgencyReference>
+  <EducationalOrgIdentity>
+    <StateOrganizationId>IL-HIGHWIND</StateOrganizationId>
+  </EducationalOrgIdentity>
+</ParentEducationAgencyReference>
     <Address AddressType="Physical">
       <StreetNumberName>1999 Jambers St</StreetNumberName>
       <City>Chicago</City>
@@ -74,10 +79,5 @@
     <TitleIPartASchoolDesignation>Title I school wide eligible school - no program</TitleIPartASchoolDesignation>
     <MagnetSpecialProgramEmphasisSchool>Some, but not all, students participate</MagnetSpecialProgramEmphasisSchool>
     <AdministrativeFundingControl>Public School</AdministrativeFundingControl>
-    <LocalEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>IL-HIGHWIND</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </LocalEducationAgencyReference>
-  </School>
+  </EducationOrganization>
 </InterchangeEducationOrganization>
