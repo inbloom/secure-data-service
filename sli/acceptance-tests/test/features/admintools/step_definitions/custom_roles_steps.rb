@@ -35,6 +35,7 @@ Transform /rights "(.*?)"/ do |arg1|
   # Custom right sets for test roles
   rights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "WRITE_PUBLIC", "AGGREGATE_WRITE", "STAFF_CONTEXT"] if arg1 == "all defaults"
   rights = ["READ_GENERAL", "TEACHER_CONTEXT"] if arg1 == "Read General"
+  rights = ["READ_GENERAL", "STAFF_CONTEXT"] if arg1 == "Staff Read General"
   rights = ["READ_RESTRICTED", "TEACHER_CONTEXT"] if arg1 == "Read Restricted"
   rights = ["READ_RESTRICTED"] if arg1 == "Self Read Restricted"
   rights = ["READ_GENERAL", "WRITE_GENERAL", "TEACHER_CONTEXT"] if arg1 == "Read and Write General"
@@ -198,7 +199,6 @@ end
 When /^I remove the right "([^"]*)" from the group "([^"]*)"$/ do |arg1, arg2|
   group = @driver.find_element(:xpath, "//div[text()='#{arg2}']/../..")
   group.find_element(:id, "DELETE_" + arg1).click
-  sleep 1
 end
 
 When /^I remove the role <Role> out of <TotalRoles> from the group <Group> that denies <User> access to the API$/ do |table|
@@ -428,8 +428,11 @@ When /^the user "(.*?)" in tenant "(.*?)" tries to retrieve the (staff ".*?")$/ 
 end
 
 Then /^I should get the error message "(.*?)"$/ do |msg|
-  alert = @driver.switch_to.alert
-  assert(alert.text == msg)
-  @driver.switch_to.alert.accept
+  alert = @driver.find_element(:class, "error")
+  assert(alert.text == msg, "Error message not found")
 end
 
+Then /^I should not see the "(.*?)" in the rights dropdown list$/ do |right|
+  rightSelect = @driver.find_element(:id, "addRightSelect")
+  assert(!rightSelect.text.include?(right), "Right dropdown should not contain #{right}")
+end
