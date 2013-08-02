@@ -23,9 +23,17 @@ require_relative "enum/GradeLevelType.rb"
 # creates school
 class School < BaseEntity
 
-  attr_accessor :state_org_id, :grades, :parent_id, :programs,
-                :schoolType, :charterStatus, :titleIPartASchoolDesignation,
-                :magnetSpecialProgramEmphasisSchool, :administrativeFundingControl
+  attr_accessor :state_org_id,
+    :org_category,
+    :grades,
+    :parent_id,
+    :address,
+    :programs,
+    :schoolType,
+    :charterStatus,
+    :titleIPartASchoolDesignation,
+    :magnetSpecialProgramEmphasisSchool,
+    :administrativeFundingControl
 
   def initialize(id, parent_id, type, programs = nil)
     @rand = Random.new(id.hash)
@@ -35,6 +43,7 @@ class School < BaseEntity
     else
       @parent_id = DataUtility.get_local_education_agency_id(parent_id)
     end
+    @address   = get_address
     @type      = type
     @grades    = []
     if @type == "elementary"
@@ -111,4 +120,21 @@ class School < BaseEntity
       "High School"
     end 
   end
+
+    
+  # generates the address
+  def get_address
+        address = {}
+        begin
+            address[:line_one] = @rand.rand(1000).to_s + " " + DataUtility.select_random_from_options(@rand, BaseEntity.demographics['street'])
+            address[:city] = BaseEntity.demographics['city']
+            address[:state] = BaseEntity.demographics['state']
+            address[:postal_code] = BaseEntity.demographics['postalCode']
+            rescue NameError
+            # occurs when @@d in BaseEntity hasn't been initialized (will happen during testing)
+            return nil
+        end
+        address
+  end
+    
 end

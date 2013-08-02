@@ -75,6 +75,7 @@ class LocalEducationAgency < BaseEntity
 
   # required fields
   attr_accessor :state_org_id   # maps to 'StateOrganizationId', 'NameOfInstitution'
+  attr_accessor :org_category   # maps to 'OrganizationCategory'
   attr_accessor :address        # maps to 'Address'
   attr_accessor :programs       # maps to 'ProgramReference'
   
@@ -84,9 +85,7 @@ class LocalEducationAgency < BaseEntity
   attr_accessor :telephone      # maps to 'Telephone'
   attr_accessor :website        # maps to 'WebSite'
   attr_accessor :accountability # maps to 'AccountabilityRatings'
-  attr_accessor :lea_parent_id  # maps to 'LocalEducationAgencyReference'
-  attr_accessor :esc_parent_id  # maps to 'EducationServiceCenterReference'
-  attr_accessor :sea_parent_id  # maps to 'StateEducationAgencyReference'
+  attr_accessor :parent_id      # maps to 'ParentEducationAgencyReference'
 
   attr_accessor :charter_status
   attr_accessor :op_status

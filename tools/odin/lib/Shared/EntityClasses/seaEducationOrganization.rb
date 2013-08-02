@@ -22,9 +22,16 @@ require_relative "baseEntity.rb"
 # creates state education agency
 class StateEducationAgency < BaseEntity
   
-  attr_accessor :state_org_id, :programs,
-                :educationOrgIdentificationCode, :shortNameOfInstitution, :telephone,
-                :webSite, :operationalStatus, :accountabilityRatings
+  attr_accessor :state_org_id,
+    :address,
+    :programs,
+    :org_category,
+    :ed_org_id_code,
+    :short_name,
+    :telephone,
+    :webSite,
+    :operationalStatus,
+    :accountabilityRatings
 
   def initialize(rand, id, programs = nil)
     if id.kind_of? String
@@ -32,13 +39,14 @@ class StateEducationAgency < BaseEntity
     else
       @state_org_id = DataUtility.get_state_education_agency_id(id)
     end
-    @rand     = Random.new(state_org_id.hash)
-    @programs = programs
+    @rand         = Random.new(state_org_id.hash)
+    @programs     = programs
     @org_category = "State Education Agency"
+    @address      = get_address
 
-    optional {@educationOrgIdentificationCode = @state_org_id.to_s + " ID code"}
+    optional {@ed_org_id_code = @state_org_id.to_s + " ID code"}
 
-    optional {@shortNameOfInstitution = @state_org_id.to_s + " shortName"}
+    optional {@short_name = @state_org_id.to_s + " shortName"}
 
     optional {@telephone = "(" + @rand.rand(1000).to_s.rjust(3, '0') + ")555-" + @rand.rand(10000).to_s.rjust(4, '0')}
 
@@ -72,5 +80,20 @@ class StateEducationAgency < BaseEntity
     }}
 
   end
+
+  # generates the address
+  def get_address
+        address = {}
+        begin
+            address[:line_one] = @rand.rand(1000).to_s + " " + DataUtility.select_random_from_options(@rand, BaseEntity.demographics['street'])
+            address[:city] = BaseEntity.demographics['city']
+            address[:state] = BaseEntity.demographics['state']
+            address[:postal_code] = BaseEntity.demographics['postalCode']
+            rescue NameError
+            # occurs when @@d in BaseEntity hasn't been initialized (will happen during testing)
+            return nil
+        end
+        address
+  end    
 
 end
