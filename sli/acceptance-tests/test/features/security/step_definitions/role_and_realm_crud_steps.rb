@@ -211,9 +211,7 @@ When /^I add a right "([^"]*)" in group "([^"]*)"$/ do |right, group|
   end
 
   #add a context right if it doesn't have any
-  if(!curGroup.include?("TEACHER_CONTEXT") && !curGroup.include?("STAFF_CONTEXT"))
-    curGroup["rights"].push("TEACHER_CONTEXT")
-  end
+  curGroup = addTeacherContext(curGroup)
 
   groups.push(curGroup)
 
@@ -259,10 +257,21 @@ When /^I PUT a new group "(.*?)" with role "(.*?)" and right "(.*?)"$/ do |group
   assert(@res != nil, "Response from custom role request is nil")
   data = JSON.parse(@res.body).sort()[0]
   newGroup = {"groupTitle" => group, "names" => [role], "rights" => [right], "isAdminRole" => false}
+
+  #add a context right if it doesn't have any
+  newGroup = addTeacherContext(newGroup)
+
   data["roles"].push(newGroup)
   dataFormatted = prepareData("application/json", data)
   restHttpPut("/customRoles/" + data["id"], dataFormatted, "application/json")
   assert(@res != nil, "Response from rest-client POST is nil")
+end
+
+def addTeacherContext(role)
+  if(!role["rights"].include?("TEACHER_CONTEXT") && !role["rights"].include?("STAFF_CONTEXT"))
+    role["rights"].push("TEACHER_CONTEXT")
+  end
+  return role
 end
 
 
