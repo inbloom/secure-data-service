@@ -34,6 +34,7 @@ import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.LogFactory;
+import org.apache.commons.logging.Log;
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
@@ -61,6 +62,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
  */
 public class ResourceUtil {
 
+    private static final Log LOG = LogFactory.getFactory().getInstance(ResourceUtil.class);
     private static final String REFERENCE = "REF";
     private static final String LINK = "LINK";
     private static final String BLANK = "";
@@ -72,11 +74,11 @@ public class ResourceUtil {
                 "getStudentCompetencyObjectives");
         LINK_NAMES.put(ResourceNames.EDUCATION_ORGANIZATIONS + ResourceNames.EDUCATION_ORGANIZATIONS + REFERENCE,
                 "getParentEducationOrganization");
-        LINK_NAMES.put(ResourceNames.EDUCATION_ORGANIZATIONS + ResourceNames.SCHOOLS + LINK, "getFeederSchools");
-        LINK_NAMES.put(ResourceNames.EDUCATION_ORGANIZATIONS + ResourceNames.EDUCATION_ORGANIZATIONS + LINK,
-                "getFeederEducationOrganizations");
-        LINK_NAMES.put(ResourceNames.SCHOOLS + ResourceNames.EDUCATION_ORGANIZATIONS + REFERENCE,
-                "getParentEducationOrganization");
+        //LINK_NAMES.put(ResourceNames.EDUCATION_ORGANIZATIONS + ResourceNames.SCHOOLS + LINK, "getFeederSchools");
+        //LINK_NAMES.put(ResourceNames.EDUCATION_ORGANIZATIONS + ResourceNames.EDUCATION_ORGANIZATIONS + LINK,
+                //"getFeederEducationOrganizations");
+        //LINK_NAMES.put(ResourceNames.SCHOOLS + ResourceNames.EDUCATION_ORGANIZATIONS + REFERENCE,
+                //"getParentEducationOrganization");
         LINK_NAMES.put(ResourceNames.LEARNINGOBJECTIVES + ResourceNames.LEARNINGOBJECTIVES + REFERENCE,
                 "getParentLearningObjective");
         LINK_NAMES.put(ResourceNames.LEARNINGOBJECTIVES + ResourceNames.LEARNINGOBJECTIVES + LINK,
@@ -100,6 +102,19 @@ public class ResourceUtil {
                 + "objectiveAssessment.objectiveAssessments.learningObjectives" + LINK, BLANK);
         LINK_NAMES.put(ResourceNames.LEARNINGOBJECTIVES + ResourceNames.ASSESSMENTS
                 + "objectiveAssessment.learningObjectives" + LINK, BLANK);
+
+        //localEducationAgencyReference,educationServiceCenterReference etc will be deprecated after sprint 8.4
+        LINK_NAMES.put(ResourceNames.EDUCATION_ORGANIZATIONS+ ResourceNames.SCHOOLS + "parentEducationAgencyReference"  + LINK, "getFeederSchools");
+        LINK_NAMES.put(ResourceNames.EDUCATION_ORGANIZATIONS+ ResourceNames.SCHOOLS + "localEducationAgencyReference"  + LINK, "getSchoolsFeedingIntoLEA");
+        LINK_NAMES.put(ResourceNames.EDUCATION_ORGANIZATIONS+ ResourceNames.SCHOOLS + "educationServiceCenterReference"  + LINK, "getFeederSchoolsFeedingIntoESC");
+
+        LINK_NAMES.put(ResourceNames.EDUCATION_ORGANIZATIONS+ ResourceNames.EDUCATION_ORGANIZATIONS + "parentEducationAgencyReference"  + LINK, "getFeederEducationOrganizations");
+        LINK_NAMES.put(ResourceNames.EDUCATION_ORGANIZATIONS+ ResourceNames.EDUCATION_ORGANIZATIONS + "localEducationAgencyReference"  + LINK, "getEducationOrganizationsFeedingIntoLEA");
+        LINK_NAMES.put(ResourceNames.EDUCATION_ORGANIZATIONS+ ResourceNames.EDUCATION_ORGANIZATIONS + "educationServiceCenterReference"  + LINK, "getEducationOrganizationsFeedingIntoESC");
+
+        LINK_NAMES.put(ResourceNames.SCHOOLS + ResourceNames.EDUCATION_ORGANIZATIONS  + "parentEducationAgencyReference" + REFERENCE, "getParentEducationOrganization");
+        LINK_NAMES.put(ResourceNames.SCHOOLS + ResourceNames.EDUCATION_ORGANIZATIONS + "localEducationAgencyReference"  + REFERENCE, "getEdOrgsReportingToLEA");
+        LINK_NAMES.put(ResourceNames.SCHOOLS + ResourceNames.EDUCATION_ORGANIZATIONS  + "educationServiceCenterReference" + REFERENCE, "getEdOrgsReportingToESC");
     }
 
     /**
@@ -279,7 +294,7 @@ public class ResourceUtil {
         List<EmbeddedLink> links = new LinkedList<EmbeddedLink>();
         // loop through all entities with references to supplied entity type
         for (EntityDefinition definition : entityDefs.getLinked(defn)) {
-
+            EmbeddedLink el;
             // if the entity that has a reference to the defn parameter is an association
             if (definition instanceof AssociationDefinition) {
 
@@ -287,24 +302,32 @@ public class ResourceUtil {
                 if (assoc.getSourceEntity().getStoredCollectionName().equals(defn.getStoredCollectionName())) {
                     String relNameFromSource = assoc.getRelNameFromSource();
                     if (relNameFromSource != null) {
-                        links.add(new EmbeddedLink(relNameFromSource, getURI(uriInfo, getApiVersion(uriInfo),
-                                defn.getResourceName(), id, assoc.getResourceName()).toString()));
+                        el = new EmbeddedLink(relNameFromSource, getURI(uriInfo, getApiVersion(uriInfo),
+                                defn.getResourceName(), id, assoc.getResourceName()).toString()) ;
+                        links.add(el);
+                        LOG.info("Type 1 " + assoc.getRelNameFromSource() + " " + el);
                         if (assoc.getHoppedTargetLink() != null) {
-                            links.add(new EmbeddedLink(assoc.getHoppedTargetLink(), getURI(uriInfo,
+                            el = new EmbeddedLink(assoc.getHoppedTargetLink(), getURI(uriInfo,
                                     getApiVersion(uriInfo), defn.getResourceName(), id, assoc.getResourceName(),
-                                    assoc.getTargetEntity().getResourceName()).toString()));
+                                    assoc.getTargetEntity().getResourceName()).toString());
+                            links.add(el);
+                            LOG.info("Type 2 " + assoc.getRelNameFromSource() + " " + el);
                         }
                     }
 
                 } else if (assoc.getTargetEntity().getStoredCollectionName().equals(defn.getStoredCollectionName())) {
                     String relNameFromTarget = assoc.getRelNameFromTarget();
                     if (relNameFromTarget != null) {
-                        links.add(new EmbeddedLink(relNameFromTarget, getURI(uriInfo, getApiVersion(uriInfo),
-                                defn.getResourceName(), id, assoc.getResourceName()).toString()));
+                        el =new EmbeddedLink(relNameFromTarget, getURI(uriInfo, getApiVersion(uriInfo),
+                                defn.getResourceName(), id, assoc.getResourceName()).toString());
+                        links.add(el);
+                        LOG.info("Type 3 " + assoc.getRelNameFromSource() + " " + el);
                         if (assoc.getHoppedSourceLink() != null) {
-                            links.add(new EmbeddedLink(assoc.getHoppedSourceLink(), getURI(uriInfo,
+                            el = new EmbeddedLink(assoc.getHoppedSourceLink(), getURI(uriInfo,
                                     getApiVersion(uriInfo), defn.getResourceName(), id, assoc.getResourceName(),
-                                    assoc.getSourceEntity().getResourceName()).toString()));
+                                    assoc.getSourceEntity().getResourceName()).toString());
+                            links.add(el);
+                            LOG.info("Type 4 " + assoc.getRelNameFromSource() + " " + el);
                         }
                     }
                 }
@@ -313,11 +336,14 @@ public class ResourceUtil {
                 for (String referenceFieldName : definition.getReferenceFieldNames(defn.getStoredCollectionName())) {
                     String linkName = getLinkName(defn.getResourceName(), definition.getResourceName(),
                             referenceFieldName, false);
-
+                    if (linkName != null) {
                     if (!linkName.isEmpty()) {
-                        links.add(new EmbeddedLink(linkName, getURI(uriInfo, getApiVersion(uriInfo),
+                        el = new EmbeddedLink(linkName, getURI(uriInfo, getApiVersion(uriInfo),
                                 definition.getResourceName()).toString()
-                                + "?" + referenceFieldName + "=" + id));
+                                + "?" + referenceFieldName + "=" + id) ;
+                        links.add(el);
+                        LOG.info("Type 5 " + definition.getResourceName() + " " + el);
+                    }
                     }
 
                 }
