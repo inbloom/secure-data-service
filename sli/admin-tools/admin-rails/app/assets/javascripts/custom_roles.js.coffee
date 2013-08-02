@@ -164,9 +164,7 @@ wrapInputWithDeleteButton = (input, type, name) ->
       rights = getRights(label.parents("tr"))
       # Disable the save button if the context right was deleted.
       right = input.text()
-      if (((rights.length == 2) && (right != "TEACHER_CONTEXT") && (right != "STAFF_CONTEXT") && \
-          ((rights.indexOf("TEACHER_CONTEXT") >= 0) || (rights.indexOf("STAFF_CONTEXT") >= 0))) ||
-          (rights.length == 1))
+      if ((containsLastNonContextRight(rights) || (rights.length == 1)) && notContextRight(right))
         return alert("Role group must contain at least one non-contextual right.")
 
 
@@ -185,6 +183,12 @@ wrapInputWithDeleteButton = (input, type, name) ->
   input.wrap("<" + type + "/>").parent().css("white-space", "nowrap")
   input.parent().append(div)
   return input.parent()
+
+containsLastNonContextRight = (rights) ->
+   return (rights.length == 2) && ((rights.indexOf("TEACHER_CONTEXT") >= 0) || (rights.indexOf("STAFF_CONTEXT") >= 0))
+
+notContextRight = (right) ->
+  return (right != "TEACHER_CONTEXT") && (right != "STAFF_CONTEXT")
 
 editRowStop = (tr) ->
   disableButton($(".rowEditToolSaveButton"))
