@@ -172,7 +172,6 @@ public class RealmHelperTest {
         assertFalse(helper.isUserAllowedLoginToRealm(seaStaff, lea2Realm));
     }
 
-    @Ignore
     @Test
     public void testLeaWithNoDirectRealm() {
         Entity sea = buildEdOrg("SEA1", null, true);

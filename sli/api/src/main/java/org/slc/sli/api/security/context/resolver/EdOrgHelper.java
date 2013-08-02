@@ -206,8 +206,8 @@ public class EdOrgHelper {
      *
      * @return - set of the EdOrg's parents
      */
-    public Set<String> getParentEdOrgs(Entity edOrgEntity) {
-        Set<String> toReturn = new HashSet<String>();
+    public List<String> getParentEdOrgs(Entity edOrgEntity) {
+        List<String> toReturn = new ArrayList<String>();
         
         if (edOrgEntity != null) {
             String myId = edOrgEntity.getEntityId();
@@ -223,7 +223,7 @@ public class EdOrgHelper {
         return toReturn;
     }
 
-    private Set<String> getParentEdOrgs(final Entity edOrg, Set<String>toReturn) {
+    private List<String> getParentEdOrgs(final Entity edOrg, List<String>toReturn) {
         // base case
         if (edOrg == null || toReturn.contains(edOrg)) {
             return toReturn;
@@ -237,7 +237,7 @@ public class EdOrgHelper {
                         Entity parentEdOrg = repo.findById(EntityNames.EDUCATION_ORGANIZATION, parentId);
                         if (parentEdOrg != null) {
                             toReturn.add(parentId);
-                            toReturn.addAll(getParentEdOrgs(parentEdOrg, toReturn));
+                            getParentEdOrgs(parentEdOrg, toReturn);
                         }
                     }
                 }

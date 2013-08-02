@@ -188,7 +188,6 @@ public class RealmHelper {
 	 *
 	 * @param userEntity
 	 * @param realm
-	 * @param tenantId
 	 * @return
 	 */
 	public boolean isUserAllowedLoginToRealm(Entity userEntity, Entity realm) {
@@ -227,7 +226,7 @@ public class RealmHelper {
 	}
 	
 	private boolean isValidForLogin(Entity edOrgEntity, Entity realm) {
-		Set<String> edOrgIds = edorgHelper.getParentEdOrgs(edOrgEntity);
+		List<String> edOrgIds = edorgHelper.getParentEdOrgs(edOrgEntity);
 
 		for (String parentId : edOrgIds) {
 			Iterable<Entity> realmEnts = getRealms(repo.findById(

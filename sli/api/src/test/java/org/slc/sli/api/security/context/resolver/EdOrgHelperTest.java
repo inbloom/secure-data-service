@@ -356,7 +356,7 @@ public class EdOrgHelperTest {
 
     @Test
     public void testParents() {
-        Set<String> edorgs = helper.getParentEdOrgs(school3);
+        List<String> edorgs = helper.getParentEdOrgs(school3);
         assertTrue(edorgs.contains(sea1.getEntityId()));
         assertTrue(edorgs.contains(lea1.getEntityId()));
         assertTrue(edorgs.contains(lea2.getEntityId()));
@@ -369,7 +369,7 @@ public class EdOrgHelperTest {
 
     @Test
     public void testParentsWithCycle() {
-        Set<String> edorgs = helper.getParentEdOrgs(leaCycle1);
+        List<String> edorgs = helper.getParentEdOrgs(leaCycle1);
         assertFalse("leaCycle1 should not be a child of leaCycle1", edorgs.contains(leaCycle1.getEntityId()));
         assertTrue("leaCycle2 should be a child of leaCycle1", edorgs.contains(leaCycle2.getEntityId()));
         assertTrue("leaCycle3 should be a child of leaCycle1", edorgs.contains(leaCycle3.getEntityId()));
@@ -378,7 +378,7 @@ public class EdOrgHelperTest {
 
     @Test
     public void testParentsOfSea() {
-        Set<String> edorgs = helper.getParentEdOrgs(sea1);
+        List<String> edorgs = helper.getParentEdOrgs(sea1);
         assertEquals(0, edorgs.size());
     }
 

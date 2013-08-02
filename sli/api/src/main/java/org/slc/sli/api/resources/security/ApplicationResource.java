@@ -563,7 +563,7 @@ public class ApplicationResource extends UnversionedResource {
         this.sandboxEnabled = sandboxEnabled;
     }
     
-    private Set<String> getParentEdorgs(String rootEdorg) {
+    private List<String> getParentEdorgs(String rootEdorg) {
         return helper.getParentEdOrgs(helper.byId(rootEdorg));
     }
 
