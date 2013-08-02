@@ -50,6 +50,9 @@ public final class ContextSupportedEntities {
         supportedEntities.add(EntityNames.STUDENT_PARENT_ASSOCIATION);
         supportedEntities.add(EntityNames.STUDENT_SECTION_ASSOCIATION);
         supportedEntities.add(EntityNames.REPORT_CARD);
+        supportedEntities.add(EntityNames.STAFF_COHORT_ASSOCIATION);
+        supportedEntities.add(EntityNames.STAFF_PROGRAM_ASSOCIATION);
+        supportedEntities.add(EntityNames.TEACHER_SECTION_ASSOCIATION);
 
         supportedEntities.addAll(EntityNames.PUBLIC_ENTITIES);
     }
