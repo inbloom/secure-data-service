@@ -22,7 +22,7 @@ Scenario Outline: Control the presence of links by specifying an accept type for
         | "application/json"         | "links"      |
         | "application/vnd.slc+json" | "links"      |
 
-Scenario Outline: Confirm all known reference fields generate two valid links that are implemented and update-able
+Scenario Outline: Confirm all known non-list reference fields generate two valid links that are implemented and update-able
    Given format "application/vnd.slc+json"
      And the sli securityEvent collection is empty
      And referring collection <source entity type> exposed as <source expose name>
@@ -61,11 +61,51 @@ Scenario Outline: Confirm all known reference fields generate two valid links th
      And "entityType" should be <target entity type>
     Examples:
         | source entity type                      | source expose name                       | reference field                  | target entity type      | target expose name       | target link name           | source link name                            | testing ID                             | reference value                        | new valid value                        |
-        | "educationOrganization"                 | "educationOrganizations"                 | "parentEducationAgencyReference" | "educationOrganization" | "educationOrganizations" | "getParentEducationOrganization"  | "getFeederEducationOrganizations" | "b2c6e292-37b0-4148-bf75-c98a2fcc905f" | "b1bd3db6-d020-4651-b1b8-a8dba688d9e1" | "bd086bae-ee82-4cf2-baf9-221a9407ea07" |
         | "section"                               | "sections"                               | "sessionId"                      | "session"               | "sessions"               | "getSession"               | "getSections"                               | "ceffbb26-1327-4313-9cfc-1c3afd38122e_id" | "1cb50f82-7200-441a-a1b6-02d6532402a0" | "62101257-592f-4cbe-bcd5-b8cd24a06f73" |
         | "section"                               | "sections"                               | "courseOfferingId"               | "courseOffering"        | "courseOfferings"        | "getCourseOffering"        | "getSections"                               | "ceffbb26-1327-4313-9cfc-1c3afd38122e_id" | "01ba881f-ae39-4b76-920e-42bc7e8769d7" | "c5b80f7d-93c5-11e1-adcc-101f74582c4c" |
         | "studentGradebookEntry"                 | "studentGradebookEntries"                | "studentId"                      | "student"               | "students"               | "getStudent"               | "getStudentGradebookEntries"                | "0f5e6f78-5434-f906-e51b-d63ef970ef8f" | "5738d251-dd0b-4734-9ea6-417ac9320a15_id" | "ae479bef-eb57-4c2e-8896-84983b1d4ed2_id" |
         | "studentGradebookEntry"                 | "studentGradebookEntries"                | "sectionId"                      | "section"               | "sections"               | "getSection"               | "getStudentGradebookEntries"                | "0f5e6f78-5434-f906-e51b-d63ef970ef8f" | "ceffbb26-1327-4313-9cfc-1c3afd38122e_id" | "8ed12459-eae5-49bc-8b6b-6ebe1a56384f_id" |
+
+Scenario Outline: Confirm all known list reference fields generate two valid links that are implemented and update-able
+   Given format "application/vnd.slc+json"
+     And the sli securityEvent collection is empty
+     And referring collection <source entity type> exposed as <source expose name>
+     And referring field <reference field> with value <reference value>
+     And referred collection <target entity type> exposed as <target expose name>
+     And the link from references to referred entity is <target link name>
+     And the link from referred entity to referring entities is <source link name>
+     And the ID to use for testing is <testing ID>
+     And the ID to use for testing a valid update is <new valid value>
+    When I navigate to GET "/<REFERRING COLLECTION URI>/<REFERRING ENTITY ID>"
+    Then I should receive a link named <target link name>
+    When I navigate to GET the link named <target link name>
+    Then I should receive a return code of 200
+     And "entityType" should be <target entity type>
+     And I should receive a link named <source link name>
+    When I navigate to GET the link named <source link name>
+    Then I should receive a return code of 200
+     And each entity's "entityType" should be <source entity type>
+    When I navigate to GET "/<REFERRING COLLECTION URI>/<REFERRING ENTITY ID>"
+     And I set the <reference field> to "<INVALID REFERENCE>"
+     And I navigate to PUT "/<REFERRING COLLECTION URI>/<REFERRING ENTITY ID>"
+    Then I should receive a return code of 403
+     And a security event matching "^Access Denied" should be in the sli db
+     And I check to find if record is in sli db collection:
+       | collectionName      | expectedRecordCount | searchParameter       | searchValue                           |
+       | securityEvent       | 1                   | body.userEdOrg        | IL-DAYBREAK                           |
+# us5758 targetEdOrg should be tested elsewhere (perhaps this sec evt entirely) since it is not consistent for all Examples below
+    When I set the <reference field> array to <new valid value>
+     And I navigate to PUT "/<REFERRING COLLECTION URI>/<REFERRING ENTITY ID>"
+    Then I should receive a return code of 204
+    When I navigate to GET "/<REFERRING COLLECTION URI>/<REFERRING ENTITY ID>"
+    Then <reference field> should contain <new valid value>
+     And I should receive a link named <target link name>
+    When I navigate to GET the link named <target link name>
+    Then "id" should be "<NEW VALID VALUE>"
+     And "entityType" should be <target entity type>
+    Examples:
+        | source entity type                      | source expose name                       | reference field                  | target entity type      | target expose name       | target link name           | source link name                            | testing ID                             | reference value                        | new valid value                        |
+        | "educationOrganization"                 | "educationOrganizations"                 | "parentEducationAgencyReference" | "educationOrganization" | "educationOrganizations" | "getParentEducationOrganization"  | "getFeederEducationOrganizations" | "b2c6e292-37b0-4148-bf75-c98a2fcc905f" | "b1bd3db6-d020-4651-b1b8-a8dba688d9e1" | "bd086bae-ee82-4cf2-baf9-221a9407ea07" |
 
 Scenario Outline: Confirm all known reference fields generate two valid links that are implemented and the natural keys are not update-able
    Given format "application/vnd.slc+json"

@@ -137,8 +137,8 @@ Then /^the "([^\"]*)" should be "([^\"]*)"$/ do |arg1, arg2|
     assert(@result[arg1].to_s == arg2, "Expected data incorrect: Expected #{arg2} but got #{@result[arg1]}")
   end
 end
-                                
-                                
+
+
  Then /^the "name" should be "([^\"]*)" "([^\"]*)" "([^\"]*)"$/ do |first_name, middle_name, last_name|
   @result = @res if !defined? @result
   assert(@result["name"] != nil, "Name is nil")
@@ -191,6 +191,14 @@ Then /^"([^"]*)" should be "([^"]*)"$/ do |key, value|
   else
     assert(@result[key] == convert(value), "Expected #{key} to equal #{value}, received #{@result[key]}")
   end
+end
+
+Then /^"([^"]*)" should contain "([^"]*)"$/ do |key, value|
+  assert(@result != nil, "Response contains no data")
+  assert(@result.is_a?(Hash), "Response contains #{@result.class}, expected Hash")
+  assert(@result.has_key?(key), "Response does not contain key #{key}")
+  assert(@result[key].is_a?(Array), "Response value is not an array for #{key}. Consider \"XXX should be XXX\" step.")
+  assert(@result[key].include?(value), "Expected (array2) #{key} to contain #{value}, received #{@result[key]}")
 end
 
 Then /^the response should contain the appropriate fields and values$/ do
