@@ -64,7 +64,7 @@ Scenario: Delete SEA with cascade = false and force = false, log violations = tr
 	Then there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "educationOrganization"
 	|field                                                           |value                                                |
 	|_id                                                             |884daa27d806c2d725bc469b273d840493f84b4d_id          |
-	Then there exist "2" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "parentEducationOrganizationAgencyReference"
+	Then there exist "4" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "parentEducationOrganizationAgencyReference"
 	|field                                                           |value                                                |
 	|body.parentEducationAgencyReference                             |884daa27d806c2d725bc469b273d840493f84b4d_id          |
 	Then there exist "3" "graduationPlan" records like below in "Midgar" tenant. And I save this query as "graduationPlan"
@@ -73,7 +73,7 @@ Scenario: Delete SEA with cascade = false and force = false, log violations = tr
 	Then there exist "136" "staffEducationOrganizationAssociation" records like below in "Midgar" tenant. And I save this query as "staffEducationOrganizationAssociation"
 	|field                                                           |value                                                |
 	|body.educationOrganizationReference                             |884daa27d806c2d725bc469b273d840493f84b4d_id          |
-	Then there exist "3" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "schoolLineage"
+	Then there exist "5" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "schoolLineage"
 	|field                                                           |value                                                |
 	|metaData.edOrgs                                                 |884daa27d806c2d725bc469b273d840493f84b4d_id          |
     And I save the collection counts in "Midgar" tenant
@@ -89,8 +89,8 @@ Scenario: Delete SEA with cascade = false and force = false, log violations = tr
     And I should not see a warning log file created
 	And I should see "CORE_0066" in the resulting error log file for "InterchangeEducationOrganization.xml"
 	And I re-execute saved query "educationOrganization" to get "1" records
-	And I re-execute saved query "parentEducationOrganizationAgencyReference" to get "2" records
-	And I re-execute saved query "schoolLineage" to get "3" records
+	And I re-execute saved query "parentEducationOrganizationAgencyReference" to get "4" records
+	And I re-execute saved query "schoolLineage" to get "5" records
 	And I re-execute saved query "staffEducationOrganizationAssociation" to get "136" records
     And I re-execute saved query "graduationPlan" to get "3" records
 	And I see that collections counts have changed as follows in tenant "Midgar"
@@ -159,7 +159,7 @@ Scenario: Delete SEA with cascade = false and force = true, log violations = tru
 	Then there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "educationOrganization"
 	|field                                                           |value                                                |
 	|_id                                                             |884daa27d806c2d725bc469b273d840493f84b4d_id          |
-	Then there exist "2" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "parentEducationOrganizationAgencyReference"
+	Then there exist "4" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "parentEducationOrganizationAgencyReference"
 	|field                                                           |value                                                |
 	|body.parentEducationAgencyReference                             |884daa27d806c2d725bc469b273d840493f84b4d_id          |
 	Then there exist "3" "graduationPlan" records like below in "Midgar" tenant. And I save this query as "graduationPlan"
@@ -168,7 +168,7 @@ Scenario: Delete SEA with cascade = false and force = true, log violations = tru
 	Then there exist "136" "staffEducationOrganizationAssociation" records like below in "Midgar" tenant. And I save this query as "staffEducationOrganizationAssociation"
 	|field                                                           |value                                                |
 	|body.educationOrganizationReference                             |884daa27d806c2d725bc469b273d840493f84b4d_id          |
-	Then there exist "3" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "schoolLineage"
+	Then there exist "5" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "schoolLineage"
 	|field                                                           |value                                                |
 	|metaData.edOrgs                                                 |884daa27d806c2d725bc469b273d840493f84b4d_id          |
     And I save the collection counts in "Midgar" tenant
@@ -185,7 +185,7 @@ Scenario: Delete SEA with cascade = false and force = true, log violations = tru
     And I should not see an error log file created
 	And I should see "CORE_0066" in the resulting warning log file for "InterchangeEducationOrganization.xml"
 	And I re-execute saved query "educationOrganization" to get "0" records
-	And I re-execute saved query "parentEducationOrganizationAgencyReference" to get "2" records
+	And I re-execute saved query "parentEducationOrganizationAgencyReference" to get "4" records
 	And I re-execute saved query "schoolLineage" to get "0" records
 	And I re-execute saved query "staffEducationOrganizationAssociation" to get "136" records
     And I re-execute saved query "graduationPlan" to get "3" records
@@ -204,7 +204,7 @@ Scenario: Delete SEA Ref with cascade = false and force = true, log violations =
 	Then there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "educationOrganization"
 	|field                                                           |value                                                |
 	|_id                                                             |884daa27d806c2d725bc469b273d840493f84b4d_id          |
-	Then there exist "2" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "parentEducationOrganizationAgencyReference"
+	Then there exist "4" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "parentEducationOrganizationAgencyReference"
 	|field                                                           |value                                                |
 	|body.parentEducationAgencyReference                             |884daa27d806c2d725bc469b273d840493f84b4d_id          |
 	Then there exist "3" "graduationPlan" records like below in "Midgar" tenant. And I save this query as "graduationPlan"
@@ -213,7 +213,7 @@ Scenario: Delete SEA Ref with cascade = false and force = true, log violations =
 	Then there exist "136" "staffEducationOrganizationAssociation" records like below in "Midgar" tenant. And I save this query as "staffEducationOrganizationAssociation"
 	|field                                                           |value                                                |
 	|body.educationOrganizationReference                             |884daa27d806c2d725bc469b273d840493f84b4d_id          |
-	Then there exist "3" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "schoolLineage"
+	Then there exist "5" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "schoolLineage"
 	|field                                                           |value                                                |
 	|metaData.edOrgs                                                 |884daa27d806c2d725bc469b273d840493f84b4d_id          |
     And I save the collection counts in "Midgar" tenant
@@ -230,7 +230,7 @@ Scenario: Delete SEA Ref with cascade = false and force = true, log violations =
     And I should not see an error log file created
 	And I should see "CORE_0066" in the resulting warning log file for "InterchangeEducationOrganization.xml"
 	And I re-execute saved query "educationOrganization" to get "0" records
-	And I re-execute saved query "parentEducationOrganizationAgencyReference" to get "2" records
+	And I re-execute saved query "parentEducationOrganizationAgencyReference" to get "4" records
 	And I re-execute saved query "schoolLineage" to get "0" records
 	And I re-execute saved query "staffEducationOrganizationAssociation" to get "136" records
     And I re-execute saved query "graduationPlan" to get "3" records
