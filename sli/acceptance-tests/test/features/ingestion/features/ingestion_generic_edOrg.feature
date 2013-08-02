@@ -265,10 +265,10 @@ Feature: Generic EdOrg Ingestion
         | value                                       |
         | 2e68cac9a6a00c44a2f314219794859b4b503e6e_id |
     And there are only the following in the "metaData.edOrgs" of the "educationOrganization" collection for id "3657ac93276c35e866e0b20b523dcca6c807cc81_id" on the "Midgar" tenant
-       | value                                       |
-       | 2a05470ef1a2eacb408513fc646b8f39f1d9cd61_id |
-       | 3657ac93276c35e866e0b20b523dcca6c807cc81_id |
-       | 2e68cac9a6a00c44a2f314219794859b4b503e6e_id |
+        | value                                       |
+        | 2a05470ef1a2eacb408513fc646b8f39f1d9cd61_id |
+        | 3657ac93276c35e866e0b20b523dcca6c807cc81_id |
+        | 2e68cac9a6a00c44a2f314219794859b4b503e6e_id |
     And there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "Cycle 4"
         | field                               | value                                       |
         | _id                                 | 2e68cac9a6a00c44a2f314219794859b4b503e6e_id |
@@ -346,9 +346,6 @@ Feature: Generic EdOrg Ingestion
         | field                               | value                                       |
         | _id                                 | e6972a8edb280114d26b1c4b919801f73c21232e_id |
         | body.stateOrganizationId            | South Daybreak Elementary 2                 |
-        | metaData.edOrgs                     | e6972a8edb280114d26b1c4b919801f73c21232e_id |
-        | metaData.edOrgs                     | c58b7bec2c0a9496e9e6f3b85426cd2f65f23ec4_id |
-        | metaData.edOrgs                     | 884daa27d806c2d725bc469b273d840493f84b4d_id |
     And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "e6972a8edb280114d26b1c4b919801f73c21232e_id" on the "Midgar" tenant
         | value  |
         | School |
@@ -394,8 +391,6 @@ Feature: Generic EdOrg Ingestion
         | body.gradesOffered                  | Fourth grade                                |
         | body.gradesOffered                  | Fifth grade                                 |
         | body.LEACategory                    | Independent                                 |
-       #| metaData.edOrgs                     | de66bbfafd994193ae6aaf019ecfa14825c32575_id |
-       #| metaData.edOrgs                     | 884daa27d806c2d725bc469b273d840493f84b4d_id |
     And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "de66bbfafd994193ae6aaf019ecfa14825c32575_id" on the "Midgar" tenant
         | value                        |
         | Other Local Education Agency |
@@ -421,8 +416,6 @@ Feature: Generic EdOrg Ingestion
        | body.gradesOffered                  | Fourth grade                                |
        | body.gradesOffered                  | Fifth grade                                 |
        | body.LEACategory                    | Independent                                 |
-      | metaData.edOrgs                     | eef4f5ddc466beb3ad5136587731f9350fd398ec_id |
-      | metaData.edOrgs                     | 884daa27d806c2d725bc469b273d840493f84b4d_id |
     And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "eef4f5ddc466beb3ad5136587731f9350fd398ec_id" on the "Midgar" tenant
        | value                  |
        | Local Education Agency |
@@ -462,7 +455,7 @@ Feature: Generic EdOrg Ingestion
     When I post "NegativeGenericEdOrg.zip" file as the payload of the ingestion job
     And zip file is scp to ingestion landing zone
     Then a batch job for file "NegativeGenericEdOrg.zip" is completed in database
-    #self refercing case
+    #self referencing case
     And I should see "CORE_0006" in the resulting error log file for "InterchangeEducationOrganization.xml"
     And I should not see a warning log file created
 
