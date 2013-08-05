@@ -85,13 +85,10 @@ class StateEducationAgency < BaseEntity
   def get_address
         address = {}
         begin
-            address[:line_one] = @rand.rand(1000).to_s + " " + DataUtility.select_random_from_options(@rand, BaseEntity.demographics['street'])
-            address[:city] = BaseEntity.demographics['city']
-            address[:state] = BaseEntity.demographics['state']
-            address[:postal_code] = BaseEntity.demographics['postalCode']
-            rescue NameError
-            # occurs when @@d in BaseEntity hasn't been initialized (will happen during testing)
-            return nil
+            address[:line_one] = "123 Street"
+            address[:city] = "Chicago"
+            address[:state] = "IL"
+            address[:postal_code] = "00000"
         end
         address
   end    

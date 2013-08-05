@@ -67,7 +67,7 @@ Scenario Outline: Confirm all known reference fields generate two valid links th
         | "section"                               | "sections"                               | "courseOfferingId"               | "courseOffering"        | "courseOfferings"        | "getCourseOffering"        | "getSections"                               | "15ab6363-5509-470c-8b59-4f289c224107_id" | "88ddb0c4-1787-4ed8-884e-96aa774e6d42" | "00291269-33e0-415e-a0a4-833f0ef38189" |
         | "studentGradebookEntry"                 | "studentGradebookEntries"                | "studentId"                      | "student"               | "students"               | "getStudent"               | "getStudentGradebookEntries"                | "d9a593c2-c974-4071-b91b-3289012388a9" | "bf88acdb-71f9-4c19-8de8-2cdc698936fe_id" | "0f0d9bac-0081-4900-af7c-d17915e02378_id" |
         #| "studentGradebookEntry"                 | "studentGradebookEntries"                | "sectionId"                      | "section"               | "sections"               | "getSection"               | "getStudentGradebookEntries"                | "20120613-5434-f906-e51b-d63ef970ef8f" | "0dbb262b-8a3e-4a7b-82f9-72de95903d91_id" | "15ab6363-5509-470c-8b59-4f289c224107_id" |
-
+@wip
 Scenario Outline: Confirm all known reference fields generate two valid links that are implemented and the natural keys are not update-able
    Given format "application/vnd.slc+json"
      #And the sli securityEvent collection is empty
@@ -120,7 +120,7 @@ Scenario Outline: Confirm all known reference fields generate two valid links th
         | "section"                               | "sections"                               | "schoolId"                       | "school"                    | "schools"                    | "getSchool"                      | "getSections"                | "47b5adbf-6fd0-4f07-ba5e-39612da2e234_id" | "6756e2b9-aba1-4336-80b8-4a5dde3c63fe" | "92d6d5a0-852c-45f4-907a-912752831772" |
         | "studentGradebookEntry"                 | "studentGradebookEntries"                | "gradebookEntryId"               | "gradebookEntry"            | "gradebookEntries"           | "getGradebookEntry"              | "getStudentGradebookEntries" | "d9a593c2-c974-4071-b91b-3289012388a9" | "15ab6363-5509-470c-8b59-4f289c224107_ide49dc00c-182d-4f22-7919-201211130004_id" | "47b5adbf-6fd0-4f07-ba5e-39612da2e234_id008fd89d-88a2-43aa-8af1-74ac16a29380_id" |
         | "cohort"                                | "cohorts"                                | "educationOrgId"                 | "educationOrganization"     | "educationOrganizations"     | "getEducationOrganization"       | "getCohorts"                 | "f95269af-cb73-4694-7919-201211130010_id" | "6756e2b9-aba1-4336-80b8-4a5dde3c63fe" | "92d6d5a0-852c-45f4-907a-912752831772" |
-
+@wip
 Scenario Outline: Confirm all association generate one valid links that is implemented and update-able
    Given format "application/vnd.slc+json"
      #And the sli securityEvent collection is empty
@@ -161,7 +161,7 @@ Scenario Outline: Confirm all association generate one valid links that is imple
         | source entity type                      | source expose name                       | reference field                  | target entity type      | target expose name       | target link name           | source link name                            | testing ID                             | reference value                        | new valid value                        |
         | "courseOffering"                        | "courseOfferings"                        | "courseId"                       | "course"                | "courses"                | "getCourse"                | "getCourseOfferings"                        | "b360e8e8-54d1-4b00-952a-b817f91035ed" | "52038025-1f18-456a-884e-d2e63f9a02f4" | "75de6e74-a2e0-47da-ad1e-df1c833af92c" |
         | "courseTranscript"                      | "courseTranscripts"                      | "studentId"                      | "student"               | "students"               | "getStudent"               | "getCourseTranscripts"                      | "36aeeabf-ee9b-46e6-7919-201311130015" | "0c2756fd-6a30-4010-af79-488d6ef2735a_id" | "ae479bef-eb57-4c2e-8896-84983b1d4ed2_id" |
-
+@wip
 Scenario Outline: Confirm all association generate one valid links that is implemented and natural keys are not update-able
    Given format "application/vnd.slc+json"
      #And the sli securityEvent collection is empty

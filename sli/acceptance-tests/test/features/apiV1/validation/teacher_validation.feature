@@ -131,7 +131,7 @@ Scenario: Passing blank object to a valid entity with PUT should fail with valid
     When I create a blank request body object
       And I navigate to PUT "/v1/students/<'Christoff' ID>"
     Then I should receive a return code of 409
-
+@wip
 Scenario: Given a known school object, perform a PUT with a base school object to confirm option attributes are gone (test non-patching)
 	Given format "application/json"
     When I navigate to GET "/v1/schools/<'Daybreak Central High' ID>"

@@ -197,7 +197,7 @@ Scenario: Verify use of generic Education Organization
        | field                               | value                                       |
        | _id                                 | a13489364c2eb015c219172d561c62350f0453f3_id |
        | body.stateOrganizationId            | Daybreak Central High                       |
-      #| type                                | educationOrganization                       |
+       | type                                | educationOrganization                       |
     And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "a13489364c2eb015c219172d561c62350f0453f3_id" on the "Midgar" tenant
        | value                  |
        | School                 |
@@ -214,7 +214,7 @@ Scenario: Verify use of generic Education Organization
        | field                               | value                                       |
        | _id                                 | 352e8570bd1116d11a72755b987902440045d346_id |
        | body.stateOrganizationId            | South Daybreak Elementary                   |
-      #| type                                | educationOrganization                       |
+       | type                                | educationOrganization                       |
     And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "352e8570bd1116d11a72755b987902440045d346_id" on the "Midgar" tenant
        | value                  |
        | School                 |
@@ -231,7 +231,7 @@ Scenario: Verify use of generic Education Organization
        | field                               | value                                       |
        | _id                                 | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
        | body.stateOrganizationId            | East Daybreak Junior High                   |
-      #| type                                | educationOrganization                       |
+       | type                                | educationOrganization                       |
     And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id" on the "Midgar" tenant
        | value                  |
        | School                 |
@@ -248,7 +248,7 @@ Scenario: Verify use of generic Education Organization
        | field                               | value                                       |
        | _id                                 | 880572db916fa468fbee53a68918227e104c10f5_id |
        | body.stateOrganizationId            | 5                                           |
-      #| type                                | educationOrganization                       |
+       | type                                | educationOrganization                       |
     And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "880572db916fa468fbee53a68918227e104c10f5_id" on the "Midgar" tenant
        | value                  |
        | Local Education Agency |
@@ -260,7 +260,7 @@ Scenario: Verify use of generic Education Organization
        | field                               | value                                       |
        | _id                                 | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
        | body.stateOrganizationId            | IL-DAYBREAK                                 |
-      #| type                                | educationOrganization                       |
+       | type                                | educationOrganization                       |
     And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "1b223f577827204a1c7e9c851dba06bea6b031fe_id" on the "Midgar" tenant
        | value                  |
        | Local Education Agency |
@@ -272,7 +272,7 @@ Scenario: Verify use of generic Education Organization
        | field                               | value                                       |
        | _id                                 | 884daa27d806c2d725bc469b273d840493f84b4d_id |
        | body.stateOrganizationId            | STANDARD-SEA                                 |
-      #| type                                | educationOrganization                       |
+       | type                                | educationOrganization                       |
     And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "884daa27d806c2d725bc469b273d840493f84b4d_id" on the "Midgar" tenant
        | value                  |
        | State Education Agency |

@@ -67,7 +67,7 @@ Examples:
     |Username|Password    |Realm|School                     |Data|
     |"agibbs"|"agibbs1234"|"NY" |"Dawn Elementary"          |"Dale Reiss"|
     |"akopel"|"akopel1234"|"IL" |"South Daybreak Elementary"|"Lavern Chaney"|
-
+@wip
 Scenario Outline: Aggregate Viewer getting their available school data
 
 Given I am logged in using <Username> <Password> to realm <Realm>

@@ -53,7 +53,12 @@ class EntityTracker
   end
 
   def count(entity_type)
-    @counts[lookup_edfi(entity_type)]
+    entity_name =  lookup_edfi(entity_type)
+    if entity_name == "LocalEducationAgency" || entity_name == "StateEducationAgency" || entity_name == "School"
+      @counts["EducationOrganization"]
+    else
+      @counts[entity_name]
+    end
   end
 
   def clear
