@@ -78,6 +78,7 @@ And the group "New Custom" contains the "right" rights "Read General"
 And the user "custom" in tenant "IL" can access the API with rights "Read General"
 When I edit the group "New Custom"
 When I remove the right "TEACHER_CONTEXT" from the group "New Custom"
+And I wait for "1" seconds
 When I remove the right "READ_GENERAL" from the group "New Custom"
 And I wait for "1" seconds
 Then I am informed that I must have at least one role and right in the group
