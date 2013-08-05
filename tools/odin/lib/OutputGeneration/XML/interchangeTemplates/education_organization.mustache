@@ -21,7 +21,7 @@ limitations under the License.
       <ID>{{ed_org_id_code}}</ID>
     </EducationOrgIdentificationCode>
     {{/ed_org_id_code}}
-    <NameOfInstitution>{{state_org_id}} School District</NameOfInstitution>
+    <NameOfInstitution>{{state_org_id}}</NameOfInstitution>
     {{#short_name}}
     <ShortNameOfInstitution>{{short_name}}</ShortNameOfInstitution>
     {{/short_name}}
@@ -41,6 +41,9 @@ limitations under the License.
       <City>{{city}}</City>
       <StateAbbreviation>{{state}}</StateAbbreviation>
       <PostalCode>{{postal_code}}</PostalCode>
+      {{#county}}
+      <NameOfCounty>{{county}}</NameOfCounty>
+      {{/county}}
     </Address>
     {{/address}}
     {{#telephone}}
@@ -81,11 +84,11 @@ limitations under the License.
     {{/grades}}
     </GradesOffered>
     {{/gradesOffered}}
-    {{#schoolCatetories}}
+    {{#type}}
     <SchoolCategories>
         <SchoolCategory>{{type}}</SchoolCategory>
     </SchoolCategories>
-    {{/schoolCatetories}}
+    {{/type}}
     {{#schoolType}}
         <SchoolType>{{schoolType}}</SchoolType>
     {{/schoolType}}

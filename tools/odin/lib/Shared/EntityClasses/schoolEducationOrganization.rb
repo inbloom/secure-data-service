@@ -28,6 +28,7 @@ class School < BaseEntity
     :grades,
     :parent_id,
     :address,
+    :telephone,
     :programs,
     :schoolType,
     :charterStatus,
@@ -44,7 +45,8 @@ class School < BaseEntity
       @parent_id = DataUtility.get_local_education_agency_id(parent_id)
     end
     @address   = get_address
-    @type      = type
+    @telephone = "(917)-555-0212"
+    @type = type
     @grades    = []
     if @type == "elementary"
       if id.kind_of? String
@@ -126,13 +128,11 @@ class School < BaseEntity
   def get_address
         address = {}
         begin
-            address[:line_one] = @rand.rand(1000).to_s + " " + DataUtility.select_random_from_options(@rand, BaseEntity.demographics['street'])
-            address[:city] = BaseEntity.demographics['city']
-            address[:state] = BaseEntity.demographics['state']
-            address[:postal_code] = BaseEntity.demographics['postalCode']
-            rescue NameError
-            # occurs when @@d in BaseEntity hasn't been initialized (will happen during testing)
-            return nil
+            address[:line_one] = "111 Ave A"
+            address[:city] = "Chicago"
+            address[:state] = "IL"
+            address[:postal_code] = "11011"
+            address[:county] = "Wake"
         end
         address
   end

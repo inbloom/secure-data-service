@@ -78,6 +78,7 @@ class LocalEducationAgency < BaseEntity
   attr_accessor :org_category   # maps to 'OrganizationCategory'
   attr_accessor :address        # maps to 'Address'
   attr_accessor :programs       # maps to 'ProgramReference'
+  attr_accessor :lea_category   # maps to 'LEACategory
   
   # optional fields
   attr_accessor :ed_org_id_code # maps to 'EducationOrgIdentificationCode'
@@ -103,6 +104,7 @@ class LocalEducationAgency < BaseEntity
     @programs       = programs
     @parent_id      = sea_parent_id
     @org_category   = "Local Education Agency"
+    @lea_category   = "Independent"
 
     # leave sea parent above get_accountability_ratings --> current rating organization
     optional { @ed_org_id_code = @state_org_id }
