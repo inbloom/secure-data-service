@@ -280,34 +280,8 @@ public class CustomRoleResource {
                     rightsSet.add(right);
                 }
             }
-
-            boolean validContextRight = validateContextRights(rightsSet);
-            boolean isStudent = !Collections.disjoint(rightsSet, Right.STUDENT_RIGHTS);
-
-            if(!validContextRight && !isStudent) {
-                return buildBadRequest(ERROR_INVALID_CONTEXT_RIGHT);
-            }
-
-            if (validContextRight && isStudent) {
-                return buildBadRequest(ERROR_INVALID_STUDENT_RIGHT);
-            }
-
-
         }
         return null;
-    }
-
-    private boolean validateContextRights(Set<Right> rightsSet) {
-        if (rightsSet.contains(Right.TEACHER_CONTEXT)){
-            return !rightsSet.contains(Right.STAFF_CONTEXT);
-        }
-
-        if (rightsSet.contains(Right.STAFF_CONTEXT)){
-            return !rightsSet.contains(Right.TEACHER_CONTEXT);
-        }
-
-        //context right is required
-        return false;
     }
 
     private Response validateUniqueRoles(EntityBody customRoleDoc) {

@@ -77,9 +77,8 @@ jQuery ->
   
 enableSaveButtonIfPossible = (tr)  ->
   roles = getRoles(tr)  
-  rights = getRights(tr)
-  if ((roles.length > 0) && ((rights.length > 1) || (((rights.length == 1) && 
-      (rights.indexOf("TEACHER_CONTEXT") < 0) && (rights.indexOf("STAFF_CONTEXT") < 0)))))
+  rights = getRights(tr)  
+  if roles.length > 0 && rights.length > 0
     tr.find(".rowEditToolSaveButton").removeClass("disabled")
     tr.find(".rowEditToolSaveButton").removeAttr('disabled')
     
@@ -146,8 +145,7 @@ populateRightComboBox = (tr) ->
       $(@).remove()
 
   for right in defaultRights
-    if ((curRights.indexOf(right) < 0) && (((right != "TEACHER_CONTEXT") || (curRights.indexOf("STAFF_CONTEXT") < 0)) && \
-        ((right != "STAFF_CONTEXT") || (curRights.indexOf("TEACHER_CONTEXT") < 0))))
+    if (curRights.indexOf(right) < 0)
       $("#addRightUi select").append($("<option></option>").val(right).text(right))
 
   for right in selfRights
@@ -162,11 +160,8 @@ wrapInputWithDeleteButton = (input, type, name) ->
     label = button.parent().parent().find('.editable')
     if label.hasClass('right')
       rights = getRights(label.parents("tr"))
-      # Disable the save button if the context right was deleted.
-      right = input.text()
-      if ((containsLastNonContextRight(rights) || (rights.length == 1)) && notContextRight(right))
-        return alert("Role group must contain at least one non-contextual right.")
-
+      if rights.length <= 1
+        return alert("Role group must contain at least one right.")
 
     if label.hasClass('role')
       roles = getRoles(label.parents("tr"))
@@ -183,12 +178,6 @@ wrapInputWithDeleteButton = (input, type, name) ->
   input.wrap("<" + type + "/>").parent().css("white-space", "nowrap")
   input.parent().append(div)
   return input.parent()
-
-containsLastNonContextRight = (rights) ->
-   return (rights.length == 2) && ((rights.indexOf("TEACHER_CONTEXT") >= 0) || (rights.indexOf("STAFF_CONTEXT") >= 0))
-
-notContextRight = (right) ->
-  return (right != "TEACHER_CONTEXT") && (right != "STAFF_CONTEXT")
 
 editRowStop = (tr) ->
   disableButton($(".rowEditToolSaveButton"))
