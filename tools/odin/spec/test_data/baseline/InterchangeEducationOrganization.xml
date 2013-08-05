@@ -38,6 +38,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>70</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
+    <GradesOffered>
+    </GradesOffered>
 </EducationOrganization>
   <Course>
     <CourseTitle>Kindergarten</CourseTitle>
@@ -1381,6 +1383,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </ProgramIdentity>
     </ProgramReference>
     <LEACategory>Independent</LEACategory>
+    <GradesOffered>
+    </GradesOffered>
 </EducationOrganization>
   <EducationOrganization>
     <StateOrganizationId>5</StateOrganizationId>
@@ -1430,9 +1434,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </ProgramIdentity>
     </ProgramReference>
     <LEACategory>Independent</LEACategory>
+    <GradesOffered>
+    </GradesOffered>
 </EducationOrganization>
   <EducationOrganization>
     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="SEA">
+      <ID>South Daybreak Elementary</ID>
+    </EducationOrgIdentificationCode>
     <NameOfInstitution>South Daybreak Elementary</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>School</OrganizationCategory>
@@ -1507,12 +1516,23 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>11</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
+    <GradesOffered>
+        <GradeLevel>Kindergarten</GradeLevel>
+        <GradeLevel>First grade</GradeLevel>
+        <GradeLevel>Second grade</GradeLevel>
+        <GradeLevel>Third grade</GradeLevel>
+        <GradeLevel>Fourth grade</GradeLevel>
+        <GradeLevel>Fifth grade</GradeLevel>
+    </GradesOffered>
     <SchoolCategories>
         <SchoolCategory>Elementary School</SchoolCategory>
     </SchoolCategories>
 </EducationOrganization>
   <EducationOrganization>
     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="SEA">
+      <ID>East Daybreak Junior High</ID>
+    </EducationOrgIdentificationCode>
     <NameOfInstitution>East Daybreak Junior High</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>School</OrganizationCategory>
@@ -1627,12 +1647,20 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>30</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
+    <GradesOffered>
+        <GradeLevel>Sixth grade</GradeLevel>
+        <GradeLevel>Seventh grade</GradeLevel>
+        <GradeLevel>Eighth grade</GradeLevel>
+    </GradesOffered>
     <SchoolCategories>
         <SchoolCategory>Middle School</SchoolCategory>
     </SchoolCategories>
 </EducationOrganization>
   <EducationOrganization>
     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="SEA">
+      <ID>Daybreak Central High</ID>
+    </EducationOrgIdentificationCode>
     <NameOfInstitution>Daybreak Central High</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>School</OrganizationCategory>
@@ -1747,6 +1775,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>49</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
+    <GradesOffered>
+        <GradeLevel>Ninth grade</GradeLevel>
+        <GradeLevel>Tenth grade</GradeLevel>
+        <GradeLevel>Eleventh grade</GradeLevel>
+        <GradeLevel>Twelfth grade</GradeLevel>
+    </GradesOffered>
     <SchoolCategories>
         <SchoolCategory>High School</SchoolCategory>
     </SchoolCategories>

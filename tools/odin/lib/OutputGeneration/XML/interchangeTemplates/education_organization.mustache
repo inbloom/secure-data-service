@@ -77,13 +77,11 @@ limitations under the License.
     {{#lea_category}}
     <LEACategory>{{lea_category}}</LEACategory>
     {{/lea_category}}
-    {{#gradesOffered}}
     <GradesOffered>
-    {{#grades}}
+        {{#grades}}
         <GradeLevel>{{.}}</GradeLevel>
-    {{/grades}}
+        {{/grades}}
     </GradesOffered>
-    {{/gradesOffered}}
     {{#type}}
     <SchoolCategories>
         <SchoolCategory>{{type}}</SchoolCategory>

@@ -24,6 +24,7 @@ require_relative "enum/GradeLevelType.rb"
 class School < BaseEntity
 
   attr_accessor :state_org_id,
+    :ed_org_id_code,
     :org_category,
     :grades,
     :parent_id,
@@ -70,6 +71,7 @@ class School < BaseEntity
       end
       GradeLevelType.high.each { |level| @grades << GradeLevelType.to_string(level) }
     end
+    @ed_org_id_code = state_org_id
     @programs = programs
     @org_category = "School"
 
