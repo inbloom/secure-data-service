@@ -65,7 +65,6 @@ And the group "New Custom" contains the "right" rights "Read and Write General"
 And the user "custom" in tenant "IL" can access the API with rights "Read and Write General"
 And the group "New Custom" has the admin role box checked
 
-@wip
 @production
 Scenario: Remove rights from group
 When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
