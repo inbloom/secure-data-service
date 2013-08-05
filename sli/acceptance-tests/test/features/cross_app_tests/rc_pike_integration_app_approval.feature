@@ -42,84 +42,11 @@ And I should be on the admin page
 And I should not see "inBloom Data Browser"
 And I click on log out
 
-Scenario: App developer creates new Bulk Extract App
-When I navigate to the Portal home page
-When I see the realm selector I authenticate to the developer realm
-And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "<DEVELOPER_EMAIL>" "<DEVELOPER_EMAIL_PASS>" for the "Simple" login page    
-Then I should be on Portal home page
-Then I should see Admin link
-And I click on Admin
-Then I should be on the admin page
-And under System Tools, I click on "Register Application"
-And I switch to the iframe
-Then I am redirected to the Application Registration Tool page
-And I have clicked to the button New
-And I am redirected to a new application page
-When I entered the name "BulkExtractApp" into the field titled "Name"
-And I entered the name "Best.  Description.  Ever." into the field titled "Description"
-And I entered the name "0.0" into the field titled "Version"
-And I make my app an installed app
-And I check Bulk Extract
-And I click on the button Submit
-And I switch to the iframe
-Then I am redirected to the Application Registration Tool page
-And the application "BulkExtractApp" is listed in the table on the top
-And the client ID and shared secret fields are present
-And I exit out of the iframe
-And I click on log out
-
-Scenario: App developer enables Bulk Extract App
-When I navigate to the Portal home page
-When I see the realm selector I authenticate to the developer realm
-And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "<DEVELOPER_EMAIL>" "<DEVELOPER_EMAIL_PASS>" for the "Simple" login page    
-Then I should be on Portal home page
-Then I should see Admin link
-And I click on Admin
-Then I should be on the admin page
-And under System Tools, I click on "Register Application"
-And I switch to the iframe
-Then I am redirected to the Application Registration Tool page
-And I see an application "BulkExtractApp" in the table
-And the client ID and shared secret fields are present
-And I clicked on the button Edit for the application "BulkExtractApp"
-Then I can see the on-boarded states
-When I select the state "Standard State Education Agency"
-Then I see all of the Districts
-Then I check the Districts
-When I click on Save
-Then the "BulkExtractApp" is enabled for Districts
-And I exit out of the iframe
-And I click on log out
-
-@wip @ThisStepIsNotYetNeededSinceAutoApproveAppsIsStillTrueInRC
-Scenario: SLC Operator Approves Application Registration
-When I navigate to the Portal home page
-When I see the realm selector I authenticate to "inBloom"
-And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
-Then I should be on Portal home page
-Then I should see Admin link
-And I click on Admin
-Then I should be on the admin page
-And under System Tools, I click on "Approve Application Registration"
-And I switch to the iframe
-Then I am redirected to the Application Approval Tool page
-#And I see all the applications registered on SLI
-And I see all the applications pending registration
-And the pending apps are on top
-When I click on 'Approve' next to application "BulkExtractApp"
-Then application "BulkExtractApp" is registered
-And the 'Approve' button is disabled for application "BulkExtractApp"
-And I exit out of the iframe
-And I click on log out
-
 Scenario:  LEA approves Dashboard, Databrowser and Bulk Extract 2 End Applications
 When I navigate to the Portal home page
 When I see the realm selector I authenticate to "inBloom"
 And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "<SECONDARY_EMAIL>" "<SECONDARY_EMAIL_PASS>" for the "Simple" login page    
+When I submit the credentials "<SECONDARY_EMAIL>" "<SECONDARY_EMAIL_PASS>" for the "Simple" login page
 Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin
@@ -177,6 +104,92 @@ And I hit the save button
 Then I am no longer in edit mode
 And I switch to the iframe
 And the group "IT Administrator" contains the "right" rights "Bulk IT Administrator"
+And I exit out of the iframe
+And I click on log out
+
+Scenario: SEA admin makes an api call to PATCH the SEA
+  Given the pre-existing bulk extrac testing app key has been created
+  When I navigate to the API authorization endpoint with my client ID
+  And I select "Daybreak Test Realm" and click go
+  And I was redirected to the "Simple" IDP Login page
+  When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
+  Then I should receive a json response containing my authorization code
+  When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
+  Then I should receive a json response containing my authorization token
+  And I get the id for the edorg "STANDARD-SEA"
+  When I PATCH the name for the current edorg entity to Education Agency for RC Tests
+  Then I should receive a return code of 204
+
+Scenario: App developer creates new Bulk Extract App
+When I navigate to the Portal home page
+When I see the realm selector I authenticate to the developer realm
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "<DEVELOPER_EMAIL>" "<DEVELOPER_EMAIL_PASS>" for the "Simple" login page    
+Then I should be on Portal home page
+Then I should see Admin link
+And I click on Admin
+Then I should be on the admin page
+And under System Tools, I click on "Register Application"
+And I switch to the iframe
+Then I am redirected to the Application Registration Tool page
+And I have clicked to the button New
+And I am redirected to a new application page
+When I entered the name "BulkExtractApp" into the field titled "Name"
+And I entered the name "Best.  Description.  Ever." into the field titled "Description"
+And I entered the name "0.0" into the field titled "Version"
+And I make my app an installed app
+And I check Bulk Extract
+And I click on the button Submit
+And I switch to the iframe
+Then I am redirected to the Application Registration Tool page
+And the application "BulkExtractApp" is listed in the table on the top
+And the client ID and shared secret fields are present
+And I exit out of the iframe
+And I click on log out
+
+Scenario: App developer enables Bulk Extract App
+When I navigate to the Portal home page
+When I see the realm selector I authenticate to the developer realm
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "<DEVELOPER_EMAIL>" "<DEVELOPER_EMAIL_PASS>" for the "Simple" login page    
+Then I should be on Portal home page
+Then I should see Admin link
+And I click on Admin
+Then I should be on the admin page
+And under System Tools, I click on "Register Application"
+And I switch to the iframe
+Then I am redirected to the Application Registration Tool page
+And I see an application "BulkExtractApp" in the table
+And the client ID and shared secret fields are present
+And I clicked on the button Edit for the application "BulkExtractApp"
+Then I can see the on-boarded states
+When I select the state "Education Agency for RC Tests"
+Then I see all of the Districts
+Then I check the Districts
+When I click on Save
+Then the "BulkExtractApp" is enabled for Districts
+And I exit out of the iframe
+And I click on log out
+
+@wip @ThisStepIsNotYetNeededSinceAutoApproveAppsIsStillTrueInRC
+Scenario: SLC Operator Approves Application Registration
+When I navigate to the Portal home page
+When I see the realm selector I authenticate to "inBloom"
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
+Then I should be on Portal home page
+Then I should see Admin link
+And I click on Admin
+Then I should be on the admin page
+And under System Tools, I click on "Approve Application Registration"
+And I switch to the iframe
+Then I am redirected to the Application Approval Tool page
+#And I see all the applications registered on SLI
+And I see all the applications pending registration
+And the pending apps are on top
+When I click on 'Approve' next to application "BulkExtractApp"
+Then application "BulkExtractApp" is registered
+And the 'Approve' button is disabled for application "BulkExtractApp"
 And I exit out of the iframe
 And I click on log out
 
@@ -329,19 +342,6 @@ Scenario: Ingestion user ingests additional public entities
   And I check for the file "job-NewSimplePublicEntities*.log" every "6" seconds for "120" seconds
   Then I should not see an error log file created
   And I should not see a warning log file created
-
-Scenario: SEA admin makes an api call to PATCH the SEA
-  Given the pre-existing bulk extrac testing app key has been created
-  When I navigate to the API authorization endpoint with my client ID
-  And I select "Daybreak Test Realm" and click go
-  And I was redirected to the "Simple" IDP Login page
-  When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
-  Then I should receive a json response containing my authorization code
-  When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
-  Then I should receive a json response containing my authorization token
-  And I get the id for the edorg "STANDARD-SEA"
-  When I PATCH the postalCode for the current edorg entity to 11999
-  Then I should receive a return code of 204
 
 Scenario: App makes an api call to retrieve a bulk extract delta for the SEA
   #Get a session to trigger a bulk extract
