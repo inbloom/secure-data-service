@@ -32,10 +32,17 @@ class EntityTracker
 
   def track(entity)
     edfi_name = lookup_edfi(entity.class)
-    if edfi_name == "LocalEducationAgency" || edfi_name == "StateEducationAgency" || edfi_name == "School"
-      @counts["EducationOrganization"] += 1
+    if edfi_name == "LocalEducationAgency"
+      @counts["EducationOrganization-LEA"] += 1
+    elsif edfi_name == "StateEducationAgency"
+      @counts["EducationOrganization-SEA"] += 1
+    elsif edfi_name == "School"
+      @counts["EducationOrganization-School"] += 1
     else
       @counts[edfi_name] += 1
+    end
+    if edfi_name == "LocalEducationAgency" || edfi_name == "StateEducationAgency" || edfi_name == "School"
+      @counts["EducationOrganization"] += 1
     end
   end
 
@@ -53,7 +60,16 @@ class EntityTracker
   end
 
   def count(entity_type)
-    @counts[lookup_edfi(entity_type)]
+    entity =  lookup_edfi(entity_type)
+    if entity == "LocalEducationAgency"
+      @counts["EducationOrganization-LEA"]
+    elsif entity == "StateEducationAgency"
+      @counts["EducationOrganization-SEA"]
+    elsif entity == "School"
+      @counts["EducationOrganization-School"]
+    else
+      @counts[entity]
+    end
   end
 
   def clear
