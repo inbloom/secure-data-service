@@ -48,7 +48,7 @@ describe "Odin" do
             #doc.should be_equivalent_to(baseline)
             EquivalentXml.equivalent?(doc, baseline) { |n1, n2, result| 
               puts "\t failed to reproduce baseline document: #{f}" if result == false
-              #result.should be_true
+              result.should be_true
             }
           end
         end
