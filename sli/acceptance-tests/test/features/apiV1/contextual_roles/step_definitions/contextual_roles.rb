@@ -482,7 +482,6 @@ Given /^a valid json document for entity "([^"]*)"$/ do |entity|
   course_coll = db.collection('course')
   session_coll = db.collection('session')
   edorg_coll = db.collection('educationOrganization')
-  student_coll = db.collection('student')
   di_coll = db.collection('disciplineIncident')
   section_coll = db.collection('section')
   yt_coll = db.collection('yearlyTranscript')
@@ -530,6 +529,11 @@ Given /^a valid json document for entity "([^"]*)"$/ do |entity|
   student_di_ids = []
   student_dis.each {|entry| student_di_ids << entry['body']['disciplineIncidentId']}
   student_di_id = di_coll.find_one({'body.schoolId' => '2a30827ed4cf5500fb848512d19ad73ed37c4464_id', '_id' => {'$nin' => student_di_ids}})['_id']
+
+  program_id = edorg_coll.find_one({'_id' => '99a4ec9d3ba372993b2860a798b550c77bb73a09_id'})['body']['programReference'][0]
+
+  teacher_section_id = section_coll.find_one({'body.schoolId' => '2a30827ed4cf5500fb848512d19ad73ed37c4464_id',
+                                              'teacherSectionAssociation.body.teacherId' => {'$ne' => '7810ac678851ae29a450cc18bd9f47efa37bfaef_id'}})['_id']
 
   enable_NOTABLESCAN()
   conn.close
@@ -833,6 +837,26 @@ Given /^a valid json document for entity "([^"]*)"$/ do |entity|
         'sectionId' => gradebook_section['_id'],
         'beginDate' => '2012-01-01',
         'endDate' => '2012-01-02'
+    },
+
+    'staffCohortAssociation' => {
+        'staffId' => '3a780cebc8f98982f9b7a5d548fecff42ed8f2f1_id',
+        'cohortId' => cohort_id,
+        'beginDate' => '2008-07-06',
+        'studentRecordAccess' => false
+    },
+
+    'staffProgramAssociation' => {
+        'staffId' => '3a780cebc8f98982f9b7a5d548fecff42ed8f2f1_id',
+        'programId' => program_id,
+        'beginDate' => '2008-07-06',
+        'endDate' => '2012-02-29'
+    },
+
+    'teacherSectionAssociation' => {
+        'teacherId' => '7810ac678851ae29a450cc18bd9f47efa37bfaef_id',
+        'sectionId' => teacher_section_id,
+        'classroomPosition' => 'Assistant Teacher'
     }
 
   }
