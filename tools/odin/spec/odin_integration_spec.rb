@@ -176,9 +176,7 @@ describe "Odin" do
       it "will have the number of ed-fi entities specified in the manifest" do
         manifest.each{|type, count|
           entity_count = count_entities(interchanges, type)
-          if type != "EducationOrganization-SEA" && type != "EducationOrganization-LEA" && type != "EducationOrganization-School"
-            entity_count.should eq(count), "expected #{count} of type #{type}, but got #{entity_count}"
-          end
+          entity_count.should eq(count), "expected #{count} of type #{type}, but got #{entity_count}"
         }
       end
     end
