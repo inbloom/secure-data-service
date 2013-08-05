@@ -7,7 +7,7 @@ Feature: As an SLI application, I want to be able to support XML.
 Background: Nothing yet
   Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
   And format "application/xml"
-
+  @wip
   Scenario Outline: Getting response from GET - Read
     When I navigate to GET "/v1/<ENTITY URI>/<ENTITY ID>"
     Then I should receive a return code of 200
@@ -53,6 +53,7 @@ Scenario: Getting response from POST - Create (school)
   And I should see "<streetNumberName>" is "123 Main Street" for one of them
   And I should find 4 "<gradesOffered>"
 
+@wip
 Scenario: Getting response from PUT - Update (school)
   When I navigate to GET "/v1/schools/<SCHOOL ENTITY TO BE UPDATED>"
   Then I should see "<nameOfInstitution>" is "Sunset Central High School"
@@ -62,7 +63,7 @@ Scenario: Getting response from PUT - Update (school)
   When I navigate to GET "/v1/schools/<SCHOOL ENTITY TO BE UPDATED>"
   Then I should receive an XML document
   Then I should see "<nameOfInstitution>" is "Updated School Name"
-
+  @wip
   Scenario: Getting response from PUT - revert updated school name (school)
     When I navigate to GET "/v1/schools/<SCHOOL ENTITY TO BE UPDATED>"
     Then I should see "<nameOfInstitution>" is "Updated School Name"

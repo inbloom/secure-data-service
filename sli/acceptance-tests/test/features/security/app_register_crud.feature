@@ -21,7 +21,7 @@ Scenario: CRUD operations on Applications
 	Then I should receive a return code of 204
      And I should no longer be able to get that application's data
 
-
+@wip
 Scenario: CRUD on other developer's app
 	Given I am logged in using "developer" "developer1234" to realm "SLI"
     When I have a valid application entity

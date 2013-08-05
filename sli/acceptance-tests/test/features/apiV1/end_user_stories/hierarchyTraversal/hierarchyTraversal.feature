@@ -9,7 +9,7 @@ Feature: As an SLI application, I want to be able to traverse from education org
 
 Background:
     Given format "application/vnd.slc+json"
-
+@wip
 Scenario: Traverse from parent education organization through child education organization, school, session, course, section to a teacher as Staff
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
     When I navigate to GET "/v1/educationOrganizations/<'STATE EDUCATION ORGANIZATION' ID>"
@@ -21,7 +21,7 @@ Scenario: Traverse from parent education organization through child education or
     When I navigate to GET the link named "getFeederSchools" with "id" of "bd086bae-ee82-4cf2-baf9-221a9407ea07"
     Then I should receive a return code of 200
         And in an entity, I should receive a link named "self"
-    When I navigate to GET the link named "self" with "id" of "92d6d5a0-852c-45f4-907a-912752831772" 
+    When I navigate to GET the link named "self" with "id" of "92d6d5a0-852c-45f4-907a-912752831772"
     Then I should receive a return code of 200
        And I should receive a link named "getSessions"
     When I navigate to GET the link named "getSessions"
@@ -57,7 +57,7 @@ Scenario: Traverse from parent education organization through child education or
         And the "name" should be "Charles" "" "Gray"
         And "sex" should be "Male"
         And "highestLevelOfEducationCompleted" should be "No Degree"
-
+@wip
 Scenario: Traverse from parent education organization through child education organization, school, session, course, section to a student as Staff
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
     When I navigate to GET "/v1/educationOrganizations/<'STATE EDUCATION ORGANIZATION' ID>"
@@ -109,7 +109,7 @@ Scenario: Traverse from parent education organization through child education or
         And "economicDisadvantaged" should be "false"
         And "schoolFoodServicesEligibility" should be "Full price"
         And "limitedEnglishProficiency" should be "NotLimited"
-
+@wip
 Scenario: Traverse from parent education organization through child education organization, school, session, course, section to a teacher as Teacher
     Given I am logged in using "cgray" "cgray1234" to realm "IL"
     When I navigate to GET "/v1/educationOrganizations/<'STATE EDUCATION ORGANIZATION' ID>"
@@ -179,7 +179,7 @@ Scenario: Traverse from parent education organization through child education or
         And the "name" should be "Charles" "" "Gray"
         And "sex" should be "Male"
         And "highestLevelOfEducationCompleted" should be "No Degree"
-
+@wip
 Scenario: Traverse from parent education organization through child education organization, school, session, course, section to a student as Teacher
     Given I am logged in using "cgray" "cgray1234" to realm "IL"
     When I navigate to GET "/v1/educationOrganizations/<'STATE EDUCATION ORGANIZATION' ID>"

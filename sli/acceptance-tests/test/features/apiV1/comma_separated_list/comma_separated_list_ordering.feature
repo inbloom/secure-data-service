@@ -60,7 +60,7 @@ Feature: As an SLI application, I want to return the right order of entities.
    Examples:
      | STUDENT IDs ORDER                                         | CODE |
      | <MARVIN MILLER ID>,<MARVIN MILLER ID>,<INACCESSABLE ID>   | 403  |
-
+ @wip
  Scenario Outline: Validate CSL for each endpoint
  	    Given I am logged in using "jstevenson" "jstevenson1234" to realm "IL"
  	    When I navigate to GET "/v1/<ENDPOINT>/<ID1>"
