@@ -56,6 +56,9 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | studentParentAssociations               |
     | studentSectionAssociations              |
     | reportCards                             |
+    | staffCohortAssociations                 |
+    | staffProgramAssociations                |
+    | teacherSectionAssociations              |
 
   Scenario: Ensure GET can be performed on self entities with the proper rights
     And I log in as "msmith"
@@ -119,6 +122,9 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | studentParentAssociations               |
     | studentSectionAssociations              |
     | reportCards                             |
+    | staffCohortAssociations                 |
+    | staffProgramAssociations                |
+    | teacherSectionAssociations              |
 
   Scenario Outline: Ensure POST can be performed on all public entities with READ_PUBLIC and WRITE_PUBLIC rights
     Given I change the custom role of "Leader" to add the "READ_PUBLIC" right
@@ -175,6 +181,9 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | student.studentDisciplineIncidentAssociation | studentDisciplineIncidentAssociation  | studentDisciplineIncidentAssociations   |
     | student.studentParentAssociation             | studentParentAssociation              | studentParentAssociations               |
     | section.studentSectionAssociation            | studentSectionAssociation             | studentSectionAssociations              |
+    | staffCohortAssociation                       | staffCohortAssociation                | staffCohortAssociations                 |
+    | staffProgramAssociation                      | staffProgramAssociation               | staffProgramAssociations                |
+    | section.teacherSectionAssociation            | teacherSectionAssociation             | teacherSectionAssociations              |
 
   Scenario Outline: Ensure POST can NOT be performed on any public entities with READ_PUBLIC and WRITE_PUBLIC rights
     Given I change the custom role of "Leader" to remove the "READ_PUBLIC" right
@@ -227,6 +236,9 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | studentDisciplineIncidentAssociation  | studentDisciplineIncidentAssociations   |
     | studentParentAssociation              | studentParentAssociations               |
     | studentSectionAssociation             | studentSectionAssociations              |
+    | staffCohortAssociation                | staffCohortAssociations                 |
+    | staffProgramAssociation               | staffProgramAssociations                |
+    | teacherSectionAssociation             | teacherSectionAssociations              |
 
 # Double segment (/<ENTITY>/{id}) URI tests.
 
@@ -290,6 +302,26 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | student                  | studentParentAssociation             | studentParentAssociations             |
     | section                  | studentSectionAssociation            | studentSectionAssociations            |
     | yearlyTranscript         | reportCard                           | reportCards                           |
+
+  Scenario Outline: GETs on /entity/{id} for staff related entities
+    Given I change the custom role of "Aggregate Viewer" to add the "READ_GENERAL" right
+    And I log in as "msmith"
+    And I get 10 random ids of "<ENTITY TYPE>" in "<ENTITY>" associated with the staff of "msmith"
+    When I navigate to GET each id for "/v1/<ENTITY URI>"
+    Then All the return codes should be 200
+
+    Given I change the custom role of "Leader" to remove the "READ_GENERAL" right
+    And I change the custom role of "Leader" to remove the "READ_RESTRICTED" right
+    And I change the custom role of "Aggregate Viewer" to remove the "READ_GENERAL" right
+    And I log in as "msmith"
+    When I navigate to GET each id for "/v1/<ENTITY URI>"
+    Then All the return codes should be 403
+
+  Examples:
+    | ENTITY                   | ENTITY TYPE                          | ENTITY URI                            |
+    | staffCohortAssociation   | staffCohortAssociation               | staffCohortAssociations               |
+    | staffProgramAssociation  | staffProgramAssociation              | staffProgramAssociations              |
+    | section                  | teacherSectionAssociation            | teacherSectionAssociations            |
 
   Scenario Outline: PUTs, PATCHes, and DELETEs on /entity/{id}
     Given I change the custom role of "Aggregate Viewer" to add the "WRITE_PUBLIC" right
@@ -360,6 +392,9 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | studentDisciplineIncidentAssociation  | studentDisciplineIncidentAssociations   | studentParticipationCode | Victim                                  | Reporter                                |
     | studentParentAssociation              | studentParentAssociations               | relation                 | Brother, natural/adoptive               | Father-in-law                           |
     | studentSectionAssociation             | studentSectionAssociations              | endDate                  | 2013-06-09                              | 2012-08-15                              |
+    | staffCohortAssociation                | staffCohortAssociations                 | studentRecordAccess      | true                                    | false                                   |
+    | staffProgramAssociation               | staffProgramAssociations                | endDate                  | 2013-01-01                              | 2012-12-12                              |
+    | teacherSectionAssociation             | teacherSectionAssociations              | classroomPosition        | Support Teacher                         | Substitute Teacher                      |
 
 # Multi segment (/<ENTITY>/{id}/...) URI tests.
 
