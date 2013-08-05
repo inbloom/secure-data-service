@@ -196,8 +196,8 @@ task :rcTests do
   Rake::Task["rcAccountRequestTests"].execute
   Rake::Task["runSearchBulkExtract"].execute unless RUN_ON_RC
   Rake::Task["rcAppApprovalTests"].execute
-  Rake::Task["rcDashboardTests"].execute
-  Rake::Task["rcDataBrowserTests"].execute
+ #Rake::Task["rcDashboardTests"].execute
+ #Rake::Task["rcDataBrowserTests"].execute
   Rake::Task["rcTenantPurgeTests"].execute
   Rake::Task["rcCleanUpTests"].execute
   displayFailureReport()
