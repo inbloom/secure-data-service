@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slc.sli.domain.NeutralCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
@@ -84,6 +85,7 @@ public class DefinitionFactory {
      */
     public class EntityBuilder {
         protected String type;
+        protected String dbType;
         protected String collectionName;
         protected String resourceName;
         protected List<Treatment> treatments = new ArrayList<Treatment>();
@@ -93,6 +95,7 @@ public class DefinitionFactory {
         private boolean supportsAggregates;
         private boolean skipContextValidation;
         private boolean wrapperEntity;
+        private NeutralCriteria typeCriteria;
 
         /**
          * Create a builder for an entity definition. The collection name and resource name will
@@ -191,6 +194,27 @@ public class DefinitionFactory {
         }
 
         /**
+         * Sets the "type" field for the Entity. By default, "dbType" is the same as "type".
+         *
+         * This change has been implemented as part of F258
+         * Earlier, school was stored in educationOrganization collection and had type "school"
+         * As part of F258, all documents in educationOrganization will be type:educationOrganization
+         * schools will have organizationCategories "School" to differentiate them from other educationOrganization
+         *
+         * @see <a href="https://rally1.rallydev.com/#/5289467719d/detail/portfolioitem/feature/10285341958">Rally F258</a>
+         * @param dbType the value of the "type" field in db
+         * @return the entity definition
+         */
+        public EntityBuilder havingDBType(String dbType) {
+            this.dbType = dbType;
+            return this;
+        }
+
+        public EntityBuilder havingTypeCriteria(NeutralCriteria typeCriteria) {
+            this.typeCriteria = typeCriteria;
+            return  this;
+        }
+        /**
          * Create the actual entity definition
          *
          * @return the entity definition
@@ -200,8 +224,9 @@ public class DefinitionFactory {
             BasicService entityService = (BasicService) DefinitionFactory.this.beanFactory.getBean("basicService",
                     collectionName, treatments, this.repo);
 
-            EntityDefinition entityDefinition = new EntityDefinition(type, resourceName, collectionName, entityService,
-                    supportsAggregates, skipContextValidation, wrapperEntity);
+            String dbType = this.dbType != null?this.dbType:type;
+            EntityDefinition entityDefinition = new EntityDefinition(type, dbType, resourceName, collectionName, entityService,
+                    supportsAggregates, skipContextValidation, wrapperEntity, typeCriteria);
             entityService.setDefn(entityDefinition);
             return entityDefinition;
         }

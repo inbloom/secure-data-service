@@ -16,15 +16,12 @@
 
 package org.slc.sli.api.config;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
+import org.slc.sli.domain.NeutralCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -129,7 +126,9 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         EntityDefinition program = factory.makeEntity(EntityNames.PROGRAM, ResourceNames.PROGRAMS).buildAndRegister(
                 this);
         EntityDefinition school = factory.makeEntity(EntityNames.SCHOOL, ResourceNames.SCHOOLS)
-                .storeAs(EntityNames.EDUCATION_ORGANIZATION).supportsAggregates().buildAndRegister(this);
+                .storeAs(EntityNames.EDUCATION_ORGANIZATION).havingDBType(EntityNames.EDUCATION_ORGANIZATION).
+                        havingTypeCriteria(new NeutralCriteria("organizationCategories", NeutralCriteria.CRITERIA_IN, Arrays.asList("School"))).
+                        supportsAggregates().buildAndRegister(this);
         EntityDefinition section = factory.makeEntity(EntityNames.SECTION, ResourceNames.SECTIONS).supportsAggregates()
                 .buildAndRegister(this);
         EntityDefinition session = factory.makeEntity(EntityNames.SESSION, ResourceNames.SESSIONS).supportsAggregates()

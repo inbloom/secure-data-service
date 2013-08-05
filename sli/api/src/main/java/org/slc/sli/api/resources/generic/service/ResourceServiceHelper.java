@@ -45,12 +45,15 @@ public class ResourceServiceHelper {
 
     protected ApiQuery addTypeCriteria(EntityDefinition entityDefinition, ApiQuery apiQuery) {
 
-        if (apiQuery != null && entityDefinition != null
-                && !entityDefinition.getType().equals(entityDefinition.getStoredCollectionName())) {
-            apiQuery.addCriteria(new NeutralCriteria("type", NeutralCriteria.CRITERIA_IN, Arrays.asList(entityDefinition
-                    .getType()), false));
+        if (apiQuery != null && entityDefinition != null) {
+            if( !entityDefinition.getType().equals(entityDefinition.getStoredCollectionName())) {
+               apiQuery.addCriteria(new NeutralCriteria("type", NeutralCriteria.CRITERIA_IN, Arrays.asList(entityDefinition.getDbType()), false));
+            }
+            NeutralCriteria criteria = entityDefinition.getTypeCriteria();
+            if(criteria != null) {
+                apiQuery.addCriteria(criteria);
+            }
         }
-
         return apiQuery;
     }
 }
