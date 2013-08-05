@@ -113,8 +113,8 @@ Feature: Generic EdOrg Ingestion
         | _id                                 | fa8f2751396d8162683eecfe86bb472119fc540c_id |
         | body.stateOrganizationId            | IL-DAYBREAK-SUB-LEA2                        |
     And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "fa8f2751396d8162683eecfe86bb472119fc540c_id" on the "Midgar" tenant
-        | value                  |
-        | Local Education Agency |
+        | value                    |
+        | Education Service Center |
     And there are only the following in the "body.parentEducationAgencyReference" of the "educationOrganization" collection for id "fa8f2751396d8162683eecfe86bb472119fc540c_id" on the "Midgar" tenant
         | value                                       |
         | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
