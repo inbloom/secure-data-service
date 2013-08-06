@@ -52,7 +52,7 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
     @Override
     public boolean canValidate(String entityType, boolean through) {
         return EntityNames.STUDENT.equals(entityType)
-                && SecurityUtil.getSLIPrincipal().getEntity().getType().equals(EntityNames.TEACHER);
+                && isTeacher();
     }
 
     @Override
