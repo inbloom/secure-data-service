@@ -48,7 +48,7 @@ public class TransitiveTeacherToStaffValidator extends AbstractContextValidator 
     @Override
     public boolean canValidate(String entityType, boolean transitive) {
         return transitive && EntityNames.STAFF.equals(entityType)
-                && SecurityUtil.getSLIPrincipal().getEntity().getType().equals(EntityNames.TEACHER);
+                && isTeacher();
     }
     
     @Override
