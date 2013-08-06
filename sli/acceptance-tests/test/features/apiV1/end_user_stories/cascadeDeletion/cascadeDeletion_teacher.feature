@@ -31,7 +31,7 @@ Scenario: Confirm cascade deletion involving arrays of references do NOT delete 
      And I should see 0 "assessmentReferences"
      
     
-@wip
+
 Scenario: Delete a school and confirm deletion of related entities, associations, and their cascading entities and associations
     When I navigate to GET "/<SECTION URI>/<SECTION ID 2>"
     Then I should receive a return code of 200
