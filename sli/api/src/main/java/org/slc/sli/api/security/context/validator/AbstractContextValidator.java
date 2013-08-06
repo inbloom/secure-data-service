@@ -349,15 +349,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
     @Override
     public Set<String> getValid(String entityType, Set<String> ids) {
         // Default "fallback" implementation where ids are validated one by one
-        Set<String> validated = new HashSet<String>();
-        Set<String> tmp = new HashSet<String>();
-        for (String id : ids) {
-            tmp.add(id);
-            if (validate(entityType, tmp)) {
-                validated.add(id);
-            }
-            tmp.clear();
-        }
+        Set<String> validated = validate(entityType, ids);
         return validated;
     }
 

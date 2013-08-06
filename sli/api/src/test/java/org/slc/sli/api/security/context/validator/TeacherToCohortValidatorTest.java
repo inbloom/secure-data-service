@@ -63,7 +63,7 @@ public class TeacherToCohortValidatorTest {
 			cohortIds.add(this.generateCohortAndAssociate(USER_ID, desc));
 		}
 
-		Assert.assertTrue(val.validate(EntityNames.COHORT, cohortIds));
+		Assert.assertTrue(!val.validate(EntityNames.COHORT, cohortIds).isEmpty());
 	}
 
 	@Test
@@ -75,10 +75,10 @@ public class TeacherToCohortValidatorTest {
 			cohortIds.add(this.generateCohort(USER_ID, desc));
 		}
 
-		Assert.assertFalse(val.validate(EntityNames.COHORT, cohortIds));
+		Assert.assertFalse(!val.validate(EntityNames.COHORT, cohortIds).isEmpty());
 
 		for (String id : cohortIds) {
-			Assert.assertFalse(val.validate(EntityNames.COHORT, Collections.singleton(id)));
+			Assert.assertFalse(!val.validate(EntityNames.COHORT, Collections.singleton(id)).isEmpty());
 		}
 
 	}
@@ -107,14 +107,14 @@ public class TeacherToCohortValidatorTest {
 			}
 		}
 
-		Assert.assertFalse(val.validate(EntityNames.COHORT, cohortIds));
+		Assert.assertFalse(!val.validate(EntityNames.COHORT, cohortIds).isEmpty());
 
 		for (String id : cohortIds) {
 			if(successes.contains(id)) {
-				Assert.assertTrue(val.validate(EntityNames.COHORT, Collections.singleton(id)));
+				Assert.assertTrue(!val.validate(EntityNames.COHORT, Collections.singleton(id)).isEmpty());
 			}
 			else {
-				Assert.assertFalse(val.validate(EntityNames.COHORT, Collections.singleton(id)));
+				Assert.assertFalse(!val.validate(EntityNames.COHORT, Collections.singleton(id)).isEmpty());
 			}
 		}
 	}

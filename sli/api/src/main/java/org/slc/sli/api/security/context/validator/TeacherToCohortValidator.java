@@ -42,9 +42,10 @@ public class TeacherToCohortValidator extends AbstractContextValidator {
 	}
 
 	@Override
-	public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+	public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
+        Set<String> validIds = new HashSet<String>();
         if (!areParametersValid(EntityNames.COHORT, entityType, ids)) {
-            return false;
+            return validIds;
         }
  
         NeutralQuery nq = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_ID,
@@ -54,12 +55,12 @@ public class TeacherToCohortValidator extends AbstractContextValidator {
 
         Iterable<Entity> entities = getRepo().findAll(EntityNames.STAFF_COHORT_ASSOCIATION, nq);
 
-        Set<String> validIds = new HashSet<String>();
         for (Entity entity : entities) {
             validIds.add((String) entity.getBody().get(ParameterConstants.COHORT_ID));
         }
 
-        return validIds.containsAll(ids);
+        validIds.containsAll(ids);
+        return validIds;
     }
 
 }

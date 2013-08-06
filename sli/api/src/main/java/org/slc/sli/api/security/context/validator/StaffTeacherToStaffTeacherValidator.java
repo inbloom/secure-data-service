@@ -16,6 +16,7 @@
 package org.slc.sli.api.security.context.validator;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.stereotype.Component;
@@ -41,19 +42,23 @@ public class StaffTeacherToStaffTeacherValidator extends AbstractContextValidato
     }
 
     @Override
-    public boolean validate(String entityName, Set<String> staffIds) throws IllegalStateException {
+    public Set<String> validate(String entityName, Set<String> staffIds) throws IllegalStateException {
+        Set<String> validated = new HashSet<String>();
         if (!areParametersValid(Arrays.asList(EntityNames.STAFF, EntityNames.TEACHER), entityName, staffIds)) {
-            return false;
+            return validated;
         }
 
         if (staffIds.size() > 1) {
-            return false;
+            return validated;
         }
 
         String myself = SecurityUtil.principalId();
 
         // will only be one staffId in the list
-        return staffIds.contains(myself);
+        validated.addAll(staffIds);
+
+        validated.retainAll(staffIds);
+        return validated;
 
     }
 }
