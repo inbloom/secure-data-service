@@ -8,7 +8,6 @@ Feature: As an SLI application, I want entity references displayed as usable lin
   Background: Nothing yet
     Given I am logged in using "cgrayadmin" "cgrayadmin1234" to realm "IL"
 
-  @wip
   Scenario Outline: Control the presence of links by specifying an accept type format
     Given format <format>
     And I request <return links>

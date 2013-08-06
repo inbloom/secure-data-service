@@ -218,13 +218,13 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     | "course"                     | "courses"                     | 92    | /search/courses                                                                      |
     | "disciplineAction"           | "disciplineActions"           | 0     | /staff/@ids/disciplineActions                                                        |
     | "disciplineIncident"         | "disciplineIncidents"         | 0     | /staff/@ids/disciplineIncidents                                                      |
-   #| "school"                     | "educationOrganizations"      | 2     | /teachers/@ids/teacherSchoolAssociations/schools                                     |
+    | "school"                     | "educationOrganizations"      | 2     | /teachers/@ids/teacherSchoolAssociations/schools                                     |
     | "gradebookEntry"             | "gradebookEntries"            | 3     | /sections/@ids/gradebookEntries                                                      |
     | "learningObjective"          | "learningObjectives"          | 5     | /search/learningObjectives                                                           |
     | "learningStandard"           | "learningStandards"           | 14    | /search/learningStandards                                                            |
     | "parent"                     | "parents"                     | 3     | /sections/@ids/studentSectionAssociations/students/studentParentAssociations/parents |
     | "program"                    | "programs"                    | 1     | /staff/@ids/staffProgramAssociations/programs                                        |
-   #| "school"                     | "schools"                     | 2     | /teachers/@ids/teacherSchoolAssociations/schools                                     |
+    | "school"                     | "schools"                     | 2     | /teachers/@ids/teacherSchoolAssociations/schools                                     |
     | "section"                    | "sections"                    | 2     | /teachers/@ids/teacherSectionAssociations/sections                                   |
     | "session"                    | "sessions"                    | 29    | /search/sessions                                                                     |
     | "staff"                      | "staff"                       | 6     | /educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff           |

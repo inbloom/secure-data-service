@@ -7,7 +7,7 @@ Feature: As an SLI application, I want to be able to support XML.
 Background: Nothing yet
   Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
   And format "application/xml"
-  @wip
+
   Scenario Outline: Getting response from GET - Read
     When I navigate to GET "/v1/<ENTITY URI>/<ENTITY ID>"
     Then I should receive a return code of 200
@@ -21,7 +21,7 @@ Background: Nothing yet
     | students                    | student                    | 74cf790e-84c4-4322-84b8-fca7206f1085_id |
     | studentSectionAssociations  | studentSectionAssociation  | 706ee3be-0dae-4e98-9525-f564e05aa388_idbac890d6-b580-4d9d-a0d4-8bce4e8d351a_id |
     | courseOfferings             | courseOffering             | dc7df8c7-a5f1-48df-9e51-4c45afcc149f    |
-  @wip
+
   Scenario Outline: Getting response from GET - Read all
   
 	#ES bug, set this back to zero after bug fix
@@ -44,7 +44,7 @@ Background: Nothing yet
     Given a valid XML document for a new school entity
     When I POST the entity to "/v1/schools"
     Then I should receive a return code of 403
-  @wip
+
   Scenario: Getting response from PUT - Update (school)
     When I navigate to GET "/v1/schools/<SCHOOL ENTITY TO BE UPDATED>"
     Then I should see "<nameOfInstitution>" is "Sunset Central High School"
