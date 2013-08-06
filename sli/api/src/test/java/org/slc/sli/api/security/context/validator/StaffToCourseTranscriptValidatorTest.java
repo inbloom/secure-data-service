@@ -166,32 +166,32 @@ public class StaffToCourseTranscriptValidatorTest {
     @Test
     public void testValidAssociationsForStaff1() {
         setupCurrentUser(staff1);
-        Assert.assertTrue("Must validate", validator.validate(EntityNames.COURSE_TRANSCRIPT, new HashSet<String>(Arrays.asList(courseTranscript1.getEntityId()))));
+        Assert.assertEquals(1, validator.validate(EntityNames.COURSE_TRANSCRIPT, new HashSet<String>(Arrays.asList(courseTranscript1.getEntityId()))).size());
     }
 
     @Test
     public void testValidAssociationsForStaff2() {
         setupCurrentUser(staff2);
-        Assert.assertTrue("Must validate", validator.validate(EntityNames.COURSE_TRANSCRIPT, new HashSet<String>(Arrays.asList(courseTranscript2.getEntityId()))));
+        Assert.assertEquals(1, validator.validate(EntityNames.COURSE_TRANSCRIPT, new HashSet<String>(Arrays.asList(courseTranscript2.getEntityId()))).size());
     }
 
     @Test
     public void testInValidAssociationsForStaff1() {
         setupCurrentUser(staff1);
-        Assert.assertFalse("Must not validate", validator.validate(EntityNames.COURSE_TRANSCRIPT, new HashSet<String>(Arrays.asList(courseTranscript2.getEntityId()))));
+        Assert.assertEquals(0, validator.validate(EntityNames.COURSE_TRANSCRIPT, new HashSet<String>(Arrays.asList(courseTranscript2.getEntityId()))).size());
     }
 
     @Test
     public void testInValidAssociationsForStaff2() {
         setupCurrentUser(staff2);
-        Assert.assertFalse("Must not validate", validator.validate(EntityNames.COURSE_TRANSCRIPT, new HashSet<String>(Arrays.asList(courseTranscript1.getEntityId()))));
+        Assert.assertEquals(0, validator.validate(EntityNames.COURSE_TRANSCRIPT, new HashSet<String>(Arrays.asList(courseTranscript1.getEntityId()))).size());
     }
 
     @Test
     public void testInvalidAssociations() {
         setupCurrentUser(staff2);
-        Assert.assertFalse("Must not validate", validator.validate(EntityNames.COURSE_TRANSCRIPT, new HashSet<String>(Arrays.asList(UUID.randomUUID().toString()))));
-        Assert.assertFalse("Must not validate", validator.validate(EntityNames.COURSE_TRANSCRIPT, new HashSet<String>()));
+        Assert.assertEquals(0, validator.validate(EntityNames.COURSE_TRANSCRIPT, new HashSet<String>(Arrays.asList(UUID.randomUUID().toString()))).size());
+        Assert.assertEquals(0, validator.validate(EntityNames.COURSE_TRANSCRIPT, new HashSet<String>()).size());
     }
 
 }

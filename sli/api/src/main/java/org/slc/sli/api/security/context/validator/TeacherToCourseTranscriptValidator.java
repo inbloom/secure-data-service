@@ -16,10 +16,7 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -46,10 +43,10 @@ public class TeacherToCourseTranscriptValidator extends AbstractContextValidator
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
 
         if (!areParametersValid(EntityNames.COURSE_TRANSCRIPT, entityType, ids)) {
-            return false;
+            return Collections.emptySet();
         }
 
         Set<String> studentAcademicRecords = new HashSet<String>();
@@ -64,12 +61,11 @@ public class TeacherToCourseTranscriptValidator extends AbstractContextValidator
             } else {
                 //studentacademicrecord ID was not a string, this is unexpected
                 warn("Possible Corrupt Data detected at "+entityType+"/"+entity.getEntityId());
-                return false;
             }
         }
 
         if (studentAcademicRecords.isEmpty()) {
-            return false;
+            return studentAcademicRecords;
         }
 
         return validator.validate(EntityNames.STUDENT_ACADEMIC_RECORD, studentAcademicRecords);

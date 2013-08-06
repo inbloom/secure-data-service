@@ -16,13 +16,8 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import com.google.common.collect.Lists;
 
@@ -56,26 +51,31 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
     }
 
     @Override
-    public boolean validate(String entityName, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityName, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.STUDENT, entityName, ids)) {
-            return false;
+            return Collections.emptySet();
         }
 
         Set<String> idsToValidate = new HashSet<String>(ids);
+        Set<String> validIds = new HashSet<String>();
 
-        idsToValidate.removeAll(getValidatedWithSections(idsToValidate));
+        Set<String> validWithSections = getValidatedWithSections(idsToValidate);
+        idsToValidate.removeAll(validWithSections);
+        validIds.addAll(validWithSections);
         if (idsToValidate.isEmpty()) {
-            return true;
+            return validIds;
         }
 
-        idsToValidate.removeAll(getValidatedWithPrograms(idsToValidate));
+        Set<String> validWithPrograms = getValidatedWithPrograms(idsToValidate);
+        idsToValidate.removeAll(validWithPrograms);
+        validIds.addAll(validWithPrograms);
         if (idsToValidate.isEmpty()) {
-            return true;
+            return validIds;
         }
 
 
-        idsToValidate.removeAll(getValidatedWithCohorts(idsToValidate));
-        return idsToValidate.isEmpty();
+        validIds.addAll(getValidatedWithCohorts(idsToValidate));
+        return validIds;
     }
 
     @Override

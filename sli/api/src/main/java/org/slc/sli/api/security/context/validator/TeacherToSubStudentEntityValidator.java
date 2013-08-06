@@ -25,11 +25,7 @@ import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Validates a teacher accessing a set of entities that are directly associated to a student.
@@ -68,9 +64,9 @@ public class TeacherToSubStudentEntityValidator extends AbstractContextValidator
      */
     @SuppressWarnings("unchecked")
 	@Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(SUB_ENTITIES_OF_STUDENT, entityType, ids)) {
-            return false;
+            return Collections.emptySet();
         }
         
         Set<String> students = new HashSet<String>();
@@ -87,12 +83,11 @@ public class TeacherToSubStudentEntityValidator extends AbstractContextValidator
             } else {
                 //Student ID was not a string or a list of strings, this is unexpected
                 warn("Possible Corrupt Data detected at "+entityType+"/"+entity.getEntityId());
-                return false;
             }
         }
 
         if (students.isEmpty()) {
-            return false;
+            return students;
         }
 
         return validator.validate(EntityNames.STUDENT, students);
