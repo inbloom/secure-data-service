@@ -75,10 +75,10 @@ public class TeacherToCohortValidatorTest {
 			cohortIds.add(this.generateCohort(USER_ID, desc));
 		}
 
-		Assert.assertFalse(!val.validate(EntityNames.COHORT, cohortIds).isEmpty());
+		Assert.assertFalse(val.validate(EntityNames.COHORT, cohortIds).size() == cohortIds.size());
 
 		for (String id : cohortIds) {
-			Assert.assertFalse(!val.validate(EntityNames.COHORT, Collections.singleton(id)).isEmpty());
+			Assert.assertFalse(val.validate(EntityNames.COHORT, Collections.singleton(id)).size() == 1);
 		}
 
 	}
@@ -111,7 +111,7 @@ public class TeacherToCohortValidatorTest {
 
 		for (String id : cohortIds) {
 			if(successes.contains(id)) {
-				Assert.assertTrue(!val.validate(EntityNames.COHORT, Collections.singleton(id)).isEmpty());
+				Assert.assertEquals(val.validate(EntityNames.COHORT, Collections.singleton(id)).size(), 1);
 			}
 			else {
 				Assert.assertFalse(!val.validate(EntityNames.COHORT, Collections.singleton(id)).isEmpty());

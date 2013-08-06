@@ -57,19 +57,19 @@ public class StaffToStudentValidator extends AbstractContextValidator {
     @Override
     public Set<String> getValid(String entityType, Set<String> studentIds) {
         // first check if the entire set is valid. if not, check id by id.
-        return (validate(entityType, studentIds)) ? studentIds : super.getValid(entityType, studentIds);
+        //return (validate(entityType, studentIds)) ? studentIds : super.getValid(entityType, studentIds);
+        return validate(entityType, studentIds);
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> studentIds) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> studentIds) throws IllegalStateException {
         if (!areParametersValid(EntityNames.STUDENT, entityType, studentIds)) {
-            return false;
+            return new HashSet<String>();
         }
         return validateStaffToStudentContextThroughSharedEducationOrganization(studentIds);
     }
 
-    private boolean validateStaffToStudentContextThroughSharedEducationOrganization(Collection<String> ids) {
-        boolean isValid = true;
+    private Set<String> validateStaffToStudentContextThroughSharedEducationOrganization(Collection<String> ids) {
 
         // lookup current staff edOrg associations and get the Ed Org Ids
         Set<String> staffsEdOrgIds = getStaffCurrentAssociatedEdOrgs();
@@ -77,21 +77,20 @@ public class StaffToStudentValidator extends AbstractContextValidator {
         // lookup students
         Iterable<Entity> students = getStudentEntitiesFromIds(ids);
 
+        Set<String> validIds = new HashSet<String>();
+
         if (students != null && students.iterator().hasNext()) {
             for (Entity entity : students) {
                 Set<String> studentsEdOrgs = getStudentsEdOrgs(entity);
-                if (!(isIntersection(staffsEdOrgIds, studentsEdOrgs) ||
-                      programValidator.validate(EntityNames.PROGRAM, getValidPrograms(entity)) ||
-                      cohortValidator.validate(EntityNames.COHORT, getValidCohorts(entity)))) {
-                    isValid = false;
-                    break;
+                Set<String> validPrograms = programValidator.validate(EntityNames.PROGRAM, getValidPrograms(entity));
+                Set<String> validCohorts = cohortValidator.validate(EntityNames.COHORT, getValidCohorts(entity));
+                if ((isIntersection(staffsEdOrgIds, studentsEdOrgs) || !validPrograms.isEmpty() || !validCohorts.isEmpty())) {
+                    validIds.add(entity.getEntityId());
                 }
             }
-        } else {
-            isValid = false;
         }
 
-        return isValid;
+        return validIds;
     }
 
     private Set<String> getValidPrograms(Entity entity) {

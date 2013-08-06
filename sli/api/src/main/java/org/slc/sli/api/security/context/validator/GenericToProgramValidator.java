@@ -42,9 +42,9 @@ public class GenericToProgramValidator extends AbstractContextValidator {
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.PROGRAM, entityType, ids)) {
-            return false;
+            return new HashSet<String>();
         }
         
         NeutralQuery nq = new NeutralQuery(new NeutralCriteria("body.staffId", "=", SecurityUtil.getSLIPrincipal().getEntity().getEntityId(), false));
@@ -62,6 +62,6 @@ public class GenericToProgramValidator extends AbstractContextValidator {
             programsToValidate.remove((String) assoc.getBody().get("programId"));
         }
 
-        return programsToValidate.isEmpty();
+        return programsToValidate;
     }
 }

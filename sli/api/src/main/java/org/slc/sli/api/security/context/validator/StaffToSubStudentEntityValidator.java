@@ -60,7 +60,7 @@ public class StaffToSubStudentEntityValidator extends AbstractContextValidator {
 
     @SuppressWarnings("unchecked")
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(SUB_ENTITIES_OF_STUDENT, entityType, ids)) {
             return false;
         }

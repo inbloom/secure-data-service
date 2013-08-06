@@ -81,13 +81,13 @@ public class GenericToProgramValidatorTest {
     @Test
     public void testValidAccessTeacher1() {
         setupCurrentUser(teacher1);
-        Assert.assertTrue(validator.validate(EntityNames.PROGRAM, new HashSet<String>(Arrays.asList(program1.getEntityId()))));
+        Assert.assertTrue(validator.validate(EntityNames.PROGRAM, new HashSet<String>(Arrays.asList(program1.getEntityId()))).size() == 1);
     }
     
     @Test
     public void testValidAccessTeacher2() {
         setupCurrentUser(teacher2);
-        Assert.assertTrue(validator.validate(EntityNames.PROGRAM, new HashSet<String>(Arrays.asList(program2.getEntityId()))));
+        Assert.assertTrue(validator.validate(EntityNames.PROGRAM, new HashSet<String>(Arrays.asList(program2.getEntityId()))).size() == 1);
     }
     
     @Test
