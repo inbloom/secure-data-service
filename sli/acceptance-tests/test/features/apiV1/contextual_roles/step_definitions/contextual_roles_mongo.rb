@@ -674,6 +674,47 @@ Given /^I get (\d+) random ids associated with the edorgs for "([^"]*)" of "([^"
   enable_NOTABLESCAN()
 end
 
+Given /^I get (\d+) random ids of "([^"]*)" in "([^"]*)" associated with the staff of "([^"]*)"$/ do |number, type, collection, staff|
+  case type
+    when 'staffCohortAssociation', 'staffProgramAssociation'
+      subdoc = false
+      staff_ref = 'body.staffId'
+    when 'teacherSectionAssociation'
+      subdoc = true
+      staff_ref = 'body.teacherId'
+  end
+
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  db_name = convertTenantIdToDbName(@tenant)
+  db = conn[db_name]
+  edorgs = Set.new
+  seoa_coll = db.collection('staffEducationOrganizationAssociation')
+  staff_coll = db.collection('staff')
+  staff_id = staff_coll.find_one({'body.staffUniqueStateId' => staff})['_id']
+  seoas = seoa_coll.find({'body.staffReference' => staff_id}).to_a
+  seoas.each {|seoa| edorgs.add(seoa['body']['educationOrganizationReference']) }
+  entity_ids = Set.new
+  coll = db.collection(collection)
+
+  edorgs.each do |edorg|
+    ref_seoas = seoa_coll.find({'body.educationOrganizationReference' => edorg}).to_a
+    ref_seoas.each do |ref_seoa|
+      if subdoc
+        entities = coll.find({"#{type}.#{staff_ref}" => ref_seoa['body']['staffReference']},{:fields => ["#{type}.$"]}).to_a
+        entities.each { |entity| entity_ids.add(entity[type][0]['_id'])}
+      else
+        entities = coll.find({staff_ref => ref_seoa['body']['staffReference']},{:fields => %w(_id)}).to_a
+        entities.each { |entity| entity_ids.add(entity['_id'])}
+      end
+    end
+  end
+  assert(entity_ids.size > 0, "No #{type} found that is associated with the staff of #{staff}")
+  (entity_ids.to_a.shuffle.take(number.to_i)).each { |entry| (@entity_ids ||= []) << entry }
+  conn.close
+  enable_NOTABLESCAN()
+end
+
 Given /^I add (student school association|attendance) for "([^"]*)" in "([^"]*)" that's already expired$/ do |collection, student, edorg|
   disable_NOTABLESCAN()
   conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)

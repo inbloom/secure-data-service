@@ -92,18 +92,22 @@ When /^I PATCH the postalCode for the lea entity to 11999$/ do
   assert(@res != nil, "Patch failed: Received no response from API.")
 end
 
-When /^I PATCH the postalCode for the current edorg entity to 11999$/ do
+When /^I PATCH the (postalCode|name) for the current edorg entity to (.*?)$/ do |field, value|
   patch_body = {
-      "address" => [{"postalCode" => "11999",
-                     "nameOfCounty" => "Wake",
-                     "streetNumberName" => "111 Ave A",
-                     "stateAbbreviation" => "IL",
-                     "addressType" => "Physical",
-                     "city" => "Chicago"}]
+      'postalCode' => {
+          'address' => [{'postalCode' => value,
+                         'nameOfCounty' => 'Wake',
+                         'streetNumberName' => '111 Ave A',
+                         'stateAbbreviation' => 'IL',
+                         'addressType' => 'Physical',
+                         'city' => 'Chicago'}]},
+      'name' => {
+          'nameOfInstitution' => value
+      }
   }
   @format = "application/json"
-  puts "PATCHing body #{patch_body} to /v1/educationOrganizations/#{@lea}"
-  restHttpPatch("/v1/educationOrganizations/#{@lea}", prepareData(@format, patch_body), @format)
+  puts "PATCHing body #{patch_body[field]} to /v1/educationOrganizations/#{@lea}"
+  restHttpPatch("/v1/educationOrganizations/#{@lea}", prepareData(@format, patch_body[field]), @format)
   puts @res
   assert(@res != nil, "Patch failed: Received no response from API.")
 end
