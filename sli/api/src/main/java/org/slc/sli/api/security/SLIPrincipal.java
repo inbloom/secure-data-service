@@ -505,5 +505,9 @@ public class SLIPrincipal implements Principal, Serializable {
          *
          */
         private static final long serialVersionUID = 1L;
+
+        EdOrgContextRightsCache() {
+            super();
+        }
     }
 }
