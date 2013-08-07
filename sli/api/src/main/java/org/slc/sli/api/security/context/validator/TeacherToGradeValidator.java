@@ -50,11 +50,11 @@ public class TeacherToGradeValidator extends AbstractContextValidator {
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids));
         query.setIncludeFields(Arrays.asList(ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID));
         Iterable<Entity> grades = getRepo().findAll(EntityNames.GRADE, query);
-        Map<String, List<String>> secAssocIdsToGrade = new HashMap<String, List<String>>();
+        Map<String, Set<String>> secAssocIdsToGrade = new HashMap<String, Set<String>>();
         for(Entity grade : grades) {
             String id = (String) grade.getBody().get(ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID);
             if (!secAssocIdsToGrade.containsKey(id)) {
-                secAssocIdsToGrade.put(id, new ArrayList<String>());
+                secAssocIdsToGrade.put(id, new HashSet<String>());
             }
             secAssocIdsToGrade.get(id).add(grade.getEntityId());
         }

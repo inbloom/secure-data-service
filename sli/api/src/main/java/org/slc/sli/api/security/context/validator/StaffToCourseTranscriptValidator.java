@@ -55,13 +55,13 @@ public class StaffToCourseTranscriptValidator extends AbstractContextValidator {
                 NeutralCriteria.CRITERIA_IN, new ArrayList<String>(ids)));
         Iterable<Entity> entities = getRepo().findAll(EntityNames.COURSE_TRANSCRIPT, query);
 
-        Map<String, List<String>> studentAcademicRecords = new HashMap<String, List<String>>();
+        Map<String, Set<String>> studentAcademicRecords = new HashMap<String, Set<String>>();
         for (Entity entity : entities) {
             Map<String, Object> body = entity.getBody();
             if (body.get(ParameterConstants.STUDENT_ACADEMIC_RECORD_ID) instanceof String) {
                 String key = (String) body.get(ParameterConstants.STUDENT_ACADEMIC_RECORD_ID);
                 if(!studentAcademicRecords.containsKey(key)) {
-                    studentAcademicRecords.put(key, new ArrayList<String>());
+                    studentAcademicRecords.put(key, new HashSet<String>());
                 }
                 studentAcademicRecords.get(key).add(entity.getEntityId());
             } else {

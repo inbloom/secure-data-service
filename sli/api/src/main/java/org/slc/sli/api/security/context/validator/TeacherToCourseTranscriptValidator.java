@@ -49,7 +49,7 @@ public class TeacherToCourseTranscriptValidator extends AbstractContextValidator
             return Collections.emptySet();
         }
 
-        Map<String, List<String>> studentAcademicRecordToCT = new HashMap<String, List<String>>();
+        Map<String, Set<String>> studentAcademicRecordToCT = new HashMap<String, Set<String>>();
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
                 NeutralCriteria.CRITERIA_IN, new ArrayList<String>(ids)));
         Iterable<Entity> entities = getRepo().findAll(EntityNames.COURSE_TRANSCRIPT, query);
@@ -59,7 +59,7 @@ public class TeacherToCourseTranscriptValidator extends AbstractContextValidator
             if (body.get(ParameterConstants.STUDENT_ACADEMIC_RECORD_ID) instanceof String) {
                 String id = (String) body.get(ParameterConstants.STUDENT_ACADEMIC_RECORD_ID);
                 if (!studentAcademicRecordToCT.containsKey(id)) {
-                    studentAcademicRecordToCT.put(id, new ArrayList<String>());
+                    studentAcademicRecordToCT.put(id, new HashSet<String>());
                 }
                 studentAcademicRecordToCT.get(id).add(entity.getEntityId());
             } else {
