@@ -15,12 +15,7 @@
  */
 package org.slc.sli.api.security.context.validator;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Collections;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -78,16 +73,28 @@ public class StudentToStudentAssociationValidator extends AbstractContextValidat
 
         // Now, find the student IDs on the other remaining requested IDs and validate them
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, toValidateIds));
+        Map<String, Set<String>> studentIdsToAssoc = new HashMap<String, Set<String>>();
+
         for(Entity association : getRepo().findAll(entityType, query)) {
             Map<String, Object>body = association.getBody();
             if (!isFieldExpired(body, ParameterConstants.END_DATE, false)) {
-                otherStudentIds.add((String) body.get(ParameterConstants.STUDENT_ID));
+                String studentId = (String) body.get(ParameterConstants.STUDENT_ID);
+                otherStudentIds.add(studentId);
+                if(!studentIdsToAssoc.containsKey(studentId)) {
+                    studentIdsToAssoc.put(studentId, new HashSet<String>());
+                }
+                studentIdsToAssoc.get(studentId).add(association.getEntityId());
+
             } else {
                 // We cannot see Associations for other students if they are expired
                 return Collections.emptySet();
             }
         }
 
-        return studentValidator.validate(EntityNames.STUDENT, otherStudentIds);
+        Set<String> validStudentIds = studentValidator.validate(EntityNames.STUDENT, otherStudentIds);
+        toValidateIds.removeAll(getValidIds(validStudentIds, studentIdsToAssoc));
+        ids.removeAll(toValidateIds);
+
+        return ids;
     }
 }

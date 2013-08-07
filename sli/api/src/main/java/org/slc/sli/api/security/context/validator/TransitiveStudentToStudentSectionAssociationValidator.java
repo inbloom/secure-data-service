@@ -15,10 +15,7 @@
  */
 package org.slc.sli.api.security.context.validator;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -52,6 +49,8 @@ public class TransitiveStudentToStudentSectionAssociationValidator extends Abstr
         }
 
         Set<String> otherStudentIds = new HashSet<String>();
+        Map<String, Set<String>> studentIdToSSA = new HashMap<String, Set<String>>();
+
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids));
         for(Entity ssa : getRepo().findAll(EntityNames.STUDENT_SECTION_ASSOCIATION, query)) {
             Map<String, Object> body = ssa.getBody();
@@ -60,19 +59,25 @@ public class TransitiveStudentToStudentSectionAssociationValidator extends Abstr
                 continue;
             }
             // At this point the STUDENT_ID is not self
+
             if (!isFieldExpired(body, ParameterConstants.END_DATE, false)) {
-                otherStudentIds.add((String) ssa.getBody().get(ParameterConstants.STUDENT_ID));
+                String studentId = (String) ssa.getBody().get(ParameterConstants.STUDENT_ID);
+                otherStudentIds.add(studentId);
+                if(!studentIdToSSA.containsKey(studentId)) {
+                    studentIdToSSA.put(studentId, new HashSet<String>());
+                }
+                studentIdToSSA.get(studentId).add(ssa.getEntityId());
             } else {
                 // We cannot see SSAs for other students if they are expired
                 return Collections.emptySet();
             }
         }
 
-        Set<String> result = new HashSet<String>();
+        Set<String> result;
         if(otherStudentIds.isEmpty()) {
             result = ids;
         } else {
-            result = studentValidator.validate(EntityNames.STUDENT, otherStudentIds);
+            result = getValidIds(studentValidator.validate(EntityNames.STUDENT, otherStudentIds), studentIdToSSA);
         }
         return result;
     }
