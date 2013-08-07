@@ -21,10 +21,7 @@ import org.slc.sli.common.constants.ParameterConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Validates the context of a staff member to see the requested set of grades. Returns true if the
@@ -44,24 +41,25 @@ public class StaffToSubStudentSectionAssociationEntityValidator extends Abstract
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(SUB_ENTITIES_OF_STUDENT_SECTION, entityType, ids)) {
-            return false;
+            return Collections.EMPTY_SET;
         }
         
-        List<String> studentSectionAssociationIds = getIdsContainedInFieldOnEntities(entityType, new ArrayList<String>(
+        Map<String, Set<String>> studentSectionAssociationIds = getIdsContainedInFieldOnEntities(entityType, new ArrayList<String>(
                 ids), ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID);
         if (studentSectionAssociationIds.isEmpty()) {
-            return false;
+            return Collections.EMPTY_SET;
         }
 
-        List<String> studentIds = getIdsContainedInFieldOnEntities(EntityNames.STUDENT_SECTION_ASSOCIATION,
-                studentSectionAssociationIds, ParameterConstants.STUDENT_ID);
+        Map<String, Set<String>> studentIds = getIdsContainedInFieldOnEntities(EntityNames.STUDENT_SECTION_ASSOCIATION,
+                new ArrayList<String>(studentSectionAssociationIds.keySet()), ParameterConstants.STUDENT_ID);
         if (studentIds.isEmpty()) {
-            return false;
+            return Collections.EMPTY_SET;
         }
 
-        return validator.validate(EntityNames.STUDENT, new HashSet<String>(studentIds));
+        Set<String> validStudents = validator.validate(EntityNames.STUDENT, studentIds.keySet());
+        return getValidIds(validStudents, studentIds);
     }
 
     /**

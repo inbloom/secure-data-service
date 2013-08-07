@@ -250,7 +250,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
     /**
      * Performs a query for entities of type 'type' with _id contained in the List of 'ids'.
      * Iterates through result and peels off String value contained in body.<<field>>. Returns
-     * map of values that were stored in body to the entity id.<<field>>.
+     * map of values that were stored in body.<<field>> to the entity id
      *
      * @param type
      *            Entity type to query for.
@@ -258,7 +258,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
      *            List of _ids of entities to query.
      * @param field
      *            Field (contained in body) to peel off of entities.
-     * @return Map of values stored in entities to the entity id' body.<<field>> : .
+     * @return Map of values stored in entities  body.<<field>> to the entity id.
      */
     protected Map<String, Set<String>> getIdsContainedInFieldOnEntities(String type, List<String> ids, String field) {
         Map<String, Set<String>> matching = new HashMap<String, Set<String>>();

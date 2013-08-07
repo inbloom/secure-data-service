@@ -147,7 +147,7 @@ public class StaffToStudentValidatorTest {
         helper.generateStaffEdorg(STAFF_ID, ED_ORG_ID, NOT_EXPIRED);
         String studentId = helper.generateStudentAndStudentSchoolAssociation("2", edOrg.getEntityId(), NOT_EXPIRED);
         studentIds.add(studentId);
-        assertTrue(validator.validate(EntityNames.STUDENT, studentIds));
+        assertTrue(validator.validate(EntityNames.STUDENT, studentIds).equals(studentIds));
     }
 
     @Test
@@ -155,7 +155,7 @@ public class StaffToStudentValidatorTest {
         helper.generateStaffEdorg(STAFF_ID, ED_ORG_ID, NOT_EXPIRED);
         String studentId = helper.generateStudentAndStudentSchoolAssociation("2", ED_ORG_ID_2, NOT_EXPIRED);
         studentIds.add(studentId);
-        assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
+        assertFalse(validator.validate(EntityNames.STUDENT, studentIds).equals(studentIds));
     }
 
     @Test
@@ -163,7 +163,7 @@ public class StaffToStudentValidatorTest {
         helper.generateStaffEdorg(STAFF_ID, ED_ORG_ID, NOT_EXPIRED);
         String studentId = helper.generateStudentAndStudentSchoolAssociation("2", ED_ORG_ID, IS_EXPIRED);
         studentIds.add(studentId);
-        assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
+        assertFalse(validator.validate(EntityNames.STUDENT, studentIds).equals(studentIds));
     }
 
     @Test
@@ -181,7 +181,7 @@ public class StaffToStudentValidatorTest {
             }
         }
 
-        assertTrue(validator.validate(EntityNames.STUDENT, studentIds));
+        assertTrue(validator.validate(EntityNames.STUDENT, studentIds).equals(studentIds));
     }
 
     @Test
@@ -198,7 +198,7 @@ public class StaffToStudentValidatorTest {
                 studentIds.add(studentId);
             }
         }
-        assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
+        assertFalse(validator.validate(EntityNames.STUDENT, studentIds).equals(studentIds));
     }
 
     @Test
@@ -219,7 +219,7 @@ public class StaffToStudentValidatorTest {
         String anotherEdOrg = helper.generateSchoolEdOrg(null).getEntityId();
         String studentId = helper.generateStudentAndStudentSchoolAssociation("-32", anotherEdOrg, NOT_EXPIRED);
         studentIds.add(studentId);
-        assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
+        assertFalse(validator.validate(EntityNames.STUDENT, studentIds).equals(studentIds));
     }
 
     @Test
@@ -236,87 +236,87 @@ public class StaffToStudentValidatorTest {
     }
 
     public void testCanGetAccessThroughProgram() {
-        Mockito.when(mockProgramValidator.validate(Mockito.eq(EntityNames.PROGRAM), Mockito.anySet())).thenReturn(true);
         helper.generateStaffEdorg(STAFF_ID, DERP, NOT_EXPIRED);
         for (int j = -1; j > -31; --j) {
             String studentId = helper.generateStudentAndStudentSchoolAssociation(String.valueOf(j), ED_ORG_ID,
                     NOT_EXPIRED);
             studentIds.add(studentId);
         }
-        helper.generateStudentProgram("Merp", "Derp", false);
+        Entity program = helper.generateStudentProgram("Merp", "Derp", false);
+        Mockito.when(mockProgramValidator.validate(Mockito.eq(EntityNames.PROGRAM), Mockito.anySet())).thenReturn(new HashSet<String>(Arrays.asList(program.getEntityId())));
         studentIds.add("Merp");
-        assertTrue(validator.validate(EntityNames.STUDENT, studentIds));
+        assertTrue(validator.validate(EntityNames.STUDENT, studentIds).equals(studentIds));
     }
 
     @Test
     public void testCanGetAccessThroughCohort() {
-        Mockito.when(mockCohortValidator.validate(Mockito.eq(EntityNames.COHORT), Mockito.anySet())).thenReturn(true);
+        Entity cohort = helper.generateStudentCohort("Merp", "Derp", false);
+        Mockito.when(mockCohortValidator.validate(Mockito.eq(EntityNames.COHORT), Mockito.anySet())).thenReturn(new HashSet<String>(Arrays.asList(cohort.getEntityId())));
         helper.generateStaffEdorg(STAFF_ID, DERP, NOT_EXPIRED);
         for (int j = -1; j > -31; --j) {
             String studentId = helper.generateStudentAndStudentSchoolAssociation(String.valueOf(j), ED_ORG_ID,
                     NOT_EXPIRED);
             studentIds.add(studentId);
         }
-        helper.generateStudentCohort("Merp", "Derp", false);
         studentIds.add("Merp");
-        assertTrue(validator.validate(EntityNames.STUDENT, studentIds));
+        assertTrue(validator.validate(EntityNames.STUDENT, studentIds).equals(studentIds));
     }
 
     @Test
     public void testCanNotGetAccessThroughExpiredCohort() {
-        Mockito.when(mockCohortValidator.validate(Mockito.eq(EntityNames.COHORT), Mockito.anySet())).thenReturn(false);
+        Entity cohort = helper.generateStudentCohort("Merp", "Derp", true);
+        Mockito.when(mockCohortValidator.validate(Mockito.eq(EntityNames.COHORT), Mockito.anySet())).thenReturn(new HashSet<String>(Arrays.asList(cohort.getEntityId())));
         helper.generateStaffEdorg(STAFF_ID, DERP, NOT_EXPIRED);
         for (int j = -1; j > -31; --j) {
             String studentId = helper.generateStudentAndStudentSchoolAssociation(String.valueOf(j), ED_ORG_ID,
                     NOT_EXPIRED);
             studentIds.add(studentId);
         }
-        helper.generateStudentCohort("Merp", "Derp", true);
         studentIds.add("Merp");
-        assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
+        assertFalse(validator.validate(EntityNames.STUDENT, studentIds).equals(studentIds));
     }
 
     @Test
     public void testCanNotGetAccessThroughExpiredProgram() {
-    	Mockito.when(mockProgramValidator.validate(Mockito.eq(EntityNames.PROGRAM), Mockito.anySet())).thenReturn(false);
+        Entity program = helper.generateStudentProgram("Merp", DERP, true);
+    	Mockito.when(mockProgramValidator.validate(Mockito.eq(EntityNames.PROGRAM), Mockito.anySet())).thenReturn(new HashSet<String>(Arrays.asList(program.getEntityId())));
         helper.generateStaffEdorg(STAFF_ID, DERP, NOT_EXPIRED);
         for (int j = -1; j > -31; --j) {
             String studentId = helper.generateStudentAndStudentSchoolAssociation(String.valueOf(j), ED_ORG_ID,
                     NOT_EXPIRED);
             studentIds.add(studentId);
         }
-        helper.generateStudentProgram("Merp", DERP, true);
         studentIds.add("Merp");
-        assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
+        assertFalse(validator.validate(EntityNames.STUDENT, studentIds).equals(studentIds));
     }
 
     @Test
     public void testCanNotGetAccessThroughInvalidProgram() {
-    	Mockito.when(mockProgramValidator.validate(Mockito.eq(EntityNames.PROGRAM), Mockito.anySet())).thenReturn(false);
+        Entity program = helper.generateStudentProgram("Merp", "Derp", false);
+    	Mockito.when(mockProgramValidator.validate(Mockito.eq(EntityNames.PROGRAM), Mockito.anySet())).thenReturn(new HashSet<String>(Arrays.asList(program.getEntityId())));
         helper.generateStaffEdorg(STAFF_ID, DERP, NOT_EXPIRED);
         for (int j = -1; j > -31; --j) {
             String studentId = helper.generateStudentAndStudentSchoolAssociation(String.valueOf(j), ED_ORG_ID,
                     NOT_EXPIRED);
             studentIds.add(studentId);
         }
-        helper.generateStudentProgram("Merp", "Derp", false);
         studentIds.add("Merp");
-        assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
+        assertFalse(validator.validate(EntityNames.STUDENT, studentIds).equals(studentIds));
     }
 
     @Test
     public void testCanNotGetAccessThroughInvalidCohort() {
+        Entity cohort = helper.generateStudentCohort("Merp", "Derp", false);
         Mockito.when(
-                mockCohortValidator.validate(Mockito.eq(EntityNames.COHORT), Mockito.anySet())).thenReturn(false);
+                mockCohortValidator.validate(Mockito.eq(EntityNames.COHORT), Mockito.anySet())).thenReturn(new HashSet<String>(Arrays.asList(cohort.getEntityId())));
         helper.generateStaffEdorg(STAFF_ID, DERP, NOT_EXPIRED);
         for (int j = -1; j > -31; --j) {
             String studentId = helper.generateStudentAndStudentSchoolAssociation(String.valueOf(j), ED_ORG_ID,
                     NOT_EXPIRED);
             studentIds.add(studentId);
         }
-        helper.generateStudentCohort("Merp", "Derp", false);
         studentIds.add("Merp");
-        assertFalse(validator.validate(EntityNames.STUDENT, studentIds));
+        assertFalse(validator.validate(EntityNames.STUDENT, studentIds).equals(studentIds));
     }
 
     @Test

@@ -19,12 +19,7 @@ package org.slc.sli.api.security.context.validator;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import org.junit.After;
 import org.junit.Before;
@@ -175,54 +170,58 @@ public class StaffToTeacherValidatorTest {
     public void testInvalidTeacherAssociation() {
         setupCurrentUser(staff1);
         setupCommonTSAs();
-        assertFalse(validator.validate(EntityNames.TEACHER, new HashSet<String>(Arrays.asList(teacher2.getEntityId()))));
+        Set<String> teacher = new HashSet<String>(Arrays.asList(teacher2.getEntityId()));
+        assertTrue(validator.validate(EntityNames.TEACHER, teacher).isEmpty());
     }
     
     @Test
     public void testValidAndInvalidTeacherAssociation() {
         setupCurrentUser(staff1);
         setupCommonTSAs();
-        assertFalse(validator.validate(EntityNames.TEACHER,
-                new HashSet<String>(Arrays.asList(teacher1.getEntityId(), teacher2.getEntityId()))));
+        Set<String> teachers = new HashSet<String>(Arrays.asList(teacher1.getEntityId(), teacher2.getEntityId()));
+        assertTrue(validator.validate(EntityNames.TEACHER, teachers).equals(new HashSet<String>(Arrays.asList(teacher1.getEntityId()))));
     }
 
     @Test
     public void testValidAssociationThroughSchool() {
         setupCurrentUser(staff2);
         setupCommonTSAs();
-        assertTrue(validator.validate(EntityNames.TEACHER,
-                new HashSet<String>(Arrays.asList(teacher1.getEntityId(), teacher3.getEntityId()))));
+        Set<String> teachers = new HashSet<String>(Arrays.asList(teacher1.getEntityId(), teacher3.getEntityId()));
+        assertTrue(validator.validate(EntityNames.TEACHER, teachers).equals(teachers));
     }
 
     @Test
     public void testValidAssociationThroughLEA() {
         setupCurrentUser(staff1);
         setupCommonTSAs();
-        assertTrue(validator.validate(EntityNames.TEACHER,
-                new HashSet<String>(Arrays.asList(teacher1.getEntityId(), teacher3.getEntityId()))));
+        Set<String> teachers = new HashSet<String>(Arrays.asList(teacher1.getEntityId(), teacher3.getEntityId()));
+        assertTrue(validator.validate(EntityNames.TEACHER, teachers).equals(teachers));
     }
 
     @Test
     public void testInvalidTeacher() {
         setupCurrentUser(staff1);
         setupCommonTSAs();
-        assertFalse(validator.validate(EntityNames.TEACHER,
-                new HashSet<String>(Arrays.asList(UUID.randomUUID().toString()))));
+        Set<String> teachers = new HashSet<String>(Arrays.asList(UUID.randomUUID().toString()));
+        assertFalse(validator.validate(EntityNames.TEACHER, teachers).equals(teachers));
     }
     
     @Test
     public void testExpiredTeacher() {
         setupCurrentUser(staff1);
         helper.generateStaffEdorg(teacher1.getEntityId(), school1.getEntityId(), true);
-        assertFalse(validator.validate(EntityNames.TEACHER, new HashSet<String>(Arrays.asList(teacher1.getEntityId()))));
+        Set<String> teacher = new HashSet<String>(Arrays.asList(teacher1.getEntityId()));
+        assertFalse(validator.validate(EntityNames.TEACHER, teacher).equals(teacher));
         helper.generateStaffEdorg(teacher1.getEntityId(), school1.getEntityId(), false);
-        assertTrue(validator.validate(EntityNames.TEACHER, new HashSet<String>(Arrays.asList(teacher1.getEntityId()))));
+
+        teacher = new HashSet<String>(Arrays.asList(teacher1.getEntityId()));
+        assertTrue(validator.validate(EntityNames.TEACHER, teacher).equals(teacher));
     }
 
     @Test
     public void testNoTeacher() {
         setupCurrentUser(staff1);
-        assertFalse(validator.validate(EntityNames.TEACHER, new HashSet<String>()));
+        assertTrue(validator.validate(EntityNames.TEACHER, new HashSet<String>()).isEmpty());
     }
 
 }

@@ -129,13 +129,13 @@ public class StaffToTeacherSectionAssociationValidatorTest {
 
     @Test
     public void testNullTeacherSectionAssociation() throws Exception {
-        assertFalse(validator.validate(EntityNames.TEACHER_SECTION_ASSOCIATION, null));
+        assertTrue(validator.validate(EntityNames.TEACHER_SECTION_ASSOCIATION, null).isEmpty());
     }
 
     @Test
     public void testEmptyTeacherSectionAssociation() throws Exception {
         Set<String> teacherSectionAssociations = new HashSet<String>();
-        assertFalse(validator.validate(EntityNames.TEACHER_SECTION_ASSOCIATION, teacherSectionAssociations));
+        assertTrue(validator.validate(EntityNames.TEACHER_SECTION_ASSOCIATION, teacherSectionAssociations).isEmpty());
     }
 
     @Test
@@ -143,7 +143,7 @@ public class StaffToTeacherSectionAssociationValidatorTest {
         setContext(seaStaff, Arrays.asList(SecureRoleRightAccessImpl.SEA_ADMINISTRATOR));
         Set<String> teacherSectionAssociations = new HashSet<String>();
         teacherSectionAssociations.add(teacherSectionAssociation.getEntityId());
-        assertTrue(validator.validate(EntityNames.TEACHER_SECTION_ASSOCIATION, teacherSectionAssociations));
+        assertTrue(validator.validate(EntityNames.TEACHER_SECTION_ASSOCIATION, teacherSectionAssociations).equals(teacherSectionAssociations));
     }
 
     @Test
@@ -151,7 +151,7 @@ public class StaffToTeacherSectionAssociationValidatorTest {
         setContext(leaStaff, Arrays.asList(SecureRoleRightAccessImpl.LEA_ADMINISTRATOR));
         Set<String> teacherSectionAssociations = new HashSet<String>();
         teacherSectionAssociations.add(teacherSectionAssociation.getEntityId());
-        assertTrue(validator.validate(EntityNames.TEACHER_SECTION_ASSOCIATION, teacherSectionAssociations));
+        assertTrue(validator.validate(EntityNames.TEACHER_SECTION_ASSOCIATION, teacherSectionAssociations).equals(teacherSectionAssociations));
     }
 
     @Test
@@ -159,6 +159,6 @@ public class StaffToTeacherSectionAssociationValidatorTest {
         setContext(schoolStaff, Arrays.asList(SecureRoleRightAccessImpl.IT_ADMINISTRATOR));
         Set<String> teacherSectionAssociations = new HashSet<String>();
         teacherSectionAssociations.add(teacherSectionAssociation.getEntityId());
-        assertTrue(validator.validate(EntityNames.TEACHER_SECTION_ASSOCIATION, teacherSectionAssociations));
+        assertTrue(validator.validate(EntityNames.TEACHER_SECTION_ASSOCIATION, teacherSectionAssociations).equals(teacherSectionAssociations));
     }
 }
