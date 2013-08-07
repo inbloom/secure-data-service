@@ -230,7 +230,8 @@ public class EdOrgHelper {
         }
 
         if (edOrg != null && edOrg.getBody() != null) {
-            List<String> parentIds = (List<String>) edOrg.getBody().get("parentEducationAgencyReference");
+            @SuppressWarnings("unchecked")
+			List<String> parentIds = (List<String>) edOrg.getBody().get("parentEducationAgencyReference");
             if (parentIds != null) {
                 for (String parentId : parentIds) {
                     if (parentId != null && !toReturn.contains(parentId)) {
@@ -394,11 +395,16 @@ public class EdOrgHelper {
 
     private Entity getTopLEAOfEdOrg(Entity entity) {
         if (entity.getBody().containsKey("parentEducationAgencyReference")) {
-            Entity parentEdorg = repo.findById(EntityNames.EDUCATION_ORGANIZATION,
-                    (String) entity.getBody().get("parentEducationAgencyReference"));
-            if (isLEA(parentEdorg)) {
-                return getTopLEAOfEdOrg(parentEdorg);
-            }
+        	@SuppressWarnings("unchecked")
+			List<String> parents = (List<String>) entity.getBody().get("parentEducationAgencyReference");
+        	if ( null != parents ) {
+	        	for ( String parent : parents ) {
+	        		Entity parentEdorg = repo.findById(EntityNames.EDUCATION_ORGANIZATION, parent);
+	        		if (isLEA(parentEdorg)) {
+	        			return getTopLEAOfEdOrg(parentEdorg);
+	        		}
+	        	}
+        	}
         }
         return entity;
     }
