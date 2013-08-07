@@ -24,10 +24,7 @@ import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Validates the context of a staff member to see the requested set of teacher entities.
@@ -47,9 +44,9 @@ public class StaffToTeacherValidator extends AbstractContextValidator {
     }
 
     @Override
-    public boolean validate(String entityName, Set<String> teacherIds) throws IllegalStateException { 
+    public Set<String> validate(String entityName, Set<String> teacherIds) throws IllegalStateException {
         if (!areParametersValid(EntityNames.TEACHER, entityName, teacherIds)) {
-            return false;
+            return Collections.EMPTY_SET;
         }
         
         // Query teacher's schools
@@ -60,20 +57,19 @@ public class StaffToTeacherValidator extends AbstractContextValidator {
         Map<String, Set<String>> teacherSchoolMap = new HashMap<String, Set<String>>();
         populateMapFromMongoResponse(teacherSchoolMap, schoolAssoc);
         Set<String> edOrgLineage = getStaffEdOrgLineage();
-        for (Set<String> schools : teacherSchoolMap.values()) {
+
+        Set<String> validTeacherIds = new HashSet<String>();
+
+        for (String teacher : teacherSchoolMap.keySet()) {
 
             // Make sure there's a valid intersection between the schools and edOrgLIneage
-            Set<String> tmpSet = new HashSet<String>(schools);
+            Set<String> tmpSet = new HashSet<String>(teacherSchoolMap.get(teacher));
             tmpSet.retainAll(edOrgLineage);
-            if (tmpSet.size() == 0) {
-                return false;
+            if (tmpSet.size() != 0) {
+                validTeacherIds.add(teacher);
             }
         }
-        if (teacherSchoolMap.size() == 0 || teacherSchoolMap.size() != teacherIds.size()) {
-            return false;
-        }
-        return true;
-
+        return validTeacherIds;
     }
 
     private void populateMapFromMongoResponse(Map<String, Set<String>> teacherSchoolMap, Iterable<Entity> schoolAssoc) {

@@ -120,7 +120,7 @@ public class StaffToStudentCohortProgramAssociationValidatorTest {
     @Test
     public void testCanValidateValidCohortAssociation() {
         Mockito.when(mockStudentValidator.validate(Mockito.eq(EntityNames.STUDENT), Mockito.any(Set.class)))
-                .thenReturn(true);
+                .thenReturn(new HashSet<String>(Arrays.asList("Boop")));
         for (int i = 0; i < 10; ++i) {
             cohortIds.add(helper.generateStudentCohort("Boop", "" + i, false).getEntityId());
         }
@@ -130,28 +130,28 @@ public class StaffToStudentCohortProgramAssociationValidatorTest {
     @Test
     public void testCanValidateValidProgramAssociation() {
         Mockito.when(mockStudentValidator.validate(Mockito.eq(EntityNames.STUDENT), Mockito.any(Set.class)))
-                .thenReturn(true);
+                .thenReturn(new HashSet<String>(Arrays.asList("Boop")));
         for (int i = 0; i < 10; ++i) {
             programIds.add(helper.generateStudentProgram("Boop", "" + i, false).getEntityId());
         }
-        assertTrue(validator.validate(EntityNames.STUDENT_PROGRAM_ASSOCIATION, programIds));
+        assertTrue(validator.validate(EntityNames.STUDENT_PROGRAM_ASSOCIATION, programIds).equals(programIds));
     }
 
     @Test
     public void testCanNotValidExpiredAssociation() {
         Mockito.when(mockStudentValidator.validate(Mockito.eq(EntityNames.STUDENT), Mockito.any(Set.class)))
-                .thenReturn(true);
+                .thenReturn(new HashSet<String>(Arrays.asList("Boop")));
         cohortIds.add(helper.generateStudentCohort("Boop", "Beep", true).getEntityId());
-        assertFalse(validator.validate(EntityNames.STUDENT_COHORT_ASSOCIATION, cohortIds));
+        assertFalse(validator.validate(EntityNames.STUDENT_COHORT_ASSOCIATION, cohortIds).equals(cohortIds));
     }
     
     @Test
     public void testCanNotValidateAssociationWithoutStudentAccess() {
         Mockito.when(mockStudentValidator.validate(Mockito.eq(EntityNames.STUDENT), Mockito.any(Set.class)))
-                .thenReturn(false);
+                .thenReturn(new HashSet<String>(Arrays.asList("Boop")));
         for (int i = 0; i < 10; ++i) {
             cohortIds.add(helper.generateStudentCohort("Boop", "" + i, false).getEntityId());
         }
-        assertFalse(validator.validate(EntityNames.STUDENT_COHORT_ASSOCIATION, cohortIds));
+        assertFalse(validator.validate(EntityNames.STUDENT_COHORT_ASSOCIATION, cohortIds).equals(cohortIds));
     }
 }

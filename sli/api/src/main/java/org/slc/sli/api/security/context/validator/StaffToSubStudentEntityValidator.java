@@ -16,11 +16,7 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -62,10 +58,10 @@ public class StaffToSubStudentEntityValidator extends AbstractContextValidator {
     @Override
     public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(SUB_ENTITIES_OF_STUDENT, entityType, ids)) {
-            return false;
+            return Collections.EMPTY_SET;
         }
 
-        Set<String> students = new HashSet<String>();
+        Map<String, Set<String>> students = new HashMap<String, Set<String>>();
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
                 NeutralCriteria.CRITERIA_IN, new ArrayList<String>(ids)));
         Iterable<Entity> entities = getRepo().findAll(entityType, query);
@@ -74,14 +70,16 @@ public class StaffToSubStudentEntityValidator extends AbstractContextValidator {
                 Map<String, Object> body = entity.getBody();
                 Object studentInfo = body.get(ParameterConstants.STUDENT_ID);
                 if (studentInfo instanceof Collection) {    //e.g. BasicDBList
-                    students.addAll((Collection<String>) studentInfo);
+                    students = putStudents((Collection<String>) studentInfo, entity.getEntityId(), students);
                 } else if (studentInfo instanceof String) {
-                    students.add((String) studentInfo);
+                    students = putStudents(Arrays.asList((String) studentInfo), entity.getEntityId(), students);
                 }
             }
         }
 
-        return validator.validate(EntityNames.STUDENT, students);
+         Set<String> validStudents = validator.validate(EntityNames.STUDENT, students.keySet());
+
+        return getValidIds(validStudents, students);
     }
 
     /**
@@ -92,5 +90,16 @@ public class StaffToSubStudentEntityValidator extends AbstractContextValidator {
      */
     protected void setStaffToStudentValidator(StaffToStudentValidator staffToStudentValidator) {
         this.validator = staffToStudentValidator;
+    }
+
+    private Map<String, Set<String>> putStudents(Collection<String> studentInfo, String entityId, Map<String, Set<String>> studentToEntities) {
+        for (String student : studentInfo) {
+            if (!studentToEntities.containsKey(student)) {
+                studentToEntities.put(student, new HashSet<String>());
+            }
+            studentToEntities.get(student).add(entityId);
+        }
+
+        return studentToEntities;
     }
 }
