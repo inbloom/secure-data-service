@@ -17,19 +17,19 @@
 package org.slc.sli.api.security.context;
 
 
-import javax.annotation.PostConstruct;
-
-import org.slc.sli.api.security.context.resolver.EdOrgHelper;
-import org.slc.sli.domain.Entity;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.security.context.resolver.EdOrgHelper;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
+import org.slc.sli.domain.Entity;
 
 /**
  * @author ablum npandey
@@ -47,11 +47,11 @@ public class EdOrgOwnershipArbiter extends OwnershipArbiter {
         typeToReference
                 .put(EntityNames.STUDENT, new Reference(EntityNames.STUDENT, EntityNames.STUDENT_SCHOOL_ASSOCIATION,
                         ParameterConstants.STUDENT_ID, Reference.RefType.RIGHT_TO_LEFT));
-        
+
         typeToReference.put(EntityNames.STUDENT_SCHOOL_ASSOCIATION, new Reference(
                 EntityNames.STUDENT_SCHOOL_ASSOCIATION, EntityNames.EDUCATION_ORGANIZATION,
                 ParameterConstants.SCHOOL_ID, Reference.RefType.LEFT_TO_RIGHT));
-        
+
         typeToReference.put(EntityNames.GRADE, new Reference(EntityNames.GRADE,
                 EntityNames.STUDENT_SECTION_ASSOCIATION, ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID,
                 Reference.RefType.LEFT_TO_RIGHT));
@@ -158,7 +158,7 @@ public class EdOrgOwnershipArbiter extends OwnershipArbiter {
 
         for (Entity edorg : edorgs) {
             hierarchicalEdorgs.add(edorg.getEntityId());
-            hierarchicalEdorgs.addAll(helper.getHierarchicalEdOrgs(edorg));
+            hierarchicalEdorgs.addAll(helper.getParentEdOrgs(edorg));
         }
 
         return hierarchicalEdorgs;

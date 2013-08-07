@@ -186,26 +186,32 @@ public class MockRepo implements Repository<Entity> {
             results = new LinkedHashMap<String, Entity>();
         }
 
-        for (NeutralCriteria criteria : neutralQuery.getCriteria()) {
-            results = processCriteria(results, criteria);
-        }
-
-        if (neutralQuery.getOrQueries().size() > 0) {
-            Map<String, Entity> oredResults = new LinkedHashMap<String, Entity>();
-
-            for (NeutralQuery orQueries : neutralQuery.getOrQueries()) {
-                Map<String, Entity> tmpResults = results;
-                for (NeutralCriteria criteria : orQueries.getCriteria()) {
-                    tmpResults = processCriteria(tmpResults, criteria);
-                }
-                oredResults.putAll(tmpResults);
+        if (neutralQuery != null) {
+            for (NeutralCriteria criteria : neutralQuery.getCriteria()) {
+                results = processCriteria(results, criteria);
             }
-            results = oredResults;
+
+            if (neutralQuery.getOrQueries().size() > 0) {
+                Map<String, Entity> oredResults = new LinkedHashMap<String, Entity>();
+
+                for (NeutralQuery orQueries : neutralQuery.getOrQueries()) {
+                    Map<String, Entity> tmpResults = results;
+                    for (NeutralCriteria criteria : orQueries.getCriteria()) {
+                        tmpResults = processCriteria(tmpResults, criteria);
+                    }
+                    oredResults.putAll(tmpResults);
+                }
+                results = oredResults;
+            }
         }
 
         List<Entity> entitiesFound = new ArrayList<Entity>();
         for (Entity entity : results.values()) {
             entitiesFound.add(entity);
+        }
+
+        if (neutralQuery == null) {
+            return entitiesFound;
         }
 
         if (neutralQuery.getSortBy() != null) {
@@ -769,7 +775,7 @@ public class MockRepo implements Repository<Entity> {
 
     @Override
     public Iterator<Entity> findEach(String collectionName, NeutralQuery query) {
-        return null;
+        return findAll(collectionName, query).iterator();
     }
 
     @Override
