@@ -444,31 +444,31 @@ When /^a the correct number of "(.*?)" was extracted from the database$/ do |col
   disable_NOTABLESCAN()
 	@tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
 
-	case collection
+  case collection
 	when "school"
-	  count = @tenantDb.collection("educationOrganization").find({"type" => "school" } ).count()
+	  count = @tenantDb.collection("educationOrganization").find({"body.organizationCategories" => "school" } ).count()
 	when "teacher"
 	  count = @tenantDb.collection("staff").find({"type" => "teacher" } ).count()
-  when "graduationPlan"
-    count = 3
-  when "gradingPeriod"
-    count = 13
-  when "staffEducationOrganizationAssociation"
-    count = 10
-  when "staffCohortAssociation"
-    count = 2
-  when "staffProgramAssociation"
-    count = 6
-  when "cohort"
-    count = 1
-  when "educationOrganization"
-    count = 5
-  when "staff"
-    count = 10
+    when "graduationPlan"
+      count = 3
+    when "gradingPeriod"
+      count = 13
+    when "staffEducationOrganizationAssociation"
+      count = 10
+    when "staffCohortAssociation"
+      count = 2
+    when "staffProgramAssociation"
+      count = 6
+    when "cohort"
+      count = 1
+    when "educationOrganization"
+      count = 5
+    when "staff"
+      count = 10
 	else
-    parentCollection = subDocParent(collection)
-	  if(parentCollection == nil)
-      count = @tenantDb.collection(collection).count()
+      parentCollection = subDocParent(collection)
+	    if(parentCollection == nil)
+        count = @tenantDb.collection(collection).count()
     else
       count = @tenantDb.collection(parentCollection).aggregate([ {"$match" => {"#{collection}" => {"$exists" => true}}}, {"$unwind" => "$#{collection}"}]).size
     end
