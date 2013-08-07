@@ -17,8 +17,8 @@ package org.slc.sli.api.security.context.validator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Set;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -47,10 +47,11 @@ public class StudentToCourseTranscriptValidator extends BasicValidator {
     protected Set<String> doValidate(Set<String> ids, String entityType) {
 
         // Get the Student IDs on the things we want to see, compare with the IDs of yourself
-        Set<String> studentAcademicRecordIds = new HashSet<String>(
-                getIdsContainedInFieldOnEntities(EntityNames.COURSE_TRANSCRIPT, new ArrayList<String>(ids), ParameterConstants.STUDENT_ACADEMIC_RECORD_ID));
+        Map<String, Set<String>> academicRecordToCourseTranscripts =
+                getIdsContainedInFieldOnEntities(EntityNames.COURSE_TRANSCRIPT, new ArrayList<String>(ids), ParameterConstants.STUDENT_ACADEMIC_RECORD_ID);
 
-        return studentToSubValidator.validate(EntityNames.STUDENT_ACADEMIC_RECORD, studentAcademicRecordIds);
+        Set<String> studentAcademicRecordIds = studentToSubValidator.validate(EntityNames.STUDENT_ACADEMIC_RECORD, academicRecordToCourseTranscripts.keySet());
+        return getValidIds(studentAcademicRecordIds, academicRecordToCourseTranscripts);
     }
 
 }
