@@ -488,6 +488,7 @@ Given /^a valid json document for entity "([^"]*)"$/ do |entity|
   assessment_coll = db.collection('assessment')
   cohort_coll = db.collection('cohort')
   student_coll = db.collection('student')
+  learn_obj_coll = db.collection('learningObjective')
 
   gp = gp_coll.find_one({'body.gradingPeriodIdentity.schoolId' => '99a4ec9d3ba372993b2860a798b550c77bb73a09_id'})
   gp_id = gp['_id']
@@ -534,6 +535,8 @@ Given /^a valid json document for entity "([^"]*)"$/ do |entity|
 
   teacher_section_id = section_coll.find_one({'body.schoolId' => '2a30827ed4cf5500fb848512d19ad73ed37c4464_id',
                                               'teacherSectionAssociation.body.teacherId' => {'$ne' => '7810ac678851ae29a450cc18bd9f47efa37bfaef_id'}})['_id']
+
+  learning_objective_id = learn_obj_coll.find_one()['_id']
 
   enable_NOTABLESCAN()
   conn.close
@@ -857,6 +860,33 @@ Given /^a valid json document for entity "([^"]*)"$/ do |entity|
         'teacherId' => '7810ac678851ae29a450cc18bd9f47efa37bfaef_id',
         'sectionId' => teacher_section_id,
         'classroomPosition' => 'Assistant Teacher'
+    },
+
+    'calendarDate' => {
+        'date' => '2010-01-01',
+        'educationOrganizationId' => '2a30827ed4cf5500fb848512d19ad73ed37c4464_id',
+        'calendarEvent' => 'Teacher only day'
+    },
+
+    'studentCompetency' => {
+        'studentSectionAssociationId' => gradebook_section['studentSectionAssociation'][0]['_id'],
+        'objectiveId' => {
+            'learningObjectiveId' => learning_objective_id
+        },
+        'competencyLevel' => {
+            'description' => 'Incredibly Incompetent'
+        },
+        'diagnosticStatement' => 'Fails miserably'
+    },
+
+    'parent' => {
+        'parentUniqueStateId' => 'new-parent',
+        'loginId' => 'new-parent-login',
+        'sex' => 'Female',
+        'name' => {
+            'firstName' => 'Samantha',
+            'lastSurname' => 'Samuelson'
+        }
     }
 
   }

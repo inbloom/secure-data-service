@@ -1,4 +1,4 @@
-@RALLY_US5775 @RALLY_US5777
+@RALLY_US5775 @RALLY_US5777 @RALLY_US5778 @RALLY_US5789
 Feature: As a staff member API user with multiple roles over different edOrgs,
   I want to be able to perform all CRUD operations on all other entities.
 
@@ -31,7 +31,7 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | session                    | sessions                    |
     | studentCompetencyObjective | studentCompetencyObjectives |
 
-  Scenario Outline: Ensure GET can be performed on all edorg and student related entities with the proper rights
+  Scenario Outline: Ensure GET can be performed on all edorg, student, and staff related entities with the proper rights
     And I log in as "jmacey"
     And parameter "limit" is "0"
     When I navigate to GET "/v1/<ENTITY URI>"
@@ -59,6 +59,10 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | staffCohortAssociations                 |
     | staffProgramAssociations                |
     | teacherSectionAssociations              |
+    | grades                                  |
+    | studentCompetencies                     |
+    | studentGradebookEntries                 |
+    | parents                                 |
 
   Scenario: Ensure GET can be performed on self entities with the proper rights
     And I log in as "msmith"
@@ -92,8 +96,9 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | section                    | sections                    |
     | session                    | sessions                    |
     | studentCompetencyObjective | studentCompetencyObjectives |
+    | calendarDate               | calendarDates               |
 
-  Scenario Outline: Ensure GET cannot be performed on all edorg related entities without the proper rights
+  Scenario Outline: Ensure GET cannot be performed on all edorg, staff, and student related entities without the proper rights
     Given I change the custom role of "Leader" to remove the "READ_GENERAL" right
     And I change the custom role of "Leader" to remove the "READ_RESTRICTED" right
     And I change the custom role of "Educator" to remove the "READ_GENERAL" right
@@ -125,6 +130,10 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | staffCohortAssociations                 |
     | staffProgramAssociations                |
     | teacherSectionAssociations              |
+    | grades                                  |
+    | studentCompetencies                     |
+    | studentGradebookEntries                 |
+    | parents                                 |
 
   Scenario Outline: Ensure POST can be performed on all public entities with READ_PUBLIC and WRITE_PUBLIC rights
     Given I change the custom role of "Leader" to add the "READ_PUBLIC" right
@@ -153,6 +162,7 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | section                    | section                    | sections                    |
     | session                    | session                    | sessions                    |
     | studentCompetencyObjective | studentCompetencyObjective | studentCompetencyObjectives |
+    | calendarDate               | calendarDate               | calendarDates               |
 
   Scenario Outline: Ensure POST can be performed on edorg and student related entities with WRITE_GENERAL and WRITE_RESTRICTED rights
     Given I change the custom role of "Leader" to add the "WRITE_GENERAL" right
@@ -184,6 +194,8 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | staffCohortAssociation                       | staffCohortAssociation                | staffCohortAssociations                 |
     | staffProgramAssociation                      | staffProgramAssociation               | staffProgramAssociations                |
     | section.teacherSectionAssociation            | teacherSectionAssociation             | teacherSectionAssociations              |
+    | studentCompetency                            | studentCompetency                     | studentCompetencies                     |
+    | parent                                       | parent                                | parents                                 |
 
   Scenario Outline: Ensure POST can NOT be performed on any public entities with READ_PUBLIC and WRITE_PUBLIC rights
     Given I change the custom role of "Leader" to remove the "READ_PUBLIC" right
@@ -212,6 +224,7 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | section                    | section                    | sections                    |
     | session                    | session                    | sessions                    |
     | studentCompetencyObjective | studentCompetencyObjective | studentCompetencyObjectives |
+    | calendarDate               | calendarDate               | calendarDates               |
 
   Scenario Outline: Ensure POST cannot be performed on edorg or student related entities without WRITE_GENERAL and WRITE_RESTRICTED rights
     Given I add a SEOA for "xbell" in "District 9" as a "Leader"
@@ -239,6 +252,8 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | staffCohortAssociation                | staffCohortAssociations                 |
     | staffProgramAssociation               | staffProgramAssociations                |
     | teacherSectionAssociation             | teacherSectionAssociations              |
+    | studentCompetency                     | studentCompetencies                     |
+    | parent                                | parents                                 |
 
 # Double segment (/<ENTITY>/{id}) URI tests.
 
@@ -270,6 +285,7 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | section                    | section                    | sections                    |
     | session                    | session                    | sessions                    |
     | studentCompetencyObjective | studentCompetencyObjective | studentCompetencyObjectives |
+    | calendarDate               | calendarDate               | calendarDates               |
 
   Scenario Outline: GETs on /entity/{id} for edorg-related entities
     Given I change the custom role of "Aggregate Viewer" to add the "READ_GENERAL" right
@@ -302,6 +318,9 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | student                  | studentParentAssociation             | studentParentAssociations             |
     | section                  | studentSectionAssociation            | studentSectionAssociations            |
     | yearlyTranscript         | reportCard                           | reportCards                           |
+    | yearlyTranscript         | grade                                | grades                                |
+    | studentCompetency        | studentCompetency                    | studentCompetencies                   |
+    | studentGradebookEntry    | studentGradebookEntry                | studentGradebookEntries               |
 
   Scenario Outline: GETs on /entity/{id} for staff related entities
     Given I change the custom role of "Aggregate Viewer" to add the "READ_GENERAL" right
@@ -322,6 +341,20 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | staffCohortAssociation   | staffCohortAssociation               | staffCohortAssociations               |
     | staffProgramAssociation  | staffProgramAssociation              | staffProgramAssociations              |
     | section                  | teacherSectionAssociation            | teacherSectionAssociations            |
+
+  Scenario: GETs on /parents/{id}
+    Given I change the custom role of "Aggregate Viewer" to add the "READ_GENERAL" right
+    And I log in as "msmith"
+    And I get 10 random ids for parents associated with the students of "msmith"
+    When I navigate to GET each id for "/v1/parents"
+    Then All the return codes should be 200
+
+    Given I change the custom role of "Leader" to remove the "READ_GENERAL" right
+    And I change the custom role of "Leader" to remove the "READ_RESTRICTED" right
+    And I change the custom role of "Aggregate Viewer" to remove the "READ_GENERAL" right
+    And I log in as "msmith"
+    When I navigate to GET each id for "/v1/parents"
+    Then All the return codes should be 403
 
   Scenario Outline: PUTs, PATCHes, and DELETEs on /entity/{id}
     Given I change the custom role of "Aggregate Viewer" to add the "WRITE_PUBLIC" right
@@ -395,6 +428,9 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | staffCohortAssociation                | staffCohortAssociations                 | studentRecordAccess      | true                                    | false                                   |
     | staffProgramAssociation               | staffProgramAssociations                | endDate                  | 2013-01-01                              | 2012-12-12                              |
     | teacherSectionAssociation             | teacherSectionAssociations              | classroomPosition        | Support Teacher                         | Substitute Teacher                      |
+    | calendarDate                          | calendarDates                           | calendarEvent            | Make-up day                             | Student late arrival/early dismissal    |
+    | studentCompetency                     | studentCompetencies                     | diagnosticStatement      | Needs improvement                       | Very unsatisfactory                     |
+    | parent                                | parents                                 | loginId                  | new-login                               | even-newer-login                        |
 
 # Multi segment (/<ENTITY>/{id}/...) URI tests.
 

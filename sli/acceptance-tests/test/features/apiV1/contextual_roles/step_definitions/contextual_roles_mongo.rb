@@ -584,7 +584,7 @@ Given /^I get (\d+) random ids associated with the edorgs for "([^"]*)" of "([^"
       edorg_in_subdoc = false
       edorg_ref = 'body.schoolId'
       indirect_ref = false
-    when 'studentAssessment'
+    when 'studentAssessment', 'studentGradebookEntry'
       subdoc = false
       indirect_ref = true
       ref_entity = 'studentSchoolAssociation'
@@ -594,6 +594,7 @@ Given /^I get (\d+) random ids associated with the edorgs for "([^"]*)" of "([^"
     when 'studentCohortAssociation'
       subdoc = true
       indirect_ref = true
+      ref_sub_entity = nil
       ref_entity = 'cohort'
       edorg_ref = 'body.educationOrgId'
       ref_field_in_ref_entity = '_id'
@@ -601,17 +602,26 @@ Given /^I get (\d+) random ids associated with the edorgs for "([^"]*)" of "([^"
     when 'studentDisciplineIncidentAssociation'
       subdoc = true
       indirect_ref = true
+      ref_sub_entity = nil
       ref_entity = 'disciplineIncident'
       edorg_ref = 'body.schoolId'
       ref_field_in_ref_entity = '_id'
       ref_field = 'body.disciplineIncidentId'
-    when 'studentParentAssociation', 'studentAcademicRecord', 'reportCard'
+    when 'studentParentAssociation', 'studentAcademicRecord', 'reportCard', 'grade'
       subdoc = true
       indirect_ref = true
       ref_entity = 'studentSchoolAssociation'
       edorg_ref = 'body.schoolId'
       ref_field_in_ref_entity = 'studentId'
       ref_field = 'body.studentId'
+    when 'studentCompetency'
+      subdoc = false
+      indirect_ref = true
+      ref_entity = 'section'
+      edorg_ref = 'body.schoolId'
+      ref_sub_entity = 'studentSectionAssociation'
+      ref_field_in_ref_entity = '_id'
+      ref_field = 'body.studentSectionAssociationId'
     else
       subdoc = false
       edorg_ref = 'body.educationOrganizationId'
@@ -647,7 +657,11 @@ Given /^I get (\d+) random ids associated with the edorgs for "([^"]*)" of "([^"
       ref_entities = ref_coll.find({edorg_ref => edorg}).to_a
       ref_ids = Set.new
       if ref_field_in_ref_entity == '_id'
-        ref_entities.each { |entry| ref_ids.add(entry[ref_field_in_ref_entity])}
+        if ref_sub_entity.nil?
+          ref_entities.each { |entry| ref_ids.add(entry[ref_field_in_ref_entity])}
+        else
+          ref_entities.each { |entry| ref_ids.add(entry[ref_sub_entity][0][ref_field_in_ref_entity])}
+        end
       else
         ref_entities.each { |entry| ref_ids.add(entry['body'][ref_field_in_ref_entity])}
       end
@@ -659,7 +673,11 @@ Given /^I get (\d+) random ids associated with the edorgs for "([^"]*)" of "([^"
       ref_entities = ref_coll.find({edorg_ref => edorg}).to_a
       ref_ids = Set.new
       if ref_field_in_ref_entity == '_id'
-        ref_entities.each { |entry| ref_ids.add(entry[ref_field_in_ref_entity])}
+        if ref_sub_entity.nil?
+          ref_entities.each { |entry| ref_ids.add(entry[ref_field_in_ref_entity])}
+        else
+          ref_entities.each { |entry| ref_ids.add(entry[ref_sub_entity][0][ref_field_in_ref_entity])}
+        end
       else
         ref_entities.each { |entry| ref_ids.add(entry['body'][ref_field_in_ref_entity])}
       end
@@ -710,6 +728,34 @@ Given /^I get (\d+) random ids of "([^"]*)" in "([^"]*)" associated with the sta
     end
   end
   assert(entity_ids.size > 0, "No #{type} found that is associated with the staff of #{staff}")
+  (entity_ids.to_a.shuffle.take(number.to_i)).each { |entry| (@entity_ids ||= []) << entry }
+  conn.close
+  enable_NOTABLESCAN()
+end
+
+Given /^I get (\d+) random ids for parents associated with the students of "([^"]*)"$/ do |number, staff|
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  db_name = convertTenantIdToDbName(@tenant)
+  db = conn[db_name]
+  edorgs = Set.new
+  seoa_coll = db.collection('staffEducationOrganizationAssociation')
+  staff_coll = db.collection('staff')
+  staff_id = staff_coll.find_one({'body.staffUniqueStateId' => staff})['_id']
+  seoas = seoa_coll.find({'body.staffReference' => staff_id}).to_a
+  seoas.each {|seoa| edorgs.add(seoa['body']['educationOrganizationReference']) }
+  entity_ids = Set.new
+  student_coll = db.collection('student')
+  ssa_coll = db.collection('studentSchoolAssociation')
+
+  edorgs.each do |edorg|
+    students = ssa_coll.find({'body.schoolId' => edorg},{:fields => %w(body.studentId)}).to_a
+    students.each do |student_ref|
+      student = student_coll.find_one({'_id' => student_ref['body']['studentId']},{:fields => %w(studentParentAssociation)})
+      student['studentParentAssociation'].each { |entry| entity_ids.add(entry['body']['parentId']) }
+    end
+  end
+  assert(entity_ids.size > 0, "No parent found that is associated with the students of #{staff}")
   (entity_ids.to_a.shuffle.take(number.to_i)).each { |entry| (@entity_ids ||= []) << entry }
   conn.close
   enable_NOTABLESCAN()
