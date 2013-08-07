@@ -18,7 +18,11 @@ package org.slc.sli.api.security.context;
 
 import static org.mockito.Matchers.argThat;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 import junit.framework.Assert;
 
@@ -292,7 +296,7 @@ public class EdOrgOwnershipArbiterTest {
         Entity edorg1 = createEntity(EntityNames.SCHOOL, "edorg1", new HashMap<String, Object>());
 
         Mockito.when(repo.findAll(Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.any(NeutralQuery.class))).thenReturn( Arrays.asList(edorg1));
-        Mockito.when(helper.getHierarchicalEdOrgs(edorg1)).thenReturn(Arrays.asList("edorg1Parent1", "edorg1Parent2"));
+        Mockito.when(helper.getParentEdOrgs(edorg1)).thenReturn(Arrays.asList("edorg1Parent1", "edorg1Parent2"));
 
         Map<String, Object> attendanceBody = new HashMap<String, Object>();
         attendanceBody.put(ParameterConstants.SCHOOL_ID, "edorg1");
