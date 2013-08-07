@@ -38,8 +38,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>70</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <GradesOffered>
-    </GradesOffered>
 </EducationOrganization>
   <Course>
     <CourseTitle>Kindergarten</CourseTitle>
@@ -1383,8 +1381,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </ProgramIdentity>
     </ProgramReference>
     <LEACategory>Independent</LEACategory>
-    <GradesOffered>
-    </GradesOffered>
 </EducationOrganization>
   <EducationOrganization>
     <StateOrganizationId>5</StateOrganizationId>
@@ -1434,8 +1430,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </ProgramIdentity>
     </ProgramReference>
     <LEACategory>Independent</LEACategory>
-    <GradesOffered>
-    </GradesOffered>
 </EducationOrganization>
   <EducationOrganization>
     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>

@@ -77,30 +77,32 @@ limitations under the License.
     {{#lea_category}}
     <LEACategory>{{lea_category}}</LEACategory>
     {{/lea_category}}
+    {{#grades_offered}}
     <GradesOffered>
-        {{#grades}}
-        <GradeLevel>{{.}}</GradeLevel>
-        {{/grades}}
+      {{#grades}}
+      <GradeLevel>{{.}}</GradeLevel>
+      {{/grades}}
     </GradesOffered>
+    {{/grades_offered}}
     {{#type}}
     <SchoolCategories>
-        <SchoolCategory>{{type}}</SchoolCategory>
+      <SchoolCategory>{{type}}</SchoolCategory>
     </SchoolCategories>
     {{/type}}
     {{#schoolType}}
-        <SchoolType>{{schoolType}}</SchoolType>
+    <SchoolType>{{schoolType}}</SchoolType>
     {{/schoolType}}
     {{#charterStatus}}
-        <CharterStatus>{{charterStatus}}</CharterStatus>
+    <CharterStatus>{{charterStatus}}</CharterStatus>
     {{/charterStatus}}
-  {{#titleIPartASchoolDesignation}}
+    {{#titleIPartASchoolDesignation}}
     <TitleIPartASchoolDesignation>{{titleIPartASchoolDesignation}}</TitleIPartASchoolDesignation>
-   {{/titleIPartASchoolDesignation}}
-  {{#magnetSpecialProgramEmphasisSchool}}
+    {{/titleIPartASchoolDesignation}}
+    {{#magnetSpecialProgramEmphasisSchool}}
     <MagnetSpecialProgramEmphasisSchool>{{magnetSpecialProgramEmphasisSchool}}</MagnetSpecialProgramEmphasisSchool>
-  {{/magnetSpecialProgramEmphasisSchool}}
-  {{#administrativeFundingControl}}
+    {{/magnetSpecialProgramEmphasisSchool}}
+    {{#administrativeFundingControl}}
     <AdministrativeFundingControl>{{administrativeFundingControl}}</AdministrativeFundingControl>
-  {{/administrativeFundingControl}}
+    {{/administrativeFundingControl}}
 </EducationOrganization>
 {{/entity}}
