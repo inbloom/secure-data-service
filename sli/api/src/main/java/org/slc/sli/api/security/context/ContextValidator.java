@@ -298,7 +298,7 @@ public class ContextValidator implements ApplicationContextAware {
             }
 
             if (!idsToValidate.isEmpty()) {
-                if (!validator.validate(def.getType(), idsToValidate)) {
+                if (validator.validate(def.getType(), idsToValidate).containsAll(idsToValidate)) {
                     throw new APIAccessDeniedException("Cannot access entities", def.getType(), idsToValidate);
                 }
             }
