@@ -49,7 +49,7 @@ public class TeacherToCourseTranscriptValidator extends AbstractContextValidator
             return Collections.emptySet();
         }
 
-        Map<String, String> studentAcademicRecordToCT = new HashMap<String, String>();
+        Map<String, List<String>> studentAcademicRecordToCT = new HashMap<String, List<String>>();
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
                 NeutralCriteria.CRITERIA_IN, new ArrayList<String>(ids)));
         Iterable<Entity> entities = getRepo().findAll(EntityNames.COURSE_TRANSCRIPT, query);
@@ -57,7 +57,11 @@ public class TeacherToCourseTranscriptValidator extends AbstractContextValidator
         for (Entity entity : entities) {
             Map<String, Object> body = entity.getBody();
             if (body.get(ParameterConstants.STUDENT_ACADEMIC_RECORD_ID) instanceof String) {
-                studentAcademicRecordToCT.put((String) body.get(ParameterConstants.STUDENT_ACADEMIC_RECORD_ID), entity.getEntityId());
+                String id = (String) body.get(ParameterConstants.STUDENT_ACADEMIC_RECORD_ID);
+                if (!studentAcademicRecordToCT.containsKey(id)) {
+                    studentAcademicRecordToCT.put(id, new ArrayList<String>());
+                }
+                studentAcademicRecordToCT.get(id).add(entity.getEntityId());
             } else {
                 //studentacademicrecord ID was not a string, this is unexpected
                 warn("Possible Corrupt Data detected at "+entityType+"/"+entity.getEntityId());
@@ -68,7 +72,7 @@ public class TeacherToCourseTranscriptValidator extends AbstractContextValidator
             return Collections.EMPTY_SET;
         }
 
-        Set<String> SARIds = validator.validate(EntityNames.STUDENT_ACADEMIC_RECORD, studentAcademicRecordToCT.keySet());
-        return getValidIds(SARIds, studentAcademicRecordToCT);
+        Set<String> sarIds = validator.validate(EntityNames.STUDENT_ACADEMIC_RECORD, studentAcademicRecordToCT.keySet());
+        return getValidIds(sarIds, studentAcademicRecordToCT);
     }
 }

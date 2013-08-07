@@ -55,11 +55,15 @@ public class StaffToCourseTranscriptValidator extends AbstractContextValidator {
                 NeutralCriteria.CRITERIA_IN, new ArrayList<String>(ids)));
         Iterable<Entity> entities = getRepo().findAll(EntityNames.COURSE_TRANSCRIPT, query);
 
-        Map<String, String> studentAcademicRecords = new HashMap<String, String>();
+        Map<String, List<String>> studentAcademicRecords = new HashMap<String, List<String>>();
         for (Entity entity : entities) {
             Map<String, Object> body = entity.getBody();
             if (body.get(ParameterConstants.STUDENT_ACADEMIC_RECORD_ID) instanceof String) {
-                studentAcademicRecords.put((String) body.get(ParameterConstants.STUDENT_ACADEMIC_RECORD_ID), entity.getEntityId());
+                String key = (String) body.get(ParameterConstants.STUDENT_ACADEMIC_RECORD_ID);
+                if(!studentAcademicRecords.containsKey(key)) {
+                    studentAcademicRecords.put(key, new ArrayList<String>());
+                }
+                studentAcademicRecords.get(key).add(entity.getEntityId());
             } else {
                 //studentacademicrecord ID was not a string, this is unexpected
                 warn("Possible Corrupt Data detected at "+entityType+"/"+entity.getEntityId());

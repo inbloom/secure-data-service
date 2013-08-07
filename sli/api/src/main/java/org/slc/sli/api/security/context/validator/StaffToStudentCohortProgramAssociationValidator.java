@@ -57,7 +57,7 @@ public class StaffToStudentCohortProgramAssociationValidator extends AbstractCon
         if (!areParametersValid(STUDENT_ASSOCIATIONS, entityType, ids)) {
             return Collections.EMPTY_SET;
         }
-        Map<String, String> associations = new HashMap<String, String>();
+        Map<String, List<String>> associations = new HashMap<String, List<String>>();
         // See the student
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
                 NeutralCriteria.CRITERIA_IN, ids));
@@ -65,7 +65,10 @@ public class StaffToStudentCohortProgramAssociationValidator extends AbstractCon
         for (Entity assoc : assocs) {
             String studentId = (String) assoc.getBody().get(ParameterConstants.STUDENT_ID);
             if (!isFieldExpired(assoc.getBody(), ParameterConstants.END_DATE, true)) {
-                associations.put(studentId, assoc.getEntityId());
+                if (!associations.containsKey(studentId)) {
+                    associations.put(studentId, new ArrayList<String>());
+                }
+                associations.get(studentId).add(assoc.getEntityId());
             }
         }
         Set<String> validStudents = studentValidator.validate(EntityNames.STUDENT, associations.keySet());
