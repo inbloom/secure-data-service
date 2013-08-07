@@ -23,6 +23,8 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -41,9 +43,9 @@ public class StaffToEducationOrganizationAssociationValidator extends AbstractCo
     }
     
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.STAFF_ED_ORG_ASSOCIATION, entityType, ids)) {
-            return false;
+            return Collections.EMPTY_SET;
         }
         
         info("Validating {}'s access to staffEducationOrganizationAssoc: [{}]", SecurityUtil.getSLIPrincipal().getName(), ids);
@@ -52,9 +54,14 @@ public class StaffToEducationOrganizationAssociationValidator extends AbstractCo
         
         NeutralQuery nq = new NeutralQuery(new NeutralCriteria("_id", "in", ids, false));
         nq.addCriteria(new NeutralCriteria("body.educationOrganizationReference", "in", lineage, false));
-        
+
         List<Entity> found = (List<Entity>) getRepo().findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, nq);
-        
-        return ids.size() == found.size();
+
+        Set<String> foundIds = new HashSet<String>();
+        for (Entity seoa : found) {
+            foundIds.add(seoa.getEntityId());
+        }
+
+        return foundIds;
     }
 }

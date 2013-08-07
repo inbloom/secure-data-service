@@ -16,11 +16,7 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -46,9 +42,9 @@ public class TeacherToDisciplineIncidentValidator extends AbstractContextValidat
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.DISCIPLINE_INCIDENT, entityType, ids)) {
-            return false;
+            return Collections.EMPTY_SET;
         }
 
         Set<String> discIncidentIds = new HashSet<String>(ids);
@@ -64,7 +60,7 @@ public class TeacherToDisciplineIncidentValidator extends AbstractContextValidat
         }
 
         if (discIncidentIds.size() == 0) {
-            return true;    //we have direct context to all the incidents
+            return Collections.EMPTY_SET;    //we have direct context to all the incidents
         }
 
         //Otherwise the teacher needs to have context to the students involved with the incident
@@ -85,15 +81,14 @@ public class TeacherToDisciplineIncidentValidator extends AbstractContextValidat
         }
 
         //Make sure that for each incident we can see at least one of their students
-        int validIncidents = 0;
-        for (Set<String> studentList : discIncToStudents.values()) {
-            if (studentValidator.getValid(EntityNames.STUDENT, studentList).size() > 0) {
-                validIncidents++;
-            } else {
-                return false;
+        Set<String> validIncidens = new HashSet<String>();
+        for (String discIncId : discIncToStudents.keySet()) {
+            Set<String> validStudent = studentValidator.validate(EntityNames.STUDENT, discIncToStudents.get(discIncId));
+            if (validStudent.size() > 0) {
+                validIncidens.add(discIncId);
             }
         }
-        return validIncidents == discIncidentIds.size();
+        return validIncidens;
     }
 
 

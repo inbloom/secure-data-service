@@ -19,10 +19,7 @@ package org.slc.sli.api.security.context.validator;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import org.junit.After;
 import org.junit.Before;
@@ -117,25 +114,25 @@ public class StaffToDisciplineIncidentValidatorTest {
     public void testCanValidateDisciplineIncidentFromSchool() {
 
         Entity school = helper.generateEdorgWithParent(null);
-        Mockito.when(
-                mockSchoolValidator.validate(EntityNames.SCHOOL,
-                        new HashSet<String>(Arrays.asList(school.getEntityId())))).thenReturn(true);
+        Set<String> schoolId = new HashSet<String>(Arrays.asList(school.getEntityId()));
+        Mockito.when(mockSchoolValidator.validate(EntityNames.SCHOOL, schoolId)).thenReturn(schoolId);
         helper.generateStaffEdorg(helper.STAFF_ID, school.getEntityId(), false);
         Entity di = helper.generateDisciplineIncident(school.getEntityId());
         diIds.add(di.getEntityId());
-        assertTrue(validator.validate(EntityNames.DISCIPLINE_INCIDENT, diIds));
+        assertTrue(validator.validate(EntityNames.DISCIPLINE_INCIDENT, diIds).equals(diIds));
     }
 
     @Test
     public void testCanValidateDisciplineIncidentFromStudent() {
-        Mockito.when(
-                mockStudentValidator.validate(Mockito.eq(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION),
-                        Mockito.any(Set.class))).thenReturn(true);
+
         Entity school = helper.generateEdorgWithParent(null);
         Entity di = helper.generateDisciplineIncident(school.getEntityId());
         diIds.add(di.getEntityId());
-        helper.generateStudentDisciplineIncidentAssociation("Berp", di.getEntityId());
-        assertTrue(validator.validate(EntityNames.DISCIPLINE_INCIDENT, diIds));
+        Entity sdia = helper.generateStudentDisciplineIncidentAssociation("Berp", di.getEntityId());
+        Mockito.when(
+                mockStudentValidator.validate(Mockito.eq(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION),
+                        Mockito.any(Set.class))).thenReturn(new HashSet<String>(Arrays.asList(sdia.getEntityId())));
+        assertTrue(validator.validate(EntityNames.DISCIPLINE_INCIDENT, diIds).equals(diIds));
     }
 
     @Test
@@ -143,20 +140,18 @@ public class StaffToDisciplineIncidentValidatorTest {
         Entity sea = helper.generateEdorgWithParent(null);
         Entity lea = helper.generateEdorgWithParent(sea.getEntityId());
 
-        helper.generateStaffEdorg(helper.STAFF_ID, lea.getEntityId(), false);
+        Entity school = helper.generateStaffEdorg(helper.STAFF_ID, lea.getEntityId(), false);
         for (int i = 0; i < 10; ++i) {
-            Entity school = helper.generateEdorgWithParent(lea.getEntityId());
+            helper.generateEdorgWithParent(lea.getEntityId());
             Entity di = helper.generateDisciplineIncident(school.getEntityId());
             diIds.add(di.getEntityId());
         }
-        Mockito.when(mockSchoolValidator.validate(Mockito.eq(EntityNames.SCHOOL), Mockito.any(Set.class))).thenReturn(
-                true);
-        assertTrue(validator.validate(EntityNames.DISCIPLINE_INCIDENT, diIds));
+        Mockito.when(mockSchoolValidator.validate(Mockito.eq(EntityNames.SCHOOL), Mockito.any(Set.class))).thenReturn(new HashSet<String>(Arrays.asList(school.getEntityId())));
+        assertTrue(validator.validate(EntityNames.DISCIPLINE_INCIDENT, diIds).equals(diIds));
         // Now put one above and fail
-        Mockito.when(mockSchoolValidator.validate(Mockito.eq(EntityNames.SCHOOL), Mockito.any(Set.class))).thenReturn(
-                false);
+        Mockito.when(mockSchoolValidator.validate(Mockito.eq(EntityNames.SCHOOL), Mockito.any(Set.class))).thenReturn(Collections.EMPTY_SET);
         diIds.add(helper.generateDisciplineIncident(sea.getEntityId()).getEntityId());
-        assertFalse(validator.validate(EntityNames.DISCIPLINE_INCIDENT, diIds));
+        assertFalse(validator.validate(EntityNames.DISCIPLINE_INCIDENT, diIds).equals(diIds));
     }
 
     @Test
@@ -165,22 +160,22 @@ public class StaffToDisciplineIncidentValidatorTest {
         Entity school2 = helper.generateEdorgWithParent(null);
         Mockito.when(
                 mockSchoolValidator.validate(EntityNames.SCHOOL,
-                        new HashSet<String>(Arrays.asList(school2.getEntityId())))).thenReturn(false);
+                        new HashSet<String>(Arrays.asList(school2.getEntityId())))).thenReturn(Collections.EMPTY_SET);
         helper.generateStaffEdorg(helper.STAFF_ID, school.getEntityId(), false);
         Entity di = helper.generateDisciplineIncident(school2.getEntityId());
         diIds.add(di.getEntityId());
-        assertFalse(validator.validate(EntityNames.DISCIPLINE_INCIDENT, diIds));
+        assertFalse(validator.validate(EntityNames.DISCIPLINE_INCIDENT, diIds).equals(diIds));
     }
 
     @Test
     public void testCanNotValidateDisciplineIncidentFromInvalidAssoc() {
         Mockito.when(
                 mockStudentValidator.validate(Mockito.eq(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION),
-                        Mockito.any(Set.class))).thenReturn(false);
+                        Mockito.any(Set.class))).thenReturn(Collections.EMPTY_SET);
         Entity school = helper.generateEdorgWithParent(null);
         Entity di = helper.generateDisciplineIncident(school.getEntityId());
         diIds.add(di.getEntityId());
         helper.generateStudentDisciplineIncidentAssociation("Berp", di.getEntityId());
-        assertFalse(validator.validate(EntityNames.DISCIPLINE_INCIDENT, diIds));
+        assertFalse(validator.validate(EntityNames.DISCIPLINE_INCIDENT, diIds).equals(diIds));
     }
 }
