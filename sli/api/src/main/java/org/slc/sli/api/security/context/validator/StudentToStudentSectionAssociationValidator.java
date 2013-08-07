@@ -15,6 +15,7 @@
  */
 package org.slc.sli.api.security.context.validator;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
@@ -40,9 +41,9 @@ public class StudentToStudentSectionAssociationValidator extends AbstractContext
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.STUDENT_SECTION_ASSOCIATION, entityType, ids)) {
-            return false;
+            return Collections.emptySet();
         }
 
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids));
@@ -50,10 +51,10 @@ public class StudentToStudentSectionAssociationValidator extends AbstractContext
             Map<String, Object> body = ssa.getBody();
             // You only have non-transitive access (able to go through) SSAs if they are your own (student Id is self)
             if (!getDirectStudentIds().contains(body.get(ParameterConstants.STUDENT_ID))) {
-                return false;
+                return Collections.emptySet();
             }
         }
 
-        return true;
+        return ids;
     }
 }

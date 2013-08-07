@@ -17,6 +17,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Set;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
@@ -73,11 +74,13 @@ public class StudentToStudentSectionAssociationValidatorTest extends TestCase {
 
     @Test
     public void testPositiveValidate() {
-        assertTrue(validator.validate(EntityNames.STUDENT_SECTION_ASSOCIATION, new HashSet<String>(Arrays.asList(assoc1Current.getEntityId(), assoc1Past.getEntityId()))));
+        Set<String> idsToValidate = new HashSet<String>(Arrays.asList(assoc1Current.getEntityId(), assoc1Past.getEntityId()));
+        assertTrue(validator.validate(EntityNames.STUDENT_SECTION_ASSOCIATION, idsToValidate).containsAll(idsToValidate));
     }
 
     @Test
     public void testHeterogeneousValidate() {
-        assertFalse(validator.validate(EntityNames.STUDENT_SECTION_ASSOCIATION, new HashSet<String>(Arrays.asList(assoc1Current.getEntityId(), assoc2.getEntityId()))));
+        Set<String> idsToValidate = new HashSet<String>(Arrays.asList(assoc1Current.getEntityId(), assoc2.getEntityId()));
+        assertFalse(validator.validate(EntityNames.STUDENT_SECTION_ASSOCIATION, idsToValidate).containsAll(idsToValidate));
     }
 }

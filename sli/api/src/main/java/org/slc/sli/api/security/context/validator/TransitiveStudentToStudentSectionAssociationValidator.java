@@ -15,6 +15,7 @@
  */
 package org.slc.sli.api.security.context.validator;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -45,9 +46,9 @@ public class TransitiveStudentToStudentSectionAssociationValidator extends Abstr
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.STUDENT_SECTION_ASSOCIATION, entityType, ids)) {
-            return false;
+            return Collections.emptySet();
         }
 
         Set<String> otherStudentIds = new HashSet<String>();
@@ -63,10 +64,16 @@ public class TransitiveStudentToStudentSectionAssociationValidator extends Abstr
                 otherStudentIds.add((String) ssa.getBody().get(ParameterConstants.STUDENT_ID));
             } else {
                 // We cannot see SSAs for other students if they are expired
-                return false;
+                return Collections.emptySet();
             }
         }
 
-        return otherStudentIds.isEmpty() || studentValidator.validate(EntityNames.STUDENT, otherStudentIds);
+        Set<String> result = new HashSet<String>();
+        if(otherStudentIds.isEmpty()) {
+            result = ids;
+        } else {
+            result = studentValidator.validate(EntityNames.STUDENT, otherStudentIds);
+        }
+        return result;
     }
 }

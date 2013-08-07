@@ -1,5 +1,6 @@
 package org.slc.sli.api.security.context.validator;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,13 +20,14 @@ public class ParentToStudentParentAssociationValidator extends AbstractContextVa
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.STUDENT_PARENT_ASSOCIATION, entityType, ids)) {
-            return false;
+            return Collections.emptySet();
         }
         
         Set<String> remainingIds = removePermissibleIds(ids, true);
-        return remainingIds.isEmpty();
+        ids.removeAll(remainingIds);
+        return ids;
     }
     
     protected Set<String> removePermissibleIds(Set<String> ids, boolean filterBySelf) {

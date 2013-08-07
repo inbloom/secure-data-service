@@ -18,6 +18,8 @@ package org.slc.sli.api.security.context.validator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.HashSet;
+import java.util.Collections;
 
 import org.springframework.stereotype.Component;
 
@@ -33,15 +35,15 @@ public class StudentToStudentCompetencyValidator extends AbstractContextValidato
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.STUDENT_COMPETENCY, entityType, ids)) {
-            return false;
+            return Collections.emptySet();
         }
 
         List<String> studentSectionAssociationIds = getIdsContainedInFieldOnEntities(entityType, new ArrayList<String>(
                 ids), ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID);
         if (studentSectionAssociationIds.isEmpty()) {
-            return false;
+            return Collections.emptySet();
         }
 
         // We cannot chain to the studentSectionAssociation validator, since you have context
@@ -49,9 +51,10 @@ public class StudentToStudentCompetencyValidator extends AbstractContextValidato
         List<String> studentIds = getIdsContainedInFieldOnEntities(EntityNames.STUDENT_SECTION_ASSOCIATION,
                 studentSectionAssociationIds, ParameterConstants.STUDENT_ID);
         if (studentIds.isEmpty()) {
-            return false;
+            return Collections.emptySet();
         }
 
-        return getDirectStudentIds().containsAll(studentIds);
+        studentIds.retainAll(getDirectStudentIds());
+        return new HashSet<String>(studentIds);
     }
 }

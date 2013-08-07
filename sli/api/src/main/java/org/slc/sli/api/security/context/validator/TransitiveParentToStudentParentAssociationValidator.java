@@ -1,5 +1,6 @@
 package org.slc.sli.api.security.context.validator;
 
+import java.util.Collections;
 import java.util.Set;
 
 import org.springframework.stereotype.Component;
@@ -20,12 +21,13 @@ public class TransitiveParentToStudentParentAssociationValidator extends ParentT
         return isTransitive && SecurityUtil.isParent() && entityType.equals(EntityNames.STUDENT_PARENT_ASSOCIATION);
     }
     
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.STUDENT_PARENT_ASSOCIATION, entityType, ids)) {
-            return false;
+            return Collections.emptySet();
         }
         
         Set<String> remainingIds = removePermissibleIds(ids, false);
-        return remainingIds.isEmpty();
+        ids.removeAll(remainingIds);
+        return ids;
     }
 }

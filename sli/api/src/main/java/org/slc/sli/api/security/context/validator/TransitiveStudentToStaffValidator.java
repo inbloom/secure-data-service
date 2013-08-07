@@ -49,7 +49,7 @@ public class TransitiveStudentToStaffValidator extends BasicValidator {
     }
 
     @Override
-    protected boolean doValidate(Set<String> ids, String entityType) {
+    protected Set<String> doValidate(Set<String> ids, String entityType) {
         Set<String> idsToCheck = new HashSet<String>(ids);
 
         for (Entity me : SecurityUtil.getSLIPrincipal().getOwnedStudentEntities()) {
@@ -59,7 +59,8 @@ public class TransitiveStudentToStaffValidator extends BasicValidator {
             idsToCheck.removeAll(filterConnectedViaProgram(idsToCheck, me));
             idsToCheck.removeAll(filterConnectedViaCohort(idsToCheck, me));
         }
-        return idsToCheck.isEmpty();
+        ids.removeAll(idsToCheck);
+        return ids;
     }
 
     protected Set<String> filterConnectedViaProgram(Set<String> ids, Entity me) {

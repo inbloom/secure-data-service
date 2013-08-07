@@ -130,7 +130,7 @@ public class TransitiveStudentToStudentValidatorTest {
         
         Set<String> ids = new HashSet<String>();
         ids.add(goodStudent.getEntityId());
-        assertTrue(validator.validate("student", ids));
+        assertTrue(validator.validate("student", ids).containsAll(ids));
     }
     
     @Test
@@ -148,7 +148,7 @@ public class TransitiveStudentToStudentValidatorTest {
         
         Set<String> ids = new HashSet<String>();
         ids.add(goodStudent.getEntityId());
-        assertTrue(validator.validate("student", ids));
+        assertTrue(validator.validate("student", ids).containsAll(ids));
     }
     
     @Test
@@ -166,7 +166,7 @@ public class TransitiveStudentToStudentValidatorTest {
         
         Set<String> ids = new HashSet<String>();
         ids.add(goodStudent.getEntityId());
-        assertFalse(validator.validate("student", ids));
+        assertFalse(validator.validate("student", ids).containsAll(ids));
     }
     
     @Test
@@ -184,7 +184,7 @@ public class TransitiveStudentToStudentValidatorTest {
         
         Set<String> ids = new HashSet<String>();
         ids.add(goodStudent.getEntityId());
-        assertFalse(validator.validate("student", ids));
+        assertFalse(validator.validate("student", ids).containsAll(ids));
     }
     
     @Test
@@ -202,7 +202,7 @@ public class TransitiveStudentToStudentValidatorTest {
         
         Set<String> ids = new HashSet<String>();
         ids.add(goodStudent.getEntityId());
-        assertFalse(validator.validate("student", ids));
+        assertFalse(validator.validate("student", ids).containsAll(ids));
     }
     
     @Test
@@ -220,14 +220,14 @@ public class TransitiveStudentToStudentValidatorTest {
         
         Set<String> ids = new HashSet<String>();
         ids.add(goodStudent.getEntityId());
-        assertFalse(validator.validate("student", ids));
+        assertFalse(validator.validate("student", ids).containsAll(ids));
     }
     
     @Test
     public void testParamValidation() {
         assertTrue(validator.canValidate("student", true));
         assertFalse(validator.canValidate("student", false));
-        assertFalse(validator.validate("student", new HashSet<String>()));
+        assertTrue(validator.validate("student", new HashSet<String>()).isEmpty());
     }
     
     @Test(expected = IllegalArgumentException.class)
@@ -241,7 +241,7 @@ public class TransitiveStudentToStudentValidatorTest {
     public void testSelf() {
         Set<String> ids = new HashSet<String>();
         ids.add(AUTHENTICATED_STUDENT);
-        assertTrue(validator.validate("student", ids));
+        assertTrue(validator.validate("student", ids).containsAll(ids));
     }
     
     @Test
@@ -251,7 +251,7 @@ public class TransitiveStudentToStudentValidatorTest {
         ids.add(AUTHENTICATED_STUDENT);
         ids.add("student_2");
         ids.add("student_1");
-        assertTrue(validator.validate("student", ids));
+        assertTrue(validator.validate("student", ids).containsAll(ids));
         
     }
     
@@ -260,7 +260,7 @@ public class TransitiveStudentToStudentValidatorTest {
         Set<String> ids = new HashSet<String>();
         // student_3 is in expired section;
         ids.add("student_3");
-        assertFalse(validator.validate("student", ids));
+        assertFalse(validator.validate("student", ids).containsAll(ids));
     }
     
     @Test
@@ -268,6 +268,6 @@ public class TransitiveStudentToStudentValidatorTest {
         // student_5 is in current session, but his/her association is expired
         Set<String> ids = new HashSet<String>();
         ids.add("student_5");
-        assertFalse(validator.validate("student", ids));
+        assertFalse(validator.validate("student", ids).containsAll(ids));
     }
 }

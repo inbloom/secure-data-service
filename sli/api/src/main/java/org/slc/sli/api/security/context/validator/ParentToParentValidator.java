@@ -20,6 +20,7 @@ import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -34,7 +35,11 @@ public class ParentToParentValidator extends AbstractContextValidator {
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
-        return ids.size() == 1 && ids.contains(SecurityUtil.principalId());
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
+        Set<String> result = new HashSet<String>();
+        if (ids.size() == 1 && ids.contains(SecurityUtil.principalId())) {
+            result = ids;
+        }
+        return result;
     }
 }

@@ -22,6 +22,7 @@ import org.slc.sli.domain.Entity;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -36,19 +37,21 @@ public class TransitiveStudentToParentValidator extends BasicValidator {
     }
 
     @Override
-    protected boolean doValidate(Set<String> ids, String entityType) {
+    protected Set<String> doValidate(Set<String> ids, String entityType) {
 
+        Set<String> remainingIds = new HashSet<String>(ids);
         for (Entity me : SecurityUtil.getSLIPrincipal().getOwnedStudentEntities()) {
             List<Entity> spas = me.getEmbeddedData().get("studentParentAssociation");
 
             if (spas != null) {
                 for (Entity spa : spas) {
                     String parentId = (String) spa.getBody().get("parentId");
-                    ids.remove(parentId);
+                    remainingIds.remove(parentId);
                 }
             }
         }
-        return ids.isEmpty();
+        ids.removeAll(remainingIds);
+        return ids;
     }
 
 }
