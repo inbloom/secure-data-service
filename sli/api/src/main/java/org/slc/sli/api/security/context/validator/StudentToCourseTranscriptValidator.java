@@ -44,7 +44,7 @@ public class StudentToCourseTranscriptValidator extends BasicValidator {
     }
 
     @Override
-    protected boolean doValidate(Set<String> ids, String entityType) {
+    protected Set<String> doValidate(Set<String> ids, String entityType) {
 
         // Get the Student IDs on the things we want to see, compare with the IDs of yourself
         Set<String> studentAcademicRecordIds = new HashSet<String>(

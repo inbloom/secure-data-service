@@ -35,8 +35,9 @@ public class StudentToStudentValidator extends BasicValidator {
     }
 
     @Override
-    protected boolean doValidate(Set<String> ids, String entityType) {
-        return SecurityUtil.getSLIPrincipal().getOwnedStudentIds().containsAll(ids);
+    protected Set<String> doValidate(Set<String> ids, String entityType) {
+        ids.retainAll(SecurityUtil.getSLIPrincipal().getOwnedStudentIds());
+        return ids;
     }
 
 }

@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Collections;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -52,9 +53,9 @@ public class StudentToStudentAssociationValidator extends AbstractContextValidat
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(STUDENT_ASSOCIATIONS, entityType, ids)) {
-            return false;
+            return Collections.emptySet();
         }
 
         Set<String> otherStudentIds = new HashSet<String>();
@@ -72,7 +73,7 @@ public class StudentToStudentAssociationValidator extends AbstractContextValidat
 
         // Return now if all the requested IDs have been validated
         if (toValidateIds.isEmpty()) {
-            return true;
+            return ids;
         }
 
         // Now, find the student IDs on the other remaining requested IDs and validate them
@@ -83,7 +84,7 @@ public class StudentToStudentAssociationValidator extends AbstractContextValidat
                 otherStudentIds.add((String) body.get(ParameterConstants.STUDENT_ID));
             } else {
                 // We cannot see Associations for other students if they are expired
-                return false;
+                return Collections.emptySet();
             }
         }
 

@@ -42,7 +42,7 @@ public class ParentToStudentAssociationValidator extends BasicValidator {
     }
     
     @Override
-    protected boolean doValidate(Set<String> ids, String entityType) {
+    protected Set<String> doValidate(Set<String> ids, String entityType) {
         Set<String> studentIds = new HashSet<String>();
         for (String id : ids) {
             studentIds.add(SuperDocIdUtility.getParentId(id));

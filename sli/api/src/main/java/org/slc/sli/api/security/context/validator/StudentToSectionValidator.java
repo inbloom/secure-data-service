@@ -40,7 +40,7 @@ public class StudentToSectionValidator extends BasicValidator {
     }
 
     @Override
-    protected boolean doValidate(Set<String> ids, String entityType) {
+    protected Set<String> doValidate(Set<String> ids, String entityType) {
 
         Set<String> sections = new HashSet<String>();
         for (Entity user : SecurityUtil.getSLIPrincipal().getOwnedStudentEntities()) {
@@ -60,7 +60,7 @@ public class StudentToSectionValidator extends BasicValidator {
             }
         }
 
-        return sections.containsAll(ids);
+        return sections;
     }
 
 }

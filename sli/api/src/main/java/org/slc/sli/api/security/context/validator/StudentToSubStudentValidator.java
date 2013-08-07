@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Collections;
 
 import org.springframework.stereotype.Component;
 
@@ -44,14 +45,15 @@ public class StudentToSubStudentValidator extends AbstractContextValidator {
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(SUB_STUDENT_ENTITIES, entityType, ids)) {
-            return false;
+            return Collections.emptySet();
         }
 
         // Get the Student IDs on the things we want to see, compare with the IDs of yourself
         Set<String> studentIds = new HashSet<String>(getIdsContainedInFieldOnEntities(entityType, new ArrayList<String>(ids), ParameterConstants.STUDENT_ID));
+        studentIds.retainAll(getDirectStudentIds());
 
-        return getDirectStudentIds().containsAll(studentIds);
+        return studentIds;
     }
 }

@@ -22,11 +22,7 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.junit.Before;
 import org.junit.Ignore;
@@ -116,20 +112,35 @@ public class StudentToSectionValidatorTest {
     @Test
     public void testAsStudent() {
         makeStudentContext();
-        assertTrue(underTest.validate(EntityNames.SECTION, new HashSet<String>(Arrays.asList("quantumPhysics"))));
-        assertTrue(underTest.validate(EntityNames.SECTION, new HashSet<String>(Arrays.asList("quantumPhysics", "history", "dance"))));
-        assertFalse(underTest.validate(EntityNames.SECTION, new HashSet<String>(Arrays.asList("remedialMath"))));
-        assertFalse(underTest.validate(EntityNames.SECTION, new HashSet<String>(Arrays.asList("remedialMath", "quantumPhysics"))));
+        Set<String> idsToValidate = new HashSet<String>(Arrays.asList("quantumPhysics"));
+        assertTrue(underTest.validate(EntityNames.SECTION, idsToValidate).containsAll(idsToValidate));
+
+        idsToValidate = new HashSet<String>(Arrays.asList("quantumPhysics", "history", "dance"));
+        assertTrue(underTest.validate(EntityNames.SECTION, idsToValidate).containsAll(idsToValidate));
+
+        idsToValidate = new HashSet<String>(Arrays.asList("remedialMath"));
+        assertFalse(underTest.validate(EntityNames.SECTION, idsToValidate).containsAll(idsToValidate));
+
+        idsToValidate = new HashSet<String>(Arrays.asList("remedialMath", "quantumPhysics"));
+        assertFalse(underTest.validate(EntityNames.SECTION, idsToValidate).containsAll(idsToValidate));
     }
 
     @Test
     @Ignore
     public void testAsParent() {
         makeParentContext();
-        assertTrue(underTest.validate(EntityNames.SECTION, new HashSet<String>(Arrays.asList("quantumPhysics"))));
-        assertFalse(underTest.validate(EntityNames.SECTION, new HashSet<String>(Arrays.asList("remedialMath"))));
-        assertFalse(underTest.validate(EntityNames.SECTION, new HashSet<String>(Arrays.asList("remedialMath", "quantumPhysics"))));
-        assertTrue(underTest.validate(EntityNames.SECTION, new HashSet<String>(Arrays.asList("medicine"))));
+
+        Set<String> idsToValidate = new HashSet<String>(Arrays.asList("quantumPhysics"));
+        assertTrue(underTest.validate(EntityNames.SECTION, idsToValidate).containsAll(idsToValidate));
+
+        idsToValidate = new HashSet<String>(Arrays.asList("remedialMath"));
+        assertFalse(underTest.validate(EntityNames.SECTION, idsToValidate).containsAll(idsToValidate));
+
+        idsToValidate = new HashSet<String>(Arrays.asList("remedialMath", "quantumPhysics"));
+        assertFalse(underTest.validate(EntityNames.SECTION, idsToValidate).containsAll(idsToValidate));
+
+        idsToValidate = new HashSet<String>(Arrays.asList("medicine"));
+        assertTrue(underTest.validate(EntityNames.SECTION, idsToValidate).containsAll(idsToValidate));
     }
 
     //FIXME un-ignore when this is fixed
@@ -137,7 +148,9 @@ public class StudentToSectionValidatorTest {
     @Ignore
     public void testAsParentMixed() {
         makeParentContext();
-        assertTrue(underTest.validate(EntityNames.SECTION, new HashSet<String>(Arrays.asList("quantumPhysics", "history", "dance", "medicine"))));
+
+        Set<String> idsToValidate = new HashSet<String>(Arrays.asList("quantumPhysics", "history", "dance", "medicine"));
+        assertTrue(underTest.validate(EntityNames.SECTION, idsToValidate).containsAll(idsToValidate));
     }
 
 }
