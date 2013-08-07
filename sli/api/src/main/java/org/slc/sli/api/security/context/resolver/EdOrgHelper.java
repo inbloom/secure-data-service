@@ -25,7 +25,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 
 import javax.annotation.PostConstruct;
 
@@ -210,18 +209,18 @@ public class EdOrgHelper {
      */
     public List<String> getParentEdOrgs(Entity edOrgEntity) {
         List<String> toReturn = new ArrayList<String>();
-        
+
         if (edOrgEntity != null) {
             String myId = edOrgEntity.getEntityId();
             if (myId != null) {
                 toReturn.add(myId);
                 toReturn = getParentEdOrgs(edOrgEntity, toReturn);
-                
+
                 // don't include myself in the results
                 toReturn.remove(myId);
             }
         }
-        
+
         return toReturn;
     }
 
@@ -233,7 +232,7 @@ public class EdOrgHelper {
 
         if (edOrg != null && edOrg.getBody() != null) {
             @SuppressWarnings("unchecked")
-			List<String> parentIds = (List<String>) edOrg.getBody().get("parentEducationAgencyReference");
+            List<String> parentIds = (List<String>) edOrg.getBody().get("parentEducationAgencyReference");
             if (parentIds != null) {
                 for (String parentId : parentIds) {
                     if (parentId != null && !toReturn.contains(parentId)) {
@@ -243,6 +242,9 @@ public class EdOrgHelper {
                             getParentEdOrgs(parentEdOrg, toReturn);
                         }
                     }
+                }
+            }
+        }
 
 /* CONFLICT caused by merge of 13dd43b8d855f1c3cc24582ec5c9fb79c4fd7f03 */
 /*
@@ -261,12 +263,12 @@ public class EdOrgHelper {
 
                 if (parentEdOrg != null) {
                     toReturn.add(parentEdOrg.getEntityId());
-*/               
+
                 }
             }
 
             currentEdOrg = parentEdOrg;
-        }
+        }*/
 
         return toReturn;
     }
