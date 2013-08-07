@@ -55,14 +55,13 @@ public class SLIPrincipal implements Principal, Serializable {
     private String realmEdOrg;
     private String externalId;
     private String adminRealm;
-    private String edOrg;
+    private String edOrg; 
     private String tenantId;
     private String sessionId;
     private List<String> roles;
     private Map<String, List<String>> edOrgRoles;
     private Map<String, Collection<GrantedAuthority>> edOrgRights;
     private Map<String, Collection<GrantedAuthority>> edOrgSelfRights;
-    private EdOrgContextRightsCache edOrgContextRights;
     private String edOrgId;
     private boolean adminUser;
     private String firstName;
@@ -88,7 +87,6 @@ public class SLIPrincipal implements Principal, Serializable {
         edOrgRoles = new HashMap<String, List<String>>();
         edOrgRights = new HashMap<String, Collection<GrantedAuthority>>();
         edOrgSelfRights = new HashMap<String, Collection<GrantedAuthority>>();
-        edOrgContextRights = new EdOrgContextRightsCache();
     }
 
     public SLIPrincipal(String id) {
@@ -133,7 +131,7 @@ public class SLIPrincipal implements Principal, Serializable {
     public String getRealmEdOrg() {
         return realmEdOrg;
     }
-
+    
     public void setRealm(String realm) {
         this.realm = realm;
     }
@@ -141,7 +139,7 @@ public class SLIPrincipal implements Principal, Serializable {
     public void setRealmEdOrg(String realmEdOrg) {
         this.realmEdOrg = realmEdOrg;
     }
-
+    
     public String getExternalId() {
         return externalId;
     }
@@ -337,14 +335,6 @@ public class SLIPrincipal implements Principal, Serializable {
         this.selfRights = auths;
     }
 
-    public EdOrgContextRightsCache getEdOrgContextRights() {
-        return edOrgContextRights;
-    }
-
-    public void setEdOrgContextRights(EdOrgContextRightsCache edOrgContextRights) {
-        this.edOrgContextRights = edOrgContextRights;
-    }
-
     /**
      * These are edorgs that have authorized the app that the user is currently logged into.
      * <p/>
@@ -411,8 +401,6 @@ public class SLIPrincipal implements Principal, Serializable {
     /**
      * Provide the set of all rights for this principal, from the edOrg Rights Map.
      *
-     * @param isSelf - Indicates whether to include self rights.
-     *
      * @return - The set of all rights for this principal, from the edOrg Rights Map
      */
     public Collection<GrantedAuthority> getAllRights(boolean isSelf) {
@@ -428,42 +416,6 @@ public class SLIPrincipal implements Principal, Serializable {
         }
 
         return allRights;
-    }
-
-    /**
-     * Provide the set of all rights for this principal, from the edOrg Rights Map.
-     *
-     * @param isSelf - Indicates whether to include self rights
-     *
-     * @return - The set of all rights for this principal, from the edOrg Rights Map
-     */
-    public Collection<GrantedAuthority> getAllContextRights(boolean isSelf) {
-        Set<GrantedAuthority> allRights = new HashSet<GrantedAuthority>();
-        for (Map<String, Collection<GrantedAuthority>> edOrgsAndRights : edOrgContextRights.values()) {
-            for (Collection<GrantedAuthority> rights : edOrgsAndRights.values()) {
-                allRights.addAll(rights);
-            }
-        }
-
-        if (isSelf) {
-            for (Collection<GrantedAuthority> rights : edOrgSelfRights.values()) {
-                allRights.addAll(rights);
-            }
-        }
-
-        return allRights;
-    }
-
-    /**
-     * Provide the set of rights for a particular edOrg and context.
-     *
-     * @param edOrg - The edOrg ID
-     * @param context - The context
-     *
-     * @return - The set of rights for the given edOrg and context
-     */
-    public Collection<GrantedAuthority> getContextRightsForEdorg(String edOrg, String context) {
-        return edOrgContextRights.get(edOrg).get(context);
     }
 
     public void populateChildren(Repository<Entity> repo) {
@@ -493,17 +445,5 @@ public class SLIPrincipal implements Principal, Serializable {
             }
         }
 
-    }
-
-/**
- * Type definition for EdOrgContextRightsMap, a Map<EdOrgId, Map<Context, Rights>>.
- *
- * @author tshewchuk
- */
-    public class EdOrgContextRightsCache extends HashMap<String, Map<String, Collection<GrantedAuthority>>> {
-        /**
-         *
-         */
-        private static final long serialVersionUID = 1L;
     }
 }
