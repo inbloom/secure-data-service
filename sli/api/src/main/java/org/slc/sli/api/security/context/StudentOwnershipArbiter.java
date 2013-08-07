@@ -57,7 +57,7 @@ public class StudentOwnershipArbiter extends OwnershipArbiter {
                 ParameterConstants.STUDENT_ID, Reference.RefType.LEFT_TO_RIGHT));
 
         typeToReference.put(EntityNames.STUDENT_GRADEBOOK_ENTRY, new Reference(EntityNames.STUDENT_GRADEBOOK_ENTRY,
-                EntityNames.STUDENT_ACADEMIC_RECORD, ParameterConstants.STUDENT_ACADEMIC_RECORD_ID, Reference.RefType.LEFT_TO_RIGHT));
+                EntityNames.STUDENT, ParameterConstants.STUDENT_ID, Reference.RefType.LEFT_TO_RIGHT));
         typeToReference.put(EntityNames.STUDENT_ACADEMIC_RECORD, new Reference(EntityNames.STUDENT_ACADEMIC_RECORD,
                 EntityNames.STUDENT, ParameterConstants.STUDENT_ID, Reference.RefType.LEFT_TO_RIGHT));
     }

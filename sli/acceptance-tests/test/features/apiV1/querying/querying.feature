@@ -89,7 +89,7 @@ Scenario Outline: Query subdoc
     | "linda.kim"    | "linda.kim1234"  | "/v1/sections/ceffbb26-1327-4313-9cfc-1c3afd38122e_id/studentSectionAssociations" | studentId | descending | 10     | 10    |
     | "linda.kim"    | "linda.kim1234"  | "/v1/sections/ceffbb26-1327-4313-9cfc-1c3afd38122e_id/studentSectionAssociations" | studentId | ascending  | 0      | 20    |
 
-  @wip
+
   Scenario Outline: Include fields
     Given I am logged in using <username> <password> to realm "IL"
     And format "application/json;charset=utf-8"
@@ -117,7 +117,7 @@ Scenario Outline: Query subdoc
       | "jstevenson"   | "jstevenson1234" |
       | "linda.kim"    | "linda.kim1234"  |
 
-  @wip
+
   Scenario Outline: Include & Exclude fields combination
     Given I am logged in using <username> <password> to realm "IL"
     And format "application/json;charset=utf-8"

@@ -159,21 +159,15 @@ public class SchemaReferencesMetaDataTest {
                                 new SchemaReferencePath("courseTranscript.educationOrganizationReference", "educationOrganization", 1L, 9223372036854775807L,true,false, true) ,
                                 new SchemaReferencePath("calendarDate.educationOrganizationId", "educationOrganization", 1L, 1L,false,false, true) ,
                                 new SchemaReferencePath("school.parentEducationAgencyReference", "educationOrganization",  0L, 9223372036854775807L,true,true, false) ,
-                                new SchemaReferencePath("school.localEducationAgencyReference", "educationOrganization", 0L, 1L,false,true, false) ,
-                                new SchemaReferencePath("school.educationServiceCenterReference", "educationOrganization", 0L, 1L,false,true, false) ,
 
                                 new SchemaReferencePath("behaviorDescriptor.educationOrganizationId", "educationOrganization", 1L, 9223372036854775807L,true,false, true) ,
                                 new SchemaReferencePath("localEducationAgency.parentEducationAgencyReference", "educationOrganization",  0L, 9223372036854775807L,true,true, false) ,
-                                new SchemaReferencePath("localEducationAgency.localEducationAgencyReference", "educationOrganization", 0L, 1L,false,true, false) ,
-                                new SchemaReferencePath("localEducationAgency.educationServiceCenterReference", "educationOrganization", 0L, 1L,false,true, false) ,
                                 new SchemaReferencePath("course.schoolId", "educationOrganization", 1L, 1L,false,false, true) ,
                                 new SchemaReferencePath("staffEducationOrganizationAssociation.educationOrganizationReference", "educationOrganization", 1L, 1L,false,false, true) ,
                                 new SchemaReferencePath("session.schoolId", "educationOrganization", 1L, 1L,false,false, true) ,
                                 new SchemaReferencePath("postSecondaryEvent.institutionId", "educationOrganization", 0L, 1L,false,true, false) ,
                                 new SchemaReferencePath("disciplineDescriptor.educationOrganizationId", "educationOrganization", 1L, 9223372036854775807L,true,false, true) ,
                                 new SchemaReferencePath("stateEducationAgency.parentEducationAgencyReference", "educationOrganization", 0L, 9223372036854775807L,true,true, false) ,
-                                new SchemaReferencePath("stateEducationAgency.localEducationAgencyReference", "educationOrganization", 0L, 1L,false,true, false) ,
-                                new SchemaReferencePath("stateEducationAgency.educationServiceCenterReference", "educationOrganization", 0L, 1L,false,true, false) ,
 
                                 new SchemaReferencePath("studentSpecialEdProgramAssociation.educationOrganizationId", "educationOrganization", 1L, 1L,false,false, true) ,
                                 new SchemaReferencePath("graduationPlan.educationOrganizationId", "educationOrganization", 0L, 1L,false,true, false) ,
@@ -181,9 +175,7 @@ public class SchemaReferencesMetaDataTest {
                                 new SchemaReferencePath("studentProgramAssociation.educationOrganizationId", "educationOrganization", 1L, 1L,false,false, true) ,
                                 new SchemaReferencePath("studentCTEProgramAssociation.educationOrganizationId", "educationOrganization", 1L, 1L,false,false, true) ,
 
-                                new SchemaReferencePath("educationOrganization.parentEducationAgencyReference", "educationOrganization",  0L, 9223372036854775807L,true,true, false),
-                                new SchemaReferencePath("educationOrganization.localEducationAgencyReference", "educationOrganization", 0L, 1L,false,true, false) ,
-                                new SchemaReferencePath("educationOrganization.educationServiceCenterReference", "educationOrganization", 0L, 1L,false,true, false)),
+                                new SchemaReferencePath("educationOrganization.parentEducationAgencyReference", "educationOrganization",  0L, 9223372036854775807L,true,true, false) ),
                         Sets.newHashSet(schemaRefMetaData.getReferencesTo("educationOrganization"))
                 ).size()
         );

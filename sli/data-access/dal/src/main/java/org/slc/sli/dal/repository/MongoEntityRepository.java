@@ -1385,7 +1385,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         boolean result = true;
         NeutralQuery categoryIsSchool = new NeutralQuery(new NeutralCriteria("organizationCategories",
                                                                              NeutralCriteria.CRITERIA_IN,
-                                                                             Arrays.asList("School", "Other School")));
+                                                                             Arrays.asList("School")));
         Iterator<Entity> schools = this.findEach(EntityNames.EDUCATION_ORGANIZATION, categoryIsSchool);
         while (schools.hasNext()) {
             if (!updateSchoolLineage(schools.next().getEntityId())) {
