@@ -16,13 +16,7 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -256,7 +250,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
     /**
      * Performs a query for entities of type 'type' with _id contained in the List of 'ids'.
      * Iterates through result and peels off String value contained in body.<<field>>. Returns
-     * unique set of values that were stored in body.<<field>>.
+     * map of values that were stored in body to the entity id.<<field>>.
      *
      * @param type
      *            Entity type to query for.
@@ -264,10 +258,10 @@ public abstract class AbstractContextValidator implements IContextValidator {
      *            List of _ids of entities to query.
      * @param field
      *            Field (contained in body) to peel off of entities.
-     * @return List of Strings representing unique Set of values stored in entities' body.<<field>>.
+     * @return Map of values stored in entities to the entity id' body.<<field>> : .
      */
-    protected List<String> getIdsContainedInFieldOnEntities(String type, List<String> ids, String field) {
-        Set<String> matching = new HashSet<String>();
+    protected Map<String, Set<String>> getIdsContainedInFieldOnEntities(String type, List<String> ids, String field) {
+        Map<String, Set<String>> matching = new HashMap<String, Set<String>>();
 
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN,
                 ids));
@@ -276,12 +270,16 @@ public abstract class AbstractContextValidator implements IContextValidator {
             for (Entity entity : entities) {
                 Map<String, Object> body = entity.getBody();
                 if (body.containsKey(field)) {
-                    matching.add((String) body.get(field));
+                    String value = (String) body.get(field);
+                    if (!matching.containsKey(value)) {
+                        matching.put(value, new HashSet<String>());
+                    }
+                    matching.get(value).add(entity.getEntityId());
                 }
             }
         }
 
-        return new ArrayList<String>(matching);
+        return matching;
     }
 
     protected void setRepo(PagingRepositoryDelegate<Entity> repo) {
