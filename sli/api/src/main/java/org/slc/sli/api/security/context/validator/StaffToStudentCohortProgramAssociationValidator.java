@@ -24,9 +24,7 @@ import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Validates the context of a staff member to see the requested set of student cohort or program associations.
@@ -55,24 +53,23 @@ public class StaffToStudentCohortProgramAssociationValidator extends AbstractCon
      * provided they aren't expired.
      */
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(STUDENT_ASSOCIATIONS, entityType, ids)) {
-            return false;
+            return Collections.EMPTY_SET;
         }
-        Set<String> associations = new HashSet<String>();
+        Map<String, String> associations = new HashMap<String, String>();
         // See the student
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
                 NeutralCriteria.CRITERIA_IN, ids));
         Iterable<Entity> assocs = getRepo().findAll(entityType, basicQuery);
         for (Entity assoc : assocs) {
             String studentId = (String) assoc.getBody().get(ParameterConstants.STUDENT_ID);
-            if (isFieldExpired(assoc.getBody(), ParameterConstants.END_DATE, true)) {
-                return false;
-            } else {
-                associations.add(studentId);
+            if (!isFieldExpired(assoc.getBody(), ParameterConstants.END_DATE, true)) {
+                associations.put(studentId, assoc.getEntityId());
             }
         }
-        return studentValidator.validate(EntityNames.STUDENT, associations);
+        Set<String> validStudents = studentValidator.validate(EntityNames.STUDENT, associations.keySet());
+        return getValidIds(validStudents, associations);
     }
         
 }

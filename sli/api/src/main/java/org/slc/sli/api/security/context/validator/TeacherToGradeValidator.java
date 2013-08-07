@@ -24,10 +24,7 @@ import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Validates the context of a teacher to see the requested set of grade entities.
@@ -53,10 +50,12 @@ public class TeacherToGradeValidator extends AbstractContextValidator {
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids));
         query.setIncludeFields(Arrays.asList(ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID));
         Iterable<Entity> grades = getRepo().findAll(EntityNames.GRADE, query);
-        Set<String> secAssocIds = new HashSet<String>();
+        Map<String, String> secAssocIdsToGrade = new HashMap<String, String>();
         for(Entity grade : grades) {
-            secAssocIds.add((String) grade.getBody().get(ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID));
+            secAssocIdsToGrade.put((String) grade.getBody().get(ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID), grade.getEntityId());
         }
-        return sectionAssocValidator.validate(EntityNames.STUDENT_SECTION_ASSOCIATION, secAssocIds);
+
+        Set<String> validSecAssocIds = sectionAssocValidator.validate(EntityNames.STUDENT_SECTION_ASSOCIATION, secAssocIdsToGrade.keySet());
+        return getValidIds(validSecAssocIds, secAssocIdsToGrade);
     }
 }

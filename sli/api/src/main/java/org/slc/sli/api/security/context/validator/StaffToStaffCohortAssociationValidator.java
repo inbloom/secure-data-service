@@ -24,10 +24,7 @@ import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Validates the context of a staff member to see the requested set of staff cohort associations.
@@ -58,17 +55,19 @@ public class StaffToStaffCohortAssociationValidator extends AbstractContextValid
         
         //Get the ones based on staffIds (Including me)
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids));
-        Set<String> staffIds = new HashSet<String>();
+        Map<String, String> staffToSCA = new HashMap<String, String>();
         Iterable<Entity> staffCohorts = getRepo().findAll(EntityNames.STAFF_COHORT_ASSOCIATION, basicQuery);
         for (Entity staff : staffCohorts) {
             Map<String, Object> body = staff.getBody();
             if (isFieldExpired(body, ParameterConstants.END_DATE, true)) {
                 continue;
             }
-            staffIds.add((String) body.get(ParameterConstants.STAFF_ID));
+            staffToSCA.put((String) body.get(ParameterConstants.STAFF_ID), staff.getEntityId());
         }
         
-        return staffValidator.validate(EntityNames.STAFF, staffIds);
+        Set<String> staffIds = staffValidator.validate(EntityNames.STAFF, staffToSCA.keySet());
+
+        return getValidIds(staffIds, staffToSCA);
     }
 
 }

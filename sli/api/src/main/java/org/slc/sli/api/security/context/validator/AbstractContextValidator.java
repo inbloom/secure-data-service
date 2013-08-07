@@ -360,4 +360,12 @@ public abstract class AbstractContextValidator implements IContextValidator {
     protected void setDateHelper(DateHelper dateHelper) {
         this.dateHelper = dateHelper;
     }
+
+    protected Set<String> getValidIds(Set<String> ids, Map<String, String> validIdMap) {
+        Set<String> valid = new HashSet<String>();
+        for (String id : ids) {
+            valid.add(validIdMap.get(id));
+        }
+        return valid;
+    }
 }

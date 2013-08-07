@@ -55,11 +55,11 @@ public class StaffToCourseTranscriptValidator extends AbstractContextValidator {
                 NeutralCriteria.CRITERIA_IN, new ArrayList<String>(ids)));
         Iterable<Entity> entities = getRepo().findAll(EntityNames.COURSE_TRANSCRIPT, query);
 
-        Set<String> studentAcademicRecords = new HashSet<String>();
+        Map<String, String> studentAcademicRecords = new HashMap<String, String>();
         for (Entity entity : entities) {
             Map<String, Object> body = entity.getBody();
             if (body.get(ParameterConstants.STUDENT_ACADEMIC_RECORD_ID) instanceof String) {
-                studentAcademicRecords.add((String) body.get(ParameterConstants.STUDENT_ACADEMIC_RECORD_ID));
+                studentAcademicRecords.put((String) body.get(ParameterConstants.STUDENT_ACADEMIC_RECORD_ID), entity.getEntityId());
             } else {
                 //studentacademicrecord ID was not a string, this is unexpected
                 warn("Possible Corrupt Data detected at "+entityType+"/"+entity.getEntityId());
@@ -67,9 +67,10 @@ public class StaffToCourseTranscriptValidator extends AbstractContextValidator {
         }
 
         if (studentAcademicRecords.isEmpty()) {
-            return studentAcademicRecords;
+            return Collections.EMPTY_SET;
         }
 
-        return validator.validate(EntityNames.STUDENT_ACADEMIC_RECORD, studentAcademicRecords);
+        Set<String> validStudentAcademicRecords = validator.validate(EntityNames.STUDENT_ACADEMIC_RECORD, studentAcademicRecords.keySet());
+        return getValidIds(validStudentAcademicRecords, studentAcademicRecords);
     }
 }

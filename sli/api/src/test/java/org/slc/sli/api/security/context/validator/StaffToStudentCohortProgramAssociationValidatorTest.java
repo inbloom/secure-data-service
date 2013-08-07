@@ -124,7 +124,7 @@ public class StaffToStudentCohortProgramAssociationValidatorTest {
         for (int i = 0; i < 10; ++i) {
             cohortIds.add(helper.generateStudentCohort("Boop", "" + i, false).getEntityId());
         }
-        assertTrue(validator.validate(EntityNames.STUDENT_COHORT_ASSOCIATION, cohortIds));
+        assertTrue(validator.validate(EntityNames.STUDENT_COHORT_ASSOCIATION, cohortIds).equals(cohortIds));
     }
 
     @Test
