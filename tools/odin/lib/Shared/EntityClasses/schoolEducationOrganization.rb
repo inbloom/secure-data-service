@@ -26,6 +26,7 @@ class School < BaseEntity
   attr_accessor :state_org_id,
     :ed_org_id_code,
     :org_category,
+    :grades_offered,
     :grades,
     :parent_id,
     :address,
@@ -48,6 +49,7 @@ class School < BaseEntity
     @address   = get_address
     @telephone = "(917)-555-0212"
     @type = type
+    @grades_offered = ""
     @grades    = []
     if @type == "elementary"
       if id.kind_of? String
