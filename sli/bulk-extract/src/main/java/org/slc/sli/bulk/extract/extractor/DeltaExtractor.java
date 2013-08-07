@@ -364,14 +364,16 @@ public class DeltaExtractor implements InitializingBean {
             Entity lea = repo.findById(EntityNames.EDUCATION_ORGANIZATION, leaId);
             if (lea != null && lea.getBody() != null) {
                 // performance hack assumes the top-level LEA entities parent refs are the SEAs
-                String seaId = (String) lea.getBody().get(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE);
-                if (seaId == null) {
-                    continue;
-                }
-                if (!appsPerSEA.containsKey(seaId)) {
-                    appsPerSEA.put(seaId, appsPerTopLevelLEA.get(leaId));
-                } else {
-                    appsPerSEA.get(seaId).addAll(appsPerTopLevelLEA.get(leaId));
+                @SuppressWarnings("unchecked")
+				List<String> seaIds = (List<String>) lea.getBody().get(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE);
+                if (seaIds != null) {
+	                for ( String seaId : seaIds ) {
+	                	if (!appsPerSEA.containsKey(seaId)) {
+	                		appsPerSEA.put(seaId, appsPerTopLevelLEA.get(leaId));
+	                	} else {
+	                		appsPerSEA.get(seaId).addAll(appsPerTopLevelLEA.get(leaId));
+	                	}
+	                }
                 }
             }
         }
