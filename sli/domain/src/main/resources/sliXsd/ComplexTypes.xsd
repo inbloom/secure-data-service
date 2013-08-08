@@ -1120,30 +1120,6 @@
 
     </xs:complexType>
 
-    <xs:complexType name='localEducationAgency'>
-        <xs:annotation>
-            <xs:documentation>This entity represents an administrative unit at
-                the
-                local level which exists primarily to operate schools or to
-                contract
-                for educational services. It includes school districts,
-                charter
-                schools,
-                charter management organizations, or other local
-                administrative
-                organizations.
-            </xs:documentation>
-            <xs:appinfo>
-                <sli:CollectionType>educationOrganization</sli:CollectionType>
-                <sli:applyNaturalKeys>true</sli:applyNaturalKeys>
-            </xs:appinfo>
-        </xs:annotation>
-        <xs:complexContent>
-            <xs:extension base='educationOrganization'>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-
     <xs:complexType name='objectiveAssessment'>
         <xs:annotation>
             <xs:documentation>This entity represents subtests that assess
@@ -3409,27 +3385,6 @@
                 </xs:annotation>
             </xs:element>
         </xs:sequence>
-    </xs:complexType>
-
-    <xs:complexType name='stateEducationAgency'>
-        <xs:annotation>
-            <xs:documentation>This entity represents the agency of the state
-                charged
-                with primary responsibility for coordinating and supervising
-                public
-                instruction, including the setting of standards for elementary
-                and
-                secondary
-                instruction programs.
-            </xs:documentation>
-            <xs:appinfo>
-                <sli:CollectionType>educationOrganization</sli:CollectionType>
-                <sli:applyNaturalKeys>true</sli:applyNaturalKeys>
-            </xs:appinfo>
-        </xs:annotation>
-        <xs:complexContent>
-            <xs:extension base='educationOrganization'/>
-        </xs:complexContent>
     </xs:complexType>
 
     <xs:complexType name='student'>
