@@ -34,47 +34,36 @@ Scenario: Delete Teacher with cascade = false
     Then there exist "4" "disciplineIncident" records like below in "Midgar" tenant. And I save this query as "DisciplineIncidentQ"
       |field                                        |value                                         |
       |body.staffId                                 |4c9cc1f4f35e2e1917c6a27a2dfcf69be47b22bd_id   |
-    #Then there exist "21" "staffCohortAssociation" records like below in "Midgar" tenant. And I save this query as "StaffCohortAssociationQ"
-     # |field                                        |value                                         |
-      #|body.staffId                                 |4c9cc1f4f35e2e1917c6a27a2dfcf69be47b22bd_id   |
-    #Then there exist "13" "staffProgramAssociation" records like below in "Midgar" tenant. And I save this query as "StaffProgramAssociationQ"
-     # |field                                        |value                                         |
-      #|body.staffId                                 |4c9cc1f4f35e2e1917c6a27a2dfcf69be47b22bd_id   |
+    Then there exist "1" "staffCohortAssociation" records like below in "Midgar" tenant. And I save this query as "StaffCohortAssociationQ"
+      |field                                        |value                                         |
+      |body.staffId                                 |4c9cc1f4f35e2e1917c6a27a2dfcf69be47b22bd_id   |
+    Then there exist "1" "staffProgramAssociation" records like below in "Midgar" tenant. And I save this query as "StaffProgramAssociationQ"
+     |field                                        |value                                         |
+     |body.staffId                                 |4c9cc1f4f35e2e1917c6a27a2dfcf69be47b22bd_id   |
      Then there exist "1" "teacherSchoolAssociation" records like below in "Midgar" tenant. And I save this query as "teacherSchoolAssociationQ"
       |field                                        |value                                         |
-      |body.teacherId                          |4c9cc1f4f35e2e1917c6a27a2dfcf69be47b22bd_id   |
+      |body.teacherId                               |4c9cc1f4f35e2e1917c6a27a2dfcf69be47b22bd_id   |
+     Then there exist "1" "section" records like below in "Midgar" tenant. And I save this query as "teacherSectionAssociationQ"
+      |field                                        |value                                         |
+      |teacherSectionAssociation.body.teacherId     |4c9cc1f4f35e2e1917c6a27a2dfcf69be47b22bd_id   |
     And I save the collection counts in "Midgar" tenant
-    And I post "BroadTeacherDelete.zip" file as the payload of the ingestion job
+    And I post "SafeTeacherDelete.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
-    And a batch job for file "BroadTeacherDelete.zip" is completed in database
+    And a batch job for file "SafeTeacherDelete.zip" is completed in database
     And I should see "Processed 1 records." in the resulting batch job file
-    And I should not see an error log file created
+    #And I should not see an error log file created
     And I should not see a warning log file created
-    And I should not see "4c9cc1f4f35e2e1917c6a27a2dfcf69be47b22bd_id" in the "Midgar" database
-    And I re-execute saved query "StaffQ" to get "0" records
-    And I re-execute saved query "DisciplineActionQ" to get "0" records
-    And I re-execute saved query "DisciplineIncidentQ" to get "0" records
-    #And I re-execute saved query "StaffCohortAssociationQ" to get "0" records
-    #And I re-execute saved query "StaffProgramAssociationQ" to get "0" records
-    And I re-execute saved query "teacherSchoolAssociationQ" to get "0" records
-  #staff
-  #disciplineAction                       maxOccurs="unbounded" minOccurs="0"
-  #disciplineIncident                     minOccurs="0"
-  #staffCohortAssociation                 maxOccurs="unbounded"
-  #staffProgramAssociation                maxOccurs="unbounded"
-  #staffEducationOrganizationAssociation
+    And I re-execute saved query "StaffQ" to get "1" records
+    And I re-execute saved query "DisciplineActionQ" to get "1" records
+    And I re-execute saved query "DisciplineIncidentQ" to get "4" records
+    And I re-execute saved query "StaffCohortAssociationQ" to get "1" records
+    And I re-execute saved query "StaffProgramAssociationQ" to get "1" records
+    And I re-execute saved query "teacherSchoolAssociationQ" to get "1" records
+    And I re-execute saved query "teacherSectionAssociationQ" to get "1" records
+
     And I see that collections counts have changed as follows in tenant "Midgar"
       |collection                             |delta  |
-      |staff                                  |   -1  |
-      |disciplineAction                       |    0  |
-      |disciplineIncident                     |    0  |
-      #|staffCohortAssociation                 |   -21 |
-      #|staffProgramAssociation                |   -13 |
-      |teacherSchoolAssociation               |   -1  |
-  #  |recordHash               |   -36 | 1 + 21 + 13 + 1
-    And I should not see "4c9cc1f4f35e2e1917c6a27a2dfcf69be47b22bd_id" in the "Midgar" database
-    And I should not see any entity mandatorily referring to "4c9cc1f4f35e2e1917c6a27a2dfcf69be47b22bd_id" in the "Midgar" database
-    And I should see entities optionally referring to "4c9cc1f4f35e2e1917c6a27a2dfcf69be47b22bd_id" be updated in the "Midgar" database
+      |staff                                  |   0  |
 	
 	
 	Scenario: Delete Orphan Teacher with cascade = false
@@ -96,5 +85,5 @@ Scenario: Delete Teacher with cascade = false
     And I re-execute saved query "staff" to get "0" records
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                                |     delta|
-        | staff                                     |        -1|
-#        | recordHash                                |        -1| 
+        | staff                                     |        -1|       
+        | recordHash                                |        -1| 

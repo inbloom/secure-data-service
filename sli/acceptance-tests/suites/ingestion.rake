@@ -174,6 +174,7 @@ end
 desc "Run Ingestion Smoke Tests"
 task :ingestionSmokeTests do
   @tags = ["~@wip", "@smoke", "~@sandbox"]
+  Rake::Task["multipleOrphansDeleteTest"].invoke
   Rake::Task["ingestionAcceptanceSdsTest"].invoke
 end
 
@@ -281,7 +282,7 @@ end
 desc "Run Ingestion Deletion Tests"
   task :ingestionDeletionTests => [
         :multipleOrphansDeleteTest,
-        :errorOnCascadedDeleteTest,
+        :errorsOnUnsupportedDeleteRequestsTest,
         :ingestionCascadingDeletionBroadAssessmentFamilyTest,
         :ingestionCascadingDeletionBroadAssessmentItemFromAssessmentMetadataTest,
         :ingestionCascadingDeletionBroadAssessmentItemFromStudentAssessmentTest,
@@ -324,7 +325,6 @@ desc "Run Ingestion Deletion Tests"
         :ingestionCascadingDeletionBroadStudentCompetencyObjectiveTest,
         :ingestionCascadingDeletionBroadStudentCompetencyTest,
         :ingestionCascadingDeletionBroadStudentDisciplineIncidentAssociationTest,
-        :ingestionCascadingDeletionBroadStudentFromInterchangeStudentParentTest,
         :ingestionCascadingDeletionBroadStudentGradebookEntryTest,
         :ingestionCascadingDeletionBroadStudentParentAssociationTest,
         :ingestionCascadingDeletionBroadStudentProgramAssociationTest,
@@ -382,10 +382,6 @@ end
 
 task :ingestionCascadingDeletionBroadProgramTest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_program_delete.feature")
-end
-
-task :ingestionCascadingDeletionBroadStudentFromInterchangeStudentParentTest do
-  runTests("test/features/ingestion/features/ingestion_broad_cascading_studentFromInterchangeStudentParent_delete.feature")
 end
 
 task :ingestionCascadingDeletionBroadSectionTest do
@@ -592,8 +588,8 @@ task :ingestBroadSetOfTypesAndExportData do
   runTests("test/features/ingestion/features/ingestion_BroadSetOfTypes.feature")
 end
 
-task :errorOnCascadedDeleteTest do
-  runTests("test/features/ingestion/features/error_on_cascade_delete.feature")
+task :errorsOnUnsupportedDeleteRequestsTest do
+  runTests("test/features/ingestion/features/error_on_unsupported_delete.feature")
 end
 
 task :multipleOrphansDeleteTest do
