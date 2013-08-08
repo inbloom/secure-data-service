@@ -240,10 +240,8 @@ public class CommonValidatorTest {
                     for (IContextValidator validator : validators) {
                         if (validator.canValidate(entity, isTransitive)) {
                             try {
-                                Assert.assertFalse(validator + " must return false for null IDs",
-                                        validator.validate(entity, null));
-                                Assert.assertFalse(validator + " must return false for empty IDs",
-                                        validator.validate(entity, new HashSet<String>()));
+                                Assert.assertTrue(validator + " must return false for null IDs", validator.validate(entity, null).isEmpty());
+                                Assert.assertTrue(validator + " must return false for empty IDs", validator.validate(entity, new HashSet<String>()).isEmpty());
                             } catch (IllegalStateException e) {
                                 // expected for specified types
                                 if (!globalEntities.contains(entity)) {

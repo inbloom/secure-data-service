@@ -16,12 +16,7 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import junit.framework.Assert;
 
@@ -203,44 +198,61 @@ public class StaffToParentValidatorTest {
     @Test
     public void testValidAssociationsForStaff1() {
         setupCurrentUser(staff1);
-        Assert.assertTrue("Must validate11" + parent1.getEntityId(), validator.validate(EntityNames.PARENT, new HashSet<String>(Arrays.asList(parent1.getEntityId()))));
-        Assert.assertTrue("Must validate12", validator.validate(EntityNames.PARENT, new HashSet<String>(Arrays.asList(parent2.getEntityId()))));
-        Assert.assertTrue("Must validate13", validator.validate(EntityNames.PARENT, new HashSet<String>(
-                Arrays.asList(parent1.getEntityId(), parent2.getEntityId()))));
-        Assert.assertTrue("Must validate14", validator.validate(EntityNames.PARENT, new HashSet<String>(Arrays.asList(parent3.getEntityId()))));
+        Set<String> idsToValidate = new HashSet<String>(Arrays.asList(parent1.getEntityId()));
+        Assert.assertTrue("Must validate11" + parent1.getEntityId(), validator.validate(EntityNames.PARENT, idsToValidate).containsAll(idsToValidate));
+
+        idsToValidate = new HashSet<String>(Arrays.asList(parent2.getEntityId()));
+        Assert.assertTrue("Must validate12", validator.validate(EntityNames.PARENT, idsToValidate).containsAll(idsToValidate));
+
+        idsToValidate = new HashSet<String>(Arrays.asList(parent1.getEntityId(), parent2.getEntityId()));
+        Assert.assertTrue("Must validate13", validator.validate(EntityNames.PARENT, idsToValidate).containsAll(idsToValidate));
+
+        idsToValidate = new HashSet<String>(Arrays.asList(parent3.getEntityId()));
+        Assert.assertTrue("Must validate14", validator.validate(EntityNames.PARENT, idsToValidate).containsAll(idsToValidate));
     }
 
     @Test
     public void testValidAssociationsForStaff2() {
         setupCurrentUser(staff2);
-        Assert.assertTrue("Must validate", validator.validate(EntityNames.PARENT, new HashSet<String>(Arrays.asList(parent1.getEntityId()))));
-        Assert.assertTrue("Must validate", validator.validate(EntityNames.PARENT, new HashSet<String>(Arrays.asList(parent3.getEntityId()))));
+        Set<String> idsToValidate = new HashSet<String>(Arrays.asList(parent1.getEntityId()));
+        Assert.assertTrue("Must validate", validator.validate(EntityNames.PARENT, idsToValidate).containsAll(idsToValidate));
+
+        idsToValidate = new HashSet<String>(Arrays.asList(parent3.getEntityId()));
+        Assert.assertTrue("Must validate", validator.validate(EntityNames.PARENT, idsToValidate).containsAll(idsToValidate));
     }
 
     @Test
     public void testInvalidAssociationsForStaff2() {
         setupCurrentUser(staff2);
-        Assert.assertFalse("Must not validate", validator.validate(EntityNames.PARENT, new HashSet<String>(Arrays.asList(parent2.getEntityId()))));
+        Set<String> idsToValidate = new HashSet<String>(Arrays.asList(parent2.getEntityId()));
+        Assert.assertFalse("Must not validate", validator.validate(EntityNames.PARENT, idsToValidate).containsAll(idsToValidate));
     }
 
     @Test
     public void testValidAssociationsForStaff3() {
         setupCurrentUser(staff3);
-        Assert.assertTrue("Must validate", validator.validate(EntityNames.PARENT, new HashSet<String>(Arrays.asList(parent2.getEntityId()))));
-        Assert.assertTrue("Must validate", validator.validate(EntityNames.PARENT, new HashSet<String>(Arrays.asList(parent3.getEntityId()))));
+        Set<String> idsToValidate = new HashSet<String>(Arrays.asList(parent2.getEntityId()));
+        Assert.assertTrue("Must validate", validator.validate(EntityNames.PARENT, idsToValidate).containsAll(idsToValidate));
+
+        idsToValidate = new HashSet<String>(Arrays.asList(parent3.getEntityId()));
+        Assert.assertTrue("Must validate", validator.validate(EntityNames.PARENT, idsToValidate).containsAll(idsToValidate));
     }
 
     @Test
     public void testInvalidAssociationsForStaff3() {
         setupCurrentUser(staff3);
-        Assert.assertFalse("Must not validate", validator.validate(EntityNames.PARENT, new HashSet<String>(Arrays.asList(parent1.getEntityId()))));
+        Set<String> idsToValidate = new HashSet<String>(Arrays.asList(parent1.getEntityId()));
+        Assert.assertFalse("Must not validate", validator.validate(EntityNames.PARENT, idsToValidate).containsAll(idsToValidate));
     }
 
     @Test
     public void testInvalidAssociations() {
         setupCurrentUser(staff2);
-        Assert.assertFalse("Must validate", validator.validate(EntityNames.PARENT, new HashSet<String>(Arrays.asList(UUID.randomUUID().toString()))));
-        Assert.assertFalse("Must validate", validator.validate(EntityNames.PARENT, new HashSet<String>()));
+        Set<String> idsToValidate = new HashSet<String>(Arrays.asList(UUID.randomUUID().toString()));
+        Assert.assertFalse("Must validate", validator.validate(EntityNames.PARENT, idsToValidate).containsAll(idsToValidate));
+
+        idsToValidate.clear();
+        Assert.assertFalse("Must validate", validator.validate(EntityNames.PARENT, idsToValidate).containsAll(idsToValidate));
     }
 
 }

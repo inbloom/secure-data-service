@@ -16,12 +16,7 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import junit.framework.Assert;
 
@@ -148,32 +143,38 @@ public class StaffToGradebookEntryValidatorTest {
     @Test
     public void testValidAssociationsForStaff1() {
         setupCurrentUser(staff1);
-        Assert.assertTrue("Must validate", validator.validate(EntityNames.GRADEBOOK_ENTRY, new HashSet<String>(Arrays.asList(gradebookEntry1.getEntityId()))));
+        Set<String> idsToValidate = new HashSet<String>(Arrays.asList(gradebookEntry1.getEntityId()));
+        Assert.assertTrue("Must validate", validator.validate(EntityNames.GRADEBOOK_ENTRY, idsToValidate).containsAll(idsToValidate));
     }
     
     @Test
     public void testValidAssociationsForStaff2() {
         setupCurrentUser(staff2);
-        Assert.assertTrue("Must validate", validator.validate(EntityNames.GRADEBOOK_ENTRY, new HashSet<String>(Arrays.asList(gradebookEntry1.getEntityId()))));
+        Set<String> idsToValidate = new HashSet<String>(Arrays.asList(gradebookEntry1.getEntityId()));
+        Assert.assertTrue("Must validate", validator.validate(EntityNames.GRADEBOOK_ENTRY, idsToValidate).containsAll(idsToValidate));
     }
     
     @Test
     public void testInvalidAssociationsForStaff1() {
         setupCurrentUser(staff1);
-        Assert.assertFalse("Must not validate", validator.validate(EntityNames.GRADEBOOK_ENTRY, new HashSet<String>(Arrays.asList(gradebookEntry2.getEntityId()))));
+        Set<String> idsToValidate = new HashSet<String>(Arrays.asList(gradebookEntry2.getEntityId()));
+        Assert.assertFalse("Must not validate", validator.validate(EntityNames.GRADEBOOK_ENTRY, idsToValidate).containsAll(idsToValidate));
     }
     
     @Test
     public void testInvalidAssociationsForStaff2() {
         setupCurrentUser(staff2);
-        Assert.assertFalse("Must not validate", validator.validate(EntityNames.GRADEBOOK_ENTRY, new HashSet<String>(Arrays.asList(gradebookEntry2.getEntityId()))));
+        Set<String> idsToValidate = new HashSet<String>(Arrays.asList(gradebookEntry2.getEntityId()));
+        Assert.assertFalse("Must not validate", validator.validate(EntityNames.GRADEBOOK_ENTRY, idsToValidate).containsAll(idsToValidate));
     }
     
     @Test
     public void testInvalidAssociations() {
         setupCurrentUser(staff2);
-        Assert.assertFalse("Must not validate", validator.validate(EntityNames.GRADEBOOK_ENTRY, new HashSet<String>(Arrays.asList(UUID.randomUUID().toString()))));
-        Assert.assertFalse("Must not validate", validator.validate(EntityNames.GRADEBOOK_ENTRY, new HashSet<String>()));
+        Set<String> idsToValidate = new HashSet<String>(Arrays.asList(UUID.randomUUID().toString()));
+        Assert.assertFalse("Must not validate", validator.validate(EntityNames.GRADEBOOK_ENTRY, idsToValidate).containsAll(idsToValidate));
+        idsToValidate.clear();
+        Assert.assertFalse("Must not validate", validator.validate(EntityNames.GRADEBOOK_ENTRY, idsToValidate).containsAll(idsToValidate));
     }
     
 }
