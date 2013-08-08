@@ -454,18 +454,6 @@ public class SLIPrincipal implements Principal, Serializable {
         return allRights;
     }
 
-    /**
-     * Provide the set of rights for a particular edOrg and context.
-     *
-     * @param edOrg - The edOrg ID
-     * @param context - The context
-     *
-     * @return - The set of rights for the given edOrg and context
-     */
-    public Collection<GrantedAuthority> getContextRightsForEdorg(String edOrg, String context) {
-        return edOrgContextRights.get(edOrg).get(context);
-    }
-
     public void populateChildren(Repository<Entity> repo) {
 
         if (ownedStudentIds == null) {
