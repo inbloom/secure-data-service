@@ -55,7 +55,7 @@ public class SLIPrincipal implements Principal, Serializable {
     private String realmEdOrg;
     private String externalId;
     private String adminRealm;
-    private String edOrg; 
+    private String edOrg;
     private String tenantId;
     private String sessionId;
     private List<String> roles;
@@ -131,7 +131,7 @@ public class SLIPrincipal implements Principal, Serializable {
     public String getRealmEdOrg() {
         return realmEdOrg;
     }
-    
+
     public void setRealm(String realm) {
         this.realm = realm;
     }
@@ -139,7 +139,7 @@ public class SLIPrincipal implements Principal, Serializable {
     public void setRealmEdOrg(String realmEdOrg) {
         this.realmEdOrg = realmEdOrg;
     }
-    
+
     public String getExternalId() {
         return externalId;
     }
@@ -407,6 +407,30 @@ public class SLIPrincipal implements Principal, Serializable {
         Set<GrantedAuthority> allRights = new HashSet<GrantedAuthority>();
         for (Collection<GrantedAuthority> rights : edOrgRights.values()) {
             allRights.addAll(rights);
+        }
+
+        if (isSelf) {
+            for (Collection<GrantedAuthority> rights : edOrgSelfRights.values()) {
+                allRights.addAll(rights);
+            }
+        }
+
+        return allRights;
+    }
+
+    /**
+     * Provide the set of all rights for this principal, from the edOrg Rights Map.
+     *
+     * @param isSelf - Indicates whether to include self rights
+     *
+     * @return - The set of all rights for this principal, from the edOrg Rights Map
+     */
+    public Collection<GrantedAuthority> getAllContextRights(boolean isSelf) {
+        Set<GrantedAuthority> allRights = new HashSet<GrantedAuthority>();
+        for (Map<String, Collection<GrantedAuthority>> edOrgsAndRights : edOrgContextRights.values()) {
+            for (Collection<GrantedAuthority> rights : edOrgsAndRights.values()) {
+                allRights.addAll(rights);
+            }
         }
 
         if (isSelf) {

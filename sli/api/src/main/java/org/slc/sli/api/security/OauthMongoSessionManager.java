@@ -77,6 +77,9 @@ public class OauthMongoSessionManager implements OauthSessionManager {
 
     private static final String APPLICATION_COLLECTION = "application";
     private static final String SESSION_COLLECTION = "userSession";
+    private static final String EDORG_COLLECTION = "educationOrganization";
+    private final GrantedAuthority STAFF_CONTEXT = new GrantedAuthorityImpl(Right.STAFF_CONTEXT.name());
+    private final GrantedAuthority TEACHER_CONTEXT = new GrantedAuthorityImpl(Right.TEACHER_CONTEXT.name());
 
     @Value("${sli.session.length}")
     private int sessionLength;
@@ -515,10 +518,10 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                         Arrays.asList(role), principal.isAdminRealmAuthenticated(), false));
             }
         }
-        if (roleAuthorities.contains(new GrantedAuthorityImpl(Right.STAFF_CONTEXT.name()))) {
+        if (roleAuthorities.contains(STAFF_CONTEXT)) {
             contextRights.get(Right.STAFF_CONTEXT.name()).addAll(roleAuthorities);
         }
-        if (roleAuthorities.contains(new GrantedAuthorityImpl(Right.TEACHER_CONTEXT.name()))) {
+        if (roleAuthorities.contains(TEACHER_CONTEXT)) {
             contextRights.get(Right.TEACHER_CONTEXT.name()).addAll(roleAuthorities);
         }
 
