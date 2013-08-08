@@ -7,7 +7,7 @@ Given I have an open web browser
 Given that dashboard has been authorized for all ed orgs
 When I navigate to the Dashboard home page
 Then I should be redirected to the Realm page
-
+@wip
 Scenario: Teacher's school has no data (no courses)
 When I select "New York Realm" and click go
  And I was redirected to the "Simple" IDP Login page
@@ -15,7 +15,7 @@ When I select "New York Realm" and click go
  When I select ed org "New York Parker District School System"
  When I select school "Parker Elementary School"
 Then I am informed that "There is no data available for your request. Please contact your IT administrator."
-
+@wip
 Scenario: Staff's edorg has no data (no schools)
 When I select "Illinois Sunset School District 4526" and click go
  And I was redirected to the "Simple" IDP Login page
@@ -23,6 +23,7 @@ When I select "Illinois Sunset School District 4526" and click go
 Then I am informed that "There is no data available for your request. Please contact your IT administrator."
 
 @DE1112
+@wip
 Scenario: Teacher without associations to anything (orphaned)
 When I select "Illinois Sunset School District 4526" and click go
  And I was redirected to the "Simple" IDP Login page
@@ -31,6 +32,7 @@ Then I get an error message "Forbidden"
 #Then I get an error message "We're sorry, your district has disallowed use of the Dashboard." #DE1112 should enable this step 
 
 @DE1112
+@wip
 Scenario: School User whose district has disallowed the Dashboard for their district
 Given the district "NY-Dusk" has dissallowed use of the dashboard
 When I select "New York Realm" and click go
@@ -40,13 +42,14 @@ Then I get an error message "The page you are requesting is not available."
 #Then I get an error message "We're sorry, your district has disallowed use of the Dashboard." #DE1112 should enable this step 
 
 @DE1112
+@wip
 Scenario: User accessing Dashboard does not resolve to anyone in database
 When I select "Illinois Sunset School District 4526" and click go
  And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "jdoe" "jdoe1234" for the "Simple" login page
 Then I get an error message "Forbidden"
 #Then I get an error message "We're sorry, your district has disallowed use of the Dashboard." #DE1112 should enable this step 
-
+@wip
 Scenario: Upload Config
 When I select "Illinois Daybreak School District 4529" and click go
  And I was redirected to the "Simple" IDP Login page
@@ -58,6 +61,7 @@ And click Save
 Then I should be shown a success message
 
 # Need to get a user that this is valid for now that we have realm enforcement
+@wip
 Scenario: No sections
 When I select "Illinois Daybreak School District 4529" and click go
  And I was redirected to the "Simple" IDP Login page

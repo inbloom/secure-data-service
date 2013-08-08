@@ -176,12 +176,14 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         Map<String, GenericEntity> edOrgIdMap = new HashMap<String, GenericEntity>();
         
         for (GenericEntity school : schools) {
-            String parentEdOrgId = (String) school.get(Constants.ATTR_PARENT_EDORG);
+        	@SuppressWarnings("unchecked")
+			List<String> parentEdOrgId = (List<String>) school.get(Constants.ATTR_PARENT_EDORG);
+        	//String parentEdOrgId = (String) school.get(Constants.ATTR_PARENT_EDORG);
             if (parentEdOrgId != null) {
-                if (!schoolReachableFromEdOrg.keySet().contains(parentEdOrgId)) {
-                    schoolReachableFromEdOrg.put(parentEdOrgId, new HashSet<GenericEntity>());
+                if (!schoolReachableFromEdOrg.keySet().contains(parentEdOrgId.get(0))) {
+                    schoolReachableFromEdOrg.put(parentEdOrgId.get(0), new HashSet<GenericEntity>());
                 }
-                schoolReachableFromEdOrg.get(parentEdOrgId).add(school);
+                schoolReachableFromEdOrg.get(parentEdOrgId.get(0)).add(school);
             }
         }
         
@@ -190,7 +192,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         List<GenericEntity> edOrgs = getParentEducationalOrganizations(token, schools);
         while (!edOrgs.isEmpty()) {
             for (GenericEntity edOrg : edOrgs) {
-                String parentEdOrgId = (String) edOrg.get(Constants.ATTR_PARENT_EDORG);
+                List<String> parentEdOrgId = (List<String>) edOrg.get(Constants.ATTR_PARENT_EDORG);
                 String edOrgId = edOrg.getId();
                 
                 // if parentEdOrgId exists, you are not the top organization
@@ -200,12 +202,12 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
                     edOrgIdMap.put(edOrgId, edOrg);
                     
                     // insert ed-org - school mapping into the reverse map
-                    if (!schoolReachableFromEdOrg.keySet().contains(parentEdOrgId)) {
-                        schoolReachableFromEdOrg.put(parentEdOrgId, new HashSet<GenericEntity>());
+                    if (!schoolReachableFromEdOrg.keySet().contains(parentEdOrgId.get(0))) {
+                        schoolReachableFromEdOrg.put(parentEdOrgId.get(0), new HashSet<GenericEntity>());
                     }
                     Set<GenericEntity> reachableSchool = schoolReachableFromEdOrg.get(edOrgId);
                     if (reachableSchool != null) {
-                        schoolReachableFromEdOrg.get(parentEdOrgId).addAll(reachableSchool);
+                        schoolReachableFromEdOrg.get(parentEdOrgId.get(0)).addAll(reachableSchool);
                     }
                 }
             }

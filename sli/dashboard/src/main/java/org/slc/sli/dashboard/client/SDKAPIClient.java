@@ -1571,14 +1571,17 @@ public class SDKAPIClient implements APIClient {
 
         if (entities != null) {
             for (GenericEntity entity : entities) {
-                String attributeValue = (String) entity.get(attributeName);
-                if ((attributeValue != null) && (attributeValue.length() > 0)) {
-                    attributeList.add(attributeValue);
+            	if (entity.get(attributeName) != null) {
+            	attributeList = (List<String>) entity.get(attributeName);
+            	//String attributeValue = (String) entity.get(attributeName);
+                //if ((attributeValue != null) && (attributeValue.length() > 0)) {
+                 //   attributeList.add(attributeValue);
                 }
             }
         }
 
         return attributeList;
+        
     }
 
     /**
@@ -1851,7 +1854,11 @@ public class SDKAPIClient implements APIClient {
             if (edorg == null) {
                 currentEdOrgId = null;
             } else {
-                currentEdOrgId = (String) edorg.get(Constants.ATTR_PARENT_EDORG);
+            	List<String> currentEdOrgIdList = (List<String>) edorg.get(Constants.ATTR_PARENT_EDORG);
+            	if (currentEdOrgIdList != null) {
+            	 currentEdOrgId = currentEdOrgIdList.get(0);
+            	}
+                //currentEdOrgId = (String) edorg.get(Constants.ATTR_PARENT_EDORG);
             }
         }
 
