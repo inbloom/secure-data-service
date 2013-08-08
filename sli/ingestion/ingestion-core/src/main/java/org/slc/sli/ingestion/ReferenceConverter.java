@@ -31,9 +31,17 @@ public enum ReferenceConverter {
     TEACHER( "TeacherReference", "teacher"),
     ASSESSMENTFAMILY( "AssessmentFamilyReference", "assessmentFamily"),
     SCHOOL( "SchoolReference", "school"),
+
     COHORT("CohortReference","cohort"),
     STUDENTASSESSMENT("StudentAssessmentReference","studentAssessment"),
+
+    GRADINGPERIOD( "GradingPeriodReference", "gradingPeriod"),
+    SESSION( "SessionReference", "session"),
+    COURSEOFFERING( "CourseOfferingReference", "courseOffering"),
+
+
     SECTION("SectionReference","section");
+
 
     /*
     CLASS_PERIOD("ClassPeriodReference", "classPeriod"),

@@ -73,7 +73,7 @@ Scenario: Delete CourseOffering with cascade = false
         | collection |delta|
         |courseOffering|   0|
  
-    
+
 Scenario: Delete Orphan CourseOffering with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -99,8 +99,8 @@ Scenario: Delete Orphan CourseOffering with cascade = false
         | collection   |delta|
         |courseOffering|   -1|
         |recordHash    |   -1|
-    
-@wip       
+
+
 Scenario: Delete Orphan CourseOffering Reference with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty

@@ -84,7 +84,7 @@ Scenario: Delete Grading Period with cascade = false
         | collection |delta|
         |gradingPeriod|   0|
 
- 
+
  Scenario: Delete Orphan GradingPeriod with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -114,7 +114,6 @@ Scenario: Delete Grading Period with cascade = false
         |recordHash   |  -1|
 
 
-@wip
 Scenario: Delete Orphan GradingPeriod Reference with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty

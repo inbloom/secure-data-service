@@ -77,7 +77,7 @@ Scenario: Delete Session with cascade
         |studentSectionAssociation  |   -8|
         #|recordHash                 | -616|
 	And I should not see "fd5005534bf74e30de034c0e82662309f4df630f_id" in the "Midgar" database
-	
+
 Scenario: Delete Session with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -138,7 +138,7 @@ Scenario: Delete Session with cascade = false
     And I see that collections counts have changed as follows in tenant "Midgar"
         | collection                |delta|
         |session                    |    0|
-        
+
 Scenario: Delete Orphan Session with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
@@ -164,7 +164,7 @@ Scenario: Delete Orphan Session with cascade = false
         | collection                |delta|
         |session                    |   -1|
         |recordHash                 |   -1|
-@wip        
+
 Scenario: Delete Orphan Session Reference with cascade = false
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
