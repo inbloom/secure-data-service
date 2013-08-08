@@ -57,22 +57,16 @@
 			<xs:element name="GraduationPlanReference" type="SLC-GraduationPlanReferenceType"/>
 			<xs:element name="LearningObjectiveReference" type="SLC-LearningObjectiveReferenceType"/>
 			<xs:element name="LearningStandardReference" type="SLC-LearningStandardReferenceType"/>
-			<!-- Deprecated subtype of EducationOrganization -->
-			<xs:element name="LocalEducationAgencyReference" type="SLC-EducationalOrgReferenceType"/>
 			<xs:element name="ObjectiveAssessmentReference" type="SLC-ObjectiveAssessmentReferenceType"/>
 			<xs:element name="ParentReference" type="SLC-ParentReferenceType"/>
 			<xs:element name="ProgramReference" type="SLC-ProgramReferenceType"/>
 			<xs:element name="ReportCardReference" type="SLC-ReportCardReferenceType"/>
-			<!-- Deprecated subtype of EducationOrganization -->
-			<xs:element name="SchoolReference" type="SLC-EducationalOrgReferenceType"/>
 			<xs:element name="SectionReference" type="SLC-SectionReferenceType"/>
 			<xs:element name="SessionReference" type="SLC-SessionReferenceType"/>
 			<xs:element name="StaffCohortAssociationReference" type="SLC-StaffCohortAssociationReferenceType"/>
 			<xs:element name="StaffEducationOrgAssignmentAssociationReference" type="SLC-StaffEducationOrgAssignmentAssociationReferenceType"/>
 			<xs:element name="StaffProgramAssociationReference" type="SLC-StaffProgramAssociationReferenceType"/>
 			<xs:element name="StaffReference" type="SLC-StaffReferenceType"/>
-			<!-- Deprecated subtype of EducationOrganization -->
-			<xs:element name="StateEducationAgencyReference" type="SLC-EducationalOrgReferenceType"/>
 			<xs:element name="StudentAcademicRecordReference" type="SLC-StudentAcademicRecordReferenceType"/>
 			<xs:element name="StudentAssessmentReference" type="SLC-StudentAssessmentReferenceType"/>
 			<xs:element name="StudentAssessmentItemReference" type="SLC-StudentAssessmentItemReferenceType"/>
@@ -111,22 +105,16 @@
 			<xs:element name="GraduationPlan" type="SLC-GraduationPlan"/>
 			<xs:element name="LearningObjective" type="SLC-LearningObjective"/>
 			<xs:element name="LearningStandard" type="SLC-LearningStandard"/>
-			<!-- Deprecated subtype of EducationOrganization -->
-			<xs:element name="LocalEducationAgency" type="SLC-LocalEducationAgency"/>
 			<xs:element name="ObjectiveAssessment" type="SLC-ObjectiveAssessment"/>
 			<xs:element name="Parent" type="SLC-Parent"/>
 			<xs:element name="Program" type="SLC-Program"/>
 			<xs:element name="ReportCard" type="SLC-ReportCard"/>
-			<!-- Deprecated subtype of EducationOrganization -->
-			<xs:element name="School" type="SLC-School"/>
 			<xs:element name="Section" type="SLC-Section"/>
 			<xs:element name="Session" type="SLC-Session"/>
 			<xs:element name="Staff" type="SLC-Staff"/>
 			<xs:element name="StaffCohortAssociation" type="SLC-StaffCohortAssociation"/>
 			<xs:element name="StaffEducationOrgAssignmentAssociation" type="SLC-StaffEducationOrgAssignmentAssociation"/>
 			<xs:element name="StaffProgramAssociation" type="SLC-StaffProgramAssociation"/>
-			<!-- Deprecated subtype of EducationOrganization -->
-			<xs:element name="StateEducationAgency" type="SLC-StateEducationAgency"/>
 			<xs:element name="Student" type="SLC-Student"/>
 			<xs:element name="StudentAcademicRecord" type="SLC-StudentAcademicRecord"/>
 			<xs:element name="StudentAssessment" type="SLC-StudentAssessment"/>
@@ -585,79 +573,25 @@
 					  <xs:element name="OrganizationCategories" type="EducationOrganizationCategoriesType"/>
 					  <xs:element name="OtherOrganizationCategories" type="SLC-OtherEducationOrganizationCategoriesType"/>
 					</xs:choice>
-				        <xs:element name="ParentEducationAgencyReference" type="SLC-EducationalOrgReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+				      <xs:element name="ParentEducationAgencyReference" type="SLC-EducationalOrgReferenceType" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="Address" type="Address" maxOccurs="unbounded"/>
 					<xs:element name="Telephone" type="InstitutionTelephone" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="WebSite" type="WebSite" minOccurs="0"/>
 					<xs:element name="OperationalStatus" type="OperationalStatusType" minOccurs="0"/>
 					<xs:element name="AccountabilityRatings" type="AccountabilityRating" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="ProgramReference" type="SLC-ProgramReferenceType" minOccurs="0" maxOccurs="unbounded"/>
-
-					<!-- Removed - inBloom never wanted it -->
-					<!--
-					<xs:element name="EducationOrganizationPeerReference" type="EducationalOrgReferenceType" minOccurs="0" maxOccurs="unbounded"/>
-					-->
-					
-					<!-- Fields below were "pushed up" in the inheritance hierarchy from legacy subtypes, in a way that -->
-					<!-- (1) preserves the ordering of relevant fields for a given subtype but also (2) loses, where noted, -->
-					<!-- the required-field (minOccurs=1) validation for that field -->
-
-					<!-- Pushed up from subtype SLC-LocalEducationAgency (part 1 of 2) -->
-					<!-- *** LEACategory: Formerly required for LEA, now optional, required-validation lost -->
 					<xs:element name="LEACategory" type="LEACategoryType" minOccurs="0"/>
-
-					<!-- Pushed up from subtype SLC-School -->
-					<!-- *** GradesOffered: Formerly required for School, now optional, required-validation lost -->
 					<xs:element name="GradesOffered" type="GradeLevelsType" minOccurs="0"/>
-					<!-- *** SchoolCategories: Formerly required for School, now optional, required-validation lost -->
 					<xs:element name="SchoolCategories" type="SLC-SchoolCategoriesType" minOccurs="0"/>
 					<xs:element name="SchoolType" type="SchoolType" minOccurs="0"/>
 					<xs:element name="CharterStatus" type="CharterStatusType" minOccurs="0"/>
 					<xs:element name="TitleIPartASchoolDesignation" type="TitleIPartASchoolDesignationType" minOccurs="0"/>
 					<xs:element name="MagnetSpecialProgramEmphasisSchool" type="MagnetSpecialProgramEmphasisSchoolType" minOccurs="0"/>
 					<xs:element name="AdministrativeFundingControl" type="AdministrativeFundingControlType" minOccurs="0"/>
-					<!-- Removed, replaced by ParentEducationAgencyReference -->
-					<xs:element name="LocalEducationAgencyReference" type="SLC-EducationalOrgReferenceType" minOccurs="0"/>
-					<!-- Removed, ClassPeriod not supported, so would not have a reference to it -->
-					<!-- <xs:element name="ClassPeriodReference" type="ReferenceType" minOccurs="0" maxOccurs="unbounded"/> -->
-					<!-- Removed, Location not supported, so would not have a reference to it -->
-					<!-- <xs:element name="LocationReference" type="ReferenceType" minOccurs="0" maxOccurs="unbounded"/> -->
-
-					<!-- Pushed up from subtype SLC-LocalEducationAgency (part 2 of 2) -->
-					<!-- CharterStatus already pushed up from SLC-School (above) -->
-					<!-- <xs:element name="CharterStatus" type="CharterStatusType" minOccurs="0"/> -->
-					<!-- LocalEducationAgencyReference already pushed up from SLC-School (above) -->
-					<!-- <xs:element name="LocalEducationAgencyReference" type="SLC-EducationalOrgReferenceType" minOccurs="0"/> -->
-					<!-- Removed, replaced by ParentEducationAgencyReference -->
-					<xs:element name="EducationServiceCenterReference" type="SLC-EducationalOrgReferenceType" minOccurs="0"/>
-					<!-- Removed, replaced by ParentEducationAgencyReference -->
-					<xs:element name="StateEducationAgencyReference" type="SLC-EducationalOrgReferenceType" minOccurs="0"/>
-
-					<!-- Pushed up from subtype SLC-EducationServiceCenter -->
-					<!-- StateEducationAgencyReference already pushed up from SLC-LocalEducationAgency (above) -->
-					<!-- <xs:element name="StateEducationAgencyReference" type="EducationalOrgReferenceType" minOccurs="0"/> -->
-
-					<!-- Nothing to push up subtype SLC-StateEducationAgency -->
-
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-
-	<!-- Deprecated subtype of EducationOrganization -->
-	<xs:complexType name="SLC-EducationServiceCenter">
-		<xs:annotation>
-			<xs:documentation>Changed type of StateEducationAgencyReference to SLC reference type.</xs:documentation>
-			<xs:appinfo>
-				<sli:recordType>educationServiceCenter</sli:recordType>
-			</xs:appinfo>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="SLC-EducationOrganization">
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	
 	<xs:complexType name="SLC-Grade">
 		<xs:annotation>
 			<xs:documentation>Grade record with key fields: StudentSectionAssociationReference (StudentUniqueStateId, StateOrganizationId, UniqueSectionCode, BeginDate) and GradingPeriodReference
@@ -810,23 +744,6 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-
-	<!-- Deprecated subtype of EducationOrganization -->
-	<xs:complexType name="SLC-LocalEducationAgency">
-		<xs:annotation>
-			<xs:documentation>LocalEducationAgency record with key field: StateOrganizationId. Changed type of LocalEducationAgencyReference, EducationServiceCenterReference and
-				StateEducationAgencyReference to SLC reference types.</xs:documentation>
-			<xs:appinfo>
-				<sli:recordType>localEducationAgency</sli:recordType>
-				<sli:naturalKeys>StateOrganizationId</sli:naturalKeys>
-			</xs:appinfo>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="SLC-EducationOrganization">
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	
 	<xs:complexType name="SLC-ObjectiveAssessment">
 		<xs:annotation>
 			<xs:documentation>ObjectiveAssessment record with key field: IdentificationCode. Changed type of LearningObjectiveReference, LearningStandardReference and ObjectiveAssessmentReference to
@@ -939,22 +856,6 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-
-	<!-- Deprecated subtype of EducationOrganization -->
-	<xs:complexType name="SLC-School">
-		<xs:annotation>
-			<xs:documentation>School record with key field: StateOrganizationId. Changed type of LocalEducationAgencyReference to SLC reference type.</xs:documentation>
-			<xs:appinfo>
-				<sli:recordType>school</sli:recordType>
-				<sli:naturalKeys>StateOrganizationId</sli:naturalKeys>
-			</xs:appinfo>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="SLC-EducationOrganization">
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	
 	<xs:complexType name="SLC-Section">
 		<xs:annotation>
 			<xs:documentation>Section record with key fields: UniqueSectionCode and SchoolReference (StateOrganizationId). Changed types of CourseOfferingReference, SchoolReference, SessionReference
@@ -1096,21 +997,6 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-
-	<!-- Deprecated subtype of EducationOrganization -->
-	<xs:complexType name="SLC-StateEducationAgency">
-		<xs:annotation>
-			<xs:documentation>StateEducationAgency with key field: StateOrganizationId.</xs:documentation>
-			<xs:appinfo>
-				<sli:recordType>stateEducationAgency</sli:recordType>
-				<sli:naturalKeys>StateOrganizationId</sli:naturalKeys>
-			</xs:appinfo>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="SLC-EducationOrganization"/>
-		</xs:complexContent>
-	</xs:complexType>
-	
 	<xs:complexType name="SLC-StudentAcademicRecord">
 		<xs:annotation>
 			<xs:documentation>StudentAcademicRecord record with key fields: StudentReference (StudentUniqueStateId) and SessionReference (SessionName, StateOrganizationId). Changed types of
