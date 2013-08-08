@@ -45,37 +45,10 @@ public class InterchangeEducationOrganizationTest {
     }
 
     @Test
-    public void testLocalEducationAgency() throws Throwable {
-        Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd");
-        Resource inputXml = new ClassPathResource("parser/InterchangeEducationOrganization/LocalEducationAgency.xml");
-        Resource expectedJson = new ClassPathResource("parser/InterchangeEducationOrganization/LocalEducationAgency.json");
-
-        EntityTestHelper.parseAndVerify(schema, inputXml, expectedJson);
-    }
-
-    @Test
     public void testProgram() throws Throwable {
         Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd");
         Resource inputXml = new ClassPathResource("parser/InterchangeEducationOrganization/Program.xml");
         Resource expectedJson = new ClassPathResource("parser/InterchangeEducationOrganization/Program.json");
-
-        EntityTestHelper.parseAndVerify(schema, inputXml, expectedJson);
-    }
-
-    @Test
-    public void testSchool() throws Throwable {
-        Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd");
-        Resource inputXml = new ClassPathResource("parser/InterchangeEducationOrganization/School.xml");
-        Resource expectedJson = new ClassPathResource("parser/InterchangeEducationOrganization/School.json");
-
-        EntityTestHelper.parseAndVerify(schema, inputXml, expectedJson);
-    }
-
-    @Test
-    public void testStateEducationAgency() throws Throwable {
-        Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd");
-        Resource inputXml = new ClassPathResource("parser/InterchangeEducationOrganization/StateEducationAgency.xml");
-        Resource expectedJson = new ClassPathResource("parser/InterchangeEducationOrganization/StateEducationAgency.json");
 
         EntityTestHelper.parseAndVerify(schema, inputXml, expectedJson);
     }
