@@ -81,13 +81,13 @@ public class TransitiveTeacherToTeacherSchoolAssociationValidatorTest {
         this.vth.generateTeacherSchool(USER_ID, SCHOOL_ID);
 
         Entity tsa = this.vth.generateTeacherSchool("Heru-er", SCHOOL_ID);
-        Assert.assertTrue(val.validate(CORRECT_ENTITY_TYPE, Collections.singleton(tsa.getEntityId())));
+        Assert.assertTrue(val.validate(CORRECT_ENTITY_TYPE, Collections.singleton(tsa.getEntityId())).contains(tsa.getEntityId()));
 
         tsa = this.vth.generateTeacherSchool("Izida", SCHOOL_ID);
-        Assert.assertTrue(val.validate(CORRECT_ENTITY_TYPE, Collections.singleton(tsa.getEntityId())));
+        Assert.assertTrue(val.validate(CORRECT_ENTITY_TYPE, Collections.singleton(tsa.getEntityId())).contains(tsa.getEntityId()));
 
         tsa = this.vth.generateTeacherSchool("Ptah", SCHOOL_ID);
-        Assert.assertTrue(val.validate(CORRECT_ENTITY_TYPE, Collections.singleton(tsa.getEntityId())));
+        Assert.assertTrue(val.validate(CORRECT_ENTITY_TYPE, Collections.singleton(tsa.getEntityId())).contains(tsa.getEntityId()));
     }
 
     @Test
@@ -99,21 +99,25 @@ public class TransitiveTeacherToTeacherSchoolAssociationValidatorTest {
             ids.add(this.vth.generateTeacherSchool("Thor" + i, SCHOOL_ID).getEntityId());
         }
 
-        Assert.assertTrue(val.validate(CORRECT_ENTITY_TYPE, ids));
+        Assert.assertTrue(val.validate(CORRECT_ENTITY_TYPE, ids).containsAll(ids));
     }
 
     @Test
     public void testWrongId() {
-        Assert.assertFalse(val.validate(CORRECT_ENTITY_TYPE, Collections.singleton("Hammerhands")));
-        Assert.assertFalse(val.validate(CORRECT_ENTITY_TYPE, Collections.singleton("Nagas")));
-        Assert.assertFalse(val.validate(CORRECT_ENTITY_TYPE, Collections.singleton("Phantom Warriors")));
+        Set<String> idsToValidate = Collections.singleton("Hammerhands");
+        Assert.assertFalse(val.validate(CORRECT_ENTITY_TYPE, idsToValidate).containsAll(idsToValidate));
+
+        idsToValidate = Collections.singleton("Nagas");
+        Assert.assertFalse(val.validate(CORRECT_ENTITY_TYPE, idsToValidate).containsAll(idsToValidate));
+
+        idsToValidate = Collections.singleton("Phantom Warriors");
+        Assert.assertFalse(val.validate(CORRECT_ENTITY_TYPE, idsToValidate).containsAll(idsToValidate));
     }
 
     @Test
     public void testHeterogenousList() {
-        Assert.assertFalse(val.validate(
-                CORRECT_ENTITY_TYPE,
-                new HashSet<String>(Arrays.asList(this.vth.generateTeacherSchool(USER_ID, SCHOOL_ID).getEntityId(), this.vth.generateTeacherSchool("Ssss'ra", "Arcanus").getEntityId(), this.vth.generateTeacherSchool("Kali", "Arcanus")
-                        .getEntityId()))));
+        Set<String> idsToValidate = new HashSet<String>(Arrays.asList(this.vth.generateTeacherSchool(USER_ID, SCHOOL_ID).getEntityId(), this.vth.generateTeacherSchool("Ssss'ra", "Arcanus").getEntityId(), this.vth.generateTeacherSchool("Kali", "Arcanus")
+                .getEntityId()));
+                Assert.assertFalse(val.validate(CORRECT_ENTITY_TYPE, idsToValidate).containsAll(idsToValidate));
     }
 }

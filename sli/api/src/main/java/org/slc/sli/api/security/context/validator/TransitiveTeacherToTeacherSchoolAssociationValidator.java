@@ -24,8 +24,7 @@ import org.slc.sli.domain.NeutralQuery;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Validates teacher's access to given teachers
@@ -45,19 +44,27 @@ public class TransitiveTeacherToTeacherSchoolAssociationValidator extends Abstra
     }
     
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.TEACHER_SCHOOL_ASSOCIATION, entityType, ids)) {
-            return false;
+            return Collections.emptySet();
         }
         
         NeutralQuery nq = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids));
         Iterable<Entity> tsa = getRepo().findAll(EntityNames.TEACHER_SCHOOL_ASSOCIATION, nq);
         
         Set<String> teachers = new HashSet<String>();
+        Map<String, Set<String>> teacherToTSA = new HashMap<String, Set<String>>();
         for (Entity e : tsa) {
-            teachers.add((String) e.getBody().get(ParameterConstants.TEACHER_ID));
+            String teacherId = (String) e.getBody().get(ParameterConstants.TEACHER_ID);
+            teachers.add(teacherId);
+            if(!teacherToTSA.containsKey(teacherId)) {
+                teacherToTSA.put(teacherId, new HashSet<String>());
+            }
+            teacherToTSA.get(teacherId).add(e.getEntityId());
         }
-        
-        return val.validate(EntityNames.TEACHER, teachers);
+
+        Set<String> validTeacherIds = val.validate(EntityNames.TEACHER, teachers);
+
+        return getValidIds(validTeacherIds, teacherToTSA);
     }
 }
