@@ -210,23 +210,23 @@ public class EdOrgHelper {
     public List<String> getParentEdOrgs(Entity edOrgEntity) {
         List<String> toReturn = new ArrayList<String>();
 
+        Map<String, Entity> edOrgCache = loadEdOrgCache();
+        Set<String> visitedEdOrgs = new HashSet<String>();
+
         if (edOrgEntity != null) {
             String myId = edOrgEntity.getEntityId();
             if (myId != null) {
-                toReturn.add(myId);
-                toReturn = getParentEdOrgs(edOrgEntity, toReturn);
-
-                // don't include myself in the results
-                toReturn.remove(myId);
+                visitedEdOrgs.add(myId);
+                toReturn = getParentEdOrgs(edOrgEntity, edOrgCache, visitedEdOrgs, toReturn);
             }
         }
 
         return toReturn;
     }
 
-    private List<String> getParentEdOrgs(final Entity edOrg, List<String>toReturn) {
+    private List<String> getParentEdOrgs(final Entity edOrg, final Map<String, Entity> edOrgCache, final Set<String> visitedEdOrgs, List<String> toReturn) {
         // base case
-        if (edOrg == null || toReturn.contains(edOrg)) {
+        if (edOrg == null || visitedEdOrgs.contains(edOrg)) {
             return toReturn;
         }
 
@@ -235,40 +235,18 @@ public class EdOrgHelper {
             List<String> parentIds = (List<String>) edOrg.getBody().get("parentEducationAgencyReference");
             if (parentIds != null) {
                 for (String parentId : parentIds) {
-                    if (parentId != null && !toReturn.contains(parentId)) {
-                        Entity parentEdOrg = repo.findById(EntityNames.EDUCATION_ORGANIZATION, parentId);
+                    if (parentId != null && !visitedEdOrgs.contains(parentId)) {
+                        visitedEdOrgs.add(parentId);
+
+                        Entity parentEdOrg = edOrgCache.get(parentId);
                         if (parentEdOrg != null) {
                             toReturn.add(parentId);
-                            getParentEdOrgs(parentEdOrg, toReturn);
+                            getParentEdOrgs(parentEdOrg, edOrgCache, visitedEdOrgs, toReturn);
                         }
                     }
                 }
             }
         }
-
-/* CONFLICT caused by merge of 13dd43b8d855f1c3cc24582ec5c9fb79c4fd7f03 */
-/*
-        Map<String, Entity> edOrgCache = loadEdOrgCache();
-
-        Entity currentEdOrg = edOrg;
-        Set<String> visitedEdOrgs = new HashSet<String>();
-        while (currentEdOrg != null && currentEdOrg.getBody() != null) {
-            Entity parentEdOrg = null;
-
-            String parentEdOrgId = (String) currentEdOrg.getBody().get("parentEducationAgencyReference");
-            if (parentEdOrgId != null && !visitedEdOrgs.contains(parentEdOrgId)) {
-                visitedEdOrgs.add(parentEdOrgId);
-
-                parentEdOrg = edOrgCache.get(parentEdOrgId);
-
-                if (parentEdOrg != null) {
-                    toReturn.add(parentEdOrg.getEntityId());
-
-                }
-            }
-
-            currentEdOrg = parentEdOrg;
-        }*/
 
         return toReturn;
     }
