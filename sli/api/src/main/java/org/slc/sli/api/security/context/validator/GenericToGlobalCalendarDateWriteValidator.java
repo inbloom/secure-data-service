@@ -24,8 +24,11 @@ package org.slc.sli.api.security.context.validator;
  * limitations under the License.
  */
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
+import com.google.common.collect.Sets;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.constants.EntityNames;
@@ -45,9 +48,9 @@ public class GenericToGlobalCalendarDateWriteValidator extends AbstractContextVa
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.CALENDAR_DATE, entityType, ids)) {
-            return false;
+            return Collections.emptySet();
         }
 
         /*
@@ -59,7 +62,7 @@ public class GenericToGlobalCalendarDateWriteValidator extends AbstractContextVa
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids, false));
         query.addCriteria(new NeutralCriteria(ParameterConstants.EDUCATION_ORGANIZATION_ID, NeutralCriteria.CRITERIA_IN, edOrgLineage));
 
-        return ids.size() == getRepo().count(entityType, query);
+        return Sets.newHashSet(getRepo().findAllIds(entityType, query));
     }
 
 }
