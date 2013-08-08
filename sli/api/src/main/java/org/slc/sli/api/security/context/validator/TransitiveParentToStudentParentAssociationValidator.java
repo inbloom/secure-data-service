@@ -1,6 +1,7 @@
 package org.slc.sli.api.security.context.validator;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.stereotype.Component;
@@ -27,7 +28,8 @@ public class TransitiveParentToStudentParentAssociationValidator extends ParentT
         }
         
         Set<String> remainingIds = removePermissibleIds(ids, false);
-        ids.removeAll(remainingIds);
-        return ids;
+        Set<String> validIds  = new HashSet<String>(ids);
+        validIds.removeAll(remainingIds);
+        return validIds;
     }
 }

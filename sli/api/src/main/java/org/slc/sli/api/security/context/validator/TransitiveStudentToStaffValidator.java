@@ -59,8 +59,9 @@ public class TransitiveStudentToStaffValidator extends BasicValidator {
             idsToCheck.removeAll(filterConnectedViaProgram(idsToCheck, me));
             idsToCheck.removeAll(filterConnectedViaCohort(idsToCheck, me));
         }
-        ids.removeAll(idsToCheck);
-        return ids;
+        Set<String> validIds = new HashSet<String>(ids);
+        validIds.removeAll(idsToCheck);
+        return validIds;
     }
 
     protected Set<String> filterConnectedViaProgram(Set<String> ids, Entity me) {

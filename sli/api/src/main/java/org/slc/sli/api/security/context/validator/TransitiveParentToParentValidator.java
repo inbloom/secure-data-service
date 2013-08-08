@@ -25,18 +25,18 @@ public class TransitiveParentToParentValidator extends AbstractContextValidator{
         }
 
         Set<Entity> students = SecurityUtil.getSLIPrincipal().getOwnedStudentEntities();
-        Set<String> requestedIds = new HashSet<String>(ids);
+        Set<String> validIds = new HashSet<String>();
 
         for ( Entity student : students) {
             List<Entity> spas = student.getEmbeddedData().get(EntityNames.STUDENT_PARENT_ASSOCIATION);
             if (null != spas) {
                 for (Entity spa : spas) {
-                    requestedIds.remove(spa.getBody().get(ParameterConstants.PARENT_ID));
+                    validIds.add(spa.getBody().get(ParameterConstants.PARENT_ID).toString());
                 }
             }
         }
 
-        ids.removeAll(requestedIds);
-        return ids;
+        validIds.retainAll(ids);
+        return validIds;
     }
 }

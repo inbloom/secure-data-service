@@ -71,7 +71,8 @@ public class GenericToGlobalProgramWriteValidator extends AbstractContextValidat
         }
 
         // If we made it this far, there's still programs that didn't validate,
-        ids.removeAll(programsToValidate);
-        return ids;
+        Set<String> validIds = new HashSet<String>(ids);
+        validIds.removeAll(programsToValidate);
+        return validIds;
     }
 }

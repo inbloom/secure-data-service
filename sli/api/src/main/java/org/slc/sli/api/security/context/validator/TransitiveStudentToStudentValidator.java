@@ -95,8 +95,9 @@ public class TransitiveStudentToStudentValidator extends BasicValidator {
                 return ids;
             }
         }
-        ids.removeAll(myCopyOfIds);
-        return ids;
+        Set<String> validIds  = new HashSet<String>(ids);
+        validIds.removeAll(myCopyOfIds);
+        return validIds;
     }
 
     private void removeValidIds(Set<String> ids, Entity authenticatedStudent, Entity student, String subdocType, String refField) {

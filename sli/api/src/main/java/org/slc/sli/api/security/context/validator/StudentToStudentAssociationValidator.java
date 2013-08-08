@@ -93,8 +93,10 @@ public class StudentToStudentAssociationValidator extends AbstractContextValidat
 
         Set<String> validStudentIds = studentValidator.validate(EntityNames.STUDENT, otherStudentIds);
         toValidateIds.removeAll(getValidIds(validStudentIds, studentIdsToAssoc));
-        ids.removeAll(toValidateIds);
 
-        return ids;
+        Set<String> validIds = new HashSet<String>(ids);
+        validIds.removeAll(toValidateIds);
+
+        return validIds;
     }
 }

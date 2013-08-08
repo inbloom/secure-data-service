@@ -70,8 +70,9 @@ public class GenericToGlobalGradingPeriodWriteValidator extends AbstractContextV
                 }
             }
         }
-        ids.removeAll(gradingPeriodsToValidate);
-        return ids;
+        Set<String> validIds = new HashSet<String>(ids);
+        validIds.removeAll(gradingPeriodsToValidate);
+        return validIds;
     }
 
 }

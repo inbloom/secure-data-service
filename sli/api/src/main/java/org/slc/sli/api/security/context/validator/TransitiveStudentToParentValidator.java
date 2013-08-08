@@ -39,19 +39,19 @@ public class TransitiveStudentToParentValidator extends BasicValidator {
     @Override
     protected Set<String> doValidate(Set<String> ids, String entityType) {
 
-        Set<String> remainingIds = new HashSet<String>(ids);
+        Set<String> validIds = new HashSet<String>();
         for (Entity me : SecurityUtil.getSLIPrincipal().getOwnedStudentEntities()) {
             List<Entity> spas = me.getEmbeddedData().get("studentParentAssociation");
 
             if (spas != null) {
                 for (Entity spa : spas) {
                     String parentId = (String) spa.getBody().get("parentId");
-                    remainingIds.remove(parentId);
+                    validIds.add(parentId);
                 }
             }
         }
-        ids.removeAll(remainingIds);
-        return ids;
+        validIds.retainAll(ids);
+        return validIds;
     }
 
 }

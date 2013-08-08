@@ -42,7 +42,7 @@ public class StudentToStudentParentAssociationValidator extends AbstractContextV
 
     @Override
     public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
-        Set<String> remainingIds = new HashSet<String>(ids);
+        Set<String> validIds = new HashSet<String>();
         if (!areParametersValid(EntityNames.STUDENT_PARENT_ASSOCIATION, entityType, ids)) {
             return Collections.emptySet();
         }
@@ -51,11 +51,11 @@ public class StudentToStudentParentAssociationValidator extends AbstractContextV
         List<Entity> elist = entity.getEmbeddedData().get("studentParentAssociation");
         if (elist != null ) {
             for (Entity e : elist) {
-                remainingIds.remove(e.getEntityId());
+                validIds.add(e.getEntityId());
             }
         }
-        ids.removeAll(remainingIds);
-        return ids;
+        validIds.retainAll(ids);
+        return validIds;
     }
     
 }

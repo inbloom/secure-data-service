@@ -17,6 +17,7 @@
 package org.slc.sli.api.security.context.validator;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.slc.sli.api.util.SecurityUtil;
@@ -36,8 +37,9 @@ public class StudentToStudentValidator extends BasicValidator {
 
     @Override
     protected Set<String> doValidate(Set<String> ids, String entityType) {
-        ids.retainAll(SecurityUtil.getSLIPrincipal().getOwnedStudentIds());
-        return ids;
+        Set<String> validIds = new HashSet<String>(ids);
+        validIds.retainAll(SecurityUtil.getSLIPrincipal().getOwnedStudentIds());
+        return validIds;
     }
 
 }
