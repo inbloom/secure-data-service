@@ -488,8 +488,8 @@ public class OauthMongoSessionManager implements OauthSessionManager {
      *
      * @return - Generated edorg-context-rights map for principal
      */
-    private SLIPrincipal.EdOrgContextRightsCache generateEdOrgContextRightsCache(SLIPrincipal principal) {
-        SLIPrincipal.EdOrgContextRightsCache edOrgContextRights = principal.new EdOrgContextRightsCache();
+    private EdOrgContextRightsCache generateEdOrgContextRightsCache(SLIPrincipal principal) {
+        EdOrgContextRightsCache edOrgContextRights = new EdOrgContextRightsCache();
         if (principal.getEdOrgRoles() != null) {
             for (String edOrg : principal.getEdOrgRoles().keySet()) {
                 Entity edOrgEntity = repo.findById(EDORG_COLLECTION, edOrg);

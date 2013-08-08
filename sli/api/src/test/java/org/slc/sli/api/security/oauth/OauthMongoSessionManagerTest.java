@@ -53,6 +53,7 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+import org.slc.sli.api.security.EdOrgContextRightsCache;
 import org.slc.sli.api.security.OauthMongoSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
@@ -368,7 +369,7 @@ public class OauthMongoSessionManagerTest {
 
         Method method = OauthMongoSessionManager.class.getDeclaredMethod("generateEdOrgContextRightsCache", SLIPrincipal.class);
         method.setAccessible(true);
-        SLIPrincipal.EdOrgContextRightsCache edOrgContextRights = (SLIPrincipal.EdOrgContextRightsCache) method.invoke(sessionManager, principal);
+        EdOrgContextRightsCache edOrgContextRights = (EdOrgContextRightsCache) method.invoke(sessionManager, principal);
 
         Assert.assertEquals(3, edOrgContextRights.size());
         Assert.assertTrue(edOrgContextRights.get("School1").get(Right.STAFF_CONTEXT.name()).equals(authorities11));

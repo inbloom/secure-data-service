@@ -494,20 +494,4 @@ public class SLIPrincipal implements Principal, Serializable {
         }
 
     }
-
-/**
- * Type definition for EdOrgContextRightsMap, a Map<EdOrgId, Map<Context, Rights>>.
- *
- * @author tshewchuk
- */
-    public class EdOrgContextRightsCache extends HashMap<String, Map<String, Collection<GrantedAuthority>>> {
-        /**
-         *
-         */
-        private static final long serialVersionUID = 1L;
-
-        EdOrgContextRightsCache() {
-            super();
-        }
-    }
 }
