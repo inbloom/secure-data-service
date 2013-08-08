@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import junit.framework.Assert;
@@ -115,7 +116,7 @@ public class SDKAPIClientTest {
     private GenericEntity createEdOrg(String id, String parentId) {
         GenericEntity e = new GenericEntity();
         e.put(Constants.ATTR_ID, id);
-        e.put(Constants.ATTR_PARENT_EDORG, parentId);
+        e.put(Constants.ATTR_PARENT_EDORG, Arrays.asList(parentId));
         return e;
     }
     

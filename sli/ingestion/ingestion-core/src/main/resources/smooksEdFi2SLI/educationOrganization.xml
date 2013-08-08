@@ -34,8 +34,7 @@
         <jb:value property="operationalStatus" data="attributes OperationalStatus _value" />
         <jb:wiring property="accountabilityRatings" beanIdRef="AccountabilityRatings" />
         <jb:wiring property="programReference" beanIdRef="ProgramReferences" />
-        <jb:wiring property="parentEducationAgencyReference" beanIdRef="ParentEducationAgencyReference"  />
-        
+        <jb:wiring property="parentEducationAgencyReference" beanIdRef="ParentEducationAgencyReference"  />        
         <jb:value property="LEACategory" data="attributes LEACategory _value" />
         <jb:wiring property="gradesOffered" beanIdRef="GradesOffered" />
         <jb:wiring property="schoolCategories" beanIdRef="SchoolCategories" />
@@ -44,9 +43,6 @@
         <jb:value property="titleIPartASchoolDesignation" data="attributes TitleIPartASchoolDesignation _value" />
         <jb:value property="magnetSpecialProgramEmphasisSchool" data="attributes MagnetSpecialProgramEmphasisSchool _value" />
         <jb:value property="administrativeFundingControl" data="attributes AdministrativeFundingControl _value" />
-        <jb:value property="localEducationAgencyReference" data="attributes LocalEducationAgencyReference" />
-        <jb:value property="educationServiceCenterReference" data="attributes EducationServiceCenterReference" />
-        <jb:value property="stateEducationAgencyReference" data="attributes stateEducationAgencyReference" />
     </jb:bean>
     
     <jb:bean beanId="EducationOrgIdentificationCodes" class="java.util.ArrayList" createOnElement="attributes EducationOrgIdentificationCode">
@@ -110,20 +106,7 @@
         <jb:value property="ratingOrganization " data="attributes AccountabilityRatings element RatingOrganization _value" />
         <jb:value property="ratingProgram " data="attributes AccountabilityRatings element RatingProgram _value" />
     </jb:bean>
-    
-    <jb:bean beanId="StateEducationAgencyReference" class="java.util.HashMap" createOnElement="attributes StateEducationAgencyReference">
-        <jb:value property="SEA" data="attributes StateEducationAgencyReference" />
-    </jb:bean>
-
-    <jb:bean beanId="LocalEducationAgencyReference" class="java.util.HashMap" createOnElement="attributes LocalEducationAgencyReference">
-        <jb:value property="LEA" data="attributes LocalEducationAgencyReference" />
-    </jb:bean>
-    
-    <jb:bean beanId="educationServiceCenterReference" class="java.util.HashMap" createOnElement="attributes educationServiceCenterReference">
-    <jb:value property="ESC" data="attributes educationServiceCenterReference" />
-    </jb:bean>
-    
-    
+       
     <jb:bean beanId="ProgramReferences" class="java.util.ArrayList"  createOnElement="attributes ProgramReference">
         <jb:value data="attributes ProgramReference element" />
     </jb:bean>
