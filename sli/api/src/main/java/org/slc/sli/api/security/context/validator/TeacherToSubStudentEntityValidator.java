@@ -69,7 +69,7 @@ public class TeacherToSubStudentEntityValidator extends AbstractContextValidator
             return Collections.emptySet();
         }
         
-        Set<String> students = new HashSet<String>();
+        Map<String, Set<String>> students = new HashMap<String, Set<String>>();
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
                 NeutralCriteria.CRITERIA_IN, new ArrayList<String>(ids)));
         Iterable<Entity> entities = repo.findAll(entityType, query);
@@ -77,9 +77,9 @@ public class TeacherToSubStudentEntityValidator extends AbstractContextValidator
         for (Entity entity : entities) {
             Map<String, Object> body = entity.getBody();
             if (body.get(ParameterConstants.STUDENT_ID) instanceof String) {
-                students.add((String) body.get(ParameterConstants.STUDENT_ID));
+                students = putStudents(Arrays.asList((String) body.get(ParameterConstants.STUDENT_ID)), entity.getEntityId(), students);
             } else if (body.get(ParameterConstants.STUDENT_ID) instanceof List) {
-                students.addAll((List<String>) body.get(ParameterConstants.STUDENT_ID));
+                students = putStudents((List<String>) body.get(ParameterConstants.STUDENT_ID), entity.getEntityId(), students);
             } else {
                 //Student ID was not a string or a list of strings, this is unexpected
                 warn("Possible Corrupt Data detected at "+entityType+"/"+entity.getEntityId());
@@ -87,10 +87,12 @@ public class TeacherToSubStudentEntityValidator extends AbstractContextValidator
         }
 
         if (students.isEmpty()) {
-            return students;
+            return Collections.EMPTY_SET;
         }
 
-        return validator.validate(EntityNames.STUDENT, students);
+        Set<String> validStudents = validator.validate(EntityNames.STUDENT, students.keySet());
+
+        return getValidIds(validStudents, students);
     }
 
     /**
@@ -111,5 +113,16 @@ public class TeacherToSubStudentEntityValidator extends AbstractContextValidator
      */
     public void setTeacherToStudentValidator(TeacherToStudentValidator teacherToStudentValidator) {
         this.validator = teacherToStudentValidator;
+    }
+
+    private Map<String, Set<String>> putStudents(Collection<String> studentInfo, String entityId, Map<String, Set<String>> studentToEntities) {
+        for (String student : studentInfo) {
+            if (!studentToEntities.containsKey(student)) {
+                studentToEntities.put(student, new HashSet<String>());
+            }
+            studentToEntities.get(student).add(entityId);
+        }
+
+        return studentToEntities;
     }
 }

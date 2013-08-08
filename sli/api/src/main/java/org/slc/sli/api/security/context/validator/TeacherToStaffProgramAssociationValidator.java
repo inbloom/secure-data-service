@@ -16,13 +16,17 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import com.google.common.collect.Sets;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -41,17 +45,19 @@ public class TeacherToStaffProgramAssociationValidator extends AbstractContextVa
     }
 
 	@Override
-	public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+	public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.STAFF_PROGRAM_ASSOCIATION, entityType, ids)) {
-            return false;
+            return Collections.EMPTY_SET;
         }
 
         NeutralQuery nq = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_ID,
                 NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
         nq.addCriteria(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids));
+
         
-        long count = getRepo().count(EntityNames.STAFF_PROGRAM_ASSOCIATION, nq);
-        return count == ids.size();
+        Iterable<String> validIds= getRepo().findAllIds(EntityNames.STAFF_PROGRAM_ASSOCIATION, nq);
+
+        return Sets.newHashSet(validIds);
     }
 
 }

@@ -19,13 +19,7 @@ package org.slc.sli.api.security.context.validator;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import junit.framework.Assert;
 import org.joda.time.DateTime;
@@ -159,7 +153,7 @@ public class TeacherToSubStudentEntityValidatorTest {
         Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.ATTENDANCE), Mockito.any(NeutralQuery.class))).thenReturn(
                 Arrays.asList(attendanceEntity1));
 
-        Mockito.when(teacherToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(true);
+        Mockito.when(teacherToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(studentIds);
         Assert.assertEquals(attendances.size(), validator.validate(EntityNames.ATTENDANCE, attendances).size());
     }
 
@@ -174,7 +168,7 @@ public class TeacherToSubStudentEntityValidatorTest {
         Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.ATTENDANCE), Mockito.any(NeutralQuery.class))).thenReturn(
                 Arrays.asList(attendanceEntity1));
 
-        Mockito.when(teacherToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(false);
+        Mockito.when(teacherToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(Collections.EMPTY_SET);
         assertFalse(validator.validate(EntityNames.ATTENDANCE, attendances).size() == attendance1.size());
     }
 
@@ -190,7 +184,7 @@ public class TeacherToSubStudentEntityValidatorTest {
         associations.add(association.getEntityId());
 
         studentIds.add("student123");
-        Mockito.when(teacherToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(true);
+        Mockito.when(teacherToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(studentIds);
 
         Assert.assertEquals(studentIds.size(), validator.validate(EntityNames.STUDENT_SCHOOL_ASSOCIATION, associations));
     }
@@ -206,7 +200,7 @@ public class TeacherToSubStudentEntityValidatorTest {
         associations.add(association.getEntityId());
 
         studentIds.add("student123");
-        Mockito.when(teacherToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(true);
+        Mockito.when(teacherToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(studentIds);
 
         Assert.assertEquals(studentIds.size(), validator.validate(EntityNames.STUDENT_SCHOOL_ASSOCIATION, associations).size());
     }
@@ -236,9 +230,9 @@ public class TeacherToSubStudentEntityValidatorTest {
         associations.add(association.getEntityId());
 
         studentIds.add("student123");
-        Mockito.when(teacherToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(true);
+        Mockito.when(teacherToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(studentIds);
 
-        Assert.assertEquals(studentIds.size(), validator.validate(EntityNames.STUDENT_SECTION_ASSOCIATION, associations).size());
+        Assert.assertEquals(studentIds, validator.validate(EntityNames.STUDENT_SECTION_ASSOCIATION, associations));
     }
 
     @Test
@@ -252,7 +246,7 @@ public class TeacherToSubStudentEntityValidatorTest {
         associations.add(association.getEntityId());
 
         studentIds.add("student123");
-        Mockito.when(teacherToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(true);
+        Mockito.when(teacherToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(studentIds);
 
         Assert.assertEquals(studentIds.size(), validator.validate(EntityNames.STUDENT_SECTION_ASSOCIATION, associations).size());
     }

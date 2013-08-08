@@ -2,6 +2,7 @@ package org.slc.sli.api.security.context.validator;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Set;
 
 import junit.framework.Assert;
 
@@ -70,18 +71,28 @@ public class TeacherToStudentProgramAssociationValidatorTest {
     
     @Test
     public void testValidAccessTeacher() {
-        Assert.assertTrue(validator.validate(EntityNames.STUDENT_PROGRAM_ASSOCIATION, new HashSet<String>(Arrays.asList(studentProgramAssoc1.getEntityId()))));
+        Set<String> ids = new HashSet<String>(Arrays.asList(studentProgramAssoc1.getEntityId()));
+        Assert.assertTrue(validator.validate(EntityNames.STUDENT_PROGRAM_ASSOCIATION, ids).equals(ids));
     }
     
     
     @Test
     public void testInvalidAccessTeacher1() {
-        Assert.assertFalse(validator.validate(EntityNames.STUDENT_PROGRAM_ASSOCIATION, new HashSet<String>(Arrays.asList(studentProgramAssoc2.getEntityId()))));
-        Assert.assertFalse(validator.validate(EntityNames.STUDENT_PROGRAM_ASSOCIATION, new HashSet<String>(Arrays.asList(studentProgramAssoc3.getEntityId()))));
-        Assert.assertFalse(validator.validate(EntityNames.STUDENT_PROGRAM_ASSOCIATION, new HashSet<String>(Arrays.asList(studentProgramAssoc4.getEntityId()))));
-        Assert.assertFalse(validator.validate(EntityNames.STUDENT_PROGRAM_ASSOCIATION, new HashSet<String>(Arrays.asList(studentProgramAssoc5.getEntityId()))));
-        Assert.assertFalse(validator.validate(EntityNames.STUDENT_PROGRAM_ASSOCIATION, new HashSet<String>(
-                Arrays.asList(studentProgramAssoc1.getEntityId(), studentProgramAssoc3.getEntityId()))));
+        Set<String> ids = new HashSet<String>(Arrays.asList(studentProgramAssoc2.getEntityId()));
+        Assert.assertFalse(validator.validate(EntityNames.STUDENT_PROGRAM_ASSOCIATION, ids).equals(ids));
+
+        ids = new HashSet<String>(Arrays.asList(studentProgramAssoc3.getEntityId()));
+        Assert.assertFalse(validator.validate(EntityNames.STUDENT_PROGRAM_ASSOCIATION, ids).equals(ids));
+
+        ids = new HashSet<String>(Arrays.asList(studentProgramAssoc4.getEntityId()));
+        Assert.assertFalse(validator.validate(EntityNames.STUDENT_PROGRAM_ASSOCIATION, ids).equals(ids));
+
+        ids = new HashSet<String>(Arrays.asList(studentProgramAssoc5.getEntityId()));
+        Assert.assertFalse(validator.validate(EntityNames.STUDENT_PROGRAM_ASSOCIATION, ids).equals(ids));
+
+        ids = new HashSet<String>(
+                Arrays.asList(studentProgramAssoc1.getEntityId(), studentProgramAssoc3.getEntityId()));
+        Assert.assertFalse(validator.validate(EntityNames.STUDENT_PROGRAM_ASSOCIATION, ids).equals(ids));
     }
     
 

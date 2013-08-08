@@ -19,11 +19,7 @@ package org.slc.sli.api.security.context.validator;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -165,42 +161,50 @@ public class TransitiveTeacherToStaffValidatorTest {
 
     @Test
     public void testInvalidTeacherStaffAssociation() {
-        assertFalse(validator.validate(EntityNames.STAFF, new HashSet<String>(Arrays.asList(staff1.getEntityId()))));
+        Set<String> ids = new HashSet<String>(Arrays.asList(staff1.getEntityId()));
+        assertFalse(validator.validate(EntityNames.STAFF, ids).equals(ids));
     }
 
     @Test
     public void testValidTeacherStaffAssociationNoEndDate() {
-        assertTrue(validator.validate(EntityNames.STAFF, new HashSet<String>(Arrays.asList(staff2.getEntityId()))));
+        Set<String> ids = new HashSet<String>(Arrays.asList(staff2.getEntityId()));
+        assertTrue(validator.validate(EntityNames.STAFF, ids).equals(ids));
     }
 
     @Test
     public void testValidTeacherStaffAssociationWithEndDate() {
-        assertTrue(validator.validate(EntityNames.STAFF, new HashSet<String>(Arrays.asList(staff3.getEntityId()))));
+        Set<String> ids = new HashSet<String>(Arrays.asList(staff3.getEntityId()));
+        assertTrue(validator.validate(EntityNames.STAFF, ids).equals(ids));
     }
 
     @Test
     public void testExpiredTeacherStaffAssociation() {
-        assertFalse(validator.validate(EntityNames.STAFF, new HashSet<String>(Arrays.asList(staff4.getEntityId()))));
+        Set<String> ids = new HashSet<String>(Arrays.asList(staff4.getEntityId()));
+        assertFalse(validator.validate(EntityNames.STAFF, ids).equals(ids));
     }
 
     @Test
     public void testStaffWithNoEdorgAssociation() {
-        assertFalse(validator.validate(EntityNames.STAFF, new HashSet<String>(Arrays.asList(staff2.getEntityId(), staff5.getEntityId()))));
+        Set<String> ids = new HashSet<String>(Arrays.asList(staff2.getEntityId(), staff5.getEntityId()));
+        assertFalse(validator.validate(EntityNames.STAFF, ids).equals(ids));
     }
 
     @Test
     public void testMulti1() {
-        assertFalse(validator.validate(EntityNames.STAFF, new HashSet<String>(Arrays.asList(staff1.getEntityId(), staff2.getEntityId(), staff3.getEntityId(), staff4.getEntityId()))));
+        Set<String> ids = new HashSet<String>(Arrays.asList(staff1.getEntityId(), staff2.getEntityId(), staff3.getEntityId(), staff4.getEntityId()));
+        assertFalse(validator.validate(EntityNames.STAFF, ids).equals(ids));
     }
 
     @Test
     public void testMulti2() {
-        assertFalse(validator.validate(EntityNames.STAFF, new HashSet<String>(Arrays.asList(staff1.getEntityId(), staff4.getEntityId()))));
+        Set<String> ids = new HashSet<String>(Arrays.asList(staff1.getEntityId(), staff4.getEntityId()));
+        assertFalse(validator.validate(EntityNames.STAFF, ids).equals(ids));
     }
 
     @Test
     public void testMulti3() {
-        assertTrue(validator.validate(EntityNames.STAFF, new HashSet<String>(Arrays.asList(staff2.getEntityId(), staff3.getEntityId()))));
+        Set<String> ids = new HashSet<String>(Arrays.asList(staff2.getEntityId(), staff3.getEntityId()));
+        assertTrue(validator.validate(EntityNames.STAFF, ids).equals(ids));
     }
 
 }

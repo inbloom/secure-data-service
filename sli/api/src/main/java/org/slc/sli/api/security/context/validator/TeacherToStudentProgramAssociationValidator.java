@@ -24,9 +24,7 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Validates teacher's access to given student program assocs.
@@ -41,9 +39,9 @@ public class TeacherToStudentProgramAssociationValidator extends AbstractContext
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.STUDENT_PROGRAM_ASSOCIATION, entityType, ids)) {
-            return false;
+            return Collections.EMPTY_SET;
         }
         
         //Get all the cohort IDs from the associations passed in
@@ -53,15 +51,19 @@ public class TeacherToStudentProgramAssociationValidator extends AbstractContext
                 new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids));
         query.setIncludeFields(Arrays.asList(ParameterConstants.PROGRAM_ID));
         
-        Set<String> programIds = new HashSet<String>();
+        Map<String, Set<String>> programIdsToSCA = new HashMap<String, Set<String>>();
         
         Iterable<Entity> scas = getRepo().findAll(EntityNames.STUDENT_PROGRAM_ASSOCIATION, query);
         for (Entity sca : scas) {
-            programIds.add((String) sca.getBody().get(ParameterConstants.PROGRAM_ID));
+            String programId = (String) sca.getBody().get(ParameterConstants.PROGRAM_ID);
+            if (!programId.contains(programId)) {
+                programIdsToSCA.put(programId, new HashSet<String>());
+            }
+            programIdsToSCA.get(programId).add(sca.getEntityId());
         }
         
         String teacherId = SecurityUtil.getSLIPrincipal().getEntity().getEntityId();
-        NeutralQuery nq = new NeutralQuery(new NeutralCriteria(ParameterConstants.PROGRAM_ID, NeutralCriteria.CRITERIA_IN, programIds));
+        NeutralQuery nq = new NeutralQuery(new NeutralCriteria(ParameterConstants.PROGRAM_ID, NeutralCriteria.CRITERIA_IN, programIdsToSCA));
         nq.addCriteria(new NeutralCriteria(ParameterConstants.STAFF_ID, NeutralCriteria.OPERATOR_EQUAL, teacherId));
         nq.addCriteria(new NeutralCriteria(ParameterConstants.STUDENT_RECORD_ACCESS,
                 NeutralCriteria.OPERATOR_EQUAL, true));
@@ -76,8 +78,7 @@ public class TeacherToStudentProgramAssociationValidator extends AbstractContext
             }
             
         }
-
-        return validProgramIds.containsAll(programIds);
+        return getValidIds(validProgramIds, programIdsToSCA);
     }
 
 }

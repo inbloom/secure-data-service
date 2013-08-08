@@ -16,9 +16,7 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -44,19 +42,26 @@ public class TeacherToStudentCompetencyValidator extends AbstractContextValidato
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.STUDENT_COMPETENCY, entityType, ids)) {
-            return false;
+            return Collections.EMPTY_SET;
         }
 
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids));
         query.setIncludeFields(Arrays.asList(ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID));
         Iterable<Entity> comps = getRepo().findAll(EntityNames.STUDENT_COMPETENCY, query);
-        Set<String> secAssocIds = new HashSet<String>();
-        for(Entity comp : comps) {
-            secAssocIds.add((String) comp.getBody().get(ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID));
+        Map<String, Set<String>> secAssocIds = new HashMap<String, Set<String>>();
+        for (Entity comp : comps) {
+            String id = (String) comp.getBody().get(ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID);
+            if (!secAssocIds.containsKey(id)) {
+                secAssocIds.put(id, new HashSet<String>());
+            }
+            secAssocIds.get(id).add(comp.getEntityId());
         }
-        return sectionAssocValidator.validate(EntityNames.STUDENT_SECTION_ASSOCIATION, secAssocIds);
+
+        Set<String> validSectionIds = sectionAssocValidator.validate(EntityNames.STUDENT_SECTION_ASSOCIATION, secAssocIds.keySet());
+
+        return getValidIds(validSectionIds, secAssocIds);
     }
 
 

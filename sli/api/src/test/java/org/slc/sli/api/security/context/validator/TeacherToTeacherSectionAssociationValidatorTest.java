@@ -80,7 +80,8 @@ public class TeacherToTeacherSectionAssociationValidatorTest {
     @Test
     public void testSuccessOne() {
         Entity tsa = this.vth.generateTSA(USER_ID, SECTION_ID, false);
-        Assert.assertTrue(val.validate(CORRECT_ENTITY_TYPE, Collections.singleton(tsa.getEntityId())));
+        Set<String> ids =  Collections.singleton(tsa.getEntityId());
+        Assert.assertTrue(val.validate(CORRECT_ENTITY_TYPE, ids).equals(ids));
     }
 
     @Test
@@ -91,21 +92,27 @@ public class TeacherToTeacherSectionAssociationValidatorTest {
             ids.add(this.vth.generateTSA(USER_ID, SECTION_ID, false).getEntityId());
         }
 
-        Assert.assertTrue(val.validate(CORRECT_ENTITY_TYPE, ids));
+        Assert.assertTrue(val.validate(CORRECT_ENTITY_TYPE, ids).equals(ids));
     }
 
     @Test
     public void testWrongId() {
-        Assert.assertFalse(val.validate(CORRECT_ENTITY_TYPE, Collections.singleton("Hammerhands")));
-        Assert.assertFalse(val.validate(CORRECT_ENTITY_TYPE, Collections.singleton("Nagas")));
-        Assert.assertFalse(val.validate(CORRECT_ENTITY_TYPE, Collections.singleton("Phantom Warriors")));
+        Set<String> ids = Collections.singleton("Hammerhands");
+        Assert.assertFalse(val.validate(CORRECT_ENTITY_TYPE, ids).equals(ids));
+
+        ids =  Collections.singleton("Nagas");
+        Assert.assertFalse(val.validate(CORRECT_ENTITY_TYPE,ids).equals(ids));
+
+        ids = Collections.singleton("Phantom Warriors");
+        Assert.assertFalse(val.validate(CORRECT_ENTITY_TYPE, ids).equals(ids));
     }
 
     @Test
     public void testHeterogenousList() {
-        Assert.assertFalse(val.validate(
-                CORRECT_ENTITY_TYPE,
-                new HashSet<String>(Arrays
-                        .asList(this.vth.generateTSA(USER_ID, SECTION_ID, false).getEntityId(), this.vth.generateTSA("Ssss'ra", "Arcanus", false).getEntityId(), this.vth.generateTSA("Kali", "Arcanus", false).getEntityId()))));
+        Set<String> ids = new HashSet<String>(Arrays
+                .asList(this.vth.generateTSA(USER_ID, SECTION_ID, false).getEntityId(),
+                        this.vth.generateTSA("Ssss'ra", "Arcanus", false).getEntityId(),
+                        this.vth.generateTSA("Kali", "Arcanus", false).getEntityId()));
+        Assert.assertFalse(val.validate(CORRECT_ENTITY_TYPE, ids).equals(ids));
     }
 }

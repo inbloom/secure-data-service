@@ -25,6 +25,7 @@ import org.slc.sli.domain.NeutralQuery;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -41,9 +42,9 @@ public class TeacherToStudentCohortAssociationValidator extends AbstractContextV
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.STUDENT_COHORT_ASSOCIATION, entityType, ids)) {
-            return false;
+            return Collections.EMPTY_SET;
         }
         
         //Get all the cohort IDs from the associations passed in
@@ -76,7 +77,8 @@ public class TeacherToStudentCohortAssociationValidator extends AbstractContextV
             }
         }
 
-        return validCohortIds.containsAll(cohortIds);
+        validCohortIds.retainAll(cohortIds);
+        return validCohortIds;
     }
 
 }

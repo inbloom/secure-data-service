@@ -3,6 +3,7 @@ package org.slc.sli.api.security.context.validator;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import junit.framework.Assert;
 
@@ -87,35 +88,44 @@ public class TeacherToStudentCohortAssociationValidatorTest {
     @Test
     public void testValidAccessTeacher1() {
         setupCurrentUser(teacher1);
-        Assert.assertTrue(validator.validate(EntityNames.STUDENT_COHORT_ASSOCIATION, new HashSet<String>(Arrays.asList(studentCohortAssoc1.getEntityId()))));
+        Set<String> ids = new HashSet<String>(Arrays.asList(studentCohortAssoc1.getEntityId()));
+        Assert.assertTrue(validator.validate(EntityNames.STUDENT_COHORT_ASSOCIATION, ids).equals(ids));
     }
     
     @Test
     public void testValidAccessTeacher2() {
         setupCurrentUser(teacher2);
-        Assert.assertTrue(validator.validate(EntityNames.STUDENT_COHORT_ASSOCIATION, new HashSet<String>(Arrays.asList(studentCohortAssoc2.getEntityId()))));
+        Set<String> ids = new HashSet<String>(Arrays.asList(studentCohortAssoc2.getEntityId()));
+        Assert.assertTrue(validator.validate(EntityNames.STUDENT_COHORT_ASSOCIATION, ids).equals(ids));
     }
     
     
     @Test
     public void testInvalidAccessTeacher1() {
         setupCurrentUser(teacher1);
-        Assert.assertFalse(validator.validate(EntityNames.STUDENT_COHORT_ASSOCIATION, new HashSet<String>(Arrays.asList(studentCohortAssoc2.getEntityId()))));
-        Assert.assertFalse(validator.validate(EntityNames.STUDENT_COHORT_ASSOCIATION, new HashSet<String>(Arrays.asList(studentCohortAssoc3.getEntityId()))));
+        Set<String> ids = new HashSet<String>(Arrays.asList(studentCohortAssoc2.getEntityId()));
+        Assert.assertFalse(validator.validate(EntityNames.STUDENT_COHORT_ASSOCIATION, ids).equals(ids));
+
+        ids = new HashSet<String>(Arrays.asList(studentCohortAssoc3.getEntityId()));
+        Assert.assertFalse(validator.validate(EntityNames.STUDENT_COHORT_ASSOCIATION, ids).equals(ids));
     }
     
     @Test
     public void testInvalidAccessTeacher2() {
         setupCurrentUser(teacher2);
-        Assert.assertFalse(validator.validate(EntityNames.STUDENT_COHORT_ASSOCIATION, new HashSet<String>(Arrays.asList(studentCohortAssoc1.getEntityId()))));
-        Assert.assertFalse(validator.validate(EntityNames.STUDENT_COHORT_ASSOCIATION, new HashSet<String>(Arrays.asList(studentCohortAssoc3.getEntityId()))));
+        Set<String> ids = new HashSet<String>(Arrays.asList(studentCohortAssoc1.getEntityId()));
+        Assert.assertFalse(validator.validate(EntityNames.STUDENT_COHORT_ASSOCIATION, ids).equals(ids));
+
+        ids = new HashSet<String>(Arrays.asList(studentCohortAssoc3.getEntityId()));
+        Assert.assertFalse(validator.validate(EntityNames.STUDENT_COHORT_ASSOCIATION, ids).equals(ids));
     }
     
     @Test
     public void testMulti() {
         setupCurrentUser(teacher2);
-        Assert.assertFalse(validator.validate(EntityNames.STUDENT_COHORT_ASSOCIATION, 
-                new HashSet<String>(Arrays.asList(studentCohortAssoc2.getEntityId(), studentCohortAssoc1.getEntityId()))));
+
+        Set<String> ids = new HashSet<String>(Arrays.asList(studentCohortAssoc2.getEntityId(), studentCohortAssoc1.getEntityId()));
+        Assert.assertFalse(validator.validate(EntityNames.STUDENT_COHORT_ASSOCIATION, ids).equals(ids));
     }
 
 }

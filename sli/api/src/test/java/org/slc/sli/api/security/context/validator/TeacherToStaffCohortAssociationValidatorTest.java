@@ -57,7 +57,7 @@ public class TeacherToStaffCohortAssociationValidatorTest {
             sca.add(this.vth.generateStaffCohort(USER_ID, id, false, true).getEntityId());
         }
 
-        Assert.assertTrue(val.validate(EntityNames.STAFF_COHORT_ASSOCIATION, sca));
+        Assert.assertTrue(val.validate(EntityNames.STAFF_COHORT_ASSOCIATION, sca).equals(sca));
     }
 
     @Test
@@ -69,10 +69,11 @@ public class TeacherToStaffCohortAssociationValidatorTest {
             sca.add(this.vth.generateStaffCohort("Sky Drake", id, false, true).getEntityId());
         }
 
-        Assert.assertFalse(val.validate(EntityNames.STAFF_COHORT_ASSOCIATION, sca));
+        Assert.assertFalse(val.validate(EntityNames.STAFF_COHORT_ASSOCIATION, sca).equals(sca));
 
         for (String id : sca) {
-            Assert.assertFalse(val.validate(EntityNames.STAFF_COHORT_ASSOCIATION, Collections.singleton(id)));
+            Set<String> single = Collections.singleton(id);
+            Assert.assertFalse(val.validate(EntityNames.STAFF_COHORT_ASSOCIATION, single).equals(single));
         }
 
     }
@@ -96,13 +97,14 @@ public class TeacherToStaffCohortAssociationValidatorTest {
         
         }
 
-        Assert.assertFalse(val.validate(EntityNames.STAFF_COHORT_ASSOCIATION, sca));
+        Assert.assertFalse(val.validate(EntityNames.STAFF_COHORT_ASSOCIATION, sca).equals(sca));
 
         for (String id : sca) {
+            Set<String> single = Collections.singleton(id);
             if (successes.contains(id)) {
-                Assert.assertTrue(val.validate(EntityNames.STAFF_COHORT_ASSOCIATION, Collections.singleton(id)));
+                Assert.assertTrue(val.validate(EntityNames.STAFF_COHORT_ASSOCIATION, single).equals(single));
             } else {
-                Assert.assertFalse(val.validate(EntityNames.STAFF_COHORT_ASSOCIATION, Collections.singleton(id)));
+                Assert.assertFalse(val.validate(EntityNames.STAFF_COHORT_ASSOCIATION, single).equals(single));
             }
         }
     }
