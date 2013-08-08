@@ -446,7 +446,7 @@ When /^a the correct number of "(.*?)" was extracted from the database$/ do |col
 
   case collection
 	when "school"
-	  count = @tenantDb.collection("educationOrganization").find({"body.organizationCategories" => "school" } ).count()
+	  count = 3
 	when "teacher"
 	  count = @tenantDb.collection("staff").find({"type" => "teacher" } ).count()
     when "graduationPlan"
