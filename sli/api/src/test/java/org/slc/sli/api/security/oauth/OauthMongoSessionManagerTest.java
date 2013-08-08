@@ -53,6 +53,7 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+import org.slc.sli.api.security.EdOrgContextRightsCache;
 import org.slc.sli.api.security.OauthMongoSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
@@ -63,6 +64,7 @@ import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.enums.Right;
 
 /**
  * Tests oauth with mongo.
@@ -293,6 +295,79 @@ public class OauthMongoSessionManagerTest {
         Map<String, Collection<GrantedAuthority>> edOrgRights = (Map<String, Collection<GrantedAuthority>>) method.invoke(sessionManager, principal, false);
 
         Assert.assertTrue(edOrgRights.isEmpty());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testGenerateEdOrgContextRightsCache() throws SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException,
+                                                             InvocationTargetException, NoSuchFieldException {
+        SLIPrincipal principal = new SLIPrincipal();
+        Map<String, List<String>> edOrgRoles = new HashMap<String, List<String>>();
+        List<String> edOrgRole1 = new LinkedList<String>(Arrays.asList("IT Administrator"));
+        List<String> edOrgRole2 = new LinkedList<String>(Arrays.asList("Counselor"));
+        List<String> edOrgRole3 = new LinkedList<String>(Arrays.asList("Reading Aide"));
+        List<String> edOrgRole4 = new LinkedList<String>(Arrays.asList("Math Teacher"));
+        List<String> edOrgRole5 = new LinkedList<String>(Arrays.asList("Aggregate Viewer"));
+        List<String> edOrgRoles1 = new LinkedList<String>(edOrgRole1);
+        List<String> edOrgRoles2 = new LinkedList<String>(edOrgRole2);
+        edOrgRoles2.addAll(edOrgRole4);
+        List<String> edOrgRoles3 = new LinkedList<String>(edOrgRole3);
+        edOrgRoles3.addAll(edOrgRole5);
+        edOrgRoles.put("LEA1", edOrgRoles1);
+        edOrgRoles.put("School1", edOrgRoles2);
+        edOrgRoles.put("School2", edOrgRoles3);
+        principal.setEdOrgRoles(edOrgRoles);
+        principal.setTenantId(TENANT_ID);
+        principal.setRealm(REALM_ID);
+        principal.setAdminRealmAuthenticated(false);
+
+        Set<GrantedAuthority> authorities1 = new HashSet<GrantedAuthority>(Arrays.asList(STAFF_CONTEXT));
+        Set<GrantedAuthority> authorities2 = new HashSet<GrantedAuthority>(Arrays.asList(READ_RESTRICTED, WRITE_RESTRICTED));
+        Set<GrantedAuthority> authorities3 = new HashSet<GrantedAuthority>(Arrays.asList(TEACHER_CONTEXT, READ_PUBLIC,
+                AGGREGATE_READ, WRITE_PUBLIC, AGGREGATE_WRITE));
+        Set<GrantedAuthority> authorities4 = new HashSet<GrantedAuthority>(Arrays.asList(READ_GENERAL));
+        Set<GrantedAuthority> authorities5 = new HashSet<GrantedAuthority>(Arrays.asList(WRITE_GENERAL));
+        Mockito.when(resolver.resolveRolesUnion(matches(TENANT_ID), matches(REALM_ID), eq(edOrgRole1), eq(false), eq(false))).thenReturn(authorities1);
+        Mockito.when(resolver.resolveRolesUnion(matches(TENANT_ID), matches(REALM_ID), eq(edOrgRole2), eq(false), eq(false))).thenReturn(authorities2);
+        Mockito.when(resolver.resolveRolesUnion(matches(TENANT_ID), matches(REALM_ID), eq(edOrgRole3), eq(false), eq(false))).thenReturn(authorities3);
+        Mockito.when(resolver.resolveRolesUnion(matches(TENANT_ID), matches(REALM_ID), eq(edOrgRole4), eq(false), eq(false))).thenReturn(authorities4);
+        Mockito.when(resolver.resolveRolesUnion(matches(TENANT_ID), matches(REALM_ID), eq(edOrgRole5), eq(false), eq(false))).thenReturn(authorities5);
+        Field field1 = OauthMongoSessionManager.class.getDeclaredField("resolver");
+        field1.setAccessible(true);
+        field1.set(sessionManager, resolver);
+
+        Entity school1 = new MongoEntity("educationOrganization", "School1", new HashMap<String, Object>(), new HashMap<String, Object>());
+        Entity school2 = new MongoEntity("educationOrganization", "School2", new HashMap<String, Object>(), new HashMap<String, Object>());
+        Entity lea1 = new MongoEntity("educationOrganization", "LEA1", new HashMap<String, Object>(), new HashMap<String, Object>());
+        Mockito.when(repo.findById(Mockito.matches(EDORG_COLLECTION), Mockito.matches("School1"))).thenReturn(school1);
+        Mockito.when(repo.findById(Mockito.matches(EDORG_COLLECTION), Mockito.matches("School2"))).thenReturn(school2);
+        Mockito.when(repo.findById(Mockito.matches(EDORG_COLLECTION), Mockito.matches("LEA1"))).thenReturn(lea1);
+
+        Mockito.when(helper.getParentEdOrgs(school1)).thenReturn(Arrays.asList("LEA1"));
+        Mockito.when(helper.getParentEdOrgs(school2)).thenReturn(Arrays.asList("LEA1"));
+        Mockito.when(helper.getParentEdOrgs(lea1)).thenReturn(new ArrayList<String>());
+        Field field2 = OauthMongoSessionManager.class.getDeclaredField("helper");
+        field2.setAccessible(true);
+        field2.set(sessionManager, helper);
+
+        Set<GrantedAuthority> authorities11 = new HashSet<GrantedAuthority>(authorities1);
+        authorities11.addAll(authorities2);
+        authorities11.addAll(authorities4);
+        Set<GrantedAuthority> authorities12 = new HashSet<GrantedAuthority>(authorities1);
+        authorities12.addAll(authorities3);
+        authorities12.addAll(authorities5);
+
+        Method method = OauthMongoSessionManager.class.getDeclaredMethod("generateEdOrgContextRightsCache", SLIPrincipal.class);
+        method.setAccessible(true);
+        EdOrgContextRightsCache edOrgContextRights = (EdOrgContextRightsCache) method.invoke(sessionManager, principal);
+
+        Assert.assertEquals(3, edOrgContextRights.size());
+        Assert.assertTrue(edOrgContextRights.get("School1").get(Right.STAFF_CONTEXT.name()).equals(authorities11));
+        Assert.assertTrue(edOrgContextRights.get("School1").get(Right.TEACHER_CONTEXT.name()).isEmpty());
+        Assert.assertTrue(edOrgContextRights.get("School2").get(Right.STAFF_CONTEXT.name()).equals(authorities12));
+        Assert.assertTrue(edOrgContextRights.get("School2").get(Right.TEACHER_CONTEXT.name()).equals(authorities12));
+        Assert.assertTrue(edOrgContextRights.get("LEA1").get(Right.STAFF_CONTEXT.name()).equals(authorities1));
+        Assert.assertTrue(edOrgContextRights.get("LEA1").get(Right.TEACHER_CONTEXT.name()).isEmpty());
     }
 
     @Test
