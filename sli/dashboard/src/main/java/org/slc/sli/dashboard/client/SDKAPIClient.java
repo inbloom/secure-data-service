@@ -1855,10 +1855,12 @@ public class SDKAPIClient implements APIClient {
                 currentEdOrgId = null;
             } else {
             	List<String> currentEdOrgIdList = (List<String>) edorg.get(Constants.ATTR_PARENT_EDORG);
-            	if (currentEdOrgIdList != null) {
-            	 currentEdOrgId = currentEdOrgIdList.get(0);
+                // TODO: Use the same recursive logic as in EdOrgHelper.getParentEdOrgs() so that
+            	//  multiple parents are handled.  This implementation only traverses up one, arbitrarily
+            	// selected parent.
+            	if (currentEdOrgIdList != null && !currentEdOrgIdList.isEmpty() ) {
+            		currentEdOrgId = currentEdOrgIdList.get(0);
             	}
-                //currentEdOrgId = (String) edorg.get(Constants.ATTR_PARENT_EDORG);
             }
         }
 
