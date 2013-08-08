@@ -20,7 +20,7 @@ Scenario: Delete Teacher  with cascade
 	And I should not see "fe472294f0e40fd428b1a67b9765360004562bab_id" in the "Midgar" database
     And I should not see any entity mandatorily referring to "fe472294f0e40fd428b1a67b9765360004562bab_id" in the "Midgar" database
 	And I should see entities optionally referring to "fe472294f0e40fd428b1a67b9765360004562bab_id" be updated in the "Midgar" database	
-@wip	
+	
 Scenario: Delete Teacher with cascade = false	
     Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the "Midgar" tenant db is empty
