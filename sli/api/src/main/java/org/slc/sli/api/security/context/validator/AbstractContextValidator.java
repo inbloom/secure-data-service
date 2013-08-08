@@ -362,7 +362,10 @@ public abstract class AbstractContextValidator implements IContextValidator {
     protected Set<String> getValidIds(Set<String> ids, Map<String, Set<String>> validIdMap) {
         Set<String> valid = new HashSet<String>();
         for (String id : ids) {
-            valid.addAll(validIdMap.get(id));
+            Set<String> validIds = validIdMap.get(id);
+            if(validIds != null) {
+                valid.addAll(validIds);
+            }
         }
         return valid;
     }

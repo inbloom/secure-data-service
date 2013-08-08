@@ -60,7 +60,7 @@ public class TeacherToDisciplineIncidentValidator extends AbstractContextValidat
         }
 
         if (discIncidentIds.size() == 0) {
-            return Collections.EMPTY_SET;    //we have direct context to all the incidents
+            return ids;    //we have direct context to all the incidents
         }
 
         //Otherwise the teacher needs to have context to the students involved with the incident
@@ -81,14 +81,16 @@ public class TeacherToDisciplineIncidentValidator extends AbstractContextValidat
         }
 
         //Make sure that for each incident we can see at least one of their students
-        Set<String> validIncidens = new HashSet<String>();
+        Set<String> validIncidents = new HashSet<String>(ids);
+        validIncidents.removeAll(discIncidentIds);
+
         for (String discIncId : discIncToStudents.keySet()) {
             Set<String> validStudent = studentValidator.validate(EntityNames.STUDENT, discIncToStudents.get(discIncId));
             if (validStudent.size() > 0) {
-                validIncidens.add(discIncId);
+                validIncidents.add(discIncId);
             }
         }
-        return validIncidens;
+        return validIncidents;
     }
 
 

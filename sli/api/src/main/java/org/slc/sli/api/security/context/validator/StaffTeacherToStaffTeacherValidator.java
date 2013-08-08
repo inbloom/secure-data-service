@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.google.common.collect.Sets;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.util.SecurityUtil;
@@ -57,7 +58,7 @@ public class StaffTeacherToStaffTeacherValidator extends AbstractContextValidato
         // will only be one staffId in the list
         validated.addAll(staffIds);
 
-        validated.retainAll(staffIds);
+        validated.retainAll(Sets.newHashSet(myself));
         return validated;
 
     }

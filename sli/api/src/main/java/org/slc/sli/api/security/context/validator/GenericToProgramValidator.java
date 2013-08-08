@@ -56,12 +56,13 @@ public class GenericToProgramValidator extends AbstractContextValidator {
         // Fetch associations
         addEndDateToQuery(nq, false);
 
-        Set<String> programsToValidate = new HashSet<String>(ids);
+        Set<String> validIds = new HashSet<String>();
         Iterable<Entity> assocs = getRepo().findAll(EntityNames.STAFF_PROGRAM_ASSOCIATION, nq);
         for (Entity assoc : assocs) {
-            programsToValidate.remove((String) assoc.getBody().get("programId"));
+            validIds.add((String) assoc.getBody().get("programId"));
         }
 
-        return programsToValidate;
+        validIds.retainAll(ids);
+        return validIds;
     }
 }

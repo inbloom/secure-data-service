@@ -56,14 +56,14 @@ public class TeacherToStudentProgramAssociationValidator extends AbstractContext
         Iterable<Entity> scas = getRepo().findAll(EntityNames.STUDENT_PROGRAM_ASSOCIATION, query);
         for (Entity sca : scas) {
             String programId = (String) sca.getBody().get(ParameterConstants.PROGRAM_ID);
-            if (!programId.contains(programId)) {
+            if (!programIdsToSCA.containsKey(programId)) {
                 programIdsToSCA.put(programId, new HashSet<String>());
             }
             programIdsToSCA.get(programId).add(sca.getEntityId());
         }
         
         String teacherId = SecurityUtil.getSLIPrincipal().getEntity().getEntityId();
-        NeutralQuery nq = new NeutralQuery(new NeutralCriteria(ParameterConstants.PROGRAM_ID, NeutralCriteria.CRITERIA_IN, programIdsToSCA));
+        NeutralQuery nq = new NeutralQuery(new NeutralCriteria(ParameterConstants.PROGRAM_ID, NeutralCriteria.CRITERIA_IN, programIdsToSCA.keySet()));
         nq.addCriteria(new NeutralCriteria(ParameterConstants.STAFF_ID, NeutralCriteria.OPERATOR_EQUAL, teacherId));
         nq.addCriteria(new NeutralCriteria(ParameterConstants.STUDENT_RECORD_ACCESS,
                 NeutralCriteria.OPERATOR_EQUAL, true));

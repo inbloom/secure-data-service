@@ -24,10 +24,7 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Validates teacher's access to given student cohort assocs.
@@ -55,10 +52,16 @@ public class TeacherToStudentCohortAssociationValidator extends AbstractContextV
         query.setIncludeFields(Arrays.asList(ParameterConstants.COHORT_ID));
         
         Set<String> cohortIds = new HashSet<String>();
-        
+
+        Map<String, Set<String>> cohortIdToSca = new HashMap<String, Set<String>>();
         Iterable<Entity> scas = getRepo().findAll(EntityNames.STUDENT_COHORT_ASSOCIATION, query);
         for (Entity sca : scas) {
-            cohortIds.add((String) sca.getBody().get(ParameterConstants.COHORT_ID));
+            String cohortId = sca.getBody().get(ParameterConstants.COHORT_ID).toString();
+            cohortIds.add(cohortId );
+            if(!cohortIdToSca.containsKey(cohortId)) {
+                cohortIdToSca.put(cohortId, new HashSet<String>());
+            }
+            cohortIdToSca.get(cohortId).add(sca.getEntityId());
         }
         
         String teacherId = SecurityUtil.getSLIPrincipal().getEntity().getEntityId();
@@ -78,7 +81,7 @@ public class TeacherToStudentCohortAssociationValidator extends AbstractContextV
         }
 
         validCohortIds.retainAll(cohortIds);
-        return validCohortIds;
+        return getValidIds(validCohortIds, cohortIdToSca);
     }
 
 }

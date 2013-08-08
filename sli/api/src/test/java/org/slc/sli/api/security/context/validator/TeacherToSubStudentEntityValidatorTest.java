@@ -186,7 +186,7 @@ public class TeacherToSubStudentEntityValidatorTest {
         studentIds.add("student123");
         Mockito.when(teacherToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(studentIds);
 
-        Assert.assertEquals(studentIds.size(), validator.validate(EntityNames.STUDENT_SCHOOL_ASSOCIATION, associations));
+        Assert.assertEquals(studentIds.size(), validator.validate(EntityNames.STUDENT_SCHOOL_ASSOCIATION, associations).size());
     }
 
     @Test
@@ -222,7 +222,7 @@ public class TeacherToSubStudentEntityValidatorTest {
     public void testCanGetAccessToCurrentStudentSectionAssociation() throws Exception {
         Map<String, Object> goodStudentSectionAssociation = buildStudentSectionAssociation("student123", "section123",
                 new DateTime().plusDays(1));
-        Entity association = new MongoEntity(EntityNames.STUDENT_SECTION_ASSOCIATION, goodStudentSectionAssociation);
+        Entity association = new MongoEntity(EntityNames.STUDENT_SECTION_ASSOCIATION, "assoc123", goodStudentSectionAssociation, null);
         Mockito.when(
                 mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SECTION_ASSOCIATION), Mockito.any(NeutralQuery.class)))
                 .thenReturn(Arrays.asList(association));
@@ -232,7 +232,7 @@ public class TeacherToSubStudentEntityValidatorTest {
         studentIds.add("student123");
         Mockito.when(teacherToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(studentIds);
 
-        Assert.assertEquals(studentIds, validator.validate(EntityNames.STUDENT_SECTION_ASSOCIATION, associations));
+        Assert.assertEquals(associations, validator.validate(EntityNames.STUDENT_SECTION_ASSOCIATION, associations));
     }
 
     @Test

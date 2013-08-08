@@ -62,17 +62,17 @@ public class TransitiveTeacherToTeacherValidator extends AbstractContextValidato
 
         tsa = getRepo().findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, nq);
 
-        Set<String> fin = new HashSet<String>(ids);
+        Set<String> validIds = new HashSet<String>();
         for (Entity e : tsa) {
             if (!isFieldExpired(e.getBody(), ParameterConstants.END_DATE, false)) {
-                fin.remove(e.getBody().get(ParameterConstants.STAFF_REFERENCE));
+                validIds.add(e.getBody().get(ParameterConstants.STAFF_REFERENCE).toString());
             }
         }
 
-        fin.remove(SecurityUtil.getSLIPrincipal().getEntity().getEntityId());
+        validIds.add(SecurityUtil.getSLIPrincipal().getEntity().getEntityId());
 
-        ids.removeAll(fin);
-        return ids;
+       validIds.retainAll(ids);
+        return validIds;
     }
 
 }

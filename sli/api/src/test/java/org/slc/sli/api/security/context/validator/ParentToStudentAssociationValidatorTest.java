@@ -51,10 +51,10 @@ public class ParentToStudentAssociationValidatorTest {
     public void followStudentValidator() {
         Set<String> superdocIds = new HashSet<String>(Arrays.asList("parent_id"));
         when(studentValidator.validate(EntityNames.STUDENT, superdocIds)).thenReturn(Collections.EMPTY_SET);
-        Assert.assertEquals(superdocIds, underTest.validate(EntityNames.STUDENT_COHORT_ASSOCIATION, ids));
+        Assert.assertTrue(underTest.validate(EntityNames.STUDENT_COHORT_ASSOCIATION, ids).isEmpty());
         
         when(studentValidator.validate(EntityNames.STUDENT, superdocIds)).thenReturn(superdocIds);
-        Assert.assertEquals(superdocIds, underTest.validate(EntityNames.STUDENT_COHORT_ASSOCIATION, ids));
+        Assert.assertEquals(ids, underTest.validate(EntityNames.STUDENT_COHORT_ASSOCIATION, ids));
     }
     
 }

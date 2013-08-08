@@ -109,7 +109,7 @@ public class GenericToStaffValidatorTest {
     @Test
     public void testValidateEmpty() {
         Set<String> idsToValidate = new HashSet<String>();
-        assertFalse(validator.validate(EntityNames.STAFF, idsToValidate).containsAll(idsToValidate));
+        Assert.assertEquals(Collections.emptySet(), validator.validate(EntityNames.STAFF, idsToValidate));
     }
     
     @Test

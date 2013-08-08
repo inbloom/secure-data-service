@@ -75,6 +75,7 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
 
 
         validIds.addAll(getValidatedWithCohorts(idsToValidate));
+        validIds.retainAll(ids);
         return validIds;
     }
 

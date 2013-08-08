@@ -58,7 +58,7 @@ public class StudentToCohortValidatorTest {
         injector.setStudentContext(student1);
         when(student1.getEmbeddedData()).thenReturn(null);
         Set<String> idsToValidate = new HashSet<String>(Arrays.asList(student1.getEntityId()));
-        assertFalse(idsToValidate.containsAll(underTest.validate(EntityNames.COHORT, idsToValidate)));
+        assertFalse(underTest.validate(EntityNames.COHORT, idsToValidate).containsAll(idsToValidate));
     }
     
     @Test
@@ -77,10 +77,10 @@ public class StudentToCohortValidatorTest {
         when(student1.getEmbeddedData()).thenReturn(embeddedData);
         // bad id
         Set<String> idsToValidate = new HashSet<String>(Arrays.asList("cohort456"));
-        assertFalse(idsToValidate.containsAll(underTest.validate(EntityNames.COHORT, idsToValidate)));
+        assertFalse(underTest.validate(EntityNames.COHORT, idsToValidate).containsAll(idsToValidate));
         // good and bad id
         idsToValidate = new HashSet<String>(Arrays.asList("cohort123", "cohort456"));
-        assertFalse(idsToValidate.containsAll(underTest.validate(EntityNames.COHORT, idsToValidate)));
+        assertFalse(underTest.validate(EntityNames.COHORT, idsToValidate).containsAll(idsToValidate));
     }
 
     private Map<String, List<Entity>> buildCohortAssociation(String entityId) {

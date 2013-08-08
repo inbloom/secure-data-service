@@ -59,7 +59,7 @@ public class TeacherToCohortValidator extends AbstractContextValidator {
             validIds.add((String) entity.getBody().get(ParameterConstants.COHORT_ID));
         }
 
-        validIds.containsAll(ids);
+        validIds.retainAll(ids);
         return validIds;
     }
 
