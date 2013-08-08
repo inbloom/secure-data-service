@@ -16,9 +16,7 @@
 
 package org.slc.sli.api.util;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.*;
 
 import javax.ws.rs.core.Response;
 
@@ -58,8 +56,6 @@ public class SecurityUtil {
     // use to detect nested tenant blocks
     private static ThreadLocal<Boolean> inTenantBlock = new ThreadLocal<Boolean>();
     // private static String principalId;
-
-//    public static enum Context {STAFF, TEACHER, BOTH, NONE};
 
     static {
         SLIPrincipal system = new SLIPrincipal("SYSTEM");

@@ -21,16 +21,18 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -46,6 +48,9 @@ import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * Utility class for constructing ed-org hierarchies for use in test classes.
@@ -262,7 +267,7 @@ public class EdOrgHelperTest {
         body.put(ParameterConstants.SCHOOL_ID, school3.getEntityId());
         body.put("entryDate", new DateTime().minusDays(3));
         repo.create(EntityNames.STUDENT_SCHOOL_ASSOCIATION, body);
-        
+
         // entities for lea cycle
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("Local Education Agency"));
@@ -399,11 +404,12 @@ public class EdOrgHelperTest {
 
     @Test
     public void testHeirarchicalEdorgs() {
-        List<String> edorgs = helper.getHierarchicalEdOrgs(school1);
-        assertEquals(1, edorgs.size());
+        List<String> edorgs = helper.getParentEdOrgs(school1);
+        assertEquals(2, edorgs.size());
         assertFalse("school1 should not see lea3", edorgs.contains(lea3.getEntityId()));
         assertFalse("school1 should not see lea2", edorgs.contains(lea2.getEntityId()));
         assertTrue("school1 should see lea1", edorgs.contains(lea1.getEntityId()));
+        assertTrue("school1 should see sea1", edorgs.contains(sea1.getEntityId()));
 
     }
 
@@ -439,8 +445,9 @@ public class EdOrgHelperTest {
         Map<String, Object> seoa = new HashMap<String, Object>();
         seoa.put(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, edorg);
         seoa.put(ParameterConstants.STAFF_REFERENCE, staff);
-        if(endDate != null)
+        if(endDate != null) {
             seoa.put(ParameterConstants.STAFF_EDORG_ASSOC_END_DATE, endDate);
+        }
 
         return seoa;
     }

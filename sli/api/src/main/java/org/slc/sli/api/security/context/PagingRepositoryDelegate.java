@@ -408,7 +408,7 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
 
     @Override
     public Iterator<T> findEach(String collectionName, NeutralQuery query) {
-        return null;
+        return repo.findEach(collectionName, query);
     }
 
     @Override
