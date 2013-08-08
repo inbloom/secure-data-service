@@ -36,13 +36,13 @@ public class AdminValidator implements IContextValidator {
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         /*
          * Same logic for validation should be used as canValidate. The AdminValidator is
          * being invoked when it shouldn't be, and this has been done to limit where this
          * validator is invoked.
          */
-        return canValidate(entityType, false);
+        return getValid(entityType, ids);
     }
 
     //TODO: implement it

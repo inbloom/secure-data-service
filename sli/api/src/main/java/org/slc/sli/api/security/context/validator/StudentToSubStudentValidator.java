@@ -16,11 +16,7 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Collections;
+import java.util.*;
 
 import org.springframework.stereotype.Component;
 
@@ -50,10 +46,9 @@ public class StudentToSubStudentValidator extends AbstractContextValidator {
             return Collections.emptySet();
         }
 
-        // Get the Student IDs on the things we want to see, compare with the IDs of yourself
-        Set<String> studentIds = new HashSet<String>(getIdsContainedInFieldOnEntities(entityType, new ArrayList<String>(ids), ParameterConstants.STUDENT_ID));
-        studentIds.retainAll(getDirectStudentIds());
+        // Get the map from Student IDs to the things we want to see, compare with the IDs of yourself
+        Map<String, Set<String>> studentIds = new HashMap<String, Set<String>>(getIdsContainedInFieldOnEntities(entityType, new ArrayList<String>(ids), ParameterConstants.STUDENT_ID));
 
-        return studentIds;
+        return getValidIds(getDirectStudentIds(), studentIds);
     }
 }
