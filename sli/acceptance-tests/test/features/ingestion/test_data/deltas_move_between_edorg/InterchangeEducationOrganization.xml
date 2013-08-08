@@ -10,6 +10,11 @@
       <OrganizationCategories>
         <OrganizationCategory>School</OrganizationCategory>
       </OrganizationCategories>
+      <ParentEducationAgencyReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </ParentEducationAgencyReference>
       <Address AddressType="Physical">
         <StreetNumberName>1999 Jambers St</StreetNumberName>
         <City>Chicago</City>
@@ -34,11 +39,6 @@
       <TitleIPartASchoolDesignation>Title I school wide eligible school - no program</TitleIPartASchoolDesignation>
       <MagnetSpecialProgramEmphasisSchool>Some, but not all, students participate</MagnetSpecialProgramEmphasisSchool>
       <AdministrativeFundingControl>Public School</AdministrativeFundingControl>
-      <EducationOrganizationReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationOrganizationReference>
     </EducationOrganization>
   </Action>
   <EducationOrganization>
