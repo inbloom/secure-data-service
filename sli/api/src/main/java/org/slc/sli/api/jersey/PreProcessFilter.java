@@ -19,6 +19,7 @@ package org.slc.sli.api.jersey;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -30,9 +31,9 @@ import javax.xml.bind.DatatypeConverter;
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerRequestFilter;
 
-import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Component;
@@ -45,6 +46,7 @@ import org.slc.sli.api.resources.generic.config.ResourceEndPoint;
 import org.slc.sli.api.resources.generic.util.ResourceMethod;
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.api.security.context.ContextValidator;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.pdp.EndpointMutator;
@@ -57,6 +59,7 @@ import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.MongoStat;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.enums.Right;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
 
@@ -118,6 +121,17 @@ public class PreProcessFilter implements ContainerRequestFilter {
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         principal.setSubEdOrgHierarchy(edOrgHelper.getStaffEdOrgsAndChildren());
 
+        Collection<GrantedAuthority> contextRights = principal.getAllContextRights(false);
+        if (contextRights.contains(new GrantedAuthorityImpl(Right.STAFF_CONTEXT.name())) && contextRights.contains(new GrantedAuthorityImpl(Right.TEACHER_CONTEXT.name()))) {
+            SecurityUtil.setUserContext(SecurityUtil.UserContext.DUAL_CONTEXT);
+        } else if (contextRights.contains(new GrantedAuthorityImpl(Right.STAFF_CONTEXT.name()))) {
+            SecurityUtil.setUserContext(SecurityUtil.UserContext.STAFF_CONTEXT);
+        } else if (contextRights.contains(new GrantedAuthorityImpl(Right.TEACHER_CONTEXT.name()))) {
+            SecurityUtil.setUserContext(SecurityUtil.UserContext.TEACHER_CONTEXT);
+        } else {
+            SecurityUtil.setUserContext(SecurityUtil.UserContext.NO_CONTEXT);
+        }
+
         info("uri: {} -> {}", request.getMethod(), request.getRequestUri().getPath());
         request.getProperties().put("original-request", request.getPath());
         mutator.mutateURI(SecurityContextHolder.getContext().getAuthentication(), request);
@@ -142,7 +156,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
         SLIPrincipal prince = SecurityUtil.getSLIPrincipal();
 
         if (request.getPathSegments().size() > 3) {	// not applied on two parters
-            
+
             String base = request.getPathSegments().get(1).getPath();
             String assoc = request.getPathSegments().get(3).getPath();
 
