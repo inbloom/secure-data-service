@@ -79,7 +79,8 @@ public class TeacherToStaffProgramAssociationValidatorTest {
     @Test
     public void testSuccessOne() {
         Entity tsa = this.vth.generateStaffProgram(USER_ID, PROGRAM_ID, false, true);
-        Assert.assertTrue(val.validate(CORRECT_ENTITY_TYPE, Collections.singleton(tsa.getEntityId())));
+        Set<String> ids = Collections.singleton(tsa.getEntityId());
+        Assert.assertTrue(val.validate(CORRECT_ENTITY_TYPE, ids).equals(ids));
     }
 
     @Test

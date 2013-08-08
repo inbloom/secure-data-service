@@ -110,7 +110,7 @@ public class TeacherToGradeValidatorTest {
         Set<String> ids = new HashSet<String>(Arrays.asList(grade3.getEntityId()));
         assertFalse(validator.validate(EntityNames.GRADE, ids).equals(ids));
 
-        ids = new HashSet<String>(Arrays.asList(grade1.getEntityId(), grade3.getEntityId()))
+        ids = new HashSet<String>(Arrays.asList(grade1.getEntityId(), grade3.getEntityId()));
         assertFalse(validator.validate(EntityNames.GRADE, ids).equals(ids));
     }
 }

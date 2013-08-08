@@ -91,7 +91,7 @@ public class TeacherToSectionValidatorTest {
         Entity section = helper.generateSection(ValidatorTestHelper.ED_ORG_ID);
         helper.generateTSA(ValidatorTestHelper.STAFF_ID, section.getEntityId(), false);
         sectionIds.add(section.getEntityId());
-        assertTrue(validator.validate(EntityNames.SECTION, sectionIds));
+        assertTrue(validator.validate(EntityNames.SECTION, sectionIds).equals(sectionIds));
     }
 
     @Test
@@ -100,9 +100,9 @@ public class TeacherToSectionValidatorTest {
         Entity section = helper.generateSection(ValidatorTestHelper.ED_ORG_ID);
         helper.generateTSA("BEEPBOOP", section.getEntityId(), false);
         sectionIds.add(section.getEntityId());
-        assertFalse(validator.validate(EntityNames.SECTION, sectionIds));
+        assertFalse(validator.validate(EntityNames.SECTION, sectionIds).equals(sectionIds));
         helper.generateTSA(ValidatorTestHelper.STAFF_ID, "DERPBERP", false);
-        assertFalse(validator.validate(EntityNames.SECTION, sectionIds));
+        assertFalse(validator.validate(EntityNames.SECTION, sectionIds).equals(sectionIds));
     }
 
     @Test
@@ -113,7 +113,7 @@ public class TeacherToSectionValidatorTest {
             helper.generateTSA(ValidatorTestHelper.STAFF_ID, section.getEntityId(), false);
             sectionIds.add(section.getEntityId());
         }
-        assertTrue(validator.validate(EntityNames.SECTION, sectionIds));
+        assertTrue(validator.validate(EntityNames.SECTION, sectionIds).equals(sectionIds));
     }
 
     @Test
@@ -128,16 +128,16 @@ public class TeacherToSectionValidatorTest {
         // Disconnected section
         section = helper.generateSection(ValidatorTestHelper.ED_ORG_ID);
         sectionIds.add(section.getEntityId());
-        assertFalse(validator.validate(EntityNames.SECTION, sectionIds));
+        assertFalse(validator.validate(EntityNames.SECTION, sectionIds).equals(sectionIds));
         // Improperly associated section
         helper.generateTSA("DERPDERP", section.getEntityId(), false);
-        assertFalse(validator.validate(EntityNames.SECTION, sectionIds));
+        assertFalse(validator.validate(EntityNames.SECTION, sectionIds).equals(sectionIds));
         // Improperly associated section
         helper.generateTSA(ValidatorTestHelper.STAFF_ID, "MERPMERP", false);
-        assertFalse(validator.validate(EntityNames.SECTION, sectionIds));
+        assertFalse(validator.validate(EntityNames.SECTION, sectionIds).equals(sectionIds));
         // Correctly associating the section
         helper.generateTSA(ValidatorTestHelper.STAFF_ID, section.getEntityId(), false);
-        assertTrue(validator.validate(EntityNames.SECTION, sectionIds));
+        assertTrue(validator.validate(EntityNames.SECTION, sectionIds).equals(sectionIds));
     }
 
 }

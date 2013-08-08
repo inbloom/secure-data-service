@@ -118,7 +118,7 @@ public class StaffToStaffCohortAssociationValidatorTest {
         Entity sca = helper.generateStaffCohort(helper.STAFF_ID,
                 helper.generateCohort(sea.getEntityId()).getEntityId(), false, true);
         cohortIds.add(sca.getEntityId());
-        assertTrue(validator.validate(EntityNames.STAFF_COHORT_ASSOCIATION, cohortIds));
+        assertTrue(validator.validate(EntityNames.STAFF_COHORT_ASSOCIATION, cohortIds).equals(cohortIds));
         
         // And ones below me
         for (int i = 0; i < 5; ++i) {
@@ -127,7 +127,7 @@ public class StaffToStaffCohortAssociationValidatorTest {
             helper.generateStaffEdorg(i + "", school.getEntityId(), false);
             cohortIds.add(sca.getEntityId());
         }
-        assertTrue(validator.validate(EntityNames.STAFF_COHORT_ASSOCIATION, cohortIds));
+        assertTrue(validator.validate(EntityNames.STAFF_COHORT_ASSOCIATION, cohortIds).equals(cohortIds));
         
     }
     
@@ -139,7 +139,7 @@ public class StaffToStaffCohortAssociationValidatorTest {
         Entity sca = helper.generateStaffCohort(helper.STAFF_ID, helper.generateCohort(school.getEntityId())
                 .getEntityId(), true, false);
         cohortIds.add(sca.getEntityId());
-        assertFalse(validator.validate(EntityNames.STAFF_COHORT_ASSOCIATION, cohortIds));
+        assertFalse(validator.validate(EntityNames.STAFF_COHORT_ASSOCIATION, cohortIds).equals(cohortIds));
         cohortIds.clear();
         cleanCohortData();
         
@@ -148,7 +148,7 @@ public class StaffToStaffCohortAssociationValidatorTest {
         sca = helper.generateStaffCohort(helper.STAFF_ID, helper.generateCohort(school.getEntityId())
                 .getEntityId(), false, false);
         cohortIds.add(sca.getEntityId());
-        assertFalse(validator.validate(EntityNames.STAFF_COHORT_ASSOCIATION, cohortIds));
+        assertFalse(validator.validate(EntityNames.STAFF_COHORT_ASSOCIATION, cohortIds).equals(cohortIds));
 
     }
     
@@ -162,7 +162,7 @@ public class StaffToStaffCohortAssociationValidatorTest {
         Entity sca = helper.generateStaffCohort("MOOP", helper.generateCohort(school2.getEntityId()).getEntityId(),
                 false, true);
         cohortIds.add(sca.getEntityId());
-        assertFalse(validator.validate(EntityNames.STAFF_COHORT_ASSOCIATION, cohortIds));
+        assertFalse(validator.validate(EntityNames.STAFF_COHORT_ASSOCIATION, cohortIds).equals(cohortIds));
     }
     
     @Test
@@ -174,7 +174,7 @@ public class StaffToStaffCohortAssociationValidatorTest {
         Entity sca = helper.generateStaffCohort("MOOP", helper.generateCohort(sea.getEntityId()).getEntityId(),
                 false, true);
         cohortIds.add(sca.getEntityId());
-        assertFalse(validator.validate(EntityNames.STAFF_COHORT_ASSOCIATION, cohortIds));
+        assertFalse(validator.validate(EntityNames.STAFF_COHORT_ASSOCIATION, cohortIds).equals(cohortIds));
     }
 
 }
