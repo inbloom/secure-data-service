@@ -28,10 +28,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.joda.time.DateTime;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -168,6 +165,7 @@ public class StaffToStudentValidatorTest {
 
     @Test
     public void testCanGetAccessThroughManyStudents() throws Exception {
+        Set<String> expectedIds = new HashSet<String>();
         for (int i = 0; i < 100; ++i) {
             helper.generateStaffEdorg(STAFF_ID, edorgArray[ i ], NOT_EXPIRED);
             injector.addToAuthorizingEdOrgs( edorgArray[ i  ] );
@@ -178,10 +176,22 @@ public class StaffToStudentValidatorTest {
                 String studentId = helper.generateStudentAndStudentSchoolAssociation(String.valueOf(j),
                         edorgArray[ i ], NOT_EXPIRED);
                 studentIds.add(studentId);
+                expectedIds.add(studentId);
             }
         }
 
         assertTrue(validator.validate(EntityNames.STUDENT, studentIds).equals(studentIds));
+
+        for (int i = 100; i < 200; ++i) {
+            for (int j = -1; j > -31; --j) {
+                String studentId = helper.generateStudentAndStudentSchoolAssociation(String.valueOf(j),
+                        edorgArray[ i ], NOT_EXPIRED);
+                studentIds.add(studentId);
+            }
+        }
+
+        Assert.assertEquals(expectedIds, validator.validate(EntityNames.STUDENT, studentIds));
+
     }
 
     @Test
@@ -208,18 +218,20 @@ public class StaffToStudentValidatorTest {
             injector.addToAuthorizingEdOrgs( edorgArray[ i  ] );
         }
 
+        Set<String> expected = new HashSet<String>();
         for (int i = 0; i < 100; ++i) {
             for (int j = -1; j > -31; --j) {
                 String studentId = helper.generateStudentAndStudentSchoolAssociation(String.valueOf(j),
                         edorgArray[ i ], NOT_EXPIRED);
                 studentIds.add(studentId);
+                expected.add(studentId);
             }
         }
 
         String anotherEdOrg = helper.generateSchoolEdOrg(null).getEntityId();
         String studentId = helper.generateStudentAndStudentSchoolAssociation("-32", anotherEdOrg, NOT_EXPIRED);
         studentIds.add(studentId);
-        assertFalse(validator.validate(EntityNames.STUDENT, studentIds).equals(studentIds));
+        Assert.assertEquals(expected, validator.validate(EntityNames.STUDENT, studentIds));
     }
 
     @Test
@@ -348,4 +360,5 @@ public class StaffToStudentValidatorTest {
         body.put(ParameterConstants.END_DATE, null);
         assertFalse(validator.isFieldExpired(body, ParameterConstants.END_DATE, true));
     }
+
 }
