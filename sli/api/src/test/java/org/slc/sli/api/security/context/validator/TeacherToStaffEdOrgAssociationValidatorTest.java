@@ -51,12 +51,11 @@ public class TeacherToStaffEdOrgAssociationValidatorTest {
     @Autowired
     ValidatorTestHelper helper;
 
-    Set<String> edOrgAssociationIds;
+
 
     @Before
     public void setUp() throws Exception {
         helper.setUpTeacherContext();
-        edOrgAssociationIds = new HashSet<String>();
     }
 
     @Test
@@ -70,16 +69,18 @@ public class TeacherToStaffEdOrgAssociationValidatorTest {
 
     @Test
     public void testCanValidateNonExpiredAssociation() {
+        Set<String> edOrgAssociationIds = new HashSet<String>();
         Entity assoc = helper.generateStaffEdorg(helper.STAFF_ID, helper.ED_ORG_ID, false);
         edOrgAssociationIds.add(assoc.getEntityId());
-        assertTrue(validator.validate(EntityNames.STAFF_ED_ORG_ASSOCIATION, edOrgAssociationIds).equals(edOrgAssociationIds));
+        assertTrue(validator.validate(EntityNames.STAFF_ED_ORG_ASSOCIATION, edOrgAssociationIds).containsAll(edOrgAssociationIds));
     }
 
     @Test
     public void testInvalidateExpiredAssociation() {
+        Set<String> edOrgAssociationIds = new HashSet<String>();
         Entity assoc = helper.generateStaffEdorg(helper.STAFF_ID, helper.ED_ORG_ID, true);
         edOrgAssociationIds.add(assoc.getEntityId());
-        assertFalse(validator.validate(EntityNames.STAFF_ED_ORG_ASSOCIATION, edOrgAssociationIds).equals(edOrgAssociationIds));
+        assertFalse(validator.validate(EntityNames.STAFF_ED_ORG_ASSOCIATION, edOrgAssociationIds).containsAll(edOrgAssociationIds));
     }
 
 

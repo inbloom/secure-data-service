@@ -63,6 +63,7 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
         idsToValidate.removeAll(validWithSections);
         validIds.addAll(validWithSections);
         if (idsToValidate.isEmpty()) {
+            validIds.retainAll(ids);
             return validIds;
         }
 
@@ -70,6 +71,7 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
         idsToValidate.removeAll(validWithPrograms);
         validIds.addAll(validWithPrograms);
         if (idsToValidate.isEmpty()) {
+            validIds.retainAll(ids);
             return validIds;
         }
 

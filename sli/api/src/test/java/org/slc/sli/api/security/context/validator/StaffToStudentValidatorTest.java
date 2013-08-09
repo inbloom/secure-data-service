@@ -258,7 +258,6 @@ public class StaffToStudentValidatorTest {
                     NOT_EXPIRED);
             studentIds.add(studentId);
         }
-        studentIds.add("Merp");
         assertTrue(validator.validate(EntityNames.STUDENT, studentIds).equals(studentIds));
     }
 
@@ -322,10 +321,10 @@ public class StaffToStudentValidatorTest {
     @Test
     public void testGetValidWithSomeValid() {
         StaffToStudentValidator mock = Mockito.spy(validator);
-        Mockito.doReturn(true).when(mock).validate(Mockito.eq(EntityNames.STUDENT), Mockito.eq(new HashSet<String>(Arrays.asList("1"))));
-        Mockito.doReturn(true).when(mock).validate(Mockito.eq(EntityNames.STUDENT), Mockito.eq(new HashSet<String>(Arrays.asList("2"))));
-        Mockito.doReturn(true).when(mock).validate(Mockito.eq(EntityNames.STUDENT), Mockito.eq(new HashSet<String>(Arrays.asList("3"))));
-        Mockito.doReturn(false).when(mock).validate(Mockito.eq(EntityNames.STUDENT), Mockito.eq(new HashSet<String>(Arrays.asList("1", "2", "3", "4"))));
+        Mockito.doReturn(new HashSet<String>(Arrays.asList("1"))).when(mock).validate(Mockito.eq(EntityNames.STUDENT), Mockito.eq(new HashSet<String>(Arrays.asList("1"))));
+        Mockito.doReturn(new HashSet<String>(Arrays.asList("2"))).when(mock).validate(Mockito.eq(EntityNames.STUDENT), Mockito.eq(new HashSet<String>(Arrays.asList("2"))));
+        Mockito.doReturn(new HashSet<String>(Arrays.asList("3"))).when(mock).validate(Mockito.eq(EntityNames.STUDENT), Mockito.eq(new HashSet<String>(Arrays.asList("3"))));
+        Mockito.doReturn(new HashSet<String>(Arrays.asList("1", "2", "3"))).when(mock).validate(Mockito.eq(EntityNames.STUDENT), Mockito.eq(new HashSet<String>(Arrays.asList("1", "2", "3", "4"))));
         Set<String> validated = mock.getValid(EntityNames.STUDENT, new HashSet<String>(Arrays.asList("1", "2", "3", "4")));
         validated.removeAll(new HashSet<String>(Arrays.asList("1", "2", "3")));
         // has to have only 1,2,3
@@ -335,7 +334,7 @@ public class StaffToStudentValidatorTest {
     @Test
     public void testGetValidWithAllValid() {
         StaffToStudentValidator mock = Mockito.spy(validator);
-        Mockito.doReturn(true).when(mock).validate(Mockito.eq(EntityNames.STUDENT), Mockito.eq(new HashSet<String>(Arrays.asList("5", "6", "7", "8"))));
+        Mockito.doReturn(new HashSet<String>(Arrays.asList("5", "6", "7", "8"))).when(mock).validate(Mockito.eq(EntityNames.STUDENT), Mockito.eq(new HashSet<String>(Arrays.asList("5", "6", "7", "8"))));
         HashSet<String> input = new HashSet<String>(Arrays.asList("5", "6", "7", "8"));
         Set<String> validated = mock.getValid(EntityNames.STUDENT, input);
         assertEquals(4, validated.size());

@@ -131,7 +131,7 @@ public class TeacherToStudentValidatorTest {
         helper.generateSSA("2", "3", false);
 
         studentIds.add("2");
-        Assert.assertFalse(validator.validate(EntityNames.STUDENT, studentIds).size() != studentIds.size());
+        Assert.assertFalse(validator.validate(EntityNames.STUDENT, studentIds).containsAll(studentIds));
     }
 
     @Test
@@ -168,7 +168,7 @@ public class TeacherToStudentValidatorTest {
         helper.generateSSA("100", "6", false);
         studentIds.add("100");
 
-        Assert.assertEquals(validator.validate(EntityNames.STUDENT, studentIds).size(), studentIds.size());
+        assertFalse(validator.validate(EntityNames.STUDENT, studentIds).containsAll(studentIds));
     }
 
     @Test
@@ -234,7 +234,7 @@ public class TeacherToStudentValidatorTest {
     @Test
     public void testCanNotGetAccessThroughExpiredCohort() throws Exception {
 
-        assertFalse(validator.validate(EntityNames.STUDENT, studentIds).size() == studentIds.size());
+        assertTrue(validator.validate(EntityNames.STUDENT, studentIds).isEmpty());
     }
 
     @Test
@@ -278,7 +278,7 @@ public class TeacherToStudentValidatorTest {
 
     @Test
     public void testCohortAccessIntersectionRules() throws Exception {
-        assertFalse(validator.validate(EntityNames.STUDENT, studentIds).size() == studentIds.size());
+        assertTrue(validator.validate(EntityNames.STUDENT, studentIds).isEmpty());
     }
 
     @Test
@@ -291,7 +291,7 @@ public class TeacherToStudentValidatorTest {
             helper.generateStudentProgram(i + "", programId, false);
             studentIds.add(i + "");
         }
-        Assert.assertEquals(validator.validate(EntityNames.STUDENT, studentIds), studentIds.size());
+        Assert.assertEquals(validator.validate(EntityNames.STUDENT, studentIds).size(), studentIds.size());
     }
 
     @Test
@@ -310,14 +310,14 @@ public class TeacherToStudentValidatorTest {
         helper.generateStudentProgram(studentId2, programId, false);
         studentIds.add(studentId2);
 
-        Assert.assertEquals(validator.validate(EntityNames.STUDENT, studentIds), studentIds.size());
+        Assert.assertEquals(validator.validate(EntityNames.STUDENT, studentIds).size(), studentIds.size());
     }
 
 
     @Test
     public void testCanNotGetAccessThroughExpiredProgram() throws Exception {
 
-        assertFalse(validator.validate(EntityNames.STUDENT, studentIds).size() == studentIds.size());
+        assertTrue(validator.validate(EntityNames.STUDENT, studentIds).isEmpty());
     }
 
     @Test
@@ -365,7 +365,7 @@ public class TeacherToStudentValidatorTest {
 
     @Test
     public void testProgramAccessIntersectionRules() throws Exception {
-        assertFalse(validator.validate(EntityNames.STUDENT, studentIds).size() == studentIds.size());
+        assertTrue(validator.validate(EntityNames.STUDENT, studentIds).isEmpty());
     }
 
 }

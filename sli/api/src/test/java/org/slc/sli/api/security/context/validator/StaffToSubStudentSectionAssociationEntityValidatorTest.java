@@ -124,7 +124,7 @@ public class StaffToSubStudentSectionAssociationEntityValidatorTest {
         Set<String> grades = new HashSet<String>();
         Map<String, Object> association = buildStudentSectionAssociation("student123", "section123", DateTime.now()
                 .minusDays(3));
-        Entity studentSectionAssociation = new MongoEntity(EntityNames.STUDENT_SECTION_ASSOCIATION, association);
+        Entity studentSectionAssociation = new MongoEntity(EntityNames.STUDENT_SECTION_ASSOCIATION, "ssa123", association, null);
 
         Entity gradeEntity = helper.generateGrade(studentSectionAssociation.getEntityId());
         grades.add(gradeEntity.getEntityId());
@@ -138,7 +138,7 @@ public class StaffToSubStudentSectionAssociationEntityValidatorTest {
                 .thenReturn(Arrays.asList(studentSectionAssociation));
 
         Mockito.when(staffToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(studentIds);
-        assertTrue(validator.validate(EntityNames.GRADE, grades).equals(grades));
+        assertTrue(validator.validate(EntityNames.GRADE, grades).containsAll(grades));
     }
 
     @Test

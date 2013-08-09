@@ -59,7 +59,8 @@ public class StaffToSubStudentSectionAssociationEntityValidator extends Abstract
         }
 
         Set<String> validStudents = validator.validate(EntityNames.STUDENT, studentIds.keySet());
-        return getValidIds(validStudents, studentIds);
+        Set<String> validSSA = getValidIds(validStudents, studentIds);
+        return getValidIds(validSSA, studentSectionAssociationIds);
     }
 
     /**

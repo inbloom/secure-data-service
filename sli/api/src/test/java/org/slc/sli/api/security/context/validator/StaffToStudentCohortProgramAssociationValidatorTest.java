@@ -148,7 +148,7 @@ public class StaffToStudentCohortProgramAssociationValidatorTest {
     @Test
     public void testCanNotValidateAssociationWithoutStudentAccess() {
         Mockito.when(mockStudentValidator.validate(Mockito.eq(EntityNames.STUDENT), Mockito.any(Set.class)))
-                .thenReturn(new HashSet<String>(Arrays.asList("Boop")));
+                .thenReturn(new HashSet<String>(Arrays.asList("dummy")));
         for (int i = 0; i < 10; ++i) {
             cohortIds.add(helper.generateStudentCohort("Boop", "" + i, false).getEntityId());
         }

@@ -107,7 +107,7 @@ public class TeacherToCohortValidatorTest {
 			}
 		}
 
-		Assert.assertFalse(!val.validate(EntityNames.COHORT, cohortIds).isEmpty());
+		Assert.assertFalse(val.validate(EntityNames.COHORT, cohortIds).containsAll(cohortIds));
 
 		for (String id : cohortIds) {
 			if(successes.contains(id)) {
