@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.google.common.collect.Sets;
 import org.slc.sli.domain.Entity;
 import org.springframework.stereotype.Component;
 
@@ -58,11 +59,8 @@ public class StaffToGlobalSectionValidator extends AbstractContextValidator {
 
         Set<String> validSections = new HashSet<String>();
         if (ids.size() != getRepo().count(entityType, query)) {
-            Iterable<Entity> sections = getRepo().findAll(entityType, query);
-
-            for(Entity section : sections) {
-                validSections.add(section.getEntityId());
-            }
+            Iterable<String> sections = getRepo().findAllIds(entityType, query);
+            validSections = Sets.newHashSet(sections);
         } else {
             validSections = ids;
         }

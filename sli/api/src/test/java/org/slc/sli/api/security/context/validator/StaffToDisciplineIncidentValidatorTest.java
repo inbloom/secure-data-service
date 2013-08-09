@@ -22,6 +22,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.*;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -119,7 +120,7 @@ public class StaffToDisciplineIncidentValidatorTest {
         helper.generateStaffEdorg(helper.STAFF_ID, school.getEntityId(), false);
         Entity di = helper.generateDisciplineIncident(school.getEntityId());
         diIds.add(di.getEntityId());
-        assertTrue(validator.validate(EntityNames.DISCIPLINE_INCIDENT, diIds).equals(diIds));
+        Assert.assertEquals(diIds, validator.validate(EntityNames.DISCIPLINE_INCIDENT, diIds));
     }
 
     @Test
@@ -140,14 +141,14 @@ public class StaffToDisciplineIncidentValidatorTest {
         Entity sea = helper.generateEdorgWithParent(null);
         Entity lea = helper.generateEdorgWithParent(sea.getEntityId());
 
-        Entity school = helper.generateStaffEdorg(helper.STAFF_ID, lea.getEntityId(), false);
+        Entity seoas = helper.generateStaffEdorg(helper.STAFF_ID, lea.getEntityId(), false);
         for (int i = 0; i < 10; ++i) {
-            helper.generateEdorgWithParent(lea.getEntityId());
+            Entity school = helper.generateEdorgWithParent(lea.getEntityId());
             Entity di = helper.generateDisciplineIncident(school.getEntityId());
             diIds.add(di.getEntityId());
         }
-        Mockito.when(mockSchoolValidator.validate(Mockito.eq(EntityNames.SCHOOL), Mockito.any(Set.class))).thenReturn(new HashSet<String>(Arrays.asList(school.getEntityId())));
-        assertTrue(validator.validate(EntityNames.DISCIPLINE_INCIDENT, diIds).equals(diIds));
+        Mockito.when(mockSchoolValidator.validate(Mockito.eq(EntityNames.SCHOOL), Mockito.any(Set.class))).thenReturn(new HashSet<String>(Arrays.asList(lea.getEntityId())));
+        Assert.assertEquals(diIds, validator.validate(EntityNames.DISCIPLINE_INCIDENT, diIds));
         // Now put one above and fail
         Mockito.when(mockSchoolValidator.validate(Mockito.eq(EntityNames.SCHOOL), Mockito.any(Set.class))).thenReturn(Collections.EMPTY_SET);
         diIds.add(helper.generateDisciplineIncident(sea.getEntityId()).getEntityId());

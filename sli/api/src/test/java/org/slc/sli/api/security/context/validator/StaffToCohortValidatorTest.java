@@ -112,7 +112,8 @@ public class StaffToCohortValidatorTest {
         helper.generateStaffEdorg(helper.STAFF_ID, school.getEntityId(), false);
         cohortIds.add(cohort.getEntityId());
         Set<String> validIds = validator.validate(EntityNames.COHORT, cohortIds);
-        Assert.assertEquals(validIds.size(), cohortIds.size());
+
+        Assert.assertEquals(cohortIds, validIds);
     }
     
     @Test
@@ -154,9 +155,9 @@ public class StaffToCohortValidatorTest {
         Entity school = helper.generateEdorgWithParent(lea.getEntityId());
         helper.generateStaffEdorg(helper.STAFF_ID, school.getEntityId(), true);
         Entity cohort = helper.generateCohort(lea.getEntityId());
-        // cohortIds.add(cohort.getEntityId());
+        cohortIds.add(cohort.getEntityId());
         helper.generateStaffCohort(helper.STAFF_ID, cohort.getEntityId(), false, true);
-        assertFalse(validator.validate(EntityNames.COHORT, cohortIds).size() == cohortIds.size());
+        assertTrue(validator.validate(EntityNames.COHORT, cohortIds).equals(cohortIds));
 
         repo.deleteAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, new NeutralQuery());
         repo.deleteAll(EntityNames.STAFF_COHORT_ASSOCIATION, new NeutralQuery());
@@ -166,7 +167,7 @@ public class StaffToCohortValidatorTest {
         
         repo.deleteAll(EntityNames.STAFF_COHORT_ASSOCIATION, new NeutralQuery());
         helper.generateStaffCohort(helper.STAFF_ID, cohort.getEntityId(), false, false);
-        assertFalse(validator.validate(EntityNames.COHORT, cohortIds).size() == cohortIds.size());
+        assertTrue(validator.validate(EntityNames.COHORT, cohortIds).equals(cohortIds));
 
     }
     
@@ -182,7 +183,8 @@ public class StaffToCohortValidatorTest {
         }
         Entity cohort = helper.generateCohort(lea.getEntityId());
         cohortIds.add(cohort.getEntityId());
-        assertTrue(!validator.validate(EntityNames.COHORT, cohortIds).isEmpty());
+        helper.generateStaffCohort(helper.STAFF_ID, cohort.getEntityId(), false, true);
+        Assert.assertEquals(cohortIds, validator.validate(EntityNames.COHORT, cohortIds));
 
         for (int i = 0; i < 5; ++i) {
             cohort = helper.generateCohort(sea.getEntityId());
@@ -190,8 +192,6 @@ public class StaffToCohortValidatorTest {
             cohortIds.add(cohort.getEntityId());
         }
         
-        Assert.assertEquals(validator.validate(EntityNames.COHORT, cohortIds).size(), cohortIds.size());
-
-        
+        Assert.assertEquals(validator.validate(EntityNames.COHORT, cohortIds), cohortIds);
     }
 }

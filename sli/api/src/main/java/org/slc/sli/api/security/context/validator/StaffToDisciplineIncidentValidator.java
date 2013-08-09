@@ -84,14 +84,19 @@ public class StaffToDisciplineIncidentValidator extends AbstractContextValidator
             Entity di = getRepo().findOne(EntityNames.DISCIPLINE_INCIDENT, basicQuery);
             // If the disciplineIncident doesn't exist, bail.
             if (di == null) {
-                match = false;
+                continue;
             }
             basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.OPERATOR_EQUAL,
                     di.getBody().get(ParameterConstants.SCHOOL_ID)));
-            Set<String> schoolId = new HashSet<String>(Arrays.asList(getRepo().findOne(
-                    EntityNames.EDUCATION_ORGANIZATION, basicQuery).getEntityId()));
+            Entity edorg = getRepo().findOne(EntityNames.EDUCATION_ORGANIZATION, basicQuery);
+
+            if (edorg == null) {
+                continue;
+            }
+
+            Set<String> schoolId = new HashSet<String>(Arrays.asList(edorg.getEntityId()));
             Set<String> validSchools = schoolValidator.validate(EntityNames.SCHOOL, schoolId);
-            if (!validIds.isEmpty()) {
+            if (!validSchools.isEmpty()) {
                 match = true;
             }
             if (match) {
