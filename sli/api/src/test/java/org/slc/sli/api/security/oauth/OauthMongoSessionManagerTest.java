@@ -380,6 +380,47 @@ public class OauthMongoSessionManagerTest {
         Assert.assertTrue(edOrgContextRights.get("LEA1").get(Right.TEACHER_CONTEXT.name()).isEmpty());
     }
 
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testGenerateEdOrgContextRightsCacheWithEmptyRoles() throws SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException,
+                                                                           InvocationTargetException, NoSuchFieldException {
+        SLIPrincipal principal = new SLIPrincipal();
+        principal.setTenantId(TENANT_ID);
+        principal.setRealm(REALM_ID);
+        principal.setAdminRealmAuthenticated(false);
+
+        Field field = OauthMongoSessionManager.class.getDeclaredField("resolver");
+        field.setAccessible(true);
+        field.set(sessionManager, resolver);
+
+        Method method = OauthMongoSessionManager.class.getDeclaredMethod("generateEdOrgContextRightsCache", SLIPrincipal.class);
+        method.setAccessible(true);
+        EdOrgContextRightsCache edOrgContextRights = (EdOrgContextRightsCache) method.invoke(sessionManager, principal);
+
+        Assert.assertTrue(edOrgContextRights.isEmpty());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testGenerateEdOrgContextRightsCacheWithNullRoles() throws SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException,
+                                                                          InvocationTargetException, NoSuchFieldException {
+        SLIPrincipal principal = new SLIPrincipal();
+        principal.setTenantId(TENANT_ID);
+        principal.setRealm(REALM_ID);
+        principal.setAdminRealmAuthenticated(false);
+        principal.setEdOrgRoles(null);
+
+        Field field = OauthMongoSessionManager.class.getDeclaredField("resolver");
+        field.setAccessible(true);
+        field.set(sessionManager, resolver);
+
+        Method method = OauthMongoSessionManager.class.getDeclaredMethod("generateEdOrgContextRightsCache", SLIPrincipal.class);
+        method.setAccessible(true);
+        EdOrgContextRightsCache edOrgContextRights = (EdOrgContextRightsCache) method.invoke(sessionManager, principal);
+
+        Assert.assertTrue(edOrgContextRights.isEmpty());
+    }
+
     @Test
     public void testVerify() throws OAuthAccessException {
         Pair<String, String> credentials = new ImmutablePair<String, String>(CLIENT_ID, CLIENT_SECRETE);

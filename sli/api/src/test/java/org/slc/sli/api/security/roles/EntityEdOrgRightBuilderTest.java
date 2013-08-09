@@ -154,7 +154,7 @@ public class EntityEdOrgRightBuilderTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testBuildEntityEdOrgContextRights() {
+    public void testBuildEntityEdOrgDualContextRights() {
 
         Set<String> edOrgs = new HashSet<String>();
         edOrgs.add("edOrg1");
@@ -184,6 +184,76 @@ public class EntityEdOrgRightBuilderTest {
         Assert.assertFalse(grantedAuthorities.contains(AGGREGATE_WRITE));
     }
 
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testBuildEntityEdOrgSingleContextRights() {
+
+        Set<String> edOrgs = new HashSet<String>();
+        edOrgs.add("edOrg1");
+        edOrgs.add("edOrg2");
+        edOrgs.add("edOrg3");
+        edOrgs.add("edOrg4");
+
+        Entity entity = Mockito.mock(Entity.class);
+        Mockito.when(entity.getType()).thenReturn("student");
+
+        Mockito.when(edOrgOwnershipArbiter.determineHierarchicalEdorgs(Matchers.anyList(), Matchers.anyString())).thenReturn(edOrgs);
+
+        Collection<GrantedAuthority> grantedAuthorities = entityEdOrgRightBuilder.buildEntityEdOrgContextRights(edOrgContextRights, entity, SecurityUtil.UserContext.TEACHER_CONTEXT, false);
+
+        Assert.assertEquals(4, grantedAuthorities.size());
+
+        Assert.assertTrue(grantedAuthorities.contains(READ_PUBLIC));
+        Assert.assertTrue(grantedAuthorities.contains(READ_GENERAL));
+        Assert.assertTrue(grantedAuthorities.contains(WRITE_GENERAL));
+        Assert.assertTrue(grantedAuthorities.contains(TEACHER_CONTEXT));
+
+        Assert.assertFalse(grantedAuthorities.contains(READ_RESTRICTED));
+        Assert.assertFalse(grantedAuthorities.contains(WRITE_RESTRICTED));
+        Assert.assertFalse(grantedAuthorities.contains(AGGREGATE_READ));
+        Assert.assertFalse(grantedAuthorities.contains(WRITE_PUBLIC));
+        Assert.assertFalse(grantedAuthorities.contains(AGGREGATE_WRITE));
+        Assert.assertFalse(grantedAuthorities.contains(STAFF_CONTEXT));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testBuildEntityEdOrgContextRightsWithNoEntityEdOrgs() {
+        EdOrgOwnershipArbiter edOrgOwnershipArbiter = Mockito.mock(EdOrgOwnershipArbiter.class);
+        entityEdOrgRightBuilder.setEdOrgOwnershipArbiter(edOrgOwnershipArbiter);
+
+
+        Entity entity = Mockito.mock(Entity.class);
+        Mockito.when(entity.getType()).thenReturn("student");
+
+        Mockito.when(edOrgOwnershipArbiter.determineHierarchicalEdorgs(Matchers.anyList(), Matchers.anyString())).thenReturn(new HashSet<String>());
+
+        Collection<GrantedAuthority> grantedAuthorities = entityEdOrgRightBuilder.buildEntityEdOrgContextRights(edOrgContextRights, entity, SecurityUtil.UserContext.DUAL_CONTEXT, false);
+
+        Assert.assertTrue(grantedAuthorities.isEmpty());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testBuildEntityEdOrgContextRightsWithNoEntityEdOrgsNoMatchingEdOrgs() {
+        EdOrgOwnershipArbiter edOrgOwnershipArbiter = Mockito.mock(EdOrgOwnershipArbiter.class);
+        entityEdOrgRightBuilder.setEdOrgOwnershipArbiter(edOrgOwnershipArbiter);
+
+        Set<String> edOrgs = new HashSet<String>();
+        edOrgs.add("edOrg1");
+        edOrgs.add("edOrg6");
+        edOrgs.add("edOrg7");
+
+        Entity entity = Mockito.mock(Entity.class);
+        Mockito.when(entity.getType()).thenReturn("student");
+
+        Mockito.when(edOrgOwnershipArbiter.determineHierarchicalEdorgs(Matchers.anyList(), Matchers.anyString())).thenReturn(edOrgs);
+
+        Collection<GrantedAuthority> grantedAuthorities = entityEdOrgRightBuilder.buildEntityEdOrgContextRights(edOrgContextRights, entity, SecurityUtil.UserContext.DUAL_CONTEXT, false);
+
+        Assert.assertTrue(grantedAuthorities.isEmpty());
+    }
+
 
     private Map<String, Collection<GrantedAuthority>> createEdOrgRights() {
         Map<String, Collection<GrantedAuthority>> edOrgRights = new HashMap<String, Collection<GrantedAuthority>>();
@@ -208,7 +278,7 @@ public class EntityEdOrgRightBuilderTest {
         Collection<GrantedAuthority> authorities2S = new HashSet<GrantedAuthority>(Arrays.asList(READ_GENERAL,
                 READ_RESTRICTED, WRITE_GENERAL, STAFF_CONTEXT));
         Collection<GrantedAuthority> authorities2T = new HashSet<GrantedAuthority>(Arrays.asList(READ_PUBLIC,
-                READ_GENERAL, READ_RESTRICTED, WRITE_GENERAL, TEACHER_CONTEXT));
+                READ_GENERAL, WRITE_GENERAL, TEACHER_CONTEXT));
         Collection<GrantedAuthority> authorities4T = new HashSet<GrantedAuthority>(Arrays.asList(READ_PUBLIC,
                 WRITE_GENERAL, TEACHER_CONTEXT));
         Collection<GrantedAuthority> authorities5S = new HashSet<GrantedAuthority>(Arrays.asList(READ_PUBLIC,
