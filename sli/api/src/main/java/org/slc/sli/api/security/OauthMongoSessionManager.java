@@ -49,6 +49,7 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedA
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.cache.SessionCache;
+import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.oauth.ApplicationAuthorizationValidator;
 import org.slc.sli.api.security.oauth.OAuthAccessException;
 import org.slc.sli.api.security.oauth.OAuthAccessException.OAuthError;
@@ -104,6 +105,9 @@ public class OauthMongoSessionManager implements OauthSessionManager {
 
     @Resource
     private SessionCache sessions;
+
+    @Autowired
+    private EdOrgHelper helper;
 
     /**
      * Creates a new app session Creates user session if needed
@@ -394,6 +398,9 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                                     || principal.getUserType().equals(EntityNames.STAFF))) {
                                 principal.setEdOrgRights(generateEdOrgRightsMap(principal, false));
                                 principal.setEdOrgSelfRights(generateEdOrgRightsMap(principal, true));
+
+                                // Generate EdOrg-Context-Rights map for principal.
+                                principal.setEdOrgContextRights(generateEdOrgContextRightsCache(principal));
                             }
 
                             if (!principal.isAdminRealmAuthenticated()) {

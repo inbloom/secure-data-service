@@ -62,6 +62,7 @@ public class SLIPrincipal implements Principal, Serializable {
     private Map<String, List<String>> edOrgRoles;
     private Map<String, Collection<GrantedAuthority>> edOrgRights;
     private Map<String, Collection<GrantedAuthority>> edOrgSelfRights;
+    private EdOrgContextRightsCache edOrgContextRights;
     private String edOrgId;
     private boolean adminUser;
     private String firstName;
@@ -87,6 +88,7 @@ public class SLIPrincipal implements Principal, Serializable {
         edOrgRoles = new HashMap<String, List<String>>();
         edOrgRights = new HashMap<String, Collection<GrantedAuthority>>();
         edOrgSelfRights = new HashMap<String, Collection<GrantedAuthority>>();
+        edOrgContextRights = new EdOrgContextRightsCache();
     }
 
     public SLIPrincipal(String id) {
@@ -335,6 +337,14 @@ public class SLIPrincipal implements Principal, Serializable {
         this.selfRights = auths;
     }
 
+    public EdOrgContextRightsCache getEdOrgContextRights() {
+        return edOrgContextRights;
+    }
+
+    public void setEdOrgContextRights(EdOrgContextRightsCache edOrgContextRights) {
+        this.edOrgContextRights = edOrgContextRights;
+    }
+
     /**
      * These are edorgs that have authorized the app that the user is currently logged into.
      * <p/>
@@ -400,6 +410,8 @@ public class SLIPrincipal implements Principal, Serializable {
 
     /**
      * Provide the set of all rights for this principal, from the edOrg Rights Map.
+     *
+     * @param isSelf - Indicates whether to include self rights.
      *
      * @return - The set of all rights for this principal, from the edOrg Rights Map
      */

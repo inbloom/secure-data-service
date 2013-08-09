@@ -56,6 +56,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.slc.sli.api.security.EdOrgContextRightsCache;
 import org.slc.sli.api.security.OauthMongoSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
@@ -82,22 +83,27 @@ public class OauthMongoSessionManagerTest {
     private static final String SESSION_COLLECTION = "userSession";
     private static final String TENANT_ID = "Midgar";
     private static final String REALM_ID = "Middle Earth";
+    private static final String EDORG_COLLECTION = "educationOrganization";
 
     OauthMongoSessionManager sessionManager = new OauthMongoSessionManager();
 
     private RolesToRightsResolver resolver;
+    private EdOrgHelper helper;
+
     private static final String APPLICATION_COLLECTIN = "application";
 
     Repository<Entity> repo;
 
-    private final GrantedAuthority READ_PUBLIC = new GrantedAuthorityImpl("READ_PUBLIC");
-    private final GrantedAuthority READ_GENERAL = new GrantedAuthorityImpl("READ_GENERAL");
-    private final GrantedAuthority READ_RESTRICTED = new GrantedAuthorityImpl("READ_RESTRICTED");
-    private final GrantedAuthority AGGREGATE_READ = new GrantedAuthorityImpl("AGGREGATE_READ");
-    private final GrantedAuthority WRITE_PUBLIC = new GrantedAuthorityImpl("WRITE_PUBLIC");
-    private final GrantedAuthority WRITE_GENERAL = new GrantedAuthorityImpl("WRITE_GENERAL");
-    private final GrantedAuthority WRITE_RESTRICTED = new GrantedAuthorityImpl("WRITE_RESTRICTED");
-    private final GrantedAuthority AGGREGATE_WRITE = new GrantedAuthorityImpl("AGGREGATE_WRITE");
+    private final GrantedAuthority READ_PUBLIC = new GrantedAuthorityImpl(Right.READ_PUBLIC.name());
+    private final GrantedAuthority READ_GENERAL = new GrantedAuthorityImpl(Right.READ_GENERAL.name());
+    private final GrantedAuthority READ_RESTRICTED = new GrantedAuthorityImpl(Right.READ_RESTRICTED.name());
+    private final GrantedAuthority AGGREGATE_READ = new GrantedAuthorityImpl(Right.AGGREGATE_READ.name());
+    private final GrantedAuthority WRITE_PUBLIC = new GrantedAuthorityImpl(Right.WRITE_PUBLIC.name());
+    private final GrantedAuthority WRITE_GENERAL = new GrantedAuthorityImpl(Right.WRITE_GENERAL.name());
+    private final GrantedAuthority WRITE_RESTRICTED = new GrantedAuthorityImpl(Right.WRITE_RESTRICTED.name());
+    private final GrantedAuthority AGGREGATE_WRITE = new GrantedAuthorityImpl(Right.AGGREGATE_WRITE.name());
+    private final GrantedAuthority STAFF_CONTEXT = new GrantedAuthorityImpl(Right.STAFF_CONTEXT.name());
+    private final GrantedAuthority TEACHER_CONTEXT = new GrantedAuthorityImpl(Right.TEACHER_CONTEXT.name());
     private final static String APP_CODE_VALUE = "c-82d4cca1-3654-47bb-8fb3-0d081f2e7b69";
     private final static String CLIENT_ID = "ke9Dgpo3uI";
     private final static String CLIENT_SECRETE = "uOoKXLWihlz39EEQ7Uoqqc7TeogsnQnDAUs3HWYFouZFG5sk";
@@ -112,6 +118,7 @@ public class OauthMongoSessionManagerTest {
 
         repo = Mockito.mock(Repository.class);
         resolver = Mockito.mock(RolesToRightsResolver.class);
+        helper = Mockito.mock(EdOrgHelper.class);
         UserLocator locator = Mockito.mock(UserLocator.class);
         ApplicationAuthorizationValidator appValidator = Mockito.mock(ApplicationAuthorizationValidator.class);
 
@@ -220,7 +227,8 @@ public class OauthMongoSessionManagerTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testGenerateEdOrgRightsMap() throws SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, NoSuchFieldException {
+    public void testGenerateEdOrgRightsMap() throws SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException,
+                                                    InvocationTargetException, NoSuchFieldException {
         SLIPrincipal principal = new SLIPrincipal();
         Map<String, List<String>> edOrgRoles = new HashMap<String, List<String>>();
         List<String> edOrgRoles1 = new LinkedList<String>(Arrays.asList("Gym Teacher", "Science Teacher", "Principal"));
@@ -260,7 +268,8 @@ public class OauthMongoSessionManagerTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testGenerateEdOrgRightsMapWithEmptyRoles() throws SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, NoSuchFieldException {
+    public void testGenerateEdOrgRightsMapWithEmptyRoles() throws SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException,
+                                                                  InvocationTargetException, NoSuchFieldException {
         SLIPrincipal principal = new SLIPrincipal();
         principal.setTenantId(TENANT_ID);
         principal.setRealm(REALM_ID);
@@ -279,7 +288,8 @@ public class OauthMongoSessionManagerTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testGenerateEdOrgRightsMapWithNullRoles() throws SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException, InvocationTargetException, NoSuchFieldException {
+    public void testGenerateEdOrgRightsMapWithNullRoles() throws SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException,
+                                                                 InvocationTargetException, NoSuchFieldException {
         SLIPrincipal principal = new SLIPrincipal();
         principal.setTenantId(TENANT_ID);
         principal.setRealm(REALM_ID);
