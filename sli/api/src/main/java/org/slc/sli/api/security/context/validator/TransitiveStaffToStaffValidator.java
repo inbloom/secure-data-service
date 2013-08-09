@@ -106,7 +106,7 @@ public class TransitiveStaffToStaffValidator extends AbstractContextValidator {
         basicQuery = new NeutralQuery(new NeutralCriteria("educationOrgId", "in", edOrgLineage));
         List<String> cohorts = (List<String>) repo.findAllIds(EntityNames.COHORT, basicQuery);
         
-        validIds.removeAll(getIds(EntityNames.STAFF_COHORT_ASSOCIATION, "cohortId", cohorts));
+        validIds.addAll(getIds(EntityNames.STAFF_COHORT_ASSOCIATION, "cohortId", cohorts));
 
         validIds.retainAll(staffIds);
         return validIds;
