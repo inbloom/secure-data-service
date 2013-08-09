@@ -53,8 +53,6 @@ public class StaffToCohortValidator extends AbstractContextValidator {
             return myCohortIds;
         }
         
-        boolean match = false;
-        
         // Get the one's I'm associated to.
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_ID,
                 NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));

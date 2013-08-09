@@ -62,7 +62,7 @@ public class GenericToParentValidator extends AbstractContextValidator {
         for (Entity assoc : assocs) {
             String studentId = (String) assoc.getBody().get("studentId");
             String parentId = (String) assoc.getBody().get("parentId");
-            if(!parentToStudentMap.containsKey(parentToStudentMap)) {
+            if (!parentToStudentMap.containsKey(parentId)) {
                 parentToStudentMap.put(parentId, new HashSet<String>());
             }
             parentToStudentMap.get(parentId).add(studentId);

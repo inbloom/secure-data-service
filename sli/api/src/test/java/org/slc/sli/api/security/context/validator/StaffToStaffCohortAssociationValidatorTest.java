@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -118,7 +119,7 @@ public class StaffToStaffCohortAssociationValidatorTest {
         Entity sca = helper.generateStaffCohort(helper.STAFF_ID,
                 helper.generateCohort(sea.getEntityId()).getEntityId(), false, true);
         cohortIds.add(sca.getEntityId());
-        assertTrue(validator.validate(EntityNames.STAFF_COHORT_ASSOCIATION, cohortIds).equals(cohortIds));
+        Assert.assertEquals(cohortIds, validator.validate(EntityNames.STAFF_COHORT_ASSOCIATION, cohortIds));
         
         // And ones below me
         for (int i = 0; i < 5; ++i) {
