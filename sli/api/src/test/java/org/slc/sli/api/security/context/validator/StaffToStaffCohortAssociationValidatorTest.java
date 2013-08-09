@@ -20,16 +20,16 @@ package org.slc.sli.api.security.context.validator;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
@@ -58,6 +58,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 public class StaffToStaffCohortAssociationValidatorTest {
     
     @Autowired
+    @InjectMocks
     private StaffToStaffCohortAssociationValidator validator;
 
     @Autowired
@@ -70,6 +71,9 @@ public class StaffToStaffCohortAssociationValidatorTest {
     private PagingRepositoryDelegate<Entity> repo;
     
     Set<String> cohortIds;
+
+    @Mock
+    private TransitiveStaffToStaffValidator mockStaffValidator;
 
     @Before
     public void setUp() throws Exception {
@@ -85,6 +89,8 @@ public class StaffToStaffCohortAssociationValidatorTest {
         
         cohortIds = new HashSet<String>();
 
+        mockStaffValidator = Mockito.mock(TransitiveStaffToStaffValidator.class);
+        MockitoAnnotations.initMocks(this);
     }
     
     @After
@@ -118,15 +124,19 @@ public class StaffToStaffCohortAssociationValidatorTest {
         Entity sca = helper.generateStaffCohort(helper.STAFF_ID,
                 helper.generateCohort(sea.getEntityId()).getEntityId(), false, true);
         cohortIds.add(sca.getEntityId());
+        Mockito.when(mockStaffValidator.validate(Mockito.eq(EntityNames.STAFF), Mockito.any(Set.class))).thenReturn(new HashSet<String>(Arrays.asList(helper.STAFF_ID)));
         assertTrue(validator.validate(EntityNames.STAFF_COHORT_ASSOCIATION, cohortIds).equals(cohortIds));
         
         // And ones below me
+        List<String> staffIds  = new ArrayList<String>();
         for (int i = 0; i < 5; ++i) {
             sca = helper.generateStaffCohort(i + "", helper.generateCohort(school.getEntityId()).getEntityId(), false,
                     true);
             helper.generateStaffEdorg(i + "", school.getEntityId(), false);
             cohortIds.add(sca.getEntityId());
+            staffIds.add(i + "");
         }
+        Mockito.when(mockStaffValidator.validate(Mockito.eq(EntityNames.STAFF), Mockito.any(Set.class))).thenReturn(new HashSet<String>(staffIds));
         assertTrue(validator.validate(EntityNames.STAFF_COHORT_ASSOCIATION, cohortIds).equals(cohortIds));
         
     }
