@@ -17,7 +17,16 @@
 package org.slc.sli.api.security;
 
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -25,12 +34,12 @@ import javax.annotation.Resource;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.security.oauth2.common.exceptions.InvalidClientException;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.common.exceptions.RedirectMismatchException;
@@ -40,6 +49,7 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedA
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.cache.SessionCache;
+import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.oauth.ApplicationAuthorizationValidator;
 import org.slc.sli.api.security.oauth.OAuthAccessException;
 import org.slc.sli.api.security.oauth.OAuthAccessException.OAuthError;
@@ -68,6 +78,9 @@ public class OauthMongoSessionManager implements OauthSessionManager {
 
     private static final String APPLICATION_COLLECTION = "application";
     private static final String SESSION_COLLECTION = "userSession";
+    private static final String EDORG_COLLECTION = "educationOrganization";
+    private final GrantedAuthority STAFF_CONTEXT = new GrantedAuthorityImpl(Right.STAFF_CONTEXT.name());
+    private final GrantedAuthority TEACHER_CONTEXT = new GrantedAuthorityImpl(Right.TEACHER_CONTEXT.name());
 
     @Value("${sli.session.length}")
     private int sessionLength;
@@ -92,6 +105,9 @@ public class OauthMongoSessionManager implements OauthSessionManager {
 
     @Resource
     private SessionCache sessions;
+
+    @Autowired
+    private EdOrgHelper helper;
 
     /**
      * Creates a new app session Creates user session if needed
@@ -355,7 +371,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                             SLIPrincipal principal = jsoner.convertValue(sessionEntity.getBody().get("principal"),
                                     SLIPrincipal.class);
                             TenantContext.setTenantId(principal.getTenantId());
-                            
+
                             principal.setSessionId(sessionEntity.getEntityId());
 
                             // add logic here that checks principal.getUserType()
@@ -382,6 +398,9 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                                     || principal.getUserType().equals(EntityNames.STAFF))) {
                                 principal.setEdOrgRights(generateEdOrgRightsMap(principal, false));
                                 principal.setEdOrgSelfRights(generateEdOrgRightsMap(principal, true));
+
+                                // Generate EdOrg-Context-Rights map for principal.
+                                principal.setEdOrgContextRights(generateEdOrgContextRightsCache(principal));
                             }
 
                             if (!principal.isAdminRealmAuthenticated()) {
@@ -461,6 +480,59 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         }
 
         return edOrgRights;
+    }
+
+    /**
+     * Generates the principal's edorg-context-rights map.
+     * Traverses each edOrg's upward hierachy to combine all of the rights for each context.
+     *
+     * @param principal - The principal
+     *
+     * @return - Generated edorg-context-rights map for principal
+     */
+    private EdOrgContextRightsCache generateEdOrgContextRightsCache(SLIPrincipal principal) {
+        EdOrgContextRightsCache edOrgContextRights = new EdOrgContextRightsCache();
+        if (principal.getEdOrgRoles() != null) {
+            for (String edOrg : principal.getEdOrgRoles().keySet()) {
+                Entity edOrgEntity = repo.findById(EDORG_COLLECTION, edOrg);
+                List<String> hierarchicalEdOrgs = new ArrayList<String>(Arrays.asList(edOrg));
+                hierarchicalEdOrgs.addAll(helper.getParentEdOrgs(edOrgEntity));
+                hierarchicalEdOrgs.retainAll(principal.getEdOrgRoles().keySet());
+                Map<String, Collection<GrantedAuthority>> contextRights = generateContextRightsForEdOrg(principal, hierarchicalEdOrgs);
+                edOrgContextRights.put(edOrg, contextRights);
+            }
+        }
+
+        return edOrgContextRights;
+    }
+
+    /**
+     * Generates a context rights map for a set of edOrgs, combining the rights for each edOrg's set of roles in each context.
+     *
+     * @param principal - The principal
+     * @param edOrgs - List of edOrgs
+     *
+     * @return - Generated context rights map for the given set of edOrgs
+     */
+    private Map<String, Collection<GrantedAuthority>> generateContextRightsForEdOrg(SLIPrincipal principal, List<String> edOrgs) {
+        Map<String, Collection<GrantedAuthority>> contextRights = new HashMap<String, Collection<GrantedAuthority>>();
+        contextRights.put(Right.STAFF_CONTEXT.name(), new HashSet<GrantedAuthority>());
+        contextRights.put(Right.TEACHER_CONTEXT.name(), new HashSet<GrantedAuthority>());
+        Collection<GrantedAuthority> roleAuthorities = new HashSet<GrantedAuthority>();
+        for (String edOrg : edOrgs) {  // For each edOrg....
+            for (String role : principal.getEdOrgRoles().get(edOrg)) {  // For each edOrg role....
+                roleAuthorities.addAll(resolver.resolveRolesUnion(principal.getTenantId(), principal.getRealm(),
+                        Arrays.asList(role), principal.isAdminRealmAuthenticated(), false));
+            }
+        }
+        if (roleAuthorities.contains(STAFF_CONTEXT)) {
+            contextRights.get(Right.STAFF_CONTEXT.name()).addAll(roleAuthorities);
+        }
+        if (roleAuthorities.contains(TEACHER_CONTEXT)) {
+            contextRights.get(Right.TEACHER_CONTEXT.name()).addAll(roleAuthorities);
+        }
+
+        return contextRights;
     }
 
     /**
