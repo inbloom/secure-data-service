@@ -1,11 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?><InterchangeEducationOrganization xmlns="http://ed-fi.org/0100">
-   <LocalEducationAgency>
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeEducationOrganization xmlns="http://ed-fi.org/0100">
+   <EducationOrganization>
         <StateOrganizationId>CAP0-D0</StateOrganizationId>
         <NameOfInstitution>CAP0-D0</NameOfInstitution>
         <ShortNameOfInstitution>CAP0-D0</ShortNameOfInstitution>
         <OrganizationCategories>
             <OrganizationCategory>Local Education Agency</OrganizationCategory>
         </OrganizationCategories>
+       <ParentEducationAgencyReference>
+           <EducationalOrgIdentity>
+               <StateOrganizationId>CAP0</StateOrganizationId>
+           </EducationalOrgIdentity>
+       </ParentEducationAgencyReference>
         <Address AddressType="Home">
             <StreetNumberName>streetNumberName</StreetNumberName>
             <ApartmentRoomSuiteNumber>7C</ApartmentRoomSuiteNumber>
@@ -22,13 +28,8 @@
         </Address>
         <OperationalStatus>Active</OperationalStatus>
         <LEACategory>Charter</LEACategory>
-        <StateEducationAgencyReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>CAP0</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </StateEducationAgencyReference>
-    </LocalEducationAgency>
-    <School>
+    </EducationOrganization>
+    <EducationOrganization>
         <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
         <EducationOrgIdentificationCode IdentificationSystem="Federal">
             <ID>CAP0-D0-HSch0</ID>
@@ -38,6 +39,11 @@
         <OrganizationCategories>
             <OrganizationCategory>School</OrganizationCategory>
         </OrganizationCategories>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>CAP0-D0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
         <Address AddressType="Home">
             <StreetNumberName>streetNumberName</StreetNumberName>
             <ApartmentRoomSuiteNumber>7C</ApartmentRoomSuiteNumber>
@@ -97,10 +103,5 @@
         <TitleIPartASchoolDesignation>Not designated as a Title I Part A school</TitleIPartASchoolDesignation>
         <MagnetSpecialProgramEmphasisSchool>All students participate</MagnetSpecialProgramEmphasisSchool>
         <AdministrativeFundingControl>Public School</AdministrativeFundingControl>
-        <LocalEducationAgencyReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>CAP0-D0</StateOrganizationId>
-            </EducationalOrgIdentity>
-         </LocalEducationAgencyReference>
-    </School>
+    </EducationOrganization>
 </InterchangeEducationOrganization>
