@@ -17,6 +17,7 @@
 package org.slc.sli.api.security.context.validator;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.stereotype.Component;
@@ -42,7 +43,11 @@ public class AdminValidator implements IContextValidator {
          * being invoked when it shouldn't be, and this has been done to limit where this
          * validator is invoked.
          */
-        return getValid(entityType, ids);
+        Set<String> result = new HashSet<String>();
+        if (canValidate(entityType, false)) {
+            result = ids;
+        }
+        return result;
     }
 
     //TODO: implement it
