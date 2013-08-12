@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
-
-  <StateEducationAgency>
+<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
+  <EducationOrganization>
     <StateOrganizationId>IL</StateOrganizationId>
     <NameOfInstitution>Illinois State Board of Education</NameOfInstitution>
     <OrganizationCategories>
@@ -14,14 +12,18 @@
       <StateAbbreviation>IL</StateAbbreviation>
       <PostalCode>00000</PostalCode>
     </Address>
-  </StateEducationAgency>
-
-  <LocalEducationAgency>
+  </EducationOrganization>
+  <EducationOrganization>
     <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
     <NameOfInstitution>Daybreak School District 4529</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>Local Education Agency</OrganizationCategory>
     </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
     <Address>
       <StreetNumberName>123 Street</StreetNumberName>
       <City>Chicago</City>
@@ -29,14 +31,8 @@
       <PostalCode>00000</PostalCode>
     </Address>
     <LEACategory>Independent</LEACategory>
-    <StateEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>IL</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </StateEducationAgencyReference>
-  </LocalEducationAgency>
-
-  <School>
+  </EducationOrganization>
+  <EducationOrganization>
     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
     <EducationOrgIdentificationCode IdentificationSystem="School">
       <ID>South Daybreak Elementary</ID>
@@ -45,6 +41,11 @@
     <OrganizationCategories>
       <OrganizationCategory>School</OrganizationCategory>
     </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
     <Address AddressType="Physical">
       <StreetNumberName>111 Ave A</StreetNumberName>
       <City>Chicago</City>
@@ -66,13 +67,8 @@
     <SchoolCategories>
       <SchoolCategory>Elementary School</SchoolCategory>
     </SchoolCategories>
-    <LocalEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </LocalEducationAgencyReference>
-  </School>
-  <School>
+  </EducationOrganization>
+  <EducationOrganization>
     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
     <EducationOrgIdentificationCode IdentificationSystem="School">
       <ID>East Daybreak Junior High</ID>
@@ -81,6 +77,11 @@
     <OrganizationCategories>
       <OrganizationCategory>School</OrganizationCategory>
     </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
     <Address AddressType="Physical">
       <StreetNumberName>111 Ave B</StreetNumberName>
       <City>Chicago</City>
@@ -99,13 +100,8 @@
     <SchoolCategories>
       <SchoolCategory>Junior High School</SchoolCategory>
     </SchoolCategories>
-    <LocalEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </LocalEducationAgencyReference>
-  </School>
-  <School>
+  </EducationOrganization>
+  <EducationOrganization>
     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
     <EducationOrgIdentificationCode IdentificationSystem="School">
       <ID>Daybreak Central High</ID>
@@ -114,6 +110,11 @@
     <OrganizationCategories>
       <OrganizationCategory>School</OrganizationCategory>
     </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
     <Address AddressType="Physical">
       <StreetNumberName>111 Ave C</StreetNumberName>
       <City>Chicago</City>
@@ -133,13 +134,7 @@
     <SchoolCategories>
       <SchoolCategory>High School</SchoolCategory>
     </SchoolCategories>
-    <LocalEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </LocalEducationAgencyReference>
-  </School>
-
+  </EducationOrganization>
   <Course>
     <CourseTitle>3rd Grade Homeroom</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -274,7 +269,6 @@
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </Course>
-
   <Course>
     <CourseTitle>American Literature</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -317,7 +311,6 @@
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </Course>
-
   <!-- courses for progress history -->
   <Course>
     <CourseTitle>7th Grade English</CourseTitle>
@@ -423,7 +416,6 @@
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </Course>
-  
   <!-- courses used for report cards for Carmen Ortiz -->
   <Course>
     <CourseTitle>Algebra II</CourseTitle>
@@ -949,7 +941,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>    
+  </Course>
   <Course>
     <CourseTitle>7th Grade Math</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -970,7 +962,7 @@
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course>  
+  </Course>
   <Course>
     <CourseTitle>Science 8B</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1160,7 +1152,6 @@
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </Course>
-
   <!-- courses used for report cards for Matt Sollars.
        Note that 7th Grade English and 7th Grade Composition have already been defined. -->
   <Course>
@@ -1688,7 +1679,6 @@
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </Course>
-
   <Course>
     <CourseTitle>Geography-5</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -2151,25 +2141,24 @@
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </Course>
-
   <Program>
     <ProgramId>ACC-TEST-PROG-1</ProgramId>
-	<ProgramType>Regular Education</ProgramType>
-	<ProgramSponsor>State Education Agency</ProgramSponsor>
-	<Services>
-	  <CodeValue>Test service 1</CodeValue>
-	  <ShortDescription>Short description for acceptance test program 1</ShortDescription>
-	  <Description>This is a longer description of the services provided by acceptance test program 1. More detail could be provided here.</Description>
-	</Services>
+    <ProgramType>Regular Education</ProgramType>
+    <ProgramSponsor>State Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>Test service 1</CodeValue>
+      <ShortDescription>Short description for acceptance test program 1</ShortDescription>
+      <Description>This is a longer description of the services provided by acceptance test program 1. More detail could be provided here.</Description>
+    </Services>
   </Program>
   <Program>
     <ProgramId>ACC-TEST-PROG-2</ProgramId>
-	<ProgramType>Remedial Education</ProgramType>
-	<ProgramSponsor>Local Education Agency</ProgramSponsor>
-	<Services>
-	  <CodeValue>Test service 2</CodeValue>
-	  <ShortDescription>Short description for acceptance test program 2</ShortDescription>
-	  <Description>This is a longer description of the services provided by acceptance test program 2. More detail could be provided here.</Description>
-	</Services>
+    <ProgramType>Remedial Education</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>Test service 2</CodeValue>
+      <ShortDescription>Short description for acceptance test program 2</ShortDescription>
+      <Description>This is a longer description of the services provided by acceptance test program 2. More detail could be provided here.</Description>
+    </Services>
   </Program>
 </InterchangeEducationOrganization>
