@@ -617,8 +617,10 @@ When /^I PUT and validate the following entities:$/ do |table|
 end
 
 When /^I PUT the "(.*?)" for a "(.*?)" entity to "(.*?)" at "(.*?)"$/ do |field, entity_name, value, endpoint|
-  response_body = get_post_body_by_entity_name(entity_name)
-  put_body = update_api_put_field(response_body, field, value)
+  #the GET body contains field the user may not have access to, changed to use the POST body
+  post_body = get_post_body_by_entity_name(entity_name)
+  assert(post_body != nil, "No POST body found with entityName: " + entity_name)
+  put_body = update_api_put_field(post_body, field, value)
   puts prepareData(@format, put_body).to_s
   restHttpPut("/#{@api_version}/#{endpoint}", prepareData(@format, put_body))
   assert(@res != nil, "Response from rest-client PUT is nil")
