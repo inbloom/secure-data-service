@@ -1274,7 +1274,7 @@ Then /^the "(.*?)" has the correct number of SEA public data records "(.*?)"$/ d
   disable_NOTABLESCAN()
 
 	@tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
-  SEA = @tenantDb.collection("educationOrganization").find_one({"body.organizationCategories" => "State Education Agency"})
+  SEA = @tenantDb.collection("educationOrganization").find_one({'body.organizationCategories' => {"$in" => ['State Education Agency']}})
   @SEA_id = SEA["_id"]
 
   puts "Comparing SEA " + @SEA_id
