@@ -44,7 +44,7 @@ end
 def getEdfiEntities(type)
   case type
     when "educationOrganization" 
-      ["LocalEducationAgency", "School", "StateEducationAgency"]
+      ["EducationOrganization"]
   end
 end
 
