@@ -74,6 +74,7 @@ public class StudentToProgramCohortValidator extends BasicValidator {
             }
         }
 
+        myCurrentIds.retainAll(ids);
         return myCurrentIds;
     }
 
