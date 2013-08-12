@@ -43,6 +43,18 @@
       ]
     }
   ],
+  "ParentEducationAgencyReference":
+  [
+    {
+      "EducationalOrgIdentity":
+      {
+        "StateOrganizationId":
+        {
+          "_value":"NIIUBHXUQWQt58s3Z81JSw-f1n"
+        }
+      }
+    }
+   ],
   "Address":
   [
     {
@@ -292,15 +304,5 @@
   "AdministrativeFundingControl":
   {
     "_value":"Other"
-  },
-  "LocalEducationAgencyReference":
-  {
-    "EducationalOrgIdentity":
-    {
-      "StateOrganizationId":
-      {
-        "_value":"NIIUBHXUQWQt58s3Z81JSw-f1n"
-      }
-    }
   }
 }

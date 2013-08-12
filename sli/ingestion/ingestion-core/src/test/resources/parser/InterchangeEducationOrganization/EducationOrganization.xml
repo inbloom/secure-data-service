@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <InterchangeEducationOrganization xmlns:sli="http://slc-sli/ed-org/0.1" xmlns="http://ed-fi.org/0100"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <School id="ID013">
+  <EducationOrganization id="ID013">
     <StateOrganizationId>OqyTMT6l66jr5OyD1f7vdtoqyh1eas2yPB5z9BQEbOa5a5Dt</StateOrganizationId>
     <EducationOrgIdentificationCode IdentificationSystem="ACT">
       <ID>deBMzWu4B6iKSYqfLckeYLuJoCpuEbD-jzQMu1jNaC</ID>
@@ -15,6 +15,11 @@
       <OrganizationCategory>Local Education Agency</OrganizationCategory>
       <OrganizationCategory>State Education Agency</OrganizationCategory>
     </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>NIIUBHXUQWQt58s3Z81JSw-f1n</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
     <Address AddressType="Temporary">
       <StreetNumberName>aKiFJtlUznkom2</StreetNumberName>
       <ApartmentRoomSuiteNumber>_BiHcRIaB1pTu</ApartmentRoomSuiteNumber>
@@ -90,10 +95,5 @@
     <TitleIPartASchoolDesignation>Title I targeted eligible school - no program</TitleIPartASchoolDesignation>
     <MagnetSpecialProgramEmphasisSchool>Some, but not all, students participate</MagnetSpecialProgramEmphasisSchool>
     <AdministrativeFundingControl>Other</AdministrativeFundingControl>
-    <LocalEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>NIIUBHXUQWQt58s3Z81JSw-f1n</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </LocalEducationAgencyReference>
-  </School>
+  </EducationOrganization>
 </InterchangeEducationOrganization>

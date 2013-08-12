@@ -27,6 +27,14 @@ import org.springframework.core.io.Resource;
 public class InterchangeEducationOrganizationTest {
 
     @Test
+    public void testEducationOrganization() throws Throwable {
+        Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd");
+        Resource inputXml = new ClassPathResource("parser/InterchangeEducationOrganization/EducationOrganization.xml");
+        Resource expectedJson = new ClassPathResource("parser/InterchangeEducationOrganization/EducationOrganization.json");
+
+        EntityTestHelper.parseAndVerify(schema, inputXml, expectedJson);
+    }
+    @Test
     public void testCompetencyLevelDescriptor() throws Throwable {
         Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd");
         Resource inputXml = new ClassPathResource("parser/InterchangeEducationOrganization/CompetencyLevelDescriptor.xml");
