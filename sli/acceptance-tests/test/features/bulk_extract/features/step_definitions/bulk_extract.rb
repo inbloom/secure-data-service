@@ -290,7 +290,7 @@ Given /^all LEAs in "([^"]*)" are authorized for "([^"]*)"/ do |tenant, applicat
   ed_org_coll = db_tenant.collection('educationOrganization')
 
   needed_ed_orgs = []
-  ed_org_coll.find({'type' => 'localEducationAgency'}).each do |edorg|
+  ed_org_coll.find({'body.organizationCategories' => 'Local Education Agency'}).each do |edorg|
     needed_ed_orgs.push(edorg['_id'])
   end
 
