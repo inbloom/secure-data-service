@@ -1,5 +1,5 @@
 Feature: Retrieved through the api a generated delta bulk extract file, and validate the file
-   
+
 Scenario: Initialize security trust store for Bulk Extract application and LEAs
   Given the extraction zone is empty
     And the bulk extract files in the database are scrubbed
@@ -796,7 +796,7 @@ Given I clean the bulk extract file system and database
      |  loginId          |  newParentMom                 |  super_mom_you_rock@bazinga.com  |  204         | parents/41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id  |
      |  loginId          |  newParentDad                 |  super_dad_good_job@bazinga.com  |  204         | parents/41f42690a7c8eb5b99637fade00fc72f599dab07_id  |
      |  contactPriority  |  newStudentParentAssociation  |  1                               |  204         | studentParentAssociations/9bf3036428c40861238fdc820568fde53e658d88_idc3a6a4ed285c14f562f0e0b63e1357e061e337c6_id |
-     |  postalCode       |  school                       |  11012                           |  204         | educationOrganizations/a13489364c2eb015c219172d561c62350f0453f3_id |
+     |  postalCode       |  educationOrganization        |  11012                           |  204         | educationOrganizations/1b223f577827204a1c7e9c851dba06bea6b031fe_id |
 
   When I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
    And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
