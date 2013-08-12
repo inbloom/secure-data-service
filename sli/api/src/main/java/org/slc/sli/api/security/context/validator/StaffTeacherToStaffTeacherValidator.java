@@ -49,10 +49,6 @@ public class StaffTeacherToStaffTeacherValidator extends AbstractContextValidato
             return validated;
         }
 
-        if (staffIds.size() > 1) {
-            return validated;
-        }
-
         String myself = SecurityUtil.principalId();
 
         // will only be one staffId in the list
