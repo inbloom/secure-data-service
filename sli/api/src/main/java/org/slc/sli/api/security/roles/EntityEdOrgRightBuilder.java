@@ -16,16 +16,24 @@
 
 package org.slc.sli.api.security.roles;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-import org.slc.sli.api.security.context.StudentOwnershipArbiter;
-import org.slc.sli.common.constants.EntityNames;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.security.EdOrgContextRightsCache;
 import org.slc.sli.api.security.context.EdOrgOwnershipArbiter;
+import org.slc.sli.api.security.context.StudentOwnershipArbiter;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.enums.Right;
 
 /**
  * Build user's access rights to an entity based on its associated edOrgs.
@@ -75,6 +83,55 @@ public class EntityEdOrgRightBuilder {
             for (String edorg : edorgs) {
                 authorities.addAll(edOrgRights.get(edorg));
             }
+
+        return authorities;
+    }
+
+    /**
+     * Builds a set of access rights to an entity, based upon the specified EdOrg-Context-Rights cache, the EdOrgs to which the entity belongs, and its associated contexts.
+     *
+     * @param edOrgContextRights - user EdOrg-Context-Rights cache
+     * @param entity - entity to which access is sought
+     * @param context - context(s) to which the entity belongs
+     * @param isRead if operation is a read operation
+     *
+     * @return - The set of all the user's access rights to the entity
+     */
+    public Collection<GrantedAuthority> buildEntityEdOrgContextRights(final EdOrgContextRightsCache edOrgContextRights, final Entity entity,
+                                                                      final SecurityUtil.UserContext context, boolean isRead) {
+        Collection<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
+
+        Set<String> edorgs = edOrgOwnershipArbiter.determineHierarchicalEdorgs(Arrays.asList(entity), entity.getType());
+        edorgs.retainAll(edOrgContextRights.keySet());
+        if (edorgs.isEmpty()) {
+            if (STUDENT_RELATED_DATA.contains(entity.getType()) && isRead) {
+                List<Entity> studentEntities = studentOwnershipArbiter.findOwner(Arrays.asList(entity), entity.getType(), true);
+                edorgs = edOrgOwnershipArbiter.determineHierarchicalEdorgs(studentEntities, EntityNames.STUDENT);
+                edorgs.retainAll(edOrgContextRights.keySet());
+
+                if (edorgs.isEmpty()) {
+                    warn("Attempted access to an entity with no matching edorg association.");
+                }
+            } else {
+                warn("Attempted access to an entity with no matching edorg association.");
+            }
+        }
+
+        for (String edorg : edorgs) {
+            switch (context) {
+                case DUAL_CONTEXT:
+                    authorities.addAll(edOrgContextRights.get(edorg).get(Right.STAFF_CONTEXT.name()));
+                    authorities.addAll(edOrgContextRights.get(edorg).get(Right.TEACHER_CONTEXT.name()));
+                break;
+                case STAFF_CONTEXT:
+                    authorities.addAll(edOrgContextRights.get(edorg).get(Right.STAFF_CONTEXT.name()));
+                break;
+                case TEACHER_CONTEXT:
+                    authorities.addAll(edOrgContextRights.get(edorg).get(Right.TEACHER_CONTEXT.name()));
+                break;
+                // Return empty set for no context.
+            }
+        }
 
         return authorities;
     }
