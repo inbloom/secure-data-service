@@ -602,6 +602,7 @@ When /^I POST a "(.*?)" of type "(.*?)"$/ do |entity_name, entity_type|
   body = get_post_body_by_entity_name(entity_name)
   # Get the endpoint that corresponds to the desired entity
   endpoint = get_entity_endpoint(entity_type)
+  puts prepareData(@format, body).to_s
   restHttpPost("/#{@api_version}/#{endpoint}", prepareData(@format, body))
   assert(@res != nil, "Response from rest-client POST is nil")
 end
@@ -616,14 +617,9 @@ When /^I PUT and validate the following entities:$/ do |table|
 end
 
 When /^I PUT the "(.*?)" for a "(.*?)" entity to "(.*?)" at "(.*?)"$/ do |field, entity_name, value, endpoint|
-  # Get the desired entity from mongo
-  response_body = get_response_body(endpoint)
-  assert(response_body != nil, "No response from GET request for entity #{entity_name}")
-  # If we get a list, just take the first entry. No muss, no fuss.
-  response_body = response_body[0] if response_body.is_a?(Array)
-  # Modify the response body field with value, will become PUT body
+  response_body = get_post_body_by_entity_name(entity_name)
   put_body = update_api_put_field(response_body, field, value)
-  # Get the endpoint that corresponds to the desired entity
+  puts prepareData(@format, put_body).to_s
   restHttpPut("/#{@api_version}/#{endpoint}", prepareData(@format, put_body))
   assert(@res != nil, "Response from rest-client PUT is nil")
 end
