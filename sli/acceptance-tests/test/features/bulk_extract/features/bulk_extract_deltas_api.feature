@@ -902,7 +902,7 @@ Scenario: As SEA Admin, delete an existing school with API call, verify delta
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "STANDARD-SEA" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/json"
- When I DELETE an "educationOrganization" of id "54b4b51377cd941675958e6e81dce69df801bfe8_id"
+ When I DELETE an "educationOrganization" of id "17eaa66c1fc53cc1ec7d4aa25459d3924525832f_id"
  Then I should receive a return code of 204
  When I trigger a delta extract
   And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
