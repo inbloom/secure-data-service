@@ -123,6 +123,7 @@ public class SecurityContextInjector {
         SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity, ED_ORG_ID, new HashMap<String, Collection<GrantedAuthority>>());
         principal.setExternalId("developer");
         principal.setRoles(roles);
+        principal.setAdminRealmAuthenticated(true);
         setSecurityContext(principal, true);
 
         Right[] rights = new Right[] { Right.ADMIN_ACCESS, Right.DEV_APP_CRUD, Right.READ_PUBLIC };
@@ -166,6 +167,7 @@ public class SecurityContextInjector {
         Mockito.when(entity.getEntityId()).thenReturn(user);
         SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity, ED_ORG_ID, new HashMap<String, Collection<GrantedAuthority>>());
         principal.setExternalId("lea_admin");
+        principal.setAdminRealmAuthenticated(true);
         setSecurityContext(principal, true);
 
         Right[] rights = new Right[] { Right.ADMIN_ACCESS, Right.EDORG_DELEGATE };
@@ -187,6 +189,7 @@ public class SecurityContextInjector {
         Mockito.when(entity.getEntityId()).thenReturn(user);
         SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity, ED_ORG_ID, new HashMap<String, Collection<GrantedAuthority>>());
         principal.setRoles(roles);
+        principal.setAdminRealmAuthenticated(true);
         setSecurityContext(principal, true);
 
         Right[] rights = new Right[] { Right.ADMIN_ACCESS, Right.SLC_APP_APPROVE };
@@ -209,6 +212,7 @@ public class SecurityContextInjector {
         SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity, "fake-ed-org", new HashMap<String, Collection<GrantedAuthority>>());
         principal.setRoles(roles);
         principal.setTenantId(TENANT_ID);
+        principal.setAdminRealmAuthenticated(true);
         setSecurityContext(principal, false);
 
         Right[] rights = new Right[] {  Right.ADMIN_ACCESS, Right.READ_GENERAL, Right.CRUD_REALM, Right.READ_PUBLIC, Right.CRUD_ROLE };
