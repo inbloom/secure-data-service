@@ -25,7 +25,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Matcher;
@@ -519,9 +518,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         Map<String, Collection<GrantedAuthority>> contextRights = new HashMap<String, Collection<GrantedAuthority>>();
         contextRights.put(Right.STAFF_CONTEXT.name(), new HashSet<GrantedAuthority>());
         contextRights.put(Right.TEACHER_CONTEXT.name(), new HashSet<GrantedAuthority>());
-        ListIterator<String> listIterator = edOrgs.listIterator(edOrgs.size());
-        while (listIterator.hasPrevious()) {  // For each edOrg....
-            String edOrg = listIterator.previous();  // EdOrgs will be in hierarchical order, top-bottom.
+        for (String edOrg : edOrgs) {  // For each edOrg....
             for (String role : principal.getEdOrgRoles().get(edOrg)) {  // For each edOrg role....
                 Collection<GrantedAuthority> roleAuthorities = new HashSet<GrantedAuthority>();
                 roleAuthorities.addAll(resolver.resolveRolesUnion(principal.getTenantId(), principal.getRealm(),
