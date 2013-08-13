@@ -104,6 +104,9 @@ public class OauthMongoSessionManagerTest {
     private final GrantedAuthority AGGREGATE_WRITE = new GrantedAuthorityImpl(Right.AGGREGATE_WRITE.name());
     private final GrantedAuthority STAFF_CONTEXT = new GrantedAuthorityImpl(Right.STAFF_CONTEXT.name());
     private final GrantedAuthority TEACHER_CONTEXT = new GrantedAuthorityImpl(Right.TEACHER_CONTEXT.name());
+    private final GrantedAuthority ANONYMOUS_ACCESS = new GrantedAuthorityImpl(Right.ANONYMOUS_ACCESS.name());
+    private final GrantedAuthority CRUD_REALM = new GrantedAuthorityImpl(Right.CRUD_REALM.name());
+    private final GrantedAuthority ADMIN_ACCESS = new GrantedAuthorityImpl(Right.ADMIN_ACCESS.name());
     private final static String APP_CODE_VALUE = "c-82d4cca1-3654-47bb-8fb3-0d081f2e7b69";
     private final static String CLIENT_ID = "ke9Dgpo3uI";
     private final static String CLIENT_SECRETE = "uOoKXLWihlz39EEQ7Uoqqc7TeogsnQnDAUs3HWYFouZFG5sk";
@@ -307,22 +310,52 @@ public class OauthMongoSessionManagerTest {
         Assert.assertTrue(edOrgRights.isEmpty());
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void testGenerateEdOrgContextRightsCache() throws SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException,
                                                              InvocationTargetException, NoSuchFieldException {
+/*
+          Set up edOrg hierarchy and user's roles/rights as follows:
+
+                                                                    LEA0 -> "Aggregate Viewer": {STAFF_CONTEXT, AGGREGATE_READ}
+                                                                   /    \
+  "IT Administrator" : {TEACHER_CONTEXT, AGGREGATE_WRITE}   <- LEA1      School2 -> "Reading Aide" : {TEACHER_CONTEXT, READ_PUBLIC, WRITE_PUBLIC}
+  "Bad Role" : {ANONYMOUS_ACCESS, CRUD_REALM, ADMIN_ACCESS}   /                     "Educator" : {TEACHER_CONTEXT, WRITE_GENERAL}
+                                                             /
+                                                         LEA2
+                                                        /
+                                                 School1 -> "Counselor" : {TEACHER_CONTEXT, READ_RESTRICTED, WRITE_RESTRICTED}
+                                                            "Math Teacher" : {STAFF_CONTEXT, READ_GENERAL}
+
+
+          Then the users's EdOrg-Context-Rights cache should look like this:
+
+          LEA0 -> Staff Context   : {STAFF_CONTEXT, AGGREGATE_READ}
+               -> Teacher Context : {}
+          LEA1 -> Staff Context   : {STAFF_CONTEXT, AGGREGATE_READ}
+               -> Teacher Context : {TEACHER_CONTEXT, AGGREGATE_WRITE}
+          School1 -> Staff Context   : {STAFF_CONTEXT, AGGREGATE_READ, READ_GENERAL}
+                  -> Teacher Context : {TEACHER_CONTEXT, AGGREGATE_WRITE, READ_RESTRICTED, WRITE_RESTRICTED}
+          School2 -> Staff Context   : {STAFF_CONTEXT, AGGREGATE_READ}
+                  -> Teacher Context : {TEACHER_CONTEXT, READ_PUBLIC, WRITE_PUBLIC, WRITE_GENERAL}
+*/
+
         SLIPrincipal principal = new SLIPrincipal();
         Map<String, List<String>> edOrgRoles = new HashMap<String, List<String>>();
+        List<String> edOrgRole00 = new LinkedList<String>(Arrays.asList("Bad Role"));
+        List<String> edOrgRole0 = new LinkedList<String>(Arrays.asList("Aggregate Viewer"));
         List<String> edOrgRole1 = new LinkedList<String>(Arrays.asList("IT Administrator"));
         List<String> edOrgRole2 = new LinkedList<String>(Arrays.asList("Counselor"));
         List<String> edOrgRole3 = new LinkedList<String>(Arrays.asList("Reading Aide"));
         List<String> edOrgRole4 = new LinkedList<String>(Arrays.asList("Math Teacher"));
-        List<String> edOrgRole5 = new LinkedList<String>(Arrays.asList("Aggregate Viewer"));
+        List<String> edOrgRole5 = new LinkedList<String>(Arrays.asList("Educator"));
+        List<String> edOrgRoles0 = new LinkedList<String>(edOrgRole0);
         List<String> edOrgRoles1 = new LinkedList<String>(edOrgRole1);
+        edOrgRoles1.addAll(edOrgRole00);
         List<String> edOrgRoles2 = new LinkedList<String>(edOrgRole2);
         edOrgRoles2.addAll(edOrgRole4);
         List<String> edOrgRoles3 = new LinkedList<String>(edOrgRole3);
         edOrgRoles3.addAll(edOrgRole5);
+        edOrgRoles.put("LEA0", edOrgRoles0);
         edOrgRoles.put("LEA1", edOrgRoles1);
         edOrgRoles.put("School1", edOrgRoles2);
         edOrgRoles.put("School2", edOrgRoles3);
@@ -331,12 +364,15 @@ public class OauthMongoSessionManagerTest {
         principal.setRealm(REALM_ID);
         principal.setAdminRealmAuthenticated(false);
 
-        Set<GrantedAuthority> authorities1 = new HashSet<GrantedAuthority>(Arrays.asList(STAFF_CONTEXT));
-        Set<GrantedAuthority> authorities2 = new HashSet<GrantedAuthority>(Arrays.asList(READ_RESTRICTED, WRITE_RESTRICTED));
-        Set<GrantedAuthority> authorities3 = new HashSet<GrantedAuthority>(Arrays.asList(TEACHER_CONTEXT, READ_PUBLIC,
-                AGGREGATE_READ, WRITE_PUBLIC, AGGREGATE_WRITE));
-        Set<GrantedAuthority> authorities4 = new HashSet<GrantedAuthority>(Arrays.asList(READ_GENERAL));
-        Set<GrantedAuthority> authorities5 = new HashSet<GrantedAuthority>(Arrays.asList(WRITE_GENERAL));
+        Set<GrantedAuthority> authorities00 = new HashSet<GrantedAuthority>(Arrays.asList(ANONYMOUS_ACCESS, CRUD_REALM, ADMIN_ACCESS));
+        Set<GrantedAuthority> authorities0 = new HashSet<GrantedAuthority>(Arrays.asList(STAFF_CONTEXT, AGGREGATE_READ));
+        Set<GrantedAuthority> authorities1 = new HashSet<GrantedAuthority>(Arrays.asList(TEACHER_CONTEXT, AGGREGATE_WRITE));
+        Set<GrantedAuthority> authorities2 = new HashSet<GrantedAuthority>(Arrays.asList(TEACHER_CONTEXT, READ_RESTRICTED, WRITE_RESTRICTED));
+        Set<GrantedAuthority> authorities3 = new HashSet<GrantedAuthority>(Arrays.asList(TEACHER_CONTEXT, READ_PUBLIC, WRITE_PUBLIC));
+        Set<GrantedAuthority> authorities4 = new HashSet<GrantedAuthority>(Arrays.asList(STAFF_CONTEXT, READ_GENERAL));
+        Set<GrantedAuthority> authorities5 = new HashSet<GrantedAuthority>(Arrays.asList(TEACHER_CONTEXT, WRITE_GENERAL));
+        Mockito.when(resolver.resolveRolesUnion(matches(TENANT_ID), matches(REALM_ID), eq(edOrgRole00), eq(false), eq(false))).thenReturn(authorities00);
+        Mockito.when(resolver.resolveRolesUnion(matches(TENANT_ID), matches(REALM_ID), eq(edOrgRole0), eq(false), eq(false))).thenReturn(authorities0);
         Mockito.when(resolver.resolveRolesUnion(matches(TENANT_ID), matches(REALM_ID), eq(edOrgRole1), eq(false), eq(false))).thenReturn(authorities1);
         Mockito.when(resolver.resolveRolesUnion(matches(TENANT_ID), matches(REALM_ID), eq(edOrgRole2), eq(false), eq(false))).thenReturn(authorities2);
         Mockito.when(resolver.resolveRolesUnion(matches(TENANT_ID), matches(REALM_ID), eq(edOrgRole3), eq(false), eq(false))).thenReturn(authorities3);
@@ -346,41 +382,47 @@ public class OauthMongoSessionManagerTest {
         field1.setAccessible(true);
         field1.set(sessionManager, resolver);
 
+        Entity lea0 = new MongoEntity("educationOrganization", "LEA0", new HashMap<String, Object>(), new HashMap<String, Object>());
+        Entity lea1 = new MongoEntity("educationOrganization", "LEA1", new HashMap<String, Object>(), new HashMap<String, Object>());
+        Entity lea2 = new MongoEntity("educationOrganization", "LEA2", new HashMap<String, Object>(), new HashMap<String, Object>());
         Entity school1 = new MongoEntity("educationOrganization", "School1", new HashMap<String, Object>(), new HashMap<String, Object>());
         Entity school2 = new MongoEntity("educationOrganization", "School2", new HashMap<String, Object>(), new HashMap<String, Object>());
-        Entity lea1 = new MongoEntity("educationOrganization", "LEA1", new HashMap<String, Object>(), new HashMap<String, Object>());
+        Mockito.when(repo.findById(Mockito.matches(EDORG_COLLECTION), Mockito.matches("LEA0"))).thenReturn(lea0);
+        Mockito.when(repo.findById(Mockito.matches(EDORG_COLLECTION), Mockito.matches("LEA1"))).thenReturn(lea1);
+        Mockito.when(repo.findById(Mockito.matches(EDORG_COLLECTION), Mockito.matches("LEA2"))).thenReturn(lea2);
         Mockito.when(repo.findById(Mockito.matches(EDORG_COLLECTION), Mockito.matches("School1"))).thenReturn(school1);
         Mockito.when(repo.findById(Mockito.matches(EDORG_COLLECTION), Mockito.matches("School2"))).thenReturn(school2);
-        Mockito.when(repo.findById(Mockito.matches(EDORG_COLLECTION), Mockito.matches("LEA1"))).thenReturn(lea1);
 
-        Mockito.when(helper.getParentEdOrgs(school1)).thenReturn(Arrays.asList("LEA1"));
-        Mockito.when(helper.getParentEdOrgs(school2)).thenReturn(Arrays.asList("LEA1"));
-        Mockito.when(helper.getParentEdOrgs(lea1)).thenReturn(new ArrayList<String>());
+        Mockito.when(helper.getParentEdOrgs(lea0)).thenReturn(new ArrayList<String>());
+        Mockito.when(helper.getParentEdOrgs(lea1)).thenReturn(Arrays.asList("LEA0"));
+        Mockito.when(helper.getParentEdOrgs(school1)).thenReturn(Arrays.asList("LEA2", "LEA1", "LEA0"));
+        Mockito.when(helper.getParentEdOrgs(school2)).thenReturn(Arrays.asList("LEA0"));
         Field field2 = OauthMongoSessionManager.class.getDeclaredField("helper");
         field2.setAccessible(true);
         field2.set(sessionManager, helper);
 
-        Set<GrantedAuthority> authorities11 = new HashSet<GrantedAuthority>(authorities1);
-        authorities11.addAll(authorities2);
-        authorities11.addAll(authorities4);
-        Set<GrantedAuthority> authorities12 = new HashSet<GrantedAuthority>(authorities1);
-        authorities12.addAll(authorities3);
-        authorities12.addAll(authorities5);
+        Set<GrantedAuthority> authorities01S = new HashSet<GrantedAuthority>(authorities0);
+        authorities01S.addAll(authorities4);
+        Set<GrantedAuthority> authorities11T = new HashSet<GrantedAuthority>(authorities1);
+        authorities11T.addAll(authorities2);
+        Set<GrantedAuthority> authorities12T = new HashSet<GrantedAuthority>(authorities3);
+        authorities12T.addAll(authorities5);
 
         Method method = OauthMongoSessionManager.class.getDeclaredMethod("generateEdOrgContextRightsCache", SLIPrincipal.class);
         method.setAccessible(true);
         EdOrgContextRightsCache edOrgContextRights = (EdOrgContextRightsCache) method.invoke(sessionManager, principal);
 
-        Assert.assertEquals(3, edOrgContextRights.size());
-        Assert.assertTrue(edOrgContextRights.get("School1").get(Right.STAFF_CONTEXT.name()).equals(authorities11));
-        Assert.assertTrue(edOrgContextRights.get("School1").get(Right.TEACHER_CONTEXT.name()).isEmpty());
-        Assert.assertTrue(edOrgContextRights.get("School2").get(Right.STAFF_CONTEXT.name()).equals(authorities12));
-        Assert.assertTrue(edOrgContextRights.get("School2").get(Right.TEACHER_CONTEXT.name()).equals(authorities12));
-        Assert.assertTrue(edOrgContextRights.get("LEA1").get(Right.STAFF_CONTEXT.name()).equals(authorities1));
-        Assert.assertTrue(edOrgContextRights.get("LEA1").get(Right.TEACHER_CONTEXT.name()).isEmpty());
+        Assert.assertEquals(4, edOrgContextRights.size());
+        Assert.assertTrue(edOrgContextRights.get("LEA0").get(Right.STAFF_CONTEXT.name()).equals(authorities0));
+        Assert.assertTrue(edOrgContextRights.get("LEA0").get(Right.TEACHER_CONTEXT.name()).isEmpty());
+        Assert.assertTrue(edOrgContextRights.get("LEA1").get(Right.STAFF_CONTEXT.name()).equals(authorities0));
+        Assert.assertTrue(edOrgContextRights.get("LEA1").get(Right.TEACHER_CONTEXT.name()).equals(authorities1));
+        Assert.assertTrue(edOrgContextRights.get("School1").get(Right.STAFF_CONTEXT.name()).equals(authorities01S));
+        Assert.assertTrue(edOrgContextRights.get("School1").get(Right.TEACHER_CONTEXT.name()).equals(authorities11T));
+        Assert.assertTrue(edOrgContextRights.get("School2").get(Right.STAFF_CONTEXT.name()).equals(authorities0));
+        Assert.assertTrue(edOrgContextRights.get("School2").get(Right.TEACHER_CONTEXT.name()).equals(authorities12T));
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void testGenerateEdOrgContextRightsCacheWithEmptyRoles() throws SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException,
                                                                            InvocationTargetException, NoSuchFieldException {
@@ -400,7 +442,6 @@ public class OauthMongoSessionManagerTest {
         Assert.assertTrue(edOrgContextRights.isEmpty());
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void testGenerateEdOrgContextRightsCacheWithNullRoles() throws SecurityException, NoSuchMethodException, IllegalArgumentException, IllegalAccessException,
                                                                           InvocationTargetException, NoSuchFieldException {

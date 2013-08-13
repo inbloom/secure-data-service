@@ -63,6 +63,8 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | studentCompetencies                     |
     | studentGradebookEntries                 |
     | parents                                 |
+    | staff                                   |
+    | teachers                                |
 
   Scenario: Ensure GET can be performed on self entities with the proper rights
     And I log in as "msmith"
@@ -134,6 +136,8 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | studentCompetencies                     |
     | studentGradebookEntries                 |
     | parents                                 |
+    | staff                                   |
+    | teachers                                |
 
   Scenario Outline: Ensure POST can be performed on all public entities with READ_PUBLIC and WRITE_PUBLIC rights
     Given I change the custom role of "Leader" to add the "READ_PUBLIC" right
@@ -196,6 +200,8 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | section.teacherSectionAssociation            | teacherSectionAssociation             | teacherSectionAssociations              |
     | studentCompetency                            | studentCompetency                     | studentCompetencies                     |
     | parent                                       | parent                                | parents                                 |
+#    | staff                                        | staff                                 | staff                                  |
+#    | teacher                                      | teacher                               | teachers                                 |
 
   Scenario Outline: Ensure POST can NOT be performed on any public entities with READ_PUBLIC and WRITE_PUBLIC rights
     Given I change the custom role of "Leader" to remove the "READ_PUBLIC" right
@@ -254,6 +260,8 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | teacherSectionAssociation             | teacherSectionAssociations              |
     | studentCompetency                     | studentCompetencies                     |
     | parent                                | parents                                 |
+    | staff                                 | staff                                   |
+    | teacher                               | teachers                                |
 
 # Double segment (/<ENTITY>/{id}) URI tests.
 
@@ -341,6 +349,8 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | staffCohortAssociation   | staffCohortAssociation               | staffCohortAssociations               |
     | staffProgramAssociation  | staffProgramAssociation              | staffProgramAssociations              |
     | section                  | teacherSectionAssociation            | teacherSectionAssociations            |
+#    | staff                    | staff                                | staff                                 |
+#    | staff                    | teacher                              | teachers                              |
 
   Scenario: GETs on /parents/{id}
     Given I change the custom role of "Aggregate Viewer" to add the "READ_GENERAL" right
@@ -431,6 +441,8 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | calendarDate                          | calendarDates                           | calendarEvent            | Make-up day                             | Student late arrival/early dismissal    |
     | studentCompetency                     | studentCompetencies                     | diagnosticStatement      | Needs improvement                       | Very unsatisfactory                     |
     | parent                                | parents                                 | loginId                  | new-login                               | even-newer-login                        |
+#    | staff                                 | staff                                   | loginId                  | newer-staff-login                       | even-newer-staff-login                  |
+#    | teacher                               | teacher                                 | loginId                  | newer-teacher-login                     | even-newer-teacher-login                |
 
 # Multi segment (/<ENTITY>/{id}/...) URI tests.
 

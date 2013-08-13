@@ -700,6 +700,9 @@ Given /^I get (\d+) random ids of "([^"]*)" in "([^"]*)" associated with the sta
     when 'teacherSectionAssociation'
       subdoc = true
       staff_ref = 'body.teacherId'
+    when 'staff', 'teacher'
+      subdoc = false
+      staff_ref = '_id'
   end
 
   disable_NOTABLESCAN()
@@ -727,6 +730,9 @@ Given /^I get (\d+) random ids of "([^"]*)" in "([^"]*)" associated with the sta
       end
     end
   end
+if (type == 'teacher')
+puts "***** Entity IDs = " + entity_ids.to_s
+end
   assert(entity_ids.size > 0, "No #{type} found that is associated with the staff of #{staff}")
   (entity_ids.to_a.shuffle.take(number.to_i)).each { |entry| (@entity_ids ||= []) << entry }
   conn.close
