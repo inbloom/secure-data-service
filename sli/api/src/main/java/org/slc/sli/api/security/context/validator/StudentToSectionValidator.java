@@ -60,6 +60,7 @@ public class StudentToSectionValidator extends BasicValidator {
             }
         }
 
+        sections.retainAll(ids);
         return sections;
     }
 

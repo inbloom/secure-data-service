@@ -51,19 +51,19 @@ public class TeacherToStudentProgramAssociationValidator extends AbstractContext
                 new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids));
         query.setIncludeFields(Arrays.asList(ParameterConstants.PROGRAM_ID));
         
-        Map<String, Set<String>> programIdsToSCA = new HashMap<String, Set<String>>();
+        Map<String, Set<String>> programIdsToSPA = new HashMap<String, Set<String>>();
         
-        Iterable<Entity> scas = getRepo().findAll(EntityNames.STUDENT_PROGRAM_ASSOCIATION, query);
-        for (Entity sca : scas) {
-            String programId = (String) sca.getBody().get(ParameterConstants.PROGRAM_ID);
-            if (!programIdsToSCA.containsKey(programId)) {
-                programIdsToSCA.put(programId, new HashSet<String>());
+        Iterable<Entity> spas = getRepo().findAll(EntityNames.STUDENT_PROGRAM_ASSOCIATION, query);
+        for (Entity spa : spas) {
+            String programId = (String) spa.getBody().get(ParameterConstants.PROGRAM_ID);
+            if (!programIdsToSPA.containsKey(programId)) {
+                programIdsToSPA.put(programId, new HashSet<String>());
             }
-            programIdsToSCA.get(programId).add(sca.getEntityId());
+            programIdsToSPA.get(programId).add(spa.getEntityId());
         }
         
         String teacherId = SecurityUtil.getSLIPrincipal().getEntity().getEntityId();
-        NeutralQuery nq = new NeutralQuery(new NeutralCriteria(ParameterConstants.PROGRAM_ID, NeutralCriteria.CRITERIA_IN, programIdsToSCA.keySet()));
+        NeutralQuery nq = new NeutralQuery(new NeutralCriteria(ParameterConstants.PROGRAM_ID, NeutralCriteria.CRITERIA_IN, programIdsToSPA.keySet()));
         nq.addCriteria(new NeutralCriteria(ParameterConstants.STAFF_ID, NeutralCriteria.OPERATOR_EQUAL, teacherId));
         nq.addCriteria(new NeutralCriteria(ParameterConstants.STUDENT_RECORD_ACCESS,
                 NeutralCriteria.OPERATOR_EQUAL, true));
@@ -78,7 +78,7 @@ public class TeacherToStudentProgramAssociationValidator extends AbstractContext
             }
             
         }
-        return getValidIds(validProgramIds, programIdsToSCA);
+        return getValidIds(validProgramIds, programIdsToSPA);
     }
 
 }

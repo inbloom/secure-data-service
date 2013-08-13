@@ -57,7 +57,6 @@ public class GenericToParentValidator extends AbstractContextValidator {
         Iterable<Entity> assocs = repo.findAll(EntityNames.STUDENT_PARENT_ASSOCIATION, basicQuery);
 
         Map<String, Set<String>> parentToStudentMap = new HashMap<String, Set<String>>();
-        Set<String> studentIds = new HashSet<String>();
 
         for (Entity assoc : assocs) {
             String studentId = (String) assoc.getBody().get("studentId");
@@ -66,7 +65,6 @@ public class GenericToParentValidator extends AbstractContextValidator {
                 parentToStudentMap.put(parentId, new HashSet<String>());
             }
             parentToStudentMap.get(parentId).add(studentId);
-            studentIds.add(studentId);
         }
 
         //Make sure that for each parent we can see at least one of their students

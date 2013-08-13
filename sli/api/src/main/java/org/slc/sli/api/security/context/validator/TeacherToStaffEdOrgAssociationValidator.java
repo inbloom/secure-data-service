@@ -67,6 +67,7 @@ public class TeacherToStaffEdOrgAssociationValidator extends AbstractContextVali
             }
         }
 
+        validIds.retainAll(ids);
         return validIds;
     }
 

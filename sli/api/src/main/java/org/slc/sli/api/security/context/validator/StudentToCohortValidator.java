@@ -62,6 +62,7 @@ public class StudentToCohortValidator extends BasicValidator {
 
         }
 
+        myCohorts.retainAll(ids);
         return myCohorts;
     }
 

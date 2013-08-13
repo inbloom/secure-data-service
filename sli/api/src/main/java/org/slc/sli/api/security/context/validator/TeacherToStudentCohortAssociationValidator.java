@@ -51,13 +51,10 @@ public class TeacherToStudentCohortAssociationValidator extends AbstractContextV
                 new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids));
         query.setIncludeFields(Arrays.asList(ParameterConstants.COHORT_ID));
         
-        Set<String> cohortIds = new HashSet<String>();
-
         Map<String, Set<String>> cohortIdToSca = new HashMap<String, Set<String>>();
         Iterable<Entity> scas = getRepo().findAll(EntityNames.STUDENT_COHORT_ASSOCIATION, query);
         for (Entity sca : scas) {
             String cohortId = sca.getBody().get(ParameterConstants.COHORT_ID).toString();
-            cohortIds.add(cohortId );
             if(!cohortIdToSca.containsKey(cohortId)) {
                 cohortIdToSca.put(cohortId, new HashSet<String>());
             }
@@ -65,7 +62,7 @@ public class TeacherToStudentCohortAssociationValidator extends AbstractContextV
         }
         
         String teacherId = SecurityUtil.getSLIPrincipal().getEntity().getEntityId();
-        NeutralQuery nq = new NeutralQuery(new NeutralCriteria(ParameterConstants.COHORT_ID, NeutralCriteria.CRITERIA_IN, cohortIds));
+        NeutralQuery nq = new NeutralQuery(new NeutralCriteria(ParameterConstants.COHORT_ID, NeutralCriteria.CRITERIA_IN, cohortIdToSca.keySet()));
         nq.addCriteria(new NeutralCriteria(ParameterConstants.STAFF_ID, NeutralCriteria.OPERATOR_EQUAL, teacherId));
         nq.addCriteria(new NeutralCriteria(ParameterConstants.STUDENT_RECORD_ACCESS,
                 NeutralCriteria.OPERATOR_EQUAL, true));
@@ -80,7 +77,6 @@ public class TeacherToStudentCohortAssociationValidator extends AbstractContextV
             }
         }
 
-        validCohortIds.retainAll(cohortIds);
         return getValidIds(validCohortIds, cohortIdToSca);
     }
 
