@@ -415,9 +415,6 @@ task :appDenialInit do
   setFixture("application", "application_denial_fixture.json")
 end
 
-task :realmInitNoPeople => [:realmInit] do
-end
-
 desc "Manual Test of Bulk Extract"
 task :callBeet do
   prompt = !(ENV['BEET_URL'] && ENV['BEET_TOKEN'] && ENV['BEET_APP'] && ENV['BEET_OUTFILE'])
@@ -1064,7 +1061,7 @@ end
 # Integration Tests start
 ############################################################
 desc "Run Integration Acceptance Tests"
-task :integrationTests => [:realmInitNoPeople] do
+task :integrationTests => [:realmInit] do
   OTHER_TAGS = OTHER_TAGS+" --tags @integration"
   Rake::Task["loadDefaultIngestionTenants"].invoke
   Rake::Task["ingestionAcceptanceSdsTest"].execute

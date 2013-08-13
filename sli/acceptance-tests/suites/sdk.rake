@@ -7,12 +7,12 @@ task :JavaSDKSampleAppTest => [:realmInit, :importSandboxData] do
 end
 
 desc "Run JavaSDK CRUD acceptance tests"
-task :JavaSDKCRUDTest => [:realmInitNoPeople,:importSandboxData] do
+task :JavaSDKCRUDTest => [:realmInit,:importSandboxData] do
     runTests("test/features/apiV1/end_user_stories/sandbox/JavaSDK/CRUD/CRUD.feature")
 end
 
 desc "Run JavaSDK REST CRUD acceptance tests"
-task :JavaRESTCRUDTest => [:realmInitNoPeople,:importSandboxData] do
+task :JavaRESTCRUDTest => [:realmInit,:importSandboxData] do
     runTests("test/features/apiV1/end_user_stories/sandbox/JavaSDK/CRUD/RESTCRUD.feature")
 end
 ############################################################
