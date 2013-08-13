@@ -349,8 +349,8 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | staffCohortAssociation   | staffCohortAssociation               | staffCohortAssociations               |
     | staffProgramAssociation  | staffProgramAssociation              | staffProgramAssociations              |
     | section                  | teacherSectionAssociation            | teacherSectionAssociations            |
-#    | staff                    | staff                                | staff                                 |
-#    | staff                    | teacher                              | teachers                              |
+    | staff                    | staff                                | staff                                 |
+    | staff                    | teacher                              | teachers                              |
 
   Scenario: GETs on /parents/{id}
     Given I change the custom role of "Aggregate Viewer" to add the "READ_GENERAL" right

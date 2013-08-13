@@ -725,14 +725,11 @@ Given /^I get (\d+) random ids of "([^"]*)" in "([^"]*)" associated with the sta
         entities = coll.find({"#{type}.#{staff_ref}" => ref_seoa['body']['staffReference']},{:fields => ["#{type}.$"]}).to_a
         entities.each { |entity| entity_ids.add(entity[type][0]['_id'])}
       else
-        entities = coll.find({staff_ref => ref_seoa['body']['staffReference']},{:fields => %w(_id)}).to_a
+        entities = coll.find({staff_ref => ref_seoa['body']['staffReference'],'type' => type},{:fields => %w(_id)}).to_a
         entities.each { |entity| entity_ids.add(entity['_id'])}
       end
     end
   end
-if (type == 'teacher')
-puts "***** Entity IDs = " + entity_ids.to_s
-end
   assert(entity_ids.size > 0, "No #{type} found that is associated with the staff of #{staff}")
   (entity_ids.to_a.shuffle.take(number.to_i)).each { |entry| (@entity_ids ||= []) << entry }
   conn.close
