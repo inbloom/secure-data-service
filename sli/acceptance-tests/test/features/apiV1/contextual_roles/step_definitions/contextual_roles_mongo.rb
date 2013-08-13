@@ -821,11 +821,11 @@ Given /^I add subdoc "([^"]*)" for "([^"]*)" and "([^"]*)" in "([^"]*)" that's a
   db = conn[db_name]
   student_coll = db.collection('student')
   edorg_coll = db.collection('educationOrganization')
-  ref = db.collection(refEntity)
+
   student = student_coll.find_one({'body.studentUniqueStateId' => studentId})
   student_id = student['_id']
   edorg_id = edorg_coll.find_one({'body.stateOrganizationId' => edorg})['_id']
-  refId = createEntity(refEntity)
+  refId = createEntity(db_name, refEntity, edorg, student_id)
   entries = {
       'studentProgramAssociation' => {
           '_id' => student_id + refId,
@@ -858,13 +858,44 @@ Given /^I add subdoc "([^"]*)" for "([^"]*)" and "([^"]*)" in "([^"]*)" that's a
           }
       },
       'studentSectionAssociation' => {
-          '_id' => refId + refId,
+          '_id' => refId + student_id,
           'type' => 'studentSectionAssociation',
           'body' => {
               'sectionId' => refId,
               'studentId' => student_id,
               'endDate' => '2011-11-11',
               'beginDate' => '2010-11-11'
+          }
+      },
+      'gradebookEntry' => {
+          '_id' => refId +SecureRandom.uuid,
+          'type' => 'gradebookEntry',
+          'body' => {
+              'gradingPeriodId' => 'blabla',
+              'sectionId' => refId,
+              'dateAssigned' => '2011-11-30',
+              'description' => 'Gradebook Entry of type=> Homework, assigned on=> 2013-11-30',
+              'gradebookEntryType' => 'Homework',
+              'learningObjectives' => [
+              ]
+        }
+      },
+      'reportCard' => {
+          'type' => 'reportCard',
+          '_id' => refId + SecureRandom.uuid,
+          'body' => {
+              'schoolYear' => '2010-2011',
+              'gradingPeriodId' => '72a3b7ac34035f49a0138369f9fc12a350c7b812_id',
+              'gpaGivenGradingPeriod' => 2,
+              'studentId' => student_id,
+              'gpaCumulative' => 2,
+              'numberOfDaysInAttendance' => 117,
+              'numberOfDaysTardy' => 21,
+              'grades' => [
+              ],
+              'numberOfDaysAbsent' => 3,
+              'studentCompetencyId' => [
+              ]
           }
       }
   }
@@ -873,18 +904,20 @@ Given /^I add subdoc "([^"]*)" for "([^"]*)" and "([^"]*)" in "([^"]*)" that's a
       'studentDisciplineIncidentAssociation' => 'student',
       'studentSectionAssociation' => 'section',
       'studentCohortAssociation' => 'student',
+      'gradebookEntry' => 'section',
+      'reportCard' => 'yearlyTranscript'
   }
 
   queries = {
       'student' => {'body.studentUniqueStateId' => studentId},
       'section' => {'_id' => refId},
+      'yearlyTranscript' => {'_id' => refId}
   }
 
   @newId = entries[subdoc]['_id']
   superCollection = superCollections[subdoc]
   superDoc = db.collection(superCollection).find_one(queries[superCollection])
 
-  #puts superDoc[subdoc]
   puts @newId
   puts refId
   puts student_id
@@ -895,25 +928,45 @@ Given /^I add subdoc "([^"]*)" for "([^"]*)" and "([^"]*)" in "([^"]*)" that's a
   enable_NOTABLESCAN()
 end
 
-def createEntity(entity)
+def createEntity(db_name, entity, edorgId, student_id)
+  id = SecureRandom.uuid
   entities = {
       'section' => {
-          '_id' => '5edf1aea05c7a578ad6d482c5a2fde4e28179c08_id',
+          '_id' => id,
       'body' => {
         'educationalEnvironment' => 'Classroom',
-        'sessionId' => '3d884e0622f8d2e306cb738bb5cd991238e3acbf_id',
-        'courseOfferingId' => '1fd6f0f94fb3a1d98cabc035c76cf43b372a13ed_id',
+        'sessionId' => 'test',
+        'courseOfferingId' => 'test',
         'populationServed' => 'Regular Students',
         'sequenceOfCourse' => 1,
         'mediumOfInstruction' => 'Face-to-face instruction',
         'uniqueSectionCode' => '74',
-        'schoolId' => '2897f482a59f833370562b33e2f7478c3fb25aed_id',
+        'schoolId' => edorgId,
         'creditConversion' => 1,
         'creditType' => 'Other',
         'credit' => 4,
         'gradeBookEntry' => [],
         'studentSectionAssociation' => []
       }
+    },
+    'program' => {
+        '_id' => id,
+        'body' => {
+            'programId' => '14'
+        }
+    },
+    'yearlyTranscript' => {
+        '_id' => id,
+        'body' => {
+            'schoolYear' => '2010-2011',
+            'studentId' => student_id
+        },
+        'grade' => [ ],
+        'reportCard' => [ ],
+        'studentAcademicRecord' => [ ]
+
     }
   }
+  add_to_mongo(db_name, entity, entities[entity])
+  return id
 end
