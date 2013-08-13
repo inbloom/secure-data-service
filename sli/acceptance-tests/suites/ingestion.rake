@@ -163,6 +163,11 @@ task :ingestionSmallSampleDataSet do
   runTests("test/features/ingestion/features/ingestion_SmallSampleDataSet.feature")
 end
 
+desc "Run Small Sample Data Set Charter Test"
+task :ingestionSmallSampleDataSetCharter do
+  runTests("test/features/ingestion/features/ingestion_SmallSampleDataSet_Charter.feature")
+end
+
 desc "Run Ingestion HealthCheck Test"
 task :ingestionHealthCheckTest do
   runTests("test/features/ingestion/features/ingestion_healthCheck.feature")

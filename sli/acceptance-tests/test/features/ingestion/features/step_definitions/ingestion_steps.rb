@@ -487,6 +487,7 @@ end
 
 def getCorrectCountForDataset(dataSet)
   case dataSet
+    when "SmallSampleDataSet-Charter.zip" then 10137
     when "SmallSampleDataSet.zip" then 10137
     when "MediumSampleDataSet.zip" then 45416
   end
