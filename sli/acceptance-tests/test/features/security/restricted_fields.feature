@@ -62,6 +62,8 @@ Feature: As an SLI application I want to restrict user's access to restricted da
     And I make an API call to update the student "<'MARVIN MILLER'>"
     Then I should receive a return code of 403
 
+  #The following scenario should be wipped until DE2943 is resolved
+  @wip
   Scenario: Charles Gray querying on the restricted fields
     Given I am logged in using "cgray" "cgray1234" to realm "IL"
     When I make an API call to get "teachers" "<'SHELIA TWEED'>"
@@ -83,6 +85,7 @@ Feature: As an SLI application I want to restrict user's access to restricted da
     And I should see that "highlyQualifiedTeacher" is nil in the JSON response
     And I should see that "teacherUniqueStateId" is nil in the JSON response
 
+  #The following scenario seems incorrect.. The return code should be 200 for all these cases.. DE2942
   Scenario: Charles Gray Admin querying on the restricted fields
     Given I am logged in using "cgrayadmin" "cgrayadmin1234" to realm "IL"
     When I make an API call to get "teachers" "<'SHELIA TWEED'>"

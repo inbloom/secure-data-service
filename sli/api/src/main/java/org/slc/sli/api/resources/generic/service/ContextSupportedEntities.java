@@ -54,10 +54,11 @@ public final class ContextSupportedEntities {
         supportedEntities.add(EntityNames.STAFF_PROGRAM_ASSOCIATION);
         supportedEntities.add(EntityNames.TEACHER_SECTION_ASSOCIATION);
         supportedEntities.add(EntityNames.GRADE);
-        supportedEntities.add(EntityNames.GRADEBOOK_ENTRY);
         supportedEntities.add(EntityNames.STUDENT_COMPETENCY);
         supportedEntities.add(EntityNames.STUDENT_GRADEBOOK_ENTRY);
         supportedEntities.add(EntityNames.PARENT);
+        supportedEntities.add(EntityNames.STAFF);
+        supportedEntities.add(EntityNames.TEACHER);
 
         supportedEntities.addAll(EntityNames.PUBLIC_ENTITIES);
     }
