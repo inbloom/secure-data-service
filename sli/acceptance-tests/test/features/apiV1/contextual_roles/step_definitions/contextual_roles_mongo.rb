@@ -761,7 +761,7 @@ Given /^I get (\d+) random ids for parents associated with the students of "([^"
   enable_NOTABLESCAN()
 end
 
-Given /^I add (student school association|attendance) for "([^"]*)" in "([^"]*)" that's already expired$/ do |collection, student, edorg|
+Given /^I add "([^"]*)" for "([^"]*)" in "([^"]*)" that's already expired$/ do |collection, student, edorg|
   disable_NOTABLESCAN()
   conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
   db_name = convertTenantIdToDbName(@tenant)
@@ -771,7 +771,7 @@ Given /^I add (student school association|attendance) for "([^"]*)" in "([^"]*)"
   student_id = student_coll.find_one({'body.studentUniqueStateId' => student})['_id']
   edorg_id = edorg_coll.find_one({'body.stateOrganizationId' => edorg})['_id']
   entries = {
-      'student school association' => {
+      'studentSchoolAssociations' => {
           '_id' => SecureRandom.uuid,
           'type' => 'studentSchoolAssociation',
           'body' => {
@@ -784,7 +784,7 @@ Given /^I add (student school association|attendance) for "([^"]*)" in "([^"]*)"
               'exitWithdrawType' => 'Withdrawn due to illness'
           }
       },
-      'attendance' => {
+      'attendances' => {
           '_id' => SecureRandom.uuid,
           'type' => 'attendance',
           'body' => {
@@ -804,11 +804,116 @@ Given /^I add (student school association|attendance) for "([^"]*)" in "([^"]*)"
                   }
               ]
           }
-      }
+      },
+
   }
   @newId = entries[collection]['_id']
   add_to_mongo(db_name,entries[collection]['type'],entries[collection])
 
   conn.close
   enable_NOTABLESCAN()
+end
+
+Given /^I add subdoc "([^"]*)" for "([^"]*)" and "([^"]*)" in "([^"]*)" that's already expired$/ do |subdoc, studentId, refEntity, edorg|
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  db_name = convertTenantIdToDbName(@tenant)
+  db = conn[db_name]
+  student_coll = db.collection('student')
+  edorg_coll = db.collection('educationOrganization')
+  ref = db.collection(refEntity)
+  student = student_coll.find_one({'body.studentUniqueStateId' => studentId})
+  student_id = student['_id']
+  edorg_id = edorg_coll.find_one({'body.stateOrganizationId' => edorg})['_id']
+  refId = createEntity(refEntity)
+  entries = {
+      'studentProgramAssociation' => {
+          '_id' => student_id + refId,
+          'type' => 'studentProgramAssociation',
+          'body' => {
+              'programId' => refId,
+              'studentId' => student_id,
+              'educationOrganizationId' => edorg_id,
+              'endDate' => '2010-11-11',
+              'beginDate'  => '2011-11-11'
+          }
+      },
+      'studentCohortAssociation' => {
+          '_id' => student_id + refId,
+          'type' => 'studentCohortAssociation',
+          'body' => {
+              'cohortId' => refId,
+              'studentId' => student_id,
+              'endDate' => '2011-11-11',
+              'beginDate' => '2010-11-11'
+          }
+      },
+      'studentDisciplineIncidentAssociation' => {
+          '_id' => student_id + refId,
+          'type' => 'studentDisciplineIncidentAssociation',
+          'body' => {
+              'disciplineIncidentId' => refId,
+              'studentParticipationCode' => 'Perpetrator',
+              'studentId' => student_id
+          }
+      },
+      'studentSectionAssociation' => {
+          '_id' => refId + refId,
+          'type' => 'studentSectionAssociation',
+          'body' => {
+              'sectionId' => refId,
+              'studentId' => student_id,
+              'endDate' => '2011-11-11',
+              'beginDate' => '2010-11-11'
+          }
+      }
+  }
+  superCollections = {
+      'studentProgramAssociation' => 'student',
+      'studentDisciplineIncidentAssociation' => 'student',
+      'studentSectionAssociation' => 'section',
+      'studentCohortAssociation' => 'student',
+  }
+
+  queries = {
+      'student' => {'body.studentUniqueStateId' => studentId},
+      'section' => {'_id' => refId},
+  }
+
+  @newId = entries[subdoc]['_id']
+  superCollection = superCollections[subdoc]
+  superDoc = db.collection(superCollection).find_one(queries[superCollection])
+
+  #puts superDoc[subdoc]
+  puts @newId
+  puts refId
+  puts student_id
+  (superDoc[subdoc] ||= []) << entries[subdoc]
+  update_mongo(db_name, superCollection , queries[superCollection], subdoc, false, superDoc[subdoc])
+
+  conn.close
+  enable_NOTABLESCAN()
+end
+
+def createEntity(entity)
+  entities = {
+      'section' => {
+          '_id' => '5edf1aea05c7a578ad6d482c5a2fde4e28179c08_id',
+      'body' => {
+        'educationalEnvironment' => 'Classroom',
+        'sessionId' => '3d884e0622f8d2e306cb738bb5cd991238e3acbf_id',
+        'courseOfferingId' => '1fd6f0f94fb3a1d98cabc035c76cf43b372a13ed_id',
+        'populationServed' => 'Regular Students',
+        'sequenceOfCourse' => 1,
+        'mediumOfInstruction' => 'Face-to-face instruction',
+        'uniqueSectionCode' => '74',
+        'schoolId' => '2897f482a59f833370562b33e2f7478c3fb25aed_id',
+        'creditConversion' => 1,
+        'creditType' => 'Other',
+        'credit' => 4,
+        'gradeBookEntry' => [],
+        'studentSectionAssociation' => []
+      }
+    }
+  }
 end
