@@ -207,10 +207,6 @@ Feature: Generic EdOrg Ingestion
        | value                                       |
        | 884daa27d806c2d725bc469b273d840493f84b4d_id |
     # metaData.edOrgs will not be calculated for "Other School". It is only calculated for "School"
-    #And there are only the following in the "metaData.edOrgs" of the "educationOrganization" collection for id "eef4f5ddc466beb3ad5136587731f9350fd398ec_id" on the "Midgar" tenant
-    #   | value                                       |
-    #   | eef4f5ddc466beb3ad5136587731f9350fd398ec_id |
-    #   | 884daa27d806c2d725bc469b273d840493f84b4d_id |
     #mixture of other and regular organization categories and duplicate parentEducationAgencyReference and both types of organization categories
     And there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "South Daybreak Elementary 8"
         | field                               | value                                       |
@@ -428,6 +424,8 @@ Feature: Generic EdOrg Ingestion
       | value                                       |
       | eef4f5ddc466beb3ad5136587731f9350fd398ec_id |
       | 884daa27d806c2d725bc469b273d840493f84b4d_id |
+
+    And I wait for user input
 
     #duplicate detection test
     And I should see following map of entry counts in the corresponding collections:
