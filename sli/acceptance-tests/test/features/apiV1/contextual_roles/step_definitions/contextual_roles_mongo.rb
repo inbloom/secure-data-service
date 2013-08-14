@@ -768,8 +768,14 @@ Given /^I add "([^"]*)" for "([^"]*)" in "([^"]*)" that's already expired$/ do |
   db = conn[db_name]
   student_coll = db.collection('student')
   edorg_coll = db.collection('educationOrganization')
+  di_coll = db.collection('disciplineIncident')
+  yt_coll = db.collection('yearlyTranscript')
+  course_coll = db.collection('course')
   student_id = student_coll.find_one({'body.studentUniqueStateId' => student})['_id']
   edorg_id = edorg_coll.find_one({'body.stateOrganizationId' => edorg})['_id']
+  di_id = di_coll.find_one({'body.schoolId' => edorg_id})['_id']
+  sar_id = yt_coll.find_one({'body.studentId' => student_id})['studentAcademicRecord'][0]['_id']
+  course_id = course_coll.find_one()['_id']
   entries = {
       'studentSchoolAssociations' => {
           '_id' => SecureRandom.uuid,
@@ -805,7 +811,37 @@ Given /^I add "([^"]*)" for "([^"]*)" in "([^"]*)" that's already expired$/ do |
               ]
           }
       },
-
+      'disciplineActions' => {
+          '_id' => SecureRandom.uuid,
+          'type' => 'disciplineAction',
+          'body' => {
+              'disciplineDate' => '2010-01-01',
+              'disciplines' => [[{
+                                     'codeValue' => 'Code 8'
+                                 }]],
+              'studentId' => [student_id],
+              'responsibilitySchoolId' => edorg_id,
+              'assignmentSchoolId' => edorg_id,
+              'disciplineActionIdentifier' => 'DA 12',
+              'disciplineIncidentId' => [di_id]
+          }
+      },
+      'courseTranscripts' => {
+          '_id' => SecureRandom.uuid,
+          'type' => 'courseTranscript',
+          'body' => {
+              'educationOrganizationReference' => [edorg_id],
+              'creditsEarned' => {
+                  'credit' => 3
+              },
+              'courseAttemptResult' => 'Withdrawn',
+              'studentAcademicRecordId' => sar_id,
+              'studentId' => student_id,
+              'gradeType' => 'Semester',
+              'finalLetterGradeEarned' => 'B-',
+              'courseId' => course_id
+          }
+      }
   }
   @newId = entries[collection]['_id']
   add_to_mongo(db_name,entries[collection]['type'],entries[collection])

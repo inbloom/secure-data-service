@@ -454,9 +454,6 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
   Scenario Outline: Can view  for non-subdoc historical data of a student from a different edorg, but can't write to it
     Given I add "<Entity>" for "lashawn.taite" in "Daybreak Bayside High" that's already expired
     When I log in as "<User>"
-    And I navigate to GET "<lashawn.taite URI>/<Entity>"
-    Then I should receive a return code of 200
-    And the response should have the newly created entity
 
     When I navigate to GET "/<Entity>/<NEWLY CREATED ENTITY ID>"
     Then I should receive a return code of 200
@@ -467,9 +464,11 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     Then I should receive a return code of 403
 
   Examples:
-    |  User      |           Entity              |    Field             |                 New Value                       |
-    |  tcuyper   |   studentSchoolAssociations   |   exitWithdrawType   |                   Exited                        |
-    |  tcuyper   |   attendances                 |    attendanceEvent   |    [{'event':'Tardy','date':'2011-12-13'}]      |
+    | User      | Entity                      | Field                   | New Value                               |
+    | tcuyper   | studentSchoolAssociations   | exitWithdrawType        | Exited                                  |
+    | tcuyper   | attendances                 | attendanceEvent         | [{'event':'Tardy','date':'2011-12-13'}] |
+    | tcuyper   | disciplineActions           | disciplineDate          | 2012-01-01                              |
+    | tcuyper   | courseTranscripts           | finalLetterGradeEarned  | F                                       |
 
 
   Scenario Outline: Can view  for subdoc historical data of a student from a different edorg, but can't write to it
