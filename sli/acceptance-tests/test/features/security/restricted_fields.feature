@@ -62,8 +62,6 @@ Feature: As an SLI application I want to restrict user's access to restricted da
     And I make an API call to update the student "<'MARVIN MILLER'>"
     Then I should receive a return code of 403
 
-  #The following scenario should be wipped until DE2943 is resolved
-  @wip
   Scenario: Charles Gray querying on the restricted fields
     Given I am logged in using "cgray" "cgray1234" to realm "IL"
     When I make an API call to get "teachers" "<'SHELIA TWEED'>"
