@@ -27,8 +27,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.slc.sli.api.security.context.APIAccessDeniedException;
-import org.slc.sli.api.resources.generic.service.ContextSupportedEntities;
-import org.slc.sli.api.service.query.ApiQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -481,6 +479,14 @@ public class BasicService implements EntityService, AccessibilityCheck {
         }
     }
 
+    private Iterable<EntityBody> noEntitiesFound(Boolean noDataInDB) {
+        if (noDataInDB) {
+            return new ArrayList<EntityBody>();
+        } else {
+            throw new APIAccessDeniedException("Access to resource denied.");
+        }
+    }
+
     @Override
     public Iterable<EntityBody> get(Iterable<String> ids) {
 
@@ -557,17 +563,21 @@ public class BasicService implements EntityService, AccessibilityCheck {
     @Override
     public Iterable<EntityBody> listBasedOnContextualRoles(NeutralQuery neutralQuery) {
         boolean isSelf = isSelf(neutralQuery);
+        boolean noDataInDB = true;
 
         injectSecurity(neutralQuery);
         Collection<Entity> entities = (Collection<Entity>) repo.findAll(collectionName, neutralQuery);
 
+        if(entities.size() > 0) {
+            noDataInDB = false;
+        }
         List<EntityBody> results = new ArrayList<EntityBody>();
 
         for (Entity entity : entities) {
             try {
             Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf, entity, true);
             rightAccessValidator.checkAccess(true, isSelf, entity, defn.getType(), auths);
-            rightAccessValidator.checkFieldAccess(neutralQuery, isSelf, entity, defn.getType(), auths);
+            rightAccessValidator.checkFieldAccess(neutralQuery, entity, defn.getType(), auths);
 
             results.add(entityRightsFilter.makeEntityBody(entity, treatments, defn, isSelf, auths));
             } catch (AccessDeniedException aex) {
@@ -580,10 +590,29 @@ public class BasicService implements EntityService, AccessibilityCheck {
         }
 
         if (results.isEmpty()) {
-            return noEntitiesFound(neutralQuery);
+            validateQuery(neutralQuery, isSelf);
+            return noEntitiesFound(noDataInDB);
         }
 
         return results;
+    }
+
+    private void validateQuery(NeutralQuery neutralQuery, boolean self) {
+        NeutralQuery newQuery = new NeutralQuery(neutralQuery);
+        boolean removableCriteriaExists = false;
+        for (NeutralCriteria cr : neutralQuery.getCriteria()) {
+            if(cr.isRemovable()) {
+                newQuery.removeCriteria(cr);
+                removableCriteriaExists = true;
+            }
+        }
+        if(removableCriteriaExists) {
+            Collection<Entity> noSearchEntities = (Collection<Entity>) repo.findAll(collectionName, newQuery);
+            for(Entity en : noSearchEntities) {
+                Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(self, en, true);
+                rightAccessValidator.checkFieldAccess(neutralQuery, en, defn.getType(), auths);
+            }
+        }
     }
 
     @Override
@@ -897,7 +926,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
         // loop for every EntityDefinition that references the deleted entity's type
         for (EntityDefinition referencingEntity : defn.getReferencingEntities()) {
             // loop for every reference field that COULD reference the deleted ID
-            boolean isContextualSupported = (ContextSupportedEntities.getSupportedEntities().contains(referencingEntity.getType())) && SecurityUtil.isStaffUser();
+            boolean isContextualSupported = SecurityUtil.isStaffUser();
 
             for (String referenceField : referencingEntity.getReferenceFieldNames(defn.getStoredCollectionName())) {
                 EntityService referencingEntityService = referencingEntity.getService();

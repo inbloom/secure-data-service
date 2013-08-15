@@ -328,12 +328,6 @@ public class SamlFederationResource {
             throw new APIAccessDeniedException("Invalid user. No roles specified for user.", realm);
         }
 
-        if(!(isAdminRealm || isDevRealm) &&
-                (principal.getUserType() == null || principal.getUserType().equals("") || principal.getUserType().equals(EntityNames.STAFF))) {
-            Map<String, List<String>> sliEdOrgRoleMap = edOrgRoleBuilder.buildValidStaffRoles(realm.getEntityId(), principal.getEntity().getEntityId(), tenant, roles);
-            principal.setEdOrgRoles(sliEdOrgRoleMap);
-        }
-
         principal.setRealm(realm.getEntityId());
         principal.setEdOrg(attributes.getFirst("edOrg"));
         principal.setAdminRealm(attributes.getFirst("edOrg"));
@@ -348,7 +342,6 @@ public class SamlFederationResource {
             throw new APIAccessDeniedException("User is not associated with realm.", realm);
         }
 
-        //F262: Update this to only store roles for non staff users
         Set<Role> sliRoleSet = resolver.mapRoles(tenant, realm.getEntityId(), roles, isAdminRealm);
         List<String> sliRoleList = new ArrayList<String>();
         boolean isAdminUser = true;
@@ -360,7 +353,13 @@ public class SamlFederationResource {
             }
         }
 
-        principal.setRoles(sliRoleList);
+        if(!(isAdminRealm || isDevRealm) &&
+                (principal.getUserType() == null || principal.getUserType().equals("") || principal.getUserType().equals(EntityNames.STAFF))) {
+            Map<String, List<String>> sliEdOrgRoleMap = edOrgRoleBuilder.buildValidStaffRoles(realm.getEntityId(), principal.getEntity().getEntityId(), tenant, roles);
+            principal.setEdOrgRoles(sliEdOrgRoleMap);
+        } else {
+            principal.setRoles(sliRoleList);
+        }
         principal.setAdminUser(isAdminUser);
         principal.setAdminRealmAuthenticated(isAdminRealm || isDevRealm);
 
