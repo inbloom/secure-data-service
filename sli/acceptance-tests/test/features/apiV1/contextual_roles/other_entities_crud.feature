@@ -200,10 +200,10 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | section.teacherSectionAssociation            | teacherSectionAssociation             | teacherSectionAssociations              |
     | studentCompetency                            | studentCompetency                     | studentCompetencies                     |
     | parent                                       | parent                                | parents                                 |
-#    | staff                                        | staff                                 | staff                                  |
-#    | teacher                                      | teacher                               | teachers                                 |
+    | staff                                        | staff                                 | staff                                  |
+    | staff                                        | teacher                               | teachers                               |
 
-  Scenario Outline: Ensure POST can NOT be performed on any public entities with READ_PUBLIC and WRITE_PUBLIC rights
+  Scenario Outline: Ensure POST can NOT be performed on any public entities without READ_PUBLIC and WRITE_PUBLIC rights
     Given I change the custom role of "Leader" to remove the "READ_PUBLIC" right
     Given I change the custom role of "Leader" to remove the "WRITE_PUBLIC" right
     Given I change the custom role of "Educator" to remove the "READ_PUBLIC" right
@@ -441,8 +441,8 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | calendarDate                          | calendarDates                           | calendarEvent            | Make-up day                             | Student late arrival/early dismissal    |
     | studentCompetency                     | studentCompetencies                     | diagnosticStatement      | Needs improvement                       | Very unsatisfactory                     |
     | parent                                | parents                                 | loginId                  | new-login                               | even-newer-login                        |
-#    | staff                                 | staff                                   | loginId                  | newer-staff-login                       | even-newer-staff-login                  |
-#    | teacher                               | teacher                                 | loginId                  | newer-teacher-login                     | even-newer-teacher-login                |
+    | staff                                 | staff                                   | loginId                  | newer-staff-login                       | even-newer-staff-login                  |
+    | teacher                               | teachers                                | loginId                  | newer-teacher-login                     | even-newer-teacher-login                |
 
 # Multi segment (/<ENTITY>/{id}/...) URI tests.
 

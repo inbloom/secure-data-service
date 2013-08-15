@@ -7,6 +7,15 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
     And format "application/vnd.slc+json"
 
+  @DE2943
+  Scenario: Search on fields with insufficient rights returns acess denied
+    Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
+    And format "application/vnd.slc+json"
+    When I navigate to GET "/v1/students/0c2756fd-6a30-4010-af79-488d6ef2735a_id?economicDisadvantaged=false"
+    Then I should receive a return code of 400
+    When I navigate to GET "/v1/students/0c2756fd-6a30-4010-af79-488d6ef2735a_id?economicDisadvantaged=true"
+    Then I should receive a return code of 400
+
   Scenario Outline: CRUD operations requiring explicit associations on an entity as staff
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
     And format "application/vnd.slc+json"
@@ -245,15 +254,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     When I navigate to POST "/v1/studentSectionAssociations"
     Then I should receive a return code of 400
 
-  @wip
-  @DE2943
-  Scenario: Search on fields with insufficient rights returns acess denied
-    Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
-    And format "application/vnd.slc+json"
-    When I navigate to GET "/v1/staffs/e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b?staffUniqueStateId=blabal"
-    Then I should receive a return code of 400
-    When I navigate to GET "/v1/staffs/e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b?staffUniqueStateId=cgray"
-    Then I should receive a return code of 400
+
 
 #all staff types (it admins, educators) should be able to see all public entities
 

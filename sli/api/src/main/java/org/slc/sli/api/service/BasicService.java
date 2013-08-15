@@ -479,6 +479,14 @@ public class BasicService implements EntityService, AccessibilityCheck {
         }
     }
 
+    private Iterable<EntityBody> noEntitiesFound(Boolean noDataInDB) {
+        if (noDataInDB) {
+            return new ArrayList<EntityBody>();
+        } else {
+            throw new APIAccessDeniedException("Access to resource denied.");
+        }
+    }
+
     @Override
     public Iterable<EntityBody> get(Iterable<String> ids) {
 
@@ -555,10 +563,14 @@ public class BasicService implements EntityService, AccessibilityCheck {
     @Override
     public Iterable<EntityBody> listBasedOnContextualRoles(NeutralQuery neutralQuery) {
         boolean isSelf = isSelf(neutralQuery);
+        boolean noDataInDB = true;
 
         injectSecurity(neutralQuery);
         Collection<Entity> entities = (Collection<Entity>) repo.findAll(collectionName, neutralQuery);
 
+        if(entities.size() > 0) {
+            noDataInDB = false;
+        }
         List<EntityBody> results = new ArrayList<EntityBody>();
 
         for (Entity entity : entities) {
@@ -578,10 +590,29 @@ public class BasicService implements EntityService, AccessibilityCheck {
         }
 
         if (results.isEmpty()) {
-            return noEntitiesFound(neutralQuery);
+            validateQuery(neutralQuery, isSelf);
+            return noEntitiesFound(noDataInDB);
         }
 
         return results;
+    }
+
+    private void validateQuery(NeutralQuery neutralQuery, boolean self) {
+        NeutralQuery newQuery = new NeutralQuery(neutralQuery);
+        boolean removableCriteriaExists = false;
+        for (NeutralCriteria cr : neutralQuery.getCriteria()) {
+            if(cr.isRemovable()) {
+                newQuery.removeCriteria(cr);
+                removableCriteriaExists = true;
+            }
+        }
+        if(removableCriteriaExists) {
+            Collection<Entity> noSearchEntities = (Collection<Entity>) repo.findAll(collectionName, newQuery);
+            for(Entity en : noSearchEntities) {
+                Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(self, en, true);
+                rightAccessValidator.checkFieldAccess(neutralQuery, en, defn.getType(), auths);
+            }
+        }
     }
 
     @Override
