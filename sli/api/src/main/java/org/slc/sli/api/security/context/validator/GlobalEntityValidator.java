@@ -19,6 +19,7 @@ package org.slc.sli.api.security.context.validator;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.stereotype.Component;
 
 /**
@@ -45,4 +46,8 @@ public class GlobalEntityValidator extends AbstractContextValidator {
         return result;
     }
 
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.DUAL_CONTEXT;
+    }
 }

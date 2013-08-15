@@ -17,6 +17,7 @@ package org.slc.sli.api.security.context.validator;
 
 import java.util.*;
 
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -77,5 +78,10 @@ public class GenericToParentValidator extends AbstractContextValidator {
             }
         }
         return validParentsIds;
+    }
+
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.DUAL_CONTEXT;
     }
 }

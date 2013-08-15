@@ -16,6 +16,8 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import org.slc.sli.api.util.SecurityUtil;
+
 import java.util.Set;
 
 /**
@@ -67,4 +69,11 @@ public interface IContextValidator {
      * @return Set of valid ids that the user has access to to
      */
     public abstract Set<String> getValid(String entityType, Set<String> ids);
+
+    /**
+     * Gets the context of the context validatior applies for.
+     *
+     * @return SecurityUtil.UserContext
+     */
+    public abstract SecurityUtil.UserContext getContext();
 }

@@ -93,5 +93,10 @@ public class TeacherToDisciplineIncidentValidator extends AbstractContextValidat
         return validIncidents;
     }
 
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.TEACHER_CONTEXT;
+    }
+
 
 }

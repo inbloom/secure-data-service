@@ -68,4 +68,8 @@ public class TeacherToSectionValidator extends AbstractContextValidator {
         return sectionIds;
     }
 
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.TEACHER_CONTEXT;
+    }
 }

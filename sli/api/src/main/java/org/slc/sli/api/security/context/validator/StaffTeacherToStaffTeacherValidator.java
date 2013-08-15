@@ -58,4 +58,9 @@ public class StaffTeacherToStaffTeacherValidator extends AbstractContextValidato
         return validated;
 
     }
+
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.DUAL_CONTEXT;
+    }
 }

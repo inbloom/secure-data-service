@@ -80,4 +80,8 @@ public class TeacherToStudentCohortAssociationValidator extends AbstractContextV
         return getValidIds(validCohortIds, cohortIdToSca);
     }
 
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.TEACHER_CONTEXT;
+    }
 }

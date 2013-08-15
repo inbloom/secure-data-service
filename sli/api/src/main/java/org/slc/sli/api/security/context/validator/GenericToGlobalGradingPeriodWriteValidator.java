@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.constants.EntityNames;
@@ -75,4 +76,8 @@ public class GenericToGlobalGradingPeriodWriteValidator extends AbstractContextV
         return validIds;
     }
 
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.DUAL_CONTEXT;
+    }
 }

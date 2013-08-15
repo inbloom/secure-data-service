@@ -20,6 +20,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Set;
 
+import com.sun.corba.se.impl.orb.ORBVersionImpl;
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.constants.EntityNames;
@@ -53,5 +55,10 @@ public class GenericToEdOrgValidator extends AbstractContextValidator {
         edOrgs.addAll(getEdorgDescendents(edOrgs));
         edOrgs.retainAll(ids);
         return edOrgs;
+    }
+
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.DUAL_CONTEXT;
     }
 }

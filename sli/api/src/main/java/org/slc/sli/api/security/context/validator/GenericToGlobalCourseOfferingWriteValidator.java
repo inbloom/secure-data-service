@@ -21,6 +21,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.elasticsearch.common.collect.Sets;
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.constants.EntityNames;
@@ -57,4 +58,8 @@ public class GenericToGlobalCourseOfferingWriteValidator extends AbstractContext
         return Sets.newHashSet(getRepo().findAllIds(entityType, query));
     }
 
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.DUAL_CONTEXT;
+    }
 }

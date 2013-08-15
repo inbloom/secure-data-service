@@ -82,4 +82,9 @@ public class StaffToCourseTranscriptValidator extends AbstractContextValidator {
         Set<String> validStudentAcademicRecords = validator.validate(EntityNames.STUDENT_ACADEMIC_RECORD, studentAcademicRecords.keySet());
         return getValidIds(validStudentAcademicRecords, studentAcademicRecords);
     }
+
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.STAFF_CONTEXT;
+    }
 }

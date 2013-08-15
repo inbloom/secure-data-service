@@ -63,4 +63,9 @@ public class TeacherToCohortValidator extends AbstractContextValidator {
         return validIds;
     }
 
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.TEACHER_CONTEXT;
+    }
+
 }

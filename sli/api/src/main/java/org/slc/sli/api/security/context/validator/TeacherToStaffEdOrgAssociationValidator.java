@@ -71,4 +71,9 @@ public class TeacherToStaffEdOrgAssociationValidator extends AbstractContextVali
         return validIds;
     }
 
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.TEACHER_CONTEXT;
+    }
+
 }

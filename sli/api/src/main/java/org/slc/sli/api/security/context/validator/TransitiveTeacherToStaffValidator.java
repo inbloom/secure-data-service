@@ -96,5 +96,9 @@ public class TransitiveTeacherToStaffValidator extends AbstractContextValidator 
             edorgList.add(edorgId);
         }
     }
-    
+
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.TEACHER_CONTEXT;
+    }
 }

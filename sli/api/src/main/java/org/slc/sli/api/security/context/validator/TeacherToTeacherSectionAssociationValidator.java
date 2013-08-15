@@ -56,4 +56,9 @@ public class TeacherToTeacherSectionAssociationValidator extends AbstractContext
         return Sets.newHashSet(tsaIds);
     }
 
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.TEACHER_CONTEXT;
+    }
+
 }

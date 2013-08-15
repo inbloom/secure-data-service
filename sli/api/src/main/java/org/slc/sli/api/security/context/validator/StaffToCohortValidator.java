@@ -19,6 +19,7 @@ package org.slc.sli.api.security.context.validator;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.ldap.User;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -77,5 +78,10 @@ public class StaffToCohortValidator extends AbstractContextValidator {
         myCohortIds.retainAll(ids);
 
         return myCohortIds;
+    }
+
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.STAFF_CONTEXT;
     }
 }

@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -122,5 +123,10 @@ public class StaffToDisciplineIncidentValidator extends AbstractContextValidator
      */
     public void setSchoolValidator(GenericToEdOrgValidator schoolValidator) {
         this.schoolValidator = schoolValidator;
+    }
+
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.STAFF_CONTEXT;
     }
 }

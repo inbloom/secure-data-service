@@ -18,6 +18,7 @@ package org.slc.sli.api.security.context.validator;
 
 import java.util.*;
 
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -64,5 +65,9 @@ public class TeacherToStudentCompetencyValidator extends AbstractContextValidato
         return getValidIds(validSectionIds, secAssocIds);
     }
 
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.TEACHER_CONTEXT;
+    }
 
 }

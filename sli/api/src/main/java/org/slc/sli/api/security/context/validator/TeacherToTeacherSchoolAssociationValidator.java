@@ -68,4 +68,9 @@ public class TeacherToTeacherSchoolAssociationValidator extends AbstractContextV
         return fin;
     }
 
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.TEACHER_CONTEXT;
+    }
+
 }

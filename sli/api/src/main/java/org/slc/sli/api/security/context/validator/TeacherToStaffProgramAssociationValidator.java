@@ -60,4 +60,9 @@ public class TeacherToStaffProgramAssociationValidator extends AbstractContextVa
         return Sets.newHashSet(validIds);
     }
 
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.TEACHER_CONTEXT;
+    }
+
 }

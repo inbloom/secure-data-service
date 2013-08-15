@@ -83,4 +83,9 @@ public class TransitiveTeacherToStaffEdOrgAssociationValidator extends AbstractC
         return getValidIds(teachersEdOrgs, requiredEdOrgsToSEOAs);
     }
 
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.TEACHER_CONTEXT;
+    }
+
 }

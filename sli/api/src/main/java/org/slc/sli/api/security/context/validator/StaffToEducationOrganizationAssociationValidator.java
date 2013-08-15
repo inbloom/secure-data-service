@@ -64,4 +64,9 @@ public class StaffToEducationOrganizationAssociationValidator extends AbstractCo
 
         return foundIds;
     }
+
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.STAFF_CONTEXT;
+    }
 }

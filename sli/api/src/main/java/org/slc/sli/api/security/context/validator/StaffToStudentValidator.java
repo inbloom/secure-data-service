@@ -160,5 +160,9 @@ public class StaffToStudentValidator extends AbstractContextValidator {
     public void setCohortValidator(GenericToCohortValidator cohortValidator) {
         this.cohortValidator = cohortValidator;
     }
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.STAFF_CONTEXT;
+    }
 
 }

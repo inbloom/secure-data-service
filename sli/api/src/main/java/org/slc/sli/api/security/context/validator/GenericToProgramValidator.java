@@ -65,4 +65,9 @@ public class GenericToProgramValidator extends AbstractContextValidator {
         validIds.retainAll(ids);
         return validIds;
     }
+
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.DUAL_CONTEXT;
+    }
 }

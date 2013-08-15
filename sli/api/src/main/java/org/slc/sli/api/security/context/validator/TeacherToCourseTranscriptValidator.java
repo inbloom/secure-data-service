@@ -18,6 +18,7 @@ package org.slc.sli.api.security.context.validator;
 
 import java.util.*;
 
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -75,4 +76,10 @@ public class TeacherToCourseTranscriptValidator extends AbstractContextValidator
         Set<String> sarIds = validator.validate(EntityNames.STUDENT_ACADEMIC_RECORD, studentAcademicRecordToCT.keySet());
         return getValidIds(sarIds, studentAcademicRecordToCT);
     }
+
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.TEACHER_CONTEXT;
+    }
+
 }

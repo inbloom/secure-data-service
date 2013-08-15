@@ -50,4 +50,8 @@ public class GenericToCohortValidator extends AbstractContextValidator {
         return myCohortIds;
     }
 
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.DUAL_CONTEXT;
+    }
 }

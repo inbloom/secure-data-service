@@ -81,4 +81,9 @@ public class TeacherToStudentProgramAssociationValidator extends AbstractContext
         return getValidIds(validProgramIds, programIdsToSPA);
     }
 
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.TEACHER_CONTEXT;
+    }
+
 }

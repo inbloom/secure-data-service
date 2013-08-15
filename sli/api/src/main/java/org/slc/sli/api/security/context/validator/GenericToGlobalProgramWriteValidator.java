@@ -75,4 +75,9 @@ public class GenericToGlobalProgramWriteValidator extends AbstractContextValidat
         validIds.removeAll(programsToValidate);
         return validIds;
     }
+
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.DUAL_CONTEXT;
+    }
 }

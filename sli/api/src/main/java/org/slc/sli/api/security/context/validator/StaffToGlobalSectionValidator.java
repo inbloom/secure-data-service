@@ -21,6 +21,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.springframework.stereotype.Component;
 
@@ -66,6 +67,10 @@ public class StaffToGlobalSectionValidator extends AbstractContextValidator {
         }
         return validSections;
 
+    }
 
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.STAFF_CONTEXT;
     }
 }

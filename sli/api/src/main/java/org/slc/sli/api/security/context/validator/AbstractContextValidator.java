@@ -370,4 +370,9 @@ public abstract class AbstractContextValidator implements IContextValidator {
         return valid;
     }
 
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.NO_CONTEXT;
+    }
+
 }

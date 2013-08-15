@@ -15,6 +15,7 @@
  */
 package org.slc.sli.api.security.context.validator;
 
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.api.security.context.ContextValidator;
@@ -73,4 +74,8 @@ public class GenericToGradebookEntryValidator extends AbstractContextValidator {
         return getValidIds(validaSectionIds, sectionToGradebooks);
     }
 
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.DUAL_CONTEXT;
+    }
 }

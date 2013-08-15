@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.constants.EntityNames;
@@ -56,4 +57,8 @@ public class GenericToGlobalCourseWriteValidator extends AbstractContextValidato
         return Sets.newHashSet(getRepo().findAllIds(entityType, query));
     }
 
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.DUAL_CONTEXT;
+    }
 }

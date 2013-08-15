@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.constants.EntityNames;
@@ -54,5 +55,9 @@ public class GenericToGlobalStudentCompObjectWriteValidator extends AbstractCont
         query.addCriteria(new NeutralCriteria(ParameterConstants.EDUCATION_ORGANIZATION_ID, NeutralCriteria.CRITERIA_IN, edOrgLineage));
 
         return Sets.newHashSet(getRepo().findAllIds(entityType, query));
+    }
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.DUAL_CONTEXT;
     }
 }

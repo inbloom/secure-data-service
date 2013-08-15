@@ -258,4 +258,10 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
     public void setRepo(PagingRepositoryDelegate<Entity> repo) {
         this.repo = repo;
     }
+
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.TEACHER_CONTEXT;
+    }
+
 }

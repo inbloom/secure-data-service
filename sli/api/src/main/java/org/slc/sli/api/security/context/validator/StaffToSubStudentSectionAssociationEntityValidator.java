@@ -16,6 +16,7 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,5 +72,10 @@ public class StaffToSubStudentSectionAssociationEntityValidator extends Abstract
      */
     protected void setStaffToStudentValidator(StaffToStudentValidator staffToStudentValidator) {
         this.validator = staffToStudentValidator;
+    }
+
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.STAFF_CONTEXT;
     }
 }

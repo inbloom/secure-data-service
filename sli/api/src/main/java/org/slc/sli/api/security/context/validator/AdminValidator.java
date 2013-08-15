@@ -59,4 +59,9 @@ public class AdminValidator implements IContextValidator {
          
          return Collections.emptySet();
     }
+
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.NO_CONTEXT;
+    }
 }
