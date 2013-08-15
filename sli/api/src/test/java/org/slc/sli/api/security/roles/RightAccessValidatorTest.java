@@ -108,7 +108,7 @@ public class RightAccessValidatorTest {
         NeutralQuery query1 = new NeutralQuery(query);
 
 
-        service.checkFieldAccess(query, false, null, EntityNames.STUDENT, service.getContextualAuthorities(false, null, false));
+        service.checkFieldAccess(query, null, EntityNames.STUDENT, service.getContextualAuthorities(false, null, false));
         assertTrue("Should match", query1.equals(query));
     }
 
@@ -127,7 +127,7 @@ public class RightAccessValidatorTest {
 
         Entity student = createEntity(EntityNames.STUDENT, STUDENT_ID, new HashMap<String, Object>());
         mockRepo.createWithRetries(EntityNames.STUDENT, STUDENT_ID, new HashMap<String, Object>(), new HashMap<String, Object>(), EntityNames.STUDENT, 1);
-        service.checkFieldAccess(query, false, student, EntityNames.STUDENT, service.getContextualAuthorities(false, student, false));
+        service.checkFieldAccess(query, student, EntityNames.STUDENT, service.getContextualAuthorities(false, student, false));
     }
 
     @Test
