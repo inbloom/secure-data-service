@@ -568,9 +568,9 @@ public class BasicService implements EntityService, AccessibilityCheck {
         injectSecurity(neutralQuery);
         Collection<Entity> entities = (Collection<Entity>) repo.findAll(collectionName, neutralQuery);
 
-        if(entities.size() > 0) {
-            noDataInDB = false;
-        }
+
+        noDataInDB = entities.isEmpty();
+
         List<EntityBody> results = new ArrayList<EntityBody>();
 
         for (Entity entity : entities) {
