@@ -726,7 +726,7 @@ Given /^I get (\d+) random ids of "([^"]*)" in "([^"]*)" associated with the sta
         entities.each { |entity| entity_ids.add(entity[type][0]['_id'])}
       else
         entities = coll.find({staff_ref => ref_seoa['body']['staffReference'],'type' => type},{:fields => %w(_id)}).to_a
-        entities.each { |entity| entity_ids.add(entity['_id'])}
+        entities.each { |entity| entity_ids.add(entity['_id']) unless entity['_id'] == staff_id }
       end
     end
   end
