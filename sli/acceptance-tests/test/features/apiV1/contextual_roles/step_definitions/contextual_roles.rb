@@ -887,6 +887,27 @@ Given /^a valid json document for entity "([^"]*)"$/ do |entity|
             'firstName' => 'Samantha',
             'lastSurname' => 'Samuelson'
         }
+    },
+
+    'staff' => {
+        'staffUniqueStateId' => 'new-staff',
+        'loginId' => 'new-staff-login',
+        'sex' => 'Male',
+        'name' => {
+            'firstName' => 'Seymour',
+            'lastSurname' => 'Skinner'
+        }
+    },
+
+    'teacher' => {
+        'staffUniqueStateId' => 'new-teacher',
+        'highlyQualifiedTeacher' => true,
+        'loginId' => 'new-teacher-login',
+        'sex' => 'Female',
+        'name' => {
+            'firstName' => 'Edna',
+            'lastSurname' => 'Krabapple'
+        }
     }
 
   }

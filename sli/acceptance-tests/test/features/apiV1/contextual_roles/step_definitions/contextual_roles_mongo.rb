@@ -700,6 +700,9 @@ Given /^I get (\d+) random ids of "([^"]*)" in "([^"]*)" associated with the sta
     when 'teacherSectionAssociation'
       subdoc = true
       staff_ref = 'body.teacherId'
+    when 'staff', 'teacher'
+      subdoc = false
+      staff_ref = '_id'
   end
 
   disable_NOTABLESCAN()
@@ -722,7 +725,7 @@ Given /^I get (\d+) random ids of "([^"]*)" in "([^"]*)" associated with the sta
         entities = coll.find({"#{type}.#{staff_ref}" => ref_seoa['body']['staffReference']},{:fields => ["#{type}.$"]}).to_a
         entities.each { |entity| entity_ids.add(entity[type][0]['_id'])}
       else
-        entities = coll.find({staff_ref => ref_seoa['body']['staffReference']},{:fields => %w(_id)}).to_a
+        entities = coll.find({staff_ref => ref_seoa['body']['staffReference'],'type' => type},{:fields => %w(_id)}).to_a
         entities.each { |entity| entity_ids.add(entity['_id'])}
       end
     end

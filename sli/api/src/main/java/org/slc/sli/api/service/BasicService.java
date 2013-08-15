@@ -27,8 +27,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.slc.sli.api.security.context.APIAccessDeniedException;
-import org.slc.sli.api.resources.generic.service.ContextSupportedEntities;
-import org.slc.sli.api.service.query.ApiQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -928,7 +926,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
         // loop for every EntityDefinition that references the deleted entity's type
         for (EntityDefinition referencingEntity : defn.getReferencingEntities()) {
             // loop for every reference field that COULD reference the deleted ID
-            boolean isContextualSupported = (ContextSupportedEntities.getSupportedEntities().contains(referencingEntity.getType())) && SecurityUtil.isStaffUser();
+            boolean isContextualSupported = SecurityUtil.isStaffUser();
 
             for (String referenceField : referencingEntity.getReferenceFieldNames(defn.getStoredCollectionName())) {
                 EntityService referencingEntityService = referencingEntity.getService();
