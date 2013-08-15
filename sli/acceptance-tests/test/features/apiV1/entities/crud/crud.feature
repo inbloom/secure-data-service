@@ -7,7 +7,6 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
     And format "application/vnd.slc+json"
 
-
   Scenario Outline: CRUD operations requiring explicit associations on an entity as staff
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
     And format "application/vnd.slc+json"
@@ -108,7 +107,6 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
   Examples:
     | Entity Type | Entity Resource URI | Association Type            | Update Field          | Updated Value |
     | "parent"    | "parents"           | "studentParentAssociation2" | "parentUniqueStateId" | "ParentID102" |
-
 
   Scenario Outline: CRUD operations requiring explicit associations on an entity as an IT Admin Teacher
     Given I am logged in using "cgrayadmin" "cgray1234" to realm "IL"
@@ -245,6 +243,16 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     When I create an association of type "studentSectionAssociation"
     And field "beginDate" is removed from the json document
     When I navigate to POST "/v1/studentSectionAssociations"
+    Then I should receive a return code of 400
+
+  @wip
+  @DE2943
+  Scenario: Search on fields with insufficient rights returns acess denied
+    Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
+    And format "application/vnd.slc+json"
+    When I navigate to GET "/v1/staffs/e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b?staffUniqueStateId=blabal"
+    Then I should receive a return code of 400
+    When I navigate to GET "/v1/staffs/e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b?staffUniqueStateId=cgray"
     Then I should receive a return code of 400
 
 #all staff types (it admins, educators) should be able to see all public entities
