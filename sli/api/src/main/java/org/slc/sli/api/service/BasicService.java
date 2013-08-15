@@ -565,7 +565,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
             try {
             Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf, entity, true);
             rightAccessValidator.checkAccess(true, isSelf, entity, defn.getType(), auths);
-            rightAccessValidator.checkFieldAccess(neutralQuery, isSelf, entity, defn.getType(), auths);
+            rightAccessValidator.checkFieldAccess(neutralQuery, entity, defn.getType(), auths);
 
             results.add(entityRightsFilter.makeEntityBody(entity, treatments, defn, isSelf, auths));
             } catch (AccessDeniedException aex) {

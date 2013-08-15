@@ -164,14 +164,9 @@ public class RightAccessValidator {
      * @param isSelf  whether operation is being done in "self" context
      * @param entity item under inspection
      */
-    public void checkFieldAccess(NeutralQuery query, boolean isSelf, Entity entity, String entityType, Collection<GrantedAuthority> auths) {
+    public void checkFieldAccess(NeutralQuery query, Entity entity, String entityType, Collection<GrantedAuthority> auths) {
 
         if (query != null) {
-            // get the authorities
-            if (isSelf) {
-                auths.addAll(SecurityUtil.getSLIPrincipal().getSelfRights());
-            }
-
             try {
                 checkFieldAccess(query, entityType, auths);
             } catch (APIAccessDeniedException e) {
