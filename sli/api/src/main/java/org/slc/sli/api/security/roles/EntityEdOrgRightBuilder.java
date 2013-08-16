@@ -72,24 +72,16 @@ public class EntityEdOrgRightBuilder {
         edorgs.retainAll(edOrgRights.keySet());
 
         if (edorgs.isEmpty()) {
-            if(STUDENT_RELATED_DATA.contains(entity.getType()) && isRead) {
-              List<Entity> studentEntities = studentOwnershipArbiter.findOwner(Arrays.asList(entity), entity.getType(), true);
-              edorgs = edOrgOwnershipArbiter.determineHierarchicalEdorgs(studentEntities, EntityNames.STUDENT);
-              edorgs.retainAll(edOrgRights.keySet());
-
-              if(edorgs.isEmpty()) {
-                    warn("Attempted access to an entity with no matching edorg association.");
-                }
-            } else {
-                warn("Attempted access to an entity with no matching edorg association.");
-            }
+            edorgs = getEdOrgsForStudent(edOrgRights.keySet(), entity, isRead);
         }
-            for (String edorg : edorgs) {
+
+        for (String edorg : edorgs) {
                 authorities.addAll(edOrgRights.get(edorg));
             }
 
         return authorities;
     }
+
 
     /**
      * Builds a set of access rights to an entity, based upon the specified EdOrg-Context-Rights cache, the EdOrgs to which the entity belongs, and its associated contexts.
@@ -107,18 +99,9 @@ public class EntityEdOrgRightBuilder {
 
         Set<String> edorgs = edOrgOwnershipArbiter.determineHierarchicalEdorgs(Arrays.asList(entity), entity.getType());
         edorgs.retainAll(edOrgContextRights.keySet());
-        if (edorgs.isEmpty()) {
-            if (STUDENT_RELATED_DATA.contains(entity.getType()) && isRead) {
-                List<Entity> studentEntities = studentOwnershipArbiter.findOwner(Arrays.asList(entity), entity.getType(), true);
-                edorgs = edOrgOwnershipArbiter.determineHierarchicalEdorgs(studentEntities, EntityNames.STUDENT);
-                edorgs.retainAll(edOrgContextRights.keySet());
 
-                if (edorgs.isEmpty()) {
-                    warn("Attempted access to an entity with no matching edorg association.");
-                }
-            } else {
-                warn("Attempted access to an entity with no matching edorg association.");
-            }
+        if (edorgs.isEmpty()) {
+            edorgs = getEdOrgsForStudent(edOrgContextRights.keySet(), entity, isRead);
         }
 
         for (String edorg : edorgs) {
@@ -138,6 +121,23 @@ public class EntityEdOrgRightBuilder {
         }
 
         return authorities;
+    }
+
+    private Set<String> getEdOrgsForStudent(Set<String> userEdOrgs, Entity entity, boolean isRead) {
+        Set<String> edorgs = new HashSet<String>();
+
+        if(STUDENT_RELATED_DATA.contains(entity.getType()) && isRead) {
+            List<Entity> studentEntities = studentOwnershipArbiter.findOwner(Arrays.asList(entity), entity.getType(), true);
+            edorgs = edOrgOwnershipArbiter.determineHierarchicalEdorgs(studentEntities, EntityNames.STUDENT);
+            edorgs.retainAll(userEdOrgs);
+
+            if(edorgs.isEmpty()) {
+                warn("Attempted access to an entity with no matching edorg association.");
+            }
+        } else {
+            warn("Attempted access to an entity with no matching edorg association.");
+        }
+        return edorgs;
     }
 
     public void setEdOrgOwnershipArbiter(EdOrgOwnershipArbiter edOrgOwnershipArbiter) {
