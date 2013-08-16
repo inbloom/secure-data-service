@@ -764,17 +764,23 @@ Given /^I get (\d+) random ids for parents associated with the students of "([^"
   enable_NOTABLESCAN()
 end
 
-Given /^I add (student school association|attendance) for "([^"]*)" in "([^"]*)" that's already expired$/ do |collection, student, edorg|
+Given /^I add "([^"]*)" for "([^"]*)" in "([^"]*)" that's already expired$/ do |collection, student, edorg|
   disable_NOTABLESCAN()
   conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
   db_name = convertTenantIdToDbName(@tenant)
   db = conn[db_name]
   student_coll = db.collection('student')
   edorg_coll = db.collection('educationOrganization')
+  di_coll = db.collection('disciplineIncident')
+  yt_coll = db.collection('yearlyTranscript')
+  course_coll = db.collection('course')
   student_id = student_coll.find_one({'body.studentUniqueStateId' => student})['_id']
   edorg_id = edorg_coll.find_one({'body.stateOrganizationId' => edorg})['_id']
+  di_id = di_coll.find_one({'body.schoolId' => edorg_id})['_id']
+  sar_id = yt_coll.find_one({'body.studentId' => student_id})['studentAcademicRecord'][0]['_id']
+  course_id = course_coll.find_one()['_id']
   entries = {
-      'student school association' => {
+      'studentSchoolAssociations' => {
           '_id' => SecureRandom.uuid,
           'type' => 'studentSchoolAssociation',
           'body' => {
@@ -787,7 +793,7 @@ Given /^I add (student school association|attendance) for "([^"]*)" in "([^"]*)"
               'exitWithdrawType' => 'Withdrawn due to illness'
           }
       },
-      'attendance' => {
+      'attendances' => {
           '_id' => SecureRandom.uuid,
           'type' => 'attendance',
           'body' => {
@@ -807,6 +813,37 @@ Given /^I add (student school association|attendance) for "([^"]*)" in "([^"]*)"
                   }
               ]
           }
+      },
+      'disciplineActions' => {
+          '_id' => SecureRandom.uuid,
+          'type' => 'disciplineAction',
+          'body' => {
+              'disciplineDate' => '2010-01-01',
+              'disciplines' => [[{
+                                     'codeValue' => 'Code 8'
+                                 }]],
+              'studentId' => [student_id],
+              'responsibilitySchoolId' => edorg_id,
+              'assignmentSchoolId' => edorg_id,
+              'disciplineActionIdentifier' => 'DA 12',
+              'disciplineIncidentId' => [di_id]
+          }
+      },
+      'courseTranscripts' => {
+          '_id' => SecureRandom.uuid,
+          'type' => 'courseTranscript',
+          'body' => {
+              'educationOrganizationReference' => [edorg_id],
+              'creditsEarned' => {
+                  'credit' => 3
+              },
+              'courseAttemptResult' => 'Withdrawn',
+              'studentAcademicRecordId' => sar_id,
+              'studentId' => student_id,
+              'gradeType' => 'Semester',
+              'finalLetterGradeEarned' => 'B-',
+              'courseId' => course_id
+          }
       }
   }
   @newId = entries[collection]['_id']
@@ -814,4 +851,161 @@ Given /^I add (student school association|attendance) for "([^"]*)" in "([^"]*)"
 
   conn.close
   enable_NOTABLESCAN()
+end
+
+Given /^I add subdoc "([^"]*)" for "([^"]*)" and "([^"]*)" in "([^"]*)" that's already expired$/ do |subdoc, studentId, refEntity, edorg|
+  disable_NOTABLESCAN()
+  conn = Mongo::Connection.new(DATABASE_HOST,DATABASE_PORT)
+  db_name = convertTenantIdToDbName(@tenant)
+  db = conn[db_name]
+  student_coll = db.collection('student')
+  edorg_coll = db.collection('educationOrganization')
+
+  student = student_coll.find_one({'body.studentUniqueStateId' => studentId})
+  student_id = student['_id']
+  edorg_id = edorg_coll.find_one({'body.stateOrganizationId' => edorg})['_id']
+  refId = createEntity(db_name, refEntity, edorg, student_id)
+  entries = {
+      'studentProgramAssociation' => {
+          '_id' => student_id + refId,
+          'type' => 'studentProgramAssociation',
+          'body' => {
+              'programId' => refId,
+              'studentId' => student_id,
+              'educationOrganizationId' => edorg_id,
+              'endDate' => '2010-11-11',
+              'beginDate'  => '2011-11-11'
+          }
+      },
+      'studentCohortAssociation' => {
+          '_id' => student_id + refId,
+          'type' => 'studentCohortAssociation',
+          'body' => {
+              'cohortId' => refId,
+              'studentId' => student_id,
+              'endDate' => '2011-11-11',
+              'beginDate' => '2010-11-11'
+          }
+      },
+      'studentDisciplineIncidentAssociation' => {
+          '_id' => student_id + refId,
+          'type' => 'studentDisciplineIncidentAssociation',
+          'body' => {
+              'disciplineIncidentId' => refId,
+              'studentParticipationCode' => 'Perpetrator',
+              'studentId' => student_id
+          }
+      },
+      'studentSectionAssociation' => {
+          '_id' => refId + student_id,
+          'type' => 'studentSectionAssociation',
+          'body' => {
+              'sectionId' => refId,
+              'studentId' => student_id,
+              'endDate' => '2011-11-11',
+              'beginDate' => '2010-11-11'
+          }
+      },
+      'gradebookEntry' => {
+          '_id' => refId +SecureRandom.uuid,
+          'type' => 'gradebookEntry',
+          'body' => {
+              'gradingPeriodId' => 'blabla',
+              'sectionId' => refId,
+              'dateAssigned' => '2011-11-30',
+              'description' => 'Gradebook Entry of type=> Homework, assigned on=> 2013-11-30',
+              'gradebookEntryType' => 'Homework',
+              'learningObjectives' => [
+              ]
+        }
+      },
+      'reportCard' => {
+          'type' => 'reportCard',
+          '_id' => refId + SecureRandom.uuid,
+          'body' => {
+              'schoolYear' => '2010-2011',
+              'gradingPeriodId' => '72a3b7ac34035f49a0138369f9fc12a350c7b812_id',
+              'gpaGivenGradingPeriod' => 2,
+              'studentId' => student_id,
+              'gpaCumulative' => 2,
+              'numberOfDaysInAttendance' => 117,
+              'numberOfDaysTardy' => 21,
+              'grades' => [
+              ],
+              'numberOfDaysAbsent' => 3,
+              'studentCompetencyId' => [
+              ]
+          }
+      }
+  }
+  superCollections = {
+      'studentProgramAssociation' => 'student',
+      'studentDisciplineIncidentAssociation' => 'student',
+      'studentSectionAssociation' => 'section',
+      'studentCohortAssociation' => 'student',
+      'gradebookEntry' => 'section',
+      'reportCard' => 'yearlyTranscript'
+  }
+
+  queries = {
+      'student' => {'body.studentUniqueStateId' => studentId},
+      'section' => {'_id' => refId},
+      'yearlyTranscript' => {'_id' => refId}
+  }
+
+  @newId = entries[subdoc]['_id']
+  superCollection = superCollections[subdoc]
+  superDoc = db.collection(superCollection).find_one(queries[superCollection])
+
+  puts @newId
+  puts refId
+  puts student_id
+  (superDoc[subdoc] ||= []) << entries[subdoc]
+  update_mongo(db_name, superCollection , queries[superCollection], subdoc, false, superDoc[subdoc])
+
+  conn.close
+  enable_NOTABLESCAN()
+end
+
+def createEntity(db_name, entity, edorgId, student_id)
+  id = SecureRandom.uuid
+  entities = {
+      'section' => {
+          '_id' => id,
+      'body' => {
+        'educationalEnvironment' => 'Classroom',
+        'sessionId' => 'test',
+        'courseOfferingId' => 'test',
+        'populationServed' => 'Regular Students',
+        'sequenceOfCourse' => 1,
+        'mediumOfInstruction' => 'Face-to-face instruction',
+        'uniqueSectionCode' => '74',
+        'schoolId' => edorgId,
+        'creditConversion' => 1,
+        'creditType' => 'Other',
+        'credit' => 4,
+        'gradeBookEntry' => [],
+        'studentSectionAssociation' => []
+      }
+    },
+    'program' => {
+        '_id' => id,
+        'body' => {
+            'programId' => '14'
+        }
+    },
+    'yearlyTranscript' => {
+        '_id' => id,
+        'body' => {
+            'schoolYear' => '2010-2011',
+            'studentId' => student_id
+        },
+        'grade' => [ ],
+        'reportCard' => [ ],
+        'studentAcademicRecord' => [ ]
+
+    }
+  }
+  add_to_mongo(db_name, entity, entities[entity])
+  return id
 end
