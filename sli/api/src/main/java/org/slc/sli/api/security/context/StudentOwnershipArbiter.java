@@ -34,16 +34,14 @@ public class StudentOwnershipArbiter extends OwnershipArbiter {
     @PostConstruct
     public void init() {
 
-        typeToReference.put(EntityNames.STUDENT_SCHOOL_ASSOCIATION, new Reference(
-                EntityNames.STUDENT_SCHOOL_ASSOCIATION, EntityNames.STUDENT,
-                ParameterConstants.STUDENT_ID, Reference.RefType.LEFT_TO_RIGHT));
+        typeToReference.put(EntityNames.STUDENT_SCHOOL_ASSOCIATION, new Reference(EntityNames.STUDENT_SCHOOL_ASSOCIATION,
+                EntityNames.STUDENT, ParameterConstants.STUDENT_ID, Reference.RefType.LEFT_TO_RIGHT));
 
         typeToReference.put(EntityNames.ATTENDANCE, new Reference(EntityNames.ATTENDANCE, EntityNames.STUDENT,
                 ParameterConstants.STUDENT_ID, Reference.RefType.LEFT_TO_RIGHT));
 
         typeToReference.put(EntityNames.COURSE_TRANSCRIPT, new Reference(EntityNames.COURSE_TRANSCRIPT,
-                EntityNames.STUDENT, ParameterConstants.STUDENT_ID,
-                Reference.RefType.LEFT_TO_RIGHT));
+                EntityNames.STUDENT, ParameterConstants.STUDENT_ID, Reference.RefType.LEFT_TO_RIGHT));
 
         typeToReference.put(EntityNames.DISCIPLINE_INCIDENT, new Reference(EntityNames.DISCIPLINE_INCIDENT,
                 EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, ParameterConstants.DISCIPLINE_INCIDENT_ID, Reference.RefType.RIGHT_TO_LEFT));
@@ -51,15 +49,48 @@ public class StudentOwnershipArbiter extends OwnershipArbiter {
         typeToReference.put(EntityNames.DISCIPLINE_ACTION, new Reference(EntityNames.DISCIPLINE_ACTION,
                 EntityNames.STUDENT, ParameterConstants.STUDENT_ID, Reference.RefType.LEFT_TO_RIGHT));
 
-
         typeToReference.put(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, new Reference(
                 EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, EntityNames.STUDENT,
                 ParameterConstants.STUDENT_ID, Reference.RefType.LEFT_TO_RIGHT));
 
         typeToReference.put(EntityNames.STUDENT_GRADEBOOK_ENTRY, new Reference(EntityNames.STUDENT_GRADEBOOK_ENTRY,
                 EntityNames.STUDENT, ParameterConstants.STUDENT_ID, Reference.RefType.LEFT_TO_RIGHT));
+
         typeToReference.put(EntityNames.STUDENT_ACADEMIC_RECORD, new Reference(EntityNames.STUDENT_ACADEMIC_RECORD,
                 EntityNames.STUDENT, ParameterConstants.STUDENT_ID, Reference.RefType.LEFT_TO_RIGHT));
+
+        typeToReference.put(EntityNames.PARENT, new Reference(EntityNames.PARENT,
+                EntityNames.STUDENT_PARENT_ASSOCIATION, ParameterConstants.PARENT_ID, Reference.RefType.RIGHT_TO_LEFT));
+
+        typeToReference.put(EntityNames.STUDENT_PROGRAM_ASSOCIATION, new Reference(EntityNames.STUDENT_PROGRAM_ASSOCIATION,
+                EntityNames.STUDENT, ParameterConstants.STUDENT_ID, Reference.RefType.LEFT_TO_RIGHT));
+
+        typeToReference.put(EntityNames.STUDENT_COHORT_ASSOCIATION, new Reference(EntityNames.STUDENT_COHORT_ASSOCIATION,
+                EntityNames.STUDENT, ParameterConstants.STUDENT_ID, Reference.RefType.LEFT_TO_RIGHT));
+
+        typeToReference.put(EntityNames.STUDENT_SECTION_ASSOCIATION, new Reference(EntityNames.STUDENT_SECTION_ASSOCIATION,
+                EntityNames.STUDENT, ParameterConstants.STUDENT_ID, Reference.RefType.LEFT_TO_RIGHT));
+
+        typeToReference.put(EntityNames.STUDENT_PARENT_ASSOCIATION, new Reference(EntityNames.STUDENT_PARENT_ASSOCIATION,
+                EntityNames.STUDENT, ParameterConstants.STUDENT_ID, Reference.RefType.LEFT_TO_RIGHT));
+
+        typeToReference.put(EntityNames.GRADE, new Reference(EntityNames.GRADE, EntityNames.STUDENT,
+                ParameterConstants.STUDENT_ID, Reference.RefType.LEFT_TO_RIGHT));
+
+        typeToReference.put(EntityNames.REPORT_CARD, new Reference(EntityNames.REPORT_CARD,
+                EntityNames.STUDENT, ParameterConstants.STUDENT_ID, Reference.RefType.LEFT_TO_RIGHT));
+
+        typeToReference.put(EntityNames.STUDENT_ASSESSMENT, new Reference(EntityNames.STUDENT_ASSESSMENT,
+                EntityNames.STUDENT, ParameterConstants.STUDENT_ID, Reference.RefType.LEFT_TO_RIGHT));
+
+        typeToReference.put(EntityNames.STUDENT_COMPETENCY, new Reference(EntityNames.STUDENT_COMPETENCY,
+                EntityNames.STUDENT_SECTION_ASSOCIATION, ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID, Reference.RefType.LEFT_TO_RIGHT));
+
+        typeToReference.put(EntityNames.GRADEBOOK_ENTRY, new Reference(EntityNames.GRADEBOOK_ENTRY,
+                EntityNames.SECTION, ParameterConstants.SECTION_ID, Reference.RefType.LEFT_TO_RIGHT));
+
+        typeToReference.put(EntityNames.SECTION, new Reference(EntityNames.SECTION,
+                EntityNames.STUDENT_SECTION_ASSOCIATION, ParameterConstants.SECTION_ID, Reference.RefType.RIGHT_TO_LEFT));
     }
 
     @Override

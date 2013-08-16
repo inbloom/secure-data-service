@@ -49,8 +49,12 @@ public class EntityEdOrgRightBuilder {
     private StudentOwnershipArbiter studentOwnershipArbiter;
 
     protected static final Set<String> STUDENT_RELATED_DATA = new HashSet<String>(Arrays.asList(
-            EntityNames.ATTENDANCE, EntityNames.DISCIPLINE_ACTION, EntityNames.STUDENT_SCHOOL_ASSOCIATION,
-            EntityNames.DISCIPLINE_INCIDENT, EntityNames.COURSE_TRANSCRIPT, EntityNames.STUDENT_GRADEBOOK_ENTRY));
+            EntityNames.STUDENT_SCHOOL_ASSOCIATION, EntityNames.ATTENDANCE, EntityNames.COURSE_TRANSCRIPT,
+            EntityNames.DISCIPLINE_INCIDENT, EntityNames.DISCIPLINE_ACTION, EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION,
+            EntityNames.STUDENT_GRADEBOOK_ENTRY, EntityNames.STUDENT_ACADEMIC_RECORD, EntityNames.PARENT,
+            EntityNames.STUDENT_PROGRAM_ASSOCIATION, EntityNames.STUDENT_COHORT_ASSOCIATION, EntityNames.STUDENT_SECTION_ASSOCIATION,
+            EntityNames.STUDENT_PARENT_ASSOCIATION, EntityNames.GRADE, EntityNames.REPORT_CARD, EntityNames.STUDENT_ASSESSMENT,
+            EntityNames.STUDENT_COMPETENCY, EntityNames.GRADEBOOK_ENTRY));
 
     /**
      * Builds a set of access rights to an entity, based upon the specified EdOrg-Rights map, and the EdOrgs to which the entity belongs.
