@@ -27,6 +27,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.domain.Entity;
@@ -62,6 +63,7 @@ public class TeacherToTeacherSchoolAssociationValidatorTest {
         } catch (Exception e) {
         }
         injector.setEducatorContext(USER_ID);
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.TEACHER_CONTEXT);
     }
 
     @Test(expected = IllegalArgumentException.class)

@@ -25,6 +25,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.api.resources.SecurityContextInjector;
@@ -129,6 +130,7 @@ public class StaffToTeacherValidatorTest {
         body.put("staffReference", staff2.getEntityId());
         repo.create("staffEducationOrganizationAssociation", body);
 
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.STAFF_CONTEXT);
     }
 
     protected void setupCommonTSAs() {

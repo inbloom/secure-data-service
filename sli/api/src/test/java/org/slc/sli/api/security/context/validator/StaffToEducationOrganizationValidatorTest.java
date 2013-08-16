@@ -27,6 +27,7 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
@@ -61,6 +62,7 @@ public class StaffToEducationOrganizationValidatorTest {
     
     @Test
     public void testCanValidate() {
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.STAFF_CONTEXT);
         Assert.assertTrue("Must be able to validate", val.canValidate(EntityNames.STAFF_ED_ORG_ASSOCIATION, false));
         Assert.assertFalse("Must not be able to validate", val.canValidate(EntityNames.ADMIN_DELEGATION, false));
     }

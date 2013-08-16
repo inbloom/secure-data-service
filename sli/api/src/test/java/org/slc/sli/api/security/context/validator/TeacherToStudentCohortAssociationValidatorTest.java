@@ -10,6 +10,7 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
@@ -64,6 +65,7 @@ public class TeacherToStudentCohortAssociationValidatorTest {
         studentCohortAssoc1 = helper.generateStudentCohort(student1, cohort1.getEntityId(), false);
         studentCohortAssoc2 = helper.generateStudentCohort(student2, cohort2.getEntityId(), false);
         studentCohortAssoc3 = helper.generateStudentCohort(student1, cohort3.getEntityId(), false);
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.TEACHER_CONTEXT);
     }
     
     private void setupCurrentUser(Entity staff) {
@@ -81,6 +83,7 @@ public class TeacherToStudentCohortAssociationValidatorTest {
         Assert.assertTrue(validator.canValidate(EntityNames.STUDENT_COHORT_ASSOCIATION, true));
         
         injector.setStaffContext();
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.STAFF_CONTEXT);
         Assert.assertFalse(validator.canValidate(EntityNames.STUDENT_COHORT_ASSOCIATION, false));
         Assert.assertFalse(validator.canValidate(EntityNames.STUDENT_COHORT_ASSOCIATION, true));
     }

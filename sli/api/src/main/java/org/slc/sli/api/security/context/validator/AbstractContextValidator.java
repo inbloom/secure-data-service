@@ -140,7 +140,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
      * @return True if user is of type 'staff', false otherwise.
      */
     protected boolean isStaff() {
-        return EntityNames.STAFF.equals(SecurityUtil.getSLIPrincipal().getEntity().getType());
+        return SecurityUtil.getUserContext() == SecurityUtil.UserContext.STAFF_CONTEXT;
     }
 
     /**
@@ -149,7 +149,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
      * @return True if user is of type 'teacher', false otherwise.
      */
     protected boolean isTeacher() {
-        return EntityNames.TEACHER.equals(SecurityUtil.getSLIPrincipal().getEntity().getType());
+        return SecurityUtil.getUserContext() == SecurityUtil.UserContext.TEACHER_CONTEXT;
     }
 
     /**

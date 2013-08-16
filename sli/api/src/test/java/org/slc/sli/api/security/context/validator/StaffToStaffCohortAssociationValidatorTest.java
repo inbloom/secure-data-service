@@ -30,6 +30,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
@@ -91,6 +92,8 @@ public class StaffToStaffCohortAssociationValidatorTest {
 
         mockStaffValidator = Mockito.mock(TransitiveStaffToStaffValidator.class);
         MockitoAnnotations.initMocks(this);
+
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.STAFF_CONTEXT);
     }
     
     @After

@@ -20,6 +20,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
@@ -65,6 +66,7 @@ public class TransitiveTeacherToStaffEdOrgAssociationValidatorTest {
     public void setUp() throws Exception {
         helper.setUpTeacherContext();
         edOrgAssociationIds = new HashSet<String>();
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.TEACHER_CONTEXT);
     }
 
     @After

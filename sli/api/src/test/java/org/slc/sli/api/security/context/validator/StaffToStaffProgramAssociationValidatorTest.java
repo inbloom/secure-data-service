@@ -30,6 +30,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
@@ -84,6 +85,7 @@ public class StaffToStaffProgramAssociationValidatorTest {
         injector.setCustomContext(user, fullName, "MERPREALM", roles, entity, helper.ED_ORG_ID);
         
         cohortIds = new HashSet<String>();
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.STAFF_CONTEXT);
 
     }
     

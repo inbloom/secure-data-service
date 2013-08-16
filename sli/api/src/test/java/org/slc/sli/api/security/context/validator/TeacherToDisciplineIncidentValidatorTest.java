@@ -26,6 +26,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
@@ -96,6 +97,7 @@ public class TeacherToDisciplineIncidentValidatorTest {
         helper.generateStudentDisciplineIncidentAssociation(student2, disciplineIncident3.getEntityId());
         helper.generateStudentDisciplineIncidentAssociation(student1, disciplineIncident4.getEntityId());
         helper.generateStudentDisciplineIncidentAssociation(student2, disciplineIncident4.getEntityId());
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.TEACHER_CONTEXT);
     }
     
     @After
