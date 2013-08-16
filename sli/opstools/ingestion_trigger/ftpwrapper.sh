@@ -25,6 +25,7 @@ if [ "${FILESPEC}" = "/`basename \"${FILESPEC}\"`" ] && \
    [ -n "`echo ${FILESPEC} | awk -F . '{if (NF > 1) print $(NF - 1)}'`" ] && \
    ( zip -T ${CHROOTDIR}"${FILESPEC}" >/dev/null )
 then
+  chmod g+r ${CHROOTDIR}${FILESPEC}
   exec ${PUBLISH} ${FTPCOMMAND} "${CHROOTDIR}${FILESPEC}" ${AMQSERVER}
 else
   echo "Error: ${CHROOTDIR}${FILESPEC} is not a valid landing_zone/zip_file."
