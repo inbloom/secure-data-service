@@ -137,6 +137,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
         mutator.mutateURI(SecurityContextHolder.getContext().getAuthentication(), request);
         injectObligations(request);
         validateNotBlockGetRequest(request);
+        SecurityUtil.setTransitive(ContextValidator.isTransitive(request.getPathSegments()));
 
         if (ResourceMethod.getWriteOps().contains(request.getMethod()) && contextValidator.isUrlBlocked(request)) {
             throw new APIAccessDeniedException(String.format("url %s is not accessible.", request.getAbsolutePath().toString()));

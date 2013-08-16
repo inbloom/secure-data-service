@@ -332,6 +332,16 @@ public class ContextValidator implements ApplicationContextAware {
         return found;
     }
 
+    public static boolean isTransitive(List<PathSegment> segs) {
+                /*
+         * e.g.
+         * !isTransitive - /v1/staff/<ID>/disciplineActions
+         * isTransitive - /v1/staff/<ID> OR /v1/staff/<ID>/custom
+         */
+        return segs.size() == 3
+                || (segs.size() == 4 && segs.get(3).getPath().equals(ResourceNames.CUSTOM));
+    }
+
     /**
      * Determines if the entity is global.
      *

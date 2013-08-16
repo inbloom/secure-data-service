@@ -62,6 +62,8 @@ public class SecurityUtil {
     public static enum UserContext {STAFF_CONTEXT, TEACHER_CONTEXT, DUAL_CONTEXT, NO_CONTEXT};
     private static UserContext userContext = UserContext.NO_CONTEXT;
 
+    private static boolean isTransitive = false;
+
     static {
         SLIPrincipal system = new SLIPrincipal("SYSTEM");
         system.setEntity(new MongoEntity(SYSTEM_ENTITY, new HashMap<String, Object>()));
@@ -252,6 +254,22 @@ public class SecurityUtil {
 
     public static void setUserContext(UserContext userContext) {
         SecurityUtil.userContext = userContext;
+    }
+
+    /**
+     * Set isTransitve flag.
+     * @param transitive
+     */
+    public static void setTransitive(boolean transitive) {
+        isTransitive = transitive;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public static boolean isTransitive() {
+        return isTransitive;
     }
 
     /**
