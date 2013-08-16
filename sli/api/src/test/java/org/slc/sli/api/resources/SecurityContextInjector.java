@@ -97,6 +97,7 @@ public class SecurityContextInjector {
         SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity, ED_ORG_ID, edorgRights);
         setSecurityContext(principal, new HashSet<GrantedAuthority>(rights));
 
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.STAFF_CONTEXT);
     }
 
     public void setAccessAllAdminContext() {
@@ -109,6 +110,8 @@ public class SecurityContextInjector {
         Mockito.when(entity.getEntityId()).thenReturn(user);
         SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity, ED_ORG_ID, new HashMap<String, Collection<GrantedAuthority>>());
         setSecurityContext(principal, false);
+
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.STAFF_CONTEXT);
     }
 
 
@@ -132,6 +135,7 @@ public class SecurityContextInjector {
 
         debug("elevating rights to {}", Arrays.toString(rights));
         SecurityContextHolder.getContext().setAuthentication(token);
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.NO_CONTEXT);
     }
 
     public void setLeaAdminContext() {
@@ -154,6 +158,7 @@ public class SecurityContextInjector {
 
         debug("elevating rights to {}", Arrays.toString(rights));
         SecurityContextHolder.getContext().setAuthentication(token);
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.STAFF_CONTEXT);
     }
 
     public void setSeaAdminContext() {
@@ -175,6 +180,7 @@ public class SecurityContextInjector {
 
         debug("elevating rights to {}", Arrays.toString(rights));
         SecurityContextHolder.getContext().setAuthentication(token);
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.STAFF_CONTEXT);
     }
 
     public void setOperatorContext() {
@@ -217,6 +223,7 @@ public class SecurityContextInjector {
                 .getAuthentication().getCredentials(), Arrays.asList(rights));
         SecurityContextHolder.getContext().setAuthentication(token);
 
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.STAFF_CONTEXT);
     }
 
     public void setAdminContextWithElevatedRights() {
@@ -229,6 +236,7 @@ public class SecurityContextInjector {
 
         debug("elevating rights to {}", Right.FULL_ACCESS);
         SecurityContextHolder.getContext().setAuthentication(token);
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.STAFF_CONTEXT);
 
     }
 
@@ -277,6 +285,7 @@ public class SecurityContextInjector {
         principal.setSelfRights(Arrays.asList(new GrantedAuthority[]{ Right.READ_RESTRICTED}));
 
         setOauthSecurityContext(principal, false);
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.TEACHER_CONTEXT);
     }
 
     public void setEducatorContext() {
@@ -290,6 +299,7 @@ public class SecurityContextInjector {
         principal.setRoles(roles);
         principal.setSelfRights(Arrays.asList(new GrantedAuthority[]{ Right.READ_RESTRICTED}));
         setSecurityContext(principal, false);
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.TEACHER_CONTEXT);
     }
 
     public void setEducatorContext(String userId) {
@@ -304,6 +314,7 @@ public class SecurityContextInjector {
         principal.setRoles(roles);
         principal.setSelfRights(Arrays.asList(new GrantedAuthority[]{ Right.READ_RESTRICTED}));
         setSecurityContext(principal, false);
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.TEACHER_CONTEXT);
     }
 
     public void setStudentContext(Entity entity) {
@@ -313,6 +324,7 @@ public class SecurityContextInjector {
         principal.setRoles(roles);
         principal.setSelfRights(Arrays.asList(new GrantedAuthority[]{Right.READ_STUDENT_OWNED}));
         setSecurityContext(principal, false);
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.NO_CONTEXT);
     }
 
     public void setAnonymousContext() {
@@ -320,6 +332,7 @@ public class SecurityContextInjector {
                 new ClientToken("blah", "blah", new HashSet<String>()),
                 new AnonymousAuthenticationToken("blah", new Object(), new ArrayList<GrantedAuthority>(Arrays.asList(Right.ANONYMOUS_ACCESS))));
         SecurityContextHolder.getContext().setAuthentication(token);
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.NO_CONTEXT);
     }
 
     /**
