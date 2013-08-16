@@ -140,7 +140,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
      * @return True if user is of type 'staff', false otherwise.
      */
     protected boolean isStaff() {
-        return SecurityUtil.getUserContext() == SecurityUtil.UserContext.STAFF_CONTEXT;
+        return SecurityUtil.getUserContext() == SecurityUtil.UserContext.STAFF_CONTEXT || SecurityUtil.getUserContext() == SecurityUtil.UserContext.DUAL_CONTEXT;
     }
 
     /**
@@ -149,7 +149,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
      * @return True if user is of type 'teacher', false otherwise.
      */
     protected boolean isTeacher() {
-        return SecurityUtil.getUserContext() == SecurityUtil.UserContext.TEACHER_CONTEXT;
+        return SecurityUtil.getUserContext() == SecurityUtil.UserContext.TEACHER_CONTEXT || SecurityUtil.getUserContext() == SecurityUtil.UserContext.DUAL_CONTEXT;
     }
 
     /**
