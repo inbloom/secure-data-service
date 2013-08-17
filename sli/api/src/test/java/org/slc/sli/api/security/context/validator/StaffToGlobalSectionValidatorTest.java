@@ -28,6 +28,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
@@ -112,6 +113,8 @@ public class StaffToGlobalSectionValidatorTest {
 
         educator2 = helper.generateTeacher();
         helper.generateTeacherSchool(educator2.getEntityId(), school2.getEntityId());
+
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.STAFF_CONTEXT);
     }
 
     @After
@@ -131,6 +134,7 @@ public class StaffToGlobalSectionValidatorTest {
     @Test
     public void testCanNotValidate() {
         setContext(educator2, Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR));
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.TEACHER_CONTEXT);
         assertFalse(validator.canValidate(EntityNames.SECTION, true));
         assertFalse(validator.canValidate(EntityNames.SECTION, false));
         assertFalse(validator.canValidate(EntityNames.ATTENDANCE, true));

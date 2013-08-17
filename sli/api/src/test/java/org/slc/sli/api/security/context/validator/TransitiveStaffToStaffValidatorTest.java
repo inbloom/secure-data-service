@@ -28,6 +28,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
@@ -149,6 +150,7 @@ public class TransitiveStaffToStaffValidatorTest {
         body.put("staffReference", staff3.getEntityId());
         repo.create("staffEducationOrganizationAssociation", body);
 
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.STAFF_CONTEXT);
     }
     
     private void setupCurrentUser(Entity staff) {

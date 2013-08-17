@@ -14,6 +14,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -50,7 +51,8 @@ public class GenericToCohortValidatorTest {
     @Before
 	public void init() {
 		injector.setEducatorContext(USER_ID);
-	}
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.DUAL_CONTEXT);
+    }
 
     @Test
     public void testCanValidate() {

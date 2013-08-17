@@ -23,6 +23,7 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
@@ -157,7 +158,8 @@ public class TeacherToParentValidatorTest {
         Entity prog2 = helper.generateProgram();
         helper.generateStudentProgram(student2.getEntityId(), prog2.getEntityId(), false);
         helper.generateStaffProgram(teacher3.getEntityId(), prog2.getEntityId(), false, true);
-      
+
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.TEACHER_CONTEXT);
     }
     
     private void setupCurrentUser(Entity staff) {

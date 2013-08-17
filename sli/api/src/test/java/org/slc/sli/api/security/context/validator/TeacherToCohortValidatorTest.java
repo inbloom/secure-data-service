@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.springframework.test.context.ContextConfiguration;
@@ -39,6 +40,7 @@ public class TeacherToCohortValidatorTest {
 	@Before
 	public void init() {
 		injector.setEducatorContext(USER_ID);
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.TEACHER_CONTEXT);
 	}
 
 	@Test

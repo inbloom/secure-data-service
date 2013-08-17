@@ -28,6 +28,7 @@ import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.service.DefaultResourceService;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
@@ -84,6 +85,7 @@ public class ThreePartResourceTest {
         studentResource = new Resource("v1", "students");
         sectionResource = new Resource("v1", "sections");
         ssaResource = new Resource("v1", "studentSectionAssociations");
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.STAFF_CONTEXT);
     }
 
     private void setupMocks(String uri) throws URISyntaxException {

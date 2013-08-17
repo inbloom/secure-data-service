@@ -33,6 +33,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -115,18 +116,21 @@ public class CommonValidatorTest {
 
     @Test
     public void verifyNumberOfStaffValidatorsForEachEntity() throws Exception {
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.STAFF_CONTEXT);
         setupCurrentUser(new MongoEntity("staff", new HashMap<String, Object>()));
         validateValidators();
     }
 
     @Test
     public void verifyNumberOfTeacherValidatorsForEachEntity() throws Exception {
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.TEACHER_CONTEXT);
         setupCurrentUser(new MongoEntity("teacher", new HashMap<String, Object>()));
         validateValidators();
     }
 
     @Test
     public void verifyNumberOfStudentValidatorsForEachEntity() throws Exception {
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.NO_CONTEXT);
         MongoEntity student = new MongoEntity("student", new HashMap<String, Object>());
         injector.setCustomContext("Studentious","Stendarious","Myrran",Arrays.asList(SecureRoleRightAccessImpl.STUDENT),student,"High Elves");
         validateValidators();

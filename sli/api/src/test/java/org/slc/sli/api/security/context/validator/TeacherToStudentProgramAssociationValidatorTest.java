@@ -9,6 +9,7 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
@@ -60,6 +61,8 @@ public class TeacherToStudentProgramAssociationValidatorTest {
         studentProgramAssoc4 = helper.generateStudentProgram("student1", program4.getEntityId(), false);
         Entity staffProgramAssoc4 = helper.generateStaffProgram(ValidatorTestHelper.STAFF_ID, program4.getEntityId(), true, false);
         studentProgramAssoc5 = helper.generateStudentProgram("student1", program5.getEntityId(), false);
+
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.TEACHER_CONTEXT);
         
     }
         

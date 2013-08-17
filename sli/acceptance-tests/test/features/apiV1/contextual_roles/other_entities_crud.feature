@@ -63,8 +63,8 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | studentCompetencies                     |
     | studentGradebookEntries                 |
     | parents                                 |
-    | staff                                   |
-    | teachers                                |
+#    | staff                                   |
+#    | teachers                                |
 
   Scenario: Ensure GET can be performed on self entities with the proper rights
     And I log in as "msmith"
@@ -136,8 +136,8 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | studentCompetencies                     |
     | studentGradebookEntries                 |
     | parents                                 |
-    | staff                                   |
-    | teachers                                |
+#    | staff                                   |
+#    | teachers                                |
 
   Scenario Outline: Ensure POST can be performed on all public entities with READ_PUBLIC and WRITE_PUBLIC rights
     Given I change the custom role of "Leader" to add the "READ_PUBLIC" right
@@ -260,8 +260,8 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | teacherSectionAssociation             | teacherSectionAssociations              |
     | studentCompetency                     | studentCompetencies                     |
     | parent                                | parents                                 |
-    | staff                                 | staff                                   |
-    | teacher                               | teachers                                |
+#    | staff                                 | staff                                   |
+#    | teacher                               | teachers                                |
 
 # Double segment (/<ENTITY>/{id}) URI tests.
 
@@ -349,8 +349,8 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | staffCohortAssociation   | staffCohortAssociation               | staffCohortAssociations               |
     | staffProgramAssociation  | staffProgramAssociation              | staffProgramAssociations              |
     | section                  | teacherSectionAssociation            | teacherSectionAssociations            |
-    | staff                    | staff                                | staff                                 |
-    | staff                    | teacher                              | teachers                              |
+#    | staff                    | staff                                | staff                                 |
+#    | teacher                  | teacher                              | teachers                              |
 
   Scenario: GETs on /parents/{id}
     Given I change the custom role of "Aggregate Viewer" to add the "READ_GENERAL" right
@@ -444,6 +444,7 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
 #    | staff                                 | staff                                   | loginId                  | newer-staff-login                       | even-newer-staff-login                  |
 #    | teacher                               | teacher                                 | loginId                  | newer-teacher-login                     | even-newer-teacher-login                |
 
+
 # Multi segment (/<ENTITY>/{id}/...) URI tests.
 
   Scenario: GETs on multiple (more than 2) part URIs of global entities
@@ -451,30 +452,44 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     And I navigate to GET "<District 9 URI>/staffEducationOrgAssignmentAssociations/staff"
     Then I should receive a return code of 200
 
-  Scenario: Can view historical data of a student from a different edorg, but can't write to it
-    Given I add student school association for "lashawn.taite" in "Daybreak Bayside High" that's already expired
-    When I log in as "tcuyper"
-    And I navigate to GET "<lashawn.taite URI>/studentSchoolAssociations"
-    Then I should receive a return code of 200
-    And the response should have the newly created entity
+  Scenario Outline: Can view  for non-subdoc historical data of a student from a different edorg, but can't write to it
+    Given I add "<Entity>" for "lashawn.taite" in "Daybreak Bayside High" that's already expired
+    When I log in as "<User>"
 
-    When I navigate to GET "/studentSchoolAssociations/<NEWLY CREATED ENTITY ID>"
+    When I navigate to GET "/<Entity>/<NEWLY CREATED ENTITY ID>"
     Then I should receive a return code of 200
 
     Given format "application/json"
-    When I change the field "exitWithdrawType" to "Exited"
-    And I navigate to PATCH "/studentSchoolAssociations/<NEWLY CREATED ENTITY ID>"
+    When I change the field "<Field>" to "<New Value>"
+    And I navigate to PATCH "/<Entity>/<NEWLY CREATED ENTITY ID>"
     Then I should receive a return code of 403
 
-    Given I add attendance for "lashawn.taite" in "Daybreak Bayside High" that's already expired
-    When I navigate to GET "<lashawn.taite URI>/attendances"
+  Examples:
+    | User      | Entity                      | Field                   | New Value                               |
+    | tcuyper   | studentSchoolAssociations   | exitWithdrawType        | Exited                                  |
+    | tcuyper   | attendances                 | attendanceEvent         | [{'event':'Tardy','date':'2011-12-13'}] |
+    | tcuyper   | disciplineActions           | disciplineDate          | 2012-01-01                              |
+    | tcuyper   | courseTranscripts           | finalLetterGradeEarned  | F                                       |
+
+
+  Scenario Outline: Can view  for subdoc historical data of a student from a different edorg, but can't write to it
+    Given I add subdoc "<subDoc>" for "lashawn.taite" and "<Reference>" in "Daybreak Bayside High" that's already expired
+    When I log in as "<User>"
+    And I navigate to GET "<lashawn.taite URI>/<subDoc>s"
     Then I should receive a return code of 200
     And the response should have the newly created entity
 
-    When I navigate to GET "/attendances/<NEWLY CREATED ENTITY ID>"
+    When I navigate to GET "/<subDoc>s/<NEWLY CREATED ENTITY ID>"
     Then I should receive a return code of 200
 
-    When I clear out the patch request
-    And I change the field "attendanceEvent" to "[{'event':'Tardy','date':'2011-12-13'}]"
-    And I navigate to PATCH "/attendances/<NEWLY CREATED ENTITY ID>"
+    Given format "application/json"
+    When I change the field "<Field>" to "<New Value>"
+    And I navigate to PATCH "/<subDoc>s/<NEWLY CREATED ENTITY ID>"
     Then I should receive a return code of 403
+
+
+  Examples:
+    |  User      |           subDoc                         |    Reference             |    Field                   |                 New Value                       |
+    |  tcuyper   |     reportCard                           |    yearlyTranscript      |    gradingPeriodId         |                  Reporter                       |
+    |  tcuyper   |   studentProgramAssociation              |   program                |   reasonExited             |                   blabla                        |
+    |  tcuyper   |   studentSectionAssociation              |   section                |   reasonExited             |                   blabla                        |

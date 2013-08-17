@@ -24,6 +24,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
@@ -99,7 +100,8 @@ public class TeacherToGradebookEntryValidatorTest {
         body = new HashMap<String, Object>();
         body.put("sectionId", section3.getEntityId());
         gradebookEntry3 = repo.create(EntityNames.GRADEBOOK_ENTRY, body);
-      
+
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.TEACHER_CONTEXT);
     }
     
     private void setupCurrentUser(Entity staff) {

@@ -19,6 +19,7 @@ package org.slc.sli.api.security.context.validator;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.Entity;
@@ -56,6 +57,7 @@ public class TeacherToStaffEdOrgAssociationValidatorTest {
     @Before
     public void setUp() throws Exception {
         helper.setUpTeacherContext();
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.TEACHER_CONTEXT);
     }
 
     @Test

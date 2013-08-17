@@ -28,6 +28,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
@@ -144,6 +145,7 @@ public class TransitiveTeacherToStaffValidatorTest {
         repo.create("staffEducationOrganizationAssociation", body);
 
         injector.setCustomContext(user, fullName, "MERPREALM", roles, teacher1Myself, "111");
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.TEACHER_CONTEXT);
     }
 
     @After

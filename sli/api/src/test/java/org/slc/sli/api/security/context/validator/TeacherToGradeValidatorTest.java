@@ -27,6 +27,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
@@ -79,6 +80,8 @@ public class TeacherToGradeValidatorTest {
         grade1 = helper.generateGrade(studentSectionAssociation1.getEntityId());
         grade2 = helper.generateGrade(studentSectionAssociation2.getEntityId());
         grade3 = helper.generateGrade(studentSectionAssociation3.getEntityId());
+
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.TEACHER_CONTEXT);
     }
     
     @After

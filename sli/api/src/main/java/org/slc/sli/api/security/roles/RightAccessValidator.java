@@ -227,6 +227,8 @@ public class RightAccessValidator {
      * @param isRead if operation is a read operation
      * @return a set of granted authorities
      */
+
+    //Remove this one to complete US5812
     public Collection<GrantedAuthority> getContextualAuthorities(boolean isSelf, Entity entity, boolean isRead){
         Collection<GrantedAuthority> auths = new HashSet<GrantedAuthority>();
 
@@ -243,6 +245,48 @@ public class RightAccessValidator {
                     auths.addAll(principal.getAllRights(isSelf));
                 } else {
                     auths.addAll(entityEdOrgRightBuilder.buildEntityEdOrgRights(principal.getEdOrgRights(), entity, isRead));
+                }
+                if (isSelf) {
+                    auths.addAll(entityEdOrgRightBuilder.buildEntityEdOrgRights(principal.getEdOrgSelfRights(), entity, isRead));
+                }
+            }
+        } else {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            auths.addAll(auth.getAuthorities());
+            if (isSelf) {
+                auths.addAll(principal.getSelfRights());
+            }
+        }
+
+        return auths;
+    }
+
+    /**
+     *  Get the authorities from the context
+     *
+     *
+     * @param isSelf  whether operation is being done in "self" context
+     * @param entity item under inspection
+     * @param context user's context
+     * @param isRead if operation is a read operation
+     * @return a set of granted authorities
+     */
+    public Collection<GrantedAuthority> getContextualAuthorities(boolean isSelf, Entity entity, SecurityUtil.UserContext context, boolean isRead){
+        Collection<GrantedAuthority> auths = new HashSet<GrantedAuthority>();
+
+        SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
+
+        if (SecurityUtil.isStaffUser()) {
+            if (entity == null) {
+                debug("No authority for null");
+            } else {
+                if ((entity.getMetaData() != null && SecurityUtil.principalId().equals(entity.getMetaData().get("createdBy"))
+                        && "true".equals(entity.getMetaData().get("isOrphaned")))
+                        || EntityNames.isPublic(entity.getType())) {
+                    // Orphaned entities created by the principal are handled the same as before.
+                    auths.addAll(principal.getAllContextRights(isSelf));
+                } else {
+                    auths.addAll(entityEdOrgRightBuilder.buildEntityEdOrgContextRights(principal.getEdOrgContextRights(), entity, context, isRead));
                 }
                 if (isSelf) {
                     auths.addAll(entityEdOrgRightBuilder.buildEntityEdOrgRights(principal.getEdOrgSelfRights(), entity, isRead));

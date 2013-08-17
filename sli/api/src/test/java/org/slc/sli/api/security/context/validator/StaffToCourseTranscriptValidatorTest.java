@@ -4,6 +4,7 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
@@ -145,6 +146,8 @@ public class StaffToCourseTranscriptValidatorTest {
         body = new HashMap<String, Object>();
         body.put("studentAcademicRecordId", studentAcademicRecord2.getEntityId());
         courseTranscript2 = repo.create(EntityNames.COURSE_TRANSCRIPT, body);
+
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.STAFF_CONTEXT);
     }
 
     private void setupCurrentUser(Entity staff) {
