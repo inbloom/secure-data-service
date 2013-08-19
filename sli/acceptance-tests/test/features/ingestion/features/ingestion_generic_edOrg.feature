@@ -425,8 +425,6 @@ Feature: Generic EdOrg Ingestion
       | eef4f5ddc466beb3ad5136587731f9350fd398ec_id |
       | 884daa27d806c2d725bc469b273d840493f84b4d_id |
 
-    And I wait for user input
-
     #duplicate detection test
     And I should see following map of entry counts in the corresponding collections:
       | collectionName                           |              count|
@@ -504,4 +502,27 @@ Feature: Generic EdOrg Ingestion
     And there exists no field "metaData.edOrgs" of the "educationOrganization" collection for id "b28b938d6d16194fea6ec5e8fe213abd615f8d9f_id" on the "Midgar" tenant
     And there exists no field "metaData.edOrgs" of the "educationOrganization" collection for id "f8a40f9c99607f2ed1c5ea4988ef8bc8b07f8315_id" on the "Midgar" tenant
     And there exists no field "metaData.edOrgs" of the "educationOrganization" collection for id "e5d176c230d4a47ce3413ab7ce2360a77be30b01_id" on the "Midgar" tenant
-    
+
+    # Update multiple parent edOrg and make sure things still work
+    When I ingest "MultipleParentsUpdate.zip"
+    Then there are only the following in the "body.parentEducationAgencyReference" of the "educationOrganization" collection for id "f8a40f9c99607f2ed1c5ea4988ef8bc8b07f8315_id" on the "Midgar" tenant
+       | value                                       |
+       | 61b56d8b619f1a2c4e6847f6e8ed3d94574ce2d1_id |
+       | b28b938d6d16194fea6ec5e8fe213abd615f8d9f_id |
+    And there are only the following in the "metaData.edOrgs" of the "educationOrganization" collection for id "7ed796665b3dd574ec5a1653297de0bdd607e1b4_id" on the "Midgar" tenant
+        | value                                       |
+        | 7ed796665b3dd574ec5a1653297de0bdd607e1b4_id |
+        | b28b938d6d16194fea6ec5e8fe213abd615f8d9f_id |
+        | f8a40f9c99607f2ed1c5ea4988ef8bc8b07f8315_id |
+        | 61b56d8b619f1a2c4e6847f6e8ed3d94574ce2d1_id |
+    And there are only the following in the "metaData.edOrgs" of the "educationOrganization" collection for id "cda6a94dd976e43b25b98a5acd5f3907ade98275_id" on the "Midgar" tenant
+        | value                                       |
+        | b28b938d6d16194fea6ec5e8fe213abd615f8d9f_id |
+        | f8a40f9c99607f2ed1c5ea4988ef8bc8b07f8315_id |
+        | e5d176c230d4a47ce3413ab7ce2360a77be30b01_id |
+        | 61b56d8b619f1a2c4e6847f6e8ed3d94574ce2d1_id |
+        | cda6a94dd976e43b25b98a5acd5f3907ade98275_id |
+    And there exists no field "metaData.edOrgs" of the "educationOrganization" collection for id "61b56d8b619f1a2c4e6847f6e8ed3d94574ce2d1_id" on the "Midgar" tenant
+    And there exists no field "metaData.edOrgs" of the "educationOrganization" collection for id "b28b938d6d16194fea6ec5e8fe213abd615f8d9f_id" on the "Midgar" tenant
+    And there exists no field "metaData.edOrgs" of the "educationOrganization" collection for id "f8a40f9c99607f2ed1c5ea4988ef8bc8b07f8315_id" on the "Midgar" tenant
+    And there exists no field "metaData.edOrgs" of the "educationOrganization" collection for id "e5d176c230d4a47ce3413ab7ce2360a77be30b01_id" on the "Midgar" tenant
