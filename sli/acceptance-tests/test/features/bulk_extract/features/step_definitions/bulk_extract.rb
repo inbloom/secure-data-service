@@ -381,6 +381,11 @@ When /^I retrieve the path to and decrypt the LEA public data extract file for t
   openDecryptedFile(appId)
 end
 
+When /^I retrieve the path to and decrypt the LEA "(.*?)" public data extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |lea, tenant, appId|
+  getExtractInfoFromMongo(build_bulk_query(tenant,appId,lea))
+  openDecryptedFile(appId)
+end
+
 When /^I decrypt the extract file with application with id "(.*?)"$/ do |appId|
   openDecryptedFile(appId)
 end
