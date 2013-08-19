@@ -62,7 +62,6 @@ import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
-import sun.nio.cs.CharsetMapping;
 
 /**
  * Implementation of EntityService that can be used for most entities.
