@@ -125,7 +125,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
     @Override
     public long countBasedOnContextualRoles(NeutralQuery neutralQuery) {
         boolean isSelf = isSelf(neutralQuery);
-        Collection<GrantedAuthority> auths = SecurityUtil.getSLIPrincipal().getAllRights(isSelf);
+        Collection<GrantedAuthority> auths = SecurityUtil.getSLIPrincipal().getAllContextRights(isSelf);
 
         rightAccessValidator.checkAccess(true, null, defn.getType(), auths);
         rightAccessValidator.checkFieldAccess(neutralQuery, defn.getType(), auths);
