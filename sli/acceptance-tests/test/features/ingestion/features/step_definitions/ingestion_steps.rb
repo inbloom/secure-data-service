@@ -3993,9 +3993,19 @@ Then /^there are only the following in the "(.*?)" of the "(.*?)" collection for
   expArray.sort!
   coll = tenant_db[collection]
   entity = coll.find_one({"_id" => id})
+  if not entity
+    raise "Document with _id '" + id + "' not found in collection '" + collection + "'"
+  end
   if field.include? "."
-     top_level = entity[field.split(".")[0].to_s]
+     top_field = field.split(".")[0].to_s
+     top_level = entity[top_field]
+     if not top_level
+       raise "Field '" + top_field + "' not found in document with _id '" + id + "' in collection '" + collection + "'"
+     end
      actArray = top_level[field.split(".")[1].to_s]
+     if not actArray
+       raise "Field '" + field + "' not found in document with _id '" + id + "' in collection '" + collection + "'"
+     end
      actArray.sort!
   else
     body = entity["body"]
@@ -4005,6 +4015,34 @@ Then /^there are only the following in the "(.*?)" of the "(.*?)" collection for
   enable_NOTABLESCAN()
   assert(actArray == expArray, "Actual values differ from expected values.  Actual values are: \n" + actArray.join("\n"))
 end
+
+Then /^there exists no field "(.*?)" of the "(.*?)" collection for id "(.*?)" on the "(.*?)" tenant/ do |field, collection, id, tenant|
+  disable_NOTABLESCAN()
+  tenant_db = @conn.db(convertTenantIdToDbName(tenant))
+  coll = tenant_db[collection]
+  entity = coll.find_one({"_id" => id})
+  if not entity
+    raise "Document with _id '" + id + "' not found in collection '" + collection + "'"
+  end
+  errmsg = "Field '" + field + "' found in document with _id '" + id + "' in collection '" + collection + "'"
+  if field.include? "."
+     top_field = field.split(".")[0].to_s
+     if not entity.has_key?(top_field)
+       return
+     end
+     top_level = entity[top_field]
+     if top_level.has_key?(field.split(".")[1].to_s)
+       raise errmsg
+     end
+  else
+    body = entity["body"]
+    if body.has_key?(field)
+       raise errmsg
+    end
+  end
+  enable_NOTABLESCAN()
+end
+
 ############################################################
 # STEPS: AFTER
 ############################################################
