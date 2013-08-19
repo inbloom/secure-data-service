@@ -193,15 +193,15 @@ public class RightAccessValidatorTest {
 
     @Test
     public void testGetContextualAuthoritiesStaffOrphan() {
-        Map<String, Collection<GrantedAuthority>> edOrgRights = new HashMap<String, Collection<GrantedAuthority>>();
-        edOrgRights.put("edOrg1", EDU_AUTHS);
-        edOrgRights.put("edOrg2", ADMIN_AUTHS);
         String principalId = "SuperTeacher1";
         Entity princEntity = new MongoEntity(null, principalId, new HashMap<String,Object>(), new HashMap<String,Object>());
         SLIPrincipal principal = new SLIPrincipal();
         principal.setEntity(princEntity);
         principal.setUserType(EntityNames.STAFF);
-        principal.setEdOrgRights(edOrgRights);
+
+        EdOrgContextRightsCache edOrgContextRights = createEdOrgContextRights();
+        principal.setEdOrgContextRights(edOrgContextRights);
+
         securityContextInjector.setOauthSecurityContext(principal, false);
 
         Map<String,Object> metaData = new HashMap<String,Object>();
@@ -324,7 +324,7 @@ public class RightAccessValidatorTest {
         contextRights2.put(Right.STAFF_CONTEXT.name(), authorities2S);
 
         Map<String, Collection<GrantedAuthority>> contextRights3 = new HashMap<String, Collection<GrantedAuthority>>();
-        contextRights3.put(Right.TEACHER_CONTEXT.name(), new HashSet<GrantedAuthority>());
+        contextRights3.put(Right.TEACHER_CONTEXT.name(), authorities2T);
 
         edOrgContextRights.put("edOrg1", contextRights2);
         edOrgContextRights.put("edOrg2", contextRights3);

@@ -122,11 +122,11 @@ public class PreProcessFilter implements ContainerRequestFilter {
         principal.setSubEdOrgHierarchy(edOrgHelper.getStaffEdOrgsAndChildren());
 
         Collection<GrantedAuthority> contextRights = principal.getAllContextRights(false);
-        if (contextRights.contains(new GrantedAuthorityImpl(Right.STAFF_CONTEXT.name())) && contextRights.contains(new GrantedAuthorityImpl(Right.TEACHER_CONTEXT.name()))) {
+        if (contextRights.contains(Right.STAFF_CONTEXT) && contextRights.contains(Right.TEACHER_CONTEXT.name())) {
             SecurityUtil.setUserContext(SecurityUtil.UserContext.DUAL_CONTEXT);
-        } else if (contextRights.contains(new GrantedAuthorityImpl(Right.STAFF_CONTEXT.name()))) {
+        } else if (contextRights.contains(Right.STAFF_CONTEXT)) {
             SecurityUtil.setUserContext(SecurityUtil.UserContext.STAFF_CONTEXT);
-        } else if (contextRights.contains(new GrantedAuthorityImpl(Right.TEACHER_CONTEXT.name()))) {
+        } else if (contextRights.contains(Right.TEACHER_CONTEXT)) {
             SecurityUtil.setUserContext(SecurityUtil.UserContext.TEACHER_CONTEXT);
         } else {
             SecurityUtil.setUserContext(SecurityUtil.UserContext.NO_CONTEXT);
