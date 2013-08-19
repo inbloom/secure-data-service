@@ -55,10 +55,10 @@ Scenario: Delete EdOrg Ref with cascade = false and force = true, log violations
     When the data from "test/features/ingestion/test_data/delete_fixture_data/" is imported
     Then there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "educationOrganization"
 	   |field                                                           |value                                                |
-	   |_id                                                             |d7152b7086bb1714912fd697d531d310f6ff74b0_id          |
-	  Then there exist "2" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "parentEducationOrganizationAgencyReference"
+	   |_id                                                             |9fbab63d17738f95b2733884801941c1a5f8c039_id          |
+	  Then there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "parentEducationOrganizationAgencyReference"
 	   |field                                                           |value                                                |
-	   |body.parentEducationAgencyReference                             |d7152b7086bb1714912fd697d531d310f6ff74b0_id          |
+	   |body.parentEducationAgencyReference                             |9fbab63d17738f95b2733884801941c1a5f8c039_id          |
     And I save the collection counts in "Midgar" tenant
    	And I post "ForceEdOrgRefDelete.zip" file as the payload of the ingestion job
   	When zip file is scp to ingestion landing zone
@@ -73,7 +73,7 @@ Scenario: Delete EdOrg Ref with cascade = false and force = true, log violations
     And I should not see an error log file created
 	  And I should see "CORE_0066" in the resulting warning log file for "InterchangeEducationOrganization.xml"
 	  And I re-execute saved query "educationOrganization" to get "0" records
-	  And I re-execute saved query "parentEducationOrganizationAgencyReference" to get "2" records
+	  And I re-execute saved query "parentEducationOrganizationAgencyReference" to get "1" records
 	  And I see that collections counts have changed as follows in tenant "Midgar"
 	   |collection                        |delta     |
 	   |educationOrganization             |        -1|

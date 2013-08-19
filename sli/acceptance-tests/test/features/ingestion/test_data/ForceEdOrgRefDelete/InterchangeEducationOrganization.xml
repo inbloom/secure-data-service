@@ -3,7 +3,7 @@
   <Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="true">
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>TestEdOrg LEA 2</StateOrganizationId>
+        <StateOrganizationId>TestEdOrg LEA 1</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </Action>
