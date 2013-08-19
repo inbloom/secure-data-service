@@ -435,9 +435,6 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     private static final Map<String, String> ENTITY_BASE_TYPE_MAP;
     static {
         ENTITY_BASE_TYPE_MAP = new HashMap<String, String>();
-        ENTITY_BASE_TYPE_MAP.put("school", "educationOrganization");
-        ENTITY_BASE_TYPE_MAP.put("localEducationAgency", "educationOrganization");
-        ENTITY_BASE_TYPE_MAP.put("stateEducationAgency", "educationOrganization");
         ENTITY_BASE_TYPE_MAP.put("teacher", "staff");
     }
 
