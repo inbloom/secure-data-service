@@ -523,10 +523,10 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                 Collection<GrantedAuthority> roleAuthorities = new HashSet<GrantedAuthority>();
                 roleAuthorities.addAll(resolver.resolveRolesUnion(principal.getTenantId(), principal.getRealm(),
                         Arrays.asList(role), principal.isAdminRealmAuthenticated(), false));
-                if (roleAuthorities.contains(STAFF_CONTEXT)) {
+                if (roleAuthorities.contains(Right.STAFF_CONTEXT)) {
                     contextRights.get(Right.STAFF_CONTEXT.name()).addAll(roleAuthorities);
                 }
-                if (roleAuthorities.contains(TEACHER_CONTEXT)) {
+                if (roleAuthorities.contains(Right.TEACHER_CONTEXT)) {
                     contextRights.get(Right.TEACHER_CONTEXT.name()).addAll(roleAuthorities);
                 }
             }

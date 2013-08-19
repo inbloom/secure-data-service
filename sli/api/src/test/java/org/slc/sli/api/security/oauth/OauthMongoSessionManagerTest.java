@@ -364,13 +364,13 @@ public class OauthMongoSessionManagerTest {
         principal.setRealm(REALM_ID);
         principal.setAdminRealmAuthenticated(false);
 
-        Set<GrantedAuthority> authorities00 = new HashSet<GrantedAuthority>(Arrays.asList(ANONYMOUS_ACCESS, CRUD_REALM, ADMIN_ACCESS));
-        Set<GrantedAuthority> authorities0 = new HashSet<GrantedAuthority>(Arrays.asList(STAFF_CONTEXT, AGGREGATE_READ));
-        Set<GrantedAuthority> authorities1 = new HashSet<GrantedAuthority>(Arrays.asList(TEACHER_CONTEXT, AGGREGATE_WRITE));
-        Set<GrantedAuthority> authorities2 = new HashSet<GrantedAuthority>(Arrays.asList(TEACHER_CONTEXT, READ_RESTRICTED, WRITE_RESTRICTED));
-        Set<GrantedAuthority> authorities3 = new HashSet<GrantedAuthority>(Arrays.asList(TEACHER_CONTEXT, READ_PUBLIC, WRITE_PUBLIC));
-        Set<GrantedAuthority> authorities4 = new HashSet<GrantedAuthority>(Arrays.asList(STAFF_CONTEXT, READ_GENERAL));
-        Set<GrantedAuthority> authorities5 = new HashSet<GrantedAuthority>(Arrays.asList(TEACHER_CONTEXT, WRITE_GENERAL));
+        Set<GrantedAuthority> authorities00 = new HashSet<GrantedAuthority>(Arrays.asList(Right.ANONYMOUS_ACCESS, Right.CRUD_REALM, Right.ADMIN_ACCESS));
+        Set<GrantedAuthority> authorities0 = new HashSet<GrantedAuthority>(Arrays.asList(Right.STAFF_CONTEXT, Right.AGGREGATE_READ));
+        Set<GrantedAuthority> authorities1 = new HashSet<GrantedAuthority>(Arrays.asList(Right.TEACHER_CONTEXT, Right.AGGREGATE_WRITE));
+        Set<GrantedAuthority> authorities2 = new HashSet<GrantedAuthority>(Arrays.asList(Right.TEACHER_CONTEXT, Right.READ_RESTRICTED, Right.WRITE_RESTRICTED));
+        Set<GrantedAuthority> authorities3 = new HashSet<GrantedAuthority>(Arrays.asList(Right.TEACHER_CONTEXT, Right.READ_PUBLIC, Right.WRITE_PUBLIC));
+        Set<GrantedAuthority> authorities4 = new HashSet<GrantedAuthority>(Arrays.asList(Right.STAFF_CONTEXT, Right.READ_GENERAL));
+        Set<GrantedAuthority> authorities5 = new HashSet<GrantedAuthority>(Arrays.asList(Right.TEACHER_CONTEXT, Right.WRITE_GENERAL));
         Mockito.when(resolver.resolveRolesUnion(matches(TENANT_ID), matches(REALM_ID), eq(edOrgRole00), eq(false), eq(false))).thenReturn(authorities00);
         Mockito.when(resolver.resolveRolesUnion(matches(TENANT_ID), matches(REALM_ID), eq(edOrgRole0), eq(false), eq(false))).thenReturn(authorities0);
         Mockito.when(resolver.resolveRolesUnion(matches(TENANT_ID), matches(REALM_ID), eq(edOrgRole1), eq(false), eq(false))).thenReturn(authorities1);
