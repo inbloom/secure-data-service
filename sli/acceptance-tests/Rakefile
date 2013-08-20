@@ -605,7 +605,7 @@ task :apiAndSecurityTests => [
                               :apiV1Tests,
                               :apiSuperDocTests,
                               :securityTests,
-                              #:userAdminCrudTests,
+                              :userAdminCrudTests,
                               :migrationTests,
                               :provisioningTests,
                               :onboardingTests,
