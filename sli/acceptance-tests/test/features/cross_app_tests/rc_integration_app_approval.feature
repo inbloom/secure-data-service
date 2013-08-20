@@ -98,7 +98,6 @@ Then I will be redirected to the realm selector web page
 When I navigate to the databrowser page
 Then I should forced to reauthenticate to gain access
 
-@wip
 Scenario: Sessions are shared between Dashboard and Databrowser apps
 When I navigate to the Portal home page
 When I select "Daybreak Test Realm" and click go
