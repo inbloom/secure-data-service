@@ -584,8 +584,8 @@ desc "Run Smoke Tests"
 task :smokeTests => [
                     :apiSmokeTests,
                     :ingestionSmokeTests,
-                    #:dashboardSmokeTests,
-                    #:bulkExtractSmokeTests,
+                    :dashboardSmokeTests,
+                    :bulkExtractSmokeTests,
                     :adminSmokeTests] do
   displayFailureReport()
   if $SUCCESS

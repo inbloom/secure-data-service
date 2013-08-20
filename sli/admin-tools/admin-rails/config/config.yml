@@ -28,7 +28,7 @@ ldap_default: &ldap_default
     ldap_port: 443
     ldap_use_ssl: true
     ldap_user: cn=Admin,dc=slidev,dc=org
-    ldap_pass: F8EEEB5397084B5DD8EA44604D8CC39A
+    ldap_pass: c4f272eb123f68f1f5adc31711c93750
 
 email_mon: &email_mon
     email_sender_name: SLC Administrator
