@@ -125,13 +125,6 @@ task :bulkExtractMultiParentsTests do
   Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
 
-desc "Charter School Cases"
-task :bulkExtractCharterSchoolTests do
-  Rake::Task["bulkExtractCleanup"].execute
-  runTests("test/features/bulk_extract/features/bulk_extract_charter_school.feature")
-  Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
-end
-
 desc "Client Cert Auth Bulk Extract Tests"
 task :bulkExtractTlsTests do
   runTests("test/features/bulk_extract/features/bulk_extract_sea_ingest.feature")
