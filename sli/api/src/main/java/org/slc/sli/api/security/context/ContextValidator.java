@@ -267,7 +267,7 @@ public class ContextValidator implements ApplicationContextAware {
     }
 
     // TODO: This will be removed once testing on replacement method is complete.
-    public void validateContextToEntities(EntityDefinition def, Collection<String> ids, boolean isTransitive) {
+    public void validateContextToEntitiesOld(EntityDefinition def, Collection<String> ids, boolean isTransitive) {
 
         IContextValidator validator = findValidator(def.getType(), isTransitive);
         if (validator != null) {
@@ -318,12 +318,12 @@ public class ContextValidator implements ApplicationContextAware {
     *
     * @throws APIAccessDeniedException - When entities cannot be accessed
     */
-    public void validateContextToEntitiesTest(EntityDefinition def, Collection<String> ids, boolean isTransitive) throws APIAccessDeniedException {
+    public void validateContextToEntities(EntityDefinition def, Collection<String> ids, boolean isTransitive) throws APIAccessDeniedException {
         IContextValidator validator = findValidator(def.getType(), isTransitive);
         if (validator != null) {
             NeutralQuery getIdsQuery = new NeutralQuery(new NeutralCriteria("_id", "in", new ArrayList<String>(ids)));
             Collection<Entity> entities = (Collection<Entity>) repo.findAll(def.getStoredCollectionName(), getIdsQuery);
-            Set<String> idsToValidate = getEntitiesToValidate(def, entities, isTransitive, validator).keySet();
+            Set<String> idsToValidate = getEntitiesToValidate(def, entities, isTransitive, ids).keySet();
             if (!idsToValidate.isEmpty()) {
                 Set<String> validatedIds = getValidatedIds(def, idsToValidate, validator);
                 if (!validatedIds.containsAll(idsToValidate)) {
@@ -352,7 +352,11 @@ public class ContextValidator implements ApplicationContextAware {
 
         for (IContextValidator validator : contextValidators) {
            try {
-               Map<String, Entity> entitiesToValidate = getEntitiesToValidate(def, entities, isTransitive, validator);
+               Collection<String> ids = new HashSet<String>();
+               for (Entity entity : entities) {
+                   ids.add(entity.getEntityId());
+               }
+               Map<String, Entity> entitiesToValidate = getEntitiesToValidate(def, entities, isTransitive, ids);
                Set<Entity> validatedEntities = new HashSet<Entity>();
                if (!entitiesToValidate.isEmpty()) {
                    Set<String> validatedIds = getValidatedIds(def, entitiesToValidate.keySet(), validator);
@@ -390,11 +394,11 @@ public class ContextValidator implements ApplicationContextAware {
     * @param def - Definition of entities to filter
     * @param entities - Collection of entities to filter for validation
     * @param isTransitive - Determines whether validation is through another entity type
-    * @param validator - Validator to use
+    * @param ids - Original set of entity ids to validate
     *
     * @return - Map of ids/entities to validate
     */
-    protected Map<String, Entity> getEntitiesToValidate(EntityDefinition def, Collection<Entity> entities, boolean isTransitive, IContextValidator validator) {
+    protected Map<String, Entity> getEntitiesToValidate(EntityDefinition def, Collection<Entity> entities, boolean isTransitive, Collection<String> ids) {
          int found = 0;
          Map<String, Entity> entitiesToValidate = new HashMap<String, Entity>();
             for (Entity ent : entities) {
@@ -415,10 +419,10 @@ public class ContextValidator implements ApplicationContextAware {
                 }
             }
 
-            if (found != entities.size()) {
+            if (found != ids.size()) {
                 debug("Invalid reference, an entity does not exist. collection: {} entities: {}",
                         def.getStoredCollectionName(), entities);
-                throw new EntityNotFoundException("Could not locate " + def.getType() + " with ids " + entities);
+                throw new EntityNotFoundException("Could not locate " + def.getType() + " with ids " + ids);
             }
 
          return entitiesToValidate;
