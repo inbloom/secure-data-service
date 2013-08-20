@@ -21,7 +21,7 @@
         <OrganizationCategory>Local Education Agency</OrganizationCategory>
         <OrganizationCategory>Education Service Center</OrganizationCategory>
     </OrganizationCategories>
-    <ParentEducationAgencyReference>
+ <ParentEducationAgencyReference>
   <EducationalOrgIdentity>
     <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
   </EducationalOrgIdentity>
@@ -122,9 +122,14 @@
     <OrganizationCategories>
       <OrganizationCategory>School</OrganizationCategory>
     </OrganizationCategories>
-    <ParentEducationAgencyReference>
+ <ParentEducationAgencyReference>
   <EducationalOrgIdentity>
     <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+  </EducationalOrgIdentity>
+  </ParentEducationAgencyReference>
+   <ParentEducationAgencyReference>
+  <EducationalOrgIdentity>
+    <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
   </EducationalOrgIdentity>
 </ParentEducationAgencyReference>
     <Address AddressType="Physical">

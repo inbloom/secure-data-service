@@ -6,7 +6,7 @@ Feature: As an API user, I want to be able to get a list of links available to t
 	And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     Given I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
 
-  Scenario: Validate that the charter School entity is extracted correctly with full bulk extract
+  Scenario: Validate that the charter School entity and LEA + ESC entity is extracted correctly with full bulk extract
     Given I clean the bulk extract file system and database
     And I post "SmallSampleDataSet-Charter.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
@@ -21,35 +21,37 @@ Feature: As an API user, I want to be able to get a list of links available to t
     And there is a metadata file in the extract
     And the extract contains a file for each of the following entities:
       |  entityType                            |
-      |  teacherSchoolAssociation              |
-      |  studentProgramAssociation             |
-      |  reportCard                            |
-      |  studentSectionAssociation             |
-      |  studentAssessment                     |
-      |  course                                |
-      |  studentSchoolAssociation              |
-      |  staff                                 |
-      |  student                               |
-      |  disciplineAction                      |
-      |  grade                                 |
-      |  courseTranscript                      |
-      |  studentParentAssociation              |
-      |  educationOrganization                 |
-      |  studentAcademicRecord                 |
-      |  teacherSectionAssociation             |
-      |  attendance                            |
-      |  gradingPeriod                         |
-      |  studentGradebookEntry                 |
-      |  parent                                |
-      |  studentCohortAssociation              |
-      |  section                               |
-      |  school                                |
-      |  staffEducationOrganizationAssociation |
-      |  session                               |
-      |  studentCompetency                     |
-      |  courseOffering                        |
-      |  teacher                               |
-      |  gradebookEntry                        |
+      |attendance                              |
+      |grade                                   |
+      |section                                 |
+      |studentCohortAssociation                |
+      |studentSectionAssociation               |
+      |course                                  |
+      |gradebookEntry                          |
+      |session                                 |
+      |studentCompetency                       |
+      |teacher                                 |
+      |courseOffering                          |
+      |gradingPeriod                           |
+      |staff                                   |
+      |studentDisciplineIncidentAssociation    |
+      |teacherSchoolAssociation                |
+      |courseTranscript                        |
+      |staffEducationOrganizationAssociation   |
+      |studentGradebookEntry                   |
+      |teacherSectionAssociation               |
+      |disciplineAction                        |
+      |parent                                  |
+      |student                                 |
+      |studentParentAssociation                |
+      |disciplineIncident                      |
+      |reportCard                              |
+      |studentAcademicRecord                   |
+      |studentProgramAssociation               |
+      |educationOrganization                   |
+      |school|
+      |studentAssessment|
+      |studentSchoolAssociation|
     And I verify this "educationOrganization" file should contain:
       | id                                          | condition                                                                |
       | 352e8570bd1116d11a72755b987902440045d346_id | charterStatus = School Charter                                           |
@@ -76,7 +78,7 @@ Feature: As an API user, I want to be able to get a list of links available to t
       | 1d4648a8bf29459821c50dc57d89823a438f11ca_id | educationOrganizationReference = 1b223f577827204a1c7e9c851dba06bea6b031fe_id   |
 
 
-  Scenario: Validate that the charter School entity is extracted correctly with delta bulk extract
+  Scenario: Validate that the charter School entity and LEA + ESC entity is extracted correctly with delta bulk extract
     Given I clean the bulk extract file system and database
     And I post "SmallSampleDataSet-Charter.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
@@ -89,34 +91,37 @@ Feature: As an API user, I want to be able to get a list of links available to t
 
     When I verify the last delta bulk extract by app "<app id>" for "<IL-DAYBREAK school>" in "Midgar" contains a file for each of the following entities:
       |  entityType                                |
-      |attendance                                  |
-      |gradebookEntry                              |
-      |section                                     |
-      |studentAssessment                           |
-      |studentSchoolAssociation                    |
-      |course                                      |
-      |gradingPeriod                               |
-      |session                                     |
-      |studentCohortAssociation                    |
-      |studentSectionAssociation                   |
-      |courseOffering                              |
-      |staff                                       |
-      |studentCompetency                           |
-      |teacher                                     |
-      |disciplineAction                            |
-      |parent                                      |
-      |staffEducationOrganizationAssociation       |
-      |studentGradebookEntry                       |
-      |teacherSchoolAssociation                    |
-      |educationOrganization                       |
-      |reportCard                                  |
-      |student                                     |
-      |studentParentAssociation                    |
-      |teacherSectionAssociation                   |
-      |grade                                       |
-      |school                                      |
-      |studentAcademicRecord                       |
-      |studentProgramAssociation                   |
+      |attendance|
+      |grade   |
+      |section|
+      |studentCohortAssociation|
+      |studentSectionAssociation|
+      |course|
+      |gradebookEntry|
+      |session|
+      |studentCompetency|
+      |teacher|
+      |courseOffering|
+      |gradingPeriod|
+      |staff|
+      |studentDisciplineIncidentAssociation|
+      |teacherSchoolAssociation|
+      |courseTranscript|
+      |staffEducationOrganizationAssociation|
+      |studentGradebookEntry|
+      |teacherSectionAssociation|
+      |disciplineAction|
+      |parent|
+      |student|
+      |studentParentAssociation|
+      |disciplineIncident|
+      |reportCard|
+      |studentAcademicRecord|
+      |studentProgramAssociation|
+      |educationOrganization|
+      |school|
+      |studentAssessment|
+      |studentSchoolAssociation|
     And I verify this "educationOrganization" file should contain:
       | id                                          | condition                                                                |
       | 352e8570bd1116d11a72755b987902440045d346_id | charterStatus = School Charter                                           |
@@ -134,7 +139,6 @@ Feature: As an API user, I want to be able to get a list of links available to t
     When I verify the last delta bulk extract by app "<app id>" for "<IL-DAYBREAK>" in "Midgar" contains a file for each of the following entities:
       |  entityType                                |
       |attendance                                  |
-      |disciplineIncident                          |
       |reportCard                                  |
       |studentAcademicRecord                       |
       |studentProgramAssociation                   |
@@ -156,13 +160,11 @@ Feature: As an API user, I want to be able to get a list of links available to t
       |courseOffering                              |
       |gradingPeriod                               |
       |staff                                       |
-      |studentDisciplineIncidentAssociation        |
       |teacherSchoolAssociation                    |
       |courseTranscript                            |
       |staffEducationOrganizationAssociation       |
       |studentGradebookEntry                       |
       |teacherSectionAssociation                   |
-      |disciplineAction                            |
       |parent                                      |
       |student                                     |
       |studentParentAssociation                    |

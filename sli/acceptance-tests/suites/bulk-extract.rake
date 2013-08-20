@@ -111,6 +111,20 @@ task :bulkExtractNegativeTests do
   Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
 
+desc "Hybird EdOrg Cases"
+task :bulkExtractHybridEdOrgsTests do
+  Rake::Task["bulkExtractCleanup"].execute
+  runTests("test/features/bulk_extract/features/bulk_extract_hybrid_edorgs.feature")
+  Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
+end
+
+desc "Mutiple Parent Cases"
+task :bulkExtractMultiParentsTests do
+  Rake::Task["bulkExtractCleanup"].execute
+  runTests("test/features/bulk_extract/features/bulk_extract_multi_parents.feature")
+  Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
+end
+
 desc "Charter School Cases"
 task :bulkExtractCharterSchoolTests do
   Rake::Task["bulkExtractCleanup"].execute
