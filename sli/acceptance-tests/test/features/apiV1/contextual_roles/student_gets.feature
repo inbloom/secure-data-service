@@ -176,11 +176,11 @@ Feature: Use the APi to successfully get student data while having roles over ma
     And the response should have general student data
     And the response should not have restricted student data
     When I navigate to GET "<bert.jakeman URI>"
-    Then I should receive a return code of 403
+    Then I should receive a return code of 200
 
     #TODO:lashawn.taite should return 200 when US5787 is done
     When I navigate to GET "<lashawn.taite URI>"
-    Then I should receive a return code of 403
+    Then I should receive a return code of 200
     #And the response should have general student data
     #And the response should have restricted student data
 
@@ -284,13 +284,12 @@ Feature: Use the APi to successfully get student data while having roles over ma
     And the response should have general student data
     And the response should not have restricted student data
     When I navigate to GET "<bert.jakeman URI>"
-    Then I should receive a return code of 403
+    Then I should receive a return code of 200
 
-    #TODO:lashawn.taite should return 200 when US5787 is done
     When I navigate to GET "<lashawn.taite URI>"
-    Then I should receive a return code of 403
-    #And the response should have general student data
-    #And the response should have restricted student data
+    Then I should receive a return code of 200
+    And the response should have general student data
+    And the response should have restricted student data
 
     Given I change the type of "rbelding" to "staff"
     When I log in as "rbelding"
