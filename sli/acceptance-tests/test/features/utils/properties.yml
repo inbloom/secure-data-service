@@ -70,12 +70,12 @@ simpleIDP_login_url: "http://local.slidev.org:8082/simple-idp"
 simpleIDP_realm_SLI: "SimpleIDP Test Realm - SLI"
 simpleIDP_realm_suffix: "Local"
 
-ldap_hostname: ldapelb.slidev.org
-ldap_port: 443
-ldap_use_ssl: true
-ldap_base: "ou=LocalNew,ou=DevTest,dc=slidev,dc=org"
-ldap_admin_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
-ldap_admin_pass: Y;Gtf@w{
+ldap_hostname: localhost
+ldap_port: 10009
+ldap_use_ssl: false
+ldap_base: ou=LocalNew,ou=DevTest,dc=slidev,dc=org
+ldap_admin_user: cn=Admin,dc=slidev,dc=org
+ldap_admin_pass: slidev
 
 user_registration_app_production_url: "http://local.slidev.org:3001"
 user_registration_app_sandbox_url: "http://local.slidev.org:3001"

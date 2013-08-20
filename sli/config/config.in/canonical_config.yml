@@ -82,8 +82,8 @@ default:
         sli.useraccount.maximum: 500
 
         # Ldap server user and pass
-        sli.api.ldap.user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
-        sli.api.ldap.pass: 76F2FD74E0CEF4808FFD476EC604CFB4
+        sli.api.ldap.user: cn=Admin,dc=slidev,dc=org
+        sli.api.ldap.pass: F8EEEB5397084B5DD8EA44604D8CC39A
 
         #Used to access hudson build number
         sli.application.buildTag: sli.app.buildTag
@@ -365,7 +365,7 @@ default:
         sli.simple-idp.sliAdminRealmName: SLIAdmin
         # LDAP base URLs, comma separated list of ldap servers
         ## sli.simple-idp.ldap.urls: ldap://{ldap_host:port}
-        sli.simple-idp.ldap.urls: ldap://ldap.slidev.org:389
+        sli.simple-idp.ldap.urls: ldap://localhost:10009
         # LDAP base DN
         sli.simple-idp.ldap.base: ou=DevTest,dc=slidev,dc=org
 
@@ -1034,7 +1034,7 @@ local:
         sli.simple-idp.sliAdminRealmName: LocalNew
         # LDAP base URLs, comma separated list of ldap servers
         ## sli.simple-idp.ldap.urls: ldap://{ldap_host:port}
-        sli.simple-idp.ldap.urls: ldaps://ldapelb.slidev.org:443
+        sli.simple-idp.ldap.urls: ldap://localhost:10009
         # LDAP base DN
         sli.simple-idp.ldap.base: ou=DevTest,dc=slidev,dc=org
 
