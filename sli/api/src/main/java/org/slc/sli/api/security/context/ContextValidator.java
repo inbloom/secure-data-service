@@ -384,6 +384,10 @@ public class ContextValidator implements ApplicationContextAware {
         return entityContexts;
     }
 
+    public Map<String, SecurityUtil.UserContext> validateContextToEntitiesTemp(EntityDefinition def, Collection<Entity> entities, boolean isTransitive) throws APIAccessDeniedException{
+        return new HashMap<String, SecurityUtil.UserContext>();
+    }
+
     /**
     * Returns a map of ids/entities to validate, based upon entity type and list of entities to filter for validation.
     *

@@ -104,6 +104,32 @@ public class SecurityContextInjector {
         SecurityUtil.setUserContext(SecurityUtil.UserContext.STAFF_CONTEXT);
     }
 
+    public void setDualContext() {
+        String user = "administrator";
+        String fullName = "IT Administrator";
+        List<String> roles = Arrays.asList(SecureRoleRightAccessImpl.IT_ADMINISTRATOR);
+
+        Entity entity = Mockito.mock(Entity.class);
+        Mockito.when(entity.getType()).thenReturn("staff");
+        Mockito.when(entity.getEntityId()).thenReturn("blahblahstaffblahblahmerp");
+        List<Right> rights = Arrays.asList(
+                Right.WRITE_GENERAL, Right.READ_GENERAL, Right.READ_RESTRICTED, Right.WRITE_RESTRICTED, Right.READ_PUBLIC, Right.WRITE_PUBLIC);
+
+        List<Right> teacherRights = Arrays.asList(
+                Right.WRITE_GENERAL, Right.READ_GENERAL);
+
+        EdOrgContextRightsCache edOrgContextRights = new EdOrgContextRightsCache();
+        Map<String, Collection<GrantedAuthority>> contextRights = new HashMap<String, Collection<GrantedAuthority>>();
+        contextRights.put(Right.STAFF_CONTEXT.name(), new ArrayList<GrantedAuthority>(rights));
+        contextRights.put(Right.TEACHER_CONTEXT.name(),  new ArrayList<GrantedAuthority>(teacherRights));
+        edOrgContextRights.put(ED_ORG_ID, contextRights);
+
+        SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity, ED_ORG_ID, edOrgContextRights);
+        setSecurityContext(principal, new HashSet<GrantedAuthority>(rights));
+
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.DUAL_CONTEXT);
+    }
+
     public void setAccessAllAdminContext() {
         String user = "administrator";
         String fullName = "IT Administrator";

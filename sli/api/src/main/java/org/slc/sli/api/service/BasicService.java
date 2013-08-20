@@ -564,12 +564,26 @@ public class BasicService implements EntityService, AccessibilityCheck {
         injectSecurity(neutralQuery);
         Collection<Entity> entities = (Collection<Entity>) repo.findAll(collectionName, neutralQuery);
 
-        List<EntityBody> results = null;
+        Map<String, SecurityUtil.UserContext> entityContext = getEntityContexts(entities);
 
-        if(SecurityUtil.getUserContext() == SecurityUtil.UserContext.DUAL_CONTEXT) {
-            results = validateEntitiesForDualContexts(entities, neutralQuery, isSelf, true);
-        } else {
-            results = validateEntitiesForSingleContext(entities, neutralQuery, isSelf, true);
+        List<EntityBody> results = new ArrayList<EntityBody>();
+
+        for (Entity entity : entities) {
+            if (entityContext.containsKey(entity.getEntityId())) {
+                try {
+                    Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf, entity, entityContext.get(entity.getEntityId()), true);
+                    rightAccessValidator.checkAccess(true, isSelf, entity, defn.getType(), auths);
+                    rightAccessValidator.checkFieldAccess(neutralQuery, isSelf, entity, defn.getType(), auths);
+
+                    results.add(entityRightsFilter.makeEntityBody(entity, treatments, defn, isSelf, auths));
+                } catch (AccessDeniedException aex) {
+                    if (entities.size() == 1) {
+                        throw aex;
+                    } else {
+                        error(aex.getMessage());
+                    }
+                }
+            }
         }
 
         if (results.isEmpty()) {
@@ -577,52 +591,6 @@ public class BasicService implements EntityService, AccessibilityCheck {
         }
 
         return results;
-    }
-
-    private List<EntityBody> validateEntitiesForDualContexts(Collection<Entity> entities, NeutralQuery neutralQuery, boolean isSelf, boolean isRead){
-        List<EntityBody> results = new ArrayList<EntityBody>();
-
-        Map<Entity, SecurityUtil.UserContext> entityContexts = getEntityContexts(entities);
-        for (Map.Entry<Entity, SecurityUtil.UserContext> entry : entityContexts.entrySet()) {
-            Entity entity = entry.getKey();
-
-            try {
-                results.add(makeValidatedBody(entity, entry.getValue(), neutralQuery, isSelf, isRead));
-            } catch (AccessDeniedException aex) {
-                if(entities.size() == 1) {
-                    throw aex;
-                } else {
-                    error(aex.getMessage());
-                }
-            }
-        }
-        return results;
-    }
-
-    private List<EntityBody> validateEntitiesForSingleContext(Collection<Entity> entities, NeutralQuery neutralQuery, boolean isSelf, boolean isRead){
-        List<EntityBody> results = new ArrayList<EntityBody>();
-        SecurityUtil.UserContext context = SecurityUtil.getUserContext();
-
-        for (Entity entity : entities) {
-            try {
-                results.add(makeValidatedBody(entity, context, neutralQuery, isSelf, isRead));
-            } catch (AccessDeniedException aex) {
-                if(entities.size() == 1) {
-                    throw aex;
-                } else {
-                    error(aex.getMessage());
-                }
-            }
-        }
-        return results;
-    }
-
-    private EntityBody makeValidatedBody(Entity entity, SecurityUtil.UserContext userContext, NeutralQuery neutralQuery, boolean isSelf, boolean isRead) {
-        Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf, entity, userContext, isRead);
-        rightAccessValidator.checkAccess(isRead, isSelf, entity, defn.getType(), auths);
-        rightAccessValidator.checkFieldAccess(neutralQuery, isSelf, entity, defn.getType(), auths);
-
-        return entityRightsFilter.makeEntityBody(entity, treatments, defn, isSelf, auths);
     }
 
     @Override
@@ -1218,16 +1186,16 @@ public class BasicService implements EntityService, AccessibilityCheck {
         }
     }
 
-    private Map<Entity, SecurityUtil.UserContext> getEntityContexts(Collection<Entity> entities) {
-        return contextValidator.validateContextToEntitiesNew(defn, entities, SecurityUtil.isTransitive());
+    protected Map<String, SecurityUtil.UserContext> getEntityContexts(Collection<Entity> entities) {
+        return contextValidator.getValidatedEntityContexts(defn, entities, SecurityUtil.isTransitive());
     }
 
-    private Collection<GrantedAuthority> getEntityContextAuthorities(Entity entity, boolean isSelf, boolean isRead) {
+    protected Collection<GrantedAuthority> getEntityContextAuthorities(Entity entity, boolean isSelf, boolean isRead) {
         SecurityUtil.UserContext context = SecurityUtil.getUserContext();
 
         if (context == SecurityUtil.UserContext.DUAL_CONTEXT) {
-            Map<Entity, SecurityUtil.UserContext> entityContext = getEntityContexts(Arrays.asList(entity));
-            context = entityContext.get(entity);
+            Map<String, SecurityUtil.UserContext> entityContext = getEntityContexts(Arrays.asList(entity));
+            context = entityContext.get(entity.getEntityId());
         }
 
         return rightAccessValidator.getContextualAuthorities(isSelf, entity, context, isRead);
