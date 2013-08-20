@@ -24,10 +24,11 @@ public class ParentToStudentParentAssociationValidator extends AbstractContextVa
         if (!areParametersValid(EntityNames.STUDENT_PARENT_ASSOCIATION, entityType, ids)) {
             return Collections.emptySet();
         }
-        
+
+        Set<String> validIds = new HashSet<String>(ids);
         Set<String> remainingIds = removePermissibleIds(ids, true);
-        ids.removeAll(remainingIds);
-        return ids;
+        validIds.removeAll(remainingIds);
+        return validIds;
     }
     
     protected Set<String> removePermissibleIds(Set<String> ids, boolean filterBySelf) {
