@@ -143,7 +143,7 @@ Feature: Use the APi to successfully patch student data while having roles over 
     And "sex" should be "Male"
 
     When I navigate to PATCH "<bert.jakeman URI>"
-    Then I should receive a return code of 403
+    Then I should receive a return code of 204
 
   Scenario: Staff with restricted write right in one school can patch restricted student data in one school
     And I change the custom role of "Leader" to add the "WRITE_RESTRICTED" right

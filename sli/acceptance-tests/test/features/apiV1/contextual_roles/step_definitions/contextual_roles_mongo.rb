@@ -201,7 +201,7 @@ Given /^I change the custom role of "([^"]*)" to (add|remove) the "([^"]*)" righ
   role_coll = db.collection('customRole')
   custom_roles = role_coll.find_one()
   roles = custom_roles['body']['roles']
-  index = roles.index {|entry| entry['names'][0] == role}
+  index = roles.index {|entry| entry['names'].include?(role)}
   if add
     roles[index]['rights'] << right
   else
@@ -306,7 +306,7 @@ Given /^I remove "([^"]*)" from the custom roles$/ do |roleName|
   roles = customRole ['body']['roles']
 
   roles.each do |role|
-    role.delete_if {|key, value| key == 'names' && value == [roleName]}
+    role.delete_if {|key, value| key == 'names' && value.include?(roleName)}
 
     if !role.has_key?('names')
       role.store('names', ['DummyValue'])
