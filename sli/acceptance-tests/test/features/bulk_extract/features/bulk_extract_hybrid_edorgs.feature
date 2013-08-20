@@ -4,17 +4,70 @@ Feature: As an API user, I want to be able to get a list of links available to t
   Background: Validate that the charter School entity is extracted correctly
 	Given I am using local data store
 	And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
-    Given I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
 
   Scenario: Validate that the charter School entity and LEA + ESC entity is extracted correctly with full bulk extract
     Given I clean the bulk extract file system and database
     And I post "SmallSampleDataSet-Charter.zip" file as the payload of the ingestion job
+    And the following collections are empty in datastore:
+      | collectionName                            |
+      | assessment                                |
+      | assessmentFamily                          |
+      | assessmentPeriodDescriptor                |
+      | attendance                                |
+      | calendarDate                              |
+      | cohort                                    |
+      | competencyLevelDescriptor                 |
+      | course                                    |
+      | courseOffering                            |
+      | courseSectionAssociation                  |
+      | courseTranscript                          |
+      | disciplineAction                          |
+      | disciplineIncident                        |
+      | educationOrganization                     |
+      | educationOrganizationAssociation          |
+      | educationOrganizationSchoolAssociation    |
+      | grade                                     |
+      | gradebookEntry                            |
+      | gradingPeriod                             |
+      | graduationPlan                            |
+      | learningObjective                         |
+      | learningStandard                          |
+      | parent                                    |
+      | program                                   |
+      | reportCard                                |
+      | school                                    |
+      | schoolSessionAssociation                  |
+      | section                                   |
+      | sectionAssessmentAssociation              |
+      | sectionSchoolAssociation                  |
+      | session                                   |
+      | sessionCourseAssociation                  |
+      | staff                                     |
+      | staffCohortAssociation                    |
+      | staffEducationOrganizationAssociation     |
+      | staffProgramAssociation                   |
+      | student                                   |
+      | studentAcademicRecord                     |
+      | studentAssessment                         |
+      | studentCohortAssociation                  |
+      | studentCompetency                         |
+      | studentCompetencyObjective                |
+      | studentDisciplineIncidentAssociation      |
+      | studentGradebookEntry                     |
+      | studentParentAssociation                  |
+      | studentProgramAssociation                 |
+      | studentSchoolAssociation                  |
+      | studentSectionAssociation                 |
+      | teacher                                   |
+      | teacherSchoolAssociation                  |
+      | teacherSectionAssociation                 |
     When zip file is scp to ingestion landing zone
     And a batch job for file "SmallSampleDataSet-Charter.zip" is completed in database
     And I check to find if record is in collection:
       | collectionName              			   | expectedRecordCount | searchParameter     | searchValue                                 | searchType           |
       | educationOrganization                      | 1                   | body.charterStatus  | School Charter                              | string               |
     And in my list of rights I have BULK_EXTRACT
+
     Then I trigger a bulk extract
     When I retrieve the path to and decrypt the LEA "<IL-DAYBREAK school>" public data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
     And I verify that an extract tar file was created for the tenant "Midgar"
