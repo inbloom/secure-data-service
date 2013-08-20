@@ -325,7 +325,13 @@ public class SecurityContextInjector {
 
         Entity entity = Mockito.mock(Entity.class);
         Mockito.when(entity.getEntityId()).thenReturn(user);
-        SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity, ED_ORG_ID, new EdOrgContextRightsCache());
+
+        EdOrgContextRightsCache edOrgContextRights = new EdOrgContextRightsCache();
+        Map<String, Collection<GrantedAuthority>> contextRights = new HashMap<String, Collection<GrantedAuthority>>();
+        contextRights.put(Right.TEACHER_CONTEXT.name(), new ArrayList<GrantedAuthority>(Arrays.asList(Right.READ_RESTRICTED)));
+        edOrgContextRights.put(ED_ORG_ID, contextRights);
+
+        SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity, ED_ORG_ID, edOrgContextRights);
         principal.setRoles(roles);
         principal.setSelfRights(Arrays.asList(new GrantedAuthority[]{ Right.READ_RESTRICTED}));
         setSecurityContext(principal, false);

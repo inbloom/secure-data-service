@@ -219,6 +219,8 @@ public class BasicServiceTest {
         rightAccessValidator.setAccessible(true);
         rightAccessValidator.set(service, mockAccessValidator);
 
+        Collection<GrantedAuthority> teacherContextRights = SecurityUtil.getSLIPrincipal().getEdOrgContextRights().get(SecurityContextInjector.ED_ORG_ID).get(SecurityUtil.UserContext.TEACHER_CONTEXT);
+
         EntityBody entityBody1 = new EntityBody();
         entityBody1.put("studentUniqueStateId", "student1");
         EntityBody entityBody2 = new EntityBody();
@@ -229,6 +231,19 @@ public class BasicServiceTest {
         Mockito.when(mockRepo.findAll(Mockito.eq("student"), Mockito.any(NeutralQuery.class))).thenReturn(entities);
         Mockito.when(mockRightsFilter.makeEntityBody(Mockito.eq(entity1), Mockito.any(List.class), Mockito.any(EntityDefinition.class), Mockito.anyBoolean(), Mockito.any(Collection.class))).thenReturn(entityBody1);
         Mockito.when(mockRightsFilter.makeEntityBody(Mockito.eq(entity2), Mockito.any(List.class), Mockito.any(EntityDefinition.class), Mockito.anyBoolean(), Mockito.any(Collection.class))).thenReturn(entityBody2);
+
+        Mockito.when(mockAccessValidator.getContextualAuthorities(Matchers.eq(false), Matchers.eq(entity1), Matchers.eq(SecurityUtil.UserContext.TEACHER_CONTEXT), Matchers.eq(true))).thenReturn(teacherContextRights);
+
+        ContextValidator mockContextValidator = Mockito.mock(ContextValidator.class);
+        Field contextValidator = BasicService.class.getDeclaredField("contextValidator");
+        contextValidator.setAccessible(true);
+        contextValidator.set(service, mockContextValidator);
+
+        Map<String, SecurityUtil.UserContext> studentContext = new HashMap<String, SecurityUtil.UserContext>();
+        studentContext.put(entity1.getEntityId(), SecurityUtil.UserContext.TEACHER_CONTEXT);
+        studentContext.put(entity2.getEntityId(), SecurityUtil.UserContext.TEACHER_CONTEXT);
+
+        Mockito.when(mockContextValidator.getValidatedEntityContexts(Matchers.any(EntityDefinition.class), Matchers.any(Collection.class), Matchers.anyBoolean())).thenReturn(studentContext);
 
         Iterable<EntityBody> listResult = service.listBasedOnContextualRoles(new NeutralQuery());
 
