@@ -28,7 +28,6 @@ import java.util.Set;
 
 import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.api.resources.generic.service.ContextSupportedEntities;
-import org.slc.sli.api.service.query.ApiQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -567,7 +566,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
         Map<String, SecurityUtil.UserContext> entityContext = null;
 
         if (SecurityUtil.getUserContext() == SecurityUtil.UserContext.DUAL_CONTEXT) {
-            entityContext = getEntityContexts(entities);
+            entityContext = getEntityContextMap(entities);
         }
 
         List<EntityBody> results = new ArrayList<EntityBody>();
@@ -575,19 +574,17 @@ public class BasicService implements EntityService, AccessibilityCheck {
         for (Entity entity : entities) {
             SecurityUtil.UserContext context = getEntityContext(entity.getEntityId(), entityContext);
 
-            if (context != SecurityUtil.UserContext.NO_CONTEXT) {
-                try {
-                    Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf, entity, context, true);
-                    rightAccessValidator.checkAccess(true, isSelf, entity, defn.getType(), auths);
-                    rightAccessValidator.checkFieldAccess(neutralQuery, isSelf, entity, defn.getType(), auths);
+            try {
+                Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf, entity, context, true);
+                rightAccessValidator.checkAccess(true, isSelf, entity, defn.getType(), auths);
+                rightAccessValidator.checkFieldAccess(neutralQuery, isSelf, entity, defn.getType(), auths);
 
-                    results.add(entityRightsFilter.makeEntityBody(entity, treatments, defn, isSelf, auths));
-                } catch (AccessDeniedException aex) {
-                    if (entities.size() == 1) {
-                        throw aex;
-                    } else {
-                        error(aex.getMessage());
-                    }
+                results.add(entityRightsFilter.makeEntityBody(entity, treatments, defn, isSelf, auths));
+            } catch (AccessDeniedException aex) {
+                if (entities.size() == 1) {
+                    throw aex;
+                } else {
+                    error(aex.getMessage());
                 }
             }
 
@@ -1205,7 +1202,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
         }
     }
 
-    protected Map<String, SecurityUtil.UserContext> getEntityContexts(Collection<Entity> entities) {
+    protected Map<String, SecurityUtil.UserContext> getEntityContextMap(Collection<Entity> entities) {
         return contextValidator.getValidatedEntityContexts(defn, entities, SecurityUtil.isTransitive());
     }
 
@@ -1213,7 +1210,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
         SecurityUtil.UserContext context = SecurityUtil.getUserContext();
 
         if (context == SecurityUtil.UserContext.DUAL_CONTEXT) {
-            Map<String, SecurityUtil.UserContext> entityContext = getEntityContexts(Arrays.asList(entity));
+            Map<String, SecurityUtil.UserContext> entityContext = getEntityContextMap(Arrays.asList(entity));
             context = entityContext.get(entity.getEntityId());
         }
 

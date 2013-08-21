@@ -96,7 +96,6 @@ public class DefaultResourceServiceTest {
         requestURI = new java.net.URI(URI);
     }
 
-    @Ignore
     @Test
     public void testCreate() {
         String id = resourceService.postEntity(resource, new EntityBody(createTestEntity()));
@@ -104,7 +103,6 @@ public class DefaultResourceServiceTest {
         assertNotNull("ID should not be null", id);
     }
 
-    @Ignore
     @Test(expected = EntityNotFoundException.class)
     public void testDelete() {
         // create one entity
@@ -115,7 +113,6 @@ public class DefaultResourceServiceTest {
         resourceService.getEntitiesByIds(resource, id, requestURI);
     }
 
-    @Ignore
     @Test
     public void testUpdate() {
         // create one entity
@@ -134,11 +131,10 @@ public class DefaultResourceServiceTest {
         assertNotNull("Should return an entity", entities);
         assertEquals("Should match", 1, entities.size());
         assertEquals("Should match", 1, response.getEntityCount());
-        assertEquals("studentUniqueStateId should be 1234", entities.get(0).get("studentUniqueStateId"), 1234);
+        assertEquals("studentUniqueStateId should be " + studentUniqueStateId, entities.get(0).get("studentUniqueStateId"), studentUniqueStateId);
         assertEquals("sex should be Female", entities.get(0).get("sex"), "Female");
     }
 
-    @Ignore
     @Test
     public void testPatch() {
         // create one entity
@@ -157,11 +153,10 @@ public class DefaultResourceServiceTest {
         assertNotNull("Should return an entity", entities);
         assertEquals("Should match", 1, entities.size());
         assertEquals("Should match", 1, response.getEntityCount());
-        assertEquals("studentUniqueStateId should be 1234", entities.get(0).get("studentUniqueStateId"), 1234);
+        assertEquals("studentUniqueStateId should be " + studentUniqueStateId, entities.get(0).get("studentUniqueStateId"), studentUniqueStateId);
         assertEquals("sex should be Female", entities.get(0).get("sex"), "Female");
     }
 
-    @Ignore
     @Test
     @SuppressWarnings("unchecked")
     public void testReadMultipleResources() {
@@ -176,14 +171,13 @@ public class DefaultResourceServiceTest {
 
         EntityBody body1 = entities.get(0);
         assertNotNull("Should not be null", body1);
-        assertEquals("studentUniqueStateId should be 1234", body1.get("studentUniqueStateId"), 1234);
+        assertEquals("studentUniqueStateId should be " + studentUniqueStateId, body1.get("studentUniqueStateId"), studentUniqueStateId);
 
         EntityBody body2 = entities.get(1);
         assertNotNull("Should not be null", body2);
         assertEquals("studentUniqueStateId should be 5678", body2.get("studentUniqueStateId"), 5678);
     }
 
-    @Ignore
     @Test
     public void testGetEntityType() {
         assertEquals("Should match", "student", resourceService.getEntityType(new Resource("v1", "students")));
@@ -195,16 +189,6 @@ public class DefaultResourceServiceTest {
     @SuppressWarnings("unchecked")
     public void testReadAll() {
         // create one entity
-        //String studentId = resourceService.postEntity(resource, new EntityBody(createTestEntity()));
-        /*
-        Entity student = (Entity)mockRepo.create(EntityNames.STUDENT, new EntityBody(createTestEntity()));
-        String studentId = student.getEntityId();
-        Entity school = (Entity) mockRepo.create(EntityNames.EDUCATION_ORGANIZATION, createEdorg(SecurityContextInjector.ED_ORG_ID));
-
-        mockRepo.create(EntityNames.STUDENT_SCHOOL_ASSOCIATION, createStudentSchoolAssociation(studentId, school.getEntityId()));
-        injector.addToAuthorizingEdOrgs(school.getEntityId());
-
-*/
         resourceService.postEntity(resource, new EntityBody(createTestEntity()));
 
         ServiceResponse response = resourceService.getEntities(resource, requestURI, false);
@@ -214,7 +198,6 @@ public class DefaultResourceServiceTest {
         assertTrue("Should have at least one entity", entities.size() > 0);
     }
 
-    @Ignore
     @Test
     public void testGetEntityCount() {
         // create one entity
@@ -228,7 +211,6 @@ public class DefaultResourceServiceTest {
         assertEquals("Should match", 1, count.longValue());
     }
 
-    @Ignore
     @Test
     public void testThreePartUri() {
         //post new student entity
@@ -241,7 +223,6 @@ public class DefaultResourceServiceTest {
         assertEquals(ssaId, entityBodyList.get(0).get("id").toString());
     }
 
-    @Ignore
     @Test
     public void testGetEntitiesWithAssociation() {
         //post new student entity
@@ -254,7 +235,6 @@ public class DefaultResourceServiceTest {
         assertEquals(id, entityBodyList.get(0).get("id").toString());
     }
 
-    @Ignore
     @Test
     public void testFourPartURI() {
         //post new student entity
