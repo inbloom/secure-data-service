@@ -32,7 +32,7 @@
 		<StaffClassification>Leader</StaffClassification>
 		<PositionTitle>Principal</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
-		<EndDate>2013-08-13</EndDate>
+		<EndDate>2023-08-13</EndDate>
 	</StaffEducationOrgAssignmentAssociation>
 	<StaffEducationOrgAssignmentAssociation>
 		<StaffReference>
@@ -48,7 +48,7 @@
 		<StaffClassification>IT Administrator</StaffClassification>
 		<PositionTitle>IT Support</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
-		<EndDate>2013-08-13</EndDate>
+		<EndDate>2023-08-13</EndDate>
 	</StaffEducationOrgAssignmentAssociation>
 	<StaffEducationOrgAssignmentAssociation>
 		<StaffReference>
@@ -64,7 +64,7 @@
 		<StaffClassification>Aggregate Viewer</StaffClassification>
 		<PositionTitle>Researcher</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
-		<EndDate>2013-08-13</EndDate>
+		<EndDate>2023-08-13</EndDate>
 	</StaffEducationOrgAssignmentAssociation>
 	<StaffEducationOrgAssignmentAssociation>
 		<StaffReference>
@@ -80,7 +80,7 @@
 		<StaffClassification>Leader</StaffClassification>
 		<PositionTitle>State Superintendent</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
-		<EndDate>2013-08-13</EndDate>
+		<EndDate>2023-08-13</EndDate>
 	</StaffEducationOrgAssignmentAssociation>
 	<StaffEducationOrgAssignmentAssociation>
 		<StaffReference>
@@ -96,7 +96,7 @@
 		<StaffClassification>IT Administrator</StaffClassification>
 		<PositionTitle>IT Support</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
-		<EndDate>2013-08-13</EndDate>
+		<EndDate>2023-08-13</EndDate>
 	</StaffEducationOrgAssignmentAssociation>
 	<StaffEducationOrgAssignmentAssociation>
 		<StaffReference>
@@ -112,7 +112,7 @@
 		<StaffClassification>Aggregate Viewer</StaffClassification>
 		<PositionTitle>Researcher</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
-		<EndDate>2013-08-13</EndDate>
+		<EndDate>2023-08-13</EndDate>
 	</StaffEducationOrgAssignmentAssociation>
 	<StaffEducationOrgAssignmentAssociation>
 		<StaffReference>
@@ -128,7 +128,7 @@
 		<StaffClassification>Leader</StaffClassification>
 		<PositionTitle>District Superintendent</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
-		<EndDate>2013-08-13</EndDate>
+		<EndDate>2023-08-13</EndDate>
 	</StaffEducationOrgAssignmentAssociation>
 	<StaffEducationOrgAssignmentAssociation>
 		<StaffReference>
@@ -144,7 +144,7 @@
 		<StaffClassification>IT Administrator</StaffClassification>
 		<PositionTitle>IT Support</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
-		<EndDate>2013-08-13</EndDate>
+		<EndDate>2023-08-13</EndDate>
 	</StaffEducationOrgAssignmentAssociation>
 	<StaffEducationOrgAssignmentAssociation>
 		<StaffReference>
@@ -160,6 +160,6 @@
 		<StaffClassification>Aggregate Viewer</StaffClassification>
 		<PositionTitle>Researcher</PositionTitle>
 		<BeginDate>1967-08-13</BeginDate>
-		<EndDate>2013-08-13</EndDate>
+		<EndDate>2023-08-13</EndDate>
 	</StaffEducationOrgAssignmentAssociation>
 </InterchangeStaffAssociation>

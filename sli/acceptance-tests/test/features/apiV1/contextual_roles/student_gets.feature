@@ -65,24 +65,22 @@ Feature: Use the APi to successfully get student data while having roles over ma
     And the response should have general student data
     And the response should have restricted student data
 
-  #Commenting out since we do not support both staff and teacher context for a user(teacher)
-  #TODO:Uncomment out all steps when US5787 is done
-    #When I navigate to GET "<carmen.ortiz URI>"
-    #Then I should receive a return code of 200
-    #And the response should have general student data
-    #And the response should have restricted student data
-    #When I navigate to GET "<lashawn.taite URI>"
-    #Then I should receive a return code of 200
-    #And the response should have general student data
-    #And the response should have restricted student data
-    #When I navigate to GET "<bert.jakeman URI>"
-    #Then I should receive a return code of 200
-    #And the response should have general student data
-    #And the response should have restricted student data
-    #When I navigate to GET "<jack.jackson URI>"
-    #Then I should receive a return code of 200
-    #And the response should have general student data
-    #And the response should have restricted student data
+    When I navigate to GET "<carmen.ortiz URI>"
+    Then I should receive a return code of 200
+    And the response should have general student data
+    And the response should have restricted student data
+    When I navigate to GET "<lashawn.taite URI>"
+    Then I should receive a return code of 200
+    And the response should have general student data
+    And the response should have restricted student data
+    When I navigate to GET "<bert.jakeman URI>"
+    Then I should receive a return code of 200
+    And the response should have general student data
+    And the response should have restricted student data
+    When I navigate to GET "<jack.jackson URI>"
+    Then I should receive a return code of 200
+    And the response should have general student data
+    And the response should have restricted student data
 
     Given format "application/json"
     When I navigate to GET "<nate.dedrick URI>"
@@ -138,22 +136,22 @@ Feature: Use the APi to successfully get student data while having roles over ma
     Then I should receive a return code of 200
     And the response should have general student data
     And the response should have restricted student data
-    #When I navigate to GET "<carmen.ortiz URI>"
-    #Then I should receive a return code of 200
-    #And the response should not have general student data
-    #And the response should have restricted student data
-    #When I navigate to GET "<lashawn.taite URI>"
-    #Then I should receive a return code of 200
-    #And the response should not have general student data
-    #And the response should have restricted student data
-    #When I navigate to GET "<bert.jakeman URI>"
-    #Then I should receive a return code of 200
-    #And the response should not have general student data
-    #And the response should have restricted student data
-    #When I navigate to GET "<jack.jackson URI>"
-    #Then I should receive a return code of 200
-    #And the response should not have general student data
-    #And the response should have restricted student data
+    When I navigate to GET "<carmen.ortiz URI>"
+    Then I should receive a return code of 200
+    And the response should not have general student data
+    And the response should have restricted student data
+    When I navigate to GET "<lashawn.taite URI>"
+    Then I should receive a return code of 200
+    And the response should have general student data
+    And the response should have restricted student data
+    When I navigate to GET "<bert.jakeman URI>"
+    Then I should receive a return code of 200
+    And the response should not have general student data
+    And the response should have restricted student data
+    When I navigate to GET "<jack.jackson URI>"
+    Then I should receive a return code of 200
+    And the response should have general student data
+    And the response should have restricted student data
 
   Scenario: Student belongs to different schools
     When I log in as "rbelding"
@@ -169,8 +167,8 @@ Feature: Use the APi to successfully get student data while having roles over ma
     And "bert.jakeman" is not associated with any cohort that belongs to "rbelding"
 
     Given format "application/json"
-    #When I navigate to GET "<matt.sollars URI>"
-    #Then I should receive a return code of 200
+    When I navigate to GET "<matt.sollars URI>"
+    Then I should receive a return code of 200
     When I navigate to GET "<carmen.ortiz URI>"
     Then I should receive a return code of 200
     And the response should have general student data
@@ -178,11 +176,10 @@ Feature: Use the APi to successfully get student data while having roles over ma
     When I navigate to GET "<bert.jakeman URI>"
     Then I should receive a return code of 200
 
-    #TODO:lashawn.taite should return 200 when US5787 is done
     When I navigate to GET "<lashawn.taite URI>"
     Then I should receive a return code of 200
-    #And the response should have general student data
-    #And the response should have restricted student data
+    And the response should have general student data
+    And the response should have restricted student data
 
     Given I change the type of "rbelding" to "staff"
     When I log in as "rbelding"
@@ -203,8 +200,8 @@ Feature: Use the APi to successfully get student data while having roles over ma
 
     Given format "application/json"
     #TODO:lashawn.taite and matt.sollars should return 200 when US5787 is done
-    #When I navigate to GET "<matt.sollars URI>"
-    #Then I should receive a return code of 200
+    When I navigate to GET "<matt.sollars URI>"
+    Then I should receive a return code of 200
     When I navigate to GET "<lashawn.taite URI>"
     Then I should receive a return code of 200
     #TODO:carmen.ortiz should return 403 when US5787 is done
@@ -277,8 +274,8 @@ Feature: Use the APi to successfully get student data while having roles over ma
     And "bert.jakeman" is not associated with any cohort that belongs to "rbelding"
 
     Given format "application/json"
-    #When I navigate to GET "<matt.sollars URI>"
-    #Then I should receive a return code of 200
+    When I navigate to GET "<matt.sollars URI>"
+    Then I should receive a return code of 200
     When I navigate to GET "<carmen.ortiz URI>"
     Then I should receive a return code of 200
     And the response should have general student data
@@ -472,8 +469,6 @@ Feature: Use the APi to successfully get student data while having roles over ma
     When I navigate to GET "<carmen.ortiz URI>"
     Then I should receive a return code of 403
 
- #Do not remove the @wip until after studentSchoolAssociations have been updated to use contextual roles
- @wip
  Scenario: GET lists of students for a staff member with multiple roles in an edorg heirarchy
     Given parameter "limit" is "0"
     When I log in as "msmith"
