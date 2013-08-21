@@ -259,7 +259,8 @@ public class BasicServiceTest {
         Collection<GrantedAuthority> staffContextRights = SecurityUtil.getSLIPrincipal().getEdOrgContextRights().get(SecurityContextInjector.ED_ORG_ID).get(SecurityUtil.UserContext.STAFF_CONTEXT);
         studentContext.put(entity2.getEntityId(), SecurityUtil.UserContext.DUAL_CONTEXT);
 
-        Mockito.when(mockAccessValidator.getContextualAuthorities(Matchers.eq(false), Matchers.eq(entity1), Matchers.eq(SecurityUtil.UserContext.DUAL_CONTEXT), Matchers.eq(true))).thenReturn(staffContextRights);
+        Mockito.when(mockAccessValidator.getContextualAuthorities(Matchers.eq(false), Matchers.eq(entity2), Matchers.eq(SecurityUtil.UserContext.DUAL_CONTEXT), Matchers.eq(true))).thenReturn(staffContextRights);
+        Mockito.doThrow(new AccessDeniedException("")).when(mockAccessValidator).checkAccess(Matchers.eq(true), Matchers.eq(false), Matchers.eq(entity1), Matchers.any(String.class), Matchers.any(Collection.class));
         studentContext.remove(entity1.getEntityId());
 
         Mockito.when(mockContextValidator.getValidatedEntityContexts(Matchers.any(EntityDefinition.class), Matchers.any(Collection.class), Matchers.anyBoolean())).thenReturn(studentContext);
