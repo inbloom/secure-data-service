@@ -146,6 +146,8 @@ $CASCADE_DELETE_REFERENCE_MAP = {
 
 }
 
+$createdEntities = {}
+
 def convertTenantIdToDbName(tenantId)
   db_name = Digest::SHA1.hexdigest tenantId
   #puts "Tenant: #{tenantId} DB: #{db_name}"
