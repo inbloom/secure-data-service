@@ -566,7 +566,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
         Map<String, SecurityUtil.UserContext> entityContext = null;
 
         if (SecurityUtil.getUserContext() == SecurityUtil.UserContext.DUAL_CONTEXT) {
-            entityContext = getEntityContextMap(entities);
+            entityContext = getEntityContextMap(entities, true);
         }
 
         List<EntityBody> results = new ArrayList<EntityBody>();
@@ -1202,15 +1202,15 @@ public class BasicService implements EntityService, AccessibilityCheck {
         }
     }
 
-    protected Map<String, SecurityUtil.UserContext> getEntityContextMap(Collection<Entity> entities) {
-        return contextValidator.getValidatedEntityContexts(defn, entities, SecurityUtil.isTransitive());
+    protected Map<String, SecurityUtil.UserContext> getEntityContextMap(Collection<Entity> entities, boolean isRead) {
+        return contextValidator.getValidatedEntityContexts(defn, entities, SecurityUtil.isTransitive(), isRead);
     }
 
     protected Collection<GrantedAuthority> getEntityContextAuthorities(Entity entity, boolean isSelf, boolean isRead) {
         SecurityUtil.UserContext context = SecurityUtil.getUserContext();
 
         if (context == SecurityUtil.UserContext.DUAL_CONTEXT) {
-            Map<String, SecurityUtil.UserContext> entityContext = getEntityContextMap(Arrays.asList(entity));
+            Map<String, SecurityUtil.UserContext> entityContext = getEntityContextMap(Arrays.asList(entity), isRead);
             context = entityContext.get(entity.getEntityId());
         }
 

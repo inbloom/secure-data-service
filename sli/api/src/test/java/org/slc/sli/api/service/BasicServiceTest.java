@@ -243,7 +243,7 @@ public class BasicServiceTest {
         studentContext.put(entity1.getEntityId(), SecurityUtil.UserContext.TEACHER_CONTEXT);
         studentContext.put(entity2.getEntityId(), SecurityUtil.UserContext.TEACHER_CONTEXT);
 
-        Mockito.when(mockContextValidator.getValidatedEntityContexts(Matchers.any(EntityDefinition.class), Matchers.any(Collection.class), Matchers.anyBoolean())).thenReturn(studentContext);
+        Mockito.when(mockContextValidator.getValidatedEntityContexts(Matchers.any(EntityDefinition.class), Matchers.any(Collection.class), Matchers.anyBoolean(), Matchers.anyBoolean())).thenReturn(studentContext);
 
         Iterable<EntityBody> listResult = service.listBasedOnContextualRoles(new NeutralQuery());
 
@@ -263,7 +263,7 @@ public class BasicServiceTest {
         Mockito.doThrow(new AccessDeniedException("")).when(mockAccessValidator).checkAccess(Matchers.eq(true), Matchers.eq(false), Matchers.eq(entity1), Matchers.any(String.class), Matchers.any(Collection.class));
         studentContext.remove(entity1.getEntityId());
 
-        Mockito.when(mockContextValidator.getValidatedEntityContexts(Matchers.any(EntityDefinition.class), Matchers.any(Collection.class), Matchers.anyBoolean())).thenReturn(studentContext);
+        Mockito.when(mockContextValidator.getValidatedEntityContexts(Matchers.any(EntityDefinition.class), Matchers.any(Collection.class), Matchers.anyBoolean(), Matchers.anyBoolean())).thenReturn(studentContext);
 
         listResult = service.listBasedOnContextualRoles(new NeutralQuery());
 
@@ -477,7 +477,7 @@ public class BasicServiceTest {
         Map<String, SecurityUtil.UserContext> studentContext = new HashMap<String, SecurityUtil.UserContext>();
         studentContext.put(student.getEntityId(), SecurityUtil.UserContext.STAFF_CONTEXT);
 
-        Mockito.when(mockContextValidator.getValidatedEntityContexts(Matchers.any(EntityDefinition.class), Matchers.any(Collection.class), Matchers.anyBoolean())).thenReturn(studentContext);
+        Mockito.when(mockContextValidator.getValidatedEntityContexts(Matchers.any(EntityDefinition.class), Matchers.any(Collection.class), Matchers.anyBoolean(), Matchers.anyBoolean())).thenReturn(studentContext);
 
         Collection<GrantedAuthority> rights = service.getEntityContextAuthorities(student, isSelf, isRead);
 

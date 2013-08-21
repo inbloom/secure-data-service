@@ -211,7 +211,7 @@ public class ContextValidator implements ApplicationContextAware {
         String rootEntity = segs.get(1).getPath();
 
         EntityDefinition def = resourceHelper.getEntityDefinition(rootEntity);
-        if (skipValidation(def)) {
+        if (skipValidation(def, request.getMethod().equals("GET"))) {
             return;
         }
 
@@ -301,9 +301,9 @@ public class ContextValidator implements ApplicationContextAware {
     *
     * @throws APIAccessDeniedException - When no entity validators can be found
     */
-    public Map<String, SecurityUtil.UserContext> getValidatedEntityContexts(EntityDefinition def, Collection<Entity> entities, boolean isTransitive) throws APIAccessDeniedException {
+    public Map<String, SecurityUtil.UserContext> getValidatedEntityContexts(EntityDefinition def, Collection<Entity> entities, boolean isTransitive, boolean isRead) throws APIAccessDeniedException {
 
-        if (skipValidation(def)) {
+        if (skipValidation(def, isRead)) {
             return null;
         }
 
@@ -491,8 +491,8 @@ public class ContextValidator implements ApplicationContextAware {
         return EntityNames.isPublic(type);
     }
 
-    private boolean skipValidation(EntityDefinition def) {
-        return def == null || def.skipContextValidation();
+    private boolean skipValidation(EntityDefinition def, boolean isRead) {
+        return def == null || def.skipContextValidation() || (GLOBAL_RESOURCES.contains(def.getResourceName()) && isRead);
     }
 
 }
