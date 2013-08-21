@@ -399,15 +399,11 @@ public class ContextValidatorTest {
 
         Collection<String> ids = new HashSet<String>();
 
-        try {
-            Map<String, SecurityUtil.UserContext> validatedEntityContexts = contextValidator.getValidatedEntityContexts(def, new ArrayList<Entity>(), isTransitive);
-            Assert.fail();
-        } catch (EntityNotFoundException ex) {
-            Assert.assertEquals("Cannot access " + def.getType() + " with ids " + ids, ex.getId());
-        }
+        Map<String, SecurityUtil.UserContext> validatedEntityContexts = contextValidator.getValidatedEntityContexts(def, new ArrayList<Entity>(), isTransitive);
+
+        Assert.assertTrue(validatedEntityContexts.isEmpty());
     }
 
-    @SuppressWarnings("unused")
     @Test
     public void testGetValidatedEntityContextsNotAllValidated() {
         EntityDefinition def = createEntityDef("student");
