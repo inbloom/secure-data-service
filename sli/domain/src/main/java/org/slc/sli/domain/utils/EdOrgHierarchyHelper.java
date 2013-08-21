@@ -97,15 +97,20 @@ public class EdOrgHierarchyHelper {
     // TODO this logic will need to support multiple parentIds - see us5821
     private List<Entity> getParentEdOrg(Entity entity) {
         if (entity.getBody().containsKey("parentEducationAgencyReference")) {
-//            String parentId;
             @SuppressWarnings("unchecked")
             List<String> parentIds = (List<String>) entity.getBody().get("parentEducationAgencyReference");
-            // TODO add support of multiple parent references - see us5821
             List<Entity> parents = new ArrayList<Entity>();
-            for(String parentId: parentIds) {
-            	parents.add(repo.findById(EntityNames.EDUCATION_ORGANIZATION, parentId));
-            }
+            if(parentIds!=null) {
+                for(String parentId: parentIds) {
+                    if(parentId!=null) {
+                        Entity parent = repo.findById(EntityNames.EDUCATION_ORGANIZATION, parentId);
+                        if(parent!=null) {
+                            parents.add(parent);
+                        }
+                    }
+                }
             return parents;
+            }
         }
         return null;
     }
@@ -122,12 +127,17 @@ public class EdOrgHierarchyHelper {
     	List<Entity> topLEAs = new ArrayList<Entity>();
         if (entity.getBody().containsKey("parentEducationAgencyReference")) {
             List<Entity> parentEdorgs = getParentEdOrg(entity);
-            for(Entity parentEdorg: parentEdorgs) {
-            	if (isLEA(parentEdorg)) {
-            		topLEAs.addAll(getTopLEAOfEdOrg(parentEdorg));
-            	}
+            if(parentEdorgs!=null) {
+                for(Entity parentEdorg: parentEdorgs) {
+                    if (isLEA(parentEdorg)) {
+                        List<Entity> leas = getTopLEAOfEdOrg(parentEdorg);
+                        if(leas!=null) {
+                            topLEAs.addAll(leas);
+                        }
+                    }
+                }
             }
-            if(topLEAs.size()>0) {
+            if(!topLEAs.isEmpty()) {
             	return topLEAs;
             }
         }
@@ -150,13 +160,17 @@ public class EdOrgHierarchyHelper {
         if (isSEA(entity)) {
             return entity.getEntityId();
         } else {
-            Entity parentEdorg = getParentEdOrg(entity).get(0);
-            if (parentEdorg != null) {
-                return getSEAOfEdOrg(parentEdorg);
-            } else {
-                LOG.warn("EdOrg {} is missing parent SEA", entity.getEntityId());
-                return null;
-            }
+            List<Entity> parentEdorgs = getParentEdOrg(entity);
+            if(parentEdorgs!=null) {
+            	for(Entity parentEdorg: parentEdorgs) {
+            		String sea = getSEAOfEdOrg(parentEdorg);
+            		if(sea != null) {
+            			return sea;
+            		}
+            	}
+            }         
         }
+        LOG.warn("EdOrg {} is missing parent SEA", entity.getEntityId());
+        return null;
     }
 }
