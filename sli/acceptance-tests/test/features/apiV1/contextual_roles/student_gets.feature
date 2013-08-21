@@ -142,7 +142,7 @@ Feature: Use the APi to successfully get student data while having roles over ma
     And the response should have restricted student data
     When I navigate to GET "<lashawn.taite URI>"
     Then I should receive a return code of 200
-    And the response should have general student data
+    And the response should not have general student data
     And the response should have restricted student data
     When I navigate to GET "<bert.jakeman URI>"
     Then I should receive a return code of 200
@@ -150,10 +150,9 @@ Feature: Use the APi to successfully get student data while having roles over ma
     And the response should have restricted student data
     When I navigate to GET "<jack.jackson URI>"
     Then I should receive a return code of 200
-    And the response should have general student data
+    And the response should not have general student data
     And the response should have restricted student data
 
-  @wip
   Scenario: Staff with multiple roles where one of the roles is missing context rights
     Given the following student section associations in Midgar are set correctly
       | student         | teacher              | edorg                 | enrolledInAnySection? |
@@ -176,8 +175,6 @@ Feature: Use the APi to successfully get student data while having roles over ma
     When I navigate to GET "<bert.jakeman URI>"
     Then I should receive a return code of 403
 
-
-
   Scenario: Student belongs to different schools
     When I log in as "rbelding"
 
@@ -199,7 +196,7 @@ Feature: Use the APi to successfully get student data while having roles over ma
     And the response should have general student data
     And the response should not have restricted student data
     When I navigate to GET "<bert.jakeman URI>"
-    Then I should receive a return code of 200
+    Then I should receive a return code of 403
 
     When I navigate to GET "<lashawn.taite URI>"
     Then I should receive a return code of 200
@@ -213,9 +210,8 @@ Feature: Use the APi to successfully get student data while having roles over ma
     Then I should receive a return code of 200
     And the response should have general student data
     And the response should not have restricted student data
-    #TODO:bert.jakeman should return 403 when US5787 is done
     When I navigate to GET "<bert.jakeman URI>"
-    Then I should receive a return code of 200
+    Then I should receive a return code of 403
     When I navigate to GET "<lashawn.taite URI>"
     Then I should receive a return code of 200
     And the response should have general student data
@@ -224,14 +220,12 @@ Feature: Use the APi to successfully get student data while having roles over ma
     Given I remove the teacherSectionAssociation for "rbelding"
 
     Given format "application/json"
-    #TODO:lashawn.taite and matt.sollars should return 200 when US5787 is done
     When I navigate to GET "<matt.sollars URI>"
     Then I should receive a return code of 200
     When I navigate to GET "<lashawn.taite URI>"
     Then I should receive a return code of 200
-    #TODO:carmen.ortiz should return 403 when US5787 is done
     When I navigate to GET "<carmen.ortiz URI>"
-    Then I should receive a return code of 200
+    Then I should receive a return code of 403
     When I navigate to GET "<mu.mcneill URI>"
     Then I should receive a return code of 403
 
@@ -306,7 +300,7 @@ Feature: Use the APi to successfully get student data while having roles over ma
     And the response should have general student data
     And the response should not have restricted student data
     When I navigate to GET "<bert.jakeman URI>"
-    Then I should receive a return code of 200
+    Then I should receive a return code of 403
 
     When I navigate to GET "<lashawn.taite URI>"
     Then I should receive a return code of 200
@@ -320,9 +314,8 @@ Feature: Use the APi to successfully get student data while having roles over ma
     Then I should receive a return code of 200
     And the response should have general student data
     And the response should not have restricted student data
-    #TODO:bert.jakeman should return 403 when US5787 is done
     When I navigate to GET "<bert.jakeman URI>"
-    Then I should receive a return code of 200
+    Then I should receive a return code of 403
     When I navigate to GET "<lashawn.taite URI>"
     Then I should receive a return code of 200
     And the response should have general student data
@@ -651,7 +644,7 @@ Feature: Use the APi to successfully get student data while having roles over ma
       | mu.mcneill      |
       | nate.dedrick    |
 
-  @wip
+  
   Scenario: User has role with no context rights
     Given I change the custom role of "Educator" to remove the "TEACHER_CONTEXT" right
     When I log in as "linda.kim"
@@ -663,8 +656,6 @@ Feature: Use the APi to successfully get student data while having roles over ma
     When I navigate to GET "<carmen.ortiz URI>"
     Then I should receive a return code of 403
 
-
-  @wip
   Scenario: User has role with both context rights
     Given I change the custom role of "Educator" to add the "STAFF_CONTEXT" right
     And the following student section associations in Midgar are set correctly
@@ -699,7 +690,6 @@ Feature: Use the APi to successfully get student data while having roles over ma
     And the response should have general student data
     And the response should not have restricted student data
 
-  @wip
   Scenario: User has roles where teacher contect role has higher rights than the staff context role
     Given I change the custom role of "Educator" to add the "READ_RESTRICTED" right
     And I change the custom role of "Leader" to remove the "READ_RESTRICTED" right
