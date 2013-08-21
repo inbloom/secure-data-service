@@ -32,6 +32,11 @@ task :apiV1EntityTests => [:realmInit] do
   runTests("test/features/apiV1/search")
 end
 
+task :apiV1MultipleParentTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/entities/multipleParents")
+end
+
 task :crudAutoTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/entities/crud_auto")
