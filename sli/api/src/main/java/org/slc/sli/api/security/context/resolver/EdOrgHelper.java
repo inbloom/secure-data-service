@@ -115,13 +115,19 @@ public class EdOrgHelper {
         Set<String> entities = new HashSet<String>();
         for (Entity entity : repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query)) {
             if (helper.isLEA(entity)) {
-                for(Entity e:helper.getTopLEAOfEdOrg(entity))  {
-                    entities.add(e.getEntityId());
-                }
+            	List<Entity> topLEAs = helper.getTopLEAOfEdOrg(entity);
+            	if(topLEAs!=null) {
+            		for(Entity topLEA: topLEAs) {
+            			entities.add(topLEA.getEntityId());
+            		}
+            	}
             } else if (helper.isSchool(entity)) {
-                for(Entity e:helper.getTopLEAOfEdOrg(entity))  {
-                    entities.add(e.getEntityId());
-                }
+            	List<Entity> topLEAs = helper.getTopLEAOfEdOrg(entity);
+            	if(topLEAs!=null) {
+            		for(Entity topLEA: topLEAs) {
+            			entities.add(topLEA.getEntityId());
+            		}
+            	}
             } else { // isSEA
                 entities.addAll(getDirectChildLEAsOfEdOrg(entity));
             }

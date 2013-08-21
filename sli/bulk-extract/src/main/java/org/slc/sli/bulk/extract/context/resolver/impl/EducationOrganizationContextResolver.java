@@ -49,20 +49,16 @@ public class EducationOrganizationContextResolver extends ReferrableResolver {
 
         if (helper.isLEA(entity) || helper.isSchool(entity)) {
             List<Entity> topLevelLEAs = helper.getTopLEAOfEdOrg(entity);
-            for(Entity topLevelLEA: topLevelLEAs) {
-            	if (topLevelLEA != null) {
-            		results.add(topLevelLEA.getEntityId());
-            	}
+            if(topLevelLEAs!=null){
+                for(Entity topLevelLEA: topLevelLEAs) {
+                    results.add(topLevelLEA.getEntityId());
+                }
             }
         } else if (helper.isSEA(entity)) {
             // Governing edOrg of an SEA is itself
             results.add(entity.getEntityId());
         }
 
-//        Entity topLevelLEA = helper.getTopLEAOfEdOrg(entity);
-//        if (topLevelLEA != null) {
-//            results.add(topLevelLEA.getEntityId());
-//        }
         LOG.debug("Results are {}", results);
         return results;
     }
