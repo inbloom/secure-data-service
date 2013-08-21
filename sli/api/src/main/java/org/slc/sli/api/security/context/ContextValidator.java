@@ -211,7 +211,7 @@ public class ContextValidator implements ApplicationContextAware {
         String rootEntity = segs.get(1).getPath();
 
         EntityDefinition def = resourceHelper.getEntityDefinition(rootEntity);
-        if (def == null || def.skipContextValidation()) {
+        if (skipValidation(def)) {
             return;
         }
 
@@ -297,11 +297,16 @@ public class ContextValidator implements ApplicationContextAware {
     * @param entities - Collection of entities to validate
     * @param isTransitive - Determines whether validation is through another entity type
     *
-    * @return - Map of validated entity ids and their contexts
+    * @return - Map of validated entity ids and their contexts, null if the validation is skipped
     *
     * @throws APIAccessDeniedException - When no entity validators can be found
     */
     public Map<String, SecurityUtil.UserContext> getValidatedEntityContexts(EntityDefinition def, Collection<Entity> entities, boolean isTransitive) throws APIAccessDeniedException {
+
+        if (skipValidation(def)) {
+            return null;
+        }
+
         Map<String, SecurityUtil.UserContext> entityContexts = new HashMap<String, SecurityUtil.UserContext>();
 
         List<IContextValidator> contextValidators = findContextualValidators(def.getType(), isTransitive);
@@ -484,6 +489,10 @@ public class ContextValidator implements ApplicationContextAware {
      */
     public boolean isGlobalEntity(String type) {
         return EntityNames.isPublic(type);
+    }
+
+    private boolean skipValidation(EntityDefinition def) {
+        return def == null || def.skipContextValidation();
     }
 
 }

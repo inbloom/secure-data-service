@@ -599,7 +599,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
     private SecurityUtil.UserContext getEntityContext(String entityId, Map<String, SecurityUtil.UserContext> entityContexts) {
         SecurityUtil.UserContext context = SecurityUtil.getUserContext();
-        if (SecurityUtil.getUserContext() == SecurityUtil.UserContext.DUAL_CONTEXT) {
+        if (SecurityUtil.getUserContext() == SecurityUtil.UserContext.DUAL_CONTEXT && entityContexts != null) {
             if (entityContexts.containsKey(entityId)) {
                 context = entityContexts.get(entityId);
             } else {
