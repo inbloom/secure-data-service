@@ -229,3 +229,12 @@ When(/^I try to update "([^"]*)" name to "([^"]*)"$/) do |student, newName|
   puts(@res.code,@res.body,@res.raw_headers)
   assert(body['name']['firstName'] == newName, 'PUT request response does not have modified name!')
 end
+
+When(/^I remove "([^"]*)" as parent of "([^"]*)"$/) do |lea, school|
+   school = $createdEntities[school]
+   lea = $createdEntities[lea]
+   school['parentEducationAgencyReference'] = school['parentEducationAgencyReference'].select{|p| p != lea['id']}
+   school.delete('links')
+   restHttpPut("/v1/educationOrganizations/#{school['id']}", school.to_json, 'application/vnd.slc+json')
+   assert(@res.code == 204, 'Could not modify school!')
+end

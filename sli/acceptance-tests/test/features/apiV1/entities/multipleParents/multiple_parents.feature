@@ -37,6 +37,11 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     And I try to get "Student2" and get a response code "200"
     #And I try to update "Student2" name to "New Student 2 Name"
 
+    And I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "IT Administrator" "rrogers" with password "rrogers1234"
+    And I remove "LEA1" as parent of "School1"
+    And I log in to realm "Illinois Daybreak School District 4529" using simple-idp as "Leader" "mgonzales" with password "mgonzales1234"
+    And I try to get "Student1" and get a response code "403"
+
 
 
 
