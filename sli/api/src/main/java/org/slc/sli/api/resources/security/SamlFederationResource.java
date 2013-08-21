@@ -359,15 +359,14 @@ public class SamlFederationResource {
             principal.setEdOrgRoles(sliEdOrgRoleMap);
         } else {
             principal.setRoles(sliRoleList);
+            if (principal.getRoles().isEmpty()) {
+                debug("Attempted login by a user that included no roles in the SAML Assertion that mapped to any of the SLI roles.");
+                throw new APIAccessDeniedException(
+                        "Invalid user.  No valid role mappings exist for the roles specified in the SAML Assertion.", realm);
+            }
         }
         principal.setAdminUser(isAdminUser);
         principal.setAdminRealmAuthenticated(isAdminRealm || isDevRealm);
-
-        if (principal.getRoles().isEmpty()) {
-            debug("Attempted login by a user that included no roles in the SAML Assertion that mapped to any of the SLI roles.");
-            throw new APIAccessDeniedException(
-                    "Invalid user.  No valid role mappings exist for the roles specified in the SAML Assertion.", realm);
-        }
 
         if (samlTenant != null) {
             principal.setTenantId(samlTenant);
