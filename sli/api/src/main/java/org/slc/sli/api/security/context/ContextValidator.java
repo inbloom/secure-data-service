@@ -312,13 +312,10 @@ public class ContextValidator implements ApplicationContextAware {
         List<IContextValidator> contextValidators = findContextualValidators(def.getType(), isTransitive);
         Collection<String> ids = getEntityIds(entities);
         if (!contextValidators.isEmpty()) {
-            Set<String> allIdsToValidate = new HashSet<String>();
+            Set<String> idsToValidate = getEntityIdsToValidate(def, entities, isTransitive, ids);
             for (IContextValidator validator : contextValidators) {
-                Set<String> idsToValidate = getEntityIdsToValidate(def, entities, isTransitive, ids);
-                allIdsToValidate.addAll(idsToValidate);
-                Set<String> validatedIds = getValidatedIds(def, idsToValidate, validator);
-
                 // Add validated entity ids to the map.
+                Set<String> validatedIds = getValidatedIds(def, idsToValidate, validator);
                 for (String id : validatedIds) {
                     if (!entityContexts.containsKey(id)) {
                         entityContexts.put(id, validator.getContext());
@@ -331,7 +328,7 @@ public class ContextValidator implements ApplicationContextAware {
 
             // Add accessible, non-validated entity ids (orphaned and owned/self) to the map.
             Set<String> accessibleNonValidatedIds = new HashSet<String>(ids);
-            accessibleNonValidatedIds.removeAll(allIdsToValidate);
+            accessibleNonValidatedIds.removeAll(idsToValidate);
             for (String id : accessibleNonValidatedIds) {
                 entityContexts.put(id, SecurityUtil.getUserContext());
             }
@@ -421,11 +418,14 @@ public class ContextValidator implements ApplicationContextAware {
     }
 
     /**
+     * Returns a contextual validator based upon entity type.
      *
-     * @param toType
-     * @param isTransitive
-     * @return
-     * @throws IllegalStateException
+    * @param toType - Type of entity to validate
+    * @param isTransitive - Determines whether validation is through another entity type
+     *
+     * @return - Validator applicable to given type
+     *
+     * @throws IllegalStateException - ???
      */
     public IContextValidator findValidator(String toType, boolean isTransitive) throws IllegalStateException {
 
