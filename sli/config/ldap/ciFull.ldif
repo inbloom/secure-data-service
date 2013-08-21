@@ -2194,6 +2194,7 @@ memberUid: lalsop_nxslave7@acme.com
 memberUid: devldapuser_nxslave2@slidev.org
 memberUid: devldapuser_nxslave9@slidev.org
 memberUid: lalsop_nxslave9@acme.com
+memberUid: devldapuser_cislave10@slidev.org
 
 dn: cn=ingestion_user,ou=groups,ou=SLIAdmin,dc=slidev,dc=org
 objectClass: posixGroup
@@ -2228,6 +2229,7 @@ memberUid: lalsop_nxslave7@acme.com
 memberUid: devldapuser_nxslave2@slidev.org
 memberUid: devldapuser_nxslave9@slidev.org
 memberUid: lalsop_nxslave9@acme.com
+memberUid: devldapuser_cislave10@slidev.org
 
 dn: cn=application_developer,ou=groups,ou=SLIAdmin,dc=slidev,dc=org
 objectClass: posixGroup
@@ -2257,6 +2259,7 @@ memberUid: lalsop_nxslave7@acme.com
 memberUid: devldapuser_nxslave2@slidev.org
 memberUid: devldapuser_nxslave9@slidev.org
 memberUid: lalsop_nxslave9@acme.com
+memberUid: devldapuser_cislave10@slidev.org
 
 dn: cn=cwilson@wgen.net,ou=people,ou=SLIAdmin,dc=slidev,dc=org
 objectClass: inetOrgPerson
@@ -5565,71 +5568,6 @@ mail: devldapuser_ablum-mac.local@slidev.org
 o: test
 userPassword:: dGVzdDEyMzQ=
 
-dn: cn=devldapuser_smuhit-mac.local@slidev.org,ou=people,ou=LocalNew,ou=DevT
- est,dc=slidev,dc=org
-objectClass: inetOrgPerson
-objectClass: posixAccount
-objectClass: top
-cn: devldapuser_smuhit-mac.local@slidev.org
-gidNumber: 500
-homeDirectory: /Users/smuhit/SLI/sli/sli/api/target/ingestion/lz/inbound/dev
- ldapuser_smuhit-mac.local@slidev.org/f03919c387b77d50ef7b4ffed6ab3f0431a9f1
- 5460149cabb5fa690d97c2e9ee
-sn: test
-uid: devldapuser_smuhit-mac.local@slidev.org
-uidNumber: 500
-description:: dGVuYW50PWRldmxkYXB1c2VyX3NtdWhpdC1tYWMubG9jYWxAc2xpZGV2Lm9yZw
- plZE9yZz1TVEFOREFSRC1TRUE=
-destinationIndicator: approved
-displayName: 7101148fc6dddd288155ed4c57a0c83f
-gecos: 
-givenName: Provision
-loginShell: /sbin/nologin
-mail: devldapuser_smuhit-mac.local@slidev.org
-o: test
-userPassword:: dGVzdDEyMzQ=
-
-dn: cn=Lplyer@macrocorp.com,ou=people,ou=LocalNew,ou=DevTest,dc=slidev,dc=or
- g
-objectClass: inetOrgPerson
-objectClass: posixAccount
-objectClass: top
-cn: Lplyer@macrocorp.com
-gidNumber: 500
-homeDirectory: test
-sn: Plyler
-uid: Lplyer@macrocorp.com
-uidNumber: 500
-description: tenant=Lplyer@macrocorp.com
-destinationIndicator: disabled
-displayName: 45a498b58c61730585f802b02c039286
-gecos: 
-givenName: Loraine
-loginShell: /sbin/nologin
-mail: Lplyer@macrocorp.com
-o: Macro Corp
-userPassword:: MTIzNA==
-
-dn: cn=devldapuser@slidev.org,ou=people,ou=LocalNew,ou=DevTest,dc=slidev,dc=
- org
-objectClass: inetOrgPerson
-objectClass: posixAccount
-objectClass: top
-cn: devldapuser@slidev.org
-gidNumber: 113
-homeDirectory: /dev/null
-sn: Plyler2
-uid: devldapuser@slidev.org
-uidNumber: 500
-destinationIndicator: submitted
-displayName: -
-gecos: 
-givenName: Loraine2
-loginShell: /sbin/nologin
-mail: devldapuser@slidev.org
-o: Macro Corp
-userPassword:: dGVzdDEyMzQ=
-
 dn: ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
 objectClass: organizationalUnit
 objectClass: top
@@ -7233,11 +7171,98 @@ mail: lalsop_nxslave9@acme.com
 o: Acme Corp
 userPassword:: ZHVtbXlwc3dkMTIz
 
-dn: cn=inBloom Operator,ou=groups,ou=LocalNew,ou=DevTest,dc=slidev,dc=org
+dn: cn=SLC Operator,ou=groups,ou=LocalNew,ou=DevTest,dc=slidev,dc=org
 objectClass: posixGroup
 objectClass: top
-cn: inBloom Operator
+cn: SLC Operator
 gidNumber: 504
 memberUid: slcoperator
 memberUid: slcoperator-email@slidev.org
+
+dn: cn=devldapuser_smuhit-mac.local@slidev.org,ou=people,ou=LocalNew,ou=DevT
+ est,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: devldapuser_smuhit-mac.local@slidev.org
+gidNumber: 500
+homeDirectory: /Users/smuhit/SLI/sli/sli/api/target/ingestion/lz/inbound/dev
+ ldapuser_smuhit-mac.local@slidev.org/f03919c387b77d50ef7b4ffed6ab3f0431a9f1
+ 5460149cabb5fa690d97c2e9ee
+sn: test
+uid: devldapuser_smuhit-mac.local@slidev.org
+uidNumber: 500
+description:: dGVuYW50PWRldmxkYXB1c2VyX3NtdWhpdC1tYWMubG9jYWxAc2xpZGV2Lm9yZw
+ plZE9yZz1TVEFOREFSRC1TRUE=
+destinationIndicator: approved
+displayName: fc3e32c5c499777554b5f439ad693ede
+gecos: 
+givenName: Provision
+loginShell: /sbin/nologin
+mail: devldapuser_smuhit-mac.local@slidev.org
+o: test
+userPassword:: dGVzdDEyMzQ=
+
+dn: cn=Lplyer@macrocorp.com,ou=people,ou=LocalNew,ou=DevTest,dc=slidev,dc=or
+ g
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Lplyer@macrocorp.com
+gidNumber: 500
+homeDirectory: test
+sn: Plyler
+uid: Lplyer@macrocorp.com
+uidNumber: 500
+description: tenant=Lplyer@macrocorp.com
+destinationIndicator: disabled
+displayName: 0afd8680fd3b8aadfbcff9664ef5b8ef
+gecos: 
+givenName: Loraine
+loginShell: /sbin/nologin
+mail: Lplyer@macrocorp.com
+o: Macro Corp
+userPassword:: MTIzNA==
+
+dn: cn=devldapuser@slidev.org,ou=people,ou=LocalNew,ou=DevTest,dc=slidev,dc=
+ org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: devldapuser@slidev.org
+gidNumber: 113
+homeDirectory: /dev/null
+sn: Plyler2
+uid: devldapuser@slidev.org
+uidNumber: 500
+destinationIndicator: submitted
+displayName: -
+gecos: 
+givenName: Loraine2
+loginShell: /sbin/nologin
+mail: devldapuser@slidev.org
+o: Macro Corp
+userPassword:: dGVzdDEyMzQ=
+
+dn: cn=devldapuser_cislave10@slidev.org,ou=people,ou=SLIAdmin,dc=slidev,dc=o
+ rg
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: devldapuser_cislave10@slidev.org
+gidNumber: 500
+homeDirectory: /dev/null
+sn: test
+uid: devldapuser_cislave10@slidev.org
+uidNumber: 500
+description:: dGVuYW50PWRldmxkYXB1c2VyX2Npc2xhdmUxMEBzbGlkZXYub3JnCmVkT3JnPV
+ Rlc3RfRWRfT3Jn
+destinationIndicator: approved
+displayName: 7f50759960128a48d562b7eb4e374202
+gecos: 
+givenName: Provision
+loginShell: /sbin/nologin
+mail: devldapuser_cislave10@slidev.org
+o: test
+userPassword:: dGVzdDEyMzQ=
 
