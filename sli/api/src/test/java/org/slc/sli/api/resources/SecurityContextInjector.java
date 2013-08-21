@@ -328,7 +328,7 @@ public class SecurityContextInjector {
 
         EdOrgContextRightsCache edOrgContextRights = new EdOrgContextRightsCache();
         Map<String, Collection<GrantedAuthority>> contextRights = new HashMap<String, Collection<GrantedAuthority>>();
-        contextRights.put(Right.TEACHER_CONTEXT.name(), new ArrayList<GrantedAuthority>(Arrays.asList(Right.READ_RESTRICTED)));
+        contextRights.put(Right.TEACHER_CONTEXT.name(), new ArrayList<GrantedAuthority>(Arrays.asList(Right.READ_RESTRICTED, Right.READ_GENERAL)));
         edOrgContextRights.put(ED_ORG_ID, contextRights);
 
         SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity, ED_ORG_ID, edOrgContextRights);

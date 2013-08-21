@@ -22,10 +22,11 @@ class PropertyDecryptorHelperTest < ActionView::TestCase
     test "Should decrypt an encrypted string" do
 
     
-        unencryptedString = "unencrypted string"
+        unencryptedString = "slidev"
     
         #want to test something like
         encryptedResult = PropertyDecryptorHelper.encrypt(unencryptedString)
+        puts  "Password: " + encryptedResult.to_s
     
     
         decryptedResult = PropertyDecryptorHelper.decrypt(encryptedResult)

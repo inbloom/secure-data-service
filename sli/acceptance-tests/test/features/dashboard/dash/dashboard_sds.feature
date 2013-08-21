@@ -11,8 +11,8 @@ When I select "Illinois Daybreak School District 4529" and click go
 Scenario: View Matt Sollars
  And I was redirected to the "Simple" IDP Login page
  When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
-And I see a header on the page
-And I see a footer on the page
+#And I see a header on the page
+#And I see a footer on the page
 And the title of the page is "inBloom Dashboard"
 When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
@@ -123,8 +123,8 @@ And the grades teardrop color widgets for "previousSemester;twoSemestersAgo" are
  |F-   |teardrop-red       |
  |F    |teardrop-red       |
 And I click on student "Matt Sollars"
-And I see a header on the page
-And I see a footer on the page
+#And I see a header on the page
+#And I see a footer on the page
 And the title of the page is "inBloom - Student Profile"
 And I view its student profile
 And their name shown in profile is "Matt Joseph Sollars Jr"
@@ -236,8 +236,8 @@ Then I see a list of 25 students
 Then I should only see one view named "Early Literacy View"
 And the list includes: "Mi-Ha Tran"
 And the following students have "ELL" lozenges: "Malcolm Haehn;Dara Nemecek;Lauretta Seip"
-And I see a header on the page
-And I see a footer on the page
+#And I see a header on the page
+#And I see a footer on the page
 # Early Literacy View
 And the count for id "attendances.absenceCount" for student "Mi-Ha Tran" is "1"
 And the class for id "attendances.absenceCount" for student "Mi-Ha Tran" is "color-widget-green"
@@ -345,8 +345,8 @@ And I select section "Sec 145"
 Then I see a list of 25 students
 And the list includes: "Carmen Ortiz"
 And the following students have "ELL" lozenges: "Randolph Vanhooser;Kelvin Zahm;Johnathan Zenz"
-And I see a header on the page
-And I see a footer on the page
+#And I see a header on the page
+#And I see a footer on the page
 Then I should only see one view named "College Ready ELA View"
 And the count for id "attendances.absenceCount" for student "Carmen Ortiz" is "1"
 And the class for id "attendances.absenceCount" for student "Carmen Ortiz" is "color-widget-green"
@@ -439,7 +439,7 @@ And Student Enrollment History has the following entries:
 |<empty>|East Daybreak Junior High  |6 |2006-09-11 |Next year school                                                                         |<empty>      |2007-05-14     |End of school year |
 |<empty>|South Daybreak Elementary  |5 |2005-09-09 |Transfer from a private, religiously-affiliated school in the same local education agency|<empty>      |2006-05-15     |Exited|
 |<empty>|South Daybreak Elementary  |2 |2002-09-12 |Transfer from a school outside of the country                                            |<empty>      |2003-04-12     |Expelled or involuntarily withdrawn|
-And I see a header on the page
+#And I see a header on the page
 When I click on "Assessment" Tab
 And Assessment History includes results for:
 |Test       |

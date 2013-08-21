@@ -564,14 +564,20 @@ public class BasicService implements EntityService, AccessibilityCheck {
         injectSecurity(neutralQuery);
         Collection<Entity> entities = (Collection<Entity>) repo.findAll(collectionName, neutralQuery);
 
-        Map<String, SecurityUtil.UserContext> entityContext = getEntityContexts(entities);
+        Map<String, SecurityUtil.UserContext> entityContext = null;
+
+        if (SecurityUtil.getUserContext() == SecurityUtil.UserContext.DUAL_CONTEXT) {
+            entityContext = getEntityContexts(entities);
+        }
 
         List<EntityBody> results = new ArrayList<EntityBody>();
 
         for (Entity entity : entities) {
-            if (entityContext.containsKey(entity.getEntityId())) {
+            SecurityUtil.UserContext context = getEntityContext(entity.getEntityId(), entityContext);
+
+            if (context != SecurityUtil.UserContext.NO_CONTEXT) {
                 try {
-                    Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf, entity, entityContext.get(entity.getEntityId()), true);
+                    Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf, entity, context, true);
                     rightAccessValidator.checkAccess(true, isSelf, entity, defn.getType(), auths);
                     rightAccessValidator.checkFieldAccess(neutralQuery, isSelf, entity, defn.getType(), auths);
 
@@ -584,6 +590,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
                     }
                 }
             }
+
         }
 
         if (results.isEmpty()) {
@@ -591,6 +598,18 @@ public class BasicService implements EntityService, AccessibilityCheck {
         }
 
         return results;
+    }
+
+    private SecurityUtil.UserContext getEntityContext(String entityId, Map<String, SecurityUtil.UserContext> entityContexts) {
+        SecurityUtil.UserContext context = SecurityUtil.getUserContext();
+        if (SecurityUtil.getUserContext() == SecurityUtil.UserContext.DUAL_CONTEXT) {
+            if (entityContexts.containsKey(entityId)) {
+                context = entityContexts.get(entityId);
+            } else {
+                context = SecurityUtil.UserContext.NO_CONTEXT;
+            }
+        }
+        return context;
     }
 
     @Override

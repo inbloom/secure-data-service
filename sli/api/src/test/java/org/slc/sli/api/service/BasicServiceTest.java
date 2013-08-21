@@ -253,6 +253,26 @@ public class BasicServiceTest {
         }
         Assert.assertEquals("EntityBody mismatch", entityBody1, bodies.toArray()[0]);
         Assert.assertEquals("EntityBody mismatch", entityBody2, bodies.toArray()[1]);
+
+        securityContextInjector.setDualContext();
+
+        Collection<GrantedAuthority> staffContextRights = SecurityUtil.getSLIPrincipal().getEdOrgContextRights().get(SecurityContextInjector.ED_ORG_ID).get(SecurityUtil.UserContext.STAFF_CONTEXT);
+        studentContext.put(entity2.getEntityId(), SecurityUtil.UserContext.DUAL_CONTEXT);
+
+        Mockito.when(mockAccessValidator.getContextualAuthorities(Matchers.eq(false), Matchers.eq(entity1), Matchers.eq(SecurityUtil.UserContext.DUAL_CONTEXT), Matchers.eq(true))).thenReturn(staffContextRights);
+        studentContext.remove(entity1.getEntityId());
+
+        Mockito.when(mockContextValidator.getValidatedEntityContexts(Matchers.any(EntityDefinition.class), Matchers.any(Collection.class), Matchers.anyBoolean())).thenReturn(studentContext);
+
+        listResult = service.listBasedOnContextualRoles(new NeutralQuery());
+
+        bodies.clear();
+        for (EntityBody body : listResult) {
+            bodies.add(body);
+        }
+
+        Assert.assertEquals("Return result is more than 1", 1, bodies.size());
+        Assert.assertEquals("EntityBody mismatch", entityBody2, bodies.toArray()[0]);
     }
 
     @SuppressWarnings("unchecked")
