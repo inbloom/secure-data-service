@@ -134,6 +134,59 @@ Feature: As an API user, I want to be able to get a list of links available to t
   Scenario: Validate that the charter School entity and LEA + ESC entity is extracted correctly with delta bulk extract
     Given I clean the bulk extract file system and database
     And I post "SmallSampleDataSet-Charter.zip" file as the payload of the ingestion job
+    And the following collections are empty in datastore:
+      | collectionName                            |
+      | assessment                                |
+      | assessmentFamily                          |
+      | assessmentPeriodDescriptor                |
+      | attendance                                |
+      | calendarDate                              |
+      | cohort                                    |
+      | competencyLevelDescriptor                 |
+      | course                                    |
+      | courseOffering                            |
+      | courseSectionAssociation                  |
+      | courseTranscript                          |
+      | disciplineAction                          |
+      | disciplineIncident                        |
+      | educationOrganization                     |
+      | educationOrganizationAssociation          |
+      | educationOrganizationSchoolAssociation    |
+      | grade                                     |
+      | gradebookEntry                            |
+      | gradingPeriod                             |
+      | graduationPlan                            |
+      | learningObjective                         |
+      | learningStandard                          |
+      | parent                                    |
+      | program                                   |
+      | reportCard                                |
+      | school                                    |
+      | schoolSessionAssociation                  |
+      | section                                   |
+      | sectionAssessmentAssociation              |
+      | sectionSchoolAssociation                  |
+      | session                                   |
+      | sessionCourseAssociation                  |
+      | staff                                     |
+      | staffCohortAssociation                    |
+      | staffEducationOrganizationAssociation     |
+      | staffProgramAssociation                   |
+      | student                                   |
+      | studentAcademicRecord                     |
+      | studentAssessment                         |
+      | studentCohortAssociation                  |
+      | studentCompetency                         |
+      | studentCompetencyObjective                |
+      | studentDisciplineIncidentAssociation      |
+      | studentGradebookEntry                     |
+      | studentParentAssociation                  |
+      | studentProgramAssociation                 |
+      | studentSchoolAssociation                  |
+      | studentSectionAssociation                 |
+      | teacher                                   |
+      | teacherSchoolAssociation                  |
+      | teacherSectionAssociation                 |
     When zip file is scp to ingestion landing zone
     And a batch job for file "SmallSampleDataSet-Charter.zip" is completed in database
     And I check to find if record is in collection:

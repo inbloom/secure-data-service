@@ -15,6 +15,7 @@
  */
 package org.slc.sli.domain.utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -94,14 +95,17 @@ public class EdOrgHierarchyHelper {
     }
 
     // TODO this logic will need to support multiple parentIds - see us5821
-    private Entity getParentEdOrg(Entity entity) {
+    private List<Entity> getParentEdOrg(Entity entity) {
         if (entity.getBody().containsKey("parentEducationAgencyReference")) {
-            String parentId;
+//            String parentId;
             @SuppressWarnings("unchecked")
             List<String> parentIds = (List<String>) entity.getBody().get("parentEducationAgencyReference");
             // TODO add support of multiple parent references - see us5821
-            parentId = parentIds.get(0);
-            return repo.findById(EntityNames.EDUCATION_ORGANIZATION, parentId);
+            List<Entity> parents = new ArrayList<Entity>();
+            for(String parentId: parentIds) {
+            	parents.add(repo.findById(EntityNames.EDUCATION_ORGANIZATION, parentId));
+            }
+            return parents;
         }
         return null;
     }
@@ -114,16 +118,23 @@ public class EdOrgHierarchyHelper {
      * @param entity
      * @return top level LEA
      */
-    public Entity getTopLEAOfEdOrg(Entity entity) {
+    public List<Entity> getTopLEAOfEdOrg(Entity entity) {
+    	List<Entity> topLEAs = new ArrayList<Entity>();
         if (entity.getBody().containsKey("parentEducationAgencyReference")) {
-            Entity parentEdorg = getParentEdOrg(entity);
-            if (isLEA(parentEdorg)) {
-                return getTopLEAOfEdOrg(parentEdorg);
+            List<Entity> parentEdorgs = getParentEdOrg(entity);
+            for(Entity parentEdorg: parentEdorgs) {
+            	if (isLEA(parentEdorg)) {
+            		topLEAs.addAll(getTopLEAOfEdOrg(parentEdorg));
+            	}
+            }
+            if(topLEAs.size()>0) {
+            	return topLEAs;
             }
         }
         
         if (isLEA(entity)) {
-            return entity;
+        	topLEAs.add(entity);
+        	return topLEAs;
         }
         
         return null;
@@ -139,7 +150,7 @@ public class EdOrgHierarchyHelper {
         if (isSEA(entity)) {
             return entity.getEntityId();
         } else {
-            Entity parentEdorg = getParentEdOrg(entity);
+            Entity parentEdorg = getParentEdOrg(entity).get(0);
             if (parentEdorg != null) {
                 return getSEAOfEdOrg(parentEdorg);
             } else {
