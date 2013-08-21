@@ -153,6 +153,31 @@ Feature: Use the APi to successfully get student data while having roles over ma
     And the response should have general student data
     And the response should have restricted student data
 
+  @wip
+  Scenario: Staff with multiple roles where one of the roles is missing context rights
+    Given the following student section associations in Midgar are set correctly
+      | student         | teacher              | edorg                 | enrolledInAnySection? |
+      | matt.sollars    | jmacey               | East Daybreak High    | yes                   |
+      | lashawn.taite   | jmacey               | East Daybreak High    | yes                    |
+    And I change the custom role of "Leader" to remove the "STAFF_CONTEXT" right
+
+    When I log in as "jmacey"
+    Given format "application/json"
+    When I navigate to GET "<matt.sollars URI>"
+    Then I should receive a return code of 200
+    And the response should have general student data
+    And the response should not have restricted student data
+    When I navigate to GET "<carmen.ortiz URI>"
+    Then I should receive a return code of 403
+    When I navigate to GET "<lashawn.taite URI>"
+    Then I should receive a return code of 200
+    And the response should have general student data
+    And the response should not have restricted student data
+    When I navigate to GET "<bert.jakeman URI>"
+    Then I should receive a return code of 403
+
+
+
   Scenario: Student belongs to different schools
     When I log in as "rbelding"
 
@@ -625,3 +650,99 @@ Feature: Use the APi to successfully get student data while having roles over ma
       | bert.jakeman    |
       | mu.mcneill      |
       | nate.dedrick    |
+
+  @wip
+  Scenario: User has role with no context rights
+    Given I change the custom role of "Educator" to remove the "TEACHER_CONTEXT" right
+    When I log in as "linda.kim"
+    And the following student section associations in Midgar are set correctly
+       | student         | teacher              | edorg                 | enrolledInAnySection? |
+       | carmen.ortiz    | linda.kim            | Daybreak Central High | yes                   |
+
+    Given format "application/json"
+    When I navigate to GET "<carmen.ortiz URI>"
+    Then I should receive a return code of 403
+
+
+  @wip
+  Scenario: User has role with both context rights
+    Given I change the custom role of "Educator" to add the "STAFF_CONTEXT" right
+    And the following student section associations in Midgar are set correctly
+      | student         | teacher              | edorg                 | enrolledInAnySection? |
+      | carmen.ortiz    | linda.kim            | Daybreak Central High | no                    |
+      | bert.jakeman    | linda.kim            | Daybreak Central High | no                    |
+      | mu.mcneill      | linda.kim            | Daybreak Bayside High | no                    |
+    And "mu.mcneill" is not associated with any program that belongs to "linda.kim"
+    And "mu.mcneill" is not associated with any cohort that belongs to "linda.kim"
+    And "bert.jakeman" is not associated with any program that belongs to "linda.kim"
+    And "bert.jakeman" is not associated with any cohort that belongs to "linda.kim"
+    And "carmen.ortiz" is not associated with any program that belongs to "linda.kim"
+    And "carmen.ortiz" is not associated with any cohort that belongs to "linda.kim"
+
+    When I log in as "linda.kim"
+
+    Given format "application/json"
+    When I navigate to GET "<carmen.ortiz URI>"
+    Then I should receive a return code of 200
+    And the response should have general student data
+    And the response should not have restricted student data
+
+    Given format "application/json"
+    When I navigate to GET "<bert.jakeman URI>"
+    Then I should receive a return code of 200
+    And the response should have general student data
+    And the response should not have restricted student data
+
+    Given format "application/json"
+    When I navigate to GET "<mu.mcneill URI>"
+    Then I should receive a return code of 200
+    And the response should have general student data
+    And the response should not have restricted student data
+
+  @wip
+  Scenario: User has roles where teacher contect role has higher rights than the staff context role
+    Given I change the custom role of "Educator" to add the "READ_RESTRICTED" right
+    And I change the custom role of "Leader" to remove the "READ_RESTRICTED" right
+    And the following student section associations in Midgar are set correctly
+      | student         | teacher              | edorg                 | enrolledInAnySection? |
+      | matt.sollars    | jmacey               | East Daybreak High    | yes                   |
+      | jack.jackson    | jmacey               | East Daybreak High    | no                    |
+      | lashawn.taite   | jmacey               | East Daybreak High    | no                    |
+    And "jack.jackson" is not associated with any program that belongs to "jmacey"
+    And "jack.jackson" is not associated with any cohort that belongs to "jmacey"
+    And "lashawn.taite" is not associated with any program that belongs to "jmacey"
+    And "lashawn.taite" is not associated with any cohort that belongs to "jmacey"
+
+    When I log in as "jmacey"
+
+    Given format "application/json"
+    When I navigate to GET "<matt.sollars URI>"
+    Then I should receive a return code of 200
+    And the response should have general student data
+    And the response should have restricted student data
+
+    Given format "application/json"
+    When I navigate to GET "<jack.jackson URI>"
+    Then I should receive a return code of 200
+    And the response should have general student data
+    And the response should not have restricted student data
+
+    Given format "application/json"
+    When I navigate to GET "<lashawn.taite URI>"
+    Then I should receive a return code of 200
+    And the response should have general student data
+    And the response should not have restricted student data
+
+    Given format "application/json"
+    When I navigate to GET "<bert.jakeman URI>"
+    Then I should receive a return code of 200
+    And the response should have general student data
+    And the response should not have restricted student data
+
+    Given format "application/json"
+    When I navigate to GET "<carmen.ortiz URI>"
+    Then I should receive a return code of 200
+    And the response should have general student data
+    And the response should not have restricted student data
+
+
