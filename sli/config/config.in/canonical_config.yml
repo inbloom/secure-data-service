@@ -1664,3 +1664,56 @@ local-pit:
         <<: *DATA-ACCESS-LOCAL
     misc:
         <<: *MISC-LOCAL
+
+#
+# Configuration to support running an ldap server locally
+#
+local-ldap-server:
+    api:
+        <<: *API-LOCAL
+
+    data-access:
+        <<: *DATA-ACCESS-LOCAL
+
+    ingestion:
+        <<: *INGESTION-LOCAL
+
+    dashboard:
+        <<: *DASHBOARD-LOCAL
+
+    apps:
+        <<: *APPS-LOCAL
+
+    misc:
+        <<: *MISC-LOCAL
+        sli.simple-idp.ldap.urls: ldap://localhost:389
+
+#
+# Configuration to support running sandbox locally with a locally running ldap server
+#
+local-sandbox-ldap-server:
+    api:
+        <<: *API-LOCAL
+        sli.sandbox.enabled: true
+        sli.autoRegisterApps: true
+        bootstrap.sandbox.createSandboxRealm: true
+
+    data-access:
+        <<: *DATA-ACCESS-LOCAL
+
+    ingestion:
+        <<: *INGESTION-LOCAL
+        sli.ingestion.tenant.loadDefaultTenants: false
+
+    dashboard:
+        <<: *DASHBOARD-LOCAL
+
+    apps:
+        <<: *APPS-LOCAL
+        bootstrap.app.databrowser.authorized_for_all_edorgs: true
+        bootstrap.app.dashboard.authorized_for_all_edorgs: true
+
+    misc:
+        <<: *MISC-LOCAL
+        sli.simple-idp.sandboxImpersonationEnabled: true
+        sli.simple-idp.ldap.urls: ldap://localhost:389
