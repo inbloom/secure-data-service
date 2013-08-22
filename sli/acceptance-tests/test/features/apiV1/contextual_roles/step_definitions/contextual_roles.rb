@@ -59,6 +59,8 @@ Transform /^<(.*?)>$/ do |human_readable_id|
       id = '/v1/educationOrganizations/2a30827ed4cf5500fb848512d19ad73ed37c4464_id'
     when 'District 9 URI'
       id = '/v1/educationOrganizations/99a4ec9d3ba372993b2860a798b550c77bb73a09_id'
+    when 'Daybreak Bayside High URI'
+      id = '/v1/educationOrganizations/67e56f15a44cf12b6b9eecd8510b243177bce057_id'
 
 #Staff
     when 'msmith URI'
@@ -93,6 +95,10 @@ Transform /^<(.*?)>$/ do |human_readable_id|
 #Following is for a newly created entity
     when 'NEWLY CREATED ENTITY ID'
       id = @newId
+
+#EdOrg
+    when 'Daybreak Bayside High'
+      id= '67e56f15a44cf12b6b9eecd8510b243177bce057_id'
   end
 
   id
@@ -914,6 +920,41 @@ Given /^a valid json document for entity "([^"]*)"$/ do |entity|
 
   }
   @fields = entity_data[entity]
+end
+
+
+Given /^there is a course in the edOrg "(.*?)"$/ do | edOrgId|
+  course_entity = {'_id' => SecureRandom.uuid,
+                   'type' => 'course',
+                   'body' => {
+                                'courseTitle' => 'Chinese 1',
+                                'numberOfParts' => 1,
+                                'courseCode' => [{
+                                  'ID' => 'C1',
+                                  'identificationSystem' => 'School course code',
+                                  'assigningOrganizationCode' => "Bob's Code Generator"
+                                }],
+                                'courseLevel' => 'Basic or remedial',
+                                'courseLevelCharacteristics' => ['Advanced Placement'],
+                                'gradesOffered' => ['Eighth grade'],
+                                'subjectArea' => 'Foreign Language and Literature',
+                                'courseDescription' => 'Intro to Chinese',
+                                'dateCourseAdopted' => '2001-01-01',
+                                'highSchoolCourseRequirement' => false,
+                                'courseDefinedBy' => 'LEA',
+                                'minimumAvailableCredit' => {
+                                  'credit' => 1.0
+                                },
+                                'maximumAvailableCredit' => {
+                                  'credit' => 1.0
+                                },
+                                'careerPathway' => 'Hospitality and Tourism',
+                                'schoolId' => edOrgId,
+                                'uniqueCourseId' => 'Chinese-1-10'
+                              }
+                  }
+  db_name = convertTenantIdToDbName @tenant
+  add_to_mongo(db_name, 'course', course_entity)
 end
 
 ############################################################################################

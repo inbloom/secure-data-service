@@ -451,6 +451,11 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     When I log in as "jmacey"
     And I navigate to GET "<District 9 URI>/staffEducationOrgAssignmentAssociations/staff"
     Then I should receive a return code of 200
+    Given there is a course in the edOrg "<Daybreak Bayside High>"
+    When I navigate to GET "<Daybreak Bayside High URI>/courses"
+    Then I should receive a return code of 200
+    When I navigate to GET "<Daybreak Bayside High URI>/staffEducationOrgAssignmentAssociations"
+    Then I should receive a return code of 403
 
   Scenario Outline: Can view  for non-subdoc historical data of a student from a different edorg, but can't write to it
     Given I add "<Entity>" for "lashawn.taite" in "Daybreak Bayside High" that's already expired
@@ -493,3 +498,5 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     |  tcuyper   |     reportCard                           |    yearlyTranscript      |    gradingPeriodId         |                  Reporter                       |
     |  tcuyper   |   studentProgramAssociation              |   program                |   reasonExited             |                   blabla                        |
     |  tcuyper   |   studentSectionAssociation              |   section                |   reasonExited             |                   blabla                        |
+
+
