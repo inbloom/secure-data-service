@@ -211,7 +211,7 @@ public class ContextValidator implements ApplicationContextAware {
         String rootEntity = segs.get(1).getPath();
 
         EntityDefinition def = resourceHelper.getEntityDefinition(rootEntity);
-        if (skipValidation(def, request.getMethod().equals("GET"))) {
+        if (def == null || def.skipContextValidation()) {
             return;
         }
 
