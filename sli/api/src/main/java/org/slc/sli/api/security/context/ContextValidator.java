@@ -35,6 +35,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinition;
@@ -312,7 +313,7 @@ public class ContextValidator implements ApplicationContextAware {
         List<IContextValidator> contextValidators = findContextualValidators(def.getType(), isTransitive);
         Collection<String> ids = getEntityIds(entities);
         if (!contextValidators.isEmpty()) {
-            Set<String> idsToValidate = getEntityIdsToValidate(def, entities, isTransitive, ids);
+            Set<String> idsToValidate = getEntityIdsToValidateForgiving(entities, isTransitive);
             for (IContextValidator validator : contextValidators) {
                 // Add validated entity ids to the map.
                 Set<String> validatedIds = getValidatedIds(def, idsToValidate, validator);
@@ -340,14 +341,14 @@ public class ContextValidator implements ApplicationContextAware {
     }
 
     /**
-    * Returns a map of ids/entities to validate, based upon entity type and list of entities to filter for validation.
+    * Returns a set of entity ids to validate, based upon entity type and list of entities to filter for validation.
     *
     * @param def - Definition of entities to filter
     * @param entities - Collection of entities to filter for validation
     * @param isTransitive - Determines whether validation is through another entity type
     * @param ids - Original set of entity ids to validate
     *
-    * @return - Map of ids/entities to validate
+    * @return - Set of entity ids to validate
     *
     * @throws APIAccessDeniedException - When an entity cannot be accessed
     * @throws EntityNotFoundException - When an entity cannot be located
@@ -382,6 +383,43 @@ public class ContextValidator implements ApplicationContextAware {
 
          return entityIdsToValidate;
        }
+
+    /**
+     * This method forgivingly iterate through the input entities, returns a set of entity ids to validate,
+     * based upon entity type and list of entities to filter for validation.
+     *
+     *
+     * @param entities - Collection of entities to filter for validation
+     * @param isTransitive - Determines whether validation is through another entity type
+     *
+     * @return - Set of entity ids to validate
+     *
+     * @throws APIAccessDeniedException - When an entity cannot be accessed
+     * @throws EntityNotFoundException - When an entity cannot be located
+     */
+    protected Set<String> getEntityIdsToValidateForgiving(Collection<Entity> entities, boolean isTransitive)
+            throws APIAccessDeniedException, EntityNotFoundException {
+        Set<String> entityIdsToValidate = new HashSet<String>();
+        for (Entity ent : entities) {
+            if (SecurityUtil.principalId().equals(ent.getMetaData().get("createdBy"))
+                    && "true".equals(ent.getMetaData().get("isOrphaned"))) {
+                debug("Entity is orphaned: id {} of type {}", ent.getEntityId(), ent.getType());
+            } else if (SecurityUtil.getSLIPrincipal().getEntity() != null
+                    && SecurityUtil.getSLIPrincipal().getEntity().getEntityId().equals(ent.getEntityId())) {
+                debug("Entity is themselves: id {} of type {}", ent.getEntityId(), ent.getType());
+            } else {
+                try{
+                    if (ownership.canAccess(ent, isTransitive)) {
+                        entityIdsToValidate.add(ent.getEntityId());
+                    }
+                } catch (AccessDeniedException aex) {
+                    warn(aex.getMessage());
+                }
+            }
+        }
+
+        return entityIdsToValidate;
+    }
 
     /**
     * Returns a set of validated entity ids based upon entity type and list of entity ids to validate.
