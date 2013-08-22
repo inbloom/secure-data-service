@@ -393,12 +393,8 @@ public class ContextValidator implements ApplicationContextAware {
      * @param isTransitive - Determines whether validation is through another entity type
      *
      * @return - Set of entity ids to validate
-     *
-     * @throws APIAccessDeniedException - When an entity cannot be accessed
-     * @throws EntityNotFoundException - When an entity cannot be located
      */
-    protected Set<String> getEntityIdsToValidateForgiving(Collection<Entity> entities, boolean isTransitive)
-            throws APIAccessDeniedException, EntityNotFoundException {
+    protected Set<String> getEntityIdsToValidateForgiving(Collection<Entity> entities, boolean isTransitive){
         Set<String> entityIdsToValidate = new HashSet<String>();
         for (Entity ent : entities) {
             if (SecurityUtil.principalId().equals(ent.getMetaData().get("createdBy"))
@@ -413,7 +409,7 @@ public class ContextValidator implements ApplicationContextAware {
                         entityIdsToValidate.add(ent.getEntityId());
                     }
                 } catch (AccessDeniedException aex) {
-                    warn(aex.getMessage());
+                    error(aex.getMessage());
                 }
             }
         }
