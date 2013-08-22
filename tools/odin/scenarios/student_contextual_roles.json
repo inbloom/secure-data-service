@@ -184,5 +184,17 @@
         "grade": "Tenth grade"
       }
     ]
+  },
+  {
+    "userId": "delete.me",
+    "name": "Delete Me",
+    "edOrgs": [
+      {
+        "role": "Student",
+        "type": "High School",
+        "association": "East Daybreak High",
+        "grade": "First grade"
+      }
+    ]
   }
 ]

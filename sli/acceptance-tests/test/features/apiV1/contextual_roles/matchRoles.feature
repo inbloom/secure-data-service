@@ -71,3 +71,11 @@ Scenario: As a staff member, I cannot log in, if my roles do not match one of th
     And I was redirected to the "Simple" IDP Login page
     And I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
     Then I should receive a response page with http error code 403
+
+@wip
+Scenario: As a staff user, I can log in even when none of my roles have a context right
+    Given I change the custom role of "Educator" to remove the "TEACHER_CONTEXT" right
+    When I navigate to the API authorization endpoint with my client ID
+    And I was redirected to the "Simple" IDP Login page
+    And I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
+    Then I should receive a json response containing my authorization code

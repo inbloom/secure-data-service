@@ -143,7 +143,7 @@ Feature: Use the APi to successfully patch student data while having roles over 
     And "sex" should be "Male"
 
     When I navigate to PATCH "<bert.jakeman URI>"
-    Then I should receive a return code of 204
+    Then I should receive a return code of 403
 
   Scenario: Staff with restricted write right in one school can patch restricted student data in one school
     And I change the custom role of "Leader" to add the "WRITE_RESTRICTED" right
@@ -180,5 +180,52 @@ Feature: Use the APi to successfully patch student data while having roles over 
     When I navigate to PATCH "<carmen.ortiz URI>"
     Then I should receive a return code of 403
 
+    When I navigate to PATCH "<bert.jakeman URI>"
+    Then I should receive a return code of 403
+
+
+  Scenario: Staff user with dual context in different edOrgs with restricted write right can patch some student data
+    Given I change the custom role of "Leader" to add the "WRITE_GENERAL" right
+    And I change the custom role of "Educator" to add the "WRITE_GENERAL" right
+    And I change the custom role of "Educator" to add the "WRITE_RESTRICTED" right
+
+    And the following student section associations in Midgar are set correctly
+      | student         | teacher              | edorg                 | enrolledInAnySection? |
+      | matt.sollars    | jmacey               | East Daybreak High    | yes                   |
+      | lashawn.taite   | jmacey               | East Daybreak High    | no                    |
+      | jack.jackson    | jmacey               | East Daybreak High    | no                    |
+    And "lashawn.taite" is not associated with any program that belongs to "jmacey"
+    And "lashawn.taite" is not associated with any cohort that belongs to "jmacey"
+    And "jack.jackson" is not associated with any program that belongs to "jmacey"
+    And "jack.jackson" is not associated with any cohort that belongs to "jmacey"
+
+    When I log in as "jmacey"
+
+    When I change the field "economicDisadvantaged" to "true"
+    When I navigate to PATCH "<matt.sollars URI>"
+    Then I should receive a return code of 204
+
+    When I navigate to GET "<matt.sollars URI>"
+    Then I should receive a return code of 200
+    And "economicDisadvantaged" should be "true"
+
+    When I change the field "economicDisadvantaged" to "true"
+    When I navigate to PATCH "<jack.jackson URI>"
+    Then I should receive a return code of 403
+
+    When I change the field "economicDisadvantaged" to "true"
+    When I navigate to PATCH "<lashawn.taite URI>"
+    Then I should receive a return code of 403
+
+    When I clear out the patch request
+    When I change the field "hispanicLatinoEthnicity" to "true"
+    When I navigate to PATCH "<lashawn.taite URI>"
+    Then I should receive a return code of 204
+
+    When I navigate to GET "<lashawn.taite URI>"
+    Then I should receive a return code of 200
+    And "hispanicLatinoEthnicity" should be "true"
+
+    When I change the field "economicDisadvantaged" to "true"
     When I navigate to PATCH "<bert.jakeman URI>"
     Then I should receive a return code of 403

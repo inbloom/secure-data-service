@@ -16,6 +16,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentMatcher;
 import org.mockito.Mockito;
+import org.slc.sli.api.constants.ResourceNames;
+import org.slc.sli.common.constants.EntityNames;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -319,7 +322,7 @@ public class ContextValidatorTest {
         Entity student5 = createEntity("student", 5);
         List<Entity> students = Arrays.asList(student1, student2, student3, student4, student5);
 
-        Map<String, SecurityUtil.UserContext> validatedEntityContexts = contextValidator.getValidatedEntityContexts(def, students, isTransitive);
+        Map<String, SecurityUtil.UserContext> validatedEntityContexts = contextValidator.getValidatedEntityContexts(def, students, isTransitive, true);
 
         Assert.assertEquals(5, validatedEntityContexts.size());
         Assert.assertEquals(SecurityUtil.UserContext.STAFF_CONTEXT, validatedEntityContexts.get("student1"));
@@ -343,7 +346,7 @@ public class ContextValidatorTest {
         Mockito.when(edOrgHelper.getDirectEdorgs(Mockito.eq(student1))).thenReturn(new HashSet<String>(Arrays.asList("edOrg1")));
         boolean isTransitive = false;
 
-        Map<String, SecurityUtil.UserContext> validatedEntityContexts = contextValidator.getValidatedEntityContexts(def, students, isTransitive);
+        Map<String, SecurityUtil.UserContext> validatedEntityContexts = contextValidator.getValidatedEntityContexts(def, students, isTransitive, true);
 
         Assert.assertEquals(1, validatedEntityContexts.size());
         Assert.assertEquals(SecurityUtil.UserContext.DUAL_CONTEXT, validatedEntityContexts.get("student1"));
@@ -361,7 +364,7 @@ public class ContextValidatorTest {
         Mockito.when(edOrgHelper.getDirectEdorgs(Mockito.eq(staff1))).thenReturn(new HashSet<String>(Arrays.asList("edOrg1")));
         boolean isTransitive = false;
 
-        Map<String, SecurityUtil.UserContext> validatedEntityContexts = contextValidator.getValidatedEntityContexts(def, staff, isTransitive);
+        Map<String, SecurityUtil.UserContext> validatedEntityContexts = contextValidator.getValidatedEntityContexts(def, staff, isTransitive, true);
 
         Mockito.verify(ownership, Mockito.never()).canAccess(Mockito.any(Entity.class), Mockito.anyBoolean());
     }
@@ -378,12 +381,9 @@ public class ContextValidatorTest {
         boolean isTransitive = false;
         Mockito.when(ownership.canAccess(student1, isTransitive)).thenReturn(false);
 
-        try {
-            Map<String, SecurityUtil.UserContext> validatedEntityContexts = contextValidator.getValidatedEntityContexts(def, students, isTransitive);
-            Assert.fail();
-        } catch (APIAccessDeniedException ex) {
-            Assert.assertEquals("Access to " + student1.getEntityId() + " is not authorized", ex.getMessage());
-        }
+        Map<String, SecurityUtil.UserContext> validatedEntityContexts = contextValidator.getValidatedEntityContexts(def, students, isTransitive, true);
+        Assert.assertEquals(1, validatedEntityContexts.size());
+
     }
 
     @SuppressWarnings("unused")
@@ -399,15 +399,11 @@ public class ContextValidatorTest {
 
         Collection<String> ids = new HashSet<String>();
 
-        try {
-            Map<String, SecurityUtil.UserContext> validatedEntityContexts = contextValidator.getValidatedEntityContexts(def, new ArrayList<Entity>(), isTransitive);
-            Assert.fail();
-        } catch (EntityNotFoundException ex) {
-            Assert.assertEquals("Cannot access " + def.getType() + " with ids " + ids, ex.getId());
-        }
+        Map<String, SecurityUtil.UserContext> validatedEntityContexts = contextValidator.getValidatedEntityContexts(def, new ArrayList<Entity>(), isTransitive, true);
+
+        Assert.assertTrue(validatedEntityContexts.isEmpty());
     }
 
-    @SuppressWarnings("unused")
     @Test
     public void testGetValidatedEntityContextsNotAllValidated() {
         EntityDefinition def = createEntityDef("student");
@@ -423,7 +419,7 @@ public class ContextValidatorTest {
         Mockito.when(ownership.canAccess(student1, isTransitive)).thenReturn(true);
         Mockito.when(ownership.canAccess(student2, isTransitive)).thenReturn(true);
 
-        Map<String, SecurityUtil.UserContext> validatedEntityContexts = contextValidator.getValidatedEntityContexts(def, students, isTransitive);
+        Map<String, SecurityUtil.UserContext> validatedEntityContexts = contextValidator.getValidatedEntityContexts(def, students, isTransitive, true);
 
         Assert.assertEquals(2, validatedEntityContexts.size());
         Assert.assertEquals(SecurityUtil.UserContext.STAFF_CONTEXT, validatedEntityContexts.get("student1"));
@@ -442,8 +438,45 @@ public class ContextValidatorTest {
         boolean isTransitive = false;
 
         try {
-            Map<String, SecurityUtil.UserContext> validatedEntityContexts = contextValidator.getValidatedEntityContexts(def, sessions, isTransitive);
+            Map<String, SecurityUtil.UserContext> validatedEntityContexts = contextValidator.getValidatedEntityContexts(def, sessions, isTransitive, true);
             Assert.fail();
+        } catch (APIAccessDeniedException ex) {
+            Assert.assertEquals("No validator for " + def.getType() + ", transitive=" + isTransitive, ex.getMessage());
+        }
+    }
+
+    @Test
+    public void testgetEntityIdsToValidateForgiving() {
+        Entity student0 = createEntity("student", 0);
+        Entity student1 = createEntity("student", 1);
+        Entity student2 = createEntity("student", 2);
+        List<Entity> students = Arrays.asList(student0, student1, student2);
+
+
+        boolean isTransitive = false;
+        Mockito.when(ownership.canAccess(student0, isTransitive)).thenReturn(true);
+        Mockito.when(ownership.canAccess(student1, isTransitive)).thenReturn(true);
+        Mockito.when(ownership.canAccess(student2, isTransitive)).thenThrow(new AccessDeniedException(""));
+
+        Set<String> ids = contextValidator.getEntityIdsToValidateForgiving(students, isTransitive);
+
+        Assert.assertEquals(2, ids.size());
+        Assert.assertTrue(ids.contains(student0.getEntityId()));
+        Assert.assertTrue(ids.contains(student1.getEntityId()));
+    }
+
+    public void testGetGlobalEntities() {
+        EntityDefinition def = createEntityDef("calendarDate");
+        Mockito.when(def.getResourceName()).thenReturn(ResourceNames.CALENDAR_DATES);
+
+        Entity session1 = createEntity("calendarDate", 1);
+        List<Entity> cd = Arrays.asList(session1);
+
+        boolean isTransitive = false;
+
+        try {
+            Map<String, SecurityUtil.UserContext> validatedEntityContexts = contextValidator.getValidatedEntityContexts(def, cd, isTransitive, true);
+            Assert.assertEquals("Return should be null", null, validatedEntityContexts);
         } catch (APIAccessDeniedException ex) {
             Assert.assertEquals("No validator for " + def.getType() + ", transitive=" + isTransitive, ex.getMessage());
         }
