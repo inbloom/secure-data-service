@@ -527,11 +527,11 @@ Feature: Use the APi to successfully get student data while having roles over ma
    And the response should have the following students
       | student         |
       | carmen.ortiz    |
-   And the response should not have the following students
-      | student         |
       | matt.sollars    |
       | jack.jackson    |
       | lashawn.taite   |
+   And the response should not have the following students
+      | student         |
       | bert.jakeman    |
       | nate.dedrick    |
       | mu.mcneill      |

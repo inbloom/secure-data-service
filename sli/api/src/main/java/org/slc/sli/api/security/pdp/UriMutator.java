@@ -33,11 +33,8 @@ import javax.ws.rs.core.PathSegment;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
-import org.slc.sli.api.security.context.APIAccessDeniedException;
-import org.slc.sli.api.security.context.resolver.GradingPeriodHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.BasicDefinitionStore;
@@ -45,8 +42,10 @@ import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.api.security.context.ResponseTooLargeException;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
+import org.slc.sli.api.security.context.resolver.GradingPeriodHelper;
 import org.slc.sli.api.security.context.resolver.SectionHelper;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.util.SecurityUtil;
@@ -338,9 +337,9 @@ public class UriMutator {
     private MutatedContainer mutateUriAsNecessary(List<PathSegment> segments, String queryParameters, Entity user)
             throws ResponseTooLargeException {
         MutatedContainer mutatedPathAndParameters = null;
-        if (isTeacher(user)) {
+        if (mutateToTeacher()) {
             mutatedPathAndParameters = mutateTeacherRequest(segments, queryParameters, user);
-        } else if (isStaff(user)) {
+        } else if (mutateToStaff()) {
             mutatedPathAndParameters = mutateStaffRequest(segments, queryParameters, user);
         } else if (isStudent(user) || isParent(user)) {
             mutatedPathAndParameters = mutateStudentParentRequest(stringifyPathSegments(segments), queryParameters,
@@ -1075,10 +1074,10 @@ public class UriMutator {
      * Mutates the API call (to a base entity) to a more-specific (and generally more constrained)
      * URI.
      *
-     * @param resource
-     *            root resource being accessed.
-     * @param user
-     *            entity representing user making API call.
+     * @param resource - root resource being accessed.
+     * @param version - API version.
+     * @param queryParameters - URI query parameters.
+     * @param user - entity representing user making API call.
      * @return Mutated String representing new API call, or null if no mutation takes place.
      */
     public MutatedContainer mutateBaseUri(String version, String resource, final String queryParameters, Entity user) {
@@ -1089,9 +1088,9 @@ public class UriMutator {
         }
 
         mutated.setPath(rootSearchMutator.mutatePath(version, resource, mutated.getQueryParameters()));
-        if (mutated.getPath() == null && isTeacher(user)) {
+        if (mutated.getPath() == null && mutateToTeacher()) {
             return this.mutateBaseUriForTeacher(resource, mutated.getQueryParameters(), user);
-        } else if (mutated.getPath() == null && isStaff(user)) {
+        } else if (mutated.getPath() == null && mutateToStaff()) {
             return this.mutateBaseUriForStaff(resource, mutated.getQueryParameters(), user,
                     mutated.getQueryParameters());
         } else if (mutated.getPath() == null && isStudent(user) || isParent(user)) {
@@ -1123,34 +1122,31 @@ public class UriMutator {
         return queryParameters.replaceFirst(Matcher.quoteReplacement(queryRegEx), "");
     }
 
-    /**
-     * Determines if the entity is a teacher.
-     *
-     * @param principal
-     *            User making API call.
-     * @return True if principal is a teacher, false otherwise.
-     */
-    private boolean isTeacher(Entity principal) {
-        return principal.getType().equals(EntityNames.TEACHER);
-    }
-
-    /**
-     * Determines if the entity is a staff member.
-     *
-     * @param principal
-     *            User making API call.
-     * @return True if principal is a staff member, false otherwise.
-     */
-    private boolean isStaff(Entity principal) {
-        return principal.getType().equals(EntityNames.STAFF);
-    }
-
     private boolean isStudent(Entity principal) {
         return principal.getType().equals(EntityNames.STUDENT);
     }
 
     private boolean isParent(Entity principal) {
         return principal.getType().equals(EntityNames.PARENT);
+    }
+
+    /**
+     * Determines if the URI should be mutated to a teacher context for a federated user.
+     *
+     * @return - True if the user has teacher context, false otherwise
+     */
+    private boolean mutateToTeacher() {
+        return (SecurityUtil.getUserContext() == SecurityUtil.UserContext.TEACHER_CONTEXT);
+    }
+
+    /**
+     * Determines if the URI should be mutated to a staff context for a federated user.
+     *
+     * @return - True if the user has staff or dual context, false otherwise
+     */
+    private boolean mutateToStaff() {
+        return ((SecurityUtil.getUserContext() == SecurityUtil.UserContext.STAFF_CONTEXT) ||
+                (SecurityUtil.getUserContext() == SecurityUtil.UserContext.DUAL_CONTEXT));
     }
 
     private String getStudentIds(SLIPrincipal principal) {
