@@ -579,7 +579,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
                 rightAccessValidator.checkAccess(true, isSelf, entity, defn.getType(), auths);
                 rightAccessValidator.checkFieldAccess(neutralQuery, isSelf, entity, defn.getType(), auths);
 
-                results.add(entityRightsFilter.makeEntityBody(entity, treatments, defn, isSelf, auths));
+                results.add(entityRightsFilter.makeEntityBody(entity, treatments, defn, isSelf, auths, context));
             } catch (AccessDeniedException aex) {
                 if (entities.size() == 1) {
                     throw aex;
@@ -1211,7 +1211,10 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
         if (context == SecurityUtil.UserContext.DUAL_CONTEXT) {
             Map<String, SecurityUtil.UserContext> entityContext = getEntityContextMap(Arrays.asList(entity), isRead);
-            context = entityContext.get(entity.getEntityId());
+
+            if (entityContext != null) {
+                context = entityContext.get(entity.getEntityId());
+            }
         }
 
         return rightAccessValidator.getContextualAuthorities(isSelf, entity, context, isRead);
