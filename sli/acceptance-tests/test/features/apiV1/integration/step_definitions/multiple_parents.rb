@@ -23,9 +23,9 @@ require 'builder'
 require 'rexml/document'
 require 'uri'
 include REXML
-require_relative '../../../../utils/sli_utils.rb'
-require_relative '../../../utils/api_utils.rb'
-require_relative '../../../../apiV1/integration/step_definitions/app_oauth.rb'
+require_relative '../../../utils/sli_utils.rb'
+require_relative '../../utils/api_utils.rb'
+#require_relative '../../../../apiV1/integration/step_definitions/app_oauth.rb'
 
 def findStaffId(staffLogin)
   @conn = Mongo::Connection.new(PropLoader.getProps['ingestion_db'], PropLoader.getProps['ingestion_db_port']) if !defined? @conn

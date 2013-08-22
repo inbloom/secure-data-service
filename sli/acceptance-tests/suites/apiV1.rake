@@ -275,6 +275,14 @@ task :apiSmokeTests do
   Rake::Task["apiMegaTests"].invoke
 end
 
+desc "Run API Multiple Parent Tests"
+task :apiOdinMultipleParentTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  allLeaAllowApp("Mobile App")
+  authorizeEdorg("Mobile App")
+  runTests("test/features/apiV1/integration/multiple_parents.feature")
+end
+
 desc "Run API Performance Tests"
 task :apiPerformanceTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
