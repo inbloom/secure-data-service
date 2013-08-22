@@ -229,8 +229,8 @@ public class BasicServiceTest {
         Entity entity2 = new MongoEntity("student", "student2", entityBody2, new HashMap<String,Object>());
         Iterable<Entity> entities = Arrays.asList(entity1, entity2);
         Mockito.when(mockRepo.findAll(Mockito.eq("student"), Mockito.any(NeutralQuery.class))).thenReturn(entities);
-        Mockito.when(mockRightsFilter.makeEntityBody(Mockito.eq(entity1), Mockito.any(List.class), Mockito.any(EntityDefinition.class), Mockito.anyBoolean(), Mockito.any(Collection.class))).thenReturn(entityBody1);
-        Mockito.when(mockRightsFilter.makeEntityBody(Mockito.eq(entity2), Mockito.any(List.class), Mockito.any(EntityDefinition.class), Mockito.anyBoolean(), Mockito.any(Collection.class))).thenReturn(entityBody2);
+        Mockito.when(mockRightsFilter.makeEntityBody(Mockito.eq(entity1), Mockito.any(List.class), Mockito.any(EntityDefinition.class), Mockito.anyBoolean(), Mockito.any(Collection.class), Mockito.any(SecurityUtil.UserContext.class))).thenReturn(entityBody1);
+        Mockito.when(mockRightsFilter.makeEntityBody(Mockito.eq(entity2), Mockito.any(List.class), Mockito.any(EntityDefinition.class), Mockito.anyBoolean(), Mockito.any(Collection.class), Mockito.any(SecurityUtil.UserContext.class))).thenReturn(entityBody2);
 
         Mockito.when(mockAccessValidator.getContextualAuthorities(Matchers.eq(false), Matchers.eq(entity1), Matchers.eq(SecurityUtil.UserContext.TEACHER_CONTEXT), Matchers.eq(true))).thenReturn(teacherContextRights);
 
@@ -243,7 +243,7 @@ public class BasicServiceTest {
         studentContext.put(entity1.getEntityId(), SecurityUtil.UserContext.TEACHER_CONTEXT);
         studentContext.put(entity2.getEntityId(), SecurityUtil.UserContext.TEACHER_CONTEXT);
 
-        Mockito.when(mockContextValidator.getValidatedEntityContexts(Matchers.any(EntityDefinition.class), Matchers.any(Collection.class), Matchers.anyBoolean())).thenReturn(studentContext);
+        Mockito.when(mockContextValidator.getValidatedEntityContexts(Matchers.any(EntityDefinition.class), Matchers.any(Collection.class), Matchers.anyBoolean(), Matchers.anyBoolean())).thenReturn(studentContext);
 
         Iterable<EntityBody> listResult = service.listBasedOnContextualRoles(new NeutralQuery());
 
@@ -263,7 +263,7 @@ public class BasicServiceTest {
         Mockito.doThrow(new AccessDeniedException("")).when(mockAccessValidator).checkAccess(Matchers.eq(true), Matchers.eq(false), Matchers.eq(entity1), Matchers.any(String.class), Matchers.any(Collection.class));
         studentContext.remove(entity1.getEntityId());
 
-        Mockito.when(mockContextValidator.getValidatedEntityContexts(Matchers.any(EntityDefinition.class), Matchers.any(Collection.class), Matchers.anyBoolean())).thenReturn(studentContext);
+        Mockito.when(mockContextValidator.getValidatedEntityContexts(Matchers.any(EntityDefinition.class), Matchers.any(Collection.class), Matchers.anyBoolean(), Matchers.anyBoolean())).thenReturn(studentContext);
 
         listResult = service.listBasedOnContextualRoles(new NeutralQuery());
 
@@ -477,7 +477,7 @@ public class BasicServiceTest {
         Map<String, SecurityUtil.UserContext> studentContext = new HashMap<String, SecurityUtil.UserContext>();
         studentContext.put(student.getEntityId(), SecurityUtil.UserContext.STAFF_CONTEXT);
 
-        Mockito.when(mockContextValidator.getValidatedEntityContexts(Matchers.any(EntityDefinition.class), Matchers.any(Collection.class), Matchers.anyBoolean())).thenReturn(studentContext);
+        Mockito.when(mockContextValidator.getValidatedEntityContexts(Matchers.any(EntityDefinition.class), Matchers.any(Collection.class), Matchers.anyBoolean(), Matchers.anyBoolean())).thenReturn(studentContext);
 
         Collection<GrantedAuthority> rights = service.getEntityContextAuthorities(student, isSelf, isRead);
 

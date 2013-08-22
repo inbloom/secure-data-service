@@ -51,6 +51,8 @@ Transform /^<(.*?)>$/ do |human_readable_id|
       id = '/v1/students/2d17703cb29a95bbfdaab47f513cafdc0ef55d67_id'
     when 'jack.jackson URI'
       id = '/v1/students/df54047bf88ecd7e2f6fbf00951196f747c9ccfc_id'
+    when 'delete.me URI'
+      id = '/v1/students/adad6cd5564eebbcc46c43b648d604427c7f6c19_id'
 
 #Education Organizations
     when 'East Daybreak URI'
