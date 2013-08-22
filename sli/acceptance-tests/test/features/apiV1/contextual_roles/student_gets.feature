@@ -161,6 +161,7 @@ Feature: Use the APi to successfully get student data while having roles over ma
     And I change the custom role of "Leader" to remove the "STAFF_CONTEXT" right
 
     When I log in as "jmacey"
+
     Given format "application/json"
     When I navigate to GET "<matt.sollars URI>"
     Then I should receive a return code of 200
@@ -174,6 +175,31 @@ Feature: Use the APi to successfully get student data while having roles over ma
     And the response should not have restricted student data
     When I navigate to GET "<bert.jakeman URI>"
     Then I should receive a return code of 403
+
+    Given I change the custom role of "Leader" to add the "STAFF_CONTEXT" right
+    And I change the custom role of "Leader" to remove the "READ_RESTRICTED" right
+    And I change the custom role of "Educator" to remove the "TEACHER_CONTEXT" right
+    And I change the custom role of "Educator" to add the "READ_RESTRICTED" right
+
+    When I log in as "jmacey"
+
+    Given format "application/json"
+    When I navigate to GET "<matt.sollars URI>"
+    Then I should receive a return code of 200
+    And the response should have general student data
+    And the response should not have restricted student data
+    When I navigate to GET "<carmen.ortiz URI>"
+    Then I should receive a return code of 200
+    And the response should have general student data
+    And the response should not have restricted student data
+    When I navigate to GET "<lashawn.taite URI>"
+    Then I should receive a return code of 200
+    And the response should have general student data
+    And the response should not have restricted student data
+    When I navigate to GET "<bert.jakeman URI>"
+    Then I should receive a return code of 200
+    And the response should have general student data
+    And the response should not have restricted student data
 
   Scenario: Student belongs to different schools
     When I log in as "rbelding"
