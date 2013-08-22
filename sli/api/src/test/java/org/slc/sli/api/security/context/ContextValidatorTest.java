@@ -18,6 +18,7 @@ import org.mockito.ArgumentMatcher;
 import org.mockito.Mockito;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.common.constants.EntityNames;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -380,12 +381,9 @@ public class ContextValidatorTest {
         boolean isTransitive = false;
         Mockito.when(ownership.canAccess(student1, isTransitive)).thenReturn(false);
 
-        try {
-            Map<String, SecurityUtil.UserContext> validatedEntityContexts = contextValidator.getValidatedEntityContexts(def, students, isTransitive, true);
-            Assert.fail();
-        } catch (APIAccessDeniedException ex) {
-            Assert.assertEquals("Access to " + student1.getEntityId() + " is not authorized", ex.getMessage());
-        }
+        Map<String, SecurityUtil.UserContext> validatedEntityContexts = contextValidator.getValidatedEntityContexts(def, students, isTransitive, true);
+        Assert.assertEquals(1, validatedEntityContexts.size());
+
     }
 
     @SuppressWarnings("unused")
@@ -445,6 +443,26 @@ public class ContextValidatorTest {
         } catch (APIAccessDeniedException ex) {
             Assert.assertEquals("No validator for " + def.getType() + ", transitive=" + isTransitive, ex.getMessage());
         }
+    }
+
+    @Test
+    public void testgetEntityIdsToValidateForgiving() {
+        Entity student0 = createEntity("student", 0);
+        Entity student1 = createEntity("student", 1);
+        Entity student2 = createEntity("student", 2);
+        List<Entity> students = Arrays.asList(student0, student1, student2);
+
+
+        boolean isTransitive = false;
+        Mockito.when(ownership.canAccess(student0, isTransitive)).thenReturn(true);
+        Mockito.when(ownership.canAccess(student1, isTransitive)).thenReturn(true);
+        Mockito.when(ownership.canAccess(student2, isTransitive)).thenThrow(new AccessDeniedException(""));
+
+        Set<String> ids = contextValidator.getEntityIdsToValidateForgiving(students, isTransitive);
+
+        Assert.assertEquals(2, ids.size());
+        Assert.assertTrue(ids.contains(student0.getEntityId()));
+        Assert.assertTrue(ids.contains(student1.getEntityId()));
     }
 
     public void testGetGlobalEntities() {
