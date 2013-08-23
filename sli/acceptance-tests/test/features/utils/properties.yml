@@ -124,6 +124,11 @@ secondary_email_imap_registration_user: e2etestlea
 secondary_email_imap_registration_user_email: e2etestlea@slidev.org
 secondary_email_imap_registration_pass: test1234
 
+#LEA Admin creds - For CI environments
+charter_email_imap_registration_user: e2echarter
+charter_email_imap_registration_user_email: e2echarter@slidev.org
+charter_email_imap_registration_pass: test1234
+
 #Developer creds - For CI environments
 developer_email_imap_registration_user: e2etestdev
 developer_email_imap_registration_user_email: e2etestdev@slidev.org
@@ -149,6 +154,9 @@ edorg: STANDARD-SEA
 
 # IDP and Redirect Endpoint URL for Realm Management
 ci_idp_redirect_url: https://localhost:8080/simple-idp?realm=IL-Daybreak
+
+# IDP and Redirect Endpoint URL for Charter School Realm Management
+ci_charter_idp_redirect_url: https://localhost:8080/simple-idp?realm=IL-Charter
 
 ##For RC environments
 #email_imap_hostname: imap.gmail.com
