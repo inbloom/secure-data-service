@@ -567,7 +567,6 @@ Feature: Use the APi to successfully get student data while having roles over ma
 
    When I navigate to GET "/v1/students"
    Then I should receive a return code of 200
-   #TODO: After US5787, the returned list should now have matt.sollars, jack.jackson, and lashawn.taite
    And the response should have the following students
       | student         |
       | carmen.ortiz    |
