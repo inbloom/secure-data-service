@@ -625,7 +625,17 @@ When /^I PUT the "(.*?)" for a "(.*?)" entity to "(.*?)" at "(.*?)"$/ do |field,
   #the GET body contains field the user may not have access to, changed to use the POST body
   post_body = get_post_body_by_entity_name(entity_name)
   assert(post_body != nil, "No POST body found with entityName: " + entity_name)
-  put_body = update_api_put_field(post_body, field, value)
+  if post_body = nil
+     puts "No POST body found with entityName: " + entity_name + ". Attempting to use GET body."
+     response_body = get_response_body(endpoint)
+     assert(response_body != nil, "No response from GET request for entity #{entity_name}")
+     # If we get a list, just take the first entry. No muss, no fuss.
+     response_body = response_body[0] if response_body.is_a?(Array)
+     # Modify the response body field with value, will become PUT body
+     put_body = update_api_put_field(response_body, field, value)
+  else
+     put_body = update_api_put_field(post_body, field, value)
+  end
   puts prepareData(@format, put_body).to_s
   restHttpPut("/#{@api_version}/#{endpoint}", prepareData(@format, put_body))
   assert(@res != nil, "Response from rest-client PUT is nil")
