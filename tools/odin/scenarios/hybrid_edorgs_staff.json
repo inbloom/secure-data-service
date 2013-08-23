@@ -1,0 +1,79 @@
+[
+  {
+    "userId": "chartereducator",
+    "name": "Charter Educator",
+    "edOrgs": [
+      {
+        "role": "Educator",
+        "type": "Elementary School",
+        "association": "IL Charter School"
+      }
+    ]
+  },
+  {
+    "userId": "charteradmin",
+    "name": "Charter Admin",
+    "edOrgs": [
+      {
+        "role": "IT Administrator",
+        "type": "Elementary School",
+        "association": "IL Charter School"
+      }
+    ]
+  },
+  {
+    "userId": "charterleader",
+    "name": "Charter Leader",
+    "edOrgs": [
+      {
+        "role": "Leader",
+        "type": "Elementary School",
+        "association": "IL Charter School"
+      }
+    ]
+  },
+  {
+    "userId": "charterviewer",
+    "name": "Charter Viewer",
+    "edOrgs": [
+      {
+        "role": "Aggregate Viewer",
+        "type": "Elementary School",
+        "association": "IL Charter School"
+      }
+    ]
+  },
+  {
+    "userId": "ckoch",
+    "name": "Christopher Koch",
+    "edOrgs": [
+      {
+        "role": "Leader",
+        "type": "State Education Agency",
+        "association": "STANDARD-SEA"
+      }
+    ]
+  },
+  {
+    "userId": "rrogers",
+    "name": "Rick Rogers",
+    "edOrgs": [
+      {
+        "role": "IT Administrator",
+        "type": "State Education Agency",
+        "association": "STANDARD-SEA"
+      }
+    ]
+  },
+  {
+    "userId": "mjohnson",
+    "name": "Michael Johnson",
+    "edOrgs": [
+      {
+        "role": "Aggregate Viewer",
+        "type": "State Education Agency",
+        "association": "STANDARD-SEA"
+      }
+    ]
+  }
+]

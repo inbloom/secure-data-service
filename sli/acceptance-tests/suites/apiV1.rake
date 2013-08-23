@@ -305,6 +305,11 @@ task :apiOdinGenerate do
   runTests("test/features/odin/generate_api_data.feature")
 end
 
+desc "Run Odin API Hybrid EdOrg Generation Task"
+task :apiHybridEdOrgOdinGenerate do
+  runTests("test/features/odin/generate_api_hybrid_edorg_data.feature")
+end
+
 desc "Run Odin API Student Data Generation Task"
 task :apiOdinSecurityGenerate do
   runTests("test/features/odin/generate_api_security_data.feature")
@@ -318,6 +323,11 @@ end
 desc "Run API Odin Ingestion Tests"
 task :apiOdinIngestion do
   runTests("test/features/ingestion/features/ingestion_OdinAPIData.feature")
+end
+
+desc "Run API Odin Ingestion Tests"
+task :apiOdinHybridEdOrgIngestion do
+  runTests("test/features/ingestion/features/ingestion_OdinAPIHybridEdOrgData.feature")
 end
 
 desc "Run API Odin Ingestion Tests"
