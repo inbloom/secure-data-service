@@ -687,8 +687,18 @@ task :apiV1EntitySecurityTests do
 end
 
 desc "Run API Tests using Odin ingested data"
-task :apiOdinTests => [:apiOdinPrep, :apiOdinSuperAssessment, :apiOdinSecurityTests, :apiOdinMultipleParentTests] do
+task :apiOdinTests => [:apiOdinHybridEdOrgTests, :apiOdinPrep, :apiOdinSuperAssessment, :apiOdinSecurityTests, :apiOdinMultipleParentTests] do
     displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+
+desc "Run API Security Tests using Odin ingested data"
+task :apiOdinHybridEdOrgTests => [:apiOdinHybridEdOrgGenerate, :apiOdinHybridEdOrgIngestion] do
+  displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
   else

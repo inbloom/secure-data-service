@@ -3,6 +3,10 @@ require 'fileutils'
 require_relative '../../utils/sli_utils.rb'
 
 def generate(scenario="10students")
+  # clear the generate dir
+  unless @gen_path.nil? || @gen_path.empty? || "/".eql?(@gen_path)
+    runShellCommand("rm -rf #{@gen_path}*")
+  end
   # run bundle exec rake in the Odin directory
   command = "bundle exec ruby driver.rb --normalgc #{scenario}"
   puts "Shell command will be #{command}"

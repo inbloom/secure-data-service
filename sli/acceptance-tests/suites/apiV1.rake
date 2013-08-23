@@ -306,7 +306,7 @@ task :apiOdinGenerate do
 end
 
 desc "Run Odin API Hybrid EdOrg Generation Task"
-task :apiHybridEdOrgOdinGenerate do
+task :apiOdinHybridEdOrgGenerate do
   runTests("test/features/odin/generate_api_hybrid_edorg_data.feature")
 end
 

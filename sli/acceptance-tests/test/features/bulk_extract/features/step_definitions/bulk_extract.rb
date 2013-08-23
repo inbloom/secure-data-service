@@ -624,8 +624,7 @@ end
 When /^I PUT the "(.*?)" for a "(.*?)" entity to "(.*?)" at "(.*?)"$/ do |field, entity_name, value, endpoint|
   #the GET body contains field the user may not have access to, changed to use the POST body
   post_body = get_post_body_by_entity_name(entity_name)
-  assert(post_body != nil, "No POST body found with entityName: " + entity_name)
-  if post_body = nil
+  if post_body.nil?
      puts "No POST body found with entityName: " + entity_name + ". Attempting to use GET body."
      response_body = get_response_body(endpoint)
      assert(response_body != nil, "No response from GET request for entity #{entity_name}")
