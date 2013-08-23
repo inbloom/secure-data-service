@@ -357,6 +357,11 @@ public class SamlFederationResource {
                 (principal.getUserType() == null || principal.getUserType().equals("") || principal.getUserType().equals(EntityNames.STAFF))) {
             Map<String, List<String>> sliEdOrgRoleMap = edOrgRoleBuilder.buildValidStaffRoles(realm.getEntityId(), principal.getEntity().getEntityId(), tenant, roles);
             principal.setEdOrgRoles(sliEdOrgRoleMap);
+            Set<String> allRoles = new HashSet<String>();
+            for (List<String> roleList : sliEdOrgRoleMap.values()) {
+                allRoles.addAll(roleList);
+            }
+            principal.setRoles(new ArrayList<String>(allRoles));
         } else {
             principal.setRoles(sliRoleList);
             if (principal.getRoles().isEmpty()) {
