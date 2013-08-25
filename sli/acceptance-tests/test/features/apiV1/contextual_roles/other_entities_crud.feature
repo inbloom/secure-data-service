@@ -289,7 +289,7 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | learningObjective          | learningObjective          | learningObjectives          |
     | learningStandard           | learningStandard           | learningStandards           |
     | program                    | program                    | programs                    |
-    | educationOrganization      | school                     | schools                     |
+    | educationOrganization      | educationOrganization      | schools                     |
     | section                    | section                    | sections                    |
     | session                    | session                    | sessions                    |
     | studentCompetencyObjective | studentCompetencyObjective | studentCompetencyObjectives |
