@@ -547,6 +547,7 @@ Given /^I get (\d+) random ids for "([^"]*)" in "([^"]*)"$/ do |number, type, en
   coll = db.collection(entity)
   if type == 'school' && entity == 'educationOrganization'
     entities = coll.find({'body.organizationCategories' => 'school'}, {:fields => %w(_id)}).to_a
+    puts  entities.to_s
   elseif type == 'educationOrganization' && entity == 'educationOrganization'
     entities = coll.find({}, {:fields => %w(_id)}).to_a
   else
