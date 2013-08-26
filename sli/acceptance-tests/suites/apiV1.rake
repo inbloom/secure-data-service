@@ -275,6 +275,14 @@ task :apiSmokeTests do
   Rake::Task["apiMegaTests"].invoke
 end
 
+desc "Run API Multiple Parent Tests"
+task :apiOdinMultipleParentTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  allLeaAllowApp("Mobile App")
+  authorizeEdorg("Mobile App")
+  runTests("test/features/apiV1/integration/multiple_parents.feature")
+end
+
 desc "Run API Performance Tests"
 task :apiPerformanceTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
@@ -297,6 +305,11 @@ task :apiOdinGenerate do
   runTests("test/features/odin/generate_api_data.feature")
 end
 
+desc "Run Odin API Hybrid EdOrg Generation Task"
+task :apiOdinHybridEdOrgGenerate do
+  runTests("test/features/odin/generate_api_hybrid_edorg_data.feature")
+end
+
 desc "Run Odin API Student Data Generation Task"
 task :apiOdinSecurityGenerate do
   runTests("test/features/odin/generate_api_security_data.feature")
@@ -310,6 +323,11 @@ end
 desc "Run API Odin Ingestion Tests"
 task :apiOdinIngestion do
   runTests("test/features/ingestion/features/ingestion_OdinAPIData.feature")
+end
+
+desc "Run API Odin Ingestion Tests"
+task :apiOdinHybridEdOrgIngestion do
+  runTests("test/features/ingestion/features/ingestion_OdinAPIHybridEdOrgData.feature")
 end
 
 desc "Run API Odin Ingestion Tests"
@@ -344,6 +362,17 @@ task :apiOdinSetupAPI => [:realmInit] do
   authorizeEdorg("Mobile App")
   Rake::Task["runSearchBulkExtract"].execute
   runTests("test/features/apiV1/integration/parent_student_token_generator.feature")
+end
+
+desc "Run API Security Tests using Odin ingested data"
+task :apiOdinHybridEdOrgTests => [:apiOdinSetupAPI, :apiOdinHybridEdOrgGenerate, :apiOdinHybridEdOrgIngestion] do
+  runTests("test/features/apiV1/integration/hybrid_edorgs.feature")
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
 end
 
 desc "Run API Odin Student Integration Tests"

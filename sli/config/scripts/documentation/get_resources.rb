@@ -5,6 +5,9 @@ require 'rest-client'
 
 $namespace_files = {}
 $generated_ids = []
+# Script to build a static set of example URI requests and responses for all publicly available URIs
+# Requirements: API Server running
+#               StoriedDataSet ingested
 
 # use $known_ids to tell the script to get a specific ID instead of the 1-part
 # URL. This is for the context re-writing.
@@ -353,6 +356,10 @@ end
 if __FILE__ == $PROGRAM_NAME
   if ARGV.size != 4
     puts "Usage: ./get_v1_resources <path/to/v1_resources.json> <token> <base_url> <base_url_replace>"
+    puts "<path/to/v1_resources.json> - JSON file that contains the current API endpoints"
+    puts "<token> - User authentication token"
+    puts "<base_url> - URL for the API server"
+    puts "<base_url_replace> - URL/String that will replace the actual URL when printed in the output XML file"
     puts "Missing entities are printed to stderr"
     exit
   end

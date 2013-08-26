@@ -23,7 +23,7 @@ Scenario: A user who is a Educator and an IT Admin is denied access because the 
     When I submit the credentials "mabernathy" "mabernathy1234" for the "Simple" login page
      Then I get message that I am not authorized
 
-Scenario: The Educator role is given the Admin flag so an Educator gets access
+Scenario: The Educator role is given the Admin flag so an Educator gets access to Charter School "Daybreak Central High" and Normal Schools
 	Given I change the isAdminRole flag for role "Educator" to in the realm "Daybreak Charter" to be "true"
     And I have an open web browser
     And I navigated to the Data Browser Home URL
@@ -36,6 +36,11 @@ Scenario: The Educator role is given the Admin flag so an Educator gets access
     Then I should see that there are "2" teachers 
     When I navigate to see the teachers in the school "Sunset Central High"
     Then I should see that there are "2" teachers
+    And I have navigated to the "GetEducationOrganizations" page of the Data Browser
+    When I click on the row containing "92d6d5a0-852c-45f4-907a-912752831772"
+    Then the row expands below listing the rest of the attributes for the item
+    When I click on the row containing "92d6d5a0-852c-45f4-907a-912752831772"
+    Then the row collapses hiding the additional attributes
 
 @DE_2510
 Scenario: An IT Admin in Daybreak and Sunset sees the Daybreak data but not the Sunset data

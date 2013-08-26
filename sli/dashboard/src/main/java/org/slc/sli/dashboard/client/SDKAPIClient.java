@@ -1840,6 +1840,7 @@ public class SDKAPIClient implements APIClient {
      * @return
      */
     private List<String> getEdorgHierarchy(String schoolId, String token) {
+        LOGGER.info("Begin getEdOrgHierarchy [" + schoolId + "]");
         List<String> ids = new ArrayList<String>();
         final String rootUrl = "/" + PathConstants.EDUCATION_ORGANIZATIONS + "/";
 
@@ -1855,12 +1856,15 @@ public class SDKAPIClient implements APIClient {
                 currentEdOrgId = null;
             } else {
             	List<String> currentEdOrgIdList = (List<String>) edorg.get(Constants.ATTR_PARENT_EDORG);
+                LOGGER.info("Parent of [" + currentEdOrgId + "] is [" + currentEdOrgIdList + "]");
                 // TODO: Use the same recursive logic as in EdOrgHelper.getParentEdOrgs() so that
             	//  multiple parents are handled.  This implementation only traverses up one, arbitrarily
             	// selected parent.
             	if (currentEdOrgIdList != null && !currentEdOrgIdList.isEmpty() ) {
             		currentEdOrgId = currentEdOrgIdList.get(0);
-            	}
+            	} else {
+                    currentEdOrgId = null;
+                }
             }
         }
 
