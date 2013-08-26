@@ -697,16 +697,6 @@ task :apiOdinTests => [:apiOdinHybridEdOrgTests, :apiOdinPrep, :apiOdinSuperAsse
 end
 
 desc "Run API Security Tests using Odin ingested data"
-task :apiOdinHybridEdOrgTests => [:apiOdinHybridEdOrgGenerate, :apiOdinHybridEdOrgIngestion] do
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
-end
-
-desc "Run API Security Tests using Odin ingested data"
 task :apiOdinSecurityTests => [:apiOdinPrep, :apiOdinStudentLogin, :apiOdinParentLogin, :apiOdinPublicData] do
   displayFailureReport()
   if $SUCCESS
