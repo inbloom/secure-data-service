@@ -1,4 +1,6 @@
 require 'mongo'
+require 'nokogiri'
+require 'logger'
 require 'fileutils'
 require_relative '../../utils/sli_utils.rb'
 
@@ -103,11 +105,9 @@ When /^I copy generated data to the new (.*?) directory$/ do |new_dir|
 end
 
 # TODO this should be removed once Odin supports hybrid edorgs natively
-When /^I convert schools to charter schools in "(.*?)"$/ do |filename|
+When /^I convert school "(.*?)" to a charter school under SEA "(.*?)" in "(.*?)"$/ do |schoolId, seaId, filename|
   edorg_xml_file = "#{@gen_path}#{filename}"
-  text = File.read(edorg_xml_file)
-  replaced = text.gsub(/<OrganizationCategory>School<\/OrganizationCategory>/, "<OrganizationCategory>School</OrganizationCategory>\n      <OrganizationCategory>Local Education Agency</OrganizationCategory>")
-  File.open(edorg_xml_file, "w") {|file| file.puts replaced}
+  school_to_charterSchool(schoolId, seaId, edorg_xml_file)
 end
 
 ############################################################
@@ -159,6 +159,47 @@ def runtime(t1, t2)
   t = (t2 - t1).to_s
   t_sec, t_dec = t.split(".")
   puts "Data generation took approximately: " + t_sec + "." + t_dec[0..-5] + " seconds to complete."
+end
+
+def school_to_charterSchool(schoolId, seaId, filename)
+    STDOUT.puts "Converting school #{schoolId} to be a charter school under SEA #{seaId} in file #{filename}"
+    infile = File.open(filename)
+    begin
+        doc = Nokogiri::XML(infile) do |config|
+            config.strict.nonet.noblanks
+        end
+        infile.close
+    rescue
+        STDOUT.puts "File could not be processed " + filename
+        return
+    end
+
+    doc.css('InterchangeEducationOrganization').each do
+
+        doc.css('EducationOrganization').each do |edorg|
+            stateId = edorg.at_css "StateOrganizationId"
+            if stateId.content.eql?(schoolId)
+            puts "Got here 1"
+                # add LEA as an org category
+                orgCategories = edorg.at_css "OrganizationCategories"
+                leaCategory = Nokogiri::XML::Node.new "OrganizationCategory", doc
+                leaCategory.content = "Local Education Agency"
+                orgCategories.add_child(leaCategory) unless orgCategories.nil?
+
+                # add parent ref to sea
+                peaRef = edorg.at_css("ParentEducationAgencyReference")
+                seaRef = peaRef.clone
+                seaRef.at_css("StateOrganizationId").content = seaId
+                peaRef.before(seaRef) unless peaRef.nil?
+            end
+        end
+
+        outfile = File.new(filename, "w")
+        outfile.puts doc.to_xml
+        outfile.close
+
+        STDOUT.puts "#{filename} processed successfully"
+    end
 end
 
 

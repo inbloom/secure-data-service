@@ -16,7 +16,6 @@ Scenario: As a teacher, for my section, I want to get a list of students
   When I navigate to GET "/teachers/<teacher id>"
     Then the response body "id" should match my "teacher" "id"
       And the response field "entityType" should be "teacher"
-      And the response field "name.lastSurname" should be "Educator"
       And I should receive a link named "self" with URI "/teachers/<teacher id>"
       And I should get and store the "teacher" link named "getTeacherSectionAssociations"
       And I should get and store the "teacher" link named "getSections"
@@ -25,12 +24,8 @@ Scenario: As a teacher, for my section, I want to get a list of students
       And I should get and store the "teacher" link named "getStaffEducationOrgAssignmentAssociations"
       And I should get and store the "teacher" link named "getEducationOrganizations" 
 
-  #When I follow the HATEOS link named "<getTeacherSectionAssociations>"
   When I validate the "teacher" HATEOS link for "getTeacherSectionAssociations"
     Then I should extract the "sectionId" from the response body to a list
-
-  When I navigate to GET "/sections/<teacher section>"
-    Then I should have a list of 1 "section" entities
 
   When I make a GET request to URI "/sections/@id/studentSectionAssociations/students"
     Then I should have a list of 1 "student" entities
