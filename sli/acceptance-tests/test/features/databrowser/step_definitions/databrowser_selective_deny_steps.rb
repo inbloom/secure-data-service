@@ -27,7 +27,6 @@ end
 
 Transform /the realm "([^"]*)"/ do |realm|
   realmId = "45b02cb0-1bad-4606-a936-094331bd47fe" if realm == "Daybreak"
-  realmId = "46b02cb0-1bad-4606-a936-094331bd47fe" if realm == "Daybreak Charter"
   realmId
 end
 
