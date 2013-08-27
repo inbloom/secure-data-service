@@ -354,6 +354,19 @@ task :apiOdinSetupAPI => [:realmInit] do
   runTests("test/features/apiV1/integration/parent_student_token_generator.feature")
 end
 
+desc "Run API Security Tests using Odin ingested data"
+task :apiOdinHybridEdOrgTests => [:apiOdinPrep] do
+  runTests("test/features/odin/generate_api_hybrid_edorg_data.feature")
+  runTests("test/features/ingestion/features/ingestion_OdinAPIHybridEdOrgData.feature")
+  runTests("test/features/apiV1/integration/hybrid_edorgs.feature")
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+
 desc "Run API Odin Student Integration Tests"
 task :apiOdinStudentLogin => [:apiOdinSetupAPI] do
   runTests("test/features/apiV1/integration/student_login.feature")

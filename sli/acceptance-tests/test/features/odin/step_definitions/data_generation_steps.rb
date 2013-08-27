@@ -3,6 +3,10 @@ require 'fileutils'
 require_relative '../../utils/sli_utils.rb'
 
 def generate(scenario="10students")
+  # clear the generate dir
+  unless @gen_path.nil? || @gen_path.empty? || "/".eql?(@gen_path)
+    runShellCommand("rm -rf #{@gen_path}*")
+  end
   # run bundle exec rake in the Odin directory
   command = "bundle exec ruby driver.rb --normalgc #{scenario}"
   puts "Shell command will be #{command}"
@@ -82,6 +86,13 @@ When /^I zip generated data under filename (.*?) to the new (.*?) directory$/ do
   runShellCommand("zip -j #{@zip_path}#{zip_file} #{@gen_path}*.xml #{@gen_path}*.ctl")
 end
 
+When /^I zip generated data under filename "(.*?)"$/ do |zip_file|
+  @zip_path = "#{@gen_path}/"
+  FileUtils.mkdir_p(@zip_path)
+  FileUtils.chmod(0777, @zip_path)
+  runShellCommand("zip -j #{@zip_path}#{zip_file} #{@gen_path}*.xml #{@gen_path}*.ctl")
+end
+
 When /^I copy generated data to the new (.*?) directory$/ do |new_dir|
   @zip_path = "#{@gen_path}#{new_dir}"
   Dir["#{@gen_path}*.xml"].each do |f|
@@ -91,12 +102,20 @@ When /^I copy generated data to the new (.*?) directory$/ do |new_dir|
   Dir["#{@gen_path}*.ctl"].each {|f| FileUtils.cp(f, @zip_path)}
 end
 
+# TODO this should be removed once Odin supports hybrid edorgs natively
+When /^I convert schools to charter schools in "(.*?)"$/ do |filename|
+  edorg_xml_file = "#{@gen_path}#{filename}"
+  text = File.read(edorg_xml_file)
+  replaced = text.gsub(/<OrganizationCategory>School<\/OrganizationCategory>/, "<OrganizationCategory>School</OrganizationCategory>\n      <OrganizationCategory>Local Education Agency</OrganizationCategory>")
+  File.open(edorg_xml_file, "w") {|file| file.puts replaced}
+end
+
 ############################################################
 # STEPS: THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN
 ############################################################
 Then /^I should see generated file <File>$/ do |table|
   table.hashes.each do |f|
-    raise "Did not find exepected file #{f}" unless @files.find($f)
+    raise "Did not find expected file #{f}" unless @files.find($f)
   end
 end
 
