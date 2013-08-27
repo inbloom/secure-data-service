@@ -305,11 +305,6 @@ task :apiOdinGenerate do
   runTests("test/features/odin/generate_api_data.feature")
 end
 
-desc "Run Odin API Hybrid EdOrg Generation Task"
-task :apiOdinHybridEdOrgGenerate do
-  runTests("test/features/odin/generate_api_hybrid_edorg_data.feature")
-end
-
 desc "Run Odin API Student Data Generation Task"
 task :apiOdinSecurityGenerate do
   runTests("test/features/odin/generate_api_security_data.feature")
@@ -323,11 +318,6 @@ end
 desc "Run API Odin Ingestion Tests"
 task :apiOdinIngestion do
   runTests("test/features/ingestion/features/ingestion_OdinAPIData.feature")
-end
-
-desc "Run API Odin Ingestion Tests"
-task :apiOdinHybridEdOrgIngestion do
-  runTests("test/features/ingestion/features/ingestion_OdinAPIHybridEdOrgData.feature")
 end
 
 desc "Run API Odin Ingestion Tests"
@@ -365,7 +355,9 @@ task :apiOdinSetupAPI => [:realmInit] do
 end
 
 desc "Run API Security Tests using Odin ingested data"
-task :apiOdinHybridEdOrgTests => [:apiOdinSetupAPI, :apiOdinHybridEdOrgGenerate, :apiOdinHybridEdOrgIngestion] do
+task :apiOdinHybridEdOrgTests => [:apiOdinPrep] do
+  runTests("test/features/odin/generate_api_hybrid_edorg_data.feature")
+  runTests("test/features/ingestion/features/ingestion_OdinAPIHybridEdOrgData.feature")
   runTests("test/features/apiV1/integration/hybrid_edorgs.feature")
   displayFailureReport()
   if $SUCCESS
