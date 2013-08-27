@@ -16,7 +16,7 @@ curlDeploy()
   APPFILEPATH=$2
   echo "Deploy app $APP to path $APPFILEPATH"
   resp=`curl "http://tomcat:s3cret@localhost:8080/manager/text/deploy?path=/$APP&war=file:$APPFILEPATH"`
-  if [[ $resp =~ FAIL.* ]] ; then echo "Application $APP filed to deploy" ; exit 1 ; fi
+  if [[ $resp =~ FAIL.* ]] ; then echo "Application $APP failed to deploy" ; exit 1 ; fi
 }
 
 processApps()
@@ -114,8 +114,11 @@ buildApi()
   /jenkins/tools/Maven/bin/mvn -pl api -am -ff -P team -Dmaven.test.failure.ignore=false -Dsli.env=team -Dsli.dev.subdomain=$NODE_NAME clean install -DskipTests=true
 }
 
-
-
+buildApiDocumentationArtifacts()
+{
+cd $WORKSPACE/sli/config/scripts/documentation
+./generate_doc_artifacts.sh
+}
 
 
 
