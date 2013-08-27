@@ -54,7 +54,11 @@ db.educationOrganization.find({}, {"_id":1, "body.stateOrganizationId":1, "body.
        if(sid in staffMapping) {
            print("");
            print (name + ' [' + ocStr + '] '  +  " P " + plist.join(", ") + "\n" + staffMapping[sid].join("\n"));
+       } else {
+           print("");
+           print (name + ' [' + ocStr + '] '  +  " P " + plist.join(", ") + "\n" );
        }
+ 
     }
 )
 
