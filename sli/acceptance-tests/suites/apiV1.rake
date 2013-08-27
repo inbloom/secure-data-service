@@ -362,10 +362,11 @@ desc "Prepare api odin hybrid edorg data"
 task :apiOdinHybridEdOrgPrep do
   runTests("test/features/odin/generate_api_hybrid_edorg_data.feature")
   runTests("test/features/ingestion/features/ingestion_OdinAPIHybridEdOrgData.feature")
+  Rake::Task["apiOdinSetupAPIApp"].execute
 end
 
 desc "Run API Security Tests using Odin ingested data"
-task :apiOdinHybridEdOrgTests => [:apiOdinHybridEdOrgPrep, :apiOdinSetupAPIApp] do
+task :apiOdinHybridEdOrgTests => [:apiOdinHybridEdOrgPrep] do
   runTests("test/features/apiV1/integration/hybrid_edorgs.feature")
   displayFailureReport()
   if $SUCCESS
