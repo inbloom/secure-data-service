@@ -346,18 +346,26 @@ task :apiOdinSearchAssessment do
   runTests("test/features/apiV1/end_user_stories/assessments/searchAssessment.feature")
 end
 
-desc "Set up api for odin tests"
-task :apiOdinSetupAPI => [:realmInit] do
+desc "Set up app for api odin tests"
+task :apiOdinSetupAPIApp => [:realmInit] do
   allLeaAllowApp("Mobile App")
   authorizeEdorg("Mobile App")
+end
+
+desc "Set up api for odin tests"
+task :apiOdinSetupAPI => [:realmInit, :apiOdinSetupAPIApp] do
   Rake::Task["runSearchBulkExtract"].execute
   runTests("test/features/apiV1/integration/parent_student_token_generator.feature")
 end
 
-desc "Run API Security Tests using Odin ingested data"
-task :apiOdinHybridEdOrgTests => [:apiOdinPrep] do
+desc "Prepare api odin hybrid edorg data"
+task :apiOdinHybridEdOrgPrep do
   runTests("test/features/odin/generate_api_hybrid_edorg_data.feature")
   runTests("test/features/ingestion/features/ingestion_OdinAPIHybridEdOrgData.feature")
+end
+
+desc "Run API Security Tests using Odin ingested data"
+task :apiOdinHybridEdOrgTests => [:apiOdinHybridEdOrgPrep, :apiOdinSetupAPIApp] do
   runTests("test/features/apiV1/integration/hybrid_edorgs.feature")
   displayFailureReport()
   if $SUCCESS
