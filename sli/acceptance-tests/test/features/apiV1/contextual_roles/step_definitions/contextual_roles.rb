@@ -98,10 +98,23 @@ Transform /^<(.*?)>$/ do |human_readable_id|
 
 #EdOrg
     when 'Daybreak Bayside High'
-      id= '67e56f15a44cf12b6b9eecd8510b243177bce057_id'
+      id = '67e56f15a44cf12b6b9eecd8510b243177bce057_id'
+    when 'East Daybreak High'
+      id = '2a30827ed4cf5500fb848512d19ad73ed37c4464_id'
+    when 'District 9'
+      id = '99a4ec9d3ba372993b2860a798b550c77bb73a09_id'
+
+#Section
+    when 'JMaceys Section'
+      id = '4c2f822097f31017935ed056580b837980dd1428_id'
   end
 
   id
+end
+
+Transform /^([^"]*)\/(<IDs>)\/([^"]*)$/ do |uri_placeholder1, id_list, uri_placeholder2|
+  uri = uri_placeholder1 + "/[^/]*/" + uri_placeholder2
+  uri
 end
 
 Transform /^(<[^"]*>)\/([^"]*)$/ do |uri_placeholder1, uri_placeholder2|
@@ -955,6 +968,21 @@ Given /^there is a course in the edOrg "(.*?)"$/ do | edOrgId|
                   }
   db_name = convertTenantIdToDbName @tenant
   add_to_mongo(db_name, 'course', course_entity)
+end
+
+Then /^the header "([^\"]*)" contains "(.*?)"$/ do |header, value|
+  value = convert(value)
+  value = value.gsub(/\//, '\/')
+  header.downcase!
+  headers = @res.raw_headers
+  headers.should_not == nil
+  assert(headers[header])
+  headers[header].should_not == nil
+  resultValue = headers[header]
+  resultValue.should be_a Array
+  resultValue.length.should == 1
+  singleValue = convert(resultValue[0])
+  assert(singleValue.index(/#{value}/) != nil)
 end
 
 ############################################################################################

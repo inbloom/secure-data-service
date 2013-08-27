@@ -63,8 +63,8 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | studentCompetencies                     |
     | studentGradebookEntries                 |
     | parents                                 |
-#    | staff                                   |
-#    | teachers                                |
+    | staff                                   |
+    | teachers                                |
 
   Scenario: Ensure GET can be performed on self entities with the proper rights
     And I log in as "msmith"
@@ -136,8 +136,45 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | studentCompetencies                     |
     | studentGradebookEntries                 |
     | parents                                 |
-#    | staff                                   |
-#    | teachers                                |
+    | staff                                   |
+    | teachers                                |
+
+ Scenario: GET lists of staff for a user with various contexts; verify URI is mutated correctly.
+    Given the following student section associations in Midgar are set correctly
+      | student         | teacher              | edorg                 | enrolledInAnySection? |
+      | matt.sollars    | jmacey               | East Daybreak High    | yes                   |
+
+   When I log in as "jmacey"
+   And I navigate to GET "/v1/studentSchoolAssociations"
+   Then I should receive a return code of 200
+   And the header "X-ExecutedPath" contains "schools/<IDs>/studentSchoolAssociations"
+   And the header "X-ExecutedPath" contains "<East Daybreak High>"
+   And the header "X-ExecutedPath" contains "<District 9>"
+
+   Given I change the custom role of "Educator" to remove the "TEACHER_CONTEXT" right
+   When I log in as "jmacey"
+   And I navigate to GET "/v1/studentSchoolAssociations"
+   Then I should receive a return code of 200
+   And the header "X-ExecutedPath" contains "schools/<IDs>/studentSchoolAssociations"
+   And the header "X-ExecutedPath" contains "<East Daybreak High>"
+   And the header "X-ExecutedPath" contains "<District 9>"
+
+   Given I change the custom role of "Leader" to add the "TEACHER_CONTEXT" right
+   And I change the custom role of "Educator" to add the "TEACHER_CONTEXT" right
+   When I log in as "jmacey"
+   And I navigate to GET "/v1/studentSchoolAssociations"
+   Then I should receive a return code of 200
+   And the header "X-ExecutedPath" contains "schools/<IDs>/studentSchoolAssociations"
+   And the header "X-ExecutedPath" contains "<East Daybreak High>"
+   And the header "X-ExecutedPath" contains "<District 9>"
+
+   Given I change the custom role of "Leader" to remove the "STAFF_CONTEXT" right
+   When I log in as "jmacey"
+   And I navigate to GET "/v1/studentSchoolAssociations"
+   Then I should receive a return code of 200
+   And the header "X-ExecutedPath" contains "sections/<IDs>/studentSectionAssociations/students/studentSchoolAssociations"
+   And the header "X-ExecutedPath" contains "<JMaceys Section>"
+
 
   Scenario Outline: Ensure POST can be performed on all public entities with READ_PUBLIC and WRITE_PUBLIC rights
     Given I change the custom role of "Leader" to add the "READ_PUBLIC" right
@@ -200,8 +237,8 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | section.teacherSectionAssociation            | teacherSectionAssociation             | teacherSectionAssociations              |
     | studentCompetency                            | studentCompetency                     | studentCompetencies                     |
     | parent                                       | parent                                | parents                                 |
-#    | staff                                        | staff                                 | staff                                  |
-#    | teacher                                      | teacher                               | teachers                                 |
+#    | staff                                        | staff                                 | staff                                   |
+#    | teacher                                      | teacher                               | teachers                                |
 
   Scenario Outline: Ensure POST can NOT be performed on any public entities with READ_PUBLIC and WRITE_PUBLIC rights
     Given I change the custom role of "Leader" to remove the "READ_PUBLIC" right
@@ -349,8 +386,8 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | staffCohortAssociation   | staffCohortAssociation               | staffCohortAssociations               |
     | staffProgramAssociation  | staffProgramAssociation              | staffProgramAssociations              |
     | section                  | teacherSectionAssociation            | teacherSectionAssociations            |
-#    | staff                    | staff                                | staff                                 |
-#    | teacher                  | teacher                              | teachers                              |
+    | staff                    | staff                                | staff                                 |
+    | staff                    | teacher                              | teachers                              |
 
   Scenario: GETs on /parents/{id}
     Given I change the custom role of "Aggregate Viewer" to add the "READ_GENERAL" right

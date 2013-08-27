@@ -551,7 +551,9 @@ Feature: Use the APi to successfully get student data while having roles over ma
       | nate.dedrick    |
       | mu.mcneill      |
 
- Scenario: GET lists of students for a staff member with multiple roles
+ Scenario: GET lists of students for a staff and teacher in different schools, teacher has more rights
+   Given I change the custom role of "Educator" to add the "READ_RESTRICTED" right
+   And I change the custom role of "Leader" to remove the "READ_RESTRICTED" right
    Given the following student section associations in Midgar are set correctly
      | student         | teacher              | edorg                 | enrolledInAnySection? |
      | carmen.ortiz    | rbelding             | Daybreak Central High | yes                   |
@@ -573,11 +575,81 @@ Feature: Use the APi to successfully get student data while having roles over ma
       | matt.sollars    |
       | jack.jackson    |
       | lashawn.taite   |
+    And "matt.sollars" in the response should not have restricted data
+    And "jack.jackson" in the response should not have restricted data
+    And "lashawn.taite" in the response should not have restricted data
+    And "carmen.ortiz" in the response should have restricted data
    And the response should not have the following students
       | student         |
       | bert.jakeman    |
       | nate.dedrick    |
       | mu.mcneill      |
+
+ Scenario: GET lists of students for a staff and teacher within same edOrg hierarchy, teacher has more rights
+    Given I change the custom role of "Educator" to add the "READ_RESTRICTED" right
+    And I change the custom role of "Leader" to remove the "READ_RESTRICTED" right
+    Given the following student section associations in Midgar are set correctly
+      | student         | teacher              | edorg                 | enrolledInAnySection? |
+      | matt.sollars    | jmacey               | East Daybreak High    | yes                   |
+      | jack.jackson    | jmacey               | East Daybreak High    | no                    |
+      | lashawn.taite   | jmacey               | East Daybreak High    | yes                   |
+    And "jack.jackson" is not associated with any program that belongs to "jmacey"
+    And "jack.jackson" is not associated with any cohort that belongs to "jmacey"
+    And "lashawn.taite" is not associated with any program that belongs to "jmacey"
+    And "lashawn.taite" is not associated with any cohort that belongs to "jmacey"
+
+    When I log in as "jmacey"
+
+   When I navigate to GET "/v1/students"
+   Then I should receive a return code of 200
+   And the response should have the following students
+      | student         |
+      | matt.sollars    |
+      | jack.jackson    |
+      | lashawn.taite   |
+    And "matt.sollars" in the response should have restricted data
+    And "jack.jackson" in the response should not have restricted data
+    And "lashawn.taite" in the response should have restricted data
+   And the response should not have the following students
+      | student         |
+      | nate.dedrick    |
+      | mu.mcneill      |
+
+ Scenario: GET lists of students for a user with various contexts; verify URI is mutated correctly.
+    Given the following student section associations in Midgar are set correctly
+      | student         | teacher              | edorg                 | enrolledInAnySection? |
+      | matt.sollars    | jmacey               | East Daybreak High    | yes                   |
+
+   When I log in as "jmacey"
+   And I navigate to GET "/v1/students"
+   Then I should receive a return code of 200
+   And the header "X-ExecutedPath" contains "/schools/<IDs>/studentSchoolAssociations/students"
+   And the header "X-ExecutedPath" contains "<East Daybreak High>"
+   And the header "X-ExecutedPath" contains "<District 9>"
+
+   Given I change the custom role of "Educator" to remove the "TEACHER_CONTEXT" right
+   When I log in as "jmacey"
+   And I navigate to GET "/v1/students"
+   Then I should receive a return code of 200
+   And the header "X-ExecutedPath" contains "/schools/<IDs>/studentSchoolAssociations/students"
+   And the header "X-ExecutedPath" contains "<East Daybreak High>"
+   And the header "X-ExecutedPath" contains "<District 9>"
+
+   Given I change the custom role of "Leader" to add the "TEACHER_CONTEXT" right
+   And I change the custom role of "Educator" to add the "TEACHER_CONTEXT" right
+   When I log in as "jmacey"
+   And I navigate to GET "/v1/students"
+   Then I should receive a return code of 200
+   And the header "X-ExecutedPath" contains "/schools/<IDs>/studentSchoolAssociations/students"
+   And the header "X-ExecutedPath" contains "<East Daybreak High>"
+   And the header "X-ExecutedPath" contains "<District 9>"
+
+   Given I change the custom role of "Leader" to remove the "STAFF_CONTEXT" right
+   When I log in as "jmacey"
+   And I navigate to GET "/v1/students"
+   Then I should receive a return code of 200
+   And the header "X-ExecutedPath" contains "sections/<IDs>/studentSectionAssociations/students"
+   And the header "X-ExecutedPath" contains "<JMaceys Section>"
 
   Scenario: GET lists of students for a staff member with multiple roles in the same edorg
     Given I change the custom role of "Aggregate Viewer" to add the "READ_GENERAL" right
