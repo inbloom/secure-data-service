@@ -36,11 +36,7 @@ Scenario: The Educator role is given the Admin flag so an Educator gets access t
     Then I should see that there are "2" teachers 
     When I navigate to see the teachers in the school "Sunset Central High"
     Then I should see that there are "2" teachers
-    And I have navigated to the "GetEducationOrganizations" page of the Data Browser
-    When I click on the row containing "92d6d5a0-852c-45f4-907a-912752831772"
-    Then the row expands below listing the rest of the attributes for the item
-    When I click on the row containing "92d6d5a0-852c-45f4-907a-912752831772"
-    Then the row collapses hiding the additional attributes
+
 
 @DE_2510
 Scenario: An IT Admin in Daybreak and Sunset sees the Daybreak data but not the Sunset data
