@@ -114,8 +114,11 @@ buildApi()
   /jenkins/tools/Maven/bin/mvn -pl api -am -ff -P team -Dmaven.test.failure.ignore=false -Dsli.env=team -Dsli.dev.subdomain=$NODE_NAME clean install -DskipTests=true
 }
 
-
-
+buildApiDocumentationArtifacts()
+{
+cd $WORKSPACE/sli/config/scripts/documentation
+./generate_doc_artifacts.sh
+}
 
 
 
