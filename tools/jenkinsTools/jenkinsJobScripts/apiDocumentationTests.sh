@@ -20,8 +20,6 @@ bundle exec rake FORCE_COLOR=true app_bootstrap_server=ci api_server_url=https:/
 
 EXITCODE=$?
 
-buildApiDocumentationArtifacts
-
 mongo --eval "db.adminCommand( { setParameter: 1, notablescan: false } )"
 
 exit $EXITCODE
