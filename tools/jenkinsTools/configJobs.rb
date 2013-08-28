@@ -11,11 +11,7 @@ require 'jenkins_api_client'
       :username => '', :password => '', :jenkins_path => '/jenkins', :debug => false)
 
 def get_jobs(view)
-  jobs = @client.view.list_jobs(view)
-  
-  body = JSON.parse(response.body)
-
-  return body['jobs']
+  return @client.view.list_jobs(view)
 end
 
 def fix_job(job_name)
