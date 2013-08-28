@@ -4,9 +4,6 @@ require 'rexml/document'
 require 'json'
 require 'jenkins_api_client'
 
-@new_branch = ENV['NEW_BRANCH'] || 'Release-1.0.XX'
-@view_to_configure = ENV['VIEW_TO_CONFIGURE'] || 'CI-XX-Rel'
-
 @client = JenkinsApi::Client.new(:server_url => 'http://jenkins.slidev.org', :server_port => '8080',
       :username => '', :password => '', :jenkins_path => '/jenkins', :debug => false)
 
@@ -26,6 +23,9 @@ def fix_job(job_name)
 
   @client.job.post_config(job_name, job_xml)
 end
+
+view_to_configure = ARGV[0]
+new_branch = ARGV[1]
 
 actual_jobs = get_jobs @view_to_configure
 puts actual_jobs
