@@ -70,7 +70,7 @@ simpleIDP_login_url: "http://local.slidev.org:8082/simple-idp"
 simpleIDP_realm_SLI: "SimpleIDP Test Realm - SLI"
 simpleIDP_realm_suffix: "Local"
 
-ldap_hostname: ldapelb.slidev.org
+ldap_hostname: ldap.slidev.org
 ldap_port: 443
 ldap_use_ssl: true
 ldap_base: ou=LocalNew,ou=DevTest,dc=slidev,dc=org
@@ -101,13 +101,7 @@ app_bootstrap_server: "local"
 emaiL_smtp_host: mon.slidev.org
 email_smtp_port: 8080
 
-# email_imap_port: 993
-# This is HTTPS but forwarded to 143 on monelb
 email_imap_port: 443
-
-# for CI and local environments
-
-# email_imap_host: mon.slidev.org
 email_imap_host: mon.slidev.org
 
 email_imap_registration_user: devldapuser
@@ -117,7 +111,7 @@ email_imap_registration_pass: Y;Gtf@w{
 ################# e2e test properties #################################
 # For CI environments
 email_imap_hostname: mon.slidev.org
-email_imap_portname: 993
+email_imap_portname: 443
 
 #SEA Admin creds - For CI environments
 primary_email_imap_registration_user: e2etestsea
