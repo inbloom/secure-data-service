@@ -27,6 +27,6 @@ end
 view_to_configure = ARGV[0]
 new_branch = ARGV[1]
 
-actual_jobs = get_jobs @view_to_configure
+actual_jobs = get_jobs(view_to_configure)
 puts actual_jobs
 actual_jobs.each {|j| fix_job(j) }
