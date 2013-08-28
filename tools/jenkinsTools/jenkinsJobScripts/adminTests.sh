@@ -21,7 +21,7 @@ export DISPLAY=:6.0
 cd $WORKSPACE/sli/acceptance-tests/
 export LANG=en_US.UTF-8
 bundle install --deployment
-bundle exec rake FORCE_COLOR=true admintools_server_url=https://${NODE_NAME}.slidev.org:2001 ldap_use_ssl=false adminToolsTests TOGGLE_TABLESCANS=1
+bundle exec rake FORCE_COLOR=true admintools_server_url=https://${NODE_NAME}.slidev.org:2001 ldap_base=ou=SLIAdmin,dc=slidev,dc=org ldap_use_ssl=false adminToolsTests TOGGLE_TABLESCANS=1
 
 EXITCODE=$?
 
