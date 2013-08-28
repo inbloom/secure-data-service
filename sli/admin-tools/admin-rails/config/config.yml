@@ -26,7 +26,7 @@ sandbox: &sandbox
 ldap_default: &ldap_default
     ldap_host: ldap.slidev.org
     ldap_port: 443
-    ldap_use_ssl: true
+    ldap_use_ssl: false
     ldap_user: cn=Admin,dc=slidev,dc=org
     ldap_pass: c4f272eb123f68f1f5adc31711c93750
 
