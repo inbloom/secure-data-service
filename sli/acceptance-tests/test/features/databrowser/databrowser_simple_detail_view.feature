@@ -148,7 +148,7 @@ And I click on the "GetStaffEducationOrgAssignmentAssociations" link
 And I have navigated to the "Schools" listing of the Data Browser
 When I should navigate to "/entities/schools/62d6d5a0-852c-45f4-906a-912752831662"
 And I have navigated to the "EducationOrganizations" listing of the Data Browser
-When I should navigate to "/entities/schools/62d6d5a0-852c-45f4-906a-912752831662"
+When I should navigate to "/entities/educationOrganizations/62d6d5a0-852c-45f4-906a-912752831662"
 And I have navigated to the "Schools" listing of the Data Browser
 When I should navigate to "/entities/schools/a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"
 And I have navigated to the "EducationOrganizations" listing of the Data Browser
