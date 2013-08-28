@@ -18,31 +18,19 @@ def get_jobs(view)
   return body['jobs']
 end
 
-def fix_job(base_url)
-  puts "Adjusting " + base_url + " to " + @new_branch  
-  uri = URI.parse(base_url + "config.xml")
-  http = Net::HTTP.new(uri.host, uri.port)
-  http.use_ssl = true if uri.scheme == "https"
-  http.verify_mode = OpenSSL::SSL::VERIFY_NONE if uri.scheme == "https"
+def fix_job(job_name)
+  puts "Adjusting " + job_name + " to " + @new_branch  
 
-  req = Net::HTTP::Get.new(uri.request_uri)
-  #req.basic_auth 'jenkinsapi_user', 'test1234'
-  req.basic_auth '', ''
+  job_xml = @client.job.get_config(job_name)
 
-  response = http.request(req)
-
-  body = response.body
-  doc = REXML::Document.new(body)
-  doc.elements.each("*/scm/branches/hudson.plugins.git.BranchSpec/name") do |element| 
+  job_xml.elements.each("*/scm/branches/hudson.plugins.git.BranchSpec/name") do |element| 
     puts "Current Branch: #{element.text} changing it to #{@new_branch}"
     element.text = @new_branch
-    req = Net::HTTP::Post.new(uri.request_uri)
-    req.basic_auth 'jenkinsapi_user', 'test1234'
-    req.body = doc.to_s
-    response = http.request(req)
   end
+
+  @client.job.post_config(job_name, job_xml)
 end
 
 actual_jobs = get_jobs @view_to_configure
 puts actual_jobs
-actual_jobs.each {|j| fix_job(j['url']) }
+actual_jobs.each {|j| fix_job(j) }
