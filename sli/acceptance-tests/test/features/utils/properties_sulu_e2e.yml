@@ -81,7 +81,7 @@ user_registration_email: devldapuser@slidev.org
 user_registration_pass: test1234
 
 emaiL_smtp_host: mon.slidev.org
-email_smtp_port: 3000
+email_smtp_port: 8080
 
 email_imap_port: 993
 

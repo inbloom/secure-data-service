@@ -34,7 +34,7 @@ email_mon: &email_mon
     email_sender_name: SLC Administrator
     email_sender_address: ufhalhffhuwhelfjkdfhs@slidev.org
     email_host: mon.slidev.org
-    email_port: 3000
+    email_port: 8080
     email_username: 
     email_password: 
     email_tls: 

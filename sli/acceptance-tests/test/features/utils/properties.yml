@@ -99,7 +99,7 @@ jmeter_consideration_percentile: .90
 app_bootstrap_server: "local"
 
 emaiL_smtp_host: mon.slidev.org
-email_smtp_port: 3000
+email_smtp_port: 8080
 
 # email_imap_port: 993
 # This is HTTPS but forwarded to 143 on monelb
