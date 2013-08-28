@@ -146,14 +146,32 @@ Then I should be redirected to the Data Browser home page
 When I click on the "GetEducationOrganizations" link
 And I click on the "GetStaffEducationOrgAssignmentAssociations" link
 And I have navigated to the "Schools" listing of the Data Browser
-When I should navigate to "/entities/schools/62d6d5a0-852c-45f4-906a-912752831662"
+Then I should navigate to "/entities/schools/62d6d5a0-852c-45f4-906a-912752831662"
 And I have navigated to the "EducationOrganizations" listing of the Data Browser
-When I should navigate to "/entities/educationOrganizations/62d6d5a0-852c-45f4-906a-912752831662"
-And I have navigated to the "Schools" listing of the Data Browser
-When I should navigate to "/entities/schools/a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"
-And I have navigated to the "EducationOrganizations" listing of the Data Browser
-When I should navigate to "/entities/educationOrganizations/bd086bae-ee82-4cf2-baf9-221a9407ea07"
+Then I should navigate to "/entities/educationOrganizations/62d6d5a0-852c-45f4-906a-912752831662"
 
+Scenario: Traverse Multiple Parents School and Education Service Center
+Given I change the isAdminRole flag for role "Educator" to in the realm "Daybreak" to be "true"
+And I have an open web browser
+And I navigated to the Data Browser Home URL
+And I choose realm "Illinois Daybreak School District 4529" in the drop-down list
+And I click on the realm page Go button
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
+Then I should be redirected to the Data Browser home page
+When I click on the "GetEducationOrganizations" link
+When I click on the row containing "92d6d5a0-852c-45f4-907a-912752831772"
+Then the row expands below listing the rest of the attributes for the item
+When I click on the "GetParentEducationOrganization[1]" link
+Then I click on the "GetFeederEducationOrganizations" link
+Then I click on the row containing "92d6d5a0-852c-45f4-907a-912752831772"
+Then the row expands below listing the rest of the attributes for the item
+When I click on the "GetParentEducationOrganization" link
+Then I click on the "GetFeederEducationOrganizations" link
+Then I click on the row containing "92d6d5a0-852c-45f4-907a-912752831772"
+Then the row expands below listing the rest of the attributes for the item
+And I have navigated to the "EducationOrganizations" listing of the Data Browser
+Then I should navigate to "/entities/educationOrganizations/bd086bae-ee82-4cf2-baf9-221a9407ea07"
 
 
 @DE1948
