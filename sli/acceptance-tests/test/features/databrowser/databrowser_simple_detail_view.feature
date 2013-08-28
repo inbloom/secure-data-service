@@ -5,7 +5,7 @@ Background:
   Given that databrowser has been authorized for all ed orgs
 
 Scenario: Go to Data Browser when authenticated SLI
- 
+
 Given I have an open web browser
 And I navigated to the Data Browser Home URL
 And I was redirected to the Realm page
@@ -16,7 +16,7 @@ When I submit the credentials "jwashington" "jwashington1234" for the "Simple" l
 Then I should be redirected to the Data Browser home page
 And I should see my available links labeled
 
-Scenario: Logout 
+Scenario: Logout
 
 Given I have an open web browser
 And I navigated to the Data Browser Home URL
@@ -45,7 +45,7 @@ And I have navigated to the <Page> of the Data Browser
 	|GetStaffEducationOrgAssignmentAssociations|
 	|GetStaffProgramAssociations|
 	|Me|
-Then I should click on the Home link and be redirected back 
+Then I should click on the Home link and be redirected back
 
 Scenario: Associations List - Simple View
 
@@ -168,10 +168,9 @@ Then I click on the row containing "92d6d5a0-852c-45f4-907a-912752831772"
 Then the row expands below listing the rest of the attributes for the item
 When I click on the "GetParentEducationOrganization" link
 Then I click on the "GetFeederEducationOrganizations" link
-Then I click on the row containing "92d6d5a0-852c-45f4-907a-912752831772"
-Then the row expands below listing the rest of the attributes for the item
 And I have navigated to the "EducationOrganizations" listing of the Data Browser
 Then I should navigate to "/entities/educationOrganizations/bd086bae-ee82-4cf2-baf9-221a9407ea07"
+Then I change the isAdminRole flag for role "Educator" to in the realm "Daybreak" to be "false"
 
 
 @DE1948
