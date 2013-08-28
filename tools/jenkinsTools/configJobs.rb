@@ -2,6 +2,7 @@ require 'net/http'
 require 'uri'
 require 'rexml/document'
 require 'json'
+require 'jenkins_api_client'
 
 @new_branch = ENV['NEW_BRANCH'] || 'Release-1.0.XX'
 @view_to_configure = ENV['VIEW_TO_CONFIGURE'] || 'CI-XX-Rel'
