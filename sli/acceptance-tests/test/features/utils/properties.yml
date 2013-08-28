@@ -108,7 +108,7 @@ email_imap_port: 443
 # for CI and local environments
 
 # email_imap_host: mon.slidev.org
-email_imap_host: monelb.slidev.org
+email_imap_host: mon.slidev.org
 
 email_imap_registration_user: devldapuser
 email_imap_registration_user_email: devldapuser@slidev.org
