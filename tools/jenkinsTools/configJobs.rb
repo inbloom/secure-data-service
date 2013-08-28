@@ -16,12 +16,14 @@ def fix_job(job_name, new_branch)
 
   job_xml = @client.job.get_config(job_name)
 
-  job_xml.elements.each("*/scm/branches/hudson.plugins.git.BranchSpec/name") do |element| 
+  doc = REXML::Document.new(job_xml)
+
+  doc.elements.each("*/scm/branches/hudson.plugins.git.BranchSpec/name") do |element| 
     puts "Current Branch: #{element.text} changing it to #{new_branch}"
     element.text = new_branch
   end
 
-  @client.job.post_config(job_name, job_xml)
+  @client.job.post_config(job_name, doc.to_s)
 end
 
 view_to_configure = ARGV[0]
