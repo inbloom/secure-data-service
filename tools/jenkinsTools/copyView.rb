@@ -15,7 +15,7 @@ def copy_view(source_view, target_view)
     jobs = @client.view.list_jobs(source_view)
     jobs.each do |job_name|
       job_xml = @client.job.get_config(job_name)
-      new_job_name = job_name.gsub(source_view, target_view)
+      new_job_name = job_name.gsub("_#{source_view}", "_#{target_view}")
       new_job_xml = job_xml.gsub(source_view, target_view)
       puts "Creating new job: #{new_job_name}"
       @client.job.create(new_job_name, new_job_xml)
