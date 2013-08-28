@@ -11,14 +11,14 @@ def get_jobs(view)
   return @client.view.list_jobs(view)
 end
 
-def fix_job(job_name)
-  puts "Adjusting " + job_name + " to " + @new_branch  
+def fix_job(job_name, new_branch)
+  puts "Adjusting " + job_name + " to " + new_branch  
 
   job_xml = @client.job.get_config(job_name)
 
   job_xml.elements.each("*/scm/branches/hudson.plugins.git.BranchSpec/name") do |element| 
-    puts "Current Branch: #{element.text} changing it to #{@new_branch}"
-    element.text = @new_branch
+    puts "Current Branch: #{element.text} changing it to #{new_branch}"
+    element.text = new_branch
   end
 
   @client.job.post_config(job_name, job_xml)
@@ -29,4 +29,4 @@ new_branch = ARGV[1]
 
 actual_jobs = get_jobs(view_to_configure)
 puts actual_jobs
-actual_jobs.each {|j| fix_job(j) }
+actual_jobs.each {|j| fix_job(j, new_branch) }
