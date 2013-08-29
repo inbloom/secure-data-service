@@ -401,7 +401,7 @@ public class ResourceUtil {
                         if (resourceNames != null) {
                             for (String resourceName : resourceNames) {
                                 String linkName = getLinkName(defn.getResourceName(), resourceName, BLANK, true);
-                                if (count > 0) {
+                                if (count > 0 && !linkName.isEmpty()) {
                                     linkName = linkName + "[" + count + "]";
                                 }
                                 if (!linkName.isEmpty()) {
