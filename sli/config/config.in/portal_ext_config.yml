@@ -213,7 +213,7 @@ team:
         # email server settings 
         mail.session.mail.smtp.auth: false
         mail.session.mail.smtp.host: mon.slidev.org
-        mail.session.mail.smtp.port: 3000
+        mail.session.mail.smtp.port: 8080
         mail.session.mail.smtp.credential.encryption: false
         mail.session.mail.smtp.user:
         mail.session.mail.smtp.password:

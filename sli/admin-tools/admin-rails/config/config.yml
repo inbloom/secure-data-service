@@ -25,8 +25,8 @@ sandbox: &sandbox
 
 ldap_default: &ldap_default
     ldap_host: ldap.slidev.org
-    ldap_port: 389
-    ldap_use_ssl: false
+    ldap_port: 443
+    ldap_use_ssl: true
     ldap_user: cn=Admin,dc=slidev,dc=org
     ldap_pass: c4f272eb123f68f1f5adc31711c93750
 
@@ -34,7 +34,7 @@ email_mon: &email_mon
     email_sender_name: SLC Administrator
     email_sender_address: ufhalhffhuwhelfjkdfhs@slidev.org
     email_host: mon.slidev.org
-    email_port: 3000
+    email_port: 8080
     email_username: 
     email_password: 
     email_tls: 
@@ -66,9 +66,6 @@ development:
     tmp_dir: /tmp 
     encryption_keyfile: ../../data-access/dal/keyStore/localRailsKey
     encryption_iv:  Ir\xBC\xBF\xB9\x9Dg 0\x1D\x11[v\x9B\x9B\xE7
-    ldap_host: ldapelb.slidev.org
-    ldap_port: 443
-    ldap_use_ssl: true
 
 local-acceptance-tests:
     <<: *common
@@ -92,10 +89,7 @@ local-acceptance-tests:
     tmp_dir: /tmp 
     encryption_keyfile: ../../data-access/dal/keyStore/localRailsKey
     encryption_iv:  Ir\xBC\xBF\xB9\x9Dg 0\x1D\x11[v\x9B\x9B\xE7
-    ldap_host: ldapelb.slidev.org
-    ldap_port: 443
-    ldap_use_ssl: true
-    
+
 development_sb:
     <<: *common
     <<: *sandbox
@@ -116,10 +110,7 @@ development_sb:
     tmp_dir: /tmp 
     encryption_keyfile: ../../data-access/dal/keyStore/localRailsKey
     encryption_iv:  Ir\xBC\xBF\xB9\x9Dg 0\x1D\x11[v\x9B\x9B\xE7
-    ldap_host: ldapelb.slidev.org
-    ldap_port: 443
-    ldap_use_ssl: true
-    
+
 team:
     <<: *common
     <<: *email_mon

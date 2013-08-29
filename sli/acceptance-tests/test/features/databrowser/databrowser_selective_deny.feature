@@ -23,7 +23,7 @@ Scenario: A user who is a Educator and an IT Admin is denied access because the 
     When I submit the credentials "mabernathy" "mabernathy1234" for the "Simple" login page
      Then I get message that I am not authorized
 
-Scenario: The Educator role is given the Admin flag so an Educator gets access to Charter School "Daybreak Central High" and Normal Schools
+Scenario: The Educator role is given the Admin flag so an Educator gets access
 	Given I change the isAdminRole flag for role "Educator" to in the realm "Daybreak" to be "true"
     And I have an open web browser
     And I navigated to the Data Browser Home URL

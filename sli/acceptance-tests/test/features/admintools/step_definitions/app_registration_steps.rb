@@ -391,7 +391,10 @@ Then /^a notification email is sent to "([^"]*)"$/ do |email|
     sleep 2
     defaultUser = email.split("@")[0]
     defaultPassword = "#{defaultUser}1234"
+    puts "=============  IMAP host is " + PropLoader.getProps['email_imap_host']
+    puts "=============  IMAP port is " + PropLoader.getProps['email_imap_port'].to_s
     imap = Net::IMAP.new(PropLoader.getProps['email_imap_host'], PropLoader.getProps['email_imap_port'], true, nil, false)
+    puts "=============  AUTHENTICATING WITH '" + defaultUser + "' / '" + defaultPassword + "'"
     imap.authenticate('LOGIN', defaultUser, defaultPassword)
     imap.examine('INBOX')
     #ids = imap.search(["FROM", "noreply@slidev.org","TO", email])
