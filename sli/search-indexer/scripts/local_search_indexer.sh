@@ -171,6 +171,7 @@ function isJavaReady {
 function prepareJava {
    if [ ${CHECK_SEARCH_INDEXER_TAR} != 0 ]; then
       tar -C `dirname ${CHECK_SEARCH_INDEXER_TAR}` -zxf ${CHECK_SEARCH_INDEXER_TAR}
+      DEFAULT_SEARCH_INDEXER_JAR=`ls ``dirname ${CHECK_SEARCH_INDEXER_TAR}``/search-indexer-*.jar`
    fi
 }
 
