@@ -26,8 +26,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.slc.sli.api.security.context.APIAccessDeniedException;
-import org.slc.sli.api.resources.generic.service.ContextSupportedEntities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -43,6 +41,7 @@ import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.CallingApplicationInfoProvider;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.APIAccessDeniedException;
 import org.slc.sli.api.security.context.ContextValidator;
 import org.slc.sli.api.security.roles.EntityRightsFilter;
 import org.slc.sli.api.security.roles.RightAccessValidator;
@@ -483,6 +482,14 @@ public class BasicService implements EntityService, AccessibilityCheck {
         }
     }
 
+    private Iterable<EntityBody> noEntitiesFound(Boolean noDataInDB) {
+        if (noDataInDB) {
+            return new ArrayList<EntityBody>();
+        } else {
+            throw new APIAccessDeniedException("Access to resource denied.");
+        }
+    }
+
     @Override
     public Iterable<EntityBody> get(Iterable<String> ids) {
 
@@ -559,6 +566,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
     @Override
     public Iterable<EntityBody> listBasedOnContextualRoles(NeutralQuery neutralQuery) {
         boolean isSelf = isSelf(neutralQuery);
+        boolean noDataInDB = true;
 
         injectSecurity(neutralQuery);
         Collection<Entity> entities = (Collection<Entity>) repo.findAll(collectionName, neutralQuery);
@@ -569,6 +577,8 @@ public class BasicService implements EntityService, AccessibilityCheck {
             entityContext = getEntityContextMap(entities, true);
         }
 
+        noDataInDB = entities.isEmpty();
+
         List<EntityBody> results = new ArrayList<EntityBody>();
 
         for (Entity entity : entities) {
@@ -577,7 +587,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
             try {
                 Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf, entity, context, true);
                 rightAccessValidator.checkAccess(true, isSelf, entity, defn.getType(), auths);
-                rightAccessValidator.checkFieldAccess(neutralQuery, isSelf, entity, defn.getType(), auths);
+                rightAccessValidator.checkFieldAccess(neutralQuery, entity, defn.getType(), auths);
 
                 results.add(entityRightsFilter.makeEntityBody(entity, treatments, defn, isSelf, auths, context));
             } catch (AccessDeniedException aex) {
@@ -591,7 +601,8 @@ public class BasicService implements EntityService, AccessibilityCheck {
         }
 
         if (results.isEmpty()) {
-            return noEntitiesFound(neutralQuery);
+            validateQuery(neutralQuery, isSelf);
+            return noEntitiesFound(noDataInDB);
         }
 
         return results;
@@ -607,6 +618,24 @@ public class BasicService implements EntityService, AccessibilityCheck {
             }
         }
         return context;
+    }
+
+    private void validateQuery(NeutralQuery neutralQuery, boolean self) {
+        NeutralQuery newQuery = new NeutralQuery(neutralQuery);
+        boolean removableCriteriaExists = false;
+        for (NeutralCriteria cr : neutralQuery.getCriteria()) {
+            if(cr.isRemovable()) {
+                newQuery.removeCriteria(cr);
+                removableCriteriaExists = true;
+            }
+        }
+        if(removableCriteriaExists) {
+            Collection<Entity> noSearchEntities = (Collection<Entity>) repo.findAll(collectionName, newQuery);
+            for(Entity en : noSearchEntities) {
+                Collection<GrantedAuthority> auths = getEntityContextAuthorities(en, self, true);
+                rightAccessValidator.checkFieldAccess(neutralQuery, en, defn.getType(), auths);
+            }
+        }
     }
 
     @Override
@@ -924,7 +953,6 @@ public class BasicService implements EntityService, AccessibilityCheck {
         // loop for every EntityDefinition that references the deleted entity's type
         for (EntityDefinition referencingEntity : defn.getReferencingEntities()) {
             // loop for every reference field that COULD reference the deleted ID
-            boolean isContextualSupported = (ContextSupportedEntities.getSupportedEntities().contains(referencingEntity.getType())) && SecurityUtil.isStaffUser();
 
             for (String referenceField : referencingEntity.getReferenceFieldNames(defn.getStoredCollectionName())) {
                 EntityService referencingEntityService = referencingEntity.getService();
@@ -943,7 +971,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
                         // arrays
 
                         Iterable<EntityBody> entityList;
-                        if(isContextualSupported) {
+                        if (SecurityUtil.isStaffUser()) {
                             entityList = referencingEntityService.listBasedOnContextualRoles(neutralQuery);
                         } else {
                             entityList = referencingEntityService.list(neutralQuery);
@@ -955,7 +983,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
                             basicDBList.remove(sourceId);
                             EntityBody patchEntityBody = new EntityBody();
                             patchEntityBody.put(referenceField, basicDBList);
-                            if(isContextualSupported) {
+                            if (SecurityUtil.isStaffUser()) {
                                 referencingEntityService.patchBasedOnContextualRoles(idToBePatched, patchEntityBody);
                             } else {
                                 referencingEntityService.patch(idToBePatched, patchEntityBody);
@@ -966,7 +994,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
                         // field (for deletion)
 
                         Iterable<EntityBody> entityList;
-                        if(isContextualSupported) {
+                        if (SecurityUtil.isStaffUser()) {
                             entityList = referencingEntityService.listBasedOnContextualRoles(neutralQuery);
                         } else {
                             entityList = referencingEntityService.list(neutralQuery);
@@ -974,7 +1002,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
                         for (EntityBody entityBody : entityList) {
                             String idToBeDeleted = (String) entityBody.get("id");
                             // delete that entity as well
-                            if(isContextualSupported) {
+                            if (SecurityUtil.isStaffUser()) {
                                 referencingEntityService.deleteBasedOnContextualRoles(idToBeDeleted);
                             } else {
                                 referencingEntityService.delete(idToBeDeleted);

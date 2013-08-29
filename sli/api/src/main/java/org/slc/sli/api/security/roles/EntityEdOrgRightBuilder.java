@@ -54,7 +54,7 @@ public class EntityEdOrgRightBuilder {
             EntityNames.STUDENT_GRADEBOOK_ENTRY, EntityNames.STUDENT_ACADEMIC_RECORD, EntityNames.PARENT,
             EntityNames.STUDENT_PROGRAM_ASSOCIATION, EntityNames.STUDENT_COHORT_ASSOCIATION, EntityNames.STUDENT_SECTION_ASSOCIATION,
             EntityNames.STUDENT_PARENT_ASSOCIATION, EntityNames.GRADE, EntityNames.REPORT_CARD, EntityNames.STUDENT_ASSESSMENT,
-            EntityNames.STUDENT_COMPETENCY));
+            EntityNames.STUDENT_COMPETENCY, EntityNames.GRADEBOOK_ENTRY));
 
     /**
      * Builds a set of access rights to an entity, based upon the specified EdOrg-Rights map, and the EdOrgs to which the entity belongs.
