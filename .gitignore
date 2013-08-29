@@ -16,7 +16,7 @@ sli/dashboard/maven-eclipse.xml
 sli/ingestion/ingestion-service/src/main/resources/ingestion-dev.properties
 Demo/EdFiSampleData/
 sli/dashboard/src/main/resources/local.properties
-sli/databrowser/log/*.log
+sli/databrowser/log/*
 tools/jobReport/server/node_modules
 tools/odin/doc
 ../.metadata/
