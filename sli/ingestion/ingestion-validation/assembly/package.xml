@@ -68,17 +68,5 @@
       <outputDirectory>/OfflineValidationTool/ingestion/</outputDirectory>
       <destName>pom.xml</destName>
     </file>
-    <!-- Below is to support the maven versions plugin -->
-    <file>
-      <source>${project.parent.parent.basedir}/edfi-schema/pom.xml.versionsBackup</source>
-      <outputDirectory>/OfflineValidationTool/edfi-schema/</outputDirectory>
-      <destName>pom.xml</destName>
-    </file>
-    <file>
-      <source>${project.parent.basedir}/ingestion-base/pom.xml.versionsBackup</source>
-      <outputDirectory>/OfflineValidationTool/ingestion/ingestion-base</outputDirectory>
-      <destName>pom.xml</destName>
-    </file>
-    <!-- Edn of support the maven versions plugin -->
   </files>
 </assembly>
