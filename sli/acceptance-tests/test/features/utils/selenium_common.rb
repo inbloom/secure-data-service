@@ -46,7 +46,9 @@ Given /^I have an open web browser$/ do
       if ENV['HEADLESS'] and RUBY_PLATFORM.include? "darwin"
         Selenium::WebDriver::Firefox::Binary.path="/opt/local/bin/firefox-x11"  
       end
-      @driver ||= Selenium::WebDriver.for :firefox, :profile => @profile
+    client = Selenium::WebDriver::Remote::Http::Default.new
+    client.timeout = 120 # seconds
+    @driver ||= Selenium::WebDriver.for :firefox, :profile => @profile, :http_client => client
   end
   
   reset_timeouts_to_default
