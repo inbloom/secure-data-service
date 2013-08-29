@@ -2,6 +2,7 @@
 
 
 var staffMapping = {};
+var parentMapping = {};
 
 //mongo localhost:27017/02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a staffAssociations.js
 db.staffEducationOrganizationAssociation.find({}, {}).forEach(function (seo){
@@ -58,6 +59,7 @@ db.educationOrganization.find({}, {"_id":1, "body.stateOrganizationId":1, "body.
            print("");
            print (name + ' [' + ocStr + '] '  +  " P " + plist.join(", ") + "\n" );
        }
+       parentMapping[sid] = plist;
  
     }
 )

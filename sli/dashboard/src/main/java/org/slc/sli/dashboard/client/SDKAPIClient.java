@@ -1571,11 +1571,13 @@ public class SDKAPIClient implements APIClient {
 
         if (entities != null) {
             for (GenericEntity entity : entities) {
-            	if (entity.get(attributeName) != null) {
-            	attributeList = (List<String>) entity.get(attributeName);
-            	//String attributeValue = (String) entity.get(attributeName);
-                //if ((attributeValue != null) && (attributeValue.length() > 0)) {
-                 //   attributeList.add(attributeValue);
+                Object attribute =  entity.get(attributeName);
+                if(attribute != null) {
+                    if(attribute instanceof List) {
+                        attributeList.addAll(((List)attribute));
+                    } else {
+                        attributeList.add((String)attribute);
+                     } 
                 }
             }
         }
