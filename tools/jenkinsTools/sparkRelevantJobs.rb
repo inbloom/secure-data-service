@@ -124,7 +124,7 @@ def getLastHashFromMongo(view)
   coll = db['commit']
 
   entry = coll.find_one("_id" => "last_used_commit_for_#{view}")
-  entry["commit_hash"] unless entry.nil?
+  entry = entry["commit_hash"] unless entry.nil?
 
   entry
 end
