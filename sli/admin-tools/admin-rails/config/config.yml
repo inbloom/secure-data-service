@@ -121,7 +121,7 @@ team:
     client_secret: UxeLZVB6rM1hBL3ZEpRSkGvfdkMTTUgJH77UyTCU462zXNIg
     ## redirect_uri: https://{ci_host}:2001/callback
     redirect_uri: https://ci.slidev.org:2001/callback
-    ldap_base: ou=SLIAdmin,dc=slidev,dc=org
+    ldap_base: ou=CI,dc=slidev,dc=org
     ## email_replace_uri: https://{ci_host}:2001
     email_replace_uri: https://ci.slidev.org:2001
     is_sandbox: false
@@ -145,7 +145,7 @@ team_sb:
     client_secret: UxeLZVB6rM1hBL3ZEpRSkGvfdkMTTUgJH77UyTCU462zXNIg
     ## redirect_uri: https://{ci_host}:2001/callback
     redirect_uri: https://ci.slidev.org:2001/callback
-    ldap_base: ou=SLIAdmin,dc=slidev,dc=org
+    ldap_base: ou=CI,dc=slidev,dc=org
     ## email_replace_uri: https://{ci_host}:2001
     email_replace_uri: https://ci.slidev.org:2001
     ## portal_url: https://{portal_host}/portal
