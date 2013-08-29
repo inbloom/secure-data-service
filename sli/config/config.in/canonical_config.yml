@@ -365,7 +365,7 @@ default:
         sli.simple-idp.sliAdminRealmName: SLIAdmin
         # LDAP base URLs, comma separated list of ldap servers
         ## sli.simple-idp.ldap.urls: ldap://{ldap_host:port}
-        sli.simple-idp.ldap.urls: ldasp://ldap.slidev.org:443
+        sli.simple-idp.ldap.urls: ldap://ldap.slidev.org:389
         # LDAP base DN
         sli.simple-idp.ldap.base: ou=DevTest,dc=slidev,dc=org
 

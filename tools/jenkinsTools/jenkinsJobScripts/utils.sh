@@ -38,6 +38,7 @@ profileSwapAndPropGen()
   sh profile_swap.sh $NODE_NAME
   cd config/scripts
   ruby webapp-provision.rb ../config.in/canonical_config.yml team /opt/tomcat/conf/sli.properties
+  ruby webapp-provision.rb ../config.in/canonical_config.yml team ../properties/sli.properties
   cp $WORKSPACE/sli/data-access/dal/keyStore/ci* /opt/tomcat/encryption/
   cp $WORKSPACE/sli/common/common-encrypt/trust/* /opt/tomcat/trust/
   cp $WORKSPACE/sli/data-access/dal/keyStore/trustey.jks /opt/tomcat/encryption/ciTruststore.jks
