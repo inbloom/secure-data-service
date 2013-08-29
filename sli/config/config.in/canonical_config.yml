@@ -365,7 +365,7 @@ default:
         sli.simple-idp.sliAdminRealmName: SLIAdmin
         # LDAP base URLs, comma separated list of ldap servers
         ## sli.simple-idp.ldap.urls: ldap://{ldap_host:port}
-        sli.simple-idp.ldap.urls: ldap://ldap.slidev.org:389
+        sli.simple-idp.ldap.urls: ldap://ldap.slidev.org:443
         # LDAP base DN
         sli.simple-idp.ldap.base: ou=DevTest,dc=slidev,dc=org
 
@@ -1686,7 +1686,7 @@ local-ldap-server:
 
     misc:
         <<: *MISC-LOCAL
-        sli.simple-idp.ldap.urls: ldap://localhost:389
+        sli.simple-idp.ldap.urls: ldap://localhost:443
 
 #
 # Configuration to support running sandbox locally with a locally running ldap server
@@ -1716,4 +1716,4 @@ local-sandbox-ldap-server:
     misc:
         <<: *MISC-LOCAL
         sli.simple-idp.sandboxImpersonationEnabled: true
-        sli.simple-idp.ldap.urls: ldap://localhost:389
+        sli.simple-idp.ldap.urls: ldap://localhost:443
