@@ -51,9 +51,9 @@ default:
         bootstrap.admin.realm.name: inBloom
         bootstrap.admin.realm.tenantId: SLI
         ## bootstrap.admin.realm.idpId: http://localhost:8082/simple-idp?realm={realm_name}
-        bootstrap.admin.realm.idpId: http://local.slidev.org:8082/simple-idp?realm=SLIAdmin
+        bootstrap.admin.realm.idpId: http://local.slidev.org:8082/simple-idp?realm=CI
         ## bootstrap.admin.realm.redirectEndpoint: http://localhost:8082/simple-idp?realm={realm_name}
-        bootstrap.admin.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp?realm=SLIAdmin
+        bootstrap.admin.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp?realm=CI
 
         # Used to bootstrap the developer realm for unified accounts
         bootstrap.developer.realm.name: inBloom App Developers
@@ -362,10 +362,10 @@ default:
         sli.simple-idp.sandbox.users: SmallDatasetUsers,Small Sample Dataset,MediumDatasetUsers,Medium Sample Dataset
 
         # Name of the SLIAdmin realm used to authenticate sandbox developers when no realm specified
-        sli.simple-idp.sliAdminRealmName: SLIAdmin
+        sli.simple-idp.sliAdminRealmName: CI
         # LDAP base URLs, comma separated list of ldap servers
         ## sli.simple-idp.ldap.urls: ldap://{ldap_host:port}
-        sli.simple-idp.ldap.urls: ldap://ldap.slidev.org:389
+        sli.simple-idp.ldap.urls: ldaps://ldap.slidev.org:443
         # LDAP base DN
         sli.simple-idp.ldap.base: ou=DevTest,dc=slidev,dc=org
 
@@ -1034,7 +1034,7 @@ local:
         sli.simple-idp.sliAdminRealmName: LocalNew
         # LDAP base URLs, comma separated list of ldap servers
         ## sli.simple-idp.ldap.urls: ldap://{ldap_host:port}
-        sli.simple-idp.ldap.urls: ldaps://ldapelb.slidev.org:443
+        sli.simple-idp.ldap.urls: ldaps://ldap.slidev.org:443
         # LDAP base DN
         sli.simple-idp.ldap.base: ou=DevTest,dc=slidev,dc=org
 
@@ -1189,9 +1189,9 @@ team:
         api.perf.log.path: /storage/logs
         bootstrap.sandbox.createSandboxRealm: false
         ## bootstrap.admin.realm.idpId: http://{admin_host:port}/simple-idp?realm={realm_name}
-        bootstrap.admin.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
+        bootstrap.admin.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=CI
         ## bootstrap.admin.realm.redirectEndpoint: http://{admin_host:port}/simple-idp?realm={realm_name}
-        bootstrap.admin.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
+        bootstrap.admin.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=CI
         ## bootstrap.developer.realm.idpId: http://{admin_host:port}/simple-idp?realm={dev_realm}&developer=true
         bootstrap.developer.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIDev&developer=true
         ## bootstrap.developer.realm.redirectEndpoint: http://{admin_host:port}/simple-idp?realm={dev_realm}&developer=true
@@ -1503,9 +1503,9 @@ sandbox:
         sli.autoRegisterApps: true
         bootstrap.sandbox.createSandboxRealm: true
         ## bootstrap.admin.realm.idpId: http://{admin_host:port}/simple-idp?realm={realm_name}
-        bootstrap.admin.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
+        bootstrap.admin.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=CI
         ## bootstrap.admin.realm.redirectEndpoint: http://{admin_host:port}/simple-idp?realm={realm_name}
-        bootstrap.admin.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
+        bootstrap.admin.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=CI
         ## bootstrap.developer.realm.idpId: http://{admin_host:port}/simple-idp?realm={dev_realm}&developer=true
         bootstrap.developer.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIDev&developer=true
         ## bootstrap.developer.realm.redirectEndpoint: http://{admin_host:port}/simple-idp?realm={dev_realm}&developer=true
@@ -1686,7 +1686,7 @@ local-ldap-server:
 
     misc:
         <<: *MISC-LOCAL
-        sli.simple-idp.ldap.urls: ldap://localhost:389
+        sli.simple-idp.ldap.urls: ldaps://localhost:443
 
 #
 # Configuration to support running sandbox locally with a locally running ldap server
@@ -1716,4 +1716,4 @@ local-sandbox-ldap-server:
     misc:
         <<: *MISC-LOCAL
         sli.simple-idp.sandboxImpersonationEnabled: true
-        sli.simple-idp.ldap.urls: ldap://localhost:389
+        sli.simple-idp.ldap.urls: ldaps://localhost:443
