@@ -40,10 +40,6 @@ end
 Given /^I have a SMTP\/Email server configured$/ do
   @email_sender_name= "SLC Administrator"
   @email = TEST_EMAIL
-  defaultUser = TEST_EMAIL_USER
-  defaultPassword = TEST_EMAIL_PASS
-  @imap = Net::IMAP.new(PropLoader.getProps['email_imap_host'], PropLoader.getProps['email_imap_port'], true, nil, false)
-  @imap.authenticate('LOGIN', defaultUser, defaultPassword)
 
   @last_id = get_last_email_id
   puts "current email id is: #{@last_id}"
@@ -75,6 +71,10 @@ Then /^a verify email notification is sent to user$/ do
 end
 
 def get_last_email_id
+  defaultUser = TEST_EMAIL_USER
+  defaultPassword = TEST_EMAIL_PASS
+  @imap = Net::IMAP.new(PropLoader.getProps['email_imap_host'], PropLoader.getProps['email_imap_port'], true, nil, false)
+  @imap.authenticate('LOGIN', defaultUser, defaultPassword)
   @imap.examine('INBOX')
   ids = @imap.search(["FROM", @email_sender_name,"TO",@email])
   last_id = ids[-1]

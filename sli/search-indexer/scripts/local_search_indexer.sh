@@ -25,7 +25,7 @@ function configure {
         echo "Using default environment settings."
         DEFAULT_CHECK_SLI_CONF="$ROOT/../config/properties/sli.properties"
         DEFAULT_CHECK_KEYSTORE="$ROOT/../data-access/dal/keyStore/ciKeyStore.jks"
-        DEFAULT_SEARCH_INDEXER_JAR="$ROOT/target/search-indexer-1.0-SNAPSHOT.jar"
+        DEFAULT_SEARCH_INDEXER_JAR=`ls $ROOT/target/search-indexer-\*.jar`
         DEFAULT_MAX_MEMORY="1024m"
         DEFAULT_MIN_MEMORY="1024m"
         DEFAULT_REMOTE_COMMAND_PORT=10024
@@ -171,6 +171,7 @@ function isJavaReady {
 function prepareJava {
    if [ ${CHECK_SEARCH_INDEXER_TAR} != 0 ]; then
       tar -C `dirname ${CHECK_SEARCH_INDEXER_TAR}` -zxf ${CHECK_SEARCH_INDEXER_TAR}
+      DEFAULT_SEARCH_INDEXER_JAR=`ls ``dirname ${CHECK_SEARCH_INDEXER_TAR}``/search-indexer-\*.jar`
    fi
 }
 

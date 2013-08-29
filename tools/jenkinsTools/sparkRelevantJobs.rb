@@ -34,7 +34,7 @@ require 'rest-client'
   "sli/acceptance-tests/test/features/admintools" => ["admin"],
   "sli/acceptance-tests/test/features/databrowser" => ["databrowser"],
   "sli/acceptance-tests/test/features/dash" => ["dashboard"],
-  "sli/acceptance-tests/test/features/odin" => ["odin", "jmeter"],
+  "sli/acceptance-tests/test/features/odin" => ["odin"],
   "sli/acceptance-tests/test/features/apiV1/contextual_roles" => ["contextual-role"],    
   "sli/acceptance-tests/test/features/ingestion/features/ingestion_dashboardSadPath.feature" => ["ingestion", "dashboard"],
   "sli/acceptance-tests/test/features/ingestion/test_data/DashboardSadPath_IL_Daybreak" => ["ingestion", "dashboard"],
@@ -50,7 +50,7 @@ require 'rest-client'
   "sli/acceptance-tests/suites/bulk-extract.rake" => ["bulk-extract"],
   "sli/acceptance-tests/suites/ingestion.rake" => ["ingestion"],
   "sli/acceptance-tests/suites/dashboard.rake" => ["dashboard"],
-  "sli/api/" => ["api", "odin-api", "search-indexer", "jmeter", "admin", "sdk", "bulk-extract", "databrowser", "contextual-role", "dashboard"],
+  "sli/api/" => ["api", "odin-api", "search-indexer", "admin", "sdk", "bulk-extract", "databrowser", "contextual-role", "dashboard"],
   "sli/simple-idp" => ["api", "odin-api", "admin", "sdk", "contextual-role", "dashboard"],
   "sli/SDK" => ["admin", "dashboard", "sdk"],
   "sli/data-access" => ["api", "odin-api", "ingestion", "bulk-extract", "contextual-role", "dashboard"],
@@ -64,34 +64,34 @@ require 'rest-client'
   "sli/dashboard/src" => ["dashboard"],
   "sli/databrowser" => ["databrowser"],
   "sli/search-indexer" => ["search-indexer", "dashboard"],
-  "tools/odin" => ["odin", "odin-api", "jmeter"]
+  "tools/odin" => ["odin", "odin-api"]
 }
 
 @testIdToUrlMap = {
-  "api" => "#{@jenkinsHostname}:8080/view/Components/job/NTS%20API%20Tests/buildWithParameters",
-  "admin" => "#{@jenkinsHostname}:8080/view/Components/job/NTS%20Admin%20Tests/buildWithParameters",
-  "ingestion" => "#{@jenkinsHostname}:8080/view/Components/job/NTS%20Ingestion%20Service%20Tests/buildWithParameters",
-  "dashboard" => "#{@jenkinsHostname}:8080/view/Components/job/NTS%20Dashboard%20Tests/buildWithParameters",
-  "databrowser" => "#{@jenkinsHostname}:8080/view/Components/job/NTS%20Databrowser%20Tests/buildWithParameters",
-  "sdk" => "#{@jenkinsHostname}:8080/view/Components/job/NTS%20SDK%20Tests/buildWithParameters",
-  "search-indexer" => "#{@jenkinsHostname}:8080/view/Components/job/Search-Indexer%20Tests/buildWithParameters",
-  "odin" => "#{@jenkinsHostname}:8080/view/Components/job/Odin-DataGeneration-Tests/buildWithParameters",
-  "jmeter" => "#{@jenkinsHostname}:8080/view/Components/job/NTS%20JMeter%20API%20Performance/buildWithParameters",
-  "odin-api" => "#{@jenkinsHostname}:8080/view/Components/job/API_Odin_Tests/buildWithParameters",
-  "bulk-extract" => "#{@jenkinsHostname}:8080/view/Components/job/Bulk-Extract%20Tests/buildWithParameters",
-  "contextual-role" => "#{@jenkinsHostname}:8080/view/Components/job/API_Contextual_Roles/buildWithParameters"
+  "api" => "NTS_API_Tests",
+  "admin" => "NTS_Admin_Tests",
+  "ingestion" => "NTS_Ingestion_Service_Tests",
+  "dashboard" => "NTS_Dashboard_Tests",
+  "databrowser" => "NTS_Databrowser_Tests",
+  "sdk" => "SDK_Tests",
+  "search-indexer" => "Search_Indexer_Tests",
+  "odin" => "Odin_Data_Generation_Tests",
+  "odin-api" => "API_Odin_Tests",
+  "bulk-extract" => "Bulk_Extract_Tests",
+  "contextual-role" => "API_Contextual_Roles_Tests"
 }
 
 ################## Helpers and Input Parsing ###########################
 
 if __FILE__ == $0
-  unless ARGV.length == 1
-      puts "Usage: prompt>ruby " + $0 + " commitHash"
-      puts "Example: ruby #{$0} 17570fe99fd6cfbdfd82d7121506ce5652548250"
+  unless ARGV.length == 2
+      puts "Usage: prompt>ruby " + $0 + " commitHash view"
+      puts "Example: ruby #{$0} 17570fe99fd6cfbdfd82d7121506ce5652548250 Master"
       exit(1)
   end
 
   currHash = ARGV[0]
+  currView = ARGV[1]
 end
 
 # returns true if the time stamp of firstHash is less than the timestamp of the secondHash
@@ -105,26 +105,33 @@ end
 # returns array of files changed between two hashes
 # returns empty array if timestamp of first hash > second hash
 def getFilesChanged(firstHash, secondHash)
-  unless checkCommitOrder(firstHash, secondHash)
-    return []
+  if firstHash.nil?
+    output = `git ls-tree --name-only -r #{secondHash}`
+  else
+    unless checkCommitOrder(firstHash, secondHash)
+      return []
+    end
+    output = `git diff --name-only #{firstHash} #{secondHash}`
   end
-  output = `git diff --name-only #{firstHash} #{secondHash}`
   list = output.split(/\n/)
 
   list
 end
 
-def getLastHashFromMongo()
+def getLastHashFromMongo(view)
   conn = Mongo::Connection.new(@jenkinsHostname, @jenkinsMongoPort)
   db = conn.db("git_hash")
   coll = db['commit']
 
-  coll.find_one("_id" => "last_used_commit")["commit_hash"]
+  entry = coll.find_one("_id" => "last_used_commit_for_#{view}")
+  entry = entry["commit_hash"] unless entry.nil?
+
+  entry
 end
 
-def whichTestsToRun(hash)
+def whichTestsToRun(hash, view)
   testsToRun = []
-  mongoHash = getLastHashFromMongo()
+  mongoHash = getLastHashFromMongo(view)
   puts "Last commit hash in mongo is #{mongoHash}"
   changedFiles = getFilesChanged(mongoHash, hash)
   puts "Changed files: #{changedFiles}"
@@ -141,9 +148,9 @@ def whichTestsToRun(hash)
 end
 
 # given a test id to run, it will make the relevant api posts to jenkins to spart the appropriate test jobs
-def sparkTest(test, hash)
+def sparkTest(test, hash, view)
   data = ""
-  url = "http://jenkinsapi_user:test1234@#{@testIdToUrlMap[test]}?COMMIT_HASH=#{hash}"
+  url = "http://jenkinsapi_user:test1234@#{@jenkinsHostname}:8080/view/#{view}/job/#{@testIdToUrlMap[test]}_#{view}/buildWithParameters?COMMIT_HASH=#{hash}"
   puts "Running #{test} test with url #{url}"
   res = RestClient.post(url, data, {:content_type => "application/json"} ){|response, request, result| response }
 
@@ -151,13 +158,13 @@ def sparkTest(test, hash)
 end
 
 # will update mongo to reflect the supplied git hash as the last used
-def updateMongo(hash)
+def updateMongo(hash, view)
   conn = Mongo::Connection.new(@jenkinsHostname, @jenkinsMongoPort)
   db = conn.db("git_hash")
   coll = db['commit']
   currTime = Time.new
 
-  coll.update({"_id" => "last_used_commit"}, {"$set" => {"commit_hash" => hash, "lastUpdate" => currTime}})
+  coll.update({"_id" => "last_used_commit_for_#{view}"}, {"$set" => {"commit_hash" => hash, "lastUpdate" => currTime}}, {:upsert => true})
 
   puts "Newly persisted git hash in mongo: #{coll.find_one("_id" => "last_used_commit")["commit_hash"]}"
 
@@ -167,11 +174,11 @@ end
 ##################### Main Methods #########################################
 
 
-whichTestsToRun(currHash).each do |test|
-  sparkTest(test, currHash)
+whichTestsToRun(currHash, currView).each do |test|
+  sparkTest(test, currHash, currView)
 end
 
-updateMongo(currHash)
+updateMongo(currHash, currView)
 
 
 
