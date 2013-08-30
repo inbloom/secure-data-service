@@ -233,11 +233,11 @@ function run {
             fi
         fi
 
-        if [ ${CHECK_SEARCH_INDEXER_TAR} == 0 ]; then
+#        if [ ${CHECK_SEARCH_INDEXER_TAR} == 0 ]; then
             jobString="java ${SEARCH_INDEXER_OPT} -jar ${DEFAULT_SEARCH_INDEXER_JAR} ${SEARCH_INDEXER_COMMAND_OPTIONS}"
-        else 
-            jobString="java ${SEARCH_INDEXER_OPT} -jar `dirname ${CHECK_SEARCH_INDEXER_TAR}`/search-indexer-1.0-SNAPSHOT.jar ${SEARCH_INDEXER_COMMAND_OPTIONS}"
-        fi
+#        else 
+#            jobString="java ${SEARCH_INDEXER_OPT} -jar `dirname ${CHECK_SEARCH_INDEXER_TAR}`/search-indexer-1.0-SNAPSHOT.jar ${SEARCH_INDEXER_COMMAND_OPTIONS}"
+#        fi
 
         # first check to see of the process is running
         searchProc=$(ps -ef | grep "search-indexer.*.jar" | grep -v "grep")
