@@ -3,6 +3,7 @@
 PRG="$0"
 PRGDIR=`dirname "$PRG"`
 ROOT="$PRGDIR/.."
+JAR_NAME="bulk-extract-*.jar"
 
 EXTRACTER_CONFIG="/etc/sysconfig/bulk-extract"
 
@@ -25,7 +26,7 @@ function configure {
         echo "Using default environment settings."
         DEFAULT_CHECK_SLI_CONF="$ROOT/../config/properties/sli.properties"
         DEFAULT_CHECK_KEYSTORE="$ROOT/../data-access/dal/keyStore/ciKeyStore.jks"
-        DEFAULT_BULK_EXTRACTOR_JAR="$ROOT/target/bulk-extract-1.0-SNAPSHOT.jar"
+        DEFAULT_BULK_EXTRACTOR_JAR=`ls $ROOT/target/$JAR_NAME`
         DEFAULT_TENANT="Midgar"
         IS_DELTA="false"
 
@@ -130,7 +131,9 @@ function run {
     fi
    prepareJava
    if [ ${CHECK_SEARCH_INDEXER_TAR} != 0 ]; then
-      DEFAULT_BULK_EXTRACTOR_JAR="`dirname ${DEFAULT_BULK_EXTRACTOR_JAR}`/bulk-extract-1.0-SNAPSHOT.jar"
+      TAR_FILE_DIR=`dirname ${DEFAULT_BULK_EXTRACTOR_JAR}`
+      DEFAULT_BULK_EXTRACTOR_JAR=`ls $DEFAULT_BULK_EXTRACTOR_JAR/$JAR_NAME`
+      #DEFAULT_BULK_EXTRACTOR_JAR="`dirname ${DEFAULT_BULK_EXTRACTOR_JAR}`/bulk-extract-1.0-SNAPSHOT.jar"
    fi
 
     BULK_EXTRACT_OPT="-D${SLI_CONF}=${DEFAULT_CHECK_SLI_CONF}"
