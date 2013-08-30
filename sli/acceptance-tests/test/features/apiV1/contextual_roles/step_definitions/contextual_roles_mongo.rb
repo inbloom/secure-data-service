@@ -907,7 +907,7 @@ Given /^I add subdoc "([^"]*)" for "([^"]*)" and "([^"]*)" in "([^"]*)" that's a
           }
       },
       'gradebookEntry' => {
-          '_id' => refId +SecureRandom.uuid,
+          '_id' => refId +SecureRandom.uuid + '_id',
           'type' => 'gradebookEntry',
           'body' => {
               'gradingPeriodId' => 'blabla',
@@ -921,7 +921,7 @@ Given /^I add subdoc "([^"]*)" for "([^"]*)" and "([^"]*)" in "([^"]*)" that's a
       },
       'reportCard' => {
           'type' => 'reportCard',
-          '_id' => refId + SecureRandom.uuid,
+          '_id' => refId + SecureRandom.uuid + '_id',
           'body' => {
               'schoolYear' => '2010-2011',
               'gradingPeriodId' => '72a3b7ac34035f49a0138369f9fc12a350c7b812_id',
@@ -968,7 +968,7 @@ Given /^I add subdoc "([^"]*)" for "([^"]*)" and "([^"]*)" in "([^"]*)" that's a
 end
 
 def createEntity(db_name, entity, edorgId, student_id)
-  id = SecureRandom.uuid
+  id = SecureRandom.uuid + '_id'
   entities = {
       'section' => {
           '_id' => id,
