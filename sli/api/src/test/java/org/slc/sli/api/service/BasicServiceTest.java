@@ -17,31 +17,37 @@
 
 package org.slc.sli.api.service;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.*;
-import java.util.regex.Matcher;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import junit.framework.Assert;
 
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
-import org.slc.sli.api.security.context.ContextValidator;
-import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.constants.ParameterConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -53,15 +59,21 @@ import org.slc.sli.api.config.DefinitionFactory;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.ContextValidator;
 import org.slc.sli.api.security.roles.EntityRightsFilter;
 import org.slc.sli.api.security.roles.RightAccessValidator;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.QueryParseException;
 import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.enums.Right;
 
 /**
  *
@@ -96,6 +108,10 @@ public class BasicServiceTest {
     private EntityRightsFilter mockRightsFilter;
 
     private List<Treatment> mockTreatments = new ArrayList<Treatment>();
+
+    // For later cleanup.
+    private static SecurityUtil.UserContext prevUserContext = SecurityUtil.getUserContext();
+    private static SecurityContext prevSecurityContext = SecurityContextHolder.getContext();
 
     @SuppressWarnings("unchecked")
     @Before
@@ -445,7 +461,6 @@ public class BasicServiceTest {
         Assert.assertFalse(result);
     }
 
-
     @Test
     public void testgetEntityContextAuthorities() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException, NoSuchMethodException {
         securityContextInjector.setDualContext();
@@ -489,6 +504,90 @@ public class BasicServiceTest {
 
         Assert.assertEquals(teacherContextRights, rights);
 
+    }
+
+    @Test
+    public void testUserHasMultipleContextsOrDifferingRightsDualContext() throws IllegalArgumentException, IllegalAccessException, InvocationTargetException, SecurityException, NoSuchMethodException {
+        securityContextInjector.setDualContext();
+
+        Method method = BasicService.class.getDeclaredMethod("userHasMultipleContextsOrDifferingRights");
+        method.setAccessible(true);
+        boolean testCondition = (Boolean) method.invoke(service);
+
+        Assert.assertTrue(testCondition);
+    }
+
+    @Test
+    public void testUserHasMultipleContextsOrDifferingRightsDifferentRights() throws IllegalArgumentException, IllegalAccessException, InvocationTargetException, SecurityException, NoSuchMethodException {
+        securityContextInjector.setEducatorContext();
+
+        Set<GrantedAuthority> rights1 = new HashSet<GrantedAuthority>(Arrays.asList(Right.TEACHER_CONTEXT, Right.READ_PUBLIC, Right.WRITE_PUBLIC));
+        Set<GrantedAuthority> rights2 = new HashSet<GrantedAuthority>(Arrays.asList(Right.TEACHER_CONTEXT, Right.READ_PUBLIC, Right.READ_GENERAL, Right.WRITE_PUBLIC));
+        Map<String, Collection<GrantedAuthority>> edOrgRights = new HashMap<String, Collection<GrantedAuthority>>();
+        edOrgRights.put("edOrg1", rights1);
+        edOrgRights.put("edOrg2", rights2);
+        SLIPrincipal principal = Mockito.mock(SLIPrincipal.class);
+        Mockito.when(principal.getEdOrgRights()).thenReturn(edOrgRights);
+        setPrincipalInContext(principal);
+
+        Method method = BasicService.class.getDeclaredMethod("userHasMultipleContextsOrDifferingRights");
+        method.setAccessible(true);
+        boolean testCondition = (Boolean) method.invoke(service);
+
+        Assert.assertTrue(testCondition);
+    }
+
+    @Test
+    public void testUserHasMultipleContextsOrDifferingRightsSingleEdOrg() throws IllegalArgumentException, IllegalAccessException, InvocationTargetException, SecurityException, NoSuchMethodException {
+        securityContextInjector.setEducatorContext();
+
+        Set<GrantedAuthority> rights1 = new HashSet<GrantedAuthority>(Arrays.asList(Right.TEACHER_CONTEXT, Right.READ_PUBLIC, Right.WRITE_PUBLIC));
+        Map<String, Collection<GrantedAuthority>> edOrgRights = new HashMap<String, Collection<GrantedAuthority>>();
+        edOrgRights.put("edOrg1", rights1);
+        SLIPrincipal principal = Mockito.mock(SLIPrincipal.class);
+        Mockito.when(principal.getEdOrgRights()).thenReturn(edOrgRights);
+        setPrincipalInContext(principal);
+
+        Method method = BasicService.class.getDeclaredMethod("userHasMultipleContextsOrDifferingRights");
+        method.setAccessible(true);
+        boolean testCondition = (Boolean) method.invoke(service);
+
+        Assert.assertFalse(testCondition);
+    }
+
+    @Test
+    public void testUserHasMultipleContextsOrDifferingRightsSameRights() throws IllegalArgumentException, IllegalAccessException, InvocationTargetException, SecurityException, NoSuchMethodException {
+        securityContextInjector.setEducatorContext();
+
+        Set<GrantedAuthority> rights1 = new HashSet<GrantedAuthority>(Arrays.asList(Right.TEACHER_CONTEXT, Right.READ_PUBLIC, Right.WRITE_PUBLIC));
+        Map<String, Collection<GrantedAuthority>> edOrgRights = new HashMap<String, Collection<GrantedAuthority>>();
+        edOrgRights.put("edOrg1", rights1);
+        edOrgRights.put("edOrg2", rights1);
+        SLIPrincipal principal = Mockito.mock(SLIPrincipal.class);
+        Mockito.when(principal.getEdOrgRights()).thenReturn(edOrgRights);
+        setPrincipalInContext(principal);
+
+        Method method = BasicService.class.getDeclaredMethod("userHasMultipleContextsOrDifferingRights");
+        method.setAccessible(true);
+        boolean testCondition = (Boolean) method.invoke(service);
+
+        Assert.assertFalse(testCondition);
+    }
+
+    private void setPrincipalInContext(SLIPrincipal principal) {
+        Authentication authentication = Mockito.mock(Authentication.class);
+        Mockito.when(authentication.getPrincipal()).thenReturn(principal);
+        SecurityContext context = Mockito.mock(SecurityContext.class);
+        Mockito.when(context.getAuthentication()).thenReturn(authentication);
+        SecurityContextHolder.setContext(context);
+    }
+
+
+    @AfterClass
+    public static void reset() {
+        // Let's be good citizens and clean up after ourselves for the subsequent tests!
+        SecurityUtil.setUserContext(prevUserContext);
+        SecurityContextHolder.setContext(prevSecurityContext);
     }
 
 }

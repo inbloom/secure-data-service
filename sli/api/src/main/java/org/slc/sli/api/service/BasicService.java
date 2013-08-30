@@ -22,6 +22,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -128,7 +129,15 @@ public class BasicService implements EntityService, AccessibilityCheck {
         rightAccessValidator.checkAccess(true, null, defn.getType(), auths);
         rightAccessValidator.checkFieldAccess(neutralQuery, defn.getType(), auths);
 
-        return getRepo().count(collectionName, neutralQuery);
+        // TODO: Uncomment these lines, and add the call to the new entity-producing method, once it is created.
+        //       Best to factor out the above access checks into shared logic.
+        long count = 0;
+//        if (userHasMultipleContextsOrDifferingRights()) {
+            // count = getAccessibleEntitiesCount(collectionName, neutralQuery);
+//        } else {
+            count = getRepo().count(collectionName, neutralQuery);
+//        }
+        return count;
     }
 
     @Override
@@ -218,6 +227,31 @@ public class BasicService implements EntityService, AccessibilityCheck {
         }
 
         return created.getEntityId();
+    }
+
+    /**
+     * Determines if the user has multiple contexts, or differing sets of rights per role.
+     *
+     * @return Whether or not the user has multiple contexts, or differing sets of rights per role
+     */
+    private boolean userHasMultipleContextsOrDifferingRights() {
+        if (SecurityUtil.getUserContext() == SecurityUtil.UserContext.DUAL_CONTEXT) {
+            return true;
+        }
+
+        SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
+        if (principal.getEdOrgRights().size() > 1) {
+            Iterator<Collection<GrantedAuthority>> edOrgRightsIter = principal.getEdOrgRights().values().iterator();
+            Collection<GrantedAuthority> firstRightsSet = edOrgRightsIter.next();
+            while (edOrgRightsIter.hasNext()) {
+                Collection<GrantedAuthority> nextRightsSet = edOrgRightsIter.next();
+                if ((!firstRightsSet.containsAll(nextRightsSet)) || (!nextRightsSet.containsAll(firstRightsSet))) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -569,7 +603,15 @@ public class BasicService implements EntityService, AccessibilityCheck {
         boolean noDataInDB = true;
 
         injectSecurity(neutralQuery);
-        Collection<Entity> entities = (Collection<Entity>) repo.findAll(collectionName, neutralQuery);
+
+        // TODO: Uncomment these lines, and add the call to the new entity-producing method, once it is created.
+        //       Best to factor out the below access checks into shared logic.
+        Collection<Entity> entities = new HashSet<Entity>();
+//        if (userHasMultipleContextsOrDifferingRights()) {
+            // entities = getAccessibleEntities(collectionName, neutralQuery);
+//        } else {
+            entities = (Collection<Entity>) repo.findAll(collectionName, neutralQuery);
+//        }
 
         Map<String, SecurityUtil.UserContext> entityContext = null;
 
