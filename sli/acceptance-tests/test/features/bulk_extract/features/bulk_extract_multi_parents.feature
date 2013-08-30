@@ -221,7 +221,6 @@ Feature: As an API user, I want to be able to get a list of links available to t
       | collectionName              			   | expectedRecordCount | searchParameter     | searchValue                                 | searchType           |
       | educationOrganization                      | 1                   | body.charterStatus  | School Charter                              | string               |
     And in my list of rights I have BULK_EXTRACT
-    And I wait for user input
     Then I trigger a delta extract
     When I verify the last delta bulk extract by app "<app id>" for "<IL-DAYBREAK school>" in "Midgar" contains a file for each of the following entities:
       |  entityType                            |

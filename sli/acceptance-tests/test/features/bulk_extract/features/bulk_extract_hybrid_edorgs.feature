@@ -274,6 +274,9 @@ Feature: As an API user, I want to be able to get a list of links available to t
       |parent                                      |
       |student                                     |
       |studentParentAssociation                    |
+      |disciplineAction                            |
+      |disciplineIncident                          |
+      |studentDisciplineIncidentAssociation        |
     And I verify this "educationOrganization" file should contain:
       | id                                          | condition                                                                |
       | 1b223f577827204a1c7e9c851dba06bea6b031fe_id | nameOfInstitution = Daybreak School District 4529                        |
