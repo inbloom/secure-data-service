@@ -16,7 +16,7 @@ curlDeploy()
   APPFILEPATH=$2
   echo "Deploy app $APP to path $APPFILEPATH"
   resp=`curl "http://tomcat:s3cret@localhost:8080/manager/text/deploy?path=/$APP&war=file:$APPFILEPATH"`
-  if [[ $resp =~ FAIL.* ]] ; then echo "Application $APP filed to deploy" ; exit 1 ; fi
+  if [[ $resp =~ FAIL.* ]] ; then echo "Application $APP failed to deploy" ; exit 1 ; fi
 }
 
 processApps()
@@ -38,6 +38,7 @@ profileSwapAndPropGen()
   sh profile_swap.sh $NODE_NAME
   cd config/scripts
   ruby webapp-provision.rb ../config.in/canonical_config.yml team /opt/tomcat/conf/sli.properties
+  ruby webapp-provision.rb ../config.in/canonical_config.yml team ../properties/sli.properties
   cp $WORKSPACE/sli/data-access/dal/keyStore/ci* /opt/tomcat/encryption/
   cp $WORKSPACE/sli/common/common-encrypt/trust/* /opt/tomcat/trust/
   cp $WORKSPACE/sli/data-access/dal/keyStore/trustey.jks /opt/tomcat/encryption/ciTruststore.jks
@@ -114,8 +115,11 @@ buildApi()
   /jenkins/tools/Maven/bin/mvn -pl api -am -ff -P team -Dmaven.test.failure.ignore=false -Dsli.env=team -Dsli.dev.subdomain=$NODE_NAME clean install -DskipTests=true
 }
 
-
-
+buildApiDocumentationArtifacts()
+{
+cd $WORKSPACE/sli/config/scripts/documentation
+./generate_doc_artifacts.sh
+}
 
 
 

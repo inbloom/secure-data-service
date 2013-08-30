@@ -3,6 +3,7 @@
 PRG="$0"
 PRGDIR=`dirname "$PRG"`
 ROOT="$PRGDIR/.."
+JAR_NAME="search-indexer-*.jar"
 
 INDEXER_CONFIG="/etc/sysconfig/search-indexer"
 
@@ -25,7 +26,7 @@ function configure {
         echo "Using default environment settings."
         DEFAULT_CHECK_SLI_CONF="$ROOT/../config/properties/sli.properties"
         DEFAULT_CHECK_KEYSTORE="$ROOT/../data-access/dal/keyStore/ciKeyStore.jks"
-        DEFAULT_SEARCH_INDEXER_JAR="$ROOT/target/search-indexer-1.0-SNAPSHOT.jar"
+        DEFAULT_SEARCH_INDEXER_JAR=`ls $ROOT/target/$JAR_NAME`
         DEFAULT_MAX_MEMORY="1024m"
         DEFAULT_MIN_MEMORY="1024m"
         DEFAULT_REMOTE_COMMAND_PORT=10024
@@ -170,7 +171,9 @@ function isJavaReady {
 
 function prepareJava {
    if [ ${CHECK_SEARCH_INDEXER_TAR} != 0 ]; then
-      tar -C `dirname ${CHECK_SEARCH_INDEXER_TAR}` -zxf ${CHECK_SEARCH_INDEXER_TAR}
+      TAR_FILE_DIR=`dirname ${CHECK_SEARCH_INDEXER_TAR}`
+      tar -C ${TAR_FILE_DIR} -zxf ${CHECK_SEARCH_INDEXER_TAR}
+      DEFAULT_SEARCH_INDEXER_JAR=`ls $TAR_FILE_DIR/$JAR_NAME`
    fi
 }
 
@@ -230,11 +233,11 @@ function run {
             fi
         fi
 
-        if [ ${CHECK_SEARCH_INDEXER_TAR} == 0 ]; then
+#        if [ ${CHECK_SEARCH_INDEXER_TAR} == 0 ]; then
             jobString="java ${SEARCH_INDEXER_OPT} -jar ${DEFAULT_SEARCH_INDEXER_JAR} ${SEARCH_INDEXER_COMMAND_OPTIONS}"
-        else 
-            jobString="java ${SEARCH_INDEXER_OPT} -jar `dirname ${CHECK_SEARCH_INDEXER_TAR}`/search-indexer-1.0-SNAPSHOT.jar ${SEARCH_INDEXER_COMMAND_OPTIONS}"
-        fi
+#        else 
+#            jobString="java ${SEARCH_INDEXER_OPT} -jar `dirname ${CHECK_SEARCH_INDEXER_TAR}`/search-indexer-1.0-SNAPSHOT.jar ${SEARCH_INDEXER_COMMAND_OPTIONS}"
+#        fi
 
         # first check to see of the process is running
         searchProc=$(ps -ef | grep "search-indexer.*.jar" | grep -v "grep")

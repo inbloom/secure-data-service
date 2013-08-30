@@ -24,7 +24,7 @@ sandbox: &sandbox
     sample_data_url: http://inbloom.org
 
 ldap_default: &ldap_default
-    ldap_host: ldapelb.slidev.org
+    ldap_host: ldap.slidev.org
     ldap_port: 443
     ldap_use_ssl: true
     ldap_user: cn=Admin,dc=slidev,dc=org
@@ -34,7 +34,7 @@ email_mon: &email_mon
     email_sender_name: SLC Administrator
     email_sender_address: ufhalhffhuwhelfjkdfhs@slidev.org
     email_host: mon.slidev.org
-    email_port: 3000
+    email_port: 8080
     email_username: 
     email_password: 
     email_tls: 
@@ -66,9 +66,6 @@ development:
     tmp_dir: /tmp 
     encryption_keyfile: ../../data-access/dal/keyStore/localRailsKey
     encryption_iv:  Ir\xBC\xBF\xB9\x9Dg 0\x1D\x11[v\x9B\x9B\xE7
-    ldap_host: ldapelb.slidev.org
-    ldap_port: 443
-    ldap_use_ssl: true
 
 local-acceptance-tests:
     <<: *common
@@ -92,10 +89,7 @@ local-acceptance-tests:
     tmp_dir: /tmp 
     encryption_keyfile: ../../data-access/dal/keyStore/localRailsKey
     encryption_iv:  Ir\xBC\xBF\xB9\x9Dg 0\x1D\x11[v\x9B\x9B\xE7
-    ldap_host: ldapelb.slidev.org
-    ldap_port: 443
-    ldap_use_ssl: true
-    
+
 development_sb:
     <<: *common
     <<: *sandbox
@@ -116,10 +110,7 @@ development_sb:
     tmp_dir: /tmp 
     encryption_keyfile: ../../data-access/dal/keyStore/localRailsKey
     encryption_iv:  Ir\xBC\xBF\xB9\x9Dg 0\x1D\x11[v\x9B\x9B\xE7
-    ldap_host: ldapelb.slidev.org
-    ldap_port: 443
-    ldap_use_ssl: true
-    
+
 team:
     <<: *common
     <<: *email_mon
@@ -130,7 +121,7 @@ team:
     client_secret: UxeLZVB6rM1hBL3ZEpRSkGvfdkMTTUgJH77UyTCU462zXNIg
     ## redirect_uri: https://{ci_host}:2001/callback
     redirect_uri: https://ci.slidev.org:2001/callback
-    ldap_base: ou=SLIAdmin,dc=slidev,dc=org
+    ldap_base: ou=CI,dc=slidev,dc=org
     ## email_replace_uri: https://{ci_host}:2001
     email_replace_uri: https://ci.slidev.org:2001
     is_sandbox: false
@@ -154,7 +145,7 @@ team_sb:
     client_secret: UxeLZVB6rM1hBL3ZEpRSkGvfdkMTTUgJH77UyTCU462zXNIg
     ## redirect_uri: https://{ci_host}:2001/callback
     redirect_uri: https://ci.slidev.org:2001/callback
-    ldap_base: ou=SLIAdmin,dc=slidev,dc=org
+    ldap_base: ou=CI,dc=slidev,dc=org
     ## email_replace_uri: https://{ci_host}:2001
     email_replace_uri: https://ci.slidev.org:2001
     ## portal_url: https://{portal_host}/portal

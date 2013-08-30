@@ -1184,6 +1184,22 @@ end
 ############################################################
 
 ############################################################
+# Api Documentation Setup
+############################################################
+desc "Run the data setup needed to generate the API Documentation"
+task :apiDocumentationSetup => [:realmInit, :ingestionAcceptanceSdsTest, :runSearchBulkExtract] do
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+############################################################
+# Api Documentation Setup
+############################################################
+
+############################################################
 # SIF tests start
 ############################################################
 desc "Run SIF Tests"

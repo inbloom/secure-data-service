@@ -59,12 +59,12 @@
 
   <files>
     <file>
-      <source>${project.parent.basedir}/ingestion-validation/assembly/super-pom.xml</source>
+      <source>${project.parent.basedir}/ingestion-validation/assembly/pom.xml</source>
       <outputDirectory>/OfflineValidationTool/</outputDirectory>
       <destName>pom.xml</destName>
     </file>
     <file>
-      <source>${project.parent.basedir}/ingestion-validation/assembly/ingestion-pom.xml</source>
+      <source>${project.parent.basedir}/ingestion-validation/assembly/ingestion/pom.xml</source>
       <outputDirectory>/OfflineValidationTool/ingestion/</outputDirectory>
       <destName>pom.xml</destName>
     </file>

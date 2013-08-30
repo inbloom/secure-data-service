@@ -27,10 +27,6 @@
   <name>SLI</name>
 
   <properties>
-    <!-- Release process -->
-    <VERSION_NUMBER>1.0-SNAPSHOT</VERSION_NUMBER>
-    <isRelease>true</isRelease>
-    <!-- End of Release process-->
     <slc.open.source>true</slc.open.source>
     <java.version>1.6</java.version>
     <maven.compiler.version>2.3.2</maven.compiler.version>
@@ -203,94 +199,6 @@
       </plugins>
     </pluginManagement>
 
-    <plugins>
-      <plugin>
-        <artifactId>maven-install-plugin</artifactId>
-        <executions>
-            <execution>
-                <id>overwrite-pom</id>
-                <phase>install</phase>
-                <goals>
-                    <goal>install-file</goal>
-                </goals>
-                <configuration>
-                    <packaging>pom</packaging>
-                    <file>target/pom-install-deploy-fix/pom.xml</file>
-                    <pomFile>target/pom-install-deploy-fix/pom.xml</pomFile>
-                    <version>1.0-SNAPSHOT</version>
-                </configuration>
-            </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <artifactId>maven-deploy-plugin</artifactId>
-        <executions>
-            <execution>
-                <id>overwrite-pom</id>
-                <phase>deploy</phase>
-                <goals>
-                    <goal>deploy-file</goal>
-                </goals>
-                <configuration>
-                    <packaging>pom</packaging>
-                    <file>target/pom-install-deploy-fix/pom.xml</file>
-                    <pomFile>target/pom-install-deploy-fix/pom.xml</pomFile>
-                    <version>1.0-SNAPSHOT</version>
-                    <updateReleaseInfo>${isRelease}</updateReleaseInfo>
-                    <uniqueVersion>${isRelease}</uniqueVersion>
-                </configuration>
-            </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-jar-plugin</artifactId>
-          <configuration>
-              <archive>
-                  <manifestSection>
-                      <name>Specification</name>
-                      <manifestEntries>
-                          <Title>${project.name}</Title>
-                          <Build-Version>${VERSION_NUMBER}</Build-Version>
-                      </manifestEntries>
-                  </manifestSection>
-              </archive>
-          </configuration>
-      </plugin>
-
-      <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-war-plugin</artifactId>
-          <configuration>
-              <archive>
-                  <manifestSection>
-                      <name>Specification</name>
-                      <manifestEntries>
-                          <Title>${project.name}</Title>
-                          <Build-Version>${VERSION_NUMBER}</Build-Version>
-                      </manifestEntries>
-                  </manifestSection>
-              </archive>
-          </configuration>
-      </plugin>
-    </plugins>
-
   </build>
-
-  <profiles>
-    <profile>
-      <id>snapshot-deploy-url-override</id>
-      <activation>
-          <property>
-              <name>!VERSION_NUMBER</name>
-          </property>
-      </activation>
-      <properties>
-          <isRelease>false</isRelease>
-      </properties>
-    </profile>
-  </profiles>
 
 </project>

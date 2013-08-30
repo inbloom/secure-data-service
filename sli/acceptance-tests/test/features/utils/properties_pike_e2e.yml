@@ -42,6 +42,10 @@ bulk_extract_jar_loc: "/opt/bulkextract/bulk_extract.tar.gz"
 bulk_extract_properties_file: "/opt/tomcat/apache-tomcat-7.0.27/conf/sli.properties"
 bulk_extract_keystore_file: "/opt/tomcat/encryption/ciKeyStore.jks"
 
+#Bulk Extract Pre-existing App, used in RC E2E Tests
+bulk_extract_testapp_client_id: "hsznnjw3it"
+bulk_extract_testapp_secret: "8bv79d4l0n9yj0nh8rpzqqoaxmlzargpy27m9p0y8ntlbbcq"
+
 sif_db: "localhost"
 sif_port: 27018
 sif_database_name: "sli"
@@ -86,7 +90,7 @@ user_registration_email: devldapuser@slidev.org
 user_registration_pass: test1234
 
 emaiL_smtp_host: mon.slidev.org
-email_smtp_port: 3000
+email_smtp_port: 8080
 
 email_imap_port: 993
 
