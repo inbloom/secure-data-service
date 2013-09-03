@@ -37,11 +37,11 @@ profileSwapAndPropGen()
   cd $WORKSPACE/sli
   sh profile_swap.sh $NODE_NAME
   cd config/scripts
-  ruby webapp-provision.rb ../config.in/canonical_config.yml team /opt/tomcat/conf/sli.properties
+  ruby webapp-provision.rb ../config.in/canonical_config.yml team /opt/tomcat3/apache-tomcat-7.0.42/conf/sli.properties
   ruby webapp-provision.rb ../config.in/canonical_config.yml team ../properties/sli.properties
-  cp $WORKSPACE/sli/data-access/dal/keyStore/ci* /opt/tomcat/encryption/
-  cp $WORKSPACE/sli/common/common-encrypt/trust/* /opt/tomcat/trust/
-  cp $WORKSPACE/sli/data-access/dal/keyStore/trustey.jks /opt/tomcat/encryption/ciTruststore.jks
+  cp $WORKSPACE/sli/data-access/dal/keyStore/ci* /opt/tomcat3/apache-tomcat-7.0.42/encryption/
+  cp $WORKSPACE/sli/common/common-encrypt/trust/* /opt/tomcat3/apache-tomcat-7.0.42/trust/
+  cp $WORKSPACE/sli/data-access/dal/keyStore/trustey.jks /opt/tomcat3/apache-tomcat-7.0.42/encryption/ciTruststore.jks
 }
 
 profileSwapAndPropGenSB()
@@ -49,10 +49,10 @@ profileSwapAndPropGenSB()
   cd $WORKSPACE/sli
   sh profile_swap.sh $NODE_NAME
   cd config/scripts
-  ruby webapp-provision.rb ../config.in/canonical_config.yml sandbox /opt/tomcat/conf/sli.properties
-  cp $WORKSPACE/sli/data-access/dal/keyStore/ci* /opt/tomcat/encryption/ 
-  cp $WORKSPACE/sli/common/common-encrypt/trust/* /opt/tomcat/trust/
-  cp $WORKSPACE/sli/data-access/dal/keyStore/trustey.jks /opt/tomcat/encryption/ciTruststore.jks
+  ruby webapp-provision.rb ../config.in/canonical_config.yml sandbox /opt/tomcat3/apache-tomcat-7.0.42/conf/sli.properties
+  cp $WORKSPACE/sli/data-access/dal/keyStore/ci* /opt/tomcat3/apache-tomcat-7.0.42/encryption/ 
+  cp $WORKSPACE/sli/common/common-encrypt/trust/* /opt/tomcat3/apache-tomcat-7.0.42/trust/
+  cp $WORKSPACE/sli/data-access/dal/keyStore/trustey.jks /opt/tomcat3/apache-tomcat-7.0.42/encryption/ciTruststore.jks
 }
 
 resetDatabases()
@@ -64,7 +64,7 @@ resetDatabases()
 startSearchIndexer()
 {
   cd $WORKSPACE/sli/search-indexer
-  scripts/local_search_indexer.sh restart target/search_indexer.tar.gz -Dsli.conf=/opt/tomcat/conf/sli.properties -Dsli.encryption.keyStore=/opt/tomcat/encryption/ciKeyStore.jks -Dlock.dir=data/
+  scripts/local_search_indexer.sh restart target/search_indexer.tar.gz -Dsli.conf=/opt/tomcat3/apache-tomcat-7.0.42/conf/sli.properties -Dsli.encryption.keyStore=/opt/tomcat3/apache-tomcat-7.0.42/encryption/ciKeyStore.jks -Dlock.dir=data/
 
 }
 
