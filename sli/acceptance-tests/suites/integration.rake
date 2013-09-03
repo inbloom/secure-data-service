@@ -23,6 +23,7 @@ require_relative '../test/features/utils/rakefile_common.rb'
 
 desc "Run Ingestion RC Test"
 task :rcIngestionTests do
+    runTests("test/features/odin/generate_api_hybrid_edorg_data.feature")
     runTests("test/features/cross_app_tests/rc_integration_ingestion.feature")
 end
 
