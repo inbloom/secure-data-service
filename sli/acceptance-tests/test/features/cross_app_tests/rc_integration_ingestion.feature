@@ -70,7 +70,8 @@ Feature: Ingestion
 
         Scenario: Ingest Charter School Dataset
             Given a landing zone
-            When I drop the file "OdinSampleDataSet.zip" into the landingzone
+            #When I drop the file "OdinSampleDataSet.zip" into the landingzone
+            And I post "OdinSampleDataSet.zip" file as the payload of the ingestion job
             And I check for the file "job*.log" every "30" seconds for "600" seconds
             Then the "OdinSampleDataSet.zip" should be ingested with the correct number of records
             And the landing zone should contain a file with the message "All records processed successfully."
