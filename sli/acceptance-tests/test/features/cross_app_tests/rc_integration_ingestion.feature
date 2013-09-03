@@ -67,7 +67,7 @@ Feature: Ingestion
                  | teacherSchoolAssociation                 |                  3|
                  | teacherSectionAssociation                |                 11|
 
-        @wip
+
         Scenario: Ingest Charter School Dataset
             Given a landing zone
             When I drop the file "CharterSchool.zip" into the landingzone

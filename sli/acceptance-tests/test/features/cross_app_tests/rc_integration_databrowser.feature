@@ -128,7 +128,7 @@ Scenario: Search by id
   When I search for the identifier "<ZOE LOCUST UNIQUE ID>" in "students"
   Then I see a "There were no entries matching your search" alert box
 
-@wip
+
 Scenario: Charter School - Search by id
   When I submit the credentials "charteradmin" "charteradmin1234" for the "Simple" login page
   Then I should be on Portal home page
