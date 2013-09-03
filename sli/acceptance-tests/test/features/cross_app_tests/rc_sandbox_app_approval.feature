@@ -89,4 +89,4 @@ And I want to select "cgray" from the "SmallDatasetUsers" in automatic mode
 Then I should be on Portal home page
 And under My Applications, I see the following apps: "inBloom Dashboards;Schlemiel"
 And under My Applications, I click on "Schlemiel"
-Then my current url is "http://www.google.com/"	
+Then my current url is "https://www.google.com/"
