@@ -157,13 +157,13 @@ Scenario: App Developer logs-in to App Registration Tool in Sandbox (Vendor in P
 	Given I am a valid App Developer
 	When I hit the Application Registration Tool URL
 	And I was redirected to the "Simple" IDP Login page
-	And I submit the credentials "admintest-developer@slidev.org" "admintest-developer1234" for the "Simple" login page
+	And I submit the credentials "developer-email@slidev.org" "test1234" for the "Simple" login page
 	Then I am redirected to the Application Registration Tool page
     Then I see the list of my registered applications only
 
 @sandbox 
 Scenario: Different App developer in same tenant should also see my apps
-    Given there is a "Application Developer" with tenancy "admintest-developer@slidev.org" and in "STANDARD-SEA"
+    Given there is a "Application Developer" with tenancy "developer-email@slidev.org" and in "STANDARD-SEA"
     Then I can navigate to app registration page with that user
 	Then I am redirected to the Application Registration Tool page
 	Then I see the list of registered applications as well
@@ -174,7 +174,7 @@ Scenario: App Developer registers an application in App Registration Tool in San
 	Given I am a valid App Developer
 	When I hit the Application Registration Tool URL
 		And I was redirected to the "Simple" IDP Login page
-		And I submit the credentials "admintest-developer@slidev.org" "admintest-developer1234" for the "Simple" login page
+		And I submit the credentials "developer-email@slidev.org" "test1234" for the "Simple" login page
 	Then I am redirected to the Application Registration Tool page
 		And I have clicked to the button New
 		And I am redirected to a new application page
@@ -189,7 +189,7 @@ Scenario: App Developer registers an application in App Registration Tool in San
 
 @sandbox
 Scenario: The other app developer in my tenancy can also modify and delete my apps
-    Given there is a "Application Developer" with tenancy "admintest-developer@slidev.org" and in "STANDARD-SEA"
+    Given there is a "Application Developer" with tenancy "developer-email@slidev.org" and in "STANDARD-SEA"
     Then I can navigate to app registration page with that user
 	    And I am redirected to the Application Registration Tool page
     Then I clicked on the button Edit for the application "NewApp"
