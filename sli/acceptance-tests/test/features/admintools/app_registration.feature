@@ -163,7 +163,7 @@ Scenario: App Developer logs-in to App Registration Tool in Sandbox (Vendor in P
 
 @sandbox 
 Scenario: Different App developer in same tenant should also see my apps
-    Given there is a "Application Developer" with tenancy "test1234" and in "STANDARD-SEA"
+    Given there is a "Application Developer" with tenancy "developer-email@slidev.org" and in "STANDARD-SEA"
     Then I can navigate to app registration page with that user
 	Then I am redirected to the Application Registration Tool page
 	Then I see the list of registered applications as well
@@ -189,7 +189,7 @@ Scenario: App Developer registers an application in App Registration Tool in San
 
 @sandbox
 Scenario: The other app developer in my tenancy can also modify and delete my apps
-    Given there is a "Application Developer" with tenancy "test1234" and in "STANDARD-SEA"
+    Given there is a "Application Developer" with tenancy "developer-email@slidev.org" and in "STANDARD-SEA"
     Then I can navigate to app registration page with that user
 	    And I am redirected to the Application Registration Tool page
     Then I clicked on the button Edit for the application "NewApp"
