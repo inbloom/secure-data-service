@@ -28,7 +28,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
@@ -83,17 +82,19 @@ public class BasicService implements EntityService, AccessibilityCheck {
     private List<Treatment> treatments;
     private EntityDefinition defn;
     private Repository<Entity> repo;
-    @Autowired
-    @Qualifier("validationRepo")
-    private Repository<Entity> securityRepo;
+
     @Autowired
     private ContextValidator contextValidator;
+
     @Autowired
     private SchemaDataProvider provider;
+
     @Autowired
     private CallingApplicationInfoProvider clientInfo;
+
     @Autowired
     private BasicDefinitionStore definitionStore;
+
     @Autowired
     private CustomEntityValidator customEntityValidator;
 
@@ -102,6 +103,8 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
     @Autowired
     private EntityRightsFilter entityRightsFilter;
+
+    private Map<String, Long> accessibleEntitiesCount = new HashMap<String, Long>();
 
     public BasicService(String collectionName, List<Treatment> treatments, Repository<Entity> repo) {
         this.collectionName = collectionName;
@@ -125,18 +128,15 @@ public class BasicService implements EntityService, AccessibilityCheck {
     public long countBasedOnContextualRoles(NeutralQuery neutralQuery) {
         boolean isSelf = isSelf(neutralQuery);
         Collection<GrantedAuthority> auths = SecurityUtil.getSLIPrincipal().getAllContextRights(isSelf);
-
         rightAccessValidator.checkAccess(true, null, defn.getType(), auths);
         rightAccessValidator.checkFieldAccess(neutralQuery, defn.getType(), auths);
 
-        // TODO: Uncomment these lines, and add the call to the new entity-producing method, once it is created.
-        //       Best to factor out the above access checks into shared logic.
         long count = 0;
-//        if (userHasMultipleContextsOrDifferingRights()) {
-            // count = getAccessibleEntitiesCount(collectionName, neutralQuery);
-//        } else {
+        if (userHasMultipleContextsOrDifferingRights()) {
+            count = getAccessibleEntitiesCount(collectionName);
+        } else {
             count = getRepo().count(collectionName, neutralQuery);
-//        }
+        }
         return count;
     }
 
@@ -582,6 +582,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
         injectSecurity(neutralQuery);
         Collection<Entity> entities = (Collection<Entity>) repo.findAll(collectionName, neutralQuery);
+        setAccessibleEntitiesCount(collectionName, entities.size());
 
         List<EntityBody> results = new ArrayList<EntityBody>();
 
@@ -604,14 +605,12 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
         injectSecurity(neutralQuery);
 
-        // TODO: Uncomment these lines, and add the call to the new entity-producing method, once it is created.
-        //       Best to factor out the below access checks into shared logic.
         Collection<Entity> entities = new HashSet<Entity>();
-//        if (userHasMultipleContextsOrDifferingRights()) {
-            // entities = getAccessibleEntities(collectionName, neutralQuery);
-//        } else {
+        if (userHasMultipleContextsOrDifferingRights()) {
+            entities = getAccessibleEntities(neutralQuery);
+        } else {
             entities = (Collection<Entity>) repo.findAll(collectionName, neutralQuery);
-//        }
+        }
 
         Map<String, SecurityUtil.UserContext> entityContext = null;
 
@@ -628,8 +627,10 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
             try {
                 Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf, entity, context, true);
-                rightAccessValidator.checkAccess(true, isSelf, entity, defn.getType(), auths);
-                rightAccessValidator.checkFieldAccess(neutralQuery, entity, defn.getType(), auths);
+                if (!userHasMultipleContextsOrDifferingRights()) {
+                    rightAccessValidator.checkAccess(true, isSelf, entity, defn.getType(), auths);
+                    rightAccessValidator.checkFieldAccess(neutralQuery, entity, defn.getType(), auths);
+                }
 
                 results.add(entityRightsFilter.makeEntityBody(entity, treatments, defn, isSelf, auths, context));
             } catch (AccessDeniedException aex) {
@@ -650,6 +651,49 @@ public class BasicService implements EntityService, AccessibilityCheck {
         return results;
     }
 
+    private Collection<Entity> getAccessibleEntities(NeutralQuery neutralQuery) {
+        Collection<Entity> accessibleEntities = new HashSet<Entity>();
+        int queryLimit = neutralQuery.getLimit();
+        neutralQuery.setLimit(MAX_RESULT_SIZE);
+        long totalCount = getRepo().count(collectionName, neutralQuery);
+        neutralQuery.setLimit((int) totalCount);
+        Collection<Entity> allEntities = (Collection<Entity>) repo.findAll(collectionName, neutralQuery);
+        neutralQuery.setLimit(queryLimit);
+        boolean isSelf = isSelf(neutralQuery);
+        Map<String, SecurityUtil.UserContext> entityContexts = null;
+        if (SecurityUtil.getUserContext() == SecurityUtil.UserContext.DUAL_CONTEXT) {
+            entityContexts = getEntityContextMap(allEntities, true);
+        }
+
+        long limit = queryLimit > 0 ? queryLimit : totalCount;
+        int count = 0;
+        Iterator<Entity> allEntitiesIt = allEntities.iterator();
+        while ((count < limit) && (allEntitiesIt.hasNext())) {
+            Entity entity = allEntitiesIt.next();
+            SecurityUtil.UserContext context = getEntityContext(entity.getEntityId(), entityContexts);
+            try {
+                Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf, entity, context, true);
+                rightAccessValidator.checkAccess(true, isSelf, entity, defn.getType(), auths);
+                rightAccessValidator.checkFieldAccess(neutralQuery, entity, defn.getType(), auths);
+                accessibleEntities.add(entity);
+                count++;
+            } catch (Exception e) {
+                ;  // Do nothing.
+            }
+        }
+
+        if ((!allEntities.isEmpty()) && accessibleEntities.isEmpty()) {
+            validateQuery(neutralQuery, isSelf);
+            throw new APIAccessDeniedException("Access to resource denied.");
+        }
+
+        // TODO: Replace the following lines with the true count,
+        //       (TA10711) once the count up to hard limit logic has been established.
+        long entityCount = getRepo().count(collectionName, neutralQuery);
+        setAccessibleEntitiesCount(collectionName, entityCount);
+
+        return accessibleEntities;
+    }
     private SecurityUtil.UserContext getEntityContext(String entityId, Map<String, SecurityUtil.UserContext> entityContexts) {
         SecurityUtil.UserContext context = SecurityUtil.getUserContext();
         if (SecurityUtil.getUserContext() == SecurityUtil.UserContext.DUAL_CONTEXT && entityContexts != null) {
@@ -1288,5 +1332,13 @@ public class BasicService implements EntityService, AccessibilityCheck {
         }
 
         return rightAccessValidator.getContextualAuthorities(isSelf, entity, context, isRead);
+    }
+
+    protected long getAccessibleEntitiesCount(String collectionName) {
+        return accessibleEntitiesCount.get(collectionName);
+    }
+
+    protected void setAccessibleEntitiesCount(String collectionName, long count) {
+        this.accessibleEntitiesCount.put(collectionName, count);
     }
 }

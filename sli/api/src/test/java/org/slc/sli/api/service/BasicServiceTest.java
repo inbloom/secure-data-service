@@ -63,6 +63,7 @@ import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextValidator;
 import org.slc.sli.api.security.roles.EntityRightsFilter;
 import org.slc.sli.api.security.roles.RightAccessValidator;
+import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
@@ -229,13 +230,13 @@ public class BasicServiceTest {
     @Test
     public void testListBasedOnContextualRoles() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
         securityContextInjector.setEducatorContext();
-
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.TEACHER_CONTEXT);
         RightAccessValidator mockAccessValidator = Mockito.mock(RightAccessValidator.class);
         Field rightAccessValidator = BasicService.class.getDeclaredField("rightAccessValidator");
         rightAccessValidator.setAccessible(true);
         rightAccessValidator.set(service, mockAccessValidator);
 
-        Collection<GrantedAuthority> teacherContextRights = SecurityUtil.getSLIPrincipal().getEdOrgContextRights().get(SecurityContextInjector.ED_ORG_ID).get(SecurityUtil.UserContext.TEACHER_CONTEXT);
+        Collection<GrantedAuthority> teacherContextRights = new HashSet<GrantedAuthority>(Arrays.asList(Right.TEACHER_CONTEXT, Right.READ_PUBLIC, Right.WRITE_PUBLIC));
 
         EntityBody entityBody1 = new EntityBody();
         entityBody1.put("studentUniqueStateId", "student1");
@@ -261,7 +262,9 @@ public class BasicServiceTest {
 
         Mockito.when(mockContextValidator.getValidatedEntityContexts(Matchers.any(EntityDefinition.class), Matchers.any(Collection.class), Matchers.anyBoolean(), Matchers.anyBoolean())).thenReturn(studentContext);
 
-        Iterable<EntityBody> listResult = service.listBasedOnContextualRoles(new NeutralQuery());
+        NeutralQuery query = new NeutralQuery();
+        query.setLimit(ApiQuery.API_QUERY_DEFAULT_LIMIT);
+        Iterable<EntityBody> listResult = service.listBasedOnContextualRoles(query);
 
         List<EntityBody> bodies= new ArrayList<EntityBody>();
         for (EntityBody body : listResult) {
@@ -270,9 +273,11 @@ public class BasicServiceTest {
         Assert.assertEquals("EntityBody mismatch", entityBody1, bodies.toArray()[0]);
         Assert.assertEquals("EntityBody mismatch", entityBody2, bodies.toArray()[1]);
 
-        securityContextInjector.setDualContext();
 
-        Collection<GrantedAuthority> staffContextRights = SecurityUtil.getSLIPrincipal().getEdOrgContextRights().get(SecurityContextInjector.ED_ORG_ID).get(SecurityUtil.UserContext.STAFF_CONTEXT);
+        securityContextInjector.setDualContext();
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.DUAL_CONTEXT);
+
+        Collection<GrantedAuthority> staffContextRights = new HashSet<GrantedAuthority>(Arrays.asList(Right.STAFF_CONTEXT, Right.READ_GENERAL, Right.WRITE_GENERAL));
         studentContext.put(entity2.getEntityId(), SecurityUtil.UserContext.DUAL_CONTEXT);
 
         Mockito.when(mockAccessValidator.getContextualAuthorities(Matchers.eq(false), Matchers.eq(entity2), Matchers.eq(SecurityUtil.UserContext.DUAL_CONTEXT), Matchers.eq(true))).thenReturn(staffContextRights);
@@ -281,7 +286,7 @@ public class BasicServiceTest {
 
         Mockito.when(mockContextValidator.getValidatedEntityContexts(Matchers.any(EntityDefinition.class), Matchers.any(Collection.class), Matchers.anyBoolean(), Matchers.anyBoolean())).thenReturn(studentContext);
 
-        listResult = service.listBasedOnContextualRoles(new NeutralQuery());
+        listResult = service.listBasedOnContextualRoles(query);
 
         bodies.clear();
         for (EntityBody body : listResult) {
