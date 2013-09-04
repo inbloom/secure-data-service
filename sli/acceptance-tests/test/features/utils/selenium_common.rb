@@ -47,7 +47,11 @@ Given /^I have an open web browser$/ do
         Selenium::WebDriver::Firefox::Binary.path="/opt/local/bin/firefox-x11"  
       end
     client = Selenium::WebDriver::Remote::Http::Default.new
-    client.timeout = 120 # seconds
+    if RUN_ON_RC
+      client.timeout = 240 # seconds
+    else
+      client.timeout = 120 # seconds
+    end
     @driver ||= Selenium::WebDriver.for :firefox, :profile => @profile, :http_client => client
   end
   
