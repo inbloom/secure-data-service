@@ -5,7 +5,7 @@ Given I am using the odin working directory
 @rc
 Scenario: Generate an API data set with hybrid edOrgs for API testing using Odin generate tool
   When I generate the "hybrid_edorgs" data set in the "generated" directory
-  When I convert school "IL Charter School" to a charter school under SEA "STANDARD-SEA" in "InterchangeEducationOrganization.xml"
+  When I convert school "IL-CHARTER_SCHOOL" to a charter school under SEA "STANDARD-SEA" in "InterchangeEducationOrganization.xml"
   Then I should see generated file <File>
 | File  |
 |ControlFile.ctl|

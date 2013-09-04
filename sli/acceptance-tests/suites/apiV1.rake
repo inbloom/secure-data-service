@@ -366,7 +366,7 @@ task :apiOdinHybridEdOrgPrep do
 end
 
 desc "Run API Security Tests using Odin ingested data"
-task :apiOdinHybridEdOrgTests => [:apiOdinHybridEdOrgPrep] do
+task :apiOdinHybridEdOrgTests => [:realmInit, :apiOdinHybridEdOrgPrep] do
   runTests("test/features/apiV1/integration/hybrid_edorgs.feature")
   displayFailureReport()
   if $SUCCESS
