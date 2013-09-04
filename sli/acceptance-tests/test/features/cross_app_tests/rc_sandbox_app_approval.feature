@@ -65,8 +65,8 @@ And I am redirected to a new application page
 When I entered the name "Schlemiel" into the field titled "Name"
 And I entered the name "Yes, I totally made Schlemiel the painter's algorithm for SLI'" into the field titled "Description"
 And I entered the name "1.0" into the field titled "Version"
-And I entered the name "http://www.google.com" into the field titled "Application_URL"
-And I entered the name "http://wwww.google.com" into the field titled "Redirect_URI"
+And I entered the name "https://www.google.com" into the field titled "Application_URL"
+And I entered the name "https://wwww.google.com" into the field titled "Redirect_URI"
 And I select the app display method to "Full Window App" 
 And I click on the button Submit
 Then I am redirected to the Application Registration Tool page
@@ -89,4 +89,4 @@ And I want to select "cgray" from the "SmallDatasetUsers" in automatic mode
 Then I should be on Portal home page
 And under My Applications, I see the following apps: "inBloom Dashboards;Schlemiel"
 And under My Applications, I click on "Schlemiel"
-Then my current url is "http://www.google.com/"	
+Then my current url is "https://www.google.com/"

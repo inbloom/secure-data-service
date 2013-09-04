@@ -124,7 +124,7 @@ When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login
 Then I should be on Portal home page
 And under My Applications, I see the following apps: "inBloom Dashboards"
 
-@wip
+
 Scenario: Charter School Realm Admin Logins to create realm
 When I navigate to the Portal home page
 When I see the realm selector I authenticate to "inBloom"
@@ -150,7 +150,7 @@ And the realm "Charter School Test Realm" will exist
 And I exit out of the iframe
 And I click on log out
 
-@wip
+
 Scenario: Charter School User cannot access Bootstrapped Apps before approval
 When I navigate to the Portal home page
 When I selected the realm "Charter School Test Realm"
@@ -163,7 +163,7 @@ And I should be on the admin page
 And I should not see "inBloom Data Browser"
 And I click on log out
 
-@wip
+
 Scenario:  Charter School LEA approves Dashboard and Databrowser
 When I navigate to the Portal home page
 When I see the realm selector I authenticate to "inBloom"
@@ -204,7 +204,7 @@ And the Deny button next to it is enabled
 And I exit out of the iframe
 And I click on log out
 
-@wip
+
 Scenario: Charter School Sessions are shared between Dashboard and Databrowser apps
 When I navigate to the Portal home page
 When I select "Charter School Test Realm" and click go
@@ -222,7 +222,7 @@ And I should forced to reauthenticate to gain access
 When I navigate to the dashboard home page
 Then I should forced to reauthenticate to gain access
 
-@wip
+
 Scenario: User sees non-installed Developer App
 When I navigate to the Portal home page
 When I selected the realm "Charter School Test Realm"

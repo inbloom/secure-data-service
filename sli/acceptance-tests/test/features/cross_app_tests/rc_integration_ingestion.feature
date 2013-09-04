@@ -67,12 +67,13 @@ Feature: Ingestion
                  | teacherSchoolAssociation                 |                  3|
                  | teacherSectionAssociation                |                 11|
 
-        @wip
+
         Scenario: Ingest Charter School Dataset
+            Given I am using odin data store
             Given a landing zone
-            When I drop the file "CharterSchool.zip" into the landingzone
-            And I check for the file "job*.log" every "30" seconds for "600" seconds
-            Then the "CharterSchool.zip" should be ingested with the correct number of records
+            And I post "OdinSampleDataSet.zip" file as the payload of the ingestion job
+            When zip file is scp to ingestion landing zone
+            And a batch job for file "OdinSampleDataSet.zip" is completed in database
             And the landing zone should contain a file with the message "All records processed successfully."
             And I should not see an error log file created
             And I should not see a warning log file created

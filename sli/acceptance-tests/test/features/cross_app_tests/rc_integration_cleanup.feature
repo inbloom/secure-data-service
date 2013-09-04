@@ -27,7 +27,7 @@ Scenario:  LEA deletes realm
   And I exit out of the iframe
   And I click on log out
 
-@wip
+
 Scenario:  Charter SchoolL EA deletes realm
   When I navigate to the Portal home page
   When I selected the realm "inBloom"
