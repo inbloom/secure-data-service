@@ -69,8 +69,8 @@ Feature: Ingestion
 
 
         Scenario: Ingest Charter School Dataset
-            Given I am using odin data store
             Given a landing zone
+            Given I am using odin data store
             And I post "OdinSampleDataSet.zip" file as the payload of the ingestion job
             When zip file is scp to ingestion landing zone
             And a batch job for file "OdinSampleDataSet.zip" is completed in database
