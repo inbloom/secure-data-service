@@ -68,12 +68,12 @@ Scenario: Create LEA Admin for Charter School
     And I can select "LEA Administrator" from a choice of "SEA Administrator, LEA Administrator, Ingestion User, Realm Administrator" Role
     And I can also check "Realm Administrator" Role
     And I can also check "Ingestion User" Role
-    And I can change the EdOrg dropdown to "IL-CHARTER-SCHOOL"
+    And I can change the EdOrg dropdown to "IL Charter School"
 
     When I click button "Save"
     Then I am redirected to the "Manage Administrator Accounts" page
     And the "Success" message is displayed
     And the newly created user has "Tenant" updated to "<TENANT>"
-    And the newly created user has "EdOrg" updated to "IL-CHARTER-SCHOOL"
+    And the newly created user has "EdOrg" updated to "IL Charter School"
   
   
