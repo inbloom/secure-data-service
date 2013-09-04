@@ -16,6 +16,7 @@ limitations under the License.
 
 =end
 @path_to_test_map = {
+    "sli/acceptance-tests/test/features/utils" => ["api", "odin-api", "admin", "databrowser", "dashboard"],
     "sli/acceptance-tests/test/features/api" => ["api", "odin-api"],
     "sli/acceptance-tests/test/features/simple_idp" => ["admin" , "databrowser"],
     "sli/acceptance-tests/test/features/ingestion" => ["ingestion"],
