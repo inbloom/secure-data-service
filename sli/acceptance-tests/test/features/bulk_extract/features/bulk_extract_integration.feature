@@ -1,5 +1,5 @@
 Feature: A bulk extract is triggered, retrieved through the api, and validated
-
+@wip
 Scenario: Trigger a bulk extract on ingested data and retrieve the extract through the api
    Given I trigger a bulk extract
    And I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
@@ -67,13 +67,13 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
     |  program                               |
     |  studentCompetencyObjective            |
 
-
+  @wip
 Scenario: Un-Authorized user cannot use the endpoint
         Given I am logged in using "linda.kim" "balrogs" to realm "IL"
         When I make a call to the bulk extract end point "/bulk/extract/LEA_DAYBREAK_ID"
         Then I should receive a return code of 403
 
-
+ @wip
 Scenario: Validate the Last-Modified header is in a valid http date format
     #Retrieve file information
     When I retrieve the path to and decrypt the LEA public data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
