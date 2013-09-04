@@ -4,8 +4,8 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
    Given I trigger a bulk extract
    And I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
    And in my list of rights I have BULK_EXTRACT
-  When I make a call to the bulk extract end point "/bulk/extract/tenant"
-  Then I should receive a return code of 403
+  #When I make a call to the bulk extract end point "/bulk/extract/tenant"
+  #Then I should receive a return code of 403
   When I make a call to the bulk extract end point "/bulk/extract/LEA_DAYBREAK_ID"
    When the return code is 200 I get expected tar downloaded
    Then I check the http response headers
