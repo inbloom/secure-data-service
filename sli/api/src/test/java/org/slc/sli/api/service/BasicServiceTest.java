@@ -457,7 +457,7 @@ public class BasicServiceTest {
         Assert.assertNotNull(studentResult.getBody().get("studentUniqueStateId"));
         Assert.assertEquals("student1", studentResult.getBody().get("studentUniqueStateId"));
         Assert.assertNotNull(studentResult.getBody().get("loginId"));
-        Assert.assertEquals("student1",studentResult.getBody().get("loginId"));
+        Assert.assertEquals("student1", studentResult.getBody().get("loginId"));
     }
 
     @SuppressWarnings("unchecked")
@@ -727,8 +727,8 @@ public class BasicServiceTest {
     }
 
     @SuppressWarnings("unchecked")
-    @Test
-    public void testGetAccessibleEntitiesLimited() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    @Test(expected = AccessDeniedException.class)
+    public void testGetAccessibleEntitiesLimited() throws Throwable {
         securityContextInjector.setDualContext();
         SecurityUtil.setUserContext(SecurityUtil.UserContext.DUAL_CONTEXT);
 
@@ -803,9 +803,12 @@ public class BasicServiceTest {
 
 
         query.setOffset(10);
-        accessibleEntities = (Collection<Entity>) method.invoke(service, query);
-
-        Assert.assertEquals(0, accessibleEntities.size());
+        try {
+            accessibleEntities = (Collection<Entity>) method.invoke(service, query);
+        } catch( InvocationTargetException cause) {
+            //throws the actual exception
+            throw cause.getCause();
+        }
 
     }
 
