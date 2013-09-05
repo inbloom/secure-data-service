@@ -9,20 +9,20 @@ And LDAP server has been setup and running
 
 Scenario: SLI Developer Logging in
 
-Given I am a valid SLI Developer "developer-email@slidev.org" from the "SLI" hosted directory
+Given I am a valid SLI Developer "admintest-developer@slidev.org" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
 And I was redirected to the "Simple" IDP Login page
-And I submit the credentials "developer-email@slidev.org" "test1234" for the "Simple" login page
+And I submit the credentials "admintest-developer@slidev.org" "admintest-developer1234" for the "Simple" login page
 Then I am redirected to the Application Registration Tool page
 And I see all of the applications that are registered to SLI
 And those apps are sorted by the Last Update column
 
 Scenario: Register a new application
 
-Given I am a valid SLI Developer "developer-email@slidev.org" from the "SLI" hosted directory
+Given I am a valid SLI Developer "admintest-developer@slidev.org" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
 And I was redirected to the "Simple" IDP Login page
-And I submit the credentials "developer-email@slidev.org" "test1234" for the "Simple" login page
+And I submit the credentials "admintest-developer@slidev.org" "admintest-developer1234" for the "Simple" login page
 Then I am redirected to the Application Registration Tool page
 And I have clicked to the button New
 And I am redirected to a new application page
@@ -36,10 +36,10 @@ And the Registration Status field is Pending
 And a notification email is sent to "slcoperator-email@slidev.org"
 
 Scenario: View application details
-Given I am a valid SLI Developer "developer-email@slidev.org" from the "SLI" hosted directory
+Given I am a valid SLI Developer "admintest-developer@slidev.org" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
 And I was redirected to the "Simple" IDP Login page
-And I submit the credentials "developer-email@slidev.org" "test1234" for the "Simple" login page
+And I submit the credentials "admintest-developer@slidev.org" "admintest-developer1234" for the "Simple" login page
 Then I am redirected to the Application Registration Tool page
 And application "NewApp" does not have an edit link
 When I click on the row of application named "NewApp" in the table
@@ -64,10 +64,10 @@ And application "NewApp" is removed from the list
 
 Scenario: Vendor edits denied application incorrectly
 
-Given I am a valid SLI Developer "developer-email@slidev.org" from the "SLI" hosted directory
+Given I am a valid SLI Developer "admintest-developer@slidev.org" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
 And I was redirected to the "Simple" IDP Login page
-And I submit the credentials "developer-email@slidev.org" "test1234" for the "Simple" login page
+And I submit the credentials "admintest-developer@slidev.org" "admintest-developer1234" for the "Simple" login page
 Then I am redirected to the Application Registration Tool page
 And I clicked on the button Edit for the application "NewApp"
 And I have edited the field named "Image URL" to say "http://placekitten.com/100/100"
@@ -77,10 +77,10 @@ Then I should get 1 error
 
 Scenario: Vendor edits denied application incorrectly for optional url fields
 
-Given I am a valid SLI Developer "developer-email@slidev.org" from the "SLI" hosted directory
+Given I am a valid SLI Developer "admintest-developer@slidev.org" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
 And I was redirected to the "Simple" IDP Login page
-And I submit the credentials "developer-email@slidev.org" "test1234" for the "Simple" login page
+And I submit the credentials "admintest-developer@slidev.org" "admintest-developer1234" for the "Simple" login page
 Then I am redirected to the Application Registration Tool page
 And I clicked on the button Edit for the application "NewApp"
 And I have edited the field named "Image URL" to say "burp.com"
@@ -90,10 +90,10 @@ Then I should get 2 errors
 
 Scenario: Vendor edits denied application
 
-Given I am a valid SLI Developer "developer-email@slidev.org" from the "SLI" hosted directory
+Given I am a valid SLI Developer "admintest-developer@slidev.org" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
 And I was redirected to the "Simple" IDP Login page
-And I submit the credentials "developer-email@slidev.org" "test1234" for the "Simple" login page
+And I submit the credentials "admintest-developer@slidev.org" "admintest-developer1234" for the "Simple" login page
 Then I am redirected to the Application Registration Tool page
 And I clicked on the button Edit for the application "NewApp"
 And I have edited the field named "Image URL" to say "https://imageurl"
@@ -115,13 +115,13 @@ And the pending apps are on top
 When I click on 'Approve' next to application "NewApp"
 Then application "NewApp" is registered
 And the 'Approve' button is disabled for application "NewApp"
-And a notification email is sent to "developer-email@slidev.org"
+And a notification email is sent to "admintest-developer@slidev.org"
 
 Scenario: Vendor inspects app after approval 
-Given I am a valid SLI Developer "developer-email@slidev.org" from the "SLI" hosted directory
+Given I am a valid SLI Developer "admintest-developer@slidev.org" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
 And I was redirected to the "Simple" IDP Login page
-And I submit the credentials "developer-email@slidev.org" "test1234" for the "Simple" login page
+And I submit the credentials "admintest-developer@slidev.org" "admintest-developer1234" for the "Simple" login page
 Then I am redirected to the Application Registration Tool page
 And the client ID and shared secret fields are present
 
@@ -141,10 +141,10 @@ And application "NewApp" is removed from the list
 
 Scenario: Deleting Application
 
-Given I am a valid SLI Developer "developer-email@slidev.org" from the "SLI" hosted directory
+Given I am a valid SLI Developer "admintest-developer@slidev.org" from the "SLI" hosted directory
 When I hit the Application Registration Tool URL
 And I was redirected to the "Simple" IDP Login page
-And I submit the credentials "developer-email@slidev.org" "test1234" for the "Simple" login page
+And I submit the credentials "admintest-developer@slidev.org" "admintest-developer1234" for the "Simple" login page
 Then I am redirected to the Application Registration Tool page
 And I have clicked on the button 'Delete' for the application named "NewApp"
 And I got warning message saying 'You are trying to remove this application from inBloom. By doing so, you will prevent any active user to access it. Do you want to continue?'

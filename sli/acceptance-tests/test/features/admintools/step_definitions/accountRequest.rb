@@ -57,6 +57,7 @@ end
 
 Given /^I go to the account registration page$/ do
   userRegAppUrl = @baseUrl + @registrationAppSuffix
+  puts userRegAppUrl
   @driver.get userRegAppUrl
 end
 

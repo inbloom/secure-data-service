@@ -99,7 +99,7 @@ GEM
     rubyzip (0.9.9)
     rumbster (1.0.2)
       mail
-    selenium-webdriver (2.31.0)
+    selenium-webdriver (2.34.0)
       childprocess (>= 0.2.5)
       multi_json (~> 1.0)
       rubyzip
