@@ -309,6 +309,10 @@ def restTls(url, extra_headers = nil, format = @format, sessionId = @sessionId, 
   puts "Loading Key and Certificate for client ID #{client_id}"
   client_cert = OpenSSL::X509::Certificate.new File.read File.expand_path("../keys/#{client_id}.crt", __FILE__)
   private_key = OpenSSL::PKey::RSA.new File.read File.expand_path("../keys/#{client_id}.key", __FILE__)
+  puts "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+  puts client_cert
+  puts private_key
+  puts "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 
   urlHeader = makeUrlAndHeaders('get',url,sessionId,format,true)
 
