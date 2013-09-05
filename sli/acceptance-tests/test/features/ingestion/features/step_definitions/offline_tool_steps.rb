@@ -36,7 +36,7 @@ Given /^I am using local input file directory$/ do
 end
 
 Given /^I am using default offline tool package$/ do
-  @tool_path = File.dirname(__FILE__) + '/../../../../../../ingestion/ingestion-validation/target/ingestion-validation-1.0-SNAPSHOT.jar'
+  @tool_path = Dir.glob(File.dirname(__FILE__) + '/../../../../../../ingestion/ingestion-validation/target/ingestion-validation-*.jar')[0]
 end
 
 #This is for handling zip file

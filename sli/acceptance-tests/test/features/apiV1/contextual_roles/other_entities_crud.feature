@@ -6,7 +6,6 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     Given I import the odin setup application and realm data
     And the testing device app key has been created
 
-
 # Single segment (/<ENTITY>) URI tests.
 
   Scenario Outline: Ensure GET can be performed on all public entities with READ_PUBLIC right
