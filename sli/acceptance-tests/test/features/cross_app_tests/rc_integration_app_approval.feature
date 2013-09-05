@@ -182,7 +182,7 @@ And in Status it says "Not Approved"
 And I click on the "Approve" button next to it
 And I am asked 'Do you really want this application to access the district's data'
 When I click on Ok
-Then the application is authorized to use data of "IL Charter School"
+Then the application is authorized to use data of "IL-CHARTER-SCHOOL"
 And the app "inBloom Dashboards" Status becomes "Approved"
 And it is colored "green"
 And the Approve button next to it is disabled
@@ -195,7 +195,7 @@ And I am asked 'Do you really want this application to access the district's dat
 When I click on Ok
 # switch back to iframe because of the page reload
 And I switch to the iframe
-Then the application is authorized to use data of "IL Charter School"
+Then the application is authorized to use data of "IL-CHARTER-SCHOOL"
 And the app "inBloom Data Browser" Status becomes "Approved"
 And it is colored "green"
 And the Approve button next to it is disabled

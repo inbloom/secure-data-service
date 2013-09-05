@@ -6,7 +6,7 @@
       {
         "role": "Educator",
         "type": "Elementary School",
-        "association": "IL Charter School"
+        "association": "IL-CHARTER-SCHOOL"
       }
     ]
   },
@@ -17,7 +17,7 @@
       {
         "role": "IT Administrator",
         "type": "Elementary School",
-        "association": "IL Charter School"
+        "association": "IL-CHARTER-SCHOOL"
       }
     ]
   },
@@ -28,7 +28,7 @@
       {
         "role": "Leader",
         "type": "Elementary School",
-        "association": "IL Charter School"
+        "association": "IL-CHARTER-SCHOOL"
       }
     ]
   },
@@ -39,7 +39,7 @@
       {
         "role": "Aggregate Viewer",
         "type": "Elementary School",
-        "association": "IL Charter School"
+        "association": "IL-CHARTER-SCHOOL"
       }
     ]
   },
