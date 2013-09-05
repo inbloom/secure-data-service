@@ -105,6 +105,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
     private EntityRightsFilter entityRightsFilter;
 
     private Map<String, Long> accessibleEntitiesCount = new HashMap<String, Long>();
+    private Map<String, SecurityUtil.UserContext> entityContexts;
 
     public BasicService(String collectionName, List<Treatment> treatments, Repository<Entity> repo) {
         this.collectionName = collectionName;
@@ -597,25 +598,24 @@ public class BasicService implements EntityService, AccessibilityCheck {
         return results;
     }
 
-
     @Override
     public Iterable<EntityBody> listBasedOnContextualRoles(NeutralQuery neutralQuery) {
         boolean isSelf = isSelf(neutralQuery);
         boolean noDataInDB = true;
+        entityContexts = null;
 
         injectSecurity(neutralQuery);
 
+        boolean userHasMultipleContextsOrDifferingRights = userHasMultipleContextsOrDifferingRights();
         Collection<Entity> entities = new HashSet<Entity>();
-        if (userHasMultipleContextsOrDifferingRights()) {
+        if (userHasMultipleContextsOrDifferingRights) {
             entities = getAccessibleEntities(neutralQuery);
         } else {
             entities = (Collection<Entity>) repo.findAll(collectionName, neutralQuery);
-        }
 
-        Map<String, SecurityUtil.UserContext> entityContext = null;
-
-        if (SecurityUtil.getUserContext() == SecurityUtil.UserContext.DUAL_CONTEXT) {
-            entityContext = getEntityContextMap(entities, true);
+            if (SecurityUtil.getUserContext() == SecurityUtil.UserContext.DUAL_CONTEXT) {
+                entityContexts = getEntityContextMap(entities, true);
+            }
         }
 
         noDataInDB = entities.isEmpty();
@@ -623,11 +623,11 @@ public class BasicService implements EntityService, AccessibilityCheck {
         List<EntityBody> results = new ArrayList<EntityBody>();
 
         for (Entity entity : entities) {
-            SecurityUtil.UserContext context = getEntityContext(entity.getEntityId(), entityContext);
+            SecurityUtil.UserContext context = getEntityContext(entity.getEntityId(), entityContexts);
 
             try {
                 Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf, entity, context, true);
-                if (!userHasMultipleContextsOrDifferingRights()) {
+                if (!userHasMultipleContextsOrDifferingRights) {
                     rightAccessValidator.checkAccess(true, isSelf, entity, defn.getType(), auths);
                     rightAccessValidator.checkFieldAccess(neutralQuery, entity, defn.getType(), auths);
                 }
@@ -651,16 +651,16 @@ public class BasicService implements EntityService, AccessibilityCheck {
         return results;
     }
 
-    private Collection<Entity> getAccessibleEntities(NeutralQuery neutralQuery) {
+    private Collection<Entity> getAccessibleEntities(NeutralQuery neutralQuery) throws APIAccessDeniedException {
         Collection<Entity> accessibleEntities = new HashSet<Entity>();
+
         int queryLimit = neutralQuery.getLimit();
         neutralQuery.setLimit(MAX_RESULT_SIZE);
         long totalCount = getRepo().count(collectionName, neutralQuery);
         neutralQuery.setLimit((int) totalCount);
-        Collection<Entity> allEntities = (Collection<Entity>) repo.findAll(collectionName, neutralQuery);
+        Collection<Entity> allEntities = (Collection<Entity>) getRepo().findAll(collectionName, neutralQuery);
         neutralQuery.setLimit(queryLimit);
         boolean isSelf = isSelf(neutralQuery);
-        Map<String, SecurityUtil.UserContext> entityContexts = null;
         if (SecurityUtil.getUserContext() == SecurityUtil.UserContext.DUAL_CONTEXT) {
             entityContexts = getEntityContextMap(allEntities, true);
         }
@@ -694,11 +694,11 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
         return accessibleEntities;
     }
-    private SecurityUtil.UserContext getEntityContext(String entityId, Map<String, SecurityUtil.UserContext> entityContexts) {
+    private SecurityUtil.UserContext getEntityContext(String entityId, Map<String, SecurityUtil.UserContext> entityContext) {
         SecurityUtil.UserContext context = SecurityUtil.getUserContext();
-        if (SecurityUtil.getUserContext() == SecurityUtil.UserContext.DUAL_CONTEXT && entityContexts != null) {
-            if (entityContexts.containsKey(entityId)) {
-                context = entityContexts.get(entityId);
+        if ((SecurityUtil.getUserContext() == SecurityUtil.UserContext.DUAL_CONTEXT) && (entityContext != null)) {
+            if (entityContext.containsKey(entityId)) {
+                context = entityContext.get(entityId);
             } else {
                 context = SecurityUtil.UserContext.NO_CONTEXT;
             }
