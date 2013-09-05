@@ -44,8 +44,8 @@
     ]
   },
   {
-    "userId": "ckoch",
-    "name": "Christopher Koch",
+    "userId": "odinleader",
+    "name": "Odin Leader",
     "edOrgs": [
       {
         "role": "Leader",
@@ -55,8 +55,8 @@
     ]
   },
   {
-    "userId": "rrogers",
-    "name": "Rick Rogers",
+    "userId": "odinadmin",
+    "name": "Odin Admin",
     "edOrgs": [
       {
         "role": "IT Administrator",
@@ -66,8 +66,8 @@
     ]
   },
   {
-    "userId": "mjohnson",
-    "name": "Michael Johnson",
+    "userId": "odinviewer",
+    "name": "Odin Viewer",
     "edOrgs": [
       {
         "role": "Aggregate Viewer",
