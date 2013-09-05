@@ -223,7 +223,7 @@ task :rcSandboxTests do
   Rake::Task["rcSandboxAppApprovalTests"].execute
   Rake::Task["rcSandboxStudentLoginTests"].execute
   Rake::Task["rcSandboxDamtTests"].execute
- #Rake::Task["rcSandboxDashboardTests"].execute
+  Rake::Task["rcSandboxDashboardTests"].execute
   Rake::Task["rcSandboxDatabrowserTests"].execute
   Rake::Task["rcSandboxCleanUpTests"].execute
   Rake::Task["rcSandboxPurgeTests"].execute
