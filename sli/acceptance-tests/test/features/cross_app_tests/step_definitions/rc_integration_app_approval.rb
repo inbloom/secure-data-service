@@ -118,11 +118,13 @@ Then /^my current url is "(.*?)"$/ do |url|
   assertWithWait("Not in expected URL") {@driver.current_url == url}
 end
 
-Then /^I enter "(.*?)" in the IDP URL field$/ do |url|  
+Then /^I enter "(.*?)" in the IDP URL field$/ do |url|
+  STDOUT.puts "url : #{url}"
   @driver.find_element(:name, 'realm[idp][id]').send_keys url
 end
 
 Then /^I enter "(.*?)" in the Redirect Endpoint field$/ do |url|
+  STDOUT.puts "redirect url : #{url}"
   @driver.find_element(:name, 'realm[idp][redirectEndpoint]').send_keys url
 end
 
