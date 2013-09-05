@@ -102,8 +102,3 @@ Scenario: Verify teacherSchoolAssociation references ingested correctly: Populat
   When Examining the teacherSchoolAssociation collection references
     Then the document references "educationOrganization" "_id" with "body.schoolId"
      And the document references "staff" "_id" with "body.teacherId"
-
-Scenario: Verify the sli verification script confirms everything ingested correctly
-    Given the edfi manifest that was generated in the 'generated' directory
-    And the tenant is 'Midgar'
-    Then the sli-verify script completes successfully
