@@ -303,17 +303,13 @@ def restHttpCustomHeadersGet(id, customHeaders, format = @format, sessionId = @s
 end
 
 def restTls(url, extra_headers = nil, format = @format, sessionId = @sessionId, client_id = "vavedra9ub")
-  $SLI_DEBUG = true
   # Validate SessionId is not nil
   assert(sessionId != nil, "Session ID passed into GET was nil")
 
   puts "Loading Key and Certificate for client ID #{client_id}"
   client_cert = OpenSSL::X509::Certificate.new File.read File.expand_path("../keys/#{client_id}.crt", __FILE__)
   private_key = OpenSSL::PKey::RSA.new File.read File.expand_path("../keys/#{client_id}.key", __FILE__)
-  puts "+++++++++++++++++++++++++++"
-  puts client_cert
-  puts private_key
-  puts "+++++++++++++++++++++++++++"
+
   urlHeader = makeUrlAndHeaders('get',url,sessionId,format,true)
 
   header = urlHeader[:headers]
@@ -323,7 +319,6 @@ def restTls(url, extra_headers = nil, format = @format, sessionId = @sessionId, 
 
   @res = RestClient::Request.execute(:method => :get, :url => urlHeader[:url], :headers => header, :ssl_client_cert => client_cert, :ssl_client_key => private_key) {|response, request, result| response }
   puts(@res.code,@res.raw_headers) if $SLI_DEBUG
-    $SLI_DEBUG = false
   return @res
 end
 
