@@ -665,16 +665,27 @@ public class BasicService implements EntityService, AccessibilityCheck {
             entityContexts = getEntityContextMap(allEntities, true);
         }
 
+        Iterator<Entity> allEntitiesIt = allEntities.iterator();
+
+        int offset = 0;
+        //skip the offset
+        while ((offset < neutralQuery.getOffset()) && allEntitiesIt.hasNext()) {
+            Entity entity = allEntitiesIt.next();
+            try {
+                validateEntity(entity, isSelf, neutralQuery, entityContexts);
+                offset++;
+            } catch (Exception e) {
+                ; //dont need to do anything
+            }
+        }
+
         long limit = queryLimit > 0 ? queryLimit : totalCount;
         int count = 0;
-        Iterator<Entity> allEntitiesIt = allEntities.iterator();
+
         while ((count < limit) && (allEntitiesIt.hasNext())) {
             Entity entity = allEntitiesIt.next();
-            SecurityUtil.UserContext context = getEntityContext(entity.getEntityId(), entityContexts);
             try {
-                Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf, entity, context, true);
-                rightAccessValidator.checkAccess(true, isSelf, entity, defn.getType(), auths);
-                rightAccessValidator.checkFieldAccess(neutralQuery, entity, defn.getType(), auths);
+                validateEntity(entity, isSelf, neutralQuery, entityContexts);
                 accessibleEntities.add(entity);
                 count++;
             } catch (Exception e) {
@@ -694,6 +705,14 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
         return accessibleEntities;
     }
+
+    private void validateEntity(Entity entity, boolean isSelf, NeutralQuery neutralQuery, Map<String, SecurityUtil.UserContext> entityContexts) {
+        SecurityUtil.UserContext context = getEntityContext(entity.getEntityId(), entityContexts);
+        Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf, entity, context, true);
+        rightAccessValidator.checkAccess(true, isSelf, entity, defn.getType(), auths);
+        rightAccessValidator.checkFieldAccess(neutralQuery, entity, defn.getType(), auths);
+    }
+
     private SecurityUtil.UserContext getEntityContext(String entityId, Map<String, SecurityUtil.UserContext> entityContext) {
         SecurityUtil.UserContext context = SecurityUtil.getUserContext();
         if ((SecurityUtil.getUserContext() == SecurityUtil.UserContext.DUAL_CONTEXT) && (entityContext != null)) {

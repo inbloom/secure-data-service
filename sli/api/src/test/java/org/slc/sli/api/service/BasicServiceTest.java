@@ -712,6 +712,18 @@ public class BasicServiceTest {
         Assert.assertTrue(accessibleIds.contains("student18"));
         Assert.assertTrue(accessibleIds.contains("student22"));
         Assert.assertTrue(accessibleIds.contains("student23"));
+
+        query.setOffset(7);
+        accessibleEntities = (Collection<Entity>) method.invoke(service, query);
+
+        Assert.assertEquals(3, accessibleEntities.size());
+         accessibleIds = new HashSet<String>();
+        for (Entity ent : accessibleEntities) {
+            accessibleIds.add(ent.getEntityId());
+        }
+        Assert.assertTrue(accessibleIds.contains("student18"));
+        Assert.assertTrue(accessibleIds.contains("student22"));
+        Assert.assertTrue(accessibleIds.contains("student23"));
     }
 
     @SuppressWarnings("unchecked")
@@ -761,6 +773,40 @@ public class BasicServiceTest {
         Assert.assertTrue(accessibleIds.contains("student5"));
         Assert.assertTrue(accessibleIds.contains("student6"));
         Assert.assertTrue(accessibleIds.contains("student13"));
+
+        query.setOffset(4);
+        accessibleEntities = (Collection<Entity>) method.invoke(service, query);
+
+        Assert.assertEquals(5, accessibleEntities.size());
+        accessibleIds = new HashSet<String>();
+        for (Entity ent : accessibleEntities) {
+            accessibleIds.add(ent.getEntityId());
+        }
+
+        Assert.assertTrue(accessibleIds.contains("student13"));
+        Assert.assertTrue(accessibleIds.contains("student16"));
+        Assert.assertTrue(accessibleIds.contains("student17"));
+        Assert.assertTrue(accessibleIds.contains("student18"));
+        Assert.assertTrue(accessibleIds.contains("student22"));
+
+        query.setOffset(7);
+        accessibleEntities = (Collection<Entity>) method.invoke(service, query);
+
+        Assert.assertEquals(3, accessibleEntities.size());
+        accessibleIds = new HashSet<String>();
+        for (Entity ent : accessibleEntities) {
+            accessibleIds.add(ent.getEntityId());
+        }
+        Assert.assertTrue(accessibleIds.contains("student18"));
+        Assert.assertTrue(accessibleIds.contains("student22"));
+        Assert.assertTrue(accessibleIds.contains("student23"));
+
+
+        query.setOffset(10);
+        accessibleEntities = (Collection<Entity>) method.invoke(service, query);
+
+        Assert.assertEquals(0, accessibleEntities.size());
+
     }
 
     @SuppressWarnings("unchecked")
