@@ -234,7 +234,10 @@ public class BasicServiceTest {
         Entity entity1 = new MongoEntity("student", "student1", entityBody1, new HashMap<String,Object>());
         Entity entity2 = new MongoEntity("student", "student2", entityBody2, new HashMap<String,Object>());
         Iterable<Entity> entities = Arrays.asList(entity1, entity2);
+
         Mockito.when(mockRepo.findAll(Mockito.eq("student"), Mockito.any(NeutralQuery.class))).thenReturn(entities);
+        Mockito.when(mockRepo.count(Mockito.eq("student"), Mockito.any(NeutralQuery.class))).thenReturn(2L);
+
         Mockito.when(mockRightsFilter.makeEntityBody(Mockito.eq(entity1), Mockito.any(List.class), Mockito.any(EntityDefinition.class), Mockito.any(Collection.class), Mockito.any(Collection.class))).thenReturn(entityBody1);
         Mockito.when(mockRightsFilter.makeEntityBody(Mockito.eq(entity2), Mockito.any(List.class), Mockito.any(EntityDefinition.class), Mockito.any(Collection.class), Mockito.any(Collection.class))).thenReturn(entityBody2);
 
@@ -246,6 +249,9 @@ public class BasicServiceTest {
         }
         Assert.assertEquals("EntityBody mismatch", entityBody1, bodies.toArray()[0]);
         Assert.assertEquals("EntityBody mismatch", entityBody2, bodies.toArray()[1]);
+
+        long count = service.count(new NeutralQuery());
+        Assert.assertEquals(2, count);
     }
 
     @SuppressWarnings("unchecked")
@@ -267,7 +273,10 @@ public class BasicServiceTest {
         Entity entity1 = new MongoEntity("student", "student1", entityBody1, new HashMap<String,Object>());
         Entity entity2 = new MongoEntity("student", "student2", entityBody2, new HashMap<String,Object>());
         Iterable<Entity> entities = Arrays.asList(entity1, entity2);
+
         Mockito.when(mockRepo.findAll(Mockito.eq("student"), Mockito.any(NeutralQuery.class))).thenReturn(entities);
+        Mockito.when(mockRepo.count(Mockito.eq("student"), Mockito.any(NeutralQuery.class))).thenReturn(2L);
+
         Mockito.when(mockRightsFilter.makeEntityBody(Mockito.eq(entity1), Mockito.any(List.class), Mockito.any(EntityDefinition.class), Mockito.anyBoolean(), Mockito.any(Collection.class), Mockito.any(SecurityUtil.UserContext.class))).thenReturn(entityBody1);
         Mockito.when(mockRightsFilter.makeEntityBody(Mockito.eq(entity2), Mockito.any(List.class), Mockito.any(EntityDefinition.class), Mockito.anyBoolean(), Mockito.any(Collection.class), Mockito.any(SecurityUtil.UserContext.class))).thenReturn(entityBody2);
 
@@ -294,6 +303,9 @@ public class BasicServiceTest {
         }
         Assert.assertEquals("EntityBody mismatch", entityBody1, bodies.toArray()[0]);
         Assert.assertEquals("EntityBody mismatch", entityBody2, bodies.toArray()[1]);
+
+        long count = service.countBasedOnContextualRoles(new NeutralQuery());
+        Assert.assertEquals(2, count);
     }
 
     @SuppressWarnings("unchecked")
@@ -340,8 +352,11 @@ public class BasicServiceTest {
             }
         }
 
-        Mockito.when(mockRepo.findAll(Mockito.eq("student"), Mockito.any(NeutralQuery.class))).thenReturn(entities);
-        Mockito.when(mockRepo.count(Mockito.eq("student"), Mockito.any(NeutralQuery.class))).thenReturn(50L);
+        NeutralQuery query = new NeutralQuery();
+        query.setLimit(ApiQuery.API_QUERY_DEFAULT_LIMIT);
+
+        Mockito.when(mockRepo.findAll(Mockito.eq("student"), Mockito.eq(query))).thenReturn(entities);
+        Mockito.when(mockRepo.count(Mockito.eq("student"), Mockito.eq(query))).thenReturn(50L);
 
         Mockito.doThrow(new AccessDeniedException("")).when(mockAccessValidator).checkAccess(Mockito.anyBoolean(), Mockito.anyBoolean(), Mockito.argThat(new MatchesNotAccessible()), Mockito.anyString(), Mockito.eq(staffContextRights));
         Mockito.doThrow(new AccessDeniedException("")).when(mockAccessValidator).checkFieldAccess(Mockito.any(NeutralQuery.class), Mockito.argThat(new MatchesNotFieldAccessible()), Mockito.anyString(), Mockito.eq(teacherContextRights));
@@ -354,8 +369,6 @@ public class BasicServiceTest {
 
         Mockito.when(mockContextValidator.getValidatedEntityContexts(Matchers.any(EntityDefinition.class), Matchers.any(Collection.class), Matchers.anyBoolean(), Matchers.anyBoolean())).thenReturn(studentContext);
 
-        NeutralQuery query = new NeutralQuery();
-        query.setLimit(ApiQuery.API_QUERY_DEFAULT_LIMIT);
         Iterable<EntityBody> listResult = service.listBasedOnContextualRoles(query);
 
         List<EntityBody> bodies= new ArrayList<EntityBody>();
@@ -376,6 +389,9 @@ public class BasicServiceTest {
         Assert.assertTrue(accessibleIds.contains("student16"));
         Assert.assertTrue(accessibleIds.contains("student18"));
         Assert.assertTrue(accessibleIds.contains("student24"));
+
+        long count = service.countBasedOnContextualRoles(query);
+        Assert.assertEquals(8, count);
     }
 
     @SuppressWarnings("unchecked")
@@ -713,6 +729,10 @@ public class BasicServiceTest {
         Assert.assertTrue(accessibleIds.contains("student22"));
         Assert.assertTrue(accessibleIds.contains("student23"));
 
+        long count = service.getAccessibleEntitiesCount("student");
+        Assert.assertEquals(10, count);
+
+
         query.setOffset(7);
         accessibleEntities = (Collection<Entity>) method.invoke(service, query);
 
@@ -724,6 +744,9 @@ public class BasicServiceTest {
         Assert.assertTrue(accessibleIds.contains("student18"));
         Assert.assertTrue(accessibleIds.contains("student22"));
         Assert.assertTrue(accessibleIds.contains("student23"));
+
+        count = service.getAccessibleEntitiesCount("student");
+        Assert.assertEquals(10, count);
     }
 
     @SuppressWarnings("unchecked")
@@ -774,6 +797,10 @@ public class BasicServiceTest {
         Assert.assertTrue(accessibleIds.contains("student6"));
         Assert.assertTrue(accessibleIds.contains("student13"));
 
+        long count = service.getAccessibleEntitiesCount("student");
+        Assert.assertEquals(10, count);
+
+
         query.setOffset(4);
         accessibleEntities = (Collection<Entity>) method.invoke(service, query);
 
@@ -789,6 +816,10 @@ public class BasicServiceTest {
         Assert.assertTrue(accessibleIds.contains("student18"));
         Assert.assertTrue(accessibleIds.contains("student22"));
 
+        count = service.getAccessibleEntitiesCount("student");
+        Assert.assertEquals(10, count);
+
+
         query.setOffset(7);
         accessibleEntities = (Collection<Entity>) method.invoke(service, query);
 
@@ -801,12 +832,17 @@ public class BasicServiceTest {
         Assert.assertTrue(accessibleIds.contains("student22"));
         Assert.assertTrue(accessibleIds.contains("student23"));
 
+        count = service.getAccessibleEntitiesCount("student");
+        Assert.assertEquals(10, count);
+
 
         query.setOffset(10);
         accessibleEntities = (Collection<Entity>) method.invoke(service, query);
 
         Assert.assertEquals(0, accessibleEntities.size());
 
+        count = service.getAccessibleEntitiesCount("student");
+        Assert.assertEquals(10, count);
     }
 
     @SuppressWarnings("unchecked")
@@ -831,6 +867,9 @@ public class BasicServiceTest {
         Collection<Entity> accessibleEntities = (Collection<Entity>) method.invoke(service, query);
 
         Assert.assertTrue(accessibleEntities.isEmpty());
+
+        long count = service.getAccessibleEntitiesCount("student");
+        Assert.assertEquals(0, count);
     }
 
     @SuppressWarnings({ "unchecked", "unused" })

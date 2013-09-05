@@ -654,54 +654,47 @@ public class BasicService implements EntityService, AccessibilityCheck {
     private Collection<Entity> getAccessibleEntities(NeutralQuery neutralQuery) throws APIAccessDeniedException {
         Collection<Entity> accessibleEntities = new HashSet<Entity>();
 
-        int queryLimit = neutralQuery.getLimit();
+        int limit = neutralQuery.getLimit();
         neutralQuery.setLimit(MAX_RESULT_SIZE);
-        long totalCount = getRepo().count(collectionName, neutralQuery);
-        neutralQuery.setLimit((int) totalCount);
+        if ("search".equals(collectionName)) {  // Search is "special."
+            neutralQuery.setLimit((int) getRepo().count(collectionName, neutralQuery));
+        }
         Collection<Entity> allEntities = (Collection<Entity>) getRepo().findAll(collectionName, neutralQuery);
-        neutralQuery.setLimit(queryLimit);
+        neutralQuery.setLimit(limit);
         boolean isSelf = isSelf(neutralQuery);
         if (SecurityUtil.getUserContext() == SecurityUtil.UserContext.DUAL_CONTEXT) {
             entityContexts = getEntityContextMap(allEntities, true);
         }
 
-        Iterator<Entity> allEntitiesIt = allEntities.iterator();
-
-        int offset = 0;
-        //skip the offset
-        while ((offset < neutralQuery.getOffset()) && allEntitiesIt.hasNext()) {
-            Entity entity = allEntitiesIt.next();
-            try {
-                validateEntity(entity, isSelf, neutralQuery, entityContexts);
-                offset++;
-            } catch (Exception e) {
-                ; //dont need to do anything
-            }
-        }
-
-        long limit = queryLimit > 0 ? queryLimit : totalCount;
+        // Iterate through all queried entities.  For each one that passes access checks, increment the count.
+        // Additionally, collect the accessible entities requested for this call.
+        int offset = neutralQuery.getOffset();
+        int totalCount = 0;
         int count = 0;
-
-        while ((count < limit) && (allEntitiesIt.hasNext())) {
+        Iterator<Entity> allEntitiesIt = allEntities.iterator();
+        while (allEntitiesIt.hasNext()) {
             Entity entity = allEntitiesIt.next();
             try {
                 validateEntity(entity, isSelf, neutralQuery, entityContexts);
-                accessibleEntities.add(entity);
-                count++;
+                totalCount++;
+                if (totalCount > offset) {
+                    if ((count < limit) || (limit <= 0)) {
+                        accessibleEntities.add(entity);
+                        count++;
+                    }
+                }
             } catch (Exception e) {
                 ;  // Do nothing.
             }
         }
 
-        if ((!allEntities.isEmpty()) && accessibleEntities.isEmpty()) {
+        if ((!allEntities.isEmpty()) && (totalCount == 0)) {
             validateQuery(neutralQuery, isSelf);
             throw new APIAccessDeniedException("Access to resource denied.");
         }
 
-        // TODO: Replace the following lines with the true count,
-        //       (TA10711) once the count up to hard limit logic has been established.
-        long entityCount = getRepo().count(collectionName, neutralQuery);
-        setAccessibleEntitiesCount(collectionName, entityCount);
+        //  Store the total accessible entity count, for later retrieval by countBasedOnContextualRoles.
+        setAccessibleEntitiesCount(collectionName, totalCount);
 
         return accessibleEntities;
     }
