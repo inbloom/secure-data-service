@@ -92,7 +92,7 @@ user_registration_pass: test1234
 emaiL_smtp_host: mon.slidev.org
 email_smtp_port: 8080
 
-email_imap_port: 443
+email_imap_port: 993
 
 # for CI and local environments
 email_imap_host: imap.gmail.com
