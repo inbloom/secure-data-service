@@ -50,7 +50,7 @@ limitations under the License.
     "sli/ingestion/ingestion-validation" => ["ingestion"],
     "sli/ingestion/ingestion-service" => ["ingestion", "odin"],
     "sli/admin-tools" => ["admin"],
-    "sli/dashboard/src" => ["dashboard"],
+    "sli/dashboard" => ["dashboard"],
     "sli/databrowser" => ["databrowser"],
     "sli/search-indexer" => ["search-indexer", "dashboard"],
     "tools/odin" => ["odin", "odin-api"]
