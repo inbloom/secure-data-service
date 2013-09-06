@@ -7,7 +7,7 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     And the testing device app key has been created
 
 # Single segment (/<ENTITY>) URI tests.
-
+  @wip
   Scenario Outline: Ensure GET can be performed on all public entities with READ_PUBLIC right
     Given I change the custom role of "Leader" to add the "READ_PUBLIC" right
     Given I change the custom role of "Educator" to add the "READ_PUBLIC" right
@@ -29,7 +29,7 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | educationOrganization      | schools                     |
     | session                    | sessions                    |
     | studentCompetencyObjective | studentCompetencyObjectives |
-
+  @wip
   Scenario Outline: Ensure GET can be performed on all edorg, student, and staff related entities with the proper rights
     And I log in as "jmacey"
     And parameter "limit" is "0"
@@ -64,14 +64,14 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | parents                                 |
     | staff                                   |
     | teachers                                |
-
+  @wip
   Scenario: Ensure GET can be performed on self entities with the proper rights
     And I log in as "msmith"
     And parameter "limit" is "0"
     When I navigate to GET "<msmith URI>/staffEducationOrgAssignmentAssociations"
     Then I should receive a return code of 200
     And I should receive a collection of "2" entities
-
+  @wip
   Scenario Outline: Ensure GET can NOT be performed on any public entities without READ_PUBLIC right
     Given I change the custom role of "Leader" to remove the "READ_PUBLIC" right
     Given I change the custom role of "Educator" to remove the "READ_PUBLIC" right
@@ -98,7 +98,7 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | session                    | sessions                    |
     | studentCompetencyObjective | studentCompetencyObjectives |
     | calendarDate               | calendarDates               |
-
+  @wip
   Scenario Outline: Ensure GET cannot be performed on all edorg, staff, and student related entities without the proper rights
     Given I change the custom role of "Leader" to remove the "READ_GENERAL" right
     And I change the custom role of "Leader" to remove the "READ_RESTRICTED" right
@@ -137,7 +137,7 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | parents                                 |
     | staff                                   |
     | teachers                                |
-
+  @wip
  Scenario: GET lists of staff for a user with various contexts; verify URI is mutated correctly.
     Given the following student section associations in Midgar are set correctly
       | student         | teacher              | edorg                 | enrolledInAnySection? |
@@ -173,7 +173,7 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
    Then I should receive a return code of 200
    And the header "X-ExecutedPath" contains "sections/<IDs>/studentSectionAssociations/students/studentSchoolAssociations"
    And the header "X-ExecutedPath" contains "<JMaceys Section>"
-
+  @wip
   Scenario Outline: Ensure POST can be performed on all public entities with READ_PUBLIC and WRITE_PUBLIC rights
     Given I change the custom role of "Leader" to add the "READ_PUBLIC" right
     Given I change the custom role of "Leader" to add the "WRITE_PUBLIC" right
@@ -202,7 +202,7 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | session                    | session                    | sessions                    |
     | studentCompetencyObjective | studentCompetencyObjective | studentCompetencyObjectives |
     | calendarDate               | calendarDate               | calendarDates               |
-
+  @wip
   Scenario Outline: Ensure POST can be performed on edorg and student related entities with WRITE_GENERAL and WRITE_RESTRICTED rights
     Given I change the custom role of "Leader" to add the "WRITE_GENERAL" right
     And I change the custom role of "Leader" to add the "WRITE_RESTRICTED" right
@@ -237,7 +237,7 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | parent                                       | parent                                | parents                                 |
     | staff                                        | staff                                 | staff                                  |
     | staff                                        | teacher                               | teachers                               |
-
+  @wip
   Scenario Outline: Ensure POST can NOT be performed on any public entities without READ_PUBLIC and WRITE_PUBLIC rights
     Given I change the custom role of "Leader" to remove the "READ_PUBLIC" right
     Given I change the custom role of "Leader" to remove the "WRITE_PUBLIC" right
@@ -266,7 +266,7 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | session                    | session                    | sessions                    |
     | studentCompetencyObjective | studentCompetencyObjective | studentCompetencyObjectives |
     | calendarDate               | calendarDate               | calendarDates               |
-
+  @wip
   Scenario Outline: Ensure POST cannot be performed on edorg or student related entities without WRITE_GENERAL and WRITE_RESTRICTED rights
     Given I add a SEOA for "xbell" in "District 9" as a "Leader"
     And I log in as "xbell"
@@ -299,7 +299,7 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | teacher                               | teachers                                |
 
 # Double segment (/<ENTITY>/{id}) URI tests.
-
+  @wip
   Scenario Outline: GETs on /entity/{id} for global entities
     Given I log in as "jmacey"
     And I get 10 random ids for "<ENTITY TYPE>" in "<ENTITY>"
@@ -329,7 +329,7 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | session                    | session                    | sessions                    |
     | studentCompetencyObjective | studentCompetencyObjective | studentCompetencyObjectives |
     | calendarDate               | calendarDate               | calendarDates               |
-
+  @wip
   Scenario Outline: GETs on /entity/{id} for edorg-related entities
     Given I change the custom role of "Aggregate Viewer" to add the "READ_GENERAL" right
     And I log in as "msmith"
@@ -364,7 +364,7 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | yearlyTranscript         | grade                                | grades                                |
     | studentCompetency        | studentCompetency                    | studentCompetencies                   |
     | studentGradebookEntry    | studentGradebookEntry                | studentGradebookEntries               |
-
+  @wip
   Scenario Outline: GETs on /entity/{id} for staff related entities
     Given I change the custom role of "Aggregate Viewer" to add the "READ_GENERAL" right
     And I log in as "msmith"
@@ -386,7 +386,7 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | section                  | teacherSectionAssociation            | teacherSectionAssociations            |
     | staff                    | staff                                | staff                                 |
     | staff                    | teacher                              | teachers                              |
-
+  @wip
   Scenario: GETs on /parents/{id}
     Given I change the custom role of "Aggregate Viewer" to add the "READ_GENERAL" right
     And I log in as "msmith"
@@ -400,7 +400,7 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     And I log in as "msmith"
     When I navigate to GET each id for "/v1/parents"
     Then All the return codes should be 403
-
+  @wip
   Scenario Outline: PUTs, PATCHes, and DELETEs on /entity/{id}
     Given I change the custom role of "Aggregate Viewer" to add the "WRITE_PUBLIC" right
     Given I change the custom role of "Aggregate Viewer" to add the "WRITE_GENERAL" right
@@ -480,7 +480,7 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | teacher                               | teachers                                | loginId                  | newer-teacher-login                     | even-newer-teacher-login                |
 
 # Multi segment (/<ENTITY>/{id}/...) URI tests.
-
+  @wip
   Scenario: GETs on multiple (more than 2) part URIs of global entities
     When I log in as "jmacey"
     And I navigate to GET "<District 9 URI>/staffEducationOrgAssignmentAssociations/staff"
@@ -490,7 +490,7 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     Then I should receive a return code of 200
     When I navigate to GET "<Daybreak Bayside High URI>/staffEducationOrgAssignmentAssociations"
     Then I should receive a return code of 403
-
+  @wip
   Scenario Outline: Can view  for non-subdoc historical data of a student from a different edorg, but can't write to it
     Given I add "<Entity>" for "lashawn.taite" in "Daybreak Bayside High" that's already expired
     When I log in as "<User>"
@@ -510,7 +510,7 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | tcuyper   | disciplineActions           | disciplineDate          | 2012-01-01                              |
     | tcuyper   | courseTranscripts           | finalLetterGradeEarned  | F                                       |
 
-
+  @wip
   Scenario Outline: Can view  for subdoc historical data of a student from a different edorg, but can't write to it
     Given I add subdoc "<subDoc>" for "lashawn.taite" and "<Reference>" in "Daybreak Bayside High" that's already expired
     When I log in as "<User>"
@@ -534,3 +534,56 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     |  tcuyper   |   studentSectionAssociation              |   section                |   reasonExited             |                   blabla                        |
 
 
+  Scenario Outline: User can get the correct total count and page through
+    Given parameter "limit" is "0"
+    When I log in as "rbelding"
+    Given format "application/json"
+
+    When I navigate to GET "/v1/<ENTITY URI>"
+    Then I should receive a return code of 200
+    Then I get the total count from the header
+    Then I get all the entities returned
+
+    Given parameter "offset" is "<a third of the total count>"
+    When I navigate to GET "/v1/<ENTITY URI>"
+    Then I should receive a return code of 200
+    Then I verify the total count from the header
+    Then I check the returned entities are sequential
+
+    Given parameter "offset" is "<half of the total count>"
+
+    When I navigate to GET "/v1/<ENTITY URI>"
+    Then I should receive a return code of 200
+    Then I verify the total count from the header
+    Then I check the returned entities are sequential
+
+    Given parameter "offset" is "<the total count>"
+    When I navigate to GET "/v1/<ENTITY URI>"
+    Then I should receive a return code of 200
+    Then I verify the total count from the header
+    Then I check the returned entities are sequential
+
+    Given parameter "offset" is "<a third of the total count>"
+    Given parameter "limit" is "<limit is half of the total count>"
+
+    When I navigate to GET "/v1/<ENTITY URI>"
+    Then I should receive a return code of 200
+    Then I verify the total count from the header
+    Then I check the returned entities are sequential
+
+    Given parameter "offset" is "<two thirds of the total count>"
+
+    When I navigate to GET "/v1/<ENTITY URI>"
+    Then I should receive a return code of 200
+    Then I verify the total count from the header
+    Then I check the returned entities are sequential
+
+  Examples:
+    | ENTITY URI                              |
+    | staffEducationOrgAssignmentAssociations |
+    | studentProgramAssociations              |
+    | studentSchoolAssociations               |
+    | cohorts                                 |
+    | disciplineIncidents                     |
+    | disciplineActions                       |
+    | gradebookEntries                        |
