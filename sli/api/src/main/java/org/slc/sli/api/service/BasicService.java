@@ -656,16 +656,19 @@ public class BasicService implements EntityService, AccessibilityCheck {
         return results;
     }
 
-    private Collection<Entity> getAccessibleEntities(NeutralQuery neutralQuery) throws APIAccessDeniedException {
+    private Collection<Entity> getAccessibleEntities(NeutralQuery neutralQuery) throws AccessDeniedException {
         Collection<Entity> accessibleEntities = new HashSet<Entity>();
 
         int limit = neutralQuery.getLimit();
+        int offset = neutralQuery.getOffset();
         neutralQuery.setLimit(MAX_RESULT_SIZE);
+        neutralQuery.setOffset(0);
         if ("search".equals(collectionName)) {  // Search is "special."
             neutralQuery.setLimit((int) getRepo().count(collectionName, neutralQuery));
         }
         Collection<Entity> allEntities = (Collection<Entity>) getRepo().findAll(collectionName, neutralQuery);
         neutralQuery.setLimit(limit);
+        neutralQuery.setOffset(offset);
         boolean isSelf = isSelf(neutralQuery);
         if (SecurityUtil.getUserContext() == SecurityUtil.UserContext.DUAL_CONTEXT) {
             entityContexts = getEntityContextMap(allEntities, true);
@@ -673,7 +676,6 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
         // Iterate through all queried entities.  For each one that passes access checks, increment the count.
         // Additionally, collect the accessible entities requested for this call.  Stop at hard count limit.
-        int offset = neutralQuery.getOffset();
         long totalCount = 0;
         int count = 0;
         Iterator<Entity> allEntitiesIt = allEntities.iterator();
@@ -682,13 +684,17 @@ public class BasicService implements EntityService, AccessibilityCheck {
             try {
                 validateEntity(entity, isSelf, neutralQuery, entityContexts);
                 totalCount++;
-                if (totalCount > offset) {
-                    if ((count < limit) || (limit <= 0)) {
-                        accessibleEntities.add(entity);
-                        count++;
-                    }
+                if ((totalCount > offset) && ((count < limit) || (limit <= 0))) {
+                    accessibleEntities.add(entity);
+                    count++;
                 }
-            } catch (Exception e) {
+            } catch (AccessDeniedException aex) {
+                if (allEntities.size() == 1) {
+                    throw aex;
+                } else if ((totalCount > offset) && ((count < limit) || (limit <= 0))) {
+                    error(aex.getMessage());
+                }
+            } catch (Exception ex) {
                 ;  // Do nothing.
             }
         }
