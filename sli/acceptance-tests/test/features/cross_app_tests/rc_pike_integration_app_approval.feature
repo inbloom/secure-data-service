@@ -322,7 +322,7 @@ Given the pre-existing bulk extrac testing app key has been created
   Then I should receive a return code of 204
   When the operator triggers a delta for the production tenant
    #And I make a call to the bulk extract end point "/v1.1/bulk/extract/list"
-   And I make a call to the bulk extract end point "/v1.1/bulk/extract/list" using the certificate for app "picard"
+   And I make a call to the bulk extract end point "/v1.1/bulk/extract/list" using the certificate for app "pike"
    And I get back a response code of "200"
    And I store the URL for the latest delta for the LEA
    And the number of returned URLs is correct:
@@ -370,7 +370,7 @@ Scenario: App makes an api call to retrieve a bulk extract delta for the SEA
   And I get the id for the edorg "STANDARD-SEA"
 
   When the operator triggers a delta for the production tenant
-  And I make a call to the bulk extract end point "/v1.1/bulk/extract/list" using the certificate for app "picard"
+  And I make a call to the bulk extract end point "/v1.1/bulk/extract/list" using the certificate for app "pike"
   And I get back a response code of "200"
   And I store the URL for the latest delta for the SEA
   And the number of returned URLs is correct:
