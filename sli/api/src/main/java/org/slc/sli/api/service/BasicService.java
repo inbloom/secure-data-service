@@ -657,7 +657,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
     }
 
     private Collection<Entity> getAccessibleEntities(NeutralQuery neutralQuery) throws AccessDeniedException {
-        Collection<Entity> accessibleEntities = new HashSet<Entity>();
+        Collection<Entity> accessibleEntities = new ArrayList<Entity>();
 
         int limit = neutralQuery.getLimit();
         int offset = neutralQuery.getOffset();
