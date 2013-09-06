@@ -76,7 +76,7 @@ Then /^I do not see any login pages$/ do
 end
 
 Then /^I am redirected to the dashboard home page$/ do
-  assertWithWait("Failed to be directed to Dashboards's LoS page: #{@driver.find_element(:xpath, "//*[@id="banner"]/div.text}") {@driver.find_element(:xpath, "//*[@id="banner"]/div").text.include?("dashboard")}
+  assertWithWait("Failed to be directed to Dashboards's LoS page: #{@driver.find_element(:xpath, "//*[@id="banner"]/div).text}") {@driver.find_element(:xpath, "//*[@id="banner"]/div").text.include?("dashboard")}
 end
 
 When /^I navigate to the databrowser page$/ do
