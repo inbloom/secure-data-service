@@ -740,7 +740,7 @@ Feature: Use the APi to successfully get student data while having roles over ma
       | bert.jakeman    |
       | mu.mcneill      |
       | nate.dedrick    |
-  
+
   Scenario: User has role with no context rights
     Given I change the custom role of "Educator" to remove the "TEACHER_CONTEXT" right
     When I log in as "linda.kim"
@@ -830,3 +830,101 @@ Feature: Use the APi to successfully get student data while having roles over ma
     Then I should receive a return code of 200
     And the response should have general student data
     And the response should not have restricted student data
+
+
+Scenario: Teacher can get the correct total count and page through
+  Given parameter "limit" is "0"
+  When I log in as "linda.kim"
+  Given format "application/json"
+
+  When I navigate to GET "/v1/students"
+  Then I should receive a return code of 200
+  Then I get the total count from the header
+  Then I get all the entities returned
+
+  Given parameter "offset" is "<a third of the total count>"
+  When I navigate to GET "/v1/students"
+  Then I should receive a return code of 200
+  Then I verify the total count from the header
+  Then I check the returned entities are sequential
+
+  Given parameter "offset" is "<half of the total count>"
+
+  When I navigate to GET "/v1/students"
+  Then I should receive a return code of 200
+  Then I verify the total count from the header
+  Then I check the returned entities are sequential
+
+  Given parameter "offset" is "<the total count>"
+  When I navigate to GET "/v1/students"
+  Then I should receive a return code of 200
+  Then I verify the total count from the header
+  Then I check the returned entities are sequential
+
+  Given parameter "offset" is "<a third of the total count>"
+  Given parameter "limit" is "<limit is half of the total count>"
+  When I log in as "linda.kim"
+  Given format "application/json"
+
+  When I navigate to GET "/v1/students"
+  Then I should receive a return code of 200
+  Then I verify the total count from the header
+  Then I check the returned entities are sequential
+
+  Given parameter "offset" is "<two thirds of the total count>"
+  When I log in as "linda.kim"
+  Given format "application/json"
+
+  When I navigate to GET "/v1/students"
+  Then I should receive a return code of 200
+  Then I verify the total count from the header
+  Then I check the returned entities are sequential
+
+Scenario: Staffs can get the correct total count and page through
+  Given parameter "limit" is "0"
+  When I log in as "rbelding"
+  Given format "application/json"
+
+  When I navigate to GET "/v1/students"
+  Then I should receive a return code of 200
+  Then I get the total count from the header
+  Then I get all the entities returned
+
+  Given parameter "offset" is "<a third of the total count>"
+  When I navigate to GET "/v1/students"
+  Then I should receive a return code of 200
+  Then I verify the total count from the header
+  Then I check the returned entities are sequential
+
+  Given parameter "offset" is "<half of the total count>"
+
+  When I navigate to GET "/v1/students"
+  Then I should receive a return code of 200
+  Then I verify the total count from the header
+  Then I check the returned entities are sequential
+
+  Given parameter "offset" is "<the total count>"
+  When I navigate to GET "/v1/students"
+  Then I should receive a return code of 200
+  Then I verify the total count from the header
+  Then I check the returned entities are sequential
+
+  Given parameter "offset" is "<a third of the total count>"
+  Given parameter "limit" is "<limit is half of the total count>"
+  When I log in as "rbelding"
+  Given format "application/json"
+
+  When I navigate to GET "/v1/students"
+  Then I should receive a return code of 200
+  Then I verify the total count from the header
+  Then I check the returned entities are sequential
+
+  Given parameter "offset" is "<two thirds of the total count>"
+  When I log in as "rbelding"
+  Given format "application/json"
+
+  When I navigate to GET "/v1/students"
+  Then I should receive a return code of 200
+  Then I verify the total count from the header
+  Then I check the returned entities are sequential
+
