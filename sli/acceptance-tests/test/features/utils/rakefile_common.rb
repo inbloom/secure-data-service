@@ -39,7 +39,7 @@ def cleanUpMiniSandboxLdapUser(user_email)
 end
 
 def cleanUpUser(user_email, ldap)
-  puts "Attempting to remove user: #{user_email} on ldap: #{ldap}"
+  puts "Attempting to remove user: #{user_email} on ldap: #{ldap.to_s}"
   ldap.get_user_groups(user_email).each do |group_id|
     ldap.remove_user_group(user_email, group_id)
   end 
