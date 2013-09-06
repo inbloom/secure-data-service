@@ -677,25 +677,23 @@ public class BasicService implements EntityService, AccessibilityCheck {
         // Iterate through all queried entities.  For each one that passes access checks, increment the count.
         // Additionally, collect the accessible entities requested for this call.  Stop at hard count limit.
         long totalCount = 0;
-        int count = 0;
+        int currentCount = 0;
         Iterator<Entity> allEntitiesIt = allEntities.iterator();
         while ((totalCount < getCountLimit()) && (allEntitiesIt.hasNext())) {
             Entity entity = allEntitiesIt.next();
             try {
                 validateEntity(entity, isSelf, neutralQuery, entityContexts);
                 totalCount++;
-                if ((totalCount > offset) && ((count < limit) || (limit <= 0))) {
+                if ((totalCount > offset) && ((currentCount < limit) || (limit <= 0))) {
                     accessibleEntities.add(entity);
-                    count++;
+                    currentCount++;
                 }
             } catch (AccessDeniedException aex) {
                 if (allEntities.size() == 1) {
                     throw aex;
-                } else if ((totalCount > offset) && ((count < limit) || (limit <= 0))) {
+                } else if ((totalCount > offset) && ((currentCount < limit) || (limit <= 0))) {
                     error(aex.getMessage());
                 }
-            } catch (Exception ex) {
-                ;  // Do nothing.
             }
         }
 
