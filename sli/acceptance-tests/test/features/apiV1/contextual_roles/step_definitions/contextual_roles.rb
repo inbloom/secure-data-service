@@ -107,6 +107,27 @@ Transform /^<(.*?)>$/ do |human_readable_id|
 #Section
     when 'JMaceys Section'
       id = '4c2f822097f31017935ed056580b837980dd1428_id'
+
+    when 'half of the total count'
+      id = @totalCount/2
+      @offset = id
+
+    when 'a third of the total count'
+      id = @totalCount / 3
+      @offset = id
+
+    when 'two thirds of the total count'
+      id = @totalCount * 2 / 3
+      @offset = id
+
+    when 'the total count'
+      id = @totalCount
+      @offset = id
+
+
+    when 'limit is half of the total count'
+      id = @totalCount / 2;
+
   end
 
   id
@@ -983,6 +1004,51 @@ Then /^the header "([^\"]*)" contains "(.*?)"$/ do |header, value|
   resultValue.length.should == 1
   singleValue = convert(resultValue[0])
   assert(singleValue.index(/#{value}/) != nil)
+end
+
+Then /^I get the total count from the header$/ do
+  header = 'totalcount'
+  headers = @res.raw_headers
+  headers.should_not == nil
+  puts headers
+  assert(headers[header])
+  headers[header].should_not == nil
+  headers[header].length.should == 1
+  @totalCount = convert(headers[header][0])
+end
+
+Then /^I verify the total count from the header$/ do
+  header = 'totalcount'
+  headers = @res.raw_headers
+  headers.should_not == nil
+  assert(headers[header])
+  headers[header].should_not == nil
+  headers[header].should_not == nil
+  headers[header].length.should == 1
+  assert(@totalCount == convert(headers[header][0]), 'Total count has to be the same')
+end
+
+Then /^I get all the entities returned$/ do
+  jsonResult = JSON.parse(@res.body)
+  @totalIds = Array.new
+
+  #Get entity ids from the api call
+  jsonResult.each do |data|
+    @totalIds << data["id"]
+  end
+end
+
+Then /^I check the returned entities are sequential$/ do
+  jsonResult = JSON.parse(@res.body)
+
+  count = 0
+
+  jsonResult.each do |data|
+    assert(data["id"] == @totalIds[@offset + count], data["id"] + ' is out of order')
+    count = count + 1
+  end
+
+
 end
 
 ############################################################################################
