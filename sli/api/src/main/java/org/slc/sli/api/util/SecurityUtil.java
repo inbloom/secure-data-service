@@ -131,7 +131,12 @@ public class SecurityUtil {
     }
 
     public static boolean hasRight(Right required) {
-        Collection<GrantedAuthority> rights = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        Collection<GrantedAuthority> rights;
+        if (isStaffUser()) {
+            rights = getSLIPrincipal().getAllContextRights(false);
+        } else {
+            rights = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        }
         return rights.contains(required);
     }
 
