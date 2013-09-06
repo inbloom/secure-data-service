@@ -160,11 +160,11 @@ Scenario: Charter School - Search by id
   Then I should see the text "IL-CHARTER-SCHOOL"
   And I should see the text "Elementary School"
   When I search for the identifier "chartereducator" in "staff"
-  Then I should see the text "Charter"
-  And I should see the text "Educator"
+  Then I should see the text "Catherine"
+  And I should see the text "Binkley"
   When I search for the identifier "charteradmin" in "staff"
-  Then I should see the text "Charter"
-  And I should see the text "Admin"
+  Then I should see the text "Hallie"
+  And I should see the text "Allison"
   # Search for something I don't have access to
   When I search for the identifier "<ZOE LOCUST UNIQUE ID>" in "students"
   Then I see a "There were no entries matching your search" alert box
