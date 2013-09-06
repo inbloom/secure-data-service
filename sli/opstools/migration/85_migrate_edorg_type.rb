@@ -132,7 +132,7 @@ def main(argv)
     end
 
     puts "--------------------------------------------------------------------------------------------"
-    puts "| To migrate on student and educationOrganization collection, give argument(s) as follows:\n"
+    puts "| To migrate educationOrganization collection, give argument(s) as follows:\n"
     puts "|\n"
     puts "|     --all                                     Migrate against all tenant dbs\n"
     puts "|       --OR--\n"
