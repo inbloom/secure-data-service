@@ -33,6 +33,7 @@ import org.springframework.data.mongodb.core.query.Order;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.dal.encrypt.EntityEncryption;
@@ -366,7 +367,21 @@ public class MongoQueryConverter {
                 mongoQuery.limit(neutralQuery.getLimit());
             }
 
-            NeutralSchema entitySchema = this.schemaRepo.getSchema(entityName);
+            // re DE2942 use the "teacher" schema when we have a 'type in ["teacher"]' query
+            String schemaName = entityName;
+            for (NeutralCriteria nc : neutralQuery.getCriteria()) {
+                if ("type".equals(nc.getKey()) && NeutralCriteria.CRITERIA_IN.equals(nc.getOperator())) {
+                    if (nc.getValue() instanceof List) {
+                        List valueList = (List) nc.getValue();
+                        if (valueList.size() == 1 && valueList.get(0) instanceof String &&
+                                EntityNames.TEACHER.equals((String) valueList.get(0))) {
+                            schemaName = EntityNames.TEACHER;
+                        }
+                    }
+                }
+            }
+
+            NeutralSchema entitySchema = this.schemaRepo.getSchema(schemaName);
 
             // sorting
             if (neutralQuery.getSortBy() != null) {
