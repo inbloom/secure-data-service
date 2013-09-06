@@ -30,16 +30,16 @@ def cleanUpLdapUser(user_email)
 end
 
 def cleanUpMiniSandboxLdapUser(user_email)
-  ldap = LDAPStorage.new(PropLoader.getProps['minisb_ldap_hostname'], PropLoader.getProps['minisb_ldap_port'],
+  ldap_sb = LDAPStorage.new(PropLoader.getProps['minisb_ldap_hostname'], PropLoader.getProps['minisb_ldap_port'],
                          PropLoader.getProps['minisb_ldap_base'], PropLoader.getProps['minisb_ldap_admin_user'],
                          PropLoader.getProps['minisb_ldap_admin_pass'], PropLoader.getProps['minisb_ldap_use_ssl'])
 
-  cleanUpUser(user_email, ldap)
+  cleanUpUser(user_email, ldap_sb)
 
 end
 
 def cleanUpUser(user_email, ldap)
-  puts "Attempting to remove user: #{user_email} on ldap: #{ldap.to_s}"
+  puts "Attempting to remove user: #{user_email}"
   ldap.get_user_groups(user_email).each do |group_id|
     ldap.remove_user_group(user_email, group_id)
   end 
