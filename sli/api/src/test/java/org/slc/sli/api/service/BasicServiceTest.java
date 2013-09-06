@@ -28,6 +28,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -373,26 +374,36 @@ public class BasicServiceTest {
 
         Iterable<EntityBody> listResult = service.listBasedOnContextualRoles(query);
 
-        List<EntityBody> bodies= new ArrayList<EntityBody>();
-        for (EntityBody body : listResult) {
-            bodies.add(body);
-        }
-
-        Collection<String> accessibleIds = new HashSet<String>();
-        for (EntityBody body : listResult) {
-            accessibleIds.add((String) body.get("studentUniqueStateId"));
-        }
-        Assert.assertEquals(8, accessibleIds.size());
-        Assert.assertTrue(accessibleIds.contains("student0"));
-        Assert.assertTrue(accessibleIds.contains("student4"));
-        Assert.assertTrue(accessibleIds.contains("student6"));
-        Assert.assertTrue(accessibleIds.contains("student8"));
-        Assert.assertTrue(accessibleIds.contains("student12"));
-        Assert.assertTrue(accessibleIds.contains("student16"));
-        Assert.assertTrue(accessibleIds.contains("student18"));
-        Assert.assertTrue(accessibleIds.contains("student24"));
+        Iterator<EntityBody> listResultIt = listResult.iterator();
+        Assert.assertTrue(listResultIt.next().get("studentUniqueStateId").equals("student0"));
+        Assert.assertTrue(listResultIt.next().get("studentUniqueStateId").equals("student4"));
+        Assert.assertTrue(listResultIt.next().get("studentUniqueStateId").equals("student6"));
+        Assert.assertTrue(listResultIt.next().get("studentUniqueStateId").equals("student8"));
+        Assert.assertTrue(listResultIt.next().get("studentUniqueStateId").equals("student12"));
+        Assert.assertTrue(listResultIt.next().get("studentUniqueStateId").equals("student16"));
+        Assert.assertTrue(listResultIt.next().get("studentUniqueStateId").equals("student18"));
+        Assert.assertTrue(listResultIt.next().get("studentUniqueStateId").equals("student24"));
+        Assert.assertFalse(listResultIt.hasNext());
 
         long count = service.countBasedOnContextualRoles(query);
+        Assert.assertEquals(8, count);
+
+        // Assure same order and count.
+
+        listResult = service.listBasedOnContextualRoles(query);
+
+        listResultIt = listResult.iterator();
+        Assert.assertTrue(listResultIt.next().get("studentUniqueStateId").equals("student0"));
+        Assert.assertTrue(listResultIt.next().get("studentUniqueStateId").equals("student4"));
+        Assert.assertTrue(listResultIt.next().get("studentUniqueStateId").equals("student6"));
+        Assert.assertTrue(listResultIt.next().get("studentUniqueStateId").equals("student8"));
+        Assert.assertTrue(listResultIt.next().get("studentUniqueStateId").equals("student12"));
+        Assert.assertTrue(listResultIt.next().get("studentUniqueStateId").equals("student16"));
+        Assert.assertTrue(listResultIt.next().get("studentUniqueStateId").equals("student18"));
+        Assert.assertTrue(listResultIt.next().get("studentUniqueStateId").equals("student24"));
+        Assert.assertFalse(listResultIt.hasNext());
+
+        count = service.countBasedOnContextualRoles(query);
         Assert.assertEquals(8, count);
     }
 
@@ -713,39 +724,72 @@ public class BasicServiceTest {
 
         Method method = BasicService.class.getDeclaredMethod("getAccessibleEntities", NeutralQuery.class);
         method.setAccessible(true);
+
         Collection<Entity> accessibleEntities = (Collection<Entity>) method.invoke(service, query);
+        Iterator<Entity> accessibleEntitiesIt = accessibleEntities.iterator();
 
         Assert.assertEquals(10, accessibleEntities.size());
-        Collection<String> accessibleIds = new HashSet<String>();
-        for (Entity ent : accessibleEntities) {
-            accessibleIds.add(ent.getEntityId());
-        }
-        Assert.assertTrue(accessibleIds.contains("student2"));
-        Assert.assertTrue(accessibleIds.contains("student4"));
-        Assert.assertTrue(accessibleIds.contains("student5"));
-        Assert.assertTrue(accessibleIds.contains("student6"));
-        Assert.assertTrue(accessibleIds.contains("student13"));
-        Assert.assertTrue(accessibleIds.contains("student16"));
-        Assert.assertTrue(accessibleIds.contains("student17"));
-        Assert.assertTrue(accessibleIds.contains("student18"));
-        Assert.assertTrue(accessibleIds.contains("student22"));
-        Assert.assertTrue(accessibleIds.contains("student23"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student2"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student4"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student5"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student6"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student13"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student16"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student17"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student18"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student22"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student23"));
+        Assert.assertFalse(accessibleEntitiesIt.hasNext());
 
         long count = service.getAccessibleEntitiesCount("student");
+        Assert.assertEquals(10, count);
+
+        // Assure same order and count.
+
+        accessibleEntities = (Collection<Entity>) method.invoke(service, query);
+        accessibleEntitiesIt = accessibleEntities.iterator();
+
+        Assert.assertEquals(10, accessibleEntities.size());
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student2"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student4"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student5"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student6"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student13"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student16"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student17"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student18"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student22"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student23"));
+        Assert.assertFalse(accessibleEntitiesIt.hasNext());
+
+        count = service.getAccessibleEntitiesCount("student");
         Assert.assertEquals(10, count);
 
 
         query.setOffset(7);
         accessibleEntities = (Collection<Entity>) method.invoke(service, query);
+        accessibleEntitiesIt = accessibleEntities.iterator();
 
         Assert.assertEquals(3, accessibleEntities.size());
-         accessibleIds = new HashSet<String>();
-        for (Entity ent : accessibleEntities) {
-            accessibleIds.add(ent.getEntityId());
-        }
-        Assert.assertTrue(accessibleIds.contains("student18"));
-        Assert.assertTrue(accessibleIds.contains("student22"));
-        Assert.assertTrue(accessibleIds.contains("student23"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student18"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student22"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student23"));
+        Assert.assertFalse(accessibleEntitiesIt.hasNext());
+
+        count = service.getAccessibleEntitiesCount("student");
+        Assert.assertEquals(10, count);
+
+        // Assure same order and count.
+
+        query.setOffset(7);
+        accessibleEntities = (Collection<Entity>) method.invoke(service, query);
+        accessibleEntitiesIt = accessibleEntities.iterator();
+
+        Assert.assertEquals(3, accessibleEntities.size());
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student18"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student22"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student23"));
+        Assert.assertFalse(accessibleEntitiesIt.hasNext());
 
         count = service.getAccessibleEntitiesCount("student");
         Assert.assertEquals(10, count);
@@ -786,37 +830,66 @@ public class BasicServiceTest {
 
         Method method = BasicService.class.getDeclaredMethod("getAccessibleEntities", NeutralQuery.class);
         method.setAccessible(true);
+
         Collection<Entity> accessibleEntities = (Collection<Entity>) method.invoke(service, query);
+        Iterator<Entity> accessibleEntitiesIt = accessibleEntities.iterator();
 
         Assert.assertEquals(5, accessibleEntities.size());
-        Collection<String> accessibleIds = new HashSet<String>();
-        for (Entity ent : accessibleEntities) {
-            accessibleIds.add(ent.getEntityId());
-        }
-        Assert.assertTrue(accessibleIds.contains("student2"));
-        Assert.assertTrue(accessibleIds.contains("student4"));
-        Assert.assertTrue(accessibleIds.contains("student5"));
-        Assert.assertTrue(accessibleIds.contains("student6"));
-        Assert.assertTrue(accessibleIds.contains("student13"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student2"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student4"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student5"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student6"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student13"));
+        Assert.assertFalse(accessibleEntitiesIt.hasNext());
 
         long count = service.getAccessibleEntitiesCount("student");
+        Assert.assertEquals(10, count);
+
+        // Assure same order and count.
+
+        accessibleEntities = (Collection<Entity>) method.invoke(service, query);
+        accessibleEntitiesIt = accessibleEntities.iterator();
+
+        Assert.assertEquals(5, accessibleEntities.size());
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student2"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student4"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student5"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student6"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student13"));
+        Assert.assertFalse(accessibleEntitiesIt.hasNext());
+
+        count = service.getAccessibleEntitiesCount("student");
         Assert.assertEquals(10, count);
 
 
         query.setOffset(4);
         accessibleEntities = (Collection<Entity>) method.invoke(service, query);
+        accessibleEntitiesIt = accessibleEntities.iterator();
 
         Assert.assertEquals(5, accessibleEntities.size());
-        accessibleIds = new HashSet<String>();
-        for (Entity ent : accessibleEntities) {
-            accessibleIds.add(ent.getEntityId());
-        }
 
-        Assert.assertTrue(accessibleIds.contains("student13"));
-        Assert.assertTrue(accessibleIds.contains("student16"));
-        Assert.assertTrue(accessibleIds.contains("student17"));
-        Assert.assertTrue(accessibleIds.contains("student18"));
-        Assert.assertTrue(accessibleIds.contains("student22"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student13"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student16"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student17"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student18"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student22"));
+        Assert.assertFalse(accessibleEntitiesIt.hasNext());
+
+        count = service.getAccessibleEntitiesCount("student");
+        Assert.assertEquals(10, count);
+
+        // Assure same order and count.
+
+        accessibleEntities = (Collection<Entity>) method.invoke(service, query);
+        accessibleEntitiesIt = accessibleEntities.iterator();
+
+        Assert.assertEquals(5, accessibleEntities.size());
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student13"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student16"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student17"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student18"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student22"));
+        Assert.assertFalse(accessibleEntitiesIt.hasNext());
 
         count = service.getAccessibleEntitiesCount("student");
         Assert.assertEquals(10, count);
@@ -824,15 +897,27 @@ public class BasicServiceTest {
 
         query.setOffset(7);
         accessibleEntities = (Collection<Entity>) method.invoke(service, query);
+        accessibleEntitiesIt = accessibleEntities.iterator();
 
         Assert.assertEquals(3, accessibleEntities.size());
-        accessibleIds = new HashSet<String>();
-        for (Entity ent : accessibleEntities) {
-            accessibleIds.add(ent.getEntityId());
-        }
-        Assert.assertTrue(accessibleIds.contains("student18"));
-        Assert.assertTrue(accessibleIds.contains("student22"));
-        Assert.assertTrue(accessibleIds.contains("student23"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student18"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student22"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student23"));
+        Assert.assertFalse(accessibleEntitiesIt.hasNext());
+
+        count = service.getAccessibleEntitiesCount("student");
+        Assert.assertEquals(10, count);
+
+        // Assure same order and count.
+
+        accessibleEntities = (Collection<Entity>) method.invoke(service, query);
+        accessibleEntitiesIt = accessibleEntities.iterator();
+
+        Assert.assertEquals(3, accessibleEntities.size());
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student18"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student22"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student23"));
+        Assert.assertFalse(accessibleEntitiesIt.hasNext());
 
         count = service.getAccessibleEntitiesCount("student");
         Assert.assertEquals(10, count);
@@ -887,20 +972,35 @@ public class BasicServiceTest {
 
         Method method = BasicService.class.getDeclaredMethod("getAccessibleEntities", NeutralQuery.class);
         method.setAccessible(true);
+
         Collection<Entity> accessibleEntities = (Collection<Entity>) method.invoke(service, query);
+        Iterator<Entity> accessibleEntitiesIt = accessibleEntities.iterator();
 
         Assert.assertEquals(5, accessibleEntities.size());
-        Collection<String> accessibleIds = new HashSet<String>();
-        for (Entity ent : accessibleEntities) {
-            accessibleIds.add(ent.getEntityId());
-        }
-        Assert.assertTrue(accessibleIds.contains("student2"));
-        Assert.assertTrue(accessibleIds.contains("student4"));
-        Assert.assertTrue(accessibleIds.contains("student5"));
-        Assert.assertTrue(accessibleIds.contains("student6"));
-        Assert.assertTrue(accessibleIds.contains("student13"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student2"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student4"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student5"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student6"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student13"));
+        Assert.assertFalse(accessibleEntitiesIt.hasNext());
 
         long count = service.getAccessibleEntitiesCount("student");
+        Assert.assertEquals(5, count);
+
+        // Assure same order and count.
+
+        accessibleEntities = (Collection<Entity>) method.invoke(service, query);
+        accessibleEntitiesIt = accessibleEntities.iterator();
+
+        Assert.assertEquals(5, accessibleEntities.size());
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student2"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student4"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student5"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student6"));
+        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student13"));
+        Assert.assertFalse(accessibleEntitiesIt.hasNext());
+
+        count = service.getAccessibleEntitiesCount("student");
         Assert.assertEquals(5, count);
 
         countLimit.set(service, prevCountLimit);
