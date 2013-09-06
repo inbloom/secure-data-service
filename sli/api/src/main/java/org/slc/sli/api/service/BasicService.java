@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.Authentication;
@@ -103,6 +104,10 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
     @Autowired
     private EntityRightsFilter entityRightsFilter;
+
+    // The size limit of GET returns for dual contexts/differing user rights across edOrgs.
+    @Value("${sli.api.service.countLimit:10000}")
+    private long countLimit;
 
     private Map<String, Long> accessibleEntitiesCount = new HashMap<String, Long>();
     private Map<String, SecurityUtil.UserContext> entityContexts;
@@ -667,12 +672,12 @@ public class BasicService implements EntityService, AccessibilityCheck {
         }
 
         // Iterate through all queried entities.  For each one that passes access checks, increment the count.
-        // Additionally, collect the accessible entities requested for this call.
+        // Additionally, collect the accessible entities requested for this call.  Stop at hard count limit.
         int offset = neutralQuery.getOffset();
-        int totalCount = 0;
+        long totalCount = 0;
         int count = 0;
         Iterator<Entity> allEntitiesIt = allEntities.iterator();
-        while (allEntitiesIt.hasNext()) {
+        while ((totalCount < getCountLimit()) && (allEntitiesIt.hasNext())) {
             Entity entity = allEntitiesIt.next();
             try {
                 validateEntity(entity, isSelf, neutralQuery, entityContexts);
@@ -1296,6 +1301,10 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
     protected Repository<Entity> getRepo() {
         return repo;
+    }
+
+    protected long getCountLimit() {
+        return countLimit;
     }
 
     protected void setClientInfo(CallingApplicationInfoProvider clientInfo) {

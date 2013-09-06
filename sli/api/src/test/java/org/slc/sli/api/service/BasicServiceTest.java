@@ -116,6 +116,8 @@ public class BasicServiceTest {
     private static SecurityUtil.UserContext prevUserContext = SecurityUtil.getUserContext();
     private static SecurityContext prevSecurityContext = SecurityContextHolder.getContext();
 
+    private static final int MAX_RESULT_SIZE = 0;
+
     class MatchesNotAccessible extends ArgumentMatcher<Entity> {
         Set<String> studentIds = new HashSet<String>(Arrays.asList("student1", "student2", "student4", "student5", "student6",
                 "student13", "student14", "student16", "student17", "student18", "student20", "student22", "student23", "student24"));
@@ -751,7 +753,7 @@ public class BasicServiceTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testGetAccessibleEntitiesLimited() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    public void testGetAccessibleEntitiesPageLimit() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         securityContextInjector.setDualContext();
         SecurityUtil.setUserContext(SecurityUtil.UserContext.DUAL_CONTEXT);
 
@@ -843,6 +845,65 @@ public class BasicServiceTest {
 
         count = service.getAccessibleEntitiesCount("student");
         Assert.assertEquals(10, count);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testGetAccessibleEntitiesCountLimit() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+        securityContextInjector.setDualContext();
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.DUAL_CONTEXT);
+
+        List<Entity> entities = new ArrayList<Entity>();
+        Map<String, SecurityUtil.UserContext> studentContext = new HashMap<String, SecurityUtil.UserContext>();
+        for (int i=0; i<30; i++) {
+            String id = "student" + i;
+            entities.add(new MongoEntity("student", id, new HashMap<String,Object>(), new HashMap<String,Object>()));
+            studentContext.put(id, SecurityUtil.UserContext.DUAL_CONTEXT);
+        }
+        Mockito.when(mockRepo.findAll(Mockito.eq("student"), Mockito.any(NeutralQuery.class))).thenReturn(entities);
+        Mockito.when(mockRepo.count(Mockito.eq("student"), Mockito.any(NeutralQuery.class))).thenReturn(50L);
+
+        ContextValidator mockContextValidator = Mockito.mock(ContextValidator.class);
+        Field contextValidator = BasicService.class.getDeclaredField("contextValidator");
+        contextValidator.setAccessible(true);
+        contextValidator.set(service, mockContextValidator);
+        Mockito.when(mockContextValidator.getValidatedEntityContexts(Matchers.any(EntityDefinition.class), Matchers.any(Collection.class), Matchers.anyBoolean(), Matchers.anyBoolean())).thenReturn(studentContext);
+
+        RightAccessValidator mockAccessValidator = Mockito.mock(RightAccessValidator.class);
+        Field rightAccessValidator = BasicService.class.getDeclaredField("rightAccessValidator");
+        rightAccessValidator.setAccessible(true);
+        rightAccessValidator.set(service, mockAccessValidator);
+        Mockito.when(mockAccessValidator.getContextualAuthorities(Matchers.anyBoolean(), Matchers.any(Entity.class), Matchers.eq(SecurityUtil.UserContext.DUAL_CONTEXT), Matchers.anyBoolean())).thenReturn(new HashSet<GrantedAuthority>());
+        Mockito.doThrow(new AccessDeniedException("")).when(mockAccessValidator).checkAccess(Mockito.anyBoolean(), Mockito.anyBoolean(), Mockito.argThat(new MatchesNotAccessible()), Mockito.anyString(), Mockito.anyCollection());
+        Mockito.doThrow(new AccessDeniedException("")).when(mockAccessValidator).checkFieldAccess(Mockito.any(NeutralQuery.class), Mockito.argThat(new MatchesNotFieldAccessible()), Mockito.anyString(), Mockito.anyCollection());
+
+        NeutralQuery query = new NeutralQuery();
+        query.setLimit(MAX_RESULT_SIZE);
+        long mockCountLimit = 5;
+        Field countLimit = BasicService.class.getDeclaredField("countLimit");
+        countLimit.setAccessible(true);
+        long prevCountLimit = countLimit.getLong(service);
+        countLimit.set(service, mockCountLimit);
+
+        Method method = BasicService.class.getDeclaredMethod("getAccessibleEntities", NeutralQuery.class);
+        method.setAccessible(true);
+        Collection<Entity> accessibleEntities = (Collection<Entity>) method.invoke(service, query);
+
+        Assert.assertEquals(5, accessibleEntities.size());
+        Collection<String> accessibleIds = new HashSet<String>();
+        for (Entity ent : accessibleEntities) {
+            accessibleIds.add(ent.getEntityId());
+        }
+        Assert.assertTrue(accessibleIds.contains("student2"));
+        Assert.assertTrue(accessibleIds.contains("student4"));
+        Assert.assertTrue(accessibleIds.contains("student5"));
+        Assert.assertTrue(accessibleIds.contains("student6"));
+        Assert.assertTrue(accessibleIds.contains("student13"));
+
+        long count = service.getAccessibleEntitiesCount("student");
+        Assert.assertEquals(5, count);
+
+        countLimit.set(service, prevCountLimit);
     }
 
     @SuppressWarnings("unchecked")
