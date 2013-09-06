@@ -138,7 +138,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
         rightAccessValidator.checkFieldAccess(neutralQuery, defn.getType(), auths);
 
         long count = 0;
-        if (userHasMultipleContextsOrDifferingRights()) {
+        if (userHasMultipleContextsOrDifferingRights() && (!EntityNames.isPublic(defn.getType()))) {
             count = getAccessibleEntitiesCount(collectionName);
         } else {
             count = getRepo().count(collectionName, neutralQuery);
@@ -611,9 +611,9 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
         injectSecurity(neutralQuery);
 
-        boolean userHasMultipleContextsOrDifferingRights = userHasMultipleContextsOrDifferingRights();
+        boolean findSpecial = userHasMultipleContextsOrDifferingRights() && (!EntityNames.isPublic(defn.getType()));
         Collection<Entity> entities = new HashSet<Entity>();
-        if (userHasMultipleContextsOrDifferingRights) {
+        if (findSpecial) {
             entities = getAccessibleEntities(neutralQuery);
         } else {
             entities = (Collection<Entity>) repo.findAll(collectionName, neutralQuery);
@@ -632,7 +632,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
             try {
                 Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf, entity, context, true);
-                if (!userHasMultipleContextsOrDifferingRights) {
+                if (!findSpecial) {
                     rightAccessValidator.checkAccess(true, isSelf, entity, defn.getType(), auths);
                     rightAccessValidator.checkFieldAccess(neutralQuery, entity, defn.getType(), auths);
                 }
