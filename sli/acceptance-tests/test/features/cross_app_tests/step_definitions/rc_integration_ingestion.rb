@@ -195,6 +195,15 @@ Given /^I drop the file "(.*?)" into the landingzone$/ do |arg1|
   end
 end
 
+Given /^I drop the Odin generated file "(.*?)" into the landingzone$/ do |zipfile|
+  if !@hasNoLandingZone
+    path_delim = ""
+    source_path = @local_file_store_path + "../../../../../../tools/odin/generated/" + zipfile
+    dest_path = @landing_zone_path + zipfile
+    lzCopy(source_path, dest_path, @lz_url, @lz_username, @lz_password, @lz_port_number)
+  end
+end
+
 Given /^I check for the file "(.*?)" every "(.*?)" seconds for "(.*?)" seconds$/ do |arg1, arg2, arg3|
   waited = 0
   result = false
