@@ -69,13 +69,7 @@ Feature: Admin delegation CRUD
     And a security event "EdOrg data access has been revoked!" should be created for these targetEdOrgs
       | targetEdOrg                |
       | IL                         |
-      | IL-DAYBREAK                |
-      | IL-SUNSET                  |
-      | IL-LONGWOOD                |
-      | South Daybreak Elementary  |
-      | East Daybreak Junior High  |
-      | Sunset Central High School |
-      | Daybreak Central High      |
+
 
 #US5464
   Scenario: State administrator granting access to edOrg data
@@ -85,13 +79,7 @@ Feature: Admin delegation CRUD
     And a security event "Application granted access to EdOrg data!" should be created for these targetEdOrgs
       | targetEdOrg                |
       | IL                         |
-      | IL-DAYBREAK                |
-      | IL-SUNSET                  |
-      | IL-LONGWOOD                |
-      | South Daybreak Elementary  |
-      | East Daybreak Junior High  |
-      | Sunset Central High School |
-      | Daybreak Central High      |
+
 
 #US5464
   Scenario: LEA administrator revoking access to edOrg data
@@ -101,8 +89,7 @@ Feature: Admin delegation CRUD
     And a security event "EdOrg data access has been revoked!" should be created for these targetEdOrgs ONLY
       | targetEdOrg                |
       | IL-SUNSET                  |
-      | IL-LONGWOOD                |
-      | Sunset Central High School |
+
 
 #US5464
   Scenario: LEA administrator granting access to edOrg data
@@ -112,8 +99,7 @@ Feature: Admin delegation CRUD
     And a security event "Application granted access to EdOrg data!" should be created for these targetEdOrgs ONLY
       | targetEdOrg                |
       | IL-SUNSET                  |
-      | IL-LONGWOOD                |
-      | Sunset Central High School |
+
 
 #US5464
   Scenario: District administrator can grant access to edOrg data only if LEA adminstrator has delegated  AppApproval
@@ -157,8 +143,6 @@ Feature: Admin delegation CRUD
     And a security event "EdOrg data access has been revoked!" should be created for these targetEdOrgs ONLY
       | targetEdOrg                |
       | IL-SUNSET                  |
-      | IL-LONGWOOD                |
-      | Sunset Central High School |
 
     #SEA administrator tries to do AppAproval for non delegated LEA and succeeds, causes SecurityEvent to be logged
     Then I should grant all app authorizations for district "IL-SUNSET"
@@ -166,5 +150,3 @@ Feature: Admin delegation CRUD
     And a security event "Application granted access to EdOrg data!" should be created for these targetEdOrgs ONLY
       | targetEdOrg                |
       | IL-SUNSET                  |
-      | IL-LONGWOOD                |
-      | Sunset Central High School |
