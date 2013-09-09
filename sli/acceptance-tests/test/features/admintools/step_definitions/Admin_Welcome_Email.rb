@@ -32,7 +32,7 @@ Before("@RALLY_US3459") do
 end
 
 After("@RALLY_US3459") do |scenario|
-  cleanup_users(SAMT_WELCOME_TEST_UID_PREFIX, @mode) #for good measure, clean up users after a test
+  cleanup_users("SAMT_WELCOME_TEST_UID_PREFIX#{@mode}_", @mode) #for good measure, clean up users after a test
 end
 
 Given /^I have a new account with (.*?) in "([^"]*)"$/ do |groups, mode|
