@@ -102,7 +102,7 @@ Scenario: Verify teacherSchoolAssociation references ingested correctly: Populat
   When Examining the teacherSchoolAssociation collection references
     Then the document references "educationOrganization" "_id" with "body.schoolId"
      And the document references "staff" "_id" with "body.teacherId"
-
+@wip
 Scenario: Verify the charter school ingested correctly: Populated Database
   When I can find a "educationOrganization" with "body.stateOrganizationId" "IL-CHARTER-SCHOOL" in tenant db "Midgar"
   Then the "educationOrganization" entity "type" should be "educationOrganization"
