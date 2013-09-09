@@ -73,7 +73,7 @@ ldap_admin_user: cn=Admin,dc=slidev,dc=org
 ldap_admin_pass: Y;Gtf@w{
 
 minisb_ldap_hostname: localhost #local.slidev.org
-minisb_ldap_port: 1637
+minisb_ldap_port: 10067
 minisb_ldap_use_ssl: true
 minisb_ldap_base: "ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc=org"
 minisb_ldap_admin_user: cn=Admin,dc=slidev,dc=org

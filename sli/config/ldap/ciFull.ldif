@@ -1307,6 +1307,7 @@ memberUid: developer-email@slidev.org
 memberUid: asaarela@wgen.net
 memberUid: devldapuser@slidev.org
 memberUid: sandboxdeveloper
+memberUid: admintest-developer@slidev.org
 
 dn: cn=SEA Administrator,ou=groups,ou=SLIAdmin,dc=slidev,dc=org
 objectClass: posixGroup
@@ -1434,7 +1435,6 @@ homeDirectory: /home/users/developer
 sn: Test
 uid: developer
 uidNumber: 1126
-description:: dGVuYW50PUlMDQplZE9yZz1JTC1TVU5TRVQ=
 displayName: 58b38f3ee36cd1f6845160eff87a2028
 givenName: Developer
 loginShell: /bin/sh
@@ -1530,7 +1530,6 @@ gidNumber: 511
 memberUid: developer
 memberUid: administrator
 memberUid: demo
-memberUid: leader
 memberUid: realmadmin
 memberUid: fakerealmadmin
 
@@ -1702,7 +1701,7 @@ displayName: b82657a128e6332bcb0c18f0978828e7
 givenName: James
 mail: peacefrog@slidev.org
 o: GitErDone
-userPassword:: e01ENX1NdzdRWkdvTWw1dUtpM0Z1M1F5SzlBPT0=
+userPassword:: e01ENX1rUUY5V1FwcDNFbUFkbkdsSHhDcmZ3PT0=
 
 dn: cn=test@test.com,ou=people,ou=SLIAdmin,dc=slidev,dc=org
 objectClass: inetOrgPerson
@@ -2027,25 +2026,6 @@ mail: t903939@wgen.net
 o: T
 userPassword:: e01ENX1rUzdJQTdMT1NlU2xRUWFOU1ZxMWNBPT0=
 
-dn: cn=developer-email@slidev.org,ou=people,ou=SLIAdmin,dc=slidev,dc=org
-objectClass: inetOrgPerson
-objectClass: top
-objectClass: posixAccount
-cn: developer-email@slidev.org
-gidNumber: 500
-homeDirectory: /ingestion/lz/developer-email@slidev.org/IL
-sn: Developer
-uid: developer-email@slidev.org
-uidNumber: 834
-description:: dGVuYW50PWRldmVsb3Blci1lbWFpbEBzbGlkZXYub3JnCmVkT3JnPUlM
-destinationIndicator: approved
-displayName: 75c16a1f1735525ab6adee8c01fa4a7f
-gecos: 
-givenName: Joe
-mail: developer-email@slidev.org
-o: SLC
-userPassword:: dGVzdDEyMzQ=
-
 dn: cn=lalsop3210@acme.com,ou=people,ou=SLIAdmin,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
@@ -2136,25 +2116,6 @@ mail: asaarela@wgen.net
 o: test
 userPassword:: MTIzNA==
 
-dn: cn=devldapuserchung-mac.local@slidev.org,ou=people,ou=SLIAdmin,dc=slidev
- ,dc=org
-objectClass: inetOrgPerson
-objectClass: posixAccount
-objectClass: top
-cn: devldapuserchung-mac.local@slidev.org
-gidNumber: 500
-homeDirectory: test
-sn: Plyler
-uid: devldapuserchung-mac.local@slidev.org
-uidNumber: 500
-destinationIndicator: disabled
-displayName: 2f3a8ee1202781cbe602d10d1a8d45ee
-givenName: Loraine
-loginShell: /sbin/nologin
-mail: devldapuserchung-mac.local@slidev.org
-o: Macro Corp
-userPassword:: c2VjcmV0
-
 dn: cn=Sunset IngestionUser,ou=people,ou=SLIAdmin,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
@@ -2195,6 +2156,9 @@ memberUid: devldapuser_nxslave2@slidev.org
 memberUid: devldapuser_nxslave9@slidev.org
 memberUid: lalsop_nxslave9@acme.com
 memberUid: devldapuser_cislave10@slidev.org
+memberUid: devldapuser_ip-10-163-6-112@slidev.org
+memberUid: devldapuser_ip-10-163-7-63@slidev.org
+memberUid: devldapuser_cislave@slidev.org
 
 dn: cn=ingestion_user,ou=groups,ou=SLIAdmin,dc=slidev,dc=org
 objectClass: posixGroup
@@ -2230,6 +2194,9 @@ memberUid: devldapuser_nxslave2@slidev.org
 memberUid: devldapuser_nxslave9@slidev.org
 memberUid: lalsop_nxslave9@acme.com
 memberUid: devldapuser_cislave10@slidev.org
+memberUid: devldapuser_ip-10-163-6-112@slidev.org
+memberUid: devldapuser_ip-10-163-7-63@slidev.org
+memberUid: devldapuser_cislave@slidev.org
 
 dn: cn=application_developer,ou=groups,ou=SLIAdmin,dc=slidev,dc=org
 objectClass: posixGroup
@@ -2260,6 +2227,10 @@ memberUid: devldapuser_nxslave2@slidev.org
 memberUid: devldapuser_nxslave9@slidev.org
 memberUid: lalsop_nxslave9@acme.com
 memberUid: devldapuser_cislave10@slidev.org
+memberUid: devldapuser_ip-10-163-6-112@slidev.org
+memberUid: devldapuser_ip-10-163-7-63@slidev.org
+memberUid: devldapuser_cislave@slidev.org
+memberUid: admintest-developer@slidev.org
 
 dn: cn=cwilson@wgen.net,ou=people,ou=SLIAdmin,dc=slidev,dc=org
 objectClass: inetOrgPerson
@@ -2382,7 +2353,8 @@ displayName: 4ba75e11e2932e68dd6af3b4077c16ee
 givenName: Bill
 loginShell: /bin/bash
 mail: slcoperator-email@slidev.org
-userPassword:: e01ENX1TSnJ5L243SDlqbmJGZEh3UDdVOGVBPT0=
+o: test
+userPassword:: c2xjb3BlcmF0b3ItZW1haWwxMjM0
 
 dn: cn=SLC Operator,ou=groups,ou=SLIAdmin,dc=slidev,dc=org
 objectClass: posixGroup
@@ -2391,123 +2363,6 @@ cn: SLC Operator
 gidNumber: 504
 memberUid: slcoperator
 memberUid: slcoperator-email@slidev.org
-
-dn: cn=devldapuser_Liu-Mac.local@slidev.org,ou=people,ou=SLIAdmin,dc=slidev,
- dc=org
-objectClass: inetOrgPerson
-objectClass: posixAccount
-objectClass: top
-cn: devldapuser_Liu-Mac.local@slidev.org
-gidNumber: 500
-homeDirectory: /Users/dliu/sli_home/sli/sli/api/target/ingestion/lz/inbound/
- devldapuser_Liu-Mac.local@slidev.org/92a1088128e8b569a0ae094f5a92928402af4c
- 5ef9c1ece3c57c8681615e030d
-sn: test
-uid: devldapuser_Liu-Mac.local@slidev.org
-uidNumber: 500
-description:: dGVuYW50PWRldmxkYXB1c2VyX0xpdS1NYWMubG9jYWxAc2xpZGV2Lm9yZwplZE
- 9yZz1UZXN0X0VkX09yZw==
-destinationIndicator: approved
-displayName: 4eca556ecee10d07f5064ba850c20c72
-gecos: 
-givenName: Provision
-loginShell: /sbin/nologin
-mail: devldapuser_Liu-Mac.local@slidev.org
-o: Macro Corp
-userPassword:: dGVzdDEyMzQ=
-
-dn: cn=devldapuser_localhost@slidev.org,ou=people,ou=SLIAdmin,dc=slidev,dc=o
- rg
-objectClass: inetOrgPerson
-objectClass: posixAccount
-objectClass: top
-cn: devldapuser_localhost@slidev.org
-gidNumber: 500
-homeDirectory: /Users/dongliu/sli/sli/api/target/ingestion/lz/inbound/devlda
- puser_localhost@slidev.org/92a1088128e8b569a0ae094f5a92928402af4c5ef9c1ece3
- c57c8681615e030d
-sn: test
-uid: devldapuser_localhost@slidev.org
-uidNumber: 500
-description:: dGVuYW50PWRldmxkYXB1c2VyX2xvY2FsaG9zdEBzbGlkZXYub3JnCmVkT3JnPV
- Rlc3RfRWRfT3Jn
-destinationIndicator: approved
-displayName: 6b9a277acf11c4d6985072e691cf37f4
-gecos: 
-givenName: Provision
-loginShell: /sbin/nologin
-mail: devldapuser_localhost@slidev.org
-o: Macro Corp
-userPassword:: dGVzdDEyMzQ=
-
-dn: cn=devldapuser_nxslave6@slidev.org,ou=people,ou=SLIAdmin,dc=slidev,dc=or
- g
-objectClass: inetOrgPerson
-objectClass: posixAccount
-objectClass: top
-cn: devldapuser_nxslave6@slidev.org
-gidNumber: 500
-homeDirectory: /ingestion/lz/devldapuser_nxslave6@slidev.org/92a1088128e8b56
- 9a0ae094f5a92928402af4c5ef9c1ece3c57c8681615e030d
-sn: test
-uid: devldapuser_nxslave6@slidev.org
-uidNumber: 500
-description:: dGVuYW50PWRldmxkYXB1c2VyX254c2xhdmU2QHNsaWRldi5vcmcKZWRPcmc9VG
- VzdF9FZF9Pcmc=
-destinationIndicator: approved
-displayName: 391667f7efd5d8422af9f7ffdf7f423e
-gecos: 
-givenName: Provision
-loginShell: /sbin/nologin
-mail: devldapuser_nxslave6@slidev.org
-o: Macro Corp
-userPassword:: dGVzdDEyMzQ=
-
-dn: cn=devldapuser_nxslave3@slidev.org,ou=people,ou=SLIAdmin,dc=slidev,dc=or
- g
-objectClass: inetOrgPerson
-objectClass: posixAccount
-objectClass: top
-cn: devldapuser_nxslave3@slidev.org
-gidNumber: 500
-homeDirectory: /ingestion/lz/devldapuser_nxslave3@slidev.org/92a1088128e8b56
- 9a0ae094f5a92928402af4c5ef9c1ece3c57c8681615e030d
-sn: test
-uid: devldapuser_nxslave3@slidev.org
-uidNumber: 500
-description:: dGVuYW50PWRldmxkYXB1c2VyX254c2xhdmUzQHNsaWRldi5vcmcKZWRPcmc9VG
- VzdF9FZF9Pcmc=
-destinationIndicator: approved
-displayName: 03e60173fcb69731140588ba187bbf1d
-gecos: 
-givenName: Provision
-loginShell: /sbin/nologin
-mail: devldapuser_nxslave3@slidev.org
-o: Macro Corp
-userPassword:: dGVzdDEyMzQ=
-
-dn: cn=devldapuser_nxslave1@slidev.org,ou=people,ou=SLIAdmin,dc=slidev,dc=or
- g
-objectClass: inetOrgPerson
-objectClass: posixAccount
-objectClass: top
-cn: devldapuser_nxslave1@slidev.org
-gidNumber: 500
-homeDirectory: /ingestion/lz/devldapuser_nxslave1@slidev.org/f03919c387b77d5
- 0ef7b4ffed6ab3f0431a9f15460149cabb5fa690d97c2e9ee
-sn: test
-uid: devldapuser_nxslave1@slidev.org
-uidNumber: 500
-description:: dGVuYW50PWRldmxkYXB1c2VyX254c2xhdmUxQHNsaWRldi5vcmcKZWRPcmc9U1
- RBTkRBUkQtU0VB
-destinationIndicator: approved
-displayName: e9a5a7985168d49c8c48487a85e83646
-gecos: 
-givenName: Provision
-loginShell: /sbin/nologin
-mail: devldapuser_nxslave1@slidev.org
-o: Macro Corp
-userPassword:: dGVzdDEyMzQ=
 
 dn: cn=lalsop_nxslave1@acme.com,ou=people,ou=SLIAdmin,dc=slidev,dc=org
 objectClass: inetOrgPerson
@@ -2529,52 +2384,6 @@ mail: lalsop_nxslave1@acme.com
 o: Acme Corp
 userPassword:: ZHVtbXlwc3dkMTIz
 
-dn: cn=devldapuser_nxslave5@slidev.org,ou=people,ou=SLIAdmin,dc=slidev,dc=or
- g
-objectClass: inetOrgPerson
-objectClass: posixAccount
-objectClass: top
-cn: devldapuser_nxslave5@slidev.org
-gidNumber: 500
-homeDirectory: /ingestion/lz/devldapuser_nxslave5@slidev.org/92a1088128e8b56
- 9a0ae094f5a92928402af4c5ef9c1ece3c57c8681615e030d
-sn: test
-uid: devldapuser_nxslave5@slidev.org
-uidNumber: 500
-description:: dGVuYW50PWRldmxkYXB1c2VyX254c2xhdmU1QHNsaWRldi5vcmcKZWRPcmc9VG
- VzdF9FZF9Pcmc=
-destinationIndicator: approved
-displayName: 953397024e4ea740f90247606b87b0e4
-gecos: 
-givenName: Provision
-loginShell: /sbin/nologin
-mail: devldapuser_nxslave5@slidev.org
-o: Macro Corp
-userPassword:: dGVzdDEyMzQ=
-
-dn: cn=devldapuser_cislave01.slidev.org@slidev.org,ou=people,ou=SLIAdmin,dc=
- slidev,dc=org
-objectClass: inetOrgPerson
-objectClass: posixAccount
-objectClass: top
-cn: devldapuser_cislave01.slidev.org@slidev.org
-gidNumber: 500
-homeDirectory: /ingestion/lz/devldapuser_cislave01.slidev.org@slidev.org/92a
- 1088128e8b569a0ae094f5a92928402af4c5ef9c1ece3c57c8681615e030d
-sn: test
-uid: devldapuser_cislave01.slidev.org@slidev.org
-uidNumber: 500
-description:: dGVuYW50PWRldmxkYXB1c2VyX2Npc2xhdmUwMS5zbGlkZXYub3JnQHNsaWRldi
- 5vcmcKZWRPcmc9VGVzdF9FZF9Pcmc=
-destinationIndicator: approved
-displayName: fcaef6ba867f68db3716fe7ca726f742
-gecos: 
-givenName: Provision
-loginShell: /sbin/nologin
-mail: devldapuser_cislave01.slidev.org@slidev.org
-o: Macro Corp
-userPassword:: dGVzdDEyMzQ=
-
 dn: cn=lalsop_cislave01.slidev.org@acme.com,ou=people,ou=SLIAdmin,dc=slidev,
  dc=org
 objectClass: inetOrgPerson
@@ -2595,75 +2404,6 @@ mail: lalsop_cislave01.slidev.org@acme.com
 o: Acme Corp
 userPassword:: ZHVtbXlwc3dkMTIz
 
-dn: cn=devldapuser_cislave02.slidev.org@slidev.org,ou=people,ou=SLIAdmin,dc=
- slidev,dc=org
-objectClass: inetOrgPerson
-objectClass: posixAccount
-objectClass: top
-cn: devldapuser_cislave02.slidev.org@slidev.org
-gidNumber: 500
-homeDirectory: /ingestion/lz/devldapuser_cislave02.slidev.org@slidev.org/92a
- 1088128e8b569a0ae094f5a92928402af4c5ef9c1ece3c57c8681615e030d
-sn: test
-uid: devldapuser_cislave02.slidev.org@slidev.org
-uidNumber: 500
-description:: dGVuYW50PWRldmxkYXB1c2VyX2Npc2xhdmUwMi5zbGlkZXYub3JnQHNsaWRldi
- 5vcmcKZWRPcmc9VGVzdF9FZF9Pcmc=
-destinationIndicator: approved
-displayName: b27603e9bf5d64ade72f6de0a1c2d56e
-gecos: 
-givenName: Provision
-loginShell: /sbin/nologin
-mail: devldapuser_cislave02.slidev.org@slidev.org
-o: Macro Corp
-userPassword:: dGVzdDEyMzQ=
-
-dn: cn=devldapuser_nxslave8@slidev.org,ou=people,ou=SLIAdmin,dc=slidev,dc=or
- g
-objectClass: inetOrgPerson
-objectClass: posixAccount
-objectClass: top
-cn: devldapuser_nxslave8@slidev.org
-gidNumber: 500
-homeDirectory: /ingestion/lz/devldapuser_nxslave8@slidev.org/92a1088128e8b56
- 9a0ae094f5a92928402af4c5ef9c1ece3c57c8681615e030d
-sn: test
-uid: devldapuser_nxslave8@slidev.org
-uidNumber: 500
-description:: dGVuYW50PWRldmxkYXB1c2VyX254c2xhdmU4QHNsaWRldi5vcmcKZWRPcmc9VG
- VzdF9FZF9Pcmc=
-destinationIndicator: approved
-displayName: aa0fc513cbd647d4dbdae83cbc112944
-gecos: 
-givenName: Provision
-loginShell: /sbin/nologin
-mail: devldapuser_nxslave8@slidev.org
-o: Macro Corp
-userPassword:: dGVzdDEyMzQ=
-
-dn: cn=devldapuser_nxslave7@slidev.org,ou=people,ou=SLIAdmin,dc=slidev,dc=or
- g
-objectClass: inetOrgPerson
-objectClass: posixAccount
-objectClass: top
-cn: devldapuser_nxslave7@slidev.org
-gidNumber: 500
-homeDirectory: /ingestion/lz/devldapuser_nxslave7@slidev.org/f03919c387b77d5
- 0ef7b4ffed6ab3f0431a9f15460149cabb5fa690d97c2e9ee
-sn: test
-uid: devldapuser_nxslave7@slidev.org
-uidNumber: 500
-description:: dGVuYW50PWRldmxkYXB1c2VyX254c2xhdmU3QHNsaWRldi5vcmcKZWRPcmc9U1
- RBTkRBUkQtU0VB
-destinationIndicator: approved
-displayName: e8aec46ac052dc791683ebbfc3645db8
-gecos: 
-givenName: Provision
-loginShell: /sbin/nologin
-mail: devldapuser_nxslave7@slidev.org
-o: Macro Corp
-userPassword:: dGVzdDEyMzQ=
-
 dn: cn=lalsop_nxslave7@acme.com,ou=people,ou=SLIAdmin,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
@@ -2683,94 +2423,6 @@ loginShell: /sbin/nologin
 mail: lalsop_nxslave7@acme.com
 o: Acme Corp
 userPassword:: ZHVtbXlwc3dkMTIz
-
-dn: cn=devldapuser_nxslave2@slidev.org,ou=people,ou=SLIAdmin,dc=slidev,dc=or
- g
-objectClass: inetOrgPerson
-objectClass: posixAccount
-objectClass: top
-cn: devldapuser_nxslave2@slidev.org
-gidNumber: 500
-homeDirectory: /ingestion/lz/devldapuser_nxslave2@slidev.org/92a1088128e8b56
- 9a0ae094f5a92928402af4c5ef9c1ece3c57c8681615e030d
-sn: test
-uid: devldapuser_nxslave2@slidev.org
-uidNumber: 500
-description:: dGVuYW50PWRldmxkYXB1c2VyX254c2xhdmUyQHNsaWRldi5vcmcKZWRPcmc9VG
- VzdF9FZF9Pcmc=
-destinationIndicator: approved
-displayName: ff666b3b4af9a20b18ebb6e9888a83c6
-gecos: 
-givenName: Provision
-loginShell: /sbin/nologin
-mail: devldapuser_nxslave2@slidev.org
-o: Macro Corp
-userPassword:: dGVzdDEyMzQ=
-
-dn: cn=Lplyer@macrocorp.com,ou=people,ou=SLIAdmin,dc=slidev,dc=org
-objectClass: inetOrgPerson
-objectClass: posixAccount
-objectClass: top
-cn: Lplyer@macrocorp.com
-gidNumber: 500
-homeDirectory: test
-sn: Plyler
-uid: Lplyer@macrocorp.com
-uidNumber: 500
-description: tenant=Lplyer@macrocorp.com
-destinationIndicator: disabled
-displayName: 4ee6b3d1086d8306b3f662415cb83567
-gecos: 
-givenName: Loraine
-loginShell: /sbin/nologin
-mail: Lplyer@macrocorp.com
-o: Macro Corp
-userPassword:: MTIzNA==
-
-dn: cn=devldapuser@slidev.org,ou=people,ou=SLIAdmin,dc=slidev,dc=org
-objectClass: inetOrgPerson
-objectClass: posixAccount
-objectClass: top
-cn: devldapuser@slidev.org
-gidNumber: 113
-homeDirectory: /ingestion/lz/devldapuser@slidev.org/f03919c387b77d50ef7b4ffe
- d6ab3f0431a9f15460149cabb5fa690d97c2e9ee
-sn: Plyler2
-uid: devldapuser@slidev.org
-uidNumber: 500
-description:: dGVuYW50PWRldmxkYXB1c2VyQHNsaWRldi5vcmcKZWRPcmc9U1RBTkRBUkQtU0
- VB
-destinationIndicator: approved
-displayName: 195a1f7eb5e2a8104d2a96dac83c09bc
-gecos: 
-givenName: Loraine2
-loginShell: /sbin/nologin
-mail: devldapuser@slidev.org
-o: Macro Corp
-userPassword:: dGVzdDEyMzQ=
-
-dn: cn=devldapuser_nxslave9@slidev.org,ou=people,ou=SLIAdmin,dc=slidev,dc=or
- g
-objectClass: inetOrgPerson
-objectClass: posixAccount
-objectClass: top
-cn: devldapuser_nxslave9@slidev.org
-gidNumber: 500
-homeDirectory: /ingestion/lz/devldapuser_nxslave9@slidev.org/f03919c387b77d5
- 0ef7b4ffed6ab3f0431a9f15460149cabb5fa690d97c2e9ee
-sn: test
-uid: devldapuser_nxslave9@slidev.org
-uidNumber: 500
-description:: dGVuYW50PWRldmxkYXB1c2VyX254c2xhdmU5QHNsaWRldi5vcmcKZWRPcmc9U1
- RBTkRBUkQtU0VB
-destinationIndicator: approved
-displayName: 2108b9e4cdfa8a2cbd7327415d46fd8b
-gecos: 
-givenName: Provision
-loginShell: /sbin/nologin
-mail: devldapuser_nxslave9@slidev.org
-o: Macro Corp
-userPassword:: dGVzdDEyMzQ=
 
 dn: cn=lalsop_nxslave9@acme.com,ou=people,ou=SLIAdmin,dc=slidev,dc=org
 objectClass: inetOrgPerson
@@ -3975,6 +3627,7 @@ memberUid: sunsetadmin
 memberUid: daybreakadmin
 memberUid: daybreaknorealmadmin
 memberUid: mreynolds
+memberUid: jsingh-mac.local_prodtestuser2@testwgen.net
 
 dn: cn=Application Developer,ou=groups,ou=LocalNew,ou=DevTest,dc=slidev,dc=o
  rg
@@ -3985,7 +3638,6 @@ gidNumber: 506
 memberUid: testdeveloper
 memberUid: developer
 memberUid: nbrown@wgen.net
-memberUid: peacefrog@slidev.org
 memberUid: slcdeveloper
 memberUid: rfarris@wgen.net
 memberUid: stephan@klaravision.com
@@ -3996,6 +3648,9 @@ memberUid: developer-email@slidev.org
 memberUid: asaarela@wgen.net
 memberUid: devldapuser@slidev.org
 memberUid: sandboxdeveloper
+memberUid: admintest-developer@slidev.org
+memberUid: smuhit-mac.local_prodtestuser2@testwgen.net
+memberUid: tke-mac-7.local_prodtestuser2@testwgen.net
 
 dn: cn=SEA Administrator,ou=groups,ou=LocalNew,ou=DevTest,dc=slidev,dc=org
 objectClass: posixGroup
@@ -4007,6 +3662,7 @@ memberUid: iladmin
 memberUid: ontarioadmin
 memberUid: cwilson
 memberUid: mreynolds
+memberUid: peace_frog@slidev.org
 
 dn: cn=Realm Administrator,ou=groups,ou=LocalNew,ou=DevTest,dc=slidev,dc=org
 objectClass: posixGroup
@@ -4022,6 +3678,9 @@ memberUid: daybreakadmin
 memberUid: ontarioadmin
 memberUid: mreynolds
 memberUid: cwilson
+memberUid: peace_frog@slidev.org
+memberUid: SAMT_Welcome_Email_tke-mac-7.localVnZZXxNidWumGlbbxGoxdRTNnmOYIgf
+ sscmvWGVTKofPnwkyzHt
 
 dn: cn=Ingestion User,ou=groups,ou=LocalNew,ou=DevTest,dc=slidev,dc=org
 objectClass: posixGroup
@@ -4035,7 +3694,6 @@ memberUid: daybreakadmin
 memberUid: ingestionuser
 memberUid: rfarris@wgen.net
 memberUid: mreynolds
-memberUid: peacefrog@slidev.org
 memberUid: saltmueller@wgen.net
 memberUid: cwilson
 memberUid: joechung@slidev.org
@@ -4054,7 +3712,6 @@ gidNumber: 511
 memberUid: developer
 memberUid: administrator
 memberUid: demo
-memberUid: leader
 memberUid: realmadmin
 memberUid: fakerealmadmin
 
@@ -4084,7 +3741,14 @@ memberUid: devldapuser_nxslave2@slidev.org
 memberUid: devldapuser_nxslave9@slidev.org
 memberUid: lalsop_nxslave9@acme.com
 memberUid: devldapuser_ablum-mac.local@slidev.org
+memberUid: devldapuser_bsuzuki-mac.local@slidev.org
+memberUid: devldapuser_jhinsdale-mac.local@slidev.org
+memberUid: devldapuser_jsingh-mac.local@slidev.org
+memberUid: jraynor@smuhit-mac.local
+memberUid: devldapuser_tshewchuk-mac.local@slidev.org
 memberUid: devldapuser_smuhit-mac.local@slidev.org
+memberUid: lalsop_smuhit-mac.local@acme.com
+memberUid: devldapuser_tke-mac-7.local@slidev.org
 
 dn: cn=ingestion_user,ou=groups,ou=LocalNew,ou=DevTest,dc=slidev,dc=org
 objectClass: posixGroup
@@ -4096,7 +3760,6 @@ memberUid: sunsetadmin
 memberUid: daybreakadmin
 memberUid: ingestionuser
 memberUid: mreynolds
-memberUid: peacefrog@slidev.org
 memberUid: cwilson
 memberUid: lalsop@acme.com
 memberUid: devldapuser@slidev.org
@@ -4120,7 +3783,16 @@ memberUid: devldapuser_nxslave2@slidev.org
 memberUid: devldapuser_nxslave9@slidev.org
 memberUid: lalsop_nxslave9@acme.com
 memberUid: devldapuser_ablum-mac.local@slidev.org
+memberUid: devldapuser_bsuzuki-mac.local@slidev.org
+memberUid: devldapuser_jhinsdale-mac.local@slidev.org
+memberUid: devldapuser_jsingh-mac.local@slidev.org
+memberUid: jsingh-mac.local_prodtestuser@testwgen.net
+memberUid: jraynor@smuhit-mac.local
+memberUid: devldapuser_tshewchuk-mac.local@slidev.org
+memberUid: smuhit-mac.local_prodtestuser@testwgen.net
 memberUid: devldapuser_smuhit-mac.local@slidev.org
+memberUid: lalsop_smuhit-mac.local@acme.com
+memberUid: devldapuser_tke-mac-7.local@slidev.org
 
 dn: cn=application_developer,ou=groups,ou=LocalNew,ou=DevTest,dc=slidev,dc=o
  rg
@@ -4130,7 +3802,6 @@ cn: application_developer
 gidNumber: 506
 memberUid: testdeveloper
 memberUid: developer
-memberUid: peacefrog@slidev.org
 memberUid: slcdeveloper
 memberUid: developer-email@slidev.org
 memberUid: devldapuser@slidev.org
@@ -4152,7 +3823,15 @@ memberUid: devldapuser_nxslave2@slidev.org
 memberUid: devldapuser_nxslave9@slidev.org
 memberUid: lalsop_nxslave9@acme.com
 memberUid: devldapuser_ablum-mac.local@slidev.org
+memberUid: devldapuser_bsuzuki-mac.local@slidev.org
+memberUid: devldapuser_jhinsdale-mac.local@slidev.org
+memberUid: devldapuser_jsingh-mac.local@slidev.org
+memberUid: jraynor@smuhit-mac.local
+memberUid: devldapuser_tshewchuk-mac.local@slidev.org
+memberUid: admintest-developer@slidev.org
 memberUid: devldapuser_smuhit-mac.local@slidev.org
+memberUid: lalsop_smuhit-mac.local@acme.com
+memberUid: devldapuser_tke-mac-7.local@slidev.org
 
 dn: ou=people,ou=LocalNew,ou=DevTest,dc=slidev,dc=org
 objectClass: organizationalUnit
@@ -4517,9 +4196,8 @@ objectClass: posixAccount
 objectClass: top
 cn: mreynolds
 gidNumber: 505
-homeDirectory: /Users/ablum/IdeaProjects/datastore/sli/api/target/ingestion/
- lz/inbound/mreynolds/9bf8127b447dc553f3a3ad260c03b60da7da4be04802e586d9eef8
- 23df840bd4
+homeDirectory: /Users/smuhit/SLI/sli/sli/api/target/ingestion/lz/inbound/mre
+ ynolds/9bf8127b447dc553f3a3ad260c03b60da7da4be04802e586d9eef823df840bd4
 sn: Admin
 uid: mreynolds
 uidNumber: 1121
@@ -4529,26 +4207,6 @@ givenName: Mal
 loginShell: /bin/sh
 mail: mreynolds@slidev.org
 userPassword:: bXJleW5vbGRzMTIzNA==
-
-dn: cn=peacefrog@slidev.org,ou=people,ou=LocalNew,ou=DevTest,dc=slidev,dc=or
- g
-objectClass: inetOrgPerson
-objectClass: posixAccount
-objectClass: top
-cn: peacefrog@slidev.org
-gidNumber: 500
-homeDirectory: /Users/jshort/git_workspace1/sli/sli/api/target/ingestion/lz/
- inbound/peacefrog@slidev.org/JamesTest
-sn: Short
-uid: peacefrog@slidev.org
-uidNumber: 500
-description:: dGVuYW50PXBlYWNlZnJvZ0BzbGlkZXYub3JnCmVkT3JnPUphbWVzVGVzdA==
-destinationIndicator: approved
-displayName: b82657a128e6332bcb0c18f0978828e7
-givenName: James
-mail: peacefrog@slidev.org
-o: GitErDone
-userPassword:: e01ENX1NdzdRWkdvTWw1dUtpM0Z1M1F5SzlBPT0=
 
 dn: cn=test@test.com,ou=people,ou=LocalNew,ou=DevTest,dc=slidev,dc=org
 objectClass: inetOrgPerson
@@ -4880,26 +4538,6 @@ mail: t903939@wgen.net
 o: T
 userPassword:: e01ENX1rUzdJQTdMT1NlU2xRUWFOU1ZxMWNBPT0=
 
-dn: cn=developer-email@slidev.org,ou=people,ou=LocalNew,ou=DevTest,dc=slidev
- ,dc=org
-objectClass: inetOrgPerson
-objectClass: top
-objectClass: posixAccount
-cn: developer-email@slidev.org
-gidNumber: 500
-homeDirectory: /ingestion/lz/developer-email@slidev.org/IL
-sn: Developer
-uid: developer-email@slidev.org
-uidNumber: 834
-description:: dGVuYW50PWRldmVsb3Blci1lbWFpbEBzbGlkZXYub3JnCmVkT3JnPUlM
-destinationIndicator: approved
-displayName: 75c16a1f1735525ab6adee8c01fa4a7f
-gecos: 
-givenName: Joe
-mail: developer-email@slidev.org
-o: SLC
-userPassword:: dGVzdDEyMzQ=
-
 dn: cn=lalsop3210@acme.com,ou=people,ou=LocalNew,ou=DevTest,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
@@ -5136,22 +4774,6 @@ loginShell: /bin/bash
 mail: sandboxslcoperator@slidev.org
 userPassword:: e1NTSEF9SHVnQWhzajlPcHFKM0YvQmo0OVNlYjYrRC9LdlFFYlFGYmFMWEE9P
  Q==
-
-dn: cn=Bill Operator,ou=people,ou=LocalNew,ou=DevTest,dc=slidev,dc=org
-objectClass: inetOrgPerson
-objectClass: posixAccount
-objectClass: top
-cn: Bill Operator
-gidNumber: 100
-homeDirectory: /home/users/toperator
-sn: Operator
-uid: slcoperator-email@slidev.org
-uidNumber: 1164
-displayName: 4ba75e11e2932e68dd6af3b4077c16ee
-givenName: Bill
-loginShell: /bin/bash
-mail: slcoperator-email@slidev.org
-userPassword:: e01ENX1TSnJ5L243SDlqbmJGZEh3UDdVOGVBPT0=
 
 dn: cn=devldapuser_Liu-Mac.local@slidev.org,ou=people,ou=LocalNew,ou=DevTest
  ,dc=slidev,dc=org
@@ -5514,22 +5136,6 @@ mail: lalsop_nxslave9@acme.com
 o: Acme Corp
 userPassword:: ZHVtbXlwc3dkMTIz
 
-dn: cn=operator,ou=people,ou=LocalNew,ou=DevTest,dc=slidev,dc=org
-objectClass: inetOrgPerson
-objectClass: posixAccount
-objectClass: top
-cn: operator
-gidNumber: 504
-homeDirectory: /home/users/slcoperator
-sn: Operator
-uid: slcoperator
-uidNumber: 1118
-displayName: 2ccd88620d9d3fb3ee8ee839c806fb73
-givenName: SLC
-loginShell: /bin/sh
-mail: slcoperator@slidev.org
-userPassword:: e01ENX1qeGVYbGNhWlgxWDFDemx2VGpCdTZ3PT0=
-
 dn: cn=Ingestion_User7,ou=people,ou=LocalNew,ou=DevTest,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
@@ -5568,17 +5174,2539 @@ mail: devldapuser_ablum-mac.local@slidev.org
 o: test
 userPassword:: dGVzdDEyMzQ=
 
-dn: ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: uid=test4,ou=people,dc=slidev,dc=org
+objectClass: top
+objectClass: account
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: Tammy Somethingr2
+gidNumber: 3000
+homeDirectory: /home/test4
+uid: test4
+uidNumber: 3000
+gecos: Tammy Something,Karate Instructor,Room 37A,435-555-555,801-555-555
+loginShell: /bin/bash
+shadowLastChange: 0
+shadowMax: 0
+shadowWarning: 0
+userPassword:: YWJjMTIz
+
+dn: uid=test5@slidev.org,ou=people,dc=slidev,dc=org
+objectClass: top
+objectClass: account
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: Tammy Somethingr32
+gidNumber: 30030
+homeDirectory: /home/test4
+uid: test4@slidev.org
+uid: test5@slidev.org
+uidNumber: 30030
+gecos: Tammy Something,Karate Instructor,Room 37A,435-555-555,801-555-555
+loginShell: /bin/bash
+shadowLastChange: 0
+shadowMax: 0
+shadowWarning: 0
+userPassword:: YWJjMTIz
+
+dn: uid=test6@slidev.org,ou=people,dc=slidev,dc=org
+objectClass: top
+objectClass: account
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: Tammy Somethingr32
+gidNumber: 30030
+homeDirectory: /home/test6
+uid: test6@slidev.org
+uidNumber: 30030
+gecos: Tammy Something,Karate Instructor,Room 37A,435-555-555,801-555-555
+loginShell: /bin/bash
+shadowLastChange: 0
+shadowMax: 0
+shadowWarning: 0
+userPassword:: YWJjMTIz
+
+dn: cn=devldapuser_bsuzuki-mac.local@slidev.org,ou=people,ou=LocalNew,ou=Dev
+ Test,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: devldapuser_bsuzuki-mac.local@slidev.org
+gidNumber: 500
+homeDirectory: /ingestion/lz/inbound/devldapuser_bsuzuki-mac.local@slidev.or
+ g/Test_Ed_Org
+sn: test
+uid: devldapuser_bsuzuki-mac.local@slidev.org
+uidNumber: 500
+description:: dGVuYW50PWRldmxkYXB1c2VyX2JzdXp1a2ktbWFjLmxvY2FsQHNsaWRldi5vcm
+ cKZWRPcmc9VGVzdF9FZF9Pcmc=
+destinationIndicator: approved
+displayName: bdf1c034ff5641d6641478776ea5ba53
+gecos: 
+givenName: Provision
+loginShell: /sbin/nologin
+mail: devldapuser_bsuzuki-mac.local@slidev.org
+o: test
+userPassword:: dGVzdDEyMzQ=
+
+dn: uid=ncamacho,ou=people,dc=slidev,dc=org
+objectClass: top
+objectClass: account
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: Nestor Camacho III
+gidNumber: 1200
+homeDirectory: /home/ncamacho
+uid: ncamacho
+uidNumber: 1200
+gecos: Nestor Camacho III
+loginShell: /bin/bash
+shadowLastChange: 0
+shadowMax: 0
+shadowWarning: 0
+userPassword:: e21kNX1sU1pVU05wc2Z5WHEzZjFDRElLcVpBPT0=
+
+dn: ou=Charter-School-Daybreak-Central-High,ou=DevTest,dc=slidev,dc=org
 objectClass: organizationalUnit
 objectClass: top
-ou: SLIAdmin
+ou: Charter-School-Daybreak-Central-High
 
-dn: ou=groups,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: ou=groups,ou=Charter-School-Daybreak-Central-High,ou=DevTest,dc=slidev,d
+ c=org
 objectClass: organizationalUnit
 objectClass: top
 ou: groups
 
-dn: cn=LEA Administrator,ou=groups,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=Educator,ou=groups,ou=Charter-School-Daybreak-Central-High,ou=DevTest
+ ,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Educator
+gidNumber: 503
+memberUid: linda.kim
+memberUid: cgray
+memberUid: rbraverman
+memberUid: mabernathy
+memberUid: CAP0-D0-HSch0-teacher34
+memberUid: CAP0-D0-HSch6-teacher11
+memberUid: CAP0-D0-HSch0-teacher11
+memberUid: rbelding
+memberUid: jmacey
+
+dn: cn=Leader,ou=groups,ou=Charter-School-Daybreak-Central-High,ou=DevTest,d
+ c=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Leader
+gidNumber: 512
+memberUid: sbantu
+memberUid: mgonzales
+memberUid: rgorki
+memberUid: afranco
+memberUid: msmith
+memberUid: jmacey
+memberUid: rbelding
+memberUid: xbell
+memberUid: tcuyper
+
+dn: cn=IT Administrator,ou=groups,ou=Charter-School-Daybreak-Central-High,ou
+ =DevTest,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: IT Administrator
+gidNumber: 513
+memberUid: jstevenson
+memberUid: akopel
+memberUid: rrogers
+memberUid: mabernathy
+memberUid: CAP0-staff8
+memberUid: C0-staff8
+memberUid: tcuyper
+memberUid: swood
+
+dn: cn=Aggregate Viewer,ou=groups,ou=Charter-School-Daybreak-Central-High,ou
+ =DevTest,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Aggregate Viewer
+gidNumber: 514
+memberUid: jjackson
+memberUid: msmith
+memberUid: mjohnson
+memberUid: xbell
+
+dn: cn=LEA System Administrator,ou=groups,ou=Charter-School-Daybreak-Central
+ -High,ou=DevTest,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: LEA System Administrator
+gidNumber: 520
+memberUid: jstevenson
+memberUid: rrogers
+
+dn: cn=School Administrative Support Staff,ou=groups,ou=Charter-School-Daybr
+ eak-Central-High,ou=DevTest,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: School Administrative Support Staff
+gidNumber: 522
+memberUid: akopel
+
+dn: cn=Principal,ou=groups,ou=Charter-School-Daybreak-Central-High,ou=DevTes
+ t,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Principal
+gidNumber: 521
+memberUid: mgonzales
+
+dn: cn=Superintendent,ou=groups,ou=Charter-School-Daybreak-Central-High,ou=D
+ evTest,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Superintendent
+gidNumber: 524
+memberUid: sbantu
+
+dn: cn=Teacher,ou=groups,ou=Charter-School-Daybreak-Central-High,ou=DevTest,
+ dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Teacher
+gidNumber: 525
+memberUid: linda.kim
+memberUid: cgray
+memberUid: rbraverman
+
+dn: cn=Specialist/Consultant,ou=groups,ou=Charter-School-Daybreak-Central-Hi
+ gh,ou=DevTest,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Specialist/Consultant
+gidNumber: 523
+memberUid: jjackson
+memberUid: msmith
+memberUid: mjohnson
+
+dn: ou=people,ou=Charter-School-Daybreak-Central-High,ou=DevTest,dc=slidev,d
+ c=org
+objectClass: organizationalUnit
+objectClass: top
+ou: people
+
+dn: cn=Linda Kim,ou=people,ou=Charter-School-Daybreak-Central-High,ou=DevTes
+ t,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Linda Kim
+gidNumber: 503
+homeDirectory: /home/users/lindakim
+sn: Kim
+uid: linda.kim
+uidNumber: 1117
+givenName: Linda
+loginShell: /bin/sh
+userPassword:: e01ENX15bENoMXNmNERQekZDbFZ5cndHbXhnPT0=
+
+dn: cn=Charles Gray,ou=people,ou=Charter-School-Daybreak-Central-High,ou=Dev
+ Test,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Charles Gray
+gidNumber: 507
+homeDirectory: /home/users/cgray
+sn: Gray
+uid: cgray
+uidNumber: 1134
+givenName: Charles
+loginShell: /bin/sh
+userPassword:: e01ENX1JOU1IeC9WY2hhSHJvMS9pKytVUU9BPT0=
+
+dn: cn=Rebecca Braverman,ou=people,ou=Charter-School-Daybreak-Central-High,o
+ u=DevTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Rebecca Braverman
+gidNumber: 507
+homeDirectory: /home/users/rbraverman
+sn: Braverman
+uid: rbraverman
+uidNumber: 1135
+givenName: Rebecca
+loginShell: /bin/sh
+userPassword:: e01ENX1oSFFncWJmc0FqZTNtanEvRHkrR2V3PT0=
+
+dn: cn=Susan Bantu,ou=people,ou=Charter-School-Daybreak-Central-High,ou=DevT
+ est,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Susan Bantu
+gidNumber: 512
+homeDirectory: /home/users/sbantu1
+sn: Bantu
+uid: sbantu
+uidNumber: 1136
+givenName: Susan
+loginShell: /bin/bash
+userPassword:: e01ENX1jeFgwdXA2SEFaQzNUZlMxYUNTU0FnPT0=
+
+dn: cn=James Stevenson,ou=people,ou=Charter-School-Daybreak-Central-High,ou=
+ DevTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: James Stevenson
+gidNumber: 513
+homeDirectory: /home/users/jstevenson
+sn: Stevenson
+uid: jstevenson
+uidNumber: 1137
+givenName: James
+loginShell: /bin/bash
+userPassword:: e01ENX1BblpjMU9zTWZXOUEya1k0a2YwSlh3PT0=
+
+dn: cn=Jack Jackson,ou=people,ou=Charter-School-Daybreak-Central-High,ou=Dev
+ Test,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Jack Jackson
+gidNumber: 514
+homeDirectory: /home/users/jjackson
+sn: Jackson
+uid: jjackson
+uidNumber: 1138
+givenName: Jack
+loginShell: /bin/bash
+userPassword:: e01ENX0wOGZ2WCtGSENHcU5uYTVSdTM1RmZBPT0=
+
+dn: cn=Maria Gonzales,ou=people,ou=Charter-School-Daybreak-Central-High,ou=D
+ evTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Maria Gonzales
+gidNumber: 512
+homeDirectory: /home/users/mgonzales
+sn: Gonzales
+uid: mgonzales
+uidNumber: 1139
+givenName: Maria
+loginShell: /bin/bash
+userPassword:: e01ENX1GaUZGYjgvclZJNmx5MjIzcWZkVTF3PT0=
+
+dn: cn=Rob Gorki,ou=people,ou=Charter-School-Daybreak-Central-High,ou=DevTes
+ t,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Rob Gorki
+gidNumber: 512
+homeDirectory: /home/users/rgorki
+sn: Gorki
+uid: rgorki
+uidNumber: 1140
+givenName: Rob
+loginShell: /bin/bash
+userPassword:: e01ENX1TVi94Ni9pSW05c0wrQUpWcDlzZDdnPT0=
+
+dn: cn=Mary Smith,ou=people,ou=Charter-School-Daybreak-Central-High,ou=DevTe
+ st,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Mary Smith
+gidNumber: 514
+homeDirectory: /home/users/msmith
+sn: Smith
+uid: msmith
+uidNumber: 1141
+givenName: Mary
+loginShell: /bin/bash
+userPassword:: e01ENX1MVU9hSVdxOTlLL2EyM3RUNnpKV0RnPT0=
+
+dn: cn=Michael Johnson,ou=people,ou=Charter-School-Daybreak-Central-High,ou=
+ DevTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Michael Johnson
+gidNumber: 514
+homeDirectory: /home/users/mjohnson
+sn: Johnson
+uid: mjohnson
+uidNumber: 1142
+givenName: Michael
+loginShell: /bin/bash
+userPassword:: e01ENX04Q1VJSlF3blVTRFJOY0Fqd2M2WTV3PT0=
+
+dn: cn=Amy Kopel,ou=people,ou=Charter-School-Daybreak-Central-High,ou=DevTes
+ t,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Amy Kopel
+gidNumber: 513
+homeDirectory: /home/users/akopel
+sn: Kopel
+uid: akopel
+uidNumber: 1143
+givenName: Amy
+loginShell: /bin/bash
+userPassword:: e01ENX1md2JjMzJqTzM0V1NObThiaittTkVBPT0=
+
+dn: cn=Rick Rogers,ou=people,ou=Charter-School-Daybreak-Central-High,ou=DevT
+ est,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Rick Rogers
+gidNumber: 100
+homeDirectory: /home/users/rrogers
+sn: Rogers
+uid: rrogers
+uidNumber: 1144
+givenName: Rick
+loginShell: /bin/bash
+userPassword:: e01ENX1ubnJsdzd0QzU1d0FmMkxtN2llOWFRPT0=
+
+dn: cn=Autoro Franco,ou=people,ou=Charter-School-Daybreak-Central-High,ou=De
+ vTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Autoro Franco
+gidNumber: 100
+homeDirectory: /home/users/afranco
+sn: Franco
+uid: afranco
+uidNumber: 1145
+givenName: Autoro
+loginShell: /bin/bash
+userPassword:: e01ENX1vMHl3cTRTMlpZVDVtY3JxL1k0Skt3PT0=
+
+dn: cn=Mark Abernathy,ou=people,ou=Charter-School-Daybreak-Central-High,ou=D
+ evTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Mark Abernathy
+gidNumber: 513
+homeDirectory: /home/users/mabernathy
+sn: Abernathy
+uid: mabernathy
+uidNumber: 1199
+givenName: Mark
+loginShell: /bin/bash
+userPassword:: e1NIQX16TDVIcTExazl0Tmp3ZXVvL1Vob1ZtTlVqcDg9
+
+dn: cn=CAP0-staff8,ou=people,ou=Charter-School-Daybreak-Central-High,ou=DevT
+ est,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: CAP0-staff8
+gidNumber: 507
+homeDirectory: /home/users/CAP0-staff8
+sn: CAP0-staff8
+uid: CAP0-staff8
+uidNumber: 1134
+givenName: CAP0-staff8
+loginShell: /bin/sh
+userPassword:: e1NTSEF9MUlXV3JERkpzRGJyM2hKU2Y1bkNOeTVPeTYxNGc0bkE=
+
+dn: cn=CAP0-D0-HSch0-teacher34,ou=people,ou=Charter-School-Daybreak-Central-
+ High,ou=DevTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: CAP0-D0-HSch0-teacher34
+gidNumber: 507
+homeDirectory: /home/users/CAP0-D0-HSch0-teacher34
+sn: CAP0-D0-HSch0-teacher34
+uid: CAP0-D0-HSch0-teacher34
+uidNumber: 1134
+givenName: CAP0-D0-HSch0-teacher34
+loginShell: /bin/sh
+userPassword:: e1NTSEF9OGJ0eWhSWGp0aTIxbW5iSGc1VXpaaTlYaWVyVGVIc0U=
+
+dn: cn=CAP0-D0-HSch6-teacher11,ou=people,ou=Charter-School-Daybreak-Central-
+ High,ou=DevTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: CAP0-D0-HSch6-teacher11
+gidNumber: 507
+homeDirectory: /home/users/CAP0-D0-HSch6-teacher11
+sn: CAP0-D0-HSch6-teacher11
+uid: CAP0-D0-HSch6-teacher11
+uidNumber: 1134
+givenName: CAP0-D0-HSch6-teacher11
+loginShell: /bin/sh
+userPassword:: e1NTSEF9RDVNMUV1a1RFejBSd1JXaXRDTkZxMlYzNFJ5TEh2ZUw=
+
+dn: cn=CAP0-D0-HSch0-teacher11,ou=people,ou=Charter-School-Daybreak-Central-
+ High,ou=DevTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: CAP0-D0-HSch0-teacher11
+gidNumber: 507
+homeDirectory: /home/users/CAP0-D0-HSch0-teacher26
+sn: C0-D0-HSch0-teacher26
+uid: C0-D0-HSch0-teacher26
+uidNumber: 1134
+givenName: C0-D0-HSch0-teacher26
+loginShell: /bin/sh
+userPassword:: e1NTSEF9TDk5Z1Y3QXpVODVPQ29hb1JxOXNsNS9FQ2JlRnE1aVc=
+
+dn: cn=C0-staff8,ou=people,ou=Charter-School-Daybreak-Central-High,ou=DevTes
+ t,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: C0-staff8
+gidNumber: 507
+homeDirectory: /home/users/C0-staff8
+sn: C0-staff8
+uid: C0-staff8
+uidNumber: 1134
+givenName: C0-staff8
+loginShell: /bin/sh
+userPassword:: e1NTSEF9eWtRQm5mazJJVVFyVUJZOEhxdFpZc1BVNUpKQzNXTlc=
+
+dn: cn=Javier Macey,ou=people,ou=Charter-School-Daybreak-Central-High,ou=Dev
+ Test,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Javier Macey
+gidNumber: 503
+homeDirectory: /home/users/jmacey
+sn: Macey
+uid: jmacey
+uidNumber: 1200
+givenName: Javier
+loginShell: /bin/sh
+userPassword:: e01ENX15RGlyUUFGeHJFUkp2YXdhRVA3eFZRPT0=
+
+dn: cn=Richard Belding,ou=people,ou=Charter-School-Daybreak-Central-High,ou=
+ DevTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Richard Belding
+gidNumber: 503
+homeDirectory: /home/users/rbelding
+sn: Belding
+uid: rbelding
+uidNumber: 1201
+givenName: Richard
+loginShell: /bin/sh
+userPassword:: e01ENX1xc1Rlc1pTM0Z3Mnk3YVM0Q3A4ZEl3PT0=
+
+dn: cn=Xavier Bell,ou=people,ou=Charter-School-Daybreak-Central-High,ou=DevT
+ est,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Xavier Bell
+gidNumber: 514
+homeDirectory: /home/users/xbell
+sn: Bell
+uid: xbell
+uidNumber: 1202
+givenName: Xavier
+loginShell: /bin/bash
+userPassword:: e01ENX03QUlCbWtFRGFKaUY5YUdwa0lSQS9nPT0=
+
+dn: cn=Teresa Cuyper,ou=people,ou=Charter-School-Daybreak-Central-High,ou=De
+ vTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Teresa Cuyper
+gidNumber: 512
+homeDirectory: /home/users/xbell
+sn: Cuyper
+uid: tcuyper
+uidNumber: 1203
+givenName: Teresa
+loginShell: /bin/bash
+userPassword:: e01ENX1zWEI0TkJVZVFBLzA0Z3hqenlDRW5BPT0=
+
+dn: ou=IL-Daybreak-Students,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: IL-Daybreak-Students
+
+dn: ou=people,ou=IL-Daybreak-Students,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: people
+
+dn: cn=Carmen Ortiz,ou=people,ou=IL-Daybreak-Students,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Carmen Ortiz
+gidNumber: 588
+homeDirectory: /home/users/carmen.ortiz
+sn: Ortiz
+uid: carmen.ortiz
+uidNumber: 2100
+employeeNumber: 900000016
+givenName: Carmen
+loginShell: /bin/sh
+userPassword:: e01ENX1RWG5JTFB1VWNsNlVocGNPb0x6cWFRPT0=
+
+dn: cn=Matt Sollars (Student),ou=people,ou=IL-Daybreak-Students,dc=slidev,dc
+ =org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Matt Sollars (Student)
+gidNumber: 588
+homeDirectory: /home/users/student.m.sollars
+sn: Sollars
+uid: student.m.sollars
+uidNumber: 2101
+employeeNumber: 800000025
+givenName: Matt
+loginShell: /bin/sh
+userPassword:: e01ENX1SZGE3akxtS2E3MGx5N0lNWGRjZlZBPT0=
+
+dn: cn=Miha Tran,ou=people,ou=IL-Daybreak-Students,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Miha Tran
+gidNumber: 588
+homeDirectory: /home/users/miha.tran
+sn: Tran
+uid: miha.tran
+uidNumber: 2102
+employeeNumber: 100000017
+givenName: Miha
+loginShell: /bin/sh
+userPassword:: e01ENX03c09KZE5rR3dFYmJvbnV1anR3eWVnPT0=
+
+dn: cn=Celeste Gray,ou=people,ou=IL-Daybreak-Students,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Celeste Gray
+gidNumber: 588
+homeDirectory: /home/users/cegray
+sn: Gray
+uid: cegray
+uidNumber: 2103
+employeeNumber: cgray
+givenName: Celeste
+loginShell: /bin/sh
+userPassword:: e01ENX1RZTFpRXpSdEVGNjZkTXhGaVVpbFJBPT0=
+
+dn: cn=Matt Sollars (Leader),ou=people,ou=IL-Daybreak-Students,dc=slidev,dc=
+ org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Matt Sollars (Leader)
+gidNumber: 588
+homeDirectory: /home/users/leader.m.sollars
+sn: Sollars
+uid: leader.m.sollars
+uidNumber: 2104
+employeeNumber: 800000025
+givenName: Matt
+loginShell: /bin/sh
+userPassword:: e01ENX1PTlh2dGo4OFNLckRTY3FXUjkxZjNBPT0=
+
+dn: ou=groups,ou=IL-Daybreak-Students,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: groups
+
+dn: cn=Student,ou=groups,ou=IL-Daybreak-Students,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Student
+gidNumber: 588
+memberUid: carmen.ortiz
+memberUid: student.m.sollars
+memberUid: cegray
+memberUid: miha.tran
+
+dn: cn=StudentLeader,ou=groups,ou=IL-Daybreak-Students,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: StudentLeader
+gidNumber: 588
+memberUid: leader.m.sollars
+
+dn: ou=IL-Daybreak-Parents,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: IL-Daybreak-Parents
+
+dn: ou=people,ou=IL-Daybreak-Parents,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: people
+
+dn: cn=Ignatio Ortiz,ou=people,ou=IL-Daybreak-Parents,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Ignatio Ortiz
+gidNumber: 589
+homeDirectory: /home/users/ignatio.ortiz
+sn: Ortiz
+uid: ignatio.ortiz
+uidNumber: 2200
+employeeNumber: 900000016-dad
+givenName: Ignatio
+loginShell: /bin/sh
+userPassword:: e01ENX1KZmFGR1VDZUpIZ1Q4dkJ3R0tvZ0pRPT0=
+
+dn: cn=Marsha Sollars,ou=people,ou=IL-Daybreak-Parents,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Marsha Sollars
+gidNumber: 589
+homeDirectory: /home/users/marsha.sollars
+sn: Sollars
+uid: marsha.sollars
+uidNumber: 2201
+employeeNumber: 800000025-mom
+givenName: Marsha
+loginShell: /bin/sh
+userPassword:: e01ENX1mc2Mvdk5FT0VranoyanBWOW43eHJRPT0=
+
+dn: cn=Mee Tran,ou=people,ou=IL-Daybreak-Parents,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Mee Tran
+gidNumber: 589
+homeDirectory: /home/users/mee.tran
+sn: Tran
+uid: mee.tran
+uidNumber: 2202
+employeeNumber: 100000017-dad
+givenName: Mee
+loginShell: /bin/sh
+userPassword:: e01ENX1vdEQ4ZVR5ZDFPY2JIcmpuanovSlZnPT0=
+
+dn: cn=Cee Gray,ou=people,ou=IL-Daybreak-Parents,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Cee Gray
+gidNumber: 589
+homeDirectory: /home/users/cee.gray
+sn: Gray
+uid: cee.gray
+uidNumber: 2203
+employeeNumber: cgray-dad
+givenName: Cee
+loginShell: /bin/sh
+userPassword:: e01ENX1vdVh2VEpsRW1WWXhCd1FmMXFjbkh3PT0=
+
+dn: cn=Charles Gray,ou=people,ou=IL-Daybreak-Parents,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Charles Gray
+gidNumber: 589
+homeDirectory: /home/users/charles.gray
+sn: Gray
+uid: charles.gray
+uidNumber: 2204
+employeeNumber: cgray
+givenName: Charles
+loginShell: /bin/sh
+userPassword:: e01ENX00Ny9meWZqbks1em5SdG9ZLzF0RUJBPT0=
+
+dn: ou=groups,ou=IL-Daybreak-Parents,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: groups
+
+dn: cn=Parent,ou=groups,ou=IL-Daybreak-Parents,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Parent
+gidNumber: 589
+memberUid: marsha.sollars
+memberUid: ignatio.ortiz
+memberUid: cee.gray
+memberUid: mee.tran
+memberUid: charles.gray
+
+dn: ou=Charter-School-Daybreak-Central-High,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: Charter-School-Daybreak-Central-High
+
+dn: ou=groups,ou=Charter-School-Daybreak-Central-High,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: groups
+
+dn: cn=Educator,ou=groups,ou=Charter-School-Daybreak-Central-High,dc=slidev,
+ dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Educator
+gidNumber: 503
+memberUid: linda.kim
+memberUid: cgray
+memberUid: rbraverman
+memberUid: mabernathy
+memberUid: CAP0-D0-HSch0-teacher34
+memberUid: CAP0-D0-HSch6-teacher11
+memberUid: CAP0-D0-HSch0-teacher11
+memberUid: rbelding
+memberUid: jmacey
+
+dn: cn=Leader,ou=groups,ou=Charter-School-Daybreak-Central-High,dc=slidev,dc
+ =org
+objectClass: posixGroup
+objectClass: top
+cn: Leader
+gidNumber: 512
+memberUid: sbantu
+memberUid: mgonzales
+memberUid: rgorki
+memberUid: afranco
+memberUid: msmith
+memberUid: jmacey
+memberUid: rbelding
+memberUid: xbell
+memberUid: tcuyper
+
+dn: cn=IT Administrator,ou=groups,ou=Charter-School-Daybreak-Central-High,dc
+ =slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: IT Administrator
+gidNumber: 513
+memberUid: jstevenson
+memberUid: akopel
+memberUid: rrogers
+memberUid: mabernathy
+memberUid: CAP0-staff8
+memberUid: C0-staff8
+memberUid: tcuyper
+memberUid: swood
+
+dn: cn=Aggregate Viewer,ou=groups,ou=Charter-School-Daybreak-Central-High,dc
+ =slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Aggregate Viewer
+gidNumber: 514
+memberUid: jjackson
+memberUid: msmith
+memberUid: mjohnson
+memberUid: xbell
+
+dn: cn=LEA System Administrator,ou=groups,ou=Charter-School-Daybreak-Central
+ -High,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: LEA System Administrator
+gidNumber: 520
+memberUid: jstevenson
+memberUid: rrogers
+
+dn: cn=School Administrative Support Staff,ou=groups,ou=Charter-School-Daybr
+ eak-Central-High,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: School Administrative Support Staff
+gidNumber: 522
+memberUid: akopel
+
+dn: cn=Principal,ou=groups,ou=Charter-School-Daybreak-Central-High,dc=slidev
+ ,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Principal
+gidNumber: 521
+memberUid: mgonzales
+
+dn: cn=Superintendent,ou=groups,ou=Charter-School-Daybreak-Central-High,dc=s
+ lidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Superintendent
+gidNumber: 524
+memberUid: sbantu
+
+dn: cn=Teacher,ou=groups,ou=Charter-School-Daybreak-Central-High,dc=slidev,d
+ c=org
+objectClass: posixGroup
+objectClass: top
+cn: Teacher
+gidNumber: 525
+memberUid: linda.kim
+memberUid: cgray
+memberUid: rbraverman
+
+dn: cn=Specialist/Consultant,ou=groups,ou=Charter-School-Daybreak-Central-Hi
+ gh,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Specialist/Consultant
+gidNumber: 523
+memberUid: jjackson
+memberUid: msmith
+memberUid: mjohnson
+
+dn: ou=people,ou=Charter-School-Daybreak-Central-High,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: people
+
+dn: cn=Linda Kim,ou=people,ou=Charter-School-Daybreak-Central-High,dc=slidev
+ ,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Linda Kim
+gidNumber: 503
+homeDirectory: /home/users/lindakim
+sn: Kim
+uid: linda.kim
+uidNumber: 1117
+givenName: Linda
+loginShell: /bin/sh
+userPassword:: e01ENX15bENoMXNmNERQekZDbFZ5cndHbXhnPT0=
+
+dn: cn=Charles Gray,ou=people,ou=Charter-School-Daybreak-Central-High,dc=sli
+ dev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Charles Gray
+gidNumber: 507
+homeDirectory: /home/users/cgray
+sn: Gray
+uid: cgray
+uidNumber: 1134
+givenName: Charles
+loginShell: /bin/sh
+userPassword:: e01ENX1JOU1IeC9WY2hhSHJvMS9pKytVUU9BPT0=
+
+dn: cn=Rebecca Braverman,ou=people,ou=Charter-School-Daybreak-Central-High,d
+ c=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Rebecca Braverman
+gidNumber: 507
+homeDirectory: /home/users/rbraverman
+sn: Braverman
+uid: rbraverman
+uidNumber: 1135
+givenName: Rebecca
+loginShell: /bin/sh
+userPassword:: e01ENX1oSFFncWJmc0FqZTNtanEvRHkrR2V3PT0=
+
+dn: cn=Susan Bantu,ou=people,ou=Charter-School-Daybreak-Central-High,dc=slid
+ ev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Susan Bantu
+gidNumber: 512
+homeDirectory: /home/users/sbantu1
+sn: Bantu
+uid: sbantu
+uidNumber: 1136
+givenName: Susan
+loginShell: /bin/bash
+userPassword:: e01ENX1jeFgwdXA2SEFaQzNUZlMxYUNTU0FnPT0=
+
+dn: cn=James Stevenson,ou=people,ou=Charter-School-Daybreak-Central-High,dc=
+ slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: James Stevenson
+gidNumber: 513
+homeDirectory: /home/users/jstevenson
+sn: Stevenson
+uid: jstevenson
+uidNumber: 1137
+givenName: James
+loginShell: /bin/bash
+userPassword:: e01ENX1BblpjMU9zTWZXOUEya1k0a2YwSlh3PT0=
+
+dn: cn=Jack Jackson,ou=people,ou=Charter-School-Daybreak-Central-High,dc=sli
+ dev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Jack Jackson
+gidNumber: 514
+homeDirectory: /home/users/jjackson
+sn: Jackson
+uid: jjackson
+uidNumber: 1138
+givenName: Jack
+loginShell: /bin/bash
+userPassword:: e01ENX0wOGZ2WCtGSENHcU5uYTVSdTM1RmZBPT0=
+
+dn: cn=Maria Gonzales,ou=people,ou=Charter-School-Daybreak-Central-High,dc=s
+ lidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Maria Gonzales
+gidNumber: 512
+homeDirectory: /home/users/mgonzales
+sn: Gonzales
+uid: mgonzales
+uidNumber: 1139
+givenName: Maria
+loginShell: /bin/bash
+userPassword:: e01ENX1GaUZGYjgvclZJNmx5MjIzcWZkVTF3PT0=
+
+dn: cn=Rob Gorki,ou=people,ou=Charter-School-Daybreak-Central-High,dc=slidev
+ ,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Rob Gorki
+gidNumber: 512
+homeDirectory: /home/users/rgorki
+sn: Gorki
+uid: rgorki
+uidNumber: 1140
+givenName: Rob
+loginShell: /bin/bash
+userPassword:: e01ENX1TVi94Ni9pSW05c0wrQUpWcDlzZDdnPT0=
+
+dn: cn=Mary Smith,ou=people,ou=Charter-School-Daybreak-Central-High,dc=slide
+ v,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Mary Smith
+gidNumber: 514
+homeDirectory: /home/users/msmith
+sn: Smith
+uid: msmith
+uidNumber: 1141
+givenName: Mary
+loginShell: /bin/bash
+userPassword:: e01ENX1MVU9hSVdxOTlLL2EyM3RUNnpKV0RnPT0=
+
+dn: cn=Michael Johnson,ou=people,ou=Charter-School-Daybreak-Central-High,dc=
+ slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Michael Johnson
+gidNumber: 514
+homeDirectory: /home/users/mjohnson
+sn: Johnson
+uid: mjohnson
+uidNumber: 1142
+givenName: Michael
+loginShell: /bin/bash
+userPassword:: e01ENX04Q1VJSlF3blVTRFJOY0Fqd2M2WTV3PT0=
+
+dn: cn=Amy Kopel,ou=people,ou=Charter-School-Daybreak-Central-High,dc=slidev
+ ,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Amy Kopel
+gidNumber: 513
+homeDirectory: /home/users/akopel
+sn: Kopel
+uid: akopel
+uidNumber: 1143
+givenName: Amy
+loginShell: /bin/bash
+userPassword:: e01ENX1md2JjMzJqTzM0V1NObThiaittTkVBPT0=
+
+dn: cn=Rick Rogers,ou=people,ou=Charter-School-Daybreak-Central-High,dc=slid
+ ev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Rick Rogers
+gidNumber: 100
+homeDirectory: /home/users/rrogers
+sn: Rogers
+uid: rrogers
+uidNumber: 1144
+givenName: Rick
+loginShell: /bin/bash
+userPassword:: e01ENX1ubnJsdzd0QzU1d0FmMkxtN2llOWFRPT0=
+
+dn: cn=Autoro Franco,ou=people,ou=Charter-School-Daybreak-Central-High,dc=sl
+ idev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Autoro Franco
+gidNumber: 100
+homeDirectory: /home/users/afranco
+sn: Franco
+uid: afranco
+uidNumber: 1145
+givenName: Autoro
+loginShell: /bin/bash
+userPassword:: e01ENX1vMHl3cTRTMlpZVDVtY3JxL1k0Skt3PT0=
+
+dn: cn=Mark Abernathy,ou=people,ou=Charter-School-Daybreak-Central-High,dc=s
+ lidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Mark Abernathy
+gidNumber: 513
+homeDirectory: /home/users/mabernathy
+sn: Abernathy
+uid: mabernathy
+uidNumber: 1199
+givenName: Mark
+loginShell: /bin/bash
+userPassword:: e1NIQX16TDVIcTExazl0Tmp3ZXVvL1Vob1ZtTlVqcDg9
+
+dn: cn=CAP0-staff8,ou=people,ou=Charter-School-Daybreak-Central-High,dc=slid
+ ev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: CAP0-staff8
+gidNumber: 507
+homeDirectory: /home/users/CAP0-staff8
+sn: CAP0-staff8
+uid: CAP0-staff8
+uidNumber: 1134
+givenName: CAP0-staff8
+loginShell: /bin/sh
+userPassword:: e1NTSEF9MUlXV3JERkpzRGJyM2hKU2Y1bkNOeTVPeTYxNGc0bkE=
+
+dn: cn=CAP0-D0-HSch0-teacher34,ou=people,ou=Charter-School-Daybreak-Central-
+ High,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: CAP0-D0-HSch0-teacher34
+gidNumber: 507
+homeDirectory: /home/users/CAP0-D0-HSch0-teacher34
+sn: CAP0-D0-HSch0-teacher34
+uid: CAP0-D0-HSch0-teacher34
+uidNumber: 1134
+givenName: CAP0-D0-HSch0-teacher34
+loginShell: /bin/sh
+userPassword:: e1NTSEF9OGJ0eWhSWGp0aTIxbW5iSGc1VXpaaTlYaWVyVGVIc0U=
+
+dn: cn=CAP0-D0-HSch6-teacher11,ou=people,ou=Charter-School-Daybreak-Central-
+ High,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: CAP0-D0-HSch6-teacher11
+gidNumber: 507
+homeDirectory: /home/users/CAP0-D0-HSch6-teacher11
+sn: CAP0-D0-HSch6-teacher11
+uid: CAP0-D0-HSch6-teacher11
+uidNumber: 1134
+givenName: CAP0-D0-HSch6-teacher11
+loginShell: /bin/sh
+userPassword:: e1NTSEF9RDVNMUV1a1RFejBSd1JXaXRDTkZxMlYzNFJ5TEh2ZUw=
+
+dn: cn=CAP0-D0-HSch0-teacher11,ou=people,ou=Charter-School-Daybreak-Central-
+ High,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: CAP0-D0-HSch0-teacher11
+gidNumber: 507
+homeDirectory: /home/users/CAP0-D0-HSch0-teacher26
+sn: C0-D0-HSch0-teacher26
+uid: C0-D0-HSch0-teacher26
+uidNumber: 1134
+givenName: C0-D0-HSch0-teacher26
+loginShell: /bin/sh
+userPassword:: e1NTSEF9TDk5Z1Y3QXpVODVPQ29hb1JxOXNsNS9FQ2JlRnE1aVc=
+
+dn: cn=C0-staff8,ou=people,ou=Charter-School-Daybreak-Central-High,dc=slidev
+ ,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: C0-staff8
+gidNumber: 507
+homeDirectory: /home/users/C0-staff8
+sn: C0-staff8
+uid: C0-staff8
+uidNumber: 1134
+givenName: C0-staff8
+loginShell: /bin/sh
+userPassword:: e1NTSEF9eWtRQm5mazJJVVFyVUJZOEhxdFpZc1BVNUpKQzNXTlc=
+
+dn: cn=Javier Macey,ou=people,ou=Charter-School-Daybreak-Central-High,dc=sli
+ dev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Javier Macey
+gidNumber: 503
+homeDirectory: /home/users/jmacey
+sn: Macey
+uid: jmacey
+uidNumber: 1200
+givenName: Javier
+loginShell: /bin/sh
+userPassword:: e01ENX15RGlyUUFGeHJFUkp2YXdhRVA3eFZRPT0=
+
+dn: cn=Richard Belding,ou=people,ou=Charter-School-Daybreak-Central-High,dc=
+ slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Richard Belding
+gidNumber: 503
+homeDirectory: /home/users/rbelding
+sn: Belding
+uid: rbelding
+uidNumber: 1201
+givenName: Richard
+loginShell: /bin/sh
+userPassword:: e01ENX1xc1Rlc1pTM0Z3Mnk3YVM0Q3A4ZEl3PT0=
+
+dn: cn=Xavier Bell,ou=people,ou=Charter-School-Daybreak-Central-High,dc=slid
+ ev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Xavier Bell
+gidNumber: 514
+homeDirectory: /home/users/xbell
+sn: Bell
+uid: xbell
+uidNumber: 1202
+givenName: Xavier
+loginShell: /bin/bash
+userPassword:: e01ENX03QUlCbWtFRGFKaUY5YUdwa0lSQS9nPT0=
+
+dn: cn=Teresa Cuyper,ou=people,ou=Charter-School-Daybreak-Central-High,dc=sl
+ idev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Teresa Cuyper
+gidNumber: 512
+homeDirectory: /home/users/xbell
+sn: Cuyper
+uid: tcuyper
+uidNumber: 1203
+givenName: Teresa
+loginShell: /bin/bash
+userPassword:: e01ENX1zWEI0TkJVZVFBLzA0Z3hqenlDRW5BPT0=
+
+dn: ou=IL-Charter,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: IL-Charter
+
+dn: ou=groups,ou=IL-Charter,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: groups
+
+dn: cn=Educator,ou=groups,ou=IL-Charter,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Educator
+gidNumber: 503
+memberUid: linda.kim
+memberUid: cgray
+memberUid: rbraverman
+memberUid: mabernathy
+memberUid: CAP0-D0-HSch0-teacher34
+memberUid: CAP0-D0-HSch6-teacher11
+memberUid: CAP0-D0-HSch0-teacher11
+memberUid: rbelding
+memberUid: jmacey
+memberUid: chartereducator
+
+dn: cn=Leader,ou=groups,ou=IL-Charter,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Leader
+gidNumber: 512
+memberUid: sbantu
+memberUid: mgonzales
+memberUid: rgorki
+memberUid: msmith
+memberUid: jmacey
+memberUid: rbelding
+memberUid: xbell
+memberUid: tcuyper
+memberUid: charterleader
+
+dn: cn=IT Administrator,ou=groups,ou=IL-Charter,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: IT Administrator
+gidNumber: 513
+memberUid: jstevenson
+memberUid: akopel
+memberUid: mabernathy
+memberUid: CAP0-staff8
+memberUid: C0-staff8
+memberUid: charteradmin
+memberUid: rrogers
+
+dn: cn=Aggregate Viewer,ou=groups,ou=IL-Charter,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Aggregate Viewer
+gidNumber: 514
+memberUid: msmith
+memberUid: mjohnson
+memberUid: xbell
+memberUid: charterviewer
+
+dn: cn=LEA System Administrator,ou=groups,ou=IL-Charter,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: LEA System Administrator
+gidNumber: 520
+memberUid: jstevenson
+memberUid: rrogers
+
+dn: cn=School Administrative Support Staff,ou=groups,ou=IL-Charter,dc=slidev
+ ,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: School Administrative Support Staff
+gidNumber: 522
+memberUid: akopel
+
+dn: cn=Principal,ou=groups,ou=IL-Charter,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Principal
+gidNumber: 521
+memberUid: mgonzales
+
+dn: cn=Superintendent,ou=groups,ou=IL-Charter,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Superintendent
+gidNumber: 524
+memberUid: sbantu
+
+dn: cn=Teacher,ou=groups,ou=IL-Charter,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Teacher
+gidNumber: 525
+memberUid: linda.kim
+memberUid: cgray
+memberUid: rbraverman
+
+dn: cn=Specialist/Consultant,ou=groups,ou=IL-Charter,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Specialist/Consultant
+gidNumber: 523
+memberUid: jjackson
+memberUid: msmith
+memberUid: mjohnson
+
+dn: ou=people,ou=IL-Charter,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: people
+
+dn: cn=Linda Kim,ou=people,ou=IL-Charter,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Linda Kim
+gidNumber: 503
+homeDirectory: /home/users/lindakim
+sn: Kim
+uid: linda.kim
+uidNumber: 1117
+givenName: Linda
+loginShell: /bin/sh
+userPassword:: e01ENX15bENoMXNmNERQekZDbFZ5cndHbXhnPT0=
+
+dn: cn=Charles Gray,ou=people,ou=IL-Charter,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Charles Gray
+gidNumber: 507
+homeDirectory: /home/users/cgray
+sn: Gray
+uid: cgray
+uidNumber: 1134
+givenName: Charles
+loginShell: /bin/sh
+userPassword:: e01ENX1JOU1IeC9WY2hhSHJvMS9pKytVUU9BPT0=
+
+dn: cn=Rebecca Braverman,ou=people,ou=IL-Charter,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Rebecca Braverman
+gidNumber: 507
+homeDirectory: /home/users/rbraverman
+sn: Braverman
+uid: rbraverman
+uidNumber: 1135
+givenName: Rebecca
+loginShell: /bin/sh
+userPassword:: e01ENX1oSFFncWJmc0FqZTNtanEvRHkrR2V3PT0=
+
+dn: cn=Susan Bantu,ou=people,ou=IL-Charter,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Susan Bantu
+gidNumber: 512
+homeDirectory: /home/users/sbantu1
+sn: Bantu
+uid: sbantu
+uidNumber: 1136
+givenName: Susan
+loginShell: /bin/bash
+userPassword:: e01ENX1jeFgwdXA2SEFaQzNUZlMxYUNTU0FnPT0=
+
+dn: cn=James Stevenson,ou=people,ou=IL-Charter,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: James Stevenson
+gidNumber: 513
+homeDirectory: /home/users/jstevenson
+sn: Stevenson
+uid: jstevenson
+uidNumber: 1137
+givenName: James
+loginShell: /bin/bash
+userPassword:: e01ENX1BblpjMU9zTWZXOUEya1k0a2YwSlh3PT0=
+
+dn: cn=Charter Viewer,ou=people,ou=IL-Charter,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Charter Viewer
+gidNumber: 514
+homeDirectory: /home/users/charterviewer
+sn: Viewer
+uid: charterviewer
+uidNumber: 1138
+givenName: Charter
+loginShell: /bin/bash
+userPassword:: e01ENX1VMU1PTDZaNzBkb1JBd1dFZWw3Q0NnPT0=
+
+dn: cn=Maria Gonzales,ou=people,ou=IL-Charter,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Maria Gonzales
+gidNumber: 512
+homeDirectory: /home/users/mgonzales
+sn: Gonzales
+uid: mgonzales
+uidNumber: 1139
+givenName: Maria
+loginShell: /bin/bash
+userPassword:: e01ENX1GaUZGYjgvclZJNmx5MjIzcWZkVTF3PT0=
+
+dn: cn=Rob Gorki,ou=people,ou=IL-Charter,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Rob Gorki
+gidNumber: 512
+homeDirectory: /home/users/rgorki
+sn: Gorki
+uid: rgorki
+uidNumber: 1140
+givenName: Rob
+loginShell: /bin/bash
+userPassword:: e01ENX1TVi94Ni9pSW05c0wrQUpWcDlzZDdnPT0=
+
+dn: cn=Mary Smith,ou=people,ou=IL-Charter,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Mary Smith
+gidNumber: 514
+homeDirectory: /home/users/msmith
+sn: Smith
+uid: msmith
+uidNumber: 1141
+givenName: Mary
+loginShell: /bin/bash
+userPassword:: e01ENX1MVU9hSVdxOTlLL2EyM3RUNnpKV0RnPT0=
+
+dn: cn=Michael Johnson,ou=people,ou=IL-Charter,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Michael Johnson
+gidNumber: 514
+homeDirectory: /home/users/mjohnson
+sn: Johnson
+uid: mjohnson
+uidNumber: 1142
+givenName: Michael
+loginShell: /bin/bash
+userPassword:: e01ENX04Q1VJSlF3blVTRFJOY0Fqd2M2WTV3PT0=
+
+dn: cn=Amy Kopel,ou=people,ou=IL-Charter,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Amy Kopel
+gidNumber: 513
+homeDirectory: /home/users/akopel
+sn: Kopel
+uid: akopel
+uidNumber: 1143
+givenName: Amy
+loginShell: /bin/bash
+userPassword:: e01ENX1md2JjMzJqTzM0V1NObThiaittTkVBPT0=
+
+dn: cn=Charter Admin,ou=people,ou=IL-Charter,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Charter Admin
+gidNumber: 100
+homeDirectory: /home/users/charteradmin
+sn: Admin
+uid: charteradmin
+uidNumber: 1144
+givenName: Charter
+loginShell: /bin/bash
+userPassword:: e01ENX1JS2U3dXVtZUcwRzNYV0QweWZ0dDJRPT0=
+
+dn: cn=Charter Leader,ou=people,ou=IL-Charter,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Charter Leader
+gidNumber: 100
+homeDirectory: /home/users/charterleader
+sn: Leader
+uid: charterleader
+uidNumber: 1145
+givenName: Charter
+loginShell: /bin/bash
+userPassword:: e01ENX1zSkszY3lLYjRBVDZhWXhLSEIvZDh3PT0=
+
+dn: cn=Mark Abernathy,ou=people,ou=IL-Charter,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Mark Abernathy
+gidNumber: 513
+homeDirectory: /home/users/mabernathy
+sn: Abernathy
+uid: mabernathy
+uidNumber: 1199
+givenName: Mark
+loginShell: /bin/bash
+userPassword:: e1NIQX16TDVIcTExazl0Tmp3ZXVvL1Vob1ZtTlVqcDg9
+
+dn: cn=CAP0-staff8,ou=people,ou=IL-Charter,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: CAP0-staff8
+gidNumber: 507
+homeDirectory: /home/users/CAP0-staff8
+sn: CAP0-staff8
+uid: CAP0-staff8
+uidNumber: 1134
+givenName: CAP0-staff8
+loginShell: /bin/sh
+userPassword:: e1NTSEF9MUlXV3JERkpzRGJyM2hKU2Y1bkNOeTVPeTYxNGc0bkE=
+
+dn: cn=CAP0-D0-HSch0-teacher34,ou=people,ou=IL-Charter,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: CAP0-D0-HSch0-teacher34
+gidNumber: 507
+homeDirectory: /home/users/CAP0-D0-HSch0-teacher34
+sn: CAP0-D0-HSch0-teacher34
+uid: CAP0-D0-HSch0-teacher34
+uidNumber: 1134
+givenName: CAP0-D0-HSch0-teacher34
+loginShell: /bin/sh
+userPassword:: e1NTSEF9OGJ0eWhSWGp0aTIxbW5iSGc1VXpaaTlYaWVyVGVIc0U=
+
+dn: cn=CAP0-D0-HSch6-teacher11,ou=people,ou=IL-Charter,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: CAP0-D0-HSch6-teacher11
+gidNumber: 507
+homeDirectory: /home/users/CAP0-D0-HSch6-teacher11
+sn: CAP0-D0-HSch6-teacher11
+uid: CAP0-D0-HSch6-teacher11
+uidNumber: 1134
+givenName: CAP0-D0-HSch6-teacher11
+loginShell: /bin/sh
+userPassword:: e1NTSEF9RDVNMUV1a1RFejBSd1JXaXRDTkZxMlYzNFJ5TEh2ZUw=
+
+dn: cn=CAP0-D0-HSch0-teacher11,ou=people,ou=IL-Charter,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: CAP0-D0-HSch0-teacher11
+gidNumber: 507
+homeDirectory: /home/users/CAP0-D0-HSch0-teacher26
+sn: C0-D0-HSch0-teacher26
+uid: C0-D0-HSch0-teacher26
+uidNumber: 1134
+givenName: C0-D0-HSch0-teacher26
+loginShell: /bin/sh
+userPassword:: e1NTSEF9TDk5Z1Y3QXpVODVPQ29hb1JxOXNsNS9FQ2JlRnE1aVc=
+
+dn: cn=C0-staff8,ou=people,ou=IL-Charter,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: C0-staff8
+gidNumber: 507
+homeDirectory: /home/users/C0-staff8
+sn: C0-staff8
+uid: C0-staff8
+uidNumber: 1134
+givenName: C0-staff8
+loginShell: /bin/sh
+userPassword:: e1NTSEF9eWtRQm5mazJJVVFyVUJZOEhxdFpZc1BVNUpKQzNXTlc=
+
+dn: cn=Javier Macey,ou=people,ou=IL-Charter,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Javier Macey
+gidNumber: 503
+homeDirectory: /home/users/jmacey
+sn: Macey
+uid: jmacey
+uidNumber: 1200
+givenName: Javier
+loginShell: /bin/sh
+userPassword:: e01ENX15RGlyUUFGeHJFUkp2YXdhRVA3eFZRPT0=
+
+dn: cn=Richard Belding,ou=people,ou=IL-Charter,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Richard Belding
+gidNumber: 503
+homeDirectory: /home/users/rbelding
+sn: Belding
+uid: rbelding
+uidNumber: 1201
+givenName: Richard
+loginShell: /bin/sh
+userPassword:: e01ENX1xc1Rlc1pTM0Z3Mnk3YVM0Q3A4ZEl3PT0=
+
+dn: cn=Xavier Bell,ou=people,ou=IL-Charter,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Xavier Bell
+gidNumber: 514
+homeDirectory: /home/users/xbell
+sn: Bell
+uid: xbell
+uidNumber: 1202
+givenName: Xavier
+loginShell: /bin/bash
+userPassword:: e01ENX03QUlCbWtFRGFKaUY5YUdwa0lSQS9nPT0=
+
+dn: cn=Teresa Cuyper,ou=people,ou=IL-Charter,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Teresa Cuyper
+gidNumber: 512
+homeDirectory: /home/users/xbell
+sn: Cuyper
+uid: tcuyper
+uidNumber: 1203
+givenName: Teresa
+loginShell: /bin/bash
+userPassword:: e01ENX1zWEI0TkJVZVFBLzA0Z3hqenlDRW5BPT0=
+
+dn: cn=Charter Educator,ou=people,ou=IL-Charter,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Charter Educator
+gidNumber: 503
+homeDirectory: /home/users/lindakim
+sn: Educator
+uid: chartereducator
+uidNumber: 2117
+givenName: Charter
+loginShell: /bin/sh
+userPassword:: e01ENX16c3VlTUtJRkZ5eVpNcmt0NWE4QU13PT0=
+
+dn: cn=test8@slidev.org,ou=people,ou=SLIAdmin,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+objectClass: posixAccount
+cn: test8@slidev.org
+gidNumber: 500
+homeDirectory: /ingestion/lz/developer-email@slidev.org/IL
+sn: Developer
+uid: test8@slidev.org
+uidNumber: 1834
+description:: dGVuYW50PWRldmVsb3Blci1lbWFpbEBzbGlkZXYub3JnCmVkT3JnPUlM
+destinationIndicator: approved
+displayName: 75c16a1f1735525ab6adee8c01fa4a7f
+gecos: 
+givenName: Joe
+mail: test8@slidev.org
+o: SLC
+userPassword:: YWJjMTIz
+
+dn: cn=SLC Operator,ou=groups,ou=LocalNew,ou=DevTest,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: SLC Operator
+gidNumber: 504
+memberUid: slcoperator
+memberUid: slcoperator-email@slidev.org
+
+dn: cn=peace_frog@slidev.org,ou=people,ou=LocalNew,ou=DevTest,dc=slidev,dc=o
+ rg
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: peace_frog@slidev.org
+gidNumber: 113
+homeDirectory: /dev/null
+sn: lastName
+uid: peace_frog@slidev.org
+uidNumber: 500
+description: tenant=IL1212,edOrg=IL-DAYBREAK
+destinationIndicator: submitted
+givenName: firstName
+loginShell: /sbin/nologin
+mail: peace_frog@slidev.org
+
+dn: ou=IL-Charter,ou=DevTest,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: IL-Charter
+
+dn: ou=groups,ou=IL-Charter,ou=DevTest,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: groups
+
+dn: cn=Educator,ou=groups,ou=IL-Charter,ou=DevTest,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Educator
+gidNumber: 503
+memberUid: cgray
+memberUid: rbraverman
+memberUid: mabernathy
+memberUid: CAP0-D0-HSch0-teacher34
+memberUid: CAP0-D0-HSch6-teacher11
+memberUid: CAP0-D0-HSch0-teacher11
+memberUid: rbelding
+memberUid: jmacey
+memberUid: chartereducator
+
+dn: cn=Leader,ou=groups,ou=IL-Charter,ou=DevTest,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Leader
+gidNumber: 512
+memberUid: sbantu
+memberUid: mgonzales
+memberUid: rgorki
+memberUid: afranco
+memberUid: msmith
+memberUid: jmacey
+memberUid: rbelding
+memberUid: xbell
+memberUid: tcuyper
+memberUid: charterleader
+
+dn: cn=IT Administrator,ou=groups,ou=IL-Charter,ou=DevTest,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: IT Administrator
+gidNumber: 513
+memberUid: jstevenson
+memberUid: akopel
+memberUid: rrogers
+memberUid: mabernathy
+memberUid: CAP0-staff8
+memberUid: C0-staff8
+memberUid: tcuyper
+memberUid: charteradmin
+
+dn: cn=Aggregate Viewer,ou=groups,ou=IL-Charter,ou=DevTest,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Aggregate Viewer
+gidNumber: 514
+memberUid: jjackson
+memberUid: msmith
+memberUid: mjohnson
+memberUid: xbell
+memberUid: charterviewer
+
+dn: cn=LEA System Administrator,ou=groups,ou=IL-Charter,ou=DevTest,dc=slidev
+ ,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: LEA System Administrator
+gidNumber: 520
+memberUid: jstevenson
+memberUid: rrogers
+
+dn: cn=School Administrative Support Staff,ou=groups,ou=IL-Charter,ou=DevTes
+ t,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: School Administrative Support Staff
+gidNumber: 522
+memberUid: akopel
+
+dn: cn=Principal,ou=groups,ou=IL-Charter,ou=DevTest,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Principal
+gidNumber: 521
+memberUid: mgonzales
+
+dn: cn=Superintendent,ou=groups,ou=IL-Charter,ou=DevTest,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Superintendent
+gidNumber: 524
+memberUid: sbantu
+
+dn: cn=Teacher,ou=groups,ou=IL-Charter,ou=DevTest,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Teacher
+gidNumber: 525
+memberUid: linda.kim
+memberUid: cgray
+memberUid: rbraverman
+
+dn: cn=Specialist/Consultant,ou=groups,ou=IL-Charter,ou=DevTest,dc=slidev,dc
+ =org
+objectClass: posixGroup
+objectClass: top
+cn: Specialist/Consultant
+gidNumber: 523
+memberUid: jjackson
+memberUid: msmith
+memberUid: mjohnson
+
+dn: ou=people,ou=IL-Charter,ou=DevTest,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: people
+
+dn: cn=Linda Kim,ou=people,ou=IL-Charter,ou=DevTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Linda Kim
+gidNumber: 503
+homeDirectory: /home/users/lindakim
+sn: Kim
+uid: linda.kim
+uidNumber: 1117
+givenName: Linda
+loginShell: /bin/sh
+userPassword:: e01ENX15bENoMXNmNERQekZDbFZ5cndHbXhnPT0=
+
+dn: cn=Charles Gray,ou=people,ou=IL-Charter,ou=DevTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Charles Gray
+gidNumber: 507
+homeDirectory: /home/users/cgray
+sn: Gray
+uid: cgray
+uidNumber: 1134
+givenName: Charles
+loginShell: /bin/sh
+userPassword:: e01ENX1JOU1IeC9WY2hhSHJvMS9pKytVUU9BPT0=
+
+dn: cn=Rebecca Braverman,ou=people,ou=IL-Charter,ou=DevTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Rebecca Braverman
+gidNumber: 507
+homeDirectory: /home/users/rbraverman
+sn: Braverman
+uid: rbraverman
+uidNumber: 1135
+givenName: Rebecca
+loginShell: /bin/sh
+userPassword:: e01ENX1oSFFncWJmc0FqZTNtanEvRHkrR2V3PT0=
+
+dn: cn=Susan Bantu,ou=people,ou=IL-Charter,ou=DevTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Susan Bantu
+gidNumber: 512
+homeDirectory: /home/users/sbantu1
+sn: Bantu
+uid: sbantu
+uidNumber: 1136
+givenName: Susan
+loginShell: /bin/bash
+userPassword:: e01ENX1jeFgwdXA2SEFaQzNUZlMxYUNTU0FnPT0=
+
+dn: cn=James Stevenson,ou=people,ou=IL-Charter,ou=DevTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: James Stevenson
+gidNumber: 513
+homeDirectory: /home/users/jstevenson
+sn: Stevenson
+uid: jstevenson
+uidNumber: 1137
+givenName: James
+loginShell: /bin/bash
+userPassword:: e01ENX1BblpjMU9zTWZXOUEya1k0a2YwSlh3PT0=
+
+dn: cn=Jack Jackson,ou=people,ou=IL-Charter,ou=DevTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Jack Jackson
+gidNumber: 514
+homeDirectory: /home/users/jjackson
+sn: Jackson
+uid: jjackson
+uidNumber: 1138
+givenName: Jack
+loginShell: /bin/bash
+userPassword:: e01ENX0wOGZ2WCtGSENHcU5uYTVSdTM1RmZBPT0=
+
+dn: cn=Maria Gonzales,ou=people,ou=IL-Charter,ou=DevTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Maria Gonzales
+gidNumber: 512
+homeDirectory: /home/users/mgonzales
+sn: Gonzales
+uid: mgonzales
+uidNumber: 1139
+givenName: Maria
+loginShell: /bin/bash
+userPassword:: e01ENX1GaUZGYjgvclZJNmx5MjIzcWZkVTF3PT0=
+
+dn: cn=Rob Gorki,ou=people,ou=IL-Charter,ou=DevTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Rob Gorki
+gidNumber: 512
+homeDirectory: /home/users/rgorki
+sn: Gorki
+uid: rgorki
+uidNumber: 1140
+givenName: Rob
+loginShell: /bin/bash
+userPassword:: e01ENX1TVi94Ni9pSW05c0wrQUpWcDlzZDdnPT0=
+
+dn: cn=Mary Smith,ou=people,ou=IL-Charter,ou=DevTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Mary Smith
+gidNumber: 514
+homeDirectory: /home/users/msmith
+sn: Smith
+uid: msmith
+uidNumber: 1141
+givenName: Mary
+loginShell: /bin/bash
+userPassword:: e01ENX1MVU9hSVdxOTlLL2EyM3RUNnpKV0RnPT0=
+
+dn: cn=Michael Johnson,ou=people,ou=IL-Charter,ou=DevTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Michael Johnson
+gidNumber: 514
+homeDirectory: /home/users/mjohnson
+sn: Johnson
+uid: mjohnson
+uidNumber: 1142
+givenName: Michael
+loginShell: /bin/bash
+userPassword:: e01ENX04Q1VJSlF3blVTRFJOY0Fqd2M2WTV3PT0=
+
+dn: cn=Amy Kopel,ou=people,ou=IL-Charter,ou=DevTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Amy Kopel
+gidNumber: 513
+homeDirectory: /home/users/akopel
+sn: Kopel
+uid: akopel
+uidNumber: 1143
+givenName: Amy
+loginShell: /bin/bash
+userPassword:: e01ENX1md2JjMzJqTzM0V1NObThiaittTkVBPT0=
+
+dn: cn=Rick Rogers,ou=people,ou=IL-Charter,ou=DevTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Rick Rogers
+gidNumber: 100
+homeDirectory: /home/users/rrogers
+sn: Rogers
+uid: rrogers
+uidNumber: 1144
+givenName: Rick
+loginShell: /bin/bash
+userPassword:: e01ENX1ubnJsdzd0QzU1d0FmMkxtN2llOWFRPT0=
+
+dn: cn=Autoro Franco,ou=people,ou=IL-Charter,ou=DevTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Autoro Franco
+gidNumber: 100
+homeDirectory: /home/users/afranco
+sn: Franco
+uid: afranco
+uidNumber: 1145
+givenName: Autoro
+loginShell: /bin/bash
+userPassword:: e01ENX1vMHl3cTRTMlpZVDVtY3JxL1k0Skt3PT0=
+
+dn: cn=Mark Abernathy,ou=people,ou=IL-Charter,ou=DevTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Mark Abernathy
+gidNumber: 513
+homeDirectory: /home/users/mabernathy
+sn: Abernathy
+uid: mabernathy
+uidNumber: 1199
+givenName: Mark
+loginShell: /bin/bash
+userPassword:: e1NIQX16TDVIcTExazl0Tmp3ZXVvL1Vob1ZtTlVqcDg9
+
+dn: cn=CAP0-staff8,ou=people,ou=IL-Charter,ou=DevTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: CAP0-staff8
+gidNumber: 507
+homeDirectory: /home/users/CAP0-staff8
+sn: CAP0-staff8
+uid: CAP0-staff8
+uidNumber: 1134
+givenName: CAP0-staff8
+loginShell: /bin/sh
+userPassword:: e1NTSEF9MUlXV3JERkpzRGJyM2hKU2Y1bkNOeTVPeTYxNGc0bkE=
+
+dn: cn=CAP0-D0-HSch0-teacher34,ou=people,ou=IL-Charter,ou=DevTest,dc=slidev,
+ dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: CAP0-D0-HSch0-teacher34
+gidNumber: 507
+homeDirectory: /home/users/CAP0-D0-HSch0-teacher34
+sn: CAP0-D0-HSch0-teacher34
+uid: CAP0-D0-HSch0-teacher34
+uidNumber: 1134
+givenName: CAP0-D0-HSch0-teacher34
+loginShell: /bin/sh
+userPassword:: e1NTSEF9OGJ0eWhSWGp0aTIxbW5iSGc1VXpaaTlYaWVyVGVIc0U=
+
+dn: cn=CAP0-D0-HSch6-teacher11,ou=people,ou=IL-Charter,ou=DevTest,dc=slidev,
+ dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: CAP0-D0-HSch6-teacher11
+gidNumber: 507
+homeDirectory: /home/users/CAP0-D0-HSch6-teacher11
+sn: CAP0-D0-HSch6-teacher11
+uid: CAP0-D0-HSch6-teacher11
+uidNumber: 1134
+givenName: CAP0-D0-HSch6-teacher11
+loginShell: /bin/sh
+userPassword:: e1NTSEF9RDVNMUV1a1RFejBSd1JXaXRDTkZxMlYzNFJ5TEh2ZUw=
+
+dn: cn=CAP0-D0-HSch0-teacher11,ou=people,ou=IL-Charter,ou=DevTest,dc=slidev,
+ dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: CAP0-D0-HSch0-teacher11
+gidNumber: 507
+homeDirectory: /home/users/CAP0-D0-HSch0-teacher26
+sn: C0-D0-HSch0-teacher26
+uid: C0-D0-HSch0-teacher26
+uidNumber: 1134
+givenName: C0-D0-HSch0-teacher26
+loginShell: /bin/sh
+userPassword:: e1NTSEF9TDk5Z1Y3QXpVODVPQ29hb1JxOXNsNS9FQ2JlRnE1aVc=
+
+dn: cn=C0-staff8,ou=people,ou=IL-Charter,ou=DevTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: C0-staff8
+gidNumber: 507
+homeDirectory: /home/users/C0-staff8
+sn: C0-staff8
+uid: C0-staff8
+uidNumber: 1134
+givenName: C0-staff8
+loginShell: /bin/sh
+userPassword:: e1NTSEF9eWtRQm5mazJJVVFyVUJZOEhxdFpZc1BVNUpKQzNXTlc=
+
+dn: cn=Javier Macey,ou=people,ou=IL-Charter,ou=DevTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Javier Macey
+gidNumber: 503
+homeDirectory: /home/users/jmacey
+sn: Macey
+uid: jmacey
+uidNumber: 1200
+givenName: Javier
+loginShell: /bin/sh
+userPassword:: e01ENX15RGlyUUFGeHJFUkp2YXdhRVA3eFZRPT0=
+
+dn: cn=Richard Belding,ou=people,ou=IL-Charter,ou=DevTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Richard Belding
+gidNumber: 503
+homeDirectory: /home/users/rbelding
+sn: Belding
+uid: rbelding
+uidNumber: 1201
+givenName: Richard
+loginShell: /bin/sh
+userPassword:: e01ENX1xc1Rlc1pTM0Z3Mnk3YVM0Q3A4ZEl3PT0=
+
+dn: cn=Xavier Bell,ou=people,ou=IL-Charter,ou=DevTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Xavier Bell
+gidNumber: 514
+homeDirectory: /home/users/xbell
+sn: Bell
+uid: xbell
+uidNumber: 1202
+givenName: Xavier
+loginShell: /bin/bash
+userPassword:: e01ENX03QUlCbWtFRGFKaUY5YUdwa0lSQS9nPT0=
+
+dn: cn=Teresa Cuyper,ou=people,ou=IL-Charter,ou=DevTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Teresa Cuyper
+gidNumber: 512
+homeDirectory: /home/users/xbell
+sn: Cuyper
+uid: tcuyper
+uidNumber: 1203
+givenName: Teresa
+loginShell: /bin/bash
+userPassword:: e01ENX1zWEI0TkJVZVFBLzA0Z3hqenlDRW5BPT0=
+
+dn: cn=Charter Educator,ou=people,ou=IL-Charter,ou=DevTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Charter Educator
+gidNumber: 503
+homeDirectory: /home/users/chartereducator
+sn: Educator
+uid: chartereducator
+uidNumber: 1117
+givenName: Charter
+loginShell: /bin/sh
+userPassword:: e01ENX16c3VlTUtJRkZ5eVpNcmt0NWE4QU13PT0=
+
+dn: cn=devldapuser_jhinsdale-mac.local@slidev.org,ou=people,ou=LocalNew,ou=D
+ evTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: devldapuser_jhinsdale-mac.local@slidev.org
+gidNumber: 500
+homeDirectory: /Users/jhinsdale/dev/sli/sli/api/target/ingestion/lz/inbound/
+ devldapuser_jhinsdale-mac.local@slidev.org/92a1088128e8b569a0ae094f5a929284
+ 02af4c5ef9c1ece3c57c8681615e030d
+sn: test
+uid: devldapuser_jhinsdale-mac.local@slidev.org
+uidNumber: 500
+description:: dGVuYW50PWRldmxkYXB1c2VyX2poaW5zZGFsZS1tYWMubG9jYWxAc2xpZGV2Lm
+ 9yZwplZE9yZz1UZXN0X0VkX09yZw==
+destinationIndicator: approved
+displayName: 9ceaa506cddb30d6afbcae449a87e81d
+gecos: 
+givenName: Provision
+loginShell: /sbin/nologin
+mail: devldapuser_jhinsdale-mac.local@slidev.org
+o: test
+userPassword:: dGVzdDEyMzQ=
+
+dn: cn=developer-email@slidev.org,ou=people,ou=LocalNew,ou=DevTest,dc=slidev
+ ,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+objectClass: posixAccount
+cn: developer-email@slidev.org
+gidNumber: 500
+homeDirectory: /ingestion/lz/developer-email@slidev.org/IL
+sn: Developer
+uid: developer-email@slidev.org
+uidNumber: 834
+description:: dGVuYW50PWRldmVsb3Blci1lbWFpbEBzbGlkZXYub3JnCmVkT3JnPUlM
+destinationIndicator: approved
+displayName: 75c16a1f1735525ab6adee8c01fa4a7f
+gecos: 
+givenName: Joe
+mail: developer-email@slidev.org
+o: SLC
+userPassword:: dGVzdDEyMzQ=
+
+dn: cn=Bill Operator,ou=people,ou=LocalNew,ou=DevTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Bill Operator
+gidNumber: 100
+homeDirectory: /home/users/toperator
+sn: Operator
+uid: slcoperator-email@slidev.org
+uidNumber: 1164
+displayName: 4ba75e11e2932e68dd6af3b4077c16ee
+givenName: Bill
+loginShell: /bin/bash
+mail: slcoperator-email@slidev.org
+userPassword:: e01ENX1TSnJ5L243SDlqbmJGZEh3UDdVOGVBPT0=
+
+dn: cn=developer-email@slidev.org,ou=people,ou=SLIAdmin,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+objectClass: posixAccount
+cn: developer-email@slidev.org
+gidNumber: 500
+homeDirectory: /ingestion/lz/developer-email@slidev.org/IL
+sn: Developer
+uid: developer-email@slidev.org
+uidNumber: 834
+description:: dGVuYW50PWRldmVsb3Blci1lbWFpbEBzbGlkZXYub3JnCmVkT3JnPUlM
+destinationIndicator: approved
+displayName: 75c16a1f1735525ab6adee8c01fa4a7f
+gecos: 
+givenName: Joe
+mail: developer-email@slidev.org
+o: SLC
+userPassword:: e01ENX1GdGVrL0tkRUxkbzYyVHlhY21XWDVBPT0=
+
+dn: cn=e2etestdev_sb@slidev.org,ou=people,ou=SLIAdmin,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: e2etestdev_sb@slidev.org
+gidNumber: 113
+homeDirectory: /dev/null
+sn: Developer
+uid: e2etestdev_sb@slidev.org
+uidNumber: 500
+destinationIndicator: submitted
+displayName: -
+gecos: 
+givenName: RCTest
+loginShell: /sbin/nologin
+mail: e2etestdev_sb@slidev.org
+o: WGEN RC
+userPassword:: dGVzdDEyMzQ=
+
+dn: cn=Shan Wood,ou=people,ou=Charter-School-Daybreak-Central-High,dc=slidev
+ ,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Shan Wood
+gidNumber: 513
+homeDirectory: /home/users/swood
+sn: Wood
+uid: swood
+uidNumber: 12137
+givenName: Shan
+loginShell: /bin/bash
+userPassword:: e01ENX1CWHRRcWxpa0d4cFVxMW1xdmJxcVBnPT0=
+
+dn: uid=jsingh,ou=people,dc=slidev,dc=org
+objectClass: top
+objectClass: account
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: John Singh
+gidNumber: 1201
+homeDirectory: /home/jsingh
+uid: jsingh
+uidNumber: 1201
+gecos: John Singh
+loginShell: /bin/bash
+shadowLastChange: 0
+shadowMax: 0
+shadowWarning: 0
+userPassword:: e01ENX1FNzdNdStibnVvejdDSlI3Z1dsMU1BPT0=
+
+dn: cn=Shan Wood,ou=people,ou=Charter-School-Daybreak-Central-High,ou=DevTes
+ t,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Shan Wood
+gidNumber: 513
+homeDirectory: /home/users/swood
+sn: Wood
+uid: swood
+uidNumber: 12137
+givenName: Shan
+loginShell: /bin/bash
+userPassword:: e01ENX1CWHRRcWxpa0d4cFVxMW1xdmJxcVBnPT0=
+
+dn: cn=devldapuser_jsingh-mac.local@slidev.org,ou=people,ou=LocalNew,ou=DevT
+ est,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: devldapuser_jsingh-mac.local@slidev.org
+gidNumber: 500
+homeDirectory: /ingestion/lz/inbound/devldapuser_jsingh-mac.local@slidev.org
+ /Test_Ed_Org
+sn: test
+uid: devldapuser_jsingh-mac.local@slidev.org
+uidNumber: 500
+description:: dGVuYW50PWRldmxkYXB1c2VyX2pzaW5naC1tYWMubG9jYWxAc2xpZGV2Lm9yZw
+ plZE9yZz1UZXN0X0VkX09yZw==
+destinationIndicator: approved
+displayName: efe7d1c2eda41de146ca5c349aaf1e71
+gecos: 
+givenName: Provision
+loginShell: /sbin/nologin
+mail: devldapuser_jsingh-mac.local@slidev.org
+o: test
+userPassword:: dGVzdDEyMzQ=
+
+dn: cn=jsingh-mac.local_prodtestuser@testwgen.net,ou=people,ou=LocalNew,ou=D
+ evTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: jsingh-mac.local_prodtestuser@testwgen.net
+gidNumber: 113
+homeDirectory: /dev/null
+sn: Changed
+uid: jsingh-mac.local_prodtestuser@testwgen.net
+uidNumber: 500
+description: tenant=Midgar,edOrg=IL
+destinationIndicator: submitted
+givenName: jsingh-mac.local_SAMT
+loginShell: /sbin/nologin
+mail: jsingh-mac.local_random4@4.net
+
+dn: cn=jsingh-mac.local_prodtestuser2@testwgen.net,ou=people,ou=LocalNew,ou=
+ DevTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: jsingh-mac.local_prodtestuser2@testwgen.net
+gidNumber: 500
+homeDirectory: /dev/null
+sn: Test_jsingh-mac.local
+uid: jsingh-mac.local_prodtestuser2@testwgen.net
+uidNumber: 500
+description:: dGVuYW50PU1pZGdhcgplZE9yZz1JTA==
+destinationIndicator: pending
+displayName: 62f812bf268340c85c65e88634793c56
+gecos: 
+givenName: SAMT
+loginShell: /sbin/nologin
+mail: jsingh-mac.local_prodtestuser2@testwgen.net
+o: none
+userPassword:: dGVzdDEyMzQ=
+
+dn: uid=bsuzuki,ou=people,dc=slidev,dc=org
+objectClass: top
+objectClass: account
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: Brandon Suzuki
+gidNumber: 1202
+homeDirectory: /home/bsuzuki
+uid: bsuzuki
+uidNumber: 1202
+gecos: Brandon Suzuki
+loginShell: /bin/bash
+shadowLastChange: 0
+shadowMax: 0
+shadowWarning: 0
+userPassword:: e01ENX1uSnlCMUh2Y2RVYko1UGZjL1M0VW9BPT0=
+
+dn: uid=okrook,ou=people,dc=slidev,dc=org
+objectClass: top
+objectClass: account
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: Oleg Krook
+gidNumber: 1200
+homeDirectory: /home/okrook
+uid: okrook
+uidNumber: 1205
+gecos: Oleg Krook
+loginShell: /bin/bash
+shadowLastChange: 0
+shadowMax: 0
+shadowWarning: 0
+userPassword:: e21kNX1ZVVUwYzVQcFVQQmlTSG1hTG1oL2pnPT0=
+
+dn: cn=Rick Rogers,ou=people,ou=IL-Charter,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Rick Rogers
+gidNumber: 100
+homeDirectory: /home/users/rrogers
+sn: Rogers
+uid: rrogers
+uidNumber: 1144
+givenName: Rick
+loginShell: /bin/bash
+userPassword:: e01ENX1ubnJsdzd0QzU1d0FmMkxtN2llOWFRPT0=
+
+dn: cn=Charter Leader,ou=people,ou=IL-Charter,ou=DevTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Charter Leader
+gidNumber: 100
+homeDirectory: /home/users/charterleader
+sn: Leader
+uid: charterleader
+uidNumber: 1145
+givenName: Charter
+loginShell: /bin/bash
+userPassword:: e01ENX1zSkszY3lLYjRBVDZhWXhLSEIvZDh3PT0=
+
+dn: cn=Charter Viewer,ou=people,ou=IL-Charter,ou=DevTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Charter Viewer
+gidNumber: 514
+homeDirectory: /home/users/charterviewer
+sn: Viewer
+uid: charterviewer
+uidNumber: 1138
+givenName: Charter
+loginShell: /bin/bash
+userPassword:: e01ENX1VMU1PTDZaNzBkb1JBd1dFZWw3Q0NnPT0=
+
+dn: cn=Charter Admin,ou=people,ou=IL-Charter,ou=DevTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Charter Admin
+gidNumber: 100
+homeDirectory: /home/users/charteradmin
+sn: Admin
+uid: charteradmin
+uidNumber: 1144
+givenName: Charter
+loginShell: /bin/bash
+userPassword:: e01ENX1JS2U3dXVtZUcwRzNYV0QweWZ0dDJRPT0=
+
+dn: cn=devldapuser_tshewchuk-mac.local@slidev.org,ou=people,ou=LocalNew,ou=D
+ evTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: devldapuser_tshewchuk-mac.local@slidev.org
+gidNumber: 500
+homeDirectory: /Users/tshewchuk/repository/sli/api/target/ingestion/lz/inbou
+ nd/devldapuser_tshewchuk-mac.local@slidev.org/92a1088128e8b569a0ae094f5a929
+ 28402af4c5ef9c1ece3c57c8681615e030d
+sn: test
+uid: devldapuser_tshewchuk-mac.local@slidev.org
+uidNumber: 500
+description:: dGVuYW50PWRldmxkYXB1c2VyX3RzaGV3Y2h1ay1tYWMubG9jYWxAc2xpZGV2Lm
+ 9yZwplZE9yZz1UZXN0X0VkX09yZw==
+destinationIndicator: approved
+displayName: 88cf80dd602a757ad44cbb7c2b4fca7e
+gecos: 
+givenName: Provision
+loginShell: /sbin/nologin
+mail: devldapuser_tshewchuk-mac.local@slidev.org
+o: test
+userPassword:: dGVzdDEyMzQ=
+
+dn: ou=CI,dc=slidev,dc=org
+objectClass: organizationalUnit
+ou: CI
+
+dn: ou=groups,ou=CI,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: groups
+
+dn: cn=LEA Administrator,ou=groups,ou=CI,dc=slidev,dc=org
 objectClass: posixGroup
 objectClass: top
 cn: LEA Administrator
@@ -5587,9 +7715,11 @@ memberUid: sunsetadmin
 memberUid: daybreakadmin
 memberUid: daybreaknorealmadmin
 memberUid: mreynolds
+memberUid: jsingh-mac.local_prodtestuser2@testwgen.net
+memberUid: e2etestlea@slidev.org
+memberUid: e2echarter@slidev.org
 
-dn: cn=Application Developer,ou=groups,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=o
- rg
+dn: cn=Application Developer,ou=groups,ou=CI,dc=slidev,dc=org
 objectClass: posixGroup
 objectClass: top
 cn: Application Developer
@@ -5597,7 +7727,6 @@ gidNumber: 506
 memberUid: testdeveloper
 memberUid: developer
 memberUid: nbrown@wgen.net
-memberUid: peacefrog@slidev.org
 memberUid: slcdeveloper
 memberUid: rfarris@wgen.net
 memberUid: stephan@klaravision.com
@@ -5608,8 +7737,9 @@ memberUid: developer-email@slidev.org
 memberUid: asaarela@wgen.net
 memberUid: devldapuser@slidev.org
 memberUid: sandboxdeveloper
+memberUid: admintest-developer@slidev.org
 
-dn: cn=SEA Administrator,ou=groups,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=SEA Administrator,ou=groups,ou=CI,dc=slidev,dc=org
 objectClass: posixGroup
 objectClass: top
 cn: SEA Administrator
@@ -5619,8 +7749,10 @@ memberUid: iladmin
 memberUid: ontarioadmin
 memberUid: cwilson
 memberUid: mreynolds
+memberUid: peace_frog@slidev.org
+memberUid: e2etestsea@slidev.org
 
-dn: cn=Realm Administrator,ou=groups,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=Realm Administrator,ou=groups,ou=CI,dc=slidev,dc=org
 objectClass: posixGroup
 objectClass: top
 cn: Realm Administrator
@@ -5634,8 +7766,10 @@ memberUid: daybreakadmin
 memberUid: ontarioadmin
 memberUid: mreynolds
 memberUid: cwilson
+memberUid: peace_frog@slidev.org
+memberUid: e2etestlea@slidev.org
 
-dn: cn=Ingestion User,ou=groups,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=Ingestion User,ou=groups,ou=CI,dc=slidev,dc=org
 objectClass: posixGroup
 objectClass: top
 cn: Ingestion User
@@ -5647,7 +7781,6 @@ memberUid: daybreakadmin
 memberUid: ingestionuser
 memberUid: rfarris@wgen.net
 memberUid: mreynolds
-memberUid: peacefrog@slidev.org
 memberUid: saltmueller@wgen.net
 memberUid: cwilson
 memberUid: joechung@slidev.org
@@ -5657,8 +7790,7 @@ memberUid: devldapuser@slidev.org
 memberUid: sunsetingestionuser
 memberUid: sandboxingestionuser
 
-dn: cn=Acceptance Test User,ou=groups,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=or
- g
+dn: cn=Acceptance Test User,ou=groups,ou=CI,dc=slidev,dc=org
 objectClass: posixGroup
 objectClass: top
 cn: Acceptance Test User
@@ -5666,20 +7798,17 @@ gidNumber: 511
 memberUid: developer
 memberUid: administrator
 memberUid: demo
-memberUid: leader
 memberUid: realmadmin
 memberUid: fakerealmadmin
 
-dn: cn=Sandbox SLC Operator,ou=groups,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=or
- g
+dn: cn=Sandbox SLC Operator,ou=groups,ou=CI,dc=slidev,dc=org
 objectClass: posixGroup
 objectClass: top
 cn: Sandbox SLC Operator
 gidNumber: 515
 memberUid: sandboxslcoperator
 
-dn: cn=Sandbox Administrator,ou=groups,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=o
- rg
+dn: cn=Sandbox Administrator,ou=groups,ou=CI,dc=slidev,dc=org
 objectClass: posixGroup
 objectClass: top
 cn: Sandbox Administrator
@@ -5695,8 +7824,21 @@ memberUid: lalsop_nxslave7@acme.com
 memberUid: devldapuser_nxslave2@slidev.org
 memberUid: devldapuser_nxslave9@slidev.org
 memberUid: lalsop_nxslave9@acme.com
+memberUid: devldapuser_ablum-mac.local@slidev.org
+memberUid: devldapuser_bsuzuki-mac.local@slidev.org
+memberUid: devldapuser_jhinsdale-mac.local@slidev.org
+memberUid: devldapuser_jsingh-mac.local@slidev.org
+memberUid: jraynor@smuhit-mac.local
+memberUid: lalsop_smuhit-mac.local@acme.com
+memberUid: devldapuser_tshewchuk-mac.local@slidev.org
+memberUid: devldapuser_smuhit-mac.local@slidev.org
+memberUid: devldapuser_tke-mac-7.local@slidev.org
+memberUid: jraynor@cislave
+memberUid: lalsop_cislave@acme.com
+memberUid: devldapuser_cislave@slidev.org
+memberUid: e2etestdev_sb@slidev.org
 
-dn: cn=ingestion_user,ou=groups,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=ingestion_user,ou=groups,ou=CI,dc=slidev,dc=org
 objectClass: posixGroup
 objectClass: top
 cn: ingestion_user
@@ -5706,7 +7848,6 @@ memberUid: sunsetadmin
 memberUid: daybreakadmin
 memberUid: ingestionuser
 memberUid: mreynolds
-memberUid: peacefrog@slidev.org
 memberUid: cwilson
 memberUid: lalsop@acme.com
 memberUid: devldapuser@slidev.org
@@ -5729,16 +7870,30 @@ memberUid: lalsop_nxslave7@acme.com
 memberUid: devldapuser_nxslave2@slidev.org
 memberUid: devldapuser_nxslave9@slidev.org
 memberUid: lalsop_nxslave9@acme.com
+memberUid: devldapuser_ablum-mac.local@slidev.org
+memberUid: devldapuser_bsuzuki-mac.local@slidev.org
+memberUid: devldapuser_jhinsdale-mac.local@slidev.org
+memberUid: devldapuser_jsingh-mac.local@slidev.org
+memberUid: jsingh-mac.local_prodtestuser@testwgen.net
+memberUid: jraynor@smuhit-mac.local
+memberUid: lalsop_smuhit-mac.local@acme.com
+memberUid: devldapuser_tshewchuk-mac.local@slidev.org
+memberUid: devldapuser_smuhit-mac.local@slidev.org
+memberUid: devldapuser_tke-mac-7.local@slidev.org
+memberUid: jraynor@cislave
+memberUid: lalsop_cislave@acme.com
+memberUid: devldapuser_cislave@slidev.org
+memberUid: e2etestdev_sb@slidev.org
+memberUid: e2etestsea@slidev.org
+memberUid: e2etestlea@slidev.org
 
-dn: cn=application_developer,ou=groups,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=o
- rg
+dn: cn=application_developer,ou=groups,ou=CI,dc=slidev,dc=org
 objectClass: posixGroup
 objectClass: top
 cn: application_developer
 gidNumber: 506
 memberUid: testdeveloper
 memberUid: developer
-memberUid: peacefrog@slidev.org
 memberUid: slcdeveloper
 memberUid: developer-email@slidev.org
 memberUid: devldapuser@slidev.org
@@ -5759,8 +7914,22 @@ memberUid: lalsop_nxslave7@acme.com
 memberUid: devldapuser_nxslave2@slidev.org
 memberUid: devldapuser_nxslave9@slidev.org
 memberUid: lalsop_nxslave9@acme.com
+memberUid: devldapuser_ablum-mac.local@slidev.org
+memberUid: devldapuser_bsuzuki-mac.local@slidev.org
+memberUid: devldapuser_jhinsdale-mac.local@slidev.org
+memberUid: devldapuser_jsingh-mac.local@slidev.org
+memberUid: jraynor@smuhit-mac.local
+memberUid: lalsop_smuhit-mac.local@acme.com
+memberUid: devldapuser_tshewchuk-mac.local@slidev.org
+memberUid: devldapuser_smuhit-mac.local@slidev.org
+memberUid: devldapuser_tke-mac-7.local@slidev.org
+memberUid: jraynor@cislave
+memberUid: admintest-developer@slidev.org
+memberUid: lalsop_cislave@acme.com
+memberUid: devldapuser_cislave@slidev.org
+memberUid: e2etestdev_sb@slidev.org
 
-dn: cn=SLC Operator,ou=groups,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=SLC Operator,ou=groups,ou=CI,dc=slidev,dc=org
 objectClass: posixGroup
 objectClass: top
 cn: SLC Operator
@@ -5768,12 +7937,12 @@ gidNumber: 504
 memberUid: slcoperator
 memberUid: slcoperator-email@slidev.org
 
-dn: ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: ou=people,ou=CI,dc=slidev,dc=org
 objectClass: organizationalUnit
 objectClass: top
 ou: people
 
-dn: cn=SLC Operator,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=SLC Operator,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -5789,7 +7958,7 @@ loginShell: /bin/sh
 mail: slcoperator@slidev.org
 userPassword:: e01ENX1qeGVYbGNhWlgxWDFDemx2VGpCdTZ3PT0=
 
-dn: cn=Daybreak Admin,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=Daybreak Admin,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -5807,7 +7976,7 @@ loginShell: /bin/sh
 mail: daybreakadmin@slidev.org
 userPassword:: e1NIQX1SSC93Qmc5REtXcnBxc25aYlN2TG4zYXZwKzg9
 
-dn: cn=Test Developer,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=Test Developer,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -5824,7 +7993,7 @@ loginShell: /bin/sh
 mail: testdeveloper@slidev.org
 userPassword:: e01ENX1va1FpVU85RXRjK1V3WXU2UXlhNGNnPT0=
 
-dn: cn=Sunset Admin,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=Sunset Admin,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -5842,7 +8011,7 @@ loginShell: /bin/sh
 mail: sunsetadmin@slidev.org
 userPassword:: c3Vuc2V0YWRtaW4xMjM0
 
-dn: cn=IL Admin,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=IL Admin,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -5859,7 +8028,7 @@ loginShell: /bin/sh
 mail: iladmin@slidev.org
 userPassword:: e01ENX1TMUs1THBMcTROM3RZcWU4YlVkR05RPT0=
 
-dn: cn=NY Admin,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=NY Admin,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -5875,7 +8044,7 @@ givenName: NY
 loginShell: /bin/sh
 userPassword:: e01ENX01R1BSNnd1YVJpQWJrbFhZK2YwdVl3PT0=
 
-dn: cn=Sunset RealmAdmin,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=Sunset RealmAdmin,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -5892,7 +8061,7 @@ loginShell: /bin/sh
 mail: sunsetrealmadmin@slidev.org
 userPassword:: e01ENX1md05zSTNLZXd6bEFkQW1PUTJzbURRPT0=
 
-dn: cn=Developer Test,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=Developer Test,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -5909,7 +8078,7 @@ loginShell: /bin/sh
 mail: developer@slidev.org
 userPassword:: e01ENX04STZmUDhOUXprNGhSMWYyRmExL01nPT0=
 
-dn: cn=Administrator Test,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=Administrator Test,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -5925,7 +8094,7 @@ loginShell: /bin/sh
 mail: administrator@slidev.org
 userPassword:: e01ENX1ybXBTN0o5KzRkWm1pRXpzOWxOVFB3PT0=
 
-dn: cn=Demo Test,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=Demo Test,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -5941,7 +8110,7 @@ loginShell: /bin/sh
 mail: demo@slidev.org
 userPassword:: e01ENX11UnpScFVlQmVRdnFvcnIzUWZwbmlRPT0=
 
-dn: cn=Leader Test,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=Leader Test,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -5957,7 +8126,7 @@ loginShell: /bin/sh
 mail: leader@slidev.org
 userPassword:: e01ENX03MFVYZEMyYzBRZnVid3VKNllhcnFBPT0=
 
-dn: cn=Realm Test,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=Realm Test,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -5973,7 +8142,7 @@ loginShell: /bin/sh
 mail: realmadmin@slidev.org
 userPassword:: e01ENX1aSjZMaTkvaC9zYjIrcEpPN3V6NHFBPT0=
 
-dn: cn=Fakerealmadmin Test,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=Fakerealmadmin Test,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -5990,7 +8159,7 @@ loginShell: /bin/sh
 mail: fakerealmadmin@slidev.org
 userPassword:: e01ENX01elVVWnZVRnNZZW9SbmF3eHZWdWhnPT0=
 
-dn: cn=FakeIngestion Test,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=FakeIngestion Test,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6006,8 +8175,7 @@ loginShell: /bin/sh
 mail: fakeingestion@slidev.org
 userPassword:: e01ENX15RjRPS2FIMk5PRkx1UnNaSTgvazF3PT0=
 
-dn: cn=DaybreakNoRealmAdmin Test,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,
- dc=org
+dn: cn=DaybreakNoRealmAdmin Test,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6024,7 +8192,7 @@ loginShell: /bin/sh
 mail: daybreaknorealmadmin@slidev.org
 userPassword:: e01ENX1DdS9tajdNWlNRenppK1d0V2JZSjJBPT0=
 
-dn: cn=pghosh@wgen.net,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=pghosh@wgen.net,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6041,7 +8209,7 @@ givenName: bob
 o: 123
 userPassword:: e01ENX1JQ3k1WXF4WkIxdVdTd2NWTFNOTGNBPT0=
 
-dn: cn=me@you.com,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=me@you.com,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6058,8 +8226,7 @@ givenName: test
 o: 123
 userPassword:: MTIz
 
-dn: cn=jnanney1207@gmail.com,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=o
- rg
+dn: cn=jnanney1207@gmail.com,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6076,7 +8243,7 @@ givenName: Jon
 o: Super Vendor
 userPassword:: e01ENX1XZlV2ZDE0Vmc2UEoyQmpyQjRPZmhBPT0=
 
-dn: cn=SLC Developer,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=SLC Developer,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6092,7 +8259,7 @@ loginShell: /bin/sh
 mail: slcdeveloper@slidev.org
 userPassword:: e01ENX00L01FZ0JRVkxuQVFsbHZuVnMvNnVnPT0=
 
-dn: cn=Ingestion User,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=Ingestion User,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6107,7 +8274,7 @@ givenName: Ingestion
 mail: ingestionuser@slidev.org
 userPassword:: e01ENX1Pd3A5TUNZNjJyTVpJQm5aZDR3dWlRPT0=
 
-dn: cn=rfarris@wgen.net,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=rfarris@wgen.net,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6125,7 +8292,7 @@ mail: rfarris@wgen.net
 o: test
 userPassword:: YXNkZmdo
 
-dn: cn=mreynolds,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=mreynolds,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6143,27 +8310,7 @@ loginShell: /bin/sh
 mail: mreynolds@slidev.org
 userPassword:: bXJleW5vbGRzMTIzNA==
 
-dn: cn=peacefrog@slidev.org,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=or
- g
-objectClass: inetOrgPerson
-objectClass: posixAccount
-objectClass: top
-cn: peacefrog@slidev.org
-gidNumber: 500
-homeDirectory: /Users/jshort/git_workspace1/sli/sli/api/target/ingestion/lz/
- inbound/peacefrog@slidev.org/JamesTest
-sn: Short
-uid: peacefrog@slidev.org
-uidNumber: 500
-description:: dGVuYW50PXBlYWNlZnJvZ0BzbGlkZXYub3JnCmVkT3JnPUphbWVzVGVzdA==
-destinationIndicator: approved
-displayName: b82657a128e6332bcb0c18f0978828e7
-givenName: James
-mail: peacefrog@slidev.org
-o: GitErDone
-userPassword:: e01ENX1NdzdRWkdvTWw1dUtpM0Z1M1F5SzlBPT0=
-
-dn: cn=test@test.com,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=test@test.com,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6180,7 +8327,7 @@ mail: test@test.com
 o: TestVendor
 userPassword:: e01ENX1IK2xKeFZUMEVocUZNQnNuZTJQRldnPT0=
 
-dn: cn=bozo@slidev.org,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=bozo@slidev.org,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6197,7 +8344,7 @@ mail: bozo@slidev.org
 o: test
 userPassword:: YXNkZg==
 
-dn: cn=rfarris@gmail.com,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=rfarris@gmail.com,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6214,8 +8361,7 @@ mail: rfarris@gmail.com
 o: test
 userPassword:: YXNkZg==
 
-dn: cn=acme@klaravision.com,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=or
- g
+dn: cn=acme@klaravision.com,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6232,8 +8378,7 @@ mail: acme@klaravision.com
 o: my company, Inc
 userPassword:: e01ENX02QXRRRndtSlVQeFlxdGc4akJTWGpnPT0=
 
-dn: cn=test1@klaravision.com,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=o
- rg
+dn: cn=test1@klaravision.com,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6250,7 +8395,7 @@ mail: test1@klaravision.com
 o: jd company & co
 userPassword:: e01ENX02QXRRRndtSlVQeFlxdGc4akJTWGpnPT0=
 
-dn: cn=test1234@test.com,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=test1234@test.com,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6267,8 +8412,7 @@ mail: test1234@test.com
 o: Test
 userPassword:: e01ENX1DWTlyelVZaDAzUEszazZESmllMDlnPT0=
 
-dn: cn=stephan\+test2@klaravision.com,ou=people,ou=SLIAdmin,ou=DevTest,dc=sl
- idev,dc=org
+dn: cn=stephan\+test2@klaravision.com,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6285,8 +8429,7 @@ mail: stephan+test2@klaravision.com
 o: Test
 userPassword:: e01ENX02QXRRRndtSlVQeFlxdGc4akJTWGpnPT0=
 
-dn: cn=stephan\+tes3@klaravision.com,ou=people,ou=SLIAdmin,ou=DevTest,dc=sli
- dev,dc=org
+dn: cn=stephan\+tes3@klaravision.com,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6303,8 +8446,7 @@ mail: stephan+tes3@klaravision.com
 o: Test
 userPassword:: e01ENX02QXRRRndtSlVQeFlxdGc4akJTWGpnPT0=
 
-dn: cn=testtestetsetest@wgen.net,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,
- dc=org
+dn: cn=testtestetsetest@wgen.net,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6321,8 +8463,7 @@ mail: testtestetsetest@wgen.net
 o: test
 userPassword:: e01ENX1rUzdJQTdMT1NlU2xRUWFOU1ZxMWNBPT0=
 
-dn: cn=testssstetest@wgen.net,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=
- org
+dn: cn=testssstetest@wgen.net,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6339,8 +8480,7 @@ mail: testssstetest@wgen.net
 o: test
 userPassword:: e01ENX1rUzdJQTdMT1NlU2xRUWFOU1ZxMWNBPT0=
 
-dn: cn=testset3254@wgen.net,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=or
- g
+dn: cn=testset3254@wgen.net,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6357,7 +8497,7 @@ mail: testset3254@wgen.net
 o: test
 userPassword:: e01ENX1rUzdJQTdMT1NlU2xRUWFOU1ZxMWNBPT0=
 
-dn: cn=lalsop1@acme.com,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=lalsop1@acme.com,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6374,7 +8514,7 @@ mail: lalsop1@acme.com
 o: Acme Corp
 userPassword:: e01ENX1JbkNuQkd2cWRpTTE4bGJiRDBWMjd3PT0=
 
-dn: cn=lalsop2@acme.com,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=lalsop2@acme.com,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6391,7 +8531,7 @@ mail: lalsop2@acme.com
 o: Acme Corp
 userPassword:: e01ENX1JbkNuQkd2cWRpTTE4bGJiRDBWMjd3PT0=
 
-dn: cn=test4567@wgen.net,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=test4567@wgen.net,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6408,7 +8548,7 @@ mail: test4567@wgen.net
 o: test
 userPassword:: e01ENX1rUzdJQTdMT1NlU2xRUWFOU1ZxMWNBPT0=
 
-dn: cn=test45687@wgen.net,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=test45687@wgen.net,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6425,7 +8565,7 @@ mail: test45687@wgen.net
 o: test
 userPassword:: e01ENX1DWTlyelVZaDAzUEszazZESmllMDlnPT0=
 
-dn: cn=test456879@wgen.net,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=test456879@wgen.net,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6442,7 +8582,7 @@ mail: test456879@wgen.net
 o: test
 userPassword:: e01ENX1rUzdJQTdMT1NlU2xRUWFOU1ZxMWNBPT0=
 
-dn: cn=test00099@wgen.net,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=test00099@wgen.net,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6459,7 +8599,7 @@ mail: test00099@wgen.net
 o: test
 userPassword:: e01ENX1rUzdJQTdMT1NlU2xRUWFOU1ZxMWNBPT0=
 
-dn: cn=test9999@wgen.net,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=test9999@wgen.net,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6476,7 +8616,7 @@ mail: test9999@wgen.net
 o: test
 userPassword:: e01ENX1rUzdJQTdMT1NlU2xRUWFOU1ZxMWNBPT0=
 
-dn: cn=t903939@wgen.net,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=t903939@wgen.net,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6493,27 +8633,7 @@ mail: t903939@wgen.net
 o: T
 userPassword:: e01ENX1rUzdJQTdMT1NlU2xRUWFOU1ZxMWNBPT0=
 
-dn: cn=developer-email@slidev.org,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev
- ,dc=org
-objectClass: inetOrgPerson
-objectClass: top
-objectClass: posixAccount
-cn: developer-email@slidev.org
-gidNumber: 500
-homeDirectory: /ingestion/lz/developer-email@slidev.org/IL
-sn: Developer
-uid: developer-email@slidev.org
-uidNumber: 834
-description:: dGVuYW50PWRldmVsb3Blci1lbWFpbEBzbGlkZXYub3JnCmVkT3JnPUlM
-destinationIndicator: approved
-displayName: 75c16a1f1735525ab6adee8c01fa4a7f
-gecos: 
-givenName: Joe
-mail: developer-email@slidev.org
-o: SLC
-userPassword:: dGVzdDEyMzQ=
-
-dn: cn=lalsop3210@acme.com,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=lalsop3210@acme.com,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6531,7 +8651,7 @@ mail: lalsop3210@acme.com
 o: None
 userPassword:: dGVzdDEyMzQ=
 
-dn: cn=testsdfsdf@test.com,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=testsdfsdf@test.com,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6549,8 +8669,7 @@ mail: testsdfsdf@test.com
 o: test
 userPassword:: dGVzdDEyMzQ=
 
-dn: cn=takashi.osako@gmail.com,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc
- =org
+dn: cn=takashi.osako@gmail.com,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6568,8 +8687,7 @@ mail: takashi.osako@gmail.com
 o: wgen
 userPassword:: MTIzNA==
 
-dn: cn=saltmueller@wgen.net,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=or
- g
+dn: cn=saltmueller@wgen.net,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6587,7 +8705,7 @@ mail: saltmueller@wgen.net
 o: Acme, Inc.
 userPassword:: YWJjZGVmZ2g=
 
-dn: cn=asaarela@wgen.net,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=asaarela@wgen.net,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6605,8 +8723,8 @@ mail: asaarela@wgen.net
 o: test
 userPassword:: MTIzNA==
 
-dn: cn=devldapuserchung-mac.local@slidev.org,ou=people,ou=SLIAdmin,ou=DevTes
- t,dc=slidev,dc=org
+dn: cn=devldapuserchung-mac.local@slidev.org,ou=people,ou=CI,dc=slidev,dc=or
+ g
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6624,8 +8742,7 @@ mail: devldapuserchung-mac.local@slidev.org
 o: Macro Corp
 userPassword:: c2VjcmV0
 
-dn: cn=Sunset IngestionUser,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=or
- g
+dn: cn=Sunset IngestionUser,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6641,7 +8758,7 @@ givenName: Sunset
 mail: sunsetingestionuser@slidev.org
 userPassword:: e01ENX1Pd3A5TUNZNjJyTVpJQm5aZDR3dWlRPT0=
 
-dn: cn=cwilson@wgen.net,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=cwilson@wgen.net,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6659,8 +8776,7 @@ mail: cwilson@wgen.net
 o: WG
 userPassword:: Y3dpbHNvbjEyMzQ=
 
-dn: cn=cwilson@wirelessgeneration.com,ou=people,ou=SLIAdmin,ou=DevTest,dc=sl
- idev,dc=org
+dn: cn=cwilson@wirelessgeneration.com,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6679,7 +8795,7 @@ mail: cwilson@wirelessgeneration.com
 o: aadsfasdfas
 userPassword:: Y3dpbHNvbjEyMzQ=
 
-dn: cn=Sandbox Admin,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=Sandbox Admin,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6697,7 +8813,7 @@ mail: sandboxadministrator@slidev.org
 userPassword:: e1NTSEF9R082QmhxaTBVV1RwNUlmUG40OEEraTZCWnBwWHF4cmc1NFgwVEE9P
  Q==
 
-dn: cn=Sandbox Developer,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=Sandbox Developer,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6715,8 +8831,7 @@ mail: sandboxdeveloper@slidev.org
 userPassword:: e1NTSEF9OVNJQkF2eC9pSEVYeG1ZQytIM3hteFcvOElSQisyUWFhVUlTdlE9P
  Q==
 
-dn: cn=Sandbox IngestionUser,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=o
- rg
+dn: cn=Sandbox IngestionUser,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6733,7 +8848,7 @@ mail: sandboxingestionuser@slidev.org
 userPassword:: e1NTSEF9bUE1NEdOTDFPSFdEL1dqellDaU1jR2dVMGdpdlgvM3hyWGJaSXc9P
  Q==
 
-dn: cn=Sandbox Operator,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
+dn: cn=Sandbox Operator,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6750,24 +8865,7 @@ mail: sandboxslcoperator@slidev.org
 userPassword:: e1NTSEF9SHVnQWhzajlPcHFKM0YvQmo0OVNlYjYrRC9LdlFFYlFGYmFMWEE9P
  Q==
 
-dn: cn=Bill Operator,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=org
-objectClass: inetOrgPerson
-objectClass: posixAccount
-objectClass: top
-cn: Bill Operator
-gidNumber: 100
-homeDirectory: /home/users/toperator
-sn: Operator
-uid: slcoperator-email@slidev.org
-uidNumber: 1164
-displayName: 4ba75e11e2932e68dd6af3b4077c16ee
-givenName: Bill
-loginShell: /bin/bash
-mail: slcoperator-email@slidev.org
-userPassword:: e01ENX1TSnJ5L243SDlqbmJGZEh3UDdVOGVBPT0=
-
-dn: cn=devldapuser_Liu-Mac.local@slidev.org,ou=people,ou=SLIAdmin,ou=DevTest
- ,dc=slidev,dc=org
+dn: cn=devldapuser_Liu-Mac.local@slidev.org,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6790,8 +8888,7 @@ mail: devldapuser_Liu-Mac.local@slidev.org
 o: Macro Corp
 userPassword:: dGVzdDEyMzQ=
 
-dn: cn=devldapuser_localhost@slidev.org,ou=people,ou=SLIAdmin,ou=DevTest,dc=
- slidev,dc=org
+dn: cn=devldapuser_localhost@slidev.org,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6814,8 +8911,7 @@ mail: devldapuser_localhost@slidev.org
 o: Macro Corp
 userPassword:: dGVzdDEyMzQ=
 
-dn: cn=devldapuser_nxslave6@slidev.org,ou=people,ou=SLIAdmin,ou=DevTest,dc=s
- lidev,dc=org
+dn: cn=devldapuser_nxslave6@slidev.org,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6837,8 +8933,7 @@ mail: devldapuser_nxslave6@slidev.org
 o: Macro Corp
 userPassword:: dGVzdDEyMzQ=
 
-dn: cn=devldapuser_nxslave3@slidev.org,ou=people,ou=SLIAdmin,ou=DevTest,dc=s
- lidev,dc=org
+dn: cn=devldapuser_nxslave3@slidev.org,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6860,8 +8955,7 @@ mail: devldapuser_nxslave3@slidev.org
 o: Macro Corp
 userPassword:: dGVzdDEyMzQ=
 
-dn: cn=devldapuser_nxslave1@slidev.org,ou=people,ou=SLIAdmin,ou=DevTest,dc=s
- lidev,dc=org
+dn: cn=devldapuser_nxslave1@slidev.org,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6883,8 +8977,7 @@ mail: devldapuser_nxslave1@slidev.org
 o: Macro Corp
 userPassword:: dGVzdDEyMzQ=
 
-dn: cn=lalsop_nxslave1@acme.com,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,d
- c=org
+dn: cn=lalsop_nxslave1@acme.com,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6904,8 +8997,7 @@ mail: lalsop_nxslave1@acme.com
 o: Acme Corp
 userPassword:: ZHVtbXlwc3dkMTIz
 
-dn: cn=devldapuser_nxslave5@slidev.org,ou=people,ou=SLIAdmin,ou=DevTest,dc=s
- lidev,dc=org
+dn: cn=devldapuser_nxslave5@slidev.org,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6927,8 +9019,8 @@ mail: devldapuser_nxslave5@slidev.org
 o: Macro Corp
 userPassword:: dGVzdDEyMzQ=
 
-dn: cn=devldapuser_cislave01.slidev.org@slidev.org,ou=people,ou=SLIAdmin,ou=
- DevTest,dc=slidev,dc=org
+dn: cn=devldapuser_cislave01.slidev.org@slidev.org,ou=people,ou=CI,dc=slidev
+ ,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6950,8 +9042,7 @@ mail: devldapuser_cislave01.slidev.org@slidev.org
 o: Macro Corp
 userPassword:: dGVzdDEyMzQ=
 
-dn: cn=lalsop_cislave01.slidev.org@acme.com,ou=people,ou=SLIAdmin,ou=DevTest
- ,dc=slidev,dc=org
+dn: cn=lalsop_cislave01.slidev.org@acme.com,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6970,8 +9061,8 @@ mail: lalsop_cislave01.slidev.org@acme.com
 o: Acme Corp
 userPassword:: ZHVtbXlwc3dkMTIz
 
-dn: cn=devldapuser_cislave02.slidev.org@slidev.org,ou=people,ou=SLIAdmin,ou=
- DevTest,dc=slidev,dc=org
+dn: cn=devldapuser_cislave02.slidev.org@slidev.org,ou=people,ou=CI,dc=slidev
+ ,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -6993,8 +9084,7 @@ mail: devldapuser_cislave02.slidev.org@slidev.org
 o: Macro Corp
 userPassword:: dGVzdDEyMzQ=
 
-dn: cn=devldapuser_nxslave8@slidev.org,ou=people,ou=SLIAdmin,ou=DevTest,dc=s
- lidev,dc=org
+dn: cn=devldapuser_nxslave8@slidev.org,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -7016,8 +9106,7 @@ mail: devldapuser_nxslave8@slidev.org
 o: Macro Corp
 userPassword:: dGVzdDEyMzQ=
 
-dn: cn=devldapuser_nxslave7@slidev.org,ou=people,ou=SLIAdmin,ou=DevTest,dc=s
- lidev,dc=org
+dn: cn=devldapuser_nxslave7@slidev.org,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -7039,8 +9128,7 @@ mail: devldapuser_nxslave7@slidev.org
 o: Macro Corp
 userPassword:: dGVzdDEyMzQ=
 
-dn: cn=lalsop_nxslave7@acme.com,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,d
- c=org
+dn: cn=lalsop_nxslave7@acme.com,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -7060,8 +9148,7 @@ mail: lalsop_nxslave7@acme.com
 o: Acme Corp
 userPassword:: ZHVtbXlwc3dkMTIz
 
-dn: cn=devldapuser_nxslave2@slidev.org,ou=people,ou=SLIAdmin,ou=DevTest,dc=s
- lidev,dc=org
+dn: cn=devldapuser_nxslave2@slidev.org,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -7083,52 +9170,7 @@ mail: devldapuser_nxslave2@slidev.org
 o: Macro Corp
 userPassword:: dGVzdDEyMzQ=
 
-dn: cn=Lplyer@macrocorp.com,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=or
- g
-objectClass: inetOrgPerson
-objectClass: posixAccount
-objectClass: top
-cn: Lplyer@macrocorp.com
-gidNumber: 500
-homeDirectory: test
-sn: Plyler
-uid: Lplyer@macrocorp.com
-uidNumber: 500
-description: tenant=Lplyer@macrocorp.com
-destinationIndicator: disabled
-displayName: 4ee6b3d1086d8306b3f662415cb83567
-gecos: 
-givenName: Loraine
-loginShell: /sbin/nologin
-mail: Lplyer@macrocorp.com
-o: Macro Corp
-userPassword:: MTIzNA==
-
-dn: cn=devldapuser@slidev.org,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,dc=
- org
-objectClass: inetOrgPerson
-objectClass: posixAccount
-objectClass: top
-cn: devldapuser@slidev.org
-gidNumber: 113
-homeDirectory: /ingestion/lz/devldapuser@slidev.org/f03919c387b77d50ef7b4ffe
- d6ab3f0431a9f15460149cabb5fa690d97c2e9ee
-sn: Plyler2
-uid: devldapuser@slidev.org
-uidNumber: 500
-description:: dGVuYW50PWRldmxkYXB1c2VyQHNsaWRldi5vcmcKZWRPcmc9U1RBTkRBUkQtU0
- VB
-destinationIndicator: approved
-displayName: 195a1f7eb5e2a8104d2a96dac83c09bc
-gecos: 
-givenName: Loraine2
-loginShell: /sbin/nologin
-mail: devldapuser@slidev.org
-o: Macro Corp
-userPassword:: dGVzdDEyMzQ=
-
-dn: cn=devldapuser_nxslave9@slidev.org,ou=people,ou=SLIAdmin,ou=DevTest,dc=s
- lidev,dc=org
+dn: cn=devldapuser_nxslave9@slidev.org,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -7150,8 +9192,7 @@ mail: devldapuser_nxslave9@slidev.org
 o: Macro Corp
 userPassword:: dGVzdDEyMzQ=
 
-dn: cn=lalsop_nxslave9@acme.com,ou=people,ou=SLIAdmin,ou=DevTest,dc=slidev,d
- c=org
+dn: cn=lalsop_nxslave9@acme.com,ou=people,ou=CI,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -7171,40 +9212,318 @@ mail: lalsop_nxslave9@acme.com
 o: Acme Corp
 userPassword:: ZHVtbXlwc3dkMTIz
 
-dn: cn=SLC Operator,ou=groups,ou=LocalNew,ou=DevTest,dc=slidev,dc=org
-objectClass: posixGroup
+dn: cn=Ingestion_User7,ou=people,ou=CI,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
 objectClass: top
-cn: SLC Operator
-gidNumber: 504
-memberUid: slcoperator
-memberUid: slcoperator-email@slidev.org
+cn: Ingestion_User7
+gidNumber: 501
+homeDirectory: /home/users/ingestionuser
+sn: User
+uid: ingestionuser
+uidNumber: 1149
+displayName: 37824346f8e9ac9bacfe2ed5751de162
+givenName: Ingestion
+mail: ingestionuser@slidev.org
+userPassword:: e01ENX1Pd3A5TUNZNjJyTVpJQm5aZDR3dWlRPT0=
 
-dn: cn=devldapuser_smuhit-mac.local@slidev.org,ou=people,ou=LocalNew,ou=DevT
- est,dc=slidev,dc=org
+dn: cn=devldapuser_ablum-mac.local@slidev.org,ou=people,ou=CI,dc=slidev,dc=o
+ rg
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: devldapuser_ablum-mac.local@slidev.org
+gidNumber: 500
+homeDirectory: /ingestion/lz/inbound/devldapuser_ablum-mac.local@slidev.org/
+ Test_Ed_Org
+sn: test
+uid: devldapuser_ablum-mac.local@slidev.org
+uidNumber: 500
+description:: dGVuYW50PWRldmxkYXB1c2VyX2FibHVtLW1hYy5sb2NhbEBzbGlkZXYub3JnCm
+ VkT3JnPVRlc3RfRWRfT3Jn
+destinationIndicator: approved
+displayName: de14101472d99e2e2cde52de1ec4fbf8
+gecos: 
+givenName: Provision
+loginShell: /sbin/nologin
+mail: devldapuser_ablum-mac.local@slidev.org
+o: test
+userPassword:: dGVzdDEyMzQ=
+
+dn: cn=devldapuser_bsuzuki-mac.local@slidev.org,ou=people,ou=CI,dc=slidev,dc
+ =org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: devldapuser_bsuzuki-mac.local@slidev.org
+gidNumber: 500
+homeDirectory: /ingestion/lz/inbound/devldapuser_bsuzuki-mac.local@slidev.or
+ g/Test_Ed_Org
+sn: test
+uid: devldapuser_bsuzuki-mac.local@slidev.org
+uidNumber: 500
+description:: dGVuYW50PWRldmxkYXB1c2VyX2JzdXp1a2ktbWFjLmxvY2FsQHNsaWRldi5vcm
+ cKZWRPcmc9VGVzdF9FZF9Pcmc=
+destinationIndicator: approved
+displayName: bdf1c034ff5641d6641478776ea5ba53
+gecos: 
+givenName: Provision
+loginShell: /sbin/nologin
+mail: devldapuser_bsuzuki-mac.local@slidev.org
+o: test
+userPassword:: dGVzdDEyMzQ=
+
+dn: cn=peace_frog@slidev.org,ou=people,ou=CI,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: peace_frog@slidev.org
+gidNumber: 113
+homeDirectory: /dev/null
+sn: lastName
+uid: peace_frog@slidev.org
+uidNumber: 500
+description: tenant=IL1212,edOrg=IL-DAYBREAK
+destinationIndicator: submitted
+givenName: firstName
+loginShell: /sbin/nologin
+mail: peace_frog@slidev.org
+
+dn: cn=devldapuser_jhinsdale-mac.local@slidev.org,ou=people,ou=CI,dc=slidev,
+ dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: devldapuser_jhinsdale-mac.local@slidev.org
+gidNumber: 500
+homeDirectory: /Users/jhinsdale/dev/sli/sli/api/target/ingestion/lz/inbound/
+ devldapuser_jhinsdale-mac.local@slidev.org/92a1088128e8b569a0ae094f5a929284
+ 02af4c5ef9c1ece3c57c8681615e030d
+sn: test
+uid: devldapuser_jhinsdale-mac.local@slidev.org
+uidNumber: 500
+description:: dGVuYW50PWRldmxkYXB1c2VyX2poaW5zZGFsZS1tYWMubG9jYWxAc2xpZGV2Lm
+ 9yZwplZE9yZz1UZXN0X0VkX09yZw==
+destinationIndicator: approved
+displayName: 9ceaa506cddb30d6afbcae449a87e81d
+gecos: 
+givenName: Provision
+loginShell: /sbin/nologin
+mail: devldapuser_jhinsdale-mac.local@slidev.org
+o: test
+userPassword:: dGVzdDEyMzQ=
+
+dn: cn=developer-email@slidev.org,ou=people,ou=CI,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+objectClass: posixAccount
+cn: developer-email@slidev.org
+gidNumber: 500
+homeDirectory: /ingestion/lz/developer-email@slidev.org/IL
+sn: Developer
+uid: developer-email@slidev.org
+uidNumber: 834
+description:: dGVuYW50PWRldmVsb3Blci1lbWFpbEBzbGlkZXYub3JnCmVkT3JnPUlM
+destinationIndicator: approved
+displayName: 75c16a1f1735525ab6adee8c01fa4a7f
+gecos: 
+givenName: Joe
+mail: developer-email@slidev.org
+o: SLC
+userPassword:: dGVzdDEyMzQ=
+
+dn: cn=Bill Operator,ou=people,ou=CI,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Bill Operator
+gidNumber: 100
+homeDirectory: /home/users/toperator
+sn: Operator
+uid: slcoperator-email@slidev.org
+uidNumber: 1164
+displayName: 4ba75e11e2932e68dd6af3b4077c16ee
+givenName: Bill
+loginShell: /bin/bash
+mail: slcoperator-email@slidev.org
+userPassword:: e01ENX1TSnJ5L243SDlqbmJGZEh3UDdVOGVBPT0=
+
+dn: cn=devldapuser_jsingh-mac.local@slidev.org,ou=people,ou=CI,dc=slidev,dc=
+ org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: devldapuser_jsingh-mac.local@slidev.org
+gidNumber: 500
+homeDirectory: /ingestion/lz/inbound/devldapuser_jsingh-mac.local@slidev.org
+ /Test_Ed_Org
+sn: test
+uid: devldapuser_jsingh-mac.local@slidev.org
+uidNumber: 500
+description:: dGVuYW50PWRldmxkYXB1c2VyX2pzaW5naC1tYWMubG9jYWxAc2xpZGV2Lm9yZw
+ plZE9yZz1UZXN0X0VkX09yZw==
+destinationIndicator: approved
+displayName: efe7d1c2eda41de146ca5c349aaf1e71
+gecos: 
+givenName: Provision
+loginShell: /sbin/nologin
+mail: devldapuser_jsingh-mac.local@slidev.org
+o: test
+userPassword:: dGVzdDEyMzQ=
+
+dn: cn=jsingh-mac.local_prodtestuser@testwgen.net,ou=people,ou=CI,dc=slidev,
+ dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: jsingh-mac.local_prodtestuser@testwgen.net
+gidNumber: 113
+homeDirectory: /dev/null
+sn: Changed
+uid: jsingh-mac.local_prodtestuser@testwgen.net
+uidNumber: 500
+description: tenant=Midgar,edOrg=IL
+destinationIndicator: submitted
+givenName: jsingh-mac.local_SAMT
+loginShell: /sbin/nologin
+mail: jsingh-mac.local_random4@4.net
+
+dn: cn=jsingh-mac.local_prodtestuser2@testwgen.net,ou=people,ou=CI,dc=slidev
+ ,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: jsingh-mac.local_prodtestuser2@testwgen.net
+gidNumber: 500
+homeDirectory: /dev/null
+sn: Test_jsingh-mac.local
+uid: jsingh-mac.local_prodtestuser2@testwgen.net
+uidNumber: 500
+description:: dGVuYW50PU1pZGdhcgplZE9yZz1JTA==
+destinationIndicator: pending
+displayName: 62f812bf268340c85c65e88634793c56
+gecos: 
+givenName: SAMT
+loginShell: /sbin/nologin
+mail: jsingh-mac.local_prodtestuser2@testwgen.net
+o: none
+userPassword:: dGVzdDEyMzQ=
+
+dn: cn=lalsop_smuhit-mac.local@acme.com,ou=people,ou=CI,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: lalsop_smuhit-mac.local@acme.com
+gidNumber: 113
+homeDirectory: /dev/null
+sn:: QWxzw7Zw
+uid: lalsop_smuhit-mac.local@acme.com
+uidNumber: 500
+description: tenant=lalsop_smuhit-mac.local@acme.com
+destinationIndicator: approved
+displayName: 4929176eab1370d0eb152a0b6593debf
+gecos: 
+givenName:: zpthbmNl
+loginShell: /sbin/nologin
+mail: lalsop_smuhit-mac.local@acme.com
+o:: 4pqUIENvcnA=
+userPassword:: ZHVtbXlwc3dkMTIz
+
+dn: cn=devldapuser_tshewchuk-mac.local@slidev.org,ou=people,ou=CI,dc=slidev,
+ dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: devldapuser_tshewchuk-mac.local@slidev.org
+gidNumber: 500
+homeDirectory: /Users/tshewchuk/repository/sli/api/target/ingestion/lz/inbou
+ nd/devldapuser_tshewchuk-mac.local@slidev.org/92a1088128e8b569a0ae094f5a929
+ 28402af4c5ef9c1ece3c57c8681615e030d
+sn: test
+uid: devldapuser_tshewchuk-mac.local@slidev.org
+uidNumber: 500
+description:: dGVuYW50PWRldmxkYXB1c2VyX3RzaGV3Y2h1ay1tYWMubG9jYWxAc2xpZGV2Lm
+ 9yZwplZE9yZz1UZXN0X0VkX09yZw==
+destinationIndicator: approved
+displayName: 88cf80dd602a757ad44cbb7c2b4fca7e
+gecos: 
+givenName: Provision
+loginShell: /sbin/nologin
+mail: devldapuser_tshewchuk-mac.local@slidev.org
+o: test
+userPassword:: dGVzdDEyMzQ=
+
+dn: cn=devldapuser_smuhit-mac.local@slidev.org,ou=people,ou=CI,dc=slidev,dc=
+ org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
 cn: devldapuser_smuhit-mac.local@slidev.org
 gidNumber: 500
 homeDirectory: /Users/smuhit/SLI/sli/sli/api/target/ingestion/lz/inbound/dev
- ldapuser_smuhit-mac.local@slidev.org/f03919c387b77d50ef7b4ffed6ab3f0431a9f1
- 5460149cabb5fa690d97c2e9ee
+ ldapuser_smuhit-mac.local@slidev.org/92a1088128e8b569a0ae094f5a92928402af4c
+ 5ef9c1ece3c57c8681615e030d
 sn: test
 uid: devldapuser_smuhit-mac.local@slidev.org
 uidNumber: 500
 description:: dGVuYW50PWRldmxkYXB1c2VyX3NtdWhpdC1tYWMubG9jYWxAc2xpZGV2Lm9yZw
- plZE9yZz1TVEFOREFSRC1TRUE=
+ plZE9yZz1UZXN0X0VkX09yZw==
 destinationIndicator: approved
-displayName: fc3e32c5c499777554b5f439ad693ede
+displayName: a08f3befcb59e66828306c09a13045b3
 gecos: 
 givenName: Provision
 loginShell: /sbin/nologin
 mail: devldapuser_smuhit-mac.local@slidev.org
+o: Macro Corp
+userPassword:: dGVzdDEyMzQ=
+
+dn: cn=devldapuser_tke-mac-7.local@slidev.org,ou=people,ou=CI,dc=slidev,dc=o
+ rg
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: devldapuser_tke-mac-7.local@slidev.org
+gidNumber: 500
+homeDirectory: /Users/tke/Documents/NewProject/sli/api/target/ingestion/lz/i
+ nbound/devldapuser_tke-mac-7.local@slidev.org/92a1088128e8b569a0ae094f5a929
+ 28402af4c5ef9c1ece3c57c8681615e030d
+sn: test
+uid: devldapuser_tke-mac-7.local@slidev.org
+uidNumber: 500
+description:: dGVuYW50PWRldmxkYXB1c2VyX3RrZS1tYWMtNy5sb2NhbEBzbGlkZXYub3JnCm
+ VkT3JnPVRlc3RfRWRfT3Jn
+destinationIndicator: approved
+displayName: 55016eae8462fbec07dada71259c7677
+gecos: 
+givenName: Provision
+loginShell: /sbin/nologin
+mail: devldapuser_tke-mac-7.local@slidev.org
+o: Macro Corp
+userPassword:: dGVzdDEyMzQ=
+
+dn: cn=devldapuser_cislave@slidev.org,ou=people,ou=SLIAdmin,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: devldapuser_cislave@slidev.org
+gidNumber: 500
+homeDirectory: /ingestion/lz/devldapuser_cislave@slidev.org/f03919c387b77d50
+ ef7b4ffed6ab3f0431a9f15460149cabb5fa690d97c2e9ee
+sn: test
+uid: devldapuser_cislave@slidev.org
+uidNumber: 500
+description:: dGVuYW50PWRldmxkYXB1c2VyX2Npc2xhdmVAc2xpZGV2Lm9yZwplZE9yZz1TVE
+ FOREFSRC1TRUE=
+destinationIndicator: approved
+displayName: fdfd7142c8081d787ea3b9e1613ceb51
+gecos: 
+givenName: Provision
+loginShell: /sbin/nologin
+mail: devldapuser_cislave@slidev.org
 o: test
 userPassword:: dGVzdDEyMzQ=
 
-dn: cn=Lplyer@macrocorp.com,ou=people,ou=LocalNew,ou=DevTest,dc=slidev,dc=or
- g
+dn: cn=Lplyer@macrocorp.com,ou=people,ou=SLIAdmin,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -7216,7 +9535,7 @@ uid: Lplyer@macrocorp.com
 uidNumber: 500
 description: tenant=Lplyer@macrocorp.com
 destinationIndicator: disabled
-displayName: 0afd8680fd3b8aadfbcff9664ef5b8ef
+displayName: 12c37db09fcdb17199717d3c2af08df7
 gecos: 
 givenName: Loraine
 loginShell: /sbin/nologin
@@ -7224,8 +9543,7 @@ mail: Lplyer@macrocorp.com
 o: Macro Corp
 userPassword:: MTIzNA==
 
-dn: cn=devldapuser@slidev.org,ou=people,ou=LocalNew,ou=DevTest,dc=slidev,dc=
- org
+dn: cn=devldapuser@slidev.org,ou=people,ou=SLIAdmin,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
@@ -7242,27 +9560,529 @@ givenName: Loraine2
 loginShell: /sbin/nologin
 mail: devldapuser@slidev.org
 o: Macro Corp
-userPassword:: dGVzdDEyMzQ=
+userPassword:: e01ENX1INEJpaHZJdkJsbm81bnJ1N1crai9BPT0=
 
-dn: cn=devldapuser_cislave10@slidev.org,ou=people,ou=SLIAdmin,dc=slidev,dc=o
- rg
+dn: cn=smuhit-mac.local_prodtestuser@testwgen.net,ou=people,ou=LocalNew,ou=D
+ evTest,dc=slidev,dc=org
 objectClass: inetOrgPerson
 objectClass: posixAccount
 objectClass: top
-cn: devldapuser_cislave10@slidev.org
-gidNumber: 500
+cn: smuhit-mac.local_prodtestuser@testwgen.net
+gidNumber: 113
 homeDirectory: /dev/null
-sn: test
-uid: devldapuser_cislave10@slidev.org
+sn: Changed
+uid: smuhit-mac.local_prodtestuser@testwgen.net
 uidNumber: 500
-description:: dGVuYW50PWRldmxkYXB1c2VyX2Npc2xhdmUxMEBzbGlkZXYub3JnCmVkT3JnPV
- Rlc3RfRWRfT3Jn
+description: tenant=Midgar,edOrg=IL
+destinationIndicator: submitted
+givenName: smuhit-mac.local_SAMT
+loginShell: /sbin/nologin
+mail: smuhit-mac.local_random4@4.net
+
+dn: cn=admintest-developer@slidev.org,ou=people,ou=SLIAdmin,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+objectClass: posixAccount
+cn: admintest-developer@slidev.org
+gidNumber: 500
+homeDirectory: /ingestion/lz/developer-email@slidev.org/IL
+sn: Developer
+uid: admintest-developer@slidev.org
+uidNumber: 834
+description:: dGVuYW50PWRldmVsb3Blci1lbWFpbEBzbGlkZXYub3JnCmVkT3JnPUlM
 destinationIndicator: approved
-displayName: 7f50759960128a48d562b7eb4e374202
+displayName: 75c16a1f1735525ab6adee8c01fa4a7f
+gecos: 
+givenName: Joe
+mail: admintest-developer@slidev.org
+o: SLC
+userPassword:: YWRtaW50ZXN0LWRldmVsb3BlcjEyMzQ=
+
+dn: cn=admintest-developer@slidev.org,ou=people,ou=LocalNew,ou=DevTest,dc=sl
+ idev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+objectClass: posixAccount
+cn: admintest-developer@slidev.org
+gidNumber: 500
+homeDirectory: /ingestion/lz/developer-email@slidev.org/IL
+sn: Developer
+uid: admintest-developer@slidev.org
+uidNumber: 834
+description:: dGVuYW50PWRldmVsb3Blci1lbWFpbEBzbGlkZXYub3JnCmVkT3JnPUlM
+destinationIndicator: approved
+displayName: 75c16a1f1735525ab6adee8c01fa4a7f
+gecos: 
+givenName: Joe
+mail: admintest-developer@slidev.org
+o: SLC
+userPassword:: YWRtaW50ZXN0LWRldmVsb3BlcjEyMzQ=
+
+dn: cn=e2etestsea@slidev.org,ou=people,ou=SLIAdmin,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: e2etestsea@slidev.org
+gidNumber: 113
+homeDirectory: /dev/null
+sn: Developer
+uid: e2etestsea@slidev.org
+uidNumber: 500
+destinationIndicator: submitted
+displayName: -
+gecos: 
+givenName: RCTest
+loginShell: /sbin/nologin
+mail: e2etestsea@slidev.org
+o: WGEN RC
+userPassword:: dGVzdDEyMzQ=
+
+dn: cn=e2etestdev_sb2@slidev.org,ou=people,ou=SLIAdmin,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: e2etestdev_sb2@slidev.org
+gidNumber: 113
+homeDirectory: /dev/null
+sn: Developer
+uid: e2etestdev_sb2@slidev.org
+uidNumber: 500
+destinationIndicator: submitted
+displayName: -
+gecos: 
+givenName: RCTest
+loginShell: /sbin/nologin
+mail: e2etestdev_sb2@slidev.org
+o: WGEN RC
+userPassword:: dGVzdDEyMzQ=
+
+dn: cn=e2etestlea@slidev.org,ou=people,ou=SLIAdmin,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: e2etestlea@slidev.org
+gidNumber: 113
+homeDirectory: /dev/null
+sn: Developer
+uid: e2etestlea@slidev.org
+uidNumber: 500
+destinationIndicator: submitted
+displayName: -
+gecos: 
+givenName: RCTest
+loginShell: /sbin/nologin
+mail: e2etestlea@slidev.org
+o: WGEN RC
+userPassword:: dGVzdDEyMzQ=
+
+dn: cn=e2etestdev@slidev.org,ou=people,ou=SLIAdmin,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: e2etestdev@slidev.org
+gidNumber: 113
+homeDirectory: /dev/null
+sn: Developer
+uid: e2etestdev@slidev.org
+uidNumber: 500
+destinationIndicator: submitted
+displayName: -
+gecos: 
+givenName: RCTest
+loginShell: /sbin/nologin
+mail: e2etestdev@slidev.org
+o: WGEN RC
+userPassword:: dGVzdDEyMzQ=
+
+dn: cn=admintest-developer@slidev.org,ou=people,ou=CI,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+objectClass: posixAccount
+cn: admintest-developer@slidev.org
+gidNumber: 500
+homeDirectory: /ingestion/lz/developer-email@slidev.org/IL
+sn: Developer
+uid: admintest-developer@slidev.org
+uidNumber: 834
+description:: dGVuYW50PWRldmVsb3Blci1lbWFpbEBzbGlkZXYub3JnCmVkT3JnPUlM
+destinationIndicator: approved
+displayName: 75c16a1f1735525ab6adee8c01fa4a7f
+gecos: 
+givenName: Joe
+mail: admintest-developer@slidev.org
+o: SLC
+userPassword:: YWRtaW50ZXN0LWRldmVsb3BlcjEyMzQ=
+
+dn: cn=Lplyer@macrocorp.com,ou=people,ou=LocalNew,ou=DevTest,dc=slidev,dc=or
+ g
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Lplyer@macrocorp.com
+gidNumber: 500
+homeDirectory: test
+sn: Plyler
+uid: Lplyer@macrocorp.com
+uidNumber: 500
+description: tenant=Lplyer@macrocorp.com
+destinationIndicator: disabled
+displayName: de02d2a98aceb2b4865a69dfee884c83
+gecos: 
+givenName: Loraine
+loginShell: /sbin/nologin
+mail: Lplyer@macrocorp.com
+o: Macro Corp
+userPassword:: MTIzNA==
+
+dn: cn=devldapuser@slidev.org,ou=people,ou=LocalNew,ou=DevTest,dc=slidev,dc=
+ org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: devldapuser@slidev.org
+gidNumber: 113
+homeDirectory: /Users/smuhit/SLI/sli/sli/api/target/ingestion/lz/inbound/dev
+ ldapuser@slidev.org/f03919c387b77d50ef7b4ffed6ab3f0431a9f15460149cabb5fa690
+ d97c2e9ee
+sn: Plyler2
+uid: devldapuser@slidev.org
+uidNumber: 500
+description:: dGVuYW50PWRldmxkYXB1c2VyQHNsaWRldi5vcmcKZWRPcmc9U1RBTkRBUkQtU0
+ VB
+destinationIndicator: approved
+displayName: e3bf171665584aa072a9f2afdedd2ffd
+gecos: 
+givenName: Loraine2
+loginShell: /sbin/nologin
+mail: devldapuser@slidev.org
+o: Macro Corp
+userPassword:: dGVzdDEyMzQ=
+
+dn: cn=devldapuser_smuhit-mac.local@slidev.org,ou=people,ou=LocalNew,ou=DevT
+ est,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: devldapuser_smuhit-mac.local@slidev.org
+gidNumber: 500
+homeDirectory: /Users/smuhit/SLI/sli/sli/api/target/ingestion/lz/inbound/dev
+ ldapuser_smuhit-mac.local@slidev.org/15a63e03b5dc3c83d0c6f57c65a5ace67c7579
+ 6af46b1ec10e1e1bd15f8c6aa1
+sn: test
+uid: devldapuser_smuhit-mac.local@slidev.org
+uidNumber: 500
+description:: dGVuYW50PWRldmxkYXB1c2VyX3NtdWhpdC1tYWMubG9jYWxAc2xpZGV2Lm9yZw
+ plZE9yZz1UZXN0IEVkIE9yZw==
+destinationIndicator: approved
+displayName: 2d57958bc53351404324dcdcdc6e606b
 gecos: 
 givenName: Provision
 loginShell: /sbin/nologin
-mail: devldapuser_cislave10@slidev.org
+mail: devldapuser_smuhit-mac.local@slidev.org
+o: Macro Corp
+userPassword:: dGVzdDEyMzQ=
+
+dn: cn=lalsop_smuhit-mac.local@acme.com,ou=people,ou=LocalNew,ou=DevTest,dc=
+ slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: lalsop_smuhit-mac.local@acme.com
+gidNumber: 113
+homeDirectory: /dev/null
+sn:: QWxzw7Zw
+uid: lalsop_smuhit-mac.local@acme.com
+uidNumber: 500
+description: tenant=lalsop_smuhit-mac.local@acme.com
+destinationIndicator: approved
+displayName: 4f826a16738a2afd6997fc6d590a01c3
+gecos: 
+givenName:: zpthbmNl
+loginShell: /sbin/nologin
+mail: lalsop_smuhit-mac.local@acme.com
+o:: 4pqUIENvcnA=
+userPassword:: ZHVtbXlwc3dkMTIz
+
+dn: cn=devldapuser_tke-mac-7.local@slidev.org,ou=people,ou=LocalNew,ou=DevTe
+ st,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: devldapuser_tke-mac-7.local@slidev.org
+gidNumber: 500
+homeDirectory: /dev/null
+sn: test
+uid: devldapuser_tke-mac-7.local@slidev.org
+uidNumber: 500
+description: tenant=devldapuser_tke-mac-7.local@slidev.org
+destinationIndicator: approved
+displayName: dee0c11a1c3df4c25196d229a249423f
+gecos: 
+givenName: Provision
+loginShell: /sbin/nologin
+mail: devldapuser_tke-mac-7.local@slidev.org
 o: test
 userPassword:: dGVzdDEyMzQ=
+
+dn: cn=smuhit-mac.local_prodtestuser2@testwgen.net,ou=people,ou=LocalNew,ou=
+ DevTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: smuhit-mac.local_prodtestuser2@testwgen.net
+gidNumber: 500
+homeDirectory: /dev/null
+sn: Test_smuhit-mac.local
+uid: smuhit-mac.local_prodtestuser2@testwgen.net
+uidNumber: 500
+description:: dGVuYW50PXRlc3QxMjM0CmVkT3JnPVNUQU5EQVJELVNFQQ==
+destinationIndicator: pending
+displayName: f1a46996cf6adc1854b655ea6b746d84
+gecos: 
+givenName: SAMT
+loginShell: /sbin/nologin
+mail: smuhit-mac.local_prodtestuser2@testwgen.net
+o: none
+userPassword:: dGVzdDEyMzQ=
+
+dn: cn=tke-mac-7.local_prodtestuser2@testwgen.net,ou=people,ou=LocalNew,ou=D
+ evTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: tke-mac-7.local_prodtestuser2@testwgen.net
+gidNumber: 500
+homeDirectory: /dev/null
+sn: Test_tke-mac-7.local
+uid: tke-mac-7.local_prodtestuser2@testwgen.net
+uidNumber: 500
+description:: dGVuYW50PWRldmVsb3Blci1lbWFpbEBzbGlkZXYub3JnCmVkT3JnPVNUQU5EQV
+ JELVNFQQ==
+destinationIndicator: pending
+displayName: b8a8b19b603eb438ff0a43363cf53ab0
+gecos: 
+givenName: SAMT
+loginShell: /sbin/nologin
+mail: tke-mac-7.local_prodtestuser2@testwgen.net
+o: none
+userPassword:: dGVzdDEyMzQ=
+
+dn: cn=SAMT_Welcome_Email_tke-mac-7.localVnZZXxNidWumGlbbxGoxdRTNnmOYIgfsscm
+ vWGVTKofPnwkyzHt,ou=people,ou=LocalNew,ou=DevTest,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: SAMT_Welcome_Email_tke-mac-7.localVnZZXxNidWumGlbbxGoxdRTNnmOYIgfsscmvWG
+ VTKofPnwkyzHt
+gidNumber: 113
+homeDirectory: /dev/null
+sn: VnZZXxNidWumGlbbxGoxdRTNnmOYIgfsscmvWGVTKofPnwkyzHt
+uid: SAMT_Welcome_Email_tke-mac-7.localVnZZXxNidWumGlbbxGoxdRTNnmOYIgfsscmvW
+ GVTKofPnwkyzHt
+uidNumber: 500
+description: tenant=Midgar,edOrg=IL-DAYBREAK
+destinationIndicator: approved
+displayName: 3c265e3e0a39c3412c3d65e4236cd345
+gecos: 
+givenName: hQTubsMIvcJnHwFpJngKyQeBWKgdbtqTUpQwADaCLObklUGCClN
+loginShell: /sbin/nologin
+mail: devldapuser@slidev.org
+userPassword:: cGFzc3dvcmQxMjM0
+
+dn: uid=jshort,ou=people,dc=slidev,dc=org
+objectClass: top
+objectClass: account
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: James Short
+gidNumber: 1233
+homeDirectory: /home/jshort
+uid: jshort
+uidNumber: 1233
+gecos: James Short
+loginShell: /bin/bash
+shadowLastChange: 0
+shadowMax: 0
+shadowWarning: 0
+userPassword:: e21kNX00QVBRTkJSRmM0azVkVmJ0WEdPbWhBPT0=
+
+dn: cn=Lplyer@macrocorp.com,ou=people,ou=CI,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Lplyer@macrocorp.com
+gidNumber: 500
+homeDirectory: test
+sn: Plyler
+uid: Lplyer@macrocorp.com
+uidNumber: 500
+description: tenant=Lplyer@macrocorp.com
+destinationIndicator: disabled
+displayName: b356676d8dc86a0d62b926d5b9d68b97
+gecos: 
+givenName: Loraine
+loginShell: /sbin/nologin
+mail: Lplyer@macrocorp.com
+o: Macro Corp
+userPassword:: MTIzNA==
+
+dn: cn=devldapuser@slidev.org,ou=people,ou=CI,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: devldapuser@slidev.org
+gidNumber: 113
+homeDirectory: /ingestion/lz/devldapuser@slidev.org/f03919c387b77d50ef7b4ffe
+ d6ab3f0431a9f15460149cabb5fa690d97c2e9ee
+sn: Plyler2
+uid: devldapuser@slidev.org
+uidNumber: 500
+description:: dGVuYW50PWRldmxkYXB1c2VyQHNsaWRldi5vcmcKZWRPcmc9U1RBTkRBUkQtU0
+ VB
+destinationIndicator: approved
+displayName: 9c256addc0c7ab9131b2169cae55885f
+gecos: 
+givenName: Loraine2
+loginShell: /sbin/nologin
+mail: devldapuser@slidev.org
+o: Macro Corp
+userPassword:: dGVzdDEyMzQ=
+
+dn: cn=lalsop_cislave@acme.com,ou=people,ou=CI,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: lalsop_cislave@acme.com
+gidNumber: 113
+homeDirectory: /dev/null
+sn:: QWxzw7Zw
+uid: lalsop_cislave@acme.com
+uidNumber: 500
+description: tenant=lalsop_cislave@acme.com
+destinationIndicator: approved
+displayName: 94705a58a71e23d9b3dd58aa51916be0
+gecos: 
+givenName:: zpthbmNl
+loginShell: /sbin/nologin
+mail: lalsop_cislave@acme.com
+o:: 4pqUIENvcnA=
+userPassword:: ZHVtbXlwc3dkMTIz
+
+dn: cn=e2echarter@slidev.org,ou=people,ou=SLIAdmin,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: e2echarter@slidev.org
+gidNumber: 113
+homeDirectory: /dev/null
+sn: Developer
+uid: e2echarter@slidev.org
+uidNumber: 5001
+destinationIndicator: submitted
+displayName: -
+gecos: 
+givenName: RCTest
+loginShell: /sbin/nologin
+mail: e2echarter@slidev.org
+o: WGEN RC
+userPassword:: dGVzdDEyMzQ=
+
+dn: cn=devldapuser_cislave@slidev.org,ou=people,ou=CI,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: devldapuser_cislave@slidev.org
+gidNumber: 500
+homeDirectory: /ingestion/lz/devldapuser_cislave@slidev.org/92a1088128e8b569
+ a0ae094f5a92928402af4c5ef9c1ece3c57c8681615e030d
+sn: test
+uid: devldapuser_cislave@slidev.org
+uidNumber: 500
+description:: dGVuYW50PWRldmxkYXB1c2VyX2Npc2xhdmVAc2xpZGV2Lm9yZwplZE9yZz1UZX
+ N0X0VkX09yZw==
+destinationIndicator: approved
+displayName: cb79cdbd7ca98522c8252d658b16c49c
+gecos: 
+givenName: Provision
+loginShell: /sbin/nologin
+mail: devldapuser_cislave@slidev.org
+o: Macro Corp
+userPassword:: dGVzdDEyMzQ=
+
+dn: cn=e2etestdev_sb@slidev.org,ou=people,ou=CI,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: e2etestdev_sb@slidev.org
+gidNumber: 113
+homeDirectory: /ingestion/lz/e2etestdev_sb@slidev.org/f03919c387b77d50ef7b4f
+ fed6ab3f0431a9f15460149cabb5fa690d97c2e9ee
+sn: Developer
+uid: e2etestdev_sb@slidev.org
+uidNumber: 500
+description:: dGVuYW50PWUyZXRlc3RkZXZfc2JAc2xpZGV2Lm9yZwplZE9yZz1TVEFOREFSRC
+ 1TRUE=
+destinationIndicator: approved
+displayName: 5598badc9b547abffd04ca3b84bf3072
+gecos: 
+givenName: RCTest
+loginShell: /sbin/nologin
+mail: e2etestdev_sb@slidev.org
+o: WGEN RC
+userPassword:: dGVzdDEyMzQ=
+
+dn: cn=e2etestsea@slidev.org,ou=people,ou=CI,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: e2etestsea@slidev.org
+gidNumber: 113
+homeDirectory: /ingestion/lz/RCTestTenant/f03919c387b77d50ef7b4ffed6ab3f0431
+ a9f15460149cabb5fa690d97c2e9ee
+sn: RCTestSeaAdminLN
+uid: e2etestsea@slidev.org
+uidNumber: 500
+description: tenant=RCTestTenant,edOrg=STANDARD-SEA
+destinationIndicator: approved
+displayName: 85402bb073f12c5c3a9965ba0f09de43
+gecos: 
+givenName: RCTestSeaAdminFN
+loginShell: /sbin/nologin
+mail: e2etestsea@slidev.org
+userPassword:: dGVzdDEyMzQ=
+
+dn: cn=e2etestlea@slidev.org,ou=people,ou=CI,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: e2etestlea@slidev.org
+gidNumber: 113
+homeDirectory: /dev/null
+sn: RCTestLeaAdminLN
+uid: e2etestlea@slidev.org
+uidNumber: 500
+description: tenant=RCTestTenant,edOrg=IL-DAYBREAK
+destinationIndicator: approved
+displayName: 2605a57b8ee0c263bc3c0062fbf73a40
+gecos: 
+givenName: RCTestLeaAdminFN
+loginShell: /sbin/nologin
+mail: e2etestlea@slidev.org
+userPassword:: dGVzdDEyMzQ=
+
+dn: cn=e2echarter@slidev.org,ou=people,ou=CI,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: e2echarter@slidev.org
+gidNumber: 113
+homeDirectory: /dev/null
+sn: CharterSchoolLeaAdminLN
+uid: e2echarter@slidev.org
+uidNumber: 500
+description: tenant=RCTestTenant,edOrg=IL Charter School
+destinationIndicator: submitted
+givenName: CharterSchoolLeaAdminFN
+loginShell: /sbin/nologin
+mail: e2echarter@slidev.org
 

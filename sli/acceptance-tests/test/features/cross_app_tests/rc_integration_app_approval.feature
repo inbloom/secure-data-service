@@ -145,7 +145,7 @@ And I should enter "RC-IL-Charter-School" into Realm Identifier
 And I should click the "Save" button
 And I switch to the iframe
 And I should receive a notice that the realm was successfully "created"
-Then I see the realms for "IL Charter School (IL-CHARTER)"
+Then I see the realms for "IL-CHARTER-SCHOOL (IL-CHARTER-SCHOOL)"
 And the realm "Charter School Test Realm" will exist
 And I exit out of the iframe
 And I click on log out
@@ -182,7 +182,7 @@ And in Status it says "Not Approved"
 And I click on the "Approve" button next to it
 And I am asked 'Do you really want this application to access the district's data'
 When I click on Ok
-Then the application is authorized to use data of "IL Charter School"
+Then the application is authorized to use data of "IL-CHARTER-SCHOOL"
 And the app "inBloom Dashboards" Status becomes "Approved"
 And it is colored "green"
 And the Approve button next to it is disabled
@@ -195,7 +195,7 @@ And I am asked 'Do you really want this application to access the district's dat
 When I click on Ok
 # switch back to iframe because of the page reload
 And I switch to the iframe
-Then the application is authorized to use data of "IL Charter School"
+Then the application is authorized to use data of "IL-CHARTER-SCHOOL"
 And the app "inBloom Data Browser" Status becomes "Approved"
 And it is colored "green"
 And the Approve button next to it is disabled
@@ -227,7 +227,7 @@ Scenario: User sees non-installed Developer App
 When I navigate to the Portal home page
 When I selected the realm "Charter School Test Realm"
 And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "charterteacher" "charterteacher1234" for the "Simple" login page
+When I submit the credentials "chartereducator" "chartereducator1234" for the "Simple" login page
 Then I should be on Portal home page
 And under My Applications, I see the following apps: "inBloom Dashboards"
 

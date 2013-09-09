@@ -336,7 +336,7 @@
                         </systemProperty>
                         <systemProperty>
                             <name>sli.encryption.keyStore</name>
-                            <value>${sli.home}/data-access/dal/keyStore/localKeystore.jks</value>
+                            <value>${sli.home}/data-access/dal/keyStore/localKeyStore.jks</value>
                         </systemProperty>
                         <systemProperty>
                             <name>sli.env</name>

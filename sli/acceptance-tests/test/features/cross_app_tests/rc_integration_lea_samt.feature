@@ -49,7 +49,7 @@ Scenario: Create LEA Admin for Charter School
    When I navigate to the Portal home page
     When I see the realm selector I authenticate to "inBloom"
     And I was redirected to the "Simple" IDP Login page
-    When I submit the credentials "<PRIMARY_EMAIL>" "<SECONDARY_EMAIL_PASS>" for the "Simple" login page
+    When I submit the credentials "<PRIMARY_EMAIL>" "<PRIMARY_EMAIL_PASS>" for the "Simple" login page
     Then I should be on Portal home page
     Then I should see Admin link
     And I click on Admin
@@ -75,5 +75,7 @@ Scenario: Create LEA Admin for Charter School
     And the "Success" message is displayed
     And the newly created user has "Tenant" updated to "<TENANT>"
     And the newly created user has "EdOrg" updated to "IL-CHARTER-SCHOOL"
-  
+    And I switch to the iframe
+    Then I set my password to "<CHARTER_EMAIL_PASS>"
+
   

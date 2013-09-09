@@ -4,6 +4,7 @@ Feature: Ingestion
 
     Background: SFTP into landing zone to drop the Small Data Set
 
+
         Scenario: Ingest Small Sample Dataset for End to End Testing
 
             Given a landing zone
@@ -57,7 +58,7 @@ Feature: Ingestion
                  | studentCompetency                        |                 59|
                  | studentCompetencyObjective               |                  4|
                  | studentDisciplineIncidentAssociation     |                  4|
-                 | studentObjectiveAssessment               |                300|    
+                 | studentObjectiveAssessment               |                300|
                  | studentParentAssociation                 |                  9|
                  | studentProgramAssociation                |                  6|
                  | studentSchoolAssociation                 |                167|
@@ -67,14 +68,14 @@ Feature: Ingestion
                  | teacherSchoolAssociation                 |                  3|
                  | teacherSectionAssociation                |                 11|
 
-
         Scenario: Ingest Charter School Dataset
-            Given I am using odin data store
             Given a landing zone
+            Given I am using odin data store
             And I post "OdinSampleDataSet.zip" file as the payload of the ingestion job
             When zip file is scp to ingestion landing zone
             And a batch job for file "OdinSampleDataSet.zip" is completed in database
             And the landing zone should contain a file with the message "All records processed successfully."
             And I should not see an error log file created
             And I should not see a warning log file created
+
 

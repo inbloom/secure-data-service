@@ -155,7 +155,7 @@ edorg: STANDARD-SEA
 ci_idp_redirect_url: https://localhost:8080/simple-idp?realm=IL-Daybreak
 
 # IDP and Redirect Endpoint URL for Charter School Realm Management
-ci_charter_idp_redirect_url: https://localhost:8080/simple-idp?realm=IL-Charter
+ci_charter_idp_redirect_url: https://local.slidev.org/simple-idp?realm=IL-Charter
 
 ##For RC environments
 #email_imap_hostname: imap.gmail.com

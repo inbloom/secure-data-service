@@ -64,7 +64,7 @@ end
 desc "Run RC Account Registration Tests"
 task :rcAccountRequestTests do
   if RUN_ON_RC
-    runTests("test/features/cross_app_tests/rc_pike_integration_account_request.feature")
+    #runTests("test/features/cross_app_tests/rc_pike_integration_account_request.feature")
   else
     runTests("test/features/cross_app_tests/rc_integration_account_request.feature")
   end
@@ -223,7 +223,7 @@ task :rcSandboxTests do
   Rake::Task["rcSandboxAppApprovalTests"].execute
   Rake::Task["rcSandboxStudentLoginTests"].execute
   Rake::Task["rcSandboxDamtTests"].execute
- #Rake::Task["rcSandboxDashboardTests"].execute
+  Rake::Task["rcSandboxDashboardTests"].execute
   Rake::Task["rcSandboxDatabrowserTests"].execute
   Rake::Task["rcSandboxCleanUpTests"].execute
   Rake::Task["rcSandboxPurgeTests"].execute
