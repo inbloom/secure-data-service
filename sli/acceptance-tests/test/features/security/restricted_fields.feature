@@ -92,10 +92,18 @@ Feature: As an SLI application I want to restrict user's access to restricted da
     And I should see that "teacherUniqueStateId" is "daybreak00001" in the JSON response
     Given parameter "highlyQualifiedTeacher" is "true"
     When I make an API call to get "teachers" "<'SHELIA TWEED'>"
-    Then I should receive a return code of 404
+    # re DE2942 we can now query on teacher-specific fields (test used to expect 404)
+    Then I should receive a return code of 200
+    And I should see that "entityType" is "teacher" in the JSON response
+    And I should see that "highlyQualifiedTeacher" is "true" in the JSON response
+    And I should see that "teacherUniqueStateId" is "daybreak00001" in the JSON response
     Given parameter "teacherUniqueStateId" is "daybreak00001"
     When I make an API call to get "teachers" "<'SHELIA TWEED'>"
-    Then I should receive a return code of 404
+    # re DE2942 we can now query on teacher-specific fields (test used to expect 404)
+    Then I should receive a return code of 200
+    And I should see that "entityType" is "teacher" in the JSON response
+    And I should see that "highlyQualifiedTeacher" is "true" in the JSON response
+    And I should see that "teacherUniqueStateId" is "daybreak00001" in the JSON response
 
   Scenario: Charles Gray Admin querying on the restricted fields on staff
     Given I am logged in using "cgrayadmin" "cgrayadmin1234" to realm "IL"
