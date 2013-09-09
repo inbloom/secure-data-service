@@ -120,7 +120,6 @@ Scenario: SEA admin makes an api call to PATCH the SEA
   When I PATCH the name for the current edorg entity to Education Agency for RC Tests
   Then I should receive a return code of 204
 
-@wip
 Scenario: App developer creates new Bulk Extract App
 When I navigate to the Portal home page
 When I see the realm selector I authenticate to the developer realm
@@ -148,7 +147,6 @@ And the client ID and shared secret fields are present
 And I exit out of the iframe
 And I click on log out
 
-@wip
 Scenario: App developer enables Bulk Extract App
 When I navigate to the Portal home page
 When I see the realm selector I authenticate to the developer realm
