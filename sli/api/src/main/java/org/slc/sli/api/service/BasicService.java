@@ -395,6 +395,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
     public boolean updateBasedOnContextualRoles(String id, EntityBody content) {
         debug("Updating {} in {} with {}", id, collectionName, SecurityUtil.getSLIPrincipal());
 
+        boolean isSelf = isSelf(id);
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("_id", "=", id));
         Entity entity = getRepo().findOne(collectionName, query);
@@ -404,7 +405,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
             throw new EntityNotFoundException(id);
         }
 
-        Collection<GrantedAuthority> auths = getEntityContextAuthorities(entity, false, false);
+        Collection<GrantedAuthority> auths = getEntityContextAuthorities(entity, isSelf, false);
 
         rightAccessValidator.checkAccess(false, id, content, defn.getType(), collectionName, getRepo(), auths);
 
