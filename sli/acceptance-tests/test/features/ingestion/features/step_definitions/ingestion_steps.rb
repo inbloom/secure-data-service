@@ -3770,6 +3770,13 @@ Then /^there exist "([^"]*)" "([^"]*)" records like below in "([^"]*)" tenant. A
         end
     end
 
+    condHash.each do |field, value|
+      if value.class == String and value.include? ","
+            valueArray = getValueArray(value)
+            condHash[field] = valueArray
+      end
+    end
+
     elemMatch.each do |arrName, memberCriteria|
           condHash[arrName] = {'$elemMatch' => memberCriteria};
     end
@@ -3779,6 +3786,10 @@ Then /^there exist "([^"]*)" "([^"]*)" records like below in "([^"]*)" tenant. A
     recordCnt   = @coll.find(condHash).count()
     enable_NOTABLESCAN()
     assert(recordCnt.to_i ==  count.to_i, "Found #{recordCnt}. Expected #{count} in #{collection} matching #{condHash}!");
+end
+
+def getValueArray(value)
+    return value.split(',')
 end
 
 Then /I re-execute saved query "([^"]*)" to get "([^"]*)" records/ do |queryName, count|
