@@ -393,7 +393,7 @@ def checkRights(user, tenant, rights, isSelf)
       if (isSelf)
         actualRights = result["authentication"]["principal"]["selfRights"]
       else
-        actualRights = result["authentication"]["authorities"]
+        edorg, actualRights = result["authentication"]["userAuthentication"]["principal"]["edOrgRights"].first
       end
       
       puts("The actual rights are #{actualRights.inspect}")
