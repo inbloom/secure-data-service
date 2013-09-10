@@ -92,8 +92,13 @@ function readOption {
 function prepareJava {
    if [ ${CHECK_SEARCH_INDEXER_TAR} != 0 ]; then
     TAR_FILE_DIR=`dirname ${DEFAULT_BULK_EXTRACTOR_JAR}`
+
+    # remove any old bulk extract jars before extracting the new
+    JAR_PATH="${TAR_FILE_DIR}/${JAR_NAME}"
+    rm -f ${JAR_PATH}
+
     tar -C ${TAR_FILE_DIR} -zxf ${DEFAULT_BULK_EXTRACTOR_JAR}
-    DEFAULT_BULK_EXTRACTOR_JAR=`ls $TAR_FILE_DIR/$JAR_NAME`
+    DEFAULT_BULK_EXTRACTOR_JAR=`ls ${JAR_PATH}`
    fi
 }
 

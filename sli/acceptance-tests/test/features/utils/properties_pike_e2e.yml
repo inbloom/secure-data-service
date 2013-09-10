@@ -139,7 +139,7 @@ edorg: STANDARD-SEA
 ci_idp_redirect_url: https://pike-sidp.slidev.org/sliidp?realm=RCTestTenant
 
 # IDP and Redirect Endpoint URL for Charter School Realm Management
-ci_charter_idp_redirect_url: https://picard-sidp.slidev.org/sliidp?realm=RCCharterTestTenant
+ci_charter_idp_redirect_url: https://pike-sidp.slidev.org/sliidp?realm=IL-Charter
 
 # for RC environments (amazon)
 #email_imap_host: imap.gmail.com

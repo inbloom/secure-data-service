@@ -102,3 +102,12 @@ Scenario: Verify teacherSchoolAssociation references ingested correctly: Populat
   When Examining the teacherSchoolAssociation collection references
     Then the document references "educationOrganization" "_id" with "body.schoolId"
      And the document references "staff" "_id" with "body.teacherId"
+
+Scenario: Verify the charter school ingested correctly: Populated Database
+  When I can find a "educationOrganization" with "body.stateOrganizationId" "IL-CHARTER-SCHOOL" in tenant db "Midgar"
+  Then the "educationOrganization" entity "type" should be "educationOrganization"
+  And there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "IL-CHARTER-SCHOOL"
+    | field                               | value                                       |
+    | _id                                 | ea5ebdedeeb46a4395471d375a9c9e1a6c243aea_id |
+    | body.parentEducationAgencyReference | 96179584b4d0dac4119989bc138d857d1cc9daa6_id,884daa27d806c2d725bc469b273d840493f84b4d_id,1b223f577827204a1c7e9c851dba06bea6b031fe_id |
+    | body.organizationCategories         | Local Education Agency,School,Education Service Center                                                           |

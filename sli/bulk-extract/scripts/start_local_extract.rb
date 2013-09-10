@@ -16,7 +16,7 @@
 # configuration variables
 sli_conf="../../config/properties/sli.properties"
 sli_keystore="../../data-access/dal/keyStore/ciKeyStore.jks"
-bulk_extract_jar=`ln ../target/bulk-extract-*.jar`
+bulk_extract_jar=`ls ../target/bulk-extract-*.jar`
 tenant="Midgar"
 is_delta="false"
 
