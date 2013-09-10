@@ -428,27 +428,24 @@ Scenario: Charter School - App makes an api call to retrieve an lea level bulk e
    And there is a metadata file in the extract
    And the extract contains a file for each of the following entities:
       |  entityType                            |
-      # |  assessment                            |
       |  attendance                            |
-      |  calendarDate                          |
       |  cohort                                |
       |  course                                |
-      |  courseTranscript                      |
       |  courseOffering                        |
+      |  courseTranscript                      |
       |  disciplineIncident                    |
       |  disciplineAction                      |
       |  educationOrganization                 |
       |  grade                                 |
       |  gradebookEntry                        |
-      |  gradingPeriod                         |
-      # |  learningObjective                     |
-      # |  learningStandard                      |
+     #no grading periods associated to charter school in data set
+     #|  gradingPeriod                         |
       |  parent                                |
-      # |  program                               |
       |  reportCard                            |
       |  school                                |
       |  section                               |
-      |  session                               |
+     #no sessions associated to charter school in data set
+     #|  session                               |
       |  staff                                 |
       |  staffCohortAssociation                |
       |  staffEducationOrganizationAssociation |
@@ -458,7 +455,6 @@ Scenario: Charter School - App makes an api call to retrieve an lea level bulk e
       |  studentAssessment                     |
       |  studentCohortAssociation              |
       |  studentCompetency                     |
-      # |  studentCompetencyObjective            |
       |  studentDisciplineIncidentAssociation  |
       |  studentProgramAssociation             |
       |  studentGradebookEntry                 |
