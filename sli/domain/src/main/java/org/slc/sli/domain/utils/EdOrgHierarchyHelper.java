@@ -15,6 +15,7 @@
  */
 package org.slc.sli.domain.utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -92,6 +93,27 @@ public class EdOrgHierarchyHelper {
 
         return false;
     }
+
+    // TODO this logic will need to support multiple parentIds - see us5821
+    private List<Entity> getParentEdOrg(Entity entity) {
+        if (entity.getBody().containsKey("parentEducationAgencyReference")) {
+            @SuppressWarnings("unchecked")
+            List<String> parentIds = (List<String>) entity.getBody().get("parentEducationAgencyReference");
+            List<Entity> parents = new ArrayList<Entity>();
+            if(parentIds!=null) {
+                for(String parentId: parentIds) {
+                    if(parentId!=null) {
+                        Entity parent = repo.findById(EntityNames.EDUCATION_ORGANIZATION, parentId);
+                        if(parent!=null) {
+                            parents.add(parent);
+                        }
+                    }
+                }
+            return parents;
+            }
+        }
+        return null;
+    }
     
     /**
      * Given an school or LEA level entity, returns the top LEA it belongs to
@@ -101,17 +123,28 @@ public class EdOrgHierarchyHelper {
      * @param entity
      * @return top level LEA
      */
-    public Entity getTopLEAOfEdOrg(Entity entity) {
+    public List<Entity> getTopLEAOfEdOrg(Entity entity) {
+    	List<Entity> topLEAs = new ArrayList<Entity>();
         if (entity.getBody().containsKey("parentEducationAgencyReference")) {
-            Entity parentEdorg = repo.findById(EntityNames.EDUCATION_ORGANIZATION,
-                    (String) entity.getBody().get("parentEducationAgencyReference"));
-            if (isLEA(parentEdorg)) {
-                return getTopLEAOfEdOrg(parentEdorg);
+            List<Entity> parentEdorgs = getParentEdOrg(entity);
+            if(parentEdorgs!=null) {
+                for(Entity parentEdorg: parentEdorgs) {
+                    if (isLEA(parentEdorg)) {
+                        List<Entity> leas = getTopLEAOfEdOrg(parentEdorg);
+                        if(leas!=null) {
+                            topLEAs.addAll(leas);
+                        }
+                    }
+                }
+            }
+            if(!topLEAs.isEmpty()) {
+            	return topLEAs;
             }
         }
         
         if (isLEA(entity)) {
-            return entity;
+        	topLEAs.add(entity);
+        	return topLEAs;
         }
         
         return null;
@@ -127,14 +160,17 @@ public class EdOrgHierarchyHelper {
         if (isSEA(entity)) {
             return entity.getEntityId();
         } else {
-            Entity parentEdorg = repo.findById(EntityNames.EDUCATION_ORGANIZATION,
-                    (String) entity.getBody().get("parentEducationAgencyReference"));
-            if (parentEdorg != null) {
-                return getSEAOfEdOrg(parentEdorg);
-            } else {
-                LOG.warn("EdOrg {} is missing parent SEA", entity.getEntityId());
-                return null;
-            }
+            List<Entity> parentEdorgs = getParentEdOrg(entity);
+            if(parentEdorgs!=null) {
+            	for(Entity parentEdorg: parentEdorgs) {
+            		String sea = getSEAOfEdOrg(parentEdorg);
+            		if(sea != null) {
+            			return sea;
+            		}
+            	}
+            }         
         }
+        LOG.warn("EdOrg {} is missing parent SEA", entity.getEntityId());
+        return null;
     }
 }

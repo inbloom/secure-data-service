@@ -32,6 +32,11 @@ task :apiV1EntityTests => [:realmInit] do
   runTests("test/features/apiV1/search")
 end
 
+task :apiV1MultipleParentTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/entities/multipleParents")
+end
+
 task :crudAutoTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/entities/crud_auto")
@@ -270,6 +275,14 @@ task :apiSmokeTests do
   Rake::Task["apiMegaTests"].invoke
 end
 
+desc "Run API Multiple Parent Tests"
+task :apiOdinMultipleParentTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  allLeaAllowApp("Mobile App")
+  authorizeEdorg("Mobile App")
+  runTests("test/features/apiV1/integration/multiple_parents.feature")
+end
+
 desc "Run API Performance Tests"
 task :apiPerformanceTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
@@ -333,12 +346,34 @@ task :apiOdinSearchAssessment do
   runTests("test/features/apiV1/end_user_stories/assessments/searchAssessment.feature")
 end
 
-desc "Set up api for odin tests"
-task :apiOdinSetupAPI => [:realmInit] do
+desc "Set up app for api odin tests"
+task :apiOdinSetupAPIApp => [:realmInit] do
   allLeaAllowApp("Mobile App")
   authorizeEdorg("Mobile App")
+end
+
+desc "Set up api for odin tests"
+task :apiOdinSetupAPI => [:realmInit, :apiOdinSetupAPIApp] do
   Rake::Task["runSearchBulkExtract"].execute
   runTests("test/features/apiV1/integration/parent_student_token_generator.feature")
+end
+
+desc "Prepare api odin hybrid edorg data"
+task :apiOdinHybridEdOrgPrep do
+  runTests("test/features/odin/generate_api_hybrid_edorg_data.feature")
+  runTests("test/features/ingestion/features/ingestion_OdinAPIHybridEdOrgData.feature")
+  Rake::Task["apiOdinSetupAPIApp"].execute
+end
+
+desc "Run API Security Tests using Odin ingested data"
+task :apiOdinHybridEdOrgTests => [:realmInit, :apiOdinHybridEdOrgPrep] do
+  runTests("test/features/apiV1/integration/hybrid_edorgs.feature")
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
 end
 
 desc "Run API Odin Student Integration Tests"

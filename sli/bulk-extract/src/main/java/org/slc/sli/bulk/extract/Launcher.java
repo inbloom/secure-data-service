@@ -144,7 +144,6 @@ public class Launcher {
         ApplicationContext context = new ClassPathXmlApplicationContext("spring/application-context.xml");
         
         Launcher main = context.getBean(Launcher.class);
-        
         String tenantId = args[0];
         boolean isDelta = false;
         if (args.length == 2) {

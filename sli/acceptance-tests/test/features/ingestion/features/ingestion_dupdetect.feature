@@ -42,7 +42,7 @@ When the landing zone is reinitialized
     | collectionName              | count |
     | recordHash                  | 0     |
   And I should see "InterchangeEducationOrganization.xml records ingested successfully: 0" in the resulting batch job file
-  And I should see "InterchangeEducationOrganization.xml stateEducationAgency 1 deltas" in the resulting batch job file
+  And I should see "InterchangeEducationOrganization.xml educationOrganization 1 deltas" in the resulting batch job file
 
 Scenario: Ingest then use mode reset
   Given I am using preconfigured Ingestion Landing Zone
@@ -137,5 +137,5 @@ Scenario: Ingest initially with debugdrop
     | collectionName              | count |
     | recordHash                  | 0     |
   And I should see "InterchangeEducationOrganization.xml records ingested successfully: 0" in the resulting batch job file
-  And I should see "InterchangeEducationOrganization.xml stateEducationAgency 1 deltas" in the resulting batch job file
+  And I should see "InterchangeEducationOrganization.xml educationOrganization 1 deltas" in the resulting batch job file
   And I should see "duplicate-detection: debugdrop" in the resulting batch job file

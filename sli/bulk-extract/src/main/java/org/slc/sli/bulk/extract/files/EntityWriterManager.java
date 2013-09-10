@@ -15,6 +15,7 @@
  */
 package org.slc.sli.bulk.extract.files;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.slc.sli.bulk.extract.files.writer.EntityWriter;
@@ -61,9 +62,17 @@ public class EntityWriterManager {
     }
 
     private void writeEntityFile(Entity entity, ExtractFile archiveFile) {
-        if(entities.containsKey(entity.getType())) {
-            writers.getValue(entity.getType()).write(entity, archiveFile.getDataFileEntry(entity.getType()), archiveFile.getErrorLogger());
-        }
+    	if(entity.getType().equals("educationOrganization")) {
+    		Map<String, Object> body = (Map<String, Object>) entity.getBody();
+    		ArrayList<String> edOrgCategories = (ArrayList<String>)body.get("organizationCategories");
+    		if(edOrgCategories.contains("School")) {
+                writers.getValue("school").write(entity, archiveFile.getDataFileEntry("school"), archiveFile.getErrorLogger());
+            }
+    	} else {
+    		if(entities.containsKey(entity.getType())) {
+    			writers.getValue(entity.getType()).write(entity, archiveFile.getDataFileEntry(entity.getType()), archiveFile.getErrorLogger());
+    		}
+    	}
     }
 
     private void writerCollectionFile(Entity entity, ExtractFile archiveFile) {

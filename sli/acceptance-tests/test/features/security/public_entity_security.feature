@@ -45,7 +45,7 @@ Examples:
 |"section"                   |
 |"session"                   |
 |"studentCompetencyObjective"|
-  
+
   Scenario Outline: Being denied updating a public global entity if outside my context
 Given I am logged in using "akopel" "akopel1234" to realm "IL"
 When I make a call to delete <Entity Type> which I don't have context to

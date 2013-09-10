@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><InterchangeEducationOrganization xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<InterchangeEducationOrganization xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
   <Course>
     <CourseTitle>3rd Grade Homeroom</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -143,7 +144,6 @@
     </EducationOrganizationReference>
     <UniqueCourseId>6th-Grade-English-6</UniqueCourseId>
   </Course>
-
   <Course>
     <CourseTitle>American Literature</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -188,7 +188,6 @@
     </EducationOrganizationReference>
     <UniqueCourseId>Spec.-Elective:-Debate-Clinic-8</UniqueCourseId>
   </Course>
-
   <!-- courses for progress history -->
   <Course>
     <CourseTitle>7th Grade English</CourseTitle>
@@ -299,7 +298,6 @@
     </EducationOrganizationReference>
     <UniqueCourseId>10th-Grade-English-13</UniqueCourseId>
   </Course>
-  
   <!-- courses used for report cards for Carmen Ortiz -->
   <Course>
     <CourseTitle>Algebra II</CourseTitle>
@@ -850,7 +848,7 @@
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>6th-Grade-Math-38</UniqueCourseId>
-  </Course>    
+  </Course>
   <Course>
     <CourseTitle>7th Grade Math</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -872,7 +870,7 @@
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>7th-Grade-Math-39</UniqueCourseId>
-  </Course>  
+  </Course>
   <Course>
     <CourseTitle>Science 8B</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1071,7 +1069,6 @@
     </EducationOrganizationReference>
     <UniqueCourseId>Phys-Ed-8A-48</UniqueCourseId>
   </Course>
-
   <!-- courses used for report cards for Matt Sollars.
        Note that 7th Grade English and 7th Grade Composition have already been defined. -->
   <Course>
@@ -1624,7 +1621,6 @@
     </EducationOrganizationReference>
     <UniqueCourseId>Math-5B-73</UniqueCourseId>
   </Course>
-
   <Course>
     <CourseTitle>Geography-5</CourseTitle>
     <NumberOfParts>1</NumberOfParts>

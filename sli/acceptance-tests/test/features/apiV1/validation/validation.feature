@@ -150,7 +150,7 @@ Scenario: Given a known school object, perform a PUT with a base school object t
       And "nameOfInstitution" should be "school name"
       And "stateOrganizationId" should be "South Daybreak Elementary"
       And "gradesOffered" should contain "First_grade" and "Second_grade"
-      And "entityType" should be "school"
+      And "entityType" should be "educationOrganization"
       And there should be no other contents in the response body other than links
 
   Scenario: Given a school entity with no associations, when a GET is performed with an association id, I should receive a 200 

@@ -45,7 +45,8 @@ Then /^the title of the page is "(.*?)"$/ do |pageTitle|
 end
 
 def verifyPageTitle(pageTitle)
-  assert(@driver.title == pageTitle, "Expected: " + pageTitle + " Actual " + @driver.title)
+  actual_title = @driver.title
+  assert(actual_title == pageTitle, "Expected: " + pageTitle + ", Actual " + actual_title)
 end
 
 def getBaseUrl()

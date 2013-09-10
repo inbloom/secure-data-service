@@ -23,9 +23,20 @@ require_relative "enum/GradeLevelType.rb"
 # creates school
 class School < BaseEntity
 
-  attr_accessor :state_org_id, :grades, :parent_id, :programs,
-                :schoolType, :charterStatus, :titleIPartASchoolDesignation,
-                :magnetSpecialProgramEmphasisSchool, :administrativeFundingControl
+  attr_accessor :state_org_id,
+    :ed_org_id_code,
+    :org_category,
+    :grades_offered,
+    :grades,
+    :parent_id,
+    :address,
+    :telephone,
+    :programs,
+    :schoolType,
+    :charterStatus,
+    :titleIPartASchoolDesignation,
+    :magnetSpecialProgramEmphasisSchool,
+    :administrativeFundingControl
 
   def initialize(id, parent_id, type, programs = nil)
     @rand = Random.new(id.hash)
@@ -35,7 +46,10 @@ class School < BaseEntity
     else
       @parent_id = DataUtility.get_local_education_agency_id(parent_id)
     end
-    @type      = type
+    @address   = get_address
+    @telephone = "(917)-555-0212"
+    @type = type
+    @grades_offered = ""
     @grades    = []
     if @type == "elementary"
       if id.kind_of? String
@@ -59,7 +73,9 @@ class School < BaseEntity
       end
       GradeLevelType.high.each { |level| @grades << GradeLevelType.to_string(level) }
     end
+    @ed_org_id_code = state_org_id
     @programs = programs
+    @org_category = "School"
 
     optional {@schoolType = choose([
       "Alternative",
@@ -110,4 +126,19 @@ class School < BaseEntity
       "High School"
     end 
   end
+
+    
+  # generates the address
+  def get_address
+        address = {}
+        begin
+            address[:line_one] = "111 Ave A"
+            address[:city] = "Chicago"
+            address[:state] = "IL"
+            address[:postal_code] = "11011"
+            address[:county] = "Wake"
+        end
+        address
+  end
+    
 end

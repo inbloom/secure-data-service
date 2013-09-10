@@ -27,6 +27,7 @@ import java.util.Map.Entry;
 
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.schema.ComplexSchema;
@@ -43,6 +44,7 @@ import org.slc.sli.validation.schema.ReferenceSchema;
 public class EntityDefinition {
 
     private final String type;
+    private final String dbType;
     private final String resourceName;
     private final EntityService service;
     private final String collectionName;
@@ -51,17 +53,18 @@ public class EntityDefinition {
     private NeutralSchema schema;
     private LinkedHashMap<String, ReferenceSchema> referenceFields; // all fields on this entity
                                                                     // that reference other entities
+    private NeutralCriteria typeCriteria;
     private final boolean supportsAggregates;
     private final boolean skipContextValidation;
     private final boolean wrapperEntity;
 
     protected EntityDefinition(String type, String resourceName, String collectionName, EntityService service,
             boolean supportsAggregates) {
-        this(type, resourceName, collectionName, service, supportsAggregates, false, false);
+        this(type, type, resourceName, collectionName, service, supportsAggregates, false, false, null);
     }
 
-    protected EntityDefinition(String type, String resourceName, String collectionName, EntityService service,
-            boolean supportsAggregates, boolean skipContextValidation, boolean pullTypeFromEntity) {
+    protected EntityDefinition(String type, String dbType, String resourceName, String collectionName, EntityService service,
+            boolean supportsAggregates, boolean skipContextValidation, boolean pullTypeFromEntity, NeutralCriteria typeCriteria) {
         this.type = type;
         this.resourceName = resourceName;
         this.collectionName = collectionName;
@@ -70,6 +73,8 @@ public class EntityDefinition {
         this.supportsAggregates = supportsAggregates;
         this.skipContextValidation = skipContextValidation;
         this.wrapperEntity = pullTypeFromEntity;
+        this.dbType = dbType;
+        this.typeCriteria = typeCriteria;
     }
 
     public boolean hasArrayField(String fieldName) {
@@ -242,5 +247,17 @@ public class EntityDefinition {
      */
     public boolean wrapperEntity() {
         return wrapperEntity;
+    }
+
+    /**
+     * The value of the type field for the entity in the db
+     * @return  the value of the "type" field
+     */
+    public String getDbType() {
+        return dbType;
+    }
+
+    public NeutralCriteria getTypeCriteria() {
+        return typeCriteria;
     }
 }

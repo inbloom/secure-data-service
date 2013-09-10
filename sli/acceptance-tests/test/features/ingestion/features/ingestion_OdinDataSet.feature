@@ -191,3 +191,88 @@ Scenario: Verify the course optional fields is ingested correctly
      | cohort                      | 3                   | body.programId                           |222b0ac8868da74a2cddfcc2f4e409689e0ccc6c_id      | string               |
      | cohort                      | 3                   | body.programId                           |5e830477e285446dc92b5cc6f4adef8e339f78fc_id      | string               |
      | cohort                      | 3                   | body.programId                           |222b0ac8868da74a2cddfcc2f4e409689e0ccc6c_id      | string               |
+
+Scenario: Verify use of generic Education Organization
+    And there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "Daybreak Central High"
+       | field                               | value                                       |
+       | _id                                 | a13489364c2eb015c219172d561c62350f0453f3_id |
+       | body.stateOrganizationId            | Daybreak Central High                       |
+       | type                                | educationOrganization                       |
+    And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "a13489364c2eb015c219172d561c62350f0453f3_id" on the "Midgar" tenant
+       | value                  |
+       | School                 |
+    And there are only the following in the "body.parentEducationAgencyReference" of the "educationOrganization" collection for id "a13489364c2eb015c219172d561c62350f0453f3_id" on the "Midgar" tenant
+       | value                                       |
+       | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
+    And there are only the following in the "metaData.edOrgs" of the "educationOrganization" collection for id "a13489364c2eb015c219172d561c62350f0453f3_id" on the "Midgar" tenant
+       | value                                       |
+       | a13489364c2eb015c219172d561c62350f0453f3_id |
+       | 884daa27d806c2d725bc469b273d840493f84b4d_id |
+       | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
+
+    And there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "South Daybreak Elementary"
+       | field                               | value                                       |
+       | _id                                 | 352e8570bd1116d11a72755b987902440045d346_id |
+       | body.stateOrganizationId            | South Daybreak Elementary                   |
+       | type                                | educationOrganization                       |
+    And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "352e8570bd1116d11a72755b987902440045d346_id" on the "Midgar" tenant
+       | value                  |
+       | School                 |
+    And there are only the following in the "body.parentEducationAgencyReference" of the "educationOrganization" collection for id "352e8570bd1116d11a72755b987902440045d346_id" on the "Midgar" tenant
+       | value                                       |
+       | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
+    And there are only the following in the "metaData.edOrgs" of the "educationOrganization" collection for id "352e8570bd1116d11a72755b987902440045d346_id" on the "Midgar" tenant
+       | value                                       |
+       | 352e8570bd1116d11a72755b987902440045d346_id |
+       | 884daa27d806c2d725bc469b273d840493f84b4d_id |
+       | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
+
+    And there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "East Daybreak Junior High"
+       | field                               | value                                       |
+       | _id                                 | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
+       | body.stateOrganizationId            | East Daybreak Junior High                   |
+       | type                                | educationOrganization                       |
+    And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id" on the "Midgar" tenant
+       | value                  |
+       | School                 |
+    And there are only the following in the "body.parentEducationAgencyReference" of the "educationOrganization" collection for id "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id" on the "Midgar" tenant
+       | value                                       |
+       | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
+    And there are only the following in the "metaData.edOrgs" of the "educationOrganization" collection for id "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id" on the "Midgar" tenant
+       | value                                       |
+       | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
+       | 884daa27d806c2d725bc469b273d840493f84b4d_id |
+       | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
+
+    And there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "5"
+       | field                               | value                                       |
+       | _id                                 | 880572db916fa468fbee53a68918227e104c10f5_id |
+       | body.stateOrganizationId            | 5                                           |
+       | type                                | educationOrganization                       |
+    And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "880572db916fa468fbee53a68918227e104c10f5_id" on the "Midgar" tenant
+       | value                  |
+       | Local Education Agency |
+    And there are only the following in the "body.parentEducationAgencyReference" of the "educationOrganization" collection for id "880572db916fa468fbee53a68918227e104c10f5_id" on the "Midgar" tenant
+       | value                                       |
+       | 884daa27d806c2d725bc469b273d840493f84b4d_id |
+
+    And there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "IL-DAYBREAK"
+       | field                               | value                                       |
+       | _id                                 | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
+       | body.stateOrganizationId            | IL-DAYBREAK                                 |
+       | type                                | educationOrganization                       |
+    And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "1b223f577827204a1c7e9c851dba06bea6b031fe_id" on the "Midgar" tenant
+       | value                  |
+       | Local Education Agency |
+    And there are only the following in the "body.parentEducationAgencyReference" of the "educationOrganization" collection for id "1b223f577827204a1c7e9c851dba06bea6b031fe_id" on the "Midgar" tenant
+       | value                                       |
+       | 884daa27d806c2d725bc469b273d840493f84b4d_id |
+
+    And there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "STANDARD-SEA"
+       | field                               | value                                       |
+       | _id                                 | 884daa27d806c2d725bc469b273d840493f84b4d_id |
+       | body.stateOrganizationId            | STANDARD-SEA                                 |
+       | type                                | educationOrganization                       |
+    And there are only the following in the "organizationCategories" of the "educationOrganization" collection for id "884daa27d806c2d725bc469b273d840493f84b4d_id" on the "Midgar" tenant
+       | value                  |
+       | State Education Agency |

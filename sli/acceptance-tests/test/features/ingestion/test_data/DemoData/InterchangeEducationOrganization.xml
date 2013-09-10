@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><InterchangeEducationOrganization xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-EducationOrganization.xsd">
-
-  <StateEducationAgency>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<InterchangeEducationOrganization xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-EducationOrganization.xsd">
+  <EducationOrganization>
     <StateOrganizationId>IL</StateOrganizationId>
     <NameOfInstitution>Illinois State Board of Education</NameOfInstitution>
     <OrganizationCategories>
@@ -12,14 +12,21 @@
       <StateAbbreviation>IL</StateAbbreviation>
       <PostalCode>00000</PostalCode>
     </Address>
-  </StateEducationAgency>
-
-  <LocalEducationAgency>
+  </EducationOrganization>
+  <EducationOrganization>
     <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
     <NameOfInstitution>Daybreak School District 4529</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>Local Education Agency</OrganizationCategory>
     </OrganizationCategories>
+    <ParentEducationAgencyReference>
+  <EducationalOrgIdentity>
+    <StateOrganizationId>IL</StateOrganizationId>
+  </EducationalOrgIdentity>
+  <EducationOrgIdentificationCode IdentificationSystem="SEA">
+    <ID>IL</ID>
+  </EducationOrgIdentificationCode>
+</ParentEducationAgencyReference>
     <Address>
       <StreetNumberName>123 Street</StreetNumberName>
       <City>Chicago</City>
@@ -27,21 +34,21 @@
       <PostalCode>00000</PostalCode>
     </Address>
     <LEACategory>Independent</LEACategory>
-    <StateEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>IL</StateOrganizationId>
-      </EducationalOrgIdentity>
-      <EducationOrgIdentificationCode IdentificationSystem="SEA">
-        <ID>IL</ID>
-      </EducationOrgIdentificationCode>
-    </StateEducationAgencyReference>
-  </LocalEducationAgency>
-  <LocalEducationAgency>
+  </EducationOrganization>
+  <EducationOrganization>
     <StateOrganizationId>IL-SUNSET</StateOrganizationId>
     <NameOfInstitution>Sunset School District 4526</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>Local Education Agency</OrganizationCategory>
     </OrganizationCategories>
+    <ParentEducationAgencyReference>
+  <EducationalOrgIdentity>
+    <StateOrganizationId>IL</StateOrganizationId>
+  </EducationalOrgIdentity>
+  <EducationOrgIdentificationCode IdentificationSystem="SEA">
+    <ID>IL</ID>
+  </EducationOrgIdentificationCode>
+</ParentEducationAgencyReference>
     <Address>
       <StreetNumberName>123 Street</StreetNumberName>
       <City>Chicago</City>
@@ -49,16 +56,7 @@
       <PostalCode>00000</PostalCode>
     </Address>
     <LEACategory>Charter</LEACategory>
-    <StateEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>IL</StateOrganizationId>
-      </EducationalOrgIdentity>
-      <EducationOrgIdentificationCode IdentificationSystem="SEA">
-        <ID>IL</ID>
-      </EducationOrgIdentificationCode>
-    </StateEducationAgencyReference>
-  </LocalEducationAgency>
-
+  </EducationOrganization>
   <Course>
     <CourseTitle>Club/Team</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -74,9 +72,9 @@
       <Credit>1</Credit>
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
-        <EducationalOrgIdentity>
-            <StateOrganizationId>IL</StateOrganizationId>
-        </EducationalOrgIdentity>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL</StateOrganizationId>
+      </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>Club/Team-1</UniqueCourseId>
   </Course>
@@ -95,9 +93,9 @@
       <Credit>1</Credit>
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
-        <EducationalOrgIdentity>
-            <StateOrganizationId>IL</StateOrganizationId>
-        </EducationalOrgIdentity>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL</StateOrganizationId>
+      </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>Senior-Homeroom-2</UniqueCourseId>
   </Course>
@@ -116,9 +114,9 @@
       <Credit>1</Credit>
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
-        <EducationalOrgIdentity>
-            <StateOrganizationId>IL</StateOrganizationId>
-        </EducationalOrgIdentity>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL</StateOrganizationId>
+      </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>Writing-about-Government-3</UniqueCourseId>
   </Course>
@@ -137,9 +135,9 @@
       <Credit>1</Credit>
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
-        <EducationalOrgIdentity>
-            <StateOrganizationId>IL</StateOrganizationId>
-        </EducationalOrgIdentity>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL</StateOrganizationId>
+      </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>Honors-American-Literature-4</UniqueCourseId>
   </Course>
@@ -158,9 +156,9 @@
       <Credit>1</Credit>
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
-        <EducationalOrgIdentity>
-            <StateOrganizationId>IL</StateOrganizationId>
-        </EducationalOrgIdentity>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL</StateOrganizationId>
+      </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>American-Literature-5</UniqueCourseId>
   </Course>
@@ -179,9 +177,9 @@
       <Credit>1</Credit>
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
-        <EducationalOrgIdentity>
-            <StateOrganizationId>IL</StateOrganizationId>
-        </EducationalOrgIdentity>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL</StateOrganizationId>
+      </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>Special-Elective:Debate-Clinic-6</UniqueCourseId>
   </Course>
@@ -200,9 +198,9 @@
       <Credit>1</Credit>
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
-        <EducationalOrgIdentity>
-            <StateOrganizationId>IL</StateOrganizationId>
-        </EducationalOrgIdentity>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL</StateOrganizationId>
+      </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>7th-Grade-Homeroom-7</UniqueCourseId>
   </Course>
@@ -221,9 +219,9 @@
       <Credit>1</Credit>
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
-        <EducationalOrgIdentity>
-            <StateOrganizationId>IL</StateOrganizationId>
-        </EducationalOrgIdentity>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL</StateOrganizationId>
+      </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>7th-Grade-English-8</UniqueCourseId>
   </Course>
@@ -242,9 +240,9 @@
       <Credit>1</Credit>
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
-        <EducationalOrgIdentity>
-            <StateOrganizationId>IL</StateOrganizationId>
-        </EducationalOrgIdentity>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL</StateOrganizationId>
+      </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>7th-Grade-Composition-9</UniqueCourseId>
   </Course>
@@ -263,9 +261,9 @@
       <Credit>1</Credit>
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
-        <EducationalOrgIdentity>
-            <StateOrganizationId>IL</StateOrganizationId>
-        </EducationalOrgIdentity>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL</StateOrganizationId>
+      </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>8th-Grade-English-10</UniqueCourseId>
   </Course>
@@ -284,9 +282,9 @@
       <Credit>1</Credit>
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
-        <EducationalOrgIdentity>
-            <StateOrganizationId>IL</StateOrganizationId>
-        </EducationalOrgIdentity>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL</StateOrganizationId>
+      </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>Reading-Group-11</UniqueCourseId>
   </Course>
@@ -305,13 +303,12 @@
       <Credit>1</Credit>
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
-        <EducationalOrgIdentity>
-            <StateOrganizationId>IL</StateOrganizationId>
-        </EducationalOrgIdentity>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL</StateOrganizationId>
+      </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>1st-Grade-Homeroom-12</UniqueCourseId>
   </Course>
-
   <Course>
     <CourseTitle>Algebra-11</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -328,9 +325,9 @@
       <Credit>1</Credit>
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
-        <EducationalOrgIdentity>
-            <StateOrganizationId>IL</StateOrganizationId>
-        </EducationalOrgIdentity>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL</StateOrganizationId>
+      </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>Algebra-11-13</UniqueCourseId>
   </Course>
@@ -350,9 +347,9 @@
       <Credit>1</Credit>
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
-        <EducationalOrgIdentity>
-            <StateOrganizationId>IL</StateOrganizationId>
-        </EducationalOrgIdentity>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL</StateOrganizationId>
+      </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>Algebra-10-14</UniqueCourseId>
   </Course>
@@ -372,22 +369,29 @@
       <Credit>1</Credit>
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
-        <EducationalOrgIdentity>
-            <StateOrganizationId>IL</StateOrganizationId>
-        </EducationalOrgIdentity>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL</StateOrganizationId>
+      </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>Geometry-10-15</UniqueCourseId>
   </Course>
-
-  <School>
+  <EducationOrganization>
     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-     <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>South Daybreak Elementary</ID>
-     </EducationOrgIdentificationCode>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+      <ID>South Daybreak Elementary</ID>
+    </EducationOrgIdentificationCode>
     <NameOfInstitution>South Daybreak Elementary</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>School</OrganizationCategory>
     </OrganizationCategories>
+    <ParentEducationAgencyReference>
+  <EducationalOrgIdentity>
+    <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+  </EducationalOrgIdentity>
+  <EducationOrgIdentificationCode IdentificationSystem="SEA">
+    <ID>IL-DAYBREAK</ID>
+  </EducationOrgIdentificationCode>
+</ParentEducationAgencyReference>
     <Address AddressType="Physical">
       <StreetNumberName>111 Ave A</StreetNumberName>
       <City>Chicago</City>
@@ -416,24 +420,24 @@
     <SchoolCategories>
       <SchoolCategory>Elementary School</SchoolCategory>
     </SchoolCategories>
-    <LocalEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
-      </EducationalOrgIdentity>
-      <EducationOrgIdentificationCode IdentificationSystem="SEA">
-        <ID>IL-DAYBREAK</ID>
-      </EducationOrgIdentificationCode>
-    </LocalEducationAgencyReference>
-  </School>
-  <School>
+  </EducationOrganization>
+  <EducationOrganization>
     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-     <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-     </EducationOrgIdentificationCode>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+      <ID>East Daybreak Junior High</ID>
+    </EducationOrgIdentificationCode>
     <NameOfInstitution>East Daybreak Junior High</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>School</OrganizationCategory>
     </OrganizationCategories>
+    <ParentEducationAgencyReference>
+  <EducationalOrgIdentity>
+    <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+  </EducationalOrgIdentity>
+  <EducationOrgIdentificationCode IdentificationSystem="SEA">
+    <ID>IL-DAYBREAK</ID>
+  </EducationOrgIdentificationCode>
+</ParentEducationAgencyReference>
     <Address AddressType="Physical">
       <StreetNumberName>111 Ave B</StreetNumberName>
       <City>Chicago</City>
@@ -462,24 +466,24 @@
     <SchoolCategories>
       <SchoolCategory>Elementary School</SchoolCategory>
     </SchoolCategories>
-    <LocalEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
-      </EducationalOrgIdentity>
-      <EducationOrgIdentificationCode IdentificationSystem="SEA">
-        <ID>IL-DAYBREAK</ID>
-      </EducationOrgIdentificationCode>
-    </LocalEducationAgencyReference>
-  </School>
-  <School>
+  </EducationOrganization>
+  <EducationOrganization>
     <StateOrganizationId>Sunset Central High School</StateOrganizationId>
-     <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>Sunset Central High School</ID>
-     </EducationOrgIdentificationCode>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+      <ID>Sunset Central High School</ID>
+    </EducationOrgIdentificationCode>
     <NameOfInstitution>Sunset Central High School</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>School</OrganizationCategory>
     </OrganizationCategories>
+    <ParentEducationAgencyReference>
+  <EducationalOrgIdentity>
+    <StateOrganizationId>IL-SUNSET</StateOrganizationId>
+  </EducationalOrgIdentity>
+  <EducationOrgIdentificationCode IdentificationSystem="SEA">
+    <ID>IL-SUNSET</ID>
+  </EducationOrgIdentificationCode>
+</ParentEducationAgencyReference>
     <Address AddressType="Physical">
       <StreetNumberName>111 Ave C</StreetNumberName>
       <City>Chicago</City>
@@ -508,24 +512,24 @@
     <SchoolCategories>
       <SchoolCategory>Elementary School</SchoolCategory>
     </SchoolCategories>
-    <LocalEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>IL-SUNSET</StateOrganizationId>
-      </EducationalOrgIdentity>
-      <EducationOrgIdentificationCode IdentificationSystem="SEA">
-        <ID>IL-SUNSET</ID>
-      </EducationOrgIdentificationCode>
-    </LocalEducationAgencyReference>
-  </School>
-  <School>
+  </EducationOrganization>
+  <EducationOrganization>
     <StateOrganizationId>Illinois PS145</StateOrganizationId>
-     <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>Illinois PS145</ID>
-     </EducationOrgIdentificationCode>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+      <ID>Illinois PS145</ID>
+    </EducationOrgIdentificationCode>
     <NameOfInstitution>Illinois PS145</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>School</OrganizationCategory>
     </OrganizationCategories>
+    <ParentEducationAgencyReference>
+  <EducationalOrgIdentity>
+    <StateOrganizationId>IL-SUNSET</StateOrganizationId>
+  </EducationalOrgIdentity>
+  <EducationOrgIdentificationCode IdentificationSystem="SEA">
+    <ID>IL-SUNSET</ID>
+  </EducationOrgIdentificationCode>
+</ParentEducationAgencyReference>
     <Address AddressType="Physical">
       <StreetNumberName>111 Ave Z</StreetNumberName>
       <City>Chicago</City>
@@ -554,24 +558,24 @@
     <SchoolCategories>
       <SchoolCategory>Elementary School</SchoolCategory>
     </SchoolCategories>
-    <LocalEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>IL-SUNSET</StateOrganizationId>
-      </EducationalOrgIdentity>
-      <EducationOrgIdentificationCode IdentificationSystem="SEA">
-        <ID>IL-SUNSET</ID>
-      </EducationOrgIdentificationCode>
-    </LocalEducationAgencyReference>
-  </School>
-  <School>
+  </EducationOrganization>
+  <EducationOrganization>
     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-     <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>Daybreak Central High</ID>
-     </EducationOrgIdentificationCode>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+      <ID>Daybreak Central High</ID>
+    </EducationOrgIdentificationCode>
     <NameOfInstitution>Daybreak Central High</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>School</OrganizationCategory>
     </OrganizationCategories>
+    <ParentEducationAgencyReference>
+  <EducationalOrgIdentity>
+    <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+  </EducationalOrgIdentity>
+  <EducationOrgIdentificationCode IdentificationSystem="SEA">
+    <ID>IL-DAYBREAK</ID>
+  </EducationOrgIdentificationCode>
+</ParentEducationAgencyReference>
     <Address AddressType="Physical">
       <StreetNumberName>111 Ave X</StreetNumberName>
       <City>Chicago</City>
@@ -600,13 +604,5 @@
     <SchoolCategories>
       <SchoolCategory>Elementary School</SchoolCategory>
     </SchoolCategories>
-    <LocalEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
-      </EducationalOrgIdentity>
-      <EducationOrgIdentificationCode IdentificationSystem="SEA">
-        <ID>IL-DAYBREAK</ID>
-      </EducationOrgIdentificationCode>
-    </LocalEducationAgencyReference>
-  </School>
+  </EducationOrganization>
 </InterchangeEducationOrganization>

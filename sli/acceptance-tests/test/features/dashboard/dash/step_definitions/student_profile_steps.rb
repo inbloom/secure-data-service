@@ -21,7 +21,7 @@ require 'selenium-webdriver'
 
 When /^I click on student "([^"]*)"$/ do |name|
   clickOnStudent(name)
-  sleep(6)
+  @explicitWait.until{@driver.title}
 end
 
 When /^I view its student profile$/ do

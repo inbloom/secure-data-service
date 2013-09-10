@@ -76,6 +76,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <entry key="school" value="educationOrganization" />
         <entry key="localEducationAgency" value="educationOrganization" />
         <entry key="stateEducationAgency" value="educationOrganization" />
+        <entry key="educationOrganization" value="educationOrganization" />        
     </util:map>
 
     <bean id="defaultWriterMap" class="org.slc.sli.bulk.extract.util.DefaultHashMap" >

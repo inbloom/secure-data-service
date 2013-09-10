@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><InterchangeEducationOrganization xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
-
-  <StateEducationAgency>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<InterchangeEducationOrganization xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
+  <EducationOrganization>
     <StateOrganizationId>IL</StateOrganizationId>
     <NameOfInstitution>Illinois State Board of Education</NameOfInstitution>
     <OrganizationCategories>
@@ -17,14 +17,18 @@
         <ProgramId>ACC-TEST-PROG-1</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-  </StateEducationAgency>
-
-  <LocalEducationAgency>
+  </EducationOrganization>
+  <EducationOrganization>
     <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
     <NameOfInstitution>Daybreak School District 4529</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>Local Education Agency</OrganizationCategory>
     </OrganizationCategories>
+    <ParentEducationAgencyReference>
+  <EducationalOrgIdentity>
+    <StateOrganizationId>IL</StateOrganizationId>
+  </EducationalOrgIdentity>
+</ParentEducationAgencyReference>
     <Address>
       <StreetNumberName>123 Street</StreetNumberName>
       <City>Chicago</City>
@@ -37,19 +41,18 @@
       </ProgramIdentity>
     </ProgramReference>
     <LEACategory>Independent</LEACategory>
-    <StateEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>IL</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </StateEducationAgencyReference>
-  </LocalEducationAgency>
-
-    <LocalEducationAgency>
+  </EducationOrganization>
+  <EducationOrganization>
     <StateOrganizationId>IL-DAYBREAK-DIS</StateOrganizationId>
     <NameOfInstitution>Daybreak School District 4528</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>Local Education Agency</OrganizationCategory>
     </OrganizationCategories>
+    <ParentEducationAgencyReference>
+  <EducationalOrgIdentity>
+    <StateOrganizationId>IL</StateOrganizationId>
+  </EducationalOrgIdentity>
+</ParentEducationAgencyReference>
     <Address>
       <StreetNumberName>456 Street</StreetNumberName>
       <City>Chicago</City>
@@ -62,14 +65,8 @@
       </ProgramIdentity>
     </ProgramReference>
     <LEACategory>Independent</LEACategory>
-    <StateEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>IL</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </StateEducationAgencyReference>
-  </LocalEducationAgency>
-  
-  <School>
+  </EducationOrganization>
+  <EducationOrganization>
     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
     <EducationOrgIdentificationCode IdentificationSystem="School">
       <ID>South Daybreak Elementary</ID>
@@ -78,6 +75,11 @@
     <OrganizationCategories>
       <OrganizationCategory>School</OrganizationCategory>
     </OrganizationCategories>
+    <ParentEducationAgencyReference>
+  <EducationalOrgIdentity>
+    <StateOrganizationId>IL</StateOrganizationId>
+  </EducationalOrgIdentity>
+</ParentEducationAgencyReference>
     <Address AddressType="Physical">
       <StreetNumberName>111 Ave A</StreetNumberName>
       <City>Chicago</City>
@@ -104,14 +106,8 @@
     <SchoolCategories>
       <SchoolCategory>Elementary School</SchoolCategory>
     </SchoolCategories>
-    <LocalEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>IL</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </LocalEducationAgencyReference>
-  </School>
-
-  <School>
+  </EducationOrganization>
+  <EducationOrganization>
     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
     <EducationOrgIdentificationCode IdentificationSystem="School">
       <ID>East Daybreak Junior High</ID>
@@ -120,6 +116,11 @@
     <OrganizationCategories>
       <OrganizationCategory>School</OrganizationCategory>
     </OrganizationCategories>
+    <ParentEducationAgencyReference>
+  <EducationalOrgIdentity>
+    <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+  </EducationalOrgIdentity>
+</ParentEducationAgencyReference>
     <Address AddressType="Physical">
       <StreetNumberName>111 Ave B</StreetNumberName>
       <City>Chicago</City>
@@ -138,13 +139,7 @@
     <SchoolCategories>
       <SchoolCategory>Junior High School</SchoolCategory>
     </SchoolCategories>
-    <LocalEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </LocalEducationAgencyReference>
-  </School>
-
+  </EducationOrganization>
   <Course>
     <CourseTitle>3rd Grade Homeroom</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -289,58 +284,54 @@
     </EducationOrganizationReference>
     <UniqueCourseId>6th-Grade-English-6</UniqueCourseId>
   </Course>
-
   <Program>
     <ProgramId>ACC-TEST-PROG-1</ProgramId>
-	<ProgramType>Regular Education</ProgramType>
-	<ProgramSponsor>State Education Agency</ProgramSponsor>
-	<Services>
-	  <CodeValue>Test service 1</CodeValue>
-	  <!--<ShortDescription>Short description for acceptance test program 1</ShortDescription>
+    <ProgramType>Regular Education</ProgramType>
+    <ProgramSponsor>State Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>Test service 1</CodeValue>
+      <!--<ShortDescription>Short description for acceptance test program 1</ShortDescription>
 	  <Description>This is a longer description of the services provided by acceptance test program 1. More detail could be provided here.</Description>-->
-	</Services>
+    </Services>
   </Program>
   <Program>
     <ProgramId>ACC-TEST-PROG-2</ProgramId>
-	<ProgramType>Remedial Education</ProgramType>
-	<ProgramSponsor>Local Education Agency</ProgramSponsor>
-	<Services>
-	  <CodeValue>Test service 2</CodeValue>
-	  <!--<ShortDescription>Short description for acceptance test program 2</ShortDescription>
+    <ProgramType>Remedial Education</ProgramType>
+    <ProgramSponsor>Local Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>Test service 2</CodeValue>
+      <!--<ShortDescription>Short description for acceptance test program 2</ShortDescription>
 	  <Description>This is a longer description of the services provided by acceptance test program 2. More detail could be provided here.</Description>-->
-	</Services>
+    </Services>
   </Program>
-    
-    <CompetencyLevelDescriptor>
-        <CodeValue>Barely Competent 1</CodeValue>
-        <Description>Herman tends to throw tantrums</Description>
-        <PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
-    </CompetencyLevelDescriptor>
-    <CompetencyLevelDescriptor>
-        <CodeValue>Barely Competent 2</CodeValue>
-        <Description>Herman tends to throw tantrums</Description>
-        <PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
-    </CompetencyLevelDescriptor>
-    <CompetencyLevelDescriptor>
-        <CodeValue>Barely Competent 3</CodeValue>
-        <Description>Herman tends to throw tantrums</Description>
-        <PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
-    </CompetencyLevelDescriptor>
-    <CompetencyLevelDescriptor>
-        <CodeValue>Barely Competent 4</CodeValue>
-        <Description>Herman tends to throw tantrums</Description>
-        <PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
-    </CompetencyLevelDescriptor>
-    <CompetencyLevelDescriptor>
-        <CodeValue>Barely Competent 5</CodeValue>
-        <Description>Herman tends to throw tantrums</Description>
-        <PerformanceBaseConversion>Pass</PerformanceBaseConversion>
-    </CompetencyLevelDescriptor>
-    <CompetencyLevelDescriptor>
-        <CodeValue>Barely Competent 6</CodeValue>
-        <Description>Herman tends to throw tantrums</Description>
-        <PerformanceBaseConversion>Fail</PerformanceBaseConversion>
-    </CompetencyLevelDescriptor>
-    
-
+  <CompetencyLevelDescriptor>
+    <CodeValue>Barely Competent 1</CodeValue>
+    <Description>Herman tends to throw tantrums</Description>
+    <PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
+  </CompetencyLevelDescriptor>
+  <CompetencyLevelDescriptor>
+    <CodeValue>Barely Competent 2</CodeValue>
+    <Description>Herman tends to throw tantrums</Description>
+    <PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
+  </CompetencyLevelDescriptor>
+  <CompetencyLevelDescriptor>
+    <CodeValue>Barely Competent 3</CodeValue>
+    <Description>Herman tends to throw tantrums</Description>
+    <PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
+  </CompetencyLevelDescriptor>
+  <CompetencyLevelDescriptor>
+    <CodeValue>Barely Competent 4</CodeValue>
+    <Description>Herman tends to throw tantrums</Description>
+    <PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
+  </CompetencyLevelDescriptor>
+  <CompetencyLevelDescriptor>
+    <CodeValue>Barely Competent 5</CodeValue>
+    <Description>Herman tends to throw tantrums</Description>
+    <PerformanceBaseConversion>Pass</PerformanceBaseConversion>
+  </CompetencyLevelDescriptor>
+  <CompetencyLevelDescriptor>
+    <CodeValue>Barely Competent 6</CodeValue>
+    <Description>Herman tends to throw tantrums</Description>
+    <PerformanceBaseConversion>Fail</PerformanceBaseConversion>
+  </CompetencyLevelDescriptor>
 </InterchangeEducationOrganization>

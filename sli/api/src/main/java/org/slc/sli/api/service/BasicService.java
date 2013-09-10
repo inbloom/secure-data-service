@@ -227,7 +227,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
         sanitizeEntityBody(content);
 
         // Ideally, we should validate everything first before actually persisting!
-        Entity created = getRepo().create(defn.getType(), content, createMetadata(), collectionName);
+        Entity created = getRepo().create(defn.getDbType(), content, createMetadata(), collectionName);
         if (created != null) {
             entityIds.add(created.getEntityId());
         }

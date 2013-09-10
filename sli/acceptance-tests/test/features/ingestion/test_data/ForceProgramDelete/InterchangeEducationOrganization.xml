@@ -1,16 +1,13 @@
 <?xml version="1.0"?>
-<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-                                  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
-    <Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="true">
-
-        <Program>
-            <ProgramId>6</ProgramId>
-            <ProgramType>Gifted and Talented</ProgramType>
-            <ProgramSponsor>State Education Agency</ProgramSponsor>
-            <Services>
-                <CodeValue>srv:6</CodeValue>
-            </Services>
-        </Program>
-
-    </Action>
-    </InterchangeEducationOrganization>
+<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
+  <Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="true">
+    <Program>
+      <ProgramId>6</ProgramId>
+      <ProgramType>Gifted and Talented</ProgramType>
+      <ProgramSponsor>State Education Agency</ProgramSponsor>
+      <Services>
+        <CodeValue>srv:6</CodeValue>
+      </Services>
+    </Program>
+  </Action>
+</InterchangeEducationOrganization>

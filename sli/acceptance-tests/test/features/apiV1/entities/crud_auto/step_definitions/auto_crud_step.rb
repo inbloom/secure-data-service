@@ -122,7 +122,11 @@ Then /^I perform CRUD for each resource available$/ do
       next
     end
     #post is not allowed for associations
-    resource_type = get_resource_type resource
+    if resource == "/schools"
+      resource_type = "educationOrganization"
+    else
+      resource_type = get_resource_type resource
+    end
     post_resource resource
     get_resource resource
     
@@ -188,8 +192,12 @@ def post_resource resource
 
 end
 def get_resource resource
-  resource_type = get_resource_type resource
-  #HACK - 
+  if resource == "/schools"
+    resource_type = "educationOrganization"
+  else
+    resource_type = get_resource_type resource
+  end
+  #HACK -
   if resource_type == "yearlyAttendance"
     resource_type = "attendance"
   end

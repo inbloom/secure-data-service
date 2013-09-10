@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
 xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
-  <StateEducationAgency>
+  <EducationOrganization>
     <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
-    <NameOfInstitution>STANDARD-SEA (State Education Agency)</NameOfInstitution>
+    <NameOfInstitution>STANDARD-SEA</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>State Education Agency</OrganizationCategory>
     </OrganizationCategories>
@@ -38,7 +38,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>70</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-  </StateEducationAgency>
+</EducationOrganization>
   <Course>
     <CourseTitle>Kindergarten</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1313,12 +1313,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <CodeValue>srv:49</CodeValue>
     </Services>
   </Program>
-  <LocalEducationAgency>
+  <EducationOrganization>
     <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
-    <NameOfInstitution>IL-DAYBREAK School District</NameOfInstitution>
+    <NameOfInstitution>IL-DAYBREAK</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>Local Education Agency</OrganizationCategory>
     </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
     <Address>
       <StreetNumberName>827 Braeburn Lane</StreetNumberName>
       <City>Chicago</City>
@@ -1376,18 +1381,18 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </ProgramIdentity>
     </ProgramReference>
     <LEACategory>Independent</LEACategory>
-    <StateEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </StateEducationAgencyReference>
-  </LocalEducationAgency>
-  <LocalEducationAgency>
+</EducationOrganization>
+  <EducationOrganization>
     <StateOrganizationId>5</StateOrganizationId>
-    <NameOfInstitution>5 School District</NameOfInstitution>
+    <NameOfInstitution>5</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>Local Education Agency</OrganizationCategory>
     </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
     <Address>
       <StreetNumberName>867 Braeburn Lane</StreetNumberName>
       <City>Chicago</City>
@@ -1425,22 +1430,22 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </ProgramIdentity>
     </ProgramReference>
     <LEACategory>Independent</LEACategory>
-    <StateEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </StateEducationAgencyReference>
-  </LocalEducationAgency>
-  <School>
+</EducationOrganization>
+  <EducationOrganization>
     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-    <EducationOrgIdentificationCode IdentificationSystem="School">
+    <EducationOrgIdentificationCode IdentificationSystem="SEA">
       <ID>South Daybreak Elementary</ID>
     </EducationOrgIdentificationCode>
-    <NameOfInstitution>South Daybreak Elementary (Elementary School)</NameOfInstitution>
+    <NameOfInstitution>South Daybreak Elementary</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>School</OrganizationCategory>
     </OrganizationCategories>
-    <Address AddressType="Physical">
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
       <StreetNumberName>111 Ave A</StreetNumberName>
       <City>Chicago</City>
       <StateAbbreviation>IL</StateAbbreviation>
@@ -1450,6 +1455,61 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <Telephone InstitutionTelephoneNumberType="Main">
       <TelephoneNumber>(917)-555-0212</TelephoneNumber>
     </Telephone>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>1</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>2</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>3</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>4</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>5</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>6</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>7</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>8</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>9</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>10</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>11</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
     <GradesOffered>
         <GradeLevel>Kindergarten</GradeLevel>
         <GradeLevel>First grade</GradeLevel>
@@ -1459,25 +1519,24 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <GradeLevel>Fifth grade</GradeLevel>
     </GradesOffered>
     <SchoolCategories>
-      <SchoolCategory>Elementary School</SchoolCategory>
+        <SchoolCategory>Elementary School</SchoolCategory>
     </SchoolCategories>
- 
-    <LocalEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </LocalEducationAgencyReference>
-  </School>
-  <School>
+</EducationOrganization>
+  <EducationOrganization>
     <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-    <EducationOrgIdentificationCode IdentificationSystem="School">
+    <EducationOrgIdentificationCode IdentificationSystem="SEA">
       <ID>East Daybreak Junior High</ID>
     </EducationOrgIdentificationCode>
-    <NameOfInstitution>East Daybreak Junior High (Middle School)</NameOfInstitution>
+    <NameOfInstitution>East Daybreak Junior High</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>School</OrganizationCategory>
     </OrganizationCategories>
-    <Address AddressType="Physical">
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
       <StreetNumberName>111 Ave A</StreetNumberName>
       <City>Chicago</City>
       <StateAbbreviation>IL</StateAbbreviation>
@@ -1487,31 +1546,125 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <Telephone InstitutionTelephoneNumberType="Main">
       <TelephoneNumber>(917)-555-0212</TelephoneNumber>
     </Telephone>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>12</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>13</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>14</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>15</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>16</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>17</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>18</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>19</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>20</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>21</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>22</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>23</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>24</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>25</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>26</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>27</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>28</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>29</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>30</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
     <GradesOffered>
         <GradeLevel>Sixth grade</GradeLevel>
         <GradeLevel>Seventh grade</GradeLevel>
         <GradeLevel>Eighth grade</GradeLevel>
     </GradesOffered>
     <SchoolCategories>
-      <SchoolCategory>Middle School</SchoolCategory>
+        <SchoolCategory>Middle School</SchoolCategory>
     </SchoolCategories>
- 
-    <LocalEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </LocalEducationAgencyReference>
-  </School>
-  <School>
+</EducationOrganization>
+  <EducationOrganization>
     <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-    <EducationOrgIdentificationCode IdentificationSystem="School">
+    <EducationOrgIdentificationCode IdentificationSystem="SEA">
       <ID>Daybreak Central High</ID>
     </EducationOrgIdentificationCode>
-    <NameOfInstitution>Daybreak Central High (High School)</NameOfInstitution>
+    <NameOfInstitution>Daybreak Central High</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>School</OrganizationCategory>
     </OrganizationCategories>
-    <Address AddressType="Physical">
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
       <StreetNumberName>111 Ave A</StreetNumberName>
       <City>Chicago</City>
       <StateAbbreviation>IL</StateAbbreviation>
@@ -1521,6 +1674,101 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <Telephone InstitutionTelephoneNumberType="Main">
       <TelephoneNumber>(917)-555-0212</TelephoneNumber>
     </Telephone>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>31</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>32</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>33</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>34</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>35</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>36</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>37</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>38</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>39</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>40</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>41</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>42</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>43</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>44</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>45</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>46</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>47</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>48</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>49</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
     <GradesOffered>
         <GradeLevel>Ninth grade</GradeLevel>
         <GradeLevel>Tenth grade</GradeLevel>
@@ -1528,15 +1776,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <GradeLevel>Twelfth grade</GradeLevel>
     </GradesOffered>
     <SchoolCategories>
-      <SchoolCategory>High School</SchoolCategory>
+        <SchoolCategory>High School</SchoolCategory>
     </SchoolCategories>
- 
-    <LocalEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </LocalEducationAgencyReference>
-  </School>
+</EducationOrganization>
   <CompetencyLevelDescriptor>
       <CodeValue>Incompetent</CodeValue>
   </CompetencyLevelDescriptor>

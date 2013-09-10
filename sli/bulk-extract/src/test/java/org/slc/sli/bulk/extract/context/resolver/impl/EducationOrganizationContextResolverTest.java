@@ -21,9 +21,11 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -59,26 +61,43 @@ public class EducationOrganizationContextResolverTest {
     EdOrgHierarchyHelper helper;
 
     Entity school = createSchool();
+    Entity multiParentSchool = createMultiParentSchool();
     Entity level1 = createLevel1();
     Entity level2 = createLevel2();
+    Entity level2_2 = createLevel2_2();
+    
+    List<Entity> level1_list = createLevel1List();
+    List<Entity> level2_list = createLevel2List();
+    List<Entity> level2_2_list = createLevel2_2List();
+
+    
 
     @Before
     public void setup() {
         underTest.getCache().clear();
         Entity sea = createSEA();
         underTest.setHelper(helper);
+        
         when(repo.findOne(EntityNames.EDUCATION_ORGANIZATION, DeltaEntityIterator.buildQuery(underTest.getCollection(), "school"))).thenReturn(school);
+        when(repo.findOne(EntityNames.EDUCATION_ORGANIZATION, DeltaEntityIterator.buildQuery(underTest.getCollection(), "multiParentSchool"))).thenReturn(multiParentSchool );
         when(repo.findOne(EntityNames.EDUCATION_ORGANIZATION, DeltaEntityIterator.buildQuery(underTest.getCollection(), "level1"))).thenReturn(level1);
         when(repo.findOne(EntityNames.EDUCATION_ORGANIZATION, DeltaEntityIterator.buildQuery(underTest.getCollection(), "level2"))).thenReturn(level2);
+        when(repo.findOne(EntityNames.EDUCATION_ORGANIZATION, DeltaEntityIterator.buildQuery(underTest.getCollection(), "level2_2"))).thenReturn(level2_2);
+        
         when(repo.findOne(EntityNames.EDUCATION_ORGANIZATION, DeltaEntityIterator.buildQuery(underTest.getCollection(), "sea"))).thenReturn(sea);
         when(helper.isSchool(school)).thenReturn(true);
+        when(helper.isSchool(multiParentSchool)).thenReturn(true);
         when(helper.isLEA(level1)).thenReturn(true);
         when(helper.isLEA(level2)).thenReturn(true);
+        when(helper.isLEA(level2_2)).thenReturn(true);
         when(helper.isSEA(sea)).thenReturn(true);
 
-        when(helper.getTopLEAOfEdOrg(school)).thenReturn(level2);
-        when(helper.getTopLEAOfEdOrg(level1)).thenReturn(level2);
-        when(helper.getTopLEAOfEdOrg(level2)).thenReturn(level2);
+        when(helper.getTopLEAOfEdOrg(school)).thenReturn(level2_list);
+        when(helper.getTopLEAOfEdOrg(multiParentSchool)).thenReturn(level2_2_list);        
+        when(helper.getTopLEAOfEdOrg(level1)).thenReturn(level2_list);
+        when(helper.getTopLEAOfEdOrg(level2)).thenReturn(level2_list);
+        when(helper.getTopLEAOfEdOrg(level2_2)).thenReturn(level2_list);
+        
     }
     
     @Test
@@ -95,7 +114,7 @@ public class EducationOrganizationContextResolverTest {
     public void testFindGoverningEdOrgsForSEA() {
         assertEquals(new HashSet<String>(Arrays.asList("sea")), underTest.findGoverningEdOrgs("sea"));
     }
-
+    
     @Test
     public void testCache() {
         Set<String> leas = underTest.findGoverningEdOrgs("school");
@@ -104,12 +123,29 @@ public class EducationOrganizationContextResolverTest {
         verify(repo, times(1)).findOne(EntityNames.EDUCATION_ORGANIZATION, DeltaEntityIterator.buildQuery(underTest.getCollection(), "school"));
     }
     
+    @Test
+    public void testMultiParents() {
+        assertEquals(new HashSet<String>(Arrays.asList(new String[] {"level2", "level2_2"})), underTest.findGoverningEdOrgs(multiParentSchool));
+    }
+   
+    
     private Entity createSchool() {
         Entity e = mock(Entity.class);
         when(e.getEntityId()).thenReturn("school");
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("School"));
         body.put("parentEducationAgencyReference", "level1");
+        when(e.getBody()).thenReturn(body);
+        return e;
+    }
+    
+    private Entity createMultiParentSchool() {
+        Entity e = mock(Entity.class);
+        when(e.getEntityId()).thenReturn("multiParentSchool");
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put("organizationCategories", Arrays.asList("multiParentSchool"));
+    	String [] parents = {"level2_2","level2"};
+        body.put("parentEducationAgencyReference", parents);
         when(e.getBody()).thenReturn(body);
         return e;
     }
@@ -131,7 +167,17 @@ public class EducationOrganizationContextResolverTest {
         body.put("organizationCategories", Arrays.asList("Local Education Agency"));
         body.put("parentEducationAgencyReference", "sea");
         when(e.getBody()).thenReturn(body);
-        return e;
+        return e;    
+    }    
+    
+    private Entity createLevel2_2() {
+        Entity e = mock(Entity.class);
+        when(e.getEntityId()).thenReturn("level2_2");
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put("organizationCategories", Arrays.asList("Local Education Agency"));
+        body.put("parentEducationAgencyReference", "sea");
+        when(e.getBody()).thenReturn(body);
+        return e;    
     }
 
     private Entity createSEA() {
@@ -141,5 +187,24 @@ public class EducationOrganizationContextResolverTest {
         body.put("organizationCategories", Arrays.asList("State Education Agency"));
         when(e.getBody()).thenReturn(body);
         return e;
+    }
+    
+    private List<Entity> createLevel1List() {
+    	List<Entity> level1_list = new ArrayList<Entity>();
+    	level1_list.add(level1);
+    	return level1_list;
+    }
+    
+    private List<Entity> createLevel2List() {
+    	List<Entity> level2_list = new ArrayList<Entity>();
+    	level2_list.add(level2);
+    	return level2_list;
+    }
+    
+    private List<Entity> createLevel2_2List() {
+    	List<Entity> level2_2list = new ArrayList<Entity>();
+    	level2_2list.add(level2);
+    	level2_2list.add(level2_2);
+    	return level2_2list;
     }
 }

@@ -1,13 +1,12 @@
 <?xml version="1.0"?>
-<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
-  <StateEducationAgency>
+<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
+  <EducationOrganization>
     <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
-      <EducationOrgIdentificationCode IdentificationSystem="School">
-      	<ID>STANDARD-SEA ID code</ID>
-      </EducationOrgIdentificationCode>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+      <ID>STANDARD-SEA ID code</ID>
+    </EducationOrgIdentificationCode>
     <NameOfInstitution>STANDARD-SEA (State Education Agency)</NameOfInstitution>
-      <ShortNameOfInstitution>STANDARD-SEA shortName</ShortNameOfInstitution>
+    <ShortNameOfInstitution>STANDARD-SEA shortName</ShortNameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>State Education Agency</OrganizationCategory>
     </OrganizationCategories>
@@ -17,19 +16,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <StateAbbreviation>IL</StateAbbreviation>
       <PostalCode>12344</PostalCode>
     </Address>
-      <Telephone>
-        <TelephoneNumber>(582)555-2359</TelephoneNumber>
-      </Telephone>
-      <WebSite>www.STANDARD-SEA.org</WebSite>
-      <OperationalStatus>Closed</OperationalStatus>
-      <AccountabilityRatings>
-      	<RatingTitle>School Rating</RatingTitle>
-      	<Rating>Good</Rating>
-      	<RatingDate>2003-06-13</RatingDate>
-      	<SchoolYear>2013-2014</SchoolYear>
-      	<RatingOrganization>RO #2</RatingOrganization>
-      	<RatingProgram>Another Rating Program</RatingProgram>
-	  </AccountabilityRatings>
+    <Telephone>
+      <TelephoneNumber>(582)555-2359</TelephoneNumber>
+    </Telephone>
+    <WebSite>www.STANDARD-SEA.org</WebSite>
+    <OperationalStatus>Closed</OperationalStatus>
+    <AccountabilityRatings>
+      <RatingTitle>School Rating</RatingTitle>
+      <Rating>Good</Rating>
+      <RatingDate>2003-06-13</RatingDate>
+      <SchoolYear>2013-2014</SchoolYear>
+      <RatingOrganization>RO #2</RatingOrganization>
+      <RatingProgram>Another Rating Program</RatingProgram>
+    </AccountabilityRatings>
     <ProgramReference>
       <ProgramIdentity>
         <ProgramId>66</ProgramId>
@@ -55,12 +54,5 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>70</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-      <EducationOrganizationPeerReference>
-        <EducationalOrgIdentity>
-          <StateOrganizationId>
-            STANDARD-SEA peer ref
-          </StateOrganizationId>
-        </EducationalOrgIdentity>
-      </EducationOrganizationPeerReference>
-  </StateEducationAgency>
+  </EducationOrganization>
 </InterchangeEducationOrganization>

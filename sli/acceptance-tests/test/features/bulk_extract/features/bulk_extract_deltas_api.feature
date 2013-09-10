@@ -1,5 +1,5 @@
 Feature: Retrieved through the api a generated delta bulk extract file, and validate the file
-   
+
 Scenario: Initialize security trust store for Bulk Extract application and LEAs
   Given the extraction zone is empty
     And the bulk extract files in the database are scrubbed
@@ -792,11 +792,11 @@ Given I clean the bulk extract file system and database
   # UPDATE/UPSERT parent entity via PUT
   When I PUT and validate the following entities:
      |  field            |  entityName                   |  value                           |  returnCode  | endpoint                                             |
-     |  loginId          |  newStudent                   |  super_student_you_rock@bazinga  |  204         | students/9bf3036428c40861238fdc820568fde53e658d88_id |
-     |  loginId          |  newParentMom                 |  super_mom_you_rock@bazinga.com  |  204         | parents/41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id  |
-     |  loginId          |  newParentDad                 |  super_dad_good_job@bazinga.com  |  204         | parents/41f42690a7c8eb5b99637fade00fc72f599dab07_id  |
-     |  contactPriority  |  newStudentParentAssociation  |  1                               |  204         | studentParentAssociations/9bf3036428c40861238fdc820568fde53e658d88_idc3a6a4ed285c14f562f0e0b63e1357e061e337c6_id |
-     |  postalCode       |  school                       |  11012                           |  204         | educationOrganizations/a13489364c2eb015c219172d561c62350f0453f3_id |
+     |  loginId          |  newDaybreakStudent           |  super_student_you_rock@bazinga  |  204         | students/9bf3036428c40861238fdc820568fde53e658d88_id |
+     |  loginId          |  newParentMother              |  super_mom_you_rock@bazinga.com  |  204         | parents/41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id  |
+     |  loginId          |  newParentFather              |  super_dad_good_job@bazinga.com  |  204         | parents/41f42690a7c8eb5b99637fade00fc72f599dab07_id  |
+     |  contactPriority  |  newStudentMotherAssociation  |  1                               |  204         | studentParentAssociations/9bf3036428c40861238fdc820568fde53e658d88_idc3a6a4ed285c14f562f0e0b63e1357e061e337c6_id |
+     |  postalCode       |  newEducationOrganization     |  11012                           |  204         | educationOrganizations/a96ce0a91830333ce68e235a6ad4dc26b414eb9e_id |
 
   When I generate and retrieve the bulk extract delta via API for "<IL-DAYBREAK>"
    And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
@@ -814,7 +814,7 @@ Given I clean the bulk extract file system and database
   # UPDATE parent and parentStudentAssociation fields via PATCH
   When I PATCH and validate the following entities:
     |  fieldName        |  entityType               | value                                 |  returnCode  | endpoint                                                           |
-    |  postalCode       |  educationOrganization    | 11099                                 |  204         | educationOrganizations/a13489364c2eb015c219172d561c62350f0453f3_id |
+    |  postalCode       |  educationOrganization    | 11099                                 |  204         | educationOrganizations/a96ce0a91830333ce68e235a6ad4dc26b414eb9e_id |
     |  studentLoginId   |  student                  | average_student_youre_ok@bazinga.com  |  204         | students/9bf3036428c40861238fdc820568fde53e658d88_id               |
     |  momLoginId       |  parent                   | average_mom_youre_ok@bazinga.com      |  204         | parents/41edbb6cbe522b73fa8ab70590a5ffba1bbd51a3_id                |
     |  dadLoginId       |  parent                   | average_dad_youre_ok@bazinga.com      |  204         | parents/41f42690a7c8eb5b99637fade00fc72f599dab07_id                |
@@ -859,7 +859,7 @@ Scenario: Update an existing edorg through the API, perform delta, call list end
  Given I clean the bulk extract file system and database
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
    And format "application/json"
-  When I PUT the "postalCode" for a "school" entity to "11012" at "educationOrganizations/a13489364c2eb015c219172d561c62350f0453f3_id "
+  When I PUT the "postalCode" for a "newEducationOrganization" entity to "11013" at "educationOrganizations/a96ce0a91830333ce68e235a6ad4dc26b414eb9e_id "
   Then I should receive a return code of 204
   When I trigger a delta extract
 
@@ -886,7 +886,7 @@ Scenario: Update an existing edOrg with invalid API call, verify no delta create
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/json"
- When I PUT the "missingEntity" for a "school" entity to "WHOOPS" at "educationOrganizations/doesNotExistb015c219172d561c62350f0453f3_id "
+ When I PUT the "missingEntity" for a "newEducationOrganization" entity to "WHOOPS" at "educationOrganizations/doesNotExistb015c219172d561c62350f0453f3_id "
  Then I should receive a return code of 404
   And deltas collection should have "0" records
 
@@ -902,7 +902,7 @@ Scenario: As SEA Admin, delete an existing school with API call, verify delta
 Given I clean the bulk extract file system and database
   And I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "STANDARD-SEA" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   And format "application/json"
- When I DELETE an "educationOrganization" of id "54b4b51377cd941675958e6e81dce69df801bfe8_id"
+ When I DELETE an "educationOrganization" of id "17eaa66c1fc53cc1ec7d4aa25459d3924525832f_id"
  Then I should receive a return code of 204
  When I trigger a delta extract
   And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"

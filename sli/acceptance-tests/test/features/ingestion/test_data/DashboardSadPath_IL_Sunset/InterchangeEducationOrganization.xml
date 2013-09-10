@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSpy v2012 sp1 (x64) (http://www.altova.com) by Peter Backes (Wireless Generation) -->
 <InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../common/domain/src/main/resources/edfiXsd/Interchange-EducationOrganization.xsd">
-	<LocalEducationAgency>
-		<StateOrganizationId>IL-SUNSET</StateOrganizationId>
-		<NameOfInstitution>Sunset School District 4526</NameOfInstitution>
-		<OrganizationCategories>
-			<OrganizationCategory>Local Education Agency</OrganizationCategory>
-		</OrganizationCategories>
-		<Address>
-			<StreetNumberName>123 Street</StreetNumberName>
-			<City>Chicago</City>
-			<StateAbbreviation>IL</StateAbbreviation>
-			<PostalCode>00000</PostalCode>
-		</Address>
-		<LEACategory>Charter</LEACategory>
-		<StateEducationAgencyReference>
-			<EducationalOrgIdentity>
-				<StateOrganizationId>IL</StateOrganizationId>
-			</EducationalOrgIdentity>
-		</StateEducationAgencyReference>
-	</LocalEducationAgency>
+  <EducationOrganization>
+    <StateOrganizationId>IL-SUNSET</StateOrganizationId>
+    <NameOfInstitution>Sunset School District 4526</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>Local Education Agency</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+  <EducationalOrgIdentity>
+    <StateOrganizationId>IL</StateOrganizationId>
+  </EducationalOrgIdentity>
+</ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>123 Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>00000</PostalCode>
+    </Address>
+    <LEACategory>Charter</LEACategory>
+  </EducationOrganization>
 </InterchangeEducationOrganization>

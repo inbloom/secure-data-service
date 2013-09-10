@@ -2,8 +2,7 @@
 <InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
                                   xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
     <Action ActionType="DELETE" Cascade="false" Force="true" LogViolations="true">
-
-        <LocalEducationAgency>
+        <EducationOrganization>
             <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
             <EducationOrgIdentificationCode IdentificationSystem="SEA">
                 <ID>IL-DAYBREAK</ID>
@@ -13,6 +12,11 @@
             <OrganizationCategories>
                 <OrganizationCategory>Local Education Agency</OrganizationCategory>
             </OrganizationCategories>
+            <ParentEducationAgencyReference>
+                <EducationalOrgIdentity>
+                    <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+                </EducationalOrgIdentity>
+            </ParentEducationAgencyReference>
             <Address>
                 <StreetNumberName>827 Braeburn Lane</StreetNumberName>
                 <City>New York</City>
@@ -47,12 +51,6 @@
             </ProgramReference>
             <LEACategory>Independent</LEACategory>
             <CharterStatus>Open Enrollment</CharterStatus>
-            <StateEducationAgencyReference>
-                <EducationalOrgIdentity>
-                    <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
-                </EducationalOrgIdentity>
-            </StateEducationAgencyReference>
-        </LocalEducationAgency>
-
+        </EducationOrganization>
     </Action>
-    </InterchangeEducationOrganization>
+</InterchangeEducationOrganization>

@@ -12,7 +12,6 @@ Feature: Admin delegation CRUD
     Then I should update app authorizations for district "IL-SUNSET"
     And I should receive a return code of 403
 
- 
  Scenario: State administrator without access being denied update to application authorization security event
     Given the sli securityEvent collection is empty
     And I am logged in using "iladmin" "iladmin1234" to realm "SLI"

@@ -5,7 +5,7 @@ Background:
   Given that databrowser has been authorized for all ed orgs
 
 Scenario: Go to Data Browser when authenticated SLI
- 
+
 Given I have an open web browser
 And I navigated to the Data Browser Home URL
 And I was redirected to the Realm page
@@ -15,8 +15,8 @@ And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "jwashington" "jwashington1234" for the "Simple" login page
 Then I should be redirected to the Data Browser home page
 And I should see my available links labeled
- 
-Scenario: Logout 
+
+Scenario: Logout
 
 Given I have an open web browser
 And I navigated to the Data Browser Home URL
@@ -45,8 +45,8 @@ And I have navigated to the <Page> of the Data Browser
 	|GetStaffEducationOrgAssignmentAssociations|
 	|GetStaffProgramAssociations|
 	|Me|
-Then I should click on the Home link and be redirected back 
-	
+Then I should click on the Home link and be redirected back
+
 Scenario: Associations List - Simple View
 
 Given I have an open web browser
@@ -60,7 +60,7 @@ And I click on the "GetStaffProgramAssociations" link
 Then I am redirected to the associations list page
 And I see a table displaying the associations in a list
 And those names include the IDs of both "ProgramId" and "StaffId" in the association
- 
+
 Scenario: Associations List - Expand/Collapse between Simple View and Detail View
 
 Given I have an open web browser
@@ -95,7 +95,6 @@ Then I am redirected to a page that page lists all of the <Entity> entity's fiel
 | "GetStaffCohortAssociations" | "8fef446f-fc63-15f9-8606-0b85086c07d5"| "GetCohort" | "District-wide academic intervention cohort for Social Studies" |
 | "GetStaffCohortAssociations" | "8fef446f-fc63-15f9-8606-0b85086c07d5"| "GetStaff" | "rrogers"        |
 
-
 Scenario: Click on Available Links associations
 
 Given I have an open web browser
@@ -109,7 +108,6 @@ And I have navigated to the "Me" page of the Data Browser
 When I click on the "GetStaffCohortAssociations" link
 Then I am redirected to the particular associations Simple View
 
-
 Scenario: Click on Available Links entities
 Given I have an open web browser
 And I navigated to the Data Browser Home URL
@@ -120,7 +118,6 @@ And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "jwashington" "jwashington1234" for the "Simple" login page
 And I have navigated to the "Me" page of the Data Browser
 Then I am redirected to the particular entity Detail View
-
 
 Scenario: Get a Forbidden message when we access something that is forbidden
 Given I have an open web browser
@@ -136,6 +133,45 @@ And I click on the "GetTeachers" link
 Then I see a "You do not have access to view this." alert box
 And I click the X
 Then the error is dismissed
+
+
+Scenario: Traverse Charter School, Multiple Parents School and Education Service Center
+Given I have an open web browser
+And I navigated to the Data Browser Home URL
+And I choose realm "Illinois Daybreak Charter School" in the drop-down list
+And I click on the realm page Go button
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "swood" "swood1234" for the "Simple" login page
+Then I should be redirected to the Data Browser home page
+When I click on the "GetEducationOrganizations" link
+And I click on the "GetStaffEducationOrgAssignmentAssociations" link
+And I have navigated to the "Schools" listing of the Data Browser
+Then I should navigate to "/entities/schools/62d6d5a0-852c-45f4-906a-912752831662"
+And I have navigated to the "EducationOrganizations" listing of the Data Browser
+Then I should navigate to "/entities/educationOrganizations/62d6d5a0-852c-45f4-906a-912752831662"
+
+Scenario: Traverse Multiple Parents School and Education Service Center
+Given I change the isAdminRole flag for role "Educator" to in the realm "Daybreak" to be "true"
+And I have an open web browser
+And I navigated to the Data Browser Home URL
+And I choose realm "Illinois Daybreak School District 4529" in the drop-down list
+And I click on the realm page Go button
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
+Then I should be redirected to the Data Browser home page
+When I click on the "GetEducationOrganizations" link
+When I click on the row containing "92d6d5a0-852c-45f4-907a-912752831772"
+Then the row expands below listing the rest of the attributes for the item
+When I click on the "GetParentEducationOrganization[1]" link
+Then I click on the "GetFeederEducationOrganizations" link
+Then I click on the row containing "92d6d5a0-852c-45f4-907a-912752831772"
+Then the row expands below listing the rest of the attributes for the item
+When I click on the "GetParentEducationOrganization" link
+Then I click on the "GetFeederEducationOrganizations" link
+And I have navigated to the "EducationOrganizations" listing of the Data Browser
+Then I should navigate to "/entities/educationOrganizations/bd086bae-ee82-4cf2-baf9-221a9407ea07"
+Then I change the isAdminRole flag for role "Educator" to in the realm "Daybreak" to be "false"
+
 
 @DE1948
 Scenario: Traverse Edorg Hiearchy from SEA down to LEA

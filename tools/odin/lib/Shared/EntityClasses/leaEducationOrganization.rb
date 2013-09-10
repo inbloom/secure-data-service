@@ -75,8 +75,10 @@ class LocalEducationAgency < BaseEntity
 
   # required fields
   attr_accessor :state_org_id   # maps to 'StateOrganizationId', 'NameOfInstitution'
+  attr_accessor :org_category   # maps to 'OrganizationCategory'
   attr_accessor :address        # maps to 'Address'
   attr_accessor :programs       # maps to 'ProgramReference'
+  attr_accessor :lea_category   # maps to 'LEACategory
   
   # optional fields
   attr_accessor :ed_org_id_code # maps to 'EducationOrgIdentificationCode'
@@ -84,10 +86,7 @@ class LocalEducationAgency < BaseEntity
   attr_accessor :telephone      # maps to 'Telephone'
   attr_accessor :website        # maps to 'WebSite'
   attr_accessor :accountability # maps to 'AccountabilityRatings'
-  attr_accessor :ed_org_peers   # maps to 'EducationOrganizationPeerReference'
-  attr_accessor :lea_parent_id  # maps to 'LocalEducationAgencyReference'
-  attr_accessor :esc_parent_id  # maps to 'EducationServiceCenterReference'
-  attr_accessor :sea_parent_id  # maps to 'StateEducationAgencyReference'
+  attr_accessor :parent_id      # maps to 'ParentEducationAgencyReference'
 
   attr_accessor :charter_status
   attr_accessor :op_status
@@ -103,7 +102,9 @@ class LocalEducationAgency < BaseEntity
     @state_org_id   = get_state_organization_id(id)
     @address        = get_address
     @programs       = programs
-    @sea_parent_id  = sea_parent_id 
+    @parent_id      = sea_parent_id
+    @org_category   = "Local Education Agency"
+    @lea_category   = "Independent"
 
     # leave sea parent above get_accountability_ratings --> current rating organization
     optional { @ed_org_id_code = @state_org_id }
@@ -113,7 +114,6 @@ class LocalEducationAgency < BaseEntity
     optional { @website        = 'http://fake.local-education-agency.org.fake/fake' }
     optional { @op_status      = get_random_operational_status }
     optional { @accountability = get_accountability_ratings(years) unless years.nil? || years.empty? }
-    optional { @ed_org_peers   = [] }
     optional { @charter_status = get_random_charter_status_type(@rand) }
     optional { @lea_parent_id  = nil }   # this will need to be added when odin can generate multiple sub-tiers within the LEA tier
     optional { @esc_parent_id  = nil }   # can we ingest education service centers? if so, do we have any security model for them?
@@ -170,7 +170,7 @@ class LocalEducationAgency < BaseEntity
       rating      = get_random_rating
       date        = DateUtility.random_date_from_years(@rand, year)
       school_year = "#{year}-#{year+1}"
-      ratings << {:title => title, :rating => rating, :date => date, :year => school_year, :rating_org => @sea_parent_id, :program => "AEIS"}
+      ratings << {:title => title, :rating => rating, :date => date, :year => school_year, :rating_org => @parent_id, :program => "AEIS"}
     end
     ratings
   end

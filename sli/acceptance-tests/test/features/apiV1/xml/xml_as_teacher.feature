@@ -17,7 +17,7 @@ Background: Nothing yet
   Examples:
     | ENTITY URI                  | ENTITY TYPE                | ENTITY ID                               |
     | assessments                 | assessment                 | 2108c0c84ca6998eb157e1efd4d894746e1fdf8b_id    |
-    | schools                     | school                     | 92d6d5a0-852c-45f4-907a-912752831772    |
+    | schools                     | educationOrganization      | 92d6d5a0-852c-45f4-907a-912752831772    |
     | students                    | student                    | 74cf790e-84c4-4322-84b8-fca7206f1085_id |
     | studentSectionAssociations  | studentSectionAssociation  | 706ee3be-0dae-4e98-9525-f564e05aa388_idbac890d6-b580-4d9d-a0d4-8bce4e8d351a_id |
     | courseOfferings             | courseOffering             | dc7df8c7-a5f1-48df-9e51-4c45afcc149f    |
@@ -35,7 +35,7 @@ Background: Nothing yet
   Examples:
     | ENTITY URI                  | ENTITY TYPE                | ENTITY COUNT    |
     | assessments                 | assessment                 | 18              |
-    | schools                     | school                     | 1               |
+    | schools                     | educationOrganization      | 1               |
     | students                    | student                    | 31              |
     | studentSectionAssociations  | studentSectionAssociation  | 31              |
     | courseOfferings             | courseOffering             | 138             |

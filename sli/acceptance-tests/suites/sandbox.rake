@@ -30,7 +30,7 @@ end
 # Account Approval tests start
 ############################################################
 desc "Run Account Approval acceptance tests"
-task :accountApprovalInterfaceTests => [:realmInitNoPeople] do
+task :accountApprovalInterfaceTests => [:realmInit] do
     runTests("test/features/sandbox/AccountApproval/prod_sandbox_AccountApproval_Inteface.feature")
 end
 

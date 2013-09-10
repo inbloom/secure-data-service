@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><InterchangeEducationOrganization xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-EducationOrganization.xsd">
-
-  <StateEducationAgency>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<InterchangeEducationOrganization xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-EducationOrganization.xsd">
+  <EducationOrganization>
     <StateOrganizationId>IL</StateOrganizationId>
     <NameOfInstitution>Illinois State Board of Education</NameOfInstitution>
     <OrganizationCategories>
@@ -17,8 +17,7 @@
         <ProgramId>ACC-TEST-PROG-1</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-  </StateEducationAgency>
-
+  </EducationOrganization>
   <Course>
     <CourseTitle>Algebra-10</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -35,13 +34,12 @@
       <Credit>1</Credit>
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
-        <EducationalOrgIdentity>
-            <StateOrganizationId>IL</StateOrganizationId>
-        </EducationalOrgIdentity>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL</StateOrganizationId>
+      </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>Algebra-10-1</UniqueCourseId>
   </Course>
-
   <Course>
     <CourseTitle>Geometry-10</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -58,11 +56,10 @@
       <Credit>1</Credit>
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
-        <EducationalOrgIdentity>
-            <StateOrganizationId>IL</StateOrganizationId>
-        </EducationalOrgIdentity>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL</StateOrganizationId>
+      </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>Geometry-10-2</UniqueCourseId>
   </Course>
-  
 </InterchangeEducationOrganization>

@@ -111,6 +111,34 @@ task :bulkExtractNegativeTests do
   Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
 
+desc "Hybird EdOrg Cases"
+task :bulkExtractHybridEdOrgsTests do
+  Rake::Task["bulkExtractCleanup"].execute
+  runTests("test/features/bulk_extract/features/bulk_extract_sea_ingest.feature")
+  Rake::Task["realmInit"].execute
+  Rake::Task["appInit"].execute
+  allLeaAllowApp("SDK Sample")  
+  authorizeEdorg("SDK Sample")
+  allLeaAllowApp("Paved Z00")
+  authorizeEdorg("Paved Z00")
+  runTests("test/features/bulk_extract/features/bulk_extract_hybrid_edorgs.feature")
+  Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
+end
+
+desc "Mutiple Parent Cases"
+task :bulkExtractMultiParentsTests do
+  Rake::Task["bulkExtractCleanup"].execute
+  runTests("test/features/bulk_extract/features/bulk_extract_sea_ingest.feature")
+  Rake::Task["realmInit"].execute
+  Rake::Task["appInit"].execute
+  allLeaAllowApp("SDK Sample")  
+  authorizeEdorg("SDK Sample")
+  allLeaAllowApp("Paved Z00")
+  authorizeEdorg("Paved Z00")
+  runTests("test/features/bulk_extract/features/bulk_extract_multi_parents.feature")
+  Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
+end
+
 desc "Client Cert Auth Bulk Extract Tests"
 task :bulkExtractTlsTests do
   runTests("test/features/bulk_extract/features/bulk_extract_sea_ingest.feature")

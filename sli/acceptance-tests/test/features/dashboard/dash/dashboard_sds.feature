@@ -123,8 +123,8 @@ And the grades teardrop color widgets for "previousSemester;twoSemestersAgo" are
  |F-   |teardrop-red       |
  |F    |teardrop-red       |
 And I click on student "Matt Sollars"
-#And I see a header on the page
-#And I see a footer on the page
+And I see a header on the page
+And I see a footer on the page
 And the title of the page is "inBloom - Student Profile"
 And I view its student profile
 And their name shown in profile is "Matt Joseph Sollars Jr"

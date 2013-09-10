@@ -145,7 +145,7 @@ Scenario: Given a known school object, perform a PUT with a base school object t
       And "nameOfInstitution" should be "school name"
       And "stateOrganizationId" should be "Daybreak Central High"
       And "gradesOffered" should contain "First_grade" and "Second_grade"
-      And "entityType" should be "school"
+      And "entityType" should be "educationOrganization"
       And there should be no other contents in the response body other than links
 
   Scenario: Given an invalid id, when I try to GET a target endpoint through 4-part URL, I should receive a 200 

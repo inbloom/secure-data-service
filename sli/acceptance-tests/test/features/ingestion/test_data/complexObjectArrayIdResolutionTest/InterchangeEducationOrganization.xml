@@ -1,69 +1,67 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><InterchangeEducationOrganization xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-EducationOrganization.xsd">
-
-<!-- ed org and schools --> 
-	<StateEducationAgency>
-		<StateOrganizationId>IL</StateOrganizationId>
-		<NameOfInstitution>Illinois State Board of Education</NameOfInstitution>
-		<OrganizationCategories>
-			<OrganizationCategory>State Education Agency</OrganizationCategory>
-		</OrganizationCategories>
-                <Address>
-                  <StreetNumberName>123 Street</StreetNumberName>
-                  <City>Chicago</City>
-                  <StateAbbreviation>IL</StateAbbreviation>
-                  <PostalCode>00000</PostalCode>
-                </Address>
-	</StateEducationAgency>
-	<LocalEducationAgency>
-		<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
-		<NameOfInstitution>Daybreak School District 4529</NameOfInstitution>
-		<OrganizationCategories>
-			<OrganizationCategory>Local Education Agency</OrganizationCategory>
-		</OrganizationCategories>
-		<LEACategory>Independent</LEACategory>
-		<StateEducationAgencyReference>
-			<EducationalOrgIdentity>
-				<StateOrganizationId>IL</StateOrganizationId>
-			</EducationalOrgIdentity>
-		</StateEducationAgencyReference>
-                <Address>
-                  <StreetNumberName>123 Street</StreetNumberName>
-                  <City>Chicago</City>
-                  <StateAbbreviation>IL</StateAbbreviation>
-                  <PostalCode>00000</PostalCode>
-                </Address>
-	</LocalEducationAgency>
-	<School>
-		<StateOrganizationId>Daybreak Central High</StateOrganizationId>
-		<EducationOrgIdentificationCode IdentificationSystem="School">
-			<ID>Daybreak Central High</ID>
-		</EducationOrgIdentificationCode>
-		<NameOfInstitution>South Daybreak Elementary</NameOfInstitution>
-		<OrganizationCategories>
-			<OrganizationCategory>School</OrganizationCategory>
-		</OrganizationCategories>
-		<GradesOffered>
-			<GradeLevel>Third grade</GradeLevel>
-		</GradesOffered>
-		<SchoolCategories>
-			<SchoolCategory>Elementary School</SchoolCategory>
-		</SchoolCategories>
-		<LocalEducationAgencyReference>
-			<EducationalOrgIdentity>
-				<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
-			</EducationalOrgIdentity>
-		</LocalEducationAgencyReference>
-                <Address>
-                  <StreetNumberName>123 Street</StreetNumberName>
-                  <City>Chicago</City>
-                  <StateAbbreviation>IL</StateAbbreviation>
-                  <PostalCode>00000</PostalCode>
-                </Address>
-	</School>
-<!-- end edorg and schools -->
-
-<!-- courses -->
-
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<InterchangeEducationOrganization xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-EducationOrganization.xsd">
+  <!-- ed org and schools -->
+  <EducationOrganization>
+    <StateOrganizationId>IL</StateOrganizationId>
+    <NameOfInstitution>Illinois State Board of Education</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>State Education Agency</OrganizationCategory>
+    </OrganizationCategories>
+    <Address>
+      <StreetNumberName>123 Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>00000</PostalCode>
+    </Address>
+  </EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+    <NameOfInstitution>Daybreak School District 4529</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>Local Education Agency</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+  <EducationalOrgIdentity>
+    <StateOrganizationId>IL</StateOrganizationId>
+  </EducationalOrgIdentity>
+</ParentEducationAgencyReference>
+    <LEACategory>Independent</LEACategory>
+    <Address>
+      <StreetNumberName>123 Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>00000</PostalCode>
+    </Address>
+  </EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+      <ID>Daybreak Central High</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>South Daybreak Elementary</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+  <EducationalOrgIdentity>
+    <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+  </EducationalOrgIdentity>
+</ParentEducationAgencyReference>
+    <GradesOffered>
+      <GradeLevel>Third grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>Elementary School</SchoolCategory>
+    </SchoolCategories>
+    <Address>
+      <StreetNumberName>123 Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>00000</PostalCode>
+    </Address>
+  </EducationOrganization>
+  <!-- end edorg and schools -->
+  <!-- courses -->
   <Course>
     <CourseTitle>COURSE 1</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -79,12 +77,11 @@
     <SubjectArea>Mathematics</SubjectArea>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId> 
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>COURSE-1-1</UniqueCourseId>
   </Course>
-
   <Course>
     <CourseTitle>COURSE 2</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -100,12 +97,11 @@
     <SubjectArea>Mathematics</SubjectArea>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId> 
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>COURSE-2-2</UniqueCourseId>
   </Course>
-
   <Course>
     <CourseTitle>COURSE 3</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -121,12 +117,11 @@
     <SubjectArea>Mathematics</SubjectArea>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId> 
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>COURSE-3-3</UniqueCourseId>
   </Course>
-
   <Course>
     <CourseTitle>COURSE 4</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -142,12 +137,11 @@
     <SubjectArea>Mathematics</SubjectArea>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId> 
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>COURSE-4-4</UniqueCourseId>
   </Course>
-  
   <Course>
     <CourseTitle>COURSE 5</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -157,12 +151,11 @@
     <SubjectArea>Mathematics</SubjectArea>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId> 
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>COURSE-5-5</UniqueCourseId>
   </Course>
-  
   <Course>
     <CourseTitle>COURSE 6</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -172,10 +165,9 @@
     <SubjectArea>Mathematics</SubjectArea>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId> 
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <UniqueCourseId>COURSE-6-6</UniqueCourseId>
   </Course>
-  
 </InterchangeEducationOrganization>

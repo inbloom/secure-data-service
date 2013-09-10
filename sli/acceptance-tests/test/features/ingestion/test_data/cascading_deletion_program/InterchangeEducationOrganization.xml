@@ -1,19 +1,15 @@
 <?xml version="1.0"?>
-<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-                                  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
-    <Action ActionType="DELETE" Cascade="true">
-
-     <Program>
-    <ProgramId>ACC-TEST-PROG-2</ProgramId>
-	<ProgramType>Regular Education</ProgramType>
-	<ProgramSponsor>State Education Agency</ProgramSponsor>
-	<Services>
-	  <CodeValue>Test service 1</CodeValue>
-	  <!--<ShortDescription>Short description for acceptance test program 1</ShortDescription>
+<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
+  <Action ActionType="DELETE" Cascade="true">
+    <Program>
+      <ProgramId>ACC-TEST-PROG-2</ProgramId>
+      <ProgramType>Regular Education</ProgramType>
+      <ProgramSponsor>State Education Agency</ProgramSponsor>
+      <Services>
+        <CodeValue>Test service 1</CodeValue>
+        <!--<ShortDescription>Short description for acceptance test program 1</ShortDescription>
 	  <Description>This is a longer description of the services provided by acceptance test program 1. More detail could be provided here.</Description>-->
-	</Services>
-  </Program>
-
-
-    </Action>
-    </InterchangeEducationOrganization>
+      </Services>
+    </Program>
+  </Action>
+</InterchangeEducationOrganization>

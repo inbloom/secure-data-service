@@ -105,5 +105,5 @@ ENTITY_WHITELIST: [
 "StudentSectionAssociation",
 "Teacher",
 "TeacherSchoolAssociation",
-"TeacherSectionAssociation",
+"TeacherSectionAssociation"
 ]

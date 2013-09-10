@@ -1,0 +1,14 @@
+[
+  {
+    "userId": "100000017",
+    "name": "Miha Tran",
+    "edOrgs": [
+      {
+        "role": "Student",
+        "type": "Elementary School",
+        "association": "IL-CHARTER-SCHOOL",
+        "grade": "First grade"
+      }
+    ]
+  }
+]

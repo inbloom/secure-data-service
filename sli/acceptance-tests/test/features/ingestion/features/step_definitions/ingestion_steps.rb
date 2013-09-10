@@ -487,6 +487,7 @@ end
 
 def getCorrectCountForDataset(dataSet)
   case dataSet
+    when "SmallSampleDataSet-Charter.zip" then 10137
     when "SmallSampleDataSet.zip" then 10137
     when "MediumSampleDataSet.zip" then 45416
   end
@@ -3769,6 +3770,13 @@ Then /^there exist "([^"]*)" "([^"]*)" records like below in "([^"]*)" tenant. A
         end
     end
 
+    condHash.each do |field, value|
+      if value.class == String and value.include? ","
+            valueArray = getValueArray(value)
+            condHash[field] = valueArray
+      end
+    end
+
     elemMatch.each do |arrName, memberCriteria|
           condHash[arrName] = {'$elemMatch' => memberCriteria};
     end
@@ -3778,6 +3786,10 @@ Then /^there exist "([^"]*)" "([^"]*)" records like below in "([^"]*)" tenant. A
     recordCnt   = @coll.find(condHash).count()
     enable_NOTABLESCAN()
     assert(recordCnt.to_i ==  count.to_i, "Found #{recordCnt}. Expected #{count} in #{collection} matching #{condHash}!");
+end
+
+def getValueArray(value)
+    return value.split(',')
 end
 
 Then /I re-execute saved query "([^"]*)" to get "([^"]*)" records/ do |queryName, count|
@@ -3975,6 +3987,73 @@ And /I wait for user input/ do
       print "Waiting for user input. Press Enter to continue."
       STDIN.getc
 end
+
+Then /^"([^"]*)" records in the "([^"]*)" collection with field "([^"]*)" matching "([^"]*)" should be in the "([^"]*)" tenant db$/ do |expected_count, collection, field, pattern, tenant|
+  disable_NOTABLESCAN()
+  tenant_db = @conn.db(convertTenantIdToDbName(tenant))
+  actualCount = tenant_db[collection].find({field => /#{pattern}/}).count()
+  enable_NOTABLESCAN()
+  assert(actualCount == expected_count.to_i, "Unexpected number of records found with pattern matching " + pattern)
+end
+
+Then /^there are only the following in the "(.*?)" of the "(.*?)" collection for id "(.*?)" on the "(.*?)" tenant/ do |field, collection, id, tenant, table|
+  disable_NOTABLESCAN()
+  tenant_db = @conn.db(convertTenantIdToDbName(tenant))
+  expArray = table.rows()
+  expArray.flatten!
+  expArray.sort!
+  coll = tenant_db[collection]
+  entity = coll.find_one({"_id" => id})
+  if not entity
+    raise "Document with _id '" + id + "' not found in collection '" + collection + "'"
+  end
+  if field.include? "."
+     top_field = field.split(".")[0].to_s
+     top_level = entity[top_field]
+     if not top_level
+       raise "Field '" + top_field + "' not found in document with _id '" + id + "' in collection '" + collection + "'"
+     end
+     actArray = top_level[field.split(".")[1].to_s]
+     if not actArray
+       raise "Field '" + field + "' not found in document with _id '" + id + "' in collection '" + collection + "'"
+     end
+     actArray.sort!
+  else
+    body = entity["body"]
+    actArray = body[field]
+    actArray.sort!
+  end
+  enable_NOTABLESCAN()
+  assert(actArray == expArray, "Actual values differ from expected values.  Actual values are: \n" + actArray.join("\n"))
+end
+
+Then /^there exists no field "(.*?)" of the "(.*?)" collection for id "(.*?)" on the "(.*?)" tenant/ do |field, collection, id, tenant|
+  disable_NOTABLESCAN()
+  tenant_db = @conn.db(convertTenantIdToDbName(tenant))
+  coll = tenant_db[collection]
+  entity = coll.find_one({"_id" => id})
+  if not entity
+    raise "Document with _id '" + id + "' not found in collection '" + collection + "'"
+  end
+  errmsg = "Field '" + field + "' found in document with _id '" + id + "' in collection '" + collection + "'"
+  if field.include? "."
+     top_field = field.split(".")[0].to_s
+     if not entity.has_key?(top_field)
+       return
+     end
+     top_level = entity[top_field]
+     if top_level.has_key?(field.split(".")[1].to_s)
+       raise errmsg
+     end
+  else
+    body = entity["body"]
+    if body.has_key?(field)
+       raise errmsg
+    end
+  end
+  enable_NOTABLESCAN()
+end
+
 ############################################################
 # STEPS: AFTER
 ############################################################

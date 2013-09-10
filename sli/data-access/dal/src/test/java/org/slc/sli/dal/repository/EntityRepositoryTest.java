@@ -22,15 +22,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 import javax.annotation.Resource;
 
@@ -117,20 +109,23 @@ public class EntityRepositoryTest {
         assertTrue("After adding SEA expected edOrgs not found in lineage.", schoolLineageIs(school.getEntityId(), expectedEdOrgs));
 
         // Add an LEA
-        Entity lea = createEducationOrganizationEntity("lea1", "localEducationAgency", "Local Education Agency", sea.getEntityId());
+        List<String> parentRefs = new ArrayList<String>(Arrays.asList(sea.getEntityId()));
+        Entity lea = createEducationOrganizationEntity("lea1", "localEducationAgency", "Local Education Agency", parentRefs);
         assertTrue("After adding LEA expected edOrgs not found in lineage.", schoolLineageIs(school.getEntityId(), expectedEdOrgs));
 
         // doUpdate School parent ref to LEA
+        List<String> parentRefsUpdate = new ArrayList<String>(Arrays.asList(lea.getEntityId()));
         query = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, school.getEntityId()));
-        Update update = new Update().set("body." + ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE, lea.getEntityId());
+        Update update = new Update().set("body." + ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE, parentRefsUpdate);
         repository.doUpdate(EntityNames.EDUCATION_ORGANIZATION, query, update);
         expectedEdOrgs.add(lea.getEntityId());
         expectedEdOrgs.add(sea.getEntityId());
         assertTrue("After updating school parent ref expected edOrgs not found in lineage.", schoolLineageIs(school.getEntityId(), expectedEdOrgs));
 
         // Patch LEA parent ref to an undefined id
+        List<String> parentRefsPatch = new ArrayList<String>(Arrays.asList("undefinedId"));
         Map<String, Object> newValues = new HashMap<String, Object>();
-        newValues.put(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE, "undefinedId");
+        newValues.put(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE, parentRefsPatch);
         repository.patch("localEducationEntity", EntityNames.EDUCATION_ORGANIZATION, lea.getEntityId(), newValues);
         expectedEdOrgs.remove(sea.getEntityId());
         assertTrue("After updating school parent ref expected edOrgs not found in lineage.", schoolLineageIs(school.getEntityId(), expectedEdOrgs));
@@ -153,8 +148,9 @@ public class EntityRepositoryTest {
         assertTrue("After re-adding LEA with no parent ref expected edOrgs not found in lineage.", schoolLineageIs(school.getEntityId(), expectedEdOrgs));
 
         // findAndUpdate School parent ref to SEA
+        List<String> parentRefsSEA = new ArrayList<String>(Arrays.asList(sea.getEntityId()));
         query = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, school.getEntityId()));
-        update = new Update().set("body." + ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE, sea.getEntityId());
+        update = new Update().set("body." + ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE, parentRefsSEA);
         repository.findAndUpdate(EntityNames.EDUCATION_ORGANIZATION, query, update);
         expectedEdOrgs.remove(lea.getEntityId());
         expectedEdOrgs.add(sea.getEntityId());
@@ -182,7 +178,7 @@ public class EntityRepositoryTest {
         repository.update(EntityNames.EDUCATION_ORGANIZATION, school, false);
     }
 
-    private Entity createEducationOrganizationEntity(String stateOrgId, String type, String organizationCategory, String parentRef) {
+    private Entity createEducationOrganizationEntity(String stateOrgId, String type, String organizationCategory, List<String> parentRefs) {
         Random rand = new Random();
         Map<String, Object> body = new HashMap<String, Object>();
         List<Map<String, String>> addresses = new ArrayList<Map<String, String>>();
@@ -205,8 +201,8 @@ public class EntityRepositoryTest {
         addresses.add(address);
         body.put("address", addresses);
 
-        if (parentRef != null) {
-            body.put(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE, parentRef);
+        if (parentRefs != null && !parentRefs.isEmpty()) {
+            body.put(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE, parentRefs);
         }
         body.put("nameOfInstitution", stateOrgId + "Name");
         body.put(ParameterConstants.STATE_ORGANIZATION_ID, stateOrgId);

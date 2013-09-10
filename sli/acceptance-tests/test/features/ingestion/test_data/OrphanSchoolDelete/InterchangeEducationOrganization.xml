@@ -2,8 +2,7 @@
 <InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
                                   xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
     <Action ActionType="DELETE" Cascade="false" Force="false">
-
-        <School>
+        <EducationOrganization>
             <StateOrganizationId>School-South Daybreak Elementary</StateOrganizationId>
             <EducationOrgIdentificationCode IdentificationSystem="School">
                 <ID>South Daybreak Elementary</ID>
@@ -12,6 +11,11 @@
             <OrganizationCategories>
                 <OrganizationCategory>School</OrganizationCategory>
             </OrganizationCategories>
+            <ParentEducationAgencyReference>
+                <EducationalOrgIdentity>
+                    <StateOrganizationId>School-IL-DAYBREAK</StateOrganizationId>
+                </EducationalOrgIdentity>
+            </ParentEducationAgencyReference>
             <Address AddressType="Physical">
                 <StreetNumberName>111 Ave A</StreetNumberName>
                 <City>Chicago</City>
@@ -35,14 +39,11 @@
             </SchoolCategories>
             <SchoolType>Alternative</SchoolType>
             <CharterStatus>School Charter</CharterStatus>
-            <TitleIPartASchoolDesignation>Title I Part A Schoolwide Assistance Program School</TitleIPartASchoolDesignation>
-            <MagnetSpecialProgramEmphasisSchool>Some, but not all, students participate</MagnetSpecialProgramEmphasisSchool>
+            <TitleIPartASchoolDesignation>Title I Part A Schoolwide Assistance Program School
+            </TitleIPartASchoolDesignation>
+            <MagnetSpecialProgramEmphasisSchool>Some, but not all, students participate
+            </MagnetSpecialProgramEmphasisSchool>
             <AdministrativeFundingControl>Other</AdministrativeFundingControl>
-            <LocalEducationAgencyReference>
-                <EducationalOrgIdentity>
-                    <StateOrganizationId>School-IL-DAYBREAK</StateOrganizationId>
-                </EducationalOrgIdentity>
-            </LocalEducationAgencyReference>
-        </School>
+        </EducationOrganization>
     </Action>
-    </InterchangeEducationOrganization>
+</InterchangeEducationOrganization>

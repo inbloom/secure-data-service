@@ -1,92 +1,84 @@
 <?xml version="1.0"?>
-<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-                                  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
-    <CompetencyLevelDescriptor>
-        <CodeValue>Very Competent</CodeValue>
-        <Description>Student understands almost everything in subject</Description>
-        <PerformanceBaseConversion>Advanced</PerformanceBaseConversion>
-    </CompetencyLevelDescriptor>
-        <CompetencyLevelDescriptor>
-        <CodeValue>Cannot Competent</CodeValue>
-        <Description>Student does not understand anything</Description>
-        <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
-    </CompetencyLevelDescriptor>
-    <Program>
-        <ProgramId>731</ProgramId>
-        <ProgramType>Gifted and Talented</ProgramType>
-        <ProgramSponsor>State Education Agency</ProgramSponsor>
-        <Services>
-            <CodeValue>services:731</CodeValue>
-        </Services>
-    </Program>
-    <Program>
+<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
+  <CompetencyLevelDescriptor>
+    <CodeValue>Very Competent</CodeValue>
+    <Description>Student understands almost everything in subject</Description>
+    <PerformanceBaseConversion>Advanced</PerformanceBaseConversion>
+  </CompetencyLevelDescriptor>
+  <CompetencyLevelDescriptor>
+    <CodeValue>Cannot Competent</CodeValue>
+    <Description>Student does not understand anything</Description>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
+  </CompetencyLevelDescriptor>
+  <Program>
+    <ProgramId>731</ProgramId>
+    <ProgramType>Gifted and Talented</ProgramType>
+    <ProgramSponsor>State Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>services:731</CodeValue>
+    </Services>
+  </Program>
+  <Program>
+    <ProgramId>137</ProgramId>
+    <ProgramType>Adult/Continuing Education</ProgramType>
+    <ProgramSponsor>State Education Agency</ProgramSponsor>
+    <Services>
+      <CodeValue>services:137</CodeValue>
+    </Services>
+  </Program>
+  <EducationOrganization>
+    <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+      <ID>STANDARD-SEA ID code</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>STANDARD-SEA (State Education Agency)</NameOfInstitution>
+    <ShortNameOfInstitution>STANDARD-SEA shortName</ShortNameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>State Education Agency</OrganizationCategory>
+    </OrganizationCategories>
+    <Address>
+      <StreetNumberName>123 Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>00000</PostalCode>
+    </Address>
+    <Telephone>
+      <TelephoneNumber>(480)555-8956</TelephoneNumber>
+    </Telephone>
+    <WebSite>www.STANDARD-SEA.net</WebSite>
+    <OperationalStatus>Reopened</OperationalStatus>
+    <AccountabilityRatings>
+      <RatingTitle>School Rating</RatingTitle>
+      <Rating>Bad</Rating>
+      <RatingDate>2006-01-16</RatingDate>
+      <SchoolYear>2009-2010</SchoolYear>
+      <RatingOrganization>Rating Org 1</RatingOrganization>
+      <RatingProgram>NCLB</RatingProgram>
+    </AccountabilityRatings>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>135</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>136</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
         <ProgramId>137</ProgramId>
-        <ProgramType>Adult/Continuing Education</ProgramType>
-        <ProgramSponsor>State Education Agency</ProgramSponsor>
-        <Services>
-            <CodeValue>services:137</CodeValue>
-        </Services>
-    </Program>
-    <StateEducationAgency>
-        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-            <ID>STANDARD-SEA ID code</ID>
-        </EducationOrgIdentificationCode>
-        <NameOfInstitution>STANDARD-SEA (State Education Agency)</NameOfInstitution>
-        <ShortNameOfInstitution>STANDARD-SEA shortName</ShortNameOfInstitution>
-        <OrganizationCategories>
-            <OrganizationCategory>State Education Agency</OrganizationCategory>
-        </OrganizationCategories>
-        <Address>
-            <StreetNumberName>123 Street</StreetNumberName>
-            <City>Chicago</City>
-            <StateAbbreviation>IL</StateAbbreviation>
-            <PostalCode>00000</PostalCode>
-        </Address>
-        <Telephone>
-            <TelephoneNumber>(480)555-8956</TelephoneNumber>
-        </Telephone>
-        <WebSite>www.STANDARD-SEA.net</WebSite>
-        <OperationalStatus>Reopened</OperationalStatus>
-        <AccountabilityRatings>
-            <RatingTitle>School Rating</RatingTitle>
-            <Rating>Bad</Rating>
-            <RatingDate>2006-01-16</RatingDate>
-            <SchoolYear>2009-2010</SchoolYear>
-            <RatingOrganization>Rating Org 1</RatingOrganization>
-            <RatingProgram>NCLB</RatingProgram>
-        </AccountabilityRatings>
-        <ProgramReference>
-            <ProgramIdentity>
-                <ProgramId>135</ProgramId>
-            </ProgramIdentity>
-        </ProgramReference>
-        <ProgramReference>
-            <ProgramIdentity>
-                <ProgramId>136</ProgramId>
-            </ProgramIdentity>
-        </ProgramReference>
-        <ProgramReference>
-            <ProgramIdentity>
-                <ProgramId>137</ProgramId>
-            </ProgramIdentity>
-        </ProgramReference>
-        <ProgramReference>
-            <ProgramIdentity>
-                <ProgramId>138</ProgramId>
-            </ProgramIdentity>
-        </ProgramReference>
-        <ProgramReference>
-            <ProgramIdentity>
-                <ProgramId>139</ProgramId>
-            </ProgramIdentity>
-        </ProgramReference>
-        <EducationOrganizationPeerReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>
-                    STANDARD-SEA peer ref
-                </StateOrganizationId>
-            </EducationalOrgIdentity>
-        </EducationOrganizationPeerReference>
-    </StateEducationAgency>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>138</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>139</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+  </EducationOrganization>
 </InterchangeEducationOrganization>
