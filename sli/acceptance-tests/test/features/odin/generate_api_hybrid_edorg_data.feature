@@ -5,11 +5,10 @@ Given I am using the odin working directory
 @rc
 Scenario: Generate an API data set with hybrid edOrgs for API testing using Odin generate tool
   When I generate the "hybrid_edorgs" data set in the "generated" directory
-#  When I convert school "IL-CHARTER-SCHOOL" to a charter school under SEA "STANDARD-SEA" and "IL-DAYBREAK" in "InterchangeEducationOrganization.xml"
   When I convert school "IL-CHARTER-SCHOOL" to a charter school in "InterchangeEducationOrganization.xml" with additional parent refs
   |  ParentReference |
   | STANDARD-SEA     |
-  | IL-DAYBREAK      |
+  When I convert edorg "4" to an Education Service Center in "InterchangeEducationOrganization.xml"
 
   Then I should see generated file <File>
 | File  |

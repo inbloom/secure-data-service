@@ -110,6 +110,12 @@ When /^I convert school "(.*?)" to a charter school in "(.*?)" with additional p
   school_to_charterSchool_with_parents(schoolId, edorg_xml_file, table)
 end
 
+# TODO this should be removed once Odin supports hybrid edorgs and multiple parents natively
+When /^I convert edorg "(.*?)" to an Education Service Center in "(.*?)"$/ do |edorgId, filename|
+  edorg_xml_file = "#{@gen_path}#{filename}"
+  edorg_to_esc(edorgId, edorg_xml_file)
+end
+
 ############################################################
 # STEPS: THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN
 ############################################################
@@ -199,6 +205,41 @@ def school_to_charterSchool_with_parents(schoolId, filename, parents)
                     parentRef.at_css("StateOrganizationId").content = parentRefId
                     peaRef.before(parentRef) unless peaRef.nil?
                 end
+            end
+        end
+
+        outfile = File.new(filename, "w")
+        outfile.puts doc.to_xml
+        outfile.close
+
+        STDOUT.puts "#{filename} processed successfully"
+    end
+end
+
+def edorg_to_esc(edorgId, filename)
+    STDOUT.puts "Converting lea #{edorgId} to be a Education Service Center in file #{filename}"
+    infile = File.open(filename)
+    begin
+        doc = Nokogiri::XML(infile) do |config|
+            config.strict.nonet.noblanks
+        end
+        infile.close
+    rescue
+        STDOUT.puts "File could not be processed " + filename
+        return
+    end
+
+    doc.css('InterchangeEducationOrganization').each do
+
+        doc.css('EducationOrganization').each do |edorg|
+            stateId = edorg.at_css "StateOrganizationId"
+            if stateId.content.eql?(edorgId)
+                # change org category to Education Service Center
+                orgCategory = edorg.at_css "OrganizationCategory"
+                STDOUT.puts "Found org category : " + orgCategory.to_s
+                orgCategory.content = "Education Service Center"
+                STDOUT.puts "Changed org category to " + orgCategory.to_s
+
             end
         end
 
