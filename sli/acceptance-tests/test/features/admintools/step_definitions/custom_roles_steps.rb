@@ -391,7 +391,7 @@ def checkRights(user, tenant, rights, isSelf)
       assert(result != nil, "Result of JSON parsing is nil")
     
       if (isSelf)
-        actualRights = result["authentication"]["principal"]["selfRights"]
+        edorg, actualRights = result["authentication"]["userAuthentication"]["principal"]["edOrgSelfRights"].first
       else
         edorg, actualRights = result["authentication"]["userAuthentication"]["principal"]["edOrgRights"].first
       end
