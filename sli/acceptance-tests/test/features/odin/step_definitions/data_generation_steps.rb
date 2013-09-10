@@ -105,9 +105,15 @@ When /^I copy generated data to the new (.*?) directory$/ do |new_dir|
 end
 
 # TODO this should be removed once Odin supports hybrid edorgs natively
-When /^I convert school "(.*?)" to a charter school under SEA "(.*?)" in "(.*?)"$/ do |schoolId, seaId, filename|
+When /^I convert school "(.*?)" to a charter school under SEA "(.*?)" and "(.*?)" in "(.*?)"$/ do |schoolId, seaId, bonusParentId, filename|
   edorg_xml_file = "#{@gen_path}#{filename}"
-  school_to_charterSchool(schoolId, seaId, edorg_xml_file)
+  school_to_charterSchool(schoolId, seaId, bonusParentId, edorg_xml_file)
+end
+
+# TODO this should be removed once Odin supports hybrid edorgs natively
+When /^I convert school "(.*?)" to a charter school in "(.*?)" with the following parent refs$/ do |schoolId, filename, table|
+  edorg_xml_file = "#{@gen_path}#{filename}"
+  school_to_charterSchool_with_parents(schoolId, edorg_xml_file, table)
 end
 
 ############################################################
@@ -161,7 +167,7 @@ def runtime(t1, t2)
   puts "Data generation took approximately: " + t_sec + "." + t_dec[0..-5] + " seconds to complete."
 end
 
-def school_to_charterSchool(schoolId, seaId, filename)
+def school_to_charterSchool_with_parents(schoolId, filename, parents)
     STDOUT.puts "Converting school #{schoolId} to be a charter school under SEA #{seaId} in file #{filename}"
     infile = File.open(filename)
     begin
@@ -185,12 +191,67 @@ def school_to_charterSchool(schoolId, seaId, filename)
                 leaCategory = Nokogiri::XML::Node.new "OrganizationCategory", doc
                 leaCategory.content = "Local Education Agency"
                 orgCategories.add_child(leaCategory) unless orgCategories.nil?
+                escCategory = Nokogiri::XML::Node.new "OrganizationCategory", doc
+                escCategory.content = "Education Service Center"
+                orgCategories.add_child(escCategory) unless orgCategories.nil?
+
+                # add parent ref to sea
+                peaRef = edorg.at_css("ParentEducationAgencyReference")
+                table.hashes.map do |row|
+                    @entity_collection = @db[row["parentRef"]]
+                seaRef = peaRef.clone
+                seaRef.at_css("StateOrganizationId").content = seaId
+                peaRef.before(seaRef) unless peaRef.nil?
+                ilDaybreakRef = peaRef.clone
+                ilDaybreakRef.at_css("StateOrganizationId").content = bonusParentId
+                peaRef.before(ilDaybreakRef) unless peaRef.nil?
+            end
+        end
+
+        outfile = File.new(filename, "w")
+        outfile.puts doc.to_xml
+        outfile.close
+
+        STDOUT.puts "#{filename} processed successfully"
+    end
+end
+
+def school_to_charterSchool(schoolId, seaId, bonusParentId, filename)
+    STDOUT.puts "Converting school #{schoolId} to be a charter school under SEA #{seaId} in file #{filename}"
+    infile = File.open(filename)
+    begin
+        doc = Nokogiri::XML(infile) do |config|
+            config.strict.nonet.noblanks
+        end
+        infile.close
+    rescue
+        STDOUT.puts "File could not be processed " + filename
+        return
+    end
+
+    doc.css('InterchangeEducationOrganization').each do
+
+        doc.css('EducationOrganization').each do |edorg|
+            stateId = edorg.at_css "StateOrganizationId"
+            if stateId.content.eql?(schoolId)
+            puts "Got here 1"
+                # add LEA as an org category
+                orgCategories = edorg.at_css "OrganizationCategories"
+                leaCategory = Nokogiri::XML::Node.new "OrganizationCategory", doc
+                leaCategory.content = "Local Education Agency"
+                orgCategories.add_child(leaCategory) unless orgCategories.nil?
+                escCategory = Nokogiri::XML::Node.new "OrganizationCategory", doc
+                escCategory.content = "Education Service Center"
+                orgCategories.add_child(escCategory) unless orgCategories.nil?
 
                 # add parent ref to sea
                 peaRef = edorg.at_css("ParentEducationAgencyReference")
                 seaRef = peaRef.clone
                 seaRef.at_css("StateOrganizationId").content = seaId
                 peaRef.before(seaRef) unless peaRef.nil?
+                ilDaybreakRef = peaRef.clone
+                ilDaybreakRef.at_css("StateOrganizationId").content = bonusParentId
+                peaRef.before(ilDaybreakRef) unless peaRef.nil?
             end
         end
 
