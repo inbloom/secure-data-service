@@ -104,14 +104,8 @@ When /^I copy generated data to the new (.*?) directory$/ do |new_dir|
   Dir["#{@gen_path}*.ctl"].each {|f| FileUtils.cp(f, @zip_path)}
 end
 
-# TODO this should be removed once Odin supports hybrid edorgs natively
-When /^I convert school "(.*?)" to a charter school under SEA "(.*?)" and "(.*?)" in "(.*?)"$/ do |schoolId, seaId, bonusParentId, filename|
-  edorg_xml_file = "#{@gen_path}#{filename}"
-  school_to_charterSchool(schoolId, seaId, bonusParentId, edorg_xml_file)
-end
-
-# TODO this should be removed once Odin supports hybrid edorgs natively
-When /^I convert school "(.*?)" to a charter school in "(.*?)" with the following parent refs$/ do |schoolId, filename, table|
+# TODO this should be removed once Odin supports hybrid edorgs and multiple parents natively
+When /^I convert school "(.*?)" to a charter school in "(.*?)" with additional parent refs$/ do |schoolId, filename, table|
   edorg_xml_file = "#{@gen_path}#{filename}"
   school_to_charterSchool_with_parents(schoolId, edorg_xml_file, table)
 end
@@ -168,7 +162,7 @@ def runtime(t1, t2)
 end
 
 def school_to_charterSchool_with_parents(schoolId, filename, parents)
-    STDOUT.puts "Converting school #{schoolId} to be a charter school under SEA #{seaId} in file #{filename}"
+    STDOUT.puts "Converting school #{schoolId} to be a charter school in file #{filename} with additional parents"
     infile = File.open(filename)
     begin
         doc = Nokogiri::XML(infile) do |config|
@@ -185,26 +179,26 @@ def school_to_charterSchool_with_parents(schoolId, filename, parents)
         doc.css('EducationOrganization').each do |edorg|
             stateId = edorg.at_css "StateOrganizationId"
             if stateId.content.eql?(schoolId)
-            puts "Got here 1"
                 # add LEA as an org category
                 orgCategories = edorg.at_css "OrganizationCategories"
                 leaCategory = Nokogiri::XML::Node.new "OrganizationCategory", doc
                 leaCategory.content = "Local Education Agency"
+                STDOUT.puts "Adding org category : " + leaCategory.content
                 orgCategories.add_child(leaCategory) unless orgCategories.nil?
                 escCategory = Nokogiri::XML::Node.new "OrganizationCategory", doc
                 escCategory.content = "Education Service Center"
+                STDOUT.puts "Adding org category : " + escCategory.content
                 orgCategories.add_child(escCategory) unless orgCategories.nil?
 
                 # add parent ref to sea
                 peaRef = edorg.at_css("ParentEducationAgencyReference")
-                table.hashes.map do |row|
-                    @entity_collection = @db[row["parentRef"]]
-                seaRef = peaRef.clone
-                seaRef.at_css("StateOrganizationId").content = seaId
-                peaRef.before(seaRef) unless peaRef.nil?
-                ilDaybreakRef = peaRef.clone
-                ilDaybreakRef.at_css("StateOrganizationId").content = bonusParentId
-                peaRef.before(ilDaybreakRef) unless peaRef.nil?
+                parents.hashes.map do |row|
+                    parentRefId = row["ParentReference"]
+                    STDOUT.puts "Adding parent ref to " + parentRefId
+                    parentRef = peaRef.clone
+                    parentRef.at_css("StateOrganizationId").content = parentRefId
+                    peaRef.before(parentRef) unless peaRef.nil?
+                end
             end
         end
 
@@ -215,52 +209,4 @@ def school_to_charterSchool_with_parents(schoolId, filename, parents)
         STDOUT.puts "#{filename} processed successfully"
     end
 end
-
-def school_to_charterSchool(schoolId, seaId, bonusParentId, filename)
-    STDOUT.puts "Converting school #{schoolId} to be a charter school under SEA #{seaId} in file #{filename}"
-    infile = File.open(filename)
-    begin
-        doc = Nokogiri::XML(infile) do |config|
-            config.strict.nonet.noblanks
-        end
-        infile.close
-    rescue
-        STDOUT.puts "File could not be processed " + filename
-        return
-    end
-
-    doc.css('InterchangeEducationOrganization').each do
-
-        doc.css('EducationOrganization').each do |edorg|
-            stateId = edorg.at_css "StateOrganizationId"
-            if stateId.content.eql?(schoolId)
-            puts "Got here 1"
-                # add LEA as an org category
-                orgCategories = edorg.at_css "OrganizationCategories"
-                leaCategory = Nokogiri::XML::Node.new "OrganizationCategory", doc
-                leaCategory.content = "Local Education Agency"
-                orgCategories.add_child(leaCategory) unless orgCategories.nil?
-                escCategory = Nokogiri::XML::Node.new "OrganizationCategory", doc
-                escCategory.content = "Education Service Center"
-                orgCategories.add_child(escCategory) unless orgCategories.nil?
-
-                # add parent ref to sea
-                peaRef = edorg.at_css("ParentEducationAgencyReference")
-                seaRef = peaRef.clone
-                seaRef.at_css("StateOrganizationId").content = seaId
-                peaRef.before(seaRef) unless peaRef.nil?
-                ilDaybreakRef = peaRef.clone
-                ilDaybreakRef.at_css("StateOrganizationId").content = bonusParentId
-                peaRef.before(ilDaybreakRef) unless peaRef.nil?
-            end
-        end
-
-        outfile = File.new(filename, "w")
-        outfile.puts doc.to_xml
-        outfile.close
-
-        STDOUT.puts "#{filename} processed successfully"
-    end
-end
-
 
