@@ -376,6 +376,7 @@ public class EdOrgHelperTest {
 
     @Test
     public void testParentsWithCycle() {
+        RequestUtil.setCurrentRequestId();
         List<String> edorgs = helper.getParentEdOrgs(leaCycle1);
         assertFalse("leaCycle1 should not be a child of leaCycle1", edorgs.contains(leaCycle1.getEntityId()));
         assertTrue("leaCycle2 should be a child of leaCycle1", edorgs.contains(leaCycle2.getEntityId()));
