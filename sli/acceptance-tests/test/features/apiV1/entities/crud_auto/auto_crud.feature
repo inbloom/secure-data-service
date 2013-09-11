@@ -56,7 +56,7 @@ Background: Nothing yet
     | studentParentAssociation                | studentParentAssociations                | 0     |/schools/@ids/studentSchoolAssociations/students/studentParentAssociations|
     | courseOffering                          | courseOfferings                          | 138    |/search/courseOfferings|
     | graduationPlan                          | graduationPlans                          | 5     |/graduationPlans|
-    | school                                  | schools                                  | 0     |/staff/@ids/staffEducationOrgAssignmentAssociations/schools|
+    | educationOrganization                   | schools                                  | 0     |/staff/@ids/staffEducationOrgAssignmentAssociations/schools|
     | section                                 | sections                                 | 0     |/schools/@ids/sections|
     | session                                 | sessions                                 | 29    |/search/sessions|
     | staff                                   | staff                                    | 5     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|
@@ -169,7 +169,7 @@ Background: Nothing yet
     | course                                  | courses                                  | 26    |/schools/@ids/courses|
     | disciplineAction                        | disciplineActions                        | 0     |/staff/@ids/disciplineActions|
     | disciplineIncident                      | disciplineIncidents                      | 0     |/staff/@ids/disciplineIncidents|
-    | school                                  | educationOrganizations                   | 2     |/teachers/@ids/teacherSchoolAssociations/schools|
+    | educationOrganization                   | educationOrganizations                   | 2     |/teachers/@ids/teacherSchoolAssociations/schools|
     | gradebookEntry                          | gradebookEntries                         | 1     |/sections/@ids/gradebookEntries|
     | learningObjective                       | learningObjectives                       | 5     |/learningObjectives|
     | learningStandard                        | learningStandards                        | 15    |/learningStandards|
@@ -191,7 +191,7 @@ Background: Nothing yet
     | studentParentAssociation                | studentParentAssociations                | 2     |/sections/@ids/studentSectionAssociations/students/studentParentAssociations    |
     | courseOffering                          | courseOfferings                          | 26    |/schools/@ids/courseOfferings    |
     | graduationPlan                          | graduationPlans                          | 5     |/graduationPlans    |
-    | school                                  | schools                                  | 2     |/teachers/@ids/teacherSchoolAssociations/schools|
+    | educationOrganization                   | schools                                  | 2     |/teachers/@ids/teacherSchoolAssociations/schools|
     | section                                 | sections                                 | 2     |/teachers/@ids/teacherSectionAssociations/sections|
     | session                                 | sessions                                 | 6     |/educationOrganizations/@ids/sessions|
     | staff                                   | staff                                    | 3     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|

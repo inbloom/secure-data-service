@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="Interchange-EducationOrganization.xsd" xmlns="http://ed-fi.org/0100RFC062811">
-<LocalEducationAgency>
+<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="Interchange-EducationOrganization.xsd" xmlns="http://ed-fi.org/0100">
+    <EducationOrganization>
         <StateOrganizationId>152901</StateOrganizationId>
         <NameOfInstitution>Smith County ISD</NameOfInstitution>
-        <OrganizationCategory>Local Education Agency</OrganizationCategory>
+        <OrganizationCategories>
+            <OrganizationCategory>Local Education Agency</OrganizationCategory>
+        </OrganizationCategories>
         <Address AddressType="Physical">
             <StreetNumberName>1628 99th Street</StreetNumberName>
             <City>Lebanon</City>
@@ -20,11 +22,18 @@
             </ProgramIdentity>
         </ProgramReference>
         <LEACategory>Independent</LEACategory>
-    </LocalEducationAgency>
-<School>
+    </EducationOrganization>
+    <EducationOrganization>
         <StateOrganizationId>152901001</StateOrganizationId>
         <NameOfInstitution>Apple Alternative Elementary School</NameOfInstitution>
-        <OrganizationCategory>School</OrganizationCategory>
+        <OrganizationCategories>
+            <OrganizationCategory>School</OrganizationCategory>
+        </OrganizationCategories>
+        <ParentEducationAgencyReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>152901</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ParentEducationAgencyReference>
         <Address AddressType="Physical">
             <StreetNumberName>123 Main Street</StreetNumberName>
             <City>Lebanon</City>
@@ -44,16 +53,18 @@
         <SchoolCategories>
             <SchoolCategory>Elementary School</SchoolCategory>
         </SchoolCategories>
-        <LocalEducationAgencyReference>
+    </EducationOrganization>
+    <EducationOrganization>
+        <StateOrganizationId>152901002</StateOrganizationId>
+        <NameOfInstitution>Orange Middle School</NameOfInstitution>
+        <OrganizationCategories>
+            <OrganizationCategory>School</OrganizationCategory>
+        </OrganizationCategories>
+        <ParentEducationAgencyReference>
             <EducationalOrgIdentity>
                 <StateOrganizationId>152901</StateOrganizationId>
             </EducationalOrgIdentity>
-        </LocalEducationAgencyReference>
-    </School>
-<School>
-        <StateOrganizationId>152901002</StateOrganizationId>
-        <NameOfInstitution>Orange Middle School</NameOfInstitution>
-        <OrganizationCategory>School</OrganizationCategory>
+        </ParentEducationAgencyReference>
         <Address AddressType="Physical">
             <StreetNumberName>501 Division Street</StreetNumberName>
             <City>Lebanon</City>
@@ -72,13 +83,8 @@
         <SchoolCategories>
             <SchoolCategory>Middle School</SchoolCategory>
         </SchoolCategories>
-        <LocalEducationAgencyReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>152901</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </LocalEducationAgencyReference>
-    </School>
-<Course>
+    </EducationOrganization>
+    <Course>
         <CourseTitle>English Language Arts 4</CourseTitle>
         <NumberOfParts>1</NumberOfParts>
         <LocalCourseCode>ELA4</LocalCourseCode>
@@ -91,7 +97,7 @@
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
     </Course>
-<Course>
+    <Course>
         <CourseTitle>English Language Arts 5</CourseTitle>
         <NumberOfParts>2</NumberOfParts>
         <LocalCourseCode>ELA5</LocalCourseCode>
@@ -104,7 +110,7 @@
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
     </Course>
-<Course>
+    <Course>
         <CourseTitle>English Language Arts 6</CourseTitle>
         <NumberOfParts>3</NumberOfParts>
         <LocalCourseCode>ELA6</LocalCourseCode>
@@ -117,7 +123,7 @@
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
     </Course>
-<Course>
+    <Course>
         <CourseTitle>Mathematics 6</CourseTitle>
         <NumberOfParts>4</NumberOfParts>
         <LocalCourseCode>MATH6</LocalCourseCode>
@@ -130,7 +136,7 @@
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
     </Course>
-<Course>
+    <Course>
         <CourseTitle>Science 6</CourseTitle>
         <NumberOfParts>5</NumberOfParts>
         <LocalCourseCode>SCIENCE6</LocalCourseCode>
@@ -143,7 +149,7 @@
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
     </Course>
-<Section>
+    <Section>
         <UniqueSectionCode>A-ELA4</UniqueSectionCode>
         <Term>Fall Semester</Term>
         <SequenceOfCourse>1</SequenceOfCourse>
@@ -159,7 +165,7 @@
             </EducationalOrgIdentity>
         </SchoolReference>
     </Section>
-<Section>
+    <Section>
         <UniqueSectionCode>A-ELA5</UniqueSectionCode>
         <Term>Spring Semester</Term>
         <SequenceOfCourse>2</SequenceOfCourse>
@@ -175,7 +181,7 @@
             </EducationalOrgIdentity>
         </SchoolReference>
     </Section>
-<Section>
+    <Section>
         <UniqueSectionCode>A-ELA6</UniqueSectionCode>
         <Term>First Trimester</Term>
         <SequenceOfCourse>3</SequenceOfCourse>
@@ -191,7 +197,7 @@
             </EducationalOrgIdentity>
         </SchoolReference>
     </Section>
-<Section>
+    <Section>
         <UniqueSectionCode>A-MATH6</UniqueSectionCode>
         <Term>Second Trimester</Term>
         <SequenceOfCourse>3</SequenceOfCourse>
@@ -207,7 +213,7 @@
             </EducationalOrgIdentity>
         </SchoolReference>
     </Section>
-<Section>
+    <Section>
         <UniqueSectionCode>A-SCIENCE6</UniqueSectionCode>
         <Term>Third Trimester</Term>
         <SequenceOfCourse>3</SequenceOfCourse>
@@ -223,7 +229,7 @@
             </EducationalOrgIdentity>
         </SchoolReference>
     </Section>
-<Section>
+    <Section>
         <UniqueSectionCode>O-ELA4</UniqueSectionCode>
         <Term>Fall Semester</Term>
         <SequenceOfCourse>1</SequenceOfCourse>
@@ -239,7 +245,7 @@
             </EducationalOrgIdentity>
         </SchoolReference>
     </Section>
-<Section>
+    <Section>
         <UniqueSectionCode>O-ELA5</UniqueSectionCode>
         <Term>Spring Semester</Term>
         <SequenceOfCourse>1</SequenceOfCourse>
@@ -255,7 +261,7 @@
             </EducationalOrgIdentity>
         </SchoolReference>
     </Section>
-<Section>
+    <Section>
         <UniqueSectionCode>O-ELA6</UniqueSectionCode>
         <Term>Fall Semester</Term>
         <SequenceOfCourse>2</SequenceOfCourse>
@@ -271,7 +277,7 @@
             </EducationalOrgIdentity>
         </SchoolReference>
     </Section>
-<Section>
+    <Section>
         <UniqueSectionCode>O-MATH6</UniqueSectionCode>
         <Term>Spring Semester</Term>
         <SequenceOfCourse>2</SequenceOfCourse>
@@ -287,7 +293,7 @@
             </EducationalOrgIdentity>
         </SchoolReference>
     </Section>
-<Section>
+    <Section>
         <UniqueSectionCode>O-SCIENCE6</UniqueSectionCode>
         <Term>Year Round</Term>
         <SequenceOfCourse>5</SequenceOfCourse>

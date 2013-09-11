@@ -25,7 +25,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 import java.util.UUID;
 
 import javax.annotation.PostConstruct;
@@ -134,9 +133,19 @@ public class EdOrgHelper {
         Set<String> entities = new HashSet<String>();
         for (Entity entity : repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query)) {
             if (helper.isLEA(entity)) {
-                entities.add(helper.getTopLEAOfEdOrg(entity).getEntityId());
+            	List<Entity> topLEAs = helper.getTopLEAOfEdOrg(entity);
+            	if(topLEAs!=null) {
+            		for(Entity topLEA: topLEAs) {
+            			entities.add(topLEA.getEntityId());
+            		}
+            	}
             } else if (helper.isSchool(entity)) {
-                entities.add(helper.getTopLEAOfEdOrg(entity).getEntityId());
+            	List<Entity> topLEAs = helper.getTopLEAOfEdOrg(entity);
+            	if(topLEAs!=null) {
+            		for(Entity topLEA: topLEAs) {
+            			entities.add(topLEA.getEntityId());
+            		}
+            	}
             } else { // isSEA
                 entities.addAll(getDirectChildLEAsOfEdOrg(entity));
             }
@@ -180,14 +189,19 @@ public class EdOrgHelper {
     }
 
     public Set<String> getAllChildLEAsOfEdOrg(Entity edOrgEntity) {
+        String myId;
         Set<String> edOrgs = new HashSet<String>();
+        Set<String> result = new HashSet<String>();
 
         if (edOrgEntity == null || edOrgEntity.getEntityId() == null) {
             return null;
         }
-        edOrgs.add(edOrgEntity.getEntityId());
+        myId = edOrgEntity.getEntityId();
+        edOrgs.add(myId);
 
-        return getAllChildLEAsOfEdOrg(edOrgs, new HashSet<String>());
+        result = getAllChildLEAsOfEdOrg(edOrgs, new HashSet<String>());
+        result.remove(myId);
+        return result;
     }
 
     private Set<String> getAllChildLEAsOfEdOrg(Set<String> edOrgIds, Set<String>toReturn) {
@@ -215,36 +229,51 @@ public class EdOrgHelper {
 
 
     /**
-     * Get an ordered list of the parents of an EdOrg.
+     * Get the parents of an EdOrg.
      *
-     * The order of the list starts with the direct parent of the EdOrg and ends with the SEA
+     * @param edOrgEntity - EdOrg from which to get parents
      *
-     * @param edOrg - EdOrg from which to get parents
-     *
-     * @return - Hierarchical list of the EdOrg's parents
+     * @return - set of the EdOrg's parents
      */
-    public List<String> getParentEdOrgs(final Entity edOrg) {
+    public List<String> getParentEdOrgs(Entity edOrgEntity) {
         List<String> toReturn = new ArrayList<String>();
 
         Map<String, Entity> edOrgCache = loadEdOrgCache();
-
-        Entity currentEdOrg = edOrg;
         Set<String> visitedEdOrgs = new HashSet<String>();
-        while (currentEdOrg != null && currentEdOrg.getBody() != null) {
-            Entity parentEdOrg = null;
 
-            String parentEdOrgId = (String) currentEdOrg.getBody().get("parentEducationAgencyReference");
-            if (parentEdOrgId != null && !visitedEdOrgs.contains(parentEdOrgId)) {
-                visitedEdOrgs.add(parentEdOrgId);
+        if (edOrgEntity != null) {
+            String myId = edOrgEntity.getEntityId();
+            if (myId != null) {
+                visitedEdOrgs.add(myId);
+                toReturn = getParentEdOrgs(edOrgEntity, edOrgCache, visitedEdOrgs, toReturn);
+            }
+        }
 
-                parentEdOrg = edOrgCache.get(parentEdOrgId);
+        return toReturn;
+    }
 
-                if (parentEdOrg != null) {
-                    toReturn.add(parentEdOrg.getEntityId());
+    private List<String> getParentEdOrgs(final Entity edOrg, final Map<String, Entity> edOrgCache, final Set<String> visitedEdOrgs, List<String> toReturn) {
+        // base case
+        if (edOrg == null || visitedEdOrgs.contains(edOrg)) {
+            return toReturn;
+        }
+
+        if (edOrg != null && edOrg.getBody() != null) {
+            @SuppressWarnings("unchecked")
+            List<String> parentIds = (List<String>) edOrg.getBody().get("parentEducationAgencyReference");
+            if (parentIds != null) {
+                for (String parentId : parentIds) {
+                    if (parentId != null && !visitedEdOrgs.contains(parentId)) {
+                        visitedEdOrgs.add(parentId);
+
+                        Entity parentEdOrg = edOrgCache.get(parentId);
+                        if (parentEdOrg != null) {
+                            toReturn.add(parentId);
+                            getParentEdOrgs(parentEdOrg, edOrgCache, visitedEdOrgs, toReturn);
+                        }
+                    }
                 }
             }
-
-            currentEdOrg = parentEdOrg;
         }
 
         return toReturn;
@@ -317,20 +346,6 @@ public class EdOrgHelper {
         return schools;
     }
 
-
-    public List<String> getSubEdOrgHierarchy(Entity principal) {
-        List<String> result = new ArrayList<String>();
-        Set<String> directEdOrgs = getDirectEdorgs(principal);
-        if (!directEdOrgs.isEmpty()) {
-            result.addAll(directEdOrgs);
-            result.addAll(getChildEdOrgs(new TreeSet<String>(directEdOrgs)));
-        }
-        return result;
-
-    }
-
-
-
     @SuppressWarnings("unchecked")
     private Set<String> extractEdorgFromMeta( Entity e) {
         Set<String> edOrgs = new HashSet<String>();
@@ -398,11 +413,16 @@ public class EdOrgHelper {
 
     private Entity getTopLEAOfEdOrg(Entity entity) {
         if (entity.getBody().containsKey("parentEducationAgencyReference")) {
-            Entity parentEdorg = repo.findById(EntityNames.EDUCATION_ORGANIZATION,
-                    (String) entity.getBody().get("parentEducationAgencyReference"));
-            if (isLEA(parentEdorg)) {
-                return getTopLEAOfEdOrg(parentEdorg);
-            }
+        	@SuppressWarnings("unchecked")
+			List<String> parents = (List<String>) entity.getBody().get("parentEducationAgencyReference");
+        	if ( null != parents ) {
+	        	for ( String parent : parents ) {
+	        		Entity parentEdorg = repo.findById(EntityNames.EDUCATION_ORGANIZATION, parent);
+	        		if (isLEA(parentEdorg)) {
+	        			return getTopLEAOfEdOrg(parentEdorg);
+	        		}
+	        	}
+        	}
         }
         return entity;
     }

@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
-<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
-  <School>
+<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
+  <EducationOrganization>
     <StateOrganizationId>Midvale_School</StateOrganizationId>
     <EducationOrgIdentificationCode IdentificationSystem="School">
       <ID>Midvale_School</ID>
@@ -10,6 +9,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <OrganizationCategories>
       <OrganizationCategory>School</OrganizationCategory>
     </OrganizationCategories>
+    <ParentEducationAgencyReference>
+  <EducationalOrgIdentity>
+    <StateOrganizationId>IL-HIGHWIND</StateOrganizationId>
+  </EducationalOrgIdentity>
+</ParentEducationAgencyReference>
     <Address AddressType="Physical">
       <StreetNumberName>111 Ave A</StreetNumberName>
       <City>Chicago</City>
@@ -21,23 +25,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <TelephoneNumber>(917)-555-0212</TelephoneNumber>
     </Telephone>
     <GradesOffered>
-        <GradeLevel>Kindergarten</GradeLevel>
-        <GradeLevel>First grade</GradeLevel>
-        <GradeLevel>Second grade</GradeLevel>
-        <GradeLevel>Third grade</GradeLevel>
-        <GradeLevel>Fourth grade</GradeLevel>
-        <GradeLevel>Fifth grade</GradeLevel>
+      <GradeLevel>Kindergarten</GradeLevel>
+      <GradeLevel>First grade</GradeLevel>
+      <GradeLevel>Second grade</GradeLevel>
+      <GradeLevel>Third grade</GradeLevel>
+      <GradeLevel>Fourth grade</GradeLevel>
+      <GradeLevel>Fifth grade</GradeLevel>
     </GradesOffered>
     <SchoolCategories>
       <SchoolCategory>Elementary School</SchoolCategory>
     </SchoolCategories>
- 
-    <LocalEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>IL-HIGHWIND</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </LocalEducationAgencyReference>
-  </School>
+  </EducationOrganization>
   <Program>
     <ProgramId>137</ProgramId>
     <ProgramType>Gifted and Talented</ProgramType>
@@ -70,10 +68,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseCode>
     <CourseLevel>Honors</CourseLevel>
     <CourseLevelCharacteristics>
-    <CourseLevelCharacteristic>Magnet</CourseLevelCharacteristic>
+      <CourseLevelCharacteristic>Magnet</CourseLevelCharacteristic>
     </CourseLevelCharacteristics>
     <GradesOffered>
-    <GradeLevel>Ninth grade</GradeLevel>
+      <GradeLevel>Ninth grade</GradeLevel>
     </GradesOffered>
     <SubjectArea>Reading</SubjectArea>
     <CourseDescription>this is a course for Ninth grade</CourseDescription>
@@ -94,51 +92,51 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <LearningObjectiveReference>
-    <LearningObjectiveIdentity>
-    <Objective>Generic Learning Objective 1</Objective>
-    <AcademicSubject>Reading</AcademicSubject>
-    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
-    </LearningObjectiveIdentity>
+      <LearningObjectiveIdentity>
+        <Objective>Generic Learning Objective 1</Objective>
+        <AcademicSubject>Reading</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <LearningObjectiveReference>
-    <LearningObjectiveIdentity>
-    <Objective>Generic Learning Objective 2</Objective>
-    <AcademicSubject>Reading</AcademicSubject>
-    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
-    </LearningObjectiveIdentity>
+      <LearningObjectiveIdentity>
+        <Objective>Generic Learning Objective 2</Objective>
+        <AcademicSubject>Reading</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <LearningObjectiveReference>
-    <LearningObjectiveIdentity>
-    <Objective>Generic Learning Objective 3</Objective>
-    <AcademicSubject>Reading</AcademicSubject>
-    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
-    </LearningObjectiveIdentity>
+      <LearningObjectiveIdentity>
+        <Objective>Generic Learning Objective 3</Objective>
+        <AcademicSubject>Reading</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <LearningObjectiveReference>
-    <LearningObjectiveIdentity>
-    <Objective>Generic Learning Objective 4</Objective>
-    <AcademicSubject>Reading</AcademicSubject>
-    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
-    </LearningObjectiveIdentity>
+      <LearningObjectiveIdentity>
+        <Objective>Generic Learning Objective 4</Objective>
+        <AcademicSubject>Reading</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <LearningObjectiveReference>
-    <LearningObjectiveIdentity>
-    <Objective>Generic Learning Objective 5</Objective>
-    <AcademicSubject>Reading</AcademicSubject>
-    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
-    </LearningObjectiveIdentity>
+      <LearningObjectiveIdentity>
+        <Objective>Generic Learning Objective 5</Objective>
+        <AcademicSubject>Reading</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevels>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevels>
     <CompetencyLevels>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevels>
     <CompetencyLevels>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevels>
     <CompetencyLevels>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevels>
     <UniqueCourseId>DAYBREAK21</UniqueCourseId>
   </Course>
@@ -150,10 +148,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CourseCode>
     <CourseLevel>Honors</CourseLevel>
     <CourseLevelCharacteristics>
-    <CourseLevelCharacteristic>Magnet</CourseLevelCharacteristic>
+      <CourseLevelCharacteristic>Magnet</CourseLevelCharacteristic>
     </CourseLevelCharacteristics>
     <GradesOffered>
-    <GradeLevel>Ninth grade</GradeLevel>
+      <GradeLevel>Ninth grade</GradeLevel>
     </GradesOffered>
     <SubjectArea>Reading</SubjectArea>
     <CourseDescription>this is a course for Seventh grade</CourseDescription>
@@ -174,51 +172,51 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
     <LearningObjectiveReference>
-    <LearningObjectiveIdentity>
-    <Objective>Generic Learning Objective 1</Objective>
-    <AcademicSubject>Reading</AcademicSubject>
-    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
-    </LearningObjectiveIdentity>
+      <LearningObjectiveIdentity>
+        <Objective>Generic Learning Objective 1</Objective>
+        <AcademicSubject>Reading</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <LearningObjectiveReference>
-    <LearningObjectiveIdentity>
-    <Objective>Generic Learning Objective 2</Objective>
-    <AcademicSubject>Reading</AcademicSubject>
-    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
-    </LearningObjectiveIdentity>
+      <LearningObjectiveIdentity>
+        <Objective>Generic Learning Objective 2</Objective>
+        <AcademicSubject>Reading</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <LearningObjectiveReference>
-    <LearningObjectiveIdentity>
-    <Objective>Generic Learning Objective 3</Objective>
-    <AcademicSubject>Reading</AcademicSubject>
-    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
-    </LearningObjectiveIdentity>
+      <LearningObjectiveIdentity>
+        <Objective>Generic Learning Objective 3</Objective>
+        <AcademicSubject>Reading</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <LearningObjectiveReference>
-    <LearningObjectiveIdentity>
-    <Objective>Generic Learning Objective 4</Objective>
-    <AcademicSubject>Reading</AcademicSubject>
-    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
-    </LearningObjectiveIdentity>
+      <LearningObjectiveIdentity>
+        <Objective>Generic Learning Objective 4</Objective>
+        <AcademicSubject>Reading</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <LearningObjectiveReference>
-    <LearningObjectiveIdentity>
-    <Objective>Generic Learning Objective 5</Objective>
-    <AcademicSubject>Reading</AcademicSubject>
-    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
-    </LearningObjectiveIdentity>
+      <LearningObjectiveIdentity>
+        <Objective>Generic Learning Objective 5</Objective>
+        <AcademicSubject>Reading</AcademicSubject>
+        <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
     </LearningObjectiveReference>
     <CompetencyLevels>
-    <CodeValue>Incompetent</CodeValue>
+      <CodeValue>Incompetent</CodeValue>
     </CompetencyLevels>
     <CompetencyLevels>
-    <CodeValue>Barely Competent</CodeValue>
+      <CodeValue>Barely Competent</CodeValue>
     </CompetencyLevels>
     <CompetencyLevels>
-    <CodeValue>Competent</CodeValue>
+      <CodeValue>Competent</CodeValue>
     </CompetencyLevels>
     <CompetencyLevels>
-    <CodeValue>Very Competent</CodeValue>
+      <CodeValue>Very Competent</CodeValue>
     </CompetencyLevels>
     <UniqueCourseId>DAYBREAK1</UniqueCourseId>
   </Course>

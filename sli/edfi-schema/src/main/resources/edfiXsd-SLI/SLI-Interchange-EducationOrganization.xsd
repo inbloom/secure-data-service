@@ -25,9 +25,6 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:choice maxOccurs="unbounded">
-				<xs:element name="StateEducationAgency" type="SLC-StateEducationAgency"/>
-				<xs:element name="LocalEducationAgency" type="SLC-LocalEducationAgency"/>
-				<xs:element name="School" type="SLC-School"/>
 				<xs:element name="EducationOrganization" type="SLC-EducationOrganization"/>
 				<xs:element name="Course" type="SLC-Course"/>
 				<xs:element name="CompetencyLevelDescriptor" type="SLC-CompetencyLevelDescriptor"/>

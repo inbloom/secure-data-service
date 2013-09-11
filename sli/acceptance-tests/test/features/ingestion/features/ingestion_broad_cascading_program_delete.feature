@@ -58,13 +58,9 @@ Scenario: Delete Program with cascade = false, force = false
 	Then there exist "1" "program" records like below in "Midgar" tenant. And I save this query as "program"
 	|field                                                           |value                                                |
 	|_id                                                             |0064dd5bb3bffd47e93b023585e6591c018ee697_id          |
-	Then there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "stateEducationAgency"
+	Then there exist "2" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "educationOrganization"
 	|field                                                           |value                                                |
-	|type                                                            |stateEducationAgency                                 |
-	|body.programReference                                           |0064dd5bb3bffd47e93b023585e6591c018ee697_id          |
-	Then there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "school"
-	|field                                                           |value                                                |
-	|type                                                            |school                                               |
+	|type                                                            |educationOrganization                                 |
 	|body.programReference                                           |0064dd5bb3bffd47e93b023585e6591c018ee697_id          |
 	Then there exist "105" "staffProgramAssociation" records like below in "Midgar" tenant. And I save this query as "staffProgramAssociation"
 	|field                                                           |value                                                |
@@ -91,8 +87,7 @@ Scenario: Delete Program with cascade = false, force = false
   And I should see "CORE_0066" in the resulting error log file for "InterchangeEducationOrganization.xml"
   And I should not see a warning log file created
 	And I re-execute saved query "program" to get "1" records
-	And I re-execute saved query "stateEducationAgency" to get "1" records
-	And I re-execute saved query "school" to get "1" records
+	And I re-execute saved query "educationOrganization" to get "2" records
 	And I re-execute saved query "staffProgramAssociation" to get "105" records
 	And I re-execute saved query "studentProgramAssociation" to get "9" records
 	And I re-execute saved query "section" to get "1" records
@@ -109,13 +104,9 @@ Scenario: Delete Program with cascade = false, force = false
 	Then there exist "1" "program" records like below in "Midgar" tenant. And I save this query as "program"
 	|field                                                           |value                                                |
 	|_id                                                             |0064dd5bb3bffd47e93b023585e6591c018ee697_id          |
-	Then there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "stateEducationAgency"
+	Then there exist "2" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "educationOrganization"
 	|field                                                           |value                                                |
-	|type                                                            |stateEducationAgency                                 |
-	|body.programReference                                           |0064dd5bb3bffd47e93b023585e6591c018ee697_id          |
-	Then there exist "1" "educationOrganization" records like below in "Midgar" tenant. And I save this query as "school"
-	|field                                                           |value                                                |
-	|type                                                            |school                                               |
+	|type                                                            |educationOrganization                                 |
 	|body.programReference                                           |0064dd5bb3bffd47e93b023585e6591c018ee697_id          |
 	Then there exist "105" "staffProgramAssociation" records like below in "Midgar" tenant. And I save this query as "staffProgramAssociation"
 	|field                                                           |value                                                |
@@ -139,8 +130,7 @@ Scenario: Delete Program with cascade = false, force = false
   And I should see "CORE_0066" in the resulting error log file for "InterchangeEducationOrganization.xml"
   And I should not see a warning log file created
 	And I re-execute saved query "program" to get "1" records
-	And I re-execute saved query "stateEducationAgency" to get "1" records
-	And I re-execute saved query "school" to get "1" records
+	And I re-execute saved query "educationOrganization" to get "2" records
 	And I re-execute saved query "staffProgramAssociation" to get "105" records
 	And I re-execute saved query "studentProgramAssociation" to get "9" records
 	And I re-execute saved query "section" to get "1" records

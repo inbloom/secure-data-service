@@ -21,7 +21,7 @@ Scenario: Traverse from parent education organization through child education or
     When I navigate to GET the link named "getFeederSchools" with "id" of "bd086bae-ee82-4cf2-baf9-221a9407ea07"
     Then I should receive a return code of 200
         And in an entity, I should receive a link named "self"
-    When I navigate to GET the link named "self" with "id" of "92d6d5a0-852c-45f4-907a-912752831772" 
+    When I navigate to GET the link named "self" with "id" of "92d6d5a0-852c-45f4-907a-912752831772"
     Then I should receive a return code of 200
        And I should receive a link named "getSessions"
     When I navigate to GET the link named "getSessions"

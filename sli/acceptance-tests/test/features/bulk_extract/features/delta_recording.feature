@@ -18,7 +18,7 @@ Feature: Changes to the data result in deltas recorded in the delta collection
     And deltas collection should have "0" records
     When I POST a "newParentFather" of type "parent"
     Then I should receive a return code of 201
-    When I PUT the "loginId" for a "newParentDad" entity to "my_shining_new_login@goodstuff.com" at "parents/41f42690a7c8eb5b99637fade00fc72f599dab07_id"
+    When I PUT the "loginId" for a "newParentFather" entity to "my_shining_new_login@goodstuff.com" at "parents/41f42690a7c8eb5b99637fade00fc72f599dab07_id"
     Then I should receive a return code of 204
     And deltas collection should have "1" records
     Then I DELETE an "parent" of id "41f42690a7c8eb5b99637fade00fc72f599dab07_id"

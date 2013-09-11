@@ -141,6 +141,11 @@ public class ListSchema extends NeutralSchema {
 
         Object convertedEntity = convert(entity);
 
+        // Allow a Set to be used, in case were un-duplicating values
+        if (convertedEntity instanceof Set) {
+            convertedEntity = new ArrayList<Object>((Set) convertedEntity);
+        }
+
         if (convertedEntity instanceof List) {
             List<?> entityList = (List<?>) convertedEntity;
             for (Object fieldEntity : entityList) {

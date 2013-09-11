@@ -36,6 +36,7 @@ public enum ReferenceConverter {
     COURSETRANSCRIPT("CourseTranscriptReference", "courseTranscript"),
     DISCIPLINEACTION("DisciplineActionReference", "disciplineAction"),
     DISCIPLINEINCIDENT("DisciplineIncidentReference", "disciplineIncident"),
+    EDUCATIONORGANIZATION( "EducationOrganizationReference", "educationOrganization"),
     GRADE( "GradeReference", "grade"),
     GRADEBOOKENTRY("GradebookEntryReference", "gradebookEntry"),
     GRADINGPERIOD( "GradingPeriodReference", "gradingPeriod"),

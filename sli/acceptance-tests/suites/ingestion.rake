@@ -16,6 +16,11 @@ task :ingestionDemoDataTest do
   runTests("test/features/ingestion/features/ingestion_demo.feature")
 end
 
+desc "Run Ingestion Generic Education Organization Tests"
+task :ingestionGenericEdOrgTest do
+  runTests("test/features/ingestion/features/ingestion_generic_edOrg.feature")
+end  
+  
 desc "Run Ingestion Acceptance SDS Tests"
 task :ingestionAcceptanceSdsTest do
   runTests("test/features/ingestion/features/ingestion_acceptance_SDS_test.feature")
@@ -158,6 +163,11 @@ task :ingestionSmallSampleDataSet do
   runTests("test/features/ingestion/features/ingestion_SmallSampleDataSet.feature")
 end
 
+desc "Run Small Sample Data Set Charter Test"
+task :ingestionSmallSampleDataSetCharter do
+  runTests("test/features/ingestion/features/ingestion_SmallSampleDataSet_Charter.feature")
+end
+
 desc "Run Ingestion HealthCheck Test"
 task :ingestionHealthCheckTest do
   runTests("test/features/ingestion/features/ingestion_healthCheck.feature")
@@ -283,6 +293,7 @@ desc "Run Ingestion Deletion Tests"
         :ingestionCascadingDeletionBroadLearningObjectiveTest,
         :ingestionCascadingDeletionBroadLearningStandardTest,
         :ingestionCascadingDeletionBroadLEATest,
+        :ingestionCascadingDeletionBroadEdOrgTest,
         :ingestionCascadingDeletionBroadObjectiveAssessmentTest,
         :ingestionNonNativeInterchangeDeleteTest,
         :ingestionCascadingDeletionBroadParentTest,
@@ -343,6 +354,10 @@ end
 
 task :ingestionCascadingDeletionBroadLEATest do
   runTests("test/features/ingestion/features/ingestion_broad_cascading_LEA_delete.feature")
+end
+
+task :ingestionCascadingDeletionBroadEdOrgTest do
+  runTests("test/features/ingestion/features/ingestion_broad_cascading_edOrg_delete.feature")
 end
 
 task :ingestionCascadingDeletionBroadProgramTest do
@@ -616,6 +631,10 @@ end
 
 task :corruptZip do
   runTests("test/features/ingestion/features/corrupt_zip.feature")
+end
+
+task :genericEdOrgs do
+  runTests("test/features/ingestion/features/ingestion_generic_edOrg.feature")
 end
 
 ############################################################

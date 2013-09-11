@@ -1,0 +1,79 @@
+[
+  {
+    "userId": "chartereducator",
+    "name": "Charter Educator",
+    "edOrgs": [
+      {
+        "role": "Educator",
+        "type": "Elementary School",
+        "association": "IL-CHARTER-SCHOOL"
+      }
+    ]
+  },
+  {
+    "userId": "charteradmin",
+    "name": "Charter Admin",
+    "edOrgs": [
+      {
+        "role": "IT Administrator",
+        "type": "Elementary School",
+        "association": "IL-CHARTER-SCHOOL"
+      }
+    ]
+  },
+  {
+    "userId": "charterleader",
+    "name": "Charter Leader",
+    "edOrgs": [
+      {
+        "role": "Leader",
+        "type": "Elementary School",
+        "association": "IL-CHARTER-SCHOOL"
+      }
+    ]
+  },
+  {
+    "userId": "charterviewer",
+    "name": "Charter Viewer",
+    "edOrgs": [
+      {
+        "role": "Aggregate Viewer",
+        "type": "Elementary School",
+        "association": "IL-CHARTER-SCHOOL"
+      }
+    ]
+  },
+  {
+    "userId": "odinleader",
+    "name": "Odin Leader",
+    "edOrgs": [
+      {
+        "role": "Leader",
+        "type": "State Education Agency",
+        "association": "STANDARD-SEA"
+      }
+    ]
+  },
+  {
+    "userId": "odinadmin",
+    "name": "Odin Admin",
+    "edOrgs": [
+      {
+        "role": "IT Administrator",
+        "type": "State Education Agency",
+        "association": "STANDARD-SEA"
+      }
+    ]
+  },
+  {
+    "userId": "odinviewer",
+    "name": "Odin Viewer",
+    "edOrgs": [
+      {
+        "role": "Aggregate Viewer",
+        "type": "State Education Agency",
+        "association": "STANDARD-SEA"
+      }
+    ]
+  }
+]

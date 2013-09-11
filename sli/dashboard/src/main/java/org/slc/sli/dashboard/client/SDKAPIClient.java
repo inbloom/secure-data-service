@@ -1571,14 +1571,19 @@ public class SDKAPIClient implements APIClient {
 
         if (entities != null) {
             for (GenericEntity entity : entities) {
-                String attributeValue = (String) entity.get(attributeName);
-                if ((attributeValue != null) && (attributeValue.length() > 0)) {
-                    attributeList.add(attributeValue);
+                Object attribute =  entity.get(attributeName);
+                if(attribute != null) {
+                    if(attribute instanceof List) {
+                        attributeList.addAll(((List)attribute));
+                    } else {
+                        attributeList.add((String)attribute);
+                     } 
                 }
             }
         }
 
         return attributeList;
+        
     }
 
     /**
@@ -1837,6 +1842,7 @@ public class SDKAPIClient implements APIClient {
      * @return
      */
     private List<String> getEdorgHierarchy(String schoolId, String token) {
+        LOGGER.info("Begin getEdOrgHierarchy [" + schoolId + "]");
         List<String> ids = new ArrayList<String>();
         final String rootUrl = "/" + PathConstants.EDUCATION_ORGANIZATIONS + "/";
 
@@ -1851,7 +1857,16 @@ public class SDKAPIClient implements APIClient {
             if (edorg == null) {
                 currentEdOrgId = null;
             } else {
-                currentEdOrgId = (String) edorg.get(Constants.ATTR_PARENT_EDORG);
+            	List<String> currentEdOrgIdList = (List<String>) edorg.get(Constants.ATTR_PARENT_EDORG);
+                LOGGER.info("Parent of [" + currentEdOrgId + "] is [" + currentEdOrgIdList + "]");
+                // TODO: Use the same recursive logic as in EdOrgHelper.getParentEdOrgs() so that
+            	//  multiple parents are handled.  This implementation only traverses up one, arbitrarily
+            	// selected parent.
+            	if (currentEdOrgIdList != null && !currentEdOrgIdList.isEmpty() ) {
+            		currentEdOrgId = currentEdOrgIdList.get(0);
+            	} else {
+                    currentEdOrgId = null;
+                }
             }
         }
 

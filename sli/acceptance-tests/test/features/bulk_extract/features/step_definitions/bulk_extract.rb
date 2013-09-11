@@ -290,7 +290,7 @@ Given /^all LEAs in "([^"]*)" are authorized for "([^"]*)"/ do |tenant, applicat
   ed_org_coll = db_tenant.collection('educationOrganization')
 
   needed_ed_orgs = []
-  ed_org_coll.find({'type' => 'localEducationAgency'}).each do |edorg|
+  ed_org_coll.find({'body.organizationCategories' => {"$in" => ['Local Education Agency']}}).each do |edorg|
     needed_ed_orgs.push(edorg['_id'])
   end
 
@@ -381,6 +381,11 @@ When /^I retrieve the path to and decrypt the LEA public data extract file for t
   openDecryptedFile(appId)
 end
 
+When /^I retrieve the path to and decrypt the LEA "(.*?)" public data extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |lea, tenant, appId|
+  getExtractInfoFromMongo(build_bulk_query(tenant,appId,lea))
+  openDecryptedFile(appId)
+end
+
 When /^I decrypt the extract file with application with id "(.*?)"$/ do |appId|
   openDecryptedFile(appId)
 end
@@ -444,31 +449,31 @@ When /^a the correct number of "(.*?)" was extracted from the database$/ do |col
   disable_NOTABLESCAN()
 	@tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
 
-	case collection
+  case collection
 	when "school"
-	  count = @tenantDb.collection("educationOrganization").find({"type" => "school" } ).count()
+	  count = 3
 	when "teacher"
 	  count = @tenantDb.collection("staff").find({"type" => "teacher" } ).count()
-  when "graduationPlan"
-    count = 3
-  when "gradingPeriod"
-    count = 13
-  when "staffEducationOrganizationAssociation"
-    count = 10
-  when "staffCohortAssociation"
-    count = 2
-  when "staffProgramAssociation"
-    count = 6
-  when "cohort"
-    count = 1
-  when "educationOrganization"
-    count = 5
-  when "staff"
-    count = 10
+    when "graduationPlan"
+      count = 3
+    when "gradingPeriod"
+      count = 13
+    when "staffEducationOrganizationAssociation"
+      count = 10
+    when "staffCohortAssociation"
+      count = 2
+    when "staffProgramAssociation"
+      count = 6
+    when "cohort"
+      count = 1
+    when "educationOrganization"
+      count = 5
+    when "staff"
+      count = 10
 	else
-    parentCollection = subDocParent(collection)
-	  if(parentCollection == nil)
-      count = @tenantDb.collection(collection).count()
+      parentCollection = subDocParent(collection)
+	    if(parentCollection == nil)
+        count = @tenantDb.collection(collection).count()
     else
       count = @tenantDb.collection(parentCollection).aggregate([ {"$match" => {"#{collection}" => {"$exists" => true}}}, {"$unwind" => "$#{collection}"}]).size
     end
@@ -602,6 +607,7 @@ When /^I POST a "(.*?)" of type "(.*?)"$/ do |entity_name, entity_type|
   body = get_post_body_by_entity_name(entity_name)
   # Get the endpoint that corresponds to the desired entity
   endpoint = get_entity_endpoint(entity_type)
+  puts prepareData(@format, body).to_s
   restHttpPost("/#{@api_version}/#{endpoint}", prepareData(@format, body))
   assert(@res != nil, "Response from rest-client POST is nil")
 end
@@ -616,14 +622,20 @@ When /^I PUT and validate the following entities:$/ do |table|
 end
 
 When /^I PUT the "(.*?)" for a "(.*?)" entity to "(.*?)" at "(.*?)"$/ do |field, entity_name, value, endpoint|
-  # Get the desired entity from mongo
-  response_body = get_response_body(endpoint)
-  assert(response_body != nil, "No response from GET request for entity #{entity_name}")
-  # If we get a list, just take the first entry. No muss, no fuss.
-  response_body = response_body[0] if response_body.is_a?(Array)
-  # Modify the response body field with value, will become PUT body
-  put_body = update_api_put_field(response_body, field, value)
-  # Get the endpoint that corresponds to the desired entity
+  #the GET body contains field the user may not have access to, changed to use the POST body
+  post_body = get_post_body_by_entity_name(entity_name)
+  if post_body.nil?
+     puts "No POST body found with entityName: " + entity_name + ". Attempting to use GET body."
+     response_body = get_response_body(endpoint)
+     assert(response_body != nil, "No response from GET request for entity #{entity_name}")
+     # If we get a list, just take the first entry. No muss, no fuss.
+     response_body = response_body[0] if response_body.is_a?(Array)
+     # Modify the response body field with value, will become PUT body
+     put_body = update_api_put_field(response_body, field, value)
+  else
+     put_body = update_api_put_field(post_body, field, value)
+  end
+  puts prepareData(@format, put_body).to_s
   restHttpPut("/#{@api_version}/#{endpoint}", prepareData(@format, put_body))
   assert(@res != nil, "Response from rest-client PUT is nil")
 end
@@ -1278,7 +1290,7 @@ Then /^the "(.*?)" has the correct number of SEA public data records "(.*?)"$/ d
   disable_NOTABLESCAN()
 
 	@tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
-  SEA = @tenantDb.collection("educationOrganization").find_one({"body.organizationCategories" => "State Education Agency"})
+  SEA = @tenantDb.collection("educationOrganization").find_one({'body.organizationCategories' => {"$in" => ['State Education Agency']}})
   @SEA_id = SEA["_id"]
 
   puts "Comparing SEA " + @SEA_id

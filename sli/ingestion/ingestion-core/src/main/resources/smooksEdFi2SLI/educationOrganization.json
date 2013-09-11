@@ -1,6 +1,6 @@
 {
     "keyFields" : ["body.stateOrganizationId"]
-    "references" :
+    ,"references" :
     [
         {
             "fieldPath" : "body.ProgramReference",

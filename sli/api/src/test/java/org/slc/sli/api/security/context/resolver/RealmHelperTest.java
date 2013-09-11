@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,7 +104,7 @@ public class RealmHelperTest {
         body.put("stateOrganizationId", stateOrgId);
 
         if (parent != null) {
-            body.put("parentEducationAgencyReference", parent.getEntityId());
+            body.put("parentEducationAgencyReference", Arrays.asList(parent.getEntityId()));
         }
         Entity edorg = repo.create("educationOrganization", body, metaData, "educationOrganization");
         return edorg;

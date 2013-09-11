@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
-<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
+<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
   <Course>
     <CourseTitle>Kindergarten</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1211,12 +1210,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <CodeValue>srv:49</CodeValue>
     </Services>
   </Program>
-  <LocalEducationAgency>
+  <EducationOrganization>
     <StateOrganizationId>4</StateOrganizationId>
     <NameOfInstitution>4 School District</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>Local Education Agency</OrganizationCategory>
     </OrganizationCategories>
+    <ParentEducationAgencyReference>
+  <EducationalOrgIdentity>
+    <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+  </EducationalOrgIdentity>
+</ParentEducationAgencyReference>
     <Address>
       <StreetNumberName>122 Elm Street</StreetNumberName>
       <City>Chicago</City>
@@ -1274,13 +1278,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </ProgramIdentity>
     </ProgramReference>
     <LEACategory>Independent</LEACategory>
-    <StateEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </StateEducationAgencyReference>
-  </LocalEducationAgency>
-  <School>
+  </EducationOrganization>
+  <EducationOrganization>
     <StateOrganizationId>1</StateOrganizationId>
     <EducationOrgIdentificationCode IdentificationSystem="School">
       <ID>1</ID>
@@ -1289,6 +1288,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <OrganizationCategories>
       <OrganizationCategory>School</OrganizationCategory>
     </OrganizationCategories>
+    <ParentEducationAgencyReference>
+  <EducationalOrgIdentity>
+    <StateOrganizationId>4</StateOrganizationId>
+  </EducationalOrgIdentity>
+</ParentEducationAgencyReference>
     <Address AddressType="Physical">
       <StreetNumberName>111 Ave A</StreetNumberName>
       <City>Chicago</City>
@@ -1300,24 +1304,18 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <TelephoneNumber>(917)-555-0212</TelephoneNumber>
     </Telephone>
     <GradesOffered>
-        <GradeLevel>Kindergarten</GradeLevel>
-        <GradeLevel>First grade</GradeLevel>
-        <GradeLevel>Second grade</GradeLevel>
-        <GradeLevel>Third grade</GradeLevel>
-        <GradeLevel>Fourth grade</GradeLevel>
-        <GradeLevel>Fifth grade</GradeLevel>
+      <GradeLevel>Kindergarten</GradeLevel>
+      <GradeLevel>First grade</GradeLevel>
+      <GradeLevel>Second grade</GradeLevel>
+      <GradeLevel>Third grade</GradeLevel>
+      <GradeLevel>Fourth grade</GradeLevel>
+      <GradeLevel>Fifth grade</GradeLevel>
     </GradesOffered>
     <SchoolCategories>
       <SchoolCategory>Elementary School</SchoolCategory>
     </SchoolCategories>
- 
-    <LocalEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>4</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </LocalEducationAgencyReference>
-  </School>
-  <School>
+  </EducationOrganization>
+  <EducationOrganization>
     <StateOrganizationId>2</StateOrganizationId>
     <EducationOrgIdentificationCode IdentificationSystem="School">
       <ID>2</ID>
@@ -1326,6 +1324,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <OrganizationCategories>
       <OrganizationCategory>School</OrganizationCategory>
     </OrganizationCategories>
+    <ParentEducationAgencyReference>
+  <EducationalOrgIdentity>
+    <StateOrganizationId>4</StateOrganizationId>
+  </EducationalOrgIdentity>
+</ParentEducationAgencyReference>
     <Address AddressType="Physical">
       <StreetNumberName>111 Ave A</StreetNumberName>
       <City>Chicago</City>
@@ -1337,21 +1340,15 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <TelephoneNumber>(917)-555-0212</TelephoneNumber>
     </Telephone>
     <GradesOffered>
-        <GradeLevel>Sixth grade</GradeLevel>
-        <GradeLevel>Seventh grade</GradeLevel>
-        <GradeLevel>Eighth grade</GradeLevel>
+      <GradeLevel>Sixth grade</GradeLevel>
+      <GradeLevel>Seventh grade</GradeLevel>
+      <GradeLevel>Eighth grade</GradeLevel>
     </GradesOffered>
     <SchoolCategories>
       <SchoolCategory>Middle School</SchoolCategory>
     </SchoolCategories>
- 
-    <LocalEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>4</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </LocalEducationAgencyReference>
-  </School>
-  <School>
+  </EducationOrganization>
+  <EducationOrganization>
     <StateOrganizationId>3</StateOrganizationId>
     <EducationOrgIdentificationCode IdentificationSystem="School">
       <ID>3</ID>
@@ -1360,6 +1357,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <OrganizationCategories>
       <OrganizationCategory>School</OrganizationCategory>
     </OrganizationCategories>
+    <ParentEducationAgencyReference>
+  <EducationalOrgIdentity>
+    <StateOrganizationId>4</StateOrganizationId>
+  </EducationalOrgIdentity>
+</ParentEducationAgencyReference>
     <Address AddressType="Physical">
       <StreetNumberName>111 Ave A</StreetNumberName>
       <City>Chicago</City>
@@ -1371,31 +1373,25 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <TelephoneNumber>(917)-555-0212</TelephoneNumber>
     </Telephone>
     <GradesOffered>
-        <GradeLevel>Ninth grade</GradeLevel>
-        <GradeLevel>Tenth grade</GradeLevel>
-        <GradeLevel>Eleventh grade</GradeLevel>
-        <GradeLevel>Twelfth grade</GradeLevel>
+      <GradeLevel>Ninth grade</GradeLevel>
+      <GradeLevel>Tenth grade</GradeLevel>
+      <GradeLevel>Eleventh grade</GradeLevel>
+      <GradeLevel>Twelfth grade</GradeLevel>
     </GradesOffered>
     <SchoolCategories>
       <SchoolCategory>High School</SchoolCategory>
     </SchoolCategories>
- 
-    <LocalEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>4</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </LocalEducationAgencyReference>
-  </School>
+  </EducationOrganization>
   <CompetencyLevelDescriptor>
-      <CodeValue>Incompetent</CodeValue>
+    <CodeValue>Incompetent</CodeValue>
   </CompetencyLevelDescriptor>
   <CompetencyLevelDescriptor>
-      <CodeValue>Barely Competent</CodeValue>
+    <CodeValue>Barely Competent</CodeValue>
   </CompetencyLevelDescriptor>
   <CompetencyLevelDescriptor>
-      <CodeValue>Competent</CodeValue>
+    <CodeValue>Competent</CodeValue>
   </CompetencyLevelDescriptor>
   <CompetencyLevelDescriptor>
-      <CodeValue>Very Competent</CodeValue>
+    <CodeValue>Very Competent</CodeValue>
   </CompetencyLevelDescriptor>
 </InterchangeEducationOrganization>

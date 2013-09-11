@@ -1,51 +1,46 @@
 <?xml version="1.0"?>
-<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-                                  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
-    <Action ActionType="DELETE" Cascade="false" Force="false">
-
-        <School>
-            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-            <EducationOrgIdentificationCode IdentificationSystem="School">
-                <ID>South Daybreak Elementary</ID>
-            </EducationOrgIdentificationCode>
-            <NameOfInstitution>South Daybreak Elementary (Elementary School)</NameOfInstitution>
-            <OrganizationCategories>
-                <OrganizationCategory>School</OrganizationCategory>
-            </OrganizationCategories>
-            <Address AddressType="Physical">
-                <StreetNumberName>111 Ave A</StreetNumberName>
-                <City>Chicago</City>
-                <StateAbbreviation>IL</StateAbbreviation>
-                <PostalCode>11011</PostalCode>
-                <NameOfCounty>Wake</NameOfCounty>
-            </Address>
-            <Telephone InstitutionTelephoneNumberType="Main">
-                <TelephoneNumber>(917)-555-0212</TelephoneNumber>
-            </Telephone>
-            <GradesOffered>
-                <GradeLevel>Kindergarten</GradeLevel>
-                <GradeLevel>First grade</GradeLevel>
-                <GradeLevel>Second grade</GradeLevel>
-                <GradeLevel>Third grade</GradeLevel>
-                <GradeLevel>Fourth grade</GradeLevel>
-                <GradeLevel>Fifth grade</GradeLevel>
-            </GradesOffered>
-            <SchoolCategories>
-                <SchoolCategory>Elementary School</SchoolCategory>
-            </SchoolCategories>
-
-            <SchoolType>Alternative</SchoolType>
-            <CharterStatus>School Charter</CharterStatus>
-            <TitleIPartASchoolDesignation>Title I Part A Schoolwide Assistance Program School</TitleIPartASchoolDesignation>
-            <MagnetSpecialProgramEmphasisSchool>Some, but not all, students participate</MagnetSpecialProgramEmphasisSchool>
-            <AdministrativeFundingControl>Other</AdministrativeFundingControl>
-
-            <LocalEducationAgencyReference>
-                <EducationalOrgIdentity>
-                    <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
-                </EducationalOrgIdentity>
-            </LocalEducationAgencyReference>
-        </School>
-
-    </Action>
-    </InterchangeEducationOrganization>
+<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
+  <Action ActionType="DELETE" Cascade="false" Force="false">
+    <EducationOrganization>
+      <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      <EducationOrgIdentificationCode IdentificationSystem="School">
+        <ID>South Daybreak Elementary</ID>
+      </EducationOrgIdentificationCode>
+      <NameOfInstitution>South Daybreak Elementary (Elementary School)</NameOfInstitution>
+      <OrganizationCategories>
+        <OrganizationCategory>School</OrganizationCategory>
+      </OrganizationCategories>
+      <Address AddressType="Physical">
+        <StreetNumberName>111 Ave A</StreetNumberName>
+        <City>Chicago</City>
+        <StateAbbreviation>IL</StateAbbreviation>
+        <PostalCode>11011</PostalCode>
+        <NameOfCounty>Wake</NameOfCounty>
+      </Address>
+      <Telephone InstitutionTelephoneNumberType="Main">
+        <TelephoneNumber>(917)-555-0212</TelephoneNumber>
+      </Telephone>
+      <GradesOffered>
+        <GradeLevel>Kindergarten</GradeLevel>
+        <GradeLevel>First grade</GradeLevel>
+        <GradeLevel>Second grade</GradeLevel>
+        <GradeLevel>Third grade</GradeLevel>
+        <GradeLevel>Fourth grade</GradeLevel>
+        <GradeLevel>Fifth grade</GradeLevel>
+      </GradesOffered>
+      <SchoolCategories>
+        <SchoolCategory>Elementary School</SchoolCategory>
+      </SchoolCategories>
+      <SchoolType>Alternative</SchoolType>
+      <CharterStatus>School Charter</CharterStatus>
+      <TitleIPartASchoolDesignation>Title I Part A Schoolwide Assistance Program School</TitleIPartASchoolDesignation>
+      <MagnetSpecialProgramEmphasisSchool>Some, but not all, students participate</MagnetSpecialProgramEmphasisSchool>
+      <AdministrativeFundingControl>Other</AdministrativeFundingControl>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+    </EducationOrganization>
+  </Action>
+</InterchangeEducationOrganization>

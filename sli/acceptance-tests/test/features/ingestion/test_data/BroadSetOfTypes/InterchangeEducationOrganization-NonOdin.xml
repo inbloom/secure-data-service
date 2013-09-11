@@ -1,8 +1,6 @@
 <?xml version="1.0"?>
-<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns="http://ed-fi.org/0100"
-  xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
-  <School>
+<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
+  <EducationOrganization>
     <StateOrganizationId>Non-Odin-South Daybreak Elementary</StateOrganizationId>
     <EducationOrgIdentificationCode IdentificationSystem="School">
       <ID>Non-Odin-South Daybreak Elementary</ID>
@@ -11,6 +9,11 @@
     <OrganizationCategories>
       <OrganizationCategory>School</OrganizationCategory>
     </OrganizationCategories>
+    <ParentEducationAgencyReference>
+  <EducationalOrgIdentity>
+    <StateOrganizationId>Non-Odin-IL-DAYBREAK</StateOrganizationId>
+  </EducationalOrgIdentity>
+</ParentEducationAgencyReference>
     <Address AddressType="Physical">
       <StreetNumberName>111 Ave A</StreetNumberName>
       <City>Chicago</City>
@@ -42,10 +45,100 @@
     <TitleIPartASchoolDesignation>Title I Part A Schoolwide Assistance Program School</TitleIPartASchoolDesignation>
     <MagnetSpecialProgramEmphasisSchool>Some, but not all, students participate</MagnetSpecialProgramEmphasisSchool>
     <AdministrativeFundingControl>Other</AdministrativeFundingControl>
-    <LocalEducationAgencyReference>
+  </EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>TestEdOrg LEA 1</StateOrganizationId>
+    <NameOfInstitution>TestEdOrg LEA 1</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>Local Education Agency</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>Non-Odin-IL-DAYBREAK</StateOrganizationId>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
-    </LocalEducationAgencyReference>
-  </School>
+    </ParentEducationAgencyReference>
+    <Address AddressType="Physical">
+      <StreetNumberName>Test StreetNumberName</StreetNumberName>
+      <City>Test City</City>
+      <StateAbbreviation>MA</StateAbbreviation>
+      <PostalCode>02134</PostalCode>
+    </Address>
+  </EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>TestEdOrg Other 1</StateOrganizationId>
+    <NameOfInstitution>TestEdOrg Other 1</NameOfInstitution>
+    <OtherOrganizationCategories>
+      <OtherOrganizationCategory>RIC</OtherOrganizationCategory>
+    </OtherOrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address AddressType="Physical">
+      <StreetNumberName>Test StreetNumberName</StreetNumberName>
+      <City>Test City</City>
+      <StateAbbreviation>MA</StateAbbreviation>
+      <PostalCode>02134</PostalCode>
+    </Address>
+  </EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>TestEdOrg LEA 2</StateOrganizationId>
+    <NameOfInstitution>TestEdOrg LEA 2 Multiply Parented</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>Local Education Agency</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>TestEdOrg LEA 1</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>TestEdOrg Other 1</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address AddressType="Physical">
+      <StreetNumberName>Test StreetNumberName</StreetNumberName>
+      <City>Test City</City>
+      <StateAbbreviation>MA</StateAbbreviation>
+      <PostalCode>02134</PostalCode>
+    </Address>
+  </EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>TestEdOrg School 1</StateOrganizationId>
+    <NameOfInstitution>TestEdOrg School 1</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>TestEdOrg LEA 2</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address AddressType="Physical">
+      <StreetNumberName>Test StreetNumberName</StreetNumberName>
+      <City>Test City</City>
+      <StateAbbreviation>MA</StateAbbreviation>
+      <PostalCode>02134</PostalCode>
+    </Address>
+  </EducationOrganization>
+  <EducationOrganization>
+    <StateOrganizationId>TestEdOrg School 2</StateOrganizationId>
+    <NameOfInstitution>TestEdOrg School 2</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>TestEdOrg LEA 2</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address AddressType="Physical">
+      <StreetNumberName>Test StreetNumberName</StreetNumberName>
+      <City>Test City</City>
+      <StateAbbreviation>MA</StateAbbreviation>
+      <PostalCode>02134</PostalCode>
+    </Address>
+  </EducationOrganization>
 </InterchangeEducationOrganization>

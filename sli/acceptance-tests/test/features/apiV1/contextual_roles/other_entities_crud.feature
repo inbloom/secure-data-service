@@ -534,3 +534,56 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     |  tcuyper   |   studentSectionAssociation              |   section                |   reasonExited             |                   blabla                        |
 
 
+  Scenario Outline: User can get the correct total count and page through
+    Given parameter "limit" is "0"
+    When I log in as "rbelding"
+    Given format "application/json"
+
+    When I navigate to GET "/v1/<ENTITY URI>"
+    Then I should receive a return code of 200
+    Then I get the total count from the header
+    Then I get all the entities returned
+
+    Given parameter "offset" is "<a third of the total count>"
+    When I navigate to GET "/v1/<ENTITY URI>"
+    Then I should receive a return code of 200
+    Then I verify the total count from the header
+    Then I check the returned entities are sequential
+
+    Given parameter "offset" is "<half of the total count>"
+
+    When I navigate to GET "/v1/<ENTITY URI>"
+    Then I should receive a return code of 200
+    Then I verify the total count from the header
+    Then I check the returned entities are sequential
+
+    Given parameter "offset" is "<the total count>"
+    When I navigate to GET "/v1/<ENTITY URI>"
+    Then I should receive a return code of 200
+    Then I verify the total count from the header
+    Then I check the returned entities are sequential
+
+    Given parameter "offset" is "<a third of the total count>"
+    Given parameter "limit" is "<limit is half of the total count>"
+
+    When I navigate to GET "/v1/<ENTITY URI>"
+    Then I should receive a return code of 200
+    Then I verify the total count from the header
+    Then I check the returned entities are sequential
+
+    Given parameter "offset" is "<two thirds of the total count>"
+
+    When I navigate to GET "/v1/<ENTITY URI>"
+    Then I should receive a return code of 200
+    Then I verify the total count from the header
+    Then I check the returned entities are sequential
+
+  Examples:
+    | ENTITY URI                              |
+    | staffEducationOrgAssignmentAssociations |
+    | studentProgramAssociations              |
+    | studentSchoolAssociations               |
+    | cohorts                                 |
+    | disciplineIncidents                     |
+    | disciplineActions                       |
+    | gradebookEntries                        |

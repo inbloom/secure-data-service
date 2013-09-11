@@ -533,7 +533,7 @@ Scenario: Verify references were resolved correctly
     | disciplineIncident                   | 950c9f3ec3c8866d10794a7c053d7745c80f6b91_id                       | body.schoolId                             | educationOrganization            |
 
     | educationOrganization                | 1b223f577827204a1c7e9c851dba06bea6b031fe_id                                             | body.parentEducationAgencyReference           | educationOrganization            |
-  | educationOrganization                | 64d6f51699270b047483e27846880ede195425e0_id                                             | body.localEducationAgencyReference            | educationOrganization            |
+  | educationOrganization                | 64d6f51699270b047483e27846880ede195425e0_id                                             | body.parentEducationAgencyReference            | educationOrganization            |
   | educationOrganization                | a13489364c2eb015c219172d561c62350f0453f3_id                       | body.parentEducationAgencyReference         | educationOrganization            |
 
     | gradingPeriod                        | a6c7aac9afe6bd86b0b8c8116caa8edb35e2a0ba_id                       | body.gradingPeriodIdentity.schoolId         | educationOrganization            |

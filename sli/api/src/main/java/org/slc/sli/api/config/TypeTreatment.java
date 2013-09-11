@@ -40,9 +40,14 @@ public class TypeTreatment implements Treatment {
     }
 
     @Override
-    public EntityBody toExposed(EntityBody stored, EntityDefinition defn, Entity entity) {
-        stored.put(TYPE_STRING, defn.getType());
-        return stored;
+	public EntityBody toExposed(EntityBody stored, EntityDefinition defn,
+			Entity entity) {
+		if (defn.getType().equals("school")) {
+			stored.put(TYPE_STRING, "educationOrganization");
+		} else {
+			stored.put(TYPE_STRING, defn.getType());		
+			}
+		return stored;
     }
 
 }

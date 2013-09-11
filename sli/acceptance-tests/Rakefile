@@ -415,9 +415,6 @@ task :appDenialInit do
   setFixture("application", "application_denial_fixture.json")
 end
 
-task :realmInitNoPeople => [:realmInit] do
-end
-
 desc "Manual Test of Bulk Extract"
 task :callBeet do
   prompt = !(ENV['BEET_URL'] && ENV['BEET_TOKEN'] && ENV['BEET_APP'] && ENV['BEET_OUTFILE'])
@@ -584,7 +581,12 @@ end
 # This task is used as an entry point to run the smoke tests,
 # a suite of tests that will run quickly but only catch 80% or less of real failures
 desc "Run Smoke Tests"
-task :smokeTests => [:apiSmokeTests, :ingestionSmokeTests, :dashboardSmokeTests, :bulkExtractSmokeTests, :adminSmokeTests] do
+task :smokeTests => [
+                    :apiSmokeTests,
+                    :ingestionSmokeTests,
+                    :dashboardSmokeTests,
+                    :bulkExtractSmokeTests,
+                    :adminSmokeTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -599,7 +601,17 @@ end
 # 'raise' exception logic below.  Rake will exit immediately if you raise an exception
 # before all the tests complete and will show incomplete results
 desc "Run API/Security Acceptances Tests"
-task :apiAndSecurityTests => [:apiV1Tests, :apiSuperDocTests, :securityTests, :userAdminCrudTests, :migrationTests, :provisioningTests, :onboardingTests, :apiMegaTests, :v1SecurityEventTests, :runAssmtSearchIndexer ] do
+task :apiAndSecurityTests => [
+                              :apiV1Tests,
+                              :apiSuperDocTests,
+                              :securityTests,
+                              :userAdminCrudTests,
+                              :migrationTests,
+                              :provisioningTests,
+                              :onboardingTests,
+                              :apiMegaTests,
+                              :v1SecurityEventTests,
+                              :runAssmtSearchIndexer ] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -633,7 +645,8 @@ end
 # API V1 tests start
 ############################################################
 desc "Run API V1 acceptance tests"
-task :apiV1Tests => [:apiV1EntityTests,
+task :apiV1Tests => [
+                     :apiV1EntityTests,
                      :apiV1EntitySecurityTests,
                      :apiV1DuplicateLinkTest,
                      :apiV1QueryingTests,
@@ -674,8 +687,8 @@ task :apiV1EntitySecurityTests do
 end
 
 desc "Run API Tests using Odin ingested data"
-task :apiOdinTests => [:apiOdinPrep, :apiOdinSuperAssessment, :apiOdinSecurityTests] do
-  displayFailureReport()
+task :apiOdinTests => [:apiOdinPrep, :apiOdinSuperAssessment, :apiOdinSecurityTests, :apiOdinMultipleParentTests, :apiOdinHybridEdOrgTests] do
+    displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
   else
@@ -875,6 +888,7 @@ task :ingestionTests => [
         :loadDefaultIngestionTenants,
         :IngestionIndexValidationTest,
         :corruptZip,
+        :genericEdOrgs,
         :ingestionDeletionTests,
         :ingestionTenantPurgeTests,
         :ingestionJobFailOnMissingIndexTest,
@@ -1047,7 +1061,7 @@ end
 # Integration Tests start
 ############################################################
 desc "Run Integration Acceptance Tests"
-task :integrationTests => [:realmInitNoPeople] do
+task :integrationTests => [:realmInit] do
   OTHER_TAGS = OTHER_TAGS+" --tags @integration"
   Rake::Task["loadDefaultIngestionTenants"].invoke
   Rake::Task["ingestionAcceptanceSdsTest"].execute

@@ -40,6 +40,12 @@ Transform /^<([^>]*)>$/ do |human_readable_text|
   @email_password = PropLoader.getProps['secondary_email_imap_registration_pass']
  elsif human_readable_text == "SECONDARY_EMAIL_PASS"
    value = PropLoader.getProps['secondary_email_imap_registration_pass']
+ elsif human_readable_text == "CHARTER_EMAIL"
+   value = PropLoader.getProps['charter_email_imap_registration_user_email']
+   @email_username = PropLoader.getProps['charter_email_imap_registration_user']
+   @email_password = PropLoader.getProps['charter_email_imap_registration_pass']
+  elsif human_readable_text == "CHARTER_EMAIL_PASS"
+    value = PropLoader.getProps['charter_email_imap_registration_pass']
  elsif human_readable_text == "DEVELOPER_EMAIL"
   value = PropLoader.getProps['developer_email_imap_registration_user_email']
   @email_username = PropLoader.getProps['developer_email_imap_registration_user']
@@ -69,6 +75,8 @@ Transform /^<([^>]*)>$/ do |human_readable_text|
   value = PropLoader.getProps['sandbox_tenant']
  elsif human_readable_text == "CI_IDP_Redirect_URL"
    value = PropLoader.getProps["ci_idp_redirect_url"]
+ elsif human_readable_text == "CI_CHARTER_IDP_Redirect_URL"
+   value = PropLoader.getProps["ci_charter_idp_redirect_url"]
  elsif human_readable_text == "MATT SOLLARS UNIQUE ID"
    value = "800000025"
  elsif human_readable_text == "CARMEN ORTIZ UNIQUE ID"

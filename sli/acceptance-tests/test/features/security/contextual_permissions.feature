@@ -4,7 +4,7 @@ Feature: Context-based Permissions for Educator
 I would like to implement context-based permissions, so that when a SEA/LEA end user (that represents an Educator) access the SLI, he/she is provided with the student data that the Educator has relationship with. 
  
 #School 
- 
+
 Scenario Outline: Authenticated Educator makes API call to get own School 
 Given I am logged in using <Username> <Password> to realm <Realm> 
 And I have a Role attribute that equals "Educator" 

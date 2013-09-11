@@ -358,16 +358,6 @@ public class DidReferenceResolutionTest {
     }
 
     @Test
-    public void resolvesEdOrgRefDidInSchoolCorrectly() throws IOException {
-        NeutralRecordEntity entity = loadEntity("didTestEntities/school.json");
-        resolveInternalId(entity);
-        Map<String, String> naturalKeys = new HashMap<String, String>();
-        naturalKeys.put("stateOrganizationId", "someLEAOrganizationID");
-
-        checkId(entity, "LocalEducationAgencyReference", naturalKeys, "educationOrganization");
-    }
-
-    @Test
     public void resolvesEdOrgRefDidInDisciplineIncidentCorrectly() throws IOException {
         NeutralRecordEntity entity = loadEntity("didTestEntities/disciplineIncident.json");
         resolveInternalId(entity);
@@ -395,36 +385,6 @@ public class DidReferenceResolutionTest {
         naturalKeys.put("stateOrganizationId", "testSchoolId");
 
         checkId(entity, "EducationOrganizationReference", naturalKeys, "educationOrganization");
-    }
-
-    @Test
-    public void resolvesLEAEdOrgRefDidInLocalEducationAgencyCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        NeutralRecordEntity entity = loadEntity("didTestEntities/localEducationAgency.json");
-        resolveInternalId(entity);
-        Map<String, String> naturalKeys = new HashMap<String, String>();
-        naturalKeys.put("stateOrganizationId", "someLEAOrganizationID");
-
-        checkId(entity, "LocalEducationAgencyReference", naturalKeys, "educationOrganization");
-    }
-
-    @Test
-    public void resolvesEducationServiceCenterEdOrgRefDidInLocalEducationAgencyCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        NeutralRecordEntity entity = loadEntity("didTestEntities/localEducationAgency.json");
-        resolveInternalId(entity);
-        Map<String, String> naturalKeys = new HashMap<String, String>();
-        naturalKeys.put("stateOrganizationId", "someEducationServiceCenterID");
-
-        checkId(entity, "EducationServiceCenterReference", naturalKeys, "educationOrganization");
-    }
-
-    @Test
-    public void resolvesStateEdOrgRefDidInLocalEducationAgencyCorrectly() throws IOException {
-        NeutralRecordEntity entity = loadEntity("didTestEntities/localEducationAgency.json");
-        resolveInternalId(entity);
-        Map<String, String> naturalKeys = new HashMap<String, String>();
-        naturalKeys.put("stateOrganizationId", "someSEAOrganizationID");
-
-        checkId(entity, "StateEducationAgencyReference", naturalKeys, "educationOrganization");
     }
 
     @Test
@@ -714,36 +674,6 @@ public class DidReferenceResolutionTest {
     @Test
     public void resolvesProgramDidInCohortCorrectly() throws IOException {
         NeutralRecordEntity entity = loadEntity("didTestEntities/cohort.json");
-        resolveInternalId(entity);
-        Map<String, String> naturalKeys = new HashMap<String, String>();
-        naturalKeys.put("programId", "testProgramId");
-
-        checkId(entity, "ProgramReference", naturalKeys, "program");
-    }
-
-    @Test
-    public void resolvesProgramDidInSchoolCorrectly() throws IOException {
-        NeutralRecordEntity entity = loadEntity("didTestEntities/school.json");
-        resolveInternalId(entity);
-        Map<String, String> naturalKeys = new HashMap<String, String>();
-        naturalKeys.put("programId", "testProgramId");
-
-        checkId(entity, "ProgramReference", naturalKeys, "program");
-    }
-
-    @Test
-    public void resolvesProgramDidInLocalEducationAgencyCorrectly() throws IOException {
-        NeutralRecordEntity entity = loadEntity("didTestEntities/localEducationAgency.json");
-        resolveInternalId(entity);
-        Map<String, String> naturalKeys = new HashMap<String, String>();
-        naturalKeys.put("programId", "testProgramId");
-
-        checkId(entity, "ProgramReference", naturalKeys, "program");
-    }
-
-    @Test
-    public void resolvesProgramDidInStateEducationAgencyCorrectly() throws IOException {
-        NeutralRecordEntity entity = loadEntity("didTestEntities/stateEducationAgency.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("programId", "testProgramId");

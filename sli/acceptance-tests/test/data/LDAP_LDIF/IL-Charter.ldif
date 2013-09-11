@@ -1,0 +1,490 @@
+version: 1
+
+dn: ou=IL-Charter,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: top
+objectClass: organizationalUnit
+ou: IL-Charter
+
+dn: ou=groups,ou=IL-Charter,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: top
+objectClass: organizationalUnit
+ou: groups
+
+dn: cn=Educator,ou=groups,ou=IL-Charter,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: top
+objectClass: posixGroup
+cn: Educator
+gidNumber: 503
+memberUid: linda.kim
+memberUid: cgray
+memberUid: rbraverman
+memberUid: mabernathy
+memberUid: CAP0-D0-HSch0-teacher34
+memberUid: CAP0-D0-HSch6-teacher11
+memberUid: CAP0-D0-HSch0-teacher11
+memberUid: rbelding
+memberUid: jmacey
+memberUid: chartereducator
+
+dn: cn=Leader,ou=groups,ou=IL-Charter,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: top
+objectClass: posixGroup
+cn: Leader
+gidNumber: 512
+memberUid: sbantu
+memberUid: mgonzales
+memberUid: rgorki
+memberUid: msmith
+memberUid: jmacey
+memberUid: rbelding
+memberUid: xbell
+memberUid: tcuyper
+memberUid: charterleader
+
+dn: cn=IT Administrator,ou=groups,ou=IL-Charter,ou=rcEnvironment,dc=slidev,d
+ c=org
+objectClass: top
+objectClass: posixGroup
+cn: IT Administrator
+gidNumber: 513
+memberUid: jstevenson
+memberUid: akopel
+memberUid: mabernathy
+memberUid: CAP0-staff8
+memberUid: C0-staff8
+memberUid: charteradmin
+memberUid: rrogers
+
+dn: cn=Aggregate Viewer,ou=groups,ou=IL-Charter,ou=rcEnvironment,dc=slidev,d
+ c=org
+objectClass: top
+objectClass: posixGroup
+cn: Aggregate Viewer
+gidNumber: 514
+memberUid: msmith
+memberUid: mjohnson
+memberUid: xbell
+memberUid: charterviewer
+
+dn: cn=LEA System Administrator,ou=groups,ou=IL-Charter,ou=rcEnvironment,dc=
+ slidev,dc=org
+objectClass: top
+objectClass: posixGroup
+cn: LEA System Administrator
+gidNumber: 520
+memberUid: jstevenson
+memberUid: rrogers
+
+dn: cn=School Administrative Support Staff,ou=groups,ou=IL-Charter,ou=rcEnvi
+ ronment,dc=slidev,dc=org
+objectClass: top
+objectClass: posixGroup
+cn: School Administrative Support Staff
+gidNumber: 522
+memberUid: akopel
+
+dn: cn=Principal,ou=groups,ou=IL-Charter,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: top
+objectClass: posixGroup
+cn: Principal
+gidNumber: 521
+memberUid: mgonzales
+
+dn: cn=Superintendent,ou=groups,ou=IL-Charter,ou=rcEnvironment,dc=slidev,dc=
+ org
+objectClass: top
+objectClass: posixGroup
+cn: Superintendent
+gidNumber: 524
+memberUid: sbantu
+
+dn: cn=Teacher,ou=groups,ou=IL-Charter,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: top
+objectClass: posixGroup
+cn: Teacher
+gidNumber: 525
+memberUid: linda.kim
+memberUid: cgray
+memberUid: rbraverman
+
+dn: cn=Specialist/Consultant,ou=groups,ou=IL-Charter,ou=rcEnvironment,dc=sli
+ dev,dc=org
+objectClass: top
+objectClass: posixGroup
+cn: Specialist/Consultant
+gidNumber: 523
+memberUid: jjackson
+memberUid: msmith
+memberUid: mjohnson
+
+dn: ou=people,ou=IL-Charter,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: top
+objectClass: organizationalUnit
+ou: people
+
+dn: cn=Linda Kim,ou=people,ou=IL-Charter,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: Linda Kim
+gidNumber: 503
+homeDirectory: /home/users/lindakim
+sn: Kim
+uid: linda.kim
+uidNumber: 1117
+givenName: Linda
+loginShell: /bin/sh
+userPassword:: e01ENX15bENoMXNmNERQekZDbFZ5cndHbXhnPT0=
+
+dn: cn=Charles Gray,ou=people,ou=IL-Charter,ou=rcEnvironment,dc=slidev,dc=or
+ g
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: Charles Gray
+gidNumber: 507
+homeDirectory: /home/users/cgray
+sn: Gray
+uid: cgray
+uidNumber: 1134
+givenName: Charles
+loginShell: /bin/sh
+userPassword:: e01ENX1JOU1IeC9WY2hhSHJvMS9pKytVUU9BPT0=
+
+dn: cn=Rebecca Braverman,ou=people,ou=IL-Charter,ou=rcEnvironment,dc=slidev,
+ dc=org
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: Rebecca Braverman
+gidNumber: 507
+homeDirectory: /home/users/rbraverman
+sn: Braverman
+uid: rbraverman
+uidNumber: 1135
+givenName: Rebecca
+loginShell: /bin/sh
+userPassword:: e01ENX1oSFFncWJmc0FqZTNtanEvRHkrR2V3PT0=
+
+dn: cn=Susan Bantu,ou=people,ou=IL-Charter,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: Susan Bantu
+gidNumber: 512
+homeDirectory: /home/users/sbantu1
+sn: Bantu
+uid: sbantu
+uidNumber: 1136
+givenName: Susan
+loginShell: /bin/bash
+userPassword:: e01ENX1jeFgwdXA2SEFaQzNUZlMxYUNTU0FnPT0=
+
+dn: cn=James Stevenson,ou=people,ou=IL-Charter,ou=rcEnvironment,dc=slidev,dc
+ =org
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: James Stevenson
+gidNumber: 513
+homeDirectory: /home/users/jstevenson
+sn: Stevenson
+uid: jstevenson
+uidNumber: 1137
+givenName: James
+loginShell: /bin/bash
+userPassword:: e01ENX1BblpjMU9zTWZXOUEya1k0a2YwSlh3PT0=
+
+dn: cn=Charter Viewer,ou=people,ou=IL-Charter,ou=rcEnvironment,dc=slidev,dc=
+ org
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: Charter Viewer
+gidNumber: 514
+homeDirectory: /home/users/charterviewer
+sn: Viewer
+uid: charterviewer
+uidNumber: 1138
+givenName: Charter
+loginShell: /bin/bash
+userPassword:: e01ENX1VMU1PTDZaNzBkb1JBd1dFZWw3Q0NnPT0=
+
+dn: cn=Maria Gonzales,ou=people,ou=IL-Charter,ou=rcEnvironment,dc=slidev,dc=
+ org
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: Maria Gonzales
+gidNumber: 512
+homeDirectory: /home/users/mgonzales
+sn: Gonzales
+uid: mgonzales
+uidNumber: 1139
+givenName: Maria
+loginShell: /bin/bash
+userPassword:: e01ENX1GaUZGYjgvclZJNmx5MjIzcWZkVTF3PT0=
+
+dn: cn=Rob Gorki,ou=people,ou=IL-Charter,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: Rob Gorki
+gidNumber: 512
+homeDirectory: /home/users/rgorki
+sn: Gorki
+uid: rgorki
+uidNumber: 1140
+givenName: Rob
+loginShell: /bin/bash
+userPassword:: e01ENX1TVi94Ni9pSW05c0wrQUpWcDlzZDdnPT0=
+
+dn: cn=Mary Smith,ou=people,ou=IL-Charter,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: Mary Smith
+gidNumber: 514
+homeDirectory: /home/users/msmith
+sn: Smith
+uid: msmith
+uidNumber: 1141
+givenName: Mary
+loginShell: /bin/bash
+userPassword:: e01ENX1MVU9hSVdxOTlLL2EyM3RUNnpKV0RnPT0=
+
+dn: cn=Michael Johnson,ou=people,ou=IL-Charter,ou=rcEnvironment,dc=slidev,dc
+ =org
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: Michael Johnson
+gidNumber: 514
+homeDirectory: /home/users/mjohnson
+sn: Johnson
+uid: mjohnson
+uidNumber: 1142
+givenName: Michael
+loginShell: /bin/bash
+userPassword:: e01ENX04Q1VJSlF3blVTRFJOY0Fqd2M2WTV3PT0=
+
+dn: cn=Amy Kopel,ou=people,ou=IL-Charter,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: Amy Kopel
+gidNumber: 513
+homeDirectory: /home/users/akopel
+sn: Kopel
+uid: akopel
+uidNumber: 1143
+givenName: Amy
+loginShell: /bin/bash
+userPassword:: e01ENX1md2JjMzJqTzM0V1NObThiaittTkVBPT0=
+
+dn: cn=Charter Admin,ou=people,ou=IL-Charter,ou=rcEnvironment,dc=slidev,dc=o
+ rg
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: Charter Admin
+gidNumber: 100
+homeDirectory: /home/users/charteradmin
+sn: Admin
+uid: charteradmin
+uidNumber: 1144
+givenName: Charter
+loginShell: /bin/bash
+userPassword:: e01ENX1JS2U3dXVtZUcwRzNYV0QweWZ0dDJRPT0=
+
+dn: cn=Charter Leader,ou=people,ou=IL-Charter,ou=rcEnvironment,dc=slidev,dc=
+ org
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: Charter Leader
+gidNumber: 100
+homeDirectory: /home/users/charterleader
+sn: Leader
+uid: charterleader
+uidNumber: 1145
+givenName: Charter
+loginShell: /bin/bash
+userPassword:: e01ENX1zSkszY3lLYjRBVDZhWXhLSEIvZDh3PT0=
+
+dn: cn=Mark Abernathy,ou=people,ou=IL-Charter,ou=rcEnvironment,dc=slidev,dc=
+ org
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: Mark Abernathy
+gidNumber: 513
+homeDirectory: /home/users/mabernathy
+sn: Abernathy
+uid: mabernathy
+uidNumber: 1199
+givenName: Mark
+loginShell: /bin/bash
+userPassword:: e1NIQX16TDVIcTExazl0Tmp3ZXVvL1Vob1ZtTlVqcDg9
+
+dn: cn=CAP0-staff8,ou=people,ou=IL-Charter,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: CAP0-staff8
+gidNumber: 507
+homeDirectory: /home/users/CAP0-staff8
+sn: CAP0-staff8
+uid: CAP0-staff8
+uidNumber: 1134
+givenName: CAP0-staff8
+loginShell: /bin/sh
+userPassword:: e1NTSEF9MUlXV3JERkpzRGJyM2hKU2Y1bkNOeTVPeTYxNGc0bkE=
+
+dn: cn=CAP0-D0-HSch0-teacher34,ou=people,ou=IL-Charter,ou=rcEnvironment,dc=s
+ lidev,dc=org
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: CAP0-D0-HSch0-teacher34
+gidNumber: 507
+homeDirectory: /home/users/CAP0-D0-HSch0-teacher34
+sn: CAP0-D0-HSch0-teacher34
+uid: CAP0-D0-HSch0-teacher34
+uidNumber: 1134
+givenName: CAP0-D0-HSch0-teacher34
+loginShell: /bin/sh
+userPassword:: e1NTSEF9OGJ0eWhSWGp0aTIxbW5iSGc1VXpaaTlYaWVyVGVIc0U=
+
+dn: cn=CAP0-D0-HSch6-teacher11,ou=people,ou=IL-Charter,ou=rcEnvironment,dc=s
+ lidev,dc=org
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: CAP0-D0-HSch6-teacher11
+gidNumber: 507
+homeDirectory: /home/users/CAP0-D0-HSch6-teacher11
+sn: CAP0-D0-HSch6-teacher11
+uid: CAP0-D0-HSch6-teacher11
+uidNumber: 1134
+givenName: CAP0-D0-HSch6-teacher11
+loginShell: /bin/sh
+userPassword:: e1NTSEF9RDVNMUV1a1RFejBSd1JXaXRDTkZxMlYzNFJ5TEh2ZUw=
+
+dn: cn=CAP0-D0-HSch0-teacher11,ou=people,ou=IL-Charter,ou=rcEnvironment,dc=s
+ lidev,dc=org
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: CAP0-D0-HSch0-teacher11
+gidNumber: 507
+homeDirectory: /home/users/CAP0-D0-HSch0-teacher26
+sn: C0-D0-HSch0-teacher26
+uid: C0-D0-HSch0-teacher26
+uidNumber: 1134
+givenName: C0-D0-HSch0-teacher26
+loginShell: /bin/sh
+userPassword:: e1NTSEF9TDk5Z1Y3QXpVODVPQ29hb1JxOXNsNS9FQ2JlRnE1aVc=
+
+dn: cn=C0-staff8,ou=people,ou=IL-Charter,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: C0-staff8
+gidNumber: 507
+homeDirectory: /home/users/C0-staff8
+sn: C0-staff8
+uid: C0-staff8
+uidNumber: 1134
+givenName: C0-staff8
+loginShell: /bin/sh
+userPassword:: e1NTSEF9eWtRQm5mazJJVVFyVUJZOEhxdFpZc1BVNUpKQzNXTlc=
+
+dn: cn=Javier Macey,ou=people,ou=IL-Charter,ou=rcEnvironment,dc=slidev,dc=or
+ g
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: Javier Macey
+gidNumber: 503
+homeDirectory: /home/users/jmacey
+sn: Macey
+uid: jmacey
+uidNumber: 1200
+givenName: Javier
+loginShell: /bin/sh
+userPassword:: e01ENX15RGlyUUFGeHJFUkp2YXdhRVA3eFZRPT0=
+
+dn: cn=Richard Belding,ou=people,ou=IL-Charter,ou=rcEnvironment,dc=slidev,dc
+ =org
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: Richard Belding
+gidNumber: 503
+homeDirectory: /home/users/rbelding
+sn: Belding
+uid: rbelding
+uidNumber: 1201
+givenName: Richard
+loginShell: /bin/sh
+userPassword:: e01ENX1xc1Rlc1pTM0Z3Mnk3YVM0Q3A4ZEl3PT0=
+
+dn: cn=Xavier Bell,ou=people,ou=IL-Charter,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: Xavier Bell
+gidNumber: 514
+homeDirectory: /home/users/xbell
+sn: Bell
+uid: xbell
+uidNumber: 1202
+givenName: Xavier
+loginShell: /bin/bash
+userPassword:: e01ENX03QUlCbWtFRGFKaUY5YUdwa0lSQS9nPT0=
+
+dn: cn=Teresa Cuyper,ou=people,ou=IL-Charter,ou=rcEnvironment,dc=slidev,dc=o
+ rg
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: Teresa Cuyper
+gidNumber: 512
+homeDirectory: /home/users/xbell
+sn: Cuyper
+uid: tcuyper
+uidNumber: 1203
+givenName: Teresa
+loginShell: /bin/bash
+userPassword:: e01ENX1zWEI0TkJVZVFBLzA0Z3hqenlDRW5BPT0=
+
+dn: cn=Charter Educator,ou=people,ou=IL-Charter,ou=rcEnvironment,dc=slidev,d
+ c=org
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: Charter Educator
+gidNumber: 503
+homeDirectory: /home/users/lindakim
+sn: Educator
+uid: chartereducator
+uidNumber: 2117
+givenName: Charter
+loginShell: /bin/sh
+userPassword:: e01ENX16c3VlTUtJRkZ5eVpNcmt0NWE4QU13PT0=
+
+dn: cn=Rick Rogers,ou=people,ou=IL-Charter,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: top
+objectClass: posixAccount
+objectClass: inetOrgPerson
+cn: Rick Rogers
+gidNumber: 100
+homeDirectory: /home/users/rrogers
+sn: Rogers
+uid: rrogers
+uidNumber: 1144
+givenName: Rick
+loginShell: /bin/bash
+userPassword:: e01ENX1ubnJsdzd0QzU1d0FmMkxtN2llOWFRPT0=
+

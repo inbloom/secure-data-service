@@ -4,6 +4,7 @@ Feature: Ingestion
 
     Background: SFTP into landing zone to drop the Small Data Set
 
+
         Scenario: Ingest Small Sample Dataset for End to End Testing
 
             Given a landing zone
@@ -57,7 +58,7 @@ Feature: Ingestion
                  | studentCompetency                        |                 59|
                  | studentCompetencyObjective               |                  4|
                  | studentDisciplineIncidentAssociation     |                  4|
-                 | studentObjectiveAssessment               |                300|    
+                 | studentObjectiveAssessment               |                300|
                  | studentParentAssociation                 |                  9|
                  | studentProgramAssociation                |                  6|
                  | studentSchoolAssociation                 |                167|
@@ -66,3 +67,13 @@ Feature: Ingestion
                  | courseTranscript                         |                196|
                  | teacherSchoolAssociation                 |                  3|
                  | teacherSectionAssociation                |                 11|
+
+        Scenario: Ingest Charter School Dataset
+            Given a landing zone
+            And I drop the Odin generated file "OdinSampleDataSet.zip" into the landingzone
+            And I check for the file "job*.log" every "30" seconds for "600" seconds
+            And the landing zone should contain a file with the message "All records processed successfully."
+            And I should not see an error log file created
+            And I should not see a warning log file created
+
+

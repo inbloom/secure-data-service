@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
+  <EducationOrganization>
+    <StateOrganizationId>Cycle 1</StateOrganizationId>
+    <NameOfInstitution>Cycle 1</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>Local Education Agency</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Cycle 1</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>123 Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>00000</PostalCode>
+    </Address>
+    <LEACategory>Independent</LEACategory>
+  </EducationOrganization>
+</InterchangeEducationOrganization>

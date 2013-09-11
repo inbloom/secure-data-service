@@ -181,39 +181,39 @@ public class EdOrgHelperTest {
 
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("Local Education Agency"));
-        body.put("parentEducationAgencyReference", sea1.getEntityId());
+        body.put("parentEducationAgencyReference", Arrays.asList(sea1.getEntityId()));
         lea1 = repo.create(EntityNames.EDUCATION_ORGANIZATION, body);
 
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("Local Education Agency"));
-        body.put("parentEducationAgencyReference", lea1.getEntityId());
+        body.put("parentEducationAgencyReference", Arrays.asList(lea1.getEntityId()));
         lea2 = repo.create(EntityNames.EDUCATION_ORGANIZATION, body);
 
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("Local Education Agency"));
-        body.put("parentEducationAgencyReference", lea2.getEntityId());
+        body.put("parentEducationAgencyReference", Arrays.asList(lea2.getEntityId()));
         lea3 = repo.create(EntityNames.EDUCATION_ORGANIZATION, body);
 
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("Local Education Agency"));
-        body.put("parentEducationAgencyReference", sea1.getEntityId());
+        body.put("parentEducationAgencyReference", Arrays.asList(sea1.getEntityId()));
         lea4 = repo.create(EntityNames.EDUCATION_ORGANIZATION, body);
 
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("School"));
-        body.put("parentEducationAgencyReference", lea1.getEntityId());
+        body.put("parentEducationAgencyReference", Arrays.asList(lea1.getEntityId()));
         Map<String, Object> metadata = new HashMap<String, Object>();
         metadata.put("edOrgs", Arrays.asList(lea1.getEntityId()));
         school1 = repo.create(EntityNames.EDUCATION_ORGANIZATION, body, metadata, EntityNames.EDUCATION_ORGANIZATION);
 
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("School"));
-        body.put("parentEducationAgencyReference", lea2.getEntityId());
+        body.put("parentEducationAgencyReference", Arrays.asList(lea2.getEntityId()));
         school2 = repo.create(EntityNames.EDUCATION_ORGANIZATION, body);
 
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("School"));
-        body.put("parentEducationAgencyReference", lea3.getEntityId());
+        body.put("parentEducationAgencyReference", Arrays.asList(lea3.getEntityId()));
         school3 = repo.create(EntityNames.EDUCATION_ORGANIZATION, body);
 
         body = new HashMap<String, Object>();
@@ -276,16 +276,16 @@ public class EdOrgHelperTest {
 
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("Local Education Agency"));
-        body.put("parentEducationAgencyReference", leaCycle1.getEntityId());
+        body.put("parentEducationAgencyReference", Arrays.asList(leaCycle1.getEntityId()));
         leaCycle2 = repo.create(EntityNames.EDUCATION_ORGANIZATION, body);
 
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("Local Education Agency"));
-        body.put("parentEducationAgencyReference", leaCycle2.getEntityId());
+        body.put("parentEducationAgencyReference", Arrays.asList(leaCycle2.getEntityId()));
         leaCycle3 = repo.create(EntityNames.EDUCATION_ORGANIZATION, body);
 
         // update the parent ref now that we know the id
-        body.put("parentEducationAgencyReference", leaCycle3.getEntityId());
+        leaCycle1.getBody().put("parentEducationAgencyReference", Arrays.asList(leaCycle3.getEntityId()));
         repo.update(EntityNames.EDUCATION_ORGANIZATION, leaCycle1, false);
     }
 
@@ -364,11 +364,23 @@ public class EdOrgHelperTest {
     public void testParents() {
         RequestUtil.setCurrentRequestId();
         List<String> edorgs = helper.getParentEdOrgs(school3);
-        assertEquals(sea1.getEntityId(), edorgs.get(3));
-        assertEquals(lea1.getEntityId(), edorgs.get(2));
-        assertEquals(lea2.getEntityId(), edorgs.get(1));
-        assertEquals(lea3.getEntityId(), edorgs.get(0));
+        assertTrue(edorgs.contains(sea1.getEntityId()));
+        assertTrue(edorgs.contains(lea1.getEntityId()));
+        assertTrue(edorgs.contains(lea2.getEntityId()));
+        assertTrue(edorgs.contains(lea3.getEntityId()));
+        assertFalse(edorgs.contains(school1.getEntityId()));
+        assertFalse(edorgs.contains(school2.getEntityId()));
+        assertFalse(edorgs.contains(school3.getEntityId()));
         assertEquals(4, edorgs.size());
+    }
+
+    @Test
+    public void testParentsWithCycle() {
+        List<String> edorgs = helper.getParentEdOrgs(leaCycle1);
+        assertFalse("leaCycle1 should not be a child of leaCycle1", edorgs.contains(leaCycle1.getEntityId()));
+        assertTrue("leaCycle2 should be a child of leaCycle1", edorgs.contains(leaCycle2.getEntityId()));
+        assertTrue("leaCycle3 should be a child of leaCycle1", edorgs.contains(leaCycle3.getEntityId()));
+        assertEquals(2, edorgs.size());
     }
 
     @Test

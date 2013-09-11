@@ -108,6 +108,11 @@ secondary_email_imap_registration_user: testuser1.wgen@gmail.com
 secondary_email_imap_registration_user_email: testuser1.wgen@gmail.com
 secondary_email_imap_registration_pass: liferaywgen1234 #pass to access gmail inbox: liferaywgen1234
 
+#LEA Admin creds for Charter School - For RC Only
+charter_email_imap_registration_user: charter.wgen@gmail.com
+charter_email_imap_registration_user_email: charter.wgen@gmail.com
+charter_email_imap_registration_pass: liferaywgen1234 #pass to access gmail inbox: liferaywgen1234
+
 #Developer creds
 developer_email_imap_registration_user: RCTest Developer
 developer_email_imap_registration_user_email: testdev.wgen@gmail.com
@@ -133,6 +138,9 @@ edorg: STANDARD-SEA
 
 # IDP and Redirect Endpoint URL for Realm Management
 ci_idp_redirect_url: https://sulu-sidp.slidev.org/sliidp?realm=RCTestTenant
+
+# IDP and Redirect Endpoint URL for Charter School Realm Management
+ci_charter_idp_redirect_url: https://picard-sidp.slidev.org/sliidp?realm=RCCharterTestTenant
 
 # for RC environments (amazon)
 #email_imap_host: imap.gmail.com

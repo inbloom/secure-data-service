@@ -188,7 +188,6 @@ public class RealmHelper {
 	 *
 	 * @param userEntity
 	 * @param realm
-	 * @param tenantId
 	 * @return
 	 */
 	public boolean isUserAllowedLoginToRealm(Entity userEntity, Entity realm) {

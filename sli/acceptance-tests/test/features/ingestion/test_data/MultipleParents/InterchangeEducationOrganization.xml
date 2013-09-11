@@ -1,0 +1,141 @@
+<?xml version="1.0"?>
+<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
+
+  <!-- ======================================================================= -->
+  
+  <!-- SEA (no parents) -->
+  <EducationOrganization>
+    <StateOrganizationId>SEA</StateOrganizationId>
+    <NameOfInstitution>SEA</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>State Education Agency</OrganizationCategory>
+    </OrganizationCategories>
+    <Address>
+      <StreetNumberName>123 Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>00000</PostalCode>
+    </Address>
+  </EducationOrganization>
+
+  <!-- ======================================================================= -->
+
+  <!-- CFN (no parents) -->
+  <EducationOrganization>
+    <StateOrganizationId>CFN</StateOrganizationId>
+    <NameOfInstitution>CFN</NameOfInstitution>
+    <OtherOrganizationCategories>
+      <OtherOrganizationCategory>Child First Network</OtherOrganizationCategory>
+    </OtherOrganizationCategories>
+    <Address>
+      <StreetNumberName>123 Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>00000</PostalCode>
+    </Address>
+  </EducationOrganization>
+
+  <!-- ======================================================================= -->
+  
+  <!-- ESC (parent: SEA) -->
+  <EducationOrganization>
+    <StateOrganizationId>ESC</StateOrganizationId>
+    <NameOfInstitution>ESC</NameOfInstitution>
+    <OtherOrganizationCategories>
+      <OtherOrganizationCategory>Education Service Center</OtherOrganizationCategory>
+    </OtherOrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>123 Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>00000</PostalCode>
+    </Address>
+  </EducationOrganization>
+
+  <!-- ======================================================================= -->
+  
+  <!-- LEA (parents: CFN, SEA, ESC) -->
+  <EducationOrganization>
+    <StateOrganizationId>LEA</StateOrganizationId>
+    <NameOfInstitution>LEA</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>Local Education Agency</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>CFN</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>ESC</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>123 Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>00000</PostalCode>
+    </Address>
+  </EducationOrganization>
+
+  <!-- ======================================================================= -->
+  
+  <!-- SchoolOne (parents: LEA) -->
+  <EducationOrganization>
+    <StateOrganizationId>SchoolOne</StateOrganizationId>
+    <NameOfInstitution>SchoolOne</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>LEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>123 Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>00000</PostalCode>
+    </Address>
+  </EducationOrganization>
+
+  <!-- ======================================================================= -->
+  
+  <!-- SchoolTwo (parents: LEA, ESC) -->
+  <EducationOrganization>
+    <StateOrganizationId>SchoolTwo</StateOrganizationId>
+    <NameOfInstitution>SchoolTwo</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>LEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <ParentEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>ESC</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </ParentEducationAgencyReference>
+    <Address>
+      <StreetNumberName>123 Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>00000</PostalCode>
+    </Address>
+  </EducationOrganization>
+
+</InterchangeEducationOrganization>

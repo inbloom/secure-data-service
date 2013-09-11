@@ -1025,7 +1025,8 @@ Then /^I verify the total count from the header$/ do
   headers[header].should_not == nil
   headers[header].should_not == nil
   headers[header].length.should == 1
-  assert(@totalCount == convert(headers[header][0]), 'Total count has to be the same')
+  actualCount = convert(headers[header][0])
+  assert(@totalCount == actualCount, "Total count has to be the same, expects #{@totalCount}, actual #{actualCount}")
 end
 
 Then /^I get all the entities returned$/ do

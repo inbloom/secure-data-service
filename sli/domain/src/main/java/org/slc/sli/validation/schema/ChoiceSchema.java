@@ -18,8 +18,10 @@
 package org.slc.sli.validation.schema;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.Entity;
@@ -77,7 +79,13 @@ public class ChoiceSchema extends NeutralSchema {
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
-    protected boolean validate(String fieldName, Object entity, List<ValidationError> errors, Repository<Entity> repo) {
+    protected boolean validate(String fieldName, Object entity_in, List<ValidationError> errors, Repository<Entity> repo) {
+
+        // Allow Set to be used as a List
+        Object entity = entity_in;
+        if (entity instanceof Set) {
+            entity = new ArrayList<Object>((Set) entity);
+        }
 
         if (getMaxOccurs() == 1) {
             if (getMinOccurs() == 0 && entity == null) {

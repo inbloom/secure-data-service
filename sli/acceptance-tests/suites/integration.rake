@@ -23,6 +23,7 @@ require_relative '../test/features/utils/rakefile_common.rb'
 
 desc "Run Ingestion RC Test"
 task :rcIngestionTests do
+    runTests("test/features/odin/generate_api_hybrid_edorg_data.feature")
     runTests("test/features/cross_app_tests/rc_integration_ingestion.feature")
 end
 
@@ -147,6 +148,7 @@ task :rcDeleteLDAPUsers do
   #emailsToDelete = ["testuser0.wgen@gmail.com", "testuser1.wgen@gmail.com", "testdev.wgen@gmail.com"]
   emailsToDelete = [(PropLoader.getProps['primary_email_imap_registration_user_email']), 
                     (PropLoader.getProps['secondary_email_imap_registration_user_email']), 
+                    (PropLoader.getProps['charter_email_imap_registration_user_email']),
                     (PropLoader.getProps['developer_email_imap_registration_user_email'])]
   emailsToDelete.each do |email|
     begin
