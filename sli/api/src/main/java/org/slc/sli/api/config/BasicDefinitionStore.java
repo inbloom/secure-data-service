@@ -140,7 +140,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         factory.makeEntity(EntityNames.STUDENT_GRADEBOOK_ENTRY, ResourceNames.STUDENT_GRADEBOOK_ENTRIES)
                 .buildAndRegister(this);
         EntityDefinition teacher = factory.makeEntity(EntityNames.TEACHER, ResourceNames.TEACHERS)
-                .storeAs(EntityNames.STAFF).buildAndRegister(this);
+                .storeAs(EntityNames.STAFF).useSchema(EntityNames.TEACHER).buildAndRegister(this);
         EntityDefinition parent = factory.makeEntity(EntityNames.PARENT, ResourceNames.PARENTS).buildAndRegister(this);
         factory.makeEntity(EntityNames.STUDENT_ACADEMIC_RECORD, ResourceNames.STUDENT_ACADEMIC_RECORDS)
                 .buildAndRegister(this);
@@ -347,7 +347,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
 
     public void addDefinition(EntityDefinition defn) {
         debug("adding definition for {}", defn.getResourceName());
-        NeutralSchema schema = repo.getSchema(defn.getStoredCollectionName());
+        NeutralSchema schema = repo.getSchema(defn.getSchemaName());
         defn.setSchema(schema);
 
         if (ResourceNames.ENTITY_RESOURCE_NAME_MAPPING.containsKey(defn.getStoredCollectionName())) {

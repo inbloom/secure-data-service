@@ -40,7 +40,7 @@ public final class AssociationDefinition extends EntityDefinition {
 
     protected AssociationDefinition(String type, String resourceName, String collectionName,
             AssociationService service, DefinitionFactory.EntityInfo source, DefinitionFactory.EntityInfo target) {
-        super(type, resourceName, collectionName, service, false);
+        super(type, resourceName, collectionName, service, false, collectionName);
         this.sourceEntity = source.getDefn();
         this.targetEntity = target.getDefn();
         this.relNameFromSource = source.getLinkToAssociation();

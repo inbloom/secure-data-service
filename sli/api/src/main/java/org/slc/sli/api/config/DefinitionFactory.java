@@ -93,6 +93,7 @@ public class DefinitionFactory {
         private boolean supportsAggregates;
         private boolean skipContextValidation;
         private boolean wrapperEntity;
+        private String schemaName;
 
         /**
          * Create a builder for an entity definition. The collection name and resource name will
@@ -124,6 +125,7 @@ public class DefinitionFactory {
             this.readRight = Right.READ_GENERAL;
             this.writeRight = Right.WRITE_GENERAL;
             this.supportsAggregates = false;
+            this.schemaName = type;
         }
 
         /**
@@ -174,6 +176,16 @@ public class DefinitionFactory {
             this.resourceName = resourceName;
             return this;
         }
+        
+        /**
+         * Overrides the default schema name (which is currently the collection name).
+         * 
+         * @return
+         */
+        public EntityBuilder useSchema(String schemaName) {
+        	this.schemaName = schemaName;
+        	return this;
+        }
 
         public EntityBuilder supportsAggregates() {
             this.supportsAggregates = true;
@@ -198,10 +210,10 @@ public class DefinitionFactory {
         public EntityDefinition build() {
 
             BasicService entityService = (BasicService) DefinitionFactory.this.beanFactory.getBean("basicService",
-                    collectionName, treatments, this.repo);
+                    schemaName, collectionName, treatments, this.repo);
 
             EntityDefinition entityDefinition = new EntityDefinition(type, resourceName, collectionName, entityService,
-                    supportsAggregates, skipContextValidation, wrapperEntity);
+                    supportsAggregates, skipContextValidation, wrapperEntity, schemaName);
             entityService.setDefn(entityDefinition);
             return entityDefinition;
         }
@@ -396,7 +408,7 @@ public class DefinitionFactory {
         public AssociationDefinition build() {
 
             BasicAssocService service = (BasicAssocService) DefinitionFactory.this.beanFactory.getBean(
-                    "basicAssociationService", collectionName, treatments, source.getDefn(), source.getKey(),
+                    "basicAssociationService", collectionName, collectionName, treatments, source.getDefn(), source.getKey(),
                     target.getDefn(), target.getKey(), this.repo);
 
             source.setLinkToAssociation(this.relNameFromSource);

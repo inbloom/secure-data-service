@@ -49,6 +49,7 @@ public class EntityDefinition {
     private final List<EntityDefinition> referencingEntities; // entities that reference this entity
     private static Repository<Entity> defaultRepo;
     private NeutralSchema schema;
+    private final String schemaName;
     private LinkedHashMap<String, ReferenceSchema> referenceFields; // all fields on this entity
                                                                     // that reference other entities
     private final boolean supportsAggregates;
@@ -56,12 +57,13 @@ public class EntityDefinition {
     private final boolean wrapperEntity;
 
     protected EntityDefinition(String type, String resourceName, String collectionName, EntityService service,
-            boolean supportsAggregates) {
-        this(type, resourceName, collectionName, service, supportsAggregates, false, false);
+            boolean supportsAggregates, String schemaName) {
+        this(type, resourceName, collectionName, service, supportsAggregates, false, false, schemaName);
     }
 
     protected EntityDefinition(String type, String resourceName, String collectionName, EntityService service,
-            boolean supportsAggregates, boolean skipContextValidation, boolean pullTypeFromEntity) {
+            boolean supportsAggregates, boolean skipContextValidation, boolean pullTypeFromEntity,
+            String schemaName) {
         this.type = type;
         this.resourceName = resourceName;
         this.collectionName = collectionName;
@@ -70,6 +72,7 @@ public class EntityDefinition {
         this.supportsAggregates = supportsAggregates;
         this.skipContextValidation = skipContextValidation;
         this.wrapperEntity = pullTypeFromEntity;
+        this.schemaName = schemaName;
     }
 
     public boolean hasArrayField(String fieldName) {
@@ -87,6 +90,15 @@ public class EntityDefinition {
 
     public NeutralSchema getSchema() {
         return this.schema;
+    }
+    
+    /**
+     * Schemas were once assigned based on the collection name only. Now this attribute allows that behavior to be overridden.
+     * 
+     * @return the name of the schema to use for this entity definition
+     */
+    public String getSchemaName() {
+    	return this.schemaName;
     }
 
     /**
