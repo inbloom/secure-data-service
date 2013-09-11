@@ -47,10 +47,10 @@ public class BasicAssocService extends BasicService implements AssociationServic
     private final String sourceKey;
     private final String targetKey;
 
-    public BasicAssocService(final String collectionName, final List<Treatment> treatments,
+    public BasicAssocService(final String entityName, final String collectionName, final List<Treatment> treatments,
             final EntityDefinition sourceDefn, final String sourceKey, final EntityDefinition targetDefn,
             final String targetKey, Repository<Entity> repo) {
-        super(collectionName, treatments, repo);
+        super(entityName, collectionName, treatments, repo);
         this.sourceDefn = sourceDefn;
         this.targetDefn = targetDefn;
         this.sourceKey = sourceKey;
@@ -98,9 +98,9 @@ public class BasicAssocService extends BasicService implements AssociationServic
         List<String> targetId = getIds(content, targetKey);
 
         NeutralQuery query = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, srcId, false));
-        Iterable<Entity> sourceEntities = getRepo().findAll(sourceCollection, query);
+        Iterable<Entity> sourceEntities = getRepo().findAll(sourceDefn.getSchemaName(), sourceCollection, query);
         query = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, targetId, false));
-        Iterable<Entity> targetEntities = getRepo().findAll(sourceCollection, query);
+        Iterable<Entity> targetEntities = getRepo().findAll(sourceDefn.getSchemaName(), sourceCollection, query);
 
         for (Entity sourceEntity : sourceEntities) {
             for (Entity targetEntity : targetEntities) {
@@ -274,7 +274,7 @@ public class BasicAssocService extends BasicService implements AssociationServic
         NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
         localNeutralQuery.addCriteria(new NeutralCriteria(key, NeutralCriteria.OPERATOR_EQUAL, id));
 
-        return getRepo().findAll(getCollectionName(), localNeutralQuery);
+        return getRepo().findAll(type.getSchemaName(), getCollectionName(), localNeutralQuery);
     }
 
     private long getAssociationCount(final EntityDefinition type, final String id, final String key,

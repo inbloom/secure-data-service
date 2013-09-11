@@ -99,7 +99,7 @@ public class BasicServiceTest {
     @SuppressWarnings("unchecked")
     @Before
     public void setup() throws IllegalArgumentException, IllegalAccessException, SecurityException, NoSuchFieldException {
-        service = (BasicService) context.getBean("basicService", "student", null, securityRepo);
+        service = (BasicService) context.getBean("basicService", "student", "student", null, securityRepo);
 
         EntityDefinition student = factory.makeEntity("student")
                 .exposeAs("students").build();
@@ -148,7 +148,7 @@ public class BasicServiceTest {
 
     @Test
     public void testWriteSelf() {
-        BasicService basicService = (BasicService) context.getBean("basicService", "teacher", new ArrayList<Treatment>(), securityRepo);
+        BasicService basicService = (BasicService) context.getBean("basicService", "teacher", "teacher", new ArrayList<Treatment>(), securityRepo);
         basicService.setDefn(definitionStore.lookupByEntityType("teacher"));
         securityContextInjector.setEducatorContext("my-id");
 
@@ -161,7 +161,7 @@ public class BasicServiceTest {
 
     @Test
     public void testIsSelf() {
-        BasicService basicService = (BasicService) context.getBean("basicService", "teacher", new ArrayList<Treatment>(), securityRepo);
+        BasicService basicService = (BasicService) context.getBean("basicService", "teacher", "teacher", new ArrayList<Treatment>(), securityRepo);
         basicService.setDefn(definitionStore.lookupByEntityType("teacher"));
         securityContextInjector.setEducatorContext("my-id");
         assertTrue(basicService.isSelf(new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, "my-id"))));
@@ -194,7 +194,7 @@ public class BasicServiceTest {
         Entity entity1 = new MongoEntity("student", "student1", entityBody1, new HashMap<String,Object>());
         Entity entity2 = new MongoEntity("student", "student2", entityBody2, new HashMap<String,Object>());
         Iterable<Entity> entities = Arrays.asList(entity1, entity2);
-        Mockito.when(mockRepo.findAll(Mockito.eq("student"), Mockito.any(NeutralQuery.class))).thenReturn(entities);
+        Mockito.when(mockRepo.findAll(Mockito.eq("student"), Mockito.eq("student"), Mockito.any(NeutralQuery.class))).thenReturn(entities);
         Mockito.when(mockRightsFilter.makeEntityBody(Mockito.eq(entity1), Mockito.any(List.class), Mockito.any(EntityDefinition.class), Mockito.any(Collection.class), Mockito.any(Collection.class))).thenReturn(entityBody1);
         Mockito.when(mockRightsFilter.makeEntityBody(Mockito.eq(entity2), Mockito.any(List.class), Mockito.any(EntityDefinition.class), Mockito.any(Collection.class), Mockito.any(Collection.class))).thenReturn(entityBody2);
 
@@ -225,7 +225,7 @@ public class BasicServiceTest {
         Entity entity1 = new MongoEntity("student", "student1", entityBody1, new HashMap<String,Object>());
         Entity entity2 = new MongoEntity("student", "student2", entityBody2, new HashMap<String,Object>());
         Iterable<Entity> entities = Arrays.asList(entity1, entity2);
-        Mockito.when(mockRepo.findAll(Mockito.eq("student"), Mockito.any(NeutralQuery.class))).thenReturn(entities);
+        Mockito.when(mockRepo.findAll(Mockito.eq("student"), Mockito.eq("student"), Mockito.any(NeutralQuery.class))).thenReturn(entities);
         Mockito.when(mockRightsFilter.makeEntityBody(Mockito.eq(entity1), Mockito.any(List.class), Mockito.any(EntityDefinition.class), Mockito.anyBoolean(), Mockito.any(Collection.class))).thenReturn(entityBody1);
         Mockito.when(mockRightsFilter.makeEntityBody(Mockito.eq(entity2), Mockito.any(List.class), Mockito.any(EntityDefinition.class), Mockito.anyBoolean(), Mockito.any(Collection.class))).thenReturn(entityBody2);
 
@@ -295,7 +295,7 @@ public class BasicServiceTest {
     @Test
     public void testUpdateBasedOnContextualRoles() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
         securityContextInjector.setStaffContext();
-        service = (BasicService) context.getBean("basicService", "student", new ArrayList<Treatment>(), securityRepo);
+        service = (BasicService) context.getBean("basicService", "student", "student", new ArrayList<Treatment>(), securityRepo);
         EntityDefinition studentDef = factory.makeEntity("student").exposeAs("students").build();
         service.setDefn(studentDef);
         EntityBody entityBody1 = new EntityBody();
@@ -325,7 +325,7 @@ public class BasicServiceTest {
     @Test(expected = AccessDeniedException.class)
     public void testUpdateBasedOnContextualRolesAccessDenied() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
         securityContextInjector.setEducatorContext();
-        service = (BasicService) context.getBean("basicService", "student", new ArrayList<Treatment>(), securityRepo);
+        service = (BasicService) context.getBean("basicService", "student", "student", new ArrayList<Treatment>(), securityRepo);
         EntityDefinition studentDef = factory.makeEntity("student").exposeAs("students").build();
         service.setDefn(studentDef);
         EntityBody entityBody1 = new EntityBody();
@@ -349,7 +349,7 @@ public class BasicServiceTest {
     @Test
     public void testPatchBasedOnContextualRoles() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
         securityContextInjector.setStaffContext();
-        service = (BasicService) context.getBean("basicService", "student", new ArrayList<Treatment>(), securityRepo);
+        service = (BasicService) context.getBean("basicService", "student", "student", new ArrayList<Treatment>(), securityRepo);
         EntityDefinition studentDef = factory.makeEntity("student").exposeAs("students").build();
         service.setDefn(studentDef);
 
@@ -383,7 +383,7 @@ public class BasicServiceTest {
     @Test(expected = AccessDeniedException.class)
     public void testPatchBasedOnContextualRolesAccessDenied() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
         securityContextInjector.setEducatorContext();
-        service = (BasicService) context.getBean("basicService", "student", new ArrayList<Treatment>(), securityRepo);
+        service = (BasicService) context.getBean("basicService", "student", "student", new ArrayList<Treatment>(), securityRepo);
 
         EntityDefinition studentDef = factory.makeEntity("student").exposeAs("students").build();
         service.setDefn(studentDef);

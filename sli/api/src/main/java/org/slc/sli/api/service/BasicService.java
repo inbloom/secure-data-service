@@ -81,6 +81,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
     private static final List<String> STUDENT_SELF = Arrays.asList(EntityNames.STUDENT, EntityNames.STUDENT_PROGRAM_ASSOCIATION, EntityNames.STUDENT_COHORT_ASSOCIATION,
             EntityNames.STUDENT_SECTION_ASSOCIATION, EntityNames.PARENT, EntityNames.STUDENT_PARENT_ASSOCIATION);
     private String collectionName;
+    private String entityName;
     private List<Treatment> treatments;
     private EntityDefinition defn;
     private Repository<Entity> repo;
@@ -104,7 +105,8 @@ public class BasicService implements EntityService, AccessibilityCheck {
     @Autowired
     private EntityRightsFilter entityRightsFilter;
 
-    public BasicService(String collectionName, List<Treatment> treatments, Repository<Entity> repo) {
+    public BasicService(String entityName, String collectionName, List<Treatment> treatments, Repository<Entity> repo) {
+    	this.entityName = entityName;
         this.collectionName = collectionName;
         this.treatments = treatments;
         this.repo = repo;
@@ -174,7 +176,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
         NeutralQuery nq = neutralQuery;
         injectSecurity(nq);
-        Iterable<Entity> entities = repo.findAll(collectionName, nq);
+        Iterable<Entity> entities = repo.findAll(entityName, collectionName, nq);
 
         List<String> results = new ArrayList<String>();
         for (Entity entity : entities) {
@@ -474,7 +476,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
     private Iterable<EntityBody> noEntitiesFound(NeutralQuery neutralQuery) {
         // this.addDefaultQueryParams(neutralQuery, collectionName);
-        if (!repo.findAll(collectionName, neutralQuery).iterator().hasNext()) {
+        if (!repo.findAll(entityName, collectionName, neutralQuery).iterator().hasNext()) {
             return new ArrayList<EntityBody>();
         } else {
             throw new APIAccessDeniedException("Access to resource denied.");
@@ -518,7 +520,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
             nq.addCriteria(new NeutralCriteria("_id", "in", idList));
 
             injectSecurity(nq);
-            Iterable<Entity> entities = repo.findAll(collectionName, nq);
+            Iterable<Entity> entities = repo.findAll(entityName, collectionName, nq);
 
             List<EntityBody> results = new ArrayList<EntityBody>();
             for (Entity e : entities) {
@@ -538,7 +540,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
         checkFieldAccess(neutralQuery, isSelf);
 
         injectSecurity(neutralQuery);
-        Collection<Entity> entities = (Collection<Entity>) repo.findAll(collectionName, neutralQuery);
+        Collection<Entity> entities = (Collection<Entity>) repo.findAll(entityName, collectionName, neutralQuery);
 
         List<EntityBody> results = new ArrayList<EntityBody>();
 
@@ -559,7 +561,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
         boolean isSelf = isSelf(neutralQuery);
 
         injectSecurity(neutralQuery);
-        Collection<Entity> entities = (Collection<Entity>) repo.findAll(collectionName, neutralQuery);
+        Collection<Entity> entities = (Collection<Entity>) repo.findAll(entityName, collectionName, neutralQuery);
 
         List<EntityBody> results = new ArrayList<EntityBody>();
 
@@ -595,7 +597,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
         query.addCriteria(new NeutralCriteria("_id", "=", id));
 
         injectSecurity(query);
-        Iterable<Entity> entities = repo.findAll(collectionName, query);
+        Iterable<Entity> entities = repo.findAll(entityName, collectionName, query);
 
         if (entities != null && entities.iterator().hasNext()) {
             exists = true;
