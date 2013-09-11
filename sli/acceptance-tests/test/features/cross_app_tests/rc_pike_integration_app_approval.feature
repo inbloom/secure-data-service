@@ -411,6 +411,7 @@ And the operator triggers a delta for the production tenant
       |  teacherSchoolAssociation              |
       |  teacherSectionAssociation             |
 
+@wip
 Scenario: Charter School - App makes an api call to retrieve an lea level bulk extract
    #Get a session to trigger a bulk extract
    Given the pre-existing bulk extrac testing app key has been created
