@@ -9,7 +9,7 @@ Feature: Ingestion
 
             Given a landing zone
             And I drop the file "SmallSampleDataSet.zip" into the landingzone
-            And I check for the file "job*.log" every "30" seconds for "600" seconds
+            And I check for the file "job*.log" every "10" seconds for "600" seconds
             Then the "SmallSampleDataSet.zip" should be ingested with the correct number of records
             And the landing zone should contain a file with the message "All records processed successfully."
             And I should not see an error log file created
