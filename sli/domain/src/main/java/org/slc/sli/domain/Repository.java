@@ -102,7 +102,7 @@ public interface Repository<T> {
      *
      * @return the collection of objects
      */
-    public Iterable<T> findAll(String collectionName, NeutralQuery neutralQuery);
+    public Iterable<T> findAll(String entityName, String collectionName, NeutralQuery neutralQuery);
 
     /**
      * Filter a collection of IDs by
