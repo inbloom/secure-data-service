@@ -33,6 +33,7 @@ import org.springframework.data.mongodb.core.query.Order;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.dal.encrypt.EntityEncryption;
@@ -325,10 +326,10 @@ public class MongoQueryConverter {
      * @param neutralQuery database independent representation of query to be read
      * @return a mongo specific database query implementation of the neutral query
      */
-    public Query convert(String entityName, NeutralQuery neutralQuery) {
-    	return convert(entityName, neutralQuery, false);
+    public Query convert(String entityName, String collectionName, NeutralQuery neutralQuery) {
+    	return convert(entityName, collectionName, neutralQuery, false);
     }
-    public Query convert(String entityName, NeutralQuery neutralQuery, boolean allFields) {
+    public Query convert(String entityName, String collectionName, NeutralQuery neutralQuery, boolean allFields) {
     	Query mongoQuery = new Query();
 
         if (neutralQuery != null) {
