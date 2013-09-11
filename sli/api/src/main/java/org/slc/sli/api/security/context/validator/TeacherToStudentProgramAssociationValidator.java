@@ -55,7 +55,7 @@ public class TeacherToStudentProgramAssociationValidator extends AbstractContext
         
         Set<String> programIds = new HashSet<String>();
         
-        Iterable<Entity> scas = getRepo().findAll(EntityNames.STUDENT_PROGRAM_ASSOCIATION, query);
+        Iterable<Entity> scas = getRepo().findAll(EntityNames.STUDENT_PROGRAM_ASSOCIATION, EntityNames.STUDENT_PROGRAM_ASSOCIATION, query);
         for (Entity sca : scas) {
             programIds.add((String) sca.getBody().get(ParameterConstants.PROGRAM_ID));
         }
@@ -66,7 +66,7 @@ public class TeacherToStudentProgramAssociationValidator extends AbstractContext
         nq.addCriteria(new NeutralCriteria(ParameterConstants.STUDENT_RECORD_ACCESS,
                 NeutralCriteria.OPERATOR_EQUAL, true));
         
-        Iterable<Entity> entities = getRepo().findAll(EntityNames.STAFF_PROGRAM_ASSOCIATION, nq);
+        Iterable<Entity> entities = getRepo().findAll(EntityNames.STAFF_PROGRAM_ASSOCIATION, EntityNames.STAFF_PROGRAM_ASSOCIATION, nq);
 
         Set<String> validProgramIds = new HashSet<String>();
         for (Entity entity : entities) {

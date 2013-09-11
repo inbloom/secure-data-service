@@ -106,7 +106,7 @@ public class StatePublicDataExtractorTest {
     public void testOneSEA() {
         List<Entity> seaList = new ArrayList<Entity>();
         seaList.add(new MongoEntity(EntityNames.EDUCATION_ORGANIZATION, "123_id", null, null));
-        Mockito.when(entityRepository.findAll(Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.any(NeutralQuery.class))).thenReturn(seaList);
+        Mockito.when(entityRepository.findAll(Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.any(NeutralQuery.class))).thenReturn(seaList);
 
         String id = statePublicDataExtractor.retrieveSEAId();
 
@@ -119,7 +119,7 @@ public class StatePublicDataExtractorTest {
     @Test
     public void testNoSEA() {
         List<Entity> seaList = null;
-        Mockito.when(entityRepository.findAll(Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.any(NeutralQuery.class))).thenReturn(seaList);
+        Mockito.when(entityRepository.findAll(Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.any(NeutralQuery.class))).thenReturn(seaList);
 
         String id = statePublicDataExtractor.retrieveSEAId();
 
@@ -132,7 +132,7 @@ public class StatePublicDataExtractorTest {
     @Test
     public void testEmptySEA() {
         List<Entity> seaList = new ArrayList<Entity>();
-        Mockito.when(entityRepository.findAll(Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.any(NeutralQuery.class))).thenReturn(seaList);
+        Mockito.when(entityRepository.findAll(Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.any(NeutralQuery.class))).thenReturn(seaList);
 
         String id = statePublicDataExtractor.retrieveSEAId();
 
@@ -147,7 +147,7 @@ public class StatePublicDataExtractorTest {
         List<Entity> seaList = new ArrayList<Entity>();
         seaList.add(new MongoEntity(EntityNames.EDUCATION_ORGANIZATION, "123_id", null, null));
         seaList.add(new MongoEntity(EntityNames.EDUCATION_ORGANIZATION, "456_id", null, null));
-        Mockito.when(entityRepository.findAll(Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.any(NeutralQuery.class))).thenReturn(seaList);
+        Mockito.when(entityRepository.findAll(Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.any(NeutralQuery.class))).thenReturn(seaList);
 
         String id = statePublicDataExtractor.retrieveSEAId();
 

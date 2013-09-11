@@ -79,7 +79,7 @@ public class URITranslatorTest {
         when(loEntity.getEntityId()).thenReturn("123");
         when(loEntity.getBody()).thenReturn(body);
         learningObjectiveList.add(loEntity);
-        when(repository.findAll(anyString(), any(NeutralQuery.class))).thenReturn(learningObjectiveList);
+        when(repository.findAll(anyString(), anyString(), any(NeutralQuery.class))).thenReturn(learningObjectiveList);
         String newPath = translator.getTranslator("parentLearningObjective").translate("v1/learningObjectives/123/parentLearningObjectives");
         assertTrue("Should match new uri", "learningObjectives/456".equals(newPath));
     

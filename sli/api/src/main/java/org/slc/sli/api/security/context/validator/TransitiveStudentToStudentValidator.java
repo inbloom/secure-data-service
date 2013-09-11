@@ -72,7 +72,7 @@ public class TransitiveStudentToStudentValidator extends BasicValidator {
                 }
                 NeutralQuery sectionQuery = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, currentSections, false));
                 sectionQuery.setEmbeddedFields(Arrays.asList("studentSectionAssociation"));
-                for (Entity section : getRepo().findAll("section", sectionQuery)) {
+                for (Entity section : getRepo().findAll("section", "section", sectionQuery)) {
                     List<Entity> ssas = section.getEmbeddedData().get("studentSectionAssociation");
                     if (ssas != null) {
                         for (Entity ssa : ssas) {
@@ -91,7 +91,7 @@ public class TransitiveStudentToStudentValidator extends BasicValidator {
             NeutralQuery studentQuery = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, myCopyOfIds, false));
             studentQuery.setEmbeddedFields(Arrays.asList("studentProgramAssociation", "studentCohortAssociation"));
             studentQuery.setIncludeFields(new ArrayList<String>()); // we don't need anything in the body of the superdoc.
-            for (Entity student : getRepo().findAll("student", studentQuery)) {
+            for (Entity student : getRepo().findAll("student", "student", studentQuery)) {
                 removeValidIds(myCopyOfIds, authenticatedStudent, student, "studentProgramAssociation", "programId");
                 removeValidIds(myCopyOfIds, authenticatedStudent, student, "studentCohortAssociation", "cohortId");
             }

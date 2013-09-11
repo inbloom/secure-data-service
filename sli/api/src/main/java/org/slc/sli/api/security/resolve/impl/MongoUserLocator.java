@@ -74,7 +74,7 @@ public class MongoUserLocator implements UserLocator {
              neutralQuery.addCriteria(new NeutralCriteria(ParameterConstants.STAFF_UNIQUE_STATE_ID,
                      NeutralCriteria.OPERATOR_EQUAL, externalUserId));
 
-             Iterable<Entity> staff = repo.findAll(EntityNames.STAFF, neutralQuery);
+             Iterable<Entity> staff = repo.findAll(EntityNames.STAFF, EntityNames.STAFF, neutralQuery);
 
              if (staff != null && staff.iterator().hasNext()) {
                  Entity entity = staff.iterator().next();

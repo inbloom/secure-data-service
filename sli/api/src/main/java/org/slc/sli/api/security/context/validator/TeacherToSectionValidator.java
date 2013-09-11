@@ -54,7 +54,7 @@ public class TeacherToSectionValidator extends AbstractContextValidator {
         Set<String> sectionIds = new HashSet<String>();
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.SECTION_ID, NeutralCriteria.CRITERIA_IN, ids));
         query.addCriteria(new NeutralCriteria(ParameterConstants.TEACHER_ID, NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
-        Iterable<Entity> associations = getRepo().findAll(EntityNames.TEACHER_SECTION_ASSOCIATION, query);
+        Iterable<Entity> associations = getRepo().findAll(EntityNames.TEACHER_SECTION_ASSOCIATION, EntityNames.TEACHER_SECTION_ASSOCIATION, query);
 
         if (associations != null) {
             for (Entity association : associations) {

@@ -271,7 +271,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
 
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN,
                 ids));
-        Iterable<Entity> entities = getRepo().findAll(type, query);
+        Iterable<Entity> entities = getRepo().findAll(type, type, query);
         if (entities != null) {
             for (Entity entity : entities) {
                 Map<String, Object> body = entity.getBody();
@@ -343,7 +343,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
     protected Iterable<Entity> getTeacherSchoolAssociations() {
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE,
                 NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
-        return repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, basicQuery);
+        return repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, EntityNames.STAFF_ED_ORG_ASSOCIATION, basicQuery);
     }
 
     @Override

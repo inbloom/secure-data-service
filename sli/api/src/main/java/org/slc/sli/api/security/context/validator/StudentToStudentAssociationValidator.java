@@ -77,7 +77,7 @@ public class StudentToStudentAssociationValidator extends AbstractContextValidat
 
         // Now, find the student IDs on the other remaining requested IDs and validate them
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, toValidateIds));
-        for(Entity association : getRepo().findAll(entityType, query)) {
+        for(Entity association : getRepo().findAll(entityType, entityType, query)) {
             Map<String, Object>body = association.getBody();
             if (!isFieldExpired(body, ParameterConstants.END_DATE, false)) {
                 otherStudentIds.add((String) body.get(ParameterConstants.STUDENT_ID));

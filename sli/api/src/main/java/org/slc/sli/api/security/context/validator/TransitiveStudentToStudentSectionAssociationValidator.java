@@ -52,7 +52,7 @@ public class TransitiveStudentToStudentSectionAssociationValidator extends Abstr
 
         Set<String> otherStudentIds = new HashSet<String>();
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids));
-        for(Entity ssa : getRepo().findAll(EntityNames.STUDENT_SECTION_ASSOCIATION, query)) {
+        for(Entity ssa : getRepo().findAll(EntityNames.STUDENT_SECTION_ASSOCIATION, EntityNames.STUDENT_SECTION_ASSOCIATION, query)) {
             Map<String, Object> body = ssa.getBody();
             if (getDirectStudentIds().contains(body.get(ParameterConstants.STUDENT_ID))) {
                 // We don't have to further validate SSAs if the studentId is a reference to the user

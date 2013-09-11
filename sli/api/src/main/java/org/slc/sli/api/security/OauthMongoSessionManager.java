@@ -574,7 +574,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                     NeutralCriteria.OPERATOR_EQUAL, externalId));
             allSessionsQuery.addCriteria(new NeutralCriteria("principal.id", NeutralCriteria.OPERATOR_EQUAL,
                     principalId));
-            Iterable<Entity> allSessions = repo.findAll(SESSION_COLLECTION, allSessionsQuery);
+            Iterable<Entity> allSessions = repo.findAll(SESSION_COLLECTION, SESSION_COLLECTION, allSessionsQuery);
             if (allSessions != null) {
                 for (Entity session : allSessions) {
                     sessionsToExpire.add(session);
@@ -666,7 +666,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         query.addOrQuery(hardLogoutQuery);
         query.addOrQuery(expireQuery);
 
-        for (Entity entity : repo.findAll(SESSION_COLLECTION, query)) {
+        for (Entity entity : repo.findAll(SESSION_COLLECTION, SESSION_COLLECTION, query)) {
             if (!repo.delete(SESSION_COLLECTION, entity.getEntityId())) {
                 error("Failed to delete entity with id: {}", new Object[] { entity.getEntityId() });
                 success = false;

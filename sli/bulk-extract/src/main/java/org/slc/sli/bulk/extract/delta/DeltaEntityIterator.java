@@ -150,7 +150,7 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
         long lastRun = 0; // assume if we can't find last time it ran, we need to get all the deltas
 
         TenantContext.setIsSystemCall(true);
-        Iterable<Entity> entities = repo.findAll(BulkExtractMongoDA.BULK_EXTRACT_COLLECTION,
+        Iterable<Entity> entities = repo.findAll(BulkExtractMongoDA.BULK_EXTRACT_COLLECTION, BulkExtractMongoDA.BULK_EXTRACT_COLLECTION,
                 queryForLastDeltaTime(tenant));
         TenantContext.setIsSystemCall(false);
         if (entities == null) {
@@ -304,7 +304,7 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
                 LOG.debug("Cannot resolve entity type {}", batchedCollection);
                 continue;
             }
-            Iterable<Entity> entities = repo.findAll(batchedCollection,
+            Iterable<Entity> entities = repo.findAll(batchedCollection, batchedCollection,
                     buildBatchQuery(batchedCollection, ids.keySet()));
             if (entities instanceof List) {
                 LOG.debug(String.format("Retrieved %d entities from %s", ((List) entities).size(), batchedCollection));
@@ -384,7 +384,7 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
             if(batchedCollection.equals("assessmentFamily") && collection.equals("assessment")) {
                 entities = getAssessmentsForAssessmentFamily(entity.getEntityId());
             } else {
-                entities = repo.findAll(collection, buildBatchQuery(collection, entity.getEntityId(), key));
+                entities = repo.findAll(collection, collection, buildBatchQuery(collection, entity.getEntityId(), key));
             }
             for ( Entity e : entities ) {
                 addToQueue(new DeltaRecord(e, governingEdOrgs, Operation.UPDATE, false, collection), collection);
@@ -407,7 +407,7 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
         Iterable<Entity> assessments = Collections.EMPTY_LIST;
         if(allRelated != null && !allRelated.isEmpty()) {
             NeutralQuery q = new NeutralQuery(new NeutralCriteria("assessmentFamilyReference", NeutralCriteria.CRITERIA_IN, allRelated));
-            assessments = repo.findAll("assessment", q);
+            assessments = repo.findAll("assessment", "assessment", q);
         }
         return assessments;
     }
@@ -425,7 +425,7 @@ public class DeltaEntityIterator implements Iterator<DeltaRecord> {
         } else {
             allRelated.add(afId);
             NeutralQuery q = new NeutralQuery(new NeutralCriteria("assessmentFamilyReference", NeutralCriteria.OPERATOR_EQUAL, afId));
-            Iterable<Entity> entities = repo.findAll("assessmentFamily", q);
+            Iterable<Entity> entities = repo.findAll("assessmentFamily", "assessmentFamily", q);
             if( entities != null) {
                 for (Entity e : entities) {
                     getAssessmentFamilyHierarchy(e.getEntityId(), allRelated);

@@ -58,7 +58,7 @@ public class StaffToStaffCohortAssociationValidator extends AbstractContextValid
         //Get the ones based on staffIds (Including me)
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids));
         Set<String> staffIds = new HashSet<String>();
-        Iterable<Entity> staffCohorts = getRepo().findAll(EntityNames.STAFF_COHORT_ASSOCIATION, basicQuery);
+        Iterable<Entity> staffCohorts = getRepo().findAll(EntityNames.STAFF_COHORT_ASSOCIATION, EntityNames.STAFF_COHORT_ASSOCIATION, basicQuery);
         for (Entity staff : staffCohorts) {
             Map<String, Object> body = staff.getBody();
             if (isFieldExpired(body, ParameterConstants.END_DATE, true)) {

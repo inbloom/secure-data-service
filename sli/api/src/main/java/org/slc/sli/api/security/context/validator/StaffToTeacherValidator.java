@@ -56,7 +56,7 @@ public class StaffToTeacherValidator extends AbstractContextValidator {
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE,
                 NeutralCriteria.CRITERIA_IN,
                 teacherIds));
-        Iterable<Entity> schoolAssoc = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, basicQuery);
+        Iterable<Entity> schoolAssoc = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, EntityNames.STAFF_ED_ORG_ASSOCIATION, basicQuery);
         Map<String, Set<String>> teacherSchoolMap = new HashMap<String, Set<String>>();
         populateMapFromMongoResponse(teacherSchoolMap, schoolAssoc);
         Set<String> edOrgLineage = getStaffEdOrgLineage();

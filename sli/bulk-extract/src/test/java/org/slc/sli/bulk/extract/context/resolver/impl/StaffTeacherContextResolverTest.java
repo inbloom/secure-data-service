@@ -70,7 +70,7 @@ public class StaffTeacherContextResolverTest {
     public void expiredStaffDoNotShowup() {
         Entity staff = buildStaffEntity();
         NeutralQuery q = resolver.buildStaffEdorgQuery(staff.getEntityId());
-        when(repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, q)).thenReturn(buildExpiredAssociations());
+        when(repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, EntityNames.STAFF_ED_ORG_ASSOCIATION, q)).thenReturn(buildExpiredAssociations());
         assertTrue(resolver.findGoverningEdOrgs(staff).size() == 0);
     }
     
@@ -78,7 +78,7 @@ public class StaffTeacherContextResolverTest {
     public void staffWithAssociationsToTwoLEAsBelongsToTwoLEAs() {
         Entity staff = buildStaffEntity();
         NeutralQuery q = resolver.buildStaffEdorgQuery(staff.getEntityId());
-        when(repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, q)).thenReturn(buildCurrentAssociations());
+        when(repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, EntityNames.STAFF_ED_ORG_ASSOCIATION, q)).thenReturn(buildCurrentAssociations());
         String tomorrow = new DateTime().plusDays(1).toString("yyyy-MM-dd");
         String dayAfterTomorrow = new DateTime().plusDays(2).toString("yyyy-MM-dd");
         Set<String> lea1 = new HashSet<String>(Arrays.asList("lea1"));

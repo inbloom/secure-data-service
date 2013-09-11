@@ -89,7 +89,7 @@ public class SuperAdminService {
 
         NeutralQuery query = new NeutralQuery();
 
-        for (Entity e : this.repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query)) {
+        for (Entity e : this.repo.findAll(EntityNames.EDUCATION_ORGANIZATION, EntityNames.EDUCATION_ORGANIZATION, query)) {
             String tmpEdOrg = (String) e.getBody().get("stateOrganizationId");
             @SuppressWarnings("unchecked")
             List<String> organizationCategories = (List<String>) e.getBody().get("organizationCategories");

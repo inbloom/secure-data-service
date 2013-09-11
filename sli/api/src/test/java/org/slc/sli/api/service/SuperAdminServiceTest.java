@@ -65,7 +65,7 @@ public class SuperAdminServiceTest {
         body.put("organizationCategories", Arrays.asList("State Education Agency"));
         Mockito.when(user.getBody()).thenReturn(body);
 
-        Mockito.when(repo.findAll(Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.any(NeutralQuery.class)))
+        Mockito.when(repo.findAll(Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.any(NeutralQuery.class)))
                 .thenReturn(Arrays.asList(user));
 
         Set<String> edOrgs = service.getAllowedEdOrgs(null, null);

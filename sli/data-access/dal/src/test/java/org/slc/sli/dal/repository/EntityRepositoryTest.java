@@ -632,7 +632,7 @@ public class EntityRepositoryTest {
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.setOffset(0);
         neutralQuery.setLimit(20);
-        Iterable<Entity> entities = repository.findAll("student", neutralQuery);
+        Iterable<Entity> entities = repository.findAll("student", "student", neutralQuery);
         assertNotNull(entities);
         Entity found = entities.iterator().next();
         assertEquals(found.getBody().get("birthDate"), student.get("birthDate"));
@@ -648,7 +648,7 @@ public class EntityRepositoryTest {
         // test update
         found.getBody().put("firstName", "Mandy");
         assertTrue(repository.update("student", found, false));
-        entities = repository.findAll("student", neutralQuery);
+        entities = repository.findAll("student", "student", neutralQuery);
         assertNotNull(entities);
         Entity updated = entities.iterator().next();
         assertEquals(updated.getBody().get("firstName"), "Mandy");
@@ -656,7 +656,7 @@ public class EntityRepositoryTest {
         // test delete by id
         Map<String, Object> student2Body = buildTestStudentEntity();
         Entity student2 = repository.create("student", student2Body);
-        entities = repository.findAll("student", neutralQuery);
+        entities = repository.findAll("student", "student", neutralQuery);
         assertNotNull(entities.iterator().next());
         repository.delete("student", student2.getEntityId());
         Entity zombieStudent = repository.findById("student", student2.getEntityId());
@@ -666,7 +666,7 @@ public class EntityRepositoryTest {
 
         // test deleteAll by entity type
         repository.deleteAll("student", null);
-        entities = repository.findAll("student", neutralQuery);
+        entities = repository.findAll("student", "student", neutralQuery);
         assertFalse(entities.iterator().hasNext());
     }
 
@@ -714,7 +714,7 @@ public class EntityRepositoryTest {
         sortQuery1.setOffset(0);
         sortQuery1.setLimit(100);
 
-        Iterable<Entity> entities = repository.findAll("student", sortQuery1);
+        Iterable<Entity> entities = repository.findAll("student", "student", sortQuery1);
         assertNotNull(entities);
         Iterator<Entity> it = entities.iterator();
         assertEquals("Austin", it.next().getBody().get("firstName"));
@@ -728,7 +728,7 @@ public class EntityRepositoryTest {
         sortQuery2.setSortOrder(NeutralQuery.SortOrder.descending);
         sortQuery2.setOffset(0);
         sortQuery2.setLimit(100);
-        entities = repository.findAll("student", sortQuery2);
+        entities = repository.findAll("student", "student", sortQuery2);
         assertNotNull(entities);
         it = entities.iterator();
         assertEquals("Suzy", it.next().getBody().get("firstName"));
@@ -743,7 +743,7 @@ public class EntityRepositoryTest {
         sortQuery3.setSortOrder(NeutralQuery.SortOrder.ascending);
         sortQuery3.setOffset(0);
         sortQuery3.setLimit(100);
-        entities = repository.findAll("student", sortQuery3);
+        entities = repository.findAll("student", "student", sortQuery3);
         assertNotNull(entities);
         it = entities.iterator();
         assertEquals("1", ((List<String>) (it.next().getBody().get("performanceLevels"))).get(0));
@@ -758,7 +758,7 @@ public class EntityRepositoryTest {
         sortQuery4.setSortOrder(NeutralQuery.SortOrder.descending);
         sortQuery4.setOffset(0);
         sortQuery4.setLimit(100);
-        entities = repository.findAll("student", sortQuery4);
+        entities = repository.findAll("student", "student", sortQuery4);
         assertNotNull(entities);
         it = entities.iterator();
         assertEquals("4", ((List<String>) (it.next().getBody().get("performanceLevels"))).get(0));

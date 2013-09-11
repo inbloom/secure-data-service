@@ -130,7 +130,7 @@ public class SessionRangeCalculatorTest {
             sessions.add(e);
         }
 
-        Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.SESSION), Mockito.any(NeutralQuery.class))).thenReturn(sessions);
+        Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.SESSION), Mockito.eq(EntityNames.SESSION), Mockito.any(NeutralQuery.class))).thenReturn(sessions);
     }
 
 

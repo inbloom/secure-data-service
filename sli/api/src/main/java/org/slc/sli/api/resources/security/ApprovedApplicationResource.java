@@ -85,7 +85,7 @@ public class ApprovedApplicationResource {
 
         NeutralQuery query = new NeutralQuery(0);
 
-        for (Entity result : repo.findAll("application", query)) {
+        for (Entity result : repo.findAll("application", "application", query)) {
             if (appValidator.isAuthorizedForApp(result, SecurityUtil.getSLIPrincipal())) {
                 EntityBody body = new EntityBody(result.getBody());
                 if (!shouldFilterApp(body, adminFilter)) {

@@ -136,11 +136,11 @@ public class StaffToSubStudentSectionAssociationEntityValidatorTest {
         grades.add(gradeEntity.getEntityId());
         studentIds.add("student123");
 
-        Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.GRADE), Mockito.any(NeutralQuery.class))).thenReturn(
+        Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.GRADE), Mockito.eq(EntityNames.GRADE), Mockito.any(NeutralQuery.class))).thenReturn(
                 Arrays.asList(gradeEntity));
 
         Mockito.when(
-                mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SECTION_ASSOCIATION), Mockito.any(NeutralQuery.class)))
+                mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SECTION_ASSOCIATION), Mockito.eq(EntityNames.STUDENT_SECTION_ASSOCIATION), Mockito.any(NeutralQuery.class)))
                 .thenReturn(Arrays.asList(studentSectionAssociation));
 
         Mockito.when(staffToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(true);
@@ -158,11 +158,11 @@ public class StaffToSubStudentSectionAssociationEntityValidatorTest {
         grades.add(gradeEntity.getEntityId());
         studentIds.add("student123");
 
-        Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.GRADE), Mockito.any(NeutralQuery.class))).thenReturn(
+        Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.GRADE), Mockito.eq(EntityNames.GRADE), Mockito.any(NeutralQuery.class))).thenReturn(
                 Arrays.asList(gradeEntity));
 
         Mockito.when(
-                mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SECTION_ASSOCIATION), Mockito.any(NeutralQuery.class)))
+                mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SECTION_ASSOCIATION), Mockito.eq(EntityNames.STUDENT_SECTION_ASSOCIATION), Mockito.any(NeutralQuery.class)))
                 .thenReturn(Arrays.asList(studentSectionAssociation));
 
         Mockito.when(staffToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(false);
@@ -179,7 +179,7 @@ public class StaffToSubStudentSectionAssociationEntityValidatorTest {
         Entity gradeEntity = helper.generateGrade(studentSectionAssociation.getEntityId());
         grades.add(gradeEntity.getEntityId());
 
-        Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.GRADE), Mockito.any(NeutralQuery.class))).thenReturn(
+        Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.GRADE), Mockito.eq(EntityNames.GRADE), Mockito.any(NeutralQuery.class))).thenReturn(
                 new ArrayList<Entity>());
 
         assertFalse(validator.validate(EntityNames.GRADE, grades));
@@ -195,11 +195,11 @@ public class StaffToSubStudentSectionAssociationEntityValidatorTest {
         Entity gradeEntity = helper.generateGrade(studentSectionAssociation.getEntityId());
         grades.add(gradeEntity.getEntityId());
 
-        Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.GRADE), Mockito.any(NeutralQuery.class))).thenReturn(
+        Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.GRADE), Mockito.eq(EntityNames.GRADE), Mockito.any(NeutralQuery.class))).thenReturn(
                 Arrays.asList(gradeEntity));
 
         Mockito.when(
-                mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SECTION_ASSOCIATION), Mockito.any(NeutralQuery.class)))
+                mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SECTION_ASSOCIATION), Mockito.eq(EntityNames.STUDENT_SECTION_ASSOCIATION), Mockito.any(NeutralQuery.class)))
                 .thenReturn(new ArrayList<Entity>());
 
         assertFalse(validator.validate(EntityNames.GRADE, grades));

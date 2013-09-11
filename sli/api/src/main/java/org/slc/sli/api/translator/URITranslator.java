@@ -220,7 +220,7 @@ public class URITranslator {
                 neutralQuery.addCriteria(new NeutralCriteria(referenceKey, "in", Arrays.asList(matchList.get("id"))));
                 neutralQuery.setOffset(0);
                 neutralQuery.setLimit(0);
-                Iterable<Entity> entities = repository.findAll(parentEntity, neutralQuery);
+                Iterable<Entity> entities = repository.findAll(parentEntity, parentEntity, neutralQuery);
 
                 for (Entity entity : entities) {
                     if (key.equals("_id")) {

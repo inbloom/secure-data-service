@@ -65,7 +65,7 @@ public class TransitiveTeacherToStaffValidator extends AbstractContextValidator 
         basicQuery.addOrQuery(new NeutralQuery(new NeutralCriteria(ParameterConstants.END_DATE, NeutralCriteria.CRITERIA_EXISTS, false)));
         basicQuery.addOrQuery(new NeutralQuery(endDateCriteria));
         
-        Iterable<Entity> edOrgAssoc = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, basicQuery);
+        Iterable<Entity> edOrgAssoc = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, EntityNames.STAFF_ED_ORG_ASSOCIATION, basicQuery);
         
         Map<String, List<String>> staffEdorgMap = new HashMap<String, List<String>>();
         populateMapFromMongoResponse(staffEdorgMap, edOrgAssoc);

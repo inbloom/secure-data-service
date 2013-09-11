@@ -86,7 +86,7 @@ public class DeltaEntityIteratorTest {
         edorgList.add(buildEdorgEntity(UPDATE_ID));
         
         when(deltaJournal.findDeltaRecordBetween(anyLong(), anyLong())).thenReturn(deltaEntities.iterator());
-        when(repo.findAll(eq("educationOrganization"), argThat(new BaseMatcher<NeutralQuery>() {
+        when(repo.findAll(eq("educationOrganization"), eq("educationOrganization"), argThat(new BaseMatcher<NeutralQuery>() {
 
             @Override
             public boolean matches(Object item) {

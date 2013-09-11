@@ -99,7 +99,7 @@ public class EdOrgOwnershipArbiterTest {
         securityContextInjector.setEducatorContext();
 
      Entity edorg = createEntity(EntityNames.SCHOOL, "edorg1", new HashMap<String, Object>());
-     Mockito.when(repo.findAll(Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), argThat(new BaseMatcher<NeutralQuery>() {
+     Mockito.when(repo.findAll(Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), argThat(new BaseMatcher<NeutralQuery>() {
 
          @Override
          public boolean matches(Object item) {
@@ -132,7 +132,7 @@ public class EdOrgOwnershipArbiterTest {
         Entity edorg1 = createEntity(EntityNames.SCHOOL, "edorg1", new HashMap<String, Object>());
         Entity edorg2 = createEntity(EntityNames.SCHOOL, "edorg2", new HashMap<String, Object>());
         Entity edorg3 = createEntity(EntityNames.SCHOOL, "edorg3", new HashMap<String, Object>());
-        Mockito.when(repo.findAll(Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), argThat(new BaseMatcher<NeutralQuery>() {
+        Mockito.when(repo.findAll(Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), argThat(new BaseMatcher<NeutralQuery>() {
 
             @SuppressWarnings("unchecked")
             @Override
@@ -169,7 +169,7 @@ public class EdOrgOwnershipArbiterTest {
         ssa3Body.put(ParameterConstants.STUDENT_ID, "student1");
         Entity ssa3 = createEntity(EntityNames.STUDENT_SCHOOL_ASSOCIATION, "ssa3", ssa3Body);
 
-        Mockito.when(repo.findAll(Mockito.eq(EntityNames.STUDENT_SCHOOL_ASSOCIATION), argThat(new BaseMatcher<NeutralQuery>() {
+        Mockito.when(repo.findAll(Mockito.eq(EntityNames.STUDENT_SCHOOL_ASSOCIATION), Mockito.eq(EntityNames.STUDENT_SCHOOL_ASSOCIATION), argThat(new BaseMatcher<NeutralQuery>() {
 
             @Override
             public boolean matches(Object item) {
@@ -199,7 +199,7 @@ public class EdOrgOwnershipArbiterTest {
 
         Entity edorg1 = createEntity(EntityNames.SCHOOL, "edorg1", new HashMap<String, Object>());
         Entity edorg2 = createEntity(EntityNames.SCHOOL, "edorg2", new HashMap<String, Object>());
-        Mockito.when(repo.findAll(Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.any(NeutralQuery.class))).thenReturn(Arrays.asList(edorg1), Arrays.asList(edorg2));
+        Mockito.when(repo.findAll(Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.any(NeutralQuery.class))).thenReturn(Arrays.asList(edorg1), Arrays.asList(edorg2));
 
         Map<String, Object> sca1Body = new HashMap<String, Object>();
         sca1Body.put(ParameterConstants.STAFF_ID, "staff1");
@@ -207,7 +207,7 @@ public class EdOrgOwnershipArbiterTest {
 
         final Entity staff1 = createEntity(EntityNames.STAFF, "staff1", new HashMap<String, Object>());
 
-        Mockito.when(repo.findAll(Mockito.eq(EntityNames.STAFF), argThat(new BaseMatcher<NeutralQuery>() {
+        Mockito.when(repo.findAll(Mockito.eq(EntityNames.STAFF), Mockito.eq(EntityNames.STAFF), argThat(new BaseMatcher<NeutralQuery>() {
 
             @Override
             public boolean matches(Object item) {
@@ -233,7 +233,7 @@ public class EdOrgOwnershipArbiterTest {
         seoa2Body.put(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, "edorg2");
         Entity seoa2 = createEntity(EntityNames.STAFF_ED_ORG_ASSOCIATION, "seoa2", seoa2Body);
 
-        Mockito.when(repo.findAll(Mockito.eq(EntityNames.STAFF_ED_ORG_ASSOCIATION), argThat(new BaseMatcher<NeutralQuery>() {
+        Mockito.when(repo.findAll(Mockito.eq(EntityNames.STAFF_ED_ORG_ASSOCIATION), Mockito.eq(EntityNames.STAFF_ED_ORG_ASSOCIATION), argThat(new BaseMatcher<NeutralQuery>() {
 
             @Override
             public boolean matches(Object item) {
@@ -266,7 +266,7 @@ public class EdOrgOwnershipArbiterTest {
     body.put(ParameterConstants.SECTION_ID, "section1");
     final Entity gradebookEntry = createEntity(EntityNames.GRADEBOOK_ENTRY, "gradebookEntry", body);
 
-        Mockito.when(repo.findAll(Mockito.eq(EntityNames.SECTION), argThat(new BaseMatcher<NeutralQuery>() {
+        Mockito.when(repo.findAll(Mockito.eq(EntityNames.SECTION), Mockito.eq(EntityNames.SECTION), argThat(new BaseMatcher<NeutralQuery>() {
 
             @Override
             public boolean matches(Object item) {
@@ -295,7 +295,7 @@ public class EdOrgOwnershipArbiterTest {
 
         Entity edorg1 = createEntity(EntityNames.SCHOOL, "edorg1", new HashMap<String, Object>());
 
-        Mockito.when(repo.findAll(Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.any(NeutralQuery.class))).thenReturn( Arrays.asList(edorg1));
+        Mockito.when(repo.findAll(Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.any(NeutralQuery.class))).thenReturn( Arrays.asList(edorg1));
         Mockito.when(helper.getParentEdOrgs(edorg1)).thenReturn(Arrays.asList("edorg1Parent1", "edorg1Parent2"));
 
         Map<String, Object> attendanceBody = new HashMap<String, Object>();
@@ -321,7 +321,7 @@ public class EdOrgOwnershipArbiterTest {
         Mockito.when(principal.getEntity()).thenReturn(principalEntity);
         securityContextInjector.setOauthSecurityContext(principal, false);
 
-        Mockito.when(repo.findAll(Mockito.anyString(), Mockito.any(NeutralQuery.class))).thenReturn(new ArrayList<Entity>());
+        Mockito.when(repo.findAll(Mockito.anyString(), Mockito.anyString(), Mockito.any(NeutralQuery.class))).thenReturn(new ArrayList<Entity>());
 
         Map<String, Object> metaData = new HashMap<String, Object>();
         metaData.put("createdBy", "doofus1_id");

@@ -105,7 +105,7 @@ public class SessionRangeCalculator {
         sessionQuery.addCriteria(new NeutralCriteria(SCHOOL_YEAR, NeutralCriteria.CRITERIA_GT, years.getLeft()));
         sessionQuery.addCriteria(new NeutralCriteria(SCHOOL_YEAR, NeutralCriteria.CRITERIA_LT, years.getRight()));
         
-        Iterable<Entity> sessions = repo.findAll(EntityNames.SESSION, sessionQuery);
+        Iterable<Entity> sessions = repo.findAll(EntityNames.SESSION, EntityNames.SESSION, sessionQuery);
         
         return sessions;
     }

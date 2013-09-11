@@ -473,7 +473,7 @@ public class SLIPrincipal implements Principal, Serializable {
             nq.setEmbeddedFields(Arrays.asList(ResourceNames.SCHOOLS, EntityNames.STUDENT_COHORT_ASSOCIATION, EntityNames.STUDENT_PROGRAM_ASSOCIATION,
                     EntityNames.SECTION, EntityNames.STUDENT_PARENT_ASSOCIATION));
 
-            Iterable<Entity> students = repo.findAll(EntityNames.STUDENT, nq);
+            Iterable<Entity> students = repo.findAll(EntityNames.STUDENT, EntityNames.STUDENT, nq);
 
             for (Entity student : students) {
                 ownedStudentIds.add(student.getEntityId());

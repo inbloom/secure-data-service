@@ -224,7 +224,7 @@ public class ApplicationAuthorizationResource {
     @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE })
     public Response getAuthorizations(@QueryParam("edorg") String edorg) {
         String myEdorg = validateEdOrg(edorg);
-        Iterable<Entity> appQuery = repo.findAll("application", new NeutralQuery());
+        Iterable<Entity> appQuery = repo.findAll("application", "application", new NeutralQuery());
         Map<String, Entity> allApps = new HashMap<String, Entity>();
         for (Entity ent : appQuery) {
             allApps.put(ent.getEntityId(), ent);

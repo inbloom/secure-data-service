@@ -114,7 +114,7 @@ public class EdOrgHelper {
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN,
                 edOrgs, false));
         Set<String> entities = new HashSet<String>();
-        for (Entity entity : repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query)) {
+        for (Entity entity : repo.findAll(EntityNames.EDUCATION_ORGANIZATION, EntityNames.EDUCATION_ORGANIZATION, query)) {
             if (helper.isLEA(entity)) {
                 entities.add(helper.getTopLEAOfEdOrg(entity).getEntityId());
             } else if (helper.isSchool(entity)) {
@@ -153,7 +153,7 @@ public class EdOrgHelper {
         NeutralQuery query = new NeutralQuery(0);
         query.addCriteria(new NeutralCriteria("parentEducationAgencyReference", "=", edOrgId));
 
-        for (Entity entity : repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query)) {
+        for (Entity entity : repo.findAll(EntityNames.EDUCATION_ORGANIZATION, EntityNames.EDUCATION_ORGANIZATION, query)) {
             if (helper.isLEA(entity)) {
                 toReturn.add(entity.getEntityId());
             }
@@ -278,7 +278,7 @@ public class EdOrgHelper {
 
     public List<String> getDirectSchoolsLineage(Entity principal, boolean getLineage) {
         Set<String> ids = getDirectEdorgs(principal);
-        Iterable<Entity> edorgs = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, new NeutralQuery(
+        Iterable<Entity> edorgs = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, EntityNames.EDUCATION_ORGANIZATION, new NeutralQuery(
                 new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids, false)));
 
         List<String> schools = new ArrayList<String>();
@@ -335,7 +335,7 @@ public class EdOrgHelper {
 
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE,
                 NeutralCriteria.CRITERIA_IN, edOrgs));
-        Iterable<Entity> childrenIds = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query);
+        Iterable<Entity> childrenIds = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, EntityNames.EDUCATION_ORGANIZATION, query);
         Set<String> children = new HashSet<String>();
         for (Entity child : childrenIds) {
             children.add(child.getEntityId());
@@ -357,7 +357,7 @@ public class EdOrgHelper {
 
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE,
                 NeutralCriteria.CRITERIA_IN, edOrgs));
-        Iterable<Entity> childrenEntities = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query);
+        Iterable<Entity> childrenEntities = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, EntityNames.EDUCATION_ORGANIZATION, query);
         Set<String> children = new HashSet<String>();
         for (Entity child : childrenEntities) {
             children.add((String) child.getBody().get("stateOrganizationId"));
@@ -564,7 +564,7 @@ public class EdOrgHelper {
         Set<Entity> validAssociations = new HashSet<Entity>();
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE,
                 NeutralCriteria.OPERATOR_EQUAL, staffId));
-        Iterable<Entity> associations = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, basicQuery);
+        Iterable<Entity> associations = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, EntityNames.STAFF_ED_ORG_ASSOCIATION, basicQuery);
         for (Entity association : associations) {
             if (!dateHelper.isFieldExpired(association.getBody(), ParameterConstants.END_DATE, false)) {
                 validAssociations.add(association);
@@ -597,7 +597,7 @@ public class EdOrgHelper {
 
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STUDENT_ID,
                 NeutralCriteria.CRITERIA_IN, studentIds));
-        Iterable<Entity> associations = repo.findAll(EntityNames.STUDENT_SCHOOL_ASSOCIATION, basicQuery);
+        Iterable<Entity> associations = repo.findAll(EntityNames.STUDENT_SCHOOL_ASSOCIATION, EntityNames.STUDENT_SCHOOL_ASSOCIATION, basicQuery);
 
         if (associations != null) {
             for (Entity association : associations) {
@@ -616,7 +616,7 @@ public class EdOrgHelper {
 
     public Set<String> getEdOrgStateOrganizationIds(Set<String> edOrgIds) {
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, edOrgIds));
-        Iterable<Entity> edOrgs = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, basicQuery);
+        Iterable<Entity> edOrgs = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, EntityNames.EDUCATION_ORGANIZATION, basicQuery);
         Set<String> stateOrganizationIds = new HashSet<String>();
         for (Entity edOrg : edOrgs) {
             Map<String, Object> body = edOrg.getBody();

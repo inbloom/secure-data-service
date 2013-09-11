@@ -542,7 +542,7 @@ public class BulkExtractTest {
         Map<String, Object> body = new HashMap<String, Object>();
         Mockito.when(mockAppAuthEntity.getBody()).thenReturn(body);
         body.put(ApplicationAuthorizationResource.EDORG_IDS, Arrays.asList("123"));
-        Mockito.when(mockMongoEntityRepository.findAll(Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
+        Mockito.when(mockMongoEntityRepository.findAll(Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
             .thenReturn(new ArrayList<Entity>());
 
         Response res = bulkExtract.getSEAOrLEAList(req, CONTEXT);
@@ -591,7 +591,7 @@ public class BulkExtractTest {
         edOrgs.add(fullBulkExtractEntity);
         edOrgs.add(0, deltaBulkExtractEntity1);  // Add in ascending time order,
         edOrgs.add(1, deltaBulkExtractEntity2);  // to assure forward chronology.
-        Mockito.when(mockMongoEntityRepository.findAll(Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
+        Mockito.when(mockMongoEntityRepository.findAll(Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
             .thenReturn(edOrgs);
 
         Response res = bulkExtract.getSEAOrLEAList(req, CONTEXT);
@@ -646,7 +646,7 @@ public class BulkExtractTest {
         Entity fullBulkExtractEntity = mockBulkExtractEntity(null);
         List<Entity> leas = new ArrayList<Entity>();
         leas.add(fullBulkExtractEntity);
-        Mockito.when(mockMongoEntityRepository.findAll(Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
+        Mockito.when(mockMongoEntityRepository.findAll(Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
             .thenReturn(leas);
 
         Response res = bulkExtract.getSEAOrLEAList(req, CONTEXT);
@@ -686,7 +686,7 @@ public class BulkExtractTest {
         List<Entity> leas = new ArrayList<Entity>();
         leas.add(0, deltaBulkExtractEntity1);  // Add in ascending time order,
         leas.add(1, deltaBulkExtractEntity2);  // to assure forward chronology.
-        Mockito.when(mockMongoEntityRepository.findAll(Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
+        Mockito.when(mockMongoEntityRepository.findAll(Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.eq(BulkExtract.BULK_EXTRACT_FILES), Mockito.any(NeutralQuery.class)))
             .thenReturn(leas);
 
         Response res = bulkExtract.getSEAOrLEAList(req, CONTEXT);

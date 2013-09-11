@@ -172,7 +172,7 @@ public class OauthMongoSessionManagerTest {
         Entity valid = new MongoEntity(SESSION_COLLECTION, "validSessionMongoId", validSession, new HashMap<String, Object>());
         Entity invalid = new MongoEntity(SESSION_COLLECTION, "invalidSessionMongoId", invalidSession, new HashMap<String, Object>());
 
-        Mockito.when(repo.findAll(Mockito.eq(SESSION_COLLECTION), Mockito.any(NeutralQuery.class))).thenReturn(Arrays.asList(invalid));
+        Mockito.when(repo.findAll(Mockito.eq(SESSION_COLLECTION), Mockito.eq(SESSION_COLLECTION), Mockito.any(NeutralQuery.class))).thenReturn(Arrays.asList(invalid));
         Mockito.when(repo.delete(Mockito.eq(SESSION_COLLECTION), Mockito.eq("invalidSessionMongoId"))).thenReturn(true);
 
         Mockito.when(repo.findOne(Matchers.eq(SESSION_COLLECTION),

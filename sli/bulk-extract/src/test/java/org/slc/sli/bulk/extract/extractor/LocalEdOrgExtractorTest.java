@@ -219,10 +219,10 @@ public class LocalEdOrgExtractorTest {
         Map<String, Object> registration = new HashMap<String, Object>();
         registration.put("status", "APPROVED");
         body.put("registration", registration);
-        Mockito.when(repo.findAll(Mockito.eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
+        Mockito.when(repo.findAll(Mockito.eq("application"), Mockito.eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
                 Arrays.asList(mockEntity));
         body.put("edorgs", Arrays.asList("lea-one", "lea-two", "lea-three"));
-        Mockito.when(repo.findAll(Mockito.eq("applicationAuthorization"), Mockito.any(NeutralQuery.class))).thenReturn(
+        Mockito.when(repo.findAll(Mockito.eq("applicationAuthorization"), Mockito.eq("applicationAuthorization"), Mockito.any(NeutralQuery.class))).thenReturn(
                 Arrays.asList(mockEntity));
         Entity edOrgOne = Mockito.mock(Entity.class);
         Mockito.when(edOrgOne.getEntityId()).thenReturn("edorg1");
@@ -238,10 +238,10 @@ public class LocalEdOrgExtractorTest {
         NeutralQuery childQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE,
                 NeutralCriteria.CRITERIA_IN, new HashSet<String>(Arrays.asList("edorg1", "edorg2"))));
 
-        Mockito.when(repo.findAll(Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.eq(baseQuery1))).thenReturn(new ArrayList<Entity>());
-        Mockito.when(repo.findAll(Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.eq(baseQuery2))).thenReturn(Arrays.asList(edOrgOne, edOrgTwo));
-        Mockito.when(repo.findAll(Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.eq(baseQuery3))).thenReturn(new ArrayList<Entity>());
-        Mockito.when(repo.findAll(Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.eq(childQuery))).thenReturn(new ArrayList<Entity>());
+        Mockito.when(repo.findAll(Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.eq(baseQuery1))).thenReturn(new ArrayList<Entity>());
+        Mockito.when(repo.findAll(Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.eq(baseQuery2))).thenReturn(Arrays.asList(edOrgOne, edOrgTwo));
+        Mockito.when(repo.findAll(Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.eq(baseQuery3))).thenReturn(new ArrayList<Entity>());
+        Mockito.when(repo.findAll(Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.eq(childQuery))).thenReturn(new ArrayList<Entity>());
 
     	extractor.execute("Midgar", tenantDir, new DateTime());
         Mockito.verify(entityExtractor, Mockito.times(3)).extractEntities(Mockito.any(ExtractFile.class), Mockito.eq(EntityNames.EDUCATION_ORGANIZATION));

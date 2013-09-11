@@ -79,7 +79,7 @@ public class TenantMongoDATest {
         List<Entity> testTenantRecords = new ArrayList<Entity>();
         testTenantRecords.add(createTenantEntity());
 
-        when(mockRepository.findAll(Mockito.eq("tenant"), Mockito.any(NeutralQuery.class))).thenReturn(
+        when(mockRepository.findAll(Mockito.eq("tenant"), Mockito.eq("tenant"), Mockito.any(NeutralQuery.class))).thenReturn(
                 testTenantRecords);
 
         List<String> lzPathsResult = tenantDA.getLzPaths();
@@ -89,7 +89,7 @@ public class TenantMongoDATest {
         assertEquals("lzPathsResult[0] did not match expected value", lzPath1, lzPathsResult.get(0));
         assertEquals("lzPathsResult[1] did not match expected value", lzPath2, lzPathsResult.get(1));
 
-        Mockito.verify(mockRepository, Mockito.times(1)).findAll(Mockito.eq("tenant"), Mockito.any(NeutralQuery.class));
+        Mockito.verify(mockRepository, Mockito.times(1)).findAll(Mockito.eq("tenant"), Mockito.eq("tenant"), Mockito.any(NeutralQuery.class));
     }
 
     private Entity createTenantEntity() {
@@ -227,7 +227,7 @@ public class TenantMongoDATest {
         preloadDef.put(TenantMongoDA.PRELOAD_STATUS, "ready");
         preloadDef.put(TenantMongoDA.PRELOAD_FILES, Arrays.asList("smallDataSet.xml", "mediumDataSet.xml"));
         landingZone.get(0).put(TenantMongoDA.PRELOAD_DATA, preloadDef);
-        when(mockRepository.findAll(eq("tenant"), any(NeutralQuery.class))).thenReturn(Arrays.asList(tenant));
+        when(mockRepository.findAll(eq("tenant"), eq("tenant"), any(NeutralQuery.class))).thenReturn(Arrays.asList(tenant));
         when(mockRepository.doUpdate(eq("tenant"), any(NeutralQuery.class), any(Update.class))).thenReturn(true);
         assertEquals(tenantsForPreloading, tenantDA.getPreloadFiles("ingestion_server_host"));
         verify(mockRepository).doUpdate(eq("tenant"), any(NeutralQuery.class), argThat(new ArgumentMatcher<Update>() {

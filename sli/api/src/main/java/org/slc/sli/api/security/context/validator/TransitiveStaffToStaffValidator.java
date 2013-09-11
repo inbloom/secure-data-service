@@ -68,7 +68,7 @@ public class TransitiveStaffToStaffValidator extends AbstractContextValidator {
         
         injectEndDateQuery(basicQuery);
         
-        Iterable<Entity> edOrgAssoc = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, basicQuery);
+        Iterable<Entity> edOrgAssoc = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, EntityNames.STAFF_ED_ORG_ASSOCIATION, basicQuery);
         
         Map<String, Set<String>> staffEdorgMap = new HashMap<String, Set<String>>();
         populateMapFromMongoResponse(staffEdorgMap, edOrgAssoc);
@@ -95,7 +95,7 @@ public class TransitiveStaffToStaffValidator extends AbstractContextValidator {
         
         // Intersecting edorg's programs
         basicQuery = new NeutralQuery(new NeutralCriteria("_id", "in", edOrgLineage));
-        Iterable<Entity> edorgs = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, basicQuery);
+        Iterable<Entity> edorgs = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, EntityNames.EDUCATION_ORGANIZATION, basicQuery);
         
         List<String> programs = new ArrayList<String>();
         for (Entity e : edorgs) {
@@ -126,7 +126,7 @@ public class TransitiveStaffToStaffValidator extends AbstractContextValidator {
         
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria("staffId", "=", meId));
         this.injectEndDateQuery(basicQuery);
-        Iterable<Entity> spas = repo.findAll(assoc, basicQuery);
+        Iterable<Entity> spas = repo.findAll(assoc, assoc, basicQuery);
         
         List<String> groups = new ArrayList<String>();
         for (Entity spa : spas) {
@@ -148,7 +148,7 @@ public class TransitiveStaffToStaffValidator extends AbstractContextValidator {
     private List<String> getIds(String assoc, String field, List<String> groups) {
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(field, "in", groups));
         injectEndDateQuery(basicQuery);
-        Iterable<Entity> spas = repo.findAll(assoc, basicQuery);
+        Iterable<Entity> spas = repo.findAll(assoc, assoc, basicQuery);
         
         List<String> ids = new ArrayList<String>();
         for (Entity spa : spas) {

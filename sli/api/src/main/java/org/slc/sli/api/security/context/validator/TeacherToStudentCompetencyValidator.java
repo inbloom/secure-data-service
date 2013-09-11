@@ -51,7 +51,7 @@ public class TeacherToStudentCompetencyValidator extends AbstractContextValidato
 
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids));
         query.setIncludeFields(Arrays.asList(ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID));
-        Iterable<Entity> comps = getRepo().findAll(EntityNames.STUDENT_COMPETENCY, query);
+        Iterable<Entity> comps = getRepo().findAll(EntityNames.STUDENT_COMPETENCY, EntityNames.STUDENT_COMPETENCY, query);
         Set<String> secAssocIds = new HashSet<String>();
         for(Entity comp : comps) {
             secAssocIds.add((String) comp.getBody().get(ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID));

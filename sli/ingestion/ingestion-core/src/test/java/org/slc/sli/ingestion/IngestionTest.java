@@ -138,7 +138,7 @@ public class IngestionTest {
 
     public static long getTotalCountOfEntityInRepository(Repository repository, String entityType) {
         int count = 0;
-        Iterator<Entity> entities = repository.findAll(entityType, new NeutralQuery()).iterator();
+        Iterator<Entity> entities = repository.findAll(entityType, entityType, new NeutralQuery()).iterator();
 
         while (entities.hasNext()) {
             count++;

@@ -65,7 +65,7 @@ public class LocalEdOrgExtractHelperTest {
     @Test
     public void getBulkExtractAppsTest() {
 
-        when(repository.findAll("application", new NeutralQuery())).thenReturn(
+        when(repository.findAll("application", "application", new NeutralQuery())).thenReturn(
                 Arrays.asList(
                         buildAppEntity("1", true, true),
                         buildAppEntity("2", false, false),
@@ -90,7 +90,7 @@ public class LocalEdOrgExtractHelperTest {
         Entity authTwo = buildAuthEntity("5", new ArrayList<String>());
 
         List<Entity> auths = Arrays.asList(authOne, authTwo);
-        when(repository.findAll(Mockito.eq("applicationAuthorization"), Mockito.any(NeutralQuery.class))).thenReturn(auths);
+        when(repository.findAll(Mockito.eq("applicationAuthorization"), Mockito.eq("applicationAuthorization"), Mockito.any(NeutralQuery.class))).thenReturn(auths);
 
         Map<String, Set<String>> bulkExtractLEAsPerApp = helper.getBulkExtractLEAsPerApp();
 

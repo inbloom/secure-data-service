@@ -506,7 +506,8 @@ public class BulkExtract {
         query.addCriteria(new NeutralCriteria("edorg", NeutralCriteria.OPERATOR_EQUAL, edOrgId));
         query.addCriteria(new NeutralCriteria("applicationId", NeutralCriteria.OPERATOR_EQUAL, appId));
         debug("Bulk Extract query is {}", query);
-        Iterable<Entity> entities = mongoEntityRepository.findAll(BULK_EXTRACT_FILES, query);
+        // FIXME re DE2942 is there a schema for BULK_EXTRACT_FILES?
+        Iterable<Entity> entities = mongoEntityRepository.findAll(BULK_EXTRACT_FILES, BULK_EXTRACT_FILES, query);
         if (!entities.iterator().hasNext()) {
             debug("Could not find any bulk extract entities");
         }

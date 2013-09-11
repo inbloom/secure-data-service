@@ -63,7 +63,7 @@ public class StaffToStudentCohortProgramAssociationValidator extends AbstractCon
         // See the student
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
                 NeutralCriteria.CRITERIA_IN, ids));
-        Iterable<Entity> assocs = getRepo().findAll(entityType, basicQuery);
+        Iterable<Entity> assocs = getRepo().findAll(entityType, entityType, basicQuery);
         for (Entity assoc : assocs) {
             String studentId = (String) assoc.getBody().get(ParameterConstants.STUDENT_ID);
             if (isFieldExpired(assoc.getBody(), ParameterConstants.END_DATE, true)) {

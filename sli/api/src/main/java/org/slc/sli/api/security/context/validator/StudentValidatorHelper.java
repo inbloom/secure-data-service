@@ -60,7 +60,7 @@ public class StudentValidatorHelper {
         // teacher -> teacherSectionAssociation
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.TEACHER_ID,
                 NeutralCriteria.OPERATOR_EQUAL, teacher.getEntityId()));
-        Iterable<Entity> teacherSectionAssociations = repo.findAll(EntityNames.TEACHER_SECTION_ASSOCIATION, query);
+        Iterable<Entity> teacherSectionAssociations = repo.findAll(EntityNames.TEACHER_SECTION_ASSOCIATION, EntityNames.TEACHER_SECTION_ASSOCIATION, query);
 
         for (Entity assoc : teacherSectionAssociations) {
             if (!dateHelper.isFieldExpired(assoc.getBody(), ParameterConstants.END_DATE, useGracePeriod)) {
@@ -80,7 +80,7 @@ public class StudentValidatorHelper {
         query.addCriteria(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, sectionIds));
         query.setEmbeddedFields(Arrays.asList(EntityNames.STUDENT_SECTION_ASSOCIATION));
 
-        Iterable<Entity> sections = repo.findAll(EntityNames.SECTION, query);
+        Iterable<Entity> sections = repo.findAll(EntityNames.SECTION, EntityNames.SECTION, query);
 
         List<Entity> studentSectionAssociations = new ArrayList<Entity>();
         for (Entity section : sections) {
@@ -114,7 +114,7 @@ public class StudentValidatorHelper {
         // teacher -> staffProgramAssociation
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_ID,
                 NeutralCriteria.OPERATOR_EQUAL, principal.getEntityId()));
-        Iterable<Entity> staffProgramAssociations = repo.findAll(EntityNames.STAFF_PROGRAM_ASSOCIATION, query);
+        Iterable<Entity> staffProgramAssociations = repo.findAll(EntityNames.STAFF_PROGRAM_ASSOCIATION, EntityNames.STAFF_PROGRAM_ASSOCIATION, query);
 
         // filter on end_date to get list of programIds
         List<String> programIds = new ArrayList<String>();
@@ -130,7 +130,7 @@ public class StudentValidatorHelper {
         // program -> studentProgramAssociation
         query = new NeutralQuery(new NeutralCriteria(ParameterConstants.PROGRAM_ID, NeutralCriteria.CRITERIA_IN,
                 programIds));
-        Iterable<Entity> studentProgramAssociations = repo.findAll(EntityNames.STUDENT_PROGRAM_ASSOCIATION, query);
+        Iterable<Entity> studentProgramAssociations = repo.findAll(EntityNames.STUDENT_PROGRAM_ASSOCIATION, EntityNames.STUDENT_PROGRAM_ASSOCIATION, query);
 
         // filter on end_date to get list of students
         List<String> studentIds = new ArrayList<String>();
@@ -152,7 +152,7 @@ public class StudentValidatorHelper {
         // teacher -> staffCohortAssociation
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_ID,
                 NeutralCriteria.OPERATOR_EQUAL, principal.getEntityId()));
-        Iterable<Entity> staffCohortAssociations = repo.findAll(EntityNames.STAFF_COHORT_ASSOCIATION, query);
+        Iterable<Entity> staffCohortAssociations = repo.findAll(EntityNames.STAFF_COHORT_ASSOCIATION, EntityNames.STAFF_COHORT_ASSOCIATION, query);
 
         List<String> cohortIds = new ArrayList<String>();
         for (Entity assoc : staffCohortAssociations) {
@@ -167,7 +167,7 @@ public class StudentValidatorHelper {
         // cohort -> studentCohortAssociation
         query = new NeutralQuery(new NeutralCriteria(ParameterConstants.COHORT_ID, NeutralCriteria.CRITERIA_IN,
                 cohortIds));
-        Iterable<Entity> studentList = repo.findAll(EntityNames.STUDENT_COHORT_ASSOCIATION, query);
+        Iterable<Entity> studentList = repo.findAll(EntityNames.STUDENT_COHORT_ASSOCIATION, EntityNames.STUDENT_COHORT_ASSOCIATION, query);
         Set<String> studentIds = new HashSet<String>();
 
         // filter on end_date to get list of students

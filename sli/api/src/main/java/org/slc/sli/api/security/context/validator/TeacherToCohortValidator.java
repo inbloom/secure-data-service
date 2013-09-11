@@ -52,7 +52,7 @@ public class TeacherToCohortValidator extends AbstractContextValidator {
                 .getSLIPrincipal().getEntity().getEntityId()));
         nq.addCriteria(new NeutralCriteria(ParameterConstants.COHORT_ID, NeutralCriteria.CRITERIA_IN, ids));
 
-        Iterable<Entity> entities = getRepo().findAll(EntityNames.STAFF_COHORT_ASSOCIATION, nq);
+        Iterable<Entity> entities = getRepo().findAll(EntityNames.STAFF_COHORT_ASSOCIATION, EntityNames.STAFF_COHORT_ASSOCIATION, nq);
 
         Set<String> validIds = new HashSet<String>();
         for (Entity entity : entities) {

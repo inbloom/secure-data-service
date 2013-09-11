@@ -67,7 +67,7 @@ public class MongoUserLocatorTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
         Mockito.when(mockRepo.findOne(Matchers.eq(EntityNames.STUDENT), (NeutralQuery)Matchers.any(), Matchers.anyBoolean())).thenReturn(getEntity("student"));
-        Mockito.when(mockRepo.findAll(Matchers.eq(EntityNames.STAFF), (NeutralQuery) Matchers.any())).thenReturn(Arrays.asList(getEntity("staff")));
+        Mockito.when(mockRepo.findAll(Matchers.eq(EntityNames.STAFF), Matchers.eq(EntityNames.STAFF), (NeutralQuery) Matchers.any())).thenReturn(Arrays.asList(getEntity("staff")));
 
     }
 

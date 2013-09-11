@@ -30,7 +30,7 @@ public class GradingPeriodHelper {
     public List<String> getCalendarDatesForGradingPeriods(String queryParameters, String ...gradingPeriodIds) {
         List<String> allGPcalendarDates = new LinkedList<String>();
         NeutralQuery query = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, Arrays.asList(gradingPeriodIds)));
-        Iterable<Entity> gradingPeriods = repo.findAll("gradingPeriod", query);
+        Iterable<Entity> gradingPeriods = repo.findAll("gradingPeriod", "gradingPeriod", query);
         for(Entity gradingPeriod: gradingPeriods) {
             List<String> gpCalendarDates = (List<String>)gradingPeriod.getBody().get("calendarDateReference");
             if (gpCalendarDates != null) {

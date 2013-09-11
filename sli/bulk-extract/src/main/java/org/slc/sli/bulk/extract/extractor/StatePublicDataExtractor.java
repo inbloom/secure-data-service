@@ -146,7 +146,7 @@ public class StatePublicDataExtractor {
         String seaId = null;
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ORGANIZATION_CATEGORIES,
                 NeutralCriteria.CRITERIA_IN, Arrays.asList(STATE_EDUCATION_AGENCY)));
-        final Iterable<Entity> entities = entityRepository.findAll(EntityNames.EDUCATION_ORGANIZATION, query);
+        final Iterable<Entity> entities = entityRepository.findAll(EntityNames.EDUCATION_ORGANIZATION, EntityNames.EDUCATION_ORGANIZATION, query);
 
         if (entities == null || !entities.iterator().hasNext()) {
             audit(securityEventUtil.createSecurityEvent(this.getClass().getName(),

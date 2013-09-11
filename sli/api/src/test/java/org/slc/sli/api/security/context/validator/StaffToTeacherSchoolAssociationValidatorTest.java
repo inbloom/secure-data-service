@@ -132,7 +132,7 @@ public class StaffToTeacherSchoolAssociationValidatorTest {
         schoolIds.add("school123");
 
         Mockito.when(
-                mockRepo.findAll(Mockito.eq(EntityNames.TEACHER_SCHOOL_ASSOCIATION), Mockito.any(NeutralQuery.class)))
+                mockRepo.findAll(Mockito.eq(EntityNames.TEACHER_SCHOOL_ASSOCIATION), Mockito.eq(EntityNames.TEACHER_SCHOOL_ASSOCIATION), Mockito.any(NeutralQuery.class)))
                 .thenReturn(Arrays.asList(teacherSchoolAssociation));
 
         Mockito.when(staffToSchoolValidator.validate(EntityNames.EDUCATION_ORGANIZATION, schoolIds)).thenReturn(true);
@@ -148,7 +148,7 @@ public class StaffToTeacherSchoolAssociationValidatorTest {
         schoolIds.add("school123");
 
         Mockito.when(
-                mockRepo.findAll(Mockito.eq(EntityNames.TEACHER_SCHOOL_ASSOCIATION), Mockito.any(NeutralQuery.class)))
+                mockRepo.findAll(Mockito.eq(EntityNames.TEACHER_SCHOOL_ASSOCIATION), Mockito.eq(EntityNames.TEACHER_SCHOOL_ASSOCIATION), Mockito.any(NeutralQuery.class)))
                 .thenReturn(new ArrayList<Entity>());
 
         assertFalse(validator.validate(EntityNames.TEACHER_SCHOOL_ASSOCIATION, teacherSchoolAssociations));
@@ -163,7 +163,7 @@ public class StaffToTeacherSchoolAssociationValidatorTest {
         schoolIds.add("school123");
 
         Mockito.when(
-                mockRepo.findAll(Mockito.eq(EntityNames.TEACHER_SCHOOL_ASSOCIATION), Mockito.any(NeutralQuery.class)))
+                mockRepo.findAll(Mockito.eq(EntityNames.TEACHER_SCHOOL_ASSOCIATION), Mockito.eq(EntityNames.TEACHER_SCHOOL_ASSOCIATION), Mockito.any(NeutralQuery.class)))
                 .thenReturn(Arrays.asList(teacherSchoolAssociation));
 
         Mockito.when(staffToSchoolValidator.validate(EntityNames.EDUCATION_ORGANIZATION, schoolIds)).thenReturn(false);

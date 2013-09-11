@@ -38,7 +38,7 @@ public class GenericToCohortValidator extends AbstractContextValidator {
         }
         
         Set<String> myCohortIds = new HashSet<String>();
-        Iterable<Entity> scas = getRepo().findAll(EntityNames.STAFF_COHORT_ASSOCIATION, basicQuery);
+        Iterable<Entity> scas = getRepo().findAll(EntityNames.STAFF_COHORT_ASSOCIATION, EntityNames.STAFF_COHORT_ASSOCIATION, basicQuery);
         for (Entity sca : scas) {
             Map<String, Object> body = sca.getBody();
             if (!isFieldExpired(body, ParameterConstants.END_DATE, true)) {

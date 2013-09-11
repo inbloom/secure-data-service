@@ -57,7 +57,7 @@ public class TeacherToStaffEdOrgAssociationValidator extends AbstractContextVali
         
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE,
                 NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.principalId()));
-        Iterable<Entity> entities = this.repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, query);
+        Iterable<Entity> entities = this.repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, EntityNames.STAFF_ED_ORG_ASSOCIATION, query);
 
         Set<String> idsToValidate = new HashSet<String>(ids);
         for (Entity entity : entities) {

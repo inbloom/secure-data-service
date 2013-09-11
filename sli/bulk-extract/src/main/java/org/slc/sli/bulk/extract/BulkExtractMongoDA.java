@@ -229,7 +229,7 @@ public class BulkExtractMongoDA {
         Map<String, List> edOrgLineages = new HashMap<String, List>();
         NeutralQuery query = new NeutralQuery();
         query.setIncludeFields(Lists.newArrayList("_id", "metaData.edOrgs"));
-        Iterable<Entity> edOrgs = entityRepository.findAll("educationOrganization", query);
+        Iterable<Entity> edOrgs = entityRepository.findAll("educationOrganization", "educationOrganization", query);
         if(edOrgs != null) {
             for(Entity edOrg:edOrgs) {
                 if( edOrg.getMetaData().containsKey(ParameterConstants.EDORGS_ARRAY) &&

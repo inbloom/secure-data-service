@@ -109,7 +109,7 @@ public class StudentToSectionValidatorTest {
         Entity e = mock(Entity.class);
         when(e.getEntityId()).thenReturn("mrTam");
         when(e.getType()).thenReturn("parent");
-        when(repo.findAll(eq("student"), any(NeutralQuery.class))).thenReturn(Arrays.asList(r, s));
+        when(repo.findAll(eq("student"), eq("student"), any(NeutralQuery.class))).thenReturn(Arrays.asList(r, s));
         injector.setStudentContext(e);
     }
 

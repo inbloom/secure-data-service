@@ -160,7 +160,7 @@ public class AuthController {
                 return SecurityUtil.sudoRun(new SecurityTask<Map<String, String>>() {
                     @Override
                     public Map<String, String> execute() {
-                        Iterable<Entity> realmList = repo.findAll("realm", new NeutralQuery());
+                        Iterable<Entity> realmList = repo.findAll("realm", "realm", new NeutralQuery());
                         Map<String, String> map = new HashMap<String, String>();
                         for (Entity realmEntity : realmList) {
                             String name = extractRealmName(useUniqueIdentifier, realmEntity);

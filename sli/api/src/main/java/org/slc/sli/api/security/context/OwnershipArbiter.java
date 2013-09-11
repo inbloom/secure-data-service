@@ -108,7 +108,7 @@ public abstract class OwnershipArbiter {
                     critValue = entity.getEntityId();
                 }
 
-                Iterable<Entity> ents = repo.findAll(collectionName, new NeutralQuery(new NeutralCriteria(critField,
+                Iterable<Entity> ents = repo.findAll(collectionName, collectionName, new NeutralQuery(new NeutralCriteria(critField,
                         NeutralCriteria.OPERATOR_EQUAL, critValue)));
                 if (ents.iterator().hasNext()) {
                     List<Entity> toAdd = findOwner(ents, collectionName, ignoreOrphans);

@@ -43,7 +43,7 @@ public class SessionValidatorHelper {
         Set<String> validSessions = new HashSet<String>();
 
         {
-            Iterable<Entity> sessions = repo.findAll(EntityNames.SESSION,
+            Iterable<Entity> sessions = repo.findAll(EntityNames.SESSION, EntityNames.SESSION,
                     new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids)));
 
             for( Entity session : sessions) {

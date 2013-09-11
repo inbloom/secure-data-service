@@ -168,7 +168,7 @@ public class RealmHelper {
 				.get("stateOrganizationId")));
 		query.addCriteria(new NeutralCriteria("tenantId", "=", TenantContext
 				.getTenantId()));
-		return repo.findAll(EntityNames.REALM, query);
+		return repo.findAll(EntityNames.REALM, EntityNames.REALM, query);
 	}
 
 	/**

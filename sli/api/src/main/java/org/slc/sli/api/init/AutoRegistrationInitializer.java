@@ -58,7 +58,7 @@ public class AutoRegistrationInitializer {
             NeutralQuery query = new NeutralQuery(0);
             query.addCriteria(new NeutralCriteria(ApplicationResource.REGISTRATION + "." + ApplicationResource.STATUS, "=", "PENDING"));
             
-            for (Entity app : repo.findAll(ApplicationResource.RESOURCE_NAME, query)) {
+            for (Entity app : repo.findAll(ApplicationResource.RESOURCE_NAME, ApplicationResource.RESOURCE_NAME, query)) {
                 info("Auto approving registration for application {} from {}.", 
                         app.getBody().get("name"), 
                         app.getBody().get("vendor"));

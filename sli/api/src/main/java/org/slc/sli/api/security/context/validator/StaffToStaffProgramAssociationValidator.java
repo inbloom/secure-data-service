@@ -59,7 +59,7 @@ public class StaffToStaffProgramAssociationValidator extends AbstractContextVali
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids));
         
         Set<String> staffIds = new HashSet<String>();
-        Iterable<Entity> staffPrograms = getRepo().findAll(EntityNames.STAFF_PROGRAM_ASSOCIATION, basicQuery);
+        Iterable<Entity> staffPrograms = getRepo().findAll(EntityNames.STAFF_PROGRAM_ASSOCIATION, EntityNames.STAFF_PROGRAM_ASSOCIATION, basicQuery);
         for (Entity staff : staffPrograms) {
             Map<String, Object> body = staff.getBody();
             if (isFieldExpired(body, ParameterConstants.END_DATE, true)) {

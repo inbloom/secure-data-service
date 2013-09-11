@@ -57,7 +57,7 @@ public class DelegationUtil {
         List<String> delegateEdOrgs = getSecurityEventDelegateEdOrgs();
         NeutralQuery query = new NeutralQuery(new NeutralCriteria("_id", "in", delegateEdOrgs));
         List<String> stateIds = new ArrayList<String>();
-        Iterable<Entity> edOrgs = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query);
+        Iterable<Entity> edOrgs = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, EntityNames.EDUCATION_ORGANIZATION, query);
         if (edOrgs != null) {
             for (Entity edOrg : edOrgs) {
                 Map<String, Object> body = edOrg.getBody();

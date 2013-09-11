@@ -53,7 +53,7 @@ public class StaffToEducationOrganizationAssociationValidator extends AbstractCo
         NeutralQuery nq = new NeutralQuery(new NeutralCriteria("_id", "in", ids, false));
         nq.addCriteria(new NeutralCriteria("body.educationOrganizationReference", "in", lineage, false));
         
-        List<Entity> found = (List<Entity>) getRepo().findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, nq);
+        List<Entity> found = (List<Entity>) getRepo().findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, EntityNames.STAFF_ED_ORG_ASSOCIATION, nq);
         
         return ids.size() == found.size();
     }

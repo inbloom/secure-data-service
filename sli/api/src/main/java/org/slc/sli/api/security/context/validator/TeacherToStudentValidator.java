@@ -131,7 +131,7 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
 
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.COHORT_ID,
                 NeutralCriteria.CRITERIA_IN, staffCohortIds));
-        Iterable<Entity> studentList = repo.findAll(EntityNames.STUDENT_COHORT_ASSOCIATION, query);
+        Iterable<Entity> studentList = repo.findAll(EntityNames.STUDENT_COHORT_ASSOCIATION, EntityNames.STUDENT_COHORT_ASSOCIATION, query);
         Set<String> studentIds = new HashSet<String>();
 
         // filter on end_date to get list of students
@@ -185,7 +185,7 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
         NeutralQuery queryForStudentRecord = new NeutralQuery(new NeutralCriteria(ParameterConstants.STUDENT_ID, NeutralCriteria.CRITERIA_IN, ids));
         addEndDateToQuery(queryForStudentRecord, false);
 
-        for (Entity studentEntity : repo.findAll(entityName, queryForStudentRecord)) {
+        for (Entity studentEntity : repo.findAll(entityName, entityName, queryForStudentRecord)) {
             List<String> parameterIds = result.get(studentEntity.getBody().get(ParameterConstants.STUDENT_ID));
             parameterIds.add((String) studentEntity.getBody().get(parameter));
         }
@@ -202,7 +202,7 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
         addEndDateToQuery(basicQuery, false);
         basicQuery.addCriteria(new NeutralCriteria(ParameterConstants.STUDENT_RECORD_ACCESS,
                 NeutralCriteria.OPERATOR_EQUAL, true));
-        Iterable<Entity> staffCas = repo.findAll(EntityNames.STAFF_PROGRAM_ASSOCIATION, basicQuery);
+        Iterable<Entity> staffCas = repo.findAll(EntityNames.STAFF_PROGRAM_ASSOCIATION, EntityNames.STAFF_PROGRAM_ASSOCIATION, basicQuery);
 
         // Look at only the SCAs for programs in my edorg with date/record access
         for (Entity sca : staffCas) {
@@ -220,7 +220,7 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
                         .getSLIPrincipal().getEntity().getEntityId()));
         addEndDateToQuery(basicQuery, true);
 
-        Iterable<Entity> tsas = repo.findAll(EntityNames.TEACHER_SECTION_ASSOCIATION, basicQuery);
+        Iterable<Entity> tsas = repo.findAll(EntityNames.TEACHER_SECTION_ASSOCIATION, EntityNames.TEACHER_SECTION_ASSOCIATION, basicQuery);
 
         // Look at only the SCAs for programs in my edorg with date/record access
         for (Entity tsa : tsas) {
@@ -240,7 +240,7 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
         basicQuery.addCriteria(new NeutralCriteria(ParameterConstants.STUDENT_RECORD_ACCESS,
                 NeutralCriteria.OPERATOR_EQUAL, true));
         addEndDateToQuery(basicQuery, false);
-        Iterable<Entity> staffCas = repo.findAll(EntityNames.STAFF_COHORT_ASSOCIATION, basicQuery);
+        Iterable<Entity> staffCas = repo.findAll(EntityNames.STAFF_COHORT_ASSOCIATION, EntityNames.STAFF_COHORT_ASSOCIATION, basicQuery);
         // Look at only the SCAs for cohorts in my edorg with date/record access
         if (staffCas != null) {
             for (Entity sca : staffCas) {

@@ -55,7 +55,7 @@ public class StaffToTeacherSectionAssociationValidator extends AbstractContextVa
 
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
                 NeutralCriteria.CRITERIA_IN, new ArrayList<String>(ids)));
-        Iterable<Entity> teacherSectionAssociations = getRepo().findAll(entityType, query);
+        Iterable<Entity> teacherSectionAssociations = getRepo().findAll(entityType, entityType, query);
         Set<String> sections = new HashSet<String>();
         if (teacherSectionAssociations != null) {
             for (Entity teacherSectionAssociation : teacherSectionAssociations) {

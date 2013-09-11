@@ -113,7 +113,7 @@ public class AdminDelegationResource {
             delegatedEdorgs.addAll(util.getAppApprovalDelegateEdOrgs());
             delegatedEdorgs.addAll(util.getSecurityEventDelegateEdOrgs());
             query.addCriteria(new NeutralCriteria(LEA_ID, NeutralCriteria.CRITERIA_IN, delegatedEdorgs));
-            for (Entity entity : repo.findAll(RESOURCE_NAME, query)) {
+            for (Entity entity : repo.findAll(RESOURCE_NAME, RESOURCE_NAME, query)) {
                 entity.getBody().put("id", entity.getEntityId());
                 results.add(entity.getBody());
             }

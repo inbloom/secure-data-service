@@ -69,7 +69,7 @@ public class StaffToDisciplineIncidentValidator extends AbstractContextValidator
             NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.DISCIPLINE_INCIDENT_ID,
                     NeutralCriteria.OPERATOR_EQUAL, id));
             Iterable<Entity> associations = getRepo().findAll(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION,
-                    basicQuery);
+            		EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, basicQuery);
             for (Entity association : associations) {
                 if (subStudentValidator.validate(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION,
                         new HashSet<String>(Arrays.asList(association.getEntityId())))) {

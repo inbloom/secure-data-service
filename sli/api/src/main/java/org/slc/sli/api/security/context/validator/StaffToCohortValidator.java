@@ -58,7 +58,7 @@ public class StaffToCohortValidator extends AbstractContextValidator {
         // Get the one's I'm associated to.
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_ID,
                 NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
-        Iterable<Entity> scas = getRepo().findAll(EntityNames.STAFF_COHORT_ASSOCIATION, basicQuery);
+        Iterable<Entity> scas = getRepo().findAll(EntityNames.STAFF_COHORT_ASSOCIATION, EntityNames.STAFF_COHORT_ASSOCIATION, basicQuery);
         for (Entity sca : scas) {
             Map<String, Object> body = sca.getBody();
             if (isFieldExpired(body, ParameterConstants.END_DATE, true)) {
@@ -71,7 +71,7 @@ public class StaffToCohortValidator extends AbstractContextValidator {
         // Get the one's beneath me
         basicQuery = new NeutralQuery(new NeutralCriteria("educationOrgId", NeutralCriteria.CRITERIA_IN,
                 getStaffEdOrgLineage()));
-        Iterable<Entity> cohorts = getRepo().findAll(EntityNames.COHORT, basicQuery);
+        Iterable<Entity> cohorts = getRepo().findAll(EntityNames.COHORT, EntityNames.COHORT, basicQuery);
         for (Entity cohort : cohorts) {
             myCohortIds.add(cohort.getEntityId());
         }

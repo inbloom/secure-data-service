@@ -55,7 +55,7 @@ public class TeacherToStudentCohortAssociationValidator extends AbstractContextV
         
         Set<String> cohortIds = new HashSet<String>();
         
-        Iterable<Entity> scas = getRepo().findAll(EntityNames.STUDENT_COHORT_ASSOCIATION, query);
+        Iterable<Entity> scas = getRepo().findAll(EntityNames.STUDENT_COHORT_ASSOCIATION, EntityNames.STUDENT_COHORT_ASSOCIATION, query);
         for (Entity sca : scas) {
             cohortIds.add((String) sca.getBody().get(ParameterConstants.COHORT_ID));
         }
@@ -66,7 +66,7 @@ public class TeacherToStudentCohortAssociationValidator extends AbstractContextV
         nq.addCriteria(new NeutralCriteria(ParameterConstants.STUDENT_RECORD_ACCESS,
                 NeutralCriteria.OPERATOR_EQUAL, true));
         
-        Iterable<Entity> entities = getRepo().findAll(EntityNames.STAFF_COHORT_ASSOCIATION, nq);
+        Iterable<Entity> entities = getRepo().findAll(EntityNames.STAFF_COHORT_ASSOCIATION, EntityNames.STAFF_COHORT_ASSOCIATION, nq);
 
         Set<String> validCohortIds = new HashSet<String>();
         for (Entity entity : entities) {

@@ -58,7 +58,7 @@ public class GenericToGlobalGradingPeriodWriteValidator extends AbstractContextV
         Set<String> gradingPeriodsToValidate = new HashSet<String>(ids);
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.GRADING_PERIOD_REFERENCE,
                 NeutralCriteria.CRITERIA_IN, ids));
-        Iterable<Entity> sessions = getRepo().findAll(EntityNames.SESSION, query);
+        Iterable<Entity> sessions = getRepo().findAll(EntityNames.SESSION, EntityNames.SESSION, query);
         for (Entity session : sessions) {
             if (edOrgLineage.contains(session.getBody().get(ParameterConstants.SCHOOL_ID))) {
                 gradingPeriodsToValidate.removeAll((Collection<String>) session.getBody().get(

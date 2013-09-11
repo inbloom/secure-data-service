@@ -68,7 +68,7 @@ public class StaffTeacherContextResolver extends ReferrableResolver {
             return leas;
         }
         
-        Iterable<Entity> staffEdorgAssociations = getRepo().findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, buildStaffEdorgQuery(id));
+        Iterable<Entity> staffEdorgAssociations = getRepo().findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, EntityNames.STAFF_ED_ORG_ASSOCIATION, buildStaffEdorgQuery(id));
         for (Entity association : staffEdorgAssociations) {
             if (!dateHelper.isFieldExpired(association.getBody(), END_DATE)) {
                 String edorgReference = (String) association.getBody().get(EDORG_REFERENCE);

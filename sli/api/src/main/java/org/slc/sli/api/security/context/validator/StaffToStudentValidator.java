@@ -98,7 +98,7 @@ public class StaffToStudentValidator extends AbstractContextValidator {
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STUDENT_ID,
                 NeutralCriteria.OPERATOR_EQUAL, entity.getEntityId()));
         Set<String> programs = new HashSet<String>();
-        Iterable<Entity> spas = getRepo().findAll(EntityNames.STUDENT_PROGRAM_ASSOCIATION, basicQuery);
+        Iterable<Entity> spas = getRepo().findAll(EntityNames.STUDENT_PROGRAM_ASSOCIATION, EntityNames.STUDENT_PROGRAM_ASSOCIATION, basicQuery);
         for (Entity spa : spas) {
             if (isFieldExpired(spa.getBody(), ParameterConstants.END_DATE, true)) {
                 continue;
@@ -112,7 +112,7 @@ public class StaffToStudentValidator extends AbstractContextValidator {
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STUDENT_ID,
                 NeutralCriteria.OPERATOR_EQUAL, entity.getEntityId()));
         Set<String> cohorts = new HashSet<String>();
-        Iterable<Entity> scas = getRepo().findAll(EntityNames.STUDENT_COHORT_ASSOCIATION, basicQuery);
+        Iterable<Entity> scas = getRepo().findAll(EntityNames.STUDENT_COHORT_ASSOCIATION, EntityNames.STUDENT_COHORT_ASSOCIATION, basicQuery);
         for (Entity sca : scas) {
             if (isFieldExpired(sca.getBody(), ParameterConstants.END_DATE, true)) {
                 continue;
@@ -142,7 +142,7 @@ public class StaffToStudentValidator extends AbstractContextValidator {
         NeutralQuery studentQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
                 NeutralCriteria.CRITERIA_IN, new ArrayList<String>(studentIds)));
         studentQuery.setEmbeddedFieldString("schools");
-        Iterable<Entity> students = getRepo().findAll(EntityNames.STUDENT, studentQuery);
+        Iterable<Entity> students = getRepo().findAll(EntityNames.STUDENT, EntityNames.STUDENT, studentQuery);
         return students;
     }
 

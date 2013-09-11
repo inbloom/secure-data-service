@@ -112,7 +112,7 @@ public class TenantMongoDA implements TenantDA {
     private List<String> findTenantPathsByIngestionServer() {
         List<String> tenantPaths = new ArrayList<String>();
 
-        Iterable<Entity> entities = entityRepository.findAll(TENANT_COLLECTION, new NeutralQuery());
+        Iterable<Entity> entities = entityRepository.findAll(TENANT_COLLECTION, TENANT_COLLECTION, new NeutralQuery());
 
         for (Entity entity : entities) {
             @SuppressWarnings("unchecked")
@@ -184,7 +184,7 @@ public class TenantMongoDA implements TenantDA {
     @Override
     public Map<String, List<String>> getPreloadFiles(String ingestionServer) {
         Iterable<Entity> tenants = entityRepository.findAll(
-                TENANT_COLLECTION,
+                TENANT_COLLECTION, TENANT_COLLECTION, 
                 new NeutralQuery(byServerQuery(ingestionServer)).addCriteria(PRELOAD_READY_CRITERIA).setIncludeFields(
                         Arrays.asList(LANDING_ZONE + "." + PRELOAD_DATA, LANDING_ZONE_PATH,
                                 LANDING_ZONE_INGESTION_SERVER)));
@@ -333,7 +333,7 @@ public class TenantMongoDA implements TenantDA {
     @Override
     public List<String> getAllTenantDbs () {
         List<String> tenantDbs = new ArrayList<String>();
-        Iterable<Entity> entities = entityRepository.findAll(TENANT_COLLECTION, new NeutralQuery());
+        Iterable<Entity> entities = entityRepository.findAll(TENANT_COLLECTION, TENANT_COLLECTION, new NeutralQuery());
 
         for(Entity entity : entities) {
             String collection = (String) entity.getBody().get(DB_NAME);

@@ -57,7 +57,7 @@ public class GenericToGradebookEntryValidator extends AbstractContextValidator {
         NeutralQuery query = new NeutralQuery(0);
         query.addCriteria(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids));
         query.setIncludeFields(Arrays.asList(ParameterConstants.SECTION_ID));
-        Iterable<Entity> ents = repo.findAll(EntityNames.GRADEBOOK_ENTRY, query);
+        Iterable<Entity> ents = repo.findAll(EntityNames.GRADEBOOK_ENTRY, EntityNames.GRADEBOOK_ENTRY, query);
 
         Set<String> sectionIds = new HashSet<String>();
 

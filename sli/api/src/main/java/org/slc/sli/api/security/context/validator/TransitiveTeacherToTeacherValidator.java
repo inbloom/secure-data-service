@@ -51,7 +51,7 @@ public class TransitiveTeacherToTeacherValidator extends AbstractContextValidato
 
         NeutralQuery nq = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE, "=", SecurityUtil
                 .getSLIPrincipal().getEntity().getEntityId()));
-        Iterable<Entity> tsa = getRepo().findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, nq);
+        Iterable<Entity> tsa = getRepo().findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, EntityNames.STAFF_ED_ORG_ASSOCIATION, nq);
 
         List<String> schools = new ArrayList<String>();
         for (Entity e : tsa) {
@@ -63,7 +63,7 @@ public class TransitiveTeacherToTeacherValidator extends AbstractContextValidato
         nq = new NeutralQuery(new NeutralCriteria(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, "in", schools));
         nq.addCriteria(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE, "in", ids));
 
-        tsa = getRepo().findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, nq);
+        tsa = getRepo().findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, EntityNames.STAFF_ED_ORG_ASSOCIATION, nq);
 
         Set<String> fin = new HashSet<String>(ids);
         for (Entity e : tsa) {

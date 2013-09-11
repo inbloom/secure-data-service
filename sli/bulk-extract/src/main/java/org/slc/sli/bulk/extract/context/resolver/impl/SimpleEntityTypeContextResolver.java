@@ -41,7 +41,7 @@ public class SimpleEntityTypeContextResolver extends ReferrableResolver {
                 NeutralQuery query = new NeutralQuery(new NeutralCriteria("type", NeutralCriteria.OPERATOR_EQUAL,
                         "stateEducationAgency", false));
                 
-                Iterable<Entity> edOrgs = getRepo().findAll(EntityNames.EDUCATION_ORGANIZATION, query);
+                Iterable<Entity> edOrgs = getRepo().findAll(EntityNames.EDUCATION_ORGANIZATION, EntityNames.EDUCATION_ORGANIZATION, query);
                 
                 for (Entity edOrg : edOrgs) {
                     cache.add(edOrg.getEntityId());

@@ -58,7 +58,7 @@ public class GenericToParentValidator extends AbstractContextValidator {
         }
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria("parentId", NeutralCriteria.CRITERIA_IN, parentIds));
         basicQuery.setIncludeFields(Arrays.asList("studentId", "parentId"));
-        Iterable<Entity> assocs = repo.findAll(EntityNames.STUDENT_PARENT_ASSOCIATION, basicQuery);
+        Iterable<Entity> assocs = repo.findAll(EntityNames.STUDENT_PARENT_ASSOCIATION, EntityNames.STUDENT_PARENT_ASSOCIATION, basicQuery);
 
         Map<String, Set<String>> parentToStudentMap = new HashMap<String, Set<String>>();
         for (Entity assoc : assocs) {

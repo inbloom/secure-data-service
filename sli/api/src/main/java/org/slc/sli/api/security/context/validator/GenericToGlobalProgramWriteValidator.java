@@ -43,7 +43,7 @@ public class GenericToGlobalProgramWriteValidator extends
 		NeutralQuery nq = new NeutralQuery(new NeutralCriteria(
 				ParameterConstants.ID, NeutralCriteria.CRITERIA_IN,
 				directEdorgs, false));
-		Iterable<Entity> edorgs = getRepo().findAll(
+		Iterable<Entity> edorgs = getRepo().findAll(EntityNames.EDUCATION_ORGANIZATION,
 				EntityNames.EDUCATION_ORGANIZATION, nq);
 
 		Set<String> programsToValidate = new HashSet<String>(ids);
@@ -66,7 +66,7 @@ public class GenericToGlobalProgramWriteValidator extends
 				NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal()
 						.getEntity().getEntityId()));
 		addEndDateToQuery(nq, false);
-		Iterable<Entity> assocs = getRepo().findAll(
+		Iterable<Entity> assocs = getRepo().findAll(EntityNames.STAFF_PROGRAM_ASSOCIATION,
 				EntityNames.STAFF_PROGRAM_ASSOCIATION, nq);
 
 		for (Entity assoc : assocs) {

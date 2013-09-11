@@ -58,7 +58,7 @@ public class TeacherToTeacherSchoolAssociationValidator extends AbstractContextV
 
         NeutralQuery nq = new NeutralQuery(new NeutralCriteria(ParameterConstants.TEACHER_ID,
                 NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
-        Iterable<Entity> it = this.repo.findAll(EntityNames.TEACHER_SCHOOL_ASSOCIATION, nq);
+        Iterable<Entity> it = this.repo.findAll(EntityNames.TEACHER_SCHOOL_ASSOCIATION, EntityNames.TEACHER_SCHOOL_ASSOCIATION, nq);
         
         Set<String> fin = new HashSet<String>(ids);
         for(Entity e : it) {

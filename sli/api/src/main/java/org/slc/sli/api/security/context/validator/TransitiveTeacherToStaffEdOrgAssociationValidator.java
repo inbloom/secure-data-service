@@ -57,7 +57,7 @@ public class TransitiveTeacherToStaffEdOrgAssociationValidator extends AbstractC
         
         Set<String> requiredEdOrgs = new HashSet<String>();
         {
-            Iterable<Entity> requestedAssociations = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION,
+            Iterable<Entity> requestedAssociations = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, EntityNames.STAFF_ED_ORG_ASSOCIATION,
                     new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids)));
 
             for (Entity entity : requestedAssociations) {
@@ -69,7 +69,7 @@ public class TransitiveTeacherToStaffEdOrgAssociationValidator extends AbstractC
         {
             NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE,
                     NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.principalId()));
-            Iterable<Entity> teachersAssociations = this.repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, query);
+            Iterable<Entity> teachersAssociations = this.repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, EntityNames.STAFF_ED_ORG_ASSOCIATION, query);
             for (Entity entity : teachersAssociations) {
                 if (!dateHelper.isFieldExpired(entity.getBody(), ParameterConstants.END_DATE)) {
                     teachersEdOrgs.add((String) entity.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE));

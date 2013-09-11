@@ -57,7 +57,7 @@ public class TeacherToDisciplineIncidentValidator extends AbstractContextValidat
         String myself = SecurityUtil.getSLIPrincipal().getEntity().getEntityId();
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, discIncidentIds));
         query.addCriteria(new NeutralCriteria(ParameterConstants.STAFF_ID, NeutralCriteria.OPERATOR_EQUAL, myself));
-        Iterable<Entity> incidents = getRepo().findAll(EntityNames.DISCIPLINE_INCIDENT, query);
+        Iterable<Entity> incidents = getRepo().findAll(EntityNames.DISCIPLINE_INCIDENT, EntityNames.DISCIPLINE_INCIDENT, query);
 
         for (Entity ent : incidents) {
             discIncidentIds.remove(ent.getEntityId());
@@ -70,7 +70,7 @@ public class TeacherToDisciplineIncidentValidator extends AbstractContextValidat
         //Otherwise the teacher needs to have context to the students involved with the incident
         query = new NeutralQuery(new NeutralCriteria(ParameterConstants.DISCIPLINE_INCIDENT_ID, NeutralCriteria.CRITERIA_IN, discIncidentIds));
         query.setIncludeFields(Arrays.asList(ParameterConstants.STUDENT_ID, ParameterConstants.DISCIPLINE_INCIDENT_ID));
-        Iterable<Entity> assocs = getRepo().findAll(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, query);
+        Iterable<Entity> assocs = getRepo().findAll(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, query);
 
         Map<String, Set<String>> discIncToStudents = new HashMap<String, Set<String>>();
         for (Entity assoc : assocs) {

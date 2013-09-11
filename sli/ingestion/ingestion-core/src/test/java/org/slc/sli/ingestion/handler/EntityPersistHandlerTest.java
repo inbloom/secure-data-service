@@ -111,7 +111,7 @@ public class EntityPersistHandlerTest {
         mockedEntityRepository = mock(MongoEntityRepository.class);
         entityPersistHandler.setEntityRepository(mockedEntityRepository);
 
-        when(mockedEntityRepository.findAll(eq("student"), any(NeutralQuery.class))).thenReturn(studentFound);
+        when(mockedEntityRepository.findAll(eq("student"), eq("student"), any(NeutralQuery.class))).thenReturn(studentFound);
 
         // School search.
         regionIdStudentIdQuery = new NeutralQuery();
@@ -119,7 +119,7 @@ public class EntityPersistHandlerTest {
                 NeutralCriteria.OPERATOR_EQUAL, REGION_ID, false));
         regionIdStudentIdQuery.addCriteria(new NeutralCriteria(METADATA_BLOCK + "." + EXTERNAL_ID_FIELD,
                 NeutralCriteria.OPERATOR_EQUAL, STUDENT_ID, false));
-        when(mockedEntityRepository.findAll(eq("school"), eq(regionIdStudentIdQuery))).thenReturn(schoolFound);
+        when(mockedEntityRepository.findAll(eq("school"), eq("school"), eq(regionIdStudentIdQuery))).thenReturn(schoolFound);
 
         // Student-School Association search.
         ssaQuery = new NeutralQuery();
@@ -129,7 +129,7 @@ public class EntityPersistHandlerTest {
                 false));
         ssaQuery.addCriteria(new NeutralCriteria("body.schoolId", NeutralCriteria.OPERATOR_EQUAL, INTERNAL_SCHOOL_ID,
                 false));
-        when(mockedEntityRepository.findAll(eq("studentSchoolAssociation"), eq(ssaQuery))).thenReturn(
+        when(mockedEntityRepository.findAll(eq("studentSchoolAssociation"), eq("studentSchoolAssociation"), eq(ssaQuery))).thenReturn(
                 studentSchoolAssociationFound);
 
     }
@@ -155,7 +155,7 @@ public class EntityPersistHandlerTest {
 
         List<Entity> le = new ArrayList<Entity>();
         le.add(studentEntity);
-        when(entityRepository.findAll(eq("student"), any(NeutralQuery.class))).thenReturn(le);
+        when(entityRepository.findAll(eq("student"), eq("student"), any(NeutralQuery.class))).thenReturn(le);
         when(entityRepository.updateWithRetries(studentEntity.getType(), studentEntity, totalRetries)).thenReturn(true);
 
         entityPersistHandler.setEntityRepository(entityRepository);
@@ -193,7 +193,7 @@ public class EntityPersistHandlerTest {
 
         List<Entity> le = new ArrayList<Entity>();
         le.add(studentEntity);
-        when(entityRepository.findAll(eq("student"), any(NeutralQuery.class))).thenReturn(le);
+        when(entityRepository.findAll(eq("student"), eq("student"), any(NeutralQuery.class))).thenReturn(le);
         when(entityRepository.updateWithRetries(studentEntity.getType(), studentEntity, totalRetries)).thenReturn(true);
 
         // Mock the return from safeDelete
@@ -236,7 +236,7 @@ public class EntityPersistHandlerTest {
         existingStudentEntity.setEntityId(UUID.randomUUID().toString());
 
         // Student search.
-        when(entityRepository.findAll(eq("student"), eq(regionIdStudentIdQuery))).thenReturn(
+        when(entityRepository.findAll(eq("student"), eq("student"), eq(regionIdStudentIdQuery))).thenReturn(
                 Arrays.asList((Entity) existingStudentEntity));
         when(entityRepository.updateWithRetries("student", studentEntity, totalRetries)).thenReturn(true);
 
@@ -269,7 +269,7 @@ public class EntityPersistHandlerTest {
         existingStudentEntity.setEntityId(UUID.randomUUID().toString());
 
         // Student search.
-        when(entityRepository.findAll(eq("student"), eq(regionIdStudentIdQuery))).thenReturn(
+        when(entityRepository.findAll(eq("student"), eq("student"), eq(regionIdStudentIdQuery))).thenReturn(
                 Arrays.asList((Entity) existingStudentEntity));
         ValidationError error = new ValidationError(ErrorType.REQUIRED_FIELD_MISSING, "field", null,
                 new String[] { "String" });
@@ -304,7 +304,7 @@ public class EntityPersistHandlerTest {
         studentList.add(foundStudent);
 
         // Student search.
-        when(entityRepository.findAll(eq("student"), eq(regionIdStudentIdQuery))).thenReturn(studentList);
+        when(entityRepository.findAll(eq("student"), eq("student"), eq(regionIdStudentIdQuery))).thenReturn(studentList);
 
         // School search.
         SimpleEntity foundSchool = new SimpleEntity();
@@ -312,7 +312,7 @@ public class EntityPersistHandlerTest {
 
         LinkedList<Entity> schoolList = new LinkedList<Entity>();
         schoolList.add(foundSchool);
-        when(entityRepository.findAll(eq("school"), any(NeutralQuery.class))).thenReturn(schoolList);
+        when(entityRepository.findAll(eq("school"), eq("school"), any(NeutralQuery.class))).thenReturn(schoolList);
 
         SimpleEntity studentSchoolAssociationEntity = createStudentSchoolAssociationEntity(STUDENT_ID, false);
         entityPersistHandler.setEntityRepository(entityRepository);
@@ -341,21 +341,21 @@ public class EntityPersistHandlerTest {
         studentList.add(foundStudent);
 
         // Student search.
-        when(entityRepository.findAll(eq("student"), eq(regionIdStudentIdQuery))).thenReturn(studentList);
+        when(entityRepository.findAll(eq("student"), eq("student"), eq(regionIdStudentIdQuery))).thenReturn(studentList);
 
         // School search.
         NeutralRecordEntity foundSchool = new NeutralRecordEntity(null);
 
         LinkedList<Entity> schoolList = new LinkedList<Entity>();
         schoolList.add(foundSchool);
-        when(entityRepository.findAll(eq("school"), eq(regionIdStudentIdQuery))).thenReturn(schoolList);
+        when(entityRepository.findAll(eq("school"), eq("school"), eq(regionIdStudentIdQuery))).thenReturn(schoolList);
 
         SimpleEntity studentSchoolAssociationEntity = createStudentSchoolAssociationEntity(STUDENT_ID, true);
         SimpleEntity existingStudentSchoolAssociationEntity = createStudentSchoolAssociationEntity(STUDENT_ID, true);
 
         existingStudentSchoolAssociationEntity.setEntityId(UUID.randomUUID().toString());
 
-        when(entityRepository.findAll(eq("studentSchoolAssociation"), eq(ssaQuery))).thenReturn(
+        when(entityRepository.findAll(eq("studentSchoolAssociation"), eq("studentSchoolAssociation"), eq(ssaQuery))).thenReturn(
                 Arrays.asList((Entity) existingStudentSchoolAssociationEntity));
 
         when(
@@ -503,7 +503,7 @@ public class EntityPersistHandlerTest {
         teacherList.add(foundTeacher);
 
         // Teacher search.
-        when(entityRepository.findAll(eq("teacher"), eq(regionIdStudentIdQuery))).thenReturn(teacherList);
+        when(entityRepository.findAll(eq("teacher"), eq("teacher"), eq(regionIdStudentIdQuery))).thenReturn(teacherList);
 
         // School search.
         SimpleEntity foundSchool = new SimpleEntity();
@@ -511,7 +511,7 @@ public class EntityPersistHandlerTest {
 
         LinkedList<Entity> schoolList = new LinkedList<Entity>();
         schoolList.add(foundSchool);
-        when(entityRepository.findAll(eq("school"), eq(regionIdStudentIdQuery))).thenReturn(schoolList);
+        when(entityRepository.findAll(eq("school"), eq("school"), eq(regionIdStudentIdQuery))).thenReturn(schoolList);
 
         SimpleEntity teacherSchoolAssociationEntity = createTeacherSchoolAssociationEntity(STUDENT_ID, false);
         entityPersistHandler.setEntityRepository(entityRepository);

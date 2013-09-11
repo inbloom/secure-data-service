@@ -155,7 +155,7 @@ public class TeacherToSubStudentEntityValidatorTest {
         attendances.add(attendanceEntity1.getEntityId());
         studentIds.add("student123");
 
-        Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.ATTENDANCE), Mockito.any(NeutralQuery.class))).thenReturn(
+        Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.ATTENDANCE), Mockito.eq(EntityNames.ATTENDANCE), Mockito.any(NeutralQuery.class))).thenReturn(
                 Arrays.asList(attendanceEntity1));
 
         Mockito.when(teacherToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(true);
@@ -170,7 +170,7 @@ public class TeacherToSubStudentEntityValidatorTest {
         attendances.add(attendanceEntity1.getEntityId());
         studentIds.add("student123");
 
-        Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.ATTENDANCE), Mockito.any(NeutralQuery.class))).thenReturn(
+        Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.ATTENDANCE), Mockito.eq(EntityNames.ATTENDANCE), Mockito.any(NeutralQuery.class))).thenReturn(
                 Arrays.asList(attendanceEntity1));
 
         Mockito.when(teacherToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(false);
@@ -183,7 +183,7 @@ public class TeacherToSubStudentEntityValidatorTest {
                 new DateTime().plusHours(1));
         Entity association = new MongoEntity(EntityNames.STUDENT_SCHOOL_ASSOCIATION, goodStudentSchoolAssociation);
         Mockito.when(
-                mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SCHOOL_ASSOCIATION), Mockito.any(NeutralQuery.class)))
+                mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SCHOOL_ASSOCIATION), Mockito.eq(EntityNames.STUDENT_SCHOOL_ASSOCIATION), Mockito.any(NeutralQuery.class)))
                 .thenReturn(Arrays.asList(association));
         Set<String> associations = new HashSet<String>();
         associations.add(association.getEntityId());
@@ -199,7 +199,7 @@ public class TeacherToSubStudentEntityValidatorTest {
         Map<String, Object> goodStudentSchoolAssociation = buildStudentSchoolAssociation("student123", "school123");
         Entity association = new MongoEntity(EntityNames.STUDENT_SCHOOL_ASSOCIATION, goodStudentSchoolAssociation);
         Mockito.when(
-                mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SCHOOL_ASSOCIATION), Mockito.any(NeutralQuery.class)))
+                mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SCHOOL_ASSOCIATION), Mockito.eq(EntityNames.STUDENT_SCHOOL_ASSOCIATION), Mockito.any(NeutralQuery.class)))
                 .thenReturn(Arrays.asList(association));
         Set<String> associations = new HashSet<String>();
         associations.add(association.getEntityId());
@@ -216,7 +216,7 @@ public class TeacherToSubStudentEntityValidatorTest {
                 new DateTime().minusDays(1));
         Entity association = new MongoEntity(EntityNames.STUDENT_SCHOOL_ASSOCIATION, badStudentSchoolAssociation);
         Mockito.when(
-                mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SCHOOL_ASSOCIATION), Mockito.any(NeutralQuery.class)))
+                mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SCHOOL_ASSOCIATION), Mockito.eq(EntityNames.STUDENT_SCHOOL_ASSOCIATION), Mockito.any(NeutralQuery.class)))
                 .thenReturn(Arrays.asList(association));
         Set<String> associations = new HashSet<String>();
         associations.add(association.getEntityId());
@@ -229,7 +229,7 @@ public class TeacherToSubStudentEntityValidatorTest {
                 new DateTime().plusDays(1));
         Entity association = new MongoEntity(EntityNames.STUDENT_SECTION_ASSOCIATION, goodStudentSectionAssociation);
         Mockito.when(
-                mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SECTION_ASSOCIATION), Mockito.any(NeutralQuery.class)))
+                mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SECTION_ASSOCIATION), Mockito.eq(EntityNames.STUDENT_SECTION_ASSOCIATION), Mockito.any(NeutralQuery.class)))
                 .thenReturn(Arrays.asList(association));
         Set<String> associations = new HashSet<String>();
         associations.add(association.getEntityId());
@@ -245,7 +245,7 @@ public class TeacherToSubStudentEntityValidatorTest {
         Map<String, Object> goodStudentSectionAssociation = buildStudentSectionAssociation("student123", "section123");
         Entity association = new MongoEntity(EntityNames.STUDENT_SECTION_ASSOCIATION, goodStudentSectionAssociation);
         Mockito.when(
-                mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SECTION_ASSOCIATION), Mockito.any(NeutralQuery.class)))
+                mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SECTION_ASSOCIATION), Mockito.eq(EntityNames.STUDENT_SECTION_ASSOCIATION), Mockito.any(NeutralQuery.class)))
                 .thenReturn(Arrays.asList(association));
         Set<String> associations = new HashSet<String>();
         associations.add(association.getEntityId());
@@ -262,7 +262,7 @@ public class TeacherToSubStudentEntityValidatorTest {
                 new DateTime().minusDays(1));
         Entity association = new MongoEntity(EntityNames.STUDENT_SECTION_ASSOCIATION, badStudentSectionAssociation);
         Mockito.when(
-                mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SECTION_ASSOCIATION), Mockito.any(NeutralQuery.class)))
+                mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SECTION_ASSOCIATION), Mockito.eq(EntityNames.STUDENT_SECTION_ASSOCIATION), Mockito.any(NeutralQuery.class)))
                 .thenReturn(Arrays.asList(association));
         Set<String> associations = new HashSet<String>();
         associations.add(association.getEntityId());

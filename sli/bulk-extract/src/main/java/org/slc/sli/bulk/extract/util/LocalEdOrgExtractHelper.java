@@ -95,7 +95,7 @@ public class LocalEdOrgExtractHelper implements InitializingBean {
     public Map<String, Set<String>> getBulkExtractLEAsPerApp() {
         NeutralQuery appQuery = new NeutralQuery(new NeutralCriteria("applicationId", NeutralCriteria.CRITERIA_IN,
                 getBulkExtractApps()));
-        Iterable<Entity> apps = repository.findAll("applicationAuthorization", appQuery);
+        Iterable<Entity> apps = repository.findAll("applicationAuthorization", "applicationAuthorization", appQuery);
         Map<String, Set<String>> edorgIds = new HashMap<String, Set<String>>();
         for (Entity app : apps) {
             Set<String> edorgs = new HashSet<String>((Collection<String>) app.getBody().get("edorgs"));
@@ -112,7 +112,7 @@ public class LocalEdOrgExtractHelper implements InitializingBean {
     @SuppressWarnings("unchecked")
     public Set<String> getBulkExtractApps() {
         TenantContext.setIsSystemCall(true);
-        Iterable<Entity> apps = repository.findAll("application", new NeutralQuery());
+        Iterable<Entity> apps = repository.findAll("application", "application", new NeutralQuery());
         TenantContext.setIsSystemCall(false);
         Set<String> appIds = new HashSet<String>();
         for (Entity app : apps) {
@@ -139,7 +139,7 @@ public class LocalEdOrgExtractHelper implements InitializingBean {
         
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE,
                 NeutralCriteria.CRITERIA_IN, edOrgs));
-        Iterable<Entity> childrenIds = repository.findAll(EntityNames.EDUCATION_ORGANIZATION, query);
+        Iterable<Entity> childrenIds = repository.findAll(EntityNames.EDUCATION_ORGANIZATION, EntityNames.EDUCATION_ORGANIZATION, query);
         Set<String> children = new HashSet<String>();
         for (Entity child : childrenIds) {
             children.add(child.getEntityId());

@@ -51,7 +51,7 @@ public class TransitiveTeacherToTeacherSchoolAssociationValidator extends Abstra
         }
         
         NeutralQuery nq = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids));
-        Iterable<Entity> tsa = getRepo().findAll(EntityNames.TEACHER_SCHOOL_ASSOCIATION, nq);
+        Iterable<Entity> tsa = getRepo().findAll(EntityNames.TEACHER_SCHOOL_ASSOCIATION, EntityNames.TEACHER_SCHOOL_ASSOCIATION, nq);
         
         Set<String> teachers = new HashSet<String>();
         for (Entity e : tsa) {
