@@ -316,13 +316,13 @@ public class LocalEdOrgExtractorTest {
         Mockito.when(mockFactory.buildLEAExtractFile(Mockito.eq(tenantPath), Mockito.eq(leaFour),
                 Mockito.any(String.class), Mockito.eq(appPublicKeys), Mockito.any(SecurityEventUtil.class))).thenReturn(extractFile4);
 
-        Mockito.when(helper.getBulkExtractLEAs()).thenReturn(new HashSet<String>(Arrays.asList(leaOne, leaTwo, leaThree, leaFour)));
+        Mockito.when(helper.getBulkExtractEdOrgs()).thenReturn(new HashSet<String>(Arrays.asList(leaOne, leaTwo, leaThree, leaFour)));
         Mockito.when(helper.getChildEdOrgs(Mockito.eq(Arrays.asList(leaOne)))).thenReturn(new HashSet<String>());
         Mockito.when(helper.getChildEdOrgs(Mockito.eq(Arrays.asList(leaTwo)))).thenReturn(new HashSet<String>(Arrays.asList(leaThree, leaFour)));
 
         extractor.execute("Midgar", tenantDir, time);
 
-        Mockito.verify(helper, Mockito.times(3)).getBulkExtractLEAs();
+        Mockito.verify(helper, Mockito.times(3)).getBulkExtractEdOrgs();
         Mockito.verify(helper, Mockito.times(4)).getChildEdOrgs(Mockito.any(List.class));
         Mockito.verify(mockMongo, Mockito.times(6)).updateDBRecord(Mockito.eq("Midgar"), Mockito.any(String.class), Mockito.any(String.class),
                 Mockito.any(Date.class), Mockito.eq(false), Mockito.any(String.class), Mockito.eq(false));

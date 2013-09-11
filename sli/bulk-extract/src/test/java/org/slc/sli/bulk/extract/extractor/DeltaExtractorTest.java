@@ -138,7 +138,7 @@ public class DeltaExtractorTest {
         MockitoAnnotations.initMocks(this);
 
         Map<String, Set<String>> appsToLEA = buildAppToLEAMap();
-        when(helper.getBulkExtractLEAsPerApp()).thenReturn(appsToLEA);
+        when(helper.getBulkExtractEdOrgsPerApp()).thenReturn(appsToLEA);
         Entity LEA1 = buildEdorgEntity("lea1");
         Entity LEA2 = buildEdorgEntity("lea2");
         Entity LEA3 = buildEdorgEntity("lea3");

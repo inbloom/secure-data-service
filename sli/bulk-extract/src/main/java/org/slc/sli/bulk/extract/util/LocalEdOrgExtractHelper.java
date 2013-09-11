@@ -25,7 +25,7 @@ import java.util.*;
 @Component
 public class LocalEdOrgExtractHelper implements InitializingBean {
 
-    private Set<String> extractLEAs;
+    private Set<String> extractEdOrgs;
 
     @Autowired
     @Qualifier("secondaryRepo")
@@ -49,21 +49,18 @@ public class LocalEdOrgExtractHelper implements InitializingBean {
     /**
      * Returns all top level LEAs that will be extracted in the tenant
      * @return a set of top level lea ids
+     * 
+     * Returns the union of all edOrgs appearing as values in the 
+     * map of application -> { authorized edOrgs }
      */
-    public Set<String> getBulkExtractLEAs() {
-        if (extractLEAs == null) {
-            extractLEAs = new HashSet<String>();
-
-            Set<String> topLevelLEAs = getTopLevelLEAs();
-            for (Set<String> appLeas : getBulkExtractLEAsPerApp().values()) {
-                for (String lea : appLeas) {
-                    if (topLevelLEAs.contains(lea)) {
-                        extractLEAs.add(lea);
-                    }
-                }
+    public Set<String> getBulkExtractEdOrgs() {
+        if (extractEdOrgs == null) {
+            extractEdOrgs = new HashSet<String>();
+            for (Set<String> appEdOrgs : getBulkExtractEdOrgsPerApp().values()) {
+            	extractEdOrgs.addAll(appEdOrgs);
             }
         }
-        return extractLEAs;
+        return extractEdOrgs;
     }
 
     public Set<String> getTopLevelLEAs() {
@@ -92,7 +89,7 @@ public class LocalEdOrgExtractHelper implements InitializingBean {
      * @return a set of the LEA ids that need a bulk extract per app
      */
     @SuppressWarnings("unchecked")
-    public Map<String, Set<String>> getBulkExtractLEAsPerApp() {
+    public Map<String, Set<String>> getBulkExtractEdOrgsPerApp() {
         NeutralQuery appQuery = new NeutralQuery(new NeutralCriteria("applicationId", NeutralCriteria.CRITERIA_IN,
                 getBulkExtractApps()));
         Iterable<Entity> apps = repository.findAll("applicationAuthorization", appQuery);
