@@ -272,7 +272,7 @@ public class ContextValidator implements ApplicationContextAware {
             Set<String> idsToValidate = new HashSet<String>();
             NeutralQuery getIdsQuery = new NeutralQuery(new NeutralCriteria("_id", "in", new ArrayList<String>(ids)));
             int found = 0;
-            for (Entity ent : repo.findAll(def.getStoredCollectionName(), getIdsQuery)) {
+            for (Entity ent : repo.findAll(def.getSchemaName(), def.getStoredCollectionName(), getIdsQuery)) {
                 found++;
                 Collection< String> userEdOrgs = edOrgHelper.getDirectEdorgs( ent );
                 if (SecurityUtil.principalId().equals(ent.getMetaData().get("createdBy"))
