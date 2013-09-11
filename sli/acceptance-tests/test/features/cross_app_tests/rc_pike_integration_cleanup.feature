@@ -23,6 +23,7 @@ Scenario: App developer deletes installed app
   And I switch to the iframe
   Then the application named "BulkExtractApp" is removed from the SLI
 
+@wip
 Scenario:  LEA deletes realm
   When I navigate to the Portal home page
   When I selected the realm "inBloom"
@@ -60,6 +61,7 @@ Scenario:  Charter SchoolL LEA deletes realm
   And I exit out of the iframe
   And I click on log out
 
+@wip
 Scenario: slcoperator deletes SEA,LEA
   When I navigate to the user account management page
   And I see the realm selector I authenticate to "inBloom"
@@ -67,4 +69,4 @@ Scenario: slcoperator deletes SEA,LEA
   When I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
   Then I delete the user "RCTestSeaAdminFN RCTestSeaAdminLN"
   Then I delete the user "RCTestLeaAdminFN RCTestLeaAdminLN"
- #Then I delete the user "CharterSchoolLeaAdminFN CharterSchoolLeaAdminLN"
+  Then I delete the user "CharterSchoolLeaAdminFN CharterSchoolLeaAdminLN"
