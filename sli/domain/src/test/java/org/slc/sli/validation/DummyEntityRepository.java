@@ -79,7 +79,7 @@ public class DummyEntityRepository implements Repository<Entity> {
     }
 
     @Override
-    public Iterable<Entity> findAll(String collectionName, NeutralQuery queryParameters) {
+    public Iterable<Entity> findAll(String entityName, String collectionName, NeutralQuery queryParameters) {
         // TODO Auto-generated method stub
         return null;
     }

@@ -144,7 +144,7 @@ public class ElasticSearchRepository implements Repository<Entity> {
     }
 
     @Override
-    public Iterable<Entity> findAll(String collectionName, NeutralQuery neutralQuery) {
+    public Iterable<Entity> findAll(String entityName, String collectionName, NeutralQuery neutralQuery) {
         return ReadConverter.fromSearchJson(queryForSearch(getQuery(neutralQuery, false)));
     }
 

@@ -179,9 +179,9 @@ public class MockRepo implements Repository<Entity> {
 
     @SuppressWarnings("unchecked")
     @Override
-    public Iterable<Entity> findAll(String entityType, NeutralQuery neutralQuery) {
+    public Iterable<Entity> findAll(String entityType, String collectionName, NeutralQuery neutralQuery) {
 
-        Map<String, Entity> results = repo.get(entityType);
+        Map<String, Entity> results = repo.get(collectionName);
         if (results == null) {
             results = new LinkedHashMap<String, Entity>();
         }
@@ -426,7 +426,7 @@ public class MockRepo implements Repository<Entity> {
     @Override
     public Entity findOne(String entityType, NeutralQuery neutralQuery, boolean allFields) {
 
-        Iterator<Entity> iter = this.findAll(entityType, neutralQuery).iterator();
+        Iterator<Entity> iter = this.findAll(entityType, entityType, neutralQuery).iterator();
         return iter.hasNext() ? iter.next() : null;
     }
 
@@ -548,7 +548,7 @@ public class MockRepo implements Repository<Entity> {
 
     @Override
     public long count(String collectionName, NeutralQuery neutralQuery) {
-        return ((List<?>) findAll(collectionName, neutralQuery)).size();
+        return ((List<?>) findAll(collectionName, collectionName, neutralQuery)).size();
     }
 
     private String generateId() {
@@ -626,7 +626,7 @@ public class MockRepo implements Repository<Entity> {
     @Override
     public Iterable<String> findAllIds(String collectionName, NeutralQuery neutralQuery) {
         ArrayList<String> ids = new ArrayList<String>();
-        for (Entity e : this.findAll(collectionName, neutralQuery)) {
+        for (Entity e : this.findAll(collectionName, collectionName, neutralQuery)) {
             ids.add(e.getEntityId());
         }
         return ids;
@@ -775,7 +775,7 @@ public class MockRepo implements Repository<Entity> {
 
     @Override
     public Iterator<Entity> findEach(String collectionName, NeutralQuery query) {
-        return findAll(collectionName, query).iterator();
+        return findAll(collectionName, collectionName, query).iterator();
     }
 
     @Override

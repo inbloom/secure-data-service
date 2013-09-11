@@ -622,7 +622,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
             // List all entities that have the deleted entity's ID in one or more
             // referencing fields
-            Iterable<Entity> referencingEntities = this.findAll(getEntityRepositoryType(referenceEntityType),
+            Iterable<Entity> referencingEntities = this.findAll(getEntityRepositoryType(referenceEntityType), getEntityRepositoryType(referenceEntityType),
                     neutralQuery);
             for (Entity entity : referencingEntities) {
                 // Note we are examining entities one level below our initial depth now
@@ -1138,7 +1138,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             NeutralQuery subDocNeutralQuery = neutralQuery == null ? new NeutralQuery() : neutralQuery;
             subDocNeutralQuery.setIncludeFieldString("_id");
             addDefaultQueryParams(subDocNeutralQuery, collectionName);
-            Query q = getQueryConverter().convert(collectionName, subDocNeutralQuery);
+            Query q = getQueryConverter().convert(collectionName, collectionName, subDocNeutralQuery);
 
             List<String> ids = new LinkedList<String>();
             for (Entity e : subDocs.subDoc(collectionName).findAll(q)) {
@@ -1151,21 +1151,21 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     @Override
     @MigrateEntityCollection
-    public Iterable<Entity> findAll(String collectionName, NeutralQuery neutralQuery) {
+    public Iterable<Entity> findAll(String entityName, String collectionName, NeutralQuery neutralQuery) {
         if (subDocs.isSubDoc(collectionName)) {
             this.addDefaultQueryParams(neutralQuery, collectionName);
-            return subDocs.subDoc(collectionName).findAll(getQueryConverter().convert(collectionName, neutralQuery));
+            return subDocs.subDoc(collectionName).findAll(getQueryConverter().convert(entityName, collectionName, neutralQuery));
         }
         if (containerDocumentAccessor.isContainerSubdoc(collectionName)) {
             this.addDefaultQueryParams(neutralQuery, collectionName);
             return containerDocumentAccessor.findAll(collectionName,
-                    getQueryConverter().convert(collectionName, neutralQuery));
+                    getQueryConverter().convert(entityName, collectionName, neutralQuery));
         }
         if (FullSuperDoc.FULL_ENTITIES.containsKey(collectionName)) {
             Set<String> embededFields = FullSuperDoc.FULL_ENTITIES.get(collectionName);
             addEmbededFields(neutralQuery, embededFields);
         }
-        Iterable<Entity> entities = super.findAll(collectionName, neutralQuery);
+        Iterable<Entity> entities = super.findAll(entityName, collectionName, neutralQuery);
         SuperdocConverter converter = converterReg.getConverter(collectionName);
         if (converter != null) {
             return converter.subdocToBodyField(entities);
@@ -1186,7 +1186,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Override
     public long count(String collectionName, NeutralQuery neutralQuery) {
         if (subDocs.isSubDoc(collectionName) || containerDocumentAccessor.isContainerSubdoc(collectionName)) {
-            Query query = this.getQueryConverter().convert(collectionName, neutralQuery);
+            Query query = this.getQueryConverter().convert(collectionName, collectionName, neutralQuery);
             return count(collectionName, query);
         }
         return super.count(collectionName, neutralQuery);
@@ -1205,7 +1205,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Override
     public boolean doUpdate(String collectionName, NeutralQuery neutralQuery, Update update) {
         if (subDocs.isSubDoc(collectionName)) {
-            Query query = this.getQueryConverter().convert(collectionName, neutralQuery);
+            Query query = this.getQueryConverter().convert(collectionName, collectionName, neutralQuery);
             return subDocs.subDoc(collectionName).doUpdate(query, update);
         }
 
@@ -1224,10 +1224,10 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Override
     public void deleteAll(String collectionName, NeutralQuery neutralQuery) {
         if (journal != null) {
-            journal.journal(getIds(findAll(collectionName, neutralQuery)), collectionName, true);
+            journal.journal(getIds(findAll(collectionName, collectionName, neutralQuery)), collectionName, true);
         }
         if (subDocs.isSubDoc(collectionName)) {
-            Query query = this.getQueryConverter().convert(collectionName, neutralQuery);
+            Query query = this.getQueryConverter().convert(collectionName, collectionName, neutralQuery);
             subDocs.subDoc(collectionName).deleteAll(query);
         } else {
             super.deleteAll(collectionName, neutralQuery);
@@ -1264,7 +1264,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Override
     @MigrateEntity
     public Entity findAndUpdate(String collectionName, NeutralQuery neutralQuery, Update update) {
-        Query query = this.getQueryConverter().convert(collectionName, neutralQuery);
+        Query query = this.getQueryConverter().convert(collectionName, collectionName, neutralQuery);
         FindAndModifyOptions options = new FindAndModifyOptions();
         Entity result = template.findAndModify(query, update, options, getRecordClass(), collectionName);
 
@@ -1304,7 +1304,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Override
     public Iterator<Entity> findEach(String collectionName, NeutralQuery neutralQuery) {
         guideIfTenantAgnostic(collectionName);
-        Query query = this.getQueryConverter().convert(collectionName, neutralQuery, true);
+        Query query = this.getQueryConverter().convert(collectionName, collectionName, neutralQuery, true);
         return template.findEach(query, Entity.class, collectionName);
     }
 
@@ -1352,7 +1352,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         }
 
         if (journal != null) {
-            journal.journal(getIds(findAll(collectionName, query)), collectionName, false);
+            journal.journal(getIds(findAll(collectionName, collectionName, query)), collectionName, false);
         }
         return result;
     }

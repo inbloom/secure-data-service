@@ -88,7 +88,7 @@ public class SimpleEntityRepository implements Repository<Entity> {
     }
 
     @Override
-    public Iterable<Entity> findAll(String collectionName, NeutralQuery neutralQuery) {
+    public Iterable<Entity> findAll(String entityName, String collectionName, NeutralQuery neutralQuery) {
         // TODO Auto-generated method stub
         return null;
     }

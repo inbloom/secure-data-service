@@ -227,7 +227,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         this.addDefaultQueryParams(neutralQuery, collectionName);
 
         // convert the neutral query into a mongo query
-        Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery, allFields);
+        Query mongoQuery = this.queryConverter.convert(collectionName, collectionName, neutralQuery, allFields);
 
         try {
         	if ( allFields ) {
@@ -277,7 +277,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         this.addDefaultQueryParams(neutralQuery, collectionName);
 
         // convert the neutral query into a mongo query
-        Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery, allFields);
+        Query mongoQuery = this.queryConverter.convert(collectionName, collectionName, neutralQuery, allFields);
 
         // find and return an entity
         return findOne(collectionName, mongoQuery);
@@ -289,7 +289,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
     }
 
     @Override
-    public Iterable<T> findAll(String collectionName, NeutralQuery origNeutralQuery) {
+    public Iterable<T> findAll(String entityName, String collectionName, NeutralQuery origNeutralQuery) {
 
         NeutralQuery neutralQuery = origNeutralQuery == null ? new NeutralQuery() : origNeutralQuery;
 
@@ -298,7 +298,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         this.addDefaultQueryParams(neutralQuery, collectionName);
 
         // convert the neutral query into a mongo query
-        Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery);
+        Query mongoQuery = this.queryConverter.convert(entityName, collectionName, neutralQuery);
 
         // always call guideIfTenantAgnostic - this sets threadlocal flag
         if (!guideIfTenantAgnostic(collectionName) && TenantContext.getTenantId() == null) {
@@ -327,7 +327,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         this.addDefaultQueryParams(neutralQuery, collectionName);
 
         List<String> ids = new ArrayList<String>();
-        for (T t : findAll(collectionName, neutralQuery)) {
+        for (T t : findAll(collectionName, collectionName, neutralQuery)) {
             ids.add(this.getRecordId(t));
         }
         return ids;
@@ -345,14 +345,14 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
         // find and return an entity
         guideIfTenantAgnostic(collectionName);
-        Query mongoQuery = this.queryConverter.convert(collectionName, neutralQuery);
+        Query mongoQuery = this.queryConverter.convert(collectionName, collectionName, neutralQuery);
         return template.find(mongoQuery, getRecordClass(), collectionName);
     }
 
     @Override
     public long count(String collectionName, NeutralQuery neutralQuery) {
         guideIfTenantAgnostic(collectionName);
-        return this.count(collectionName, this.queryConverter.convert(collectionName, neutralQuery).getQueryObject());
+        return this.count(collectionName, this.queryConverter.convert(collectionName, collectionName, neutralQuery).getQueryObject());
     }
 
     @Override
@@ -420,7 +420,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         // Operations should be restricted based on tenant.
         this.addDefaultQueryParams(query, collectionName);
 
-        Query convertedQuery = this.queryConverter.convert(collectionName, query);
+        Query convertedQuery = this.queryConverter.convert(collectionName, collectionName, query);
         Update convertedUpdate = new Update();
 
         for (Map.Entry<String, Object> entry : update.entrySet()) {
@@ -462,7 +462,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         // Operations should be restricted based on tenant.
         this.addDefaultQueryParams(query, collectionName);
 
-        Query convertedQuery = this.queryConverter.convert(collectionName, query);
+        Query convertedQuery = this.queryConverter.convert(collectionName, collectionName, query);
         Update convertedUpdate = new Update();
 
         for (Map.Entry<String, Object> entry : update.entrySet()) {
@@ -490,7 +490,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     @Override
     public boolean doUpdate(String collection, NeutralQuery query, Update update) {
-        return updateFirst(queryConverter.convert(collection, query), update, collection).getLastError().ok();
+        return updateFirst(queryConverter.convert(collection, collection, query), update, collection).getLastError().ok();
     }
 
     protected abstract Query getUpdateQuery(T entity);
@@ -540,7 +540,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
     @Override
     public void deleteAll(String collectionName, NeutralQuery query) {
         this.addDefaultQueryParams(query, collectionName);
-        Query convertedQuery = this.queryConverter.convert(collectionName, query);
+        Query convertedQuery = this.queryConverter.convert(collectionName, collectionName, query);
         guideIfTenantAgnostic(collectionName);
         template.remove(convertedQuery, collectionName);
 

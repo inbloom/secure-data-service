@@ -217,16 +217,16 @@ public class PagingRepositoryDelegate<T> implements Repository<T> {
      * @see org.slc.sli.domain.Repository#findAll(java.lang.String, org.slc.sli.domain.NeutralQuery)
      */
     @Override
-    public Iterable<T> findAll(String collectionName, NeutralQuery neutralQuery) {
+    public Iterable<T> findAll(String entityName, String collectionName, NeutralQuery neutralQuery) {
         List<String> queriedIds = new ArrayList<String>(getQueriedIds(neutralQuery));
         // This is an insecure query, let it through.
         if (queriedIds.size() == 0) {
-            return repo.findAll(collectionName, neutralQuery);
+            return repo.findAll(entityName, collectionName, neutralQuery);
         }
         List<List<String>> brokenList = extractBrokenListOfIds(queriedIds);
         List<T> results = new ArrayList<T>();
         for (List<String> idSet : brokenList) {
-            Iterable<T> entities = repo.findAll(collectionName, adjustIdsInQuery(idSet, neutralQuery));
+            Iterable<T> entities = repo.findAll(entityName, collectionName, adjustIdsInQuery(idSet, neutralQuery));
             for (T e : entities) {
                 // find and return an instance
                 results.add(e);
