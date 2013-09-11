@@ -722,10 +722,10 @@ public class BasicServiceTest {
         NeutralQuery query = new NeutralQuery();
         query.setLimit(ApiQuery.API_QUERY_DEFAULT_LIMIT);
 
-        Method method = BasicService.class.getDeclaredMethod("getAccessibleEntities", NeutralQuery.class);
+        Method method = BasicService.class.getDeclaredMethod("getAccessibleEntities", NeutralQuery.class, boolean.class);
         method.setAccessible(true);
 
-        Collection<Entity> accessibleEntities = (Collection<Entity>) method.invoke(service, query);
+        Collection<Entity> accessibleEntities = (Collection<Entity>) method.invoke(service, query, false);
         Iterator<Entity> accessibleEntitiesIt = accessibleEntities.iterator();
 
         Assert.assertEquals(10, accessibleEntities.size());
@@ -746,7 +746,7 @@ public class BasicServiceTest {
 
         // Assure same order and count.
 
-        accessibleEntities = (Collection<Entity>) method.invoke(service, query);
+        accessibleEntities = (Collection<Entity>) method.invoke(service, query, false);
         accessibleEntitiesIt = accessibleEntities.iterator();
 
         Assert.assertEquals(10, accessibleEntities.size());
@@ -767,7 +767,7 @@ public class BasicServiceTest {
 
 
         query.setOffset(7);
-        accessibleEntities = (Collection<Entity>) method.invoke(service, query);
+        accessibleEntities = (Collection<Entity>) method.invoke(service, query, false);
         accessibleEntitiesIt = accessibleEntities.iterator();
 
         Assert.assertEquals(3, accessibleEntities.size());
@@ -782,7 +782,7 @@ public class BasicServiceTest {
         // Assure same order and count.
 
         query.setOffset(7);
-        accessibleEntities = (Collection<Entity>) method.invoke(service, query);
+        accessibleEntities = (Collection<Entity>) method.invoke(service, query, false);
         accessibleEntitiesIt = accessibleEntities.iterator();
 
         Assert.assertEquals(3, accessibleEntities.size());
@@ -828,10 +828,10 @@ public class BasicServiceTest {
         NeutralQuery query = new NeutralQuery();
         query.setLimit(5);
 
-        Method method = BasicService.class.getDeclaredMethod("getAccessibleEntities", NeutralQuery.class);
+        Method method = BasicService.class.getDeclaredMethod("getAccessibleEntities", NeutralQuery.class, boolean.class);
         method.setAccessible(true);
 
-        Collection<Entity> accessibleEntities = (Collection<Entity>) method.invoke(service, query);
+        Collection<Entity> accessibleEntities = (Collection<Entity>) method.invoke(service, query, false);
         Iterator<Entity> accessibleEntitiesIt = accessibleEntities.iterator();
 
         Assert.assertEquals(5, accessibleEntities.size());
@@ -847,7 +847,7 @@ public class BasicServiceTest {
 
         // Assure same order and count.
 
-        accessibleEntities = (Collection<Entity>) method.invoke(service, query);
+        accessibleEntities = (Collection<Entity>) method.invoke(service, query, false);
         accessibleEntitiesIt = accessibleEntities.iterator();
 
         Assert.assertEquals(5, accessibleEntities.size());
@@ -863,7 +863,7 @@ public class BasicServiceTest {
 
 
         query.setOffset(4);
-        accessibleEntities = (Collection<Entity>) method.invoke(service, query);
+        accessibleEntities = (Collection<Entity>) method.invoke(service, query, false);
         accessibleEntitiesIt = accessibleEntities.iterator();
 
         Assert.assertEquals(5, accessibleEntities.size());
@@ -880,7 +880,7 @@ public class BasicServiceTest {
 
         // Assure same order and count.
 
-        accessibleEntities = (Collection<Entity>) method.invoke(service, query);
+        accessibleEntities = (Collection<Entity>) method.invoke(service, query, false);
         accessibleEntitiesIt = accessibleEntities.iterator();
 
         Assert.assertEquals(5, accessibleEntities.size());
@@ -896,7 +896,7 @@ public class BasicServiceTest {
 
 
         query.setOffset(7);
-        accessibleEntities = (Collection<Entity>) method.invoke(service, query);
+        accessibleEntities = (Collection<Entity>) method.invoke(service, query, false);
         accessibleEntitiesIt = accessibleEntities.iterator();
 
         Assert.assertEquals(3, accessibleEntities.size());
@@ -910,7 +910,7 @@ public class BasicServiceTest {
 
         // Assure same order and count.
 
-        accessibleEntities = (Collection<Entity>) method.invoke(service, query);
+        accessibleEntities = (Collection<Entity>) method.invoke(service, query, false);
         accessibleEntitiesIt = accessibleEntities.iterator();
 
         Assert.assertEquals(3, accessibleEntities.size());
@@ -924,7 +924,7 @@ public class BasicServiceTest {
 
 
         query.setOffset(10);
-        accessibleEntities = (Collection<Entity>) method.invoke(service, query);
+        accessibleEntities = (Collection<Entity>) method.invoke(service, query, false);
 
         Assert.assertEquals(0, accessibleEntities.size());
 
@@ -970,10 +970,10 @@ public class BasicServiceTest {
         long prevCountLimit = countLimit.getLong(service);
         countLimit.set(service, mockCountLimit);
 
-        Method method = BasicService.class.getDeclaredMethod("getAccessibleEntities", NeutralQuery.class);
+        Method method = BasicService.class.getDeclaredMethod("getAccessibleEntities", NeutralQuery.class, boolean.class);
         method.setAccessible(true);
 
-        Collection<Entity> accessibleEntities = (Collection<Entity>) method.invoke(service, query);
+        Collection<Entity> accessibleEntities = (Collection<Entity>) method.invoke(service, query, false);
         Iterator<Entity> accessibleEntitiesIt = accessibleEntities.iterator();
 
         Assert.assertEquals(5, accessibleEntities.size());
@@ -989,7 +989,7 @@ public class BasicServiceTest {
 
         // Assure same order and count.
 
-        accessibleEntities = (Collection<Entity>) method.invoke(service, query);
+        accessibleEntities = (Collection<Entity>) method.invoke(service, query, false);
         accessibleEntitiesIt = accessibleEntities.iterator();
 
         Assert.assertEquals(5, accessibleEntities.size());
@@ -1023,9 +1023,9 @@ public class BasicServiceTest {
         NeutralQuery query = new NeutralQuery();
         query.setLimit(ApiQuery.API_QUERY_DEFAULT_LIMIT);
 
-        Method method = BasicService.class.getDeclaredMethod("getAccessibleEntities", NeutralQuery.class);
+        Method method = BasicService.class.getDeclaredMethod("getAccessibleEntities", NeutralQuery.class, boolean.class);
         method.setAccessible(true);
-        Collection<Entity> accessibleEntities = (Collection<Entity>) method.invoke(service, query);
+        Collection<Entity> accessibleEntities = (Collection<Entity>) method.invoke(service, query, false);
 
         Assert.assertTrue(accessibleEntities.isEmpty());
 
@@ -1066,11 +1066,11 @@ public class BasicServiceTest {
         NeutralQuery query = new NeutralQuery();
         query.setLimit(ApiQuery.API_QUERY_DEFAULT_LIMIT);
 
-        Method method = BasicService.class.getDeclaredMethod("getAccessibleEntities", NeutralQuery.class);
+        Method method = BasicService.class.getDeclaredMethod("getAccessibleEntities", NeutralQuery.class, boolean.class);
         method.setAccessible(true);
 
         try {
-            Collection<Entity> accessibleEntities = (Collection<Entity>) method.invoke(service, query);
+            Collection<Entity> accessibleEntities = (Collection<Entity>) method.invoke(service, query, false);
         } catch (InvocationTargetException itex) {
             Assert.assertEquals(APIAccessDeniedException.class, itex.getCause().getClass());
             Assert.assertEquals("Access to resource denied.", itex.getCause().getMessage());

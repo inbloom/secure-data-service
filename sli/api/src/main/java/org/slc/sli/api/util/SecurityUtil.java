@@ -60,7 +60,14 @@ public class SecurityUtil {
     // private static String principalId;
 
     public static enum UserContext {STAFF_CONTEXT, TEACHER_CONTEXT, DUAL_CONTEXT, NO_CONTEXT};
-    private static UserContext userContext = UserContext.NO_CONTEXT;
+
+    private static ThreadLocal<UserContext> userContextTL = new ThreadLocal<UserContext>() {
+        @Override
+        protected UserContext initialValue()
+        {
+            return UserContext.NO_CONTEXT;
+        }
+    };
 
     private static boolean isTransitive = false;
 
@@ -249,11 +256,11 @@ public class SecurityUtil {
     }
 
     public static UserContext getUserContext() {
-        return userContext;
+        return userContextTL.get();
     }
 
     public static void setUserContext(UserContext userContext) {
-        SecurityUtil.userContext = userContext;
+        SecurityUtil.userContextTL.set(userContext);
     }
 
     /**

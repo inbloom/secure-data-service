@@ -614,7 +614,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
         boolean findSpecial = userHasMultipleContextsOrDifferingRights() && (!EntityNames.isPublic(defn.getType()));
         Collection<Entity> entities = new HashSet<Entity>();
         if (findSpecial) {
-            entities = getAccessibleEntities(neutralQuery);
+            entities = getAccessibleEntities(neutralQuery, isSelf);
         } else {
             entities = (Collection<Entity>) repo.findAll(collectionName, neutralQuery);
 
@@ -656,7 +656,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
         return results;
     }
 
-    private Collection<Entity> getAccessibleEntities(NeutralQuery neutralQuery) throws AccessDeniedException {
+    private Collection<Entity> getAccessibleEntities(NeutralQuery neutralQuery, boolean isSelf) throws AccessDeniedException {
         Collection<Entity> accessibleEntities = new ArrayList<Entity>();
 
         int limit = neutralQuery.getLimit();
@@ -669,7 +669,6 @@ public class BasicService implements EntityService, AccessibilityCheck {
         Collection<Entity> allEntities = (Collection<Entity>) getRepo().findAll(collectionName, neutralQuery);
         neutralQuery.setLimit(limit);
         neutralQuery.setOffset(offset);
-        boolean isSelf = isSelf(neutralQuery);
         if (SecurityUtil.getUserContext() == SecurityUtil.UserContext.DUAL_CONTEXT) {
             entityContexts = getEntityContextMap(allEntities, true);
         }
