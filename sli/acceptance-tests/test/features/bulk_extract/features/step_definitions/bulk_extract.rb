@@ -490,7 +490,6 @@ When /^a the correct number of "(.*?)" was extracted from the database$/ do |col
       end
 	end
 
-    puts @unpackDir + "/" + collection + ".json.gz" + "<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
 	Zlib::GzipReader.open(@unpackDir + "/" + collection + ".json.gz") { |extractFile|
     records = JSON.parse(extractFile.read)
     puts "\nCounts Expected: " + count.to_s + " Actual: " + records.size.to_s + "\n"
@@ -1701,7 +1700,6 @@ def getExtractInfoFromMongo(query, query_opts={})
   @sliDb = @conn.db(DATABASE_NAME)
   @coll = @sliDb.collection("bulkExtractFiles")
   match = @coll.find_one(query, query_opts)
-  puts "1010 Querying bulkExtractFiles with these options :" + query.to_s + '           ::' + match.to_s
 
   assert(match !=nil, "Database was not updated with bulk extract file location")
 
@@ -3396,12 +3394,6 @@ end
 
 def build_bulk_query(tenant, appId, lea=nil, delta=false, publicData=false)
   query = {"body.tenantId"=>tenant, "body.applicationId" => appId, "body.isDelta" => delta, "body.isPublicData" => publicData}
-  query.merge!({"body.edorg"=>lea}) unless lea.nil?
-  query
-end
-
-def build_bulk_query2(tenant, appId, lea=nil, delta=false, publicData=false, edOrgId = nil)
-  query = {"body.tenantId"=>tenant, "body.applicationId" => appId, "body.isDelta" => delta, "body.isPublicData" => publicData, "body.edorg" => edOrgId}
   query.merge!({"body.edorg"=>lea}) unless lea.nil?
   query
 end

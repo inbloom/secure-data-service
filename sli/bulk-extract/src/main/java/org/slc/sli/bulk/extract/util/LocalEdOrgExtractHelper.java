@@ -65,7 +65,7 @@ public class LocalEdOrgExtractHelper implements InitializingBean {
                 extractEdOrgs.addAll(appEdOrgs);
             }
         }
-        return extractEdOrgs;
+        return removeNonExistentEdOrgs(extractEdOrgs);
 
     }
 
