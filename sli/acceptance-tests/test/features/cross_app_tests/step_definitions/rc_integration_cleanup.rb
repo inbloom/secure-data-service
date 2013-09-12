@@ -188,6 +188,10 @@ Then /^I will delete the realm for this tenant from the collection$/ do
   sli_db = @conn.db(PropLoader.getProps['sli_database_name'])
   sli_db['realm'].remove("body.uniqueIdentifier" => "RC-IL-Daybreak")
   assert(sli_db['realm'].find("body.uniqueIdentifier" => "RC-IL-Daybreak").count == 0, "Realm document not deleted.")
+  if RUN_ON_RC
+     sli_db['realm'].remove("body.uniqueIdentifier" => "RC-IL-Charter-School")
+     assert(sli_db['realm'].find("body.uniqueIdentifier" => "RC-IL-Charter-School").count == 0, "Realm document not deleted.")
+  end
 end
 
 Then /^I will delete the applications "([^\"]*)" from the collection$/ do |apps|

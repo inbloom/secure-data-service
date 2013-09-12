@@ -187,7 +187,7 @@ public class LocalEdOrgExtractor {
     }
 
     private void updateBulkExtractDb(String tenant, DateTime startTime) {
-        for (String lea : helper.getBulkExtractLEAs()) {
+        for (String lea : helper.getBulkExtractEdOrgs()) {
             // update db to point to new archive
             for (Entry<String, File> archiveFile : leaToExtractFileMap.getExtractFileForLea(lea).getArchiveFiles()
                     .entrySet()) {
@@ -201,7 +201,7 @@ public class LocalEdOrgExtractor {
         Map<String, ExtractFile> edOrgToLEAExtract = new HashMap<String, ExtractFile>();
 
         Map<String, PublicKey> appPublicKeys = bulkExtractMongoDA.getAppPublicKeys();
-        for (String lea : helper.getBulkExtractLEAs()) {
+        for (String lea : helper.getBulkExtractEdOrgs()) {
             ExtractFile file = factory.buildLEAExtractFile(tenantDirectory.getAbsolutePath(), lea,
                     getArchiveName(lea, startTime.toDate()), appPublicKeys, securityEventUtil);
             edOrgToLEAExtract.put(lea, file);
@@ -217,7 +217,7 @@ public class LocalEdOrgExtractor {
      */
     private EntityToLeaCache buildEdOrgCache() {
         EntityToLeaCache cache = new EntityToLeaCache();
-        for (String lea : helper.getBulkExtractLEAs()) {
+        for (String lea : helper.getBulkExtractEdOrgs()) {
             Set<String> children = helper.getChildEdOrgs(Arrays.asList(lea));
             children.add(lea);
             for (String child : children) {

@@ -138,7 +138,7 @@ public class DeltaExtractorTest {
         MockitoAnnotations.initMocks(this);
 
         Map<String, Set<String>> appsToLEA = buildAppToLEAMap();
-        when(helper.getBulkExtractLEAsPerApp()).thenReturn(appsToLEA);
+        when(helper.getBulkExtractEdOrgsPerApp()).thenReturn(appsToLEA);
         Entity LEA1 = buildEdorgEntity("lea1");
         Entity LEA2 = buildEdorgEntity("lea2");
         Entity LEA3 = buildEdorgEntity("lea3");
@@ -205,7 +205,7 @@ public class DeltaExtractorTest {
     public void test() {
         extractor.execute("Midgar", new DateTime(), "");
         verify(entityExtractor, times(1)).write(any(Entity.class), any(ExtractFile.class), any(EntityExtractor.CollectionWrittenRecord.class), (Predicate) Mockito.isNull());
-        verify(entityWriteManager, times(6)).writeDeleteFile(any(Entity.class), any(ExtractFile.class));
+        verify(entityWriteManager, times(10)).writeDeleteFile(any(Entity.class), any(ExtractFile.class));
     }
 
     @Test
@@ -215,7 +215,7 @@ public class DeltaExtractorTest {
 
         extractor.execute("Midgar", new DateTime(), "");
 
-        verify(entityWriteManager, times(2)).writeDeleteFile(any(Entity.class), any(ExtractFile.class));
+        verify(entityWriteManager, times(3)).writeDeleteFile(any(Entity.class), any(ExtractFile.class));
     }
 
 }
