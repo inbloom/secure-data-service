@@ -10,7 +10,7 @@ buildApi
 
 cd $WORKSPACE/sli/acceptance-tests
 export LANG=en_US.UTF-8
-bundle install --deployment
+bundle install --system --deployment
 bundle exec rake FORCE_COLOR=true api_server_url=https://$NODE_NAME.slidev.org versioningTests OTHER_TAGS=@DB_MIGRATION_BEFORE_API_STARTS
 
 
@@ -18,7 +18,7 @@ processApps $APPSTODEPLOY
 
 cd $WORKSPACE/sli/acceptance-tests
 export LANG=en_US.UTF-8
-bundle install --deployment
+bundle install --system --deployment
 bundle exec rake FORCE_COLOR=true api_server_url=https://$NODE_NAME.slidev.org versioningTests OTHER_TAGS=@DB_MIGRATION_AFTER_API_STARTS
 
 
@@ -34,7 +34,7 @@ processApps $APPSTODEPLOY
 
 cd $WORKSPACE/sli/acceptance-tests
 export LANG=en_US.UTF-8
-bundle install --deployment
+bundle install --system --deployment
 bundle exec rake FORCE_COLOR=true api_server_url=https://$NODE_NAME.slidev.org versioningTests OTHER_TAGS=@DB_MIGRATION_AFTER_UPVERSIONING
 
 EXITCODE=$?
