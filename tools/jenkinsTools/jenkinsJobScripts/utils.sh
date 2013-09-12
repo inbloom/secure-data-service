@@ -77,35 +77,35 @@ noTableScanAndCleanTomcat()
 adminUnitTests()
 {
   cd $WORKSPACE/sli/admin-tools/admin-rails
-  bundle install --system --deployment
+  bundle install --deployment
   bundle exec rake ci:setup:testunit test
 }
 
 databrowserUnitTests()
 {
   cd $WORKSPACE/sli/databrowser
-  bundle install --system --deployment
+  bundle install --deployment
   bundle exec rake ci:setup:testunit test
 }
 
 deployAdmin()
 {
   cd $WORKSPACE/sli/admin-tools/admin-rails
-  bundle install --system --deployment
+  bundle install --deployment
   bundle exec cap team deploy -s subdomain=$NODE_NAME -S branch=$GITCOMMIT
 }
 
 deployAdminSB()
 {
   cd $WORKSPACE/sli/admin-tools/admin-rails
-  bundle install --system --deployment
+  bundle install --deployment
   bundle exec cap team_sb deploy -s subdomain=$NODE_NAME -S branch=$GITCOMMIT
 }
 
 deployDatabrowser()
 {
   cd $WORKSPACE/sli/databrowser
-  bundle install --system --deployment
+  bundle install --deployment
   bundle exec cap team deploy -s subdomain=$NODE_NAME -S branch=$GITCOMMIT
 }
 
@@ -120,3 +120,10 @@ buildApiDocumentationArtifacts()
 cd $WORKSPACE/sli/config/scripts/documentation
 ./generate_doc_artifacts.sh
 }
+
+
+
+
+
+
+

@@ -13,7 +13,7 @@ processApps $APPSTODEPLOY
 # Generate and Ingest Odin data
 cd $WORKSPACE/sli/acceptance-tests
 export LANG=en_US.UTF-8
-bundle install --system --deployment
+bundle install --deployment
 bundle exec rake FORCE_COLOR=true ingestion_log_directory=/home/ingestion/logs ingestion_landing_zone=/home/ingestion/lz/inbound ingestion_healthcheck_url=https://$NODE_NAME.slidev.org/ingestion-service/healthcheck jmeterOdinTests TOGGLE_TABLESCANS=false
 
 
@@ -34,7 +34,7 @@ cd $WORKSPACE/tools/jmeter/
 rm -f *.jtl
 cd $WORKSPACE/sli/acceptance-tests
 rm -f *.jtl
-bundle install --system --deployment
+bundle install --deployment
 bundle exec ruby $WORKSPACE/sli/opstools/migration/70ApplicationAuthorizationMigration.rb localhost:27017
 
 bundle exec rake runSearchBulkExtract
