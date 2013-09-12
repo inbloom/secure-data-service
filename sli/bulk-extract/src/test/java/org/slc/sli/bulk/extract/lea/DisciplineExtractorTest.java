@@ -48,24 +48,28 @@ public class DisciplineExtractorTest {
     @SuppressWarnings("unchecked")
     public void setUp() throws Exception {
 
-        Repository<Entity> repo = Mockito.mock(Repository.class);
-
         ex = Mockito.mock(EntityExtractor.class);
 
         Map<String, ExtractFile> map = new HashMap<String, ExtractFile>();
-
         LEAExtractFileMap leaMap = new LEAExtractFileMap(map);
 
+        //Mock student2LEA cache
         EntityToLeaCache studentCache = new EntityToLeaCache();
         studentCache.addEntry(STUDENTS.get(1), LEA);
         studentCache.addEntry(STUDENTS.get(1), LEA2);
 
+        //Mock edOrgCache
         EntityToLeaCache edorgCache = new EntityToLeaCache();
-        edorgCache.addEntry(LEA, EDORGS.get(0));
+        //edorgCache.addEntry(EDORGS.get(0), LEA);
+        edorgCache.addEntry(EDORGS.get(0), LEA);
 
+        //Mock Repository
+        Repository<Entity> repo = Mockito.mock(Repository.class);
+        //return 1 disciplineAction
         List<Entity> list = Arrays.asList(createDisciplineAction());
         Mockito.when(repo.findEach(Mockito.eq("disciplineAction"), Mockito.any(NeutralQuery.class))).thenReturn(list.listIterator(0));
 
+        //return 2 disciplineIncidents
         Entity e = createDisciplineIncident();
         Entity e2 = createDisciplineIncident();
         Mockito.when(repo.findEach(Mockito.eq("disciplineIncident"), Mockito.any(NeutralQuery.class))).thenReturn(Arrays.asList(e, e2).listIterator(0));

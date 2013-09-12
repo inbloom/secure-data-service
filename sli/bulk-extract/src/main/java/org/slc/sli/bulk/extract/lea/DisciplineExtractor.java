@@ -53,10 +53,12 @@ public class DisciplineExtractor implements EntityExtract {
         extract(EntityNames.DISCIPLINE_INCIDENT, new Function<Entity, Set<String>>() {
             @Override
             public Set<String> apply(Entity input) {
-                Set<String> leas = diCache.getEntriesById(input.getEntityId());
+                String id = input.getEntityId();
+                Set<String> leas = diCache.getEntriesById(id);
 
                 if (leas.isEmpty()) {
-                   leas.add(edorgCache.leaFromEdorg((String) input.getBody().get("schoolId")));
+                   String schoolId = (String) input.getBody().get("schoolId");
+                   leas.addAll(edorgCache.leaFromEdorg(schoolId));
                 }
 
                 return leas;

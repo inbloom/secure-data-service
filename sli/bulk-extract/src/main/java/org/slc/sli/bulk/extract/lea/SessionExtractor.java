@@ -54,24 +54,26 @@ public class SessionExtractor implements EntityExtract {
 	@Override
 	public void extractEntities(EntityToLeaCache entityToEdorgCache) {
         localEdOrgExtractHelper.logSecurityEvent(map.getLeas(), EntityNames.SESSION, this.getClass().getName());
-		Map<String, String> schoolToLea = helper.buildSubToParentEdOrgCache(entityToEdorgCache);
+		Map<String, Collection<String>> schoolToLea = helper.buildSubToParentEdOrgCache(entityToEdorgCache);
 		Iterator<Entity> sessions = repo.findEach(EntityNames.SESSION, new Query());
 		while(sessions.hasNext()) {
 			Entity session = sessions.next();
 			String schoolId = (String) session.getBody().get(ParameterConstants.SCHOOL_ID);
 			Collection<String> gradingPeriods = (Collection<String>) session.getBody().get("gradingPeriodReference");
 
-			String lea = schoolToLea.get(schoolId);
-			if (lea == null) {
+			Collection<String> leas = schoolToLea.get(schoolId);
+			if (leas == null) {
 				LOG.warn("There is no LEA for school {}", schoolId);
 				continue;
 			}
-			extractor.extractEntity(session, map.getExtractFileForLea(lea),
-					EntityNames.SESSION);
+            for(String lea:leas) {
+                extractor.extractEntity(session, map.getExtractFileForLea(lea),
+                        EntityNames.SESSION);
 
-			for (String gradingPeriod : gradingPeriods) {
-				cache.addEntry(gradingPeriod, lea);
-			}		
+                for (String gradingPeriod : gradingPeriods) {
+                    cache.addEntry(gradingPeriod, lea);
+                }
+            }
 		}
 	}
 	

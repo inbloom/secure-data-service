@@ -371,18 +371,29 @@ When /^I retrieve the path to and decrypt the SEA public data extract file for t
   openDecryptedFile(appId)
 end
 
+When /^I fetch the path to and decrypt the SEA public data extract file for the tenant "(.*?)" and application with id "(.*?)" and edorg with id "(.*?)"$/ do |tenant, appId, edOrgId|
+  @tenant = tenant
+  getExtractInfoFromMongo(build_bulk_query(tenant,appId,edOrgId,false, true))
+  openDecryptedFile(appId)
+end
 
 When /^I know the file-length of the extract file$/ do
   @file_size = File.size(@filePath)
 end
 
-When /^I retrieve the path to and decrypt the LEA public data extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
+When /^I retrieve the path to and decrypt the LEA data extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |tenant, appId|
   getExtractInfoFromMongo(build_bulk_query(tenant,appId))
   openDecryptedFile(appId)
 end
 
-When /^I retrieve the path to and decrypt the LEA "(.*?)" public data extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |lea, tenant, appId|
+When /^I retrieve the path to and decrypt the LEA "(.*?)" data extract file for the tenant "(.*?)" and application with id "(.*?)"$/ do |lea, tenant, appId|
   getExtractInfoFromMongo(build_bulk_query(tenant,appId,lea))
+  openDecryptedFile(appId)
+end
+
+When /^I fetch the path to and decrypt the LEA data extract file for the tenant "(.*?)" and application with id "(.*?)" and edorg with id "(.*?)"$/ do |tenant, appId, edOrgId|
+  @tenant = tenant
+  getExtractInfoFromMongo(build_bulk_query(tenant,appId,edOrgId))
   openDecryptedFile(appId)
 end
 
@@ -472,13 +483,14 @@ When /^a the correct number of "(.*?)" was extracted from the database$/ do |col
       count = 10
 	else
       parentCollection = subDocParent(collection)
-	    if(parentCollection == nil)
+	  if(parentCollection == nil)
         count = @tenantDb.collection(collection).count()
-    else
-      count = @tenantDb.collection(parentCollection).aggregate([ {"$match" => {"#{collection}" => {"$exists" => true}}}, {"$unwind" => "$#{collection}"}]).size
-    end
+      else
+        count = @tenantDb.collection(parentCollection).aggregate([ {"$match" => {"#{collection}" => {"$exists" => true}}}, {"$unwind" => "$#{collection}"}]).size
+      end
 	end
 
+    puts @unpackDir + "/" + collection + ".json.gz" + "<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
 	Zlib::GzipReader.open(@unpackDir + "/" + collection + ".json.gz") { |extractFile|
     records = JSON.parse(extractFile.read)
     puts "\nCounts Expected: " + count.to_s + " Actual: " + records.size.to_s + "\n"
@@ -1689,6 +1701,7 @@ def getExtractInfoFromMongo(query, query_opts={})
   @sliDb = @conn.db(DATABASE_NAME)
   @coll = @sliDb.collection("bulkExtractFiles")
   match = @coll.find_one(query, query_opts)
+  puts "1010 Querying bulkExtractFiles with these options :" + query.to_s + '           ::' + match.to_s
 
   assert(match !=nil, "Database was not updated with bulk extract file location")
 
@@ -3383,6 +3396,12 @@ end
 
 def build_bulk_query(tenant, appId, lea=nil, delta=false, publicData=false)
   query = {"body.tenantId"=>tenant, "body.applicationId" => appId, "body.isDelta" => delta, "body.isPublicData" => publicData}
+  query.merge!({"body.edorg"=>lea}) unless lea.nil?
+  query
+end
+
+def build_bulk_query2(tenant, appId, lea=nil, delta=false, publicData=false, edOrgId = nil)
+  query = {"body.tenantId"=>tenant, "body.applicationId" => appId, "body.isDelta" => delta, "body.isPublicData" => publicData, "body.edorg" => edOrgId}
   query.merge!({"body.edorg"=>lea}) unless lea.nil?
   query
 end

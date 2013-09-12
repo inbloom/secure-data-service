@@ -16,13 +16,9 @@
 
 package org.slc.sli.bulk.extract.lea;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
+import com.google.common.collect.HashMultimap;
 import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
@@ -107,14 +103,16 @@ public class ExtractorHelper{
         return !dateHelper.isFieldExpired(staffAssociation.getBody(), ParameterConstants.END_DATE);
     }
     
-    public Map<String, String> buildSubToParentEdOrgCache(EntityToLeaCache edOrgCache) {
+    public Map<String, Collection<String>> buildSubToParentEdOrgCache(EntityToLeaCache edOrgCache) {
     	Map<String, String> result = new HashMap<String, String>();
+        HashMultimap<String, String> map = HashMultimap.create();
     	for(String lea : edOrgCache.getEntityIds()) {
     		for (String child : edOrgCache.getEntriesById(lea)) {
     			result.put(child, lea);
+                map.put(child, lea);
     		}
     	}
-    	return result;
+        return map.asMap();
     }
 
     public LocalEdOrgExtractHelper getLocalEdOrgExtractHelper() {

@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.common.collect.Sets;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -63,7 +64,7 @@ public class CohortExtractorTest {
         Mockito.when(mockEntity.getBody()).thenReturn(entityBody);
 
         Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(mockFile);
-        Mockito.when(mockEdorgCache.leaFromEdorg("edorgId")).thenReturn("LEA");
+        Mockito.when(mockEdorgCache.leaFromEdorg("edorgId")).thenReturn(Sets.newHashSet("LEA"));
     }
     
     @Test

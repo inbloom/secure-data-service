@@ -50,9 +50,11 @@ public class GraduationPlanExtractor {
             String edorgId = (String)e.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_ID);
             
             if(edorgId !=null){
-                String leaForGraduationPlan = edorgCache.leaFromEdorg(edorgId);
-                if(!leas.contains(leaForGraduationPlan)){
-                    extractor.extractEntity(e, map.getExtractFileForLea(leaForGraduationPlan), EntityNames.GRADUATION_PLAN);
+                Set<String> leasForGraduationPlan = edorgCache.leaFromEdorg(edorgId);
+                for(String leaForGraduationPlan:leasForGraduationPlan) {
+                    if(!leas.contains(leaForGraduationPlan)){
+                        extractor.extractEntity(e, map.getExtractFileForLea(leaForGraduationPlan), EntityNames.GRADUATION_PLAN);
+                    }
                 }
             }
             

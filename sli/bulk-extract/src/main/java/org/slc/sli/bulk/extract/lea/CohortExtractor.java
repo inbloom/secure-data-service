@@ -17,6 +17,7 @@
 package org.slc.sli.bulk.extract.lea;
 
 import java.util.Iterator;
+import java.util.Set;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
@@ -45,8 +46,10 @@ public class CohortExtractor implements EntityExtract {
         while (cursor.hasNext()) {
             Entity e = cursor.next();
             String edorgId = e.getBody().get("educationOrgId").toString();
-            String leaForCohort = edorgCache.leaFromEdorg(edorgId);
-            extractor.extractEntity(e, map.getExtractFileForLea(leaForCohort), EntityNames.COHORT);
+            Set<String> leasForCohort = edorgCache.leaFromEdorg(edorgId);
+            for(String leaForCohort:leasForCohort) {
+               extractor.extractEntity(e, map.getExtractFileForLea(leaForCohort), EntityNames.COHORT);
+            }
         }
     }
     

@@ -76,7 +76,7 @@ Scenario: Un-Authorized user cannot use the endpoint
 
 Scenario: Validate the Last-Modified header is in a valid http date format
     #Retrieve file information
-    When I retrieve the path to and decrypt the LEA public data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
+    When I retrieve the path to and decrypt the LEA data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
     When I know the file-length of the extract file
 
     #Make a head call to retrieve last-modified information

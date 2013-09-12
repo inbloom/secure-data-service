@@ -68,21 +68,24 @@ public class SectionExtractor implements EntityExtract {
 
         while (sections.hasNext()) {
             Entity section = sections.next();
-            final String lea = this.edorgCache.leaFromEdorg((String) section.getBody().get("schoolId"));
+            String schoolId = (String) section.getBody().get("schoolId");
+            final Set<String> allLeas = this.edorgCache.leaFromEdorg(schoolId);
 
-            if (null != lea) {  // Edorgs way
-                extract(section, lea, new Predicate<Entity>() {
-                    @Override
-                    public boolean apply(Entity input) {
-                        boolean shouldExtract = true;
-                        String studentId = (String) input.getBody().get("studentId");
-                        if (studentId != null) {    // Validate that referenced student is visible to given lea
-                            shouldExtract = studentCache.getEntriesById(studentId).contains(lea);
+            if (null != allLeas && allLeas.size() != 0) {  // Edorgs way
+                for(final String lea: allLeas) {
+                    extract(section, lea, new Predicate<Entity>() {
+                        @Override
+                        public boolean apply(Entity input) {
+                            boolean shouldExtract = true;
+                            String studentId = (String) input.getBody().get("studentId");
+                            if (studentId != null) {    // Validate that referenced student is visible to given lea
+                                shouldExtract = studentCache.getEntriesById(studentId).contains(lea);
+                            }
+
+                            return shouldExtract;
                         }
-
-                        return shouldExtract;
-                    }
-                });
+                    });
+                }
 
             } else {    // Student way
                 List<Entity> assocs = section.getEmbeddedData().get("studentSectionAssociation");
@@ -114,7 +117,7 @@ public class SectionExtractor implements EntityExtract {
     }
 
     @SuppressWarnings("unchecked")
-    private void extract(Entity section, String lea, Predicate<Entity> filter) {
+    private void extract(Entity section, final String lea, Predicate<Entity> filter) {
         this.entityExtractor.extractEntity(section, this.leaToExtractFileMap.getExtractFileForLea(lea), "section", filter);
         this.courseOfferingCache.addEntry((String) section.getBody().get("courseOfferingId"), lea);
 

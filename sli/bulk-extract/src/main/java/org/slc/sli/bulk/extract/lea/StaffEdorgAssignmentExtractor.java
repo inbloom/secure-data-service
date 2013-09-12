@@ -59,20 +59,16 @@ public class StaffEdorgAssignmentExtractor implements EntityExtract {
             }
         });
 
-        doIterate(entityToEdorgCache, new Function<Pair<String, Entity>, Boolean>() {
-            @Override
-            public Boolean apply(Pair<String, Entity> input) {
+        Iterator<Entity> associations = repo.findEach(EntityNames.STAFF_ED_ORG_ASSOCIATION, new NeutralQuery());
+        while (associations.hasNext()) {
+            Entity e = associations.next();
+            Set<String> leas = cache.getEntriesById((String) e.getBody().get(ParameterConstants.STAFF_REFERENCE));
 
-                Entity e = input.getRight();
-                Set<String> leas = cache.getEntriesById((String) e.getBody().get(ParameterConstants.STAFF_REFERENCE));
-
-                for (String lea : leas) {
-                    extractor.extractEntity(e, map.getExtractFileForLea(lea), EntityNames.STAFF_ED_ORG_ASSOCIATION);
-                }
-
-                return true;
+            for (String lea : leas) {
+                extractor.extractEntity(e, map.getExtractFileForLea(lea), EntityNames.STAFF_ED_ORG_ASSOCIATION);
             }
-        });
+        }
+
     }
 
     private void doIterate(EntityToLeaCache entityToEdorgCache, Function<Pair<String, Entity>, Boolean> func) {
@@ -83,10 +79,12 @@ public class StaffEdorgAssignmentExtractor implements EntityExtract {
                 continue;
             }
             String edorg = (String) association.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE);
-            String lea = entityToEdorgCache.leaFromEdorg(edorg);
-
-            func.apply(Pair.of(lea, association));
+            Set<String> leas = entityToEdorgCache.leaFromEdorg(edorg);
+            for(String lea:leas) {
+                func.apply(Pair.of(lea, association));
+            }
         }
+
     }
 
     public EntityToLeaCache getEntityCache() {

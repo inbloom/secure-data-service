@@ -51,12 +51,14 @@ public class CourseOfferingExtractor {
             String courseOfferingId = e.getEntityId();
             String schoolId = e.getBody().get(ParameterConstants.SCHOOL_ID).toString();
             String courseId = e.getBody().get(ParameterConstants.COURSE_ID).toString();
-            String leaForCourseOffering = edorgCache.leaFromEdorg(schoolId);
-            
+            Set<String> leasForCourseOffering = edorgCache.leaFromEdorg(schoolId);
             Set<String> leas = courseOfferingCache.getEntriesById(courseOfferingId);
-            if(!leas.contains(leaForCourseOffering)){
-                extractor.extractEntity(e, map.getExtractFileForLea(leaForCourseOffering), EntityNames.COURSE_OFFERING);
-                courseCache.addEntry(courseId, leaForCourseOffering);
+
+            for(String leaForCourseOffering:leasForCourseOffering) {
+                if(!leas.contains(leaForCourseOffering)){
+                    extractor.extractEntity(e, map.getExtractFileForLea(leaForCourseOffering), EntityNames.COURSE_OFFERING);
+                    courseCache.addEntry(courseId, leaForCourseOffering);
+                }
             }
             for (String lea : leas) {
                 extractor.extractEntity(e, map.getExtractFileForLea(lea), EntityNames.COURSE_OFFERING);

@@ -55,7 +55,7 @@ public class CalendarDateExtractor implements EntityExtract {
 		Set<String> LEAs = map.getLeas();
 		Set<String> edOrgSeen = new HashSet<String>();
         localEdOrgExtractHelper.logSecurityEvent(LEAs, EntityNames.CALENDAR_DATE, this.getClass().getName());
-		Map<String, String> schoolToLea = helper.buildSubToParentEdOrgCache(entityToEdorgCache);
+		Map<String, Collection<String>> schoolToLea = helper.buildSubToParentEdOrgCache(entityToEdorgCache);
 		Iterator<Entity> calendarDates = repo.findEach(EntityNames.CALENDAR_DATE, new Query());
 		while(calendarDates.hasNext()) {
 			Entity calendarDate = calendarDates.next();
@@ -63,28 +63,14 @@ public class CalendarDateExtractor implements EntityExtract {
 			// Calendar date entry can be tied to an LEA (any level) or a school
 			String edOrgId = (String) calendarDate.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_ID);
 
-			String lea = null;
-			
-			// If tied to one of the LEAs, use that LEA
-			if ( LEAs.contains(edOrgId) ) {
-				lea = edOrgId;
-			}
-			else {
-				// Presume a school ID and get its LEA
-				String schoolLEA = schoolToLea.get(edOrgId);
-				if ( null != schoolLEA ) {
-					lea = schoolLEA;
-				}
-			}
-			if (lea == null) {
-				// Warn about it, but only once
-				if ( !edOrgSeen.contains(edOrgId) ) {
-					LOG.warn("There is no LEA for edOrg {}", edOrgId);
-					edOrgSeen.add(edOrgId);
-				}
-				continue;
-			}
-			extractor.extractEntity(calendarDate, map.getExtractFileForLea(lea), EntityNames.CALENDAR_DATE);
+			if(edOrgId != null) {
+                Set<String> parents = entityToEdorgCache.leaFromEdorg(edOrgId);
+                if(parents != null) {
+                    for(String lea:parents) {
+                        extractor.extractEntity(calendarDate, map.getExtractFileForLea(lea), EntityNames.CALENDAR_DATE);
+                    }
+                }
+            }
 		}
 	}
 }

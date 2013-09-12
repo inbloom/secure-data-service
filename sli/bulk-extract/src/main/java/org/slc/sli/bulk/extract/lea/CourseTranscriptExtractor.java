@@ -52,7 +52,7 @@ public class CourseTranscriptExtractor {
             Set<String> leaSet = new HashSet<String>();
             if(edorgReferences!=null){
                 for ( String edorg : edorgReferences ){
-                    leaSet.add(edorgCache.leaFromEdorg(edorg));
+                    leaSet.addAll(edorgCache.leaFromEdorg(edorg));
                 }
             }
             

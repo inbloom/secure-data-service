@@ -1,6 +1,11 @@
 package org.slc.sli.bulk.extract.util;
 
 import static org.slc.sli.bulk.extract.LogUtil.audit;
+
+import com.google.common.base.Function;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Sets;
+import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.message.BEMessageCode;
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.common.constants.EntityNames;
@@ -46,6 +51,18 @@ public class LocalEdOrgExtractHelper implements InitializingBean {
         edOrgLineages = bulkExtractMongoDA.getEdOrgLineages();
     }
 
+    public Set<String> getAllAuthorizedEdOrgs() {
+        if (extractLEAs == null) {
+            extractLEAs = new HashSet<String>();
+            for (Set<String> appLeas : getBulkExtractLEAsPerApp().values()) {
+                for (String lea : appLeas) {
+                    extractLEAs.add(lea);
+                }
+            }
+        }
+        return extractLEAs;
+    }
+
     /**
      * Returns all top level LEAs that will be extracted in the tenant
      * @return a set of top level lea ids
@@ -54,16 +71,23 @@ public class LocalEdOrgExtractHelper implements InitializingBean {
         if (extractLEAs == null) {
             extractLEAs = new HashSet<String>();
 
-            Set<String> topLevelLEAs = getTopLevelLEAs();
+            //Set<String> topLevelLEAs = getTopLevelLEAs();
             for (Set<String> appLeas : getBulkExtractLEAsPerApp().values()) {
                 for (String lea : appLeas) {
-                    if (topLevelLEAs.contains(lea)) {
+                    //if (topLevelLEAs.contains(lea)) {
                         extractLEAs.add(lea);
-                    }
+                    //}
                 }
             }
         }
-        return extractLEAs;
+        return removeNonExistentEdOrgs(extractLEAs);
+    }
+
+    private Set<String> removeNonExistentEdOrgs(Set<String> edOrgs) {
+        NeutralQuery q = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, edOrgs));
+        Iterable<String> entities = repository.findAllIds(EntityNames.EDUCATION_ORGANIZATION, q);
+        Set<String> existingEdOrgs = Sets.newHashSet(entities);
+        return existingEdOrgs;
     }
 
     public Set<String> getTopLevelLEAs() {
