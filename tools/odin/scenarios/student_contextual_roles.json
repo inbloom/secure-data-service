@@ -186,6 +186,54 @@
     ]
   },
   {
+    "userId": "gavin.corti",
+    "name": "Gavin Corti",
+    "edOrgs": [
+      {
+        "role": "Student",
+        "type": "High School",
+        "association": "Daybreak Apocalypse",
+        "grade": "Eleventh grade"
+      }
+    ]
+  },
+  {
+    "userId": "joanna.murphy",
+    "name": "Joanna Murphy",
+    "edOrgs": [
+      {
+        "role": "Student",
+        "type": "High School",
+        "association": "Daybreak Apocalypse",
+        "grade": "Eleventh grade"
+      }
+    ]
+  },
+  {
+    "userId": "yvonne.seymour",
+    "name": "Yvonne Seymour",
+    "edOrgs": [
+      {
+        "role": "Student",
+        "type": "High School",
+        "association": "Daybreak Ragnarok",
+        "grade": "Ninth grade"
+      }
+    ]
+  },
+  {
+    "userId": "wanda.payton",
+    "name": "Wanda Payton",
+    "edOrgs": [
+      {
+        "role": "Student",
+        "type": "High School",
+        "association": "Daybreak Ragnarok",
+        "grade": "Ninth grade"
+      }
+    ]
+  },
+  {
     "userId": "delete.me",
     "name": "Delete Me",
     "edOrgs": [
