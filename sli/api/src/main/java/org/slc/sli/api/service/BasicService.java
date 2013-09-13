@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,7 +48,9 @@ import org.slc.sli.api.security.context.ContextValidator;
 import org.slc.sli.api.security.roles.EntityRightsFilter;
 import org.slc.sli.api.security.roles.RightAccessValidator;
 import org.slc.sli.api.security.schema.SchemaDataProvider;
+import org.slc.sli.api.util.RequestUtil;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.api.util.SecurityUtil.UserContext;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.AccessibilityCheck;
@@ -109,8 +112,41 @@ public class BasicService implements EntityService, AccessibilityCheck {
     @Value("${sli.api.service.countLimit:10000}")
     private long countLimit;
 
-    private Map<String, Long> accessibleEntitiesCount = new HashMap<String, Long>();
-    private Map<String, SecurityUtil.UserContext> entityContexts;
+    // The size limit of GET returns for dual contexts/differing user rights across edOrgs.
+    @Value("${sli.api.service.batchSize:10000}")
+    private int batchSize;
+
+    private static ThreadLocal<UUID> currentRequestIdTL = new ThreadLocal<UUID>() {
+        @Override
+        protected UUID initialValue()
+        {
+            return RequestUtil.generateRequestId();
+        }
+    };
+
+    private ThreadLocal<Map<String, Long>> accessibleEntitiesCountTL = new ThreadLocal<Map<String, Long>>() {
+        @Override
+        protected Map<String, Long> initialValue()
+        {
+            return new HashMap<String, Long>();
+        }
+    };
+
+    private ThreadLocal<Map<String, UserContext>> entityContextsTL = new ThreadLocal<Map<String, UserContext>>() {
+        @Override
+        protected Map<String, UserContext> initialValue()
+        {
+            return new HashMap<String, UserContext>();
+        }
+    };
+
+    private ThreadLocal<Map<String, Collection<GrantedAuthority>>> entityAuthoritiesTL = new ThreadLocal<Map<String, Collection<GrantedAuthority>>>() {
+        @Override
+        protected Map<String, Collection<GrantedAuthority>> initialValue()
+        {
+            return new HashMap<String, Collection<GrantedAuthority>>();
+        }
+    };
 
     public BasicService(String collectionName, List<Treatment> treatments, Repository<Entity> repo) {
         this.collectionName = collectionName;
@@ -241,7 +277,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
      * @return Whether or not the user has multiple contexts, or differing sets of rights per role
      */
     private boolean userHasMultipleContextsOrDifferingRights() {
-        if (SecurityUtil.getUserContext() == SecurityUtil.UserContext.DUAL_CONTEXT) {
+        if (SecurityUtil.getUserContext() == UserContext.DUAL_CONTEXT) {
             return true;
         }
 
@@ -608,7 +644,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
     public Iterable<EntityBody> listBasedOnContextualRoles(NeutralQuery neutralQuery) {
         boolean isSelf = isSelf(neutralQuery);
         boolean noDataInDB = true;
-        entityContexts = null;
+        Map<String, UserContext> entityContexts = null;
 
         injectSecurity(neutralQuery);
 
@@ -616,10 +652,11 @@ public class BasicService implements EntityService, AccessibilityCheck {
         Collection<Entity> entities = new HashSet<Entity>();
         if (findSpecial) {
             entities = getAccessibleEntities(neutralQuery, isSelf);
+            entityContexts = getEntityContexts();
         } else {
             entities = (Collection<Entity>) repo.findAll(collectionName, neutralQuery);
 
-            if (SecurityUtil.getUserContext() == SecurityUtil.UserContext.DUAL_CONTEXT) {
+            if (SecurityUtil.getUserContext() == UserContext.DUAL_CONTEXT) {
                 entityContexts = getEntityContextMap(entities, true);
             }
         }
@@ -629,13 +666,16 @@ public class BasicService implements EntityService, AccessibilityCheck {
         List<EntityBody> results = new ArrayList<EntityBody>();
 
         for (Entity entity : entities) {
-            SecurityUtil.UserContext context = getEntityContext(entity.getEntityId(), entityContexts);
+            UserContext context = getEntityContext(entity.getEntityId(), entityContexts);
 
             try {
-                Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf, entity, context, true);
+                Collection<GrantedAuthority> auths = null;
                 if (!findSpecial) {
+                    auths = rightAccessValidator.getContextualAuthorities(isSelf, entity, context, true);
                     rightAccessValidator.checkAccess(true, isSelf, entity, defn.getType(), auths);
                     rightAccessValidator.checkFieldAccess(neutralQuery, entity, defn.getType(), auths);
+                } else {
+                    auths = getEntityAuthorities(entity.getEntityId());
                 }
 
                 results.add(entityRightsFilter.makeEntityBody(entity, treatments, defn, isSelf, auths, context));
@@ -659,69 +699,91 @@ public class BasicService implements EntityService, AccessibilityCheck {
 
     private Collection<Entity> getAccessibleEntities(NeutralQuery neutralQuery, boolean isSelf) throws AccessDeniedException {
         Collection<Entity> accessibleEntities = new ArrayList<Entity>();
-
-        int limit = neutralQuery.getLimit();
-        int offset = neutralQuery.getOffset();
-        neutralQuery.setLimit(MAX_RESULT_SIZE);
-        neutralQuery.setOffset(0);
-        if ("search".equals(collectionName)) {  // Search is "special."
-            neutralQuery.setLimit((int) getRepo().count(collectionName, neutralQuery));
-        }
-        Collection<Entity> allEntities = (Collection<Entity>) getRepo().findAll(collectionName, neutralQuery);
-        neutralQuery.setLimit(limit);
-        neutralQuery.setOffset(offset);
-        if (SecurityUtil.getUserContext() == SecurityUtil.UserContext.DUAL_CONTEXT) {
-            entityContexts = getEntityContextMap(allEntities, true);
-        }
+        Map<String, UserContext> entityContexts = new HashMap<String, UserContext>();
 
         // Iterate through all queried entities.  For each one that passes access checks, increment the count.
         // Additionally, collect the accessible entities requested for this call.  Stop at hard count limit.
-        long totalCount = 0;
+        final int limit = neutralQuery.getLimit();
+        final int offset = neutralQuery.getOffset();
+        final int returnLimit = ((0 < limit) && (limit < getCountLimit())) ? limit : (int) getCountLimit();
+        long accessibleCount = 0;
         int currentCount = 0;
-        Iterator<Entity> allEntitiesIt = allEntities.iterator();
-        while ((totalCount < getCountLimit()) && (allEntitiesIt.hasNext())) {
-            Entity entity = allEntitiesIt.next();
-            try {
-                validateEntity(entity, isSelf, neutralQuery, entityContexts);
-                totalCount++;
-                if ((totalCount > offset) && ((currentCount < limit) || (limit <= 0))) {
-                    accessibleEntities.add(entity);
-                    currentCount++;
-                }
-            } catch (AccessDeniedException aex) {
-                if (allEntities.size() == 1) {
-                    throw aex;
-                } else if ((totalCount > offset) && ((currentCount < limit) || (limit <= 0))) {
-                    error(aex.getMessage());
+        int currentOffset = 0;
+        int totalCount = 0;
+        Collection<Entity> batchedEntities = getBatchedEntities(neutralQuery, getBatchSize(), currentOffset);
+        while ((accessibleCount < getCountLimit()) && (!batchedEntities.isEmpty())) {
+            totalCount += batchedEntities.size();
+
+            Map<String, UserContext> batchedEntityContexts = new HashMap<String, UserContext>();
+            if (SecurityUtil.getUserContext() == UserContext.DUAL_CONTEXT) {
+                batchedEntityContexts = getEntityContextMap(batchedEntities, true);
+            }
+            Iterator<Entity> batchedEntitiesIt = batchedEntities.iterator();
+            while ((accessibleCount < getCountLimit()) && batchedEntitiesIt.hasNext()) {
+                Entity entity = batchedEntitiesIt.next();
+                try {
+                    validateEntity(entity, isSelf, neutralQuery, batchedEntityContexts);
+                    accessibleCount++;
+                    if ((accessibleCount > offset) && (currentCount < returnLimit)) {
+                        accessibleEntities.add(entity);
+                        entityContexts.put(entity.getEntityId(), getEntityContext(entity.getEntityId(), batchedEntityContexts));
+                        currentCount++;
+                    }
+                } catch (AccessDeniedException aex) {
+                    if (totalCount == 1) {
+                        throw aex;
+                    } else if ((accessibleCount > offset) && (currentCount < returnLimit)) {
+                        error(aex.getMessage());
+                    }
                 }
             }
-        }
 
-        if ((!allEntities.isEmpty()) && (totalCount == 0)) {
+            if ((batchedEntities.size() == getBatchSize()) && (accessibleCount < getCountLimit())) {
+                currentOffset += getBatchSize();
+                batchedEntities = getBatchedEntities(neutralQuery, getBatchSize(), currentOffset);
+            } else {
+                batchedEntities = new ArrayList<Entity>();
+            }
+        }
+        neutralQuery.setLimit(limit);
+        neutralQuery.setOffset(offset);
+
+        if ((totalCount > 0) && (accessibleCount == 0)) {
             validateQuery(neutralQuery, isSelf);
             throw new APIAccessDeniedException("Access to resource denied.");
         }
 
+        setEntityContexts(entityContexts);
+
         //  Store the total accessible entity count, for later retrieval by countBasedOnContextualRoles.
-        setAccessibleEntitiesCount(collectionName, totalCount);
+        setAccessibleEntitiesCount(collectionName, accessibleCount);
 
         return accessibleEntities;
     }
 
-    private void validateEntity(Entity entity, boolean isSelf, NeutralQuery neutralQuery, Map<String, SecurityUtil.UserContext> entityContexts) {
-        SecurityUtil.UserContext context = getEntityContext(entity.getEntityId(), entityContexts);
+    private Collection<Entity> getBatchedEntities(NeutralQuery neutralQuery, int limit, int offset) {
+        neutralQuery.setOffset(offset);
+        neutralQuery.setLimit(limit);
+        Collection<Entity> batchedEntities = (Collection<Entity>) getRepo().findAll(collectionName, neutralQuery);
+
+        return batchedEntities;
+    }
+
+    private void validateEntity(Entity entity, boolean isSelf, NeutralQuery neutralQuery, Map<String, UserContext> entityContexts) {
+        UserContext context = getEntityContext(entity.getEntityId(), entityContexts);
         Collection<GrantedAuthority> auths = rightAccessValidator.getContextualAuthorities(isSelf, entity, context, true);
         rightAccessValidator.checkAccess(true, isSelf, entity, defn.getType(), auths);
         rightAccessValidator.checkFieldAccess(neutralQuery, entity, defn.getType(), auths);
+        setEntityAuthorities(entity.getEntityId(), auths);
     }
 
-    private SecurityUtil.UserContext getEntityContext(String entityId, Map<String, SecurityUtil.UserContext> entityContext) {
-        SecurityUtil.UserContext context = SecurityUtil.getUserContext();
-        if ((SecurityUtil.getUserContext() == SecurityUtil.UserContext.DUAL_CONTEXT) && (entityContext != null)) {
+    private UserContext getEntityContext(String entityId, Map<String, UserContext> entityContext) {
+        UserContext context = SecurityUtil.getUserContext();
+        if ((SecurityUtil.getUserContext() == UserContext.DUAL_CONTEXT) && (entityContext != null)) {
             if (entityContext.containsKey(entityId)) {
                 context = entityContext.get(entityId);
             } else {
-                context = SecurityUtil.UserContext.NO_CONTEXT;
+                context = UserContext.NO_CONTEXT;
             }
         }
         return context;
@@ -1307,8 +1369,12 @@ public class BasicService implements EntityService, AccessibilityCheck {
         return repo;
     }
 
-    protected long getCountLimit() {
+    public long getCountLimit() {
         return countLimit;
+    }
+
+    public int getBatchSize() {
+        return batchSize;
     }
 
     protected void setClientInfo(CallingApplicationInfoProvider clientInfo) {
@@ -1341,15 +1407,15 @@ public class BasicService implements EntityService, AccessibilityCheck {
         }
     }
 
-    protected Map<String, SecurityUtil.UserContext> getEntityContextMap(Collection<Entity> entities, boolean isRead) {
+    protected Map<String, UserContext> getEntityContextMap(Collection<Entity> entities, boolean isRead) {
         return contextValidator.getValidatedEntityContexts(defn, entities, SecurityUtil.isTransitive(), isRead);
     }
 
     protected Collection<GrantedAuthority> getEntityContextAuthorities(Entity entity, boolean isSelf, boolean isRead) {
-        SecurityUtil.UserContext context = SecurityUtil.getUserContext();
+        UserContext context = SecurityUtil.getUserContext();
 
-        if (context == SecurityUtil.UserContext.DUAL_CONTEXT) {
-            Map<String, SecurityUtil.UserContext> entityContext = getEntityContextMap(Arrays.asList(entity), isRead);
+        if (context == UserContext.DUAL_CONTEXT) {
+            Map<String, UserContext> entityContext = getEntityContextMap(Arrays.asList(entity), isRead);
 
             if (entityContext != null) {
                 context = entityContext.get(entity.getEntityId());
@@ -1360,10 +1426,35 @@ public class BasicService implements EntityService, AccessibilityCheck {
     }
 
     protected long getAccessibleEntitiesCount(String collectionName) {
-        return accessibleEntitiesCount.get(collectionName);
+        return accessibleEntitiesCountTL.get().get(collectionName);
     }
 
     protected void setAccessibleEntitiesCount(String collectionName, long count) {
-        this.accessibleEntitiesCount.put(collectionName, count);
+        if (!currentRequestIdTL.get().equals(RequestUtil.getCurrentRequestId())) {
+            accessibleEntitiesCountTL.remove();
+            currentRequestIdTL.set(RequestUtil.getCurrentRequestId());
+        }
+        accessibleEntitiesCountTL.get().put(collectionName, count);
     }
+
+    protected Map<String, UserContext> getEntityContexts() {
+        return entityContextsTL.get();
+    }
+
+    protected void setEntityContexts(Map<String, UserContext> entityContexts) {
+        entityContextsTL.set(entityContexts);
+    }
+
+    protected Collection<GrantedAuthority> getEntityAuthorities(String entityId) {
+        return entityAuthoritiesTL.get().get(entityId);
+    }
+
+    protected void setEntityAuthorities(String entityId, Collection<GrantedAuthority> authorities) {
+        if (!currentRequestIdTL.get().equals(RequestUtil.getCurrentRequestId())) {
+            entityAuthoritiesTL.remove();
+            currentRequestIdTL.set(RequestUtil.getCurrentRequestId());
+        }
+        entityAuthoritiesTL.get().put(entityId, authorities);
+    }
+
 }

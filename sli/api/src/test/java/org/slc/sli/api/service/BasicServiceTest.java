@@ -68,6 +68,7 @@ import org.slc.sli.api.security.roles.EntityRightsFilter;
 import org.slc.sli.api.security.roles.RightAccessValidator;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.api.util.RequestUtil;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
@@ -244,6 +245,7 @@ public class BasicServiceTest {
         Mockito.when(mockRightsFilter.makeEntityBody(Mockito.eq(entity1), Mockito.any(List.class), Mockito.any(EntityDefinition.class), Mockito.any(Collection.class), Mockito.any(Collection.class))).thenReturn(entityBody1);
         Mockito.when(mockRightsFilter.makeEntityBody(Mockito.eq(entity2), Mockito.any(List.class), Mockito.any(EntityDefinition.class), Mockito.any(Collection.class), Mockito.any(Collection.class))).thenReturn(entityBody2);
 
+        RequestUtil.setCurrentRequestId();
         Iterable<EntityBody> listResult = service.list(new NeutralQuery());
 
         List<EntityBody> bodies= new ArrayList<EntityBody>();
@@ -298,6 +300,7 @@ public class BasicServiceTest {
 
         NeutralQuery query = new NeutralQuery();
         query.setLimit(ApiQuery.API_QUERY_DEFAULT_LIMIT);
+        RequestUtil.setCurrentRequestId();
         Iterable<EntityBody> listResult = service.listBasedOnContextualRoles(query);
 
         List<EntityBody> bodies= new ArrayList<EntityBody>();
@@ -358,7 +361,7 @@ public class BasicServiceTest {
         NeutralQuery query = new NeutralQuery();
         query.setLimit(ApiQuery.API_QUERY_DEFAULT_LIMIT);
 
-        Mockito.when(mockRepo.findAll(Mockito.eq("student"), Mockito.eq(query))).thenReturn(entities);
+        Mockito.when(mockRepo.findAll(Mockito.eq("student"), Mockito.any(NeutralQuery.class))).thenReturn(entities);
         Mockito.when(mockRepo.count(Mockito.eq("student"), Mockito.eq(query))).thenReturn(50L);
 
         Mockito.doThrow(new AccessDeniedException("")).when(mockAccessValidator).checkAccess(Mockito.anyBoolean(), Mockito.anyBoolean(), Mockito.argThat(new MatchesNotAccessible()), Mockito.anyString(), Mockito.eq(staffContextRights));
@@ -372,36 +375,23 @@ public class BasicServiceTest {
 
         Mockito.when(mockContextValidator.getValidatedEntityContexts(Matchers.any(EntityDefinition.class), Matchers.any(Collection.class), Matchers.anyBoolean(), Matchers.anyBoolean())).thenReturn(studentContext);
 
+        RequestUtil.setCurrentRequestId();
         Iterable<EntityBody> listResult = service.listBasedOnContextualRoles(query);
 
-        Iterator<EntityBody> listResultIt = listResult.iterator();
-        Assert.assertTrue(listResultIt.next().get("studentUniqueStateId").equals("student0"));
-        Assert.assertTrue(listResultIt.next().get("studentUniqueStateId").equals("student4"));
-        Assert.assertTrue(listResultIt.next().get("studentUniqueStateId").equals("student6"));
-        Assert.assertTrue(listResultIt.next().get("studentUniqueStateId").equals("student8"));
-        Assert.assertTrue(listResultIt.next().get("studentUniqueStateId").equals("student12"));
-        Assert.assertTrue(listResultIt.next().get("studentUniqueStateId").equals("student16"));
-        Assert.assertTrue(listResultIt.next().get("studentUniqueStateId").equals("student18"));
-        Assert.assertTrue(listResultIt.next().get("studentUniqueStateId").equals("student24"));
-        Assert.assertFalse(listResultIt.hasNext());
+        Iterable<String> expectedResult1 = Arrays.asList("student0", "student4", "student6", "student8", "student12", "student16", "student18", "student24");
+        assertEntityBodyIdsEqual(expectedResult1.iterator(), listResult.iterator());
 
         long count = service.countBasedOnContextualRoles(query);
         Assert.assertEquals(8, count);
 
         // Assure same order and count.
 
+        RequestUtil.setCurrentRequestId();
+
         listResult = service.listBasedOnContextualRoles(query);
 
-        listResultIt = listResult.iterator();
-        Assert.assertTrue(listResultIt.next().get("studentUniqueStateId").equals("student0"));
-        Assert.assertTrue(listResultIt.next().get("studentUniqueStateId").equals("student4"));
-        Assert.assertTrue(listResultIt.next().get("studentUniqueStateId").equals("student6"));
-        Assert.assertTrue(listResultIt.next().get("studentUniqueStateId").equals("student8"));
-        Assert.assertTrue(listResultIt.next().get("studentUniqueStateId").equals("student12"));
-        Assert.assertTrue(listResultIt.next().get("studentUniqueStateId").equals("student16"));
-        Assert.assertTrue(listResultIt.next().get("studentUniqueStateId").equals("student18"));
-        Assert.assertTrue(listResultIt.next().get("studentUniqueStateId").equals("student24"));
-        Assert.assertFalse(listResultIt.hasNext());
+        Iterable<String> expectedResult2 = Arrays.asList("student0", "student4", "student6", "student8", "student12", "student16", "student18", "student24");
+        assertEntityBodyIdsEqual(expectedResult2.iterator(), listResult.iterator());
 
         count = service.countBasedOnContextualRoles(query);
         Assert.assertEquals(8, count);
@@ -459,7 +449,6 @@ public class BasicServiceTest {
         Assert.assertEquals("EntityBody mismatch", entity2.getEntityId(), listResult.toArray()[1]);
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void testUpdateBasedOnContextualRoles() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
         securityContextInjector.setStaffContext();
@@ -489,7 +478,6 @@ public class BasicServiceTest {
         Assert.assertEquals("student1",studentResult.getBody().get("loginId"));
     }
 
-    @SuppressWarnings("unchecked")
     @Test(expected = AccessDeniedException.class)
     public void testUpdateBasedOnContextualRolesAccessDenied() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
         securityContextInjector.setEducatorContext();
@@ -513,7 +501,6 @@ public class BasicServiceTest {
         Assert.assertFalse(result);
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void testPatchBasedOnContextualRoles() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
         securityContextInjector.setStaffContext();
@@ -547,7 +534,6 @@ public class BasicServiceTest {
         Assert.assertEquals("Yes",studentResult.getBody().get("schoolFoodServicesEligibility"));
     }
 
-    @SuppressWarnings("unchecked")
     @Test(expected = AccessDeniedException.class)
     public void testPatchBasedOnContextualRolesAccessDenied() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
         securityContextInjector.setEducatorContext();
@@ -702,6 +688,7 @@ public class BasicServiceTest {
             entities.add(new MongoEntity("student", id, new HashMap<String,Object>(), new HashMap<String,Object>()));
             studentContext.put(id, SecurityUtil.UserContext.DUAL_CONTEXT);
         }
+
         Mockito.when(mockRepo.findAll(Mockito.eq("student"), Mockito.any(NeutralQuery.class))).thenReturn(entities);
         Mockito.when(mockRepo.count(Mockito.eq("student"), Mockito.any(NeutralQuery.class))).thenReturn(50L);
 
@@ -725,56 +712,35 @@ public class BasicServiceTest {
         Method method = BasicService.class.getDeclaredMethod("getAccessibleEntities", NeutralQuery.class, boolean.class);
         method.setAccessible(true);
 
+        RequestUtil.setCurrentRequestId();
         Collection<Entity> accessibleEntities = (Collection<Entity>) method.invoke(service, query, false);
-        Iterator<Entity> accessibleEntitiesIt = accessibleEntities.iterator();
 
-        Assert.assertEquals(10, accessibleEntities.size());
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student2"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student4"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student5"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student6"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student13"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student16"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student17"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student18"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student22"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student23"));
-        Assert.assertFalse(accessibleEntitiesIt.hasNext());
+        Iterable<String> expectedResult1 = Arrays.asList("student2", "student4", "student5", "student6", "student13", "student16", "student17", "student18", "student22", "student23");
+        assertEntityIdsEqual(expectedResult1.iterator(), accessibleEntities.iterator());
 
         long count = service.getAccessibleEntitiesCount("student");
         Assert.assertEquals(10, count);
 
         // Assure same order and count.
 
-        accessibleEntities = (Collection<Entity>) method.invoke(service, query, false);
-        accessibleEntitiesIt = accessibleEntities.iterator();
+        RequestUtil.setCurrentRequestId();
 
-        Assert.assertEquals(10, accessibleEntities.size());
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student2"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student4"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student5"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student6"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student13"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student16"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student17"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student18"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student22"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student23"));
-        Assert.assertFalse(accessibleEntitiesIt.hasNext());
+        accessibleEntities = (Collection<Entity>) method.invoke(service, query, false);
+
+        Iterable<String> expectedResult2 = Arrays.asList("student2", "student4", "student5", "student6", "student13", "student16", "student17", "student18", "student22", "student23");
+        assertEntityIdsEqual(expectedResult2.iterator(), accessibleEntities.iterator());
 
         count = service.getAccessibleEntitiesCount("student");
         Assert.assertEquals(10, count);
 
 
         query.setOffset(7);
-        accessibleEntities = (Collection<Entity>) method.invoke(service, query, false);
-        accessibleEntitiesIt = accessibleEntities.iterator();
+        RequestUtil.setCurrentRequestId();
 
-        Assert.assertEquals(3, accessibleEntities.size());
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student18"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student22"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student23"));
-        Assert.assertFalse(accessibleEntitiesIt.hasNext());
+        accessibleEntities = (Collection<Entity>) method.invoke(service, query, false);
+
+        Iterable<String> expectedResult3 = Arrays.asList("student18", "student22", "student23");
+        assertEntityIdsEqual(expectedResult3.iterator(), accessibleEntities.iterator());
 
         count = service.getAccessibleEntitiesCount("student");
         Assert.assertEquals(10, count);
@@ -782,14 +748,12 @@ public class BasicServiceTest {
         // Assure same order and count.
 
         query.setOffset(7);
-        accessibleEntities = (Collection<Entity>) method.invoke(service, query, false);
-        accessibleEntitiesIt = accessibleEntities.iterator();
+        RequestUtil.setCurrentRequestId();
 
-        Assert.assertEquals(3, accessibleEntities.size());
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student18"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student22"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student23"));
-        Assert.assertFalse(accessibleEntitiesIt.hasNext());
+        accessibleEntities = (Collection<Entity>) method.invoke(service, query, false);
+
+        Iterable<String> expectedResult4 = Arrays.asList("student18", "student22", "student23");
+        assertEntityIdsEqual(expectedResult4.iterator(), accessibleEntities.iterator());
 
         count = service.getAccessibleEntitiesCount("student");
         Assert.assertEquals(10, count);
@@ -808,6 +772,7 @@ public class BasicServiceTest {
             entities.add(new MongoEntity("student", id, new HashMap<String,Object>(), new HashMap<String,Object>()));
             studentContext.put(id, SecurityUtil.UserContext.DUAL_CONTEXT);
         }
+
         Mockito.when(mockRepo.findAll(Mockito.eq("student"), Mockito.any(NeutralQuery.class))).thenReturn(entities);
         Mockito.when(mockRepo.count(Mockito.eq("student"), Mockito.any(NeutralQuery.class))).thenReturn(50L);
 
@@ -831,99 +796,79 @@ public class BasicServiceTest {
         Method method = BasicService.class.getDeclaredMethod("getAccessibleEntities", NeutralQuery.class, boolean.class);
         method.setAccessible(true);
 
+        RequestUtil.setCurrentRequestId();
         Collection<Entity> accessibleEntities = (Collection<Entity>) method.invoke(service, query, false);
-        Iterator<Entity> accessibleEntitiesIt = accessibleEntities.iterator();
 
-        Assert.assertEquals(5, accessibleEntities.size());
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student2"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student4"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student5"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student6"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student13"));
-        Assert.assertFalse(accessibleEntitiesIt.hasNext());
+        Iterable<String> expectedResult1 = Arrays.asList("student2", "student4", "student5", "student6", "student13");
+        assertEntityIdsEqual(expectedResult1.iterator(), accessibleEntities.iterator());
 
         long count = service.getAccessibleEntitiesCount("student");
         Assert.assertEquals(10, count);
 
         // Assure same order and count.
 
-        accessibleEntities = (Collection<Entity>) method.invoke(service, query, false);
-        accessibleEntitiesIt = accessibleEntities.iterator();
+        RequestUtil.setCurrentRequestId();
 
-        Assert.assertEquals(5, accessibleEntities.size());
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student2"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student4"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student5"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student6"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student13"));
-        Assert.assertFalse(accessibleEntitiesIt.hasNext());
+        accessibleEntities = (Collection<Entity>) method.invoke(service, query, false);
+
+        Iterable<String> expectedResult2 = Arrays.asList("student2", "student4", "student5", "student6", "student13");
+        assertEntityIdsEqual(expectedResult2.iterator(), accessibleEntities.iterator());
 
         count = service.getAccessibleEntitiesCount("student");
         Assert.assertEquals(10, count);
 
 
         query.setOffset(4);
+        RequestUtil.setCurrentRequestId();
+
         accessibleEntities = (Collection<Entity>) method.invoke(service, query, false);
-        accessibleEntitiesIt = accessibleEntities.iterator();
 
-        Assert.assertEquals(5, accessibleEntities.size());
-
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student13"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student16"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student17"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student18"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student22"));
-        Assert.assertFalse(accessibleEntitiesIt.hasNext());
+        Iterable<String> expectedResult3 = Arrays.asList("student13", "student16", "student17", "student18", "student22");
+        assertEntityIdsEqual(expectedResult3.iterator(), accessibleEntities.iterator());
 
         count = service.getAccessibleEntitiesCount("student");
         Assert.assertEquals(10, count);
 
         // Assure same order and count.
 
-        accessibleEntities = (Collection<Entity>) method.invoke(service, query, false);
-        accessibleEntitiesIt = accessibleEntities.iterator();
+        RequestUtil.setCurrentRequestId();
 
-        Assert.assertEquals(5, accessibleEntities.size());
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student13"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student16"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student17"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student18"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student22"));
-        Assert.assertFalse(accessibleEntitiesIt.hasNext());
+        accessibleEntities = (Collection<Entity>) method.invoke(service, query, false);
+
+        Iterable<String> expectedResult4 = Arrays.asList("student13", "student16", "student17", "student18", "student22");
+        assertEntityIdsEqual(expectedResult4.iterator(), accessibleEntities.iterator());
 
         count = service.getAccessibleEntitiesCount("student");
         Assert.assertEquals(10, count);
 
 
         query.setOffset(7);
-        accessibleEntities = (Collection<Entity>) method.invoke(service, query, false);
-        accessibleEntitiesIt = accessibleEntities.iterator();
+        RequestUtil.setCurrentRequestId();
 
-        Assert.assertEquals(3, accessibleEntities.size());
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student18"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student22"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student23"));
-        Assert.assertFalse(accessibleEntitiesIt.hasNext());
+        accessibleEntities = (Collection<Entity>) method.invoke(service, query, false);
+
+        Iterable<String> expectedResult5 = Arrays.asList("student18", "student22", "student23");
+        assertEntityIdsEqual(expectedResult5.iterator(), accessibleEntities.iterator());
 
         count = service.getAccessibleEntitiesCount("student");
         Assert.assertEquals(10, count);
 
         // Assure same order and count.
 
-        accessibleEntities = (Collection<Entity>) method.invoke(service, query, false);
-        accessibleEntitiesIt = accessibleEntities.iterator();
+        RequestUtil.setCurrentRequestId();
 
-        Assert.assertEquals(3, accessibleEntities.size());
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student18"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student22"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student23"));
-        Assert.assertFalse(accessibleEntitiesIt.hasNext());
+        accessibleEntities = (Collection<Entity>) method.invoke(service, query, false);
+
+        Iterable<String> expectedResult6 = Arrays.asList("student18", "student22", "student23");
+        assertEntityIdsEqual(expectedResult6.iterator(), accessibleEntities.iterator());
 
         count = service.getAccessibleEntitiesCount("student");
         Assert.assertEquals(10, count);
 
 
         query.setOffset(10);
+        RequestUtil.setCurrentRequestId();
+
         accessibleEntities = (Collection<Entity>) method.invoke(service, query, false);
 
         Assert.assertEquals(0, accessibleEntities.size());
@@ -945,6 +890,7 @@ public class BasicServiceTest {
             entities.add(new MongoEntity("student", id, new HashMap<String,Object>(), new HashMap<String,Object>()));
             studentContext.put(id, SecurityUtil.UserContext.DUAL_CONTEXT);
         }
+
         Mockito.when(mockRepo.findAll(Mockito.eq("student"), Mockito.any(NeutralQuery.class))).thenReturn(entities);
         Mockito.when(mockRepo.count(Mockito.eq("student"), Mockito.any(NeutralQuery.class))).thenReturn(50L);
 
@@ -964,46 +910,111 @@ public class BasicServiceTest {
 
         NeutralQuery query = new NeutralQuery();
         query.setLimit(MAX_RESULT_SIZE);
-        long mockCountLimit = 5;
+
+        final long mockCountLimit = 5;
         Field countLimit = BasicService.class.getDeclaredField("countLimit");
         countLimit.setAccessible(true);
-        long prevCountLimit = countLimit.getLong(service);
+        final long prevCountLimit = countLimit.getLong(service);
         countLimit.set(service, mockCountLimit);
 
         Method method = BasicService.class.getDeclaredMethod("getAccessibleEntities", NeutralQuery.class, boolean.class);
         method.setAccessible(true);
 
+        RequestUtil.setCurrentRequestId();
         Collection<Entity> accessibleEntities = (Collection<Entity>) method.invoke(service, query, false);
-        Iterator<Entity> accessibleEntitiesIt = accessibleEntities.iterator();
 
-        Assert.assertEquals(5, accessibleEntities.size());
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student2"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student4"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student5"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student6"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student13"));
-        Assert.assertFalse(accessibleEntitiesIt.hasNext());
+        Iterable<String> expectedResult1 = Arrays.asList("student2", "student4", "student5", "student6", "student13");
+        assertEntityIdsEqual(expectedResult1.iterator(), accessibleEntities.iterator());
 
         long count = service.getAccessibleEntitiesCount("student");
         Assert.assertEquals(5, count);
 
         // Assure same order and count.
 
-        accessibleEntities = (Collection<Entity>) method.invoke(service, query, false);
-        accessibleEntitiesIt = accessibleEntities.iterator();
+        RequestUtil.setCurrentRequestId();
 
-        Assert.assertEquals(5, accessibleEntities.size());
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student2"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student4"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student5"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student6"));
-        Assert.assertTrue(accessibleEntitiesIt.next().getEntityId().equals("student13"));
-        Assert.assertFalse(accessibleEntitiesIt.hasNext());
+        accessibleEntities = (Collection<Entity>) method.invoke(service, query, false);
+
+        Iterable<String> expectedResult2 = Arrays.asList("student2", "student4", "student5", "student6", "student13");
+        assertEntityIdsEqual(expectedResult2.iterator(), accessibleEntities.iterator());
 
         count = service.getAccessibleEntitiesCount("student");
         Assert.assertEquals(5, count);
 
         countLimit.set(service, prevCountLimit);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testGetAccessibleEntitiesBatchLimit() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+        securityContextInjector.setDualContext();
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.DUAL_CONTEXT);
+
+        List<Entity> entities = new ArrayList<Entity>();
+        Map<String, SecurityUtil.UserContext> studentContext = new HashMap<String, SecurityUtil.UserContext>();
+        for (int i=0; i<30; i++) {
+            String id = "student" + i;
+            entities.add(new MongoEntity("student", id, new HashMap<String,Object>(), new HashMap<String,Object>()));
+            studentContext.put(id, SecurityUtil.UserContext.DUAL_CONTEXT);
+        }
+
+        final int mockBatchSize = 10;
+        Mockito.when(mockRepo.findAll(Mockito.eq("student"), Mockito.any(NeutralQuery.class))).thenReturn(entities.subList(0, mockBatchSize)).thenReturn(entities.subList(mockBatchSize, mockBatchSize * 2))
+                    .thenReturn(entities.subList(mockBatchSize * 2, mockBatchSize * 3)).thenReturn(new ArrayList<Entity>());
+        Mockito.when(mockRepo.count(Mockito.eq("student"), Mockito.any(NeutralQuery.class))).thenReturn(50L);
+
+        ContextValidator mockContextValidator = Mockito.mock(ContextValidator.class);
+        Field contextValidator = BasicService.class.getDeclaredField("contextValidator");
+        contextValidator.setAccessible(true);
+        contextValidator.set(service, mockContextValidator);
+        Mockito.when(mockContextValidator.getValidatedEntityContexts(Matchers.any(EntityDefinition.class), Matchers.any(Collection.class), Matchers.anyBoolean(), Matchers.anyBoolean())).thenReturn(studentContext);
+
+        RightAccessValidator mockAccessValidator = Mockito.mock(RightAccessValidator.class);
+        Field rightAccessValidator = BasicService.class.getDeclaredField("rightAccessValidator");
+        rightAccessValidator.setAccessible(true);
+        rightAccessValidator.set(service, mockAccessValidator);
+        Mockito.when(mockAccessValidator.getContextualAuthorities(Matchers.anyBoolean(), Matchers.any(Entity.class), Matchers.eq(SecurityUtil.UserContext.DUAL_CONTEXT), Matchers.anyBoolean())).thenReturn(new HashSet<GrantedAuthority>());
+        Mockito.doThrow(new AccessDeniedException("")).when(mockAccessValidator).checkAccess(Mockito.anyBoolean(), Mockito.anyBoolean(), Mockito.argThat(new MatchesNotAccessible()), Mockito.anyString(), Mockito.anyCollection());
+        Mockito.doThrow(new AccessDeniedException("")).when(mockAccessValidator).checkFieldAccess(Mockito.any(NeutralQuery.class), Mockito.argThat(new MatchesNotFieldAccessible()), Mockito.anyString(), Mockito.anyCollection());
+
+        NeutralQuery query = new NeutralQuery();
+        query.setLimit(MAX_RESULT_SIZE);
+
+        Field batchSize = BasicService.class.getDeclaredField("batchSize");
+        batchSize.setAccessible(true);
+        int prevBatchSize = batchSize.getInt(service);
+        batchSize.set(service, mockBatchSize);
+
+        Method method = BasicService.class.getDeclaredMethod("getAccessibleEntities", NeutralQuery.class, boolean.class);
+        method.setAccessible(true);
+
+        RequestUtil.setCurrentRequestId();
+        Mockito.when(mockRepo.findAll(Mockito.eq("student"), Mockito.any(NeutralQuery.class))).thenReturn(entities.subList(0, mockBatchSize)).thenReturn(entities.subList(mockBatchSize, mockBatchSize * 2))
+                    .thenReturn(entities.subList(mockBatchSize * 2, mockBatchSize * 3)).thenReturn(new ArrayList<Entity>());
+
+        Collection<Entity> accessibleEntities = (Collection<Entity>) method.invoke(service, query, false);
+
+        Iterable<String> expectedResult1 = Arrays.asList("student2", "student4", "student5", "student6", "student13", "student16", "student17", "student18", "student22", "student23");
+        assertEntityIdsEqual(expectedResult1.iterator(), accessibleEntities.iterator());
+
+        long count = service.getAccessibleEntitiesCount("student");
+        Assert.assertEquals(10, count);
+
+        // Assure same order and count.
+
+        RequestUtil.setCurrentRequestId();
+        Mockito.when(mockRepo.findAll(Mockito.eq("student"), Mockito.any(NeutralQuery.class))).thenReturn(entities.subList(0, mockBatchSize)).thenReturn(entities.subList(mockBatchSize, mockBatchSize * 2))
+                    .thenReturn(entities.subList(mockBatchSize * 2, mockBatchSize * 3)).thenReturn(new ArrayList<Entity>());
+
+        accessibleEntities = (Collection<Entity>) method.invoke(service, query, false);
+
+        Iterable<String> expectedResult2 = Arrays.asList("student2", "student4", "student5", "student6", "student13", "student16", "student17", "student18", "student22", "student23");
+        assertEntityIdsEqual(expectedResult2.iterator(), accessibleEntities.iterator());
+
+        count = service.getAccessibleEntitiesCount("student");
+        Assert.assertEquals(10, count);
+
+        batchSize.set(service, prevBatchSize);
     }
 
     @SuppressWarnings("unchecked")
@@ -1025,6 +1036,8 @@ public class BasicServiceTest {
 
         Method method = BasicService.class.getDeclaredMethod("getAccessibleEntities", NeutralQuery.class, boolean.class);
         method.setAccessible(true);
+
+        RequestUtil.setCurrentRequestId();
         Collection<Entity> accessibleEntities = (Collection<Entity>) method.invoke(service, query, false);
 
         Assert.assertTrue(accessibleEntities.isEmpty());
@@ -1070,6 +1083,7 @@ public class BasicServiceTest {
         method.setAccessible(true);
 
         try {
+            RequestUtil.setCurrentRequestId();
             Collection<Entity> accessibleEntities = (Collection<Entity>) method.invoke(service, query, false);
         } catch (InvocationTargetException itex) {
             Assert.assertEquals(APIAccessDeniedException.class, itex.getCause().getClass());
@@ -1086,6 +1100,19 @@ public class BasicServiceTest {
         SecurityContextHolder.setContext(context);
     }
 
+    private void assertEntityBodyIdsEqual(Iterator<String> expected, Iterator<EntityBody> actual) {
+        while (expected.hasNext()) {
+            Assert.assertEquals(expected.next(), actual.next().get("studentUniqueStateId"));
+        }
+        Assert.assertFalse(actual.hasNext());
+    }
+
+    private void assertEntityIdsEqual(Iterator<String> expected, Iterator<Entity> actual) {
+        while (expected.hasNext()) {
+            Assert.assertEquals(expected.next(), actual.next().getEntityId());
+        }
+        Assert.assertFalse(actual.hasNext());
+    }
 
     @AfterClass
     public static void reset() {
