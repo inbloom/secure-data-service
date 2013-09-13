@@ -428,7 +428,7 @@ public class BulkExtractTest {
         when(mockAuth.getBody()).thenReturn(authBody);
         when(mockMongoEntityRepository.findOne(eq("applicationAuthorization"), Mockito.any(NeutralQuery.class)))
                 .thenReturn(mockAuth);
-        bulkExtract.getLEAorSEAExtract(CONTEXT, req, "BLEEP");
+        bulkExtract.getEdOrgExtract(CONTEXT, req, "BLEEP");
     }
 
     @Test(expected = AccessDeniedException.class)
@@ -476,7 +476,7 @@ public class BulkExtractTest {
         when(mockAuth.getBody()).thenReturn(authBody);
         when(mockMongoEntityRepository.findOne(eq("applicationAuthorization"), Mockito.any(NeutralQuery.class)))
                 .thenReturn(mockAuth);
-        bulkExtract.getLEAorSEAExtract(CONTEXT, req, "BLEEP");
+        bulkExtract.getEdOrgExtract(CONTEXT, req, "BLEEP");
     }
 
     @Test(expected = AccessDeniedException.class)
@@ -492,7 +492,7 @@ public class BulkExtractTest {
         when(mockEntity.getEntityId()).thenReturn("App1");
         when(mockMongoEntityRepository.findOne(eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(
                 mockEntity);
-        bulkExtract.getLEAorSEAExtract(CONTEXT, req, "BLEEP");
+        bulkExtract.getEdOrgExtract(CONTEXT, req, "BLEEP");
     }
 
     @Test(expected = AccessDeniedException.class)
@@ -501,7 +501,7 @@ public class BulkExtractTest {
         // No BE Field
         Mockito.when(mockValidator.validate(eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.any(Set.class)))
                 .thenReturn(false);
-        bulkExtract.getLEAorSEAExtract(CONTEXT, req, "BLEEP");
+        bulkExtract.getEdOrgExtract(CONTEXT, req, "BLEEP");
     }
 
     @Test(expected = AccessDeniedException.class)
@@ -722,7 +722,7 @@ public class BulkExtractTest {
             assertTrue(!e.getMessage().isEmpty());
         }
         try {
-            bulkExtract.getLEAorSEAExtract(CONTEXT, req, null);
+            bulkExtract.getEdOrgExtract(CONTEXT, req, null);
             fail("Should have thrown exception for null lea");
         } catch (IllegalArgumentException e) {
             assertTrue(!e.getMessage().isEmpty());
@@ -756,7 +756,7 @@ public class BulkExtractTest {
         Mockito.when(mockMongoEntityRepository.findOne(eq("applicationAuthorization"), Mockito.any(NeutralQuery.class)))
                 .thenReturn(mockAppAuth);
 
-        Response res = bulkExtract.getLEAorSEAExtract(CONTEXT, req, "SeaPub");
+        Response res = bulkExtract.getEdOrgExtract(CONTEXT, req, "SeaPub");
 
         assertEquals(200, res.getStatus());
         MultivaluedMap<String, Object> headers = res.getMetadata();

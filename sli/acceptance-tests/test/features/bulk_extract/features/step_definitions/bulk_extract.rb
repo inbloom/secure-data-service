@@ -92,6 +92,10 @@ Transform /^<(.*?)>$/ do |human_readable_id|
   id = "a96ce0a91830333ce68e235a6ad4dc26b414eb9e_id"        if human_readable_id == "Orphaned School"
   id = "02bdd6bf0fd5f761e6fc316ca6c763d4bb96c055_id"        if human_readable_id == "11 School District"
   id = "c67b5565b3b6475bae9e042c96cb0b9db6b37b29_id"        if human_readable_id == "10 School District"
+  id = "b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id"        if human_readable_id == "IL"
+  id = "352e8570bd1116d11a72755b987902440045d346_id"        if human_readable_id == "South Daybreak Elementary"
+  id = "a13489364c2eb015c219172d561c62350f0453f3_id"        if human_readable_id == "Daybreak Central High"
+  id = "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id"        if human_readable_id == "East Daybreak Junior High"
 
   id
 end

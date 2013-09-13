@@ -17,6 +17,8 @@ package org.slc.sli.domain.utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -148,6 +150,39 @@ public class EdOrgHierarchyHelper {
         }
         
         return null;
+    }
+   
+    /**
+     * Given an school or LEA level entity, returns all the parent and ancestor edorgs it belongs to
+     * 
+     * if input is SEA, returns null
+     * 
+     * @param entity
+     * @return Ancestors
+     */
+    public List<Entity> getAncestorsOfEdOrg(Entity entity) {
+     	if(isSEA(entity)) {
+    		return null;
+    	}
+    	List<Entity> ancestors = new ArrayList<Entity>();
+    	ancestors.add(entity);
+    	Queue<Entity> queue = new PriorityQueue();
+    	queue.add(entity);
+    	while(!queue.isEmpty()) {
+    		Entity cur = queue.poll();
+    		if (cur.getBody().containsKey("parentEducationAgencyReference")) {
+                List<Entity> parentEdorgs = getParentEdOrg(cur);
+                if(parentEdorgs!=null) {
+                	for(Entity parent:parentEdorgs) {
+                		if(!isSEA(parent)) {
+                			ancestors.add(parent);
+                		}
+                		queue.add(parent);
+                	}
+                }
+            }
+    	}                
+        return ancestors;
     }
     
     /**
