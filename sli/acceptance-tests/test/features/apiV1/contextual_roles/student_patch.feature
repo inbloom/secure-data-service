@@ -229,3 +229,38 @@ Feature: Use the APi to successfully patch student data while having roles over 
     When I change the field "economicDisadvantaged" to "true"
     When I navigate to PATCH "<bert.jakeman URI>"
     Then I should receive a return code of 403
+
+Scenario: Students in schools with multiple parents can be written to by the appropriate users
+  Given I change the custom role of "Leader" to add the "WRITE_GENERAL" right
+
+  When I log in as "rbelding"
+  And I change the field "displacementStatus" to "New Displacement Status"
+  When I navigate to PATCH "<yvonne.seymour URI>"
+  Then I should receive a return code of 403
+
+  Given I remove the SEOA with role "Leader" for staff "tcuyper" in "District 9"
+  When I log in as "tcuyper"
+  And I change the field "displacementStatus" to "New Displacement Status"
+  And I navigate to PATCH "<yvonne.seymour URI>"
+  Then I should receive a return code of 204
+  When I navigate to GET "<yvonne.seymour URI>"
+  Then I should receive a return code of 200
+  And "displacementStatus" should be "New Displacement Status"
+
+  Given I add a SEOA for "rbelding" in "District 9" as a "Leader"
+  When I log in as "rbelding"
+  And I change the field "displacementStatus" to "Another Displacement Status"
+  And I navigate to PATCH "<yvonne.seymour URI>"
+  Then I should receive a return code of 204
+  When I navigate to GET "<yvonne.seymour URI>"
+  Then I should receive a return code of 200
+  And "displacementStatus" should be "Another Displacement Status"
+
+  Given I add a SEOA for "xbell" in "District 31" as a "Leader"
+  When I log in as "xbell"
+  And I change the field "displacementStatus" to "Wow! A Displacement Status"
+  And I navigate to PATCH "<yvonne.seymour URI>"
+  Then I should receive a return code of 204
+  When I navigate to GET "<yvonne.seymour URI>"
+  Then I should receive a return code of 200
+  And "displacementStatus" should be "Wow! A Displacement Status"

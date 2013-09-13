@@ -597,6 +597,7 @@ Feature: Use the APi to successfully get student data while having roles over ma
     And "jack.jackson" is not associated with any cohort that belongs to "jmacey"
     And "lashawn.taite" is not associated with any program that belongs to "jmacey"
     And "lashawn.taite" is not associated with any cohort that belongs to "jmacey"
+   And parameter "limit" is "0"
 
     When I log in as "jmacey"
 
@@ -831,6 +832,155 @@ Feature: Use the APi to successfully get student data while having roles over ma
     And the response should have general student data
     And the response should not have restricted student data
 
+Scenario: Users can access students properly from schools with multiple parents
+  Given the following student section associations in Midgar are set correctly
+    | student         | teacher              | edorg                 | enrolledInAnySection? |
+    | yvonne.seymour  | jmacey               | Daybreak Ragnarok     | yes                   |
+    | wanda.payton    | jmacey               | Daybreak Ragnarok     | no                    |
+    | gavin.corti     | rbelding             | Daybreak Apocalypse   | yes                   |
+    | joanna.murphy   | rbelding             | Daybreak Apocalypse   | no                    |
+  And I add a SEOA for "xbell" in "District 31" as a "Leader"
+  And format "application/json"
+
+  When I log in as "jmacey"
+  And I navigate to GET "<yvonne.seymour URI>"
+  Then I should receive a return code of 200
+  And the response should have general student data
+  And the response should have restricted student data
+
+  And I navigate to GET "<wanda.payton URI>"
+  Then I should receive a return code of 200
+  And the response should have general student data
+  And the response should have restricted student data
+
+  And I navigate to GET "<gavin.corti URI>"
+  Then I should receive a return code of 403
+
+  And I navigate to GET "<joanna.murphy URI>"
+  Then I should receive a return code of 403
+
+  When I navigate to GET "/v1/students"
+  Then I should receive a return code of 200
+  And the response should have the following students
+    | student         |
+    | yvonne.seymour  |
+    | wanda.payton    |
+  And the response should not have the following students
+    | student         |
+    | gavin.corti     |
+    | joanna.murphy   |
+
+  When I log in as "tcuyper"
+  And I navigate to GET "<yvonne.seymour URI>"
+  Then I should receive a return code of 200
+  And the response should have general student data
+  And the response should have restricted student data
+
+  And I navigate to GET "<wanda.payton URI>"
+  Then I should receive a return code of 200
+  And the response should have general student data
+  And the response should have restricted student data
+
+  And I navigate to GET "<gavin.corti URI>"
+  Then I should receive a return code of 403
+
+  And I navigate to GET "<joanna.murphy URI>"
+  Then I should receive a return code of 403
+
+  When I navigate to GET "/v1/students"
+  Then I should receive a return code of 200
+  And the response should have the following students
+    | student         |
+    | yvonne.seymour  |
+    | wanda.payton    |
+  And the response should not have the following students
+    | student         |
+    | gavin.corti     |
+    | joanna.murphy   |
+
+  When I log in as "rbelding"
+  And I navigate to GET "<yvonne.seymour URI>"
+  Then I should receive a return code of 403
+
+  And I navigate to GET "<wanda.payton URI>"
+  Then I should receive a return code of 403
+
+  And I navigate to GET "<gavin.corti URI>"
+  Then I should receive a return code of 200
+  And the response should have general student data
+  And the response should not have restricted student data
+
+  And I navigate to GET "<joanna.murphy URI>"
+  Then I should receive a return code of 403
+
+  When I navigate to GET "/v1/students"
+  Then I should receive a return code of 200
+  And the response should have the following students
+    | student         |
+    | gavin.corti     |
+  And the response should not have the following students
+    | student         |
+    | yvonne.seymour  |
+    | wanda.payton    |
+    | joanna.murphy   |
+
+  When I log in as "msmith"
+  And I navigate to GET "<yvonne.seymour URI>"
+  Then I should receive a return code of 403
+
+  And I navigate to GET "<wanda.payton URI>"
+  Then I should receive a return code of 403
+
+  And I navigate to GET "<gavin.corti URI>"
+  Then I should receive a return code of 200
+  And the response should have general student data
+  And the response should have restricted student data
+
+  And I navigate to GET "<joanna.murphy URI>"
+  Then I should receive a return code of 200
+  And the response should have general student data
+  And the response should have restricted student data
+
+  When I navigate to GET "/v1/students"
+  Then I should receive a return code of 200
+  And the response should have the following students
+    | student         |
+    | gavin.corti     |
+    | joanna.murphy   |
+  And the response should not have the following students
+    | student         |
+    | yvonne.seymour  |
+    | wanda.payton    |
+
+  When I log in as "xbell"
+  And I navigate to GET "<yvonne.seymour URI>"
+  Then I should receive a return code of 200
+  And the response should have general student data
+  And the response should have restricted student data
+
+  And I navigate to GET "<wanda.payton URI>"
+  Then I should receive a return code of 200
+  And the response should have general student data
+  And the response should have restricted student data
+
+  And I navigate to GET "<gavin.corti URI>"
+  Then I should receive a return code of 200
+  And the response should have general student data
+  And the response should have restricted student data
+
+  And I navigate to GET "<joanna.murphy URI>"
+  Then I should receive a return code of 200
+  And the response should have general student data
+  And the response should have restricted student data
+
+  When I navigate to GET "/v1/students"
+  Then I should receive a return code of 200
+  And the response should not have the following students
+    | student         |
+    | yvonne.seymour  |
+    | wanda.payton    |
+    | gavin.corti     |
+    | joanna.murphy   |
 
 Scenario: Teacher can get the correct total count and page through
   Given parameter "limit" is "0"
