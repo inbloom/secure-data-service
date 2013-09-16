@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.slc.sli.modeling</groupId>
         <artifactId>modeling</artifactId>
-        <version>1.10.85.82</version>
+        <version>1.10.85.87</version>
     </parent>
     <artifactId>xsd</artifactId>
     <name>XSD (W3C XML Schema)</name>
