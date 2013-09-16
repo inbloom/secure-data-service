@@ -677,7 +677,7 @@ public class BasicServiceTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testGetAccessibleEntities() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    public void testGetResponseEntities() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         securityContextInjector.setDualContext();
         SecurityUtil.setUserContext(SecurityUtil.UserContext.DUAL_CONTEXT);
 
@@ -709,7 +709,7 @@ public class BasicServiceTest {
         NeutralQuery query = new NeutralQuery();
         query.setLimit(ApiQuery.API_QUERY_DEFAULT_LIMIT);
 
-        Method method = BasicService.class.getDeclaredMethod("getAccessibleEntities", NeutralQuery.class, boolean.class);
+        Method method = BasicService.class.getDeclaredMethod("getResponseEntities", NeutralQuery.class, boolean.class);
         method.setAccessible(true);
 
         RequestUtil.setCurrentRequestId();
@@ -761,7 +761,7 @@ public class BasicServiceTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testGetAccessibleEntitiesPageLimit() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    public void testGetResponseEntitiesPageLimit() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         securityContextInjector.setDualContext();
         SecurityUtil.setUserContext(SecurityUtil.UserContext.DUAL_CONTEXT);
 
@@ -793,7 +793,7 @@ public class BasicServiceTest {
         NeutralQuery query = new NeutralQuery();
         query.setLimit(5);
 
-        Method method = BasicService.class.getDeclaredMethod("getAccessibleEntities", NeutralQuery.class, boolean.class);
+        Method method = BasicService.class.getDeclaredMethod("getResponseEntities", NeutralQuery.class, boolean.class);
         method.setAccessible(true);
 
         RequestUtil.setCurrentRequestId();
@@ -917,7 +917,7 @@ public class BasicServiceTest {
         final long prevCountLimit = countLimit.getLong(service);
         countLimit.set(service, mockCountLimit);
 
-        Method method = BasicService.class.getDeclaredMethod("getAccessibleEntities", NeutralQuery.class, boolean.class);
+        Method method = BasicService.class.getDeclaredMethod("getResponseEntities", NeutralQuery.class, boolean.class);
         method.setAccessible(true);
 
         RequestUtil.setCurrentRequestId();
@@ -946,7 +946,7 @@ public class BasicServiceTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testGetAccessibleEntitiesBatchLimit() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    public void testGetResponseEntitiesBatchLimit() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         securityContextInjector.setDualContext();
         SecurityUtil.setUserContext(SecurityUtil.UserContext.DUAL_CONTEXT);
 
@@ -985,7 +985,7 @@ public class BasicServiceTest {
         int prevBatchSize = batchSize.getInt(service);
         batchSize.set(service, mockBatchSize);
 
-        Method method = BasicService.class.getDeclaredMethod("getAccessibleEntities", NeutralQuery.class, boolean.class);
+        Method method = BasicService.class.getDeclaredMethod("getResponseEntities", NeutralQuery.class, boolean.class);
         method.setAccessible(true);
 
         RequestUtil.setCurrentRequestId();
@@ -1019,7 +1019,7 @@ public class BasicServiceTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void testGetAccessibleEntitiesEmpty() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    public void testGetResponseEntitiesEmpty() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         securityContextInjector.setDualContext();
         SecurityUtil.setUserContext(SecurityUtil.UserContext.DUAL_CONTEXT);
 
@@ -1034,7 +1034,7 @@ public class BasicServiceTest {
         NeutralQuery query = new NeutralQuery();
         query.setLimit(ApiQuery.API_QUERY_DEFAULT_LIMIT);
 
-        Method method = BasicService.class.getDeclaredMethod("getAccessibleEntities", NeutralQuery.class, boolean.class);
+        Method method = BasicService.class.getDeclaredMethod("getResponseEntities", NeutralQuery.class, boolean.class);
         method.setAccessible(true);
 
         RequestUtil.setCurrentRequestId();
@@ -1048,7 +1048,7 @@ public class BasicServiceTest {
 
     @SuppressWarnings({ "unchecked", "unused" })
     @Test
-    public void testGetAccessibleEntitiesNoAccess() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    public void testGetResponseEntitiesNoAccess() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         securityContextInjector.setDualContext();
         SecurityUtil.setUserContext(SecurityUtil.UserContext.DUAL_CONTEXT);
 
@@ -1079,7 +1079,7 @@ public class BasicServiceTest {
         NeutralQuery query = new NeutralQuery();
         query.setLimit(ApiQuery.API_QUERY_DEFAULT_LIMIT);
 
-        Method method = BasicService.class.getDeclaredMethod("getAccessibleEntities", NeutralQuery.class, boolean.class);
+        Method method = BasicService.class.getDeclaredMethod("getResponseEntities", NeutralQuery.class, boolean.class);
         method.setAccessible(true);
 
         try {
