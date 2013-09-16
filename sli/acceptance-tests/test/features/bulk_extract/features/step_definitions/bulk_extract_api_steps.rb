@@ -50,9 +50,6 @@ Given /^I delete the previous tar file if it exists$/ do
 end
 
 When /^I make a call to the bulk extract end point "([^"]*)"$/ do |url|
-  puts "++++++++++++++++++++++++++++++++++++++++++++"
-  puts url
-  puts "++++++++++++++++++++++++++++++++++++++++++++"
 
   restTls(url)
 end
@@ -74,6 +71,10 @@ Given /^in my list of rights I have BULK_EXTRACT$/ do
 end
 
 When /^I make lea bulk extract API call for lea "(.*?)"$/ do |arg1|
+  restTls("/bulk/extract/#{arg1}")
+end
+
+When /^I make lea bulk extract API call for edorg "(.*?)"$/ do |arg1|
   restTls("/bulk/extract/#{arg1}")
 end
 
