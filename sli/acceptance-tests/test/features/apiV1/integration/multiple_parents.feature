@@ -24,6 +24,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     And I create a LEA named "LEA1" with parent IL
     And I create a LEA named "LEA2" with parent IL
     And I create a School named "School1" with parents "LEA1,LEA2"
+    And I add a parent reference for "LEA1" to "School1"
     And I authorize all apps to access "School1"
 
     # School1 has HATEOS links for LEA1, LEA2 and LEA1/2 has HATEOS link for School1
