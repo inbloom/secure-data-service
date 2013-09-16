@@ -48,13 +48,7 @@ public class EducationOrganizationContextResolver extends ReferrableResolver {
         Set<String> results = new HashSet<String>();
 
         if (helper.isLEA(entity) || helper.isSchool(entity)) {
-//            List<Entity> topLevelLEAs = helper.getTopLEAOfEdOrg(entity);
-//            if(topLevelLEAs!=null){
-//                for(Entity topLevelLEA: topLevelLEAs) {
-//                    results.add(topLevelLEA.getEntityId());
-//                }
-//            }
-        	List<Entity> ancestors = helper.getAncestorsOfEdOrg(entity);
+        	Set<Entity> ancestors = helper.getAncestorsOfEdOrg(entity);
         	if(ancestors!=null){
         		for(Entity ancestor: ancestors) {
         			results.add(ancestor.getEntityId());

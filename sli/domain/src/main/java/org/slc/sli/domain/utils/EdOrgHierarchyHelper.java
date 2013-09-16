@@ -16,9 +16,11 @@
 package org.slc.sli.domain.utils;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -160,13 +162,13 @@ public class EdOrgHierarchyHelper {
      * @param entity
      * @return Ancestors
      */
-    public List<Entity> getAncestorsOfEdOrg(Entity entity) {
+    public Set<Entity> getAncestorsOfEdOrg(Entity entity) {
      	if(isSEA(entity)) {
     		return null;
     	}
-    	List<Entity> ancestors = new ArrayList<Entity>();
+    	Set<Entity> ancestors = new HashSet<Entity>();
     	ancestors.add(entity);
-    	Queue<Entity> queue = new PriorityQueue();
+    	Queue<Entity> queue = new LinkedList<Entity>();
     	queue.add(entity);
     	while(!queue.isEmpty()) {
     		Entity cur = queue.poll();
