@@ -359,6 +359,16 @@ end
 
 When /^I get the path to the extract file for the tenant "(.*?)" and application with id "(.*?)" for the lea "(.*?)"$/ do |tenant, appId, lea|
   getExtractInfoFromMongo(build_bulk_query(tenant,appId,lea))
+  openDecryptedFile(appId)
+  Minitar.unpack(@filePath, @unpackDir)
+  assert(File.exists?(@unpackDir + "/metadata.txt"), "Cannot find metadata file in extract")
+end
+
+When /^I get the path to the extract file for the tenant "(.*?)" and application with id "(.*?)" for the edOrg "(.*?)"$/ do |tenant, appId, edOrg|
+  getExtractInfoFromMongo(build_bulk_query(tenant,appId,edOrg))
+  openDecryptedFile(appId)
+  Minitar.unpack(@filePath, @unpackDir)
+  assert(File.exists?(@unpackDir + "/metadata.txt"), "Cannot find metadata file in extract")
 end
 
 When /^I get the path to the extract file for the tenant "(.*?)" and application with id "(.*?)" for sea "(.*?)"$/ do |tenant, appId, sea|
@@ -455,16 +465,28 @@ When /^the extract contains a file for each of the following entities with the a
 end
 
 When /^a "(.*?)" extract file exists$/ do |collection|
-  exists = File.exists?(@unpackDir + "/" + collection + ".json.gz")
-	assert(exists, "Cannot find #{collection}.json file in extracts")
-
+  fn = @unpackDir + "/" + collection + ".json.gz"
+  exists = File.exists?(fn)
+  assert(exists, "Cannot find #{collection}.json file in extracts as file #{fn}")
 end
 
-When /^a the correct number of "(.*?)" was extracted from the database$/ do |collection|
-  disable_NOTABLESCAN()
-	@tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
+# This is old, uses hardwired counts, and contains the spurious "a"
+# ATs that call this step should use explicit counts or "dbCount"
+When /^a the correct number of "([^"]*?)" was extracted from the database$/ do |collection|
+  step "the correct number of \"#{collection}\" \"old-hardwired\" was extracted from the database"
+end
 
-  case collection
+When /^the correct number of "([^"]*?)" "([^"]*?)" was extracted from the database$/ do |collection, expectedCount|
+  disable_NOTABLESCAN()
+  @tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
+
+  # Flag: get the count from the database
+  countDb = false
+
+  # expectedCount is either "old-hardwired" for old tests, or an
+  # explicit count, or "dbCount" to take from the database
+  if expectedCount == "old-hardwired"
+    case collection
 	when "school"
 	  count = 3
 	when "teacher"
@@ -485,16 +507,25 @@ When /^a the correct number of "(.*?)" was extracted from the database$/ do |col
       count = 5
     when "staff"
       count = 10
-	else
-      parentCollection = subDocParent(collection)
-	  if(parentCollection == nil)
-        count = @tenantDb.collection(collection).count()
-      else
-        count = @tenantDb.collection(parentCollection).aggregate([ {"$match" => {"#{collection}" => {"$exists" => true}}}, {"$unwind" => "$#{collection}"}]).size
-      end
-	end
+    else
+      countDb = true
+    end
+  elsif expectedCount == "dbCount"
+    countDb = true
+  else
+    count = expectedCount.to_i()
+  end
+    
+  if countDb
+    parentCollection = subDocParent(collection)
+    if(parentCollection == nil)
+      count = @tenantDb.collection(collection).count()
+    else
+      count = @tenantDb.collection(parentCollection).aggregate([ {"$match" => {"#{collection}" => {"$exists" => true}}}, {"$unwind" => "$#{collection}"}]).size
+    end
+  end
 
-	Zlib::GzipReader.open(@unpackDir + "/" + collection + ".json.gz") { |extractFile|
+  Zlib::GzipReader.open(@unpackDir + "/" + collection + ".json.gz") { |extractFile|
     records = JSON.parse(extractFile.read)
     puts "\nCounts Expected: " + count.to_s + " Actual: " + records.size.to_s + "\n"
     assert(records.size == count,"Counts off Expected: " + count.to_s + " Actual: " + records.size.to_s)
@@ -3396,9 +3427,9 @@ def cleanDir(directory)
   `ls -al #{directory}`
 end
 
-def build_bulk_query(tenant, appId, lea=nil, delta=false, publicData=false)
+def build_bulk_query(tenant, appId, edOrg=nil, delta=false, publicData=false)
   query = {"body.tenantId"=>tenant, "body.applicationId" => appId, "body.isDelta" => delta, "body.isPublicData" => publicData}
-  query.merge!({"body.edorg"=>lea}) unless lea.nil?
+  query.merge!({"body.edorg"=>edOrg}) unless edOrg.nil?
   query
 end
 

@@ -3997,11 +3997,6 @@ Given /^I ingest "([^"]*?)" in tenant "([^"]*?)" edOrg "([^"]*?)"$/ do |ingestio
 
 end
 
-And /I wait for user input/ do
-      print "Waiting for user input. Press Enter to continue."
-      STDIN.getc
-end
-
 Then /^"([^"]*)" records in the "([^"]*)" collection with field "([^"]*)" matching "([^"]*)" should be in the "([^"]*)" tenant db$/ do |expected_count, collection, field, pattern, tenant|
   disable_NOTABLESCAN()
   tenant_db = @conn.db(convertTenantIdToDbName(tenant))

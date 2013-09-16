@@ -52,6 +52,12 @@ def allLeaAllowApp(appName)
   allLeaAllowAppForTenant(appName, 'Hyrule')
 end
 
+#
+# Replace the doc for the app with the given name in
+# "applicationAuthorization" so that the app is authorized for use by
+# ALL edOrgs (appearing in "educationOrganization") in the given
+# tenant
+#
 def allLeaAllowAppForTenant(appName, tenantName)
   sleep 1
   disable_NOTABLESCAN()
@@ -70,6 +76,7 @@ def allLeaAllowAppForTenant(appName, tenantName)
 
   neededEdOrgs = [] 
   edOrgColl.find().each do |edorg|
+    puts "****** Authorizing edorg '" + edorg["_id"] + "' for app '" + appName + "' in tenant '" + tenantName + "'"
     neededEdOrgs.push(edorg["_id"])
   end
   
