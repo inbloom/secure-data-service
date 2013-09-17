@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.slc.sli</groupId>
         <artifactId>sli</artifactId>
-        <version>1.10.85.82</version>
+        <version>1.10.85.100</version>
     </parent>
     <artifactId>simple-idp</artifactId>
     <packaging>war</packaging>
