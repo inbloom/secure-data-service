@@ -410,6 +410,13 @@ public class ValidatorTestHelper {
         return repo.create(EntityNames.STUDENT_ACADEMIC_RECORD, studentAcademicRecord);
     }
 
+    public Entity generateCalendarDate(String edorgId) {
+        Map<String, Object> cdBody = new HashMap<String, Object>();
+        cdBody.put(ParameterConstants.EDUCATION_ORGANIZATION_ID, edorgId);
+        cdBody.put(ParameterConstants.DATE, getBadDate());
+        return repo.create(EntityNames.CALENDAR_DATE, cdBody);
+    }
+
     protected void setUpTeacherContext() {
         String user = "fake staff";
         String fullName = "Fake Staff";

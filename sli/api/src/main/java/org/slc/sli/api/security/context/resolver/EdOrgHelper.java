@@ -16,7 +16,19 @@
 
 package org.slc.sli.api.security.context.resolver;
 
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+import java.util.Arrays;
+
 
 import javax.annotation.PostConstruct;
 
@@ -27,6 +39,7 @@ import org.slc.sli.api.resources.security.DelegationUtil;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.EntityOwnershipValidator;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.slc.sli.api.util.RequestUtil;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
@@ -68,6 +81,22 @@ public class EdOrgHelper {
     protected DelegationUtil delegationUtil;
 
     private EdOrgHierarchyHelper helper;
+
+    private static ThreadLocal<UUID> currentRequestIdTL = new ThreadLocal<UUID>() {
+        @Override
+        protected UUID initialValue()
+        {
+            return RequestUtil.generateRequestId();
+        }
+    };
+
+    private static ThreadLocal<Map<String, Entity>> edOrgCacheTL = new ThreadLocal<Map<String, Entity>>() {
+        @Override
+        protected Map<String, Entity> initialValue()
+        {
+            return new HashMap<String, Entity>();
+        }
+    };
 
     @PostConstruct
     public void init() {
@@ -254,17 +283,22 @@ public class EdOrgHelper {
     }
 
     private Map<String, Entity> loadEdOrgCache() {
-        Map<String, Entity> edOrgCache = new HashMap<String, Entity>();
+        if (!currentRequestIdTL.get().equals(RequestUtil.getCurrentRequestId())) {
+            Map<String, Entity> edOrgCache = new HashMap<String, Entity>();
 
-        Iterator<Entity> edOrgs = repo.findEach(EntityNames.EDUCATION_ORGANIZATION, (NeutralQuery) null);
+            Iterator<Entity> edOrgs = repo.findEach(EntityNames.EDUCATION_ORGANIZATION, (NeutralQuery) null);
+            if (edOrgs != null) {
+                while (edOrgs.hasNext()) {
+                    Entity eo = edOrgs.next();
+                    edOrgCache.put(eo.getEntityId(), eo);
+                }
+            }
 
-        while (edOrgs != null && edOrgs.hasNext()) {
-            Entity eo = edOrgs.next();
-
-            edOrgCache.put(eo.getEntityId(), eo);
+            edOrgCacheTL.set(edOrgCache);
+            currentRequestIdTL.set(RequestUtil.getCurrentRequestId());
         }
 
-        return edOrgCache;
+        return edOrgCacheTL.get();
     }
 
     public Entity byId(String edOrgId) {

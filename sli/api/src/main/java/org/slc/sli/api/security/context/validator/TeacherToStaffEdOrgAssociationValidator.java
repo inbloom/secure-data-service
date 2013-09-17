@@ -27,6 +27,7 @@ import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -50,23 +51,29 @@ public class TeacherToStaffEdOrgAssociationValidator extends AbstractContextVali
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.STAFF_ED_ORG_ASSOCIATION, entityType, ids)) {
-            return false;
+            return Collections.EMPTY_SET;
         }
         
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE,
                 NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.principalId()));
         Iterable<Entity> entities = this.repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, query);
 
-        Set<String> idsToValidate = new HashSet<String>(ids);
+        Set<String> validIds = new HashSet<String>();
         for (Entity entity : entities) {
             if (!dateHelper.isFieldExpired(entity.getBody(), ParameterConstants.END_DATE)) {
-                idsToValidate.remove(entity.getEntityId());
+                validIds.add(entity.getEntityId());
             }
         }
 
-        return idsToValidate.isEmpty();
+        validIds.retainAll(ids);
+        return validIds;
+    }
+
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.TEACHER_CONTEXT;
     }
 
 }

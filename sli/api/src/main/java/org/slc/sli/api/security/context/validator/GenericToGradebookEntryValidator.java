@@ -15,6 +15,7 @@
  */
 package org.slc.sli.api.security.context.validator;
 
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.api.security.context.ContextValidator;
@@ -25,9 +26,7 @@ import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  *  A generic validator to handle both student-gradebookEntry and teacher-gradebookEntry.
@@ -49,9 +48,9 @@ public class GenericToGradebookEntryValidator extends AbstractContextValidator {
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.GRADEBOOK_ENTRY, entityType, ids)) {
-            return false;
+            return Collections.emptySet();
         }
         
         NeutralQuery query = new NeutralQuery(0);
@@ -60,13 +59,23 @@ public class GenericToGradebookEntryValidator extends AbstractContextValidator {
         Iterable<Entity> ents = repo.findAll(EntityNames.GRADEBOOK_ENTRY, query);
 
         Set<String> sectionIds = new HashSet<String>();
+        Map<String, Set<String>> sectionToGradebooks = new HashMap<String, Set<String>>();
 
         for (Entity gbe : ents) {
             String sectionId = (String) gbe.getBody().get("sectionId");
             sectionIds.add(sectionId);
+            if(!sectionToGradebooks.containsKey(sectionId)) {
+                sectionToGradebooks.put(sectionId, new HashSet<String>());
+            }
+            sectionToGradebooks.get(sectionId).add(gbe.getEntityId());
         }
 
-        return validatorStore.findValidator(EntityNames.SECTION, false).validate(EntityNames.SECTION, sectionIds);
+        Set<String> validaSectionIds = validatorStore.findValidator(EntityNames.SECTION, false).validate(EntityNames.SECTION, sectionIds);
+        return getValidIds(validaSectionIds, sectionToGradebooks);
     }
 
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.DUAL_CONTEXT;
+    }
 }

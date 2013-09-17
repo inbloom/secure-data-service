@@ -51,7 +51,7 @@ public class DenyInvalidGlobalRequestValidator extends AbstractContextValidator 
 	}
 
 	@Override
-	public boolean validate(String entityType, Set<String> ids)
+	public Set<String> validate(String entityType, Set<String> ids)
 			throws IllegalStateException {
 		/*
 		 * We should never reach this in normal operations, throw an exception

@@ -16,6 +16,7 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import com.google.common.collect.Sets;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
@@ -26,6 +27,7 @@ import org.slc.sli.domain.NeutralQuery;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -51,21 +53,24 @@ public class TeacherToTeacherSchoolAssociationValidator extends AbstractContextV
     }
 
 	@Override
-	public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+	public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.TEACHER_SCHOOL_ASSOCIATION, entityType, ids)) {
-            return false;
+            return Collections.EMPTY_SET;
         }
 
         NeutralQuery nq = new NeutralQuery(new NeutralCriteria(ParameterConstants.TEACHER_ID,
                 NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
-        Iterable<Entity> it = this.repo.findAll(EntityNames.TEACHER_SCHOOL_ASSOCIATION, nq);
+        Iterable<String> it = this.repo.findAllIds(EntityNames.TEACHER_SCHOOL_ASSOCIATION, nq);
         
-        Set<String> fin = new HashSet<String>(ids);
-        for(Entity e : it) {
-            fin.remove(e.getEntityId());
-        }
-        
-        return fin.isEmpty();
+        Set<String> fin = Sets.newHashSet(it);
+        fin.retainAll(ids);
+
+        return fin;
+    }
+
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.TEACHER_CONTEXT;
     }
 
 }

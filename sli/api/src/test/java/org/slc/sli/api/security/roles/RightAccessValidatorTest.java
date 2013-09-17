@@ -42,8 +42,10 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.security.EdOrgContextRightsCache;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
@@ -83,6 +85,7 @@ public class RightAccessValidatorTest {
     private static final Collection<GrantedAuthority> ALL_AUTHS = new HashSet<GrantedAuthority>(Arrays.asList(Right.READ_PUBLIC, Right.READ_GENERAL, Right.READ_RESTRICTED));
     private static final Collection<GrantedAuthority> NO_AUTHS = new HashSet<GrantedAuthority>();
 
+    @SuppressWarnings("rawtypes")
     @Autowired
     Repository mockRepo;
 
@@ -108,10 +111,11 @@ public class RightAccessValidatorTest {
         NeutralQuery query1 = new NeutralQuery(query);
 
 
-        service.checkFieldAccess(query, false, null, EntityNames.STUDENT, service.getContextualAuthorities(false, null, false));
+        service.checkFieldAccess(query, null, EntityNames.STUDENT, service.getContextualAuthorities(false, null, SecurityUtil.UserContext.STAFF_CONTEXT, false));
         assertTrue("Should match", query1.equals(query));
     }
 
+    @SuppressWarnings("unchecked")
     @Test (expected = QueryParseException.class)
     public void testCheckFieldAccessEducator() {
         // inject administrator security context for unit testing
@@ -127,22 +131,23 @@ public class RightAccessValidatorTest {
 
         Entity student = createEntity(EntityNames.STUDENT, STUDENT_ID, new HashMap<String, Object>());
         mockRepo.createWithRetries(EntityNames.STUDENT, STUDENT_ID, new HashMap<String, Object>(), new HashMap<String, Object>(), EntityNames.STUDENT, 1);
-        service.checkFieldAccess(query, false, student, EntityNames.STUDENT, service.getContextualAuthorities(false, student, false));
+        service.checkFieldAccess(query, student, EntityNames.STUDENT, service.getContextualAuthorities(false, student, SecurityUtil.UserContext.TEACHER_CONTEXT, false));
     }
 
     @Test
     public void testCheckFullAccessAdmin() {
         securityContextInjector.setAdminContextWithElevatedRights();
 
-        service.checkAccess(true, false, null, EntityNames.STUDENT, service.getContextualAuthorities(false, null, false));
+        service.checkAccess(true, false, null, EntityNames.STUDENT, service.getContextualAuthorities(false, null, SecurityUtil.UserContext.STAFF_CONTEXT, false));
     }
 
     @Test
     public void testCheckAccessAdmin() {
         securityContextInjector.setLeaAdminContext();
-        service.checkAccess(true, false, null, EntityNames.ADMIN_DELEGATION, service.getContextualAuthorities(false, null, false));
+        service.checkAccess(true, false, null, EntityNames.ADMIN_DELEGATION, service.getContextualAuthorities(false, null, SecurityUtil.UserContext.STAFF_CONTEXT, false));
     }
 
+    @SuppressWarnings("unchecked")
     @Test (expected = AccessDeniedException.class)
     public void testCheckAccessStaffReadAccessDenied() {
         securityContextInjector.setStaffContext();
@@ -156,9 +161,10 @@ public class RightAccessValidatorTest {
         eb.put("studentUniqueStateId", "1234");
         Entity student = createEntity(EntityNames.STUDENT, BAD_STUDENT, eb);
 
-        service.checkAccess(false, false, student, EntityNames.STUDENT, service.getContextualAuthorities(false, student, false));
+        service.checkAccess(false, false, student, EntityNames.STUDENT, service.getContextualAuthorities(false, student, SecurityUtil.UserContext.STAFF_CONTEXT, false));
     }
 
+    @SuppressWarnings("unchecked")
     @Test (expected = AccessDeniedException.class)
     public void testCheckAccessStaffWriteAccessDenied() {
         securityContextInjector.setStaffContext();
@@ -172,9 +178,10 @@ public class RightAccessValidatorTest {
         eb.put("studentUniqueStateId", "1234");
         Entity student = createEntity(EntityNames.STUDENT, BAD_STUDENT, eb);
 
-        service.checkAccess(true, false, student, EntityNames.STUDENT, service.getContextualAuthorities(false, student, false));
+        service.checkAccess(true, false, student, EntityNames.STUDENT, service.getContextualAuthorities(false, student, SecurityUtil.UserContext.STAFF_CONTEXT,false));
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testCheckAccessStaffWrite() {
         securityContextInjector.setStaffContext();
@@ -186,20 +193,20 @@ public class RightAccessValidatorTest {
 
         Entity student = createEntity(EntityNames.STUDENT, STUDENT_ID, new HashMap<String, Object>());
 
-        service.checkAccess(false, false, student, EntityNames.STUDENT, service.getContextualAuthorities(false, student, false));
+        service.checkAccess(false, false, student, EntityNames.STUDENT, service.getContextualAuthorities(false, student, SecurityUtil.UserContext.STAFF_CONTEXT,false));
     }
 
     @Test
     public void testGetContextualAuthoritiesStaffOrphan() {
-        Map<String, Collection<GrantedAuthority>> edOrgRights = new HashMap<String, Collection<GrantedAuthority>>();
-        edOrgRights.put("edOrg1", EDU_AUTHS);
-        edOrgRights.put("edOrg2", ADMIN_AUTHS);
         String principalId = "SuperTeacher1";
         Entity princEntity = new MongoEntity(null, principalId, new HashMap<String,Object>(), new HashMap<String,Object>());
         SLIPrincipal principal = new SLIPrincipal();
         principal.setEntity(princEntity);
         principal.setUserType(EntityNames.STAFF);
-        principal.setEdOrgRights(edOrgRights);
+
+        EdOrgContextRightsCache edOrgContextRights = createEdOrgContextRights();
+        principal.setEdOrgContextRights(edOrgContextRights);
+
         securityContextInjector.setOauthSecurityContext(principal, false);
 
         Map<String,Object> metaData = new HashMap<String,Object>();
@@ -207,7 +214,7 @@ public class RightAccessValidatorTest {
         metaData.put("isOrphaned", "true");
         Entity entity = new MongoEntity("student", null, new HashMap<String,Object>(), metaData);
 
-        Collection<GrantedAuthority> auths = service.getContextualAuthorities(false, entity, false);
+        Collection<GrantedAuthority> auths = service.getContextualAuthorities(false, entity, SecurityUtil.UserContext.STAFF_CONTEXT,false);
 
         Assert.assertEquals("Expected all rights", ALL_AUTHS, auths);
     }
@@ -215,21 +222,21 @@ public class RightAccessValidatorTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testGetContextualAuthoritiesStaffMatchingEdOrgs() {
-        Map<String, Collection<GrantedAuthority>> edOrgRights = new HashMap<String, Collection<GrantedAuthority>>();
-        edOrgRights.put("edOrg1", ADMIN_AUTHS);
-        edOrgRights.put("edOrg2", EDU_AUTHS);
         Entity princEntity = new MongoEntity(null, "SuperTeacher2", new HashMap<String,Object>(), new HashMap<String,Object>());
         SLIPrincipal principal = new SLIPrincipal();
         principal.setEntity(princEntity);
         principal.setUserType(EntityNames.STAFF);
-        principal.setEdOrgRights(edOrgRights);
+
+        EdOrgContextRightsCache edOrgContextRights = createEdOrgContextRights();
+        principal.setEdOrgContextRights(edOrgContextRights);
+
         securityContextInjector.setOauthSecurityContext(principal, false);
 
         Entity student = createEntity(EntityNames.STUDENT, STUDENT_ID, new HashMap<String, Object>());
 
-        Mockito.when(entityEdOrgRightBuilder.buildEntityEdOrgRights(edOrgRights, student, false)).thenReturn(ADMIN_AUTHS);
+        Mockito.when(entityEdOrgRightBuilder.buildEntityEdOrgContextRights(edOrgContextRights, student, SecurityUtil.UserContext.STAFF_CONTEXT,false)).thenReturn(ADMIN_AUTHS);
 
-        Collection<GrantedAuthority> auths = service.getContextualAuthorities(false, student, false);
+        Collection<GrantedAuthority> auths = service.getContextualAuthorities(false, student, SecurityUtil.UserContext.STAFF_CONTEXT, false);
 
         Assert.assertEquals("Expected administrator rights", ADMIN_AUTHS, auths);
     }
@@ -247,7 +254,7 @@ public class RightAccessValidatorTest {
 
         Mockito.when(entityEdOrgRightBuilder.buildEntityEdOrgRights(edOrgRights, student, false)).thenReturn(NO_AUTHS);
 
-        Collection<GrantedAuthority> auths = service.getContextualAuthorities(false, student, false);
+        Collection<GrantedAuthority> auths = service.getContextualAuthorities(false, student, SecurityUtil.UserContext.STAFF_CONTEXT,false);
 
         Assert.assertEquals("Expected no rights", NO_AUTHS, auths);
     }
@@ -264,7 +271,7 @@ public class RightAccessValidatorTest {
 
         Entity entity = new MongoEntity("student", null, new HashMap<String,Object>(), new HashMap<String,Object>());
 
-        Collection<GrantedAuthority> auths = service.getContextualAuthorities(false, entity, false);
+        Collection<GrantedAuthority> auths = service.getContextualAuthorities(false, entity, SecurityUtil.UserContext.TEACHER_CONTEXT,false);
 
         Assert.assertEquals("Expected educator rights", EDU_AUTHS, auths);
     }
@@ -274,6 +281,7 @@ public class RightAccessValidatorTest {
         String token = "AQIC5wM2LY4SfczsoqTgHpfSEciO4J34Hc5ThvD0QaM2QUI.*AAJTSQACMDE.*";
         Entity princEntity = new MongoEntity(null, "RegularTeacher3", new HashMap<String,Object>(), new HashMap<String,Object>());
         SLIPrincipal principal = new SLIPrincipal();
+        principal.setEntity(princEntity);
         principal.setUserType(EntityNames.TEACHER);
         principal.setSelfRights(ADMIN_AUTHS);
         PreAuthenticatedAuthenticationToken authenticationToken = new PreAuthenticatedAuthenticationToken(principal, token, EDU_AUTHS);
@@ -281,7 +289,7 @@ public class RightAccessValidatorTest {
 
         Entity entity = new MongoEntity("teacher", null, new HashMap<String,Object>(), new HashMap<String,Object>());
 
-        Collection<GrantedAuthority> auths = service.getContextualAuthorities(true, entity, false);
+        Collection<GrantedAuthority> auths = service.getContextualAuthorities(true, entity, SecurityUtil.UserContext.TEACHER_CONTEXT,false);
 
         Assert.assertEquals("Expected all rights", ALL_AUTHS, auths);
     }
@@ -290,7 +298,7 @@ public class RightAccessValidatorTest {
     public void testGetContextualAuthoritiesNullEntity() {
         securityContextInjector.setEducatorContext();
 
-        Collection<GrantedAuthority> auths = service.getContextualAuthorities(false, null, false);
+        Collection<GrantedAuthority> auths = service.getContextualAuthorities(false, null, SecurityUtil.UserContext.TEACHER_CONTEXT,false);
 
         Assert.assertEquals("Expected no rights", NO_AUTHS, auths);
     }
@@ -307,9 +315,20 @@ public class RightAccessValidatorTest {
         return  entity;
     }
 
-    private Map<String, String> createEdorg(String edorgId) {
-        Map<String, String> entity = new HashMap<String, String>();
-        entity.put(ParameterConstants.STATE_ORGANIZATION_ID, edorgId);
-        return  entity;
+    private EdOrgContextRightsCache createEdOrgContextRights() {
+        EdOrgContextRightsCache edOrgContextRights = new EdOrgContextRightsCache();
+        Collection<GrantedAuthority> authorities2S = new HashSet<GrantedAuthority>(ADMIN_AUTHS);
+        Collection<GrantedAuthority> authorities2T = new HashSet<GrantedAuthority>(EDU_AUTHS);
+
+        Map<String, Collection<GrantedAuthority>> contextRights2 = new HashMap<String, Collection<GrantedAuthority>>();
+        contextRights2.put(Right.STAFF_CONTEXT.name(), authorities2S);
+
+        Map<String, Collection<GrantedAuthority>> contextRights3 = new HashMap<String, Collection<GrantedAuthority>>();
+        contextRights3.put(Right.TEACHER_CONTEXT.name(), authorities2T);
+
+        edOrgContextRights.put("edOrg1", contextRights2);
+        edOrgContextRights.put("edOrg2", contextRights3);
+
+        return edOrgContextRights;
     }
 }

@@ -169,7 +169,7 @@ public class UriInfoToApiQueryConverter {
                 for (String criteriaString : queryString.split("&")) {
                     String modifiedCriteriaString = URLDecoder.decode(criteriaString, "UTF-8");
                     NeutralCriteria neutralCriteria = new NeutralCriteria(modifiedCriteriaString);
-
+                    neutralCriteria.setRemovable(true);
                     NeutralCriteriaImplementation nci = this.reservedQueryKeywordImplementations.get(neutralCriteria.getKey());
                     if (nci == null) {
                         if (!neutralCriteria.getKey().equals("full-entities")

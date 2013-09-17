@@ -62,15 +62,15 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | studentCompetencies                     |
     | studentGradebookEntries                 |
     | parents                                 |
-#    | staff                                   |
-#    | teachers                                |
+    | staff                                   |
+    | teachers                                |
 
   Scenario: Ensure GET can be performed on self entities with the proper rights
     And I log in as "msmith"
     And parameter "limit" is "0"
     When I navigate to GET "<msmith URI>/staffEducationOrgAssignmentAssociations"
     Then I should receive a return code of 200
-    And I should receive a collection of "2" entities
+    And I should receive a collection of "3" entities
 
   Scenario Outline: Ensure GET can NOT be performed on any public entities without READ_PUBLIC right
     Given I change the custom role of "Leader" to remove the "READ_PUBLIC" right
@@ -135,8 +135,44 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | studentCompetencies                     |
     | studentGradebookEntries                 |
     | parents                                 |
-#    | staff                                   |
-#    | teachers                                |
+    | staff                                   |
+    | teachers                                |
+
+  Scenario: GET lists of staff for a user with various contexts; verify URI is mutated correctly.
+    Given the following student section associations in Midgar are set correctly
+      | student      | teacher | edorg              | enrolledInAnySection? |
+      | matt.sollars | jmacey  | East Daybreak High | yes                   |
+
+    When I log in as "jmacey"
+    And I navigate to GET "/v1/studentSchoolAssociations"
+    Then I should receive a return code of 200
+    And the header "X-ExecutedPath" contains "schools/<IDs>/studentSchoolAssociations"
+    And the header "X-ExecutedPath" contains "<East Daybreak High>"
+    And the header "X-ExecutedPath" contains "<District 9>"
+
+    Given I change the custom role of "Educator" to remove the "TEACHER_CONTEXT" right
+    When I log in as "jmacey"
+    And I navigate to GET "/v1/studentSchoolAssociations"
+    Then I should receive a return code of 200
+    And the header "X-ExecutedPath" contains "schools/<IDs>/studentSchoolAssociations"
+    And the header "X-ExecutedPath" contains "<East Daybreak High>"
+    And the header "X-ExecutedPath" contains "<District 9>"
+
+    Given I change the custom role of "Leader" to add the "TEACHER_CONTEXT" right
+    And I change the custom role of "Educator" to add the "TEACHER_CONTEXT" right
+    When I log in as "jmacey"
+    And I navigate to GET "/v1/studentSchoolAssociations"
+    Then I should receive a return code of 200
+    And the header "X-ExecutedPath" contains "schools/<IDs>/studentSchoolAssociations"
+    And the header "X-ExecutedPath" contains "<East Daybreak High>"
+    And the header "X-ExecutedPath" contains "<District 9>"
+
+    Given I change the custom role of "Leader" to remove the "STAFF_CONTEXT" right
+    When I log in as "jmacey"
+    And I navigate to GET "/v1/studentSchoolAssociations"
+    Then I should receive a return code of 200
+    And the header "X-ExecutedPath" contains "sections/<IDs>/studentSectionAssociations/students/studentSchoolAssociations"
+    And the header "X-ExecutedPath" contains "<JMaceys Section>"
 
   Scenario Outline: Ensure POST can be performed on all public entities with READ_PUBLIC and WRITE_PUBLIC rights
     Given I change the custom role of "Leader" to add the "READ_PUBLIC" right
@@ -144,15 +180,14 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     Given I change the custom role of "Educator" to add the "READ_PUBLIC" right
     Given I change the custom role of "Educator" to add the "WRITE_PUBLIC" right
     And I log in as "jmacey"
-    Given entity type "<ENTITY>"
     Given a valid formatted entity json document for a "<ENTITY TYPE>"
     When I navigate to POST "/v1/<ENTITY URI>"
     Then I should receive a return code of 201
     And I should receive a new entity URI
-    And I remove the new entity from "<ENTITY>"
+    And I remove the new entity from "<COLLECTION>"
 
   Examples:
-    | ENTITY                     | ENTITY TYPE                | ENTITY URI                  |
+    | COLLECTION                 | ENTITY TYPE                | ENTITY URI                  |
     | assessment                 | assessment                 | assessments                 |
     | competencyLevelDescriptor  | competencyLevelDescriptor  | competencyLevelDescriptor   |
     | educationOrganization      | educationOrganization      | educationOrganizations      |
@@ -176,10 +211,10 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     When I navigate to POST "/v1/<ENTITY URI>"
     Then I should receive a return code of 201
     And I should receive a new entity URI
-    And I remove the new entity from "<ENTITY>"
+    And I remove the new entity from "<COLLECTION>"
 
   Examples:
-    | ENTITY                                       | ENTITY TYPE                           | ENTITY URI                              |
+    | COLLECTION                                   | ENTITY TYPE                           | ENTITY URI                              |
     | staffEducationOrganizationAssociation        | staffEducationOrganizationAssociation | staffEducationOrgAssignmentAssociations |
     | teacherSchoolAssociation                     | teacherSchoolAssociation              | teacherSchoolAssociations               |
     | student.studentProgramAssociation            | studentProgramAssociation             | studentProgramAssociations              |
@@ -199,37 +234,36 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | section.teacherSectionAssociation            | teacherSectionAssociation             | teacherSectionAssociations              |
     | studentCompetency                            | studentCompetency                     | studentCompetencies                     |
     | parent                                       | parent                                | parents                                 |
-#    | staff                                        | staff                                 | staff                                  |
-#    | teacher                                      | teacher                               | teachers                                 |
+    | staff                                        | staff                                 | staff                                   |
+    | staff                                        | teacher                               | teachers                                |
 
-  Scenario Outline: Ensure POST can NOT be performed on any public entities with READ_PUBLIC and WRITE_PUBLIC rights
+  Scenario Outline: Ensure POST can NOT be performed on any public entities without READ_PUBLIC and WRITE_PUBLIC rights
     Given I change the custom role of "Leader" to remove the "READ_PUBLIC" right
     Given I change the custom role of "Leader" to remove the "WRITE_PUBLIC" right
     Given I change the custom role of "Educator" to remove the "READ_PUBLIC" right
     Given I change the custom role of "Educator" to remove the "WRITE_PUBLIC" right
     And I log in as "jmacey"
-    Given entity type "<ENTITY>"
     Given a valid formatted entity json document for a "<ENTITY TYPE>"
     When I navigate to POST "/v1/<ENTITY URI>"
     Then I should receive a return code of 403
 
   Examples:
-    | ENTITY                     | ENTITY TYPE                | ENTITY URI                  |
-    | assessment                 | assessment                 | assessments                 |
-    | competencyLevelDescriptor  | competencyLevelDescriptor  | competencyLevelDescriptor   |
-    | courseOffering             | courseOffering             | courseOfferings             |
-    | course                     | course                     | courses                     |
-    | educationOrganization      | educationOrganization      | educationOrganizations      |
-    | gradingPeriod              | gradingPeriod              | gradingPeriods              |
-    | graduationPlan             | graduationPlan             | graduationPlans             |
-    | learningObjective          | learningObjective          | learningObjectives          |
-    | learningStandard           | learningStandard           | learningStandards           |
-    | program                    | program                    | programs                    |
-    | educationOrganization      | school                     | schools                     |
-    | section                    | section                    | sections                    |
-    | session                    | session                    | sessions                    |
-    | studentCompetencyObjective | studentCompetencyObjective | studentCompetencyObjectives |
-    | calendarDate               | calendarDate               | calendarDates               |
+    | ENTITY TYPE                | ENTITY URI                  |
+    | assessment                 | assessments                 |
+    | competencyLevelDescriptor  | competencyLevelDescriptor   |
+    | courseOffering             | courseOfferings             |
+    | course                     | courses                     |
+    | educationOrganization      | educationOrganizations      |
+    | gradingPeriod              | gradingPeriods              |
+    | graduationPlan             | graduationPlans             |
+    | learningObjective          | learningObjectives          |
+    | learningStandard           | learningStandards           |
+    | program                    | programs                    |
+    | school                     | schools                     |
+    | section                    | sections                    |
+    | session                    | sessions                    |
+    | studentCompetencyObjective | studentCompetencyObjectives |
+    | calendarDate               | calendarDates               |
 
   Scenario Outline: Ensure POST cannot be performed on edorg or student related entities without WRITE_GENERAL and WRITE_RESTRICTED rights
     Given I add a SEOA for "xbell" in "District 9" as a "Leader"
@@ -259,14 +293,14 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | teacherSectionAssociation             | teacherSectionAssociations              |
     | studentCompetency                     | studentCompetencies                     |
     | parent                                | parents                                 |
-#    | staff                                 | staff                                   |
-#    | teacher                               | teachers                                |
+    | staff                                 | staff                                   |
+    | teacher                               | teachers                                |
 
 # Double segment (/<ENTITY>/{id}) URI tests.
 
   Scenario Outline: GETs on /entity/{id} for global entities
     Given I log in as "jmacey"
-    And I get 10 random ids for "<ENTITY TYPE>" in "<ENTITY>"
+    And I get 10 random ids for "<ENTITY TYPE>" in "<COLLECTION>"
     When I navigate to GET each id for "/v1/<ENTITY URI>"
     Then All the return codes should be 200
 
@@ -277,7 +311,7 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     Then All the return codes should be 403
 
   Examples:
-    | ENTITY                     | ENTITY TYPE                | ENTITY URI                  |
+    | COLLECTION                 | ENTITY TYPE                | ENTITY URI                  |
     | assessment                 | assessment                 | assessments                 |
     | competencyLevelDescriptor  | competencyLevelDescriptor  | competencyLevelDescriptor   |
     | courseOffering             | courseOffering             | courseOfferings             |
@@ -297,7 +331,7 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
   Scenario Outline: GETs on /entity/{id} for edorg-related entities
     Given I change the custom role of "Aggregate Viewer" to add the "READ_GENERAL" right
     And I log in as "msmith"
-    And I get 10 random ids associated with the edorgs for "msmith" of "<ENTITY TYPE>" in "<ENTITY>"
+    And I get 10 random ids associated with the edorgs for "msmith" of "<ENTITY TYPE>" in "<COLLECTION>"
     When I navigate to GET each id for "/v1/<ENTITY URI>"
     Then All the return codes should be 200
 
@@ -309,7 +343,7 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     Then All the return codes should be 403
 
   Examples:
-    | ENTITY                   | ENTITY TYPE                          | ENTITY URI                            |
+    | COLLECTION               | ENTITY TYPE                          | ENTITY URI                            |
     | teacherSchoolAssociation | teacherSchoolAssociation             | teacherSchoolAssociations             |
     | student                  | studentProgramAssociation            | studentProgramAssociations            |
     | studentSchoolAssociation | studentSchoolAssociation             | studentSchoolAssociations             |
@@ -332,7 +366,7 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
   Scenario Outline: GETs on /entity/{id} for staff related entities
     Given I change the custom role of "Aggregate Viewer" to add the "READ_GENERAL" right
     And I log in as "msmith"
-    And I get 10 random ids of "<ENTITY TYPE>" in "<ENTITY>" associated with the staff of "msmith"
+    And I get 10 random ids of "<ENTITY TYPE>" in "<COLLECTION>" associated with the staff of "msmith"
     When I navigate to GET each id for "/v1/<ENTITY URI>"
     Then All the return codes should be 200
 
@@ -344,12 +378,12 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     Then All the return codes should be 403
 
   Examples:
-    | ENTITY                   | ENTITY TYPE                          | ENTITY URI                            |
-    | staffCohortAssociation   | staffCohortAssociation               | staffCohortAssociations               |
-    | staffProgramAssociation  | staffProgramAssociation              | staffProgramAssociations              |
-    | section                  | teacherSectionAssociation            | teacherSectionAssociations            |
-#    | staff                    | staff                                | staff                                 |
-#    | teacher                  | teacher                              | teachers                              |
+    | COLLECTION              | ENTITY TYPE               | ENTITY URI                 |
+    | staffCohortAssociation  | staffCohortAssociation    | staffCohortAssociations    |
+    | staffProgramAssociation | staffProgramAssociation   | staffProgramAssociations   |
+    | section                 | teacherSectionAssociation | teacherSectionAssociations |
+    | staff                   | staff                     | staff                      |
+    | staff                   | teacher                   | teachers                   |
 
   Scenario: GETs on /parents/{id}
     Given I change the custom role of "Aggregate Viewer" to add the "READ_GENERAL" right
@@ -440,8 +474,8 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     | calendarDate                          | calendarDates                           | calendarEvent            | Make-up day                             | Student late arrival/early dismissal    |
     | studentCompetency                     | studentCompetencies                     | diagnosticStatement      | Needs improvement                       | Very unsatisfactory                     |
     | parent                                | parents                                 | loginId                  | new-login                               | even-newer-login                        |
-#    | staff                                 | staff                                   | loginId                  | new-login                               | even-newer-login                        |
-#    | teacher                               | teacher                                 | loginId                  | new-login                               | even-newer-login                        |
+    | staff                                 | staff                                   | loginId                  | newer-staff-login                       | even-newer-staff-login                  |
+    | teacher                               | teachers                                | highlyQualifiedTeacher   | false                                   | true                                    |
 
 # Multi segment (/<ENTITY>/{id}/...) URI tests.
 
@@ -449,6 +483,11 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     When I log in as "jmacey"
     And I navigate to GET "<District 9 URI>/staffEducationOrgAssignmentAssociations/staff"
     Then I should receive a return code of 200
+    Given there is a course in the edOrg "<Daybreak Bayside High>"
+    When I navigate to GET "<Daybreak Bayside High URI>/courses"
+    Then I should receive a return code of 200
+    When I navigate to GET "<Daybreak Bayside High URI>/staffEducationOrgAssignmentAssociations"
+    Then I should receive a return code of 403
 
   Scenario Outline: Can view  for non-subdoc historical data of a student from a different edorg, but can't write to it
     Given I add "<Entity>" for "lashawn.taite" in "Daybreak Bayside High" that's already expired
@@ -463,12 +502,11 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
     Then I should receive a return code of 403
 
   Examples:
-    | User      | Entity                      | Field                   | New Value                               |
-    | tcuyper   | studentSchoolAssociations   | exitWithdrawType        | Exited                                  |
-    | tcuyper   | attendances                 | attendanceEvent         | [{'event':'Tardy','date':'2011-12-13'}] |
-    | tcuyper   | disciplineActions           | disciplineDate          | 2012-01-01                              |
-    | tcuyper   | courseTranscripts           | finalLetterGradeEarned  | F                                       |
-
+    | User    | Entity                    | Field                  | New Value                               |
+    | tcuyper | studentSchoolAssociations | exitWithdrawType       | Exited                                  |
+    | tcuyper | attendances               | attendanceEvent        | [{'event':'Tardy','date':'2011-12-13'}] |
+    | tcuyper | disciplineActions         | disciplineDate         | 2012-01-01                              |
+    | tcuyper | courseTranscripts         | finalLetterGradeEarned | F                                       |
 
   Scenario Outline: Can view  for subdoc historical data of a student from a different edorg, but can't write to it
     Given I add subdoc "<subDoc>" for "lashawn.taite" and "<Reference>" in "Daybreak Bayside High" that's already expired
@@ -487,7 +525,61 @@ Feature: As a staff member API user with multiple roles over different edOrgs,
 
 
   Examples:
-    |  User      |           subDoc                         |    Reference             |    Field                   |                 New Value                       |
-    |  tcuyper   |     reportCard                           |    yearlyTranscript      |    gradingPeriodId         |                  Reporter                       |
-    |  tcuyper   |   studentProgramAssociation              |   program                |   reasonExited             |                   blabla                        |
-    |  tcuyper   |   studentSectionAssociation              |   section                |   reasonExited             |                   blabla                        |
+    | User    | subDoc                    | Reference        | Field           | New Value |
+    | tcuyper | reportCard                | yearlyTranscript | gradingPeriodId | Reporter  |
+    | tcuyper | studentProgramAssociation | program          | reasonExited    | blabla    |
+    | tcuyper | studentSectionAssociation | section          | reasonExited    | blabla    |
+
+  Scenario Outline: User can get the correct total count and page through
+    Given parameter "limit" is "0"
+    When I log in as "rbelding"
+    Given format "application/json"
+
+    When I navigate to GET "/v1/<ENTITY URI>"
+    Then I should receive a return code of 200
+    Then I get the total count from the header
+    Then I get all the entities returned
+
+    Given parameter "offset" is "<a third of the total count>"
+    When I navigate to GET "/v1/<ENTITY URI>"
+    Then I should receive a return code of 200
+    Then I verify the total count from the header
+    Then I check the returned entities are sequential
+
+    Given parameter "offset" is "<half of the total count>"
+
+    When I navigate to GET "/v1/<ENTITY URI>"
+    Then I should receive a return code of 200
+    Then I verify the total count from the header
+    Then I check the returned entities are sequential
+
+    Given parameter "offset" is "<the total count>"
+    When I navigate to GET "/v1/<ENTITY URI>"
+    Then I should receive a return code of 200
+    Then I verify the total count from the header
+    Then I check the returned entities are sequential
+
+    Given parameter "offset" is "<a third of the total count>"
+    Given parameter "limit" is "<limit is half of the total count>"
+
+    When I navigate to GET "/v1/<ENTITY URI>"
+    Then I should receive a return code of 200
+    Then I verify the total count from the header
+    Then I check the returned entities are sequential
+
+    Given parameter "offset" is "<two thirds of the total count>"
+
+    When I navigate to GET "/v1/<ENTITY URI>"
+    Then I should receive a return code of 200
+    Then I verify the total count from the header
+    Then I check the returned entities are sequential
+
+  Examples:
+    | ENTITY URI                              |
+    | staffEducationOrgAssignmentAssociations |
+    | studentProgramAssociations              |
+    | studentSchoolAssociations               |
+    | cohorts                                 |
+    | disciplineIncidents                     |
+    | disciplineActions                       |
+    | gradebookEntries                        |

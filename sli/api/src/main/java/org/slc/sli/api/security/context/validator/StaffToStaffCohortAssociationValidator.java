@@ -16,6 +16,7 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
@@ -24,9 +25,7 @@ import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Validates the context of a staff member to see the requested set of staff cohort associations.
@@ -50,24 +49,35 @@ public class StaffToStaffCohortAssociationValidator extends AbstractContextValid
      * all of the staff you can see have.
      */
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.STAFF_COHORT_ASSOCIATION, entityType, ids)) {
-            return false;
+            return Collections.EMPTY_SET;
         }
         
         //Get the ones based on staffIds (Including me)
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids));
-        Set<String> staffIds = new HashSet<String>();
+        Map<String, Set<String>> staffToSCA = new HashMap<String, Set<String>>();
         Iterable<Entity> staffCohorts = getRepo().findAll(EntityNames.STAFF_COHORT_ASSOCIATION, basicQuery);
         for (Entity staff : staffCohorts) {
             Map<String, Object> body = staff.getBody();
             if (isFieldExpired(body, ParameterConstants.END_DATE, true)) {
                 continue;
             }
-            staffIds.add((String) body.get(ParameterConstants.STAFF_ID));
+
+            String id = (String) body.get(ParameterConstants.STAFF_ID);
+            if(!staffToSCA.containsKey(id)) {
+                staffToSCA.put(id, new HashSet<String>());
+            }
+            staffToSCA.get(id).add(staff.getEntityId());
         }
         
-        return staffValidator.validate(EntityNames.STAFF, staffIds);
+        Set<String> staffIds = staffValidator.validate(EntityNames.STAFF, staffToSCA.keySet());
+
+        return getValidIds(staffIds, staffToSCA);
     }
 
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.STAFF_CONTEXT;
+    }
 }

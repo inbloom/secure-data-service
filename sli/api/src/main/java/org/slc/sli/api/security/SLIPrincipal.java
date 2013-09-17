@@ -19,15 +19,7 @@ package org.slc.sli.api.security;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.security.Principal;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
@@ -85,6 +77,7 @@ public class SLIPrincipal implements Principal, Serializable {
         // Empty default constructor is used in various places.
         authorizingEdOrgs = new HashSet<String>();
         obligations = new HashMap<String, List<NeutralQuery>>();
+        roles = new ArrayList<String>();
         edOrgRoles = new HashMap<String, List<String>>();
         edOrgRights = new HashMap<String, Collection<GrantedAuthority>>();
         edOrgSelfRights = new HashMap<String, Collection<GrantedAuthority>>();

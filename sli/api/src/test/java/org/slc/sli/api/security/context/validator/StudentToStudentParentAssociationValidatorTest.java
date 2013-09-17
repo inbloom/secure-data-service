@@ -61,7 +61,7 @@ public class StudentToStudentParentAssociationValidatorTest {
             String s = e.getEntityId();
             ids.add(s);
         }
-        boolean valid = validator.validate(EntityNames.STUDENT_PARENT_ASSOCIATION, ids);
+        boolean valid = validator.validate(EntityNames.STUDENT_PARENT_ASSOCIATION, ids).containsAll(ids);
         Assert.assertTrue(valid);
     }
     
@@ -78,7 +78,7 @@ public class StudentToStudentParentAssociationValidatorTest {
         }
         // add the invalid studentParentAssocation - the validator should return false
         ids.add("invalidID");
-        boolean valid = validator.validate(EntityNames.STUDENT_PARENT_ASSOCIATION, ids);
+        boolean valid = validator.validate(EntityNames.STUDENT_PARENT_ASSOCIATION, ids).containsAll(ids);
         Assert.assertTrue(!valid);
     }
     
@@ -89,7 +89,7 @@ public class StudentToStudentParentAssociationValidatorTest {
     public void testEmptyStudentParentAssociation() {
         Set<String> ids = new HashSet<String>();  
         ids.add("invalidID");
-        boolean valid = validator.validate(EntityNames.STUDENT_PARENT_ASSOCIATION, ids);
+        boolean valid = validator.validate(EntityNames.STUDENT_PARENT_ASSOCIATION, ids).containsAll(ids);
         Assert.assertTrue(!valid);
     }
     

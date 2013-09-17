@@ -201,7 +201,7 @@ Given /^I change the custom role of "([^"]*)" to (add|remove) the "([^"]*)" righ
   role_coll = db.collection('customRole')
   custom_roles = role_coll.find_one()
   roles = custom_roles['body']['roles']
-  index = roles.index {|entry| entry['names'][0] == role}
+  index = roles.index {|entry| entry['names'].include?(role)}
   if add
     roles[index]['rights'] << right
   else
@@ -306,7 +306,7 @@ Given /^I remove "([^"]*)" from the custom roles$/ do |roleName|
   roles = customRole ['body']['roles']
 
   roles.each do |role|
-    role.delete_if {|key, value| key == 'names' && value == [roleName]}
+    role.delete_if {|key, value| key == 'names' && value.include?(roleName)}
 
     if !role.has_key?('names')
       role.store('names', ['DummyValue'])
@@ -703,6 +703,9 @@ Given /^I get (\d+) random ids of "([^"]*)" in "([^"]*)" associated with the sta
     when 'teacherSectionAssociation'
       subdoc = true
       staff_ref = 'body.teacherId'
+    when 'staff', 'teacher'
+      subdoc = false
+      staff_ref = '_id'
   end
 
   disable_NOTABLESCAN()
@@ -725,8 +728,8 @@ Given /^I get (\d+) random ids of "([^"]*)" in "([^"]*)" associated with the sta
         entities = coll.find({"#{type}.#{staff_ref}" => ref_seoa['body']['staffReference']},{:fields => ["#{type}.$"]}).to_a
         entities.each { |entity| entity_ids.add(entity[type][0]['_id'])}
       else
-        entities = coll.find({staff_ref => ref_seoa['body']['staffReference']},{:fields => %w(_id)}).to_a
-        entities.each { |entity| entity_ids.add(entity['_id'])}
+        entities = coll.find({staff_ref => ref_seoa['body']['staffReference'],'type' => type},{:fields => %w(_id)}).to_a
+        entities.each { |entity| entity_ids.add(entity['_id']) unless entity['_id'] == staff_id }
       end
     end
   end

@@ -59,6 +59,43 @@ Scenario: Generate a bulk extract delta after day 1 ingestion
     Then each record in the full extract is present and matches the delta extract
    #And I save some IDs from all the extract files to "delete_candidate" so I can delete them later
 
+  And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<Daybreak Central High>"
+  And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  Then The "educationOrganization" delta was extracted in the same format as the api
+  And The "parent" delta was extracted in the same format as the api
+  And The "studentParentAssociation" delta was extracted in the same format as the api
+  And The "section" delta was extracted in the same format as the api
+  And The "gradebookEntry" delta was extracted in the same format as the api
+  And The "studentSectionAssociation" delta was extracted in the same format as the api
+  And The "staff" delta was extracted in the same format as the api
+  And The "teacher" delta was extracted in the same format as the api
+  And The "teacherSectionAssociation" delta was extracted in the same format as the api
+  And The "teacherSchoolAssociation" delta was extracted in the same format as the api
+  And The "staffEducationOrganizationAssociation" delta was extracted in the same format as the api
+  And The "grade" delta was extracted in the same format as the api
+  And The "reportCard" delta was extracted in the same format as the api
+  And The "studentAcademicRecord" delta was extracted in the same format as the api
+  And The "attendance" delta was extracted in the same format as the api
+  And The "student" delta was extracted in the same format as the api
+  And The "studentSchoolAssociation" delta was extracted in the same format as the api
+  And The "studentAssessment" delta was extracted in the same format as the api
+  And The "studentGradebookEntry" delta was extracted in the same format as the api
+  And The "cohort" delta was extracted in the same format as the api
+  And The "studentCohortAssociation" delta was extracted in the same format as the api
+  And The "staffCohortAssociation" delta was extracted in the same format as the api
+  #And The "session" delta was extracted in the same format as the api
+  #And The "gradingPeriod" delta was extracted in the same format as the api
+  And The "courseOffering" delta was extracted in the same format as the api
+  And The "course" delta was extracted in the same format as the api
+  And The "courseTranscript" delta was extracted in the same format as the api
+  And The "studentProgramAssociation" delta was extracted in the same format as the api
+  And The "staffProgramAssociation" delta was extracted in the same format as the api
+  And The "studentDisciplineIncidentAssociation" delta was extracted in the same format as the api
+  And The "disciplineIncident" delta was extracted in the same format as the api
+  And The "disciplineAction" delta was extracted in the same format as the api
+  And The "studentCompetency" delta was extracted in the same format as the api
+  #And The "calendarDate" delta was extracted in the same format as the api
+
 Scenario: Generate a SEA bulk extract delta after day 1 ingestion
     When I untar and decrypt the "inBloom" public delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>"
      And I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "STANDARD-SEA" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
@@ -302,9 +339,10 @@ Scenario: Triggering deltas via ingestion
       And I ingest "bulk_extract_deltas.zip"
       And I ingest "SEAGradingPeriodDelete.zip"
      When I trigger a delta extract
-      And I verify "2" delta bulk extract files are generated for LEA "<IL-DAYBREAK>" in "Midgar"
-      And I verify "2" delta bulk extract files are generated for LEA "<IL-HIGHWIND>" in "Midgar"
-      And I verify "2" delta bulk extract files are generated for LEA "<STANDARD-SEA>" in "Midgar"
+      And I verify "2" delta bulk extract files are generated for Edorg "<Daybreak Central High>" in "Midgar"
+      And I verify "2" delta bulk extract files are generated for Edorg "<IL-DAYBREAK>" in "Midgar"
+      And I verify "2" delta bulk extract files are generated for Edorg "<IL-HIGHWIND>" in "Midgar"
+      And I verify "2" delta bulk extract files are generated for Edorg "<STANDARD-SEA>" in "Midgar"
      When I verify the last public delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>" in "Midgar" contains a file for each of the following entities:
        |  entityType                            |
        |  assessment                            |
@@ -665,6 +703,151 @@ Scenario: Triggering deltas via ingestion
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
    Then The "graduationPlan" delta was extracted in the same format as the api
 
+# DAYBREAK stuff now
+  And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<Daybreak Central High>" in "Midgar" contains a file for each of the following entities:
+    |  entityType                            |
+    |  attendance                            |
+    |  parent                                |
+    |  section                               |
+    |  student                               |
+    |  studentAssessment                     |
+    |  studentGradebookEntry                 |
+    |  studentSchoolAssociation              |
+    |  studentParentAssociation              |
+    |  studentCompetency                     |
+    |  staff                                 |
+    |  staffEducationOrganizationAssociation |
+    |  teacher                               |
+    |  teacherSchoolAssociation              |
+    |  teacherSectionAssociation             |
+    |  courseOffering                        |
+    |  courseTranscript                      |
+    |  course                                |
+    #|  graduationPlan                        |
+    |  disciplineIncident                    |
+    |  studentDisciplineIncidentAssociation  |
+    |  disciplineAction                      |
+    #|  calendarDate                          |
+    |  deleted                               |
+  And I save some IDs from all the extract files to "delete_candidate" so I can delete them later
+
+  And I verify this "deleted" file should contain:
+    | id                                          | condition                                |
+    | b43a7313ed0eaf7a6e71389b5cc64eb9e0ca0f2a_id | entityType = calendarDate                |
+    | 54759a8d56aba10b1b300e66657cd6fcc3ca6ac9_id | entityType = studentSchoolAssociation    |
+    | 1b4aa93f01d11ad51072f3992583861ed080f15c_id | entityType = parent                      |
+    | db9a7477390fb5de9d58350d1ce3c45ef8fcb0c6_id | entityType = student                     |
+    | 908404e876dd56458385667fa383509035cd4312_idd14e4387521c768830def2c9dea95dd0bf7f8f9b_id | entityType = studentParentAssociation    |
+    | 95147c130335e0656b0d8e9ab79622a22c3a3fab_id                                            | entityType = section                     |
+
+  #And I verify this "calendarDate" file should contain:
+  #  | id                                          | condition                                |
+  #  | eab8ffa631837241c27316f4cd034b8e014821a3_id | calendarEvent = Instructional day   |
+  #  | 356a441384ea905a4e01d5acebb25f7c42b7e0bd_id | date = 2022-06-04                   |
+
+  And I verify this "student" file should contain:
+  #this is student 11, which has updated information
+    | id                                          | condition                                |
+    | 9be61921ddf0bcd3d58fb99d4e9c454ef5707eb7_id | studentUniqueStateId = 11                |
+  And I verify this "student" file should not contain:
+  #this is student 12, which has updated information, but we cut his tie with any schools
+    | id                                          | condition                                |
+    | 609640f6af263faad3a0cbee2cbe718fb71b9ab2_id |                                          |
+
+  And I verify this "studentSchoolAssociation" file should contain:
+  #updated association for student 11
+    | id                                          | condition                                |
+    | 68c4855bf0bdcc850a883d88fdf953b9657fe255_id | exitWithdrawDate = 2014-05-31            |
+  And I verify this "studentSchoolAssociation" file should not contain:
+  #this is an association on a expired student 12, should not show up
+    | id                                          | condition                                |
+    | a13489364c2eb015c219172d561c62350f0453f3_id |                                          |
+
+  And I verify this "studentGradebookEntry" file should contain:
+    | id                                          | condition                                |
+    | 6620fcd37d1095005a67dc330e591279577aede7_id | letterGradeEarned = A                    |
+
+  And I verify this "studentAssessment" file should contain:
+    | id                                          | condition                                 |
+    | 86154dd301695c9219d0525569a922a0144b8d17_id | scoreResults.result = 92                  |
+    | 779b30733dbfacbaed769fae944dfec3fa5196e0_id | studentAssessmentItems.rawScoreResult = 7 |
+
+  And I verify this "parent" file should contain:
+    | id                                          | condition                                                    |
+    | 833c746641212c9e6e0fe5831f03570882c7bba1_id | electronicMail.emailAddress = roosevelt_mcgowan@fakemail.com |
+
+  And I verify this "studentParentAssociation" file should contain:
+    | id                                          | condition                                |
+    | 908404e876dd56458385667fa383509035cd4312_id6ac27714bca705efbd6fd0eb6c0fd2c7317062e6_id | contactPriority = 0 |
+
+  And I verify this "section" file should contain:
+    | id                                          | condition                                |
+    | 95cc5d67f3b653eb3e2f0641c429cf2006dc2646_id | uniqueSectionCode = 2                    |
+
+# Both Teacher 01 and 03 should be in DAYBREAK
+  And I verify this "teacher" file should contain:
+    | id                                          | condition                                |
+    | cab9d548be3e51adf6ac00a4028e4f9f4f9e9cae_id | staffUniqueStateId = tech-0000000003     |
+    | fe472294f0e40fd428b1a67b9765360004562bab_id | staffUniqueStateId = tech-0000000001     |
+  And I verify this "teacher" file should not contain:
+  # teacher 02 should not show up as we expired his staffEdorgAssociations
+    | id                                          | condition                                |
+    | 631d712727054d49d706d5a3a7eb8faaad0cbeba_id |                                          |
+  And I verify this "teacherSchoolAssociation" file should contain:
+    | id                                          | condition                                |
+    | c063086ce77b13c4e593ff8261024a6ef30e0a8d_id | teacherId = cab9d548be3e51adf6ac00a4028e4f9f4f9e9cae_id |
+
+# staff 04 should be in both DAYBREAK and HIGHWIND
+  And I verify this "staff" file should contain:
+    | id                                          | condition                                |
+    | fe472294f0e40fd428b1a67b9765360004562bab_id | staffUniqueStateId = tech-0000000001     |
+
+  And I verify this "attendance" file should contain:
+    | id                                          | condition                                |
+    | 07185fb3e72af3e0c2f48cf64b474b1731c52b20_id | schoolYearAttendance.attendanceEvent.reason = change_1       |
+
+  And I verify this "courseOffering" file should contain:
+    | id                                          | condition                                |
+    | 48779c5fb806b8325ffbe4ceb0448bde1f5d8313_id | localCourseTitle = Ninth grade Advanced English |
+  And I verify this "course" file should contain:
+    | id                                          | condition                                |
+    | 2dad46540a82bd0ad17b7dbcbb6cbdd4fce2125d_id | uniqueCourseId = DAYBREAK21              |
+
+# This course transcript has a direct edorg reference to IL-HIGHWIND, but belongs to a student
+# only in IL-DAYBREAK, so it only shows up in IL-DAYBREAK
+  And I verify this "courseTranscript" file should contain:
+    | id                                          | condition                                |
+    | adbd098e947690550c7c7bda7bd04d0e76f3d715_id | studentId = 9be61921ddf0bcd3d58fb99d4e9c454ef5707eb7_id |
+
+  #And I verify this "graduationPlan" file should contain:
+  #  | id                                          | condition                                |
+  #  | 1af13424ea3a179e716468ff760255878ce20ec7_id | graduationPlanType = Distinguished       |
+
+  And I verify this "disciplineIncident" file should contain:
+    | id                                          | condition                                |
+    | 8270a081d30b82a9ac40a324bde644aaee933c20_id | reporterName = Squealer                  |
+    | ededd91e0b8069fb040227ec0fdeb20ff1a257bc_id | reporterName = Upstanding Citizen        |
+    | e6a01c4ee7768924c9e260c7ef5cea8d75088b89_id | incidentIdentifier = orphan1             |
+
+  And I verify this "studentDisciplineIncidentAssociation" file should contain:
+    | id                                                                                     | condition                          |
+    | 908404e876dd56458385667fa383509035cd4312_id1ff4ecec0c9b4ef0e5dde0c3287af9871d519971_id | studentParticipationCode = Witness |
+    | db9a7477390fb5de9d58350d1ce3c45ef8fcb0c6_id7360a4e247645d9bd44de7fba62fc4094e8f5dc6_id | studentParticipationCode = Witness |
+
+  And I verify this "disciplineAction" file should contain:
+    | id                                          | condition                            |
+    | 58295e247c01aae77d6f494d28c6a0b4808d4248_id | actualDisciplineActionLength = 3     |
+    | d00dfdc3821fb8ea4f97147716afc2b153ceb5ba_id | actualDisciplineActionLength = 2     |
+    | c78d1f951362ce558cb379cabc7491c6da339e58_id | actualDisciplineActionLength = 3     |
+
+  And I verify this "studentCompetency" file should contain:
+    | id                                          | condition  |
+    | 568836d2bc382136c46356c2dbfeb51758ead1ff_id | diagnosticStatement = Student has Advanced understanding of subject. |
+
+#this step is necesssary since there is no graduationPlan in day 0 delta, need to verify it's really the same
+#format as API would return
+  And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  Then The "attendance" delta was extracted in the same format as the api
 
 Scenario: Generate a bulk extract in a different LEA
   Given I clean the bulk extract file system and database

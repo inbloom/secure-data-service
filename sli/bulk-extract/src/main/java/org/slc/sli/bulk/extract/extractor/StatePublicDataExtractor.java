@@ -142,7 +142,7 @@ public class StatePublicDataExtractor {
      * @return
      *      SEA Id
      */
-    protected String retrieveSEAId() {
+    public String retrieveSEAId() {
         String seaId = null;
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ORGANIZATION_CATEGORIES,
                 NeutralCriteria.CRITERIA_IN, Arrays.asList(STATE_EDUCATION_AGENCY)));

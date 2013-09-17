@@ -38,7 +38,7 @@ import org.slc.sli.domain.Entity;
  */
 public abstract class StudentToStaffAssociationAbstractValidator extends BasicValidator {
 
-    private final static String ASSOCIATION_ID_FIELD = "_id";
+    private static final String ASSOCIATION_ID_FIELD = "_id";
     private final String collection;
     private final String associationField;
 
@@ -49,21 +49,22 @@ public abstract class StudentToStaffAssociationAbstractValidator extends BasicVa
     }
 
     @Override
-    protected boolean doValidate(Set<String> ids, String entityType) {
-        Set<String> unvalidated = new HashSet<String>(ids);
-
+    protected Set<String> doValidate(Set<String> ids, String entityType) {
+        Set<String> validated = new HashSet<String>();
         for (Entity me : SecurityUtil.getSLIPrincipal().getOwnedStudentEntities()) {
             Set<String> studentAssociations = getStudentAssociationIds(me);
             Iterator<Entity> results = getMatchingAssociations(ids, studentAssociations);
             while (results.hasNext()) {
                 Entity e = results.next();
                 if (isExpired(e)) {
-                    return false;
+                    validated.clear();
+                    break;
                 }
-                unvalidated.remove(e.getEntityId());
+                validated.add(e.getEntityId());
             }
         }
-        return unvalidated.isEmpty();
+        return validated;
+
     }
 
     protected boolean isExpired(Entity e) {

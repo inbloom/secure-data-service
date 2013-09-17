@@ -24,9 +24,7 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Validates teacher's access to given student cohort assocs.
@@ -41,9 +39,9 @@ public class TeacherToStudentCohortAssociationValidator extends AbstractContextV
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.STUDENT_COHORT_ASSOCIATION, entityType, ids)) {
-            return false;
+            return Collections.EMPTY_SET;
         }
         
         //Get all the cohort IDs from the associations passed in
@@ -53,15 +51,18 @@ public class TeacherToStudentCohortAssociationValidator extends AbstractContextV
                 new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids));
         query.setIncludeFields(Arrays.asList(ParameterConstants.COHORT_ID));
         
-        Set<String> cohortIds = new HashSet<String>();
-        
+        Map<String, Set<String>> cohortIdToSca = new HashMap<String, Set<String>>();
         Iterable<Entity> scas = getRepo().findAll(EntityNames.STUDENT_COHORT_ASSOCIATION, query);
         for (Entity sca : scas) {
-            cohortIds.add((String) sca.getBody().get(ParameterConstants.COHORT_ID));
+            String cohortId = sca.getBody().get(ParameterConstants.COHORT_ID).toString();
+            if(!cohortIdToSca.containsKey(cohortId)) {
+                cohortIdToSca.put(cohortId, new HashSet<String>());
+            }
+            cohortIdToSca.get(cohortId).add(sca.getEntityId());
         }
         
         String teacherId = SecurityUtil.getSLIPrincipal().getEntity().getEntityId();
-        NeutralQuery nq = new NeutralQuery(new NeutralCriteria(ParameterConstants.COHORT_ID, NeutralCriteria.CRITERIA_IN, cohortIds));
+        NeutralQuery nq = new NeutralQuery(new NeutralCriteria(ParameterConstants.COHORT_ID, NeutralCriteria.CRITERIA_IN, cohortIdToSca.keySet()));
         nq.addCriteria(new NeutralCriteria(ParameterConstants.STAFF_ID, NeutralCriteria.OPERATOR_EQUAL, teacherId));
         nq.addCriteria(new NeutralCriteria(ParameterConstants.STUDENT_RECORD_ACCESS,
                 NeutralCriteria.OPERATOR_EQUAL, true));
@@ -76,7 +77,11 @@ public class TeacherToStudentCohortAssociationValidator extends AbstractContextV
             }
         }
 
-        return validCohortIds.containsAll(cohortIds);
+        return getValidIds(validCohortIds, cohortIdToSca);
     }
 
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.TEACHER_CONTEXT;
+    }
 }

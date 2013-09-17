@@ -45,6 +45,7 @@ import org.slc.sli.api.security.context.EntityOwnershipValidator;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.api.util.RequestUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
@@ -361,6 +362,7 @@ public class EdOrgHelperTest {
 
     @Test
     public void testParents() {
+        RequestUtil.setCurrentRequestId();
         List<String> edorgs = helper.getParentEdOrgs(school3);
         assertTrue(edorgs.contains(sea1.getEntityId()));
         assertTrue(edorgs.contains(lea1.getEntityId()));
@@ -374,6 +376,7 @@ public class EdOrgHelperTest {
 
     @Test
     public void testParentsWithCycle() {
+        RequestUtil.setCurrentRequestId();
         List<String> edorgs = helper.getParentEdOrgs(leaCycle1);
         assertFalse("leaCycle1 should not be a child of leaCycle1", edorgs.contains(leaCycle1.getEntityId()));
         assertTrue("leaCycle2 should be a child of leaCycle1", edorgs.contains(leaCycle2.getEntityId()));
@@ -383,6 +386,7 @@ public class EdOrgHelperTest {
 
     @Test
     public void testParentsOfSea() {
+        RequestUtil.setCurrentRequestId();
         List<String> edorgs = helper.getParentEdOrgs(sea1);
         assertEquals(0, edorgs.size());
     }
@@ -416,6 +420,7 @@ public class EdOrgHelperTest {
 
     @Test
     public void testHeirarchicalEdorgs() {
+        RequestUtil.setCurrentRequestId();
         List<String> edorgs = helper.getParentEdOrgs(school1);
         assertEquals(2, edorgs.size());
         assertFalse("school1 should not see lea3", edorgs.contains(lea3.getEntityId()));

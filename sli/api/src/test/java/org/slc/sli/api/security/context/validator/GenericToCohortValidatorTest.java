@@ -14,6 +14,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -50,7 +51,8 @@ public class GenericToCohortValidatorTest {
     @Before
 	public void init() {
 		injector.setEducatorContext(USER_ID);
-	}
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.DUAL_CONTEXT);
+    }
 
     @Test
     public void testCanValidate() {
@@ -74,7 +76,7 @@ public class GenericToCohortValidatorTest {
 			cohortIds.add(this.generateCohortAndAssociate(USER_ID, desc));
 		}
 
-		Assert.assertTrue(validator.validate(EntityNames.COHORT, cohortIds));
+		Assert.assertEquals(validator.validate(EntityNames.COHORT, cohortIds).size(), cohortIds.size());
 	}
 
 	@Test
@@ -86,10 +88,10 @@ public class GenericToCohortValidatorTest {
 			cohortIds.add(this.generateCohort(USER_ID, desc));
 		}
 
-		Assert.assertFalse(validator.validate(EntityNames.COHORT, cohortIds));
+		Assert.assertFalse(validator.validate(EntityNames.COHORT, cohortIds).size() == cohortIds.size());
 
 		for (String id : cohortIds) {
-			Assert.assertFalse(validator.validate(EntityNames.COHORT, Collections.singleton(id)));
+			Assert.assertFalse(validator.validate(EntityNames.COHORT, Collections.singleton(id)).size() == 1);
 		}
 
 	}
@@ -111,14 +113,14 @@ public class GenericToCohortValidatorTest {
 			}
 		}
 
-		Assert.assertFalse(validator.validate(EntityNames.COHORT, cohortIds));
+		Assert.assertFalse(validator.validate(EntityNames.COHORT, cohortIds).size() == cohortIds.size());
 
 		for (String id : cohortIds) {
 			if(successes.contains(id)) {
-				Assert.assertTrue(validator.validate(EntityNames.COHORT, Collections.singleton(id)));
+				Assert.assertEquals(validator.validate(EntityNames.COHORT, Collections.singleton(id)).size(), 1);
 			}
 			else {
-				Assert.assertFalse(validator.validate(EntityNames.COHORT, Collections.singleton(id)));
+				Assert.assertFalse(validator.validate(EntityNames.COHORT, Collections.singleton(id)).size() == 1);
 			}
 		}
 	}
@@ -148,7 +150,7 @@ public class GenericToCohortValidatorTest {
         Entity cohort = helper.generateCohort(lea.getEntityId());
         cohortIds.add(cohort.getEntityId());
         helper.generateStaffCohort(helper.STAFF_ID, cohort.getEntityId(), false, false);
-        assertFalse(validator.validate(EntityNames.COHORT, cohortIds));
+        assertFalse(validator.validate(EntityNames.COHORT, cohortIds).size() == cohortIds.size());
     }
 
 }

@@ -21,11 +21,13 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
@@ -78,6 +80,8 @@ public class TeacherToGradeValidatorTest {
         grade1 = helper.generateGrade(studentSectionAssociation1.getEntityId());
         grade2 = helper.generateGrade(studentSectionAssociation2.getEntityId());
         grade3 = helper.generateGrade(studentSectionAssociation3.getEntityId());
+
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.TEACHER_CONTEXT);
     }
     
     @After
@@ -94,14 +98,22 @@ public class TeacherToGradeValidatorTest {
         
     @Test
     public void testValidGrades() {
-        assertTrue(validator.validate(EntityNames.GRADE, new HashSet<String>(Arrays.asList(grade1.getEntityId()))));
-        assertTrue(validator.validate(EntityNames.GRADE, new HashSet<String>(Arrays.asList(grade2.getEntityId()))));
-        assertTrue(validator.validate(EntityNames.GRADE, new HashSet<String>(Arrays.asList(grade1.getEntityId(), grade2.getEntityId()))));
+        Set<String> ids = new HashSet<String>(Arrays.asList(grade1.getEntityId()));
+        assertTrue(validator.validate(EntityNames.GRADE, ids).equals(ids));
+
+        ids = new HashSet<String>(Arrays.asList(grade2.getEntityId()));
+        assertTrue(validator.validate(EntityNames.GRADE, ids).equals(ids));
+
+        ids = new HashSet<String>(Arrays.asList(grade1.getEntityId(), grade2.getEntityId()));
+        assertTrue(validator.validate(EntityNames.GRADE, ids).equals(ids));
     }
     
     @Test
     public void testInvalidGrades() {
-        assertFalse(validator.validate(EntityNames.GRADE, new HashSet<String>(Arrays.asList(grade3.getEntityId()))));
-        assertFalse(validator.validate(EntityNames.GRADE, new HashSet<String>(Arrays.asList(grade1.getEntityId(), grade3.getEntityId()))));
+        Set<String> ids = new HashSet<String>(Arrays.asList(grade3.getEntityId()));
+        assertFalse(validator.validate(EntityNames.GRADE, ids).equals(ids));
+
+        ids = new HashSet<String>(Arrays.asList(grade1.getEntityId(), grade3.getEntityId()));
+        assertFalse(validator.validate(EntityNames.GRADE, ids).equals(ids));
     }
 }

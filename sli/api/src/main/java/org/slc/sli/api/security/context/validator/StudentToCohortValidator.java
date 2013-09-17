@@ -40,7 +40,7 @@ public class StudentToCohortValidator extends BasicValidator {
     }
 
     @Override
-    protected boolean doValidate(Set<String> ids, String entityType) {
+    protected Set<String> doValidate(Set<String> ids, String entityType) {
 
 
         Set<String> myCohorts = new HashSet<String>();
@@ -62,7 +62,8 @@ public class StudentToCohortValidator extends BasicValidator {
 
         }
 
-        return myCohorts.containsAll(ids);
+        myCohorts.retainAll(ids);
+        return myCohorts;
     }
 
 }

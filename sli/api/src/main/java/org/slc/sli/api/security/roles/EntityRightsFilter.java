@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
@@ -55,10 +56,11 @@ public class EntityRightsFilter {
      *            EntityDefinition needed to create the entity
      * @return the result entity body
      */
-    public EntityBody makeEntityBody(Entity entity, List<Treatment> treamts, EntityDefinition defn, boolean isSelf, Collection<GrantedAuthority> nonSelfAuths) {
+    public EntityBody makeEntityBody(Entity entity, List<Treatment> treamts, EntityDefinition defn, boolean isSelf,
+                                     Collection<GrantedAuthority> nonSelfAuths, SecurityUtil.UserContext context) {
         Collection<GrantedAuthority> selfAuths;
-        if(isSelf) {
-            selfAuths = rightAccessValidator.getContextualAuthorities(isSelf, entity, true);
+        if (isSelf) {
+            selfAuths = rightAccessValidator.getContextualAuthorities(isSelf, entity, context, true);
         } else {
             selfAuths = nonSelfAuths;
         }

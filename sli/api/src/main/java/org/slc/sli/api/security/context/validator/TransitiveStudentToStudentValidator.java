@@ -16,12 +16,7 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -47,15 +42,15 @@ public class TransitiveStudentToStudentValidator extends BasicValidator {
     }
 
     @Override
-    protected boolean doValidate(Set<String> ids, String entityType) {
+    protected Set<String> doValidate(Set<String> ids, String entityType) {
         if (!areParametersValid(EntityNames.STUDENT, entityType, ids)) {
-            return false;
+            return Collections.emptySet();
         }
         
         Set<String> myCopyOfIds = new HashSet<String>(ids);
         myCopyOfIds.removeAll(SecurityUtil.getSLIPrincipal().getOwnedStudentIds());
         if (myCopyOfIds.size() == 0) {
-            return true;
+            return ids;
         }
 
         Iterable<Entity> ownedStudents = SecurityUtil.getSLIPrincipal().getOwnedStudentEntities();
@@ -84,7 +79,7 @@ public class TransitiveStudentToStudentValidator extends BasicValidator {
                 }
             }
             if (myCopyOfIds.size() == 0) {
-                return true;
+                return ids;
             }
 
             // program and cohorts
@@ -97,11 +92,12 @@ public class TransitiveStudentToStudentValidator extends BasicValidator {
             }
 
             if (myCopyOfIds.size() == 0) {
-                return true;
+                return ids;
             }
         }
-
-        return false;
+        Set<String> validIds  = new HashSet<String>(ids);
+        validIds.removeAll(myCopyOfIds);
+        return validIds;
     }
 
     private void removeValidIds(Set<String> ids, Entity authenticatedStudent, Entity student, String subdocType, String refField) {

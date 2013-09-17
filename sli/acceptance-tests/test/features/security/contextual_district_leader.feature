@@ -106,8 +106,8 @@ Then I should receive a return code of 403
         | collectionName  | expectedRecordCount | searchParameter         | searchValue                                            | searchType |
         | securityEvent   | 1                   | body.tenantId           | Hyrule                                                 | string     |
         | securityEvent   | 1                   | body.appId              | ke9Dgpo3uI                                             | string     |
-        | securityEvent   | 1                   | body.className          | org.slc.sli.api.security.roles.RightAccessValidator    | string     |
+        | securityEvent   | 1                   | body.className          | org.slc.sli.api.service.BasicService                   | string     |
         | securityEvent   | 1                   | body.userEdOrg          | NY-STATE-NYC                                           | string     |
         | securityEvent   | 1                   | body.targetEdOrgList    | 1000000122                                             | string     |
      And "1" security event with field "body.actionUri" matching "http.*/api/rest/v.*/schools/.*/teacherSchoolAssociations/teachers" should be in the sli db
-     And "1" security event matching "Access Denied:Insufficient Privileges" should be in the sli db
+     And "1" security event matching "Access Denied:Access to resource denied." should be in the sli db

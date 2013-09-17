@@ -3,6 +3,7 @@ package org.slc.sli.api.security.context.validator;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import junit.framework.Assert;
 
@@ -81,29 +82,39 @@ public class GenericToProgramValidatorTest {
     @Test
     public void testValidAccessTeacher1() {
         setupCurrentUser(teacher1);
-        Assert.assertTrue(validator.validate(EntityNames.PROGRAM, new HashSet<String>(Arrays.asList(program1.getEntityId()))));
+        Assert.assertTrue(validator.validate(EntityNames.PROGRAM, new HashSet<String>(Arrays.asList(program1.getEntityId()))).size() == 1);
     }
     
     @Test
     public void testValidAccessTeacher2() {
         setupCurrentUser(teacher2);
-        Assert.assertTrue(validator.validate(EntityNames.PROGRAM, new HashSet<String>(Arrays.asList(program2.getEntityId()))));
+        Assert.assertTrue(validator.validate(EntityNames.PROGRAM, new HashSet<String>(Arrays.asList(program2.getEntityId()))).size() == 1);
     }
     
     @Test
     public void testInvalidAccessTeacher1() {
         setupCurrentUser(teacher1);
-        Assert.assertFalse(validator.validate(EntityNames.PROGRAM, new HashSet<String>(Arrays.asList(program2.getEntityId()))));
-        Assert.assertFalse(validator.validate(EntityNames.PROGRAM, new HashSet<String>(Arrays.asList(program3.getEntityId()))));
-        Assert.assertFalse(validator.validate(EntityNames.PROGRAM, new HashSet<String>(Arrays.asList(program4.getEntityId()))));
+        Set<String> program = new HashSet<String>(Arrays.asList(program2.getEntityId()));
+        Assert.assertFalse(validator.validate(EntityNames.PROGRAM, program).equals(program));
+
+        program = new HashSet<String>(Arrays.asList(program3.getEntityId()));
+        Assert.assertFalse(validator.validate(EntityNames.PROGRAM, program).equals(program));
+
+        program =  new HashSet<String>(Arrays.asList(program4.getEntityId()));
+        Assert.assertFalse(validator.validate(EntityNames.PROGRAM, program).equals(program));
     }
     
     @Test
     public void testInvalidAccessTeacher2() {
         setupCurrentUser(teacher2);
-        Assert.assertFalse(validator.validate(EntityNames.PROGRAM, new HashSet<String>(Arrays.asList(program1.getEntityId()))));
-        Assert.assertFalse(validator.validate(EntityNames.PROGRAM, new HashSet<String>(Arrays.asList(program3.getEntityId()))));
-        Assert.assertFalse(validator.validate(EntityNames.PROGRAM, new HashSet<String>(Arrays.asList(program4.getEntityId()))));
+        Set<String> program = new HashSet<String>(Arrays.asList(program1.getEntityId()));
+        Assert.assertFalse(validator.validate(EntityNames.PROGRAM, program).equals(program));
+
+        program = new HashSet<String>(Arrays.asList(program3.getEntityId()));
+        Assert.assertFalse(validator.validate(EntityNames.PROGRAM, program).equals(program));
+
+        program = new HashSet<String>(Arrays.asList(program4.getEntityId()));
+        Assert.assertFalse(validator.validate(EntityNames.PROGRAM, program).equals(program));
     }
 
 }

@@ -80,8 +80,9 @@ public class Launcher {
             	LOG.info("isDelta=true ... deltaExtractor.execute()");
                 deltaExtractor.execute(tenant, startTime, baseDirectory);
             } else {
+            	String sea = statePublicDataExtractor.retrieveSEAId();
             	LOG.info("isDelta=false ... localEdOrgExtractor.execute()");
-                localEdOrgExtractor.execute(tenant, getTenantDirectory(tenant), startTime);
+                localEdOrgExtractor.execute(tenant, getTenantDirectory(tenant), startTime, sea);
                 LOG.info("Starting public data extract...");
                 statePublicDataExtractor.execute(tenant, getTenantDirectory(tenant), startTime);
             }
