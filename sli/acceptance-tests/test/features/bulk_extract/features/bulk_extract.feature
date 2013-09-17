@@ -4,7 +4,7 @@ Feature: A bulk extract is triggered
 Scenario: Trigger a bulk extract on ingested data
    Given I trigger a bulk extract
    When I fetch the path to and decrypt the LEA data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4" and edorg with id "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
-   And I verify that an extract tar file was created for the tenant "Midgar" 
+   And I verify that an extract tar file was created for the tenant "Midgar"
    And there is a metadata file in the extract
    And the extract contains a file for each of the following entities:
    |  entityType                            |
@@ -25,7 +25,7 @@ Scenario: Trigger a bulk extract on ingested data
    |  school                                |
    |  section                               |
    |  session                               |
-   |  staff                                 |   
+   |  staff                                 |
    |  staffCohortAssociation                |
    |  staffEducationOrganizationAssociation |
    |  staffProgramAssociation               |
@@ -34,7 +34,7 @@ Scenario: Trigger a bulk extract on ingested data
    |  studentAssessment                     |
    |  studentCohortAssociation              |
    |  studentCompetency                     |
-   |  studentDisciplineIncidentAssociation  |   
+   |  studentDisciplineIncidentAssociation  |
    |  studentProgramAssociation             |
    |  studentGradebookEntry                 |
    |  studentParentAssociation              |

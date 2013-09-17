@@ -1,0 +1,12 @@
+
+Feature: After Small Sample DS is ingested and BE is run, I want to ensure that extracts are created for all edOrgs(Not only LEA/SEA).
+
+  Background: Validate that BE are created to all edOrgs
+	Given I am using local data store
+
+  Scenario: Validate that BEs are created for all edOrgs
+    And I fetch the path to and decrypt the LEA data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4" and edorg with id "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id"
+    And I verify that an extract tar file was created for the tenant "Midgar"
+    And there is a metadata file in the extract
+    When I check that the student extract for "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id" has the correct number of records
+    When I check that the attendance extract for "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id" has the correct number of records
