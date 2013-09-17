@@ -495,7 +495,7 @@ public class BulkExtractTest {
         injector.setEducatorContext();
         // No BE Field
         Mockito.when(mockValidator.validate(eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.any(Set.class)))
-                .thenReturn(false);
+                .thenReturn(Collections.EMPTY_SET);
         bulkExtract.getEdOrgExtract(CONTEXT, req, "BLEEP");
     }
 
