@@ -221,6 +221,14 @@ When(/^I create a Cohort "([^"]*)" for "([^"]*)" and associate "([^"]*)" and "([
     assert(@res.code == 201, 'Could not creat studentCohortAssociations!')
 end
 
+When(/^I add a parent reference for "([^"]*)" to "([^"]*)"$/) do |edOrgToBeModified, newParent|
+  edOrgBody = $createdEntities[edOrgToBeModified]
+  edOrgBody['parentEducationAgencyReference'].push($createdEntities[newParent]['id'])
+  restHttpPut("/v1/educationOrganizations/#{edOrgBody['id']}", edOrgBody.to_json, 'application/vnd.slc+json')
+  assert(@res.code == 204, 'Could not modify edorg!')
+  #assert(body['parentEducationAgencyReference'].include?($createdEntities[newParent]['id']), 'PUT request response does not have addition parent reference!')
+end
+
 When(/^I try to update "([^"]*)" name to "([^"]*)"$/) do |studentName, newName|
   studentName = $createdEntities[studentName]
   studentName['name']['firstName'] = newName
