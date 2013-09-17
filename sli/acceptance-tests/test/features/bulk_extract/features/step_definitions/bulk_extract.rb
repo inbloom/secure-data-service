@@ -533,6 +533,110 @@ When /^the correct number of "([^"]*?)" "([^"]*?)" was extracted from the databa
   enable_NOTABLESCAN()
 end
 
+$schoolSessions= {}
+When /I check that the session extract for "(.*?)" has the correct number of records/ do |edOrgId|
+  disable_NOTABLESCAN()
+  @tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
+  query     = <<-jsonDelimiter
+  [
+  {"$project":{"body.schoolId":1}}
+  ,{"$group":{"_id":"$body.schoolId", "sessions":{"$addToSet":"$_id"}}}
+  ]
+  jsonDelimiter
+  puts(query)
+  query  = JSON.parse(query)
+  result = @tenantDb.collection('session').aggregate(query)
+  result.each{ |schoolIdToSessions|
+    schoolId = schoolIdToSessions['_id']
+    puts schoolId
+    sessions = schoolIdToSessions['sessions']
+    puts sessions
+    $schoolSessions[schoolId] = sessions
+  }
+
+  sessionZipFile  = @unpackDir + '/session.json.gz'
+  sessionJsnFile  = @unpackDir + '/session.json'
+  Minitar.unpack(@filePath, @unpackDir)
+  assert(File.exists?(sessionZipFile), "Cannot find #{sessionZipFile} file ")
+  `gunzip #{sessionZipFile}`
+  json = JSON.parse(File.read(sessionJsnFile))
+
+  comment = "Expected session extract for #{edOrgId} to have #{$schoolSessions[edOrgId].size}. Found #{json.size}"
+  assert(json.size == $schoolSessions[edOrgId].size, comment)
+  puts (comment)
+  enable_NOTABLESCAN()
+end
+
+$schoolSections = {}
+When /I check that the section extract for "(.*?)" has the correct number of records/ do |edOrgId|
+  disable_NOTABLESCAN()
+  @tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
+  query     = <<-jsonDelimiter
+  [
+  {"$project":{"body.schoolId":1}}
+  ,{"$group":{"_id":"$body.schoolId", "sections":{"$addToSet":"$_id"}}}
+  ]
+  jsonDelimiter
+  puts(query)
+  query  = JSON.parse(query)
+  result = @tenantDb.collection('section').aggregate(query)
+  result.each{ |schoolIdToSections|
+    schoolId = schoolIdToSections['_id']
+    puts schoolId
+    sections = schoolIdToSections['sections']
+    puts sections
+    $schoolSections[schoolId] = sections
+  }
+
+  sectionZipFile  = @unpackDir + '/section.json.gz'
+  sectionJsnFile  = @unpackDir + '/section.json'
+  Minitar.unpack(@filePath, @unpackDir)
+  assert(File.exists?(sectionZipFile), "Cannot find #{sectionZipFile} file ")
+  `gunzip #{sectionZipFile}`
+  json = JSON.parse(File.read(sectionJsnFile))
+
+  comment = "Expected section extract for #{edOrgId} to have #{$schoolSections[edOrgId].size}. Found #{json.size}"
+  assert(json.size == $schoolSections[edOrgId].size, comment)
+  puts (comment)
+  enable_NOTABLESCAN()
+end
+
+$schoolParents = {}
+When /I check that the parent extract for "(.*?)" has the correct number of records/ do |edOrgId|
+  disable_NOTABLESCAN()
+  @tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
+  query     = <<-jsonDelimiter
+  [
+  {"$project":{"schools":1,"studentParentAssociation":1}}
+  ,{"$unwind":"$schools"},{"$unwind":"$studentParentAssociation"}
+  ,{"$match":{ "$or":[     {"schools.exitWithdrawDate":{"$exists":true, "$gt": "#{DateTime.now.strftime('%Y-%m-%d')}"}} ,{"schools.exitWithdrawDate":{"$exists":false}}    ]}}
+  ,{"$project":{"schools._id":1, "studentParentAssociation.body.parentId":1}}
+  ,{"$group":{"_id":"$schools._id", "parents":{"$addToSet":"$studentParentAssociation.body.parentId"}}}
+  ]
+  jsonDelimiter
+  puts(query)
+  query  = JSON.parse(query)
+  result = @tenantDb.collection('student').aggregate(query)
+  puts result
+  result.each{ |schoolIdToParents|
+    schoolId = schoolIdToParents['_id']
+    parents = schoolIdToParents['parents']
+    $schoolParents[schoolId] = parents
+  }
+
+  parentZipFile  = @unpackDir + '/parent.json.gz'
+  parentJsnFile  = @unpackDir + '/parent.json'
+  Minitar.unpack(@filePath, @unpackDir)
+  assert(File.exists?(parentZipFile), "Cannot find #{parentZipFile} file ")
+  `gunzip #{parentZipFile}`
+  json = JSON.parse(File.read(parentJsnFile))
+
+  comment = "Expected parent extract for #{edOrgId} to have #{$schoolParents[edOrgId].size}. Found #{json.size}"
+  assert(json.size == $schoolParents[edOrgId].size, comment)
+  puts (comment)
+  enable_NOTABLESCAN()
+end
+
 $schoolStudents = {}
 When /I check that the student extract for "(.*?)" has the correct number of records/ do |edOrgId|
   disable_NOTABLESCAN()
