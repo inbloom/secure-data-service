@@ -243,7 +243,7 @@ public class LocalEdOrgExtractorTest {
         Mockito.when(repo.findAll(Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.eq(baseQuery3))).thenReturn(new ArrayList<Entity>());
         Mockito.when(repo.findAll(Mockito.eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.eq(childQuery))).thenReturn(new ArrayList<Entity>());
 
-    	extractor.execute("Midgar", tenantDir, new DateTime());
+    	extractor.execute("Midgar", tenantDir, new DateTime(), "sea");
         Mockito.verify(entityExtractor, Mockito.times(3)).extractEntities(Mockito.any(ExtractFile.class), Mockito.eq(EntityNames.EDUCATION_ORGANIZATION));
         Mockito.verify(entityExtractor, Mockito.times(3)).setExtractionQuery(Mockito.any(NeutralQuery.class));
 
@@ -254,7 +254,7 @@ public class LocalEdOrgExtractorTest {
     public void testExecuteAgain() {
         File tenantDir = Mockito.mock(File.class);
         DateTime time = new DateTime();
-        extractor.execute("Midgar", tenantDir, time);
+        extractor.execute("Midgar", tenantDir, time, "sea");
         Mockito.verify(mockFactory, Mockito.times(1)).buildEdorgExtractor(entityExtractor, mockExtractMap, helper);
         Mockito.verify(mockExtractMap, Mockito.times(1)).archiveFiles();
         Mockito.verify(mockExtractMap, Mockito.times(1)).buildManifestFiles(time);
@@ -316,13 +316,13 @@ public class LocalEdOrgExtractorTest {
         Mockito.when(mockFactory.buildLEAExtractFile(Mockito.eq(tenantPath), Mockito.eq(leaFour),
                 Mockito.any(String.class), Mockito.eq(appPublicKeys), Mockito.any(SecurityEventUtil.class))).thenReturn(extractFile4);
 
-        Mockito.when(helper.getBulkExtractEdOrgs()).thenReturn(new HashSet<String>(Arrays.asList(leaOne, leaTwo, leaThree, leaFour)));
+        Mockito.when(helper.getBulkExtractEdOrgs("sea")).thenReturn(new HashSet<String>(Arrays.asList(leaOne, leaTwo, leaThree, leaFour)));
         Mockito.when(helper.getChildEdOrgs(Mockito.eq(Arrays.asList(leaOne)))).thenReturn(new HashSet<String>());
         Mockito.when(helper.getChildEdOrgs(Mockito.eq(Arrays.asList(leaTwo)))).thenReturn(new HashSet<String>(Arrays.asList(leaThree, leaFour)));
 
-        extractor.execute("Midgar", tenantDir, time);
+        extractor.execute("Midgar", tenantDir, time, "sea");
 
-        Mockito.verify(helper, Mockito.times(3)).getBulkExtractEdOrgs();
+        Mockito.verify(helper, Mockito.times(3)).getBulkExtractEdOrgs("sea");
         Mockito.verify(helper, Mockito.times(4)).getChildEdOrgs(Mockito.any(List.class));
         Mockito.verify(mockMongo, Mockito.times(6)).updateDBRecord(Mockito.eq("Midgar"), Mockito.any(String.class), Mockito.any(String.class),
                 Mockito.any(Date.class), Mockito.eq(false), Mockito.any(String.class), Mockito.eq(false));

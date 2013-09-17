@@ -72,7 +72,7 @@ public class LocalEdOrgExtractor {
      * @param tenant
      *            name of tenant to extract
      */
-    public void execute(String tenant, File tenantDirectory, DateTime startTime) {
+    public void execute(String tenant, File tenantDirectory, DateTime startTime, String sea) {
 
         // 1. SETUP
         TenantContext.setTenantId(tenant);
@@ -85,10 +85,10 @@ public class LocalEdOrgExtractor {
             factory = new LEAExtractorFactory();
         }
         if (leaToExtractFileMap == null) {
-            leaToExtractFileMap = new LEAExtractFileMap(buildLEAToExtractFile());
+            leaToExtractFileMap = new LEAExtractFileMap(buildLEAToExtractFile(sea));
         }
         // 2. EXTRACT
-        EntityToLeaCache edorgCache = buildEdOrgCache();
+        EntityToLeaCache edorgCache = buildEdOrgCache(sea);
 
         EdorgExtractor edorg = factory.buildEdorgExtractor(entityExtractor, leaToExtractFileMap, helper);
         edorg.extractEntities(edorgCache);
@@ -180,14 +180,14 @@ public class LocalEdOrgExtractor {
         leaToExtractFileMap.archiveFiles();
 
         // 3. ARCHIVE
-        updateBulkExtractDb(tenant, startTime);
+        updateBulkExtractDb(tenant, startTime, sea);
         LOG.info("Finished LEA based extract in: {} seconds",
                 (new DateTime().getMillis() - this.startTime.getMillis()) / 1000);
         audit(securityEventUtil.createSecurityEvent(this.getClass().getName(), "Marks the end of LEA level extract", LogLevelType.TYPE_INFO, BEMessageCode.BE_SE_CODE_0009));
     }
 
-    private void updateBulkExtractDb(String tenant, DateTime startTime) {
-        for (String lea : helper.getBulkExtractEdOrgs()) {
+    private void updateBulkExtractDb(String tenant, DateTime startTime, String sea) {
+        for (String lea : helper.getBulkExtractEdOrgs(sea)) {
             // update db to point to new archive
             for (Entry<String, File> archiveFile : leaToExtractFileMap.getExtractFileForLea(lea).getArchiveFiles()
                     .entrySet()) {
@@ -197,11 +197,11 @@ public class LocalEdOrgExtractor {
         }
     }
 
-    private Map<String, ExtractFile> buildLEAToExtractFile() {
+    private Map<String, ExtractFile> buildLEAToExtractFile(String sea) {
         Map<String, ExtractFile> edOrgToLEAExtract = new HashMap<String, ExtractFile>();
 
         Map<String, PublicKey> appPublicKeys = bulkExtractMongoDA.getAppPublicKeys();
-        for (String lea : helper.getBulkExtractEdOrgs()) {
+        for (String lea : helper.getBulkExtractEdOrgs(sea)) {
             ExtractFile file = factory.buildLEAExtractFile(tenantDirectory.getAbsolutePath(), lea,
                     getArchiveName(lea, startTime.toDate()), appPublicKeys, securityEventUtil);
             edOrgToLEAExtract.put(lea, file);
@@ -215,9 +215,9 @@ public class LocalEdOrgExtractor {
      *
      * @return a map that has the lea to the set of all it's child edorgs
      */
-    private EntityToLeaCache buildEdOrgCache() {
+    private EntityToLeaCache buildEdOrgCache(String sea) {
         EntityToLeaCache cache = new EntityToLeaCache();
-        for (String lea : helper.getBulkExtractEdOrgs()) {
+        for (String lea : helper.getBulkExtractEdOrgs(sea)) {
             Set<String> children = helper.getChildEdOrgs(Arrays.asList(lea));
             children.add(lea);
             for (String child : children) {
