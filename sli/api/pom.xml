@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.slc.sli</groupId>
 		<artifactId>sli</artifactId>
-		<version>1.10.85.82</version>
+		<version>1.10.85.118</version>
 	</parent>
 	<artifactId>api</artifactId>
 	<packaging>war</packaging>
