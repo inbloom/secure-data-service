@@ -16,13 +16,7 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -146,7 +140,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
      * @return True if user is of type 'staff', false otherwise.
      */
     protected boolean isStaff() {
-        return EntityNames.STAFF.equals(SecurityUtil.getSLIPrincipal().getEntity().getType());
+        return SecurityUtil.getUserContext() == SecurityUtil.UserContext.STAFF_CONTEXT || SecurityUtil.getUserContext() == SecurityUtil.UserContext.DUAL_CONTEXT;
     }
 
     /**
@@ -155,7 +149,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
      * @return True if user is of type 'teacher', false otherwise.
      */
     protected boolean isTeacher() {
-        return EntityNames.TEACHER.equals(SecurityUtil.getSLIPrincipal().getEntity().getType());
+        return SecurityUtil.getUserContext() == SecurityUtil.UserContext.TEACHER_CONTEXT || SecurityUtil.getUserContext() == SecurityUtil.UserContext.DUAL_CONTEXT;
     }
 
     /**
@@ -256,7 +250,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
     /**
      * Performs a query for entities of type 'type' with _id contained in the List of 'ids'.
      * Iterates through result and peels off String value contained in body.<<field>>. Returns
-     * unique set of values that were stored in body.<<field>>.
+     * map of values that were stored in body.<<field>> to the entity id
      *
      * @param type
      *            Entity type to query for.
@@ -264,10 +258,10 @@ public abstract class AbstractContextValidator implements IContextValidator {
      *            List of _ids of entities to query.
      * @param field
      *            Field (contained in body) to peel off of entities.
-     * @return List of Strings representing unique Set of values stored in entities' body.<<field>>.
+     * @return Map of values stored in entities  body.<<field>> to the entity id.
      */
-    protected List<String> getIdsContainedInFieldOnEntities(String type, List<String> ids, String field) {
-        Set<String> matching = new HashSet<String>();
+    protected Map<String, Set<String>> getIdsContainedInFieldOnEntities(String type, List<String> ids, String field) {
+        Map<String, Set<String>> matching = new HashMap<String, Set<String>>();
 
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN,
                 ids));
@@ -276,12 +270,16 @@ public abstract class AbstractContextValidator implements IContextValidator {
             for (Entity entity : entities) {
                 Map<String, Object> body = entity.getBody();
                 if (body.containsKey(field)) {
-                    matching.add((String) body.get(field));
+                    String value = (String) body.get(field);
+                    if (!matching.containsKey(value)) {
+                        matching.put(value, new HashSet<String>());
+                    }
+                    matching.get(value).add(entity.getEntityId());
                 }
             }
         }
 
-        return new ArrayList<String>(matching);
+        return matching;
     }
 
     protected void setRepo(PagingRepositoryDelegate<Entity> repo) {
@@ -349,15 +347,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
     @Override
     public Set<String> getValid(String entityType, Set<String> ids) {
         // Default "fallback" implementation where ids are validated one by one
-        Set<String> validated = new HashSet<String>();
-        Set<String> tmp = new HashSet<String>();
-        for (String id : ids) {
-            tmp.add(id);
-            if (validate(entityType, tmp)) {
-                validated.add(id);
-            }
-            tmp.clear();
-        }
+        Set<String> validated = validate(entityType, ids);
         return validated;
     }
 
@@ -368,4 +358,21 @@ public abstract class AbstractContextValidator implements IContextValidator {
     protected void setDateHelper(DateHelper dateHelper) {
         this.dateHelper = dateHelper;
     }
+
+    protected Set<String> getValidIds(Set<String> ids, Map<String, Set<String>> validIdMap) {
+        Set<String> valid = new HashSet<String>();
+        for (String id : ids) {
+            Set<String> validIds = validIdMap.get(id);
+            if(validIds != null) {
+                valid.addAll(validIds);
+            }
+        }
+        return valid;
+    }
+
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.NO_CONTEXT;
+    }
+
 }

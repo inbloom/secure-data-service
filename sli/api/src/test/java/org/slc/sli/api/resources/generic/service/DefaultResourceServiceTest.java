@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.common.constants.EntityNames;
@@ -76,6 +77,8 @@ public class DefaultResourceServiceTest {
 
     private Resource resource = null;
     private URI requestURI;
+
+    private String studentUniqueStateId = "1234";
 
     private static final String URI = "http://some.net/api/generic/v1/students";
     private Resource ssaResource = null;
@@ -128,7 +131,7 @@ public class DefaultResourceServiceTest {
         assertNotNull("Should return an entity", entities);
         assertEquals("Should match", 1, entities.size());
         assertEquals("Should match", 1, response.getEntityCount());
-        assertEquals("studentUniqueStateId should be 1234", entities.get(0).get("studentUniqueStateId"), 1234);
+        assertEquals("studentUniqueStateId should be " + studentUniqueStateId, entities.get(0).get("studentUniqueStateId"), studentUniqueStateId);
         assertEquals("sex should be Female", entities.get(0).get("sex"), "Female");
     }
 
@@ -150,7 +153,7 @@ public class DefaultResourceServiceTest {
         assertNotNull("Should return an entity", entities);
         assertEquals("Should match", 1, entities.size());
         assertEquals("Should match", 1, response.getEntityCount());
-        assertEquals("studentUniqueStateId should be 1234", entities.get(0).get("studentUniqueStateId"), 1234);
+        assertEquals("studentUniqueStateId should be " + studentUniqueStateId, entities.get(0).get("studentUniqueStateId"), studentUniqueStateId);
         assertEquals("sex should be Female", entities.get(0).get("sex"), "Female");
     }
 
@@ -168,7 +171,7 @@ public class DefaultResourceServiceTest {
 
         EntityBody body1 = entities.get(0);
         assertNotNull("Should not be null", body1);
-        assertEquals("studentUniqueStateId should be 1234", body1.get("studentUniqueStateId"), 1234);
+        assertEquals("studentUniqueStateId should be " + studentUniqueStateId, body1.get("studentUniqueStateId"), studentUniqueStateId);
 
         EntityBody body2 = entities.get(1);
         assertNotNull("Should not be null", body2);
@@ -256,7 +259,7 @@ public class DefaultResourceServiceTest {
     private Map<String, Object> createTestEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("sex", "Male");
-        entity.put("studentUniqueStateId", 1234);
+        entity.put("studentUniqueStateId", studentUniqueStateId);
         return entity;
     }
 
@@ -268,14 +271,14 @@ public class DefaultResourceServiceTest {
     }
     private Map<String, Object> createTestSectionEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
-        entity.put("sectionUniqueId", 1234);
+        entity.put("sectionUniqueId", studentUniqueStateId);
         return entity;
     }
 
     private Map<String, Object> createTestUpdateEntity() {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("sex", "Female");
-        entity.put("studentUniqueStateId", 1234);
+        entity.put("studentUniqueStateId", studentUniqueStateId);
         return entity;
     }
 

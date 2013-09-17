@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Collections;
 
 @Component
 public class TransitiveParentToParentValidator extends AbstractContextValidator{
@@ -18,23 +19,24 @@ public class TransitiveParentToParentValidator extends AbstractContextValidator{
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.PARENT, entityType, ids)) {
-            return false;
+            return Collections.emptySet();
         }
 
         Set<Entity> students = SecurityUtil.getSLIPrincipal().getOwnedStudentEntities();
-        Set<String> requestedIds = new HashSet<String>(ids);
+        Set<String> validIds = new HashSet<String>();
 
         for ( Entity student : students) {
             List<Entity> spas = student.getEmbeddedData().get(EntityNames.STUDENT_PARENT_ASSOCIATION);
             if (null != spas) {
                 for (Entity spa : spas) {
-                    requestedIds.remove(spa.getBody().get(ParameterConstants.PARENT_ID));
+                    validIds.add(spa.getBody().get(ParameterConstants.PARENT_ID).toString());
                 }
             }
         }
 
-        return requestedIds.isEmpty();
+        validIds.retainAll(ids);
+        return validIds;
     }
 }

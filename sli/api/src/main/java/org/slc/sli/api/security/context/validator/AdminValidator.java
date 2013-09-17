@@ -17,6 +17,7 @@
 package org.slc.sli.api.security.context.validator;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.stereotype.Component;
@@ -36,13 +37,17 @@ public class AdminValidator implements IContextValidator {
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         /*
          * Same logic for validation should be used as canValidate. The AdminValidator is
          * being invoked when it shouldn't be, and this has been done to limit where this
          * validator is invoked.
          */
-        return canValidate(entityType, false);
+        Set<String> result = new HashSet<String>();
+        if (canValidate(entityType, false)) {
+            result = ids;
+        }
+        return result;
     }
 
     //TODO: implement it
@@ -53,5 +58,10 @@ public class AdminValidator implements IContextValidator {
          }
          
          return Collections.emptySet();
+    }
+
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.NO_CONTEXT;
     }
 }

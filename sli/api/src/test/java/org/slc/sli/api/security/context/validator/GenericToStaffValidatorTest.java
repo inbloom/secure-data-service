@@ -3,10 +3,7 @@ package org.slc.sli.api.security.context.validator;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -83,55 +80,62 @@ public class GenericToStaffValidatorTest {
     @Test
     public void testValidateTeacher() {
         setupTeacher();
-        assertTrue(validator.validate(EntityNames.STAFF, 
-                new HashSet<String>(Arrays.asList(teacher1.getEntityId()))));
+        Set<String> idsToValidate = new HashSet<String>(Arrays.asList(teacher1.getEntityId()));
+        assertTrue(validator.validate(EntityNames.STAFF, idsToValidate).containsAll(idsToValidate));
     }
     
     @Test
     public void testCannotValidateOtherStaff() {
         setupStaff();
-        assertFalse(validator.validate(EntityNames.STAFF, 
-                new HashSet<String>(Arrays.asList(staff2.getEntityId()))));
+        Set<String> idsToValidate = new HashSet<String>(Arrays.asList(staff2.getEntityId()));
+        assertFalse(validator.validate(EntityNames.STAFF, idsToValidate).containsAll(idsToValidate));
     }
     
     @Test
     public void testCannotValidateOtherTeacher() {
         setupTeacher();
-        assertFalse(validator.validate(EntityNames.STAFF, 
-                new HashSet<String>(Arrays.asList(teacher2.getEntityId()))));
+        Set<String> idsToValidate = new HashSet<String>(Arrays.asList(teacher2.getEntityId()));
+        assertFalse(validator.validate(EntityNames.STAFF, idsToValidate).containsAll(idsToValidate));
     }
     
     @Test
     public void testValidateStaff() {
         setupStaff();
-        assertTrue(validator.validate(EntityNames.STAFF, 
-                new HashSet<String>(Arrays.asList(staff1.getEntityId()))));
+        Set<String> idsToValidate = new HashSet<String>(Arrays.asList(staff1.getEntityId()));
+        assertTrue(validator.validate(EntityNames.STAFF, idsToValidate).containsAll(idsToValidate));
     }
     
     
     @Test
     public void testValidateEmpty() {
-        assertFalse(validator.validate(EntityNames.STAFF, 
-                new HashSet<String>()));
+        Set<String> idsToValidate = new HashSet<String>();
+        Assert.assertEquals(Collections.emptySet(), validator.validate(EntityNames.STAFF, idsToValidate));
     }
     
     @Test
     public void testSuccess() {
         setupTeacher();
-        Assert.assertTrue(validator.validate(EntityNames.TEACHER, Collections.singleton(teacher1.getEntityId())));
+        Set<String> idsToValidate = Collections.singleton(teacher1.getEntityId());
+        Assert.assertTrue(validator.validate(EntityNames.TEACHER, idsToValidate).containsAll(idsToValidate));
     }
 
     @Test
     public void testWrongId() {
         setupTeacher();
-        Assert.assertFalse(validator.validate(EntityNames.TEACHER, Collections.singleton("Hammerhands")));
-        Assert.assertFalse(validator.validate(EntityNames.TEACHER, Collections.singleton("Nagas")));
-        Assert.assertFalse(validator.validate(EntityNames.TEACHER, Collections.singleton("Phantom Warriors")));
+        Set<String> idsToValidate = Collections.singleton("Hammerhands");
+        Assert.assertFalse(validator.validate(EntityNames.TEACHER, idsToValidate).containsAll(idsToValidate));
+
+        idsToValidate = Collections.singleton("Nagas");
+        Assert.assertFalse(validator.validate(EntityNames.TEACHER, idsToValidate).containsAll(idsToValidate));
+
+        idsToValidate = Collections.singleton("Phantom Warriors");
+        Assert.assertFalse(validator.validate(EntityNames.TEACHER, idsToValidate).containsAll(idsToValidate));
     }
 
     @Test
     public void testMultipleIds() {
         setupTeacher();
-        Assert.assertFalse(validator.validate(EntityNames.TEACHER, new HashSet<String>(Arrays.asList(teacher1.getEntityId(), "Pikemen", "Pegasi"))));
+        Set<String> idsToValidate = new HashSet<String>(Arrays.asList(teacher1.getEntityId(), "Pikemen", "Pegasi"));
+        Assert.assertFalse(validator.validate(EntityNames.TEACHER, idsToValidate).containsAll(idsToValidate));
     }
 }

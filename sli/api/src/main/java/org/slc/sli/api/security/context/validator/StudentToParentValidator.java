@@ -16,6 +16,7 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import java.util.Collections;
 import java.util.Set;
 
 import org.springframework.stereotype.Component;
@@ -34,7 +35,7 @@ public class StudentToParentValidator extends AbstractContextValidator {
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
-        return false;   //  Would open potential for accessing siblings
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
+        return Collections.emptySet();   //  Would open potential for accessing siblings
     }
 }

@@ -26,6 +26,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
@@ -96,6 +97,7 @@ public class TeacherToDisciplineIncidentValidatorTest {
         helper.generateStudentDisciplineIncidentAssociation(student2, disciplineIncident3.getEntityId());
         helper.generateStudentDisciplineIncidentAssociation(student1, disciplineIncident4.getEntityId());
         helper.generateStudentDisciplineIncidentAssociation(student2, disciplineIncident4.getEntityId());
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.TEACHER_CONTEXT);
     }
     
     @After
@@ -112,16 +114,26 @@ public class TeacherToDisciplineIncidentValidatorTest {
         
     @Test
     public void testValidIncident() {
-        assertTrue(validator.validate(EntityNames.DISCIPLINE_INCIDENT, list(disciplineIncident1.getEntityId())));
-        assertTrue(validator.validate(EntityNames.DISCIPLINE_INCIDENT, list(disciplineIncident2.getEntityId())));
-        assertTrue(validator.validate(EntityNames.DISCIPLINE_INCIDENT, list(disciplineIncident1.getEntityId(), disciplineIncident2.getEntityId())));
-        assertTrue(validator.validate(EntityNames.DISCIPLINE_INCIDENT, list(disciplineIncident4.getEntityId())));
+        Set<String> ids = list(disciplineIncident1.getEntityId());
+        assertTrue(validator.validate(EntityNames.DISCIPLINE_INCIDENT, ids).equals(ids));
+
+        ids = list(disciplineIncident2.getEntityId());
+        assertTrue(validator.validate(EntityNames.DISCIPLINE_INCIDENT, ids).equals(ids));
+
+        ids = list(disciplineIncident1.getEntityId(), disciplineIncident2.getEntityId());
+        assertTrue(validator.validate(EntityNames.DISCIPLINE_INCIDENT, ids).equals(ids));
+
+        ids = list(disciplineIncident4.getEntityId());
+        assertTrue(validator.validate(EntityNames.DISCIPLINE_INCIDENT, ids).equals(ids));
     }
     
     @Test
     public void testInvalidIncident() {
-        assertFalse(validator.validate(EntityNames.DISCIPLINE_INCIDENT, list(disciplineIncident3.getEntityId())));
-        assertFalse(validator.validate(EntityNames.DISCIPLINE_INCIDENT, list(disciplineIncident3.getEntityId(), disciplineIncident1.getEntityId())));
+        Set<String> ids = list(disciplineIncident3.getEntityId());
+        assertFalse(validator.validate(EntityNames.DISCIPLINE_INCIDENT, ids).equals(ids));
+
+        ids = list(disciplineIncident3.getEntityId(), disciplineIncident1.getEntityId());
+        assertFalse(validator.validate(EntityNames.DISCIPLINE_INCIDENT, ids).equals(ids));
     }
     
     private Set<String> list(String ... elements ) {

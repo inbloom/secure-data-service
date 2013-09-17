@@ -22,6 +22,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -57,8 +58,11 @@ public class OptionalFieldAppenderHelper {
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.setLimit(0);
         neutralQuery.addCriteria(new NeutralCriteria(key, NeutralCriteria.CRITERIA_IN, values));
-
-        return (List<EntityBody>) entityDef.getService().list(neutralQuery);
+        if (SecurityUtil.isStaffUser()) {
+            return (List<EntityBody>) entityDef.getService().listBasedOnContextualRoles(neutralQuery);
+        } else {
+            return (List<EntityBody>) entityDef.getService().list(neutralQuery);
+        }
     }
 
     /**
@@ -70,7 +74,11 @@ public class OptionalFieldAppenderHelper {
 
         EntityDefinition entityDef = entityDefs.lookupByResourceName(resourceName);
 
-        return (List<EntityBody>) entityDef.getService().list(query);
+        if (SecurityUtil.isStaffUser()) {
+            return (List<EntityBody>) entityDef.getService().listBasedOnContextualRoles(query);
+        } else {
+            return (List<EntityBody>) entityDef.getService().list(query);
+        }
     }
 
     /**

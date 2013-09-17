@@ -26,9 +26,9 @@ public class GenericToCohortValidator extends AbstractContextValidator {
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.COHORT, entityType, ids)) {
-            return false;
+            return new HashSet<String>();
         }
 
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_ID, NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
@@ -46,7 +46,12 @@ public class GenericToCohortValidator extends AbstractContextValidator {
             }
         }
 
-        return myCohortIds.containsAll(ids);
+        myCohortIds.retainAll(ids);
+        return myCohortIds;
     }
 
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.DUAL_CONTEXT;
+    }
 }

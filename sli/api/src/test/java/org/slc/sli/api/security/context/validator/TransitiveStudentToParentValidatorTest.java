@@ -83,10 +83,16 @@ public class TransitiveStudentToParentValidatorTest {
 
     @Test
     public void testValidate() throws Exception {
-        Assert.assertFalse("Must NOT be able to access", val.validate(EntityNames.PARENT, new HashSet<String>(Arrays.asList("Jadwiga Jagellonska"))));
-        Assert.assertFalse("Must NOT be able to access", val.validate(EntityNames.PARENT, new HashSet<String>(Arrays.asList("Jan III Sobieski Piast"))));
+        Set<String> idsToValidate = new HashSet<String>(Arrays.asList("Jadwiga Jagellonska"));
+        Assert.assertFalse("Must NOT be able to access", val.validate(EntityNames.PARENT, idsToValidate).containsAll(idsToValidate));
 
-        Assert.assertTrue("Must be able to access", val.validate(EntityNames.PARENT, new HashSet<String>(Arrays.asList(PARENT1_ID))));
-        Assert.assertTrue("Must be able to access", val.validate(EntityNames.PARENT, new HashSet<String>(Arrays.asList(PARENT2_ID))));
+        idsToValidate = new HashSet<String>(Arrays.asList("Jan III Sobieski Piast"));
+        Assert.assertFalse("Must NOT be able to access", val.validate(EntityNames.PARENT, idsToValidate).containsAll(idsToValidate));
+
+        idsToValidate = new HashSet<String>(Arrays.asList(PARENT1_ID));
+        Assert.assertTrue("Must be able to access", val.validate(EntityNames.PARENT, idsToValidate).containsAll(idsToValidate));
+
+        idsToValidate = new HashSet<String>(Arrays.asList(PARENT2_ID));
+        Assert.assertTrue("Must be able to access", val.validate(EntityNames.PARENT, idsToValidate).containsAll(idsToValidate));
     }
 }

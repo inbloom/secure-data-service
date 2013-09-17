@@ -28,6 +28,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
@@ -112,6 +113,8 @@ public class StaffToGlobalSectionValidatorTest {
 
         educator2 = helper.generateTeacher();
         helper.generateTeacherSchool(educator2.getEntityId(), school2.getEntityId());
+
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.STAFF_CONTEXT);
     }
 
     @After
@@ -131,6 +134,7 @@ public class StaffToGlobalSectionValidatorTest {
     @Test
     public void testCanNotValidate() {
         setContext(educator2, Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR));
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.TEACHER_CONTEXT);
         assertFalse(validator.canValidate(EntityNames.SECTION, true));
         assertFalse(validator.canValidate(EntityNames.SECTION, false));
         assertFalse(validator.canValidate(EntityNames.ATTENDANCE, true));
@@ -143,7 +147,7 @@ public class StaffToGlobalSectionValidatorTest {
         Set<String> sectionIds = new HashSet<String>();
         sectionIds.add(section1.getEntityId());
         sectionIds.add(section2.getEntityId());
-        assertTrue(validator.validate(EntityNames.SECTION, sectionIds));
+        assertTrue(validator.validate(EntityNames.SECTION, sectionIds).equals(sectionIds));
     }
 
     @Test
@@ -151,7 +155,7 @@ public class StaffToGlobalSectionValidatorTest {
         setContext(lea1Staff, Arrays.asList(SecureRoleRightAccessImpl.LEA_ADMINISTRATOR));
         Set<String> sectionIds = new HashSet<String>();
         sectionIds.add(section1.getEntityId());
-        assertTrue(validator.validate(EntityNames.SECTION, sectionIds));
+        assertTrue(validator.validate(EntityNames.SECTION, sectionIds).equals(sectionIds));
     }
 
     @Test
@@ -159,7 +163,7 @@ public class StaffToGlobalSectionValidatorTest {
         setContext(lea2Staff, Arrays.asList(SecureRoleRightAccessImpl.LEA_ADMINISTRATOR));
         Set<String> sectionIds = new HashSet<String>();
         sectionIds.add(section1.getEntityId());
-        assertFalse(validator.validate(EntityNames.SECTION, sectionIds));
+        assertFalse(validator.validate(EntityNames.SECTION, sectionIds).equals(sectionIds));
     }
 
     @Test
@@ -167,7 +171,7 @@ public class StaffToGlobalSectionValidatorTest {
         setContext(school1Staff, Arrays.asList(SecureRoleRightAccessImpl.IT_ADMINISTRATOR));
         Set<String> sectionIds = new HashSet<String>();
         sectionIds.add(section1.getEntityId());
-        assertTrue(validator.validate(EntityNames.SECTION, sectionIds));
+        assertTrue(validator.validate(EntityNames.SECTION, sectionIds).equals(sectionIds));
     }
 
     @Test
@@ -175,7 +179,7 @@ public class StaffToGlobalSectionValidatorTest {
         setContext(school2Staff, Arrays.asList(SecureRoleRightAccessImpl.IT_ADMINISTRATOR));
         Set<String> sectionIds = new HashSet<String>();
         sectionIds.add(section1.getEntityId());
-        assertFalse(validator.validate(EntityNames.SECTION, sectionIds));
+        assertFalse(validator.validate(EntityNames.SECTION, sectionIds).equals(sectionIds));
     }
 
     @Test
@@ -183,7 +187,7 @@ public class StaffToGlobalSectionValidatorTest {
         setContext(educator1, Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR));
         Set<String> sectionIds = new HashSet<String>();
         sectionIds.add(section1.getEntityId());
-        assertTrue(validator.validate(EntityNames.SECTION, sectionIds));
+        assertTrue(validator.validate(EntityNames.SECTION, sectionIds).equals(sectionIds));
     }
 
     @Test
@@ -191,9 +195,9 @@ public class StaffToGlobalSectionValidatorTest {
         setContext(educator2, Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR));
         Set<String> sectionIds = new HashSet<String>();
         sectionIds.add(section2.getEntityId());
-        assertTrue(validator.validate(EntityNames.SECTION, sectionIds));
+        assertTrue(validator.validate(EntityNames.SECTION, sectionIds).equals(sectionIds));
 
         sectionIds.add(section1.getEntityId());
-        assertFalse(validator.validate(EntityNames.SECTION, sectionIds));
+        assertFalse(validator.validate(EntityNames.SECTION, sectionIds).equals(sectionIds));
     }
 }

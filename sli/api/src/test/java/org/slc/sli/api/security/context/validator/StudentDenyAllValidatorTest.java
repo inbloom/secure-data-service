@@ -15,9 +15,11 @@
  */
 package org.slc.sli.api.security.context.validator;
 
+import java.util.Collections;
 import java.util.HashSet;
 
 import junit.framework.TestCase;
+import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -74,7 +76,7 @@ public class StudentDenyAllValidatorTest extends TestCase {
 
     @Test
     public void testValidate() {
-        assertFalse(validator.validate(null, null));
-        assertFalse(validator.validate(new String(), new HashSet<String>()));
+        Assert.assertEquals(Collections.emptySet(), validator.validate(null, null));
+        Assert.assertEquals(Collections.emptySet(), validator.validate(new String(), new HashSet<String>()));
     }
 }

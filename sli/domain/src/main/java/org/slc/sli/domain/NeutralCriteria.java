@@ -32,6 +32,7 @@ public class NeutralCriteria {
     private Object value;
     private boolean canBePrefixed;
     private SearchType type = SearchType.REGULAR;
+    private boolean isRemovable;
 
     public static final String CRITERIA_IN = "in";
     public static final String CRITERIA_REGEX = "=~";
@@ -63,6 +64,7 @@ public class NeutralCriteria {
     public NeutralCriteria(String criteria) {
         this.canBePrefixed = true;
         this.type = SearchType.REGULAR;
+        this.isRemovable = false;
         for (String comparisonOperator : NeutralCriteria.SUPPORTED_COMPARISON_OPERATORS) {
             if (criteria.contains(comparisonOperator)) {
                 String[] keyAndValue = criteria.split(comparisonOperator);
@@ -90,6 +92,7 @@ public class NeutralCriteria {
         this.value = newValue;
         this.canBePrefixed = canBePrefixed;
         this.type = SearchType.REGULAR;
+        this.isRemovable = false;
     }
 
     @SuppressWarnings("PMD.UselessOverridingMethod")  // this is overridden because equals is also overridden
@@ -157,8 +160,9 @@ public class NeutralCriteria {
             boolean valuesMatch = this.valuesMatch(this.value, nc.value);
             boolean prefixesMatch = (this.canBePrefixed == nc.canBePrefixed);
             boolean typeMatch = ( this.getType() == nc.getType() );
+            boolean removableMatch = (this.isRemovable() == nc.isRemovable());
 
-            return (keysMatch && operatorsMatch && valuesMatch && prefixesMatch && typeMatch);
+            return (keysMatch && operatorsMatch && valuesMatch && prefixesMatch && typeMatch && removableMatch);
         }
 
         return false;
@@ -170,5 +174,14 @@ public class NeutralCriteria {
 
     public void setType(SearchType type) {
         this.type = type;
+    }
+
+
+    public boolean isRemovable() {
+        return isRemovable;
+    }
+
+    public void setRemovable(boolean removable) {
+        isRemovable = removable;
     }
 }

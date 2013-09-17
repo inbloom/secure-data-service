@@ -96,6 +96,12 @@ default:
         sli.security.truststore.path: /tmp/trustey.jks
         sli.security.truststore.password: changeit
 
+        # The size limit of GET returns for dual contexts/differing user rights across edOrgs (default).
+        ## sli.api.service.countLimit: 10000
+
+        # The size of mongo findAll batch responses for dual contexts/differing user rights across edOrgs (default).
+        ## sli.api.service.batchSize : 10000
+
         sli.session.cache.ttl: 10
         sli.session.cache.tli: 5
 

@@ -293,7 +293,7 @@ public class BulkExtract {
      * @param leaId the LEA id
      */
     void canAccessLEAExtract(String leaId) {
-            if (!edorgValidator.validate(EntityNames.EDUCATION_ORGANIZATION, new HashSet<String>(Arrays.asList(leaId)))) {
+            if (edorgValidator.validate(EntityNames.EDUCATION_ORGANIZATION, new HashSet<String>(Arrays.asList(leaId))).isEmpty()) {
                 throw new APIAccessDeniedException("User is not authorized to access this extract", EntityNames.EDUCATION_ORGANIZATION, leaId);
             }
         appAuthHelper.checkApplicationAuthorization(leaId);

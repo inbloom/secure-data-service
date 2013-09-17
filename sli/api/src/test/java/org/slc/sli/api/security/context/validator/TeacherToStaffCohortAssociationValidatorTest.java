@@ -13,6 +13,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.springframework.test.context.ContextConfiguration;
@@ -41,6 +42,7 @@ public class TeacherToStaffCohortAssociationValidatorTest {
     @Before
     public void init() {
         injector.setEducatorContext(USER_ID);
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.TEACHER_CONTEXT);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -57,7 +59,7 @@ public class TeacherToStaffCohortAssociationValidatorTest {
             sca.add(this.vth.generateStaffCohort(USER_ID, id, false, true).getEntityId());
         }
 
-        Assert.assertTrue(val.validate(EntityNames.STAFF_COHORT_ASSOCIATION, sca));
+        Assert.assertTrue(val.validate(EntityNames.STAFF_COHORT_ASSOCIATION, sca).equals(sca));
     }
 
     @Test
@@ -69,10 +71,11 @@ public class TeacherToStaffCohortAssociationValidatorTest {
             sca.add(this.vth.generateStaffCohort("Sky Drake", id, false, true).getEntityId());
         }
 
-        Assert.assertFalse(val.validate(EntityNames.STAFF_COHORT_ASSOCIATION, sca));
+        Assert.assertFalse(val.validate(EntityNames.STAFF_COHORT_ASSOCIATION, sca).equals(sca));
 
         for (String id : sca) {
-            Assert.assertFalse(val.validate(EntityNames.STAFF_COHORT_ASSOCIATION, Collections.singleton(id)));
+            Set<String> single = Collections.singleton(id);
+            Assert.assertFalse(val.validate(EntityNames.STAFF_COHORT_ASSOCIATION, single).equals(single));
         }
 
     }
@@ -96,13 +99,14 @@ public class TeacherToStaffCohortAssociationValidatorTest {
         
         }
 
-        Assert.assertFalse(val.validate(EntityNames.STAFF_COHORT_ASSOCIATION, sca));
+        Assert.assertFalse(val.validate(EntityNames.STAFF_COHORT_ASSOCIATION, sca).equals(sca));
 
         for (String id : sca) {
+            Set<String> single = Collections.singleton(id);
             if (successes.contains(id)) {
-                Assert.assertTrue(val.validate(EntityNames.STAFF_COHORT_ASSOCIATION, Collections.singleton(id)));
+                Assert.assertTrue(val.validate(EntityNames.STAFF_COHORT_ASSOCIATION, single).equals(single));
             } else {
-                Assert.assertFalse(val.validate(EntityNames.STAFF_COHORT_ASSOCIATION, Collections.singleton(id)));
+                Assert.assertFalse(val.validate(EntityNames.STAFF_COHORT_ASSOCIATION, single).equals(single));
             }
         }
     }

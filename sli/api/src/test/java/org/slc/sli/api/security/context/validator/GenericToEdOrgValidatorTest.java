@@ -24,10 +24,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import junit.framework.Assert;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -77,6 +79,7 @@ public class GenericToEdOrgValidatorTest {
         String fullName = "Fake Teacher";
         List<String> roles = Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR);
         injector.setCustomContext(user, fullName, "MERPREALM", roles, teacher, edOrgId);
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.TEACHER_CONTEXT);
     }
 
     private void setStaffContext(String edOrgId) {
@@ -84,6 +87,7 @@ public class GenericToEdOrgValidatorTest {
         String fullName = "Fake Staff";
         List<String> roles = Arrays.asList(SecureRoleRightAccessImpl.IT_ADMINISTRATOR);
         injector.setCustomContext(user, fullName, "MERPREALM", roles, staff, edOrgId);
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.STAFF_CONTEXT);
     }
 
     @Before
@@ -127,8 +131,8 @@ public class GenericToEdOrgValidatorTest {
         setTeacherContext(school.getEntityId());
         schoolIds.add(school.getEntityId());
         helper.generateTeacherSchool(teacher.getEntityId(), school.getEntityId());
-        assertTrue(validator.validate(EntityNames.SCHOOL, schoolIds));
-        assertTrue(validator.validate(EntityNames.EDUCATION_ORGANIZATION, schoolIds));
+        Assert.assertEquals(schoolIds, validator.validate(EntityNames.SCHOOL, schoolIds));
+        Assert.assertEquals(schoolIds, validator.validate(EntityNames.EDUCATION_ORGANIZATION, schoolIds));
     }
 
     @Test
@@ -136,8 +140,8 @@ public class GenericToEdOrgValidatorTest {
         setStaffContext(school.getEntityId());
         schoolIds.add(school.getEntityId());
         helper.generateStaffEdorg(staff.getEntityId(), school.getEntityId(), false);
-        assertTrue(validator.validate(EntityNames.SCHOOL, schoolIds));
-        assertTrue(validator.validate(EntityNames.EDUCATION_ORGANIZATION, schoolIds));
+        Assert.assertEquals(schoolIds, validator.validate(EntityNames.SCHOOL, schoolIds));
+        Assert.assertEquals(schoolIds, validator.validate(EntityNames.EDUCATION_ORGANIZATION, schoolIds));
     }
 
     @Test
@@ -147,8 +151,8 @@ public class GenericToEdOrgValidatorTest {
         schoolIds.add(school.getEntityId());
         schoolIds.add(lea.getEntityId());
         schoolIds.add(sea.getEntityId());
-        assertTrue(validator.validate(EntityNames.SCHOOL, schoolIds));
-        assertTrue(validator.validate(EntityNames.EDUCATION_ORGANIZATION, schoolIds));
+        Assert.assertEquals(schoolIds, validator.validate(EntityNames.SCHOOL, schoolIds));
+        Assert.assertEquals(schoolIds, validator.validate(EntityNames.EDUCATION_ORGANIZATION, schoolIds));
     }
 
     @Test
@@ -158,8 +162,8 @@ public class GenericToEdOrgValidatorTest {
         schoolIds.add(school.getEntityId());
         schoolIds.add(lea.getEntityId());
         schoolIds.add(sea.getEntityId());
-        assertFalse(validator.validate(EntityNames.SCHOOL, schoolIds));
-        assertFalse(validator.validate(EntityNames.EDUCATION_ORGANIZATION, schoolIds));
+        assertFalse(validator.validate(EntityNames.SCHOOL, schoolIds).equals(schoolIds));
+        assertFalse(validator.validate(EntityNames.EDUCATION_ORGANIZATION, schoolIds).equals(schoolIds));
     }
 
     @Test
@@ -171,14 +175,14 @@ public class GenericToEdOrgValidatorTest {
             helper.generateTeacherSchool(teacher.getEntityId(), newSchool.getEntityId());
             schoolIds.add(newSchool.getEntityId());
         }
-        assertTrue(validator.validate(EntityNames.SCHOOL, schoolIds));
-        assertTrue(validator.validate(EntityNames.EDUCATION_ORGANIZATION, schoolIds));
+        Assert.assertEquals(schoolIds, validator.validate(EntityNames.SCHOOL, schoolIds));
+        Assert.assertEquals(schoolIds, validator.validate(EntityNames.EDUCATION_ORGANIZATION, schoolIds));
 
         Entity newSchool = helper.generateEdorgWithParent(lea.getEntityId());
         injector.addToAuthorizingEdOrgs(newSchool.getEntityId());
         schoolIds.add(newSchool.getEntityId());
-        assertFalse(validator.validate(EntityNames.SCHOOL, schoolIds));
-        assertFalse(validator.validate(EntityNames.EDUCATION_ORGANIZATION, schoolIds));
+        assertFalse(validator.validate(EntityNames.SCHOOL, schoolIds).equals(schoolIds));
+        assertFalse(validator.validate(EntityNames.EDUCATION_ORGANIZATION, schoolIds).equals(schoolIds));
     }
 
     @Test
@@ -190,13 +194,13 @@ public class GenericToEdOrgValidatorTest {
             helper.generateStaffEdorg(staff.getEntityId(), newSchool.getEntityId(), false);
             schoolIds.add(newSchool.getEntityId());
         }
-        assertTrue(validator.validate(EntityNames.SCHOOL, schoolIds));
-        assertTrue(validator.validate(EntityNames.EDUCATION_ORGANIZATION, schoolIds));
+        assertTrue(validator.validate(EntityNames.SCHOOL, schoolIds).equals(schoolIds));
+        assertTrue(validator.validate(EntityNames.EDUCATION_ORGANIZATION, schoolIds).equals(schoolIds));
         Entity newSchool = helper.generateEdorgWithParent(lea.getEntityId());
         injector.addToAuthorizingEdOrgs(newSchool.getEntityId());
         schoolIds.add(newSchool.getEntityId());
-        assertFalse(validator.validate(EntityNames.SCHOOL, schoolIds));
-        assertFalse(validator.validate(EntityNames.EDUCATION_ORGANIZATION, schoolIds));
+        assertFalse(validator.validate(EntityNames.SCHOOL, schoolIds).equals(schoolIds));
+        assertFalse(validator.validate(EntityNames.EDUCATION_ORGANIZATION, schoolIds).equals(schoolIds));
     }
 
     @Test
@@ -205,8 +209,8 @@ public class GenericToEdOrgValidatorTest {
         schoolIds.add(school.getEntityId());
         school = helper.generateEdorgWithParent(null);
         helper.generateTeacherSchool(teacher.getEntityId(), school.getEntityId());
-        assertFalse(validator.validate(EntityNames.SCHOOL, schoolIds));
-        assertFalse(validator.validate(EntityNames.EDUCATION_ORGANIZATION, schoolIds));
+        assertFalse(validator.validate(EntityNames.SCHOOL, schoolIds).equals(schoolIds));
+        assertFalse(validator.validate(EntityNames.EDUCATION_ORGANIZATION, schoolIds).equals(schoolIds));
     }
 
     @Test
@@ -215,8 +219,8 @@ public class GenericToEdOrgValidatorTest {
         schoolIds.add(school.getEntityId());
         school = helper.generateEdorgWithParent(null);
         helper.generateStaffEdorg(staff.getEntityId(), school.getEntityId(), false);
-        assertFalse(validator.validate(EntityNames.SCHOOL, schoolIds));
-        assertFalse(validator.validate(EntityNames.EDUCATION_ORGANIZATION, schoolIds));
+        assertFalse(validator.validate(EntityNames.SCHOOL, schoolIds).equals(schoolIds));
+        assertFalse(validator.validate(EntityNames.EDUCATION_ORGANIZATION, schoolIds).equals(schoolIds));
     }
 
     @Test
@@ -224,7 +228,7 @@ public class GenericToEdOrgValidatorTest {
         setStaffContext(school.getEntityId());
         schoolIds.add(school.getEntityId());
         helper.generateStaffEdorg(staff.getEntityId(), school.getEntityId(), true);
-        assertFalse(validator.validate(EntityNames.SCHOOL, schoolIds));
-        assertFalse(validator.validate(EntityNames.EDUCATION_ORGANIZATION, schoolIds));
+        assertFalse(validator.validate(EntityNames.SCHOOL, schoolIds).equals(schoolIds));
+        assertFalse(validator.validate(EntityNames.EDUCATION_ORGANIZATION, schoolIds).equals(schoolIds));
     }
 }

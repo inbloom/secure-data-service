@@ -38,6 +38,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.api.util.RequestUtil;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 
@@ -143,7 +144,9 @@ public class RealmHelperTest {
         Entity seaStaff = buildStaff("SEA Staff", sea);
         Entity seaRealm = buildRealm(sea);
         Entity leaRealm = buildRealm(lea);
+        RequestUtil.setCurrentRequestId();
         assertTrue(helper.isUserAllowedLoginToRealm(seaStaff, seaRealm));
+        RequestUtil.setCurrentRequestId();
         assertFalse(helper.isUserAllowedLoginToRealm(seaStaff, leaRealm));
     }
 
@@ -154,7 +157,9 @@ public class RealmHelperTest {
         Entity leaStaff = buildStaff("LEA Staff", lea);
         Entity seaRealm = buildRealm(sea);
         Entity leaRealm = buildRealm(lea);
+        RequestUtil.setCurrentRequestId();
         assertFalse(helper.isUserAllowedLoginToRealm(leaStaff, seaRealm));
+        RequestUtil.setCurrentRequestId();
         assertTrue(helper.isUserAllowedLoginToRealm(leaStaff, leaRealm));
     }
 
@@ -168,7 +173,9 @@ public class RealmHelperTest {
         Entity lea1Realm = buildRealm(lea1);
         Entity lea2Realm = buildRealm(lea2);
         Entity seaStaff = buildStaff("SEA Staff", sea);
+        RequestUtil.setCurrentRequestId();
         assertTrue(helper.isUserAllowedLoginToRealm(seaStaff, lea1Realm));
+        RequestUtil.setCurrentRequestId();
         assertFalse(helper.isUserAllowedLoginToRealm(seaStaff, lea2Realm));
     }
 
@@ -182,8 +189,11 @@ public class RealmHelperTest {
         Entity lea3Realm = buildRealm(lea3);
         Entity seaRealm = buildRealm(sea);
         Entity leaStaff = buildStaff("LEA Staff", lea2);
+        RequestUtil.setCurrentRequestId();
         assertTrue(helper.isUserAllowedLoginToRealm(leaStaff, lea1Realm));
+        RequestUtil.setCurrentRequestId();
         assertFalse(helper.isUserAllowedLoginToRealm(leaStaff, lea3Realm));
+        RequestUtil.setCurrentRequestId();
         assertFalse(helper.isUserAllowedLoginToRealm(leaStaff, seaRealm));
     }
 
@@ -196,7 +206,9 @@ public class RealmHelperTest {
         Entity lea1Realm = buildRealm(lea1);
         Entity lea3Realm = buildRealm(lea3);
         Entity seaStaff = buildStaff("SEA Staff", sea, lea2);
+        RequestUtil.setCurrentRequestId();
         assertTrue(helper.isUserAllowedLoginToRealm(seaStaff, lea1Realm));
+        RequestUtil.setCurrentRequestId();
         assertFalse(helper.isUserAllowedLoginToRealm(seaStaff, lea3Realm));
     }
 
@@ -210,8 +222,11 @@ public class RealmHelperTest {
         Entity lea2Realm = buildRealm(lea2);
         Entity lea3Realm = buildRealm(lea3);
         Entity seaStaff = buildStaff("SEA Staff", sea);
+        RequestUtil.setCurrentRequestId();
         assertTrue(helper.isUserAllowedLoginToRealm(seaStaff, lea1Realm));
+        RequestUtil.setCurrentRequestId();
         assertTrue(helper.isUserAllowedLoginToRealm(seaStaff, lea2Realm));
+        RequestUtil.setCurrentRequestId();
         assertFalse(helper.isUserAllowedLoginToRealm(seaStaff, lea3Realm));
     }
 
