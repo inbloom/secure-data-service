@@ -58,15 +58,21 @@ public class LocalEdOrgExtractHelper implements InitializingBean {
      * Returns the union of all edOrgs appearing as values in the 
      * map of application -> { authorized edOrgs }
      */
-    public Set<String> getBulkExtractEdOrgs() {
+    public Set<String> getBulkExtractEdOrgs(String sea) {
         if (extractEdOrgs == null) {
             extractEdOrgs = new HashSet<String>();
             for (Set<String> appEdOrgs : getBulkExtractEdOrgsPerApp().values()) {
                 extractEdOrgs.addAll(appEdOrgs);
             }
         }
-        return removeNonExistentEdOrgs(extractEdOrgs);
-
+        Set<String> result = removeNonExistentEdOrgs(extractEdOrgs);
+        
+		// Never include the SEA in a "local" (private data) extract, even if the SEA is authorized explicitly for
+		// bulk extract app(s). To remove this hardwired restriction, and instead allow an SEA to have its private data extracted
+		// to a file stamped (i.e. named) w/ the SEA edOrg id, remove the following line.
+        result.remove(sea);
+        
+        return result;
     }
 
     private Set<String> removeNonExistentEdOrgs(Set<String> edOrgs) {

@@ -533,6 +533,74 @@ When /^the correct number of "([^"]*?)" "([^"]*?)" was extracted from the databa
   enable_NOTABLESCAN()
 end
 
+$schoolStudents = {}
+When /I check that the student extract for "(.*?)" has the correct number of records/ do |edOrgId|
+  disable_NOTABLESCAN()
+  @tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
+  query     = <<-jsonDelimiter
+  [
+  {"$project":{"schools":1}}
+  ,{"$unwind":"$schools"}
+  ,{"$match":{ "$or":[     {"schools.exitWithdrawDate":{"$exists":true, "$gt": "#{DateTime.now.strftime('%Y-%m-%d')}"}} ,{"schools.exitWithdrawDate":{"$exists":false}}    ]}}
+  ,{"$project":{"_id":1, "schools._id":1}}
+  ,{"$group":{"_id":"$schools._id", "students":{"$addToSet":"$_id"}}}
+  ]
+  jsonDelimiter
+  puts(query)
+  query  = JSON.parse(query)
+  result = @tenantDb.collection('student').aggregate(query)
+
+  result.each{ |schoolIdToStudents|
+    schoolId = schoolIdToStudents['_id']
+    students = schoolIdToStudents['students']
+    $schoolStudents[schoolId] = students
+  }
+
+  studentZipFile  = @unpackDir + '/student.json.gz'
+  studentJsnFile  = @unpackDir + '/student.json'
+  Minitar.unpack(@filePath, @unpackDir)
+  assert(File.exists?(studentZipFile), "Cannot find #{studentZipFile} file ")
+  `gunzip #{studentZipFile}`
+  json = JSON.parse(File.read(studentJsnFile))
+
+  comment = "Expected student extract for #{edOrgId} to have #{$schoolStudents[edOrgId].size}. Found #{json.size}"
+  assert(json.size == $schoolStudents[edOrgId].size, comment)
+  puts (comment)
+  enable_NOTABLESCAN()
+end
+
+$studentAttendance = {}
+When /I check that the attendance extract for "(.*?)" has the correct number of records/ do |edOrgId|
+  disable_NOTABLESCAN()
+  @tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
+
+  query = <<-jsonDelimiter
+  [
+  {"$project":{"body.attendanceEvent":1, "body.schoolId":1, "body.schoolYear":1, "body.studentId":1}}
+  ,{"$unwind":"$body.attendanceEvent"}
+  ,{"$match":{"body.studentId" :{"$in":"PLACE"}}}
+  ,{"$group":{"_id":"events", "events":{"$addToSet":"$_id"}}}
+  ]
+  jsonDelimiter
+  puts(query)
+  query = JSON.parse(query)
+  query[2]['$match']['body.studentId']['$in']  = $schoolStudents[edOrgId]
+  result = @tenantDb.collection('attendance').aggregate(query)
+
+  attendanceZipFile  = @unpackDir + '/attendance.json.gz'
+  attendanceJsnFile  = @unpackDir + '/attendance.json'
+  Minitar.unpack(@filePath, @unpackDir)
+  assert(File.exists?(attendanceZipFile), "Cannot find #{attendanceZipFile} file ")
+  `gunzip #{attendanceZipFile}`
+  json = JSON.parse(File.read(attendanceJsnFile))
+
+  expected = result[0]['events'].size
+  comment = "Expected attendance extract for #{edOrgId} to have #{expected}. Found #{json.size}"
+  assert(json.size == expected, comment)
+  puts (comment)
+  enable_NOTABLESCAN()
+end
+
 When /^a "(.*?)" was extracted with all the correct fields$/ do |collection|
   disable_NOTABLESCAN()
 	Zlib::GzipReader.open(@unpackDir +"/" + collection + ".json.gz") { |extractFile|
