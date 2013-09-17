@@ -21,11 +21,13 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
@@ -79,6 +81,7 @@ public class TeacherToStudentCompetencyValidatorTest {
         sComp1 = helper.generateStudentCompetency(studentSectionAssociation1.getEntityId(), compObj.getEntityId());
         sComp2 = helper.generateStudentCompetency(studentSectionAssociation2.getEntityId(), compObj.getEntityId());
         sComp3 = helper.generateStudentCompetency(studentSectionAssociation3.getEntityId(), compObj.getEntityId());
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.TEACHER_CONTEXT);
     }
     
     @After
@@ -95,14 +98,22 @@ public class TeacherToStudentCompetencyValidatorTest {
     
     @Test
     public void testValidComps() {
-        assertTrue(validator.validate(EntityNames.STUDENT_COMPETENCY, new HashSet<String>(Arrays.asList(sComp1.getEntityId()))));
-        assertTrue(validator.validate(EntityNames.STUDENT_COMPETENCY, new HashSet<String>(Arrays.asList(sComp2.getEntityId()))));
-        assertTrue(validator.validate(EntityNames.STUDENT_COMPETENCY, new HashSet<String>(Arrays.asList(sComp1.getEntityId(), sComp2.getEntityId()))));
+        Set<String> ids = new HashSet<String>(Arrays.asList(sComp1.getEntityId()));
+        assertTrue(validator.validate(EntityNames.STUDENT_COMPETENCY, ids).equals(ids));
+
+        ids = new HashSet<String>(Arrays.asList(sComp2.getEntityId()));
+        assertTrue(validator.validate(EntityNames.STUDENT_COMPETENCY, ids).equals(ids));
+
+        ids = new HashSet<String>(Arrays.asList(sComp1.getEntityId(), sComp2.getEntityId()));
+        assertTrue(validator.validate(EntityNames.STUDENT_COMPETENCY, ids).equals(ids));
     }
     
     @Test
     public void testInvalidComps() {
-        assertFalse(validator.validate(EntityNames.STUDENT_COMPETENCY, new HashSet<String>(Arrays.asList(sComp3.getEntityId()))));
-        assertFalse(validator.validate(EntityNames.STUDENT_COMPETENCY, new HashSet<String>(Arrays.asList(sComp1.getEntityId(), sComp3.getEntityId()))));
+        Set<String> ids = new HashSet<String>(Arrays.asList(sComp3.getEntityId()));
+        assertFalse(validator.validate(EntityNames.STUDENT_COMPETENCY, ids).equals(ids));
+
+        ids = new HashSet<String>(Arrays.asList(sComp1.getEntityId(), sComp3.getEntityId()));
+        assertFalse(validator.validate(EntityNames.STUDENT_COMPETENCY, ids).equals(ids));
     }
 }

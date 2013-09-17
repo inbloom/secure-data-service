@@ -18,6 +18,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Set;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
@@ -90,19 +91,29 @@ public class StudentToSubStudentValidatorTest extends TestCase {
     @Test
     public void testValidateSingleEntity() {
         injector.setStudentContext(student1);
-        assertTrue(validator.validate(EntityNames.ATTENDANCE, new HashSet<String>(Arrays.asList(attendance1.getEntityId()))));
-        assertTrue(validator.validate(EntityNames.STUDENT_ACADEMIC_RECORD, new HashSet<String>(Arrays.asList(studentAcademicRecord1.getEntityId()))));
+        Set<String> idsToValidate = new HashSet<String>(Arrays.asList(attendance1.getEntityId()));
+        assertTrue(validator.validate(EntityNames.ATTENDANCE, idsToValidate).containsAll(idsToValidate));
+
+        idsToValidate = new HashSet<String>(Arrays.asList(studentAcademicRecord1.getEntityId()));
+        assertTrue(validator.validate(EntityNames.STUDENT_ACADEMIC_RECORD, idsToValidate).containsAll(idsToValidate));
 
         injector.setStudentContext(student2);
-        assertTrue(validator.validate(EntityNames.ATTENDANCE, new HashSet<String>(Arrays.asList(attendance2.getEntityId()))));
-        assertTrue(validator.validate(EntityNames.STUDENT_ACADEMIC_RECORD, new HashSet<String>(Arrays.asList(studentAcademicRecord2.getEntityId()))));
+        idsToValidate = new HashSet<String>(Arrays.asList(attendance2.getEntityId()));
+        assertTrue(validator.validate(EntityNames.ATTENDANCE, idsToValidate).containsAll(idsToValidate));
+
+        idsToValidate = new HashSet<String>(Arrays.asList(studentAcademicRecord2.getEntityId()));
+        assertTrue(validator.validate(EntityNames.STUDENT_ACADEMIC_RECORD, idsToValidate).containsAll(idsToValidate));
     }
 
     @Test
     public void testValidateNegativeHeterogeneousList() {
         injector.setStudentContext(student1);
-        assertFalse(validator.validate(EntityNames.ATTENDANCE, new HashSet<String>(Arrays.asList(attendance1.getEntityId(),attendance2.getEntityId()))));
-        assertFalse(validator.validate(EntityNames.STUDENT_ACADEMIC_RECORD, new HashSet<String>(Arrays.asList(studentAcademicRecord1.getEntityId(), studentAcademicRecord2.getEntityId()))));
+
+        Set<String> idsToValidate = new HashSet<String>(Arrays.asList(attendance1.getEntityId(),attendance2.getEntityId()));
+        assertFalse(validator.validate(EntityNames.ATTENDANCE, idsToValidate).containsAll(idsToValidate));
+
+        idsToValidate = new HashSet<String>(Arrays.asList(studentAcademicRecord1.getEntityId(), studentAcademicRecord2.getEntityId()));
+        assertFalse(validator.validate(EntityNames.STUDENT_ACADEMIC_RECORD, idsToValidate).containsAll(idsToValidate));
     }
 
 }

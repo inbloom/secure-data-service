@@ -121,7 +121,7 @@ public class GlobalEntityValidatorTest {
     public void testValidateSingleAssessment() throws Exception {
         HashSet<String> assessmentIds = new HashSet<String>();
         assessmentIds.add(helper.generateAssessment().getEntityId());
-        assertTrue(validator.validate(EntityNames.ASSESSMENT, assessmentIds));
+        assertTrue(validator.validate(EntityNames.ASSESSMENT, assessmentIds).containsAll(assessmentIds));
     }
 
     @Test
@@ -130,14 +130,14 @@ public class GlobalEntityValidatorTest {
         assessmentIds.add(helper.generateAssessment().getEntityId());
         assessmentIds.add(helper.generateAssessment().getEntityId());
         assessmentIds.add(helper.generateAssessment().getEntityId());
-        assertTrue(validator.validate(EntityNames.ASSESSMENT, assessmentIds));
+        assertTrue(validator.validate(EntityNames.ASSESSMENT, assessmentIds).containsAll(assessmentIds));
     }
 
     @Test
     public void testValidateSingleLearningObjective() throws Exception {
         HashSet<String> learningObjectiveIds = new HashSet<String>();
         learningObjectiveIds.add(helper.generateLearningObjective().getEntityId());
-        assertTrue(validator.validate(EntityNames.LEARNING_OBJECTIVE, learningObjectiveIds));
+        assertTrue(validator.validate(EntityNames.LEARNING_OBJECTIVE, learningObjectiveIds).containsAll(learningObjectiveIds));
     }
 
     @Test
@@ -146,14 +146,14 @@ public class GlobalEntityValidatorTest {
         learningObjectiveIds.add(helper.generateLearningObjective().getEntityId());
         learningObjectiveIds.add(helper.generateLearningObjective().getEntityId());
         learningObjectiveIds.add(helper.generateLearningObjective().getEntityId());
-        assertTrue(validator.validate(EntityNames.LEARNING_OBJECTIVE, learningObjectiveIds));
+        assertTrue(validator.validate(EntityNames.LEARNING_OBJECTIVE, learningObjectiveIds).containsAll(learningObjectiveIds));
     }
 
     @Test
     public void testValidateSingleLearningStandard() throws Exception {
         HashSet<String> learningStandardIds = new HashSet<String>();
         learningStandardIds.add(helper.generateLearningStandard().getEntityId());
-        assertTrue(validator.validate(EntityNames.LEARNING_STANDARD, learningStandardIds));
+        assertTrue(validator.validate(EntityNames.LEARNING_STANDARD, learningStandardIds).containsAll(learningStandardIds));
     }
 
     @Test
@@ -162,14 +162,14 @@ public class GlobalEntityValidatorTest {
         learningStandardIds.add(helper.generateLearningStandard().getEntityId());
         learningStandardIds.add(helper.generateLearningStandard().getEntityId());
         learningStandardIds.add(helper.generateLearningStandard().getEntityId());
-        assertTrue(validator.validate(EntityNames.LEARNING_STANDARD, learningStandardIds));
+        assertTrue(validator.validate(EntityNames.LEARNING_STANDARD, learningStandardIds).containsAll(learningStandardIds));
     }
 
     @Test
     public void testValidateSingleCompetencyLevelDescriptor() throws Exception {
         HashSet<String> competencyLevelDescriptorIds = new HashSet<String>();
         competencyLevelDescriptorIds.add(helper.generateCompetencyLevelDescriptor().getEntityId());
-        assertTrue(validator.validate(EntityNames.COMPETENCY_LEVEL_DESCRIPTOR, competencyLevelDescriptorIds));
+        assertTrue(validator.validate(EntityNames.COMPETENCY_LEVEL_DESCRIPTOR, competencyLevelDescriptorIds).containsAll(competencyLevelDescriptorIds));
     }
 
     @Test
@@ -178,7 +178,7 @@ public class GlobalEntityValidatorTest {
         competencyLevelDescriptorIds.add(helper.generateCompetencyLevelDescriptor().getEntityId());
         competencyLevelDescriptorIds.add(helper.generateCompetencyLevelDescriptor().getEntityId());
         competencyLevelDescriptorIds.add(helper.generateCompetencyLevelDescriptor().getEntityId());
-        assertTrue(validator.validate(EntityNames.COMPETENCY_LEVEL_DESCRIPTOR, competencyLevelDescriptorIds));
+        assertTrue(validator.validate(EntityNames.COMPETENCY_LEVEL_DESCRIPTOR, competencyLevelDescriptorIds).containsAll(competencyLevelDescriptorIds));
     }
 
     @Test(expected = IllegalArgumentException.class)

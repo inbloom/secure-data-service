@@ -19,9 +19,11 @@ package org.slc.sli.api.security.context;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.ws.rs.core.PathSegment;
@@ -59,7 +61,7 @@ public class ContextValidator implements ApplicationContextAware {
 
     protected static final Set<String> GLOBAL_RESOURCES = new HashSet<String>(
             Arrays.asList(ResourceNames.ASSESSMENTS,
-            ResourceNames.CALENDAR_DATES,		
+            ResourceNames.CALENDAR_DATES,
             ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS,
             ResourceNames.COURSES,
             ResourceNames.COURSE_OFFERINGS,
@@ -87,13 +89,13 @@ public class ContextValidator implements ApplicationContextAware {
 
     @Autowired
     private EntityOwnershipValidator ownership;
-    
+
     @Autowired
     private StudentAccessValidator studentAccessValidator;
 
     @Autowired
     private EdOrgHelper edOrgHelper;
-    
+
     @Autowired
     private ParentAccessValidator parentAccessValidator;
 
@@ -111,7 +113,7 @@ public class ContextValidator implements ApplicationContextAware {
      * white list student accessible URL. Can't do it in validateUserHasContextToRequestedEntity
      * because we must also block some url that only has 2 segment, i.e.
      * disciplineActions/disciplineIncidents
-     * 
+     *
      * @param request
      * @return if url is accessible to students principals
      */
@@ -128,7 +130,7 @@ public class ContextValidator implements ApplicationContextAware {
         } else if (SecurityUtil.isParent()) {
             return !parentAccessValidator.isAllowed(request);
         }
-        
+
         return false;
     }
 
@@ -140,15 +142,15 @@ public class ContextValidator implements ApplicationContextAware {
             // /api/rest/ root access?
             return false;
         }
-        
+
         // all data model resources are versioned
         if (isVersionString(pathSegments.get(0).getPath())) {
             return false;
         }
-        
+
         return true;
     }
-    
+
     private boolean isVersionString(String path) {
         if (path != null && path.startsWith("v")) {
             return NumberUtils.isNumber(path.substring(1));
@@ -165,9 +167,9 @@ public class ContextValidator implements ApplicationContextAware {
 
         return pathSegments;
     }
-    
+
     private void validateUserHasContextToRequestedEntities(ContainerRequest request, SLIPrincipal principal) {
-        
+
         List<PathSegment> segs = request.getPathSegments();
         segs = cleanEmptySegments(segs);
 
@@ -265,16 +267,99 @@ public class ContextValidator implements ApplicationContextAware {
         return false; // Num segments is 3, just return
     }
 
-    public void validateContextToEntities(EntityDefinition def, Collection<String> ids, boolean isTransitive) {
-
+    /**
+    * Validates entities, based upon entity definition and entity ids to validate.
+    *
+    * @param def - Definition of entities to validate
+    * @param ids - Collection of ids of entities to validate
+    * @param isTransitive - Determines whether validation is through another entity type
+    *
+    * @throws APIAccessDeniedException - When entities cannot be accessed
+    */
+    public void validateContextToEntities(EntityDefinition def, Collection<String> ids, boolean isTransitive) throws APIAccessDeniedException {
         IContextValidator validator = findValidator(def.getType(), isTransitive);
         if (validator != null) {
-            Set<String> idsToValidate = new HashSet<String>();
             NeutralQuery getIdsQuery = new NeutralQuery(new NeutralCriteria("_id", "in", new ArrayList<String>(ids)));
-            int found = 0;
-            for (Entity ent : repo.findAll(def.getStoredCollectionName(), getIdsQuery)) {
+            Collection<Entity> entities = (Collection<Entity>) repo.findAll(def.getStoredCollectionName(), getIdsQuery);
+            Set<String> idsToValidate = getEntityIdsToValidate(def, entities, isTransitive, ids);
+            Set<String> validatedIds = getValidatedIds(def, idsToValidate, validator);
+            if (!validatedIds.containsAll(idsToValidate)) {
+                throw new APIAccessDeniedException("Cannot access entities", def.getType(), idsToValidate);
+            }
+        } else {
+            throw new APIAccessDeniedException("No validator for " + def.getType() + ", transitive=" + isTransitive, def.getType(), ids);
+        }
+    }
+
+    /**
+    * Returns a map of validated entity ids and their contexts, based upon entity definition and entities to validate.
+    *
+    * @param def - Definition of entities to validate
+    * @param entities - Collection of entities to validate
+    * @param isTransitive - Determines whether validation is through another entity type
+    *
+    * @return - Map of validated entity ids and their contexts, null if the validation is skipped
+    *
+    * @throws APIAccessDeniedException - When no entity validators can be found
+    */
+    public Map<String, SecurityUtil.UserContext> getValidatedEntityContexts(EntityDefinition def, Collection<Entity> entities, boolean isTransitive, boolean isRead) throws APIAccessDeniedException {
+
+        if (skipValidation(def, isRead)) {
+            return null;
+        }
+
+        Map<String, SecurityUtil.UserContext> entityContexts = new HashMap<String, SecurityUtil.UserContext>();
+
+        List<IContextValidator> contextValidators = findContextualValidators(def.getType(), isTransitive);
+        Collection<String> ids = getEntityIds(entities);
+        if (!contextValidators.isEmpty()) {
+            Set<String> idsToValidate = getEntityIdsToValidateForgiving(entities, isTransitive);
+            for (IContextValidator validator : contextValidators) {
+                // Add validated entity ids to the map.
+                Set<String> validatedIds = getValidatedIds(def, idsToValidate, validator);
+                for (String id : validatedIds) {
+                    if (!entityContexts.containsKey(id)) {
+                        entityContexts.put(id, validator.getContext());
+                    } else if ((entityContexts.get(id).equals(SecurityUtil.UserContext.STAFF_CONTEXT)) && (validator.getContext().equals(SecurityUtil.UserContext.TEACHER_CONTEXT)) ||
+                               (entityContexts.get(id).equals(SecurityUtil.UserContext.TEACHER_CONTEXT)) && (validator.getContext().equals(SecurityUtil.UserContext.STAFF_CONTEXT))) {
+                        entityContexts.put(id, SecurityUtil.UserContext.DUAL_CONTEXT);
+                    }
+                }
+            }
+
+            // Add accessible, non-validated entity ids (orphaned and owned/self) to the map.
+            Set<String> accessibleNonValidatedIds = new HashSet<String>(ids);
+            accessibleNonValidatedIds.removeAll(idsToValidate);
+            for (String id : accessibleNonValidatedIds) {
+                entityContexts.put(id, SecurityUtil.getUserContext());
+            }
+        } else {
+            throw new APIAccessDeniedException("No validator for " + def.getType() + ", transitive=" + isTransitive, def.getType(), ids);
+        }
+
+        return entityContexts;
+    }
+
+    /**
+    * Returns a set of entity ids to validate, based upon entity type and list of entities to filter for validation.
+    *
+    * @param def - Definition of entities to filter
+    * @param entities - Collection of entities to filter for validation
+    * @param isTransitive - Determines whether validation is through another entity type
+    * @param ids - Original set of entity ids to validate
+    *
+    * @return - Set of entity ids to validate
+    *
+    * @throws APIAccessDeniedException - When an entity cannot be accessed
+    * @throws EntityNotFoundException - When an entity cannot be located
+    */
+    protected Set<String> getEntityIdsToValidate(EntityDefinition def, Collection<Entity> entities, boolean isTransitive, Collection<String> ids)
+                          throws APIAccessDeniedException, EntityNotFoundException {
+         int found = 0;
+         Set<String> entityIdsToValidate = new HashSet<String>();
+            for (Entity ent : entities) {
                 found++;
-                Collection< String> userEdOrgs = edOrgHelper.getDirectEdorgs( ent );
+                Collection<String> userEdOrgs = edOrgHelper.getDirectEdorgs(ent);
                 if (SecurityUtil.principalId().equals(ent.getMetaData().get("createdBy"))
                         && "true".equals(ent.getMetaData().get("isOrphaned"))) {
                     debug("Entity is orphaned: id {} of type {}", ent.getEntityId(), ent.getType());
@@ -283,36 +368,98 @@ public class ContextValidator implements ApplicationContextAware {
                     debug("Entity is themselves: id {} of type {}", ent.getEntityId(), ent.getType());
                 } else {
                     if (ownership.canAccess(ent, isTransitive)) {
-                        idsToValidate.add(ent.getEntityId());
+                        entityIdsToValidate.add(ent.getEntityId());
                     } else {
-                        throw new APIAccessDeniedException("Access to " + ent.getEntityId() + " is not authorized",
-                                userEdOrgs);
+                        throw new APIAccessDeniedException("Access to " + ent.getEntityId() + " is not authorized", userEdOrgs);
                     }
                 }
             }
 
             if (found != ids.size()) {
-                debug("Invalid reference, an entity does not exist. collection: {} ids: {}",
-                        def.getStoredCollectionName(), ids);
+                debug("Invalid reference, an entity does not exist. collection: {} entities: {}",
+                        def.getStoredCollectionName(), entities);
                 throw new EntityNotFoundException("Could not locate " + def.getType() + " with ids " + ids);
             }
 
-            if (!idsToValidate.isEmpty()) {
-                if (!validator.validate(def.getType(), idsToValidate)) {
-                    throw new APIAccessDeniedException("Cannot access entities", def.getType(), idsToValidate);
+         return entityIdsToValidate;
+       }
+
+    /**
+     * This method forgivingly iterate through the input entities, returns a set of entity ids to validate,
+     * based upon entity type and list of entities to filter for validation.
+     *
+     *
+     * @param entities - Collection of entities to filter for validation
+     * @param isTransitive - Determines whether validation is through another entity type
+     *
+     * @return - Set of entity ids to validate
+     */
+    protected Set<String> getEntityIdsToValidateForgiving(Collection<Entity> entities, boolean isTransitive){
+        Set<String> entityIdsToValidate = new HashSet<String>();
+        for (Entity ent : entities) {
+            if (SecurityUtil.principalId().equals(ent.getMetaData().get("createdBy"))
+                    && "true".equals(ent.getMetaData().get("isOrphaned"))) {
+                debug("Entity is orphaned: id {} of type {}", ent.getEntityId(), ent.getType());
+            } else if (SecurityUtil.getSLIPrincipal().getEntity() != null
+                    && SecurityUtil.getSLIPrincipal().getEntity().getEntityId().equals(ent.getEntityId())) {
+                debug("Entity is themselves: id {} of type {}", ent.getEntityId(), ent.getType());
+            } else {
+                try{
+                    if (ownership.canAccess(ent, isTransitive)) {
+                        entityIdsToValidate.add(ent.getEntityId());
+                    }
+                } catch (AccessDeniedException aex) {
+                    error(aex.getMessage());
                 }
             }
-        } else {
-            throw new APIAccessDeniedException("No validator for " + def.getType() + ", transitive=" + isTransitive, def.getType(), ids);
         }
+
+        return entityIdsToValidate;
     }
 
     /**
+    * Returns a set of validated entity ids based upon entity type and list of entity ids to validate.
+    *
+    * @param def - Definition of entities to validate
+    * @param idsToValidate - Collection of entity ids to validate
+    * @param validator - Validator to use
+    *
+    * @return - Set of validated entities
+    */
+    protected Set<String> getValidatedIds(EntityDefinition def, Set<String> idsToValidate, IContextValidator validator) {
+        Set<String> validatedIds = new HashSet<String>();
+        if (!idsToValidate.isEmpty()) {
+            validatedIds = validator.validate(def.getType(), idsToValidate);
+        }
+
+        return validatedIds;
+    }
+
+    /**
+    * Returns a set of entity ids from a set of entities.
+    *
+    * @param entities - Collection of entities to validate
+    *
+    * @return - Set of entity ids
+    */
+    protected Set<String> getEntityIds(Collection<Entity> entities) {
+        Set<String> entityIds = new HashSet<String>();
+        for (Entity ent : entities) {
+            entityIds.add(ent.getEntityId());
+        }
+
+        return entityIds;
+    }
+
+    /**
+     * Returns a contextual validator based upon entity type.
      *
-     * @param toType
-     * @param isTransitive
-     * @return
-     * @throws IllegalStateException
+    * @param toType - Type of entity to validate
+    * @param isTransitive - Determines whether validation is through another entity type
+     *
+     * @return - Validator applicable to given type
+     *
+     * @throws IllegalStateException - ???
      */
     public IContextValidator findValidator(String toType, boolean isTransitive) throws IllegalStateException {
 
@@ -332,6 +479,41 @@ public class ContextValidator implements ApplicationContextAware {
         return found;
     }
 
+    public static boolean isTransitive(List<PathSegment> segs) {
+                /*
+         * e.g.
+         * !isTransitive - /v1/staff/<ID>/disciplineActions
+         * isTransitive - /v1/staff/<ID> OR /v1/staff/<ID>/custom
+         */
+        return segs.size() == 3
+                || (segs.size() == 4 && segs.get(3).getPath().equals(ResourceNames.CUSTOM));
+    }
+
+    /**
+    * Returns a list of contextual validators based upon entity type.
+    *
+    * @param toType - Type of entity to validate
+    * @param isTransitive - Determines whether validation is through another entity type
+    *
+    * @return - List of validators to use
+    */
+    public List<IContextValidator> findContextualValidators(String toType, boolean isTransitive) {
+
+        List<IContextValidator> validators = new ArrayList<IContextValidator>();
+        for (IContextValidator validator : this.validators) {
+            if (validator.canValidate(toType, isTransitive)) {
+                info("Using {} to validate {}", new Object[] { validator.getClass().toString(), toType });
+                validators.add(validator);
+            }
+        }
+
+        if (validators.isEmpty()) {
+            warn("No {} validator to {}.", isTransitive ? "TRANSITIVE" : "NOT TRANSITIVE", toType);
+        }
+
+        return validators;
+    }
+
     /**
      * Determines if the entity is global.
      *
@@ -342,5 +524,9 @@ public class ContextValidator implements ApplicationContextAware {
     public boolean isGlobalEntity(String type) {
         return EntityNames.isPublic(type);
     }
-    
+
+    private boolean skipValidation(EntityDefinition def, boolean isRead) {
+        return def == null || def.skipContextValidation() || (GLOBAL_RESOURCES.contains(def.getResourceName()) && isRead);
+    }
+
 }

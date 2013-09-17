@@ -20,6 +20,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
@@ -65,6 +66,7 @@ public class TransitiveTeacherToStaffEdOrgAssociationValidatorTest {
     public void setUp() throws Exception {
         helper.setUpTeacherContext();
         edOrgAssociationIds = new HashSet<String>();
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.TEACHER_CONTEXT);
     }
 
     @After
@@ -88,7 +90,7 @@ public class TransitiveTeacherToStaffEdOrgAssociationValidatorTest {
         helper.generateStaffEdorg(helper.STAFF_ID, helper.ED_ORG_ID, false);
         Entity assoc = helper.generateStaffEdorg("staff2", helper.ED_ORG_ID, false);
         edOrgAssociationIds.add(assoc.getEntityId());
-        assertTrue(validator.validate(EntityNames.STAFF_ED_ORG_ASSOCIATION, edOrgAssociationIds));
+        assertTrue(validator.validate(EntityNames.STAFF_ED_ORG_ASSOCIATION, edOrgAssociationIds).equals(edOrgAssociationIds));
     }
 
     @Test
@@ -96,7 +98,7 @@ public class TransitiveTeacherToStaffEdOrgAssociationValidatorTest {
         helper.generateStaffEdorg(helper.STAFF_ID, helper.ED_ORG_ID, true);
         Entity assoc = helper.generateStaffEdorg("staff2", helper.ED_ORG_ID, false);
         edOrgAssociationIds.add(assoc.getEntityId());
-        assertFalse(validator.validate(EntityNames.STAFF_ED_ORG_ASSOCIATION, edOrgAssociationIds));
+        assertFalse(validator.validate(EntityNames.STAFF_ED_ORG_ASSOCIATION, edOrgAssociationIds).equals(edOrgAssociationIds));
     }
 
 

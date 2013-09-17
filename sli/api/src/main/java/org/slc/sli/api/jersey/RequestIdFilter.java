@@ -13,22 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.slc.sli.api.security;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+package org.slc.sli.api.jersey;
 
-import org.springframework.security.core.GrantedAuthority;
+import com.sun.jersey.spi.container.ContainerRequest;
+import com.sun.jersey.spi.container.ContainerRequestFilter;
+
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.util.RequestUtil;
 
 /**
- * Type definition for EdOrgContextRightsMap, a Map<EdOrgId, Map<Context, Rights>>.
+ * Request ID processing filter.  Creates and stores a unique ID for each request.
  *
  * @author tshewchuk
  */
-public class EdOrgContextRightsCache extends HashMap<String, Map<String, Collection<GrantedAuthority>>> {
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
+@Component
+public class RequestIdFilter implements ContainerRequestFilter {
+
+    @Override
+    public ContainerRequest filter(ContainerRequest request) {
+        RequestUtil.setCurrentRequestId();
+
+        return request;
+    }
+
 }

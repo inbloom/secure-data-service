@@ -39,11 +39,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.context.resolver.SectionHelper;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 
@@ -124,7 +125,8 @@ public class UriMutatorTest {
     }
 
     @Test
-    public void testGetInferredUrisForTeacher() throws Exception {
+    public void testGetInferredUrisForTeacherContext() throws Exception {
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.TEACHER_CONTEXT);
         HashMap<String, String> mutatedContentType = new HashMap<String, String>();
         mutatedContentType.put("Content-Type", "application/vnd.slc.search.full+json");
 
@@ -174,7 +176,8 @@ public class UriMutatorTest {
     }
 
     @Test
-    public void testGetInferredUrisForStaff() throws Exception {
+    public void testGetInferredUrisForStaffContext() throws Exception {
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.STAFF_CONTEXT);
         HashMap<String, String> mutatedContentType = new HashMap<String, String>();
         mutatedContentType.put("Content-Type", "application/vnd.slc.search.full+json");
 
@@ -182,7 +185,82 @@ public class UriMutatorTest {
                 createMutatedContainer("/search/assessments", "", mutatedContentType),
                 mutator.mutateBaseUri(VERSION, ResourceNames.ASSESSMENTS, "", staff));
 
-        Assert.assertEquals("inferred uri for teacher resource: /" + ResourceNames.ATTENDANCES + " is incorrect.",
+        Assert.assertEquals("inferred uri for staff resource: /" + ResourceNames.ATTENDANCES + " is incorrect.",
+                createMutatedContainer("/schools/edOrg123/studentSchoolAssociations/students/attendances", ""),
+                mutator.mutateBaseUri(VERSION, ResourceNames.ATTENDANCES, "", staff));
+
+        Assert.assertEquals("inferred uri for staff resource: /" + ResourceNames.COHORTS + " is incorrect.",
+                createMutatedContainer("/staff/staff123/staffCohortAssociations/cohorts", ""),
+                mutator.mutateBaseUri(VERSION, ResourceNames.COHORTS, "", staff));
+
+        Assert.assertEquals("inferred uri for staff resource: /" + ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS + " is incorrect.",
+                createMutatedContainer("/search/competencyLevelDescriptor", "", mutatedContentType),
+                mutator.mutateBaseUri(VERSION, ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS, "", staff));
+
+        Assert.assertEquals("inferred uri for staff resource: /" + ResourceNames.HOME + " is incorrect.",
+                createMutatedContainer("/home", ""),
+                mutator.mutateBaseUri(VERSION, ResourceNames.HOME, "", staff));
+
+        Assert.assertEquals("inferred uri for staff resource: /" + ResourceNames.LEARNINGSTANDARDS + " is incorrect.",
+                createMutatedContainer("/search/learningStandards", "", mutatedContentType),
+                mutator.mutateBaseUri(VERSION, ResourceNames.LEARNINGSTANDARDS, "", staff));
+
+        Assert.assertEquals("inferred uri for staff resource: /" + ResourceNames.LEARNINGOBJECTIVES + " is incorrect.",
+                createMutatedContainer("/search/learningObjectives", "", mutatedContentType),
+                mutator.mutateBaseUri(VERSION, ResourceNames.LEARNINGOBJECTIVES, "", staff));
+
+        Assert.assertEquals("inferred uri for staff resource: /" + ResourceNames.PROGRAMS + " is incorrect.",
+                createMutatedContainer("/staff/staff123/staffProgramAssociations/programs", ""),
+                mutator.mutateBaseUri(VERSION, ResourceNames.PROGRAMS, "", staff));
+
+        Assert.assertEquals("inferred uri for staff resource: /" + ResourceNames.SECTIONS + " is incorrect.",
+                createMutatedContainer("/schools/edOrg123/sections", ""),
+                mutator.mutateBaseUri(VERSION, ResourceNames.SECTIONS, "", staff));
+
+        Assert.assertEquals("inferred uri for staff resource: /" + ResourceNames.STAFF + " is incorrect.",
+                createMutatedContainer("/educationOrganizations/edOrg123/staffEducationOrgAssignmentAssociations/staff", ""),
+                mutator.mutateBaseUri(VERSION, ResourceNames.STAFF, "", staff));
+
+        Assert.assertEquals("inferred uri for staff resource: /" + ResourceNames.STAFF_COHORT_ASSOCIATIONS + " is incorrect.",
+                createMutatedContainer("/staff/staff123/staffCohortAssociations", ""),
+                mutator.mutateBaseUri(VERSION, ResourceNames.STAFF_COHORT_ASSOCIATIONS, "", staff));
+
+        Assert.assertEquals("inferred uri for staff resource: /" + ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS + " is incorrect.",
+                createMutatedContainer("/staff/staff123/staffEducationOrgAssignmentAssociations", ""),
+                mutator.mutateBaseUri(VERSION, ResourceNames.STAFF_EDUCATION_ORGANIZATION_ASSOCIATIONS, "", staff));
+
+        Assert.assertEquals("inferred uri for staff resource: /" + ResourceNames.STAFF_PROGRAM_ASSOCIATIONS + " is incorrect.",
+                createMutatedContainer("/staff/staff123/staffProgramAssociations", ""),
+                mutator.mutateBaseUri(VERSION, ResourceNames.STAFF_PROGRAM_ASSOCIATIONS, "", staff));
+
+        Assert.assertEquals("inferred uri for staff resource: /" + ResourceNames.STUDENTS + " is incorrect.",
+                createMutatedContainer("/schools/edOrg123/studentSchoolAssociations/students", ""),
+                mutator.mutateBaseUri(VERSION, ResourceNames.STUDENTS, "", staff));
+
+        Assert.assertEquals("inferred uri for staff resource: /" + ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS + " is incorrect.",
+                createMutatedContainer("/schools/edOrg123/studentSchoolAssociations", ""),
+                mutator.mutateBaseUri(VERSION, ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, "", staff));
+
+        Assert.assertEquals("inferred uri for staff resource: /" + ResourceNames.TEACHERS + " is incorrect.",
+                createMutatedContainer("/schools/edOrg123/teacherSchoolAssociations/teachers", ""),
+                mutator.mutateBaseUri(VERSION, ResourceNames.TEACHERS, "", staff));
+
+        Assert.assertEquals("inferred uri for staff resource: /" + ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS + " is incorrect.",
+                createMutatedContainer("/schools/edOrg123/teacherSchoolAssociations", ""),
+                mutator.mutateBaseUri(VERSION, ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS, "", staff));
+    }
+
+    @Test
+    public void testGetInferredUrisForDualContext() throws Exception {
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.DUAL_CONTEXT);
+        HashMap<String, String> mutatedContentType = new HashMap<String, String>();
+        mutatedContentType.put("Content-Type", "application/vnd.slc.search.full+json");
+
+        Assert.assertEquals("inferred uri for staff resource: /" + ResourceNames.ASSESSMENTS + " is incorrect.",
+                createMutatedContainer("/search/assessments", "", mutatedContentType),
+                mutator.mutateBaseUri(VERSION, ResourceNames.ASSESSMENTS, "", staff));
+
+        Assert.assertEquals("inferred uri for staff resource: /" + ResourceNames.ATTENDANCES + " is incorrect.",
                 createMutatedContainer("/schools/edOrg123/studentSchoolAssociations/students/attendances", ""),
                 mutator.mutateBaseUri(VERSION, ResourceNames.ATTENDANCES, "", staff));
 

@@ -16,12 +16,7 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import junit.framework.Assert;
 
@@ -29,6 +24,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
@@ -104,7 +100,8 @@ public class TeacherToGradebookEntryValidatorTest {
         body = new HashMap<String, Object>();
         body.put("sectionId", section3.getEntityId());
         gradebookEntry3 = repo.create(EntityNames.GRADEBOOK_ENTRY, body);
-      
+
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.TEACHER_CONTEXT);
     }
     
     private void setupCurrentUser(Entity staff) {
@@ -126,20 +123,24 @@ public class TeacherToGradebookEntryValidatorTest {
     @Test
     public void testValidAssociations() {
         setupCurrentUser(teacher1);
-        Assert.assertTrue("Must validate", validator.validate(EntityNames.GRADEBOOK_ENTRY, new HashSet<String>(Arrays.asList(gradebookEntry1.getEntityId()))));
+        Set<String> ids = new HashSet<String>(Arrays.asList(gradebookEntry1.getEntityId()));
+        Assert.assertTrue(validator.validate(EntityNames.GRADEBOOK_ENTRY, ids).equals(ids));
     }
         
     @Test
     public void testInvalidAssociations() {
         setupCurrentUser(teacher1);
-        Assert.assertFalse("Must not validate", validator.validate(EntityNames.GRADEBOOK_ENTRY, 
-                new HashSet<String>(Arrays.asList(UUID.randomUUID().toString()))));
-        Assert.assertFalse("Must not validate", validator.validate(EntityNames.GRADEBOOK_ENTRY, 
-                new HashSet<String>()));
-        Assert.assertFalse("Must not validate", validator.validate(EntityNames.GRADEBOOK_ENTRY, 
-                new HashSet<String>(Arrays.asList(gradebookEntry3.getEntityId()))));
-        Assert.assertFalse("Must not validate", validator.validate(EntityNames.GRADEBOOK_ENTRY, 
-                new HashSet<String>(Arrays.asList(gradebookEntry1.getEntityId(), gradebookEntry3.getEntityId()))));
+        Set<String> ids = new HashSet<String>(Arrays.asList(UUID.randomUUID().toString()));
+        Assert.assertFalse("Must not validate", validator.validate(EntityNames.GRADEBOOK_ENTRY, ids).equals(ids));
+
+        Assert.assertTrue("Must not validate", validator.validate(EntityNames.GRADEBOOK_ENTRY,
+                new HashSet<String>()).isEmpty());
+
+        ids = new HashSet<String>(Arrays.asList(gradebookEntry3.getEntityId()));
+        Assert.assertFalse("Must not validate", validator.validate(EntityNames.GRADEBOOK_ENTRY, ids).equals(ids));
+
+        ids = new HashSet<String>(Arrays.asList(gradebookEntry1.getEntityId(), gradebookEntry3.getEntityId()));
+        Assert.assertFalse("Must not validate", validator.validate(EntityNames.GRADEBOOK_ENTRY,  ids).equals(ids));
     }
     
 }

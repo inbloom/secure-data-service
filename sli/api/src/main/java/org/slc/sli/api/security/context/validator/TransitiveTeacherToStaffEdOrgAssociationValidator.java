@@ -27,8 +27,7 @@ import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Validates teachers accessing 'staffEdOrgAssociations' transitively.
@@ -50,18 +49,22 @@ public class TransitiveTeacherToStaffEdOrgAssociationValidator extends AbstractC
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.STAFF_ED_ORG_ASSOCIATION, entityType, ids)) {
-            return false;
+            return Collections.EMPTY_SET;
         }
         
-        Set<String> requiredEdOrgs = new HashSet<String>();
+        Map<String, Set<String>> requiredEdOrgsToSEOAs = new HashMap<String, Set<String>>();
         {
             Iterable<Entity> requestedAssociations = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION,
                     new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids)));
 
             for (Entity entity : requestedAssociations) {
-                requiredEdOrgs.add((String) entity.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE));
+                String id = (String) entity.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE);
+                if (!requiredEdOrgsToSEOAs.containsKey(id)) {
+                    requiredEdOrgsToSEOAs.put(id, new HashSet<String>());
+                }
+                requiredEdOrgsToSEOAs.get(id).add(entity.getEntityId());
             }
         }
 
@@ -77,7 +80,12 @@ public class TransitiveTeacherToStaffEdOrgAssociationValidator extends AbstractC
             }
         }
 
-        return teachersEdOrgs.containsAll(requiredEdOrgs);
+        return getValidIds(teachersEdOrgs, requiredEdOrgsToSEOAs);
+    }
+
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.TEACHER_CONTEXT;
     }
 
 }

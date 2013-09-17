@@ -19,19 +19,14 @@ package org.slc.sli.api.security.context.validator;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
@@ -88,6 +83,8 @@ public class StaffToTeacherSchoolAssociationValidatorTest {
 
         validator.setRepo(mockRepo);
         validator.setStaffToEdOrgValidator(staffToSchoolValidator);
+
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.STAFF_CONTEXT);
     }
 
     @After
@@ -114,13 +111,13 @@ public class StaffToTeacherSchoolAssociationValidatorTest {
 
     @Test
     public void testNullTeacherSchoolAssociation() throws Exception {
-        assertFalse(validator.validate(EntityNames.TEACHER_SCHOOL_ASSOCIATION, null));
+        assertTrue(validator.validate(EntityNames.TEACHER_SCHOOL_ASSOCIATION, null).isEmpty());
     }
 
     @Test
     public void testEmptyTeacherSchoolAssociation() throws Exception {
         Set<String> teacherSchoolAssociations = new HashSet<String>();
-        assertFalse(validator.validate(EntityNames.TEACHER_SCHOOL_ASSOCIATION, teacherSchoolAssociations));
+        assertTrue(validator.validate(EntityNames.TEACHER_SCHOOL_ASSOCIATION, teacherSchoolAssociations).isEmpty());
     }
 
     @Test
@@ -135,8 +132,8 @@ public class StaffToTeacherSchoolAssociationValidatorTest {
                 mockRepo.findAll(Mockito.eq(EntityNames.TEACHER_SCHOOL_ASSOCIATION), Mockito.any(NeutralQuery.class)))
                 .thenReturn(Arrays.asList(teacherSchoolAssociation));
 
-        Mockito.when(staffToSchoolValidator.validate(EntityNames.EDUCATION_ORGANIZATION, schoolIds)).thenReturn(true);
-        assertTrue(validator.validate(EntityNames.TEACHER_SCHOOL_ASSOCIATION, teacherSchoolAssociations));
+        Mockito.when(staffToSchoolValidator.validate(EntityNames.EDUCATION_ORGANIZATION, schoolIds)).thenReturn(schoolIds);
+        assertTrue(validator.validate(EntityNames.TEACHER_SCHOOL_ASSOCIATION, teacherSchoolAssociations).equals(teacherSchoolAssociations));
     }
 
     @Test
@@ -151,7 +148,7 @@ public class StaffToTeacherSchoolAssociationValidatorTest {
                 mockRepo.findAll(Mockito.eq(EntityNames.TEACHER_SCHOOL_ASSOCIATION), Mockito.any(NeutralQuery.class)))
                 .thenReturn(new ArrayList<Entity>());
 
-        assertFalse(validator.validate(EntityNames.TEACHER_SCHOOL_ASSOCIATION, teacherSchoolAssociations));
+        assertFalse(validator.validate(EntityNames.TEACHER_SCHOOL_ASSOCIATION, teacherSchoolAssociations).equals(teacherSchoolAssociations));
     }
 
     @Test
@@ -166,8 +163,8 @@ public class StaffToTeacherSchoolAssociationValidatorTest {
                 mockRepo.findAll(Mockito.eq(EntityNames.TEACHER_SCHOOL_ASSOCIATION), Mockito.any(NeutralQuery.class)))
                 .thenReturn(Arrays.asList(teacherSchoolAssociation));
 
-        Mockito.when(staffToSchoolValidator.validate(EntityNames.EDUCATION_ORGANIZATION, schoolIds)).thenReturn(false);
-        assertFalse(validator.validate(EntityNames.TEACHER_SCHOOL_ASSOCIATION, teacherSchoolAssociations));
+        Mockito.when(staffToSchoolValidator.validate(EntityNames.EDUCATION_ORGANIZATION, schoolIds)).thenReturn(Collections.EMPTY_SET);
+        assertFalse(validator.validate(EntityNames.TEACHER_SCHOOL_ASSOCIATION, teacherSchoolAssociations).equals(teacherSchoolAssociations));
     }
 
     private Map<String, Object> buildTeacherSchoolAssociation(String teacher, String school) {

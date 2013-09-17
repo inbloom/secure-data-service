@@ -60,7 +60,16 @@ public class SecurityUtil {
     // private static String principalId;
 
     public static enum UserContext {STAFF_CONTEXT, TEACHER_CONTEXT, DUAL_CONTEXT, NO_CONTEXT};
-    private static UserContext userContext = UserContext.NO_CONTEXT;
+
+    private static ThreadLocal<UserContext> userContextTL = new ThreadLocal<UserContext>() {
+        @Override
+        protected UserContext initialValue()
+        {
+            return UserContext.NO_CONTEXT;
+        }
+    };
+
+    private static boolean isTransitive = false;
 
     static {
         SLIPrincipal system = new SLIPrincipal("SYSTEM");
@@ -129,7 +138,12 @@ public class SecurityUtil {
     }
 
     public static boolean hasRight(Right required) {
-        Collection<GrantedAuthority> rights = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        Collection<GrantedAuthority> rights;
+        if (isStaffUser()) {
+            rights = getSLIPrincipal().getAllContextRights(false);
+        } else {
+            rights = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        }
         return rights.contains(required);
     }
 
@@ -247,11 +261,27 @@ public class SecurityUtil {
     }
 
     public static UserContext getUserContext() {
-        return userContext;
+        return userContextTL.get();
     }
 
     public static void setUserContext(UserContext userContext) {
-        SecurityUtil.userContext = userContext;
+        SecurityUtil.userContextTL.set(userContext);
+    }
+
+    /**
+     * Set isTransitve flag.
+     * @param transitive
+     */
+    public static void setTransitive(boolean transitive) {
+        isTransitive = transitive;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public static boolean isTransitive() {
+        return isTransitive;
     }
 
     /**

@@ -122,11 +122,11 @@ public class PreProcessFilter implements ContainerRequestFilter {
         principal.setSubEdOrgHierarchy(edOrgHelper.getStaffEdOrgsAndChildren());
 
         Collection<GrantedAuthority> contextRights = principal.getAllContextRights(false);
-        if (contextRights.contains(new GrantedAuthorityImpl(Right.STAFF_CONTEXT.name())) && contextRights.contains(new GrantedAuthorityImpl(Right.TEACHER_CONTEXT.name()))) {
+        if (contextRights.contains(Right.STAFF_CONTEXT) && contextRights.contains(Right.TEACHER_CONTEXT)) {
             SecurityUtil.setUserContext(SecurityUtil.UserContext.DUAL_CONTEXT);
-        } else if (contextRights.contains(new GrantedAuthorityImpl(Right.STAFF_CONTEXT.name()))) {
+        } else if (contextRights.contains(Right.STAFF_CONTEXT)) {
             SecurityUtil.setUserContext(SecurityUtil.UserContext.STAFF_CONTEXT);
-        } else if (contextRights.contains(new GrantedAuthorityImpl(Right.TEACHER_CONTEXT.name()))) {
+        } else if (contextRights.contains(Right.TEACHER_CONTEXT)) {
             SecurityUtil.setUserContext(SecurityUtil.UserContext.TEACHER_CONTEXT);
         } else {
             SecurityUtil.setUserContext(SecurityUtil.UserContext.NO_CONTEXT);
@@ -137,6 +137,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
         mutator.mutateURI(SecurityContextHolder.getContext().getAuthentication(), request);
         injectObligations(request);
         validateNotBlockGetRequest(request);
+        SecurityUtil.setTransitive(ContextValidator.isTransitive(request.getPathSegments()));
 
         if (ResourceMethod.getWriteOps().contains(request.getMethod()) && contextValidator.isUrlBlocked(request)) {
             throw new APIAccessDeniedException(String.format("url %s is not accessible.", request.getAbsolutePath().toString()));

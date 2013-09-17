@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.springframework.test.context.ContextConfiguration;
@@ -39,6 +40,7 @@ public class TeacherToCohortValidatorTest {
 	@Before
 	public void init() {
 		injector.setEducatorContext(USER_ID);
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.TEACHER_CONTEXT);
 	}
 
 	@Test
@@ -63,7 +65,7 @@ public class TeacherToCohortValidatorTest {
 			cohortIds.add(this.generateCohortAndAssociate(USER_ID, desc));
 		}
 
-		Assert.assertTrue(val.validate(EntityNames.COHORT, cohortIds));
+		Assert.assertTrue(!val.validate(EntityNames.COHORT, cohortIds).isEmpty());
 	}
 
 	@Test
@@ -75,10 +77,10 @@ public class TeacherToCohortValidatorTest {
 			cohortIds.add(this.generateCohort(USER_ID, desc));
 		}
 
-		Assert.assertFalse(val.validate(EntityNames.COHORT, cohortIds));
+		Assert.assertFalse(val.validate(EntityNames.COHORT, cohortIds).size() == cohortIds.size());
 
 		for (String id : cohortIds) {
-			Assert.assertFalse(val.validate(EntityNames.COHORT, Collections.singleton(id)));
+			Assert.assertFalse(val.validate(EntityNames.COHORT, Collections.singleton(id)).size() == 1);
 		}
 
 	}
@@ -107,14 +109,14 @@ public class TeacherToCohortValidatorTest {
 			}
 		}
 
-		Assert.assertFalse(val.validate(EntityNames.COHORT, cohortIds));
+		Assert.assertFalse(val.validate(EntityNames.COHORT, cohortIds).containsAll(cohortIds));
 
 		for (String id : cohortIds) {
 			if(successes.contains(id)) {
-				Assert.assertTrue(val.validate(EntityNames.COHORT, Collections.singleton(id)));
+				Assert.assertEquals(val.validate(EntityNames.COHORT, Collections.singleton(id)).size(), 1);
 			}
 			else {
-				Assert.assertFalse(val.validate(EntityNames.COHORT, Collections.singleton(id)));
+				Assert.assertFalse(!val.validate(EntityNames.COHORT, Collections.singleton(id)).isEmpty());
 			}
 		}
 	}

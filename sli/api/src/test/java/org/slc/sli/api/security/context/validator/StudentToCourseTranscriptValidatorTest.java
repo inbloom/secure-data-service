@@ -102,8 +102,8 @@ public class StudentToCourseTranscriptValidatorTest {
     @Test
     public void shouldSeeOwnCourseTranscriptsOnly() {
         injector.setStudentContext(student1);
-        assertTrue(underTest.validate(EntityNames.COURSE_TRANSCRIPT, new HashSet<String>(Arrays.asList(courseTranscript1.getEntityId()))));
-        assertFalse(underTest.validate(EntityNames.COURSE_TRANSCRIPT, new HashSet<String>(Arrays.asList(courseTranscript2.getEntityId()))));
+        assertFalse(underTest.validate(EntityNames.COURSE_TRANSCRIPT, new HashSet<String>(Arrays.asList(courseTranscript1.getEntityId()))).isEmpty());
+        assertTrue(underTest.validate(EntityNames.COURSE_TRANSCRIPT, new HashSet<String>(Arrays.asList(courseTranscript2.getEntityId()))).isEmpty());
     }
     
 }

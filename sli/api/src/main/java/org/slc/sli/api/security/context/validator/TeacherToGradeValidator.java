@@ -16,6 +16,7 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
@@ -24,9 +25,7 @@ import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Validates the context of a teacher to see the requested set of grade entities.
@@ -44,18 +43,30 @@ public class TeacherToGradeValidator extends AbstractContextValidator {
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.GRADE, entityType, ids)) {
-            return false;
+            return Collections.EMPTY_SET;
         }
 
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids));
         query.setIncludeFields(Arrays.asList(ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID));
         Iterable<Entity> grades = getRepo().findAll(EntityNames.GRADE, query);
-        Set<String> secAssocIds = new HashSet<String>();
+        Map<String, Set<String>> secAssocIdsToGrade = new HashMap<String, Set<String>>();
         for(Entity grade : grades) {
-            secAssocIds.add((String) grade.getBody().get(ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID));
+            String id = (String) grade.getBody().get(ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID);
+            if (!secAssocIdsToGrade.containsKey(id)) {
+                secAssocIdsToGrade.put(id, new HashSet<String>());
+            }
+            secAssocIdsToGrade.get(id).add(grade.getEntityId());
         }
-        return sectionAssocValidator.validate(EntityNames.STUDENT_SECTION_ASSOCIATION, secAssocIds);
+
+        Set<String> validSecAssocIds = sectionAssocValidator.validate(EntityNames.STUDENT_SECTION_ASSOCIATION, secAssocIdsToGrade.keySet());
+        return getValidIds(validSecAssocIds, secAssocIdsToGrade);
     }
+
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.TEACHER_CONTEXT;
+    }
+
 }

@@ -88,11 +88,13 @@ public class StudentToStudentAssociationValidatorTest extends TestCase {
 
     @Test
     public void testPositiveValidate() {
-        assertTrue(validator.validate(EntityNames.STUDENT_COHORT_ASSOCIATION, new HashSet<String>(Arrays.asList(assoc1Current.getEntityId(), assoc1Past.getEntityId()))));
+        Set<String> idsToValidate = new HashSet<String>(Arrays.asList(assoc1Current.getEntityId(), assoc1Past.getEntityId()));
+        assertTrue(validator.validate(EntityNames.STUDENT_COHORT_ASSOCIATION, idsToValidate).containsAll(idsToValidate));
     }
 
     @Test
     public void testHeterogeneousValidate() {
-        assertFalse(validator.validate(EntityNames.STUDENT_COHORT_ASSOCIATION, new HashSet<String>(Arrays.asList(assoc1Current.getEntityId(), assoc2.getEntityId()))));
+        Set<String> idsToValidate = new HashSet<String>(Arrays.asList(assoc1Current.getEntityId(), assoc2.getEntityId()));
+        assertFalse(validator.validate(EntityNames.STUDENT_COHORT_ASSOCIATION, idsToValidate).containsAll(idsToValidate));
     }
 }

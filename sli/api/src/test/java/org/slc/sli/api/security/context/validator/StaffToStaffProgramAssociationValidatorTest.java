@@ -30,6 +30,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
@@ -84,6 +85,7 @@ public class StaffToStaffProgramAssociationValidatorTest {
         injector.setCustomContext(user, fullName, "MERPREALM", roles, entity, helper.ED_ORG_ID);
         
         cohortIds = new HashSet<String>();
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.STAFF_CONTEXT);
 
     }
     
@@ -118,7 +120,7 @@ public class StaffToStaffProgramAssociationValidatorTest {
         Entity sca = helper.generateStaffProgram(helper.STAFF_ID,
                 helper.generateProgram().getEntityId(), false, true);
         cohortIds.add(sca.getEntityId());
-        assertTrue(validator.validate(EntityNames.STAFF_PROGRAM_ASSOCIATION, cohortIds));
+        assertTrue(validator.validate(EntityNames.STAFF_PROGRAM_ASSOCIATION, cohortIds).equals(cohortIds));
         
         // And ones below me
         for (int i = 0; i < 5; ++i) {
@@ -127,7 +129,7 @@ public class StaffToStaffProgramAssociationValidatorTest {
             helper.generateStaffEdorg(i + "", school.getEntityId(), false);
             cohortIds.add(sca.getEntityId());
         }
-        assertTrue(validator.validate(EntityNames.STAFF_PROGRAM_ASSOCIATION, cohortIds));
+        assertTrue(validator.validate(EntityNames.STAFF_PROGRAM_ASSOCIATION, cohortIds).equals(cohortIds));
         
     }
     
@@ -139,7 +141,7 @@ public class StaffToStaffProgramAssociationValidatorTest {
         Entity sca = helper.generateStaffProgram(helper.STAFF_ID, helper.generateProgram()
                 .getEntityId(), true, false);
         cohortIds.add(sca.getEntityId());
-        assertFalse(validator.validate(EntityNames.STAFF_PROGRAM_ASSOCIATION, cohortIds));
+        assertFalse(validator.validate(EntityNames.STAFF_PROGRAM_ASSOCIATION, cohortIds).equals(cohortIds));
         cohortIds.clear();
         cleanProgramData();
         
@@ -148,7 +150,7 @@ public class StaffToStaffProgramAssociationValidatorTest {
         sca = helper.generateStaffProgram(helper.STAFF_ID, helper.generateProgram()
                 .getEntityId(), false, false);
         cohortIds.add(sca.getEntityId());
-        assertFalse(validator.validate(EntityNames.STAFF_PROGRAM_ASSOCIATION, cohortIds));
+        assertFalse(validator.validate(EntityNames.STAFF_PROGRAM_ASSOCIATION, cohortIds).equals(cohortIds));
 
     }
     
@@ -163,7 +165,7 @@ public class StaffToStaffProgramAssociationValidatorTest {
         Entity sca = helper.generateStaffProgram("MOOP", helper.generateProgram().getEntityId(),
                 false, true);
         cohortIds.add(sca.getEntityId());
-        assertFalse(validator.validate(EntityNames.STAFF_PROGRAM_ASSOCIATION, cohortIds));
+        assertFalse(validator.validate(EntityNames.STAFF_PROGRAM_ASSOCIATION, cohortIds).equals(cohortIds));
     }
     
     @Test
@@ -176,7 +178,7 @@ public class StaffToStaffProgramAssociationValidatorTest {
         Entity sca = helper.generateStaffProgram("MOOP", helper.generateProgram().getEntityId(),
                 false, true);
         cohortIds.add(sca.getEntityId());
-        assertFalse(validator.validate(EntityNames.STAFF_PROGRAM_ASSOCIATION, cohortIds));
+        assertFalse(validator.validate(EntityNames.STAFF_PROGRAM_ASSOCIATION, cohortIds).equals(cohortIds));
     }
 
 }

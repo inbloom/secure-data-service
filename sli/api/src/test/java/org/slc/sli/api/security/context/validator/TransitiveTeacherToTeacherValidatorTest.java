@@ -14,6 +14,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.service.MockRepo;
@@ -48,6 +49,7 @@ public class TransitiveTeacherToTeacherValidatorTest {
     @Before
     public void init() {
         injector.setEducatorContext(USER_ID);
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.TEACHER_CONTEXT);
     }
     
     @After
@@ -69,7 +71,7 @@ public class TransitiveTeacherToTeacherValidatorTest {
             vth.generateStaffEdorg(id, ED_ORG, false);
         }
 
-        Assert.assertTrue(val.validate(EntityNames.TEACHER, teacherIds));
+        Assert.assertTrue(val.validate(EntityNames.TEACHER, teacherIds).containsAll(teacherIds));
     }
 
     @Test
@@ -80,10 +82,10 @@ public class TransitiveTeacherToTeacherValidatorTest {
             vth.generateStaffEdorg(id, ED_ORG, false);
         }
 
-        Assert.assertFalse(val.validate(EntityNames.TEACHER, teacherIds));
+        Assert.assertFalse(val.validate(EntityNames.TEACHER, teacherIds).containsAll(teacherIds));
 
         for (String id : teacherIds) {
-            Assert.assertFalse(val.validate(EntityNames.TEACHER, Collections.singleton(id)));
+            Assert.assertFalse(val.validate(EntityNames.TEACHER, Collections.singleton(id)).contains(id));
         }
 
     }
@@ -103,13 +105,13 @@ public class TransitiveTeacherToTeacherValidatorTest {
             }
         }
 
-        Assert.assertFalse(val.validate(EntityNames.TEACHER, teacherIds));
+        Assert.assertFalse(val.validate(EntityNames.TEACHER, teacherIds).containsAll(teacherIds));
 
         for (String id : teacherIds) {
             if (successes.contains(id)) {
-                Assert.assertTrue(val.validate(EntityNames.TEACHER, Collections.singleton(id)));
+                Assert.assertTrue(val.validate(EntityNames.TEACHER, Collections.singleton(id)).contains(id));
             } else {
-                Assert.assertFalse(val.validate(EntityNames.TEACHER, Collections.singleton(id)));
+                Assert.assertFalse(val.validate(EntityNames.TEACHER, Collections.singleton(id)).contains(id));
             }
         }
     }
@@ -123,10 +125,10 @@ public class TransitiveTeacherToTeacherValidatorTest {
             vth.generateStaffEdorg(id, ED_ORG, true);
         }
         
-        Assert.assertFalse(val.validate(EntityNames.TEACHER, teacherIds));
+        Assert.assertFalse(val.validate(EntityNames.TEACHER, teacherIds).containsAll(teacherIds));
         for (String id : teacherIds) {
             vth.generateStaffEdorg(id, ED_ORG, false);
         }
-        Assert.assertTrue(val.validate(EntityNames.TEACHER, teacherIds));
+        Assert.assertTrue(val.validate(EntityNames.TEACHER, teacherIds).containsAll(teacherIds));
     }
 }

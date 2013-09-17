@@ -34,6 +34,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
@@ -88,6 +89,7 @@ public class FourPartResourceTest {
         studentResource = new Resource("v1", "students");
         sectionResource = new Resource("v1", "sections");
         ssaResource = new Resource("v1", "studentSectionAssociations");
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.STAFF_CONTEXT);
     }
 
     private void setupMocks(String uri) throws URISyntaxException {

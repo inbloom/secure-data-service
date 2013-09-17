@@ -16,18 +16,14 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
@@ -58,6 +54,9 @@ public class StaffToGradebookEntryValidatorTest {
     
     @Autowired
     private GenericToGradebookEntryValidator validator;
+
+    @Autowired
+    private ValidatorTestHelper helper;
     
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
@@ -101,15 +100,10 @@ public class StaffToGradebookEntryValidatorTest {
         body.put("parentEducationAgencyReference", lea1.getEntityId());
         school1 = repo.create("educationOrganization", body);
 
-        body = new HashMap<String, Object>();
-        body.put("educationOrganizationReference", lea1.getEntityId());
-        body.put("staffReference", staff1.getEntityId());
-        repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, body);
-        
-        body = new HashMap<String, Object>();
-        body.put("educationOrganizationReference", school1.getEntityId());
-        body.put("staffReference", staff2.getEntityId());
-        repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, body);
+
+        helper.generateStaffEdorg(staff1.getEntityId(), lea1.getEntityId(), false);
+
+        helper.generateStaffEdorg(staff2.getEntityId(), school1.getEntityId(), false);
         
         body = new HashMap<String, Object>();
         body.put("schoolId", school1.getEntityId());
@@ -126,20 +120,21 @@ public class StaffToGradebookEntryValidatorTest {
         body = new HashMap<String, Object>();
         body.put("sectionId", section2.getEntityId());
         gradebookEntry2 = repo.create(EntityNames.GRADEBOOK_ENTRY, body);
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.STAFF_CONTEXT);
       
     }
     
-    private void setupCurrentUser(Entity staff) {
+    private void setupCurrentUser(Entity staff, Entity edorg) {
         // Set up the principal
         String user = "fake staff";
         String fullName = "Fake Staff";
         List<String> roles = Arrays.asList(SecureRoleRightAccessImpl.IT_ADMINISTRATOR);
-        injector.setCustomContext(user, fullName, "MERPREALM", roles, staff, "111");
+        injector.setCustomContext(user, fullName, "MERPREALM", roles, staff, edorg.getEntityId());
     }
     
     @Test
     public void testCanValidateAsStaff() {
-        setupCurrentUser(staff1);
+        setupCurrentUser(staff1, lea1);
         Assert.assertTrue("Must be able to validate", validator.canValidate(EntityNames.GRADEBOOK_ENTRY, false));
         Assert.assertTrue("Must be able to validate", validator.canValidate(EntityNames.GRADEBOOK_ENTRY, true));
         Assert.assertFalse("Must not be able to validate", validator.canValidate(EntityNames.ADMIN_DELEGATION, false));
@@ -147,33 +142,39 @@ public class StaffToGradebookEntryValidatorTest {
        
     @Test
     public void testValidAssociationsForStaff1() {
-        setupCurrentUser(staff1);
-        Assert.assertTrue("Must validate", validator.validate(EntityNames.GRADEBOOK_ENTRY, new HashSet<String>(Arrays.asList(gradebookEntry1.getEntityId()))));
+        setupCurrentUser(staff1, lea1);
+        Set<String> idsToValidate = new HashSet<String>(Arrays.asList(gradebookEntry1.getEntityId()));
+        Assert.assertEquals(idsToValidate, validator.validate(EntityNames.GRADEBOOK_ENTRY, idsToValidate));
     }
     
     @Test
     public void testValidAssociationsForStaff2() {
-        setupCurrentUser(staff2);
-        Assert.assertTrue("Must validate", validator.validate(EntityNames.GRADEBOOK_ENTRY, new HashSet<String>(Arrays.asList(gradebookEntry1.getEntityId()))));
+        setupCurrentUser(staff2, school1);
+        Set<String> idsToValidate = new HashSet<String>(Arrays.asList(gradebookEntry1.getEntityId()));
+        Assert.assertEquals(idsToValidate, validator.validate(EntityNames.GRADEBOOK_ENTRY, idsToValidate));
     }
     
     @Test
     public void testInvalidAssociationsForStaff1() {
-        setupCurrentUser(staff1);
-        Assert.assertFalse("Must not validate", validator.validate(EntityNames.GRADEBOOK_ENTRY, new HashSet<String>(Arrays.asList(gradebookEntry2.getEntityId()))));
+        setupCurrentUser(staff1, lea1);
+        Set<String> idsToValidate = new HashSet<String>(Arrays.asList(gradebookEntry2.getEntityId()));
+        Assert.assertFalse("Must not validate", validator.validate(EntityNames.GRADEBOOK_ENTRY, idsToValidate).containsAll(idsToValidate));
     }
     
     @Test
     public void testInvalidAssociationsForStaff2() {
-        setupCurrentUser(staff2);
-        Assert.assertFalse("Must not validate", validator.validate(EntityNames.GRADEBOOK_ENTRY, new HashSet<String>(Arrays.asList(gradebookEntry2.getEntityId()))));
+        setupCurrentUser(staff2, school1);
+        Set<String> idsToValidate = new HashSet<String>(Arrays.asList(gradebookEntry2.getEntityId()));
+        Assert.assertFalse("Must not validate", validator.validate(EntityNames.GRADEBOOK_ENTRY, idsToValidate).containsAll(idsToValidate));
     }
     
     @Test
     public void testInvalidAssociations() {
-        setupCurrentUser(staff2);
-        Assert.assertFalse("Must not validate", validator.validate(EntityNames.GRADEBOOK_ENTRY, new HashSet<String>(Arrays.asList(UUID.randomUUID().toString()))));
-        Assert.assertFalse("Must not validate", validator.validate(EntityNames.GRADEBOOK_ENTRY, new HashSet<String>()));
+        setupCurrentUser(staff2, lea1);
+        Set<String> idsToValidate = new HashSet<String>(Arrays.asList(UUID.randomUUID().toString()));
+        Assert.assertFalse("Must not validate", validator.validate(EntityNames.GRADEBOOK_ENTRY, idsToValidate).containsAll(idsToValidate));
+        idsToValidate.clear();
+        Assert.assertTrue(validator.validate(EntityNames.GRADEBOOK_ENTRY, idsToValidate).isEmpty());
     }
     
 }

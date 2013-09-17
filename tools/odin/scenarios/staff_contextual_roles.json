@@ -67,6 +67,11 @@
         "type": "High School",
         "association": "East Daybreak High",
         "parent" : "District 9"
+      },
+      {
+        "role": "Educator",
+        "type": "High School",
+        "association": "Daybreak Ragnarok"
       }
     ]
   },
@@ -85,6 +90,11 @@
         "type": "High School",
         "association": "East Daybreak High",
         "parent" : "District 9"
+      },
+      {
+        "role": "Educator",
+        "type": "High School",
+        "association": "Daybreak Apocalypse"
       }
     ]
   },
@@ -103,6 +113,11 @@
         "type": "High School",
         "association": "East Daybreak High",
         "parent" : "District 9"
+      },
+      {
+        "role": "Leader",
+        "type": "High School",
+        "association": "Daybreak Apocalypse"
       }
     ]
   },
@@ -138,6 +153,17 @@
         "role": "Leader",
         "type": "Local Education Agency",
         "association": "District 9",
+        "parent" : "IL-DAYBREAK"
+      },
+      {
+        "role": "Leader",
+        "type": "High School",
+        "association": "Daybreak Ragnarok"
+      },
+      {
+        "role": "Leader",
+        "type": "Local Education Agency",
+        "association": "Daybreak Center",
         "parent" : "IL-DAYBREAK"
       }
     ]

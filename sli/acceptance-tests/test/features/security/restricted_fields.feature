@@ -14,13 +14,13 @@ Feature: As an SLI application I want to restrict user's access to restricted da
     And I should see that "schoolFoodServicesEligibility" is nil in the JSON response
     Given parameter "economicDisadvantaged" is "false"
     And I make an API call to get "<'MARVIN MILLER'>"
-    Then I should receive a return code of 404
+    Then I should receive a return code of 400
     Given parameter "schoolFoodServicesEligibility" is "Reduced price"
     When I make an API call to get "<'MARVIN MILLER'>"
-    Then I should receive a return code of 404
+    Then I should receive a return code of 400
     Given parameter "economicDisadvantaged" is "true"
     And I make an API call to get "<'MARVIN MILLER'>"
-    Then I should receive a return code of 404
+    Then I should receive a return code of 400
 
   Scenario: Rick Rogers querying on the restricted fields
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
@@ -83,6 +83,7 @@ Feature: As an SLI application I want to restrict user's access to restricted da
     And I should see that "highlyQualifiedTeacher" is nil in the JSON response
     And I should see that "teacherUniqueStateId" is nil in the JSON response
 
+  #The following scenario seems incorrect.. The return code should be 200 for all these cases.. DE2942
   Scenario: Charles Gray Admin querying on the restricted fields
     Given I am logged in using "cgrayadmin" "cgrayadmin1234" to realm "IL"
     When I make an API call to get "teachers" "<'SHELIA TWEED'>"

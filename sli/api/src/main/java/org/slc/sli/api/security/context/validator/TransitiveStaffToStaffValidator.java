@@ -25,14 +25,8 @@ import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
 /**
  * Validates the context of a transitive staff member to see the requested set of staff entities.
@@ -53,12 +47,12 @@ public class TransitiveStaffToStaffValidator extends AbstractContextValidator {
     
     @SuppressWarnings("unchecked")
     @Override
-    public boolean validate(String entityName, Set<String> staffIds) throws IllegalStateException {
+    public Set<String> validate(String entityName, Set<String> staffIds) throws IllegalStateException {
         if (!areParametersValid(EntityNames.STAFF, entityName, staffIds)) {
-            return false;
+            return Collections.EMPTY_SET;
         }
         
-        List<String> remainder = new ArrayList<String>(staffIds);
+        Set<String> validIds = new HashSet<String>();
         
         // Intersecting schools
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria("staffReference", NeutralCriteria.CRITERIA_IN,
@@ -76,24 +70,21 @@ public class TransitiveStaffToStaffValidator extends AbstractContextValidator {
         
         // Ok, user doesn't have any current edorgs, don't go any further
         if (edOrgLineage.isEmpty() || staffEdorgMap.isEmpty()) {
-            return false;
+            return Collections.EMPTY_SET;
         }
         
         for (Entry<String, Set<String>> entry : staffEdorgMap.entrySet()) {
             Set<String> tmpSet = new HashSet<String>(entry.getValue());
             tmpSet.retainAll(edOrgLineage);
             if (tmpSet.size() != 0) {
-                remainder.remove(entry.getKey());
+                validIds.add(entry.getKey());
             }
         }
-        
-        // Intersecting direct programs
-        remainder.removeAll(validateThrough(EntityNames.STAFF_PROGRAM_ASSOCIATION, "programId"));
-        
-        // Intersecting direct cohorts
-        remainder.removeAll(validateThrough(EntityNames.STAFF_COHORT_ASSOCIATION, "cohortId"));
-        
-        // Intersecting edorg's programs
+
+        validIds.addAll(validateThrough(EntityNames.STAFF_PROGRAM_ASSOCIATION, "programId"));
+
+        validIds.addAll(validateThrough(EntityNames.STAFF_COHORT_ASSOCIATION, "cohortId"));
+
         basicQuery = new NeutralQuery(new NeutralCriteria("_id", "in", edOrgLineage));
         Iterable<Entity> edorgs = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, basicQuery);
         
@@ -109,15 +100,16 @@ public class TransitiveStaffToStaffValidator extends AbstractContextValidator {
             }
         }
         
-        remainder.removeAll(getIds(EntityNames.STAFF_PROGRAM_ASSOCIATION, "programId", programs));
+        validIds.addAll(getIds(EntityNames.STAFF_PROGRAM_ASSOCIATION, "programId", programs));
         
         // Intersecting edorg's cohorts
         basicQuery = new NeutralQuery(new NeutralCriteria("educationOrgId", "in", edOrgLineage));
         List<String> cohorts = (List<String>) repo.findAllIds(EntityNames.COHORT, basicQuery);
         
-        remainder.removeAll(getIds(EntityNames.STAFF_COHORT_ASSOCIATION, "cohortId", cohorts));
-        
-        return remainder.isEmpty();
+        validIds.addAll(getIds(EntityNames.STAFF_COHORT_ASSOCIATION, "cohortId", cohorts));
+
+        validIds.retainAll(staffIds);
+        return validIds;
     }
     
     @SuppressWarnings("unchecked")
@@ -183,6 +175,11 @@ public class TransitiveStaffToStaffValidator extends AbstractContextValidator {
             }
             edorgList.add(edorgId);
         }
+    }
+
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.STAFF_CONTEXT;
     }
 
 }

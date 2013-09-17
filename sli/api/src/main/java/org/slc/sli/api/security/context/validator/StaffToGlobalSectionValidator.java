@@ -16,8 +16,13 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
+import com.google.common.collect.Sets;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.domain.Entity;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.constants.EntityNames;
@@ -38,9 +43,9 @@ public class StaffToGlobalSectionValidator extends AbstractContextValidator {
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.SECTION, entityType, ids)) {
-            return false;
+            return Collections.EMPTY_SET;
         }
 
         /*
@@ -53,6 +58,19 @@ public class StaffToGlobalSectionValidator extends AbstractContextValidator {
                 ids, false));
         query.addCriteria(new NeutralCriteria(ParameterConstants.SCHOOL_ID, NeutralCriteria.CRITERIA_IN, edOrgLineage));
 
-        return ids.size() == getRepo().count(entityType, query);
+        Set<String> validSections = new HashSet<String>();
+        if (ids.size() != getRepo().count(entityType, query)) {
+            Iterable<String> sections = getRepo().findAllIds(entityType, query);
+            validSections = Sets.newHashSet(sections);
+        } else {
+            validSections = ids;
+        }
+        return validSections;
+
+    }
+
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.STAFF_CONTEXT;
     }
 }

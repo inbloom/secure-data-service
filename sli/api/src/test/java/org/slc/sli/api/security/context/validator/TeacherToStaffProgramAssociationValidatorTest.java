@@ -28,6 +28,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.domain.Entity;
@@ -60,6 +61,7 @@ public class TeacherToStaffProgramAssociationValidatorTest {
     @Before
     public void init() {
         injector.setEducatorContext(USER_ID);
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.TEACHER_CONTEXT);
     }
 
     @After
@@ -79,7 +81,8 @@ public class TeacherToStaffProgramAssociationValidatorTest {
     @Test
     public void testSuccessOne() {
         Entity tsa = this.vth.generateStaffProgram(USER_ID, PROGRAM_ID, false, true);
-        Assert.assertTrue(val.validate(CORRECT_ENTITY_TYPE, Collections.singleton(tsa.getEntityId())));
+        Set<String> ids = Collections.singleton(tsa.getEntityId());
+        Assert.assertTrue(val.validate(CORRECT_ENTITY_TYPE, ids).equals(ids));
     }
 
     @Test
@@ -90,21 +93,27 @@ public class TeacherToStaffProgramAssociationValidatorTest {
             ids.add(this.vth.generateStaffProgram(USER_ID, PROGRAM_ID, false, true).getEntityId());
         }
 
-        Assert.assertTrue(val.validate(CORRECT_ENTITY_TYPE, ids));
+        Assert.assertTrue(val.validate(CORRECT_ENTITY_TYPE, ids).equals(ids));
     }
 
     @Test
     public void testWrongId() {
-        Assert.assertFalse(val.validate(CORRECT_ENTITY_TYPE, Collections.singleton("Hammerhands")));
-        Assert.assertFalse(val.validate(CORRECT_ENTITY_TYPE, Collections.singleton("Nagas")));
-        Assert.assertFalse(val.validate(CORRECT_ENTITY_TYPE, Collections.singleton("Phantom Warriors")));
+        Set<String> ids = Collections.singleton("Hammerhands");
+        Assert.assertFalse(val.validate(CORRECT_ENTITY_TYPE, ids).equals(ids));
+
+        ids = Collections.singleton("Nagas");
+        Assert.assertFalse(val.validate(CORRECT_ENTITY_TYPE, ids).equals(ids));
+
+        ids = Collections.singleton("Phantom Warriors");
+        Assert.assertFalse(val.validate(CORRECT_ENTITY_TYPE, ids).equals(ids));
     }
 
     @Test
     public void testHeterogenousList() {
+        Set<String> ids = new HashSet<String>(Arrays.asList(this.vth.generateStaffProgram(USER_ID, PROGRAM_ID, false, true).getEntityId(), this.vth.generateStaffProgram("Ssss'ra", "Arcanus", false, true).getEntityId(),
+                this.vth.generateStaffProgram("Kali", "Arcanus", false, true).getEntityId()));
+
         Assert.assertFalse(val.validate(
-                CORRECT_ENTITY_TYPE,
-                new HashSet<String>(Arrays.asList(this.vth.generateStaffProgram(USER_ID, PROGRAM_ID, false, true).getEntityId(), this.vth.generateStaffProgram("Ssss'ra", "Arcanus", false, true).getEntityId(),
-                        this.vth.generateStaffProgram("Kali", "Arcanus", false, true).getEntityId()))));
+                CORRECT_ENTITY_TYPE, ids).equals(ids));
     }
 }
