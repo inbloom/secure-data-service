@@ -16,15 +16,7 @@
 
 package org.slc.sli.api.security.context.resolver;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import javax.annotation.PostConstruct;
 
@@ -302,7 +294,7 @@ public class EdOrgHelper {
      * @return
      */
     public List<String> getDirectSchools(Entity principal) {
-        return getDirectSchoolsLineage( principal, false );
+        return getDirectSchoolsLineage(principal, false);
     }
 
     public List<String> getDirectSchoolsLineage(Entity principal, boolean getLineage) {
@@ -343,6 +335,11 @@ public class EdOrgHelper {
      * @return
      */
     public Set<String> getChildEdOrgs(Collection<String> edOrgs) {
+        Set<String> visitedEdOrgs = new HashSet<String>();
+        return getChildEdOrgs(visitedEdOrgs, edOrgs);
+    }
+
+    public Set<String> getChildEdOrgs(final Set<String> visitedEdOrgs, Collection<String> edOrgs) {
 
         if (edOrgs.isEmpty()) {
             return new HashSet<String>();
@@ -350,15 +347,20 @@ public class EdOrgHelper {
 
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE,
                 NeutralCriteria.CRITERIA_IN, edOrgs));
-        Iterable<Entity> childrenIds = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query);
-        Set<String> children = new HashSet<String>();
-        for (Entity child : childrenIds) {
-            children.add(child.getEntityId());
+        Iterable<Entity> children = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query);
+
+        visitedEdOrgs.addAll(edOrgs);
+
+        Set<String> childIds = new HashSet<String>();
+        for (Entity child : children) {
+            if (!visitedEdOrgs.contains(child.getEntityId())) {
+                childIds.add(child.getEntityId());
+            }
         }
-        if (!children.isEmpty()) {
-            children.addAll(getChildEdOrgs(children));
+        if (!childIds.isEmpty()) {
+            childIds.addAll(getChildEdOrgs(visitedEdOrgs, childIds));
         }
-        return children;
+        return childIds;
     }
 
 
@@ -369,24 +371,21 @@ public class EdOrgHelper {
      * @return
      */
     public Set<String> getChildEdOrgsName(Collection<String> edOrgs) {
+        // get child edOrgs reusing existing code
+        Set<String> childEdOrgIds = getChildEdOrgs(edOrgs);
 
-        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE,
-                NeutralCriteria.CRITERIA_IN, edOrgs));
-        Iterable<Entity> childrenEntities = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query);
-        Set<String> children = new HashSet<String>();
-        for (Entity child : childrenEntities) {
-            children.add((String) child.getBody().get("stateOrganizationId"));
+        // do a single query to get the names (stateOrganizationId)
+        NeutralQuery query = new NeutralQuery(
+                new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN,
+                        new ArrayList<String>(childEdOrgIds))).setIncludeFields(Arrays.asList(ParameterConstants.STATE_ORGANIZATION_ID));
+
+        Iterable<Entity> children = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query);
+        Set<String> names = new HashSet<String>();
+        for (Entity child : children) {
+            names.add((String) child.getBody().get(ParameterConstants.STATE_ORGANIZATION_ID));
         }
-        Set<String> childrenIds = new HashSet<String>();
-        for (Entity child : childrenEntities) {
-        	childrenIds.add(child.getEntityId());
-        }
-        if (!children.isEmpty()) {
-            children.addAll(getChildEdOrgsName(childrenIds));
-        }
-        return children;
+        return names;
     }
-
 
     private Entity getTopLEAOfEdOrg(Entity entity) {
         if (entity.getBody().containsKey("parentEducationAgencyReference")) {
