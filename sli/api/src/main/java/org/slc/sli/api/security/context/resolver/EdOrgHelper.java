@@ -16,6 +16,7 @@
 
 package org.slc.sli.api.security.context.resolver;
 
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -26,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.Arrays;
 
 
 import javax.annotation.PostConstruct;
