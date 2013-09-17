@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.slc.sli.modeling</groupId>
         <artifactId>modeling</artifactId>
-        <version>1.10.85.82</version>
+        <version>1.10.85.97</version>
     </parent>
     <artifactId>docgen</artifactId>
     <name>docgen (Documentation Generator)</name>
