@@ -1,8 +1,7 @@
-  Feature: LEA Level Bulk Extract
+  Feature: School Level Bulk Extract
   
-  @LEA
+  @School
   Scenario: Trigger a bulk extract on ingested data and retrieve the lea extract through the api
-    And I wait for user input
     Given I trigger a bulk extract
 
       And I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
@@ -32,18 +31,16 @@
       #|  graduationPlan                        |  1 |  be94495521de212dcb844169eafd434061fbfff9_id |
       #|  learningObjective                     |   |         |
       #|  learningStandard                      |   |         |
-      #|  parent                                | 9 | 6bf57bc4b7ec518e78ee16a627b02da2a02a182b_id |
+      |  parent                                | 2 | 6bf57bc4b7ec518e78ee16a627b02da2a02a182b_id |
       #|  program                               |   |         |
       #|  reportCard                            | 2 | 0ae33a43b05f2be4b9c8af13788ae0b0448370ef_id4a997dd12d3122fa839523965aab34e397fb79db_id |
       #|  school                                | 4 | 2fe47c8e78a65ee51a72628c170673c35c4bd85a_id |
-      #|  section                               | 97  | 8a4b9bcd2ca43c5209fd7ab0e1f61dafd1a4f4a2_id |
-      #|  session                               |  22 | ed9acb6591da6f3b0b3bc1264846fd185fbcd527_id |
+      |  section                               | 25  | 8a4b9bcd2ca43c5209fd7ab0e1f61dafd1a4f4a2_id |
+      |  session                               | 5  | ed9acb6591da6f3b0b3bc1264846fd185fbcd527_id |
       #|  staff                                 | 10 | 63d4be8a233db1fd14676f1535fa21fe4c5dd466_id |
-      #|  staffCohortAssociation                | 2 | f2cbed0cf5ff1d7a43f77e6a5f0f75f174cc7065_id |
-      #|  staffEducationOrganizationAssociation | 11 | 346a3cc0939419b34283ec6cac2330e19a483f6f_id |
+      |  staffEducationOrganizationAssociation | 1 | 346a3cc0939419b34283ec6cac2330e19a483f6f_id |
       #|  staffProgramAssociation               | 6 | e0ccea007dca317537e52998c1a7d8267b110787_id |
       |  student                               | 24 | 7fb7741b5aea5d17bb01d5775c5df55524604868_id |
-
       #|  studentAcademicRecord                 | 115 | 0ae33a43b05f2be4b9c8af13788ae0b0448370ef_id5dc5dba7a0a4a5dbeefaf195726a5fbc7be98d70_id |
       #|  studentAssessment                     | 200 | 2854a67ed0375d5b038caef2b4b39856d15b6d58_id |
       #|  studentCohortAssociation              | 6 | 9be61921ddf0bcd3d58fb99d4e9c454ef5707eb7_idc62d5fe5dcbcb399ec33abe02dccba23b8a16eb6_id |
