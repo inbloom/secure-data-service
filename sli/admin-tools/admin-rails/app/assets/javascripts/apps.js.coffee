@@ -88,7 +88,16 @@ jQuery ->
   $("#applications tr:first-child").show()
   $("#applications tr.odd td").click ->
     if $(@).attr("class") != "rowAction"
-      $(@).parent().next("tr").slideToggle()
+      firstCell = $(@).parent().find("td:first-child")
+      if firstCell.hasClass("collapsed")
+        firstCell.removeClass("collapsed")
+        firstCell.addClass("expanded")
+        firstCell.text("-")
+      else if firstCell.hasClass("expanded")
+        firstCell.removeClass("expanded")
+        firstCell.addClass("collapsed")
+        firstCell.text("+")
+      $(@).parent().next("tr").toggle()
 
 jQuery ->
   if $('#isBulkExtract > :checkbox').is(':checked')
