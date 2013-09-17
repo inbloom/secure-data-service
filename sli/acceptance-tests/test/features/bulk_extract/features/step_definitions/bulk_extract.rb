@@ -1163,7 +1163,7 @@ Then /^I failed retrieve the path to and decrypt the extract file for the tenant
   assert(match ==nil, "Database should not be updated with bulk extract file location")
 end
 
-Then /^I verify "(.*?)" delta bulk extract files are generated for LEA "(.*?)" in "(.*?)"$/ do |count, lea, tenant|
+Then /^I verify "(.*?)" delta bulk extract files are generated for Edorg "(.*?)" in "(.*?)"$/ do |count, lea, tenant|
   count = count.to_i
   @conn ||= Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
   @sliDb ||= @conn.db(DATABASE_NAME)
