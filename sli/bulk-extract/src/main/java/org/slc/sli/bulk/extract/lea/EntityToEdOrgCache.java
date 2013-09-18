@@ -23,7 +23,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class EntityToLeaCache {
+public class EntityToEdOrgCache {
     
     private Map<String, Set<String>> cache;
     private HashMultimap<String, String> inverse;
@@ -31,7 +31,7 @@ public class EntityToLeaCache {
     /**
      * Simple constructor that creates the internal cache.
      */
-    public EntityToLeaCache() {
+    public EntityToEdOrgCache() {
         cache = new HashMap<String, Set<String>>();
         inverse = HashMultimap.create();
     }
@@ -52,7 +52,7 @@ public class EntityToLeaCache {
         inverse.put(leaId, entityId);
     }
 
-    public Set<String> leaFromEdorg(String edorgId) {
+    public Set<String> ancestorEdorgs(String edorgId) {
         return inverse.get(edorgId);
     }
 

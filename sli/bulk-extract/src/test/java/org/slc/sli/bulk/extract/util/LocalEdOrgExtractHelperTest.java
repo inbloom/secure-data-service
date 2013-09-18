@@ -31,7 +31,7 @@ public class LocalEdOrgExtractHelperTest {
     private static final String STATE_EDUCATION_AGENCY = "State Education Agency";
 
     @InjectMocks
-    LocalEdOrgExtractHelper helper = new LocalEdOrgExtractHelper();
+    EdOrgExtractHelper helper = new EdOrgExtractHelper();
 
     @Mock
     Repository<Entity> repository;

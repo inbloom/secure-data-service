@@ -20,7 +20,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
-import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
+import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
@@ -29,37 +29,37 @@ import org.springframework.data.mongodb.core.query.Query;
 
 public class GraduationPlanExtractor {
     private EntityExtractor extractor;
-    private LEAExtractFileMap map;
+    private ExtractFileMap map;
     private Repository<Entity> repo;
-    private LocalEdOrgExtractHelper localEdOrgExtractHelper;
+    private EdOrgExtractHelper edOrgExtractHelper;
     
-    public GraduationPlanExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
+    public GraduationPlanExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo, EdOrgExtractHelper edOrgExtractHelper) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
-        this.localEdOrgExtractHelper = localEdOrgExtractHelper;
+        this.edOrgExtractHelper = edOrgExtractHelper;
     }
     
-    public void extractEntities(EntityToLeaCache edorgCache, EntityToLeaCache graduationPlanCache) {
-        localEdOrgExtractHelper.logSecurityEvent(map.getLeas(), EntityNames.GRADUATION_PLAN, this.getClass().getName());
+    public void extractEntities(EntityToEdOrgCache edorgCache, EntityToEdOrgCache graduationPlanCache) {
+        edOrgExtractHelper.logSecurityEvent(map.getEdOrgs(), EntityNames.GRADUATION_PLAN, this.getClass().getName());
         Iterator<Entity> cursor = repo.findEach(EntityNames.GRADUATION_PLAN, new Query());
         while (cursor.hasNext()) {
             Entity e = cursor.next();
             String graduationPlanId = e.getEntityId();
-            Set<String> leas = graduationPlanCache.getEntriesById(graduationPlanId);
+            Set<String> edOrgs = graduationPlanCache.getEntriesById(graduationPlanId);
             String edorgId = (String)e.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_ID);
             
             if(edorgId !=null){
-                Set<String> leasForGraduationPlan = edorgCache.leaFromEdorg(edorgId);
-                for(String leaForGraduationPlan:leasForGraduationPlan) {
-                    if(!leas.contains(leaForGraduationPlan)){
-                        extractor.extractEntity(e, map.getExtractFileForLea(leaForGraduationPlan), EntityNames.GRADUATION_PLAN);
+                Set<String> edOrgsForGraduationPlan = edorgCache.ancestorEdorgs(edorgId);
+                for(String edOrgForGraduationPlan:edOrgsForGraduationPlan) {
+                    if(!edOrgs.contains(edOrgForGraduationPlan)){
+                        extractor.extractEntity(e, map.getExtractFileForEdOrg(edOrgForGraduationPlan), EntityNames.GRADUATION_PLAN);
                     }
                 }
             }
             
-            for (String lea : leas) {
-                extractor.extractEntity(e, map.getExtractFileForLea(lea), EntityNames.GRADUATION_PLAN);
+            for (String edOrg : edOrgs) {
+                extractor.extractEntity(e, map.getExtractFileForEdOrg(edOrg), EntityNames.GRADUATION_PLAN);
             }
         }
     }

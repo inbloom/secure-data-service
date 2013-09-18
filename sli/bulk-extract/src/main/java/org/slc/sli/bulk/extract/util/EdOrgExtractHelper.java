@@ -28,7 +28,7 @@ import java.util.*;
  * Utils to extract LEAs
  */
 @Component
-public class LocalEdOrgExtractHelper implements InitializingBean {
+public class EdOrgExtractHelper implements InitializingBean {
 
     private Set<String> extractEdOrgs;
 

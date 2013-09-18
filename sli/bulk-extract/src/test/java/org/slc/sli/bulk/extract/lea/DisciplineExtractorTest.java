@@ -51,15 +51,15 @@ public class DisciplineExtractorTest {
         ex = Mockito.mock(EntityExtractor.class);
 
         Map<String, ExtractFile> map = new HashMap<String, ExtractFile>();
-        LEAExtractFileMap leaMap = new LEAExtractFileMap(map);
+        ExtractFileMap leaMap = new ExtractFileMap(map);
 
         //Mock student2LEA cache
-        EntityToLeaCache studentCache = new EntityToLeaCache();
+        EntityToEdOrgCache studentCache = new EntityToEdOrgCache();
         studentCache.addEntry(STUDENTS.get(1), LEA);
         studentCache.addEntry(STUDENTS.get(1), LEA2);
 
         //Mock edOrgCache
-        EntityToLeaCache edorgCache = new EntityToLeaCache();
+        EntityToEdOrgCache edorgCache = new EntityToEdOrgCache();
         //edorgCache.addEntry(EDORGS.get(0), LEA);
         edorgCache.addEntry(EDORGS.get(0), LEA);
 
@@ -80,7 +80,7 @@ public class DisciplineExtractorTest {
     @Test
     public void testExtractDisciplineIncident() {
 
-        EntityToLeaCache diCache = new EntityToLeaCache();
+        EntityToEdOrgCache diCache = new EntityToEdOrgCache();
         diCache.addEntry("marker", LEA2);
         diCache.addEntry(DI_ID, LEA2);
         disc.extractEntities(diCache);

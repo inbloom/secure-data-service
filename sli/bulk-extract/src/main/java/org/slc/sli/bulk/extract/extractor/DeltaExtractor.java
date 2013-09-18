@@ -51,7 +51,7 @@ import org.slc.sli.bulk.extract.extractor.EntityExtractor.CollectionWrittenRecor
 import org.slc.sli.bulk.extract.files.EntityWriterManager;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.message.BEMessageCode;
-import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
+import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.bulk.extract.util.SecurityEventUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
@@ -88,7 +88,7 @@ public class DeltaExtractor implements InitializingBean {
     LocalEdOrgExtractor leaExtractor;
 
     @Autowired
-    LocalEdOrgExtractHelper helper;
+    EdOrgExtractHelper helper;
 
     @Autowired
     EntityExtractor entityExtractor;

@@ -31,13 +31,13 @@ import org.slc.sli.bulk.extract.files.ExtractFile;
 
 public class LEAExtractFileMapTest {
     
-    private LEAExtractFileMap extractMap;
+    private ExtractFileMap extractMap;
     private Map<String, ExtractFile> edorgMap;
 
     @Before
     public void setUp() {
         edorgMap = new HashMap<String, ExtractFile>();
-        extractMap = new LEAExtractFileMap(edorgMap);
+        extractMap = new ExtractFileMap(edorgMap);
     }
     
     @After
@@ -48,12 +48,12 @@ public class LEAExtractFileMapTest {
     @Test
     public void testValidLeaReturnsExtractFile() {
         edorgMap.put("BLOOP", Mockito.mock(ExtractFile.class));
-        Assert.assertTrue(extractMap.getExtractFileForLea("BLOOP") != null);
+        Assert.assertTrue(extractMap.getExtractFileForEdOrg("BLOOP") != null);
     }
     
     @Test
     public void testInvalidLeaReturnsNoFile() {
-        Assert.assertTrue(extractMap.getExtractFileForLea("MERP") == null);
+        Assert.assertTrue(extractMap.getExtractFileForEdOrg("MERP") == null);
     }
     
     @Test

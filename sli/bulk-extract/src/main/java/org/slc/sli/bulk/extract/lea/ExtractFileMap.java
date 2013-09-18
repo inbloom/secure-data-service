@@ -26,35 +26,35 @@ import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class LEAExtractFileMap {
-    private Map<String, ExtractFile> edOrgToLEAExtract;
-    private static final Logger LOG = LoggerFactory.getLogger(LEAExtractFileMap.class);
+public class ExtractFileMap {
+    private Map<String, ExtractFile> edOrgToExtract;
+    private static final Logger LOG = LoggerFactory.getLogger(ExtractFileMap.class);
     
-    public LEAExtractFileMap(Map<String, ExtractFile> initialMap) {
-        edOrgToLEAExtract = initialMap;
+    public ExtractFileMap(Map<String, ExtractFile> initialMap) {
+        edOrgToExtract = initialMap;
     }
     
-    public ExtractFile getExtractFileForLea(String lea) {
-        return edOrgToLEAExtract.get(lea);
+    public ExtractFile getExtractFileForEdOrg(String edorg) {
+        return edOrgToExtract.get(edorg);
     }
     
     public void setLeaToExtractMap(Map<String, ExtractFile> map) {
-        this.edOrgToLEAExtract = map;
+        this.edOrgToExtract = map;
     }
 
     public void closeFiles() {
-        for (ExtractFile file : new HashSet<ExtractFile>(edOrgToLEAExtract.values())) {
+        for (ExtractFile file : new HashSet<ExtractFile>(edOrgToExtract.values())) {
             file.closeWriters();
         }
         
     }
     
-    public Set<String> getLeas() {
-        return edOrgToLEAExtract.keySet();
+    public Set<String> getEdOrgs() {
+        return edOrgToExtract.keySet();
     }
 
     public void buildManifestFiles(DateTime startTime) {
-        for (ExtractFile file : new HashSet<ExtractFile>(edOrgToLEAExtract.values())) {
+        for (ExtractFile file : new HashSet<ExtractFile>(edOrgToExtract.values())) {
             try {
                 file.getManifestFile().generateMetaFile(startTime);
             } catch (IOException e) {
@@ -64,7 +64,7 @@ public class LEAExtractFileMap {
     }
 
     public void archiveFiles() {
-        for (ExtractFile file : new HashSet<ExtractFile>(edOrgToLEAExtract.values())) {
+        for (ExtractFile file : new HashSet<ExtractFile>(edOrgToExtract.values())) {
             if(!file.generateArchive()) {
                 LOG.warn("Unable to create archive: {}", file.getEdorg());
             }

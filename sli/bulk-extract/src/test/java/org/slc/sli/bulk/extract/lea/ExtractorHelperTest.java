@@ -25,7 +25,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
+import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.util.datetime.DateHelper;
@@ -36,13 +36,13 @@ public class ExtractorHelperTest {
     private ExtractorHelper helper;
     private Entity mockEntity;
     private DateHelper mockHelper;
-    private LocalEdOrgExtractHelper localEdOrgExtractHelper;
+    private EdOrgExtractHelper edOrgExtractHelper;
 
     @Before
     public void setUp() {
-        localEdOrgExtractHelper = Mockito.mock(LocalEdOrgExtractHelper.class);
+        edOrgExtractHelper = Mockito.mock(EdOrgExtractHelper.class);
         helper = new ExtractorHelper();
-        helper.setLocalEdOrgExtractHelper(localEdOrgExtractHelper);
+        helper.setEdOrgExtractHelper(edOrgExtractHelper);
         mockEntity = Mockito.mock(Entity.class);
         mockHelper = Mockito.mock(DateHelper.class);
         helper.setDateHelper(mockHelper);
@@ -64,7 +64,7 @@ public class ExtractorHelperTest {
                 "school2", (List)Arrays.asList(),
                 "school3", (List)Arrays.asList("Proudhon", "Bakunin", "Kropotkin")
         );
-        Mockito.when(localEdOrgExtractHelper.getEdOrgLineages()).thenReturn(lineages);
+        Mockito.when(edOrgExtractHelper.getEdOrgLineages()).thenReturn(lineages);
 
         helper.setDateHelper(null);
         Map<String, List<Map<String, Object>>> denormalized = new HashMap<String, List<Map<String, Object>>>();
@@ -101,7 +101,7 @@ public class ExtractorHelperTest {
 
         List<String> edorgs = Arrays.asList("One", "Two", "Three");
         Map<String, List> lineages = ImmutableMap.of(  "school1", (List)edorgs);
-        Mockito.when(localEdOrgExtractHelper.getEdOrgLineages()).thenReturn(lineages);
+        Mockito.when(edOrgExtractHelper.getEdOrgLineages()).thenReturn(lineages);
 
         // No denormalized data
         Assert.assertTrue(helper.fetchCurrentSchoolsForStudent(mockEntity).size() == 0);
@@ -165,7 +165,7 @@ public class ExtractorHelperTest {
     
     @Test
     public void testBuildSubToParentEdOrgCache() {
-    	EntityToLeaCache cache = new EntityToLeaCache();
+    	EntityToEdOrgCache cache = new EntityToEdOrgCache();
     	cache.addEntry("lea-1", "school-1");
     	cache.addEntry("lea-1", "school-2");
     	cache.addEntry("lea-1", "school-3");

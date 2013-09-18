@@ -30,17 +30,17 @@ import org.springframework.data.mongodb.core.query.Query;
 
 public class CourseTranscriptExtractor {
     private EntityExtractor extractor;
-    private LEAExtractFileMap map;
+    private ExtractFileMap map;
     private Repository<Entity> repo;
     
-    public CourseTranscriptExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo) {
+    public CourseTranscriptExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
     }
 
     
-    public void extractEntities(EntityToLeaCache edorgCache, EntityToLeaCache studentCache, EntityToLeaCache studentAcademicRecordCache) {
+    public void extractEntities(EntityToEdOrgCache edorgCache, EntityToEdOrgCache studentCache, EntityToEdOrgCache studentAcademicRecordCache) {
         Iterator<Entity> cursor = repo.findEach(EntityNames.COURSE_TRANSCRIPT, new Query());
         while (cursor.hasNext()) {
             Entity e = cursor.next();
@@ -49,10 +49,10 @@ public class CourseTranscriptExtractor {
             String studentAcademicRecordReference = (String)e.getBody().get(ParameterConstants.STUDENT_ACADEMIC_RECORD_ID);
             
             //add directly references edorgs
-            Set<String> leaSet = new HashSet<String>();
+            Set<String>leaSet = new HashSet<String>();
             if(edorgReferences!=null){
                 for ( String edorg : edorgReferences ){
-                    leaSet.addAll(edorgCache.leaFromEdorg(edorg));
+                    leaSet.addAll(edorgCache.ancestorEdorgs(edorg));
                 }
             }
             
@@ -66,7 +66,7 @@ public class CourseTranscriptExtractor {
             
             //extract this entity for all of the referenced LEAs
             for (String lea : leaSet) {
-                extractor.extractEntity(e, map.getExtractFileForLea(lea), EntityNames.COURSE_TRANSCRIPT);
+                extractor.extractEntity(e, map.getExtractFileForEdOrg(lea), EntityNames.COURSE_TRANSCRIPT);
             }
         }
     }

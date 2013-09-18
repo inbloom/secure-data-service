@@ -23,12 +23,12 @@ import org.junit.Test;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 
 
-public class LEAExtractorFactoryTest {
-    private LEAExtractorFactory factory;
+public class ExtractorFactoryTest {
+    private ExtractorFactory factory;
     
     @Before
     public void setUp() {
-        factory = new LEAExtractorFactory();
+        factory = new ExtractorFactory();
     }
     
     @After

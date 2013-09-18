@@ -19,7 +19,7 @@ package org.slc.sli.bulk.extract.lea;
 import com.google.common.base.Function;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
-import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
+import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
@@ -32,25 +32,25 @@ import java.util.Set;
 public class StaffEdorgAssignmentExtractor implements EntityExtract {
 
     private EntityExtractor extractor;
-    private LEAExtractFileMap map;
+    private ExtractFileMap map;
     private Repository<Entity> repo;
     private ExtractorHelper extractorHelper;
-    private EntityToLeaCache cache;
-    private LocalEdOrgExtractHelper localEdOrgExtractHelper;
+    private EntityToEdOrgCache cache;
+    private EdOrgExtractHelper edOrgExtractHelper;
 
-    public StaffEdorgAssignmentExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo,
-                                         ExtractorHelper extractorHelper, EntityToLeaCache entityToLeaCache, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
+    public StaffEdorgAssignmentExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo,
+                                         ExtractorHelper extractorHelper, EntityToEdOrgCache entityToEdOrgCache, EdOrgExtractHelper edOrgExtractHelper) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
         this.extractorHelper = extractorHelper;
-        this.cache = entityToLeaCache;
-        this.localEdOrgExtractHelper = localEdOrgExtractHelper;
+        this.cache = entityToEdOrgCache;
+        this.edOrgExtractHelper = edOrgExtractHelper;
     }
 
     @Override
-    public void extractEntities(EntityToLeaCache entityToEdorgCache) {
-        localEdOrgExtractHelper.logSecurityEvent(map.getLeas(), EntityNames.STAFF_ED_ORG_ASSOCIATION, this.getClass().getName());
+    public void extractEntities(EntityToEdOrgCache entityToEdorgCache) {
+        edOrgExtractHelper.logSecurityEvent(map.getEdOrgs(), EntityNames.STAFF_ED_ORG_ASSOCIATION, this.getClass().getName());
         doIterate(entityToEdorgCache, new Function<Pair<String, Entity>, Boolean>() {
             @Override
             public Boolean apply(Pair<String, Entity> input) {
@@ -62,16 +62,16 @@ public class StaffEdorgAssignmentExtractor implements EntityExtract {
         Iterator<Entity> associations = repo.findEach(EntityNames.STAFF_ED_ORG_ASSOCIATION, new NeutralQuery());
         while (associations.hasNext()) {
             Entity e = associations.next();
-            Set<String> leas = cache.getEntriesById((String) e.getBody().get(ParameterConstants.STAFF_REFERENCE));
+            Set<String> edOrgs = cache.getEntriesById((String) e.getBody().get(ParameterConstants.STAFF_REFERENCE));
 
-            for (String lea : leas) {
-                extractor.extractEntity(e, map.getExtractFileForLea(lea), EntityNames.STAFF_ED_ORG_ASSOCIATION);
+            for (String edOrg : edOrgs) {
+                extractor.extractEntity(e, map.getExtractFileForEdOrg(edOrg), EntityNames.STAFF_ED_ORG_ASSOCIATION);
             }
         }
 
     }
 
-    private void doIterate(EntityToLeaCache entityToEdorgCache, Function<Pair<String, Entity>, Boolean> func) {
+    private void doIterate(EntityToEdOrgCache entityToEdorgCache, Function<Pair<String, Entity>, Boolean> func) {
         Iterator<Entity> associations = repo.findEach(EntityNames.STAFF_ED_ORG_ASSOCIATION, new NeutralQuery());
         while (associations.hasNext()) {
             Entity association = associations.next();
@@ -79,15 +79,15 @@ public class StaffEdorgAssignmentExtractor implements EntityExtract {
                 continue;
             }
             String edorg = (String) association.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE);
-            Set<String> leas = entityToEdorgCache.leaFromEdorg(edorg);
-            for(String lea:leas) {
-                func.apply(Pair.of(lea, association));
+            Set<String> edOrgs = entityToEdorgCache.ancestorEdorgs(edorg);
+            for(String edOrg:edOrgs) {
+                func.apply(Pair.of(edOrg, association));
             }
         }
 
     }
 
-    public EntityToLeaCache getEntityCache() {
+    public EntityToEdOrgCache getEntityCache() {
         return this.cache;
     }
 

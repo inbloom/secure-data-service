@@ -34,14 +34,14 @@ import java.util.Set;
  */
 public class DisciplineExtractor implements EntityExtract {
     private final EntityExtractor entityExtractor;
-    private final LEAExtractFileMap leaToExtractFileMap;
+    private final ExtractFileMap extractFileMap;
     private final Repository<Entity> repository;
-    private final EntityToLeaCache studentCache;
-    private final EntityToLeaCache edorgCache;
+    private final EntityToEdOrgCache studentCache;
+    private final EntityToEdOrgCache edorgCache;
 
-    public DisciplineExtractor(EntityExtractor entityExtractor, LEAExtractFileMap leaToExtractFileMap, Repository<Entity> repository, EntityToLeaCache studentCache, EntityToLeaCache edorgCache) {
+    public DisciplineExtractor(EntityExtractor entityExtractor, ExtractFileMap extractFileMap, Repository<Entity> repository, EntityToEdOrgCache studentCache, EntityToEdOrgCache edorgCache) {
         this.entityExtractor = entityExtractor;
-        this.leaToExtractFileMap = leaToExtractFileMap;
+        this.extractFileMap = extractFileMap;
         this.repository = repository;
         this.studentCache = studentCache;
         this.edorgCache = edorgCache;
@@ -49,34 +49,34 @@ public class DisciplineExtractor implements EntityExtract {
 
     @Override
     @SuppressWarnings("unchecked")
-    public void extractEntities(final EntityToLeaCache diCache) {
+    public void extractEntities(final EntityToEdOrgCache diCache) {
         extract(EntityNames.DISCIPLINE_INCIDENT, new Function<Entity, Set<String>>() {
             @Override
             public Set<String> apply(Entity input) {
                 String id = input.getEntityId();
-                Set<String> leas = diCache.getEntriesById(id);
+                Set<String> edOrgs = diCache.getEntriesById(id);
 
-                if (leas.isEmpty()) {
+                if (edOrgs.isEmpty()) {
                    String schoolId = (String) input.getBody().get("schoolId");
-                   leas.addAll(edorgCache.leaFromEdorg(schoolId));
+                   edOrgs.addAll(edorgCache.ancestorEdorgs(schoolId));
                 }
 
-                return leas;
+                return edOrgs;
             }
         });
 
         extract(EntityNames.DISCIPLINE_ACTION, new Function<Entity, Set<String>>() {
             @Override
             public Set<String> apply(Entity input) {
-                Set<String> leas = new HashSet<String>();
+                Set<String> edOrgs = new HashSet<String>();
 
                 List<String> students = (List<String>) input.getBody().get("studentId");
 
                 for (String student : students) {
-                    leas.addAll(studentCache.getEntriesById(student));
+                    edOrgs.addAll(studentCache.getEntriesById(student));
                 }
 
-                return leas;
+                return edOrgs;
             }
         });
 
@@ -88,12 +88,12 @@ public class DisciplineExtractor implements EntityExtract {
         while (it.hasNext()) {
             Entity e = it.next();
 
-            Set<String> leas = new HashSet<String>();
-            leas.addAll(moreLeas.apply(e));
+            Set<String> edOrgs = new HashSet<String>();
+            edOrgs.addAll(moreLeas.apply(e));
 
-            leas.remove("marker");
-            for (String lea : leas) {
-                this.entityExtractor.extractEntity(e, this.leaToExtractFileMap.getExtractFileForLea(lea), entityType);
+            edOrgs.remove("marker");
+            for (String edOrg : edOrgs) {
+                this.entityExtractor.extractEntity(e, this.extractFileMap.getExtractFileForEdOrg(edOrg), entityType);
             }
         }
     }

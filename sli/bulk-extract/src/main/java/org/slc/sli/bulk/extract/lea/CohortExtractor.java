@@ -20,7 +20,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
-import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
+import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
@@ -28,27 +28,27 @@ import org.springframework.data.mongodb.core.query.Query;
 
 public class CohortExtractor implements EntityExtract {
     private EntityExtractor extractor;
-    private LEAExtractFileMap map;
+    private ExtractFileMap map;
     private Repository<Entity> repo;
-    private LocalEdOrgExtractHelper localEdOrgExtractHelper;
+    private EdOrgExtractHelper edOrgExtractHelper;
     
-    public CohortExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
+    public CohortExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo, EdOrgExtractHelper edOrgExtractHelper) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
-        this.localEdOrgExtractHelper = localEdOrgExtractHelper;
+        this.edOrgExtractHelper = edOrgExtractHelper;
     }
 
     @Override
-    public void extractEntities(EntityToLeaCache edorgCache) {
-        localEdOrgExtractHelper.logSecurityEvent(map.getLeas(), EntityNames.COHORT, this.getClass().getName());
+    public void extractEntities(EntityToEdOrgCache edorgCache) {
+        edOrgExtractHelper.logSecurityEvent(map.getEdOrgs(), EntityNames.COHORT, this.getClass().getName());
         Iterator<Entity> cursor = repo.findEach(EntityNames.COHORT, new Query());
         while (cursor.hasNext()) {
             Entity e = cursor.next();
             String edorgId = e.getBody().get("educationOrgId").toString();
-            Set<String> leasForCohort = edorgCache.leaFromEdorg(edorgId);
-            for(String leaForCohort:leasForCohort) {
-               extractor.extractEntity(e, map.getExtractFileForLea(leaForCohort), EntityNames.COHORT);
+            Set<String> edOrgsForCohort = edorgCache.ancestorEdorgs(edorgId);
+            for(String edOrgForCohort:edOrgsForCohort) {
+               extractor.extractEntity(e, map.getExtractFileForEdOrg(edOrgForCohort), EntityNames.COHORT);
             }
         }
     }

@@ -28,7 +28,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
-import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
+import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
@@ -43,16 +43,16 @@ public class SessionAndGradingPeriodExtractorTest {
     @Mock
     private Repository<Entity> mockRepo;
     @Mock
-    private LEAExtractFileMap mockMap;
+    private ExtractFileMap mockMap;
     @Mock
     private EntityExtractor mockExtractor;
     @Mock
-    private EntityToLeaCache mockCache;
+    private EntityToEdOrgCache mockCache;
     @Mock 
     private ExtractorHelper mockHelper;
 
     @Mock
-    private LocalEdOrgExtractHelper mockLocalEdOrgExtractHelper;
+    private EdOrgExtractHelper mockEdOrgExtractHelper;
     
     private SessionExtractor sessionExtractor;
     private GradingPeriodExtractor gradingPeriodExtractor;
@@ -60,8 +60,8 @@ public class SessionAndGradingPeriodExtractorTest {
     @Before
     public void setUp() {
     	MockitoAnnotations.initMocks(this);
-    	sessionExtractor =  new SessionExtractor(mockExtractor, mockMap, mockRepo, mockHelper, new EntityToLeaCache(), mockLocalEdOrgExtractHelper);
-    	gradingPeriodExtractor = new GradingPeriodExtractor(mockExtractor, mockMap, mockRepo, mockLocalEdOrgExtractHelper);
+    	sessionExtractor =  new SessionExtractor(mockExtractor, mockMap, mockRepo, mockHelper, new EntityToEdOrgCache(), mockEdOrgExtractHelper);
+    	gradingPeriodExtractor = new GradingPeriodExtractor(mockExtractor, mockMap, mockRepo, mockEdOrgExtractHelper);
     }
     
     @Test
@@ -81,7 +81,7 @@ public class SessionAndGradingPeriodExtractorTest {
         HashMultimap<String, String> map = HashMultimap.create();
     	map.put("school-1", "lea-1");
         Map<String, Collection<String>> schoolToLeaMap = map.asMap();
-    	Mockito.when(mockHelper.buildSubToParentEdOrgCache(Mockito.any(EntityToLeaCache.class))).thenReturn(schoolToLeaMap);
+    	Mockito.when(mockHelper.buildSubToParentEdOrgCache(Mockito.any(EntityToEdOrgCache.class))).thenReturn(schoolToLeaMap);
     	Mockito.when(mockSession.getBody()).thenReturn(mockBody);
     	Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.SESSION), Mockito.eq(new Query()))).
     		thenReturn(Arrays.asList(mockSession).iterator());

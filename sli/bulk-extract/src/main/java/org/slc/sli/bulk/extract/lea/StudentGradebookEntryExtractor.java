@@ -20,7 +20,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
-import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
+import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
@@ -29,29 +29,29 @@ import org.slc.sli.domain.Repository;
 
 public class StudentGradebookEntryExtractor implements EntityExtract {
     private EntityExtractor extractor;
-    private LEAExtractFileMap map;
+    private ExtractFileMap map;
     private Repository<Entity> repo;
-    private LocalEdOrgExtractHelper localEdOrgExtractHelper;
+    private EdOrgExtractHelper edOrgExtractHelper;
     
-    public StudentGradebookEntryExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo,
-            LocalEdOrgExtractHelper localEdOrgExtractHelper) {
+    public StudentGradebookEntryExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo,
+            EdOrgExtractHelper edOrgExtractHelper) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
-        this.localEdOrgExtractHelper = localEdOrgExtractHelper;
+        this.edOrgExtractHelper = edOrgExtractHelper;
     }
     
     @Override
-    public void extractEntities(EntityToLeaCache entityToEdorgCache) {
-        localEdOrgExtractHelper.logSecurityEvent(map.getLeas(), EntityNames.STUDENT_GRADEBOOK_ENTRY, this.getClass().getName());
+    public void extractEntities(EntityToEdOrgCache entityToEdorgCache) {
+        edOrgExtractHelper.logSecurityEvent(map.getEdOrgs(), EntityNames.STUDENT_GRADEBOOK_ENTRY, this.getClass().getName());
         Iterator<Entity> studentGradebookEntries = repo.findEach(EntityNames.STUDENT_GRADEBOOK_ENTRY, new NeutralQuery());
         
         while (studentGradebookEntries.hasNext()) {
             Entity studentGradebookEntry = studentGradebookEntries.next();
             String studentId = (String) studentGradebookEntry.getBody().get(ParameterConstants.STUDENT_ID);
-            Set<String> studentLeas = entityToEdorgCache.getEntriesById(studentId);
-            for (String lea : studentLeas) {
-                extractor.extractEntity(studentGradebookEntry, map.getExtractFileForLea(lea), EntityNames.STUDENT_GRADEBOOK_ENTRY);
+            Set<String> studentEdOrgs = entityToEdorgCache.getEntriesById(studentId);
+            for (String edOrg : studentEdOrgs) {
+                extractor.extractEntity(studentGradebookEntry, map.getExtractFileForEdOrg(edOrg), EntityNames.STUDENT_GRADEBOOK_ENTRY);
             }
         }
         

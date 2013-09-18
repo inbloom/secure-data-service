@@ -19,7 +19,7 @@ package org.slc.sli.bulk.extract.lea;
 import java.util.*;
 
 import com.google.common.collect.HashMultimap;
-import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
+import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.util.datetime.DateHelper;
@@ -30,13 +30,13 @@ public class ExtractorHelper{
         //LocalEdOrgExtractHelper is optional
     }
 
-    public ExtractorHelper(LocalEdOrgExtractHelper localEdOrgExtractHelper) {
-        this.localEdOrgExtractHelper = localEdOrgExtractHelper;
+    public ExtractorHelper(EdOrgExtractHelper edOrgExtractHelper) {
+        this.edOrgExtractHelper = edOrgExtractHelper;
     }
 
     private DateHelper dateHelper;
 
-    private LocalEdOrgExtractHelper localEdOrgExtractHelper;
+    private EdOrgExtractHelper edOrgExtractHelper;
 
 
     /**
@@ -60,7 +60,7 @@ public class ExtractorHelper{
                 continue;
             }
             String id = (String)school.get("_id");
-            List<String> lineages = localEdOrgExtractHelper.getEdOrgLineages().get(id);
+            List<String> lineages = edOrgExtractHelper.getEdOrgLineages().get(id);
             if(lineages != null) {
                 studentSchools.addAll(lineages);
             }
@@ -103,7 +103,7 @@ public class ExtractorHelper{
         return !dateHelper.isFieldExpired(staffAssociation.getBody(), ParameterConstants.END_DATE);
     }
     
-    public Map<String, Collection<String>> buildSubToParentEdOrgCache(EntityToLeaCache edOrgCache) {
+    public Map<String, Collection<String>> buildSubToParentEdOrgCache(EntityToEdOrgCache edOrgCache) {
     	Map<String, String> result = new HashMap<String, String>();
         HashMultimap<String, String> map = HashMultimap.create();
     	for(String lea : edOrgCache.getEntityIds()) {
@@ -115,11 +115,11 @@ public class ExtractorHelper{
         return map.asMap();
     }
 
-    public LocalEdOrgExtractHelper getLocalEdOrgExtractHelper() {
-        return localEdOrgExtractHelper;
+    public EdOrgExtractHelper getEdOrgExtractHelper() {
+        return edOrgExtractHelper;
     }
 
-    public void setLocalEdOrgExtractHelper(LocalEdOrgExtractHelper localEdOrgExtractHelper) {
-        this.localEdOrgExtractHelper = localEdOrgExtractHelper;
+    public void setEdOrgExtractHelper(EdOrgExtractHelper edOrgExtractHelper) {
+        this.edOrgExtractHelper = edOrgExtractHelper;
     }
 }

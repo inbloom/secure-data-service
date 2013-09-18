@@ -28,7 +28,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
-import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
+import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
@@ -42,7 +42,7 @@ public class StaffCohortAssociationExtractorTest {
     @Mock
     private EntityExtractor mockExtractor;
     @Mock
-    private LEAExtractFileMap mockMap;
+    private ExtractFileMap mockMap;
     @Mock
     private Repository<Entity> mockRepo;
     @Mock
@@ -50,21 +50,21 @@ public class StaffCohortAssociationExtractorTest {
     @Mock
     private ExtractFile mockFile;
     @Mock
-    private LocalEdOrgExtractHelper mockLocalEdOrgExtractHelper;
+    private EdOrgExtractHelper mockEdOrgExtractHelper;
     
     private Map<String, Object> entityBody;
-    private EntityToLeaCache staffToLeaCache;
+    private EntityToEdOrgCache staffToLeaCache;
     
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         entityBody = new HashMap<String, Object>();
         entityBody.put(ParameterConstants.STAFF_ID, "Staff1");
-        extractor = new StaffCohortAssociationExtractor(mockExtractor, mockMap, mockRepo, mockLocalEdOrgExtractHelper);
+        extractor = new StaffCohortAssociationExtractor(mockExtractor, mockMap, mockRepo, mockEdOrgExtractHelper);
         Mockito.when(mockEntity.getBody()).thenReturn(entityBody);
-        staffToLeaCache = new EntityToLeaCache();
+        staffToLeaCache = new EntityToEdOrgCache();
         staffToLeaCache.addEntry("Staff1", "LEA");
-        Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(mockFile);
+        Mockito.when(mockMap.getExtractFileForEdOrg("LEA")).thenReturn(mockFile);
     }
     
     @After
@@ -76,7 +76,7 @@ public class StaffCohortAssociationExtractorTest {
     public void testExtractOneEntity() {
         Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.STAFF_COHORT_ASSOCIATION), Mockito.eq(new NeutralQuery())))
                 .thenReturn(Arrays.asList(mockEntity).iterator());
-        Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(mockFile);
+        Mockito.when(mockMap.getExtractFileForEdOrg("LEA")).thenReturn(mockFile);
         extractor.extractEntities(staffToLeaCache);
         Mockito.verify(mockExtractor).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
                 Mockito.eq(EntityNames.STAFF_COHORT_ASSOCIATION));
@@ -86,7 +86,7 @@ public class StaffCohortAssociationExtractorTest {
     public void testExtractManyEntity() {
         Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.STAFF_COHORT_ASSOCIATION), Mockito.eq(new NeutralQuery())))
                 .thenReturn(Arrays.asList(mockEntity, mockEntity).iterator());
-        Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(mockFile);
+        Mockito.when(mockMap.getExtractFileForEdOrg("LEA")).thenReturn(mockFile);
         extractor.extractEntities(staffToLeaCache);
         Mockito.verify(mockExtractor, Mockito.times(2)).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
                 Mockito.eq(EntityNames.STAFF_COHORT_ASSOCIATION));
@@ -98,7 +98,7 @@ public class StaffCohortAssociationExtractorTest {
         Mockito.when(mockEntity.getEntityId()).thenReturn("Staff2");
         Mockito.when(mockRepo.findEach(Mockito.eq(EntityNames.STAFF_COHORT_ASSOCIATION), 
                 Mockito.eq(new NeutralQuery()))).thenReturn(Arrays.asList(mockEntity).iterator());
-        Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(null);
+        Mockito.when(mockMap.getExtractFileForEdOrg("LEA")).thenReturn(null);
         extractor.extractEntities(staffToLeaCache);
         Mockito.verify(mockExtractor, Mockito.never()).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
                 Mockito.eq(EntityNames.STAFF_COHORT_ASSOCIATION));
