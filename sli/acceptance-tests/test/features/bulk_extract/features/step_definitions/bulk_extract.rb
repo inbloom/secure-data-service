@@ -782,6 +782,41 @@ When /I check that the gradingPeriod extract for "(.*?)" has the correct number 
   enable_NOTABLESCAN()
 end
 
+When /I check that the staffCohortAssociation extract for "(.*?)" has the correct number of records/ do |edOrgId|
+  disable_NOTABLESCAN()
+  @tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
+  entity = 'staffCohortAssociation'
+  date = DateTime.now.strftime('%Y-%m-%d')
+  query = <<-jsonDelimiter
+  {
+   "$and":[
+      {"$or":[{"body.beginDate":{"$lt":"#{date}","$exists":true}},  {"body.beginDate":{"$exists":false}}]},
+      {"$or":[{"body.endDate":{"$gt":"#{date}","$exists":true}},    {"body.endDate":{"$exists":false}}]},
+      {"body.educationOrganizationReference":"#{edOrgId}"}
+   ]
+  }
+  jsonDelimiter
+  query = JSON.parse(query)
+  staffForEdOrgRS = @tenantDb.collection('staffEducationOrganizationAssociation').find(query)
+  staffForEdOrg = staffForEdOrgRS.map{ |staffEducationOrganizationAssociation|
+    staffEducationOrganizationAssociation['body']['staffReference']
+  }
+  cohortForEdOrgStaff =  @tenantDb.collection('staffCohortAssociation').find({'body.staffId' => {'$in' => staffForEdOrg}})
+
+  zipFile  = "#{@unpackDir}/#{entity}.json.gz"
+  jsnFile  = "#{@unpackDir}/#{entity}.json"
+  Minitar.unpack(@filePath, @unpackDir)
+  assert(File.exists?(zipFile), "Cannot find #{zipFile} file ")
+  `gunzip #{zipFile}`
+  json = JSON.parse(File.read(jsnFile))
+
+  expected = cohortForEdOrgStaff.count()
+  comment = "Expected #{entity} extract for #{edOrgId} to have #{expected}. Found #{json.size}"
+  assert(json.size == expected, comment)
+  puts (comment)
+  enable_NOTABLESCAN()
+end
+
 When /^a "(.*?)" was extracted with all the correct fields$/ do |collection|
   disable_NOTABLESCAN()
 	Zlib::GzipReader.open(@unpackDir +"/" + collection + ".json.gz") { |extractFile|
