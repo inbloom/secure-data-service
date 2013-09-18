@@ -18,6 +18,7 @@ package org.slc.sli.api.security.context.validator;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -26,6 +27,7 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
@@ -60,13 +62,14 @@ public class StaffToEducationOrganizationValidatorTest {
     
     @Test
     public void testCanValidate() {
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.STAFF_CONTEXT);
         Assert.assertTrue("Must be able to validate", val.canValidate(EntityNames.STAFF_ED_ORG_ASSOCIATION, false));
         Assert.assertFalse("Must not be able to validate", val.canValidate(EntityNames.ADMIN_DELEGATION, false));
     }
     
     @Test
     public void testValidation() {
-        Assert.assertFalse(val.validate(EntityNames.STAFF_ED_ORG_ASSOCIATION,
-                new HashSet<String>(Arrays.asList("lamb"))));
+        Set<String> ids = new HashSet<String>(Arrays.asList("lamb"));
+        Assert.assertFalse(val.validate(EntityNames.STAFF_ED_ORG_ASSOCIATION, ids).equals(ids));
     }
 }

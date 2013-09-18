@@ -25,13 +25,7 @@ import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Validates the context of a transitive teacher to see the requested set of staff entities.
@@ -52,9 +46,9 @@ public class TransitiveTeacherToStaffValidator extends AbstractContextValidator 
     }
     
     @Override
-    public boolean validate(String entityName, Set<String> staffIds) throws IllegalStateException {
+    public Set<String> validate(String entityName, Set<String> staffIds) throws IllegalStateException {
         if (!areParametersValid(EntityNames.STAFF, entityName, staffIds)) {
-            return false;
+            return Collections.EMPTY_SET;
         }
         
         //Query staff's schools
@@ -74,17 +68,18 @@ public class TransitiveTeacherToStaffValidator extends AbstractContextValidator 
         Set<String> schools = new HashSet<String>();
         schools.addAll(getDirectEdorgs());
 
-        for (List<String> edorgs : staffEdorgMap.values()) {
+        Set<String> validStaffIds = new HashSet<String>();
+
+        for (Map.Entry entry: staffEdorgMap.entrySet()) {
+            List<String> edorgs = (List<String>) entry.getValue();
             HashSet<String> tmpSchools = new HashSet<String>(schools);
             tmpSchools.retainAll(edorgs);
-            if (tmpSchools.size() == 0) {
-                return false;
+            if (tmpSchools.size() != 0) {
+                validStaffIds.add((String) entry.getKey());
             }
         }
-        if (staffEdorgMap.size() == 0 || staffEdorgMap.size() != staffIds.size()) {
-            return false;
-        }
-        return true;
+
+        return validStaffIds;
         
     }
 
@@ -101,5 +96,9 @@ public class TransitiveTeacherToStaffValidator extends AbstractContextValidator 
             edorgList.add(edorgId);
         }
     }
-    
+
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.TEACHER_CONTEXT;
+    }
 }

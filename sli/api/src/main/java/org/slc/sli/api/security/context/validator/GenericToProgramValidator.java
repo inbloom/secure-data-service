@@ -42,9 +42,9 @@ public class GenericToProgramValidator extends AbstractContextValidator {
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.PROGRAM, entityType, ids)) {
-            return false;
+            return new HashSet<String>();
         }
         
         NeutralQuery nq = new NeutralQuery(new NeutralCriteria("body.staffId", "=", SecurityUtil.getSLIPrincipal().getEntity().getEntityId(), false));
@@ -56,12 +56,18 @@ public class GenericToProgramValidator extends AbstractContextValidator {
         // Fetch associations
         addEndDateToQuery(nq, false);
 
-        Set<String> programsToValidate = new HashSet<String>(ids);
+        Set<String> validIds = new HashSet<String>();
         Iterable<Entity> assocs = getRepo().findAll(EntityNames.STAFF_PROGRAM_ASSOCIATION, nq);
         for (Entity assoc : assocs) {
-            programsToValidate.remove((String) assoc.getBody().get("programId"));
+            validIds.add((String) assoc.getBody().get("programId"));
         }
 
-        return programsToValidate.isEmpty();
+        validIds.retainAll(ids);
+        return validIds;
+    }
+
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.DUAL_CONTEXT;
     }
 }

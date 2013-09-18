@@ -24,10 +24,7 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Validates teacher's access to given teachers
@@ -43,10 +40,10 @@ public class TransitiveTeacherToTeacherValidator extends AbstractContextValidato
         return EntityNames.TEACHER.equals(entityType) && isTeacher() && isTransitive;
     }
 
-	@Override
-	public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    @Override
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.TEACHER, entityType, ids)) {
-            return false;
+            return Collections.emptySet();
         }
 
         NeutralQuery nq = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE, "=", SecurityUtil
@@ -65,16 +62,21 @@ public class TransitiveTeacherToTeacherValidator extends AbstractContextValidato
 
         tsa = getRepo().findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, nq);
 
-        Set<String> fin = new HashSet<String>(ids);
+        Set<String> validIds = new HashSet<String>();
         for (Entity e : tsa) {
             if (!isFieldExpired(e.getBody(), ParameterConstants.END_DATE, false)) {
-                fin.remove(e.getBody().get(ParameterConstants.STAFF_REFERENCE));
+                validIds.add(e.getBody().get(ParameterConstants.STAFF_REFERENCE).toString());
             }
         }
 
-        fin.remove(SecurityUtil.getSLIPrincipal().getEntity().getEntityId());
+        validIds.add(SecurityUtil.getSLIPrincipal().getEntity().getEntityId());
 
-        return fin.isEmpty();
+       validIds.retainAll(ids);
+        return validIds;
     }
 
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.TEACHER_CONTEXT;
+    }
 }

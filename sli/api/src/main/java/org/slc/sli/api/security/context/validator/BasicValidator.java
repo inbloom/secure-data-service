@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Collections;
 
 import org.slc.sli.api.util.SecurityUtil;
 
@@ -69,14 +70,14 @@ public abstract class BasicValidator extends AbstractContextValidator {
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(types, entityType, ids)) {
-            return false;
+            return Collections.emptySet();
         }
 
         return doValidate(ids, entityType);
     }
 
-    protected abstract boolean doValidate(Set<String> ids, String entityType);
+    protected abstract Set<String> doValidate(Set<String> ids, String entityType);
 
 }

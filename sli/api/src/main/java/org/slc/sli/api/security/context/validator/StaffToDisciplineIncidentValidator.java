@@ -17,9 +17,11 @@
 package org.slc.sli.api.security.context.validator;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -55,13 +57,14 @@ public class StaffToDisciplineIncidentValidator extends AbstractContextValidator
      * and you can see the ones that are in the edorg heirarchy beneath you
      */
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.DISCIPLINE_INCIDENT, entityType, ids)) {
-            return false;
+            return Collections.emptySet();
         }
 
         boolean match = false;
         //Set<String> diIds = new HashSet<String>();
+        Set<String> validIds = new HashSet<String>();
 
         for (String id : ids) {
             match = false;
@@ -71,8 +74,9 @@ public class StaffToDisciplineIncidentValidator extends AbstractContextValidator
             Iterable<Entity> associations = getRepo().findAll(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION,
                     basicQuery);
             for (Entity association : associations) {
-                if (subStudentValidator.validate(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION,
-                        new HashSet<String>(Arrays.asList(association.getEntityId())))) {
+                Set<String> sdia = subStudentValidator.validate(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION,
+                        new HashSet<String>(Arrays.asList(association.getEntityId())));
+                if (!sdia.isEmpty()) {
                     match = true;
                 }
             }
@@ -81,22 +85,28 @@ public class StaffToDisciplineIncidentValidator extends AbstractContextValidator
             Entity di = getRepo().findOne(EntityNames.DISCIPLINE_INCIDENT, basicQuery);
             // If the disciplineIncident doesn't exist, bail.
             if (di == null) {
-                return false;
+                continue;
             }
             basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.OPERATOR_EQUAL,
                     di.getBody().get(ParameterConstants.SCHOOL_ID)));
-            Set<String> schoolId = new HashSet<String>(Arrays.asList(getRepo().findOne(
-                    EntityNames.EDUCATION_ORGANIZATION, basicQuery).getEntityId()));
-            if (schoolValidator.validate(EntityNames.SCHOOL, schoolId)) {
+            Entity edorg = getRepo().findOne(EntityNames.EDUCATION_ORGANIZATION, basicQuery);
+
+            if (edorg == null) {
+                continue;
+            }
+
+            Set<String> schoolId = new HashSet<String>(Arrays.asList(edorg.getEntityId()));
+            Set<String> validSchools = schoolValidator.validate(EntityNames.SCHOOL, schoolId);
+            if (!validSchools.isEmpty()) {
                 match = true;
             }
-            if (!match) {
-                return false;
+            if (match) {
+                validIds.add(id);
             }
 
         }
 
-        return match;
+        return validIds;
     }
 
     /**
@@ -113,5 +123,10 @@ public class StaffToDisciplineIncidentValidator extends AbstractContextValidator
      */
     public void setSchoolValidator(GenericToEdOrgValidator schoolValidator) {
         this.schoolValidator = schoolValidator;
+    }
+
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.STAFF_CONTEXT;
     }
 }

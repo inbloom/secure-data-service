@@ -15,14 +15,15 @@
  */
 package org.slc.sli.api.security.context.validator;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -49,11 +50,11 @@ public class ParentToStudentAssociationValidatorTest {
     @Test
     public void followStudentValidator() {
         Set<String> superdocIds = new HashSet<String>(Arrays.asList("parent_id"));
-        when(studentValidator.validate(EntityNames.STUDENT, superdocIds)).thenReturn(false);
-        assertFalse(underTest.validate(EntityNames.STUDENT_COHORT_ASSOCIATION, ids));
+        when(studentValidator.validate(EntityNames.STUDENT, superdocIds)).thenReturn(Collections.EMPTY_SET);
+        Assert.assertTrue(underTest.validate(EntityNames.STUDENT_COHORT_ASSOCIATION, ids).isEmpty());
         
-        when(studentValidator.validate(EntityNames.STUDENT, superdocIds)).thenReturn(true);
-        assertTrue(underTest.validate(EntityNames.STUDENT_COHORT_ASSOCIATION, ids));
+        when(studentValidator.validate(EntityNames.STUDENT, superdocIds)).thenReturn(superdocIds);
+        Assert.assertEquals(ids, underTest.validate(EntityNames.STUDENT_COHORT_ASSOCIATION, ids));
     }
     
 }

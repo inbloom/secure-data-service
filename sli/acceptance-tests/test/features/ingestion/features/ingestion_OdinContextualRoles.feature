@@ -63,6 +63,6 @@ Feature: Odin Data Set Ingestion Correctness and Fidelity
 
     Then I should see following map of entry counts in the corresponding collections:
       | collectionName                           |              count|
-      | student                                  |                273|
+      | student                                  |                338|
     And I should not see an error log file created
     And I should not see a warning log file created

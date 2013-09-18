@@ -44,7 +44,7 @@ public class StudentToProgramCohortValidator extends BasicValidator {
     }
 
     @Override
-    protected boolean doValidate(Set<String> ids, String entityType) {
+    protected Set<String> doValidate(Set<String> ids, String entityType) {
         String subdocType = null;
         String subdocId = null;
         if (EntityNames.COHORT.equals(entityType)) {
@@ -74,7 +74,8 @@ public class StudentToProgramCohortValidator extends BasicValidator {
             }
         }
 
-        return myCurrentIds.containsAll(ids);
+        myCurrentIds.retainAll(ids);
+        return myCurrentIds;
     }
 
 }

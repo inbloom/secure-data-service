@@ -19,13 +19,7 @@ package org.slc.sli.api.security.context.validator;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.elasticsearch.common.settings.loader.SettingsLoader.Helper;
 import org.joda.time.DateTime;
@@ -34,6 +28,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.annotation.DirtiesContext;
@@ -95,6 +90,8 @@ public class StaffToSubStudentSectionAssociationEntityValidatorTest {
 
         validator.setRepo(mockRepo);
         validator.setStaffToStudentValidator(staffToStudentValidator);
+
+        SecurityUtil.setUserContext(SecurityUtil.UserContext.STAFF_CONTEXT);
     }
 
     @After
@@ -130,7 +127,7 @@ public class StaffToSubStudentSectionAssociationEntityValidatorTest {
         Set<String> grades = new HashSet<String>();
         Map<String, Object> association = buildStudentSectionAssociation("student123", "section123", DateTime.now()
                 .minusDays(3));
-        Entity studentSectionAssociation = new MongoEntity(EntityNames.STUDENT_SECTION_ASSOCIATION, association);
+        Entity studentSectionAssociation = new MongoEntity(EntityNames.STUDENT_SECTION_ASSOCIATION, "ssa123", association, null);
 
         Entity gradeEntity = helper.generateGrade(studentSectionAssociation.getEntityId());
         grades.add(gradeEntity.getEntityId());
@@ -143,8 +140,8 @@ public class StaffToSubStudentSectionAssociationEntityValidatorTest {
                 mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SECTION_ASSOCIATION), Mockito.any(NeutralQuery.class)))
                 .thenReturn(Arrays.asList(studentSectionAssociation));
 
-        Mockito.when(staffToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(true);
-        assertTrue(validator.validate(EntityNames.GRADE, grades));
+        Mockito.when(staffToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(studentIds);
+        assertTrue(validator.validate(EntityNames.GRADE, grades).containsAll(grades));
     }
 
     @Test
@@ -165,8 +162,8 @@ public class StaffToSubStudentSectionAssociationEntityValidatorTest {
                 mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SECTION_ASSOCIATION), Mockito.any(NeutralQuery.class)))
                 .thenReturn(Arrays.asList(studentSectionAssociation));
 
-        Mockito.when(staffToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(false);
-        assertFalse(validator.validate(EntityNames.GRADE, grades));
+        Mockito.when(staffToStudentValidator.validate(EntityNames.STUDENT, studentIds)).thenReturn(Collections.EMPTY_SET);
+        assertFalse(validator.validate(EntityNames.GRADE, grades).equals(grades));
     }
 
     @Test
@@ -182,7 +179,7 @@ public class StaffToSubStudentSectionAssociationEntityValidatorTest {
         Mockito.when(mockRepo.findAll(Mockito.eq(EntityNames.GRADE), Mockito.any(NeutralQuery.class))).thenReturn(
                 new ArrayList<Entity>());
 
-        assertFalse(validator.validate(EntityNames.GRADE, grades));
+        assertFalse(validator.validate(EntityNames.GRADE, grades).equals(grades));
     }
 
     @Test
@@ -202,7 +199,7 @@ public class StaffToSubStudentSectionAssociationEntityValidatorTest {
                 mockRepo.findAll(Mockito.eq(EntityNames.STUDENT_SECTION_ASSOCIATION), Mockito.any(NeutralQuery.class)))
                 .thenReturn(new ArrayList<Entity>());
 
-        assertFalse(validator.validate(EntityNames.GRADE, grades));
+        assertFalse(validator.validate(EntityNames.GRADE, grades).equals(grades));
     }
 
     private Map<String, Object> buildStudentSectionAssociation(String student, String section, DateTime begin) {

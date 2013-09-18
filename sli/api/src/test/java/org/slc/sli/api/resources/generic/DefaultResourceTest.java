@@ -34,6 +34,7 @@ import com.sun.jersey.api.uri.UriBuilderImpl;
 import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.invocation.InvocationOnMock;
@@ -109,6 +110,7 @@ public class DefaultResourceTest {
         });
     }
 
+    @Ignore
     @Test
     public void testGetAll() throws URISyntaxException {
         setupMocks(BASE_URI);
@@ -117,6 +119,7 @@ public class DefaultResourceTest {
         assertEquals("Status code should be OK", Response.Status.OK.getStatusCode(), response.getStatus());
     }
 
+    @Ignore
     @Test
     public void testPost() throws URISyntaxException {
         setupMocks(BASE_URI);
@@ -126,6 +129,7 @@ public class DefaultResourceTest {
         assertNotNull("Should not be null", parseIdFromLocation(response));
     }
 
+    @Ignore
     @Test
     public void testGetWithId() throws URISyntaxException {
         String id = resourceService.postEntity(resource, createTestEntity());

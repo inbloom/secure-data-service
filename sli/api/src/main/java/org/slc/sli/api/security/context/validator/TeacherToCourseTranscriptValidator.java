@@ -16,11 +16,9 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -46,13 +44,13 @@ public class TeacherToCourseTranscriptValidator extends AbstractContextValidator
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
 
         if (!areParametersValid(EntityNames.COURSE_TRANSCRIPT, entityType, ids)) {
-            return false;
+            return Collections.emptySet();
         }
 
-        Set<String> studentAcademicRecords = new HashSet<String>();
+        Map<String, Set<String>> studentAcademicRecordToCT = new HashMap<String, Set<String>>();
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
                 NeutralCriteria.CRITERIA_IN, new ArrayList<String>(ids)));
         Iterable<Entity> entities = getRepo().findAll(EntityNames.COURSE_TRANSCRIPT, query);
@@ -60,18 +58,28 @@ public class TeacherToCourseTranscriptValidator extends AbstractContextValidator
         for (Entity entity : entities) {
             Map<String, Object> body = entity.getBody();
             if (body.get(ParameterConstants.STUDENT_ACADEMIC_RECORD_ID) instanceof String) {
-                studentAcademicRecords.add((String) body.get(ParameterConstants.STUDENT_ACADEMIC_RECORD_ID));
+                String id = (String) body.get(ParameterConstants.STUDENT_ACADEMIC_RECORD_ID);
+                if (!studentAcademicRecordToCT.containsKey(id)) {
+                    studentAcademicRecordToCT.put(id, new HashSet<String>());
+                }
+                studentAcademicRecordToCT.get(id).add(entity.getEntityId());
             } else {
                 //studentacademicrecord ID was not a string, this is unexpected
                 warn("Possible Corrupt Data detected at "+entityType+"/"+entity.getEntityId());
-                return false;
             }
         }
 
-        if (studentAcademicRecords.isEmpty()) {
-            return false;
+        if (studentAcademicRecordToCT.isEmpty()) {
+            return Collections.EMPTY_SET;
         }
 
-        return validator.validate(EntityNames.STUDENT_ACADEMIC_RECORD, studentAcademicRecords);
+        Set<String> sarIds = validator.validate(EntityNames.STUDENT_ACADEMIC_RECORD, studentAcademicRecordToCT.keySet());
+        return getValidIds(sarIds, studentAcademicRecordToCT);
     }
+
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.TEACHER_CONTEXT;
+    }
+
 }

@@ -15,12 +15,9 @@
  */
 package org.slc.sli.api.security.context.validator;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -52,37 +49,39 @@ public class GenericToParentValidator extends AbstractContextValidator {
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> parentIds) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> parentIds) throws IllegalStateException {
         if (!areParametersValid(EntityNames.PARENT, entityType, parentIds)) {
-            return false;
+            return Collections.emptySet();
         }
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria("parentId", NeutralCriteria.CRITERIA_IN, parentIds));
         basicQuery.setIncludeFields(Arrays.asList("studentId", "parentId"));
         Iterable<Entity> assocs = repo.findAll(EntityNames.STUDENT_PARENT_ASSOCIATION, basicQuery);
 
         Map<String, Set<String>> parentToStudentMap = new HashMap<String, Set<String>>();
+
         for (Entity assoc : assocs) {
             String studentId = (String) assoc.getBody().get("studentId");
             String parentId = (String) assoc.getBody().get("parentId");
-            Set<String> studentList = parentToStudentMap.get(parentId);
-            if (studentList == null) {
-                studentList = new HashSet<String>();
-                parentToStudentMap.put(parentId, studentList);
+            if (!parentToStudentMap.containsKey(parentId)) {
+                parentToStudentMap.put(parentId, new HashSet<String>());
             }
-            studentList.add(studentId);
+            parentToStudentMap.get(parentId).add(studentId);
         }
 
         //Make sure that for each parent we can see at least one of their students
         IContextValidator studentValidator = validatorStore.findValidator(EntityNames.STUDENT, true);
-        int validParents = 0;
-        for (Set<String> studentList : parentToStudentMap.values()) {
-            if (studentValidator.getValid(EntityNames.STUDENT, studentList).size() > 0) {
-                validParents++;
-            } else {
-                return false;
+
+        Set<String> validParentsIds = new HashSet<String>();
+        for(Map.Entry<String, Set<String>> entry : parentToStudentMap.entrySet()) {
+            if (studentValidator.validate(EntityNames.STUDENT, entry.getValue()).size() > 0) {
+                validParentsIds.add(entry.getKey());
             }
         }
-        return validParents == parentIds.size();
+        return validParentsIds;
     }
 
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.DUAL_CONTEXT;
+    }
 }

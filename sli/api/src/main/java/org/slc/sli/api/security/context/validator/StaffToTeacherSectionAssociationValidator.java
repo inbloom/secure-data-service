@@ -16,11 +16,9 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -48,28 +46,33 @@ public class StaffToTeacherSectionAssociationValidator extends AbstractContextVa
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.TEACHER_SECTION_ASSOCIATION, entityType, ids)) {
-            return false;
+            return Collections.EMPTY_SET;
         }
 
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
                 NeutralCriteria.CRITERIA_IN, new ArrayList<String>(ids)));
         Iterable<Entity> teacherSectionAssociations = getRepo().findAll(entityType, query);
-        Set<String> sections = new HashSet<String>();
+        Map<String, Set<String>> sections = new HashMap<String, Set<String>>();
         if (teacherSectionAssociations != null) {
             for (Entity teacherSectionAssociation : teacherSectionAssociations) {
                 Map<String, Object> body = teacherSectionAssociation.getBody();
                 String section = (String) body.get(ParameterConstants.SECTION_ID);
-                sections.add(section);
+
+                if (!sections.containsKey(section)) {
+                    sections.put(section, new HashSet<String>());
+                }
+                sections.get(section).add(teacherSectionAssociation.getEntityId());
             }
         }
 
         if (sections.isEmpty()) {
-            return false;
+            return Collections.EMPTY_SET;
         }
 
-        return validator.validate(EntityNames.SECTION, sections);
+        Set<String> validSections = validator.validate(EntityNames.SECTION, sections.keySet());
+        return getValidIds(validSections, sections);
     }
 
     /**
@@ -80,5 +83,10 @@ public class StaffToTeacherSectionAssociationValidator extends AbstractContextVa
      */
     protected void setStaffToSectionValidator(StaffToGlobalSectionValidator validator) {
         this.validator = validator;
+    }
+
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.STAFF_CONTEXT;
     }
 }

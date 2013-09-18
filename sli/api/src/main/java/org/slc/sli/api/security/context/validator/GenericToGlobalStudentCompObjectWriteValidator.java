@@ -16,8 +16,11 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import java.util.Collections;
 import java.util.Set;
 
+import com.google.common.collect.Sets;
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.constants.EntityNames;
@@ -37,9 +40,9 @@ public class GenericToGlobalStudentCompObjectWriteValidator extends AbstractCont
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, entityType, ids)) {
-            return false;
+            return Collections.emptySet();
         }
 
         /*
@@ -51,6 +54,10 @@ public class GenericToGlobalStudentCompObjectWriteValidator extends AbstractCont
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids, false));
         query.addCriteria(new NeutralCriteria(ParameterConstants.EDUCATION_ORGANIZATION_ID, NeutralCriteria.CRITERIA_IN, edOrgLineage));
 
-        return ids.size() == getRepo().count(entityType, query);
+        return Sets.newHashSet(getRepo().findAllIds(entityType, query));
+    }
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.DUAL_CONTEXT;
     }
 }

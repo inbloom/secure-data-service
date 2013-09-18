@@ -380,20 +380,8 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                                     principal.getUserType(), token.getClientId()).getEntity());
 
                             principal.populateChildren(repo);
+                            Collection<GrantedAuthority> authorities = null;
 
-                            Collection<GrantedAuthority> selfAuthorities = resolveAuthorities(principal.getTenantId(),
-                                    principal.getRealm(), principal.getRoles(), principal.isAdminRealmAuthenticated(),
-                                    true);
-                            principal.setSelfRights(selfAuthorities);
-                            debug("Granted self rights - {}", selfAuthorities);
-
-                            // TODO: Once F262 is completed, do this only if (principal.isAdminRealmAuthenticated()).
-                            Collection<GrantedAuthority> authorities = resolveAuthorities(principal.getTenantId(),
-                                    principal.getRealm(), principal.getRoles(), principal.isAdminRealmAuthenticated(),
-                                    false);
-                            debug("Granted regular rights - {}", authorities);
-
-                            // Generate EdOrg-Rights map for principal, if staff.
                             if ((!principal.isAdminRealmAuthenticated()) && (principal.getUserType() == null || principal.getUserType().isEmpty()
                                     || principal.getUserType().equals(EntityNames.STAFF))) {
                                 principal.setEdOrgRights(generateEdOrgRightsMap(principal, false));
@@ -401,6 +389,17 @@ public class OauthMongoSessionManager implements OauthSessionManager {
 
                                 // Generate EdOrg-Context-Rights map for principal.
                                 principal.setEdOrgContextRights(generateEdOrgContextRightsCache(principal));
+                            } else {
+                                Collection<GrantedAuthority> selfAuthorities = resolveAuthorities(principal.getTenantId(),
+                                        principal.getRealm(), principal.getRoles(), principal.isAdminRealmAuthenticated(),
+                                        true);
+                                principal.setSelfRights(selfAuthorities);
+                                debug("Granted self rights - {}", selfAuthorities);
+
+                                authorities = resolveAuthorities(principal.getTenantId(),
+                                        principal.getRealm(), principal.getRoles(), principal.isAdminRealmAuthenticated(),
+                                        false);
+                                debug("Granted regular rights - {}", authorities);
                             }
 
                             if (!principal.isAdminRealmAuthenticated()) {
@@ -518,18 +517,18 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         Map<String, Collection<GrantedAuthority>> contextRights = new HashMap<String, Collection<GrantedAuthority>>();
         contextRights.put(Right.STAFF_CONTEXT.name(), new HashSet<GrantedAuthority>());
         contextRights.put(Right.TEACHER_CONTEXT.name(), new HashSet<GrantedAuthority>());
-        Collection<GrantedAuthority> roleAuthorities = new HashSet<GrantedAuthority>();
         for (String edOrg : edOrgs) {  // For each edOrg....
             for (String role : principal.getEdOrgRoles().get(edOrg)) {  // For each edOrg role....
+                Collection<GrantedAuthority> roleAuthorities = new HashSet<GrantedAuthority>();
                 roleAuthorities.addAll(resolver.resolveRolesUnion(principal.getTenantId(), principal.getRealm(),
                         Arrays.asList(role), principal.isAdminRealmAuthenticated(), false));
+                if (roleAuthorities.contains(Right.STAFF_CONTEXT)) {
+                    contextRights.get(Right.STAFF_CONTEXT.name()).addAll(roleAuthorities);
+                }
+                if (roleAuthorities.contains(Right.TEACHER_CONTEXT)) {
+                    contextRights.get(Right.TEACHER_CONTEXT.name()).addAll(roleAuthorities);
+                }
             }
-        }
-        if (roleAuthorities.contains(STAFF_CONTEXT)) {
-            contextRights.get(Right.STAFF_CONTEXT.name()).addAll(roleAuthorities);
-        }
-        if (roleAuthorities.contains(TEACHER_CONTEXT)) {
-            contextRights.get(Right.TEACHER_CONTEXT.name()).addAll(roleAuthorities);
         }
 
         return contextRights;

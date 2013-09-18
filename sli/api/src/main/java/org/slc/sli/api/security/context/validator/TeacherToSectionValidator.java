@@ -16,6 +16,7 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -46,9 +47,9 @@ public class TeacherToSectionValidator extends AbstractContextValidator {
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.SECTION, entityType, ids)) {
-            return false;
+            return Collections.EMPTY_SET;
         }
 
         Set<String> sectionIds = new HashSet<String>();
@@ -63,7 +64,12 @@ public class TeacherToSectionValidator extends AbstractContextValidator {
                 }
             }
         }
-        return ids.size() == sectionIds.size();
+
+        return sectionIds;
     }
 
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.TEACHER_CONTEXT;
+    }
 }

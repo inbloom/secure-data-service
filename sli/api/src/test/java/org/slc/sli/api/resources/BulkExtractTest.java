@@ -36,15 +36,7 @@ import java.net.URISyntaxException;
 import java.security.Principal;
 import java.security.cert.X509Certificate;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.WebApplicationException;
@@ -171,7 +163,9 @@ public class BulkExtractTest {
         Mockito.doNothing().when(spyFileResource).logSecurityEvent(Mockito.anyString());
         bulkExtract.setFileResource(spyFileResource);
 
-        when(mockValidator.validate(eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.any(Set.class))).thenReturn(true);
+        Set<String> dummySet = new HashSet<String>();
+        dummySet.add("dummy");
+        when(mockValidator.validate(eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.any(Set.class))).thenReturn(dummySet);
 
         // Hmm.. this needed?
         bulkExtract.setEdorgValidator(mockValidator);
@@ -383,7 +377,8 @@ public class BulkExtractTest {
         Mockito.when(edOrgHelper.getDirectChildLEAsOfEdOrg(edOrg)).thenReturn(Arrays.asList("lea123"));
         Set<String> lea = new HashSet<String>();
         lea.add("lea123");
-        Mockito.when(mockValidator.validate(EntityNames.EDUCATION_ORGANIZATION, lea)).thenReturn(true);
+
+        Mockito.when(mockValidator.validate(EntityNames.EDUCATION_ORGANIZATION, lea)).thenReturn(lea);
         Map<String, Object> authBody = new HashMap<String, Object>();
         authBody.put("applicationId", "App1");
         authBody.put(ApplicationAuthorizationResource.EDORG_IDS, Arrays.asList("lea123"));
@@ -500,7 +495,7 @@ public class BulkExtractTest {
         injector.setEducatorContext();
         // No BE Field
         Mockito.when(mockValidator.validate(eq(EntityNames.EDUCATION_ORGANIZATION), Mockito.any(Set.class)))
-                .thenReturn(false);
+                .thenReturn(Collections.EMPTY_SET);
         bulkExtract.getLEAorSEAExtract(CONTEXT, req, "BLEEP");
     }
 

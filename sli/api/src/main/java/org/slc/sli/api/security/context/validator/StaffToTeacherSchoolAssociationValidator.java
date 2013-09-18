@@ -16,11 +16,9 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -48,28 +46,32 @@ public class StaffToTeacherSchoolAssociationValidator extends AbstractContextVal
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.TEACHER_SCHOOL_ASSOCIATION, entityType, ids)) {
-            return false;
+            return Collections.EMPTY_SET;
         }
 
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
                 NeutralCriteria.CRITERIA_IN, new ArrayList<String>(ids)));
         Iterable<Entity> teacherSchoolAssociations = getRepo().findAll(entityType, query);
-        Set<String> schools = new HashSet<String>();
+        Map<String, Set<String>> schools = new HashMap<String, Set<String>>();
         if (teacherSchoolAssociations != null) {
             for (Entity teacherSchoolAssociation : teacherSchoolAssociations) {
                 Map<String, Object> body = teacherSchoolAssociation.getBody();
                 String school = (String) body.get("schoolId");
-                schools.add(school);
+                if (!schools.containsKey(school)) {
+                    schools.put(school, new HashSet<String>());
+                }
+                schools.get(school).add(teacherSchoolAssociation.getEntityId());
             }
         }
 
         if (schools.isEmpty()) {
-            return false;
+            return Collections.EMPTY_SET;
         }
 
-        return validator.validate(EntityNames.EDUCATION_ORGANIZATION, schools);
+        Set<String> validSchools = validator.validate(EntityNames.EDUCATION_ORGANIZATION, schools.keySet());
+        return getValidIds(validSchools, schools);
     }
 
     /**
@@ -80,5 +82,10 @@ public class StaffToTeacherSchoolAssociationValidator extends AbstractContextVal
      */
     protected void setStaffToEdOrgValidator(GenericToEdOrgValidator validator) {
         this.validator = validator;
+    }
+
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.STAFF_CONTEXT;
     }
 }

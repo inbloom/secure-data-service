@@ -28,6 +28,7 @@ require_relative '../../end_user_stories/CustomEntities/step_definitions/CustomE
 
 DATABASE_HOST = PropLoader.getProps['ingestion_db']
 DATABASE_PORT = PropLoader.getProps['ingestion_db_port']
+MAX_ENTITIES_PER_API_CALL = 1000
 
 #############################################################################################
 # Transform
@@ -51,12 +52,26 @@ Transform /^<(.*?)>$/ do |human_readable_id|
       id = '/v1/students/2d17703cb29a95bbfdaab47f513cafdc0ef55d67_id'
     when 'jack.jackson URI'
       id = '/v1/students/df54047bf88ecd7e2f6fbf00951196f747c9ccfc_id'
+    when 'yvonne.seymour URI'
+      id = '/v1/students/b203dea65e6626d7480afaa3781a21fd3e72f5de_id'
+    when 'wanda.payton URI'
+      id = '/v1/students/16cd354ca177536967e767c0b88689dd31f3f0c4_id'
+    when 'gavin.corti URI'
+      id = '/v1/students/f8cddeab003f88f7e64360ef0e9ccaa91741c7c0_id'
+    when 'joanna.murphy URI'
+      id = '/v1/students/af86d4f38f9c397ef97712e926b362021c2bbf15_id'
 
 #Education Organizations
     when 'East Daybreak URI'
       id = '/v1/educationOrganizations/2a30827ed4cf5500fb848512d19ad73ed37c4464_id'
     when 'District 9 URI'
       id = '/v1/educationOrganizations/99a4ec9d3ba372993b2860a798b550c77bb73a09_id'
+    when 'Daybreak Bayside High URI'
+      id = '/v1/educationOrganizations/67e56f15a44cf12b6b9eecd8510b243177bce057_id'
+    when 'Daybreak Ragnarok URI'
+      id = '/vi/educationOrganizations/29fecddc0c7d1e3563f3eb98743bf65b13c742fe_id'
+    when 'Daybreak Apocalypse URI'
+      id = '/v1/educationOrganizations/7ba3a918acc8ce02ea105a6c1afac1ab081a465f_id'
 
 #Staff
     when 'msmith URI'
@@ -75,6 +90,8 @@ Transform /^<(.*?)>$/ do |human_readable_id|
       id = '/v1/students/aceb1e6d159c833db61f72a9dfeee50be2f2691e_id'
     when 'kate.dedrick URI'
       id = '/v1/students/a94fc8d0895f2a00b811d54996a8f3eb8fdc7480_id'
+    when 'delete.me URI'
+      id = '/v1/students/adad6cd5564eebbcc46c43b648d604427c7f6c19_id'
 
 #Following are for CUSTOM
     when 'JACK.JACKSON CUSTOM URI'
@@ -86,14 +103,51 @@ Transform /^<(.*?)>$/ do |human_readable_id|
     when 'JMACEY CUSTOM URI'
       id = '/v1/staff/7810ac678851ae29a450cc18bd9f47efa37bfaef_id/custom'
     when 'JMACEY SEOAA CUSTOM URI'
-      id = '/v1/staffEducationOrgAssignmentAssociations/57edc58caa226f4ab888e51ef8b5531b98800cca_id/custom'
+      id = '/v1/staffEducationOrgAssignmentAssociations/8531ffedf8c3d6e39a7730edafe25efd43ef2478_id/custom'
 
 #Following is for a newly created entity
     when 'NEWLY CREATED ENTITY ID'
       id = @newId
+
+#EdOrg
+    when 'Daybreak Bayside High'
+      id = '67e56f15a44cf12b6b9eecd8510b243177bce057_id'
+    when 'East Daybreak High'
+      id = '2a30827ed4cf5500fb848512d19ad73ed37c4464_id'
+    when 'District 9'
+      id = '99a4ec9d3ba372993b2860a798b550c77bb73a09_id'
+
+#Section
+    when 'JMaceys Section'
+      id = '4c2f822097f31017935ed056580b837980dd1428_id'
+
+    when 'half of the total count'
+      id = [MAX_ENTITIES_PER_API_CALL - 1, @totalCount].min / 2
+      @offset = id
+
+    when 'a third of the total count'
+      id = [MAX_ENTITIES_PER_API_CALL - 1, @totalCount].min / 3
+      @offset = id
+
+    when 'two thirds of the total count'
+      id = [MAX_ENTITIES_PER_API_CALL - 1, @totalCount].min * 2 / 3
+      @offset = id
+
+    when 'the total count'
+      id = [MAX_ENTITIES_PER_API_CALL - 1, @totalCount].min
+      @offset = id
+
+    when 'limit is half of the total count'
+      id = @totalCount / 2
+
   end
 
   id
+end
+
+Transform /^([^"]*)\/<IDs>\/([^"]*)$/ do |uri_placeholder1, uri_placeholder2|
+  uri = uri_placeholder1 + "/[^/]*/" + uri_placeholder2
+  uri
 end
 
 Transform /^(<[^"]*>)\/([^"]*)$/ do |uri_placeholder1, uri_placeholder2|
@@ -887,10 +941,127 @@ Given /^a valid json document for entity "([^"]*)"$/ do |entity|
             'firstName' => 'Samantha',
             'lastSurname' => 'Samuelson'
         }
+    },
+
+    'staff' => {
+        'staffUniqueStateId' => 'new-staff',
+        'loginId' => 'new-staff-login',
+        'sex' => 'Male',
+        'name' => {
+            'firstName' => 'Seymour',
+            'lastSurname' => 'Skinner'
+        }
+    },
+
+    'teacher' => {
+        'staffUniqueStateId' => 'new-teacher',
+        'highlyQualifiedTeacher' => true,
+        'loginId' => 'new-teacher-login',
+        'sex' => 'Female',
+        'name' => {
+            'firstName' => 'Edna',
+            'lastSurname' => 'Krabapple'
+        }
     }
 
   }
   @fields = entity_data[entity]
+end
+
+
+Given /^there is a course in the edOrg "(.*?)"$/ do | edOrgId|
+  course_entity = {'_id' => SecureRandom.uuid,
+                   'type' => 'course',
+                   'body' => {
+                                'courseTitle' => 'Chinese 1',
+                                'numberOfParts' => 1,
+                                'courseCode' => [{
+                                  'ID' => 'C1',
+                                  'identificationSystem' => 'School course code',
+                                  'assigningOrganizationCode' => "Bob's Code Generator"
+                                }],
+                                'courseLevel' => 'Basic or remedial',
+                                'courseLevelCharacteristics' => ['Advanced Placement'],
+                                'gradesOffered' => ['Eighth grade'],
+                                'subjectArea' => 'Foreign Language and Literature',
+                                'courseDescription' => 'Intro to Chinese',
+                                'dateCourseAdopted' => '2001-01-01',
+                                'highSchoolCourseRequirement' => false,
+                                'courseDefinedBy' => 'LEA',
+                                'minimumAvailableCredit' => {
+                                  'credit' => 1.0
+                                },
+                                'maximumAvailableCredit' => {
+                                  'credit' => 1.0
+                                },
+                                'careerPathway' => 'Hospitality and Tourism',
+                                'schoolId' => edOrgId,
+                                'uniqueCourseId' => 'Chinese-1-10'
+                              }
+                  }
+  db_name = convertTenantIdToDbName @tenant
+  add_to_mongo(db_name, 'course', course_entity)
+end
+
+Then /^the header "([^\"]*)" contains "(.*?)"$/ do |header, value|
+  value = convert(value)
+  value = value.gsub(/\//, '\/')
+  header.downcase!
+  headers = @res.raw_headers
+  headers.should_not == nil
+  assert(headers[header])
+  headers[header].should_not == nil
+  resultValue = headers[header]
+  resultValue.should be_a Array
+  resultValue.length.should == 1
+  singleValue = convert(resultValue[0])
+  assert(singleValue.index(/#{value}/) != nil)
+end
+
+Then /^I get the total count from the header$/ do
+  header = 'totalcount'
+  headers = @res.raw_headers
+  headers.should_not == nil
+  assert(headers[header])
+  headers[header].should_not == nil
+  headers[header].length.should == 1
+  @totalCount = convert(headers[header][0])
+end
+
+Then /^I verify the total count from the header$/ do
+  header = 'totalcount'
+  headers = @res.raw_headers
+  headers.should_not == nil
+  assert(headers[header])
+  headers[header].should_not == nil
+  headers[header].should_not == nil
+  headers[header].length.should == 1
+  actualCount = convert(headers[header][0])
+  assert(@totalCount == actualCount, "Total count has to be the same, expects #{@totalCount}, actual #{actualCount}")
+end
+
+Then /^I get all the entities returned$/ do
+  jsonResult = JSON.parse(@res.body)
+  @totalIds = Array.new
+
+  #Get entity ids from the api call
+  jsonResult.each do |data|
+    @totalIds << data["id"]
+  end
+end
+
+Then /^I check the returned entities are sequential$/ do
+  jsonResult = JSON.parse(@res.body)
+
+  count = 0
+
+  jsonResult.each do |data|
+    assert(data["id"] == @totalIds[@offset + count], data["id"] + ' is out of order')
+    count = count + 1
+    break if count + @offset >= @totalIds.size
+  end
+
+
 end
 
 ############################################################################################

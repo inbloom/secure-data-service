@@ -17,6 +17,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Set;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
@@ -65,11 +66,13 @@ public class StudentToStudentCompetencyValidatorTest extends TestCase {
 
     @Test
     public void testSingleValidate() {
-        assertTrue(validator.validate(EntityNames.STUDENT_COMPETENCY, new HashSet<String>(Arrays.asList(competency1.getEntityId()))));
+        Set<String> idsToValidate = new HashSet<String>(Arrays.asList(competency1.getEntityId()));
+        assertTrue(validator.validate(EntityNames.STUDENT_COMPETENCY, idsToValidate).containsAll(idsToValidate));
     }
 
     @Test
     public void testNegativeHeterogeneousValidate() {
-        assertFalse(validator.validate(EntityNames.STUDENT_COMPETENCY, new HashSet<String>(Arrays.asList(competency1.getEntityId(),competency2.getEntityId()))));
+        Set<String> idsToValidate = new HashSet<String>(Arrays.asList(competency1.getEntityId(),competency2.getEntityId()));
+        assertFalse(validator.validate(EntityNames.STUDENT_COMPETENCY, idsToValidate).containsAll(idsToValidate));
     }
 }

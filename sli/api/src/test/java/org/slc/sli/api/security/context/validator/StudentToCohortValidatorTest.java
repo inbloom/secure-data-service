@@ -3,13 +3,10 @@ package org.slc.sli.api.security.context.validator;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -60,7 +57,8 @@ public class StudentToCohortValidatorTest {
     public void noEmbeddedDataCantValidate() {
         injector.setStudentContext(student1);
         when(student1.getEmbeddedData()).thenReturn(null);
-        assertFalse(underTest.validate(EntityNames.COHORT, new HashSet<String>(Arrays.asList(student1.getEntityId()))));
+        Set<String> idsToValidate = new HashSet<String>(Arrays.asList(student1.getEntityId()));
+        assertFalse(underTest.validate(EntityNames.COHORT, idsToValidate).containsAll(idsToValidate));
     }
     
     @Test
@@ -68,7 +66,8 @@ public class StudentToCohortValidatorTest {
         injector.setStudentContext(student1);
         Map<String, List<Entity>> embeddedData = buildCohortAssociation(student1.getEntityId());
         when(student1.getEmbeddedData()).thenReturn(embeddedData);
-        assertTrue(underTest.validate(EntityNames.COHORT, new HashSet<String>(Arrays.asList("cohort123"))));
+        Set<String> idsToValidate = new HashSet<String>(Arrays.asList("cohort123"));
+        assertTrue(idsToValidate.containsAll(underTest.validate(EntityNames.COHORT, idsToValidate)));
     }
     
     @Test
@@ -77,9 +76,11 @@ public class StudentToCohortValidatorTest {
         Map<String, List<Entity>> embeddedData = buildCohortAssociation(student1.getEntityId());
         when(student1.getEmbeddedData()).thenReturn(embeddedData);
         // bad id
-        assertFalse(underTest.validate(EntityNames.COHORT, new HashSet<String>(Arrays.asList("cohort456"))));
+        Set<String> idsToValidate = new HashSet<String>(Arrays.asList("cohort456"));
+        assertFalse(underTest.validate(EntityNames.COHORT, idsToValidate).containsAll(idsToValidate));
         // good and bad id
-        assertFalse(underTest.validate(EntityNames.COHORT, new HashSet<String>(Arrays.asList("cohort123", "cohort456"))));
+        idsToValidate = new HashSet<String>(Arrays.asList("cohort123", "cohort456"));
+        assertFalse(underTest.validate(EntityNames.COHORT, idsToValidate).containsAll(idsToValidate));
     }
 
     private Map<String, List<Entity>> buildCohortAssociation(String entityId) {

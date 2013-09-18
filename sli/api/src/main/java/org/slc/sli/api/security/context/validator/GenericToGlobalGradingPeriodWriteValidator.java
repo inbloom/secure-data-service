@@ -17,9 +17,11 @@
 package org.slc.sli.api.security.context.validator;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.constants.EntityNames;
@@ -41,9 +43,9 @@ public class GenericToGlobalGradingPeriodWriteValidator extends AbstractContextV
 
     @SuppressWarnings("unchecked")
     @Override
-    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
+    public Set<String> validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.GRADING_PERIOD, entityType, ids)) {
-            return false;
+            return Collections.emptySet();
         }
 
         /*
@@ -65,11 +67,17 @@ public class GenericToGlobalGradingPeriodWriteValidator extends AbstractContextV
                         ParameterConstants.GRADING_PERIOD_REFERENCE));
                 if (gradingPeriodsToValidate.isEmpty()) {
                     // All Grading Period Ids have been validated, return success
-                    return true;
+                    return ids;
                 }
             }
         }
-        return false;
+        Set<String> validIds = new HashSet<String>(ids);
+        validIds.removeAll(gradingPeriodsToValidate);
+        return validIds;
     }
 
+    @Override
+    public SecurityUtil.UserContext getContext() {
+        return SecurityUtil.UserContext.DUAL_CONTEXT;
+    }
 }

@@ -25,6 +25,7 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.service.Treatment;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.*;
@@ -172,7 +173,7 @@ public class EntityRightsFilterTest {
         EntityDefinition definition = Mockito.mock(EntityDefinition.class);
         Mockito.when(definition.getType()).thenReturn("student");
 
-        EntityBody res = entityRightsFilter.makeEntityBody(student, treatments, definition, false, auths);
+        EntityBody res = entityRightsFilter.makeEntityBody(student, treatments, definition, false, auths, SecurityUtil.UserContext.STAFF_CONTEXT);
         Assert.assertNotNull(res);
         List<EntityBody> ssa = (List<EntityBody>) res.get("studentSchoolAssociation");
         Assert.assertNotNull(ssa);
