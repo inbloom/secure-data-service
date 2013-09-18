@@ -49,8 +49,8 @@ Scenario: Mega Multi Realm Test
   Then I should get 1 error
   And I should make the IDP URL not unique
   And I should click the "Save" button
-  Then I should get 1 error
-  And I click on the Cancel button
+  Then I should not see any errors
+
 #Scenario: Multi Realm creation
 Given I see the realms for "New York State Education System (NY-STATE-NYC)"
 And the realm "Brand New Realm" will exist
