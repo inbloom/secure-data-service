@@ -601,6 +601,42 @@ When /I check that the section extract for "(.*?)" has the correct number of rec
   enable_NOTABLESCAN()
 end
 
+$schoolStaffEdorgAssignment = {}
+When /I check that the staffEdorgAssignment extract for "(.*?)" has the correct number of records/ do |edOrgId|
+  disable_NOTABLESCAN()
+  @tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
+  query     = <<-jsonDelimiter
+  [
+  {"$project":{"body.educationOrganizationReference":1}}
+  ,{"$group":{"_id":"$body.educationOrganizationReference", "staffEdorgAssignments":{"$addToSet":"$_id"}}}
+  ]
+  jsonDelimiter
+  puts(query)
+  query  = JSON.parse(query)
+  result = @tenantDb.collection('staffEducationOrganizationAssociation').aggregate(query)
+  result.each{ |schoolIdToSections|
+    schoolId = schoolIdToSections['_id']
+    puts schoolId
+    staffEdorgAssignments = schoolIdToSections['staffEdorgAssignments']
+    puts staffEdorgAssignments
+    $schoolStaffEdorgAssignment[schoolId] = staffEdorgAssignments
+  }
+
+  seaZipFile  = @unpackDir + '/staffEducationOrganizationAssociation.json.gz'
+  seaJsnFile  = @unpackDir + '/staffEducationOrganizationAssociation.json'
+  Minitar.unpack(@filePath, @unpackDir)
+  assert(File.exists?(seaZipFile), "Cannot find #{seaZipFile} file ")
+  `gunzip #{seaZipFile}`
+  json = JSON.parse(File.read(seaJsnFile))
+
+  comment = "Expected section extract for #{edOrgId} to have #{$schoolStaffEdorgAssignment[edOrgId].size}. Found #{json.size}"
+  assert(json.size == $schoolStaffEdorgAssignment[edOrgId].size, comment)
+  puts (comment)
+  enable_NOTABLESCAN()
+end
+
+
+
 $schoolParents = {}
 When /I check that the parent extract for "(.*?)" has the correct number of records/ do |edOrgId|
   disable_NOTABLESCAN()

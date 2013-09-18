@@ -30,7 +30,8 @@ Feature: After Small Sample DS is ingested and BE is run, I want to ensure that 
 
 
     #When I check that the staffCohortAssociation extract for "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id" has the correct number of records
-    #When I check that the staffEducationOrganizationAssociation extract for "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id" has the correct number of records
+    When I check that the staffEdorgAssignment extract for "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id" has the correct number of records
+
 
 
 
