@@ -197,10 +197,17 @@ public class SamlFederationResource {
         String inResponseTo = doc.getRootElement().getAttributeValue("InResponseTo");
         String issuer = doc.getRootElement().getChildText("Issuer", SamlHelper.SAML_NS);
 
+
+        Entity session = sessionManager.getSessionForSamlId(inResponseTo);
+
+        String requestedRealmId = (String) session.getBody().get("requestedRealmId");
+
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.setOffset(0);
         neutralQuery.setLimit(1);
+
         neutralQuery.addCriteria(new NeutralCriteria("idp.id", "=", issuer));
+        neutralQuery.addCriteria(new NeutralCriteria("_id", "=", requestedRealmId));
         Entity realm = repo.findOne("realm", neutralQuery);
 
         if (realm == null) {
@@ -394,13 +401,6 @@ public class SamlFederationResource {
         }
 
         TenantContext.setIsSystemCall(true);
-
-        Entity session = sessionManager.getSessionForSamlId(inResponseTo);
-
-        String requestedRealmId = (String) session.getBody().get("requestedRealmId");
-        if (requestedRealmId == null || !requestedRealmId.equals(realm.getEntityId())) {
-            generateSamlValidationError("Requested Realm (id=" + requestedRealmId +") does not match the realm the user authenticated against (id="+realm.getEntityId()+")", targetEdOrg);
-        }
 
         Map<String, Object> appSession = sessionManager.getAppSession(inResponseTo, session);
         Boolean isInstalled = (Boolean) appSession.get("installed");
