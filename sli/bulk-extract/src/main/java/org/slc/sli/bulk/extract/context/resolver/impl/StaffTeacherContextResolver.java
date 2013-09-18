@@ -73,14 +73,15 @@ public class StaffTeacherContextResolver extends ReferrableResolver {
             if (!dateHelper.isFieldExpired(association.getBody(), END_DATE)) {
                 String edorgReference = (String) association.getBody().get(EDORG_REFERENCE);
                
-                Entity edOrg = getRepo().findById(EntityNames.EDUCATION_ORGANIZATION, edorgReference);
-
-                if(edOrg!=null && edOrgHelper.isSEA(edOrg))
-                {
-                	return leas;
-                }
                 if (edorgReference != null) {
-                    leas.addAll(edOrgResolver.findGoverningEdOrgs(edorgReference));
+                	Entity edOrg = getRepo().findById(EntityNames.EDUCATION_ORGANIZATION, edorgReference);
+                    if(edOrg!=null && edOrgHelper.isSEA(edOrg))
+                    {
+                    	continue;
+                    }
+                    else {
+                    	leas.addAll(edOrgResolver.findGoverningEdOrgs(edorgReference));
+                    }
                 }
             }
         }
