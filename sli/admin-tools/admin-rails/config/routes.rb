@@ -19,6 +19,22 @@ limitations under the License.
 
 SLIAdmin::Application.routes.draw do
 
+  # "resources :foos" expands into these 7 routes below with actions in app/controllers/foos_controller.rb
+  # See http://edgeguides.rubyonrails.org/routing.html#resources-on-the-web
+  #
+  # URL             Verb    Action   Description
+  # --------------  ------  -------  ---------------------------------------------
+  # /foos           GET     index    List summary of all Foo
+  # /foos/:id       GET     show     Show details for a specific Foo with :id
+  #
+  # /foos/new       GET     new      Render HTML form for creating new Foo
+  # /foos           POST    create   Process form submit to create new Foo
+  #
+  # /foos/:id/edit  GET     edit     Render HTML form for updating existing Foo with :id
+  # /foos/:id       PUT     update   Process form submit to update existing Foo with :id
+  #
+  # /foos/:id       DELETE  destroy  Delete existing Foo with :id
+
   resources :forgot_passwords do 
     post 'reset', :on => :collection
   end
