@@ -25,8 +25,8 @@ class ApplicationAuthorizationsController < ApplicationController
   # enable/disable apps for their LEA.
   # SEA admin authorization not implemented yet.
   def check_rights
-    unless is_sea_admin?
-      logger.warn {'User is not sea admin and cannot access application authorizations'}
+    unless is_lea_admin? or is_sea_admin?
+      logger.warn {'User is not lea or sea admin and cannot access application authorizations'}
       raise ActiveResource::ForbiddenAccess, caller
     end
   end
