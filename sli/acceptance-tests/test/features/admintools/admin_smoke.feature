@@ -30,6 +30,7 @@ And the 'Approve' button is disabled for application "Smoke!"
 When I navigate to the account management page
 And I got the 404 page
 
+@wip
 Scenario: SLC Developer operations part 2
 Given I am a valid SLC developer
 When I authenticate on the Application Registration Tool
@@ -42,7 +43,7 @@ When I select the state "Illinois State Board of Education"
 When I click on Save
 Then I am redirected to the Application Registration Tool page
 
-
+@wip
 Scenario: LEA Administrator operations
 Given the sli securityEvent collection is empty
 And I am a valid district administrator
@@ -69,6 +70,7 @@ And it is colored "green"
 And the Approve button next to it is disabled
 And the Deny button next to it is enabled
 
+@wip
 Scenario: Realm administrator operations
 Given I am a valid realm administrator
 When I authenticate on the realm editing tool
