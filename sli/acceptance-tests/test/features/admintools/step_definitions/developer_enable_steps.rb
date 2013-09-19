@@ -158,6 +158,19 @@ Then /^I see the newly enabled application is approved$/ do
   assert(!test_app.find_element(:xpath, "//td[text()='Approved']").nil?, "App should be approved")
 end
 
+Then /^"(.*?)" is enabled for "(.*?)" education organizations$/ do |app, edOrgCount|
+     sliDb = @conn.db('sli')
+     coll = sliDb.collection("application")
+     record = coll.find_one("body.name" => app)
+     #puts record.to_s
+     body = record["body"]
+     #puts body.to_s
+     edorgsArray = body["authorized_ed_orgs"]
+     edorgsArrayCount = edorgsArray.count
+     #puts edorgsArrayCount
+     assert(edorgsArrayCount == edOrgCount.to_i, "Education organization count mismatch. Expected #{edOrgCount}, actual #{edorgsArrayCount}")
+end
+
 Then /^I don't see the newly disabled application$/ do
   begin
     get_app
