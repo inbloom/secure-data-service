@@ -10,8 +10,8 @@ Scenario: Multiple realms with the same IDP authenticates
     When I see the realms for "Sunset School District 4526 (IL-SUNSET)"
     And I click the "Illinois Sunset School District 4526" edit button
     Then I should see that I am on the "Illinois Sunset School District 4526" edit page
-    Then I should enter "http://local.slidev.org:8082/simple-idp?realm=IL-Daybreak1" into Redirect Endpoint
-    Then I should enter "http://local.slidev.org:8082/simple-idp?realm=IL-Daybreak1" into IDP URL
+    Then I should enter "http://local.slidev.org:8082/simple-idp?realm=IL-Daybreak" into Redirect Endpoint
+    Then I should enter "http://local.slidev.org:8082/simple-idp?realm=IL-Daybreak" into IDP URL
     And I should click the "Save" button
     Then I should be redirected back to the realm listing page
     And I should receive a notice that the realm was successfully "updated"
