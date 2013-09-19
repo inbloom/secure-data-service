@@ -1,0 +1,3 @@
+@tenantId=IL
+edfi-xml,EducationOrganization,InterchangeEducationOrganization.xml,30d2c6059323b270f6678f7f412ae46a
+edfi-xml,StaffAssociation,InterchangeStaffAssociation.xml,30d2c6059323b270f6678f7f412ae46a
