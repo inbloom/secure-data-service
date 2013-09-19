@@ -187,13 +187,13 @@ class AppsController < ApplicationController
       authorized_ed_orgs_map[sea] = true
       if isBulkExtract
         # For bulk-extract app, enabled SEA and its immediate children
-        children = get_edorg_children(sea).map { |edOrg| edOrg.id }
+        children = EducationOrganization.get_edorg_children(sea).map { |edOrg| edOrg.id }
         children.each do |child|
           authorized_ed_orgs_map[child] = true
         end
       else
         # For non-bulk-extract app, enable all descendants of SEA edOrg
-        get_edorg_descendants(sea).each do |eo|
+        EducationOrganization.get_edorg_descendants(sea).each do |eo|
           authorized_ed_orgs_map[eo] = true
         end
       end
@@ -252,26 +252,6 @@ class AppsController < ApplicationController
       @results.push current
     end
     @results.sort! {|x, y| x["name"] <=> y["name"]}
-  end
-
-  # Get list of EducationOrganization objects that are immediate children of edOrg with given ID
-  def get_edorg_children(edOrg)
-    children = EducationOrganization.find(:all, :params => {"parentEducationAgencyReference" => edOrg, "limit" => 0})
-    return children
-  end
-  
-  # Return list containing the given edOrg ID and the IDs of all its descendant edOrgs
-  def get_edorg_descendants(edOrg)
-    result = {}
-    result[edOrg] = true
-    children = get_edorg_children(edOrg).map { |edOrg| edOrg.id }
-    children.each do |child|
-      desc = get_edorg_descendants(child)
-      desc.each do |eo|
-        result[eo] = true
-      end
-    end
-    return result.keys
   end
 
   def get_local_edorgs

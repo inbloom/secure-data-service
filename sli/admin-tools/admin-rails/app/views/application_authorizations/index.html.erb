@@ -13,7 +13,7 @@
 <% if @edorgs.length == 0 %>
     <h3 id='notApprovedStatus'>You are not authorized to make application authorizations</h3>
 <% else %>
-    <h3>Please approve inBloom applications to access the district's data</h3>
+    <h3>Please approve inBloom applications to access data</h3>
 <% end %>
 <% if @edorgs.length > 1 %>
     <select id="districtSelection">
@@ -25,7 +25,7 @@
 
 
 <% @edorgs.each do |edorg| %>
-<h1>District - <%= EducationOrganization.find(edorg).nameOfInstitution %></h1>
+<h3>Education Organization - <%= EducationOrganization.find(edorg).nameOfInstitution %></h3>
 <table id="AuthorizedAppsTable_<%= edorg  %>" class="AuthorizedAppsTable table">
   <thead>
   <tr>
@@ -39,6 +39,9 @@
   <tbody>
     <% 
      @application_authorizations[edorg].sort!{|a,b| 
+       # TODO: if including apps not enabled by developer,
+       # sort on that as the primary key, putting all
+       # such apps at the bottom
        appA = @apps_map[a.appId]
        appB = @apps_map[b.appId]
        if a.authorized && !b.authorized
@@ -60,6 +63,8 @@
     <% @cur_edorg = edorg %>
     <% @app_auth = app_auth
        next if @apps_map[app_auth.appId] == nil
+       isEnabled = @edorg_apps.has_key?(edorg) && @edorg_apps[edorg].has_key?(app_auth.appId)
+       next if ! isEnabled
     %>
     <%= render 'form'%>
   <% end %>
