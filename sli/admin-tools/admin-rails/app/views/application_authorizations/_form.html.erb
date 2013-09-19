@@ -23,9 +23,9 @@
           %>
             <%= f.hidden_field :appId, :value => @app_auth.appId %>
             <%= f.hidden_field :edorg, :value => @cur_edorg %>
-            <%= f.submit "Approve", :disabled => isApproved,
+            <%= f.submit "Approve", :disabled => !@isSEAAdmin || isApproved,
                          :confirm => "Do you really want this application to access the education organization's data?'", :class=>"btn" %>
-            <%= f.submit "Deny", :disabled => !isApproved,
+            <%= f.submit "Deny", :disabled => !@isSEAAdmin || !isApproved,
                 :confirm => "Do you really want to deny the education organization's data to this application?", :class=> "btn btn-danger"%>
           <% end %>
       </td>

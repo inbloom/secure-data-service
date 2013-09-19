@@ -37,6 +37,9 @@ class ApplicationAuthorizationsController < ApplicationController
 
     load_apps()
 
+    # Use this in the template to enable buttons
+    @isSEAAdmin = is_sea_admin?
+
     # Invert apps map to get set of enabled apps by edOrg for filtering
     @edorg_apps = {}
     @apps_map.each do |appId, app|
@@ -80,6 +83,13 @@ class ApplicationAuthorizationsController < ApplicationController
   def update
 
     load_apps()
+
+    # Only allow update by SEA admin.  Should not really trigger this since the
+    # buttons are grayed out and non-SEAadmin use is not invited to get here
+    unless is_sea_admin?
+      logger.warn {'User is not sea admin and cannot update application authorizations'}
+      raise ActiveResource::ForbiddenAccess, caller
+    end
 
     # Top level edOrg to expand
     edorg = params[:application_authorization][:edorg]
