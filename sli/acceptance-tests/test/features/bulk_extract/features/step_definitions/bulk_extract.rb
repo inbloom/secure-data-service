@@ -1048,6 +1048,17 @@ When /^I PATCH the "(.*?)" entity of type "(.*?)" to "(.*?)" at endpoint "(.*?)"
   assert(@res != nil, "Response from rest-client PATCH is nil")
 end
 
+When /^I PATCH the "([^"]*)" field of the entity specified by endpoint "([^"]*)" to '([^']*)'$/ do |field_name, endpoint, value|
+  # Get the desired entity from mongo, we will only use the _id
+  entity_response_body = get_response_body(endpoint)
+  STDOUT.puts entity_response_body.to_s
+  # We will set the PATCH body based on the evaluated value
+  patch_body = { field_name => eval(value) }
+  restHttpPatch("/#{@api_version}/#{endpoint}", prepareData(@format, patch_body))
+  assert(@res != nil, "Response from rest-client PATCH is nil")
+  STDOUT.puts @res.to_s
+end
+
 When /^I DELETE and validate the following entities:$/ do |table|
   table.hashes.map do |api_params|
     print "Deleting #{api_params['entity']} .."

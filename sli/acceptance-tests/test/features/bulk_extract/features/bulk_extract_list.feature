@@ -12,6 +12,13 @@ Feature: As an API user, I want to be able to get a list of links available to t
     And I post "StoriedDataSet_IL_Daybreak.zip" file as the payload of the ingestion job
     When zip file is scp to ingestion landing zone
     And a batch job for file "StoriedDataSet_IL_Daybreak.zip" is completed in database
+
+    # Make IL-DAYBREAK a charter school to verify bulk extract will work
+    Given I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+    And format "application/json"
+    Then I PATCH the "organizationCategories" field of the entity specified by endpoint "educationOrganizations/1b223f577827204a1c7e9c851dba06bea6b031fe_id" to '[ "School", "Local Education Agency" ]'
+
+    Given I am a valid 'service' user with an authorized long-lived token "92FAD560-D2AF-4EC1-A2CC-F15B460E1E43"
     And in my list of rights I have BULK_EXTRACT
     Then I trigger a bulk extract
     And I post "ExtendStaffEdorgAssociation.zip" file as the payload of the ingestion job
@@ -29,6 +36,7 @@ Feature: As an API user, I want to be able to get a list of links available to t
 	|   deltaLeas  |  1    |
 	|   fullSea    |  1    |
 	|   deltaSea   |  1    |
+    When I set the header format to "application/x-tar"
 	And I make a head request with each returned URL
 
 Scenario: Login as a user not directly associated with the SEA, SEA extract should be in the list
