@@ -44,6 +44,12 @@ task :appRegistrationTests => [:realmInit] do
   runTests("test/features/admintools/app_registration.feature")
 end
 
+desc "Run Application Authorization Tests"
+task :appAuthorizationTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/admintools/app_authorization.feature")
+end
+
 desc "Run Admin Edit Rules Tests"
 task :adminEditRules => [:realmInit] do
   Rake::Task["importSandboxData"].execute
