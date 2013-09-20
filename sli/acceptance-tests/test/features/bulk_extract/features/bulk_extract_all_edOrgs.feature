@@ -5,7 +5,7 @@ Feature: After Small Sample DS is ingested and BE is run, I want to ensure that 
 	Given I am using local data store
 
   Scenario: Validate that BEs are created for all edOrgs
-    When I ingest "AppendEdorg.zip"
+    When I ingest "AppendEdOrg.zip"
     Then I trigger a bulk extract
 
     And I fetch the path to and decrypt the LEA data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4" and edorg with id "772a61c687ee7ecd8e6d9ad3369f7883409f803b_id"
