@@ -1003,6 +1003,14 @@ local:
 
         dashboard.log.level: info
 
+        # Only used in dashboard
+        ## portal.footer.url: https://{portal_host}/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
+        portal.footer.url: http://local.slidev.org:7000/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
+
+        # Only used in dashboard
+        ## portal.header.url: https://{portal_header}/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
+        portal.header.url: http://local.slidev.org:7000/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
+
     apps: &APPS-LOCAL
         <<: *APPS-DEFAULT
         ## bootstrap.app.admin.url: http://localhost:3001
