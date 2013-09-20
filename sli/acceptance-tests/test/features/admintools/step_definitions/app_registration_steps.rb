@@ -214,7 +214,7 @@ When /^I select the app display method to "(.*?)"$/ do |arg1|
 end
 
 Then /^I am redirected to a new application page$/ do
-  assertWithWait("Failed to navigate to the New Applicaation page")  {@driver.page_source.index("New Application") != nil}
+  assertWithWait("Failed to navigate to the New Application page")  {@driver.page_source.index("New Application") != nil}
 end
 
 When /^I have entered data into the other required fields except for the shared secret and the app id which are read\-only$/ do
