@@ -70,6 +70,7 @@ class AppsController < ApplicationController
   def edit
     @title = "Edit Application"
     @app = App.find(params[:id])
+    @app.authorized_ed_orgs = [] if @app.authorized_ed_orgs.nil?
     @sea = get_state_edorgs
   end
 
