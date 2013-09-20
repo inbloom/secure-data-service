@@ -60,9 +60,9 @@ public class PortalWSManagerImpl implements PortalWSManager {
         }
         
         try {
-            String jsonUrl =  restClient.getJsonRequest(url + "?isAdmin=" + isAdmin, true);
+            String jsonUrl =  url + "?isAdmin=" + isAdmin;
             LOGGER.info("Will try to fetch URL [" + jsonUrl + "]");
-            return jsonUrl;
+            return restClient.getJsonRequest(jsonUrl, true);
         } catch (JsonSyntaxException ex) {
             return StringUtils.EMPTY;
         } catch (IllegalArgumentException iae) {
