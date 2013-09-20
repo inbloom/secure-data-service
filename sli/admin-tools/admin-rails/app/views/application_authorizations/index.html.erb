@@ -23,7 +23,6 @@
     </select>
 <% end %>
 
-
 <% @edorgs.each do |edorg| %>
 <h3>Education Organization - <%= EducationOrganization.find(edorg).nameOfInstitution %></h3>
 <table id="AuthorizedAppsTable_<%= edorg  %>" class="AuthorizedAppsTable table">

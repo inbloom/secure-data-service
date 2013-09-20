@@ -5,6 +5,10 @@ Scenario: Initialize security trust store for Bulk Extract application and LEAs
     And the bulk extract files in the database are scrubbed
     And The bulk extract app has been approved for "Midgar-DAYBREAK" with client id "<clientId>"
     And The X509 cert "cert" has been installed in the trust store and aliased    
+    # Make IL-DAYBREAK a charter school to verify bulk extract will work
+    Given I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+    And format "application/json"
+    Then I PATCH the "organizationCategories" field of the entity specified by endpoint "educationOrganizations/1b223f577827204a1c7e9c851dba06bea6b031fe_id" to '[ "School", "Local Education Agency" ]'
 
 Scenario: Generate a bulk extract delta after day 1 ingestion
   When I trigger a delta extract
@@ -1039,6 +1043,11 @@ Given I clean the bulk extract file system and database
 
 
 Scenario: Update an existing edorg through the API, perform delta, call list endpoint, call API to download and verify delta
+    # Make IL-DAYBREAK a charter school to verify bulk extract will work
+    Given I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+    And format "application/json"
+    Then I PATCH the "organizationCategories" field of the entity specified by endpoint "educationOrganizations/1b223f577827204a1c7e9c851dba06bea6b031fe_id" to '[ "School", "Local Education Agency" ]'
+
  Given I clean the bulk extract file system and database
    And I log into "SDK Sample" with a token of "jstevenson", a "IT Administrator" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
    And format "application/json"
