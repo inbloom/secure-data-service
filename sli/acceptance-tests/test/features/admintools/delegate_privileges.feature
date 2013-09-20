@@ -10,7 +10,8 @@ Scenario: State Administrator is allowed access to app authorizations
   Then I see the list of all available apps on SLI
 
   
-@wip confirm obsoletion by F186 once requirements firm up
+# confirm obsoletion by F186 once requirements firm up
+@wip
 Scenario: District Super Administrator delegates app approval permission to state
 	Given I have an open web browser
 	When I hit the delegation url
@@ -23,7 +24,8 @@ Scenario: District Super Administrator delegates app approval permission to stat
     Then I am redirected to the delegation page for my district
     And "Application Authorization" is checked
  
-@wip confirm obsoletion by F186 once requirements firm up
+# confirm obsoletion by F186 once requirements firm up
+@wip
 Scenario: State Administrator gets access to app approval for one district
   Given I have an open web browser
   When I hit the Admin Application Authorization Tool
@@ -32,7 +34,8 @@ Scenario: State Administrator gets access to app approval for one district
    And I am redirected to the Admin Application Authorization Tool
   Then I see the list of all available apps on SLI
   
-@wip confirm obsoletion by F186 once requirements firm up
+# confirm obsoletion by F186 once requirements firm up
+@wip
   Scenario: Second District Super Administrator delegates app approval permission to state
   Given I have an open web browser
   When I hit the delegation url
@@ -45,7 +48,8 @@ Scenario: State Administrator gets access to app approval for one district
     Then I am redirected to the delegation page for my district
     And "Application Authorization" is checked
 
-@wip confirm obsoletion by F186 once requirements firm up
+# confirm obsoletion by F186 once requirements firm up
+@wip
  Scenario: State Administrator gets access to app approval for two districts and approves one app
   Given I have an open web browser
   When I hit the Admin Application Authorization Tool
