@@ -220,6 +220,7 @@ task :bulkExtractTests => [:realmInit] do
   Rake::Task["bulkExtractIntegrationTest"].execute
   Rake::Task["bulkExtractApiTests"].execute
   Rake::Task["bulkExtractLeasTests"].execute
+  Rake::Task["bulkExtractEdOrgsTests"].execute
   Rake::Task["bulkExtractDeltasTest"].execute
   Rake::Task["bulkExtractSchedulerTest"].execute
   Rake::Task["bulkExtractNegativeTests"].execute
@@ -228,7 +229,6 @@ task :bulkExtractTests => [:realmInit] do
   Rake::Task["bulkExtractCleanupTests"].execute
   Rake::Task["bulkExtractSecurityEventTests"].execute
   Rake::Task["bulkExtractDeltaPurgeTests"].execute
-  Rake::Task["bulkExtractEdOrgsTests"].execute
   Rake::Task["bulkExtractCleanup"].execute
   displayFailureReport()
   if $SUCCESS
