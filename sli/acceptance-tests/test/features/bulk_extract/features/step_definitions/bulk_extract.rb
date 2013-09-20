@@ -621,7 +621,6 @@ When /I check that the staffEdorgAssignment extract for "(.*?)" has the correct 
     puts staffEdorgAssignments
     $schoolStaffEdorgAssignment[schoolId] = staffEdorgAssignments
   }
-
   seaZipFile  = @unpackDir + '/staffEducationOrganizationAssociation.json.gz'
   seaJsnFile  = @unpackDir + '/staffEducationOrganizationAssociation.json'
   Minitar.unpack(@filePath, @unpackDir)
@@ -708,6 +707,41 @@ When /I check that the student extract for "(.*?)" has the correct number of rec
   puts (comment)
   enable_NOTABLESCAN()
 end
+
+$schoolSSA = {}
+When /I check that the studentSchoolAssociation extract for "(.*?)" has the correct number of records/ do |edOrgId|
+  disable_NOTABLESCAN()
+  @tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
+  query     = <<-jsonDelimiter
+  [
+  {"$project":{"body.schoolId":1}}
+  ,{"$group":{"_id":"$body.schoolId", "studentSchoolAssociations":{"$addToSet":"$_id"}}}
+  ]
+  jsonDelimiter
+  puts(query)
+  query  = JSON.parse(query)
+  result = @tenantDb.collection('studentSchoolAssociation').aggregate(query)
+  puts "+++++++++++++++"
+  puts result
+  result.each{ |schoolIdToSSA|
+    schoolId = schoolIdToSSA['_id']
+    ssa = schoolIdToSSA['studentSchoolAssociations']
+    $schoolSSA[schoolId] = ssa
+  }
+
+  studentZipFile  = @unpackDir + '/studentSchoolAssociation.json.gz'
+  studentJsnFile  = @unpackDir + '/studentSchoolAssociation.json'
+  Minitar.unpack(@filePath, @unpackDir)
+  assert(File.exists?(studentZipFile), "Cannot find #{studentZipFile} file ")
+  `gunzip #{studentZipFile}`
+  json = JSON.parse(File.read(studentJsnFile))
+
+  comment = "Expected student extract for #{edOrgId} to have #{$schoolSSA[edOrgId].size}. Found #{json.size}"
+  assert(json.size == $schoolSSA[edOrgId].size, comment)
+  puts (comment)
+  enable_NOTABLESCAN()
+end
+
 
 When /I check that the attendance extract for "(.*?)" has the correct number of records/ do |edOrgId|
   disable_NOTABLESCAN()
@@ -818,6 +852,83 @@ When /I check that the gradingPeriod extract for "(.*?)" has the correct number 
   enable_NOTABLESCAN()
 end
 
+$schoolTeachers = {}
+When /I check that the teacherSchoolAssociation extract for "(.*?)" has the correct number of records/ do |edOrgId|
+  disable_NOTABLESCAN()
+  @tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
+  entity = 'teacherSchoolAssociation'
+
+  query = <<-jsonDelimiter
+  [
+    {"$project":{"body.schoolId":1, "body.teacherId":1}}
+    ,{"$group":{"_id":"$body.schoolId", "gpr":{"$addToSet":"$body.teacherId"}}}
+  ]
+  jsonDelimiter
+  puts(query)
+  query = JSON.parse(query)
+  result = @tenantDb.collection('teacherSchoolAssociation').aggregate(query)
+
+  result.each{ |schoolIdToGpr|
+    schoolId = schoolIdToGpr['_id']
+    gpr = schoolIdToGpr['gpr']
+    $schoolTeachers[schoolId] = gpr
+  }
+
+  zipFile  = "#{@unpackDir}/#{entity}.json.gz"
+  jsnFile  = "#{@unpackDir}/#{entity}.json"
+  Minitar.unpack(@filePath, @unpackDir)
+  assert(File.exists?(zipFile), "Cannot find #{zipFile} file ")
+  `gunzip #{zipFile}`
+  json = JSON.parse(File.read(jsnFile))
+
+  expected = $schoolTeachers[edOrgId].size
+  comment = "Expected #{entity} extract for #{edOrgId} to have #{expected}. Found #{json.size}"
+  assert(json.size == expected, comment)
+  puts (comment)
+  enable_NOTABLESCAN()
+end
+
+$schoolStudents = {}
+When /I check that the studentGradebookEntry extract for "(.*?)" has the correct number of records/ do |edOrgId|
+  disable_NOTABLESCAN()
+  @tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
+  entity = 'studentGradebookEntry'
+  date = DateTime.now.strftime('%Y-%m-%d')
+  query     = <<-jsonDelimiter
+  [
+  {"$project":{"schools":1}}
+  ,{"$unwind":"$schools"}
+  ,{"$match":{ "$or":[     {"schools.exitWithdrawDate":{"$exists":true, "$gt": "#{DateTime.now.strftime('%Y-%m-%d')}"}} ,{"schools.exitWithdrawDate":{"$exists":false}}    ]}}
+  ,{"$project":{"_id":1, "schools._id":1}}
+  ,{"$group":{"_id":"$schools._id", "students":{"$addToSet":"$_id"}}}
+  ]
+  jsonDelimiter
+  puts(query)
+  query  = JSON.parse(query)
+  result = @tenantDb.collection('student').aggregate(query)
+
+  result.each{ |schoolIdToStudents|
+    schoolId = schoolIdToStudents['_id']
+    students = schoolIdToStudents['students']
+    $schoolStudents[schoolId] = students
+  }
+
+  gradebookEntryForEdOrgStudent =  @tenantDb.collection('studentGradebookEntry').find({'body.studentId' => {'$in' => $schoolStudents[edOrgId]}})
+
+  zipFile  = "#{@unpackDir}/#{entity}.json.gz"
+  jsnFile  = "#{@unpackDir}/#{entity}.json"
+  Minitar.unpack(@filePath, @unpackDir)
+  assert(File.exists?(zipFile), "Cannot find #{zipFile} file ")
+  `gunzip #{zipFile}`
+  json = JSON.parse(File.read(jsnFile))
+
+  expected = gradebookEntryForEdOrgStudent.count()
+  comment = "Expected #{entity} extract for #{edOrgId} to have #{expected}. Found #{json.size}"
+  assert(json.size == expected, comment)
+  puts (comment)
+  enable_NOTABLESCAN()
+end
+
 When /I check that the staffCohortAssociation extract for "(.*?)" has the correct number of records/ do |edOrgId|
   disable_NOTABLESCAN()
   @tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
@@ -847,6 +958,41 @@ When /I check that the staffCohortAssociation extract for "(.*?)" has the correc
   json = JSON.parse(File.read(jsnFile))
 
   expected = cohortForEdOrgStaff.count()
+  comment = "Expected #{entity} extract for #{edOrgId} to have #{expected}. Found #{json.size}"
+  assert(json.size == expected, comment)
+  puts (comment)
+  enable_NOTABLESCAN()
+end
+
+When /I check that the staffProgramAssociation extract for "(.*?)" has the correct number of records/ do |edOrgId|
+  disable_NOTABLESCAN()
+  @tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
+  entity = 'staffProgramAssociation'
+  date = DateTime.now.strftime('%Y-%m-%d')
+  query = <<-jsonDelimiter
+  {
+   "$and":[
+      {"$or":[{"body.beginDate":{"$lt":"#{date}","$exists":true}},  {"body.beginDate":{"$exists":false}}]},
+      {"$or":[{"body.endDate":{"$gt":"#{date}","$exists":true}},    {"body.endDate":{"$exists":false}}]},
+      {"body.educationOrganizationReference":"#{edOrgId}"}
+   ]
+  }
+  jsonDelimiter
+  query = JSON.parse(query)
+  staffForEdOrgRS = @tenantDb.collection('staffEducationOrganizationAssociation').find(query)
+  staffForEdOrg = staffForEdOrgRS.map{ |staffEducationOrganizationAssociation|
+    staffEducationOrganizationAssociation['body']['staffReference']
+  }
+  programForEdOrgStaff =  @tenantDb.collection('staffProgramAssociation').find({'body.staffId' => {'$in' => staffForEdOrg}})
+
+  zipFile  = "#{@unpackDir}/#{entity}.json.gz"
+  jsnFile  = "#{@unpackDir}/#{entity}.json"
+  Minitar.unpack(@filePath, @unpackDir)
+  assert(File.exists?(zipFile), "Cannot find #{zipFile} file ")
+  `gunzip #{zipFile}`
+  json = JSON.parse(File.read(jsnFile))
+
+  expected = programForEdOrgStaff.count()
   comment = "Expected #{entity} extract for #{edOrgId} to have #{expected}. Found #{json.size}"
   assert(json.size == expected, comment)
   puts (comment)

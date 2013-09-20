@@ -11,6 +11,7 @@ Scenario: Initialize security trust store for Bulk Extract application and LEAs
     Then I PATCH the "organizationCategories" field of the entity specified by endpoint "educationOrganizations/1b223f577827204a1c7e9c851dba06bea6b031fe_id" to '[ "School", "Local Education Agency" ]'
 
 Scenario: Generate a bulk extract delta after day 1 ingestion
+  When I ingest "EdorgAppend.zip"
   When I trigger a delta extract
    And I request the latest bulk extract delta using the api
    And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<IL-DAYBREAK>"
@@ -60,7 +61,7 @@ Scenario: Generate a bulk extract delta after day 1 ingestion
    When I decrypt and save the full extract
     And I verify that an extract tar file was created for the tenant "Midgar"
     And there is a metadata file in the extract
-    Then each record in the full extract is present and matches the delta extract
+    #Then each record in the full extract is present and matches the delta extract
    #And I save some IDs from all the extract files to "delete_candidate" so I can delete them later
 
   And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<Daybreak Central High>"
@@ -87,8 +88,6 @@ Scenario: Generate a bulk extract delta after day 1 ingestion
   And The "cohort" delta was extracted in the same format as the api
   And The "studentCohortAssociation" delta was extracted in the same format as the api
   And The "staffCohortAssociation" delta was extracted in the same format as the api
-  #And The "session" delta was extracted in the same format as the api
-  #And The "gradingPeriod" delta was extracted in the same format as the api
   And The "courseOffering" delta was extracted in the same format as the api
   And The "course" delta was extracted in the same format as the api
   And The "courseTranscript" delta was extracted in the same format as the api
@@ -98,9 +97,24 @@ Scenario: Generate a bulk extract delta after day 1 ingestion
   And The "disciplineIncident" delta was extracted in the same format as the api
   And The "disciplineAction" delta was extracted in the same format as the api
   And The "studentCompetency" delta was extracted in the same format as the api
-  #And The "calendarDate" delta was extracted in the same format as the api
 
-Scenario: Generate a SEA bulk extract delta after day 1 ingestion
+  And The "session" delta was extracted in the same format as the api
+  And The "graduationPlan" delta was extracted in the same format as the api
+  And The "gradingPeriod" delta was extracted in the same format as the api
+  And The "calendarDate" delta was extracted in the same format as the api
+
+  When I set the header format to "application/x-tar"
+  Then I log into "SDK Sample" with a token of "jstevenson", a "Noldor" for "IL-DAYBREAK" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
+  When I make lea bulk extract API call for lea "<Daybreak Central High>"
+  And the return code is 200 I get expected tar downloaded
+  Then I check the http response headers
+  When I decrypt and save the full extract
+  And I verify that an extract tar file was created for the tenant "Midgar"
+  And there is a metadata file in the extract
+  #Then each record in the full extract is present and matches the delta extract
+
+
+  Scenario: Generate a SEA bulk extract delta after day 1 ingestion
     When I untar and decrypt the "inBloom" public delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<STANDARD-SEA>"
      And I log into "SDK Sample" with a token of "rrogers", a "IT Administrator" for "STANDARD-SEA" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
     Then The "educationOrganization" delta was extracted in the same format as the api
