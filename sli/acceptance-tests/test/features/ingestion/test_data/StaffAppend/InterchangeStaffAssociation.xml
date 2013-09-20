@@ -1,141 +1,47 @@
 <InterchangeStaffAssociation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
 xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StaffAssociation.xsd">
-  <Teacher>
-    <StaffUniqueStateId>ss-tech-0000000001</StaffUniqueStateId>
-    <StaffIdentificationCode IdentificationSystem="Drivers License">
-      <ID>9853</ID>
-    </StaffIdentificationCode>
-    <Name>
-      <FirstName>Wilma</FirstName>
-      <MiddleName>Carlene</MiddleName>
-      <LastSurname>Meador</LastSurname>
-    </Name>
-    <OtherName OtherNameType="Other Name">
-      <PersonalTitlePrefix>Mr</PersonalTitlePrefix>
-      <FirstName>Anne</FirstName>
-      <MiddleName>Anne</MiddleName>
-      <LastSurname>Frank</LastSurname>
-      <GenerationCodeSuffix>IV</GenerationCodeSuffix>
-    </OtherName>
-    <Sex>Female</Sex>
-    <BirthDate>1950-10-31</BirthDate>
-    <Address AddressType="Home">
-      <StreetNumberName>765 Oak Street</StreetNumberName>
-      <City>Chicago</City>
-      <StateAbbreviation>IL</StateAbbreviation>
-      <PostalCode>60601</PostalCode>
-    </Address>
-      <Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
-        <TelephoneNumber>(352)555-5161</TelephoneNumber>
-      </Telephone>
-    <ElectronicMail EmailAddressType="Home/Personal">
-      <EmailAddress>9895@fakemail.com</EmailAddress>
-    </ElectronicMail>
-    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <OldEthnicity>White, Not Of Hispanic Origin</OldEthnicity>
-    <Race>
-      <RacialCategory>Black - African American</RacialCategory>
-    </Race>
-    <HighestLevelOfEducationCompleted>Master's</HighestLevelOfEducationCompleted>
-    <YearsOfPriorProfessionalExperience>10</YearsOfPriorProfessionalExperience>
-    <YearsOfPriorTeachingExperience>7</YearsOfPriorTeachingExperience>
-      <Credentials>
-        <CredentialType>Endorsement</CredentialType>
-        <CredentialField>
-          <Description>Early Childhood Education</Description>
-        </CredentialField>
-        <Level>Elementary (Grade Level PK-5)</Level>
-        <TeachingCredentialType>Vocational</TeachingCredentialType>
-        <CredentialIssuanceDate>2009-09-23</CredentialIssuanceDate>
-        <CredentialExpirationDate>2021-11-14</CredentialExpirationDate>
-        <TeachingCredentialBasis>Doctoral degree</TeachingCredentialBasis>
-      </Credentials>
-    <LoginId>9895@fakemail.com</LoginId>
-  <TeacherUniqueStateId>ss-tech-0000000001</TeacherUniqueStateId>
-  <HighlyQualifiedTeacher>false</HighlyQualifiedTeacher>
-  </Teacher>
-<TeacherSchoolAssociation>
-    <TeacherReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>ss-tech-0000000001</StaffUniqueStateId>
-      </StaffIdentity>
-    </TeacherReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <ProgramAssignment>Regular Education</ProgramAssignment>
-    <InstructionalGradeLevels>
-      <GradeLevel>Ninth grade</GradeLevel>
-    </InstructionalGradeLevels>
-    <AcademicSubjects>
-      <AcademicSubject>Foreign Language and Literature</AcademicSubject>
-      <AcademicSubject>Science</AcademicSubject>
-      <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
-    </AcademicSubjects>
-  </TeacherSchoolAssociation>
-   <TeacherSchoolAssociation>
-    <TeacherReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>ss-tech-0000000001</StaffUniqueStateId>
-      </StaffIdentity>
-    </TeacherReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>IL Daybreak</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <ProgramAssignment>Regular Education</ProgramAssignment>
-    <InstructionalGradeLevels>
-      <GradeLevel>Ninth grade</GradeLevel>
-    </InstructionalGradeLevels>
-    <AcademicSubjects>
-      <AcademicSubject>Foreign Language and Literature</AcademicSubject>
-      <AcademicSubject>Science</AcademicSubject>
-      <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
-    </AcademicSubjects>
-  </TeacherSchoolAssociation>
- <TeacherSchoolAssociation>
-    <TeacherReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>ss-tech-0000000001</StaffUniqueStateId>
-      </StaffIdentity>
-    </TeacherReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>IL</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <ProgramAssignment>Regular Education</ProgramAssignment>
-    <InstructionalGradeLevels>
-      <GradeLevel>Ninth grade</GradeLevel>
-    </InstructionalGradeLevels>
-    <AcademicSubjects>
-      <AcademicSubject>Foreign Language and Literature</AcademicSubject>
-      <AcademicSubject>Science</AcademicSubject>
-      <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
-    </AcademicSubjects>
-  </TeacherSchoolAssociation>
-   <TeacherSchoolAssociation>
-    <TeacherReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>ss-tech-0000000001</StaffUniqueStateId>
-      </StaffIdentity>
-    </TeacherReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <ProgramAssignment>Regular Education</ProgramAssignment>
-    <InstructionalGradeLevels>
-      <GradeLevel>Ninth grade</GradeLevel>
-    </InstructionalGradeLevels>
-    <AcademicSubjects>
-      <AcademicSubject>Foreign Language and Literature</AcademicSubject>
-      <AcademicSubject>Science</AcademicSubject>
-      <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
-    </AcademicSubjects>
-  </TeacherSchoolAssociation>
+<StaffEducationOrgAssignmentAssociation>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>rbraverman</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<StaffClassification>Teacher</StaffClassification>
+		<BeginDate>2007-07-07</BeginDate>
+	</StaffEducationOrgAssignmentAssociation>
+
+    <StaffEducationOrgAssignmentAssociation>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>rbraverman</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<StaffClassification>Teacher</StaffClassification>
+		<BeginDate>2007-07-07</BeginDate>
+	</StaffEducationOrgAssignmentAssociation>
+	
+	<StaffEducationOrgAssignmentAssociation>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>rbraverman</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<StaffClassification>Teacher</StaffClassification>
+		<BeginDate>2007-07-07</BeginDate>
+	</StaffEducationOrgAssignmentAssociation>
  </InterchangeStaffAssociation>
