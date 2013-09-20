@@ -42,14 +42,6 @@ And I should be on the admin page
 And I should not see "inBloom Data Browser"
 And I click on log out
 
-Scenario: User sees non-installed Developer App
-When I navigate to the Portal home page
-When I selected the realm "Daybreak Test Realm"
-And I was redirected to the "Simple" IDP Login page
-When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page    
-Then I should be on Portal home page
-And under My Applications, I see the following apps: "inBloom Dashboards"
-
 Scenario: Charter School Realm Admin Logins to create realm
 When I navigate to the Portal home page
 When I see the realm selector I authenticate to "inBloom"
@@ -160,6 +152,14 @@ Then I should see a message that I was logged out
 And I should forced to reauthenticate to gain access
 When I navigate to the dashboard home page
 Then I should forced to reauthenticate to gain access
+
+Scenario: User sees non-installed Developer App
+When I navigate to the Portal home page
+When I selected the realm "Daybreak Test Realm"
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
+Then I should be on Portal home page
+And under My Applications, I see the following apps: "inBloom Dashboards"
 
 Scenario: Charter School User sees non-installed Developer App
 When I navigate to the Portal home page
