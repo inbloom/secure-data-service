@@ -771,6 +771,7 @@ public class BasicService implements EntityService, AccessibilityCheck {
             Collection<Entity> noSearchEntities = (Collection<Entity>) repo.findAll(collectionName, newQuery);
             for(Entity en : noSearchEntities) {
                 Collection<GrantedAuthority> auths = getEntityContextAuthorities(en, self, true);
+                rightAccessValidator.checkAccess(true, self, en, defn.getType(), auths);
                 rightAccessValidator.checkFieldAccess(neutralQuery, en, defn.getType(), auths);
             }
         }
