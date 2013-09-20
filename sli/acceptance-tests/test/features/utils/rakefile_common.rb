@@ -76,7 +76,6 @@ def allLeaAllowAppForTenant(appName, tenantName)
 
   neededEdOrgs = [] 
   edOrgColl.find().each do |edorg|
-    puts "****** Authorizing edorg '" + edorg["_id"] + "' for app '" + appName + "' in tenant '" + tenantName + "'"
     neededEdOrgs.push(edorg["_id"])
   end
   
