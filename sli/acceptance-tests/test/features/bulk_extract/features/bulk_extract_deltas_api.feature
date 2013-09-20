@@ -41,6 +41,7 @@ Scenario: Generate a bulk extract delta after day 1 ingestion
    And The "staffCohortAssociation" delta was extracted in the same format as the api
    And The "session" delta was extracted in the same format as the api
    And The "gradingPeriod" delta was extracted in the same format as the api
+   And The "graduationPlan" delta was extracted in the same format as the api
    And The "courseOffering" delta was extracted in the same format as the api
    And The "course" delta was extracted in the same format as the api
    And The "courseTranscript" delta was extracted in the same format as the api
@@ -61,7 +62,7 @@ Scenario: Generate a bulk extract delta after day 1 ingestion
    When I decrypt and save the full extract
     And I verify that an extract tar file was created for the tenant "Midgar"
     And there is a metadata file in the extract
-    #Then each record in the full extract is present and matches the delta extract
+    Then each record in the full extract is present and matches the delta extract
    #And I save some IDs from all the extract files to "delete_candidate" so I can delete them later
 
   And I untar and decrypt the "inBloom" delta tarfile for tenant "Midgar" and appId "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "<Daybreak Central High>"
@@ -111,7 +112,7 @@ Scenario: Generate a bulk extract delta after day 1 ingestion
   When I decrypt and save the full extract
   And I verify that an extract tar file was created for the tenant "Midgar"
   And there is a metadata file in the extract
-  #Then each record in the full extract is present and matches the delta extract
+  Then each record in the full extract is present and matches the delta extract
 
 
   Scenario: Generate a SEA bulk extract delta after day 1 ingestion
@@ -1770,5 +1771,25 @@ Scenario: Trigger a SEA delta extract and check security events
      | securityEvent   | 1                   | body.logMessage         | Generating archive for app 22c2a28d-7327-4444-8ff9-caad4b1c7aa3              | string          |
      | securityEvent   | 2                   | body.targetEdOrg        | 884daa27d806c2d725bc469b273d840493f84b4d_id                                  | string          |
 
-Scenario: Be a good neighbor and clean up before you leave
+Scenario: Verify that the TeacherContextResolver works properly
+  Given I clean the bulk extract file system and database
+  Given the extraction zone is empty
+  When I ingest "StaffAppend.zip"
+  And I trigger a delta extract
+  And I request the latest bulk extract delta using the api
+  And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "352e8570bd1116d11a72755b987902440045d346_id" in "Midgar" contains a file for each of the following entities:
+    |  entityType                            |
+    |  staffEducationOrganizationAssociation              |
+  And I verify this "staffEducationOrganizationAssociation" file should contain:
+    | id                                          | condition                             |
+    | 78ded3395d49f8099bf2aa75ade2f7ca181fbae1_id | staffReference = 8107c5ce31cec58d4ac0b647e91b786b03091f02_id                  |
+  And I verify the last delta bulk extract by app "19cca28d-7357-4044-8df9-caad4b1c8ee4" for "1b223f577827204a1c7e9c851dba06bea6b031fe_id" in "Midgar" contains a file for each of the following entities:
+    |  entityType                            |
+    |  staffEducationOrganizationAssociation              |
+  And I verify this "staffEducationOrganizationAssociation" file should contain:
+    | id                                          | condition                             |
+    | 10dd6d6902f6c6699be9a9a77bd75471409c0d34_id | staffReference = 8107c5ce31cec58d4ac0b647e91b786b03091f02_id                  |
+
+
+  Scenario: Be a good neighbor and clean up before you leave
     Given I clean the bulk extract file system and database
