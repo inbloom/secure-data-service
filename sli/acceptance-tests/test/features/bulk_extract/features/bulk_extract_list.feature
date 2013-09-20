@@ -32,8 +32,8 @@ Feature: As an API user, I want to be able to get a list of links available to t
 	When I get back a response code of "200"
 	When the number of returned URLs is correct:
 	|   fieldName  | count |
-	|   fullLeas   |  1    |
-	|   deltaLeas  |  1    |
+	|   fullEdOrgs   |  1    |
+	|   deltaEdOrgs  |  1    |
 	|   fullSea    |  1    |
 	|   deltaSea   |  1    |
     When I set the header format to "application/x-tar"
@@ -45,8 +45,8 @@ Scenario: Login as a user not directly associated with the SEA, SEA extract shou
   When I get back a response code of "200"
   When the number of returned URLs is correct:
   |   fieldName  | count |
-  |   fullLeas   |  1    |
-  |   deltaLeas  |  1    |
+  |   fullEdOrgs   |  1    |
+  |   deltaEdOrgs  |  1    |
   |   fullSea    |  1    |
   |   deltaSea   |  1    |
   And I make a head request with each returned URL

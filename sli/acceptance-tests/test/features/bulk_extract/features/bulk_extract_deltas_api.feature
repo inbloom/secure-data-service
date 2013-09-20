@@ -1076,8 +1076,8 @@ Scenario: Update an existing edorg through the API, perform delta, call list end
   When I store the URL for the latest delta for LEA "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
   When the number of returned URLs is correct:
   |   fieldName  | count |
-  |   fullLeas   |  0    |
-  |   deltaLeas  |  1    |
+  |   fullEdOrgs   |  0    |
+  |   deltaEdOrgs  |  1    |
   When I request listed delta via API for "19cca28d-7357-4044-8df9-caad4b1c8ee4"
   Then I should receive a return code of 200
   And I download and decrypt the delta

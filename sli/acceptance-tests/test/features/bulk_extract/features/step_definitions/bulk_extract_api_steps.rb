@@ -553,8 +553,8 @@ end
 When /^I make a head request with each returned URL$/ do
   hash_body = JSON.parse(@res.body)
 
-#  types = %w(fullLeas deltaLeas)
-  hash_body['fullLeas'].each do |leaId, link|
+#  types = %w(fullEdOrgs deltaEdOrgs)
+  hash_body['fullEdOrgs'].each do |leaId, link|
     puts "Checking full extracts for LEA #{leaId}"
     puts link
     uri = link['uri']
@@ -572,7 +572,7 @@ When /^I make a head request with each returned URL$/ do
     step "the return code is 200 I get expected tar downloaded"
   end
 
-  hash_body['deltaLeas'].each do |leaId, link_list|
+  hash_body['deltaEdOrgs'].each do |leaId, link_list|
     puts "Checking delta extracts for LEA #{leaId}"
     link_list.each do |link|
       uri = link["uri"]
@@ -597,7 +597,7 @@ Then /^I verify that the delta extract URLs are in time order, most recent first
   hash_body = JSON.parse(@res.body)
   timestamps = Array.new
   puts 'Timestamps in deltas:'
-  hash_body['deltaLeas'].each_value do |link_list|
+  hash_body['deltaEdOrgs'].each_value do |link_list|
     link_list.each do |link|
       puts link['timestamp']
       timestamps.push link['timestamp']
@@ -613,7 +613,7 @@ end
 Then /^the response list is empty/ do
   hash_body = JSON.parse(@res.body)
 
-  types = %w(fullLeas deltaLeas)
+  types = %w(fullEdOrgs deltaEdOrgs)
   types.each do |type|
     assert(hash_body[type].empty?, "#{type} is not empty. Value: #{hash_body[type]}")
   end
@@ -630,10 +630,10 @@ end
 Then /^there are (\d+) total number of delta links in the list/ do |value|
   hash_body = JSON.parse(@res.body)
   count = 0
-  hash_body['deltaLeas'].each_value do |links|
+  hash_body['deltaEdOrgs'].each_value do |links|
     count += links.size
   end
-  assert(count.to_i == value.to_i, "Response contains wrong number of URLs for deltaLeas. Expected: #{value}; Actual: #{count}")
+  assert(count.to_i == value.to_i, "Response contains wrong number of URLs for deltaEdOrgs. Expected: #{value}; Actual: #{count}")
 end
 
 After("@TempFileCleanup") do

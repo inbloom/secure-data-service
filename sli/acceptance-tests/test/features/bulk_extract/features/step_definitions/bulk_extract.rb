@@ -815,6 +815,27 @@ When /I check that the disciplineAction extract for "(.*?)" has the correct numb
   enable_NOTABLESCAN()
 end
 
+When /I check that the calendarDate extract for "(.*?)" has the correct number of records/ do |edOrgId|
+  disable_NOTABLESCAN()
+  @tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
+  entity = 'calendarDate'
+
+  result = @tenantDb.collection(entity).find({'body.educationOrganizationId' => edOrgId}).count()
+
+  zipFile  = "#{@unpackDir}/#{entity}.json.gz"
+  jsnFile  = "#{@unpackDir}/#{entity}.json"
+  Minitar.unpack(@filePath, @unpackDir)
+  assert(File.exists?(zipFile), "Cannot find #{zipFile} file ")
+  `gunzip #{zipFile}`
+  json = JSON.parse(File.read(jsnFile))
+
+  expected = result
+  comment = "Expected #{entity} extract for #{edOrgId} to have #{expected}. Found #{json.size}"
+  assert(json.size == expected, comment)
+  puts (comment)
+  enable_NOTABLESCAN()
+end
+
 $schoolGradingPeriods = {}
 When /I check that the gradingPeriod extract for "(.*?)" has the correct number of records/ do |edOrgId|
   disable_NOTABLESCAN()
@@ -1413,7 +1434,7 @@ end
 
 When /^I store the URL for the latest delta for LEA "(.*?)"$/ do |lea|
   @delta_uri = JSON.parse(@res)
-  @list_url  = @delta_uri["deltaLeas"][lea][0]["uri"]
+  @list_url  = @delta_uri["deltaEdOrgs"][lea][0]["uri"]
   # @list_irl is in the format https://<url>/api/rest/v1.3/bulk/extract/<lea>/delta/<timestamp>
   # -> strip off everything before v1.3, store: /v1.3/bulk/extract/<lea>/delta/<timestamp>
   @list_url.match(/api\/rest\/v(.*?)\/(.*)$/)

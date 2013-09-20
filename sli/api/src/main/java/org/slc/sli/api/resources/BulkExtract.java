@@ -447,8 +447,8 @@ public class BulkExtract {
 
         list.put("fullSea", seaFullLinks);
         list.put("deltaSea", seaDeltaLinks);
-        list.put("fullLeas", leaFullLinks);
-        list.put("deltaLeas", leaDeltaLinks);
+        list.put("fullEdOrgs", leaFullLinks);
+        list.put("deltaEdOrgs", leaDeltaLinks);
 
         return list;
     }
