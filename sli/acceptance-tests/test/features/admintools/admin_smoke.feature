@@ -40,6 +40,8 @@ When I select the state "Illinois State Board of Education"
 When I click on Save
 Then I am redirected to the Application Registration Tool page
 
+#auth app carnage
+@wip
 Scenario: LEA Administrator operations
 Given the sli securityEvent collection is empty
 And I am a valid district administrator
