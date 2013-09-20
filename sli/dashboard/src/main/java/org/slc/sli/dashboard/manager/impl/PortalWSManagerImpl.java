@@ -17,6 +17,8 @@
 package org.slc.sli.dashboard.manager.impl;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
 
 import org.slc.sli.dashboard.client.RESTClient;
@@ -33,6 +35,9 @@ import org.springframework.web.client.ResourceAccessException;
  *
  */
 public class PortalWSManagerImpl implements PortalWSManager {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(PortalWSManagerImpl.class);
+
     private RESTClient restClient;
     private String portalHeaderUrl;
     private String portalFooterUrl;
@@ -55,7 +60,9 @@ public class PortalWSManagerImpl implements PortalWSManager {
         }
         
         try {
-            return restClient.getJsonRequest(url + "?isAdmin=" + isAdmin, true);
+            String jsonUrl =  restClient.getJsonRequest(url + "?isAdmin=" + isAdmin, true);
+            LOGGER.info("Will try to fetch URL [" + jsonUrl + "]");
+            return jsonUrl;
         } catch (JsonSyntaxException ex) {
             return StringUtils.EMPTY;
         } catch (IllegalArgumentException iae) {
