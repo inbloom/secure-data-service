@@ -31,10 +31,7 @@ Then I am redirected to the Application Registration Tool page
 And the application "NotTheAppYoureLookingFor" is listed in the table on the top
 And the client ID and shared secret fields are present
 And I clicked on the button Edit for the application "NotTheAppYoureLookingFor"
-Then I can see the on-boarded states
 When I select the state "Standard State Education Agency"
-Then I see all of the Districts
-Then I check the Districts
 When I click on Save
 And my new apps client ID is present
 And my new apps shared secret is present
@@ -73,10 +70,7 @@ Then I am redirected to the Application Registration Tool page
 And the application "Schlemiel" is listed in the table on the top
 And the client ID and shared secret fields are present
 And I clicked on the button Edit for the application "Schlemiel"
-Then I can see the on-boarded states
 When I select the state "Standard State Education Agency"
-Then I see all of the Districts
-Then I check the Districts
 When I click on Save
 Then the "Schlemiel" is enabled for Districts
 And I exit out of the iframe

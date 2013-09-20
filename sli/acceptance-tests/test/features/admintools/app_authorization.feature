@@ -34,7 +34,8 @@ Scenario: Non SLI-hosted valid user tries to access the Application Authorizatio
        | securityEvent   | 1                   | body.logMessage         | Access Denied:Invalid user.  No valid role mappings exist for the roles specified in the SAML Assertion. | string     |
       And "1" security event with field "body.actionUri" matching "http.*/api/rest/saml/sso/post" should be in the sli db
 
-
+#app auth carnage
+@wip
 @DE_2690
 Scenario: Deny application
   
@@ -61,6 +62,8 @@ Scenario: Deny application
     | securityEvent       | 1                   | body.logMessage       | EdOrg data access has been revoked!   |
    #| securityEvent       | 1                   | body.appId            | SDK Sample                            |
 
+#app auth carnage
+@wip
 Scenario: Approve application
 	
 	Given I am an authenticated District Super Administrator for "Sunset School District"
