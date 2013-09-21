@@ -27,6 +27,12 @@ task :adminRealmTests => [:realmInit] do
   runTests("test/features/admintools/edit_realms.feature")
 end
 
+desc "Run Admin Delegation Tests"
+task :adminDelegationTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/admintools/delegate_privileges.feature")
+end
+
 desc "Run Reset and Change Password Selenium Tests"
 task :resetAndChangePasswordTests => [:realmInit] do
   runTests("test/features/admintools/reset_change_password.feature")
@@ -42,6 +48,12 @@ desc "Run Application Registration Tests"
 task :appRegistrationTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/admintools/app_registration.feature")
+end
+
+desc "Run Application Authorization Tests"
+task :appAuthorizationTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/admintools/app_authorization.feature")
 end
 
 desc "Run Admin Edit Rules Tests"

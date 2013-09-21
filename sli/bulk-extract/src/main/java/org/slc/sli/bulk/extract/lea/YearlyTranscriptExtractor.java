@@ -21,7 +21,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
-import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
+import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
@@ -30,35 +30,35 @@ import org.slc.sli.domain.Repository;
 
 public class YearlyTranscriptExtractor implements EntityExtract {
     private EntityExtractor extractor;
-    private LEAExtractFileMap map;
+    private ExtractFileMap map;
     private Repository<Entity> repo;
-    private LocalEdOrgExtractHelper localEdOrgExtractHelper;
-    private EntityToLeaCache studentAcademicRecordCache;
+    private EdOrgExtractHelper edOrgExtractHelper;
+    private EntityToEdOrgCache studentAcademicRecordCache;
     
-    public YearlyTranscriptExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo, 
-            LocalEdOrgExtractHelper localEdOrgExtractHelper, EntityToLeaCache studentAcademicRecordCache) {
+    public YearlyTranscriptExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo,
+            EdOrgExtractHelper edOrgExtractHelper, EntityToEdOrgCache studentAcademicRecordCache) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
-        this.localEdOrgExtractHelper = localEdOrgExtractHelper;
+        this.edOrgExtractHelper = edOrgExtractHelper;
         this.studentAcademicRecordCache = studentAcademicRecordCache;    
     }
     
     @Override
-    public void extractEntities(EntityToLeaCache entityToEdorgCache) {
-        localEdOrgExtractHelper.logSecurityEvent(map.getLeas(), "yearlyTranscript", this.getClass().getName());
+    public void extractEntities(EntityToEdOrgCache entityToEdorgCache) {
+        edOrgExtractHelper.logSecurityEvent(map.getEdOrgs(), "yearlyTranscript", this.getClass().getName());
         Iterator<Entity> yearlyTranscripts = repo.findEach("yearlyTranscript", new NeutralQuery());
         
         while (yearlyTranscripts.hasNext()) {
             Entity yearlyTranscript = yearlyTranscripts.next();
             String studentId = (String) yearlyTranscript.getBody().get(ParameterConstants.STUDENT_ID);
-            Set<String> studentLeas = entityToEdorgCache.getEntriesById(studentId);
+            Set<String> studentEdOrgs = entityToEdorgCache.getEntriesById(studentId);
             Set<String> studentAcademicRecords = fetchStudentAcademicRecordsFromYearlyTranscript(yearlyTranscript);
-            for (String lea : studentLeas) {
-                extractor.extractEntity(yearlyTranscript, map.getExtractFileForLea(lea), "yearlyTranscript");
+            for (String edOrg : studentEdOrgs) {
+                extractor.extractEntity(yearlyTranscript, map.getExtractFileForEdOrg(edOrg), "yearlyTranscript");
                 
                 for (String studentAcademicRecord : studentAcademicRecords) {
-                    studentAcademicRecordCache.addEntry(studentAcademicRecord, lea);
+                    studentAcademicRecordCache.addEntry(studentAcademicRecord, edOrg);
                 }
             }
         }
@@ -84,7 +84,7 @@ public class YearlyTranscriptExtractor implements EntityExtract {
      * Get the cache of studentAcademicRecordIds to a list of LEA IDs that these records were extracted to
      * @return
      */
-    public EntityToLeaCache getStudentAcademicRecordCache(){
+    public EntityToEdOrgCache getStudentAcademicRecordCache(){
         return studentAcademicRecordCache;
     }
 }

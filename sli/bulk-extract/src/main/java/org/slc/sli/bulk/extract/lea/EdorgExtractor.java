@@ -18,12 +18,9 @@ package org.slc.sli.bulk.extract.lea;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
-import org.slc.sli.bulk.extract.message.BEMessageCode;
-import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
+import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.bulk.extract.util.SecurityEventUtil;
 import org.slc.sli.common.constants.EntityNames;
-import org.slc.sli.common.util.logging.LogLevelType;
-import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,29 +29,29 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 public class EdorgExtractor implements EntityExtract {
-    private LEAExtractFileMap map;
+    private ExtractFileMap map;
     private EntityExtractor extractor;
-    private LocalEdOrgExtractHelper localEdOrgExtractHelper;
+    private EdOrgExtractHelper edOrgExtractHelper;
 
     @Autowired
     private SecurityEventUtil securityEventUtil;
     
-    public EdorgExtractor(EntityExtractor extractor, LEAExtractFileMap map, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
+    public EdorgExtractor(EntityExtractor extractor, ExtractFileMap map, EdOrgExtractHelper edOrgExtractHelper) {
         this.extractor = extractor;
         this.map = map;
-        this.localEdOrgExtractHelper = localEdOrgExtractHelper;
+        this.edOrgExtractHelper = edOrgExtractHelper;
     }
 
     /* (non-Javadoc)
      * @see org.slc.sli.bulk.extract.lea.EntityExtract#extractEntities(java.util.Map)
      */
     @Override
-    public void extractEntities(EntityToLeaCache entityToEdorgCache) {
-        localEdOrgExtractHelper.logSecurityEvent(map.getLeas(), EntityNames.EDUCATION_ORGANIZATION, this.getClass().getName());
-        for (String lea : new HashSet<String>(entityToEdorgCache.getEntityIds())) {
-            ExtractFile extractFile = map.getExtractFileForLea(lea);
+    public void extractEntities(EntityToEdOrgCache entityToEdorgCache) {
+        edOrgExtractHelper.logSecurityEvent(map.getEdOrgs(), EntityNames.EDUCATION_ORGANIZATION, this.getClass().getName());
+        for (String edOrg : new HashSet<String>(entityToEdorgCache.getEntityIds())) {
+            ExtractFile extractFile = map.getExtractFileForEdOrg(edOrg);
             NeutralQuery query = new NeutralQuery(new NeutralCriteria("_id",
-                    NeutralCriteria.CRITERIA_IN, new ArrayList<String>(entityToEdorgCache.getEntriesById(lea))));
+                    NeutralCriteria.CRITERIA_IN, new ArrayList<String>(entityToEdorgCache.getEntriesById(edOrg))));
             extractor.setExtractionQuery(query);
             extractor.extractEntities(extractFile, "educationOrganization");
         }

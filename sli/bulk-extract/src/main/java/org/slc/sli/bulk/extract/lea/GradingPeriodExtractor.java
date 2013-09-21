@@ -20,7 +20,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
-import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
+import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
@@ -28,26 +28,26 @@ import org.springframework.data.mongodb.core.query.Query;
 
 public class GradingPeriodExtractor implements EntityExtract {
 	private EntityExtractor extractor;
-	private LEAExtractFileMap map;
+	private ExtractFileMap map;
 	private Repository<Entity> repo;
-    private LocalEdOrgExtractHelper localEdOrgExtractHelper;
+    private EdOrgExtractHelper edOrgExtractHelper;
 	
-	public GradingPeriodExtractor(EntityExtractor extractor,  LEAExtractFileMap map, Repository<Entity> repo, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
+	public GradingPeriodExtractor(EntityExtractor extractor,  ExtractFileMap map, Repository<Entity> repo, EdOrgExtractHelper edOrgExtractHelper) {
 		this.extractor = extractor;
 		this.map = map;
 		this.repo = repo;
-        this.localEdOrgExtractHelper = localEdOrgExtractHelper;
+        this.edOrgExtractHelper = edOrgExtractHelper;
 	}
 
 	@Override
-	public void extractEntities(EntityToLeaCache gradingPeriodToLeaCache) {
-        localEdOrgExtractHelper.logSecurityEvent(map.getLeas(), EntityNames.GRADING_PERIOD, this.getClass().getName());
+	public void extractEntities(EntityToEdOrgCache gradingPeriodToEdOrgCache) {
+        edOrgExtractHelper.logSecurityEvent(map.getEdOrgs(), EntityNames.GRADING_PERIOD, this.getClass().getName());
 		Iterator<Entity> gradingPeriods = repo.findEach(EntityNames.GRADING_PERIOD, new Query());
 		while(gradingPeriods.hasNext()) {
 			Entity gradingPeriod = gradingPeriods.next();
-			Set<String> leas = gradingPeriodToLeaCache.getEntriesById(gradingPeriod.getEntityId());
-			for (String lea : leas) {
-				extractor.extractEntity(gradingPeriod, map.getExtractFileForLea(lea), EntityNames.GRADING_PERIOD);
+			Set<String> edOrgs = gradingPeriodToEdOrgCache.getEntriesById(gradingPeriod.getEntityId());
+			for (String edOrg : edOrgs) {
+				extractor.extractEntity(gradingPeriod, map.getExtractFileForEdOrg(edOrg), EntityNames.GRADING_PERIOD);
 			}
 		}
 	}

@@ -494,6 +494,11 @@ Around('@LDAP_Reset_sunsetadmin') do |scenario, block|
   end
 end
 
+And /I wait for user input/ do
+      print "Waiting for user input. Press Enter to continue."
+      STDIN.getc
+end
+
 ##############################################################################
 ##############################################################################
 ### Step Def Util methods ###

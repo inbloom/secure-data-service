@@ -182,8 +182,6 @@ public class ApplicationAuthorizationResource {
                     body.put("applicationId", appId);
                     ArrayList<String> edorgs = new ArrayList<String>();
                     edorgs.add(myEdorg);
-                    edorgs.addAll(getParentEdorgs(myEdorg));
-                    edorgs.addAll(getChildEdorgs(myEdorg));
                     body.put("edorgs", edorgs);
                     service.create(body);
                     logSecurityEvent(appId, null, edorgs);
@@ -195,15 +193,8 @@ public class ApplicationAuthorizationResource {
             Set<String> edorgsCopy = new HashSet<String>(edorgs);
             if (((Boolean) auth.get("authorized")).booleanValue()) {
                 edorgsCopy.add(myEdorg);
-                edorgsCopy.addAll(getParentEdorgs(myEdorg));
-                edorgsCopy.addAll(getChildEdorgs(myEdorg));
             } else {
                 edorgsCopy.remove(myEdorg);
-                edorgsCopy.removeAll(getChildEdorgs(myEdorg));
-
-                if (edorgsCopy.size() == 1) {   //Only SEA for this tenant is left
-                    edorgsCopy.removeAll(getParentEdorgs(myEdorg));
-                }
             }
             logSecurityEvent(appId, edorgs, edorgsCopy);
             existingAuth.put("edorgs", new ArrayList<String>(edorgsCopy));
@@ -293,11 +284,14 @@ public class ApplicationAuthorizationResource {
         if (edorg == null) {
             return SecurityUtil.getEdOrgId();
         }
+        // US5894 removed the need for LEA to delegate app approval to SEA
+        /*
         if (!edorg.equals(SecurityUtil.getEdOrgId()) && !delegation.getAppApprovalDelegateEdOrgs().contains(edorg) ) {
             Set<String> edOrgIds = new HashSet<String>();
             edOrgIds.add(edorg);
             throw new APIAccessDeniedException("Cannot perform authorizations for edorg ", edOrgIds);
         }
+        */
         return edorg;
     }
 

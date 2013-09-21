@@ -20,29 +20,28 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
-import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
+import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.data.mongodb.core.query.Query;
 
 public class ParentExtractor implements EntityExtract {
     private EntityExtractor extractor;
-    private LEAExtractFileMap map;
+    private ExtractFileMap map;
     private Repository<Entity> repo;
-    private LocalEdOrgExtractHelper localEdOrgExtractHelper;
+    private EdOrgExtractHelper edOrgExtractHelper;
     
-    public ParentExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
+    public ParentExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo, EdOrgExtractHelper edOrgExtractHelper) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
-        this.localEdOrgExtractHelper = localEdOrgExtractHelper;
+        this.edOrgExtractHelper = edOrgExtractHelper;
     }
 
     @Override
-    public void extractEntities(EntityToLeaCache entityToEdorgCache) {
-        localEdOrgExtractHelper.logSecurityEvent(map.getLeas(), EntityNames.PARENT, this.getClass().getName());
+    public void extractEntities(EntityToEdOrgCache entityToEdorgCache) {
+        edOrgExtractHelper.logSecurityEvent(map.getEdOrgs(), EntityNames.PARENT, this.getClass().getName());
         Iterator<Entity> parents = repo.findEach(EntityNames.PARENT, new NeutralQuery());
         Set<String> validParents = entityToEdorgCache.getEntityIds();
         while (parents.hasNext()) {
@@ -50,8 +49,8 @@ public class ParentExtractor implements EntityExtract {
             if (!validParents.contains(parent.getEntityId())) {
                 continue;
             }
-            for (String lea : entityToEdorgCache.getEntriesById(parent.getEntityId())) {
-                extractor.extractEntity(parent, map.getExtractFileForLea(lea), EntityNames.PARENT);
+            for (String edOrg : entityToEdorgCache.getEntriesById(parent.getEntityId())) {
+                extractor.extractEntity(parent, map.getExtractFileForEdOrg(edOrg), EntityNames.PARENT);
             }
 
         }

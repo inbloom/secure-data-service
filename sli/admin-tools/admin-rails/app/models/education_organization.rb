@@ -27,4 +27,43 @@ class EducationOrganization < SessionResource
     string  "organizationCategories"
   end
 
+ # Get list of EducationOrganization objects that are immediate children of edOrg with given ID
+   def self.get_edorg_children(edOrg)
+     children = findAllInChunks({"parentEducationAgencyReference" => edOrg})
+     return children
+   end
+
+   # Util method to get an unlimited number of records in chunks since the API limits responses to 1000
+   # TODO - this should be moved to a helper class
+   def self.findAllInChunks(parameters)
+     results = []
+     offset = 0
+
+     # API hard limit is 1000
+     parameters["limit"] = 1000
+
+     begin
+         parameters["offset"] = offset
+         chunk = find(:all, :params => parameters)
+         countInChunk = chunk.count
+         offset += countInChunk
+         results.concat(chunk)
+     end until countInChunk == 0
+     return results
+   end
+  
+  # Return list containing the given edOrg ID and the IDs of all its descendant edOrgs
+  def self.get_edorg_descendants(edOrg)
+    result = {}
+    result[edOrg] = true
+    children = get_edorg_children(edOrg).map { |edOrg| edOrg.id }
+    children.each do |child|
+      desc = get_edorg_descendants(child)
+      desc.each do |eo|
+        result[eo] = true
+      end
+    end
+    return result.keys
+  end
+
 end

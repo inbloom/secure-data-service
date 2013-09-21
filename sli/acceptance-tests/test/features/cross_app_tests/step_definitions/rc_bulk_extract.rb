@@ -47,7 +47,7 @@ When /^the operator triggers a delta for the production tenant$/ do
 end
 
 When /^I store the URL for the latest delta for the (LEA|SEA)$/ do |edorg|
-  edorg == 'LEA' ? delta = 'deltaLeas' : delta = 'deltaSea'
+  edorg == 'LEA' ? delta = 'deltaEdOrgs' : delta = 'deltaSea'
   puts "result body from previous API call is #{@res}"
   @delta_uri = JSON.parse(@res)
   @list_url  = @delta_uri[delta][@lea][0]["uri"]

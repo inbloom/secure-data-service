@@ -20,10 +20,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.slc.sli.bulk.extract.BulkExtractEntity;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.extractor.LocalEdOrgExtractor;
-import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
+import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
@@ -41,48 +40,51 @@ public class SectionExtractor implements EntityExtract {
 
 	
     private final EntityExtractor entityExtractor;
-    private final LEAExtractFileMap leaToExtractFileMap;
+    private final ExtractFileMap leaToExtractFileMap;
     private final Repository<Entity> repository;
-    private final EntityToLeaCache studentCache;
-    private final EntityToLeaCache edorgCache;
-    private final EntityToLeaCache courseOfferingCache = new EntityToLeaCache();
-    private final EntityToLeaCache ssaCache = new EntityToLeaCache();
-    private final LocalEdOrgExtractHelper localEdOrgExtractHelper;
+    private final EntityToEdOrgCache studentCache;
+    private final EntityToEdOrgCache edorgCache;
+    private final EntityToEdOrgCache courseOfferingCache = new EntityToEdOrgCache();
+    private final EntityToEdOrgCache ssaCache = new EntityToEdOrgCache();
+    private final EdOrgExtractHelper edOrgExtractHelper;
 
 
-    public SectionExtractor(EntityExtractor entityExtractor, LEAExtractFileMap leaToExtractFileMap, Repository<Entity> repository, EntityToLeaCache studentCache, EntityToLeaCache edorgCache, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
+    public SectionExtractor(EntityExtractor entityExtractor, ExtractFileMap leaToExtractFileMap, Repository<Entity> repository, EntityToEdOrgCache studentCache, EntityToEdOrgCache edorgCache, EdOrgExtractHelper edOrgExtractHelper) {
 
         this.entityExtractor = entityExtractor;
         this.leaToExtractFileMap = leaToExtractFileMap;
         this.repository = repository;
         this.studentCache = studentCache;
         this.edorgCache = edorgCache;
-        this.localEdOrgExtractHelper = localEdOrgExtractHelper;
+        this.edOrgExtractHelper = edOrgExtractHelper;
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public void extractEntities(EntityToLeaCache entityToEdorgCache) {
-        localEdOrgExtractHelper.logSecurityEvent(leaToExtractFileMap.getLeas(), EntityNames.SECTION, this.getClass().getName());
+    public void extractEntities(EntityToEdOrgCache entityToEdorgCache) {
+        edOrgExtractHelper.logSecurityEvent(leaToExtractFileMap.getEdOrgs(), EntityNames.SECTION, this.getClass().getName());
         Iterator<Entity> sections = this.repository.findEach("section", new NeutralQuery());
 
         while (sections.hasNext()) {
             Entity section = sections.next();
-            final String lea = this.edorgCache.leaFromEdorg((String) section.getBody().get("schoolId"));
+            String schoolId = (String) section.getBody().get("schoolId");
+            final Set<String> allEdOrgs = this.edorgCache.ancestorEdorgs(schoolId);
 
-            if (null != lea) {  // Edorgs way
-                extract(section, lea, new Predicate<Entity>() {
-                    @Override
-                    public boolean apply(Entity input) {
-                        boolean shouldExtract = true;
-                        String studentId = (String) input.getBody().get("studentId");
-                        if (studentId != null) {    // Validate that referenced student is visible to given lea
-                            shouldExtract = studentCache.getEntriesById(studentId).contains(lea);
+            if (null != allEdOrgs && allEdOrgs.size() != 0) {  // Edorgs way
+                for(final String edOrg: allEdOrgs) {
+                    extract(section, edOrg, new Predicate<Entity>() {
+                        @Override
+                        public boolean apply(Entity input) {
+                            boolean shouldExtract = true;
+                            String studentId = (String) input.getBody().get("studentId");
+                            if (studentId != null) {    // Validate that referenced student is visible to given lea
+                                shouldExtract = studentCache.getEntriesById(studentId).contains(edOrg);
+                            }
+
+                            return shouldExtract;
                         }
-
-                        return shouldExtract;
-                    }
-                });
+                    });
+                }
 
             } else {    // Student way
                 List<Entity> assocs = section.getEmbeddedData().get("studentSectionAssociation");
@@ -92,8 +94,8 @@ public class SectionExtractor implements EntityExtract {
                     for (Entity assoc : assocs) {
                         Map<String, Object> body =  assoc.getBody();
                         final String studentId = (String) body.get("studentId");
-                        Set<String> leas = this.studentCache.getEntriesById(studentId);
-                        for (String lea2 : leas) {
+                        Set<String> edOrgs = this.studentCache.getEntriesById(studentId);
+                        for (String org : edOrgs) {
                             Predicate<Entity> filter = new Predicate<Entity>() {
                                 @Override
                                 public boolean apply(Entity input) {
@@ -102,7 +104,7 @@ public class SectionExtractor implements EntityExtract {
                                 }
                             };
 
-                            extract(section, lea2, filter);
+                            extract(section, org, filter);
                         }
                     }
                 }
@@ -114,9 +116,9 @@ public class SectionExtractor implements EntityExtract {
     }
 
     @SuppressWarnings("unchecked")
-    private void extract(Entity section, String lea, Predicate<Entity> filter) {
-        this.entityExtractor.extractEntity(section, this.leaToExtractFileMap.getExtractFileForLea(lea), "section", filter);
-        this.courseOfferingCache.addEntry((String) section.getBody().get("courseOfferingId"), lea);
+    private void extract(Entity section, final String edOrg, Predicate<Entity> filter) {
+        this.entityExtractor.extractEntity(section, this.leaToExtractFileMap.getExtractFileForEdOrg(edOrg), "section", filter);
+        this.courseOfferingCache.addEntry((String) section.getBody().get("courseOfferingId"), edOrg);
 
         List<Entity> ssas = section.getEmbeddedData().get("studentSectionAssociation");
 
@@ -127,18 +129,18 @@ public class SectionExtractor implements EntityExtract {
             for (Entity ssa : ssas) {
                 if (filter.apply(ssa)) {
                 	LOG.info("ssa Body is {} and entityId is {}", ssa.getBody(), ssa.getEntityId());
-                    this.ssaCache.addEntry((String) ssa.getEntityId(), lea);
+                    this.ssaCache.addEntry((String) ssa.getEntityId(), edOrg);
                     LOG.info("Now the SSA cache size is {}", this.ssaCache.getEntityIds().size());
                 }
             }
         }
     }
 
-    public EntityToLeaCache getCourseOfferingCache() {
+    public EntityToEdOrgCache getCourseOfferingCache() {
         return courseOfferingCache;
     }
 
-    public EntityToLeaCache getSsaCache() {
+    public EntityToEdOrgCache getSsaCache() {
         return ssaCache;
     }
 }

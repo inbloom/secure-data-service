@@ -20,40 +20,39 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
-import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
+import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.data.mongodb.core.query.Query;
 
 public class TeacherSchoolExtractor implements EntityExtract {
     private EntityExtractor extractor;
-    private LEAExtractFileMap map;
+    private ExtractFileMap map;
     private Repository<Entity> repo;
-    private LocalEdOrgExtractHelper localEdOrgExtractHelper;
+    private EdOrgExtractHelper edOrgExtractHelper;
     
-    public TeacherSchoolExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
+    public TeacherSchoolExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo, EdOrgExtractHelper edOrgExtractHelper) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
-        this.localEdOrgExtractHelper = localEdOrgExtractHelper;
+        this.edOrgExtractHelper = edOrgExtractHelper;
     }
 
     @Override
-    public void extractEntities(EntityToLeaCache staffToEdorgCache) {
-        localEdOrgExtractHelper.logSecurityEvent(map.getLeas(), EntityNames.TEACHER_SCHOOL_ASSOCIATION, this.getClass().getName());
+    public void extractEntities(EntityToEdOrgCache staffToEdorgCache) {
+        edOrgExtractHelper.logSecurityEvent(map.getEdOrgs(), EntityNames.TEACHER_SCHOOL_ASSOCIATION, this.getClass().getName());
         Iterator<Entity> teachers = repo.findEach(EntityNames.TEACHER_SCHOOL_ASSOCIATION, new NeutralQuery());
         while (teachers.hasNext()) {
             Entity tsa = teachers.next();
             String teacherId = (String) tsa.getBody().get(ParameterConstants.TEACHER_ID);
-            Set<String> leas = staffToEdorgCache.getEntriesById(teacherId);
-            if (leas == null || leas.size() == 0) {
+            Set<String> edOrgs = staffToEdorgCache.getEntriesById(teacherId);
+            if (edOrgs == null || edOrgs.size() == 0) {
                 continue;
             }
-            for (String lea : leas) {
-                extractor.extractEntity(tsa, map.getExtractFileForLea(lea), EntityNames.TEACHER_SCHOOL_ASSOCIATION);
+            for (String edOrg : edOrgs) {
+                extractor.extractEntity(tsa, map.getExtractFileForEdOrg(edOrg), EntityNames.TEACHER_SCHOOL_ASSOCIATION);
             }
             
         }

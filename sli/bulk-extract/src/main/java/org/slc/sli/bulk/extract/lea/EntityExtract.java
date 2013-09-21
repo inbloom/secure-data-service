@@ -24,6 +24,6 @@ public interface EntityExtract {
      * 
      * @param entityToEdorgCache
      */
-    public abstract void extractEntities(EntityToLeaCache entityToEdorgCache);
+    public abstract void extractEntities(EntityToEdOrgCache entityToEdorgCache);
 
 }
