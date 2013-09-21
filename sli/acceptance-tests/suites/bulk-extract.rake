@@ -187,8 +187,8 @@ end
 
 desc "Run the full suite of Bulk Extract Tests"
 task :bulkExtractAllEdOrgsTests => [:realmInit] do
-  CLEAN_EXTRACT_LOC = false
-  TRIGGER_NEW_EXTRACT = false
+  CLEAN_EXTRACT_LOC = true
+  TRIGGER_NEW_EXTRACT = true
   Rake::Task["bulkExtractSetup"].execute
   Rake::Task["addBootstrapAppAuths"].execute
   allLeaAllowApp("SDK Sample")

@@ -558,6 +558,7 @@ When /I check that the session extract for "(.*?)" has the correct number of rec
   sessionJsnFile  = @unpackDir + '/session.json'
   Minitar.unpack(@filePath, @unpackDir)
   assert(File.exists?(sessionZipFile), "Cannot find #{sessionZipFile} file ")
+  File.delete(sessionJsnFile) if File.exist?(sessionJsnFile)
   `gunzip #{sessionZipFile}`
   json = JSON.parse(File.read(sessionJsnFile))
 
@@ -592,6 +593,7 @@ When /I check that the section extract for "(.*?)" has the correct number of rec
   sectionJsnFile  = @unpackDir + '/section.json'
   Minitar.unpack(@filePath, @unpackDir)
   assert(File.exists?(sectionZipFile), "Cannot find #{sectionZipFile} file ")
+  File.delete(sectionJsnFile) if File.exist?(sectionJsnFile)
   `gunzip #{sectionZipFile}`
   json = JSON.parse(File.read(sectionJsnFile))
 
@@ -625,6 +627,7 @@ When /I check that the staffEdorgAssignment extract for "(.*?)" has the correct 
   seaJsnFile  = @unpackDir + '/staffEducationOrganizationAssociation.json'
   Minitar.unpack(@filePath, @unpackDir)
   assert(File.exists?(seaZipFile), "Cannot find #{seaZipFile} file ")
+  File.delete(seaJsnFile) if File.exist?(seaJsnFile)
   `gunzip #{seaZipFile}`
   json = JSON.parse(File.read(seaJsnFile))
 
@@ -663,6 +666,7 @@ When /I check that the parent extract for "(.*?)" has the correct number of reco
   parentJsnFile  = @unpackDir + '/parent.json'
   Minitar.unpack(@filePath, @unpackDir)
   assert(File.exists?(parentZipFile), "Cannot find #{parentZipFile} file ")
+  File.delete(parentJsnFile) if File.exist?(parentJsnFile)
   `gunzip #{parentZipFile}`
   json = JSON.parse(File.read(parentJsnFile))
 
@@ -699,6 +703,7 @@ When /I check that the student extract for "(.*?)" has the correct number of rec
   studentJsnFile  = @unpackDir + '/student.json'
   Minitar.unpack(@filePath, @unpackDir)
   assert(File.exists?(studentZipFile), "Cannot find #{studentZipFile} file ")
+  File.delete(studentJsnFile) if File.exist?(studentJsnFile)
   `gunzip #{studentZipFile}`
   json = JSON.parse(File.read(studentJsnFile))
 
@@ -733,6 +738,7 @@ When /I check that the studentSchoolAssociation extract for "(.*?)" has the corr
   studentJsnFile  = @unpackDir + '/studentSchoolAssociation.json'
   Minitar.unpack(@filePath, @unpackDir)
   assert(File.exists?(studentZipFile), "Cannot find #{studentZipFile} file ")
+  File.delete(studentJsnFile) if File.exist?(studentJsnFile)
   `gunzip #{studentZipFile}`
   json = JSON.parse(File.read(studentJsnFile))
 
@@ -764,6 +770,7 @@ When /I check that the attendance extract for "(.*?)" has the correct number of 
   attendanceJsnFile  = @unpackDir + '/attendance.json'
   Minitar.unpack(@filePath, @unpackDir)
   assert(File.exists?(attendanceZipFile), "Cannot find #{attendanceZipFile} file ")
+  File.delete(attendanceJsnFile) if File.exist?(attendanceJsnFile)
   `gunzip #{attendanceZipFile}`
   json = JSON.parse(File.read(attendanceJsnFile))
 
@@ -778,12 +785,13 @@ When /I check that the "(.*?)" extract for "(.*?)" has the correct number of rec
   disable_NOTABLESCAN()
   @tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
 
-  result = @tenantDb.collection(entity).find({'body.schoolId' => edOrgId}).count()
+  result = @tenantDb.collection(entity).find({'$or' => [{'body.schoolId' => edOrgId}, {'body.educationOrgId' => edOrgId}]}).count()
 
   zipFile  = "#{@unpackDir}/#{entity}.json.gz"
   jsnFile  = "#{@unpackDir}/#{entity}.json"
   Minitar.unpack(@filePath, @unpackDir)
   assert(File.exists?(zipFile), "Cannot find #{zipFile} file ")
+  File.delete(jsnFile) if File.exist?(jsnFile)
   `gunzip #{zipFile}`
   json = JSON.parse(File.read(jsnFile))
 
@@ -792,6 +800,22 @@ When /I check that the "(.*?)" extract for "(.*?)" has the correct number of rec
   assert(json.size == expected, comment)
   puts (comment)
   enable_NOTABLESCAN()
+end
+
+When /I check that the "(.*?)" extract for "(.*?)" has "(.*?)" records/ do |entity, edOrgId, expected|
+
+  zipFile  = "#{@unpackDir}/#{entity}.json.gz"
+  jsnFile  = "#{@unpackDir}/#{entity}.json"
+  Minitar.unpack(@filePath, @unpackDir)
+  assert(File.exists?(zipFile), "Cannot find #{zipFile} file ")
+  File.delete(jsnFile) if File.exist?(jsnFile)
+  `gunzip #{zipFile}`
+  json = JSON.parse(File.read(jsnFile))
+  puts jsnFile
+
+  comment = "Expected #{entity} extract for #{edOrgId} to have #{expected}. Found #{json.size}"
+  assert(json.size == expected, comment)
+  puts (comment)
 end
 
 When /I check that the disciplineAction extract for "(.*?)" has the correct number of records/ do |edOrgId|
@@ -805,6 +829,7 @@ When /I check that the disciplineAction extract for "(.*?)" has the correct numb
   jsnFile  = "#{@unpackDir}/#{entity}.json"
   Minitar.unpack(@filePath, @unpackDir)
   assert(File.exists?(zipFile), "Cannot find #{zipFile} file ")
+  File.delete(jsnFile) if File.exist?(jsnFile)
   `gunzip #{zipFile}`
   json = JSON.parse(File.read(jsnFile))
 
@@ -826,6 +851,7 @@ When /I check that the calendarDate extract for "(.*?)" has the correct number o
   jsnFile  = "#{@unpackDir}/#{entity}.json"
   Minitar.unpack(@filePath, @unpackDir)
   assert(File.exists?(zipFile), "Cannot find #{zipFile} file ")
+  File.delete(jsnFile) if File.exist?(jsnFile)
   `gunzip #{zipFile}`
   json = JSON.parse(File.read(jsnFile))
 
@@ -863,6 +889,7 @@ When /I check that the gradingPeriod extract for "(.*?)" has the correct number 
   jsnFile  = "#{@unpackDir}/#{entity}.json"
   Minitar.unpack(@filePath, @unpackDir)
   assert(File.exists?(zipFile), "Cannot find #{zipFile} file ")
+  File.delete(jsnFile) if File.exist?(jsnFile)
   `gunzip #{zipFile}`
   json = JSON.parse(File.read(jsnFile))
 
@@ -899,6 +926,7 @@ When /I check that the teacherSchoolAssociation extract for "(.*?)" has the corr
   jsnFile  = "#{@unpackDir}/#{entity}.json"
   Minitar.unpack(@filePath, @unpackDir)
   assert(File.exists?(zipFile), "Cannot find #{zipFile} file ")
+  File.delete(jsnFile) if File.exist?(jsnFile)
   `gunzip #{zipFile}`
   json = JSON.parse(File.read(jsnFile))
 
@@ -940,6 +968,7 @@ When /I check that the studentGradebookEntry extract for "(.*?)" has the correct
   jsnFile  = "#{@unpackDir}/#{entity}.json"
   Minitar.unpack(@filePath, @unpackDir)
   assert(File.exists?(zipFile), "Cannot find #{zipFile} file ")
+  File.delete(jsnFile) if File.exist?(jsnFile)
   `gunzip #{zipFile}`
   json = JSON.parse(File.read(jsnFile))
 
@@ -975,6 +1004,7 @@ When /I check that the staffCohortAssociation extract for "(.*?)" has the correc
   jsnFile  = "#{@unpackDir}/#{entity}.json"
   Minitar.unpack(@filePath, @unpackDir)
   assert(File.exists?(zipFile), "Cannot find #{zipFile} file ")
+  File.delete(jsnFile) if File.exist?(jsnFile)
   `gunzip #{zipFile}`
   json = JSON.parse(File.read(jsnFile))
 
@@ -1010,6 +1040,7 @@ When /I check that the staffProgramAssociation extract for "(.*?)" has the corre
   jsnFile  = "#{@unpackDir}/#{entity}.json"
   Minitar.unpack(@filePath, @unpackDir)
   assert(File.exists?(zipFile), "Cannot find #{zipFile} file ")
+  File.delete(jsnFile) if File.exist?(jsnFile)
   `gunzip #{zipFile}`
   json = JSON.parse(File.read(jsnFile))
 
