@@ -53,6 +53,14 @@ class ApplicationAuthorizationsController < ApplicationController
           end
         end
       end
+      # Some apps such as dashboard and databrowser may have allowed_for_all_edorgs set
+      if app.allowed_for_all_edorgs
+        if ! @edorg_apps.has_key?(session[:edOrgId])
+          @edorg_apps[session[:edOrgId]] = { appId => true }
+        else
+          @edorg_apps[session[:edOrgId]][appId] = true
+        end
+      end
     end
     
     # We used to support a mode where the SEA saw edOrgs for which is
