@@ -519,7 +519,7 @@ public class BulkExtractTest {
     public void testGetLEAListNoUserAssociatedLEAs() throws Exception {
         injector.setEducatorContext();
         mockApplicationEntity();
-        Mockito.when(edOrgHelper.getDistricts(Mockito.any(Entity.class))).thenReturn(Arrays.asList("123"));
+        Mockito.when(edOrgHelper.getUserEdorgs(Mockito.any(Entity.class))).thenReturn(Arrays.asList("123"));
 
         Response res = bulkExtract.getSEAOrLEAList(req, CONTEXT);
         assertEquals(404, res.getStatus());
@@ -530,7 +530,7 @@ public class BulkExtractTest {
     public void testGetSetSEAAndLEAListEmpty() throws Exception {
         injector.setEducatorContext();
         mockApplicationEntity();
-        Mockito.when(edOrgHelper.getDistricts(Mockito.any(Entity.class))).thenReturn(Arrays.asList("123"));
+        Mockito.when(edOrgHelper.getUserEdorgs(Mockito.any(Entity.class))).thenReturn(Arrays.asList("123"));
         Entity mockAppAuthEntity = Mockito.mock(Entity.class);
         Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(ApplicationAuthorizationResource.RESOURCE_NAME), Mockito.any(NeutralQuery.class)))
             .thenReturn(mockAppAuthEntity);
