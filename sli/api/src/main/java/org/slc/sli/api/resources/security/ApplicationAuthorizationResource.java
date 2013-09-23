@@ -231,6 +231,7 @@ public class ApplicationAuthorizationResource {
             entity.put("appId", appId);
             entity.put("authorized", true);
             results.add(entity);
+            info("Adding app auth for edorg "+ myEdorg +" : " + appId);
             allApps.remove(appId);
         }
         for (Map.Entry<String, Entity> entry : allApps.entrySet()) {
@@ -242,6 +243,7 @@ public class ApplicationAuthorizationResource {
                 entity.put("appId", entry.getKey());
                 entity.put("authorized", false);
                 results.add(entity);
+                info("Adding app auth with allowed_for_all_edorgs : " + entry.getKey());
             }
         }
         return Response.status(Status.OK).entity(results).build();

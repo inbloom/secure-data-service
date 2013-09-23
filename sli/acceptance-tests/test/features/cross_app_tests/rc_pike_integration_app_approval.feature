@@ -172,21 +172,6 @@ And it is colored "green"
 And the Approve button next to it is disabled
 And the Deny button next to it is enabled
 
-#Add Bulk Extract role to IT Admin
-And I exit out of the iframe
-And I click on Admin
-Then I should be on the admin page
-And under System Tools, I click on "Create Custom Roles"
-And I switch to the iframe
-And I edit the group "IT Administrator"
-When I add the right "BULK_EXTRACT" to the group "IT Administrator"
-And I hit the save button
-Then I am no longer in edit mode
-And I switch to the iframe
-And the group "IT Administrator" contains the "right" rights "Bulk IT Administrator"
-And I exit out of the iframe
-And I click on log out
-
 Scenario: SEA admin makes an api call to PATCH the SEA
   Given the pre-existing bulk extrac testing app key has been created
   When I navigate to the API authorization endpoint with my client ID
