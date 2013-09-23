@@ -567,7 +567,7 @@ public class BulkExtractTest {
         Mockito.when(edOrgHelper.byId("LEA1")).thenReturn(mockLEAEntity);
         Mockito.when(edOrgHelper.isSEA(mockLEAEntity)).thenReturn(false);
         Mockito.when(edOrgHelper.getSEAOfEdOrg(mockLEAEntity)).thenReturn("SEA1");
-        Mockito.when(edOrgHelper.getDistricts(Mockito.any(Entity.class))).thenReturn(LEAs);
+        Mockito.when(edOrgHelper.getUserEdorgs(Mockito.any(Entity.class))).thenReturn(LEAs);
         Entity mockAppAuthEntity = Mockito.mock(Entity.class);
         Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(ApplicationAuthorizationResource.RESOURCE_NAME), Mockito.any(NeutralQuery.class)))
             .thenReturn(mockAppAuthEntity);
@@ -630,7 +630,7 @@ public class BulkExtractTest {
     public void testGetJustFullLEAListSuccess() throws Exception {
         injector.setEducatorContext();
         mockApplicationEntity();
-        Mockito.when(edOrgHelper.getDistricts(Mockito.any(Entity.class))).thenReturn(Arrays.asList("123"));
+        Mockito.when(edOrgHelper.getUserEdorgs(Mockito.any(Entity.class))).thenReturn(Arrays.asList("123"));
         Entity mockAppAuthEntity = Mockito.mock(Entity.class);
         Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(ApplicationAuthorizationResource.RESOURCE_NAME), Mockito.any(NeutralQuery.class)))
             .thenReturn(mockAppAuthEntity);
@@ -664,7 +664,7 @@ public class BulkExtractTest {
     public void testGetJustDeltaLEAListSuccess() throws Exception {
         injector.setEducatorContext();
         mockApplicationEntity();
-        Mockito.when(edOrgHelper.getDistricts(Mockito.any(Entity.class))).thenReturn(Arrays.asList("123"));
+        Mockito.when(edOrgHelper.getUserEdorgs(Mockito.any(Entity.class))).thenReturn(Arrays.asList("123"));
         Entity mockAppAuthEntity = Mockito.mock(Entity.class);
         Mockito.when(mockMongoEntityRepository.findOne(Mockito.eq(ApplicationAuthorizationResource.RESOURCE_NAME), Mockito.any(NeutralQuery.class)))
             .thenReturn(mockAppAuthEntity);
