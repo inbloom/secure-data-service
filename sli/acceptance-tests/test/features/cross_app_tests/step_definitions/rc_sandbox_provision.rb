@@ -37,7 +37,7 @@ Then /^there are "(.*?)" edOrgs for the "(.*?)" application in the applicationAu
    port = PropLoader.getProps['ingestion_db_port']
    db_name = PropLoader.getProps['ingestion_database_name']
    conn = Mongo::Connection.new(host, port)
-   db = conn.db(sli)
+   db = conn.db("sli")
    coll = db.collection("application")
    record = coll.find_one("body.name" => app)
    puts record.to_s
