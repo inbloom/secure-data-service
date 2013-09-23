@@ -54,7 +54,7 @@ class ApplicationAuthorizationsController < ApplicationController
         end
       end
     end
-    logger.error {"Edorg to app map : #{@edorg_apps.to_s}"}
+    logger.error {'Edorg to app map : #{@edorg_apps.to_s}'}
 
     # We used to support a mode where the SEA saw edOrgs for which is
     # was delegated admin access by the edOrgs (usu. an LEA)
@@ -70,10 +70,10 @@ class ApplicationAuthorizationsController < ApplicationController
       }
     else
       @edorgs = [session[:edOrgId]]
-      logger.error {"edorgs : #{@edorgs.to_s}"}
+      logger.error {'edorgs : #{@edorgs.to_s}'}
       ApplicationAuthorization.cur_edorg = @edorgs[0]
       @application_authorizations[@edorgs[0]] = ApplicationAuthorization.all
-      logger.error {"App auths by edorg cache : #{@application_authorizations.to_s}"}
+      logger.error {'App auths by edorg cache : #{@application_authorizations.to_s}'}
     end
     # Get EDORGS for the authId
     respond_to do |format|
@@ -147,7 +147,7 @@ class ApplicationAuthorizationsController < ApplicationController
     # Slurp all apps into @apps_map = a map of appId -> info
     @apps_map = {}
     App.all.each { |app| @apps_map[app.id] = app }
-    logger.error {"All loaded apps : #{@apps_map.to_s}"}
+    logger.error {'All loaded apps : #{@apps_map.to_s}'}
   end
 
 end
