@@ -249,7 +249,7 @@ public class ApplicationAuthorizationResource {
 
     private void logSecurityEvent(String appId, Collection<String> oldEdOrgs, Collection<String> newEdOrgs) {
         Set<String> oldEO = (oldEdOrgs == null)?Collections.<String>emptySet():new HashSet<String>(oldEdOrgs);
-        Set<String> newEO = (oldEdOrgs == null)?Collections.<String>emptySet():new HashSet<String>(newEdOrgs);
+        Set<String> newEO = (newEdOrgs == null)?Collections.<String>emptySet():new HashSet<String>(newEdOrgs);
 
         info("EdOrgs that App could access earlier " + helper.getEdOrgStateOrganizationIds(oldEO));
         info("EdOrgs that App can access now "       + helper.getEdOrgStateOrganizationIds(newEO));

@@ -81,7 +81,7 @@ public class ApplicationResourceService extends DefaultResourceService {
             if (SecurityUtil.getAllRights().contains(Right.EDORG_DELEGATE)) {   //Add an SEA admin's delegated LEAs
                 edorgs.addAll(delegation.getAppApprovalDelegateEdOrgs());
             }
-            
+
             //know this is ugly, but having trouble getting or queries to work
             List<String> idList = new ArrayList<String>();
             NeutralQuery newQuery = new NeutralQuery(new NeutralCriteria(AUTHORIZED_ED_ORGS, NeutralCriteria.CRITERIA_IN, edorgs));
@@ -99,6 +99,7 @@ public class ApplicationResourceService extends DefaultResourceService {
                 idList.add(id);
             }
             query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, idList));
+            info("Additional criteria app ids :" + idList);
         } //else - operator -- sees all apps
     }
 }
