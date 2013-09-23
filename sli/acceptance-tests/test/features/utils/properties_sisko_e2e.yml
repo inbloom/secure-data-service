@@ -14,7 +14,6 @@ databrowser_server_url: "https://sisko-databrowser.slidev.org"
 ingestion_db: "localhost"
 ingestion_db_port: 27018
 rcingest02_port: 27020
-rcingest03_port: 27021
 rcapi01_port: 27022
 rcapi02_port: 27023
 ingestion_database_name: "sli"
