@@ -26,11 +26,11 @@ import org.junit.Test;
 
 public class EntityToLeaCacheTest {
     
-    private EntityToLeaCache cache;
+    private EntityToEdOrgCache cache;
     
     @Before
     public void setUp() {
-        cache = new EntityToLeaCache();
+        cache = new EntityToEdOrgCache();
     }
     
     @After

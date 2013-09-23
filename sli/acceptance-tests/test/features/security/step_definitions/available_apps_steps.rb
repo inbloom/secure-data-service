@@ -138,6 +138,7 @@ end
 
 Then /^the admin app endpoints contains (endpoints for the role ".*?")$/ do |arg1|
   @admin_app["endpoints"].each do |endpoint|
+    puts endpoint.to_s  # to see the actual endpoint
     assert(arg1.include?(endpoint["name"]), "Endpoint #{endpoint["name"]} was not expected to be returned") 
   end
   assert(@admin_app["endpoints"].length == arg1.length, "Expected endpoints counts do not match: expected #{arg1.length} actual: #{@admin_app["endpoints"].length}")

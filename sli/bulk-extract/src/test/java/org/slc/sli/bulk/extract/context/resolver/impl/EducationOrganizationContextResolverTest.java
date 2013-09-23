@@ -21,11 +21,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -66,11 +64,12 @@ public class EducationOrganizationContextResolverTest {
     Entity level2 = createLevel2();
     Entity level2_2 = createLevel2_2();
     
-    List<Entity> level1_list = createLevel1List();
-    List<Entity> level2_list = createLevel2List();
-    List<Entity> level2_2_list = createLevel2_2List();
-
-    
+    Set<Entity> school_ancestors = createSchoolAncestors();
+    Set<Entity> multiParentSchool_ancestors = createMutliParentAncestors();
+    Set<Entity> level1_ancestors = createlevel1Ancestors();
+    Set<Entity> level2_ancestors = createLevel2Ancestors();
+    Set<Entity> level2_2_ancestors = createLevel2_2Ancestors();
+   
 
     @Before
     public void setup() {
@@ -92,22 +91,22 @@ public class EducationOrganizationContextResolverTest {
         when(helper.isLEA(level2_2)).thenReturn(true);
         when(helper.isSEA(sea)).thenReturn(true);
 
-        when(helper.getTopLEAOfEdOrg(school)).thenReturn(level2_list);
-        when(helper.getTopLEAOfEdOrg(multiParentSchool)).thenReturn(level2_2_list);        
-        when(helper.getTopLEAOfEdOrg(level1)).thenReturn(level2_list);
-        when(helper.getTopLEAOfEdOrg(level2)).thenReturn(level2_list);
-        when(helper.getTopLEAOfEdOrg(level2_2)).thenReturn(level2_list);
+        when(helper.getAncestorsOfEdOrg(school)).thenReturn(school_ancestors);
+        when(helper.getAncestorsOfEdOrg(multiParentSchool)).thenReturn(multiParentSchool_ancestors);        
+        when(helper.getAncestorsOfEdOrg(level1)).thenReturn(level1_ancestors);
+        when(helper.getAncestorsOfEdOrg(level2)).thenReturn(level2_ancestors);
+        when(helper.getAncestorsOfEdOrg(level2_2)).thenReturn(level2_2_ancestors);
         
     }
     
     @Test
     public void testFindGoverningEdOrgs() {
-        assertEquals(new HashSet<String>(Arrays.asList("level2")), underTest.findGoverningEdOrgs(school));
+        assertEquals(new HashSet<String>(Arrays.asList("level2","school","level1")), underTest.findGoverningEdOrgs(school));
     }
 
     @Test
     public void testFindGoverningEdOrgsForId() {
-        assertEquals(new HashSet<String>(Arrays.asList("level2")), underTest.findGoverningEdOrgs("school"));
+        assertEquals(new HashSet<String>(Arrays.asList("level2","school","level1")), underTest.findGoverningEdOrgs("school"));
     }
 
     @Test
@@ -125,7 +124,7 @@ public class EducationOrganizationContextResolverTest {
     
     @Test
     public void testMultiParents() {
-        assertEquals(new HashSet<String>(Arrays.asList(new String[] {"level2", "level2_2"})), underTest.findGoverningEdOrgs(multiParentSchool));
+        assertEquals(new HashSet<String>(Arrays.asList(new String[] {"level2", "level2_2","level1","multiParentSchool"})), underTest.findGoverningEdOrgs(multiParentSchool));
     }
    
     
@@ -189,21 +188,38 @@ public class EducationOrganizationContextResolverTest {
         return e;
     }
     
-    private List<Entity> createLevel1List() {
-    	List<Entity> level1_list = new ArrayList<Entity>();
+    private Set<Entity> createSchoolAncestors() {
+    	Set<Entity> level1_list = new HashSet<Entity>();
+    	level1_list.add(school);
     	level1_list.add(level1);
+    	level1_list.add(level2);   	
     	return level1_list;
     }
     
-    private List<Entity> createLevel2List() {
-    	List<Entity> level2_list = new ArrayList<Entity>();
+    private Set<Entity> createMutliParentAncestors() {
+    	Set<Entity> level1_list = new HashSet<Entity>();
+    	level1_list.add(multiParentSchool);
+    	level1_list.add(level1);
+    	level1_list.add(level2);   	
+    	level1_list.add(level2_2);   	   	
+    	return level1_list;
+    }    
+    
+    private Set<Entity> createlevel1Ancestors() {
+    	Set<Entity> level1_list = new HashSet<Entity>();
+    	level1_list.add(level1);
+    	level1_list.add(level2);   	
+    	return level1_list;
+    }
+    
+    private Set<Entity> createLevel2Ancestors() {
+    	Set<Entity> level2_list = new HashSet<Entity>();
     	level2_list.add(level2);
     	return level2_list;
     }
     
-    private List<Entity> createLevel2_2List() {
-    	List<Entity> level2_2list = new ArrayList<Entity>();
-    	level2_2list.add(level2);
+    private Set<Entity> createLevel2_2Ancestors() {
+    	Set<Entity> level2_2list = new HashSet<Entity>();
     	level2_2list.add(level2_2);
     	return level2_2list;
     }

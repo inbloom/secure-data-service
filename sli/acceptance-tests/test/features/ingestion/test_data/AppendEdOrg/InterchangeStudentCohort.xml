@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<InterchangeStudentCohort xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentCohort.xsd">
+  <Cohort>
+    <CohortIdentifier>ACC-TEST-COH-99</CohortIdentifier>
+	<CohortDescription>Statewide academic intervention cohort for English</CohortDescription>
+	<CohortType>Academic Intervention</CohortType>
+	<CohortScope>Statewide</CohortScope>
+	<AcademicSubject>English</AcademicSubject>
+	<EducationOrgReference>
+	  <EducationalOrgIdentity>
+	    <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+	  </EducationalOrgIdentity>
+	</EducationOrgReference>
+	<ProgramReference>
+	  <ProgramIdentity>
+	    <ProgramId>ACC-TEST-PROG-3</ProgramId>
+	  </ProgramIdentity>
+	</ProgramReference>
+  </Cohort>
+
+</InterchangeStudentCohort>

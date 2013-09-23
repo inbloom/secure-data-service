@@ -37,12 +37,11 @@ Then I see the list of my registered applications only
 And I clicked on the button Edit for the application "Smoke!"
 Then I can see the on-boarded states
 When I select the state "Illinois State Board of Education"
-  Then I see all of the Districts
-  Then I check the Districts
 When I click on Save
 Then I am redirected to the Application Registration Tool page
 
-
+#auth app carnage
+@wip
 Scenario: LEA Administrator operations
 Given the sli securityEvent collection is empty
 And I am a valid district administrator

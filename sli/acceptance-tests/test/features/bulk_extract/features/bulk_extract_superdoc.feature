@@ -1,7 +1,7 @@
 Feature: A bulk extract is triggered and superdoc and subdoc entities are verified
 
 Scenario Outline: Verify simple entities were correctly extracted for LEA
-  When I retrieve the path to and decrypt the LEA public data extract file for the tenant "<tenant>" and application with id "<appId>"
+  When I get the path to the extract file for the tenant "<tenant>" and application with id "<appId>" for the lea "1b223f577827204a1c7e9c851dba06bea6b031fe_id"
   And a "<entity>" extract file exists
    And a the correct number of "<entity>" was extracted from the database
    And a "<entity>" was extracted with all the correct fields

@@ -178,7 +178,7 @@ public class BulkExtract {
     @GET
     @Path("extract/{edOrgId}")
     @RightsAllowed({ Right.BULK_EXTRACT })
-    public Response getLEAorSEAExtract(@Context HttpContext context, @Context HttpServletRequest request, @PathParam("edOrgId") String edOrgId) {
+    public Response getEdOrgExtract(@Context HttpContext context, @Context HttpServletRequest request, @PathParam("edOrgId") String edOrgId) {
 
         logSecurityEvent("Received request to stream Edorg data");
         if (edOrgId == null || edOrgId.isEmpty()) {
@@ -194,7 +194,7 @@ public class BulkExtract {
             isPublicData = true;
             canAccessSEAExtract(entity);
         } else {
-            canAccessLEAExtract(edOrgId);
+        	canAccessEdOrgExtract(edOrgId);
         }
 
         return getExtractResponse(context.getRequest(), null, edOrgId, isPublicData);
@@ -254,7 +254,7 @@ public class BulkExtract {
                 isPublicData = true;
                 canAccessSEAExtract(entity);
             } else {
-                canAccessLEAExtract(edOrgId);
+            	canAccessEdOrgExtract(edOrgId);
             }
 
             return getExtractResponse(context.getRequest(), date, edOrgId, isPublicData);
@@ -299,6 +299,18 @@ public class BulkExtract {
         appAuthHelper.checkApplicationAuthorization(leaId);
     }
 
+    /**
+     * Validate if the user can access an Ed Org extract
+     *
+     * @param edOrgId the edOrg id
+     */
+    void canAccessEdOrgExtract(String edOrgId) {
+            if (edorgValidator.validate(EntityNames.EDUCATION_ORGANIZATION, new HashSet<String>(Arrays.asList(edOrgId))).isEmpty()) {
+                throw new APIAccessDeniedException("User is not authorized to access this extract", EntityNames.EDUCATION_ORGANIZATION, edOrgId);
+            }
+        appAuthHelper.checkApplicationAuthorization(edOrgId);
+    }
+    
     /**
      * Get the bulk extract response
      *
@@ -435,8 +447,8 @@ public class BulkExtract {
 
         list.put("fullSea", seaFullLinks);
         list.put("deltaSea", seaDeltaLinks);
-        list.put("fullLeas", leaFullLinks);
-        list.put("deltaLeas", leaDeltaLinks);
+        list.put("fullEdOrgs", leaFullLinks);
+        list.put("deltaEdOrgs", leaDeltaLinks);
 
         return list;
     }

@@ -52,6 +52,12 @@ def allLeaAllowApp(appName)
   allLeaAllowAppForTenant(appName, 'Hyrule')
 end
 
+#
+# Replace the doc for the app with the given name in
+# "applicationAuthorization" so that the app is authorized for use by
+# ALL edOrgs (appearing in "educationOrganization") in the given
+# tenant
+#
 def allLeaAllowAppForTenant(appName, tenantName)
   sleep 1
   disable_NOTABLESCAN()

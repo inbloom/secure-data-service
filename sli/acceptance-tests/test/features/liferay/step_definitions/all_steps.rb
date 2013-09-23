@@ -163,7 +163,7 @@ end
 def eula_go_away()
   if (@driver.page_source.include?("d_popup"))
     accept = @driver.find_element(:css, "[class*='aui-button-input-submit']")
-    puts accept.inspect
+    puts accept.inspect.to_s
     puts "EULA is present"
     accept.click
     sleep 2

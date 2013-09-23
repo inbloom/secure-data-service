@@ -368,9 +368,4 @@ Then /^the response should contain the "([^"]*)" field$/ do  |school_year|
     end
 end
 
-And /I wait for user input/ do
-  print "Waiting for user input. Press Enter to continue."
-  STDIN.getc
-end
-
 

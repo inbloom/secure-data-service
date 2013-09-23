@@ -12,7 +12,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
-import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
+import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
@@ -22,21 +22,21 @@ public class StudentSchoolAssociationExtractorTest {
 	private StudentSchoolAssociationExtractor ssaExtractor;
 	
 	@Mock
-    private LEAExtractFileMap mockMap;
+    private ExtractFileMap mockMap;
 	@Mock
     private EntityExtractor mockExtractor;
 	@Mock
-    private EntityToLeaCache mockCache;
+    private EntityToEdOrgCache mockCache;
     @Mock
 	private Repository<Entity> mockRepo;
     @Mock
-    private LocalEdOrgExtractHelper mockLocalEdOrgExtractHelper;
+    private EdOrgExtractHelper mockEdOrgExtractHelper;
 
 	@Before
 	public void setUp() {
         MockitoAnnotations.initMocks(this);
-        Mockito.when(mockMap.getLeas()).thenReturn(new HashSet<String>(Arrays.asList("LEA")));
-        ssaExtractor = new StudentSchoolAssociationExtractor(mockExtractor, mockMap, mockRepo, mockCache, mockLocalEdOrgExtractHelper);
+        Mockito.when(mockMap.getEdOrgs()).thenReturn(new HashSet<String>(Arrays.asList("LEA")));
+        ssaExtractor = new StudentSchoolAssociationExtractor(mockExtractor, mockMap, mockRepo, mockCache, mockEdOrgExtractHelper);
 	}
 	
 	@Test

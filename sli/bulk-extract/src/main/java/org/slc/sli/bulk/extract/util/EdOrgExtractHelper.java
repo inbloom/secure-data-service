@@ -1,6 +1,11 @@
 package org.slc.sli.bulk.extract.util;
 
 import static org.slc.sli.bulk.extract.LogUtil.audit;
+
+import com.google.common.base.Function;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Sets;
+import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.message.BEMessageCode;
 import org.slc.sli.bulk.extract.BulkExtractMongoDA;
 import org.slc.sli.common.constants.EntityNames;
@@ -23,9 +28,9 @@ import java.util.*;
  * Utils to extract LEAs
  */
 @Component
-public class LocalEdOrgExtractHelper implements InitializingBean {
+public class EdOrgExtractHelper implements InitializingBean {
 
-    private Set<String> extractLEAs;
+    private Set<String> extractEdOrgs;
 
     @Autowired
     @Qualifier("secondaryRepo")
@@ -49,21 +54,32 @@ public class LocalEdOrgExtractHelper implements InitializingBean {
     /**
      * Returns all top level LEAs that will be extracted in the tenant
      * @return a set of top level lea ids
+     * 
+     * Returns the union of all edOrgs appearing as values in the 
+     * map of application -> { authorized edOrgs }
      */
-    public Set<String> getBulkExtractLEAs() {
-        if (extractLEAs == null) {
-            extractLEAs = new HashSet<String>();
-
-            Set<String> topLevelLEAs = getTopLevelLEAs();
-            for (Set<String> appLeas : getBulkExtractLEAsPerApp().values()) {
-                for (String lea : appLeas) {
-                    if (topLevelLEAs.contains(lea)) {
-                        extractLEAs.add(lea);
-                    }
-                }
+    public Set<String> getBulkExtractEdOrgs(String sea) {
+        if (extractEdOrgs == null) {
+            extractEdOrgs = new HashSet<String>();
+            for (Set<String> appEdOrgs : getBulkExtractEdOrgsPerApp().values()) {
+                extractEdOrgs.addAll(appEdOrgs);
             }
         }
-        return extractLEAs;
+        Set<String> result = removeNonExistentEdOrgs(extractEdOrgs);
+        
+		// Never include the SEA in a "local" (private data) extract, even if the SEA is authorized explicitly for
+		// bulk extract app(s). To remove this hardwired restriction, and instead allow an SEA to have its private data extracted
+		// to a file stamped (i.e. named) w/ the SEA edOrg id, remove the following line.
+        result.remove(sea);
+        
+        return result;
+    }
+
+    private Set<String> removeNonExistentEdOrgs(Set<String> edOrgs) {
+        NeutralQuery q = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, edOrgs));
+        Iterable<String> entities = repository.findAllIds(EntityNames.EDUCATION_ORGANIZATION, q);
+        Set<String> existingEdOrgs = Sets.newHashSet(entities);
+        return existingEdOrgs;
     }
 
     public Set<String> getTopLevelLEAs() {
@@ -92,7 +108,7 @@ public class LocalEdOrgExtractHelper implements InitializingBean {
      * @return a set of the LEA ids that need a bulk extract per app
      */
     @SuppressWarnings("unchecked")
-    public Map<String, Set<String>> getBulkExtractLEAsPerApp() {
+    public Map<String, Set<String>> getBulkExtractEdOrgsPerApp() {
         NeutralQuery appQuery = new NeutralQuery(new NeutralCriteria("applicationId", NeutralCriteria.CRITERIA_IN,
                 getBulkExtractApps()));
         Iterable<Entity> apps = repository.findAll("applicationAuthorization", appQuery);
