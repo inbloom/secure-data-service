@@ -39,7 +39,7 @@ Then /^there are "(.*?)" edOrgs for the "(.*?)" application in the applicationAu
    conn = Mongo::Connection.new(host, port)
    db = conn.db("sli")
    coll = db.collection("application")
-   record = coll.find_one("body.name" => app)
+   record = coll.find_one("body.name" => application)
    puts record.to_s
    appId = record["_id"]
    puts appId.to_s
