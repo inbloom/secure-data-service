@@ -159,6 +159,7 @@ Then /^I see the newly enabled application is approved$/ do
 end
 
 Then /^"(.*?)" is enabled for "(.*?)" education organizations$/ do |app, edOrgCount|
+     disable_NOTABLESCAN()
      sliDb = @conn.db('sli')
      coll = sliDb.collection("application")
      record = coll.find_one("body.name" => app)
@@ -169,6 +170,7 @@ Then /^"(.*?)" is enabled for "(.*?)" education organizations$/ do |app, edOrgCo
      edorgsArrayCount = edorgsArray.count
      #puts edorgsArrayCount
      assert(edorgsArrayCount == edOrgCount.to_i, "Education organization count mismatch. Expected #{edOrgCount}, actual #{edorgsArrayCount}")
+     enable_NOTABLESCAN()
 end
 
 Then /^I don't see the newly disabled application$/ do
