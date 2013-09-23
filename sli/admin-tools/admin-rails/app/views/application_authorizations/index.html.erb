@@ -63,6 +63,7 @@
     <% @app_auth = app_auth
        next if @apps_map[app_auth.appId] == nil
        isEnabled = @edorg_apps.has_key?(edorg) && @edorg_apps[edorg].has_key?(app_auth.appId)
+       puts "isEnable = #{isEnable.to_s()}, edorg : #{edorg.tos()}, app_auth.appId : #{app_auth.appId.to_s()}"
        next if ! isEnabled
     %>
     <%= render 'form'%>
