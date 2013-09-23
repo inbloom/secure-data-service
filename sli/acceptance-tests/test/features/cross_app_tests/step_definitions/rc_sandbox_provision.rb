@@ -16,6 +16,9 @@ limitations under the License.
 
 =end
 
+require_relative '../../utils/sli_utils.rb'
+require_relative '../../ingestion/features/step_definitions/ingestion_steps.rb'
+
 ###############################################################################
 # WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN
 ###############################################################################
