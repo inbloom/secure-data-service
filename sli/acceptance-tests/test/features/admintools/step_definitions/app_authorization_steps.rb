@@ -149,6 +149,7 @@ Given /^I am asked 'Do you really want this application to access the district's
       end
 end
 
+# TODO actually check the app is authed for the specified edorg?!
 Then /^the application is authorized to use data of "([^"]*)"$/ do |arg1|
   row = getApp(@appName)
   assert(row != nil)
@@ -181,6 +182,7 @@ Then /^it is colored "([^"]*)"$/ do |arg1|
 end
 
 Then /^the Approve button next to it is disabled$/ do
+  @row = @appRow if @row.nil?
   @inputs = @row.find_elements(:xpath, ".//td/form/input")
   @inputs.each do |input|
     if input.attribute(:value) == "Approve"

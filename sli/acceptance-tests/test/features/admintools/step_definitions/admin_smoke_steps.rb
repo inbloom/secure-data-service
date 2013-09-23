@@ -44,6 +44,11 @@ Given /^I am a valid district administrator$/ do
   @pass = 'sunsetadmin1234'
 end
 
+Given /^I am a valid SEA administrator$/ do
+  @user = 'iladmin'
+  @pass = 'iladmin1234'
+end
+
 When /^I authenticate on the realm editing tool$/ do
   step "I hit the realm editing URL"
   step "I login"
