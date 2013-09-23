@@ -42,7 +42,8 @@ Then /^there are "(.*?)" edOrgs for the "(.*?)" application in the applicationAu
    puts record.to_s
    appId = record["_id"]
    puts appId.to_s
-   coll = @db.collection("applicationAuthorization")
+   db = @conn[convertTenantIdToDbName(PropLoader.getProps['sandbox_tenant'])]
+   coll = db.collection("applicationAuthorization")
    record = coll.find_one("body.applicationId" => appId.to_s)
    puts record.to_s
    body = record["body"]
