@@ -479,11 +479,6 @@ public class ApplicationResource extends UnversionedResource {
     }
 
     private void iterateEdOrgs(String uuid, List<String> edOrgIds) {
-    	/*
-    	 * THE CODE BELOW HAS BEEN MODIFIED TEMPORARILY FOR TESTING PURPOSES
-    	 * IN BRANCH "us5867" AND IS *NOT* TO BE PUSHED TO PRODUCTION ("master")
-    	 * BRANCH.
-    	 */
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("applicationId", NeutralCriteria.OPERATOR_EQUAL, uuid));
         long count = service.count(query);
