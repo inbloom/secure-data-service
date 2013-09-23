@@ -142,11 +142,19 @@ Given /^I click on the "([^"]*)" button next to it$/ do |arg1|
   end
 end
 
+# FIXME: All callers of this assertion should actually match the text in the popup
+# by using the improved regex assertion below (and not ignore exceptions)
 Given /^I am asked 'Do you really want this application to access the district's data'$/ do
       begin
         @driver.switch_to.alert
       rescue
       end
+end
+
+# Match text of expected alert box and switch focus for subsequent "Ok" click to dismiss it
+Given /^I switch focus to the popup matching the regex "([^"]*)"$/ do |expectedRegex|
+  alertText = @driver.switch_to.alert.text
+  assert(alertText.match(expectedRegex))
 end
 
 Then /^the application is authorized to use data of "([^"]*)"$/ do |arg1|
