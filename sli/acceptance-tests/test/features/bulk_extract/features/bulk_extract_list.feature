@@ -32,8 +32,8 @@ Feature: As an API user, I want to be able to get a list of links available to t
 	When I get back a response code of "200"
 	When the number of returned URLs is correct:
 	|   fieldName  | count |
-	|   fullEdOrgs   |  1    |
-	|   deltaEdOrgs  |  1    |
+	|   fullEdOrgs   |  5    |
+	|   deltaEdOrgs  |  5    |
 	|   fullSea    |  1    |
 	|   deltaSea   |  1    |
     When I set the header format to "application/x-tar"
@@ -45,8 +45,8 @@ Scenario: Login as a user not directly associated with the SEA, SEA extract shou
   When I get back a response code of "200"
   When the number of returned URLs is correct:
   |   fieldName  | count |
-  |   fullEdOrgs   |  1    |
-  |   deltaEdOrgs  |  1    |
+  |   fullEdOrgs   |  5    |
+  |   deltaEdOrgs  |  5    |
   |   fullSea    |  1    |
   |   deltaSea   |  1    |
   And I make a head request with each returned URL
@@ -60,7 +60,7 @@ Scenario: Login as a user not directly associated with the SEA, SEA extract shou
     And I trigger a delta extract
     When I make a call to the bulk extract end point "/bulk/extract/list"
     And I get back a response code of "200"
-    Then there are 2 total number of delta links in the list
+    Then there are 6 total number of delta links in the list
     And I verify that the delta extract URLs are in time order, most recent first
 
   Scenario: No URL is returned if I am not associated with the SEA or top LEA

@@ -67,6 +67,7 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.NeutralQuery.SortOrder;
 import org.slc.sli.domain.enums.Right;
 
 /**
@@ -508,6 +509,8 @@ public class BulkExtract {
                 getPrincipal().getTenantId()));
         query.addCriteria(new NeutralCriteria("edorg", NeutralCriteria.OPERATOR_EQUAL, edOrgId));
         query.addCriteria(new NeutralCriteria("applicationId", NeutralCriteria.OPERATOR_EQUAL, appId));
+        query.setSortBy("date");
+        query.setSortOrder(SortOrder.ascending);
         debug("Bulk Extract query is {}", query);
         Iterable<Entity> entities = mongoEntityRepository.findAll(BULK_EXTRACT_FILES, query);
         if (!entities.iterator().hasNext()) {
