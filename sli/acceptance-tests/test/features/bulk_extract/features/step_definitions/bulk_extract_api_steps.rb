@@ -594,10 +594,11 @@ When /^I make a head request with each returned URL$/ do
 end
 
 Then /^I verify that the delta extract URLs are in time order, most recent first/ do
+  puts @res.body
   hash_body = JSON.parse(@res.body)
-  timestamps = Array.new
   puts 'Timestamps in deltas:'
   hash_body['deltaEdOrgs'].each_value do |link_list|
+    timestamps = Array.new
     link_list.each do |link|
       puts link['timestamp']
       timestamps.push link['timestamp']
