@@ -31,3 +31,29 @@ When /^the developer selects to preload "(.*?)"$/ do |sample_data_set|
   select.select_by(:value, sample_data_set)
   @explicitWait.until{@driver.find_element(:id,"provisionButton").click}
 end
+
+Then /^there are "(.*?)" edOrgs for the "(.*?)" application in the applicationAuthorization collection$/ do |expected_count, application|
+   host = PropLoader.getProps['ingestion_db']
+   port = PropLoader.getProps['ingestion_db_port']
+   db_name = PropLoader.getProps['ingestion_database_name']
+   conn = Mongo::Connection.new(host, port)
+   db = conn.db(sli)
+   coll = db.collection("application")
+   record = coll.find_one("body.name" => app)
+   puts record.to_s
+   appId = record["_id"]
+   puts appId.to_s
+   @tenant_name = PropLoader.getProps['sandbox_tenant']
+   db = conn.db(@tenant_name)
+   coll = db.collection("applicationAuthorization")
+   record = coll.find_one("body.applicationId" => appId.to_s)
+   puts record.to_s
+   body = record["body"]
+   puts body.to_s
+   edorgsArray = body["edorgs"]
+   puts edorgsArray.to_s
+   edorgsArrayCount = edorgsArray.count
+   puts edorgsArrayCount
+   conn.close
+   assert(edorgsArrayCount == expected_count.to_i, "Education organization count mismatch in applicationAuthorization collection. Expected #{expected_count}, actual #{edorgsArrayCount}")
+end
