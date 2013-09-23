@@ -811,10 +811,9 @@ When /I check that the "(.*?)" extract for "(.*?)" has "(.*?)" records/ do |enti
   File.delete(jsnFile) if File.exist?(jsnFile)
   `gunzip #{zipFile}`
   json = JSON.parse(File.read(jsnFile))
-  puts jsnFile
 
-  comment = "Expected #{entity} extract for #{edOrgId} to have #{expected}. Found #{json.size}"
-  assert(json.size == expected, comment)
+  comment = "Expected #{entity} extract for #{edOrgId} to have [#{expected}]. Found #{json.size}"
+  assert(json.size == expected.to_i, comment)
   puts (comment)
 end
 
