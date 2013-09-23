@@ -21,16 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.cert.X509Certificate;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
@@ -355,27 +346,27 @@ public class BulkExtract {
      */
     Response getSLEAListResponse(final HttpContext context) {
 
-        List<String> userDistricts = retrieveUserAssociatedLEAs();
-
+    	List<String> userEdOrgs = retrieveUserAssociatedEdOrgs();
+    	
         String appId = appAuthHelper.getApplicationId();
 
-        List<String> appAuthorizedUserLEAs = getApplicationAuthorizedUserLEAs(userDistricts, appId);
-        if (appAuthorizedUserLEAs.size() == 0) {
-            logSecurityEvent("No authorized LEAs for application:" + appId);
+        List<String> appAuthorizedUserEdOrgs = getApplicationAuthorizedUserEdOrgs(userEdOrgs, appId);
+        if (appAuthorizedUserEdOrgs.size() == 0) {
+            logSecurityEvent("No authorized EdOrgs for application:" + appId);
             LOG.info("No authorized LEAs for application: {}", appId);
             return Response.status(Status.NOT_FOUND).build();
         }
 
-        List<String> authorizedUserSLEAs = new LinkedList<String>();
-        authorizedUserSLEAs.addAll(appAuthorizedUserLEAs);
-        Entity lea = helper.byId(appAuthorizedUserLEAs.get(0));  // First LEA is as good as any.
-        String seaId = helper.getSEAOfEdOrg(lea);
+        List<String> authorizedUserSEdOrgs = new LinkedList<String>();
+        authorizedUserSEdOrgs.addAll(appAuthorizedUserEdOrgs);
+        Entity edOrg = helper.byId(appAuthorizedUserEdOrgs.get(0));  // First LEA is as good as any.
+        String seaId = helper.getSEAOfEdOrg(edOrg);
         if (seaId != null) {
-            authorizedUserSLEAs.add(seaId);
+        	authorizedUserSEdOrgs.add(seaId);
         }
 
         logSecurityEvent("Successfully retrieved SEA/LEA list for " + appId);
-        return assembleSLEALinksResponse(context, appId, authorizedUserSLEAs);
+        return assembleSLEALinksResponse(context, appId, authorizedUserSEdOrgs);
     }
 
     /**
@@ -570,20 +561,22 @@ public class BulkExtract {
         appAuthHelper.checkApplicationAuthorization(null);
     }
 
-    private List<String> retrieveUserAssociatedLEAs() throws AccessDeniedException {
-        List<String> userDistricts = helper.getDistricts(getPrincipal().getEntity());
-        if (userDistricts.size() == 0) {
-            throw new APIAccessDeniedException("User is not authorized for a list of available SEA/LEA extracts", userDistricts);
-        }
-        return userDistricts;
-    }
+    private List<String> retrieveUserAssociatedEdOrgs() throws AccessDeniedException {
 
-    private List<String> getApplicationAuthorizedUserLEAs(List<String> userDistrics, String appId) {
+        List<String> userEdOrgs = helper.getUserEdorgs(getPrincipal().getEntity());
+        if (userEdOrgs.size() == 0) {
+            throw new APIAccessDeniedException("User is not authorized for a list of available SEA/EdOrgs extracts", userEdOrgs);
+        }
+        return userEdOrgs;
+    }
+    
+
+    private List<String> getApplicationAuthorizedUserEdOrgs(List<String> userEdOrgs, String appId) {
         List<String> appAuthorizedEdorgIds = appAuthHelper.getApplicationAuthorizationEdorgIds(appId);
-        appAuthorizedEdorgIds.retainAll(userDistrics);
+        appAuthorizedEdorgIds.retainAll(userEdOrgs);
         return appAuthorizedEdorgIds;
     }
-
+    
     /**
      * @return the mongoEntityRepository
      */
