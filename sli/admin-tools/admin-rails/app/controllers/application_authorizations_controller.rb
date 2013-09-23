@@ -102,10 +102,10 @@ class ApplicationAuthorizationsController < ApplicationController
 
     # Get all descendants of edorg and grant or revoke all of them for this app
     if isBulkExtract
-      all_edorgs = EducationOrganization.get_edorg_descendants(edorg)
-    else
       all_edorgs = EducationOrganization.get_edorg_children(edorg).map { |edOrg| edOrg.id }
       all_edorgs.push(edorg)
+    else
+      all_edorgs = EducationOrganization.get_edorg_descendants(edorg)
     end
 
     # Action is approve/deny based on waht button was used
