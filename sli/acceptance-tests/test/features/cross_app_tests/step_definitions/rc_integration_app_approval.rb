@@ -176,3 +176,17 @@ Then /^there are "(.*?)" edOrgs for the "(.*?)" application in the production ap
    puts edorgsArrayCount
    assert(edorgsArrayCount == expected_count.to_i, "Education organization count mismatch in applicationAuthorization collection. Expected #{expected_count}, actual #{edorgsArrayCount}")
 end
+
+Then /^"(.*?)" is enabled for "(.*?)" production education organizations$/ do |app, edOrgCount|
+     db = @conn.db("sli")
+     coll = db.collection("application")
+     record = coll.find_one("body.name" => app)
+     puts record.to_s
+     body = record["body"]
+     puts body.to_s
+     edorgsArray = body["authorized_ed_orgs"]
+     puts edorgsArray.to_s
+     edorgsArrayCount = edorgsArray.count
+     puts edorgsArrayCount
+     assert(edorgsArrayCount == edOrgCount.to_i, "Education organization count mismatch in application collection. Expected #{edOrgCount}, actual #{edorgsArrayCount}")
+end
