@@ -248,7 +248,7 @@ Scenario: App developer creates new Bulk Extract App
     Then I am redirected to the Application Registration Tool page
     And I have clicked to the button New
     And I am redirected to a new application page
-    When I entered the name "BulkExtractApp" into the field titled "Name"
+    When I entered the name "BulkExtractApp2" into the field titled "Name"
     And I entered the name "Best.  Description.  Ever." into the field titled "Description"
     And I entered the name "0.0" into the field titled "Version"
     And I make my app an installed app
@@ -256,7 +256,7 @@ Scenario: App developer creates new Bulk Extract App
     And I click on the button Submit
     And I switch to the iframe
     Then I am redirected to the Application Registration Tool page
-    And the application "BulkExtractApp" is listed in the table on the top
+    And the application "BulkExtractApp2" is listed in the table on the top
     And the client ID and shared secret fields are present
     And I exit out of the iframe
     And I click on log out
@@ -273,13 +273,13 @@ Scenario: App developer enables Bulk Extract App
     And under System Tools, I click on "Register Application"
     And I switch to the iframe
     Then I am redirected to the Application Registration Tool page
-    And I see an application "BulkExtractApp" in the table
+    And I see an application "BulkExtractApp2" in the table
     And the client ID and shared secret fields are present
-    And I clicked on the button Edit for the application "BulkExtractApp"
+    And I clicked on the button Edit for the application "BulkExtractApp2"
     Then I can see the on-boarded states
     When I select the state "Education Agency for RC Tests"
     When I click on Save
-    Then "BulkExtractApp" is enabled for "5" education organizations
+    Then "BulkExtractApp2" is enabled for "5" education organizations
     And I exit out of the iframe
     And I click on log out
 
@@ -299,9 +299,9 @@ Scenario: SLC Operator Approves Application Registration
     #And I see all the applications registered on SLI
     And I see all the applications pending registration
     And the pending apps are on top
-    When I click on 'Approve' next to application "BulkExtractApp"
+    When I click on 'Approve' next to application "BulkExtractApp2"
     Then application "BulkExtractApp" is registered
-    And the 'Approve' button is disabled for application "BulkExtractApp"
+    And the 'Approve' button is disabled for application "BulkExtractApp2"
     And I exit out of the iframe
     And I click on log out
 
