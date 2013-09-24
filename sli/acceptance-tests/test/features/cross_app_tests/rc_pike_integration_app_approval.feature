@@ -279,9 +279,9 @@ Scenario: App developer enables Bulk Extract App
     Then I can see the on-boarded states
     When I select the state "Education Agency for RC Tests"
     When I click on Save
-    Then "BulkExtractApp2" is enabled for "5" production education organizations
     And I exit out of the iframe
     And I click on log out
+    And "BulkExtractApp2" is enabled for "5" production education organizations
 
 @wip @ThisStepIsNotYetNeededSinceAutoApproveAppsIsStillTrueInRC
 Scenario: SLC Operator Approves Application Registration
