@@ -21,14 +21,6 @@ require "selenium-webdriver"
 
 require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
-require_relative '../../apiV1/integration/step_definitions/app_oauth.rb'
-
-After("@RALLY_US5897") do |scenario|
-  if(scenario.failed?)
-    STDOUT.puts "IL-SUNSET IDP redirectEndpoint has been changed."
-  end
-end
-
 
 When /^I navigate to the Realm page URL$/ do
   @url = PropLoader.getProps['api_server_url']+"/api/oauth/authorize?response_type=code&client_id=Eg6eseKRzN&redirect_uri=http://local.slidev.org:3001/callback"
