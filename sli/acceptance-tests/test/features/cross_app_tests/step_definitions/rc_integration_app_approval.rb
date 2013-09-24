@@ -20,7 +20,7 @@ limitations under the License.
 Dir["./test/features/liferay/step_definitions/*.rb"].each {|file| require file}
 
 #admin tools
-Dir["./test/features/admintools/step_definitions/*.rb"].each {|file| require file if(!file.fnmatch?("**/multiple_realms_steps.rb"))}
+Dir["./test/features/admintools/step_definitions/*.rb"].each {|file| require file if(!file.include?("multiple_realms_steps.rb"))}
 
 #databrowser
 Dir["./test/features/databrowser/step_definitions/*.rb"].each {|file| require file}
