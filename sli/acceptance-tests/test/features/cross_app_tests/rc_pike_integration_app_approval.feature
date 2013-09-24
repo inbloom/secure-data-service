@@ -278,10 +278,9 @@ Scenario: App developer enables Bulk Extract App
     And I clicked on the button Edit for the application "BulkExtractApp"
     Then I can see the on-boarded states
     When I select the state "Education Agency for RC Tests"
-    Then I see all of the Districts
-    Then I check the Districts
     When I click on Save
     Then the "BulkExtractApp" is enabled for Districts
+    #Then "BulkExtractApp" is enabled for "2" education organizations
     And I exit out of the iframe
     And I click on log out
 
