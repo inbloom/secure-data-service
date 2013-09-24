@@ -20,7 +20,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
-import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
+import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
@@ -29,29 +29,29 @@ import org.slc.sli.domain.Repository;
 
 public class StaffProgramAssociationExtractor implements EntityExtract {
     private EntityExtractor extractor;
-    private LEAExtractFileMap map;
+    private ExtractFileMap map;
     private Repository<Entity> repo;
-    private LocalEdOrgExtractHelper localEdOrgExtractHelper;
+    private EdOrgExtractHelper edOrgExtractHelper;
     
-    public StaffProgramAssociationExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
+    public StaffProgramAssociationExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo, EdOrgExtractHelper edOrgExtractHelper) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
-        this.localEdOrgExtractHelper = localEdOrgExtractHelper;
+        this.edOrgExtractHelper = edOrgExtractHelper;
     }
 
     @Override
-    public void extractEntities(EntityToLeaCache staffToEdorgCache) {
-        localEdOrgExtractHelper.logSecurityEvent(map.getLeas(), EntityNames.STAFF_PROGRAM_ASSOCIATION, this.getClass().getName());
+    public void extractEntities(EntityToEdOrgCache staffToEdorgCache) {
+        edOrgExtractHelper.logSecurityEvent(map.getEdOrgs(), EntityNames.STAFF_PROGRAM_ASSOCIATION, this.getClass().getName());
         Iterator<Entity> spas = repo.findEach(EntityNames.STAFF_PROGRAM_ASSOCIATION, new NeutralQuery());
         while (spas.hasNext()) {
             Entity spa = spas.next();
-            Set<String> leas = staffToEdorgCache.getEntriesById(spa.getBody().get(ParameterConstants.STAFF_ID).toString());
-            if (leas == null || leas.size() == 0) {
+            Set<String> edOrgs = staffToEdorgCache.getEntriesById(spa.getBody().get(ParameterConstants.STAFF_ID).toString());
+            if (edOrgs == null || edOrgs.size() == 0) {
                 continue;
             }
-            for (String lea : leas) {
-                extractor.extractEntity(spa, map.getExtractFileForLea(lea), EntityNames.STAFF_PROGRAM_ASSOCIATION);
+            for (String edOrg : edOrgs) {
+                extractor.extractEntity(spa, map.getExtractFileForEdOrg(edOrg), EntityNames.STAFF_PROGRAM_ASSOCIATION);
             }
             
         }

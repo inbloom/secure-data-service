@@ -29,11 +29,10 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
-import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
+import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.data.mongodb.core.query.Query;
 
 
 public class AttendanceExtractorTest {
@@ -44,15 +43,15 @@ public class AttendanceExtractorTest {
     @Mock
     private ExtractorHelper mockHelper;
     @Mock
-    private EntityToLeaCache mockCache;
+    private EntityToEdOrgCache mockCache;
     @Mock
     private EntityExtractor mockExtractor;
     @Mock
-    private LEAExtractFileMap mockMap;
+    private ExtractFileMap mockMap;
     @Mock
     private ExtractFile mockFile;
     @Mock
-    private LocalEdOrgExtractHelper mockLocalEdOrgExtractHelper;
+    private EdOrgExtractHelper mockEdOrgExtractHelper;
 
     @Mock
     private Entity mockEntity;
@@ -63,11 +62,11 @@ public class AttendanceExtractorTest {
     public void setUp() {
         entityBody = new HashMap<String, Object>();
         MockitoAnnotations.initMocks(this);
-        extractor = new AttendanceExtractor(mockExtractor, mockMap, mockRepo, mockHelper, mockCache, mockLocalEdOrgExtractHelper);
+        extractor = new AttendanceExtractor(mockExtractor, mockMap, mockRepo, mockHelper, mockCache, mockEdOrgExtractHelper);
         
         Mockito.when(mockEntity.getBody()).thenReturn(entityBody);
         Mockito.when(mockCache.getEntriesById("student")).thenReturn(new HashSet<String>(Arrays.asList("LEA")));
-        Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(mockFile);
+        Mockito.when(mockMap.getExtractFileForEdOrg("LEA")).thenReturn(mockFile);
     }
     
     @After

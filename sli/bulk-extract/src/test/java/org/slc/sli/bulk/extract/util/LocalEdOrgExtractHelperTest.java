@@ -31,7 +31,7 @@ public class LocalEdOrgExtractHelperTest {
     private static final String STATE_EDUCATION_AGENCY = "State Education Agency";
 
     @InjectMocks
-    LocalEdOrgExtractHelper helper = new LocalEdOrgExtractHelper();
+    EdOrgExtractHelper helper = new EdOrgExtractHelper();
 
     @Mock
     Repository<Entity> repository;
@@ -82,7 +82,7 @@ public class LocalEdOrgExtractHelperTest {
     }
 
     @Test
-    public void getBulkExtractLEAsPerAppTest() {
+    public void getBulkExtractEdOrgsPerAppTest() {
 
         getBulkExtractAppsTest(); // mock applications
 
@@ -92,12 +92,12 @@ public class LocalEdOrgExtractHelperTest {
         List<Entity> auths = Arrays.asList(authOne, authTwo);
         when(repository.findAll(Mockito.eq("applicationAuthorization"), Mockito.any(NeutralQuery.class))).thenReturn(auths);
 
-        Map<String, Set<String>> bulkExtractLEAsPerApp = helper.getBulkExtractLEAsPerApp();
+        Map<String, Set<String>> bulkExtractEdOrgsPerApp = helper.getBulkExtractEdOrgsPerApp();
 
-        assertTrue(bulkExtractLEAsPerApp.size() == 2);
-        assertTrue(bulkExtractLEAsPerApp.get(authOne.getBody().get("applicationId")).containsAll(
+        assertTrue(bulkExtractEdOrgsPerApp.size() == 2);
+        assertTrue(bulkExtractEdOrgsPerApp.get(authOne.getBody().get("applicationId")).containsAll(
                 (Collection<?>) authOne.getBody().get("edorgs")));
-        assertTrue(bulkExtractLEAsPerApp.get(authTwo.getBody().get("applicationId")).isEmpty());
+        assertTrue(bulkExtractEdOrgsPerApp.get(authTwo.getBody().get("applicationId")).isEmpty());
 
     }
 

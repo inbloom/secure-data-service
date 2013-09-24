@@ -31,10 +31,7 @@ Then I am redirected to the Application Registration Tool page
 And the application "NotTheAppYoureLookingFor" is listed in the table on the top
 And the client ID and shared secret fields are present
 And I clicked on the button Edit for the application "NotTheAppYoureLookingFor"
-Then I can see the on-boarded states
 When I select the state "Standard State Education Agency"
-Then I see all of the Districts
-Then I check the Districts
 When I click on Save
 And my new apps client ID is present
 And my new apps shared secret is present
@@ -73,10 +70,7 @@ Then I am redirected to the Application Registration Tool page
 And the application "Schlemiel" is listed in the table on the top
 And the client ID and shared secret fields are present
 And I clicked on the button Edit for the application "Schlemiel"
-Then I can see the on-boarded states
 When I select the state "Standard State Education Agency"
-Then I see all of the Districts
-Then I check the Districts
 When I click on Save
 Then the "Schlemiel" is enabled for Districts
 And I exit out of the iframe
@@ -90,3 +84,9 @@ Then I should be on Portal home page
 And under My Applications, I see the following apps: "inBloom Dashboards;Schlemiel"
 And under My Applications, I click on "Schlemiel"
 Then my current url is "https://www.google.com/"
+
+#assert all edOrgs explicitly authorized
+#bulk extract app is "NotTheAppYoureLookingFor", SSDS expected count is 2 (SEA & LEA)
+Then there are "2" edOrgs for the "NotTheAppYoureLookingFor" application in the applicationAuthorization collection
+# non-bulk-extract app is "Schlemiel", SSDS expected count is 5 (SEA, LEA & 3 schools)
+Then there are "5" edOrgs for the "Schlemiel" application in the applicationAuthorization collection

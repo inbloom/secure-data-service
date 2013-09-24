@@ -77,10 +77,12 @@ public class Launcher {
         if (tenantEntity != null) {
             DateTime startTime = new DateTime();
             if (isDelta) {
+            	LOG.info("isDelta=true ... deltaExtractor.execute()");
                 deltaExtractor.execute(tenant, startTime, baseDirectory);
             } else {
-                LOG.info("Starting LEA Based extract...");
-                localEdOrgExtractor.execute(tenant, getTenantDirectory(tenant), startTime);
+            	String sea = statePublicDataExtractor.retrieveSEAId();
+            	LOG.info("isDelta=false ... localEdOrgExtractor.execute()");
+                localEdOrgExtractor.execute(tenant, getTenantDirectory(tenant), startTime, sea);
                 LOG.info("Starting public data extract...");
                 statePublicDataExtractor.execute(tenant, getTenantDirectory(tenant), startTime);
             }

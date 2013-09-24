@@ -20,38 +20,37 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
-import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
+import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.data.mongodb.core.query.Query;
 
 public class StaffExtractor implements EntityExtract {
     private EntityExtractor extractor;
-    private LEAExtractFileMap map;
+    private ExtractFileMap map;
     private Repository<Entity> repo;
-    private LocalEdOrgExtractHelper localEdOrgExtractHelper;
+    private EdOrgExtractHelper edOrgExtractHelper;
     
-    public StaffExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
+    public StaffExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo, EdOrgExtractHelper edOrgExtractHelper) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
-        this.localEdOrgExtractHelper = localEdOrgExtractHelper;
+        this.edOrgExtractHelper = edOrgExtractHelper;
     }
 
     @Override
-    public void extractEntities(EntityToLeaCache staffToEdorgCache) {
-        localEdOrgExtractHelper.logSecurityEvent(map.getLeas(), EntityNames.STAFF, this.getClass().getName());
+    public void extractEntities(EntityToEdOrgCache staffToEdorgCache) {
+        edOrgExtractHelper.logSecurityEvent(map.getEdOrgs(), EntityNames.STAFF, this.getClass().getName());
         Iterator<Entity> staffs = repo.findEach(EntityNames.STAFF, new NeutralQuery());
         while (staffs.hasNext()) {
             Entity staff = staffs.next();
-            Set<String> leas = staffToEdorgCache.getEntriesById(staff.getEntityId());
-            if (leas == null || leas.size() == 0) {
+            Set<String> edOrgs = staffToEdorgCache.getEntriesById(staff.getEntityId());
+            if (edOrgs == null || edOrgs.size() == 0) {
                 continue;
             }
-            for (String lea : leas) {
-                extractor.extractEntity(staff, map.getExtractFileForLea(lea), EntityNames.STAFF);
+            for (String edOrg : edOrgs) {
+                extractor.extractEntity(staff, map.getExtractFileForEdOrg(edOrg), EntityNames.STAFF);
             }
             
         }

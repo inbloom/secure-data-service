@@ -51,7 +51,7 @@ import org.slc.sli.bulk.extract.extractor.EntityExtractor.CollectionWrittenRecor
 import org.slc.sli.bulk.extract.files.EntityWriterManager;
 import org.slc.sli.bulk.extract.files.ExtractFile;
 import org.slc.sli.bulk.extract.message.BEMessageCode;
-import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
+import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.bulk.extract.util.SecurityEventUtil;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
@@ -88,7 +88,7 @@ public class DeltaExtractor implements InitializingBean {
     LocalEdOrgExtractor leaExtractor;
 
     @Autowired
-    LocalEdOrgExtractHelper helper;
+    EdOrgExtractHelper helper;
 
     @Autowired
     EntityExtractor entityExtractor;
@@ -148,7 +148,10 @@ public class DeltaExtractor implements InitializingBean {
         audit(securityEventUtil.createSecurityEvent(this.getClass().getName(), "Delta Extract Initiation",
                 LogLevelType.TYPE_INFO, BEMessageCode.BE_SE_CODE_0019, DATE_TIME_FORMATTER.print(deltaUptoTime)));
 
-        Map<String, Set<String>> appsPerEdOrg = addAppsPerSEA(reverse(filter(helper.getBulkExtractLEAsPerApp())));
+        Map<String, Set<String>> set1 = helper.getBulkExtractEdOrgsPerApp();
+        // Map<String, Set<String>> set2 = filter(set1);
+        Map<String, Set<String>> appsPerEdOrg = reverse(set1);
+       //  Map<String, Set<String>> appsPerEdOrg = addAppsPerSEA(reverse(filter(helper.getBulkExtractEdOrgsPerApp())));
         deltaEntityIterator.init(tenant, deltaUptoTime);
         while (deltaEntityIterator.hasNext()) {
             DeltaRecord delta = deltaEntityIterator.next();
@@ -285,9 +288,9 @@ public class DeltaExtractor implements InitializingBean {
     }
 
     /* filter out all non top level LEAs */
-    private Map<String, Set<String>> filter(Map<String, Set<String>> bulkExtractLEAsPerApp) {
+    private Map<String, Set<String>> filter(Map<String, Set<String>> bulkExtractEdOrgsPerApp) {
         Map<String, Set<String>> result = new HashMap<String, Set<String>>();
-        for (Map.Entry<String, Set<String>> entry : bulkExtractLEAsPerApp.entrySet()) {
+        for (Map.Entry<String, Set<String>> entry : bulkExtractEdOrgsPerApp.entrySet()) {
             String app = entry.getKey();
             Set<String> topLEA = new HashSet<String>();
             for (String edorg : entry.getValue()) {

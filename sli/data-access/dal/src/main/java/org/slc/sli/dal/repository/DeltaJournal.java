@@ -159,6 +159,12 @@ public class DeltaJournal implements InitializingBean {
     }
 
     public void journal(String id, String collection, boolean isDelete) {
+    	// Don't journal certain collections that use the MongoEntity wrapper (id/type/body/metaData)
+    	// but which are not inBloom educational entities and thus never part of the Bulk Extract
+    	// delta
+    	if ( collection.equals("applicationAuthorization") ) {
+    		return;
+    	}
         journal(Arrays.asList(id), collection, isDelete);
     }
 

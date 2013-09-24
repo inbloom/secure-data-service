@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<InterchangeEducationOrgCalendar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrgCalendar.xsd">
+  <Session>
+    <SessionName>2013-2014 Year Round session: IL-DAYBREAK</SessionName>
+    <SchoolYear>2013-2014</SchoolYear>
+    <Term>Year Round</Term>
+    <BeginDate>2013-08-26</BeginDate>
+    <EndDate>2014-05-22</EndDate>
+    <TotalInstructionalDays>180</TotalInstructionalDays>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <GradingPeriod>End of Year</GradingPeriod>
+        <BeginDate>2013-08-26</BeginDate>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+    <CalendarDateReference>
+      <CalendarDateIdentity>
+        <Date>2014-07-09</Date>
+        <EducationOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationOrgReference>
+      </CalendarDateIdentity>
+    </CalendarDateReference>
+  </Session>
+  <GradingPeriod>
+                <GradingPeriod>End of Year</GradingPeriod>
+                <SchoolYear>2012-2013</SchoolYear>
+                <EducationOrganizationReference>
+                        <EducationalOrgIdentity>
+                                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                </EducationOrganizationReference>
+                <BeginDate>2013-08-26</BeginDate>
+                <EndDate>2013-10-03</EndDate>
+                <TotalInstructionalDays>29</TotalInstructionalDays>
+                <CalendarDateReference>
+                        <CalendarDateIdentity>
+                                <Date>2014-07-09</Date>
+                                <EducationOrgReference>
+                                        <EducationalOrgIdentity>
+                                                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                                        </EducationalOrgIdentity>
+                                </EducationOrgReference>
+                        </CalendarDateIdentity>
+                </CalendarDateReference>
+                <CalendarDateReference>
+                        <CalendarDateIdentity>
+                                <Date>2010-08-24</Date>
+                                <EducationOrgReference>
+                                        <EducationalOrgIdentity>
+                                                <StateOrganizationId>IL</StateOrganizationId>
+                                        </EducationalOrgIdentity>
+                                </EducationOrgReference>
+                        </CalendarDateIdentity>
+                </CalendarDateReference>
+                <CalendarDateReference>
+                        <CalendarDateIdentity>
+                                <Date>2010-08-25</Date>
+                                <EducationOrgReference>
+                                        <EducationalOrgIdentity>
+                                                <StateOrganizationId>IL</StateOrganizationId>
+                                        </EducationalOrgIdentity>
+                                </EducationOrgReference>
+                        </CalendarDateIdentity>
+                </CalendarDateReference>
+                <CalendarDateReference>
+                        <CalendarDateIdentity>
+                                <Date>2010-08-26</Date>
+                                <EducationOrgReference>
+                                        <EducationalOrgIdentity>
+                                                <StateOrganizationId>IL</StateOrganizationId>
+                                        </EducationalOrgIdentity>
+                                </EducationOrgReference>
+                        </CalendarDateIdentity>
+                </CalendarDateReference>
+       </GradingPeriod>
+    <CalendarDate>
+        <Date>2014-07-09</Date>
+        <CalendarEvent>Instructional day</CalendarEvent>
+        <EducationOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrgReference>
+    </CalendarDate>
+</InterchangeEducationOrgCalendar>
+  
