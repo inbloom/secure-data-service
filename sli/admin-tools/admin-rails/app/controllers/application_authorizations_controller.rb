@@ -20,10 +20,8 @@ limitations under the License.
 class ApplicationAuthorizationsController < ApplicationController
   before_filter :check_rights
 
-  # Let us add some docs to this confusing controller.
-  # NOTE this controller allows ed org super admins to 
-  # enable/disable apps for their LEA.
-  # SEA admin authorization not implemented yet.
+  # NOTE this controller allows ed org super admins to enable/disable apps for their LEA(s)
+  # It allows LEA(s) to see (but not change) their app authorizations
   def check_rights
     unless is_lea_admin? or is_sea_admin?
       logger.warn {'User is not lea or sea admin and cannot access application authorizations'}
@@ -51,6 +49,14 @@ class ApplicationAuthorizationsController < ApplicationController
           else
             @edorg_apps[edOrg][appId] = true
           end
+        end
+      end
+      # Some apps such as dashboard and databrowser may have allowed_for_all_edorgs set
+      if app.allowed_for_all_edorgs
+        if ! @edorg_apps.has_key?(session[:edOrgId])
+          @edorg_apps[session[:edOrgId]] = { appId => true }
+        else
+          @edorg_apps[session[:edOrgId]][appId] = true
         end
       end
     end
@@ -143,7 +149,8 @@ class ApplicationAuthorizationsController < ApplicationController
   def load_apps()
     # Slurp all apps into @apps_map = a map of appId -> info
     @apps_map = {}
-    App.all.each { |app| @apps_map[app.id] = app }
+    allApps = App.findAllInChunks({})
+    allApps.each { |app| @apps_map[app.id] = app }
   end
 
 end

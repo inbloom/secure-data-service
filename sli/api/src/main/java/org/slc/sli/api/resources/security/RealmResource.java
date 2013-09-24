@@ -282,27 +282,6 @@ public class RealmResource {
             res.put(RESPONSE, "Cannot have duplicate display names");
             return Response.status(Status.BAD_REQUEST).entity(res).build();
         }
-        
-        // Check for uniqueness of idp id
-        final NeutralQuery idpIdQuery = new NeutralQuery();
-        idpIdQuery.addCriteria(new NeutralCriteria(IDP_ID, "=", idpId));
-        if (realmId != null) {
-            idpIdQuery.addCriteria(new NeutralCriteria("_id", "!=", idConverter.toDatabaseId(realmId)));
-        }
-        entity = SecurityUtil.runWithAllTenants(new SecurityTask<Entity>() {
-
-            @Override
-            public Entity execute() {
-                return repo.findOne(REALM, idpIdQuery);
-            }
-        });
-
-        if (entity != null) {
-            debug("idp info: {}", getIdpId(entity.getBody()));
-            Map<String, String> res = new HashMap<String, String>();
-            res.put(RESPONSE, "Cannot have duplicate idp ids");
-            return Response.status(Status.BAD_REQUEST).entity(res).build();
-        }
 
         return null;
     }

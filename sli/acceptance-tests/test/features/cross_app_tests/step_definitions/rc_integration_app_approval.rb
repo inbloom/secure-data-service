@@ -20,7 +20,7 @@ limitations under the License.
 Dir["./test/features/liferay/step_definitions/*.rb"].each {|file| require file}
 
 #admin tools
-Dir["./test/features/admintools/step_definitions/*.rb"].each {|file| require file}
+Dir["./test/features/admintools/step_definitions/*.rb"].each {|file| require file if(!file.include?("multiple_realms_steps.rb"))}
 
 #databrowser
 Dir["./test/features/databrowser/step_definitions/*.rb"].each {|file| require file}
@@ -155,4 +155,38 @@ Then /I get the id for the edorg "(.*?)"$/ do |arg1|
   else
     @lea = json['id']
   end
+end
+
+Then /^there are "(.*?)" edOrgs for the "(.*?)" application in the production applicationAuthorization collection$/ do |expected_count, application|
+   db = @conn.db("sli")
+   coll = db.collection("application")
+   record = coll.find_one("body.name" => application)
+   puts record.to_s
+   appId = record["_id"]
+   puts appId.to_s
+   db = @conn[convertTenantIdToDbName(PropLoader.getProps['tenant'])]
+   coll = db.collection("applicationAuthorization")
+   record = coll.find_one("body.applicationId" => appId.to_s)
+   puts record.to_s
+   body = record["body"]
+   puts body.to_s
+   edorgsArray = body["edorgs"]
+   puts edorgsArray.to_s
+   edorgsArrayCount = edorgsArray.count
+   puts edorgsArrayCount
+   assert(edorgsArrayCount == expected_count.to_i, "Education organization count mismatch in applicationAuthorization collection. Expected #{expected_count}, actual #{edorgsArrayCount}")
+end
+
+Then /^"(.*?)" is enabled for "(.*?)" production education organizations$/ do |app, edOrgCount|
+     db = @conn.db("sli")
+     coll = db.collection("application")
+     record = coll.find_one("body.name" => app)
+     puts record.to_s
+     body = record["body"]
+     puts body.to_s
+     edorgsArray = body["authorized_ed_orgs"]
+     puts edorgsArray.to_s
+     edorgsArrayCount = edorgsArray.count
+     puts edorgsArrayCount
+     assert(edorgsArrayCount == edOrgCount.to_i, "Education organization count mismatch in application collection. Expected #{edOrgCount}, actual #{edorgsArrayCount}")
 end
