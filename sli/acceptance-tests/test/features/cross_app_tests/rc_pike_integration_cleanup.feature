@@ -17,11 +17,11 @@ Scenario: App developer deletes installed app
   And under System Tools, I click on "Register Application"
   And I switch to the iframe
   Then I am redirected to the Application Registration Tool page
-  Then I have clicked on the button 'Delete' for the application named "BulkExtractApp"
+  Then I have clicked on the button 'Delete' for the application named "BulkExtractApp2"
   And I got warning message saying 'You are trying to remove this application from inBloom. By doing so, you will prevent any active user to access it. Do you want to continue?'
   When I click 'Yes'
   And I switch to the iframe
-  Then the application named "BulkExtractApp" is removed from the SLI
+  Then the application named "BulkExtractApp2" is removed from the SLI
 
 @wip
 Scenario:  LEA deletes realm

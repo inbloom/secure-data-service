@@ -140,9 +140,9 @@ And in Status it says "Not Approved"
 And I click on the "Approve" button next to it
 And I am asked 'Do you really want this application to access the district's data'
 When I click on Ok
-Then the application is authorized to use data of "Daybreak School District 4529"
 And the app "inBloom Dashboards" Status becomes "Approved"
 And it is colored "green"
+And there are "10" edOrgs for the "inBloom Dashboards" application in the production applicationAuthorization collection
 And the Approve button next to it is disabled
 And the Deny button next to it is enabled
 #Authorize the Databrowser
@@ -153,9 +153,9 @@ And I am asked 'Do you really want this application to access the district's dat
 When I click on Ok
 # switch back to iframe because of the page reload
 And I switch to the iframe
-Then the application is authorized to use data of "Daybreak School District 4529"
 And the app "inBloom Data Browser" Status becomes "Approved"
 And it is colored "green"
+And there are "10" edOrgs for the "inBloom Data Browser" application in the production applicationAuthorization collection
 And the Approve button next to it is disabled
 And the Deny button next to it is enabled
 #Authorize the New Installed App
@@ -166,9 +166,9 @@ And I am asked 'Do you really want this application to access the district's dat
 When I click on Ok
 # switch back to iframe because of the page reload
 And I switch to the iframe
-Then the application is authorized to use data of "Daybreak School District 4529"
 And the app "Bulk Extract 2 End" Status becomes "Approved"
 And it is colored "green"
+And there are "5" edOrgs for the "Bulk Extract 2 End" application in the production applicationAuthorization collection
 And the Approve button next to it is disabled
 And the Deny button next to it is enabled
 
@@ -248,7 +248,7 @@ Scenario: App developer creates new Bulk Extract App
     Then I am redirected to the Application Registration Tool page
     And I have clicked to the button New
     And I am redirected to a new application page
-    When I entered the name "BulkExtractApp" into the field titled "Name"
+    When I entered the name "BulkExtractApp2" into the field titled "Name"
     And I entered the name "Best.  Description.  Ever." into the field titled "Description"
     And I entered the name "0.0" into the field titled "Version"
     And I make my app an installed app
@@ -256,7 +256,7 @@ Scenario: App developer creates new Bulk Extract App
     And I click on the button Submit
     And I switch to the iframe
     Then I am redirected to the Application Registration Tool page
-    And the application "BulkExtractApp" is listed in the table on the top
+    And the application "BulkExtractApp2" is listed in the table on the top
     And the client ID and shared secret fields are present
     And I exit out of the iframe
     And I click on log out
@@ -273,17 +273,63 @@ Scenario: App developer enables Bulk Extract App
     And under System Tools, I click on "Register Application"
     And I switch to the iframe
     Then I am redirected to the Application Registration Tool page
-    And I see an application "BulkExtractApp" in the table
+    And I see an application "BulkExtractApp2" in the table
     And the client ID and shared secret fields are present
-    And I clicked on the button Edit for the application "BulkExtractApp"
+    And I clicked on the button Edit for the application "BulkExtractApp2"
     Then I can see the on-boarded states
     When I select the state "Education Agency for RC Tests"
-    Then I see all of the Districts
-    Then I check the Districts
     When I click on Save
-    Then the "BulkExtractApp" is enabled for Districts
     And I exit out of the iframe
     And I click on log out
+    And "BulkExtractApp2" is enabled for "5" production education organizations
+
+Scenario: App developer creates new non Bulk Extract App
+    When I navigate to the Portal home page
+    When I see the realm selector I authenticate to the developer realm
+    And I was redirected to the "Simple" IDP Login page
+    When I submit the credentials "<DEVELOPER_EMAIL>" "<DEVELOPER_EMAIL_PASS>" for the "Simple" login page
+    Then I should be on Portal home page
+    Then I should see Admin link
+    And I click on Admin
+    Then I should be on the admin page
+    And under System Tools, I click on "Register Application"
+    And I switch to the iframe
+    Then I am redirected to the Application Registration Tool page
+    And I have clicked to the button New
+    And I am redirected to a new application page
+    When I entered the name "NotABulkExtractApp" into the field titled "Name"
+    And I entered the name "Best.  Description.  Ever." into the field titled "Description"
+    And I entered the name "0.0" into the field titled "Version"
+    And I make my app an installed app
+    And I click on the button Submit
+    And I switch to the iframe
+    Then I am redirected to the Application Registration Tool page
+    And the application "NotABulkExtractApp" is listed in the table on the top
+    And the client ID and shared secret fields are present
+    And I exit out of the iframe
+    And I click on log out
+
+Scenario: App developer enables non Bulk Extract App
+    When I navigate to the Portal home page
+    When I see the realm selector I authenticate to the developer realm
+    And I was redirected to the "Simple" IDP Login page
+    When I submit the credentials "<DEVELOPER_EMAIL>" "<DEVELOPER_EMAIL_PASS>" for the "Simple" login page
+    Then I should be on Portal home page
+    Then I should see Admin link
+    And I click on Admin
+    Then I should be on the admin page
+    And under System Tools, I click on "Register Application"
+    And I switch to the iframe
+    Then I am redirected to the Application Registration Tool page
+    And I see an application "Not a bulk extract app" in the table
+    And the client ID and shared secret fields are present
+    And I clicked on the button Edit for the application "NotABulkExtractApp"
+    Then I can see the on-boarded states
+    When I select the state "Education Agency for RC Tests"
+    When I click on Save
+    And I exit out of the iframe
+    And I click on log out
+    And "NotABulkExtractApp" is enabled for "10" production education organizations
 
 @wip @ThisStepIsNotYetNeededSinceAutoApproveAppsIsStillTrueInRC
 Scenario: SLC Operator Approves Application Registration
@@ -301,11 +347,48 @@ Scenario: SLC Operator Approves Application Registration
     #And I see all the applications registered on SLI
     And I see all the applications pending registration
     And the pending apps are on top
-    When I click on 'Approve' next to application "BulkExtractApp"
+    When I click on 'Approve' next to application "BulkExtractApp2"
     Then application "BulkExtractApp" is registered
-    And the 'Approve' button is disabled for application "BulkExtractApp"
+    And the 'Approve' button is disabled for application "BulkExtractApp2"
     And I exit out of the iframe
     And I click on log out
+
+Scenario:  SEA approves freshly registered Applications
+When I navigate to the Portal home page
+When I see the realm selector I authenticate to "inBloom"
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "<PRIMARY_EMAIL>" "<PRIMARY_EMAIL_PASS>" for the "Simple" login page
+Then I should be on Portal home page
+Then I should see Admin link
+And I click on Admin
+Then I should be on the admin page
+And under System Tools, I click on "Authorize Applications"
+And I switch to the iframe
+Then I am redirected to the Admin Application Authorization Tool
+#Authorize the Dashboard
+And I see an application "NotABulkExtractApp" in the table
+And in Status it says "Not Approved"
+And I click on the "Approve" button next to it
+And I am asked 'Do you really want this application to access the district's data'
+When I click on Ok
+And the app "NotABulkExtractApp" Status becomes "Approved"
+And it is colored "green"
+And there are "10" edOrgs for the "NotABulkExtractApp" application in the production applicationAuthorization collection
+And the Approve button next to it is disabled
+And the Deny button next to it is enabled
+#Authorize the Databrowser
+And I see an application "BulkExtractApp2" in the table
+And in Status it says "Not Approved"
+And I click on the "Approve" button next to it
+And I am asked 'Do you really want this application to access the district's data'
+When I click on Ok
+# switch back to iframe because of the page reload
+And I switch to the iframe
+And the app "BulkExtractApp2" Status becomes "Approved"
+And it is colored "green"
+And there are "5" edOrgs for the "BulkExtractApp2" application in the production applicationAuthorization collection
+And the Approve button next to it is disabled
+And the Deny button next to it is enabled
 
 Scenario: Operator triggers a bulk extract
 Given the production extraction zone is empty
