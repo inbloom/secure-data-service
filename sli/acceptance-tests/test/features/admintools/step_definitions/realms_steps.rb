@@ -21,6 +21,14 @@ require "selenium-webdriver"
 
 require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
+require_relative '../../apiV1/integration/step_definitions/app_oauth.rb'
+
+After("@RALLY_US5897") do |scenario|
+  if(scenario.failed?)
+    STDOUT.puts "IL-SUNSET IDP redirectEndpoint has been changed."
+  end
+end
+
 
 When /^I navigate to the Realm page URL$/ do
   @url = PropLoader.getProps['api_server_url']+"/api/oauth/authorize?response_type=code&client_id=Eg6eseKRzN&redirect_uri=http://local.slidev.org:3001/callback"
@@ -36,11 +44,6 @@ Given /^I see the Realm page$/ do
   url = PropLoader.getProps['api_server_url']+"/disco/realms/list.do"
   @driver.get url
   assert(@driver.current_url == url, webdriverDebugMessage(@driver,"Failed to navigate to "+url))
-end
-
-When /^I choose realm "([^"]*)" in the drop\-down list$/ do |arg1|
-  select = Selenium::WebDriver::Support::Select.new(@driver.find_element(:tag_name, "select"))
-  select.select_by(:text, arg1)
 end
 
 When /^I click on the page Go button$/ do

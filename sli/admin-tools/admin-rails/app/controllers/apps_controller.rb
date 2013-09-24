@@ -248,7 +248,7 @@ class AppsController < ApplicationController
     @results = []
 
     state_ed_orgs.each do |ed_org|
-      is_enabled = @app.authorized_ed_orgs.include?ed_org.id
+      is_enabled = @app.authorized_ed_orgs.include?ed_org.id || @app.allowed_for_all_edorgs
       current = {"name" => ed_org.nameOfInstitution, "sea_id" => ed_org.id, "is_enabled" => is_enabled }
       @results.push current
     end
