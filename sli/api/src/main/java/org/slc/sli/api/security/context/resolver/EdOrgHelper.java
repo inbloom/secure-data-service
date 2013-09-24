@@ -562,7 +562,14 @@ public class EdOrgHelper {
     public Set<String> getDirectEdorgs(Entity principal) {
         return getEdOrgs(principal, true);
     }
-
+    
+    public List<String> getUserEdorgs(Entity principal) {
+        Set<String> directEdOrgs = getDirectEdorgs(principal);
+        List<String> userEdOrgs = new ArrayList<String>(getChildEdOrgs(directEdOrgs));
+        userEdOrgs.addAll(directEdOrgs);
+        return userEdOrgs;
+    }
+ 
     /**
      * Get directly associated education organizations for the specified principal, not filtered by
      * data ownership.

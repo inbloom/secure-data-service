@@ -53,6 +53,14 @@ class ApplicationAuthorizationsController < ApplicationController
           end
         end
       end
+      # Some apps such as dashboard and databrowser may have allowed_for_all_edorgs set
+      if app.allowed_for_all_edorgs
+        if ! @edorg_apps.has_key?(session[:edOrgId])
+          @edorg_apps[session[:edOrgId]] = { appId => true }
+        else
+          @edorg_apps[session[:edOrgId]][appId] = true
+        end
+      end
     end
     
     # We used to support a mode where the SEA saw edOrgs for which is
@@ -102,10 +110,10 @@ class ApplicationAuthorizationsController < ApplicationController
 
     # Get all descendants of edorg and grant or revoke all of them for this app
     if isBulkExtract
-      all_edorgs = EducationOrganization.get_edorg_descendants(edorg)
-    else
       all_edorgs = EducationOrganization.get_edorg_children(edorg).map { |edOrg| edOrg.id }
       all_edorgs.push(edorg)
+    else
+      all_edorgs = EducationOrganization.get_edorg_descendants(edorg)
     end
 
     # Action is approve/deny based on waht button was used
