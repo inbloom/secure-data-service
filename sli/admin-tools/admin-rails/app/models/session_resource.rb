@@ -58,6 +58,24 @@ class SessionResource < ActiveResource::Base
 
   end
 
+   # Util method to get an unlimited number of records in chunks since the API limits responses to 1000
+   def self.findAllInChunks(parameters)
+     results = []
+     offset = 0
+
+     # API hard limit is 1000
+     parameters["limit"] = 1000
+
+     begin
+         parameters["offset"] = offset
+         chunk = find(:all, :params => parameters)
+         countInChunk = chunk.count
+         offset += countInChunk
+         results.concat(chunk)
+     end until countInChunk == 0
+     return results
+   end
+  
   def to_json(options={})
     self.attributes.to_json(options)
   end

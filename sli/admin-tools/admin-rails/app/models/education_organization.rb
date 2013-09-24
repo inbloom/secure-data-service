@@ -33,37 +33,25 @@ class EducationOrganization < SessionResource
      return children
    end
 
-   # Util method to get an unlimited number of records in chunks since the API limits responses to 1000
-   # TODO - this should be moved to a helper class
-   def self.findAllInChunks(parameters)
-     results = []
-     offset = 0
-
-     # API hard limit is 1000
-     parameters["limit"] = 1000
-
-     begin
-         parameters["offset"] = offset
-         chunk = find(:all, :params => parameters)
-         countInChunk = chunk.count
-         offset += countInChunk
-         results.concat(chunk)
-     end until countInChunk == 0
-     return results
-   end
-  
   # Return list containing the given edOrg ID and the IDs of all its descendant edOrgs
-  def self.get_edorg_descendants(edOrg)
-    result = {}
-    result[edOrg] = true
-    children = get_edorg_children(edOrg).map { |edOrg| edOrg.id }
-    children.each do |child|
-      desc = get_edorg_descendants(child)
-      desc.each do |eo|
-        result[eo] = true
-      end
-    end
-    return result.keys
-  end
+ def self.get_edorg_descendants(edOrg, seen = {})
+
+   # Stop recursion if cycle found
+   if seen.has_key?(edOrg)
+     return []
+   end
+   seen[edOrg] = true
+
+   result = {}
+   result[edOrg] = true
+   children = get_edorg_children(edOrg).map { |edOrg| edOrg.id }
+   children.each do |child|
+     desc = get_edorg_descendants(child, seen)
+     desc.each do |eo|
+       result[eo] = true
+     end
+   end
+   return result.keys
+ end
 
 end

@@ -106,6 +106,15 @@ task :adminSmokeTests do
   runTests("test/features/admintools/admin_smoke.feature")
 end
 
+desc "Run multi realms with same idp test"
+task :adminMultiRealmSameIdpTests do
+  Rake::Task["realmInit"].execute
+  Rake::Task["importSandboxData"].execute
+  allLeaAllowApp("Mobile App")
+  authorizeEdorg("Mobile App")
+  runTests("test/features/admintools/multi_realms_with_same_idp.feature")
+end
+
 ############################################################
 # API Selenium tests end
 ############################################################

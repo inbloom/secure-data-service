@@ -38,11 +38,6 @@ Given /^I see the Realm page$/ do
   assert(@driver.current_url == url, webdriverDebugMessage(@driver,"Failed to navigate to "+url))
 end
 
-When /^I choose realm "([^"]*)" in the drop\-down list$/ do |arg1|
-  select = Selenium::WebDriver::Support::Select.new(@driver.find_element(:tag_name, "select"))
-  select.select_by(:text, arg1)
-end
-
 When /^I click on the page Go button$/ do
   wait = Selenium::WebDriver::Wait.new(:timeout => 1)
   begin
