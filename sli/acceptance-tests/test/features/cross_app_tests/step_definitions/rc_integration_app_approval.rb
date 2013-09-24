@@ -164,7 +164,7 @@ Then /^there are "(.*?)" edOrgs for the "(.*?)" application in the production ap
    puts record.to_s
    appId = record["_id"]
    puts appId.to_s
-   db = @conn[convertTenantIdToDbName(@tenant_db_name)]
+   db = @conn[convertTenantIdToDbName(PropLoader.getProps['tenant'])]
    coll = db.collection("applicationAuthorization")
    record = coll.find_one("body.applicationId" => appId.to_s)
    puts record.to_s
