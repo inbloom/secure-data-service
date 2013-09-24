@@ -140,9 +140,9 @@ And in Status it says "Not Approved"
 And I click on the "Approve" button next to it
 And I am asked 'Do you really want this application to access the district's data'
 When I click on Ok
-Then the application is authorized to use data of "Daybreak School District 4529"
 And the app "inBloom Dashboards" Status becomes "Approved"
 And it is colored "green"
+And there are "10" edOrgs for the "inBloom Dashboards" application in the production applicationAuthorization collection
 And the Approve button next to it is disabled
 And the Deny button next to it is enabled
 #Authorize the Databrowser
@@ -153,9 +153,9 @@ And I am asked 'Do you really want this application to access the district's dat
 When I click on Ok
 # switch back to iframe because of the page reload
 And I switch to the iframe
-Then the application is authorized to use data of "Daybreak School District 4529"
 And the app "inBloom Data Browser" Status becomes "Approved"
 And it is colored "green"
+And there are "10" edOrgs for the "inBloom Data Browser" application in the production applicationAuthorization collection
 And the Approve button next to it is disabled
 And the Deny button next to it is enabled
 #Authorize the New Installed App
@@ -166,9 +166,9 @@ And I am asked 'Do you really want this application to access the district's dat
 When I click on Ok
 # switch back to iframe because of the page reload
 And I switch to the iframe
-Then the application is authorized to use data of "Daybreak School District 4529"
 And the app "Bulk Extract 2 End" Status becomes "Approved"
 And it is colored "green"
+And there are "5" edOrgs for the "Bulk Extract 2 End" application in the production applicationAuthorization collection
 And the Approve button next to it is disabled
 And the Deny button next to it is enabled
 
@@ -279,8 +279,7 @@ Scenario: App developer enables Bulk Extract App
     Then I can see the on-boarded states
     When I select the state "Education Agency for RC Tests"
     When I click on Save
-    Then the "BulkExtractApp" is enabled for Districts
-    #Then "BulkExtractApp" is enabled for "2" education organizations
+    Then "BulkExtractApp" is enabled for "5" education organizations
     And I exit out of the iframe
     And I click on log out
 
