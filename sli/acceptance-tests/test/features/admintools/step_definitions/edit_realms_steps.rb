@@ -38,6 +38,21 @@ Then /^I should enter "(.*?)" into IDP URL$/ do |url|
   @driver.find_element(:name, 'realm[idp][id]').send_keys url
 end
 
+Then /^I copy the idp information$/ do
+  $redirectEndpointElem =  @driver.find_element(:name, 'realm[idp][redirectEndpoint]').attribute('VALUE')
+  $idpIdElem =  @driver.find_element(:name, 'realm[idp][id]').attribute('VALUE')
+end
+
+Then /^I should update the idp to captured information$/ do
+
+  @driver.find_element(:name, 'realm[idp][id]').clear
+  @driver.find_element(:name, 'realm[idp][id]').send_keys $idpIdElem
+
+  @driver.find_element(:name, 'realm[idp][redirectEndpoint]').clear
+  @driver.find_element(:name, 'realm[idp][redirectEndpoint]').send_keys $redirectEndpointElem
+end
+
+
 Then /^I should enter "(.*?)" into Redirect Endpoint$/ do |url|
   @driver.find_element(:name, 'realm[idp][redirectEndpoint]').clear
   @driver.find_element(:name, 'realm[idp][redirectEndpoint]').send_keys url

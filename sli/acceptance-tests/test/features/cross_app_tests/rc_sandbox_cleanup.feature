@@ -29,7 +29,6 @@ Scenario: App developer deletes installed app
   And I switch to the iframe
   Then the application named "Schlemiel" is removed from the SLI
 
-@wip
 Scenario: slcoperator deletes SB Dev1 and Dev2
     When I navigate to the Portal home page
     And I was redirected to the "Simple" IDP Login page
