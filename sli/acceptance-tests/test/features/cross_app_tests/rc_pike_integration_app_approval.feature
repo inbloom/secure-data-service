@@ -5,7 +5,6 @@ Feature:  RC Integration Tests
 Background:
 Given I have an open web browser
 
-@wip
 Scenario: Charter School Realm Admin Logins to create realm
     When I navigate to the Portal home page
     When I see the realm selector I authenticate to "inBloom"
@@ -31,7 +30,7 @@ Scenario: Charter School Realm Admin Logins to create realm
     And I exit out of the iframe
     And I click on log out
 
-@wip
+
 Scenario: Charter School User cannot access Bootstrapped Apps before approval
     When I navigate to the Portal home page
     When I selected the realm "Charter School Test Realm"
@@ -44,7 +43,7 @@ Scenario: Charter School User cannot access Bootstrapped Apps before approval
     And I should not see "inBloom Data Browser"
     And I click on log out
 
-@wip
+
 Scenario:  Charter School LEA gives IT Admins bulk extract permissions
     When I navigate to the Portal home page
     When I see the realm selector I authenticate to "inBloom"
@@ -186,7 +185,6 @@ Scenario: SEA admin makes an api call to PATCH the SEA
   When I PATCH the name for the current edorg entity to Education Agency for RC Tests
   Then I should receive a return code of 204
 
-@wip
 Scenario: Charter School Sessions are shared between Dashboard and Databrowser apps
 When I navigate to the Portal home page
 When I select "Charter School Test Realm" and click go
@@ -203,7 +201,7 @@ And I should forced to reauthenticate to gain access
 When I navigate to the dashboard home page
 Then I should forced to reauthenticate to gain access
 
-@wip
+
 Scenario: Charter School User sees non-installed Developer App
 When I navigate to the Portal home page
 When I selected the realm "Charter School Test Realm"
@@ -459,9 +457,9 @@ Scenario: Charter School - App makes an api call to retrieve an lea level bulk e
    #Get a session to trigger a bulk extract
    Given the pre-existing bulk extrac testing app key has been created
    When I navigate to the API authorization endpoint with my client ID
-   When I select "Charter School Test Realm" and click go
+   When I select "Daybreak Test Realm" and click go
    And I was redirected to the "Simple" IDP Login page
-   When I submit the credentials "charteradmin" "charteradmin1234" for the "Simple" login page
+   When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
    Then I should receive a json response containing my authorization code
    When I navigate to the API token endpoint with my client ID, secret, authorization code, and redirect URI
    Then I should receive a json response containing my authorization token
