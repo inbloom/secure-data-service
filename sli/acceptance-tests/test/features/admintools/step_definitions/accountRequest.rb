@@ -43,9 +43,9 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   url = @validationLink                                         if human_readable_id == "VALID VERIFICATION LINK"
   url = @validationLink                                         if human_readable_id == "ALREADY VERIFIED LINK"
   url = @baseUrl + @validationBaseSuffix + "/invalid123"        if human_readable_id == "INVALID VERIFICATION LINK"
-  url = "lalsop_#{Socket.gethostname}@acme.com"                 if human_readable_id == "USER_ACCOUNT"
-  url = "lalsop_#{Socket.gethostname}@acme.com"                 if human_readable_id == "USER_ACCOUNT_EMAIL"
-  url = "devldapuser_#{Socket.gethostname}@slidev.org"           if human_readable_id == "USER_ID"
+  url = "lalsop_#{get_mac_address('_')}@acme.com"                 if human_readable_id == "USER_ACCOUNT"
+  url = "lalsop_#{get_mac_address('_')}@acme.com"                 if human_readable_id == "USER_ACCOUNT_EMAIL"
+  url = "devldapuser_#{get_mac_address('_')}@slidev.org"           if human_readable_id == "USER_ID"
   url = "test1234"                                               if human_readable_id == "USER_PASS"
   #return the translated value
   url

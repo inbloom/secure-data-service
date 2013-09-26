@@ -49,8 +49,8 @@ Given /^I have a valid account as a LEA Administrator$/ do
 end 
 
 Given /^There is a user with "(.*?)", "(.*?)", "(.*?)", and "(.*?)" in "(.*?)" "(.*?)" LDAP Server$/ do |full_name, role, addition_roles, email, tenant, edorg|
-  new_user=create_new_user(full_name.gsub("hostname", Socket.gethostname), role, addition_roles)
-  new_user['email']=email.gsub("hostname", Socket.gethostname)
+  new_user=create_new_user(full_name.gsub("hostname", get_mac_address('_')), role, addition_roles)
+  new_user['email']=email.gsub("hostname", get_mac_address('_'))
   new_user['uid']=new_user['email']
   new_user['tenant']=tenant
   new_user['edorg']=edorg
@@ -72,7 +72,7 @@ end
 Given /^there is a production "(.*?)" with tenancy "(.*?)" and in "(.*?)"$/ do |role, tenant, edorg|
   @sandboxMode=false
   ApprovalEngine.init(@ldap, nil, false)
-  @email = "#{Socket.gethostname}_prodtestuser2@testwgen.net"
+  @email = "#{get_mac_address('_')}_prodtestuser2@testwgen.net"
 
   if ApprovalEngine.user_exists?(@email)
      ApprovalEngine.remove_user(@email)
@@ -81,7 +81,7 @@ Given /^there is a production "(.*?)" with tenancy "(.*?)" and in "(.*?)"$/ do |
 
   @user_info = {
        :first => "SAMT",
-       :last => "Test_#{Socket.gethostname}",
+       :last => "Test_#{get_mac_address('_')}",
        :email => @email,
        :emailAddress => @email,
        :password => "test1234",
@@ -136,8 +136,8 @@ Given /^the prod testing user does not already exists in LDAP$/ do
     idpRealmLogin("operator", nil)
     sessionId = @sessionId
     format = "application/json"
-    restHttpDelete("/users/"+Socket.gethostname+"_prodtestuser@testwgen.net", format, sessionId)
-    restHttpDelete("/users/"+Socket.gethostname+"_prodtestuser2@testwgen.net", format, sessionId)
+    restHttpDelete("/users/"+get_mac_address('_')+"_prodtestuser@testwgen.net", format, sessionId)
+    restHttpDelete("/users/"+get_mac_address('_')+"_prodtestuser2@testwgen.net", format, sessionId)
 end
 
 
