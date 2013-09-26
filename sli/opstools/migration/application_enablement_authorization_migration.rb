@@ -90,7 +90,7 @@ def application_authorization_migration(dbname, tenant2sea, app2bulkExtract)
       new_edorgs[sea] = true
       @edorgs.find({"body.parentEducationAgencyReference" => sea}).each do |child|
         child_id = child["_id"]
-        new_edorgs[child] = true
+        new_edorgs[child_id] = true
       end
       body["edorgs"] = new_edorgs.keys
       @appAuths.update({"_id" => appAuth["_id"]},{"$set" => {"body" => body}})
