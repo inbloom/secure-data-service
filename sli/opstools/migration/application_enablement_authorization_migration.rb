@@ -67,11 +67,31 @@ end
 #
 # Update <tenant>.applicationAuthorization
 #
-def application_authorization_migration(dbname, tenant2sea, app2bulkExtract)
+def application_authorization_migration(dbname, tenant2sea, tenantAppAuth, app2bulkExtract)
   @db = @conn[dbname]
   @appAuths = @db['applicationAuthorization']
   @edorgs = @db["educationOrganization"]
   
+  # Weed out redundant documents 
+  tenantAppAuth[dbname].each do |appId, appInfo|
+    if appInfo["docs"].length > 1
+      puts "Removing redundant applicationAuthorization docs for app '" + appId + "'"
+      first = true
+
+      appInfo["docs"].each do |docId|
+        # Skip first doc ID, we'll update that one based on the edOrgs in all the app's docs
+        if first
+          puts "   ... retaining _id='" + docId + "'"
+          first = false
+          next
+        end
+        puts "   ... removing redundant doc _id='" + docId + "'"
+        @appAuths.remove({"_id" => docId})
+      end
+    end
+  end
+
+  # For docs that remain, update based total edorgs for the app
   @appAuths.find({}).each do |appAuth|
     body = appAuth["body"]
     appId = body["applicationId"]
@@ -79,8 +99,7 @@ def application_authorization_migration(dbname, tenant2sea, app2bulkExtract)
 
     # Make sure have "edorgs" field, that it is non-null (i.e., an array) and nonempty array
     next if !body.has_key?("edorgs")
-    edorgs = body["edorgs"]
-    next if edorgs.nil? or edorgs.empty?
+    next if tenantAppAuth[dbname][appId]["totEdOrg"] == 0
     
     if isBulkExtract
       puts "Migrating applicationAuthorization for bulk extract application " + appAuth["_id"]
@@ -145,6 +164,7 @@ def main(argv)
   edOrg2tenant = {}
   tenant2sea = {}
   errorsExist = false
+  tenantAppAuth = {}
   @conn['sli']['tenant'].find({}).each do |tenant|
     name = tenant['body']['tenantId']
     db = tenant['body']['dbName']
@@ -152,6 +172,7 @@ def main(argv)
     puts "Checking data in tenant '" + name + "'"
 
     tenant2db[name] = db
+    tenantAppAuth[db] = {}
 
     # Get tenant2sea and edOrg2tenant, checking exactly one SEA per tenant
     @conn[db]['educationOrganization'].find({}).each do |edorg|
@@ -178,6 +199,7 @@ def main(argv)
 
     # Check applicationAuthorization has all "good" apps
     @conn[db]["applicationAuthorization"].find({}).each do |appAuth|
+      # Get the app ID
       body = appAuth["body"]
       if ! body.has_key?("applicationId")
         # Unlikely
@@ -186,6 +208,24 @@ def main(argv)
         next
       else
         appId = body["applicationId"]
+      end
+
+      # Aggregate applicationAuthorization docs up to the distinct application level
+      # Get (docId, edorgCount) pair
+      docId = appAuth["_id"]
+      if body.has_key?("edorgs") and !body["edorgs"].nil?
+        edOrgCount = body["edorgs"].length
+      else
+        edOrgCount = 0
+      end
+
+      if tenantAppAuth[db].has_key?(appId)
+        tenantAppAuth[db][appId]["docs"].push(docId)
+        tenantAppAuth[db][appId]["totEdOrg"] += edOrgCount
+      else
+        tenantAppAuth[db][appId] = {}
+        tenantAppAuth[db][appId]["docs"] = [ docId ]
+        tenantAppAuth[db][appId]["totEdOrg"] = edOrgCount
       end
 
       if !app2bulkExtract.has_key?(appId)
@@ -220,7 +260,7 @@ def main(argv)
   for tenant in tenant2db.keys
     dbname = tenant2db[tenant]
     puts "Migrating application authorization data for tenant: " + tenant + ", database " + dbname
-    application_authorization_migration(dbname, tenant2sea,app2bulkExtract)
+    application_authorization_migration(dbname, tenant2sea, tenantAppAuth, app2bulkExtract)
   end
 
 
