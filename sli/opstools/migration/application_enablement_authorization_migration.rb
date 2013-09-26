@@ -145,9 +145,12 @@ def main(argv)
   tenant2db = {}
   edOrg2tenant = {}
   tenant2sea = {}
+  errorsExist = false
   @conn['sli']['tenant'].find({}).each do |tenant|
     name = tenant['body']['tenantId']
     db = tenant['body']['dbName']
+
+    puts "Checking data in tenant '" + name + "'"
 
     tenant2db[name] = db
 
@@ -161,7 +164,8 @@ def main(argv)
           tenant2sea[db] = edorgId
         else
           puts "Migration Script exit - More than one SEA in tenant " +  name
-          return
+          errorsExist = true
+          next
         end
       end
       edOrg2tenant[edorgId] = db
@@ -169,7 +173,8 @@ def main(argv)
     # Make sure we got (exactly one) SEA
     if ! tenant2sea.has_key?(db)
       puts "Migration Script exit - No SEA in tenant " +  name
-      return
+      errorsExist = true
+      next
     end
 
     # Check applicationAuthorization has all "good" apps
@@ -178,16 +183,24 @@ def main(argv)
       if ! body.has_key?("applicationId")
         # Unlikely
         puts "Migration Script exit - applicationAuthorization " + appAuth["_id"] +" is incomplete"
-        return
+        errorsExist = true
+        next
       else
         appId = body["applicationId"]
       end
 
       if !app2bulkExtract.has_key?(appId)
         puts "Migration Script exit - application " + appId +" does not exist in sli.application collection for tenant " +  name
-        return
+        errorsExist = true
+        next
       end
     end
+  end
+
+  # Don't continue if there were any errors
+  if errorsExist
+    puts "ABORTING WITHOUT UDPATE."
+    return
   end
 
   puts "--------------tenant->sea-------------" if DEBUG == true
