@@ -1635,6 +1635,13 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="AttendanceEventCategory" type="SLC-AttendanceEventCategoryType">
+                <xs:annotation>
+                    <xs:appinfo>
+                        <sli:keyFieldName>event</sli:keyFieldName>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
 			<xs:element name="StudentReference" type="SLC-StudentReferenceType">
 				<xs:annotation>
 					<xs:appinfo>
