@@ -171,11 +171,10 @@ def main(argv)
 
     puts "Checking data in tenant '" + name + "'"
 
-    tenant2db[name] = db
-    tenantAppAuth[db] = {}
-
     # Get tenant2sea and edOrg2tenant, checking exactly one SEA per tenant
+    nEdOrg = 0
     @conn[db]['educationOrganization'].find({}).each do |edorg|
+      nEdOrg += 1
       edorgId = edorg["_id"]
       edorgBody = edorg["body"]
       if edorgBody["organizationCategories"].include? "State Education Agency"
@@ -190,12 +189,20 @@ def main(argv)
       end
       edOrg2tenant[edorgId] = db
     end
+
+    # Make sure there is at least one EdOrg
+    if nEdOrg == 0
+      puts "Skipping tenant w/ no EdOrgs: " +  name
+      next
     # Make sure we got (exactly one) SEA
-    if ! tenant2sea.has_key?(db)
+    elsif ! tenant2sea.has_key?(db)
       puts "Migration Script exit - No SEA in tenant " +  name
       errorsExist = true
       next
     end
+
+    tenant2db[name] = db
+    tenantAppAuth[db] = {}
 
     # Check applicationAuthorization has all "good" apps
     @conn[db]["applicationAuthorization"].find({}).each do |appAuth|
@@ -247,7 +254,7 @@ def main(argv)
   puts "--------------edorg->tenant-------------" if DEBUG == true
   puts edOrg2tenant.map{|key, value| "#{key}: #{value}"} if DEBUG == true
   puts "--------------app->bulkExtractFlag-------------" if DEBUG == true
-  puts app2bulkExtract.length
+  puts app2bulkExtract.length if DEBUG == true
   puts app2bulkExtract.map{|key, value| "#{key} -> #{value}"} if DEBUG == true
 
   #######################     UPDATE DATA 
