@@ -45,11 +45,10 @@ def application_enablement_migration(edOrg2tenant, tenant2sea, app2bulkExtract)
       @edorgs = @db["educationOrganization"]
       if app2bulkExtract[appId]
         puts "Migrating bulk extract application " + appId
-        sea_and_children = []
         sea = tenant2sea[tenant]
         new_authorized_ed_orgs[sea] = true
         @edorgs.find({"body.parentEducationAgencyReference" => sea}).each do |child|
-          new_authorized_ed_orgs[child["_id"]]
+          new_authorized_ed_orgs[child["_id"]] = true
         end
       else
         puts "Migrating non bulk extract application " + appId
