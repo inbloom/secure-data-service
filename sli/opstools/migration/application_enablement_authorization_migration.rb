@@ -121,7 +121,7 @@ def main(argv)
           tenant2sea[db] = edorgId
         else
           puts "Migration Script exit - More than one SEA in tenant " +  name
-          #return
+          return
         end
       end
       edOrg2tenant[edorgId] = db
@@ -133,13 +133,13 @@ def main(argv)
 
       if appId == nil
         puts "Migration Script exit - applicationAuthorization " + appAuth["_id"] +" is incomplete"
-        #return
+        return
       else
         @app = @conn["sli"]['application']
         app = @app.find_one({"_id" => appId})
         if app == nil
           puts "Migration Script exit - application " + appId +" does not exist in sli.application collection for tenant " +  name
-          #return
+          return
         else
           isBulkExtract = app["body"]["isBulkExtract"]
           app2bulkExtract[appId] = isBulkExtract
