@@ -16,13 +16,11 @@
 package org.slc.sli.domain.utils;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
-import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -35,14 +33,6 @@ import org.slc.sli.domain.Repository;
 import org.slc.sli.validation.ValidationTestUtils;
 
 public class EdOrgHierarchyHelperTest {
-
-    // entity types
-    public static final String SCHOOL = "School";
-    public static final String LEA = "Local Education Agency";
-    public static final String SEA = "State Education Agency";
-
-    // attribute names
-    public static final String PARENT_ED_ORG_REF = "parentEducationAgencyReference";
     
     EdOrgHierarchyHelper underTest;
 
@@ -107,33 +97,6 @@ public class EdOrgHierarchyHelperTest {
         Entity e = ValidationTestUtils.makeDummyEntity("educationOrganization", string);
         e.getBody().put("organizationCategories", Arrays.asList(string));
         return e;
-    }
-
-    /**
-     * Make sure that {@link EdOrgHierarchyHelper#getAncestorsOfEdOrg(org.slc.sli.domain.Entity)} handles
-     * cycles of ed orgs.
-     */
-    @Test
-    public void testGetAncestorsOfEdOrgWithCycle() {
-        Entity sea = buildEntityType(SEA);
-        Entity lea = buildEntityType(LEA);
-        Entity school = buildEntityType(SCHOOL);
-
-        school.getBody().put(PARENT_ED_ORG_REF, Arrays.asList(lea.getEntityId()));
-        lea.getBody().put(PARENT_ED_ORG_REF, Arrays.asList(sea.getEntityId()));
-        // here's the cycle
-        sea.getBody().put(PARENT_ED_ORG_REF, Arrays.asList(school.getEntityId()));
-
-        when(repo.findById(EntityNames.EDUCATION_ORGANIZATION, sea.getEntityId())).thenReturn(sea);
-        when(repo.findById(EntityNames.EDUCATION_ORGANIZATION, lea.getEntityId())).thenReturn(lea);
-        when(repo.findById(EntityNames.EDUCATION_ORGANIZATION, school.getEntityId())).thenReturn(school);
-
-        Set<Entity> ancestors = underTest.getAncestorsOfEdOrg(school);
-
-        assertNotNull(ancestors);
-
-        assertTrue("LEA must be an ancestor", ancestors.contains(lea));
-        assertEquals("somehow we saw more than the LEA as an ancestor!", 1, ancestors.size());
     }
     
 }
