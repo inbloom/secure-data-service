@@ -116,6 +116,28 @@ When /^I convert edorg "(.*?)" to an Education Service Center in "(.*?)"$/ do |e
   edorg_to_esc(edorgId, edorg_xml_file)
 end
 
+# TODO this should be removed once Odin supports hybrid edorgs and multiple parents natively
+When /^I update edOrg "(.*?)" in "(.*?)" with updated parent refs$/ do |schoolId, filename, table|
+  edorg_xml_file = "#{@gen_path}#{filename}"
+  update_parents(schoolId, edorg_xml_file, table)
+end
+
+When /^I update edOrg "(.*?)" in "(.*?)" with additional parent refs$/ do |schoolId, filename, table|
+  edorg_xml_file = "#{@gen_path}#{filename}"
+  update_parents(schoolId, edorg_xml_file, table)
+end
+
+# TODO this should be removed once Odin supports hybrid edorgs and multiple parents natively
+When /^I convert edorg "(.*?)" to a "(.*?)" in "(.*?)"$/ do |edorgId, orgCategory, filename|
+  edorg_xml_file = "#{@gen_path}#{filename}"
+  edorg_to_orgCategory(edorgId, edorg_xml_file, orgCategory)
+end
+
+When /^I convert edorg "(.*?)" to add "(.*?)" in "(.*?)"$/ do |edorgId, orgCategory, filename|
+  edorg_xml_file = "#{@gen_path}#{filename}"
+  edorg_to_add_orgCategory(edorgId, edorg_xml_file, orgCategory)
+end
+
 ############################################################
 # STEPS: THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN
 ############################################################
@@ -240,6 +262,159 @@ def edorg_to_esc(edorgId, filename)
                 orgCategory.content = "Education Service Center"
                 STDOUT.puts "Changed org category to " + orgCategory.to_s
 
+            end
+        end
+
+        outfile = File.new(filename, "w")
+        outfile.puts doc.to_xml
+        outfile.close
+
+        STDOUT.puts "#{filename} processed successfully"
+    end
+end
+
+def add_parents(schoolId, filename, parents)
+    STDOUT.puts "Converting school #{schoolId} to be a charter school in file #{filename} with additional parents"
+    infile = File.open(filename)
+    begin
+        doc = Nokogiri::XML(infile) do |config|
+            config.strict.nonet.noblanks
+        end
+        infile.close
+    rescue
+        STDOUT.puts "File could not be processed " + filename
+        return
+    end
+
+    doc.css('InterchangeEducationOrganization').each do
+
+        doc.css('EducationOrganization').each do |edorg|
+            stateId = edorg.at_css "StateOrganizationId"
+            if stateId.content.eql?(schoolId)
+                # add LEA as an org category
+                orgCategories = edorg.at_css "OrganizationCategories"
+                leaCategory = Nokogiri::XML::Node.new "OrganizationCategory", doc
+                leaCategory.content = "Local Education Agency"
+                STDOUT.puts "Adding org category : " + leaCategory.content
+                orgCategories.add_child(leaCategory) unless orgCategories.nil?
+                escCategory = Nokogiri::XML::Node.new "OrganizationCategory", doc
+                escCategory.content = "Education Service Center"
+                STDOUT.puts "Adding org category : " + escCategory.content
+                orgCategories.add_child(escCategory) unless orgCategories.nil?
+
+                # add parent ref to sea
+                peaRef = edorg.at_css("ParentEducationAgencyReference")
+                parents.hashes.map do |row|
+                    parentRefId = row["ParentReference"]
+                    STDOUT.puts "Adding parent ref to " + parentRefId
+                    parentRef = peaRef.clone
+                    parentRef.at_css("StateOrganizationId").content = parentRefId
+                    peaRef.before(parentRef) unless peaRef.nil?
+                end
+            end
+        end
+
+        outfile = File.new(filename, "w")
+        outfile.puts doc.to_xml
+        outfile.close
+
+        STDOUT.puts "#{filename} processed successfully"
+    end
+end
+
+def update_parents(schoolId, filename, parents)
+    STDOUT.puts "Converting school #{schoolId} to be a charter school in file #{filename} with new parents"
+    infile = File.open(filename)
+    begin
+        doc = Nokogiri::XML(infile) do |config|
+            config.strict.nonet.noblanks
+        end
+        infile.close
+    rescue
+        STDOUT.puts "File could not be processed " + filename
+        return
+    end
+
+    doc.css('InterchangeEducationOrganization').each do
+        #TODO - below only works for one edOrg, needs to be updated for multiples
+        doc.css('EducationOrganization').each do |edorg|
+            stateId = edorg.at_css "StateOrganizationId"
+            if stateId.content.eql?(schoolId)
+                # replace parent ref to sea
+                peaRef = edorg.at_css("ParentEducationAgencyReference")
+                parents.hashes.map do |row|
+                    parentRefId = row["ParentReference"]
+                    STDOUT.puts "Updating parent ref to " + parentRefId
+                    peaRef.at_css("StateOrganizationId").content = parentRefId
+                end
+            end
+        end
+
+        outfile = File.new(filename, "w")
+        outfile.puts doc.to_xml
+        outfile.close
+
+        STDOUT.puts "#{filename} processed successfully"
+    end
+end
+
+def edorg_to_orgCategory(edorgId, filename, orgCat)
+    STDOUT.puts "Converting lea #{edorgId} to be a #{orgCat} in file #{filename}"
+    infile = File.open(filename)
+    begin
+        doc = Nokogiri::XML(infile) do |config|
+            config.strict.nonet.noblanks
+        end
+        infile.close
+    rescue
+        STDOUT.puts "File could not be processed " + filename
+        return
+    end
+
+    doc.css('InterchangeEducationOrganization').each do
+
+        doc.css('EducationOrganization').each do |edorg|
+            stateId = edorg.at_css "StateOrganizationId"
+            if stateId.content.eql?(edorgId)
+                orgCategory = edorg.at_css "OrganizationCategory"
+                STDOUT.puts "Found org category : " + orgCategory.to_s
+                orgCategory.content = orgCat.to_s
+                STDOUT.puts "Changed org category to " + orgCategory.to_s
+            end
+        end
+
+        outfile = File.new(filename, "w")
+        outfile.puts doc.to_xml
+        outfile.close
+
+        STDOUT.puts "#{filename} processed successfully"
+    end
+end
+
+def edorg_to_add_orgCategory(edorgId, filename, orgCat)
+    STDOUT.puts "Converting lea #{edorgId} to be a #{orgCat} in file #{filename}"
+    infile = File.open(filename)
+    begin
+        doc = Nokogiri::XML(infile) do |config|
+            config.strict.nonet.noblanks
+        end
+        infile.close
+    rescue
+        STDOUT.puts "File could not be processed " + filename
+        return
+    end
+
+    doc.css('InterchangeEducationOrganization').each do
+
+        doc.css('EducationOrganization').each do |edorg|
+            stateId = edorg.at_css "StateOrganizationId"
+            if stateId.content.eql?(edorgId)
+                orgCategory = edorg.at_css "OrganizationCategory"
+                STDOUT.puts "Found org category : " + orgCategory.to_s
+                newOrgCategory = orgCategory.clone
+                newOrgCategory.content = orgCat.to_s
+                orgCategory.before(newOrgCategory) unless orgCategory.nil?
+                STDOUT.puts "Added org category " + orgCategory.to_s
             end
         end
 
