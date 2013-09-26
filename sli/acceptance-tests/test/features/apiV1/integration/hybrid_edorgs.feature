@@ -3,6 +3,7 @@ Feature: As a teacher or staff of a hybrid edOrg I want to validate I can access
 
 Background: None
 
+@wip
 Scenario: As a teacher, for my section, I want to get a list of students
 
 # Log in via simple-idp and authenticate teacher credentials   
