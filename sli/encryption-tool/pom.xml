@@ -6,7 +6,7 @@
   <parent>
     <artifactId>sli</artifactId>
     <groupId>org.slc.sli</groupId>
-    <version>1.11.86.180</version>
+    <version>1.11.86.184</version>
   </parent>
 
   <artifactId>encryption-tool</artifactId>
