@@ -17,7 +17,9 @@ package org.slc.sli.domain.utils;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -153,41 +155,35 @@ public class EdOrgHierarchyHelper {
     }
    
     /**
-     * Given an school or LEA level entity, returns all the parent and ancestor edorgs it belongs to (excluding SEAs)
+     * Given an school or LEA level entity, returns all the parent and ancestor edorgs it belongs to
      * 
      * if input is SEA, returns null
-     *
+     * 
      * @param entity
      * @return Ancestors
      */
     public Set<Entity> getAncestorsOfEdOrg(Entity entity) {
-        if (isSEA(entity)) {
-            return null;
-        }
-
-        Set<Entity> ancestors = new HashSet<Entity>();
-
-        List<Entity> stack = new ArrayList<Entity>(10);
-        stack.add(entity);
-        while (!stack.isEmpty()) {
-            Entity cur = stack.remove(stack.size() - 1);
-            if (cur.getBody().containsKey("parentEducationAgencyReference")) {
+     	if(isSEA(entity)) {
+    		return null;
+    	}
+    	Set<Entity> ancestors = new HashSet<Entity>();
+    	ancestors.add(entity);
+    	Queue<Entity> queue = new LinkedList<Entity>();
+    	queue.add(entity);
+    	while(!queue.isEmpty()) {
+    		Entity cur = queue.poll();
+    		if (cur.getBody().containsKey("parentEducationAgencyReference")) {
                 List<Entity> parentEdorgs = getParentEdOrg(cur);
-                if (parentEdorgs != null) {
-                    for (Entity parent:parentEdorgs) {
-                        if (!isSEA(parent)) {
-                            ancestors.add(parent);
-                        }
-
-                        // don't let cycles cause us to loop forever
-                        if (!ancestors.contains(parent)) {
-                            stack.add(parent);
-                        }
-                    }
+                if(parentEdorgs!=null) {
+                	for(Entity parent:parentEdorgs) {
+                		if(!isSEA(parent)) {
+                			ancestors.add(parent);
+                		}
+                		queue.add(parent);
+                	}
                 }
             }
-        }
-
+    	}                
         return ancestors;
     }
     
