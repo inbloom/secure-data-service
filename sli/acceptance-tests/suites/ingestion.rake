@@ -637,6 +637,16 @@ task :genericEdOrgs do
   runTests("test/features/ingestion/features/ingestion_generic_edOrg.feature")
 end
 
+desc "Run Ingestion Acceptance SDS Tests"
+task :ingestionAcceptanceSdsTest do
+  runTests("test/features/ingestion/features/ingestion_acceptance_SDS_test.feature")
+end
+
+desc "Verify Ingestion allows multiple AttendanceEventCategories on a day"
+task :ingestionAttendanceEventCategoriesTest do
+  runTests("test/features/ingestion/features/ingestion_attendance_categories.feature")
+end
+
 ############################################################
 # Ingestion tests end
 ############################################################
