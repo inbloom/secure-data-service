@@ -43,7 +43,7 @@ Given /^LDAP and email server has been setup and running$/ do
      }
   
    @edorgId =  "Test_Ed_Org"
-   @email = "devldapuser_#{Socket.gethostname}@slidev.org"
+   @email = "devldapuser_#{get_mac_address('_')}@slidev.org"
 end
 
 Given /^there is a production account in ldap for vendor "([^"]*)"$/ do |vendor|
