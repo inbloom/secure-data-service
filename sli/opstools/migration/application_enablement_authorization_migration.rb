@@ -11,10 +11,13 @@ def application_enablement_migration(edOrg2tenant, tenant2sea, app2bulkExtract)
     if edOrgs != nil and edOrgs.length>0
       puts "enable  --- app "  + appId
       involved_tenants = []
+      retain_edorgs = []
       edOrgs.each do |edOrg|
         dbname = edOrg2tenant[edOrg]
         if dbname != nil
           involved_tenants.push(dbname).uniq!
+        else
+          retain_edorgs.push(edOrg).uniq!
         end
       end
       puts involved_tenants.map{|tenant| "#{tenant}"} if DEBUG == true
@@ -31,7 +34,6 @@ def application_enablement_migration(edOrg2tenant, tenant2sea, app2bulkExtract)
               sea_leas.push(lea);
             end
             body["authorized_ed_orgs"] = sea_leas
-            @apps.update({"_id" => app["_id"]},{"$set" => {"body" => body}})
           else
             puts "enable non bulk extract application " + appId
             allEdorgs = []
@@ -40,9 +42,12 @@ def application_enablement_migration(edOrg2tenant, tenant2sea, app2bulkExtract)
             end
             body["edorgs"] = allEdorgs
             body["authorized_ed_orgs"] = allEdorgs.to_a
-            @apps.update({"_id" => app["_id"]},{"$set" => {"body" => body}})
           end
-      end
+          retain_edorgs.each do |edorg|
+          sea_leas.push(edorg)
+          end
+          @apps.update({"_id" => app["_id"]},{"$set" => {"body" => body}})
+       end
     end
   end
 end
