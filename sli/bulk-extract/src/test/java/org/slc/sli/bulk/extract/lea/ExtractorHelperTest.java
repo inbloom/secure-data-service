@@ -20,6 +20,9 @@ import java.util.*;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -37,6 +40,7 @@ public class ExtractorHelperTest {
     private Entity mockEntity;
     private DateHelper mockHelper;
     private EdOrgExtractHelper edOrgExtractHelper;
+    private static final DateTimeFormatter FMT = DateTimeFormat.forPattern("yyyy-MM-dd");
 
     @Before
     public void setUp() {
@@ -182,5 +186,96 @@ public class ExtractorHelperTest {
     	Assert.assertEquals(Sets.newHashSet("lea-2"), result.get("school-5"));
     	Assert.assertEquals(Sets.newHashSet("lea-3"), result.get("school-6"));
     }
-    
+
+    @Test
+    public void testFetchAllEdOrgs() {
+        Map<String, List> lineages = ImmutableMap.of(
+                "school1", (List)Arrays.asList("school1"),
+                "school2", (List)Arrays.asList("school2", "Proudhon", "Kropotkin"),
+                "school3", (List)Arrays.asList("school3", "Proudhon", "Bakunin", "Kropotkin")
+        );
+        Mockito.when(edOrgExtractHelper.getEdOrgLineages()).thenReturn(lineages);
+
+        helper.setDateHelper(null);
+        Map<String, List<Map<String, Object>>> denormalized = new HashMap<String, List<Map<String, Object>>>();
+        Map<String, Object> school = new HashMap<String, Object>();
+        school.put("exitWithdrawDate", "1848-05-21");
+        school.put("_id", "school1");
+
+        Map<String, Object> school2 = new HashMap<String, Object>();
+        school2.put("exitWithdrawDate", "1945-05-09");
+        school2.put("_id", "school2");
+
+        denormalized.put("schools", Arrays.asList(school, school2));
+
+        Entity student = Mockito.mock(Entity.class);
+        Mockito.when(student.getDenormalizedData()).thenReturn(denormalized);
+
+        Map<String, DateTime> result = helper.fetchAllEdOrgsForStudent(student);
+        Assert.assertEquals(4, result.size());
+
+
+        Map<String, Object> school3 = new HashMap<String, Object>();
+        school3.put("_id", "school3");
+        school3.put("exitWithdrawDate", "2048-05-09");
+        denormalized.put("schools", Arrays.asList(school, school2, school3));
+
+        result = helper.fetchAllEdOrgsForStudent(student);
+        Assert.assertEquals(6, result.size());
+        Assert.assertEquals(DateTime.parse("2048-05-09", FMT), result.get("Kropotkin"));
+        Assert.assertEquals(DateTime.parse("2048-05-09", FMT), result.get("Proudhon"));
+        Assert.assertEquals(DateTime.parse("2048-05-09", FMT), result.get("Bakunin"));
+        Assert.assertEquals(DateTime.parse("2048-05-09", FMT), result.get("school3"));
+        Assert.assertEquals(DateTime.parse("1848-05-21", FMT), result.get("school1"));
+        Assert.assertEquals(DateTime.parse("1945-05-09", FMT), result.get("school2"));
+    }
+
+    @Test
+    public void testFetchAllEdOrgsNullDates() {
+        Map<String, List> lineages = ImmutableMap.of(
+                "school1", (List)Arrays.asList("school1"),
+                "school2", (List)Arrays.asList("school2", "Proudhon", "Kropotkin"),
+                "school3", (List)Arrays.asList("school3", "Proudhon", "Bakunin", "Kropotkin"),
+                "school4", (List)Arrays.asList("school4", "Bakunin")
+        );
+        Mockito.when(edOrgExtractHelper.getEdOrgLineages()).thenReturn(lineages);
+
+        helper.setDateHelper(null);
+        Map<String, List<Map<String, Object>>> denormalized = new HashMap<String, List<Map<String, Object>>>();
+        Map<String, Object> school = new HashMap<String, Object>();
+        school.put("exitWithdrawDate", "1848-05-21");
+        school.put("_id", "school1");
+
+        Map<String, Object> school2 = new HashMap<String, Object>();
+        school2.put("_id", "school2");
+
+        denormalized.put("schools", Arrays.asList(school, school2));
+
+        Entity student = Mockito.mock(Entity.class);
+        Mockito.when(student.getDenormalizedData()).thenReturn(denormalized);
+
+        Map<String, DateTime> result = helper.fetchAllEdOrgsForStudent(student);
+        Assert.assertEquals(4, result.size());
+
+
+        Map<String, Object> school3 = new HashMap<String, Object>();
+        school3.put("_id", "school3");
+        school3.put("exitWithdrawDate", "2048-05-09");
+        denormalized.put("schools", Arrays.asList(school, school2, school3));
+
+        Map<String, Object> school4 = new HashMap<String, Object>();
+        school4.put("_id", "school4");
+        denormalized.put("schools", Arrays.asList(school, school2, school3, school4));
+
+        result = helper.fetchAllEdOrgsForStudent(student);
+        Assert.assertEquals(7, result.size());
+        Assert.assertEquals(DateTime.parse("2048-05-09", FMT), result.get("Kropotkin"));
+        Assert.assertEquals(DateTime.parse("2048-05-09", FMT), result.get("Proudhon"));
+        Assert.assertEquals(DateTime.parse("2048-05-09", FMT), result.get("Bakunin"));
+        Assert.assertEquals(DateTime.parse("2048-05-09", FMT), result.get("school3"));
+        Assert.assertEquals(DateTime.parse("1848-05-21", FMT), result.get("school1"));
+        Assert.assertEquals(null, result.get("school2"));
+        Assert.assertEquals(null, result.get("school4"));
+
+    }
 }
