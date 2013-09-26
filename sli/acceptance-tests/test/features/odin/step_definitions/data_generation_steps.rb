@@ -105,15 +105,15 @@ When /^I copy generated data to the new (.*?) directory$/ do |new_dir|
 end
 
 # TODO this should be removed once Odin supports hybrid edorgs and multiple parents natively
-When /^I convert school "(.*?)" to a charter school in "(.*?)" with parent refs$/ do |schoolId, filename, table|
+When /^I convert school "(.*?)" to a charter school in "(.*?)" with additional parent refs$/ do |schoolId, filename, table|
   edorg_xml_file = "#{@gen_path}#{filename}"
   school_to_charterSchool_with_parents(schoolId, edorg_xml_file, table)
 end
 
 # TODO this should be removed once Odin supports hybrid edorgs and multiple parents natively
-When /^I convert edorg "(.*?)" to a "(.*?)" in "(.*?)"$/ do |edorgId, orgCategory, filename|
+When /^I convert edorg "(.*?)" to an Education Service Center in "(.*?)"$/ do |edorgId, filename|
   edorg_xml_file = "#{@gen_path}#{filename}"
-  edorg_to_orgCategory(edorgId, edorg_xml_file, orgCategory)
+  edorg_to_esc(edorgId, edorg_xml_file)
 end
 
 ############################################################
@@ -168,7 +168,7 @@ def runtime(t1, t2)
 end
 
 def school_to_charterSchool_with_parents(schoolId, filename, parents)
-    STDOUT.puts "Converting school #{schoolId} to be a charter school in file #{filename} with new parents"
+    STDOUT.puts "Converting school #{schoolId} to be a charter school in file #{filename} with additional parents"
     infile = File.open(filename)
     begin
         doc = Nokogiri::XML(infile) do |config|
@@ -185,12 +185,25 @@ def school_to_charterSchool_with_parents(schoolId, filename, parents)
         doc.css('EducationOrganization').each do |edorg|
             stateId = edorg.at_css "StateOrganizationId"
             if stateId.content.eql?(schoolId)
-                # replace parent ref to sea
+                # add LEA as an org category
+                orgCategories = edorg.at_css "OrganizationCategories"
+                leaCategory = Nokogiri::XML::Node.new "OrganizationCategory", doc
+                leaCategory.content = "Local Education Agency"
+                STDOUT.puts "Adding org category : " + leaCategory.content
+                orgCategories.add_child(leaCategory) unless orgCategories.nil?
+                escCategory = Nokogiri::XML::Node.new "OrganizationCategory", doc
+                escCategory.content = "Education Service Center"
+                STDOUT.puts "Adding org category : " + escCategory.content
+                orgCategories.add_child(escCategory) unless orgCategories.nil?
+
+                # add parent ref to sea
                 peaRef = edorg.at_css("ParentEducationAgencyReference")
                 parents.hashes.map do |row|
                     parentRefId = row["ParentReference"]
-                    STDOUT.puts "Updating parent ref to " + parentRefId
-                    peaRef.at_css("StateOrganizationId").content = parentRefId
+                    STDOUT.puts "Adding parent ref to " + parentRefId
+                    parentRef = peaRef.clone
+                    parentRef.at_css("StateOrganizationId").content = parentRefId
+                    peaRef.before(parentRef) unless peaRef.nil?
                 end
             end
         end
@@ -203,8 +216,8 @@ def school_to_charterSchool_with_parents(schoolId, filename, parents)
     end
 end
 
-def edorg_to_orgCategory(edorgId, filename, orgCat)
-    STDOUT.puts "Converting lea #{edorgId} to be a #{orgCat} in file #{filename}"
+def edorg_to_esc(edorgId, filename)
+    STDOUT.puts "Converting lea #{edorgId} to be a Education Service Center in file #{filename}"
     infile = File.open(filename)
     begin
         doc = Nokogiri::XML(infile) do |config|
@@ -221,9 +234,10 @@ def edorg_to_orgCategory(edorgId, filename, orgCat)
         doc.css('EducationOrganization').each do |edorg|
             stateId = edorg.at_css "StateOrganizationId"
             if stateId.content.eql?(edorgId)
+                # change org category to Education Service Center
                 orgCategory = edorg.at_css "OrganizationCategory"
                 STDOUT.puts "Found org category : " + orgCategory.to_s
-                orgCategory.content = orgCat.to_s
+                orgCategory.content = "Education Service Center"
                 STDOUT.puts "Changed org category to " + orgCategory.to_s
 
             end
