@@ -24,7 +24,7 @@ require 'date'
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../utils/selenium_common.rb'
 
-TEST_USER = "samt_testUser_#{Socket.gethostname}"
+TEST_USER = "samt_testUser_#{get_mac_address('_')}"
 EULA_TEXT = "Terms and Conditions"
 
 Before do
