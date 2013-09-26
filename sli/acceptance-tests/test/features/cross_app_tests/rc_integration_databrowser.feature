@@ -142,7 +142,7 @@ Scenario: Search by id
   When I search for the identifier "<ZOE LOCUST UNIQUE ID>" in "students"
   Then I see a "There were no entries matching your search" alert box
 
-@wip
+
 Scenario: Charter School - Search by id
   When I see the realm selector I authenticate to "Charter School Test Realm"
   And I was redirected to the "Simple" IDP Login page
