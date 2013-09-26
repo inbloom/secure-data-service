@@ -95,6 +95,12 @@ def application_authorization_migration(dbname, tenant2sea, tenantAppAuth, app2b
   @appAuths.find({}).each do |appAuth|
     body = appAuth["body"]
     appId = body["applicationId"]
+
+    # We may have left in the database dangling references:
+    #     sli.application._id --> <tenant>.applicationAuthorization.body.applicationId
+    # Skip such records completely
+    next if !tenantAppAuth[dbname].has_key?(appId)
+
     isBulkExtract = app2bulkExtract[appId]
 
     # Make sure have "edorgs" field, that it is non-null (i.e., an array) and nonempty array
@@ -217,6 +223,12 @@ def main(argv)
         appId = body["applicationId"]
       end
 
+      # Check app points to a good app, else ignore
+      if !app2bulkExtract.has_key?(appId)
+        puts "Warning: skipping application '" + appId + "' authorized in tenant " +  name + " does not exist in sli.application collection"
+        next
+      end
+
       # Aggregate applicationAuthorization docs up to the distinct application level
       # Get (docId, edorgCount) pair
       docId = appAuth["_id"]
@@ -235,11 +247,6 @@ def main(argv)
         tenantAppAuth[db][appId]["totEdOrg"] = edOrgCount
       end
 
-      if !app2bulkExtract.has_key?(appId)
-        puts "Migration Script exit - application " + appId +" does not exist in sli.application collection for tenant " +  name
-        errorsExist = true
-        next
-      end
     end
   end
 
