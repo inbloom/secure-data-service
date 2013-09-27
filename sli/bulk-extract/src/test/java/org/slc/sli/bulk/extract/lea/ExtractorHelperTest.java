@@ -63,10 +63,10 @@ public class ExtractorHelperTest {
      */
     @Test
     public void testExpiredSchools() {
-        Map<String, List> lineages = ImmutableMap.of(
-                "school1", (List)Arrays.asList(),
-                "school2", (List)Arrays.asList(),
-                "school3", (List)Arrays.asList("Proudhon", "Bakunin", "Kropotkin")
+        Map<String, List<String>> lineages = ImmutableMap.of(
+                "school1", (new ArrayList<String>()),
+                "school2", (new ArrayList<String>()),
+                "school3", (List<String>)Arrays.asList("Proudhon", "Bakunin", "Kropotkin")
         );
         Mockito.when(edOrgExtractHelper.getEdOrgLineages()).thenReturn(lineages);
 
@@ -104,7 +104,7 @@ public class ExtractorHelperTest {
 
 
         List<String> edorgs = Arrays.asList("One", "Two", "Three");
-        Map<String, List> lineages = ImmutableMap.of(  "school1", (List)edorgs);
+        Map<String, List<String>> lineages = ImmutableMap.of(  "school1", (List<String>)edorgs);
         Mockito.when(edOrgExtractHelper.getEdOrgLineages()).thenReturn(lineages);
 
         // No denormalized data
@@ -189,10 +189,10 @@ public class ExtractorHelperTest {
 
     @Test
     public void testFetchAllEdOrgs() {
-        Map<String, List> lineages = ImmutableMap.of(
-                "school1", (List)Arrays.asList("school1"),
-                "school2", (List)Arrays.asList("school2", "Proudhon", "Kropotkin"),
-                "school3", (List)Arrays.asList("school3", "Proudhon", "Bakunin", "Kropotkin")
+        Map<String, List<String>> lineages = ImmutableMap.of(
+                "school1", (List<String>)Arrays.asList("school1"),
+                "school2", (List<String>)Arrays.asList("school2", "Proudhon", "Kropotkin"),
+                "school3", (List<String>)Arrays.asList("school3", "Proudhon", "Bakunin", "Kropotkin")
         );
         Mockito.when(edOrgExtractHelper.getEdOrgLineages()).thenReturn(lineages);
 
@@ -232,11 +232,11 @@ public class ExtractorHelperTest {
 
     @Test
     public void testFetchAllEdOrgsNullDates() {
-        Map<String, List> lineages = ImmutableMap.of(
-                "school1", (List)Arrays.asList("school1"),
-                "school2", (List)Arrays.asList("school2", "Proudhon", "Kropotkin"),
-                "school3", (List)Arrays.asList("school3", "Proudhon", "Bakunin", "Kropotkin"),
-                "school4", (List)Arrays.asList("school4", "Bakunin")
+        Map<String, List<String>> lineages = ImmutableMap.of(
+                "school1", (List<String>)Arrays.asList("school1"),
+                "school2", (List<String>)Arrays.asList("school2", "Proudhon", "Kropotkin"),
+                "school3", (List<String>)Arrays.asList("school3", "Proudhon", "Bakunin", "Kropotkin"),
+                "school4", (List<String>)Arrays.asList("school4", "Bakunin")
         );
         Mockito.when(edOrgExtractHelper.getEdOrgLineages()).thenReturn(lineages);
 

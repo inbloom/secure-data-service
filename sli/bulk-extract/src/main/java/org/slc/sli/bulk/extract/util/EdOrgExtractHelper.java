@@ -42,7 +42,7 @@ public class EdOrgExtractHelper implements InitializingBean {
     @Autowired
     private BulkExtractMongoDA bulkExtractMongoDA;
 
-    private Map<String, List> edOrgLineages;
+    private Map<String, List<String>> edOrgLineages;
 
     private static final String STATE_EDUCATION_AGENCY = "State Education Agency";
 
@@ -193,11 +193,11 @@ public class EdOrgExtractHelper implements InitializingBean {
     }
 
 
-    public Map<String, List> getEdOrgLineages() {
+    public Map<String, List<String>> getEdOrgLineages() {
         return edOrgLineages;
     }
 
-    public void setEdOrgLineages(Map<String, List> edOrgLineages) {
+    public void setEdOrgLineages(Map<String, List<String>> edOrgLineages) {
         this.edOrgLineages = edOrgLineages;
     }
 }
