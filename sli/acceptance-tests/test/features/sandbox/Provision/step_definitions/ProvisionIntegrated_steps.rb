@@ -49,7 +49,7 @@ Before do
   @db = api_mongo_conn.db(API_DB_NAME)
 
   @edorgId =  "Test_Ed_Org"
-  @email = "devldapuser_#{Socket.gethostname}@slidev.org"
+  @email = "devldapuser_#{get_mac_address('_')}@slidev.org"
   dbName = @email.gsub(/[^A-Za-z0-9]/, '_')
   @tenantDb = @ingestion_mongo_conn.db(convertTenantIdToDbName(dbName))
   @batchDb = @batch_job_mongo_conn.db(INGESTION_BATCHJOB_DB_NAME)
@@ -127,7 +127,7 @@ Given /^there is an production Ingestion Admin account in ldap$/ do
 end
 
 Given /^the account has a tenantId "([^"]*)"$/ do |tenantId|
-#@email="devldapuser_#{Socket.gethostname}@slidev.org"
+#@email="devldapuser_#{get_mac_address('_')}@slidev.org"
   @tenantId = tenantId
   removeUser(@email)
   sleep(1)
