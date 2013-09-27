@@ -15,23 +15,64 @@
  */
 package org.slc.sli.bulk.extract.date;
 
+import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.Map;
+
 /**
- * @author ablum
+ * @author ablum tke
  */
 @Component
 public class PathDateRetriever implements DateRetriever{
+
     @Autowired(required = true)
     @Qualifier("validationRepo")
     private Repository<Entity> repo;
 
+    @Autowired(required = true)
+    @Qualifier("simpleDateRetriever")
+    private SimpleDateRetriever simpleDateRetriever;
+
     @Override
     public String retrieve(Entity entity) {
-        return repo.toString();
+        Entity targetEntity = getPathEntity(entity);
+
+        return simpleDateRetriever.retrieve(targetEntity);
+    }
+
+    protected Entity getPathEntity(Entity entity) {
+        String entityType = entity.getType();
+        List<String> targetAndField = EntityDates.ENTITY_PATH_FIELDS.get(entityType);
+
+        NeutralQuery query = new NeutralQuery();
+        String targetId = (String) entity.getBody().get(targetAndField.get(EntityDates.FIELD));
+        query.addCriteria(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.OPERATOR_EQUAL, targetId));
+
+        return repo.findOne(targetAndField.get(EntityDates.COLLECTION), query);
+    }
+
+    public SimpleDateRetriever getSimpleDateRetriever() {
+        return simpleDateRetriever;
+    }
+
+    public void setSimpleDateRetriever(SimpleDateRetriever simpleDateRetriever) {
+        this.simpleDateRetriever = simpleDateRetriever;
+    }
+
+    public Repository<Entity> getRepo() {
+        return repo;
+    }
+
+    public void setRepo(Repository<Entity> repo) {
+        this.repo = repo;
     }
 }
