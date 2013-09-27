@@ -16,6 +16,7 @@
 
 package org.slc.sli.bulk.extract.lea;
 
+import com.google.common.base.Predicate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,9 +29,12 @@ import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.joda.time.DateTime;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 
 public class StudentExtractorTest {
@@ -73,9 +77,12 @@ public class StudentExtractorTest {
         Mockito.when(mockRepo.findEach(Mockito.eq("student"), Mockito.eq(new NeutralQuery()))).thenReturn(Arrays.asList(e).iterator());
         Mockito.when(helper.fetchCurrentSchoolsForStudent(Mockito.any(Entity.class))).thenReturn(
                 new HashSet<String>(Arrays.asList("LEA")));
+        Map<String, DateTime> datedEdorgs = new HashMap<String, DateTime>();
+        datedEdorgs.put("LEA", DateTime.now());
+        Mockito.when(helper.fetchAllEdOrgsForStudent(Mockito.any(Entity.class))).thenReturn(datedEdorgs);
         extractor.extractEntities(null);
         Mockito.verify(mockExtractor).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class),
-                Mockito.eq("student"));
+                Mockito.eq("student"), Mockito.any(Predicate.class));
 
     }
     
@@ -86,12 +93,15 @@ public class StudentExtractorTest {
                 Arrays.asList(e).iterator());
         Mockito.when(helper.fetchCurrentSchoolsForStudent(Mockito.any(Entity.class))).thenReturn(
                 new HashSet<String>(Arrays.asList("LEA")));
+        Map<String, DateTime> datedEdorgs = new HashMap<String, DateTime>();
+        datedEdorgs.put("LEA", DateTime.now());
+        Mockito.when(helper.fetchAllEdOrgsForStudent(Mockito.any(Entity.class))).thenReturn(datedEdorgs);
         Mockito.when(helper.fetchCurrentParentsFromStudent(Mockito.any(Entity.class))).thenReturn(
                 new HashSet<String>(Arrays.asList("Parent1", "Parent2")));
         extractor.extractEntities(null);
         Mockito.verify(studentCache, Mockito.times(1)).addEntry(Mockito.any(String.class), Mockito.any(String.class));
         Mockito.verify(mockExtractor).extractEntity(Mockito.any(Entity.class), Mockito.any(ExtractFile.class),
-                Mockito.eq("student"));
+                Mockito.eq("student"), Mockito.any(Predicate.class));
         Mockito.verify(parentCache, Mockito.times(2)).addEntry(Mockito.any(String.class), Mockito.eq("LEA"));
     }
     
@@ -102,9 +112,12 @@ public class StudentExtractorTest {
                 Arrays.asList(e, e, e).iterator());
         Mockito.when(helper.fetchCurrentSchoolsForStudent(Mockito.any(Entity.class))).thenReturn(
                 new HashSet<String>(Arrays.asList("LEA")));
+        Map<String, DateTime> datedEdorgs = new HashMap<String, DateTime>();
+        datedEdorgs.put("LEA", DateTime.now());
+        Mockito.when(helper.fetchAllEdOrgsForStudent(Mockito.any(Entity.class))).thenReturn(datedEdorgs);
         extractor.extractEntities(null);
         Mockito.verify(mockExtractor, Mockito.times(3)).extractEntity(Mockito.any(Entity.class),
-                Mockito.any(ExtractFile.class), Mockito.eq("student"));
+                Mockito.any(ExtractFile.class), Mockito.eq("student"), Mockito.any(Predicate.class));
     }
     
     @Test
