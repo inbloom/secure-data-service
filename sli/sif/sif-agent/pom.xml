@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.slc.sli.sif</groupId>
         <artifactId>sif</artifactId>
-        <version>1.11.86.186</version>
+        <version>1.11.86.206</version>
     </parent>
 
     <artifactId>sif-agent</artifactId>
