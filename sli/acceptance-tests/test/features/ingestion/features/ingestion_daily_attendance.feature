@@ -7,6 +7,9 @@ Background: I have a landing zone route configured
 Given I am using local data store
   And I am using preconfigured Ingestion Landing Zone
 
+Scenario: test
+Then there exist 1 attendance event of the attendance collection for student with id 97a4f76e708727c0bd0d7b41beedd7e8041111c2_id in one day 2011-11-10 on the Midgar tenant
+@wip
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Clean Database
 Given I post "DailyAttendance.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
@@ -29,7 +32,7 @@ Then I should see following map of entry counts in the corresponding collections
      | session                     | 8     |
      | attendance                  | 72    |
    And I check to find if record is in collection:
-     | collectionName              | expectedRecordCount | searchParameter                                 | searchValue   |
+     | collectionName              | expectedRecordCount | searchParameter           | searchValue   |
     | attendance                  | 72                  | body.schoolYear            | 2011-2012     |
     | attendance                  | 10                  | body.attendanceEvent.event | Tardy         |
     | attendance                  | 69                  | body.attendanceEvent.event | In Attendance |
@@ -79,7 +82,7 @@ When zip file is scp to ingestion landing zone
   And I should see "StudentAttendanceDuplicate.xml records considered for processing: 144" in the resulting batch job file
   And I should see "StudentAttendanceDuplicate.xml records ingested successfully: 0" in the resulting batch job file
   And I should see "StudentAttendanceDuplicate.xml records failed processing: 72" in the resulting batch job file
-
+@wip
 Scenario: Post a zip file containing attendance event interchange with non-existent student as a payload of the ingestion job: Populated Database
 Given I post "DailyAttendanceNoStudent.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
@@ -88,7 +91,7 @@ When zip file is scp to ingestion landing zone
   And I should see "StudentAttendanceNoStudent.xml records considered for processing: 0" in the resulting batch job file
   And I should see "StudentAttendanceNoStudent.xml records ingested successfully: 0" in the resulting batch job file
   And I should see "StudentAttendanceNoStudent.xml records not considered for processing: 1" in the resulting batch job file
-
+@wip
 Scenario: Post a zip file where an attendanceEvent occurs in a school's parent LEA session: Clean Database
 Given I post "DailyAttendanceInheritedSession.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
@@ -119,7 +122,7 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "InterchangeAttendance.xml records considered for processing: 1" in the resulting batch job file
   And I should see "InterchangeAttendance.xml records ingested successfully: 1" in the resulting batch job file
   And I should see "InterchangeAttendance.xml records failed processing: 0" in the resulting batch job file
-
+@wip
   Scenario: Ingest a zip file and ensure the attendance entity contains the expected format.
     Given I post "DailyAttendance.zip" file as the payload of the ingestion job
     And the following collections are empty in datastore:
