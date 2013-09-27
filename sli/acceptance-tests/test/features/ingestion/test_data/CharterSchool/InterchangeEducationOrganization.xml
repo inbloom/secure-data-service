@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
-<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
+<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
   <EducationOrganization>
     <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
     <NameOfInstitution>STANDARD-SEA</NameOfInstitution>
@@ -38,7 +37,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <ProgramId>70</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-</EducationOrganization>
+  </EducationOrganization>
   <Course>
     <CourseTitle>Kindergarten</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
@@ -1314,10 +1313,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </Services>
   </Program>
   <EducationOrganization>
-    <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
-    <NameOfInstitution>IL-DAYBREAK</NameOfInstitution>
+    <StateOrganizationId>4</StateOrganizationId>
+    <NameOfInstitution>4</NameOfInstitution>
     <OrganizationCategories>
-      <OrganizationCategory>Local Education Agency</OrganizationCategory>
+      <OrganizationCategory>Education Service Center</OrganizationCategory>
     </OrganizationCategories>
     <ParentEducationAgencyReference>
       <EducationalOrgIdentity>
@@ -1325,7 +1324,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </EducationalOrgIdentity>
     </ParentEducationAgencyReference>
     <Address>
-      <StreetNumberName>827 Braeburn Lane</StreetNumberName>
+      <StreetNumberName>122 Elm Street</StreetNumberName>
       <City>Chicago</City>
       <StateAbbreviation>IL</StateAbbreviation>
       <PostalCode>60601</PostalCode>
@@ -1381,7 +1380,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </ProgramIdentity>
     </ProgramReference>
     <LEACategory>Independent</LEACategory>
-</EducationOrganization>
+  </EducationOrganization>
   <EducationOrganization>
     <StateOrganizationId>5</StateOrganizationId>
     <NameOfInstitution>5</NameOfInstitution>
@@ -1430,19 +1429,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </ProgramIdentity>
     </ProgramReference>
     <LEACategory>Independent</LEACategory>
-</EducationOrganization>
+  </EducationOrganization>
   <EducationOrganization>
-    <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+    <StateOrganizationId>IL-CHARTER-SCHOOL</StateOrganizationId>
     <EducationOrgIdentificationCode IdentificationSystem="SEA">
-      <ID>South Daybreak Elementary</ID>
+      <ID>IL-CHARTER-SCHOOL</ID>
     </EducationOrgIdentificationCode>
-    <NameOfInstitution>South Daybreak Elementary</NameOfInstitution>
+    <NameOfInstitution>IL-CHARTER-SCHOOL</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>School</OrganizationCategory>
     </OrganizationCategories>
     <ParentEducationAgencyReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </ParentEducationAgencyReference>
     <Address>
@@ -1521,19 +1520,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SchoolCategories>
       <SchoolCategory>Elementary School</SchoolCategory>
     </SchoolCategories>
-</EducationOrganization>
+  </EducationOrganization>
   <EducationOrganization>
-    <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+    <StateOrganizationId>2</StateOrganizationId>
     <EducationOrgIdentificationCode IdentificationSystem="SEA">
-      <ID>East Daybreak Junior High</ID>
+      <ID>2</ID>
     </EducationOrgIdentificationCode>
-    <NameOfInstitution>East Daybreak Junior High</NameOfInstitution>
+    <NameOfInstitution>2</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>School</OrganizationCategory>
     </OrganizationCategories>
     <ParentEducationAgencyReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+        <StateOrganizationId>4</StateOrganizationId>
       </EducationalOrgIdentity>
     </ParentEducationAgencyReference>
     <Address>
@@ -1649,19 +1648,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SchoolCategories>
       <SchoolCategory>Middle School</SchoolCategory>
     </SchoolCategories>
-</EducationOrganization>
+  </EducationOrganization>
   <EducationOrganization>
-    <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+    <StateOrganizationId>3</StateOrganizationId>
     <EducationOrgIdentificationCode IdentificationSystem="SEA">
-      <ID>Daybreak Central High</ID>
+      <ID>3</ID>
     </EducationOrgIdentificationCode>
-    <NameOfInstitution>Daybreak Central High</NameOfInstitution>
+    <NameOfInstitution>3</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>School</OrganizationCategory>
     </OrganizationCategories>
     <ParentEducationAgencyReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+        <StateOrganizationId>4</StateOrganizationId>
       </EducationalOrgIdentity>
     </ParentEducationAgencyReference>
     <Address>
@@ -1778,17 +1777,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <SchoolCategories>
       <SchoolCategory>High School</SchoolCategory>
     </SchoolCategories>
-</EducationOrganization>
+  </EducationOrganization>
   <CompetencyLevelDescriptor>
-      <CodeValue>Incompetent</CodeValue>
+    <CodeValue>Incompetent</CodeValue>
   </CompetencyLevelDescriptor>
   <CompetencyLevelDescriptor>
-      <CodeValue>Barely Competent</CodeValue>
+    <CodeValue>Barely Competent</CodeValue>
   </CompetencyLevelDescriptor>
   <CompetencyLevelDescriptor>
-      <CodeValue>Competent</CodeValue>
+    <CodeValue>Competent</CodeValue>
   </CompetencyLevelDescriptor>
   <CompetencyLevelDescriptor>
-      <CodeValue>Very Competent</CodeValue>
+    <CodeValue>Very Competent</CodeValue>
   </CompetencyLevelDescriptor>
 </InterchangeEducationOrganization>

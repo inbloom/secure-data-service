@@ -82,6 +82,20 @@ public class DateHelper {
     }
 
     /**
+     * Get the date from the provided field
+     * @param body entity body.
+     * @param fieldName name of the date field.
+     * @return
+     */
+    public DateTime getDate(Map<String, Object> body, String fieldName) {
+        DateTime date = null;
+        if (body.get(fieldName) != null) {
+             date = DateTime.parse((String) body.get(fieldName), FMT);
+        }
+        return date;
+    }
+
+    /**
      * Checks if the DateTime of the first parameter is earlier (or equal to) the second parameter,
      * comparing only the year, month, and day.
      *

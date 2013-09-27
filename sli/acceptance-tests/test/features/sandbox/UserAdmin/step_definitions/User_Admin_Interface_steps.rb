@@ -58,7 +58,7 @@ Then /^I see a table with headings of "(.*?)" and "(.*?)" and "(.*?)" and "(.*?)
 end
 
 Then /^I see a user with Full Name is "(.*?)" in the table$/ do | fullName|
-  fullName = fullName.gsub("hostname", Socket.gethostname)
+  fullName = fullName.gsub("hostname", get_mac_address('_'))
   fullName_element = @explicitWait.until{@driver.find_element(:xpath,"//tr[td='#{fullName}']")}
 
   assert_not_nil(fullName_element, "Cannot find user with full name is #{fullName}")
@@ -106,7 +106,7 @@ end
 Given /^There is a sandbox user with "(.*?)", "(.*?)", "(.*?)", and "(.*?)" in LDAP Server$/ do |full_name, role, addition_roles, email|
   @test_env = "sandbox"
   new_user = create_new_user(full_name, role, addition_roles)
-  new_user['email'] = email.gsub("hostname", Socket.gethostname)
+  new_user['email'] = email.gsub("hostname", get_mac_address('_'))
   new_user['uid'] = new_user['email']
 
   idpRealmLogin("sandboxoperator", nil)
@@ -120,13 +120,13 @@ Given /^There is a sandbox user with "(.*?)", "(.*?)", "(.*?)", and "(.*?)" in L
 end
 
 When /^I click the "(.*?)" link for "(.*?)"$/ do |button_name, user_name|
-  @user_full_name = user_name.gsub("hostname", Socket.gethostname)
+  @user_full_name = user_name.gsub("hostname", get_mac_address('_'))
   @explicitWait.until{@driver.find_element(:xpath, "//a[@id='#{@user_full_name}_#{button_name}']")}.click
 end
 
 Then /^the (.*?) field is prefilled with "(.*?)"$/ do |field_name, value|
   field=getField(field_name)
-  value=value.gsub("hostname", Socket.gethostname)
+  value=value.gsub("hostname", get_mac_address('_'))
   assert_equal(value, field.attribute("value"))
 end
 
@@ -306,12 +306,12 @@ Given /^the testing user does not already exists in LDAP$/ do
   idpRealmLogin("sandboxoperator", nil)
   sessionId = @sessionId
   format = "application/json"
-  restHttpDelete("/users/" + Socket.gethostname + "_testuser@testwgen.net", format, sessionId)
+  restHttpDelete("/users/" + get_mac_address('_') + "_testuser@testwgen.net", format, sessionId)
 end
 
 When /^I have entered Full Name and Email into the required fields$/ do
   @explicitWait.until{@driver.find_element(:name, 'user[fullName]')}.send_keys "Sandbox AcceptanceTests"
-  @explicitWait.until{@driver.find_element(:name, 'user[email]')}.send_keys Socket.gethostname+"_testuser@testwgen.net"
+  @explicitWait.until{@driver.find_element(:name, 'user[email]')}.send_keys get_mac_address('_')+"_testuser@testwgen.net"
 end
 
 Then /^I can select "(.*?)" from a choice between "(.*?)" Role$/ do |role, choices|
@@ -387,13 +387,13 @@ end
 
 def append_hostname(user )
   oldUid = user["uid"]
-  newUid = oldUid+"_" + Socket.gethostname
+  newUid = oldUid+"_" + get_mac_address('_')
   user.merge!({"uid" => newUid})
   return user
 end
 
 def localize(value)
-  Socket.gethostname + "_" + value
+  get_mac_address('_') + "_" + value
 end
 
 def getField(field_name)
@@ -407,7 +407,7 @@ def getField(field_name)
 end
 
 def create_new_user(fullName, role, addition_roles=nil)
-  localizedFullName = fullName.gsub("hostname",Socket.gethostname)
+  localizedFullName = fullName.gsub("hostname",get_mac_address('_'))
   groups = Array.new
   groups.push(role)
   unless addition_roles.nil?

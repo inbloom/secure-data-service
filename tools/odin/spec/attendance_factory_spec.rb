@@ -33,9 +33,9 @@ describe "AttendanceFactory" do
   let(:start_date) { Date.new(2012, 12, 17) }
   let(:end_date) { Date.new(2012, 12, 28) }
   let(:scenario) { {'WRITE_SECTION_ATTENDANCE' => false, 'DAILY_ATTENDANCE_PERCENTAGES' => {
-      "elementary" => {"absent" => 6, "tardy" => 1},
-      "middle" => {"absent" => 8, "tardy" => 3},
-      "high" => {"absent" => 10, "tardy" => 5}
+      "elementary" => {"present" => 94, "absent" => 6, "tardy" => 1, "excused" => 4, "unexcused" => 8, "early_dep" => 1, "iss" => 2, "oss" => 3},
+      "middle" => {"present" => 92, "absent" => 8, "tardy" => 3, "excused" => 6, "unexcused" => 10, "early_dep" => 3, "iss" => 4, "oss" => 5},
+      "high" => {"present" => 90, "absent" => 10, "tardy" => 5, "excused" => 8, "unexcused" => 12, "early_dep" => 5, "iss" => 6, "oss" => 7}
     }} 
   }
   let(:interval) { DateInterval.create_using_start_and_end_dates(random, start_date, end_date) }
@@ -46,16 +46,22 @@ describe "AttendanceFactory" do
     describe "--> scenario calling for 100% present rate (with exception only attendance set to false)" do
       it "will produce attendance event work orders for the specified student over the date interval with no absent events" do
         scenario['EXCEPTION_ONLY_ATTENDANCE'] = false
+        scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['present'] = 100
         scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['absent'] = 0
         scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['tardy']  = 0
+        scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['excused'] = 0
+        scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['unexcused']  = 0
+        scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['early_dep'] = 0
+        scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['iss']  = 0
+        scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['oss']  = 0
         
         events = factory.generate_attendance_events(random, "student123", "school123", session, "elementary", nil)
         present_events = events.select {|event| event.category == :PRESENT }
-        absent_events  = events.select {|event| event.category == :ABSENT or event.category == :EXCUSED_ABSENCE or event.category == :UNEXCUSED_ABSENCE }
+        non_present_events  = events.select {|event| event.category == :ABSENT or event.category == :EXCUSED_ABSENCE or event.category == :UNEXCUSED_ABSENCE or event.category == :EARLY_DEPARTURE or event.category == :IN_SCHOOL_SUSPENSION or event.category == :OUT_OF_SCHOOL_SUSPENSION or event.category == :TARDY }
         
         events.size.should eq 8
         present_events.size.should eq 8
-        absent_events.size.should eq 0
+        non_present_events.size.should eq 0
       end
 
       it "will not produce any event work orders that fall on holidays" do
@@ -65,7 +71,7 @@ describe "AttendanceFactory" do
 
         events = factory.generate_attendance_events(random, "student123", "school123", session, "elementary", nil)
         holiday_events = events.select {|event| event.event_date == Date.new(2012, 12, 24) or event.event_date == Date.new(2012, 12, 25) }
-        events.size.should eq 8
+        events.size.should eq 9
         holiday_events.size.should eq 0
       end
     end
@@ -73,8 +79,14 @@ describe "AttendanceFactory" do
     describe "--> scenario calling for 100% present rate (with exception only attendance set to true)" do
       it "will produce no attendance event work orders (empty array returned)" do
         scenario['EXCEPTION_ONLY_ATTENDANCE'] = true
+        scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['present'] = 100
         scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['absent'] = 0
         scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['tardy']  = 0
+        scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['excused'] = 0
+        scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['unexcused']  = 0
+        scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['early_dep'] = 0
+        scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['iss']  = 0
+        scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['oss']  = 0
 
         events = factory.generate_attendance_events(random, "student123", "school123", session, "elementary", nil)
         events.size.should eq 0
@@ -84,8 +96,14 @@ describe "AttendanceFactory" do
     describe "--> scenario calling for 100% absence rate (exception only attendance flag will not matter)" do
       it "will produce attendance event work orders for the specified student over the date interval with no present events" do
         scenario['EXCEPTION_ONLY_ATTENDANCE'] = false
+        scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['present'] = 0
         scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['absent'] = 100
         scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['tardy']  = 0
+        scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['excused'] = 0
+        scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['unexcused']  = 0
+        scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['early_dep'] = 0
+        scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['iss']  = 0
+        scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['oss']  = 0
         
         events = factory.generate_attendance_events(random, "student123", "school123", session, "elementary", nil)
         present_events = events.select {|event| event.category == :PRESENT }
@@ -98,8 +116,14 @@ describe "AttendanceFactory" do
 
       it "will not produce any event work orders that fall on holidays" do
         scenario['EXCEPTION_ONLY_ATTENDANCE'] = false
+        scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['present'] = 0
         scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['absent'] = 100
         scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['tardy']  = 0
+        scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['excused'] = 0
+        scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['unexcused']  = 0
+        scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['early_dep'] = 0
+        scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['iss']  = 0
+        scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['oss']  = 0
         
         events = factory.generate_attendance_events(random, "student123", "school123", session, "elementary", nil)
         holiday_events = events.select {|event| event.event_date == Date.new(2012, 12, 24) or event.event_date == Date.new(2012, 12, 25) }
@@ -113,7 +137,7 @@ describe "AttendanceFactory" do
       let(:scenario) { {'EXCEPTION_ONLY_ATTENDANCE' => false, 
         'WRITE_SECTION_ATTENDANCE' => false, 
         'DAILY_ATTENDANCE_PERCENTAGES' => {
-          "elementary" => {"absent" => 6, "tardy" => 1},
+          "elementary" => {"present" => 93, "absent" => 6, "tardy" => 1, "excused" => 0, "unexcused" => 0, "early_dep" => 0, "iss" => 0, "oss" => 0},
         }} 
       }
       let(:interval) { DateInterval.create_using_start_and_num_days(random, start_date, 100) }
@@ -121,13 +145,17 @@ describe "AttendanceFactory" do
       let(:events)   { factory.generate_attendance_events(random, "student123", "school123", session, "elementary", nil) }
       
       it "will produce attendance event work orders that match the breakdown" do
-        events.size.should eq 100
+        events.size.should be_within(4).of(105)
         present_events = events.select { |event| event.category == :PRESENT }
-        absent_events  = events.select { |event| event.category == :ABSENT or event.category == :EXCUSED_ABSENCE or event.category == :UNEXCUSED_ABSENCE }
+        absent_events  = events.select { |event| event.category == :ABSENT }
+        excused_events = events.select { |event| event.category == :EXCUSED_ABSENCE }
+        unexcused_events = events.select { |event| event.category == :UNEXCUSED_ABSENCE }
         tardy_events   = events.select { |event| event.category == :TARDY   }
-        present_events.size.should eq 96
-        absent_events.size.should eq 4
-        tardy_events.size.should eq 0
+        present_events.size.should be_within(4).of(98)
+        absent_events.size.should be_within(4).of(6)
+        excused_events.size.should eq 0
+        unexcused_events.size.should eq 0
+        tardy_events.size.should be_within(4).of(1)
       end
 
       it "will not produce any event work orders that fall on holidays" do

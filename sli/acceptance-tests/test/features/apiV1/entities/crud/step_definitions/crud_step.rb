@@ -845,3 +845,55 @@ Then /^I delete both studentAssessment and Assessment$/ do
     step "I navigate to DELETE \"/v1/assessments/cc0a56b97a0c58c01fbd9e960c05e542c3755336_id\""
     step "I should receive a return code of 204"
 end
+
+When(/^I POST an attendance of "([^"]*)" for student "([^"]*)" in school "([^"]*)" for the schoolYear "([^"]*)" on date "([^"]*)"$/) do |categories, studentId, schoolId, schoolYear, eventDate|
+  attendance = <<-jsonDelimiter
+  {
+   "entityType":"attendance",
+   "studentId":"-----PLACEHOLDER-----",
+   "schoolId":"-----PLACEHOLDER-----",
+   "schoolYearAttendance":[
+      {
+         "schoolYear":"-----PLACEHOLDER-----",
+         "attendanceEvent":[
+            {
+               "date":"-----PLACEHOLDER-----",
+               "event":"-----PLACEHOLDER-----"
+            }
+         ]
+      }
+   ]
+  }
+  jsonDelimiter
+  attendance = JSON.parse(attendance)
+  attendance['studentId']                                  = studentId
+  attendance['schoolId']                                   = schoolId
+  attendance['schoolYearAttendance'][0]['schoolYear']      = schoolYear
+  events = categories.split(/,/).map{|category|
+      category.strip!
+      { 'date' => eventDate, 'event' => category}
+  }
+  attendance['schoolYearAttendance'][0]['attendanceEvent'] = events
+  restHttpPost('/v1/attendances', attendance.to_json, 'application/vnd.slc+json')
+  assert(@res.code == 201, "Could not create attendance #{attendance.to_json}.")
+  location = @res.raw_headers['location'][0]
+  restHttpGetAbs(location, 'application/vnd.slc+json')
+  assert(@res.code == 200, "Could not fetch newly created attendance #{attendance.to_json}.")
+end
+
+When(/^I GET  attendance for student "([^"]*)" in school "([^"]*)" for the schoolYear "([^"]*)" on date "([^"]*)" and verify that it has "([^"]*)" attendance events$/) do |studentId, schoolId, schoolYear, eventDate, eventCount|
+  url = "/v1/students/#{studentId}/attendances?schoolId=#{schoolId}"
+  restHttpGet(url, 'application/vnd.slc+json')
+  assert(@res.code == 200, "Could not fetch attendance #{url}.")
+  attendances = JSON.parse @res
+  attendanceCount = 0
+  attendanceForSchoolYear = attendances.select { |attendance|
+    if attendance.has_key? ('schoolYearAttendance')
+      schoolYear == attendance['schoolYearAttendance'][0]['schoolYear']
+    end
+  }
+
+  attendanceCount =  attendanceForSchoolYear[0]['schoolYearAttendance'][0]['attendanceEvent'].count if attendanceForSchoolYear.count > 0
+  assert(attendanceCount == eventCount.to_i, "Expected #{eventCount} attendanceEvents. Found  #{attendanceCount}")
+
+end

@@ -147,7 +147,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>11</Result>
+    <Result>34</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -170,7 +170,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>22</Result>
+    <Result>32</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -193,7 +193,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>6</Result>
+    <Result>19</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -216,7 +216,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>96</Result>
+    <Result>67</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -239,7 +239,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>14</Result>
+    <Result>24</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -262,7 +262,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>87</Result>
+    <Result>83</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -285,7 +285,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>96</Result>
+    <Result>35</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -308,7 +308,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>58</Result>
+    <Result>41</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -331,7 +331,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>82</Result>
+    <Result>81</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -354,7 +354,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>34</Result>
+    <Result>2</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -377,7 +377,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>30</Result>
+    <Result>85</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -400,7 +400,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>57</Result>
+    <Result>93</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -561,7 +561,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>30</Result>
+    <Result>78</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -584,7 +584,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>82</Result>
+    <Result>49</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -607,7 +607,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>6</Result>
+    <Result>51</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -630,7 +630,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>87</Result>
+    <Result>27</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -653,7 +653,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>21</Result>
+    <Result>67</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -676,7 +676,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>90</Result>
+    <Result>79</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -699,7 +699,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>55</Result>
+    <Result>23</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -722,7 +722,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>39</Result>
+    <Result>19</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -745,7 +745,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>67</Result>
+    <Result>97</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -768,7 +768,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>75</Result>
+    <Result>31</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -791,7 +791,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>93</Result>
+    <Result>81</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -814,7 +814,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>43</Result>
+    <Result>89</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -975,7 +975,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>39</Result>
+    <Result>10</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -998,7 +998,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>98</Result>
+    <Result>11</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1021,7 +1021,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>44</Result>
+    <Result>35</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1044,7 +1044,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>6</Result>
+    <Result>85</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1067,7 +1067,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>94</Result>
+    <Result>92</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1090,7 +1090,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>62</Result>
+    <Result>49</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1113,7 +1113,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>30</Result>
+    <Result>3</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1136,7 +1136,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>60</Result>
+    <Result>70</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1159,7 +1159,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>95</Result>
+    <Result>46</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1182,7 +1182,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>63</Result>
+    <Result>47</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1205,7 +1205,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>24</Result>
+    <Result>14</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1228,7 +1228,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>35</Result>
+    <Result>75</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1389,7 +1389,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>0</Result>
+    <Result>80</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1412,7 +1412,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>85</Result>
+    <Result>37</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1435,7 +1435,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>28</Result>
+    <Result>29</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1458,7 +1458,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>73</Result>
+    <Result>2</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1481,7 +1481,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>73</Result>
+    <Result>28</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1504,7 +1504,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>4</Result>
+    <Result>96</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1527,7 +1527,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>8</Result>
+    <Result>58</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1544,29 +1544,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentAssessment>
 <StudentAssessment>
   <AdministrationDate>2015-09-06</AdministrationDate>
-  
-  <AdministrationLanguage IdentificationSystem="languageSystem">English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>26</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>4</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
-          <AssessmentTitle>2015-Tenth grade Assessment 1</AssessmentTitle>
-          <AcademicSubject>Engineering and Technology</AcademicSubject>
-          <GradeLevelAssessed>Tenth grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
-  <AdministrationDate>2015-09-07</AdministrationDate>
   
   <AdministrationLanguage IdentificationSystem="languageSystem">English</AdministrationLanguage>
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
@@ -1589,6 +1566,29 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </AssessmentReference>
 </StudentAssessment>
 <StudentAssessment>
+  <AdministrationDate>2015-09-07</AdministrationDate>
+  
+  <AdministrationLanguage IdentificationSystem="languageSystem">English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>38</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>4</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2015-Tenth grade Assessment 1</AssessmentTitle>
+          <AcademicSubject>Engineering and Technology</AcademicSubject>
+          <GradeLevelAssessed>Tenth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
   <AdministrationDate>2015-09-05</AdministrationDate>
   
   <AdministrationLanguage IdentificationSystem="languageSystem">English</AdministrationLanguage>
@@ -1596,7 +1596,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>82</Result>
+    <Result>76</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1619,7 +1619,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>87</Result>
+    <Result>2</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1642,7 +1642,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>43</Result>
+    <Result>62</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1803,7 +1803,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>5</Result>
+    <Result>38</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1826,7 +1826,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>26</Result>
+    <Result>83</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1849,7 +1849,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>41</Result>
+    <Result>19</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1872,7 +1872,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>83</Result>
+    <Result>18</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1895,7 +1895,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>28</Result>
+    <Result>7</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1918,7 +1918,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>75</Result>
+    <Result>30</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1941,7 +1941,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>78</Result>
+    <Result>34</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1964,7 +1964,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>82</Result>
+    <Result>45</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1987,7 +1987,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>66</Result>
+    <Result>59</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2010,7 +2010,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>98</Result>
+    <Result>24</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2033,7 +2033,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>98</Result>
+    <Result>13</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2056,7 +2056,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>84</Result>
+    <Result>31</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2217,7 +2217,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>85</Result>
+    <Result>57</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2240,7 +2240,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>64</Result>
+    <Result>5</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2263,7 +2263,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>39</Result>
+    <Result>50</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2286,7 +2286,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>11</Result>
+    <Result>26</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2309,7 +2309,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>86</Result>
+    <Result>78</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2332,7 +2332,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>38</Result>
+    <Result>40</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2355,7 +2355,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>94</Result>
+    <Result>21</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2378,7 +2378,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>48</Result>
+    <Result>70</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2424,7 +2424,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>16</Result>
+    <Result>9</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2447,7 +2447,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>65</Result>
+    <Result>48</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2470,7 +2470,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>9</Result>
+    <Result>42</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2631,7 +2631,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>82</Result>
+    <Result>92</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2654,7 +2654,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>48</Result>
+    <Result>71</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2677,7 +2677,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>64</Result>
+    <Result>23</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2700,7 +2700,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>44</Result>
+    <Result>10</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2723,7 +2723,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>9</Result>
+    <Result>35</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2746,7 +2746,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>46</Result>
+    <Result>64</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2769,7 +2769,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>41</Result>
+    <Result>73</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2792,7 +2792,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>83</Result>
+    <Result>93</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2815,7 +2815,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>34</Result>
+    <Result>81</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2838,7 +2838,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>63</Result>
+    <Result>31</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2861,7 +2861,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>74</Result>
+    <Result>2</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2884,7 +2884,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>68</Result>
+    <Result>83</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3045,7 +3045,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>86</Result>
+    <Result>45</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3068,7 +3068,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>0</Result>
+    <Result>21</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3091,7 +3091,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>6</Result>
+    <Result>72</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3114,7 +3114,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>20</Result>
+    <Result>92</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3137,7 +3137,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>5</Result>
+    <Result>28</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3160,7 +3160,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>45</Result>
+    <Result>95</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3183,7 +3183,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>75</Result>
+    <Result>46</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3206,7 +3206,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>74</Result>
+    <Result>6</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3229,7 +3229,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>10</Result>
+    <Result>95</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3252,7 +3252,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>21</Result>
+    <Result>32</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3275,7 +3275,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>5</Result>
+    <Result>73</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3298,7 +3298,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>44</Result>
+    <Result>98</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3459,7 +3459,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>16</Result>
+    <Result>74</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3482,7 +3482,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>48</Result>
+    <Result>56</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3505,7 +3505,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>41</Result>
+    <Result>16</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3528,7 +3528,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>20</Result>
+    <Result>4</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3551,7 +3551,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>16</Result>
+    <Result>5</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3574,7 +3574,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>67</Result>
+    <Result>24</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3597,7 +3597,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>75</Result>
+    <Result>43</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3620,7 +3620,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>42</Result>
+    <Result>56</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3643,7 +3643,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>22</Result>
+    <Result>18</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3666,7 +3666,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>26</Result>
+    <Result>84</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3689,7 +3689,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>82</Result>
+    <Result>74</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3712,7 +3712,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>90</Result>
+    <Result>43</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3873,7 +3873,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>63</Result>
+    <Result>73</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3896,7 +3896,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>59</Result>
+    <Result>64</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3919,7 +3919,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>2</Result>
+    <Result>38</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3942,7 +3942,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>30</Result>
+    <Result>22</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3965,7 +3965,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>17</Result>
+    <Result>96</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3988,7 +3988,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>59</Result>
+    <Result>66</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -4011,7 +4011,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>99</Result>
+    <Result>50</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -4034,7 +4034,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>32</Result>
+    <Result>0</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -4057,7 +4057,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>23</Result>
+    <Result>44</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -4080,7 +4080,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>87</Result>
+    <Result>68</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -4103,7 +4103,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>47</Result>
+    <Result>14</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -4126,7 +4126,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>56</Result>
+    <Result>4</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -25929,7 +25929,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>11</Result>
+     <Result>34</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -25960,7 +25960,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>22</Result>
+     <Result>32</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -25991,7 +25991,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>6</Result>
+     <Result>19</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -26022,7 +26022,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>96</Result>
+     <Result>67</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -26053,7 +26053,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>14</Result>
+     <Result>24</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -26084,7 +26084,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>87</Result>
+     <Result>83</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -26115,7 +26115,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>96</Result>
+     <Result>35</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -26146,7 +26146,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>58</Result>
+     <Result>41</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -26177,7 +26177,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>82</Result>
+     <Result>81</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -26208,7 +26208,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>34</Result>
+     <Result>2</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -26239,7 +26239,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>30</Result>
+     <Result>85</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -26270,7 +26270,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>57</Result>
+     <Result>93</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -26487,7 +26487,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>30</Result>
+     <Result>78</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -26518,7 +26518,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>82</Result>
+     <Result>49</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -26549,7 +26549,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>6</Result>
+     <Result>51</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -26580,7 +26580,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>87</Result>
+     <Result>27</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -26611,7 +26611,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>21</Result>
+     <Result>67</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -26642,7 +26642,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>90</Result>
+     <Result>79</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -26673,7 +26673,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>55</Result>
+     <Result>23</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -26704,7 +26704,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>39</Result>
+     <Result>19</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -26735,7 +26735,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>67</Result>
+     <Result>97</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -26766,7 +26766,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>75</Result>
+     <Result>31</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -26797,7 +26797,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>93</Result>
+     <Result>81</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -26828,7 +26828,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>43</Result>
+     <Result>89</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -27045,7 +27045,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>39</Result>
+     <Result>10</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -27076,7 +27076,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>98</Result>
+     <Result>11</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -27107,7 +27107,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>44</Result>
+     <Result>35</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -27138,7 +27138,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>6</Result>
+     <Result>85</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -27169,7 +27169,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>94</Result>
+     <Result>92</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -27200,7 +27200,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>62</Result>
+     <Result>49</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -27231,7 +27231,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>30</Result>
+     <Result>3</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -27262,7 +27262,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>60</Result>
+     <Result>70</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -27293,7 +27293,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>95</Result>
+     <Result>46</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -27324,7 +27324,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>63</Result>
+     <Result>47</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -27355,7 +27355,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>24</Result>
+     <Result>14</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -27386,7 +27386,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>35</Result>
+     <Result>75</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -27603,7 +27603,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>0</Result>
+     <Result>80</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -27634,7 +27634,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>85</Result>
+     <Result>37</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -27660,6 +27660,68 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
           <ObjectiveAssessmentIdentificationCode>2014-Ninth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>29</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2014-09-08</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>4</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2014-Ninth grade Assessment 1</AssessmentTitle>
+               <AcademicSubject>Health Care Sciences</AcademicSubject>
+               <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2014-Ninth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>2</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2014-09-06</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>4</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2014-Ninth grade Assessment 2</AssessmentTitle>
+               <AcademicSubject>Social Studies</AcademicSubject>
+               <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2014-Ninth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -27673,68 +27735,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </PerformanceLevels>
   <StudentAssessmentReference>
      <StudentAssessmentIdentity>
-         <AdministrationDate>2014-09-08</AdministrationDate>
-         <StudentReference>
-            <StudentIdentity>
-               <StudentUniqueStateId>4</StudentUniqueStateId>
-            </StudentIdentity>
-         </StudentReference>
-         <AssessmentReference>
-            <AssessmentIdentity>
-               <AssessmentTitle>2014-Ninth grade Assessment 1</AssessmentTitle>
-               <AcademicSubject>Health Care Sciences</AcademicSubject>
-               <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
-             </AssessmentIdentity>
-          </AssessmentReference>
-      </StudentAssessmentIdentity>
-  </StudentAssessmentReference>
-  <ObjectiveAssessmentReference>
-      <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2014-Ninth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
-      </ObjectiveAssessmentIdentity>
-  </ObjectiveAssessmentReference>
-</StudentObjectiveAssessment>
-<StudentObjectiveAssessment>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>73</Result>
-  </ScoreResults>
-  <PerformanceLevels>
-  <CodeValue>code1</CodeValue>
-  <PerformanceLevelMet>true</PerformanceLevelMet>
-  </PerformanceLevels>
-  <StudentAssessmentReference>
-     <StudentAssessmentIdentity>
-         <AdministrationDate>2014-09-06</AdministrationDate>
-         <StudentReference>
-            <StudentIdentity>
-               <StudentUniqueStateId>4</StudentUniqueStateId>
-            </StudentIdentity>
-         </StudentReference>
-         <AssessmentReference>
-            <AssessmentIdentity>
-               <AssessmentTitle>2014-Ninth grade Assessment 2</AssessmentTitle>
-               <AcademicSubject>Social Studies</AcademicSubject>
-               <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
-             </AssessmentIdentity>
-          </AssessmentReference>
-      </StudentAssessmentIdentity>
-  </StudentAssessmentReference>
-  <ObjectiveAssessmentReference>
-      <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2014-Ninth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
-      </ObjectiveAssessmentIdentity>
-  </ObjectiveAssessmentReference>
-</StudentObjectiveAssessment>
-<StudentObjectiveAssessment>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>73</Result>
-  </ScoreResults>
-  <PerformanceLevels>
-  <CodeValue>code1</CodeValue>
-  <PerformanceLevelMet>true</PerformanceLevelMet>
-  </PerformanceLevels>
-  <StudentAssessmentReference>
-     <StudentAssessmentIdentity>
          <AdministrationDate>2014-09-07</AdministrationDate>
          <StudentReference>
             <StudentIdentity>
@@ -27758,7 +27758,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>4</Result>
+     <Result>96</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -27789,7 +27789,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>8</Result>
+     <Result>58</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -27798,37 +27798,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StudentAssessmentReference>
      <StudentAssessmentIdentity>
          <AdministrationDate>2015-09-05</AdministrationDate>
-         <StudentReference>
-            <StudentIdentity>
-               <StudentUniqueStateId>4</StudentUniqueStateId>
-            </StudentIdentity>
-         </StudentReference>
-         <AssessmentReference>
-            <AssessmentIdentity>
-               <AssessmentTitle>2015-Tenth grade Assessment 1</AssessmentTitle>
-               <AcademicSubject>Engineering and Technology</AcademicSubject>
-               <GradeLevelAssessed>Tenth grade</GradeLevelAssessed>
-             </AssessmentIdentity>
-          </AssessmentReference>
-      </StudentAssessmentIdentity>
-  </StudentAssessmentReference>
-  <ObjectiveAssessmentReference>
-      <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2015-Tenth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
-      </ObjectiveAssessmentIdentity>
-  </ObjectiveAssessmentReference>
-</StudentObjectiveAssessment>
-<StudentObjectiveAssessment>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>26</Result>
-  </ScoreResults>
-  <PerformanceLevels>
-  <CodeValue>code1</CodeValue>
-  <PerformanceLevelMet>true</PerformanceLevelMet>
-  </PerformanceLevels>
-  <StudentAssessmentReference>
-     <StudentAssessmentIdentity>
-         <AdministrationDate>2015-09-06</AdministrationDate>
          <StudentReference>
             <StudentIdentity>
                <StudentUniqueStateId>4</StudentUniqueStateId>
@@ -27859,6 +27828,37 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </PerformanceLevels>
   <StudentAssessmentReference>
      <StudentAssessmentIdentity>
+         <AdministrationDate>2015-09-06</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>4</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2015-Tenth grade Assessment 1</AssessmentTitle>
+               <AcademicSubject>Engineering and Technology</AcademicSubject>
+               <GradeLevelAssessed>Tenth grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2015-Tenth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>38</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
          <AdministrationDate>2015-09-07</AdministrationDate>
          <StudentReference>
             <StudentIdentity>
@@ -27882,7 +27882,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>82</Result>
+     <Result>76</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -27913,7 +27913,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>87</Result>
+     <Result>2</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -27944,7 +27944,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>43</Result>
+     <Result>62</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -28161,7 +28161,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>5</Result>
+     <Result>38</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -28170,68 +28170,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StudentAssessmentReference>
      <StudentAssessmentIdentity>
          <AdministrationDate>2014-09-06</AdministrationDate>
-         <StudentReference>
-            <StudentIdentity>
-               <StudentUniqueStateId>5</StudentUniqueStateId>
-            </StudentIdentity>
-         </StudentReference>
-         <AssessmentReference>
-            <AssessmentIdentity>
-               <AssessmentTitle>2014-First grade Assessment 1</AssessmentTitle>
-               <AcademicSubject>Social Studies</AcademicSubject>
-               <GradeLevelAssessed>First grade</GradeLevelAssessed>
-             </AssessmentIdentity>
-          </AssessmentReference>
-      </StudentAssessmentIdentity>
-  </StudentAssessmentReference>
-  <ObjectiveAssessmentReference>
-      <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2014-First grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
-      </ObjectiveAssessmentIdentity>
-  </ObjectiveAssessmentReference>
-</StudentObjectiveAssessment>
-<StudentObjectiveAssessment>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>26</Result>
-  </ScoreResults>
-  <PerformanceLevels>
-  <CodeValue>code1</CodeValue>
-  <PerformanceLevelMet>true</PerformanceLevelMet>
-  </PerformanceLevels>
-  <StudentAssessmentReference>
-     <StudentAssessmentIdentity>
-         <AdministrationDate>2014-09-07</AdministrationDate>
-         <StudentReference>
-            <StudentIdentity>
-               <StudentUniqueStateId>5</StudentUniqueStateId>
-            </StudentIdentity>
-         </StudentReference>
-         <AssessmentReference>
-            <AssessmentIdentity>
-               <AssessmentTitle>2014-First grade Assessment 1</AssessmentTitle>
-               <AcademicSubject>Social Studies</AcademicSubject>
-               <GradeLevelAssessed>First grade</GradeLevelAssessed>
-             </AssessmentIdentity>
-          </AssessmentReference>
-      </StudentAssessmentIdentity>
-  </StudentAssessmentReference>
-  <ObjectiveAssessmentReference>
-      <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2014-First grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
-      </ObjectiveAssessmentIdentity>
-  </ObjectiveAssessmentReference>
-</StudentObjectiveAssessment>
-<StudentObjectiveAssessment>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>41</Result>
-  </ScoreResults>
-  <PerformanceLevels>
-  <CodeValue>code1</CodeValue>
-  <PerformanceLevelMet>true</PerformanceLevelMet>
-  </PerformanceLevels>
-  <StudentAssessmentReference>
-     <StudentAssessmentIdentity>
-         <AdministrationDate>2014-09-08</AdministrationDate>
          <StudentReference>
             <StudentIdentity>
                <StudentUniqueStateId>5</StudentUniqueStateId>
@@ -28262,6 +28200,68 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </PerformanceLevels>
   <StudentAssessmentReference>
      <StudentAssessmentIdentity>
+         <AdministrationDate>2014-09-07</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>5</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2014-First grade Assessment 1</AssessmentTitle>
+               <AcademicSubject>Social Studies</AcademicSubject>
+               <GradeLevelAssessed>First grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2014-First grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>19</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2014-09-08</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>5</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2014-First grade Assessment 1</AssessmentTitle>
+               <AcademicSubject>Social Studies</AcademicSubject>
+               <GradeLevelAssessed>First grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2014-First grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>18</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
          <AdministrationDate>2014-09-06</AdministrationDate>
          <StudentReference>
             <StudentIdentity>
@@ -28285,7 +28285,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>28</Result>
+     <Result>7</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -28316,7 +28316,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>75</Result>
+     <Result>30</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -28347,7 +28347,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>78</Result>
+     <Result>34</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -28378,7 +28378,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>82</Result>
+     <Result>45</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -28409,7 +28409,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>66</Result>
+     <Result>59</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -28440,7 +28440,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>98</Result>
+     <Result>24</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -28471,7 +28471,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>98</Result>
+     <Result>13</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -28502,7 +28502,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>84</Result>
+     <Result>31</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -28719,7 +28719,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>85</Result>
+     <Result>57</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -28750,7 +28750,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>64</Result>
+     <Result>5</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -28781,7 +28781,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>39</Result>
+     <Result>50</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -28812,7 +28812,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>11</Result>
+     <Result>26</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -28843,7 +28843,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>86</Result>
+     <Result>78</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -28874,7 +28874,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>38</Result>
+     <Result>40</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -28905,7 +28905,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>94</Result>
+     <Result>21</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -28936,7 +28936,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>48</Result>
+     <Result>70</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -28998,7 +28998,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>16</Result>
+     <Result>9</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -29029,7 +29029,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>65</Result>
+     <Result>48</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -29060,7 +29060,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>9</Result>
+     <Result>42</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -29277,7 +29277,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>82</Result>
+     <Result>92</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -29308,7 +29308,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>48</Result>
+     <Result>71</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -29334,6 +29334,99 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
           <ObjectiveAssessmentIdentificationCode>2014-Third grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>23</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2014-09-08</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>7</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2014-Third grade Assessment 1</AssessmentTitle>
+               <AcademicSubject>ELA</AcademicSubject>
+               <GradeLevelAssessed>Third grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2014-Third grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>10</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2014-09-06</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>7</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2014-Third grade Assessment 2</AssessmentTitle>
+               <AcademicSubject>Science</AcademicSubject>
+               <GradeLevelAssessed>Third grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2014-Third grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>35</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2014-09-07</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>7</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2014-Third grade Assessment 2</AssessmentTitle>
+               <AcademicSubject>Science</AcademicSubject>
+               <GradeLevelAssessed>Third grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2014-Third grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -29355,37 +29448,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
          </StudentReference>
          <AssessmentReference>
             <AssessmentIdentity>
-               <AssessmentTitle>2014-Third grade Assessment 1</AssessmentTitle>
-               <AcademicSubject>ELA</AcademicSubject>
-               <GradeLevelAssessed>Third grade</GradeLevelAssessed>
-             </AssessmentIdentity>
-          </AssessmentReference>
-      </StudentAssessmentIdentity>
-  </StudentAssessmentReference>
-  <ObjectiveAssessmentReference>
-      <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2014-Third grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
-      </ObjectiveAssessmentIdentity>
-  </ObjectiveAssessmentReference>
-</StudentObjectiveAssessment>
-<StudentObjectiveAssessment>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>44</Result>
-  </ScoreResults>
-  <PerformanceLevels>
-  <CodeValue>code1</CodeValue>
-  <PerformanceLevelMet>true</PerformanceLevelMet>
-  </PerformanceLevels>
-  <StudentAssessmentReference>
-     <StudentAssessmentIdentity>
-         <AdministrationDate>2014-09-06</AdministrationDate>
-         <StudentReference>
-            <StudentIdentity>
-               <StudentUniqueStateId>7</StudentUniqueStateId>
-            </StudentIdentity>
-         </StudentReference>
-         <AssessmentReference>
-            <AssessmentIdentity>
                <AssessmentTitle>2014-Third grade Assessment 2</AssessmentTitle>
                <AcademicSubject>Science</AcademicSubject>
                <GradeLevelAssessed>Third grade</GradeLevelAssessed>
@@ -29401,69 +29463,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>9</Result>
-  </ScoreResults>
-  <PerformanceLevels>
-  <CodeValue>code1</CodeValue>
-  <PerformanceLevelMet>true</PerformanceLevelMet>
-  </PerformanceLevels>
-  <StudentAssessmentReference>
-     <StudentAssessmentIdentity>
-         <AdministrationDate>2014-09-07</AdministrationDate>
-         <StudentReference>
-            <StudentIdentity>
-               <StudentUniqueStateId>7</StudentUniqueStateId>
-            </StudentIdentity>
-         </StudentReference>
-         <AssessmentReference>
-            <AssessmentIdentity>
-               <AssessmentTitle>2014-Third grade Assessment 2</AssessmentTitle>
-               <AcademicSubject>Science</AcademicSubject>
-               <GradeLevelAssessed>Third grade</GradeLevelAssessed>
-             </AssessmentIdentity>
-          </AssessmentReference>
-      </StudentAssessmentIdentity>
-  </StudentAssessmentReference>
-  <ObjectiveAssessmentReference>
-      <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2014-Third grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
-      </ObjectiveAssessmentIdentity>
-  </ObjectiveAssessmentReference>
-</StudentObjectiveAssessment>
-<StudentObjectiveAssessment>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>46</Result>
-  </ScoreResults>
-  <PerformanceLevels>
-  <CodeValue>code1</CodeValue>
-  <PerformanceLevelMet>true</PerformanceLevelMet>
-  </PerformanceLevels>
-  <StudentAssessmentReference>
-     <StudentAssessmentIdentity>
-         <AdministrationDate>2014-09-08</AdministrationDate>
-         <StudentReference>
-            <StudentIdentity>
-               <StudentUniqueStateId>7</StudentUniqueStateId>
-            </StudentIdentity>
-         </StudentReference>
-         <AssessmentReference>
-            <AssessmentIdentity>
-               <AssessmentTitle>2014-Third grade Assessment 2</AssessmentTitle>
-               <AcademicSubject>Science</AcademicSubject>
-               <GradeLevelAssessed>Third grade</GradeLevelAssessed>
-             </AssessmentIdentity>
-          </AssessmentReference>
-      </StudentAssessmentIdentity>
-  </StudentAssessmentReference>
-  <ObjectiveAssessmentReference>
-      <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2014-Third grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
-      </ObjectiveAssessmentIdentity>
-  </ObjectiveAssessmentReference>
-</StudentObjectiveAssessment>
-<StudentObjectiveAssessment>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>41</Result>
+     <Result>73</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -29494,7 +29494,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>83</Result>
+     <Result>93</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -29525,7 +29525,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>34</Result>
+     <Result>81</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -29556,7 +29556,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>63</Result>
+     <Result>31</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -29587,7 +29587,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>74</Result>
+     <Result>2</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -29618,7 +29618,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>68</Result>
+     <Result>83</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -29835,161 +29835,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>86</Result>
-  </ScoreResults>
-  <PerformanceLevels>
-  <CodeValue>code1</CodeValue>
-  <PerformanceLevelMet>true</PerformanceLevelMet>
-  </PerformanceLevels>
-  <StudentAssessmentReference>
-     <StudentAssessmentIdentity>
-         <AdministrationDate>2014-09-06</AdministrationDate>
-         <StudentReference>
-            <StudentIdentity>
-               <StudentUniqueStateId>8</StudentUniqueStateId>
-            </StudentIdentity>
-         </StudentReference>
-         <AssessmentReference>
-            <AssessmentIdentity>
-               <AssessmentTitle>2014-Fourth grade Assessment 1</AssessmentTitle>
-               <AcademicSubject>Science</AcademicSubject>
-               <GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
-             </AssessmentIdentity>
-          </AssessmentReference>
-      </StudentAssessmentIdentity>
-  </StudentAssessmentReference>
-  <ObjectiveAssessmentReference>
-      <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2014-Fourth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
-      </ObjectiveAssessmentIdentity>
-  </ObjectiveAssessmentReference>
-</StudentObjectiveAssessment>
-<StudentObjectiveAssessment>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>0</Result>
-  </ScoreResults>
-  <PerformanceLevels>
-  <CodeValue>code1</CodeValue>
-  <PerformanceLevelMet>true</PerformanceLevelMet>
-  </PerformanceLevels>
-  <StudentAssessmentReference>
-     <StudentAssessmentIdentity>
-         <AdministrationDate>2014-09-07</AdministrationDate>
-         <StudentReference>
-            <StudentIdentity>
-               <StudentUniqueStateId>8</StudentUniqueStateId>
-            </StudentIdentity>
-         </StudentReference>
-         <AssessmentReference>
-            <AssessmentIdentity>
-               <AssessmentTitle>2014-Fourth grade Assessment 1</AssessmentTitle>
-               <AcademicSubject>Science</AcademicSubject>
-               <GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
-             </AssessmentIdentity>
-          </AssessmentReference>
-      </StudentAssessmentIdentity>
-  </StudentAssessmentReference>
-  <ObjectiveAssessmentReference>
-      <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2014-Fourth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
-      </ObjectiveAssessmentIdentity>
-  </ObjectiveAssessmentReference>
-</StudentObjectiveAssessment>
-<StudentObjectiveAssessment>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>6</Result>
-  </ScoreResults>
-  <PerformanceLevels>
-  <CodeValue>code1</CodeValue>
-  <PerformanceLevelMet>true</PerformanceLevelMet>
-  </PerformanceLevels>
-  <StudentAssessmentReference>
-     <StudentAssessmentIdentity>
-         <AdministrationDate>2014-09-08</AdministrationDate>
-         <StudentReference>
-            <StudentIdentity>
-               <StudentUniqueStateId>8</StudentUniqueStateId>
-            </StudentIdentity>
-         </StudentReference>
-         <AssessmentReference>
-            <AssessmentIdentity>
-               <AssessmentTitle>2014-Fourth grade Assessment 1</AssessmentTitle>
-               <AcademicSubject>Science</AcademicSubject>
-               <GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
-             </AssessmentIdentity>
-          </AssessmentReference>
-      </StudentAssessmentIdentity>
-  </StudentAssessmentReference>
-  <ObjectiveAssessmentReference>
-      <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2014-Fourth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
-      </ObjectiveAssessmentIdentity>
-  </ObjectiveAssessmentReference>
-</StudentObjectiveAssessment>
-<StudentObjectiveAssessment>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>20</Result>
-  </ScoreResults>
-  <PerformanceLevels>
-  <CodeValue>code1</CodeValue>
-  <PerformanceLevelMet>true</PerformanceLevelMet>
-  </PerformanceLevels>
-  <StudentAssessmentReference>
-     <StudentAssessmentIdentity>
-         <AdministrationDate>2014-09-06</AdministrationDate>
-         <StudentReference>
-            <StudentIdentity>
-               <StudentUniqueStateId>8</StudentUniqueStateId>
-            </StudentIdentity>
-         </StudentReference>
-         <AssessmentReference>
-            <AssessmentIdentity>
-               <AssessmentTitle>2014-Fourth grade Assessment 2</AssessmentTitle>
-               <AcademicSubject>Writing</AcademicSubject>
-               <GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
-             </AssessmentIdentity>
-          </AssessmentReference>
-      </StudentAssessmentIdentity>
-  </StudentAssessmentReference>
-  <ObjectiveAssessmentReference>
-      <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2014-Fourth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
-      </ObjectiveAssessmentIdentity>
-  </ObjectiveAssessmentReference>
-</StudentObjectiveAssessment>
-<StudentObjectiveAssessment>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>5</Result>
-  </ScoreResults>
-  <PerformanceLevels>
-  <CodeValue>code1</CodeValue>
-  <PerformanceLevelMet>true</PerformanceLevelMet>
-  </PerformanceLevels>
-  <StudentAssessmentReference>
-     <StudentAssessmentIdentity>
-         <AdministrationDate>2014-09-07</AdministrationDate>
-         <StudentReference>
-            <StudentIdentity>
-               <StudentUniqueStateId>8</StudentUniqueStateId>
-            </StudentIdentity>
-         </StudentReference>
-         <AssessmentReference>
-            <AssessmentIdentity>
-               <AssessmentTitle>2014-Fourth grade Assessment 2</AssessmentTitle>
-               <AcademicSubject>Writing</AcademicSubject>
-               <GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
-             </AssessmentIdentity>
-          </AssessmentReference>
-      </StudentAssessmentIdentity>
-  </StudentAssessmentReference>
-  <ObjectiveAssessmentReference>
-      <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2014-Fourth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
-      </ObjectiveAssessmentIdentity>
-  </ObjectiveAssessmentReference>
-</StudentObjectiveAssessment>
-<StudentObjectiveAssessment>
-  <ScoreResults AssessmentReportingMethod="Scale score">
      <Result>45</Result>
   </ScoreResults>
   <PerformanceLevels>
@@ -29998,6 +29843,161 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </PerformanceLevels>
   <StudentAssessmentReference>
      <StudentAssessmentIdentity>
+         <AdministrationDate>2014-09-06</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>8</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2014-Fourth grade Assessment 1</AssessmentTitle>
+               <AcademicSubject>Science</AcademicSubject>
+               <GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2014-Fourth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>21</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2014-09-07</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>8</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2014-Fourth grade Assessment 1</AssessmentTitle>
+               <AcademicSubject>Science</AcademicSubject>
+               <GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2014-Fourth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>72</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2014-09-08</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>8</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2014-Fourth grade Assessment 1</AssessmentTitle>
+               <AcademicSubject>Science</AcademicSubject>
+               <GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2014-Fourth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>92</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2014-09-06</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>8</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2014-Fourth grade Assessment 2</AssessmentTitle>
+               <AcademicSubject>Writing</AcademicSubject>
+               <GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2014-Fourth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>28</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>2014-09-07</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>8</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>2014-Fourth grade Assessment 2</AssessmentTitle>
+               <AcademicSubject>Writing</AcademicSubject>
+               <GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+             </AssessmentIdentity>
+          </AssessmentReference>
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+          <ObjectiveAssessmentIdentificationCode>2014-Fourth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+  </ObjectiveAssessmentReference>
+</StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>95</Result>
+  </ScoreResults>
+  <PerformanceLevels>
+  <CodeValue>code1</CodeValue>
+  <PerformanceLevelMet>true</PerformanceLevelMet>
+  </PerformanceLevels>
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
          <AdministrationDate>2014-09-08</AdministrationDate>
          <StudentReference>
             <StudentIdentity>
@@ -30021,7 +30021,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>75</Result>
+     <Result>46</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -30052,7 +30052,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>74</Result>
+     <Result>6</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -30083,7 +30083,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>10</Result>
+     <Result>95</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -30114,7 +30114,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>21</Result>
+     <Result>32</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -30145,7 +30145,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>5</Result>
+     <Result>73</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -30176,7 +30176,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>44</Result>
+     <Result>98</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -30393,7 +30393,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>16</Result>
+     <Result>74</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -30424,7 +30424,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>48</Result>
+     <Result>56</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -30455,7 +30455,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>41</Result>
+     <Result>16</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -30486,7 +30486,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>20</Result>
+     <Result>4</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -30517,7 +30517,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>16</Result>
+     <Result>5</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -30548,7 +30548,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>67</Result>
+     <Result>24</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -30579,7 +30579,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>75</Result>
+     <Result>43</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -30610,7 +30610,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>42</Result>
+     <Result>56</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -30641,7 +30641,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>22</Result>
+     <Result>18</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -30672,7 +30672,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>26</Result>
+     <Result>84</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -30703,7 +30703,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>82</Result>
+     <Result>74</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -30734,7 +30734,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>90</Result>
+     <Result>43</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -30951,7 +30951,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>63</Result>
+     <Result>73</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -30982,7 +30982,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>59</Result>
+     <Result>64</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -31013,7 +31013,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>2</Result>
+     <Result>38</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -31044,7 +31044,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>30</Result>
+     <Result>22</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -31075,7 +31075,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>17</Result>
+     <Result>96</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -31106,7 +31106,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>59</Result>
+     <Result>66</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -31137,7 +31137,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>99</Result>
+     <Result>50</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -31168,7 +31168,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>32</Result>
+     <Result>0</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -31199,7 +31199,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>23</Result>
+     <Result>44</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -31230,7 +31230,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>87</Result>
+     <Result>68</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -31261,7 +31261,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>47</Result>
+     <Result>14</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>
@@ -31292,7 +31292,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentObjectiveAssessment>
 <StudentObjectiveAssessment>
   <ScoreResults AssessmentReportingMethod="Scale score">
-     <Result>56</Result>
+     <Result>4</Result>
   </ScoreResults>
   <PerformanceLevels>
   <CodeValue>code1</CodeValue>

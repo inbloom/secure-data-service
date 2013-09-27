@@ -21,8 +21,10 @@ package org.slc.sli.bulk.extract.lea;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import org.joda.time.DateTime;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
@@ -39,6 +41,7 @@ public class StudentExtractor implements EntityExtract {
     private EntityExtractor extractor;
     private Repository<Entity> repo;
     private EntityToEdOrgCache studentCache;
+    private EntityToEdOrgDateCache studentDatedCache;
     private EntityToEdOrgCache parentCache;
     private EdOrgExtractHelper edOrgExtractHelper;
 
@@ -64,7 +67,9 @@ public class StudentExtractor implements EntityExtract {
     @Override
     public void extractEntities(EntityToEdOrgCache entityToEdorgCache) {
         edOrgExtractHelper.logSecurityEvent(map.getEdOrgs(), EntityNames.STUDENT, this.getClass().getName());
+
         Iterator<Entity> cursor = repo.findEach("student", new NeutralQuery());
+
         while (cursor.hasNext()) {
             Entity e = cursor.next();
             Set<String> schools = helper.fetchCurrentSchoolsForStudent(e);
@@ -102,6 +107,15 @@ public class StudentExtractor implements EntityExtract {
             }
         }
         
+    }
+
+    private void buildStudentDatedCache(Entity student) {
+        Map<String, DateTime> edOrgDate = helper.fetchAllEdOrgsForStudent(student);
+        for(String edOrg : map.getEdOrgs()) {
+            if(edOrgDate.containsKey(edOrg)) {
+                studentDatedCache.addEntry(student.getEntityId(), edOrg, edOrgDate.get(edOrg));
+            }
+        }
     }
     
     public void setEntityCache(EntityToEdOrgCache cache) {
