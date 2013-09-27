@@ -58,6 +58,10 @@ module Enum
       @hash.values
     end
 
+    def all_keys
+      @hash.keys
+    end
+
     def get_key(value)
       items = []
       @hash.values.each { |item| items << item if item.value == value }

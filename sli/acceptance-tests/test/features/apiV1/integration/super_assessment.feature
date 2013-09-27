@@ -47,7 +47,7 @@ Scenario: As a teacher, for my section, I want to get the most recent Math asses
     And the response field "administrationLanguage.language" should be "English"
     And the response field "administrationEnvironment" should be "Classroom"
     And the response field "retestIndicator" should be "Primary Administration"
-    And the response field "<SOA.scoreResults.result>" should be "57"
+    And the response field "<SOA.scoreResults.result>" should be "15"
     And the response field "<SOA.OA.identificationCode>" should be "2013-Twelfth grade Assessment 1.OA-0"
     And I sort the studentAssessmentItems
     And the response field "<SAI.AI.identificationCode>" should be "2013-Twelfth grade Assessment 1#1"

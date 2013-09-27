@@ -48,17 +48,17 @@ Given I log in to realm "Illinois Daybreak Students" using simple-idp as "studen
   And format "application/json"
   And I am using api version "v1" 
   # Cohorts
-  When I validate the current allowed association entities via API "/v1/cohorts/b4f9ddccc4c5c47a00541ee7c6d67fcb287316ce_id/staffCohortAssociations":
+  When I validate the current allowed association entities via API "/v1/cohorts/1c1a4ac5bebc9b67806805935edce7d6e1f269ea_id/staffCohortAssociations":
     | id                                          |
-    | a17d936ca77e391ace5d14645a4b9b78f6dbd387_id |
-    | 56318bd0507551f3eff40aea265f3ce1e47ec3cc_id |
+    | ee3d3035994b88d465553f38a265fff4597946d2_id |
+    | 2a3ab64f732cc121f8091dc3eeeb88815ba2737e_id |
 
-  When I validate the allowed association entities via API "/v1/cohorts/b4f9ddccc4c5c47a00541ee7c6d67fcb287316ce_id/staffCohortAssociations/staff":
+  When I validate the allowed association entities via API "/v1/cohorts/1c1a4ac5bebc9b67806805935edce7d6e1f269ea_id/staffCohortAssociations/staff":
     | id                                          |
-    | 0941af6d37f33cc9d690bd662894f851ee1bfd1e_id |
-    | 4255c28503a1c96ed9a9127d1a21f992e636acd6_id |
+    | 143760f37839b2608d2c929ef26d30c900f6a434_id |
+    | c64062927d0a93b6cf92a55bf812ffb2e613683a_id |
 
-  When I validate the current allowed association entities via API "/v1/cohorts/b4f9ddccc4c5c47a00541ee7c6d67fcb287316ce_id/studentCohortAssociations":
+  When I validate the current allowed association entities via API "/v1/cohorts/1c1a4ac5bebc9b67806805935edce7d6e1f269ea_id/studentCohortAssociations":
     | id                                                                                     |
     | 067198fd6da91e1aa8d67e28e850f224d6851713_idc787af32ad98c7e7062619db99d233c32582d30a_id |
     | 080556ee7c69149d6143f309a758eec019ddfe11_idfd64bae1c7acb7605792ceba0cbbb83fe094aac7_id |
@@ -70,7 +70,7 @@ Given I log in to realm "Illinois Daybreak Students" using simple-idp as "studen
     | f24dad74523e919dcf96759b4f382df490bc9699_idf0262787bbbafd0dd085603491029197d8538e70_id |
     | 820642b49c9ca236d49c0384b98e9e6549047c34_id2e35b11bbbda60eb3bea9281e3bcca8f82d128a5_id |
     | f5d19abf71b888312e3807ae867a6c2c75196fbd_idac8dcc1402ede5702f5f5d817f78ba1fae7bcd3a_id |
-  When I validate the allowed association entities via API "/v1/cohorts/b4f9ddccc4c5c47a00541ee7c6d67fcb287316ce_id/studentCohortAssociations/students":
+  When I validate the allowed association entities via API "/v1/cohorts/1c1a4ac5bebc9b67806805935edce7d6e1f269ea_id/studentCohortAssociations/students":
     | id                                          |
     | 067198fd6da91e1aa8d67e28e850f224d6851713_id |
     | 080556ee7c69149d6143f309a758eec019ddfe11_id |
