@@ -41,7 +41,8 @@ Scenario: As an bulk extract user, I want to be able to get the state public ent
       |  program                               |
       |  gradingPeriod                         |
       |  calendarDate                          |
-
+      |  school                                |
+@wip
 Scenario Outline: Extract should have all the valid data for the SEA
     When I retrieve the path to and decrypt the SEA public data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
   Then the "<entity>" has the correct number of SEA public data records "<field>"
@@ -55,7 +56,7 @@ Scenario Outline: Extract should have all the valid data for the SEA
       |  session                       |    schoolId                             |
       |  gradingPeriod                 |    gradingPeriodIdentity.schoolId       |
       |  calendarDate                  |    educationOrganizationId              |
-
+@wip
 Scenario Outline: Extract should contain independent entities that do not reference any EdOrg
     When I retrieve the path to and decrypt the SEA public data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
    Then I verify that <count> "<entity>" does not contain the reference field "<field>"
@@ -101,7 +102,8 @@ Scenario: As a valid user get SEA public data extract using BEEP
       |  program                               |
       |  gradingPeriod                         |
       |  calendarDate                          |
-
+      |  school                                |
+@wip
 Scenario Outline: Extract received through the API should have all the valid data for the SEA
     When I know where the extracted tar is for tenant "Midgar"
     Then the "<entity>" has the correct number of SEA public data records "<field>"
@@ -231,6 +233,7 @@ Scenario: Where the public entity has no edOrg reference, verify the entity is s
       |  studentCompetencyObjective            |
       |  program                               |
       |  educationOrganization                 |
+      |  school                                |
 
 Scenario: No SEA is available for the tenant
    Given the extraction zone is empty

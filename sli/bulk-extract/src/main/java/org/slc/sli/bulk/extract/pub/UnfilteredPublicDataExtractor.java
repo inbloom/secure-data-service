@@ -41,6 +41,7 @@ public class UnfilteredPublicDataExtractor implements PublicDataExtractor{
 
     @Override
     public void extract(ExtractFile file) {
+        extractor.setExtractionQuery(new NeutralQuery());
         for (PublicEntityDefinition entity : PublicEntityDefinition.unFilteredEntities()) {
             extractor.extractEntities(file, entity.getEntityName());
         }

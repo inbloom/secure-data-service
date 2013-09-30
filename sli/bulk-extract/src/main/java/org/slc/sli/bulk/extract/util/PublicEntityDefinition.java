@@ -25,7 +25,7 @@ import java.util.List;
  */
 public enum PublicEntityDefinition {
 
-    STATE_EDUCATION_AGENCY("educationOrganization", "_id"),
+    EDUCATION_ORGANIZATION("educationOrganization", "_id"),
     COURSE("course", "body.schoolId"),
     COURSE_OFFERING("courseOffering", "body.schoolId"),
     SESSION("session", "body.schoolId"),
@@ -69,7 +69,7 @@ public enum PublicEntityDefinition {
      * @return
      */
     public static List<PublicEntityDefinition> directReferencedEntities() {
-        return Arrays.asList(STATE_EDUCATION_AGENCY, COURSE, COURSE_OFFERING, SESSION, GRADING_PERIOD, CALENDAR_DATE);
+        return Arrays.asList();
     }
 
     /**
@@ -77,14 +77,6 @@ public enum PublicEntityDefinition {
      * @return
      */
     public static List<PublicEntityDefinition> unFilteredEntities() {
-        return Arrays.asList(ASSESSMENT, LEARNING_OBJECTIVE, LEARNING_STANDARD, COMPETENCY_LEVEL_DESCRIPTOR, STUDENT_COMPETENCY_OBJECTIVE, PROGRAM);
-    }
-
-    /**
-     * returns the entities which doesn't have reference to SEA
-     * @return
-     */
-    public static List<PublicEntityDefinition> independentEntities() {
-        return Arrays.asList(GRADUATION_PLAN);
+        return Arrays.asList(ASSESSMENT, LEARNING_OBJECTIVE, LEARNING_STANDARD, COMPETENCY_LEVEL_DESCRIPTOR, STUDENT_COMPETENCY_OBJECTIVE, PROGRAM, EDUCATION_ORGANIZATION, COURSE, COURSE_OFFERING, SESSION, GRADING_PERIOD, CALENDAR_DATE, GRADUATION_PLAN);
     }
 }
