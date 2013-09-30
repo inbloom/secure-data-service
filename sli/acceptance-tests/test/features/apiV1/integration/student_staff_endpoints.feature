@@ -264,10 +264,10 @@ Given I log in to realm "Illinois Daybreak Students" using simple-idp as "studen
   When I validate that I am denied access to restricted endpoints via API:
     | uri                                                                                        | rc  |
    #| Associations through expired cohorts should return                                         | 403 |
-    | /v1/cohorts/72c0402e82f3a67db019d7736d423cc4a214db87_id/staffCohortAssociations            | 403 |
-    | /v1/cohorts/72c0402e82f3a67db019d7736d423cc4a214db87_id/staffCohortAssociations/staff      | 403 |
-    | /v1/cohorts/72c0402e82f3a67db019d7736d423cc4a214db87_id/studentCohortAssociations          | 403 |
-    | /v1/cohorts/72c0402e82f3a67db019d7736d423cc4a214db87_id/studentCohortAssociations/students | 403 |
+    | /v1/cohorts/b7c645daf74600587514032c5315588290d01b06_id/staffCohortAssociations            | 403 |
+    | /v1/cohorts/b7c645daf74600587514032c5315588290d01b06_id/staffCohortAssociations/staff      | 403 |
+    | /v1/cohorts/b7c645daf74600587514032c5315588290d01b06_id/studentCohortAssociations          | 403 |
+    | /v1/cohorts/b7c645daf74600587514032c5315588290d01b06_id/studentCohortAssociations/students | 403 |
    #| Associations through cohorts that do not exist should return                               | 404 |
     | /v1/cohorts/this_cohort_dne                                                                | 404 |
 
