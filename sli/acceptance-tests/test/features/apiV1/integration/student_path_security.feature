@@ -43,9 +43,9 @@ Scenario: Verify Rewrites for entities for Students
   And format "application/json"
   When I navigate to the base level URI <Entity> I should see the rewrite in the format of <URI>:
     | Entity                       | URI                                                                            |
-#    | /assessments                 | /students/@ids/studentAssessments/assessments                                  |
-#    | /attendances                 | /students/@ids/attendances                                                     |
-#    | /cohorts                     | /students/@ids/studentCohortAssociations/cohorts                               |
+    | /assessments                 | /students/@ids/studentAssessments/assessments                                  |
+    | /attendances                 | /students/@ids/attendances                                                     |
+    | /cohorts                     | /students/@ids/studentCohortAssociations/cohorts                               |
     | /competencyLevelDescriptor   | /search/competencyLevelDescriptor                                              |
     | /courseOfferings             | /schools/@ids/courseOfferings                                                  |
     | /courses                     | /schools/@ids/courses                                                          |
