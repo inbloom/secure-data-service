@@ -10,4 +10,5 @@ Feature: A bulk extract is triggered for one student with multiple attendance in
       | id                                          | condition                                                          |
       | f77d258165513ea45687ca9c096484819c413b18_id | schoolYearAttendance.attendanceEvent.event = In Attendance         |
       | f77d258165513ea45687ca9c096484819c413b18_id | schoolYearAttendance.attendanceEvent.event = Early departure       |
+      | f77d258165513ea45687ca9c096484819c413b18_id | schoolYearAttendance.attendanceEvent.date = 2011-11-10             |
 

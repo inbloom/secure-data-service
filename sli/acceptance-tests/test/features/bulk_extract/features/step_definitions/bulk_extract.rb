@@ -616,7 +616,7 @@ When /I check that the staffEdorgAssignment extract for "(.*?)" has the correct 
   puts(query)
   query  = JSON.parse(query)
   result = @tenantDb.collection('staffEducationOrganizationAssociation').aggregate(query)
-                                          puts result
+  puts result
   result.each{ |schoolIdToSections|
     schoolId = schoolIdToSections['_id']
     puts schoolId
@@ -825,7 +825,7 @@ When /I check that the "(.*?)" extract for "(.*?)" has the correct number of rec
   @tenantDb = @conn.db(convertTenantIdToDbName(@tenant))
 
   result = @tenantDb.collection(entity).find({'$or' => [{'body.schoolId' => edOrgId}, {'body.educationOrganizationId' => edOrgId}, {'body.educationOrgId' => edOrgId}]}).count()
-                                          puts result
+  puts result
 
   zipFile  = "#{@unpackDir}/#{entity}.json.gz"
   jsnFile  = "#{@unpackDir}/#{entity}.json"

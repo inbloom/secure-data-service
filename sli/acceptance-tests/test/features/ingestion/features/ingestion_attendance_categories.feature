@@ -26,6 +26,8 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     | collectionName              | expectedRecordCount | searchParameter            | searchValue       | searchType           |
     | attendance                  | 1                   | body.attendanceEvent.event | In Attendance     | string               |
     | attendance                  | 1                   | body.attendanceEvent.event | Early departure   | string               |
+    | attendance                  | 1                   | body.attendanceEvent.0.date| 2011-11-10        | string               |
+    | attendance                  | 1                   | body.attendanceEvent.1.date| 2011-11-10        | string               |
 
   #Reingest same AttendanceEvents. 2 Deltas should be detected
   And I post "AttendanceEventCategories_AttendanceOnly.zip" file as the payload of the ingestion job
@@ -54,3 +56,5 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     | collectionName              | expectedRecordCount | searchParameter            | searchValue       | searchType           |
     | attendance                  | 0                   | body.attendanceEvent.event | In Attendance     | string               |
     | attendance                  | 1                   | body.attendanceEvent.event | Early departure   | string               |
+    | attendance                  | 1                   | body.attendanceEvent.0.date| 2011-11-10        | string               |
+    | attendance                  | 0                   | body.attendanceEvent.1.date| 2011-11-10        | string               |

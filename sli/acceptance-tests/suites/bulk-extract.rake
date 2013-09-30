@@ -185,7 +185,7 @@ task :bulkExtractEdOrgsTests do
   Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
 end
 
-desc "API Bulk Extract mutiple attandence for one student in one day Tests"
+desc "API Bulk Extract multiple attendance for one student in one day Tests"
 task :bulkExtractAttendanceCategoriesTests do
   runTests("test/features/bulk_extract/features/bulk_extract_attendance_categories.feature")
   Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC
