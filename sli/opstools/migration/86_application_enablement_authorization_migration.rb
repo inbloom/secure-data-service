@@ -1,7 +1,7 @@
 #
 # Release 86 migration script
 #
-# Migrates data for sli.applicaiton and <tenant>.applicationAuthorization
+# Migrates data for sli.application and <tenant>.applicationAuthorization
 #
 
 require 'mongo'

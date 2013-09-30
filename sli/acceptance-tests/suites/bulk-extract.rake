@@ -79,7 +79,6 @@ task :bulkExtractLeasTests do
   allLeaAllowApp("SDK Sample")
   authorizeEdorg("SDK Sample")
   runTests("test/features/bulk_extract/features/bulk_extract_integration_lea.feature")
-  Rake::Task["bulkExtractCleanup"].execute if CLEAN_EXTRACT_LOC  
 end
 
 desc "Deltas and Deletes"

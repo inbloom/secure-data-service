@@ -45,6 +45,7 @@ public class ExtractorHelper{
      * @param student
      * @return
      */
+    //F316: Old pipeline - remove this
     @SuppressWarnings("unchecked")
     public Set<String>fetchCurrentSchoolsForStudent(Entity student) {
         if (dateHelper == null) {
@@ -90,15 +91,16 @@ public class ExtractorHelper{
 
             String id = (String)school.get("_id");
             DateTime expirationDate = dateHelper.getDate(school, "exitWithdrawDate");
+            DateTime finalExpirationDate = expirationDate;
 
             List<String> lineages = edOrgExtractHelper.getEdOrgLineages().get(id);
             if(lineages != null) {
                 for (String edOrg : lineages) {
                     DateTime existingDate = studentEdOrgs.get(edOrg);
                     if(studentEdOrgs.containsKey(edOrg) && (expirationDate == null || (existingDate != null && existingDate.isAfter(expirationDate)))) {
-                        expirationDate = studentEdOrgs.get(edOrg);
+                        finalExpirationDate = studentEdOrgs.get(edOrg);
                     }
-                    studentEdOrgs.put(edOrg, expirationDate);
+                    studentEdOrgs.put(edOrg, finalExpirationDate);
                 }
             }
         }
