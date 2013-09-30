@@ -277,7 +277,7 @@ Given /^the tenant "(.*?)" does not have any bulk extract apps for any of its ed
   enable_NOTABLESCAN()
 end
 
-Given /^all LEAs in "([^"]*)" are authorized for "([^"]*)"/ do |tenant, application|
+Given /^all (LEAs|edorgs) in "([^"]*)" are authorized for "([^"]*)"/ do |which_edorg, tenant, application|
   disable_NOTABLESCAN()
   conn = Mongo::Connection.new(DATABASE_HOST, DATABASE_PORT)
   db = conn[DATABASE_NAME]
@@ -293,8 +293,15 @@ Given /^all LEAs in "([^"]*)" are authorized for "([^"]*)"/ do |tenant, applicat
   app_auth_coll = db_tenant.collection('applicationAuthorization')
   ed_org_coll = db_tenant.collection('educationOrganization')
 
+  case which_edorg.downcase
+  when 'leas'
+    query = {'body.organizationCategories' => {'$in' => ['Local Education Agency']}}
+  else
+    query = {}
+  end
+
   needed_ed_orgs = []
-  ed_org_coll.find({'body.organizationCategories' => {"$in" => ['Local Education Agency']}}).each do |edorg|
+  ed_org_coll.find(query).each do |edorg|
     needed_ed_orgs.push(edorg['_id'])
   end
 
