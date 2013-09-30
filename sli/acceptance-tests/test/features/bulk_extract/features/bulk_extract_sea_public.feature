@@ -42,27 +42,6 @@ Scenario: As an bulk extract user, I want to be able to get the state public ent
       |  gradingPeriod                         |
       |  calendarDate                          |
       |  school                                |
-@wip
-Scenario Outline: Extract should have all the valid data for the SEA
-    When I retrieve the path to and decrypt the SEA public data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
-  Then the "<entity>" has the correct number of SEA public data records "<field>"
-  And I verify that the "<entity>" reference an SEA only "<field>"
-    Examples:
-      | entity                         |    field                                |
-      |  course                        |    schoolId                             |
-      |  courseOffering                |    schoolId                             |
-      |  educationOrganization         |    parentEducationAgencyReference       |
-      |  graduationPlan                |    educationOrganizationId              |
-      |  session                       |    schoolId                             |
-      |  gradingPeriod                 |    gradingPeriodIdentity.schoolId       |
-      |  calendarDate                  |    educationOrganizationId              |
-@wip
-Scenario Outline: Extract should contain independent entities that do not reference any EdOrg
-    When I retrieve the path to and decrypt the SEA public data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
-   Then I verify that <count> "<entity>" does not contain the reference field "<field>"
-  Examples:
-      |count                    | entity                         | field                       |
-      | #2                      | graduationPlan                 | educationOrganizationId     |
 
 Scenario Outline: Extract should have all public tenant data for certain entities
     When I retrieve the path to and decrypt the SEA public data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
@@ -78,6 +57,13 @@ Scenario Outline: Extract should have all public tenant data for certain entitie
       |  studentCompetencyObjective            |
       |  program                               |
       |  calendarDate                          |
+      |  course                                |
+      |  courseOffering                        |
+      |  educationOrganization                 |
+      |  graduationPlan                        |
+      |  session                               |
+      |  calendarDate                          |
+      |  school                                |
 
 Scenario: As a valid user get SEA public data extract using BEEP
     Given in my list of rights I have BULK_EXTRACT
@@ -103,20 +89,6 @@ Scenario: As a valid user get SEA public data extract using BEEP
       |  gradingPeriod                         |
       |  calendarDate                          |
       |  school                                |
-@wip
-Scenario Outline: Extract received through the API should have all the valid data for the SEA
-    When I know where the extracted tar is for tenant "Midgar"
-    Then the "<entity>" has the correct number of SEA public data records "<field>"
-    And I verify that the "<entity>" reference an SEA only "<field>"
-  Examples:
-    | entity                         |    field                                |
-    |  course                        |    schoolId                             |
-    |  courseOffering                |    schoolId                             |
-    |  educationOrganization         |    parentEducationAgencyReference       |
-    |  graduationPlan                |    educationOrganizationId              |
-    |  session                       |    schoolId                             |
-    |  gradingPeriod                 |    gradingPeriodIdentity.schoolId       |
-    |  calendarDate                  |    educationOrganizationId              |
 
 Scenario Outline: Extract received through the API should have all the valid tenant public data
     When I know where the extracted tar is for tenant "Midgar"
@@ -131,6 +103,13 @@ Scenario Outline: Extract received through the API should have all the valid ten
       |  competencyLevelDescriptor             |
       |  studentCompetencyObjective            |
       |  program                               |
+      |  course                                |
+      |  courseOffering                        |
+      |  educationOrganization                 |
+      |  graduationPlan                        |
+      |  session                               |
+      |  calendarDate                          |
+      |  school                                |
 
 
 Scenario: As a valid user get SEA public data delta extract using BEEP
@@ -184,24 +163,6 @@ Scenario: API call to SEA BEEP when there is more than one SEA in the tenant
   Then I get back a response code of "404"
   Then I remove the edorg with id "IL-Test" from the "Midgar" database
 
-Scenario: One of the entity doesn't reference the SEA
-  Given the extraction zone is empty
-  And the bulk extract files in the database are scrubbed
-  And The bulk extract app has been approved for "Midgar-DAYBREAK" with client id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
-  Then I remove the edorg with id "IL-Test" from the "Midgar" database
-  And I get the SEA Id for the tenant "Midgar"
-  And none of the following entities reference the SEA:
-    | entity                                 | path                                   |
-    |  course                                | body.schoolId                          |
-  Then I trigger a bulk extract
-  Then I should see "1" bulk extract SEA-public data file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
-  When I retrieve the path to and decrypt the SEA public data extract file for the tenant "Midgar" and application with id "19cca28d-7357-4044-8df9-caad4b1c8ee4"
-  And I verify that an extract tar file was created for the tenant "Midgar"
-  And there is a metadata file in the extract
-  Then I verify that extract does not contain a file for the following entities:
-  | entity                                 |
-  |  course                                |
-
 Scenario: Where the public entity has no edOrg reference, verify the entity is still extracted for the SEA
     Given the extraction zone is empty
     And the bulk extract files in the database are scrubbed
@@ -234,6 +195,11 @@ Scenario: Where the public entity has no edOrg reference, verify the entity is s
       |  program                               |
       |  educationOrganization                 |
       |  school                                |
+      |  course                                |
+      |  courseOffering                        |
+      |  session                               |
+      |  gradingPeriod                         |
+      |  calendarDate                          |
 
 Scenario: No SEA is available for the tenant
    Given the extraction zone is empty
