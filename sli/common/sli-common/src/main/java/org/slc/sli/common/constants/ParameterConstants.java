@@ -214,4 +214,5 @@ public class ParameterConstants {
     public static final String STAFF_EDORG_ASSOC_END_DATE = "endDate";
 
     public static final String DATE = "date";
+    public static final String INCIDENT_DATE = "incidentDate";
 }
