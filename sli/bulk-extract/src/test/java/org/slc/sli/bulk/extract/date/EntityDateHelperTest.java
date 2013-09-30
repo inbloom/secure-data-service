@@ -48,10 +48,21 @@ public class EntityDateHelperTest {
     }
 
     @Test
-    public void tesIsBeforeOrEqual() {
+    public void testIsBeforeOrEqual() {
         Assert.assertEquals(true, EntityDateHelper.isBeforeOrEqual("2001-01-01", DateTime.parse("2001-01-01", DateHelper.getDateTimeFormat())));
         Assert.assertEquals(true, EntityDateHelper.isBeforeOrEqual("2000-01-01", DateTime.parse("2001-01-01", DateHelper.getDateTimeFormat())));
         Assert.assertEquals(false, EntityDateHelper.isBeforeOrEqual("2002-01-01", DateTime.parse("2001-01-01", DateHelper.getDateTimeFormat())));
 
+    }
+
+    @Test
+    public void testshouldExtract() {
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put(ParameterConstants.BEGIN_DATE, "2001-01-01");
+        Entity studentProgramAssociation = new MongoEntity(EntityNames.STUDENT_PROGRAM_ASSOCIATION, body);
+
+        Assert.assertEquals(true, EntityDateHelper.shouldExtract(studentProgramAssociation, DateTime.parse("2001-01-01", DateHelper.getDateTimeFormat())));
+        Assert.assertEquals(true, EntityDateHelper.shouldExtract(studentProgramAssociation, null));
+        Assert.assertEquals(false, EntityDateHelper.shouldExtract(studentProgramAssociation, DateTime.parse("2000-01-01", DateHelper.getDateTimeFormat())));
     }
 }

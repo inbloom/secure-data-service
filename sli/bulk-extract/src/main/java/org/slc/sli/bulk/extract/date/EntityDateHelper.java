@@ -35,9 +35,14 @@ public class EntityDateHelper {
 
     private static DateRetriever pathDateRetriever;
 
-    public static boolean isNonCurrent(Entity entity, DateTime upToDate) {
+    public static boolean shouldExtract(Entity entity, DateTime upToDate) {
         String begin = retrieveDate(entity);
-        return isBeforeOrEqual(begin, upToDate);
+
+        if (upToDate == null) {
+            return isBeforeOrEqual(begin, DateTime.now());
+        } else {
+            return isBeforeOrEqual(begin, upToDate);
+        }
     }
 
     protected static String retrieveDate(Entity entity) {

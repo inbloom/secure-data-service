@@ -87,7 +87,7 @@ public class StudentExtractor implements EntityExtract {
                             boolean shouldExtract = true;
                             if (DATED_SUBDOCS.contains(input.getType())) {
                                 DateTime upToDate = datedEdOrgs.get(edOrg);
-                                shouldExtract = EntityDateHelper.isNonCurrent(input, upToDate);
+                                shouldExtract = EntityDateHelper.shouldExtract(input, upToDate);
                             }
 
                             return shouldExtract;
