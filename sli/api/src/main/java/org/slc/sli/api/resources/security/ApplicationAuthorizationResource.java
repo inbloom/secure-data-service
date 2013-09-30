@@ -126,7 +126,6 @@ public class ApplicationAuthorizationResource {
     @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE })
     public Response getAuthorization(@PathParam("appId") String appId, @QueryParam("edorg") String edorg) {
         String myEdorg = validateEdOrg(edorg);
-
         EntityBody appAuth = getAppAuth(appId);
         if (appAuth == null) {
             //See if this is an actual app
@@ -138,6 +137,7 @@ public class ApplicationAuthorizationResource {
                 entity.put("id", appId);
                 entity.put("appId", appId);
                 entity.put("authorized", false);
+                entity.put("edorgs", Collections.emptyList());//(TA10857)
                 return Response.status(Status.OK).entity(entity).build();
             }
         } else {
@@ -146,6 +146,7 @@ public class ApplicationAuthorizationResource {
             entity.put("id", appId);
             List<String> edOrgs = (List<String>) appAuth.get("edorgs");
             entity.put("authorized", edOrgs.contains(myEdorg));
+            entity.put("edorgs", edOrgs);//(TA10857)
             return Response.status(Status.OK).entity(entity).build();
         }
 
@@ -168,6 +169,10 @@ public class ApplicationAuthorizationResource {
         }
 
         String myEdorg = validateEdOrg(edorg);
+        List<String> edOrgsToAuthorize = (List<String>) auth.get("edorgs");//(TA10857)
+        if( edOrgsToAuthorize == null) {
+            edOrgsToAuthorize = Collections.emptyList();
+        }
 
         EntityBody existingAuth = getAppAuth(appId);
         if (existingAuth == null) {
@@ -180,9 +185,10 @@ public class ApplicationAuthorizationResource {
                     //We don't have an appauth entry for this app, so create one
                     EntityBody body = new EntityBody();
                     body.put("applicationId", appId);
-                    ArrayList<String> edorgs = new ArrayList<String>();
+                    Set<String> edorgs = new HashSet<String>();
                     edorgs.add(myEdorg);
-                    body.put("edorgs", edorgs);
+                    edorgs.addAll(edOrgsToAuthorize);
+                    body.put("edorgs", new ArrayList<String>(edorgs));
                     service.create(body);
                     logSecurityEvent(appId, null, edorgs);
                 }
@@ -193,8 +199,10 @@ public class ApplicationAuthorizationResource {
             Set<String> edorgsCopy = new HashSet<String>(edorgs);
             if (((Boolean) auth.get("authorized")).booleanValue()) {
                 edorgsCopy.add(myEdorg);
+                edorgsCopy.addAll(edOrgsToAuthorize);
             } else {
                 edorgsCopy.remove(myEdorg);
+                edorgsCopy.removeAll(edOrgsToAuthorize);
             }
             logSecurityEvent(appId, edorgs, edorgsCopy);
             existingAuth.put("edorgs", new ArrayList<String>(edorgsCopy));
