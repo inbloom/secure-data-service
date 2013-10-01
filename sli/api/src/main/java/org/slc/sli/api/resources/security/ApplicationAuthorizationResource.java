@@ -137,7 +137,7 @@ public class ApplicationAuthorizationResource {
                 entity.put("id", appId);
                 entity.put("appId", appId);
                 entity.put("authorized", false);
-                entity.put("edorgs", Collections.emptyList());//(TA10857)
+                entity.put("authorizedEdOrgs", Collections.emptyList());//(TA10857)
                 return Response.status(Status.OK).entity(entity).build();
             }
         } else {
@@ -146,7 +146,7 @@ public class ApplicationAuthorizationResource {
             entity.put("id", appId);
             List<String> edOrgs = (List<String>) appAuth.get("edorgs");
             entity.put("authorized", edOrgs.contains(myEdorg));
-            entity.put("edorgs", edOrgs);//(TA10857)
+            entity.put("authorizedEdOrgs", edOrgs);//(TA10857)
             return Response.status(Status.OK).entity(entity).build();
         }
 
