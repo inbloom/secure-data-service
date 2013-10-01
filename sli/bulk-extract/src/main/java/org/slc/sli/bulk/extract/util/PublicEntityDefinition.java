@@ -25,27 +25,24 @@ import java.util.List;
  */
 public enum PublicEntityDefinition {
 
-    EDUCATION_ORGANIZATION("educationOrganization", "_id"),
-    COURSE("course", "body.schoolId"),
-    COURSE_OFFERING("courseOffering", "body.schoolId"),
-    SESSION("session", "body.schoolId"),
-    GRADUATION_PLAN("graduationPlan", "body.educationOrganizationId"),
-    GRADING_PERIOD("gradingPeriod", "body.gradingPeriodIdentity.schoolId"),
-    CALENDAR_DATE("calendarDate", "body.educationOrganizationId"),
-
-    ASSESSMENT("assessment", null),
-    LEARNING_OBJECTIVE("learningObjective", null),
-    LEARNING_STANDARD("learningStandard",null),
-    COMPETENCY_LEVEL_DESCRIPTOR("competencyLevelDescriptor", null),
-    STUDENT_COMPETENCY_OBJECTIVE("studentCompetencyObjective", null),
-    PROGRAM("program", null);
+    EDUCATION_ORGANIZATION("educationOrganization"),
+    COURSE("course"),
+    COURSE_OFFERING("courseOffering"),
+    SESSION("session"),
+    GRADUATION_PLAN("graduationPlan"),
+    GRADING_PERIOD("gradingPeriod"),
+    CALENDAR_DATE("calendarDate"),
+    ASSESSMENT("assessment"),
+    LEARNING_OBJECTIVE("learningObjective"),
+    LEARNING_STANDARD("learningStandard"),
+    COMPETENCY_LEVEL_DESCRIPTOR("competencyLevelDescriptor"),
+    STUDENT_COMPETENCY_OBJECTIVE("studentCompetencyObjective"),
+    PROGRAM("program");
 
     private final String entityName;
-    private final String edOrgRefField;
 
-    PublicEntityDefinition(String entityName, String edOrgRefField) {
+    PublicEntityDefinition(String entityName) {
         this.entityName = entityName;
-        this.edOrgRefField = edOrgRefField;
     }
 
     /**
@@ -54,29 +51,5 @@ public enum PublicEntityDefinition {
      */
     public String getEntityName() {
         return entityName;
-    }
-
-    /**
-     * Gets the fieldname path for the EdOrg Reference in the entity.
-     * @return edOrgRefField
-     */
-    public String getEdOrgRefField() {
-        return edOrgRefField;
-    }
-
-    /**
-     * returns the entities which directly reference an SEA
-     * @return
-     */
-    public static List<PublicEntityDefinition> directReferencedEntities() {
-        return Arrays.asList();
-    }
-
-    /**
-     * returns the entities which do not reference an SEA
-     * @return
-     */
-    public static List<PublicEntityDefinition> unFilteredEntities() {
-        return Arrays.asList(ASSESSMENT, LEARNING_OBJECTIVE, LEARNING_STANDARD, COMPETENCY_LEVEL_DESCRIPTOR, STUDENT_COMPETENCY_OBJECTIVE, PROGRAM, EDUCATION_ORGANIZATION, COURSE, COURSE_OFFERING, SESSION, GRADING_PERIOD, CALENDAR_DATE, GRADUATION_PLAN);
     }
 }

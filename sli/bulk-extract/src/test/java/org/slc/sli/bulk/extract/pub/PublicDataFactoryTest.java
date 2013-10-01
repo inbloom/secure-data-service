@@ -30,17 +30,17 @@ public class PublicDataFactoryTest {
 
     @Test
     public void buildUnfilteredPublicDataExtractor() {
-        Assert.assertTrue(factory.buildUnfilteredPublicDataExtractor(null) != null);
-        Assert.assertTrue(factory.buildUnfilteredPublicDataExtractor(null).getClass() == UnfilteredPublicDataExtractor.class);
+        Assert.assertTrue(factory.buildAllPublicDataExtractor(null) != null);
+        Assert.assertTrue(factory.buildAllPublicDataExtractor(null).getClass() == AllPublicDataExtractor.class);
     }
 
 
     @Test
     public void testBuildAllPublicDataExtracts() {
-        Assert.assertTrue(factory.buildAllPublicDataExtracts(null) != null);
-        List<PublicDataExtractor> extractors = factory.buildAllPublicDataExtracts(null);
+        Assert.assertTrue(factory.buildPublicDataExtracts(null) != null);
+        List<PublicDataExtractor> extractors = factory.buildPublicDataExtracts(null);
         Assert.assertEquals(extractors.size(), 1);
-        Assert.assertTrue(extractors.get(0).getClass() == UnfilteredPublicDataExtractor.class);
+        Assert.assertTrue(extractors.get(0).getClass() == AllPublicDataExtractor.class);
 
 
     }
