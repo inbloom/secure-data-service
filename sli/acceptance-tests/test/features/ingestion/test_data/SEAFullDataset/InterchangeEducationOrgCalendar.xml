@@ -7,7 +7,7 @@
         <CalendarEvent>Instructional day</CalendarEvent>
         <EducationOrgReference>
 			<EducationalOrgIdentity>
-				<StateOrganizationId>IL</StateOrganizationId>
+				<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
 			</EducationalOrgIdentity>
         </EducationOrgReference>
     </CalendarDate>
@@ -5010,7 +5010,7 @@
     <GradingPeriod>
         <GradingPeriod>First Six Weeks</GradingPeriod>
         <SchoolYear>2010-2011</SchoolYear>
-        <EducationOrganizationReference><EducationalOrgIdentity><StateOrganizationId>IL</StateOrganizationId></EducationalOrgIdentity></EducationOrganizationReference>
+        <EducationOrganizationReference><EducationalOrgIdentity><StateOrganizationId>IL-DAYBREAK</StateOrganizationId></EducationalOrgIdentity></EducationOrganizationReference>
         <BeginDate>2010-08-23</BeginDate>
         <EndDate>2010-10-03</EndDate>
         <TotalInstructionalDays>29</TotalInstructionalDays>
@@ -7704,7 +7704,7 @@
         <TotalInstructionalDays>75</TotalInstructionalDays>
         <EducationOrganizationReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>IL</StateOrganizationId>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
         <GradingPeriodReference>

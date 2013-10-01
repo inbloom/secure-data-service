@@ -264,8 +264,8 @@ desc "Run Ingestion Deletion Tests"
         :ingestionSuperStudentDelete,
         :ingestionSuperSectionDelete,
         :ingestionSuperAssessmentDelete,
-	      :ingestionSuperStudentAssessmentDelete,
-	      :ingestionDeleteAndReingest,
+	    :ingestionSuperStudentAssessmentDelete,
+	    :ingestionDeleteAndReingest,
         :multipleForceDeletesTest,
         :multipleOrphansDeleteTest,
         :errorsOnUnsupportedDeleteRequestsTest,
@@ -640,6 +640,11 @@ end
 desc "Verify Ingestion allows multiple AttendanceEventCategories on a day"
 task :ingestionAttendanceEventCategoriesTest do
   runTests("test/features/ingestion/features/ingestion_attendance_categories.feature")
+end
+
+desc "Load edOrgs to test app enable and authorize"
+task :ingestionEdOrgsTest do
+  runTests("test/features/ingestion/features/ingestion_app_edOrgs.feature")
 end
 
 ############################################################

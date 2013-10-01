@@ -190,6 +190,7 @@ public class ParameterConstants {
     public static final String GRADE_ID = "gradeId";
     public static final String ID = "_id";
     public static final String END_DATE = "endDate";
+    public static final String BEGIN_DATE = "beginDate";
     public static final String STUDENT_RECORD_ACCESS = "studentRecordAccess";
     public static final String PARENT_EDUCATION_AGENCY_REFERENCE = "parentEducationAgencyReference";
     public static final String EXIT_WITHDRAW_DATE = "exitWithdrawDate";
@@ -213,4 +214,5 @@ public class ParameterConstants {
     public static final String STAFF_EDORG_ASSOC_END_DATE = "endDate";
 
     public static final String DATE = "date";
+    public static final String INCIDENT_DATE = "incidentDate";
 }
