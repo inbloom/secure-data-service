@@ -482,7 +482,7 @@ class WorldBuilder
         next if ["Student", "Educator"].include? member[:role]
 
         @num_staff_members += 1
-        members << {"id" => member[:staff_id], "role" => member[:role], "name" => member[:name]}
+        members << {"id" => member[:staff_id], "role" => member[:role], "name" => member[:name], "begin" => member[:begin], "end" => member[:end]}
         for index in (0..(roles.size - 1)) do
           if Roles.to_string(roles[index]) == member[:role]
             @log.info "Removing role: #{member[:role]} from default roles --> specified by member in staff catalog."
@@ -1087,6 +1087,8 @@ class WorldBuilder
   # -> manipulates date interval of each session by 'offset' (subtracts offset from begin_date, adds offset to end_date)
   def create_staff_ed_org_associations_for_sessions(sessions, offset, member, ed_org_id, type)
     if (!@scenarioYAML["HACK_NO_STAFF_EDORG_ASSOCIATIONS_EXCEPT_SEA"] || (type == "seas")) && !sessions.nil? and sessions.size > 0
+      seoa_begin = member["begin"]
+      seoa_end = member["end"]
       sessions.each do |session|
         classification = member["role"]
         if Roles.to_symbol(classification).nil?
@@ -1106,8 +1108,8 @@ class WorldBuilder
         end
 
         interval   = session["interval"]
-        begin_date = interval.get_begin_date - offset
-        end_date   = interval.get_end_date   + offset
+        begin_date = seoa_begin.nil? ? interval.get_begin_date - offset : seoa_begin
+        end_date   = seoa_end.nil? ? interval.get_end_date   + offset : seoa_end
         @queue.push_work_order({:type=>StaffEducationOrgAssignmentAssociation, :id=>member["id"], :edOrg=>state_org_id, :classification=>classification,
                                :title=>title, :beginDate=>begin_date, :endDate=>end_date})
       end
