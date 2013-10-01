@@ -274,7 +274,7 @@ class StudentWorkOrder
       entry_date = @entry.nil? ? begin_date : @entry
       exit_withdrawal_date = @exit.nil? ? end_date : @exit
       if (exit_withdrawal_date < Date.today)
-        exit_withdraw_reason = "Transferred"
+        exit_withdraw_reason = "Exited"
       end
 
       # This teriffic hack is in place because if the student id is not an int, 
