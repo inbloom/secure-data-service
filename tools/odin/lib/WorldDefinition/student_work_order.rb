@@ -71,16 +71,22 @@ class StudentWorkOrderFactory
           raise "Student catalog entry for #{student_id} failed: #{student[:begin_grade]} is not a valid grade." if grade == nil
           name       = student[:name]
           plan       = generate_plan(edOrg, grade)
-          create_work_order(yielder, student_id, name, grade, initial_year, plan)         
+          unless student[:begin].nil?
+            begin_date = student[:begin]
+            end_date = student[:end]
+          end
+          create_work_order(yielder, student_id, grade, initial_year, plan, name, begin_date, end_date)
         }
       end
     }
   end
 
-  def create_work_order(yielder, student_id, name=nil, grade, initial_year, plan)
+  def create_work_order(yielder, student_id, grade, initial_year, plan, name=nil, begin_date=nil, end_date=nil)
     yielder.yield StudentWorkOrder.new(student_id,
                                        name: name,
                                        scenario: @scenario, 
+                                       entry: begin_date, 
+                                       exit: end_date, 
                                        initial_grade: grade, 
                                        initial_year: initial_year,
                                        plan: plan,
@@ -161,6 +167,8 @@ class StudentWorkOrder
     @int_id = Digest::MD5.hexdigest(@id).to_i * 12345 if id.kind_of?(String)
     @rand = Random.new(@int_id)
     @name = opts[:name]
+    @entry = opts[:entry].nil? ? nil : Date.parse(opts[:entry])
+    @exit = opts[:exit].nil? ? nil : Date.parse(opts[:exit])
     @initial_grade = (opts[:initial_grade] or :KINDERGARTEN)
     @initial_year = (opts[:initial_year] or 2011)
     @birth_day_after = Date.new(@initial_year - find_age(@initial_grade), 9, 1)
@@ -263,6 +271,11 @@ class StudentWorkOrder
       begin_date = session['interval'].get_begin_date
       end_date   = session['interval'].get_end_date
       holidays   = session['interval'].get_holidays
+      entry_date = @entry.nil? ? begin_date : @entry
+      exit_withdrawal_date = @exit.nil? ? end_date : @exit
+      if (exit_withdrawal_date < Date.today)
+        exit_withdraw_reason = "Transferred"
+      end
 
       # This teriffic hack is in place because if the student id is not an int, 
       # all the shorcut math hacks that use @id crap out.
@@ -271,8 +284,7 @@ class StudentWorkOrder
       else
         id = @id
       end
-
-      rval << StudentSchoolAssociation.new(@id, school_id, begin_date, grade, graduation_plan(type), end_date)
+      rval << StudentSchoolAssociation.new(@id, school_id, entry_date, grade, graduation_plan(type), exit_withdrawal_date, exit_withdraw_reason)
 
       unless @section_factory.nil?
         sections = @section_factory.sections(school_id, type.to_s, year, grade)
