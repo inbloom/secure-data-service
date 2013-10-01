@@ -58,6 +58,7 @@ public class PathDateRetriverTest {
 
         String diId = "disciplineIncidentId1234";
         Mockito.doCallRealMethod().when(pathDateRetriver).getPathEntity(Mockito.any(Entity.class));
+        Mockito.doCallRealMethod().when(pathDateRetriver).retrieve(Mockito.any(Entity.class));
 
         final Entity di = Mockito.mock(Entity.class);
         Mockito.when(di.getEntityId()).thenReturn(diId);
@@ -77,13 +78,21 @@ public class PathDateRetriverTest {
             }
         }))).thenReturn(di);
 
+        Mockito.doCallRealMethod().when(pathDateRetriver).setSimpleDateRetriever(Mockito.any(SimpleDateRetriever.class));
+
+        SimpleDateRetriever sdr = Mockito.mock(SimpleDateRetriever.class);
+        String expectedDate ="2012-01-01";
+        Mockito.when(sdr.retrieve(di)).thenReturn(expectedDate);
+        pathDateRetriver.setSimpleDateRetriever(sdr);
+
         Map <String, Object> body = new HashMap<String, Object>();
         body.put(ParameterConstants.DISCIPLINE_INCIDENT_ID, diId);
         Entity studentDisciplineIncidentAssociation = Mockito.mock(Entity.class);
         Mockito.when(studentDisciplineIncidentAssociation.getBody()).thenReturn(body);
         Mockito.when(studentDisciplineIncidentAssociation.getType()).thenReturn(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION);
 
-        Entity entity = pathDateRetriver.getPathEntity(studentDisciplineIncidentAssociation);
-        Assert.assertEquals(di, entity);
+        String date = pathDateRetriver.retrieve(studentDisciplineIncidentAssociation);
+        Assert.assertEquals(date, expectedDate);
     }
+
 }

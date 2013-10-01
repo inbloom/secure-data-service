@@ -26,16 +26,15 @@ import java.util.*;
 public class EntityDates {
     public static final Map<String, String> ENTITY_DATE_FIELDS = new HashMap<String, String>();
 
-    public static final Map<String, List<String>> ENTITY_PATH_FIELDS = new HashMap<String, List<String>>();
-
-    public static final int COLLECTION = 0;
-    public static final int FIELD = 1;
+    public static final Map<String, Map<String, String>> ENTITY_PATH_FIELDS = new HashMap<String, Map<String, String>>();
 
     static {
         ENTITY_DATE_FIELDS.put(EntityNames.STUDENT_PROGRAM_ASSOCIATION, ParameterConstants.BEGIN_DATE);
         ENTITY_DATE_FIELDS.put(EntityNames.STUDENT_COHORT_ASSOCIATION, ParameterConstants.BEGIN_DATE);
+        ENTITY_DATE_FIELDS.put(EntityNames.DISCIPLINE_INCIDENT, ParameterConstants.INCIDENT_DATE);
 
-        ENTITY_PATH_FIELDS.put(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION,
-                new ArrayList<String>(Arrays.asList(EntityNames.DISCIPLINE_INCIDENT, ParameterConstants.DISCIPLINE_INCIDENT_ID)));
+        Map<String, String> diFields = new HashMap<String, String>();
+        diFields.put(EntityNames.DISCIPLINE_INCIDENT, ParameterConstants.DISCIPLINE_INCIDENT_ID);
+        ENTITY_PATH_FIELDS.put(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, diFields);
     }
 }
