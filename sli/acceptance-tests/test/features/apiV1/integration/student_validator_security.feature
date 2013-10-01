@@ -7,6 +7,7 @@ Scenario: Validators return proper return codes on multi-ID requests for Carmen 
   And format "application/json"
   When I make API calls for multiple IDs in accordance to the following table:
     | Path                             | GoodId                                                                                 | BadId                                                                                  |
+    | /studentSectionAssociations/@ids | 98c2fbb9fffbabb9c8bbbcc8de9d5f7db42dff5d_id5da26ce302b6c25b2cd7d4cd3b73f1363f32a195_id | 08e02a71b7ff453134a35cbd4374dac31041ced1_id57a288ab3f4399bcefdd1b2f8668e1545c0678cc_id |
     | /attendances/@ids                | 69a338d4c77f47dbb0edb12878c751bde7622505_id                                            | cd14890af69207e6d9433f0962107eb0c96a1748_id                                            |
     | /cohorts/@ids                    | 72c0402e82f3a67db019d7736d423cc4a214db87_id                                            | 4711a3d63401b22260d9ed17313b9fc301f02c6f_id                                            |
     | /courseTranscripts/@ids          | 883d1a1bcf9606cfc38774d205b46b5ad17657a8_id                                            | a7ab1449d7291f6409abac0cb24d5faa62a90074_id                                            |
@@ -24,9 +25,8 @@ Scenario: Validators return proper return codes on multi-ID requests for Carmen 
     | /studentGradebookEntries/@ids    | 0a36c36d52e68fcf72afef1ad6a4795fc13a75c7_id                                            | 54631882c95b478b13a723865be31ced851386f3_id                                            |
     | /studentParentAssociations/@ids  | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_idc72d8118cb267b19c3716bf36e0d00a6f8649853_id | 92164cd19ebdbe17cfdcd0e1d177877cdc9a40ef_idf2f0a1ddc141a58169b3c586e78ae6ba8d44e8ee_id |
     | /studentProgramAssociations/@ids | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id7614372c4e0284e7e8ab0782ddffdc5bba9dbd7e_id | 92164cd19ebdbe17cfdcd0e1d177877cdc9a40ef_id349189276a34caddc20d2fd6a2e5e6815710b896_id |
-    | /students/@ids                   | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id                                            | 92164cd19ebdbe17cfdcd0e1d177877cdc9a40ef_id                                            |
+    | /students/@ids                   | 2474c3b2906eab72c1ee4b06a5c4ebf02d02aace_id                                            | 695f276632ce13007c67689d74dc1c83537f30f6_id                                            |
     | /studentSchoolAssociations/@ids  | 5473d560c39002a09d650c618768b60adc6aadab_id                                            | ea66a6ef0e3c2dd61701e9fa5bcf108a631a9bcb_id                                            |
-    | /studentSectionAssociations/@ids | 98c2fbb9fffbabb9c8bbbcc8de9d5f7db42dff5d_id5da26ce302b6c25b2cd7d4cd3b73f1363f32a195_id | 88bb1ad61323121c4939db296f4d444094ad5563_id786e763a5ffa777305dc1a0cfa3f62dfb278f593_id |
     | /teachers/@ids                   | fe472294f0e40fd428b1a67b9765360004562bab_id                                            | 6757c28005c30748f3bbda02882bf59bc81e0d71_id                                            |
     | /teacherSchoolAssociations/@ids  | fd64eb0e7ddcef2a651b2d0ad0bfbbc85c62a4ce_id | 8495e720e4f1261f3845aeb1f499ec40359669a5_id |
     | /teacherSectionAssociations/@ids | ecb5131a66ffff44c3169acbdb9f1242e8384b13_id36678eb42429bf2cea4817c45f7bff5bb841c0a4_id | e9b81633cba273dc9cc567d7f0f76a1c070c150d_id2d275caf63e615e3d699f39cae4714084366024d_id |
