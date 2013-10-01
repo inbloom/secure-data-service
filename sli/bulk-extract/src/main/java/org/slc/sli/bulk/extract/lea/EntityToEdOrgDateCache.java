@@ -15,7 +15,6 @@
  */
 package org.slc.sli.bulk.extract.lea;
 
-import com.google.common.collect.HashMultimap;
 import org.joda.time.DateTime;
 
 import java.util.HashMap;
@@ -27,14 +26,16 @@ import java.util.Set;
  */
 public class EntityToEdOrgDateCache {
     private Map<String, Map<String, DateTime>> cache;
-    private HashMultimap<String, String> inverse;
+
+    //F316: Inverse cache needs to be fixed for the new pipeline
+    //private HashMultimap<String, String> inverse;
 
     /**
      * Simple constructor that creates the internal cache.
      */
     public EntityToEdOrgDateCache() {
         cache = new HashMap<String, Map<String, DateTime>>();
-        inverse = HashMultimap.create();
+        //inverse = HashMultimap.create();
     }
 
     /**
@@ -64,12 +65,13 @@ public class EntityToEdOrgDateCache {
         edOrgTime.put(edOrgId, finalExpirationDate);
         cache.put(entityId, edOrgTime);
 
-        inverse.put(edOrgId, entityId);
+        //inverse.put(edOrgId, entityId);
     }
 
+    /*
     public Set<String> ancestorEdorgs(String edorgId) {
         return inverse.get(edorgId);
-    }
+    } */
 
     /**
      * Gets the map of EdOrgs with their expiration date associated with the entity.

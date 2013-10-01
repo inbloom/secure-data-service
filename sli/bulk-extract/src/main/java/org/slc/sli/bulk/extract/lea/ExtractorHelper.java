@@ -45,6 +45,7 @@ public class ExtractorHelper{
      * @param student
      * @return
      */
+    //F316: Old pipeline - remove this
     @SuppressWarnings("unchecked")
     public Set<String>fetchCurrentSchoolsForStudent(Entity student) {
         if (dateHelper == null) {

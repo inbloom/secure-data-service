@@ -35,12 +35,17 @@ public class EntityDateHelper {
 
     private static DateRetriever pathDateRetriever;
 
-    public static boolean isNonCurrent(Entity entity, DateTime upToDate) {
+    public static boolean shouldExtract(Entity entity, DateTime upToDate) {
         String begin = retrieveDate(entity);
-        return isBeforeOrEqual(begin, upToDate);
+
+        if (upToDate == null) {
+            return isBeforeOrEqual(begin, DateTime.now());
+        } else {
+            return isBeforeOrEqual(begin, upToDate);
+        }
     }
 
-    public static String retrieveDate(Entity entity) {
+    protected static String retrieveDate(Entity entity) {
         String date = "";
 
         if (EntityDates.ENTITY_DATE_FIELDS.containsKey(entity.getType())) {
@@ -51,7 +56,7 @@ public class EntityDateHelper {
         return date;
     }
 
-    public static boolean isBeforeOrEqual(String begin, DateTime upToDate) {
+    protected static boolean isBeforeOrEqual(String begin, DateTime upToDate) {
         DateTime beginDate = DateTime.parse(begin, DateHelper.getDateTimeFormat());
         return !beginDate.isAfter(upToDate);
     }
