@@ -93,15 +93,15 @@ public class StudentExtractor implements EntityExtract {
                             return shouldExtract;
                         }
                     });
+
+                    for (String parent : parents) {
+                        parentCache.addEntry(parent, edOrg);
+                    }
                 }
                 //F316 OLD PIPELINE - REMOVE OLD CACHE
                 if (schools.contains(edOrg)) {
                     // Update studentCache
                     studentCache.addEntry(e.getEntityId(), edOrg);
-
-                    for (String parent : parents) {
-                        parentCache.addEntry(parent, edOrg);
-                    }
                 }
             }
 
