@@ -364,8 +364,11 @@ class ApplicationAuthorizationsController < ApplicationController
     maxchild = 10
     expand_level = 3
     eo = @edinf[id]
-    nchild = eo[:children].length
-    collapsed = nchild > 0 && (level >= expand_level || nchild > maxchild)
+    nchildren = eo[:children].length
+    # Auto-collapse nodes with "large" (per maxchild) number of children, or if they
+    # are deeply nexted (per expand_level), but don't collapse a single child,
+    # regardless of depth
+    collapsed = nchildren > 0 && (level >= expand_level && nchildren >= 2 || nchildren > maxchild)
     result += " class=\"collapsed\"" if collapsed
     result += ">"
 
@@ -384,10 +387,21 @@ class ApplicationAuthorizationsController < ApplicationController
     result += "<i>" if !eo[:enabled]
     result += eo[:name]
     result += "</i>" if !eo[:enabled]
+    # Add counts.  Note that eo[:nchild] is the number of direct child EdOrgs not the number of child display nodes
+    nchild = eo[:nchild]
+    ndesc = eo[:ndesc]
+    if ndesc > 1
+      if ndesc == nchild
+        countstr = nchild.to_s
+      else
+        countstr = nchild.to_s + "/" + ndesc.to_s
+      end
+      result += "<span class=\"treecounts\"> (" + countstr + ")</span>"
+    end
     result += "\n"
     
     # Children
-    if nchild > 0
+    if nchildren > 0
       result += indent + "<ul>\n"
       eo[:children].each do |cid|
         result += render_html(cid, level + 1)
