@@ -50,6 +50,8 @@ public class StudentExtractor implements EntityExtract {
 
     private EntityToEdOrgCache diCache = new EntityToEdOrgCache();
 
+    private EntityToEdOrgDateCache diDateCache = new EntityToEdOrgDateCache();
+
     public StudentExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo,
                             ExtractorHelper helper, EntityToEdOrgCache studentCache, EntityToEdOrgCache parentCache,
                             EdOrgExtractHelper edOrgExtractHelper) {
@@ -112,14 +114,22 @@ public class StudentExtractor implements EntityExtract {
                     String did = (String) sdia.getBody().get("disciplineIncidentId");
                     Set<String> edOrgs = studentCache.getEntriesById(e.getEntityId());
 
+                    //TODO: F316 OLD piple, remove after F316 is done
                     if(edOrgs != null) {
+
                         for(String edOrg : edOrgs) {
                             diCache.addEntry(did, edOrg);
                         }
+
                     } else {
                         diCache.addEntry(did, "marker");    // adding a marker that this DI is referenced by a student
                     }
 
+                    Map<String, DateTime> edOrgsDate = studentDatedCache.getEntriesById(e.getEntityId());
+
+                    for(Map.Entry<String, DateTime> entry : edOrgsDate.entrySet()) {
+                        diDateCache.addEntry(did, entry.getKey(), entry.getValue());
+                    }
                 }
             }
         }
@@ -157,5 +167,9 @@ public class StudentExtractor implements EntityExtract {
 
     public void setStudentDatedCache(EntityToEdOrgDateCache studentDatedCache) {
         this.studentDatedCache = studentDatedCache;
+    }
+
+    public EntityToEdOrgDateCache getDiDateCache() {
+        return diDateCache;
     }
 }
