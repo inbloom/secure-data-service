@@ -169,7 +169,6 @@ def main(argv)
   tenant2db = {}
   edOrg2tenant = {}
   tenant2sea = {}
-  errorsExist = false
   tenantAppAuth = {}
   @conn['sli']['tenant'].find({}).each do |tenant|
     name = tenant['body']['tenantId']
@@ -188,8 +187,8 @@ def main(argv)
         if ! tenant2sea.has_key?(db)
           tenant2sea[db] = edorgId
         else
-          puts "Migration Script exit - More than one SEA in tenant " +  name
-          errorsExist = true
+          puts "Skipping tenant '" + name + "' - more than one SEA in tenant"
+          puts "App authorization data in this tenant will be invalid in the future"
           next
         end
       end
@@ -202,8 +201,8 @@ def main(argv)
       next
     # Make sure we got (exactly one) SEA
     elsif ! tenant2sea.has_key?(db)
-      puts "Migration Script exit - No SEA in tenant " +  name
-      errorsExist = true
+      puts "Skipping tenant '" + name + "' - No SEA in tenant"
+      puts "App authorization data in this tenant will be invalid in the future"
       next
     end
 
@@ -216,8 +215,8 @@ def main(argv)
       body = appAuth["body"]
       if ! body.has_key?("applicationId")
         # Unlikely
-        puts "Migration Script exit - applicationAuthorization " + appAuth["_id"] +" is incomplete"
-        errorsExist = true
+        puts "Skipping app authorization record with ID '" + appAuth["_id"] +"' - app does not exist"
+        puts "App authorization data will be invalid in the future"
         next
       else
         appId = body["applicationId"]
@@ -248,12 +247,6 @@ def main(argv)
       end
 
     end
-  end
-
-  # Don't continue if there were any errors
-  if errorsExist
-    puts "ABORTING WITHOUT UDPATE."
-    return
   end
 
   puts "--------------tenant->sea-------------" if DEBUG == true
