@@ -30,7 +30,7 @@ import java.util.*;
 /**
  * User: dkornishev
  */
-public class DisciplineExtractor implements EntityExtract {
+public class DisciplineExtractor implements EntityDatedExtract {
     private final EntityExtractor entityExtractor;
     private final ExtractFileMap extractFileMap;
     private final Repository<Entity> repository;
@@ -48,16 +48,20 @@ public class DisciplineExtractor implements EntityExtract {
 
     @Override
     @SuppressWarnings("unchecked")
-    public void extractEntities(final EntityToEdOrgCache diCache) {
+    public void extractEntities(final EntityToEdOrgDateCache diCache) {
         extract(EntityNames.DISCIPLINE_INCIDENT, new Function<Entity, Set<String>>() {
             @Override
             public Set<String> apply(Entity input) {
                 String id = input.getEntityId();
-                Set<String> edOrgs = diCache.getEntriesById(id);
+                Map<String, DateTime> edorgDate = diCache.getEntriesById(id);
 
-                if (edOrgs.isEmpty()) {
-                    String schoolId = (String) input.getBody().get("schoolId");
-                    edOrgs.addAll(edorgCache.ancestorEdorgs(schoolId));
+                Set<String> edOrgs = new HashSet<String>();
+
+                for (Map.Entry<String, DateTime> entry: edorgDate.entrySet()) {
+                    DateTime upToDate = entry.getValue();
+                    if (shouldExtract(input, upToDate)) {
+                        edOrgs.add(entry.getKey());
+                    }
                 }
 
                 return edOrgs;
