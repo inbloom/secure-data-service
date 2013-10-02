@@ -7,20 +7,12 @@
   <div id="edorgTree">
     <p>Please choose edOrgs to authorize for the app.</p>
     <div>
-      <ul>
-	<li class="collapsed"><input type="checkbox" id="edorg_1">EdOrg 1
-	<ul>
-	  <li><input type="checkbox" id="edorg_2">EdOrg 2
-	  <li><input type="checkbox" id="edorg_3">EdOrg 3
-	  <li><input type="checkbox" id="edorg_3">EdOrg 3
-	  <li><input type="checkbox" id="edorg_4">EdOrg 4
-	</ul>
-      </ul>
-  </div>
+    <%= @edorg_tree_html.html_safe %>
+    </div>
   
 <pre>
 DEBUG:
-
 <%= @debug %>
 </pre>
+
 </div>
