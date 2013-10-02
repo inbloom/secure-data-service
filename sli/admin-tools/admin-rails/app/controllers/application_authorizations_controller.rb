@@ -126,6 +126,7 @@ class ApplicationAuthorizationsController < ApplicationController
     all_edorgs.sort().each do |affected_edorg|
       ApplicationAuthorization.cur_edorg = affected_edorg
       @application_authorization = ApplicationAuthorization.find(params[:id], :params => {:edorg => affected_edorg})
+      updates[:edorgs] = [affected_edorg]
       success = success and @application_authorization.update_attributes(updates)
       raise "error" if ! success
       break if ! success
