@@ -76,6 +76,7 @@ Feature: Ingestion
             And I should not see an error log file created
             And I should not see a warning log file created
 
+        @wip
         Scenario: Ingest Additional edOrgs to test App Enable and Authorize
             Given a landing zone
             And I drop the file "AppEnableAndAuthorizeDataSet.zip" into the landingzone
