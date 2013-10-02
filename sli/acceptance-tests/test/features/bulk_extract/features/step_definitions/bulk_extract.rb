@@ -664,7 +664,7 @@ When /I check that the parent extract for "(.*?)" has the correct number of reco
   [
   {"$project":{"schools":1,"studentParentAssociation":1}}
   ,{"$unwind":"$schools"},{"$unwind":"$studentParentAssociation"}
-  ,{"$match":{ "$or":[     {"schools.exitWithdrawDate":{"$exists":true, "$gt": "#{DateTime.now.strftime('%Y-%m-%d')}"}} ,{"schools.exitWithdrawDate":{"$exists":false}}    ]}}
+  ,{"$match":{}}
   ,{"$project":{"schools._id":1, "studentParentAssociation.body.parentId":1}}
   ,{"$group":{"_id":"$schools._id", "parents":{"$addToSet":"$studentParentAssociation.body.parentId"}}}
   ]
