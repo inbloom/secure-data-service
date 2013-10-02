@@ -24,7 +24,7 @@ class ApplicationAuthorization < SessionResource
   schema do
     string "appId"
     boolean "authorized"
-    string "edorgs"
+    string "edorgs" # Really, an an array
   end
 
  class << self

@@ -19,14 +19,11 @@
           end
       %>
       <td><%=
-          form_for @app_auth do |f|
+          form_for @app_auth, :method =>"GET", :url => "/application_authorizations/" + @app_auth.id + "/edit" do |f|
           %>
             <%= f.hidden_field :appId, :value => @app_auth.appId %>
             <%= f.hidden_field :edorg, :value => @cur_edorg %>
-            <%= f.submit "Approve", :disabled => !@isSEAAdmin || isApproved,
-                         :confirm => "Do you really want this application to access the education organization's data?'", :class=>"btn" %>
-            <%= f.submit "Deny", :disabled => !@isSEAAdmin || !isApproved,
-                :confirm => "Do you really want to deny the education organization's data to this application?", :class=> "btn btn-danger"%>
+            <%= f.submit "Edit Authorizations" %>
           <% end %>
       </td>
     </tr>

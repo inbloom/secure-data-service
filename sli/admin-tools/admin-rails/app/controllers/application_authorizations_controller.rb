@@ -20,6 +20,60 @@ limitations under the License.
 class ApplicationAuthorizationsController < ApplicationController
   before_filter :check_rights
 
+  ROOT_ID = "root"
+
+  #
+  # Edit app authorizations
+  #
+  # Render a tree of all available edOrgs, w/ checkboxes
+  # Each edOrg will be in one of three states:
+  #      - disabled (grayed) -- not enabled by developer for the edOrg per the @apps "authorized_ed_orgs"
+  #      - not authorized (unchecked) -- doesn't appear in the app authorizations' edorg list
+  #      - authorized (checked) -- appears in app authorizaiton's edorg list
+  #
+  def edit
+
+    load_apps()
+    load_edorgs()
+    
+    edOrgId = session[:edOrgId]
+    @edOrg = EducationOrganization.find(edOrgId)
+    raise "Edorg '" + edOrgId + "' not found in educationOrganization collection" if @edOrg.nil?
+
+    appId = params[:application_authorization][:appId]
+    @app = @apps_map[appId]
+    raise "Application '" + appId + "' not found in sli.application" if @app.nil?
+    @app_description = app_description(@app)
+
+    # Get developer-enabled edorgsfor the app.  NOTE: Even though the field is
+    # sli.application.authorized_ed_orgs[] these edorgs are called "developer-
+    # enabled" or just "enabled" edorgs.
+    enabled_ed_orgs = @app.authorized_ed_orgs
+
+    # Get edOrgs already authorized in <tenant>.applicationAuthorization.edorgs[]
+    # The are the "authorized" (by the edOrg admin) edorgs for the app
+    @appAuth = ApplicationAuthorization.find(appId)
+    authorized_ed_orgs = @appAuth.edorgs
+
+    roots_info = ""
+    @edinf[ROOT_ID][:children].each do |cid|
+      roots_info += cid + ": " + @edinf[cid].to_s + "\n"
+    end
+    
+    @debug = "edorgId=" + edOrgId \
+              + "\n" + "params:\n" + params.to_s() \
+              + "\n" + "@app is:\n" + @app.to_s() \
+              + "\n" + "@app.authorized_ed_orgs=" + @app.authorized_ed_orgs.to_s() \
+              + "\n" + "@appAuth.appid:" + @appAuth.appId.to_s() \
+              + "\n" + "@appAuth.edorgs:" + @appAuth.edorgs.to_s() \
+              + "\n" + "@edinf.keys.length: " + @edinf.keys.length.to_s() \
+              + "\n" + "@root_edorgs.length: " + @root_edorgs.length.to_s() \
+              + "\n" + "Roots children:\n" + roots_info \
+              + "\n" + "@edinf[ROOT_ID]:\n" + @edinf[ROOT_ID].to_s \
+              + ""
+  end
+  
+
   # NOTE this controller allows ed org super admins to enable/disable apps for their LEA(s)
   # It allows LEA(s) to see (but not change) their app authorizations
   def check_rights
@@ -154,4 +208,132 @@ class ApplicationAuthorizationsController < ApplicationController
     allApps.each { |app| @apps_map[app.id] = app }
   end
 
+  # Load up all the edOrgs.  Creates:
+  # 
+  def load_edorgs()
+    @edinf = {}
+    @root_edorgs = {}
+    root_ids = []
+    
+    # Get all edOrgs, include only needed fields
+    allEdOrgs = EducationOrganization.findAllInChunks({"includeFields" => "parentEducationAgencyReference,nameOfInstitution,stateOrganizationId,organizationCategories"})
+    allEdOrgs.each do |eo|
+
+      @edinf[eo.id] = { :edOrg => eo, :id => eo.id, :name => eo.nameOfInstitution, :children => [] }
+
+      parents = eo.parentEducationAgencyReference
+      if parents.nil?
+        parents = []
+      else
+        # Handle arrays of arrays due to migration script issues
+        parents = parents.flatten(1)
+      end
+
+      @edinf[eo.id][:parents] = parents
+      
+      # Track root edorgs (with no parents)
+      if parents.empty?
+        root_ids.push(eo.id)
+      end
+
+    end
+
+    # Init immediate children of each edorg by inverting parent relationship
+    @edinf.keys.each do |id|
+      @edinf[id][:parents].each do |pid|
+        if !@edinf.has_key?(pid)
+          # Dangling reference to nonexistent parent
+          raise "Edorg '" + id + "' parents to nonexistent '" + pid.to_s() + "'"
+        else
+          @edinf[pid][:children].push(id)
+        end
+      end
+    end
+
+    # Create fake root edOrg and parent all top level nodes to it
+    root_edorg = { :id => ROOT_ID, :parents => [], :children => root_ids,
+                   :edOrg => { :id => ROOT_ID, :name => "All EdOrgs", :parentEducationAgencyReference  => [] }
+                 }
+    @edinf[ROOT_ID] = root_edorg
+    root_ids.each do |id|
+      @edinf[id][:parents] = [ ROOT_ID ]
+    end
+
+    # Compile counts across whole tree and build fake by-type nodes
+    @id_counter = 0
+    count_children(ROOT_ID)
+    
+  end
+
+  # Traverse graph and count children and descendants and put into @edinf map
+  # Sets :nchild and :ndesc in the node with given ID
+  # Replaces :children array with array of nodes by type
+  def count_children(id)
+    nchild = @edinf[id][:children].length
+    @edinf[id][:nchild] = nchild
+    ndesc = nchild
+    by_type = {}
+    @edinf[id][:children].each do |cid|
+      count_children(cid)
+      ndesc += @edinf[cid][:ndesc]
+      ctype = get_edorg_type(cid)
+      if by_type.has_key?(ctype)
+        by_type[ctype][:children].push(cid)
+        by_type[ctype][:nchild] += 1
+        by_type[ctype][:ndesc] += @edinf[cid][:ndesc] + 1
+      else
+        new_id = "fake_" + @id_counter.to_s
+        @id_counter += 1
+        by_type[ctype] = { :id => new_id, :name => ctype, :parents => [ id ], :children => [ cid ], :nchild => 1, :ndesc => @edinf[cid][:ndesc] + 1 }
+      end
+    end
+
+    # Save accumulated descendant info for whole edorg
+    @edinf[id][:ndesc] = ndesc
+
+    # Replace children array with arrays of children by type
+    new_children = []
+    by_type.each do |ctype, cinf|
+      new_children.push(cinf[:id])
+      @edinf[cinf[:id]] = cinf
+    end
+    @edinf[id][:children] = new_children
+    
+  end
+
+  # Format app description
+  def app_description(a)
+    s = ""
+    s += a.name
+    s += " (id " + a.client_id + ")" if !is_empty(a.client_id)
+    s += ", v. " + a.version if !is_empty(a.version)
+    if a.isBulkExtract
+      s += " -- Bulk Extract"
+    else
+      s += " -- non-Bulk Extract"
+    end
+    return s
+  end
+
+  # String is neither nil nor empty?
+  def is_empty(s)
+    return true if s.nil?
+    return true if s.length == 0
+    return false
+  end
+
+  # Get best guess at edorg type
+  def get_edorg_type(id)
+    cats = @edinf[id][:edOrg].organizationCategories
+    if cats.nil? or cats.empty?
+      return "Unknown"
+    end
+    cats.uniq!
+    if cats.length == 1
+      return cats[0]
+    end
+    # Return whole list joined together
+    return cats.sort.join("/")
+  end
+   
 end
