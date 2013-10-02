@@ -145,7 +145,7 @@ public class ExtractorFactory {
         return new GraduationPlanExtractor(extractor, map, repo, edOrgExtractHelper);
     }
 
-    public EntityExtract buildDisciplineExtractor(EntityExtractor entityExtractor, ExtractFileMap extractFileMap, Repository<Entity> repository, EntityToEdOrgCache edorgCache, EntityToEdOrgCache entityCache) {
+    public EntityExtract buildDisciplineExtractor(EntityExtractor entityExtractor, ExtractFileMap extractFileMap, Repository<Entity> repository, EntityToEdOrgCache edorgCache, EntityToEdOrgDateCache entityCache) {
         return new DisciplineExtractor(entityExtractor, extractFileMap, repository, entityCache, edorgCache);
     }
 }

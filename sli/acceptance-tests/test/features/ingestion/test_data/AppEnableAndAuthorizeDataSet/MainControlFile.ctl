@@ -1,4 +1,3 @@
-edfi-xml,EducationOrganization,InterchangeEducationOrganization.xml
 edfi-xml,EducationOrganization,InterchangeEducationOrganizationLEATiers.xml
 edfi-xml,EducationOrganization,InterchangeEducationOrganizationLEATiersA.xml
 edfi-xml,EducationOrganization,InterchangeEducationOrganizationLEATiersB.xml
