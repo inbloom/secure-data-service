@@ -527,15 +527,19 @@ Scenario: App makes an api call to retrieve a SEA public data bulk extract
    And the extract contains a file for each of the following entities:
       |  entityType                            |
       |  assessment                            |
-      |  educationOrganization                 |
       |  learningObjective                     |
       |  learningStandard                      |
-      |  program                               |
-      |  studentCompetencyObjective            |
-      |  calendarDate                          |
       |  competencyLevelDescriptor             |
-      |  graduationPlan                        |
+      |  studentCompetencyObjective            |
+      |  program                               |
+      |  calendarDate                          |
       |  course                                |
+      |  courseOffering                        |
+      |  educationOrganization                 |
+      |  graduationPlan                        |
+      |  session                               |
+      |  calendarDate                          |
+      |  school                                |
 
 Scenario: App makes an api call to retrieve a bulk extract delta
 #Get a session to trigger a bulk extract
