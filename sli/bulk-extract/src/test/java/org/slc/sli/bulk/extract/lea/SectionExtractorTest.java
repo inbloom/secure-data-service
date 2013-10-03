@@ -20,11 +20,10 @@ import com.google.common.base.Predicate;
 import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
-import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
+import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
@@ -56,17 +55,17 @@ public class SectionExtractorTest {
 
         Map<String, ExtractFile> map = new HashMap<String, ExtractFile>();
         // init map
-        LEAExtractFileMap leaMap = new LEAExtractFileMap(map);
+        ExtractFileMap leaMap = new ExtractFileMap(map);
 
-        EntityToLeaCache studentCache = new EntityToLeaCache();
+        EntityToEdOrgCache studentCache = new EntityToEdOrgCache();
         studentCache.addEntry(STUDENTS.get(1), LEA);
 
-        EntityToLeaCache edorgCache = new EntityToLeaCache();
+        EntityToEdOrgCache edorgCache = new EntityToEdOrgCache();
         edorgCache.addEntry(LEA, EDORGS.get(0));
 
-        LocalEdOrgExtractHelper mockLocalEdOrgExtractHelper = Mockito.mock(LocalEdOrgExtractHelper.class);
+        EdOrgExtractHelper mockEdOrgExtractHelper = Mockito.mock(EdOrgExtractHelper.class);
 
-        se = new SectionExtractor(ex, leaMap, repo, studentCache, edorgCache, mockLocalEdOrgExtractHelper);
+        se = new SectionExtractor(ex, leaMap, repo, studentCache, edorgCache, mockEdOrgExtractHelper);
     }
 
     @Test

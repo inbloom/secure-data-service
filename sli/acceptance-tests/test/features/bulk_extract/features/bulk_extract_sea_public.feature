@@ -147,7 +147,7 @@ Scenario: API call to the SEA BEEP with a non SEA but valid EdOrg
   Given in my list of rights I have BULK_EXTRACT
   When I log into "SDK Sample" with a token of "rrogers", a "Noldor" for "IL" for "IL-Daybreak" in tenant "Midgar", that lasts for "300" seconds
   When I make a call to the bulk extract end point "/bulk/extract/772a61c687ee7ecd8e6d9ad3369f7883409f803b_id"
-  Then I get back a response code of "404"
+  Then I get back a response code of "200"
 
 Scenario: Invalid user tries to access SEA public data
     Given I am a valid 'service' user with an authorized long-lived token "438e472e-a888-46d1-8087-0195f4e37089"

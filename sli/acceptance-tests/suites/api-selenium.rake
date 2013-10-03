@@ -27,6 +27,12 @@ task :adminRealmTests => [:realmInit] do
   runTests("test/features/admintools/edit_realms.feature")
 end
 
+desc "Run Admin Delegation Tests"
+task :adminDelegationTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/admintools/delegate_privileges.feature")
+end
+
 desc "Run Reset and Change Password Selenium Tests"
 task :resetAndChangePasswordTests => [:realmInit] do
   runTests("test/features/admintools/reset_change_password.feature")
@@ -42,6 +48,12 @@ desc "Run Application Registration Tests"
 task :appRegistrationTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/admintools/app_registration.feature")
+end
+
+desc "Run Application Authorization Tests"
+task :appAuthorizationTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/admintools/app_authorization.feature")
 end
 
 desc "Run Admin Edit Rules Tests"
@@ -92,6 +104,15 @@ task :adminSmokeTests do
   Rake::Task["realmInit"].execute
   Rake::Task["importSandboxData"].execute
   runTests("test/features/admintools/admin_smoke.feature")
+end
+
+desc "Run multi realms with same idp test"
+task :adminMultiRealmSameIdpTests do
+  Rake::Task["realmInit"].execute
+  Rake::Task["importSandboxData"].execute
+  allLeaAllowApp("Mobile App")
+  authorizeEdorg("Mobile App")
+  runTests("test/features/admintools/multi_realms_with_same_idp.feature")
 end
 
 ############################################################

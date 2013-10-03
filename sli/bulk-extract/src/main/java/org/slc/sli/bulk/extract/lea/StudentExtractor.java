@@ -21,11 +21,10 @@ package org.slc.sli.bulk.extract.lea;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
-import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
+import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
@@ -36,50 +35,50 @@ import org.slc.sli.domain.Repository;
  *
  */
 public class StudentExtractor implements EntityExtract {
-    private LEAExtractFileMap map;
+    private ExtractFileMap map;
     private EntityExtractor extractor;
     private Repository<Entity> repo;
-    private EntityToLeaCache studentCache;
-    private EntityToLeaCache parentCache;
-    private LocalEdOrgExtractHelper localEdOrgExtractHelper;
+    private EntityToEdOrgCache studentCache;
+    private EntityToEdOrgCache parentCache;
+    private EdOrgExtractHelper edOrgExtractHelper;
 
     private ExtractorHelper helper;
 
-    private EntityToLeaCache diCache = new EntityToLeaCache();
+    private EntityToEdOrgCache diCache = new EntityToEdOrgCache();
 
-    public StudentExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo,
-                            ExtractorHelper helper, EntityToLeaCache studentCache, EntityToLeaCache parentCache,
-                            LocalEdOrgExtractHelper localEdOrgExtractHelper) {
+    public StudentExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo,
+                            ExtractorHelper helper, EntityToEdOrgCache studentCache, EntityToEdOrgCache parentCache,
+                            EdOrgExtractHelper edOrgExtractHelper) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
         this.helper = helper;
         this.studentCache = studentCache;
         this.parentCache = parentCache;
-        this.localEdOrgExtractHelper = localEdOrgExtractHelper;
+        this.edOrgExtractHelper = edOrgExtractHelper;
     }
 
     /* (non-Javadoc)
      * @see org.slc.sli.bulk.extract.lea.EntityExtract#extractEntities(java.util.Map)
      */
     @Override
-    public void extractEntities(EntityToLeaCache entityToEdorgCache) {
-        localEdOrgExtractHelper.logSecurityEvent(map.getLeas(), EntityNames.STUDENT, this.getClass().getName());
+    public void extractEntities(EntityToEdOrgCache entityToEdorgCache) {
+        edOrgExtractHelper.logSecurityEvent(map.getEdOrgs(), EntityNames.STUDENT, this.getClass().getName());
         Iterator<Entity> cursor = repo.findEach("student", new NeutralQuery());
         while (cursor.hasNext()) {
             Entity e = cursor.next();
             Set<String> schools = helper.fetchCurrentSchoolsForStudent(e);
             Iterable<String> parents = helper.fetchCurrentParentsFromStudent(e);
-            for (String lea : map.getLeas()) {
-                if (schools.contains(lea)) {
+            for (String edOrg : map.getEdOrgs()) {
+                if (schools.contains(edOrg)) {
                     // Write
-                    extractor.extractEntity(e, map.getExtractFileForLea(lea), "student");
+                    extractor.extractEntity(e, map.getExtractFileForEdOrg(edOrg), "student");
                     
                     // Update studentCache
-                    studentCache.addEntry(e.getEntityId(), lea);
+                    studentCache.addEntry(e.getEntityId(), edOrg);
 
                     for (String parent : parents) {
-                        parentCache.addEntry(parent, lea);
+                        parentCache.addEntry(parent, edOrg);
                     }
                 }
             }
@@ -89,11 +88,11 @@ public class StudentExtractor implements EntityExtract {
             if(sdias != null) {
                 for(Entity sdia : sdias) {
                     String did = (String) sdia.getBody().get("disciplineIncidentId");
-                    Set<String> leas = studentCache.getEntriesById(e.getEntityId());
+                    Set<String> edOrgs = studentCache.getEntriesById(e.getEntityId());
 
-                    if(leas != null) {
-                        for(String lea : leas) {
-                            diCache.addEntry(did, lea);
+                    if(edOrgs != null) {
+                        for(String edOrg : edOrgs) {
+                            diCache.addEntry(did, edOrg);
                         }
                     } else {
                         diCache.addEntry(did, "marker");    // adding a marker that this DI is referenced by a student
@@ -105,19 +104,19 @@ public class StudentExtractor implements EntityExtract {
         
     }
     
-    public void setEntityCache(EntityToLeaCache cache) {
+    public void setEntityCache(EntityToEdOrgCache cache) {
         this.studentCache = cache;
     }
     
-    public EntityToLeaCache getEntityCache() {
+    public EntityToEdOrgCache getEntityCache() {
         return studentCache;
     }
     
-    public EntityToLeaCache getParentCache() {
+    public EntityToEdOrgCache getParentCache() {
         return parentCache;
     }
 
-    public EntityToLeaCache getDiCache() {
+    public EntityToEdOrgCache getDiCache() {
         return diCache;
     }
 }

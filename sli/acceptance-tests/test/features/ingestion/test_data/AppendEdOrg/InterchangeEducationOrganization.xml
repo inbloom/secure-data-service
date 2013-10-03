@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<InterchangeEducationOrganization xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
+
+
+  <Program>
+    <ProgramId>ACC-TEST-PROG-3</ProgramId>
+    <ProgramType>Regular Education</ProgramType>
+    <ProgramSponsor>School</ProgramSponsor>
+    <Services>
+      <CodeValue>Test service 3</CodeValue>
+      <!--<ShortDescription>Short description for acceptance test program 1</ShortDescription>
+	  <Description>This is a longer description of the services provided by acceptance test program 1. More detail could be provided here.</Description>-->
+    </Services>
+  </Program>
+</InterchangeEducationOrganization>

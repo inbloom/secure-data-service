@@ -16,14 +16,10 @@
 
 package org.slc.sli.bulk.extract.lea;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
-import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
+import com.google.common.collect.HashMultimap;
+import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.common.util.datetime.DateHelper;
@@ -34,13 +30,13 @@ public class ExtractorHelper{
         //LocalEdOrgExtractHelper is optional
     }
 
-    public ExtractorHelper(LocalEdOrgExtractHelper localEdOrgExtractHelper) {
-        this.localEdOrgExtractHelper = localEdOrgExtractHelper;
+    public ExtractorHelper(EdOrgExtractHelper edOrgExtractHelper) {
+        this.edOrgExtractHelper = edOrgExtractHelper;
     }
 
     private DateHelper dateHelper;
 
-    private LocalEdOrgExtractHelper localEdOrgExtractHelper;
+    private EdOrgExtractHelper edOrgExtractHelper;
 
 
     /**
@@ -64,7 +60,7 @@ public class ExtractorHelper{
                 continue;
             }
             String id = (String)school.get("_id");
-            List<String> lineages = localEdOrgExtractHelper.getEdOrgLineages().get(id);
+            List<String> lineages = edOrgExtractHelper.getEdOrgLineages().get(id);
             if(lineages != null) {
                 studentSchools.addAll(lineages);
             }
@@ -107,21 +103,23 @@ public class ExtractorHelper{
         return !dateHelper.isFieldExpired(staffAssociation.getBody(), ParameterConstants.END_DATE);
     }
     
-    public Map<String, String> buildSubToParentEdOrgCache(EntityToLeaCache edOrgCache) {
+    public Map<String, Collection<String>> buildSubToParentEdOrgCache(EntityToEdOrgCache edOrgCache) {
     	Map<String, String> result = new HashMap<String, String>();
+        HashMultimap<String, String> map = HashMultimap.create();
     	for(String lea : edOrgCache.getEntityIds()) {
     		for (String child : edOrgCache.getEntriesById(lea)) {
     			result.put(child, lea);
+                map.put(child, lea);
     		}
     	}
-    	return result;
+        return map.asMap();
     }
 
-    public LocalEdOrgExtractHelper getLocalEdOrgExtractHelper() {
-        return localEdOrgExtractHelper;
+    public EdOrgExtractHelper getEdOrgExtractHelper() {
+        return edOrgExtractHelper;
     }
 
-    public void setLocalEdOrgExtractHelper(LocalEdOrgExtractHelper localEdOrgExtractHelper) {
-        this.localEdOrgExtractHelper = localEdOrgExtractHelper;
+    public void setEdOrgExtractHelper(EdOrgExtractHelper edOrgExtractHelper) {
+        this.edOrgExtractHelper = edOrgExtractHelper;
     }
 }

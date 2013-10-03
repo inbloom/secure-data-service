@@ -69,8 +69,9 @@ class AppsController < ApplicationController
   # GET /apps/1/edit.json
   def edit
     @title = "Edit Application"
-    @sea = get_state_edorgs
     @app = App.find(params[:id])
+    @app.authorized_ed_orgs = [] if @app.authorized_ed_orgs.nil?
+    @sea = get_state_edorgs
   end
 
   def approve
@@ -163,6 +164,7 @@ class AppsController < ApplicationController
     params[:app][:installed] = boolean_fix params[:app][:installed]
     params[:app][:isBulkExtract] = boolean_fix params[:app][:isBulkExtract]
     params[:app][:authorized_ed_orgs] = [] if params[:app][:authorized_ed_orgs] == nil
+    params[:state_select] = [] if params[:state_select] == nil
     params[:app].delete_if {|key, value| ["administration_url", "image_url", "application_url", "redirect_uri"].include? key and value.length == 0 }
     #ugg...can't figure out why rails nests the app_behavior attribute outside the rest of the app
     params[:app][:behavior] = params[:app_behavior]
@@ -176,6 +178,28 @@ class AppsController < ApplicationController
     @app.attributes.delete :application_url unless params[:app].include? :application_url
     @app.attributes.delete :redirect_uri unless params[:app].include? :redirect_uri
 
+    #
+    # AUTHORIZE EDORGS FOR THE APP
+    #
+    # Create authorized edOrgs map so as to avoid duplicates
+    authorized_ed_orgs_map = {}
+    isBulkExtract = params[:app][:isBulkExtract]
+    params[:state_select].each do |sea|
+      authorized_ed_orgs_map[sea] = true
+      if isBulkExtract
+        # For bulk-extract app, enabled SEA and its immediate children
+        children = EducationOrganization.get_edorg_children(sea).map { |edOrg| edOrg.id }
+        children.each do |child|
+          authorized_ed_orgs_map[child] = true
+        end
+      else
+        # For non-bulk-extract app, enable all descendants of SEA edOrg
+        EducationOrganization.get_edorg_descendants(sea).each do |eo|
+          authorized_ed_orgs_map[eo] = true
+        end
+      end
+    end
+    params[:app][:authorized_ed_orgs] = authorized_ed_orgs_map.keys.sort()
 
     logger.debug {"App found (Update): #{@app.to_json}"}
     
@@ -218,12 +242,14 @@ class AppsController < ApplicationController
     end
   end
 
+  # Get all SEAs
   def get_state_edorgs
     state_ed_orgs = EducationOrganization.find(:all, :params => {"organizationCategories" => "State Education Agency", "limit" => 100})
     @results = []
 
     state_ed_orgs.each do |ed_org|
-      current = {"name" => ed_org.nameOfInstitution, "sea_id" => ed_org.id }
+      is_enabled = @app.authorized_ed_orgs.include?ed_org.id || @app.allowed_for_all_edorgs
+      current = {"name" => ed_org.nameOfInstitution, "sea_id" => ed_org.id, "is_enabled" => is_enabled }
       @results.push current
     end
     @results.sort! {|x, y| x["name"] <=> y["name"]}

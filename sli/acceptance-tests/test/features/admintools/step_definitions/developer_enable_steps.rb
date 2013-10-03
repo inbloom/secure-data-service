@@ -105,11 +105,16 @@ Then /^I can see the on\-boarded states$/ do
     end
     attempts += 1
     options = @driver.find_elements(:css, 'div#state-menu select option')
-    found = true if options.count > 1
+    found = true if options.count >= 1
   end
   assert(found, "At least one state should exist")
 end
 
+#
+# NOTE: the actions and assertion below apply to a selection mode where
+# the user selects a state from the dropdown, which triggers a refresh
+# of the list of the (newly selected) state's districts for checkbox
+# selection.  This mode is now obsolete
 When /^I select the state "([^"]*)"$/ do |arg1|
   options = @driver.find_elements(:css, 'div#state-menu select option')
   step "I select the \"#{arg1}\""
@@ -156,6 +161,21 @@ end
 Then /^I see the newly enabled application is approved$/ do
   test_app = get_app
   assert(!test_app.find_element(:xpath, "//td[text()='Approved']").nil?, "App should be approved")
+end
+
+Then /^"(.*?)" is enabled for "(.*?)" education organizations$/ do |app, edOrgCount|
+     disable_NOTABLESCAN()
+     sliDb = @conn.db('sli')
+     coll = sliDb.collection("application")
+     record = coll.find_one("body.name" => app)
+     #puts record.to_s
+     body = record["body"]
+     #puts body.to_s
+     edorgsArray = body["authorized_ed_orgs"]
+     edorgsArrayCount = edorgsArray.count
+     #puts edorgsArrayCount
+     assert(edorgsArrayCount == edOrgCount.to_i, "Education organization count mismatch. Expected #{edOrgCount}, actual #{edorgsArrayCount}")
+     enable_NOTABLESCAN()
 end
 
 Then /^I don't see the newly disabled application$/ do

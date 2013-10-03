@@ -20,7 +20,6 @@ package org.slc.sli.bulk.extract.lea;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.Before;
@@ -30,8 +29,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
-import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
-import org.slc.sli.common.constants.EntityNames;
+import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
@@ -42,30 +40,30 @@ public class StudentGradebookEntryExtractorTest {
     @Mock
     private Repository<Entity> mockRepo;
     @Mock
-    private LEAExtractFileMap mockMap;
+    private ExtractFileMap mockMap;
     @Mock
     private EntityExtractor mockExtractor;
     @Mock
     private ExtractFile mockFile;
     
     @Mock
-    private EntityToLeaCache mockStudentCache;
+    private EntityToEdOrgCache mockStudentCache;
     
     @Mock
     private Entity mockEntity;
     
     @Mock
-    private LocalEdOrgExtractHelper mockLocalEdOrgExtractHelper;
+    private EdOrgExtractHelper mockEdOrgExtractHelper;
     
     private Map<String, Object> entityBody;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        extractor = new StudentGradebookEntryExtractor(mockExtractor, mockMap, mockRepo, mockLocalEdOrgExtractHelper);
+        extractor = new StudentGradebookEntryExtractor(mockExtractor, mockMap, mockRepo, mockEdOrgExtractHelper);
         entityBody = new HashMap<String, Object>();
         Mockito.when(mockEntity.getBody()).thenReturn(entityBody);
-        Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(mockFile);
+        Mockito.when(mockMap.getExtractFileForEdOrg("LEA")).thenReturn(mockFile);
         Mockito.when(mockStudentCache.getEntriesById("studentId")).thenReturn(new HashSet<String>(Arrays.asList("LEA")));
     }
     
@@ -93,7 +91,7 @@ public class StudentGradebookEntryExtractorTest {
     public void testExtractNoEntityBecauseOfLEAMiss() {
         Mockito.when(mockRepo.findEach(Mockito.eq("studentGradebookEntry"), Mockito.eq(new NeutralQuery())))
                 .thenReturn(Arrays.asList(mockEntity).iterator());
-        Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(null);
+        Mockito.when(mockMap.getExtractFileForEdOrg("LEA")).thenReturn(null);
         entityBody.put(ParameterConstants.STUDENT_ID, "studentId");
         extractor.extractEntities(mockStudentCache);
         Mockito.verify(mockExtractor, Mockito.never()).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
@@ -105,7 +103,7 @@ public class StudentGradebookEntryExtractorTest {
         entityBody.put(ParameterConstants.STUDENT_ID, "studentId99");
         Mockito.when(mockRepo.findEach(Mockito.eq("studentGradebookEntry"), Mockito.eq(new NeutralQuery())))
                 .thenReturn(Arrays.asList(mockEntity).iterator());
-        Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(mockFile);
+        Mockito.when(mockMap.getExtractFileForEdOrg("LEA")).thenReturn(mockFile);
         extractor.extractEntities(mockStudentCache);
         Mockito.verify(mockExtractor, Mockito.never()).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
                 Mockito.eq("studentGradebookEntry"));

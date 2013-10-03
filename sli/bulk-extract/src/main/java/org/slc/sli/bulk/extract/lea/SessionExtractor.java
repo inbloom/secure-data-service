@@ -21,7 +21,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
-import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
+import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
@@ -35,47 +35,49 @@ public class SessionExtractor implements EntityExtract {
     private static final Logger LOG = LoggerFactory.getLogger(EntityExtractor.class);
 	private EntityExtractor extractor;
     private Repository<Entity> repo;
-    private LEAExtractFileMap map;
-    private EntityToLeaCache cache;
+    private ExtractFileMap map;
+    private EntityToEdOrgCache cache;
     private ExtractorHelper helper;
-    private LocalEdOrgExtractHelper localEdOrgExtractHelper;
+    private EdOrgExtractHelper edOrgExtractHelper;
 
 
-	public SessionExtractor(EntityExtractor extractor,  LEAExtractFileMap map, Repository<Entity> repo, 
-			ExtractorHelper helper, EntityToLeaCache entityToLeaCache, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
+	public SessionExtractor(EntityExtractor extractor,  ExtractFileMap map, Repository<Entity> repo,
+			ExtractorHelper helper, EntityToEdOrgCache entityToEdOrgCache, EdOrgExtractHelper edOrgExtractHelper) {
 		this.extractor = extractor;
 		this.repo = repo;
         this.map = map;
-        this.cache = entityToLeaCache;
+        this.cache = entityToEdOrgCache;
         this.helper = helper;
-        this.localEdOrgExtractHelper = localEdOrgExtractHelper;
+        this.edOrgExtractHelper = edOrgExtractHelper;
 	}
 
 	@Override
-	public void extractEntities(EntityToLeaCache entityToEdorgCache) {
-        localEdOrgExtractHelper.logSecurityEvent(map.getLeas(), EntityNames.SESSION, this.getClass().getName());
-		Map<String, String> schoolToLea = helper.buildSubToParentEdOrgCache(entityToEdorgCache);
+	public void extractEntities(EntityToEdOrgCache entityToEdorgCache) {
+        edOrgExtractHelper.logSecurityEvent(map.getEdOrgs(), EntityNames.SESSION, this.getClass().getName());
+		Map<String, Collection<String>> schoolToLea = helper.buildSubToParentEdOrgCache(entityToEdorgCache);
 		Iterator<Entity> sessions = repo.findEach(EntityNames.SESSION, new Query());
 		while(sessions.hasNext()) {
 			Entity session = sessions.next();
 			String schoolId = (String) session.getBody().get(ParameterConstants.SCHOOL_ID);
 			Collection<String> gradingPeriods = (Collection<String>) session.getBody().get("gradingPeriodReference");
 
-			String lea = schoolToLea.get(schoolId);
-			if (lea == null) {
+			Collection<String> leas = schoolToLea.get(schoolId);
+			if (leas == null) {
 				LOG.warn("There is no LEA for school {}", schoolId);
 				continue;
 			}
-			extractor.extractEntity(session, map.getExtractFileForLea(lea),
-					EntityNames.SESSION);
+            for(String lea:leas) {
+                extractor.extractEntity(session, map.getExtractFileForEdOrg(lea),
+                        EntityNames.SESSION);
 
-			for (String gradingPeriod : gradingPeriods) {
-				cache.addEntry(gradingPeriod, lea);
-			}		
+                for (String gradingPeriod : gradingPeriods) {
+                    cache.addEntry(gradingPeriod, lea);
+                }
+            }
 		}
 	}
 	
-	public EntityToLeaCache getEntityToLeaCache() {
+	public EntityToEdOrgCache getEntityToLeaCache() {
 		return cache;
 	}
 

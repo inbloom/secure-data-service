@@ -20,7 +20,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
-import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
+import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
@@ -29,33 +29,36 @@ import org.springframework.data.mongodb.core.query.Query;
 
 public class CourseExtractor {
     private EntityExtractor extractor;
-    private LEAExtractFileMap map;
+    private ExtractFileMap map;
     private Repository<Entity> repo;
-    private LocalEdOrgExtractHelper localEdOrgExtractHelper;
+    private EdOrgExtractHelper edOrgExtractHelper;
     
-    public CourseExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
+    public CourseExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo, EdOrgExtractHelper edOrgExtractHelper) {
         this.extractor = extractor;
         this.map = map;
         this.repo = repo;
-        this.localEdOrgExtractHelper = localEdOrgExtractHelper;
+        this.edOrgExtractHelper = edOrgExtractHelper;
     }
 
     
-    public void extractEntities(EntityToLeaCache edorgCache, EntityToLeaCache courseCache) {
-        localEdOrgExtractHelper.logSecurityEvent(map.getLeas(), EntityNames.COURSE, this.getClass().getName());
+    public void extractEntities(EntityToEdOrgCache edorgCache, EntityToEdOrgCache courseCache) {
+        edOrgExtractHelper.logSecurityEvent(map.getEdOrgs(), EntityNames.COURSE, this.getClass().getName());
         Iterator<Entity> cursor = repo.findEach(EntityNames.COURSE, new Query());
         while (cursor.hasNext()) {
             Entity e = cursor.next();
             String courseId = e.getEntityId();
             String schoolId = e.getBody().get(ParameterConstants.SCHOOL_ID).toString();
-            String leaForCourse = edorgCache.leaFromEdorg(schoolId);
-            
-            Set<String> leas = courseCache.getEntriesById(courseId);
-            if(!leas.contains(leaForCourse)){
-                extractor.extractEntity(e, map.getExtractFileForLea(leaForCourse), EntityNames.COURSE);
+            Set<String> edOrgsForCourse = edorgCache.ancestorEdorgs(schoolId);
+            Set<String> edOrgs = courseCache.getEntriesById(courseId);
+
+            for(String edOrgForCourse: edOrgsForCourse) {
+                if(!edOrgs.contains(edOrgForCourse)){
+                    extractor.extractEntity(e, map.getExtractFileForEdOrg(edOrgForCourse), EntityNames.COURSE);
+                }
             }
-            for (String lea : leas) {
-                extractor.extractEntity(e, map.getExtractFileForLea(lea), EntityNames.COURSE);
+            for (String edOrg : edOrgs) {
+                extractor.extractEntity(e, map.getExtractFileForEdOrg(edOrg), EntityNames.COURSE);
+
             }
         }
     }

@@ -23,16 +23,12 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
-import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
-import org.slc.sli.bulk.extract.util.SecurityEventUtil;
+import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.common.constants.EntityNames;
 import org.slc.sli.common.constants.ParameterConstants;
-import org.slc.sli.common.util.logging.LogLevelType;
-import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.data.mongodb.core.query.Query;
 
 /**
  * @author rlatta
@@ -40,30 +36,30 @@ import org.springframework.data.mongodb.core.query.Query;
  */
 public class StudentAssessmentExtractor implements EntityExtract {
     private EntityExtractor extractor;
-    private LEAExtractFileMap map;
+    private ExtractFileMap map;
     private Repository<Entity> repo;
-    private LocalEdOrgExtractHelper localEdOrgExtractHelper;
+    private EdOrgExtractHelper edOrgExtractHelper;
     
-    public StudentAssessmentExtractor(EntityExtractor extractor, LEAExtractFileMap map, Repository<Entity> repo, LocalEdOrgExtractHelper localEdOrgExtractHelper) {
+    public StudentAssessmentExtractor(EntityExtractor extractor, ExtractFileMap map, Repository<Entity> repo, EdOrgExtractHelper edOrgExtractHelper) {
         this.repo = repo;
         this.extractor = extractor;
         this.map = map;
-        this.localEdOrgExtractHelper = localEdOrgExtractHelper;
+        this.edOrgExtractHelper = edOrgExtractHelper;
     }
 
     /* (non-Javadoc)
      * @see org.slc.sli.bulk.extract.lea.EntityExtract#extractEntities(org.slc.sli.bulk.extract.lea.EntityToLeaCache)
      */
     @Override
-    public void extractEntities(EntityToLeaCache entityToEdorgCache) {
-        localEdOrgExtractHelper.logSecurityEvent(map.getLeas(), EntityNames.STUDENT_ASSESSMENT, this.getClass().getName());
+    public void extractEntities(EntityToEdOrgCache entityToEdorgCache) {
+        edOrgExtractHelper.logSecurityEvent(map.getEdOrgs(), EntityNames.STUDENT_ASSESSMENT, this.getClass().getName());
         Iterator<Entity> assessments = repo.findEach(EntityNames.STUDENT_ASSESSMENT, new NeutralQuery());
         while (assessments.hasNext()) {
             Entity assessment = assessments.next();
             String studentId = (String) assessment.getBody().get(ParameterConstants.STUDENT_ID);
-            Set<String> studentLeas = entityToEdorgCache.getEntriesById(studentId);
-            for (String lea : studentLeas) {
-                extractor.extractEntity(assessment, map.getExtractFileForLea(lea), EntityNames.STUDENT_ASSESSMENT);
+            Set<String> studentEdOrg = entityToEdorgCache.getEntriesById(studentId);
+            for (String stidentEdOrg : studentEdOrg) {
+                extractor.extractEntity(assessment, map.getExtractFileForEdOrg(stidentEdOrg), EntityNames.STUDENT_ASSESSMENT);
             }
             
         }

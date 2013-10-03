@@ -27,4 +27,31 @@ class EducationOrganization < SessionResource
     string  "organizationCategories"
   end
 
+ # Get list of EducationOrganization objects that are immediate children of edOrg with given ID
+   def self.get_edorg_children(edOrg)
+     children = findAllInChunks({"parentEducationAgencyReference" => edOrg})
+     return children
+   end
+
+  # Return list containing the given edOrg ID and the IDs of all its descendant edOrgs
+ def self.get_edorg_descendants(edOrg, seen = {})
+
+   # Stop recursion if cycle found
+   if seen.has_key?(edOrg)
+     return []
+   end
+   seen[edOrg] = true
+
+   result = {}
+   result[edOrg] = true
+   children = get_edorg_children(edOrg).map { |edOrg| edOrg.id }
+   children.each do |child|
+     desc = get_edorg_descendants(child, seen)
+     desc.each do |eo|
+       result[eo] = true
+     end
+   end
+   return result.keys
+ end
+
 end

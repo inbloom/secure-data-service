@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.common.collect.Sets;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -28,7 +29,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 import org.slc.sli.bulk.extract.files.ExtractFile;
-import org.slc.sli.bulk.extract.util.LocalEdOrgExtractHelper;
+import org.slc.sli.bulk.extract.util.EdOrgExtractHelper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.springframework.data.mongodb.core.query.Query;
@@ -38,32 +39,32 @@ public class CohortExtractorTest {
     @Mock
     private Repository<Entity> mockRepo;
     @Mock
-    private LEAExtractFileMap mockMap;
+    private ExtractFileMap mockMap;
     @Mock
     private EntityExtractor mockExtractor;
     @Mock
     private ExtractFile mockFile;
     
     @Mock
-    private EntityToLeaCache mockEdorgCache;
+    private EntityToEdOrgCache mockEdorgCache;
     
     @Mock
     private Entity mockEntity;
 
     @Mock
-    private LocalEdOrgExtractHelper mockLocalEdOrgExtractHelper;
+    private EdOrgExtractHelper mockEdOrgExtractHelper;
     
     private Map<String, Object> entityBody;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        extractor = new CohortExtractor(mockExtractor, mockMap, mockRepo, mockLocalEdOrgExtractHelper);
+        extractor = new CohortExtractor(mockExtractor, mockMap, mockRepo, mockEdOrgExtractHelper);
         entityBody = new HashMap<String, Object>();
         Mockito.when(mockEntity.getBody()).thenReturn(entityBody);
 
-        Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(mockFile);
-        Mockito.when(mockEdorgCache.leaFromEdorg("edorgId")).thenReturn("LEA");
+        Mockito.when(mockMap.getExtractFileForEdOrg("LEA")).thenReturn(mockFile);
+        Mockito.when(mockEdorgCache.ancestorEdorgs("edorgId")).thenReturn(Sets.newHashSet("LEA"));
     }
     
     @Test
@@ -90,7 +91,7 @@ public class CohortExtractorTest {
     public void testExtractNoEntityBecauseOfLEAMiss() {
         Mockito.when(mockRepo.findEach(Mockito.eq("cohort"), Mockito.eq(new Query())))
                 .thenReturn(Arrays.asList(mockEntity).iterator());
-        Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(null);
+        Mockito.when(mockMap.getExtractFileForEdOrg("LEA")).thenReturn(null);
         entityBody.put("educationOrgId", "edorgId");
         extractor.extractEntities(mockEdorgCache);
         Mockito.verify(mockExtractor, Mockito.never()).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
@@ -102,7 +103,7 @@ public class CohortExtractorTest {
         entityBody.put("educationOrgId", "edorgId2");
         Mockito.when(mockRepo.findEach(Mockito.eq("cohort"), Mockito.eq(new Query())))
                 .thenReturn(Arrays.asList(mockEntity).iterator());
-        Mockito.when(mockMap.getExtractFileForLea("LEA")).thenReturn(mockFile);
+        Mockito.when(mockMap.getExtractFileForEdOrg("LEA")).thenReturn(mockFile);
         extractor.extractEntities(mockEdorgCache);
         Mockito.verify(mockExtractor, Mockito.never()).extractEntity(Mockito.eq(mockEntity), Mockito.eq(mockFile),
                 Mockito.eq("cohort"));

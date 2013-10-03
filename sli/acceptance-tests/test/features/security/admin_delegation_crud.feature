@@ -6,28 +6,19 @@ Feature: Admin delegation CRUD
     When I POST a new admin delegation
     Then I should receive a return code of 201
 
-  Scenario: State administrator without access being denied update to application authorization
+  Scenario: State administrator without explicit delegation still allowed to update to application authorization
     And I am logged in using "iladmin" "iladmin1234" to realm "SLI"
     When I do not have access to app authorizations for district "IL-SUNSET"
     Then I should update app authorizations for district "IL-SUNSET"
-    And I should receive a return code of 403
+    And I should receive a return code of 204
 
- Scenario: State administrator without access being denied update to application authorization security event
+ Scenario: State administrator without explicit delegation still allowed to update to application authorization without a security event
     Given the sli securityEvent collection is empty
     And I am logged in using "iladmin" "iladmin1234" to realm "SLI"
     When I do not have access to app authorizations for district "IL-SUNSET"
     Then I should update app authorizations for district "IL-SUNSET"
-    And I should receive a return code of 403
-     And I should see a count of "1" in the security event collection
-     And I check to find if record is in sli db collection:
-        | collectionName  | expectedRecordCount | searchParameter         | searchValue                                                         | searchType |
-        | securityEvent   | 1                   | body.appId              | ke9Dgpo3uI                                                          | string     |
-        | securityEvent   | 1                   | body.className          | org.slc.sli.api.resources.security.ApplicationAuthorizationResource | string     |
-        | securityEvent   | 1                   | body.userEdOrg          | fakeab32-b493-999b-a6f3-sliedorg1234                                | string     |
-        | securityEvent   | 1                   | body.targetEdOrgList    | IL-SUNSET                                                           | string     |
-     And "1" security event matching "Access Denied:Cannot perform authorizations for edorg " should be in the sli db
-     And "1" security event with field "body.actionUri" matching "http.*/api/rest/applicationAuthorization" should be in the sli db
-     
+    And I should receive a return code of 204
+     And I should see a count of "0" in the security event collection
 
   Scenario: District administrator updating admin delegation
     Given I am logged in using "sunsetadmin" "sunsetadmin1234" to realm "SLI"
@@ -69,13 +60,7 @@ Feature: Admin delegation CRUD
     And a security event "EdOrg data access has been revoked!" should be created for these targetEdOrgs
       | targetEdOrg                |
       | IL                         |
-      | IL-DAYBREAK                |
-      | IL-SUNSET                  |
-      | IL-LONGWOOD                |
-      | South Daybreak Elementary  |
-      | East Daybreak Junior High  |
-      | Sunset Central High School |
-      | Daybreak Central High      |
+
 
 #US5464
   Scenario: State administrator granting access to edOrg data
@@ -85,13 +70,7 @@ Feature: Admin delegation CRUD
     And a security event "Application granted access to EdOrg data!" should be created for these targetEdOrgs
       | targetEdOrg                |
       | IL                         |
-      | IL-DAYBREAK                |
-      | IL-SUNSET                  |
-      | IL-LONGWOOD                |
-      | South Daybreak Elementary  |
-      | East Daybreak Junior High  |
-      | Sunset Central High School |
-      | Daybreak Central High      |
+
 
 #US5464
   Scenario: LEA administrator revoking access to edOrg data
@@ -101,8 +80,7 @@ Feature: Admin delegation CRUD
     And a security event "EdOrg data access has been revoked!" should be created for these targetEdOrgs ONLY
       | targetEdOrg                |
       | IL-SUNSET                  |
-      | IL-LONGWOOD                |
-      | Sunset Central High School |
+
 
 #US5464
   Scenario: LEA administrator granting access to edOrg data
@@ -112,8 +90,7 @@ Feature: Admin delegation CRUD
     And a security event "Application granted access to EdOrg data!" should be created for these targetEdOrgs ONLY
       | targetEdOrg                |
       | IL-SUNSET                  |
-      | IL-LONGWOOD                |
-      | Sunset Central High School |
+
 
 #US5464
   Scenario: District administrator can grant access to edOrg data only if LEA adminstrator has delegated  AppApproval
@@ -131,10 +108,10 @@ Feature: Admin delegation CRUD
       | fakeab32-b493-999b-a6f3-sliedorg1234|
     
 
-    #SEA administrator tries to do AppAproval for non delegated LEA and fails
+    # SEA administrator tries to do AppAproval for non delegated LEA and succeeds
     When I am logged in using "iladmin" "iladmin1234" to realm "SLI"
     Then I should grant all app authorizations for district "IL-SUNSET"
-    And I should receive a return code of 403
+    And I should receive a return code of 204
 
     #LEA administrator enables delegation
     Given I am logged in using "sunsetadmin" "sunsetadmin1234" to realm "SLI"
@@ -157,8 +134,6 @@ Feature: Admin delegation CRUD
     And a security event "EdOrg data access has been revoked!" should be created for these targetEdOrgs ONLY
       | targetEdOrg                |
       | IL-SUNSET                  |
-      | IL-LONGWOOD                |
-      | Sunset Central High School |
 
     #SEA administrator tries to do AppAproval for non delegated LEA and succeeds, causes SecurityEvent to be logged
     Then I should grant all app authorizations for district "IL-SUNSET"
@@ -166,5 +141,3 @@ Feature: Admin delegation CRUD
     And a security event "Application granted access to EdOrg data!" should be created for these targetEdOrgs ONLY
       | targetEdOrg                |
       | IL-SUNSET                  |
-      | IL-LONGWOOD                |
-      | Sunset Central High School |

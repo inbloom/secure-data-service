@@ -1,15 +1,18 @@
 @RALLY_US134
 Feature: Delegating control from a district administrator to a state administrator
 
-Scenario: State Administrator is denied access to app authorizations
+Scenario: State Administrator is allowed access to app authorizations
   Given I have an open web browser
   When I hit the Admin Application Authorization Tool
    And I was redirected to the "Simple" IDP Login page
    And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
    And I am redirected to the Admin Application Authorization Tool
-   Then I get the message "You are not authorized to make application authorizations"
+  Then I see the list of all available apps on SLI
 
   
+# confirm obsoletion by F186 once requirements firm up
+# US5866 will remove delegation for app authorization and the functionality
+# tested here, so that this scenario can be removed.
 Scenario: District Super Administrator delegates app approval permission to state
 	Given I have an open web browser
 	When I hit the delegation url
@@ -22,7 +25,9 @@ Scenario: District Super Administrator delegates app approval permission to stat
     Then I am redirected to the delegation page for my district
     And "Application Authorization" is checked
  
- 
+# confirm obsoletion by F186 once requirements firm up
+# US5866 will remove delegation for app authorization and the functionality
+# tested here, so that this scenario can be removed.
 Scenario: State Administrator gets access to app approval for one district
   Given I have an open web browser
   When I hit the Admin Application Authorization Tool
@@ -31,6 +36,9 @@ Scenario: State Administrator gets access to app approval for one district
    And I am redirected to the Admin Application Authorization Tool
   Then I see the list of all available apps on SLI
   
+# confirm obsoletion by F186 once requirements firm up
+# US5866 will remove delegation for app authorization and the functionality
+# tested here, so that this scenario can be removed.
   Scenario: Second District Super Administrator delegates app approval permission to state
   Given I have an open web browser
   When I hit the delegation url
@@ -43,6 +51,9 @@ Scenario: State Administrator gets access to app approval for one district
     Then I am redirected to the delegation page for my district
     And "Application Authorization" is checked
 
+# confirm obsoletion by F186 once requirements firm up
+# US5866 will remove delegation for app authorization and the functionality
+# tested here, so that this scenario can be removed.
  Scenario: State Administrator gets access to app approval for two districts and approves one app
   Given I have an open web browser
   When I hit the Admin Application Authorization Tool
@@ -50,17 +61,10 @@ Scenario: State Administrator gets access to app approval for one district
    And I submit the credentials "iladmin" "iladmin1234" for the "Simple" login page
    And I am redirected to the Admin Application Authorization Tool
   Then I see the list of all available apps on SLI
-  And I see a dropdown box listing both districts
-  And I select "Sunset School District 4526" in the district dropdown
-  And I see the table for "Sunset School District 4526"
-  And I do not see the table for "Daybreak School District 4529"
-  And I select "Daybreak School District 4529" in the district dropdown  
-  And I see the table for "Daybreak School District 4529"
-  And I do not see the table for "Sunset School District 4526"
   And I see an application "Testing App" in the table
   And in Status it says "Not Approved"
   And I click on the "Approve" button next to it
-  And I am asked 'Do you really want this application to access the district's data'
+  And I switch focus to the popup matching the regex "^Do you really.*access.*education organization.*data"
   And I click on Ok
   And the application is authorized to use data of "Daybreak School District"
   And the app "Testing App" Status becomes "Approved"

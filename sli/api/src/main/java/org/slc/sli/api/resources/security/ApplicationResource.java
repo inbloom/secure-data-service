@@ -479,12 +479,6 @@ public class ApplicationResource extends UnversionedResource {
     }
 
     private void iterateEdOrgs(String uuid, List<String> edOrgIds) {
-        Set<String> authedEdOrgs = new HashSet<String>();
-        authedEdOrgs.addAll(edOrgIds);
-        for (String edOrgId : edOrgIds) {
-            authedEdOrgs.addAll(getChildEdorgs(edOrgId));
-            authedEdOrgs.addAll(getParentEdorgs(edOrgId));
-        }
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("applicationId", NeutralCriteria.OPERATOR_EQUAL, uuid));
         long count = service.count(query);
@@ -492,14 +486,14 @@ public class ApplicationResource extends UnversionedResource {
             debug("No application authorization exists. Creating one.");
             EntityBody body = new EntityBody();
             body.put("applicationId", uuid);
-            body.put("edorgs", new ArrayList<String>(authedEdOrgs));
+            body.put("edorgs", edOrgIds);
             service.create(body);
         } else {
         	Iterable<EntityBody> auths = service.list(query);
         	for (EntityBody auth : auths) {
         		String authId = (String) auth.get("id");
         		auth.remove("edorgs");
-        		auth.put("edorgs", new ArrayList<String>(authedEdOrgs));
+        		auth.put("edorgs", edOrgIds);
         		service.update(authId, auth);
         	}
         }
