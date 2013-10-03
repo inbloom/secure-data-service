@@ -118,7 +118,6 @@ Feature: As an API user, I want to be able to get a list of links available to t
       |  entityType                            |
       |attendance                              |
       |calendarDate                            |
-      |cohort                                  |
       |course                                  |
       |courseOffering                          |
       |courseTranscript                        |

@@ -417,7 +417,6 @@ And the operator triggers a delta for the production tenant
       # |  assessment                            |
       |  attendance                            |
       |  calendarDate                          |
-      |  cohort                                |
       |  course                                |
       |  courseTranscript                      |
       |  courseOffering                        |

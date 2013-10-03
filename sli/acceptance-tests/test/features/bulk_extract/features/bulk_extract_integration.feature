@@ -15,7 +15,6 @@ Scenario: Trigger a bulk extract on ingested data and retrieve the extract throu
    And the extract contains a file for each of the following entities:
    |  entityType                            |
    |  attendance                            |
-   |  cohort                                |
    |  course                                |
    |  courseOffering                        |
    |  courseTranscript                      |

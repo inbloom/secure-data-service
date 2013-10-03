@@ -19,7 +19,6 @@
       #|  assessment                            |   |         |  
       |  attendance                            | 74 | a9605e685b48f1762236070db165cfe50961c058_id |
       |  calendarDate                          |  4 | 8b126c91f26c86d7204ebb670da8eed5dc958482_id |
-      |  cohort                                |  1 | f25bd34b5500f039c4fcbcdb1c1eccfc9b878bb5_id |
       #|  competencyLevelDescriptor             |   |         |
       |  course                                |   95| c2af0428d5c803fb3e908fdea10ae624c2f5abe4_id |
       |  courseOffering                        |   95| 42d2d4e0616ed8a94894aa78be9f15e5cafa3eb7_id |
