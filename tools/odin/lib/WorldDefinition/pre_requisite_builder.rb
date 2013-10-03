@@ -79,8 +79,6 @@ class PreRequisiteBuilder
                   @pre_requisites[type][association]["staff"] << {:staff_id => member["userId"],
                                                          :name => member["name"],
                                                          :role => edOrg["role"],
-                                                         :begin => edOrg["begin"],
-                                                         :end => edOrg["end"],
                                                          :parent => edOrg["parent"]}
                 # Add the student catalog
                 elsif catalog_type == "student"
@@ -89,8 +87,6 @@ class PreRequisiteBuilder
                                                          :name => member["name"],
                                                          :role => edOrg["role"],
                                                          :sections => edOrg["sections"],
-                                                         :begin => edOrg["begin"],
-                                                         :end => edOrg["end"],
                                                          :begin_grade => edOrg["grade"]}
                 end
               else
