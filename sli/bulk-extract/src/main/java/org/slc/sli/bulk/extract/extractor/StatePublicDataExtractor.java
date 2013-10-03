@@ -132,7 +132,7 @@ public class StatePublicDataExtractor {
      * @param extractFile the extract file to extract to
      */
     protected void extractPublicData(ExtractFile extractFile) {
-        for (PublicDataExtractor data : factory.buildPublicDataExtracts(extractor)) {
+        for (PublicDataExtractor data : factory.buildAllPublicDataExtracts(extractor)) {
             data.extract(extractFile);
         }
     }

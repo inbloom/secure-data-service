@@ -28,14 +28,14 @@ import org.slc.sli.bulk.extract.extractor.EntityExtractor;
 public class PublicDataFactory {
 
     /**
-     * Builds a AllPublicDataExtractor instance.
+     * Builds a UnfilteredPublicDataExtractor instance.
      *
      * @param extractor the extractor
      *
-     * @return the new AllPublicDataExtractor instance
+     * @return the new UnfilteredPublicDataExtractor instance
      */
-    public PublicDataExtractor buildAllPublicDataExtractor(EntityExtractor extractor) {
-        return new AllPublicDataExtractor(extractor);
+    public PublicDataExtractor buildUnfilteredPublicDataExtractor(EntityExtractor extractor) {
+        return new UnfilteredPublicDataExtractor(extractor);
     }
 
     /**
@@ -43,9 +43,9 @@ public class PublicDataFactory {
      * @param extractor the extractor
      * @return all PublicDataExtractor instances
      */
-    public List<PublicDataExtractor> buildPublicDataExtracts(EntityExtractor extractor) {
+    public List<PublicDataExtractor> buildAllPublicDataExtracts(EntityExtractor extractor) {
         List<PublicDataExtractor> list = new ArrayList<PublicDataExtractor>();
-        list.add(buildAllPublicDataExtractor(extractor));
+        list.add(buildUnfilteredPublicDataExtractor(extractor));
         return list;
 
     }
